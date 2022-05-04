@@ -703,6 +703,215 @@ public with sharing class setupAssistant {
         return rd.getJsonString();
     }
 
+    //performs a permission check on user before granting access to the application
+    @AuraEnabled
+    public static String checkUserPermissions() {
+        responseData rd = new responseData();
+        try {
+            //Map for front end state setting 
+            Map<String, Object> permissionIssueMap = new Map<String, Object> {
+                'isPermSetAssigned' => false,
+                'isSystemPermissionMissing' => false,
+                'isObjectPermissionMissing' => false,
+                'missingPermissionSets' => new List<String>(),
+                'missingObjectPermissionList' => new List<String>(),
+                'missingSystemPermissionList' => new List<String>()
+            };
+
+            //List of Objects to check access on 
+            List<String> listOfObjectsToCheckAccessOn = new List<String> {
+                'Account',
+                'Product2',
+                'Order',
+                'OrderItem',
+                'PricebookEntry'
+            };
+
+            if ((Boolean)utilities.isCpqEnabled()) {
+                listOfObjectsToCheckAccessOn.add('SBQQ__Quote__c');
+                listOfObjectsToCheckAccessOn.add('SBQQ__OrderItemConsumptionSchedule__c');
+                listOfObjectsToCheckAccessOn.add('SBQQ__OrderItemConsumptionRate__c');
+            }
+            
+            List<Map<String,Object>> missingObjectPermissionList = validateObjectLevelPermission(listOfObjectsToCheckAccessOn);
+           
+
+            //add list of missing permissions if any were found
+            if (!missingObjectPermissionList.isEmpty()) {
+                permissionIssueMap.put('isObjectPermissionMissing', true);
+                permissionIssueMap.put('missingObjectPermissionList', missingObjectPermissionList);
+            } 
+
+            /* this list holds system permission fields which hold boolean denoting if the user has access or not.
+            This is incase there are other system permissions need to be checked in the future. Full list of Profile fields
+            here https://developer.salesforce.com/docs/atlas.en-us.sfFieldRef.meta/sfFieldRef/salesforce_field_reference_Profile.htm.*/
+            List<String> permissionList = new List<String> {
+                'Name',
+                'PermissionsEditActivatedOrders'
+            };
+
+            //Used to get label names of permissions
+            Map<String, Schema.SObjectType> schemaMap = Schema.getGlobalDescribe();
+            Schema.SObjectType profileSchema = schemaMap.get('Profile');
+            Map<String, Schema.SObjectField> fieldMap = profileSchema.getDescribe().fields.getMap();
+
+            //Map of system permissions by label
+            Map<String, Object> activePermissionMap = new Map<String, Object>();
+            for (String permisson : permissionList) {
+                if (permisson == 'Name') {
+                    continue;
+                }
+                activePermissionMap.put(fieldMap.get(permisson).getDescribe().getLabel(), false);
+            }
+    
+            List<String> userFieldsList = new List<String> { 
+                'Id', 
+                'Name' 
+            };
+            
+            for (String permission : permissionList) {
+                userFieldsList.add('Profile.' + permission);
+            }
+
+            List<String> permissionSetAssignmentFieldsList = new List<String>();
+            for (String permission : permissionList) {
+                permissionSetAssignmentFieldsList.add('PermissionSet.' + permission);
+            }
+    
+            List<SObject> userPermissions = Database.Query (
+                String.join (
+                    new List<String> {
+                        'SELECT',
+                        String.join(userFieldsList, ', '),
+                        ',',
+                        '(SELECT Id,',
+                        String.join(permissionSetAssignmentFieldsList, ', '),
+                        'FROM PermissionSetAssignments) FROM User WHERE Id = \'' +
+                        UserInfo.getUserId() + '\' WITH SECURITY_ENFORCED LIMIT 1'
+                    },
+                    ' '
+                )
+            );
+
+            if (userPermissions.isEmpty()) {
+                rd.put('permissionIssueMap', permissionIssueMap);
+                return rd.getJsonString();
+            }
+            SObject userProfileSystemPermissions = userPermissions[0].getSobject('Profile');
+
+            //check profile level permissions  
+            for (String permisson : permissionList) {
+                String permissionLabel = fieldMap.get(permisson).getDescribe().getLabel();
+                if (permisson != 'Name') {
+                    activePermissionMap.put(permissionLabel, (Boolean)userProfileSystemPermissions.get(permisson));
+                }
+            }
+
+            Map<String, Object> validateUserPermissionsMap = validateUserPermissions(userPermissions, activePermissionMap, permissionIssueMap, fieldMap, permissionList);
+            activePermissionMap = (Map<String, Object>)validateUserPermissionsMap.get('activePermissionMap');
+            permissionIssueMap = (Map<String, Object>)validateUserPermissionsMap.get('permissionIssueMap');
+
+            
+            List<String> missingSystemPermissionList = new List<String>();
+            for (String permission : activePermissionMap.keySet()) {
+                if (!(Boolean)activePermissionMap.get(permission)) {
+                    permissionIssueMap.put('isSystemPermissionMissing', true);
+                    missingSystemPermissionList.add(permission);
+                }
+            }
+            
+            if (!missingSystemPermissionList.isEmpty()) {
+                permissionIssueMap.put('missingSystemPermissionList', missingSystemPermissionList); 
+            }
+            
+            rd.put('permissionIssueMap', permissionIssueMap);
+            
+        } catch (Exception e) {  
+            rd.addError(e);
+        }
+        return rd.getJsonString();
+    }
+
+    // builds map based on object permissioning 
+    private static List<Map<String,Object>> validateObjectLevelPermission(List<String> listOfObjectsToCheckAccessOn) {            
+        List<Map<String,Object>> missingObjectPermissionList = new List<Map<String,Object>>();
+        for (String objectApiName : listOfObjectsToCheckAccessOn) {
+            Boolean hasObjectAccess = true;
+            DescribeSObjectResult objectDescribe = dmlManager.getSObjectDescribeByObjectName(objectApiName);
+            
+            Map<String,Object> missingPermissionsMap = new Map<String,Object> {
+                'Object' => objectDescribe.getLabel(),
+                'Access' => true,
+                'Create' => true,
+                'Edit' => true
+            };
+
+            if (!(Boolean)objectDescribe.isAccessible()) {
+                hasObjectAccess = false;
+                missingPermissionsMap.put('Access', false);
+            }
+
+            if (!(Boolean)objectDescribe.isCreateable()) {
+                hasObjectAccess = false;
+                missingPermissionsMap.put('Create', false);
+            }
+
+            if (!(Boolean)objectDescribe.isUpdateable()) {
+                hasObjectAccess = false;
+                missingPermissionsMap.put('Edit', false);      
+            }
+
+            if (!hasObjectAccess) {
+                missingObjectPermissionList.add(missingPermissionsMap);
+            }
+        }
+        return missingObjectPermissionList;
+    }
+
+    // check each permset assigned to the user
+    private static Map<String, Object> validateUserPermissions(List<SObject> userPermissions, Map<String, Object> activePermissionMap, Map<String, Object> permissionIssueMap, Map<String, Schema.SObjectField> fieldMap, List<String> permissionList) {
+        List<SObject> userPermissionsAssignments = userPermissions[0].getSObjects('PermissionSetAssignments');
+        Boolean isPermSetMissing = true;
+        if (!userPermissionsAssignments.isEmpty()) {
+            List<String> listOfAssignedPermissionSets = new List<String> {
+                constants.PACKAGED_PERMISSION_SET_NAME
+            };
+            for (SObject userPermissionsAssignment : userPermissionsAssignments) {
+                SObject userPermSetSystemPermissions = userPermissionsAssignment.getSobject('PermissionSet');
+
+                if(userPermSetSystemPermissions.get('Name') == constants.PACKAGED_PERMISSION_SET_NAME.replace(' ','_')) {
+                    isPermSetMissing = false;
+                }
+                
+                for (String permisson : permissionList) {
+                    String permissionLabel = fieldMap.get(permisson).getDescribe().getLabel();
+                    if(permisson != 'Name') {
+                        Boolean systemPermissionValue = (Boolean)userPermSetSystemPermissions.get(permisson);
+                        //only update the permission in the map if it is true in the permset and false in the map
+                        if (!(Boolean)activePermissionMap.get(permissionLabel) && systemPermissionValue) {
+                            activePermissionMap.put(permissionLabel, systemPermissionValue);
+                        } 
+                    }
+                }
+            }
+        }
+
+        //set missing permission set state 
+        if (isPermSetMissing) {
+            permissionIssueMap.put('missingPermissionSets', new List<String> {
+                constants.PACKAGED_PERMISSION_SET_NAME
+            });   
+        } else {
+            permissionIssueMap.put('isPermSetAssigned', true);
+        }
+
+        return new Map<String, Object> {
+           'activePermissionMap' => activePermissionMap, 
+           'permissionIssueMap' => permissionIssueMap
+        };
+    } 
+
+
     //Creates a test metadata record in test context
     @testVisible static List<Setup_Connection_Data__mdt> setupConfigMetadata { 
         get {

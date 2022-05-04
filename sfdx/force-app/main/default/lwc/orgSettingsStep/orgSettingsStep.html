@@ -1,58 +1,24 @@
 <template>
-    <div class="slds-p-around_large">
-        <!-- Setting Item -->
+    <div class="slds-p-around_large"> 
         <div class="stripe-settings__item slds-grid">
-            <!-- Setting Label -->
             <div class="slds-col_bump-right">
                 <h4 class="slds-text-heading_small slds-m-bottom_xx-small">
-                    Setting Title
+                    "Stripe Dashboard URL"
                 </h4>
                 <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean nec sagittis enim. Vivamus urna ex, volutpat vitae eros quis, sodales cursus dolor. Donec sit amet placerat nisl. Etiam condimentum placerat nisi vel dignissim.
+                    This is a URL formula field that, when clicked, will navigate you to the Stripe record you are currently viewing in Salesforce. You can optionally add it to your Order, Order Product, Account, Opportunity, Product, and Pricebook Entry page layouts.
                 </p>
             </div>
-            <!-- /Setting Label -->
-            <!-- Setting Control -->
-            <div class="slds-col slds-p-left_xx-large slds-size_1-of-3">
-                <lightning-input label="Setting Name" type="text" variant="label-hidden" placeholder="Enter a value..."></lightning-input>
-            </div>
-            <!-- /Setting Control -->
         </div>
-        <!-- /Setting Item -->
-        
-        <!-- Setting Item -->
         <div class="stripe-settings__item slds-grid">
-            <!-- Setting Label -->
             <div class="slds-col_bump-right">
                 <h4 class="slds-text-heading_small slds-m-bottom_xx-small">
-                    Setting Title
+                    "Stripe ID"
                 </h4>
                 <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean nec sagittis enim. Vivamus urna ex, volutpat vitae eros quis, sodales cursus dolor. Donec sit amet placerat nisl. Etiam condimentum placerat nisi vel dignissim.
+                    The Stripe ID field is used for the integration to match Salesforce records to Stripe records. If you would like to see which records are actively synchronizing with Stripe, you can include it in your Order, Order Product, Account, Opportunity, Product, and Pricebook Entry page layouts. It is recommended that the field is marked as “Read Only” on the page layouts to prevent users from accidentally modifying the values.
                 </p>
             </div>
-            <!-- /Setting Label -->
-            <!-- Setting Control -->
-            <div class="slds-col slds-p-left_xx-large">
-                <lightning-input label="Setting Name" type="toggle" variant="label-hidden" message-toggle-active="" message-toggle-inactive="" class="slds-show_inline-block"></lightning-input>
-            </div>
-            <!-- /Setting Control -->
         </div>
-        <!-- /Setting Item -->
-        
-        <!-- Read Only Setting Item -->
-        <div class="stripe-settings__item slds-grid">
-            <!-- Setting Label -->
-            <div class="slds-col_bump-right">
-                <h4 class="slds-text-heading_small slds-m-bottom_xx-small">
-                    Setting Title
-                </h4>
-                <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean nec sagittis enim. Vivamus urna ex, volutpat vitae eros quis, sodales cursus dolor. Donec sit amet placerat nisl. Etiam condimentum placerat nisi vel dignissim.
-                </p>
-            </div>
-            <!-- /Setting Label -->
-        </div>
-        <!-- /Read Only Setting Item -->
     </div>
 </template>

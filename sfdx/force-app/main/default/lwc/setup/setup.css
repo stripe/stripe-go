@@ -13,6 +13,29 @@
     top: 0;
 }
 
+/*** Missing Permissions Styles ***/
+.stripe-permission-item + .stripe-permission-item{
+    margin-top: .5rem;
+}
+
+.stripe-detail-list-item:first-child::before { 
+    content: " ";
+    display: inline;
+}
+
+.stripe-detail-list-item + .stripe-detail-list-item::before { 
+    content: ", ";
+}
+
+.stripe-detail-list-item + .stripe-detail-list-item:last-child:nth-child(2):before { 
+    content: " and ";
+}
+
+.stripe-detail-list-item + .stripe-detail-list-item:last-child:not(:nth-child(2)):before { 
+    content: ", and ";
+}
+/*** End: Missing Permissions Styles ***/
+
 
 /*** Landing Styles - First Time Setup and Settings ***/
 .stripe-landing {

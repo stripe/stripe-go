@@ -1,4 +1,5 @@
 import companyLogo from '@salesforce/resourceUrl/companyLogo';
+import checkUserPermissions from '@salesforce/apex/setupAssistant.checkUserPermissions';
 import getSetupData from '@salesforce/apex/setupAssistant.getSetupData';
 import setOrgType from '@salesforce/apex/utilities.setOrgType';
 import saveData from '@salesforce/apex/setupAssistant.saveData';
@@ -23,27 +24,36 @@ export default class FirstTimeSetup extends LightningElement {
     @track stepName;
     @track steps = [
         {
+            title: 'Update Page Layouts',
+            name: 'C-ORG-SETTINGS-STEP',
+            orderIndex: 1,
+            isComplete: false,
+            isActive: false
+        },
+        {
             title: 'Connect Stripe and Salesforce',
             name: 'C-SYSTEM-CONNECTIONS-STEP',
-            orderIndex: 1,
+            orderIndex: 2,
             isComplete: false,
             isActive: false
         },
         {
             title: 'Define Data Mapping',
             name: 'C-DATA-MAPPING-STEP',
-            orderIndex: 2,
+            orderIndex: 3,
             isComplete: false,
             isActive: false
         },
         {
             title: 'Configure Sync Preferences',
             name: 'C-SYNC-PREFERENCES-STEP',
-            orderIndex: 3,
+            orderIndex: 4,
             isComplete: false,
             isActive: false
         }
     ];
+    @track missingPermissions = {};
+    @track hasMissingPermissions = false;
 
     @track _showSetupLanding = true;
     get showSetupLanding() {
@@ -115,45 +125,76 @@ export default class FirstTimeSetup extends LightningElement {
         this.nextDisabled = false;
     }
 
-    async connectedCallback() {
+    async connectedCallback() { 
         try {
-            this.steps[this.activeStepIndex].isActive = true;
-            const setupData = await getSetupData();
-            this.data = JSON.parse(setupData);
-
-            if (this.data.isSuccess && this.data.results.isConnected) {
-                this.nextDisabled = false;
-                this.setupComplete = this.data.results.setupData.isSetupComplete__c;
-                let completedSteps = JSON.parse(this.data.results.setupData.Steps_Completed__c);
-                
-                if (Object.keys(completedSteps).length > 0) {
-                    this.setupStarted = true;
-                    this.steps[this.activeStepIndex].isComplete = true;
-                    this.steps[this.activeStepIndex].isActive = false;
-
-                    for (const step in completedSteps) {
-                        this.steps[this.activeStepIndex].isComplete = true;
-
-                        if (this.activeStepIndex < this.steps.length - 1) {
-                            this.showNextStep();
-                        }
-                    }
-                }
-
-                const setOrganizationType = await setOrgType();
-                let orgTyperResp =  JSON.parse(setOrganizationType);
-                   
-                if (!orgTyperResp.isSuccess) {
-                    this.showSetupToast(orgTyperResp.error, 'error', 'sticky');
-                }
-            } else if (this.data.error) { 
-                this.showSetupToast(this.data.error, 'error', 'sticky');
+            const userPermissionCheck = await checkUserPermissions();
+            const userPermissionResponseData = JSON.parse(userPermissionCheck);
+            if (userPermissionResponseData.error) { 
+                this.showSetupToast(userPermissionResponseData.error, 'error', 'sticky');
+                return;
             }
+
+            const permissionIssueMap = userPermissionResponseData.results.permissionIssueMap;
+
+            if (!permissionIssueMap.isPermSetAssigned || permissionIssueMap.isSystemPermissionMissing || permissionIssueMap.isObjectPermissionMissing) {
+                this.missingPermissions = permissionIssueMap;
+                this.hasMissingPermissions = true;
+                return;               
+            } 
+            this.fetchSetupData();
+
+            const setOrganizationType = await setOrgType();
+            const orgTypeResponseData =  JSON.parse(setOrganizationType);
+                
+            if (orgTypeResponseData.error) {
+                this.showSetupToast(orgTypeResponseData.error, 'error', 'sticky');
+                return;
+            }
+            
+        } catch (error) {
+            this.showSetupToast(error.message, 'error', 'sticky');
+        } finally {
+            this.loading = false;
+        }
+    }
+
+    async fetchSetupData() {
+        this.steps[this.activeStepIndex].isActive = true;
+        try {
+            const setupData = await getSetupData();
+            const responseData = JSON.parse(setupData);
+            if (responseData.error) { 
+                this.showSetupToast(responseData.error, 'error', 'sticky');
+                return;
+            }
+
+            if (!responseData.results.isConnected) { 
+                return;
+            }
+
+            this.nextDisabled = false;
+            this.setupComplete = responseData.results.setupData.isSetupComplete__c;
+            let completedSteps = JSON.parse(responseData.results.setupData.Steps_Completed__c);
+            if (Object.keys(completedSteps).length <= 0) {
+                return;
+            }
+            
+            this.setupStarted = true;
+            this.steps[this.activeStepIndex].isComplete = true;
+            this.steps[this.activeStepIndex].isActive = false;
+
+            for (const step in completedSteps) {
+                this.steps[this.activeStepIndex].isComplete = true;
+
+                if (this.activeStepIndex < this.steps.length - 1) {
+                    this.showNextStep();
+                }
+            }
+
         } catch (error) {
             this.showSetupToast(error.message, 'error', 'sticky');
         } finally {
             this.showContent();
-            this.loading = false;
         }
     }
 

@@ -489,6 +489,31 @@ public with sharing class test_setupAssistant {
         insert stripeConnectRec;
     }
 
+    @isTest
+    static public void testSetupAssistant_checkUserPermissions() {
+
+        Test.startTest();
+        String response = setupAssistant.checkUserPermissions();
+        Test.stopTest();
+
+        Map<String, Object> responseMap = (Map<String, Object>)JSON.deserializeUntyped(response);
+        System.assert((Boolean)responseMap.get('isSuccess'), responseMap.get('error'));
+
+        Map<String, Object> resultsMap = (Map<String, Object>)responseMap.get('results');
+       
+        Map<String, Object> permissionIssueMap = (Map<String, Object>)resultsMap.get('permissionIssueMap');
+
+        Boolean isIntegrationPermSetAssigned = [SELECT count() FROM PermissionSetAssignment 
+                                                WHERE AssigneeId = :Userinfo.getUserId() 
+                                                AND PermissionSet.Name = 'Stripe_Connector_Integration_User' 
+                                                WITH SECURITY_ENFORCED
+                                                LIMIT 1] > 0;
+        System.assertEquals(isIntegrationPermSetAssigned, (Boolean)permissionIssueMap.get('isPermSetAssigned'));
+        if((Boolean)permissionIssueMap.get('isObjectPermissionMissing')) {
+            System.assertNotEquals(null, permissionIssueMap.get('missingObjectPermissionList'));
+        } 
+    }
+
     private class stripeConnectionSuccessMock implements HttpCalloutMock {
         public HttpResponse respond(HttpRequest req) {
             HttpResponse res = new HttpResponse();

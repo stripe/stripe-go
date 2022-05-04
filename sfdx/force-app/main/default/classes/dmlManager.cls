@@ -1,4 +1,4 @@
-/*** Strike DML Manager v2.0.0 ***/
+/*** Stripe DML Manager v2.0.0 ***/
 public with sharing class dmlManager {
     public class accessException extends Exception {}
 
@@ -99,7 +99,7 @@ public with sharing class dmlManager {
         }
     }
 
-    private static DescribeSObjectResult getSObjectDescribeByObjectName(String objectName) {
+    public static DescribeSObjectResult getSObjectDescribeByObjectName(String objectName) {
         if (globalDescribe.containsKey(constants.NAMESPACE_API + objectName)) {
             return globalDescribe.get(constants.NAMESPACE_API + objectName).getDescribe();
         }
