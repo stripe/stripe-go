@@ -213,7 +213,7 @@ type IssuingCardholderRequirements struct {
 
 // Limit spending with amount-based rules that apply across this cardholder's cards.
 type IssuingCardholderSpendingControlsSpendingLimit struct {
-	// Maximum amount allowed to spend per interval.
+	// Maximum amount allowed to spend per interval. This amount is in the card's currency and in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal).
 	Amount int64 `json:"amount"`
 	// Array of strings containing [categories](https://stripe.com/docs/api#issuing_authorization_object-merchant_data-category) this limit applies to. Omitting this field will apply the limit to all categories.
 	Categories []string `json:"categories"`

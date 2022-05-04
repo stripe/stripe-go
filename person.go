@@ -192,6 +192,8 @@ type PersonParams struct {
 	Phone *string `form:"phone"`
 	// Indicates if the person or any of their representatives, family members, or other closely related persons, declares that they hold or have held an important public job or function, in any jurisdiction.
 	PoliticalExposure *string `form:"political_exposure"`
+	// The person's registered address.
+	RegisteredAddress *AddressParams `form:"registered_address"`
 	// The relationship that this person has with the account's legal entity.
 	Relationship *RelationshipParams `form:"relationship"`
 	// The last four digits of the person's Social Security number (U.S. only).
@@ -358,6 +360,7 @@ type Person struct {
 	Phone string `json:"phone"`
 	// Indicates if the person or any of their representatives, family members, or other closely related persons, declares that they hold or have held an important public job or function, in any jurisdiction.
 	PoliticalExposure PersonPoliticalExposure `json:"political_exposure"`
+	RegisteredAddress *Address                `json:"registered_address"`
 	Relationship      *Relationship           `json:"relationship"`
 	// Information about the requirements for this person, including what information needs to be collected, and by when.
 	Requirements *Requirements `json:"requirements"`
