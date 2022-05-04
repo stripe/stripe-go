@@ -75,6 +75,16 @@ const (
 	SubscriptionPaymentSettingsPaymentMethodOptionsCustomerBalanceFundingTypeBankTransfer SubscriptionPaymentSettingsPaymentMethodOptionsCustomerBalanceFundingType = "bank_transfer"
 )
 
+// The list of permissions to request. The `payment_method` permission must be included.
+type SubscriptionPaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsPermission string
+
+// List of values that SubscriptionPaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsPermission can take
+const (
+	SubscriptionPaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsPermissionBalances      SubscriptionPaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsPermission = "balances"
+	SubscriptionPaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsPermissionPaymentMethod SubscriptionPaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsPermission = "payment_method"
+	SubscriptionPaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsPermissionTransactions  SubscriptionPaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsPermission = "transactions"
+)
+
 // Bank account verification method.
 type SubscriptionPaymentSettingsPaymentMethodOptionsUSBankAccountVerificationMethod string
 
@@ -306,8 +316,16 @@ type SubscriptionPaymentSettingsPaymentMethodOptionsCustomerBalanceParams struct
 // This sub-hash contains details about the Konbini payment method options to pass to the invoice's PaymentIntent.
 type SubscriptionPaymentSettingsPaymentMethodOptionsKonbiniParams struct{}
 
+// Additional fields for Financial Connections Session creation
+type SubscriptionPaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsParams struct {
+	// The list of permissions to request. If this parameter is passed, the `payment_method` permission must be included. Valid permissions include: `balances`, `payment_method`, and `transactions`.
+	Permissions []*string `form:"permissions"`
+}
+
 // This sub-hash contains details about the ACH direct debit payment method options to pass to the invoice's PaymentIntent.
 type SubscriptionPaymentSettingsPaymentMethodOptionsUSBankAccountParams struct {
+	// Additional fields for Financial Connections Session creation
+	FinancialConnections *SubscriptionPaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsParams `form:"financial_connections"`
 	// Verification method for the intent
 	VerificationMethod *string `form:"verification_method"`
 }
@@ -535,9 +553,14 @@ type SubscriptionPaymentSettingsPaymentMethodOptionsCustomerBalance struct {
 
 // This sub-hash contains details about the Konbini payment method options to pass to invoices created by the subscription.
 type SubscriptionPaymentSettingsPaymentMethodOptionsKonbini struct{}
+type SubscriptionPaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnections struct {
+	// The list of permissions to request. The `payment_method` permission must be included.
+	Permissions []SubscriptionPaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsPermission `json:"permissions"`
+}
 
 // This sub-hash contains details about the ACH direct debit payment method options to pass to invoices created by the subscription.
 type SubscriptionPaymentSettingsPaymentMethodOptionsUSBankAccount struct {
+	FinancialConnections *SubscriptionPaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnections `json:"financial_connections"`
 	// Bank account verification method.
 	VerificationMethod SubscriptionPaymentSettingsPaymentMethodOptionsUSBankAccountVerificationMethod `json:"verification_method"`
 }

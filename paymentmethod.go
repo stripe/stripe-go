@@ -261,6 +261,8 @@ type PaymentMethodUSBankAccountParams struct {
 	AccountNumber *string `form:"account_number"`
 	// Account type: checkings or savings. Defaults to checking if omitted.
 	AccountType *string `form:"account_type"`
+	// The ID of a Financial Connections Account to use as a payment method.
+	FinancialConnectionsAccount *string `form:"financial_connections_account"`
 	// Routing number of the bank account.
 	RoutingNumber *string `form:"routing_number"`
 }
@@ -579,6 +581,8 @@ type PaymentMethodUSBankAccount struct {
 	AccountType PaymentMethodUSBankAccountAccountType `json:"account_type"`
 	// The name of the bank.
 	BankName string `json:"bank_name"`
+	// The ID of the Financial Connections Account used to create the payment method.
+	FinancialConnectionsAccount string `json:"financial_connections_account"`
 	// Uniquely identifies this particular bank account. You can use this attribute to check whether two bank accounts are the same.
 	Fingerprint string `json:"fingerprint"`
 	// Last four digits of the bank account number.

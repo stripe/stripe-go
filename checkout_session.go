@@ -168,6 +168,17 @@ const (
 	CheckoutSessionPaymentMethodOptionsACSSDebitVerificationMethodMicrodeposits CheckoutSessionPaymentMethodOptionsACSSDebitVerificationMethod = "microdeposits"
 )
 
+// The list of permissions to request. The `payment_method` permission must be included.
+type CheckoutSessionPaymentMethodOptionsUSBankAccountFinancialConnectionsPermission string
+
+// List of values that CheckoutSessionPaymentMethodOptionsUSBankAccountFinancialConnectionsPermission can take
+const (
+	CheckoutSessionPaymentMethodOptionsUSBankAccountFinancialConnectionsPermissionBalances      CheckoutSessionPaymentMethodOptionsUSBankAccountFinancialConnectionsPermission = "balances"
+	CheckoutSessionPaymentMethodOptionsUSBankAccountFinancialConnectionsPermissionOwnership     CheckoutSessionPaymentMethodOptionsUSBankAccountFinancialConnectionsPermission = "ownership"
+	CheckoutSessionPaymentMethodOptionsUSBankAccountFinancialConnectionsPermissionPaymentMethod CheckoutSessionPaymentMethodOptionsUSBankAccountFinancialConnectionsPermission = "payment_method"
+	CheckoutSessionPaymentMethodOptionsUSBankAccountFinancialConnectionsPermissionTransactions  CheckoutSessionPaymentMethodOptionsUSBankAccountFinancialConnectionsPermission = "transactions"
+)
+
 // Bank account verification method.
 type CheckoutSessionPaymentMethodOptionsUSBankAccountVerificationMethod string
 
@@ -467,8 +478,16 @@ type CheckoutSessionPaymentMethodOptionsOXXOParams struct {
 	ExpiresAfterDays *int64 `form:"expires_after_days"`
 }
 
+// Additional fields for Financial Connections Session creation
+type CheckoutSessionPaymentMethodOptionsUSBankAccountFinancialConnectionsParams struct {
+	// The list of permissions to request. If this parameter is passed, the `payment_method` permission must be included. Valid permissions include: `balances`, `payment_method`, and `transactions`.
+	Permissions []*string `form:"permissions"`
+}
+
 // contains details about the Us Bank Account payment method options.
 type CheckoutSessionPaymentMethodOptionsUSBankAccountParams struct {
+	// Additional fields for Financial Connections Session creation
+	FinancialConnections *CheckoutSessionPaymentMethodOptionsUSBankAccountFinancialConnectionsParams `form:"financial_connections"`
 	// Verification method for the intent
 	VerificationMethod *string `form:"verification_method"`
 }
@@ -849,7 +868,14 @@ type CheckoutSessionPaymentMethodOptionsOXXO struct {
 	// The number of calendar days before an OXXO invoice expires. For example, if you create an OXXO invoice on Monday and you set expires_after_days to 2, the OXXO invoice will expire on Wednesday at 23:59 America/Mexico_City time.
 	ExpiresAfterDays int64 `json:"expires_after_days"`
 }
+type CheckoutSessionPaymentMethodOptionsUSBankAccountFinancialConnections struct {
+	// The list of permissions to request. The `payment_method` permission must be included.
+	Permissions []CheckoutSessionPaymentMethodOptionsUSBankAccountFinancialConnectionsPermission `json:"permissions"`
+	// For webview integrations only. Upon completing OAuth login in the native browser, the user will be redirected to this URL to return to your app.
+	ReturnURL string `json:"return_url"`
+}
 type CheckoutSessionPaymentMethodOptionsUSBankAccount struct {
+	FinancialConnections *CheckoutSessionPaymentMethodOptionsUSBankAccountFinancialConnections `json:"financial_connections"`
 	// Bank account verification method.
 	VerificationMethod CheckoutSessionPaymentMethodOptionsUSBankAccountVerificationMethod `json:"verification_method"`
 }
