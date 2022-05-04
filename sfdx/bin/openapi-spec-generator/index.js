@@ -36,7 +36,8 @@ const excludedFields = {
 
     price: [
         // product<>price relationship is managed directly by the integration, we should ignore
-        'product'
+        'product',
+        'product_data'
     ],
 }
 
