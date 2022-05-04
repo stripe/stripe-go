@@ -468,11 +468,17 @@ export default class DataMappingStep extends LightningElement {
     }
 
     openStripeApi(event) {
-        let apiUrl = 'https://stripe.com/docs/api';
         const stripeObject = event.currentTarget.dataset.object;
-        if(stripeObject) {
-            apiUrl += '/' + stripeObject;
+        let apiUrl = "https://stripe.com/docs/api/";
+
+        // subscription_items are unique and really represent subscription schedule phase items
+        if(stripeObject == 'subscription_items') {
+            apiUrl += "subscription_schedules/create#create_subscription_schedule-phases-items"
+        } else {
+            // our API calls are always #create, so let's link to that specific area in the docs
+            apiUrl += `${stripeObject}/create`;
         }
+
         window.open(apiUrl, '_blank');
     }
 
