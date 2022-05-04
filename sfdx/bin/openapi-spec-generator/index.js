@@ -21,7 +21,18 @@ const excludedFields = {
         'customer'
     ],
 
-    subscription_item: [],
+    // TODO we aren't really representing a subscription item here, we are representing a subscription schedule phase item which is slightly different
+    //      this is why all of the fields below are excluded
+    subscription_item: [
+        'payment_behavior',
+        'proration_behavior',
+        'proration_date',
+        'subscription',
+
+        // these would be excluded from the subscription schedule phase item as well
+        'price',
+        'price_data'
+    ],
 
     price: [
         // product<>price relationship is managed directly by the integration, we should ignore
