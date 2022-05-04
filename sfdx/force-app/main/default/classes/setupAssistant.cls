@@ -731,6 +731,8 @@ public with sharing class setupAssistant {
                 listOfObjectsToCheckAccessOn.add('SBQQ__Quote__c');
                 listOfObjectsToCheckAccessOn.add('SBQQ__OrderItemConsumptionSchedule__c');
                 listOfObjectsToCheckAccessOn.add('SBQQ__OrderItemConsumptionRate__c');
+                listOfObjectsToCheckAccessOn.add('ConsumptionSchedule');
+                listOfObjectsToCheckAccessOn.add('ConsumptionRate');
             }
             
             List<Map<String,Object>> missingObjectPermissionList = validateObjectLevelPermission(listOfObjectsToCheckAccessOn);
