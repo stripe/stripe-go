@@ -212,7 +212,7 @@ type FinancialConnectionsAccount struct {
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// The most recent information about the account's owners.
-	Ownership *Ownership `json:"ownership"`
+	Ownership *FinancialConnectionsAccountOwnership `json:"ownership"`
 	// The state of the most recent attempt to refresh the account owners.
 	OwnershipRefresh *FinancialConnectionsAccountOwnershipRefresh `json:"ownership_refresh"`
 	// The list of permissions granted by this account.
