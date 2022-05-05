@@ -696,6 +696,8 @@ type CheckoutSessionParams struct {
 	LineItems []*CheckoutSessionLineItemParams `form:"line_items"`
 	// The IETF language tag of the locale Checkout is displayed in. If blank or `auto`, the browser's locale is used.
 	Locale *string `form:"locale"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
 	// The mode of the Checkout Session. Required when using prices or `setup` mode. Pass `subscription` if the Checkout Session includes at least one recurring item.
 	Mode *string `form:"mode"`
 	// A subset of parameters to be passed to PaymentIntent creation for Checkout Sessions in `payment` mode.

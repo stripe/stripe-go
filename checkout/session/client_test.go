@@ -30,6 +30,10 @@ func TestCheckoutSessionNew(t *testing.T) {
 				Quantity: stripe.Int64(2),
 			},
 		},
+		Metadata: map[string]string{
+			"attr1": "val1",
+			"attr2": "val2",
+		},
 		PaymentIntentData: &stripe.CheckoutSessionPaymentIntentDataParams{
 			Description: stripe.String("description"),
 			Metadata: map[string]string{
