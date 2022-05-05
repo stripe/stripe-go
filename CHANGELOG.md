@@ -1,5 +1,12 @@
 # Changelog
 
+## 72.106.0 - 2022-05-05
+* [#1457](https://github.com/stripe/stripe-go/pull/1457) API Updates
+  * Add support for `DefaultPriceData` on `ProductParams`
+  * Add support for `DefaultPrice` on `ProductParams` and `Product`
+  * Add support for `InstructionsEmail` on `RefundParams` and `Refund`
+  
+
 ## 72.105.0 - 2022-05-05
 * [#1455](https://github.com/stripe/stripe-go/pull/1455) API Updates
   * Add support for new resources `FinancialConnections.AccountOwner`, `FinancialConnections.AccountOwnership`, `FinancialConnections.Account`, and `FinancialConnections.Session`
