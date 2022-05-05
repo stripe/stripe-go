@@ -123,6 +123,17 @@ const (
 	SetupIntentPaymentMethodOptionsCardRequestThreeDSecureChallengeOnly SetupIntentPaymentMethodOptionsCardRequestThreeDSecure = "challenge_only"
 )
 
+// The list of permissions to request. The `payment_method` permission must be included.
+type SetupIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsPermission string
+
+// List of values that SetupIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsPermission can take
+const (
+	SetupIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsPermissionBalances      SetupIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsPermission = "balances"
+	SetupIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsPermissionOwnership     SetupIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsPermission = "ownership"
+	SetupIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsPermissionPaymentMethod SetupIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsPermission = "payment_method"
+	SetupIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsPermissionTransactions  SetupIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsPermission = "transactions"
+)
+
 // Bank account verification method.
 type SetupIntentPaymentMethodOptionsUSBankAccountVerificationMethod string
 
@@ -322,6 +333,8 @@ type SetupIntentPaymentMethodDataUSBankAccountParams struct {
 	AccountNumber *string `form:"account_number"`
 	// Account type: checkings or savings. Defaults to checking if omitted.
 	AccountType *string `form:"account_type"`
+	// The ID of a Financial Connections Account to use as a payment method.
+	FinancialConnectionsAccount *string `form:"financial_connections_account"`
 	// Routing number of the bank account.
 	RoutingNumber *string `form:"routing_number"`
 }
@@ -457,8 +470,18 @@ type SetupIntentPaymentMethodOptionsSepaDebitParams struct {
 	MandateOptions *SetupIntentPaymentMethodOptionsSepaDebitMandateOptionsParams `form:"mandate_options"`
 }
 
+// Additional fields for Financial Connections Session creation
+type SetupIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsParams struct {
+	// The list of permissions to request. If this parameter is passed, the `payment_method` permission must be included. Valid permissions include: `balances`, `payment_method`, and `transactions`.
+	Permissions []*string `form:"permissions"`
+	// For webview integrations only. Upon completing OAuth login in the native browser, the user will be redirected to this URL to return to your app.
+	ReturnURL *string `form:"return_url"`
+}
+
 // If this is a `us_bank_account` SetupIntent, this sub-hash contains details about the US bank account payment method options.
 type SetupIntentPaymentMethodOptionsUSBankAccountParams struct {
+	// Additional fields for Financial Connections Session creation
+	FinancialConnections *SetupIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsParams `form:"financial_connections"`
 	// Verification method for the intent
 	VerificationMethod *string `form:"verification_method"`
 }
@@ -669,6 +692,8 @@ type SetupIntentConfirmPaymentMethodDataUSBankAccountParams struct {
 	AccountNumber *string `form:"account_number"`
 	// Account type: checkings or savings. Defaults to checking if omitted.
 	AccountType *string `form:"account_type"`
+	// The ID of a Financial Connections Account to use as a payment method.
+	FinancialConnectionsAccount *string `form:"financial_connections_account"`
 	// Routing number of the bank account.
 	RoutingNumber *string `form:"routing_number"`
 }
@@ -860,7 +885,14 @@ type SetupIntentPaymentMethodOptionsSepaDebitMandateOptions struct{}
 type SetupIntentPaymentMethodOptionsSepaDebit struct {
 	MandateOptions *SetupIntentPaymentMethodOptionsSepaDebitMandateOptions `json:"mandate_options"`
 }
+type SetupIntentPaymentMethodOptionsUSBankAccountFinancialConnections struct {
+	// The list of permissions to request. The `payment_method` permission must be included.
+	Permissions []SetupIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsPermission `json:"permissions"`
+	// For webview integrations only. Upon completing OAuth login in the native browser, the user will be redirected to this URL to return to your app.
+	ReturnURL string `json:"return_url"`
+}
 type SetupIntentPaymentMethodOptionsUSBankAccount struct {
+	FinancialConnections *SetupIntentPaymentMethodOptionsUSBankAccountFinancialConnections `json:"financial_connections"`
 	// Bank account verification method.
 	VerificationMethod SetupIntentPaymentMethodOptionsUSBankAccountVerificationMethod `json:"verification_method"`
 }

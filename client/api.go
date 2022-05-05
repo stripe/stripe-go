@@ -35,6 +35,8 @@ import (
 	"github.com/stripe/stripe-go/v72/feerefund"
 	"github.com/stripe/stripe-go/v72/file"
 	"github.com/stripe/stripe-go/v72/filelink"
+	financialconnectionsaccount "github.com/stripe/stripe-go/v72/financialconnections/account"
+	financialconnectionssession "github.com/stripe/stripe-go/v72/financialconnections/session"
 	identityverificationreport "github.com/stripe/stripe-go/v72/identity/verificationreport"
 	identityverificationsession "github.com/stripe/stripe-go/v72/identity/verificationsession"
 	"github.com/stripe/stripe-go/v72/invoice"
@@ -150,6 +152,10 @@ type API struct {
 	FileLinks *filelink.Client
 	// Files is the client used to invoke /files APIs.
 	Files *file.Client
+	// FinancialConnectionsAccounts is the client used to invoke /financial_connections/accounts APIs.
+	FinancialConnectionsAccounts *financialconnectionsaccount.Client
+	// FinancialConnectionsSessions is the client used to invoke /financial_connections/sessions APIs.
+	FinancialConnectionsSessions *financialconnectionssession.Client
 	// IdentityVerificationReports is the client used to invoke /identity/verification_reports APIs.
 	IdentityVerificationReports *identityverificationreport.Client
 	// IdentityVerificationSessions is the client used to invoke /identity/verification_sessions APIs.
@@ -306,6 +312,8 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.Fees = &fee.Client{B: backends.API, Key: key}
 	a.FileLinks = &filelink.Client{B: backends.API, Key: key}
 	a.Files = &file.Client{B: backends.Uploads, Key: key}
+	a.FinancialConnectionsAccounts = &financialconnectionsaccount.Client{B: backends.API, Key: key}
+	a.FinancialConnectionsSessions = &financialconnectionssession.Client{B: backends.API, Key: key}
 	a.IdentityVerificationReports = &identityverificationreport.Client{B: backends.API, Key: key}
 	a.IdentityVerificationSessions = &identityverificationsession.Client{B: backends.API, Key: key}
 	a.InvoiceItems = &invoiceitem.Client{B: backends.API, Key: key}

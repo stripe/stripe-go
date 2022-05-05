@@ -507,6 +507,17 @@ const (
 	PaymentIntentPaymentMethodOptionsSofortSetupFutureUsageOffSession PaymentIntentPaymentMethodOptionsSofortSetupFutureUsage = "off_session"
 )
 
+// The list of permissions to request. The `payment_method` permission must be included.
+type PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsPermission string
+
+// List of values that PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsPermission can take
+const (
+	PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsPermissionBalances      PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsPermission = "balances"
+	PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsPermissionOwnership     PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsPermission = "ownership"
+	PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsPermissionPaymentMethod PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsPermission = "payment_method"
+	PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsPermissionTransactions  PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsPermission = "transactions"
+)
+
 // Indicates that you intend to make future payments with this PaymentIntent's payment method.
 //
 // Providing this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.
@@ -648,6 +659,8 @@ type PaymentIntentPaymentMethodDataUSBankAccountParams struct {
 	AccountNumber *string `form:"account_number"`
 	// Account type: checkings or savings. Defaults to checking if omitted.
 	AccountType *string `form:"account_type"`
+	// The ID of a Financial Connections Account to use as a payment method.
+	FinancialConnectionsAccount *string `form:"financial_connections_account"`
 	// Routing number of the bank account.
 	RoutingNumber *string `form:"routing_number"`
 }
@@ -1115,8 +1128,18 @@ type PaymentIntentPaymentMethodOptionsSofortParams struct {
 	SetupFutureUsage *string `form:"setup_future_usage"`
 }
 
+// Additional fields for Financial Connections Session creation
+type PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsParams struct {
+	// The list of permissions to request. If this parameter is passed, the `payment_method` permission must be included. Valid permissions include: `balances`, `payment_method`, and `transactions`.
+	Permissions []*string `form:"permissions"`
+	// For webview integrations only. Upon completing OAuth login in the native browser, the user will be redirected to this URL to return to your app.
+	ReturnURL *string `form:"return_url"`
+}
+
 // If this is a `us_bank_account` PaymentMethod, this sub-hash contains details about the US bank account payment method options.
 type PaymentIntentPaymentMethodOptionsUSBankAccountParams struct {
+	// Additional fields for Financial Connections Session creation
+	FinancialConnections *PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsParams `form:"financial_connections"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// Providing this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.
@@ -1962,7 +1985,14 @@ type PaymentIntentPaymentMethodOptionsSofort struct {
 	// When processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).
 	SetupFutureUsage PaymentIntentPaymentMethodOptionsSofortSetupFutureUsage `json:"setup_future_usage"`
 }
+type PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnections struct {
+	// The list of permissions to request. The `payment_method` permission must be included.
+	Permissions []PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsPermission `json:"permissions"`
+	// For webview integrations only. Upon completing OAuth login in the native browser, the user will be redirected to this URL to return to your app.
+	ReturnURL string `json:"return_url"`
+}
 type PaymentIntentPaymentMethodOptionsUSBankAccount struct {
+	FinancialConnections *PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnections `json:"financial_connections"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// Providing this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.
