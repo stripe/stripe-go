@@ -415,13 +415,13 @@ class StripeForce::Translate
 
   # TODO maybe look at "can edit price" boolean on the product? But what about custom mappings?
   # TODO https://jira.corp.stripe.com/browse/PLATINT-1485
-  def pricebook_and_order_line_identical?(sf_pricebook, sf_order_line, sf_product)
+  def pricebook_and_order_line_identical?(sf_pricebook_entry, sf_order_item, sf_product)
     # generate the full params that would be sent to the price object and compare them
     # if they aren't *exactly* the same, this will trigger a new price to be created
     # we'll probably need to do something a bit smarter here in the future but it's not obvious what
     # additional logic we should include here at the moment.
-    generate_price_params_from_sf_object(sf_pricebook, sf_product).serialize_params !=
-      generate_price_params_from_sf_object(sf_order_line, sf_product).serialize_params
+    generate_price_params_from_sf_object(sf_pricebook_entry, sf_product).serialize_params !=
+      generate_price_params_from_sf_object(sf_order_item, sf_product).serialize_params
   end
 
   def create_price_from_pricebook(sf_pricebook_entry)
@@ -433,6 +433,9 @@ class StripeForce::Translate
 
     stripe_price = create_price_from_sf_object(sf_pricebook_entry, sf_product, stripe_product)
 
+    # TODO remove once negative line items are supported
+    return if !stripe_price
+
     update_sf_stripe_id(sf_pricebook_entry, stripe_price)
 
     stripe_price
@@ -440,14 +443,6 @@ class StripeForce::Translate
 
   # TODO what if the list price is updated in SF? We shouldn't probably create a new price object
   def create_price_for_order_item(sf_order_item)
-    # TODO add test case for this
-    unless integer_quantity?(sf_order_item)
-      throw_user_failure!(
-        salesforce_object: sf_order_item,
-        message: "Quantity specified as a decimal value. Only integers are supported."
-      )
-    end
-
     log.info 'translating price via order line', salesforce_object: sf_order_item
 
     sf_product = sf.find(SF_PRODUCT, sf_order_item.Product2Id)
@@ -489,12 +484,15 @@ class StripeForce::Translate
 
     stripe_price = create_price_from_sf_object(sf_target_for_stripe_price, sf_product, product)
 
+    # TODO remove once negative line items are supported
+    return if !stripe_price
+
     update_sf_stripe_id(sf_target_for_stripe_price, stripe_price)
 
     stripe_price
   end
 
-  sig { params(sf_object: Restforce::SObject, sf_product: Restforce::SObject, stripe_product: Stripe::Product).returns(Stripe::Price) }
+  sig { params(sf_object: Restforce::SObject, sf_product: Restforce::SObject, stripe_product: Stripe::Product).returns(T.nilable(Stripe::Price)) }
   def create_price_from_sf_object(sf_object, sf_product, stripe_product)
     if ![SF_ORDER_ITEM, SF_PRICEBOOK_ENTRY].include?(sf_object.sobject_type)
       raise "price can only be created from an order line or pricebook entry"
@@ -507,8 +505,11 @@ class StripeForce::Translate
     stripe_price = generate_price_params_from_sf_object(sf_object, sf_product)
 
     # TODO https://jira.corp.stripe.com/browse/PLATINT-1483
+    # TODO these need to be partitioned and created as discounts
+    # TODO https://jira.corp.stripe.com/browse/PLATINT-1483
     if stripe_price.unit_amount_decimal <= 0
-      raise "negative prices should never be passed for item creation"
+      log.error "negative line item encountered, skipping"
+      return
     end
 
     stripe_price.product = stripe_product.id
@@ -522,6 +523,7 @@ class StripeForce::Translate
     Stripe::Price.create(stripe_price.serialize_params, @user.stripe_credentials)
   end
 
+  # TODO this should be dynamic and pulled from the mapper
   # according to the salesforce documentation, if this field is non-nil ("empty") than it's a subscription item
   def recurring_item?(sf_object)
     if ![SF_ORDER_ITEM, SF_PRODUCT].include?(sf_object.sobject_type)
@@ -530,17 +532,6 @@ class StripeForce::Translate
 
     # TODO maybe pull this from the mapper in order to make this customizable?
     !sf_object[CPQ_QUOTE_SUBSCRIPTION_PRICING].nil?
-  end
-
-  def integer_quantity?(sf_order_item)
-    # TODO this is naive, should investigate this logic further
-    is_integer_quantity = is_integer_value?(sf_order_item.Quantity)
-
-    if !is_integer_quantity
-      log.warn 'user has float quantities defined on the line level'
-    end
-
-    is_integer_quantity
   end
 
   def is_integer_value?(value)
@@ -590,27 +581,48 @@ class StripeForce::Translate
     subscription_items = []
 
     sf_order_items.map do |sf_order_item|
-      # TODO these need to be partitioned and created as discounts
-      # TODO should respect customized price mapping here
-      next if sf_order_item.UnitPrice <= 0
-
       price = create_price_for_order_item(sf_order_item)
 
-      # TODO we need to document this or just prevent this from happening
-      # if the quantity is specified as a float, we normalize it to 1 since Stripe does not support quantities
-      quantity = integer_quantity?(sf_order_item) ? sf_order_item.Quantity.to_i : 1
+      # could occur if a coupon is required for a negative amount, although this should probably be built into the `price` method instead
+      next if price.nil?
 
+      # a phase item is NOT a subscription item, but they are close, and right now the data mapper & revelant keys uses these across the codebase
+      # I wonder if they will eventually converge in the public Stripe API over time?
+      phase_item = Stripe::SubscriptionItem.construct_from({
+        price: price.id,
+      })
+
+      phase_item_params = extract_salesforce_params!(sf_order_item, Stripe::SubscriptionItem)
+      mapper.assign_values_from_hash(phase_item, phase_item_params)
+      apply_mapping(phase_item, sf_order_item)
+
+      # TODO add test case for this
+      unless is_integer_value?(phase_item.quantity)
+        throw_user_failure!(
+          salesforce_object: sf_order_item,
+          message: "Quantity specified as a decimal value. Only integers are supported."
+        )
+      end
+
+      # we know the quantity is not a float, so we can force it to an integer
+      phase_item.quantity = phase_item.quantity.to_i
+
+      phase_item.dirty!
+      serialized_phase_item_params = phase_item.serialize_params
+
+      # quantity cannot be specified if usage type is metered
+      if price.recurring&.usage_type == 'metered'
+        # setting quantity to null generates an empty string when `serialize_params` is called
+        # which will throw an API error when this is passed to Stripe. This is why we are deleting from
+        # the serialized param hash :(
+        serialized_phase_item_params.delete(:quantity)
+      end
+
+      # TODO this helper uses a hardcoded field to determine if the line is recurring or not
       if recurring_item?(sf_order_item)
-        subscription_items << {
-          price: price,
-          # quantity cannot be specified if usage type is metered
-          quantity: price.recurring.usage_type == 'metered' ? nil : quantity,
-        }.compact
+        subscription_items << serialized_phase_item_params
       else
-        invoice_items << {
-          price: price,
-          quantity: quantity,
-        }
+        invoice_items << serialized_phase_item_params
       end
     end
 
@@ -632,30 +644,37 @@ class StripeForce::Translate
       phase_iterations = subscription_params.delete('iterations').to_i
 
       # TODO subs in SF must always have an end date
-      stripe_transaction = Stripe::SubscriptionSchedule.construct_from(subscription_params.merge({
-        customer: stripe_customer,
+      stripe_transaction = Stripe::SubscriptionSchedule.construct_from({
+        customer: stripe_customer.id,
 
         # TODO this should be specified in the defaults hash... we should create a defaults hash https://jira.corp.stripe.com/browse/PLATINT-1501
         end_behavior: 'cancel',
 
-        # TODO we need to handle multiple items here
+        # initial order will only ever contain a single phase
         phases: [
           # this is the initial order, so there is only a single phase
-          # TODO if metadata is added to the subscription schedule phase items, we should add this to the data mapper
           {
             add_invoice_items: invoice_items,
             items: subscription_items,
             iterations: phase_iterations,
+
+            # TODO requires special gate
+            # metadata: stripe_metadata_for_sf_object(sf_order),
           },
         ],
 
         metadata: stripe_metadata_for_sf_object(sf_order),
-      }))
+      })
 
+      mapper.assign_values_from_hash(stripe_transaction, subscription_params)
       apply_mapping(stripe_transaction, sf_order)
 
+      # TODO the idempotency key here is not perfect, need to refactor and use a job UID or something
       stripe_transaction.dirty!
-      stripe_transaction = Stripe::SubscriptionSchedule.create(stripe_transaction.serialize_params, @user.stripe_credentials.merge(idempotency_key: sf_order[SF_ID]))
+      stripe_transaction = Stripe::SubscriptionSchedule.create(
+        stripe_transaction.serialize_params,
+        @user.stripe_credentials.merge(idempotency_key: sf_order[SF_ID])
+      )
 
       # TODO should we propogate the metadata down to the subscription?
       # TODO should we conditionally do this based on user config?

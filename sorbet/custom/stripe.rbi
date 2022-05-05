@@ -65,6 +65,9 @@ class Stripe::SubscriptionSchedulePhaseSubscriptionItem
 
   sig { returns(Integer) }
   def quantity; end
+
+  sig { returns(T::Hash[T.any(String, Symbol), T.untyped]) }
+  def metadata; end
 end
 
 class Stripe::SubscriptionSchedulePhase

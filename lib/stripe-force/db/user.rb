@@ -133,6 +133,9 @@ module StripeForce
           "start_date" => "#{CPQ_QUOTE}.#{CPQ_QUOTE_SUBSCRIPTION_START_DATE}",
           "iterations" => "#{CPQ_QUOTE}.#{CPQ_QUOTE_SUBSCRIPTION_TERM}",
         },
+        "subscription_item" => {
+          "quantity" => "Quantity",
+        },
         "price" => {
           "unit_amount_decimal" => 'UnitPrice',
         },
