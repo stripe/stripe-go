@@ -7,414 +7,420 @@
             <lightning-spinner alternative-text="Loading..."></lightning-spinner>
         </template>
         <!-- /Loading State -->
-        <!-- Missing Permissions State -->
-        <template if:true={hasMissingPermissions}>
-            <div class="slds-container slds-container_center slds-container_medium">
-                <div class="slds-box slds-theme_default">
-                    <div class="slds-illustration slds-illustration_small">
-                        <svg class="slds-illustration__svg" viewBox="0 0 424 253" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
-                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                <g transform="translate(-90.000000, -75.000000)">
-                                    <g>
-                                        <g transform="translate(362.500000, 251.000000) scale(-1, 1) translate(-362.500000, -251.000000) translate(212.000000, 176.000000)">
-                                            <g transform="translate(11.000000, 61.000000)" class="slds-illustration__stroke-secondary" stroke-linecap="round" stroke-linejoin="round" stroke-width="3">
-                                                <path vector-effect="non-scaling-stroke" d="M205.678404,88.7060547 C241.204839,79.6402995 264.385375,73.6529948 275.22001,70.7441406 C284.386465,68.2831552 288.919667,66.3692913 289.659463,63.6132812 C290.231312,61.482937 289.575954,58.5184063 280.531534,56.4824219 C263.69169,53.375 221.886026,49.1894531 211.291014,47.6064453 C200.696003,46.0234375 163.447549,43.4306641 163.531534,32.3076172 C163.615518,21.1845703 191.456338,18.3017578 202.277343,16.6347656 C213.098347,14.9677734 215.910155,12.1396484 215.910155,9.08691406 C215.910155,7.05175781 210.827893,4.38736979 200.66337,1.09375" transform="translate(226.670882, 44.899902) scale(-1, 1) translate(-226.670882, -44.899902) "></path>
-                                                <path vector-effect="non-scaling-stroke" d="M1.31221526,0.5 C13.3068171,2.21419271 20.5131973,3.86816406 22.9313559,5.46191406 C26.5585938,7.85253906 27.8242188,13.1230469 21.7255859,15.6025391 C17.6598307,17.2555339 12.7158203,18.8808594 6.89355469,20.4785156 C2.33626302,22.3964844 0.0576171875,24.4661458 0.0576171875,26.6875 C0.0576171875,30.0195313 2.96846526,31.8701172 10.9206137,33.125 C18.8727621,34.3798828 78.7253012,39.5429688 83.3229575,39.7568359 C87.9206137,39.9707031 163.017293,45.9052734 190.737997,53.4716797 C218.4587,61.0380859 230.180095,69.3007812 231.721395,75.7050781 C232.748929,79.9746094 231.513997,83.4833984 228.016602,86.2314453" transform="translate(116.064507, 43.365723) scale(-1, 1) translate(-116.064507, -43.365723) "></path>
+        <template if:false={loading}>
+            <!-- Missing Permissions State -->
+            <template if:true={hasMissingPermissions}>
+                <div class="slds-container slds-container_center slds-container_medium">
+                    <div class="slds-box slds-theme_default">
+                        <div class="slds-illustration slds-illustration_small">
+                            <svg class="slds-illustration__svg" viewBox="0 0 424 253" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+                                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                    <g transform="translate(-90.000000, -75.000000)">
+                                        <g>
+                                            <g transform="translate(362.500000, 251.000000) scale(-1, 1) translate(-362.500000, -251.000000) translate(212.000000, 176.000000)">
+                                                <g transform="translate(11.000000, 61.000000)" class="slds-illustration__stroke-secondary" stroke-linecap="round" stroke-linejoin="round" stroke-width="3">
+                                                    <path vector-effect="non-scaling-stroke" d="M205.678404,88.7060547 C241.204839,79.6402995 264.385375,73.6529948 275.22001,70.7441406 C284.386465,68.2831552 288.919667,66.3692913 289.659463,63.6132812 C290.231312,61.482937 289.575954,58.5184063 280.531534,56.4824219 C263.69169,53.375 221.886026,49.1894531 211.291014,47.6064453 C200.696003,46.0234375 163.447549,43.4306641 163.531534,32.3076172 C163.615518,21.1845703 191.456338,18.3017578 202.277343,16.6347656 C213.098347,14.9677734 215.910155,12.1396484 215.910155,9.08691406 C215.910155,7.05175781 210.827893,4.38736979 200.66337,1.09375" transform="translate(226.670882, 44.899902) scale(-1, 1) translate(-226.670882, -44.899902) "></path>
+                                                    <path vector-effect="non-scaling-stroke" d="M1.31221526,0.5 C13.3068171,2.21419271 20.5131973,3.86816406 22.9313559,5.46191406 C26.5585938,7.85253906 27.8242188,13.1230469 21.7255859,15.6025391 C17.6598307,17.2555339 12.7158203,18.8808594 6.89355469,20.4785156 C2.33626302,22.3964844 0.0576171875,24.4661458 0.0576171875,26.6875 C0.0576171875,30.0195313 2.96846526,31.8701172 10.9206137,33.125 C18.8727621,34.3798828 78.7253012,39.5429688 83.3229575,39.7568359 C87.9206137,39.9707031 163.017293,45.9052734 190.737997,53.4716797 C218.4587,61.0380859 230.180095,69.3007812 231.721395,75.7050781 C232.748929,79.9746094 231.513997,83.4833984 228.016602,86.2314453" transform="translate(116.064507, 43.365723) scale(-1, 1) translate(-116.064507, -43.365723) "></path>
+                                                </g>
+                                                <path vector-effect="non-scaling-stroke" d="M0.96484375,61.5 L241.929687,61.5" class="slds-illustration__stroke-secondary" stroke-width="3" stroke-linecap="round"></path>
+                                                <polyline vector-effect="non-scaling-stroke" class="slds-illustration__stroke-secondary" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" points="40 61 113.5 0 171.5 45"></polyline>
+                                                <polyline vector-effect="non-scaling-stroke" class="slds-illustration__stroke-secondary" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" points="155 30.9433962 171.5 16 227 60"></polyline>
+                                                <path vector-effect="non-scaling-stroke" d="M230.968213,39.968973 L234.46647,56.4296875 L228.542446,61.0018357 L223.607422,61.3664012 L229.020498,39.9319979 C229.155728,39.3965247 229.699439,39.0720629 230.234912,39.2072921 C230.604556,39.3006424 230.888959,39.5960527 230.968213,39.968973 Z" class="slds-illustration__fill-secondary" transform="translate(229.036946, 50.271507) scale(-1, 1) translate(-229.036946, -50.271507) "></path>
                                             </g>
-                                            <path vector-effect="non-scaling-stroke" d="M0.96484375,61.5 L241.929687,61.5" class="slds-illustration__stroke-secondary" stroke-width="3" stroke-linecap="round"></path>
-                                            <polyline vector-effect="non-scaling-stroke" class="slds-illustration__stroke-secondary" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" points="40 61 113.5 0 171.5 45"></polyline>
-                                            <polyline vector-effect="non-scaling-stroke" class="slds-illustration__stroke-secondary" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" points="155 30.9433962 171.5 16 227 60"></polyline>
-                                            <path vector-effect="non-scaling-stroke" d="M230.968213,39.968973 L234.46647,56.4296875 L228.542446,61.0018357 L223.607422,61.3664012 L229.020498,39.9319979 C229.155728,39.3965247 229.699439,39.0720629 230.234912,39.2072921 C230.604556,39.3006424 230.888959,39.5960527 230.968213,39.968973 Z" class="slds-illustration__fill-secondary" transform="translate(229.036946, 50.271507) scale(-1, 1) translate(-229.036946, -50.271507) "></path>
-                                        </g>
-                                        <g transform="translate(129.000000, 130.000000)">
-                                            <g transform="translate(25.000000, 0.000000)" class="slds-illustration__fill-secondary">
-                                                <path vector-effect="non-scaling-stroke" d="M24.5,121.514719 L24.5,5 L7.5,0 L7.5,167.671875 C7.48762464,169.600647 6.8735755,171.502553 6,173.377594 C5.1264245,175.252635 2.90714031,177.62677 0,179.5 L32,179.5 C29.1883458,177.694031 27.6521991,175.597198 26.5,174.209503 C25.3478009,172.821808 24.717281,170.944682 24.5,168.578125 L24.5,138.367434 C24.7249438,138.219742 24.4382699,138.047012 24.636039,137.849242 L45.8492424,116.636039 C47.4113396,115.073942 47.4113396,112.541282 45.8492424,110.979185 L43.0208153,108.150758 C41.4587181,106.58866 38.9260582,106.58866 37.363961,108.150758 L24.5,121.514719 Z"></path>
+                                            <g transform="translate(129.000000, 130.000000)">
+                                                <g transform="translate(25.000000, 0.000000)" class="slds-illustration__fill-secondary">
+                                                    <path vector-effect="non-scaling-stroke" d="M24.5,121.514719 L24.5,5 L7.5,0 L7.5,167.671875 C7.48762464,169.600647 6.8735755,171.502553 6,173.377594 C5.1264245,175.252635 2.90714031,177.62677 0,179.5 L32,179.5 C29.1883458,177.694031 27.6521991,175.597198 26.5,174.209503 C25.3478009,172.821808 24.717281,170.944682 24.5,168.578125 L24.5,138.367434 C24.7249438,138.219742 24.4382699,138.047012 24.636039,137.849242 L45.8492424,116.636039 C47.4113396,115.073942 47.4113396,112.541282 45.8492424,110.979185 L43.0208153,108.150758 C41.4587181,106.58866 38.9260582,106.58866 37.363961,108.150758 L24.5,121.514719 Z"></path>
+                                                </g>
+                                                <g transform="translate(32.000000, 0.000000)" fill="#FFFFFF">
+                                                    <polygon vector-effect="non-scaling-stroke" points="1.56762695 0.629394531 16.9477539 5.69604492 16.9477539 9.03393555 0.170410156 4.12597656"></polygon>
+                                                </g>
+                                                <g>
+                                                    <path vector-effect="non-scaling-stroke" d="M49.5,121.514719 L49.5,5 L32.5,0 L32.5,167.671875 C32.4876246,169.600647 31.8735755,171.502553 31,173.377594 C30.1264245,175.252635 27.9071403,177.62677 25,179.5 L57,179.5 C54.1883458,177.694031 52.6521991,175.597198 51.5,174.209503 C50.3478009,172.821808 49.717281,170.944682 49.5,168.578125 L49.5,138.367434 C49.7249438,138.219742 49.4382699,138.047012 49.636039,137.849242 L70.8492424,116.636039 C72.4113396,115.073942 72.4113396,112.541282 70.8492424,110.979185 L68.0208153,108.150758 C66.4587181,106.58866 63.9260582,106.58866 62.363961,108.150758 L49.5,121.514719 Z" class="slds-illustration__stroke-primary" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                    <path vector-effect="non-scaling-stroke" d="M9,179.5 L81,179.5" class="slds-illustration__stroke-primary" stroke-width="3" stroke-linecap="round"></path>
+                                                    <path vector-effect="non-scaling-stroke" d="M0,179.5 L3,179.5" class="slds-illustration__stroke-primary" stroke-width="3" stroke-linecap="round"></path>
+                                                    <path vector-effect="non-scaling-stroke" d="M57.9821839,168.453786 L60,179 L54,179 L56.0178161,168.453786 C56.1216026,167.911341 56.6454769,167.555738 57.1879221,167.659524 C57.5904065,167.736532 57.9051763,168.051302 57.9821839,168.453786 Z" class="slds-illustration__fill-primary"></path>
+                                                    <path vector-effect="non-scaling-stroke" d="M61.9685597,171.091165 L64,179 L58,179 L60.0314403,171.091165 C60.1688385,170.556245 60.7138607,170.233989 61.2487814,170.371387 C61.6020064,170.462115 61.8778313,170.73794 61.9685597,171.091165 Z" class="slds-illustration__fill-primary"></path>
+                                                    <path vector-effect="non-scaling-stroke" d="M22.9685597,171.091165 L25,179 L19,179 L21.0314403,171.091165 C21.1688385,170.556245 21.7138607,170.233989 22.2487814,170.371387 C22.6020064,170.462115 22.8778313,170.73794 22.9685597,171.091165 Z" class="slds-illustration__fill-primary"></path>
+                                                </g>
                                             </g>
-                                            <g transform="translate(32.000000, 0.000000)" fill="#FFFFFF">
-                                                <polygon vector-effect="non-scaling-stroke" points="1.56762695 0.629394531 16.9477539 5.69604492 16.9477539 9.03393555 0.170410156 4.12597656"></polygon>
+                                            <g transform="translate(91.000000, 147.000000)">
+                                                <g class="slds-illustration__fill-secondary">
+                                                    <path vector-effect="non-scaling-stroke" d="M4,0 L152,0 C154.209139,-1.61026889e-14 156,1.790861 156,4 L156,92 C156,94.209139 154.209139,96 152,96 L4,96 C1.790861,96 2.705415e-16,94.209139 0,92 L0,75.9353173 L5.99999907,73.6003702 L0,71.8894428 L0,67.2234547 L9.99999846,63.907068 L0,59.2127597 L0,4 C-2.705415e-16,1.790861 1.790861,4.05812251e-16 4,0 Z"></path>
+                                                </g>
+                                                <g>
+                                                    <polygon vector-effect="non-scaling-stroke" class="slds-illustration__stroke-primary" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" points="0.5 0.5 156.5 0.5 156.5 96.5 0.5 96.5 0.5 76.4355469 6.5 74.1005859 0.5 72.3896484 0.5 67.7236328 10.5 64.4072266 0.5 59.7128906"></polygon>
+                                                    <path vector-effect="non-scaling-stroke" d="M155,32.5 L0,32.5" class="slds-illustration__stroke-primary" stroke-width="3" stroke-linejoin="round"></path>
+                                                    <path vector-effect="non-scaling-stroke" d="M155,64.5 L9,64.5" class="slds-illustration__stroke-primary" stroke-width="3" stroke-linejoin="round"></path>
+                                                    <circle vector-effect="non-scaling-stroke" class="slds-illustration__fill-primary" cx="146" cy="10" r="3"></circle>
+                                                    <circle vector-effect="non-scaling-stroke" class="slds-illustration__fill-primary" cx="146" cy="86" r="3"></circle>
+                                                    <circle vector-effect="non-scaling-stroke" class="slds-illustration__fill-primary" cx="10" cy="10" r="3"></circle>
+                                                    <circle vector-effect="non-scaling-stroke" class="slds-illustration__fill-primary" cx="10" cy="86" r="3"></circle>
+                                                </g>
+                                                <g transform="translate(2.000000, 2.000000)" fill="#FFFFFF">
+                                                    <path vector-effect="non-scaling-stroke" d="M55.8642363,32.9353041 C53.419953,36.6948065 52,41.1815794 52,46 C52,59.254834 62.745166,70 76,70 C80.8184206,70 85.3051935,68.580047 89.0646959,66.1357637 L55.8642363,32.9353041 Z M62.9353041,25.8642363 L96.1357637,59.0646959 C98.580047,55.3051935 100,50.8184206 100,46 C100,32.745166 89.254834,22 76,22 C71.1815794,22 66.6948065,23.419953 62.9353041,25.8642363 Z M76,80 C57.2223185,80 42,64.7776815 42,46 C42,27.2223185 57.2223185,12 76,12 C94.7776815,12 110,27.2223185 110,46 C110,64.7776815 94.7776815,80 76,80 Z"></path>
+                                                    <rect x="0" y="0" width="153" height="3"></rect>
+                                                </g>
                                             </g>
-                                            <g>
-                                                <path vector-effect="non-scaling-stroke" d="M49.5,121.514719 L49.5,5 L32.5,0 L32.5,167.671875 C32.4876246,169.600647 31.8735755,171.502553 31,173.377594 C30.1264245,175.252635 27.9071403,177.62677 25,179.5 L57,179.5 C54.1883458,177.694031 52.6521991,175.597198 51.5,174.209503 C50.3478009,172.821808 49.717281,170.944682 49.5,168.578125 L49.5,138.367434 C49.7249438,138.219742 49.4382699,138.047012 49.636039,137.849242 L70.8492424,116.636039 C72.4113396,115.073942 72.4113396,112.541282 70.8492424,110.979185 L68.0208153,108.150758 C66.4587181,106.58866 63.9260582,106.58866 62.363961,108.150758 L49.5,121.514719 Z" class="slds-illustration__stroke-primary" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path>
-                                                <path vector-effect="non-scaling-stroke" d="M9,179.5 L81,179.5" class="slds-illustration__stroke-primary" stroke-width="3" stroke-linecap="round"></path>
-                                                <path vector-effect="non-scaling-stroke" d="M0,179.5 L3,179.5" class="slds-illustration__stroke-primary" stroke-width="3" stroke-linecap="round"></path>
-                                                <path vector-effect="non-scaling-stroke" d="M57.9821839,168.453786 L60,179 L54,179 L56.0178161,168.453786 C56.1216026,167.911341 56.6454769,167.555738 57.1879221,167.659524 C57.5904065,167.736532 57.9051763,168.051302 57.9821839,168.453786 Z" class="slds-illustration__fill-primary"></path>
-                                                <path vector-effect="non-scaling-stroke" d="M61.9685597,171.091165 L64,179 L58,179 L60.0314403,171.091165 C60.1688385,170.556245 60.7138607,170.233989 61.2487814,170.371387 C61.6020064,170.462115 61.8778313,170.73794 61.9685597,171.091165 Z" class="slds-illustration__fill-primary"></path>
-                                                <path vector-effect="non-scaling-stroke" d="M22.9685597,171.091165 L25,179 L19,179 L21.0314403,171.091165 C21.1688385,170.556245 21.7138607,170.233989 22.2487814,170.371387 C22.6020064,170.462115 22.8778313,170.73794 22.9685597,171.091165 Z" class="slds-illustration__fill-primary"></path>
+                                            <g transform="translate(408.500000, 207.500000)">
+                                                <g fill="#FFFFFF">
+                                                    <path vector-effect="non-scaling-stroke" d="M18.9209988,1.95433401 L33.259296,51.443436 C33.5666778,52.5043744 32.9557995,53.613617 31.8948612,53.9209988 C31.7139843,53.9734036 31.5266126,54 31.3382972,54 L2.6617028,54 C1.5571333,54 0.661702805,53.1045695 0.661702805,52 C0.661702805,51.8116846 0.688299176,51.6243129 0.74070397,51.443436 L15.0790012,1.95433401 C15.386383,0.893395645 16.4956256,0.282517358 17.556564,0.589899164 C18.2152102,0.780726338 18.7301717,1.29568777 18.9209988,1.95433401 Z"></path>
+                                                </g>
+                                                <g class="slds-illustration__stroke-secondary" stroke-linecap="round" stroke-linejoin="round" stroke-width="3">
+                                                    <polygon vector-effect="non-scaling-stroke" points="17 0.323943662 34 54 -1.81721305e-12 54"></polygon>
+                                                    <path vector-effect="non-scaling-stroke" d="M17,4.6953125 C17,43.0456294 17,62.6471919 17,63.5 C17,62.6471919 17,43.0456294 17,4.6953125 Z"></path>
+                                                    <path vector-effect="non-scaling-stroke" d="M17,29.3239437 C22.3333333,35.7851611 25,39.1184944 25,39.3239437 C25,39.1184944 22.3333333,35.7851611 17,29.3239437 Z" transform="translate(21.000000, 34.323944) scale(-1, 1) translate(-21.000000, -34.323944) "></path>
+                                                </g>
                                             </g>
-                                        </g>
-                                        <g transform="translate(91.000000, 147.000000)">
-                                            <g class="slds-illustration__fill-secondary">
-                                                <path vector-effect="non-scaling-stroke" d="M4,0 L152,0 C154.209139,-1.61026889e-14 156,1.790861 156,4 L156,92 C156,94.209139 154.209139,96 152,96 L4,96 C1.790861,96 2.705415e-16,94.209139 0,92 L0,75.9353173 L5.99999907,73.6003702 L0,71.8894428 L0,67.2234547 L9.99999846,63.907068 L0,59.2127597 L0,4 C-2.705415e-16,1.790861 1.790861,4.05812251e-16 4,0 Z"></path>
+                                            <g transform="translate(435.000000, 174.500000)">
+                                                <g transform="translate(1.000000, 0.000000)" fill="#FFFFFF">
+                                                    <path vector-effect="non-scaling-stroke" d="M25.6478873,0 L50.879042,84.4273253 C51.1953215,85.4856452 50.5937789,86.5999782 49.535459,86.9162577 C49.3496374,86.9717906 49.1567264,87 48.9627843,87 L2.33299037,87 C1.22842087,87 0.332990367,86.1045695 0.332990367,85 C0.332990367,84.8060578 0.361199757,84.6131469 0.416732643,84.4273253 L25.6478873,0 Z"></path>
+                                                </g>
+                                                <g class="slds-illustration__stroke-secondary" stroke-linecap="round" stroke-linejoin="round" stroke-width="3">
+                                                    <polygon vector-effect="non-scaling-stroke" points="26.5 0 52.5 87 0.5 87"></polygon>
+                                                    <path vector-effect="non-scaling-stroke" d="M26.5,3.58642578 C26.5,64.0261034 26.5,94.9972948 26.5,96.5 C26.5,94.9972948 26.5,64.0261034 26.5,3.58642578 Z"></path>
+                                                    <path vector-effect="non-scaling-stroke" d="M16.6478873,37 C22.6478873,41.4120254 25.6478873,43.7453587 25.6478873,44 C25.6478873,43.7453587 22.6478873,41.4120254 16.6478873,37 Z"></path>
+                                                    <path vector-effect="non-scaling-stroke" d="M27.6478873,68 C36.9812207,57.078692 41.6478873,51.7453587 41.6478873,52 C41.6478873,51.7453587 36.9812207,57.078692 27.6478873,68 Z"></path>
+                                                </g>
                                             </g>
-                                            <g>
-                                                <polygon vector-effect="non-scaling-stroke" class="slds-illustration__stroke-primary" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" points="0.5 0.5 156.5 0.5 156.5 96.5 0.5 96.5 0.5 76.4355469 6.5 74.1005859 0.5 72.3896484 0.5 67.7236328 10.5 64.4072266 0.5 59.7128906"></polygon>
-                                                <path vector-effect="non-scaling-stroke" d="M155,32.5 L0,32.5" class="slds-illustration__stroke-primary" stroke-width="3" stroke-linejoin="round"></path>
-                                                <path vector-effect="non-scaling-stroke" d="M155,64.5 L9,64.5" class="slds-illustration__stroke-primary" stroke-width="3" stroke-linejoin="round"></path>
-                                                <circle vector-effect="non-scaling-stroke" class="slds-illustration__fill-primary" cx="146" cy="10" r="3"></circle>
-                                                <circle vector-effect="non-scaling-stroke" class="slds-illustration__fill-primary" cx="146" cy="86" r="3"></circle>
-                                                <circle vector-effect="non-scaling-stroke" class="slds-illustration__fill-primary" cx="10" cy="10" r="3"></circle>
-                                                <circle vector-effect="non-scaling-stroke" class="slds-illustration__fill-primary" cx="10" cy="86" r="3"></circle>
+                                            <g transform="translate(172.000000, 76.000000)" class="slds-illustration__stroke-secondary" stroke-linecap="round" stroke-width="3">
+                                                <path vector-effect="non-scaling-stroke" d="M44,17.5 L63,17.5 C62.2789714,12.0723971 64.081543,7.53186978 68.4077148,3.87841797 C73.3754883,-0.195556641 79.2734375,0.717773438 82.440918,2.12353516 C85.6083984,3.52929687 87.9606934,5.46069336 89.5913086,9.10524041 C90.2822266,10.6397351 90.7517904,11.9379883 91,13"></path>
+                                                <path vector-effect="non-scaling-stroke" d="M83,20.5 C84.0558268,16.8461914 86.2227376,14.4572754 89.5007324,13.333252 C94.4177246,11.6472168 99.0800781,13.8925781 100.942383,16.1518555 C102.804687,18.4111328 103.39502,20.2260742 103.746582,22.1201172 C103.980957,23.3828125 104.06543,24.8427734 104,26.5 C108.141764,26.3313802 110.918945,27.1647135 112.331543,29 C114.040039,31.1936035 114.215332,33.817627 113.593018,35.75 C112.970703,37.682373 110.894531,40.5 107,40.5 L28,40.5"></path>
+                                                <path vector-effect="non-scaling-stroke" d="M18,27.5 L83.0004985,27.5"></path>
+                                                <path vector-effect="non-scaling-stroke" d="M0,27.5 L8,27.5"></path>
                                             </g>
-                                            <g transform="translate(2.000000, 2.000000)" fill="#FFFFFF">
-                                                <path vector-effect="non-scaling-stroke" d="M55.8642363,32.9353041 C53.419953,36.6948065 52,41.1815794 52,46 C52,59.254834 62.745166,70 76,70 C80.8184206,70 85.3051935,68.580047 89.0646959,66.1357637 L55.8642363,32.9353041 Z M62.9353041,25.8642363 L96.1357637,59.0646959 C98.580047,55.3051935 100,50.8184206 100,46 C100,32.745166 89.254834,22 76,22 C71.1815794,22 66.6948065,23.419953 62.9353041,25.8642363 Z M76,80 C57.2223185,80 42,64.7776815 42,46 C42,27.2223185 57.2223185,12 76,12 C94.7776815,12 110,27.2223185 110,46 C110,64.7776815 94.7776815,80 76,80 Z"></path>
-                                                <rect x="0" y="0" width="153" height="3"></rect>
+                                            <g transform="translate(316.000000, 121.000000)" class="slds-illustration__stroke-secondary" stroke-linecap="round" stroke-width="3">
+                                                <path vector-effect="non-scaling-stroke" d="M44,17.5 L63,17.5 C62.2789714,12.0723971 64.081543,7.53186978 68.4077148,3.87841797 C73.3754883,-0.195556641 79.2734375,0.717773438 82.440918,2.12353516 C85.6083984,3.52929687 87.9606934,5.46069336 89.5913086,9.10524041 C90.2822266,10.6397351 90.7517904,11.9379883 91,13"></path>
+                                                <path vector-effect="non-scaling-stroke" d="M83,20.5 C84.0558268,16.8461914 86.2227376,14.4572754 89.5007324,13.333252 C94.4177246,11.6472168 99.0800781,13.8925781 100.942383,16.1518555 C102.804687,18.4111328 103.39502,20.2260742 103.746582,22.1201172 C103.980957,23.3828125 104.06543,24.8427734 104,26.5 C108.141764,26.3313802 110.918945,27.1647135 112.331543,29 C114.040039,31.1936035 114.215332,33.817627 113.593018,35.75 C112.970703,37.682373 110.894531,40.5 107,40.5 L28,40.5"></path>
+                                                <path vector-effect="non-scaling-stroke" d="M18,27.5 L83.0004985,27.5"></path>
+                                                <path vector-effect="non-scaling-stroke" d="M0,27.5 L8,27.5"></path>
                                             </g>
-                                        </g>
-                                        <g transform="translate(408.500000, 207.500000)">
-                                            <g fill="#FFFFFF">
-                                                <path vector-effect="non-scaling-stroke" d="M18.9209988,1.95433401 L33.259296,51.443436 C33.5666778,52.5043744 32.9557995,53.613617 31.8948612,53.9209988 C31.7139843,53.9734036 31.5266126,54 31.3382972,54 L2.6617028,54 C1.5571333,54 0.661702805,53.1045695 0.661702805,52 C0.661702805,51.8116846 0.688299176,51.6243129 0.74070397,51.443436 L15.0790012,1.95433401 C15.386383,0.893395645 16.4956256,0.282517358 17.556564,0.589899164 C18.2152102,0.780726338 18.7301717,1.29568777 18.9209988,1.95433401 Z"></path>
-                                            </g>
-                                            <g class="slds-illustration__stroke-secondary" stroke-linecap="round" stroke-linejoin="round" stroke-width="3">
-                                                <polygon vector-effect="non-scaling-stroke" points="17 0.323943662 34 54 -1.81721305e-12 54"></polygon>
-                                                <path vector-effect="non-scaling-stroke" d="M17,4.6953125 C17,43.0456294 17,62.6471919 17,63.5 C17,62.6471919 17,43.0456294 17,4.6953125 Z"></path>
-                                                <path vector-effect="non-scaling-stroke" d="M17,29.3239437 C22.3333333,35.7851611 25,39.1184944 25,39.3239437 C25,39.1184944 22.3333333,35.7851611 17,29.3239437 Z" transform="translate(21.000000, 34.323944) scale(-1, 1) translate(-21.000000, -34.323944) "></path>
-                                            </g>
-                                        </g>
-                                        <g transform="translate(435.000000, 174.500000)">
-                                            <g transform="translate(1.000000, 0.000000)" fill="#FFFFFF">
-                                                <path vector-effect="non-scaling-stroke" d="M25.6478873,0 L50.879042,84.4273253 C51.1953215,85.4856452 50.5937789,86.5999782 49.535459,86.9162577 C49.3496374,86.9717906 49.1567264,87 48.9627843,87 L2.33299037,87 C1.22842087,87 0.332990367,86.1045695 0.332990367,85 C0.332990367,84.8060578 0.361199757,84.6131469 0.416732643,84.4273253 L25.6478873,0 Z"></path>
-                                            </g>
-                                            <g class="slds-illustration__stroke-secondary" stroke-linecap="round" stroke-linejoin="round" stroke-width="3">
-                                                <polygon vector-effect="non-scaling-stroke" points="26.5 0 52.5 87 0.5 87"></polygon>
-                                                <path vector-effect="non-scaling-stroke" d="M26.5,3.58642578 C26.5,64.0261034 26.5,94.9972948 26.5,96.5 C26.5,94.9972948 26.5,64.0261034 26.5,3.58642578 Z"></path>
-                                                <path vector-effect="non-scaling-stroke" d="M16.6478873,37 C22.6478873,41.4120254 25.6478873,43.7453587 25.6478873,44 C25.6478873,43.7453587 22.6478873,41.4120254 16.6478873,37 Z"></path>
-                                                <path vector-effect="non-scaling-stroke" d="M27.6478873,68 C36.9812207,57.078692 41.6478873,51.7453587 41.6478873,52 C41.6478873,51.7453587 36.9812207,57.078692 27.6478873,68 Z"></path>
-                                            </g>
-                                        </g>
-                                        <g transform="translate(172.000000, 76.000000)" class="slds-illustration__stroke-secondary" stroke-linecap="round" stroke-width="3">
-                                            <path vector-effect="non-scaling-stroke" d="M44,17.5 L63,17.5 C62.2789714,12.0723971 64.081543,7.53186978 68.4077148,3.87841797 C73.3754883,-0.195556641 79.2734375,0.717773438 82.440918,2.12353516 C85.6083984,3.52929687 87.9606934,5.46069336 89.5913086,9.10524041 C90.2822266,10.6397351 90.7517904,11.9379883 91,13"></path>
-                                            <path vector-effect="non-scaling-stroke" d="M83,20.5 C84.0558268,16.8461914 86.2227376,14.4572754 89.5007324,13.333252 C94.4177246,11.6472168 99.0800781,13.8925781 100.942383,16.1518555 C102.804687,18.4111328 103.39502,20.2260742 103.746582,22.1201172 C103.980957,23.3828125 104.06543,24.8427734 104,26.5 C108.141764,26.3313802 110.918945,27.1647135 112.331543,29 C114.040039,31.1936035 114.215332,33.817627 113.593018,35.75 C112.970703,37.682373 110.894531,40.5 107,40.5 L28,40.5"></path>
-                                            <path vector-effect="non-scaling-stroke" d="M18,27.5 L83.0004985,27.5"></path>
-                                            <path vector-effect="non-scaling-stroke" d="M0,27.5 L8,27.5"></path>
-                                        </g>
-                                        <g transform="translate(316.000000, 121.000000)" class="slds-illustration__stroke-secondary" stroke-linecap="round" stroke-width="3">
-                                            <path vector-effect="non-scaling-stroke" d="M44,17.5 L63,17.5 C62.2789714,12.0723971 64.081543,7.53186978 68.4077148,3.87841797 C73.3754883,-0.195556641 79.2734375,0.717773438 82.440918,2.12353516 C85.6083984,3.52929687 87.9606934,5.46069336 89.5913086,9.10524041 C90.2822266,10.6397351 90.7517904,11.9379883 91,13"></path>
-                                            <path vector-effect="non-scaling-stroke" d="M83,20.5 C84.0558268,16.8461914 86.2227376,14.4572754 89.5007324,13.333252 C94.4177246,11.6472168 99.0800781,13.8925781 100.942383,16.1518555 C102.804687,18.4111328 103.39502,20.2260742 103.746582,22.1201172 C103.980957,23.3828125 104.06543,24.8427734 104,26.5 C108.141764,26.3313802 110.918945,27.1647135 112.331543,29 C114.040039,31.1936035 114.215332,33.817627 113.593018,35.75 C112.970703,37.682373 110.894531,40.5 107,40.5 L28,40.5"></path>
-                                            <path vector-effect="non-scaling-stroke" d="M18,27.5 L83.0004985,27.5"></path>
-                                            <path vector-effect="non-scaling-stroke" d="M0,27.5 L8,27.5"></path>
                                         </g>
                                     </g>
                                 </g>
-                            </g>
-                        </svg>
-                    </div>
-                    <h1 class="slds-text-heading_medium slds-text-align_center slds-m-vertical_medium">
-                        Missing Required Permissions
-                    </h1>
-                    <p>
-                        You do not have the required permissions to access settings for the Stripe Billing Connector for Salesforce. The user authenticating to Stripe must be granted the following missing permissions and cannot remove the permissions once the integration is live. If they are removed, the synchronization will begin to fail, and the permissions will need to be added again.
-                    </p>
-                    <div class="slds-m-vertical_medium slds-m-horizontal_large">
-                        <!-- Permission Sets -->
-                        <template if:false={missingPermissions.isPermSetAssigned}>
-                            <div class="slds-m-bottom_large">
-                                <h4 class="slds-text-title_caps slds-m-bottom_x-small">
-                                    Missing Permission Sets
-                                </h4>
-                                <template for:each={missingPermissions.missingPermissionSets} for:item="permissionSet">
-                                    <div key={permissionSet} class="stripe-permission-item slds-media">
-                                        <div class="slds-media__figure">
-                                            <lightning-icon icon-name="utility:clear" size="x-small" variant="error" class="slds-m-top_xxx-small"></lightning-icon>
-                                        </div>
-                                        <div class="slds-media__body">
-                                            <strong>{permissionSet}</strong>
-                                        </div>
-                                    </div>
-                                </template>
-                            </div>
-                        </template>
-                        <!-- /Permission Sets -->
-                        <!-- System Permissions -->
-                        <template if:true={missingPermissions.isSystemPermissionMissing}>
-                            <div class="slds-m-bottom_large">
-                                <h4 class="slds-text-title_caps slds-m-bottom_x-small">
-                                    Missing System Permissions
-                                </h4>
-                                <template for:each={missingPermissions.missingSystemPermissionList} for:item="permission">
-                                    <div key={permission} class="stripe-permission-item slds-media">
-                                        <div class="slds-media__figure">
-                                            <lightning-icon icon-name="utility:clear" size="x-small" variant="error" class="slds-m-top_xxx-small"></lightning-icon>
-                                        </div>
-                                        <div class="slds-media__body">
-                                            <strong>{permission}</strong>
-                                        </div>
-                                    </div>
-                                </template>
-                            </div>
-                        </template>
-                        <!-- /System Permissions -->
-                        <!-- Object Permissions -->
-                        <template if:true={missingPermissions.isObjectPermissionMissing}>
-                            <div class="slds-m-bottom">
-                                <h4 class="slds-text-title_caps slds-m-bottom_x-small">
-                                    Missing Object Permissions
-                                </h4>
-                                <template for:each={missingPermissions.missingObjectPermissionList} for:item="object">
-                                    <div key={object.name} class="stripe-permission-item slds-media">
-                                        <div class="slds-media__figure">
-                                            <lightning-icon icon-name="utility:clear" size="x-small" variant="error" class="slds-m-top_xxx-small"></lightning-icon>
-                                        </div>
-                                        <div class="slds-media__body">
-                                            <div class="">
-                                                <strong>{object.Object}</strong>
+                            </svg>
+                        </div>
+                        <h1 class="slds-text-heading_medium slds-text-align_center slds-m-vertical_medium">
+                            Missing Required Permissions
+                        </h1>
+                        <p>
+                            You do not have the required permissions to access settings for the Stripe Billing Connector for Salesforce. The user authenticating to Stripe must be granted the following missing permissions and cannot remove the permissions once the integration is live. If they are removed, the synchronization will begin to fail, and the permissions will need to be added again.
+                        </p>
+                        <div class="slds-m-vertical_medium slds-m-horizontal_large">
+                            <!-- Permission Sets -->
+                            <template if:false={missingPermissions.isPermSetAssigned}>
+                                <div class="slds-m-bottom_large">
+                                    <h4 class="slds-text-title_caps slds-m-bottom_x-small">
+                                        Missing Permission Sets
+                                    </h4>
+                                    <template for:each={missingPermissions.missingPermissionSets} for:item="permissionSet">
+                                        <div key={permissionSet} class="stripe-permission-item slds-media">
+                                            <div class="slds-media__figure">
+                                                <lightning-icon icon-name="utility:clear" size="x-small" variant="error" class="slds-m-top_xxx-small"></lightning-icon>
                                             </div>
-                                            <div class="slds-text-title">
-                                                Missing Permissions:
-                                                <span if:false={object.Access} class="stripe-detail-list-item">Access</span>
-                                                <span if:false={object.Create} class="stripe-detail-list-item">Create</span>
-                                                <span if:false={object.Edit} class="stripe-detail-list-item">Edit</span>
+                                            <div class="slds-media__body">
+                                                <strong>{permissionSet}</strong>
                                             </div>
                                         </div>
-                                    </div>
-                                </template>
-                            </div>
-                        </template>
-                        <!-- /Object Permissions -->
+                                    </template>
+                                </div>
+                            </template>
+                            <!-- /Permission Sets -->
+                            <!-- System Permissions -->
+                            <template if:true={missingPermissions.isSystemPermissionMissing}>
+                                <div class="slds-m-bottom_large">
+                                    <h4 class="slds-text-title_caps slds-m-bottom_x-small">
+                                        Missing System Permissions
+                                    </h4>
+                                    <template for:each={missingPermissions.missingSystemPermissionList} for:item="permission">
+                                        <div key={permission} class="stripe-permission-item slds-media">
+                                            <div class="slds-media__figure">
+                                                <lightning-icon icon-name="utility:clear" size="x-small" variant="error" class="slds-m-top_xxx-small"></lightning-icon>
+                                            </div>
+                                            <div class="slds-media__body">
+                                                <strong>{permission}</strong>
+                                            </div>
+                                        </div>
+                                    </template>
+                                </div>
+                            </template>
+                            <!-- /System Permissions -->
+                            <!-- Object Permissions -->
+                            <template if:true={missingPermissions.isObjectPermissionMissing}>
+                                <div class="slds-m-bottom">
+                                    <h4 class="slds-text-title_caps slds-m-bottom_x-small">
+                                        Missing Object Permissions
+                                    </h4>
+                                    <template for:each={missingPermissions.missingObjectPermissionList} for:item="object">
+                                        <div key={object.name} class="stripe-permission-item slds-media">
+                                            <div class="slds-media__figure">
+                                                <lightning-icon icon-name="utility:clear" size="x-small" variant="error" class="slds-m-top_xxx-small"></lightning-icon>
+                                            </div>
+                                            <div class="slds-media__body">
+                                                <div class="">
+                                                    <strong>{object.Object}</strong>
+                                                </div>
+                                                <div class="slds-text-title">
+                                                    Missing Permissions:
+                                                    <span if:false={object.Access} class="stripe-detail-list-item">Access</span>
+                                                    <span if:false={object.Create} class="stripe-detail-list-item">Create</span>
+                                                    <span if:false={object.Edit} class="stripe-detail-list-item">Edit</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </template>
+                                </div>
+                            </template>
+                            <!-- /Object Permissions -->
+                        </div>
                     </div>
                 </div>
-            </div>
-        </template>
-        <!-- /Missing Permissions State -->
-        <template if:false={hasMissingPermissions}>
-            <div class={contentClasslist}>
-                <!-- First Time Setup Landing -->
-                <template if:true={showSetupLanding}>
-                    <div class="stripe-landing slds-is-absolute">
-                        <div class="slds-box slds-theme_default">
-                            <!-- Logo -->
-                            <div class="stripe-logo-container">
-                                <img src={logoUrl} alt="Stripe Logo"/>
-                            </div>
-                            <!-- Title -->
-                            <div class="slds-text-heading_medium slds-text-align_center slds-m-top_large">
-                                Welcome to the Stripe Billing Connector for Salesforce
-                            </div>
-                            <!-- Intro Block -->
-                            <div class="slds-m-top_medium slds-text-align_center slds-m-bottom_x-large">
-                                <p>
-                                    Before you can use the Stripe Billing Connector, a few things need to be connected and configured. You will be walked through the following steps to set up how Stripe and Salesforce will interact.
-                                </p>
-                                <p class="slds-m-top_x-small">
-                                    You will be able to return to this page at any time after initial setup to review or adjust any settings.
-                                </p>
-                            </div>
-                            <div class="stripe-progress-list">
-                                <!-- Setup Steps -->
-                                <template for:each={steps} for:item="step">
-                                    <div key={step.name} class="stripe-progress-item slds-media slds-media_center">
-                                        <div class="slds-media__figure">
-                                            <template if:true={step.isComplete}>
-                                                <div class="stripe-progress-item__counter stripe-progress-item__counter_completed slds-is-relative">
-                                                    <span class="slds-is-absolute slds-text-heading_small">
-                                                        <lightning-icon icon-name="utility:check" size="x-small" variant="inverse" alternative-text="Completed"></lightning-icon>
-                                                    </span>
+            </template>
+            <!-- /Missing Permissions State -->
+            <template if:false={hasMissingPermissions}>
+                <div class={contentClasslist}>
+                    <!-- First Time Setup Landing -->
+                    <template if:true={showSetupLanding}>
+                        <div class="stripe-landing slds-is-absolute">
+                            <div class="slds-box slds-theme_default">
+                                <!-- Logo -->
+                                <div class="stripe-logo-container">
+                                    <img src={logoUrl} alt="Stripe Logo"/>
+                                </div>
+                                <!-- Title -->
+                                <div class="slds-text-heading_medium slds-text-align_center slds-m-top_large">
+                                    Welcome to the Stripe Billing Connector for Salesforce
+                                </div>
+                                <!-- Intro Block -->
+                                <div class="slds-m-top_medium slds-text-align_center slds-m-bottom_x-large">
+                                    <p>
+                                        Before you can use the Stripe Billing Connector, a few things need to be connected and configured. You will be walked through the following steps to set up how Stripe and Salesforce will interact.
+                                    </p>
+                                    <p class="slds-m-top_x-small">
+                                        You will be able to return to this page at any time after initial setup to review or adjust any settings.
+                                    </p>
+                                </div>
+                                <div class="stripe-progress-list">
+                                    <!-- Setup Steps -->
+                                    <template for:each={steps} for:item="step">
+                                        <div key={step.name} class="stripe-progress-item slds-media slds-media_center">
+                                            <div class="slds-media__figure">
+                                                <template if:true={step.isComplete}>
+                                                    <div class="stripe-progress-item__counter stripe-progress-item__counter_completed slds-is-relative">
+                                                        <span class="slds-is-absolute slds-text-heading_small">
+                                                            <lightning-icon icon-name="utility:check" size="x-small" variant="inverse" alternative-text="Completed"></lightning-icon>
+                                                        </span>
+                                                    </div>
+                                                </template>
+                                                <template if:false={step.isComplete}>
+                                                    <div class="stripe-progress-item__counter slds-is-relative">
+                                                        <span class="slds-is-absolute slds-text-heading_small">
+                                                            {step.orderIndex}
+                                                        </span>
+                                                    </div>
+                                                </template>
+                                            </div>
+                                            <div class="slds-media__body">
+                                                <div class="slds-text-heading_small">
+                                                    {step.title}
                                                 </div>
-                                            </template>
-                                            <template if:false={step.isComplete}>
-                                                <div class="stripe-progress-item__counter slds-is-relative">
-                                                    <span class="slds-is-absolute slds-text-heading_small">
-                                                        {step.orderIndex}
-                                                    </span>
-                                                </div>
-                                            </template>
-                                        </div>
-                                        <div class="slds-media__body">
-                                            <div class="slds-text-heading_small">
-                                                {step.title}
                                             </div>
                                         </div>
-                                    </div>
-                                </template>
-                                <!-- /Setup Steps -->
-                            </div>
-                            <div class="slds-text-align_center slds-m-top_x-large">
-                                <button class="slds-button slds-button_brand" onclick={continueSetup}>
-                                    {landingButtonLabel}
-                                </button>
+                                    </template>
+                                    <!-- /Setup Steps -->
+                                </div>
+                                <div class="slds-text-align_center slds-m-top_x-large">
+                                    <button class="slds-button slds-button_brand" onclick={continueSetup}>
+                                        {landingButtonLabel}
+                                    </button>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </template>
-                <!-- /First Time Setup Landing -->
-
-                <div class={stepContentClasslist}>
-                    <div class="slds-grid slds-gutters_direct-large slds-grid_pull-padded-large">
-                        <!-- Page Sidebar -->
-                        <div class={sidebarClasslist}>
-                            <div class="stripe-sticky-top">
+                    </template>
+                    <!-- /First Time Setup Landing -->
+    
+                    <div class={stepContentClasslist}>
+                        <div class="slds-grid slds-gutters_direct-large slds-grid_pull-padded-large">
+                            <!-- Page Sidebar -->
+                            <div class={sidebarClasslist}>
+                                <div class="stripe-sticky-top">
+                                    <!-- First Time Setup Steps -->
+                                    <template if:false={setupComplete}>
+                                        <div class="slds-progress slds-progress_vertical">
+                                            <ol class="slds-progress__list">
+                                                <template for:each={steps} for:item="step" for:index="index">
+                                                    <!-- Completed Item  -->
+                                                    <li key={step.title} if:true={step.isComplete} class="slds-progress__item slds-is-completed">
+                                                        <lightning-icon icon-name="utility:success" size="xx-small" class="slds-progress__marker slds-progress__marker_icon" title="Complete" alternative-text="Complete"></lightning-icon>
+                                                        <div class="slds-progress__item_content slds-grid slds-grid_align-spread">{step.title}</div>
+                                                    </li>
+                                                    <!-- /Completed Item  -->
+                                                    <!-- Active Item -->
+                                                    <li key={step.title} if:true={step.isActive} class="slds-progress__item slds-is-active">
+                                                        <div class="slds-progress__marker">
+                                                            <span class="slds-assistive-text">Active</span>
+                                                        </div>
+                                                        <div class="slds-progress__item_content slds-grid slds-grid_align-spread"><strong>{step.title}</strong></div>
+                                                    </li>
+                                                    <!-- /Active Item -->
+                                                    <!-- Inactive Item -->
+                                                    <template if:false={step.isComplete}>
+                                                        <template if:false={step.isActive}>
+                                                            <li key={step.title} class="slds-progress__item">
+                                                                <div class="slds-progress__marker"></div>
+                                                                <div class="slds-progress__item_content slds-grid slds-grid_align-spread">{step.title}</div>
+                                                            </li>
+                                                        </template>
+                                                    </template>
+                                                    <!-- /Inactive Item -->
+                                                </template>
+                                            </ol>
+                                        </div>
+                                    </template>
+                                    <!-- /First Time Setup Steps -->
+                    
+                                    <!-- Settings Page Navigation -->
+                                    <template if:true={setupComplete}>
+                                        <div class="slds-media slds-media_center slds-m-bottom_large">
+                                            <div class="slds-media__figure">
+                                                <lightning-icon icon-name="utility:settings" size="small" class="stripe-icon slds-current-color" alternative-text="Settings"></lightning-icon>
+                                            </div>
+                                            <div class="slds-media__body">
+                                                <h3 class="slds-text-heading_medium">
+                                                    Settings
+                                                </h3>
+                                            </div>
+                                        </div>
+                                        <ul class="stripe-navigation">
+                                            <li class="stripe-navigation-item" data-index="0" data-section-name="orgSettings" onclick={sectionNavigate}>
+                                                <span>System Connections</span>
+                                            </li>
+                                            <li class="stripe-navigation-item" data-index="1" data-section-name="dataMapping" onclick={sectionNavigate}>
+                                                <span>Data Mapping</span>
+                                            </li>
+                                            <li class="stripe-navigation-item" data-index="2" data-section-name="syncPreferences" onclick={sectionNavigate}>
+                                                <span>Sync Preferences</span>
+                                            </li>
+                                        </ul>
+                                    </template>
+                                    <!-- /Settings Page Navigation -->
+                                </div>
+                            </div>
+                            <!-- /Page Sidebar -->
+                            <!-- Page Content -->
+                            <div class="slds-col">
                                 <!-- First Time Setup Steps -->
                                 <template if:false={setupComplete}>
-                                    <div class="slds-progress slds-progress_vertical">
-                                        <ol class="slds-progress__list">
-                                            <template for:each={steps} for:item="step" for:index="index">
-                                                <!-- Completed Item  -->
-                                                <li key={step.title} if:true={step.isComplete} class="slds-progress__item slds-is-completed">
-                                                    <lightning-icon icon-name="utility:success" size="xx-small" class="slds-progress__marker slds-progress__marker_icon" title="Complete" alternative-text="Complete"></lightning-icon>
-                                                    <div class="slds-progress__item_content slds-grid slds-grid_align-spread">{step.title}</div>
-                                                </li>
-                                                <!-- /Completed Item  -->
-                                                <!-- Active Item -->
-                                                <li key={step.title} if:true={step.isActive} class="slds-progress__item slds-is-active">
-                                                    <div class="slds-progress__marker">
-                                                        <span class="slds-assistive-text">Active</span>
-                                                    </div>
-                                                    <div class="slds-progress__item_content slds-grid slds-grid_align-spread"><strong>{step.title}</strong></div>
-                                                </li>
-                                                <!-- /Active Item -->
-                                                <!-- Inactive Item -->
-                                                <template if:false={step.isComplete}>
-                                                    <template if:false={step.isActive}>
-                                                        <li key={step.title} class="slds-progress__item">
-                                                            <div class="slds-progress__marker"></div>
-                                                            <div class="slds-progress__item_content slds-grid slds-grid_align-spread">{step.title}</div>
-                                                        </li>
-                                                    </template>
-                                                </template>
-                                                <!-- /Inactive Item -->
-                                            </template>
-                                        </ol>
-                                    </div>
-                                </template>
-                                <!-- /First Time Setup Steps -->
-                
-                                <!-- Settings Page Navigation -->
-                                <template if:true={setupComplete}>
-                                    <div class="slds-media slds-media_center slds-m-bottom_large">
-                                        <div class="slds-media__figure">
-                                            <lightning-icon icon-name="utility:settings" size="small" class="stripe-icon slds-current-color" alternative-text="Settings"></lightning-icon>
-                                        </div>
-                                        <div class="slds-media__body">
-                                            <h3 class="slds-text-heading_medium">
-                                                Settings
-                                            </h3>
-                                        </div>
-                                    </div>
-                                    <ul class="stripe-navigation">
-                                        <li class="stripe-navigation-item" data-index="0" data-section-name="orgSettings" onclick={sectionNavigate}>
-                                            <span>System Connections</span>
-                                        </li>
-                                        <li class="stripe-navigation-item" data-index="1" data-section-name="dataMapping" onclick={sectionNavigate}>
-                                            <span>Data Mapping</span>
-                                        </li>
-                                        <li class="stripe-navigation-item" data-index="2" data-section-name="syncPreferences" onclick={sectionNavigate}>
-                                            <span>Sync Preferences</span>
-                                        </li>
-                                    </ul>
-                                </template>
-                                <!-- /Settings Page Navigation -->
-                            </div>
-                        </div>
-                        <!-- /Page Sidebar -->
-                        <!-- Page Content -->
-                        <div class="slds-col">
-                            <!-- First Time Setup Steps -->
-                            <template if:false={setupComplete}>
-                                <c-step step-name="Update Page Layouts" data-index="0" setup-complete={setupComplete} onnext={next} class="slds-hide" loading={contentLoading} illustration-url={} back-disabled>
-                                    <p slot="description">
-                                        A few custom fields have been included in the Stripe Billing for Salesforce managed package that can optionally be added to your existing object page layouts. It is recommended you do this now before proceeding to connect Stripe to Salesforce, but these fields can be added at any time. 
-                                    </p>
-                                    <c-org-settings-step>
-                                    </c-org-settings-step>
-                                </c-step>
-                                <c-step step-name="Connect Stripe and Salesforce" data-index="1" setup-complete={setupComplete} onnext={next} onback={back} class="slds-hide" next-disabled={nextDisabled} loading={contentLoading} illustration-url={systemConnectionsIllustration} show-intro>
-                                    <p slot="description">
-                                        Allow your Salesforce org and Stripe to communicate. This step will collect the required information to allow your Salesforce org and Stripe to communicate. First, you will be granting Stripe the necessary access to your Salesforce org. Second, you will be asked to log into Stripe to allow Salesforce to access your Stripe instance. Click "Authorize" and follow the provided steps to establish these connections.
-                                    </p>
-                                    <p slot="intro-description">
-                                        This step will collect the required information to allow your Salesforce org and Stripe account to communicate. Log in to your Stripe account and grant access to your Salesforce org to connect the two systems.
-                                    </p>
-                                    <c-system-connections-step 
-                                        ongetmappingconfigurations={getmappingconfigurations}
-                                        onshowtoast={showToast}>
-                                    </c-system-connections-step>
-                                </c-step>
-                                <c-step step-name="Define Data Mapping" data-index="2" setup-complete={setupComplete} onnext={next} onback={back} class="slds-hide" loading={contentLoading} illustration-url={dataMappingIllustration} show-intro>
-                                    <p slot="description">
-                                        Determine how Stripe data is mapped to your Salesforce org. A set of default field mappings have been provided for each Stripe object. These default values can be overwritten to better represent the structure of your Salesforce org. Field mappings can either be a Salesforce field, which reads Salesforce data on a per-record basis, or a static value, which will apply the same value to all records.
-                                    </p>
-                                    <p slot="description">
-                                        Once all Stripe objects have been mapped, click "Next" to apply the data mapping to your org and finish the mapping process.
-                                    </p>
-                                    <p slot="intro-description">
-                                        Determine how Stripe data is mapped to records in your Salesforce org. Each object in Stripe is related to an object in Salesforce, review the relation mappings and customize them to best suit your org structure.
-                                    </p>
-                                    <c-data-mapping-step
-                                        onsavecomplete={completeSave}
-                                        onshowtoast={showToast}>
-                                    </c-data-mapping-step>
-                                </c-step>
-                                <c-step step-name="Configure Sync Preferences" data-index="3" setup-complete={setupComplete} onnext={next} onback={back} next-label="Finish" class="slds-hide" loading={contentLoading} illustration-url={syncPreferencesIllustration} show-intro>
-                                    <p slot="description">
-                                        Determine how and when data is synced between Stripe and Salesforce. A set of default settings has been provided; review and make any adjustments to these settings to suit your org before proceeding.
-                                    </p>
-                                    <p slot="intro-description">
-                                        Determine how and when data is synced between Stripe and Salesforce. Review and make any adjustments to the default settings to best suit your Salesforce org.
-                                    </p>
-                                    <c-sync-preferences-step
-                                        onsavecomplete={completeSave}
-                                        onshowtoast={showToast}>
-                                    </c-sync-preferences-step>
-                                </c-step>
-                            </template>
-                            <!-- /First Time Setup Steps -->
-
-                            <!-- Settings Page Sections -->
-                            <template if:true={setupComplete}>
-                                <!-- Landing Page -->
-                                <template if:true={showSettingsLanding}>
-                                    <div class="stripe-landing_settings">
-                                        <div class="slds-box slds-theme_default">
-                                            <div class="slds-col">
-                                                <div class="stripe-logo-container slds-text-align_center">
-                                                    <img src={logoUrl} alt="Stripe Logo"/>
-                                                </div>
-                                                <div class="slds-text-align_center">
-                                                    <h1 class="slds-text-heading_medium slds-m-top_x-large">Stripe Billing Connector Settings</h1>
-                                                    <p class="slds-text-body_default slds-m-top_small">Customize how the Stripe Billing Connector interacts with your Salesforce org. Select a settings category to view and adjust the current connector settings.</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </template>
-                                <!-- /Landing Page -->
-                                <div class={settingsContentClasslist}>
-                                    <c-step step-name="Connect Stripe and Salesforce" class="slds-hide" data-index="0" loading={contentLoading} setup-complete footer-hidden>
+                                    <c-step step-name="Update Page Layouts" data-index="0" setup-complete={setupComplete} onnext={next} class="slds-hide" loading={contentLoading} illustration-url={} back-disabled>
                                         <p slot="description">
-                                            Allow your Salesforce org and Stripe to communicate. Review the current connection status for both Stripe and Salesforce. If there is an issue, you may need to reconnect one or both accounts. 
+                                            A few custom fields have been included in the Stripe Billing for Salesforce managed package that can optionally be added to your existing object page layouts. It is recommended you do this now before proceeding to connect Stripe to Salesforce, but these fields can be added at any time. 
+                                        </p>
+                                        <c-org-settings-step>
+                                        </c-org-settings-step>
+                                    </c-step>
+                                    <c-step step-name="Connect Stripe and Salesforce" data-index="1" setup-complete={setupComplete} onnext={next} onback={back} class="slds-hide" next-disabled={nextDisabled} loading={contentLoading} illustration-url={systemConnectionsIllustration} show-intro>
+                                        <p slot="description">
+                                            Allow your Salesforce org and Stripe to communicate. This step will collect the required information to allow your Salesforce org and Stripe to communicate. First, you will be granting Stripe the necessary access to your Salesforce org. Second, you will be asked to log into Stripe to allow Salesforce to access your Stripe instance. Click "Authorize" and follow the provided steps to establish these connections.
+                                        </p>
+                                        <p slot="intro-description">
+                                            This step will collect the required information to allow your Salesforce org and Stripe account to communicate. Log in to your Stripe account and grant access to your Salesforce org to connect the two systems.
                                         </p>
                                         <c-system-connections-step 
+                                            ongetmappingconfigurations={getmappingconfigurations}
                                             onshowtoast={showToast}>
                                         </c-system-connections-step>
-                                    </c-step> 
-                                    <c-step step-name="Define Data Mapping" setup-complete onsave={save} save-disabled={saveDisabled} class="slds-hide" data-index="1" loading={contentLoading}>
+                                    </c-step>
+                                    <c-step step-name="Define Data Mapping" data-index="2" setup-complete={setupComplete} onnext={next} onback={back} class="slds-hide" loading={contentLoading} illustration-url={dataMappingIllustration} show-intro>
                                         <p slot="description">
-                                            Determine how Stripe data is mapped to your Salesforce org. Mappings are grouped by Stripe object, each of which has its own set of mapping groups. Field mappings can either be a Salesforce field, which reads Salesforce data on a per-record basis, or a static value, which will apply the same value to all records.
+                                            Determine how Stripe data is mapped to your Salesforce org. A set of default field mappings have been provided for each Stripe object. These default values can be overwritten to better represent the structure of your Salesforce org. Field mappings can either be a Salesforce field, which reads Salesforce data on a per-record basis, or a static value, which will apply the same value to all records.
                                         </p>
-                                        <c-data-mapping-step 
-                                            onvaluechange={enableSave}
+                                        <p slot="description">
+                                            Once all Stripe objects have been mapped, click "Next" to apply the data mapping to your org and finish the mapping process.
+                                        </p>
+                                        <p slot="intro-description">
+                                            Determine how Stripe data is mapped to records in your Salesforce org. Each object in Stripe is related to an object in Salesforce, review the relation mappings and customize them to best suit your org structure.
+                                        </p>
+                                        <c-data-mapping-step
                                             onsavecomplete={completeSave}
+                                            oncontentloading={enableContentLoading}
+                                            oncontentloadingcomplete={disableContentLoading}
                                             onshowtoast={showToast}>
                                         </c-data-mapping-step>
                                     </c-step>
-                                    <c-step step-name="Configure Sync Preferences" setup-complete class="slds-hide" onsave={save} save-disabled={saveDisabled} data-index="2" loading={contentLoading}>
+                                    <c-step step-name="Configure Sync Preferences" data-index="3" setup-complete={setupComplete} onnext={next} onback={back} next-label="Finish" class="slds-hide" loading={contentLoading} illustration-url={syncPreferencesIllustration} show-intro>
                                         <p slot="description">
-                                            Determine how and when data is synced between Stripe and Salesforce. Adjust when Stripe data should start to sync, how many records are saved in your org at one time, how many Salesforce API calls Stripe is allowed to make, and more. Default values have been provided; be sure to review and adjust sync settings to suit your Salesforce org's needs.
+                                            Determine how and when data is synced between Stripe and Salesforce. A set of default settings has been provided; review and make any adjustments to these settings to suit your org before proceeding.
                                         </p>
-                                        <c-sync-preferences-step 
-                                            onvaluechange={enableSave}
+                                        <p slot="intro-description">
+                                            Determine how and when data is synced between Stripe and Salesforce. Review and make any adjustments to the default settings to best suit your Salesforce org.
+                                        </p>
+                                        <c-sync-preferences-step
                                             onsavecomplete={completeSave}
-                                            onshowtoast={showToast}
-                                            setup-complete>
+                                            onshowtoast={showToast}>
                                         </c-sync-preferences-step>
                                     </c-step>
-                                </div>
-                            </template>
-                            <!-- /Settings Page Sections -->
+                                </template>
+                                <!-- /First Time Setup Steps -->
+    
+                                <!-- Settings Page Sections -->
+                                <template if:true={setupComplete}>
+                                    <!-- Landing Page -->
+                                    <template if:true={showSettingsLanding}>
+                                        <div class="stripe-landing_settings">
+                                            <div class="slds-box slds-theme_default">
+                                                <div class="slds-col">
+                                                    <div class="stripe-logo-container slds-text-align_center">
+                                                        <img src={logoUrl} alt="Stripe Logo"/>
+                                                    </div>
+                                                    <div class="slds-text-align_center">
+                                                        <h1 class="slds-text-heading_medium slds-m-top_x-large">Stripe Billing Connector Settings</h1>
+                                                        <p class="slds-text-body_default slds-m-top_small">Customize how the Stripe Billing Connector interacts with your Salesforce org. Select a settings category to view and adjust the current connector settings.</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </template>
+                                    <!-- /Landing Page -->
+                                    <div class={settingsContentClasslist}>
+                                        <c-step step-name="Connect Stripe and Salesforce" class="slds-hide" data-index="0" loading={contentLoading} setup-complete footer-hidden>
+                                            <p slot="description">
+                                                Allow your Salesforce org and Stripe to communicate. Review the current connection status for both Stripe and Salesforce. If there is an issue, you may need to reconnect one or both accounts. 
+                                            </p>
+                                            <c-system-connections-step 
+                                                onshowtoast={showToast}>
+                                            </c-system-connections-step>
+                                        </c-step> 
+                                        <c-step step-name="Define Data Mapping" setup-complete onsave={save} save-disabled={saveDisabled} class="slds-hide" data-index="1" loading={contentLoading}>
+                                            <p slot="description">
+                                                Determine how Stripe data is mapped to your Salesforce org. Mappings are grouped by Stripe object, each of which has its own set of mapping groups. Field mappings can either be a Salesforce field, which reads Salesforce data on a per-record basis, or a static value, which will apply the same value to all records.
+                                            </p>
+                                            <c-data-mapping-step 
+                                                onvaluechange={enableSave}
+                                                onsavecomplete={completeSave}
+                                                oncontentloading={enableContentLoading}
+                                                oncontentloadingcomplete={disableContentLoading}
+                                                onshowtoast={showToast}>
+                                            </c-data-mapping-step>
+                                        </c-step>
+                                        <c-step step-name="Configure Sync Preferences" setup-complete class="slds-hide" onsave={save} save-disabled={saveDisabled} data-index="2" loading={contentLoading}>
+                                            <p slot="description">
+                                                Determine how and when data is synced between Stripe and Salesforce. Adjust when Stripe data should start to sync, how many records are saved in your org at one time, how many Salesforce API calls Stripe is allowed to make, and more. Default values have been provided; be sure to review and adjust sync settings to suit your Salesforce org's needs.
+                                            </p>
+                                            <c-sync-preferences-step 
+                                                onvaluechange={enableSave}
+                                                onsavecomplete={completeSave}
+                                                onshowtoast={showToast}
+                                                setup-complete>
+                                            </c-sync-preferences-step>
+                                        </c-step>
+                                    </div>
+                                </template>
+                                <!-- /Settings Page Sections -->
+                            </div>
+                            <!-- /Page Content -->
                         </div>
-                        <!-- /Page Content -->
                     </div>
                 </div>
-            </div>
+            </template>
         </template>
     </div>
 

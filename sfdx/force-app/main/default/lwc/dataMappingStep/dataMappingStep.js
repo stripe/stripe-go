@@ -483,6 +483,7 @@ export default class DataMappingStep extends LightningElement {
     }
 
     async connectedCallback() {
+        this.dispatchEvent(new CustomEvent('contentloading'));
         try {
             const getFormattedStripeObjects = await getFormattedStripeObjectFields();
             const responseData = JSON.parse(getFormattedStripeObjects);
@@ -500,7 +501,6 @@ export default class DataMappingStep extends LightningElement {
         } catch (error) {
             this.showToast(error.message, 'error');
         } finally {
-            this.isLoaded = true;
             this.activeObject = 'customer';
         }
     }
@@ -590,6 +590,7 @@ export default class DataMappingStep extends LightningElement {
         } catch (error) {
             this.showToast(error.message, 'error', 'sticky');
         } finally {
+            this.dispatchEvent(new CustomEvent('contentloadingcomplete'));
             if(targetElement) targetElement.dropdownLoading = false;
         }
     }

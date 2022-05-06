@@ -108,6 +108,14 @@ export default class FirstTimeSetup extends LightningElement {
         this.saveDisabled = false;
     }
 
+    enableContentLoading() {
+        this.contentLoading = true;
+    }
+
+    disableContentLoading() {
+        this.contentLoading = false;
+    }
+
     completeSave(event) {
         this.contentLoading = false;
         if(event.detail.saveSuccess && this.setupComplete === true) {
@@ -141,7 +149,7 @@ export default class FirstTimeSetup extends LightningElement {
                 this.hasMissingPermissions = true;
                 return;               
             } 
-            this.fetchSetupData();
+            await this.fetchSetupData();
 
             const setOrganizationType = await setOrgType();
             const orgTypeResponseData =  JSON.parse(setOrganizationType);
@@ -174,6 +182,10 @@ export default class FirstTimeSetup extends LightningElement {
 
             this.nextDisabled = false;
             this.setupComplete = responseData.results.setupData.isSetupComplete__c;
+            if(this.setupComplete) {
+                return;
+            }
+
             let completedSteps = JSON.parse(responseData.results.setupData.Steps_Completed__c);
             if (Object.keys(completedSteps).length <= 0) {
                 return;
@@ -193,28 +205,8 @@ export default class FirstTimeSetup extends LightningElement {
 
         } catch (error) {
             this.showSetupToast(error.message, 'error', 'sticky');
-        } finally {
-            this.showContent();
         }
     }
-
-    showContent() {
-        if(this.setupComplete) {
-            if(this.activeSectionIndex) {
-                const activeSection = this.template.querySelector('c-step[data-index="' + this.activeSectionIndex + '"]');
-                if(activeSection) {
-                    activeSection.classList.remove('slds-hide');
-                }
-            }
-            this.contentShown = true;
-        } else {
-            const activeStep = this.template.querySelector('c-step[data-index="' + this.activeStepIndex + '"]');
-            if(activeStep) {
-                activeStep.classList.remove('slds-hide');
-            }
-            this.contentShown = true;
-        }
-    }    
 
     save() {
         this.contentLoading = true;
@@ -335,7 +327,12 @@ export default class FirstTimeSetup extends LightningElement {
     }
 
     continueSetup() {
-        this.showSetupLanding = false;
+        const activeStep = this.template.querySelector('c-step[data-index="' + this.activeStepIndex + '"]');
+        if(activeStep) {
+            activeStep.classList.remove('slds-hide');
+            this.contentShown = true;
+            this.showSetupLanding = false;
+        }
     }
 
     showSetupToast(message, variant, mode) {
