@@ -11,6 +11,20 @@ module Integrations::Utilities::StripeUtil
   include Integrations::Log
   include Integrations::ErrorContext
 
+  # if you null-out a field in a StripeObject it is still sent to the API as an empty string
+  # this causes issues for a host of API surfaces in Stripe. Additionally, there is no way to remove
+  # a field from the StripeObject once it has been added, thus this incredibly terrible hack
+  # TODO https://jira.corp.stripe.com/browse/PLATINT-1572
+  sig { params(stripe_object: Stripe::StripeObject, stripe_field_name: Symbol).void }
+  def delete_field_from_stripe_object(stripe_object, stripe_field_name)
+    stripe_object.instance_eval do
+      # the top-level keys of `@values` seem to be symbolized
+      @values.delete(stripe_field_name)
+    end
+  end
+
+  module_function :delete_field_from_stripe_object
+
   def stripe_class_from_id(stripe_object_id, raise_on_missing: true)
     # Setting raise_on_missing to false should only be used on internal
     # support tooling.

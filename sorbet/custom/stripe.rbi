@@ -24,6 +24,12 @@ class Stripe::Price
   sig { returns(String) }
   def currency; end
 
+  sig { returns(String) }
+  def tiers_mode; end
+
+  sig { returns(Array) }
+  def tiers; end
+
   sig { returns(T.any(Stripe::Product, String)) }
   def product; end
 

@@ -123,11 +123,14 @@ module Critic
       [product_id, pricebook_entry_id]
     end
 
-    def create_subscription_order
-      create_salesforce_order(additional_quote_fields: {
-        CPQ_QUOTE_SUBSCRIPTION_START_DATE => DateTime.now.strftime("%Y-%m-%d"),
-        CPQ_QUOTE_SUBSCRIPTION_TERM => 12.0,
-      })
+    def create_subscription_order(sf_product_id: nil)
+      create_salesforce_order(
+        sf_product_id: sf_product_id,
+        additional_quote_fields: {
+          CPQ_QUOTE_SUBSCRIPTION_START_DATE => DateTime.now.strftime("%Y-%m-%d"),
+          CPQ_QUOTE_SUBSCRIPTION_TERM => 12.0,
+        }
+      )
     end
 
     def add_product_to_cpq_quote(quote_id, sf_product_id:, sf_pricebook_id: nil)

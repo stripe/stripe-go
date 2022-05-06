@@ -111,14 +111,6 @@ module StripeForce
       end
     end
 
-    protected def is_record_reference_field?(field_name)
-      field_name =~ /_id$/
-    end
-
-    protected def is_date_field?(field_name)
-      field_name =~ /_date$/
-    end
-
     sig { params(source_record: Restforce::SObject, mapping_for_record: Hash).returns(Hash) }
     def build_dynamic_mapping_values(source_record, mapping_for_record)
       # build annotations using stripe resource metadata and users table
@@ -153,7 +145,6 @@ module StripeForce
     def assign_values_from_hash(record, field_assignments)
       field_assignments.each do |raw_field_path, v|
         # TODO need to handle nil values
-        # TODO think on custom fields with NetSuite suffix `_id`
         # TODO nofify when an existing field is being overwritten
 
         # TODO unsure if we need to special case this stuff right now
@@ -165,23 +156,7 @@ module StripeForce
         #   field_path = raw_field_path
         # end
 
-        field_path = raw_field_path
-
-        if is_record_reference_field?(field_path) && record.respond_to?(field_path)
-          raise 'determine what salesforce record ref transformation requirements are'
-          # record.send(field_path, ref_value)
-        elsif is_date_field?(field_path) && record.respond_to?(field_path)
-          raise 'determine what salesforce date transformation requirements are'
-          # record.send(field_path, ref_value)
-        else
-          set_stripe_resource_field_path(record, field_path, v)
-          #   record.send(method, v)
-          # else
-          #   log.error 'invalid mapping field specified',
-          #     mapping_key: k,
-          #     mapping_value: v,
-          #     record: record
-        end
+        set_stripe_resource_field_path(record, raw_field_path, v)
       end
     end
 

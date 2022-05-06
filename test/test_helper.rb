@@ -24,3 +24,8 @@ require_relative 'support/common_helpers'
 Dir[File.join(File.dirname(__FILE__), "support/**/*.rb")].sort.each {|f| require f }
 
 Minitest::Ci.clean = false if ENV['CI']
+
+# purely for convenience: let's include debugging tools where we need them
+Pry.config.hooks.add_hook(:before_session, :include_salesforce_debugging) do
+  include SalesforceDebugging
+end

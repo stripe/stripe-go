@@ -77,6 +77,19 @@ class StripeForce::Translate
     )
 
     raise
+  rescue Restforce::ResponseError => e
+    create_user_failure(
+      # TODO can we indicate a more specific error object here?
+      salesforce_object: @origin_salesforce_object,
+      message: e.message
+    )
+
+    raise
+  end
+
+  # report user failures with the correct secondary SF object context
+  def catch_stripe_api_errors(salesforce_object)
+    yield
   rescue Stripe::InvalidRequestError => e
     # TODO probably remove this in the future, but I want to understand the error codes that are coming through
     log.warn 'stripe api error',
@@ -84,15 +97,8 @@ class StripeForce::Translate
       message: e.message
 
     create_user_failure(
-      salesforce_object: @origin_salesforce_object,
-      message: e.message
-    )
-
-    raise
-  rescue Restforce::ResponseError => e
-    create_user_failure(
-      salesforce_object: @origin_salesforce_object,
-      message: e.message
+      salesforce_object: salesforce_object,
+      message: "#{e.message} #{e.request_id}"
     )
 
     raise
@@ -216,7 +222,9 @@ class StripeForce::Translate
     # and then converting the finalized object into a parameters hash. However, without using `construct_from`
     # we'd have to pass the object type around when mapping which is equally as bad.
     stripe_object.dirty!
-    stripe_class.create(stripe_object.serialize_params, @user.stripe_credentials)
+    catch_stripe_api_errors(sf_object) do
+      stripe_class.create(stripe_object.serialize_params, @user.stripe_credentials)
+    end
   end
 
   sig { params(stripe_class: T.class_of(Stripe::APIResource), sf_object: Restforce::SObject).returns(T.nilable(Stripe::APIResource)) }
@@ -293,6 +301,151 @@ class StripeForce::Translate
     stripe_product
   end
 
+  def extract_tiered_price_params_from_pricebook_entry(sf_pricebook_entry)
+    # TODO should be moved to the record service
+    joining_records = sf.query("SELECT ConsumptionScheduleId FROM ProductConsumptionSchedule WHERE ProductId = '#{sf_pricebook_entry.Product2Id}'")
+
+    if joining_records.count.zero?
+      return {}
+    end
+
+    # it does not look like this is programmatically enforced within CPQ, but should never happen
+    if joining_records.count > 1
+      raise "should not be more than one"
+    end
+
+    consumption_schedule = sf.find(SF_CONSUMPTION_SCHEDULE, joining_records.first.ConsumptionScheduleId)
+
+    if consumption_schedule.IsDeleted
+      log.warn 'consumption schedule is deleted, ignoring'
+      return {}
+    end
+
+    if !consumption_schedule.IsActive
+      log.warn 'consumption schedule is not active, ignoring'
+      return {}
+    end
+
+    # In our CPQ testing, "Tier" is the only valid picklist value, so we do not expect any other values
+    if consumption_schedule.RatingMethod != "Tier"
+      raise "unexpected rating method #{consumption_schedule.RatingMethod}"
+    end
+
+    # TODO should be moved to a helper in the record service
+    consumption_rates = sf.query("SELECT Id FROM #{SF_CONSUMPTION_RATE} WHERE ConsumptionScheduleId = '#{consumption_schedule.Id}'").map {|o| sf.find(SF_CONSUMPTION_RATE, o.Id) }
+
+    pricing_tiers = consumption_rates.map do |consumption_rate|
+      transform_salesforce_consumption_rate_type_to_tier(
+        consumption_rate.UpperBound,
+        consumption_rate.PricingMethod,
+        consumption_rate.Price
+      )
+    end
+
+    tiers_mode = transform_salesforce_consumption_schedule_type_to_tier_mode(consumption_schedule.Type)
+
+    {
+      "tiers" => pricing_tiers,
+      "tiers_mode" => tiers_mode,
+      "billing_scheme" => "tiered",
+
+      # for convenience, add a link to the consumption schedule in metadata
+      "metadata" => stripe_metadata_for_sf_object(consumption_schedule),
+    }
+  end
+
+  sig { params(raw_consumption_schedule_type: String).returns(String) }
+  def transform_salesforce_consumption_schedule_type_to_tier_mode(raw_consumption_schedule_type)
+    case raw_consumption_schedule_type
+    when "Range"
+      'volume'
+    when "Slab"
+      'graduated'
+    else
+      # should never happen
+      raise "unexpected consumption schedule type #{raw_consumption_schedule_type}"
+    end
+  end
+
+  def transform_salesforce_consumption_rate_type_to_tier(sf_upper_bound, sf_pricing_method, sf_price)
+    up_to = if sf_upper_bound.nil?
+      'inf'
+    else
+      if is_integer_value?(sf_upper_bound)
+        sf_upper_bound.to_i
+      else
+        # this should never occur, if it does provide a more user friendly error
+        raise "non-integer value provided for tier bound"
+      end
+    end
+
+    pricing_key = case sf_pricing_method
+    when "PerUnit"
+      'unit_amount_decimal'
+    when 'FlatFee'
+      'flat_amount_decimal'
+    else
+      # this should never happen
+      raise "unexpected pricing method #{sf_pricing_method}"
+    end
+
+    {
+      'up_to' => up_to,
+      pricing_key => normalize_float_amount_for_stripe(sf_price.to_s, @user, as_decimal: true),
+    }
+  end
+
+  sig { params(sf_order_line: Restforce::SObject).returns(Hash) }
+  def extract_tiered_price_params_from_order_line(sf_order_line)
+    consumption_schedules = sf.query("SELECT Id FROM #{CPQ_CONSUMPTION_SCHEDULE} WHERE SBQQ__OrderItem__c = '#{sf_order_line[SF_ID]}'").map {|o| sf.find(CPQ_CONSUMPTION_SCHEDULE, o.Id) }
+
+    if consumption_schedules.count.zero?
+      return {}
+    end
+
+    # it does not look like this is programmatically enforced within CPQ, but should never happen
+    if consumption_schedules.count > 1
+      raise "should not be more than one"
+    end
+
+    # the CPQ consumption schedule is materially different from the standard consumption schedule, so we can't do a drop-in replacement
+
+    consumption_schedule = consumption_schedules.first
+
+    if consumption_schedule.IsDeleted
+      log.warn 'consumption schedule is deleted, ignoring'
+      return {}
+    end
+
+    # In our CPQ testing, "Tier" is the only valid picklist value, so we do not expect any other values
+    if consumption_schedule.SBQQ__RatingMethod__c != "Tier"
+      raise "unexpected rating method #{consumption_schedule.SBQQ__RatingMethod__c}"
+    end
+
+    # TODO should be moved to a helper in the record service
+    consumption_rates = sf.query("SELECT Id FROM #{CPQ_CONSUMPTION_RATE} WHERE #{CPQ_CONSUMPTION_SCHEDULE} = '#{consumption_schedule.Id}'").map {|o| sf.find(CPQ_CONSUMPTION_RATE, o.Id) }
+
+    pricing_tiers = consumption_rates.map do |consumption_rate|
+      transform_salesforce_consumption_rate_type_to_tier(
+        consumption_rate.SBQQ__UpperBound__c,
+        consumption_rate.SBQQ__PricingMethod__c,
+        consumption_rate.SBQQ__Price__c
+      )
+    end
+
+    tiers_mode = transform_salesforce_consumption_schedule_type_to_tier_mode(consumption_schedule.SBQQ__Type__c)
+
+    {
+      "tiers" => pricing_tiers,
+      "tiers_mode" => tiers_mode,
+      "billing_scheme" => "tiered",
+
+      # TODO dropping this because of key size limits: the CPQ object key size is greater than 40
+      # for convenience, add a link to the consumption schedule in metadata
+      # "metadata" => stripe_metadata_for_sf_object(consumption_schedule),
+    }
+  end
+
   # sf_product is required because for some fields the required value is pulled from the product
   # TODO this should be modified to be more flexible and pull via the mapper instead https://jira.corp.stripe.com/browse/PLATINT-1485
   sig { params(sf_object: Restforce::SObject, sf_product: Restforce::SObject).returns(Stripe::Price) }
@@ -302,6 +455,15 @@ class StripeForce::Translate
       raise "price can only be created from an order line or pricebook entry"
     end
 
+    # generate these params first since it is hard to merge these
+    tiered_pricing_params = if sf_object.sobject_type == SF_PRICEBOOK_ENTRY
+      extract_tiered_price_params_from_pricebook_entry(sf_object)
+    else
+      extract_tiered_price_params_from_order_line(sf_object)
+    end
+
+    is_tiered_price = !tiered_pricing_params.empty?
+
     # omitting price param here, this should be defined upstream
     stripe_price = Stripe::Price.construct_from({
       # TODO most likely need to pass the order over? Can
@@ -310,7 +472,7 @@ class StripeForce::Translate
 
       # TODO using a `lookup_key` here would allow users to easily update prices
       # https://jira.corp.stripe.com/browse/RUN_COREMODELS-1027
-    })
+    }.merge(tiered_pricing_params))
 
     # the params are extracted here *and* we apply custom mappings because this enables the user to setup custom mappings for
     # *everything* we sent to the price API including UnitPrice and other fields which go through custom transformations
@@ -327,6 +489,28 @@ class StripeForce::Translate
     # although we are passing the amount as a decimal, the decimal amount still represents cents
     # to_s is used here to (a) satisfy typing requirements and (b) ensure BigDecimal can parse the float properly
     stripe_price.unit_amount_decimal = normalize_float_amount_for_stripe(stripe_price.unit_amount_decimal.to_s, @user, as_decimal: true)
+
+    # if tiered pricing is set up, then we ignore any non-tiered pricing configuration
+    if is_tiered_price
+      # if non-tiered pricing fields are included Stripe will throw an error
+      Integrations::Utilities::StripeUtil.delete_field_from_stripe_object(stripe_price, :unit_amount_decimal)
+
+      # TODO are there other pricing fields we should delete? It's unclear what the requirements are here?
+
+      # API also requires pricing tiers to be sorted. Wat?
+      # TODO https://jira.corp.stripe.com/browse/PLATINT-1573
+      stripe_price.tiers.sort! do |a, b|
+        # TODO can we use null instead of `inf`
+        # a & b should never both be `inf`; this should be checked upstream
+        if a.up_to == 'inf'
+          1
+        elsif b.up_to == 'inf'
+          -1
+        else
+          a.up_to <=> b.up_to
+        end
+      end
+    end
 
     # by omitting the recurring params it sets `type: one_time`
     # this param cannot be set directly
@@ -363,6 +547,9 @@ class StripeForce::Translate
       # TODO should we nil out any custom mapped recurring values? Let's wait and see if we get some errors
       # stripe_price.recurring = {}
     end
+
+    # without this, some fields will be excluded
+    stripe_price.dirty!
 
     stripe_price
   end
@@ -420,8 +607,17 @@ class StripeForce::Translate
     # if they aren't *exactly* the same, this will trigger a new price to be created
     # we'll probably need to do something a bit smarter here in the future but it's not obvious what
     # additional logic we should include here at the moment.
-    generate_price_params_from_sf_object(sf_pricebook_entry, sf_product).serialize_params !=
-      generate_price_params_from_sf_object(sf_order_item, sf_product).serialize_params
+    pricebook_params = generate_price_params_from_sf_object(sf_pricebook_entry, sf_product).serialize_params
+    order_item_params = generate_price_params_from_sf_object(sf_order_item, sf_product).serialize_params
+
+    # metadata *could* have important financial data for downstream systems
+    # however, most of the time users will not pull this information directly from prices
+    # (they may use products instead) and a users mappings could change over time, so we don't
+    # want to factor it in to our equality test
+    pricebook_params.delete(:metadata)
+    order_item_params.delete(:metadata)
+
+    pricebook_params == order_item_params
   end
 
   def create_price_from_pricebook(sf_pricebook_entry)
@@ -443,7 +639,7 @@ class StripeForce::Translate
 
   # TODO what if the list price is updated in SF? We shouldn't probably create a new price object
   def create_price_for_order_item(sf_order_item)
-    log.info 'translating price via order line', salesforce_object: sf_order_item
+    log.info 'translating price from a order line origin', salesforce_object: sf_order_item
 
     sf_product = sf.find(SF_PRODUCT, sf_order_item.Product2Id)
     product = create_product_from_sf_product(sf_product)
@@ -458,13 +654,14 @@ class StripeForce::Translate
 
     # if the order line and pricebook entries are identical then we can use a pre-existing price
     # otherwise, we'll have to create a new price
+
     if pricebook_and_order_line_identical?(sf_pricebook_entry, sf_order_item, sf_product)
-      log.info 'pricebook and product data is different'
-      sf_target_for_stripe_price = sf_order_item
-    else
       log.info 'pricebook and product data is identical, attemping to use existing stripe price'
       existing_stripe_price = retrieve_from_stripe(Stripe::Price, sf_pricebook_entry)
       sf_target_for_stripe_price = sf_pricebook_entry
+    else
+      log.info 'pricebook and product data is different, creating new price from order line'
+      sf_target_for_stripe_price = sf_order_item
     end
 
     if existing_stripe_price
@@ -504,10 +701,10 @@ class StripeForce::Translate
     # TODO if the list price is used, we shoudl try to create a price for this in Stripe, otherwise we'll create a price and use that
     stripe_price = generate_price_params_from_sf_object(sf_object, sf_product)
 
-    # TODO https://jira.corp.stripe.com/browse/PLATINT-1483
     # TODO these need to be partitioned and created as discounts
     # TODO https://jira.corp.stripe.com/browse/PLATINT-1483
-    if stripe_price.unit_amount_decimal <= 0
+    # amount can be nil if tiered pricing is in place, in which case negative values are not possible
+    if !stripe_price.unit_amount_decimal.nil? && stripe_price.unit_amount_decimal <= 0
       log.error "negative line item encountered, skipping"
       return
     end
@@ -520,7 +717,9 @@ class StripeForce::Translate
     # https://jira.corp.stripe.com/browse/RUN_COREMODELS-1027
 
     stripe_price.dirty!
-    Stripe::Price.create(stripe_price.serialize_params, @user.stripe_credentials)
+    catch_stripe_api_errors(sf_object) do
+      Stripe::Price.create(stripe_price.serialize_params, @user.stripe_credentials)
+    end
   end
 
   # TODO this should be dynamic and pulled from the mapper
@@ -581,6 +780,11 @@ class StripeForce::Translate
     subscription_items = []
 
     sf_order_items.map do |sf_order_item|
+      # never expect this to occur
+      if sf_order_item.IsDeleted || !sf_order_item.SBQQ__Activated__c
+        report_edge_case("order line is deleted or not activated")
+      end
+
       price = create_price_for_order_item(sf_order_item)
 
       # could occur if a coupon is required for a negative amount, although this should probably be built into the `price` method instead
@@ -607,22 +811,23 @@ class StripeForce::Translate
       # we know the quantity is not a float, so we can force it to an integer
       phase_item.quantity = phase_item.quantity.to_i
 
-      phase_item.dirty!
-      serialized_phase_item_params = phase_item.serialize_params
-
       # quantity cannot be specified if usage type is metered
       if price.recurring&.usage_type == 'metered'
         # setting quantity to null generates an empty string when `serialize_params` is called
-        # which will throw an API error when this is passed to Stripe. This is why we are deleting from
-        # the serialized param hash :(
-        serialized_phase_item_params.delete(:quantity)
+        # which will throw an API error when this is passed to Stripe. This is why we need to use this hack
+        Integrations::Utilities::StripeUtil.delete_field_from_stripe_object(
+          phase_item,
+          :quantity
+        )
       end
+
+      phase_item.dirty!
 
       # TODO this helper uses a hardcoded field to determine if the line is recurring or not
       if recurring_item?(sf_order_item)
-        subscription_items << serialized_phase_item_params
+        subscription_items << phase_item.serialize_params
       else
-        invoice_items << serialized_phase_item_params
+        invoice_items << phase_item.serialize_params
       end
     end
 
@@ -671,10 +876,12 @@ class StripeForce::Translate
 
       # TODO the idempotency key here is not perfect, need to refactor and use a job UID or something
       stripe_transaction.dirty!
-      stripe_transaction = Stripe::SubscriptionSchedule.create(
-        stripe_transaction.serialize_params,
-        @user.stripe_credentials.merge(idempotency_key: sf_order[SF_ID])
-      )
+      catch_stripe_api_errors(sf_order) do
+        stripe_transaction = Stripe::SubscriptionSchedule.create(
+          stripe_transaction.serialize_params,
+          @user.stripe_credentials.merge(idempotency_key: sf_order[SF_ID])
+        )
+      end
 
       # TODO should we propogate the metadata down to the subscription?
       # TODO should we conditionally do this based on user config?
@@ -696,6 +903,7 @@ class StripeForce::Translate
 
       # TODO there has got to be a way to include the lines on the invoice item create call
       invoice_items.each do |invoice_item_params|
+        # TODO we should wrap these in `catch_stripe_api_errors`
         # TODO idempotency keys https://jira.corp.stripe.com/browse/PLATINT-1474
         Stripe::InvoiceItem.create({customer: stripe_customer}.merge(invoice_item_params), @user.stripe_credentials)
       end

@@ -108,6 +108,7 @@ class Critic::OrderTranslation < Critic::FunctionalTest
     SalesforceTranslateRecordJob.translate(@user, sf_order)
   end
 
+  # TODO should add $0 line item translation test here
   it 'integrates a subscription order with multiple lines' do
     sf_product_id_1, sf_pricebook_id_1 = salesforce_recurring_product_with_price
     sf_product_id_2, sf_pricebook_id_2 = salesforce_recurring_product_with_price
@@ -168,14 +169,6 @@ class Critic::OrderTranslation < Critic::FunctionalTest
   # TODO reuses order line price mapping if the execution halts part way through
 
   describe 'failures' do
-    def get_sync_record_by_primary_id(primary_id)
-      sync_record_results = sf.query("SELECT Id FROM #{prefixed_stripe_field(SYNC_RECORD)} WHERE #{prefixed_stripe_field(SyncRecordFields::PRIMARY_RECORD_ID.serialize)} = '#{primary_id}'")
-      assert_equal(1, sync_record_results.count)
-
-      sync_record_id = sync_record_results.first.Id
-      sync_record = sf.find(prefixed_stripe_field(SYNC_RECORD), sync_record_id)
-    end
-
     it 'creates a sync failure when the start date does not exist' do
       sf_product_id, sf_pricebook_entry_id = salesforce_recurring_product_with_price
       sf_order = create_salesforce_order(

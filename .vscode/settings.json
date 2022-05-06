@@ -10,7 +10,10 @@
     "files.trimFinalNewlines": false
   },
   "[javascript]": {
-    "editor.formatOnSave": false
+    "editor.formatOnSave": false,
+    // don't mess with appiphony's formatting
+    "files.trimTrailingWhitespace": false,
+    "files.trimFinalNewlines": false
   },
   "cSpell.ignorePaths":[
     "node_modules",

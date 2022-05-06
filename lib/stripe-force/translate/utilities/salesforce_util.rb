@@ -8,8 +8,7 @@ module StripeForce::Utilities
     extend T::Sig
     include Kernel
 
-    # TODO add abstract back in when we are done hacking on this
-    # abstract!
+    abstract!
 
     include Integrations::ErrorContext
     include StripeForce::Constants

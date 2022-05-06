@@ -162,6 +162,9 @@ jobs:
       - run:
           name: Setup Salesforce Access
           command: |
+            # https://stackoverflow.com/questions/14970663/why-doesnt-bash-flag-e-exit-when-a-subshell-fails
+            set -Eeuo pipefail
+
             ./sfdx/bin/extract-private-key
 
             # not required to get an access token, but useful for domain and instance ID extraction

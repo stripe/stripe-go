@@ -20,9 +20,12 @@ module CommonHelpers
     ENV.fetch('SF_INSTANCE_ID')
   end
 
-  def sf_get(sf_id)
-    sf_type = salesforce_type_from_id(sf_id)
-    @user.sf_client.find(sf_type, sf_id)
+  def get_sync_record_by_primary_id(primary_id)
+    sync_record_results = sf.query("SELECT Id FROM #{prefixed_stripe_field(SYNC_RECORD)} WHERE #{prefixed_stripe_field(SyncRecordFields::PRIMARY_RECORD_ID.serialize)} = '#{primary_id}'")
+    assert_equal(1, sync_record_results.count)
+
+    sync_record_id = sync_record_results.first.Id
+    sync_record = sf.find(prefixed_stripe_field(SYNC_RECORD), sync_record_id)
   end
 
   sig { params(sandbox: T::Boolean, save: T::Boolean, random_user_id: T::Boolean).returns(StripeForce::User) }

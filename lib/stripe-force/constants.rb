@@ -18,6 +18,8 @@ module StripeForce
     SF_ORDER_ACCOUNT = 'AccountId'
 
     CPQ_QUOTE = 'SBQQ__Quote__c'
+    CPQ_CONSUMPTION_SCHEDULE = 'SBQQ__OrderItemConsumptionSchedule__c'
+    CPQ_CONSUMPTION_RATE = 'SBQQ__OrderItemConsumptionRate__c'
 
     CPQ_QUOTE_PRIMARY_CONTACT = 'SBQQ__PrimaryContact__c'
     CPQ_QUOTE_PRICEBOOK = "SBQQ__PricebookId__c"
