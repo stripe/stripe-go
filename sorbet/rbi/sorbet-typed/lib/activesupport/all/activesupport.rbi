@@ -550,9 +550,9 @@ module ActiveSupport::Inflector
 end
 
 class ActiveSupport::InheritableOptions < ::ActiveSupport::OrderedOptions
-  K = type_member(fixed: T.untyped)
-  V = type_member(fixed: T.untyped)
-  Elem = type_member(fixed: T.untyped)
+  K = type_member {{fixed: T.untyped}}
+  V = type_member {{fixed: T.untyped}}
+  Elem = type_member {{fixed: T.untyped}}
 
   def initialize(parent = T.unsafe(nil)); end
 
@@ -1767,9 +1767,9 @@ end
 module ActiveSupport::Configurable::ClassMethods; end
 
 class ActiveSupport::Configurable::Configuration < ::ActiveSupport::InheritableOptions
-  K = type_member(fixed: T.untyped)
-  V = type_member(fixed: T.untyped)
-  Elem = type_member(fixed: T.untyped)
+  K = type_member {{fixed: T.untyped}}
+  V = type_member {{fixed: T.untyped}}
+  Elem = type_member {{fixed: T.untyped}}
 end
 
 ActiveSupport::Deprecation::DEFAULT_BEHAVIORS = T.let(T.unsafe(nil), T::Hash[T.untyped, T.untyped])
@@ -1786,9 +1786,9 @@ class ActiveSupport::DeprecationException < ::StandardError
 end
 
 class ActiveSupport::HashWithIndifferentAccess < Hash
-  K = type_member(fixed: T.any(String, Symbol))
-  V = type_member(fixed: T.untyped)
-  Elem = type_member(fixed: T.untyped)
+  K = type_member {{fixed: T.any(String, Symbol)}}
+  V = type_member {{fixed: T.untyped}}
+  Elem = type_member {{fixed: T.untyped}}
 end
 
 ActiveSupport::JSON::DATETIME_REGEX = T.let(T.unsafe(nil), Regexp)
@@ -1822,15 +1822,15 @@ ActiveSupport::Multibyte::Unicode::NORMALIZATION_FORM_ALIASES = T.let(T.unsafe(n
 ActiveSupport::Multibyte::Unicode::UNICODE_VERSION = T.let(T.unsafe(nil), String)
 
 class ActiveSupport::OrderedHash < ::Hash
-  K = type_member(fixed: T.untyped)
-  V = type_member(fixed: T.untyped)
-  Elem = type_member(fixed: T.untyped)
+  K = type_member {{fixed: T.untyped}}
+  V = type_member {{fixed: T.untyped}}
+  Elem = type_member {{fixed: T.untyped}}
 end
 
 class ActiveSupport::OrderedOptions < ::Hash
-  K = type_member(fixed: T.untyped)
-  V = type_member(fixed: T.untyped)
-  Elem = type_member(fixed: T.untyped)
+  K = type_member {{fixed: T.untyped}}
+  V = type_member {{fixed: T.untyped}}
+  Elem = type_member {{fixed: T.untyped}}
 end
 
 ActiveSupport::ParameterFilter::FILTERED = T.let(T.unsafe(nil), String)

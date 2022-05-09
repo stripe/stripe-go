@@ -568,7 +568,7 @@ ActiveModel::Validations::NumericalityValidator::RESERVED_OPTIONS = T.let(T.unsa
 
 class ActiveModel::Errors
   include Enumerable
-  Elem = type_member(fixed: T.untyped)
+  Elem = type_member {{fixed: T.untyped}}
 
   sig { params(key: T.any(String, Symbol)).returns(T::Array[String]) }
   def [](key); end

@@ -40,9 +40,9 @@ end
 Rails::Application::INITIAL_VARIABLES = T.let(T.unsafe(nil), T::Array[T.untyped])
 
 class Rails::Application::NonSymbolAccessDeprecatedHash < ::ActiveSupport::HashWithIndifferentAccess
-  K = type_member(fixed: T.untyped)
-  V = type_member(fixed: T.untyped)
-  Elem = type_member(fixed: T.untyped)
+  K = type_member {{fixed: T.untyped}}
+  V = type_member {{fixed: T.untyped}}
+  Elem = type_member {{fixed: T.untyped}}
 end
 
 module Rails::Command::Behavior
