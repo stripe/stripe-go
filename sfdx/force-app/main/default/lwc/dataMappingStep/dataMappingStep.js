@@ -451,6 +451,7 @@ export default class DataMappingStep extends LightningElement {
             this.fieldListByObjectMap.Product2.sort(this.mapperFieldSorter)
             this.sfFieldOptions = this.fieldListByObjectMap.Product2
          } else if(this.activeObject === 'subscription' && this.fieldListByObjectMap) {
+            // TODO should change identifier to `subscription_schedule` instead
             this.defaultSfObject = 'Order';
             this.fieldListByObjectMap.Order.sort(this.mapperFieldSorter);
             this.sfFieldOptions = this.fieldListByObjectMap.Order
@@ -463,6 +464,7 @@ export default class DataMappingStep extends LightningElement {
             this.fieldListByObjectMap.PricebookEntry.sort(this.mapperFieldSorter)
             this.sfFieldOptions = this.fieldListByObjectMap.PricebookEntry
         } else {
+            // TODO should send to sentry when that is possible
             console.log("uncaught sidebar click")
         }
     }
