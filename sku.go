@@ -124,13 +124,6 @@ type SKU struct {
 	Updated int64 `json:"updated"`
 }
 
-// SKUList is a list of Skus as retrieved from a list endpoint.
-type SKUList struct {
-	APIResource
-	ListMeta
-	Data []*SKU `json:"data"`
-}
-
 // UnmarshalJSON handles deserialization of a SKU.
 // This custom unmarshaling is needed because the resulting
 // property may be an id or the full struct if it was expanded.
@@ -148,4 +141,11 @@ func (s *SKU) UnmarshalJSON(data []byte) error {
 
 	*s = SKU(v)
 	return nil
+}
+
+// SKUList is a list of Skus as retrieved from a list endpoint.
+type SKUList struct {
+	APIResource
+	ListMeta
+	Data []*SKU `json:"data"`
 }

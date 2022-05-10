@@ -37,8 +37,12 @@ type LineItemTax struct {
 // A line item.
 type LineItem struct {
 	APIResource
+	// Total discount amount applied. If no discounts were applied, defaults to 0.
+	AmountDiscount int64 `json:"amount_discount"`
 	// Total before any discounts or taxes are applied.
 	AmountSubtotal int64 `json:"amount_subtotal"`
+	// Total tax amount applied. If no tax was applied, defaults to 0.
+	AmountTax int64 `json:"amount_tax"`
 	// Total after discounts and taxes.
 	AmountTotal int64 `json:"amount_total"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
@@ -54,6 +58,10 @@ type LineItem struct {
 	Object string `json:"object"`
 	// The price used to generate the line item.
 	Price *Price `json:"price"`
+	// The ID of the product for this line item.
+	//
+	// This will always be the same as `price.product`.
+	Product *Product `json:"product"`
 	// The quantity of products being purchased.
 	Quantity int64 `json:"quantity"`
 	// The taxes applied to the line item.
