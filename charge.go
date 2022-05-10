@@ -949,7 +949,7 @@ type Charge struct {
 	Object string `json:"object"`
 	// The account (if any) the charge was made on behalf of without triggering an automatic transfer. See the [Connect documentation](https://stripe.com/docs/connect/charges-transfers) for details.
 	OnBehalfOf *Account `json:"on_behalf_of"`
-	// ID of the order this charge is for if one exists.
+	// Deprecated
 	Order *Order `json:"order"`
 	// Details about whether the payment was accepted, and why. See [understanding declines](https://stripe.com/docs/declines) for details.
 	Outcome *ChargeOutcome `json:"outcome"`
