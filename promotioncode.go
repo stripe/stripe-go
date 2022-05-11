@@ -62,7 +62,7 @@ type PromotionCodeRestrictions struct {
 	MinimumAmountCurrency Currency `json:"minimum_amount_currency"`
 }
 
-// A Promotion Code represents a customer-redeemable code for a coupon. It can be used to
+// A Promotion Code represents a customer-redeemable code for a [coupon](https://stripe.com/docs/api#coupons). It can be used to
 // create multiple codes for a single coupon.
 type PromotionCode struct {
 	APIResource
@@ -71,8 +71,8 @@ type PromotionCode struct {
 	// The customer-facing code. Regardless of case, this code must be unique across all active promotion codes for each customer.
 	Code string `json:"code"`
 	// A coupon contains information about a percent-off or amount-off discount you
-	// might want to apply to a customer. Coupons may be applied to [invoices](https://stripe.com/docs/api#invoices) or
-	// [orders](https://stripe.com/docs/api#create_order_legacy-coupon). Coupons do not work with conventional one-off [charges](https://stripe.com/docs/api#create_charge).
+	// might want to apply to a customer. Coupons may be applied to [subscriptions](https://stripe.com/docs/api#subscriptions), [invoices](https://stripe.com/docs/api#invoices),
+	// [checkout sessions](https://stripe.com/docs/api/checkout/sessions), [quotes](https://stripe.com/docs/api#quotes), and more. Coupons do not work with conventional one-off [charges](https://stripe.com/docs/api#create_charge) or [payment intents](https://stripe.com/docs/api/payment_intents).
 	Coupon *Coupon `json:"coupon"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
 	Created int64 `json:"created"`

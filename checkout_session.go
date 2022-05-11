@@ -631,6 +631,10 @@ type CheckoutSessionSubscriptionDataParams struct {
 	// `tax_rates` set. Invoices created will have their `default_tax_rates` populated
 	// from the subscription.
 	DefaultTaxRates []*string `form:"default_tax_rates"`
+	// The subscription's description, meant to be displayable to the customer.
+	// Use this field to optionally store an explanation of the subscription
+	// for rendering in Stripe hosted surfaces.
+	Description *string `form:"description"`
 	// A list of items, each with an attached plan, that the customer is subscribing to. Prefer using `line_items`.
 	Items []*CheckoutSessionSubscriptionDataItemsParams `form:"items"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
@@ -917,9 +921,8 @@ type CheckoutSessionTaxIDCollection struct {
 type CheckoutSessionTotalDetailsBreakdownDiscount struct {
 	// The amount discounted.
 	Amount int64 `json:"amount"`
-	// A discount represents the actual application of a coupon to a particular
-	// customer. It contains information about when the discount began and when it
-	// will end.
+	// A discount represents the actual application of a [coupon](https://stripe.com/docs/api#coupons) or [promotion code](https://stripe.com/docs/api#promotion_codes).
+	// It contains information about when the discount began, when it will end, and what it is applied to.
 	//
 	// Related guide: [Applying Discounts to Subscriptions](https://stripe.com/docs/billing/subscriptions/discounts).
 	Discount *Discount `json:"discount"`
