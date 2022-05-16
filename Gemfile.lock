@@ -380,7 +380,7 @@ GEM
       parser (>= 2.7)
       sorbet-coerce (>= 0.2.6)
       sorbet-runtime (>= 0.5.9892)
-    sorbet-runtime (0.5.9988)
+    sorbet-runtime (0.5.10010)
     sorbet-static (0.5.10010-universal-darwin-20)
     sorbet-static (0.5.10010-universal-darwin-21)
     sorbet-static (0.5.10010-x86_64-linux)
@@ -476,7 +476,7 @@ DEPENDENCIES
   simple_structured_logger (~> 1.0.1)
   sorbet (~> 0.5.10010)
   sorbet-rails (~> 0.7.33)
-  sorbet-runtime (~> 0.5.9987)
+  sorbet-runtime (~> 0.5.10010)
   spring
   stripe (~> 6.0.0)
   webdrivers (~> 5.0.0)
