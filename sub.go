@@ -412,6 +412,8 @@ type SubscriptionParams struct {
 	DefaultSource *string `form:"default_source"`
 	// The tax rates that will apply to any subscription item that does not have `tax_rates` set. Invoices created will have their `default_tax_rates` populated from the subscription. Pass an empty string to remove previously-defined tax rates.
 	DefaultTaxRates []*string `form:"default_tax_rates"`
+	// The subscription's description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription for rendering in Stripe surfaces.
+	Description *string `form:"description"`
 	// A list of up to 20 subscription items, each with an attached price.
 	Items []*SubscriptionItemsParams `form:"items"`
 	// Indicates if a customer is on or off-session while an invoice payment is attempted.
@@ -657,6 +659,8 @@ type Subscription struct {
 	DefaultSource *PaymentSource `json:"default_source"`
 	// The tax rates that will apply to any subscription item that does not have `tax_rates` set. Invoices created will have their `default_tax_rates` populated from the subscription.
 	DefaultTaxRates []*TaxRate `json:"default_tax_rates"`
+	// The subscription's description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription for rendering in Stripe surfaces.
+	Description string `json:"description"`
 	// Describes the current discount applied to this subscription, if there is one. When billing, a discount applied to a subscription overrides a discount applied on a customer-wide basis.
 	Discount *Discount `json:"discount"`
 	// If the subscription has ended, the date the subscription ended.
