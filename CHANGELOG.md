@@ -1,5 +1,10 @@
 # Changelog
 
+## 72.107.0 - 2022-05-11
+* [#1459](https://github.com/stripe/stripe-go/pull/1459) API Updates
+  * Add support for `AmountDiscount`, `AmountTax`, and `Product` on `LineItem`
+  
+
 ## 72.106.0 - 2022-05-05
 * [#1457](https://github.com/stripe/stripe-go/pull/1457) API Updates
   * Add support for `DefaultPriceData` on `ProductParams`
