@@ -59,6 +59,10 @@ import (
 	terminal_reader "github.com/stripe/stripe-go/v72/terminal/reader"
 	testhelpers_refund "github.com/stripe/stripe-go/v72/testhelpers/refund"
 	testhelpers_testclock "github.com/stripe/stripe-go/v72/testhelpers/testclock"
+	testhelpers_treasury_inboundtransfer "github.com/stripe/stripe-go/v72/testhelpers/treasury/inboundtransfer"
+	testhelpers_treasury_outboundtransfer "github.com/stripe/stripe-go/v72/testhelpers/treasury/outboundtransfer"
+	testhelpers_treasury_receivedcredit "github.com/stripe/stripe-go/v72/testhelpers/treasury/receivedcredit"
+	testhelpers_treasury_receiveddebit "github.com/stripe/stripe-go/v72/testhelpers/treasury/receiveddebit"
 	_ "github.com/stripe/stripe-go/v72/testing"
 	topup "github.com/stripe/stripe-go/v72/topup"
 	transfer "github.com/stripe/stripe-go/v72/transfer"
@@ -312,6 +316,80 @@ func TestFinancialConnectionsAccountListOwners(t *testing.T) {
 	result := financialconnections_account.ListOwners(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
+}
+
+func TestTestHelpersTreasuryInboundTransferFail(t *testing.T) {
+	params := &stripe.TestHelpersTreasuryInboundTransferFailParams{
+		FailureDetails: &stripe.TestHelpersTreasuryInboundTransferFailFailureDetailsParams{
+			Code: stripe.String(string(stripe.TreasuryInboundTransferFailureDetailsCodeAccountClosed)),
+		},
+	}
+	result, _ := testhelpers_treasury_inboundtransfer.Fail("ibt_123", params)
+	assert.NotNil(t, result)
+}
+
+func TestTestHelpersTreasuryInboundTransferReturnInboundTransfer(t *testing.T) {
+	params := &stripe.TestHelpersTreasuryInboundTransferReturnInboundTransferParams{}
+	result, _ := testhelpers_treasury_inboundtransfer.ReturnInboundTransfer(
+		"ibt_123",
+		params,
+	)
+	assert.NotNil(t, result)
+}
+
+func TestTestHelpersTreasuryInboundTransferSucceed(t *testing.T) {
+	params := &stripe.TestHelpersTreasuryInboundTransferSucceedParams{}
+	result, _ := testhelpers_treasury_inboundtransfer.Succeed("ibt_123", params)
+	assert.NotNil(t, result)
+}
+
+func TestTestHelpersTreasuryOutboundTransferPost(t *testing.T) {
+	params := &stripe.TestHelpersTreasuryOutboundTransferPostParams{}
+	result, _ := testhelpers_treasury_outboundtransfer.Post("obt_123", params)
+	assert.NotNil(t, result)
+}
+
+func TestTestHelpersTreasuryOutboundTransferFail(t *testing.T) {
+	params := &stripe.TestHelpersTreasuryOutboundTransferFailParams{}
+	result, _ := testhelpers_treasury_outboundtransfer.Fail("obt_123", params)
+	assert.NotNil(t, result)
+}
+
+func TestTestHelpersTreasuryOutboundTransferReturnOutboundTransfer(
+	t *testing.T,
+) {
+	params := &stripe.TestHelpersTreasuryOutboundTransferReturnOutboundTransferParams{
+		ReturnedDetails: &stripe.TestHelpersTreasuryOutboundTransferReturnOutboundTransferReturnedDetailsParams{
+			Code: stripe.String(string(stripe.TreasuryOutboundTransferReturnedDetailsCodeAccountClosed)),
+		},
+	}
+	result, _ := testhelpers_treasury_outboundtransfer.ReturnOutboundTransfer(
+		"obt_123",
+		params,
+	)
+	assert.NotNil(t, result)
+}
+
+func TestTestHelpersTreasuryReceivedCreditCreate(t *testing.T) {
+	params := &stripe.TestHelpersTreasuryReceivedCreditParams{
+		FinancialAccount: stripe.String("fa_123"),
+		Network:          stripe.String(string(stripe.TreasuryReceivedCreditNetworkAch)),
+		Amount:           stripe.Int64(1234),
+		Currency:         stripe.String(string(stripe.CurrencyUSD)),
+	}
+	result, _ := testhelpers_treasury_receivedcredit.New(params)
+	assert.NotNil(t, result)
+}
+
+func TestTestHelpersTreasuryReceivedDebitCreate(t *testing.T) {
+	params := &stripe.TestHelpersTreasuryReceivedDebitParams{
+		FinancialAccount: stripe.String("fa_123"),
+		Network:          stripe.String("ach"),
+		Amount:           stripe.Int64(1234),
+		Currency:         stripe.String(string(stripe.CurrencyUSD)),
+	}
+	result, _ := testhelpers_treasury_receiveddebit.New(params)
+	assert.NotNil(t, result)
 }
 
 func TestCustomerList(t *testing.T) {
