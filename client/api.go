@@ -90,9 +90,24 @@ import (
 	testhelpersrefund "github.com/stripe/stripe-go/v72/testhelpers/refund"
 	testhelpersterminalreader "github.com/stripe/stripe-go/v72/testhelpers/terminal/reader"
 	testhelperstestclock "github.com/stripe/stripe-go/v72/testhelpers/testclock"
+	testhelperstreasuryinboundtransfer "github.com/stripe/stripe-go/v72/testhelpers/treasury/inboundtransfer"
+	testhelperstreasuryoutboundpayment "github.com/stripe/stripe-go/v72/testhelpers/treasury/outboundpayment"
+	testhelperstreasuryoutboundtransfer "github.com/stripe/stripe-go/v72/testhelpers/treasury/outboundtransfer"
+	testhelperstreasuryreceivedcredit "github.com/stripe/stripe-go/v72/testhelpers/treasury/receivedcredit"
+	testhelperstreasuryreceiveddebit "github.com/stripe/stripe-go/v72/testhelpers/treasury/receiveddebit"
 	"github.com/stripe/stripe-go/v72/token"
 	"github.com/stripe/stripe-go/v72/topup"
 	"github.com/stripe/stripe-go/v72/transfer"
+	treasurycreditreversal "github.com/stripe/stripe-go/v72/treasury/creditreversal"
+	treasurydebitreversal "github.com/stripe/stripe-go/v72/treasury/debitreversal"
+	treasuryfinancialaccount "github.com/stripe/stripe-go/v72/treasury/financialaccount"
+	treasuryinboundtransfer "github.com/stripe/stripe-go/v72/treasury/inboundtransfer"
+	treasuryoutboundpayment "github.com/stripe/stripe-go/v72/treasury/outboundpayment"
+	treasuryoutboundtransfer "github.com/stripe/stripe-go/v72/treasury/outboundtransfer"
+	treasuryreceivedcredit "github.com/stripe/stripe-go/v72/treasury/receivedcredit"
+	treasuryreceiveddebit "github.com/stripe/stripe-go/v72/treasury/receiveddebit"
+	treasurytransaction "github.com/stripe/stripe-go/v72/treasury/transaction"
+	treasurytransactionentry "github.com/stripe/stripe-go/v72/treasury/transactionentry"
 	"github.com/stripe/stripe-go/v72/usagerecord"
 	"github.com/stripe/stripe-go/v72/usagerecordsummary"
 	"github.com/stripe/stripe-go/v72/webhookendpoint"
@@ -262,12 +277,42 @@ type API struct {
 	TestHelpersTerminalReaders *testhelpersterminalreader.Client
 	// TestHelpersTestClocks is the client used to invoke /test_helpers/test_clocks APIs.
 	TestHelpersTestClocks *testhelperstestclock.Client
+	// TestHelpersTreasuryInboundTransfers is the client used to invoke /treasury/inbound_transfers APIs.
+	TestHelpersTreasuryInboundTransfers *testhelperstreasuryinboundtransfer.Client
+	// TestHelpersTreasuryOutboundPayments is the client used to invoke /treasury/outbound_payments APIs.
+	TestHelpersTreasuryOutboundPayments *testhelperstreasuryoutboundpayment.Client
+	// TestHelpersTreasuryOutboundTransfers is the client used to invoke /treasury/outbound_transfers APIs.
+	TestHelpersTreasuryOutboundTransfers *testhelperstreasuryoutboundtransfer.Client
+	// TestHelpersTreasuryReceivedCredits is the client used to invoke /treasury/received_credits APIs.
+	TestHelpersTreasuryReceivedCredits *testhelperstreasuryreceivedcredit.Client
+	// TestHelpersTreasuryReceivedDebits is the client used to invoke /treasury/received_debits APIs.
+	TestHelpersTreasuryReceivedDebits *testhelperstreasuryreceiveddebit.Client
 	// Tokens is the client used to invoke /tokens APIs.
 	Tokens *token.Client
 	// Topups is the client used to invoke /topups APIs.
 	Topups *topup.Client
 	// Transfers is the client used to invoke /transfers APIs.
 	Transfers *transfer.Client
+	// TreasuryCreditReversals is the client used to invoke /treasury/credit_reversals APIs.
+	TreasuryCreditReversals *treasurycreditreversal.Client
+	// TreasuryDebitReversals is the client used to invoke /treasury/debit_reversals APIs.
+	TreasuryDebitReversals *treasurydebitreversal.Client
+	// TreasuryFinancialAccounts is the client used to invoke /treasury/financial_accounts APIs.
+	TreasuryFinancialAccounts *treasuryfinancialaccount.Client
+	// TreasuryInboundTransfers is the client used to invoke /treasury/inbound_transfers APIs.
+	TreasuryInboundTransfers *treasuryinboundtransfer.Client
+	// TreasuryOutboundPayments is the client used to invoke /treasury/outbound_payments APIs.
+	TreasuryOutboundPayments *treasuryoutboundpayment.Client
+	// TreasuryOutboundTransfers is the client used to invoke /treasury/outbound_transfers APIs.
+	TreasuryOutboundTransfers *treasuryoutboundtransfer.Client
+	// TreasuryReceivedCredits is the client used to invoke /treasury/received_credits APIs.
+	TreasuryReceivedCredits *treasuryreceivedcredit.Client
+	// TreasuryReceivedDebits is the client used to invoke /treasury/received_debits APIs.
+	TreasuryReceivedDebits *treasuryreceiveddebit.Client
+	// TreasuryTransactionEntries is the client used to invoke /treasury/transaction_entries APIs.
+	TreasuryTransactionEntries *treasurytransactionentry.Client
+	// TreasuryTransactions is the client used to invoke /treasury/transactions APIs.
+	TreasuryTransactions *treasurytransaction.Client
 	// UsageRecords is the client used to invoke /subscription_items/{subscription_item}/usage_records APIs.
 	UsageRecords *usagerecord.Client
 	// UsageRecordSummaries is the client used to invoke /subscription_items/{subscription_item}/usage_record_summaries APIs.
@@ -367,9 +412,24 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.TestHelpersRefunds = &testhelpersrefund.Client{B: backends.API, Key: key}
 	a.TestHelpersTerminalReaders = &testhelpersterminalreader.Client{B: backends.API, Key: key}
 	a.TestHelpersTestClocks = &testhelperstestclock.Client{B: backends.API, Key: key}
+	a.TestHelpersTreasuryInboundTransfers = &testhelperstreasuryinboundtransfer.Client{B: backends.API, Key: key}
+	a.TestHelpersTreasuryOutboundPayments = &testhelperstreasuryoutboundpayment.Client{B: backends.API, Key: key}
+	a.TestHelpersTreasuryOutboundTransfers = &testhelperstreasuryoutboundtransfer.Client{B: backends.API, Key: key}
+	a.TestHelpersTreasuryReceivedCredits = &testhelperstreasuryreceivedcredit.Client{B: backends.API, Key: key}
+	a.TestHelpersTreasuryReceivedDebits = &testhelperstreasuryreceiveddebit.Client{B: backends.API, Key: key}
 	a.Tokens = &token.Client{B: backends.API, Key: key}
 	a.Topups = &topup.Client{B: backends.API, Key: key}
 	a.Transfers = &transfer.Client{B: backends.API, Key: key}
+	a.TreasuryCreditReversals = &treasurycreditreversal.Client{B: backends.API, Key: key}
+	a.TreasuryDebitReversals = &treasurydebitreversal.Client{B: backends.API, Key: key}
+	a.TreasuryFinancialAccounts = &treasuryfinancialaccount.Client{B: backends.API, Key: key}
+	a.TreasuryInboundTransfers = &treasuryinboundtransfer.Client{B: backends.API, Key: key}
+	a.TreasuryOutboundPayments = &treasuryoutboundpayment.Client{B: backends.API, Key: key}
+	a.TreasuryOutboundTransfers = &treasuryoutboundtransfer.Client{B: backends.API, Key: key}
+	a.TreasuryReceivedCredits = &treasuryreceivedcredit.Client{B: backends.API, Key: key}
+	a.TreasuryReceivedDebits = &treasuryreceiveddebit.Client{B: backends.API, Key: key}
+	a.TreasuryTransactionEntries = &treasurytransactionentry.Client{B: backends.API, Key: key}
+	a.TreasuryTransactions = &treasurytransaction.Client{B: backends.API, Key: key}
 	a.UsageRecords = &usagerecord.Client{B: backends.API, Key: key}
 	a.UsageRecordSummaries = &usagerecordsummary.Client{B: backends.API, Key: key}
 	a.WebhookEndpoints = &webhookendpoint.Client{B: backends.API, Key: key}

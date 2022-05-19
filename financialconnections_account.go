@@ -111,9 +111,34 @@ const (
 	FinancialConnectionsAccountSupportedPaymentMethodTypeUSBankAccount FinancialConnectionsAccountSupportedPaymentMethodType = "us_bank_account"
 )
 
+// If present, only return accounts that belong to the specified account holder. `account_holder[customer]` and `account_holder[account]` are mutually exclusive.
+type FinancialConnectionsAccountListAccountHolderParams struct {
+	// The ID of the Stripe account whose accounts will be retrieved.
+	Account *string `form:"account"`
+	// The ID of the Stripe customer whose accounts will be retrieved.
+	Customer *string `form:"customer"`
+}
+
+// Returns a list of Financial Connections Account objects.
+type FinancialConnectionsAccountListParams struct {
+	ListParams `form:"*"`
+	// If present, only return accounts that belong to the specified account holder. `account_holder[customer]` and `account_holder[account]` are mutually exclusive.
+	AccountHolder *FinancialConnectionsAccountListAccountHolderParams `form:"account_holder"`
+	// If present, only return accounts that were collected as part of the given session.
+	Session *string `form:"session"`
+}
+
 // Retrieves the details of an Financial Connections Account.
 type FinancialConnectionsAccountParams struct {
 	Params `form:"*"`
+}
+
+// Lists all owners for a given Account
+type FinancialConnectionsAccountListOwnersParams struct {
+	ListParams `form:"*"`
+	Account    *string `form:"-"` // Included in URL
+	// The ID of the ownership object to fetch owners from.
+	Ownership *string `form:"ownership"`
 }
 
 // Refreshes the data associated with a Financial Connections Account.

@@ -42,6 +42,16 @@ type TerminalConfigurationTippingCHFParams struct {
 	SmartTipThreshold *int64 `form:"smart_tip_threshold"`
 }
 
+// Tipping configuration for CZK
+type TerminalConfigurationTippingCZKParams struct {
+	// Fixed amounts displayed when collecting a tip
+	FixedAmounts []*int64 `form:"fixed_amounts"`
+	// Percentages displayed when collecting a tip
+	Percentages []*int64 `form:"percentages"`
+	// Below this amount, fixed amounts will be displayed; above it, percentages will be displayed
+	SmartTipThreshold *int64 `form:"smart_tip_threshold"`
+}
+
 // Tipping configuration for DKK
 type TerminalConfigurationTippingDKKParams struct {
 	// Fixed amounts displayed when collecting a tip
@@ -150,6 +160,8 @@ type TerminalConfigurationTippingParams struct {
 	CAD *TerminalConfigurationTippingCADParams `form:"cad"`
 	// Tipping configuration for CHF
 	CHF *TerminalConfigurationTippingCHFParams `form:"chf"`
+	// Tipping configuration for CZK
+	CZK *TerminalConfigurationTippingCZKParams `form:"czk"`
 	// Tipping configuration for DKK
 	DKK *TerminalConfigurationTippingDKKParams `form:"dkk"`
 	// Tipping configuration for EUR
@@ -216,6 +228,14 @@ type TerminalConfigurationTippingCAD struct {
 	SmartTipThreshold int64 `json:"smart_tip_threshold"`
 }
 type TerminalConfigurationTippingCHF struct {
+	// Fixed amounts displayed when collecting a tip
+	FixedAmounts []int64 `json:"fixed_amounts"`
+	// Percentages displayed when collecting a tip
+	Percentages []int64 `json:"percentages"`
+	// Below this amount, fixed amounts will be displayed; above it, percentages will be displayed
+	SmartTipThreshold int64 `json:"smart_tip_threshold"`
+}
+type TerminalConfigurationTippingCZK struct {
 	// Fixed amounts displayed when collecting a tip
 	FixedAmounts []int64 `json:"fixed_amounts"`
 	// Percentages displayed when collecting a tip
@@ -307,6 +327,7 @@ type TerminalConfigurationTipping struct {
 	AUD *TerminalConfigurationTippingAUD `json:"aud"`
 	CAD *TerminalConfigurationTippingCAD `json:"cad"`
 	CHF *TerminalConfigurationTippingCHF `json:"chf"`
+	CZK *TerminalConfigurationTippingCZK `json:"czk"`
 	DKK *TerminalConfigurationTippingDKK `json:"dkk"`
 	EUR *TerminalConfigurationTippingEUR `json:"eur"`
 	GBP *TerminalConfigurationTippingGBP `json:"gbp"`

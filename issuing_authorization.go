@@ -185,6 +185,16 @@ type IssuingAuthorizationRequestHistory struct {
 	// The reason for the approval or decline.
 	Reason IssuingAuthorizationRequestHistoryReason `json:"reason"`
 }
+
+// [Treasury](https://stripe.com/docs/api/treasury) details related to this authorization if it was created on a [FinancialAccount](https://stripe.com/docs/api/treasury/financial_accounts).
+type IssuingAuthorizationTreasury struct {
+	// The array of [ReceivedCredits](https://stripe.com/docs/api/treasury/received_credits) associated with this authorization
+	ReceivedCredits []string `json:"received_credits"`
+	// The array of [ReceivedDebits](https://stripe.com/docs/api/treasury/received_debits) associated with this authorization
+	ReceivedDebits []string `json:"received_debits"`
+	// The Treasury [Transaction](https://stripe.com/docs/api/treasury/transactions) associated with this authorization
+	Transaction string `json:"transaction"`
+}
 type IssuingAuthorizationVerificationData struct {
 	// Whether the cardholder provided an address first line and if it matched the cardholder's `billing.address.line1`.
 	AddressLine1Check IssuingAuthorizationVerificationDataCheck `json:"address_line1_check"`
@@ -241,7 +251,9 @@ type IssuingAuthorization struct {
 	// The current status of the authorization in its lifecycle.
 	Status IssuingAuthorizationStatus `json:"status"`
 	// List of [transactions](https://stripe.com/docs/api/issuing/transactions) associated with this authorization.
-	Transactions     []*IssuingTransaction                 `json:"transactions"`
+	Transactions []*IssuingTransaction `json:"transactions"`
+	// [Treasury](https://stripe.com/docs/api/treasury) details related to this authorization if it was created on a [FinancialAccount](https://stripe.com/docs/api/treasury/financial_accounts).
+	Treasury         *IssuingAuthorizationTreasury         `json:"treasury"`
 	VerificationData *IssuingAuthorizationVerificationData `json:"verification_data"`
 	// The digital wallet used for this authorization. One of `apple_pay`, `google_pay`, or `samsung_pay`.
 	Wallet IssuingAuthorizationWalletType `json:"wallet"`

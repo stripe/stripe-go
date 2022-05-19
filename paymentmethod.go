@@ -111,6 +111,15 @@ const (
 	PaymentMethodUSBankAccountAccountTypeSavings  PaymentMethodUSBankAccountAccountType = "savings"
 )
 
+// All supported networks.
+type PaymentMethodUSBankAccountNetworksSupported string
+
+// List of values that PaymentMethodUSBankAccountNetworksSupported can take
+const (
+	PaymentMethodUSBankAccountNetworksSupportedAch            PaymentMethodUSBankAccountNetworksSupported = "ach"
+	PaymentMethodUSBankAccountNetworksSupportedUSDomesticWire PaymentMethodUSBankAccountNetworksSupported = "us_domestic_wire"
+)
+
 // If this is an `acss_debit` PaymentMethod, this hash contains details about the ACSS Debit payment method.
 type PaymentMethodACSSDebitParams struct {
 	// Customer's bank account number.
@@ -574,6 +583,14 @@ type PaymentMethodSofort struct {
 	// Two-letter ISO code representing the country the bank account is located in.
 	Country string `json:"country"`
 }
+
+// Contains information about US bank account networks that can be used.
+type PaymentMethodUSBankAccountNetworks struct {
+	// The preferred network.
+	Preferred string `json:"preferred"`
+	// All supported networks.
+	Supported []PaymentMethodUSBankAccountNetworksSupported `json:"supported"`
+}
 type PaymentMethodUSBankAccount struct {
 	// Account holder type: individual or company.
 	AccountHolderType PaymentMethodUSBankAccountAccountHolderType `json:"account_holder_type"`
@@ -587,6 +604,8 @@ type PaymentMethodUSBankAccount struct {
 	Fingerprint string `json:"fingerprint"`
 	// Last four digits of the bank account number.
 	Last4 string `json:"last4"`
+	// Contains information about US bank account networks that can be used.
+	Networks *PaymentMethodUSBankAccountNetworks `json:"networks"`
 	// Routing number of the bank account.
 	RoutingNumber string `json:"routing_number"`
 }

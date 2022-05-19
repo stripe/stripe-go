@@ -84,6 +84,23 @@ func (c Client) CreateFundingInstructions(id string, params *stripe.CustomerCrea
 	return customer, err
 }
 
+// RetrievePaymentMethod is the method for the `GET /v1/customers/{customer}/payment_methods/{payment_method}` API.
+func RetrievePaymentMethod(id string, params *stripe.CustomerRetrievePaymentMethodParams) (*stripe.Customer, error) {
+	return getC().RetrievePaymentMethod(id, params)
+}
+
+// RetrievePaymentMethod is the method for the `GET /v1/customers/{customer}/payment_methods/{payment_method}` API.
+func (c Client) RetrievePaymentMethod(id string, params *stripe.CustomerRetrievePaymentMethodParams) (*stripe.Customer, error) {
+	path := stripe.FormatURLPath(
+		"/v1/customers/%s/payment_methods/%s",
+		stripe.StringValue(params.Customer),
+		id,
+	)
+	customer := &stripe.Customer{}
+	err := c.B.Call(http.MethodGet, path, c.Key, params, customer)
+	return customer, err
+}
+
 // List returns a list of customers.
 func List(params *stripe.CustomerListParams) *Iter {
 	return getC().List(params)
