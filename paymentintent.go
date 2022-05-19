@@ -1136,10 +1136,18 @@ type PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsParams st
 	ReturnURL *string `form:"return_url"`
 }
 
+// Additional fields for network related functions
+type PaymentIntentPaymentMethodOptionsUSBankAccountNetworksParams struct {
+	// Triggers validations to run across the selected networks
+	Requested []*string `form:"requested"`
+}
+
 // If this is a `us_bank_account` PaymentMethod, this sub-hash contains details about the US bank account payment method options.
 type PaymentIntentPaymentMethodOptionsUSBankAccountParams struct {
 	// Additional fields for Financial Connections Session creation
 	FinancialConnections *PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsParams `form:"financial_connections"`
+	// Additional fields for network related functions
+	Networks *PaymentIntentPaymentMethodOptionsUSBankAccountNetworksParams `form:"networks"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// Providing this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.
@@ -1283,7 +1291,7 @@ type PaymentIntentParams struct {
 	PaymentMethodData *PaymentIntentPaymentMethodDataParams `form:"payment_method_data"`
 	// Payment-method-specific configuration for this PaymentIntent.
 	PaymentMethodOptions *PaymentIntentPaymentMethodOptionsParams `form:"payment_method_options"`
-	// The list of payment method types (e.g. card) that this PaymentIntent is allowed to use.
+	// The list of payment method types (e.g. card) that this PaymentIntent is allowed to use. Use automatic_payment_methods to manage payment methods from the [Stripe Dashboard](https://dashboard.stripe.com/settings/payment_methods).
 	PaymentMethodTypes []*string `form:"payment_method_types"`
 	// Email address that the receipt for the resulting payment will be sent to. If `receipt_email` is specified for a payment in live mode, a receipt will be sent regardless of your [email settings](https://dashboard.stripe.com/account/emails).
 	ReceiptEmail *string `form:"receipt_email"`

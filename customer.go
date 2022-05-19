@@ -189,6 +189,12 @@ type CustomerListPaymentMethodsParams struct {
 	Type *string `form:"type"`
 }
 
+// Retrieves a PaymentMethod object.
+type CustomerRetrievePaymentMethodParams struct {
+	Params   `form:"*"`
+	Customer *string `form:"-"` // Included in URL
+}
+
 // Additional parameters for `bank_transfer` funding types
 type CustomerCreateFundingInstructionsBankTransferParams struct {
 	// List of address types that should be returned in the financial_addresses response. If not specified, all valid types will be returned.

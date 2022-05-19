@@ -183,7 +183,8 @@ type IssuingCardParams struct {
 	// The [Cardholder](https://stripe.com/docs/api#issuing_cardholder_object) object with which the card will be associated.
 	Cardholder *string `form:"cardholder"`
 	// The currency for the card.
-	Currency *string `form:"currency"`
+	Currency         *string `form:"currency"`
+	FinancialAccount *string `form:"financial_account"`
 	// The desired new PIN for this card.
 	PIN *IssuingCardPINParams `form:"pin"`
 	// The card this is meant to be a replacement for (if any).
@@ -291,6 +292,8 @@ type IssuingCard struct {
 	ExpMonth int64 `json:"exp_month"`
 	// The expiration year of the card.
 	ExpYear int64 `json:"exp_year"`
+	// The financial account this card is attached to.
+	FinancialAccount string `json:"financial_account"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// The last 4 digits of the card number.

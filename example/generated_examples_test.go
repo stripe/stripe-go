@@ -7,7 +7,6 @@ import (
 	stripe "github.com/stripe/stripe-go/v72"
 	account "github.com/stripe/stripe-go/v72/account"
 	accountlink "github.com/stripe/stripe-go/v72/accountlink"
-	balancetransaction "github.com/stripe/stripe-go/v72/balancetransaction"
 	billingportal_configuration "github.com/stripe/stripe-go/v72/billingportal/configuration"
 	billingportal_session "github.com/stripe/stripe-go/v72/billingportal/session"
 	capability "github.com/stripe/stripe-go/v72/capability"
@@ -21,6 +20,8 @@ import (
 	event "github.com/stripe/stripe-go/v72/event"
 	financialconnections_account "github.com/stripe/stripe-go/v72/financialconnections/account"
 	financialconnections_session "github.com/stripe/stripe-go/v72/financialconnections/session"
+	identity_verificationreport "github.com/stripe/stripe-go/v72/identity/verificationreport"
+	identity_verificationsession "github.com/stripe/stripe-go/v72/identity/verificationsession"
 	invoice "github.com/stripe/stripe-go/v72/invoice"
 	invoiceitem "github.com/stripe/stripe-go/v72/invoiceitem"
 	issuing_authorization "github.com/stripe/stripe-go/v72/issuing/authorization"
@@ -38,6 +39,7 @@ import (
 	price "github.com/stripe/stripe-go/v72/price"
 	product "github.com/stripe/stripe-go/v72/product"
 	promotioncode "github.com/stripe/stripe-go/v72/promotioncode"
+	quote "github.com/stripe/stripe-go/v72/quote"
 	radar_earlyfraudwarning "github.com/stripe/stripe-go/v72/radar/earlyfraudwarning"
 	refund "github.com/stripe/stripe-go/v72/refund"
 	reversal "github.com/stripe/stripe-go/v72/reversal"
@@ -48,21 +50,347 @@ import (
 	sigma_scheduledqueryrun "github.com/stripe/stripe-go/v72/sigma/scheduledqueryrun"
 	sku "github.com/stripe/stripe-go/v72/sku"
 	source "github.com/stripe/stripe-go/v72/source"
+	taxcode "github.com/stripe/stripe-go/v72/taxcode"
 	taxid "github.com/stripe/stripe-go/v72/taxid"
 	taxrate "github.com/stripe/stripe-go/v72/taxrate"
 	terminal_configuration "github.com/stripe/stripe-go/v72/terminal/configuration"
 	terminal_connectiontoken "github.com/stripe/stripe-go/v72/terminal/connectiontoken"
 	terminal_location "github.com/stripe/stripe-go/v72/terminal/location"
 	terminal_reader "github.com/stripe/stripe-go/v72/terminal/reader"
-        testhelpers_refund "github.com/stripe/stripe-go/v72/testhelpers/refund"
+	testhelpers_refund "github.com/stripe/stripe-go/v72/testhelpers/refund"
 	testhelpers_testclock "github.com/stripe/stripe-go/v72/testhelpers/testclock"
+	testhelpers_treasury_inboundtransfer "github.com/stripe/stripe-go/v72/testhelpers/treasury/inboundtransfer"
+	testhelpers_treasury_outboundtransfer "github.com/stripe/stripe-go/v72/testhelpers/treasury/outboundtransfer"
+	testhelpers_treasury_receivedcredit "github.com/stripe/stripe-go/v72/testhelpers/treasury/receivedcredit"
+	testhelpers_treasury_receiveddebit "github.com/stripe/stripe-go/v72/testhelpers/treasury/receiveddebit"
 	_ "github.com/stripe/stripe-go/v72/testing"
 	topup "github.com/stripe/stripe-go/v72/topup"
 	transfer "github.com/stripe/stripe-go/v72/transfer"
+	treasury_creditreversal "github.com/stripe/stripe-go/v72/treasury/creditreversal"
+	treasury_debitreversal "github.com/stripe/stripe-go/v72/treasury/debitreversal"
+	treasury_financialaccount "github.com/stripe/stripe-go/v72/treasury/financialaccount"
+	treasury_inboundtransfer "github.com/stripe/stripe-go/v72/treasury/inboundtransfer"
+	treasury_outboundpayment "github.com/stripe/stripe-go/v72/treasury/outboundpayment"
+	treasury_outboundtransfer "github.com/stripe/stripe-go/v72/treasury/outboundtransfer"
+	treasury_receivedcredit "github.com/stripe/stripe-go/v72/treasury/receivedcredit"
+	treasury_receiveddebit "github.com/stripe/stripe-go/v72/treasury/receiveddebit"
+	treasury_transaction "github.com/stripe/stripe-go/v72/treasury/transaction"
+	treasury_transactionentry "github.com/stripe/stripe-go/v72/treasury/transactionentry"
 	usagerecord "github.com/stripe/stripe-go/v72/usagerecord"
 	usagerecordsummary "github.com/stripe/stripe-go/v72/usagerecordsummary"
 	webhookendpoint "github.com/stripe/stripe-go/v72/webhookendpoint"
 )
+
+func TestCustomerListPaymentMethods(t *testing.T) {
+	params := &stripe.CustomerListPaymentMethodsParams{
+		Type:     stripe.String("card"),
+		Customer: stripe.String("cus_xyz"),
+	}
+	result := customer.ListPaymentMethods(params)
+	assert.NotNil(t, result)
+	assert.Nil(t, result.Err())
+}
+
+func TestCheckoutSessionExpire(t *testing.T) {
+	params := &stripe.CheckoutSessionExpireParams{}
+	result, _ := checkout_session.Expire("sess_xyz", params)
+	assert.NotNil(t, result)
+}
+
+func TestShippingRateCreate(t *testing.T) {
+	params := &stripe.ShippingRateParams{
+		DisplayName: stripe.String("Sample Shipper"),
+		FixedAmount: &stripe.ShippingRateFixedAmountParams{
+			Currency: stripe.String(string(stripe.CurrencyUSD)),
+			Amount:   stripe.Int64(400),
+		},
+		Type: stripe.String("fixed_amount"),
+	}
+	result, _ := shippingrate.New(params)
+	assert.NotNil(t, result)
+}
+
+func TestShippingRateList(t *testing.T) {
+	params := &stripe.ShippingRateListParams{}
+	result := shippingrate.List(params)
+	assert.NotNil(t, result)
+	assert.Nil(t, result.Err())
+}
+
+func TestPaymentIntentCreate(t *testing.T) {
+	params := &stripe.PaymentIntentParams{
+		Amount:   stripe.Int64(1099),
+		Currency: stripe.String(string(stripe.CurrencyEUR)),
+		AutomaticPaymentMethods: &stripe.PaymentIntentAutomaticPaymentMethodsParams{
+			Enabled: stripe.Bool(true),
+		},
+	}
+	result, _ := paymentintent.New(params)
+	assert.NotNil(t, result)
+}
+
+func TestPaymentLinkCreate(t *testing.T) {
+	params := &stripe.PaymentLinkParams{
+		LineItems: []*stripe.PaymentLinkLineItemParams{
+			&stripe.PaymentLinkLineItemParams{
+				Price:    stripe.String("price_xxxxxxxxxxxxx"),
+				Quantity: stripe.Int64(1),
+			},
+		},
+	}
+	result, _ := paymentlink.New(params)
+	assert.NotNil(t, result)
+}
+
+func TestPaymentLinkListLineItems(t *testing.T) {
+	params := &stripe.PaymentLinkListLineItemsParams{
+		PaymentLink: stripe.String("pl_xyz"),
+	}
+	result := paymentlink.ListLineItems(params)
+	assert.NotNil(t, result)
+	assert.Nil(t, result.Err())
+}
+
+func TestPaymentLinkRetrieve(t *testing.T) {
+	params := &stripe.PaymentLinkParams{}
+	result, _ := paymentlink.Get("pl_xyz", params)
+	assert.NotNil(t, result)
+}
+
+func TestPaymentIntentVerifyMicrodeposits(t *testing.T) {
+	params := &stripe.PaymentIntentVerifyMicrodepositsParams{}
+	result, _ := paymentintent.VerifyMicrodeposits("pi_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+}
+
+func TestSetupIntentVerifyMicrodeposits(t *testing.T) {
+	params := &stripe.SetupIntentVerifyMicrodepositsParams{}
+	result, _ := setupintent.VerifyMicrodeposits("seti_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+}
+
+func TestTestHelpersTestClockCreate(t *testing.T) {
+	params := &stripe.TestHelpersTestClockParams{
+		FrozenTime: stripe.Int64(123),
+		Name:       stripe.String("cogsworth"),
+	}
+	result, _ := testhelpers_testclock.New(params)
+	assert.NotNil(t, result)
+}
+
+func TestTestHelpersTestClockRetrieve(t *testing.T) {
+	params := &stripe.TestHelpersTestClockParams{}
+	result, _ := testhelpers_testclock.Get("clock_xyz", params)
+	assert.NotNil(t, result)
+}
+
+func TestTestHelpersTestClockList(t *testing.T) {
+	params := &stripe.TestHelpersTestClockListParams{}
+	result := testhelpers_testclock.List(params)
+	assert.NotNil(t, result)
+	assert.Nil(t, result.Err())
+}
+
+func TestTestHelpersTestClockDelete(t *testing.T) {
+	params := &stripe.TestHelpersTestClockParams{}
+	result, _ := testhelpers_testclock.Del("clock_xyz", params)
+	assert.NotNil(t, result)
+}
+
+func TestTestHelpersTestClockAdvance(t *testing.T) {
+	params := &stripe.TestHelpersTestClockAdvanceParams{
+		FrozenTime: stripe.Int64(142),
+	}
+	result, _ := testhelpers_testclock.Advance("clock_xyz", params)
+	assert.NotNil(t, result)
+}
+
+func TestCustomerCreateFundingInstructions(t *testing.T) {
+	params := &stripe.CustomerCreateFundingInstructionsParams{
+		BankTransfer: &stripe.CustomerCreateFundingInstructionsBankTransferParams{
+			RequestedAddressTypes: []*string{stripe.String("zengin")},
+			Type:                  stripe.String("jp_bank_transfer"),
+		},
+		Currency:    stripe.String(string(stripe.CurrencyUSD)),
+		FundingType: stripe.String("bank_transfer"),
+	}
+	result, _ := customer.CreateFundingInstructions("cus_123", params)
+	assert.NotNil(t, result)
+}
+
+func TestTerminalConfigurationList(t *testing.T) {
+	params := &stripe.TerminalConfigurationListParams{}
+	result := terminal_configuration.List(params)
+	assert.NotNil(t, result)
+	assert.Nil(t, result.Err())
+}
+
+func TestTerminalConfigurationRetrieve(t *testing.T) {
+	params := &stripe.TerminalConfigurationParams{}
+	result, _ := terminal_configuration.Get("uc_123", params)
+	assert.NotNil(t, result)
+}
+
+func TestTerminalConfigurationCreate(t *testing.T) {
+	params := &stripe.TerminalConfigurationParams{}
+	result, _ := terminal_configuration.New(params)
+	assert.NotNil(t, result)
+}
+
+func TestTerminalConfigurationUpdate(t *testing.T) {
+	params := &stripe.TerminalConfigurationParams{
+		Tipping: &stripe.TerminalConfigurationTippingParams{
+			USD: &stripe.TerminalConfigurationTippingUSDParams{
+				FixedAmounts: []*int64{stripe.Int64(10)},
+			},
+		},
+	}
+	result, _ := terminal_configuration.Update("uc_123", params)
+	assert.NotNil(t, result)
+}
+
+func TestTerminalConfigurationDelete(t *testing.T) {
+	params := &stripe.TerminalConfigurationParams{}
+	result, _ := terminal_configuration.Del("uc_123", params)
+	assert.NotNil(t, result)
+}
+
+func TestTestHelpersRefundExpire(t *testing.T) {
+	params := &stripe.TestHelpersRefundExpireParams{}
+	result, _ := testhelpers_refund.Expire("re_123", params)
+	assert.NotNil(t, result)
+}
+
+func TestFinancialConnectionsAccountRetrieve(t *testing.T) {
+	params := &stripe.FinancialConnectionsAccountParams{}
+	result, _ := financialconnections_account.GetByID("fca_xyz", params)
+	assert.NotNil(t, result)
+}
+
+func TestFinancialConnectionsAccountRefresh(t *testing.T) {
+	params := &stripe.FinancialConnectionsAccountRefreshParams{
+		Features: []*string{stripe.String("balance")},
+	}
+	result, _ := financialconnections_account.Refresh("fca_xyz", params)
+	assert.NotNil(t, result)
+}
+
+func TestFinancialConnectionsAccountDisconnect(t *testing.T) {
+	params := &stripe.FinancialConnectionsAccountDisconnectParams{}
+	result, _ := financialconnections_account.Disconnect("fca_xyz", params)
+	assert.NotNil(t, result)
+}
+
+func TestFinancialConnectionsSessionCreate(t *testing.T) {
+	params := &stripe.FinancialConnectionsSessionParams{
+		AccountHolder: &stripe.FinancialConnectionsSessionAccountHolderParams{
+			Type:     stripe.String(string(stripe.FinancialConnectionsSessionAccountHolderTypeCustomer)),
+			Customer: stripe.String("cus_123"),
+		},
+		Permissions: []*string{
+			stripe.String(string(stripe.FinancialConnectionsSessionPermissionBalances)),
+		},
+	}
+	result, _ := financialconnections_session.New(params)
+	assert.NotNil(t, result)
+}
+
+func TestFinancialConnectionsSessionRetrieve(t *testing.T) {
+	params := &stripe.FinancialConnectionsSessionParams{}
+	result, _ := financialconnections_session.Get("fcsess_xyz", params)
+	assert.NotNil(t, result)
+}
+
+func TestFinancialConnectionsAccountList(t *testing.T) {
+	params := &stripe.FinancialConnectionsAccountListParams{}
+	result := financialconnections_account.List(params)
+	assert.NotNil(t, result)
+	assert.Nil(t, result.Err())
+}
+
+func TestFinancialConnectionsAccountListOwners(t *testing.T) {
+	params := &stripe.FinancialConnectionsAccountListOwnersParams{
+		Ownership: stripe.String("fcaowns_xyz"),
+		Account:   stripe.String("fca_xyz"),
+	}
+	result := financialconnections_account.ListOwners(params)
+	assert.NotNil(t, result)
+	assert.Nil(t, result.Err())
+}
+
+func TestTestHelpersTreasuryInboundTransferFail(t *testing.T) {
+	params := &stripe.TestHelpersTreasuryInboundTransferFailParams{
+		FailureDetails: &stripe.TestHelpersTreasuryInboundTransferFailFailureDetailsParams{
+			Code: stripe.String(string(stripe.TreasuryInboundTransferFailureDetailsCodeAccountClosed)),
+		},
+	}
+	result, _ := testhelpers_treasury_inboundtransfer.Fail("ibt_123", params)
+	assert.NotNil(t, result)
+}
+
+func TestTestHelpersTreasuryInboundTransferReturnInboundTransfer(t *testing.T) {
+	params := &stripe.TestHelpersTreasuryInboundTransferReturnInboundTransferParams{}
+	result, _ := testhelpers_treasury_inboundtransfer.ReturnInboundTransfer(
+		"ibt_123",
+		params,
+	)
+	assert.NotNil(t, result)
+}
+
+func TestTestHelpersTreasuryInboundTransferSucceed(t *testing.T) {
+	params := &stripe.TestHelpersTreasuryInboundTransferSucceedParams{}
+	result, _ := testhelpers_treasury_inboundtransfer.Succeed("ibt_123", params)
+	assert.NotNil(t, result)
+}
+
+func TestTestHelpersTreasuryOutboundTransferPost(t *testing.T) {
+	params := &stripe.TestHelpersTreasuryOutboundTransferPostParams{}
+	result, _ := testhelpers_treasury_outboundtransfer.Post("obt_123", params)
+	assert.NotNil(t, result)
+}
+
+func TestTestHelpersTreasuryOutboundTransferFail(t *testing.T) {
+	params := &stripe.TestHelpersTreasuryOutboundTransferFailParams{}
+	result, _ := testhelpers_treasury_outboundtransfer.Fail("obt_123", params)
+	assert.NotNil(t, result)
+}
+
+func TestTestHelpersTreasuryOutboundTransferReturnOutboundTransfer(
+	t *testing.T,
+) {
+	params := &stripe.TestHelpersTreasuryOutboundTransferReturnOutboundTransferParams{
+		ReturnedDetails: &stripe.TestHelpersTreasuryOutboundTransferReturnOutboundTransferReturnedDetailsParams{
+			Code: stripe.String(string(stripe.TreasuryOutboundTransferReturnedDetailsCodeAccountClosed)),
+		},
+	}
+	result, _ := testhelpers_treasury_outboundtransfer.ReturnOutboundTransfer(
+		"obt_123",
+		params,
+	)
+	assert.NotNil(t, result)
+}
+
+func TestTestHelpersTreasuryReceivedCreditCreate(t *testing.T) {
+	params := &stripe.TestHelpersTreasuryReceivedCreditParams{
+		FinancialAccount: stripe.String("fa_123"),
+		Network:          stripe.String(string(stripe.TreasuryReceivedCreditNetworkAch)),
+		Amount:           stripe.Int64(1234),
+		Currency:         stripe.String(string(stripe.CurrencyUSD)),
+	}
+	result, _ := testhelpers_treasury_receivedcredit.New(params)
+	assert.NotNil(t, result)
+}
+
+func TestTestHelpersTreasuryReceivedDebitCreate(t *testing.T) {
+	params := &stripe.TestHelpersTreasuryReceivedDebitParams{
+		FinancialAccount: stripe.String("fa_123"),
+		Network:          stripe.String("ach"),
+		Amount:           stripe.Int64(1234),
+		Currency:         stripe.String(string(stripe.CurrencyUSD)),
+	}
+	result, _ := testhelpers_treasury_receiveddebit.New(params)
+	assert.NotNil(t, result)
+}
 
 func TestCustomerList(t *testing.T) {
 	params := &stripe.CustomerListParams{}
@@ -72,16 +400,13 @@ func TestCustomerList(t *testing.T) {
 	assert.Nil(t, result.Err())
 }
 
-func TestBalanceTransactionRetrieve(t *testing.T) {
-	params := &stripe.BalanceTransactionParams{}
-	result, _ := balancetransaction.Get("txn_xxxxxxxxxxxxx", params)
-	assert.NotNil(t, result)
-}
-
-func TestBalanceTransactionList(t *testing.T) {
-	params := &stripe.BalanceTransactionListParams{}
-	params.Limit = stripe.Int64(3)
-	result := balancetransaction.List(params)
+func TestCustomerSearch(t *testing.T) {
+	params := &stripe.CustomerSearchParams{
+		SearchParams: stripe.SearchParams{
+			Query: "name:'fakename' AND metadata['foo']:'bar'",
+		},
+	}
+	result := customer.Search(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
 }
@@ -124,6 +449,17 @@ func TestChargeList(t *testing.T) {
 	assert.Nil(t, result.Err())
 }
 
+func TestChargeSearch(t *testing.T) {
+	params := &stripe.ChargeSearchParams{
+		SearchParams: stripe.SearchParams{
+			Query: "amount>999 AND metadata['order_id']:'6735'",
+		},
+	}
+	result := charge.Search(params)
+	assert.NotNil(t, result)
+	assert.Nil(t, result.Err())
+}
+
 func TestCustomerCreate(t *testing.T) {
 	params := &stripe.CustomerParams{
 		Description: stripe.String("My First Test Customer (created for API docs)"),
@@ -155,6 +491,17 @@ func TestCustomerList2(t *testing.T) {
 	params := &stripe.CustomerListParams{}
 	params.Limit = stripe.Int64(3)
 	result := customer.List(params)
+	assert.NotNil(t, result)
+	assert.Nil(t, result.Err())
+}
+
+func TestCustomerSearch2(t *testing.T) {
+	params := &stripe.CustomerSearchParams{
+		SearchParams: stripe.SearchParams{
+			Query: "name:'fakename' AND metadata['foo']:'bar'",
+		},
+	}
+	result := customer.Search(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
 }
@@ -206,7 +553,7 @@ func TestMandateRetrieve(t *testing.T) {
 	assert.NotNil(t, result)
 }
 
-func TestPaymentIntentCreate(t *testing.T) {
+func TestPaymentIntentCreate2(t *testing.T) {
 	params := &stripe.PaymentIntentParams{
 		Amount:             stripe.Int64(2000),
 		Currency:           stripe.String(string(stripe.CurrencyUSD)),
@@ -257,6 +604,31 @@ func TestPaymentIntentList(t *testing.T) {
 	assert.Nil(t, result.Err())
 }
 
+func TestPaymentIntentIncrementAuthorization(t *testing.T) {
+	params := &stripe.PaymentIntentIncrementAuthorizationParams{
+		Amount: stripe.Int64(2099),
+	}
+	result, _ := paymentintent.IncrementAuthorization("pi_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+}
+
+func TestPaymentIntentSearch(t *testing.T) {
+	params := &stripe.PaymentIntentSearchParams{
+		SearchParams: stripe.SearchParams{
+			Query: "status:'succeeded' AND metadata['order_id']:'6735'",
+		},
+	}
+	result := paymentintent.Search(params)
+	assert.NotNil(t, result)
+	assert.Nil(t, result.Err())
+}
+
+func TestPaymentIntentApplyCustomerBalance(t *testing.T) {
+	params := &stripe.PaymentIntentApplyCustomerBalanceParams{}
+	result, _ := paymentintent.ApplyCustomerBalance("pi_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+}
+
 func TestSetupIntentCreate(t *testing.T) {
 	params := &stripe.SetupIntentParams{
 		PaymentMethodTypes: []*string{stripe.String("card")},
@@ -302,7 +674,7 @@ func TestSetupIntentList(t *testing.T) {
 
 func TestSetupAttemptList(t *testing.T) {
 	params := &stripe.SetupAttemptListParams{
-		SetupIntent: stripe.String("seti_xxxxxxxxxxxxx"),
+		SetupIntent: stripe.String("si_xyz"),
 	}
 	params.Limit = stripe.Int64(3)
 	result := setupattempt.List(params)
@@ -352,6 +724,99 @@ func TestPayoutReverse(t *testing.T) {
 	assert.NotNil(t, result)
 }
 
+func TestRefundCreate(t *testing.T) {
+	params := &stripe.RefundParams{Charge: stripe.String("ch_xxxxxxxxxxxxx")}
+	result, _ := refund.New(params)
+	assert.NotNil(t, result)
+}
+
+func TestRefundRetrieve(t *testing.T) {
+	params := &stripe.RefundParams{}
+	result, _ := refund.Get("re_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+}
+
+func TestRefundUpdate(t *testing.T) {
+	params := &stripe.RefundParams{}
+	params.AddMetadata("order_id", "6735")
+	result, _ := refund.Update("re_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+}
+
+func TestRefundCancel(t *testing.T) {
+	params := &stripe.RefundCancelParams{}
+	result, _ := refund.Cancel("re_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+}
+
+func TestRefundList(t *testing.T) {
+	params := &stripe.RefundListParams{}
+	params.Limit = stripe.Int64(3)
+	result := refund.List(params)
+	assert.NotNil(t, result)
+	assert.Nil(t, result.Err())
+}
+
+func TestPaymentMethodRetrieve(t *testing.T) {
+	params := &stripe.PaymentMethodParams{}
+	result, _ := paymentmethod.Get("pm_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+}
+
+func TestPaymentMethodUpdate(t *testing.T) {
+	params := &stripe.PaymentMethodParams{}
+	params.AddMetadata("order_id", "6735")
+	result, _ := paymentmethod.Update("pm_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+}
+
+func TestPaymentMethodList(t *testing.T) {
+	params := &stripe.PaymentMethodListParams{
+		Customer: stripe.String("cus_xxxxxxxxxxxxx"),
+		Type:     stripe.String(string(stripe.PaymentMethodTypeCard)),
+	}
+	result := paymentmethod.List(params)
+	assert.NotNil(t, result)
+	assert.Nil(t, result.Err())
+}
+
+func TestCustomerListPaymentMethods2(t *testing.T) {
+	params := &stripe.CustomerListPaymentMethodsParams{
+		Type:     stripe.String("card"),
+		Customer: stripe.String("cus_xxxxxxxxxxxxx"),
+	}
+	result := customer.ListPaymentMethods(params)
+	assert.NotNil(t, result)
+	assert.Nil(t, result.Err())
+}
+
+func TestPaymentMethodAttach(t *testing.T) {
+	params := &stripe.PaymentMethodAttachParams{
+		Customer: stripe.String("cus_xxxxxxxxxxxxx"),
+	}
+	result, _ := paymentmethod.Attach("pm_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+}
+
+func TestPaymentMethodDetach(t *testing.T) {
+	params := &stripe.PaymentMethodDetachParams{}
+	result, _ := paymentmethod.Detach("pm_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+}
+
+func TestSourceRetrieve(t *testing.T) {
+	params := &stripe.SourceObjectParams{}
+	result, _ := source.Get("src_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+}
+
+func TestSourceUpdate(t *testing.T) {
+	params := &stripe.SourceObjectParams{}
+	params.AddMetadata("order_id", "6735")
+	result, _ := source.Update("src_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+}
+
 func TestProductCreate(t *testing.T) {
 	params := &stripe.ProductParams{Name: stripe.String("Gold Special")}
 	result, _ := product.New(params)
@@ -383,6 +848,17 @@ func TestProductDelete(t *testing.T) {
 	params := &stripe.ProductParams{}
 	result, _ := product.Del("prod_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+}
+
+func TestProductSearch(t *testing.T) {
+	params := &stripe.ProductSearchParams{
+		SearchParams: stripe.SearchParams{
+			Query: "active:'true' AND metadata['order_id']:'6735'",
+		},
+	}
+	result := product.Search(params)
+	assert.NotNil(t, result)
+	assert.Nil(t, result.Err())
 }
 
 func TestPriceCreate(t *testing.T) {
@@ -419,80 +895,164 @@ func TestPriceList(t *testing.T) {
 	assert.Nil(t, result.Err())
 }
 
-func TestRefundCreate(t *testing.T) {
-	params := &stripe.RefundParams{Charge: stripe.String("ch_xxxxxxxxxxxxx")}
-	result, _ := refund.New(params)
+func TestPriceSearch(t *testing.T) {
+	params := &stripe.PriceSearchParams{
+		SearchParams: stripe.SearchParams{
+			Query: "active:'true' AND metadata['order_id']:'6735'",
+		},
+	}
+	result := price.Search(params)
+	assert.NotNil(t, result)
+	assert.Nil(t, result.Err())
+}
+
+func TestCouponCreate(t *testing.T) {
+	params := &stripe.CouponParams{
+		PercentOff:       stripe.Float64(25.5),
+		Duration:         stripe.String(string(stripe.CouponDurationRepeating)),
+		DurationInMonths: stripe.Int64(3),
+	}
+	result, _ := coupon.New(params)
 	assert.NotNil(t, result)
 }
 
-func TestRefundRetrieve(t *testing.T) {
-	params := &stripe.RefundParams{}
-	result, _ := refund.Get("re_xxxxxxxxxxxxx", params)
+func TestCouponRetrieve(t *testing.T) {
+	params := &stripe.CouponParams{}
+	result, _ := coupon.Get("Z4OV52SU", params)
 	assert.NotNil(t, result)
 }
 
-func TestRefundUpdate(t *testing.T) {
-	params := &stripe.RefundParams{}
+func TestCouponUpdate(t *testing.T) {
+	params := &stripe.CouponParams{}
 	params.AddMetadata("order_id", "6735")
-	result, _ := refund.Update("re_xxxxxxxxxxxxx", params)
+	result, _ := coupon.Update("Z4OV52SU", params)
 	assert.NotNil(t, result)
 }
 
-func TestRefundList(t *testing.T) {
-	params := &stripe.RefundListParams{}
+func TestCouponDelete(t *testing.T) {
+	params := &stripe.CouponParams{}
+	result, _ := coupon.Del("Z4OV52SU", params)
+	assert.NotNil(t, result)
+}
+
+func TestCouponList(t *testing.T) {
+	params := &stripe.CouponListParams{}
 	params.Limit = stripe.Int64(3)
-	result := refund.List(params)
+	result := coupon.List(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
 }
 
-func TestPaymentMethodRetrieve(t *testing.T) {
-	params := &stripe.PaymentMethodParams{}
-	result, _ := paymentmethod.Get("pm_xxxxxxxxxxxxx", params)
+func TestPromotionCodeCreate(t *testing.T) {
+	params := &stripe.PromotionCodeParams{Coupon: stripe.String("Z4OV52SU")}
+	result, _ := promotioncode.New(params)
 	assert.NotNil(t, result)
 }
 
-func TestPaymentMethodUpdate(t *testing.T) {
-	params := &stripe.PaymentMethodParams{}
+func TestPromotionCodeUpdate(t *testing.T) {
+	params := &stripe.PromotionCodeParams{}
 	params.AddMetadata("order_id", "6735")
-	result, _ := paymentmethod.Update("pm_xxxxxxxxxxxxx", params)
+	result, _ := promotioncode.Update("promo_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 }
 
-func TestPaymentMethodList(t *testing.T) {
-	params := &stripe.PaymentMethodListParams{
-		Customer: stripe.String("cus_xxxxxxxxxxxxx"),
-		Type:     stripe.String(string(stripe.PaymentMethodTypeCard)),
-	}
-	result := paymentmethod.List(params)
+func TestPromotionCodeRetrieve(t *testing.T) {
+	params := &stripe.PromotionCodeParams{}
+	result, _ := promotioncode.Get("promo_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+}
+
+func TestPromotionCodeList(t *testing.T) {
+	params := &stripe.PromotionCodeListParams{}
+	params.Limit = stripe.Int64(3)
+	result := promotioncode.List(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
 }
 
-func TestPaymentMethodAttach(t *testing.T) {
-	params := &stripe.PaymentMethodAttachParams{
-		Customer: stripe.String("cus_xxxxxxxxxxxxx"),
+func TestTaxCodeList(t *testing.T) {
+	params := &stripe.TaxCodeListParams{}
+	params.Limit = stripe.Int64(3)
+	result := taxcode.List(params)
+	assert.NotNil(t, result)
+	assert.Nil(t, result.Err())
+}
+
+func TestTaxCodeRetrieve(t *testing.T) {
+	params := &stripe.TaxCodeParams{}
+	result, _ := taxcode.Get("txcd_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+}
+
+func TestTaxRateCreate(t *testing.T) {
+	params := &stripe.TaxRateParams{
+		DisplayName:  stripe.String("VAT"),
+		Description:  stripe.String("VAT Germany"),
+		Jurisdiction: stripe.String("DE"),
+		Percentage:   stripe.Float64(16),
+		Inclusive:    stripe.Bool(false),
 	}
-	result, _ := paymentmethod.Attach("pm_xxxxxxxxxxxxx", params)
+	result, _ := taxrate.New(params)
 	assert.NotNil(t, result)
 }
 
-func TestPaymentMethodDetach(t *testing.T) {
-	params := &stripe.PaymentMethodDetachParams{}
-	result, _ := paymentmethod.Detach("pm_xxxxxxxxxxxxx", params)
+func TestTaxRateRetrieve(t *testing.T) {
+	params := &stripe.TaxRateParams{}
+	result, _ := taxrate.Get("txr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 }
 
-func TestSourceRetrieve(t *testing.T) {
-	params := &stripe.SourceObjectParams{}
-	result, _ := source.Get("src_xxxxxxxxxxxxx", params)
+func TestTaxRateUpdate(t *testing.T) {
+	params := &stripe.TaxRateParams{Active: stripe.Bool(false)}
+	result, _ := taxrate.Update("txr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 }
 
-func TestSourceUpdate(t *testing.T) {
-	params := &stripe.SourceObjectParams{}
+func TestTaxRateList(t *testing.T) {
+	params := &stripe.TaxRateListParams{}
+	params.Limit = stripe.Int64(3)
+	result := taxrate.List(params)
+	assert.NotNil(t, result)
+	assert.Nil(t, result.Err())
+}
+
+func TestShippingRateCreate2(t *testing.T) {
+	params := &stripe.ShippingRateParams{
+		DisplayName: stripe.String("Ground shipping"),
+		Type:        stripe.String("fixed_amount"),
+		FixedAmount: &stripe.ShippingRateFixedAmountParams{
+			Amount:   stripe.Int64(500),
+			Currency: stripe.String(string(stripe.CurrencyUSD)),
+		},
+	}
+	result, _ := shippingrate.New(params)
+	assert.NotNil(t, result)
+}
+
+func TestShippingRateRetrieve(t *testing.T) {
+	params := &stripe.ShippingRateParams{}
+	result, _ := shippingrate.Get("shr_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+}
+
+func TestShippingRateUpdate(t *testing.T) {
+	params := &stripe.ShippingRateParams{}
 	params.AddMetadata("order_id", "6735")
-	result, _ := source.Update("src_xxxxxxxxxxxxx", params)
+	result, _ := shippingrate.Update("shr_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+}
+
+func TestShippingRateList2(t *testing.T) {
+	params := &stripe.ShippingRateListParams{}
+	params.Limit = stripe.Int64(3)
+	result := shippingrate.List(params)
+	assert.NotNil(t, result)
+	assert.Nil(t, result.Err())
+}
+
+func TestCheckoutSessionExpire2(t *testing.T) {
+	params := &stripe.CheckoutSessionExpireParams{}
+	result, _ := checkout_session.Expire("cs_test_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 }
 
@@ -510,39 +1070,35 @@ func TestCheckoutSessionList(t *testing.T) {
 	assert.Nil(t, result.Err())
 }
 
-func TestCouponCreate(t *testing.T) {
-	params := &stripe.CouponParams{
-		PercentOff:       stripe.Float64(25),
-		Duration:         stripe.String(string(stripe.CouponDurationRepeating)),
-		DurationInMonths: stripe.Int64(3),
+func TestPaymentLinkCreate2(t *testing.T) {
+	params := &stripe.PaymentLinkParams{
+		LineItems: []*stripe.PaymentLinkLineItemParams{
+			&stripe.PaymentLinkLineItemParams{
+				Price:    stripe.String("price_xxxxxxxxxxxxx"),
+				Quantity: stripe.Int64(1),
+			},
+		},
 	}
-	result, _ := coupon.New(params)
+	result, _ := paymentlink.New(params)
 	assert.NotNil(t, result)
 }
 
-func TestCouponRetrieve(t *testing.T) {
-	params := &stripe.CouponParams{}
-	result, _ := coupon.Get("25_5OFF", params)
+func TestPaymentLinkRetrieve2(t *testing.T) {
+	params := &stripe.PaymentLinkParams{}
+	result, _ := paymentlink.Get("plink_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 }
 
-func TestCouponUpdate(t *testing.T) {
-	params := &stripe.CouponParams{}
-	params.AddMetadata("order_id", "6735")
-	result, _ := coupon.Update("co_xxxxxxxxxxxxx", params)
+func TestPaymentLinkUpdate(t *testing.T) {
+	params := &stripe.PaymentLinkParams{Active: stripe.Bool(false)}
+	result, _ := paymentlink.Update("plink_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 }
 
-func TestCouponDelete(t *testing.T) {
-	params := &stripe.CouponParams{}
-	result, _ := coupon.Del("co_xxxxxxxxxxxxx", params)
-	assert.NotNil(t, result)
-}
-
-func TestCouponList(t *testing.T) {
-	params := &stripe.CouponListParams{}
+func TestPaymentLinkList(t *testing.T) {
+	params := &stripe.PaymentLinkListParams{}
 	params.Limit = stripe.Int64(3)
-	result := coupon.List(params)
+	result := paymentlink.List(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
 }
@@ -734,6 +1290,17 @@ func TestInvoiceList(t *testing.T) {
 	assert.Nil(t, result.Err())
 }
 
+func TestInvoiceSearch(t *testing.T) {
+	params := &stripe.InvoiceSearchParams{
+		SearchParams: stripe.SearchParams{
+			Query: "total>999 AND metadata['order_id']:'6735'",
+		},
+	}
+	result := invoice.Search(params)
+	assert.NotNil(t, result)
+	assert.Nil(t, result.Err())
+}
+
 func TestInvoiceItemCreate(t *testing.T) {
 	params := &stripe.InvoiceItemParams{
 		Customer: stripe.String("cus_xxxxxxxxxxxxx"),
@@ -808,61 +1375,91 @@ func TestPlanList(t *testing.T) {
 	assert.Nil(t, result.Err())
 }
 
-func TestPromotionCodeCreate(t *testing.T) {
-	params := &stripe.PromotionCodeParams{Coupon: stripe.String("25_5OFF")}
-	result, _ := promotioncode.New(params)
+func TestQuoteCreate(t *testing.T) {
+	params := &stripe.QuoteParams{
+		Customer: stripe.String("cus_xxxxxxxxxxxxx"),
+		LineItems: []*stripe.QuoteLineItemParams{
+			&stripe.QuoteLineItemParams{
+				Price:    stripe.String("price_xxxxxxxxxxxxx"),
+				Quantity: stripe.Int64(2),
+			},
+		},
+	}
+	result, _ := quote.New(params)
 	assert.NotNil(t, result)
 }
 
-func TestPromotionCodeUpdate(t *testing.T) {
-	params := &stripe.PromotionCodeParams{}
+func TestQuoteRetrieve(t *testing.T) {
+	params := &stripe.QuoteParams{}
+	result, _ := quote.Get("qt_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+}
+
+func TestQuoteUpdate(t *testing.T) {
+	params := &stripe.QuoteParams{}
 	params.AddMetadata("order_id", "6735")
-	result, _ := promotioncode.Update("promo_xxxxxxxxxxxxx", params)
+	result, _ := quote.Update("qt_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 }
 
-func TestPromotionCodeRetrieve(t *testing.T) {
-	params := &stripe.PromotionCodeParams{}
-	result, _ := promotioncode.Get("promo_xxxxxxxxxxxxx", params)
+func TestQuoteFinalizeQuote(t *testing.T) {
+	params := &stripe.QuoteFinalizeQuoteParams{}
+	result, _ := quote.FinalizeQuote("qt_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 }
 
-func TestPromotionCodeList(t *testing.T) {
-	params := &stripe.PromotionCodeListParams{}
+func TestQuoteAccept(t *testing.T) {
+	params := &stripe.QuoteAcceptParams{}
+	result, _ := quote.Accept("qt_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+}
+
+func TestQuoteCancel(t *testing.T) {
+	params := &stripe.QuoteCancelParams{}
+	result, _ := quote.Cancel("qt_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+}
+
+func TestQuoteList(t *testing.T) {
+	params := &stripe.QuoteListParams{}
 	params.Limit = stripe.Int64(3)
-	result := promotioncode.List(params)
+	result := quote.List(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
 }
 
-func TestTaxRateCreate(t *testing.T) {
-	params := &stripe.TaxRateParams{
-		DisplayName:  stripe.String("VAT"),
-		Description:  stripe.String("VAT Germany"),
-		Jurisdiction: stripe.String("DE"),
-		Percentage:   stripe.Float64(16),
-		Inclusive:    stripe.Bool(false),
+func TestTestHelpersTestClockCreate2(t *testing.T) {
+	params := &stripe.TestHelpersTestClockParams{
+		FrozenTime: stripe.Int64(1577836800),
 	}
-	result, _ := taxrate.New(params)
+	result, _ := testhelpers_testclock.New(params)
 	assert.NotNil(t, result)
 }
 
-func TestTaxRateRetrieve(t *testing.T) {
-	params := &stripe.TaxRateParams{}
-	result, _ := taxrate.Get("txr_xxxxxxxxxxxxx", params)
+func TestTestHelpersTestClockRetrieve2(t *testing.T) {
+	params := &stripe.TestHelpersTestClockParams{}
+	result, _ := testhelpers_testclock.Get("clock_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 }
 
-func TestTaxRateUpdate(t *testing.T) {
-	params := &stripe.TaxRateParams{Active: stripe.Bool(false)}
-	result, _ := taxrate.Update("txr_xxxxxxxxxxxxx", params)
+func TestTestHelpersTestClockDelete2(t *testing.T) {
+	params := &stripe.TestHelpersTestClockParams{}
+	result, _ := testhelpers_testclock.Del("clock_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 }
 
-func TestTaxRateList(t *testing.T) {
-	params := &stripe.TaxRateListParams{}
+func TestTestHelpersTestClockAdvance2(t *testing.T) {
+	params := &stripe.TestHelpersTestClockAdvanceParams{
+		FrozenTime: stripe.Int64(1652390605),
+	}
+	result, _ := testhelpers_testclock.Advance("clock_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+}
+
+func TestTestHelpersTestClockList2(t *testing.T) {
+	params := &stripe.TestHelpersTestClockListParams{}
 	params.Limit = stripe.Int64(3)
-	result := taxrate.List(params)
+	result := testhelpers_testclock.List(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
 }
@@ -1377,13 +1974,13 @@ func TestTerminalReaderCreate(t *testing.T) {
 
 func TestTerminalReaderUpdate(t *testing.T) {
 	params := &stripe.TerminalReaderParams{Label: stripe.String("Blue Rabbit")}
-	result, _ := terminal_reader.Update("tmr_P400-123-456-789", params)
+	result, _ := terminal_reader.Update("tmr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 }
 
 func TestTerminalReaderDelete(t *testing.T) {
 	params := &stripe.TerminalReaderParams{}
-	result, _ := terminal_reader.Del("tmr_P400-123-456-789", params)
+	result, _ := terminal_reader.Del("tmr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 }
 
@@ -1391,6 +1988,335 @@ func TestTerminalReaderList(t *testing.T) {
 	params := &stripe.TerminalReaderListParams{}
 	params.Limit = stripe.Int64(3)
 	result := terminal_reader.List(params)
+	assert.NotNil(t, result)
+	assert.Nil(t, result.Err())
+}
+
+func TestTerminalReaderProcessPaymentIntent(t *testing.T) {
+	params := &stripe.TerminalReaderProcessPaymentIntentParams{
+		PaymentIntent: stripe.String("pi_xxxxxxxxxxxxx"),
+	}
+	result, _ := terminal_reader.ProcessPaymentIntent(
+		"tmr_xxxxxxxxxxxxx",
+		params,
+	)
+	assert.NotNil(t, result)
+}
+
+func TestTerminalReaderProcessSetupIntent(t *testing.T) {
+	params := &stripe.TerminalReaderProcessSetupIntentParams{
+		SetupIntent:              stripe.String("seti_xxxxxxxxxxxxx"),
+		CustomerConsentCollected: stripe.Bool(true),
+	}
+	result, _ := terminal_reader.ProcessSetupIntent("tmr_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+}
+
+func TestTerminalReaderCancelAction(t *testing.T) {
+	params := &stripe.TerminalReaderCancelActionParams{}
+	result, _ := terminal_reader.CancelAction("tmr_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+}
+
+func TestTerminalConfigurationCreate2(t *testing.T) {
+	params := &stripe.TerminalConfigurationParams{
+		BBPOSWisePOSE: &stripe.TerminalConfigurationBBPOSWisePOSEParams{
+			Splashscreen: stripe.String("file_xxxxxxxxxxxxx"),
+		},
+	}
+	result, _ := terminal_configuration.New(params)
+	assert.NotNil(t, result)
+}
+
+func TestTerminalConfigurationRetrieve2(t *testing.T) {
+	params := &stripe.TerminalConfigurationParams{}
+	result, _ := terminal_configuration.Get("tmc_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+}
+
+func TestTerminalConfigurationUpdate2(t *testing.T) {
+	params := &stripe.TerminalConfigurationParams{
+		BBPOSWisePOSE: &stripe.TerminalConfigurationBBPOSWisePOSEParams{
+			Splashscreen: stripe.String("file_xxxxxxxxxxxxx"),
+		},
+	}
+	result, _ := terminal_configuration.Update("tmc_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+}
+
+func TestTerminalConfigurationDelete2(t *testing.T) {
+	params := &stripe.TerminalConfigurationParams{}
+	result, _ := terminal_configuration.Del("tmc_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+}
+
+func TestTerminalConfigurationList2(t *testing.T) {
+	params := &stripe.TerminalConfigurationListParams{}
+	params.Limit = stripe.Int64(3)
+	result := terminal_configuration.List(params)
+	assert.NotNil(t, result)
+	assert.Nil(t, result.Err())
+}
+
+func TestTreasuryFinancialAccountCreate(t *testing.T) {
+	params := &stripe.TreasuryFinancialAccountParams{
+		SupportedCurrencies: []*string{stripe.String("usd")},
+		Features:            &stripe.TreasuryFinancialAccountFeaturesParams{},
+	}
+	result, _ := treasury_financialaccount.New(params)
+	assert.NotNil(t, result)
+}
+
+func TestTreasuryFinancialAccountUpdate(t *testing.T) {
+	params := &stripe.TreasuryFinancialAccountParams{}
+	params.AddMetadata("order_id", "6735")
+	result, _ := treasury_financialaccount.Update("fa_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+}
+
+func TestTreasuryFinancialAccountRetrieve(t *testing.T) {
+	params := &stripe.TreasuryFinancialAccountParams{}
+	result, _ := treasury_financialaccount.Get("fa_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+}
+
+func TestTreasuryFinancialAccountList(t *testing.T) {
+	params := &stripe.TreasuryFinancialAccountListParams{}
+	params.Limit = stripe.Int64(3)
+	result := treasury_financialaccount.List(params)
+	assert.NotNil(t, result)
+	assert.Nil(t, result.Err())
+}
+
+func TestTreasuryFinancialAccountUpdateFeatures(t *testing.T) {
+	params := &stripe.TreasuryFinancialAccountUpdateFeaturesParams{}
+	result, _ := treasury_financialaccount.UpdateFeatures(
+		"fa_xxxxxxxxxxxxx",
+		params,
+	)
+	assert.NotNil(t, result)
+}
+
+func TestTreasuryFinancialAccountRetrieveFeatures(t *testing.T) {
+	params := &stripe.TreasuryFinancialAccountRetrieveFeaturesParams{}
+	result, _ := treasury_financialaccount.RetrieveFeatures(
+		"fa_xxxxxxxxxxxxx",
+		params,
+	)
+	assert.NotNil(t, result)
+}
+
+func TestTreasuryTransactionRetrieve(t *testing.T) {
+	params := &stripe.TreasuryTransactionParams{}
+	result, _ := treasury_transaction.Get("trxn_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+}
+
+func TestTreasuryTransactionList(t *testing.T) {
+	params := &stripe.TreasuryTransactionListParams{
+		FinancialAccount: stripe.String("fa_xxxxxxxxxxxxx"),
+	}
+	params.Limit = stripe.Int64(3)
+	result := treasury_transaction.List(params)
+	assert.NotNil(t, result)
+	assert.Nil(t, result.Err())
+}
+
+func TestTreasuryTransactionEntryRetrieve(t *testing.T) {
+	params := &stripe.TreasuryTransactionEntryParams{}
+	result, _ := treasury_transactionentry.Get("trxne_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+}
+
+func TestTreasuryTransactionEntryList(t *testing.T) {
+	params := &stripe.TreasuryTransactionEntryListParams{
+		FinancialAccount: stripe.String("fa_xxxxxxxxxxxxx"),
+	}
+	params.Limit = stripe.Int64(3)
+	result := treasury_transactionentry.List(params)
+	assert.NotNil(t, result)
+	assert.Nil(t, result.Err())
+}
+
+func TestTreasuryOutboundTransferCreate(t *testing.T) {
+	params := &stripe.TreasuryOutboundTransferParams{
+		FinancialAccount:         stripe.String("fa_xxxxxxxxxxxxx"),
+		DestinationPaymentMethod: stripe.String("pm_xxxxxxxxxxxxx"),
+		Amount:                   stripe.Int64(500),
+		Currency:                 stripe.String(string(stripe.CurrencyUSD)),
+		Description:              stripe.String("OutboundTransfer to my external bank account"),
+	}
+	result, _ := treasury_outboundtransfer.New(params)
+	assert.NotNil(t, result)
+}
+
+func TestTreasuryOutboundTransferCancel(t *testing.T) {
+	params := &stripe.TreasuryOutboundTransferCancelParams{}
+	result, _ := treasury_outboundtransfer.Cancel("obt_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+}
+
+func TestTreasuryOutboundTransferRetrieve(t *testing.T) {
+	params := &stripe.TreasuryOutboundTransferParams{}
+	result, _ := treasury_outboundtransfer.Get("obt_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+}
+
+func TestTreasuryOutboundTransferList(t *testing.T) {
+	params := &stripe.TreasuryOutboundTransferListParams{
+		FinancialAccount: stripe.String("fa_xxxxxxxxxxxxx"),
+	}
+	params.Limit = stripe.Int64(3)
+	result := treasury_outboundtransfer.List(params)
+	assert.NotNil(t, result)
+	assert.Nil(t, result.Err())
+}
+
+func TestTreasuryOutboundPaymentCreate(t *testing.T) {
+	params := &stripe.TreasuryOutboundPaymentParams{
+		FinancialAccount:         stripe.String("fa_xxxxxxxxxxxxx"),
+		Amount:                   stripe.Int64(10000),
+		Currency:                 stripe.String(string(stripe.CurrencyUSD)),
+		Customer:                 stripe.String("cu_xxxxxxxxxxxxx"),
+		DestinationPaymentMethod: stripe.String("pm_xxxxxxxxxxxxx"),
+		Description:              stripe.String("OutboundPayment to a 3rd party"),
+	}
+	result, _ := treasury_outboundpayment.New(params)
+	assert.NotNil(t, result)
+}
+
+func TestTreasuryOutboundPaymentCancel(t *testing.T) {
+	params := &stripe.TreasuryOutboundPaymentCancelParams{}
+	result, _ := treasury_outboundpayment.Cancel("obp_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+}
+
+func TestTreasuryOutboundPaymentRetrieve(t *testing.T) {
+	params := &stripe.TreasuryOutboundPaymentParams{}
+	result, _ := treasury_outboundpayment.Get("obp_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+}
+
+func TestTreasuryOutboundPaymentList(t *testing.T) {
+	params := &stripe.TreasuryOutboundPaymentListParams{
+		FinancialAccount: stripe.String("fa_xxxxxxxxxxxxx"),
+	}
+	params.Limit = stripe.Int64(3)
+	result := treasury_outboundpayment.List(params)
+	assert.NotNil(t, result)
+	assert.Nil(t, result.Err())
+}
+
+func TestTreasuryInboundTransferCreate(t *testing.T) {
+	params := &stripe.TreasuryInboundTransferParams{
+		FinancialAccount:    stripe.String("fa_xxxxxxxxxxxxx"),
+		Amount:              stripe.Int64(10000),
+		Currency:            stripe.String(string(stripe.CurrencyUSD)),
+		OriginPaymentMethod: stripe.String("pm_xxxxxxxxxxxxx"),
+		Description:         stripe.String("InboundTransfer from my bank account"),
+	}
+	result, _ := treasury_inboundtransfer.New(params)
+	assert.NotNil(t, result)
+}
+
+func TestTreasuryInboundTransferRetrieve(t *testing.T) {
+	params := &stripe.TreasuryInboundTransferParams{}
+	result, _ := treasury_inboundtransfer.Get("ibt_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+}
+
+func TestTreasuryInboundTransferList(t *testing.T) {
+	params := &stripe.TreasuryInboundTransferListParams{
+		FinancialAccount: stripe.String("fa_xxxxxxxxxxxxx"),
+	}
+	params.Limit = stripe.Int64(3)
+	result := treasury_inboundtransfer.List(params)
+	assert.NotNil(t, result)
+	assert.Nil(t, result.Err())
+}
+
+func TestTreasuryInboundTransferCancel(t *testing.T) {
+	params := &stripe.TreasuryInboundTransferCancelParams{}
+	result, _ := treasury_inboundtransfer.Cancel("ibt_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+}
+
+func TestTreasuryReceivedCreditRetrieve(t *testing.T) {
+	params := &stripe.TreasuryReceivedCreditParams{}
+	result, _ := treasury_receivedcredit.Get("rc_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+}
+
+func TestTreasuryReceivedCreditList(t *testing.T) {
+	params := &stripe.TreasuryReceivedCreditListParams{
+		FinancialAccount: stripe.String("fa_xxxxxxxxxxxxx"),
+	}
+	params.Limit = stripe.Int64(3)
+	result := treasury_receivedcredit.List(params)
+	assert.NotNil(t, result)
+	assert.Nil(t, result.Err())
+}
+
+func TestTreasuryReceivedDebitRetrieve(t *testing.T) {
+	params := &stripe.TreasuryReceivedDebitParams{}
+	result, _ := treasury_receiveddebit.Get("rd_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+}
+
+func TestTreasuryReceivedDebitList(t *testing.T) {
+	params := &stripe.TreasuryReceivedDebitListParams{
+		FinancialAccount: stripe.String("fa_xxxxxxxxxxxxx"),
+	}
+	params.Limit = stripe.Int64(3)
+	result := treasury_receiveddebit.List(params)
+	assert.NotNil(t, result)
+	assert.Nil(t, result.Err())
+}
+
+func TestTreasuryCreditReversalCreate(t *testing.T) {
+	params := &stripe.TreasuryCreditReversalParams{
+		ReceivedCredit: stripe.String("rc_xxxxxxxxxxxxx"),
+	}
+	result, _ := treasury_creditreversal.New(params)
+	assert.NotNil(t, result)
+}
+
+func TestTreasuryCreditReversalRetrieve(t *testing.T) {
+	params := &stripe.TreasuryCreditReversalParams{}
+	result, _ := treasury_creditreversal.Get("credrev_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+}
+
+func TestTreasuryCreditReversalList(t *testing.T) {
+	params := &stripe.TreasuryCreditReversalListParams{
+		FinancialAccount: stripe.String("fa_xxxxxxxxxxxxx"),
+	}
+	params.Limit = stripe.Int64(3)
+	result := treasury_creditreversal.List(params)
+	assert.NotNil(t, result)
+	assert.Nil(t, result.Err())
+}
+
+func TestTreasuryDebitReversalCreate(t *testing.T) {
+	params := &stripe.TreasuryDebitReversalParams{
+		ReceivedDebit: stripe.String("rd_xxxxxxxxxxxxx"),
+	}
+	result, _ := treasury_debitreversal.New(params)
+	assert.NotNil(t, result)
+}
+
+func TestTreasuryDebitReversalRetrieve(t *testing.T) {
+	params := &stripe.TreasuryDebitReversalParams{}
+	result, _ := treasury_debitreversal.Get("debrev_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+}
+
+func TestTreasuryDebitReversalList(t *testing.T) {
+	params := &stripe.TreasuryDebitReversalListParams{
+		FinancialAccount: stripe.String("fa_xxxxxxxxxxxxx"),
+	}
+	params.Limit = stripe.Int64(3)
+	result := treasury_debitreversal.List(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
 }
@@ -1451,6 +2377,123 @@ func TestSigmaScheduledQueryRunList(t *testing.T) {
 	assert.Nil(t, result.Err())
 }
 
+func TestFinancialConnectionsAccountRetrieve2(t *testing.T) {
+	params := &stripe.FinancialConnectionsAccountParams{}
+	result, _ := financialconnections_account.GetByID(
+		"fca_xxxxxxxxxxxxx",
+		params,
+	)
+	assert.NotNil(t, result)
+}
+
+func TestFinancialConnectionsAccountList2(t *testing.T) {
+	params := &stripe.FinancialConnectionsAccountListParams{
+		AccountHolder: &stripe.FinancialConnectionsAccountListAccountHolderParams{
+			Customer: stripe.String("cus_xxxxxxxxxxxxx"),
+		},
+	}
+	result := financialconnections_account.List(params)
+	assert.NotNil(t, result)
+	assert.Nil(t, result.Err())
+}
+
+func TestFinancialConnectionsAccountListOwners2(t *testing.T) {
+	params := &stripe.FinancialConnectionsAccountListOwnersParams{
+		Ownership: stripe.String("fcaowns_xxxxxxxxxxxxx"),
+		Account:   stripe.String("fca_xxxxxxxxxxxxx"),
+	}
+	params.Limit = stripe.Int64(3)
+	result := financialconnections_account.ListOwners(params)
+	assert.NotNil(t, result)
+	assert.Nil(t, result.Err())
+}
+
+func TestFinancialConnectionsSessionCreate2(t *testing.T) {
+	params := &stripe.FinancialConnectionsSessionParams{
+		AccountHolder: &stripe.FinancialConnectionsSessionAccountHolderParams{
+			Type:     stripe.String(string(stripe.FinancialConnectionsSessionAccountHolderTypeCustomer)),
+			Customer: stripe.String("cus_xxxxxxxxxxxxx"),
+		},
+		Permissions: []*string{
+			stripe.String(string(stripe.FinancialConnectionsSessionPermissionPaymentMethod)),
+			stripe.String(string(stripe.FinancialConnectionsSessionPermissionBalances)),
+		},
+		Filters: &stripe.FinancialConnectionsSessionFiltersParams{
+			Countries: []*string{stripe.String("US")},
+		},
+	}
+	result, _ := financialconnections_session.New(params)
+	assert.NotNil(t, result)
+}
+
+func TestFinancialConnectionsSessionRetrieve2(t *testing.T) {
+	params := &stripe.FinancialConnectionsSessionParams{}
+	result, _ := financialconnections_session.Get("fcsess_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+}
+
+func TestSourceRetrieve2(t *testing.T) {
+	params := &stripe.SourceObjectParams{}
+	result, _ := source.Get("src_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+}
+
+func TestIdentityVerificationSessionCreate(t *testing.T) {
+	params := &stripe.IdentityVerificationSessionParams{
+		Type: stripe.String(string(stripe.IdentityVerificationSessionTypeDocument)),
+	}
+	result, _ := identity_verificationsession.New(params)
+	assert.NotNil(t, result)
+}
+
+func TestIdentityVerificationSessionList(t *testing.T) {
+	params := &stripe.IdentityVerificationSessionListParams{}
+	params.Limit = stripe.Int64(3)
+	result := identity_verificationsession.List(params)
+	assert.NotNil(t, result)
+	assert.Nil(t, result.Err())
+}
+
+func TestIdentityVerificationSessionRetrieve(t *testing.T) {
+	params := &stripe.IdentityVerificationSessionParams{}
+	result, _ := identity_verificationsession.Get("vs_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+}
+
+func TestIdentityVerificationSessionUpdate(t *testing.T) {
+	params := &stripe.IdentityVerificationSessionParams{
+		Type: stripe.String(string(stripe.IdentityVerificationSessionTypeIDNumber)),
+	}
+	result, _ := identity_verificationsession.Update("vs_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+}
+
+func TestIdentityVerificationSessionCancel(t *testing.T) {
+	params := &stripe.IdentityVerificationSessionCancelParams{}
+	result, _ := identity_verificationsession.Cancel("vs_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+}
+
+func TestIdentityVerificationSessionRedact(t *testing.T) {
+	params := &stripe.IdentityVerificationSessionRedactParams{}
+	result, _ := identity_verificationsession.Redact("vs_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+}
+
+func TestIdentityVerificationReportRetrieve(t *testing.T) {
+	params := &stripe.IdentityVerificationReportParams{}
+	result, _ := identity_verificationreport.Get("vr_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+}
+
+func TestIdentityVerificationReportList(t *testing.T) {
+	params := &stripe.IdentityVerificationReportListParams{}
+	params.Limit = stripe.Int64(3)
+	result := identity_verificationreport.List(params)
+	assert.NotNil(t, result)
+	assert.Nil(t, result.Err())
+}
+
 func TestWebhookEndpointCreate(t *testing.T) {
 	params := &stripe.WebhookEndpointParams{
 		URL: stripe.String("https://example.com/my/webhook/endpoint"),
@@ -1488,225 +2531,5 @@ func TestWebhookEndpointList(t *testing.T) {
 func TestWebhookEndpointDelete(t *testing.T) {
 	params := &stripe.WebhookEndpointParams{}
 	result, _ := webhookendpoint.Del("we_xxxxxxxxxxxxx", params)
-	assert.NotNil(t, result)
-}
-
-func TestCustomerListPaymentMethods(t *testing.T) {
-	params := &stripe.CustomerListPaymentMethodsParams{
-		Type:     stripe.String("card"),
-		Customer: stripe.String("cus_xyz"),
-	}
-	result := customer.ListPaymentMethods(params)
-	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
-}
-
-func TestCheckoutSessionExpire(t *testing.T) {
-	params := &stripe.CheckoutSessionExpireParams{}
-	result, _ := checkout_session.Expire("sess_xyz", params)
-	assert.NotNil(t, result)
-}
-
-func TestShippingRateCreate(t *testing.T) {
-	params := &stripe.ShippingRateParams{
-		DisplayName: stripe.String("Sample Shipper"),
-		FixedAmount: &stripe.ShippingRateFixedAmountParams{
-			Currency: stripe.String(string(stripe.CurrencyUSD)),
-			Amount:   stripe.Int64(400),
-		},
-		Type: stripe.String("fixed_amount"),
-	}
-	result, _ := shippingrate.New(params)
-	assert.NotNil(t, result)
-}
-
-func TestShippingRateList(t *testing.T) {
-	params := &stripe.ShippingRateListParams{}
-	result := shippingrate.List(params)
-	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
-}
-
-func TestPaymentIntentCreate2(t *testing.T) {
-	params := &stripe.PaymentIntentParams{
-		Amount:   stripe.Int64(1099),
-		Currency: stripe.String(string(stripe.CurrencyEUR)),
-		AutomaticPaymentMethods: &stripe.PaymentIntentAutomaticPaymentMethodsParams{
-			Enabled: stripe.Bool(true),
-		},
-	}
-	result, _ := paymentintent.New(params)
-	assert.NotNil(t, result)
-}
-
-func TestPaymentLinkCreate(t *testing.T) {
-	params := &stripe.PaymentLinkParams{
-		LineItems: []*stripe.PaymentLinkLineItemParams{
-			&stripe.PaymentLinkLineItemParams{
-				Price:    stripe.String("price_xxxxxxxxxxxxx"),
-				Quantity: stripe.Int64(1),
-			},
-		},
-	}
-	result, _ := paymentlink.New(params)
-	assert.NotNil(t, result)
-}
-
-func TestPaymentLinkListLineItems(t *testing.T) {
-	params := &stripe.PaymentLinkListLineItemsParams{
-		PaymentLink: stripe.String("pl_xyz"),
-	}
-	result := paymentlink.ListLineItems(params)
-	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
-}
-
-func TestPaymentLinkRetrieve(t *testing.T) {
-	params := &stripe.PaymentLinkParams{}
-	result, _ := paymentlink.Get("pl_xyz", params)
-	assert.NotNil(t, result)
-}
-
-func TestPaymentIntentVerifyMicrodeposits(t *testing.T) {
-	params := &stripe.PaymentIntentVerifyMicrodepositsParams{}
-	result, _ := paymentintent.VerifyMicrodeposits("pi_xxxxxxxxxxxxx", params)
-	assert.NotNil(t, result)
-}
-
-func TestSetupIntentVerifyMicrodeposits(t *testing.T) {
-	params := &stripe.SetupIntentVerifyMicrodepositsParams{}
-	result, _ := setupintent.VerifyMicrodeposits("seti_xxxxxxxxxxxxx", params)
-	assert.NotNil(t, result)
-}
-
-func TestTestHelpersTestClockCreate(t *testing.T) {
-	params := &stripe.TestHelpersTestClockParams{
-		FrozenTime: stripe.Int64(123),
-		Name:       stripe.String("cogsworth"),
-	}
-	result, _ := testhelpers_testclock.New(params)
-	assert.NotNil(t, result)
-}
-
-func TestTestHelpersTestClockRetrieve(t *testing.T) {
-	params := &stripe.TestHelpersTestClockParams{}
-	result, _ := testhelpers_testclock.Get("clock_xyz", params)
-	assert.NotNil(t, result)
-}
-
-func TestTestHelpersTestClockList(t *testing.T) {
-	params := &stripe.TestHelpersTestClockListParams{}
-	result := testhelpers_testclock.List(params)
-	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
-}
-
-func TestTestHelpersTestClockDelete(t *testing.T) {
-	params := &stripe.TestHelpersTestClockParams{}
-	result, _ := testhelpers_testclock.Del("clock_xyz", params)
-	assert.NotNil(t, result)
-}
-
-func TestTestHelpersTestClockAdvance(t *testing.T) {
-	params := &stripe.TestHelpersTestClockAdvanceParams{
-		FrozenTime: stripe.Int64(142),
-	}
-	result, _ := testhelpers_testclock.Advance("clock_xyz", params)
-	assert.NotNil(t, result)
-}
-
-func TestCustomerCreateFundingInstructions(t *testing.T) {
-	params := &stripe.CustomerCreateFundingInstructionsParams{
-		BankTransfer: &stripe.CustomerCreateFundingInstructionsBankTransferParams{
-			RequestedAddressTypes: []*string{stripe.String("zengin")},
-			Type:                  stripe.String("jp_bank_transfer"),
-		},
-		Currency:    stripe.String(string(stripe.CurrencyUSD)),
-		FundingType: stripe.String("bank_transfer"),
-	}
-	result, _ := customer.CreateFundingInstructions("cus_123", params)
-	assert.NotNil(t, result)
-}
-
-func TestTerminalConfigurationList(t *testing.T) {
-	params := &stripe.TerminalConfigurationListParams{}
-	result := terminal_configuration.List(params)
-	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
-}
-
-func TestTerminalConfigurationRetrieve(t *testing.T) {
-	params := &stripe.TerminalConfigurationParams{}
-	result, _ := terminal_configuration.Get("uc_123", params)
-	assert.NotNil(t, result)
-}
-
-func TestTerminalConfigurationCreate(t *testing.T) {
-	params := &stripe.TerminalConfigurationParams{}
-	result, _ := terminal_configuration.New(params)
-	assert.NotNil(t, result)
-}
-
-func TestTerminalConfigurationUpdate(t *testing.T) {
-	params := &stripe.TerminalConfigurationParams{
-		Tipping: &stripe.TerminalConfigurationTippingParams{
-			USD: &stripe.TerminalConfigurationTippingUSDParams{
-				FixedAmounts: []*int64{stripe.Int64(10)},
-			},
-		},
-	}
-	result, _ := terminal_configuration.Update("uc_123", params)
-	assert.NotNil(t, result)
-}
-
-func TestTerminalConfigurationDelete(t *testing.T) {
-	params := &stripe.TerminalConfigurationParams{}
-	result, _ := terminal_configuration.Del("uc_123", params)
-	assert.NotNil(t, result)
-}
-
-func TestTestHelpersRefundExpire(t *testing.T) {
-	params := &stripe.TestHelpersRefundExpireParams{}
-	result, _ := testhelpers_refund.Expire("re_123", params)
-	assert.NotNil(t, result)
-}
-
-func TestFinancialConnectionsAccountRetrieve(t *testing.T) {
-	params := &stripe.FinancialConnectionsAccountParams{}
-	result, _ := financialconnections_account.GetByID("fca_xyz", params)
-	assert.NotNil(t, result)
-}
-
-func TestFinancialConnectionsAccountRefresh(t *testing.T) {
-	params := &stripe.FinancialConnectionsAccountRefreshParams{
-		Features: []*string{stripe.String("balance")},
-	}
-	result, _ := financialconnections_account.Refresh("fca_xyz", params)
-	assert.NotNil(t, result)
-}
-
-func TestFinancialConnectionsAccountDisconnect(t *testing.T) {
-	params := &stripe.FinancialConnectionsAccountDisconnectParams{}
-	result, _ := financialconnections_account.Disconnect("fca_xyz", params)
-	assert.NotNil(t, result)
-}
-
-func TestFinancialConnectionsSessionCreate(t *testing.T) {
-	params := &stripe.FinancialConnectionsSessionParams{
-		AccountHolder: &stripe.FinancialConnectionsSessionAccountHolderParams{
-			Type:     stripe.String(string(stripe.FinancialConnectionsSessionAccountHolderTypeCustomer)),
-			Customer: stripe.String("cus_123"),
-		},
-		Permissions: []*string{
-			stripe.String(string(stripe.FinancialConnectionsSessionPermissionBalances)),
-		},
-	}
-	result, _ := financialconnections_session.New(params)
-	assert.NotNil(t, result)
-}
-
-func TestFinancialConnectionsSessionRetrieve(t *testing.T) {
-	params := &stripe.FinancialConnectionsSessionParams{}
-	result, _ := financialconnections_session.Get("fcsess_xyz", params)
 	assert.NotNil(t, result)
 }

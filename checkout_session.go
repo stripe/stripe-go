@@ -727,6 +727,8 @@ type CheckoutSessionParams struct {
 	PaymentMethodOptions *CheckoutSessionPaymentMethodOptionsParams `form:"payment_method_options"`
 	// A list of the types of payment methods (e.g., `card`) this Checkout Session can accept.
 	//
+	// Do not include this attribute if you prefer to manage your payment methods from the [Stripe Dashboard](https://dashboard.stripe.com/settings/payment_methods).
+	//
 	// Read more about the supported payment methods and their requirements in our [payment
 	// method details guide](https://stripe.com/docs/payments/checkout/payment-methods).
 	//
@@ -859,11 +861,19 @@ type CheckoutSessionPaymentMethodOptionsACSSDebit struct {
 	// Bank account verification method.
 	VerificationMethod CheckoutSessionPaymentMethodOptionsACSSDebitVerificationMethod `json:"verification_method"`
 }
+type CheckoutSessionPaymentMethodOptionsAfterpayClearpay struct{}
 type CheckoutSessionPaymentMethodOptionsAlipay struct{}
+type CheckoutSessionPaymentMethodOptionsAUBECSDebit struct{}
+type CheckoutSessionPaymentMethodOptionsBACSDebit struct{}
 type CheckoutSessionPaymentMethodOptionsBoleto struct {
 	// The number of calendar days before a Boleto voucher expires. For example, if you create a Boleto voucher on Monday and you set expires_after_days to 2, the Boleto voucher will expire on Wednesday at 23:59 America/Sao_Paulo time.
 	ExpiresAfterDays int64 `json:"expires_after_days"`
 }
+type CheckoutSessionPaymentMethodOptionsEPS struct{}
+type CheckoutSessionPaymentMethodOptionsFPX struct{}
+type CheckoutSessionPaymentMethodOptionsGiropay struct{}
+type CheckoutSessionPaymentMethodOptionsGrabpay struct{}
+type CheckoutSessionPaymentMethodOptionsKlarna struct{}
 type CheckoutSessionPaymentMethodOptionsKonbini struct {
 	// The number of calendar days (between 1 and 60) after which Konbini payment instructions will expire. For example, if a PaymentIntent is confirmed with Konbini and `expires_after_days` set to 2 on Monday JST, the instructions will expire on Wednesday 23:59:59 JST.
 	ExpiresAfterDays int64 `json:"expires_after_days"`
@@ -872,6 +882,8 @@ type CheckoutSessionPaymentMethodOptionsOXXO struct {
 	// The number of calendar days before an OXXO invoice expires. For example, if you create an OXXO invoice on Monday and you set expires_after_days to 2, the OXXO invoice will expire on Wednesday at 23:59 America/Mexico_City time.
 	ExpiresAfterDays int64 `json:"expires_after_days"`
 }
+type CheckoutSessionPaymentMethodOptionsPayNow struct{}
+type CheckoutSessionPaymentMethodOptionsSepaDebit struct{}
 type CheckoutSessionPaymentMethodOptionsUSBankAccountFinancialConnections struct {
 	// The list of permissions to request. The `payment_method` permission must be included.
 	Permissions []CheckoutSessionPaymentMethodOptionsUSBankAccountFinancialConnectionsPermission `json:"permissions"`
@@ -886,12 +898,22 @@ type CheckoutSessionPaymentMethodOptionsUSBankAccount struct {
 
 // Payment-method-specific configuration for the PaymentIntent or SetupIntent of this CheckoutSession.
 type CheckoutSessionPaymentMethodOptions struct {
-	ACSSDebit     *CheckoutSessionPaymentMethodOptionsACSSDebit     `json:"acss_debit"`
-	Alipay        *CheckoutSessionPaymentMethodOptionsAlipay        `json:"alipay"`
-	Boleto        *CheckoutSessionPaymentMethodOptionsBoleto        `json:"boleto"`
-	Konbini       *CheckoutSessionPaymentMethodOptionsKonbini       `json:"konbini"`
-	OXXO          *CheckoutSessionPaymentMethodOptionsOXXO          `json:"oxxo"`
-	USBankAccount *CheckoutSessionPaymentMethodOptionsUSBankAccount `json:"us_bank_account"`
+	ACSSDebit        *CheckoutSessionPaymentMethodOptionsACSSDebit        `json:"acss_debit"`
+	AfterpayClearpay *CheckoutSessionPaymentMethodOptionsAfterpayClearpay `json:"afterpay_clearpay"`
+	Alipay           *CheckoutSessionPaymentMethodOptionsAlipay           `json:"alipay"`
+	AUBECSDebit      *CheckoutSessionPaymentMethodOptionsAUBECSDebit      `json:"au_becs_debit"`
+	BACSDebit        *CheckoutSessionPaymentMethodOptionsBACSDebit        `json:"bacs_debit"`
+	Boleto           *CheckoutSessionPaymentMethodOptionsBoleto           `json:"boleto"`
+	EPS              *CheckoutSessionPaymentMethodOptionsEPS              `json:"eps"`
+	FPX              *CheckoutSessionPaymentMethodOptionsFPX              `json:"fpx"`
+	Giropay          *CheckoutSessionPaymentMethodOptionsGiropay          `json:"giropay"`
+	Grabpay          *CheckoutSessionPaymentMethodOptionsGrabpay          `json:"grabpay"`
+	Klarna           *CheckoutSessionPaymentMethodOptionsKlarna           `json:"klarna"`
+	Konbini          *CheckoutSessionPaymentMethodOptionsKonbini          `json:"konbini"`
+	OXXO             *CheckoutSessionPaymentMethodOptionsOXXO             `json:"oxxo"`
+	PayNow           *CheckoutSessionPaymentMethodOptionsPayNow           `json:"paynow"`
+	SepaDebit        *CheckoutSessionPaymentMethodOptionsSepaDebit        `json:"sepa_debit"`
+	USBankAccount    *CheckoutSessionPaymentMethodOptionsUSBankAccount    `json:"us_bank_account"`
 }
 type CheckoutSessionPhoneNumberCollection struct {
 	// Indicates whether phone number collection is enabled for the session

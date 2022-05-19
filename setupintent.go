@@ -20,6 +20,17 @@ const (
 	SetupIntentCancellationReasonRequestedByCustomer SetupIntentCancellationReason = "requested_by_customer"
 )
 
+// Indicates the directions of money movement for which this payment method is intended to be used.
+//
+// Include `inbound` if you intend to use the payment method as the origin to pull funds from. Include `outbound` if you intend to use the payment method as the destination to send funds to. You can include both if you intend to use the payment method for both purposes.
+type SetupIntentFlowDirection string
+
+// List of values that SetupIntentFlowDirection can take
+const (
+	SetupIntentFlowDirectionInbound  SetupIntentFlowDirection = "inbound"
+	SetupIntentFlowDirectionOutbound SetupIntentFlowDirection = "outbound"
+)
+
 // Type of the next action to perform, one of `redirect_to_url`, `use_stripe_sdk`, `alipay_handle_redirect`, `oxxo_display_details`, or `verify_with_microdeposits`.
 type SetupIntentNextActionType string
 
@@ -478,10 +489,18 @@ type SetupIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsParams stru
 	ReturnURL *string `form:"return_url"`
 }
 
+// Additional fields for network related functions
+type SetupIntentPaymentMethodOptionsUSBankAccountNetworksParams struct {
+	// Triggers validations to run across the selected networks
+	Requested []*string `form:"requested"`
+}
+
 // If this is a `us_bank_account` SetupIntent, this sub-hash contains details about the US bank account payment method options.
 type SetupIntentPaymentMethodOptionsUSBankAccountParams struct {
 	// Additional fields for Financial Connections Session creation
 	FinancialConnections *SetupIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsParams `form:"financial_connections"`
+	// Additional fields for network related functions
+	Networks *SetupIntentPaymentMethodOptionsUSBankAccountNetworksParams `form:"networks"`
 	// Verification method for the intent
 	VerificationMethod *string `form:"verification_method"`
 }
@@ -931,6 +950,10 @@ type SetupIntent struct {
 	APIResource
 	// ID of the Connect application that created the SetupIntent.
 	Application *Application `json:"application"`
+	// If present, the SetupIntent's payment method will be attached to the in-context Stripe Account.
+	//
+	// It can only be used for this Stripe Account's own money movement flows like InboundTransfer and OutboundTransfers. It cannot be set to true when setting up a PaymentMethod for a Customer, and defaults to false when attaching a PaymentMethod to a Customer.
+	AttachToSelf bool `json:"attach_to_self"`
 	// Reason for cancellation of this SetupIntent, one of `abandoned`, `requested_by_customer`, or `duplicate`.
 	CancellationReason SetupIntentCancellationReason `json:"cancellation_reason"`
 	// The client secret of this SetupIntent. Used for client-side retrieval using a publishable key.
@@ -945,6 +968,10 @@ type SetupIntent struct {
 	Customer *Customer `json:"customer"`
 	// An arbitrary string attached to the object. Often useful for displaying to users.
 	Description string `json:"description"`
+	// Indicates the directions of money movement for which this payment method is intended to be used.
+	//
+	// Include `inbound` if you intend to use the payment method as the origin to pull funds from. Include `outbound` if you intend to use the payment method as the destination to send funds to. You can include both if you intend to use the payment method for both purposes.
+	FlowDirections []SetupIntentFlowDirection `json:"flow_directions"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// The error encountered in the previous SetupIntent confirmation.
