@@ -89,7 +89,7 @@ type TreasuryInboundTransferParams struct {
 	FinancialAccount *string `form:"financial_account"`
 	// The origin payment method to be debited for the InboundTransfer.
 	OriginPaymentMethod *string `form:"origin_payment_method"`
-	// The complete description that appears on your customers' statements. Must contain at least one letter, maximum 10 characters.
+	// The complete description that appears on your customers' statements. Maximum 10 characters.
 	StatementDescriptor *string `form:"statement_descriptor"`
 }
 

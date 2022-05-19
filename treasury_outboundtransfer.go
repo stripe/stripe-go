@@ -97,7 +97,7 @@ type TreasuryOutboundTransferParams struct {
 	DestinationPaymentMethodOptions *TreasuryOutboundTransferDestinationPaymentMethodOptionsParams `form:"destination_payment_method_options"`
 	// The FinancialAccount to pull funds from.
 	FinancialAccount *string `form:"financial_account"`
-	// Statement descriptor to be shown on the receiving end of an OutboundTransfer.
+	// Statement descriptor to be shown on the receiving end of an OutboundTransfer. Maximum 10 characters for `ach` transfers or 140 characters for `wire` transfers. The default value is `transfer`.
 	StatementDescriptor *string `form:"statement_descriptor"`
 }
 

@@ -160,7 +160,7 @@ type TreasuryOutboundPaymentParams struct {
 	EndUserDetails *TreasuryOutboundPaymentEndUserDetailsParams `form:"end_user_details"`
 	// The FinancialAccount to pull funds from.
 	FinancialAccount *string `form:"financial_account"`
-	// The description that appears on the receiving end for this OutboundPayment (for example, bank statement for external bank transfer).
+	// The description that appears on the receiving end for this OutboundPayment (for example, bank statement for external bank transfer). Maximum 10 characters for `ach` payments, 140 characters for `wire` payments, or 500 characters for `stripe` network transfers. The default value is `payment`.
 	StatementDescriptor *string `form:"statement_descriptor"`
 }
 

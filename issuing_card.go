@@ -292,6 +292,8 @@ type IssuingCard struct {
 	ExpMonth int64 `json:"exp_month"`
 	// The expiration year of the card.
 	ExpYear int64 `json:"exp_year"`
+	// The financial account this card is attached to.
+	FinancialAccount string `json:"financial_account"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// The last 4 digits of the card number.
