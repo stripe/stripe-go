@@ -57,7 +57,7 @@ gem 'omniauth', '~> 2.1.0'
 gem 'nokogiri', '>= 1.13.0'
 
 group :test do
-  gem 'bundler-audit', '~> 0.9.0.1', require: false
+  gem 'bundler-audit', '~> 0.9.1', require: false
   gem 'brakeman', '~> 5.2.3', require: false
 
   gem 'minitest', '~> 5.15.0'
