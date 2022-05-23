@@ -1,5 +1,9 @@
 # Changelog
 
+## 72.110.0 - 2022-05-23
+* [#1465](https://github.com/stripe/stripe-go/pull/1465) API Updates
+  * Add support for `Treasury` on `AccountCapabilitiesParams` and `AccountCapabilities`
+
 ## 72.109.0 - 2022-05-23
 * [#1464](https://github.com/stripe/stripe-go/pull/1464) API Updates
   * Add support for new resource `Apps.Secret`
