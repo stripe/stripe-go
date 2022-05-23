@@ -12,6 +12,7 @@ import (
 	"github.com/stripe/stripe-go/v72/account"
 	"github.com/stripe/stripe-go/v72/accountlink"
 	"github.com/stripe/stripe-go/v72/applepaydomain"
+	appssecret "github.com/stripe/stripe-go/v72/apps/secret"
 	"github.com/stripe/stripe-go/v72/balance"
 	"github.com/stripe/stripe-go/v72/balancetransaction"
 	"github.com/stripe/stripe-go/v72/bankaccount"
@@ -121,6 +122,8 @@ type API struct {
 	AccountLinks *accountlink.Client
 	// ApplePayDomains is the client used to invoke /apple_pay/domains APIs.
 	ApplePayDomains *applepaydomain.Client
+	// AppsSecrets is the client used to invoke /apps/secrets APIs.
+	AppsSecrets *appssecret.Client
 	// Balance is the client used to invoke /balance APIs.
 	Balance *balance.Client
 	// BalanceTransaction is the client used to invoke /balance_transactions APIs.
@@ -334,6 +337,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.Account = &account.Client{B: backends.API, Key: key}
 	a.AccountLinks = &accountlink.Client{B: backends.API, Key: key}
 	a.ApplePayDomains = &applepaydomain.Client{B: backends.API, Key: key}
+	a.AppsSecrets = &appssecret.Client{B: backends.API, Key: key}
 	a.Balance = &balance.Client{B: backends.API, Key: key}
 	a.BalanceTransaction = &balancetransaction.Client{B: backends.API, Key: key}
 	a.BankAccounts = &bankaccount.Client{B: backends.API, Key: key}

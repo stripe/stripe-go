@@ -67,6 +67,7 @@ type PaymentMethodType string
 // List of values that PaymentMethodType can take
 const (
 	PaymentMethodTypeACSSDebit        PaymentMethodType = "acss_debit"
+	PaymentMethodTypeAffirm           PaymentMethodType = "affirm"
 	PaymentMethodTypeAfterpayClearpay PaymentMethodType = "afterpay_clearpay"
 	PaymentMethodTypeAlipay           PaymentMethodType = "alipay"
 	PaymentMethodTypeAUBECSDebit      PaymentMethodType = "au_becs_debit"
@@ -84,6 +85,7 @@ const (
 	PaymentMethodTypeInteracPresent   PaymentMethodType = "interac_present"
 	PaymentMethodTypeKlarna           PaymentMethodType = "klarna"
 	PaymentMethodTypeKonbini          PaymentMethodType = "konbini"
+	PaymentMethodTypeLink             PaymentMethodType = "link"
 	PaymentMethodTypeOXXO             PaymentMethodType = "oxxo"
 	PaymentMethodTypeP24              PaymentMethodType = "p24"
 	PaymentMethodTypePayNow           PaymentMethodType = "paynow"
@@ -129,6 +131,9 @@ type PaymentMethodACSSDebitParams struct {
 	// Transit number of the customer's bank.
 	TransitNumber *string `form:"transit_number"`
 }
+
+// If this is an `affirm` PaymentMethod, this hash contains details about the Affirm payment method.
+type PaymentMethodAffirmParams struct{}
 
 // If this is an `AfterpayClearpay` PaymentMethod, this hash contains details about the AfterpayClearpay payment method.
 type PaymentMethodAfterpayClearpayParams struct{}
@@ -237,6 +242,9 @@ type PaymentMethodKlarnaParams struct {
 // If this is a `konbini` PaymentMethod, this hash contains details about the Konbini payment method.
 type PaymentMethodKonbiniParams struct{}
 
+// If this is an `Link` PaymentMethod, this hash contains details about the Link payment method.
+type PaymentMethodLinkParams struct{}
+
 // If this is an `oxxo` PaymentMethod, this hash contains details about the OXXO payment method.
 type PaymentMethodOXXOParams struct{}
 
@@ -286,6 +294,8 @@ type PaymentMethodParams struct {
 	Params `form:"*"`
 	// This is a legacy parameter that will be removed in the future. It is a hash that does not accept any keys.
 	ACSSDebit *PaymentMethodACSSDebitParams `form:"acss_debit"`
+	// This is a legacy parameter that will be removed in the future. It is a hash that does not accept any keys.
+	Affirm *PaymentMethodAffirmParams `form:"affirm"`
 	// If this is an `AfterpayClearpay` PaymentMethod, this hash contains details about the AfterpayClearpay payment method.
 	AfterpayClearpay *PaymentMethodAfterpayClearpayParams `form:"afterpay_clearpay"`
 	// If this is an `Alipay` PaymentMethod, this hash contains details about the Alipay payment method.
@@ -320,6 +330,8 @@ type PaymentMethodParams struct {
 	Klarna *PaymentMethodKlarnaParams `form:"klarna"`
 	// If this is a `konbini` PaymentMethod, this hash contains details about the Konbini payment method.
 	Konbini *PaymentMethodKonbiniParams `form:"konbini"`
+	// If this is an `Link` PaymentMethod, this hash contains details about the Link payment method.
+	Link *PaymentMethodLinkParams `form:"link"`
 	// If this is an `oxxo` PaymentMethod, this hash contains details about the OXXO payment method.
 	OXXO *PaymentMethodOXXOParams `form:"oxxo"`
 	// If this is a `p24` PaymentMethod, this hash contains details about the P24 payment method.
@@ -385,6 +397,7 @@ type PaymentMethodACSSDebit struct {
 	// Transit number of the bank account.
 	TransitNumber string `json:"transit_number"`
 }
+type PaymentMethodAffirm struct{}
 type PaymentMethodAfterpayClearpay struct{}
 type PaymentMethodAlipay struct{}
 type PaymentMethodAUBECSDebit struct {
@@ -551,6 +564,12 @@ type PaymentMethodKlarna struct {
 	DOB *PaymentMethodKlarnaDOB `json:"dob"`
 }
 type PaymentMethodKonbini struct{}
+type PaymentMethodLink struct {
+	// Account owner's email address.
+	Email string `json:"email"`
+	// Token used for persistent Link logins.
+	PersistentToken string `json:"persistent_token"`
+}
 type PaymentMethodOXXO struct{}
 type PaymentMethodP24 struct {
 	// The customer's bank, if provided.
@@ -619,6 +638,7 @@ type PaymentMethodWechatPay struct{}
 type PaymentMethod struct {
 	APIResource
 	ACSSDebit        *PaymentMethodACSSDebit        `json:"acss_debit"`
+	Affirm           *PaymentMethodAffirm           `json:"affirm"`
 	AfterpayClearpay *PaymentMethodAfterpayClearpay `json:"afterpay_clearpay"`
 	Alipay           *PaymentMethodAlipay           `json:"alipay"`
 	AUBECSDebit      *PaymentMethodAUBECSDebit      `json:"au_becs_debit"`
@@ -643,6 +663,7 @@ type PaymentMethod struct {
 	InteracPresent *PaymentMethodInteracPresent `json:"interac_present"`
 	Klarna         *PaymentMethodKlarna         `json:"klarna"`
 	Konbini        *PaymentMethodKonbini        `json:"konbini"`
+	Link           *PaymentMethodLink           `json:"link"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
