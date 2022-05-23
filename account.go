@@ -90,6 +90,16 @@ const (
 	AccountCapabilitiesPayNowPaymentsPending  AccountCapabilitiesPayNowPayments = "pending"
 )
 
+// The status of the banking capability, or whether the account can have bank accounts.
+type AccountCapabilitiesTreasury string
+
+// List of values that AccountCapabilitiesTreasury can take
+const (
+	AccountCapabilitiesTreasuryActive   AccountCapabilitiesTreasury = "active"
+	AccountCapabilitiesTreasuryInactive AccountCapabilitiesTreasury = "inactive"
+	AccountCapabilitiesTreasuryPending  AccountCapabilitiesTreasury = "pending"
+)
+
 // The status of the US bank account ACH payments capability of the account, or whether the account can directly process US bank account charges.
 type AccountCapabilitiesUSBankAccountAchPayments string
 
@@ -435,6 +445,12 @@ type AccountCapabilitiesTransfersParams struct {
 	Requested *bool `form:"requested"`
 }
 
+// The treasury capability.
+type AccountCapabilitiesTreasuryParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
 // The us_bank_account_ach_payments capability.
 type AccountCapabilitiesUSBankAccountAchPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
@@ -497,6 +513,8 @@ type AccountCapabilitiesParams struct {
 	TaxReportingUS1099MISC *AccountCapabilitiesTaxReportingUS1099MISCParams `form:"tax_reporting_us_1099_misc"`
 	// The transfers capability.
 	Transfers *AccountCapabilitiesTransfersParams `form:"transfers"`
+	// The treasury capability.
+	Treasury *AccountCapabilitiesTreasuryParams `form:"treasury"`
 	// The us_bank_account_ach_payments capability.
 	USBankAccountAchPayments *AccountCapabilitiesUSBankAccountAchPaymentsParams `form:"us_bank_account_ach_payments"`
 }
@@ -875,6 +893,8 @@ type AccountCapabilities struct {
 	TaxReportingUS1099MISC AccountCapabilityStatus `json:"tax_reporting_us_1099_misc"`
 	// The status of the transfers capability of the account, or whether your platform can transfer funds to the account.
 	Transfers AccountCapabilityStatus `json:"transfers"`
+	// The status of the banking capability, or whether the account can have bank accounts.
+	Treasury AccountCapabilitiesTreasury `json:"treasury"`
 	// The status of the US bank account ACH payments capability of the account, or whether the account can directly process US bank account charges.
 	USBankAccountAchPayments AccountCapabilitiesUSBankAccountAchPayments `json:"us_bank_account_ach_payments"`
 }
