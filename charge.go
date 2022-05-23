@@ -393,6 +393,7 @@ type ChargePaymentMethodDetailsAcssDebit struct {
 	// Transit number of the bank account.
 	TransitNumber string `json:"transit_number"`
 }
+type ChargePaymentMethodDetailsAffirm struct{}
 type ChargePaymentMethodDetailsAfterpayClearpay struct {
 	// Order identifier shown to the merchant in Afterpay's online portal.
 	Reference string `json:"reference"`
@@ -748,6 +749,7 @@ type ChargePaymentMethodDetailsKonbini struct {
 	// If the payment succeeded, this contains the details of the convenience store where the payment was completed.
 	Store *ChargePaymentMethodDetailsKonbiniStore `json:"store"`
 }
+type ChargePaymentMethodDetailsLink struct{}
 type ChargePaymentMethodDetailsMultibanco struct {
 	// Entity number associated with this Multibanco payment.
 	Entity string `json:"entity"`
@@ -844,6 +846,7 @@ type ChargePaymentMethodDetails struct {
 	AchCreditTransfer  *ChargePaymentMethodDetailsAchCreditTransfer  `json:"ach_credit_transfer"`
 	AchDebit           *ChargePaymentMethodDetailsAchDebit           `json:"ach_debit"`
 	AcssDebit          *ChargePaymentMethodDetailsAcssDebit          `json:"acss_debit"`
+	Affirm             *ChargePaymentMethodDetailsAffirm             `json:"affirm"`
 	AfterpayClearpay   *ChargePaymentMethodDetailsAfterpayClearpay   `json:"afterpay_clearpay"`
 	Alipay             *ChargePaymentMethodDetailsAlipay             `json:"alipay"`
 	AUBECSDebit        *ChargePaymentMethodDetailsAUBECSDebit        `json:"au_becs_debit"`
@@ -861,6 +864,7 @@ type ChargePaymentMethodDetails struct {
 	InteracPresent     *ChargePaymentMethodDetailsInteracPresent     `json:"interac_present"`
 	Klarna             *ChargePaymentMethodDetailsKlarna             `json:"klarna"`
 	Konbini            *ChargePaymentMethodDetailsKonbini            `json:"konbini"`
+	Link               *ChargePaymentMethodDetailsLink               `json:"link"`
 	Multibanco         *ChargePaymentMethodDetailsMultibanco         `json:"multibanco"`
 	OXXO               *ChargePaymentMethodDetailsOXXO               `json:"oxxo"`
 	P24                *ChargePaymentMethodDetailsP24                `json:"p24"`

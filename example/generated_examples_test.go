@@ -7,6 +7,7 @@ import (
 	stripe "github.com/stripe/stripe-go/v72"
 	account "github.com/stripe/stripe-go/v72/account"
 	accountlink "github.com/stripe/stripe-go/v72/accountlink"
+	apps_secret "github.com/stripe/stripe-go/v72/apps/secret"
 	billingportal_configuration "github.com/stripe/stripe-go/v72/billingportal/configuration"
 	billingportal_session "github.com/stripe/stripe-go/v72/billingportal/session"
 	capability "github.com/stripe/stripe-go/v72/capability"
@@ -389,6 +390,40 @@ func TestTestHelpersTreasuryReceivedDebitCreate(t *testing.T) {
 		Currency:         stripe.String(string(stripe.CurrencyUSD)),
 	}
 	result, _ := testhelpers_treasury_receiveddebit.New(params)
+	assert.NotNil(t, result)
+}
+
+func TestAppsSecretCreate(t *testing.T) {
+	params := &stripe.AppsSecretParams{
+		Name:    stripe.String("sec_123"),
+		Payload: stripe.String("very secret string"),
+		Scope: &stripe.AppsSecretScopeParams{
+			Type: stripe.String(string(stripe.AppsSecretScopeTypeAccount)),
+		},
+	}
+	result, _ := apps_secret.New(params)
+	assert.NotNil(t, result)
+}
+
+func TestAppsSecretFind(t *testing.T) {
+	params := &stripe.AppsSecretFindParams{
+		Name: stripe.String("sec_123"),
+		Scope: &stripe.AppsSecretFindScopeParams{
+			Type: stripe.String(string(stripe.AppsSecretScopeTypeAccount)),
+		},
+	}
+	result, _ := apps_secret.Find(params)
+	assert.NotNil(t, result)
+}
+
+func TestAppsSecretDeleteWhere(t *testing.T) {
+	params := &stripe.AppsSecretDeleteWhereParams{
+		Name: stripe.String("sec_123"),
+		Scope: &stripe.AppsSecretDeleteWhereScopeParams{
+			Type: stripe.String(string(stripe.AppsSecretScopeTypeAccount)),
+		},
+	}
+	result, _ := apps_secret.DeleteWhere(params)
 	assert.NotNil(t, result)
 }
 

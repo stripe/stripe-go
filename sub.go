@@ -114,6 +114,7 @@ const (
 	SubscriptionPaymentSettingsPaymentMethodTypeGrabpay            SubscriptionPaymentSettingsPaymentMethodType = "grabpay"
 	SubscriptionPaymentSettingsPaymentMethodTypeIdeal              SubscriptionPaymentSettingsPaymentMethodType = "ideal"
 	SubscriptionPaymentSettingsPaymentMethodTypeKonbini            SubscriptionPaymentSettingsPaymentMethodType = "konbini"
+	SubscriptionPaymentSettingsPaymentMethodTypeLink               SubscriptionPaymentSettingsPaymentMethodType = "link"
 	SubscriptionPaymentSettingsPaymentMethodTypePayNow             SubscriptionPaymentSettingsPaymentMethodType = "paynow"
 	SubscriptionPaymentSettingsPaymentMethodTypeSepaCreditTransfer SubscriptionPaymentSettingsPaymentMethodType = "sepa_credit_transfer"
 	SubscriptionPaymentSettingsPaymentMethodTypeSepaDebit          SubscriptionPaymentSettingsPaymentMethodType = "sepa_debit"

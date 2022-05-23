@@ -151,6 +151,7 @@ type SetupAttemptPaymentMethodDetailsIdeal struct {
 	// (if supported) at the time of authorization or settlement. They cannot be set or mutated.
 	VerifiedName string `json:"verified_name"`
 }
+type SetupAttemptPaymentMethodDetailsLink struct{}
 type SetupAttemptPaymentMethodDetailsSepaDebit struct{}
 type SetupAttemptPaymentMethodDetailsSofort struct {
 	// Bank code of bank associated with the bank account.
@@ -182,6 +183,7 @@ type SetupAttemptPaymentMethodDetails struct {
 	Card        *SetupAttemptPaymentMethodDetailsCard        `json:"card"`
 	CardPresent *SetupAttemptPaymentMethodDetailsCardPresent `json:"card_present"`
 	Ideal       *SetupAttemptPaymentMethodDetailsIdeal       `json:"ideal"`
+	Link        *SetupAttemptPaymentMethodDetailsLink        `json:"link"`
 	SepaDebit   *SetupAttemptPaymentMethodDetailsSepaDebit   `json:"sepa_debit"`
 	Sofort      *SetupAttemptPaymentMethodDetailsSofort      `json:"sofort"`
 	// The type of the payment method used in the SetupIntent (e.g., `card`). An additional hash is included on `payment_method_details` with a name matching this value. It contains confirmation-specific information for the payment method.

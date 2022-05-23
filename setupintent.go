@@ -218,6 +218,9 @@ type SetupIntentPaymentMethodDataACSSDebitParams struct {
 	TransitNumber *string `form:"transit_number"`
 }
 
+// If this is an `affirm` PaymentMethod, this hash contains details about the Affirm payment method.
+type SetupIntentPaymentMethodDataAffirmParams struct{}
+
 // If this is an `AfterpayClearpay` PaymentMethod, this hash contains details about the AfterpayClearpay payment method.
 type SetupIntentPaymentMethodDataAfterpayClearpayParams struct{}
 
@@ -312,6 +315,9 @@ type SetupIntentPaymentMethodDataKlarnaParams struct {
 // If this is a `konbini` PaymentMethod, this hash contains details about the Konbini payment method.
 type SetupIntentPaymentMethodDataKonbiniParams struct{}
 
+// If this is an `Link` PaymentMethod, this hash contains details about the Link payment method.
+type SetupIntentPaymentMethodDataLinkParams struct{}
+
 // If this is an `oxxo` PaymentMethod, this hash contains details about the OXXO payment method.
 type SetupIntentPaymentMethodDataOXXOParams struct{}
 
@@ -358,6 +364,8 @@ type SetupIntentPaymentMethodDataWechatPayParams struct{}
 type SetupIntentPaymentMethodDataParams struct {
 	// If this is an `acss_debit` PaymentMethod, this hash contains details about the ACSS Debit payment method.
 	ACSSDebit *SetupIntentPaymentMethodDataACSSDebitParams `form:"acss_debit"`
+	// If this is an `affirm` PaymentMethod, this hash contains details about the Affirm payment method.
+	Affirm *SetupIntentPaymentMethodDataAffirmParams `form:"affirm"`
 	// If this is an `AfterpayClearpay` PaymentMethod, this hash contains details about the AfterpayClearpay payment method.
 	AfterpayClearpay *SetupIntentPaymentMethodDataAfterpayClearpayParams `form:"afterpay_clearpay"`
 	// If this is an `Alipay` PaymentMethod, this hash contains details about the Alipay payment method.
@@ -390,6 +398,8 @@ type SetupIntentPaymentMethodDataParams struct {
 	Klarna *SetupIntentPaymentMethodDataKlarnaParams `form:"klarna"`
 	// If this is a `konbini` PaymentMethod, this hash contains details about the Konbini payment method.
 	Konbini *SetupIntentPaymentMethodDataKonbiniParams `form:"konbini"`
+	// If this is an `Link` PaymentMethod, this hash contains details about the Link payment method.
+	Link *SetupIntentPaymentMethodDataLinkParams `form:"link"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// If this is an `oxxo` PaymentMethod, this hash contains details about the OXXO payment method.
@@ -472,6 +482,12 @@ type SetupIntentPaymentMethodOptionsCardParams struct {
 	RequestThreeDSecure *string `form:"request_three_d_secure"`
 }
 
+// If this is a `link` PaymentMethod, this sub-hash contains details about the Link payment method options.
+type SetupIntentPaymentMethodOptionsLinkParams struct {
+	// Token used for persistent Link logins.
+	PersistentToken *string `form:"persistent_token"`
+}
+
 // Additional fields for Mandate creation
 type SetupIntentPaymentMethodOptionsSepaDebitMandateOptionsParams struct{}
 
@@ -511,6 +527,8 @@ type SetupIntentPaymentMethodOptionsParams struct {
 	ACSSDebit *SetupIntentPaymentMethodOptionsACSSDebitParams `form:"acss_debit"`
 	// Configuration for any card setup attempted on this SetupIntent.
 	Card *SetupIntentPaymentMethodOptionsCardParams `form:"card"`
+	// If this is a `link` PaymentMethod, this sub-hash contains details about the Link payment method options.
+	Link *SetupIntentPaymentMethodOptionsLinkParams `form:"link"`
 	// If this is a `sepa_debit` SetupIntent, this sub-hash contains details about the SEPA Debit payment method options.
 	SepaDebit *SetupIntentPaymentMethodOptionsSepaDebitParams `form:"sepa_debit"`
 	// If this is a `us_bank_account` SetupIntent, this sub-hash contains details about the US bank account payment method options.
@@ -584,6 +602,9 @@ type SetupIntentConfirmPaymentMethodDataACSSDebitParams struct {
 	// Transit number of the customer's bank.
 	TransitNumber *string `form:"transit_number"`
 }
+
+// If this is an `affirm` PaymentMethod, this hash contains details about the Affirm payment method.
+type SetupIntentConfirmPaymentMethodDataAffirmParams struct{}
 
 // If this is an `AfterpayClearpay` PaymentMethod, this hash contains details about the AfterpayClearpay payment method.
 type SetupIntentConfirmPaymentMethodDataAfterpayClearpayParams struct{}
@@ -679,6 +700,9 @@ type SetupIntentConfirmPaymentMethodDataKlarnaParams struct {
 // If this is a `konbini` PaymentMethod, this hash contains details about the Konbini payment method.
 type SetupIntentConfirmPaymentMethodDataKonbiniParams struct{}
 
+// If this is an `Link` PaymentMethod, this hash contains details about the Link payment method.
+type SetupIntentConfirmPaymentMethodDataLinkParams struct{}
+
 // If this is an `oxxo` PaymentMethod, this hash contains details about the OXXO payment method.
 type SetupIntentConfirmPaymentMethodDataOXXOParams struct{}
 
@@ -725,6 +749,8 @@ type SetupIntentConfirmPaymentMethodDataWechatPayParams struct{}
 type SetupIntentConfirmPaymentMethodDataParams struct {
 	// If this is an `acss_debit` PaymentMethod, this hash contains details about the ACSS Debit payment method.
 	ACSSDebit *SetupIntentConfirmPaymentMethodDataACSSDebitParams `form:"acss_debit"`
+	// If this is an `affirm` PaymentMethod, this hash contains details about the Affirm payment method.
+	Affirm *SetupIntentConfirmPaymentMethodDataAffirmParams `form:"affirm"`
 	// If this is an `AfterpayClearpay` PaymentMethod, this hash contains details about the AfterpayClearpay payment method.
 	AfterpayClearpay *SetupIntentConfirmPaymentMethodDataAfterpayClearpayParams `form:"afterpay_clearpay"`
 	// If this is an `Alipay` PaymentMethod, this hash contains details about the Alipay payment method.
@@ -757,6 +783,8 @@ type SetupIntentConfirmPaymentMethodDataParams struct {
 	Klarna *SetupIntentConfirmPaymentMethodDataKlarnaParams `form:"klarna"`
 	// If this is a `konbini` PaymentMethod, this hash contains details about the Konbini payment method.
 	Konbini *SetupIntentConfirmPaymentMethodDataKonbiniParams `form:"konbini"`
+	// If this is an `Link` PaymentMethod, this hash contains details about the Link payment method.
+	Link *SetupIntentConfirmPaymentMethodDataLinkParams `form:"link"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// If this is an `oxxo` PaymentMethod, this hash contains details about the OXXO payment method.
@@ -900,6 +928,10 @@ type SetupIntentPaymentMethodOptionsCard struct {
 	// We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https://stripe.com/docs/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. Permitted values include: `automatic` or `any`. If not provided, defaults to `automatic`. Read our guide on [manually requesting 3D Secure](https://stripe.com/docs/payments/3d-secure#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
 	RequestThreeDSecure SetupIntentPaymentMethodOptionsCardRequestThreeDSecure `json:"request_three_d_secure"`
 }
+type SetupIntentPaymentMethodOptionsLink struct {
+	// Token used for persistent Link logins.
+	PersistentToken string `json:"persistent_token"`
+}
 type SetupIntentPaymentMethodOptionsSepaDebitMandateOptions struct{}
 type SetupIntentPaymentMethodOptionsSepaDebit struct {
 	MandateOptions *SetupIntentPaymentMethodOptionsSepaDebitMandateOptions `json:"mandate_options"`
@@ -920,6 +952,7 @@ type SetupIntentPaymentMethodOptionsUSBankAccount struct {
 type SetupIntentPaymentMethodOptions struct {
 	ACSSDebit     *SetupIntentPaymentMethodOptionsACSSDebit     `json:"acss_debit"`
 	Card          *SetupIntentPaymentMethodOptionsCard          `json:"card"`
+	Link          *SetupIntentPaymentMethodOptionsLink          `json:"link"`
 	SepaDebit     *SetupIntentPaymentMethodOptionsSepaDebit     `json:"sepa_debit"`
 	USBankAccount *SetupIntentPaymentMethodOptionsUSBankAccount `json:"us_bank_account"`
 }
