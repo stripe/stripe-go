@@ -22,7 +22,7 @@ class SessionsControllerTest < ApplicationIntegrationTest
     OmniAuth.config.mock_auth[:salesforce] = OmniAuth::AuthHash.new(
       {"provider" => "salesforce",
        "uid" =>
-         "https://login.salesforce.com/id/#{sf_account_id}/0055e000005HBroAAG",
+         "https://login.salesforce.com/id/#{sf_instance_account_id}/0055e000005HBroAAG",
        "info" =>
          {"name" => "Michael Bianco",
           "email" => "pbo+billing@stripe.com",
@@ -157,7 +157,7 @@ class SessionsControllerTest < ApplicationIntegrationTest
   def create_post_install_user
     # no other fields are configured after post-install
     StripeForce::User.create(
-      salesforce_account_id: sf_account_id,
+      salesforce_account_id: sf_instance_account_id,
       salesforce_organization_key: SecureRandom.alphanumeric(16)
     )
   end

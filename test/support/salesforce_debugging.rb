@@ -64,13 +64,19 @@ module SalesforceDebugging
     end
   end
 
-  def wipe_account_and_orders(sf_account)
+  def wipe_account_and_orders(sf_account_or_id)
+    sf_account = if sf_account_or_id.is_a?(String)
+      sf_get(sf_account_or_id)
+    else
+      sf_account_or_id
+    end
+
     stripe_customer_id = sf_account[prefixed_stripe_field(GENERIC_STRIPE_ID)]
     stripe_customer = Stripe::Customer.retrieve(stripe_customer_id, @user.stripe_credentials)
     stripe_customer.delete
 
     @user.sf_client.query("SELECT Id FROM Order WHERE AccountId = '#{sf_account.Id}'").each do |sf_order|
-      puts "Removing Stripe ID From: #{sf_order.Id}"
+      puts "Removing Stripe ID from Order: #{sf_order.Id}"
 
       @user.sf_client.update!(SF_ORDER, {
         SF_ID => sf_order.Id,
@@ -78,11 +84,10 @@ module SalesforceDebugging
       })
     end
 
-    puts "Removing Stripe ID From: #{sf_account.Id}"
+    puts "Removing Stripe ID from Account: #{sf_account.Id}"
     @user.sf_client.update!(SF_ACCOUNT, {
       SF_ID => sf_account.Id,
       prefixed_stripe_field(GENERIC_STRIPE_ID) => nil,
     })
   end
-
 end

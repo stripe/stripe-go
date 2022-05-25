@@ -704,7 +704,7 @@ class StripeForce::Translate
     # TODO these need to be partitioned and created as discounts
     # TODO https://jira.corp.stripe.com/browse/PLATINT-1483
     # amount can be nil if tiered pricing is in place, in which case negative values are not possible
-    if !stripe_price.unit_amount_decimal.nil? && stripe_price.unit_amount_decimal <= 0
+    if !stripe_price.unit_amount_decimal.nil? && stripe_price.unit_amount_decimal < 0
       log.error "negative line item encountered, skipping"
       return
     end

@@ -109,6 +109,53 @@ class Critic::OrderTranslation < Critic::FunctionalTest
   end
 
   # TODO should add $0 line item translation test here
+  it 'does not filter out $0 line items' do
+    sf_product_id_1, sf_pricebook_id_1 = salesforce_recurring_product_with_price
+    sf_product_id_2, sf_pricebook_id_2 = salesforce_recurring_product_with_price(price: 0)
+
+    sf_account_id = create_salesforce_account
+
+    quote_id = create_salesforce_quote(sf_account_id: sf_account_id, additional_quote_fields: {
+      CPQ_QUOTE_SUBSCRIPTION_START_DATE => DateTime.now,
+      CPQ_QUOTE_SUBSCRIPTION_TERM => 12.0,
+    })
+
+    quote_with_product = add_product_to_cpq_quote(quote_id, sf_product_id: sf_product_id_1)
+    calculate_and_save_cpq_quote(quote_with_product)
+
+    quote_with_product = add_product_to_cpq_quote(quote_id, sf_product_id: sf_product_id_2)
+    calculate_and_save_cpq_quote(quote_with_product)
+
+    sf_order = create_order_from_cpq_quote(quote_id)
+
+    SalesforceTranslateRecordJob.translate(@user, sf_order)
+
+    sf_order.refresh
+    stripe_id = sf_order[prefixed_stripe_field(GENERIC_STRIPE_ID)]
+
+    subscription_schedule = Stripe::SubscriptionSchedule.retrieve(stripe_id, @user.stripe_credentials)
+
+    assert_equal(1, subscription_schedule.phases.count)
+    phase = T.must(subscription_schedule.phases.first)
+
+    assert_equal(2, phase.items.count)
+    assert_equal(0, phase.add_invoice_items.count)
+
+    sf_zero_dollar_price = sf_get(sf_pricebook_id_2)
+    stripe_zero_dollar_price_id = sf_zero_dollar_price[prefixed_stripe_field(GENERIC_STRIPE_ID)]
+    stripe_zero_dollar_price = Stripe::Price.retrieve(stripe_zero_dollar_price_id, @user.stripe_credentials)
+
+    # ensure price was correctly created
+    assert_equal(0, stripe_zero_dollar_price.unit_amount)
+
+    phase_item_with_zero_price = T.must(phase.items.detect {|i| i.price == stripe_zero_dollar_price_id })
+    assert_equal(sf_pricebook_id_2, stripe_zero_dollar_price.metadata['salesforce_pricebook_entry_id'])
+
+    phase_item_with_normal_price = T.must(phase.items.detect {|i| i.price != stripe_zero_dollar_price_id })
+    normal_price = Stripe::Price.retrieve(phase_item_with_normal_price.price, @user.stripe_credentials)
+    assert_equal(sf_pricebook_id_1, normal_price.metadata['salesforce_pricebook_entry_id'])
+  end
+
   it 'integrates a subscription order with multiple lines' do
     sf_product_id_1, sf_pricebook_id_1 = salesforce_recurring_product_with_price
     sf_product_id_2, sf_pricebook_id_2 = salesforce_recurring_product_with_price

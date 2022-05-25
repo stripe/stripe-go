@@ -73,12 +73,12 @@ class Critic::ConfigurationsControllerTest < ApplicationIntegrationTest
       post api_post_install_path, as: :json
       assert_response :not_found
 
-      post api_post_install_path, params: 'I am not json', headers: {SALESFORCE_KEY_HEADER => ENV.fetch('SF_MANAGED_PACKAGE_API_KEY'), SALESFORCE_ACCOUNT_ID_HEADER => sf_account_id}
+      post api_post_install_path, params: 'I am not json', headers: {SALESFORCE_KEY_HEADER => ENV.fetch('SF_MANAGED_PACKAGE_API_KEY'), SALESFORCE_ACCOUNT_ID_HEADER => sf_instance_account_id}
       assert_response :not_acceptable
     end
 
     it 'rejects a request with no organization api key' do
-      post api_post_install_path, params: {}, as: :json, headers: {SALESFORCE_KEY_HEADER => ENV.fetch('SF_MANAGED_PACKAGE_API_KEY'), SALESFORCE_ACCOUNT_ID_HEADER => sf_account_id}
+      post api_post_install_path, params: {}, as: :json, headers: {SALESFORCE_KEY_HEADER => ENV.fetch('SF_MANAGED_PACKAGE_API_KEY'), SALESFORCE_ACCOUNT_ID_HEADER => sf_instance_account_id}
       assert_response :bad_request
     end
 
@@ -87,7 +87,7 @@ class Critic::ConfigurationsControllerTest < ApplicationIntegrationTest
       post api_post_install_path, params: {key: api_key}, as: :json, headers: {
         # not using `authentication_headers` since the user is not created
         SALESFORCE_KEY_HEADER => ENV.fetch('SF_MANAGED_PACKAGE_API_KEY'),
-        SALESFORCE_ACCOUNT_ID_HEADER => sf_account_id,
+        SALESFORCE_ACCOUNT_ID_HEADER => sf_instance_account_id,
         SALESFORCE_INSTANCE_TYPE_HEADER => SFInstanceTypes::SANDBOX.serialize,
         SALESFORCE_PACKAGE_NAMESPACE_HEADER => "",
       }
@@ -95,7 +95,7 @@ class Critic::ConfigurationsControllerTest < ApplicationIntegrationTest
       assert_equal(1, StripeForce::User.count)
       user = T.must(StripeForce::User.first)
 
-      assert_equal(sf_account_id, user.salesforce_account_id)
+      assert_equal(sf_instance_account_id, user.salesforce_account_id)
       assert_equal(api_key, user.salesforce_organization_key)
       assert_equal(SalesforceNamespaceOptions::PRODUCTION.serialize, user.connector_settings[CONNECTOR_SETTING_SALESFORCE_NAMESPACE])
       assert_equal(SFInstanceTypes::SANDBOX.serialize, user.connector_settings[CONNECTOR_SETTING_SALESFORCE_INSTANCE_TYPE])
@@ -106,7 +106,7 @@ class Critic::ConfigurationsControllerTest < ApplicationIntegrationTest
       post api_post_install_path, params: {key: api_key}, as: :json, headers: {
         # not using `authentication_headers` since the user is not created
         SALESFORCE_KEY_HEADER => ENV.fetch('SF_MANAGED_PACKAGE_API_KEY'),
-        SALESFORCE_ACCOUNT_ID_HEADER => sf_account_id,
+        SALESFORCE_ACCOUNT_ID_HEADER => sf_instance_account_id,
         SALESFORCE_PACKAGE_NAMESPACE_HEADER => SalesforceNamespaceOptions::QA.serialize,
       }
 

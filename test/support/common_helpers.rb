@@ -16,7 +16,7 @@ module CommonHelpers
 
   include SalesforceDebugging
 
-  def sf_account_id
+  def sf_instance_account_id
     ENV.fetch('SF_INSTANCE_ID')
   end
 
@@ -33,7 +33,7 @@ module CommonHelpers
     user = StripeForce::User.new(
       livemode: false,
 
-      salesforce_account_id: sf_account_id,
+      salesforce_account_id: sf_instance_account_id,
       salesforce_token: ENV.fetch('SF_ACCESS_TOKEN'),
       salesforce_refresh_token: ENV['SF_REFRESH_TOKEN'],
       salesforce_instance_url: "https://#{ENV.fetch('SF_INSTANCE_DOMAIN')}.my.salesforce.com",
