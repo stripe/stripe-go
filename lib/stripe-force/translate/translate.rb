@@ -848,6 +848,17 @@ class StripeForce::Translate
       # TODO is the restforce gem somehow formatting everything as a float? Or is this is the real value returned from SF?
       phase_iterations = subscription_params.delete('iterations').to_i
 
+      # this is the initial order, so there is only a single phase
+      initial_phase = {
+        add_invoice_items: invoice_items,
+        items: subscription_items,
+        iterations: phase_iterations,
+
+        metadata: stripe_metadata_for_sf_object(sf_order),
+      }
+
+      # TODO add mapping support against the subscription schedule phase
+
       # TODO subs in SF must always have an end date
       stripe_transaction = Stripe::SubscriptionSchedule.construct_from({
         customer: stripe_customer.id,
@@ -856,17 +867,7 @@ class StripeForce::Translate
         end_behavior: 'cancel',
 
         # initial order will only ever contain a single phase
-        phases: [
-          # this is the initial order, so there is only a single phase
-          {
-            add_invoice_items: invoice_items,
-            items: subscription_items,
-            iterations: phase_iterations,
-
-            # TODO requires special gate
-            # metadata: stripe_metadata_for_sf_object(sf_order),
-          },
-        ],
+        phases: [initial_phase],
 
         metadata: stripe_metadata_for_sf_object(sf_order),
       })

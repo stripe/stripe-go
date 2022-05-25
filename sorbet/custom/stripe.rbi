@@ -88,6 +88,9 @@ class Stripe::SubscriptionSchedulePhase
 
   sig { returns(Integer)}
   def end_date; end
+
+  sig { returns(T::Hash[T.any(String, Symbol), T.untyped]) }
+  def metadata; end
 end
 
 class Stripe::SubscriptionScheduleSettings
@@ -98,6 +101,9 @@ end
 class Stripe::SubscriptionSchedule
   sig { returns(Stripe::SubscriptionScheduleSettings) }
   def default_settings; end
+
+  sig { returns(T.any(Stripe::Subscription, String))}
+  def subscription; end
 
   sig { returns(T.any(Stripe::Customer, String))}
   def customer; end

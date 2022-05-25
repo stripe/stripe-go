@@ -58,9 +58,16 @@ class Critic::OrderTranslation < Critic::FunctionalTest
     assert_equal(subscription_schedule.metadata['salesforce_order_id'], sf_order.Id)
     assert_equal(subscription_schedule.metadata['example_field'], sf_order.OrderNumber)
 
+    # subscription phase fields
+    subscription = Stripe::Subscription.retrieve(T.cast(subscription_schedule.subscription, String), @user.stripe_credentials)
+    assert_match(sf_order.Id, subscription.metadata['salesforce_order_link'])
+    assert_equal(subscription.metadata['salesforce_order_id'], sf_order.Id)
+
     # line-level subscription phase data
     assert_equal(1, subscription_schedule.phases.count)
     phase = T.must(subscription_schedule.phases.first)
+    assert_match(sf_order.Id, phase.metadata['salesforce_order_link'])
+    assert_equal(phase.metadata['salesforce_order_id'], sf_order.Id)
     # NOTE iterations does not exist on the phase! https://jira.corp.stripe.com/browse/PLATINT-1479
     # TODO I have no idea why the math requires rounding here. This doesn't make any sense. https://jira.corp.stripe.com/browse/PLATINT-1480
     phase_iterations = ((phase.end_date - phase.start_date) / 1.month.to_f).round
