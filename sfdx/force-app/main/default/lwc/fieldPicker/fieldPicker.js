@@ -723,12 +723,8 @@ export default class fieldPicker extends LightningElement {
         let hashString = '';
         if(selectionList.length) {
             selectionList.forEach((selectionItem, index) => {
-                if (selectionItem.type == 'reference') {
-                    hashString += `${selectionItem.relationshipName}`;
-                } else {
-                    // If not a type: reference, get the field name
-                    hashString += `${selectionItem.value}`;
-                }
+                hashString += `${selectionItem.value}`;
+
                 // If not the last item, separate with '.'
                 if(index < (selectionList.length - 1)) {
                     hashString += '.';

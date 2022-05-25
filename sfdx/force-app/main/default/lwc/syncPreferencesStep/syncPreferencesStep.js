@@ -45,8 +45,12 @@ export default class SyncPreferencesStep extends LightningElement {
         try {
             const syncPreferences = await getSyncPreferences();
             const responseData = JSON.parse(syncPreferences);
-            if(!responseData.isSuccess || !responseData.results.isConnected && responseData.error) {
+            if(!responseData.results.isConnected) {
+                return;
+            }
+            if(responseData.error) {
                 this.showToast(responseData.error, 'error', 'sticky');
+                return;
             }
             this.stripeAccountId = responseData.results.stripe_account_id;
             this.lastSynced = new Date(responseData.results.last_synced * 1000).toLocaleString(undefined, {year:'numeric', month:'numeric', day: '2-digit', hour: 'numeric', minute:'2-digit', timeZoneName:'short'});
@@ -60,8 +64,9 @@ export default class SyncPreferencesStep extends LightningElement {
 
             const multiCurrencyCheck = await getMulticurrencySelectionOptions();
             const multiCurrencyResponseData = JSON.parse(multiCurrencyCheck);
-            if(!multiCurrencyResponseData.isSuccess && multiCurrencyResponseData.error) {
+            if(multiCurrencyResponseData.error) {
                 this.showToast(multiCurrencyResponseData.error, 'error', 'sticky');
+                return;
             }
             this.totalApiCalls = multiCurrencyResponseData.results.orgMaxApiLimit;
             this.isMultiCurrencyEnabled = multiCurrencyResponseData.results.isMultiCurrencyEnabled;

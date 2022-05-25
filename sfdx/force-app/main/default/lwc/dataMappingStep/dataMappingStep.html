@@ -217,7 +217,7 @@
 
                 <!-- Mapping Groups -->
                 <lightning-accordion
-                    active-section-name={defaultSubscriptionSections}
+                    active-section-name={defaultSubscriptionScheduleSections}
                     allow-multiple-sections-open>
                     <template for:each={stripeSubscriptionMappings} for:item="section" for:index="sectionIndex">
                         <lightning-accordion-section name={section.name} label={section.label} key={section.name} data-index={sectionIndex} class="slds-p-vertical_small">

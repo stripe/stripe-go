@@ -175,22 +175,28 @@ export default class FirstTimeSetup extends LightningElement {
                 this.showSetupToast(responseData.error, 'error', 'sticky');
                 return;
             }
-
-            if (!responseData.results.isConnected) { 
-                return;
-            }
-
-            this.nextDisabled = false;
+            
             this.setupComplete = responseData.results.setupData.isSetupComplete__c;
             if(this.setupComplete) {
                 return;
             }
 
             let completedSteps = JSON.parse(responseData.results.setupData.Steps_Completed__c);
-            if (Object.keys(completedSteps).length <= 0) {
+            if (!responseData.results.isConnected && Object.keys(completedSteps).length > 0) { 
+                //setting info step to complete and landing user on auth step
+                this.setupStarted = true;
+                this.steps[this.activeStepIndex].isComplete = true;
+                this.steps[this.activeStepIndex].isActive = false;
+                this.activeStepIndex = 1
+                this.steps[this.activeStepIndex].isActive = true;
+                return;
+            }
+
+            if (!responseData.results.isConnected && Object.keys(completedSteps).length <= 0) {
                 return;
             }
             
+            this.nextDisabled = false;
             this.setupStarted = true;
             this.steps[this.activeStepIndex].isComplete = true;
             this.steps[this.activeStepIndex].isActive = false;

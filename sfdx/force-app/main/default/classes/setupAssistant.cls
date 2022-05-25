@@ -23,34 +23,35 @@ public with sharing class setupAssistant {
     @AuraEnabled
     public static String getSetupData() {
         responseData rd = new responseData();
-        Boolean isConnected = false;
+        Boolean isConnected = true;
         try {
             Stripe_Connection__c stripeConnectRec = Stripe_Connection__c.getOrgDefaults();   
 
-            if(stripeConnectRec.Id != null && stripeConnectRec.Salesforce_Connected__c && stripeConnectRec.Stripe_Connected__c) {
-                Set<String> fields = new Set<String> { 
-                    'Id',
-                    'Steps_Completed__c',
-                    'isSetupComplete__c'
-                };
-
-                List<Setup_Data__c> data = [SELECT Id, Steps_Completed__c, isSetupComplete__c
-                                            FROM Setup_Data__c
-                                            WHERE Name = :constants.SETUP_DATA_RECORD_NAME
-                                            WITH SECURITY_ENFORCED];
-                Setup_Data__c setupData = new Setup_Data__c();
-
-                if (!data.isEmpty()) {
-                    setupData = data[0];
-                }
-                setupData.Name = constants.SETUP_DATA_RECORD_NAME;
-
-                if (String.isEmpty(setupData.Steps_Completed__c)) {
-                    setupData.Steps_Completed__c = '{}';
-                }
-                isConnected = true;
-                rd.put('setupData', setupData);
+            if(stripeConnectRec.Id == null || !stripeConnectRec.Salesforce_Connected__c || !stripeConnectRec.Stripe_Connected__c) {
+                isConnected = false;
             }
+            Set<String> fields = new Set<String> { 
+                'Id',
+                'Steps_Completed__c',
+                'isSetupComplete__c'
+            };
+
+            List<Setup_Data__c> data = [SELECT Id, Steps_Completed__c, isSetupComplete__c
+                                        FROM Setup_Data__c
+                                        WHERE Name = :constants.SETUP_DATA_RECORD_NAME
+                                        WITH SECURITY_ENFORCED];
+            Setup_Data__c setupData = new Setup_Data__c();
+
+            if (!data.isEmpty()) {
+                setupData = data[0];
+            }
+            setupData.Name = constants.SETUP_DATA_RECORD_NAME;
+
+            if (String.isEmpty(setupData.Steps_Completed__c)) {
+                setupData.Steps_Completed__c = '{}';
+            }
+            rd.put('setupData', setupData);
+                
         } catch (Exception e) {
             rd.addError(e);
         }
@@ -355,73 +356,75 @@ public with sharing class setupAssistant {
      @AuraEnabled
      public static String getSyncPreferences() {
          responseData rd = new responseData();
-         Boolean isConnected = false;
          try {
             rd.put('isSandbox', constants.IS_SANDBOX);
             Stripe_Connection__c stripeConnectRec = Stripe_Connection__c.getOrgDefaults();   
 
-            if(stripeConnectRec.Id != null && stripeConnectRec.Salesforce_Connected__c && stripeConnectRec.Stripe_Connected__c) {  
+            if(stripeConnectRec.Id == null || !stripeConnectRec.Salesforce_Connected__c || !stripeConnectRec.Stripe_Connected__c) { 
+                rd.put('isConnected', false); 
+                return rd.getJsonString();
+            }
 
-                //make callout to ruby services configuration endpoint to get stored stripe setting values
-                String route = constants.RUBY_SERVICE_BASE_URI + '/v1/configuration';
-                HttpResponse response =  utilities.makeCallout(route, 'GET');
+            //make callout to ruby services configuration endpoint to get stored stripe setting values
+            String route = constants.RUBY_SERVICE_BASE_URI + '/v1/configuration';
+            HttpResponse response =  utilities.makeCallout(route, 'GET');
 
-                Map<String, Object> errorBody; 
-                Map<String, Object> responseBody;
+            Map<String, Object> errorBody; 
+            Map<String, Object> responseBody;
 
-                /*if we get a 200 response code from the ruby service we will check the connection status object
-                in the payload to determine weather the user successfully connected to stripe or not*/
-                if(response.getStatusCode() == 200) {
-                    responseBody = (Map<String,Object>)JSON.deserializeUntyped(response.getBody());
-                    
-                    //get connection status values from response
-                    Map<String, Object> connectionStatus = (Map<String,Object>)responseBody.get('connection_status');
+            /*if we get a 200 response code from the ruby service we will check the connection status object
+            in the payload to determine weather the user successfully connected to stripe or not*/
+            if(response.getStatusCode() == 200) {
+                responseBody = (Map<String,Object>)JSON.deserializeUntyped(response.getBody());
+                
+                //get connection status values from response
+                Map<String, Object> connectionStatus = (Map<String,Object>)responseBody.get('connection_status');
 
-                    //ensure we are still connected
-                    if((Boolean)connectionStatus.get('stripe') && (Boolean)connectionStatus.get('salesforce')) {
-                        isConnected = true;
-                        Map<String, Object> settings = (Map<String,Object>)responseBody.get('settings');
+                //ensure we are still connected
+                if(!(Boolean)connectionStatus.get('stripe') || !(Boolean)connectionStatus.get('salesforce')) {
+                    rd.put('isConnected', false); 
+                    stripeConnectRec.Stripe_Connected__c = (Boolean)connectionStatus.get('stripe');
+                    stripeConnectRec.Salesforce_Connected__c = (Boolean)connectionStatus.get('salesforce');
+                    upsert stripeConnectRec;
+                    return rd.getJsonString();
+                }
 
-                        List<String> settingsFields = new List<String> {
-                            'default_currency',
-                            'sync_record_retention',
-                            'sync_start_date',
-                            'api_percentage_limit',
-                            'cpq_term_unit'
-                        };
+                Map<String, Object> settings = (Map<String,Object>)responseBody.get('settings');
 
-                        List<String> connectionReadOnlyFields = new List<String> {
-                            'stripe_account_id',
-                            'last_synced'
-                        };
+                List<String> settingsFields = new List<String> {
+                    'default_currency',
+                    'sync_record_retention',
+                    'sync_start_date',
+                    'api_percentage_limit',
+                    'cpq_term_unit'
+                };
 
-                        //gets non read only settings fields from response for frontend
-                        for(String settingsField : settingsFields) {
-                            rd.put(settingsField, String.valueOf(settings.get(settingsField)));
-                            if (settingsField == 'sync_record_retention') {
-                                rd.put(settingsField, String.valueOf(settings.get(settingsField)));
-                                stripeConnectRec.Sync_Record_Retention__c = String.valueOf(settings.get(settingsField));
-                                upsert stripeConnectRec;
-                            }
-                        }
+                List<String> connectionReadOnlyFields = new List<String> {
+                    'stripe_account_id',
+                    'last_synced'
+                };
 
-                        //gets read only connection fields from response for frontend
-                        for(String readOnlyField : connectionReadOnlyFields) {
-                            rd.put(readOnlyField, String.valueOf(connectionStatus.get(readOnlyField)));
-                        }
-                    } else {
-                        isConnected = false;
-                        stripeConnectRec.Stripe_Connected__c = (Boolean)connectionStatus.get('stripe');
-                        stripeConnectRec.Salesforce_Connected__c = (Boolean)connectionStatus.get('salesforce');
+                //gets non read only settings fields from response for frontend
+                for(String settingsField : settingsFields) {
+                    rd.put(settingsField, String.valueOf(settings.get(settingsField)));
+                    if (settingsField == 'sync_record_retention') {
+                        rd.put(settingsField, String.valueOf(settings.get(settingsField)));
+                        stripeConnectRec.Sync_Record_Retention__c = String.valueOf(settings.get(settingsField));
                         upsert stripeConnectRec;
                     }
-                } 
-            }
+                }
+
+                //gets read only connection fields from response for frontend
+                for(String readOnlyField : connectionReadOnlyFields) {
+                    rd.put(readOnlyField, String.valueOf(connectionStatus.get(readOnlyField)));
+                }
+            } 
+            rd.put('isConnected', true); 
             rd.put('isCpqInstalled', utilities.isCpqEnabled());
         } catch (Exception e) {
             rd.addError(e);
         }
-        rd.put('isConnected', isConnected);
+        
         return rd.getJsonString();
     }
 

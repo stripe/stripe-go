@@ -16,7 +16,7 @@ export default class DataMappingStep extends LightningElement {
     @track defaultProductSections = [
         'standard'
     ];
-    @track defaultSubscriptionSections = [
+    @track defaultSubscriptionScheduleSections = [
         'standard'
     ];
     @track defaultSubscriptionItemSections = [
@@ -664,7 +664,15 @@ export default class DataMappingStep extends LightningElement {
         }
         // Open 'Metadata' mapping section if metadata mappings exist
         if (metadataFieldList.length > 0) {
-            const openSectionsPropertyName = 'default' + (stripeObject.charAt(0).toUpperCase() + stripeObject.slice(1)) + 'Sections';
+            const snakeToCamel = str =>
+                str.toLowerCase().replace(/([-_][a-z])/g, group =>
+                    group
+                    .toUpperCase()
+                    .replace('-', '')
+                    .replace('_', '')
+                );
+            const stripeObjectLabel  = stripeObject.charAt(0).toUpperCase() + snakeToCamel(stripeObject.slice(1));
+            const openSectionsPropertyName = 'default' + stripeObjectLabel + 'Sections';
             this[openSectionsPropertyName] = ['standard', 'metadata'];
         }
     }
