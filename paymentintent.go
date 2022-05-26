@@ -1651,6 +1651,8 @@ type PaymentIntentNextActionDisplayBankTransferInstructions struct {
 	Currency Currency `json:"currency"`
 	// A list of financial addresses that can be used to fund the customer balance
 	FinancialAddresses []*PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddress `json:"financial_addresses"`
+	// A link to a hosted page that guides your customer through completing the transfer.
+	HostedInstructionsURL string `json:"hosted_instructions_url"`
 	// A string identifying this payment. Instruct your customer to include this code in the reference or memo field of their bank transfer.
 	Reference string `json:"reference"`
 	// Type of bank transfer

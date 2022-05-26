@@ -60,6 +60,16 @@ const (
 	AccountCapabilityStatusPending  AccountCapabilityStatus = "pending"
 )
 
+// The status of the Affirm capability of the account, or whether the account can directly process Affirm charges.
+type AccountCapabilitiesAffirmPayments string
+
+// List of values that AccountCapabilitiesAffirmPayments can take
+const (
+	AccountCapabilitiesAffirmPaymentsActive   AccountCapabilitiesAffirmPayments = "active"
+	AccountCapabilitiesAffirmPaymentsInactive AccountCapabilitiesAffirmPayments = "inactive"
+	AccountCapabilitiesAffirmPaymentsPending  AccountCapabilitiesAffirmPayments = "pending"
+)
+
 // The status of the customer_balance payments capability of the account, or whether the account can directly process customer_balance charges.
 type AccountCapabilitiesBankTransferPayments string
 
@@ -78,6 +88,16 @@ const (
 	AccountCapabilitiesKonbiniPaymentsActive   AccountCapabilitiesKonbiniPayments = "active"
 	AccountCapabilitiesKonbiniPaymentsInactive AccountCapabilitiesKonbiniPayments = "inactive"
 	AccountCapabilitiesKonbiniPaymentsPending  AccountCapabilitiesKonbiniPayments = "pending"
+)
+
+// The status of the link_payments capability of the account, or whether the account can directly process Link charges.
+type AccountCapabilitiesLinkPayments string
+
+// List of values that AccountCapabilitiesLinkPayments can take
+const (
+	AccountCapabilitiesLinkPaymentsActive   AccountCapabilitiesLinkPayments = "active"
+	AccountCapabilitiesLinkPaymentsInactive AccountCapabilitiesLinkPayments = "inactive"
+	AccountCapabilitiesLinkPaymentsPending  AccountCapabilitiesLinkPayments = "pending"
 )
 
 // The status of the paynow payments capability of the account, or whether the account can directly process paynow charges.
@@ -289,6 +309,12 @@ type AccountCapabilitiesACSSDebitPaymentsParams struct {
 	Requested *bool `form:"requested"`
 }
 
+// The affirm_payments capability.
+type AccountCapabilitiesAffirmPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
 // The afterpay_clearpay_payments capability.
 type AccountCapabilitiesAfterpayClearpayPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
@@ -397,6 +423,12 @@ type AccountCapabilitiesLegacyPaymentsParams struct {
 	Requested *bool `form:"requested"`
 }
 
+// The link_payments capability.
+type AccountCapabilitiesLinkPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
 // The oxxo_payments capability.
 type AccountCapabilitiesOXXOPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
@@ -461,6 +493,8 @@ type AccountCapabilitiesUSBankAccountAchPaymentsParams struct {
 type AccountCapabilitiesParams struct {
 	// The acss_debit_payments capability.
 	ACSSDebitPayments *AccountCapabilitiesACSSDebitPaymentsParams `form:"acss_debit_payments"`
+	// The affirm_payments capability.
+	AffirmPayments *AccountCapabilitiesAffirmPaymentsParams `form:"affirm_payments"`
 	// The afterpay_clearpay_payments capability.
 	AfterpayClearpayPayments *AccountCapabilitiesAfterpayClearpayPaymentsParams `form:"afterpay_clearpay_payments"`
 	// The au_becs_debit_payments capability.
@@ -497,6 +531,8 @@ type AccountCapabilitiesParams struct {
 	KonbiniPayments *AccountCapabilitiesKonbiniPaymentsParams `form:"konbini_payments"`
 	// The legacy_payments capability.
 	LegacyPayments *AccountCapabilitiesLegacyPaymentsParams `form:"legacy_payments"`
+	// The link_payments capability.
+	LinkPayments *AccountCapabilitiesLinkPaymentsParams `form:"link_payments"`
 	// The oxxo_payments capability.
 	OXXOPayments *AccountCapabilitiesOXXOPaymentsParams `form:"oxxo_payments"`
 	// The p24_payments capability.
@@ -841,6 +877,8 @@ type AccountBusinessProfile struct {
 type AccountCapabilities struct {
 	// The status of the Canadian pre-authorized debits payments capability of the account, or whether the account can directly process Canadian pre-authorized debits charges.
 	ACSSDebitPayments AccountCapabilityStatus `json:"acss_debit_payments"`
+	// The status of the Affirm capability of the account, or whether the account can directly process Affirm charges.
+	AffirmPayments AccountCapabilitiesAffirmPayments `json:"affirm_payments"`
 	// The status of the Afterpay Clearpay capability of the account, or whether the account can directly process Afterpay Clearpay charges.
 	AfterpayClearpayPayments AccountCapabilityStatus `json:"afterpay_clearpay_payments"`
 	// The status of the BECS Direct Debit (AU) payments capability of the account, or whether the account can directly process BECS Direct Debit (AU) charges.
@@ -877,6 +915,8 @@ type AccountCapabilities struct {
 	KonbiniPayments AccountCapabilitiesKonbiniPayments `json:"konbini_payments"`
 	// The status of the legacy payments capability of the account.
 	LegacyPayments AccountCapabilityStatus `json:"legacy_payments"`
+	// The status of the link_payments capability of the account, or whether the account can directly process Link charges.
+	LinkPayments AccountCapabilitiesLinkPayments `json:"link_payments"`
 	// The status of the OXXO payments capability of the account, or whether the account can directly process OXXO charges.
 	OXXOPayments AccountCapabilityStatus `json:"oxxo_payments"`
 	// The status of the P24 payments capability of the account, or whether the account can directly process P24 charges.

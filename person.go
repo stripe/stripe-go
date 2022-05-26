@@ -176,6 +176,8 @@ type PersonParams struct {
 	Gender *string `form:"gender"`
 	// The person's ID number, as appropriate for their country. For example, a social security number in the U.S., social insurance number in Canada, etc. Instead of the number itself, you can also provide a [PII token provided by Stripe.js](https://stripe.com/docs/js/tokens_sources/create_token?type=pii).
 	IDNumber *string `form:"id_number"`
+	// The person's secondary ID number, as appropriate for their country, will be used for enhanced verification checks. In Thailand, this would be the laser code found on the back of an ID card. Instead of the number itself, you can also provide a [PII token provided by Stripe.js](https://stripe.com/docs/js/tokens_sources/create_token?type=pii).
+	IDNumberSecondary *string `form:"id_number_secondary"`
 	// The person's last name.
 	LastName *string `form:"last_name"`
 	// The Kana variation of the person's last name (Japan only).
@@ -342,6 +344,8 @@ type Person struct {
 	ID string `json:"id"`
 	// Whether the person's `id_number` was provided.
 	IDNumberProvided bool `json:"id_number_provided"`
+	// Whether the person's `id_number_secondary` was provided.
+	IDNumberSecondaryProvided bool `json:"id_number_secondary_provided"`
 	// The person's last name.
 	LastName string `json:"last_name"`
 	// The Kana variation of the person's last name (Japan only).

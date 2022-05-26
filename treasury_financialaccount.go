@@ -111,6 +111,12 @@ const (
 	TreasuryFinancialAccountStatusDetailsClosedReasonOther            TreasuryFinancialAccountStatusDetailsClosedReason = "other"
 )
 
+// Encodes the FinancialAccount's ability to be used with the Issuing product, including attaching cards to and drawing funds from the FinancialAccount.
+type TreasuryFinancialAccountFeaturesCardIssuingParams struct {
+	// Whether the FinancialAccount should have the Feature.
+	Requested *bool `form:"requested"`
+}
+
 // Represents whether this FinancialAccount is eligible for deposit insurance. Various factors determine the insurance amount.
 type TreasuryFinancialAccountFeaturesDepositInsuranceParams struct {
 	// Whether the FinancialAccount should have the Feature.
@@ -189,6 +195,8 @@ type TreasuryFinancialAccountFeaturesOutboundTransfersParams struct {
 
 // Encodes whether a FinancialAccount has access to a particular feature. Stripe or the platform can control features via the requested field.
 type TreasuryFinancialAccountFeaturesParams struct {
+	// Encodes the FinancialAccount's ability to be used with the Issuing product, including attaching cards to and drawing funds from the FinancialAccount.
+	CardIssuing *TreasuryFinancialAccountFeaturesCardIssuingParams `form:"card_issuing"`
 	// Represents whether this FinancialAccount is eligible for deposit insurance. Various factors determine the insurance amount.
 	DepositInsurance *TreasuryFinancialAccountFeaturesDepositInsuranceParams `form:"deposit_insurance"`
 	// Contains Features that add FinancialAddresses to the FinancialAccount.
@@ -227,6 +235,12 @@ type TreasuryFinancialAccountListParams struct {
 	ListParams   `form:"*"`
 	Created      *int64            `form:"created"`
 	CreatedRange *RangeQueryParams `form:"created"`
+}
+
+// Encodes the FinancialAccount's ability to be used with the Issuing product, including attaching cards to and drawing funds from the FinancialAccount.
+type TreasuryFinancialAccountUpdateFeaturesCardIssuingParams struct {
+	// Whether the FinancialAccount should have the Feature.
+	Requested *bool `form:"requested"`
 }
 
 // Represents whether this FinancialAccount is eligible for deposit insurance. Various factors determine the insurance amount.
@@ -308,6 +322,8 @@ type TreasuryFinancialAccountUpdateFeaturesOutboundTransfersParams struct {
 // Updates the Features associated with a FinancialAccount.
 type TreasuryFinancialAccountUpdateFeaturesParams struct {
 	Params `form:"*"`
+	// Encodes the FinancialAccount's ability to be used with the Issuing product, including attaching cards to and drawing funds from the FinancialAccount.
+	CardIssuing *TreasuryFinancialAccountUpdateFeaturesCardIssuingParams `form:"card_issuing"`
 	// Represents whether this FinancialAccount is eligible for deposit insurance. Various factors determine the insurance amount.
 	DepositInsurance *TreasuryFinancialAccountUpdateFeaturesDepositInsuranceParams `form:"deposit_insurance"`
 	// Contains Features that add FinancialAddresses to the FinancialAccount.
