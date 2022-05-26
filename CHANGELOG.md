@@ -1,5 +1,14 @@
 # Changelog
 
+## 72.111.0 - 2022-05-26
+* [#1466](https://github.com/stripe/stripe-go/pull/1466) API Updates
+  * Add support for `AffirmPayments` and `LinkPayments` on `AccountCapabilitiesParams` and `AccountCapabilities`
+  * Add support for `IDNumberSecondary` on `AccountIndividualParams`, `PersonParams`, `TokenAccountIndividualParams`, and `TokenPersonParams`
+  * Add support for `HostedInstructionsURL` on `PaymentIntentNextActionDisplayBankTransferInstructions`
+  * Add support for `IDNumberSecondaryProvided` on `Person`
+  * Add support for `CardIssuing` on `TreasuryFinancialAccountFeaturesParams` and `TreasuryFinancialAccountUpdateFeaturesParams`
+  
+
 ## 72.110.0 - 2022-05-23
 * [#1465](https://github.com/stripe/stripe-go/pull/1465) API Updates
   * Add support for `Treasury` on `AccountCapabilitiesParams` and `AccountCapabilities`
