@@ -156,6 +156,8 @@ type CustomerParams struct {
 	InvoicePrefix *string `form:"invoice_prefix"`
 	// Default invoice settings for this customer.
 	InvoiceSettings *CustomerInvoiceSettingsParams `form:"invoice_settings"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	Metadata map[string]string `json:"metadata"`
 	// The customer's full name or business name.
 	Name *string `form:"name"`
 	// The sequence to be used on the customer's next invoice. Defaults to 1.
