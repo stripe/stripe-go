@@ -11,6 +11,7 @@ import (
 	billingportal_configuration "github.com/stripe/stripe-go/v72/billingportal/configuration"
 	billingportal_session "github.com/stripe/stripe-go/v72/billingportal/session"
 	capability "github.com/stripe/stripe-go/v72/capability"
+	cashbalance "github.com/stripe/stripe-go/v72/cashbalance"
 	charge "github.com/stripe/stripe-go/v72/charge"
 	checkout_session "github.com/stripe/stripe-go/v72/checkout/session"
 	countryspec "github.com/stripe/stripe-go/v72/countryspec"
@@ -424,6 +425,23 @@ func TestAppsSecretDeleteWhere(t *testing.T) {
 		},
 	}
 	result, _ := apps_secret.DeleteWhere(params)
+	assert.NotNil(t, result)
+}
+
+func TestCashBalanceRetrieve(t *testing.T) {
+	params := &stripe.CashBalanceParams{Customer: stripe.String("cus_123")}
+	result, _ := cashbalance.Get(params)
+	assert.NotNil(t, result)
+}
+
+func TestCashBalanceUpdate(t *testing.T) {
+	params := &stripe.CashBalanceParams{
+		Settings: &stripe.CashBalanceSettingsParams{
+			ReconciliationMode: stripe.String(string(stripe.CashBalanceSettingsReconciliationModeManual)),
+		},
+		Customer: stripe.String("cus_123"),
+	}
+	result, _ := cashbalance.Update(params)
 	assert.NotNil(t, result)
 }
 
