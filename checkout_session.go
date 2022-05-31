@@ -333,6 +333,8 @@ type CheckoutSessionLineItemPriceDataParams struct {
 	UnitAmount *int64 `form:"unit_amount"`
 	// Same as `unit_amount`, but accepts a decimal value in %s with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
 	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
 }
 
 // A list of items the customer is purchasing. Use this parameter to pass one-time or recurring [Prices](https://stripe.com/docs/api/prices).
