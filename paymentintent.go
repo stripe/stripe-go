@@ -332,23 +332,12 @@ const (
 	PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressTypeZengin PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressType = "zengin"
 )
 
-// The bank transfer type that this PaymentIntent is allowed to use for funding. Permitted values include: `us_bank_account`, `eu_bank_account`, `id_bank_account`, `gb_bank_account`, `jp_bank_account`, `mx_bank_account`, `eu_bank_transfer`, `gb_bank_transfer`, `id_bank_transfer`, `jp_bank_transfer`, `mx_bank_transfer`, or `us_bank_transfer`.
+// The bank transfer type that this PaymentIntent is allowed to use for funding Permitted values include: `jp_bank_transfer`.
 type PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferType string
 
 // List of values that PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferType can take
 const (
-	PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferTypeEUBankAccount  PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferType = "eu_bank_account"
-	PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferTypeEUBankTransfer PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferType = "eu_bank_transfer"
-	PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferTypeGBBankAccount  PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferType = "gb_bank_account"
-	PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferTypeGBBankTransfer PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferType = "gb_bank_transfer"
-	PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferTypeIDBankAccount  PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferType = "id_bank_account"
-	PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferTypeIDBankTransfer PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferType = "id_bank_transfer"
-	PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferTypeJPBankAccount  PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferType = "jp_bank_account"
 	PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferTypeJPBankTransfer PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferType = "jp_bank_transfer"
-	PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferTypeMXBankAccount  PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferType = "mx_bank_account"
-	PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferTypeMXBankTransfer PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferType = "mx_bank_transfer"
-	PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferTypeUSBankAccount  PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferType = "us_bank_account"
-	PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferTypeUSBankTransfer PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferType = "us_bank_transfer"
 )
 
 // The funding method type to be used when there are not enough funds in the customer balance. Permitted values include: `bank_transfer`.
@@ -698,6 +687,12 @@ type PaymentIntentPaymentMethodDataLinkParams struct{}
 // If this is a `paynow` PaymentMethod, this hash contains details about the PayNow payment method.
 type PaymentIntentPaymentMethodDataPayNowParams struct{}
 
+// Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
+type PaymentIntentPaymentMethodDataRadarOptionsParams struct {
+	// A [Radar Session](https://stripe.com/docs/radar/radar-session) is a snapshot of the browser metadata and device details that help Radar make more accurate predictions on your payments.
+	Session *string `form:"session"`
+}
+
 // If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
 type PaymentIntentPaymentMethodDataUSBankAccountParams struct {
 	// Account holder type: individual or company.
@@ -763,6 +758,8 @@ type PaymentIntentPaymentMethodDataParams struct {
 	P24 *PaymentMethodP24Params `form:"p24"`
 	// If this is a `paynow` PaymentMethod, this hash contains details about the PayNow payment method.
 	PayNow *PaymentIntentPaymentMethodDataPayNowParams `form:"paynow"`
+	// Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
+	RadarOptions *PaymentIntentPaymentMethodDataRadarOptionsParams `form:"radar_options"`
 	// If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
 	SepaDebit *PaymentMethodSepaDebitParams `form:"sepa_debit"`
 	// If this is a `sofort` PaymentMethod, this hash contains details about the SOFORT payment method.
@@ -1003,7 +1000,7 @@ type PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferParams struct {
 	//
 	// Permitted values include: `zengin`.
 	RequestedAddressTypes []*string `form:"requested_address_types"`
-	// The list of bank transfer types that this PaymentIntent is allowed to use for funding. Permitted values include: `us_bank_account`, `eu_bank_account`, `id_bank_account`, `gb_bank_account`, `jp_bank_account`, `mx_bank_account`, `eu_bank_transfer`, `gb_bank_transfer`, `id_bank_transfer`, `jp_bank_transfer`, `mx_bank_transfer`, or `us_bank_transfer`.
+	// The list of bank transfer types that this PaymentIntent is allowed to use for funding Permitted values include: `jp_bank_transfer`.
 	Type *string `form:"type"`
 }
 
@@ -1323,6 +1320,12 @@ type PaymentIntentPaymentMethodOptionsParams struct {
 	WechatPay *PaymentIntentPaymentMethodOptionsWechatPayParams `form:"wechat_pay"`
 }
 
+// Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
+type PaymentIntentRadarOptionsParams struct {
+	// A [Radar Session](https://stripe.com/docs/radar/radar-session) is a snapshot of the browser metadata and device details that help Radar make more accurate predictions on your payments.
+	Session *string `form:"session"`
+}
+
 // The parameters used to automatically create a Transfer when the payment succeeds.
 // For more information, see the PaymentIntents [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
 type PaymentIntentTransferDataParams struct {
@@ -1386,6 +1389,8 @@ type PaymentIntentParams struct {
 	PaymentMethodOptions *PaymentIntentPaymentMethodOptionsParams `form:"payment_method_options"`
 	// The list of payment method types (e.g. card) that this PaymentIntent is allowed to use. Use automatic_payment_methods to manage payment methods from the [Stripe Dashboard](https://dashboard.stripe.com/settings/payment_methods).
 	PaymentMethodTypes []*string `form:"payment_method_types"`
+	// Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
+	RadarOptions *PaymentIntentRadarOptionsParams `form:"radar_options"`
 	// Email address that the receipt for the resulting payment will be sent to. If `receipt_email` is specified for a payment in live mode, a receipt will be sent regardless of your [email settings](https://dashboard.stripe.com/account/emails).
 	ReceiptEmail *string `form:"receipt_email"`
 	// The URL to redirect your customer back to after they authenticate or cancel their payment on the payment method's app or site. If you'd prefer to redirect to a mobile application, you can alternatively supply an application URI scheme. This parameter can only be used with [`confirm=true`](https://stripe.com/docs/api/payment_intents/create#create_payment_intent-confirm).
@@ -1426,6 +1431,12 @@ type PaymentIntentListParams struct {
 	CreatedRange *RangeQueryParams `form:"created"`
 	// Only return PaymentIntents for the customer specified by this customer ID.
 	Customer *string `form:"customer"`
+}
+
+// Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
+type PaymentIntentConfirmRadarOptionsParams struct {
+	// A [Radar Session](https://stripe.com/docs/radar/radar-session) is a snapshot of the browser metadata and device details that help Radar make more accurate predictions on your payments.
+	Session *string `form:"session"`
 }
 
 // Confirm that your customer intends to pay with current or provided
@@ -1472,6 +1483,8 @@ type PaymentIntentConfirmParams struct {
 	// Payment-method-specific configuration for this PaymentIntent.
 	PaymentMethodOptions *PaymentIntentPaymentMethodOptionsParams `form:"payment_method_options"`
 	PaymentMethodTypes   []*string                                `form:"payment_method_types"`
+	// Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
+	RadarOptions *PaymentIntentConfirmRadarOptionsParams `form:"radar_options"`
 	// Email address that the receipt for the resulting payment will be sent to. If `receipt_email` is specified for a payment in live mode, a receipt will be sent regardless of your [email settings](https://dashboard.stripe.com/account/emails).
 	ReceiptEmail *string `form:"receipt_email"`
 	// The URL to redirect your customer back to after they authenticate or cancel their payment on the payment method's app or site.
@@ -1633,7 +1646,22 @@ type PaymentIntentNextActionCardAwaitNotification struct {
 }
 
 // Zengin Records contain Japan bank account details per the Zengin format.
-type PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressZengin struct{}
+type PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressZengin struct {
+	// The account holder name
+	AccountHolderName string `json:"account_holder_name"`
+	// The account number
+	AccountNumber string `json:"account_number"`
+	// The bank account type. In Japan, this can only be `futsu` or `toza`.
+	AccountType string `json:"account_type"`
+	// The bank code of the account
+	BankCode string `json:"bank_code"`
+	// The bank name of the account
+	BankName string `json:"bank_name"`
+	// The branch code of the account
+	BranchCode string `json:"branch_code"`
+	// The branch name of the account
+	BranchName string `json:"branch_name"`
+}
 
 // A list of financial addresses that can be used to fund the customer balance
 type PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddress struct {
@@ -1957,7 +1985,7 @@ type PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransfer struct {
 	//
 	// Permitted values include: `zengin`.
 	RequestedAddressTypes []PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressType `json:"requested_address_types"`
-	// The bank transfer type that this PaymentIntent is allowed to use for funding. Permitted values include: `us_bank_account`, `eu_bank_account`, `id_bank_account`, `gb_bank_account`, `jp_bank_account`, `mx_bank_account`, `eu_bank_transfer`, `gb_bank_transfer`, `id_bank_transfer`, `jp_bank_transfer`, `mx_bank_transfer`, or `us_bank_transfer`.
+	// The bank transfer type that this PaymentIntent is allowed to use for funding Permitted values include: `jp_bank_transfer`.
 	Type PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferType `json:"type"`
 }
 type PaymentIntentPaymentMethodOptionsCustomerBalance struct {

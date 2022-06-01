@@ -220,7 +220,7 @@ type InvoicePaymentSettingsPaymentMethodOptionsCardParams struct {
 
 // Configuration for the bank transfer funding type, if the `funding_type` is set to `bank_transfer`.
 type InvoicePaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferParams struct {
-	// The bank transfer type that can be used for funding. Permitted values include: `us_bank_account`, `eu_bank_account`, `id_bank_account`, `gb_bank_account`, `jp_bank_account`, `mx_bank_account`, `eu_bank_transfer`, `gb_bank_transfer`, `id_bank_transfer`, `jp_bank_transfer`, `mx_bank_transfer`, or `us_bank_transfer`.
+	// The bank transfer type that can be used for funding. Permitted values include: `jp_bank_transfer`.
 	Type *string `form:"type"`
 }
 
@@ -286,7 +286,7 @@ type InvoiceParams struct {
 	Params `form:"*"`
 	// The account tax IDs associated with the invoice. Only editable when the invoice is a draft.
 	AccountTaxIDs []*string `form:"account_tax_ids"`
-	// A fee in %s that will be applied to the invoice and transferred to the application owner's Stripe account. The request must be made with an OAuth key or the Stripe-Account header in order to take an application fee. For more information, see the application fees [documentation](https://stripe.com/docs/billing/invoices/connect#collecting-fees).
+	// A fee in cents (or local equivalent) that will be applied to the invoice and transferred to the application owner's Stripe account. The request must be made with an OAuth key or the Stripe-Account header in order to take an application fee. For more information, see the application fees [documentation](https://stripe.com/docs/billing/invoices/connect#collecting-fees).
 	ApplicationFeeAmount *int64 `form:"application_fee_amount"`
 	// Controls whether Stripe will perform [automatic collection](https://stripe.com/docs/billing/invoices/workflow/#auto_advance) of the invoice.
 	AutoAdvance *bool `form:"auto_advance"`
@@ -434,7 +434,7 @@ type InvoiceUpcomingInvoiceItemPeriodParams struct {
 
 // List of invoice items to add or update in the upcoming invoice preview.
 type InvoiceUpcomingInvoiceItemParams struct {
-	// The integer amount in %s of previewed invoice item.
+	// The integer amount in cents (or local equivalent) of previewed invoice item.
 	Amount *int64 `form:"amount"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Only applicable to new invoice items.
 	Currency *string `form:"currency"`
@@ -459,9 +459,9 @@ type InvoiceUpcomingInvoiceItemParams struct {
 	Schedule *string `form:"schedule"`
 	// The tax rates that apply to the item. When set, any `default_tax_rates` do not apply to this item.
 	TaxRates []*string `form:"tax_rates"`
-	// The integer unit amount in %s of the charge to be applied to the upcoming invoice. This unit_amount will be multiplied by the quantity to get the full amount. If you want to apply a credit to the customer's account, pass a negative unit_amount.
+	// The integer unit amount in cents (or local equivalent) of the charge to be applied to the upcoming invoice. This unit_amount will be multiplied by the quantity to get the full amount. If you want to apply a credit to the customer's account, pass a negative unit_amount.
 	UnitAmount *int64 `form:"unit_amount"`
-	// Same as `unit_amount`, but accepts a decimal value in %s with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
+	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
 	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
 }
 
@@ -560,7 +560,7 @@ type InvoicePaymentSettingsPaymentMethodOptionsCard struct {
 	RequestThreeDSecure InvoicePaymentSettingsPaymentMethodOptionsCardRequestThreeDSecure `json:"request_three_d_secure"`
 }
 type InvoicePaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransfer struct {
-	// The bank transfer type that can be used for funding. Permitted values include: `us_bank_account`, `eu_bank_account`, `id_bank_account`, `gb_bank_account`, `jp_bank_account`, `mx_bank_account`, `eu_bank_transfer`, `gb_bank_transfer`, `id_bank_transfer`, `jp_bank_transfer`, `mx_bank_transfer`, or `us_bank_transfer`.
+	// The bank transfer type that can be used for funding. Permitted values include: `jp_bank_transfer`.
 	Type string `json:"type"`
 }
 

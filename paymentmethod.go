@@ -258,6 +258,12 @@ type PaymentMethodP24Params struct {
 // If this is a `paynow` PaymentMethod, this hash contains details about the PayNow payment method.
 type PaymentMethodPayNowParams struct{}
 
+// Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
+type PaymentMethodRadarOptionsParams struct {
+	// A [Radar Session](https://stripe.com/docs/radar/radar-session) is a snapshot of the browser metadata and device details that help Radar make more accurate predictions on your payments.
+	Session *string `form:"session"`
+}
+
 // If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
 type PaymentMethodSepaDebitParams struct {
 	// IBAN of the bank account.
@@ -338,6 +344,8 @@ type PaymentMethodParams struct {
 	P24 *PaymentMethodP24Params `form:"p24"`
 	// If this is a `paynow` PaymentMethod, this hash contains details about the PayNow payment method.
 	PayNow *PaymentMethodPayNowParams `form:"paynow"`
+	// Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
+	RadarOptions *PaymentMethodRadarOptionsParams `form:"radar_options"`
 	// This is a legacy parameter that will be removed in the future. It is a hash that does not accept any keys.
 	SepaDebit *PaymentMethodSepaDebitParams `form:"sepa_debit"`
 	// If this is a `sofort` PaymentMethod, this hash contains details about the SOFORT payment method.
@@ -577,6 +585,12 @@ type PaymentMethodP24 struct {
 }
 type PaymentMethodPayNow struct{}
 
+// Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
+type PaymentMethodRadarOptions struct {
+	// A [Radar Session](https://stripe.com/docs/radar/radar-session) is a snapshot of the browser metadata and device details that help Radar make more accurate predictions on your payments.
+	Session string `json:"session"`
+}
+
 // Information about the object that generated this PaymentMethod.
 type PaymentMethodSepaDebitGeneratedFrom struct {
 	// The ID of the Charge that generated this PaymentMethod, if any.
@@ -669,12 +683,14 @@ type PaymentMethod struct {
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`
 	// String representing the object's type. Objects of the same type share the same value.
-	Object    string                  `json:"object"`
-	OXXO      *PaymentMethodOXXO      `json:"oxxo"`
-	P24       *PaymentMethodP24       `json:"p24"`
-	PayNow    *PaymentMethodPayNow    `json:"paynow"`
-	SepaDebit *PaymentMethodSepaDebit `json:"sepa_debit"`
-	Sofort    *PaymentMethodSofort    `json:"sofort"`
+	Object string               `json:"object"`
+	OXXO   *PaymentMethodOXXO   `json:"oxxo"`
+	P24    *PaymentMethodP24    `json:"p24"`
+	PayNow *PaymentMethodPayNow `json:"paynow"`
+	// Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
+	RadarOptions *PaymentMethodRadarOptions `json:"radar_options"`
+	SepaDebit    *PaymentMethodSepaDebit    `json:"sepa_debit"`
+	Sofort       *PaymentMethodSofort       `json:"sofort"`
 	// The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type.
 	Type          PaymentMethodType           `json:"type"`
 	USBankAccount *PaymentMethodUSBankAccount `json:"us_bank_account"`

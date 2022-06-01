@@ -21,7 +21,7 @@ const (
 // To send funds from your Stripe account to a connected account, you create a new transfer object. Your [Stripe balance](https://stripe.com/docs/api#balance) must be able to cover the transfer amount, or you'll receive an “Insufficient Funds” error.
 type TransferParams struct {
 	Params `form:"*"`
-	// A positive integer in %s representing how much to transfer.
+	// A positive integer in cents (or local equivalent) representing how much to transfer.
 	Amount *int64 `form:"amount"`
 	// 3-letter [ISO code for currency](https://stripe.com/docs/payouts).
 	Currency *string `form:"currency"`
