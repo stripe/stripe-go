@@ -42,7 +42,22 @@ const (
 )
 
 // Zengin Records contain Japan bank account details per the Zengin format.
-type FundingInstructionsBankTransferFinancialAddressZengin struct{}
+type FundingInstructionsBankTransferFinancialAddressZengin struct {
+	// The account holder name
+	AccountHolderName string `json:"account_holder_name"`
+	// The account number
+	AccountNumber string `json:"account_number"`
+	// The bank account type. In Japan, this can only be `futsu` or `toza`.
+	AccountType string `json:"account_type"`
+	// The bank code of the account
+	BankCode string `json:"bank_code"`
+	// The bank name of the account
+	BankName string `json:"bank_name"`
+	// The branch code of the account
+	BranchCode string `json:"branch_code"`
+	// The branch name of the account
+	BranchName string `json:"branch_name"`
+}
 
 // A list of financial addresses that can be used to fund a particular balance
 type FundingInstructionsBankTransferFinancialAddress struct {

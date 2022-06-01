@@ -34,16 +34,17 @@ const (
 	TerminalReaderActionTypeSetReaderDisplay     TerminalReaderActionType = "set_reader_display"
 )
 
-// Type of reader, one of `bbpos_wisepad3`, `stripe_m2`, `bbpos_chipper2x`, `bbpos_wisepos_e`, or `verifone_P400`.
+// Type of reader, one of `bbpos_wisepad3`, `stripe_m2`, `bbpos_chipper2x`, `bbpos_wisepos_e`, `verifone_P400`, or `simulated_wisepos_e`.
 type TerminalReaderDeviceType string
 
 // List of values that TerminalReaderDeviceType can take
 const (
-	TerminalReaderDeviceTypeBBPOSChipper2X TerminalReaderDeviceType = "bbpos_chipper2x"
-	TerminalReaderDeviceTypeBBPOSWisePad3  TerminalReaderDeviceType = "bbpos_wisepad3"
-	TerminalReaderDeviceTypeBBPOSWisePOSE  TerminalReaderDeviceType = "bbpos_wisepos_e"
-	TerminalReaderDeviceTypeStripeM2       TerminalReaderDeviceType = "stripe_m2"
-	TerminalReaderDeviceTypeVerifoneP400   TerminalReaderDeviceType = "verifone_P400"
+	TerminalReaderDeviceTypeBBPOSChipper2X    TerminalReaderDeviceType = "bbpos_chipper2x"
+	TerminalReaderDeviceTypeBBPOSWisePad3     TerminalReaderDeviceType = "bbpos_wisepad3"
+	TerminalReaderDeviceTypeBBPOSWisePOSE     TerminalReaderDeviceType = "bbpos_wisepos_e"
+	TerminalReaderDeviceTypeSimulatedWisePOSE TerminalReaderDeviceType = "simulated_wisepos_e"
+	TerminalReaderDeviceTypeStripeM2          TerminalReaderDeviceType = "stripe_m2"
+	TerminalReaderDeviceTypeVerifoneP400      TerminalReaderDeviceType = "verifone_P400"
 )
 
 // Updates a Reader object by setting the values of the parameters passed. Any parameters not provided will be left unchanged.
@@ -204,7 +205,7 @@ type TerminalReader struct {
 	Deleted bool                  `json:"deleted"`
 	// The current software version of the reader.
 	DeviceSwVersion string `json:"device_sw_version"`
-	// Type of reader, one of `bbpos_wisepad3`, `stripe_m2`, `bbpos_chipper2x`, `bbpos_wisepos_e`, or `verifone_P400`.
+	// Type of reader, one of `bbpos_wisepad3`, `stripe_m2`, `bbpos_chipper2x`, `bbpos_wisepos_e`, `verifone_P400`, or `simulated_wisepos_e`.
 	DeviceType TerminalReaderDeviceType `json:"device_type"`
 	// Unique identifier for the object.
 	ID string `json:"id"`

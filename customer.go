@@ -137,7 +137,7 @@ type CustomerParams struct {
 	Params `form:"*"`
 	// The customer's address.
 	Address *AddressParams `form:"address"`
-	// An integer amount in %s that represents the customer's current balance, which affect the customer's future invoices. A negative amount represents a credit that decreases the amount due on an invoice; a positive amount increases the amount due on an invoice.
+	// An integer amount in cents (or local equivalent) that represents the customer's current balance, which affect the customer's future invoices. A negative amount represents a credit that decreases the amount due on an invoice; a positive amount increases the amount due on an invoice.
 	Balance *int64 `form:"balance"`
 	// Balance information and default balance settings for this customer.
 	CashBalance *CustomerCashBalanceParams `form:"cash_balance"`

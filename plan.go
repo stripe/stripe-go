@@ -112,7 +112,7 @@ type PlanTierParams struct {
 	FlatAmountDecimal *float64 `form:"flat_amount_decimal,high_precision"`
 	// The per unit billing amount for each individual unit for which this tier applies.
 	UnitAmount *int64 `form:"unit_amount"`
-	// Same as `unit_amount`, but accepts a decimal value in %s with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
+	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
 	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
 	// Specifies the upper bound of this tier. The lower bound of a tier is the upper bound of the previous tier adding one. Use `inf` to define a fallback tier.
 	UpTo    *int64 `form:"-"` // See custom AppendTo
@@ -146,7 +146,7 @@ type PlanParams struct {
 	Active *bool `form:"active"`
 	// Specifies a usage aggregation strategy for plans of `usage_type=metered`. Allowed values are `sum` for summing up all usage during a period, `last_during_period` for using the last usage record reported within a period, `last_ever` for using the last usage record ever (across period bounds) or `max` which uses the usage record with the maximum reported usage during a period. Defaults to `sum`.
 	AggregateUsage *string `form:"aggregate_usage"`
-	// A positive integer in %s (or 0 for a free plan) representing how much to charge on a recurring basis.
+	// A positive integer in cents (or local equivalent) (or 0 for a free plan) representing how much to charge on a recurring basis.
 	Amount *int64 `form:"amount"`
 	// Same as `amount`, but accepts a decimal value with at most 12 decimal places. Only one of `amount` and `amount_decimal` can be set.
 	AmountDecimal *float64 `form:"amount_decimal,high_precision"`

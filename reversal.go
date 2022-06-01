@@ -16,7 +16,7 @@ import "encoding/json"
 type ReversalParams struct {
 	Params   `form:"*"`
 	Transfer *string `form:"-"` // Included in URL
-	// A positive integer in %s representing how much of this transfer to reverse. Can only reverse up to the unreversed amount remaining of the transfer. Partial transfer reversals are only allowed for transfers to Stripe Accounts. Defaults to the entire transfer amount.
+	// A positive integer in cents (or local equivalent) representing how much of this transfer to reverse. Can only reverse up to the unreversed amount remaining of the transfer. Partial transfer reversals are only allowed for transfers to Stripe Accounts. Defaults to the entire transfer amount.
 	Amount *int64 `form:"amount"`
 	// An arbitrary string which you can attach to a reversal object. It is displayed alongside the reversal in the Dashboard. This will be unset if you POST an empty value.
 	Description *string `form:"description"`
