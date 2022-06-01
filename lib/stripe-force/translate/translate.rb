@@ -828,6 +828,12 @@ class StripeForce::Translate
       if recurring_item?(sf_order_item)
         subscription_items << phase_item.serialize_params
       else
+        # TODO metadata is currently not supported here https://jira.corp.stripe.com/browse/PLATINT-1609
+        Integrations::Utilities::StripeUtil.delete_field_from_stripe_object(
+          phase_item,
+          :metadata
+        )
+
         invoice_items << phase_item.serialize_params
       end
     end
