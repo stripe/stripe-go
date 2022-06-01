@@ -794,6 +794,7 @@ class StripeForce::Translate
       # I wonder if they will eventually converge in the public Stripe API over time?
       phase_item = Stripe::SubscriptionItem.construct_from({
         price: price.id,
+        metadata: stripe_metadata_for_sf_object(sf_order_item),
       })
 
       phase_item_params = extract_salesforce_params!(sf_order_item, Stripe::SubscriptionItem)
