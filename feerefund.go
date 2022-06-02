@@ -20,7 +20,7 @@ import "encoding/json"
 type FeeRefundParams struct {
 	Params         `form:"*"`
 	ApplicationFee *string `form:"-"` // Included in URL
-	// A positive integer, in _%s_, representing how much of this fee to refund. Can refund only up to the remaining unrefunded amount of the fee.
+	// A positive integer, in _cents (or local equivalent)_, representing how much of this fee to refund. Can refund only up to the remaining unrefunded amount of the fee.
 	Amount *int64 `form:"amount"`
 }
 

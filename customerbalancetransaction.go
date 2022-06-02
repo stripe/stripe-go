@@ -28,7 +28,7 @@ const (
 type CustomerBalanceTransactionParams struct {
 	Params   `form:"*"`
 	Customer *string `form:"-"` // Included in URL
-	// The integer amount in **%s** to apply to the customer's credit balance.
+	// The integer amount in **cents (or local equivalent)** to apply to the customer's credit balance.
 	Amount *int64 `form:"amount"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). If the customer's [`currency`](https://stripe.com/docs/api/customers/object#customer_object-currency) is set, this value must match it. If the customer's `currency` is not set, it will be updated to this value.
 	Currency *string `form:"currency"`

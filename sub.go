@@ -311,7 +311,7 @@ type SubscriptionPaymentSettingsPaymentMethodOptionsCardParams struct {
 
 // Configuration for the bank transfer funding type, if the `funding_type` is set to `bank_transfer`.
 type SubscriptionPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferParams struct {
-	// The bank transfer type that can be used for funding. Permitted values include: `us_bank_account`, `eu_bank_account`, `id_bank_account`, `gb_bank_account`, `jp_bank_account`, `mx_bank_account`, `eu_bank_transfer`, `gb_bank_transfer`, `id_bank_transfer`, `jp_bank_transfer`, `mx_bank_transfer`, or `us_bank_transfer`.
+	// The bank transfer type that can be used for funding. Permitted values include: `jp_bank_transfer`.
 	Type *string `form:"type"`
 }
 
@@ -554,7 +554,7 @@ type SubscriptionPaymentSettingsPaymentMethodOptionsCard struct {
 	RequestThreeDSecure SubscriptionPaymentSettingsPaymentMethodOptionsCardRequestThreeDSecure `json:"request_three_d_secure"`
 }
 type SubscriptionPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransfer struct {
-	// The bank transfer type that can be used for funding. Permitted values include: `us_bank_account`, `eu_bank_account`, `id_bank_account`, `gb_bank_account`, `jp_bank_account`, `mx_bank_account`, `eu_bank_transfer`, `gb_bank_transfer`, `id_bank_transfer`, `jp_bank_transfer`, `mx_bank_transfer`, or `us_bank_transfer`.
+	// The bank transfer type that can be used for funding. Permitted values include: `jp_bank_transfer`.
 	Type string `json:"type"`
 }
 

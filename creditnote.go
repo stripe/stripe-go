@@ -51,9 +51,9 @@ type CreditNoteLineParams struct {
 	TaxRates []*string `form:"tax_rates"`
 	// Type of the credit note line item, one of `invoice_line_item` or `custom_line_item`
 	Type *string `form:"type"`
-	// The integer unit amount in %s of the credit note line item. This `unit_amount` will be multiplied by the quantity to get the full amount to credit for this line item. Only valid when `type` is `custom_line_item`.
+	// The integer unit amount in cents (or local equivalent) of the credit note line item. This `unit_amount` will be multiplied by the quantity to get the full amount to credit for this line item. Only valid when `type` is `custom_line_item`.
 	UnitAmount *int64 `form:"unit_amount"`
-	// Same as `unit_amount`, but accepts a decimal value in %s with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
+	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
 	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
 }
 
@@ -73,9 +73,9 @@ type CreditNoteLineParams struct {
 // or post_payment_credit_notes_amount depending on its status at the time of credit note creation.
 type CreditNoteParams struct {
 	Params `form:"*"`
-	// The integer amount in %s representing the total amount of the credit note.
+	// The integer amount in cents (or local equivalent) representing the total amount of the credit note.
 	Amount *int64 `form:"amount"`
-	// The integer amount in %s representing the amount to credit the customer's balance, which will be automatically applied to their next invoice.
+	// The integer amount in cents (or local equivalent) representing the amount to credit the customer's balance, which will be automatically applied to their next invoice.
 	CreditAmount *int64 `form:"credit_amount"`
 	// ID of the invoice.
 	Invoice *string `form:"invoice"`
@@ -83,13 +83,13 @@ type CreditNoteParams struct {
 	Lines []*CreditNoteLineParams `form:"lines"`
 	// Credit note memo.
 	Memo *string `form:"memo"`
-	// The integer amount in %s representing the amount that is credited outside of Stripe.
+	// The integer amount in cents (or local equivalent) representing the amount that is credited outside of Stripe.
 	OutOfBandAmount *int64 `form:"out_of_band_amount"`
 	// Reason for issuing this credit note, one of `duplicate`, `fraudulent`, `order_change`, or `product_unsatisfactory`
 	Reason *string `form:"reason"`
 	// ID of an existing refund to link this credit note to.
 	Refund *string `form:"refund"`
-	// The integer amount in %s representing the amount to refund. If set, a refund will be created for the charge associated with the invoice.
+	// The integer amount in cents (or local equivalent) representing the amount to refund. If set, a refund will be created for the charge associated with the invoice.
 	RefundAmount *int64 `form:"refund_amount"`
 }
 
@@ -105,9 +105,9 @@ type CreditNoteListParams struct {
 // Get a preview of a credit note without creating it.
 type CreditNotePreviewParams struct {
 	Params `form:"*"`
-	// The integer amount in %s representing the total amount of the credit note.
+	// The integer amount in cents (or local equivalent) representing the total amount of the credit note.
 	Amount *int64 `form:"amount"`
-	// The integer amount in %s representing the amount to credit the customer's balance, which will be automatically applied to their next invoice.
+	// The integer amount in cents (or local equivalent) representing the amount to credit the customer's balance, which will be automatically applied to their next invoice.
 	CreditAmount *int64 `form:"credit_amount"`
 	// ID of the invoice.
 	Invoice *string `form:"invoice"`
@@ -115,13 +115,13 @@ type CreditNotePreviewParams struct {
 	Lines []*CreditNoteLineParams `form:"lines"`
 	// The credit note's memo appears on the credit note PDF.
 	Memo *string `form:"memo"`
-	// The integer amount in %s representing the amount that is credited outside of Stripe.
+	// The integer amount in cents (or local equivalent) representing the amount that is credited outside of Stripe.
 	OutOfBandAmount *int64 `form:"out_of_band_amount"`
 	// Reason for issuing this credit note, one of `duplicate`, `fraudulent`, `order_change`, or `product_unsatisfactory`
 	Reason *string `form:"reason"`
 	// ID of an existing refund to link this credit note to.
 	Refund *string `form:"refund"`
-	// The integer amount in %s representing the amount to refund. If set, a refund will be created for the charge associated with the invoice.
+	// The integer amount in cents (or local equivalent) representing the amount to refund. If set, a refund will be created for the charge associated with the invoice.
 	RefundAmount *int64 `form:"refund_amount"`
 }
 
@@ -133,9 +133,9 @@ type CreditNoteVoidParams struct {
 // When retrieving a credit note preview, you'll get a lines property containing the first handful of those items. This URL you can retrieve the full (paginated) list of line items.
 type CreditNoteLineItemListPreviewParams struct {
 	ListParams `form:"*"`
-	// The integer amount in %s representing the total amount of the credit note.
+	// The integer amount in cents (or local equivalent) representing the total amount of the credit note.
 	Amount *int64 `form:"amount"`
-	// The integer amount in %s representing the amount to credit the customer's balance, which will be automatically applied to their next invoice.
+	// The integer amount in cents (or local equivalent) representing the amount to credit the customer's balance, which will be automatically applied to their next invoice.
 	CreditAmount *int64 `form:"credit_amount"`
 	// ID of the invoice.
 	Invoice *string `form:"invoice"`
@@ -143,13 +143,13 @@ type CreditNoteLineItemListPreviewParams struct {
 	Lines []*CreditNoteLineParams `form:"lines"`
 	// The credit note's memo appears on the credit note PDF.
 	Memo *string `form:"memo"`
-	// The integer amount in %s representing the amount that is credited outside of Stripe.
+	// The integer amount in cents (or local equivalent) representing the amount that is credited outside of Stripe.
 	OutOfBandAmount *int64 `form:"out_of_band_amount"`
 	// Reason for issuing this credit note, one of `duplicate`, `fraudulent`, `order_change`, or `product_unsatisfactory`
 	Reason *string `form:"reason"`
 	// ID of an existing refund to link this credit note to.
 	Refund *string `form:"refund"`
-	// The integer amount in %s representing the amount to refund. If set, a refund will be created for the charge associated with the invoice.
+	// The integer amount in cents (or local equivalent) representing the amount to refund. If set, a refund will be created for the charge associated with the invoice.
 	RefundAmount *int64 `form:"refund_amount"`
 }
 
