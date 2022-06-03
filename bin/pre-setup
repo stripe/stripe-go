@@ -1,6 +1,11 @@
+#!/bin/bash
+
 if [[ -z $(which bundle) ]]; then
   echo "Bundler not installed; installing latest 2.x..."
   gem install bundler:2.3.9
 fi
 
 gem install foreman
+
+psql postgres --command="CREATE ROLE postgres WITH LOGIN PASSWORD 'postgres'"
+psql postgres --command="\set AUTOCOMMIT on\nCREATE DATABASE stripeforce; CREATE DATABASE test_stripeforce"

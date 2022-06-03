@@ -91,7 +91,11 @@ def get_all(object_name)
   sf.query("SELECT #{all_fields} FROM #{object_name}")
 end
 
-require_relative './test/support/salesforce_debugging'
+def limits
+  sf.limits.slice(*%w{DailyApiRequests DailyAsyncApexExecutions DailyBulkApiBatches DailyFunctionsApiCallLimit DailyStreamingApiEvents})
+end
+
+require_relative '../test/support/salesforce_debugging'
 include SalesforceDebugging
 
 user_info = sf.user_info

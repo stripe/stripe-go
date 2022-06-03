@@ -12,11 +12,21 @@ system level permissions https://developer.salesforce.com/docs/atlas.en-us.sfFie
 
 # Dev Snippets
 
+Loud logging everyhere:
+
 ```
 Stripe.log_level = 'debug'; Restforce.log = true; ENV['LOG_LEVEL'] = 'debug'
+```
 
-require_relative './test/support/salesforce_debugging'; include SalesforceDebugging
+Include debugging tools locally. This is done automatically in dev.
 
+```
+require_relative './test/support/salesforce_debugging.rb'; include StripeForce::Constants; include SalesforceDebugging
+```
+
+Pull user reference. Helpful for console debugging:
+
+```
 @user = u = StripeForce::User[90]
 ```
 

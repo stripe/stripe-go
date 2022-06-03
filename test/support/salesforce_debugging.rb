@@ -5,9 +5,34 @@ module SalesforceDebugging
   include StripeForce::Utilities::SalesforceUtil
   include StripeForce::Constants
 
+  def stripe_get(stripe_id)
+    stripe_id = stripe_id.
+      # remove whitespace
+      strip.
+      # remove quotes, sometimes easy to pull in when copy/pasting
+      gsub("'\"", '')
+
+    stripe_class = Integrations::Utilities::StripeUtil.stripe_class_from_id(stripe_id, raise_on_missing: true)
+    return if !stripe_class
+
+    stripe_class.retrieve(stripe_id, @user.stripe_credentials)
+  end
+
   def sf_get(sf_id)
+    sf_id = sf_id.
+      # remove whitespace
+      strip.
+      # remove quotes, sometimes easy to pull in when copy/pasting
+      gsub("'\"", '')
+
     sf_type = salesforce_type_from_id(sf_id)
     sf_object = @user.sf_client.find(sf_type, sf_id)
+  end
+
+  def sf_get_related(source_object, related_object)
+    @user.sf_client.query("SELECT Id FROM #{related_object} WHERE #{source_object.sobject_type}Id = '#{source_object.Id}'").map do |o|
+      @user.sf_client.find(related_object, o.Id)
+    end
   end
 
   def sf_get_recent(object_type)

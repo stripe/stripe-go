@@ -77,6 +77,8 @@ module Integrations::Utilities::StripeUtil
     end
   end
 
+  module_function :stripe_class_from_id
+
   sig { params(stripe_resource: Stripe::APIResource, field_path: String, field_value: T.nilable(T.any(String, Integer, Float, T::Boolean))).void }
   def set_stripe_resource_field_path(stripe_resource, field_path, field_value)
     components = field_path.split('.').map(&:strip)

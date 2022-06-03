@@ -2,7 +2,7 @@
 # typed: false
 
 # heroku run bundle exec ruby migration.rb
-# CREATE DATABASE stripeforce; CREATE DATABASE test_stripeforce
+# bundle exec ruby db/migration.rb
 
 require 'sequel'
 require 'dotenv/load'
