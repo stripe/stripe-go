@@ -26,6 +26,12 @@ class StripeForce::InitiatePollsJobs
     log.info 'queuing poll', poll_job: StripeForce::OrderPoller
 
     # TODO spit out to a separate job
-    StripeForce::OrderPoller.perform(user: user)
+    locker = Integrations::Locker.new(user)
+    locker.lock_on_user do
+      StripeForce::OrderPoller.perform(
+        user: user,
+        locker: locker
+      )
+    end
   end
 end

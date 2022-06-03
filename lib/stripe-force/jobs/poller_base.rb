@@ -10,12 +10,13 @@ class StripeForce::PollerBase
   include Integrations::Utilities
 
   include StripeForce::Constants
+  include StripeForce::Utilities::SalesforceUtil
 
   abstract!
 
   attr_accessor :locker
 
-  def self.perform(user:, locker: nil)
+  def self.perform(user:, locker:)
     interactor = self.new(user)
     interactor.locker = locker
     interactor.perform
