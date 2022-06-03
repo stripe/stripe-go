@@ -3,7 +3,8 @@
   <fullName>Skip_Line_Item__c</fullName>
   <externalId>false</externalId>
   <label>Skip Line Item in Stripe</label>
-  <description>If true, this line item will not be sent to Stripe Billing.</description>
+  <description>If checked, this line item is not sent to Stripe Billing.</description>
+  <inlineHelpText>If checked, this line item is not sent to Stripe Billing.</inlineHelpText>
   <required>false</required>
   <defaultValue>false</defaultValue>
   <trackFeedHistory>false</trackFeedHistory>
