@@ -104,6 +104,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>OrderItem.Skip_Line_Item__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>OrderItem.Stripe_Dashboard_Link__c</field>
         <readable>true</readable>
     </fieldPermissions>

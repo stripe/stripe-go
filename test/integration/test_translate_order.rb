@@ -115,7 +115,6 @@ class Critic::OrderTranslation < Critic::FunctionalTest
     SalesforceTranslateRecordJob.translate(@user, sf_order)
   end
 
-  # TODO should add $0 line item translation test here
   it 'does not filter out $0 line items' do
     sf_product_id_1, sf_pricebook_id_1 = salesforce_recurring_product_with_price
     sf_product_id_2, sf_pricebook_id_2 = salesforce_recurring_product_with_price(price: 0)
@@ -161,6 +160,60 @@ class Critic::OrderTranslation < Critic::FunctionalTest
     phase_item_with_normal_price = T.must(phase.items.detect {|i| i.price != stripe_zero_dollar_price_id })
     normal_price = Stripe::Price.retrieve(phase_item_with_normal_price.price, @user.stripe_credentials)
     assert_equal(sf_pricebook_id_1, normal_price.metadata['salesforce_pricebook_entry_id'])
+  end
+
+  it 'skips line items when the skip line item custom field is checked' do
+    sf_product_id_1, sf_pricebook_id_1 = salesforce_recurring_product_with_price
+    sf_product_id_2, sf_pricebook_id_2 = salesforce_recurring_product_with_price
+    sf_product_id_3, sf_pricebook_id_3 = salesforce_recurring_product_with_price
+
+    sf_account_id = create_salesforce_account
+
+    quote_id = create_salesforce_quote(sf_account_id: sf_account_id, additional_quote_fields: {
+      CPQ_QUOTE_SUBSCRIPTION_START_DATE => DateTime.now,
+      CPQ_QUOTE_SUBSCRIPTION_TERM => 12.0,
+    })
+
+    # only CPQ fields can be customized within this special quote creation process
+
+    quote_with_product = add_product_to_cpq_quote(quote_id, sf_product_id: sf_product_id_1)
+    calculate_and_save_cpq_quote(quote_with_product)
+
+    quote_with_product = add_product_to_cpq_quote(quote_id, sf_product_id: sf_product_id_2)
+    calculate_and_save_cpq_quote(quote_with_product)
+
+    quote_with_product = add_product_to_cpq_quote(quote_id, sf_product_id: sf_product_id_3)
+    calculate_and_save_cpq_quote(quote_with_product)
+
+    sf_order = create_order_from_cpq_quote(quote_id)
+
+    sf_line_items = sf_get_related(sf_order, SF_ORDER_ITEM)
+    assert_equal(3, sf_line_items.size)
+    second_line_item = sf_line_items.detect {|i| i.Product2Id == sf_product_id_2 }
+
+    sf.update!(SF_ORDER_ITEM, {
+      SF_ID => second_line_item.Id,
+      prefixed_stripe_field(ORDER_LINE_SKIP) => true,
+    })
+
+    SalesforceTranslateRecordJob.translate(@user, sf_order)
+
+    sf_order.refresh
+    stripe_id = sf_order[prefixed_stripe_field(GENERIC_STRIPE_ID)]
+
+    subscription_schedule = Stripe::SubscriptionSchedule.retrieve(stripe_id, @user.stripe_credentials)
+
+    assert_equal(1, subscription_schedule.phases.count)
+    phase = T.must(subscription_schedule.phases.first)
+
+    # should have three, but one was excluded
+    assert_equal(2, phase.items.count)
+    assert_equal(0, phase.add_invoice_items.count)
+
+    assert_empty(phase.items.select do |i|
+      refute_nil(i.metadata['salesforce_order_item_id'])
+      i.metadata['salesforce_order_item_id'] == second_line_item.Id
+    end)
   end
 
   it 'integrates a subscription order with multiple lines' do

@@ -779,6 +779,17 @@ class StripeForce::Translate
     invoice_items = []
     subscription_items = []
 
+    sf_order_items = sf_order_items.select do |sf_order_item|
+      should_keep = sf_order_item[prefixed_stripe_field(ORDER_LINE_SKIP)].nil? ||
+        !sf_order_item[prefixed_stripe_field(ORDER_LINE_SKIP)]
+
+      if !should_keep
+        log.info 'order line marked as skipped'
+      end
+
+      should_keep
+    end
+
     sf_order_items.map do |sf_order_item|
       # never expect this to occur
       if sf_order_item.IsDeleted || !sf_order_item.SBQQ__Activated__c
