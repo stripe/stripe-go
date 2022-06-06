@@ -96,6 +96,15 @@ module SalesforceDebugging
       sf_account_or_id
     end
 
+    if sf_account.sobject_type == SF_ORDER
+      sf_account = sf_get(sf_account.AccountId)
+    end
+
+    if sf_account.sobject_type != SF_ACCOUNT
+      puts "invalid object passed: account or order required"
+      return
+    end
+
     stripe_customer_id = sf_account[prefixed_stripe_field(GENERIC_STRIPE_ID)]
     stripe_customer = Stripe::Customer.retrieve(stripe_customer_id, @user.stripe_credentials)
     stripe_customer.delete
@@ -114,5 +123,21 @@ module SalesforceDebugging
       SF_ID => sf_account.Id,
       prefixed_stripe_field(GENERIC_STRIPE_ID) => nil,
     })
+  end
+
+  def wipe_product(product_id)
+    puts "updating product\t#{product_id}"
+    @user.sf_client.update!(SF_PRODUCT, {
+      SF_ID => product_id,
+      prefixed_stripe_field(GENERIC_STRIPE_ID) => "",
+    })
+
+    @user.sf_client.query("SELECT Id FROM #{SF_PRICEBOOK_ENTRY} WHERE Product2Id = '#{product_id}'").each do |pricebook_entry|
+      puts "wiping pricebook #{pricebook_entry.Id}"
+      @user.sf_client.update!(SF_PRICEBOOK_ENTRY, {
+        SF_ID => pricebook_entry.Id,
+        prefixed_stripe_field(GENERIC_STRIPE_ID) => "",
+      })
+    end
   end
 end

@@ -151,6 +151,8 @@ class Critic::ConfigurationsControllerTest < ApplicationIntegrationTest
     end
 
     it 'returns user status JSON' do
+      assert_equal(1, StripeForce::User.count)
+
       get api_configuration_path, headers: authentication_headers
 
       assert_response :success

@@ -58,7 +58,7 @@ class Critic::OrderPollerTest < Critic::UnitTest
       true
     end
 
-    sleep(1)
+    sleep(2)
 
     # TODO right now, this works since we only have a single order poll, this will need to be specific to orders in the future
     StripeForce::InitiatePollsJobs.perform

@@ -3,6 +3,8 @@
 - interval_count transformation
 - Price can be mapped to two objects: order line and pricebook
 - Override will cause metadata to be added to stripe
+- Timezone handling. All date strings are converted into midnight UTC unix timestamp values.
+- we need to document this: the price is mapped to two unique objects
 
 Next:
 
