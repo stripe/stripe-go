@@ -22,6 +22,7 @@
     width: 1px;
 }
 
+.stripe-table_metadata.slds-table td,
 .stripe-table_mapping.slds-table td {
     white-space: normal;
     vertical-align: top;

@@ -3,7 +3,7 @@
 
 require_relative '../test_helper'
 
-class Critic::OrderPollerTest < Critic::UnitTest
+class Critic::OrderPollerTest < Critic::FunctionalTest
   before do
     @user = make_user
     inline_job_processing!

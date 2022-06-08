@@ -84,6 +84,8 @@ module CommonHelpers
   end
 
   def common_setup
+    assert_equal(0, StripeForce::User.count)
+
     # https://github.com/resque/resque-scheduler/pull/602
     redis.redis.flushdb
 
