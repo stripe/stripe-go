@@ -424,4 +424,16 @@
         </template>
     </div>
 
+    <!-- Cancel Modal -->
+    <c-modal class="stripe-modal_confirm-cancel" title="Leave Without Saving Changes">
+        <div class="slds-is-relative">
+            <lightning-spinner if:true={modalLoading} alternative-text="Loading..."></lightning-spinner>
+            <p class="slds-text-align_center">
+                Are you sure you want to exit without saving your changes? All changes will be reverted if you leave this tab now.
+            </p>
+        </div>
+        <lightning-button slot="footer" label="Cancel" variant="neutral" onclick={hideCancelModal} class="slds-button" disabled={modalLoading}></lightning-button>
+        <lightning-button slot="footer" label="Leave" variant="destructive" onclick={runTabConnectedCallback} class="slds-button" disabled={modalLoading}></lightning-button>
+    </c-modal>
+    <!-- /Cancel Modal -->
 </template>

@@ -165,6 +165,7 @@ export default class DataMappingStep extends LightningElement {
             this.isMappingsUpdated = true;
             this.dispatchEvent(new CustomEvent('valuechange'));
         }
+        this.isMappingsUpdated = false;
     }
 
     debounce(targetInput) {
@@ -484,7 +485,7 @@ export default class DataMappingStep extends LightningElement {
         window.open(apiUrl, '_blank');
     }
 
-    async connectedCallback() {
+    @api async connectedCallback() {
         this.dispatchEvent(new CustomEvent('contentloading'));
         try {
             const getFormattedStripeObjects = await getFormattedStripeObjectFields();

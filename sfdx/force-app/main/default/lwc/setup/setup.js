@@ -21,6 +21,9 @@ export default class FirstTimeSetup extends LightningElement {
     @track saveDisabled = true;
     @track loading = true;
     @track contentLoading = false;
+    @track changesCanceled = false;
+    @track currentTab = '';
+    @track tabToNavTo = '';
     @track stepName;
     @track steps = [
         {
@@ -315,8 +318,51 @@ export default class FirstTimeSetup extends LightningElement {
                 }
             }
         } else {
-            this.showSetupToast('Save your changes before navigating to another tab', 'error', 'sticky')
+            this.currentTab = event.currentTarget;
+            this.tabToNavTo = this.currentTab.dataset.index;
+            this.showCancelModal();
         }
+    }
+
+    runTabConnectedCallback() {
+        this.saveDisabled = true;
+        this.changesCanceled = true;
+        if(this.activeSectionIndex == 2) {
+            this.template.querySelector('c-sync-preferences-step').connectedCallback();
+            this.hideCancelModal();
+            return;
+        }
+        
+        this.template.querySelector('c-data-mapping-step').connectedCallback();
+        this.hideCancelModal();
+    }
+
+    showCancelModal() {
+        this.template.querySelector('.stripe-modal_confirm-cancel').show();
+    }
+
+    hideCancelModal() {
+        this.template.querySelector('.stripe-modal_confirm-cancel').hide();
+        if(this.changesCanceled) {
+            this.showSetupToast('Your changes have been reverted', 'success');
+            this.changesCanceled = false;
+
+            //navigate to selcted step
+            const currentActive = this.template.querySelector('.stripe-navigation-item_active');
+            const previousSectionContent = this.template.querySelector('c-step[data-index="' + this.activeSectionIndex + '"]');
+            if(previousSectionContent) {
+                currentActive.classList.remove('stripe-navigation-item_active');
+                previousSectionContent.classList.add('slds-hide');
+            }
+
+            this.currentTab.classList.add('stripe-navigation-item_active');
+             this.activeSectionIndex = this.tabToNavTo;
+            const targetSectionContent = this.template.querySelector('c-step[data-index="' + this.activeSectionIndex + '"]');
+            if(targetSectionContent) {
+                targetSectionContent.classList.remove('slds-hide');
+            }
+        }
+        
     }
 
     showNextStep() {
