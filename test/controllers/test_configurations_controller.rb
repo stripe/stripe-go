@@ -83,6 +83,8 @@ class Critic::ConfigurationsControllerTest < ApplicationIntegrationTest
     end
 
     it 'creates a new user with a valid organization API key' do
+      assert_equal(0, StripeForce::User.count)
+
       api_key = SecureRandom.alphanumeric(16)
       post api_post_install_path, params: {key: api_key}, as: :json, headers: {
         # not using `authentication_headers` since the user is not created
@@ -102,6 +104,8 @@ class Critic::ConfigurationsControllerTest < ApplicationIntegrationTest
     end
 
     it 'persists the salesforce namespace when in QA' do
+      assert_equal(0, StripeForce::User.count)
+
       api_key = SecureRandom.alphanumeric(16)
       post api_post_install_path, params: {key: api_key}, as: :json, headers: {
         # not using `authentication_headers` since the user is not created
@@ -147,6 +151,24 @@ class Critic::ConfigurationsControllerTest < ApplicationIntegrationTest
       it 'throws a not accepted error if JSON is not passed' do
         put api_configuration_path, params: "i am not json", headers: authentication_headers
         assert_response :not_acceptable
+      end
+
+      # DB enforces that SF org IDs must be unique
+
+      it 'throws an error if the api key does not match' do
+        get api_configuration_path, params: {}, headers: authentication_headers.merge(
+          SALESFORCE_KEY_HEADER => SecureRandom.alphanumeric(16)
+        )
+
+        assert_response :not_found
+      end
+
+      it 'throws an error if no api key is specified' do
+        get api_configuration_path, params: {}, headers: authentication_headers.merge(
+          SALESFORCE_KEY_HEADER => ""
+        )
+
+        assert_response :not_found
       end
     end
 

@@ -136,6 +136,7 @@ module Api
 
     private def create_user_reference
       salesforce_account_id = request.headers[SALESFORCE_ACCOUNT_ID_HEADER]
+      salesforce_api_key = request.headers[SALESFORCE_KEY_HEADER]
 
       if salesforce_account_id.blank?
         log.warn 'no salesforce account ID specified'
@@ -143,12 +144,23 @@ module Api
         return
       end
 
-      @user = StripeForce::User.find(salesforce_account_id: salesforce_account_id)
+      if salesforce_api_key.blank?
+        log.warn 'no salesforce api key specified'
+        head :not_found
+        return
+      end
 
-      # TODO validate incoming API key
+      # DB enforces that SF org IDs must be unique
+      @user = StripeForce::User.find(salesforce_account_id: salesforce_account_id)
 
       if @user.blank?
         log.warn 'invalid user ID specified', salesforce_account_id: salesforce_account_id
+        head :not_found
+        return
+      end
+
+      if @user.salesforce_organization_key != salesforce_api_key
+        log.error 'api key does not match user'
         head :not_found
         return
       end

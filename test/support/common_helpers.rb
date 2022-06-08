@@ -37,6 +37,7 @@ module CommonHelpers
       salesforce_token: ENV.fetch('SF_ACCESS_TOKEN'),
       salesforce_refresh_token: ENV['SF_REFRESH_TOKEN'],
       salesforce_instance_url: "https://#{ENV.fetch('SF_INSTANCE_DOMAIN')}.my.salesforce.com",
+      salesforce_organization_key: SecureRandom.alphanumeric(16),
 
       stripe_account_id: if random_user_id
         create_id("acct_")

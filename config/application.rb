@@ -62,6 +62,9 @@ module StripeForce
       # include headers which identify which account and other details the request is coming from=
       SALESFORCE_HEADERS.each {|h| custom_params[h] = event.payload[:request].headers[h] }
 
+      # include a boolean to indicate if the key was specified
+      custom_params[SALESFORCE_KEY_HEADER] = event.payload[:request].headers[SALESFORCE_KEY_HEADER].present?
+
       custom_params.reject {|_, v| v.blank? }
     end
   end

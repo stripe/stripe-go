@@ -30,7 +30,7 @@ class Critic::OrderPollerTest < Critic::FunctionalTest
     @user.save
 
     initial_poll = set_initial_poll_timestamp(SF_ORDER)
-    initial_poll.update(last_polled_at: DateTime.now - 5.minutes)
+    initial_poll.update(last_polled_at: DateTime.now - POLL_FREQUENCY - 1.minutes)
 
     # although it's slow, we want to actually hit the live salesforce API
     # to test our query generation logic
@@ -44,9 +44,11 @@ class Critic::OrderPollerTest < Critic::FunctionalTest
         next true
       end
 
+      contains_order = true
+
       # lock error should be raised if we try lock on another instance of the job
       exception = assert_raises(Integrations::Errors::LockTimeout) do
-        initial_poll.update(last_polled_at: DateTime.now - 5.minutes)
+        initial_poll.update(last_polled_at: DateTime.now - POLL_FREQUENCY - 1.minute)
         StripeForce::InitiatePollsJobs.perform
       end
 
@@ -54,7 +56,6 @@ class Critic::OrderPollerTest < Critic::FunctionalTest
       # we were trying to lock, not the user key
       assert_match("StripeForce::OrderPoller", exception.message)
 
-      contains_order = true
       true
     end
 

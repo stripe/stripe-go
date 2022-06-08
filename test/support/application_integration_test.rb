@@ -28,6 +28,7 @@ class ApplicationIntegrationTest < ActionDispatch::IntegrationTest
     {
       SALESFORCE_ACCOUNT_ID_HEADER => @user.salesforce_account_id,
       SALESFORCE_PACKAGE_NAMESPACE_HEADER => "",
+      SALESFORCE_KEY_HEADER => @user.salesforce_organization_key,
     }
   end
 
