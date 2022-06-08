@@ -112,7 +112,7 @@ type TreasuryReceivedDebitInitiatingPaymentMethodDetails struct {
 type TreasuryReceivedDebitLinkedFlows struct {
 	// Set if the ReceivedDebit is associated with an InboundTransfer's return of funds.
 	InboundTransfer string `json:"inbound_transfer"`
-	// Set if the ReceivedCredit was created due to an [Issuing Authorization](https://stripe.com/docs/api#issuing_authorizations) object.
+	// Set if the ReceivedDebit was created due to an [Issuing Authorization](https://stripe.com/docs/api#issuing_authorizations) object.
 	IssuingAuthorization string `json:"issuing_authorization"`
 	// Set if the ReceivedDebit is also viewable as an [Issuing Dispute](https://stripe.com/docs/api#issuing_disputes) object.
 	IssuingTransaction string `json:"issuing_transaction"`

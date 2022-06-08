@@ -8,6 +8,17 @@ package stripe
 
 import "encoding/json"
 
+// Indicates the directions of money movement for which this payment method is intended to be used.
+//
+// Include `inbound` if you intend to use the payment method as the origin to pull funds from. Include `outbound` if you intend to use the payment method as the destination to send funds to. You can include both if you intend to use the payment method for both purposes.
+type SetupAttemptFlowDirection string
+
+// List of values that SetupAttemptFlowDirection can take
+const (
+	SetupAttemptFlowDirectionInbound  SetupAttemptFlowDirection = "inbound"
+	SetupAttemptFlowDirectionOutbound SetupAttemptFlowDirection = "outbound"
+)
+
 // For authenticated transactions: how the customer was authenticated by
 // the issuing bank.
 type SetupAttemptPaymentMethodDetailsCardThreeDSecureAuthenticationFlow string
@@ -199,10 +210,18 @@ type SetupAttempt struct {
 	APIResource
 	// The value of [application](https://stripe.com/docs/api/setup_intents/object#setup_intent_object-application) on the SetupIntent at the time of this confirmation.
 	Application *Application `json:"application"`
+	// If present, the SetupIntent's payment method will be attached to the in-context Stripe Account.
+	//
+	// It can only be used for this Stripe Account's own money movement flows like InboundTransfer and OutboundTransfers. It cannot be set to true when setting up a PaymentMethod for a Customer, and defaults to false when attaching a PaymentMethod to a Customer.
+	AttachToSelf bool `json:"attach_to_self"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
 	Created int64 `json:"created"`
 	// The value of [customer](https://stripe.com/docs/api/setup_intents/object#setup_intent_object-customer) on the SetupIntent at the time of this confirmation.
 	Customer *Customer `json:"customer"`
+	// Indicates the directions of money movement for which this payment method is intended to be used.
+	//
+	// Include `inbound` if you intend to use the payment method as the origin to pull funds from. Include `outbound` if you intend to use the payment method as the destination to send funds to. You can include both if you intend to use the payment method for both purposes.
+	FlowDirections []SetupAttemptFlowDirection `json:"flow_directions"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
