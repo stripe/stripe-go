@@ -524,7 +524,7 @@ type SetupIntentPaymentMethodOptionsSepaDebitParams struct {
 
 // Additional fields for Financial Connections Session creation
 type SetupIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsParams struct {
-	// The list of permissions to request. If this parameter is passed, the `payment_method` permission must be included. Valid permissions include: `balances`, `payment_method`, and `transactions`.
+	// The list of permissions to request. If this parameter is passed, the `payment_method` permission must be included. Valid permissions include: `balances`, `ownership`, `payment_method`, and `transactions`.
 	Permissions []*string `form:"permissions"`
 	// For webview integrations only. Upon completing OAuth login in the native browser, the user will be redirected to this URL to return to your app.
 	ReturnURL *string `form:"return_url"`
@@ -574,6 +574,10 @@ type SetupIntentSingleUseParams struct {
 // to collect any required permissions to charge the payment method later.
 type SetupIntentParams struct {
 	Params `form:"*"`
+	// If present, the SetupIntent's payment method will be attached to the in-context Stripe Account.
+	//
+	// It can only be used for this Stripe Account's own money movement flows like InboundTransfer and OutboundTransfers. It cannot be set to true when setting up a PaymentMethod for a Customer, and defaults to false when attaching a PaymentMethod to a Customer.
+	AttachToSelf *bool `form:"attach_to_self"`
 	// The client secret of the SetupIntent. Required if a publishable key is used to retrieve the SetupIntent.
 	ClientSecret *string `form:"client_secret"`
 	// Set to `true` to attempt to confirm this SetupIntent immediately. This parameter defaults to `false`. If the payment method attached is a card, a return_url may be provided in case additional authentication is required.
@@ -584,6 +588,10 @@ type SetupIntentParams struct {
 	Customer *string `form:"customer"`
 	// An arbitrary string attached to the object. Often useful for displaying to users.
 	Description *string `form:"description"`
+	// Indicates the directions of money movement for which this payment method is intended to be used.
+	//
+	// Include `inbound` if you intend to use the payment method as the origin to pull funds from. Include `outbound` if you intend to use the payment method as the destination to send funds to. You can include both if you intend to use the payment method for both purposes.
+	FlowDirections []*string `form:"flow_directions"`
 	// This hash contains details about the Mandate to create. This parameter can only be used with [`confirm=true`](https://stripe.com/docs/api/setup_intents/create#create_setup_intent-confirm).
 	MandateData *SetupIntentMandateDataParams `form:"mandate_data"`
 	// The Stripe account ID for which this SetupIntent is created.
@@ -608,6 +616,10 @@ type SetupIntentParams struct {
 // Returns a list of SetupIntents.
 type SetupIntentListParams struct {
 	ListParams `form:"*"`
+	// If present, the SetupIntent's payment method will be attached to the in-context Stripe Account.
+	//
+	// It can only be used for this Stripe Account's own money movement flows like InboundTransfer and OutboundTransfers. It cannot be set to true when setting up a PaymentMethod for a Customer, and defaults to false when attaching a PaymentMethod to a Customer.
+	AttachToSelf *bool `form:"attach_to_self"`
 	// A filter on the list, based on the object `created` field. The value can be a string with an integer Unix timestamp, or it can be a dictionary with a number of different query options.
 	Created *int64 `form:"created"`
 	// A filter on the list, based on the object `created` field. The value can be a string with an integer Unix timestamp, or it can be a dictionary with a number of different query options.
