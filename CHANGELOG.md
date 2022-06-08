@@ -1,5 +1,14 @@
 # Changelog
 
+## 72.113.0 - 2022-06-08
+* [#1472](https://github.com/stripe/stripe-go/pull/1472) API Updates
+  * Add support for `Affirm`, `Bancontact`, `Card`, `Ideal`, `P24`, and `Sofort` on `CheckoutSessionPaymentMethodOptionsParams` and `CheckoutSessionPaymentMethodOptions`
+  * Add support for `AUBECSDebit`, `AfterpayClearpay`, `BACSDebit`, `EPS`, `FPX`, `Giropay`, `Grabpay`, `Klarna`, `PayNow`, and `SepaDebit` on `CheckoutSessionPaymentMethodOptionsParams`
+  * Add support for `SetupFutureUsage` on `CheckoutSessionPaymentMethodOptionsAcssDebitParams`, `CheckoutSessionPaymentMethodOptionsAcssDebit`, `CheckoutSessionPaymentMethodOptionsAfterpayClearpay`, `CheckoutSessionPaymentMethodOptionsAlipayParams`, `CheckoutSessionPaymentMethodOptionsAlipay`, `CheckoutSessionPaymentMethodOptionsAuBecsDebit`, `CheckoutSessionPaymentMethodOptionsBacsDebit`, `CheckoutSessionPaymentMethodOptionsBoletoParams`, `CheckoutSessionPaymentMethodOptionsBoleto`, `CheckoutSessionPaymentMethodOptionsEps`, `CheckoutSessionPaymentMethodOptionsFpx`, `CheckoutSessionPaymentMethodOptionsGiropay`, `CheckoutSessionPaymentMethodOptionsGrabpay`, `CheckoutSessionPaymentMethodOptionsKlarna`, `CheckoutSessionPaymentMethodOptionsKonbiniParams`, `CheckoutSessionPaymentMethodOptionsKonbini`, `CheckoutSessionPaymentMethodOptionsOxxoParams`, `CheckoutSessionPaymentMethodOptionsOxxo`, `CheckoutSessionPaymentMethodOptionsPaynow`, `CheckoutSessionPaymentMethodOptionsSepaDebit`, `CheckoutSessionPaymentMethodOptionsUsBankAccountParams`, `CheckoutSessionPaymentMethodOptionsUsBankAccount`, and `CheckoutSessionPaymentMethodOptionsWechatPayParams`
+  * Add support for `AttachToSelf` on `SetupAttempt`, `SetupIntentListParams`, and `SetupIntentParams`
+  * Add support for `FlowDirections` on `SetupAttempt` and `SetupIntentParams`
+* [#1469](https://github.com/stripe/stripe-go/pull/1469) Add test for cash balance methods.
+
 ## 72.112.0 - 2022-06-01
 * [#1471](https://github.com/stripe/stripe-go/pull/1471) API Updates
   * Add support for `RadarOptions` on `ChargeParams`, `Charge`, `PaymentIntentConfirmParams`, `PaymentIntentConfirmPaymentMethodDataParams`, `PaymentIntentParams`, `PaymentIntentPaymentMethodDataParams`, `PaymentMethodParams`, `PaymentMethod`, `SetupIntentConfirmPaymentMethodDataParams`, and `SetupIntentPaymentMethodDataParams`
