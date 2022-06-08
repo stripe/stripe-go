@@ -1,5 +1,6 @@
 import validateConnectionStatus from '@salesforce/apex/setupAssistant.validateConnectionStatus';
 import { LightningElement, track, api, wire } from 'lwc';
+import { getErrorMessage } from 'c/utils'
 
 export default class SystemConnectionsStep extends LightningElement {
     @track salesforceComplete = false;
@@ -95,7 +96,8 @@ export default class SystemConnectionsStep extends LightningElement {
                 this.showToast(responseData.error, 'error', 'sticky');
             }
         } catch (error) {
-            this.showToast(error.message, 'error', 'sticky');
+            let errorMessage = getErrorMessage(error);
+            this.showToast(errorMessage, 'error', 'sticky');
         }
     }
 

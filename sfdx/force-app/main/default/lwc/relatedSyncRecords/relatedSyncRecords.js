@@ -1,6 +1,7 @@
 import getRelatedSyncRecords from '@salesforce/apex/relatedSyncRecordsController.getRelatedSyncRecords';
 import { LightningElement, api, track } from "lwc";
 import { NavigationMixin } from 'lightning/navigation';
+import { getErrorMessage } from 'c/utils'
 
 export default class RelatedSyncRecords extends NavigationMixin(LightningElement) {
   @api recordId;
@@ -56,7 +57,7 @@ export default class RelatedSyncRecords extends NavigationMixin(LightningElement
                 this.errorMessage = this.data.error;
             } 
         } catch (error) {
-            this.errorMessage = error.message;
+            this.errorMessage = getErrorMessage(error);
         } finally {
             this.loading = false;
         }

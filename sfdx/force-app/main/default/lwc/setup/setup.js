@@ -4,6 +4,7 @@ import getSetupData from '@salesforce/apex/setupAssistant.getSetupData';
 import setOrgType from '@salesforce/apex/utilities.setOrgType';
 import saveData from '@salesforce/apex/setupAssistant.saveData';
 import { LightningElement, track, api } from 'lwc';
+import { getErrorMessage } from 'c/utils'
 import illustrations from '@salesforce/resourceUrl/stripe_setupIllustrations';
 
 export default class FirstTimeSetup extends LightningElement {
@@ -163,7 +164,8 @@ export default class FirstTimeSetup extends LightningElement {
             }
             
         } catch (error) {
-            this.showSetupToast(error.message, 'error', 'sticky');
+            let errorMessage = getErrorMessage(error);
+            this.showSetupToast(errorMessage, 'error', 'sticky');
         } finally {
             this.loading = false;
         }
@@ -213,7 +215,8 @@ export default class FirstTimeSetup extends LightningElement {
             }
 
         } catch (error) {
-            this.showSetupToast(error.message, 'error', 'sticky');
+            let errorMessage = getErrorMessage(error);
+            this.showSetupToast(errorMessage, 'error', 'sticky');
         }
     }
 
@@ -269,7 +272,8 @@ export default class FirstTimeSetup extends LightningElement {
                 }
             }
         } catch (error) {
-            this.showSetupToast(error.message, 'error', 'sticky');
+            let errorMessage = getErrorMessage(error);
+            this.showSetupToast(errorMessage, 'error', 'sticky');
         } finally {
             if(this.activeStepIndex < (this.steps.length - 1)) {
                 this.showNextStep();

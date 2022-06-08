@@ -5,6 +5,7 @@ import getFilterSettings from '@salesforce/apex/setupAssistant.getFilterSettings
 import saveFilterSettings from '@salesforce/apex/setupAssistant.saveFilterSettings';
 import syncAllRecords from '@salesforce/apex/setupAssistant.syncAllRecords';
 import { LightningElement, api, track} from 'lwc';
+import { getErrorMessage } from 'c/utils'
 
 export default class SyncPreferencesStep extends LightningElement {
     @api setupComplete = false; 
@@ -84,7 +85,8 @@ export default class SyncPreferencesStep extends LightningElement {
             this.productFilter = filterSettingsResponseData.results.Product2;
 
         } catch (error) {
-            this.showToast(error.message, 'error', 'sticky');
+            let errorMessage = getErrorMessage(error);
+            this.showToast(errorMessage, 'error', 'sticky');
         } finally {
             this.loading = false;
         }
@@ -261,7 +263,8 @@ export default class SyncPreferencesStep extends LightningElement {
             }  
 
         } catch (error) {
-            this.showToast(error.message, 'error', 'sticky');
+            let errorMessage = getErrorMessage(error);
+            this.showToast(errorMessage, 'error', 'sticky');
         } finally {
             this.dispatchEvent(new CustomEvent('savecomplete', {
                 detail: {
@@ -296,10 +299,11 @@ export default class SyncPreferencesStep extends LightningElement {
             this.syncProductsDisabled = true;
         
         } catch (error) {
-            this.showToast(error.message, 'error', 'sticky');
+            let errorMessage = getErrorMessage(error);
+            this.showToast(errorMessage, 'error', 'sticky');
         } 
     }
-
+    
     showToast(message, variant, mode) {
         this.dispatchEvent(new CustomEvent('showtoast', {
             bubbles: true,

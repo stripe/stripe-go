@@ -132,8 +132,7 @@ public with sharing class setupAssistant {
                     Map<String, Object> connectionStatus = (Map<String,Object>)responseBody.get('connection_status');
                     stripeConnectRec.Stripe_Connected__c = (Boolean)connectionStatus.get('stripe');
                     stripeConnectRec.Salesforce_Connected__c = (Boolean)connectionStatus.get('salesforce');
-                    upsert stripeConnectRec;
-
+                    
                     if(isConnectedCallback) {
                         if(!(Boolean)connectionStatus.get('salesforce')) {
                             rd.put('isSalesforceConnected','salesforceDisconnected');
@@ -146,6 +145,8 @@ public with sharing class setupAssistant {
                         } else {
                             rd.put('isStripeConnected','stripeConnected');
                         }
+                        upsert stripeConnectRec;
+                        return rd.getJsonString();
 
                     } else {
                         /*if the response shows they are connected we will udpate the Setup Connection custom setting record to signify they are connected
@@ -156,6 +157,7 @@ public with sharing class setupAssistant {
                             } else {
                                 rd.put('isStripeConnected','freshConnection');
                             }
+                            upsert stripeConnectRec;
                             return rd.getJsonString();
                         }
                         
@@ -165,6 +167,7 @@ public with sharing class setupAssistant {
                             } else {
                                 rd.put('isSalesforceConnected','freshConnection');
                             }
+                            upsert stripeConnectRec;
                             return rd.getJsonString();
                         }
                     }
@@ -175,6 +178,7 @@ public with sharing class setupAssistant {
                     rd.put('isStripeConnected','failed');
                     rd.put('isSalesforceConnected','failed');
                     errorLogger.create('validateConnectionStatus', String.valueOf(response.getStatusCode()), (String)response.getStatus(), 'Failed to get connection status from Ruby service.');
+                    return rd.getJsonString();
                 }
 
             } else {
@@ -182,6 +186,7 @@ public with sharing class setupAssistant {
                 rd.put('isStripeConnected','stripeDisconnected');
                 rd.put('isSalesforceConnected','salesforceDisconnected');  
                 generatePackageKey(stripeConnectRec);
+                return rd.getJsonString();
             }
         } catch (Exception e) {
             rd.addError(e);

@@ -1,6 +1,7 @@
 import manualRetry from '@salesforce/apex/setupAssistant.manualRetry';
 import { LightningElement, api } from "lwc";
 import { ShowToastEvent } from 'lightning/platformShowToastEvent'
+import { getErrorMessage } from 'c/utils'
 
 export default class ResyncQuickAction extends LightningElement {
     @api recordId;
@@ -25,11 +26,13 @@ export default class ResyncQuickAction extends LightningElement {
                 this.showToast('Resync Error', responseData.error, 'error');
             }
         } catch (error) {
-            this.showToast('Resync Error', error.message, 'error');
+            let errorMessage = getErrorMessage(error);
+            this.showToast('Resync Error', errorMessage, 'error');
         } finally {
             this.isExecuting = false;
         }
     }
+    
     showToast(name, error, type) {
         const event = new ShowToastEvent({
             title: name,
