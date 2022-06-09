@@ -1,5 +1,18 @@
 # Changelog
 
+## 72.114.0 - 2022-06-09
+* [#1473](https://github.com/stripe/stripe-go/pull/1473) API Updates
+  * Add support for `Treasury` on `AccountSettingsParams` and `AccountSettings`
+  * Add support for `RenderingOptions` on `CustomerInvoiceSettingsParams`
+  * Add support for `EUBankTransfer` on `CustomerCreateFundingInstructionsBankTransferParams`, `InvoicePaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferParams`, `InvoicePaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransfer`, `OrderPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferParams`, `OrderPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransfer`, `PaymentIntentConfirmPaymentMethodOptionsCustomerBalanceBankTransferParams`, `PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferParams`, `PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransfer`, `SubscriptionPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferParams`, and `SubscriptionPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransfer`
+  * Change type of `CustomerCreateFundingInstructionsBankTransferRequestedAddressTypesParams` from `literal('zengin')` to `enum('iban'|'sort_code'|'spei'|'zengin')`
+  * Change type of `CustomerCreateFundingInstructionsBankTransferTypeParams`, `OrderPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferTypeParams`, `OrderPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferType`, `PaymentIntentConfirmPaymentMethodOptionsCustomerBalanceBankTransferTypeParams`, `PaymentIntentNextActionDisplayBankTransferInstructionsType`, `PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferTypeParams`, and `PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferType` from `literal('jp_bank_transfer')` to `enum('eu_bank_transfer'|'gb_bank_transfer'|'jp_bank_transfer'|'mx_bank_transfer')`
+  * Add support for `Iban`, `SortCode`, and `Spei` on `FundingInstructionsBankTransferFinancialAddresses` and `PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddresses`
+  * Add support for new values `bacs`, `fps`, and `spei` on enums `FundingInstructionsBankTransferFinancialAddressesSupportedNetworks` and `PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressesSupportedNetworks`
+  * Add support for new values `sort_code` and `spei` on enums `FundingInstructionsBankTransferFinancialAddressesType` and `PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressesType`
+  * Change type of `OrderPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressTypesParams`, `OrderPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressTypes`, `PaymentIntentConfirmPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressTypesParams`, `PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressTypesParams`, and `PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressTypes` from `literal('zengin')` to `enum`
+  * Add support for `CustomUnitAmount` on `PriceParams` and `Price`
+
 ## 72.113.0 - 2022-06-08
 * [#1472](https://github.com/stripe/stripe-go/pull/1472) API Updates
   * Add support for `Affirm`, `Bancontact`, `Card`, `Ideal`, `P24`, and `Sofort` on `CheckoutSessionPaymentMethodOptionsParams` and `CheckoutSessionPaymentMethodOptions`
