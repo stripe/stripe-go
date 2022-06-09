@@ -363,10 +363,10 @@ type PaymentMethodParams struct {
 	PaymentMethod *string `form:"payment_method"`
 }
 
-// Returns a list of PaymentMethods. For listing a customer's payment methods, you should use [List a Customer's PaymentMethods](https://stripe.com/docs/api/payment_methods/customer_list)
+// Returns a list of PaymentMethods attached to the StripeAccount. For listing a customer's payment methods, you should use [List a Customer's PaymentMethods](https://stripe.com/docs/api/payment_methods/customer_list)
 type PaymentMethodListParams struct {
 	ListParams `form:"*"`
-	// The ID of the customer whose PaymentMethods will be retrieved. If not provided, the response list will be empty.
+	// The ID of the customer whose PaymentMethods will be retrieved.
 	Customer *string `form:"customer"`
 	// A required filter on the list, based on the object `type` field.
 	Type *string `form:"type"`

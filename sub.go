@@ -309,9 +309,17 @@ type SubscriptionPaymentSettingsPaymentMethodOptionsCardParams struct {
 	RequestThreeDSecure *string `form:"request_three_d_secure"`
 }
 
+// Configuration for eu_bank_transfer funding type.
+type SubscriptionPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferParams struct {
+	// The desired country code of the bank account information. Permitted values include: `DE`, `ES`, `FR`, `IE`, or `NL`.
+	Country *string `form:"country"`
+}
+
 // Configuration for the bank transfer funding type, if the `funding_type` is set to `bank_transfer`.
 type SubscriptionPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferParams struct {
-	// The bank transfer type that can be used for funding. Permitted values include: `jp_bank_transfer`.
+	// Configuration for eu_bank_transfer funding type.
+	EUBankTransfer *SubscriptionPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferParams `form:"eu_bank_transfer"`
+	// The bank transfer type that can be used for funding. Permitted values include: `eu_bank_transfer`, `gb_bank_transfer`, `jp_bank_transfer`, or `mx_bank_transfer`.
 	Type *string `form:"type"`
 }
 
@@ -549,8 +557,13 @@ type SubscriptionPaymentSettingsPaymentMethodOptionsCard struct {
 	// We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https://stripe.com/docs/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. Read our guide on [manually requesting 3D Secure](https://stripe.com/docs/payments/3d-secure#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
 	RequestThreeDSecure SubscriptionPaymentSettingsPaymentMethodOptionsCardRequestThreeDSecure `json:"request_three_d_secure"`
 }
+type SubscriptionPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransfer struct {
+	// The desired country code of the bank account information. Permitted values include: `DE`, `ES`, `FR`, `IE`, or `NL`.
+	Country string `json:"country"`
+}
 type SubscriptionPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransfer struct {
-	// The bank transfer type that can be used for funding. Permitted values include: `jp_bank_transfer`.
+	EUBankTransfer *SubscriptionPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransfer `json:"eu_bank_transfer"`
+	// The bank transfer type that can be used for funding. Permitted values include: `eu_bank_transfer`, `gb_bank_transfer`, `jp_bank_transfer`, or `mx_bank_transfer`.
 	Type string `json:"type"`
 }
 

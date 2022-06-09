@@ -127,6 +127,18 @@ type PriceListParams struct {
 	Type *string `form:"type"`
 }
 
+// When set, provides configuration for the amount to be adjusted by the customer during Checkout Sessions and Payment Links.
+type PriceCustomUnitAmountParams struct {
+	// Pass in `true` to enable `custom_unit_amount`, otherwise omit `custom_unit_amount`.
+	Enabled *bool `form:"enabled"`
+	// The maximum unit amount the customer can specify for this item.
+	Maximum *int64 `form:"maximum"`
+	// The minimum unit amount the customer can specify for this item. Must be at least the minimum charge amount.
+	Minimum *int64 `form:"minimum"`
+	// The starting unit amount which can be updated by the customer.
+	Preset *int64 `form:"preset"`
+}
+
 // These fields can be used to create a new product that this price will belong to.
 type PriceProductDataParams struct {
 	// Whether the product is currently available for purchase. Defaults to `true`.
@@ -200,6 +212,8 @@ type PriceParams struct {
 	BillingScheme *string `form:"billing_scheme"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency *string `form:"currency"`
+	// When set, provides configuration for the amount to be adjusted by the customer during Checkout Sessions and Payment Links.
+	CustomUnitAmount *PriceCustomUnitAmountParams `form:"custom_unit_amount"`
 	// A lookup key used to retrieve prices dynamically from a static string. This may be up to 200 characters.
 	LookupKey *string `form:"lookup_key"`
 	// A brief description of the price, hidden from customers.
@@ -224,6 +238,16 @@ type PriceParams struct {
 	UnitAmount *int64 `form:"unit_amount"`
 	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
 	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
+}
+
+// When set, provides configuration for the amount to be adjusted by the customer during Checkout Sessions and Payment Links.
+type PriceCustomUnitAmount struct {
+	// The maximum unit amount the customer can specify for this item.
+	Maximum int64 `json:"maximum"`
+	// The minimum unit amount the customer can specify for this item. Must be at least the minimum charge amount.
+	Minimum int64 `json:"minimum"`
+	// The starting unit amount which can be updated by the customer.
+	Preset int64 `json:"preset"`
 }
 
 // The recurring components of a price such as `interval` and `usage_type`.
@@ -278,7 +302,9 @@ type Price struct {
 	Created int64 `json:"created"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency Currency `json:"currency"`
-	Deleted  bool     `json:"deleted"`
+	// When set, provides configuration for the amount to be adjusted by the customer during Checkout Sessions and Payment Links.
+	CustomUnitAmount *PriceCustomUnitAmount `json:"custom_unit_amount"`
+	Deleted          bool                   `json:"deleted"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.

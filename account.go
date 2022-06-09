@@ -798,6 +798,22 @@ type AccountSettingsPayoutsParams struct {
 	StatementDescriptor *string `form:"statement_descriptor"`
 }
 
+// Details on the account's acceptance of the Stripe Treasury Services Agreement.
+type AccountSettingsTreasuryTOSAcceptanceParams struct {
+	// The Unix timestamp marking when the account representative accepted the service agreement.
+	Date *int64 `form:"date"`
+	// The IP address from which the account representative accepted the service agreement.
+	IP *string `form:"ip"`
+	// The user agent of the browser from which the account representative accepted the service agreement.
+	UserAgent *string `form:"user_agent"`
+}
+
+// Settings specific to the account's Treasury FinancialAccounts.
+type AccountSettingsTreasuryParams struct {
+	// Details on the account's acceptance of the Stripe Treasury Services Agreement.
+	TOSAcceptance *AccountSettingsTreasuryTOSAcceptanceParams `form:"tos_acceptance"`
+}
+
 // Options for customizing how the account functions within Stripe.
 type AccountSettingsParams struct {
 	BACSDebitPayments *AccountSettingsBACSDebitPaymentsParams `form:"bacs_debit_payments"`
@@ -812,6 +828,8 @@ type AccountSettingsParams struct {
 	Payments *AccountSettingsPaymentsParams `form:"payments"`
 	// Settings specific to the account's payouts.
 	Payouts *AccountSettingsPayoutsParams `form:"payouts"`
+	// Settings specific to the account's Treasury FinancialAccounts.
+	Treasury *AccountSettingsTreasuryParams `form:"treasury"`
 }
 
 // Returns a list of accounts connected to your platform via [Connect](https://stripe.com/docs/connect). If you're not a platform, the list is empty.
@@ -1168,6 +1186,17 @@ type AccountSettingsSEPADebitPayments struct {
 	// SEPA creditor identifier that identifies the company making the payment.
 	CreditorID string `json:"creditor_id"`
 }
+type AccountSettingsTreasuryTOSAcceptance struct {
+	// The Unix timestamp marking when the account representative accepted the service agreement.
+	Date int64 `json:"date"`
+	// The IP address from which the account representative accepted the service agreement.
+	IP string `json:"ip"`
+	// The user agent of the browser from which the account representative accepted the service agreement.
+	UserAgent string `json:"user_agent"`
+}
+type AccountSettingsTreasury struct {
+	TOSAcceptance *AccountSettingsTreasuryTOSAcceptance `json:"tos_acceptance"`
+}
 
 // Options for customizing how the account functions within Stripe.
 type AccountSettings struct {
@@ -1179,6 +1208,7 @@ type AccountSettings struct {
 	Payments          *AccountSettingsPayments          `json:"payments"`
 	Payouts           *AccountSettingsPayouts           `json:"payouts"`
 	SEPADebitPayments *AccountSettingsSEPADebitPayments `json:"sepa_debit_payments"`
+	Treasury          *AccountSettingsTreasury          `json:"treasury"`
 }
 
 // This is an object representing a Stripe account. You can retrieve it to see

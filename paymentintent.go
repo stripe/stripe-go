@@ -44,7 +44,10 @@ type PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressSuppo
 
 // List of values that PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressSupportedNetwork can take
 const (
+	PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressSupportedNetworkBACS   PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressSupportedNetwork = "bacs"
+	PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressSupportedNetworkFPS    PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressSupportedNetwork = "fps"
 	PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressSupportedNetworkSepa   PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressSupportedNetwork = "sepa"
+	PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressSupportedNetworkSpei   PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressSupportedNetwork = "spei"
 	PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressSupportedNetworkZengin PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressSupportedNetwork = "zengin"
 )
 
@@ -53,8 +56,10 @@ type PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressType 
 
 // List of values that PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressType can take
 const (
-	PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressTypeIban   PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressType = "iban"
-	PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressTypeZengin PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressType = "zengin"
+	PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressTypeIban     PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressType = "iban"
+	PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressTypeSortCode PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressType = "sort_code"
+	PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressTypeSpei     PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressType = "spei"
+	PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressTypeZengin   PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressType = "zengin"
 )
 
 // Type of bank transfer
@@ -62,7 +67,10 @@ type PaymentIntentNextActionDisplayBankTransferInstructionsType string
 
 // List of values that PaymentIntentNextActionDisplayBankTransferInstructionsType can take
 const (
+	PaymentIntentNextActionDisplayBankTransferInstructionsTypeEUBankTransfer PaymentIntentNextActionDisplayBankTransferInstructionsType = "eu_bank_transfer"
+	PaymentIntentNextActionDisplayBankTransferInstructionsTypeGBBankTransfer PaymentIntentNextActionDisplayBankTransferInstructionsType = "gb_bank_transfer"
 	PaymentIntentNextActionDisplayBankTransferInstructionsTypeJPBankTransfer PaymentIntentNextActionDisplayBankTransferInstructionsType = "jp_bank_transfer"
+	PaymentIntentNextActionDisplayBankTransferInstructionsTypeMXBankTransfer PaymentIntentNextActionDisplayBankTransferInstructionsType = "mx_bank_transfer"
 )
 
 // Type of the next action to perform, one of `redirect_to_url`, `use_stripe_sdk`, `alipay_handle_redirect`, `oxxo_display_details`, or `verify_with_microdeposits`.
@@ -324,20 +332,27 @@ const (
 
 // List of address types that should be returned in the financial_addresses response. If not specified, all valid types will be returned.
 //
-// Permitted values include: `zengin`.
+// Permitted values include: `sort_code`, `zengin`, `iban`, or `spei`.
 type PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressType string
 
 // List of values that PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressType can take
 const (
-	PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressTypeZengin PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressType = "zengin"
+	PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressTypeIban     PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressType = "iban"
+	PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressTypeSepa     PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressType = "sepa"
+	PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressTypeSortCode PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressType = "sort_code"
+	PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressTypeSpei     PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressType = "spei"
+	PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressTypeZengin   PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressType = "zengin"
 )
 
-// The bank transfer type that this PaymentIntent is allowed to use for funding Permitted values include: `jp_bank_transfer`.
+// The bank transfer type that this PaymentIntent is allowed to use for funding Permitted values include: `eu_bank_transfer`, `gb_bank_transfer`, `jp_bank_transfer`, or `mx_bank_transfer`.
 type PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferType string
 
 // List of values that PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferType can take
 const (
+	PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferTypeEUBankTransfer PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferType = "eu_bank_transfer"
+	PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferTypeGBBankTransfer PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferType = "gb_bank_transfer"
 	PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferTypeJPBankTransfer PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferType = "jp_bank_transfer"
+	PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferTypeMXBankTransfer PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferType = "mx_bank_transfer"
 )
 
 // The funding method type to be used when there are not enough funds in the customer balance. Permitted values include: `bank_transfer`.
@@ -993,14 +1008,19 @@ type PaymentIntentPaymentMethodOptionsCardPresentParams struct {
 	// Request ability to [increment](https://stripe.com/docs/terminal/features/incremental-authorizations) this PaymentIntent if the combination of MCC and card brand is eligible. Check [incremental_authorization_supported](https://stripe.com/docs/api/charges/object#charge_object-payment_method_details-card_present-incremental_authorization_supported) in the [Confirm](https://stripe.com/docs/api/payment_intents/confirm) response to verify support.
 	RequestIncrementalAuthorizationSupport *bool `form:"request_incremental_authorization_support"`
 }
+type PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferParams struct {
+	// The desired country code of the bank account information. Permitted values include: `DE`, `ES`, `FR`, `IE`, or `NL`.
+	Country *string `form:"country"`
+}
 
 // Configuration for the bank transfer funding type, if the `funding_type` is set to `bank_transfer`.
 type PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferParams struct {
+	EUBankTransfer *PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferParams `form:"eu_bank_transfer"`
 	// List of address types that should be returned in the financial_addresses response. If not specified, all valid types will be returned.
 	//
-	// Permitted values include: `zengin`.
+	// Permitted values include: `sort_code`, `zengin`, `iban`, or `spei`.
 	RequestedAddressTypes []*string `form:"requested_address_types"`
-	// The list of bank transfer types that this PaymentIntent is allowed to use for funding Permitted values include: `jp_bank_transfer`.
+	// The list of bank transfer types that this PaymentIntent is allowed to use for funding Permitted values include: `eu_bank_transfer`, `gb_bank_transfer`, `jp_bank_transfer`, or `mx_bank_transfer`.
 	Type *string `form:"type"`
 }
 
@@ -1645,6 +1665,38 @@ type PaymentIntentNextActionCardAwaitNotification struct {
 	CustomerApprovalRequired bool `json:"customer_approval_required"`
 }
 
+// Iban Records contain E.U. bank account details per the SEPA format.
+type PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressIban struct {
+	// The name of the person or business that owns the bank account
+	AccountHolderName string `json:"account_holder_name"`
+	// The BIC/SWIFT code of the account.
+	Bic string `json:"bic"`
+	// Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)).
+	Country string `json:"country"`
+	// The IBAN of the account.
+	Iban string `json:"iban"`
+}
+
+// Sort Code Records contain U.K. bank account details per the sort code format.
+type PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressSortCode struct {
+	// The name of the person or business that owns the bank account
+	AccountHolderName string `json:"account_holder_name"`
+	// The account number
+	AccountNumber string `json:"account_number"`
+	// The six-digit sort code
+	SortCode string `json:"sort_code"`
+}
+
+// SPEI Records contain Mexico bank account details per the SPEI format.
+type PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressSpei struct {
+	// The three-digit bank code
+	BankCode string `json:"bank_code"`
+	// The short banking institution name
+	BankName string `json:"bank_name"`
+	// The CLABE number
+	Clabe string `json:"clabe"`
+}
+
 // Zengin Records contain Japan bank account details per the Zengin format.
 type PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressZengin struct {
 	// The account holder name
@@ -1665,6 +1717,12 @@ type PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressZengi
 
 // A list of financial addresses that can be used to fund the customer balance
 type PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddress struct {
+	// Iban Records contain E.U. bank account details per the SEPA format.
+	Iban *PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressIban `json:"iban"`
+	// Sort Code Records contain U.K. bank account details per the sort code format.
+	SortCode *PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressSortCode `json:"sort_code"`
+	// SPEI Records contain Mexico bank account details per the SPEI format.
+	Spei *PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressSpei `json:"spei"`
 	// The payment networks supported by this FinancialAddress
 	SupportedNetworks []PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressSupportedNetwork `json:"supported_networks"`
 	// The type of financial address
@@ -1980,12 +2038,17 @@ type PaymentIntentPaymentMethodOptionsCardPresent struct {
 	// Request ability to [increment](https://stripe.com/docs/terminal/features/incremental-authorizations) this PaymentIntent if the combination of MCC and card brand is eligible. Check [incremental_authorization_supported](https://stripe.com/docs/api/charges/object#charge_object-payment_method_details-card_present-incremental_authorization_supported) in the [Confirm](https://stripe.com/docs/api/payment_intents/confirm) response to verify support.
 	RequestIncrementalAuthorizationSupport bool `json:"request_incremental_authorization_support"`
 }
+type PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransfer struct {
+	// The desired country code of the bank account information. Permitted values include: `DE`, `ES`, `FR`, `IE`, or `NL`.
+	Country string `json:"country"`
+}
 type PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransfer struct {
+	EUBankTransfer *PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransfer `json:"eu_bank_transfer"`
 	// List of address types that should be returned in the financial_addresses response. If not specified, all valid types will be returned.
 	//
-	// Permitted values include: `zengin`.
+	// Permitted values include: `sort_code`, `zengin`, `iban`, or `spei`.
 	RequestedAddressTypes []PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressType `json:"requested_address_types"`
-	// The bank transfer type that this PaymentIntent is allowed to use for funding Permitted values include: `jp_bank_transfer`.
+	// The bank transfer type that this PaymentIntent is allowed to use for funding Permitted values include: `eu_bank_transfer`, `gb_bank_transfer`, `jp_bank_transfer`, or `mx_bank_transfer`.
 	Type PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferType `json:"type"`
 }
 type PaymentIntentPaymentMethodOptionsCustomerBalance struct {
