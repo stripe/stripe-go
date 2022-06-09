@@ -11,7 +11,10 @@ type FundingInstructionsBankTransferFinancialAddressSupportedNetwork string
 
 // List of values that FundingInstructionsBankTransferFinancialAddressSupportedNetwork can take
 const (
+	FundingInstructionsBankTransferFinancialAddressSupportedNetworkBACS   FundingInstructionsBankTransferFinancialAddressSupportedNetwork = "bacs"
+	FundingInstructionsBankTransferFinancialAddressSupportedNetworkFPS    FundingInstructionsBankTransferFinancialAddressSupportedNetwork = "fps"
 	FundingInstructionsBankTransferFinancialAddressSupportedNetworkSepa   FundingInstructionsBankTransferFinancialAddressSupportedNetwork = "sepa"
+	FundingInstructionsBankTransferFinancialAddressSupportedNetworkSpei   FundingInstructionsBankTransferFinancialAddressSupportedNetwork = "spei"
 	FundingInstructionsBankTransferFinancialAddressSupportedNetworkZengin FundingInstructionsBankTransferFinancialAddressSupportedNetwork = "zengin"
 )
 
@@ -20,8 +23,10 @@ type FundingInstructionsBankTransferFinancialAddressType string
 
 // List of values that FundingInstructionsBankTransferFinancialAddressType can take
 const (
-	FundingInstructionsBankTransferFinancialAddressTypeIban   FundingInstructionsBankTransferFinancialAddressType = "iban"
-	FundingInstructionsBankTransferFinancialAddressTypeZengin FundingInstructionsBankTransferFinancialAddressType = "zengin"
+	FundingInstructionsBankTransferFinancialAddressTypeIban     FundingInstructionsBankTransferFinancialAddressType = "iban"
+	FundingInstructionsBankTransferFinancialAddressTypeSortCode FundingInstructionsBankTransferFinancialAddressType = "sort_code"
+	FundingInstructionsBankTransferFinancialAddressTypeSpei     FundingInstructionsBankTransferFinancialAddressType = "spei"
+	FundingInstructionsBankTransferFinancialAddressTypeZengin   FundingInstructionsBankTransferFinancialAddressType = "zengin"
 )
 
 // The bank_transfer type
@@ -40,6 +45,38 @@ type FundingInstructionsFundingType string
 const (
 	FundingInstructionsFundingTypeBankTransfer FundingInstructionsFundingType = "bank_transfer"
 )
+
+// Iban Records contain E.U. bank account details per the SEPA format.
+type FundingInstructionsBankTransferFinancialAddressIban struct {
+	// The name of the person or business that owns the bank account
+	AccountHolderName string `json:"account_holder_name"`
+	// The BIC/SWIFT code of the account.
+	Bic string `json:"bic"`
+	// Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)).
+	Country string `json:"country"`
+	// The IBAN of the account.
+	Iban string `json:"iban"`
+}
+
+// Sort Code Records contain U.K. bank account details per the sort code format.
+type FundingInstructionsBankTransferFinancialAddressSortCode struct {
+	// The name of the person or business that owns the bank account
+	AccountHolderName string `json:"account_holder_name"`
+	// The account number
+	AccountNumber string `json:"account_number"`
+	// The six-digit sort code
+	SortCode string `json:"sort_code"`
+}
+
+// SPEI Records contain Mexico bank account details per the SPEI format.
+type FundingInstructionsBankTransferFinancialAddressSpei struct {
+	// The three-digit bank code
+	BankCode string `json:"bank_code"`
+	// The short banking institution name
+	BankName string `json:"bank_name"`
+	// The CLABE number
+	Clabe string `json:"clabe"`
+}
 
 // Zengin Records contain Japan bank account details per the Zengin format.
 type FundingInstructionsBankTransferFinancialAddressZengin struct {
@@ -61,6 +98,12 @@ type FundingInstructionsBankTransferFinancialAddressZengin struct {
 
 // A list of financial addresses that can be used to fund a particular balance
 type FundingInstructionsBankTransferFinancialAddress struct {
+	// Iban Records contain E.U. bank account details per the SEPA format.
+	Iban *FundingInstructionsBankTransferFinancialAddressIban `json:"iban"`
+	// Sort Code Records contain U.K. bank account details per the sort code format.
+	SortCode *FundingInstructionsBankTransferFinancialAddressSortCode `json:"sort_code"`
+	// SPEI Records contain Mexico bank account details per the SPEI format.
+	Spei *FundingInstructionsBankTransferFinancialAddressSpei `json:"spei"`
 	// The payment networks supported by this FinancialAddress
 	SupportedNetworks []FundingInstructionsBankTransferFinancialAddressSupportedNetwork `json:"supported_networks"`
 	// The type of financial address

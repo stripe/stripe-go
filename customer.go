@@ -90,6 +90,12 @@ type CustomerInvoiceCustomFieldParams struct {
 	Value *string `form:"value"`
 }
 
+// Default options for invoice PDF rendering for this customer.
+type CustomerInvoiceSettingsRenderingOptionsParams struct {
+	// How line-item prices and amounts will be displayed with respect to tax on invoice PDFs.
+	AmountTaxDisplay *string `form:"amount_tax_display"`
+}
+
 // Default invoice settings for this customer.
 type CustomerInvoiceSettingsParams struct {
 	// Default custom fields to be displayed on invoices for this customer. When updating, pass an empty string to remove previously-defined fields.
@@ -98,6 +104,8 @@ type CustomerInvoiceSettingsParams struct {
 	DefaultPaymentMethod *string `form:"default_payment_method"`
 	// Default footer to be displayed on invoices for this customer.
 	Footer *string `form:"footer"`
+	// Default options for invoice PDF rendering for this customer.
+	RenderingOptions *CustomerInvoiceSettingsRenderingOptionsParams `form:"rendering_options"`
 }
 
 // The customer's shipping information. Appears on invoices emailed to this customer.
@@ -189,17 +197,25 @@ type CustomerListPaymentMethodsParams struct {
 	Type *string `form:"type"`
 }
 
-// Retrieves a PaymentMethod object.
+// Retrieves a PaymentMethod object for a given Customer.
 type CustomerRetrievePaymentMethodParams struct {
 	Params   `form:"*"`
 	Customer *string `form:"-"` // Included in URL
 }
 
+// Configuration for eu_bank_transfer funding type.
+type CustomerCreateFundingInstructionsBankTransferEUBankTransferParams struct {
+	// The desired country code of the bank account information. Permitted values include: `DE`, `ES`, `FR`, `IE`, or `NL`.
+	Country *string `form:"country"`
+}
+
 // Additional parameters for `bank_transfer` funding types
 type CustomerCreateFundingInstructionsBankTransferParams struct {
+	// Configuration for eu_bank_transfer funding type.
+	EUBankTransfer *CustomerCreateFundingInstructionsBankTransferEUBankTransferParams `form:"eu_bank_transfer"`
 	// List of address types that should be returned in the financial_addresses response. If not specified, all valid types will be returned.
 	//
-	// Permitted values include: `zengin`.
+	// Permitted values include: `sort_code`, `zengin`, `iban`, or `spei`.
 	RequestedAddressTypes []*string `form:"requested_address_types"`
 	// The type of the `bank_transfer`
 	Type *string `form:"type"`
