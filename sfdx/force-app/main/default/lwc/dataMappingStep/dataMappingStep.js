@@ -3,6 +3,7 @@ import getPicklistValuesForMapper from '@salesforce/apex/setupAssistant.getPickl
 import getFormattedStripeObjectFields from '@salesforce/apex/setupAssistant.getFormattedStripeObjectFields';
 import getMappingConfigurations from '@salesforce/apex/setupAssistant.getMappingConfigurations';
 import saveMappingConfigurations from '@salesforce/apex/setupAssistant.saveMappingConfigurations';
+import { getErrorMessage } from 'c/utils'
 
 export default class DataMappingStep extends LightningElement {
     /* `@track` decorator is needed here to tell the lwc framework to observe 
@@ -360,10 +361,12 @@ export default class DataMappingStep extends LightningElement {
         if (targetSectionIndex && targetFieldIndex) {
             const updatedSelection = {
                 hasSfValue: true,
-                hasOverride: true,
+                hasOverride: false,
+                hasRequiredValue: false,
                 staticValue: false
             };
             updatedSelection.hasOverride = this.activeObjectFields[targetSectionIndex].fields[parseInt(targetFieldIndex)].defaultValue ? true : false;
+            updatedSelection.hasRequiredValue = this.activeObjectFields[targetSectionIndex].fields[parseInt(targetFieldIndex)].requiredValue ? true : false;
             Object.assign(this.activeObjectFields[targetSectionIndex].fields[parseInt(targetFieldIndex)], updatedSelection);
         }
     }
@@ -376,17 +379,19 @@ export default class DataMappingStep extends LightningElement {
     }
 
     filterSfOptionsByStripeFieldType() {
-        var fieldType = this.stripeObjectField.type.toLowerCase()
-        //has to be a copy to force a rerender
-        let modifiedFieldOptions = JSON.parse(JSON.stringify(this.sfFieldOptions))
-        if(fieldType === 'integer' || fieldType === 'decimal' || fieldType === 'number') {
-            this.sfFieldOptions = modifiedFieldOptions.filter(fieldOptions => fieldOptions.type === 'double' ||fieldOptions.type === 'reference')
-        } else if (fieldType === 'timestamp') {
-            this.sfFieldOptions = modifiedFieldOptions.filter(fieldOptions => fieldOptions.type.includes('date') || fieldOptions.type === 'reference' )
-        } else if (fieldType === 'boolean') {
-            this.sfFieldOptions = modifiedFieldOptions.filter(fieldOptions => fieldOptions.type === 'boolean' || fieldOptions.type === 'reference' )
-        } else {
-            this.sfFieldOptions = modifiedFieldOptions
+        if (this.stripeObjectField.type) {
+            var fieldType = this.stripeObjectField.type.toLowerCase()
+            //has to be a copy to force a rerender
+            let modifiedFieldOptions = JSON.parse(JSON.stringify(this.sfFieldOptions))
+            if(fieldType === 'integer' || fieldType === 'decimal' || fieldType === 'number') {
+                this.sfFieldOptions = modifiedFieldOptions.filter(fieldOptions => fieldOptions.type === 'double' ||fieldOptions.type === 'reference')
+            } else if (fieldType === 'timestamp') {
+                this.sfFieldOptions = modifiedFieldOptions.filter(fieldOptions => fieldOptions.type.includes('date') || fieldOptions.type === 'reference' )
+            } else if (fieldType === 'boolean') {
+                this.sfFieldOptions = modifiedFieldOptions.filter(fieldOptions => fieldOptions.type === 'boolean' || fieldOptions.type === 'reference' )
+            } else {
+                this.sfFieldOptions = modifiedFieldOptions
+            }
         }
     }
 
@@ -443,7 +448,9 @@ export default class DataMappingStep extends LightningElement {
            return;
        }
 
-        if(this.activeObject === 'customer'){
+       this.loading = true;
+
+        if(this.activeObject === 'customer') {
             this.defaultSfObject = 'Account';
             this.fieldListByObjectMap.Account.sort(this.mapperFieldSorter);
             this.sfFieldOptions = this.fieldListByObjectMap.Account
@@ -468,6 +475,7 @@ export default class DataMappingStep extends LightningElement {
             // TODO should send to sentry when that is possible
             console.log("uncaught sidebar click")
         }
+        this.loading = false;
     }
 
     openStripeApi(event) {
@@ -502,7 +510,8 @@ export default class DataMappingStep extends LightningElement {
 
             this.getPicklistValuesForMapper(true, '', false);
         } catch (error) {
-            this.showToast(error.message, 'error');
+            let errorMessage = getErrorMessage(error);
+            this.showToast(errorMessage, 'error');
         } finally {
             this.activeObject = 'customer';
         }
@@ -591,7 +600,8 @@ export default class DataMappingStep extends LightningElement {
             this.allMappingList['required_mappings'] = this.allMappingConfigurations['required_mappings'];
 
         } catch (error) {
-            this.showToast(error.message, 'error', 'sticky');
+            let errorMessage = getErrorMessage(error);
+            this.showToast(errorMessage, 'error', 'sticky');
         } finally {
             this.dispatchEvent(new CustomEvent('contentloadingcomplete'));
             if(targetElement) targetElement.dropdownLoading = false;
@@ -658,6 +668,16 @@ export default class DataMappingStep extends LightningElement {
                             } else {
                                 metadataFieldList.push(metadataFieldObj);
                             }
+                        }
+                    }
+                }
+
+                if(this.allMappingConfigurations.required_mappings && this.allMappingConfigurations.required_mappings[stripeObject]) {
+                    for(const value in this.allMappingConfigurations.required_mappings[stripeObject]) {
+                        const fieldData = stripeObjectMap[i].fields[j];
+                        if(fieldData.value === value && !value.startsWith('metadata.')) {
+                            fieldData.requiredValue = this.allMappingConfigurations.required_mappings[stripeObject][value];
+                            fieldData.hasRequiredValue = true;
                         }
                     }
                 }
@@ -744,7 +764,8 @@ export default class DataMappingStep extends LightningElement {
             saveSuccess = true;
             this.isMappingsUpdated = false;
         } catch (error) {
-            this.showToast(error.message, 'error', 'sticky');
+            let errorMessage = getErrorMessage(error);
+            this.showToast(errorMessage, 'error', 'sticky');
         } finally {
             this.loading = false;
             this.dispatchEvent(new CustomEvent('savecomplete', {

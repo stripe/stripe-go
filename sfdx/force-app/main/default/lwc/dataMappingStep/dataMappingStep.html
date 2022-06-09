@@ -81,10 +81,12 @@
                                                     <!-- Show Default -->
                                                     <template if:true={field.hasSfValue}>
                                                         <template if:false={field.hasOverride}>
-                                                            <div class="slds-col slds-has-flexi-truncate">
-                                                                <lightning-input if:true={field.staticValue} type="text" label="Salesforce Value" value={field.sfValue} onchange={updateStaticValueChoice} variant="label-hidden" placeholder="Enter Static Value..."></lightning-input>
-                                                                <c-field-picker if:false={field.staticValue} root-object={defaultSfObject} label="Record Type" options={sfFieldOptions} hash={field.sfValue} variant="label-hidden" onselect={updatePicklist} onobjectchange={updateFieldList} onpicklistclick={updatePicklistChoices} searchable placeholder="Select Salesforce Field..."></c-field-picker>
-                                                            </div>
+                                                            <template if:false={field.hasRequiredValue}>
+                                                                <div class="slds-col slds-has-flexi-truncate">
+                                                                    <lightning-input if:true={field.staticValue} type="text" label="Salesforce Value" value={field.sfValue} onchange={updateStaticValueChoice} variant="label-hidden" placeholder="Enter Static Value..."></lightning-input>
+                                                                    <c-field-picker if:false={field.staticValue} root-object={defaultSfObject} label="Record Type" options={sfFieldOptions} hash={field.sfValue} variant="label-hidden" onselect={updatePicklist} onobjectchange={updateFieldList} onpicklistclick={updatePicklistChoices} searchable placeholder="Select Salesforce Field..."></c-field-picker>
+                                                                </div>
+                                                            </template>
                                                         </template>
                                                         <template if:true={field.hasOverride}>
                                                             <div class="slds-col slds-has-flexi-truncate">
@@ -101,11 +103,32 @@
                                                                 <lightning-button-icon icon-name="utility:skip_back" variant="border-filled" onclick={resetToDefault}></lightning-button-icon>
                                                             </div>
                                                         </template>
+
+                                                        <template if:true={field.hasRequiredValue}>
+                                                            <div class="slds-col slds-has-flexi-truncate">
+                                                                <template if:true={field.staticValue}>
+                                                                    <lightning-input type="text" label="Salesforce Value" value={field.sfValue} onchange={updateStaticValueChoice} variant="label-hidden" placeholder="Enter Static Value..."></lightning-input>
+                                                                    <div if:true={field.requiredValue} class="slds-text-title slds-m-top_x-small slds-has-flexi-truncate"><strong>Requried field.</strong> Default: {field.requiredValue}</div>
+                                                                </template>
+                                                                <template if:false={field.staticValue}>
+                                                                    <c-field-picker label="Record Type" root-object={defaultSfObject} options={sfFieldOptions} hash={field.sfValue} variant="label-hidden" onselect={updatePicklist} onobjectchange={updateFieldList} onpicklistclick={updatePicklistChoices} searchable></c-field-picker> 
+                                                                    <div if:true={field.requiredValue} class="slds-text-title slds-m-top_x-small slds-has-flexi-truncate"><strong>Requried field.</strong> Default: {field.requiredValue}</div>
+                                                                </template>
+                                                            </div>
+                                                            <div class="slds-col slds-no-flex">
+                                                                <lightning-button-icon icon-name="utility:skip_back" variant="border-filled" onclick={resetToDefault}></lightning-button-icon>
+                                                            </div>
+                                                        </template>
                                                     </template>
 
-                                                    <template if:false={field.hasSfValue}>
+                                                     <template if:false={field.hasSfValue}>
                                                         <div class="slds-col">
-                                                            <lightning-input type="text" label="Default Value" value={field.defaultValue} onfocus={toggleOverride} variant="label-hidden" placeholder="No Default Set"></lightning-input>
+                                                            <div if:true={field.hasRequiredValue}>
+                                                                <lightning-input type="text" label="Default Value" value={field.requiredValue} onfocus={toggleOverride} variant="label-hidden" placeholder="No Default Set"></lightning-input>
+                                                            </div>
+                                                            <div if:false={field.hasRequiredValue}>
+                                                                <lightning-input type="text" label="Default Value" value={field.defaultValue} onfocus={toggleOverride} variant="label-hidden" placeholder="No Default Set"></lightning-input>
+                                                            </div>
                                                         </div>
                                                     </template>
                                                     <!-- Show User Input -->
@@ -264,12 +287,14 @@
                                             <td>
                                                 <div class="slds-grid slds-gutters_direct-xx-small">
                                                     <!-- Show Default -->
-                                                    <template if:true={field.hasSfValue}>
+                                                   <template if:true={field.hasSfValue}>
                                                         <template if:false={field.hasOverride}>
-                                                            <div class="slds-col slds-has-flexi-truncate">
-                                                                <lightning-input if:true={field.staticValue} type="text" label="Salesforce Value" value={field.sfValue} onchange={updateStaticValueChoice} variant="label-hidden" placeholder="Enter Static Value..."></lightning-input>
-                                                                <c-field-picker if:false={field.staticValue} label="Record Type" root-object={defaultSfObject} options={sfFieldOptions} hash={field.sfValue} variant="label-hidden" onselect={updatePicklist} onobjectchange={updateFieldList} onpicklistclick={updatePicklistChoices} searchable placeholder="Select Salesforce Field..."></c-field-picker>
-                                                            </div>
+                                                            <template if:false={field.hasRequiredValue}>
+                                                                <div class="slds-col slds-has-flexi-truncate">
+                                                                    <lightning-input if:true={field.staticValue} type="text" label="Salesforce Value" value={field.sfValue} onchange={updateStaticValueChoice} variant="label-hidden" placeholder="Enter Static Value..."></lightning-input>
+                                                                    <c-field-picker if:false={field.staticValue} label="Record Type" root-object={defaultSfObject} options={sfFieldOptions} hash={field.sfValue} variant="label-hidden" onselect={updatePicklist} onobjectchange={updateFieldList} onpicklistclick={updatePicklistChoices} searchable placeholder="Select Salesforce Field..."></c-field-picker>
+                                                                </div>
+                                                            </template>
                                                         </template>
                                                         <template if:true={field.hasOverride}>
                                                             <div class="slds-col slds-has-flexi-truncate">
@@ -286,11 +311,32 @@
                                                                 <lightning-button-icon icon-name="utility:skip_back" variant="border-filled" onclick={resetToDefault}></lightning-button-icon>
                                                             </div>
                                                         </template>
+
+                                                        <template if:true={field.hasRequiredValue}>
+                                                            <div class="slds-col slds-has-flexi-truncate">
+                                                                <template if:true={field.staticValue}>
+                                                                    <lightning-input type="text" label="Salesforce Value" value={field.sfValue} onchange={updateStaticValueChoice} variant="label-hidden" placeholder="Enter Static Value..."></lightning-input>
+                                                                    <div if:true={field.requiredValue} class="slds-text-title slds-m-top_x-small slds-has-flexi-truncate"><strong>Requried field.</strong> Default: {field.requiredValue}</div>
+                                                                </template>
+                                                                <template if:false={field.staticValue}>
+                                                                    <c-field-picker label="Record Type" root-object={defaultSfObject} options={sfFieldOptions} hash={field.sfValue} variant="label-hidden" onselect={updatePicklist} onobjectchange={updateFieldList} onpicklistclick={updatePicklistChoices} searchable></c-field-picker> 
+                                                                    <div if:true={field.requiredValue} class="slds-text-title slds-m-top_x-small slds-has-flexi-truncate"><strong>Requried field.</strong> Default: {field.requiredValue}</div>
+                                                                </template>
+                                                            </div>
+                                                            <div class="slds-col slds-no-flex">
+                                                                <lightning-button-icon icon-name="utility:skip_back" variant="border-filled" onclick={resetToDefault}></lightning-button-icon>
+                                                            </div>
+                                                        </template>
                                                     </template>
 
-                                                    <template if:false={field.hasSfValue}>
+                                                     <template if:false={field.hasSfValue}>
                                                         <div class="slds-col">
-                                                            <lightning-input type="text" label="Default Value" value={field.defaultValue} onfocus={toggleOverride} variant="label-hidden" placeholder="No Default Set"></lightning-input>
+                                                            <div if:true={field.hasRequiredValue}>
+                                                                <lightning-input type="text" label="Default Value" value={field.requiredValue} onfocus={toggleOverride} variant="label-hidden" placeholder="No Default Set"></lightning-input>
+                                                            </div>
+                                                            <div if:false={field.hasRequiredValue}>
+                                                                <lightning-input type="text" label="Default Value" value={field.defaultValue} onfocus={toggleOverride} variant="label-hidden" placeholder="No Default Set"></lightning-input>
+                                                            </div>
                                                         </div>
                                                     </template>
                                                     <!-- Show User Input -->
@@ -448,12 +494,14 @@
                                             <td>
                                                 <div class="slds-grid slds-gutters_direct-xx-small">
                                                     <!-- Show Default -->
-                                                    <template if:true={field.hasSfValue}>
+                                                   <template if:true={field.hasSfValue}>
                                                         <template if:false={field.hasOverride}>
-                                                            <div class="slds-col slds-has-flexi-truncate">
-                                                                <lightning-input if:true={field.staticValue} type="text" label="Salesforce Value" value={field.sfValue} onchange={updateStaticValueChoice} variant="label-hidden" placeholder="Enter Static Value..."></lightning-input>
-                                                                <c-field-picker if:false={field.staticValue} label="Record Type" root-object={defaultSfObject} options={sfFieldOptions} hash={field.sfValue} variant="label-hidden" onselect={updatePicklist} onobjectchange={updateFieldList} onpicklistclick={updatePicklistChoices} searchable placeholder="Select Salesforce Field..."></c-field-picker>
-                                                            </div>
+                                                            <template if:false={field.hasRequiredValue}>
+                                                                <div class="slds-col slds-has-flexi-truncate">
+                                                                    <lightning-input if:true={field.staticValue} type="text" label="Salesforce Value" value={field.sfValue} onchange={updateStaticValueChoice} variant="label-hidden" placeholder="Enter Static Value..."></lightning-input>
+                                                                    <c-field-picker if:false={field.staticValue} label="Record Type" root-object={defaultSfObject} options={sfFieldOptions} hash={field.sfValue} variant="label-hidden" onselect={updatePicklist} onobjectchange={updateFieldList} onpicklistclick={updatePicklistChoices} searchable placeholder="Select Salesforce Field..."></c-field-picker>
+                                                                </div>
+                                                            </template>
                                                         </template>
                                                         <template if:true={field.hasOverride}>
                                                             <div class="slds-col slds-has-flexi-truncate">
@@ -470,11 +518,32 @@
                                                                 <lightning-button-icon icon-name="utility:skip_back" variant="border-filled" onclick={resetToDefault}></lightning-button-icon>
                                                             </div>
                                                         </template>
+
+                                                        <template if:true={field.hasRequiredValue}>
+                                                            <div class="slds-col slds-has-flexi-truncate">
+                                                                <template if:true={field.staticValue}>
+                                                                    <lightning-input type="text" label="Salesforce Value" value={field.sfValue} onchange={updateStaticValueChoice} variant="label-hidden" placeholder="Enter Static Value..."></lightning-input>
+                                                                    <div if:true={field.requiredValue} class="slds-text-title slds-m-top_x-small slds-has-flexi-truncate"><strong>Requried field.</strong> Default: {field.requiredValue}</div>
+                                                                </template>
+                                                                <template if:false={field.staticValue}>
+                                                                    <c-field-picker label="Record Type" root-object={defaultSfObject} options={sfFieldOptions} hash={field.sfValue} variant="label-hidden" onselect={updatePicklist} onobjectchange={updateFieldList} onpicklistclick={updatePicklistChoices} searchable></c-field-picker> 
+                                                                    <div if:true={field.requiredValue} class="slds-text-title slds-m-top_x-small slds-has-flexi-truncate"><strong>Requried field.</strong> Default: {field.requiredValue}</div>
+                                                                </template>
+                                                            </div>
+                                                            <div class="slds-col slds-no-flex">
+                                                                <lightning-button-icon icon-name="utility:skip_back" variant="border-filled" onclick={resetToDefault}></lightning-button-icon>
+                                                            </div>
+                                                        </template>
                                                     </template>
 
-                                                    <template if:false={field.hasSfValue}>
+                                                     <template if:false={field.hasSfValue}>
                                                         <div class="slds-col">
-                                                            <lightning-input type="text" label="Default Value" value={field.defaultValue} onfocus={toggleOverride} variant="label-hidden" placeholder="No Default Set"></lightning-input>
+                                                            <div if:true={field.hasRequiredValue}>
+                                                                <lightning-input type="text" label="Default Value" value={field.requiredValue} onfocus={toggleOverride} variant="label-hidden" placeholder="No Default Set"></lightning-input>
+                                                            </div>
+                                                            <div if:false={field.hasRequiredValue}>
+                                                                <lightning-input type="text" label="Default Value" value={field.defaultValue} onfocus={toggleOverride} variant="label-hidden" placeholder="No Default Set"></lightning-input>
+                                                            </div>
                                                         </div>
                                                     </template>
                                                     <!-- Show User Input -->
@@ -632,12 +701,14 @@
                                             <td>
                                                 <div class="slds-grid slds-gutters_direct-xx-small">
                                                     <!-- Show Default -->
-                                                    <template if:true={field.hasSfValue}>
+                                                   <template if:true={field.hasSfValue}>
                                                         <template if:false={field.hasOverride}>
-                                                            <div class="slds-col slds-has-flexi-truncate">
-                                                                <lightning-input if:true={field.staticValue} type="text" label="Salesforce Value" value={field.sfValue} onchange={updateStaticValueChoice} variant="label-hidden" placeholder="Enter Static Value..."></lightning-input>
-                                                                <c-field-picker if:false={field.staticValue} label="Record Type" root-object={defaultSfObject} options={sfFieldOptions} hash={field.sfValue} variant="label-hidden" onselect={updatePicklist} onobjectchange={updateFieldList} onpicklistclick={updatePicklistChoices} searchable placeholder="Select Salesforce Field..."></c-field-picker>
-                                                            </div>
+                                                            <template if:false={field.hasRequiredValue}>
+                                                                <div class="slds-col slds-has-flexi-truncate">
+                                                                    <lightning-input if:true={field.staticValue} type="text" label="Salesforce Value" value={field.sfValue} onchange={updateStaticValueChoice} variant="label-hidden" placeholder="Enter Static Value..."></lightning-input>
+                                                                    <c-field-picker if:false={field.staticValue} label="Record Type" root-object={defaultSfObject} options={sfFieldOptions} hash={field.sfValue} variant="label-hidden" onselect={updatePicklist} onobjectchange={updateFieldList} onpicklistclick={updatePicklistChoices} searchable placeholder="Select Salesforce Field..."></c-field-picker>
+                                                                </div>
+                                                            </template>
                                                         </template>
                                                         <template if:true={field.hasOverride}>
                                                             <div class="slds-col slds-has-flexi-truncate">
@@ -654,11 +725,32 @@
                                                                 <lightning-button-icon icon-name="utility:skip_back" variant="border-filled" onclick={resetToDefault}></lightning-button-icon>
                                                             </div>
                                                         </template>
+
+                                                        <template if:true={field.hasRequiredValue}>
+                                                            <div class="slds-col slds-has-flexi-truncate">
+                                                                <template if:true={field.staticValue}>
+                                                                    <lightning-input type="text" label="Salesforce Value" value={field.sfValue} onchange={updateStaticValueChoice} variant="label-hidden" placeholder="Enter Static Value..."></lightning-input>
+                                                                    <div if:true={field.requiredValue} class="slds-text-title slds-m-top_x-small slds-has-flexi-truncate"><strong>Requried field.</strong> Default: {field.requiredValue}</div>
+                                                                </template>
+                                                                <template if:false={field.staticValue}>
+                                                                    <c-field-picker label="Record Type" root-object={defaultSfObject} options={sfFieldOptions} hash={field.sfValue} variant="label-hidden" onselect={updatePicklist} onobjectchange={updateFieldList} onpicklistclick={updatePicklistChoices} searchable></c-field-picker> 
+                                                                    <div if:true={field.requiredValue} class="slds-text-title slds-m-top_x-small slds-has-flexi-truncate"><strong>Requried field.</strong> Default: {field.requiredValue}</div>
+                                                                </template>
+                                                            </div>
+                                                            <div class="slds-col slds-no-flex">
+                                                                <lightning-button-icon icon-name="utility:skip_back" variant="border-filled" onclick={resetToDefault}></lightning-button-icon>
+                                                            </div>
+                                                        </template>
                                                     </template>
 
-                                                    <template if:false={field.hasSfValue}>
+                                                     <template if:false={field.hasSfValue}>
                                                         <div class="slds-col">
-                                                            <lightning-input type="text" label="Default Value" value={field.defaultValue} onfocus={toggleOverride} variant="label-hidden" placeholder="No Default Set"></lightning-input>
+                                                            <div if:true={field.hasRequiredValue}>
+                                                                <lightning-input type="text" label="Default Value" value={field.requiredValue} onfocus={toggleOverride} variant="label-hidden" placeholder="No Default Set"></lightning-input>
+                                                            </div>
+                                                            <div if:false={field.hasRequiredValue}>
+                                                                <lightning-input type="text" label="Default Value" value={field.defaultValue} onfocus={toggleOverride} variant="label-hidden" placeholder="No Default Set"></lightning-input>
+                                                            </div>
                                                         </div>
                                                     </template>
                                                     <!-- Show User Input -->
@@ -818,10 +910,12 @@
                                                     <!-- Show Default -->
                                                     <template if:true={field.hasSfValue}>
                                                         <template if:false={field.hasOverride}>
-                                                            <div class="slds-col slds-has-flexi-truncate">
-                                                                <lightning-input if:true={field.staticValue} type="text" label="Salesforce Value" value={field.sfValue} onchange={updateStaticValueChoice} variant="label-hidden" placeholder="Enter Static Value..."></lightning-input>
-                                                                <c-field-picker if:false={field.staticValue} label="Record Type" root-object={defaultSfObject} options={sfFieldOptions} hash={field.sfValue} variant="label-hidden" onselect={updatePicklist} onobjectchange={updateFieldList} onpicklistclick={updatePicklistChoices} searchable placeholder="Select Salesforce Field..."></c-field-picker>
-                                                            </div>
+                                                            <template if:false={field.hasRequiredValue}>
+                                                                <div class="slds-col slds-has-flexi-truncate">
+                                                                    <lightning-input if:true={field.staticValue} type="text" label="Salesforce Value" value={field.sfValue} onchange={updateStaticValueChoice} variant="label-hidden" placeholder="Enter Static Value..."></lightning-input>
+                                                                    <c-field-picker if:false={field.staticValue} label="Record Type" root-object={defaultSfObject} options={sfFieldOptions} hash={field.sfValue} variant="label-hidden" onselect={updatePicklist} onobjectchange={updateFieldList} onpicklistclick={updatePicklistChoices} searchable placeholder="Select Salesforce Field..."></c-field-picker>
+                                                                </div>
+                                                            </template>
                                                         </template>
                                                         <template if:true={field.hasOverride}>
                                                             <div class="slds-col slds-has-flexi-truncate">
@@ -838,11 +932,32 @@
                                                                 <lightning-button-icon icon-name="utility:skip_back" variant="border-filled" onclick={resetToDefault}></lightning-button-icon>
                                                             </div>
                                                         </template>
+
+                                                        <template if:true={field.hasRequiredValue}>
+                                                            <div class="slds-col slds-has-flexi-truncate">
+                                                                <template if:true={field.staticValue}>
+                                                                    <lightning-input type="text" label="Salesforce Value" value={field.sfValue} onchange={updateStaticValueChoice} variant="label-hidden" placeholder="Enter Static Value..."></lightning-input>
+                                                                    <div if:true={field.requiredValue} class="slds-text-title slds-m-top_x-small slds-has-flexi-truncate"><strong>Requried field.</strong> Default: {field.requiredValue}</div>
+                                                                </template>
+                                                                <template if:false={field.staticValue}>
+                                                                    <c-field-picker label="Record Type" root-object={defaultSfObject} options={sfFieldOptions} hash={field.sfValue} variant="label-hidden" onselect={updatePicklist} onobjectchange={updateFieldList} onpicklistclick={updatePicklistChoices} searchable></c-field-picker> 
+                                                                    <div if:true={field.requiredValue} class="slds-text-title slds-m-top_x-small slds-has-flexi-truncate"><strong>Requried field.</strong> Default: {field.requiredValue}</div>
+                                                                </template>
+                                                            </div>
+                                                            <div class="slds-col slds-no-flex">
+                                                                <lightning-button-icon icon-name="utility:skip_back" variant="border-filled" onclick={resetToDefault}></lightning-button-icon>
+                                                            </div>
+                                                        </template>
                                                     </template>
 
                                                     <template if:false={field.hasSfValue}>
                                                         <div class="slds-col">
-                                                            <lightning-input type="text" label="Default Value" value={field.defaultValue} onfocus={toggleOverride} variant="label-hidden" placeholder="No Default Set"></lightning-input>
+                                                            <div if:true={field.hasRequiredValue}>
+                                                                <lightning-input type="text" label="Default Value" value={field.requiredValue} onfocus={toggleOverride} variant="label-hidden" placeholder="No Default Set"></lightning-input>
+                                                            </div>
+                                                            <div if:false={field.hasRequiredValue}>
+                                                                <lightning-input type="text" label="Default Value" value={field.defaultValue} onfocus={toggleOverride} variant="label-hidden" placeholder="No Default Set"></lightning-input>
+                                                            </div>
                                                         </div>
                                                     </template>
                                                     <!-- Show User Input -->
