@@ -19,12 +19,12 @@ public static void deleteData(String ObjectApiName) {
           deleteData(ObjectApiName);
         }
     } catch (QueryException queryExcept) {
-        //CPQ object does not exit
-        System.debug('queryExcept');
+        // CPQ object does not exist
+        System.debug('query exception:');
         System.debug(string.valueOf(queryExcept.getLineNumber()) + queryExcept.getMessage());
 
     } catch (Exception excep) {
-        System.debug('excep');
+        System.debug('general exception:');
         System.debug(string.valueOf(excep.getLineNumber()) + excep.getMessage());
     }
 }
@@ -32,11 +32,20 @@ List<Order> activatedOrderList = [Select Id, Status From Order Where Status = 'A
 
 if(!activatedOrderList.isEmpty()) {
     for(Order activatedOrder : activatedOrderList) {
-    activatedOrder.status = 'Draft';
+        // activatedOrder.status = 'Draft';
+        activatedOrder.SBQQ__Contracted__c = false;
     }
+
+    upsert activatedOrderList;
+
+    for(Order activatedOrder : activatedOrderList) {
+        activatedOrder.status = 'Draft';
+    }
+
     upsert activatedOrderList;
 }
 
+// determine the packaged record name
 String syncRecordApiName = 'Sync_Record__c';
 
 Integer stripeConnectorQaPackCount = [SELECT COUNT() FROM PackageLicense WHERE NamespacePrefix LIKE 'QaStripeConnect%'];
@@ -72,6 +81,7 @@ if(sbqqPackageCount > 0) {
 }
 
 List<String> listOfObjectRecordsToDelete = new List<String> {
+    'Contract',
     'SBQQ__OrderItemConsumptionSchedule__c',
     'SBQQ__OrderItemConsumptionRate__c',
     'Order',
@@ -84,9 +94,9 @@ List<String> listOfObjectRecordsToDelete = new List<String> {
     'Contact',
     'ConsumptionSchedule',
     'ConsumptionRate',
+     syncRecordApiName,
     'PricebookEntry',
-    'Product2',
-     syncRecordApiName
+    'Product2'
 };
 
 for (String objectApiName : listOfObjectRecordsToDelete) {
