@@ -744,42 +744,19 @@ class StripeForce::Translate
     (BigDecimal(value.to_s) * 100.0).to_i != normalize_float_amount_for_stripe(value.to_s, @user)
   end
 
-  # TODO How can we organize code to support CPQ & non-CPQ use-cases? how can this be abstracted away from the order?
-  def create_stripe_transaction_from_sf_order(sf_order)
-    log.info 'translating order', salesforce_object: sf_order
-
-    if sf_order.Status != OrderStatusOptions::ACTIVATED.serialize
-      log.info 'order is not activated, skipping'
-      return
-    end
-
-    if sf_order.Type != OrderTypeOptions::NEW.serialize
-      raise "only initial orders are supported right now"
-    end
-
-    stripe_transaction = retrieve_from_stripe(Stripe::Invoice, sf_order)
-    stripe_transaction ||= retrieve_from_stripe(Stripe::SubscriptionSchedule, sf_order)
-
-    if !stripe_transaction.nil?
-      log.info 'order already translated',
-        stripe_transaction_id: stripe_transaction.id,
-        salesforce_order_id: sf_order.Id
-      return
-    end
-
-    sf_account = sf.find(SF_ACCOUNT, sf_order[SF_ORDER_ACCOUNT])
-
-    stripe_customer = create_customer_from_sf_account(sf_account)
-
+  # retrieves all line items, filters out skipped order lines
+  def order_lines_from_order(sf_order)
     # TODO should move to cache service
-    sf_order_items = sf.query("SELECT Id FROM OrderItem WHERE OrderID = '#{sf_order.Id}'").map(&:Id).map do |order_line_id|
+    sf_order_items = sf.query("SELECT Id FROM #{SF_ORDER_ITEM} WHERE OrderID = '#{sf_order.Id}'").map(&:Id).map do |order_line_id|
       sf.find(SF_ORDER_ITEM, order_line_id)
     end
 
-    invoice_items = []
-    subscription_items = []
+    sf_order_items.select do |sf_order_item|
+      # never expect this to occur
+      if sf_order_item.IsDeleted || !sf_order_item.SBQQ__Activated__c
+        report_edge_case("order line is deleted or not activated")
+      end
 
-    sf_order_items = sf_order_items.select do |sf_order_item|
       should_keep = sf_order_item[prefixed_stripe_field(ORDER_LINE_SKIP)].nil? ||
         !sf_order_item[prefixed_stripe_field(ORDER_LINE_SKIP)]
 
@@ -789,13 +766,13 @@ class StripeForce::Translate
 
       should_keep
     end
+  end
 
-    sf_order_items.map do |sf_order_item|
-      # never expect this to occur
-      if sf_order_item.IsDeleted || !sf_order_item.SBQQ__Activated__c
-        report_edge_case("order line is deleted or not activated")
-      end
+  def phase_items_from_order_lines(sf_order_lines)
+    invoice_items = []
+    subscription_items = []
 
+    sf_order_lines.map do |sf_order_item|
       price = create_price_for_order_item(sf_order_item)
 
       # could occur if a coupon is required for a negative amount, although this should probably be built into the `price` method instead
@@ -849,6 +826,38 @@ class StripeForce::Translate
       end
     end
 
+    [invoice_items, subscription_items]
+  end
+
+  # TODO How can we organize code to support CPQ & non-CPQ use-cases? how can this be abstracted away from the order?
+  def create_stripe_transaction_from_sf_order(sf_order)
+    log.info 'translating order', salesforce_object: sf_order
+
+    if sf_order.Type != OrderTypeOptions::NEW.serialize
+      raise Integrations::Errors::ImpossibleState.new("only new orders should be passed for transaction generation")
+    end
+
+    if sf_order.Status != OrderStatusOptions::ACTIVATED.serialize
+      log.info 'order is not activated, skipping'
+      return
+    end
+
+    stripe_transaction = retrieve_from_stripe(Stripe::SubscriptionSchedule, sf_order)
+    stripe_transaction ||= retrieve_from_stripe(Stripe::Invoice, sf_order)
+
+    if !stripe_transaction.nil?
+      log.info 'order already translated',
+        stripe_transaction_id: stripe_transaction.id,
+        salesforce_order_id: sf_order.Id
+      return
+    end
+
+    sf_account = sf.find(SF_ACCOUNT, sf_order[SF_ORDER_ACCOUNT])
+
+    stripe_customer = create_customer_from_sf_account(sf_account)
+
+    sf_order_items = order_lines_from_order(sf_order)
+    invoice_items, subscription_items = phase_items_from_order_lines(sf_order_items)
     is_recurring_order = !subscription_items.empty?
 
     order_update_params = {}
@@ -901,22 +910,6 @@ class StripeForce::Translate
           @user.stripe_credentials.merge(idempotency_key: sf_order[SF_ID])
         )
       end
-
-      # TODO should we propogate the metadata down to the subscription?
-      # TODO should we conditionally do this based on user config?
-      # TODO shluld we conditionally do this depending on if the user already has a payment method setup?
-
-      # stripe_checkout_session = Stripe::Checkout::Session.create({
-      #   # TODO these will need to specified by the customer
-      #   success_url: 'https://example.com/success',
-      #   cancel_url: 'https://example.com/cancel',
-
-      #   customer: stripe_customer,
-      #   mode: 'setup',
-      #   payment_method_types: ['card'],
-      # }, @user.stripe_credentials)
-
-      # order_update_params[prefixed_stripe_field(ORDER_SUBSCRIPTION_PAYMENT_LINK)] = stripe_checkout_session.url
     else
       log.info 'no recurring items found, creating a one-time invoice'
 
