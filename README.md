@@ -48,6 +48,10 @@ Here are some of the 'tags' that PR comments will be prefixed with to provide mo
 
 # SalesForce
 
+## Disable MFA on test accounts
+
+First disable Multi Factor Authentication, do that by doing Setup>Session Settings>Session Security Levels and removing Two Factor Authentication. Next there a google plugin called Whitelist All IPs for Salesforce that we use. Install that plugin and go to Setup, switch to Classic, then go to Network Access and there should be a Whitelist All IPs button that you click and will allow anyone to log in without having sent an email verification code.
+
 ## Permission assignments
 
 In order for the ruby service to update Stripe ID fields, it needs to have the right permissions. Here are the two permissions required:

@@ -48,9 +48,14 @@ module Integrations
     class MissingRequiredFields < BaseIntegrationError
       attr_reader :missing_salesforce_fields
 
-      def initialize(missing_salesforce_fields:, stripe_resource: nil, salesforce_object: nil, metadata: nil)
+      def initialize(missing_salesforce_fields:, stripe_resource: nil, salesforce_object: nil, metadata: {})
         @missing_salesforce_fields = missing_salesforce_fields
-        super("missing required fields", stripe_resource: stripe_resource, salesforce_object: salesforce_object, metadata: metadata)
+
+        # include in metadata in order to propogate to sentry
+        metadata = metadata.merge(missing_salesforce_fields: missing_salesforce_fields)
+
+        # TODO should remove missing fields from prod to avoid tons of different-looking errors
+        super("missing required fields #{missing_salesforce_fields.inspect}", stripe_resource: stripe_resource, salesforce_object: salesforce_object, metadata: metadata)
       end
     end
   end

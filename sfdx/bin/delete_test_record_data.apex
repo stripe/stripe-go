@@ -1,7 +1,9 @@
 // Description: delete test records to look as if the account is empty
 // usage: sfdx force:apex:execute -f bin/delete_test_record_data.apex -u mbianco+standardcpq@stripe.com
 // note: need to delete this entitlement record manually in each org in order to delete all account records:
+
 // https://help.salesforce.com/s/articleView?id=000358234&type=1
+// https://appiphony15-dev-ed.lightning.force.com/lightning/setup/CompanyResourceDisk/home
 
 public static void deleteData(String ObjectApiName) {
     try {
@@ -10,7 +12,7 @@ public static void deleteData(String ObjectApiName) {
         String query = 'SELECT Id FROM ' + ObjectApiName +
                        ' WITH SECURITY_ENFORCED LIMIT 10000';
 
-        List<SObject> listOfRecordsToDelete =  Database.query(query);
+        List<SObject> listOfRecordsToDelete = Database.query(query);
         System.debug('listOfRecordsToDelete.size');
         System.debug(listOfRecordsToDelete.size());
 
@@ -28,21 +30,56 @@ public static void deleteData(String ObjectApiName) {
         System.debug(string.valueOf(excep.getLineNumber()) + excep.getMessage());
     }
 }
-List<Order> activatedOrderList = [Select Id, Status From Order Where Status = 'Activated'];
+List<Order> activatedOrderList = [
+    SELECT Id, Status, SBQQ__Contracted__c
+    FROM Order
+    WHERE Status = 'Activated'
+    LIMIT 100
+];
+
+System.debug('Updating order state to enable deletion...');
 
 if(!activatedOrderList.isEmpty()) {
-    for(Order activatedOrder : activatedOrderList) {
-        // activatedOrder.status = 'Draft';
-        activatedOrder.SBQQ__Contracted__c = false;
+    try {
+        // before 'deactivating' an order, we have to disable contracting
+        for(Order activatedOrder : activatedOrderList) {
+            activatedOrder.SBQQ__Contracted__c = false;
+        }
+        upsert activatedOrderList;
+
+        for(Order activatedOrder : activatedOrderList) {
+            activatedOrder.status = 'Draft';
+        }
+        upsert activatedOrderList;
+    } catch (Exception excep) {
+        System.debug('order cleanup exception:');
+        System.debug(string.valueOf(excep.getLineNumber()) + excep.getMessage());
+    }
+}
+
+public static string determinePackagePrefix() {
+    Integer stripeConnectorQaPackCount = [
+        SELECT COUNT()
+        FROM PackageLicense
+        WHERE NamespacePrefix LIKE 'QaStripeConnect%'
+    ];
+
+    if(stripeConnectorQaPackCount > 0) {
+        return 'QaStripeConnect__';
     }
 
-    upsert activatedOrderList;
+    Integer stripeConnectorProdPackCount = [
+        SELECT COUNT()
+        FROM PackageLicense
+        WHERE NamespacePrefix
+        LIKE 'stripeConnector%'
+    ];
 
-    for(Order activatedOrder : activatedOrderList) {
-        activatedOrder.status = 'Draft';
+    if(stripeConnectorProdPackCount > 0) {
+        return 'stripeConnector__';
     }
 
-    upsert activatedOrderList;
+    return '';
 }
 
 // determine the packaged record name
@@ -59,7 +96,6 @@ if(stripeConnectorProdPackCount > 0) {
 }
 
 Integer sbqqPackageCount = [SELECT COUNT() FROM PackageLicense WHERE NamespacePrefix LIKE 'SBQQ%'];
-
 
 if(sbqqPackageCount > 0) {
     Boolean isRecordJobsUpdated = false;

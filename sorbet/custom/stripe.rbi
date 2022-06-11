@@ -62,7 +62,7 @@ end
 
 # these are NOT the exact same structure as a subscription item
 # TODO report this as a bug, this is confusing
-class Stripe::SubscriptionSchedulePhaseSubscriptionItem
+class Stripe::SubscriptionSchedulePhaseSubscriptionItem < Stripe::StripeObject
   sig { returns(String) }
   def price; end
 
@@ -72,11 +72,14 @@ class Stripe::SubscriptionSchedulePhaseSubscriptionItem
   sig { returns(Integer) }
   def quantity; end
 
+  sig { params(arg: Integer).void }
+  def quantity=(arg); end
+
   sig { returns(T::Hash[T.any(String, Symbol), T.untyped]) }
   def metadata; end
 end
 
-class Stripe::SubscriptionSchedulePhase
+class Stripe::SubscriptionSchedulePhase < Stripe::StripeObject
   sig { returns(T::Array[Stripe::SubscriptionSchedulePhaseSubscriptionItem])}
   def items; end
 
@@ -114,6 +117,9 @@ class Stripe::SubscriptionSchedule
 
   sig { returns(T::Array[Stripe::SubscriptionSchedulePhase])}
   def phases; end
+
+  sig { params(arg: T::Array[Stripe::SubscriptionSchedulePhase]).void }
+  def phases=(arg); end
 
   sig { returns(Stripe::SubscriptionSchedule).params(id: T.any(String, T::Hash[Symbol, T.untyped]), opts: T.nilable(T::Hash[Symbol, T.untyped])) }
   def self.retrieve(id, opts={}); end

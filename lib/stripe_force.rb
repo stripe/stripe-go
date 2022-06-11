@@ -13,13 +13,7 @@ module Integrations
 
 end
 
-# TODO move this somewhere else
-# tired of writing binding.pry...
-module Kernel
-  def bp
-    Pry.start(binding.of_caller(1))
-  end
-end
+require_relative './hash_diff'
 
 Dir[File.join(File.dirname(__FILE__), "integrations/**/*.rb")].sort.each {|f| require f }
 

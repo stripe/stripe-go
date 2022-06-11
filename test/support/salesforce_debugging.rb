@@ -1,6 +1,14 @@
 # frozen_string_literal: true
 # typed: true
 
+# TODO move this somewhere else
+# tired of writing binding.pry...
+module Kernel
+  def bp
+    Pry.start(binding.of_caller(1))
+  end
+end
+
 module SalesforceDebugging
   include StripeForce::Utilities::SalesforceUtil
   include StripeForce::Constants

@@ -8,10 +8,9 @@
 
 Next:
 
-- validate incoming API key on all configuration requests
+- Think through prorations
 - Separate order processing into a separate job
 - Separate redis connection for locker
-- Lograge for better rails logs
 - Implement amendment logic
 - resque pool
 - KMS

@@ -69,3 +69,12 @@ class Critic::UnitTest
   end
   def assert_includes(collection, obj, msg = nil); end
 end
+
+# not true in reality, but in practice this helps get around weird typing issues with Numeric vs ActiveSupport::Duration
+class ActiveSupport::Duration < Numeric
+
+end
+
+class Restforce::SObject
+  def refresh; end
+end

@@ -17,7 +17,6 @@ module StripeForce
       {
         salesforce_account_id: user.salesforce_account_id,
         livemode: user.livemode,
-        # sandbox: user.sandbox?,
         integration_record_type: ns_record_class.to_s,
       }
     end

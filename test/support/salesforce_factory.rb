@@ -183,8 +183,11 @@ module Critic
       }).body)
 
       refute(saved_quote["calculationRequired"])
+
+      saved_quote.dig("record", "Id")
     end
 
+    sig { params(sf_quote_id: String).returns(T.untyped) }
     def create_order_from_cpq_quote(sf_quote_id)
       # it looks like there is additional field validation triggered here when `ordered` is set to true
       sf.update!(CPQ_QUOTE, {

@@ -455,6 +455,8 @@ class StripeForce::Translate
       raise "price can only be created from an order line or pricebook entry"
     end
 
+    # TODO the tiered pricing logic should be extracted out to a separate method
+
     # generate these params first since it is hard to merge these
     tiered_pricing_params = if sf_object.sobject_type == SF_PRICEBOOK_ENTRY
       extract_tiered_price_params_from_pricebook_entry(sf_object)
@@ -521,28 +523,19 @@ class StripeForce::Translate
         raise 'unsupported global term uniq'
       end
 
-      # this can occur if interval_count and usage_type are both nil and are falling back on defaults
-      if !stripe_price.respond_to?(:recurring)
-        stripe_price.recurring = {
-          interval_count: nil,
-          usage_type: nil,
-        }
-      end
+      # `recurring` could have been partially constructed by the mapper, which is why we use a symbol-based accessor
+      # this avoids nil exception errors in various cases where a field has not been defined
+      stripe_price[:recurring] ||= {}
 
-      # the "Billing Type" field mapped here by default is often empty, we use a nil value to default
-      if !stripe_price.recurring.respond_to?(:usage_type)
-        stripe_price.recurring.usage_type = nil
-      end
-
-      stripe_price.recurring.usage_type = transform_salesforce_billing_type_to_usage_type(stripe_price.recurring.usage_type)
+      stripe_price.recurring[:usage_type] = transform_salesforce_billing_type_to_usage_type(stripe_price.recurring[:usage_type])
 
       # TODO it's possible that a custom mapping is defined for this value and it's an integer, we should support this case in the helper method
       # this represents how often the price is billed: i.e. if `interval` is month and `interval_count`
       # is 2, then this price is billed every two months.
-      stripe_price.recurring.interval_count = transform_salesforce_billing_frequency_to_recurring_interval(stripe_price.recurring.interval_count)
+      stripe_price.recurring[:interval_count] = transform_salesforce_billing_frequency_to_recurring_interval(stripe_price.recurring[:interval_count])
 
       # frequency: monthly or daily, defined on the CPQ
-      stripe_price.recurring.interval = sf_cpq_term_interval
+      stripe_price.recurring[:interval] = sf_cpq_term_interval
     else
       # TODO should we nil out any custom mapped recurring values? Let's wait and see if we get some errors
       # stripe_price.recurring = {}
@@ -616,6 +609,12 @@ class StripeForce::Translate
     # want to factor it in to our equality test
     pricebook_params.delete(:metadata)
     order_item_params.delete(:metadata)
+
+    # creating prices unnecessarily can be problematic for users: many prices without clarity about why they exist
+    # for this reason, let's log the diff in debug mode so we can easily determine exactly WHY the new price was created
+    if pricebook_params != order_item_params
+      log.debug 'price diff', diff: HashDiff::Comparison.new(pricebook_params, order_item_params).diff
+    end
 
     pricebook_params == order_item_params
   end
@@ -829,6 +828,11 @@ class StripeForce::Translate
     [invoice_items, subscription_items]
   end
 
+  # TODO can we assume a consistent date format? What about TZs here?
+  def salesforce_date_to_unix_timestamp(date_string)
+    DateTime.parse(date_string).to_time.to_i
+  end
+
   # TODO How can we organize code to support CPQ & non-CPQ use-cases? how can this be abstracted away from the order?
   def create_stripe_transaction_from_sf_order(sf_order)
     log.info 'translating order', salesforce_object: sf_order
@@ -867,15 +871,16 @@ class StripeForce::Translate
 
       subscription_params = extract_salesforce_params!(sf_order, Stripe::SubscriptionSchedule)
 
-      # TODO can we assume a consistent date format? What about TZs here?
-      # TODO extract this out to a separate method to format a date for Stripe
-      subscription_params['start_date'] = DateTime.parse(subscription_params['start_date']).to_time.to_i
+      # TODO should file an API papercut for this
+      # when creating the subscription schedule the start_date must be specified on the heaer
+      # when updating it, it is specified on the individual phase object
+      subscription_params['start_date'] = salesforce_date_to_unix_timestamp(subscription_params['start_date'])
 
       # TODO we should ensure integer terms in SF
       # TODO is the restforce gem somehow formatting everything as a float? Or is this is the real value returned from SF?
       phase_iterations = subscription_params.delete('iterations').to_i
 
-      # this is the initial order, so there is only a single phase
+      # initial order, so there is only a single phase
       initial_phase = {
         add_invoice_items: invoice_items,
         items: subscription_items,
