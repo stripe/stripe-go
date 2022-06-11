@@ -65,7 +65,7 @@ jobs:
   # to be located under the GOPATH
   compile-only-1_10:
      runs-on: ubuntu-latest
-     name: "Compile: go v1.10"
+     name: "Compile: go v2.10"
      steps:
        - uses: actions/checkout@v2
        - name: Setup go
