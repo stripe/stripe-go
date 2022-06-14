@@ -116,6 +116,7 @@ class StripeForce::Translate
     create_customer_from_sf_account(sf_account)
   end
 
+  # TODO why is stripe_resource an argument here? Should we remove it?
   def create_user_failure(stripe_resource: nil, salesforce_object:, message:)
     if @origin_salesforce_object&.Id.blank?
       raise "origin salesforce object is blank, cannot record error"
@@ -154,7 +155,7 @@ class StripeForce::Translate
     )
   end
 
-  # NOTE ns_record OR ns_class must be provided
+  # NOTE salesforce_object OR stripe_resource must be provided
   def throw_user_failure!(stripe_resource: nil, salesforce_object:, message:, error_class: nil)
     create_user_failure(
       stripe_resource: stripe_resource,
@@ -335,11 +336,7 @@ class StripeForce::Translate
     consumption_rates = sf.query("SELECT Id FROM #{SF_CONSUMPTION_RATE} WHERE ConsumptionScheduleId = '#{consumption_schedule.Id}'").map {|o| sf.find(SF_CONSUMPTION_RATE, o.Id) }
 
     pricing_tiers = consumption_rates.map do |consumption_rate|
-      transform_salesforce_consumption_rate_type_to_tier(
-        consumption_rate.UpperBound,
-        consumption_rate.PricingMethod,
-        consumption_rate.Price
-      )
+      transform_salesforce_consumption_rate_type_to_tier(consumption_rate)
     end
 
     tiers_mode = transform_salesforce_consumption_schedule_type_to_tier_mode(consumption_schedule.Type)
@@ -367,31 +364,46 @@ class StripeForce::Translate
     end
   end
 
-  def transform_salesforce_consumption_rate_type_to_tier(sf_upper_bound, sf_pricing_method, sf_price)
-    up_to = if sf_upper_bound.nil?
+  sig { params(sf_consumption_rate: T.untyped).returns(Hash) }
+  def transform_salesforce_consumption_rate_type_to_tier(sf_consumption_rate)
+    if sf_consumption_rate.sobject_type == SF_CONSUMPTION_RATE
+      upper_bound = sf_consumption_rate.UpperBound
+      pricing_method = sf_consumption_rate.PricingMethod
+      price = sf_consumption_rate.Price
+    elsif sf_consumption_rate.sobject_type == CPQ_CONSUMPTION_RATE
+      upper_bound = sf_consumption_rate.SBQQ__UpperBound__c
+      pricing_method = sf_consumption_rate.SBQQ__PricingMethod__c
+      price = sf_consumption_rate.SBQQ__Price__c
+    else
+      raise "unexpected object type #{sf_consumption_rate.sobject_type}"
+    end
+
+    up_to = if upper_bound.nil?
       'inf'
     else
-      if is_integer_value?(sf_upper_bound)
-        sf_upper_bound.to_i
+      if is_integer_value?(upper_bound)
+        upper_bound.to_i
       else
-        # this should never occur, if it does provide a more user friendly error
-        raise "non-integer value provided for tier bound"
+        throw_user_failure!(
+          salesforce_object: sf_consumption_rate,
+          message: "Decimal value provided for tier bound. Ensure all tier bounds are integers."
+        )
       end
     end
 
-    pricing_key = case sf_pricing_method
+    pricing_key = case pricing_method
     when "PerUnit"
       'unit_amount_decimal'
     when 'FlatFee'
       'flat_amount_decimal'
     else
       # this should never happen
-      raise "unexpected pricing method #{sf_pricing_method}"
+      raise "unexpected pricing method #{pricing_method}"
     end
 
     {
       'up_to' => up_to,
-      pricing_key => normalize_float_amount_for_stripe(sf_price.to_s, @user, as_decimal: true),
+      pricing_key => normalize_float_amount_for_stripe(price.to_s, @user, as_decimal: true),
     }
   end
 
@@ -426,11 +438,7 @@ class StripeForce::Translate
     consumption_rates = sf.query("SELECT Id FROM #{CPQ_CONSUMPTION_RATE} WHERE #{CPQ_CONSUMPTION_SCHEDULE} = '#{consumption_schedule.Id}'").map {|o| sf.find(CPQ_CONSUMPTION_RATE, o.Id) }
 
     pricing_tiers = consumption_rates.map do |consumption_rate|
-      transform_salesforce_consumption_rate_type_to_tier(
-        consumption_rate.SBQQ__UpperBound__c,
-        consumption_rate.SBQQ__PricingMethod__c,
-        consumption_rate.SBQQ__Price__c
-      )
+      transform_salesforce_consumption_rate_type_to_tier(consumption_rate)
     end
 
     tiers_mode = transform_salesforce_consumption_schedule_type_to_tier_mode(consumption_schedule.SBQQ__Type__c)
