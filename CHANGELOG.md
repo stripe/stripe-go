@@ -1,5 +1,9 @@
 # Changelog
 
+## 72.115.0-beta.1 - 2022-06-15
+* [#1476](https://github.com/stripe/stripe-go/pull/1476) API Updates for beta branch
+  Add support for NetworkDetails properties on ReceivedCredits/ReceivedDebits resource
+
 ## 72.114.0 - 2022-06-09
 * [#1473](https://github.com/stripe/stripe-go/pull/1473) API Updates
   * Add support for `Treasury` on `AccountSettingsParams` and `AccountSettings`
