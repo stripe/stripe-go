@@ -55,6 +55,14 @@ const (
 	TreasuryReceivedDebitNetworkStripe TreasuryReceivedDebitNetwork = "stripe"
 )
 
+// The type of flow that originated the ReceivedDebit.
+type TreasuryReceivedDebitNetworkDetailsType string
+
+// List of values that TreasuryReceivedDebitNetworkDetailsType can take
+const (
+	TreasuryReceivedDebitNetworkDetailsTypeAch TreasuryReceivedDebitNetworkDetailsType = "ach"
+)
+
 // Status of the ReceivedDebit. ReceivedDebits are created with a status of either `succeeded` (approved) or `failed` (declined). The failure reason can be found under the `failure_code`.
 type TreasuryReceivedDebitStatus string
 
@@ -116,6 +124,22 @@ type TreasuryReceivedDebitLinkedFlows struct {
 	IssuingAuthorization string `json:"issuing_authorization"`
 	// Set if the ReceivedDebit is also viewable as an [Issuing Dispute](https://stripe.com/docs/api#issuing_disputes) object.
 	IssuingTransaction string `json:"issuing_transaction"`
+	// The ReceivedCredit that Capital withheld from
+	ReceivedCreditCapitalWithholding string `json:"received_credit_capital_withholding"`
+}
+
+// Details about an ACH transaction.
+type TreasuryReceivedDebitNetworkDetailsAch struct {
+	// ACH Addenda record
+	Addenda string `json:"addenda"`
+}
+
+// Details specific to the money movement rails.
+type TreasuryReceivedDebitNetworkDetails struct {
+	// Details about an ACH transaction.
+	Ach *TreasuryReceivedDebitNetworkDetailsAch `json:"ach"`
+	// The type of flow that originated the ReceivedDebit.
+	Type TreasuryReceivedDebitNetworkDetailsType `json:"type"`
 }
 
 // ReceivedDebits represent funds pulled from a [FinancialAccount](https://stripe.com/docs/api#financial_accounts). These are not initiated from the FinancialAccount.
@@ -141,6 +165,8 @@ type TreasuryReceivedDebit struct {
 	Livemode bool `json:"livemode"`
 	// The network used for the ReceivedDebit.
 	Network TreasuryReceivedDebitNetwork `json:"network"`
+	// Details specific to the money movement rails.
+	NetworkDetails *TreasuryReceivedDebitNetworkDetails `json:"network_details"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// Status of the ReceivedDebit. ReceivedDebits are created with a status of either `succeeded` (approved) or `failed` (declined). The failure reason can be found under the `failure_code`.

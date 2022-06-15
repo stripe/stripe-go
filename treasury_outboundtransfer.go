@@ -41,6 +41,14 @@ const (
 	TreasuryOutboundTransferDestinationPaymentMethodDetailsUSBankAccountNetworkUSDomesticWire TreasuryOutboundTransferDestinationPaymentMethodDetailsUSBankAccountNetwork = "us_domestic_wire"
 )
 
+// The type of flow that originated the OutboundTransfer.
+type TreasuryOutboundTransferNetworkDetailsType string
+
+// List of values that TreasuryOutboundTransferNetworkDetailsType can take
+const (
+	TreasuryOutboundTransferNetworkDetailsTypeAch TreasuryOutboundTransferNetworkDetailsType = "ach"
+)
+
 // Reason for the return.
 type TreasuryOutboundTransferReturnedDetailsCode string
 
@@ -82,6 +90,20 @@ type TreasuryOutboundTransferDestinationPaymentMethodOptionsParams struct {
 	USBankAccount *TreasuryOutboundTransferDestinationPaymentMethodOptionsUSBankAccountParams `form:"us_bank_account"`
 }
 
+// Optional fields for `ach`.
+type TreasuryOutboundTransferNetworkDetailsAchParams struct {
+	// Addenda record data associated with this OutboundTransfer.
+	Addenda *string `form:"addenda"`
+}
+
+// Details about the network used for the OutboundTransfer.
+type TreasuryOutboundTransferNetworkDetailsParams struct {
+	// Optional fields for `ach`.
+	Ach *TreasuryOutboundTransferNetworkDetailsAchParams `form:"ach"`
+	// The type of flow that originated the OutboundTransfer.
+	Type *string `form:"type"`
+}
+
 // Creates an OutboundTransfer.
 type TreasuryOutboundTransferParams struct {
 	Params `form:"*"`
@@ -97,6 +119,8 @@ type TreasuryOutboundTransferParams struct {
 	DestinationPaymentMethodOptions *TreasuryOutboundTransferDestinationPaymentMethodOptionsParams `form:"destination_payment_method_options"`
 	// The FinancialAccount to pull funds from.
 	FinancialAccount *string `form:"financial_account"`
+	// Details about the network used for the OutboundTransfer.
+	NetworkDetails *TreasuryOutboundTransferNetworkDetailsParams `form:"network_details"`
 	// Statement descriptor to be shown on the receiving end of an OutboundTransfer. Maximum 10 characters for `ach` transfers or 140 characters for `wire` transfers. The default value is `transfer`.
 	StatementDescriptor *string `form:"statement_descriptor"`
 }
@@ -142,6 +166,20 @@ type TreasuryOutboundTransferDestinationPaymentMethodDetails struct {
 	// The type of the payment method used in the OutboundTransfer.
 	Type          TreasuryOutboundTransferDestinationPaymentMethodDetailsType           `json:"type"`
 	USBankAccount *TreasuryOutboundTransferDestinationPaymentMethodDetailsUSBankAccount `json:"us_bank_account"`
+}
+
+// Details about an ACH transaction.
+type TreasuryOutboundTransferNetworkDetailsAch struct {
+	// ACH Addenda record
+	Addenda string `json:"addenda"`
+}
+
+// Details about the network used for the OutboundTransfer.
+type TreasuryOutboundTransferNetworkDetails struct {
+	// Details about an ACH transaction.
+	Ach *TreasuryOutboundTransferNetworkDetailsAch `json:"ach"`
+	// The type of flow that originated the OutboundTransfer.
+	Type TreasuryOutboundTransferNetworkDetailsType `json:"type"`
 }
 
 // Details about a returned OutboundTransfer. Only set when the status is `returned`.
@@ -192,6 +230,8 @@ type TreasuryOutboundTransfer struct {
 	Livemode bool `json:"livemode"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`
+	// Details about the network used for the OutboundTransfer.
+	NetworkDetails *TreasuryOutboundTransferNetworkDetails `json:"network_details"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// Details about a returned OutboundTransfer. Only set when the status is `returned`.

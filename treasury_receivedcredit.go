@@ -66,6 +66,14 @@ const (
 	TreasuryReceivedCreditNetworkUSDomesticWire TreasuryReceivedCreditNetwork = "us_domestic_wire"
 )
 
+// The type of flow that originated the ReceivedCredit.
+type TreasuryReceivedCreditNetworkDetailsType string
+
+// List of values that TreasuryReceivedCreditNetworkDetailsType can take
+const (
+	TreasuryReceivedCreditNetworkDetailsTypeAch TreasuryReceivedCreditNetworkDetailsType = "ach"
+)
+
 // Status of the ReceivedCredit. ReceivedCredits are created either `succeeded` (approved) or `failed` (declined). If a ReceivedCredit is declined, the failure reason can be found in the `failure_code` field.
 type TreasuryReceivedCreditStatus string
 
@@ -164,6 +172,20 @@ type TreasuryReceivedCreditLinkedFlows struct {
 	SourceFlowType string `json:"source_flow_type"`
 }
 
+// Details about an ACH transaction.
+type TreasuryReceivedCreditNetworkDetailsAch struct {
+	// ACH Addenda record
+	Addenda string `json:"addenda"`
+}
+
+// Details specific to the money movement rails.
+type TreasuryReceivedCreditNetworkDetails struct {
+	// Details about an ACH transaction.
+	Ach *TreasuryReceivedCreditNetworkDetailsAch `json:"ach"`
+	// The type of flow that originated the ReceivedCredit.
+	Type TreasuryReceivedCreditNetworkDetailsType `json:"type"`
+}
+
 // ReceivedCredits represent funds sent to a [FinancialAccount](https://stripe.com/docs/api#financial_accounts) (for example, via ACH or wire). These money movements are not initiated from the FinancialAccount.
 type TreasuryReceivedCredit struct {
 	APIResource
@@ -187,6 +209,8 @@ type TreasuryReceivedCredit struct {
 	Livemode bool `json:"livemode"`
 	// The rails used to send the funds.
 	Network TreasuryReceivedCreditNetwork `json:"network"`
+	// Details specific to the money movement rails.
+	NetworkDetails *TreasuryReceivedCreditNetworkDetails `json:"network_details"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// Status of the ReceivedCredit. ReceivedCredits are created either `succeeded` (approved) or `failed` (declined). If a ReceivedCredit is declined, the failure reason can be found in the `failure_code` field.
