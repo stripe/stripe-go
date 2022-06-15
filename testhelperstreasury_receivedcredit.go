@@ -24,6 +24,20 @@ type TestHelpersTreasuryReceivedCreditInitiatingPaymentMethodDetailsParams struc
 	USBankAccount *TestHelpersTreasuryReceivedCreditInitiatingPaymentMethodDetailsUSBankAccountParams `form:"us_bank_account"`
 }
 
+// Optional fields for `ach`.
+type TestHelpersTreasuryReceivedCreditNetworkDetailsAchParams struct {
+	// ACH Addenda record
+	Addenda *string `form:"addenda"`
+}
+
+// Details about the network used for the ReceivedCredit.
+type TestHelpersTreasuryReceivedCreditNetworkDetailsParams struct {
+	// Optional fields for `ach`.
+	Ach *TestHelpersTreasuryReceivedCreditNetworkDetailsAchParams `form:"ach"`
+	// The type of flow that originated the ReceivedCredit.
+	Type *string `form:"type"`
+}
+
 // Use this endpoint to simulate a test mode ReceivedCredit initiated by a third party. In live mode, you can't directly create ReceivedCredits initiated by third parties.
 type TestHelpersTreasuryReceivedCreditParams struct {
 	Params `form:"*"`
@@ -39,4 +53,6 @@ type TestHelpersTreasuryReceivedCreditParams struct {
 	InitiatingPaymentMethodDetails *TestHelpersTreasuryReceivedCreditInitiatingPaymentMethodDetailsParams `form:"initiating_payment_method_details"`
 	// The rails used for the object.
 	Network *string `form:"network"`
+	// Details about the network used for the ReceivedCredit.
+	NetworkDetails *TestHelpersTreasuryReceivedCreditNetworkDetailsParams `form:"network_details"`
 }
