@@ -5,7 +5,7 @@ require_relative 'poller_base'
 
 class StripeForce::OrderPoller < StripeForce::PollerBase
   def perform
-    # TODO lock on job in a separate wrapper job
+    # TODO lock on job in a separate wrapper job in the future
     locker.lock_on_poll_job(self.class)
 
     execution_time = Time.now.utc
@@ -18,17 +18,7 @@ class StripeForce::OrderPoller < StripeForce::PollerBase
     log.info 'initiating poll', from: poll_record.last_polled_at, to: execution_time
 
     # note that SF fields never contain empty strings, they are reported null instead
-    updated_orders = sf.query(
-      <<~EOL
-        SELECT Id
-        FROM #{SF_ORDER}
-        WHERE
-        #{prefixed_stripe_field(GENERIC_STRIPE_ID)} = null AND
-        LastModifiedDate >= #{poll_record.last_polled_at.iso8601} AND
-        LastModifiedDate < #{execution_time.iso8601}
-        #{user_specified_where_clause_for_object}
-      EOL
-    )
+    updated_orders = @user.sf_client.query(generate_soql(poll_record.last_polled_at, execution_time))
 
     # important to use `size` here and not count because of the paging issue described below
     log.info 'order query complete', size: updated_orders.size
@@ -58,6 +48,19 @@ class StripeForce::OrderPoller < StripeForce::PollerBase
     poll_record.update(last_polled_at: execution_time)
 
     updated_order_ids
+  end
+
+  private def generate_soql(time_start, time_end)
+    # LastModifiedDate has second, but not millisecond, granularity
+    <<~EOL
+      SELECT Id
+      FROM #{poll_type}
+      WHERE
+      #{prefixed_stripe_field(GENERIC_STRIPE_ID)} = null AND
+      LastModifiedDate >= #{time_start.iso8601} AND
+      LastModifiedDate < #{time_end.iso8601}
+      #{user_specified_where_clause_for_object}
+    EOL
   end
 
   private def user_specified_where_clause_for_object

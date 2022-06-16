@@ -111,6 +111,7 @@ module StripeForce
     SALESFORCE_KEY_HEADER = 'Salesforce-Key'
     SALESFORCE_PACKAGE_NAMESPACE_HEADER = "Salesforce-Package-Namespace"
     SALESFORCE_INSTANCE_TYPE_HEADER = 'Salesforce-Type'
+    SALESFORCE_PACKAGE_ID_HEADER = 'Salesforce-Package-Id'
 
     CONNECTOR_SETTING_SALESFORCE_NAMESPACE = "salesforce_namespace"
     CONNECTOR_SETTING_SALESFORCE_INSTANCE_TYPE = 'salesforce_instance_type'

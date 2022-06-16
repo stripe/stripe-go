@@ -52,6 +52,7 @@ module StripeForce
       SALESFORCE_ACCOUNT_ID_HEADER,
       SALESFORCE_PACKAGE_NAMESPACE_HEADER,
       SALESFORCE_INSTANCE_TYPE_HEADER,
+      SALESFORCE_PACKAGE_ID_HEADER,
     ]
 
     config.lograge.enabled = true
@@ -63,7 +64,13 @@ module StripeForce
       SALESFORCE_HEADERS.each {|h| custom_params[h] = event.payload[:request].headers[h] }
 
       # include a boolean to indicate if the key was specified
-      custom_params[SALESFORCE_KEY_HEADER] = event.payload[:request].headers[SALESFORCE_KEY_HEADER].present?
+      sf_key = event.payload[:request].headers[SALESFORCE_KEY_HEADER]
+      custom_params[SALESFORCE_KEY_HEADER] = if sf_key.present?
+        # https://stackoverflow.com/questions/42938422/how-to-mask-all-but-last-four-characters-in-a-string
+        sf_key.gsub(/.(?=.{4})/, '*')
+      else
+        'false'
+      end
 
       custom_params.reject {|_, v| v.blank? }
     end

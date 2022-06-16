@@ -53,10 +53,6 @@ class StripeForce::PollerBase
     )
   end
 
-  def sf
-    @user.sf_client
-  end
-
   sig { abstract.returns(String) }
   def poll_type; end
 
