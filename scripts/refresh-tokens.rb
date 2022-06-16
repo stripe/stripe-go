@@ -12,10 +12,18 @@ end
 # optionally pass the alias/name you want to refresh from
 if ARGV[0]
   username = ARGV[0]
-  access_token = `SF_USERNAME=#{username} SF_CONSUMER_KEY=#{ENV['SF_CONSUMER_KEY']} SF_JWT_PRIVATE_KEY_PATH=./sfdx/jwt-cert/private_key.pem node ./sfdx/bin/jwt-generator/index.js`.strip
 
   auth_list = JSON.parse(`cd sfdx && sfdx auth:list --json`)
-  auth_info = auth_list['result'].detect { |a| a['username'] == username }
+  auth_info = auth_list['result'].detect { |a| a['username'] == username || a['alias'] == username }
+
+  target_url = if auth_info['isScratchOrg']
+    "https://test.salesforce.com"
+  else
+    "https://login.salesforce.com"
+  end
+
+  access_token = `SF_URL=#{target_url} SF_USERNAME=#{username} SF_CONSUMER_KEY=#{ENV['SF_CONSUMER_KEY']} SF_JWT_PRIVATE_KEY_PATH=./sfdx/jwt-cert/private_key.pem node ./sfdx/bin/jwt-generator/index.js`.strip
+
   instance_id = auth_info['orgId']
   instance_domain = auth_info['instanceUrl'].match(/https:\/\/(.*)\.my.salesforce.com/)[1]
 

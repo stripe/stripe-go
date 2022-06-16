@@ -64,6 +64,7 @@ export const accessTokenFromJWT = async (args) => {
     if (!args.token) throw Error("You must supply the token key");
 
     const url = args.audience || 'https://login.salesforce.com';
+    
     return fetch(`${url}/services/oauth2/token`, {
         "method": "post",
         "headers": {
@@ -80,15 +81,18 @@ import * as fs from "fs";
 
 const issuer = process.env.SF_CONSUMER_KEY;
 const subject = process.env.SF_USERNAME;
+const audience = process.env.SF_URL;
 const privateKey = fs.readFileSync(process.env.SF_JWT_PRIVATE_KEY_PATH, 'utf8');
 
 generateJWT({
     issuer,
     subject,
-    privateKey
+    privateKey,
+    audience
 }).then(token => {
     return accessTokenFromJWT({
         token,
+        audience
     })
 }).then(accessToken => {
     console.log(`${accessToken}`);
