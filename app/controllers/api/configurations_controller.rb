@@ -90,7 +90,7 @@ module Api
         report_edge_case("updating api key for user, but is already set")
       end
 
-      if request.headers[SALESFORCE_INSTANCE_TYPE_HEADER].blank? || request.headers[SALESFORCE_PACKAGE_NAMESPACE_HEADER]
+      if request.headers[SALESFORCE_INSTANCE_TYPE_HEADER].blank? || request.headers[SALESFORCE_PACKAGE_NAMESPACE_HEADER].nil?
         report_edge_case("important headers are blank on post install")
       end
 
@@ -161,8 +161,9 @@ module Api
 
       if @user.salesforce_organization_key != salesforce_api_key
         log.error 'api key does not match user'
-        head :not_found
-        return
+        # TODO until the issue with the package is resolved, this needs to stay the way it is
+        # head :not_found
+        # return
       end
 
       set_error_context(user: @user)
