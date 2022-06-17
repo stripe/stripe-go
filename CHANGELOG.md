@@ -1,5 +1,16 @@
 # Changelog
 
+## 72.115.0 - 2022-06-17
+* [#1477](https://github.com/stripe/stripe-go/pull/1477) API Updates
+  * Add support for `FundCashBalance` test helper method on resource `Customer`
+  * Add support for `StatementDescriptorPrefixKana` and `StatementDescriptorPrefixKanji` on `AccountSettingsCardPaymentsParams`, `AccountSettingsCardPayments`, and `AccountSettingsPayments`
+  * Add support for `StatementDescriptorSuffixKana` and `StatementDescriptorSuffixKanji` on `CheckoutSessionPaymentMethodOptionsCardParams`, `CheckoutSessionPaymentMethodOptionsCard`, `PaymentIntentConfirmPaymentMethodOptionsCardParams`, `PaymentIntentPaymentMethodOptionsCardParams`, and `PaymentIntentPaymentMethodOptionsCard`
+  * Add support for `TotalExcludingTax` on `CreditNote`
+  * Change type of `CustomerInvoiceSettingsRenderingOptionsParams` from `rendering_options_param` to `emptyStringable(rendering_options_param)`
+  * Add support for `RenderingOptions` on `CustomerInvoiceSettings` and `Invoice`
+* [#1478](https://github.com/stripe/stripe-go/pull/1478) Fix test assert to allow beta versions
+* [#1475](https://github.com/stripe/stripe-go/pull/1475) Trigger workflows on beta branches
+
 ## 72.114.0 - 2022-06-09
 * [#1473](https://github.com/stripe/stripe-go/pull/1473) API Updates
   * Add support for `Treasury` on `AccountSettingsParams` and `AccountSettings`
