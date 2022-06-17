@@ -999,6 +999,10 @@ type PaymentIntentPaymentMethodOptionsCardParams struct {
 	//
 	// If `setup_future_usage` is already set and you are performing a request using a publishable key, you may only update the value from `on_session` to `off_session`.
 	SetupFutureUsage *string `form:"setup_future_usage"`
+	// Provides information about a card payment that customers see on their statements. Concatenated with the Kana prefix (shortened Kana descriptor) or Kana statement descriptor that's set on the account to form the complete statement descriptor. Maximum 22 characters. On card statements, the *concatenation* of both prefix and suffix (including separators) will appear truncated to 22 characters.
+	StatementDescriptorSuffixKana *string `form:"statement_descriptor_suffix_kana"`
+	// Provides information about a card payment that customers see on their statements. Concatenated with the Kanji prefix (shortened Kanji descriptor) or Kanji statement descriptor that's set on the account to form the complete statement descriptor. Maximum 17 characters. On card statements, the *concatenation* of both prefix and suffix (including separators) will appear truncated to 17 characters.
+	StatementDescriptorSuffixKanji *string `form:"statement_descriptor_suffix_kanji"`
 }
 
 // If this is a `card_present` PaymentMethod, this sub-hash contains details about the Card Present payment method options.
@@ -2028,6 +2032,10 @@ type PaymentIntentPaymentMethodOptionsCard struct {
 	//
 	// When processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).
 	SetupFutureUsage PaymentIntentPaymentMethodOptionsCardSetupFutureUsage `json:"setup_future_usage"`
+	// Provides information about a card payment that customers see on their statements. Concatenated with the Kana prefix (shortened Kana descriptor) or Kana statement descriptor that's set on the account to form the complete statement descriptor. Maximum 22 characters. On card statements, the *concatenation* of both prefix and suffix (including separators) will appear truncated to 22 characters.
+	StatementDescriptorSuffixKana string `json:"statement_descriptor_suffix_kana"`
+	// Provides information about a card payment that customers see on their statements. Concatenated with the Kanji prefix (shortened Kanji descriptor) or Kanji statement descriptor that's set on the account to form the complete statement descriptor. Maximum 17 characters. On card statements, the *concatenation* of both prefix and suffix (including separators) will appear truncated to 17 characters.
+	StatementDescriptorSuffixKanji string `json:"statement_descriptor_suffix_kanji"`
 }
 
 // PaymentIntentPaymentMethodOptionsCardPresent is the set of Card Present-specific options associated
