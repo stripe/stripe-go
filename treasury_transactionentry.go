@@ -101,7 +101,7 @@ type TreasuryTransactionEntryFlowDetails struct {
 	CreditReversal *TreasuryCreditReversal `json:"credit_reversal"`
 	// You can reverse some [ReceivedDebits](https://stripe.com/docs/api#received_debits) depending on their network and source flow. Reversing a ReceivedDebit leads to the creation of a new object known as a DebitReversal.
 	DebitReversal *TreasuryDebitReversal `json:"debit_reversal"`
-	// Use InboundTransfers to add funds to your [FinancialAccount](https://stripe.com/docs/api#financial_accounts) via a PaymentMethod that is owned by you. The funds will be transferred via an ACH debit.
+	// Use [InboundTransfers](https://stripe.com/docs/treasury/moving-money/financial-accounts/into/inbound-transfers) to add funds to your [FinancialAccount](https://stripe.com/docs/api#financial_accounts) via a PaymentMethod that is owned by you. The funds will be transferred via an ACH debit.
 	InboundTransfer *TreasuryInboundTransfer `json:"inbound_transfer"`
 	// When an [issued card](https://stripe.com/docs/issuing) is used to make a purchase, an Issuing `Authorization`
 	// object is created. [Authorizations](https://stripe.com/docs/issuing/purchases/authorizations) must be approved for the

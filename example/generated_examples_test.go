@@ -59,6 +59,7 @@ import (
 	terminal_connectiontoken "github.com/stripe/stripe-go/v72/terminal/connectiontoken"
 	terminal_location "github.com/stripe/stripe-go/v72/terminal/location"
 	terminal_reader "github.com/stripe/stripe-go/v72/terminal/reader"
+	testhelpers_customer "github.com/stripe/stripe-go/v72/testhelpers/customer"
 	testhelpers_refund "github.com/stripe/stripe-go/v72/testhelpers/refund"
 	testhelpers_testclock "github.com/stripe/stripe-go/v72/testhelpers/testclock"
 	testhelpers_treasury_inboundtransfer "github.com/stripe/stripe-go/v72/testhelpers/treasury/inboundtransfer"
@@ -442,6 +443,15 @@ func TestCashBalanceUpdate(t *testing.T) {
 		Customer: stripe.String("cus_123"),
 	}
 	result, _ := cashbalance.Update(params)
+	assert.NotNil(t, result)
+}
+
+func TestTestHelpersCustomerFundCashBalance(t *testing.T) {
+	params := &stripe.TestHelpersCustomerFundCashBalanceParams{
+		Amount:   stripe.Int64(30),
+		Currency: stripe.String(string(stripe.CurrencyEUR)),
+	}
+	result, _ := testhelpers_customer.FundCashBalance("cus_123", params)
 	assert.NotNil(t, result)
 }
 

@@ -615,6 +615,12 @@ type InvoicePaymentSettings struct {
 	// The list of payment method types (e.g. card) to provide to the invoice's PaymentIntent. If not set, Stripe attempts to automatically determine the types to use by looking at the invoice's default payment method, the subscription's default payment method, the customer's default payment method, and your [invoice template settings](https://dashboard.stripe.com/settings/billing/invoice).
 	PaymentMethodTypes []InvoicePaymentSettingsPaymentMethodType `json:"payment_method_types"`
 }
+
+// Options for invoice PDF rendering.
+type InvoiceRenderingOptions struct {
+	// How line-item prices and amounts will be displayed with respect to tax on invoice PDFs.
+	AmountTaxDisplay string `json:"amount_tax_display"`
+}
 type InvoiceStatusTransitions struct {
 	// The time that the invoice draft was finalized.
 	FinalizedAt int64 `json:"finalized_at"`
@@ -811,6 +817,8 @@ type Invoice struct {
 	Quote *Quote `json:"quote"`
 	// This is the transaction number that appears on email receipts sent for this invoice.
 	ReceiptNumber string `json:"receipt_number"`
+	// Options for invoice PDF rendering.
+	RenderingOptions *InvoiceRenderingOptions `json:"rendering_options"`
 	// Starting customer balance before the invoice is finalized. If the invoice has not been finalized yet, this will be the current customer balance.
 	StartingBalance int64 `json:"starting_balance"`
 	// Extra information about an invoice for the customer's credit card statement.
@@ -822,7 +830,7 @@ type Invoice struct {
 	Subscription *Subscription `json:"subscription"`
 	// Only set for upcoming invoices that preview prorations. The time used to calculate prorations.
 	SubscriptionProrationDate int64 `json:"subscription_proration_date"`
-	// Total of all subscriptions, invoice items, and prorations on the invoice before any invoice level discount or tax is applied. Item discounts are already incorporated
+	// Total of all subscriptions, invoice items, and prorations on the invoice before any invoice level discount or exclusive tax is applied. Item discounts are already incorporated
 	Subtotal int64 `json:"subtotal"`
 	// The amount of tax on this invoice. This is the sum of all the tax amounts on this invoice.
 	Tax int64 `json:"tax"`
