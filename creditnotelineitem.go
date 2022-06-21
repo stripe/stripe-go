@@ -28,6 +28,8 @@ type CreditNoteLineItemDiscountAmount struct {
 type CreditNoteLineItem struct {
 	// The integer amount in %s representing the gross amount being credited for this line item, excluding (exclusive) tax and discounts.
 	Amount int64 `json:"amount"`
+	// The integer amount in %s representing the amount being credited for this line item, excluding all tax and discounts.
+	AmountExcludingTax int64 `json:"amount_excluding_tax"`
 	// Description of the item being credited.
 	Description string `json:"description"`
 	// The integer amount in %s representing the discount being credited for this line item.
@@ -54,6 +56,8 @@ type CreditNoteLineItem struct {
 	UnitAmount int64 `json:"unit_amount"`
 	// Same as `unit_amount`, but contains a decimal value with at most 12 decimal places.
 	UnitAmountDecimal float64 `json:"unit_amount_decimal,string"`
+	// The amount in %s representing the unit amount being credited for this line item, excluding all tax and discounts.
+	UnitAmountExcludingTax float64 `json:"unit_amount_excluding_tax,string"`
 }
 
 // CreditNoteLineItemList is a list of CreditNoteLineItems as retrieved from a list endpoint.

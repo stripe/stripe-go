@@ -92,7 +92,7 @@ type CustomerInvoiceCustomFieldParams struct {
 
 // Default options for invoice PDF rendering for this customer.
 type CustomerInvoiceSettingsRenderingOptionsParams struct {
-	// How line-item prices and amounts will be displayed with respect to tax on invoice PDFs.
+	// How line-item prices and amounts will be displayed with respect to tax on invoice PDFs. One of `exclude_tax` or `include_inclusive_tax`. `include_inclusive_tax` will include inclusive tax (and exclude exclusive tax) in invoice PDF amounts. `exclude_tax` will exclude all tax (inclusive and exclusive alike) from invoice PDF amounts.
 	AmountTaxDisplay *string `form:"amount_tax_display"`
 }
 
@@ -239,6 +239,12 @@ type CustomerInvoiceCustomField struct {
 	Name  *string `form:"name"`
 	Value *string `form:"value"`
 }
+
+// Default options for invoice PDF rendering for this customer.
+type CustomerInvoiceSettingsRenderingOptions struct {
+	// How line-item prices and amounts will be displayed with respect to tax on invoice PDFs.
+	AmountTaxDisplay string `json:"amount_tax_display"`
+}
 type CustomerInvoiceSettings struct {
 	// Default custom fields to be displayed on invoices for this customer.
 	CustomFields []*CustomerInvoiceCustomField `json:"custom_fields"`
@@ -246,6 +252,8 @@ type CustomerInvoiceSettings struct {
 	DefaultPaymentMethod *PaymentMethod `json:"default_payment_method"`
 	// Default footer to be displayed on invoices for this customer.
 	Footer string `json:"footer"`
+	// Default options for invoice PDF rendering for this customer.
+	RenderingOptions *CustomerInvoiceSettingsRenderingOptions `json:"rendering_options"`
 }
 
 // Mailing and shipping address for the customer. Appears on invoices emailed to this customer.
