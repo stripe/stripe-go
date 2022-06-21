@@ -123,6 +123,7 @@ const (
 	InvoicePaymentSettingsPaymentMethodTypeKonbini            InvoicePaymentSettingsPaymentMethodType = "konbini"
 	InvoicePaymentSettingsPaymentMethodTypeLink               InvoicePaymentSettingsPaymentMethodType = "link"
 	InvoicePaymentSettingsPaymentMethodTypePayNow             InvoicePaymentSettingsPaymentMethodType = "paynow"
+	InvoicePaymentSettingsPaymentMethodTypePromptpay          InvoicePaymentSettingsPaymentMethodType = "promptpay"
 	InvoicePaymentSettingsPaymentMethodTypeSepaCreditTransfer InvoicePaymentSettingsPaymentMethodType = "sepa_credit_transfer"
 	InvoicePaymentSettingsPaymentMethodTypeSepaDebit          InvoicePaymentSettingsPaymentMethodType = "sepa_debit"
 	InvoicePaymentSettingsPaymentMethodTypeSofort             InvoicePaymentSettingsPaymentMethodType = "sofort"
@@ -281,6 +282,12 @@ type InvoicePaymentSettingsParams struct {
 	PaymentMethodTypes []*string `form:"payment_method_types"`
 }
 
+// Options for invoice PDF rendering.
+type InvoiceRenderingOptionsParams struct {
+	// How line-item prices and amounts will be displayed with respect to tax on invoice PDFs. One of `exclude_tax` or `include_inclusive_tax`. `include_inclusive_tax` will include inclusive tax (and exclude exclusive tax) in invoice PDF amounts. `exclude_tax` will exclude all tax (inclusive and exclusive alike) from invoice PDF amounts.
+	AmountTaxDisplay *string `form:"amount_tax_display"`
+}
+
 // If specified, the funds from the invoice will be transferred to the destination and the ID of the resulting transfer will be found on the invoice's charge.
 type InvoiceTransferDataParams struct {
 	// The amount that will be transferred automatically when the invoice is paid. If no amount is set, the full amount is transferred.
@@ -329,6 +336,8 @@ type InvoiceParams struct {
 	PaymentSettings *InvoicePaymentSettingsParams `form:"payment_settings"`
 	// How to handle pending invoice items on invoice creation. One of `include`, `exclude`, or `include_and_require`. `include` will include any pending invoice items, and will create an empty draft invoice if no pending invoice items exist. `include_and_require` will include any pending invoice items, if no pending invoice items exist then the request will fail. `exclude` will always create an empty invoice draft regardless if there are pending invoice items or not. Defaults to `include_and_require` if the parameter is omitted.
 	PendingInvoiceItemsBehavior *string `form:"pending_invoice_items_behavior"`
+	// Options for invoice PDF rendering.
+	RenderingOptions *InvoiceRenderingOptionsParams `form:"rendering_options"`
 	// The identifier of the unstarted schedule whose upcoming invoice you'd like to retrieve. Cannot be used with subscription or subscription fields.
 	Schedule *string `form:"schedule"`
 	// Extra information about a charge for the customer's credit card statement. It must contain at least one letter. If not specified and this invoice is part of a subscription, the default `statement_descriptor` will be set to the first subscription item's product's `statement_descriptor`.
@@ -615,6 +624,12 @@ type InvoicePaymentSettings struct {
 	// The list of payment method types (e.g. card) to provide to the invoice's PaymentIntent. If not set, Stripe attempts to automatically determine the types to use by looking at the invoice's default payment method, the subscription's default payment method, the customer's default payment method, and your [invoice template settings](https://dashboard.stripe.com/settings/billing/invoice).
 	PaymentMethodTypes []InvoicePaymentSettingsPaymentMethodType `json:"payment_method_types"`
 }
+
+// Options for invoice PDF rendering.
+type InvoiceRenderingOptions struct {
+	// How line-item prices and amounts will be displayed with respect to tax on invoice PDFs.
+	AmountTaxDisplay string `json:"amount_tax_display"`
+}
 type InvoiceStatusTransitions struct {
 	// The time that the invoice draft was finalized.
 	FinalizedAt int64 `json:"finalized_at"`
@@ -811,6 +826,8 @@ type Invoice struct {
 	Quote *Quote `json:"quote"`
 	// This is the transaction number that appears on email receipts sent for this invoice.
 	ReceiptNumber string `json:"receipt_number"`
+	// Options for invoice PDF rendering.
+	RenderingOptions *InvoiceRenderingOptions `json:"rendering_options"`
 	// Starting customer balance before the invoice is finalized. If the invoice has not been finalized yet, this will be the current customer balance.
 	StartingBalance int64 `json:"starting_balance"`
 	// Extra information about an invoice for the customer's credit card statement.
@@ -822,8 +839,10 @@ type Invoice struct {
 	Subscription *Subscription `json:"subscription"`
 	// Only set for upcoming invoices that preview prorations. The time used to calculate prorations.
 	SubscriptionProrationDate int64 `json:"subscription_proration_date"`
-	// Total of all subscriptions, invoice items, and prorations on the invoice before any invoice level discount or tax is applied. Item discounts are already incorporated
+	// Total of all subscriptions, invoice items, and prorations on the invoice before any invoice level discount or exclusive tax is applied. Item discounts are already incorporated
 	Subtotal int64 `json:"subtotal"`
+	// The integer amount in %s representing the subtotal of the invoice before any invoice level discount or tax is applied. Item discounts are already incorporated
+	SubtotalExcludingTax int64 `json:"subtotal_excluding_tax"`
 	// The amount of tax on this invoice. This is the sum of all the tax amounts on this invoice.
 	Tax int64 `json:"tax"`
 	// ID of the test clock this invoice belongs to.
@@ -833,6 +852,8 @@ type Invoice struct {
 	Total int64 `json:"total"`
 	// The aggregate amounts calculated per discount across all line items.
 	TotalDiscountAmounts []*InvoiceDiscountAmount `json:"total_discount_amounts"`
+	// The integer amount in %s representing the total amount of the invoice including all discounts but excluding all tax.
+	TotalExcludingTax int64 `json:"total_excluding_tax"`
 	// The aggregate amounts calculated per tax rate for all line items.
 	TotalTaxAmounts []*InvoiceTaxAmount `json:"total_tax_amounts"`
 	// The account (if any) the payment will be attributed to for tax reporting, and where funds from the payment will be transferred to for the invoice.

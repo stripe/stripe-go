@@ -257,7 +257,7 @@ type TreasuryOutboundPayment struct {
 	Created int64 `json:"created"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency Currency `json:"currency"`
-	// ID of the customer to whom an OutboundPayment is sent.
+	// ID of the [customer](https://stripe.com/docs/api/customers) to whom an OutboundPayment is sent.
 	Customer string `json:"customer"`
 	// An arbitrary string attached to the object. Often useful for displaying to users.
 	Description string `json:"description"`
@@ -271,7 +271,7 @@ type TreasuryOutboundPayment struct {
 	ExpectedArrivalDate int64 `json:"expected_arrival_date"`
 	// The FinancialAccount that funds were pulled from.
 	FinancialAccount string `json:"financial_account"`
-	// A hosted transaction receipt URL that is provided when money movement is considered regulated under Stripe's money transmission licenses.
+	// A [hosted transaction receipt](https://stripe.com/docs/treasury/moving-money/regulatory-receipts) URL that is provided when money movement is considered regulated under Stripe's money transmission licenses.
 	HostedRegulatoryReceiptURL string `json:"hosted_regulatory_receipt_url"`
 	// Unique identifier for the object.
 	ID string `json:"id"`

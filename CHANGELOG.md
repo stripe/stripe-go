@@ -1,5 +1,16 @@
 # Changelog
 
+## 72.115.0 - 2022-06-17
+* [#1477](https://github.com/stripe/stripe-go/pull/1477) API Updates
+  * Add support for `FundCashBalance` test helper method on resource `Customer`
+  * Add support for `StatementDescriptorPrefixKana` and `StatementDescriptorPrefixKanji` on `AccountSettingsCardPaymentsParams`, `AccountSettingsCardPayments`, and `AccountSettingsPayments`
+  * Add support for `StatementDescriptorSuffixKana` and `StatementDescriptorSuffixKanji` on `CheckoutSessionPaymentMethodOptionsCardParams`, `CheckoutSessionPaymentMethodOptionsCard`, `PaymentIntentConfirmPaymentMethodOptionsCardParams`, `PaymentIntentPaymentMethodOptionsCardParams`, and `PaymentIntentPaymentMethodOptionsCard`
+  * Add support for `TotalExcludingTax` on `CreditNote`
+  * Change type of `CustomerInvoiceSettingsRenderingOptionsParams` from `rendering_options_param` to `emptyStringable(rendering_options_param)`
+  * Add support for `RenderingOptions` on `CustomerInvoiceSettings` and `Invoice`
+* [#1478](https://github.com/stripe/stripe-go/pull/1478) Fix test assert to allow beta versions
+* [#1475](https://github.com/stripe/stripe-go/pull/1475) Trigger workflows on beta branches
+
 ## 72.115.0-beta.1 - 2022-06-15
 * [#1476](https://github.com/stripe/stripe-go/pull/1476) API Updates for beta branch
   Add support for NetworkDetails properties on ReceivedCredits/ReceivedDebits resource
@@ -41,7 +52,6 @@
   * Add support for `HostedInstructionsURL` on `PaymentIntentNextActionDisplayBankTransferInstructions`
   * Add support for `IDNumberSecondaryProvided` on `Person`
   * Add support for `CardIssuing` on `TreasuryFinancialAccountFeaturesParams` and `TreasuryFinancialAccountUpdateFeaturesParams`
-  
 
 ## 72.110.0 - 2022-05-23
 * [#1465](https://github.com/stripe/stripe-go/pull/1465) API Updates
@@ -80,14 +90,12 @@
 ## 72.107.0 - 2022-05-11
 * [#1459](https://github.com/stripe/stripe-go/pull/1459) API Updates
   * Add support for `AmountDiscount`, `AmountTax`, and `Product` on `LineItem`
-  
 
 ## 72.106.0 - 2022-05-05
 * [#1457](https://github.com/stripe/stripe-go/pull/1457) API Updates
   * Add support for `DefaultPriceData` on `ProductParams`
   * Add support for `DefaultPrice` on `ProductParams` and `Product`
   * Add support for `InstructionsEmail` on `RefundParams` and `Refund`
-  
 
 ## 72.105.0 - 2022-05-05
 * [#1455](https://github.com/stripe/stripe-go/pull/1455) API Updates
@@ -98,7 +106,6 @@
 * [#1454](https://github.com/stripe/stripe-go/pull/1454) API Updates
   * Add support for `RegisteredAddress` on `AccountIndividualParams`, `PersonParams`, `Person`, `TokenAccountIndividualParams`, and `TokenPersonParams`
   * Add support for `PaymentMethodData` on `SetupIntentConfirmParams` and `SetupIntentParams`
-  
 
 ## 72.104.0 - 2022-05-03
 * [#1453](https://github.com/stripe/stripe-go/pull/1453) API Updates
@@ -108,7 +115,6 @@
   * Add support for new value `eu_oss_vat` on enums `CheckoutSessionCustomerDetailsTaxIdsType`, `InvoiceCustomerTaxIdsType`, and `TaxIdType`
   * Add support for `CashBalance` on `Customer`
   * Add support for `Application` on `Invoice`, `Quote`, `SubscriptionSchedule`, and `Subscription`
-  
 
 ## 72.103.0 - 2022-04-21
 * [#1452](https://github.com/stripe/stripe-go/pull/1452) API Updates
@@ -220,7 +226,6 @@
 * [#1425](https://github.com/stripe/stripe-go/pull/1425) API Updates
   * Add support for new resources `InvoiceLineProrationDetails` and `InvoiceLineProrationDetailsCreditedItems`
   * Add support for `ProrationDetails` on `InvoiceLine`
-  
 
 ## 72.90.0 - 2022-03-01
 * [#1423](https://github.com/stripe/stripe-go/pull/1423) [#1424](https://github.com/stripe/stripe-go/pull/1424) API Updates
@@ -380,7 +385,6 @@
 * [#1371](https://github.com/stripe/stripe-go/pull/1371) API Updates
   * Remove support for `OwnershipDeclarationShownAndSigned` on `TokenAccountParams`. This API was unused.
   * Add support for `OwnershipDeclarationShownAndSigned` on `TokenAccountCompanyParams`
-  
 
 ## 72.73.0 - 2021-11-01
 * [#1368](https://github.com/stripe/stripe-go/pull/1368) API Updates
@@ -470,7 +474,6 @@
 * [#1332](https://github.com/stripe/stripe-go/pull/1332) API Updates
   * Add support for `AfterExpiration`, `ConsentCollection`, and `ExpiresAt` on `CheckoutSessionParams` and `CheckoutSession`
   * Add support for `Consent` and `RecoveredFrom` on `CheckoutSession`
-
 
 ## 72.62.0 - 2021-08-27
 * [#1329](https://github.com/stripe/stripe-go/pull/1329) API Updates
@@ -569,7 +572,6 @@
   * Add support for `FeeRefund` and `Topup` to `BalanceTransactionSource`
   * Add support for `Object` on `BalanceTransaction` and `Transfer`
   * Removed a redundant form-encoding conversion for `UpTo` in `PriceTierParams.AppendTo` method
-
 
 ## 72.48.0 - 2021-06-04
 * [#1291](https://github.com/stripe/stripe-go/pull/1291) API Updates
@@ -2665,3 +2667,4 @@ Version 71 of stripe-go contains some major changes. Many of them are breaking, 
 
 ## 1.0.0 - 2014-09-22
 * Initial version
+

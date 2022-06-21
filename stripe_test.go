@@ -1022,7 +1022,7 @@ func TestUserAgent(t *testing.T) {
 
 	// We keep out version constant private to the package, so use a regexp
 	// match instead.
-	expectedPattern := regexp.MustCompile(`^Stripe/v1 GoBindings/[1-9][0-9.]+[0-9]$`)
+	expectedPattern := regexp.MustCompile(`^Stripe/v1 GoBindings/[.\-\w\d]+$`)
 
 	match := expectedPattern.MatchString(req.Header.Get("User-Agent"))
 	assert.True(t, match)
@@ -1049,7 +1049,7 @@ func TestUserAgentWithAppInfo(t *testing.T) {
 
 	// We keep out version constant private to the package, so use a regexp
 	// match instead.
-	expectedPattern := regexp.MustCompile(`^Stripe/v1 GoBindings/[1-9][0-9.]+[0-9] MyAwesomePlugin/1.2.34 \(https://myawesomeplugin.info\)$`)
+	expectedPattern := regexp.MustCompile(`^Stripe/v1 GoBindings/[.\-\w\d]+ MyAwesomePlugin/1.2.34 \(https://myawesomeplugin.info\)$`)
 
 	match := expectedPattern.MatchString(req.Header.Get("User-Agent"))
 	assert.True(t, match)
