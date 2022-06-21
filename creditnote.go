@@ -223,12 +223,14 @@ type CreditNote struct {
 	Refund *Refund `json:"refund"`
 	// Status of this credit note, one of `issued` or `void`. Learn more about [voiding credit notes](https://stripe.com/docs/billing/invoices/credit-notes#voiding).
 	Status CreditNoteStatus `json:"status"`
-	// The integer amount in %s representing the amount of the credit note, excluding tax and invoice level discounts.
+	// The integer amount in %s representing the amount of the credit note, excluding exclusive tax and invoice level discounts.
 	Subtotal int64 `json:"subtotal"`
 	// The aggregate amounts calculated per tax rate for all line items.
 	TaxAmounts []*CreditNoteTaxAmount `json:"tax_amounts"`
 	// The integer amount in %s representing the total amount of the credit note, including tax and all discount.
 	Total int64 `json:"total"`
+	// The integer amount in %s representing the total amount of the credit note, excluding tax, but including discounts.
+	TotalExcludingTax int64 `json:"total_excluding_tax"`
 	// Type of this credit note, one of `pre_payment` or `post_payment`. A `pre_payment` credit note means it was issued when the invoice was open. A `post_payment` credit note means it was issued when the invoice was paid.
 	Type CreditNoteType `json:"type"`
 	// The time that the credit note was voided.

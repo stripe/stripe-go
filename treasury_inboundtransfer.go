@@ -151,7 +151,7 @@ type TreasuryInboundTransferStatusTransitions struct {
 	SucceededAt int64 `json:"succeeded_at"`
 }
 
-// Use InboundTransfers to add funds to your [FinancialAccount](https://stripe.com/docs/api#financial_accounts) via a PaymentMethod that is owned by you. The funds will be transferred via an ACH debit.
+// Use [InboundTransfers](https://stripe.com/docs/treasury/moving-money/financial-accounts/into/inbound-transfers) to add funds to your [FinancialAccount](https://stripe.com/docs/api#financial_accounts) via a PaymentMethod that is owned by you. The funds will be transferred via an ACH debit.
 type TreasuryInboundTransfer struct {
 	APIResource
 	// Amount (in cents) transferred.
@@ -168,7 +168,7 @@ type TreasuryInboundTransfer struct {
 	FailureDetails *TreasuryInboundTransferFailureDetails `json:"failure_details"`
 	// The FinancialAccount that received the funds.
 	FinancialAccount string `json:"financial_account"`
-	// A hosted transaction receipt URL that is provided when money movement is considered regulated under Stripe's money transmission licenses.
+	// A [hosted transaction receipt](https://stripe.com/docs/treasury/moving-money/regulatory-receipts) URL that is provided when money movement is considered regulated under Stripe's money transmission licenses.
 	HostedRegulatoryReceiptURL string `json:"hosted_regulatory_receipt_url"`
 	// Unique identifier for the object.
 	ID          string                              `json:"id"`

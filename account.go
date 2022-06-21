@@ -749,6 +749,10 @@ type AccountSettingsCardPaymentsParams struct {
 	DeclineOn *AccountDeclineSettingsParams `form:"decline_on"`
 	// The default text that appears on credit card statements when a charge is made. This field prefixes any dynamic `statement_descriptor` specified on the charge. `statement_descriptor_prefix` is useful for maximizing descriptor space for the dynamic portion.
 	StatementDescriptorPrefix *string `form:"statement_descriptor_prefix"`
+	// The Kana variation of the default text that appears on credit card statements when a charge is made (Japan only). This field prefixes any dynamic `statement_descriptor_suffix_kana` specified on the charge. `statement_descriptor_prefix_kana` is useful for maximizing descriptor space for the dynamic portion.
+	StatementDescriptorPrefixKana *string `form:"statement_descriptor_prefix_kana"`
+	// The Kanji variation of the default text that appears on credit card statements when a charge is made (Japan only). This field prefixes any dynamic `statement_descriptor_suffix_kanji` specified on the charge. `statement_descriptor_prefix_kanji` is useful for maximizing descriptor space for the dynamic portion.
+	StatementDescriptorPrefixKanji *string `form:"statement_descriptor_prefix_kanji"`
 }
 
 // AccountSettingsDashboardParams represent allowed parameters to configure settings for the
@@ -1150,6 +1154,10 @@ type AccountSettingsCardPayments struct {
 	DeclineOn *AccountDeclineOn `json:"decline_on"`
 	// The default text that appears on credit card statements when a charge is made. This field prefixes any dynamic `statement_descriptor` specified on the charge. `statement_descriptor_prefix` is useful for maximizing descriptor space for the dynamic portion.
 	StatementDescriptorPrefix string `json:"statement_descriptor_prefix"`
+	// The Kana variation of the default text that appears on credit card statements when a charge is made (Japan only). This field prefixes any dynamic `statement_descriptor_suffix_kana` specified on the charge. `statement_descriptor_prefix_kana` is useful for maximizing descriptor space for the dynamic portion.
+	StatementDescriptorPrefixKana string `json:"statement_descriptor_prefix_kana"`
+	// The Kanji variation of the default text that appears on credit card statements when a charge is made (Japan only). This field prefixes any dynamic `statement_descriptor_suffix_kanji` specified on the charge. `statement_descriptor_prefix_kanji` is useful for maximizing descriptor space for the dynamic portion.
+	StatementDescriptorPrefixKanji string `json:"statement_descriptor_prefix_kanji"`
 }
 type AccountSettingsDashboard struct {
 	// The display name for this account. This is used on the Stripe Dashboard to differentiate between accounts.
@@ -1164,6 +1172,10 @@ type AccountSettingsPayments struct {
 	StatementDescriptorKana string `json:"statement_descriptor_kana"`
 	// The Kanji variation of the default text that appears on credit card statements when a charge is made (Japan only)
 	StatementDescriptorKanji string `json:"statement_descriptor_kanji"`
+	// The Kana variation of the default text that appears on credit card statements when a charge is made (Japan only). This field prefixes any dynamic `statement_descriptor_suffix_kana` specified on the charge. `statement_descriptor_prefix_kana` is useful for maximizing descriptor space for the dynamic portion.
+	StatementDescriptorPrefixKana string `json:"statement_descriptor_prefix_kana"`
+	// The Kanji variation of the default text that appears on credit card statements when a charge is made (Japan only). This field prefixes any dynamic `statement_descriptor_suffix_kanji` specified on the charge. `statement_descriptor_prefix_kanji` is useful for maximizing descriptor space for the dynamic portion.
+	StatementDescriptorPrefixKanji string `json:"statement_descriptor_prefix_kanji"`
 }
 type AccountPayoutSchedule struct {
 	// The number of days charges for the account will be held before being paid out.
