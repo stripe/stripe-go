@@ -217,6 +217,8 @@ class StripeForce::Translate
       yield(stripe_object)
     end
 
+    sanitize(stripe_object)
+
     log.info 'creating stripe object', salesforce_object: sf_object, stripe_object_type: stripe_class
 
     # there's a decent chance this causes us issues down the road: we shouldn't be using `construct_from`
@@ -998,5 +1000,10 @@ class StripeForce::Translate
   sig { returns(StripeForce::Mapper) }
   def mapper
     @mapper ||= StripeForce::Mapper.new(@user)
+  end
+
+  def sanitize(stripe_record)
+    @sanitizer ||= StripeForce::Sanitizer.new(@user)
+    @sanitizer.sanitize(stripe_record)
   end
 end
