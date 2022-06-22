@@ -112,11 +112,13 @@ class Critic::ConfigurationsControllerTest < ApplicationIntegrationTest
         SALESFORCE_KEY_HEADER => ENV.fetch('SF_MANAGED_PACKAGE_API_KEY'),
         SALESFORCE_ACCOUNT_ID_HEADER => sf_instance_account_id,
         SALESFORCE_PACKAGE_NAMESPACE_HEADER => SalesforceNamespaceOptions::QA.serialize,
+        SALESFORCE_INSTANCE_TYPE_HEADER => SFInstanceTypes::PRODUCTION.serialize,
       }
 
       assert_equal(1, StripeForce::User.count)
       user = T.must(StripeForce::User.first)
       assert_equal(SalesforceNamespaceOptions::QA.serialize, user.connector_settings['salesforce_namespace'])
+      assert_equal(SFInstanceTypes::PRODUCTION.serialize, user.connector_settings[CONNECTOR_SETTING_SALESFORCE_INSTANCE_TYPE])
     end
   end
 

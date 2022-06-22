@@ -522,6 +522,10 @@ class StripeForce::Translate
       end
     end
 
+    # `recurring` could have been partially constructed by the mapper, which is why we use a symbol-based accessor
+    # this avoids nil exception errors in various cases where a field has not been defined
+    stripe_price[:recurring] ||= {}
+
     # by omitting the recurring params it sets `type: one_time`
     # this param cannot be set directly
     if recurring_item?(sf_object.sobject_type == SF_PRICEBOOK_ENTRY ? sf_product : sf_object)
@@ -530,10 +534,6 @@ class StripeForce::Translate
       if sf_cpq_term_interval != 'month'
         raise 'unsupported global term uniq'
       end
-
-      # `recurring` could have been partially constructed by the mapper, which is why we use a symbol-based accessor
-      # this avoids nil exception errors in various cases where a field has not been defined
-      stripe_price[:recurring] ||= {}
 
       stripe_price.recurring[:usage_type] = transform_salesforce_billing_type_to_usage_type(stripe_price.recurring[:usage_type])
 
@@ -677,9 +677,16 @@ class StripeForce::Translate
 
       # this should never happen if our identical check is correct, unless the data in Salesforce is mutated over time
       if BigDecimal(existing_stripe_price.unit_amount_decimal.to_s) != BigDecimal(generated_stripe_price.unit_amount_decimal.to_s) ||
-          existing_stripe_price.recurring.interval != generated_stripe_price.recurring.interval ||
-          existing_stripe_price.recurring.interval_count != generated_stripe_price.recurring.interval_count
-        raise "expected generated prices to be equal, but they differed"
+          existing_stripe_price.recurring.present? != generated_stripe_price.recurring.present? ||
+          existing_stripe_price.recurring.interval != generated_stripe_price.recurring[:interval] ||
+          existing_stripe_price.recurring.interval_count != generated_stripe_price.recurring[:interval_count]
+
+        existing_stripe_price.dirty!
+        generated_stripe_price.dirty!
+
+        raise Integrations::Errors::UnhandledEdgeCase.new("expected generated prices to be equal, but they differed",
+          metadata: HashDiff::Comparison.new(existing_stripe_price.serialize_params, generated_stripe_price.serialize_params).diff
+        )
       end
 
       log.info 'using existing stripe price'

@@ -59,6 +59,8 @@ module Integrations::Utilities::StripeUtil
     # plan IDs are often specified by the user
     when /^plan_/
       Stripe::Plan
+    when /^price_/
+      Stripe::Price
     when /^prod_/
       Stripe::Product
     when /^sku_/
@@ -69,6 +71,8 @@ module Integrations::Utilities::StripeUtil
       Stripe::PaymentIntent
     when /^pm_/
       Stripe::PaymentMethod
+    when /^sub_sched_/
+      Stripe::SubscriptionSchedule
     # coupons do not have a prefix since the ID is often exposed to the user
     # https://github.com/stripe/stripe-netsuite/issues/1658
     else

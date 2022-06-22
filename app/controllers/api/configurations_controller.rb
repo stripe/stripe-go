@@ -91,7 +91,7 @@ module Api
       end
 
       if request.headers[SALESFORCE_INSTANCE_TYPE_HEADER].blank? || request.headers[SALESFORCE_PACKAGE_NAMESPACE_HEADER].nil?
-        report_edge_case("important headers are blank on post install")
+        report_edge_case("important headers are blank on post install", metadata: request.headers)
       end
 
       # these settings are very important, especially the organization key
