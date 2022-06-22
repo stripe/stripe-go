@@ -5,7 +5,7 @@ git_source(:github) {|repo| "https://github.com/#{repo}.git" }
 ruby '2.7.6'
 
 gem 'sorbet', '~> 0.5.10096', group: :development
-gem 'sorbet-runtime', '~> 0.5.10097', require: true
+gem 'sorbet-runtime', '~> 0.5.10101', require: true
 gem 'sorbet-rails', '~> 0.7.33'
 
 # https://github.com/ruby/irb/issues/43
