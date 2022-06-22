@@ -60,7 +60,7 @@ group :test do
   gem 'bundler-audit', '~> 0.9.1', require: false
   gem 'brakeman', '~> 5.2.3', require: false
 
-  gem 'minitest', '~> 5.16.0'
+  gem 'minitest', '~> 5.16.1'
   gem 'minitest-ci', '~> 3.4.0'
   gem 'minitest-profile'
   gem 'minitest-reporters', '~> 1.5.0'
