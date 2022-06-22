@@ -370,7 +370,47 @@ c, _ := charge.Retrieve("ch_123", p)
 c.Customer.ID    // ID is still available
 c.Customer.Name  // Name is now also available (if it had a value)
 ```
+### How to use undocumented parameters and properties
 
+stripe-go is a typed library and it supports all public properties or parameters.
+
+Stripe sometimes has beta which introduces new properties or parameters that are not immediately public. The library does not support these properties or parameters until they are public but there is still an approach that allows you to use them.
+
+#### Parameters
+
+To pass undocumented parameters to Stripe using stripe-go you need to use the `putExtraParam()` method, as shown below:
+
+```go
+
+	params := &stripe.CustomerParams{
+		Email: stripe.String("jenny.rosen@example.com")
+	}
+
+	params.AddExtra("secret_feature_enabled", "true")
+	params.AddExtra("secret_parameter[primary]","primary value")
+	params.AddExtra("secret_parameter[secondary]","secondary value")
+
+	customer, err := customer.Create(params)
+```
+
+#### Properties
+
+To retrieve undocumented properties from Stripe using Go you can use an option in the library to return the raw JSON object and return the property. An example of this is shown below:
+
+```go
+customer, _ = customer.Get("cus_1234", nil);
+
+var rawData map[string]interface{}
+_ = json.Unmarshal(customer.LastResponse.RawJSON, &rawData)
+
+secret_feature_enabled, _ := string(rawData["secret_feature_enabled"].(bool))
+
+secret_parameter, ok := rawData["secret_parameter"].(map[string]interface{})
+if ok {
+	primary := secret_parameter["primary"].(string)
+	seconardy := secret_parameter["secondary"].(string)
+} 
+```
 ### Writing a Plugin
 
 If you're writing a plugin that uses the library, we'd appreciate it if you
