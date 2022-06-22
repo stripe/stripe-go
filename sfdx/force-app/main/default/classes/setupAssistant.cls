@@ -1,23 +1,4 @@
 public with sharing class setupAssistant { 
-    //gets the namespace of the package
-    public String namespace { get; set; }
-
-    public setupAssistant() {
-        namespace = constants.NAMESPACE;
-    }
-
-    // passed to the ruby service as metadata for debuggin
-    @AuraEnabled
-    public static String getPackageVersion() {
-        responseData rd = new responseData();
-        try {
-            rd.put('major', System.requestVersion().major());
-            rd.put('minor', System.requestVersion().minor());
-        } catch(Exception e) {
-            rd.addError(e);
-        }
-        return rd.getJsonString();
-    }
 
      //gets steps completed from setup data to manage/presist states
     @AuraEnabled
@@ -36,22 +17,24 @@ public with sharing class setupAssistant {
                 'isSetupComplete__c'
             };
 
-            List<Setup_Data__c> data = [SELECT Id, Steps_Completed__c, isSetupComplete__c
+            List<Setup_Data__c> setupDataQuery = [SELECT Id, Steps_Completed__c, isSetupComplete__c
                                         FROM Setup_Data__c
                                         WHERE Name = :constants.SETUP_DATA_RECORD_NAME
                                         WITH SECURITY_ENFORCED];
-            Setup_Data__c setupData = new Setup_Data__c();
+            Setup_Data__c setupData;
 
-            if (!data.isEmpty()) {
-                setupData = data[0];
+            if (!setupDataQuery.isEmpty()) {
+                setupData = setupDataQuery[0];
+            } else {
+                setupData = new Setup_Data__c();
+                setupData.Name = constants.SETUP_DATA_RECORD_NAME;
             }
-            setupData.Name = constants.SETUP_DATA_RECORD_NAME;
 
             if (String.isEmpty(setupData.Steps_Completed__c)) {
                 setupData.Steps_Completed__c = '{}';
             }
+            
             rd.put('setupData', setupData);
-                
         } catch (Exception e) {
             rd.addError(e);
         }
@@ -185,41 +168,13 @@ public with sharing class setupAssistant {
                 //if there is no org default record we will generate the package key and create the record
                 rd.put('isStripeConnected','stripeDisconnected');
                 rd.put('isSalesforceConnected','salesforceDisconnected');  
-                generatePackageKey(stripeConnectRec);
+                utilities.generatePackageKey(stripeConnectRec);
                 return rd.getJsonString();
             }
         } catch (Exception e) {
             rd.addError(e);
         }
         return rd.getJsonString();
-    }
-
-    //generates package level key and sends to ruby
-    public static void generatePackageKey(Stripe_Connection__c stripeConnectRec) {
-
-        // generate unique key for this organization used to authenticate against the integration service
-        Blob blb = Crypto.GenerateAESKey(128);
-        String packageKey  = EncodingUtil.ConvertTohex(blb);
-        
-        String route = constants.RUBY_SERVICE_BASE_URI + '/v1/post-install';
-        
-        Map<String, Object> body = new Map<String, Object> {
-            'key' => packageKey
-        };
-
-        HttpResponse response =  utilities.makeCallout(route, 'POST', JSON.serialize(body));
-
-        Map<String, Object> errorBody; 
-        if(response.getStatusCode() == 200) {     
-            stripeConnectRec.API_Key__c = packageKey;
-            upsert stripeConnectRec;
-
-            //schedules the batch job that will clean up sync records
-            scheduleSyncRecordDeletion.scheduleJob();
-            
-        } else {
-            errorLogger.create('generatePackageKey', String.valueOf(response.getStatusCode()), (String)response.getStatus(), 'Failed to get package level API key from ruby service.');
-        }
     }
 
     //gets object fields to populate picklist in mapper
@@ -260,8 +215,13 @@ public with sharing class setupAssistant {
     public static String getFormattedStripeObjectFields() {
         responseData rd = new responseData();
         try {
+            //using a blank string here to avoid error for no `Salesforce-Key` in make callout function
+            Map<String,String> headers = new Map<String,String> {
+                'Salesforce-Key' => ''
+            };
+    
             String route = constants.RUBY_SERVICE_BASE_URI + '/openapi.json';
-            HttpResponse response =  utilities.makeCallout(route,'GET');
+            HttpResponse response =  utilities.makeCallout(route,'GET', headers);
             
             Map<String, Object> responseBody;
             if(response.getStatusCode() == 200) {
@@ -274,6 +234,7 @@ public with sharing class setupAssistant {
             } else {
                 errorLogger.create('getFormattedStripeObjectFields', String.valueOf(response.getStatusCode()), (String)response.getStatus(), 'Failed to get mapping configuration from ruby service.');
             }
+            
         } catch (Exception e) {     
             rd.addError(e);
         }

@@ -1,6 +1,17 @@
 public with sharing class utilities {
     public class SetupIsNotCompleteException extends Exception {}
 
+    public static String getPackageVersion() {
+        responseData rd = new responseData();
+        try {
+            rd.put('major', System.requestVersion().major());
+            rd.put('minor', System.requestVersion().minor());
+        } catch(Exception e) {
+            rd.addError(e);
+        }
+        return rd.getJsonString();
+    }
+
     public static sObject getSobjectByMap(Map<String, Object> sourceMap, String sObjectName) {
         return getSobjectByMap(sourceMap, sObjectName, constants.NAMESPACE_API);
     }
@@ -169,11 +180,60 @@ public with sharing class utilities {
                 LIMIT 1];  
     }
 
-    public static HttpResponse makeCallout(String endPoint, String method){
-        return makeCallout(endPoint, method, null);
+    // generates package level key and sends to ruby. Named `salesforce_organization_key` on the ruby side
+    public static void generatePackageKey(Stripe_Connection__c stripeConnectRec) {
+
+        List<Setup_Connection_Data__mdt> setupConfigList = getStripeConnectionKey();  
+        if(setupConfigList.isEmpty()) {
+            /* This error should only be thrown in a scratch org when unmangaed key is deployed to 
+            an org and the custom metadata record containing the global key was not created */
+            Sentry_Log.logSentry('missing metadata record with global key');
+            throw new SetupIsNotCompleteException('Org is not setup correctly, missing custom metadata record with global key');
+        } 
+
+        Setup_Connection_Data__mdt setupData = setupConfigList[0];
+
+        Map<String,String> headers = new Map<String,String> {
+            'Salesforce-Key' => (String)setupData.Global_Key__c
+        };
+
+        // generate unique key for this organization used to authenticate against the integration service
+        Blob blb = Crypto.GenerateAESKey(128);
+        String packageKey  = EncodingUtil.ConvertTohex(blb);
+        
+        String route = constants.RUBY_SERVICE_BASE_URI + '/v1/post-install';
+        
+        Map<String, Object> body = new Map<String, Object> {
+            'key' => packageKey
+        };
+
+        HttpResponse response = utilities.makeCallout(route, 'POST', JSON.serialize(body), headers);
+
+        Map<String, Object> errorBody; 
+        if(response.getStatusCode() == 200) {
+            stripeConnectRec.API_Key__c = packageKey;
+            upsert stripeConnectRec;
+
+            // schedules the batch job that will clean up sync records
+            scheduleSyncRecordDeletion.scheduleJob();
+        } else {
+            errorLogger.create('generatePackageKey', String.valueOf(response.getStatusCode()), (String)response.getStatus(), 'Failed to get package level API key from ruby service.');
+        }
     }
 
+    public static HttpResponse makeCallout(String endPoint, String method){
+        return makeCallout(endPoint, method, null, null);
+    }
+ 
     public static HttpResponse makeCallout(String endPoint, String method, String body){
+        return makeCallout(endPoint, method, body, null);
+    }
+ 
+    public static HttpResponse makeCallout(String endPoint, String method, Map<String, String> headers){
+        return makeCallout(endPoint, method, null, headers);
+    }
+
+    public static HttpResponse makeCallout(String endPoint, String method, String body, Map<String, String> headers){
         Http httpMethod = new Http();
         HttpRequest request = new HttpRequest();
  
@@ -188,31 +248,32 @@ public with sharing class utilities {
             request.setHeader('Accept', 'application/json');
             request.setBody(body);
         }
-     
-        /* these standard headers will be add to the request if none are provided
-            the ruby service expects these headers for all requests. */
-        List<Setup_Connection_Data__mdt> setupConfigList = getStripeConnectionKey();  
-
-        //lets us create custom metadata record if we are in test context
-        if(Test.isRunningTest()) {  
-            setupConfigList = setupConfigMetadata;
-        }
         
-        if(!setupConfigList.isEmpty()) {
-            Setup_Connection_Data__mdt setupData = setupConfigList[0];
-            request.setHeader('Salesforce-Account-Id', (String)constants.ORG_ID);
-            request.setHeader('Salesforce-Key', (String)setupData.Global_Key__c);
-            request.setHeader('Salesforce-Type', String.valueOf(Sentry_Environment.getInstanceType()));
-            request.setHeader('Salesforce-Package-Namespace', constants.NAMESPACE);
-            if(!String.isEmpty(constants.NAMESPACE_API)) {
-                request.setHeader('Package-Id', (String)setupAssistant.getPackageVersion());
-            }
-        } else {
-            /* This error should only be thrown in a scratch org when unmangaed key is deployed to 
-            an org and the custom metadata record containing the global key was not created */
-            Sentry_Log.logSentry('missing metadata record with global key');
-            throw new SetupIsNotCompleteException('Org is not setup correctly, missing custom metadata record with global key');
+        /* these standard headers will be add to the request if none are provided
+        the ruby service expects these headers for all requests. */
+        request.setHeader('Salesforce-Account-Id', (String)constants.ORG_ID);
+        request.setHeader('Salesforce-Type', String.valueOf(Sentry_Environment.getInstanceType()));
+        request.setHeader('Salesforce-Package-Namespace', constants.NAMESPACE);
+        if(!String.isEmpty(constants.NAMESPACE_API)) {
+            request.setHeader('Package-Id', (String)getPackageVersion());
         }
+        /* this only happens in the case the key is passed in after generating
+        the package level api key, other wise we will use the api key stored */
+        if(headers != null) {
+            request.setHeader('Salesforce-Key', headers.get('Salesforce-Key'));
+            HttpResponse response = httpMethod.send(request);
+            return response;
+        } 
+
+        Stripe_Connection__c stripeConnectRec = Stripe_Connection__c.getOrgDefaults();   
+
+        if(stripeConnectRec.Id == null || stripeConnectRec.API_Key__c == null) {
+            /* This error shouldn't get hit but this is just to cover that edge case */
+            Sentry_Log.logSentry('missing Stripe Connection org default record with api key');
+            throw new SetupIsNotCompleteException('There is no API Key record stored, please contact your administrator for further assistance');
+        }
+
+        request.setHeader('Salesforce-Key', (String)stripeConnectRec.API_Key__c);
     
         HttpResponse response = httpMethod.send(request);
         return response;

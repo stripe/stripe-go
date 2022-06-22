@@ -1,7 +1,6 @@
 import { LightningElement, api, track } from 'lwc';
 import companyLogo from '@salesforce/resourceUrl/companyLogo';
 import getSetupData from '@salesforce/apex/setupAssistant.getSetupData';
-import getPackageVersion from '@salesforce/apex/setupAssistant.getPackageVersion';
 
 export default class Landing extends LightningElement {
     @api isClassic;
@@ -29,13 +28,6 @@ export default class Landing extends LightningElement {
     }
 
     connectedCallback() {
-        getPackageVersion().then(responseDataString => {
-            let responseData = JSON.parse(responseDataString).results;
-
-            this.packageVersion = responseData.major + '.' + responseData.minor;
-        }).catch(error => {
-            this.packageVersion = 'Unavailable';
-        });
     }
 
     @api init(wizards) {
