@@ -874,6 +874,253 @@
       ]
     }
   ],
+  "formattedStripeSubscriptionSchedulePhaseFields": [
+    {
+      "label": "Standard Mappings",
+      "name": "standard",
+      "description": "",
+      "fields": [
+        {
+          "name": "application fee percent",
+          "value": "application_fee_percent",
+          "description": "<p>This represents the percentage of the subscription invoice subtotal that will be transferred to the application owner's Stripe account.</p>",
+          "type": "number",
+          "defaultValue": "",
+          "requiredValue": "",
+          "hasOverride": false,
+          "staticValue": false,
+          "hasSfValue": false,
+          "hasRequiredValue": false,
+          "sfValue": "",
+          "sfValueType": ""
+        },
+        {
+          "name": "billing cycle anchor",
+          "value": "billing_cycle_anchor",
+          "description": "<p>Determines the date of the first full invoice, and, for plans with <code>month</code> or <code>year</code> intervals, the day of the month for subsequent invoices.</p>",
+          "type": "string",
+          "defaultValue": "",
+          "requiredValue": "",
+          "hasOverride": false,
+          "staticValue": false,
+          "hasSfValue": false,
+          "hasRequiredValue": false,
+          "sfValue": "",
+          "sfValueType": ""
+        },
+        {
+          "name": "collection method",
+          "value": "collection_method",
+          "description": "<p>Either <code>charge_automatically</code>, or <code>send_invoice</code>. When charging automatically, Stripe will attempt to pay this invoice using the default source attached to the customer. When sending an invoice, Stripe will email this invoice to the customer with payment instructions.</p>",
+          "type": "string",
+          "defaultValue": "",
+          "requiredValue": "",
+          "hasOverride": false,
+          "staticValue": false,
+          "hasSfValue": false,
+          "hasRequiredValue": false,
+          "sfValue": "",
+          "sfValueType": ""
+        },
+        {
+          "name": "coupon",
+          "value": "coupon",
+          "description": "<p>A coupon contains information about a percent-off or amount-off discount you\nmight want to apply to a customer. Coupons may be applied to <a href=\"https://stripe.com/docs/api#subscriptions\">subscriptions</a>, <a href=\"https://stripe.com/docs/api#invoices\">invoices</a>,\n<a href=\"https://stripe.com/docs/api/checkout/sessions\">checkout sessions</a>, <a href=\"https://stripe.com/docs/api#quotes\">quotes</a>, and more. Coupons do not work with conventional one-off <a href=\"https://stripe.com/docs/api#create_charge\">charges</a> or <a href=\"https://stripe.com/docs/api/payment_intents\">payment intents</a>.</p>",
+          "type": "string",
+          "defaultValue": "",
+          "requiredValue": "",
+          "hasOverride": false,
+          "staticValue": false,
+          "hasSfValue": false,
+          "hasRequiredValue": false,
+          "sfValue": "",
+          "sfValueType": ""
+        },
+        {
+          "name": "default payment method",
+          "value": "default_payment_method",
+          "description": "<p>ID of the default payment method for the invoice. It must belong to the customer associated with the invoice. If not set, defaults to the subscription's default payment method, if any, or to the default payment method in the customer's invoice settings.</p>",
+          "type": "string",
+          "defaultValue": "",
+          "requiredValue": "",
+          "hasOverride": false,
+          "staticValue": false,
+          "hasSfValue": false,
+          "hasRequiredValue": false,
+          "sfValue": "",
+          "sfValueType": ""
+        },
+        {
+          "name": "end date",
+          "value": "end_date",
+          "description": "<p>End date of the mandate or subscription. If not provided, the mandate will be active until canceled. If provided, end date should be after start date.</p>",
+          "type": "integer",
+          "defaultValue": "",
+          "requiredValue": "",
+          "hasOverride": false,
+          "staticValue": false,
+          "hasSfValue": false,
+          "hasRequiredValue": false,
+          "sfValue": "",
+          "sfValueType": ""
+        },
+        {
+          "name": "iterations",
+          "value": "iterations",
+          "description": "",
+          "type": "integer",
+          "defaultValue": "",
+          "requiredValue": "",
+          "hasOverride": false,
+          "staticValue": false,
+          "hasSfValue": false,
+          "hasRequiredValue": false,
+          "sfValue": "",
+          "sfValueType": ""
+        },
+        {
+          "name": "proration behavior",
+          "value": "proration_behavior",
+          "description": "<p>Whether to create prorations when canceling subscriptions. Possible values are <code>none</code> and <code>create_prorations</code>.</p>",
+          "type": "string",
+          "defaultValue": "",
+          "requiredValue": "",
+          "hasOverride": false,
+          "staticValue": false,
+          "hasSfValue": false,
+          "hasRequiredValue": false,
+          "sfValue": "",
+          "sfValueType": ""
+        },
+        {
+          "name": "trial",
+          "value": "trial",
+          "description": "",
+          "type": "boolean",
+          "defaultValue": "",
+          "requiredValue": "",
+          "hasOverride": false,
+          "staticValue": false,
+          "hasSfValue": false,
+          "hasRequiredValue": false,
+          "sfValue": "",
+          "sfValueType": ""
+        },
+        {
+          "name": "trial end",
+          "value": "trial_end",
+          "description": "<p>If the subscription has a trial, the end of that trial.</p>",
+          "type": "integer",
+          "defaultValue": "",
+          "requiredValue": "",
+          "hasOverride": false,
+          "staticValue": false,
+          "hasSfValue": false,
+          "hasRequiredValue": false,
+          "sfValue": "",
+          "sfValueType": ""
+        }
+      ]
+    },
+    {
+      "label": "Automatic tax",
+      "name": "automatic_tax",
+      "description": "",
+      "fields": [
+        {
+          "name": "enabled",
+          "value": "automatic_tax.enabled",
+          "description": "<p>Whether Stripe automatically computes tax on this invoice.</p>",
+          "type": "boolean",
+          "defaultValue": "",
+          "requiredValue": "",
+          "hasOverride": false,
+          "staticValue": false,
+          "hasSfValue": false,
+          "hasRequiredValue": false,
+          "sfValue": "",
+          "sfValueType": ""
+        }
+      ]
+    },
+    {
+      "label": "Billing thresholds",
+      "name": "billing_thresholds",
+      "description": "",
+      "fields": [
+        {
+          "name": "enabled",
+          "value": "billing_thresholds.enabled",
+          "description": "<p>Whether Stripe automatically computes tax on this invoice.</p>",
+          "type": "boolean",
+          "defaultValue": "",
+          "requiredValue": "",
+          "hasOverride": false,
+          "staticValue": false,
+          "hasSfValue": false,
+          "hasRequiredValue": false,
+          "sfValue": "",
+          "sfValueType": ""
+        }
+      ]
+    },
+    {
+      "label": "Invoice settings",
+      "name": "invoice_settings",
+      "description": "",
+      "fields": [
+        {
+          "name": "days until due",
+          "value": "invoice_settings.days_until_due",
+          "description": "<p>Number of days within which a customer must pay invoices generated by this quote. This value will be <code>null</code> for quotes where <code>collection_method=charge_automatically</code>.</p>",
+          "type": "integer",
+          "defaultValue": "",
+          "requiredValue": "",
+          "hasOverride": false,
+          "staticValue": false,
+          "hasSfValue": false,
+          "hasRequiredValue": false,
+          "sfValue": "",
+          "sfValueType": ""
+        }
+      ]
+    },
+    {
+      "label": "Transfer data",
+      "name": "transfer_data",
+      "description": "",
+      "fields": [
+        {
+          "name": "amount percent",
+          "value": "transfer_data.amount_percent",
+          "description": "<p>A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice subtotal that will be transferred to the destination account. By default, the entire amount will be transferred to the destination.</p>",
+          "type": "number",
+          "defaultValue": "",
+          "requiredValue": "",
+          "hasOverride": false,
+          "staticValue": false,
+          "hasSfValue": false,
+          "hasRequiredValue": false,
+          "sfValue": "",
+          "sfValueType": ""
+        },
+        {
+          "name": "destination",
+          "value": "transfer_data.destination",
+          "description": "<p>ID of an existing, connected Stripe account to transfer funds to if <code>transfer_data</code> was specified in the charge request.</p>",
+          "type": "string",
+          "defaultValue": "",
+          "requiredValue": "",
+          "hasOverride": false,
+          "staticValue": false,
+          "hasSfValue": false,
+          "hasRequiredValue": false,
+          "sfValue": "",
+          "sfValueType": ""
+        }
+      ]
+    }
+  ],
   "formattedStripePriceFields": [
     {
       "label": "Standard Mappings",

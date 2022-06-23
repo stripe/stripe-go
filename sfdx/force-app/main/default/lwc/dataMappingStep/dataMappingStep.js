@@ -9,7 +9,8 @@ export default class DataMappingStep extends LightningElement {
     /* `@track` decorator is needed here to tell the lwc framework to observe 
     //changes to the properties of an object and to the elements of an array */
 
-    @track activeObject = '';
+    @track activeObject = 'customer';
+    @track activeObjectDescription;
     @track sfFieldOptions = [];
     @track defaultCustomerSections = [
         'standard'
@@ -41,6 +42,9 @@ export default class DataMappingStep extends LightningElement {
     @track defaultSfObject;
     @track isConnected = false;
     @track isMappingsUpdated = false;
+    @track activeStripeObjectMappings;
+    @track activeStripeObjectMetadataFields;
+    @track activeStripeObjectSections;
     
     // allMappingList is used to retrieve and send all user mappings `saveMappingConfigurations` 
     @track allMappingList = {
@@ -112,6 +116,10 @@ export default class DataMappingStep extends LightningElement {
         description: '',
         fields: []
     }};
+
+    @track activeStripeObjectMappings = this.stripeCustomerMappings;
+    @track activeStripeObjectMetadataFields = this.customerMetadataFields;
+    @track activeStripeObjectSections = this.defaultCustomerSections;
 
     get customerObjectActive() {
         return this.activeObject == 'customer';
@@ -379,20 +387,27 @@ export default class DataMappingStep extends LightningElement {
     }
 
     filterSfOptionsByStripeFieldType() {
-        if (this.stripeObjectField.type) {
-            var fieldType = this.stripeObjectField.type.toLowerCase()
-            //has to be a copy to force a rerender
-            let modifiedFieldOptions = JSON.parse(JSON.stringify(this.sfFieldOptions))
-            if(fieldType === 'integer' || fieldType === 'decimal' || fieldType === 'number') {
-                this.sfFieldOptions = modifiedFieldOptions.filter(fieldOptions => fieldOptions.type === 'double' ||fieldOptions.type === 'reference')
-            } else if (fieldType === 'timestamp') {
+       if (!this.stripeObjectField.type) {
+            return;
+        } 
+        var fieldType = this.stripeObjectField.type.toLowerCase()
+        //has to be a copy to force a rerender
+        let modifiedFieldOptions = JSON.parse(JSON.stringify(this.sfFieldOptions))
+        switch(fieldType) {
+            case 'integer' || 'decimal' || 'number':
+                this.sfFieldOptions = modifiedFieldOptions.filter(fieldOptions => fieldOptions.type === 'double' ||fieldOptions.type === 'reference');
+                return;
+            case 'timestamp':
                 this.sfFieldOptions = modifiedFieldOptions.filter(fieldOptions => fieldOptions.type.includes('date') || fieldOptions.type === 'reference' )
-            } else if (fieldType === 'boolean') {
+                return;
+            case 'boolean':
                 this.sfFieldOptions = modifiedFieldOptions.filter(fieldOptions => fieldOptions.type === 'boolean' || fieldOptions.type === 'reference' )
-            } else {
+                return;
+            default:
                 this.sfFieldOptions = modifiedFieldOptions
-            }
+                return;
         }
+
     }
 
     updateMetaPicklist(event) {
@@ -448,34 +463,108 @@ export default class DataMappingStep extends LightningElement {
            return;
        }
 
-       this.loading = true;
+        this.loading = true;
 
-        if(this.activeObject === 'customer') {
-            this.defaultSfObject = 'Account';
-            this.fieldListByObjectMap.Account.sort(this.mapperFieldSorter);
-            this.sfFieldOptions = this.fieldListByObjectMap.Account
-         } else if(this.activeObject === 'product'){
-            this.defaultSfObject = 'Product2';
-            this.fieldListByObjectMap.Product2.sort(this.mapperFieldSorter)
-            this.sfFieldOptions = this.fieldListByObjectMap.Product2
-         } else if(this.activeObject === 'subscription' && this.fieldListByObjectMap) {
-            // TODO should change identifier to `subscription_schedule` instead
-            this.defaultSfObject = 'Order';
-            this.fieldListByObjectMap.Order.sort(this.mapperFieldSorter);
-            this.sfFieldOptions = this.fieldListByObjectMap.Order
-         } else if(this.activeObject === 'subscription-item') {
-            this.defaultSfObject = 'OrderItem';
-            this.fieldListByObjectMap.OrderItem.sort(this.mapperFieldSorter)
-            this.sfFieldOptions = this.fieldListByObjectMap.OrderItem
-         } else if(this.activeObject === 'price') {
-            this.defaultSfObject = 'PricebookEntry';
-            this.fieldListByObjectMap.PricebookEntry.sort(this.mapperFieldSorter)
-            this.sfFieldOptions = this.fieldListByObjectMap.PricebookEntry
-        } else {
-            // TODO should send to sentry when that is possible
-            console.log("uncaught sidebar click")
+        // future: we need to clean this up. Code duplication like this destroys velocity later on. We should be able to something like changeObject(this.activeObject) and have a single assignment statement for all of the fields.
+        switch(this.activeObject) {
+            case 'customer':
+                this.defaultSfObject = 'Account';
+                this.fieldListByObjectMap.Account.sort(this.mapperFieldSorter);
+                this.sfFieldOptions = this.fieldListByObjectMap.Account;
+                this.activeStripeObjectMappings = this.stripeCustomerMappings;
+                this.activeStripeObjectMetadataFields = this.customerMetadataFields;
+                this.activeStripeObjectSections = this.defaultCustomerSections;
+               break;
+
+            case 'product':
+                this.defaultSfObject = 'Product2';
+                this.fieldListByObjectMap.Product2.sort(this.mapperFieldSorter)
+                this.sfFieldOptions = this.fieldListByObjectMap.Product2;
+                this.activeStripeObjectMappings = this.stripeProductMappings;
+                this.activeStripeObjectMetadataFields = this.productMetadataFields;
+                this.activeStripeObjectSections = this.defaultProductSections;
+                break;
+
+            case 'subscription':
+                // TODO should change identifier to `subscription_schedule` instead
+                this.defaultSfObject = 'Order';
+                this.fieldListByObjectMap.Order.sort(this.mapperFieldSorter);
+                this.sfFieldOptions = this.fieldListByObjectMap.Order;
+                this.activeStripeObjectMappings = this.stripeSubscriptionMappings;
+                this.activeStripeObjectMetadataFields = this.subscriptionMetadataFields;
+                this.activeStripeObjectSections = this.defaultSubscriptionScheduleSections;
+                break;
+
+            case 'subscription-item':
+                this.defaultSfObject = 'OrderItem';
+                this.fieldListByObjectMap.OrderItem.sort(this.mapperFieldSorter);
+                this.sfFieldOptions = this.fieldListByObjectMap.OrderItem;
+                this.activeStripeObjectMappings = this.stripeSubscriptionItemMappings;
+                this.activeStripeObjectMetadataFields = this.subscriptionItemMetadataFields;
+                this.activeStripeObjectSections = this.defaultSubscriptionItemSections;
+                break;
+
+            case 'price':
+                this.defaultSfObject = 'PricebookEntry';
+                this.fieldListByObjectMap.PricebookEntry.sort(this.mapperFieldSorter)
+                this.sfFieldOptions = this.fieldListByObjectMap.PricebookEntry;
+                this.activeStripeObjectMappings = this.stripePriceMappings;
+                this.activeStripeObjectMetadataFields = this.priceMetadataFields;
+                this.activeStripeObjectSections = this.defaultPriceSections;
+                break;
+
+            default:
+                 // TODO should send to sentry when that is possible
+                console.log("uncaught sidebar click");
+                break;
         }
+
+        this.openActiveSection();
+        this.setDescription();
         this.loading = false;
+        return;
+
+    }
+
+    // Open 'Metadata' mapping section if metadata mappings exist
+    openActiveSection() {
+        this.activeStripeObjectSections = ['standard']
+        let activeStripeObjectName = this.activeObject; 
+        // TODO this should not be special cased but changing this would require changes in the html and other places in this file and ensuring things do not break due to the change.
+        if ( this.activeObject === 'subscription-item') {
+            activeStripeObjectName = 'subscriptionItem';
+        }
+        if (this[activeStripeObjectName + 'MetadataFields'].metadataMapping.fields.length <= 0) {
+            return
+        }
+        this.activeStripeObjectSections = ['standard', 'metadata'];
+        return;
+    }
+
+    setDescription() {
+        
+        switch(this.activeObject) {
+            case 'customer':
+              this.activeObjectDescription = 'Customer objects allow you to perform recurring charges, and to track multiple charges, that are associated with the same customer. The API allows you to create, delete, and update your customers. You can retrieve individual customers as well as a list of all your customers.';
+              break;
+            case 'product':
+                this.activeObjectDescription = 'Products describe the specific goods or services you offer to your customers. For example, you might offer a Standard and Premium version of your goods or service; each version would be a separate Product. They can be used in conjunction with Prices to configure pricing in Checkout and Subscriptions.';
+                break;
+            case 'subscription':
+                this.activeObjectDescription = 'A subscription schedule allows you to create and manage the lifecycle of a subscription by predefining expected changes.';
+                break;
+            case 'subscription-item':
+                this.activeObjectDescription = 'Subscription items allow you to create customer subscriptions with more than one plan, making it easy to represent complex billing relationships.';
+                break;
+            case 'price':
+                this.activeObjectDescription = 'Prices define the unit cost, currency, and (optional) billing cycle for both recurring and one-time purchases of products.';
+                break;
+            default:
+                return;
+        }
+        
+        return;
+
     }
 
     openStripeApi(event) {
@@ -494,6 +583,7 @@ export default class DataMappingStep extends LightningElement {
     }
 
     @api async connectedCallback() {
+        this.setDescription();
         this.dispatchEvent(new CustomEvent('contentloading'));
         try {
             const getFormattedStripeObjects = await getFormattedStripeObjectFields();
@@ -514,6 +604,9 @@ export default class DataMappingStep extends LightningElement {
             this.showToast(errorMessage, 'error');
         } finally {
             this.activeObject = 'customer';
+            this.activeStripeObjectMappings = this.stripeCustomerMappings;
+            this.activeStripeObjectMetadataFields = this.customerMetadataFields;
+            this.activeStripeObjectSections = this.defaultCustomerSections;
         }
     }
 
@@ -683,19 +776,8 @@ export default class DataMappingStep extends LightningElement {
                 }
             }
         }
-        // Open 'Metadata' mapping section if metadata mappings exist
-        if (metadataFieldList.length > 0) {
-            const snakeToCamel = str =>
-                str.toLowerCase().replace(/([-_][a-z])/g, group =>
-                    group
-                    .toUpperCase()
-                    .replace('-', '')
-                    .replace('_', '')
-                );
-            const stripeObjectLabel  = stripeObject.charAt(0).toUpperCase() + snakeToCamel(stripeObject.slice(1));
-            const openSectionsPropertyName = 'default' + stripeObjectLabel + 'Sections';
-            this[openSectionsPropertyName] = ['standard', 'metadata'];
-        }
+        this.openActiveSection();
+        
     }
 
     getFieldObject(name, value, type, defaultValue, hasOverride, staticValue, sfValue, sfValueType) {

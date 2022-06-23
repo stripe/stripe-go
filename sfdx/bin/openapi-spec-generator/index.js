@@ -42,6 +42,8 @@ const excludedFields = {
         'product',
         'product_data'
     ],
+
+    subscription_schedule_phase: []
 }
 
 const ListOfStripeObjects = [
@@ -63,6 +65,10 @@ let openApiSpec = '';
 
 function extractStripeObject(openApiSpec, stripeObjectType) {
     return openApiSpec['paths'][`/v1/${stripeObjectType}s`]['post']['requestBody']['content']['application/x-www-form-urlencoded']['schema']['properties'];
+}
+
+function extractSubscriptionPhaseObject(openApiSpec) {
+    return extractStripeObject(openApiSpec, 'subscription_schedule')['phases']['items']['properties'];
 }
 
 // TODO we should use async/await here instead
@@ -96,6 +102,9 @@ const HTTPREQUEST = HTTPS.request(OPTIONS, HttpResponse => {
             }
 
             formattedStripeObjectsForMapper['formattedStripe' + convertedObjectName + 'Fields'] = formatStripeObjectsForMapper(extractStripeObject(openApiSpec, stripeObject), excludedFields[stripeObject], convertedObjectName.charAt(0).toLowerCase() + convertedObjectName.slice(1));
+            if (stripeObject === 'subscription_item') {
+                formattedStripeObjectsForMapper['formattedStripeSubscriptionSchedulePhaseFields'] = formatStripeObjectsForMapper(extractSubscriptionPhaseObject(openApiSpec), excludedFields['subscription_schedule_phase'], 'subscriptionSchedulePhase');
+            }
 
         }
         formattedStripeObjectsForMapper = JSON.stringify(formattedStripeObjectsForMapper);
@@ -335,7 +344,7 @@ function getNewFieldObject(fieldName, fieldValue) {
     return fieldMap;
 }
 
-//finds all object paths to the key based on the object passed in 
+//finds all object paths to the key based on the object passed in
 function getAllPaths(obj, key, prev = '') {
     try {
         const result = []
