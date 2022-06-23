@@ -89,7 +89,7 @@ const (
 	PaymentMethodTypeOXXO             PaymentMethodType = "oxxo"
 	PaymentMethodTypeP24              PaymentMethodType = "p24"
 	PaymentMethodTypePayNow           PaymentMethodType = "paynow"
-	PaymentMethodTypePromptpay        PaymentMethodType = "promptpay"
+	PaymentMethodTypePromptPay        PaymentMethodType = "promptpay"
 	PaymentMethodTypeSepaDebit        PaymentMethodType = "sepa_debit"
 	PaymentMethodTypeSofort           PaymentMethodType = "sofort"
 	PaymentMethodTypeUSBankAccount    PaymentMethodType = "us_bank_account"
@@ -260,7 +260,7 @@ type PaymentMethodP24Params struct {
 type PaymentMethodPayNowParams struct{}
 
 // If this is a `promptpay` PaymentMethod, this hash contains details about the PromptPay payment method.
-type PaymentMethodPromptpayParams struct{}
+type PaymentMethodPromptPayParams struct{}
 
 // Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
 type PaymentMethodRadarOptionsParams struct {
@@ -349,7 +349,7 @@ type PaymentMethodParams struct {
 	// If this is a `paynow` PaymentMethod, this hash contains details about the PayNow payment method.
 	PayNow *PaymentMethodPayNowParams `form:"paynow"`
 	// If this is a `promptpay` PaymentMethod, this hash contains details about the PromptPay payment method.
-	Promptpay *PaymentMethodPromptpayParams `form:"promptpay"`
+	PromptPay *PaymentMethodPromptPayParams `form:"promptpay"`
 	// Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
 	RadarOptions *PaymentMethodRadarOptionsParams `form:"radar_options"`
 	// This is a legacy parameter that will be removed in the future. It is a hash that does not accept any keys.
@@ -590,7 +590,7 @@ type PaymentMethodP24 struct {
 	Bank string `json:"bank"`
 }
 type PaymentMethodPayNow struct{}
-type PaymentMethodPromptpay struct{}
+type PaymentMethodPromptPay struct{}
 
 // Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
 type PaymentMethodRadarOptions struct {
@@ -694,7 +694,7 @@ type PaymentMethod struct {
 	OXXO      *PaymentMethodOXXO      `json:"oxxo"`
 	P24       *PaymentMethodP24       `json:"p24"`
 	PayNow    *PaymentMethodPayNow    `json:"paynow"`
-	Promptpay *PaymentMethodPromptpay `json:"promptpay"`
+	PromptPay *PaymentMethodPromptPay `json:"promptpay"`
 	// Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
 	RadarOptions *PaymentMethodRadarOptions `json:"radar_options"`
 	SepaDebit    *PaymentMethodSepaDebit    `json:"sepa_debit"`
