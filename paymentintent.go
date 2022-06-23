@@ -1521,6 +1521,8 @@ type PaymentIntentConfirmRadarOptionsParams struct {
 // to learn more about manual confirmation.
 type PaymentIntentConfirmParams struct {
 	Params `form:"*"`
+	// Controls when the funds will be captured from the customer's account.
+	CaptureMethod *string `form:"capture_method"`
 	// Set to `true` to fail the payment attempt if the PaymentIntent transitions into `requires_action`. This parameter is intended for simpler integrations that do not handle customer actions, like [saving cards without authentication](https://stripe.com/docs/payments/save-card-without-authentication).
 	ErrorOnRequiresAction *bool `form:"error_on_requires_action"`
 	// ID of the mandate to be used for this payment.
