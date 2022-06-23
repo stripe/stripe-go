@@ -141,7 +141,8 @@ class SessionsController < ApplicationController
 
   private def build_postmessage_domain(user, raw_namespace)
     salesforce_namespace = subdomain_namespace_from_param(raw_namespace)
-    "https://#{user.sf_subdomain}--#{salesforce_namespace}.visualforce.com"
+    iframe_domain = iframe_domain_from_user(user)
+    "https://#{user.sf_subdomain}--#{salesforce_namespace}.#{iframe_domain}"
   end
 
   private def render_oauth_post_redirect(oauth_type)

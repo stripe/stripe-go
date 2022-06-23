@@ -21,4 +21,13 @@ module ControllerHelpers
       raise "unexpected namespace: #{raw_namespace}"
     end
   end
+
+  sig { params(user: StripeForce::User).returns(String) }
+  protected def iframe_domain_from_user(user)
+    if user.scratch_org?
+      "vf.force.com"
+    else
+      "visualforce.com"
+    end
+  end
 end

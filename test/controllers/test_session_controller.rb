@@ -233,10 +233,11 @@ class SessionsControllerTest < ApplicationIntegrationTest
     user = T.must(StripeForce::User[user.id])
     assert_equal(OmniAuth.config.mock_auth[:stripe]["uid"], user.stripe_account_id)
 
+    # ensures the correct namespace is used for the callback
     assert_includes(response.body, "--c")
   end
 
   it 'updates an existing user with stripe oauth information if the account is already authorized with salesforce' do
-
+    skip("not yet implemented")
   end
 end

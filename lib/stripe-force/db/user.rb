@@ -119,6 +119,10 @@ module StripeForce
       salesforce_instance_type != SFInstanceTypes::PRODUCTION.serialize
     end
 
+    def scratch_org?
+      salesforce_instance_type == SFInstanceTypes::SCRATCH_ORG.serialize
+    end
+
     def in_production?
       livemode && !sandbox?
     end

@@ -38214,16 +38214,6 @@ class StripeForce::User
   def required_mappings(); end
   def salesforce_namespace(); end
 
-  def disable_feature(*args, &blk); end
-
-  def enable_feature(*args, &blk); end
-
-  def feature_enabled?(*args, &blk); end
-
-  def in_production?(); end
-
-  def metadata_prefix(*args, &blk); end
-
   def sandbox?(); end
 
   def sf_client(); end
