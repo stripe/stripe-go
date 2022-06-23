@@ -1,10 +1,10 @@
 /**
- * @description       : 
+ * @description       :
  * @author            : jmather
- * @group             : 
+ * @group             :
  * @last modified on  : 04-28-2021
  * @last modified by  : Jheel
- * Modifications Log 
+ * Modifications Log
  * Ver   Date         Author    Modification
  * 1.0   08-10-2019   jmather   Initial Version
  * 1.1   04-28-2021   Jheel     Added logic to send proper detailed data to Sentry with Breadcrumbs as well
@@ -19,7 +19,7 @@ public with sharing class Sentry_Event {
 
     public String platform = 'salesforce';
 
-    public Map<String, String> sdk = new Map<String, String> { 'name' => 'sentry.apex', 'version' => '1' };
+    public Map<String, String> sdk = new Map<String, String> { 'name' => 'sentry.apex', 'version' => '1.1' };
 
     public String logger;
 
@@ -153,12 +153,12 @@ public with sharing class Sentry_Event {
         if(lExtraMessages != null && !lExtraMessages.isEmpty()) {
             for(Sentry_LogMessage objSLogMessage: lExtraMessages) {
                 Map<String, Object> extraData = Sentry_Context.create();
-                extraData.put('type', objSLogMessage.type);  
-                extraData.put('category', objSLogMessage.category);  
-                extraData.put('level', objSLogMessage.level);  
-                extraData.put('timestamp', objSLogMessage.ts.formatGmt('yyyy-MM-dd') + 'T' + objSLogMessage.ts.formatGmt('HH:mm:ss') + 'Z');  
+                extraData.put('type', objSLogMessage.type);
+                extraData.put('category', objSLogMessage.category);
+                extraData.put('level', objSLogMessage.level);
+                extraData.put('timestamp', objSLogMessage.ts.formatGmt('yyyy-MM-dd') + 'T' + objSLogMessage.ts.formatGmt('HH:mm:ss') + 'Z');
                 extraData.put('message', objSLogMessage.message);
-                
+
                 // Adding extra messages
                 addbreadcrumbs(extraData);
             }
@@ -194,6 +194,7 @@ public with sharing class Sentry_Event {
         msg.put('level', level);
         msg.put('exception', exceptionValues);
         msg.put('breadcrumbs', breadcrumbsValues);
+        msg.put('contexts', contexts);
         return msg;
     }
 }

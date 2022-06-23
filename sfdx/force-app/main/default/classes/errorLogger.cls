@@ -7,6 +7,7 @@ public virtual with sharing class errorLogger {
             if(!Test.isRunningTest())Sentry.record(e);
             return;
         }
+        
         insert new Error_Log__c(
             Dump__c = dump,
             Message__c = message,
@@ -16,6 +17,7 @@ public virtual with sharing class errorLogger {
 
         Integer dmlLimit = Limits.getLimitDMLRows() - Limits.getDMLRows();
 
+        // TODO not good that is done sync, can increase API latency and cause additional points of failure
         if (0 < dmlLimit) {
             delete [SELECT Id
                     FROM Error_Log__c
@@ -42,11 +44,5 @@ public virtual with sharing class errorLogger {
                 }
             }
         });
-    }
-
-    public class StrikeException extends Exception {
-        public override String getStackTraceString() {
-            return super.getCause().getStackTraceString();
-        }
     }
 }

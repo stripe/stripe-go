@@ -12,7 +12,7 @@ public with sharing class test_setupAssistant {
 
         Map<String, Object> resultsMap = (Map<String, Object>)responseMap.get('results');
         System.assert(resultsMap.containsKey('setupData'), '`data` not found');
-    } 
+    }
 
     @isTest
     static public void testUtilities_isCpqEnabled() {
@@ -23,7 +23,7 @@ public with sharing class test_setupAssistant {
     @isTest
     static public void testUtilities_setOrgType() {
         String response = utilities.setOrgType();
-        
+
         Map<String, Object> responseMap = (Map<String, Object>)JSON.deserializeUntyped(response);
         System.assert((Boolean)responseMap.get('isSuccess'), responseMap.get('error'));
         System.assertEquals(true, responseMap.get('isSuccess'));
@@ -40,7 +40,7 @@ public with sharing class test_setupAssistant {
         insertTestConnectedRecord();
 
         Test.startTest();
-        Test.setMock(HttpCalloutMock.class, new stripeConnectionSuccessMock());  
+        Test.setMock(HttpCalloutMock.class, new stripeConnectionSuccessMock());
         String connectedCallbackResponse = setupAssistant.validateConnectionStatus(true, '');
         Test.stopTest();
 
@@ -54,12 +54,12 @@ public with sharing class test_setupAssistant {
 
     @isTest
     static public void testSetupAssistant_connected() {
-        Setup_Connection_Data__mdt testSetupData = getTestStripeConnectionKey();    
+        Setup_Connection_Data__mdt testSetupData = getTestStripeConnectionKey();
         setTestGlobalKey(testSetupData);
         insertTestConnectedRecord();
 
         Test.startTest();
-        Test.setMock(HttpCalloutMock.class, new stripeConnectionSuccessMock());  
+        Test.setMock(HttpCalloutMock.class, new stripeConnectionSuccessMock());
         String response = setupAssistant.validateConnectionStatus(true, '');
         Test.stopTest();
 
@@ -72,12 +72,12 @@ public with sharing class test_setupAssistant {
 
     @isTest
     static public void testSetupAssistant_stripeNotConnected() {
-        Setup_Connection_Data__mdt testSetupData = getTestStripeConnectionKey(); 
+        Setup_Connection_Data__mdt testSetupData = getTestStripeConnectionKey();
         setTestGlobalKey(testSetupData);
         insertTestConnectedRecord();
 
         Test.startTest();
-        Test.setMock(HttpCalloutMock.class, new stripeNotConnectedMock());  
+        Test.setMock(HttpCalloutMock.class, new stripeNotConnectedMock());
         String stripeResponse = setupAssistant.validateConnectionStatus(false, 'stripe');
         Test.stopTest();
 
@@ -91,12 +91,12 @@ public with sharing class test_setupAssistant {
 
     @isTest
     static public void testSetupAssistant_salesforceNotConnected() {
-        Setup_Connection_Data__mdt testSetupData = getTestStripeConnectionKey();    
+        Setup_Connection_Data__mdt testSetupData = getTestStripeConnectionKey();
         setTestGlobalKey(testSetupData);
         insertTestConnectedRecord();
 
         Test.startTest();
-        Test.setMock(HttpCalloutMock.class, new stripeNotConnectedMock());  
+        Test.setMock(HttpCalloutMock.class, new stripeNotConnectedMock());
         String salesforceResponse = setupAssistant.validateConnectionStatus(false, 'salesforce');
         Test.stopTest();
 
@@ -117,25 +117,18 @@ public with sharing class test_setupAssistant {
         Setup_Connection_Data__mdt testSetupData = getTestStripeConnectionKey();
         setTestGlobalKey(testSetupData);
 
-        List<CronTrigger> scheduledBatchJobList = [SELECT id, CronJobDetail.Name 
-                                                   FROM CronTrigger 
-                                                   WHERE CronJobDetail.Name LIKE 'Stripe%'];
-        if (!scheduledBatchJobList.isEmpty()) {
-            for (CronTrigger scheduledBatchJob : scheduledBatchJobList){
-                System.abortJob(scheduledBatchJob.id);
-            }
-        }
+        scheduleSyncRecordDeletion.abortStripeCronJobs();
 
         Test.startTest();
-        Test.setMock(HttpCalloutMock.class, new stripeConnectionSuccessMock());  
+        Test.setMock(HttpCalloutMock.class, new stripeConnectionSuccessMock());
         String response = setupAssistant.validateConnectionStatus(true, '');
         Test.stopTest();
-        
+
         Map<String, Object> responseMap = (Map<String, Object>)JSON.deserializeUntyped(response);
         System.assert((Boolean)responseMap.get('isSuccess'), responseMap.get('error'));
         Map<String, Object> resultsMap = (Map<String, Object>)responseMap.get('results');
 
-        Stripe_Connection__c stripeConnectRec = Stripe_Connection__c.getOrgDefaults();  
+        Stripe_Connection__c stripeConnectRec = Stripe_Connection__c.getOrgDefaults();
         System.assertNotEquals(stripeConnectRec.Id, null);
         System.assertNotEquals(stripeConnectRec.API_Key__c, null);
     }
@@ -191,14 +184,14 @@ public with sharing class test_setupAssistant {
         insertTestConnectedRecord();
 
         Test.startTest();
-        Test.setMock(HttpCalloutMock.class, new stripeSuccessMock());  
+        Test.setMock(HttpCalloutMock.class, new stripeSuccessMock());
         String response = setupAssistant.saveMappingConfigurations('test');
         Map<String, Object> responseMap = (Map<String, Object>)JSON.deserializeUntyped(response);
         Test.stopTest();
         System.assert((Boolean)responseMap.get('isSuccess'), responseMap.get('error'));
-        
+
         Map<String, Object> resultsMap = (Map<String, Object>)responseMap.get('results');
-        System.assertEquals((Boolean)resultsMap.get('isConfigSaved'), true); 
+        System.assertEquals((Boolean)resultsMap.get('isConfigSaved'), true);
     }
 
     @isTest
@@ -208,15 +201,15 @@ public with sharing class test_setupAssistant {
         insertTestConnectedRecord();
 
         Test.startTest();
-        Test.setMock(HttpCalloutMock.class, new stripeConnectFailMock());  
+        Test.setMock(HttpCalloutMock.class, new stripeConnectFailMock());
         String response = setupAssistant.saveMappingConfigurations('test');
         Map<String, Object> responseMap = (Map<String, Object>)JSON.deserializeUntyped(response);
         Test.stopTest();
-        
+
         System.assertEquals((Boolean)responseMap.get('isSuccess'), true);
 
         Map<String, Object> resultsMap = (Map<String, Object>)responseMap.get('results');
-        System.assertEquals((Boolean)resultsMap.get('isConfigSaved'), false); 
+        System.assertEquals((Boolean)resultsMap.get('isConfigSaved'), false);
     }
 
     @isTest
@@ -226,7 +219,7 @@ public with sharing class test_setupAssistant {
         insertTestConnectedRecord();
 
         Test.startTest();
-        Test.setMock(HttpCalloutMock.class, new stripeSuccessMock());  
+        Test.setMock(HttpCalloutMock.class, new stripeSuccessMock());
         String response = setupAssistant.getMappingConfigurations();
         Map<String, Object> responseMap = (Map<String, Object>)JSON.deserializeUntyped(response);
         Test.stopTest();
@@ -254,7 +247,7 @@ public with sharing class test_setupAssistant {
         insertTestConnectedRecord();
 
         Test.startTest();
-        Test.setMock(HttpCalloutMock.class, new stripeConnectFailMock());  
+        Test.setMock(HttpCalloutMock.class, new stripeConnectFailMock());
         String response = setupAssistant.getMappingConfigurations();
         Map<String, Object> responseMap = (Map<String, Object>)JSON.deserializeUntyped(response);
         Test.stopTest();
@@ -269,7 +262,7 @@ public with sharing class test_setupAssistant {
         insertTestConnectedRecord();
 
         Test.startTest();
-        Test.setMock(HttpCalloutMock.class, new stripeSuccessMock());  
+        Test.setMock(HttpCalloutMock.class, new stripeSuccessMock());
         String response = setupAssistant.getFormattedStripeObjectFields();
         Map<String, Object> responseMap = (Map<String, Object>)JSON.deserializeUntyped(response);
         Test.stopTest();
@@ -298,7 +291,7 @@ public with sharing class test_setupAssistant {
         insertTestConnectedRecord();
 
         Test.startTest();
-        Test.setMock(HttpCalloutMock.class, new stripeConnectionSuccessMock());  
+        Test.setMock(HttpCalloutMock.class, new stripeConnectionSuccessMock());
         String response = setupAssistant.getSyncPreferences();
         Map<String, Object> responseMap = (Map<String, Object>)JSON.deserializeUntyped(response);
         Test.stopTest();
@@ -351,7 +344,7 @@ public with sharing class test_setupAssistant {
         insert testSyncRecord;
 
         Test.startTest();
-        Test.setMock(HttpCalloutMock.class, new stripeSuccessMock());  
+        Test.setMock(HttpCalloutMock.class, new stripeSuccessMock());
         String response = setupAssistant.manualRetry(testSyncRecord.Id);
         Map<String, Object> responseMap = (Map<String, Object>)JSON.deserializeUntyped(response);
         Test.stopTest();
@@ -367,7 +360,7 @@ public with sharing class test_setupAssistant {
         insertTestConnectedRecord();
 
         Test.startTest();
-        Test.setMock(HttpCalloutMock.class, new stripeConnectionSuccessMock());  
+        Test.setMock(HttpCalloutMock.class, new stripeConnectionSuccessMock());
         String response = setupAssistant.saveSyncPreferences('TEST','10000', '1644854972', '95', 'monthly');
         Map<String, Object> responseMap = (Map<String, Object>)JSON.deserializeUntyped(response);
         Test.stopTest();
@@ -382,7 +375,7 @@ public with sharing class test_setupAssistant {
         insertTestConnectedRecord();
 
         Test.startTest();
-        Test.setMock(HttpCalloutMock.class, new stripeConnectionSuccessMock());  
+        Test.setMock(HttpCalloutMock.class, new stripeConnectionSuccessMock());
         String response = setupAssistant.getFilterSettings();
         Map<String, Object> responseMap = (Map<String, Object>)JSON.deserializeUntyped(response);
         Test.stopTest();
@@ -395,7 +388,7 @@ public with sharing class test_setupAssistant {
         System.assertEquals('testAccountFilter', (String)resultsMap.get('Account'));
         System.assertEquals('testProduct2Filter', (String)resultsMap.get('Product2'));
     }
-    
+
     @isTest
     static public void testSetupAssistant_failSaveFilterSettings() {
         Setup_Connection_Data__mdt testSetupData = getTestStripeConnectionKey();
@@ -403,7 +396,7 @@ public with sharing class test_setupAssistant {
         insertTestConnectedRecord();
 
         Test.startTest();
-        Test.setMock(HttpCalloutMock.class, new stripeConnectionSuccessMock());  
+        Test.setMock(HttpCalloutMock.class, new stripeConnectionSuccessMock());
         String response = setupAssistant.saveFilterSettings('Id != null', 'Ids != null', '');
         Map<String, Object> responseMap = (Map<String, Object>)JSON.deserializeUntyped(response);
         Test.stopTest();
@@ -422,7 +415,7 @@ public with sharing class test_setupAssistant {
         insertTestConnectedRecord();
 
         Test.startTest();
-        Test.setMock(HttpCalloutMock.class, new stripeConnectionSuccessMock());  
+        Test.setMock(HttpCalloutMock.class, new stripeConnectionSuccessMock());
         String response = setupAssistant.saveFilterSettings('Id != null', 'Id != null', 'Id != null');
         Map<String, Object> responseMap = (Map<String, Object>)JSON.deserializeUntyped(response);
         Test.stopTest();
@@ -441,7 +434,7 @@ public with sharing class test_setupAssistant {
         insertTestConnectedRecord();
 
         Test.startTest();
-        Test.setMock(HttpCalloutMock.class, new stripeSuccessMock());  
+        Test.setMock(HttpCalloutMock.class, new stripeSuccessMock());
         String response = setupAssistant.syncAllRecords('Product2');
         Map<String, Object> responseMap = (Map<String, Object>)JSON.deserializeUntyped(response);
         Test.stopTest();
@@ -466,21 +459,21 @@ public with sharing class test_setupAssistant {
 
     public static void setTestGlobalKey(Setup_Connection_Data__mdt testSetupData) {
         List<Setup_Connection_Data__mdt> setupConfigList = [SELECT Global_Key__c
-                                                            FROM Setup_Connection_Data__mdt];  
+                                                            FROM Setup_Connection_Data__mdt];
         if(!setupConfigList.isEmpty()) {
             utilities.setupConfigMetadata[0] = testSetupData;
             setupAssistant.setupConfigMetadata[0] = testSetupData;
         } else {
             utilities.setupConfigMetadata.add(testSetupData);
-            setupAssistant.setupConfigMetadata.add(testSetupData);  
+            setupAssistant.setupConfigMetadata.add(testSetupData);
         }
     }
 
     public static void insertTestConnectedRecord() {
-        Stripe_Connection__c stripeConnectRec = new Stripe_Connection__c(); 
+        Stripe_Connection__c stripeConnectRec = new Stripe_Connection__c();
         stripeConnectRec.Stripe_Connected__c = true;
         stripeConnectRec.Salesforce_Connected__c = true;
-        stripeConnectRec.API_Key__c = 'testPackageGUID'; 
+        stripeConnectRec.API_Key__c = 'testPackageGUID';
         insert stripeConnectRec;
     }
 
@@ -495,18 +488,18 @@ public with sharing class test_setupAssistant {
         System.assert((Boolean)responseMap.get('isSuccess'), responseMap.get('error'));
 
         Map<String, Object> resultsMap = (Map<String, Object>)responseMap.get('results');
-       
+
         Map<String, Object> permissionIssueMap = (Map<String, Object>)resultsMap.get('permissionIssueMap');
 
-        Boolean isIntegrationPermSetAssigned = [SELECT count() FROM PermissionSetAssignment 
-                                                WHERE AssigneeId = :Userinfo.getUserId() 
-                                                AND PermissionSet.Name = 'Stripe_Connector_Integration_User' 
+        Boolean isIntegrationPermSetAssigned = [SELECT count() FROM PermissionSetAssignment
+                                                WHERE AssigneeId = :Userinfo.getUserId()
+                                                AND PermissionSet.Name = 'Stripe_Connector_Integration_User'
                                                 WITH SECURITY_ENFORCED
                                                 LIMIT 1] > 0;
         System.assertEquals(isIntegrationPermSetAssigned, (Boolean)permissionIssueMap.get('isPermSetAssigned'));
         if((Boolean)permissionIssueMap.get('isObjectPermissionMissing')) {
             System.assertNotEquals(null, permissionIssueMap.get('missingObjectPermissionList'));
-        } 
+        }
     }
 
     private class stripeConnectionSuccessMock implements HttpCalloutMock {
@@ -519,9 +512,9 @@ public with sharing class test_setupAssistant {
             if(!String.isEmpty(constants.NAMESPACE_API)) {
                 System.assertEquals(req.getHeader('Package-Id'), (String)utilities.getPackageVersion());
             }
-            
+
             if(req.getEndpoint().endsWith('configuration')) {
-                Stripe_Connection__c stripeConnectRec = Stripe_Connection__c.getOrgDefaults();   
+                Stripe_Connection__c stripeConnectRec = Stripe_Connection__c.getOrgDefaults();
                 System.assertEquals(req.getHeader('Salesforce-Key'), (String)stripeConnectRec.API_Key__c);
                 Map<String,Object> responseBody = new Map<String,Object>();
                 responseBody.put('connection_status', (Object)new Map<String,Object>{
@@ -540,21 +533,21 @@ public with sharing class test_setupAssistant {
                         'Product2' => 'testProduct2Filter',
                         'Order' => 'testOrderFilter',
                         'Account' => 'testAccountFilter'
-                    } 
+                    }
                 });
-    
+
                 res.setBody(Json.serialize(responseBody));
                 res.setStatusCode(200);
-            } 
+            }
             if(req.getEndpoint().endsWith('post-install')) {
                 List<Setup_Connection_Data__mdt> setupConfigList = [SELECT Global_Key__c
-                                                                    FROM Setup_Connection_Data__mdt];  
+                                                                    FROM Setup_Connection_Data__mdt];
                 if(!setupConfigList.isEmpty()) {
                     System.assertEquals(req.getHeader('Salesforce-Key'), setupConfigList[0].Global_Key__c);
                 } else {
                     System.assertEquals(req.getHeader('Salesforce-Key'), 'testGlobalGUID');
                 }
-                
+
                 res.setStatusCode(200);
             }
             return res;
@@ -570,8 +563,8 @@ public with sharing class test_setupAssistant {
                 if(!String.isEmpty(constants.NAMESPACE_API)) {
                     System.assertEquals(req.getHeader('Package-Id'), (String)utilities.getPackageVersion());
                 }
-                Stripe_Connection__c stripeConnectRec = Stripe_Connection__c.getOrgDefaults();   
-                
+                Stripe_Connection__c stripeConnectRec = Stripe_Connection__c.getOrgDefaults();
+
 
                 if (req.getEndpoint().endsWith('configuration')) {
                     System.assertEquals(req.getHeader('Salesforce-Key'), (String)stripeConnectRec.API_Key__c);
@@ -594,22 +587,22 @@ public with sharing class test_setupAssistant {
                     Map<String,Object> testFieldDefaultMap = new Map<String,Object>();
                     testFieldDefaultMap.put('testFieldDefaultMap', 'test');
                     fieldDefaultMap.put('field_defaults', (Object)testFieldDefaultMap);
-        
+
                     Map<String,Object> responseBody = new Map<String,Object>();
                     responseBody.put('field_mappings', (Object)fieldMap);
                     responseBody.put('default_mappings', (Object)defaultMap);
                     responseBody.put('required_mappings', (Object)requiredMapping);
                     responseBody.put('field_defaults', (Object)fieldDefaultMap);
-        
+
                     res.setBody(Json.serialize(responseBody));
                     res.setStatusCode(200);
                 } else if(req.getEndpoint().endsWith('translate')) {
                     System.assertEquals(req.getHeader('Salesforce-Key'), (String)stripeConnectRec.API_Key__c);
                     Map<String,Object> responseObject = new Map<String,Object>();
-        
+
                     Map<String,Object> responseBody = new Map<String,Object>();
                     responseBody.put('retry_status', (Object)responseObject);
-        
+
                     res.setBody(Json.serialize(responseBody));
                     res.setStatusCode(200);
                 } else if(req.getEndpoint().endsWith('openapi.json')) {
@@ -632,7 +625,7 @@ public with sharing class test_setupAssistant {
                 } else if(req.getEndpoint().endsWith('translate_all')) {
                     res.setStatusCode(200);
                 }
-                
+
                 return res;
             }
         }
@@ -661,10 +654,10 @@ public with sharing class test_setupAssistant {
                             'Account' => 'testAccountFilter'
                         }
                     });
-        
+
                     res.setBody(Json.serialize(responseBody));
                     res.setStatusCode(200);
-                } 
+                }
                 return res;
             }
         }
@@ -672,7 +665,7 @@ public with sharing class test_setupAssistant {
         private class stripeConnectFailMock implements HttpCalloutMock {
             public HttpResponse respond(HttpRequest req) {
                 HttpResponse res = new HttpResponse();
-        
+
                 Map<String,Object> responseBody = new Map<String,Object>();
                 res.setBody(Json.serialize(responseBody));
                 res.setStatusCode(500);

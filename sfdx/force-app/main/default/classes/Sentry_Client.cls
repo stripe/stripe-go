@@ -1,11 +1,12 @@
 /**
- * Created by Jacob Mather <jmather@jmather.com> on 2019-03-18. 
+ * Created by Jacob Mather <jmather@jmather.com> on 2019-03-18.
  * Modified by Stripe on 2022-02-10 (added error handeling)
  */
 
 public with sharing class Sentry_Client {
     private static Sentry_Dsn dsn = Sentry_Config.getDsn();
 
+    @future(callout=true)
     public static void sendEventToSentry(String serializedEvent) {
         HttpRequest req = new HttpRequest();
         req.setEndpoint(Sentry_Config.STRIPE_CONNECTOR_SENTRY_BASE_URL + dsn.projectId + '/store/');
@@ -23,6 +24,7 @@ public with sharing class Sentry_Client {
         Sentry_Log.logSentry('[Sentry_Client.sendEventToSentry] request: ' + req);
 
         HttpResponse resp = new Http().send(req);
+
         Sentry_Log.logSentry('[Sentry_Client.sendEventToSentry] response: ' + resp);
 
         if(resp.getStatusCode() != 200) {
@@ -33,21 +35,23 @@ public with sharing class Sentry_Client {
                  causes = String.valueOf(responseBody.get('causes'));
              } else {
                 causes = 'no cause(s) retruned';
-             }             
+             }
              if(responseBody.get('detail') != null) {
                 detail = String.valueOf(responseBody.get('detail'));
             } else {
                 detail = 'no detail(s) retruned';
             }
-            errorLogger.create('SendToSentryError', String.valueOf(resp.getStatusCode()), 'Detail: '+detail, 'Causes: '+causes); 
-        } 
+
+            // TODO what value does logging this give us? This should probably be removed.
+            errorLogger.create('SendToSentryError', String.valueOf(resp.getStatusCode()), 'Detail: '+detail, 'Causes: '+causes);
+        }
     }
 
     private static void addRequestHeaders(HttpRequest req) {
         Map<String, String> headers = new Map<String, String> {
-                'sentry_version' => '7',
-                'sentry_sdk' => 'sentry.salesforce',
-                'sentry_key' => dsn.publicKey
+            'sentry_version' => '7',
+            'sentry_sdk' => 'sentry.salesforce',
+            'sentry_key' => dsn.publicKey
         };
 
         if (dsn.privateKey != null) {

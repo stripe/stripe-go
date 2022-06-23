@@ -1,9 +1,11 @@
 @isTest
 public with sharing class test_scheduleSyncRecordDeletion {
     @isTest
-    
+
     static public void test_scheduleSyncRecordDeletion() {
-        Stripe_Connection__c stripeConnectRec = new Stripe_Connection__c(); 
+        scheduleSyncRecordDeletion.abortStripeCronJobs();
+
+        Stripe_Connection__c stripeConnectRec = new Stripe_Connection__c();
         stripeConnectRec.Stripe_Connected__c = true;
         stripeConnectRec.Salesforce_Connected__c = true;
         stripeConnectRec.API_Key__c = 'testPackageGUID';
@@ -39,8 +41,8 @@ public with sharing class test_scheduleSyncRecordDeletion {
             Compound_ID__c = '1234566666'
         );
         insert testSyncRecord3;
-        
-        Test.startTest();   
+
+        Test.startTest();
         scheduleSyncRecordDeletion.scheduleJob();
         Test.stopTest();
 

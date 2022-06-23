@@ -1,4 +1,4 @@
-public with sharing class setupAssistant { 
+public with sharing class setupAssistant {
 
      //gets steps completed from setup data to manage/presist states
     @AuraEnabled
@@ -6,12 +6,12 @@ public with sharing class setupAssistant {
         responseData rd = new responseData();
         Boolean isConnected = true;
         try {
-            Stripe_Connection__c stripeConnectRec = Stripe_Connection__c.getOrgDefaults();   
+            Stripe_Connection__c stripeConnectRec = Stripe_Connection__c.getOrgDefaults();
 
             if(stripeConnectRec.Id == null || !stripeConnectRec.Salesforce_Connected__c || !stripeConnectRec.Stripe_Connected__c) {
                 isConnected = false;
             }
-            Set<String> fields = new Set<String> { 
+            Set<String> fields = new Set<String> {
                 'Id',
                 'Steps_Completed__c',
                 'isSetupComplete__c'
@@ -33,14 +33,14 @@ public with sharing class setupAssistant {
             if (String.isEmpty(setupData.Steps_Completed__c)) {
                 setupData.Steps_Completed__c = '{}';
             }
-            
+
             rd.put('setupData', setupData);
         } catch (Exception e) {
             rd.addError(e);
         }
         rd.put('isConnected', isConnected);
         return rd.getJsonString();
-    } 
+    }
 
     //saves steps completed as a setup data record to manage/presist states
     @AuraEnabled
@@ -49,10 +49,10 @@ public with sharing class setupAssistant {
         try {
             if (newSetupDataRec != null) {
                 Setup_Data__c setupData = (Setup_Data__c)utilities.getSobjectByMap(newSetupDataRec, constants.NAMESPACE_API + 'Setup_Data__c');
-            
-                List<Setup_Data__c> data = [SELECT Id, Steps_Completed__c 
-                                            FROM Setup_Data__c 
-                                            WHERE Name = :constants.SETUP_DATA_RECORD_NAME 
+
+                List<Setup_Data__c> data = [SELECT Id, Steps_Completed__c
+                                            FROM Setup_Data__c
+                                            WHERE Name = :constants.SETUP_DATA_RECORD_NAME
                                             WITH SECURITY_ENFORCED];
 
                 if (!data.isEmpty()) {
@@ -69,7 +69,7 @@ public with sharing class setupAssistant {
 
                     //update setup complete flag if true
                     if(isSetupComplete) {
-                        setupData.isSetupComplete__c = true; 
+                        setupData.isSetupComplete__c = true;
                     }
                 }
 
@@ -85,95 +85,97 @@ public with sharing class setupAssistant {
         return rd.getJsonString();
     }
 
-    //validates connection status 
+    // validates connection status
     @AuraEnabled
     public static String validateConnectionStatus(Boolean isConnectedCallback, String systemConnected) {
         responseData rd = new responseData();
+
         try {
-            //gets custom setting record to determin if we are in a sandbox or production org
+            // gets custom setting record to determin if we are in a sandbox or production org
             rd.put('isSandbox', constants.IS_SANDBOX);
             rd.put('salesforceNamespace', constants.NAMESPACE);
 
-            Stripe_Connection__c stripeConnectRec = Stripe_Connection__c.getOrgDefaults();   
+            Stripe_Connection__c stripeConnectRec = Stripe_Connection__c.getOrgDefaults();
 
-            // checks if we have a package-level API key generated
-            if(stripeConnectRec.Id != null) {
-
-                //make callout to ruby services configuration endpoint to see if the org is connected to Stripe and Salesforce
-                String route = constants.RUBY_SERVICE_BASE_URI + '/v1/configuration';
-                HttpResponse response =  utilities.makeCallout(route, 'GET');
-
-                Map<String, Object> errorBody; 
-                Map<String, Object> responseBody;
-
-                /*if we get a 200 response code from the ruby service we will check the connection status object
-                in the payload to determine weather the user successfully connected to stripe or not*/
-                if(response.getStatusCode() == 200) {
-                    responseBody = (Map<String,Object>)JSON.deserializeUntyped(response.getBody());
-                    
-                    //get connection status values from response
-                    Map<String, Object> connectionStatus = (Map<String,Object>)responseBody.get('connection_status');
-                    stripeConnectRec.Stripe_Connected__c = (Boolean)connectionStatus.get('stripe');
-                    stripeConnectRec.Salesforce_Connected__c = (Boolean)connectionStatus.get('salesforce');
-                    
-                    if(isConnectedCallback) {
-                        if(!(Boolean)connectionStatus.get('salesforce')) {
-                            rd.put('isSalesforceConnected','salesforceDisconnected');
-                        } else {
-                            rd.put('isSalesforceConnected','salesforceConnected');
-                        }
-
-                        if(!(Boolean)connectionStatus.get('stripe')) {
-                            rd.put('isStripeConnected','stripeDisconnected');
-                        } else {
-                            rd.put('isStripeConnected','stripeConnected');
-                        }
-                        upsert stripeConnectRec;
-                        return rd.getJsonString();
-
-                    } else {
-                        /*if the response shows they are connected we will udpate the Setup Connection custom setting record to signify they are connected
-                        We return a connection status of freshConnection to determine if we should show a toast message of success or not*/
-                        if(systemConnected == 'stripe') {
-                            if (!(Boolean)connectionStatus.get('stripe')) {
-                                rd.put('isStripeConnected','stripeDisconnected');               
-                            } else {
-                                rd.put('isStripeConnected','freshConnection');
-                            }
-                            upsert stripeConnectRec;
-                            return rd.getJsonString();
-                        }
-                        
-                        if(systemConnected == 'salesforce') {
-                            if (!(Boolean)connectionStatus.get('salesforce')) {
-                                rd.put('isSalesforceConnected','salesforceDisconnected');
-                            } else {
-                                rd.put('isSalesforceConnected','freshConnection');
-                            }
-                            upsert stripeConnectRec;
-                            return rd.getJsonString();
-                        }
-                    }
-
-                } else {
-                    /*if we do not get a 200 status code back we create an Error Log record to show we did not get a success
-                    response from the ruby service and send a status of failed to signify to show an error toast*/
-                    rd.put('isStripeConnected','failed');
-                    rd.put('isSalesforceConnected','failed');
-                    errorLogger.create('validateConnectionStatus', String.valueOf(response.getStatusCode()), (String)response.getStatus(), 'Failed to get connection status from Ruby service.');
-                    return rd.getJsonString();
-                }
-
-            } else {
-                //if there is no org default record we will generate the package key and create the record
-                rd.put('isStripeConnected','stripeDisconnected');
-                rd.put('isSalesforceConnected','salesforceDisconnected');  
+            // checks if we have a org-level API key generated, if we don't we should generate one
+            if(stripeConnectRec.Id == null) {
+                // NOTE this is a VERY important line! `generatePackageKey` makes another callout and persists the organization-specific API key
+                // on the ruby service. This key is also persisted locally within the salesforce account.
                 utilities.generatePackageKey(stripeConnectRec);
+
+                rd.put('isStripeConnected','stripeDisconnected');
+                rd.put('isSalesforceConnected','salesforceDisconnected');
                 return rd.getJsonString();
             }
+
+            // make callout to ruby services configuration endpoint to see if the org is connected to Stripe and Salesforce
+            String route = constants.RUBY_SERVICE_BASE_URI + '/v1/configuration';
+            HttpResponse response = utilities.makeCallout(route, 'GET');
+
+            Map<String, Object> errorBody;
+            Map<String, Object> responseBody;
+
+            /*
+            if we do not get a 200 status code back we create an Error Log record to show we did not get a success
+            response from the ruby service and send a status of failed to signify to show an error toast
+            */
+            if(response.getStatusCode() != 200) {
+                rd.put('isStripeConnected','failed');
+                rd.put('isSalesforceConnected','failed');
+                errorLogger.create('validateConnectionStatus', String.valueOf(response.getStatusCode()), (String)response.getStatus(), 'Failed to get connection status from Ruby service.');
+                return rd.getJsonString();
+            }
+
+            /*
+            if we get a 200 response code from the ruby service we will check the connection status object
+            in the payload to determine weather the user successfully connected to stripe or not
+            */
+            responseBody = (Map<String,Object>)JSON.deserializeUntyped(response.getBody());
+
+            //get connection status values from response
+            Map<String, Object> connectionStatus = (Map<String,Object>)responseBody.get('connection_status');
+            stripeConnectRec.Stripe_Connected__c = (Boolean)connectionStatus.get('stripe');
+            stripeConnectRec.Salesforce_Connected__c = (Boolean)connectionStatus.get('salesforce');
+
+            // TODO why do we care if it's a connected callback? Why can't we just return the same data regardless?
+            if(isConnectedCallback) {
+                // TODO why do we need distinct strings here for the status? Can't we just pass a boolean?
+                if(!(Boolean)connectionStatus.get('salesforce')) {
+                    rd.put('isSalesforceConnected','salesforceDisconnected');
+                } else {
+                    rd.put('isSalesforceConnected','salesforceConnected');
+                }
+
+                // TODO same Q here: why can't we just use a boolean here?
+                if(!(Boolean)connectionStatus.get('stripe')) {
+                    rd.put('isStripeConnected','stripeDisconnected');
+                } else {
+                    rd.put('isStripeConnected','stripeConnected');
+                }
+            } else {
+                /*if the response shows they are connected we will udpate the Setup Connection custom setting record to signify they are connected
+                We return a connection status of freshConnection to determine if we should show a toast message of success or not*/
+                if(systemConnected == 'stripe') {
+                    if (!(Boolean)connectionStatus.get('stripe')) {
+                        rd.put('isStripeConnected','stripeDisconnected');
+                    } else {
+                        rd.put('isStripeConnected','freshConnection');
+                    }
+                } else if(systemConnected == 'salesforce') {
+                    if (!(Boolean)connectionStatus.get('salesforce')) {
+                        rd.put('isSalesforceConnected','salesforceDisconnected');
+                    } else {
+                        rd.put('isSalesforceConnected','freshConnection');
+                    }
+                }
+            }
+
+            upsert stripeConnectRec;
+            return rd.getJsonString();
         } catch (Exception e) {
             rd.addError(e);
         }
+
         return rd.getJsonString();
     }
 
@@ -183,25 +185,25 @@ public with sharing class setupAssistant {
         responseData rd = new responseData();
         Boolean isConnected = false;
         try {
-            Stripe_Connection__c stripeConnectRec = Stripe_Connection__c.getOrgDefaults();   
+            Stripe_Connection__c stripeConnectRec = Stripe_Connection__c.getOrgDefaults();
 
-            if(stripeConnectRec.Id != null && stripeConnectRec.Salesforce_Connected__c && stripeConnectRec.Stripe_Connected__c) {  
+            if(stripeConnectRec.Id != null && stripeConnectRec.Salesforce_Connected__c && stripeConnectRec.Stripe_Connected__c) {
                 isConnected = true;
                 if(isConnectedCallback == true) {
-                    //builds a map of fields lists by object    
+                    //builds a map of fields lists by object
                     Map<String, Set<Object>> fieldListByObjectMap = new Map<String, Set<Object>>{
                         'OrderItem' => utilities.getListOfFieldsByObject('OrderItem'),
                         'Order' => utilities.getListOfFieldsByObject('Order'),
                         'Account' => utilities.getListOfFieldsByObject('Account'),
                         'Product2' => utilities.getListOfFieldsByObject('Product2'),
                         'PricebookEntry' => utilities.getListOfFieldsByObject('PricebookEntry')
-                    };   
+                    };
                     rd.put('fieldListByObjectMap', fieldListByObjectMap);
                 } else {
                     rd.put('ObjectApiName', ObjectApiName);
                     rd.put('listOfObjectFields', utilities.getListOfFieldsByObject(ObjectApiName));
                 }
-            } 
+            }
         } catch (Exception e) {
             rd.addError(e);
         }
@@ -219,10 +221,10 @@ public with sharing class setupAssistant {
             Map<String,String> headers = new Map<String,String> {
                 'Salesforce-Key' => ''
             };
-    
+
             String route = constants.RUBY_SERVICE_BASE_URI + '/openapi.json';
             HttpResponse response =  utilities.makeCallout(route,'GET', headers);
-            
+
             Map<String, Object> responseBody;
             if(response.getStatusCode() == 200) {
                 responseBody = (Map<String, Object>)JSON.deserializeUntyped(response.getBody());
@@ -234,8 +236,7 @@ public with sharing class setupAssistant {
             } else {
                 errorLogger.create('getFormattedStripeObjectFields', String.valueOf(response.getStatusCode()), (String)response.getStatus(), 'Failed to get mapping configuration from ruby service.');
             }
-            
-        } catch (Exception e) {     
+        } catch (Exception e) {
             rd.addError(e);
         }
         return rd.getJsonString();
@@ -247,34 +248,34 @@ public with sharing class setupAssistant {
         responseData rd = new responseData();
         Boolean isConnected = false;
         try {
-            Stripe_Connection__c stripeConnectRec = Stripe_Connection__c.getOrgDefaults();   
+            Stripe_Connection__c stripeConnectRec = Stripe_Connection__c.getOrgDefaults();
 
             if(stripeConnectRec.Id != null && stripeConnectRec.Salesforce_Connected__c && stripeConnectRec.Stripe_Connected__c) {
                 //used to store configuration maps from response
                 Map<String, Object> allMappingConfigurations = new Map<String, Object>();
 
                 //construct call out to rubys configuration endpoint
-                isConnected = true;           
+                isConnected = true;
                 String route = constants.RUBY_SERVICE_BASE_URI + '/v1/configuration';
                 HttpResponse response =  utilities.makeCallout(route,'GET');
 
-                //if the call out is successful pull out all mapping objects and add to list 
+                //if the call out is successful pull out all mapping objects and add to list
                 Map<String, Object> responseBody;
                 if(response.getStatusCode() == 200) {
                     responseBody = (Map<String,Object>)JSON.deserializeUntyped(response.getBody());
 
                     Map<String, Object> fieldMappingsMap = (Map<String,Object>)responseBody.get('field_mappings');
-                    if (fieldMappingsMap != null && !fieldMappingsMap.isEmpty()) { 
+                    if (fieldMappingsMap != null && !fieldMappingsMap.isEmpty()) {
                         allMappingConfigurations.put('field_mappings', fieldMappingsMap);
                     }
 
                     Map<String, Object> defaultMappingsMap = (Map<String,Object>)responseBody.get('default_mappings');
-                    if (defaultMappingsMap != null && !defaultMappingsMap.isEmpty()) { 
+                    if (defaultMappingsMap != null && !defaultMappingsMap.isEmpty()) {
                         allMappingConfigurations.put('default_mappings', defaultMappingsMap);
                     }
 
                     Map<String, Object> requiredMappingsMap = (Map<String,Object>)responseBody.get('required_mappings');
-                    if (requiredMappingsMap != null && !requiredMappingsMap.isEmpty()) { 
+                    if (requiredMappingsMap != null && !requiredMappingsMap.isEmpty()) {
                         allMappingConfigurations.put('required_mappings', requiredMappingsMap);
                     }
 
@@ -282,27 +283,27 @@ public with sharing class setupAssistant {
                     if (fieldDefaultsMappingsMap != null  && !fieldDefaultsMappingsMap.isEmpty()) {
                         allMappingConfigurations.put('field_defaults', fieldDefaultsMappingsMap);
                     }
-                    rd.put('allMappingConfigurations', allMappingConfigurations); 
-                    
+                    rd.put('allMappingConfigurations', allMappingConfigurations);
+
                 } else {
                     errorLogger.create('getMappingConfigurations', String.valueOf(response.getStatusCode()), (String)response.getStatus(), 'Failed to get mapping configuration from ruby service.');
                 }
-            } 
-        } catch (Exception e) {     
+            }
+        } catch (Exception e) {
             rd.addError(e);
         }
-        rd.put('isConnected',isConnected);    
+        rd.put('isConnected',isConnected);
         return rd.getJsonString();
     }
 
-    //saves mappings and sends them to the ruby service to store 
+    //saves mappings and sends them to the ruby service to store
     @AuraEnabled
     public static String saveMappingConfigurations(String jsonMappingConfigurationsObject) {
         responseData rd = new responseData();
         Boolean isConfigSaved = false;
         try {
-            Stripe_Connection__c stripeConnectRec = Stripe_Connection__c.getOrgDefaults();  
-            if(stripeConnectRec.Id != null && stripeConnectRec.Salesforce_Connected__c && stripeConnectRec.Stripe_Connected__c) {     
+            Stripe_Connection__c stripeConnectRec = Stripe_Connection__c.getOrgDefaults();
+            if(stripeConnectRec.Id != null && stripeConnectRec.Salesforce_Connected__c && stripeConnectRec.Stripe_Connected__c) {
                 String route = constants.RUBY_SERVICE_BASE_URI + '/v1/configuration';
                 HttpResponse response =  utilities.makeCallout(route,'PUT',jsonMappingConfigurationsObject);
                 if(response.getStatusCode() == 200) {
@@ -324,10 +325,10 @@ public with sharing class setupAssistant {
          responseData rd = new responseData();
          try {
             rd.put('isSandbox', constants.IS_SANDBOX);
-            Stripe_Connection__c stripeConnectRec = Stripe_Connection__c.getOrgDefaults();   
+            Stripe_Connection__c stripeConnectRec = Stripe_Connection__c.getOrgDefaults();
 
-            if(stripeConnectRec.Id == null || !stripeConnectRec.Salesforce_Connected__c || !stripeConnectRec.Stripe_Connected__c) { 
-                rd.put('isConnected', false); 
+            if(stripeConnectRec.Id == null || !stripeConnectRec.Salesforce_Connected__c || !stripeConnectRec.Stripe_Connected__c) {
+                rd.put('isConnected', false);
                 return rd.getJsonString();
             }
 
@@ -335,20 +336,20 @@ public with sharing class setupAssistant {
             String route = constants.RUBY_SERVICE_BASE_URI + '/v1/configuration';
             HttpResponse response =  utilities.makeCallout(route, 'GET');
 
-            Map<String, Object> errorBody; 
+            Map<String, Object> errorBody;
             Map<String, Object> responseBody;
 
             /*if we get a 200 response code from the ruby service we will check the connection status object
             in the payload to determine weather the user successfully connected to stripe or not*/
             if(response.getStatusCode() == 200) {
                 responseBody = (Map<String,Object>)JSON.deserializeUntyped(response.getBody());
-                
+
                 //get connection status values from response
                 Map<String, Object> connectionStatus = (Map<String,Object>)responseBody.get('connection_status');
 
                 //ensure we are still connected
                 if(!(Boolean)connectionStatus.get('stripe') || !(Boolean)connectionStatus.get('salesforce')) {
-                    rd.put('isConnected', false); 
+                    rd.put('isConnected', false);
                     stripeConnectRec.Stripe_Connected__c = (Boolean)connectionStatus.get('stripe');
                     stripeConnectRec.Salesforce_Connected__c = (Boolean)connectionStatus.get('salesforce');
                     upsert stripeConnectRec;
@@ -384,13 +385,13 @@ public with sharing class setupAssistant {
                 for(String readOnlyField : connectionReadOnlyFields) {
                     rd.put(readOnlyField, String.valueOf(connectionStatus.get(readOnlyField)));
                 }
-            } 
-            rd.put('isConnected', true); 
+            }
+            rd.put('isConnected', true);
             rd.put('isCpqInstalled', utilities.isCpqEnabled());
         } catch (Exception e) {
             rd.addError(e);
         }
-        
+
         return rd.getJsonString();
     }
 
@@ -409,12 +410,12 @@ public with sharing class setupAssistant {
                         'value' => ''
                     }
                 };
-                
+
                 /* using a dynamic query here because the currencyType object can only be referenced directly
                 when the multicurrency feature is enabled in the org otherwise we get a type error*/
-                String supportedISOCodesQuery = 'SELECT ISOCode FROM CurrencyType WHERE IsActive = true';              
+                String supportedISOCodesQuery = 'SELECT ISOCode FROM CurrencyType WHERE IsActive = true';
                 List<sObject> supportedISOCodesQueryResults = Database.query(supportedISOCodesQuery);
-                
+
                 //Iterate through the supported currencies to build list of supported ISO code
                 for(sObject supportedISOCode : supportedISOCodesQueryResults) {
                     supportedISOCodes.add(new Map<String, Object> {
@@ -432,12 +433,12 @@ public with sharing class setupAssistant {
         return rd.getJsonString();
     }
 
-    //sends updated sync preference data to the ruby service and saves the values 
+    //sends updated sync preference data to the ruby service and saves the values
     @AuraEnabled
     public static String saveSyncPreferences(String defaultCurrency, String syncRecordRetention, String syncStartDate, String apiPercentageLimit, String cpqTermUnit) {
         responseData rd = new responseData();
         try {
-            Stripe_Connection__c stripeConnectRec = Stripe_Connection__c.getOrgDefaults(); 
+            Stripe_Connection__c stripeConnectRec = Stripe_Connection__c.getOrgDefaults();
             if(stripeConnectRec.Id != null) {
                 Map<String, Object> resquestBody = new Map<String, Object> {
                     'settings' => new Map<String, Object> {
@@ -464,28 +465,28 @@ public with sharing class setupAssistant {
        }
        return rd.getJsonString();
     }
-    
+
     //sends records to be synced to ruby service called from quick action button on record detail page
     @AuraEnabled
     public static String manualRetry(Id recordId) {
         responseData rd = new responseData();
         Boolean isSyncRecordDispactched = false;
         try {
-            Stripe_Connection__c stripeConnectRec = Stripe_Connection__c.getOrgDefaults(); 
-            
-            if(stripeConnectRec.Id != null && stripeConnectRec.Salesforce_Connected__c && stripeConnectRec.Stripe_Connected__c) {  
-                //get sync record information for ruby service 
+            Stripe_Connection__c stripeConnectRec = Stripe_Connection__c.getOrgDefaults();
+
+            if(stripeConnectRec.Id != null && stripeConnectRec.Salesforce_Connected__c && stripeConnectRec.Stripe_Connected__c) {
+                //get sync record information for ruby service
                 List<Sync_Record__c> syncRecordList = [SELECT Id, Primary_Record_ID__c, Secondary_Record_ID__c, Resolution_Status__c, Secondary_Object_Type__c, Primary_Object_Type__c
                                                         FROM Sync_Record__c
                                                         WHERE Resolution_Status__c != 'Resolved'
                                                         AND Id = :recordId
                                                         WITH SECURITY_ENFORCED
-                                                        LIMIT 1];   
+                                                        LIMIT 1];
 
                 if(!syncRecordList.isEmpty()) {
                     Sync_Record__c recordToSync = syncRecordList[0];
                     String route = constants.RUBY_SERVICE_BASE_URI + '/v1/translate';
-            
+
                     Map<String, Object> body = new Map<String, Object>{
                         'object_type' => (String)recordToSync.Primary_Object_Type__c,
                         'object_ids' => new List<String> {
@@ -496,14 +497,14 @@ public with sharing class setupAssistant {
                     HttpResponse response =  utilities.makeCallout(route, 'POST', JSON.serialize(body));
 
                     if(response.getStatusCode() == 200) {
-                        isSyncRecordDispactched = true;           
+                        isSyncRecordDispactched = true;
                     } else {
                         rd.put('isSyncRecordDispactched', false);
                         errorLogger.create('manualRetry', String.valueOf(response.getStatusCode()), (String)response.getStatus(), 'Sync_Record ID that failed: '+(String)recordId);
                     }
                 }
             }
-        } catch (Exception e) {  
+        } catch (Exception e) {
             rd.addError(e);
         }
         rd.put('isSyncRecordDispactched', isSyncRecordDispactched);
@@ -515,9 +516,9 @@ public with sharing class setupAssistant {
      public static String getFilterSettings() {
          responseData rd = new responseData();
          try {
-            Stripe_Connection__c stripeConnectRec = Stripe_Connection__c.getOrgDefaults();   
+            Stripe_Connection__c stripeConnectRec = Stripe_Connection__c.getOrgDefaults();
 
-            if (stripeConnectRec.Id == null || !stripeConnectRec.Salesforce_Connected__c || !stripeConnectRec.Stripe_Connected__c) {  
+            if (stripeConnectRec.Id == null || !stripeConnectRec.Salesforce_Connected__c || !stripeConnectRec.Stripe_Connected__c) {
                 rd.put('isConnected', false);
                 return rd.getJsonString();
             }
@@ -526,14 +527,14 @@ public with sharing class setupAssistant {
             //make callout to ruby services configuration endpoint to get stored stripe setting values
             String route = constants.RUBY_SERVICE_BASE_URI + '/v1/configuration';
             HttpResponse response =  utilities.makeCallout(route, 'GET');
-            
-            if(response.getStatusCode() != 200) { 
+
+            if(response.getStatusCode() != 200) {
                 errorLogger.create('getFilterSettings', String.valueOf(response.getStatusCode()), (String)response.getStatus(), '');
                 rd.put('isConnected', false);
                 return rd.getJsonString();
             }
             Map<String, Object> responseBody = (Map<String,Object>)JSON.deserializeUntyped(response.getBody());
-            
+
             //get connection status values from response
             Map<String, Object> connectionStatus = (Map<String,Object>)responseBody.get('connection_status');
 
@@ -568,7 +569,7 @@ public with sharing class setupAssistant {
         return rd.getJsonString();
     }
 
-    //sends updated sync preference data to the ruby service and saves the values 
+    //sends updated sync preference data to the ruby service and saves the values
     @AuraEnabled
     public static String saveFilterSettings(String productFilter, String orderFilter, String accountFiter) {
         responseData rd = new responseData();
@@ -578,27 +579,27 @@ public with sharing class setupAssistant {
                 'Order' => orderFilter,
                 'Account' => accountFiter
             };
-            
+
             List<Map<String, Object>> validationErrorMapList = new List<Map<String, Object>> ();
             //Iterate through filters and run query to ensure they are valid
             for (String objectName : queryFilterMap.keySet()) {
-                
+
                 if (String.isBlank(queryFilterMap.get(objectName)) || queryFilterMap.get(objectName) == null) {
                     queryFilterMap.put(objectName, null);
                     continue;
                 }
-                    
+
                 String whereClause = queryFilterMap.get(objectName);
                 try {
-                    /*Using limit zero in queries so there are no records are returned therefore it 
+                    /*Using limit zero in queries so there are no records are returned therefore it
                     will not count against the total number of rows retrieved salesforce limitation*/
                     List<sObject> sobjList = Database.query('SELECT Id FROM ' + objectName + ' WHERE ' + whereClause + ' WITH SECURITY_ENFORCED LIMIT 0');
                 } catch (QueryException e) {
-                    validationErrorMapList.add(new Map<String, Object> { 
+                    validationErrorMapList.add(new Map<String, Object> {
                         'Object' => objectName,
                         'Error' => String.valueOf(e)
                     });
-                } 
+                }
             }
 
             if (!validationErrorMapList.isEmpty()) {
@@ -608,8 +609,8 @@ public with sharing class setupAssistant {
                 return rd.getJsonString();
             }
 
-            Stripe_Connection__c stripeConnectRec = Stripe_Connection__c.getOrgDefaults(); 
-            if (stripeConnectRec.Id == null || !stripeConnectRec.Salesforce_Connected__c || !stripeConnectRec.Stripe_Connected__c) {  
+            Stripe_Connection__c stripeConnectRec = Stripe_Connection__c.getOrgDefaults();
+            if (stripeConnectRec.Id == null || !stripeConnectRec.Salesforce_Connected__c || !stripeConnectRec.Stripe_Connected__c) {
                 rd.put('isFiltersSaved', false);
                 rd.put('isConnected', false);
                 return rd.getJsonString();
@@ -642,15 +643,15 @@ public with sharing class setupAssistant {
     public static String syncAllRecords(String objectType) {
         responseData rd = new responseData();
         try {
-            Stripe_Connection__c stripeConnectRec = Stripe_Connection__c.getOrgDefaults(); 
-            
-            if (stripeConnectRec.Id == null || !stripeConnectRec.Salesforce_Connected__c || !stripeConnectRec.Stripe_Connected__c) {  
+            Stripe_Connection__c stripeConnectRec = Stripe_Connection__c.getOrgDefaults();
+
+            if (stripeConnectRec.Id == null || !stripeConnectRec.Salesforce_Connected__c || !stripeConnectRec.Stripe_Connected__c) {
                 rd.put('isConnected', false);
                 return rd.getJsonString();
             }
 
             String route = constants.RUBY_SERVICE_BASE_URI + '/v1/translate_all';
-    
+
             Map<String, Object> body = new Map<String, Object>{
                 'object_type' => objectType
             };
@@ -659,14 +660,14 @@ public with sharing class setupAssistant {
 
             if (response.getStatusCode() != 200) {
                 rd.put('syncAllRecordsDispatched', false);
-                errorLogger.create('syncAllRecords', String.valueOf(response.getStatusCode()), (String)response.getStatus(), 'Object type that failed: ' + objectType);  
+                errorLogger.create('syncAllRecords', String.valueOf(response.getStatusCode()), (String)response.getStatus(), 'Object type that failed: ' + objectType);
                 return rd.getJsonString();
-            } 
-            
+            }
+
             rd.put('syncAllRecordsDispatched', true);
             rd.put('isConnected', true);
-         
-        } catch (Exception e) {  
+
+        } catch (Exception e) {
             rd.addError(e);
         }
         return rd.getJsonString();
@@ -677,7 +678,7 @@ public with sharing class setupAssistant {
     public static String checkUserPermissions() {
         responseData rd = new responseData();
         try {
-            //Map for front end state setting 
+            //Map for front end state setting
             Map<String, Object> permissionIssueMap = new Map<String, Object> {
                 'isPermSetAssigned' => false,
                 'isSystemPermissionMissing' => false,
@@ -687,7 +688,7 @@ public with sharing class setupAssistant {
                 'missingSystemPermissionList' => new List<String>()
             };
 
-            //List of Objects to check access on 
+            //List of Objects to check access on
             List<String> listOfObjectsToCheckAccessOn = new List<String> {
                 'Account',
                 'Product2',
@@ -703,15 +704,15 @@ public with sharing class setupAssistant {
                 listOfObjectsToCheckAccessOn.add('ConsumptionSchedule');
                 listOfObjectsToCheckAccessOn.add('ConsumptionRate');
             }
-            
+
             List<Map<String,Object>> missingObjectPermissionList = validateObjectLevelPermission(listOfObjectsToCheckAccessOn);
-           
+
 
             //add list of missing permissions if any were found
             if (!missingObjectPermissionList.isEmpty()) {
                 permissionIssueMap.put('isObjectPermissionMissing', true);
                 permissionIssueMap.put('missingObjectPermissionList', missingObjectPermissionList);
-            } 
+            }
 
             /* this list holds system permission fields which hold boolean denoting if the user has access or not.
             This is incase there are other system permissions need to be checked in the future. Full list of Profile fields
@@ -734,12 +735,12 @@ public with sharing class setupAssistant {
                 }
                 activePermissionMap.put(fieldMap.get(permisson).getDescribe().getLabel(), false);
             }
-    
-            List<String> userFieldsList = new List<String> { 
-                'Id', 
-                'Name' 
+
+            List<String> userFieldsList = new List<String> {
+                'Id',
+                'Name'
             };
-            
+
             for (String permission : permissionList) {
                 userFieldsList.add('Profile.' + permission);
             }
@@ -748,7 +749,7 @@ public with sharing class setupAssistant {
             for (String permission : permissionList) {
                 permissionSetAssignmentFieldsList.add('PermissionSet.' + permission);
             }
-    
+
             List<SObject> userPermissions = Database.Query (
                 String.join (
                     new List<String> {
@@ -770,7 +771,7 @@ public with sharing class setupAssistant {
             }
             SObject userProfileSystemPermissions = userPermissions[0].getSobject('Profile');
 
-            //check profile level permissions  
+            //check profile level permissions
             for (String permisson : permissionList) {
                 String permissionLabel = fieldMap.get(permisson).getDescribe().getLabel();
                 if (permisson != 'Name') {
@@ -782,7 +783,7 @@ public with sharing class setupAssistant {
             activePermissionMap = (Map<String, Object>)validateUserPermissionsMap.get('activePermissionMap');
             permissionIssueMap = (Map<String, Object>)validateUserPermissionsMap.get('permissionIssueMap');
 
-            
+
             List<String> missingSystemPermissionList = new List<String>();
             for (String permission : activePermissionMap.keySet()) {
                 if (!(Boolean)activePermissionMap.get(permission)) {
@@ -790,26 +791,26 @@ public with sharing class setupAssistant {
                     missingSystemPermissionList.add(permission);
                 }
             }
-            
+
             if (!missingSystemPermissionList.isEmpty()) {
-                permissionIssueMap.put('missingSystemPermissionList', missingSystemPermissionList); 
+                permissionIssueMap.put('missingSystemPermissionList', missingSystemPermissionList);
             }
-            
+
             rd.put('permissionIssueMap', permissionIssueMap);
-            
-        } catch (Exception e) {  
+
+        } catch (Exception e) {
             rd.addError(e);
         }
         return rd.getJsonString();
     }
 
-    // builds map based on object permissioning 
-    private static List<Map<String,Object>> validateObjectLevelPermission(List<String> listOfObjectsToCheckAccessOn) {            
+    // builds map based on object permissioning
+    private static List<Map<String,Object>> validateObjectLevelPermission(List<String> listOfObjectsToCheckAccessOn) {
         List<Map<String,Object>> missingObjectPermissionList = new List<Map<String,Object>>();
         for (String objectApiName : listOfObjectsToCheckAccessOn) {
             Boolean hasObjectAccess = true;
             DescribeSObjectResult objectDescribe = dmlManager.getSObjectDescribeByObjectName(objectApiName);
-            
+
             Map<String,Object> missingPermissionsMap = new Map<String,Object> {
                 'Object' => objectDescribe.getLabel(),
                 'Access' => true,
@@ -829,7 +830,7 @@ public with sharing class setupAssistant {
 
             if (!(Boolean)objectDescribe.isUpdateable()) {
                 hasObjectAccess = false;
-                missingPermissionsMap.put('Edit', false);      
+                missingPermissionsMap.put('Edit', false);
             }
 
             if (!hasObjectAccess) {
@@ -853,7 +854,7 @@ public with sharing class setupAssistant {
                 if(userPermSetSystemPermissions.get('Name') == constants.PACKAGED_PERMISSION_SET_NAME.replace(' ','_')) {
                     isPermSetMissing = false;
                 }
-                
+
                 for (String permisson : permissionList) {
                     String permissionLabel = fieldMap.get(permisson).getDescribe().getLabel();
                     if(permisson != 'Name') {
@@ -861,33 +862,33 @@ public with sharing class setupAssistant {
                         //only update the permission in the map if it is true in the permset and false in the map
                         if (!(Boolean)activePermissionMap.get(permissionLabel) && systemPermissionValue) {
                             activePermissionMap.put(permissionLabel, systemPermissionValue);
-                        } 
+                        }
                     }
                 }
             }
         }
 
-        //set missing permission set state 
+        //set missing permission set state
         if (isPermSetMissing) {
             permissionIssueMap.put('missingPermissionSets', new List<String> {
                 constants.PACKAGED_PERMISSION_SET_NAME
-            });   
+            });
         } else {
             permissionIssueMap.put('isPermSetAssigned', true);
         }
 
         return new Map<String, Object> {
-           'activePermissionMap' => activePermissionMap, 
+           'activePermissionMap' => activePermissionMap,
            'permissionIssueMap' => permissionIssueMap
         };
-    } 
+    }
 
 
     //Creates a test metadata record in test context
-    @testVisible static List<Setup_Connection_Data__mdt> setupConfigMetadata { 
+    @testVisible static List<Setup_Connection_Data__mdt> setupConfigMetadata {
         get {
             if (setupConfigMetadata == null)
-                setupConfigMetadata = utilities.getStripeConnectionKey(); 
+                setupConfigMetadata = utilities.getStripeConnectionKey();
             return setupConfigMetadata;
         } set; }
 }

@@ -14,4 +14,23 @@ global with sharing class scheduleSyncRecordDeletion implements Schedulable {
             errorLogger.create('Scheduling Batch Delete Sync Records Job', e);
         }
     }
+
+    // https://developer.salesforce.com/forums/?id=906F0000000BSU0IAO
+    @TestVisible private static void abortStripeCronJobs () {
+        if(!Test.isRunningTest()) {
+            return;
+        }
+
+        List<CronTrigger> scheduledBatchJobList = [
+            SELECT id, CronJobDetail.Name
+            FROM CronTrigger
+            WHERE CronJobDetail.Name LIKE 'Stripe%'
+        ];
+
+        if(!scheduledBatchJobList.isEmpty()) {
+            for (CronTrigger scheduledBatchJob : scheduledBatchJobList){
+                System.abortJob(scheduledBatchJob.id);
+            }
+        }
+    }
 }

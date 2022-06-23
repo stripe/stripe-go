@@ -1,20 +1,20 @@
 /**
- * @description       : 
+ * @description       :
  * @author            : jmather
- * @group             : 
+ * @group             :
  * @last modified on  : 02-28-2022
  * @last modified by  : Stripe
- * Modifications Log 
+ * Modifications Log
  * Ver   Date         Author    Modification
  * 1.0   08-10-2019   jmather   Initial Version
- * 1.2   02-10-2022   Stripe    removed trigger and added logic to call handler directly 
+ * 1.2   02-10-2022   Stripe    removed trigger and added logic to call handler directly
 **/
 public with sharing class Sentry {
     public static void record(Exception e) {
         Sentry_Event err = convertExceptionToError(e);
         sendEvent(err);
     }
- 
+
     public static void record(String issueTitle, Exception e, List<Sentry_LogMessage> lExtraMessages) {
         Sentry_Event err = convertExceptionToError(issueTitle, e, lExtraMessages);
         sendEvent(err);
@@ -33,17 +33,8 @@ public with sharing class Sentry {
         Sentry_Log.logSentry('[Sentry.sendEvent] message: ' + JSON.serializePretty(err.toMessage()));
 
         Sentry_Error__e formattedSentryError = new Sentry_Error__e(Content__c = JSON.serialize(err.toMessage()));
-        Database.SaveResult publishedFormattedException= EventBus.publish(formattedSentryError);
-
-        //if the platform event is published successfully we call our error handler to send to sentry
-        if (publishedFormattedException.isSuccess()) {
-            Sentry_Error_Handler sentryErrorHandler = new Sentry_Error_Handler();
-            List<Sentry_Error__e> listOfSentryErrors = new List<Sentry_Error__e>{formattedSentryError};
-            sentryErrorHandler.run(listOfSentryErrors);
-        } else {
-            for(Database.Error error : publishedFormattedException.getErrors()) {
-                Sentry_Log.logError('PlatformEventPublishingError: ' + string.valueOf(error.getStatusCode()) + ' Message: '+(String)error.getMessage());
-            }
-        }
+        Sentry_Error_Handler sentryErrorHandler = new Sentry_Error_Handler();
+        List<Sentry_Error__e> listOfSentryErrors = new List<Sentry_Error__e>{formattedSentryError};
+        sentryErrorHandler.run(listOfSentryErrors);
     }
 }

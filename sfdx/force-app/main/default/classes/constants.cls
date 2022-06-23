@@ -6,18 +6,21 @@ public with sharing class constants {
 
     // Namespaces
     //fetches the namespace of the package in case we need to prefix it any where in apex for CRUD or accessing anything that will be namespaced in a package
-    private static FINAL String thisString = String.valueOf(constants.class);
-    private static FINAL List<String> thisStrings = thisString.split('[.]', 2);
-    public static FINAL String NAMESPACE = thisStrings.size() > 1 ? thisStrings[0] : 'c';
-    
-    // whenever this is a blank string we are outside of a package
+    private static FINAL List<String> RAW_NAMESPACE = String.valueOf(constants.class).split('[.]', 2);
+    public static FINAL String NAMESPACE = RAW_NAMESPACE.size() > 1 ? RAW_NAMESPACE[0] : 'c';
+
+    // if empty we are outside of a package
     public static FINAL String NAMESPACE_API = NAMESPACE == 'c' ? '' : NAMESPACE + '__';
 
     // Sandbox identifcation
-    private static FINAL Organization ORG = [SELECT Id, InstanceName, IsSandbox FROM Organization LIMIT 1];
+    // TODO ORG_ID generation should move to where the instance type stuff is managed and should be passed to sentry
+    private static FINAL Organization ORG = [SELECT Id FROM Organization LIMIT 1];
     public static FINAL String ORG_ID = ORG.Id;
-    public static FINAL String ORG_INSTANCE = ORG.InstanceName;
-    public static FINAL Boolean IS_SANDBOX = ORG.IsSandBox;
+    private static FINAL List<Sentry_Environment.InstanceType> SANDBOX_INSTANCE_TYPES = new List<Sentry_Environment.InstanceType>{
+        Sentry_Environment.InstanceType.SANDBOX,
+        Sentry_Environment.InstanceType.SCRATCH_ORG
+    };
+    public static FINAL Boolean IS_SANDBOX = SANDBOX_INSTANCE_TYPES.contains(Sentry_Environment.getInstanceType());
 
     // oAuth callout urls
     public static FINAL String SALESFORCE_INSTANCE_URI = System.URL.getSalesforceBaseURL().toExternalForm();
@@ -30,24 +33,13 @@ public with sharing class constants {
     //Setup Data Record Name
     public static FINAL String  SETUP_DATA_RECORD_NAME = 'SetupData';
     public static FINAL String  PACKAGED_PERMISSION_SET_NAME = 'Stripe Connector Integration User';
-   
 
-    // Blur
-    public static FINAL String BLUR_STRING = '********';
-
+    // this seemingly-useless code is used for the bootstrap process in the setup.page
     public String getNamespace() {
         return constants.NAMESPACE;
     }
 
-    public String getNamespaceApi() {
-        return constants.NAMESPACE_API;
-    }
-
     public constants() {
-        // empty
-    }
-
-    public constants(ApexPages.StandardController sc) {
         // empty
     }
 }

@@ -1,4 +1,4 @@
-/*** Strike Response Data v2.0.0 ***/
+/*** Stripe Response Data v2.0.0 ***/
 public with sharing class responseData {
     public Boolean isSuccess;
     public Map<String, Object> results;
@@ -10,7 +10,10 @@ public with sharing class responseData {
     }
 
     public void addError(Exception e) {
-        if(!Test.isRunningTest())Sentry.record(e);
+        if(!Test.isRunningTest()) {
+            Sentry.record(e);
+        }
+
         this.error = e.getMessage();
         this.isSuccess = false;
     }
