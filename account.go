@@ -110,6 +110,16 @@ const (
 	AccountCapabilitiesPayNowPaymentsPending  AccountCapabilitiesPayNowPayments = "pending"
 )
 
+// The status of the promptpay payments capability of the account, or whether the account can directly process promptpay charges.
+type AccountCapabilitiesPromptpayPayments string
+
+// List of values that AccountCapabilitiesPromptpayPayments can take
+const (
+	AccountCapabilitiesPromptpayPaymentsActive   AccountCapabilitiesPromptpayPayments = "active"
+	AccountCapabilitiesPromptpayPaymentsInactive AccountCapabilitiesPromptpayPayments = "inactive"
+	AccountCapabilitiesPromptpayPaymentsPending  AccountCapabilitiesPromptpayPayments = "pending"
+)
+
 // The status of the banking capability, or whether the account can have bank accounts.
 type AccountCapabilitiesTreasury string
 
@@ -447,6 +457,12 @@ type AccountCapabilitiesPayNowPaymentsParams struct {
 	Requested *bool `form:"requested"`
 }
 
+// The promptpay_payments capability.
+type AccountCapabilitiesPromptpayPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
 // The sepa_debit_payments capability.
 type AccountCapabilitiesSEPADebitPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
@@ -539,6 +555,8 @@ type AccountCapabilitiesParams struct {
 	P24Payments *AccountCapabilitiesP24PaymentsParams `form:"p24_payments"`
 	// The paynow_payments capability.
 	PayNowPayments *AccountCapabilitiesPayNowPaymentsParams `form:"paynow_payments"`
+	// The promptpay_payments capability.
+	PromptpayPayments *AccountCapabilitiesPromptpayPaymentsParams `form:"promptpay_payments"`
 	// The sepa_debit_payments capability.
 	SEPADebitPayments *AccountCapabilitiesSEPADebitPaymentsParams `form:"sepa_debit_payments"`
 	// The sofort_payments capability.
@@ -945,6 +963,8 @@ type AccountCapabilities struct {
 	P24Payments AccountCapabilityStatus `json:"p24_payments"`
 	// The status of the paynow payments capability of the account, or whether the account can directly process paynow charges.
 	PayNowPayments AccountCapabilitiesPayNowPayments `json:"paynow_payments"`
+	// The status of the promptpay payments capability of the account, or whether the account can directly process promptpay charges.
+	PromptpayPayments AccountCapabilitiesPromptpayPayments `json:"promptpay_payments"`
 	// The status of the SEPA Direct Debits payments capability of the account, or whether the account can directly process SEPA Direct Debits charges.
 	SEPADebitPayments AccountCapabilityStatus `json:"sepa_debit_payments"`
 	// The status of the Sofort payments capability of the account, or whether the account can directly process Sofort charges.

@@ -225,6 +225,8 @@ type CreditNote struct {
 	Status CreditNoteStatus `json:"status"`
 	// The integer amount in %s representing the amount of the credit note, excluding exclusive tax and invoice level discounts.
 	Subtotal int64 `json:"subtotal"`
+	// The integer amount in %s representing the amount of the credit note, excluding all tax and invoice level discounts.
+	SubtotalExcludingTax int64 `json:"subtotal_excluding_tax"`
 	// The aggregate amounts calculated per tax rate for all line items.
 	TaxAmounts []*CreditNoteTaxAmount `json:"tax_amounts"`
 	// The integer amount in %s representing the total amount of the credit note, including tax and all discount.
