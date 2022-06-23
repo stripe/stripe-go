@@ -347,6 +347,9 @@ type SetupIntentPaymentMethodDataP24Params struct {
 // If this is a `paynow` PaymentMethod, this hash contains details about the PayNow payment method.
 type SetupIntentPaymentMethodDataPayNowParams struct{}
 
+// If this is a `promptpay` PaymentMethod, this hash contains details about the PromptPay payment method.
+type SetupIntentPaymentMethodDataPromptPayParams struct{}
+
 // Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
 type SetupIntentPaymentMethodDataRadarOptionsParams struct {
 	// A [Radar Session](https://stripe.com/docs/radar/radar-session) is a snapshot of the browser metadata and device details that help Radar make more accurate predictions on your payments.
@@ -431,6 +434,8 @@ type SetupIntentPaymentMethodDataParams struct {
 	P24 *SetupIntentPaymentMethodDataP24Params `form:"p24"`
 	// If this is a `paynow` PaymentMethod, this hash contains details about the PayNow payment method.
 	PayNow *SetupIntentPaymentMethodDataPayNowParams `form:"paynow"`
+	// If this is a `promptpay` PaymentMethod, this hash contains details about the PromptPay payment method.
+	PromptPay *SetupIntentPaymentMethodDataPromptPayParams `form:"promptpay"`
 	// Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
 	RadarOptions *SetupIntentPaymentMethodDataRadarOptionsParams `form:"radar_options"`
 	// If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
@@ -752,6 +757,9 @@ type SetupIntentConfirmPaymentMethodDataP24Params struct {
 // If this is a `paynow` PaymentMethod, this hash contains details about the PayNow payment method.
 type SetupIntentConfirmPaymentMethodDataPayNowParams struct{}
 
+// If this is a `promptpay` PaymentMethod, this hash contains details about the PromptPay payment method.
+type SetupIntentConfirmPaymentMethodDataPromptPayParams struct{}
+
 // Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
 type SetupIntentConfirmPaymentMethodDataRadarOptionsParams struct {
 	// A [Radar Session](https://stripe.com/docs/radar/radar-session) is a snapshot of the browser metadata and device details that help Radar make more accurate predictions on your payments.
@@ -836,6 +844,8 @@ type SetupIntentConfirmPaymentMethodDataParams struct {
 	P24 *SetupIntentConfirmPaymentMethodDataP24Params `form:"p24"`
 	// If this is a `paynow` PaymentMethod, this hash contains details about the PayNow payment method.
 	PayNow *SetupIntentConfirmPaymentMethodDataPayNowParams `form:"paynow"`
+	// If this is a `promptpay` PaymentMethod, this hash contains details about the PromptPay payment method.
+	PromptPay *SetupIntentConfirmPaymentMethodDataPromptPayParams `form:"promptpay"`
 	// Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
 	RadarOptions *SetupIntentConfirmPaymentMethodDataRadarOptionsParams `form:"radar_options"`
 	// If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
