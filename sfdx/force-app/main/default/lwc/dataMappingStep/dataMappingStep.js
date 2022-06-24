@@ -6,11 +6,15 @@ import saveMappingConfigurations from '@salesforce/apex/setupAssistant.saveMappi
 import { getErrorMessage } from 'c/utils'
 
 export default class DataMappingStep extends LightningElement {
-    /* `@track` decorator is needed here to tell the lwc framework to observe 
-    //changes to the properties of an object and to the elements of an array */
+    /*
+     `@track` decorator is needed here to tell the lwc framework to observe 
+      changes to the properties of an object and to the elements of an array
+     */
 
-    @track activeObject = 'customer';
-    @track activeObjectDescription;
+    // TODO should be able to remove @track on all non-objects/arrays
+    friendlyStripeObjectName = 'Customer';
+    activeObject = 'customer';
+    activeObjectDescription;
     @track sfFieldOptions = [];
     @track defaultCustomerSections = [
         'standard'
@@ -27,8 +31,8 @@ export default class DataMappingStep extends LightningElement {
     @track defaultPriceSections = [
         'standard'
     ];
-    @track body
-    @track staticValue
+    @track body;
+    @track staticValue;
     @track picklistIndex;
     @track stripeObjectField
     @track stripeCustomerMappings;
@@ -143,7 +147,12 @@ export default class DataMappingStep extends LightningElement {
 
     get activeObjectFields() {
         let activeObjectName = this.activeObject;
-        if (this.activeObject === 'subscription-item')activeObjectName = 'subscriptionItem'
+
+        // TODO this special-casing should be removed in the future
+        if (this.activeObject === 'subscription-item') {
+            activeObjectName = 'subscriptionItem'
+        }
+
         activeObjectName = activeObjectName.charAt(0).toUpperCase() + activeObjectName.slice(1);
         return this['stripe' + activeObjectName + 'Mappings'];
     }
@@ -151,21 +160,38 @@ export default class DataMappingStep extends LightningElement {
     set activeObjectFields(value) {
         let parsedVal = JSON.parse(JSON.stringify(value));
         let activeObjectName = this.activeObject;
-        if (this.activeObject === 'subscription-item')activeObjectName = 'subscriptionItem'
+
+        // TODO this special-casing should be removed in the future
+        if (this.activeObject === 'subscription-item') {
+            activeObjectName = 'subscriptionItem'
+        }
+
+        // TODO we should try up this transformation and self-document what it actually is
         activeObjectName = activeObjectName.charAt(0).toUpperCase() + activeObjectName.slice(1);
+
         this['stripe' + activeObjectName + 'Mappings'] = parsedVal;
     }
 
     get activeMetadataObjectFields() {
         let activeObjectName = this.activeObject;
-        if (this.activeObject === 'subscription-item')activeObjectName = 'subscriptionItem'
+
+        // TODO this special-casing should be removed in the future
+        if (this.activeObject === 'subscription-item') {
+            activeObjectName = 'subscriptionItem';
+        }
+
         return this[activeObjectName + 'MetadataFields'];
     }
 
     set activeMetadataObjectFields(value) {
-        let parsedVal = JSON.parse(JSON.stringify(value));
+        const parsedVal = JSON.parse(JSON.stringify(value));
         let activeObjectName = this.activeObject;
-        if (this.activeObject === 'subscription-item')activeObjectName = 'subscriptionItem'
+
+        // TODO this special-casing should be removed in the future
+        if (this.activeObject === 'subscription-item') {
+            activeObjectName = 'subscriptionItem'
+        }
+
         this[activeObjectName + 'MetadataFields'] = parsedVal;
     }
 
@@ -468,6 +494,7 @@ export default class DataMappingStep extends LightningElement {
         // future: we need to clean this up. Code duplication like this destroys velocity later on. We should be able to something like changeObject(this.activeObject) and have a single assignment statement for all of the fields.
         switch(this.activeObject) {
             case 'customer':
+                this.friendlyStripeObjectName = "Account";
                 this.defaultSfObject = 'Account';
                 this.fieldListByObjectMap.Account.sort(this.mapperFieldSorter);
                 this.sfFieldOptions = this.fieldListByObjectMap.Account;
@@ -476,17 +503,9 @@ export default class DataMappingStep extends LightningElement {
                 this.activeStripeObjectSections = this.defaultCustomerSections;
                break;
 
-            case 'product':
-                this.defaultSfObject = 'Product2';
-                this.fieldListByObjectMap.Product2.sort(this.mapperFieldSorter)
-                this.sfFieldOptions = this.fieldListByObjectMap.Product2;
-                this.activeStripeObjectMappings = this.stripeProductMappings;
-                this.activeStripeObjectMetadataFields = this.productMetadataFields;
-                this.activeStripeObjectSections = this.defaultProductSections;
-                break;
-
+            // TODO should change identifier to `subscription_schedule` instead
             case 'subscription':
-                // TODO should change identifier to `subscription_schedule` instead
+                this.friendlyStripeObjectName = "Subscription Schedule"
                 this.defaultSfObject = 'Order';
                 this.fieldListByObjectMap.Order.sort(this.mapperFieldSorter);
                 this.sfFieldOptions = this.fieldListByObjectMap.Order;
@@ -496,6 +515,7 @@ export default class DataMappingStep extends LightningElement {
                 break;
 
             case 'subscription-item':
+                this.friendlyStripeObjectName = "Subscription Schedule Phase Item";
                 this.defaultSfObject = 'OrderItem';
                 this.fieldListByObjectMap.OrderItem.sort(this.mapperFieldSorter);
                 this.sfFieldOptions = this.fieldListByObjectMap.OrderItem;
@@ -503,8 +523,20 @@ export default class DataMappingStep extends LightningElement {
                 this.activeStripeObjectMetadataFields = this.subscriptionItemMetadataFields;
                 this.activeStripeObjectSections = this.defaultSubscriptionItemSections;
                 break;
+    
+            case 'product':
+                this.friendlyStripeObjectName = "Product";
+                this.defaultSfObject = 'Product2';
+                this.fieldListByObjectMap.Product2.sort(this.mapperFieldSorter)
+                this.sfFieldOptions = this.fieldListByObjectMap.Product2;
+                this.activeStripeObjectMappings = this.stripeProductMappings;
+                this.activeStripeObjectMetadataFields = this.productMetadataFields;
+                this.activeStripeObjectSections = this.defaultProductSections;
+                break;
+
 
             case 'price':
+                this.friendlyStripeObjectName = "Price";
                 this.defaultSfObject = 'PricebookEntry';
                 this.fieldListByObjectMap.PricebookEntry.sort(this.mapperFieldSorter)
                 this.sfFieldOptions = this.fieldListByObjectMap.PricebookEntry;
@@ -572,11 +604,14 @@ export default class DataMappingStep extends LightningElement {
         let apiUrl = "https://stripe.com/docs/api/";
 
         // subscription_items are unique and really represent subscription schedule phase items
-        if(stripeObject == 'subscription_items') {
+        if(stripeObject == 'subscription-item') {
             apiUrl += "subscription_schedules/create#create_subscription_schedule-phases-items"
+        } else if(stripeObject == 'subscription') {
+            // TODO right now the wrong identifier is being used for subscriptions... ugh. Fix this when `subscription` => `subscription_schedule`
+            apiUrl += "subscription_schedules/create"
         } else {
             // our API calls are always #create, so let's link to that specific area in the docs
-            apiUrl += `${stripeObject}/create`;
+            apiUrl += `${stripeObject}s/create`;
         }
 
         window.open(apiUrl, '_blank');

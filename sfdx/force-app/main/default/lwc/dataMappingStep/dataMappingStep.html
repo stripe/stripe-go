@@ -15,21 +15,21 @@
             <!-- ACTIVE OBJECT -->
             <!-- Mapper Main Content -->
             <h1 class="slds-text-heading_medium">
-                {activeObject}
-                <lightning-button-icon 
-                    icon-name="utility:new_window" 
+                {friendlyStripeObjectName}
+                <lightning-button-icon
+                    icon-name="utility:new_window"
                     variant="bare"
                     size="medium"
-                    alternative-text="View Stripe API Documentation" 
+                    alternative-text="View Stripe API Documentation"
                     data-object={activeObject}
-                    onclick={openStripeApi} 
+                    onclick={openStripeApi}
                     class="stripe-button_inline slds-button slds-m-left_x-small">
                 </lightning-button-icon>
             </h1>
             <h4 class="slds-m-top_xx-small slds-m-bottom_small">Salesforce Object: <strong>{defaultSfObject}</strong></h4>
             <p class="slds-m-vertical_small slds-text-color_weak">{activeObjectDescription}</p>
             <!-- Mapping Groups -->
-            <lightning-accordion 
+            <lightning-accordion
                 active-section-name={activeStripeObjectSections}
                 allow-multiple-sections-open>
                 <template for:each={activeStripeObjectMappings} for:item="section" for:index="sectionIndex">
@@ -60,12 +60,12 @@
                                         </td>
                                         <td class="slds-text-align_center">
                                             <div class="slds-is-relative">
-                                                <lightning-input 
-                                                    type="toggle" 
-                                                    label="Static Value" 
-                                                    variant="label-hidden" 
+                                                <lightning-input
+                                                    type="toggle"
+                                                    label="Static Value"
+                                                    variant="label-hidden"
                                                     class="stripe-input_toggle slds-show_inline-block"
-                                                    message-toggle-active="" 
+                                                    message-toggle-active=""
                                                     message-toggle-inactive=""
                                                     checked={field.staticValue}
                                                     onchange={toggleStaticValue}>
@@ -110,7 +110,7 @@
                                                                 <div if:true={field.requiredValue} class="slds-text-title slds-m-top_x-small slds-has-flexi-truncate"><strong>Requried field.</strong> Default: {field.requiredValue}</div>
                                                             </template>
                                                             <template if:false={field.staticValue}>
-                                                                <c-field-picker label="Record Type" root-object={defaultSfObject} options={sfFieldOptions} hash={field.sfValue} variant="label-hidden" onselect={updatePicklist} onobjectchange={updateFieldList} onpicklistclick={updatePicklistChoices} searchable></c-field-picker> 
+                                                                <c-field-picker label="Record Type" root-object={defaultSfObject} options={sfFieldOptions} hash={field.sfValue} variant="label-hidden" onselect={updatePicklist} onobjectchange={updateFieldList} onpicklistclick={updatePicklistChoices} searchable></c-field-picker>
                                                                 <div if:true={field.requiredValue} class="slds-text-title slds-m-top_x-small slds-has-flexi-truncate"><strong>Requried field.</strong> Default: {field.requiredValue}</div>
                                                             </template>
                                                         </div>
@@ -168,12 +168,12 @@
                                         </td>
                                         <td class="slds-text-align_center">
                                             <div class="slds-is-relative">
-                                                <lightning-input 
-                                                    type="toggle" 
-                                                    label="Static Value" 
-                                                    variant="label-hidden" 
+                                                <lightning-input
+                                                    type="toggle"
+                                                    label="Static Value"
+                                                    variant="label-hidden"
                                                     class="stripe-input_toggle slds-show_inline-block"
-                                                    message-toggle-active="" 
+                                                    message-toggle-active=""
                                                     message-toggle-inactive=""
                                                     checked={field.staticValue}
                                                     onchange={toggleMetaStaticValue}>
