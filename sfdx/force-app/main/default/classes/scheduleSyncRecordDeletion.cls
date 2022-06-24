@@ -6,21 +6,8 @@ global with sharing class scheduleSyncRecordDeletion implements Schedulable {
         return System.schedule('Stripe Connector Sync Record Deletion Batch Job', scheduledTime, scheduledSyncDeleteJob);
     }
 
-    global void execute(SchedulableContext sc) {
-        try {
-            batchDeleteSyncRecords deleteSyncRecordsJob = new batchDeleteSyncRecords();
-            ID batchprocessid = Database.executeBatch(deleteSyncRecordsJob, 500);
-        } catch (Exception e) {
-            errorLogger.create('Scheduling Batch Delete Sync Records Job', e);
-        }
-    }
-
-    // https://developer.salesforce.com/forums/?id=906F0000000BSU0IAO
-    @TestVisible private static void abortStripeCronJobs () {
-        if(!Test.isRunningTest()) {
-            return;
-        }
-
+    // NOTE only used in tests and non apex, which is why this is NOT marked as `@TestVisible`
+    global static void abortStripeCronJobs() {
         List<CronTrigger> scheduledBatchJobList = [
             SELECT id, CronJobDetail.Name
             FROM CronTrigger
@@ -33,4 +20,14 @@ global with sharing class scheduleSyncRecordDeletion implements Schedulable {
             }
         }
     }
+
+    global void execute(SchedulableContext sc) {
+        try {
+            batchDeleteSyncRecords deleteSyncRecordsJob = new batchDeleteSyncRecords();
+            ID batchprocessid = Database.executeBatch(deleteSyncRecordsJob, 500);
+        } catch (Exception e) {
+            errorLogger.create('Scheduling Batch Delete Sync Records Job', e);
+        }
+    }
+
 }
