@@ -1088,12 +1088,1458 @@ type CheckoutSessionShippingOptionShippingRateDataDeliveryEstimateParams struct 
 	Minimum *CheckoutSessionShippingOptionShippingRateDataDeliveryEstimateMinimumParams `form:"minimum"`
 }
 
+// Shipping rate defined in AED.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsAedParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in AFN.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsAfnParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in ALL.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsAllParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in AMD.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsAmdParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in ANG.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsAngParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in AOA.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsAoaParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in ARS.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsArsParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in AUD.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsAUDParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in AWG.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsAwgParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in AZN.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsAznParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in BAM.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsBamParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in BBD.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsBbdParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in BDT.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsBdtParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in BGN.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsBgnParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in BHD.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsBhdParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in BIF.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsBifParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in BMD.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsBmdParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in BND.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsBndParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in BOB.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsBobParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in BRL.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsBrlParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in BSD.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsBsdParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in BTN.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsBtnParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in BWP.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsBwpParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in BYN.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsBynParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in BZD.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsBzdParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in CAD.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsCADParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in CDF.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsCdfParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in CHF.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsCHFParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in CLP.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsClpParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in CNY.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsCnyParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in COP.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsCopParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in CRC.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsCrcParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in CVE.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsCveParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in CZK.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsCZKParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in DJF.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsDjfParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in DKK.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsDKKParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in DOP.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsDopParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in DZD.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsDzdParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in EGP.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsEgpParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in ETB.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsEtbParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in EUR.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsEURParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in FJD.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsFjdParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in FKP.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsFkpParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in GBP.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsGBPParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in GEL.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsGelParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in GHS.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsGhsParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in GIP.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsGipParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in GMD.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsGmdParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in GNF.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsGnfParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in GTQ.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsGtqParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in GYD.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsGydParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in HKD.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsHKDParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in HNL.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsHnlParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in HRK.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsHrkParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in HTG.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsHtgParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in HUF.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsHufParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in IDR.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsIdrParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in ILS.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsIlsParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in INR.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsInrParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in ISK.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsIskParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in JMD.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsJmdParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in JOD.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsJodParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in JPY.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsJpyParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in KES.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsKesParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in KGS.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsKgsParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in KHR.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsKhrParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in KMF.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsKmfParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in KRW.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsKrwParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in KWD.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsKwdParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in KYD.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsKydParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in KZT.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsKztParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in LAK.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsLakParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in LBP.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsLbpParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in LKR.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsLkrParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in LRD.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsLrdParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in LSL.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsLslParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in MAD.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsMadParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in MDL.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsMdlParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in MGA.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsMgaParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in MKD.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsMkdParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in MMK.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsMmkParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in MNT.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsMntParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in MOP.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsMopParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in MRO.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsMroParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in MUR.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsMurParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in MVR.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsMvrParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in MWK.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsMwkParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in MXN.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsMxnParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in MYR.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsMYRParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in MZN.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsMznParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in NAD.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsNadParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in NGN.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsNgnParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in NIO.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsNioParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in NOK.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsNOKParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in NPR.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsNprParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in NZD.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsNZDParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in OMR.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsOmrParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in PAB.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsPabParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in PEN.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsPenParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in PGK.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsPgkParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in PHP.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsPhpParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in PKR.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsPkrParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in PLN.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsPlnParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in PYG.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsPygParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in QAR.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsQarParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in RON.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsRonParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in RSD.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsRsdParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in RUB.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsRubParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in RWF.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsRwfParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in SAR.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsSarParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in SBD.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsSbdParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in SCR.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsScrParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in SEK.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsSEKParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in SGD.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsSGDParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in SHP.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsShpParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in SLL.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsSllParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in SOS.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsSosParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in SRD.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsSrdParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in STD.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsStdParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in SZL.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsSzlParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in THB.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsThbParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in TJS.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsTjsParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in TND.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsTndParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in TOP.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsTopParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in TRY.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsTryParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in TTD.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsTtdParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in TWD.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsTwdParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in TZS.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsTzsParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in UAH.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsUahParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in UGX.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsUgxParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in USD.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsUSDParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in USDC.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsUsdcParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in UYU.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsUyuParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in UZS.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsUzsParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in VND.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsVndParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in VUV.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsVuvParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in WST.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsWstParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in XAF.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsXafParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in XCD.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsXcdParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in XOF.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsXofParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in XPF.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsXpfParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in YER.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsYerParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in ZAR.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsZarParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rate defined in ZMW.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsZmwParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Shipping rates defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsParams struct {
+	// Shipping rate defined in AED.
+	Aed *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsAedParams `form:"aed"`
+	// Shipping rate defined in AFN.
+	Afn *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsAfnParams `form:"afn"`
+	// Shipping rate defined in ALL.
+	All *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsAllParams `form:"all"`
+	// Shipping rate defined in AMD.
+	Amd *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsAmdParams `form:"amd"`
+	// Shipping rate defined in ANG.
+	Ang *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsAngParams `form:"ang"`
+	// Shipping rate defined in AOA.
+	Aoa *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsAoaParams `form:"aoa"`
+	// Shipping rate defined in ARS.
+	Ars *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsArsParams `form:"ars"`
+	// Shipping rate defined in AUD.
+	AUD *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsAUDParams `form:"aud"`
+	// Shipping rate defined in AWG.
+	Awg *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsAwgParams `form:"awg"`
+	// Shipping rate defined in AZN.
+	Azn *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsAznParams `form:"azn"`
+	// Shipping rate defined in BAM.
+	Bam *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsBamParams `form:"bam"`
+	// Shipping rate defined in BBD.
+	Bbd *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsBbdParams `form:"bbd"`
+	// Shipping rate defined in BDT.
+	Bdt *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsBdtParams `form:"bdt"`
+	// Shipping rate defined in BGN.
+	Bgn *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsBgnParams `form:"bgn"`
+	// Shipping rate defined in BHD.
+	Bhd *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsBhdParams `form:"bhd"`
+	// Shipping rate defined in BIF.
+	Bif *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsBifParams `form:"bif"`
+	// Shipping rate defined in BMD.
+	Bmd *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsBmdParams `form:"bmd"`
+	// Shipping rate defined in BND.
+	Bnd *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsBndParams `form:"bnd"`
+	// Shipping rate defined in BOB.
+	Bob *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsBobParams `form:"bob"`
+	// Shipping rate defined in BRL.
+	Brl *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsBrlParams `form:"brl"`
+	// Shipping rate defined in BSD.
+	Bsd *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsBsdParams `form:"bsd"`
+	// Shipping rate defined in BTN.
+	Btn *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsBtnParams `form:"btn"`
+	// Shipping rate defined in BWP.
+	Bwp *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsBwpParams `form:"bwp"`
+	// Shipping rate defined in BYN.
+	Byn *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsBynParams `form:"byn"`
+	// Shipping rate defined in BZD.
+	Bzd *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsBzdParams `form:"bzd"`
+	// Shipping rate defined in CAD.
+	CAD *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsCADParams `form:"cad"`
+	// Shipping rate defined in CDF.
+	Cdf *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsCdfParams `form:"cdf"`
+	// Shipping rate defined in CHF.
+	CHF *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsCHFParams `form:"chf"`
+	// Shipping rate defined in CLP.
+	Clp *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsClpParams `form:"clp"`
+	// Shipping rate defined in CNY.
+	Cny *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsCnyParams `form:"cny"`
+	// Shipping rate defined in COP.
+	Cop *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsCopParams `form:"cop"`
+	// Shipping rate defined in CRC.
+	Crc *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsCrcParams `form:"crc"`
+	// Shipping rate defined in CVE.
+	Cve *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsCveParams `form:"cve"`
+	// Shipping rate defined in CZK.
+	CZK *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsCZKParams `form:"czk"`
+	// Shipping rate defined in DJF.
+	Djf *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsDjfParams `form:"djf"`
+	// Shipping rate defined in DKK.
+	DKK *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsDKKParams `form:"dkk"`
+	// Shipping rate defined in DOP.
+	Dop *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsDopParams `form:"dop"`
+	// Shipping rate defined in DZD.
+	Dzd *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsDzdParams `form:"dzd"`
+	// Shipping rate defined in EGP.
+	Egp *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsEgpParams `form:"egp"`
+	// Shipping rate defined in ETB.
+	Etb *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsEtbParams `form:"etb"`
+	// Shipping rate defined in EUR.
+	EUR *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsEURParams `form:"eur"`
+	// Shipping rate defined in FJD.
+	Fjd *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsFjdParams `form:"fjd"`
+	// Shipping rate defined in FKP.
+	Fkp *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsFkpParams `form:"fkp"`
+	// Shipping rate defined in GBP.
+	GBP *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsGBPParams `form:"gbp"`
+	// Shipping rate defined in GEL.
+	Gel *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsGelParams `form:"gel"`
+	// Shipping rate defined in GHS.
+	Ghs *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsGhsParams `form:"ghs"`
+	// Shipping rate defined in GIP.
+	Gip *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsGipParams `form:"gip"`
+	// Shipping rate defined in GMD.
+	Gmd *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsGmdParams `form:"gmd"`
+	// Shipping rate defined in GNF.
+	Gnf *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsGnfParams `form:"gnf"`
+	// Shipping rate defined in GTQ.
+	Gtq *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsGtqParams `form:"gtq"`
+	// Shipping rate defined in GYD.
+	Gyd *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsGydParams `form:"gyd"`
+	// Shipping rate defined in HKD.
+	HKD *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsHKDParams `form:"hkd"`
+	// Shipping rate defined in HNL.
+	Hnl *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsHnlParams `form:"hnl"`
+	// Shipping rate defined in HRK.
+	Hrk *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsHrkParams `form:"hrk"`
+	// Shipping rate defined in HTG.
+	Htg *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsHtgParams `form:"htg"`
+	// Shipping rate defined in HUF.
+	Huf *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsHufParams `form:"huf"`
+	// Shipping rate defined in IDR.
+	Idr *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsIdrParams `form:"idr"`
+	// Shipping rate defined in ILS.
+	Ils *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsIlsParams `form:"ils"`
+	// Shipping rate defined in INR.
+	Inr *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsInrParams `form:"inr"`
+	// Shipping rate defined in ISK.
+	Isk *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsIskParams `form:"isk"`
+	// Shipping rate defined in JMD.
+	Jmd *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsJmdParams `form:"jmd"`
+	// Shipping rate defined in JOD.
+	Jod *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsJodParams `form:"jod"`
+	// Shipping rate defined in JPY.
+	Jpy *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsJpyParams `form:"jpy"`
+	// Shipping rate defined in KES.
+	Kes *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsKesParams `form:"kes"`
+	// Shipping rate defined in KGS.
+	Kgs *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsKgsParams `form:"kgs"`
+	// Shipping rate defined in KHR.
+	Khr *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsKhrParams `form:"khr"`
+	// Shipping rate defined in KMF.
+	Kmf *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsKmfParams `form:"kmf"`
+	// Shipping rate defined in KRW.
+	Krw *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsKrwParams `form:"krw"`
+	// Shipping rate defined in KWD.
+	Kwd *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsKwdParams `form:"kwd"`
+	// Shipping rate defined in KYD.
+	Kyd *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsKydParams `form:"kyd"`
+	// Shipping rate defined in KZT.
+	Kzt *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsKztParams `form:"kzt"`
+	// Shipping rate defined in LAK.
+	Lak *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsLakParams `form:"lak"`
+	// Shipping rate defined in LBP.
+	Lbp *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsLbpParams `form:"lbp"`
+	// Shipping rate defined in LKR.
+	Lkr *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsLkrParams `form:"lkr"`
+	// Shipping rate defined in LRD.
+	Lrd *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsLrdParams `form:"lrd"`
+	// Shipping rate defined in LSL.
+	Lsl *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsLslParams `form:"lsl"`
+	// Shipping rate defined in MAD.
+	Mad *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsMadParams `form:"mad"`
+	// Shipping rate defined in MDL.
+	Mdl *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsMdlParams `form:"mdl"`
+	// Shipping rate defined in MGA.
+	Mga *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsMgaParams `form:"mga"`
+	// Shipping rate defined in MKD.
+	Mkd *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsMkdParams `form:"mkd"`
+	// Shipping rate defined in MMK.
+	Mmk *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsMmkParams `form:"mmk"`
+	// Shipping rate defined in MNT.
+	Mnt *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsMntParams `form:"mnt"`
+	// Shipping rate defined in MOP.
+	Mop *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsMopParams `form:"mop"`
+	// Shipping rate defined in MRO.
+	Mro *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsMroParams `form:"mro"`
+	// Shipping rate defined in MUR.
+	Mur *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsMurParams `form:"mur"`
+	// Shipping rate defined in MVR.
+	Mvr *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsMvrParams `form:"mvr"`
+	// Shipping rate defined in MWK.
+	Mwk *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsMwkParams `form:"mwk"`
+	// Shipping rate defined in MXN.
+	Mxn *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsMxnParams `form:"mxn"`
+	// Shipping rate defined in MYR.
+	MYR *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsMYRParams `form:"myr"`
+	// Shipping rate defined in MZN.
+	Mzn *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsMznParams `form:"mzn"`
+	// Shipping rate defined in NAD.
+	Nad *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsNadParams `form:"nad"`
+	// Shipping rate defined in NGN.
+	Ngn *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsNgnParams `form:"ngn"`
+	// Shipping rate defined in NIO.
+	Nio *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsNioParams `form:"nio"`
+	// Shipping rate defined in NOK.
+	NOK *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsNOKParams `form:"nok"`
+	// Shipping rate defined in NPR.
+	Npr *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsNprParams `form:"npr"`
+	// Shipping rate defined in NZD.
+	NZD *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsNZDParams `form:"nzd"`
+	// Shipping rate defined in OMR.
+	Omr *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsOmrParams `form:"omr"`
+	// Shipping rate defined in PAB.
+	Pab *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsPabParams `form:"pab"`
+	// Shipping rate defined in PEN.
+	Pen *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsPenParams `form:"pen"`
+	// Shipping rate defined in PGK.
+	Pgk *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsPgkParams `form:"pgk"`
+	// Shipping rate defined in PHP.
+	Php *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsPhpParams `form:"php"`
+	// Shipping rate defined in PKR.
+	Pkr *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsPkrParams `form:"pkr"`
+	// Shipping rate defined in PLN.
+	Pln *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsPlnParams `form:"pln"`
+	// Shipping rate defined in PYG.
+	Pyg *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsPygParams `form:"pyg"`
+	// Shipping rate defined in QAR.
+	Qar *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsQarParams `form:"qar"`
+	// Shipping rate defined in RON.
+	Ron *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsRonParams `form:"ron"`
+	// Shipping rate defined in RSD.
+	Rsd *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsRsdParams `form:"rsd"`
+	// Shipping rate defined in RUB.
+	Rub *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsRubParams `form:"rub"`
+	// Shipping rate defined in RWF.
+	Rwf *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsRwfParams `form:"rwf"`
+	// Shipping rate defined in SAR.
+	Sar *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsSarParams `form:"sar"`
+	// Shipping rate defined in SBD.
+	Sbd *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsSbdParams `form:"sbd"`
+	// Shipping rate defined in SCR.
+	Scr *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsScrParams `form:"scr"`
+	// Shipping rate defined in SEK.
+	SEK *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsSEKParams `form:"sek"`
+	// Shipping rate defined in SGD.
+	SGD *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsSGDParams `form:"sgd"`
+	// Shipping rate defined in SHP.
+	Shp *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsShpParams `form:"shp"`
+	// Shipping rate defined in SLL.
+	Sll *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsSllParams `form:"sll"`
+	// Shipping rate defined in SOS.
+	Sos *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsSosParams `form:"sos"`
+	// Shipping rate defined in SRD.
+	Srd *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsSrdParams `form:"srd"`
+	// Shipping rate defined in STD.
+	Std *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsStdParams `form:"std"`
+	// Shipping rate defined in SZL.
+	Szl *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsSzlParams `form:"szl"`
+	// Shipping rate defined in THB.
+	Thb *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsThbParams `form:"thb"`
+	// Shipping rate defined in TJS.
+	Tjs *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsTjsParams `form:"tjs"`
+	// Shipping rate defined in TND.
+	Tnd *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsTndParams `form:"tnd"`
+	// Shipping rate defined in TOP.
+	Top *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsTopParams `form:"top"`
+	// Shipping rate defined in TRY.
+	Try *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsTryParams `form:"try"`
+	// Shipping rate defined in TTD.
+	Ttd *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsTtdParams `form:"ttd"`
+	// Shipping rate defined in TWD.
+	Twd *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsTwdParams `form:"twd"`
+	// Shipping rate defined in TZS.
+	Tzs *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsTzsParams `form:"tzs"`
+	// Shipping rate defined in UAH.
+	Uah *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsUahParams `form:"uah"`
+	// Shipping rate defined in UGX.
+	Ugx *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsUgxParams `form:"ugx"`
+	// Shipping rate defined in USD.
+	USD *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsUSDParams `form:"usd"`
+	// Shipping rate defined in USDC.
+	Usdc *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsUsdcParams `form:"usdc"`
+	// Shipping rate defined in UYU.
+	Uyu *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsUyuParams `form:"uyu"`
+	// Shipping rate defined in UZS.
+	Uzs *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsUzsParams `form:"uzs"`
+	// Shipping rate defined in VND.
+	Vnd *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsVndParams `form:"vnd"`
+	// Shipping rate defined in VUV.
+	Vuv *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsVuvParams `form:"vuv"`
+	// Shipping rate defined in WST.
+	Wst *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsWstParams `form:"wst"`
+	// Shipping rate defined in XAF.
+	Xaf *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsXafParams `form:"xaf"`
+	// Shipping rate defined in XCD.
+	Xcd *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsXcdParams `form:"xcd"`
+	// Shipping rate defined in XOF.
+	Xof *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsXofParams `form:"xof"`
+	// Shipping rate defined in XPF.
+	Xpf *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsXpfParams `form:"xpf"`
+	// Shipping rate defined in YER.
+	Yer *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsYerParams `form:"yer"`
+	// Shipping rate defined in ZAR.
+	Zar *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsZarParams `form:"zar"`
+	// Shipping rate defined in ZMW.
+	Zmw *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsZmwParams `form:"zmw"`
+}
+
 // Describes a fixed amount to charge for shipping. Must be present if type is `fixed_amount`.
 type CheckoutSessionShippingOptionShippingRateDataFixedAmountParams struct {
 	// A non-negative integer in cents representing how much to charge.
 	Amount *int64 `form:"amount"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency *string `form:"currency"`
+	// Shipping rates defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
+	CurrencyOptions *CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsParams `form:"currency_options"`
 }
 
 // Parameters to be passed to Shipping Rate creation for this shipping option
@@ -1348,7 +2794,7 @@ type CheckoutSessionCustomerDetailsTaxIDs struct {
 	Value string `json:"value"`
 }
 
-// The customer details including the customer's tax exempt status and the customer's tax IDs. Only present on Sessions in `payment` or `subscription` mode.
+// The customer details including the customer's tax exempt status and the customer's tax IDs. Only the customer's email is present on Sessions in `setup` mode.
 type CheckoutSessionCustomerDetails struct {
 	// The customer's address at the time of checkout. Note: This property is populated only for sessions on or after March 30, 2022.
 	Address *Address `json:"address"`
@@ -1711,7 +3157,7 @@ type CheckoutSession struct {
 	Customer *Customer `json:"customer"`
 	// Configure whether a Checkout Session creates a Customer when the Checkout Session completes.
 	CustomerCreation CheckoutSessionCustomerCreation `json:"customer_creation"`
-	// The customer details including the customer's tax exempt status and the customer's tax IDs. Only present on Sessions in `payment` or `subscription` mode.
+	// The customer details including the customer's tax exempt status and the customer's tax IDs. Only the customer's email is present on Sessions in `setup` mode.
 	CustomerDetails *CheckoutSessionCustomerDetails `json:"customer_details"`
 	// If provided, this value will be used when the Customer object is created.
 	// If not provided, customers will be asked to enter their email address.
