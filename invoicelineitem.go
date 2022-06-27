@@ -39,6 +39,8 @@ type InvoiceLineProrationDetails struct {
 type InvoiceLine struct {
 	// The amount, in %s.
 	Amount int64 `json:"amount"`
+	// The integer amount in %s representing the amount for this line item, excluding all tax and discounts.
+	AmountExcludingTax int64 `json:"amount_excluding_tax"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency Currency `json:"currency"`
 	// An arbitrary string attached to the object. Often useful for displaying to users.
@@ -81,6 +83,8 @@ type InvoiceLine struct {
 	// A string identifying the type of the source of this line item, either an `invoiceitem` or a `subscription`.
 	Type             InvoiceLineType `json:"type"`
 	UnifiedProration bool            `json:"unified_proration"`
+	// The amount in %s representing the unit amount for this line item, excluding all tax and discounts.
+	UnitAmountExcludingTax float64 `json:"unit_amount_excluding_tax,string"`
 }
 
 // Period is a structure representing a start and end dates.

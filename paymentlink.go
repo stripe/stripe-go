@@ -234,7 +234,7 @@ type PaymentLinkParams struct {
 	OnBehalfOf *string `form:"on_behalf_of"`
 	// A subset of parameters to be passed to PaymentIntent creation for Checkout Sessions in `payment` mode.
 	PaymentIntentData *PaymentLinkPaymentIntentDataParams `form:"payment_intent_data"`
-	// The list of payment method types that customers can use. Only `card` is supported. Pass an empty string to enable automatic payment methods that use your [payment method settings](https://dashboard.stripe.com/settings/payment_methods).
+	// The list of payment method types that customers can use. Pass an empty string to enable automatic payment methods that use your [payment method settings](https://dashboard.stripe.com/settings/payment_methods).
 	PaymentMethodTypes []*string `form:"payment_method_types"`
 	// Controls phone number collection settings during checkout.
 	//

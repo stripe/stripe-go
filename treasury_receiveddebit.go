@@ -55,6 +55,18 @@ const (
 	TreasuryReceivedDebitNetworkStripe TreasuryReceivedDebitNetwork = "stripe"
 )
 
+// Set if a ReceivedDebit can't be reversed.
+type TreasuryReceivedDebitReversalDetailsRestrictedReason string
+
+// List of values that TreasuryReceivedDebitReversalDetailsRestrictedReason can take
+const (
+	TreasuryReceivedDebitReversalDetailsRestrictedReasonAlreadyReversed      TreasuryReceivedDebitReversalDetailsRestrictedReason = "already_reversed"
+	TreasuryReceivedDebitReversalDetailsRestrictedReasonDeadlinePassed       TreasuryReceivedDebitReversalDetailsRestrictedReason = "deadline_passed"
+	TreasuryReceivedDebitReversalDetailsRestrictedReasonNetworkRestricted    TreasuryReceivedDebitReversalDetailsRestrictedReason = "network_restricted"
+	TreasuryReceivedDebitReversalDetailsRestrictedReasonOther                TreasuryReceivedDebitReversalDetailsRestrictedReason = "other"
+	TreasuryReceivedDebitReversalDetailsRestrictedReasonSourceFlowRestricted TreasuryReceivedDebitReversalDetailsRestrictedReason = "source_flow_restricted"
+)
+
 // Status of the ReceivedDebit. ReceivedDebits are created with a status of either `succeeded` (approved) or `failed` (declined). The failure reason can be found under the `failure_code`.
 type TreasuryReceivedDebitStatus string
 
@@ -110,12 +122,22 @@ type TreasuryReceivedDebitInitiatingPaymentMethodDetails struct {
 	USBankAccount *TreasuryReceivedDebitInitiatingPaymentMethodDetailsUSBankAccount `json:"us_bank_account"`
 }
 type TreasuryReceivedDebitLinkedFlows struct {
+	// The DebitReversal created as a result of this ReceivedDebit being reversed.
+	DebitReversal string `json:"debit_reversal"`
 	// Set if the ReceivedDebit is associated with an InboundTransfer's return of funds.
 	InboundTransfer string `json:"inbound_transfer"`
 	// Set if the ReceivedDebit was created due to an [Issuing Authorization](https://stripe.com/docs/api#issuing_authorizations) object.
 	IssuingAuthorization string `json:"issuing_authorization"`
 	// Set if the ReceivedDebit is also viewable as an [Issuing Dispute](https://stripe.com/docs/api#issuing_disputes) object.
 	IssuingTransaction string `json:"issuing_transaction"`
+}
+
+// Details describing when a ReceivedDebit might be reversed.
+type TreasuryReceivedDebitReversalDetails struct {
+	// Time before which a ReceivedDebit can be reversed.
+	Deadline int64 `json:"deadline"`
+	// Set if a ReceivedDebit can't be reversed.
+	RestrictedReason TreasuryReceivedDebitReversalDetailsRestrictedReason `json:"restricted_reason"`
 }
 
 // ReceivedDebits represent funds pulled from a [FinancialAccount](https://stripe.com/docs/api#financial_accounts). These are not initiated from the FinancialAccount.
@@ -143,6 +165,8 @@ type TreasuryReceivedDebit struct {
 	Network TreasuryReceivedDebitNetwork `json:"network"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
+	// Details describing when a ReceivedDebit might be reversed.
+	ReversalDetails *TreasuryReceivedDebitReversalDetails `json:"reversal_details"`
 	// Status of the ReceivedDebit. ReceivedDebits are created with a status of either `succeeded` (approved) or `failed` (declined). The failure reason can be found under the `failure_code`.
 	Status TreasuryReceivedDebitStatus `json:"status"`
 	// The Transaction associated with this object.
