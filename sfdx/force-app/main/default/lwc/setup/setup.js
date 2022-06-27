@@ -1,16 +1,19 @@
+import { LightningElement, track, api } from 'lwc';
+import { getErrorMessage } from 'c/utils'
+
 import companyLogo from '@salesforce/resourceUrl/companyLogo';
 import checkUserPermissions from '@salesforce/apex/setupAssistant.checkUserPermissions';
 import getSetupData from '@salesforce/apex/setupAssistant.getSetupData';
+import getPackageVersion from '@salesforce/apex/setupAssistant.getPackageVersion';
 import setOrgType from '@salesforce/apex/utilities.setOrgType';
 import saveData from '@salesforce/apex/setupAssistant.saveData';
-import { LightningElement, track, api } from 'lwc';
-import { getErrorMessage } from 'c/utils'
 import illustrations from '@salesforce/resourceUrl/stripe_setupIllustrations';
 
 export default class FirstTimeSetup extends LightningElement {
     systemConnectionsIllustration = illustrations + '/stripe_illustration_systemConnections.svg';
     dataMappingIllustration = illustrations + '/stripe_illustration_dataMapping.svg';
     syncPreferencesIllustration = illustrations + '/stripe_illustration_syncPreferences.svg';
+    formattedPackageVersion = '';
     @track contentShown = false;
     @track logoUrl = companyLogo;
     @track activeStepIndex = 0;
@@ -88,10 +91,6 @@ export default class FirstTimeSetup extends LightningElement {
         return 'slds-col slds-size_1-of-4' + (this.setupComplete ? ' stripe-sidebar_navigation' : ' stripe-sidebar_progress');
     }
 
-    get contentClasslist() {
-        return ('stripe-page-container slds-container slds-container_center' + (this.loading ? ' slds-hide' : ''));
-    }
-
     get stepContentClasslist() {
         return this.showSetupLanding ? 'slds-hide' : '';
     }
@@ -133,15 +132,15 @@ export default class FirstTimeSetup extends LightningElement {
 
     getmappingconfigurations() {
         this.template.querySelector('c-data-mapping-step').getPicklistValuesForMapper(true, '');
-        this.template.querySelector('c-sync-preferences-step').connectedCallback();  
+        this.template.querySelector('c-sync-preferences-step').connectedCallback();
         this.nextDisabled = false;
     }
 
-    async connectedCallback() { 
+    async connectedCallback() {
         try {
             const userPermissionCheck = await checkUserPermissions();
             const userPermissionResponseData = JSON.parse(userPermissionCheck);
-            if (userPermissionResponseData.error) { 
+            if (userPermissionResponseData.error) {
                 this.showSetupToast(userPermissionResponseData.error, 'error', 'sticky');
                 return;
             }
@@ -151,18 +150,23 @@ export default class FirstTimeSetup extends LightningElement {
             if (!permissionIssueMap.isPermSetAssigned || permissionIssueMap.isSystemPermissionMissing || permissionIssueMap.isObjectPermissionMissing) {
                 this.missingPermissions = permissionIssueMap;
                 this.hasMissingPermissions = true;
-                return;               
-            } 
+                return;
+            }
+
+            // TODO this should return an object that can be assigned rather than mutating stuff directly
             await this.fetchSetupData();
 
             const setOrganizationType = await setOrgType();
             const orgTypeResponseData =  JSON.parse(setOrganizationType);
-                
+
             if (orgTypeResponseData.error) {
                 this.showSetupToast(orgTypeResponseData.error, 'error', 'sticky');
                 return;
             }
-            
+
+            const rawPackageVersion = await getPackageVersion();
+            const packageVersion = JSON.parse(rawPackageVersion).results;
+            this.formattedPackageVersion = packageVersion.major + '.' + packageVersion.minor;
         } catch (error) {
             let errorMessage = getErrorMessage(error);
             this.showSetupToast(errorMessage, 'error', 'sticky');
@@ -176,18 +180,18 @@ export default class FirstTimeSetup extends LightningElement {
         try {
             const setupData = await getSetupData();
             const responseData = JSON.parse(setupData);
-            if (responseData.error) { 
+            if (responseData.error) {
                 this.showSetupToast(responseData.error, 'error', 'sticky');
                 return;
             }
-            
+
             this.setupComplete = responseData.results.setupData.isSetupComplete__c;
             if(this.setupComplete) {
                 return;
             }
 
             let completedSteps = JSON.parse(responseData.results.setupData.Steps_Completed__c);
-            if (!responseData.results.isConnected && Object.keys(completedSteps).length > 0) { 
+            if (!responseData.results.isConnected && Object.keys(completedSteps).length > 0) {
                 //setting info step to complete and landing user on auth step
                 this.setupStarted = true;
                 this.steps[this.activeStepIndex].isComplete = true;
@@ -200,7 +204,7 @@ export default class FirstTimeSetup extends LightningElement {
             if (!responseData.results.isConnected && Object.keys(completedSteps).length <= 0) {
                 return;
             }
-            
+
             this.nextDisabled = false;
             this.setupStarted = true;
             this.steps[this.activeStepIndex].isComplete = true;
@@ -229,7 +233,7 @@ export default class FirstTimeSetup extends LightningElement {
         }
     }
 
-    next() { 
+    next() {
         this.contentLoading = true;
         this.stepName = this.steps[this.activeStepIndex].name;
         if(this.stepName === 'C-DATA-MAPPING-STEP') {
@@ -238,24 +242,24 @@ export default class FirstTimeSetup extends LightningElement {
             this.template.querySelector('c-sync-preferences-step').saveModifiedSyncPreferences();
         } else {
             this.nextNavigate();
-        }       
+        }
     }
 
     async nextNavigate() {
         try {
             if(this.activeStepIndex <= (this.steps.length - 1)) {
-                 
+
                 let stepNumber = this.activeStepIndex + 1;
                 let isLastStep = false;
                 if (stepNumber === (this.steps.length)) {
                     isLastStep = true
                     this.steps[this.activeStepIndex].isActive = false;
                     this.steps[this.activeStepIndex].isComplete = true;
-                    this.nextDisabled = true;     
+                    this.nextDisabled = true;
                     this.setupComplete = true;
                     this.showSetupToast('Setup completed', 'success');
                 }
-            
+
                 const saveSetupData = await saveData({
                     newSetupDataRec: {
                         Steps_Completed__c: JSON.stringify({
@@ -313,7 +317,7 @@ export default class FirstTimeSetup extends LightningElement {
                         previousSectionContent.classList.add('slds-hide');
                     }
                 }
-                // Make selected section active 
+                // Make selected section active
                 targetSection.classList.add('stripe-navigation-item_active');
                 this.activeSectionIndex = targetSection.dataset.index;
                 const targetSectionContent = this.template.querySelector('c-step[data-index="' + this.activeSectionIndex + '"]');
@@ -336,7 +340,7 @@ export default class FirstTimeSetup extends LightningElement {
             this.hideCancelModal();
             return;
         }
-        
+
         this.template.querySelector('c-data-mapping-step').connectedCallback();
         this.hideCancelModal();
     }
@@ -366,7 +370,7 @@ export default class FirstTimeSetup extends LightningElement {
                 targetSectionContent.classList.remove('slds-hide');
             }
         }
-        
+
     }
 
     showNextStep() {
@@ -394,7 +398,7 @@ export default class FirstTimeSetup extends LightningElement {
     showSetupToast(message, variant, mode) {
         this.template.querySelector('c-toast').show(message, variant, mode);
     }
-    
+
     showToast(event) {
         event.stopPropagation();
         let toast = event.detail.toast;

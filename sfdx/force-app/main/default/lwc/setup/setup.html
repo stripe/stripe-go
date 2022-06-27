@@ -6,11 +6,11 @@
         <template if:true={loading}>
             <lightning-spinner alternative-text="Loading..."></lightning-spinner>
         </template>
-        <!-- /Loading State -->
-        <template if:false={loading}>
-            <!-- Missing Permissions State -->
-            <template if:true={hasMissingPermissions}>
-                <div class="slds-container slds-container_center slds-container_medium">
+        <div class="stripe-page-container slds-container slds-container_center">
+            <!-- /Loading State -->
+            <template if:false={loading}>
+                <!-- Missing Permissions State -->
+                <template if:true={hasMissingPermissions}>
                     <div class="slds-box slds-theme_default">
                         <div class="slds-illustration slds-illustration_small">
                             <svg class="slds-illustration__svg" viewBox="0 0 424 253" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
@@ -173,11 +173,9 @@
                             <!-- /Object Permissions -->
                         </div>
                     </div>
-                </div>
-            </template>
-            <!-- /Missing Permissions State -->
-            <template if:false={hasMissingPermissions}>
-                <div class={contentClasslist}>
+                </template>
+                <!-- /Missing Permissions State -->
+                <template if:false={hasMissingPermissions}>
                     <!-- First Time Setup Landing -->
                     <template if:true={showSetupLanding}>
                         <div class="stripe-landing slds-is-absolute">
@@ -237,7 +235,7 @@
                         </div>
                     </template>
                     <!-- /First Time Setup Landing -->
-    
+
                     <div class={stepContentClasslist}>
                         <div class="slds-grid slds-gutters_direct-large slds-grid_pull-padded-large">
                             <!-- Page Sidebar -->
@@ -277,7 +275,7 @@
                                         </div>
                                     </template>
                                     <!-- /First Time Setup Steps -->
-                    
+
                                     <!-- Settings Page Navigation -->
                                     <template if:true={setupComplete}>
                                         <div class="slds-media slds-media_center slds-m-bottom_large">
@@ -312,7 +310,7 @@
                                 <template if:false={setupComplete}>
                                     <c-step step-name="Update Page Layouts" data-index="0" setup-complete={setupComplete} onnext={next} class="slds-hide" loading={contentLoading} illustration-url={} back-disabled>
                                         <p slot="description">
-                                            A few custom fields have been included in the Stripe Billing for Salesforce managed package that can optionally be added to your existing object page layouts. It is recommended you do this now before proceeding to connect Stripe to Salesforce, but these fields can be added at any time. 
+                                            A few custom fields have been included in the Stripe Billing for Salesforce managed package that can optionally be added to your existing object page layouts. It is recommended you do this now before proceeding to connect Stripe to Salesforce, but these fields can be added at any time.
                                         </p>
                                         <c-org-settings-step>
                                         </c-org-settings-step>
@@ -324,7 +322,7 @@
                                         <p slot="intro-description">
                                             This step will collect the required information to allow your Salesforce org and Stripe account to communicate. Log in to your Stripe account and grant access to your Salesforce org to connect the two systems.
                                         </p>
-                                        <c-system-connections-step 
+                                        <c-system-connections-step
                                             ongetmappingconfigurations={getmappingconfigurations}
                                             onshowtoast={showToast}>
                                         </c-system-connections-step>
@@ -360,7 +358,7 @@
                                     </c-step>
                                 </template>
                                 <!-- /First Time Setup Steps -->
-    
+
                                 <!-- Settings Page Sections -->
                                 <template if:true={setupComplete}>
                                     <!-- Landing Page -->
@@ -383,17 +381,17 @@
                                     <div class={settingsContentClasslist}>
                                         <c-step step-name="Connect Stripe and Salesforce" class="slds-hide" data-index="0" loading={contentLoading} setup-complete footer-hidden>
                                             <p slot="description">
-                                                Allow your Salesforce org and Stripe to communicate. Review the current connection status for both Stripe and Salesforce. If there is an issue, you may need to reconnect one or both accounts. 
+                                                Allow your Salesforce org and Stripe to communicate. Review the current connection status for both Stripe and Salesforce. If there is an issue, you may need to reconnect one or both accounts.
                                             </p>
-                                            <c-system-connections-step 
+                                            <c-system-connections-step
                                                 onshowtoast={showToast}>
                                             </c-system-connections-step>
-                                        </c-step> 
+                                        </c-step>
                                         <c-step step-name="Define Data Mapping" setup-complete onsave={save} save-disabled={saveDisabled} class="slds-hide" data-index="1" loading={contentLoading}>
                                             <p slot="description">
                                                 Determine how Stripe data is mapped to your Salesforce org. Mappings are grouped by Stripe object, each of which has its own set of mapping groups. Field mappings can either be a Salesforce field, which reads Salesforce data on a per-record basis, or a static value, which will apply the same value to all records.
                                             </p>
-                                            <c-data-mapping-step 
+                                            <c-data-mapping-step
                                                 onvaluechange={enableSave}
                                                 onsavecomplete={completeSave}
                                                 oncontentloading={enableContentLoading}
@@ -405,7 +403,7 @@
                                             <p slot="description">
                                                 Determine how and when data is synced between Stripe and Salesforce. Adjust when Stripe data should start to sync, how many records are saved in your org at one time, how many Salesforce API calls Stripe is allowed to make, and more. Default values have been provided; be sure to review and adjust sync settings to suit your Salesforce org's needs.
                                             </p>
-                                            <c-sync-preferences-step 
+                                            <c-sync-preferences-step
                                                 onvaluechange={enableSave}
                                                 onsavecomplete={completeSave}
                                                 onshowtoast={showToast}
@@ -419,9 +417,13 @@
                             <!-- /Page Content -->
                         </div>
                     </div>
-                </div>
+                </template>
             </template>
-        </template>
+        </div>
+
+        <!-- Package Version -->
+        <div style="margin-top: -2rem" class="slds-text-align_center slds-text-body_small slds-text-color_weak slds-m-top_large">Package Version: {formattedPackageVersion}</div>
+        <!-- /Package Version -->
     </div>
 
     <!-- Cancel Modal -->
