@@ -395,7 +395,7 @@ To pass undocumented parameters to Stripe using stripe-go you need to use the `A
 
 #### Properties
 
-To retrieve undocumented properties from Stripe using Go you can use an option in the library to return the raw JSON object and return the property. An example of this is shown below:
+You can access undocumented properties returned by Stripe by querying the raw response JSON object. An example of this is shown below:
 
 ```go
 customer, _ = customer.Get("cus_1234", nil);
