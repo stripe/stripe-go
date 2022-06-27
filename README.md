@@ -374,7 +374,7 @@ c.Customer.Name  // Name is now also available (if it had a value)
 
 stripe-go is a typed library and it supports all public properties or parameters.
 
-Stripe sometimes has beta which introduces new properties or parameters that are not immediately public. The library does not support these properties or parameters until they are public but there is still an approach that allows you to use them.
+Stripe sometimes launches private beta features which introduce new properties or parameters that are not immediately public. These will not have typed accessors in the stripe-go library but can still be used. 
 
 #### Parameters
 
