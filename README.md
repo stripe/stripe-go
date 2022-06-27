@@ -378,7 +378,7 @@ Stripe sometimes has beta which introduces new properties or parameters that are
 
 #### Parameters
 
-To pass undocumented parameters to Stripe using stripe-go you need to use the `putExtraParam()` method, as shown below:
+To pass undocumented parameters to Stripe using stripe-go you need to use the `AddExtra()` method, as shown below:
 
 ```go
 
