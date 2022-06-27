@@ -73,7 +73,7 @@ group :test do
   gem 'capybara-screenshot', '~> 1.0.26'
 
   gem 'mocha', '~> 1.14'
-  gem 'rack-test', '~> 1.1.0'
+  gem 'rack-test', '~> 2.0.0'
   gem 'database_cleaner', '~> 1.7.0'
 end
 
