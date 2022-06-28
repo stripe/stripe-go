@@ -286,7 +286,7 @@ export default class SyncPreferencesStep extends LightningElement {
             }
 
             if (!responseData.results.syncAllRecordsDispatched) {
-                this.showToast('There was an error dispatching the records for syncing, Please try agian.', 'error', 'sticky');
+                this.showToast('There was an error syncing records, please try again.', 'error', 'sticky');
                 return
             } 
 

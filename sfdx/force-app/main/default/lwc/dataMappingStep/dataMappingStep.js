@@ -832,6 +832,7 @@ export default class DataMappingStep extends LightningElement {
     @api async saveCongfiguredMappings() {
         this.loading = true;
         let saveSuccess = false;
+
         const listOfStripeMappingObjects = [
             {
                 object: 'customer',
@@ -868,23 +869,29 @@ export default class DataMappingStep extends LightningElement {
             const saveMappingData = await saveMappingConfigurations({
                 jsonMappingConfigurationsObject: JSON.stringify(this.allMappingList)
             });
+
             const responseData = JSON.parse(saveMappingData);
             if(responseData.error) {
                 this.showToast(responseData.error, 'error', 'sticky');
+                return;
             }
-            let isConfigSaved = responseData.results.isConfigSaved;
+
+            const isConfigSaved = responseData.results.isConfigSaved;
             if(!isConfigSaved) {
                 this.showToast('There was a problem saving data mapping', 'error', 'sticky');
                 return;  
             } 
+
             this.showToast('Data mapping was successfully saved', 'success');
             saveSuccess = true;
             this.isMappingsUpdated = false;
         } catch (error) {
-            let errorMessage = getErrorMessage(error);
+            const errorMessage = getErrorMessage(error);
             this.showToast(errorMessage, 'error', 'sticky');
         } finally {
             this.loading = false;
+
+            // triggers the `oncompletesave` bound function, which is tied to `completeSave` in the setup component
             this.dispatchEvent(new CustomEvent('savecomplete', {
                 detail: {
                     saveSuccess: saveSuccess

@@ -11,12 +11,32 @@ public with sharing class test_setupAssistant {
         System.assert((Boolean)responseMap.get('isSuccess'), responseMap.get('error'));
 
         Map<String, Object> resultsMap = (Map<String, Object>)responseMap.get('results');
+        System.assertEquals(true, resultsMap.get('isConnected'));
         System.assert(resultsMap.containsKey('setupData'), '`data` not found');
+
+        Map<String, Object> setupDataMap = (Map<String, Object>)resultsMap.get('setupData');
+        System.assertEquals(false, setupDataMap.get('isSetupComplete__c'));
+    }
+
+    @isTest
+    static public void testSetupAssistant_getSetupDataWithNoDefault() {
+        String response = setupAssistant.getSetupData();
+
+        Map<String, Object> responseMap = (Map<String, Object>)JSON.deserializeUntyped(response);
+        System.assert((Boolean)responseMap.get('isSuccess'), responseMap.get('error'));
+
+        Map<String, Object> resultsMap = (Map<String, Object>)responseMap.get('results');
+        System.assert(resultsMap.containsKey('setupData'), '`data` not found');
+
+        Map<String, Object> setupDataMap = (Map<String, Object>)resultsMap.get('setupData');
+        System.assert(setupDataMap.containsKey('Steps_Completed__c'), '`data` not found');
+        System.assertEquals(false, setupDataMap.get('isSetupComplete__c'));
     }
 
     @isTest
     static public void testUtilities_isCpqEnabled() {
         Boolean isCpqEnabled = utilities.isCpqEnabled();
+        // TODO should change null to explicit boolean check based on org ID
         System.assertNotEquals(null, isCpqEnabled);
     }
 

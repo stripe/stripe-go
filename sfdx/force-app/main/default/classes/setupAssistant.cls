@@ -1,6 +1,5 @@
 public with sharing class setupAssistant {
-
-     //gets steps completed from setup data to manage/presist states
+    // gets steps completed from setup data to manage/presist states
     @AuraEnabled
     public static String getSetupData() {
         responseData rd = new responseData();
@@ -11,27 +10,24 @@ public with sharing class setupAssistant {
             if(stripeConnectRec.Id == null || !stripeConnectRec.Salesforce_Connected__c || !stripeConnectRec.Stripe_Connected__c) {
                 isConnected = false;
             }
-            Set<String> fields = new Set<String> {
-                'Id',
-                'Steps_Completed__c',
-                'isSetupComplete__c'
-            };
 
-            List<Setup_Data__c> setupDataQuery = [SELECT Id, Steps_Completed__c, isSetupComplete__c
-                                        FROM Setup_Data__c
-                                        WHERE Name = :constants.SETUP_DATA_RECORD_NAME
-                                        WITH SECURITY_ENFORCED];
+            List<Setup_Data__c> setupDataQuery = [
+                SELECT Id, Steps_Completed__c, isSetupComplete__c
+                FROM Setup_Data__c
+                WHERE Name = :constants.SETUP_DATA_RECORD_NAME
+                WITH SECURITY_ENFORCED
+            ];
             Setup_Data__c setupData;
 
             if (!setupDataQuery.isEmpty()) {
                 setupData = setupDataQuery[0];
             } else {
-                setupData = new Setup_Data__c();
-                setupData.Name = constants.SETUP_DATA_RECORD_NAME;
-            }
-
-            if (String.isEmpty(setupData.Steps_Completed__c)) {
-                setupData.Steps_Completed__c = '{}';
+                // default values must be set explicitly since this record is NOT upserted and does not inherit database defaults
+                setupData = new Setup_Data__c(
+                    Steps_Completed__c = '{}',
+                    Name = constants.SETUP_DATA_RECORD_NAME,
+                    isSetupComplete__c = false
+                );
             }
 
             rd.put('setupData', setupData);
