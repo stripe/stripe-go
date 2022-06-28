@@ -93,7 +93,7 @@ module Critic
       }.merge(additional_fields))
     end
 
-    def salesforce_recurring_product_with_price(price: nil)
+    def salesforce_recurring_product_with_price(price: nil, additional_product_fields: {})
       # blanking out the subscription type ensures it is a one-time product
       product_id = create_salesforce_product(additional_fields: {
         # anything non-nil indicates subscription/recurring pricing
@@ -101,12 +101,12 @@ module Critic
 
         CPQ_PRODUCT_SUBSCRIPTION_TYPE => CPQProductSubscriptionTypeOptions::RENEWABLE,
 
-        # default term of one year
-        CPQ_QUOTE_SUBSCRIPTION_TERM => 12,
+        # default term of one month
+        CPQ_QUOTE_SUBSCRIPTION_TERM => 1,
 
         # one month
         CPQ_QUOTE_BILLING_FREQUENCY => CPQBillingFrequencyOptions::MONTHLY.serialize,
-      })
+      }.merge(additional_product_fields))
 
       pricebook_entry_id = create_salesforce_price(sf_product_id: product_id, price: price)
       [product_id, pricebook_entry_id]
@@ -123,11 +123,13 @@ module Critic
       [product_id, pricebook_entry_id]
     end
 
-    def create_subscription_order(sf_product_id: nil)
+    def create_subscription_order(sf_product_id: nil, sf_account_id: nil)
       create_salesforce_order(
         sf_product_id: sf_product_id,
+        sf_account_id: sf_account_id,
         additional_quote_fields: {
           CPQ_QUOTE_SUBSCRIPTION_START_DATE => DateTime.now.strftime("%Y-%m-%d"),
+          # one year / 12 months
           CPQ_QUOTE_SUBSCRIPTION_TERM => 12.0,
         }
       )

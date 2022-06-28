@@ -383,7 +383,7 @@ class StripeForce::Translate
     up_to = if upper_bound.nil?
       'inf'
     else
-      if is_integer_value?(upper_bound)
+      if Integrations::Utilities::StripeUtil.is_integer_value?(upper_bound)
         upper_bound.to_i
       else
         throw_user_failure!(
@@ -502,6 +502,8 @@ class StripeForce::Translate
     # to_s is used here to (a) satisfy typing requirements and (b) ensure BigDecimal can parse the float properly
     stripe_price.unit_amount_decimal = normalize_float_amount_for_stripe(stripe_price.unit_amount_decimal.to_s, @user, as_decimal: true)
 
+    # TODO validate billing frequency and subscription term
+
     # if tiered pricing is set up, then we ignore any non-tiered pricing configuration
     if is_tiered_price
       # if non-tiered pricing fields are included Stripe will throw an error
@@ -528,13 +530,15 @@ class StripeForce::Translate
     # this avoids nil exception errors in various cases where a field has not been defined
     stripe_price[:recurring] ||= {}
 
-    # by omitting the recurring params it sets `type: one_time`
+    # by omitting the recurring params Stripe defaults to `type: one_time`
     # this param cannot be set directly
-    if recurring_item?(sf_object.sobject_type == SF_PRICEBOOK_ENTRY ? sf_product : sf_object)
+    is_recurring_item = recurring_item?(sf_object.sobject_type == SF_PRICEBOOK_ENTRY ? sf_product : sf_object)
+
+    if is_recurring_item
       # NOTE on the price level, we are not concerned with the billing term
       #      that can be defined (as a default) on the product, but it only comes into play with the subscription schedule
       if sf_cpq_term_interval != 'month'
-        raise 'unsupported global term uniq'
+        raise 'only monthly terms are currently supported'
       end
 
       stripe_price.recurring[:usage_type] = transform_salesforce_billing_type_to_usage_type(stripe_price.recurring[:usage_type])
@@ -551,8 +555,29 @@ class StripeForce::Translate
       # stripe_price.recurring = {}
     end
 
-    # without this, some fields will be excluded
-    stripe_price.dirty!
+    # we should only transform licensed prices that are not customized
+    if is_recurring_item && !is_tiered_price && sf_object.sobject_type == SF_ORDER_ITEM
+      # TODO this is very naive: we need a better way of determining if the price field was customized
+      # TODO we'll probably need some sort of feature flag for this as well
+      order_line_price_key = mapper.mapping_key_for_record(Stripe::Price, sf_object)
+      is_using_custom_price = !@user.field_defaults.dig(order_line_price_key, 'unit_amount_decimal').nil? ||
+        (
+          !@user.field_mappings.dig(order_line_price_key, 'unit_amount_decimal').nil? &&
+          @user.field_mappings.dig(order_line_price_key, 'unit_amount_decimal') != @user.required_mappings.dig(order_line_price_key, 'unit_amount_decimal')
+        )
+
+      if !is_using_custom_price
+        log.info 'custom price not used, adjusting unit_amount_decimal'
+
+        billing_frequency = billing_frequency_of_price_in_months(stripe_price)
+
+        # TODO need to stop hardcoding this value!
+        # NOTE in most cases, this value should be the same as `sf_object['SBQQ__ProrateMultiplier__c']` if the user has product-level subscription term enabled
+        price_multiplier = determine_subscription_term_multiplier_for_billing_frequency(sf_object['SBQQ__SubscriptionTerm__c'], billing_frequency)
+
+        stripe_price.unit_amount_decimal = stripe_price.unit_amount_decimal / price_multiplier
+      end
+    end
 
     stripe_price
   end
@@ -610,8 +635,8 @@ class StripeForce::Translate
     # if they aren't *exactly* the same, this will trigger a new price to be created
     # we'll probably need to do something a bit smarter here in the future but it's not obvious what
     # additional logic we should include here at the moment.
-    pricebook_params = generate_price_params_from_sf_object(sf_pricebook_entry, sf_product).serialize_params
-    order_item_params = generate_price_params_from_sf_object(sf_order_item, sf_product).serialize_params
+    pricebook_params = generate_price_params_from_sf_object(sf_pricebook_entry, sf_product).to_hash
+    order_item_params = generate_price_params_from_sf_object(sf_order_item, sf_product).to_hash
 
     # metadata *could* have important financial data for downstream systems
     # however, most of the time users will not pull this information directly from prices
@@ -683,11 +708,8 @@ class StripeForce::Translate
           existing_stripe_price.recurring.interval != generated_stripe_price.recurring[:interval] ||
           existing_stripe_price.recurring.interval_count != generated_stripe_price.recurring[:interval_count]
 
-        existing_stripe_price.dirty!
-        generated_stripe_price.dirty!
-
         raise Integrations::Errors::UnhandledEdgeCase.new("expected generated prices to be equal, but they differed",
-          metadata: HashDiff::Comparison.new(existing_stripe_price.serialize_params, generated_stripe_price.serialize_params).diff
+          metadata: HashDiff::Comparison.new(existing_stripe_price.to_hash, generated_stripe_price.to_hash).diff
         )
       end
 
@@ -732,9 +754,10 @@ class StripeForce::Translate
     # for an externall-used price so the "latest price" for a specific price-type can be used, probably in a website form or something
     # https://jira.corp.stripe.com/browse/RUN_COREMODELS-1027
 
-    stripe_price.dirty!
+    sanitize(stripe_price)
+
     catch_stripe_api_errors(sf_object) do
-      Stripe::Price.create(stripe_price.serialize_params, @user.stripe_credentials)
+      Stripe::Price.create(stripe_price.to_hash, @user.stripe_credentials)
     end
   end
 
@@ -747,10 +770,6 @@ class StripeForce::Translate
 
     # TODO maybe pull this from the mapper in order to make this customizable?
     !sf_object[CPQ_QUOTE_SUBSCRIPTION_PRICING].nil?
-  end
-
-  def is_integer_value?(value)
-    value.to_i == value.to_f
   end
 
   # TODO we can probably remove this now that we have `unit_amount_decimal`
@@ -806,7 +825,7 @@ class StripeForce::Translate
       apply_mapping(phase_item, sf_order_item)
 
       # TODO add test case for this
-      unless is_integer_value?(phase_item.quantity)
+      unless Integrations::Utilities::StripeUtil.is_integer_value?(phase_item.quantity)
         throw_user_failure!(
           salesforce_object: sf_order_item,
           message: "Quantity specified as a decimal value. Only integers are supported."
@@ -848,6 +867,61 @@ class StripeForce::Translate
   # TODO can we assume a consistent date format? What about TZs here?
   def salesforce_date_to_unix_timestamp(date_string)
     DateTime.parse(date_string).to_time.to_i
+  end
+
+  def billing_frequency_of_price_in_months(stripe_price)
+    # for dev speed, let's assume everything is > monthly
+    if %w{week day}.include?(stripe_price.recurring.interval)
+      raise Integrations::Errors::UnhandledEdgeCase.new("unsupported price interval")
+    end
+
+    interval_in_months = case stripe_price.recurring.interval
+    when 'month'
+      1
+    when 'year'
+      12
+    else
+      raise Integrations::Errors::UnhandledEdgeCase.new("unexpected stripe pricing interval")
+    end
+
+    stripe_price.recurring.interval_count * interval_in_months
+  end
+
+  # service period and billing frequency are decoupled in CPQ
+  # both values should be in months, but we want to support days in the future
+  def determine_subscription_term_multiplier_for_billing_frequency(subscription_term, billing_frequency)
+    # if specified iterations is less than the billing frequency of the stripe price then
+    if subscription_term < billing_frequency
+      # TODO we should probably create a invoice item price instead? Unsure of the best approach here, we would want the invoice item to be tied to a product?
+      #      also, if we take this approach we should process all subscription items instead of just one
+      log.info 'iterations is less than price billing frequency, creating a new price for the prorated amount', subscription_term: subscription_term, frequency: billing_frequency
+      return 1
+    end
+
+    # TODO I expect this to happen in proration cases, i.e. 24mo subscription with a order amendment at mo 6
+    if subscription_term % billing_frequency != 0
+      throw_user_failure!(
+        salesforce_object: @origin_salesforce_object,
+        message: "Prorated order amendments are not yet supported"
+      )
+    end
+
+    # TODO maybe this logic should be different if the term source is customized in salesforce?
+    subscription_term / billing_frequency
+  end
+
+  def transform_iterations_by_billing_frequency(iterations, subscription_items)
+    # this is terrible: the best way to figure out the recurrance schedule of a subscription
+    # is to pull one of it's items and check the `recurring` hash. Why is this the case?
+    # because of the level of field customization we allow, the values for the recurring hash
+    # could be *anywhere* so the only alternative would be to regenerate the line items
+    # or bubble up the recurrance through the line item helpers, which would mix responsibility
+    # and make it more challenging to support multi-frequency subscriptions in the future
+
+    price = Stripe::Price.retrieve(subscription_items.first[:price], @user.stripe_credentials)
+
+    billing_frequency_in_months = billing_frequency_of_price_in_months(price)
+    determine_subscription_term_multiplier_for_billing_frequency(iterations, billing_frequency_in_months)
   end
 
   # TODO How can we organize code to support CPQ & non-CPQ use-cases? how can this be abstracted away from the order?
@@ -893,9 +967,13 @@ class StripeForce::Translate
       # when updating it, it is specified on the individual phase object
       subscription_params['start_date'] = salesforce_date_to_unix_timestamp(subscription_params['start_date'])
 
-      # TODO we should ensure integer terms in SF
-      # TODO is the restforce gem somehow formatting everything as a float? Or is this is the real value returned from SF?
-      phase_iterations = subscription_params.delete('iterations').to_i
+
+      # TODO this should really be done *before* generating the line items and therefore creating prices
+      phase_iterations = transform_iterations_by_billing_frequency(
+        # TODO is the restforce gem somehow formatting everything as a float? Or is this is the real value returned from SF?
+        subscription_params.delete('iterations').to_i,
+        subscription_items
+      )
 
       # initial order, so there is only a single phase
       initial_phase = {

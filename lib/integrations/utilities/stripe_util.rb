@@ -25,6 +25,13 @@ module Integrations::Utilities::StripeUtil
 
   module_function :delete_field_from_stripe_object
 
+  # not specific to Stripe, but exclusively used in translating data to Stripe
+  def is_integer_value?(value)
+    value.to_i == value.to_f
+  end
+
+  module_function :is_integer_value?
+
   def stripe_class_from_id(stripe_object_id, raise_on_missing: true)
     # Setting raise_on_missing to false should only be used on internal
     # support tooling.

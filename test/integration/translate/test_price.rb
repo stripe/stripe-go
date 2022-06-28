@@ -8,6 +8,8 @@ class Critic::PriceTranslation < Critic::FunctionalTest
     @user = make_user(save: true)
   end
 
+  # TODO complex price map testing from cloudflare
+
   describe 'price reuse' do
     it 'uses the same price object when the price object is translated twice' do
       _, sf_pricebook_entry_id = salesforce_recurring_product_with_price
@@ -103,8 +105,21 @@ class Critic::PriceTranslation < Critic::FunctionalTest
 
       sf_order = create_order_from_cpq_quote(quote_id)
 
-      # cpq preconditions
-      assert_equal(150, sf_order.TotalAmount.to_i)
+      # cpq preconditions: total amount is the net amount of the contract over the life of the subscription
+      assert_equal(150 * 12, sf_order.TotalAmount.to_i)
+
+      # TODO test the order line price preconditions
+      sf_order_items = sf_get_related(sf_order, SF_ORDER_ITEM)
+      assert_equal(1, sf_order_items.size)
+      sf_order_item = sf_order_items.first
+
+      # proration multiplier is order term / product term
+      assert_equal(12, sf_order_item['SBQQ__ProrateMultiplier__c'])
+      # list price is the original price before modification
+      assert_equal(120, sf_order_item['ListPrice'].to_i)
+      assert_equal(150, sf_order_item['SBQQ__QuotedListPrice__c'].to_i)
+      assert_equal(150 * 12, sf_order_item['UnitPrice'].to_i)
+      assert_equal(sf_order_item['UnitPrice'], sf_order_item['TotalPrice'])
 
       SalesforceTranslateRecordJob.translate(@user, sf_order)
 

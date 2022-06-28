@@ -18,7 +18,7 @@ class Critic::ErrorContextTest < Critic::UnitTest
   sig { returns(ErrorContextTester) }
   def error_context; ErrorContextTester.new end
 
-  it 'sets context with a user, stripe, netsuite reference' do
+  it 'sets context with a user, stripe, salesforce reference' do
     user = make_user
     user.connector_settings[CONNECTOR_SETTING_SALESFORCE_INSTANCE_TYPE] = SFInstanceTypes::PRODUCTION.serialize
     refute(user.sandbox?)
