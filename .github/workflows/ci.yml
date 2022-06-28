@@ -1,14 +1,21 @@
 name: CI
 
 on:
+  workflow_dispatch: {}
   push:
     branches:
       - master
       - beta
+      - release/**
+      - feature/**
+    tags:
+      - v[0-9]+.[0-9]+.[0-9]+*
   pull_request:
     branches:
       - master
       - beta
+      - release/**
+      - feature/**
 
 jobs:
   lint:
