@@ -4,7 +4,7 @@ import { getErrorMessage } from 'c/utils'
 import companyLogo from '@salesforce/resourceUrl/companyLogo';
 import checkUserPermissions from '@salesforce/apex/setupAssistant.checkUserPermissions';
 import getSetupData from '@salesforce/apex/setupAssistant.getSetupData';
-import getPackageVersion from '@salesforce/apex/setupAssistant.getPackageVersion';
+import getPackageVersion from '@salesforce/apex/utilities.getPackageVersion';
 import setOrgType from '@salesforce/apex/utilities.setOrgType';
 import saveData from '@salesforce/apex/setupAssistant.saveData';
 import illustrations from '@salesforce/resourceUrl/stripe_setupIllustrations';
