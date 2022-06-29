@@ -62,6 +62,7 @@ import (
 	terminal_location "github.com/stripe/stripe-go/v72/terminal/location"
 	terminal_reader "github.com/stripe/stripe-go/v72/terminal/reader"
 	testhelpers_customer "github.com/stripe/stripe-go/v72/testhelpers/customer"
+	testhelpers_issuing_card "github.com/stripe/stripe-go/v72/testhelpers/issuing/card"
 	testhelpers_refund "github.com/stripe/stripe-go/v72/testhelpers/refund"
 	testhelpers_testclock "github.com/stripe/stripe-go/v72/testhelpers/testclock"
 	testhelpers_treasury_inboundtransfer "github.com/stripe/stripe-go/v72/testhelpers/treasury/inboundtransfer"
@@ -466,6 +467,40 @@ func TestTestHelpersTreasuryReceivedDebitCreate(t *testing.T) {
 		Currency:         stripe.String(string(stripe.CurrencyUSD)),
 	}
 	result, _ := testhelpers_treasury_receiveddebit.New(params)
+	assert.NotNil(t, result)
+}
+
+func TestSetupAttemptList(t *testing.T) {
+	params := &stripe.SetupAttemptListParams{
+		SetupIntent: stripe.String("si_xyz"),
+	}
+	params.Limit = stripe.Int64(3)
+	result := setupattempt.List(params)
+	assert.NotNil(t, result)
+	assert.Nil(t, result.Err())
+}
+
+func TestTestHelpersIssuingCardDeliverCard(t *testing.T) {
+	params := &stripe.TestHelpersIssuingCardDeliverCardParams{}
+	result, _ := testhelpers_issuing_card.DeliverCard("card_123", params)
+	assert.NotNil(t, result)
+}
+
+func TestTestHelpersIssuingCardFailCard(t *testing.T) {
+	params := &stripe.TestHelpersIssuingCardFailCardParams{}
+	result, _ := testhelpers_issuing_card.FailCard("card_123", params)
+	assert.NotNil(t, result)
+}
+
+func TestTestHelpersIssuingCardReturnCard(t *testing.T) {
+	params := &stripe.TestHelpersIssuingCardReturnCardParams{}
+	result, _ := testhelpers_issuing_card.ReturnCard("card_123", params)
+	assert.NotNil(t, result)
+}
+
+func TestTestHelpersIssuingCardShipCard(t *testing.T) {
+	params := &stripe.TestHelpersIssuingCardShipCardParams{}
+	result, _ := testhelpers_issuing_card.ShipCard("card_123", params)
 	assert.NotNil(t, result)
 }
 
@@ -1816,14 +1851,6 @@ func TestReviewApprove(t *testing.T) {
 	params := &stripe.ReviewApproveParams{}
 	result, _ := review.Approve("prv_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-}
-
-func TestSetupAttemptList(t *testing.T) {
-	params := &stripe.SetupAttemptListParams{}
-	params.Limit = stripe.Int64(3)
-	result := setupattempt.List(params)
-	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
 }
 
 func TestSetupIntentList(t *testing.T) {
