@@ -89,8 +89,14 @@ class Stripe::SubscriptionSchedulePhase < Stripe::StripeObject
   sig { returns(Integer)}
   def start_date; end
 
+  sig { params(arg: Integer).void }
+  def start_date=(arg); end
+
   sig { returns(Integer)}
   def end_date; end
+
+  sig { params(arg: Integer).void}
+  def end_date=(arg); end
 
   sig { returns(T::Hash[T.any(String, Symbol), T.untyped]) }
   def metadata; end
@@ -120,6 +126,15 @@ class Stripe::SubscriptionSchedule
 
   sig { params(arg: T::Array[Stripe::SubscriptionSchedulePhase]).void }
   def phases=(arg); end
+
+  sig { returns(String) }
+  def status; end
+
+  sig { returns(String) }
+  def proration_behavior; end
+
+  sig { params(arg: String).void }
+  def proration_behavior=(arg); end
 
   sig { returns(Stripe::SubscriptionSchedule).params(id: T.any(String, T::Hash[Symbol, T.untyped]), opts: T.nilable(T::Hash[Symbol, T.untyped])) }
   def self.retrieve(id, opts={}); end

@@ -16,9 +16,15 @@ module StripeForce
     SF_PRICEBOOK_ENTRY = 'PricebookEntry'
     SF_CONSUMPTION_SCHEDULE = 'ConsumptionSchedule'
     SF_CONSUMPTION_RATE = 'ConsumptionRate'
+    SF_CONTRACT = 'Contract'
 
     SF_ID = 'Id'
     SF_ORDER_ACCOUNT = 'AccountId'
+    SF_ORDER_CONTRACTED = 'SBQQ__Contracted__c'
+    SF_ORDER_QUOTE = 'SBQQ__Quote__c'
+
+    SF_CONTRACT_ORDER_ID = 'SBQQ__Order__c'
+    SF_CONTRACT_QUOTE_ID = 'SBQQ__Quote__c'
 
     CPQ_QUOTE = 'SBQQ__Quote__c'
     CPQ_CONSUMPTION_SCHEDULE = 'SBQQ__OrderItemConsumptionSchedule__c'
@@ -96,6 +102,7 @@ module StripeForce
     class OrderTypeOptions < T::Enum
       enums do
         NEW = new("New")
+        AMENDMENT = new("Amendment")
       end
     end
 

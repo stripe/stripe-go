@@ -38,6 +38,9 @@ end
 class Restforce::SObject
   # TODO investigate why this isn't included by default on the type generation
   def [](arg); end
+
+  sig { returns(String) }
+  def Id; end
 end
 
 class Array

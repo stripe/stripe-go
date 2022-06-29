@@ -37,7 +37,13 @@ module SalesforceDebugging
     sf_object = @user.sf_client.find(sf_type, sf_id)
   end
 
-  def sf_get_related(source_object, related_object)
+  def sf_get_related(source_object_or_id, related_object)
+    source_object = if source_object_or_id.is_a?(String)
+      sf_get(source_object_or_id)
+    else
+      source_object_or_id
+    end
+
     @user.sf_client.query("SELECT Id FROM #{related_object} WHERE #{source_object.sobject_type}Id = '#{source_object.Id}'").map do |o|
       @user.sf_client.find(related_object, o.Id)
     end
@@ -51,7 +57,13 @@ module SalesforceDebugging
 
   def stripe_jump(id_or_object)
     id_or_object = id_or_object.id if id_or_object.is_a?(Stripe::APIResource)
-    "https://dashboard.stripe.com/#{@user.stripe_account_id}/test/id/#{id_or_object}?account=acct_1JdEinJMQw1guJjW"
+    stripe_url = "https://dashboard.stripe.com/#{@user.stripe_account_id}/test/id/#{id_or_object}?account=acct_1JdEinJMQw1guJjW"
+
+    if Rails.env.production?
+      puts stripe_url
+    else
+      `open "#{stripe_url}"`
+    end
   end
 
   def sf_jump(id_or_object)

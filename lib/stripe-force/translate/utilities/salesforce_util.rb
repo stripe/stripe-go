@@ -26,6 +26,8 @@ module StripeForce::Utilities
         SF_ACCOUNT
       when /^003/
         SF_CONTACT
+      when /^800/
+        SF_CONTRACT
       when /^801/
         SF_ORDER
       when /^802/

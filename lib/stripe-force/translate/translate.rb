@@ -105,7 +105,266 @@ class StripeForce::Translate
   end
 
   def translate_order(sf_object)
-    create_stripe_transaction_from_sf_order(sf_object)
+    contract_structure = determine_order_phases(sf_object)
+
+    create_stripe_transaction_from_sf_order(contract_structure.initial)
+
+    update_subscription_phases_from_order_amendments(contract_structure)
+  end
+
+  sig { params(contract_structure: OrderStructure).void }
+  def update_subscription_phases_from_order_amendments(contract_structure)
+    return if contract_structure.amendments.empty?
+
+    # refresh to include subscription reference on the Stripe ID field in SF
+    contract_structure.initial.refresh
+
+    subscription_schedule = retrieve_from_stripe(
+      Stripe::SubscriptionSchedule,
+      contract_structure.initial
+    )
+
+    if !subscription_schedule
+      raise "initial order should always be present"
+    end
+
+    subscription_schedule = T.cast(subscription_schedule, Stripe::SubscriptionSchedule)
+
+    # at this point, the initial order would have already been translated
+    # and a corresponding subscription schedule created.
+
+    # order amendments contain a negative item if they are adjusting a previous line item
+    # in order to determine what the line items should be for a given phase we need to aggregate
+    # all previous line items together.
+
+    # how we will know if the line items are the same? Price references don't work.
+    # The price of a line item can change across amendments. There's a special field
+    # on an amendmended line item that we can leverage: `SBQQ__RevisedOrderProduct__c`
+
+    last_phase = T.must(subscription_schedule.phases.last)
+
+    # use the current state of the subscription schedule as the starting point for all aggregate line items
+    # TODO there is some risk here that if we don't do the calculation properly right away
+    # TODO should we conver the `items` stripe objects into hashes? Probably more consistent this way.
+
+    # NOTE `to_hash` is a special method on the stripe object which handles nested objects and is NOT the same as `to_h`
+    aggregate_phase_items = T.cast(last_phase.items.map(&:to_hash), T::Array[Hash])
+    subscription_phases = subscription_schedule.phases
+    is_subscription_schedule_cancelled = T.let(false, T::Boolean)
+
+    # SF does not enforce mutation restrictions. It's possible to go in and modify anything you want in Salesforce
+    # for this reason we should NOT mutate the existing phases of a subscription.
+
+    contract_structure.amendments.each_with_index do |sf_order, index|
+      sf_order_items = order_lines_from_order(sf_order)
+      invoice_items_for_order_item, subscription_items_for_order_item = phase_items_from_order_lines(sf_order_items)
+
+      subscription_items_for_order_item.each do |subscription_item|
+        # subscription_item entries are still in our internal phase item structure at this point
+        # they get converted into StripeObjects downstream
+        existing_phase_item = aggregate_phase_items.detect do |i|
+          # TODO I don't like relying on the metadata here; maybe we could regenerate the line items for the first order and use that representation instead?
+          i[:metadata][:salesforce_order_item_id] == subscription_item.original_order_line_id
+          # TODO pretty sure this should be removed
+          # || i[:price] == subscription_item.stripe_params[:price]
+        end
+
+        if existing_phase_item.nil? && subscription_item.original_order_line_id
+          raise Integrations::Errors::UnhandledEdgeCase.new("all items with an original order ID should have a matching line item")
+        end
+
+        if !existing_phase_item.nil?
+          subscription_item.stripe_params[:quantity] += existing_phase_item[:quantity]
+          aggregate_phase_items.delete_if {|i| i.object_id == existing_phase_item.object_id }
+        end
+
+        aggregate_phase_items << subscription_item.stripe_params
+      end
+
+      is_recurring_order = !aggregate_phase_items.empty?
+
+      if !is_recurring_order
+        raise Integrations::Errors::UnhandledEdgeCase.new("order amendments representing one-time invoices")
+      end
+
+      # TODO this probably needs to be tweaked after item merging is working
+      is_order_terminated = aggregate_phase_items.all? {|i| i[:quantity].zero? }
+
+      if is_order_terminated && !invoice_items_for_order_item.empty?
+        raise Integrations::Errors::UnhandledEdgeCase.new("one-time invoice items but terminated order")
+      end
+
+      if is_order_terminated && contract_structure.amendments.size - 1 != index
+        raise Integrations::Errors::UnhandledEdgeCase.new("order terminated, but there's more amendmends")
+      end
+
+      # TODO should probably use a completely different key/mapping for the phase items
+      phase_params = extract_salesforce_params!(sf_order, Stripe::SubscriptionSchedule)
+
+      phase_params['start_date'] = salesforce_date_to_unix_timestamp(phase_params['start_date'])
+      phase_params['iterations'] = transform_iterations_by_billing_frequency(
+        phase_params['iterations'].to_i,
+        T.must(aggregate_phase_items.first)[:price]
+      )
+
+      # this loop excludes the initial phase, which is why we are subtracting by 1
+      if subscription_phases.count - 1 > index
+        log.info 'phase already exists, checking for diff and skipping'
+        # TODO check for diff and log
+        next
+      end
+
+      new_phase = Stripe::StripeObject.construct_from({
+        add_invoice_items: invoice_items_for_order_item,
+        items: aggregate_phase_items.deep_dup,
+        metadata: stripe_metadata_for_sf_object(sf_order),
+      }.merge(phase_params))
+
+      previous_phase = T.must(subscription_phases[index])
+
+      # TODO dynamic metadata on the phase?
+
+      # TODO this is very naive... something better here?
+      # align date boundaries of the schedules
+      previous_phase.end_date = new_phase.start_date
+
+      # TODO I wonder if we can do something smarter here: if the invoice has not been paid/billed, do XYZ?
+      # this is a special case: subscription is cancelled on the same day, the intention here is to not bill the user at all
+      is_subscription_schedule_cancelled = is_order_terminated &&
+        previous_phase.start_date == previous_phase.end_date &&
+        contract_structure.amendments.count == 1
+
+      # if the order is terminated, updating the last phase end date and NOT adding another phase is all that needs to be done
+      if !is_order_terminated
+        subscription_phases << new_phase
+      end
+
+      # TODO report https://jira.corp.stripe.com/browse/PLATINT-1479
+      # You can't pass back the phase in it's original format, it must be modified to avoid:
+      # 'You passed an empty string for 'phases[0][collection_method]'. We assume empty values are an attempt to unset a parameter; however 'phases[0][collection_method]' cannot be unset. You should remove 'phases[0][collection_method]' from your request or supply a non-empty value.'
+      subscription_phases.each do |phase|
+        phase
+          .keys
+          # all fields that are nil from the API should be removed before sending to the API
+          .select {|field_sym| phase.send(field_sym).nil? }
+          .each do |field_sym|
+            Integrations::Utilities::StripeUtil.delete_field_from_stripe_object(
+              phase,
+              field_sym
+            )
+          end
+      end
+
+      # NOTE intentional decision here NOT to update any other subscription fields
+
+      if is_subscription_schedule_cancelled
+        log.info 'cancelling subscription'
+        subscription_schedule.cancel(
+          invoice_now: false,
+          prorate: false
+        )
+      else
+        # TODO wrap in error context
+        subscription_schedule.proration_behavior = 'none'
+        subscription_schedule.phases = subscription_phases
+        subscription_schedule.save
+
+        log.info 'phase added', sf_order_amendmen_id: sf_order.Id
+      end
+
+      update_sf_stripe_id(sf_order, subscription_schedule)
+    end
+  end
+
+  class OrderStructure < T::Struct
+    const :initial, Restforce::SObject
+    const :amendments, T::Array[Restforce::SObject], default: []
+    const :termination, T.nilable(Restforce::SObject), default: nil
+  end
+
+  # sig { params(sf_order: T.untyped).returns(OrderStructure) }
+  def determine_order_phases(sf_order)
+    if ![OrderTypeOptions::AMENDMENT, OrderTypeOptions::NEW].map(&:serialize).include?(sf_order.Type)
+      raise "unsupported order type #{sf_order.Type}"
+    end
+
+    # if the original order, then it will have been contracted if it has additional phases/amendments
+    # if it hasn't been contracted, then we know there's no amendments to look up
+    if sf_order.Type == OrderTypeOptions::NEW.serialize && !sf_order[SF_ORDER_CONTRACTED]
+      return OrderStructure.new(initial: sf_order)
+    end
+
+    if sf_order.Type == OrderTypeOptions::AMENDMENT.serialize
+      # in the case of an amendment, the associated opportunity contains a reference to the contract
+      # which contains a reference to the original quote, which references the orginal order (initial non-amendment order)
+      initial_quote_query = sf.query("SELECT Opportunity.SBQQ__AmendedContract__r.#{SF_CONTRACT_QUOTE_ID} FROM #{SF_ORDER} WHERE Id = '#{sf_order.Id}'")
+
+      if initial_quote_query.count.zero?
+        raise Integrations::Errors::ImpossibleState.new("order amendments should always be associated with the initial quote")
+      end
+
+      # TODO this should never happen and should be removed
+      if initial_quote_query.count > 1
+        raise Integrations::Errors::ImpossibleState.new("exact ID match yields two records")
+      end
+
+      sf_original_quote_id = initial_quote_query.first.dig(SF_OPPORTUNITY, "SBQQ__AmendedContract__r", SF_CONTRACT_QUOTE_ID)
+
+      initial_order_query = sf.query("SELECT Id FROM #{SF_ORDER} WHERE SBQQ__Quote__c = '#{sf_original_quote_id}'")
+
+      if initial_order_query.count.zero?
+        raise Integrations::Errors::ImpossibleState.new("initial order should be associated with an initial quote")
+      end
+
+      # TODO this should never happen and should be removed
+      if initial_order_query.count > 1
+        raise Integrations::Errors::ImpossibleState.new("exact ID match yields two records")
+      end
+
+      initial_order = sf.find(SF_ORDER, initial_order_query.first[SF_ID])
+    else
+      initial_order = sf_order
+    end
+
+    # at this point, we have a reference to the initial order and know it has been contracted
+
+    # if the initial order has been contracted then we need to find all amended orders.
+    # All order amendments contain a reference to the contract in the opportunity associated
+    # the new order. This seems to be the only common reference between orders.
+
+    # first, let's find the contract related to this order
+    # the order field on the contract *could* contain a reference, but is overwritten if an
+    # order amendment is contracted. However, the quote reference on the contract is NOT overwritten.
+    # It will always be the first quote that generated the contract.
+
+    # TODO heredocs for SQL queries!
+
+
+    contract_query = sf.query("SELECT #{SF_ID} FROM #{SF_CONTRACT} WHERE #{SF_CONTRACT_QUOTE_ID} = '#{initial_order[SF_ORDER_QUOTE]}'")
+
+    if contract_query.count.zero?
+
+    end
+
+    if contract_query.size > 1
+
+    end
+
+    sf_contract_id = contract_query.first[SF_ID]
+
+    order_amendment_query = sf.query("SELECT Id FROM #{SF_ORDER} WHERE Opportunity.SBQQ__AmendedContract__c = '#{sf_contract_id}'")
+
+    log.info 'order amendments found', count: order_amendment_query.count
+
+    order_amendments = order_amendment_query.map {|i| sf.find(SF_ORDER, i[SF_ID]) }
+
+    # TODO order amendments by their start date
+    # TODO determine if there is a termination order
+
+    OrderStructure.new(
+      initial: initial_order,
+      amendments: order_amendments
+    )
   end
 
   def translate_product(sf_product)
@@ -823,6 +1082,12 @@ class StripeForce::Translate
     end
   end
 
+  class PhaseItemStructure < T::Struct
+    const :original_order_line_id, T.nilable(String)
+    const :stripe_params, Hash
+  end
+
+  sig { params(sf_order_lines: T::Array[Restforce::SObject]).returns([T::Array[PhaseItemStructure], T::Array[PhaseItemStructure]]) }
   def phase_items_from_order_lines(sf_order_lines)
     invoice_items = []
     subscription_items = []
@@ -865,19 +1130,22 @@ class StripeForce::Translate
         )
       end
 
-      phase_item.dirty!
+      phase_item_struct = PhaseItemStructure.new(
+        # TODO maybe consider including a boolean for this instead?
+        # is_recurring: recurring_item?(sf_order_item),
 
-      # TODO this helper uses a hardcoded field to determine if the line is recurring or not
+        stripe_params: phase_item.to_hash,
+        original_order_line_id: sf_order_item['SBQQ__RevisedOrderProduct__c']
+      )
+
+      # TODO this helper uses a hardcoded field to determine if the line is recurring or not; it should be dynamic instead
       if recurring_item?(sf_order_item)
-        subscription_items << phase_item.serialize_params
+        subscription_items << phase_item_struct
       else
         # TODO metadata is currently not supported here https://jira.corp.stripe.com/browse/PLATINT-1609
-        Integrations::Utilities::StripeUtil.delete_field_from_stripe_object(
-          phase_item,
-          :metadata
-        )
+        phase_item_struct.stripe_params.delete(:metadata)
 
-        invoice_items << phase_item.serialize_params
+        invoice_items << phase_item_struct
       end
     end
 
@@ -930,15 +1198,19 @@ class StripeForce::Translate
     subscription_term / billing_frequency
   end
 
-  def transform_iterations_by_billing_frequency(iterations, subscription_items)
+  sig { params(iterations: Integer, subscription_price_id: String).returns(Integer) }
+  def transform_iterations_by_billing_frequency(iterations, subscription_price_id)
     # this is terrible: the best way to figure out the recurrance schedule of a subscription
-    # is to pull one of it's items and check the `recurring` hash. Why is this the case?
+    # is to pull one of it's items and check the `recurring` hash.
+    #
+    # Why is this the case?
+    #
     # because of the level of field customization we allow, the values for the recurring hash
     # could be *anywhere* so the only alternative would be to regenerate the line items
     # or bubble up the recurrance through the line item helpers, which would mix responsibility
     # and make it more challenging to support multi-frequency subscriptions in the future
 
-    price = Stripe::Price.retrieve(subscription_items.first[:price], @user.stripe_credentials)
+    price = Stripe::Price.retrieve(subscription_price_id, @user.stripe_credentials)
 
     billing_frequency_in_months = billing_frequency_of_price_in_months(price)
     determine_subscription_term_multiplier_for_billing_frequency(iterations, billing_frequency_in_months)
@@ -982,18 +1254,17 @@ class StripeForce::Translate
       # when updating it, it is specified on the individual phase object
       subscription_params['start_date'] = salesforce_date_to_unix_timestamp(subscription_params['start_date'])
 
-
       # TODO this should really be done *before* generating the line items and therefore creating prices
       phase_iterations = transform_iterations_by_billing_frequency(
         # TODO is the restforce gem somehow formatting everything as a float? Or is this is the real value returned from SF?
         subscription_params.delete('iterations').to_i,
-        subscription_items
+        T.must(subscription_items.first).stripe_params[:price]
       )
 
       # initial order, so there is only a single phase
       initial_phase = {
-        add_invoice_items: invoice_items,
-        items: subscription_items,
+        add_invoice_items: invoice_items.map(&:stripe_params),
+        items: subscription_items.map(&:stripe_params),
         iterations: phase_iterations,
 
         metadata: stripe_metadata_for_sf_object(sf_order),
@@ -1032,7 +1303,10 @@ class StripeForce::Translate
       invoice_items.each do |invoice_item_params|
         # TODO we should wrap these in `catch_stripe_api_errors`
         # TODO idempotency keys https://jira.corp.stripe.com/browse/PLATINT-1474
-        Stripe::InvoiceItem.create({customer: stripe_customer}.merge(invoice_item_params), @user.stripe_credentials)
+        Stripe::InvoiceItem.create(
+          {customer: stripe_customer}.merge(invoice_item_params.stripe_params),
+          @user.stripe_credentials
+        )
       end
 
       stripe_transaction = create_stripe_object(Stripe::Invoice, sf_order, additional_stripe_params: {

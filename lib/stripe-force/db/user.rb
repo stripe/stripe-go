@@ -38,9 +38,6 @@ module StripeForce
       if self.new?
         self.enable_feature(:loud_sandbox_logging)
         self.connector_settings = DEFAULT_CONNECTOR_SETTINGS.deep_dup
-      else
-        # TODO during rapid development we want to make it easy to introduce new sets of default configuration
-        self.connector_settings = DEFAULT_CONNECTOR_SETTINGS.deep_dup.deep_merge(self.connector_settings)
       end
 
       self.feature_flags.map!(&:to_sym)

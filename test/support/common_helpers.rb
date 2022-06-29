@@ -72,6 +72,29 @@ module CommonHelpers
     prefix.to_s + random_id
   end
 
+  # Helper to poll for an expected result
+  sig do
+    params(
+      timeout: T.any(Numeric, ActiveSupport::Duration),   # Max time to attempt polling. In seconds if not defined as a Duration
+      interval: T.any(Numeric, ActiveSupport::Duration),  # Time to wait before retrying. In seconds if not defined as a Duration
+      block: Proc,                # Method that is attempted to start and after each interval. If a truthy value is returned, the
+    )                             #     polling will stop and that value is returned.
+    .void
+  end
+  def wait_until(timeout: 30.seconds, interval: 1.seconds, &block)
+    condition_met = T.let(false, T::Boolean)
+
+    Timeout.timeout(timeout) do
+      condition_met = yield block
+      until condition_met
+        puts "Condition not met, waiting #{interval.seconds} seconds"
+        sleep(interval.seconds)
+        condition_met = yield block
+      end
+      condition_met
+    end
+  end
+
   def sf
     @user.sf_client
   end
