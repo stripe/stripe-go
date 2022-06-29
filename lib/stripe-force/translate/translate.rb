@@ -952,11 +952,6 @@ class StripeForce::Translate
       raise Integrations::Errors::ImpossibleState.new("only new orders should be passed for transaction generation")
     end
 
-    if sf_order.Status != OrderStatusOptions::ACTIVATED.serialize
-      log.info 'order is not activated, skipping'
-      return
-    end
-
     stripe_transaction = retrieve_from_stripe(Stripe::SubscriptionSchedule, sf_order)
     stripe_transaction ||= retrieve_from_stripe(Stripe::Invoice, sf_order)
 

@@ -29,7 +29,7 @@ module StripeForce
       CONNECTOR_SETTING_CPQ_TERM_UNIT => 'month',
       "filters": {
         SF_ACCOUNT => nil,
-        SF_ORDER => nil,
+        SF_ORDER => "Status = 'Activated'",
         SF_PRODUCT => nil,
       }.stringify_keys.freeze,
     }.stringify_keys.freeze

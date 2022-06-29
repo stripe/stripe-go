@@ -200,7 +200,7 @@ class Critic::ConfigurationsControllerTest < ApplicationIntegrationTest
       assert_nil(result['settings']['sync_start_date'])
 
       refute_nil(result['settings']['filters'])
-      assert_nil(result['settings']['filters'][SF_ORDER])
+      assert_equal("Status = 'Activated'", result['settings']['filters'][SF_ORDER])
       assert_nil(result['settings']['filters'][SF_ACCOUNT])
       assert_nil(result['settings']['filters'][SF_PRODUCT])
     end
