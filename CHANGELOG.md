@@ -1,5 +1,13 @@
 # Changelog
 
+## 72.117.0 - 2022-06-29
+* [#1487](https://github.com/stripe/stripe-go/pull/1487) API Updates
+  * Add support for `DeliverCard`, `FailCard`, `ReturnCard`, and `ShipCard` test helper methods on resource `Issuing.Card`
+  * Change type of `PaymentLinkPaymentMethodTypesParams` and `PaymentLinkPaymentMethodTypes` from `literal('card')` to `enum`
+  * Add support for `HostedRegulatoryReceiptURL` on `TreasuryReceivedCredit` and `TreasuryReceivedDebit`
+  
+* [#1483](https://github.com/stripe/stripe-go/pull/1483) Document use of undocumented parameters/properties
+
 ## 72.116.0 - 2022-06-23
 * [#1484](https://github.com/stripe/stripe-go/pull/1484) API Updates
   * Add support for `CaptureMethod` on `PaymentIntentConfirmParams` and `PaymentIntentParams`
