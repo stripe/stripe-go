@@ -634,7 +634,11 @@ class StripeForce::Translate
     when CPQBillingFrequencyOptions::ANNUAL
       12
     else
-      raise "unexpected billing frequency #{raw_billing_frequency}"
+      throw_user_failure!(
+        # TODO including the exact line item reference, or specifying the context upstream, would be an improvement here
+        salesforce_object: @origin_salesforce_object,
+        message: "Unexpected billing frequency #{raw_billing_frequency}. Must use default CPQ billing frequencies."
+      )
     end
   end
 

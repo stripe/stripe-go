@@ -40,7 +40,7 @@ class Critic::BillingFrequencyTranslation < Critic::FunctionalTest
       end
 
       sync_record = get_sync_record_by_primary_id(sf_order.Id)
-      assert_match('prices must have the same `interval`', sync_record[SyncRecordFields::RESOLUTION_MESSAGE.serialize])
+      assert_match('prices must have the same `interval`', sync_record[prefixed_stripe_field(SyncRecordFields::RESOLUTION_MESSAGE.serialize)])
     end
   end
 end
