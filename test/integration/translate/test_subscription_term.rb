@@ -60,10 +60,6 @@ class Critic::SubscriptionTermTranslation < Critic::FunctionalTest
 
   # in this scenario a new price will be created for each line item, the pricebook entry price can never be used
   it 'translates an order without a subscription term or frequency on the product but contains a custom price and billing frequency' do
-    @user.field_mappings['price_order_item'] = {
-      'unit_amount_decimal' => 'Description',
-    }
-
     sf_product_id, sf_pricebook_entry_id = salesforce_recurring_product_with_price(
       additional_product_fields: {
         CPQ_QUOTE_BILLING_FREQUENCY => nil,
@@ -99,11 +95,6 @@ class Critic::SubscriptionTermTranslation < Critic::FunctionalTest
     assert_equal(1, sf_order_item['SBQQ__ProrateMultiplier__c'])
     assert_nil(sf_order_item['SBQQ__UnproratedNetPrice__c'])
 
-    sf.update!(SF_ORDER_ITEM, {
-      SF_ID => sf_order_item.Id,
-      'Description' => 140,
-    })
-
     StripeForce::Translate.perform_inline(@user, sf_order.Id)
 
     sf_order.refresh
@@ -126,7 +117,7 @@ class Critic::SubscriptionTermTranslation < Critic::FunctionalTest
     price = Stripe::Price.retrieve(item.price, @user.stripe_credentials)
     assert_equal(1, price.recurring.interval_count)
     assert_equal('month', price.recurring.interval)
-    assert_equal("14000", price.unit_amount_decimal)
+    assert_equal("1000", price.unit_amount_decimal)
   end
 
   describe 'errors' do

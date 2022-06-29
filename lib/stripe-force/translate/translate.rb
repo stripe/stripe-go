@@ -567,13 +567,29 @@ class StripeForce::Translate
         )
 
       if !is_using_custom_price
-        log.info 'custom price not used, adjusting unit_amount_decimal'
+        log.info 'custom price not used, adjusting unit_amount_decimal', sf_order_item_id: sf_object['Id']
 
         billing_frequency = billing_frequency_of_price_in_months(stripe_price)
 
+        # TODO this is a hack and we should really extract this through the extract params
+        quote_subscription_term_path = 'Order.SBQQ__Quote__c.SBQQ__SubscriptionTerm__c'
+        quote_subscription_term = mapper.extract_key_path_for_record(sf_object, quote_subscription_term_path)
+
+        if quote_subscription_term.nil?
+          raise Integrations::Errors::MissingRequiredFields.new(
+            salesforce_object: sf_object,
+            missing_salesforce_fields: [quote_subscription_term_path]
+          )
+        end
+
+        # it's looking like these values are never really aligned and we should ignore the line item
+        if sf_object['SBQQ__SubscriptionTerm__c'] == quote_subscription_term
+          report_edge_case("subscription term on quote matches line item")
+        end
+
         # TODO need to stop hardcoding this value!
         # NOTE in most cases, this value should be the same as `sf_object['SBQQ__ProrateMultiplier__c']` if the user has product-level subscription term enabled
-        price_multiplier = determine_subscription_term_multiplier_for_billing_frequency(sf_object['SBQQ__SubscriptionTerm__c'], billing_frequency)
+        price_multiplier = determine_subscription_term_multiplier_for_billing_frequency(quote_subscription_term, billing_frequency)
 
         stripe_price.unit_amount_decimal = stripe_price.unit_amount_decimal / price_multiplier
       end
