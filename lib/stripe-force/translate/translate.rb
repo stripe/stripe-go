@@ -7,6 +7,7 @@ require_relative './utilities/stripe_util'
 require_relative './utilities/salesforce_util'
 
 require_relative './mapper'
+require_relative './order'
 
 class StripeForce::Translate
   extend T::Sig
@@ -68,7 +69,7 @@ class StripeForce::Translate
     when SF_ACCOUNT
       translate_account(sf_object)
     else
-      raise 'unsupported translation type'
+      raise "unsupported translation type #{sf_object.sobject_type}"
     end
   rescue Integrations::Errors::MissingRequiredFields => e
     create_user_failure(
@@ -130,6 +131,13 @@ class StripeForce::Translate
 
     subscription_schedule = T.cast(subscription_schedule, Stripe::SubscriptionSchedule)
 
+    # TODO we should short-circuit our logic here sooner, but for now let's just track this in the logs sooner
+    if subscription_schedule.status == "canceled"
+      log.error 'subscription is cancelled, it cannot be modified'
+    end
+
+    subscription_schedule = T.cast(subscription_schedule, Stripe::SubscriptionSchedule)
+
     # at this point, the initial order would have already been translated
     # and a corresponding subscription schedule created.
 
@@ -164,13 +172,17 @@ class StripeForce::Translate
         # they get converted into StripeObjects downstream
         existing_phase_item = aggregate_phase_items.detect do |i|
           # TODO I don't like relying on the metadata here; maybe we could regenerate the line items for the first order and use that representation instead?
+          #      or maybe in the future we could use an internal sync record to pull references? Either way, this should change.
           i[:metadata][:salesforce_order_item_id] == subscription_item.original_order_line_id
           # TODO pretty sure this should be removed
           # || i[:price] == subscription_item.stripe_params[:price]
         end
 
         if existing_phase_item.nil? && subscription_item.original_order_line_id
-          raise Integrations::Errors::UnhandledEdgeCase.new("all items with an original order ID should have a matching line item")
+          throw_user_failure!(
+            salesforce_object: sf_order,
+            message: "Any order items that are revising order items from a previous order must not be skipped."
+          )
         end
 
         if !existing_phase_item.nil?
@@ -256,36 +268,38 @@ class StripeForce::Translate
       end
 
       # NOTE intentional decision here NOT to update any other subscription fields
-
       if is_subscription_schedule_cancelled
+        # TODO should we add additional metadata here?
         log.info 'cancelling subscription'
-        subscription_schedule.cancel(
-          invoice_now: false,
-          prorate: false
-        )
+
+        catch_stripe_api_errors(sf_order) do
+          subscription_schedule.cancel(
+            invoice_now: false,
+            prorate: false
+          )
+        end
       else
+        log.info 'adding phase', sf_order_amendmen_id: sf_order.Id
+
         # TODO wrap in error context
         subscription_schedule.proration_behavior = 'none'
         subscription_schedule.phases = subscription_phases
-        subscription_schedule.save
 
-        log.info 'phase added', sf_order_amendmen_id: sf_order.Id
+        catch_stripe_api_errors(sf_order) do
+          subscription_schedule.save
+        end
       end
 
       update_sf_stripe_id(sf_order, subscription_schedule)
     end
   end
 
-  class OrderStructure < T::Struct
-    const :initial, Restforce::SObject
-    const :amendments, T::Array[Restforce::SObject], default: []
-    const :termination, T.nilable(Restforce::SObject), default: nil
-  end
-
   # sig { params(sf_order: T.untyped).returns(OrderStructure) }
   def determine_order_phases(sf_order)
+    # in a fresh CPQ account there is only NEW and AMENDMENT types, but users can and do customize these types
+    # for our purposes, we only care about new and not-new (amendment types) so we don't need to filter these aggressively
     if ![OrderTypeOptions::AMENDMENT, OrderTypeOptions::NEW].map(&:serialize).include?(sf_order.Type)
-      raise "unsupported order type #{sf_order.Type}"
+      log.error 'unexpected order type', type: sf_order.Type
     end
 
     # if the original order, then it will have been contracted if it has additional phases/amendments
@@ -294,10 +308,16 @@ class StripeForce::Translate
       return OrderStructure.new(initial: sf_order)
     end
 
-    if sf_order.Type == OrderTypeOptions::AMENDMENT.serialize
+    if sf_order.Type != OrderTypeOptions::NEW.serialize
       # in the case of an amendment, the associated opportunity contains a reference to the contract
       # which contains a reference to the original quote, which references the orginal order (initial non-amendment order)
-      initial_quote_query = sf.query("SELECT Opportunity.SBQQ__AmendedContract__r.#{SF_CONTRACT_QUOTE_ID} FROM #{SF_ORDER} WHERE Id = '#{sf_order.Id}'")
+      initial_quote_query = sf.query(
+        <<~EOL
+          SELECT Opportunity.SBQQ__AmendedContract__r.#{SF_CONTRACT_QUOTE_ID}
+          FROM #{SF_ORDER}
+          WHERE Id = '#{sf_order.Id}'
+        EOL
+      )
 
       if initial_quote_query.count.zero?
         raise Integrations::Errors::ImpossibleState.new("order amendments should always be associated with the initial quote")
@@ -308,9 +328,22 @@ class StripeForce::Translate
         raise Integrations::Errors::ImpossibleState.new("exact ID match yields two records")
       end
 
-      sf_original_quote_id = initial_quote_query.first.dig(SF_OPPORTUNITY, "SBQQ__AmendedContract__r", SF_CONTRACT_QUOTE_ID)
+      sf_original_quote_id = initial_quote_query.first.dig(
+        SF_OPPORTUNITY,
+        # TODO should pull into a constant
+        "SBQQ__AmendedContract__r",
+        SF_CONTRACT_QUOTE_ID
+      )
 
-      initial_order_query = sf.query("SELECT Id FROM #{SF_ORDER} WHERE SBQQ__Quote__c = '#{sf_original_quote_id}'")
+      log.info 'initial quote found', quote_id: sf_original_quote_id
+
+      initial_order_query = sf.query(
+        <<~EOL
+          SELECT Id
+          FROM #{SF_ORDER}
+          WHERE SBQQ__Quote__c = '#{sf_original_quote_id}'
+        EOL
+      )
 
       if initial_order_query.count.zero?
         raise Integrations::Errors::ImpossibleState.new("initial order should be associated with an initial quote")
@@ -321,7 +354,11 @@ class StripeForce::Translate
         raise Integrations::Errors::ImpossibleState.new("exact ID match yields two records")
       end
 
-      initial_order = sf.find(SF_ORDER, initial_order_query.first[SF_ID])
+      initial_order_id = initial_order_query.first[SF_ID]
+
+      log.info 'found initial order', initial_order_id: initial_order_id
+
+      initial_order = sf.find(SF_ORDER, initial_order_id)
     else
       initial_order = sf_order
     end
@@ -337,29 +374,41 @@ class StripeForce::Translate
     # order amendment is contracted. However, the quote reference on the contract is NOT overwritten.
     # It will always be the first quote that generated the contract.
 
-    # TODO heredocs for SQL queries!
-
-
-    contract_query = sf.query("SELECT #{SF_ID} FROM #{SF_CONTRACT} WHERE #{SF_CONTRACT_QUOTE_ID} = '#{initial_order[SF_ORDER_QUOTE]}'")
+    contract_query = sf.query(
+      <<~EOL
+        SELECT #{SF_ID}
+        FROM #{SF_CONTRACT}
+        WHERE #{SF_CONTRACT_QUOTE_ID} = '#{initial_order[SF_ORDER_QUOTE]}'
+      EOL
+    )
 
     if contract_query.count.zero?
-
+      raise Integrations::Errors::ImpossibleState.new("no contract associated with order")
     end
 
     if contract_query.size > 1
-
+      raise Integrations::Errors::ImpossibleState.new("more than one contract associated with order")
     end
 
     sf_contract_id = contract_query.first[SF_ID]
 
-    order_amendment_query = sf.query("SELECT Id FROM #{SF_ORDER} WHERE Opportunity.SBQQ__AmendedContract__c = '#{sf_contract_id}'")
+    log.info 'contract for order amendment found', contract_id: sf_contract_id
 
-    log.info 'order amendments found', count: order_amendment_query.count
+    # TODO we are hardcoding the subscription start date here, we should pull this dynamically from the mapper
+    # important for results to be ordered with subscription date ascending
+    order_amendment_query = sf.query(
+      <<~EOL
+        SELECT Id FROM #{SF_ORDER}
+        WHERE Opportunity.SBQQ__AmendedContract__c = '#{sf_contract_id}'
+        ORDER BY SBQQ__Quote__r.#{CPQ_QUOTE_SUBSCRIPTION_START_DATE} ASC
+      EOL
+    )
+
+    log.info 'order amendments found', amendmend_ids: order_amendment_query.map(&:Id)
 
     order_amendments = order_amendment_query.map {|i| sf.find(SF_ORDER, i[SF_ID]) }
 
-    # TODO order amendments by their start date
-    # TODO determine if there is a termination order
+    # TODO order amendments by their start date, which is defined on the quote and not the order
 
     OrderStructure.new(
       initial: initial_order,
@@ -861,7 +910,7 @@ class StripeForce::Translate
   def transform_salesforce_billing_type_to_usage_type(raw_usage_type)
     # # https://help.salesforce.com/s/articleView?id=sf.cpq_order_product_fields.htm&type=5
     raw_usage_type ||= begin
-      log.warn 'usage type not defined, defaulting to advanced (licensed)'
+      log.warn 'usage type not defined, defaulting to advance (licensed)'
       CPQProductBillingTypeOptions::ADVANCE.serialize
     end
 
@@ -1061,7 +1110,14 @@ class StripeForce::Translate
   # retrieves all line items, filters out skipped order lines
   def order_lines_from_order(sf_order)
     # TODO should move to cache service
-    sf_order_items = sf.query("SELECT Id FROM #{SF_ORDER_ITEM} WHERE OrderID = '#{sf_order.Id}'").map(&:Id).map do |order_line_id|
+    # TODO could include the order line skip field and skip lines before pulling them
+    sf_order_items = sf.query(
+      <<~EOL
+        SELECT Id
+        FROM #{SF_ORDER_ITEM}
+        WHERE OrderID = '#{sf_order.Id}'
+      EOL
+    ).map(&:Id).map do |order_line_id|
       sf.find(SF_ORDER_ITEM, order_line_id)
     end
 
@@ -1080,11 +1136,6 @@ class StripeForce::Translate
 
       should_keep
     end
-  end
-
-  class PhaseItemStructure < T::Struct
-    const :original_order_line_id, T.nilable(String)
-    const :stripe_params, Hash
   end
 
   sig { params(sf_order_lines: T::Array[Restforce::SObject]).returns([T::Array[PhaseItemStructure], T::Array[PhaseItemStructure]]) }
@@ -1135,6 +1186,7 @@ class StripeForce::Translate
         # is_recurring: recurring_item?(sf_order_item),
 
         stripe_params: phase_item.to_hash,
+        order_line: sf_order_item,
         original_order_line_id: sf_order_item['SBQQ__RevisedOrderProduct__c']
       )
 
