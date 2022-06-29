@@ -168,7 +168,7 @@ type TreasuryReceivedCreditLinkedFlows struct {
 	IssuingAuthorization string `json:"issuing_authorization"`
 	// Set if the ReceivedCredit is also viewable as an [Issuing transaction](https://stripe.com/docs/api#issuing_transactions) object.
 	IssuingTransaction string `json:"issuing_transaction"`
-	// ID of the source flow. Set if `network` is `stripe` and the source flow is visible to the merchant. Examples of source flows include OutboundPayments, payouts, or CreditReversals.
+	// ID of the source flow. Set if `network` is `stripe` and the source flow is visible to the user. Examples of source flows include OutboundPayments, payouts, or CreditReversals.
 	SourceFlow string `json:"source_flow"`
 	// The expandable object of the source flow.
 	SourceFlowDetails *TreasuryReceivedCreditLinkedFlowsSourceFlowDetails `json:"source_flow_details"`
@@ -199,6 +199,8 @@ type TreasuryReceivedCredit struct {
 	FailureCode TreasuryReceivedCreditFailureCode `json:"failure_code"`
 	// The FinancialAccount that received the funds.
 	FinancialAccount string `json:"financial_account"`
+	// A [hosted transaction receipt](https://stripe.com/docs/treasury/moving-money/regulatory-receipts) URL that is provided when money movement is considered regulated under Stripe's money transmission licenses.
+	HostedRegulatoryReceiptURL string `json:"hosted_regulatory_receipt_url"`
 	// Unique identifier for the object.
 	ID                             string                                                `json:"id"`
 	InitiatingPaymentMethodDetails *TreasuryReceivedCreditInitiatingPaymentMethodDetails `json:"initiating_payment_method_details"`

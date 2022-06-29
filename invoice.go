@@ -173,7 +173,7 @@ type InvoiceListParams struct {
 
 // Settings for automatic tax lookup for this invoice.
 type InvoiceAutomaticTaxParams struct {
-	// Controls whether Stripe will automatically compute tax on this invoice.
+	// Whether Stripe automatically computes tax on this invoice. Note that incompatible invoice items (invoice items with manually specified [tax rates](https://stripe.com/docs/api/tax_rates), negative amounts, or `tax_behavior=unspecified`) cannot be added to automatic tax invoices.
 	Enabled *bool `form:"enabled"`
 }
 
@@ -528,7 +528,7 @@ type InvoiceLineListParams struct {
 	Subscription *string `form:"subscription"`
 }
 type InvoiceAutomaticTax struct {
-	// Whether Stripe automatically computes tax on this invoice.
+	// Whether Stripe automatically computes tax on this invoice. Note that incompatible invoice items (invoice items with manually specified [tax rates](https://stripe.com/docs/api/tax_rates), negative amounts, or `tax_behavior=unspecified`) cannot be added to automatic tax invoices.
 	Enabled bool `json:"enabled"`
 	// The status of the most recent automated tax calculation for this invoice.
 	Status InvoiceAutomaticTaxStatus `json:"status"`
