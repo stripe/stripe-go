@@ -30,7 +30,11 @@ module Integrations::Utilities::Currency
 
   sig { params(string_float_amount: String, user: StripeForce::User, as_decimal: T::Boolean).returns(T.any(Integer, BigDecimal, String)) }
   def normalize_float_amount_for_stripe(string_float_amount, user, as_decimal: false)
-    normalize_float_amount_in_currency_for_stripe(base_currency_iso(user), string_float_amount, as_decimal: as_decimal)
+    normalize_float_amount_in_currency_for_stripe(
+      Integrations::Utilities::Currency.base_currency_iso(user),
+      string_float_amount,
+      as_decimal: as_decimal
+    )
   end
 
   sig { params(currency_iso: String, string_float_amount: String, as_decimal: T::Boolean).returns(T.any(Integer, BigDecimal)) }
@@ -55,9 +59,17 @@ module Integrations::Utilities::Currency
 
   sig { params(user: StripeForce::User).returns(String) }
   def base_currency_iso(user)
-    # TODO should cache result from Stripe?
-    # TODO determine currency from SF?
-    'usd'
+    currency = user.connector_settings['default_currency']
+
+    # TODO determine currency from SF? Maybe cache default currency in Stripe?
+
+    if currency.blank?
+      raise Integrations::Errors::ImpossibleState.new("default currency should always be specified")
+    end
+
+    # stripe always expects lowercase currency
+    currency.downcase
   end
+  module_function :base_currency_iso
 
 end

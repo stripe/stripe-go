@@ -788,7 +788,7 @@ class StripeForce::Translate
     stripe_price = Stripe::Price.construct_from({
       # TODO most likely need to pass the order over? Can
       # TODO not seeing currency anywhere? This is only enab  led on certain accounts
-      currency: base_currency_iso(@user),
+      currency: Integrations::Utilities::Currency.base_currency_iso(@user),
 
       # TODO using a `lookup_key` here would allow users to easily update prices
       # https://jira.corp.stripe.com/browse/RUN_COREMODELS-1027
