@@ -56,6 +56,9 @@ gem 'omniauth', '~> 2.1.0'
 # CVE-2019-13117 https://github.com/sparklemotion/nokogiri/issues/1943
 gem 'nokogiri', '>= 1.13.0'
 
+# https://groups.google.com/g/rubyonrails-security/c/ce9PhUANQ6s
+gem 'rails-html-sanitizer', '~> 1.4.3'
+
 group :test do
   gem 'bundler-audit', '~> 0.9.1', require: false
   gem 'brakeman', '~> 5.2.3', require: false
