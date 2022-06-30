@@ -66,7 +66,29 @@ type PaymentLinkPaymentMethodType string
 
 // List of values that PaymentLinkPaymentMethodType can take
 const (
-	PaymentLinkPaymentMethodTypeCard PaymentLinkPaymentMethodType = "card"
+	PaymentLinkPaymentMethodTypeAffirm           PaymentLinkPaymentMethodType = "affirm"
+	PaymentLinkPaymentMethodTypeAfterpayClearpay PaymentLinkPaymentMethodType = "afterpay_clearpay"
+	PaymentLinkPaymentMethodTypeAlipay           PaymentLinkPaymentMethodType = "alipay"
+	PaymentLinkPaymentMethodTypeAUBECSDebit      PaymentLinkPaymentMethodType = "au_becs_debit"
+	PaymentLinkPaymentMethodTypeBACSDebit        PaymentLinkPaymentMethodType = "bacs_debit"
+	PaymentLinkPaymentMethodTypeBancontact       PaymentLinkPaymentMethodType = "bancontact"
+	PaymentLinkPaymentMethodTypeBoleto           PaymentLinkPaymentMethodType = "boleto"
+	PaymentLinkPaymentMethodTypeCard             PaymentLinkPaymentMethodType = "card"
+	PaymentLinkPaymentMethodTypeEPS              PaymentLinkPaymentMethodType = "eps"
+	PaymentLinkPaymentMethodTypeFPX              PaymentLinkPaymentMethodType = "fpx"
+	PaymentLinkPaymentMethodTypeGiropay          PaymentLinkPaymentMethodType = "giropay"
+	PaymentLinkPaymentMethodTypeGrabpay          PaymentLinkPaymentMethodType = "grabpay"
+	PaymentLinkPaymentMethodTypeIdeal            PaymentLinkPaymentMethodType = "ideal"
+	PaymentLinkPaymentMethodTypeKlarna           PaymentLinkPaymentMethodType = "klarna"
+	PaymentLinkPaymentMethodTypeKonbini          PaymentLinkPaymentMethodType = "konbini"
+	PaymentLinkPaymentMethodTypeOXXO             PaymentLinkPaymentMethodType = "oxxo"
+	PaymentLinkPaymentMethodTypeP24              PaymentLinkPaymentMethodType = "p24"
+	PaymentLinkPaymentMethodTypePayNow           PaymentLinkPaymentMethodType = "paynow"
+	PaymentLinkPaymentMethodTypePromptPay        PaymentLinkPaymentMethodType = "promptpay"
+	PaymentLinkPaymentMethodTypeSepaDebit        PaymentLinkPaymentMethodType = "sepa_debit"
+	PaymentLinkPaymentMethodTypeSofort           PaymentLinkPaymentMethodType = "sofort"
+	PaymentLinkPaymentMethodTypeUSBankAccount    PaymentLinkPaymentMethodType = "us_bank_account"
+	PaymentLinkPaymentMethodTypeWechatPay        PaymentLinkPaymentMethodType = "wechat_pay"
 )
 
 // Indicates the type of transaction being performed which customizes relevant text on the page, such as the submit button.
@@ -234,7 +256,7 @@ type PaymentLinkParams struct {
 	OnBehalfOf *string `form:"on_behalf_of"`
 	// A subset of parameters to be passed to PaymentIntent creation for Checkout Sessions in `payment` mode.
 	PaymentIntentData *PaymentLinkPaymentIntentDataParams `form:"payment_intent_data"`
-	// The list of payment method types that customers can use. Only `card` is supported. Pass an empty string to enable automatic payment methods that use your [payment method settings](https://dashboard.stripe.com/settings/payment_methods).
+	// The list of payment method types that customers can use. Pass an empty string to enable automatic payment methods that use your [payment method settings](https://dashboard.stripe.com/settings/payment_methods).
 	PaymentMethodTypes []*string `form:"payment_method_types"`
 	// Controls phone number collection settings during checkout.
 	//

@@ -348,7 +348,7 @@ type SetupIntentPaymentMethodDataP24Params struct {
 type SetupIntentPaymentMethodDataPayNowParams struct{}
 
 // If this is a `promptpay` PaymentMethod, this hash contains details about the PromptPay payment method.
-type SetupIntentPaymentMethodDataPromptpayParams struct{}
+type SetupIntentPaymentMethodDataPromptPayParams struct{}
 
 // Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
 type SetupIntentPaymentMethodDataRadarOptionsParams struct {
@@ -435,7 +435,7 @@ type SetupIntentPaymentMethodDataParams struct {
 	// If this is a `paynow` PaymentMethod, this hash contains details about the PayNow payment method.
 	PayNow *SetupIntentPaymentMethodDataPayNowParams `form:"paynow"`
 	// If this is a `promptpay` PaymentMethod, this hash contains details about the PromptPay payment method.
-	Promptpay *SetupIntentPaymentMethodDataPromptpayParams `form:"promptpay"`
+	PromptPay *SetupIntentPaymentMethodDataPromptPayParams `form:"promptpay"`
 	// Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
 	RadarOptions *SetupIntentPaymentMethodDataRadarOptionsParams `form:"radar_options"`
 	// If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
@@ -758,7 +758,7 @@ type SetupIntentConfirmPaymentMethodDataP24Params struct {
 type SetupIntentConfirmPaymentMethodDataPayNowParams struct{}
 
 // If this is a `promptpay` PaymentMethod, this hash contains details about the PromptPay payment method.
-type SetupIntentConfirmPaymentMethodDataPromptpayParams struct{}
+type SetupIntentConfirmPaymentMethodDataPromptPayParams struct{}
 
 // Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
 type SetupIntentConfirmPaymentMethodDataRadarOptionsParams struct {
@@ -845,7 +845,7 @@ type SetupIntentConfirmPaymentMethodDataParams struct {
 	// If this is a `paynow` PaymentMethod, this hash contains details about the PayNow payment method.
 	PayNow *SetupIntentConfirmPaymentMethodDataPayNowParams `form:"paynow"`
 	// If this is a `promptpay` PaymentMethod, this hash contains details about the PromptPay payment method.
-	Promptpay *SetupIntentConfirmPaymentMethodDataPromptpayParams `form:"promptpay"`
+	PromptPay *SetupIntentConfirmPaymentMethodDataPromptPayParams `form:"promptpay"`
 	// Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
 	RadarOptions *SetupIntentConfirmPaymentMethodDataRadarOptionsParams `form:"radar_options"`
 	// If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.

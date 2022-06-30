@@ -1348,7 +1348,7 @@ type CheckoutSessionCustomerDetailsTaxIDs struct {
 	Value string `json:"value"`
 }
 
-// The customer details including the customer's tax exempt status and the customer's tax IDs. Only present on Sessions in `payment` or `subscription` mode.
+// The customer details including the customer's tax exempt status and the customer's tax IDs. Only the customer's email is present on Sessions in `setup` mode.
 type CheckoutSessionCustomerDetails struct {
 	// The customer's address at the time of checkout. Note: This property is populated only for sessions on or after March 30, 2022.
 	Address *Address `json:"address"`
@@ -1711,7 +1711,7 @@ type CheckoutSession struct {
 	Customer *Customer `json:"customer"`
 	// Configure whether a Checkout Session creates a Customer when the Checkout Session completes.
 	CustomerCreation CheckoutSessionCustomerCreation `json:"customer_creation"`
-	// The customer details including the customer's tax exempt status and the customer's tax IDs. Only present on Sessions in `payment` or `subscription` mode.
+	// The customer details including the customer's tax exempt status and the customer's tax IDs. Only the customer's email is present on Sessions in `setup` mode.
 	CustomerDetails *CheckoutSessionCustomerDetails `json:"customer_details"`
 	// If provided, this value will be used when the Customer object is created.
 	// If not provided, customers will be asked to enter their email address.

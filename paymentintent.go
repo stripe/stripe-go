@@ -530,11 +530,11 @@ const (
 // Providing this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.
 //
 // When processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).
-type PaymentIntentPaymentMethodOptionsPromptpaySetupFutureUsage string
+type PaymentIntentPaymentMethodOptionsPromptPaySetupFutureUsage string
 
-// List of values that PaymentIntentPaymentMethodOptionsPromptpaySetupFutureUsage can take
+// List of values that PaymentIntentPaymentMethodOptionsPromptPaySetupFutureUsage can take
 const (
-	PaymentIntentPaymentMethodOptionsPromptpaySetupFutureUsageNone PaymentIntentPaymentMethodOptionsPromptpaySetupFutureUsage = "none"
+	PaymentIntentPaymentMethodOptionsPromptPaySetupFutureUsageNone PaymentIntentPaymentMethodOptionsPromptPaySetupFutureUsage = "none"
 )
 
 // Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -715,7 +715,7 @@ type PaymentIntentPaymentMethodDataLinkParams struct{}
 type PaymentIntentPaymentMethodDataPayNowParams struct{}
 
 // If this is a `promptpay` PaymentMethod, this hash contains details about the PromptPay payment method.
-type PaymentIntentPaymentMethodDataPromptpayParams struct{}
+type PaymentIntentPaymentMethodDataPromptPayParams struct{}
 
 // Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
 type PaymentIntentPaymentMethodDataRadarOptionsParams struct {
@@ -789,7 +789,7 @@ type PaymentIntentPaymentMethodDataParams struct {
 	// If this is a `paynow` PaymentMethod, this hash contains details about the PayNow payment method.
 	PayNow *PaymentIntentPaymentMethodDataPayNowParams `form:"paynow"`
 	// If this is a `promptpay` PaymentMethod, this hash contains details about the PromptPay payment method.
-	Promptpay *PaymentIntentPaymentMethodDataPromptpayParams `form:"promptpay"`
+	PromptPay *PaymentIntentPaymentMethodDataPromptPayParams `form:"promptpay"`
 	// Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
 	RadarOptions *PaymentIntentPaymentMethodDataRadarOptionsParams `form:"radar_options"`
 	// If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
@@ -1225,7 +1225,7 @@ type PaymentIntentPaymentMethodOptionsPayNowParams struct {
 }
 
 // If this is a `promptpay` PaymentMethod, this sub-hash contains details about the PromptPay payment method options.
-type PaymentIntentPaymentMethodOptionsPromptpayParams struct {
+type PaymentIntentPaymentMethodOptionsPromptPayParams struct {
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// Providing this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.
@@ -1364,7 +1364,7 @@ type PaymentIntentPaymentMethodOptionsParams struct {
 	// If this is a `paynow` PaymentMethod, this sub-hash contains details about the PayNow payment method options.
 	PayNow *PaymentIntentPaymentMethodOptionsPayNowParams `form:"paynow"`
 	// If this is a `promptpay` PaymentMethod, this sub-hash contains details about the PromptPay payment method options.
-	Promptpay *PaymentIntentPaymentMethodOptionsPromptpayParams `form:"promptpay"`
+	PromptPay *PaymentIntentPaymentMethodOptionsPromptPayParams `form:"promptpay"`
 	// If this is a `sepa_debit` PaymentIntent, this sub-hash contains details about the SEPA Debit payment method options.
 	SepaDebit *PaymentIntentPaymentMethodOptionsSepaDebitParams `form:"sepa_debit"`
 	// If this is a `sofort` PaymentMethod, this sub-hash contains details about the SOFORT payment method options.
@@ -1521,6 +1521,8 @@ type PaymentIntentConfirmRadarOptionsParams struct {
 // to learn more about manual confirmation.
 type PaymentIntentConfirmParams struct {
 	Params `form:"*"`
+	// Controls when the funds will be captured from the customer's account.
+	CaptureMethod *string `form:"capture_method"`
 	// Set to `true` to fail the payment attempt if the PaymentIntent transitions into `requires_action`. This parameter is intended for simpler integrations that do not handle customer actions, like [saving cards without authentication](https://stripe.com/docs/payments/save-card-without-authentication).
 	ErrorOnRequiresAction *bool `form:"error_on_requires_action"`
 	// ID of the mandate to be used for this payment.
@@ -1844,14 +1846,14 @@ type PaymentIntentNextActionPayNowDisplayQRCode struct {
 	// The image_url_svg string used to render QR code
 	ImageURLSVG string `json:"image_url_svg"`
 }
-type PaymentIntentNextActionPromptpayDisplayQRCode struct {
+type PaymentIntentNextActionPromptPayDisplayQRCode struct {
 	// The raw data string used to generate QR code, it should be used together with QR code library.
 	Data string `json:"data"`
 	// The URL to the hosted PromptPay instructions page, which allows customers to view the PromptPay QR code.
 	HostedInstructionsURL string `json:"hosted_instructions_url"`
-	// ​​The image_url_png string used to render QR code, can be used as <img src="…" />
+	// The image_url_png string used to render QR code, can be used as <img src="…" />
 	ImageURLPNG string `json:"image_url_png"`
-	// ​​The image_url_svg string used to render QR code, can be used as <img src="…" />
+	// The image_url_svg string used to render QR code, can be used as <img src="…" />
 	ImageURLSVG string `json:"image_url_svg"`
 }
 type PaymentIntentNextActionRedirectToURL struct {
@@ -1911,7 +1913,7 @@ type PaymentIntentNextAction struct {
 	KonbiniDisplayDetails           *PaymentIntentNextActionKonbiniDisplayDetails           `json:"konbini_display_details"`
 	OXXODisplayDetails              *PaymentIntentNextActionOXXODisplayDetails              `json:"oxxo_display_details"`
 	PayNowDisplayQRCode             *PaymentIntentNextActionPayNowDisplayQRCode             `json:"paynow_display_qr_code"`
-	PromptpayDisplayQRCode          *PaymentIntentNextActionPromptpayDisplayQRCode          `json:"promptpay_display_qr_code"`
+	PromptPayDisplayQRCode          *PaymentIntentNextActionPromptPayDisplayQRCode          `json:"promptpay_display_qr_code"`
 	RedirectToURL                   *PaymentIntentNextActionRedirectToURL                   `json:"redirect_to_url"`
 	// Type of the next action to perform, one of `redirect_to_url`, `use_stripe_sdk`, `alipay_handle_redirect`, `oxxo_display_details`, or `verify_with_microdeposits`.
 	Type PaymentIntentNextActionType `json:"type"`
@@ -2228,13 +2230,13 @@ type PaymentIntentPaymentMethodOptionsPayNow struct {
 	// When processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).
 	SetupFutureUsage PaymentIntentPaymentMethodOptionsPayNowSetupFutureUsage `json:"setup_future_usage"`
 }
-type PaymentIntentPaymentMethodOptionsPromptpay struct {
+type PaymentIntentPaymentMethodOptionsPromptPay struct {
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// Providing this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.
 	//
 	// When processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).
-	SetupFutureUsage PaymentIntentPaymentMethodOptionsPromptpaySetupFutureUsage `json:"setup_future_usage"`
+	SetupFutureUsage PaymentIntentPaymentMethodOptionsPromptPaySetupFutureUsage `json:"setup_future_usage"`
 }
 type PaymentIntentPaymentMethodOptionsSepaDebitMandateOptions struct{}
 
@@ -2314,7 +2316,7 @@ type PaymentIntentPaymentMethodOptions struct {
 	OXXO             *PaymentIntentPaymentMethodOptionsOXXO             `json:"oxxo"`
 	P24              *PaymentIntentPaymentMethodOptionsP24              `json:"p24"`
 	PayNow           *PaymentIntentPaymentMethodOptionsPayNow           `json:"paynow"`
-	Promptpay        *PaymentIntentPaymentMethodOptionsPromptpay        `json:"promptpay"`
+	PromptPay        *PaymentIntentPaymentMethodOptionsPromptPay        `json:"promptpay"`
 	SepaDebit        *PaymentIntentPaymentMethodOptionsSepaDebit        `json:"sepa_debit"`
 	Sofort           *PaymentIntentPaymentMethodOptionsSofort           `json:"sofort"`
 	USBankAccount    *PaymentIntentPaymentMethodOptionsUSBankAccount    `json:"us_bank_account"`
