@@ -48,10 +48,7 @@ module Integrations
     # TODO rename `integration_record` to salesforce_record or something
     sig { params(user: T.nilable(StripeForce::User), stripe_resource: T.nilable(Stripe::APIResource), integration_record: T.untyped, tags: T.untyped).void }
     def set_error_context(user: nil, stripe_resource: nil, integration_record: nil, **tags)
-      # clear out all of the context
-      Sentry.set_extras({})
-      Sentry.set_user({})
-      Sentry.set_tags({})
+      Sentry.get_current_scope.clear
 
       # Sentry allows you to filter on some user context fields and all tags
       tags_context = {}
