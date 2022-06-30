@@ -1203,7 +1203,7 @@ func StringSlice(v []string) []*string {
 //
 
 // clientversion is the binding version
-const clientversion = "72.115.0-beta.1"
+const clientversion = "72.117.0"
 
 // defaultHTTPTimeout is the default timeout on the http.Client used by the library.
 // This is chosen to be consistent with the other Stripe language libraries and
