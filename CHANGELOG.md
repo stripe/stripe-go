@@ -1,5 +1,30 @@
 # Changelog
 
+## 72.117.0 - 2022-06-29
+* [#1487](https://github.com/stripe/stripe-go/pull/1487) API Updates
+  * Add support for `DeliverCard`, `FailCard`, `ReturnCard`, and `ShipCard` test helper methods on resource `Issuing.Card`
+  * Change type of `PaymentLinkPaymentMethodTypesParams` and `PaymentLinkPaymentMethodTypes` from `literal('card')` to `enum`
+  * Add support for `HostedRegulatoryReceiptURL` on `TreasuryReceivedCredit` and `TreasuryReceivedDebit`
+  
+* [#1483](https://github.com/stripe/stripe-go/pull/1483) Document use of undocumented parameters/properties
+
+## 72.116.0 - 2022-06-23
+* [#1484](https://github.com/stripe/stripe-go/pull/1484) API Updates
+  * Add support for `CaptureMethod` on `PaymentIntentConfirmParams` and `PaymentIntentParams`
+* [#1481](https://github.com/stripe/stripe-go/pull/1481) API Updates
+  * Add support for `PromptPayPayments` on `AccountCapabilitiesParams` and `AccountCapabilities`
+  * Add support for `PromptPay` on `ChargePaymentMethodDetails`, `PaymentIntentConfirmPaymentMethodDataParams`, `PaymentIntentConfirmPaymentMethodOptionsParams`, `PaymentIntentPaymentMethodDataParams`, `PaymentIntentPaymentMethodOptionsParams`, `PaymentIntentPaymentMethodOptions`, `PaymentMethodParams`, `PaymentMethod`, `SetupIntentConfirmPaymentMethodDataParams`, and `SetupIntentPaymentMethodDataParams`
+  * Add support for `SubtotalExcludingTax` on `CreditNote` and `Invoice`
+  * Add support for `AmountExcludingTax` and `UnitAmountExcludingTax` on `CreditNoteLineItem` and `InvoiceLineItem`
+  * Add support for `RenderingOptions` on `InvoiceParams`
+  * Add support for `TotalExcludingTax` on `Invoice`
+  * Add support for new value `promptpay` on enums `InvoicePaymentSettingsPaymentMethodTypes` and `SubscriptionPaymentSettingsPaymentMethodTypes`
+  * Add support for `AutomaticPaymentMethods` on `OrderPaymentSettings`
+  * Add support for `PromptPayDisplayQRCode` on `PaymentIntentNextAction`
+  * Add support for new value `promptpay` on enum `PaymentMethodType`
+  
+* [#1482](https://github.com/stripe/stripe-go/pull/1482) Use the generated API version
+
 ## 72.115.0 - 2022-06-17
 * [#1477](https://github.com/stripe/stripe-go/pull/1477) API Updates
   * Add support for `FundCashBalance` test helper method on resource `Customer`
