@@ -55,6 +55,14 @@ const (
 	TreasuryReceivedDebitNetworkStripe TreasuryReceivedDebitNetwork = "stripe"
 )
 
+// The type of flow that originated the ReceivedDebit.
+type TreasuryReceivedDebitNetworkDetailsType string
+
+// List of values that TreasuryReceivedDebitNetworkDetailsType can take
+const (
+	TreasuryReceivedDebitNetworkDetailsTypeAch TreasuryReceivedDebitNetworkDetailsType = "ach"
+)
+
 // Set if a ReceivedDebit can't be reversed.
 type TreasuryReceivedDebitReversalDetailsRestrictedReason string
 
@@ -130,6 +138,22 @@ type TreasuryReceivedDebitLinkedFlows struct {
 	IssuingAuthorization string `json:"issuing_authorization"`
 	// Set if the ReceivedDebit is also viewable as an [Issuing Dispute](https://stripe.com/docs/api#issuing_disputes) object.
 	IssuingTransaction string `json:"issuing_transaction"`
+	// The ReceivedCredit that Capital withheld from
+	ReceivedCreditCapitalWithholding string `json:"received_credit_capital_withholding"`
+}
+
+// Details about an ACH transaction.
+type TreasuryReceivedDebitNetworkDetailsAch struct {
+	// ACH Addenda record
+	Addenda string `json:"addenda"`
+}
+
+// Details specific to the money movement rails.
+type TreasuryReceivedDebitNetworkDetails struct {
+	// Details about an ACH transaction.
+	Ach *TreasuryReceivedDebitNetworkDetailsAch `json:"ach"`
+	// The type of flow that originated the ReceivedDebit.
+	Type TreasuryReceivedDebitNetworkDetailsType `json:"type"`
 }
 
 // Details describing when a ReceivedDebit might be reversed.
@@ -155,6 +179,8 @@ type TreasuryReceivedDebit struct {
 	FailureCode TreasuryReceivedDebitFailureCode `json:"failure_code"`
 	// The FinancialAccount that funds were pulled from.
 	FinancialAccount string `json:"financial_account"`
+	// A [hosted transaction receipt](https://stripe.com/docs/treasury/moving-money/regulatory-receipts) URL that is provided when money movement is considered regulated under Stripe's money transmission licenses.
+	HostedRegulatoryReceiptURL string `json:"hosted_regulatory_receipt_url"`
 	// Unique identifier for the object.
 	ID                             string                                               `json:"id"`
 	InitiatingPaymentMethodDetails *TreasuryReceivedDebitInitiatingPaymentMethodDetails `json:"initiating_payment_method_details"`
@@ -163,6 +189,8 @@ type TreasuryReceivedDebit struct {
 	Livemode bool `json:"livemode"`
 	// The network used for the ReceivedDebit.
 	Network TreasuryReceivedDebitNetwork `json:"network"`
+	// Details specific to the money movement rails.
+	NetworkDetails *TreasuryReceivedDebitNetworkDetails `json:"network_details"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// Details describing when a ReceivedDebit might be reversed.
