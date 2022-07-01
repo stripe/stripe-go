@@ -9,11 +9,23 @@ class StripeForce::BaseJob
   extend Integrations::ErrorContext
   extend Integrations::Metrics::ResqueHooks
 
+  extend Resque::Plugins::Retry
+
   @queue = :high
   @retry_limit = 71
 
   @ignore_exceptions = [Resque::TermException, Integrations::Errors::LockTimeout]
   @retry_exceptions = [Exception, Resque::TermException, Integrations::Errors::LockTimeout]
+
+  give_up_callback do |exception, *args|
+    log.error "not retrying job",
+      exception: exception,
+      job: self.name,
+      salesforce_account_id: args[0],
+      stripe_user_id: args[1],
+      livemode: args[2],
+      args: args[3..-1]
+  end
 
   # https://github.com/lantins/resque-retry/blob/dc96d1ea9abbe229cccc810498f05b581d830408/lib/resque/plugins/retry.rb#L80
   # https://github.com/lantins/resque-retry/blob/dc96d1ea9abbe229cccc810498f05b581d830408/test/test_jobs.rb#L323
