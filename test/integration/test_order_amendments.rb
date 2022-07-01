@@ -360,6 +360,17 @@ class Critic::OrderAmendmentTranslation < Critic::FunctionalTest
     assert_equal('canceled', subscription_schedule.status)
   end
 
+  # this can occur if contracts are created async and the apex jobs are backed up
+  # in this case, we'll just process the initial order we have without pulling the contract
+  it 'does not fail if a contract does not yet exist for an order' do
+    sf_order = create_subscription_order
+    sf_contract = create_contract_from_order(sf_order)
+
+    sf.destroy(SF_CONTRACT, sf_contract.Id)
+
+    StripeForce::Translate.perform_inline(@user, sf_order.Id)
+  end
+
   it 'customized prices on the line level' do
 
   end
@@ -369,6 +380,10 @@ class Critic::OrderAmendmentTranslation < Critic::FunctionalTest
   end
 
   it 'removing a product' do
+
+  end
+
+  it 'uses metadata on the original line item if an item is not removed' do
 
   end
 

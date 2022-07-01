@@ -305,9 +305,11 @@ class StripeForce::Translate
     # if the original order, then it will have been contracted if it has additional phases/amendments
     # if it hasn't been contracted, then we know there's no amendments to look up
     if sf_order.Type == OrderTypeOptions::NEW.serialize && !sf_order[SF_ORDER_CONTRACTED]
+      log.info 'order is not contracted, assuming only initial order'
       return OrderStructure.new(initial: sf_order)
     end
 
+    # if not new, then it's an amendment
     if sf_order.Type != OrderTypeOptions::NEW.serialize
       # in the case of an amendment, the associated opportunity contains a reference to the contract
       # which contains a reference to the original quote, which references the orginal order (initial non-amendment order)
@@ -363,6 +365,8 @@ class StripeForce::Translate
       initial_order = sf_order
     end
 
+    log.info 'initial order, finding amendments', initial_order_id: initial_order.Id
+
     # at this point, we have a reference to the initial order and know it has been contracted
 
     # if the initial order has been contracted then we need to find all amended orders.
@@ -374,6 +378,10 @@ class StripeForce::Translate
     # order amendment is contracted. However, the quote reference on the contract is NOT overwritten.
     # It will always be the first quote that generated the contract.
 
+    if initial_order[SF_ORDER_QUOTE].blank?
+      raise Integrations::Errors::ImpossibleState.new("no quote associated with order")
+    end
+
     contract_query = sf.query(
       <<~EOL
         SELECT #{SF_ID}
@@ -382,8 +390,10 @@ class StripeForce::Translate
       EOL
     )
 
+    # this can occur if contracts are processed async
     if contract_query.count.zero?
-      raise Integrations::Errors::ImpossibleState.new("no contract associated with order")
+      log.info 'order is contracted, but no contract is associated'
+      return OrderStructure.new(initial: initial_order)
     end
 
     if contract_query.size > 1
