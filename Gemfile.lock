@@ -367,7 +367,7 @@ GEM
       sentry-ruby-core (= 5.3.1)
     sentry-ruby-core (5.3.1)
       concurrent-ruby
-    sequel (5.57.0)
+    sequel (5.58.0)
     simple_structured_logger (1.0.1)
     sinatra (2.2.0)
       mustermann (~> 1.0)
@@ -482,7 +482,7 @@ DEPENDENCIES
   sentry-rails (~> 5.3.1)
   sentry-resque (~> 5.3.1)
   sentry-ruby (~> 5.3.1)
-  sequel (= 5.57.0)
+  sequel (= 5.58.0)
   simple_structured_logger (~> 1.0.1)
   sorbet (~> 0.5.10139)
   sorbet-rails (~> 0.7.33)
