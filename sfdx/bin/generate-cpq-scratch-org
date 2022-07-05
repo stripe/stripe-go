@@ -1,0 +1,80 @@
+#!/bin/bash
+
+# feature options:
+# https://developer.salesforce.com/docs/atlas.en-us.222.0.sfdx_dev.meta/sfdx_dev/sfdx_dev_scratch_orgs_def_file_config_values.htm
+
+# settings:
+# https://developer.salesforce.com/docs/metadata-coverage/55
+
+set -e -o pipefail
+
+# TODO check if we are in the correct folder
+
+if [ ! -z "$CI" ]; then
+  echo "This should only be run locally"
+  exit 1
+fi
+
+if [[ -z $(which jq) ]]; then
+  echo "run 'brew install jq'"
+  exit 1
+fi
+
+sfdx config:set defaultdevhubusername=pbo+billing@stripe.com
+
+# TODO should check if billing pbo is authorized
+
+# TODO consider adding additional features to the scratch def
+# https://cs.github.com/SFDC-Assets/platform-events-demo/blob/a33c18a32dd8135060ccf69f2d84f003bac7a98e/config/project-scratch-def.json?q=path%3A*scratch-def.json+day#L5
+
+if [ -z "$1" ]; then
+  salesforceAlias="$(basename $HOME)"-scratch
+else
+  salesforceAlias=$1
+fi
+
+echo "Using alias '$salesforceAlias'..."
+
+# NOTE this will not work unless .sfdx/
+sfdx force:org:create --loglevel=TRACE -f config/project-scratch-def.json -a $salesforceAlias -d 30 -w 15
+
+# install CPQ package, pull package ID from: https://steelbrick2.force.com/InstallPremium
+sfdx force:package:install -r --package 04t4N000000xBcTQAU -w 30 -u $salesforceAlias
+
+sfdx force:user:password:generate -u $salesforceAlias
+sfdx force:user:display -u $salesforceAlias
+
+echo "Setup complete. Use '$salesforceAlias' for the SF org alias"
+
+# TODO there's a SDFX command to do this
+# sfdx config:set defaultusername=$salesforceAlias
+
+sfdx config:set restDeploy=true
+sfdx force:source:push --loglevel=debug --apiversion=54.0 -u $salesforceAlias
+
+# needs to be done after the source:push since this references custom perm sets
+sfdx force:user:permset:assign -n "Stripe_Connector_Integration_User, Stripe_Connector_Sync_Management_User, Order_Permissions" -u $salesforceAlias
+
+echo "# CPQ Setup"
+echo "Manual step: Installed Packages > Configure > Pricing & Calculation > Authorize"
+echo "Manual step: Installed Packages > Configure > Pricing & Calculation > Enable Usage Based Pricing"
+echo "Manual step: Installed Packages > Configure > Subscription & Renewals > Subscription Prorate Precision: Month"
+echo "Manual step: Installed Packages > Configure > Subscription & Renewals > Contract in Foreground"
+echo '\n\n'
+sfdx force:org:open -u $salesforceAlias -p "/lightning/setup/ImportedPackage/home"
+
+echo "# Connector Setup"
+echo "Manual step: Create global key. Label/Name: Default. Key: pull from env."
+echo '\n\n'
+sfdx force:org:open -u $salesforceAlias -p '/lightning/setup/CustomMetadata/page?address=%2Fm02%3Fsetupid%3DCustomMetadata'
+
+echo "Opening up another tab to the Stripe app"
+sfdx force:org:open -u $salesforceAlias -p '/lightning/n/Setup'
+
+# TODO debug mode lwc, this looks like it cannot be setup automatically
+# TODO assign permission set CPQ license https://sf9to5.com/2020/09/08/winter-21-changes-cpq-licensing/
+# TODO make sure Stripe fields are on all layouts
+# TODO extract order permissons from standardcpq org https://appiphony15-dev-ed.lightning.force.com/lightning/setup/PermSets/page?address=%2F0PS5f000004xWRI%3Fs%3DEntityPermissions
+# TODO may be able to extract permissions here https://salesforce.stackexchange.com/questions/355680/how-to-create-a-permission-set-in-a-scratch-org-without-including-it-in-the-pack
+# TODO need to do page layouts
+# include example of how to delete the scratch org `sfdx force:org:delete -u test-motqqy6yl1qs@example.com -p`

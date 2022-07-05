@@ -1,14 +1,30 @@
 {
-    "orgName": "Appiphony, LLC",
-    "edition": "Developer",
-    "settings": {
-        "mobileSettings": {
-            "enableS1EncryptedStoragePref2": false
-        },
-        "lightningExperienceSettings": {
-            "enableS1DesktopEnabled": true
-        }
+  "orgName": "pbo+billing@stripe.com",
+  "adminEmail": "mbianco@stripe.com",
+  "edition": "Developer",
+  "settings": {
+    "mobileSettings": {
+      "enableS1EncryptedStoragePref2": false
     },
-    "hasSampleData": true,
-    "features": ["LightningServiceConsole","LiveAgent","ServiceCloud"]
+    "lightningExperienceSettings": {
+      "enableS1DesktopEnabled": true
+    },
+    "securitySettings": {
+      "sessionSettings": {
+        "forceRelogin": false,
+        "sessionTimeout": "TwelveHours",
+        "enableCacheAndAutocomplete": false
+      }
+    },
+    "deploymentSettings": {
+      "doesSkipAsyncApexValidation": true
+    },
+    "orderSettings": {
+      "enableOrders": true,
+      "enableZeroQuantity": true,
+      "enableNegativeQuantity": true
+    }
+  },
+  "hasSampleData": true,
+  "features": ["LightningServiceConsole", "LiveAgent", "ServiceCloud", "CPQ"]
 }

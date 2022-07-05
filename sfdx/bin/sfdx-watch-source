@@ -1,0 +1,13 @@
+#!/bin/bash
+
+if [ ! -z "$CI" ]; then
+  echo "This should only be run locally"
+  exit 1
+fi
+
+if [[ -z $(which fd) && -z $(which entr)  ]]; then
+  echo "run 'brew install fd entr'"
+  exit 1
+fi
+
+fd . force-app | entr -ncc sh -c 'echo "pushing source"; sfdx force:source:push --loglevel=debug --apiversion=54.0'

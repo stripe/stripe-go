@@ -1,0 +1,15 @@
+#!/bin/bash
+# Usage: run in a separate terminal tab
+
+if [ ! -z "$CI" ]; then
+  echo "This should only be run locally"
+  exit 1
+fi
+
+if [[ -z $(which fd) && -z $(which entr)  ]]; then
+  echo "run 'brew install fd entr'"
+  exit 1
+fi
+
+# sleep to ensure that source push succeeds, probably a better way to do that
+fd . force-app | entr -ncc sh -c 'sleep 15; echo "running tests"; sfdx force:apex:test:run --codecoverage --loglevel=debug --testlevel RunLocalTests --resultformat human --verbose'

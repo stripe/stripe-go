@@ -1,0 +1,32 @@
+// usage: sfdx force:apex:execute -f scripts/apex/test_sentry
+
+private class TestException extends Sentry_Exception {}
+
+// public with sharing class Sentry_TestingThrower {
+//     // class MyException extends Sentry_Exception {}
+
+//     public static void throwException() {
+//         Sentry_Exception ex = (Sentry_Exception) Sentry_ExceptionFactory.build(Sentry_Exception.class);
+//         ex.setMessage('Test sentry error reporting');
+//         throw ex;
+//     }
+// }
+
+// Sentry_Exception ex = (Sentry_Exception) Sentry_ExceptionFactory.build(Sentry_Exception.class);
+// ex.setMessage('Test sentry error reporting');
+// throw ex;
+
+try {
+  TestException testException = (TestException) Sentry_ExceptionFactory.build(TestException.class);
+  testException.setMessage('a test exception');
+  throw testException;
+} catch (Sentry_Exception sentryTestException) {
+  Sentry.record(sentryTestException);
+}
+
+// try {
+//     doSomethingExceptional();
+// } catch (Exception e) {
+//     Sentry.record(e);
+//     throw e;
+// }
