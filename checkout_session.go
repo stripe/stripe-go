@@ -504,6 +504,8 @@ const (
 // Returns a list of Checkout Sessions.
 type CheckoutSessionListParams struct {
 	ListParams `form:"*"`
+	// Only return the Checkout Sessions for the Customer specified.
+	Customer *string `form:"customer"`
 	// Only return the Checkout Session for the PaymentIntent specified.
 	PaymentIntent *string `form:"payment_intent"`
 	// Only return the Checkout Session for the subscription specified.
