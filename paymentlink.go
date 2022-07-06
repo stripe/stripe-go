@@ -266,7 +266,7 @@ type PaymentLinkParams struct {
 	ShippingAddressCollection *PaymentLinkShippingAddressCollectionParams `form:"shipping_address_collection"`
 	// The shipping rate options to apply to [checkout sessions](https://stripe.com/docs/api/checkout/sessions) created by this payment link.
 	ShippingOptions []*PaymentLinkShippingOptionParams `form:"shipping_options"`
-	// Describes the type of transaction being performed in order to customize relevant text on the page, such as the submit button.
+	// Describes the type of transaction being performed in order to customize relevant text on the page, such as the submit button. Changing this value will also affect the hostname in the [url](https://stripe.com/docs/api/payment_links/payment_links/object#url) property (example: `donate.stripe.com`).
 	SubmitType *string `form:"submit_type"`
 	// When creating a subscription, the specified configuration data will be used. There must be at least one line item with a recurring price to use `subscription_data`.
 	SubscriptionData *PaymentLinkSubscriptionDataParams `form:"subscription_data"`

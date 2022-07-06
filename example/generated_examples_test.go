@@ -282,6 +282,16 @@ func TestPaymentLinkListLineItems(t *testing.T) {
 	assert.Nil(t, result.Err())
 }
 
+func TestSetupAttemptList(t *testing.T) {
+	params := &stripe.SetupAttemptListParams{
+		SetupIntent: stripe.String("si_xyz"),
+	}
+	params.Limit = stripe.Int64(3)
+	result := setupattempt.List(params)
+	assert.NotNil(t, result)
+	assert.Nil(t, result.Err())
+}
+
 func TestSetupIntentVerifyMicrodeposits(t *testing.T) {
 	params := &stripe.SetupIntentVerifyMicrodepositsParams{}
 	result, _ := setupintent.VerifyMicrodeposits("seti_xxxxxxxxxxxxx", params)
@@ -351,6 +361,30 @@ func TestTestHelpersCustomerFundCashBalance(t *testing.T) {
 		Currency: stripe.String(string(stripe.CurrencyEUR)),
 	}
 	result, _ := testhelpers_customer.FundCashBalance("cus_123", params)
+	assert.NotNil(t, result)
+}
+
+func TestTestHelpersIssuingCardDeliverCard(t *testing.T) {
+	params := &stripe.TestHelpersIssuingCardDeliverCardParams{}
+	result, _ := testhelpers_issuing_card.DeliverCard("card_123", params)
+	assert.NotNil(t, result)
+}
+
+func TestTestHelpersIssuingCardFailCard(t *testing.T) {
+	params := &stripe.TestHelpersIssuingCardFailCardParams{}
+	result, _ := testhelpers_issuing_card.FailCard("card_123", params)
+	assert.NotNil(t, result)
+}
+
+func TestTestHelpersIssuingCardReturnCard(t *testing.T) {
+	params := &stripe.TestHelpersIssuingCardReturnCardParams{}
+	result, _ := testhelpers_issuing_card.ReturnCard("card_123", params)
+	assert.NotNil(t, result)
+}
+
+func TestTestHelpersIssuingCardShipCard(t *testing.T) {
+	params := &stripe.TestHelpersIssuingCardShipCardParams{}
+	result, _ := testhelpers_issuing_card.ShipCard("card_123", params)
 	assert.NotNil(t, result)
 }
 
@@ -467,40 +501,6 @@ func TestTestHelpersTreasuryReceivedDebitCreate(t *testing.T) {
 		Currency:         stripe.String(string(stripe.CurrencyUSD)),
 	}
 	result, _ := testhelpers_treasury_receiveddebit.New(params)
-	assert.NotNil(t, result)
-}
-
-func TestSetupAttemptList(t *testing.T) {
-	params := &stripe.SetupAttemptListParams{
-		SetupIntent: stripe.String("si_xyz"),
-	}
-	params.Limit = stripe.Int64(3)
-	result := setupattempt.List(params)
-	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
-}
-
-func TestTestHelpersIssuingCardDeliverCard(t *testing.T) {
-	params := &stripe.TestHelpersIssuingCardDeliverCardParams{}
-	result, _ := testhelpers_issuing_card.DeliverCard("card_123", params)
-	assert.NotNil(t, result)
-}
-
-func TestTestHelpersIssuingCardFailCard(t *testing.T) {
-	params := &stripe.TestHelpersIssuingCardFailCardParams{}
-	result, _ := testhelpers_issuing_card.FailCard("card_123", params)
-	assert.NotNil(t, result)
-}
-
-func TestTestHelpersIssuingCardReturnCard(t *testing.T) {
-	params := &stripe.TestHelpersIssuingCardReturnCardParams{}
-	result, _ := testhelpers_issuing_card.ReturnCard("card_123", params)
-	assert.NotNil(t, result)
-}
-
-func TestTestHelpersIssuingCardShipCard(t *testing.T) {
-	params := &stripe.TestHelpersIssuingCardShipCardParams{}
-	result, _ := testhelpers_issuing_card.ShipCard("card_123", params)
 	assert.NotNil(t, result)
 }
 
