@@ -282,6 +282,23 @@ func TestPaymentLinkListLineItems(t *testing.T) {
 	assert.Nil(t, result.Err())
 }
 
+func TestPriceCreate(t *testing.T) {
+	params := &stripe.PriceParams{
+		UnitAmount: stripe.Int64(2000),
+		Currency:   stripe.String(string(stripe.CurrencyUSD)),
+		CurrencyOptions: map[string]*stripe.PriceCurrencyOptionsParams{
+			"uah": &stripe.PriceCurrencyOptionsParams{UnitAmount: stripe.Int64(5000)},
+			"eur": &stripe.PriceCurrencyOptionsParams{UnitAmount: stripe.Int64(1800)},
+		},
+		Recurring: &stripe.PriceRecurringParams{
+			Interval: stripe.String(string(stripe.PriceRecurringIntervalMonth)),
+		},
+		Product: stripe.String("prod_xxxxxxxxxxxxx"),
+	}
+	result, _ := price.New(params)
+	assert.NotNil(t, result)
+}
+
 func TestSetupAttemptList(t *testing.T) {
 	params := &stripe.SetupAttemptListParams{
 		SetupIntent: stripe.String("si_xyz"),
@@ -1625,7 +1642,7 @@ func TestPriceList(t *testing.T) {
 	assert.Nil(t, result.Err())
 }
 
-func TestPriceCreate(t *testing.T) {
+func TestPriceCreate2(t *testing.T) {
 	params := &stripe.PriceParams{
 		UnitAmount: stripe.Int64(2000),
 		Currency:   stripe.String(string(stripe.CurrencyUSD)),

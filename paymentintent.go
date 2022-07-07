@@ -629,6 +629,15 @@ const (
 	PaymentIntentProcessingTypeCard PaymentIntentProcessingType = "card"
 )
 
+// Indicates whether confirmation for this PaymentIntent using a secret key is `required` or `optional`.
+type PaymentIntentSecretKeyConfirmation string
+
+// List of values that PaymentIntentSecretKeyConfirmation can take
+const (
+	PaymentIntentSecretKeyConfirmationOptional PaymentIntentSecretKeyConfirmation = "optional"
+	PaymentIntentSecretKeyConfirmationRequired PaymentIntentSecretKeyConfirmation = "required"
+)
+
 // Indicates that you intend to make future payments with this PaymentIntent's payment method.
 //
 // Providing this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.
@@ -1430,7 +1439,7 @@ type PaymentIntentParams struct {
 	Description *string `form:"description"`
 	// ID of the mandate to be used for this payment. This parameter can only be used with [`confirm=true`](https://stripe.com/docs/api/payment_intents/create#create_payment_intent-confirm).
 	Mandate *string `form:"mandate"`
-	// This hash contains details about the Mandate to create. This parameter can only be used with [`confirm=true`](https://stripe.com/docs/api/payment_intents/create#create_payment_intent-confirm).
+	// This hash contains details about the Mandate to create.
 	MandateData *PaymentIntentMandateDataParams `form:"mandate_data"`
 	// The Stripe account ID for which these funds are intended. For details, see the PaymentIntents [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
 	OnBehalfOf *string `form:"on_behalf_of"`
@@ -1450,6 +1459,8 @@ type PaymentIntentParams struct {
 	ReceiptEmail *string `form:"receipt_email"`
 	// The URL to redirect your customer back to after they authenticate or cancel their payment on the payment method's app or site. If you'd prefer to redirect to a mobile application, you can alternatively supply an application URI scheme. This parameter can only be used with [`confirm=true`](https://stripe.com/docs/api/payment_intents/create#create_payment_intent-confirm).
 	ReturnURL *string `form:"return_url"`
+	// Indicates whether confirmation for this PaymentIntent using a secret key is `required` or `optional`.
+	SecretKeyConfirmation *string `form:"secret_key_confirmation"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// Providing this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.
@@ -1521,6 +1532,8 @@ type PaymentIntentConfirmRadarOptionsParams struct {
 // to learn more about manual confirmation.
 type PaymentIntentConfirmParams struct {
 	Params `form:"*"`
+	// The amount of the application fee (if any) that will be requested to be applied to the payment and transferred to the application owner's Stripe account. The amount of the application fee collected will be capped at the total payment amount. For more information, see the PaymentIntents [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
+	ApplicationFeeAmount *int64 `form:"application_fee_amount"`
 	// Controls when the funds will be captured from the customer's account.
 	CaptureMethod *string `form:"capture_method"`
 	// Set to `true` to fail the payment attempt if the PaymentIntent transitions into `requires_action`. This parameter is intended for simpler integrations that do not handle customer actions, like [saving cards without authentication](https://stripe.com/docs/payments/save-card-without-authentication).
@@ -2430,6 +2443,8 @@ type PaymentIntent struct {
 	ReceiptEmail string `json:"receipt_email"`
 	// ID of the review associated with this PaymentIntent, if any.
 	Review *Review `json:"review"`
+	// Indicates whether confirmation for this PaymentIntent using a secret key is `required` or `optional`.
+	SecretKeyConfirmation PaymentIntentSecretKeyConfirmation `json:"secret_key_confirmation"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// Providing this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.
