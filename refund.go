@@ -53,10 +53,18 @@ type RefundListParams struct {
 
 // Create a refund.
 type RefundParams struct {
-	Params               `form:"*"`
-	Amount               *int64  `form:"amount"`
-	Charge               *string `form:"charge"`
-	InstructionsEmail    *string `form:"instructions_email"`
+	Params `form:"*"`
+	// A positive integer representing how much to refund.
+	Amount *int64  `form:"amount"`
+	Charge *string `form:"charge"`
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency *string `form:"currency"`
+	// Customer whose customer balance to refund from.
+	Customer *string `form:"customer"`
+	// Address to send refund email, use customer email if not specified
+	InstructionsEmail *string `form:"instructions_email"`
+	// Origin of the refund
+	Origin               *string `form:"origin"`
 	PaymentIntent        *string `form:"payment_intent"`
 	Reason               *string `form:"reason"`
 	RefundApplicationFee *bool   `form:"refund_application_fee"`
