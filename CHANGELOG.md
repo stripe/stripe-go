@@ -1,5 +1,16 @@
 # Changelog
 
+## 72.118.0 - 2022-07-07
+* [#1492](https://github.com/stripe/stripe-go/pull/1492) API Updates
+  * Add support for `Currency` on `CheckoutSessionParams`, `InvoiceUpcomingLinesParams`, `InvoiceUpcomingParams`, `PaymentLinkParams`, `SubscriptionParams`, `SubscriptionSchedulePhasesParams`, `SubscriptionSchedulePhases`, and `Subscription`
+  * Add support for `CurrencyOptions` on `CheckoutSessionShippingOptionsShippingRateDataFixedAmountParams`, `CouponParams`, `Coupon`, `OrderShippingCostShippingRateDataFixedAmountParams`, `PriceParams`, `Price`, `ProductDefaultPriceDataParams`, `PromotionCodeRestrictionsParams`, `PromotionCodeRestrictions`, `ShippingRateFixedAmountParams`, and `ShippingRateFixedAmount`
+  * Add support for `Restrictions` on `PromotionCodeParams`
+  * Add support for `FixedAmount` and `TaxBehavior` on `ShippingRateParams`
+* [#1491](https://github.com/stripe/stripe-go/pull/1491) API Updates
+  * Add support for `Customer` on `CheckoutSessionListParams` and `RefundParams`
+  * Add support for `Currency` and `Origin` on `RefundParams`
+  
+
 ## 72.117.0 - 2022-06-29
 * [#1487](https://github.com/stripe/stripe-go/pull/1487) API Updates
   * Add support for `DeliverCard`, `FailCard`, `ReturnCard`, and `ShipCard` test helper methods on resource `Issuing.Card`
