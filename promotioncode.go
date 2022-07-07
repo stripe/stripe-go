@@ -27,8 +27,16 @@ type PromotionCodeParams struct {
 	Restrictions *PromotionCodeRestrictionsParams `form:"restrictions"`
 }
 
+// Promotion codes defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
+type PromotionCodeRestrictionsCurrencyOptionsParams struct {
+	// Minimum amount required to redeem this Promotion Code into a Coupon (e.g., a purchase must be $100 or more to work).
+	MinimumAmount *int64 `form:"minimum_amount"`
+}
+
 // Settings that restrict the redemption of the promotion code.
 type PromotionCodeRestrictionsParams struct {
+	// Promotion codes defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
+	CurrencyOptions map[string]*PromotionCodeRestrictionsCurrencyOptionsParams `form:"currency_options"`
 	// A Boolean indicating if the Promotion Code should only be redeemed for Customers without any successful payments or invoices
 	FirstTimeTransaction *bool `form:"first_time_transaction"`
 	// Minimum amount required to redeem this Promotion Code into a Coupon (e.g., a purchase must be $100 or more to work).
@@ -53,7 +61,15 @@ type PromotionCodeListParams struct {
 	// Only return promotion codes that are restricted to this customer.
 	Customer *string `form:"customer"`
 }
+
+// Promotion code restrictions defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
+type PromotionCodeRestrictionsCurrencyOptions struct {
+	// Minimum amount required to redeem this Promotion Code into a Coupon (e.g., a purchase must be $100 or more to work).
+	MinimumAmount int64 `json:"minimum_amount"`
+}
 type PromotionCodeRestrictions struct {
+	// Promotion code restrictions defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
+	CurrencyOptions map[string]*PromotionCodeRestrictionsCurrencyOptions `json:"currency_options"`
 	// A Boolean indicating if the Promotion Code should only be redeemed for Customers without any successful payments or invoices
 	FirstTimeTransaction bool `json:"first_time_transaction"`
 	// Minimum amount required to redeem this Promotion Code into a Coupon (e.g., a purchase must be $100 or more to work).

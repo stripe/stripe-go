@@ -17,19 +17,15 @@ const (
 
 // Retrieves a customer's cash balance.
 type CashBalanceParams struct {
-	Params   `form:"*"`
+	Params `form:"*"`
+	// A hash of settings for this cash balance.
 	Settings *CashBalanceSettingsParams `form:"settings"`
 	Customer *string                    `form:"-"` // Included in URL
 }
+
+// A hash of settings for this cash balance.
 type CashBalanceSettingsParams struct {
-	// Method for using the customer balance to pay outstanding
-	// `customer_balance` PaymentIntents. If set to `automatic`, all available
-	// funds will automatically be used to pay any outstanding PaymentIntent.
-	// If set to `manual`, only customer balance funds from bank transfers
-	// with a reference code matching
-	// `payment_intent.next_action.display_bank_transfer_intructions.reference_code` will
-	// automatically be used to pay the corresponding outstanding
-	// PaymentIntent.
+	// Controls how funds transferred by the customer are applied to payment intents and invoices. Valid options are `automatic` or `manual`. For more information about these reconciliation modes, see [Reconciliation](https://stripe.com/docs/payments/customer-balance/reconciliation).
 	ReconciliationMode *string `form:"reconciliation_mode"`
 }
 type CashBalanceSettings struct {
@@ -40,7 +36,7 @@ type CashBalanceSettings struct {
 // A customer's `Cash balance` represents real funds. Customers can add funds to their cash balance by sending a bank transfer. These funds can be used for payment and can eventually be paid out to your bank account.
 type CashBalance struct {
 	APIResource
-	// A hash of all cash balances available to this customer. You cannot delete a customer with any cash balances, even if the balance is 0.
+	// A hash of all cash balances available to this customer. You cannot delete a customer with any cash balances, even if the balance is 0. Amounts are represented in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal).
 	Available map[string]int64 `json:"available"`
 	// The ID of the customer whose cash balance this object represents.
 	Customer string `json:"customer"`

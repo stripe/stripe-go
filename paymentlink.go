@@ -248,6 +248,8 @@ type PaymentLinkParams struct {
 	BillingAddressCollection *string `form:"billing_address_collection"`
 	// Configure fields to gather active consent from customers.
 	ConsentCollection *PaymentLinkConsentCollectionParams `form:"consent_collection"`
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies) and supported by each line item's price.
+	Currency *string `form:"currency"`
 	// Configures whether [checkout sessions](https://stripe.com/docs/api/checkout/sessions) created by this payment link create a [Customer](https://stripe.com/docs/api/customers).
 	CustomerCreation *string `form:"customer_creation"`
 	// The line items representing what is being sold. Each line item represents an item being sold. Up to 20 line items are supported.
@@ -266,7 +268,7 @@ type PaymentLinkParams struct {
 	ShippingAddressCollection *PaymentLinkShippingAddressCollectionParams `form:"shipping_address_collection"`
 	// The shipping rate options to apply to [checkout sessions](https://stripe.com/docs/api/checkout/sessions) created by this payment link.
 	ShippingOptions []*PaymentLinkShippingOptionParams `form:"shipping_options"`
-	// Describes the type of transaction being performed in order to customize relevant text on the page, such as the submit button.
+	// Describes the type of transaction being performed in order to customize relevant text on the page, such as the submit button. Changing this value will also affect the hostname in the [url](https://stripe.com/docs/api/payment_links/payment_links/object#url) property (example: `donate.stripe.com`).
 	SubmitType *string `form:"submit_type"`
 	// When creating a subscription, the specified configuration data will be used. There must be at least one line item with a recurring price to use `subscription_data`.
 	SubscriptionData *PaymentLinkSubscriptionDataParams `form:"subscription_data"`

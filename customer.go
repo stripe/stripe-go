@@ -64,14 +64,7 @@ type CustomerListParams struct {
 // Settings controlling the behavior of the customer's cash balance,
 // such as reconciliation of funds received.
 type CustomerCashBalanceSettingsParams struct {
-	// Method for using the customer balance to pay outstanding
-	// `customer_balance` PaymentIntents. If set to `automatic`, all available
-	// funds will automatically be used to pay any outstanding PaymentIntent.
-	// If set to `manual`, only customer balance funds from bank transfers
-	// with a reference code matching
-	// `payment_intent.next_action.display_bank_transfer_intructions.reference_code` will
-	// automatically be used to pay the corresponding outstanding
-	// PaymentIntent.
+	// Controls how funds transferred by the customer are applied to payment intents and invoices. Valid options are `automatic` or `manual`. For more information about these reconciliation modes, see [Reconciliation](https://stripe.com/docs/payments/customer-balance/reconciliation).
 	ReconciliationMode *string `form:"reconciliation_mode"`
 }
 

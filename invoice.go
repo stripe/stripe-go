@@ -309,6 +309,8 @@ type InvoiceParams struct {
 	AutomaticTax *InvoiceAutomaticTaxParams `form:"automatic_tax"`
 	// Either `charge_automatically` or `send_invoice`. This field can be updated only on `draft` invoices.
 	CollectionMethod *string `form:"collection_method"`
+	// The currency to preview this invoice in. Defaults to that of `customer` if not specified.
+	Currency *string `form:"currency"`
 	// The identifier of the customer whose upcoming invoice you'd like to retrieve.
 	Customer *string `form:"customer"`
 	// A list of up to 4 custom fields to be displayed on the invoice. If a value for `custom_fields` is specified, the list specified will replace the existing custom field list on this invoice. Pass an empty string to remove previously-defined fields.
