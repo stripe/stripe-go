@@ -1,5 +1,10 @@
 # Changelog
 
+## 72.119.0-beta.1 - 2022-07-07
+* [#1493](https://github.com/stripe/stripe-go/pull/1493) API Updates for beta branch
+  - Include `server_side_confirmation_beta=v1` beta
+  - Add `secretKeyConfirmation` to `PaymentIntent`
+
 ## 72.118.0 - 2022-07-07
 * [#1492](https://github.com/stripe/stripe-go/pull/1492) API Updates
   * Add support for `Currency` on `CheckoutSessionParams`, `InvoiceUpcomingLinesParams`, `InvoiceUpcomingParams`, `PaymentLinkParams`, `SubscriptionParams`, `SubscriptionSchedulePhasesParams`, `SubscriptionSchedulePhases`, and `Subscription`
