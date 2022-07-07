@@ -6,7 +6,10 @@
 
 package stripe
 
-import "encoding/json"
+import (
+	"encoding/json"
+	"github.com/stripe/stripe-go/v72/form"
+)
 
 // The type of the product. The product is either of type `good`, which is eligible for use with Orders and SKUs, or `service`, which is eligible for use with Subscriptions and Plans.
 type ProductType string
@@ -27,6 +30,54 @@ type ProductSearchParams struct {
 	Page *string `form:"page"`
 }
 
+// When set, provides configuration for the amount to be adjusted by the customer during Checkout Sessions and Payment Links.
+type ProductDefaultPriceDataCurrencyOptionsCustomUnitAmountParams struct {
+	// Pass in `true` to enable `custom_unit_amount`, otherwise omit `custom_unit_amount`.
+	Enabled *bool `form:"enabled"`
+	// The maximum unit amount the customer can specify for this item.
+	Maximum *int64 `form:"maximum"`
+	// The minimum unit amount the customer can specify for this item. Must be at least the minimum charge amount.
+	Minimum *int64 `form:"minimum"`
+	// The starting unit amount which can be updated by the customer.
+	Preset *int64 `form:"preset"`
+}
+
+// Each element represents a pricing tier. This parameter requires `billing_scheme` to be set to `tiered`. See also the documentation for `billing_scheme`.
+type ProductDefaultPriceDataCurrencyOptionsTierParams struct {
+	// The flat billing amount for an entire tier, regardless of the number of units in the tier.
+	FlatAmount *int64 `form:"flat_amount"`
+	// Same as `flat_amount`, but accepts a decimal value representing an integer in the minor units of the currency. Only one of `flat_amount` and `flat_amount_decimal` can be set.
+	FlatAmountDecimal *float64 `form:"flat_amount_decimal,high_precision"`
+	// The per unit billing amount for each individual unit for which this tier applies.
+	UnitAmount *int64 `form:"unit_amount"`
+	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
+	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
+	// Specifies the upper bound of this tier. The lower bound of a tier is the upper bound of the previous tier adding one. Use `inf` to define a fallback tier.
+	UpTo    *int64 `form:"up_to"`
+	UpToInf *bool  `form:"-"` // See custom AppendTo
+}
+
+// AppendTo implements custom encoding logic for ProductDefaultPriceDataCurrencyOptionsTierParams.
+func (p *ProductDefaultPriceDataCurrencyOptionsTierParams) AppendTo(body *form.Values, keyParts []string) {
+	if BoolValue(p.UpToInf) {
+		body.Add(form.FormatKey(append(keyParts, "up_to")), "inf")
+	}
+}
+
+// Prices defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
+type ProductDefaultPriceDataCurrencyOptionsParams struct {
+	// When set, provides configuration for the amount to be adjusted by the customer during Checkout Sessions and Payment Links.
+	CustomUnitAmount *ProductDefaultPriceDataCurrencyOptionsCustomUnitAmountParams `form:"custom_unit_amount"`
+	// Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Once specified as either `inclusive` or `exclusive`, it cannot be changed.
+	TaxBehavior *string `form:"tax_behavior"`
+	// Each element represents a pricing tier. This parameter requires `billing_scheme` to be set to `tiered`. See also the documentation for `billing_scheme`.
+	Tiers []*ProductDefaultPriceDataCurrencyOptionsTierParams `form:"tiers"`
+	// A positive integer in cents (or local equivalent) (or 0 for a free price) representing how much to charge.
+	UnitAmount *int64 `form:"unit_amount"`
+	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
+	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
+}
+
 // The recurring components of a price such as `interval` and `interval_count`.
 type ProductDefaultPriceDataRecurringParams struct {
 	// Specifies billing frequency. Either `day`, `week`, `month` or `year`.
@@ -39,6 +90,8 @@ type ProductDefaultPriceDataRecurringParams struct {
 type ProductDefaultPriceDataParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency *string `form:"currency"`
+	// Prices defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
+	CurrencyOptions map[string]*ProductDefaultPriceDataCurrencyOptionsParams `form:"currency_options"`
 	// The recurring components of a price such as `interval` and `interval_count`.
 	Recurring *ProductDefaultPriceDataRecurringParams `form:"recurring"`
 	// Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Once specified as either `inclusive` or `exclusive`, it cannot be changed.
