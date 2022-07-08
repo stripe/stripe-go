@@ -49,7 +49,7 @@ function deploySource {
 
 function runTests {
   orgAlias=$1
-  echo '\nRunning tests...'
+  echo $'\nRunning tests...'
   mkdir -p test-results
   sfdx force:apex:test:run --codecoverage --testlevel RunLocalTests -u $orgAlias --resultformat human --outputdir=test-results
 }
