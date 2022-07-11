@@ -205,7 +205,10 @@ module Critic
       related_orders = sf.get("/services/data/v52.0/sobjects/#{CPQ_QUOTE}/#{sf_quote_id}/SBQQ__Orders__r")
       sf_order = related_orders.body.first
 
-      sf.update!('Order', 'Id' => sf_order.Id, 'Status' => 'Activated')
+      sf.update!(SF_ORDER,
+        SF_ID => sf_order.Id,
+        'Status' => 'Activated'
+      )
 
       sf_order.refresh
       sf_order

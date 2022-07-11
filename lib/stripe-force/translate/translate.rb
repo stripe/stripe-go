@@ -1329,6 +1329,9 @@ class StripeForce::Translate
         items: subscription_items.map(&:stripe_params),
         iterations: phase_iterations,
 
+        # TODO should be moved to global defaults
+        proration_behavior: 'none',
+
         metadata: stripe_metadata_for_sf_object(sf_order),
       }
 

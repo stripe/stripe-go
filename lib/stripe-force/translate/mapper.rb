@@ -65,15 +65,21 @@ module StripeForce
         if target_object.key?(normalized_field_name)
           target_object = target_object[normalized_field_name]
         else
-          log.info 'field does not exist',
+          log.debug 'field does not exist',
             field_component: field_name,
             field_path: key_path,
             target_object: target_object.sobject_type,
             target_object_id: target_object.Id
+
           target_object = nil
         end
 
         if target_object.nil?
+          log.info 'field value is nil',
+            field_component: field_name,
+            field_path: key_path,
+            root_object: sf_object.sobject_type,
+            root_object_id: sf_object.Id
           break
         end
 

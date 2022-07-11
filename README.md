@@ -33,6 +33,15 @@ Pull user reference. Helpful for console debugging:
 @user = u = StripeForce::User[90]
 ```
 
+Check SQL generated:
+
+```ruby
+locker = Integrations::Locker.new(user)
+poller = StripeForce::OrderPoller.new(user)
+poller.send(:generate_soql, DateTime.parse('2022-06-13 12:36:59 +0000'), DateTime.parse('2022-06-13 12:41:29'))
+locker.clear_locked_resources
+```
+
 # PR Review Conventions
 
 Here are some of the 'tags' that PR comments will be prefixed with to provide more context:

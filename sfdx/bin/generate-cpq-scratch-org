@@ -36,6 +36,7 @@ fi
 echo "Using alias '$salesforceAlias'..."
 
 # NOTE this will not work unless .sfdx/
+echo "Creating scratch org..."
 sfdx force:org:create --loglevel=TRACE -f config/project-scratch-def.json -a $salesforceAlias -d 30 -w 15
 
 # install CPQ package, pull package ID from: https://steelbrick2.force.com/InstallPremium
@@ -74,7 +75,6 @@ sfdx force:org:open -u $salesforceAlias -p '/lightning/n/Setup'
 # TODO debug mode lwc, this looks like it cannot be setup automatically
 # TODO assign permission set CPQ license https://sf9to5.com/2020/09/08/winter-21-changes-cpq-licensing/
 # TODO make sure Stripe fields are on all layouts
-# TODO extract order permissons from standardcpq org https://appiphony15-dev-ed.lightning.force.com/lightning/setup/PermSets/page?address=%2F0PS5f000004xWRI%3Fs%3DEntityPermissions
-# TODO may be able to extract permissions here https://salesforce.stackexchange.com/questions/355680/how-to-create-a-permission-set-in-a-scratch-org-without-including-it-in-the-pack
 # TODO need to do page layouts
-# include example of how to delete the scratch org `sfdx force:org:delete -u test-motqqy6yl1qs@example.com -p`
+# include example of how to delete the scratch org `sfdx force:org:delete -p -u test-motqqy6yl1qs@example.com`
+# TODO the pricebooks aren't active by default

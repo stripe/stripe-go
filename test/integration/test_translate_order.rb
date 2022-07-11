@@ -87,8 +87,8 @@ class Critic::OrderTranslation < Critic::FunctionalTest
     # the stripe invoice is not 1:1 linked with any SF record
     assert_empty(invoice.metadata.to_h)
 
-    # should be two lines since we are backdating the invoice
-    assert_equal(2, invoice.lines.count)
+    # if proration is enabled, we would see two lines, but since we are disabling proration by default we'll only see a single line
+    assert_equal(1, invoice.lines.count)
 
     # TODO test first line as well
 

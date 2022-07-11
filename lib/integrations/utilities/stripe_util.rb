@@ -78,6 +78,8 @@ module Integrations::Utilities::StripeUtil
       Stripe::PaymentIntent
     when /^pm_/
       Stripe::PaymentMethod
+    when /^sub_/
+      Stripe::Subscription
     when /^sub_sched_/
       Stripe::SubscriptionSchedule
     # coupons do not have a prefix since the ID is often exposed to the user

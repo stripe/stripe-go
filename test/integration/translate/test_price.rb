@@ -74,13 +74,13 @@ class Critic::PriceTranslation < Critic::FunctionalTest
 
     it 'does not use the same price object if there customizations on the line level' do
       price_in_cents = 120_00
-      sf_product_id, sf_pricebook_id = salesforce_recurring_product_with_price(price: price_in_cents)
-
-      # CPQ prevents users from editing the line price if this is not defined
-      sf.update!(SF_PRODUCT, {
-        SF_ID => sf_product_id,
-        'SBQQ__PriceEditable__c' => true,
-      })
+      sf_product_id, sf_pricebook_id = salesforce_recurring_product_with_price(
+        price: price_in_cents,
+        additional_product_fields: {
+          # CPQ prevents users from editing the line price if this is not defined
+          'SBQQ__PriceEditable__c' => true,
+        }
+      )
 
       StripeForce::Translate.perform_inline(@user, sf_pricebook_id)
 
