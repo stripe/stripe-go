@@ -93,6 +93,14 @@ module Critic
       }.merge(additional_fields))
     end
 
+    def salesforce_recurring_metered_produce_with_price
+      salesforce_recurring_product_with_price(
+        additional_product_fields: {
+          CPQ_PRODUCT_BILLING_TYPE => CPQProductBillingTypeOptions::ARREARS.serialize,
+        }
+      )
+    end
+
     def salesforce_recurring_product_with_price(price: nil, additional_product_fields: {})
       # blanking out the subscription type ensures it is a one-time product
       product_id = create_salesforce_product(additional_fields: {
@@ -128,7 +136,7 @@ module Critic
         sf_product_id: sf_product_id,
         sf_account_id: sf_account_id,
         additional_quote_fields: {
-          CPQ_QUOTE_SUBSCRIPTION_START_DATE => DateTime.now.strftime("%Y-%m-%d"),
+          CPQ_QUOTE_SUBSCRIPTION_START_DATE => DateTime.now.utc.beginning_of_day.strftime("%Y-%m-%d"),
           # one year / 12 months
           CPQ_QUOTE_SUBSCRIPTION_TERM => 12.0,
         }
@@ -189,6 +197,7 @@ module Critic
       saved_quote.dig("record", "Id")
     end
 
+    # returns full SF order object
     sig { params(sf_quote_id: String).returns(T.untyped) }
     def create_order_from_cpq_quote(sf_quote_id)
       # it looks like there is additional field validation triggered here when `ordered` is set to true

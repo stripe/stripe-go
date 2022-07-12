@@ -111,6 +111,7 @@ jobs:
       SENTRY_DSN: stdout://12345:67890@sentry.localdomain/prefix/sentry/42
       RAILS_ENV: test
       RACK_ENV: test
+      LOG_LEVEL: DEBUG
       DISABLE_SPRING: "true"
       STRIPE_ACCOUNT_ID: acct_15uapDIsgf92XbAO
       # used for private key extraction and usage in the jwt generator

@@ -218,21 +218,18 @@ class Critic::OrderTranslation < Critic::FunctionalTest
 
   it 'integrates a subscription order with multiple lines' do
     sf_product_id_1, sf_pricebook_id_1 = salesforce_recurring_product_with_price
-    sf_product_id_2, sf_pricebook_id_2 = salesforce_recurring_product_with_price
+    sf_product_id_2, sf_pricebook_id_2 = salesforce_recurring_metered_produce_with_price
     sf_product_id_3, sf_pricebook_id_3 = salesforce_standalone_product_with_price
-
-    # set the second product up as a metered billing
-    sf.update!(SF_PRODUCT, {
-      SF_ID => sf_product_id_2,
-      CPQ_PRODUCT_BILLING_TYPE => CPQProductBillingTypeOptions::ARREARS.serialize,
-    })
 
     sf_account_id = create_salesforce_account
 
-    quote_id = create_salesforce_quote(sf_account_id: sf_account_id, additional_quote_fields: {
-      CPQ_QUOTE_SUBSCRIPTION_START_DATE => DateTime.now,
-      CPQ_QUOTE_SUBSCRIPTION_TERM => 12.0,
-    })
+    quote_id = create_salesforce_quote(
+      sf_account_id: sf_account_id,
+      additional_quote_fields: {
+        CPQ_QUOTE_SUBSCRIPTION_START_DATE => DateTime.now,
+        CPQ_QUOTE_SUBSCRIPTION_TERM => 12.0,
+      }
+    )
 
     # set first product quantity to 5
     quote_with_product = add_product_to_cpq_quote(quote_id, sf_product_id: sf_product_id_1)

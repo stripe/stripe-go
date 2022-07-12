@@ -23,6 +23,8 @@ module StripeForce
     SF_ORDER_CONTRACTED = 'SBQQ__Contracted__c'
     SF_ORDER_QUOTE = 'SBQQ__Quote__c'
 
+    SF_ORDER_ITEM_REVISED_ORDER_PRODUCT = 'SBQQ__RevisedOrderProduct__c'
+
     SF_CONTRACT_ORDER_ID = 'SBQQ__Order__c'
     SF_CONTRACT_QUOTE_ID = 'SBQQ__Quote__c'
 
