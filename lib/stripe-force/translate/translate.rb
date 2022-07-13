@@ -141,7 +141,7 @@ class StripeForce::Translate
       if existing_phase_item.nil? && new_subscription_item.original_order_line_id
         throw_user_failure!(
           salesforce_object: new_subscription_item.order_line,
-          message: "Any order items that are revising order items from a previous order must not be skipped."
+          message: "Any order items, revising order items in a previous order, must not be skipped in the previous order."
         )
       end
 

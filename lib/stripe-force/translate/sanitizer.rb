@@ -32,6 +32,10 @@ module StripeForce
       if stripe_customer[:description]
         stripe_customer[:description] = stripe_customer[:description][0..349]
       end
+
+      if stripe_customer[:shipping] && stripe_customer[:shipping][:phone]
+        stripe_customer[:shipping][:phone] = stripe_customer[:shipping][:phone][0..19]
+      end
     end
   end
 end

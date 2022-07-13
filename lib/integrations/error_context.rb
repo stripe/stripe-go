@@ -95,9 +95,8 @@ module Integrations
 
       if integration_record
         extra_context['integration_record_type'] = integration_record.class.to_s
-        extra_context['integration_record_id'] = integration_record.internal_id
-
-        tags_context['integration_record_id'] = integration_record.internal_id
+        extra_context['integration_record_id'] = integration_record.Id
+        tags_context['integration_record_id'] = integration_record.Id
       end
 
       if !tags.empty?

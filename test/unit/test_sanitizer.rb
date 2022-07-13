@@ -13,13 +13,17 @@ module Critic::Unit
       original_description = "Interface provides a soft place to land. The company is a leading global producer and seller of modular carpet, also known as carpet tile. The tiles and rolls, used in offices and many institutional facilities, are sold under brand names Interface, GlasBac, and FLOR. Interface's other offerings include an antimicrobial chemical, Intersept, which it blends in its carpet as well as licenses for use in air filters, and the TacTiles carpet tile installation system. Core markets are the Americas, Europe, and the Asia/Pacific region; the Americas represent more than 55% of sales."
 
       customer = Stripe::Customer.construct_from(
-        description: original_description
+        description: original_description,
+        shipping: {
+          phone: '1 (519) 888-4567 ext. 32110',
+        }
       )
 
       @sanitizer.sanitize(customer)
 
       refute_equal(original_description, customer.description)
       assert_equal(350, customer.description.length)
+      assert_equal(20, customer.shipping.phone.length)
     end
 
     it 'prices' do
