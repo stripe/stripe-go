@@ -124,7 +124,7 @@ module CommonHelpers
 
     # output current test, useful for debugging which fail because of CI timeout limits
     T.bind(self, ActiveSupport::TestCase)
-    puts self.location
+    puts "\n\n" + self.location
   end
 
   def common_teardown

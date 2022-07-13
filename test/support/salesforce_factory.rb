@@ -14,6 +14,18 @@ module Critic
     sig { abstract.returns(T.untyped) }
     def sf; end
 
+    def now_time_formatted_for_salesforce
+      format_date_for_salesforce(now_time)
+    end
+
+    def now_time
+      DateTime.now.beginning_of_day
+    end
+
+    def format_date_for_salesforce(date)
+      date.strftime("%Y-%m-%d")
+    end
+
     def create_salesforce_id
       SecureRandom.alphanumeric(18)
     end
@@ -136,7 +148,7 @@ module Critic
         sf_product_id: sf_product_id,
         sf_account_id: sf_account_id,
         additional_quote_fields: {
-          CPQ_QUOTE_SUBSCRIPTION_START_DATE => DateTime.now.utc.beginning_of_day.strftime("%Y-%m-%d"),
+          CPQ_QUOTE_SUBSCRIPTION_START_DATE => now_time_formatted_for_salesforce,
           # one year / 12 months
           CPQ_QUOTE_SUBSCRIPTION_TERM => 12.0,
         }

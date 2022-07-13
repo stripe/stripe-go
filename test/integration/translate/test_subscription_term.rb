@@ -20,7 +20,7 @@ class Critic::SubscriptionTermTranslation < Critic::FunctionalTest
       sf_product_id: sf_product_id,
       additional_quote_fields: {
         CPQ_QUOTE_SUBSCRIPTION_TERM => 12.0,
-        CPQ_QUOTE_SUBSCRIPTION_START_DATE => DateTime.now.strftime("%Y-%m-%d"),
+        CPQ_QUOTE_SUBSCRIPTION_START_DATE => now_time_formatted_for_salesforce,
       }
     )
 
@@ -40,7 +40,7 @@ class Critic::SubscriptionTermTranslation < Critic::FunctionalTest
     stripe_id = sf_order[prefixed_stripe_field(GENERIC_STRIPE_ID)]
     subscription_schedule = Stripe::SubscriptionSchedule.retrieve(stripe_id, @user.stripe_credentials)
 
-    start_date = DateTime.now.utc.beginning_of_day
+    start_date = now_time
     end_date = start_date + 1.year
 
     assert_equal(1, subscription_schedule.phases.count)
@@ -72,7 +72,7 @@ class Critic::SubscriptionTermTranslation < Critic::FunctionalTest
     quote_id = create_salesforce_quote(
       sf_account_id: sf_account_id,
       additional_quote_fields: {
-        CPQ_QUOTE_SUBSCRIPTION_START_DATE => DateTime.now,
+        CPQ_QUOTE_SUBSCRIPTION_START_DATE => now_time_formatted_for_salesforce,
         # the term of the quote does not automatically propogate down to line items
         # if a term is not specified on the product, then none is defined on the order item
         CPQ_QUOTE_SUBSCRIPTION_TERM => 12,
@@ -101,7 +101,7 @@ class Critic::SubscriptionTermTranslation < Critic::FunctionalTest
     stripe_id = sf_order[prefixed_stripe_field(GENERIC_STRIPE_ID)]
     subscription_schedule = Stripe::SubscriptionSchedule.retrieve(stripe_id, @user.stripe_credentials)
 
-    start_date = DateTime.now.utc.beginning_of_day
+    start_date = now_time
     end_date = start_date + 1.year
 
     assert_equal(1, subscription_schedule.phases.count)
@@ -134,7 +134,7 @@ class Critic::SubscriptionTermTranslation < Critic::FunctionalTest
         sf_product_id: sf_product_id,
         additional_quote_fields: {
           CPQ_QUOTE_SUBSCRIPTION_TERM => 13,
-          CPQ_QUOTE_SUBSCRIPTION_START_DATE => DateTime.now.strftime("%Y-%m-%d"),
+          CPQ_QUOTE_SUBSCRIPTION_START_DATE => now_time_formatted_for_salesforce,
         }
       )
 

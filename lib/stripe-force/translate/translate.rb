@@ -1354,7 +1354,8 @@ class StripeForce::Translate
       # TODO should file an API papercut for this
       # when creating the subscription schedule the start_date must be specified on the heaer
       # when updating it, it is specified on the individual phase object
-      subscription_params['start_date'] = salesforce_date_to_unix_timestamp(subscription_params['start_date'])
+      subscription_start_date = subscription_params['start_date']
+      subscription_params['start_date'] = salesforce_date_to_unix_timestamp(subscription_start_date)
 
       # TODO this should really be done *before* generating the line items and therefore creating prices
       phase_iterations = transform_iterations_by_billing_frequency(
@@ -1363,17 +1364,26 @@ class StripeForce::Translate
         T.must(subscription_items.first).stripe_params[:price]
       )
 
+      # TODO we should check if subscription is backddated, if it is, then we should only proceed if the user has a specific flag enabled
+
+
       # initial order, so there is only a single phase
       initial_phase = {
         add_invoice_items: invoice_items.map(&:stripe_params),
         items: subscription_items.map(&:stripe_params),
         iterations: phase_iterations,
 
-        # TODO should be moved to global defaults
-        proration_behavior: 'none',
-
         metadata: stripe_metadata_for_sf_object(sf_order),
       }
+
+      # TODO this needs to be gated and synced with the specific flag that CF is using
+      if subscription_start_date >= DateTime.now
+        # when `sub_sched_backdating_anchors_on_backdate` is enabled prorating the initial phase
+        # does NOT actually prorate it, but instead bills the full amount of the subscription item
+        # and locks the billing anchor to the start date of the subscription. Without this flag the
+        # billing achor is disconnected from the start date of the invoice
+        initial_phase[:proration_behavior] = 'none'
+      end
 
       # TODO add mapping support against the subscription schedule phase
 

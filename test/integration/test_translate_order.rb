@@ -16,11 +16,13 @@ class Critic::OrderTranslation < Critic::FunctionalTest
     }
     @user.save
 
-    price = 120_00
-    terms = 12
+    backdated_months = 2
+    price = 10_00
+    subscription_term = 12
+    start_date = now_time - backdated_months.months
 
     # creating these directly so we have the IDs
-    sf_product_id, sf_pricebook_entry_id = salesforce_recurring_product_with_price
+    sf_product_id, sf_pricebook_entry_id = salesforce_recurring_product_with_price(price: price)
 
     sf_account_id = create_salesforce_account
     sf_order = create_salesforce_order(
@@ -28,8 +30,8 @@ class Critic::OrderTranslation < Critic::FunctionalTest
       sf_account_id: sf_account_id,
 
       additional_quote_fields: {
-        CPQ_QUOTE_SUBSCRIPTION_START_DATE => "2021-10-01",
-        CPQ_QUOTE_SUBSCRIPTION_TERM => terms,
+        CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(start_date),
+        CPQ_QUOTE_SUBSCRIPTION_TERM => subscription_term,
       }
     )
 
@@ -71,7 +73,7 @@ class Critic::OrderTranslation < Critic::FunctionalTest
     # NOTE iterations does not exist on the phase! https://jira.corp.stripe.com/browse/PLATINT-1479
     # TODO I have no idea why the math requires rounding here. This doesn't make any sense. https://jira.corp.stripe.com/browse/PLATINT-1480
     phase_iterations = ((phase.end_date - phase.start_date) / 1.month.to_f).round
-    assert_equal(terms, phase_iterations)
+    assert_equal(subscription_term, phase_iterations)
 
     assert_equal(1, phase.items.count)
     phase_item = T.must(phase.items.first)
@@ -84,17 +86,15 @@ class Critic::OrderTranslation < Critic::FunctionalTest
     assert_equal(1, invoices.count)
     invoice = invoices.first
 
-    # the stripe invoice is not 1:1 linked with any SF record
+    # the stripe invoice is not 1:1 linked with any SF record, it shouldn't have any metadata
     assert_empty(invoice.metadata.to_h)
 
     # if proration is enabled, we would see two lines, but since we are disabling proration by default we'll only see a single line
     assert_equal(1, invoice.lines.count)
 
-    # TODO test first line as well
-
     line = invoice.lines.data.last
     assert_equal(1, line.quantity)
-    assert_equal(price, line.amount)
+    assert_equal(price * backdated_months, line.amount)
 
     # right now, price translation is tied to both a pricebook and order line in SF
     # test the price translation logic here right now instead of in a separate price test
@@ -122,7 +122,7 @@ class Critic::OrderTranslation < Critic::FunctionalTest
     sf_account_id = create_salesforce_account
 
     quote_id = create_salesforce_quote(sf_account_id: sf_account_id, additional_quote_fields: {
-      CPQ_QUOTE_SUBSCRIPTION_START_DATE => DateTime.now,
+      CPQ_QUOTE_SUBSCRIPTION_START_DATE => now_time_formatted_for_salesforce,
       CPQ_QUOTE_SUBSCRIPTION_TERM => 12.0,
     })
 
@@ -170,7 +170,7 @@ class Critic::OrderTranslation < Critic::FunctionalTest
     sf_account_id = create_salesforce_account
 
     quote_id = create_salesforce_quote(sf_account_id: sf_account_id, additional_quote_fields: {
-      CPQ_QUOTE_SUBSCRIPTION_START_DATE => DateTime.now,
+      CPQ_QUOTE_SUBSCRIPTION_START_DATE => now_time_formatted_for_salesforce,
       CPQ_QUOTE_SUBSCRIPTION_TERM => 12.0,
     })
 
@@ -226,7 +226,7 @@ class Critic::OrderTranslation < Critic::FunctionalTest
     quote_id = create_salesforce_quote(
       sf_account_id: sf_account_id,
       additional_quote_fields: {
-        CPQ_QUOTE_SUBSCRIPTION_START_DATE => DateTime.now,
+        CPQ_QUOTE_SUBSCRIPTION_START_DATE => now_time_formatted_for_salesforce,
         CPQ_QUOTE_SUBSCRIPTION_TERM => 12.0,
       }
     )
@@ -297,7 +297,7 @@ class Critic::OrderTranslation < Critic::FunctionalTest
     # it looks like there are field validations in place to protect against the term being nil'd out on the order line
     it 'creates a user error when the subscription term does not exist on the order line level' do
       sf_order = create_salesforce_order(additional_quote_fields: {
-        CPQ_QUOTE_SUBSCRIPTION_START_DATE => DateTime.now.strftime("%Y-%m-%d"),
+        CPQ_QUOTE_SUBSCRIPTION_START_DATE => now_time_formatted_for_salesforce,
         # omit subscription term
       })
 

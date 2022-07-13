@@ -102,6 +102,49 @@ sfdx force:package:install --upgradetype DELETE -p 04t5f000000aSFv
 
 Each version of a package has a unique URL.
 
+## Production Package Deployment
+
+First, deploy the source to our [production environment](https://docs.google.com/spreadsheets/d/136PUl_U7bMW7uMSwcqujisasAJNQJIOPQimGGG7iG00/edit#gid=0). Right now, this is the subdomain `appiphonycom5-dev-ed`. This org will _not_ expire since it is tied to a production package.
+
+Here's how to deploy the source:
+
+```shell
+cd sfdx
+sfdx force:source:deploy -p force-app/main/default -u mbianco+stripeconnector@stripe.com
+```
+
+If you don't have access to that account, add access:
+
+```
+sfdx auth:web:login
+```
+
+Then create a new package in the production packaging org.
+
+- Setup > Package Manager (https://appiphonycom5-dev-ed.lightning.force.com/lightning/setup/Package/home)
+- Click on the name of the package
+- Copy the package name field (`stripeConnector`), you'll need it in the next step
+- Click on upload, then:
+
+  - Release Type > Managed Released
+  - Version Name: `QaStripeConnect`
+  - New version number will be determined automatically
+  - New Order Save Behavior: unchecked (this should be done by default)
+  - Do not worry about description or release notes
+
+Some notes:
+
+- globalGuidGenerator should not be included in the production package
+- If you are adding new apex classes, JS code, remote sites, etc you need to click "add" and MANUALLY go through each category of items that you are adding and add them individually.
+- You can automatically add stuff to a package, but it is not recommended since it is very to add items you don't want, which is hard to debug (and remove!)
+- Removing something from a package is very hard. You need to (a) open up a case with SF and get them to switch the package to beta (b) deploy the latest version of the source (c) we remove the component.
+- Ensure the "old order save behavior" is NOT checked
+
+### Production Package Release
+
+- https://security.secure.force.com/security/tools/forcecom/scanner use username and password of the production packaging org.
+- Include sec rev in the username of another account which contains the latest production package.
+
 ## Creating a new QA package
 
 [Here's the full guide to creating a new package](https://developer.salesforce.com/docs/atlas.en-us.packagingGuide.meta/packagingGuide/uploading_packages.htm). Below is the short guide.

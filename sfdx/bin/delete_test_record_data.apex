@@ -144,8 +144,8 @@ List<String> listOfObjectRecordsToDelete = new List<String> {
     'ConsumptionSchedule',
     'ConsumptionRate',
      syncRecordApiName,
-    'PricebookEntry'
-    // 'Product2'
+    'PricebookEntry',
+    'Product2'
 };
 
 for (String objectApiName : listOfObjectRecordsToDelete) {

@@ -46,7 +46,7 @@ class Critic::PriceTranslation < Critic::FunctionalTest
       quote_id = create_salesforce_quote(
         sf_account_id: sf_account_id,
         additional_quote_fields: {
-          CPQ_QUOTE_SUBSCRIPTION_START_DATE => DateTime.now,
+          CPQ_QUOTE_SUBSCRIPTION_START_DATE => now_time_formatted_for_salesforce,
           CPQ_QUOTE_SUBSCRIPTION_TERM => 12.0,
         }
       )
@@ -93,7 +93,7 @@ class Critic::PriceTranslation < Critic::FunctionalTest
       quote_id = create_salesforce_quote(
         sf_account_id: sf_account_id,
         additional_quote_fields: {
-          CPQ_QUOTE_SUBSCRIPTION_START_DATE => DateTime.now,
+          CPQ_QUOTE_SUBSCRIPTION_START_DATE => now_time_formatted_for_salesforce,
           CPQ_QUOTE_SUBSCRIPTION_TERM => 12.0,
         }
       )

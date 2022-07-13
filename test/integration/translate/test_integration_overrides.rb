@@ -29,7 +29,7 @@ class Critic::IntegrationOverrides < Critic::FunctionalTest
     stripe_customer = Stripe::Customer.create({}, @user.stripe_credentials)
 
     sf_order = create_salesforce_order(additional_quote_fields: {
-      CPQ_QUOTE_SUBSCRIPTION_START_DATE => DateTime.now.strftime("%Y-%m-%d"),
+      CPQ_QUOTE_SUBSCRIPTION_START_DATE => now_time_formatted_for_salesforce,
       CPQ_QUOTE_SUBSCRIPTION_TERM => 12.0,
     })
 
