@@ -13,6 +13,13 @@ http://localhost:3100/
 
 system level permissions https://developer.salesforce.com/docs/atlas.en-us.sfFieldRef.meta/sfFieldRef/salesforce_field_reference_PermissionSet.htm
 
+# Stripe Systems
+
+- Sentry errors: https://sentry.corp.stripe.com/organizations/stripe/issues/?project=610
+- Papertrail: https://my.papertrailapp.com/groups/16772762/events
+  - Throw Stripe IDs or Salesforce IDs in the search to see a papertrail for them
+  - Order ID from Salesforce are best
+
 # Dev Snippets
 
 Loud logging everyhere:
