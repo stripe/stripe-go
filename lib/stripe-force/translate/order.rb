@@ -10,6 +10,7 @@ class StripeForce::Translate
 
   class PhaseItemStructure < T::Struct
     extend T::Sig
+    include Integrations::Log
 
     const :stripe_params, Hash
 
