@@ -35,5 +35,13 @@ end
 module Integrations
   module Log
     include SimpleStructuredLogger
+
+    def self.included(klass)
+      klass.class_eval do
+        def self.log
+          SimpleStructuredLogger::Writer.instance
+        end
+      end
+    end
   end
 end
