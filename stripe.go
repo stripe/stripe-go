@@ -39,6 +39,9 @@ const (
 	// APIURL is the URL of the API service backend.
 	APIURL string = "https://api.stripe.com"
 
+	// ClientVersion is the version of the stripe-go library being used.
+	ClientVersion string = clientversion
+
 	// ConnectURL is the URL for OAuth.
 	ConnectURL string = "https://connect.stripe.com"
 
