@@ -45,6 +45,7 @@ type CheckoutSessionConsentCollectionPromotions string
 // List of values that CheckoutSessionConsentCollectionPromotions can take
 const (
 	CheckoutSessionConsentCollectionPromotionsAuto CheckoutSessionConsentCollectionPromotions = "auto"
+	CheckoutSessionConsentCollectionPromotionsNone CheckoutSessionConsentCollectionPromotions = "none"
 )
 
 // Configure whether a Checkout Session creates a Customer when the Checkout Session completes.

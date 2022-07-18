@@ -454,6 +454,7 @@ type ChargePaymentMethodDetailsBancontact struct {
 	// (if supported) at the time of authorization or settlement. They cannot be set or mutated.
 	VerifiedName string `json:"verified_name"`
 }
+type ChargePaymentMethodDetailsBLIK struct{}
 type ChargePaymentMethodDetailsBoleto struct {
 	// The tax ID of the customer (CPF for individuals consumers or CNPJ for businesses consumers)
 	TaxID string `json:"tax_id"`
@@ -864,6 +865,7 @@ type ChargePaymentMethodDetails struct {
 	AUBECSDebit        *ChargePaymentMethodDetailsAUBECSDebit        `json:"au_becs_debit"`
 	BACSDebit          *ChargePaymentMethodDetailsBACSDebit          `json:"bacs_debit"`
 	Bancontact         *ChargePaymentMethodDetailsBancontact         `json:"bancontact"`
+	BLIK               *ChargePaymentMethodDetailsBLIK               `json:"blik"`
 	Boleto             *ChargePaymentMethodDetailsBoleto             `json:"boleto"`
 	Card               *ChargePaymentMethodDetailsCard               `json:"card"`
 	CardPresent        *ChargePaymentMethodDetailsCardPresent        `json:"card_present"`
