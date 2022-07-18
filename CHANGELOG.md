@@ -1,5 +1,13 @@
 # Changelog
 
+## 72.120.0 - 2022-07-18
+* [#1497](https://github.com/stripe/stripe-go/pull/1497) API Updates
+  * Add support for `BLIKPayments` on `AccountCapabilitiesParams` and `AccountCapabilities`
+  * Add support for `BLIK` on `ChargePaymentMethodDetails`, `MandatePaymentMethodDetails`, `PaymentIntentConfirmPaymentMethodDataParams`, `PaymentIntentConfirmPaymentMethodOptionsParams`, `PaymentIntentPaymentMethodDataParams`, `PaymentIntentPaymentMethodOptionsParams`, `PaymentIntentPaymentMethodOptions`, `PaymentMethodParams`, `PaymentMethod`, `SetupAttemptPaymentMethodDetails`, `SetupIntentConfirmPaymentMethodDataParams`, `SetupIntentConfirmPaymentMethodOptionsParams`, `SetupIntentPaymentMethodDataParams`, `SetupIntentPaymentMethodOptionsParams`, and `SetupIntentPaymentMethodOptions`
+  * Change type of `CheckoutSessionConsentCollectionPromotionsParams`, `CheckoutSessionConsentCollectionPromotions`, `PaymentLinkConsentCollectionPromotionsParams`, and `PaymentLinkConsentCollectionPromotions` from `literal('auto')` to `enum('auto'|'none')`
+  * Add support for new value `blik` on enum `PaymentLinkPaymentMethodTypes`
+  * Add support for new value `blik` on enum `PaymentMethodType`
+
 ## 72.119.0 - 2022-07-12
 * [#1494](https://github.com/stripe/stripe-go/pull/1494) API Updates
   * Add support for `CustomerDetails` on `CheckoutSessionListParams`
