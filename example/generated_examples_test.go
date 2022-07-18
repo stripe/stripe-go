@@ -34,6 +34,7 @@ import (
 	issuing_dispute "github.com/stripe/stripe-go/v72/issuing/dispute"
 	issuing_transaction "github.com/stripe/stripe-go/v72/issuing/transaction"
 	mandate "github.com/stripe/stripe-go/v72/mandate"
+	order "github.com/stripe/stripe-go/v72/order"
 	paymentintent "github.com/stripe/stripe-go/v72/paymentintent"
 	paymentlink "github.com/stripe/stripe-go/v72/paymentlink"
 	paymentmethod "github.com/stripe/stripe-go/v72/paymentmethod"
@@ -233,6 +234,56 @@ func TestFinancialConnectionsSessionCreate(t *testing.T) {
 func TestFinancialConnectionsSessionRetrieve(t *testing.T) {
 	params := &stripe.FinancialConnectionsSessionParams{}
 	result, _ := financialconnections_session.Get("fcsess_xyz", params)
+	assert.NotNil(t, result)
+}
+
+func TestOrderCreate(t *testing.T) {
+	params := &stripe.OrderParams{
+		Description: stripe.String("description"),
+		Currency:    stripe.String(string(stripe.CurrencyUSD)),
+		LineItems: []*stripe.OrderLineItemParams{
+			&stripe.OrderLineItemParams{Description: stripe.String("my line item")},
+		},
+	}
+	result, _ := order.New(params)
+	assert.NotNil(t, result)
+}
+
+func TestOrderRetrieve(t *testing.T) {
+	params := &stripe.OrderParams{}
+	result, _ := order.Get("order_xyz", params)
+	assert.NotNil(t, result)
+}
+
+func TestOrderUpdate(t *testing.T) {
+	params := &stripe.OrderParams{IPAddress: stripe.String("0.0.0.0")}
+	params.AddMetadata("reference_number", "123")
+	result, _ := order.Update("order_xyz", params)
+	assert.NotNil(t, result)
+}
+
+func TestOrderCancel(t *testing.T) {
+	params := &stripe.OrderCancelParams{}
+	result, _ := order.Cancel("order_xyz", params)
+	assert.NotNil(t, result)
+}
+
+func TestOrderListLineItems(t *testing.T) {
+	params := &stripe.OrderListLineItemsParams{ID: stripe.String("order_xyz")}
+	result := order.ListLineItems(params)
+	assert.NotNil(t, result)
+	assert.Nil(t, result.Err())
+}
+
+func TestOrderReopen(t *testing.T) {
+	params := &stripe.OrderReopenParams{}
+	result, _ := order.Reopen("order_xyz", params)
+	assert.NotNil(t, result)
+}
+
+func TestOrderSubmit(t *testing.T) {
+	params := &stripe.OrderSubmitParams{ExpectedTotal: stripe.Int64(100)}
+	result, _ := order.Submit("order_xyz", params)
 	assert.NotNil(t, result)
 }
 
@@ -1406,6 +1457,14 @@ func TestMandateRetrieve(t *testing.T) {
 	params := &stripe.MandateParams{}
 	result, _ := mandate.Get("mandate_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+}
+
+func TestOrderList(t *testing.T) {
+	params := &stripe.OrderListParams{}
+	params.Limit = stripe.Int64(3)
+	result := order.List(params)
+	assert.NotNil(t, result)
+	assert.Nil(t, result.Err())
 }
 
 func TestPaymentIntentList(t *testing.T) {
