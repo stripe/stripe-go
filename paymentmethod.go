@@ -73,6 +73,7 @@ const (
 	PaymentMethodTypeAUBECSDebit      PaymentMethodType = "au_becs_debit"
 	PaymentMethodTypeBACSDebit        PaymentMethodType = "bacs_debit"
 	PaymentMethodTypeBancontact       PaymentMethodType = "bancontact"
+	PaymentMethodTypeBLIK             PaymentMethodType = "blik"
 	PaymentMethodTypeBoleto           PaymentMethodType = "boleto"
 	PaymentMethodTypeCard             PaymentMethodType = "card"
 	PaymentMethodTypeCardPresent      PaymentMethodType = "card_present"
@@ -172,6 +173,9 @@ type BillingDetailsParams struct {
 	// Billing phone number (including extension).
 	Phone *string `form:"phone"`
 }
+
+// If this is a `blik` PaymentMethod, this hash contains details about the BLIK payment method.
+type PaymentMethodBLIKParams struct{}
 
 // If this is a `boleto` PaymentMethod, this hash contains details about the Boleto payment method.
 type PaymentMethodBoletoParams struct {
@@ -318,6 +322,8 @@ type PaymentMethodParams struct {
 	Bancontact *PaymentMethodBancontactParams `form:"bancontact"`
 	// Billing information associated with the PaymentMethod that may be used or required by particular types of payment methods.
 	BillingDetails *BillingDetailsParams `form:"billing_details"`
+	// This is a legacy parameter that will be removed in the future. It is a hash that does not accept any keys.
+	BLIK *PaymentMethodBLIKParams `form:"blik"`
 	// If this is a `boleto` PaymentMethod, this hash contains details about the Boleto payment method.
 	Boleto *PaymentMethodBoletoParams `form:"boleto"`
 	// If this is a `card` PaymentMethod, this hash contains the user's card details. For backwards compatibility, you can alternatively provide a Stripe token (e.g., for Apple Pay, Amex Express Checkout, or legacy Checkout) into the card hash with format `card: {token: "tok_visa"}`. When providing a card number, you must meet the requirements for [PCI compliance](https://stripe.com/docs/security#validating-pci-compliance). We strongly recommend using Stripe.js instead of interacting with this API directly.
@@ -441,6 +447,7 @@ type BillingDetails struct {
 	// Billing phone number (including extension).
 	Phone string `json:"phone"`
 }
+type PaymentMethodBLIK struct{}
 type PaymentMethodBoleto struct {
 	// Uniquely identifies the customer tax id (CNPJ or CPF)
 	TaxID string `json:"tax_id"`
@@ -666,6 +673,7 @@ type PaymentMethod struct {
 	BACSDebit        *PaymentMethodBACSDebit        `json:"bacs_debit"`
 	Bancontact       *PaymentMethodBancontact       `json:"bancontact"`
 	BillingDetails   *BillingDetails                `json:"billing_details"`
+	BLIK             *PaymentMethodBLIK             `json:"blik"`
 	Boleto           *PaymentMethodBoleto           `json:"boleto"`
 	Card             *PaymentMethodCard             `json:"card"`
 	CardPresent      *PaymentMethodCardPresent      `json:"card_present"`

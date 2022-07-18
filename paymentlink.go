@@ -32,6 +32,7 @@ type PaymentLinkConsentCollectionPromotions string
 // List of values that PaymentLinkConsentCollectionPromotions can take
 const (
 	PaymentLinkConsentCollectionPromotionsAuto PaymentLinkConsentCollectionPromotions = "auto"
+	PaymentLinkConsentCollectionPromotionsNone PaymentLinkConsentCollectionPromotions = "none"
 )
 
 // Configuration for Customer creation during checkout.
@@ -72,6 +73,7 @@ const (
 	PaymentLinkPaymentMethodTypeAUBECSDebit      PaymentLinkPaymentMethodType = "au_becs_debit"
 	PaymentLinkPaymentMethodTypeBACSDebit        PaymentLinkPaymentMethodType = "bacs_debit"
 	PaymentLinkPaymentMethodTypeBancontact       PaymentLinkPaymentMethodType = "bancontact"
+	PaymentLinkPaymentMethodTypeBLIK             PaymentLinkPaymentMethodType = "blik"
 	PaymentLinkPaymentMethodTypeBoleto           PaymentLinkPaymentMethodType = "boleto"
 	PaymentLinkPaymentMethodTypeCard             PaymentLinkPaymentMethodType = "card"
 	PaymentLinkPaymentMethodTypeEPS              PaymentLinkPaymentMethodType = "eps"
