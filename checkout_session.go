@@ -56,7 +56,7 @@ const (
 	CheckoutSessionCustomerCreationIfRequired CheckoutSessionCustomerCreation = "if_required"
 )
 
-// The customer's tax exempt status at time of checkout.
+// The customer's tax exempt status after a completed Checkout Session.
 type CheckoutSessionCustomerDetailsTaxExempt string
 
 // List of values that CheckoutSessionCustomerDetailsTaxExempt can take
@@ -501,9 +501,19 @@ const (
 	CheckoutSessionSubmitTypePay    CheckoutSessionSubmitType = "pay"
 )
 
+// Only return the Checkout Sessions for the Customer details specified.
+type CheckoutSessionListCustomerDetailsParams struct {
+	// Customer's email address.
+	Email *string `form:"email"`
+}
+
 // Returns a list of Checkout Sessions.
 type CheckoutSessionListParams struct {
 	ListParams `form:"*"`
+	// Only return the Checkout Sessions for the Customer specified.
+	Customer *string `form:"customer"`
+	// Only return the Checkout Sessions for the Customer details specified.
+	CustomerDetails *CheckoutSessionListCustomerDetailsParams `form:"customer_details"`
 	// Only return the Checkout Session for the PaymentIntent specified.
 	PaymentIntent *string `form:"payment_intent"`
 	// Only return the Checkout Session for the subscription specified.
@@ -1088,12 +1098,22 @@ type CheckoutSessionShippingOptionShippingRateDataDeliveryEstimateParams struct 
 	Minimum *CheckoutSessionShippingOptionShippingRateDataDeliveryEstimateMinimumParams `form:"minimum"`
 }
 
+// Shipping rates defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
 // Describes a fixed amount to charge for shipping. Must be present if type is `fixed_amount`.
 type CheckoutSessionShippingOptionShippingRateDataFixedAmountParams struct {
 	// A non-negative integer in cents representing how much to charge.
 	Amount *int64 `form:"amount"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency *string `form:"currency"`
+	// Shipping rates defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
+	CurrencyOptions map[string]*CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsParams `form:"currency_options"`
 }
 
 // Parameters to be passed to Shipping Rate creation for this shipping option
@@ -1198,6 +1218,8 @@ type CheckoutSessionParams struct {
 	ClientReferenceID *string `form:"client_reference_id"`
 	// Configure fields for the Checkout Session to gather active consent from customers.
 	ConsentCollection *CheckoutSessionConsentCollectionParams `form:"consent_collection"`
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency *string `form:"currency"`
 	// ID of an existing Customer, if one exists. In `payment` mode, the customer's most recent card
 	// payment method will be used to prefill the email, name, card details, and billing address
 	// on the Checkout page. In `subscription` mode, the customer's [default payment method](https://stripe.com/docs/api/customers/update#update_customer-invoice_settings-default_payment_method)
@@ -1340,7 +1362,7 @@ type CheckoutSessionConsentCollection struct {
 	Promotions CheckoutSessionConsentCollectionPromotions `json:"promotions"`
 }
 
-// The customer's tax IDs at time of checkout.
+// The customer's tax IDs after a completed Checkout Session.
 type CheckoutSessionCustomerDetailsTaxIDs struct {
 	// The type of the tax ID, one of `eu_vat`, `br_cnpj`, `br_cpf`, `eu_oss_vat`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `li_uid`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, or `unknown`
 	Type CheckoutSessionCustomerDetailsTaxIDsType `json:"type"`
@@ -1348,20 +1370,20 @@ type CheckoutSessionCustomerDetailsTaxIDs struct {
 	Value string `json:"value"`
 }
 
-// The customer details including the customer's tax exempt status and the customer's tax IDs. Only present on Sessions in `payment` or `subscription` mode.
+// The customer details including the customer's tax exempt status and the customer's tax IDs. Only the customer's email is present on Sessions in `setup` mode.
 type CheckoutSessionCustomerDetails struct {
-	// The customer's address at the time of checkout. Note: This property is populated only for sessions on or after March 30, 2022.
+	// The customer's address after a completed Checkout Session. Note: This property is populated only for sessions on or after March 30, 2022.
 	Address *Address `json:"address"`
-	// The email associated with the Customer, if one exists, on the Checkout Session at the time of checkout or at time of session expiry.
+	// The email associated with the Customer, if one exists, on the Checkout Session after a completed Checkout Session or at time of session expiry.
 	// Otherwise, if the customer has consented to promotional content, this value is the most recent valid email provided by the customer on the Checkout form.
 	Email string `json:"email"`
-	// The customer's name at the time of checkout. Note: This property is populated only for sessions on or after March 30, 2022.
+	// The customer's name after a completed Checkout Session. Note: This property is populated only for sessions on or after March 30, 2022.
 	Name string `json:"name"`
-	// The customer's phone number at the time of checkout
+	// The customer's phone number after a completed Checkout Session.
 	Phone string `json:"phone"`
-	// The customer's tax exempt status at time of checkout.
+	// The customer's tax exempt status after a completed Checkout Session.
 	TaxExempt CheckoutSessionCustomerDetailsTaxExempt `json:"tax_exempt"`
-	// The customer's tax IDs at time of checkout.
+	// The customer's tax IDs after a completed Checkout Session.
 	TaxIDs []*CheckoutSessionCustomerDetailsTaxIDs `json:"tax_ids"`
 }
 type CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptions struct {
@@ -1711,7 +1733,7 @@ type CheckoutSession struct {
 	Customer *Customer `json:"customer"`
 	// Configure whether a Checkout Session creates a Customer when the Checkout Session completes.
 	CustomerCreation CheckoutSessionCustomerCreation `json:"customer_creation"`
-	// The customer details including the customer's tax exempt status and the customer's tax IDs. Only present on Sessions in `payment` or `subscription` mode.
+	// The customer details including the customer's tax exempt status and the customer's tax IDs. Only the customer's email is present on Sessions in `setup` mode.
 	CustomerDetails *CheckoutSessionCustomerDetails `json:"customer_details"`
 	// If provided, this value will be used when the Customer object is created.
 	// If not provided, customers will be asked to enter their email address.
