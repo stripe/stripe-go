@@ -11,6 +11,15 @@ import (
 	"github.com/stripe/stripe-go/v72/form"
 )
 
+// Configures when the subscription schedule generates prorations for phase transitions. Possible values are `prorate_on_next_phase` or `prorate_up_front` with the default being `prorate_on_next_phase`. `prorate_on_next_phase` will apply phase changes and generate prorations at transition time.`prorate_up_front` will bill for all phases within the current billing cycle up front.
+type SubscriptionScheduleBillingBehavior string
+
+// List of values that SubscriptionScheduleBillingBehavior can take
+const (
+	SubscriptionScheduleBillingBehaviorProrateOnNextPhase SubscriptionScheduleBillingBehavior = "prorate_on_next_phase"
+	SubscriptionScheduleBillingBehaviorProrateUpFront     SubscriptionScheduleBillingBehavior = "prorate_up_front"
+)
+
 // Possible values are `phase_start` or `automatic`. If `phase_start` then billing cycle anchor of the subscription is set to the start of the phase when entering the phase. If `automatic` then the billing cycle anchor is automatically modified as needed when entering the phase. For more information, see the billing cycle [documentation](https://stripe.com/docs/billing/subscriptions/billing-cycle).
 type SubscriptionSchedulePhaseBillingCycleAnchor string
 
@@ -105,6 +114,14 @@ type SubscriptionScheduleDefaultSettingsParams struct {
 	TransferData *SubscriptionTransferDataParams `form:"transfer_data"`
 }
 
+// The coupons to redeem into discounts for the item.
+type SubscriptionSchedulePhaseAddInvoiceItemDiscountParams struct {
+	// ID of the coupon to create a new discount for.
+	Coupon *string `form:"coupon"`
+	// ID of an existing discount on the object (or one of its ancestors) to reuse.
+	Discount *string `form:"discount"`
+}
+
 // SubscriptionSchedulePhaseAddInvoiceItemPriceDataRecurringParams is a structure representing the
 // parameters to create an inline recurring price for a given invoice item.
 type SubscriptionSchedulePhaseAddInvoiceItemPriceDataRecurringParams struct {
@@ -126,8 +143,10 @@ type SubscriptionSchedulePhaseAddInvoiceItemPriceDataParams struct {
 	UnitAmountDecimal *float64                                                         `form:"unit_amount_decimal,high_precision"`
 }
 
-// A list of prices and quantities that will generate invoice items appended to the next invoice. You may pass up to 20 items.
+// A list of prices and quantities that will generate invoice items appended to the next invoice for this phase. You may pass up to 20 items.
 type SubscriptionSchedulePhaseAddInvoiceItemParams struct {
+	// The coupons to redeem into discounts for the item.
+	Discounts []*SubscriptionSchedulePhaseAddInvoiceItemDiscountParams `form:"discounts"`
 	// The ID of the price object.
 	Price *string `form:"price"`
 	// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline.
@@ -144,10 +163,28 @@ type SubscriptionSchedulePhaseAutomaticTaxParams struct {
 	Enabled *bool `form:"enabled"`
 }
 
+// The coupons to redeem into discounts for the schedule phase. If not specified, inherits the discount from the subscription's customer. Pass an empty string to avoid inheriting any discounts.
+type SubscriptionSchedulePhaseDiscountParams struct {
+	// ID of the coupon to create a new discount for.
+	Coupon *string `form:"coupon"`
+	// ID of an existing discount on the object (or one of its ancestors) to reuse.
+	Discount *string `form:"discount"`
+}
+
+// The coupons to redeem into discounts for the subscription item.
+type SubscriptionSchedulePhaseItemDiscountParams struct {
+	// ID of the coupon to create a new discount for.
+	Coupon *string `form:"coupon"`
+	// ID of an existing discount on the object (or one of its ancestors) to reuse.
+	Discount *string `form:"discount"`
+}
+
 // List of configuration items, each with an attached price, to apply during this phase of the subscription schedule.
 type SubscriptionSchedulePhaseItemParams struct {
 	// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. When updating, pass an empty string to remove previously-defined thresholds.
 	BillingThresholds *SubscriptionItemBillingThresholdsParams `form:"billing_thresholds"`
+	// The coupons to redeem into discounts for the subscription item.
+	Discounts []*SubscriptionSchedulePhaseItemDiscountParams `form:"discounts"`
 	// The plan ID to subscribe to. You may specify the same ID in `plan` and `price`.
 	Plan *string `form:"plan"`
 	// The ID of the price object.
@@ -162,7 +199,7 @@ type SubscriptionSchedulePhaseItemParams struct {
 
 // List representing phases of the subscription schedule. Each phase can be customized to have different durations, plans, and coupons. If there are multiple phases, the `end_date` of one phase will always equal the `start_date` of the next phase.
 type SubscriptionSchedulePhaseParams struct {
-	// A list of prices and quantities that will generate invoice items appended to the next invoice. You may pass up to 20 items.
+	// A list of prices and quantities that will generate invoice items appended to the next invoice for this phase. You may pass up to 20 items.
 	AddInvoiceItems []*SubscriptionSchedulePhaseAddInvoiceItemParams `form:"add_invoice_items"`
 	// A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice subtotal that will be transferred to the application owner's Stripe account. The request must be made by a platform account on a connected account in order to set an application fee percentage. For more information, see the application fees [documentation](https://stripe.com/docs/connect/subscriptions#collecting-fees-on-subscriptions).
 	ApplicationFeePercent *float64 `form:"application_fee_percent"`
@@ -182,6 +219,8 @@ type SubscriptionSchedulePhaseParams struct {
 	DefaultPaymentMethod *string `form:"default_payment_method"`
 	// A list of [Tax Rate](https://stripe.com/docs/api/tax_rates) ids. These Tax Rates will set the Subscription's [`default_tax_rates`](https://stripe.com/docs/api/subscriptions/create#create_subscription-default_tax_rates), which means they will be the Invoice's [`default_tax_rates`](https://stripe.com/docs/api/invoices/create#create_invoice-default_tax_rates) for any Invoices issued by the Subscription during this Phase.
 	DefaultTaxRates []*string `form:"default_tax_rates"`
+	// The coupons to redeem into discounts for the schedule phase. If not specified, inherits the discount from the subscription's customer. Pass an empty string to avoid inheriting any discounts.
+	Discounts []*SubscriptionSchedulePhaseDiscountParams `form:"discounts"`
 	// The date at which this phase of the subscription schedule ends. If set, `iterations` must not be set.
 	EndDate    *int64 `form:"end_date"`
 	EndDateNow *bool  `form:"-"` // See custom AppendTo
@@ -220,9 +259,17 @@ func (s *SubscriptionSchedulePhaseParams) AppendTo(body *form.Values, keyParts [
 	}
 }
 
+// If specified, the invoicing for the given billing cycle iterations will be processed now.
+type SubscriptionSchedulePrebillingParams struct {
+	// This is used to determine the number of billing cycles to prebill.
+	Iterations *int64 `form:"iterations"`
+}
+
 // Creates a new subscription schedule object. Each customer can have up to 500 active or scheduled subscriptions.
 type SubscriptionScheduleParams struct {
 	Params `form:"*"`
+	// Configures when the subscription schedule generates prorations for phase transitions. Possible values are `prorate_on_next_phase` or `prorate_up_front` with the default being `prorate_on_next_phase`. `prorate_on_next_phase` will apply phase changes and generate prorations at transition time.`prorate_up_front` will bill for all phases within the current billing cycle up front.
+	BillingBehavior *string `form:"billing_behavior"`
 	// The identifier of the customer to create the subscription schedule for.
 	Customer *string `form:"customer"`
 	// Object representing the subscription schedule's default settings.
@@ -233,6 +280,8 @@ type SubscriptionScheduleParams struct {
 	FromSubscription *string `form:"from_subscription"`
 	// List representing phases of the subscription schedule. Each phase can be customized to have different durations, plans, and coupons. If there are multiple phases, the `end_date` of one phase will always equal the `start_date` of the next phase. Note that past phases can be omitted.
 	Phases []*SubscriptionSchedulePhaseParams `form:"phases"`
+	// If specified, the invoicing for the given billing cycle iterations will be processed now.
+	Prebilling *SubscriptionSchedulePrebillingParams `form:"prebilling"`
 	// If the update changes the current phase, indicates whether the changes should be prorated. The default value is `create_prorations`.
 	ProrationBehavior *string `form:"proration_behavior"`
 	// When the subscription schedule starts. We recommend using `now` so that it starts the subscription immediately. You can also use a Unix timestamp to backdate the subscription so that it starts on a past date, or set a future date for the subscription to start on.
@@ -245,6 +294,186 @@ func (s *SubscriptionScheduleParams) AppendTo(body *form.Values, keyParts []stri
 	if BoolValue(s.StartDateNow) {
 		body.Add(form.FormatKey(append(keyParts, "start_date")), "now")
 	}
+}
+
+// Time span for the amendment starting from the `amendment_start`.
+type SubscriptionScheduleAmendAmendmentAmendmentEndDurationParams struct {
+	Interval      *string `form:"interval"`
+	IntervalCount *int64  `form:"interval_count"`
+}
+
+// Cover all remaining phases of the subscription schedule with the amendment.
+type SubscriptionScheduleAmendAmendmentAmendmentEndScheduleEndParams struct{}
+
+// A precise Unix timestamp for the amendment to end. Must be after the `amendment_start`.
+type SubscriptionScheduleAmendAmendmentAmendmentEndTimestampParams struct {
+	Value *int64 `form:"value"`
+}
+
+// Details to identify the end of the time range modified by the proposed change. If not supplied, the amendment is considered a point-in-time operation that only affects the exact timestamp at `amendment_start`, and a restricted set of attributes is supported on the amendment.
+type SubscriptionScheduleAmendAmendmentAmendmentEndParams struct {
+	// Time span for the amendment starting from the `amendment_start`.
+	Duration *SubscriptionScheduleAmendAmendmentAmendmentEndDurationParams `form:"duration"`
+	// Cover all remaining phases of the subscription schedule with the amendment.
+	ScheduleEnd *SubscriptionScheduleAmendAmendmentAmendmentEndScheduleEndParams `form:"schedule_end"`
+	// A precise Unix timestamp for the amendment to end. Must be after the `amendment_start`.
+	Timestamp *SubscriptionScheduleAmendAmendmentAmendmentEndTimestampParams `form:"timestamp"`
+	// Select one of three ways to pass the `amendment_end`.
+	Type *string `form:"type"`
+}
+
+// Details of another amendment in the same array, immediately after which this amendment should begin.
+type SubscriptionScheduleAmendAmendmentAmendmentStartAmendmentEndParams struct {
+	Index *int64 `form:"index"`
+}
+
+// Specify that this amendment should start at the current time as determined by Stripe servers. In the case of Test Clocks, `now` uses the frozen time on the testmode clock.
+type SubscriptionScheduleAmendAmendmentAmendmentStartNowParams struct{}
+
+// A precise Unix timestamp for the amendment to start.
+type SubscriptionScheduleAmendAmendmentAmendmentStartTimestampParams struct {
+	Value *int64 `form:"value"`
+}
+
+// Details to identify the earliest timestamp where the proposed change should take effect.
+type SubscriptionScheduleAmendAmendmentAmendmentStartParams struct {
+	// Details of another amendment in the same array, immediately after which this amendment should begin.
+	AmendmentEnd *SubscriptionScheduleAmendAmendmentAmendmentStartAmendmentEndParams `form:"amendment_end"`
+	// Specify that this amendment should start at the current time as determined by Stripe servers. In the case of Test Clocks, `now` uses the frozen time on the testmode clock.
+	Now *SubscriptionScheduleAmendAmendmentAmendmentStartNowParams `form:"now"`
+	// A precise Unix timestamp for the amendment to start.
+	Timestamp *SubscriptionScheduleAmendAmendmentAmendmentStartTimestampParams `form:"timestamp"`
+	// Select one of three ways to pass the `amendment_start`.
+	Type *string `form:"type"`
+}
+
+// Details of the discount to add.
+type SubscriptionScheduleAmendAmendmentDiscountActionAddParams struct {
+	Coupon   *string `form:"coupon"`
+	Discount *string `form:"discount"`
+	Index    *int64  `form:"index"`
+}
+
+// Details of the discount to remove.
+type SubscriptionScheduleAmendAmendmentDiscountActionRemoveParams struct {
+	Coupon   *string `form:"coupon"`
+	Discount *string `form:"discount"`
+}
+
+// Details of the discount to replace the existing discounts with.
+type SubscriptionScheduleAmendAmendmentDiscountActionSetParams struct {
+	Coupon   *string `form:"coupon"`
+	Discount *string `form:"discount"`
+}
+
+// Changes to the coupons being redeemed or discounts being applied during the amendment time span.
+type SubscriptionScheduleAmendAmendmentDiscountActionParams struct {
+	// Details of the discount to add.
+	Add *SubscriptionScheduleAmendAmendmentDiscountActionAddParams `form:"add"`
+	// Details of the discount to remove.
+	Remove *SubscriptionScheduleAmendAmendmentDiscountActionRemoveParams `form:"remove"`
+	// Details of the discount to replace the existing discounts with.
+	Set  *SubscriptionScheduleAmendAmendmentDiscountActionSetParams `form:"set"`
+	Type *string                                                    `form:"type"`
+}
+type SubscriptionScheduleAmendAmendmentItemActionAddDiscountParams struct {
+	// ID of the coupon to create a new discount for.
+	Coupon *string `form:"coupon"`
+	// ID of an existing discount on the object (or one of its ancestors) to reuse.
+	Discount *string `form:"discount"`
+}
+type SubscriptionScheduleAmendAmendmentItemActionAddTrialFreeParams struct{}
+type SubscriptionScheduleAmendAmendmentItemActionAddTrialNoneParams struct{}
+
+// Details of a different price, quantity, or both, to bill your customer for during a paid trial.
+type SubscriptionScheduleAmendAmendmentItemActionAddTrialPaidParams struct {
+	Price    *string `form:"price"`
+	Quantity *int64  `form:"quantity"`
+}
+type SubscriptionScheduleAmendAmendmentItemActionAddTrialParams struct {
+	Free *SubscriptionScheduleAmendAmendmentItemActionAddTrialFreeParams `form:"free"`
+	None *SubscriptionScheduleAmendAmendmentItemActionAddTrialNoneParams `form:"none"`
+	// Details of a different price, quantity, or both, to bill your customer for during a paid trial.
+	Paid *SubscriptionScheduleAmendAmendmentItemActionAddTrialPaidParams `form:"paid"`
+	Type *string                                                         `form:"type"`
+}
+
+// Details of the subscription item to add.
+type SubscriptionScheduleAmendAmendmentItemActionAddParams struct {
+	Discounts []*SubscriptionScheduleAmendAmendmentItemActionAddDiscountParams `form:"discounts"`
+	Metadata  map[string]string                                                `form:"metadata"`
+	Price     *string                                                          `form:"price"`
+	Quantity  *int64                                                           `form:"quantity"`
+	TaxRates  []*string                                                        `form:"tax_rates"`
+	Trial     *SubscriptionScheduleAmendAmendmentItemActionAddTrialParams      `form:"trial"`
+}
+
+// Details of the subscription item to remove.
+type SubscriptionScheduleAmendAmendmentItemActionRemoveParams struct {
+	Price *string `form:"price"`
+}
+type SubscriptionScheduleAmendAmendmentItemActionSetDiscountParams struct {
+	// ID of the coupon to create a new discount for.
+	Coupon *string `form:"coupon"`
+	// ID of an existing discount on the object (or one of its ancestors) to reuse.
+	Discount *string `form:"discount"`
+}
+type SubscriptionScheduleAmendAmendmentItemActionSetTrialFreeParams struct{}
+type SubscriptionScheduleAmendAmendmentItemActionSetTrialNoneParams struct{}
+
+// Details of a different price, quantity, or both, to bill your customer for during a paid trial.
+type SubscriptionScheduleAmendAmendmentItemActionSetTrialPaidParams struct {
+	Price    *string `form:"price"`
+	Quantity *int64  `form:"quantity"`
+}
+type SubscriptionScheduleAmendAmendmentItemActionSetTrialParams struct {
+	Free *SubscriptionScheduleAmendAmendmentItemActionSetTrialFreeParams `form:"free"`
+	None *SubscriptionScheduleAmendAmendmentItemActionSetTrialNoneParams `form:"none"`
+	// Details of a different price, quantity, or both, to bill your customer for during a paid trial.
+	Paid *SubscriptionScheduleAmendAmendmentItemActionSetTrialPaidParams `form:"paid"`
+	Type *string                                                         `form:"type"`
+}
+
+// Details of the subscription item to replace the existing items with.
+type SubscriptionScheduleAmendAmendmentItemActionSetParams struct {
+	Discounts []*SubscriptionScheduleAmendAmendmentItemActionSetDiscountParams `form:"discounts"`
+	Metadata  map[string]string                                                `form:"metadata"`
+	Price     *string                                                          `form:"price"`
+	Quantity  *int64                                                           `form:"quantity"`
+	TaxRates  []*string                                                        `form:"tax_rates"`
+	Trial     *SubscriptionScheduleAmendAmendmentItemActionSetTrialParams      `form:"trial"`
+}
+
+// Changes to the items being billed or provisioned to your customer during the amendment time span.
+type SubscriptionScheduleAmendAmendmentItemActionParams struct {
+	// Details of the subscription item to add.
+	Add *SubscriptionScheduleAmendAmendmentItemActionAddParams `form:"add"`
+	// Details of the subscription item to remove.
+	Remove *SubscriptionScheduleAmendAmendmentItemActionRemoveParams `form:"remove"`
+	// Details of the subscription item to replace the existing items with.
+	Set  *SubscriptionScheduleAmendAmendmentItemActionSetParams `form:"set"`
+	Type *string                                                `form:"type"`
+}
+
+// Changes to apply to the phases of the subscription schedule, in the order provided.
+type SubscriptionScheduleAmendAmendmentParams struct {
+	// Details to identify the end of the time range modified by the proposed change. If not supplied, the amendment is considered a point-in-time operation that only affects the exact timestamp at `amendment_start`, and a restricted set of attributes is supported on the amendment.
+	AmendmentEnd *SubscriptionScheduleAmendAmendmentAmendmentEndParams `form:"amendment_end"`
+	// Details to identify the earliest timestamp where the proposed change should take effect.
+	AmendmentStart *SubscriptionScheduleAmendAmendmentAmendmentStartParams `form:"amendment_start"`
+	// Changes to the coupons being redeemed or discounts being applied during the amendment time span.
+	DiscountActions []*SubscriptionScheduleAmendAmendmentDiscountActionParams `form:"discount_actions"`
+	// Changes to the items being billed or provisioned to your customer during the amendment time span.
+	ItemActions []*SubscriptionScheduleAmendAmendmentItemActionParams `form:"item_actions"`
+	// Changes to how Stripe handles prorations during the amendment time span. Also supported as a point-in-time operation when `amendment_end` is `null`.
+	ProrationBehavior *string `form:"proration_behavior"`
+}
+
+// Amends an existing subscription schedule.
+type SubscriptionScheduleAmendParams struct {
+	Params `form:"*"`
+	// Changes to apply to the phases of the subscription schedule, in the order provided.
+	Amendments []*SubscriptionScheduleAmendAmendmentParams `form:"amendments"`
 }
 
 // Cancels a subscription schedule and its associated subscription immediately (if the subscription schedule has an active subscription). A subscription schedule can only be canceled if its status is not_started or active.
@@ -294,8 +523,18 @@ type SubscriptionScheduleDefaultSettings struct {
 	TransferData *SubscriptionTransferData `json:"transfer_data"`
 }
 
-// A list of prices and quantities that will generate invoice items appended to the first invoice for this phase.
+// The stackable discounts that will be applied to the item.
+type SubscriptionSchedulePhaseAddInvoiceItemDiscount struct {
+	// ID of the coupon to create a new discount for.
+	Coupon *Coupon `json:"coupon"`
+	// ID of an existing discount on the object (or one of its ancestors) to reuse.
+	Discount *Discount `json:"discount"`
+}
+
+// A list of prices and quantities that will generate invoice items appended to the next invoice for this phase.
 type SubscriptionSchedulePhaseAddInvoiceItem struct {
+	// The stackable discounts that will be applied to the item.
+	Discounts []*SubscriptionSchedulePhaseAddInvoiceItemDiscount `json:"discounts"`
 	// ID of the price used to generate the invoice item.
 	Price *Price `json:"price"`
 	// The quantity of the invoice item.
@@ -304,10 +543,28 @@ type SubscriptionSchedulePhaseAddInvoiceItem struct {
 	TaxRates []*TaxRate `json:"tax_rates"`
 }
 
+// The stackable discounts that will be applied to the subscription on this phase. Subscription item discounts are applied before subscription discounts.
+type SubscriptionSchedulePhaseDiscount struct {
+	// ID of the coupon to create a new discount for.
+	Coupon *Coupon `json:"coupon"`
+	// ID of an existing discount on the object (or one of its ancestors) to reuse.
+	Discount *Discount `json:"discount"`
+}
+
+// The discounts applied to the subscription item. Subscription item discounts are applied before subscription discounts. Use `expand[]=discounts` to expand each discount.
+type SubscriptionSchedulePhaseItemDiscount struct {
+	// ID of the coupon to create a new discount for.
+	Coupon *Coupon `json:"coupon"`
+	// ID of an existing discount on the object (or one of its ancestors) to reuse.
+	Discount *Discount `json:"discount"`
+}
+
 // Subscription items to configure the subscription to during this phase of the subscription schedule.
 type SubscriptionSchedulePhaseItem struct {
 	// Define thresholds at which an invoice will be sent, and the related subscription advanced to a new billing period
 	BillingThresholds *SubscriptionItemBillingThresholds `json:"billing_thresholds"`
+	// The discounts applied to the subscription item. Subscription item discounts are applied before subscription discounts. Use `expand[]=discounts` to expand each discount.
+	Discounts []*SubscriptionSchedulePhaseItemDiscount `json:"discounts"`
 	// ID of the plan to which the customer should be subscribed.
 	Plan *Plan `json:"plan"`
 	// ID of the price to which the customer should be subscribed.
@@ -320,7 +577,7 @@ type SubscriptionSchedulePhaseItem struct {
 
 // Configuration for the subscription schedule's phases.
 type SubscriptionSchedulePhase struct {
-	// A list of prices and quantities that will generate invoice items appended to the first invoice for this phase.
+	// A list of prices and quantities that will generate invoice items appended to the next invoice for this phase.
 	AddInvoiceItems []*SubscriptionSchedulePhaseAddInvoiceItem `json:"add_invoice_items"`
 	// A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice subtotal that will be transferred to the application owner's Stripe account during this phase of the schedule.
 	ApplicationFeePercent float64                   `json:"application_fee_percent"`
@@ -339,6 +596,8 @@ type SubscriptionSchedulePhase struct {
 	DefaultPaymentMethod *PaymentMethod `json:"default_payment_method"`
 	// The default tax rates to apply to the subscription during this phase of the subscription schedule.
 	DefaultTaxRates []*TaxRate `json:"default_tax_rates"`
+	// The stackable discounts that will be applied to the subscription on this phase. Subscription item discounts are applied before subscription discounts.
+	Discounts []*SubscriptionSchedulePhaseDiscount `json:"discounts"`
 	// The end of this phase of the subscription schedule.
 	EndDate int64 `json:"end_date"`
 	// The invoice settings applicable during this phase.
@@ -357,6 +616,16 @@ type SubscriptionSchedulePhase struct {
 	TrialEnd int64 `json:"trial_end"`
 }
 
+// Time period and invoice for a Subscription billed in advance.
+type SubscriptionSchedulePrebilling struct {
+	// ID of the prebilling invoice.
+	Invoice *Invoice `json:"invoice"`
+	// The end of the last period for which the invoice pre-bills.
+	PeriodEnd int64 `json:"period_end"`
+	// The start of the first period for which the invoice pre-bills.
+	PeriodStart int64 `json:"period_start"`
+}
+
 // A subscription schedule allows you to create and manage the lifecycle of a subscription by predefining expected changes.
 //
 // Related guide: [Subscription Schedules](https://stripe.com/docs/billing/subscriptions/subscription-schedules).
@@ -364,6 +633,8 @@ type SubscriptionSchedule struct {
 	APIResource
 	// ID of the Connect Application that created the schedule.
 	Application *Application `json:"application"`
+	// Configures when the subscription schedule generates prorations for phase transitions. Possible values are `prorate_on_next_phase` or `prorate_up_front` with the default being `prorate_on_next_phase`. `prorate_on_next_phase` will apply phase changes and generate prorations at transition time.`prorate_up_front` will bill for all phases within the current billing cycle up front.
+	BillingBehavior SubscriptionScheduleBillingBehavior `json:"billing_behavior"`
 	// Time at which the subscription schedule was canceled. Measured in seconds since the Unix epoch.
 	CanceledAt int64 `json:"canceled_at"`
 	// Time at which the subscription schedule was completed. Measured in seconds since the Unix epoch.
@@ -387,6 +658,8 @@ type SubscriptionSchedule struct {
 	Object string `json:"object"`
 	// Configuration for the subscription schedule's phases.
 	Phases []*SubscriptionSchedulePhase `json:"phases"`
+	// Time period and invoice for a Subscription billed in advance.
+	Prebilling *SubscriptionSchedulePrebilling `json:"prebilling"`
 	// Time at which the subscription schedule was released. Measured in seconds since the Unix epoch.
 	ReleasedAt int64 `json:"released_at"`
 	// ID of the subscription once managed by the subscription schedule (if it is released).

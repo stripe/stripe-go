@@ -346,6 +346,8 @@ type InvoiceParams struct {
 	StatementDescriptor *string `form:"statement_descriptor"`
 	// The identifier of the subscription for which you'd like to retrieve the upcoming invoice. If not provided, but a `subscription_items` is provided, you will preview creating a subscription with those items. If neither `subscription` nor `subscription_items` is provided, you will retrieve the next upcoming invoice from among the customer's subscriptions.
 	Subscription *string `form:"subscription"`
+	// The pre-billing to apply to the subscription as a preview.
+	SubscriptionPrebilling *InvoiceUpcomingSubscriptionPrebillingParams `form:"subscription_prebilling"`
 	// If specified, the funds from the invoice will be transferred to the destination and the ID of the resulting transfer will be found on the invoice's charge. This will be unset if you POST an empty value.
 	TransferData *InvoiceTransferDataParams `form:"transfer_data"`
 	// These are all for exclusive use by GetNext.
@@ -478,6 +480,12 @@ type InvoiceUpcomingInvoiceItemParams struct {
 	UnitAmount *int64 `form:"unit_amount"`
 	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
 	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
+}
+
+// The pre-billing to apply to the subscription as a preview.
+type InvoiceUpcomingSubscriptionPrebillingParams struct {
+	// This is used to determine the number of billing cycles to prebill.
+	Iterations *int64 `form:"iterations"`
 }
 
 // Stripe automatically creates and then attempts to collect payment on invoices for customers on subscriptions according to your [subscriptions settings](https://dashboard.stripe.com/account/billing/automatic). However, if you'd like to attempt payment on an invoice out of the normal collection schedule or for some other reason, you can do so.

@@ -19,6 +19,14 @@ type SubscriptionItemBillingThresholdsParams struct {
 	UsageGTE *int64 `form:"usage_gte"`
 }
 
+// The coupons to redeem into discounts for the subscription item.
+type SubscriptionItemDiscountParams struct {
+	// ID of the coupon to create a new discount for.
+	Coupon *string `form:"coupon"`
+	// ID of an existing discount on the object (or one of its ancestors) to reuse.
+	Discount *string `form:"discount"`
+}
+
 // The recurring components of a price such as `interval` and `interval_count`.
 type SubscriptionItemPriceDataRecurringParams struct {
 	// Specifies billing frequency. Either `day`, `week`, `month` or `year`.
@@ -50,7 +58,9 @@ type SubscriptionItemParams struct {
 	BillingThresholds *SubscriptionItemBillingThresholdsParams `form:"billing_thresholds"`
 	// Delete all usage for the given subscription item. Allowed only when the current plan's `usage_type` is `metered`.
 	ClearUsage *bool `form:"clear_usage"`
-	OffSession *bool `form:"off_session"` // Only supported on update
+	// The coupons to redeem into discounts for the subscription item.
+	Discounts  []*SubscriptionItemDiscountParams `form:"discounts"`
+	OffSession *bool                             `form:"off_session"` // Only supported on update
 	// Use `allow_incomplete` to transition the subscription to `status=past_due` if a payment is required but cannot be paid. This allows you to manage scenarios where additional user actions are needed to pay a subscription's invoice. For example, SCA regulation may require 3DS authentication to complete payment. See the [SCA Migration Guide](https://stripe.com/docs/billing/migration/strong-customer-authentication) for Billing to learn more. This is the default behavior.
 	//
 	// Use `default_incomplete` to transition the subscription to `status=past_due` when payment is required and await explicit confirmation of the invoice's payment intent. This allows simpler management of scenarios where additional user actions are needed to pay a subscription's invoice. Such as failed payments, [SCA regulation](https://stripe.com/docs/billing/migration/strong-customer-authentication), or collecting a mandate for a bank debit payment method.
@@ -92,6 +102,8 @@ type SubscriptionItem struct {
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
 	Created int64 `json:"created"`
 	Deleted bool  `json:"deleted"`
+	// The discounts applied to the subscription item. Subscription item discounts are applied before subscription discounts. Use `expand[]=discounts` to expand each discount.
+	Discounts []*Discount `json:"discounts"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
