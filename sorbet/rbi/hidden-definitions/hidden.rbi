@@ -17924,10 +17924,6 @@ class Enumerator::Yielder
   def to_proc(); end
 end
 
-class Enumerator
-  def self.produce(*arg); end
-end
-
 class Errno::EAUTH
   Errno = ::T.let(nil, ::T.untyped)
 end
