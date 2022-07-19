@@ -1,0 +1,32 @@
+## Metadata
+
+- [You cannot specify a default ListView](https://salesforce.stackexchange.com/questions/124447/default-listviews-in-lightning)
+- You can't modify most types of metadata once it is created. Be very careful when creating fields. https://developer.salesforce.com/docs/atlas.en-us.236.0.packagingGuide.meta/packagingGuide/modifying_custom_fields.htm
+- What metadata is available on the account?
+- `sfdx force:mdapi:listmetadata -m Layout` to get all layouts on an account. If you want to pull a namespaced layout: `sfdx force:source:retrieve -m "Layout:Account-SBQQ__CPQ Account Layout"`
+
+## Lighting Web Componetns
+
+- `#lightning` in `pages/setup.page` is where the primary component is mounted
+
+## Apex
+
+- If `Apex CPU time limit exceeded` is encountered all DB operations are not committed. They are all wrapped into a transaction that is committed at the end of the Apex call.
+- You can't do a callout after a DML (DB) operation. TODO I may be getting the order of operations wrong here, look this up
+- You can't use variables in the `FROM` clause of a SOQL query `[...]`
+- `--loglevel` seems to mess with some commands
+
+## SOQL
+
+- `IS NOT NULL` == `field != null`
+- There is some fancy relationship syntax. You can use 1:1 lookups in `SELECT` and `WHERE` without a join
+- You only `SELECT` via SOQL. All other CRUD operations are done through a ORM-like flow.
+
+## CPQ
+
+- `SBQQ__PriceEditable__c` must be true on the line to customize the price later on
+
+## Tools
+
+- Santa-blocked, but cool: https://www.pocketsoap.com/osx/soqlx/#Download
+- Also blocked: https://chrome.google.com/webstore/detail/salesforce-inspector/aodjmnfhjibkcdimpodiifdjnnncaafh?hl=en

@@ -1,17 +1,17 @@
 # stripe-salesforce
 
-setup guide by appiphony
-https://docs.google.com/document/d/17vE7-lL0DTnwRoVcYjgjDboQt72YmOVf3Mc4IS1mbWU/edit
+- [user documentation](https://docs.google.com/document/d/1GKfHhp0FwGHiAPxDv8AzJfnf0vJSbvF3ypMuzvhvZdw/edit#heading=h.rib60y3xmt51)
+- [technical design](https://docs.google.com/document/d/1_7kf3oUTuNqQuopfapTP30Di1XwpuY7VYS_APYiGuPY/edit)
+- [high-level architecture for security](https://paper.dropbox.com/doc/SalesForceStripe-Connector-Architecture-A6jDl31hXxE2DOp9QKjl3)
+- [setup guide by appiphony](https://docs.google.com/document/d/17vE7-lL0DTnwRoVcYjgjDboQt72YmOVf3Mc4IS1mbWU/edit)
+- [feature roadmap](https://docs.google.com/spreadsheets/d/136PUl_U7bMW7uMSwcqujisasAJNQJIOPQimGGG7iG00/edit#gid=0)
+- [google drive folder with walkthrough videos and lots of docs](https://drive.google.com/drive/folders/14XhQGty83lqdMhLJduI9pwRI2mWAcrCl)
 
-https://chrome.google.com/webstore/detail/salesforce-inspector/aodjmnfhjibkcdimpodiifdjnnncaafh?hl=en
+# URLs
 
-https://paper.dropbox.com/doc/SalesForceStripe-Connector-Architecture-A6jDl31hXxE2DOp9QKjl3
-
-https://stripe-force.herokuapp.com/auth/salesforce
-
-http://localhost:3100/
-
-system level permissions https://developer.salesforce.com/docs/atlas.en-us.sfFieldRef.meta/sfFieldRef/salesforce_field_reference_PermissionSet.htm
+- Production URL: https://stripe-force.herokuapp.com/auth/salesforce
+- Dev URL: http://localhost:3100/
+- [SF dev & test environments](https://docs.google.com/spreadsheets/d/136PUl_U7bMW7uMSwcqujisasAJNQJIOPQimGGG7iG00/edit#gid=0)
 
 # Stripe Systems
 
@@ -22,7 +22,7 @@ system level permissions https://developer.salesforce.com/docs/atlas.en-us.sfFie
 
 # Dev Snippets
 
-Loud logging everyhere:
+Loud logging everywhere:
 
 ```
 Stripe.log_level = 'debug'; Restforce.log = true; ENV['LOG_LEVEL'] = 'debug'
@@ -234,14 +234,6 @@ sfdx force:source:retrieve -m CustomField:Order.Stripe_Transaction_ID\_\_c
 
 - "A restricted picklist's values are limited to only those values defined by a Salesforce admin, which prevents users from loading redundant or erroneous values through the API." per the SF documentation on it"
 
-## SOQL
-
-- `IS NOT NULL` == `field != null`
-
-## Tools
-
-https://www.pocketsoap.com/osx/soqlx/#Download
-
 # Development
 
 ## Deployment
@@ -280,8 +272,17 @@ export SRB_SORBET_TYPED_REPO="/Users/mbianco/Projects/sorbet-typed"
 export SRB_SORBET_TYPED_REVISION="mbianco/rails-fixes"
 ```
 
+# Debugging
+
+Install all gems locally to easily grep through them:
+
+```shell
+BUNDLE_DISABLE_SHARED_GEMS=1 BUNDLE_PATH=vendor/bundle bundle
+```
+
 # Tests
 
+- Before running tests, you'll need a valid oauth token: `bundle exec ruby scripts/refresh-tokens.rb`
 - `NO_RESCUE=true bundle exec rails test "test/**/test*.rb"` will run the entire test suite
 - `NO_RESCUE=1` to avoid autoloading pry-rescue in the test suite
 

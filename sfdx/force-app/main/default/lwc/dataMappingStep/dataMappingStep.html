@@ -107,11 +107,11 @@
                                                         <div class="slds-col slds-has-flexi-truncate">
                                                             <template if:true={field.staticValue}>
                                                                 <lightning-input type="text" label="Salesforce Value" value={field.sfValue} onchange={updateStaticValueChoice} variant="label-hidden" placeholder="Enter Static Value..."></lightning-input>
-                                                                <div if:true={field.requiredValue} class="slds-text-title slds-m-top_x-small slds-has-flexi-truncate"><strong>Requried field.</strong> Default: {field.requiredValue}</div>
+                                                                <div if:true={field.requiredValue} class="slds-text-title slds-m-top_x-small slds-has-flexi-truncate"><strong>Required field.</strong> Default: {field.requiredValue}</div>
                                                             </template>
                                                             <template if:false={field.staticValue}>
                                                                 <c-field-picker label="Record Type" root-object={defaultSfObject} options={sfFieldOptions} hash={field.sfValue} variant="label-hidden" onselect={updatePicklist} onobjectchange={updateFieldList} onpicklistclick={updatePicklistChoices} searchable></c-field-picker>
-                                                                <div if:true={field.requiredValue} class="slds-text-title slds-m-top_x-small slds-has-flexi-truncate"><strong>Requried field.</strong> Default: {field.requiredValue}</div>
+                                                                <div if:true={field.requiredValue} class="slds-text-title slds-m-top_x-small slds-has-flexi-truncate"><strong>Required field.</strong> Default: {field.requiredValue}</div>
                                                             </template>
                                                         </div>
                                                         <div class="slds-col slds-no-flex">

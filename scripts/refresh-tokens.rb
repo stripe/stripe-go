@@ -9,10 +9,21 @@ unless Rails.env.development?
   abort
 end
 
-# optionally pass the alias/name you want to refresh from
-if ARGV[0]
-  username = ARGV[0]
+username = ARGV[0]
 
+if !username
+  puts "No username provided, finding local user reference"
+  user = StripeForce::User.find(salesforce_account_id: ENV.fetch('SF_INSTANCE_ID'))
+end
+
+if !user
+  puts "No local user found, finding default username"
+  username = `cd sfdx && sfdx config:get defaultusername --json | jq -r '.result[0].value'`.strip
+  puts "Found default username '#{username}'"
+end
+
+# optionally pass the alias/name you want to refresh from
+if username
   auth_list = JSON.parse(`cd sfdx && sfdx auth:list --json`)
   auth_info = auth_list['result'].detect { |a| a['username'] == username || a['alias'] == username }
 
@@ -38,7 +49,7 @@ if ARGV[0]
     SF_REFRESH_TOKEN=" "
   EOL
 else
-  user = T.must(StripeForce::User.find(salesforce_account_id: ENV.fetch('SF_INSTANCE_ID')))
+  user = T.must(user)
   access_token = user.salesforce_access_token
 
   shell_vars = <<~EOL

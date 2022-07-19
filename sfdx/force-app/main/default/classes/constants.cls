@@ -31,8 +31,8 @@ public with sharing class constants {
     public static FINAL String RUBY_SERVICE_BASE_URI = 'https://stripe-force.herokuapp.com';
 
     //Setup Data Record Name
-    public static FINAL String  SETUP_DATA_RECORD_NAME = 'SetupData';
-    public static FINAL String  PACKAGED_PERMISSION_SET_NAME = 'Stripe Connector Integration User';
+    public static FINAL String SETUP_DATA_RECORD_NAME = 'SetupData';
+    public static FINAL String PACKAGED_PERMISSION_SET_NAME = 'Stripe Connector Integration User';
 
     // this seemingly-useless code is used for the bootstrap process in the setup.page
     public String getNamespace() {

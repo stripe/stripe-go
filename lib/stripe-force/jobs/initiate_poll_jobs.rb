@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 # typed: true
+
 class StripeForce::InitiatePollsJobs
   include Integrations::Log
   extend Integrations::ErrorContext

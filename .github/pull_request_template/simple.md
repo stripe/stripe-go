@@ -10,6 +10,7 @@
 <!--
 ### Notify
 
+r? @brennen-stripe
 cc @arnoldezeolisa
 cc @sean-appiphony
 -->

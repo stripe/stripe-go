@@ -9,7 +9,6 @@ end
 # really? Can't set this on an instance or `configure` level?
 Restforce.log = ENV.fetch('SALESFORCE_LOG', 'false') == 'true'
 
-
 Restforce::SObject.class_eval do
   def refresh
     ensure_id

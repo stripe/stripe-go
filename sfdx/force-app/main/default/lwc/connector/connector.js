@@ -25,7 +25,5 @@ export default class Connector extends LightningElement {
        //this.isComplete = !this.isComplete;
        this.dispatchEvent(new CustomEvent('auth'));
        return;
-
-        
     }
 }
