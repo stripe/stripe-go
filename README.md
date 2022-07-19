@@ -12,6 +12,8 @@
 - Production URL: https://stripe-force.herokuapp.com/auth/salesforce
 - Dev URL: http://localhost:3100/
 - [SF dev & test environments](https://docs.google.com/spreadsheets/d/136PUl_U7bMW7uMSwcqujisasAJNQJIOPQimGGG7iG00/edit#gid=0)
+- [high-level architecture for security](https://paper.dropbox.com/doc/SalesForceStripe-Connector-Architecture-A6jDl31hXxE2DOp9QKjl3)
+- [setup guide by appiphony](https://docs.google.com/document/d/17vE7-lL0DTnwRoVcYjgjDboQt72YmOVf3Mc4IS1mbWU/edit)
 
 # Stripe Systems
 

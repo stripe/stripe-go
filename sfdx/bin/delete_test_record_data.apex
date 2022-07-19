@@ -7,11 +7,20 @@
 // https://appiphony15-dev-ed.lightning.force.com/lightning/setup/CompanyResourceDisk/home
 
 public static void deleteData(String ObjectApiName) {
+    // max that can be used with deleteImmediately
     Integer batchSize = 500;
+
+    if(Limits.getLimitCpuTime() - Limits.getCpuTime() < 4000) {
+        System.debug('Close to limit, quitting!');
+        return;
+    }
 
     try {
         System.debug('ObjectApiName: ' + ObjectApiName);
+
+        // magic constants can't be used in a `from` clause
         String query = 'SELECT Id FROM ' + ObjectApiName +
+                        ' WITH SECURITY_ENFORCED' +
                        ' LIMIT ' + batchSize;
 
         List<SObject> listOfRecordsToDelete = Database.query(query);
@@ -19,7 +28,10 @@ public static void deleteData(String ObjectApiName) {
 
         if(!ListOfRecordsToDelete.isEmpty()) {
             System.debug('deleting records');
-            delete listOfRecordsToDelete;
+
+            // `false` second params ensure that if there are some errors, we don't fail completely
+            // there will always be some errors due to weird data issues in SF
+            Database.delete(listOfRecordsToDelete, false);
 
             if(ListOfRecordsToDelete.size() == batchSize) {
                 deleteData(ObjectApiName);
@@ -38,31 +50,35 @@ public static void deleteData(String ObjectApiName) {
     }
 }
 
-List<Order> activatedOrderList = [
-    SELECT Id, Status, SBQQ__Contracted__c
-    FROM Order
-    WHERE Status = 'Activated'
-    LIMIT 10000
-];
+public static void deactivateOrders() {
+    List<Order> activatedOrderList = [
+        SELECT Id, Status, SBQQ__Contracted__c
+        FROM Order
+        WHERE Status = 'Activated'
+        LIMIT 2000
+    ];
 
-System.debug('Updating order (' + activatedOrderList.size() + ') state to enable deletion...');
+    System.debug('Updating order (' + activatedOrderList.size() + ') state to enable deletion...');
 
-if(!activatedOrderList.isEmpty()) {
-    try {
-        // before 'deactivating' an order, we have to disable contracting
-        for(Order activatedOrder : activatedOrderList) {
-            activatedOrder.SBQQ__Contracted__c = false;
+    // NOTE updates are run sync to enable this script to run faster when it is run mu;tiple times in a row
+
+    if(!activatedOrderList.isEmpty()) {
+        try {
+            // before 'deactivating' an order, we have to disable contracting
+            for(Order activatedOrder : activatedOrderList) {
+                activatedOrder.SBQQ__Contracted__c = false;
+            }
+            Database.updateImmediate((List<SObject>)activatedOrderList);
+
+            // now, with the order non-contracted, we can deactivate it
+            for(Order activatedOrder : activatedOrderList) {
+                activatedOrder.status = 'Draft';
+            }
+            Database.updateImmediate((List<SObject>)activatedOrderList);
+        } catch (Exception excep) {
+            System.debug('order cleanup exception:');
+            System.debug(string.valueOf(excep.getLineNumber()) + excep.getMessage());
         }
-        upsert activatedOrderList;
-
-        // now, with the order non-contracted, we can deactivate it
-        for(Order activatedOrder : activatedOrderList) {
-            activatedOrder.status = 'Draft';
-        }
-        upsert activatedOrderList;
-    } catch (Exception excep) {
-        System.debug('order cleanup exception:');
-        System.debug(string.valueOf(excep.getLineNumber()) + excep.getMessage());
     }
 }
 
@@ -102,7 +118,12 @@ public static boolean isCPQInstalled() {
     return sbqqPackageCount > 0;
 }
 
-if(isCPQInstalled()) {
+public static void deleteCPQRecordJobs() {
+    if(!isCPQInstalled()) {
+        System.debug('CPQ not installed, no record jobs to delete');
+        return;
+    }
+
     Boolean isRecordJobsUpdated = false;
     List<SBQQ__RecordJob__c> recordJobsToDelete = [
         SELECT SBQQ__JobStatus__c, Id
@@ -119,12 +140,17 @@ if(isCPQInstalled()) {
                 isRecordJobsUpdated = true;
             }
         }
+
         if (isRecordJobsUpdated) {
-            upsert recordJobsToDelete;
+            Database.updateImmediate((List<SObject>)recordJobsToDelete);
         }
-        delete recordJobsToDelete;
+
+        Database.deleteImmediate((List<SObject>)recordJobsToDelete);
     }
 }
+
+deleteCPQRecordJobs();
+deactivateOrders();
 
 // determine the packaged namespace in this particular account
 String syncRecordApiName = determinePackagePrefix() + 'Sync_Record__c';

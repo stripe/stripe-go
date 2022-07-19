@@ -1,3 +1,7 @@
+## General
+
+- List of system level permissions https://developer.salesforce.com/docs/atlas.en-us.sfFieldRef.meta/sfFieldRef/salesforce_field_reference_PermissionSet.htm
+
 ## Metadata
 
 - [You cannot specify a default ListView](https://salesforce.stackexchange.com/questions/124447/default-listviews-in-lightning)
@@ -15,6 +19,7 @@
 - You can't do a callout after a DML (DB) operation. TODO I may be getting the order of operations wrong here, look this up
 - You can't use variables in the `FROM` clause of a SOQL query `[...]`
 - `--loglevel` seems to mess with some commands
+- If you run apex anon, `sfdx` seems to truncate logs. The top of the logs won't come through.
 
 ## SOQL
 
