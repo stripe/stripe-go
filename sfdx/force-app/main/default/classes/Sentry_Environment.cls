@@ -26,7 +26,11 @@ public with sharing class Sentry_Environment {
     }
 
     public static InstanceType getInstanceType() {
-        Organization org = [SELECT InstanceName, IsSandbox, TrialExpirationDate FROM Organization];
+        Organization org = [
+            SELECT InstanceName, IsSandbox, TrialExpirationDate
+            FROM Organization
+            LIMIT 1
+        ];
 
         if (org.IsSandbox == true && org.TrialExpirationDate == null) {
             return InstanceType.SANDBOX;

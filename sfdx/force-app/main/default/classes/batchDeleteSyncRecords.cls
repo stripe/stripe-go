@@ -1,14 +1,19 @@
+// runs via a cron/scheduled job to deleted records beyond the user-configurable retention
 global with sharing class batchDeleteSyncRecords implements Database.Batchable<SObject> {
     public batchDeleteSyncRecords() {}
 
     public List<SObject> start(Database.BatchableContext BC) {
 
-        List<Sync_Record__c> allSuccessAndResolvedSyncRecords = [SELECT Id, Resolution_Status__c, CreatedDate
-                                                                 FROM Sync_Record__c
-                                                                 WHERE (Resolution_Status__c = 'Resolved'
-                                                                 OR Resolution_Status__c = 'Success')
-                                                                 WITH SECURITY_ENFORCED
-                                                                 ORDER BY CreatedDate ASC];
+        List<Sync_Record__c> allSuccessAndResolvedSyncRecords = [
+            SELECT Id, Resolution_Status__c, CreatedDate
+            FROM Sync_Record__c
+            WHERE (
+                Resolution_Status__c = 'Resolved'
+                OR Resolution_Status__c = 'Success'
+            )
+            WITH SECURITY_ENFORCED
+            ORDER BY CreatedDate ASC
+        ];
 
         Stripe_Connection__c stripeConnectRec = Stripe_Connection__c.getOrgDefaults();
 
