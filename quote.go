@@ -52,6 +52,42 @@ const (
 	QuoteStatusOpen     QuoteStatus = "open"
 )
 
+// Configures when the subscription schedule generates prorations for phase transitions. Possible values are `prorate_on_next_phase` or `prorate_up_front` with the default being `prorate_on_next_phase`. `prorate_on_next_phase` will apply phase changes and generate prorations at transition time.`prorate_up_front` will bill for all phases within the current billing cycle up front.
+type QuoteSubscriptionDataBillingBehavior string
+
+// List of values that QuoteSubscriptionDataBillingBehavior can take
+const (
+	QuoteSubscriptionDataBillingBehaviorProrateOnNextPhase QuoteSubscriptionDataBillingBehavior = "prorate_on_next_phase"
+	QuoteSubscriptionDataBillingBehaviorProrateUpFront     QuoteSubscriptionDataBillingBehavior = "prorate_up_front"
+)
+
+// Whether the subscription will always start a new billing period when the quote is accepted.
+type QuoteSubscriptionDataBillingCycleAnchor string
+
+// List of values that QuoteSubscriptionDataBillingCycleAnchor can take
+const (
+	QuoteSubscriptionDataBillingCycleAnchorReset QuoteSubscriptionDataBillingCycleAnchor = "reset"
+)
+
+// Behavior of the subscription schedule and underlying subscription when it ends. Possible values are `release` and `cancel`.
+type QuoteSubscriptionDataEndBehavior string
+
+// List of values that QuoteSubscriptionDataEndBehavior can take
+const (
+	QuoteSubscriptionDataEndBehaviorCancel  QuoteSubscriptionDataEndBehavior = "cancel"
+	QuoteSubscriptionDataEndBehaviorRelease QuoteSubscriptionDataEndBehavior = "release"
+)
+
+// Determines how to handle [prorations](https://stripe.com/docs/subscriptions/billing-cycle#prorations) when the quote is accepted.
+type QuoteSubscriptionDataProrationBehavior string
+
+// List of values that QuoteSubscriptionDataProrationBehavior can take
+const (
+	QuoteSubscriptionDataProrationBehaviorAlwaysInvoice    QuoteSubscriptionDataProrationBehavior = "always_invoice"
+	QuoteSubscriptionDataProrationBehaviorCreateProrations QuoteSubscriptionDataProrationBehavior = "create_prorations"
+	QuoteSubscriptionDataProrationBehaviorNone             QuoteSubscriptionDataProrationBehavior = "none"
+)
+
 // Retrieves the quote with the given ID.
 type QuoteParams struct {
 	Params `form:"*"`
@@ -85,6 +121,8 @@ type QuoteParams struct {
 	LineItems []*QuoteLineItemParams `form:"line_items"`
 	// The account on behalf of which to charge.
 	OnBehalfOf *string `form:"on_behalf_of"`
+	// List representing phases of the Quote. Each phase can be customized to have different durations, prices, and coupons.
+	Phases []*QuotePhaseParams `form:"phases"`
 	// When creating a subscription or subscription schedule, the specified configuration data will be used. There must be at least one line item with a recurring price for a subscription or subscription schedule to be created. A subscription schedule is created if `subscription_data[effective_date]` is present and in the future, otherwise a subscription is created.
 	SubscriptionData *QuoteSubscriptionDataParams `form:"subscription_data"`
 	// ID of the test clock to attach to the quote.
@@ -113,6 +151,14 @@ type QuoteInvoiceSettingsParams struct {
 	DaysUntilDue *int64 `form:"days_until_due"`
 }
 
+// The discounts applied to this line item.
+type QuoteLineItemDiscountParams struct {
+	// ID of the coupon to create a new discount for.
+	Coupon *string `form:"coupon"`
+	// ID of an existing discount on the object (or one of its ancestors) to reuse.
+	Discount *string `form:"discount"`
+}
+
 // The recurring components of a price such as `interval` and `interval_count`.
 type QuoteLineItemPriceDataRecurringParams struct {
 	// Specifies billing frequency. Either `day`, `week`, `month` or `year`.
@@ -139,6 +185,8 @@ type QuoteLineItemPriceDataParams struct {
 
 // A list of line items the customer is being quoted for. Each line item includes information about the product, the quantity, and the resulting cost.
 type QuoteLineItemParams struct {
+	// The discounts applied to this line item.
+	Discounts []*QuoteLineItemDiscountParams `form:"discounts"`
 	// The ID of an existing line item on the quote.
 	ID *string `form:"id"`
 	// The ID of the price object. One of `price` or `price_data` is required.
@@ -151,11 +199,123 @@ type QuoteLineItemParams struct {
 	TaxRates []*string `form:"tax_rates"`
 }
 
+// The coupons to redeem into discounts for the schedule phase. If not specified, inherits the discount from the subscription's customer. Pass an empty string to avoid inheriting any discounts.
+type QuotePhaseDiscountParams struct {
+	// ID of the coupon to create a new discount for.
+	Coupon *string `form:"coupon"`
+	// ID of an existing discount on the object (or one of its ancestors) to reuse.
+	Discount *string `form:"discount"`
+}
+
+// All invoices will be billed using the specified settings.
+type QuotePhaseInvoiceSettingsParams struct {
+	// Number of days within which a customer must pay invoices generated by this subscription schedule. This value will be `null` for subscription schedules where `billing=charge_automatically`.
+	DaysUntilDue *int64 `form:"days_until_due"`
+}
+
+// The discounts applied to this line item.
+type QuotePhaseLineItemDiscountParams struct {
+	// ID of the coupon to create a new discount for.
+	Coupon *string `form:"coupon"`
+	// ID of an existing discount on the object (or one of its ancestors) to reuse.
+	Discount *string `form:"discount"`
+}
+
+// The recurring components of a price such as `interval` and `interval_count`.
+type QuotePhaseLineItemPriceDataRecurringParams struct {
+	// Specifies billing frequency. Either `day`, `week`, `month` or `year`.
+	Interval *string `form:"interval"`
+	// The number of intervals between subscription billings. For example, `interval=month` and `interval_count=3` bills every 3 months. Maximum of one year interval allowed (1 year, 12 months, or 52 weeks).
+	IntervalCount *int64 `form:"interval_count"`
+}
+
+// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline. One of `price` or `price_data` is required.
+type QuotePhaseLineItemPriceDataParams struct {
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency *string `form:"currency"`
+	// The ID of the product that this price will belong to.
+	Product *string `form:"product"`
+	// The recurring components of a price such as `interval` and `interval_count`.
+	Recurring *QuotePhaseLineItemPriceDataRecurringParams `form:"recurring"`
+	// Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Once specified as either `inclusive` or `exclusive`, it cannot be changed.
+	TaxBehavior *string `form:"tax_behavior"`
+	// A positive integer in cents (or local equivalent) (or 0 for a free price) representing how much to charge.
+	UnitAmount *int64 `form:"unit_amount"`
+	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
+	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
+}
+
+// A list of line items the customer is being quoted for within this phase. Each line item includes information about the product, the quantity, and the resulting cost.
+type QuotePhaseLineItemParams struct {
+	// The discounts applied to this line item.
+	Discounts []*QuotePhaseLineItemDiscountParams `form:"discounts"`
+	// The ID of the price object. One of `price` or `price_data` is required.
+	Price *string `form:"price"`
+	// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline. One of `price` or `price_data` is required.
+	PriceData *QuotePhaseLineItemPriceDataParams `form:"price_data"`
+	// The quantity of the line item.
+	Quantity *int64 `form:"quantity"`
+	// The tax rates which apply to the line item. When set, the `default_tax_rates` on the quote do not apply to this line item.
+	TaxRates []*string `form:"tax_rates"`
+}
+
+// List representing phases of the Quote. Each phase can be customized to have different durations, prices, and coupons.
+type QuotePhaseParams struct {
+	// When specified as `reset`, the subscription will always start a new billing period when the quote is accepted.
+	BillingCycleAnchor *string `form:"billing_cycle_anchor"`
+	// Either `charge_automatically`, or `send_invoice`. When charging automatically, Stripe will attempt to pay the underlying subscription at the end of each billing cycle using the default source attached to the customer. When sending an invoice, Stripe will email your customer an invoice with payment instructions. Defaults to `charge_automatically` on creation.
+	CollectionMethod *string `form:"collection_method"`
+	// A list of [Tax Rate](https://stripe.com/docs/api/tax_rates) ids. These Tax Rates will set the Subscription's [`default_tax_rates`](https://stripe.com/docs/api/subscriptions/create#create_subscription-default_tax_rates), which means they will be the Invoice's [`default_tax_rates`](https://stripe.com/docs/api/invoices/create#create_invoice-default_tax_rates) for any Invoices issued by the Subscription during this Phase.
+	DefaultTaxRates []*string `form:"default_tax_rates"`
+	// The coupons to redeem into discounts for the schedule phase. If not specified, inherits the discount from the subscription's customer. Pass an empty string to avoid inheriting any discounts.
+	Discounts []*QuotePhaseDiscountParams `form:"discounts"`
+	// The date at which this phase of the quote ends. If set, `iterations` must not be set.
+	EndDate *int64 `form:"end_date"`
+	// All invoices will be billed using the specified settings.
+	InvoiceSettings *QuotePhaseInvoiceSettingsParams `form:"invoice_settings"`
+	// Integer representing the multiplier applied to the price interval. For example, `iterations=2` applied to a price with `interval=month` and `interval_count=3` results in a phase of duration `2 * 3 months = 6 months`. If set, `end_date` must not be set.
+	Iterations *int64 `form:"iterations"`
+	// A list of line items the customer is being quoted for within this phase. Each line item includes information about the product, the quantity, and the resulting cost.
+	LineItems []*QuotePhaseLineItemParams `form:"line_items"`
+	// If the update changes the current phase, indicates whether the changes should be prorated. The default value is `create_prorations`.
+	ProrationBehavior *string `form:"proration_behavior"`
+	// If set to true the entire phase is counted as a trial and the customer will not be charged for any fees.
+	Trial *bool `form:"trial"`
+	// Sets the phase to trialing from the start date to this date. Must be before the phase end date, can not be combined with `trial`.
+	TrialEnd *int64 `form:"trial_end"`
+}
+
+// If specified, the invoicing for the given billing cycle iterations will be processed when the quote is accepted. Cannot be used with `effective_date`.
+type QuoteSubscriptionDataPrebillingParams struct {
+	// This is used to determine the number of billing cycles to prebill.
+	Iterations *int64 `form:"iterations"`
+}
+
 // When creating a subscription or subscription schedule, the specified configuration data will be used. There must be at least one line item with a recurring price for a subscription or subscription schedule to be created. A subscription schedule is created if `subscription_data[effective_date]` is present and in the future, otherwise a subscription is created.
 type QuoteSubscriptionDataParams struct {
+	// Configures when the subscription schedule generates prorations for phase transitions. Possible values are `prorate_on_next_phase` or `prorate_up_front` with the default being `prorate_on_next_phase`. `prorate_on_next_phase` will apply phase changes and generate prorations at transition time.`prorate_up_front` will bill for all phases within the current billing cycle up front.
+	BillingBehavior *string `form:"billing_behavior"`
+	// When specified as `reset`, the subscription will always start a new billing period when the quote is accepted.
+	BillingCycleAnchor *string `form:"billing_cycle_anchor"`
 	// When creating a new subscription, the date of which the subscription schedule will start after the quote is accepted. When updating a subscription, the date of which the subscription will be updated using a subscription schedule. The special value `current_period_end` can be provided to update a subscription at the end of its current period. The `effective_date` is ignored if it is in the past when the quote is accepted.
 	EffectiveDate                 *int64 `form:"effective_date"`
 	EffectiveDateCurrentPeriodEnd *bool  `form:"-"` // See custom AppendTo
+	// Configures how the subscription schedule behaves when it ends. Possible values are `release` or `cancel` with the default being `release`. `release` will end the subscription schedule and keep the underlying subscription running.`cancel` will end the subscription schedule and cancel the underlying subscription.
+	EndBehavior *string `form:"end_behavior"`
+	// The id of a subscription schedule the quote will update. The quote will inherit the state of the subscription schedule, such as `phases`. Cannot be combined with other parameters.
+	FromSchedule *string `form:"from_schedule"`
+	// The id of a subscription that the quote will update. By default, the quote will contain the state of the subscription (such as line items, collection method and billing thresholds) unless overridden.
+	FromSubscription *string `form:"from_subscription"`
+	// If specified, the invoicing for the given billing cycle iterations will be processed when the quote is accepted. Cannot be used with `effective_date`.
+	Prebilling *QuoteSubscriptionDataPrebillingParams `form:"prebilling"`
+	// Determines how to handle [prorations](https://stripe.com/docs/subscriptions/billing-cycle#prorations). When creating a subscription, valid values are `create_prorations` or `none`.
+	//
+	// When updating a subscription, valid values are `create_prorations`, `none`, or `always_invoice`.
+	//
+	// Passing `create_prorations` will cause proration invoice items to be created when applicable. These proration items will only be invoiced immediately under [certain conditions](https://stripe.com/docs/subscriptions/upgrading-downgrading#immediate-payment). In order to always invoice immediately for prorations, pass `always_invoice`.
+	//
+	// Prorations can be disabled by passing `none`.
+	ProrationBehavior *string `form:"proration_behavior"`
 	// Integer representing the number of trial period days before the customer is charged for the first time.
 	TrialPeriodDays *int64 `form:"trial_period_days"`
 }
@@ -190,6 +350,8 @@ type QuoteListParams struct {
 	ListParams `form:"*"`
 	// The ID of the customer whose quotes will be retrieved.
 	Customer *string `form:"customer"`
+	// The subscription which the quote updates.
+	FromSubscription *string `form:"from_subscription"`
 	// The status of the quote.
 	Status *string `form:"status"`
 	// Provides a list of quotes that are associated with the specified test clock. The response will not include quotes with test clocks if this and the customer parameter is not set.
@@ -356,9 +518,28 @@ type QuoteStatusTransitions struct {
 	// The time that the quote was finalized. Measured in seconds since Unix epoch.
 	FinalizedAt int64 `json:"finalized_at"`
 }
+
+// If specified, the invoicing for the given billing cycle iterations will be processed when the quote is accepted. Cannot be used with `effective_date`.
+type QuoteSubscriptionDataPrebilling struct {
+	Iterations int64 `json:"iterations"`
+}
 type QuoteSubscriptionData struct {
+	// Configures when the subscription schedule generates prorations for phase transitions. Possible values are `prorate_on_next_phase` or `prorate_up_front` with the default being `prorate_on_next_phase`. `prorate_on_next_phase` will apply phase changes and generate prorations at transition time.`prorate_up_front` will bill for all phases within the current billing cycle up front.
+	BillingBehavior QuoteSubscriptionDataBillingBehavior `json:"billing_behavior"`
+	// Whether the subscription will always start a new billing period when the quote is accepted.
+	BillingCycleAnchor QuoteSubscriptionDataBillingCycleAnchor `json:"billing_cycle_anchor"`
 	// When creating a new subscription, the date of which the subscription schedule will start after the quote is accepted. This date is ignored if it is in the past when the quote is accepted. Measured in seconds since the Unix epoch.
 	EffectiveDate int64 `json:"effective_date"`
+	// Behavior of the subscription schedule and underlying subscription when it ends. Possible values are `release` and `cancel`.
+	EndBehavior QuoteSubscriptionDataEndBehavior `json:"end_behavior"`
+	// The id of the subscription schedule that will be updated when the quote is accepted.
+	FromSchedule *SubscriptionSchedule `json:"from_schedule"`
+	// The id of the subscription that will be updated when the quote is accepted.
+	FromSubscription *Subscription `json:"from_subscription"`
+	// If specified, the invoicing for the given billing cycle iterations will be processed when the quote is accepted. Cannot be used with `effective_date`.
+	Prebilling *QuoteSubscriptionDataPrebilling `json:"prebilling"`
+	// Determines how to handle [prorations](https://stripe.com/docs/subscriptions/billing-cycle#prorations) when the quote is accepted.
+	ProrationBehavior QuoteSubscriptionDataProrationBehavior `json:"proration_behavior"`
 	// Integer representing the number of trial period days before the customer is charged for the first time.
 	TrialPeriodDays int64 `json:"trial_period_days"`
 }

@@ -221,8 +221,18 @@ type SubscriptionListParams struct {
 	TestClock *string `form:"test_clock"`
 }
 
-// A list of prices and quantities that will generate invoice items appended to the first invoice for this subscription. You may pass up to 20 items.
+// The coupons to redeem into discounts for the item.
+type SubscriptionAddInvoiceItemDiscountParams struct {
+	// ID of the coupon to create a new discount for.
+	Coupon *string `form:"coupon"`
+	// ID of an existing discount on the object (or one of its ancestors) to reuse.
+	Discount *string `form:"discount"`
+}
+
+// A list of prices and quantities that will generate invoice items appended to the next invoice for this subscription. You may pass up to 20 items.
 type SubscriptionAddInvoiceItemParams struct {
+	// The coupons to redeem into discounts for the item.
+	Discounts []*SubscriptionAddInvoiceItemDiscountParams `form:"discounts"`
 	// The ID of the price object.
 	Price *string `form:"price"`
 	// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline.
@@ -247,6 +257,14 @@ type SubscriptionBillingThresholdsParams struct {
 	ResetBillingCycleAnchor *bool `form:"reset_billing_cycle_anchor"`
 }
 
+// The coupons to redeem into discounts for the subscription. If not specified or empty, inherits the discount from the subscription's customer.
+type SubscriptionDiscountParams struct {
+	// ID of the coupon to create a new discount for.
+	Coupon *string `form:"coupon"`
+	// ID of an existing discount on the object (or one of its ancestors) to reuse.
+	Discount *string `form:"discount"`
+}
+
 // A list of up to 20 subscription items, each with an attached price.
 type SubscriptionItemsParams struct {
 	Params `form:"*"`
@@ -256,6 +274,8 @@ type SubscriptionItemsParams struct {
 	ClearUsage *bool `form:"clear_usage"`
 	// A flag that, if set to `true`, will delete the specified item.
 	Deleted *bool `form:"deleted"`
+	// The coupons to redeem into discounts for the subscription item.
+	Discounts []*SubscriptionItemDiscountParams `form:"discounts"`
 	// Subscription item to update.
 	ID *string `form:"id"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
@@ -383,6 +403,12 @@ type SubscriptionPendingInvoiceItemIntervalParams struct {
 	IntervalCount *int64 `form:"interval_count"`
 }
 
+// If specified, the invoicing for the given billing cycle iterations will be processed now.
+type SubscriptionPrebillingParams struct {
+	// This is used to determine the number of billing cycles to prebill.
+	Iterations *int64 `form:"iterations"`
+}
+
 // If specified, the funds from the subscription's invoices will be transferred to the destination and the ID of the resulting transfers will be found on the resulting charges.
 type SubscriptionTransferDataParams struct {
 	// A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice subtotal that will be transferred to the destination account. By default, the entire amount is transferred to the destination.
@@ -400,7 +426,7 @@ type SubscriptionTransferDataParams struct {
 // Schedules provide the flexibility to model more complex billing configurations that change over time.
 type SubscriptionParams struct {
 	Params `form:"*"`
-	// A list of prices and quantities that will generate invoice items appended to the first invoice for this subscription. You may pass up to 20 items.
+	// A list of prices and quantities that will generate invoice items appended to the next invoice for this subscription. You may pass up to 20 items.
 	AddInvoiceItems []*SubscriptionAddInvoiceItemParams `form:"add_invoice_items"`
 	// A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice subtotal that will be transferred to the application owner's Stripe account. The request must be made by a platform account on a connected account in order to set an application fee percentage. For more information, see the application fees [documentation](https://stripe.com/docs/connect/subscriptions#collecting-fees-on-subscriptions).
 	ApplicationFeePercent *float64 `form:"application_fee_percent"`
@@ -437,6 +463,8 @@ type SubscriptionParams struct {
 	DefaultTaxRates []*string `form:"default_tax_rates"`
 	// The subscription's description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription for rendering in Stripe surfaces.
 	Description *string `form:"description"`
+	// The coupons to redeem into discounts for the subscription. If not specified or empty, inherits the discount from the subscription's customer.
+	Discounts []*SubscriptionDiscountParams `form:"discounts"`
 	// A list of up to 20 subscription items, each with an attached price.
 	Items []*SubscriptionItemsParams `form:"items"`
 	// Indicates if a customer is on or off-session while an invoice payment is attempted.
@@ -457,6 +485,8 @@ type SubscriptionParams struct {
 	// Specifies an interval for how often to bill for any pending invoice items. It is analogous to calling [Create an invoice](https://stripe.com/docs/api#create_invoice) for the given subscription at the specified interval.
 	PendingInvoiceItemInterval *SubscriptionPendingInvoiceItemIntervalParams `form:"pending_invoice_item_interval"`
 	Plan                       *string                                       `form:"plan"`
+	// If specified, the invoicing for the given billing cycle iterations will be processed now.
+	Prebilling *SubscriptionPrebillingParams `form:"prebilling"`
 	// The promotion code to apply to this subscription. A promotion code applied to a subscription will only affect invoices created for that particular subscription.
 	PromotionCode *string `form:"promotion_code"`
 	// Determines how to handle [prorations](https://stripe.com/docs/subscriptions/billing-cycle#prorations) when the billing cycle changes (e.g., when switching plans, resetting `billing_cycle_anchor=now`, or starting a trial), or if an item's `quantity` changes.
@@ -631,12 +661,24 @@ type SubscriptionPendingUpdate struct {
 	BillingCycleAnchor int64 `json:"billing_cycle_anchor"`
 	// The point after which the changes reflected by this update will be discarded and no longer applied.
 	ExpiresAt int64 `json:"expires_at"`
+	// The number of iterations of prebilling to apply.
+	PrebillingIterations int64 `json:"prebilling_iterations"`
 	// List of subscription items, each with an attached plan, that will be set if the update is applied.
 	SubscriptionItems []*SubscriptionItem `json:"subscription_items"`
 	// Unix timestamp representing the end of the trial period the customer will get before being charged for the first time, if the update is applied.
 	TrialEnd int64 `json:"trial_end"`
 	// Indicates if a plan's `trial_period_days` should be applied to the subscription. Setting `trial_end` per subscription is preferred, and this defaults to `false`. Setting this flag to `true` together with `trial_end` is not allowed. See [Using trial periods on subscriptions](https://stripe.com/docs/billing/subscriptions/trials) to learn more.
 	TrialFromPlan bool `json:"trial_from_plan"`
+}
+
+// Time period and invoice for a Subscription billed in advance.
+type SubscriptionPrebilling struct {
+	// ID of the prebilling invoice.
+	Invoice *Invoice `json:"invoice"`
+	// The end of the last period for which the invoice pre-bills.
+	PeriodEnd int64 `json:"period_end"`
+	// The start of the first period for which the invoice pre-bills.
+	PeriodStart int64 `json:"period_start"`
 }
 
 // The account (if any) the subscription's payments will be attributed to for tax reporting, and where funds from each payment will be transferred to for each of the subscription's invoices.
@@ -691,6 +733,8 @@ type Subscription struct {
 	Description string `json:"description"`
 	// Describes the current discount applied to this subscription, if there is one. When billing, a discount applied to a subscription overrides a discount applied on a customer-wide basis.
 	Discount *Discount `json:"discount"`
+	// The discounts applied to the subscription. Subscription item discounts are applied before subscription discounts. Use `expand[]=discounts` to expand each discount.
+	Discounts []*Discount `json:"discounts"`
 	// If the subscription has ended, the date the subscription ended.
 	EndedAt int64 `json:"ended_at"`
 	// Unique identifier for the object.
@@ -719,7 +763,9 @@ type Subscription struct {
 	// If specified, [pending updates](https://stripe.com/docs/billing/subscriptions/pending-updates) that will be applied to the subscription once the `latest_invoice` has been paid.
 	PendingUpdate *SubscriptionPendingUpdate `json:"pending_update"`
 	Plan          *Plan                      `json:"plan"`
-	Quantity      int64                      `json:"quantity"`
+	// Time period and invoice for a Subscription billed in advance.
+	Prebilling *SubscriptionPrebilling `json:"prebilling"`
+	Quantity   int64                   `json:"quantity"`
 	// The schedule attached to the subscription
 	Schedule *SubscriptionSchedule `json:"schedule"`
 	// Date when the subscription was first created. The date might differ from the `created` date due to backdating.

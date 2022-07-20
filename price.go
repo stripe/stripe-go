@@ -30,6 +30,14 @@ const (
 	PriceCurrencyOptionsTaxBehaviorUnspecified PriceCurrencyOptionsTaxBehavior = "unspecified"
 )
 
+// The behavior controlling at what point in the subscription lifecycle to migrate the price
+type PriceMigrateToBehavior string
+
+// List of values that PriceMigrateToBehavior can take
+const (
+	PriceMigrateToBehaviorAtCycleEnd PriceMigrateToBehavior = "at_cycle_end"
+)
+
 // Specifies a usage aggregation strategy for prices of `usage_type=metered`. Allowed values are `sum` for summing up all usage during a period, `last_during_period` for using the last usage record reported within a period, `last_ever` for using the last usage record ever (across period bounds) or `max` which uses the usage record with the maximum reported usage during a period. Defaults to `sum`.
 type PriceRecurringAggregateUsage string
 
@@ -276,6 +284,8 @@ type PriceParams struct {
 	CustomUnitAmount *PriceCustomUnitAmountParams `form:"custom_unit_amount"`
 	// A lookup key used to retrieve prices dynamically from a static string. This may be up to 200 characters.
 	LookupKey *string `form:"lookup_key"`
+	// If specified, subscriptions using this price will be updated to use the new referenced price.
+	MigrateTo *PriceMigrateToParams `form:"migrate_to"`
 	// A brief description of the price, hidden from customers.
 	Nickname *string `form:"nickname"`
 	// The ID of the product that this price will belong to.
@@ -298,6 +308,16 @@ type PriceParams struct {
 	UnitAmount *int64 `form:"unit_amount"`
 	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
 	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
+}
+
+// If specified, subscriptions using this price will be updated to use the new referenced price.
+type PriceMigrateToParams struct {
+	// The behavior controlling the point in the subscription lifecycle after which to migrate the price. Currently must be `at_cycle_end`.
+	Behavior *string `form:"behavior"`
+	// The time after which subscriptions should start using the new price.
+	EffectiveAfter *int64 `form:"effective_after"`
+	// The ID of the price object.
+	Price *string `form:"price"`
 }
 
 // When set, provides configuration for the amount to be adjusted by the customer during Checkout Sessions and Payment Links.
@@ -346,6 +366,16 @@ type PriceCustomUnitAmount struct {
 	Minimum int64 `json:"minimum"`
 	// The starting unit amount which can be updated by the customer.
 	Preset int64 `json:"preset"`
+}
+
+// Subscriptions using this price will be migrated to use the new referenced price.
+type PriceMigrateTo struct {
+	// The behavior controlling at what point in the subscription lifecycle to migrate the price
+	Behavior PriceMigrateToBehavior `json:"behavior"`
+	// The unix timestamp after at which subscriptions will start to migrate to the new price.
+	EffectiveAfter int64 `json:"effective_after"`
+	// The id of the price being migrated to
+	Price string `json:"price"`
 }
 
 // The recurring components of a price such as `interval` and `usage_type`.
@@ -413,6 +443,8 @@ type Price struct {
 	LookupKey string `json:"lookup_key"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`
+	// Subscriptions using this price will be migrated to use the new referenced price.
+	MigrateTo *PriceMigrateTo `json:"migrate_to"`
 	// A brief description of the price, hidden from customers.
 	Nickname string `json:"nickname"`
 	// String representing the object's type. Objects of the same type share the same value.

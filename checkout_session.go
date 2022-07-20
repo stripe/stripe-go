@@ -45,6 +45,7 @@ type CheckoutSessionConsentCollectionPromotions string
 // List of values that CheckoutSessionConsentCollectionPromotions can take
 const (
 	CheckoutSessionConsentCollectionPromotionsAuto CheckoutSessionConsentCollectionPromotions = "auto"
+	CheckoutSessionConsentCollectionPromotionsNone CheckoutSessionConsentCollectionPromotions = "none"
 )
 
 // Configure whether a Checkout Session creates a Customer when the Checkout Session completes.
@@ -501,11 +502,19 @@ const (
 	CheckoutSessionSubmitTypePay    CheckoutSessionSubmitType = "pay"
 )
 
+// Only return the Checkout Sessions for the Customer details specified.
+type CheckoutSessionListCustomerDetailsParams struct {
+	// Customer's email address.
+	Email *string `form:"email"`
+}
+
 // Returns a list of Checkout Sessions.
 type CheckoutSessionListParams struct {
 	ListParams `form:"*"`
 	// Only return the Checkout Sessions for the Customer specified.
 	Customer *string `form:"customer"`
+	// Only return the Checkout Sessions for the Customer details specified.
+	CustomerDetails *CheckoutSessionListCustomerDetailsParams `form:"customer_details"`
 	// Only return the Checkout Session for the PaymentIntent specified.
 	PaymentIntent *string `form:"payment_intent"`
 	// Only return the Checkout Session for the subscription specified.
@@ -1244,7 +1253,7 @@ type CheckoutSessionParams struct {
 	CustomerUpdate *CheckoutSessionCustomerUpdateParams `form:"customer_update"`
 	// The coupon or promotion code to apply to this Session. Currently, only up to one may be specified.
 	Discounts []*CheckoutSessionDiscountParams `form:"discounts"`
-	// The Epoch time in seconds at which the Checkout Session will expire. It can be anywhere from 1 to 24 hours after Checkout Session creation. By default, this value is 24 hours from creation.
+	// The Epoch time in seconds at which the Checkout Session will expire. It can be anywhere from 30 minutes to 24 hours after Checkout Session creation. By default, this value is 24 hours from creation.
 	ExpiresAt *int64 `form:"expires_at"`
 	// A list of items the customer is purchasing. Use this parameter to pass one-time or recurring [Prices](https://stripe.com/docs/api/prices).
 	//

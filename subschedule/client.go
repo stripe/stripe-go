@@ -64,6 +64,19 @@ func (c Client) Update(id string, params *stripe.SubscriptionScheduleParams) (*s
 	return subscriptionschedule, err
 }
 
+// Amend is the method for the `POST /v1/subscription_schedules/{schedule}/amend` API.
+func Amend(id string, params *stripe.SubscriptionScheduleAmendParams) (*stripe.SubscriptionSchedule, error) {
+	return getC().Amend(id, params)
+}
+
+// Amend is the method for the `POST /v1/subscription_schedules/{schedule}/amend` API.
+func (c Client) Amend(id string, params *stripe.SubscriptionScheduleAmendParams) (*stripe.SubscriptionSchedule, error) {
+	path := stripe.FormatURLPath("/v1/subscription_schedules/%s/amend", id)
+	subscriptionschedule := &stripe.SubscriptionSchedule{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, subscriptionschedule)
+	return subscriptionschedule, err
+}
+
 // Cancel is the method for the `POST /v1/subscription_schedules/{schedule}/cancel` API.
 func Cancel(id string, params *stripe.SubscriptionScheduleCancelParams) (*stripe.SubscriptionSchedule, error) {
 	return getC().Cancel(id, params)
