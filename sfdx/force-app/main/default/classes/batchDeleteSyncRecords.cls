@@ -3,6 +3,7 @@ global with sharing class batchDeleteSyncRecords implements Database.Batchable<S
     public batchDeleteSyncRecords() {}
 
     public List<SObject> start(Database.BatchableContext BC) {
+        checkAccess();
 
         List<Sync_Record__c> allSuccessAndResolvedSyncRecords = [
             SELECT Id, Resolution_Status__c, CreatedDate
@@ -32,4 +33,12 @@ global with sharing class batchDeleteSyncRecords implements Database.Batchable<S
         } 
     }
     public void finish(Database.BatchableContext BC) {}
+
+    public static void checkAccess() {
+        dmlManager.checkAccess(new Map<String, Map<String, Set<String>>> {
+            'Sync_Record__c' => new Map<String, Set<String>> {
+                'Delete' => new Set<String> {}
+            }
+        });
+    }
 }
