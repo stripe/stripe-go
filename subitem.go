@@ -6,6 +6,15 @@
 
 package stripe
 
+type SubscriptionItemTrialType string
+
+// List of values that SubscriptionItemTrialType can take
+const (
+	SubscriptionItemTrialTypeFree SubscriptionItemTrialType = "free"
+	SubscriptionItemTrialTypeNone SubscriptionItemTrialType = "none"
+	SubscriptionItemTrialTypePaid SubscriptionItemTrialType = "paid"
+)
+
 // Returns a list of your subscription items for a given subscription.
 type SubscriptionItemListParams struct {
 	ListParams `form:"*"`
@@ -50,6 +59,23 @@ type SubscriptionItemPriceDataParams struct {
 	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
 	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
 }
+type SubscriptionItemTrialFreeParams struct{}
+type SubscriptionItemTrialNoneParams struct{}
+
+// Details of a different price, quantity, or both, to bill your customer for during a paid trial.
+type SubscriptionItemTrialPaidParams struct {
+	Price    *string `form:"price"`
+	Quantity *int64  `form:"quantity"`
+}
+
+// Define options to configure the trial on the subscription.
+type SubscriptionItemTrialParams struct {
+	Free *SubscriptionItemTrialFreeParams `form:"free"`
+	None *SubscriptionItemTrialNoneParams `form:"none"`
+	// Details of a different price, quantity, or both, to bill your customer for during a paid trial.
+	Paid *SubscriptionItemTrialPaidParams `form:"paid"`
+	Type *string                          `form:"type"`
+}
 
 // Adds a new item to an existing subscription. No existing items will be changed or replaced.
 type SubscriptionItemParams struct {
@@ -85,6 +111,8 @@ type SubscriptionItemParams struct {
 	Subscription *string `form:"subscription"`
 	// A list of [Tax Rate](https://stripe.com/docs/api/tax_rates) ids. These Tax Rates will override the [`default_tax_rates`](https://stripe.com/docs/api/subscriptions/create#create_subscription-default_tax_rates) on the Subscription. When updating, pass an empty string to remove previously-defined tax rates.
 	TaxRates []*string `form:"tax_rates"`
+	// Define options to configure the trial on the subscription.
+	Trial *SubscriptionItemTrialParams `form:"trial"`
 
 	ID *string `form:"-"` // Deprecated
 }
@@ -92,6 +120,23 @@ type SubscriptionItemParams struct {
 // Define thresholds at which an invoice will be sent, and the related subscription advanced to a new billing period
 type SubscriptionItemBillingThresholds struct {
 	UsageGTE int64 `form:"usage_gte"`
+}
+
+// Details of a different price, quantity, or both, to bill your customer for during a paid trial.
+type SubscriptionItemTrialPaid struct {
+	ID string `json:"id"`
+	// The ID of the price object.
+	Price    string `json:"price"`
+	Quantity int64  `json:"quantity"`
+}
+
+// Current trial configuration on this item.
+type SubscriptionItemTrial struct {
+	// Unique identifier for the object.
+	ID string `json:"id"`
+	// Details of a different price, quantity, or both, to bill your customer for during a paid trial.
+	Paid *SubscriptionItemTrialPaid `json:"paid"`
+	Type SubscriptionItemTrialType  `json:"type"`
 }
 
 // Subscription items allow you to create customer subscriptions with more than
@@ -132,6 +177,8 @@ type SubscriptionItem struct {
 	Subscription string `json:"subscription"`
 	// The tax rates which apply to this `subscription_item`. When set, the `default_tax_rates` on the subscription do not apply to this `subscription_item`.
 	TaxRates []*TaxRate `json:"tax_rates"`
+	// Current trial configuration on this item.
+	Trial *SubscriptionItemTrial `json:"trial"`
 }
 
 // SubscriptionItemList is a list of SubscriptionItems as retrieved from a list endpoint.

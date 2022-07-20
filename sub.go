@@ -290,6 +290,8 @@ type SubscriptionItemsParams struct {
 	Quantity *int64 `form:"quantity"`
 	// A list of [Tax Rate](https://stripe.com/docs/api/tax_rates) ids. These Tax Rates will override the [`default_tax_rates`](https://stripe.com/docs/api/subscriptions/create#create_subscription-default_tax_rates) on the Subscription. When updating, pass an empty string to remove previously-defined tax rates.
 	TaxRates []*string `form:"tax_rates"`
+	// Define options to configure the trial on the subscription item.
+	Trial *SubscriptionItemTrialParams `form:"trial"`
 }
 
 // Additional fields for Mandate creation

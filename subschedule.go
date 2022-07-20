@@ -40,6 +40,15 @@ const (
 	SubscriptionScheduleEndBehaviorRenew   SubscriptionScheduleEndBehavior = "renew"
 )
 
+type SubscriptionSchedulePhaseItemTrialType string
+
+// List of values that SubscriptionSchedulePhaseItemTrialType can take
+const (
+	SubscriptionSchedulePhaseItemTrialTypeFree SubscriptionSchedulePhaseItemTrialType = "free"
+	SubscriptionSchedulePhaseItemTrialTypeNone SubscriptionSchedulePhaseItemTrialType = "none"
+	SubscriptionSchedulePhaseItemTrialTypePaid SubscriptionSchedulePhaseItemTrialType = "paid"
+)
+
 // If the subscription schedule will prorate when transitioning to this phase. Possible values are `create_prorations` and `none`.
 type SubscriptionSchedulePhaseProrationBehavior string
 
@@ -48,6 +57,15 @@ const (
 	SubscriptionSchedulePhaseProrationBehaviorAlwaysInvoice    SubscriptionSchedulePhaseProrationBehavior = "always_invoice"
 	SubscriptionSchedulePhaseProrationBehaviorCreateProrations SubscriptionSchedulePhaseProrationBehavior = "create_prorations"
 	SubscriptionSchedulePhaseProrationBehaviorNone             SubscriptionSchedulePhaseProrationBehavior = "none"
+)
+
+// Specify behavior of the trial when crossing schedule phase boundaries
+type SubscriptionSchedulePhaseTrialContinuation string
+
+// List of values that SubscriptionSchedulePhaseTrialContinuation can take
+const (
+	SubscriptionSchedulePhaseTrialContinuationContinue SubscriptionSchedulePhaseTrialContinuation = "continue"
+	SubscriptionSchedulePhaseTrialContinuationNone     SubscriptionSchedulePhaseTrialContinuation = "none"
 )
 
 // The present status of the subscription schedule. Possible values are `not_started`, `active`, `completed`, `released`, and `canceled`. You can read more about the different states in our [behavior guide](https://stripe.com/docs/billing/subscriptions/subscription-schedules).
@@ -178,6 +196,23 @@ type SubscriptionSchedulePhaseItemDiscountParams struct {
 	// ID of an existing discount on the object (or one of its ancestors) to reuse.
 	Discount *string `form:"discount"`
 }
+type SubscriptionSchedulePhaseItemTrialFreeParams struct{}
+type SubscriptionSchedulePhaseItemTrialNoneParams struct{}
+
+// Details of a different price, quantity, or both, to bill your customer for during a paid trial.
+type SubscriptionSchedulePhaseItemTrialPaidParams struct {
+	Price    *string `form:"price"`
+	Quantity *int64  `form:"quantity"`
+}
+
+// Settings for trials
+type SubscriptionSchedulePhaseItemTrialParams struct {
+	Free *SubscriptionSchedulePhaseItemTrialFreeParams `form:"free"`
+	None *SubscriptionSchedulePhaseItemTrialNoneParams `form:"none"`
+	// Details of a different price, quantity, or both, to bill your customer for during a paid trial.
+	Paid *SubscriptionSchedulePhaseItemTrialPaidParams `form:"paid"`
+	Type *string                                       `form:"type"`
+}
 
 // List of configuration items, each with an attached price, to apply during this phase of the subscription schedule.
 type SubscriptionSchedulePhaseItemParams struct {
@@ -185,6 +220,8 @@ type SubscriptionSchedulePhaseItemParams struct {
 	BillingThresholds *SubscriptionItemBillingThresholdsParams `form:"billing_thresholds"`
 	// The coupons to redeem into discounts for the subscription item.
 	Discounts []*SubscriptionSchedulePhaseItemDiscountParams `form:"discounts"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to a configuration item. Metadata on a configuration item will update the underlying subscription item's `metadata` when the phase is entered, adding new keys and replacing existing keys. Individual keys in the subscription item's `metadata` can be unset by posting an empty value to them in the configuration item's `metadata`. To unset all keys in the subscription item's `metadata`, update the subscription item directly or unset every key individually from the configuration item's `metadata`.
+	Metadata map[string]string `form:"metadata"`
 	// The plan ID to subscribe to. You may specify the same ID in `plan` and `price`.
 	Plan *string `form:"plan"`
 	// The ID of the price object.
@@ -195,6 +232,8 @@ type SubscriptionSchedulePhaseItemParams struct {
 	Quantity *int64 `form:"quantity"`
 	// A list of [Tax Rate](https://stripe.com/docs/api/tax_rates) ids. These Tax Rates will override the [`default_tax_rates`](https://stripe.com/docs/api/subscriptions/create#create_subscription-default_tax_rates) on the Subscription. When updating, pass an empty string to remove previously-defined tax rates.
 	TaxRates []*string `form:"tax_rates"`
+	// Settings for trials
+	Trial *SubscriptionSchedulePhaseItemTrialParams `form:"trial"`
 }
 
 // List representing phases of the subscription schedule. Each phase can be customized to have different durations, plans, and coupons. If there are multiple phases, the `end_date` of one phase will always equal the `start_date` of the next phase.
@@ -241,6 +280,8 @@ type SubscriptionSchedulePhaseParams struct {
 	TransferData *SubscriptionTransferDataParams `form:"transfer_data"`
 	// If set to true the entire phase is counted as a trial and the customer will not be charged for any fees.
 	Trial *bool `form:"trial"`
+	// Specify trial behavior when crossing phase boundaries
+	TrialContinuation *string `form:"trial_continuation"`
 	// Sets the phase to trialing from the start date to this date. Must be before the phase end date, can not be combined with `trial`
 	TrialEnd    *int64 `form:"trial_end"`
 	TrialEndNow *bool  `form:"-"` // See custom AppendTo
@@ -384,15 +425,24 @@ type SubscriptionScheduleAmendAmendmentItemActionAddDiscountParams struct {
 }
 type SubscriptionScheduleAmendAmendmentItemActionAddTrialFreeParams struct{}
 type SubscriptionScheduleAmendAmendmentItemActionAddTrialNoneParams struct{}
+
+// Details of a different price, quantity, or both, to bill your customer for during a paid trial.
+type SubscriptionScheduleAmendAmendmentItemActionAddTrialPaidParams struct {
+	Price    *string `form:"price"`
+	Quantity *int64  `form:"quantity"`
+}
 type SubscriptionScheduleAmendAmendmentItemActionAddTrialParams struct {
 	Free *SubscriptionScheduleAmendAmendmentItemActionAddTrialFreeParams `form:"free"`
 	None *SubscriptionScheduleAmendAmendmentItemActionAddTrialNoneParams `form:"none"`
+	// Details of a different price, quantity, or both, to bill your customer for during a paid trial.
+	Paid *SubscriptionScheduleAmendAmendmentItemActionAddTrialPaidParams `form:"paid"`
 	Type *string                                                         `form:"type"`
 }
 
 // Details of the subscription item to add.
 type SubscriptionScheduleAmendAmendmentItemActionAddParams struct {
 	Discounts []*SubscriptionScheduleAmendAmendmentItemActionAddDiscountParams `form:"discounts"`
+	Metadata  map[string]string                                                `form:"metadata"`
 	Price     *string                                                          `form:"price"`
 	Quantity  *int64                                                           `form:"quantity"`
 	TaxRates  []*string                                                        `form:"tax_rates"`
@@ -411,15 +461,24 @@ type SubscriptionScheduleAmendAmendmentItemActionSetDiscountParams struct {
 }
 type SubscriptionScheduleAmendAmendmentItemActionSetTrialFreeParams struct{}
 type SubscriptionScheduleAmendAmendmentItemActionSetTrialNoneParams struct{}
+
+// Details of a different price, quantity, or both, to bill your customer for during a paid trial.
+type SubscriptionScheduleAmendAmendmentItemActionSetTrialPaidParams struct {
+	Price    *string `form:"price"`
+	Quantity *int64  `form:"quantity"`
+}
 type SubscriptionScheduleAmendAmendmentItemActionSetTrialParams struct {
 	Free *SubscriptionScheduleAmendAmendmentItemActionSetTrialFreeParams `form:"free"`
 	None *SubscriptionScheduleAmendAmendmentItemActionSetTrialNoneParams `form:"none"`
+	// Details of a different price, quantity, or both, to bill your customer for during a paid trial.
+	Paid *SubscriptionScheduleAmendAmendmentItemActionSetTrialPaidParams `form:"paid"`
 	Type *string                                                         `form:"type"`
 }
 
 // Details of the subscription item to replace the existing items with.
 type SubscriptionScheduleAmendAmendmentItemActionSetParams struct {
 	Discounts []*SubscriptionScheduleAmendAmendmentItemActionSetDiscountParams `form:"discounts"`
+	Metadata  map[string]string                                                `form:"metadata"`
 	Price     *string                                                          `form:"price"`
 	Quantity  *int64                                                           `form:"quantity"`
 	TaxRates  []*string                                                        `form:"tax_rates"`
@@ -541,12 +600,31 @@ type SubscriptionSchedulePhaseItemDiscount struct {
 	Discount *Discount `json:"discount"`
 }
 
+// Details of a different price, quantity, or both, to bill your customer for during a paid trial.
+type SubscriptionSchedulePhaseItemTrialPaid struct {
+	ID string `json:"id"`
+	// The ID of the price object.
+	Price    string `json:"price"`
+	Quantity int64  `json:"quantity"`
+}
+
+// Current trial configuration on this item.
+type SubscriptionSchedulePhaseItemTrial struct {
+	// Unique identifier for the object.
+	ID string `json:"id"`
+	// Details of a different price, quantity, or both, to bill your customer for during a paid trial.
+	Paid *SubscriptionSchedulePhaseItemTrialPaid `json:"paid"`
+	Type SubscriptionSchedulePhaseItemTrialType  `json:"type"`
+}
+
 // Subscription items to configure the subscription to during this phase of the subscription schedule.
 type SubscriptionSchedulePhaseItem struct {
 	// Define thresholds at which an invoice will be sent, and the related subscription advanced to a new billing period
 	BillingThresholds *SubscriptionItemBillingThresholds `json:"billing_thresholds"`
 	// The discounts applied to the subscription item. Subscription item discounts are applied before subscription discounts. Use `expand[]=discounts` to expand each discount.
 	Discounts []*SubscriptionSchedulePhaseItemDiscount `json:"discounts"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an item. Metadata on this item will update the underlying subscription item's `metadata` when the phase is entered.
+	Metadata map[string]string `json:"metadata"`
 	// ID of the plan to which the customer should be subscribed.
 	Plan *Plan `json:"plan"`
 	// ID of the price to which the customer should be subscribed.
@@ -555,6 +633,8 @@ type SubscriptionSchedulePhaseItem struct {
 	Quantity int64 `json:"quantity"`
 	// The tax rates which apply to this `phase_item`. When set, the `default_tax_rates` on the phase do not apply to this `phase_item`.
 	TaxRates []*TaxRate `json:"tax_rates"`
+	// Current trial configuration on this item.
+	Trial *SubscriptionSchedulePhaseItemTrial `json:"trial"`
 }
 
 // Configuration for the subscription schedule's phases.
@@ -594,6 +674,8 @@ type SubscriptionSchedulePhase struct {
 	StartDate int64 `json:"start_date"`
 	// The account (if any) the associated subscription's payments will be attributed to for tax reporting, and where funds from each payment will be transferred to for each of the subscription's invoices.
 	TransferData *SubscriptionTransferData `json:"transfer_data"`
+	// Specify behavior of the trial when crossing schedule phase boundaries
+	TrialContinuation SubscriptionSchedulePhaseTrialContinuation `json:"trial_continuation"`
 	// When the trial ends within the phase.
 	TrialEnd int64 `json:"trial_end"`
 }
