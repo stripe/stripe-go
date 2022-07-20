@@ -384,24 +384,15 @@ type SubscriptionScheduleAmendAmendmentItemActionAddDiscountParams struct {
 }
 type SubscriptionScheduleAmendAmendmentItemActionAddTrialFreeParams struct{}
 type SubscriptionScheduleAmendAmendmentItemActionAddTrialNoneParams struct{}
-
-// Details of a different price, quantity, or both, to bill your customer for during a paid trial.
-type SubscriptionScheduleAmendAmendmentItemActionAddTrialPaidParams struct {
-	Price    *string `form:"price"`
-	Quantity *int64  `form:"quantity"`
-}
 type SubscriptionScheduleAmendAmendmentItemActionAddTrialParams struct {
 	Free *SubscriptionScheduleAmendAmendmentItemActionAddTrialFreeParams `form:"free"`
 	None *SubscriptionScheduleAmendAmendmentItemActionAddTrialNoneParams `form:"none"`
-	// Details of a different price, quantity, or both, to bill your customer for during a paid trial.
-	Paid *SubscriptionScheduleAmendAmendmentItemActionAddTrialPaidParams `form:"paid"`
 	Type *string                                                         `form:"type"`
 }
 
 // Details of the subscription item to add.
 type SubscriptionScheduleAmendAmendmentItemActionAddParams struct {
 	Discounts []*SubscriptionScheduleAmendAmendmentItemActionAddDiscountParams `form:"discounts"`
-	Metadata  map[string]string                                                `form:"metadata"`
 	Price     *string                                                          `form:"price"`
 	Quantity  *int64                                                           `form:"quantity"`
 	TaxRates  []*string                                                        `form:"tax_rates"`
@@ -420,24 +411,15 @@ type SubscriptionScheduleAmendAmendmentItemActionSetDiscountParams struct {
 }
 type SubscriptionScheduleAmendAmendmentItemActionSetTrialFreeParams struct{}
 type SubscriptionScheduleAmendAmendmentItemActionSetTrialNoneParams struct{}
-
-// Details of a different price, quantity, or both, to bill your customer for during a paid trial.
-type SubscriptionScheduleAmendAmendmentItemActionSetTrialPaidParams struct {
-	Price    *string `form:"price"`
-	Quantity *int64  `form:"quantity"`
-}
 type SubscriptionScheduleAmendAmendmentItemActionSetTrialParams struct {
 	Free *SubscriptionScheduleAmendAmendmentItemActionSetTrialFreeParams `form:"free"`
 	None *SubscriptionScheduleAmendAmendmentItemActionSetTrialNoneParams `form:"none"`
-	// Details of a different price, quantity, or both, to bill your customer for during a paid trial.
-	Paid *SubscriptionScheduleAmendAmendmentItemActionSetTrialPaidParams `form:"paid"`
 	Type *string                                                         `form:"type"`
 }
 
 // Details of the subscription item to replace the existing items with.
 type SubscriptionScheduleAmendAmendmentItemActionSetParams struct {
 	Discounts []*SubscriptionScheduleAmendAmendmentItemActionSetDiscountParams `form:"discounts"`
-	Metadata  map[string]string                                                `form:"metadata"`
 	Price     *string                                                          `form:"price"`
 	Quantity  *int64                                                           `form:"quantity"`
 	TaxRates  []*string                                                        `form:"tax_rates"`

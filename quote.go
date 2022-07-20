@@ -259,32 +259,6 @@ type QuotePhaseLineItemParams struct {
 	TaxRates []*string `form:"tax_rates"`
 }
 
-// List representing phases of the Quote. Each phase can be customized to have different durations, prices, and coupons.
-type QuotePhaseParams struct {
-	// When specified as `reset`, the subscription will always start a new billing period when the quote is accepted.
-	BillingCycleAnchor *string `form:"billing_cycle_anchor"`
-	// Either `charge_automatically`, or `send_invoice`. When charging automatically, Stripe will attempt to pay the underlying subscription at the end of each billing cycle using the default source attached to the customer. When sending an invoice, Stripe will email your customer an invoice with payment instructions. Defaults to `charge_automatically` on creation.
-	CollectionMethod *string `form:"collection_method"`
-	// A list of [Tax Rate](https://stripe.com/docs/api/tax_rates) ids. These Tax Rates will set the Subscription's [`default_tax_rates`](https://stripe.com/docs/api/subscriptions/create#create_subscription-default_tax_rates), which means they will be the Invoice's [`default_tax_rates`](https://stripe.com/docs/api/invoices/create#create_invoice-default_tax_rates) for any Invoices issued by the Subscription during this Phase.
-	DefaultTaxRates []*string `form:"default_tax_rates"`
-	// The coupons to redeem into discounts for the schedule phase. If not specified, inherits the discount from the subscription's customer. Pass an empty string to avoid inheriting any discounts.
-	Discounts []*QuotePhaseDiscountParams `form:"discounts"`
-	// The date at which this phase of the quote ends. If set, `iterations` must not be set.
-	EndDate *int64 `form:"end_date"`
-	// All invoices will be billed using the specified settings.
-	InvoiceSettings *QuotePhaseInvoiceSettingsParams `form:"invoice_settings"`
-	// Integer representing the multiplier applied to the price interval. For example, `iterations=2` applied to a price with `interval=month` and `interval_count=3` results in a phase of duration `2 * 3 months = 6 months`. If set, `end_date` must not be set.
-	Iterations *int64 `form:"iterations"`
-	// A list of line items the customer is being quoted for within this phase. Each line item includes information about the product, the quantity, and the resulting cost.
-	LineItems []*QuotePhaseLineItemParams `form:"line_items"`
-	// If the update changes the current phase, indicates whether the changes should be prorated. The default value is `create_prorations`.
-	ProrationBehavior *string `form:"proration_behavior"`
-	// If set to true the entire phase is counted as a trial and the customer will not be charged for any fees.
-	Trial *bool `form:"trial"`
-	// Sets the phase to trialing from the start date to this date. Must be before the phase end date, can not be combined with `trial`.
-	TrialEnd *int64 `form:"trial_end"`
-}
-
 // If specified, the invoicing for the given billing cycle iterations will be processed when the quote is accepted. Cannot be used with `effective_date`.
 type QuoteSubscriptionDataPrebillingParams struct {
 	// This is used to determine the number of billing cycles to prebill.
