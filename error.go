@@ -257,16 +257,6 @@ func (e *Error) Unwrap() error {
 	return e.Err
 }
 
-// APIConnectionError is a failure to connect to the Stripe API.
-type APIConnectionError struct {
-	stripeErr *Error
-}
-
-// Error serializes the error object to JSON and returns it as a string.
-func (e *APIConnectionError) Error() string {
-	return e.stripeErr.Error()
-}
-
 // APIError is a catch all for any errors not covered by other types (and
 // should be extremely uncommon).
 type APIError struct {
@@ -275,27 +265,6 @@ type APIError struct {
 
 // Error serializes the error object to JSON and returns it as a string.
 func (e *APIError) Error() string {
-	return e.stripeErr.Error()
-}
-
-// AuthenticationError is a failure to properly authenticate during a request.
-type AuthenticationError struct {
-	stripeErr *Error
-}
-
-// Error serializes the error object to JSON and returns it as a string.
-func (e *AuthenticationError) Error() string {
-	return e.stripeErr.Error()
-}
-
-// PermissionError results when you attempt to make an API request
-// for which your API key doesn't have the right permissions.
-type PermissionError struct {
-	stripeErr *Error
-}
-
-// Error serializes the error object to JSON and returns it as a string.
-func (e *PermissionError) Error() string {
 	return e.stripeErr.Error()
 }
 
@@ -322,17 +291,6 @@ type InvalidRequestError struct {
 
 // Error serializes the error object to JSON and returns it as a string.
 func (e *InvalidRequestError) Error() string {
-	return e.stripeErr.Error()
-}
-
-// RateLimitError occurs when the Stripe API is hit to with too many requests
-// too quickly and indicates that the current request has been rate limited.
-type RateLimitError struct {
-	stripeErr *Error
-}
-
-// Error serializes the error object to JSON and returns it as a string.
-func (e *RateLimitError) Error() string {
 	return e.stripeErr.Error()
 }
 
