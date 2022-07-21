@@ -696,10 +696,6 @@ func (s *BackendImplementation) ResponseToError(res *http.Response, resBody []by
 	switch raw.Error.Type {
 	case ErrorTypeAPI:
 		typedError = &APIError{stripeErr: raw.Error}
-	case ErrorTypeAPIConnection:
-		typedError = &APIConnectionError{stripeErr: raw.Error}
-	case ErrorTypeAuthentication:
-		typedError = &AuthenticationError{stripeErr: raw.Error}
 	case ErrorTypeCard:
 		cardErr := &CardError{stripeErr: raw.Error}
 
@@ -715,10 +711,6 @@ func (s *BackendImplementation) ResponseToError(res *http.Response, resBody []by
 		typedError = &IdempotencyError{stripeErr: raw.Error}
 	case ErrorTypeInvalidRequest:
 		typedError = &InvalidRequestError{stripeErr: raw.Error}
-	case ErrorTypePermission:
-		typedError = &PermissionError{stripeErr: raw.Error}
-	case ErrorTypeRateLimit:
-		typedError = &RateLimitError{stripeErr: raw.Error}
 	}
 	raw.Error.Err = typedError
 
