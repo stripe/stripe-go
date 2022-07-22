@@ -59,12 +59,12 @@ func (c Client) Update(id string, params *stripe.ChargeParams) (*stripe.Charge, 
 }
 
 // Capture is the method for the `POST /v1/charges/{charge}/capture` API.
-func Capture(id string, params *stripe.CaptureParams) (*stripe.Charge, error) {
+func Capture(id string, params *stripe.ChargeCaptureParams) (*stripe.Charge, error) {
 	return getC().Capture(id, params)
 }
 
 // Capture is the method for the `POST /v1/charges/{charge}/capture` API.
-func (c Client) Capture(id string, params *stripe.CaptureParams) (*stripe.Charge, error) {
+func (c Client) Capture(id string, params *stripe.ChargeCaptureParams) (*stripe.Charge, error) {
 	path := stripe.FormatURLPath("/v1/charges/%s/capture", id)
 	charge := &stripe.Charge{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, charge)

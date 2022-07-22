@@ -28,7 +28,6 @@ import (
 	"github.com/stripe/stripe-go/v72/creditnote"
 	"github.com/stripe/stripe-go/v72/customer"
 	"github.com/stripe/stripe-go/v72/customerbalancetransaction"
-	"github.com/stripe/stripe-go/v72/discount"
 	"github.com/stripe/stripe-go/v72/dispute"
 	"github.com/stripe/stripe-go/v72/ephemeralkey"
 	"github.com/stripe/stripe-go/v72/event"
@@ -67,7 +66,6 @@ import (
 	"github.com/stripe/stripe-go/v72/refund"
 	reportingreportrun "github.com/stripe/stripe-go/v72/reporting/reportrun"
 	reportingreporttype "github.com/stripe/stripe-go/v72/reporting/reporttype"
-	"github.com/stripe/stripe-go/v72/reversal"
 	"github.com/stripe/stripe-go/v72/review"
 	"github.com/stripe/stripe-go/v72/setupattempt"
 	"github.com/stripe/stripe-go/v72/setupintent"
@@ -99,6 +97,7 @@ import (
 	"github.com/stripe/stripe-go/v72/token"
 	"github.com/stripe/stripe-go/v72/topup"
 	"github.com/stripe/stripe-go/v72/transfer"
+	"github.com/stripe/stripe-go/v72/transferreversal"
 	treasurycreditreversal "github.com/stripe/stripe-go/v72/treasury/creditreversal"
 	treasurydebitreversal "github.com/stripe/stripe-go/v72/treasury/debitreversal"
 	treasuryfinancialaccount "github.com/stripe/stripe-go/v72/treasury/financialaccount"
@@ -154,8 +153,6 @@ type API struct {
 	CustomerBalanceTransactions *customerbalancetransaction.Client
 	// Customers is the client used to invoke /customers APIs.
 	Customers *customer.Client
-	// Discounts is the client used to invoke discount related APIs.
-	Discounts *discount.Client
 	// Disputes is the client used to invoke /disputes APIs.
 	Disputes *dispute.Client
 	// EphemeralKeys is the client used to invoke /ephemeral_keys APIs.
@@ -228,12 +225,10 @@ type API struct {
 	RadarValueLists *radarvaluelist.Client
 	// Refunds is the client used to invoke /refunds APIs.
 	Refunds *refund.Client
-	// ReportRuns is the client used to invoke /reporting/report_runs APIs.
-	ReportRuns *reportingreportrun.Client
-	// ReportTypes is the client used to invoke /reporting/report_types APIs.
-	ReportTypes *reportingreporttype.Client
-	// Reversals is the client used to invoke /transfers/{id}/reversals APIs.
-	Reversals *reversal.Client
+	// ReportingReportRuns is the client used to invoke /reporting/report_runs APIs.
+	ReportingReportRuns *reportingreportrun.Client
+	// ReportingReportTypes is the client used to invoke /reporting/report_types APIs.
+	ReportingReportTypes *reportingreporttype.Client
 	// Reviews is the client used to invoke /reviews APIs.
 	Reviews *review.Client
 	// SetupAttempts is the client used to invoke /setup_attempts APIs.
@@ -294,6 +289,8 @@ type API struct {
 	Tokens *token.Client
 	// Topups is the client used to invoke /topups APIs.
 	Topups *topup.Client
+	// TransferReversals is the client used to invoke /transfers/{id}/reversals APIs.
+	TransferReversals *transferreversal.Client
 	// Transfers is the client used to invoke /transfers APIs.
 	Transfers *transfer.Client
 	// TreasuryCreditReversals is the client used to invoke /treasury/credit_reversals APIs.
@@ -353,7 +350,6 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.CreditNotes = &creditnote.Client{B: backends.API, Key: key}
 	a.CustomerBalanceTransactions = &customerbalancetransaction.Client{B: backends.API, Key: key}
 	a.Customers = &customer.Client{B: backends.API, Key: key}
-	a.Discounts = &discount.Client{B: backends.API, Key: key}
 	a.Disputes = &dispute.Client{B: backends.API, Key: key}
 	a.EphemeralKeys = &ephemeralkey.Client{B: backends.API, Key: key}
 	a.Events = &event.Client{B: backends.API, Key: key}
@@ -390,9 +386,8 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.RadarValueListItems = &radarvaluelistitem.Client{B: backends.API, Key: key}
 	a.RadarValueLists = &radarvaluelist.Client{B: backends.API, Key: key}
 	a.Refunds = &refund.Client{B: backends.API, Key: key}
-	a.ReportRuns = &reportingreportrun.Client{B: backends.API, Key: key}
-	a.ReportTypes = &reportingreporttype.Client{B: backends.API, Key: key}
-	a.Reversals = &reversal.Client{B: backends.API, Key: key}
+	a.ReportingReportRuns = &reportingreportrun.Client{B: backends.API, Key: key}
+	a.ReportingReportTypes = &reportingreporttype.Client{B: backends.API, Key: key}
 	a.Reviews = &review.Client{B: backends.API, Key: key}
 	a.SetupAttempts = &setupattempt.Client{B: backends.API, Key: key}
 	a.SetupIntents = &setupintent.Client{B: backends.API, Key: key}
@@ -423,6 +418,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.TestHelpersTreasuryReceivedDebits = &testhelperstreasuryreceiveddebit.Client{B: backends.API, Key: key}
 	a.Tokens = &token.Client{B: backends.API, Key: key}
 	a.Topups = &topup.Client{B: backends.API, Key: key}
+	a.TransferReversals = &transferreversal.Client{B: backends.API, Key: key}
 	a.Transfers = &transfer.Client{B: backends.API, Key: key}
 	a.TreasuryCreditReversals = &treasurycreditreversal.Client{B: backends.API, Key: key}
 	a.TreasuryDebitReversals = &treasurydebitreversal.Client{B: backends.API, Key: key}

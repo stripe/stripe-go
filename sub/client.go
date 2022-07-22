@@ -64,14 +64,27 @@ func (c Client) Update(id string, params *stripe.SubscriptionParams) (*stripe.Su
 	return subscription, err
 }
 
-// Cancel removes a subscription.
+// Cancel is the method for the `DELETE /v1/subscriptions/{subscription_exposed_id}` API.
 func Cancel(id string, params *stripe.SubscriptionCancelParams) (*stripe.Subscription, error) {
 	return getC().Cancel(id, params)
 }
 
-// Cancel removes a subscription.
+// Cancel is the method for the `DELETE /v1/subscriptions/{subscription_exposed_id}` API.
 func (c Client) Cancel(id string, params *stripe.SubscriptionCancelParams) (*stripe.Subscription, error) {
 	path := stripe.FormatURLPath("/v1/subscriptions/%s", id)
+	subscription := &stripe.Subscription{}
+	err := c.B.Call(http.MethodDelete, path, c.Key, params, subscription)
+	return subscription, err
+}
+
+// DeleteDiscount is the method for the `DELETE /v1/subscriptions/{subscription_exposed_id}/discount` API.
+func DeleteDiscount(id string, params *stripe.SubscriptionDeleteDiscountParams) (*stripe.Subscription, error) {
+	return getC().DeleteDiscount(id, params)
+}
+
+// DeleteDiscount is the method for the `DELETE /v1/subscriptions/{subscription_exposed_id}/discount` API.
+func (c Client) DeleteDiscount(id string, params *stripe.SubscriptionDeleteDiscountParams) (*stripe.Subscription, error) {
+	path := stripe.FormatURLPath("/v1/subscriptions/%s/discount", id)
 	subscription := &stripe.Subscription{}
 	err := c.B.Call(http.MethodDelete, path, c.Key, params, subscription)
 	return subscription, err

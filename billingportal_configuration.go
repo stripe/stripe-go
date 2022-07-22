@@ -261,7 +261,7 @@ type BillingPortalConfiguration struct {
 	// Whether the configuration is active and can be used to create portal sessions.
 	Active bool `json:"active"`
 	// ID of the Connect Application that created the configuration.
-	Application     string                                     `json:"application"`
+	Application     *Application                               `json:"application"`
 	BusinessProfile *BillingPortalConfigurationBusinessProfile `json:"business_profile"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
 	Created int64 `json:"created"`

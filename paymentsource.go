@@ -8,7 +8,6 @@ package stripe
 
 import (
 	"encoding/json"
-	"fmt"
 	"github.com/stripe/stripe-go/v72/form"
 )
 
@@ -19,47 +18,15 @@ const (
 	PaymentSourceTypeAccount     PaymentSourceType = "account"
 	PaymentSourceTypeBankAccount PaymentSourceType = "bank_account"
 	PaymentSourceTypeCard        PaymentSourceType = "card"
-	PaymentSourceTypeObject      PaymentSourceType = "source"
+	PaymentSourceTypeSource      PaymentSourceType = "source"
 )
 
 // List sources for a specified customer.
-type SourceListParams struct {
+type PaymentSourceListParams struct {
 	ListParams `form:"*"`
 	Customer   *string `form:"-"` // Included in URL
 	// Filter sources according to a particular object type.
 	Object *string `form:"object"`
-}
-
-// SetSource adds valid sources to a CustomerSourceParams object,
-// returning an error for unsupported sources.
-func (cp *CustomerSourceParams) SetSource(sp interface{}) error {
-	source, err := SourceParamsFor(sp)
-	cp.Source = source
-	return err
-}
-
-// SourceParamsFor creates SourceParams objects around supported
-// payment sources, returning errors if not.
-//
-// Currently supported source types are Card (CardParams) and
-// Tokens/IDs (string), where Tokens could be single use card
-// tokens
-func SourceParamsFor(obj interface{}) (*SourceParams, error) {
-	var sp *SourceParams
-	var err error
-	switch p := obj.(type) {
-	case *CardParams:
-		sp = &SourceParams{
-			Card: p,
-		}
-	case string:
-		sp = &SourceParams{
-			Token: &p,
-		}
-	default:
-		err = fmt.Errorf("Unsupported source type %s", p)
-	}
-	return sp, err
 }
 
 // SourceParams is a union struct used to describe an
@@ -81,7 +48,7 @@ func (p *SourceParams) AppendTo(body *form.Values, keyParts []string) {
 // If the card's owner has no default card, then the new card will become the default.
 // However, if the owner already has a default, then it will not change.
 // To change the default, you should [update the customer](https://stripe.com/docs/api#update_customer) to have a new default_source.
-type CustomerSourceParams struct {
+type PaymentSourceParams struct {
 	Params   `form:"*"`
 	Customer *string `form:"-"` // Included in URL
 	// The name of the person or business that owns the bank account.
@@ -122,7 +89,7 @@ type PaymentSourceOwnerParams struct {
 }
 
 // Verify a specified bank account for a given customer.
-type SourceVerifyParams struct {
+type PaymentSourceVerifyParams struct {
 	Params   `form:"*"`
 	Customer *string `form:"-"` // Included in URL
 	// Two positive integers, in *cents*, equal to the values of the microdeposits sent to the bank account.
@@ -131,16 +98,16 @@ type SourceVerifyParams struct {
 }
 type PaymentSource struct {
 	APIResource
-	BankAccount  *BankAccount      `json:"-"`
-	Card         *Card             `json:"-"`
-	Deleted      bool              `json:"deleted"`
-	ID           string            `json:"id"`
-	SourceObject *Source           `json:"-"`
-	Type         PaymentSourceType `json:"object"`
+	BankAccount *BankAccount      `json:"-"`
+	Card        *Card             `json:"-"`
+	Deleted     bool              `json:"deleted"`
+	ID          string            `json:"id"`
+	Source      *Source           `json:"-"`
+	Type        PaymentSourceType `json:"object"`
 }
 
-// SourceList is a list of PaymentSources as retrieved from a list endpoint.
-type SourceList struct {
+// PaymentSourceList is a list of PaymentSources as retrieved from a list endpoint.
+type PaymentSourceList struct {
 	APIResource
 	ListMeta
 	Data []*PaymentSource `json:"data"`
@@ -169,7 +136,7 @@ func (s *PaymentSource) UnmarshalJSON(data []byte) error {
 		err = json.Unmarshal(data, &s.BankAccount)
 	case PaymentSourceTypeCard:
 		err = json.Unmarshal(data, &s.Card)
-	case PaymentSourceTypeObject:
+	case PaymentSourceTypeSource:
 		err = json.Unmarshal(data, &s.SourceObject)
 	}
 

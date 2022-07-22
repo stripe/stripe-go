@@ -105,13 +105,16 @@ func (i *Iter) CheckoutSessionList() *stripe.CheckoutSessionList {
 }
 
 // ListLineItems is the method for the `GET /v1/checkout/sessions/{session}/line_items` API.
-func ListLineItems(id string, params *stripe.CheckoutSessionListLineItemsParams) *LineItemIter {
-	return getC().ListLineItems(id, params)
+func ListLineItems(params *stripe.CheckoutSessionListLineItemsParams) *LineItemIter {
+	return getC().ListLineItems(params)
 }
 
 // ListLineItems is the method for the `GET /v1/checkout/sessions/{session}/line_items` API.
-func (c Client) ListLineItems(id string, listParams *stripe.CheckoutSessionListLineItemsParams) *LineItemIter {
-	path := stripe.FormatURLPath("/v1/checkout/sessions/%s/line_items", id)
+func (c Client) ListLineItems(listParams *stripe.CheckoutSessionListLineItemsParams) *LineItemIter {
+	path := stripe.FormatURLPath(
+		"/v1/checkout/sessions/%s/line_items",
+		stripe.StringValue(listParams.Session),
+	)
 	return &LineItemIter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.LineItemList{}
@@ -127,7 +130,22 @@ func (c Client) ListLineItems(id string, listParams *stripe.CheckoutSessionListL
 	}
 }
 
-type LineItemIter = lineitem.Iter
+// LineItemIter is an iterator for line items.
+type LineItemIter struct {
+	*stripe.Iter
+}
+
+// LineItem returns the line item which the iterator is currently pointing to.
+func (i *LineItemIter) LineItem() *stripe.LineItem {
+	return i.Current().(*stripe.LineItem)
+}
+
+// LineItemList returns the current list object which the iterator is
+// currently using. List objects will change as new API calls are made to
+// continue pagination.
+func (i *LineItemIter) LineItemList() *stripe.LineItemList {
+	return i.List().(*stripe.LineItemList)
+}
 
 func getC() Client {
 	return Client{stripe.GetBackend(stripe.APIBackend), stripe.Key}

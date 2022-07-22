@@ -6,11 +6,13 @@
 
 package stripe
 
+import "encoding/json"
+
 // Retrieves a Location object.
 type TerminalLocationParams struct {
 	Params `form:"*"`
 	// The full address of the location.
-	Address *AccountAddressParams `form:"address"`
+	Address *AddressParams `form:"address"`
 	// The ID of a configuration that will be used to customize all readers in this location.
 	ConfigurationOverrides *string `form:"configuration_overrides"`
 	// A name for the location.
@@ -27,7 +29,7 @@ type TerminalLocationListParams struct {
 // Related guide: [Fleet Management](https://stripe.com/docs/terminal/fleet/locations).
 type TerminalLocation struct {
 	APIResource
-	Address *AccountAddressParams `json:"address"`
+	Address *Address `json:"address"`
 	// The ID of a configuration that will be used to customize all readers in this location.
 	ConfigurationOverrides string `json:"configuration_overrides"`
 	Deleted                bool   `json:"deleted"`
@@ -48,4 +50,23 @@ type TerminalLocationList struct {
 	APIResource
 	ListMeta
 	Data []*TerminalLocation `json:"data"`
+}
+
+// UnmarshalJSON handles deserialization of a TerminalLocation.
+// This custom unmarshaling is needed because the resulting
+// property may be an id or the full struct if it was expanded.
+func (t *TerminalLocation) UnmarshalJSON(data []byte) error {
+	if id, ok := ParseID(data); ok {
+		t.ID = id
+		return nil
+	}
+
+	type terminalLocation TerminalLocation
+	var v terminalLocation
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	*t = TerminalLocation(v)
+	return nil
 }

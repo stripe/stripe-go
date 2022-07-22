@@ -6,7 +6,10 @@
 
 package stripe
 
-import "encoding/json"
+import (
+	"encoding/json"
+	"github.com/stripe/stripe-go/v72/form"
+)
 
 // Surfaces if automatic tax computation is possible given the current customer location information.
 type CustomerTaxAutomaticTax string
@@ -76,7 +79,7 @@ type CustomerCashBalanceParams struct {
 }
 
 // Default custom fields to be displayed on invoices for this customer. When updating, pass an empty string to remove previously-defined fields.
-type CustomerInvoiceCustomFieldParams struct {
+type CustomerInvoiceSettingsCustomFieldParams struct {
 	// The name of the custom field. This may be up to 30 characters.
 	Name *string `form:"name"`
 	// The value of the custom field. This may be up to 30 characters.
@@ -92,7 +95,7 @@ type CustomerInvoiceSettingsRenderingOptionsParams struct {
 // Default invoice settings for this customer.
 type CustomerInvoiceSettingsParams struct {
 	// Default custom fields to be displayed on invoices for this customer. When updating, pass an empty string to remove previously-defined fields.
-	CustomFields []*CustomerInvoiceCustomFieldParams `form:"custom_fields"`
+	CustomFields []*CustomerInvoiceSettingsCustomFieldParams `form:"custom_fields"`
 	// ID of a payment method that's attached to the customer, to be used as the customer's default payment method for subscriptions and invoices.
 	DefaultPaymentMethod *string `form:"default_payment_method"`
 	// Default footer to be displayed on invoices for this customer.
@@ -102,7 +105,7 @@ type CustomerInvoiceSettingsParams struct {
 }
 
 // The customer's shipping information. Appears on invoices emailed to this customer.
-type CustomerShippingDetailsParams struct {
+type CustomerShippingParams struct {
 	// Customer shipping address.
 	Address *AddressParams `form:"address"`
 	// Customer name.
@@ -118,19 +121,11 @@ type CustomerTaxParams struct {
 }
 
 // The customer's tax IDs.
-type CustomerTaxIDDataParams struct {
+type CustomerTaxIDDatumParams struct {
 	// Type of the tax ID, one of `ae_trn`, `au_abn`, `au_arn`, `bg_uic`, `br_cnpj`, `br_cpf`, `ca_bn`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `ca_qst`, `ch_vat`, `cl_tin`, `es_cif`, `eu_oss_vat`, `eu_vat`, `gb_vat`, `ge_vat`, `hk_br`, `hu_tin`, `id_npwp`, `il_vat`, `in_gst`, `is_vat`, `jp_cn`, `jp_rn`, `kr_brn`, `li_uid`, `mx_rfc`, `my_frp`, `my_itn`, `my_sst`, `no_vat`, `nz_gst`, `ru_inn`, `ru_kpp`, `sa_vat`, `sg_gst`, `sg_uen`, `si_tin`, `th_vat`, `tw_vat`, `ua_vat`, `us_ein`, or `za_vat`
 	Type *string `form:"type"`
 	// Value of the tax ID.
 	Value *string `form:"value"`
-}
-
-// SetSource adds valid sources to a CustomerParams object,
-// returning an error for unsupported sources.
-func (cp *CustomerParams) SetSource(sp interface{}) error {
-	source, err := SourceParamsFor(sp)
-	cp.Source = source
-	return err
 }
 
 // Creates a new customer object.
@@ -169,17 +164,26 @@ type CustomerParams struct {
 	// The API ID of a promotion code to apply to the customer. The customer will have a discount applied on all recurring payments. Charges you create through the API will not have the discount.
 	PromotionCode *string `form:"promotion_code"`
 	// The customer's shipping information. Appears on invoices emailed to this customer.
-	Shipping *CustomerShippingDetailsParams `form:"shipping"`
-	Source   *SourceParams                  `form:"*"` // SourceParams has custom encoding so brought to top level with "*"
+	Shipping *CustomerShippingParams `form:"shipping"`
+	Source   *string                 `form:"source"`
 	// Tax details about the customer.
 	Tax *CustomerTaxParams `form:"tax"`
 	// The customer's tax exemption. One of `none`, `exempt`, or `reverse`.
 	TaxExempt *string `form:"tax_exempt"`
 	// The customer's tax IDs.
-	TaxIDData []*CustomerTaxIDDataParams `form:"tax_id_data"`
+	TaxIDData []*CustomerTaxIDDatumParams `form:"tax_id_data"`
 	// ID of the test clock to attach to the customer.
 	TestClock *string `form:"test_clock"`
-	Token     *string `form:"-"` // This doesn't seem to be used?
+	// Unix timestamp representing the end of the trial period the customer will get before being charged for the first time. This will always overwrite any trials that might apply via a subscribed plan. If set, trial_end will override the default trial period of the plan the customer is being subscribed to. The special value `now` can be provided to end the customer's trial immediately. Can be at most two years from `billing_cycle_anchor`.
+	TrialEnd    *int64 `form:"trial_end"`
+	TrialEndNow *bool  `form:"-"` // See custom AppendTo
+}
+
+// AppendTo implements custom encoding logic for CustomerParams.
+func (c *CustomerParams) AppendTo(body *form.Values, keyParts []string) {
+	if BoolValue(c.TrialEndNow) {
+		body.Add(form.FormatKey(append(keyParts, "trial_end")), "now")
+	}
 }
 
 // Returns a list of PaymentMethods for a given Customer
@@ -227,10 +231,17 @@ type CustomerCreateFundingInstructionsParams struct {
 	FundingType *string `form:"funding_type"`
 }
 
+// Removes the currently applied discount on a customer.
+type CustomerDeleteDiscountParams struct {
+	Params `form:"*"`
+}
+
 // Default custom fields to be displayed on invoices for this customer.
-type CustomerInvoiceCustomField struct {
-	Name  *string `form:"name"`
-	Value *string `form:"value"`
+type CustomerInvoiceSettingsCustomField struct {
+	// The name of the custom field.
+	Name string `json:"name"`
+	// The value of the custom field.
+	Value string `json:"value"`
 }
 
 // Default options for invoice PDF rendering for this customer.
@@ -240,22 +251,13 @@ type CustomerInvoiceSettingsRenderingOptions struct {
 }
 type CustomerInvoiceSettings struct {
 	// Default custom fields to be displayed on invoices for this customer.
-	CustomFields []*CustomerInvoiceCustomField `json:"custom_fields"`
+	CustomFields []*CustomerInvoiceSettingsCustomField `json:"custom_fields"`
 	// ID of a payment method that's attached to the customer, to be used as the customer's default payment method for subscriptions and invoices.
 	DefaultPaymentMethod *PaymentMethod `json:"default_payment_method"`
 	// Default footer to be displayed on invoices for this customer.
 	Footer string `json:"footer"`
 	// Default options for invoice PDF rendering for this customer.
 	RenderingOptions *CustomerInvoiceSettingsRenderingOptions `json:"rendering_options"`
-}
-
-// Mailing and shipping address for the customer. Appears on invoices emailed to this customer.
-type CustomerShippingDetails struct {
-	Address Address `json:"address"`
-	// Recipient name.
-	Name string `json:"name"`
-	// Recipient phone (including extension).
-	Phone string `json:"phone"`
 }
 
 // The customer's location as identified by Stripe Tax.
@@ -282,7 +284,7 @@ type CustomerTax struct {
 type Customer struct {
 	APIResource
 	// The customer's address.
-	Address Address `json:"address"`
+	Address *Address `json:"address"`
 	// Current balance, if any, being stored on the customer. If negative, the customer has credit to apply to their next invoice. If positive, the customer has an amount owed that will be added to their next invoice. The balance does not refer to any unpaid invoices; it solely takes into account amounts that have yet to be successfully applied to any invoice. This balance is only taken into account as invoices are finalized.
 	Balance int64 `json:"balance"`
 	// The current funds being held by Stripe on behalf of the customer. These funds can be applied towards payment intents with source "cash_balance".The settings[reconciliation_mode] field describes whether these funds are applied to such payment intents manually or automatically.
@@ -291,6 +293,8 @@ type Customer struct {
 	Created int64 `json:"created"`
 	// Three-letter [ISO code for the currency](https://stripe.com/docs/currencies) the customer can be charged in for recurring billing purposes.
 	Currency Currency `json:"currency"`
+	// The default three-letter [ISO code for the currency](https://stripe.com/docs/currencies) that the customer will be charged in for billing purposes.
+	DefaultCurrency Currency `json:"default_currency"`
 	// ID of the default payment source for the customer.
 	//
 	// If you are using payment methods created via the PaymentMethods API, see the [invoice_settings.default_payment_method](https://stripe.com/docs/api/customers/object#customer_object-invoice_settings-default_payment_method) field instead.
@@ -308,6 +312,8 @@ type Customer struct {
 	Email string `json:"email"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
+	// The current multi-currency balances, if any, being stored on the customer.If positive in a currency, the customer has a credit to apply to their next invoice denominated in that currency.If negative, the customer has an amount owed that will be added to their next invoice denominated in that currency. These balances do not refer to any unpaid invoices.They solely track amounts that have yet to be successfully applied to any invoice. A balance in a particular currency is only applied to any invoice as an invoice in that currency is finalized.
+	InvoiceCreditBalance map[string]int64 `json:"invoice_credit_balance"`
 	// The prefix for the customer used to generate unique invoice numbers.
 	InvoicePrefix   string                   `json:"invoice_prefix"`
 	InvoiceSettings *CustomerInvoiceSettings `json:"invoice_settings"`
@@ -326,8 +332,8 @@ type Customer struct {
 	// The customer's preferred locales (languages), ordered by preference.
 	PreferredLocales []string `json:"preferred_locales"`
 	// Mailing and shipping address for the customer. Appears on invoices emailed to this customer.
-	Shipping *CustomerShippingDetails `json:"shipping"`
-	Sources  *SourceList              `json:"sources"`
+	Shipping *ShippingDetails   `json:"shipping"`
+	Sources  *PaymentSourceList `json:"sources"`
 	// The customer's current subscriptions, if any.
 	Subscriptions *SubscriptionList `json:"subscriptions"`
 	Tax           *CustomerTax      `json:"tax"`

@@ -46,7 +46,7 @@ type PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressSuppo
 const (
 	PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressSupportedNetworkBACS   PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressSupportedNetwork = "bacs"
 	PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressSupportedNetworkFPS    PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressSupportedNetwork = "fps"
-	PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressSupportedNetworkSepa   PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressSupportedNetwork = "sepa"
+	PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressSupportedNetworkSEPA   PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressSupportedNetwork = "sepa"
 	PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressSupportedNetworkSpei   PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressSupportedNetwork = "spei"
 	PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressSupportedNetworkZengin PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressSupportedNetwork = "zengin"
 )
@@ -56,7 +56,7 @@ type PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressType 
 
 // List of values that PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressType can take
 const (
-	PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressTypeIban     PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressType = "iban"
+	PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressTypeIBAN     PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressType = "iban"
 	PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressTypeSortCode PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressType = "sort_code"
 	PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressTypeSpei     PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressType = "spei"
 	PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressTypeZengin   PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressType = "zengin"
@@ -81,15 +81,6 @@ const (
 	PaymentIntentNextActionTypeAlipayHandleRedirect PaymentIntentNextActionType = "alipay_handle_redirect"
 	PaymentIntentNextActionTypeOXXODisplayDetails   PaymentIntentNextActionType = "oxxo_display_details"
 	PaymentIntentNextActionTypeRedirectToURL        PaymentIntentNextActionType = "redirect_to_url"
-)
-
-// PaymentIntentOffSession is the list of allowed values for types of off-session.
-type PaymentIntentOffSession string
-
-// List of values that PaymentIntentOffSession can take.
-const (
-	PaymentIntentOffSessionOneOff    PaymentIntentOffSession = "one_off"
-	PaymentIntentOffSessionRecurring PaymentIntentOffSession = "recurring"
 )
 
 // The type of the microdeposit sent to the customer. Used to distinguish between different verification methods.
@@ -337,8 +328,8 @@ type PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddres
 
 // List of values that PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressType can take
 const (
-	PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressTypeIban     PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressType = "iban"
-	PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressTypeSepa     PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressType = "sepa"
+	PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressTypeIBAN     PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressType = "iban"
+	PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressTypeSEPA     PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressType = "sepa"
 	PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressTypeSortCode PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressType = "sort_code"
 	PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressTypeSpei     PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressType = "spei"
 	PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressTypeZengin   PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressType = "zengin"
@@ -428,12 +419,12 @@ const (
 // Providing this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.
 //
 // When processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).
-type PaymentIntentPaymentMethodOptionsIdealSetupFutureUsage string
+type PaymentIntentPaymentMethodOptionsIDEALSetupFutureUsage string
 
-// List of values that PaymentIntentPaymentMethodOptionsIdealSetupFutureUsage can take
+// List of values that PaymentIntentPaymentMethodOptionsIDEALSetupFutureUsage can take
 const (
-	PaymentIntentPaymentMethodOptionsIdealSetupFutureUsageNone       PaymentIntentPaymentMethodOptionsIdealSetupFutureUsage = "none"
-	PaymentIntentPaymentMethodOptionsIdealSetupFutureUsageOffSession PaymentIntentPaymentMethodOptionsIdealSetupFutureUsage = "off_session"
+	PaymentIntentPaymentMethodOptionsIDEALSetupFutureUsageNone       PaymentIntentPaymentMethodOptionsIDEALSetupFutureUsage = "none"
+	PaymentIntentPaymentMethodOptionsIDEALSetupFutureUsageOffSession PaymentIntentPaymentMethodOptionsIDEALSetupFutureUsage = "off_session"
 )
 
 // Controls when the funds will be captured from the customer's account.
@@ -542,13 +533,13 @@ const (
 // Providing this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.
 //
 // When processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).
-type PaymentIntentPaymentMethodOptionsSepaDebitSetupFutureUsage string
+type PaymentIntentPaymentMethodOptionsSEPADebitSetupFutureUsage string
 
-// List of values that PaymentIntentPaymentMethodOptionsSepaDebitSetupFutureUsage can take
+// List of values that PaymentIntentPaymentMethodOptionsSEPADebitSetupFutureUsage can take
 const (
-	PaymentIntentPaymentMethodOptionsSepaDebitSetupFutureUsageNone       PaymentIntentPaymentMethodOptionsSepaDebitSetupFutureUsage = "none"
-	PaymentIntentPaymentMethodOptionsSepaDebitSetupFutureUsageOffSession PaymentIntentPaymentMethodOptionsSepaDebitSetupFutureUsage = "off_session"
-	PaymentIntentPaymentMethodOptionsSepaDebitSetupFutureUsageOnSession  PaymentIntentPaymentMethodOptionsSepaDebitSetupFutureUsage = "on_session"
+	PaymentIntentPaymentMethodOptionsSEPADebitSetupFutureUsageNone       PaymentIntentPaymentMethodOptionsSEPADebitSetupFutureUsage = "none"
+	PaymentIntentPaymentMethodOptionsSEPADebitSetupFutureUsageOffSession PaymentIntentPaymentMethodOptionsSEPADebitSetupFutureUsage = "off_session"
+	PaymentIntentPaymentMethodOptionsSEPADebitSetupFutureUsageOnSession  PaymentIntentPaymentMethodOptionsSEPADebitSetupFutureUsage = "on_session"
 )
 
 // Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -685,12 +676,14 @@ type PaymentIntentMandateDataCustomerAcceptanceOnlineParams struct {
 
 // This hash contains details about the customer acceptance of the Mandate.
 type PaymentIntentMandateDataCustomerAcceptanceParams struct {
-	AcceptedAt int64 `form:"accepted_at"`
+	// The time at which the customer accepted the Mandate.
+	AcceptedAt *int64 `form:"accepted_at"`
 	// If this is a Mandate accepted offline, this hash contains details about the offline acceptance.
 	Offline *PaymentIntentMandateDataCustomerAcceptanceOfflineParams `form:"offline"`
 	// If this is a Mandate accepted online, this hash contains details about the online acceptance.
 	Online *PaymentIntentMandateDataCustomerAcceptanceOnlineParams `form:"online"`
-	Type   MandateCustomerAcceptanceType                           `form:"type"`
+	// The type of customer acceptance information included with the Mandate. One of `online` or `offline`.
+	Type *MandateCustomerAcceptanceType `form:"type"`
 }
 
 // This hash contains details about the Mandate to create. This parameter can only be used with [`confirm=true`](https://stripe.com/docs/api/payment_intents/create#create_payment_intent-confirm).
@@ -701,6 +694,9 @@ type PaymentIntentMandateDataParams struct {
 
 // If this is an `affirm` PaymentMethod, this hash contains details about the Affirm payment method.
 type PaymentIntentPaymentMethodDataAffirmParams struct{}
+
+// If this is a `blik` PaymentMethod, this hash contains details about the BLIK payment method.
+type PaymentIntentPaymentMethodDataBLIKParams struct{}
 
 // If this is a `customer_balance` PaymentMethod, this hash contains details about the CustomerBalance payment method.
 type PaymentIntentPaymentMethodDataCustomerBalanceParams struct{}
@@ -757,9 +753,10 @@ type PaymentIntentPaymentMethodDataParams struct {
 	Bancontact *PaymentMethodBancontactParams `form:"bancontact"`
 	// Billing information associated with the PaymentMethod that may be used or required by particular types of payment methods.
 	BillingDetails *BillingDetailsParams `form:"billing_details"`
+	// If this is a `blik` PaymentMethod, this hash contains details about the BLIK payment method.
+	BLIK *PaymentIntentPaymentMethodDataBLIKParams `form:"blik"`
 	// If this is a `boleto` PaymentMethod, this hash contains details about the Boleto payment method.
 	Boleto *PaymentMethodBoletoParams `form:"boleto"`
-	Card   *PaymentMethodCardParams   `form:"card"`
 	// If this is a `customer_balance` PaymentMethod, this hash contains details about the CustomerBalance payment method.
 	CustomerBalance *PaymentIntentPaymentMethodDataCustomerBalanceParams `form:"customer_balance"`
 	// If this is an `eps` PaymentMethod, this hash contains details about the EPS payment method.
@@ -771,7 +768,7 @@ type PaymentIntentPaymentMethodDataParams struct {
 	// If this is a `grabpay` PaymentMethod, this hash contains details about the GrabPay payment method.
 	Grabpay *PaymentMethodGrabpayParams `form:"grabpay"`
 	// If this is an `ideal` PaymentMethod, this hash contains details about the iDEAL payment method.
-	Ideal *PaymentMethodIdealParams `form:"ideal"`
+	IDEAL *PaymentMethodIDEALParams `form:"ideal"`
 	// If this is an `interac_present` PaymentMethod, this hash contains details about the Interac Present payment method.
 	InteracPresent *PaymentMethodInteracPresentParams `form:"interac_present"`
 	// If this is a `klarna` PaymentMethod, this hash contains details about the Klarna payment method.
@@ -793,7 +790,7 @@ type PaymentIntentPaymentMethodDataParams struct {
 	// Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
 	RadarOptions *PaymentIntentPaymentMethodDataRadarOptionsParams `form:"radar_options"`
 	// If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
-	SepaDebit *PaymentMethodSepaDebitParams `form:"sepa_debit"`
+	SEPADebit *PaymentMethodSEPADebitParams `form:"sepa_debit"`
 	// If this is a `sofort` PaymentMethod, this hash contains details about the SOFORT payment method.
 	Sofort *PaymentMethodSofortParams `form:"sofort"`
 	// The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type.
@@ -921,6 +918,12 @@ type PaymentIntentPaymentMethodOptionsBancontactParams struct {
 	//
 	// If `setup_future_usage` is already set and you are performing a request using a publishable key, you may only update the value from `on_session` to `off_session`.
 	SetupFutureUsage *string `form:"setup_future_usage"`
+}
+
+// If this is a `blik` PaymentMethod, this sub-hash contains details about the BLIK payment method options.
+type PaymentIntentPaymentMethodOptionsBLIKParams struct {
+	// The 6-digit BLIK code that a customer has generated using their banking application. Can only be set on confirmation.
+	Code *string `form:"code"`
 }
 
 // If this is a `boleto` PaymentMethod, this sub-hash contains details about the Boleto payment method options.
@@ -1110,7 +1113,7 @@ type PaymentIntentPaymentMethodOptionsGrabpayParams struct {
 }
 
 // If this is a `ideal` PaymentMethod, this sub-hash contains details about the Ideal payment method options.
-type PaymentIntentPaymentMethodOptionsIdealParams struct {
+type PaymentIntentPaymentMethodOptionsIDEALParams struct {
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// Providing this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.
@@ -1237,12 +1240,12 @@ type PaymentIntentPaymentMethodOptionsPromptPayParams struct {
 }
 
 // Additional fields for Mandate creation
-type PaymentIntentPaymentMethodOptionsSepaDebitMandateOptionsParams struct{}
+type PaymentIntentPaymentMethodOptionsSEPADebitMandateOptionsParams struct{}
 
 // If this is a `sepa_debit` PaymentIntent, this sub-hash contains details about the SEPA Debit payment method options.
-type PaymentIntentPaymentMethodOptionsSepaDebitParams struct {
+type PaymentIntentPaymentMethodOptionsSEPADebitParams struct {
 	// Additional fields for Mandate creation
-	MandateOptions *PaymentIntentPaymentMethodOptionsSepaDebitMandateOptionsParams `form:"mandate_options"`
+	MandateOptions *PaymentIntentPaymentMethodOptionsSEPADebitMandateOptionsParams `form:"mandate_options"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// Providing this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.
@@ -1331,6 +1334,8 @@ type PaymentIntentPaymentMethodOptionsParams struct {
 	BACSDebit *PaymentIntentPaymentMethodOptionsBACSDebitParams `form:"bacs_debit"`
 	// If this is a `bancontact` PaymentMethod, this sub-hash contains details about the Bancontact payment method options.
 	Bancontact *PaymentIntentPaymentMethodOptionsBancontactParams `form:"bancontact"`
+	// If this is a `blik` PaymentMethod, this sub-hash contains details about the BLIK payment method options.
+	BLIK *PaymentIntentPaymentMethodOptionsBLIKParams `form:"blik"`
 	// If this is a `boleto` PaymentMethod, this sub-hash contains details about the Boleto payment method options.
 	Boleto *PaymentIntentPaymentMethodOptionsBoletoParams `form:"boleto"`
 	// Configuration for any card payments attempted on this PaymentIntent.
@@ -1348,7 +1353,7 @@ type PaymentIntentPaymentMethodOptionsParams struct {
 	// If this is a `grabpay` PaymentMethod, this sub-hash contains details about the Grabpay payment method options.
 	Grabpay *PaymentIntentPaymentMethodOptionsGrabpayParams `form:"grabpay"`
 	// If this is a `ideal` PaymentMethod, this sub-hash contains details about the Ideal payment method options.
-	Ideal *PaymentIntentPaymentMethodOptionsIdealParams `form:"ideal"`
+	IDEAL *PaymentIntentPaymentMethodOptionsIDEALParams `form:"ideal"`
 	// If this is a `interac_present` PaymentMethod, this sub-hash contains details about the Card Present payment method options.
 	InteracPresent *PaymentIntentPaymentMethodOptionsInteracPresentParams `form:"interac_present"`
 	// If this is a `klarna` PaymentMethod, this sub-hash contains details about the Klarna payment method options.
@@ -1366,7 +1371,7 @@ type PaymentIntentPaymentMethodOptionsParams struct {
 	// If this is a `promptpay` PaymentMethod, this sub-hash contains details about the PromptPay payment method options.
 	PromptPay *PaymentIntentPaymentMethodOptionsPromptPayParams `form:"promptpay"`
 	// If this is a `sepa_debit` PaymentIntent, this sub-hash contains details about the SEPA Debit payment method options.
-	SepaDebit *PaymentIntentPaymentMethodOptionsSepaDebitParams `form:"sepa_debit"`
+	SEPADebit *PaymentIntentPaymentMethodOptionsSEPADebitParams `form:"sepa_debit"`
 	// If this is a `sofort` PaymentMethod, this sub-hash contains details about the SOFORT payment method options.
 	Sofort *PaymentIntentPaymentMethodOptionsSofortParams `form:"sofort"`
 	// If this is a `us_bank_account` PaymentMethod, this sub-hash contains details about the US bank account payment method options.
@@ -1539,7 +1544,6 @@ type PaymentIntentConfirmParams struct {
 	PaymentMethodData *PaymentIntentPaymentMethodDataParams `form:"payment_method_data"`
 	// Payment-method-specific configuration for this PaymentIntent.
 	PaymentMethodOptions *PaymentIntentPaymentMethodOptionsParams `form:"payment_method_options"`
-	PaymentMethodTypes   []*string                                `form:"payment_method_types"`
 	// Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
 	RadarOptions *PaymentIntentConfirmRadarOptionsParams `form:"radar_options"`
 	// Email address that the receipt for the resulting payment will be sent to. If `receipt_email` is specified for a payment in live mode, a receipt will be sent regardless of your [email settings](https://dashboard.stripe.com/account/emails).
@@ -1647,8 +1651,6 @@ type PaymentIntentVerifyMicrodepositsParams struct {
 }
 
 // Manually reconcile the remaining amount for a customer_balance PaymentIntent.
-//
-// This can be used when the cash balance for [a customer in manual reconciliation mode](docs/payments/customer-balance/reconciliation#cash-manual-reconciliation) received funds.
 type PaymentIntentApplyCustomerBalanceParams struct {
 	Params `form:"*"`
 	// Amount intended to be applied to this PaymentIntent from the customer's cash balance.
@@ -1698,20 +1700,20 @@ type PaymentIntentNextActionBoletoDisplayDetails struct {
 type PaymentIntentNextActionCardAwaitNotification struct {
 	// The time that payment will be attempted. If customer approval is required, they need to provide approval before this time.
 	ChargeAttemptAt int64 `json:"charge_attempt_at"`
-	// For payments greater than INR 5000, the customer must provide explicit approval of the payment with their bank. For payments of lower amount, no customer action is required.
+	// For payments greater than INR 15000, the customer must provide explicit approval of the payment with their bank. For payments of lower amount, no customer action is required.
 	CustomerApprovalRequired bool `json:"customer_approval_required"`
 }
 
 // Iban Records contain E.U. bank account details per the SEPA format.
-type PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressIban struct {
+type PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressIBAN struct {
 	// The name of the person or business that owns the bank account
 	AccountHolderName string `json:"account_holder_name"`
 	// The BIC/SWIFT code of the account.
-	Bic string `json:"bic"`
+	BIC string `json:"bic"`
 	// Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)).
 	Country string `json:"country"`
 	// The IBAN of the account.
-	Iban string `json:"iban"`
+	IBAN string `json:"iban"`
 }
 
 // Sort Code Records contain U.K. bank account details per the sort code format.
@@ -1755,7 +1757,7 @@ type PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressZengi
 // A list of financial addresses that can be used to fund the customer balance
 type PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddress struct {
 	// Iban Records contain E.U. bank account details per the SEPA format.
-	Iban *PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressIban `json:"iban"`
+	IBAN *PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressIBAN `json:"iban"`
 	// Sort Code Records contain U.K. bank account details per the sort code format.
 	SortCode *PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressSortCode `json:"sort_code"`
 	// SPEI Records contain Mexico bank account details per the SPEI format.
@@ -2002,6 +2004,7 @@ type PaymentIntentPaymentMethodOptionsBancontact struct {
 	// When processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).
 	SetupFutureUsage PaymentIntentPaymentMethodOptionsBancontactSetupFutureUsage `json:"setup_future_usage"`
 }
+type PaymentIntentPaymentMethodOptionsBLIK struct{}
 type PaymentIntentPaymentMethodOptionsBoleto struct {
 	// The number of calendar days before a Boleto voucher expires. For example, if you create a Boleto voucher on Monday and you set expires_after_days to 2, the Boleto voucher will expire on Wednesday at 23:59 America/Sao_Paulo time.
 	ExpiresAfterDays int64 `json:"expires_after_days"`
@@ -2067,7 +2070,7 @@ type PaymentIntentPaymentMethodOptionsCard struct {
 	// Configuration options for setting up an eMandate for cards issued in India.
 	MandateOptions *PaymentIntentPaymentMethodOptionsCardMandateOptions `json:"mandate_options"`
 	// Selected network to process this payment intent on. Depends on the available networks of the card attached to the payment intent. Can be only set confirm-time.
-	Network PaymentMethodCardNetwork `json:"network"`
+	Network *PaymentMethodCardNetwork `json:"network"`
 	// We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https://stripe.com/docs/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. Permitted values include: `automatic` or `any`. If not provided, defaults to `automatic`. Read our guide on [manually requesting 3D Secure](https://stripe.com/docs/payments/3d-secure#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
 	RequestThreeDSecure PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure `json:"request_three_d_secure"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -2081,9 +2084,6 @@ type PaymentIntentPaymentMethodOptionsCard struct {
 	// Provides information about a card payment that customers see on their statements. Concatenated with the Kanji prefix (shortened Kanji descriptor) or Kanji statement descriptor that's set on the account to form the complete statement descriptor. Maximum 17 characters. On card statements, the *concatenation* of both prefix and suffix (including separators) will appear truncated to 17 characters.
 	StatementDescriptorSuffixKanji string `json:"statement_descriptor_suffix_kanji"`
 }
-
-// PaymentIntentPaymentMethodOptionsCardPresent is the set of Card Present-specific options associated
-// with that payment intent.
 type PaymentIntentPaymentMethodOptionsCardPresent struct {
 	// Request ability to capture this payment beyond the standard [authorization validity window](https://stripe.com/docs/terminal/features/extended-authorizations#authorization-validity)
 	RequestExtendedAuthorization bool `json:"request_extended_authorization"`
@@ -2146,21 +2146,15 @@ type PaymentIntentPaymentMethodOptionsGrabpay struct {
 	// When processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).
 	SetupFutureUsage PaymentIntentPaymentMethodOptionsGrabpaySetupFutureUsage `json:"setup_future_usage"`
 }
-
-// PaymentIntentPaymentMethodOptionsIdeal is the set of Ideal-specific options associated
-// with that payment intent.
-type PaymentIntentPaymentMethodOptionsIdeal struct {
+type PaymentIntentPaymentMethodOptionsIDEAL struct {
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// Providing this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.
 	//
 	// When processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).
-	SetupFutureUsage PaymentIntentPaymentMethodOptionsIdealSetupFutureUsage `json:"setup_future_usage"`
+	SetupFutureUsage PaymentIntentPaymentMethodOptionsIDEALSetupFutureUsage `json:"setup_future_usage"`
 }
 type PaymentIntentPaymentMethodOptionsInteracPresent struct{}
-
-// PaymentIntentPaymentMethodOptionsKlarna is the set of Klarna-specific options associated
-// with that payment intent.
 type PaymentIntentPaymentMethodOptionsKlarna struct {
 	// Controls when the funds will be captured from the customer's account.
 	CaptureMethod PaymentIntentPaymentMethodOptionsKlarnaCaptureMethod `json:"capture_method"`
@@ -2211,9 +2205,6 @@ type PaymentIntentPaymentMethodOptionsOXXO struct {
 	// When processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).
 	SetupFutureUsage PaymentIntentPaymentMethodOptionsOXXOSetupFutureUsage `json:"setup_future_usage"`
 }
-
-// PaymentIntentPaymentMethodOptionsP24 is the set of P24-specific options associated
-// with that payment intent.
 type PaymentIntentPaymentMethodOptionsP24 struct {
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
@@ -2238,18 +2229,15 @@ type PaymentIntentPaymentMethodOptionsPromptPay struct {
 	// When processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).
 	SetupFutureUsage PaymentIntentPaymentMethodOptionsPromptPaySetupFutureUsage `json:"setup_future_usage"`
 }
-type PaymentIntentPaymentMethodOptionsSepaDebitMandateOptions struct{}
-
-// PaymentIntentPaymentMethodOptionsSepaDebit is the set of SEPA Debit-specific options associated
-// with that payment intent.
-type PaymentIntentPaymentMethodOptionsSepaDebit struct {
-	MandateOptions *PaymentIntentPaymentMethodOptionsSepaDebitMandateOptions `json:"mandate_options"`
+type PaymentIntentPaymentMethodOptionsSEPADebitMandateOptions struct{}
+type PaymentIntentPaymentMethodOptionsSEPADebit struct {
+	MandateOptions *PaymentIntentPaymentMethodOptionsSEPADebitMandateOptions `json:"mandate_options"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// Providing this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.
 	//
 	// When processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).
-	SetupFutureUsage PaymentIntentPaymentMethodOptionsSepaDebitSetupFutureUsage `json:"setup_future_usage"`
+	SetupFutureUsage PaymentIntentPaymentMethodOptionsSEPADebitSetupFutureUsage `json:"setup_future_usage"`
 }
 type PaymentIntentPaymentMethodOptionsSofort struct {
 	// Preferred language of the SOFORT authorization page that the customer is redirected to.
@@ -2300,6 +2288,7 @@ type PaymentIntentPaymentMethodOptions struct {
 	AUBECSDebit      *PaymentIntentPaymentMethodOptionsAUBECSDebit      `json:"au_becs_debit"`
 	BACSDebit        *PaymentIntentPaymentMethodOptionsBACSDebit        `json:"bacs_debit"`
 	Bancontact       *PaymentIntentPaymentMethodOptionsBancontact       `json:"bancontact"`
+	BLIK             *PaymentIntentPaymentMethodOptionsBLIK             `json:"blik"`
 	Boleto           *PaymentIntentPaymentMethodOptionsBoleto           `json:"boleto"`
 	Card             *PaymentIntentPaymentMethodOptionsCard             `json:"card"`
 	CardPresent      *PaymentIntentPaymentMethodOptionsCardPresent      `json:"card_present"`
@@ -2308,7 +2297,7 @@ type PaymentIntentPaymentMethodOptions struct {
 	FPX              *PaymentIntentPaymentMethodOptionsFPX              `json:"fpx"`
 	Giropay          *PaymentIntentPaymentMethodOptionsGiropay          `json:"giropay"`
 	Grabpay          *PaymentIntentPaymentMethodOptionsGrabpay          `json:"grabpay"`
-	Ideal            *PaymentIntentPaymentMethodOptionsIdeal            `json:"ideal"`
+	IDEAL            *PaymentIntentPaymentMethodOptionsIDEAL            `json:"ideal"`
 	InteracPresent   *PaymentIntentPaymentMethodOptionsInteracPresent   `json:"interac_present"`
 	Klarna           *PaymentIntentPaymentMethodOptionsKlarna           `json:"klarna"`
 	Konbini          *PaymentIntentPaymentMethodOptionsKonbini          `json:"konbini"`
@@ -2317,13 +2306,13 @@ type PaymentIntentPaymentMethodOptions struct {
 	P24              *PaymentIntentPaymentMethodOptionsP24              `json:"p24"`
 	PayNow           *PaymentIntentPaymentMethodOptionsPayNow           `json:"paynow"`
 	PromptPay        *PaymentIntentPaymentMethodOptionsPromptPay        `json:"promptpay"`
-	SepaDebit        *PaymentIntentPaymentMethodOptionsSepaDebit        `json:"sepa_debit"`
+	SEPADebit        *PaymentIntentPaymentMethodOptionsSEPADebit        `json:"sepa_debit"`
 	Sofort           *PaymentIntentPaymentMethodOptionsSofort           `json:"sofort"`
 	USBankAccount    *PaymentIntentPaymentMethodOptionsUSBankAccount    `json:"us_bank_account"`
 	WechatPay        *PaymentIntentPaymentMethodOptionsWechatPay        `json:"wechat_pay"`
 }
 type PaymentIntentProcessingCardCustomerNotification struct {
-	// Whether customer approval has been requested for this payment. For payments greater than INR 5000 or mandate amount, the customer must provide explicit approval of the payment with their bank.
+	// Whether customer approval has been requested for this payment. For payments greater than INR 15000 or mandate amount, the customer must provide explicit approval of the payment with their bank.
 	ApprovalRequested bool `json:"approval_requested"`
 	// If customer approval is required, they need to provide approval before this time.
 	CompletesAt int64 `json:"completes_at"`
@@ -2393,7 +2382,7 @@ type PaymentIntent struct {
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
 	Created int64 `json:"created"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency string `json:"currency"`
+	Currency Currency `json:"currency"`
 	// ID of the Customer this PaymentIntent belongs to, if one exists.
 	//
 	// Payment methods attached to other Customers cannot be used with this PaymentIntent.
@@ -2437,7 +2426,7 @@ type PaymentIntent struct {
 	// When processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).
 	SetupFutureUsage PaymentIntentSetupFutureUsage `json:"setup_future_usage"`
 	// Shipping information for this PaymentIntent.
-	Shipping ShippingDetails `json:"shipping"`
+	Shipping *ShippingDetails `json:"shipping"`
 	// This is a legacy field that will be removed in the future. It is the ID of the Source object that is associated with this PaymentIntent, if one was supplied.
 	Source *PaymentSource `json:"source"`
 	// For non-card charges, you can use this value as the complete description that appears on your customers' statements. Must contain at least one letter, maximum 22 characters.

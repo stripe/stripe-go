@@ -12,8 +12,6 @@ package stripe
 type LoginLinkParams struct {
 	Params  `form:"*"`
 	Account *string `form:"-"` // Included in URL
-	// Where to redirect the user after they log out of their dashboard.
-	RedirectURL *string `form:"redirect_url"`
 }
 type LoginLink struct {
 	APIResource
