@@ -1,5 +1,20 @@
 # Changelog
 
+## 72.121.0-beta.1 - 2022-07-22
+* [#1506](https://github.com/stripe/stripe-go/pull/1506) API Updates for beta branch
+  - Updated stable APIs to the latest version
+* [#1503](https://github.com/stripe/stripe-go/pull/1503) API Updates for beta branch
+  - Updated stable APIs to the latest version
+  - Add `QuotePhase` resource
+* [#1498](https://github.com/stripe/stripe-go/pull/1498) API Updates for beta branch
+  - Updated stable APIs to the latest version
+  - Add `Price.MigrateTo` property
+  - Add `SubscriptionSchedule.Amend` method.
+  - Add `Discount.SubscriptionItem` property.
+  - Add `Quote.SubscriptionData.BillingBehavior`, `BillingCycleAnchor`, `EndBehavior`, `FromSchedule`, `FromSubscription`, `Prebilling`, `ProrationBehavior` properties.
+  - Add `Phases` parameter to `Quote.Create`
+  - Add `Subscription.Discounts`, `Prebilling` properties.
+
 ## 72.120.0 - 2022-07-18
 * [#1497](https://github.com/stripe/stripe-go/pull/1497) API Updates
   * Add support for `BLIKPayments` on `AccountCapabilitiesParams` and `AccountCapabilities`
