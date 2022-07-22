@@ -12,7 +12,7 @@ func TestSourceObjectParams_AppendTo(t *testing.T) {
 	// Test to make sure that TypeData makes it to the root object level of
 	// encoding
 	{
-		params := &SourceObjectParams{
+		params := &SourceParams{
 			Type: String("source_type"),
 			TypeData: map[string]string{
 				"foo": "bar",

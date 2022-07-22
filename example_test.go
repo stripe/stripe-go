@@ -16,8 +16,8 @@ func ExampleCharge_new() {
 	params := &stripe.ChargeParams{
 		Amount:   stripe.Int64(1000),
 		Currency: stripe.String(string(stripe.CurrencyUSD)),
+		Source:   stripe.String("tok_visa"),
 	}
-	params.SetSource("tok_visa")
 	params.AddMetadata("key", "value")
 
 	ch, err := charge.New(params)

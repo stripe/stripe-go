@@ -53,15 +53,15 @@ func TestBalance_Unmarshal(t *testing.T) {
 	err = json.Unmarshal(bytes, &balance)
 	assert.NoError(t, err)
 
-	assert.Equal(t, int64(111), balance.Available[0].Value)
+	assert.Equal(t, int64(111), balance.Available[0].Amount)
 	assert.Equal(t, CurrencyUSD, balance.Available[0].Currency)
-	assert.Equal(t, int64(222), balance.Available[1].Value)
+	assert.Equal(t, int64(222), balance.Available[1].Amount)
 	assert.Equal(t, CurrencyEUR, balance.Available[1].Currency)
-	assert.Equal(t, int64(222), balance.Available[1].Value)
+	assert.Equal(t, int64(222), balance.Available[1].Amount)
 
-	assert.Equal(t, int64(333), balance.Pending[0].Value)
+	assert.Equal(t, int64(333), balance.Pending[0].Amount)
 	assert.Equal(t, CurrencyUSD, balance.Pending[0].Currency)
-	assert.Equal(t, int64(444), balance.Pending[1].Value)
+	assert.Equal(t, int64(444), balance.Pending[1].Amount)
 	assert.Equal(t, CurrencyEUR, balance.Pending[1].Currency)
 
 	// Confirm source-type deserialization works

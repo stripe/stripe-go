@@ -154,7 +154,7 @@ func TestAccount_Unmarshal(t *testing.T) {
 	assert.Equal(t, "descriptor", account.Settings.Payments.StatementDescriptor)
 	assert.Equal(t, true, account.Settings.Payouts.DebitNegativeBalances)
 	assert.Equal(t, int64(2), account.Settings.Payouts.Schedule.DelayDays)
-	assert.Equal(t, PayoutIntervalWeekly, account.Settings.Payouts.Schedule.Interval)
+	assert.Equal(t, AccountSettingsPayoutsScheduleIntervalWeekly, account.Settings.Payouts.Schedule.Interval)
 
 	assert.Equal(t, int64(1528573382), account.TOSAcceptance.Date)
 	assert.Equal(t, "127.0.0.1", account.TOSAcceptance.IP)
@@ -193,10 +193,10 @@ func TestExternalAccount_UnmarshalJSON(t *testing.T) {
 		// decode
 		data := []byte(`{"id":"ba_123", "object":"bank_account"}`)
 
-		var v ExternalAccount
+		var v AccountExternalAccounts
 		err := json.Unmarshal(data, &v)
 		assert.NoError(t, err)
-		assert.Equal(t, ExternalAccountTypeBankAccount, v.Type)
+		assert.Equal(t, AccountExternalAccountsTypeBankAccount, v.Type)
 
 		// The external account has a field for each possible type, so the
 		// bank account is located one level down
@@ -206,7 +206,7 @@ func TestExternalAccount_UnmarshalJSON(t *testing.T) {
 
 func TestPayoutScheduleParams_AppendTo(t *testing.T) {
 	{
-		params := &PayoutScheduleParams{DelayDaysMinimum: Bool(true)}
+		params := &AccountSettingsPayoutsScheduleParams{DelayDaysMinimum: Bool(true)}
 		body := &form.Values{}
 		form.AppendTo(body, params)
 		t.Logf("body = %+v", body)
