@@ -44,7 +44,7 @@ gem 'omniauth-stripe'
 gem 'rack-attack', '~> 6.6.1'
 
 # translation
-gem 'restforce', '~> 5.3.0'
+gem 'restforce', '~> 5.3.1'
 gem 'stripe', '~> 6.5.0'
 gem 'rest-client', '~> 2.1.0'
 
