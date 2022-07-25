@@ -262,7 +262,7 @@ type AccountParams struct {
 	// A card or bank account to attach to the account for receiving [payouts](https://stripe.com/docs/connect/bank-debit-card-payouts) (you won't be able to use it for top-ups). You can provide either a token, like the ones returned by [Stripe.js](https://stripe.com/docs/js), or a dictionary, as documented in the `external_account` parameter for [bank account](https://stripe.com/docs/api#account_create_bank_account) creation.
 	//
 	// By default, providing an external account sets it as the new default external account for its currency, and deletes the old default if one exists. To add additional external accounts without replacing the existing default for the currency, use the bank account or card creation API.
-	ExternalAccount *AccountExternalAccountParams `form:"external_account"`
+	ExternalAccount *AccountExternalAccountsParams `form:"external_account"`
 	// Information about the person represented by the account. This field is null unless `business_type` is set to `individual`.
 	Individual *PersonParams `form:"individual"`
 	// Options for customizing how the account functions within Stripe.
@@ -869,10 +869,10 @@ type AccountRejectParams struct {
 	Reason *string `form:"reason"`
 }
 
-// AccountExternalAccountParams are the parameters allowed to reference an
+// AccountExternalAccountsParams are the parameters allowed to reference an
 // external account when creating an account. It should either have Token set
 // or everything else.
-type AccountExternalAccountParams struct {
+type AccountExternalAccountsParams struct {
 	Params            `form:"*"`
 	AccountNumber     *string `form:"account_number"`
 	AccountHolderName *string `form:"account_holder_name"`
@@ -883,10 +883,10 @@ type AccountExternalAccountParams struct {
 	Token             *string `form:"token"`
 }
 
-// AppendTo implements custom encoding logic for AccountExternalAccountParams
+// AppendTo implements custom encoding logic for AccountExternalAccountsParams
 // so that we can send the special required `object` field up along with the
 // other specified parameters or the token value.
-func (p *AccountExternalAccountParams) AppendTo(body *form.Values, keyParts []string) {
+func (p *AccountExternalAccountsParams) AppendTo(body *form.Values, keyParts []string) {
 	if p.Token != nil {
 		body.Add(form.FormatKey(keyParts), StringValue(p.Token))
 	} else {
@@ -1335,15 +1335,15 @@ type AccountList struct {
 	Data []*Account `json:"data"`
 }
 
-// ExternalAccountList is a list of external accounts that may be either bank
+// AccountExternalAccountsList is a list of external accounts that may be either bank
 // accounts or cards.
-type ExternalAccountList struct {
+type AccountExternalAccountsList struct {
 	APIResource
 	ListMeta
 
 	// Values contains any external accounts (bank accounts and/or cards)
 	// currently attached to this account.
-	Data []*ExternalAccount `json:"data"`
+	Data []*AccountExternalAccounts `json:"data"`
 }
 
 // UnmarshalJSON handles deserialization of an Account.

@@ -1032,7 +1032,7 @@ type Invoice struct {
 	// The customer's phone number. Until the invoice is finalized, this field will equal `customer.phone`. Once the invoice is finalized, this field will no longer be updated.
 	CustomerPhone string `json:"customer_phone"`
 	// The customer's shipping information. Until the invoice is finalized, this field will equal `customer.shipping`. Once the invoice is finalized, this field will no longer be updated.
-	CustomerShipping *CustomerShippingDetails `json:"customer_shipping"`
+	CustomerShipping *ShippingDetails `json:"customer_shipping"`
 	// The customer's tax exempt status. Until the invoice is finalized, this field will equal `customer.tax_exempt`. Once the invoice is finalized, this field will no longer be updated.
 	CustomerTaxExempt *CustomerTaxExempt `json:"customer_tax_exempt"`
 	// The customer's tax IDs. Until the invoice is finalized, this field will contain the same tax IDs as `customer.tax_ids`. Once the invoice is finalized, this field will no longer be updated.

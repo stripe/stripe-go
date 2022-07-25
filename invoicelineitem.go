@@ -77,7 +77,7 @@ type InvoiceLineItem struct {
 	// The subscription item that generated this invoice item. Left empty if the line item is not an explicit result of a subscription.
 	SubscriptionItem string `json:"subscription_item"`
 	// The amount of tax calculated per tax rate for this line item
-	TaxAmounts []*InvoiceTaxAmount `json:"tax_amounts"`
+	TaxAmounts []*InvoiceTotalTaxAmount `json:"tax_amounts"`
 	// The tax rates which apply to the line item.
 	TaxRates []*TaxRate `json:"tax_rates"`
 	// A string identifying the type of the source of this line item, either an `invoiceitem` or a `subscription`.

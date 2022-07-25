@@ -29,15 +29,15 @@ type PaymentSourceListParams struct {
 	Object *string `form:"object"`
 }
 
-// SourceParams is a union struct used to describe an
+// PaymentSourceSourceParams is a union struct used to describe an
 // arbitrary payment source.
-type SourceParams struct {
+type PaymentSourceSourceParams struct {
 	Card  *CardParams `form:"-"`
 	Token *string     `form:"source"`
 }
 
-// AppendTo implements custom encoding logic for SourceParams.
-func (p *SourceParams) AppendTo(body *form.Values, keyParts []string) {
+// AppendTo implements custom encoding logic for PaymentSourceSourceParams.
+func (p *PaymentSourceSourceParams) AppendTo(body *form.Values, keyParts []string) {
 	if p.Card != nil {
 		p.Card.AppendToAsCardSourceOrExternalAccount(body, keyParts)
 	}
@@ -75,7 +75,7 @@ type PaymentSourceParams struct {
 	Name  *string                   `form:"name"`
 	Owner *PaymentSourceOwnerParams `form:"owner"`
 	// Please refer to full [documentation](https://stripe.com/docs/api) instead.
-	Source *SourceParams `form:"*"` // SourceParams has custom encoding so brought to top level with "*"
+	Source *PaymentSourceSourceParams `form:"*"` // PaymentSourceSourceParams has custom encoding so brought to top level with "*"
 }
 type PaymentSourceOwnerParams struct {
 	// Owner's address.
@@ -137,7 +137,7 @@ func (s *PaymentSource) UnmarshalJSON(data []byte) error {
 	case PaymentSourceTypeCard:
 		err = json.Unmarshal(data, &s.Card)
 	case PaymentSourceTypeSource:
-		err = json.Unmarshal(data, &s.SourceObject)
+		err = json.Unmarshal(data, &s.Source)
 	}
 
 	return err

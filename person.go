@@ -76,6 +76,42 @@ type PersonListParams struct {
 	Relationship *PersonListRelationshipParams `form:"relationship"`
 }
 
+// The Kana variation of the person's address (Japan only).
+type PersonAddressKanaParams struct {
+	// City or ward.
+	City *string `form:"city"`
+	// Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)).
+	Country *string `form:"country"`
+	// Block or building number.
+	Line1 *string `form:"line1"`
+	// Building details.
+	Line2 *string `form:"line2"`
+	// Postal code.
+	PostalCode *string `form:"postal_code"`
+	// Prefecture.
+	State *string `form:"state"`
+	// Town or cho-me.
+	Town *string `form:"town"`
+}
+
+// The Kanji variation of the person's address (Japan only).
+type PersonAddressKanjiParams struct {
+	// City or ward.
+	City *string `form:"city"`
+	// Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)).
+	Country *string `form:"country"`
+	// Block or building number.
+	Line1 *string `form:"line1"`
+	// Building details.
+	Line2 *string `form:"line2"`
+	// Postal code.
+	PostalCode *string `form:"postal_code"`
+	// Prefecture.
+	State *string `form:"state"`
+	// Town or cho-me.
+	Town *string `form:"town"`
+}
+
 // The person's date of birth.
 type PersonDOBParams struct {
 	// The day of birth, between 1 and 31.
@@ -153,9 +189,9 @@ type PersonParams struct {
 	// The person's address.
 	Address *AddressParams `form:"address"`
 	// The Kana variation of the person's address (Japan only).
-	AddressKana *AccountAddressParams `form:"address_kana"`
+	AddressKana *PersonAddressKanaParams `form:"address_kana"`
 	// The Kanji variation of the person's address (Japan only).
-	AddressKanji *AccountAddressParams `form:"address_kanji"`
+	AddressKanji *PersonAddressKanjiParams `form:"address_kanji"`
 	// The person's date of birth.
 	DOB *PersonDOBParams `form:"dob"`
 	// Documents that may be submitted to satisfy various informational requests.
