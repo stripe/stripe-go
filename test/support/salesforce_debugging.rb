@@ -26,6 +26,11 @@ module SalesforceDebugging
     stripe_class.retrieve(stripe_id, @user.stripe_credentials)
   end
 
+  # https://stackoverflow.com/questions/9742913/validating-a-salesforce-id
+  def looks_like_sf_id?(some_string)
+    some_string =~ /^([a-zA-Z0-9]{18}|[a-zA-Z0-9]{15})$/
+  end
+
   def sf_get(sf_id)
     sf_id = sf_id.
       # remove whitespace
@@ -44,7 +49,14 @@ module SalesforceDebugging
       source_object_or_id
     end
 
-    @user.sf_client.query("SELECT Id FROM #{related_object} WHERE #{source_object.sobject_type}Id = '#{source_object.Id}'").map do |o|
+    # if a custom object, `Id` is not appended
+    relationship_field = if source_object.sobject_type.end_with?('__c')
+      source_object.sobject_type
+    else
+      "#{source_object.sobject_type}Id"
+    end
+
+    @user.sf_client.query("SELECT Id FROM #{related_object} WHERE relationship_field = '#{source_object.Id}'").map do |o|
       @user.sf_client.find(related_object, o.Id)
     end
   end
@@ -80,9 +92,16 @@ module SalesforceDebugging
     end
   end
 
-  def sf_object_manager(id_or_object)
-    id_or_object = id_or_object[SF_ID] if id_or_object.is_a?(Restforce::SObject)
-    sf_type = salesforce_type_from_id(id_or_object)
+  def sf_object_manager(id_or_type_or_object)
+    if id_or_type_or_object.is_a?(Restforce::SObject)
+      id_or_type_or_object = id_or_type_or_object[SF_ID]
+    end
+
+    sf_type = if looks_like_sf_id?(id_or_type_or_object)
+      salesforce_type_from_id(id_or_type_or_object)
+    else
+      id_or_type_or_object
+    end
 
     @user_info = @user.sf_client.user_info
 

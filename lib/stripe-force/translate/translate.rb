@@ -305,7 +305,7 @@ class StripeForce::Translate
       # NOTE intentional decision here NOT to update any other subscription fields
       if is_subscription_schedule_cancelled
         # TODO should we add additional metadata here?
-        log.info 'cancelling subscription'
+        log.info 'cancelling subscription immediately'
 
         catch_stripe_api_errors(sf_order_amendment) do
           subscription_schedule.cancel(

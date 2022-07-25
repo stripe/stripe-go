@@ -5,6 +5,9 @@
 - Override will cause metadata to be added to stripe
 - Timezone handling. All date strings are converted into midnight UTC unix timestamp values.
 - we need to document this: the price is mapped to two unique objects
+- you can't contract + order from oppt, it won't generate the `SBQQ__RevisedOrderProduct__c`
+- SOQL query status conditionally not being a hard requirement
+- You cannot modify line item data in SF after it's been activated. This information will not be picked up.
 
 Next:
 

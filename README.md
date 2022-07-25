@@ -1,3 +1,7 @@
+# Installation Link
+
+https://login.salesforce.com/packaging/installPackage.apexp?p0=04t5f00000074P3
+
 # stripe-salesforce
 
 - [user documentation](https://docs.google.com/document/d/1GKfHhp0FwGHiAPxDv8AzJfnf0vJSbvF3ypMuzvhvZdw/edit#heading=h.rib60y3xmt51)
@@ -105,6 +109,8 @@ sfdx force:package:install --upgradetype DELETE -p 04t5f000000aSFv
 Each version of a package has a unique URL.
 
 ## Production Package Deployment
+
+[Here's a video walkthrough](https://drive.google.com/file/d/1Ok4Gl2rBJwy3w4AieeIa9PkWLxyK_4rP/view?usp=sharing)
 
 First, deploy the source to our [production environment](https://docs.google.com/spreadsheets/d/136PUl_U7bMW7uMSwcqujisasAJNQJIOPQimGGG7iG00/edit#gid=0). Right now, this is the subdomain `appiphonycom5-dev-ed`. This org will _not_ expire since it is tied to a production package.
 
@@ -229,12 +235,6 @@ TODO this may not be applicable anymore since we've removed the `.sfdx` folder f
 - `sfdx/sfdx-project.json` edit the `sfdcLoginUrl` to match the URL you are logging in against
 - `sfdx/.sfdx/sfdx-config.json` edit the `defaultdevhubusername` / `defaultusername` TODO confirm if this is needed
 - `sf alias:set standardcpq=mbianco+standardcpq@stripe.com` adds an entry to `~/.sfdx/alias.json`
-
-## Pulling Custom Fields
-
-sfdx force:source:retrieve -m CustomField:Order.Stripe_Transaction_ID\_\_c
-
-- "A restricted picklist's values are limited to only those values defined by a Salesforce admin, which prevents users from loading redundant or erroneous values through the API." per the SF documentation on it"
 
 # Development
 

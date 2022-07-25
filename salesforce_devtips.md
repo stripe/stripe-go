@@ -8,6 +8,7 @@
 - You can't modify most types of metadata once it is created. Be very careful when creating fields. https://developer.salesforce.com/docs/atlas.en-us.236.0.packagingGuide.meta/packagingGuide/modifying_custom_fields.htm
 - What metadata is available on the account?
 - `sfdx force:mdapi:listmetadata -m Layout` to get all layouts on an account. If you want to pull a namespaced layout: `sfdx force:source:retrieve -m "Layout:Account-SBQQ__CPQ Account Layout"`
+- Pull custom field from an account: `sfdx force:source:retrieve -m CustomField:Order.Stripe_Transaction_ID__c`
 
 ## Lighting Web Componetns
 

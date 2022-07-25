@@ -105,6 +105,7 @@ module StripeForce
       enums do
         NEW = new("New")
         AMENDMENT = new("Amendment")
+        RENEWAL = new("Renewal")
       end
     end
 
