@@ -824,8 +824,33 @@ type CheckoutSessionPaymentMethodOptionsBoletoParams struct {
 	SetupFutureUsage *string `form:"setup_future_usage"`
 }
 
+// The selected installment plan to use for this payment attempt.
+// This parameter can only be provided during confirmation.
+type CheckoutSessionPaymentMethodOptionsCardInstallmentsPlanParams struct {
+	// For `fixed_count` installment plans, this is the number of installment payments your customer will make to their credit card.
+	Count *int64 `form:"count"`
+	// For `fixed_count` installment plans, this is the interval between installment payments your customer will make to their credit card.
+	// One of `month`.
+	Interval *string `form:"interval"`
+	// Type of installment plan, one of `fixed_count`.
+	Type *string `form:"type"`
+}
+
+// Installment options for card payments
+type CheckoutSessionPaymentMethodOptionsCardInstallmentsParams struct {
+	// Setting to true enables installments for this PaymentIntent.
+	// This will cause the response to contain a list of available installment plans.
+	// Setting to false will prevent any selected plan from applying to a charge.
+	Enabled *bool `form:"enabled"`
+	// The selected installment plan to use for this payment attempt.
+	// This parameter can only be provided during confirmation.
+	Plan *CheckoutSessionPaymentMethodOptionsCardInstallmentsPlanParams `form:"plan"`
+}
+
 // contains details about the Card payment method options.
 type CheckoutSessionPaymentMethodOptionsCardParams struct {
+	// Installment options for card payments
+	Installments *CheckoutSessionPaymentMethodOptionsCardInstallmentsParams `form:"installments"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// Providing this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.
@@ -1253,7 +1278,7 @@ type CheckoutSessionParams struct {
 	CustomerUpdate *CheckoutSessionCustomerUpdateParams `form:"customer_update"`
 	// The coupon or promotion code to apply to this Session. Currently, only up to one may be specified.
 	Discounts []*CheckoutSessionDiscountParams `form:"discounts"`
-	// The Epoch time in seconds at which the Checkout Session will expire. It can be anywhere from 1 to 24 hours after Checkout Session creation. By default, this value is 24 hours from creation.
+	// The Epoch time in seconds at which the Checkout Session will expire. It can be anywhere from 30 minutes to 24 hours after Checkout Session creation. By default, this value is 24 hours from creation.
 	ExpiresAt *int64 `form:"expires_at"`
 	// A list of items the customer is purchasing. Use this parameter to pass one-time or recurring [Prices](https://stripe.com/docs/api/prices).
 	//
@@ -1469,7 +1494,12 @@ type CheckoutSessionPaymentMethodOptionsBoleto struct {
 	// When processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).
 	SetupFutureUsage CheckoutSessionPaymentMethodOptionsBoletoSetupFutureUsage `json:"setup_future_usage"`
 }
+type CheckoutSessionPaymentMethodOptionsCardInstallments struct {
+	// Indicates if installments are enabled
+	Enabled bool `json:"enabled"`
+}
 type CheckoutSessionPaymentMethodOptionsCard struct {
+	Installments *CheckoutSessionPaymentMethodOptionsCardInstallments `json:"installments"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// Providing this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.
