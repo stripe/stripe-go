@@ -69,7 +69,7 @@ func TestAccountNew(t *testing.T) {
 			},
 		},
 		Country: stripe.String("CA"),
-		ExternalAccount: &stripe.AccountExternalAccountParams{
+		ExternalAccount: &stripe.AccountExternalAccountsParams{
 			Token: stripe.String("tok_123"),
 		},
 		Settings: &stripe.AccountSettingsParams{
@@ -78,7 +78,7 @@ func TestAccountNew(t *testing.T) {
 				Logo: stripe.String("file_234"),
 			},
 			CardPayments: &stripe.AccountSettingsCardPaymentsParams{
-				DeclineOn: &stripe.AccountDeclineSettingsParams{
+				DeclineOn: &stripe.AccountSettingsCardPaymentsDeclineOnParams{
 					AVSFailure: stripe.Bool(true),
 					CVCFailure: stripe.Bool(true),
 				},
@@ -89,9 +89,9 @@ func TestAccountNew(t *testing.T) {
 			},
 			Payouts: &stripe.AccountSettingsPayoutsParams{
 				DebitNegativeBalances: stripe.Bool(true),
-				Schedule: &stripe.PayoutScheduleParams{
+				Schedule: &stripe.AccountSettingsPayoutsScheduleParams{
 					DelayDaysMinimum: stripe.Bool(true),
-					Interval:         stripe.String(string(stripe.PayoutIntervalManual)),
+					Interval:         stripe.String("manual"),
 				},
 				StatementDescriptor: stripe.String("payout_descriptor"),
 			},
@@ -104,7 +104,7 @@ func TestAccountNew(t *testing.T) {
 
 func TestAccountReject(t *testing.T) {
 	account, err := Reject("acct_123", &stripe.AccountRejectParams{
-		Reason: stripe.String(string(stripe.AccountRejectReasonFraud)),
+		Reason: stripe.String("fraud"),
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, account)
@@ -113,7 +113,7 @@ func TestAccountReject(t *testing.T) {
 func TestAccountUpdate(t *testing.T) {
 	account, err := Update("acct_123", &stripe.AccountParams{
 		Company: &stripe.AccountCompanyParams{
-			Address: &stripe.AccountAddressParams{
+			Address: &stripe.AddressParams{
 				Country:    stripe.String("CA"),
 				City:       stripe.String("Montreal"),
 				PostalCode: stripe.String("H2Y 1C6"),

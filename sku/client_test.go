@@ -36,7 +36,7 @@ func TestSKUNew(t *testing.T) {
 		Attributes: map[string]string{"attr1": "val1", "attr2": "val2"},
 		Price:      stripe.Int64(499),
 		Currency:   stripe.String(string(stripe.CurrencyUSD)),
-		Inventory: &stripe.InventoryParams{
+		Inventory: &stripe.SKUInventoryParams{
 			Type:  stripe.String(string(stripe.SKUInventoryTypeBucket)),
 			Value: stripe.String(string(stripe.SKUInventoryValueLimited)),
 		},
@@ -49,7 +49,7 @@ func TestSKUNew(t *testing.T) {
 
 func TestSKUUpdate(t *testing.T) {
 	sku, err := Update("sku_123", &stripe.SKUParams{
-		Inventory: &stripe.InventoryParams{
+		Inventory: &stripe.SKUInventoryParams{
 			Type:  stripe.String(string(stripe.SKUInventoryTypeBucket)),
 			Value: stripe.String(string(stripe.SKUInventoryValueInStock)),
 		},
