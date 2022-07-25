@@ -18,7 +18,7 @@ func TestSource_UnmarshalJSON(t *testing.T) {
 		err := json.Unmarshal(data, &v)
 		assert.NoError(t, err)
 		assert.Equal(t, "src_123", v.ID)
-		assert.Equal(t, "ach", v.Type)
+		assert.Equal(t, "ach_debit", v.Type)
 
 		assert.Equal(t, "bar", v.ACHDebit.BankName)
 	}
@@ -26,12 +26,12 @@ func TestSource_UnmarshalJSON(t *testing.T) {
 	// Test a degenerate case without a type key (this shouldn't happen, but
 	// also shouldn't crash)
 	{
-		data := []byte(`{"id":"src_123", "type":"ach"}`)
+		data := []byte(`{"id":"src_123", "type":"ach_debit"}`)
 
 		var v Source
 		err := json.Unmarshal(data, &v)
 		assert.NoError(t, err)
 		assert.Equal(t, "src_123", v.ID)
-		assert.Equal(t, "ach", v.Type)
+		assert.Equal(t, "ach_debit", v.Type)
 	}
 }

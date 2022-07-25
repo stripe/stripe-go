@@ -10,7 +10,7 @@ import (
 
 func TestSourceParams_AppendTo(t *testing.T) {
 	{
-		params := &SourceParams{Token: String("tok_123")}
+		params := &PaymentSourceSourceParams{Token: String("tok_123")}
 		body := &form.Values{}
 		form.AppendTo(body, params)
 		t.Logf("body = %+v", body)
