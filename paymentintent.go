@@ -1660,8 +1660,6 @@ type PaymentIntentVerifyMicrodepositsParams struct {
 }
 
 // Manually reconcile the remaining amount for a customer_balance PaymentIntent.
-//
-// This can be used when the cash balance for [a customer in manual reconciliation mode](docs/payments/customer-balance/reconciliation#cash-manual-reconciliation) received funds.
 type PaymentIntentApplyCustomerBalanceParams struct {
 	Params `form:"*"`
 	// Amount intended to be applied to this PaymentIntent from the customer's cash balance.

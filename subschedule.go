@@ -126,7 +126,7 @@ type SubscriptionSchedulePhaseAddInvoiceItemPriceDataParams struct {
 	UnitAmountDecimal *float64                                                         `form:"unit_amount_decimal,high_precision"`
 }
 
-// A list of prices and quantities that will generate invoice items appended to the next invoice. You may pass up to 20 items.
+// A list of prices and quantities that will generate invoice items appended to the next invoice for this phase. You may pass up to 20 items.
 type SubscriptionSchedulePhaseAddInvoiceItemParams struct {
 	// The ID of the price object.
 	Price *string `form:"price"`
@@ -162,7 +162,7 @@ type SubscriptionSchedulePhaseItemParams struct {
 
 // List representing phases of the subscription schedule. Each phase can be customized to have different durations, plans, and coupons. If there are multiple phases, the `end_date` of one phase will always equal the `start_date` of the next phase.
 type SubscriptionSchedulePhaseParams struct {
-	// A list of prices and quantities that will generate invoice items appended to the next invoice. You may pass up to 20 items.
+	// A list of prices and quantities that will generate invoice items appended to the next invoice for this phase. You may pass up to 20 items.
 	AddInvoiceItems []*SubscriptionSchedulePhaseAddInvoiceItemParams `form:"add_invoice_items"`
 	// A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice subtotal that will be transferred to the application owner's Stripe account. The request must be made by a platform account on a connected account in order to set an application fee percentage. For more information, see the application fees [documentation](https://stripe.com/docs/connect/subscriptions#collecting-fees-on-subscriptions).
 	ApplicationFeePercent *float64 `form:"application_fee_percent"`
@@ -294,7 +294,7 @@ type SubscriptionScheduleDefaultSettings struct {
 	TransferData *SubscriptionTransferData `json:"transfer_data"`
 }
 
-// A list of prices and quantities that will generate invoice items appended to the first invoice for this phase.
+// A list of prices and quantities that will generate invoice items appended to the next invoice for this phase.
 type SubscriptionSchedulePhaseAddInvoiceItem struct {
 	// ID of the price used to generate the invoice item.
 	Price *Price `json:"price"`
@@ -320,7 +320,7 @@ type SubscriptionSchedulePhaseItem struct {
 
 // Configuration for the subscription schedule's phases.
 type SubscriptionSchedulePhase struct {
-	// A list of prices and quantities that will generate invoice items appended to the first invoice for this phase.
+	// A list of prices and quantities that will generate invoice items appended to the next invoice for this phase.
 	AddInvoiceItems []*SubscriptionSchedulePhaseAddInvoiceItem `json:"add_invoice_items"`
 	// A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice subtotal that will be transferred to the application owner's Stripe account during this phase of the schedule.
 	ApplicationFeePercent float64                   `json:"application_fee_percent"`
