@@ -1,5 +1,14 @@
 # Changelog
 
+## 72.121.0 - 2022-07-25
+* [#1507](https://github.com/stripe/stripe-go/pull/1507) API Updates
+  * Add support for `Installments` on `CheckoutSessionPaymentMethodOptionsCardParams`, `CheckoutSessionPaymentMethodOptionsCard`, `InvoicePaymentSettingsPaymentMethodOptionsCardParams`, and `InvoicePaymentSettingsPaymentMethodOptionsCard`
+  * Add support for `DefaultCurrency` and `InvoiceCreditBalance` on `Customer`
+  * Add support for `Currency` on `InvoiceParams`
+  * Add support for `DefaultMandate` on `InvoicePaymentSettingsParams` and `InvoicePaymentSettings`
+  * Add support for `Mandate` on `InvoicePayParams`
+  
+
 ## 72.120.0 - 2022-07-18
 * [#1497](https://github.com/stripe/stripe-go/pull/1497) API Updates
   * Add support for `BLIKPayments` on `AccountCapabilitiesParams` and `AccountCapabilities`
