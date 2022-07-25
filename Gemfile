@@ -4,9 +4,9 @@ git_source(:github) {|repo| "https://github.com/#{repo}.git" }
 
 ruby '2.7.6'
 
-gem 'sorbet', '~> 0.5.10172', group: :development
-gem 'sorbet-runtime', '~> 0.5.10172', require: true
-gem 'sorbet-rails', '~> 0.7.33'
+gem 'sorbet', '~> 0.5.10187', group: :development
+gem 'sorbet-runtime', '~> 0.5.10187', require: true
+gem 'sorbet-rails', '~> 0.7.34'
 
 # https://github.com/ruby/irb/issues/43
 gem 'reline', '~> 0.3.1'
@@ -33,7 +33,7 @@ gem 'resque-heroku-signals', '~> 2.2.0'
 gem 'redis', '~> 4.5.1'
 
 # database
-gem 'pg', '~> 1.3.5'
+gem 'pg', '~> 1.4.1'
 gem 'sequel', '5.58.0'
 
 # auth
@@ -44,7 +44,7 @@ gem 'omniauth-stripe'
 gem 'rack-attack', '~> 6.6.1'
 
 # translation
-gem 'restforce', '~> 5.3.0'
+gem 'restforce', '~> 5.3.1'
 gem 'stripe', '~> 6.5.0'
 gem 'rest-client', '~> 2.1.0'
 
