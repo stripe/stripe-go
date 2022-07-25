@@ -31,8 +31,8 @@ func (c Client) New(params *stripe.FeeRefundParams) (*stripe.FeeRefund, error) {
 	if params == nil {
 		return nil, fmt.Errorf("params cannot be nil")
 	}
-	if params.Fee == nil {
-		return nil, fmt.Errorf("params.Fee must be set")
+	if params.ID == nil {
+		return nil, fmt.Errorf("params.ID must be set")
 	}
 	path := stripe.FormatURLPath(
 		"/v1/application_fees/%s/refunds",
