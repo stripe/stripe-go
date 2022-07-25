@@ -10,7 +10,7 @@ import (
 
 func TestAccountExternalAccountParams_AppendTo(t *testing.T) {
 	{
-		params := &AccountExternalAccountParams{}
+		params := &AccountExternalAccountsParams{}
 		body := &form.Values{}
 		form.AppendTo(body, params)
 		t.Logf("body = %+v", body)
@@ -18,7 +18,7 @@ func TestAccountExternalAccountParams_AppendTo(t *testing.T) {
 	}
 
 	{
-		params := &AccountExternalAccountParams{Token: String("tok_123")}
+		params := &AccountExternalAccountsParams{Token: String("tok_123")}
 		body := &form.Values{}
 
 		// 0-length keyParts are not allowed, so call AppendTo directly (as
