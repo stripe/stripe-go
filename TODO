@@ -8,6 +8,7 @@
 - you can't contract + order from oppt, it won't generate the `SBQQ__RevisedOrderProduct__c`
 - SOQL query status conditionally not being a hard requirement
 - You cannot modify line item data in SF after it's been activated. This information will not be picked up.
+- Sub lines with different start dates is not supported
 
 Next:
 

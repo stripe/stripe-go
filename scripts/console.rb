@@ -95,6 +95,18 @@ def limits
   sf.limits.slice(*%w{DailyApiRequests DailyAsyncApexExecutions DailyBulkApiBatches DailyFunctionsApiCallLimit DailyStreamingApiEvents})
 end
 
+# new scratch orgs come without pricebooks active, this causes issues with amendments
+def activate_pricebooks
+  @sf.query("SELECT Id, Name, IsActive FROM #{SF_PRICEBOOK}").each do |sf_pricebook|
+    next if sf_pricebook.IsActive
+
+    @sf.update!(SF_PRICEBOOK, {
+      SF_ID => sf_pricebook.Id,
+      'IsActive' => true
+    })
+  end
+end
+
 require_relative '../test/support/salesforce_debugging'
 include SalesforceDebugging
 

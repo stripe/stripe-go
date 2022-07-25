@@ -8,7 +8,7 @@
 
 set -e -o pipefail
 
-# TODO check if we are in the correct folder
+cd "$(dirname "$0")/.."
 
 if [ ! -z "$CI" ]; then
   echo "This should only be run locally"
@@ -36,6 +36,7 @@ fi
 echo "Using alias '$salesforceAlias'..."
 
 # NOTE this will not work unless .sfdx/
+# org will expire in 30d, there is no way around this
 echo "Creating scratch org..."
 sfdx force:org:create --loglevel=TRACE -f config/project-scratch-def.json -a $salesforceAlias -d 30 -w 15
 
@@ -45,10 +46,14 @@ sfdx force:package:install -r --package 04t4N000000xBcTQAU -w 30 -u $salesforceA
 sfdx force:user:password:generate -u $salesforceAlias
 sfdx force:user:display -u $salesforceAlias
 
-echo "Setup complete. Use '$salesforceAlias' for the SF org alias"
+echo "Setup complete."
 
-# TODO there's a SDFX command to do this
-# sfdx config:set defaultusername=$salesforceAlias
+if [[ $(sfdx config:get defaultusername --json | jq -r '.result[0].value') == "null" ]]; then
+  echo "No default username set, using '$salesforceAlias'"
+  sfdx config:set defaultusername=$salesforceAlias
+else
+  echo "Default username already set, skipping"
+fi
 
 sfdx config:set restDeploy=true
 sfdx force:source:push --loglevel=debug --apiversion=54.0 -u $salesforceAlias
@@ -61,20 +66,23 @@ echo "Manual step: Installed Packages > Configure > Pricing & Calculation > Auth
 echo "Manual step: Installed Packages > Configure > Pricing & Calculation > Enable Usage Based Pricing"
 echo "Manual step: Installed Packages > Configure > Subscription & Renewals > Subscription Prorate Precision: Month"
 echo "Manual step: Installed Packages > Configure > Subscription & Renewals > Contract in Foreground"
-echo '\n\n'
-sfdx force:org:open -u $salesforceAlias -p "/lightning/setup/ImportedPackage/home"
+echo $'\n\n'
+sfdx force:org:open -u $salesforceAlias -p "/lightning/setup/ImportedPackage/home" > /dev/null
 
 echo "# Connector Setup"
 echo "Manual step: Create global key. Label/Name: Default. Key: pull from env."
-echo '\n\n'
-sfdx force:org:open -u $salesforceAlias -p '/lightning/setup/CustomMetadata/page?address=%2Fm02%3Fsetupid%3DCustomMetadata'
+echo $'\n\n'
+sfdx force:org:open -u $salesforceAlias -p '/lightning/setup/CustomMetadata/page?address=%2Fm02%3Fsetupid%3DCustomMetadata' > /dev/null
 
 echo "Opening up another tab to the Stripe app"
-sfdx force:org:open -u $salesforceAlias -p '/lightning/n/Setup'
+sfdx force:org:open -u $salesforceAlias -p '/lightning/n/Setup' > /dev/null
+
+echo "All done! Remember: this scratch org will expire in 30d, so have two of these ready so your dev loop is not destroyed."
+echo "You probably want to refresh your development tokens: 'bundle exec ruby scripts/refresh-tokens.rb'"
+echo "Try playing around in a console: 'bundle exec ruby scripts/console.rb'"
 
 # TODO debug mode lwc, this looks like it cannot be setup automatically
 # TODO assign permission set CPQ license https://sf9to5.com/2020/09/08/winter-21-changes-cpq-licensing/
 # TODO make sure Stripe fields are on all layouts
-# TODO need to do page layouts
 # include example of how to delete the scratch org `sfdx force:org:delete -p -u test-motqqy6yl1qs@example.com`
-# TODO the pricebooks aren't active by default
+# TODO the pricebooks aren't active by default, debugger => activate_pricebooks

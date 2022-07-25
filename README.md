@@ -146,6 +146,8 @@ Some notes:
 - If you are adding new apex classes, JS code, remote sites, etc you need to click "add" and MANUALLY go through each category of items that you are adding and add them individually.
 - You can automatically add stuff to a package, but it is not recommended since it is very to add items you don't want, which is hard to debug (and remove!)
 - Removing something from a package is very hard. You need to (a) open up a case with SF and get them to switch the package to beta (b) deploy the latest version of the source (c) we remove the component.
+  - Partner Community cases: "View My Cases". We need to provide the reason we are reverting back to beta. Although we need to remove the actual components.
+- If something is causing an error that you deleted in your source code, you can edit the offending file to resolve whatever is causing the error. This is often easier than asking SF to move your package to beta.
 - Ensure the "old order save behavior" is NOT checked
 
 ### Production Package Release

@@ -56,7 +56,7 @@ module SalesforceDebugging
       "#{source_object.sobject_type}Id"
     end
 
-    @user.sf_client.query("SELECT Id FROM #{related_object} WHERE relationship_field = '#{source_object.Id}'").map do |o|
+    @user.sf_client.query("SELECT Id FROM #{related_object} WHERE #{relationship_field} = '#{source_object.Id}'").map do |o|
       @user.sf_client.find(related_object, o.Id)
     end
   end
