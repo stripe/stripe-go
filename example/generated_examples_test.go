@@ -739,7 +739,7 @@ func TestChargeCreate(t *testing.T) {
 	params := &stripe.ChargeParams{
 		Amount:      stripe.Int64(2000),
 		Currency:    stripe.String(string(stripe.CurrencyUSD)),
-		Source:      &stripe.SourceParams{Token: stripe.String("tok_xxxx")},
+		Source:      stripe.String("tok_xxxx"),
 		Description: stripe.String("My First Test Charge (created for API docs)"),
 	}
 	result, _ := charge.New(params)
@@ -2013,19 +2013,19 @@ func TestSKUUpdate(t *testing.T) {
 }
 
 func TestSourceRetrieve(t *testing.T) {
-	params := &stripe.SourceObjectParams{}
+	params := &stripe.SourceParams{}
 	result, _ := source.Get("src_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 }
 
 func TestSourceRetrieve2(t *testing.T) {
-	params := &stripe.SourceObjectParams{}
+	params := &stripe.SourceParams{}
 	result, _ := source.Get("src_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 }
 
 func TestSourceUpdate(t *testing.T) {
-	params := &stripe.SourceObjectParams{}
+	params := &stripe.SourceParams{}
 	params.AddMetadata("order_id", "6735")
 	result, _ := source.Update("src_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -2153,7 +2153,7 @@ func TestTerminalLocationList(t *testing.T) {
 func TestTerminalLocationCreate(t *testing.T) {
 	params := &stripe.TerminalLocationParams{
 		DisplayName: stripe.String("My First Store"),
-		Address: &stripe.AccountAddressParams{
+		Address: &stripe.AddressParams{
 			Line1:      stripe.String("1234 Main Street"),
 			City:       stripe.String("San Francisco"),
 			Country:    stripe.String("US"),
@@ -2332,7 +2332,9 @@ func TestTransferUpdate(t *testing.T) {
 }
 
 func TestTransferReversalList(t *testing.T) {
-	params := &stripe.ReversalParams{ID: stripe.String("tr_xxxxxxxxxxxxx")}
+	params := &stripe.TransferReversalListParams{
+		ID: stripe.String("tr_xxxxxxxxxxxxx"),
+	}
 	params.Limit = stripe.Int64(3)
 	result := transferreversal.List(params)
 	assert.NotNil(t, result)
@@ -2340,13 +2342,15 @@ func TestTransferReversalList(t *testing.T) {
 }
 
 func TestTransferReversalCreate(t *testing.T) {
-	params := &stripe.ReversalParams{Amount: stripe.Int64(100)}
+	params := &stripe.TransferReversalParams{Amount: stripe.Int64(100)}
 	result, _ := transferreversal.New(params)
 	assert.NotNil(t, result)
 }
 
 func TestTransferReversalUpdate(t *testing.T) {
-	params := &stripe.ReversalParams{ID: stripe.String("tr_xxxxxxxxxxxxx")}
+	params := &stripe.TransferReversalParams{
+		ID: stripe.String("tr_xxxxxxxxxxxxx"),
+	}
 	params.AddMetadata("order_id", "6735")
 	result, _ := transferreversal.Update("trr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)

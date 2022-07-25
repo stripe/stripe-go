@@ -24,19 +24,19 @@ const (
 )
 
 // All available networks for the card.
-type PaymentMethodCardNetwork string
+type PaymentMethodCardNetworksAvailable string
 
-// List of values that PaymentMethodCardNetwork can take
+// List of values that PaymentMethodCardNetworksAvailable can take
 const (
-	PaymentMethodCardNetworkAmex       PaymentMethodCardNetwork = "amex"
-	PaymentMethodCardNetworkDiners     PaymentMethodCardNetwork = "diners"
-	PaymentMethodCardNetworkDiscover   PaymentMethodCardNetwork = "discover"
-	PaymentMethodCardNetworkInterac    PaymentMethodCardNetwork = "interac"
-	PaymentMethodCardNetworkJCB        PaymentMethodCardNetwork = "jcb"
-	PaymentMethodCardNetworkMastercard PaymentMethodCardNetwork = "mastercard"
-	PaymentMethodCardNetworkUnionpay   PaymentMethodCardNetwork = "unionpay"
-	PaymentMethodCardNetworkUnknown    PaymentMethodCardNetwork = "unknown"
-	PaymentMethodCardNetworkVisa       PaymentMethodCardNetwork = "visa"
+	PaymentMethodCardNetworksAvailableAmex       PaymentMethodCardNetworksAvailable = "amex"
+	PaymentMethodCardNetworksAvailableDiners     PaymentMethodCardNetworksAvailable = "diners"
+	PaymentMethodCardNetworksAvailableDiscover   PaymentMethodCardNetworksAvailable = "discover"
+	PaymentMethodCardNetworksAvailableInterac    PaymentMethodCardNetworksAvailable = "interac"
+	PaymentMethodCardNetworksAvailableJCB        PaymentMethodCardNetworksAvailable = "jcb"
+	PaymentMethodCardNetworksAvailableMastercard PaymentMethodCardNetworksAvailable = "mastercard"
+	PaymentMethodCardNetworksAvailableUnionpay   PaymentMethodCardNetworksAvailable = "unionpay"
+	PaymentMethodCardNetworksAvailableUnknown    PaymentMethodCardNetworksAvailable = "unknown"
+	PaymentMethodCardNetworksAvailableVisa       PaymentMethodCardNetworksAvailable = "visa"
 )
 
 // The type of the card wallet, one of `amex_express_checkout`, `apple_pay`, `google_pay`, `masterpass`, `samsung_pay`, or `visa_checkout`. An additional hash is included on the Wallet subhash with a name matching this value. It contains additional information specific to the card wallet type.
@@ -163,7 +163,7 @@ type PaymentMethodBACSDebitParams struct {
 type PaymentMethodBancontactParams struct{}
 
 // Billing information associated with the PaymentMethod that may be used or required by particular types of payment methods.
-type BillingDetailsParams struct {
+type PaymentMethodBillingDetailsParams struct {
 	// Billing address.
 	Address *AddressParams `form:"address"`
 	// Email address.
@@ -320,7 +320,7 @@ type PaymentMethodParams struct {
 	// If this is a `bancontact` PaymentMethod, this hash contains details about the Bancontact payment method.
 	Bancontact *PaymentMethodBancontactParams `form:"bancontact"`
 	// Billing information associated with the PaymentMethod that may be used or required by particular types of payment methods.
-	BillingDetails *BillingDetailsParams `form:"billing_details"`
+	BillingDetails *PaymentMethodBillingDetailsParams `form:"billing_details"`
 	// This is a legacy parameter that will be removed in the future. It is a hash that does not accept any keys.
 	BLIK *PaymentMethodBLIKParams `form:"blik"`
 	// If this is a `boleto` PaymentMethod, this hash contains details about the Boleto payment method.
@@ -436,7 +436,7 @@ type PaymentMethodBACSDebit struct {
 	SortCode string `json:"sort_code"`
 }
 type PaymentMethodBancontact struct{}
-type BillingDetails struct {
+type PaymentMethodBillingDetails struct {
 	// Billing address.
 	Address *Address `json:"address"`
 	// Email address.
@@ -465,7 +465,7 @@ type PaymentMethodCardChecks struct {
 // Contains information about card networks that can be used to process the payment.
 type PaymentMethodCardNetworks struct {
 	// All available networks for the card.
-	Available []PaymentMethodCardNetwork `json:"available"`
+	Available []PaymentMethodCardNetworksAvailable `json:"available"`
 	// The preferred network for the card.
 	Preferred PaymentMethodCardNetwork `json:"preferred"`
 }
@@ -670,7 +670,7 @@ type PaymentMethod struct {
 	AUBECSDebit      *PaymentMethodAUBECSDebit      `json:"au_becs_debit"`
 	BACSDebit        *PaymentMethodBACSDebit        `json:"bacs_debit"`
 	Bancontact       *PaymentMethodBancontact       `json:"bancontact"`
-	BillingDetails   *BillingDetails                `json:"billing_details"`
+	BillingDetails   *PaymentMethodBillingDetails   `json:"billing_details"`
 	BLIK             *PaymentMethodBLIK             `json:"blik"`
 	Boleto           *PaymentMethodBoleto           `json:"boleto"`
 	Card             *PaymentMethodCard             `json:"card"`

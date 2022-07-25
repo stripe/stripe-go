@@ -4,8 +4,8 @@
 //
 //
 
-// Package sub provides the /subscriptions APIs
-package sub
+// Package subscription provides the /subscriptions APIs
+package subscription
 
 import (
 	"net/http"

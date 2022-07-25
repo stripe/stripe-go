@@ -4,8 +4,8 @@
 //
 //
 
-// Package subitem provides the /subscription_items APIs
-package subitem
+// Package subscriptionitem provides the /subscription_items APIs
+package subscriptionitem
 
 import (
 	"net/http"

@@ -102,6 +102,26 @@ type CreditNoteListParams struct {
 	Invoice *string `form:"invoice"`
 }
 
+// Line items that make up the credit note.
+type CreditNotePreviewLineParams struct {
+	// The line item amount to credit. Only valid when `type` is `invoice_line_item`.
+	Amount *int64 `form:"amount"`
+	// The description of the credit note line item. Only valid when the `type` is `custom_line_item`.
+	Description *string `form:"description"`
+	// The invoice line item to credit. Only valid when the `type` is `invoice_line_item`.
+	InvoiceLineItem *string `form:"invoice_line_item"`
+	// The line item quantity to credit.
+	Quantity *int64 `form:"quantity"`
+	// The tax rates which apply to the credit note line item. Only valid when the `type` is `custom_line_item`.
+	TaxRates []*string `form:"tax_rates"`
+	// Type of the credit note line item, one of `invoice_line_item` or `custom_line_item`
+	Type *string `form:"type"`
+	// The integer unit amount in cents (or local equivalent) of the credit note line item. This `unit_amount` will be multiplied by the quantity to get the full amount to credit for this line item. Only valid when `type` is `custom_line_item`.
+	UnitAmount *int64 `form:"unit_amount"`
+	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
+	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
+}
+
 // Get a preview of a credit note without creating it.
 type CreditNotePreviewParams struct {
 	Params `form:"*"`
@@ -112,7 +132,7 @@ type CreditNotePreviewParams struct {
 	// ID of the invoice.
 	Invoice *string `form:"invoice"`
 	// Line items that make up the credit note.
-	Lines []*CreditNoteLineParams `form:"lines"`
+	Lines []*CreditNotePreviewLineParams `form:"lines"`
 	// The credit note's memo appears on the credit note PDF.
 	Memo *string `form:"memo"`
 	// The integer amount in cents (or local equivalent) representing the amount that is credited outside of Stripe.
@@ -126,12 +146,32 @@ type CreditNotePreviewParams struct {
 }
 
 // Marks a credit note as void. Learn more about [voiding credit notes](https://stripe.com/docs/billing/invoices/credit-notes#voiding).
-type CreditNoteVoidParams struct {
+type CreditNoteVoidCreditNoteParams struct {
 	Params `form:"*"`
 }
 
+// Line items that make up the credit note.
+type CreditNotePreviewLinesLineParams struct {
+	// The line item amount to credit. Only valid when `type` is `invoice_line_item`.
+	Amount *int64 `form:"amount"`
+	// The description of the credit note line item. Only valid when the `type` is `custom_line_item`.
+	Description *string `form:"description"`
+	// The invoice line item to credit. Only valid when the `type` is `invoice_line_item`.
+	InvoiceLineItem *string `form:"invoice_line_item"`
+	// The line item quantity to credit.
+	Quantity *int64 `form:"quantity"`
+	// The tax rates which apply to the credit note line item. Only valid when the `type` is `custom_line_item`.
+	TaxRates []*string `form:"tax_rates"`
+	// Type of the credit note line item, one of `invoice_line_item` or `custom_line_item`
+	Type *string `form:"type"`
+	// The integer unit amount in cents (or local equivalent) of the credit note line item. This `unit_amount` will be multiplied by the quantity to get the full amount to credit for this line item. Only valid when `type` is `custom_line_item`.
+	UnitAmount *int64 `form:"unit_amount"`
+	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
+	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
+}
+
 // When retrieving a credit note preview, you'll get a lines property containing the first handful of those items. This URL you can retrieve the full (paginated) list of line items.
-type CreditNoteLineItemListPreviewParams struct {
+type CreditNotePreviewLinesParams struct {
 	ListParams `form:"*"`
 	// The integer amount in cents (or local equivalent) representing the total amount of the credit note.
 	Amount *int64 `form:"amount"`
@@ -140,7 +180,7 @@ type CreditNoteLineItemListPreviewParams struct {
 	// ID of the invoice.
 	Invoice *string `form:"invoice"`
 	// Line items that make up the credit note.
-	Lines []*CreditNoteLineParams `form:"lines"`
+	Lines []*CreditNotePreviewLinesLineParams `form:"lines"`
 	// The credit note's memo appears on the credit note PDF.
 	Memo *string `form:"memo"`
 	// The integer amount in cents (or local equivalent) representing the amount that is credited outside of Stripe.
@@ -154,10 +194,9 @@ type CreditNoteLineItemListPreviewParams struct {
 }
 
 // When retrieving a credit note, you'll get a lines property containing the the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of line items.
-type CreditNoteLineItemListParams struct {
+type CreditNoteListLinesParams struct {
 	ListParams `form:"*"`
-	// ID is the credit note ID to list line items for.
-	ID *string `form:"-"` // Included in URL
+	CreditNote *string `form:"-"` // Included in URL
 }
 
 // The integer amount in %s representing the total amount of discount that was credited.
