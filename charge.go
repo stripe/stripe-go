@@ -351,6 +351,24 @@ type ChargeOutcome struct {
 	// Possible values are `authorized`, `manual_review`, `issuer_declined`, `blocked`, and `invalid`. See [understanding declines](https://stripe.com/docs/declines) and [Radar reviews](https://stripe.com/docs/radar/reviews) for details.
 	Type string `json:"type"`
 }
+
+// UnmarshalJSON handles deserialization of a ChargeOutcomeRule.
+// This custom unmarshaling is needed because the resulting
+// property may be an id or the full struct if it was expanded.
+func (c *ChargeOutcomeRule) UnmarshalJSON(data []byte) error {
+	if id, ok := ParseID(data); ok {
+		c.ID = id
+		return nil
+	}
+	type chargeOutcomeRule ChargeOutcomeRule
+	var v chargeOutcomeRule
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	*c = ChargeOutcomeRule(v)
+	return nil
+}
+
 type ChargePaymentMethodDetailsACHCreditTransfer struct {
 	// Account number to transfer funds to.
 	AccountNumber string `json:"account_number"`
