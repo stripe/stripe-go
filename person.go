@@ -237,6 +237,42 @@ type PersonParams struct {
 	// The person's verification status.
 	Verification *PersonVerificationParams `form:"verification"`
 }
+
+// The Kana variation of the person's address (Japan only).
+type PersonAddressKana struct {
+	// City/Ward.
+	City string `json:"city"`
+	// Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)).
+	Country string `json:"country"`
+	// Block/Building number.
+	Line1 string `json:"line1"`
+	// Building details.
+	Line2 string `json:"line2"`
+	// ZIP or postal code.
+	PostalCode string `json:"postal_code"`
+	// Prefecture.
+	State string `json:"state"`
+	// Town/cho-me.
+	Town string `json:"town"`
+}
+
+// The Kanji variation of the person's address (Japan only).
+type PersonAddressKanji struct {
+	// City/Ward.
+	City string `json:"city"`
+	// Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)).
+	Country string `json:"country"`
+	// Block/Building number.
+	Line1 string `json:"line1"`
+	// Building details.
+	Line2 string `json:"line2"`
+	// ZIP or postal code.
+	PostalCode string `json:"postal_code"`
+	// Prefecture.
+	State string `json:"state"`
+	// Town/cho-me.
+	Town string `json:"town"`
+}
 type PersonDOB struct {
 	// The day of birth, between 1 and 31.
 	Day int64 `json:"day"`
@@ -353,9 +389,9 @@ type Person struct {
 	Account string   `json:"account"`
 	Address *Address `json:"address"`
 	// The Kana variation of the person's address (Japan only).
-	AddressKana *AccountAddress `json:"address_kana"`
+	AddressKana *PersonAddressKana `json:"address_kana"`
 	// The Kanji variation of the person's address (Japan only).
-	AddressKanji *AccountAddress `json:"address_kanji"`
+	AddressKanji *PersonAddressKanji `json:"address_kanji"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
 	Created int64      `json:"created"`
 	Deleted bool       `json:"deleted"`

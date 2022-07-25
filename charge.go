@@ -289,6 +289,16 @@ type ChargeCaptureParams struct {
 	// A string that identifies this transaction as part of a group. `transfer_group` may only be provided if it has not been set. See the [Connect documentation](https://stripe.com/docs/connect/charges-transfers#transfer-options) for details.
 	TransferGroup *string `form:"transfer_group"`
 }
+type ChargeBillingDetails struct {
+	// Billing address.
+	Address *Address `json:"address"`
+	// Email address.
+	Email string `json:"email"`
+	// Full name.
+	Name string `json:"name"`
+	// Billing phone number (including extension).
+	Phone string `json:"phone"`
+}
 
 // Information on fraud assessments for the charge.
 type ChargeFraudDetails struct {
@@ -535,7 +545,7 @@ type ChargePaymentMethodDetailsCard struct {
 	// True if this payment was marked as MOTO and out of scope for SCA.
 	MOTO bool `json:"moto"`
 	// Identifies which network this charge was processed on. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `interac`, `jcb`, `mastercard`, `unionpay`, `visa`, or `unknown`.
-	Network PaymentMethodCardNetwork `json:"network"`
+	Network PaymentMethodCardNetworksAvailable `json:"network"`
 	// Populated if this transaction used 3D Secure authentication.
 	ThreeDSecure *ChargePaymentMethodDetailsCardThreeDSecure `json:"three_d_secure"`
 	// If this Card is part of a card wallet, this contains the details of the card wallet.
@@ -601,7 +611,7 @@ type ChargePaymentMethodDetailsCardPresent struct {
 	// The last four digits of the card.
 	Last4 string `json:"last4"`
 	// Identifies which network this charge was processed on. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `interac`, `jcb`, `mastercard`, `unionpay`, `visa`, or `unknown`.
-	Network PaymentMethodCardNetwork `json:"network"`
+	Network PaymentMethodCardNetworksAvailable `json:"network"`
 	// Defines whether the authorized amount can be over-captured or not
 	OvercaptureSupported bool `json:"overcapture_supported"`
 	// How card details were read in this transaction.
@@ -920,8 +930,8 @@ type Charge struct {
 	// Authorization code on the charge.
 	AuthorizationCode string `json:"authorization_code"`
 	// ID of the balance transaction that describes the impact of this charge on your account balance (not including refunds or disputes).
-	BalanceTransaction *BalanceTransaction `json:"balance_transaction"`
-	BillingDetails     *BillingDetails     `json:"billing_details"`
+	BalanceTransaction *BalanceTransaction   `json:"balance_transaction"`
+	BillingDetails     *ChargeBillingDetails `json:"billing_details"`
 	// The full statement descriptor that is passed to card networks, and that is displayed on your customers' credit card and bank statements. Allows you to see what the statement descriptor looks like after the static and dynamic portions are combined.
 	CalculatedStatementDescriptor string `json:"calculated_statement_descriptor"`
 	// If the charge was created without capturing, this Boolean represents whether it is still uncaptured or has since been captured.

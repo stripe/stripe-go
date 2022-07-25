@@ -43,7 +43,7 @@ type SKUParams struct {
 	// Description of the SKU's inventory.
 	Inventory *SKUInventoryParams `form:"inventory"`
 	// The dimensions of this SKU for shipping purposes.
-	PackageDimensions *PackageDimensionsParams `form:"package_dimensions"`
+	PackageDimensions *SKUPackageDimensionsParams `form:"package_dimensions"`
 	// The cost of the item as a nonnegative integer in the smallest currency unit (that is, 100 cents to charge $1.00, or 100 to charge ¥100, Japanese Yen being a zero-decimal currency).
 	Price *int64 `form:"price"`
 	// The ID of the product this SKU is associated with. Must be a product with type `good`.
@@ -58,6 +58,18 @@ type SKUInventoryParams struct {
 	Type *string `form:"type"`
 	// An indicator of the inventory available. Possible values are `in_stock`, `limited`, and `out_of_stock`. Will be present if and only if `type` is `bucket`.
 	Value *string `form:"value"`
+}
+
+// The dimensions of this SKU for shipping purposes.
+type SKUPackageDimensionsParams struct {
+	// Height, in inches. Maximum precision is 2 decimal places.
+	Height *float64 `form:"height"`
+	// Length, in inches. Maximum precision is 2 decimal places.
+	Length *float64 `form:"length"`
+	// Weight, in ounces. Maximum precision is 2 decimal places.
+	Weight *float64 `form:"weight"`
+	// Width, in inches. Maximum precision is 2 decimal places.
+	Width *float64 `form:"width"`
 }
 
 // Returns a list of your SKUs. The SKUs are returned sorted by creation date, with the most recently created SKUs appearing first.
@@ -81,6 +93,18 @@ type SKUInventory struct {
 	Type SKUInventoryType `json:"type"`
 	// An indicator of the inventory available. Possible values are `in_stock`, `limited`, and `out_of_stock`. Will be present if and only if `type` is `bucket`.
 	Value SKUInventoryValue `json:"value"`
+}
+
+// The dimensions of this SKU for shipping purposes.
+type SKUPackageDimensions struct {
+	// Height, in inches.
+	Height float64 `json:"height"`
+	// Length, in inches.
+	Length float64 `json:"length"`
+	// Weight, in ounces.
+	Weight float64 `json:"weight"`
+	// Width, in inches.
+	Width float64 `json:"width"`
 }
 
 // Deprecated: Please use Orders instead: https://stripe.com/docs/api/orders_v2
@@ -113,7 +137,7 @@ type SKU struct {
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// The dimensions of this SKU for shipping purposes.
-	PackageDimensions *PackageDimensions `json:"package_dimensions"`
+	PackageDimensions *SKUPackageDimensions `json:"package_dimensions"`
 	// The cost of the item as a positive integer in the smallest currency unit (that is, 100 cents to charge $1.00, or 100 to charge ¥100, Japanese Yen being a zero-decimal currency).
 	Price int64 `json:"price"`
 	// The ID of the product this SKU is associated with. The product must be currently active.

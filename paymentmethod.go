@@ -467,7 +467,7 @@ type PaymentMethodCardNetworks struct {
 	// All available networks for the card.
 	Available []PaymentMethodCardNetworksAvailable `json:"available"`
 	// The preferred network for the card.
-	Preferred PaymentMethodCardNetwork `json:"preferred"`
+	Preferred PaymentMethodCardNetworksAvailable `json:"preferred"`
 }
 
 // Contains details on how this Card maybe be used for 3D Secure authentication.
