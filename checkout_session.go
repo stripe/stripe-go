@@ -285,18 +285,6 @@ const (
 	CheckoutSessionPaymentMethodOptionsCardSetupFutureUsageOnSession  CheckoutSessionPaymentMethodOptionsCardSetupFutureUsage = "on_session"
 )
 
-// The desired country code of the bank account information. Permitted values include: `DE`, `ES`, `FR`, `IE`, or `NL`.
-type CheckoutSessionPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferCountry string
-
-// List of values that CheckoutSessionPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferCountry can take
-const (
-	CheckoutSessionPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferCountryDE CheckoutSessionPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferCountry = "DE"
-	CheckoutSessionPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferCountryES CheckoutSessionPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferCountry = "ES"
-	CheckoutSessionPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferCountryFR CheckoutSessionPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferCountry = "FR"
-	CheckoutSessionPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferCountryIE CheckoutSessionPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferCountry = "IE"
-	CheckoutSessionPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferCountryNL CheckoutSessionPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferCountry = "NL"
-)
-
 // List of address types that should be returned in the financial_addresses response. If not specified, all valid types will be returned.
 //
 // Permitted values include: `sort_code`, `zengin`, `iban`, or `spei`.
@@ -1601,7 +1589,7 @@ type CheckoutSessionPaymentMethodOptionsCard struct {
 }
 type CheckoutSessionPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransfer struct {
 	// The desired country code of the bank account information. Permitted values include: `DE`, `ES`, `FR`, `IE`, or `NL`.
-	Country CheckoutSessionPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferCountry `json:"country"`
+	Country string `json:"country"`
 }
 type CheckoutSessionPaymentMethodOptionsCustomerBalanceBankTransfer struct {
 	EUBankTransfer *CheckoutSessionPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransfer `json:"eu_bank_transfer"`
