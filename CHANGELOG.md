@@ -1,5 +1,10 @@
 # Changelog
 
+## 72.122.0 - 2022-07-26
+* [#1508](https://github.com/stripe/stripe-go/pull/1508) API Updates
+  * Add support for new value `exempted` on enums `ChargePaymentMethodDetailsCardThreeDSecureResult` and `SetupAttemptPaymentMethodDetailsCardThreeDSecureResult`
+  * Add support for `CustomerBalance` on `CheckoutSessionPaymentMethodOptionsParams` and `CheckoutSessionPaymentMethodOptions`
+
 ## 72.121.0 - 2022-07-25
 * [#1507](https://github.com/stripe/stripe-go/pull/1507) API Updates
   * Add support for `Installments` on `CheckoutSessionPaymentMethodOptionsCardParams`, `CheckoutSessionPaymentMethodOptionsCard`, `InvoicePaymentSettingsPaymentMethodOptionsCardParams`, and `InvoicePaymentSettingsPaymentMethodOptionsCard`
