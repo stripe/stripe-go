@@ -8,6 +8,7 @@ package stripe
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/stripe/stripe-go/v72/form"
 )
 
@@ -43,6 +44,30 @@ func (p *PaymentSourceSourceParams) AppendTo(body *form.Values, keyParts []strin
 	}
 }
 
+// SourceParamsFor creates PaymentSourceSourceParams objects around supported
+// payment sources, returning errors if not.
+//
+// Currently supported payment source types are Card (CardParams) and
+// Tokens/IDs (string), where Tokens could be single use card
+// tokens
+func SourceParamsFor(obj interface{}) (*PaymentSourceSourceParams, error) {
+	var sp *PaymentSourceSourceParams
+	var err error
+	switch p := obj.(type) {
+	case *CardParams:
+		sp = &PaymentSourceSourceParams{
+			Card: p,
+		}
+	case string:
+		sp = &PaymentSourceSourceParams{
+			Token: &p,
+		}
+	default:
+		err = fmt.Errorf("Unsupported source type %s", p)
+	}
+	return sp, err
+}
+
 // When you create a new credit card, you must specify a customer or recipient on which to create it.
 //
 // If the card's owner has no default card, then the new card will become the default.
@@ -75,7 +100,8 @@ type PaymentSourceParams struct {
 	Name  *string                   `form:"name"`
 	Owner *PaymentSourceOwnerParams `form:"owner"`
 	// Please refer to full [documentation](https://stripe.com/docs/api) instead.
-	Source *PaymentSourceSourceParams `form:"*"` // PaymentSourceSourceParams has custom encoding so brought to top level with "*"
+	Source   *PaymentSourceSourceParams `form:"*"` // PaymentSourceSourceParams has custom encoding so brought to top level with "*"
+	Validate *bool                      `form:"validate"`
 }
 type PaymentSourceOwnerParams struct {
 	// Owner's address.

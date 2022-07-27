@@ -6,10 +6,7 @@
 
 package stripe
 
-import (
-	"encoding/json"
-	"github.com/stripe/stripe-go/v72/form"
-)
+import "encoding/json"
 
 // Surfaces if automatic tax computation is possible given the current customer location information.
 type CustomerTaxAutomaticTax string
@@ -121,7 +118,7 @@ type CustomerTaxParams struct {
 }
 
 // The customer's tax IDs.
-type CustomerTaxIDDatumParams struct {
+type CustomerTaxIDDataParams struct {
 	// Type of the tax ID, one of `ae_trn`, `au_abn`, `au_arn`, `bg_uic`, `br_cnpj`, `br_cpf`, `ca_bn`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `ca_qst`, `ch_vat`, `cl_tin`, `es_cif`, `eu_oss_vat`, `eu_vat`, `gb_vat`, `ge_vat`, `hk_br`, `hu_tin`, `id_npwp`, `il_vat`, `in_gst`, `is_vat`, `jp_cn`, `jp_rn`, `kr_brn`, `li_uid`, `mx_rfc`, `my_frp`, `my_itn`, `my_sst`, `no_vat`, `nz_gst`, `ru_inn`, `ru_kpp`, `sa_vat`, `sg_gst`, `sg_uen`, `si_tin`, `th_vat`, `tw_vat`, `ua_vat`, `us_ein`, or `za_vat`
 	Type *string `form:"type"`
 	// Value of the tax ID.
@@ -171,19 +168,10 @@ type CustomerParams struct {
 	// The customer's tax exemption. One of `none`, `exempt`, or `reverse`.
 	TaxExempt *string `form:"tax_exempt"`
 	// The customer's tax IDs.
-	TaxIDData []*CustomerTaxIDDatumParams `form:"tax_id_data"`
+	TaxIDData []*CustomerTaxIDDataParams `form:"tax_id_data"`
 	// ID of the test clock to attach to the customer.
 	TestClock *string `form:"test_clock"`
-	// Unix timestamp representing the end of the trial period the customer will get before being charged for the first time. This will always overwrite any trials that might apply via a subscribed plan. If set, trial_end will override the default trial period of the plan the customer is being subscribed to. The special value `now` can be provided to end the customer's trial immediately. Can be at most two years from `billing_cycle_anchor`.
-	TrialEnd    *int64 `form:"trial_end"`
-	TrialEndNow *bool  `form:"-"` // See custom AppendTo
-}
-
-// AppendTo implements custom encoding logic for CustomerParams.
-func (c *CustomerParams) AppendTo(body *form.Values, keyParts []string) {
-	if BoolValue(c.TrialEndNow) {
-		body.Add(form.FormatKey(append(keyParts, "trial_end")), "now")
-	}
+	Validate  *bool   `form:"validate"`
 }
 
 // Returns a list of PaymentMethods for a given Customer

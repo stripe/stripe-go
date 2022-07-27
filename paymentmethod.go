@@ -13,7 +13,7 @@ type PaymentMethodCardBrand string
 
 // List of values that PaymentMethodCardBrand can take
 const (
-	PaymentMethodCardBrandAmex       PaymentMethodCardBrand = "amex"
+	PaymentMethodCardBrandAmEx       PaymentMethodCardBrand = "amex"
 	PaymentMethodCardBrandDiners     PaymentMethodCardBrand = "diners"
 	PaymentMethodCardBrandDiscover   PaymentMethodCardBrand = "discover"
 	PaymentMethodCardBrandJCB        PaymentMethodCardBrand = "jcb"
@@ -23,20 +23,71 @@ const (
 	PaymentMethodCardBrandVisa       PaymentMethodCardBrand = "visa"
 )
 
+// If a address line1 was provided, results of the check, one of `pass`, `fail`, `unavailable`, or `unchecked`.
+type PaymentMethodCardChecksAddressLine1Check string
+
+// List of values that PaymentMethodCardChecksAddressLine1Check can take
+const (
+	PaymentMethodCardChecksAddressLine1CheckFail        PaymentMethodCardChecksAddressLine1Check = "fail"
+	PaymentMethodCardChecksAddressLine1CheckPass        PaymentMethodCardChecksAddressLine1Check = "pass"
+	PaymentMethodCardChecksAddressLine1CheckUnavailable PaymentMethodCardChecksAddressLine1Check = "unavailable"
+	PaymentMethodCardChecksAddressLine1CheckUnchecked   PaymentMethodCardChecksAddressLine1Check = "unchecked"
+)
+
+// If a address postal code was provided, results of the check, one of `pass`, `fail`, `unavailable`, or `unchecked`.
+type PaymentMethodCardChecksAddressPostalCodeCheck string
+
+// List of values that PaymentMethodCardChecksAddressPostalCodeCheck can take
+const (
+	PaymentMethodCardChecksAddressPostalCodeCheckFail        PaymentMethodCardChecksAddressPostalCodeCheck = "fail"
+	PaymentMethodCardChecksAddressPostalCodeCheckPass        PaymentMethodCardChecksAddressPostalCodeCheck = "pass"
+	PaymentMethodCardChecksAddressPostalCodeCheckUnavailable PaymentMethodCardChecksAddressPostalCodeCheck = "unavailable"
+	PaymentMethodCardChecksAddressPostalCodeCheckUnchecked   PaymentMethodCardChecksAddressPostalCodeCheck = "unchecked"
+)
+
+// If a CVC was provided, results of the check, one of `pass`, `fail`, `unavailable`, or `unchecked`.
+type PaymentMethodCardChecksCVCCheck string
+
+// List of values that PaymentMethodCardChecksCVCCheck can take
+const (
+	PaymentMethodCardChecksCVCCheckFail        PaymentMethodCardChecksCVCCheck = "fail"
+	PaymentMethodCardChecksCVCCheckPass        PaymentMethodCardChecksCVCCheck = "pass"
+	PaymentMethodCardChecksCVCCheckUnavailable PaymentMethodCardChecksCVCCheck = "unavailable"
+	PaymentMethodCardChecksCVCCheckUnchecked   PaymentMethodCardChecksCVCCheck = "unchecked"
+)
+
 // All available networks for the card.
 type PaymentMethodCardNetworksAvailable string
 
 // List of values that PaymentMethodCardNetworksAvailable can take
 const (
-	PaymentMethodCardNetworksAvailableAmex       PaymentMethodCardNetworksAvailable = "amex"
-	PaymentMethodCardNetworksAvailableDiners     PaymentMethodCardNetworksAvailable = "diners"
-	PaymentMethodCardNetworksAvailableDiscover   PaymentMethodCardNetworksAvailable = "discover"
-	PaymentMethodCardNetworksAvailableInterac    PaymentMethodCardNetworksAvailable = "interac"
-	PaymentMethodCardNetworksAvailableJCB        PaymentMethodCardNetworksAvailable = "jcb"
-	PaymentMethodCardNetworksAvailableMastercard PaymentMethodCardNetworksAvailable = "mastercard"
-	PaymentMethodCardNetworksAvailableUnionpay   PaymentMethodCardNetworksAvailable = "unionpay"
-	PaymentMethodCardNetworksAvailableUnknown    PaymentMethodCardNetworksAvailable = "unknown"
-	PaymentMethodCardNetworksAvailableVisa       PaymentMethodCardNetworksAvailable = "visa"
+	PaymentMethodCardNetworksAvailableAmEx            PaymentMethodCardNetworksAvailable = "amex"
+	PaymentMethodCardNetworksAvailableCartesBancaires PaymentMethodCardNetworksAvailable = "cartes_bancaires"
+	PaymentMethodCardNetworksAvailableDiners          PaymentMethodCardNetworksAvailable = "diners"
+	PaymentMethodCardNetworksAvailableDiscover        PaymentMethodCardNetworksAvailable = "discover"
+	PaymentMethodCardNetworksAvailableInterac         PaymentMethodCardNetworksAvailable = "interac"
+	PaymentMethodCardNetworksAvailableJCB             PaymentMethodCardNetworksAvailable = "jcb"
+	PaymentMethodCardNetworksAvailableMastercard      PaymentMethodCardNetworksAvailable = "mastercard"
+	PaymentMethodCardNetworksAvailableUnionpay        PaymentMethodCardNetworksAvailable = "unionpay"
+	PaymentMethodCardNetworksAvailableVisa            PaymentMethodCardNetworksAvailable = "visa"
+	PaymentMethodCardNetworksAvailableUnknown         PaymentMethodCardNetworksAvailable = "unknown"
+)
+
+// The preferred network for the card.
+type PaymentMethodCardNetworksPreferred string
+
+// List of values that PaymentMethodCardNetworksPreferred can take
+const (
+	PaymentMethodCardNetworksPreferredAmEx            PaymentMethodCardNetworksPreferred = "amex"
+	PaymentMethodCardNetworksPreferredCartesBancaires PaymentMethodCardNetworksPreferred = "cartes_bancaires"
+	PaymentMethodCardNetworksPreferredDiners          PaymentMethodCardNetworksPreferred = "diners"
+	PaymentMethodCardNetworksPreferredDiscover        PaymentMethodCardNetworksPreferred = "discover"
+	PaymentMethodCardNetworksPreferredInterac         PaymentMethodCardNetworksPreferred = "interac"
+	PaymentMethodCardNetworksPreferredJCB             PaymentMethodCardNetworksPreferred = "jcb"
+	PaymentMethodCardNetworksPreferredMastercard      PaymentMethodCardNetworksPreferred = "mastercard"
+	PaymentMethodCardNetworksPreferredUnionpay        PaymentMethodCardNetworksPreferred = "unionpay"
+	PaymentMethodCardNetworksPreferredVisa            PaymentMethodCardNetworksPreferred = "visa"
+	PaymentMethodCardNetworksPreferredUnknown         PaymentMethodCardNetworksPreferred = "unknown"
 )
 
 // The type of the card wallet, one of `amex_express_checkout`, `apple_pay`, `google_pay`, `masterpass`, `samsung_pay`, or `visa_checkout`. An additional hash is included on the Wallet subhash with a name matching this value. It contains additional information specific to the card wallet type.
@@ -44,7 +95,7 @@ type PaymentMethodCardWalletType string
 
 // List of values that PaymentMethodCardWalletType can take
 const (
-	PaymentMethodCardWalletTypeAmexExpressCheckout PaymentMethodCardWalletType = "amex_express_checkout"
+	PaymentMethodCardWalletTypeAmExExpressCheckout PaymentMethodCardWalletType = "amex_express_checkout"
 	PaymentMethodCardWalletTypeApplePay            PaymentMethodCardWalletType = "apple_pay"
 	PaymentMethodCardWalletTypeGooglePay           PaymentMethodCardWalletType = "google_pay"
 	PaymentMethodCardWalletTypeMasterpass          PaymentMethodCardWalletType = "masterpass"
@@ -455,11 +506,11 @@ type PaymentMethodBoleto struct {
 // Checks on Card address and CVC if provided.
 type PaymentMethodCardChecks struct {
 	// If a address line1 was provided, results of the check, one of `pass`, `fail`, `unavailable`, or `unchecked`.
-	AddressLine1Check string `json:"address_line1_check"`
+	AddressLine1Check PaymentMethodCardChecksAddressLine1Check `json:"address_line1_check"`
 	// If a address postal code was provided, results of the check, one of `pass`, `fail`, `unavailable`, or `unchecked`.
-	AddressPostalCodeCheck string `json:"address_postal_code_check"`
+	AddressPostalCodeCheck PaymentMethodCardChecksAddressPostalCodeCheck `json:"address_postal_code_check"`
 	// If a CVC was provided, results of the check, one of `pass`, `fail`, `unavailable`, or `unchecked`.
-	CVCCheck string `json:"cvc_check"`
+	CVCCheck PaymentMethodCardChecksCVCCheck `json:"cvc_check"`
 }
 
 // Contains information about card networks that can be used to process the payment.
@@ -467,7 +518,7 @@ type PaymentMethodCardNetworks struct {
 	// All available networks for the card.
 	Available []PaymentMethodCardNetworksAvailable `json:"available"`
 	// The preferred network for the card.
-	Preferred PaymentMethodCardNetworksAvailable `json:"preferred"`
+	Preferred PaymentMethodCardNetworksPreferred `json:"preferred"`
 }
 
 // Contains details on how this Card maybe be used for 3D Secure authentication.
@@ -475,7 +526,7 @@ type PaymentMethodCardThreeDSecureUsage struct {
 	// Whether 3D Secure is supported on this card.
 	Supported bool `json:"supported"`
 }
-type PaymentMethodCardWalletAmexExpressCheckout struct{}
+type PaymentMethodCardWalletAmExExpressCheckout struct{}
 type PaymentMethodCardWalletApplePay struct{}
 type PaymentMethodCardWalletGooglePay struct{}
 type PaymentMethodCardWalletMasterpass struct {
@@ -502,7 +553,7 @@ type PaymentMethodCardWalletVisaCheckout struct {
 
 // If this Card is part of a card wallet, this contains the details of the card wallet.
 type PaymentMethodCardWallet struct {
-	AmexExpressCheckout *PaymentMethodCardWalletAmexExpressCheckout `json:"amex_express_checkout"`
+	AmExExpressCheckout *PaymentMethodCardWalletAmExExpressCheckout `json:"amex_express_checkout"`
 	ApplePay            *PaymentMethodCardWalletApplePay            `json:"apple_pay"`
 	// (For tokenized numbers only.) The last four digits of the device account number.
 	DynamicLast4 string                             `json:"dynamic_last4"`
@@ -521,9 +572,9 @@ type PaymentMethodCard struct {
 	// Two-letter ISO code representing the country of the card. You could use this attribute to get a sense of the international breakdown of cards you've collected.
 	Country string `json:"country"`
 	// Two-digit number representing the card's expiration month.
-	ExpMonth uint8 `json:"exp_month"`
+	ExpMonth int64 `json:"exp_month"`
 	// Four-digit number representing the card's expiration year.
-	ExpYear uint16 `json:"exp_year"`
+	ExpYear int64 `json:"exp_year"`
 	// Uniquely identifies this particular card number. You can use this attribute to check whether two customers who've signed up with you are using the same card number, for example. For payment methods that tokenize card information (Apple Pay, Google Pay), the tokenized number might be provided instead of the underlying card number.
 	//
 	// *Starting May 1, 2021, card fingerprint in India for Connect will change to allow two fingerprints for the same card --- one for India and one for the rest of the world.*

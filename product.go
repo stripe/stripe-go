@@ -165,7 +165,7 @@ type ProductListParams struct {
 	Created *int64 `form:"created"`
 	// Only return products that were created during the given date interval.
 	CreatedRange *RangeQueryParams `form:"created"`
-	// Only return products with the given IDs.
+	// Only return products with the given IDs. Cannot be used with [starting_after](https://stripe.com/docs/api#list_products-starting_after) or [ending_before](https://stripe.com/docs/api#list_products-ending_before).
 	IDs []*string `form:"ids"`
 	// Only return products that can be shipped (i.e., physical, not digital products).
 	Shippable *bool `form:"shippable"`

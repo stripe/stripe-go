@@ -739,7 +739,7 @@ func TestChargeCreate(t *testing.T) {
 	params := &stripe.ChargeParams{
 		Amount:      stripe.Int64(2000),
 		Currency:    stripe.String(string(stripe.CurrencyUSD)),
-		Source:      stripe.String("tok_xxxx"),
+		Source:      &stripe.PaymentSourceSourceParams{Token: stripe.String("tok_xxxx")},
 		Description: stripe.String("My First Test Charge (created for API docs)"),
 	}
 	result, _ := charge.New(params)

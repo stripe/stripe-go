@@ -10,7 +10,7 @@ import (
 
 func TestAccountExternalAccountParams_AppendTo(t *testing.T) {
 	{
-		params := &AccountExternalAccountsParams{}
+		params := &AccountExternalAccountParams{}
 		body := &form.Values{}
 		form.AppendTo(body, params)
 		t.Logf("body = %+v", body)
@@ -18,7 +18,7 @@ func TestAccountExternalAccountParams_AppendTo(t *testing.T) {
 	}
 
 	{
-		params := &AccountExternalAccountsParams{Token: String("tok_123")}
+		params := &AccountExternalAccountParams{Token: String("tok_123")}
 		body := &form.Values{}
 
 		// 0-length keyParts are not allowed, so call AppendTo directly (as
@@ -193,10 +193,10 @@ func TestExternalAccount_UnmarshalJSON(t *testing.T) {
 		// decode
 		data := []byte(`{"id":"ba_123", "object":"bank_account"}`)
 
-		var v AccountExternalAccounts
+		var v AccountExternalAccount
 		err := json.Unmarshal(data, &v)
 		assert.NoError(t, err)
-		assert.Equal(t, AccountExternalAccountsTypeBankAccount, v.Type)
+		assert.Equal(t, AccountExternalAccountTypeBankAccount, v.Type)
 
 		// The external account has a field for each possible type, so the
 		// bank account is located one level down

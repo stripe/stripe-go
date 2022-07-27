@@ -25,6 +25,56 @@ const (
 	ChargeFraudUserReportSafe       ChargeFraudUserReport = "safe"
 )
 
+// If a address line1 was provided, results of the check, one of `pass`, `fail`, `unavailable`, or `unchecked`.
+type ChargePaymentMethodDetailsCardChecksAddressLine1Check string
+
+// List of values that ChargePaymentMethodDetailsCardChecksAddressLine1Check can take
+const (
+	ChargePaymentMethodDetailsCardChecksAddressLine1CheckFail        ChargePaymentMethodDetailsCardChecksAddressLine1Check = "fail"
+	ChargePaymentMethodDetailsCardChecksAddressLine1CheckPass        ChargePaymentMethodDetailsCardChecksAddressLine1Check = "pass"
+	ChargePaymentMethodDetailsCardChecksAddressLine1CheckUnavailable ChargePaymentMethodDetailsCardChecksAddressLine1Check = "unavailable"
+	ChargePaymentMethodDetailsCardChecksAddressLine1CheckUnchecked   ChargePaymentMethodDetailsCardChecksAddressLine1Check = "unchecked"
+)
+
+// If a address postal code was provided, results of the check, one of `pass`, `fail`, `unavailable`, or `unchecked`.
+type ChargePaymentMethodDetailsCardChecksAddressPostalCodeCheck string
+
+// List of values that ChargePaymentMethodDetailsCardChecksAddressPostalCodeCheck can take
+const (
+	ChargePaymentMethodDetailsCardChecksAddressPostalCodeCheckFail        ChargePaymentMethodDetailsCardChecksAddressPostalCodeCheck = "fail"
+	ChargePaymentMethodDetailsCardChecksAddressPostalCodeCheckPass        ChargePaymentMethodDetailsCardChecksAddressPostalCodeCheck = "pass"
+	ChargePaymentMethodDetailsCardChecksAddressPostalCodeCheckUnavailable ChargePaymentMethodDetailsCardChecksAddressPostalCodeCheck = "unavailable"
+	ChargePaymentMethodDetailsCardChecksAddressPostalCodeCheckUnchecked   ChargePaymentMethodDetailsCardChecksAddressPostalCodeCheck = "unchecked"
+)
+
+// If a CVC was provided, results of the check, one of `pass`, `fail`, `unavailable`, or `unchecked`.
+type ChargePaymentMethodDetailsCardChecksCVCCheck string
+
+// List of values that ChargePaymentMethodDetailsCardChecksCVCCheck can take
+const (
+	ChargePaymentMethodDetailsCardChecksCVCCheckFail        ChargePaymentMethodDetailsCardChecksCVCCheck = "fail"
+	ChargePaymentMethodDetailsCardChecksCVCCheckPass        ChargePaymentMethodDetailsCardChecksCVCCheck = "pass"
+	ChargePaymentMethodDetailsCardChecksCVCCheckUnavailable ChargePaymentMethodDetailsCardChecksCVCCheck = "unavailable"
+	ChargePaymentMethodDetailsCardChecksCVCCheckUnchecked   ChargePaymentMethodDetailsCardChecksCVCCheck = "unchecked"
+)
+
+// Identifies which network this charge was processed on. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `interac`, `jcb`, `mastercard`, `unionpay`, `visa`, or `unknown`.
+type ChargePaymentMethodDetailsCardNetwork string
+
+// List of values that ChargePaymentMethodDetailsCardNetwork can take
+const (
+	ChargePaymentMethodDetailsCardNetworkAmEx            ChargePaymentMethodDetailsCardNetwork = "amex"
+	ChargePaymentMethodDetailsCardNetworkCartesBancaires ChargePaymentMethodDetailsCardNetwork = "cartes_bancaires"
+	ChargePaymentMethodDetailsCardNetworkDiners          ChargePaymentMethodDetailsCardNetwork = "diners"
+	ChargePaymentMethodDetailsCardNetworkDiscover        ChargePaymentMethodDetailsCardNetwork = "discover"
+	ChargePaymentMethodDetailsCardNetworkInterac         ChargePaymentMethodDetailsCardNetwork = "interac"
+	ChargePaymentMethodDetailsCardNetworkJCB             ChargePaymentMethodDetailsCardNetwork = "jcb"
+	ChargePaymentMethodDetailsCardNetworkMastercard      ChargePaymentMethodDetailsCardNetwork = "mastercard"
+	ChargePaymentMethodDetailsCardNetworkUnionpay        ChargePaymentMethodDetailsCardNetwork = "unionpay"
+	ChargePaymentMethodDetailsCardNetworkVisa            ChargePaymentMethodDetailsCardNetwork = "visa"
+	ChargePaymentMethodDetailsCardNetworkUnknown         ChargePaymentMethodDetailsCardNetwork = "unknown"
+)
+
 // For authenticated transactions: how the customer was authenticated by
 // the issuing bank.
 type ChargePaymentMethodDetailsCardThreeDSecureAuthenticationFlow string
@@ -42,6 +92,7 @@ type ChargePaymentMethodDetailsCardThreeDSecureResult string
 const (
 	ChargePaymentMethodDetailsCardThreeDSecureResultAttemptAcknowledged ChargePaymentMethodDetailsCardThreeDSecureResult = "attempt_acknowledged"
 	ChargePaymentMethodDetailsCardThreeDSecureResultAuthenticated       ChargePaymentMethodDetailsCardThreeDSecureResult = "authenticated"
+	ChargePaymentMethodDetailsCardThreeDSecureResultExempted            ChargePaymentMethodDetailsCardThreeDSecureResult = "exempted"
 	ChargePaymentMethodDetailsCardThreeDSecureResultFailed              ChargePaymentMethodDetailsCardThreeDSecureResult = "failed"
 	ChargePaymentMethodDetailsCardThreeDSecureResultNotSupported        ChargePaymentMethodDetailsCardThreeDSecureResult = "not_supported"
 	ChargePaymentMethodDetailsCardThreeDSecureResultProcessingError     ChargePaymentMethodDetailsCardThreeDSecureResult = "processing_error"
@@ -60,6 +111,23 @@ const (
 	ChargePaymentMethodDetailsCardThreeDSecureResultReasonNetworkNotSupported ChargePaymentMethodDetailsCardThreeDSecureResultReason = "network_not_supported"
 	ChargePaymentMethodDetailsCardThreeDSecureResultReasonProtocolError       ChargePaymentMethodDetailsCardThreeDSecureResultReason = "protocol_error"
 	ChargePaymentMethodDetailsCardThreeDSecureResultReasonRejected            ChargePaymentMethodDetailsCardThreeDSecureResultReason = "rejected"
+)
+
+// Identifies which network this charge was processed on. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `interac`, `jcb`, `mastercard`, `unionpay`, `visa`, or `unknown`.
+type ChargePaymentMethodDetailsCardPresentNetwork string
+
+// List of values that ChargePaymentMethodDetailsCardPresentNetwork can take
+const (
+	ChargePaymentMethodDetailsCardPresentNetworkAmEx            ChargePaymentMethodDetailsCardPresentNetwork = "amex"
+	ChargePaymentMethodDetailsCardPresentNetworkCartesBancaires ChargePaymentMethodDetailsCardPresentNetwork = "cartes_bancaires"
+	ChargePaymentMethodDetailsCardPresentNetworkDiners          ChargePaymentMethodDetailsCardPresentNetwork = "diners"
+	ChargePaymentMethodDetailsCardPresentNetworkDiscover        ChargePaymentMethodDetailsCardPresentNetwork = "discover"
+	ChargePaymentMethodDetailsCardPresentNetworkInterac         ChargePaymentMethodDetailsCardPresentNetwork = "interac"
+	ChargePaymentMethodDetailsCardPresentNetworkJCB             ChargePaymentMethodDetailsCardPresentNetwork = "jcb"
+	ChargePaymentMethodDetailsCardPresentNetworkMastercard      ChargePaymentMethodDetailsCardPresentNetwork = "mastercard"
+	ChargePaymentMethodDetailsCardPresentNetworkUnionpay        ChargePaymentMethodDetailsCardPresentNetwork = "unionpay"
+	ChargePaymentMethodDetailsCardPresentNetworkVisa            ChargePaymentMethodDetailsCardPresentNetwork = "visa"
+	ChargePaymentMethodDetailsCardPresentNetworkUnknown         ChargePaymentMethodDetailsCardPresentNetwork = "unknown"
 )
 
 // The type of account being debited or credited
@@ -230,8 +298,9 @@ type ChargeParams struct {
 	// The ID of an existing customer that will be associated with this request. This field may only be updated if there is no existing associated customer with this charge.
 	Customer *string `form:"customer"`
 	// An arbitrary string which you can attach to a charge object. It is displayed when in the web interface alongside the charge. Note that if you use Stripe to send automatic email receipts to your customers, your receipt emails will include the `description` of the charge(s) that they are describing.
-	Description *string                  `form:"description"`
-	Destination *ChargeDestinationParams `form:"destination"`
+	Description  *string                  `form:"description"`
+	Destination  *ChargeDestinationParams `form:"destination"`
+	ExchangeRate *float64                 `form:"exchange_rate"`
 	// A set of key-value pairs you can attach to a charge giving information about its riskiness. If you believe a charge is fraudulent, include a `user_report` key with a value of `fraudulent`. If you believe a charge is safe, include a `user_report` key with a value of `safe`. Stripe will use the information you send to improve our fraud detection algorithms.
 	FraudDetails *ChargeFraudDetailsParams `form:"fraud_details"`
 	Level3       *ChargeLevel3Params       `form:"level3"`
@@ -242,9 +311,8 @@ type ChargeParams struct {
 	// This is the email address that the receipt for this charge will be sent to. If this field is updated, then a new email receipt will be sent to the updated address.
 	ReceiptEmail *string `form:"receipt_email"`
 	// Shipping information for the charge. Helps prevent fraud on charges for physical goods.
-	Shipping *ShippingDetailsParams `form:"shipping"`
-	// A payment source to be charged. This can be the ID of a [card](https://stripe.com/docs/api#cards) (i.e., credit or debit card), a [bank account](https://stripe.com/docs/api#bank_accounts), a [source](https://stripe.com/docs/api#sources), a [token](https://stripe.com/docs/api#tokens), or a [connected account](https://stripe.com/docs/connect/account-debits#charging-a-connected-account). For certain sources---namely, [cards](https://stripe.com/docs/api#cards), [bank accounts](https://stripe.com/docs/api#bank_accounts), and attached [sources](https://stripe.com/docs/api#sources)---you must also pass the ID of the associated customer.
-	Source *string `form:"source"`
+	Shipping *ShippingDetailsParams     `form:"shipping"`
+	Source   *PaymentSourceSourceParams `form:"*"` // PaymentSourceSourceParams has custom encoding so brought to top level with "*"
 	// For card charges, use `statement_descriptor_suffix` instead. Otherwise, you can use this value as the complete description of a charge on your customers' statements. Must contain at least one letter, maximum 22 characters.
 	StatementDescriptor *string `form:"statement_descriptor"`
 	// Provides information about the charge that customers see on their statements. Concatenated with the prefix (shortened descriptor) or statement descriptor that's set on the account to form the complete statement descriptor. Maximum 22 characters for the concatenated descriptor.
@@ -253,6 +321,14 @@ type ChargeParams struct {
 	TransferData *ChargeTransferDataParams `form:"transfer_data"`
 	// A string that identifies this transaction as part of a group. `transfer_group` may only be provided if it has not been set. See the [Connect documentation](https://stripe.com/docs/connect/charges-transfers#transfer-options) for details.
 	TransferGroup *string `form:"transfer_group"`
+}
+
+// SetSource adds valid sources to a ChargeParams object,
+// returning an error for unsupported sources.
+func (p *ChargeParams) SetSource(sp interface{}) error {
+	source, err := SourceParamsFor(sp)
+	p.Source = source
+	return err
 }
 
 // A set of key-value pairs you can attach to a charge giving information about its riskiness. If you believe a charge is fraudulent, include a `user_report` key with a value of `fraudulent`. If you believe a charge is safe, include a `user_report` key with a value of `safe`. Stripe will use the information you send to improve our fraud detection algorithms.
@@ -277,7 +353,8 @@ type ChargeCaptureParams struct {
 	// An application fee to add on to this charge.
 	ApplicationFee *int64 `form:"application_fee"`
 	// An application fee amount to add on to this charge, which must be less than or equal to the original amount.
-	ApplicationFeeAmount *int64 `form:"application_fee_amount"`
+	ApplicationFeeAmount *int64   `form:"application_fee_amount"`
+	ExchangeRate         *float64 `form:"exchange_rate"`
 	// The email address to send this charge's receipt to. This will override the previously-specified email address for this charge, if one was set. Receipts will not be sent in test mode.
 	ReceiptEmail *string `form:"receipt_email"`
 	// For card charges, use `statement_descriptor_suffix` instead. Otherwise, you can use this value as the complete description of a charge on your customers' statements. Must contain at least one letter, maximum 22 characters.
@@ -469,11 +546,11 @@ type ChargePaymentMethodDetailsBoleto struct {
 // Check results by Card networks on Card address and CVC at time of payment.
 type ChargePaymentMethodDetailsCardChecks struct {
 	// If a address line1 was provided, results of the check, one of `pass`, `fail`, `unavailable`, or `unchecked`.
-	AddressLine1Check string `json:"address_line1_check"`
+	AddressLine1Check ChargePaymentMethodDetailsCardChecksAddressLine1Check `json:"address_line1_check"`
 	// If a address postal code was provided, results of the check, one of `pass`, `fail`, `unavailable`, or `unchecked`.
-	AddressPostalCodeCheck string `json:"address_postal_code_check"`
+	AddressPostalCodeCheck ChargePaymentMethodDetailsCardChecksAddressPostalCodeCheck `json:"address_postal_code_check"`
 	// If a CVC was provided, results of the check, one of `pass`, `fail`, `unavailable`, or `unchecked`.
-	CVCCheck string `json:"cvc_check"`
+	CVCCheck ChargePaymentMethodDetailsCardChecksCVCCheck `json:"cvc_check"`
 }
 
 // Installment details for this payment (Mexico only).
@@ -497,7 +574,7 @@ type ChargePaymentMethodDetailsCardThreeDSecure struct {
 	// The version of 3D Secure that was used.
 	Version string `json:"version"`
 }
-type ChargePaymentMethodDetailsCardWalletAmexExpressCheckout struct{}
+type ChargePaymentMethodDetailsCardWalletAmExExpressCheckout struct{}
 type ChargePaymentMethodDetailsCardWalletApplePay struct{}
 type ChargePaymentMethodDetailsCardWalletGooglePay struct{}
 type ChargePaymentMethodDetailsCardWalletMasterpass struct {
@@ -524,7 +601,7 @@ type ChargePaymentMethodDetailsCardWalletVisaCheckout struct {
 
 // If this Card is part of a card wallet, this contains the details of the card wallet.
 type ChargePaymentMethodDetailsCardWallet struct {
-	AmexExpressCheckout *ChargePaymentMethodDetailsCardWalletAmexExpressCheckout `json:"amex_express_checkout"`
+	AmExExpressCheckout *ChargePaymentMethodDetailsCardWalletAmExExpressCheckout `json:"amex_express_checkout"`
 	ApplePay            *ChargePaymentMethodDetailsCardWalletApplePay            `json:"apple_pay"`
 	// (For tokenized numbers only.) The last four digits of the device account number.
 	DynamicLast4 string                                          `json:"dynamic_last4"`
@@ -543,9 +620,9 @@ type ChargePaymentMethodDetailsCard struct {
 	// Two-letter ISO code representing the country of the card. You could use this attribute to get a sense of the international breakdown of cards you've collected.
 	Country string `json:"country"`
 	// Two-digit number representing the card's expiration month.
-	ExpMonth uint8 `json:"exp_month"`
+	ExpMonth int64 `json:"exp_month"`
 	// Four-digit number representing the card's expiration year.
-	ExpYear uint16 `json:"exp_year"`
+	ExpYear int64 `json:"exp_year"`
 	// Uniquely identifies this particular card number. You can use this attribute to check whether two customers who've signed up with you are using the same card number, for example. For payment methods that tokenize card information (Apple Pay, Google Pay), the tokenized number might be provided instead of the underlying card number.
 	//
 	// *Starting May 1, 2021, card fingerprint in India for Connect will change to allow two fingerprints for the same card --- one for India and one for the rest of the world.*
@@ -563,7 +640,7 @@ type ChargePaymentMethodDetailsCard struct {
 	// True if this payment was marked as MOTO and out of scope for SCA.
 	MOTO bool `json:"moto"`
 	// Identifies which network this charge was processed on. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `interac`, `jcb`, `mastercard`, `unionpay`, `visa`, or `unknown`.
-	Network PaymentMethodCardNetworksAvailable `json:"network"`
+	Network ChargePaymentMethodDetailsCardNetwork `json:"network"`
 	// Populated if this transaction used 3D Secure authentication.
 	ThreeDSecure *ChargePaymentMethodDetailsCardThreeDSecure `json:"three_d_secure"`
 	// If this Card is part of a card wallet, this contains the details of the card wallet.
@@ -613,9 +690,9 @@ type ChargePaymentMethodDetailsCardPresent struct {
 	// Authorization response cryptogram.
 	EmvAuthData string `json:"emv_auth_data"`
 	// Two-digit number representing the card's expiration month.
-	ExpMonth uint8 `json:"exp_month"`
+	ExpMonth int64 `json:"exp_month"`
 	// Four-digit number representing the card's expiration year.
-	ExpYear uint16 `json:"exp_year"`
+	ExpYear int64 `json:"exp_year"`
 	// Uniquely identifies this particular card number. You can use this attribute to check whether two customers who've signed up with you are using the same card number, for example. For payment methods that tokenize card information (Apple Pay, Google Pay), the tokenized number might be provided instead of the underlying card number.
 	//
 	// *Starting May 1, 2021, card fingerprint in India for Connect will change to allow two fingerprints for the same card --- one for India and one for the rest of the world.*
@@ -629,7 +706,7 @@ type ChargePaymentMethodDetailsCardPresent struct {
 	// The last four digits of the card.
 	Last4 string `json:"last4"`
 	// Identifies which network this charge was processed on. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `interac`, `jcb`, `mastercard`, `unionpay`, `visa`, or `unknown`.
-	Network PaymentMethodCardNetworksAvailable `json:"network"`
+	Network ChargePaymentMethodDetailsCardPresentNetwork `json:"network"`
 	// Defines whether the authorized amount can be over-captured or not
 	OvercaptureSupported bool `json:"overcapture_supported"`
 	// How card details were read in this transaction.
@@ -760,7 +837,7 @@ type ChargePaymentMethodDetailsKlarna struct {
 	// Can be one of `pay_later`, `pay_now`, `pay_with_financing`, or `pay_in_installments`
 	PaymentMethodCategory ChargePaymentMethodDetailsKlarnaPaymentMethodCategory `json:"payment_method_category"`
 	// Preferred language of the Klarna authorization page that the customer is redirected to.
-	// Can be one of `de-AT`, `en-AT`, `nl-BE`, `fr-BE`, `en-BE`, `de-DE`, `en-DE`, `da-DK`, `en-DK`, `es-ES`, `en-ES`, `fi-FI`, `sv-FI`, `en-FI`, `en-GB`, `en-IE`, `it-IT`, `en-IT`, `nl-NL`, `en-NL`, `nb-NO`, `en-NO`, `sv-SE`, `en-SE`, `en-US`, `es-US`, `fr-FR`, `en-FR`, `en-AU`, or `en-NZ`
+	// Can be one of `de-AT`, `en-AT`, `nl-BE`, `fr-BE`, `en-BE`, `de-DE`, `en-DE`, `da-DK`, `en-DK`, `es-ES`, `en-ES`, `fi-FI`, `sv-FI`, `en-FI`, `en-GB`, `en-IE`, `it-IT`, `en-IT`, `nl-NL`, `en-NL`, `nb-NO`, `en-NO`, `sv-SE`, `en-SE`, `en-US`, `es-US`, `fr-FR`, `en-FR`, `en-AU`, `en-NZ`, `en-CA`, or `fr-CA`
 	PreferredLocale string `json:"preferred_locale"`
 }
 

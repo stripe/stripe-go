@@ -297,6 +297,23 @@ const (
 	PaymentIntentPaymentMethodOptionsCardMandateOptionsSupportedTypeIndia PaymentIntentPaymentMethodOptionsCardMandateOptionsSupportedType = "india"
 )
 
+// Selected network to process this payment intent on. Depends on the available networks of the card attached to the payment intent. Can be only set confirm-time.
+type PaymentIntentPaymentMethodOptionsCardNetwork string
+
+// List of values that PaymentIntentPaymentMethodOptionsCardNetwork can take
+const (
+	PaymentIntentPaymentMethodOptionsCardNetworkAmEx            PaymentIntentPaymentMethodOptionsCardNetwork = "amex"
+	PaymentIntentPaymentMethodOptionsCardNetworkCartesBancaires PaymentIntentPaymentMethodOptionsCardNetwork = "cartes_bancaires"
+	PaymentIntentPaymentMethodOptionsCardNetworkDiners          PaymentIntentPaymentMethodOptionsCardNetwork = "diners"
+	PaymentIntentPaymentMethodOptionsCardNetworkDiscover        PaymentIntentPaymentMethodOptionsCardNetwork = "discover"
+	PaymentIntentPaymentMethodOptionsCardNetworkInterac         PaymentIntentPaymentMethodOptionsCardNetwork = "interac"
+	PaymentIntentPaymentMethodOptionsCardNetworkJCB             PaymentIntentPaymentMethodOptionsCardNetwork = "jcb"
+	PaymentIntentPaymentMethodOptionsCardNetworkMastercard      PaymentIntentPaymentMethodOptionsCardNetwork = "mastercard"
+	PaymentIntentPaymentMethodOptionsCardNetworkUnionpay        PaymentIntentPaymentMethodOptionsCardNetwork = "unionpay"
+	PaymentIntentPaymentMethodOptionsCardNetworkUnknown         PaymentIntentPaymentMethodOptionsCardNetwork = "unknown"
+	PaymentIntentPaymentMethodOptionsCardNetworkVisa            PaymentIntentPaymentMethodOptionsCardNetwork = "visa"
+)
+
 // We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https://stripe.com/docs/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. Permitted values include: `automatic` or `any`. If not provided, defaults to `automatic`. Read our guide on [manually requesting 3D Secure](https://stripe.com/docs/payments/3d-secure#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
 type PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure string
 
@@ -683,7 +700,7 @@ type PaymentIntentMandateDataCustomerAcceptanceParams struct {
 	// If this is a Mandate accepted online, this hash contains details about the online acceptance.
 	Online *PaymentIntentMandateDataCustomerAcceptanceOnlineParams `form:"online"`
 	// The type of customer acceptance information included with the Mandate. One of `online` or `offline`.
-	Type *MandateCustomerAcceptanceType `form:"type"`
+	Type *string `form:"type"`
 }
 
 // This hash contains details about the Mandate to create. This parameter can only be used with [`confirm=true`](https://stripe.com/docs/api/payment_intents/create#create_payment_intent-confirm).
@@ -2082,7 +2099,7 @@ type PaymentIntentPaymentMethodOptionsCard struct {
 	// Configuration options for setting up an eMandate for cards issued in India.
 	MandateOptions *PaymentIntentPaymentMethodOptionsCardMandateOptions `json:"mandate_options"`
 	// Selected network to process this payment intent on. Depends on the available networks of the card attached to the payment intent. Can be only set confirm-time.
-	Network *PaymentMethodCardNetworksAvailable `json:"network"`
+	Network PaymentIntentPaymentMethodOptionsCardNetwork `json:"network"`
 	// We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https://stripe.com/docs/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. Permitted values include: `automatic` or `any`. If not provided, defaults to `automatic`. Read our guide on [manually requesting 3D Secure](https://stripe.com/docs/payments/3d-secure#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
 	RequestThreeDSecure PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure `json:"request_three_d_secure"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.

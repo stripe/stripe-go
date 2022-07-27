@@ -49,7 +49,7 @@ func TestChargeNew(t *testing.T) {
 	charge, err := New(&stripe.ChargeParams{
 		Amount:   stripe.Int64(11700),
 		Currency: stripe.String(string(stripe.CurrencyUSD)),
-		Source:   stripe.String("src_123"),
+		Source:   &stripe.PaymentSourceSourceParams{Token: stripe.String("src_123")},
 		Shipping: &stripe.ShippingDetailsParams{
 			Address: &stripe.AddressParams{
 				Line1: stripe.String("line1"),

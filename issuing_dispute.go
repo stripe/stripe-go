@@ -352,7 +352,7 @@ type IssuingDisputeTreasury struct {
 // Related guide: [Disputing Transactions](https://stripe.com/docs/issuing/purchases/disputes)
 type IssuingDispute struct {
 	APIResource
-	// Disputed amount. Usually the amount of the `transaction`, but can differ (usually because of currency fluctuation).
+	// Disputed amount in the card's currency and in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal). Usually the amount of the `transaction`, but can differ (usually because of currency fluctuation).
 	Amount int64 `json:"amount"`
 	// List of balance transactions associated with the dispute.
 	BalanceTransactions []*BalanceTransaction `json:"balance_transactions"`

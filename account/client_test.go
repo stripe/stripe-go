@@ -69,7 +69,7 @@ func TestAccountNew(t *testing.T) {
 			},
 		},
 		Country: stripe.String("CA"),
-		ExternalAccount: &stripe.AccountExternalAccountsParams{
+		ExternalAccount: &stripe.AccountExternalAccountParams{
 			Token: stripe.String("tok_123"),
 		},
 		Settings: &stripe.AccountSettingsParams{
@@ -91,7 +91,7 @@ func TestAccountNew(t *testing.T) {
 				DebitNegativeBalances: stripe.Bool(true),
 				Schedule: &stripe.AccountSettingsPayoutsScheduleParams{
 					DelayDaysMinimum: stripe.Bool(true),
-					Interval:         stripe.String("manual"),
+					Interval:         stripe.String(string(stripe.AccountSettingsPayoutsScheduleIntervalManual)),
 				},
 				StatementDescriptor: stripe.String("payout_descriptor"),
 			},

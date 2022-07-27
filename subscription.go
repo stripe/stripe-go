@@ -417,7 +417,8 @@ type SubscriptionParams struct {
 	// A list of up to 20 subscription items, each with an attached price.
 	Items []*SubscriptionItemsParams `form:"items"`
 	// Indicates if a customer is on or off-session while an invoice payment is attempted.
-	OffSession *bool `form:"off_session"`
+	OffSession *bool   `form:"off_session"`
+	OnBehalfOf *string `form:"on_behalf_of"`
 	// If specified, payment collection for this subscription will be paused.
 	PauseCollection *SubscriptionPauseCollectionParams `form:"pause_collection"`
 	// Use `allow_incomplete` to transition the subscription to `status=past_due` if a payment is required but cannot be paid. This allows you to manage scenarios where additional user actions are needed to pay a subscription's invoice. For example, SCA regulation may require 3DS authentication to complete payment. See the [SCA Migration Guide](https://stripe.com/docs/billing/migration/strong-customer-authentication) for Billing to learn more. This is the default behavior.
@@ -685,7 +686,8 @@ type Subscription struct {
 	// Specifies the approximate timestamp on which any pending invoice items will be billed according to the schedule provided at `pending_invoice_item_interval`.
 	NextPendingInvoiceItemInvoice int64 `json:"next_pending_invoice_item_invoice"`
 	// String representing the object's type. Objects of the same type share the same value.
-	Object string `json:"object"`
+	Object     string   `json:"object"`
+	OnBehalfOf *Account `json:"on_behalf_of"`
 	// If specified, payment collection for this subscription will be paused.
 	PauseCollection *SubscriptionPauseCollection `json:"pause_collection"`
 	// Payment settings passed on to invoices created by the subscription.

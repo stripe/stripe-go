@@ -32,106 +32,6 @@ const (
 	AccountCapabilityStatusPending  AccountCapabilityStatus = "pending"
 )
 
-// The status of the Affirm capability of the account, or whether the account can directly process Affirm charges.
-type AccountCapabilitiesAffirmPayments string
-
-// List of values that AccountCapabilitiesAffirmPayments can take
-const (
-	AccountCapabilitiesAffirmPaymentsActive   AccountCapabilitiesAffirmPayments = "active"
-	AccountCapabilitiesAffirmPaymentsInactive AccountCapabilitiesAffirmPayments = "inactive"
-	AccountCapabilitiesAffirmPaymentsPending  AccountCapabilitiesAffirmPayments = "pending"
-)
-
-// The status of the customer_balance payments capability of the account, or whether the account can directly process customer_balance charges.
-type AccountCapabilitiesBankTransferPayments string
-
-// List of values that AccountCapabilitiesBankTransferPayments can take
-const (
-	AccountCapabilitiesBankTransferPaymentsActive   AccountCapabilitiesBankTransferPayments = "active"
-	AccountCapabilitiesBankTransferPaymentsInactive AccountCapabilitiesBankTransferPayments = "inactive"
-	AccountCapabilitiesBankTransferPaymentsPending  AccountCapabilitiesBankTransferPayments = "pending"
-)
-
-// The status of the blik payments capability of the account, or whether the account can directly process blik charges.
-type AccountCapabilitiesBLIKPayments string
-
-// List of values that AccountCapabilitiesBLIKPayments can take
-const (
-	AccountCapabilitiesBLIKPaymentsActive   AccountCapabilitiesBLIKPayments = "active"
-	AccountCapabilitiesBLIKPaymentsInactive AccountCapabilitiesBLIKPayments = "inactive"
-	AccountCapabilitiesBLIKPaymentsPending  AccountCapabilitiesBLIKPayments = "pending"
-)
-
-// The status of the konbini payments capability of the account, or whether the account can directly process konbini charges.
-type AccountCapabilitiesKonbiniPayments string
-
-// List of values that AccountCapabilitiesKonbiniPayments can take
-const (
-	AccountCapabilitiesKonbiniPaymentsActive   AccountCapabilitiesKonbiniPayments = "active"
-	AccountCapabilitiesKonbiniPaymentsInactive AccountCapabilitiesKonbiniPayments = "inactive"
-	AccountCapabilitiesKonbiniPaymentsPending  AccountCapabilitiesKonbiniPayments = "pending"
-)
-
-// The status of the link_payments capability of the account, or whether the account can directly process Link charges.
-type AccountCapabilitiesLinkPayments string
-
-// List of values that AccountCapabilitiesLinkPayments can take
-const (
-	AccountCapabilitiesLinkPaymentsActive   AccountCapabilitiesLinkPayments = "active"
-	AccountCapabilitiesLinkPaymentsInactive AccountCapabilitiesLinkPayments = "inactive"
-	AccountCapabilitiesLinkPaymentsPending  AccountCapabilitiesLinkPayments = "pending"
-)
-
-// The status of the paynow payments capability of the account, or whether the account can directly process paynow charges.
-type AccountCapabilitiesPayNowPayments string
-
-// List of values that AccountCapabilitiesPayNowPayments can take
-const (
-	AccountCapabilitiesPayNowPaymentsActive   AccountCapabilitiesPayNowPayments = "active"
-	AccountCapabilitiesPayNowPaymentsInactive AccountCapabilitiesPayNowPayments = "inactive"
-	AccountCapabilitiesPayNowPaymentsPending  AccountCapabilitiesPayNowPayments = "pending"
-)
-
-// The status of the promptpay payments capability of the account, or whether the account can directly process promptpay charges.
-type AccountCapabilitiesPromptPayPayments string
-
-// List of values that AccountCapabilitiesPromptPayPayments can take
-const (
-	AccountCapabilitiesPromptPayPaymentsActive   AccountCapabilitiesPromptPayPayments = "active"
-	AccountCapabilitiesPromptPayPaymentsInactive AccountCapabilitiesPromptPayPayments = "inactive"
-	AccountCapabilitiesPromptPayPaymentsPending  AccountCapabilitiesPromptPayPayments = "pending"
-)
-
-// The status of the tax reporting 1099-MISC (US) capability of the account.
-type AccountCapabilitiesTaxReportingUS1099MISC string
-
-// List of values that AccountCapabilitiesTaxReportingUS1099MISC can take
-const (
-	AccountCapabilitiesTaxReportingUS1099MISCActive   AccountCapabilitiesTaxReportingUS1099MISC = "active"
-	AccountCapabilitiesTaxReportingUS1099MISCInactive AccountCapabilitiesTaxReportingUS1099MISC = "inactive"
-	AccountCapabilitiesTaxReportingUS1099MISCPending  AccountCapabilitiesTaxReportingUS1099MISC = "pending"
-)
-
-// The status of the banking capability, or whether the account can have bank accounts.
-type AccountCapabilitiesTreasury string
-
-// List of values that AccountCapabilitiesTreasury can take
-const (
-	AccountCapabilitiesTreasuryActive   AccountCapabilitiesTreasury = "active"
-	AccountCapabilitiesTreasuryInactive AccountCapabilitiesTreasury = "inactive"
-	AccountCapabilitiesTreasuryPending  AccountCapabilitiesTreasury = "pending"
-)
-
-// The status of the US bank account ACH payments capability of the account, or whether the account can directly process US bank account charges.
-type AccountCapabilitiesUSBankAccountACHPayments string
-
-// List of values that AccountCapabilitiesUSBankAccountACHPayments can take
-const (
-	AccountCapabilitiesUSBankAccountACHPaymentsActive   AccountCapabilitiesUSBankAccountACHPayments = "active"
-	AccountCapabilitiesUSBankAccountACHPaymentsInactive AccountCapabilitiesUSBankAccountACHPayments = "inactive"
-	AccountCapabilitiesUSBankAccountACHPaymentsPending  AccountCapabilitiesUSBankAccountACHPayments = "pending"
-)
-
 // The category identifying the legal structure of the company or legal entity. See [Business structure](https://stripe.com/docs/connect/identity-verification#business-structure) for more details.
 type AccountCompanyStructure string
 
@@ -185,12 +85,12 @@ const (
 	AccountControllerTypeApplication AccountControllerType = "application"
 )
 
-type AccountExternalAccountsType string
+type AccountExternalAccountType string
 
-// List of values that AccountExternalAccountsType can take
+// List of values that AccountExternalAccountType can take
 const (
-	AccountExternalAccountsTypeBankAccount AccountExternalAccountsType = "bank_account"
-	AccountExternalAccountsTypeCard        AccountExternalAccountsType = "card"
+	AccountExternalAccountTypeBankAccount AccountExternalAccountType = "bank_account"
+	AccountExternalAccountTypeCard        AccountExternalAccountType = "card"
 )
 
 // If the account is disabled, this string describes why. Can be `requirements.past_due`, `requirements.pending_verification`, `listed`, `platform_paused`, `rejected.fraud`, `rejected.listed`, `rejected.terms_of_service`, `rejected.other`, `under_review`, or `other`.
@@ -242,7 +142,8 @@ const (
 type AccountParams struct {
 	Params `form:"*"`
 	// An [account token](https://stripe.com/docs/api#create_account_token), used to securely provide details to the account.
-	AccountToken *string `form:"account_token"`
+	AccountToken      *string                         `form:"account_token"`
+	BACSDebitPayments *AccountBACSDebitPaymentsParams `form:"bacs_debit_payments"`
 	// Business information about the account.
 	BusinessProfile *AccountBusinessProfileParams `form:"business_profile"`
 	// The business type.
@@ -262,7 +163,7 @@ type AccountParams struct {
 	// A card or bank account to attach to the account for receiving [payouts](https://stripe.com/docs/connect/bank-debit-card-payouts) (you won't be able to use it for top-ups). You can provide either a token, like the ones returned by [Stripe.js](https://stripe.com/docs/js), or a dictionary, as documented in the `external_account` parameter for [bank account](https://stripe.com/docs/api#account_create_bank_account) creation.
 	//
 	// By default, providing an external account sets it as the new default external account for its currency, and deletes the old default if one exists. To add additional external accounts without replacing the existing default for the currency, use the bank account or card creation API.
-	ExternalAccount *AccountExternalAccountsParams `form:"external_account"`
+	ExternalAccount *AccountExternalAccountParams `form:"external_account"`
 	// Information about the person represented by the account. This field is null unless `business_type` is set to `individual`.
 	Individual *PersonParams `form:"individual"`
 	// Options for customizing how the account functions within Stripe.
@@ -852,6 +753,9 @@ type AccountTOSAcceptanceParams struct {
 	// The user agent of the browser from which the account representative accepted their service agreement.
 	UserAgent *string `form:"user_agent"`
 }
+type AccountBACSDebitPaymentsParams struct {
+	DisplayName *string `form:"display_name"`
+}
 
 // Returns a list of accounts connected to your platform via [Connect](https://stripe.com/docs/connect). If you're not a platform, the list is empty.
 type AccountListParams struct {
@@ -869,10 +773,10 @@ type AccountRejectParams struct {
 	Reason *string `form:"reason"`
 }
 
-// AccountExternalAccountsParams are the parameters allowed to reference an
+// AccountExternalAccountParams are the parameters allowed to reference an
 // external account when creating an account. It should either have Token set
 // or everything else.
-type AccountExternalAccountsParams struct {
+type AccountExternalAccountParams struct {
 	Params            `form:"*"`
 	AccountNumber     *string `form:"account_number"`
 	AccountHolderName *string `form:"account_holder_name"`
@@ -883,10 +787,10 @@ type AccountExternalAccountsParams struct {
 	Token             *string `form:"token"`
 }
 
-// AppendTo implements custom encoding logic for AccountExternalAccountsParams
+// AppendTo implements custom encoding logic for AccountExternalAccountParams
 // so that we can send the special required `object` field up along with the
 // other specified parameters or the token value.
-func (p *AccountExternalAccountsParams) AppendTo(body *form.Values, keyParts []string) {
+func (p *AccountExternalAccountParams) AppendTo(body *form.Values, keyParts []string) {
 	if p.Token != nil {
 		body.Add(form.FormatKey(keyParts), StringValue(p.Token))
 	} else {
@@ -917,7 +821,7 @@ type AccountCapabilities struct {
 	// The status of the Canadian pre-authorized debits payments capability of the account, or whether the account can directly process Canadian pre-authorized debits charges.
 	ACSSDebitPayments AccountCapabilityStatus `json:"acss_debit_payments"`
 	// The status of the Affirm capability of the account, or whether the account can directly process Affirm charges.
-	AffirmPayments AccountCapabilitiesAffirmPayments `json:"affirm_payments"`
+	AffirmPayments AccountCapabilityStatus `json:"affirm_payments"`
 	// The status of the Afterpay Clearpay capability of the account, or whether the account can directly process Afterpay Clearpay charges.
 	AfterpayClearpayPayments AccountCapabilityStatus `json:"afterpay_clearpay_payments"`
 	// The status of the BECS Direct Debit (AU) payments capability of the account, or whether the account can directly process BECS Direct Debit (AU) charges.
@@ -927,9 +831,9 @@ type AccountCapabilities struct {
 	// The status of the Bancontact payments capability of the account, or whether the account can directly process Bancontact charges.
 	BancontactPayments AccountCapabilityStatus `json:"bancontact_payments"`
 	// The status of the customer_balance payments capability of the account, or whether the account can directly process customer_balance charges.
-	BankTransferPayments AccountCapabilitiesBankTransferPayments `json:"bank_transfer_payments"`
+	BankTransferPayments AccountCapabilityStatus `json:"bank_transfer_payments"`
 	// The status of the blik payments capability of the account, or whether the account can directly process blik charges.
-	BLIKPayments AccountCapabilitiesBLIKPayments `json:"blik_payments"`
+	BLIKPayments AccountCapabilityStatus `json:"blik_payments"`
 	// The status of the boleto payments capability of the account, or whether the account can directly process boleto charges.
 	BoletoPayments AccountCapabilityStatus `json:"boleto_payments"`
 	// The status of the card issuing capability of the account, or whether you can use Issuing to distribute funds on cards
@@ -953,19 +857,19 @@ type AccountCapabilities struct {
 	// The status of the Klarna payments capability of the account, or whether the account can directly process Klarna charges.
 	KlarnaPayments AccountCapabilityStatus `json:"klarna_payments"`
 	// The status of the konbini payments capability of the account, or whether the account can directly process konbini charges.
-	KonbiniPayments AccountCapabilitiesKonbiniPayments `json:"konbini_payments"`
+	KonbiniPayments AccountCapabilityStatus `json:"konbini_payments"`
 	// The status of the legacy payments capability of the account.
 	LegacyPayments AccountCapabilityStatus `json:"legacy_payments"`
 	// The status of the link_payments capability of the account, or whether the account can directly process Link charges.
-	LinkPayments AccountCapabilitiesLinkPayments `json:"link_payments"`
+	LinkPayments AccountCapabilityStatus `json:"link_payments"`
 	// The status of the OXXO payments capability of the account, or whether the account can directly process OXXO charges.
 	OXXOPayments AccountCapabilityStatus `json:"oxxo_payments"`
 	// The status of the P24 payments capability of the account, or whether the account can directly process P24 charges.
 	P24Payments AccountCapabilityStatus `json:"p24_payments"`
 	// The status of the paynow payments capability of the account, or whether the account can directly process paynow charges.
-	PayNowPayments AccountCapabilitiesPayNowPayments `json:"paynow_payments"`
+	PayNowPayments AccountCapabilityStatus `json:"paynow_payments"`
 	// The status of the promptpay payments capability of the account, or whether the account can directly process promptpay charges.
-	PromptPayPayments AccountCapabilitiesPromptPayPayments `json:"promptpay_payments"`
+	PromptPayPayments AccountCapabilityStatus `json:"promptpay_payments"`
 	// The status of the SEPA Direct Debits payments capability of the account, or whether the account can directly process SEPA Direct Debits charges.
 	SEPADebitPayments AccountCapabilityStatus `json:"sepa_debit_payments"`
 	// The status of the Sofort payments capability of the account, or whether the account can directly process Sofort charges.
@@ -973,13 +877,13 @@ type AccountCapabilities struct {
 	// The status of the tax reporting 1099-K (US) capability of the account.
 	TaxReportingUS1099K AccountCapabilityStatus `json:"tax_reporting_us_1099_k"`
 	// The status of the tax reporting 1099-MISC (US) capability of the account.
-	TaxReportingUS1099MISC AccountCapabilitiesTaxReportingUS1099MISC `json:"tax_reporting_us_1099_misc"`
+	TaxReportingUS1099MISC AccountCapabilityStatus `json:"tax_reporting_us_1099_misc"`
 	// The status of the transfers capability of the account, or whether your platform can transfer funds to the account.
 	Transfers AccountCapabilityStatus `json:"transfers"`
 	// The status of the banking capability, or whether the account can have bank accounts.
-	Treasury AccountCapabilitiesTreasury `json:"treasury"`
+	Treasury AccountCapabilityStatus `json:"treasury"`
 	// The status of the US bank account ACH payments capability of the account, or whether the account can directly process US bank account charges.
-	USBankAccountACHPayments AccountCapabilitiesUSBankAccountACHPayments `json:"us_bank_account_ach_payments"`
+	USBankAccountACHPayments AccountCapabilityStatus `json:"us_bank_account_ach_payments"`
 }
 
 // The Kana variation of the company's primary address (Japan only).
@@ -1296,8 +1200,8 @@ type Account struct {
 	// An email address associated with the account. You can treat this as metadata: it is not used for authentication or messaging account holders.
 	Email string `json:"email"`
 	// External accounts (bank accounts and debit cards) currently attached to this account
-	ExternalAccounts   *AccountExternalAccountsList `json:"external_accounts"`
-	FutureRequirements *AccountFutureRequirements   `json:"future_requirements"`
+	ExternalAccounts   *AccountExternalAccountList `json:"external_accounts"`
+	FutureRequirements *AccountFutureRequirements  `json:"future_requirements"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// This is an object representing a person associated with a Stripe account.
@@ -1320,9 +1224,9 @@ type Account struct {
 	// The Stripe account type. Can be `standard`, `express`, or `custom`.
 	Type AccountType `json:"type"`
 }
-type AccountExternalAccounts struct {
-	ID   string                      `json:"id"`
-	Type AccountExternalAccountsType `json:"object"`
+type AccountExternalAccount struct {
+	ID   string                     `json:"id"`
+	Type AccountExternalAccountType `json:"object"`
 
 	BankAccount *BankAccount `json:"-"`
 	Card        *Card        `json:"-"`
@@ -1335,15 +1239,15 @@ type AccountList struct {
 	Data []*Account `json:"data"`
 }
 
-// AccountExternalAccountsList is a list of external accounts that may be either bank
+// AccountExternalAccountList is a list of external accounts that may be either bank
 // accounts or cards.
-type AccountExternalAccountsList struct {
+type AccountExternalAccountList struct {
 	APIResource
 	ListMeta
 
 	// Values contains any external accounts (bank accounts and/or cards)
 	// currently attached to this account.
-	Data []*AccountExternalAccounts `json:"data"`
+	Data []*AccountExternalAccount `json:"data"`
 }
 
 // UnmarshalJSON handles deserialization of an Account.
@@ -1365,28 +1269,28 @@ func (a *Account) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-// UnmarshalJSON handles deserialization of an AccountExternalAccounts.
+// UnmarshalJSON handles deserialization of an AccountExternalAccount.
 // This custom unmarshaling is needed because the specific type of
-// AccountExternalAccounts it refers to is specified in the JSON
-func (a *AccountExternalAccounts) UnmarshalJSON(data []byte) error {
+// AccountExternalAccount it refers to is specified in the JSON
+func (a *AccountExternalAccount) UnmarshalJSON(data []byte) error {
 	if id, ok := ParseID(data); ok {
 		a.ID = id
 		return nil
 	}
 
-	type accountExternalAccounts AccountExternalAccounts
-	var v accountExternalAccounts
+	type accountExternalAccount AccountExternalAccount
+	var v accountExternalAccount
 	if err := json.Unmarshal(data, &v); err != nil {
 		return err
 	}
 
-	*a = AccountExternalAccounts(v)
+	*a = AccountExternalAccount(v)
 	var err error
 
 	switch a.Type {
-	case AccountExternalAccountsTypeBankAccount:
+	case AccountExternalAccountTypeBankAccount:
 		err = json.Unmarshal(data, &a.BankAccount)
-	case AccountExternalAccountsTypeCard:
+	case AccountExternalAccountTypeCard:
 		err = json.Unmarshal(data, &a.Card)
 	}
 	return err

@@ -125,8 +125,8 @@ type API struct {
 	ApplicationFees *applicationfee.Client
 	// AppsSecrets is the client used to invoke /apps/secrets APIs.
 	AppsSecrets *appssecret.Client
-	// Balances is the client used to invoke /balance APIs.
-	Balances *balance.Client
+	// Balance is the client used to invoke /balance APIs.
+	Balance *balance.Client
 	// BalanceTransactions is the client used to invoke /balance_transactions APIs.
 	BalanceTransactions *balancetransaction.Client
 	// BankAccounts is the client used to invoke bankaccount related APIs.
@@ -336,7 +336,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.ApplePayDomains = &applepaydomain.Client{B: backends.API, Key: key}
 	a.ApplicationFees = &applicationfee.Client{B: backends.API, Key: key}
 	a.AppsSecrets = &appssecret.Client{B: backends.API, Key: key}
-	a.Balances = &balance.Client{B: backends.API, Key: key}
+	a.Balance = &balance.Client{B: backends.API, Key: key}
 	a.BalanceTransactions = &balancetransaction.Client{B: backends.API, Key: key}
 	a.BankAccounts = &bankaccount.Client{B: backends.API, Key: key}
 	a.BillingPortalConfigurations = &billingportalconfiguration.Client{B: backends.API, Key: key}
