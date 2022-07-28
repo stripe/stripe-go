@@ -45,8 +45,19 @@ module Critic
       Restforce::SObject.new({"attributes" => {"type" => "Account", "url" => "/services/data/v52.0/sobjects/Account/#{id}", "Id" => id}})
     end
 
+    def sf_randomized_id
+      random_id = SecureRandom.alphanumeric(29)
+
+      if ENV['CIRCLE_NODE_INDEX']
+        random_id = "#{random_id}#{ENV['CIRCLE_NODE_INDEX']}"
+      end
+
+      random_id
+    end
+
     def sf_randomized_name(sf_object_name)
-      "REST #{sf_object_name} #{DateTime.now}"
+      node_identifier = ENV['CIRCLE_NODE_INDEX'] || ""
+      "REST #{sf_object_name} #{node_identifier} #{DateTime.now}"
     end
 
     def create_salesforce_account(additional_fields: {})
@@ -58,14 +69,14 @@ module Critic
     def create_salesforce_contact
       contact_id = sf.create!(SF_CONTACT, {
         LastName: 'Bianco',
-        Email: "#{DateTime.now.to_i}@example.com",
+        Email: "#{sf_randomized_id}@example.com",
       })
     end
 
     def create_salesforce_opportunity(sf_account_id:, additional_fields: {})
       sf.create!(SF_OPPORTUNITY, {
         Name: sf_randomized_name(SF_OPPORTUNITY),
-        "CloseDate": DateTime.now.iso8601,
+        "CloseDate": now_time_formatted_for_salesforce,
         StageName: "Closed/Won",
         "AccountId": sf_account_id,
       }.merge(additional_fields))
@@ -101,7 +112,7 @@ module Critic
         "Name" => sf_randomized_name(SF_PRODUCT),
         'IsActive' => true,
         "Description" => "A great description",
-        'ProductCode' => "Prod#{Time.now.to_i}",
+        'ProductCode' => sf_randomized_id,
       }.merge(additional_fields))
     end
 

@@ -24,7 +24,7 @@ class Critic::ErrorContextTest < Critic::UnitTest
     refute(user.sandbox?)
 
     sf_record = create_mock_salesforce_order
-    stripe_resource = Stripe::Charge.construct_from(id: create_id(:ch))
+    stripe_resource = Stripe::Charge.construct_from(id: stripe_create_id(:ch))
     error_context.set_error_context(user: user, custom: 'unique_tag', integration_record: sf_record, stripe_resource: stripe_resource)
 
     # avoid testing configuration too deeply: if custom tags are set, the rest of the configuration should be correct as well

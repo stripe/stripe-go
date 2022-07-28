@@ -29,7 +29,7 @@ class Critic::ErrorTest < Critic::UnitTest
 
     assert(Sentry.capture_exception(
       Integrations::Errors::TranslatorError.new('bla bla bla',
-        stripe_resource: Stripe::Invoice.construct_from(id: create_id(:id)),
+        stripe_resource: Stripe::Invoice.construct_from(id: stripe_create_id(:id)),
         salesforce_object: create_mock_salesforce_order,
         metadata: {flag: "blah"},
       )
@@ -37,7 +37,7 @@ class Critic::ErrorTest < Critic::UnitTest
 
     assert(Sentry.capture_exception(
       Integrations::Errors::TranslatorError.new('bla bla bla',
-        stripe_resource: Stripe::Invoice.construct_from(id: create_id(:id)),
+        stripe_resource: Stripe::Invoice.construct_from(id: stripe_create_id(:id)),
         salesforce_object: create_mock_salesforce_order,
       )
     ))
@@ -66,7 +66,7 @@ class Critic::ErrorTest < Critic::UnitTest
 
     error_message = "great error"
     exception = Integrations::Errors::TranslatorError.new(error_message,
-      stripe_resource: Stripe::Invoice.construct_from(id: create_id(:id)),
+      stripe_resource: Stripe::Invoice.construct_from(id: stripe_create_id(:id)),
       salesforce_object: create_mock_salesforce_order
     )
 

@@ -34,6 +34,12 @@ Loud logging everywhere:
 Stripe.log_level = 'debug'; Restforce.log = true; ENV['LOG_LEVEL'] = 'debug'
 ```
 
+Or, via shell:
+
+```
+STRIPE_LOG=debug SALESFORCE_LOG=true LOG_LEVEL=DEBUG bundle exec ruby test/...
+```
+
 Include debugging tools locally. This is done automatically in dev.
 
 ```

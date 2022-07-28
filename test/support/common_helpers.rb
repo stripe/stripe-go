@@ -40,7 +40,7 @@ module CommonHelpers
       salesforce_organization_key: SecureRandom.alphanumeric(16),
 
       stripe_account_id: if random_user_id
-        create_id("acct_")
+        stripe_create_id("acct_")
       else
         ENV.fetch('STRIPE_ACCOUNT_ID')
       end
@@ -59,7 +59,7 @@ module CommonHelpers
     user
   end
 
-  def create_id(prefix)
+  def stripe_create_id(prefix)
     # NOTE: The number after the underscore has significance for Stripe's internal routing.
     #   While we don't expect these IDs to be used for real API calls, we want to ensure
     #   they don't lead to unexpected behavior if they are.

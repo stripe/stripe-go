@@ -4,8 +4,8 @@ version: 2.1
 # prevent more than a single build from running at one time
 # https://jira.corp.stripe.com/browse/REPROD-1231
 orbs:
-  ruby: circleci/ruby@1.4.0
-  browser-tools: circleci/browser-tools@1.2.4
+  ruby: circleci/ruby@1.8.0
+  browser-tools: circleci/browser-tools@1.4.0
   # https://circleci.com/developer/orbs/orb/circleci/salesforce-apex#commands-test
   sfdx: circleci/salesforce-sfdx@2.2.0
   jq: circleci/jq@2.2.0
@@ -19,9 +19,10 @@ workflows:
           # 6hrs is an insane value, but it's better than waking up to a bunch of
           # broken builds that you need to re-run
           time: "1440"
-      - build:
-          matrix:
+      - clean_salesforce:
+          matrix: &ruby_test_accounts
             parameters:
+              # # https://docs.google.com/spreadsheets/d/136PUl_U7bMW7uMSwcqujisasAJNQJIOPQimGGG7iG00/edit#gid=0
               account:
                 - mbianco+standardcpq@stripe.com
                 - mbianco+cpqpackage@stripe.com
@@ -32,6 +33,11 @@ workflows:
             - block_workflow
             - typecheck
             - salesforce
+      - build:
+          matrix: *ruby_test_accounts
+
+          requires:
+            - clean_salesforce
       - typecheck
       - rubocop
       - salesforce:
@@ -66,6 +72,7 @@ jobs:
       - checkout
       - ruby/install-deps
       - run: bundle exec srb tc
+
   rubocop:
     docker:
       - image: cimg/ruby:2.7.6
@@ -73,6 +80,7 @@ jobs:
       - checkout
       - ruby/install-deps
       - run: bundle exec rubocop
+
   salesforce:
     parameters:
       account:
@@ -87,7 +95,8 @@ jobs:
     steps:
       - checkout
       - sfdx/install:
-          version: '7.159.0'
+          # TODO should be shared variable
+          version: '7.160.0'
       - run: sfdx/bin/run-tests <<parameters.account>>
       - store_test_results:
           path: sfdx/test-results
@@ -95,8 +104,35 @@ jobs:
           destination: apex-test-results
           path: sfdx/test-results
 
+  clean_salesforce:
+    parameters:
+      account:
+        type: string
+    executor: sfdx/default
+    environment:
+      # TODO can we share this across jobs?
+      SF_JWT_PRIVATE_KEY_PATH: /home/circleci/project/private.key
+    steps:
+      - checkout
+      - sfdx/install:
+          # TODO should be shared variable
+          version: '7.160.0'
+      - run:
+          name: Delete Salesforce Test Data
+          command: |
+            ./sfdx/bin/extract-private-key
+
+            source ./sfdx/bin/run-tests-helpers
+
+            cd sfdx
+
+            authorizeSalesforceAccount <<parameters.account>>
+
+            # this only needs to be done once for all parallel builds, which is why we have a separate job we are using here
+            deleteTestData <<parameters.account>>
+
   build:
-    parallelism: 1
+    parallelism: 10
     parameters:
       account:
         type: string
@@ -134,10 +170,11 @@ jobs:
       - browser-tools/install-chrome
       - browser-tools/install-chromedriver
       - checkout
-      - sfdx/install
+      - sfdx/install:
+          version: '7.160.0'
       - jq/install
       - ruby/install-deps:
-          bundler-version: 2.2.29
+          bundler-version: 2.3.9
       - run:
           command: mkdir -p $CIRCLE_ARTIFACTS $CIRCLE_TEST_REPORTS
 
@@ -158,6 +195,7 @@ jobs:
           name: Database Migration
           command: |
             bundle exec ruby db/migration.rb
+            # TODO our current migration script is hacky and needs to be reworked to be a standard migration
             # bundle exec sequel -m migrations $TEST_DATABASE_URL
 
       - run:
@@ -173,9 +211,6 @@ jobs:
 
             # for debugging purposes
             sfdx auth:list --json
-
-            echo "Deleting all test data..."
-            sfdx force:apex:execute -f sfdx/bin/delete_test_record_data.apex -u $SF_USERNAME
 
             export SF_INSTANCE_DOMAIN=$(sfdx auth:list --json | jq '.result[] | select(.username=="'$SF_USERNAME'").instanceUrl' | perl -nle 'm/https:\/\/(.*)\.my.salesforce.com/; print $1')
             export SF_INSTANCE_ID=$(sfdx auth:list --json | jq '.result[] | select(.username=="'$SF_USERNAME'").orgId')
@@ -193,20 +228,31 @@ jobs:
       - run:
           name: "CPQ QA Package Deployment"
           command: |
+            if [ "$CIRCLE_NODE_INDEX" != "0" ]; then
+              echo "Not first build node, exiting"
+              exit 0
+            fi
+
+            source ./sfdx/bin/run-tests-helpers
             cd sfdx
 
-            sfdx auth:jwt:grant --clientid=$SF_CONSUMER_KEY --jwtkeyfile=$SF_JWT_PRIVATE_KEY_PATH --username="$SF_QA_PACKAGING_EMAIL"
+            authorizeSalesforceAccount "$SF_QA_PACKAGING_EMAIL"
 
             # make sure the same API version is used for local deployments, otherwise you'll run into weird errors
             # for some reason, the `sfdx config:set apiVersion=52.0` doesn't work and gets overwritten
 
             # the current code should *always* be able to be deployed against the packaging org, if it can't be, this should block the build
-            sfdx force:source:deploy -p force-app/main/default --apiversion=54.0 -u $SF_QA_PACKAGING_EMAIL
+            deploySource "$SF_QA_PACKAGING_EMAIL"
 
       # https://jira.corp.stripe.com/browse/PLATINT-1499
       - run:
           name: "CPQ Package Version Check"
           command: |
+            if [ "$CIRCLE_NODE_INDEX" != "0" ]; then
+              echo "Not first node, exiting"
+              exit 0
+            fi
+
             SF_ACCOUNT_WITH_QA_PACKAGE_INSTALLED=mbianco+cpqpackage@stripe.com
 
             if [ "$SF_USERNAME" != "$SF_ACCOUNT_WITH_QA_PACKAGE_INSTALLED" ]; then

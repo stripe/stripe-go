@@ -86,8 +86,8 @@ module Critic::Unit
         },
       }
 
-      stripe_customer = Stripe::Customer.construct_from(id: create_id(:cus))
-      stripe_subscription_schedule = Stripe::SubscriptionSchedule.construct_from(id: create_id(:sub_sched))
+      stripe_customer = Stripe::Customer.construct_from(id: stripe_create_id(:cus))
+      stripe_subscription_schedule = Stripe::SubscriptionSchedule.construct_from(id: stripe_create_id(:sub_sched))
 
       # set some previous metadata; the mapper should be additive
       stripe_subscription_schedule.metadata = {
@@ -131,7 +131,7 @@ module Critic::Unit
       }
 
       sf_customer = create_mock_salesforce_customer
-      stripe_customer = Stripe::Customer.construct_from(id: create_id(:cus))
+      stripe_customer = Stripe::Customer.construct_from(id: stripe_create_id(:cus))
       stripe_customer.metadata = {}
 
       @mapper.apply_mapping(stripe_customer, sf_customer)
@@ -148,7 +148,7 @@ module Critic::Unit
 
     it 'does not annotate a user with blank annotation tables' do
       sf_customer = create_mock_salesforce_customer
-      stripe_customer = Stripe::Customer.construct_from(id: create_id(:cus))
+      stripe_customer = Stripe::Customer.construct_from(id: stripe_create_id(:cus))
       metadata = {
         "ns_alt_name" => 'Mike',
         "ns_invoice_form_id" => 104,
@@ -187,11 +187,11 @@ module Critic::Unit
         'metadata.foo' => 'description',
       }
 
-      subscription_id = create_id(:sub)
-      invoice_line_id = create_id(:ii)
+      subscription_id = stripe_create_id(:sub)
+      invoice_line_id = stripe_create_id(:ii)
 
       stripe_invoice = Stripe::Invoice.construct_from({
-        id: create_id(:in),
+        id: stripe_create_id(:in),
         subscription: subscription_id,
         date: Time.now.to_i,
         currency: 'usd',

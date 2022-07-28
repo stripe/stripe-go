@@ -28,41 +28,9 @@ sfdx config:set restDeploy=true
 # grab a `accessToken` from a auth'd account in ~/.sfdx/ to test this logic locally
 # `sfdx auth:logout -u alias` to remove the org so can reauth
 
-function authorize {
-  username=$1
-  salesforceAlias=$(echo "$username" | perl -nle 'm/\+([^@]+)/; print $1')
-  echo "Authorizing using alias: $salesforceAlias"
-  sfdx auth:jwt:grant --clientid $SF_CONSUMER_KEY --jwtkeyfile=$SF_JWT_PRIVATE_KEY_PATH --username="$username" --setalias="$salesforceAlias"
-}
+source ./bin/run-tests-helpers
 
-# https://circleci.com/developer/orbs/orb/circleci/salesforce-apex#commands-source-push
-
-function deploySource {
-  orgAlias=$1
-  echo '\nDeploying source...'
-
-  # make sure the same API version is used for local deployments, otherwise you'll run into weird errors
-  # for some reason, the `sfdx config:set apiVersion=52.0` doesn't work and gets overwritten
-
-  sfdx force:source:deploy -p force-app/main/default/ --apiversion=54.0 -u $orgAlias
-}
-
-function runTests {
-  orgAlias=$1
-  echo $'\nRunning tests...'
-  mkdir -p test-results
-  sfdx force:apex:test:run --codecoverage --testlevel RunLocalTests -u $orgAlias --resultformat human --outputdir=test-results
-}
-
-# NOTE this is not strictly associated with our test, but is important to ensure the test data
-#      created in future tests does not clog up our test accounts and create a storage limit error
-function deleteTestData {
-  orgAlias=$1
-  echo '\nDeleting all test data...'
-  sfdx force:apex:execute -f bin/delete_test_record_data.apex -u $orgAlias
-}
-
-authorize "$1"
+authorizeSalesforceAccount "$1"
 deploySource "$1"
 runTests "$1"
 deleteTestData "$1"
