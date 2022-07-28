@@ -565,7 +565,7 @@ class StripeForce::Translate
       if !is_using_custom_price
         log.info 'custom price not used, adjusting unit_amount_decimal', sf_order_item_id: sf_object['Id']
 
-        billing_frequency = billing_frequency_of_price_in_months(stripe_price)
+        billing_frequency = StripeForce::Utilities::StripeUtil.billing_frequency_of_price_in_months(stripe_price)
 
         # TODO this is a hack and we should really extract this through the extract params
         quote_subscription_term_path = 'Order.SBQQ__Quote__c.SBQQ__SubscriptionTerm__c'
@@ -793,36 +793,6 @@ class StripeForce::Translate
     !sf_object[CPQ_QUOTE_SUBSCRIPTION_PRICING].nil?
   end
 
-  # TODO we can probably remove this now that we have `unit_amount_decimal`
-  def high_precision_float?(value)
-    # unfortunately the UnitPrice seems to come back as a float, so we need to `to_s`
-    # TODO determine if Restforce is doing this translation or if it is us, we want the string float if we can
-    (BigDecimal(value.to_s) * 100.0).to_i != normalize_float_amount_for_stripe(value.to_s, @user)
-  end
-
-  # TODO can we assume a consistent date format? What about TZs here?
-  def salesforce_date_to_unix_timestamp(date_string)
-    DateTime.parse(date_string).to_time.to_i
-  end
-
-  def billing_frequency_of_price_in_months(stripe_price)
-    # for dev speed, let's assume everything is > monthly
-    if %w{week day}.include?(stripe_price.recurring.interval)
-      raise Integrations::Errors::UnhandledEdgeCase.new("unsupported price interval")
-    end
-
-    interval_in_months = case stripe_price.recurring.interval
-    when 'month'
-      1
-    when 'year'
-      12
-    else
-      raise Integrations::Errors::UnhandledEdgeCase.new("unexpected stripe pricing interval")
-    end
-
-    stripe_price.recurring.interval_count * interval_in_months
-  end
-
   # service period and billing frequency are decoupled in CPQ
   # both values should be in months, but we want to support days in the future
   def determine_subscription_term_multiplier_for_billing_frequency(subscription_term, billing_frequency)
@@ -860,7 +830,7 @@ class StripeForce::Translate
 
     price = Stripe::Price.retrieve(subscription_price_id, @user.stripe_credentials)
 
-    billing_frequency_in_months = billing_frequency_of_price_in_months(price)
+    billing_frequency_in_months = StripeForce::Utilities::StripeUtil.billing_frequency_of_price_in_months(price)
     determine_subscription_term_multiplier_for_billing_frequency(iterations, billing_frequency_in_months)
   end
 
@@ -897,6 +867,13 @@ class StripeForce::Translate
     required_data.merge(optional_data)
   end
 
+  # SF dates have no TZ data and come in as a simple 'YYYY-MM-DD'
+  # Stripe APIs speak UTC, so we convert to UTC + unix timestamp
+  sig { params(date_string: String).returns(Integer) }
+  def salesforce_date_to_unix_timestamp(date_string)
+    DateTime.parse(date_string).utc.to_i
+  end
+
   # TODO allow for multiple records to be linked?
   sig { params(record_to_map: Stripe::APIResource, source_record: Restforce::SObject, compound_key: T.nilable(T::Boolean)).void }
   def apply_mapping(record_to_map, source_record, compound_key: false)
@@ -908,6 +885,7 @@ class StripeForce::Translate
     @mapper ||= StripeForce::Mapper.new(@user)
   end
 
+  sig { params(stripe_record: Stripe::StripeObject).void }
   def sanitize(stripe_record)
     @sanitizer ||= StripeForce::Sanitizer.new(@user)
     @sanitizer.sanitize(stripe_record)

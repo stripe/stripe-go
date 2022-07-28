@@ -19,7 +19,7 @@ module Critic
     end
 
     def now_time
-      DateTime.now.beginning_of_day
+      DateTime.now.utc.beginning_of_day
     end
 
     def format_date_for_salesforce(date)

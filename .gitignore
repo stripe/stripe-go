@@ -36,7 +36,5 @@ irb.log
 .env
 test/reports/
 .DS_Store
-sfdx/jwt-cert/private_key.pem
 /vendor/bundle
 node_modules
-sfdx/force-app/main/.DS_Store

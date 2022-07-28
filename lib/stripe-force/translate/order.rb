@@ -3,84 +3,38 @@
 
 class StripeForce::Translate
   def translate_order(sf_object)
-    contract_structure = determine_order_phases(sf_object)
+    contract_structure = extract_contract_from_order(sf_object)
 
     create_stripe_transaction_from_sf_order(contract_structure.initial)
 
     update_subscription_phases_from_order_amendments(contract_structure)
   end
 
-  # TODO should rename to something like `generate_contract_structure`
-  sig { params(sf_order: T.untyped).returns(OrderStructure) }
-  def determine_order_phases(sf_order)
+  # give an order (amendment or initial order) determine the initial order and all amendments
+  sig { params(sf_order: T.untyped).returns(ContractStructure) }
+  def extract_contract_from_order(sf_order)
     # in a fresh CPQ account there is only NEW and AMENDMENT types, but users can and do customize these types
     # for our purposes, we only care about new and not-new (amendment types) so we don't need to filter these aggressively
     if ![OrderTypeOptions::AMENDMENT, OrderTypeOptions::NEW].map(&:serialize).include?(sf_order.Type)
-      log.error 'unexpected order type', type: sf_order.Type
+      report_edge_case('unexpected order type', metadata: {type: sf_order.Type})
     end
 
     # if the original order, then it will have been contracted if it has additional phases/amendments
     # if it hasn't been contracted, then we know there's no amendments to look up
     if sf_order.Type == OrderTypeOptions::NEW.serialize && !sf_order[SF_ORDER_CONTRACTED]
       log.info 'order is not contracted, assuming only initial order'
-      return OrderStructure.new(initial: sf_order)
+      return ContractStructure.new(initial: sf_order)
     end
 
-    # if not new, then it's an amendment
+    # if not new, then it's an amendment. Remember each account can have different Types, which is why we don't do an exaustive type cehck here
     if sf_order.Type != OrderTypeOptions::NEW.serialize
-      # in the case of an amendment, the associated opportunity contains a reference to the contract
-      # which contains a reference to the original quote, which references the orginal order (initial non-amendment order)
-      initial_quote_query = sf.query(
-        <<~EOL
-          SELECT Opportunity.SBQQ__AmendedContract__r.#{SF_CONTRACT_QUOTE_ID}
-          FROM #{SF_ORDER}
-          WHERE Id = '#{sf_order.Id}'
-        EOL
-      )
-
-      if initial_quote_query.count.zero?
-        raise Integrations::Errors::ImpossibleState.new("order amendments should always be associated with the initial quote")
-      end
-
-      # TODO this should never happen and should be removed
-      if initial_quote_query.count > 1
-        raise Integrations::Errors::ImpossibleState.new("exact ID match yields two records")
-      end
-
-      sf_original_quote_id = initial_quote_query.first.dig(
-        SF_OPPORTUNITY,
-        # TODO should pull into a constant
-        "SBQQ__AmendedContract__r",
-        SF_CONTRACT_QUOTE_ID
-      )
-
-      log.info 'initial quote found', quote_id: sf_original_quote_id
-
-      initial_order_query = sf.query(
-        <<~EOL
-          SELECT Id
-          FROM #{SF_ORDER}
-          WHERE SBQQ__Quote__c = '#{sf_original_quote_id}'
-        EOL
-      )
-
-      if initial_order_query.count.zero?
-        raise Integrations::Errors::ImpossibleState.new("initial order should be associated with an initial quote")
-      end
-
-      # TODO this should never happen and should be removed
-      if initial_order_query.count > 1
-        raise Integrations::Errors::ImpossibleState.new("exact ID match yields two records")
-      end
-
-      initial_order_id = initial_order_query.first[SF_ID]
-
-      log.info 'found initial order', initial_order_id: initial_order_id
-
-      initial_order = sf.find(SF_ORDER, initial_order_id)
+      initial_order = extract_initial_order_from_amendment(sf_order)
     else
+      log.info 'initial order provided'
       initial_order = sf_order
     end
+
+    # we ignore `sf_order` at this point onward: we have the initial order and extract all amendments
 
     log.info 'initial order, finding amendments', initial_order_id: initial_order.Id
 
@@ -95,33 +49,15 @@ class StripeForce::Translate
     # order amendment is contracted. However, the quote reference on the contract is NOT overwritten.
     # It will always be the first quote that generated the contract.
 
-    if initial_order[SF_ORDER_QUOTE].blank?
-      raise Integrations::Errors::ImpossibleState.new("no quote associated with order")
+    sf_contract_id = extract_contract_id_from_initial_order(initial_order)
+
+    if !sf_contract_id
+      return ContractStructure.new(initial: initial_order)
     end
-
-    contract_query = sf.query(
-      <<~EOL
-        SELECT #{SF_ID}
-        FROM #{SF_CONTRACT}
-        WHERE #{SF_CONTRACT_QUOTE_ID} = '#{initial_order[SF_ORDER_QUOTE]}'
-      EOL
-    )
-
-    # this can occur if contracts are processed async
-    if contract_query.count.zero?
-      log.info 'order is contracted, but no contract is associated'
-      return OrderStructure.new(initial: initial_order)
-    end
-
-    if contract_query.size > 1
-      raise Integrations::Errors::ImpossibleState.new("more than one contract associated with order")
-    end
-
-    sf_contract_id = contract_query.first[SF_ID]
 
     log.info 'contract for order amendment found', contract_id: sf_contract_id
 
-    # TODO we are hardcoding the subscription start date here, we should pull this dynamically from the mapper
+    # TODO we are hardcoding the subscription start date here as the ordering key, we should pull this dynamically from the mapper
     # important for results to be ordered with subscription date ascending
     order_amendment_query = sf.query(
       <<~EOL
@@ -131,13 +67,14 @@ class StripeForce::Translate
       EOL
     )
 
-    log.info 'order amendments found', amendmend_ids: order_amendment_query.map(&:Id)
+    log.info 'order amendments found',
+      count: order_amendment_query.count,
+      amendmend_ids: order_amendment_query.map(&:Id)
 
+    # TODO use cache_service
     order_amendments = order_amendment_query.map {|i| sf.find(SF_ORDER, i[SF_ID]) }
 
-    # TODO order amendments by their start date, which is defined on the quote and not the order
-
-    OrderStructure.new(
+    ContractStructure.new(
       initial: initial_order,
       amendments: order_amendments
     )
@@ -161,6 +98,7 @@ class StripeForce::Translate
       return
     end
 
+    # TODO use cache_service
     sf_account = sf.find(SF_ACCOUNT, sf_order[SF_ORDER_ACCOUNT])
 
     stripe_customer = create_customer_from_sf_account(sf_account)
@@ -189,8 +127,9 @@ class StripeForce::Translate
         T.must(subscription_items.first).stripe_params[:price]
       )
 
+      # TODO we should remove all zero-quantity items
+      # TODO we should have a check to ensure all quantities are positive
       # TODO we should check if subscription is backddated, if it is, then we should only proceed if the user has a specific flag enabled
-
 
       # initial order, so there is only a single phase
       initial_phase = {
@@ -265,7 +204,7 @@ class StripeForce::Translate
     stripe_transaction
   end
 
-  sig { params(contract_structure: OrderStructure).void }
+  sig { params(contract_structure: ContractStructure).void }
   def update_subscription_phases_from_order_amendments(contract_structure)
     return if contract_structure.amendments.empty?
 
@@ -309,7 +248,7 @@ class StripeForce::Translate
     # TODO should we conver the `items` stripe objects into hashes? Probably more consistent this way.
 
     # NOTE `to_hash` is a special method on the stripe object which handles nested objects and is NOT the same as `to_h`
-    aggregate_phase_items = last_phase.items.map(&:to_hash).map {|h| PhaseItemStructure.new_from_created_phase_item(h) }
+    aggregate_phase_items = last_phase.items.map(&:to_hash).map {|h| ContractItemStructure.new_from_created_phase_item(h) }
     subscription_phases = subscription_schedule.phases
 
     is_subscription_schedule_cancelled = T.let(false, T::Boolean)
@@ -434,13 +373,12 @@ class StripeForce::Translate
     end
   end
 
-
   # TODO will most likely throw this out, but we'll need to model something like this for terminations
   sig do
     params(
-      aggregate_phase_items: T::Array[StripeForce::Translate::PhaseItemStructure],
-      new_phase_items: T::Array[StripeForce::Translate::PhaseItemStructure]
-    ).returns(T::Array[StripeForce::Translate::PhaseItemStructure])
+      aggregate_phase_items: T::Array[StripeForce::Translate::ContractItemStructure],
+      new_phase_items: T::Array[StripeForce::Translate::ContractItemStructure]
+    ).returns(T::Array[StripeForce::Translate::ContractItemStructure])
   end
   def merge_subscription_line_items(aggregate_phase_items, new_phase_items)
     # avoid mutating the input value
@@ -517,7 +455,7 @@ class StripeForce::Translate
 
   sig do
     params(sf_order_lines: T::Array[Restforce::SObject])
-    .returns([T::Array[PhaseItemStructure], T::Array[PhaseItemStructure]])
+    .returns([T::Array[ContractItemStructure], T::Array[ContractItemStructure]])
   end
   def phase_items_from_order_lines(sf_order_lines)
     invoice_items = []
@@ -551,7 +489,7 @@ class StripeForce::Translate
       # we know the quantity is not a float, so we can force it to an integer
       phase_item.quantity = phase_item.quantity.to_i
 
-      phase_item_struct = PhaseItemStructure.new(
+      phase_item_struct = ContractItemStructure.new(
         # TODO maybe consider including a boolean for this instead?
         # is_recurring: recurring_item?(sf_order_item),
 
@@ -584,6 +522,86 @@ class StripeForce::Translate
     [invoice_items, subscription_items]
   end
 
+  sig { params(sf_initial_order: Restforce::SObject).returns(T.nilable(String)) }
+  def extract_contract_id_from_initial_order(sf_initial_order)
+    # if this occurs, the user's CPQ is not configured properly/as we assume
+    if sf_initial_order[SF_ORDER_QUOTE].blank?
+      raise Integrations::Errors::ImpossibleState.new("no quote associated with orde1r")
+    end
 
+    contract_query = sf.query(
+      <<~EOL
+        SELECT #{SF_ID}
+        FROM #{SF_CONTRACT}
+        WHERE #{SF_CONTRACT_QUOTE_ID} = '#{sf_initial_order[SF_ORDER_QUOTE]}'
+      EOL
+    )
 
+    if contract_query.size > 1
+      raise Integrations::Errors::ImpossibleState.new("more than one contract associated with order")
+    end
+
+    # this can occur if contracts are processed async
+    if contract_query.count.zero?
+      log.info 'order is contracted, but no contract is associated'
+      return nil
+    end
+
+    contract_query.first[SF_ID]
+  end
+
+  def extract_initial_order_from_amendment(sf_order)
+    # in the case of an amendment, the associated opportunity contains a reference to the contract
+    # which contains a reference to the original quote, which references the orginal order (initial non-amendment order)
+    initial_quote_query = sf.query(
+      <<~EOL
+        SELECT Opportunity.SBQQ__AmendedContract__r.#{SF_CONTRACT_QUOTE_ID}
+        FROM #{SF_ORDER}
+        WHERE Id = '#{sf_order.Id}'
+      EOL
+    )
+
+    if initial_quote_query.count.zero?
+      raise Integrations::Errors::ImpossibleState.new("order amendments should always be associated with the initial quote")
+    end
+
+    # TODO this should never happen and should be removed
+    if initial_quote_query.count > 1
+      raise Integrations::Errors::ImpossibleState.new("exact ID match yields two records")
+    end
+
+    # the contract tied to the amended order has the ID of the quote of the original order
+    # let's get that ID, then we can pull the order tied to that original quote
+    sf_original_quote_id = initial_quote_query.first.dig(
+      SF_OPPORTUNITY,
+      # TODO should pull into a constant
+      "SBQQ__AmendedContract__r",
+      SF_CONTRACT_QUOTE_ID
+    )
+
+    log.info 'initial quote found', quote_id: sf_original_quote_id
+
+    initial_order_query = sf.query(
+      <<~EOL
+        SELECT Id
+        FROM #{SF_ORDER}
+        WHERE SBQQ__Quote__c = '#{sf_original_quote_id}'
+      EOL
+    )
+
+    if initial_order_query.count.zero?
+      raise Integrations::Errors::ImpossibleState.new("initial order should be associated with an initial quote")
+    end
+
+    # TODO this should never happen and should be removed
+    if initial_order_query.count > 1
+      raise Integrations::Errors::ImpossibleState.new("exact ID match yields two records")
+    end
+
+    initial_order_id = initial_order_query.first[SF_ID]
+
+    log.info 'found initial order', initial_order_id: initial_order_id
+
+    sf.find(SF_ORDER, initial_order_id)
+  end
 end

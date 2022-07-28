@@ -287,7 +287,7 @@ BUNDLE_DISABLE_SHARED_GEMS=1 BUNDLE_PATH=vendor/bundle bundle
 # Tests
 
 - Before running tests, you'll need a valid oauth token: `bundle exec ruby scripts/refresh-tokens.rb`
-- `NO_RESCUE=true bundle exec rails test "test/**/test*.rb"` will run the entire test suite
+- `NO_RESCUE=true bundle exec rails test "test/**/*test.rb"` will run the entire test suite
 - `NO_RESCUE=1` to avoid autoloading pry-rescue in the test suite
 
 # Heroku

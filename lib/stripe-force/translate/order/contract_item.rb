@@ -2,8 +2,8 @@
 # typed: true
 
 class StripeForce::Translate
-  # TODO rename to contract item
-  class PhaseItemStructure < T::Struct
+  # `Structure` meant to indicate that this is an internal representation of the contract item in SF
+  class ContractItemStructure < T::Struct
     extend T::Sig
     include Integrations::Log
 
@@ -20,7 +20,7 @@ class StripeForce::Translate
     prop :quantity, Integer
 
     # used when generating a phase item struct from the last active phases structure
-    sig { params(stripe_params_hash: Hash).returns(PhaseItemStructure) }
+    sig { params(stripe_params_hash: Hash).returns(ContractItemStructure) }
     def self.new_from_created_phase_item(stripe_params_hash)
       quantity = if stripe_params_hash[:quantity].nil?
         log.info 'no quantity field, assuming metered billing at quantity 1'
@@ -40,7 +40,7 @@ class StripeForce::Translate
       )
     end
 
-    sig { params(old_phase_item: PhaseItemStructure).void }
+    sig { params(old_phase_item: ContractItemStructure).void }
     def append_previous_phase_item(old_phase_item)
       self.quantity += old_phase_item.quantity
 
