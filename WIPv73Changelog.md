@@ -10,7 +10,8 @@ Default API version changed to "2022-07-28".
 - Add `CheckoutSessionShippingCostTax` and `CheckoutSessionShippingCost` classes
 - Add `IssuingCardCancellationReasonDesignRejected` constant to `IssuingCardCancellationReason`.
 - Add `Validate` field to `Customer` resource.
-- Add `Validate` field to `PaymentSourceParams`.
+- Add `Validate` field to `PaymentSourceParams`. <!-- ---- R, S -->
+- `TerminalLocation` `UnmarshalJSON` - make `TerminalLocation` expandable
 
 ## Changed
 
@@ -44,14 +45,117 @@ Default API version changed to "2022-07-28".
     | Charge | `ChargePaymentMethodDetailsTypeAchDebit` | `ChargePaymentMethodDetailsTypeACHDebit` |
     | Invoice | `InvoicePaymentSettingsPaymentMethodTypeAchCreditTransfer` | `InvoicePaymentSettingsPaymentMethodTypeACHhCreditTransfer` |
     | Invoice | `InvoicePaymentSettingsPaymentMethodTypeAchDebit` | `InvoicePaymentSettingsPaymentMethodTypeACHDebit` |
-    | PaymentMethod | `PaymentMethodUSBankAccountNetworksSupportedAch` | `PaymentMethodUSBankAccountNetworksSupportedACH` |
+    | PaymentMethod | `PaymentMethodUSBankAccountNetworksSupportedAch` | `PaymentMethodUSBankAccountNetworksSupportedACH` | <!-- ---- R, S -->
+    | Treasury CreditReversal | `TreasuryCreditReversalNetworkAch` | `TreasuryCreditReversalNetworkACH` |
+    | Treasury DebitReversal | `TreasuryDebitReversalNetworkAch` | `TreasuryDebitReversalNetworkACH` |
+    | Treasury FinancialAccount | `TreasuryFinancialAccountActiveFeatureInboundTransfersAch` | `TreasuryFinancialAccountActiveFeatureInboundTransfersACH` |
+    | Treasury FinancialAccount | `TreasuryFinancialAccountActiveFeatureOutboundPaymentsAch` | `TreasuryFinancialAccountActiveFeatureOutboundPaymentsACH` |
+    | Treasury FinancialAccount | `TreasuryFinancialAccountActiveFeatureOutboundTransfersAch` | `TreasuryFinancialAccountActiveFeatureOutboundTransfersACH` |
+    | Treasury FinancialAccount | `TreasuryFinancialAccountFinancialAddressSupportedNetworkAch` | `TreasuryFinancialAccountFinancialAddressSupportedNetworkACH` |
+    | Treasury FinancialAccount | `TreasuryFinancialAccountPendingFeatureInboundTransfersAch` | `TreasuryFinancialAccountPendingFeatureInboundTransfersACH` |
+    | Treasury FinancialAccount | `TreasuryFinancialAccountPendingFeatureOutboundPaymentsAch` | `TreasuryFinancialAccountPendingFeatureOutboundPaymentsACH` |
+    | Treasury FinancialAccount | `TreasuryFinancialAccountPendingFeatureOutboundTransfersAch` | `TreasuryFinancialAccountPendingFeatureOutboundTransfersACH` |
+    | Treasury FinancialAccount | `TreasuryFinancialAccountRestrictedFeatureInboundTransfersAch` | `TreasuryFinancialAccountRestrictedFeatureInboundTransfersACH` |
+    | Treasury FinancialAccount | `TreasuryFinancialAccountRestrictedFeatureOutboundPaymentsAch` | `TreasuryFinancialAccountRestrictedFeatureOutboundPaymentsACH` |
+    | Treasury FinancialAccount | `TreasuryFinancialAccountRestrictedFeatureOutboundTransfersAch` | `TreasuryFinancialAccountRestrictedFeatureOutboundTransfersACH` |
+    | Treasury FinancialAccount | `TreasuryFinancialAccountFeaturesInboundTransfersParams.Ach` | `TreasuryFinancialAccountFeaturesInboundTransfersParams.ACH` |
+    | Treasury FinancialAccount | `TreasuryFinancialAccountFeaturesInboundTransfersParams.Ach` | `TreasuryFinancialAccountFeaturesInboundTransfersParams.ACH` |
+    | Treasury FinancialAccount | `TreasuryFinancialAccountFeaturesInboundTransfersAchParams` | `TreasuryFinancialAccountFeaturesInboundTransfersACHParams` |
+    | Treasury FinancialAccount | `TreasuryFinancialAccountFeaturesOutboundPaymentsParams.Ach` | `TreasuryFinancialAccountFeaturesOutboundPaymentsParams.ACH` |
+    | Treasury FinancialAccount | `TreasuryFinancialAccountFeaturesOutboundPaymentsAchParams` | `TreasuryFinancialAccountFeaturesOutboundPaymentsACHParams` |
+    | Treasury FinancialAccount | `TreasuryFinancialAccountFeaturesOutboundTransfersParams.Ach` | `TreasuryFinancialAccountFeaturesOutboundTransfersParams.ACH` |
+    | Treasury FinancialAccount | `TreasuryFinancialAccountFeaturesOutboundTransfersAchParams` | `TreasuryFinancialAccountFeaturesOutboundTransfersACHParams` |
+    | Treasury FinancialAccount | `TreasuryFinancialAccountUpdateFeaturesInboundTransfersParams.Ach` | `TreasuryFinancialAccountUpdateFeaturesInboundTransfersParams.ACH` |
+    | Treasury FinancialAccount | `TreasuryFinancialAccountUpdateFeaturesInboundTransfersAchParams` | `TreasuryFinancialAccountUpdateFeaturesInboundTransfersACHParams` |
+    | Treasury FinancialAccount | `TreasuryFinancialAccountUpdateFeaturesOutboundPaymentsParams.Ach` | `TreasuryFinancialAccountUpdateFeaturesOutboundPaymentsParams.ACH` |
+    | Treasury FinancialAccount | `TreasuryFinancialAccountUpdateFeaturesOutboundPaymentsAchParams` | `TreasuryFinancialAccountUpdateFeaturesOutboundPaymentsACHParams` |
+    | Treasury FinancialAccount | `TreasuryFinancialAccountUpdateFeaturesOutboundTransfersParams.Ach` | `TreasuryFinancialAccountUpdateFeaturesOutboundTransfersParams.ACH` |
+    | Treasury FinancialAccount | `TreasuryFinancialAccountUpdateFeaturesOutboundTransfersAchParams` | `TreasuryFinancialAccountUpdateFeaturesOutboundTransfersACHParams` |
+    | Treasury FinancialAccountFeatures | `TreasuryFinancialAccountFeaturesInboundTransfersAchStatus` | `TreasuryFinancialAccountFeaturesInboundTransfersACHStatus` |
+    | Treasury FinancialAccountFeatures | `TreasuryFinancialAccountFeaturesInboundTransfersAchStatusActive` | `TreasuryFinancialAccountFeaturesInboundTransfersACHStatusActive` |
+    | Treasury FinancialAccountFeatures | `TreasuryFinancialAccountFeaturesInboundTransfersAchStatusPending` | `TreasuryFinancialAccountFeaturesInboundTransfersACHStatusPending` |
+    | Treasury FinancialAccountFeatures | `TreasuryFinancialAccountFeaturesInboundTransfersAchStatusRestricted` | `TreasuryFinancialAccountFeaturesInboundTransfersACHStatusRestricted` |
+    | Treasury FinancialAccountFeatures | `TreasuryFinancialAccountFeaturesInboundTransfersAchStatusDetailCode` | `TreasuryFinancialAccountFeaturesInboundTransfersACHStatusDetailCode` |
+    | Treasury FinancialAccountFeatures | `TreasuryFinancialAccountFeaturesInboundTransfersAchStatusDetailCodeActivating` | `TreasuryFinancialAccountFeaturesInboundTransfersACHStatusDetailCodeActivating` |
+    | Treasury FinancialAccountFeatures | `TreasuryFinancialAccountFeaturesInboundTransfersAchStatusDetailCodeCapabilityNotRequested` | `TreasuryFinancialAccountFeaturesInboundTransfersACHStatusDetailCodeCapabilityNotRequested` |
+    | Treasury FinancialAccountFeatures | `TreasuryFinancialAccountFeaturesInboundTransfersAchStatusDetailCodeFinancialAccountClosed` | `TreasuryFinancialAccountFeaturesInboundTransfersACHStatusDetailCodeFinancialAccountClosed` |
+    | Treasury FinancialAccountFeatures | `TreasuryFinancialAccountFeaturesInboundTransfersAchStatusDetailCodeRejectedOther` | `TreasuryFinancialAccountFeaturesInboundTransfersACHStatusDetailCodeRejectedOther` |
+    | Treasury FinancialAccountFeatures | `TreasuryFinancialAccountFeaturesInboundTransfersAchStatusDetailCodeRejectedUnsupportedBusiness` | `TreasuryFinancialAccountFeaturesInboundTransfersACHStatusDetailCodeRejectedUnsupportedBusiness` |
+    | Treasury FinancialAccountFeatures | `TreasuryFinancialAccountFeaturesInboundTransfersAchStatusDetailCodeRequirementsPastDue` | `TreasuryFinancialAccountFeaturesInboundTransfersACHStatusDetailCodeRequirementsPastDue` |
+    | Treasury FinancialAccountFeatures | `TreasuryFinancialAccountFeaturesInboundTransfersAchStatusDetailCodeRequirementsPendingVerification` | `TreasuryFinancialAccountFeaturesInboundTransfersACHStatusDetailCodeRequirementsPendingVerification` |
+    | Treasury FinancialAccountFeatures | `TreasuryFinancialAccountFeaturesInboundTransfersAchStatusDetailCodeRestrictedByPlatform` | `TreasuryFinancialAccountFeaturesInboundTransfersACHStatusDetailCodeRestrictedByPlatform` |
+    | Treasury FinancialAccountFeatures | `TreasuryFinancialAccountFeaturesInboundTransfersAchStatusDetailCodeRestrictedOther` | `TreasuryFinancialAccountFeaturesInboundTransfersACHStatusDetailCodeRestrictedOther` |
+    | Treasury FinancialAccountFeatures | `TreasuryFinancialAccountFeaturesInboundTransfersAchStatusDetailResolution` | `TreasuryFinancialAccountFeaturesInboundTransfersACHStatusDetailResolution` |
+    | Treasury FinancialAccountFeatures | `TreasuryFinancialAccountFeaturesInboundTransfersAchStatusDetailResolutionContactStripe` | `TreasuryFinancialAccountFeaturesInboundTransfersACHStatusDetailResolutionContactStripe` |
+    | Treasury FinancialAccountFeatures | `TreasuryFinancialAccountFeaturesInboundTransfersAchStatusDetailResolutionProvideInformation` | `TreasuryFinancialAccountFeaturesInboundTransfersACHStatusDetailResolutionProvideInformation` |
+    | Treasury FinancialAccountFeatures | `TreasuryFinancialAccountFeaturesInboundTransfersAchStatusDetailResolutionRemoveRestriction` | `TreasuryFinancialAccountFeaturesInboundTransfersACHStatusDetailResolutionRemoveRestriction` |
+    | Treasury FinancialAccountFeatures | `TreasuryFinancialAccountFeaturesInboundTransfersAchStatusDetailRestriction` | `TreasuryFinancialAccountFeaturesInboundTransfersACHStatusDetailRestriction` |
+    | Treasury FinancialAccountFeatures | `TreasuryFinancialAccountFeaturesInboundTransfersAchStatusDetailRestrictionInboundFlows` | `TreasuryFinancialAccountFeaturesInboundTransfersACHStatusDetailRestrictionInboundFlows` |
+    | Treasury FinancialAccountFeatures | `TreasuryFinancialAccountFeaturesInboundTransfersAchStatusDetailRestrictionOutboundFlows` | `TreasuryFinancialAccountFeaturesInboundTransfersACHStatusDetailRestrictionOutboundFlows` |
+    | Treasury FinancialAccountFeatures | `TreasuryFinancialAccountFeaturesInboundTransfersAchStatusDetailRestrictionOutboundFlows` | `TreasuryFinancialAccountFeaturesInboundTransfersACHStatusDetailRestrictionOutboundFlows` |
+    | Treasury FinancialAccountFeatures | `TreasuryFinancialAccountFeaturesOutboundPaymentsAchStatus` | `TreasuryFinancialAccountFeaturesOutboundPaymentsACHStatus` |
+    | Treasury FinancialAccountFeatures | `TreasuryFinancialAccountFeaturesOutboundPaymentsAchStatusActive` | `TreasuryFinancialAccountFeaturesOutboundPaymentsACHStatusActive` |
+    | Treasury FinancialAccountFeatures | `TreasuryFinancialAccountFeaturesOutboundPaymentsAchStatusPending` | `TreasuryFinancialAccountFeaturesOutboundPaymentsACHStatusPending` |
+    | Treasury FinancialAccountFeatures | `TreasuryFinancialAccountFeaturesOutboundPaymentsAchStatusRestricted` | `TreasuryFinancialAccountFeaturesOutboundPaymentsACHStatusRestricted` |
+    | Treasury FinancialAccountFeatures | `TreasuryFinancialAccountFeaturesOutboundPaymentsAchStatusDetailCode` | `TreasuryFinancialAccountFeaturesOutboundPaymentsACHStatusDetailCode` |
+    | Treasury FinancialAccountFeatures | `TreasuryFinancialAccountFeaturesOutboundPaymentsAchStatusDetailCode` | `TreasuryFinancialAccountFeaturesOutboundPaymentsACHStatusDetailCodeActivating` |
+    | Treasury FinancialAccountFeatures | `TreasuryFinancialAccountFeaturesOutboundPaymentsAchStatusDetailCode` | `TreasuryFinancialAccountFeaturesOutboundPaymentsACHStatusDetailCodeCapabilityNotRequested` |
+    | Treasury FinancialAccountFeatures | `TreasuryFinancialAccountFeaturesOutboundPaymentsAchStatusDetailCode` | `TreasuryFinancialAccountFeaturesOutboundPaymentsACHStatusDetailCodeFinancialAccountClosed` |
+    | Treasury FinancialAccountFeatures | `TreasuryFinancialAccountFeaturesOutboundPaymentsAchStatusDetailCode` | `TreasuryFinancialAccountFeaturesOutboundPaymentsACHStatusDetailCodeRejectedOther` |
+    | Treasury FinancialAccountFeatures | `TreasuryFinancialAccountFeaturesOutboundPaymentsAchStatusDetailCode` | `TreasuryFinancialAccountFeaturesOutboundPaymentsACHStatusDetailCodeRejectedUnsupportedBusiness` |
+    | Treasury FinancialAccountFeatures | `TreasuryFinancialAccountFeaturesOutboundPaymentsAchStatusDetailCode` | `TreasuryFinancialAccountFeaturesOutboundPaymentsACHStatusDetailCodeRequirementsPastDue` |
+    | Treasury FinancialAccountFeatures | `TreasuryFinancialAccountFeaturesOutboundPaymentsAchStatusDetailCode` | `TreasuryFinancialAccountFeaturesOutboundPaymentsACHStatusDetailCodeRequirementsPendingVerification` |
+    | Treasury FinancialAccountFeatures | `TreasuryFinancialAccountFeaturesOutboundPaymentsAchStatusDetailCode` | `TreasuryFinancialAccountFeaturesOutboundPaymentsACHStatusDetailCodeRestrictedByPlatform` |
+    | Treasury FinancialAccountFeatures | `TreasuryFinancialAccountFeaturesOutboundPaymentsAchStatusDetailCode` | `TreasuryFinancialAccountFeaturesOutboundPaymentsACHStatusDetailCodeRestrictedOther` |
+    | Treasury FinancialAccountFeatures | `TreasuryFinancialAccountFeaturesOutboundPaymentsAchStatusDetailResolution` | `TreasuryFinancialAccountFeaturesOutboundPaymentsACHStatusDetailResolution` |
+    | Treasury FinancialAccountFeatures | `TreasuryFinancialAccountFeaturesOutboundPaymentsAchStatusDetailResolutionContactStripe` | `TreasuryFinancialAccountFeaturesOutboundPaymentsACHStatusDetailResolutionContactStripe` |
+    | Treasury FinancialAccountFeatures | `TreasuryFinancialAccountFeaturesOutboundPaymentsAchStatusDetailResolutionProvideInformation` | `TreasuryFinancialAccountFeaturesOutboundPaymentsACHStatusDetailResolutionProvideInformation` |
+    | Treasury FinancialAccountFeatures | `TreasuryFinancialAccountFeaturesOutboundPaymentsAchStatusDetailResolutionRemoveRestriction` | `TreasuryFinancialAccountFeaturesOutboundPaymentsACHStatusDetailResolutionRemoveRestriction` |
+    | Treasury FinancialAccountFeatures | `TreasuryFinancialAccountFeaturesOutboundPaymentsAchStatusDetailRestriction` | `TreasuryFinancialAccountFeaturesOutboundPaymentsACHStatusDetailRestriction` |
+    | Treasury FinancialAccountFeatures | `TreasuryFinancialAccountFeaturesOutboundPaymentsAchStatusDetailRestrictionInboundFlows` | `TreasuryFinancialAccountFeaturesOutboundPaymentsACHStatusDetailRestrictionInboundFlows` |
+    | Treasury FinancialAccountFeatures | `TreasuryFinancialAccountFeaturesOutboundPaymentsAchStatusDetailRestrictionOutboundFlows` | `TreasuryFinancialAccountFeaturesOutboundPaymentsACHStatusDetailRestrictionOutboundFlows` |
+    | Treasury FinancialAccountFeatures | `TreasuryFinancialAccountFeaturesOutboundTransfersAchStatus` | `TreasuryFinancialAccountFeaturesOutboundTransfersACHStatus` |
+    | Treasury FinancialAccountFeatures | `TreasuryFinancialAccountFeaturesOutboundTransfersAchStatusActive` | `TreasuryFinancialAccountFeaturesOutboundTransfersACHStatusActive` |
+    | Treasury FinancialAccountFeatures | `TreasuryFinancialAccountFeaturesOutboundTransfersAchStatusPending` | `TreasuryFinancialAccountFeaturesOutboundTransfersACHStatusPending` |
+    | Treasury FinancialAccountFeatures | `TreasuryFinancialAccountFeaturesOutboundTransfersAchStatusRestricted` | `TreasuryFinancialAccountFeaturesOutboundTransfersACHStatusRestricted` |
+    | Treasury FinancialAccountFeatures | `TreasuryFinancialAccountFeaturesOutboundTransfersAchStatusDetailCode` | `TreasuryFinancialAccountFeaturesOutboundTransfersACHStatusDetailCode` |
+    | Treasury FinancialAccountFeatures | `TreasuryFinancialAccountFeaturesOutboundTransfersAchStatusDetailCodeActivating` | `TreasuryFinancialAccountFeaturesOutboundTransfersACHStatusDetailCodeActivating` |
+    | Treasury FinancialAccountFeatures | `TreasuryFinancialAccountFeaturesOutboundTransfersAchStatusDetailCodeCapabilityNotRequested` | `TreasuryFinancialAccountFeaturesOutboundTransfersACHStatusDetailCodeCapabilityNotRequested` |
+    | Treasury FinancialAccountFeatures | `TreasuryFinancialAccountFeaturesOutboundTransfersAchStatusDetailCodeFinancialAccountClosed` | `TreasuryFinancialAccountFeaturesOutboundTransfersACHStatusDetailCodeFinancialAccountClosed` |
+    | Treasury FinancialAccountFeatures | `TreasuryFinancialAccountFeaturesOutboundTransfersAchStatusDetailCodeRejectedOther` | `TreasuryFinancialAccountFeaturesOutboundTransfersACHStatusDetailCodeRejectedOther` |
+    | Treasury FinancialAccountFeatures | `TreasuryFinancialAccountFeaturesOutboundTransfersAchStatusDetailCodeRejectedUnsupportedBusiness` | `TreasuryFinancialAccountFeaturesOutboundTransfersACHStatusDetailCodeRejectedUnsupportedBusiness` |
+    | Treasury FinancialAccountFeatures | `TreasuryFinancialAccountFeaturesOutboundTransfersAchStatusDetailCodeRequirementsPastDue` | `TreasuryFinancialAccountFeaturesOutboundTransfersACHStatusDetailCodeRequirementsPastDue` |
+    | Treasury FinancialAccountFeatures | `TreasuryFinancialAccountFeaturesOutboundTransfersAchStatusDetailCodeRequirementsPendingVerification` | `TreasuryFinancialAccountFeaturesOutboundTransfersACHStatusDetailCodeRequirementsPendingVerification` |
+    | Treasury FinancialAccountFeatures | `TreasuryFinancialAccountFeaturesOutboundTransfersAchStatusDetailCodeRestrictedByPlatform` | `TreasuryFinancialAccountFeaturesOutboundTransfersACHStatusDetailCodeRestrictedByPlatform` |
+    | Treasury FinancialAccountFeatures | `TreasuryFinancialAccountFeaturesOutboundTransfersAchStatusDetailCodeRestrictedOther` | `TreasuryFinancialAccountFeaturesOutboundTransfersACHStatusDetailCodeRestrictedOther` |
+    | Treasury FinancialAccountFeatures | `TreasuryFinancialAccountFeaturesOutboundTransfersAchStatusDetailResolution` | `TreasuryFinancialAccountFeaturesOutboundTransfersACHStatusDetailResolution` |
+    | Treasury FinancialAccountFeatures | `TreasuryFinancialAccountFeaturesOutboundTransfersAchStatusDetailResolutionContactStripe` | `TreasuryFinancialAccountFeaturesOutboundTransfersACHStatusDetailResolutionContactStripe` |
+    | Treasury FinancialAccountFeatures | `TreasuryFinancialAccountFeaturesOutboundTransfersAchStatusDetailResolutionProvideInformation` | `TreasuryFinancialAccountFeaturesOutboundTransfersACHStatusDetailResolutionProvideInformation` |
+    | Treasury FinancialAccountFeatures | `TreasuryFinancialAccountFeaturesOutboundTransfersAchStatusDetailResolutionRemoveRestriction` | `TreasuryFinancialAccountFeaturesOutboundTransfersACHStatusDetailResolutionRemoveRestriction` |
+    | Treasury FinancialAccountFeatures | `TreasuryFinancialAccountFeaturesOutboundTransfersAchStatusDetailRestriction` | `TreasuryFinancialAccountFeaturesOutboundTransfersACHStatusDetailRestriction` |
+    | Treasury FinancialAccountFeatures | `TreasuryFinancialAccountFeaturesOutboundTransfersAchStatusDetailRestrictionInboundFlows` | `TreasuryFinancialAccountFeaturesOutboundTransfersACHStatusDetailRestrictionInboundFlows` |
+    | Treasury FinancialAccountFeatures | `TreasuryFinancialAccountFeaturesOutboundTransfersAchStatusDetailRestrictionOutboundFlows` | `TreasuryFinancialAccountFeaturesOutboundTransfersACHStatusDetailRestrictionOutboundFlows` |
+    | Treasury FinancialAccountFeatures | `TreasuryFinancialAccountFeaturesInboundTransfersAchStatusDetail` | `TreasuryFinancialAccountFeaturesInboundTransfersACHStatusDetail` |
+    | Treasury FinancialAccountFeatures | `TreasuryFinancialAccountFeaturesInboundTransfers.Ach` | `TreasuryFinancialAccountFeaturesInboundTransfers.ACH` |
+    | Treasury FinancialAccountFeatures | `TreasuryFinancialAccountFeaturesInboundTransfersAch` | `TreasuryFinancialAccountFeaturesInboundTransfersACH` |
+    | Treasury FinancialAccountFeatures | `TreasuryFinancialAccountFeaturesOutboundPaymentsAchStatusDetail` | `TreasuryFinancialAccountFeaturesOutboundPaymentsACHStatusDetail` |
+    | Treasury FinancialAccountFeatures | `TreasuryFinancialAccountFeaturesOutboundPaymentsAch` | `TreasuryFinancialAccountFeaturesOutboundPaymentsACH` |
+    | Treasury FinancialAccountFeatures | `TreasuryFinancialAccountFeaturesOutboundPayments.Ach` | `TreasuryFinancialAccountFeaturesOutboundPayments.ACH` |
+    | Treasury FinancialAccountFeatures | `TreasuryFinancialAccountFeaturesOutboundTransfersAch` | `TreasuryFinancialAccountFeaturesOutboundTransfersACH` |
+    | Treasury FinancialAccountFeatures | `TreasuryFinancialAccountFeaturesOutboundTransfersAchStatusDetail` | `TreasuryFinancialAccountFeaturesOutboundTransfersACHStatusDetail` |
+    | Treasury FinancialAccountFeatures | `TreasuryFinancialAccountFeaturesOutboundTransfers.Ach` | `TreasuryFinancialAccountFeaturesOutboundTransfers.ACH` |
+    | Treasury InboundTransfer | `TreasuryInboundTransferOriginPaymentMethodDetailsUSBankAccountNetworkAch` | `TreasuryInboundTransferOriginPaymentMethodDetailsUSBankAccountNetworkACH` |
+    | Treasury OutboundPayment | `TreasuryOutboundPaymentOriginPaymentMethodDetailsUSBankAccountNetworkAch` | `TreasuryOutboundPaymentOriginPaymentMethodDetailsUSBankAccountNetworkACH` |
+    | Treasury OutboundTransfer | `TreasuryOutboundTransferOriginPaymentMethodDetailsUSBankAccountNetworkAch` | `TreasuryOutboundTransferOriginPaymentMethodDetailsUSBankAccountNetworkACH` |
+    | Treasury ReceivedCredit | `TreasuryReceivedCreditNetworkAch` | `TreasuryReceivedCreditNetworkACH` |
+    | Treasury ReceivedCredit | `TreasuryReceivedCreditNetworkAch` | `TreasuryReceivedCreditNetworkACH` |
 
   - `Acss` to `ACSS`
     | Resource | Old name | New name |
     | --- | --- | --- |
     | Charge | `ChargePaymentMethodDetails.AcssDebit` | `ChargePaymentMethodDetails.ACSSDebit` |
     | Charge | `ChargePaymentMethodDetailsAcssDebit` | `ChargePaymentMethodDetailsACSSDebit` |
-    | Charge | `ChargePaymentMethodDetailsTypeAcssDebit` | `ChargePaymentMethodDetailsTypeACSSDebit` |
+    | Charge | `ChargePaymentMethodDetailsTypeAcssDebit` | `ChargePaymentMethodDetailsTypeACSSDebit` | <!-- ---- R, S -->
 
   - `Amex` to `AmEx`
     | Resource | Old name | New name |
@@ -60,7 +164,7 @@ Default API version changed to "2022-07-28".
     | Charge | `ChargePaymentMethodDetailsCardWalletAmexExpressCheckout` | `ChargePaymentMethodDetailsCardWalletAmExExpressCheckout` |
     | PaymentMethod | `PaymentMethodCardBrandAmex` | `PaymentMethodCardBrandAmEx` |
     | PaymentMethod | `PaymentMethodCardWalletTypeAmexExpressCheckout` | `PaymentMethodCardWalletTypeAmExExpressCheckout` |
-    | PaymentMethod | `PaymentMethodCardWalletAmexExpressCheckout` | `PaymentMethodCardWalletAmExExpressCheckout` |
+    | PaymentMethod | `PaymentMethodCardWalletAmexExpressCheckout` | `PaymentMethodCardWalletAmExExpressCheckout` | <!-- ---- R, S -->
 
   - `Bic` to `BIC`
     | Resource | Old name | New name |
@@ -73,17 +177,17 @@ Default API version changed to "2022-07-28".
     | Charge | `PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressIban.Bic` | `PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressIBAN.BIC` |
     | FundingInstructions | `FundingInstructionsBankTransferFinancialAddressIBAN.Bic` | `FundingInstructionsBankTransferFinancialAddressIBAN.BIC` |
     | PaymentIntent | `PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressIBAN.Bic` | `PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressIBAN.BIC` |
-    | PaymentMethod | `PaymentMethodIdeal.Bic` | `PaymentMethodIDEAL.BIC` |
+    | PaymentMethod | `PaymentMethodIdeal.Bic` | `PaymentMethodIDEAL.BIC` | <!-- ---- R, S -->
 
   - `Eps` to `EPS`
     | Resource | Old name | New name |
     | --- | --- | --- |
-    | Charge | `ChargePaymentMethodDetailsTypeEps` | `ChargePaymentMethodDetailsTypeEPS` |
+    | Charge | `ChargePaymentMethodDetailsTypeEps` | `ChargePaymentMethodDetailsTypeEPS` | <!-- ---- R, S -->
 
   - `FEDEX` to `FedEx`
     | Resource | Old name | New name |
     | --- | --- | --- |
-    | Issuing Card | `IssuingCardShippingCarrierFEDEX` | `IssuingCardShippingCarrierFedEx` |
+    | Issuing Card | `IssuingCardShippingCarrierFEDEX` | `IssuingCardShippingCarrierFedEx` | <!-- ---- R, S -->
 
   - `Iban` to `IBAN`
     | Resource | Old name | New name |
@@ -96,7 +200,7 @@ Default API version changed to "2022-07-28".
     | PaymentIntent | `PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressTypeIban` | `PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressTypeIBAN` |
     | PaymentIntent | `PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddress.Iban` | `PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddress.IBAN` |
     | PaymentIntent | `PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressIban` | `PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressIBAN` |
-    | PaymentIntent | `PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressIban.Iban` | `PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressIBAN.IBAN` |
+    | PaymentIntent | `PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressIban.Iban` | `PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressIBAN.IBAN` | <!-- ---- R, S -->
 
   - `Ideal` to `IDEAL`
     | Resource | Old name | New name |
@@ -124,7 +228,7 @@ Default API version changed to "2022-07-28".
     | PaymentMethod | `PaymentMethodTypeIdeal` | `PaymentMethodTypeIDEAL` |
     | PaymentMethod | `PaymentMethodParams.Ideal` | `PaymentMethodParams.IDEAL` |
     | PaymentMethod | `PaymentMethod.Ideal` | `PaymentMethod.IDEAL` |
-    | PaymentMethod | `PaymentMethodIdeal` | `PaymentMethodIDEAL` |
+    | PaymentMethod | `PaymentMethodIdeal` | `PaymentMethodIDEAL` | <!-- ---- R, S -->
 
   - `Sepa` to `SEPA`
     | Resource | Old name | New name |
@@ -162,7 +266,7 @@ Default API version changed to "2022-07-28".
     | PaymentMethod | `PaymentMethodParams.SepaDebit` | `PaymentMethodParams.SEPADebit` |
     | PaymentMethod | `PaymentMethod.SepaDebit` | `PaymentMethod.SEPADebit` |
     | PaymentMethod | `PaymentMethodSepaDebit` | `PaymentMethodSEPADebit` |
-    | PaymentMethod | `PaymentMethodSepaDebitGeneratedFrom` | `PaymentMethodSEPADebitGeneratedFrom` |
+    | PaymentMethod | `PaymentMethodSepaDebitGeneratedFrom` | `PaymentMethodSEPADebitGeneratedFrom` | <!-- ---- R, S -->
 
   - `ExternalAccount` to `AccountExternalAccount`
     | Resource | Old name | New name |
@@ -172,7 +276,7 @@ Default API version changed to "2022-07-28".
     | Account | `ExternalAccountTypeBankAccount` | `AccountExternalAccountTypeBankAccount` |
     | Account | `ExternalAccountTypeCard` | `AccountExternalAccountTypeCard` |
     | Account | `AccountExternalAccountParams` | `AccountExternalAccountParams` |
-    | Account | `ExternalAccountList` | `AccountExternalAccountList` |
+    | Account | `ExternalAccountList` | `AccountExternalAccountList` | <!-- ---- R, S -->
 
   - `InvoiceLine` to `InvoiceLineItem`
     | Resource | Old name | New name |
@@ -184,7 +288,7 @@ Default API version changed to "2022-07-28".
     | Invoice | `InvoiceLineTypeSubscription` | `InvoiceLinItemeTypeSubscription` |
     | Invoice | `InvoiceLineDiscountAmount` | `InvoiceLineItemDiscountAmount` |
     | Invoice | `InvoiceLineProrationDetails` | `InvoiceLineItemProrationDetails` |
-    | Invoice | `InvoiceLineProrationDetailsCreditedItems` | `InvoiceLineItemProrationDetailsCreditedItems` |
+    | Invoice | `InvoiceLineProrationDetailsCreditedItems` | `InvoiceLineItemProrationDetailsCreditedItems` | <!-- ---- R, S -->
 
   - `Person` structs/enums to use `Person` prefix
     | Old name | New name |
@@ -330,7 +434,9 @@ Default API version changed to "2022-07-28".
     | PaymentSource | `PaymentSource.SourceObject` | `PaymentSource.Source` |
     | Price | `PriceRecurringListParams` | `PriceListRecurringParams` |
     | Product | `PackageDimensions` | `ProductPackageDimensions` |
-    | Product | `PackageDimensionsParams` | `ProductPackageDimensionsParams` |
+    | Product | `PackageDimensionsParams` | `ProductPackageDimensionsParams` | <!-- ---- R, S -->
+    | TaxRate | `TaxRateTaxTypeJct` | `TaxRateTaxTypeJCT` |
+    | Token | `PIIParams` | `TokenPIIParams` |
 
 - Replace `AccountAddressParams` with `AccountCompanyAddressKanaParams` and `AccountCompanyAddressKanjiParams`
 - Change type:
@@ -362,7 +468,7 @@ Default API version changed to "2022-07-28".
   | Charge | `ChargePaymentMethodDetailsCardChecks.AddressPostalCodeCheck` | `CardVerification` | `ChargePaymentMethodDetailsCardChecksAddressPostalCodeCheck` | Same values. `CardVerification` was replaced with resource- and field-specific enums (with the same values) |
   | Charge | `ChargePaymentMethodDetailsCardChecks.CVCCheck` | `CardVerification` | `ChargePaymentMethodDetailsCardChecksCVCCheck` | Same values. `CardVerification` was replaced with resource- and field-specific enums (with the same values) |
   | Customer | `Customer.Address` | `Address` | `*Address` | `Address` is nullable |
-  | Customer | `CustomerParams.Source` | `*SourceParams` | `*string` | `CustomerParams.Source` should be the ID of a source |
+  | Customer | `CustomerParams.Source` | `*SourceParams` | `*string` | `customer.source` should be the ID of a source |
   | Discount | `Discount.CheckoutSession` | `*CheckoutSession` | `string` | `discount.checkout_session` is not expandable |
   | Discount | `Discount.Customer` | `string` | `*Customer` | `discount.customer` is expandable |
   | Invoice | `InvoiceCustomerTaxID.Type` | `TaxIDType` | `*TaxIDType` | `invoice.customer_tax_ids.type` is nullable |
@@ -395,7 +501,14 @@ Default API version changed to "2022-07-28".
   | Person | `PersonParams.AddressKana` | `*AccountAddressParams` | `*PersonAddressKanaParams` | `AccountAddressParams` has been split into separate `PersonAddressKanaParams` and `PersonAddressKanjiParams` |
   | Person | `PersonParams.AddressKanji` | `*AccountAddressParams` | `*PersonAddressKanjiParams` | `AccountAddressParams` has been split into separate `PersonAddressKanaParams` and `PersonAddressKanjiParams` |
   | Plan | `Plan.AggregateUsage` | `string` | `PlanAggregateUsage` | Use enum that was already defined but unused |
-  | Plan | `Plan.TiersMode` | `string` | `PlanTiersMode` | Use enum that was already defined but unused |
+  | Plan | `Plan.TiersMode` | `string` | `PlanTiersMode` | Use enum that was already defined but unused | <!-- ---- R, S -->
+  | Terminal ConnectionToken | `TerminalConnectionTokenParams.Location` | `string` | `*string` | Params fields should be pointers |
+  | Terminal Location | `TerminalLocationParams.Account` | `*AccountAddressParams` | `*AddressParams` | `AccountAddressParams` had extra `Town` field |
+  | Terminal Location | `AccountAddressParams.Account` | `*AccountAddressParams` | `*Address` | `AccountAddressParams` had extra `Town` field, and also was the Params struct and not resource struct |
+  | Terminal Reader | `TerminalReader.Location` | `string` | `*TerminalLocation` | `terminal_reader.location` is expandable |
+  | Topup | `TopupParams.Source` | `*SourceParams` | `*string` | `topup.source` should be the ID of a source |
+  | Topup | `Transfer.Destination` | `*TransferDestination` | `*Account` | `transfer.destination` should be (expandable) Account (previously, `UnmarshalJSON` would write the Account into `TransferDestination.Account`, but this should already be handled by `Account`'s `UnmarshalJSON`) |
+  | Transfer | `Transfer.SourceTransaction` | `*BalanceTransactionSource` | `*Charge` | `transfer.source_transaction` should be (expandable) Charge |
 
 - Moved `BalanceTransaction` iterator from `balance.go` to `balancetransaction.go`
 - Fixed `BalanceTransactionSource` `UnmarshalJSON` for when `BalanceTransactionSource.Type == "transfer_reversal"` (previously, we were checking if `Type == "reversal"`, which was always false)
@@ -409,13 +522,17 @@ Default API version changed to "2022-07-28".
 - Add separate structs for `BillingDetails` and `BillingDetailsParams`: `PaymentMethodBillingDetails`, `PaymentMethodBillingDetailsParams`
 - Add separate structs for `PaymentMethodCardNetwork`: `PaymentMethodCardNetworksAvailable`, `PaymentMethodCardNetworksPreferred`
 
+<!-- ---- up to R -->
+
+<!-- ---- after S -->
+
 ## Deprecated
 
-- SKU. Use the new Orders.
+- SKU
 
 ## Removed
 
-- `UnmarshalJSON` for resources that are not expandable: `BillingPortalSession`, `Capability`, `CheckoutSession`, `FileLink`, `InvoiceItem`, `LineItem`, `Person`
+- `UnmarshalJSON` for resources that are not expandable: `BillingPortalSession`, `Capability`, `CheckoutSession`, `FileLink`, `InvoiceItem`, `LineItem`, `Person`, `WebhookEndpoint`
 - `AccountRejectReason` (was only referenced in `account/client_test.go`, actual `AccountRejectParams.Reason` is `*string`)
 - `AccountParams.RequestedCapabilities` (use Capabilities instead: https://stripe.com/docs/connect/account-capabilities)
 
@@ -488,3 +605,13 @@ Default API version changed to "2022-07-28".
   ```
 - Remove `Shipping` and `ShippingRate` properties from `CheckoutSession` resource. Please use `ShippingCost` and `ShippingDetails` properties instead.
 - Remove `DefaultCurrency` property from `Customer` resource. Please use `Currency` property instead.
+
+---- up to R
+
+---- after S
+- `Del` TaxRate
+- `TerminalReaderGetParams`. Use `TerminalReaderParams`
+- `TerminalReaderList.Location` and `TerminalReaderList.Status` (Not available for the list, but is available for individual `TerminalReader`s in `TerminalReaderList.Data`)
+- `Token.Email` and `TokenParams.Email`
+- `WebhookEndpointListParams.Created` and `WebhookEndpointListParams.CreatedRange` (use `StartingAfter` from `ListParams`)
+- `WebhookEndpoint.Connected`
