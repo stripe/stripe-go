@@ -192,7 +192,7 @@ const (
 	ChargePaymentMethodDetailsTypeSEPADebit         ChargePaymentMethodDetailsType = "sepa_debit"
 	ChargePaymentMethodDetailsTypeSofort            ChargePaymentMethodDetailsType = "sofort"
 	ChargePaymentMethodDetailsTypeStripeAccount     ChargePaymentMethodDetailsType = "stripe_account"
-	ChargePaymentMethodDetailsTypeWechat            ChargePaymentMethodDetailsType = "wechat"
+	ChargePaymentMethodDetailsTypeWeChat            ChargePaymentMethodDetailsType = "wechat"
 )
 
 // Account holder type: individual or company.
@@ -938,8 +938,8 @@ type ChargePaymentMethodDetailsUSBankAccount struct {
 	// Routing number of the bank account.
 	RoutingNumber string `json:"routing_number"`
 }
-type ChargePaymentMethodDetailsWechat struct{}
-type ChargePaymentMethodDetailsWechatPay struct {
+type ChargePaymentMethodDetailsWeChat struct{}
+type ChargePaymentMethodDetailsWeChatPay struct {
 	// Uniquely identifies this particular WeChat Pay account. You can use this attribute to check whether two WeChat accounts are the same.
 	Fingerprint string `json:"fingerprint"`
 	// Transaction ID of this particular WeChat Pay transaction.
@@ -985,8 +985,8 @@ type ChargePaymentMethodDetails struct {
 	// It contains information specific to the payment method.
 	Type          ChargePaymentMethodDetailsType           `json:"type"`
 	USBankAccount *ChargePaymentMethodDetailsUSBankAccount `json:"us_bank_account"`
-	Wechat        *ChargePaymentMethodDetailsWechat        `json:"wechat"`
-	WechatPay     *ChargePaymentMethodDetailsWechatPay     `json:"wechat_pay"`
+	WeChat        *ChargePaymentMethodDetailsWeChat        `json:"wechat"`
+	WeChatPay     *ChargePaymentMethodDetailsWeChatPay     `json:"wechat_pay"`
 }
 
 // Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.

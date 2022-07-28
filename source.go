@@ -516,7 +516,7 @@ type SourceThreeDSecure struct {
 	ThreeDSecure       string `json:"three_d_secure"`
 	TokenizationMethod string `json:"tokenization_method"`
 }
-type SourceWechat struct {
+type SourceWeChat struct {
 	PrepayID            string `json:"prepay_id"`
 	QRCodeURL           string `json:"qr_code_url"`
 	StatementDescriptor string `json:"statement_descriptor"`
@@ -582,7 +582,7 @@ type Source struct {
 	Type string `json:"type"`
 	// Either `reusable` or `single_use`. Whether this source should be reusable or not. Some source types may or may not be reusable by construction, while others may leave the option at creation. If an incompatible value is passed, an error will be returned.
 	Usage  SourceUsage   `json:"usage"`
-	Wechat *SourceWechat `json:"wechat"`
+	WeChat *SourceWeChat `json:"wechat"`
 }
 
 // UnmarshalJSON handles deserialization of a Source.

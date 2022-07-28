@@ -1080,7 +1080,7 @@ type CheckoutSessionPaymentMethodOptionsUSBankAccountParams struct {
 }
 
 // contains details about the WeChat Pay payment method options.
-type CheckoutSessionPaymentMethodOptionsWechatPayParams struct {
+type CheckoutSessionPaymentMethodOptionsWeChatPayParams struct {
 	// The app ID registered with WeChat Pay. Only required when client is ios or android.
 	AppID *string `form:"app_id"`
 	// The client type that the end customer will pay from
@@ -1142,7 +1142,7 @@ type CheckoutSessionPaymentMethodOptionsParams struct {
 	// contains details about the Us Bank Account payment method options.
 	USBankAccount *CheckoutSessionPaymentMethodOptionsUSBankAccountParams `form:"us_bank_account"`
 	// contains details about the WeChat Pay payment method options.
-	WechatPay *CheckoutSessionPaymentMethodOptionsWechatPayParams `form:"wechat_pay"`
+	WeChatPay *CheckoutSessionPaymentMethodOptionsWeChatPayParams `form:"wechat_pay"`
 }
 
 // Controls phone number collection settings for the session.

@@ -608,13 +608,13 @@ const (
 )
 
 // The client type that the end customer will pay from
-type PaymentIntentPaymentMethodOptionsWechatPayClient string
+type PaymentIntentPaymentMethodOptionsWeChatPayClient string
 
-// List of values that PaymentIntentPaymentMethodOptionsWechatPayClient can take
+// List of values that PaymentIntentPaymentMethodOptionsWeChatPayClient can take
 const (
-	PaymentIntentPaymentMethodOptionsWechatPayClientAndroid PaymentIntentPaymentMethodOptionsWechatPayClient = "android"
-	PaymentIntentPaymentMethodOptionsWechatPayClientIOS     PaymentIntentPaymentMethodOptionsWechatPayClient = "ios"
-	PaymentIntentPaymentMethodOptionsWechatPayClientWeb     PaymentIntentPaymentMethodOptionsWechatPayClient = "web"
+	PaymentIntentPaymentMethodOptionsWeChatPayClientAndroid PaymentIntentPaymentMethodOptionsWeChatPayClient = "android"
+	PaymentIntentPaymentMethodOptionsWeChatPayClientIOS     PaymentIntentPaymentMethodOptionsWeChatPayClient = "ios"
+	PaymentIntentPaymentMethodOptionsWeChatPayClientWeb     PaymentIntentPaymentMethodOptionsWeChatPayClient = "web"
 )
 
 // Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -622,11 +622,11 @@ const (
 // Providing this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.
 //
 // When processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).
-type PaymentIntentPaymentMethodOptionsWechatPaySetupFutureUsage string
+type PaymentIntentPaymentMethodOptionsWeChatPaySetupFutureUsage string
 
-// List of values that PaymentIntentPaymentMethodOptionsWechatPaySetupFutureUsage can take
+// List of values that PaymentIntentPaymentMethodOptionsWeChatPaySetupFutureUsage can take
 const (
-	PaymentIntentPaymentMethodOptionsWechatPaySetupFutureUsageNone PaymentIntentPaymentMethodOptionsWechatPaySetupFutureUsage = "none"
+	PaymentIntentPaymentMethodOptionsWeChatPaySetupFutureUsageNone PaymentIntentPaymentMethodOptionsWeChatPaySetupFutureUsage = "none"
 )
 
 // Type of the payment method for which payment is in `processing` state, one of `card`.
@@ -827,7 +827,7 @@ type PaymentIntentPaymentMethodDataParams struct {
 	// If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
 	USBankAccount *PaymentIntentPaymentMethodDataUSBankAccountParams `form:"us_bank_account"`
 	// If this is an `wechat_pay` PaymentMethod, this hash contains details about the wechat_pay payment method.
-	WechatPay *PaymentMethodWechatPayParams `form:"wechat_pay"`
+	WeChatPay *PaymentMethodWeChatPayParams `form:"wechat_pay"`
 }
 
 // Additional fields for Mandate creation
@@ -1332,7 +1332,7 @@ type PaymentIntentPaymentMethodOptionsUSBankAccountParams struct {
 }
 
 // If this is a `wechat_pay` PaymentMethod, this sub-hash contains details about the WeChat Pay payment method options.
-type PaymentIntentPaymentMethodOptionsWechatPayParams struct {
+type PaymentIntentPaymentMethodOptionsWeChatPayParams struct {
 	// The app ID registered with WeChat Pay. Only required when client is ios or android.
 	AppID *string `form:"app_id"`
 	// The client type that the end customer will pay from
@@ -1406,7 +1406,7 @@ type PaymentIntentPaymentMethodOptionsParams struct {
 	// If this is a `us_bank_account` PaymentMethod, this sub-hash contains details about the US bank account payment method options.
 	USBankAccount *PaymentIntentPaymentMethodOptionsUSBankAccountParams `form:"us_bank_account"`
 	// If this is a `wechat_pay` PaymentMethod, this sub-hash contains details about the WeChat Pay payment method options.
-	WechatPay *PaymentIntentPaymentMethodOptionsWechatPayParams `form:"wechat_pay"`
+	WeChatPay *PaymentIntentPaymentMethodOptionsWeChatPayParams `form:"wechat_pay"`
 }
 
 // Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
@@ -1904,7 +1904,7 @@ type PaymentIntentNextActionVerifyWithMicrodeposits struct {
 	// The type of the microdeposit sent to the customer. Used to distinguish between different verification methods.
 	MicrodepositType PaymentIntentNextActionVerifyWithMicrodepositsMicrodepositType `json:"microdeposit_type"`
 }
-type PaymentIntentNextActionWechatPayDisplayQRCode struct {
+type PaymentIntentNextActionWeChatPayDisplayQRCode struct {
 	// The data being used to generate QR code
 	Data string `json:"data"`
 	// The base64 image data for a pre-generated QR code
@@ -1914,7 +1914,7 @@ type PaymentIntentNextActionWechatPayDisplayQRCode struct {
 	// The image_url_svg string used to render QR code
 	ImageURLSVG string `json:"image_url_svg"`
 }
-type PaymentIntentNextActionWechatPayRedirectToAndroidApp struct {
+type PaymentIntentNextActionWeChatPayRedirectToAndroidApp struct {
 	// app_id is the APP ID registered on WeChat open platform
 	AppID string `json:"app_id"`
 	// nonce_str is a random string
@@ -1930,7 +1930,7 @@ type PaymentIntentNextActionWechatPayRedirectToAndroidApp struct {
 	// Specifies the current time in epoch format
 	Timestamp string `json:"timestamp"`
 }
-type PaymentIntentNextActionWechatPayRedirectToIOSApp struct {
+type PaymentIntentNextActionWeChatPayRedirectToIOSApp struct {
 	// An universal link that redirect to WeChat Pay app
 	NativeURL string `json:"native_url"`
 }
@@ -1951,9 +1951,9 @@ type PaymentIntentNextAction struct {
 	// When confirming a PaymentIntent with Stripe.js, Stripe.js depends on the contents of this dictionary to invoke authentication flows. The shape of the contents is subject to change and is only intended to be used by Stripe.js.
 	UseStripeSDK                  *PaymentIntentNextActionUseStripeSDK                  `json:"use_stripe_sdk"`
 	VerifyWithMicrodeposits       *PaymentIntentNextActionVerifyWithMicrodeposits       `json:"verify_with_microdeposits"`
-	WechatPayDisplayQRCode        *PaymentIntentNextActionWechatPayDisplayQRCode        `json:"wechat_pay_display_qr_code"`
-	WechatPayRedirectToAndroidApp *PaymentIntentNextActionWechatPayRedirectToAndroidApp `json:"wechat_pay_redirect_to_android_app"`
-	WechatPayRedirectToIOSApp     *PaymentIntentNextActionWechatPayRedirectToIOSApp     `json:"wechat_pay_redirect_to_ios_app"`
+	WeChatPayDisplayQRCode        *PaymentIntentNextActionWeChatPayDisplayQRCode        `json:"wechat_pay_display_qr_code"`
+	WeChatPayRedirectToAndroidApp *PaymentIntentNextActionWeChatPayRedirectToAndroidApp `json:"wechat_pay_redirect_to_android_app"`
+	WeChatPayRedirectToIOSApp     *PaymentIntentNextActionWeChatPayRedirectToIOSApp     `json:"wechat_pay_redirect_to_ios_app"`
 }
 type PaymentIntentPaymentMethodOptionsACSSDebitMandateOptions struct {
 	// A URL for custom mandate text
@@ -2295,17 +2295,17 @@ type PaymentIntentPaymentMethodOptionsUSBankAccount struct {
 	// Bank account verification method.
 	VerificationMethod PaymentIntentPaymentMethodOptionsUSBankAccountVerificationMethod `json:"verification_method"`
 }
-type PaymentIntentPaymentMethodOptionsWechatPay struct {
+type PaymentIntentPaymentMethodOptionsWeChatPay struct {
 	// The app ID registered with WeChat Pay. Only required when client is ios or android.
 	AppID string `json:"app_id"`
 	// The client type that the end customer will pay from
-	Client PaymentIntentPaymentMethodOptionsWechatPayClient `json:"client"`
+	Client PaymentIntentPaymentMethodOptionsWeChatPayClient `json:"client"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// Providing this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.
 	//
 	// When processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).
-	SetupFutureUsage PaymentIntentPaymentMethodOptionsWechatPaySetupFutureUsage `json:"setup_future_usage"`
+	SetupFutureUsage PaymentIntentPaymentMethodOptionsWeChatPaySetupFutureUsage `json:"setup_future_usage"`
 }
 
 // Payment-method-specific configuration for this PaymentIntent.
@@ -2338,7 +2338,7 @@ type PaymentIntentPaymentMethodOptions struct {
 	SEPADebit        *PaymentIntentPaymentMethodOptionsSEPADebit        `json:"sepa_debit"`
 	Sofort           *PaymentIntentPaymentMethodOptionsSofort           `json:"sofort"`
 	USBankAccount    *PaymentIntentPaymentMethodOptionsUSBankAccount    `json:"us_bank_account"`
-	WechatPay        *PaymentIntentPaymentMethodOptionsWechatPay        `json:"wechat_pay"`
+	WeChatPay        *PaymentIntentPaymentMethodOptionsWeChatPay        `json:"wechat_pay"`
 }
 type PaymentIntentProcessingCardCustomerNotification struct {
 	// Whether customer approval has been requested for this payment. For payments greater than INR 15000 or mandate amount, the customer must provide explicit approval of the payment with their bank.

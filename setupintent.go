@@ -404,7 +404,7 @@ type SetupIntentPaymentMethodDataUSBankAccountParams struct {
 }
 
 // If this is an `wechat_pay` PaymentMethod, this hash contains details about the wechat_pay payment method.
-type SetupIntentPaymentMethodDataWechatPayParams struct{}
+type SetupIntentPaymentMethodDataWeChatPayParams struct{}
 
 // When included, this hash creates a PaymentMethod that is set as the [`payment_method`](https://stripe.com/docs/api/setup_intents/object#setup_intent_object-payment_method)
 // value in the SetupIntent.
@@ -470,7 +470,7 @@ type SetupIntentPaymentMethodDataParams struct {
 	// If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
 	USBankAccount *SetupIntentPaymentMethodDataUSBankAccountParams `form:"us_bank_account"`
 	// If this is an `wechat_pay` PaymentMethod, this hash contains details about the wechat_pay payment method.
-	WechatPay *SetupIntentPaymentMethodDataWechatPayParams `form:"wechat_pay"`
+	WeChatPay *SetupIntentPaymentMethodDataWeChatPayParams `form:"wechat_pay"`
 }
 
 // Additional fields for Mandate creation
@@ -827,7 +827,7 @@ type SetupIntentConfirmPaymentMethodDataUSBankAccountParams struct {
 }
 
 // If this is an `wechat_pay` PaymentMethod, this hash contains details about the wechat_pay payment method.
-type SetupIntentConfirmPaymentMethodDataWechatPayParams struct{}
+type SetupIntentConfirmPaymentMethodDataWeChatPayParams struct{}
 
 // When included, this hash creates a PaymentMethod that is set as the [`payment_method`](https://stripe.com/docs/api/setup_intents/object#setup_intent_object-payment_method)
 // value in the SetupIntent.
@@ -893,7 +893,7 @@ type SetupIntentConfirmPaymentMethodDataParams struct {
 	// If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
 	USBankAccount *SetupIntentConfirmPaymentMethodDataUSBankAccountParams `form:"us_bank_account"`
 	// If this is an `wechat_pay` PaymentMethod, this hash contains details about the wechat_pay payment method.
-	WechatPay *SetupIntentConfirmPaymentMethodDataWechatPayParams `form:"wechat_pay"`
+	WeChatPay *SetupIntentConfirmPaymentMethodDataWeChatPayParams `form:"wechat_pay"`
 }
 
 // Confirm that your customer intends to set up the current or

@@ -145,7 +145,7 @@ const (
 	PaymentMethodTypeSEPADebit        PaymentMethodType = "sepa_debit"
 	PaymentMethodTypeSofort           PaymentMethodType = "sofort"
 	PaymentMethodTypeUSBankAccount    PaymentMethodType = "us_bank_account"
-	PaymentMethodTypeWechatPay        PaymentMethodType = "wechat_pay"
+	PaymentMethodTypeWeChatPay        PaymentMethodType = "wechat_pay"
 )
 
 // Account holder type: individual or company.
@@ -349,7 +349,7 @@ type PaymentMethodUSBankAccountParams struct {
 }
 
 // If this is an `wechat_pay` PaymentMethod, this hash contains details about the wechat_pay payment method.
-type PaymentMethodWechatPayParams struct{}
+type PaymentMethodWeChatPayParams struct{}
 
 // Creates a PaymentMethod object. Read the [Stripe.js reference](https://stripe.com/docs/stripe-js/reference#stripe-create-payment-method) to learn how to create PaymentMethods via Stripe.js.
 //
@@ -417,7 +417,7 @@ type PaymentMethodParams struct {
 	// If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
 	USBankAccount *PaymentMethodUSBankAccountParams `form:"us_bank_account"`
 	// If this is an `wechat_pay` PaymentMethod, this hash contains details about the wechat_pay payment method.
-	WechatPay *PaymentMethodWechatPayParams `form:"wechat_pay"`
+	WeChatPay *PaymentMethodWeChatPayParams `form:"wechat_pay"`
 	// The following parameters are used when cloning a PaymentMethod to the connected account
 	// The `Customer` to whom the original PaymentMethod is attached.
 	Customer *string `form:"customer"`
@@ -705,7 +705,7 @@ type PaymentMethodUSBankAccount struct {
 	// Routing number of the bank account.
 	RoutingNumber string `json:"routing_number"`
 }
-type PaymentMethodWechatPay struct{}
+type PaymentMethodWeChatPay struct{}
 
 // PaymentMethod objects represent your customer's payment instruments.
 // You can use them with [PaymentIntents](https://stripe.com/docs/payments/payment-intents) to collect payments or save them to
@@ -759,7 +759,7 @@ type PaymentMethod struct {
 	// The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type.
 	Type          PaymentMethodType           `json:"type"`
 	USBankAccount *PaymentMethodUSBankAccount `json:"us_bank_account"`
-	WechatPay     *PaymentMethodWechatPay     `json:"wechat_pay"`
+	WeChatPay     *PaymentMethodWeChatPay     `json:"wechat_pay"`
 }
 
 // PaymentMethodList is a list of PaymentMethods as retrieved from a list endpoint.

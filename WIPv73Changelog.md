@@ -233,7 +233,7 @@ Default API version changed to "2022-07-28".
   - `Sepa` to `SEPA`
     | Resource | Old name | New name |
     | --- | --- | --- |
-    | Charge | `ChargePaymentMethodDetailsTypeSepaDebit` | `ChargePaymentMethodDetailsTypeSEPAaDebit` |
+    | Charge | `ChargePaymentMethodDetailsTypeSepaDebit` | `ChargePaymentMethodDetailsTypeSEPADebit` |
     | CheckoutSessions | `CheckoutSessionPaymentMethodOptions.SepaDebit` | `CheckoutSessionPaymentMethodOptions.SEPADebit` |
     | CheckoutSessions | `CheckoutSessionPaymentMethodOptionsSepaDebit` | `CheckoutSessionPaymentMethodOptionsSEPADebit` |
     | CheckoutSessions | `CheckoutSessionPaymentMethodOptionsSepaDebitSetupFutureUsage` | `CheckoutSessionPaymentMethodOptionsSEPADebitSetupFutureUsage` |
@@ -267,6 +267,51 @@ Default API version changed to "2022-07-28".
     | PaymentMethod | `PaymentMethod.SepaDebit` | `PaymentMethod.SEPADebit` |
     | PaymentMethod | `PaymentMethodSepaDebit` | `PaymentMethodSEPADebit` |
     | PaymentMethod | `PaymentMethodSepaDebitGeneratedFrom` | `PaymentMethodSEPADebitGeneratedFrom` | <!-- ---- R, S -->
+
+  - `Wechat` to `WeChat`
+    | Resource | Old name | New name |
+    | --- | --- | --- |
+    | Charge | `ChargePaymentMethodDetailsTypeWeChat` | `ChargePaymentMethodDetailsTypeWeChat` |
+    | Charge | `ChargePaymentMethodDetailsWechat` | `ChargePaymentMethodDetailsWeChat` |
+    | Charge | `ChargePaymentMethodDetailsWechatPay` | `ChargePaymentMethodDetailsWeChatPay` |
+    | Charge | `ChargePaymentMethodDetails.Wechat` | `ChargePaymentMethodDetails.WeChat` |
+    | Charge | `ChargePaymentMethodDetails.WechatPay` | `ChargePaymentMethodDetails.WeChatPay` |
+    | CheckoutSession | `CheckoutSessionPaymentMethodOptionsWechatPayParams` | `CheckoutSessionPaymentMethodOptionsWeChatPayParams` |
+    | CheckoutSession | `CheckoutSessionPaymentMethodOptionsParams.Wechat` | `CheckoutSessionPaymentMethodOptionsParams.WeChat` |
+    | Invoice | `InvoicePaymentSettingsPaymentMethodTypeWechatPay` | `InvoicePaymentSettingsPaymentMethodTypeWeChatPay` |
+    | PaymentIntent | `PaymentIntentPaymentMethodOptionsWechatPayClient` | `PaymentIntentPaymentMethodOptionsWeChatPayClient` |
+    | PaymentIntent | `PaymentIntentPaymentMethodOptionsWechatPayClient` | `PaymentIntentPaymentMethodOptionsWeChatPayClient` |
+    | PaymentIntent | `PaymentIntentPaymentMethodOptionsWechatPayClient` | `PaymentIntentPaymentMethodOptionsWeChatPayClient` |
+    | PaymentIntent | `PaymentIntentPaymentMethodOptionsWechatPayClient` | `PaymentIntentPaymentMethodOptionsWeChatPayClient` |
+    | PaymentIntent | `PaymentIntentPaymentMethodOptionsWechatPayClientAndroid` | `PaymentIntentPaymentMethodOptionsWeChatPayClientAndroid` |
+    | PaymentIntent | `PaymentIntentPaymentMethodOptionsWechatPayClientIOS` | `PaymentIntentPaymentMethodOptionsWeChatPayClientIOS` |
+    | PaymentIntent | `PaymentIntentPaymentMethodOptionsWechatPayClientWeb` | `PaymentIntentPaymentMethodOptionsWeChatPayClientWeb` |
+    | PaymentIntent | `PaymentIntentPaymentMethodOptionsWechatPaySetupFutureUsage` | `PaymentIntentPaymentMethodOptionsWeChatPaySetupFutureUsage` |
+    | PaymentIntent | `PaymentIntentPaymentMethodOptionsWechatPaySetupFutureUsageNone` | `PaymentIntentPaymentMethodOptionsWeChatPaySetupFutureUsageNone` |
+    | PaymentIntent | `PaymentIntentPaymentMethodDataParams.WechatPay` | `PaymentIntentPaymentMethodDataParams.WeChatPay` |
+    | PaymentIntent | `PaymentIntentPaymentMethodOptionsWechatPayParams` | `PaymentIntentPaymentMethodOptionsWeChatPayParams` |
+    | PaymentIntent | `PaymentIntentPaymentMethodOptionsParams.WechatPay` | `PaymentIntentPaymentMethodOptionsParams.WeChatPay` |
+    | PaymentIntent | `PaymentIntentNextActionWechatPayDisplayQRCode` | `PaymentIntentNextActionWeChatPayDisplayQRCode` |
+    | PaymentIntent | `PaymentIntentNextActionWechatPayRedirectToAndroidApp` | `PaymentIntentNextActionWeChatPayRedirectToAndroidApp` |
+    | PaymentIntent | `PaymentIntentNextActionWechatPayRedirectToIOSApp` | `PaymentIntentNextActionWeChatPayRedirectToIOSApp` |
+    | PaymentIntent | `PaymentIntentNextAction.WechatPayDisplayQRCode` | `PaymentIntentNextAction.WeChatPayDisplayQRCode` |
+    | PaymentIntent | `PaymentIntentNextAction.WechatPayRedirectToAndroidApp` | `PaymentIntentNextAction.WeChatPayRedirectToAndroidApp` |
+    | PaymentIntent | `PaymentIntentNextAction.WechatPayRedirectToIOSApp` | `PaymentIntentNextAction.WeChatPayRedirectToIOSApp` |
+    | PaymentIntent | `PaymentIntentPaymentMethodOptionsWechatPay` | `PaymentIntentPaymentMethodOptionsWeChatPay` |
+    | PaymentIntent | `PaymentIntentPaymentMethodOptions.WeChatPay` | `PaymentIntentPaymentMethodOptions.WeChatPay` |
+    | PaymentLink | `PaymentLinkPaymentMethodTypeWechatPay` | `PaymentLinkPaymentMethodTypeWeChatPay` |
+    | PaymentMethod | `PaymentMethodTypeWechatPay` | `PaymentMethodTypeWeChatPay` |
+    | PaymentMethod | `PaymentMethodWechatPayParams` | `PaymentMethodWeChatPayParams` |
+    | PaymentMethod | `PaymentMethodParams.WeChatPay` | `PaymentMethodParams.WeChatPay` |
+    | PaymentMethod | `PaymentMethodWechatPay` | `PaymentMethodWeChatPay` |
+    | PaymentMethod | `PaymentMethod.WeChatPay` | `PaymentMethod.WeChatPay` |
+    | SetupIntent | `SetupIntentPaymentMethodDataWechatPayParams` | `SetupIntentPaymentMethodDataWeChatPayParams` |
+    | SetupIntent | `SetupIntentPaymentMethodDataParams.WechatPay` | `SetupIntentPaymentMethodDataParams.WeChatPay` |
+    | SetupIntent | `SetupIntentConfirmPaymentMethodDataWechatPayParams` | `SetupIntentConfirmPaymentMethodDataWeChatPayParams` |
+    | SetupIntent | `SetupIntentConfirmPaymentMethodDataParams.WechatPay` | `SetupIntentConfirmPaymentMethodDataParams.WeChatPay` |
+    | Source | `SourceWechat` | `SourceWeChat` |
+    | Source | `Source.Wechat` | `Source.WeChat` |
+    | Subscription | `SubscriptionPaymentSettingsPaymentMethodTypeWechatPay` | `SubscriptionPaymentSettingsPaymentMethodTypeWeChatPay` |
 
   - `ExternalAccount` to `AccountExternalAccount`
     | Resource | Old name | New name |
