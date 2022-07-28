@@ -15,7 +15,6 @@ Default API version changed to "2022-07-28".
 - Add `SKUPackageDimensionsParams` and `SKUPackageDimensions`.
 - Add `SourceACHCreditTransfer`, `SourceACHDebit`, `SourceACSSDebit`, `SourceAlipay`, `SourceAUBECSDebit`, `SourceBancontact`, `SourceCard`, `SourceCardPresent`, `SourceEPS`, `SourceGiropay`, `SourceIDEAL`,  `SourceKlarna`, `SourceMultibanco`, `SourceP24`, `SourceRedirect`, `SourceSEPACreditTransfer`, `SourceSEPADebit`, `SourceSofort`, `SourceThreeDSecure`, and `SourceWechat`. Additionally, matching fields in `Source` struct - `ACHCreditTransfer`, `ACHDebit`, `ACSSDebit`, `Alipay`, `AUBECSDebit`, `Bancontact`, `Card`, `CardPresent`, `EPS`, `Giropay`, `IDEAL`, `Klarna`, `Multibanco`, `P24`, `SEPACreditTransfer`, `SEPADebit`, `Sofort`, `ThreeDSecure`, and `Wechat`
 - Add `SourceTransactionACHCreditTransfer`, `SourceTransactionCHFCreditTransfer`, `SourceTransactionGBPCreditTransfer`, `SourceTransactionPaperCheck`, and `SourceTransactionSEPACreditTransfer` and matching `SourceTransaction.ACHCreditTransfer`, `SourceTransaction.CHFCreditTransfer`, `SourceTransaction.GBPCreditTransfer`, `SourceTransaction.PaperCheck`, and `SourceTransaction.SEPACreditTransfer`.
-- Add `SubscriptionDeleteDiscountParams`.
 - Add `Subscription.DeleteDiscount` methods.
 - Add `SubscriptionItemUsageRecordSummariesParams`
 - Add `UsageRecordSummary` `UsageRecordSummaries`, and `UsageRecordSummaryList` methods in `SubscriptionItem`
@@ -607,24 +606,24 @@ Default API version changed to "2022-07-28".
   | Person | `PersonParams.AddressKanji` | `*AccountAddressParams` | `*PersonAddressKanjiParams` | `AccountAddressParams` has been split into separate `PersonAddressKanaParams` and `PersonAddressKanjiParams` |
   | Plan | `Plan.AggregateUsage` | `string` | `PlanAggregateUsage` | Use enum that was already defined but unused |
   | Plan | `Plan.TiersMode` | `string` | `PlanTiersMode` | Use enum that was already defined but unused |
-  | Refund | `Refund.SourceTransferReversal` | `*Reversal` | `*TransferReversal` | Rename `Reversal` to TransferRev`ersal for consistency with other Stripe client libraries |
-  | Refund | `Refund.TransferReversal` | `*Reversal` | `*TransferReversal` | Rename `Reversal` to TransferRev`ersal for consistency with other Stripe client libraries |
+  | Refund | `Refund.SourceTransferReversal` | `*Reversal` | `*TransferReversal` | Rename `Reversal` to `TransferReversal` for consistency with other Stripe client libraries |
+  | Refund | `Refund.TransferReversal` | `*Reversal` | `*TransferReversal` | Rename `Reversal` to `TransferReversal` for consistency with other Stripe client libraries |
   | SetupIntent | `SetupIntentPaymentMethodOptionsACSSDebit.Currency` | `string` | `*SetupIntentPaymentMethodOptionsACSSDebitCurrency` | `SetupIntentPaymentMethodOptionsACSSDebitCurrency` is an alias to `string` type |
-  | Source | `Source.Receiver` | `*ReceiverFlow` | `*SourceReceiver` | TODO |
-  | Source | `Source.Redirect` | `*RedirectFlow` | `*SourceRedirect` | TODO |
-  | Subscription | `SubscriptionListParams.Created` | `int64` | `*int64` | `Created` is nullable |
-  | Subscription | `SubscriptionListParams.Customer` | `string` | `*string` | `Customer` is nullable |
-  | Subscription | `SubscriptionListParams.Plan` | `string` | `*string` | `Plan` is nullable |
-  | Subscription | `SubscriptionListParams.Price` | `string` | `*string` | `Price` is nullable |
-  | Subscription | `SubscriptionListParams.Status` | `string` | `*string` | `Status` is nullable |
+  | Source | `Source.Receiver` | `*ReceiverFlow` | `*SourceReceiver` | Rename `ReceiverFlow` to `SourceReceiver` for consistency with other Stripe client libraries |
+  | Source | `Source.Redirect` | `*RedirectFlow` | `*SourceRedirect` | Rename `ReceiverFlow` to `SourceReceiver` for consistency with other Stripe client libraries |
+  | Subscription | `SubscriptionListParams.Created` | `int64` | `*int64` | Params fields should be pointers |
+  | Subscription | `SubscriptionListParams.Customer` | `string` | `*string` | Params fields should be pointers |
+  | Subscription | `SubscriptionListParams.Plan` | `string` | `*string` | Params fields should be pointers |
+  | Subscription | `SubscriptionListParams.Price` | `string` | `*string` | Params fields should be pointers |
+  | Subscription | `SubscriptionListParams.Status` | `string` | `*string` | Params fields should be pointers |
   | Subscription | `Subscription.PauseCollection` | `SubscriptionPauseCollection` | `*SubscriptionPauseCollection` | `PauseCollection` is nullable |
   | Subscription | `Subscription.PendingInvoiceItemInterval` | `SubscriptionPendingInvoiceItemInterval` | `*SubscriptionPendingInvoiceItemInterval` | `PendingInvoiceItemInterval` is nullable |
   | SubscriptionItem | `SubscriptionItem.BillingThresholds` | `SubscriptionItemBillingThresholds` | `*SubscriptionItemBillingThresholds` | `BillingThresholds` is nullable |
-  | SubscriptionSchedule | `SubscriptionScheduleListParams.CanceledAt` | `int64` | `*int64` | `CanceledAt` is nullable |
-  | SubscriptionSchedule | `SubscriptionScheduleListParams.CompletedAt` | `int64` | `*int64` | `CompletedAt` is nullable |
-  | SubscriptionSchedule | `SubscriptionScheduleListParams.Created` | `int64` | `*int64` | `Created` is nullable |
-  | SubscriptionSchedule | `SubscriptionScheduleListParams.Customer` | `string` | `*string` | `Customer` is nullable |
-  | SubscriptionSchedule | `SubscriptionScheduleListParams.ReleasedAt` | `int64` | `*int64` | `ReleasedAt` is nullable |
+  | SubscriptionSchedule | `SubscriptionScheduleListParams.CanceledAt` | `int64` | `*int64` | Params fields should be pointers |
+  | SubscriptionSchedule | `SubscriptionScheduleListParams.CompletedAt` | `int64` | `*int64` | Params fields should be pointers |
+  | SubscriptionSchedule | `SubscriptionScheduleListParams.Created` | `int64` | `*int64` | Params fields should be pointers |
+  | SubscriptionSchedule | `SubscriptionScheduleListParams.Customer` | `string` | `*string` | Params fields should be pointers |
+  | SubscriptionSchedule | `SubscriptionScheduleListParams.ReleasedAt` | `int64` | `*int64` | Params fields should be pointers |
   | SubscriptionSchedule | `SubscriptionScheduleDefaultSettings.CollectionMethod` | `SubscriptionCollectionMethod` | `*SubscriptionCollectionMethod` | `CollectionMethod` is nullable |
   | Terminal ConnectionToken | `TerminalConnectionTokenParams.Location` | `string` | `*string` | Params fields should be pointers |
   | Terminal Location | `TerminalLocationParams.Account` | `*AccountAddressParams` | `*AddressParams` | `AccountAddressParams` had extra `Town` field |
