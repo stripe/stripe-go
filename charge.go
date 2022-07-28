@@ -42,6 +42,7 @@ type ChargePaymentMethodDetailsCardThreeDSecureResult string
 const (
 	ChargePaymentMethodDetailsCardThreeDSecureResultAttemptAcknowledged ChargePaymentMethodDetailsCardThreeDSecureResult = "attempt_acknowledged"
 	ChargePaymentMethodDetailsCardThreeDSecureResultAuthenticated       ChargePaymentMethodDetailsCardThreeDSecureResult = "authenticated"
+	ChargePaymentMethodDetailsCardThreeDSecureResultExempted            ChargePaymentMethodDetailsCardThreeDSecureResult = "exempted"
 	ChargePaymentMethodDetailsCardThreeDSecureResultFailed              ChargePaymentMethodDetailsCardThreeDSecureResult = "failed"
 	ChargePaymentMethodDetailsCardThreeDSecureResultNotSupported        ChargePaymentMethodDetailsCardThreeDSecureResult = "not_supported"
 	ChargePaymentMethodDetailsCardThreeDSecureResultProcessingError     ChargePaymentMethodDetailsCardThreeDSecureResult = "processing_error"
@@ -454,6 +455,7 @@ type ChargePaymentMethodDetailsBancontact struct {
 	// (if supported) at the time of authorization or settlement. They cannot be set or mutated.
 	VerifiedName string `json:"verified_name"`
 }
+type ChargePaymentMethodDetailsBLIK struct{}
 type ChargePaymentMethodDetailsBoleto struct {
 	// The tax ID of the customer (CPF for individuals consumers or CNPJ for businesses consumers)
 	TaxID string `json:"tax_id"`
@@ -744,7 +746,7 @@ type ChargePaymentMethodDetailsKlarna struct {
 	// Can be one of `pay_later`, `pay_now`, `pay_with_financing`, or `pay_in_installments`
 	PaymentMethodCategory ChargePaymentMethodDetailsKlarnaPaymentMethodCategory `json:"payment_method_category"`
 	// Preferred language of the Klarna authorization page that the customer is redirected to.
-	// Can be one of `de-AT`, `en-AT`, `nl-BE`, `fr-BE`, `en-BE`, `de-DE`, `en-DE`, `da-DK`, `en-DK`, `es-ES`, `en-ES`, `fi-FI`, `sv-FI`, `en-FI`, `en-GB`, `en-IE`, `it-IT`, `en-IT`, `nl-NL`, `en-NL`, `nb-NO`, `en-NO`, `sv-SE`, `en-SE`, `en-US`, `es-US`, `fr-FR`, `en-FR`, `en-AU`, or `en-NZ`
+	// Can be one of `de-AT`, `en-AT`, `nl-BE`, `fr-BE`, `en-BE`, `de-DE`, `en-DE`, `da-DK`, `en-DK`, `es-ES`, `en-ES`, `fi-FI`, `sv-FI`, `en-FI`, `en-GB`, `en-IE`, `it-IT`, `en-IT`, `nl-NL`, `en-NL`, `nb-NO`, `en-NO`, `sv-SE`, `en-SE`, `en-US`, `es-US`, `fr-FR`, `en-FR`, `en-AU`, `en-NZ`, `en-CA`, or `fr-CA`
 	PreferredLocale string `json:"preferred_locale"`
 }
 
@@ -864,6 +866,7 @@ type ChargePaymentMethodDetails struct {
 	AUBECSDebit        *ChargePaymentMethodDetailsAUBECSDebit        `json:"au_becs_debit"`
 	BACSDebit          *ChargePaymentMethodDetailsBACSDebit          `json:"bacs_debit"`
 	Bancontact         *ChargePaymentMethodDetailsBancontact         `json:"bancontact"`
+	BLIK               *ChargePaymentMethodDetailsBLIK               `json:"blik"`
 	Boleto             *ChargePaymentMethodDetailsBoleto             `json:"boleto"`
 	Card               *ChargePaymentMethodDetailsCard               `json:"card"`
 	CardPresent        *ChargePaymentMethodDetailsCardPresent        `json:"card_present"`

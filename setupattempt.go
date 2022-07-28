@@ -36,6 +36,7 @@ type SetupAttemptPaymentMethodDetailsCardThreeDSecureResult string
 const (
 	SetupAttemptPaymentMethodDetailsCardThreeDSecureResultAttemptAcknowledged SetupAttemptPaymentMethodDetailsCardThreeDSecureResult = "attempt_acknowledged"
 	SetupAttemptPaymentMethodDetailsCardThreeDSecureResultAuthenticated       SetupAttemptPaymentMethodDetailsCardThreeDSecureResult = "authenticated"
+	SetupAttemptPaymentMethodDetailsCardThreeDSecureResultExempted            SetupAttemptPaymentMethodDetailsCardThreeDSecureResult = "exempted"
 	SetupAttemptPaymentMethodDetailsCardThreeDSecureResultFailed              SetupAttemptPaymentMethodDetailsCardThreeDSecureResult = "failed"
 	SetupAttemptPaymentMethodDetailsCardThreeDSecureResultNotSupported        SetupAttemptPaymentMethodDetailsCardThreeDSecureResult = "not_supported"
 	SetupAttemptPaymentMethodDetailsCardThreeDSecureResultProcessingError     SetupAttemptPaymentMethodDetailsCardThreeDSecureResult = "processing_error"
@@ -124,6 +125,7 @@ type SetupAttemptPaymentMethodDetailsBancontact struct {
 	// (if supported) at the time of authorization or settlement. They cannot be set or mutated.
 	VerifiedName string `json:"verified_name"`
 }
+type SetupAttemptPaymentMethodDetailsBLIK struct{}
 type SetupAttemptPaymentMethodDetailsBoleto struct{}
 
 // Populated if this authorization used 3D Secure authentication.
@@ -190,6 +192,7 @@ type SetupAttemptPaymentMethodDetails struct {
 	AUBECSDebit *SetupAttemptPaymentMethodDetailsAUBECSDebit `json:"au_becs_debit"`
 	BACSDebit   *SetupAttemptPaymentMethodDetailsBACSDebit   `json:"bacs_debit"`
 	Bancontact  *SetupAttemptPaymentMethodDetailsBancontact  `json:"bancontact"`
+	BLIK        *SetupAttemptPaymentMethodDetailsBLIK        `json:"blik"`
 	Boleto      *SetupAttemptPaymentMethodDetailsBoleto      `json:"boleto"`
 	Card        *SetupAttemptPaymentMethodDetailsCard        `json:"card"`
 	CardPresent *SetupAttemptPaymentMethodDetailsCardPresent `json:"card_present"`

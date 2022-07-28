@@ -80,6 +80,16 @@ const (
 	AccountCapabilitiesBankTransferPaymentsPending  AccountCapabilitiesBankTransferPayments = "pending"
 )
 
+// The status of the blik payments capability of the account, or whether the account can directly process blik charges.
+type AccountCapabilitiesBLIKPayments string
+
+// List of values that AccountCapabilitiesBLIKPayments can take
+const (
+	AccountCapabilitiesBLIKPaymentsActive   AccountCapabilitiesBLIKPayments = "active"
+	AccountCapabilitiesBLIKPaymentsInactive AccountCapabilitiesBLIKPayments = "inactive"
+	AccountCapabilitiesBLIKPaymentsPending  AccountCapabilitiesBLIKPayments = "pending"
+)
+
 // The status of the konbini payments capability of the account, or whether the account can directly process konbini charges.
 type AccountCapabilitiesKonbiniPayments string
 
@@ -355,6 +365,12 @@ type AccountCapabilitiesBankTransferPaymentsParams struct {
 	Requested *bool `form:"requested"`
 }
 
+// The blik_payments capability.
+type AccountCapabilitiesBLIKPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
 // The boleto_payments capability.
 type AccountCapabilitiesBoletoPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
@@ -521,6 +537,8 @@ type AccountCapabilitiesParams struct {
 	BancontactPayments *AccountCapabilitiesBancontactPaymentsParams `form:"bancontact_payments"`
 	// The bank_transfer_payments capability.
 	BankTransferPayments *AccountCapabilitiesBankTransferPaymentsParams `form:"bank_transfer_payments"`
+	// The blik_payments capability.
+	BLIKPayments *AccountCapabilitiesBLIKPaymentsParams `form:"blik_payments"`
 	// The boleto_payments capability.
 	BoletoPayments *AccountCapabilitiesBoletoPaymentsParams `form:"boleto_payments"`
 	// The card_issuing capability.
@@ -929,6 +947,8 @@ type AccountCapabilities struct {
 	BancontactPayments AccountCapabilityStatus `json:"bancontact_payments"`
 	// The status of the customer_balance payments capability of the account, or whether the account can directly process customer_balance charges.
 	BankTransferPayments AccountCapabilitiesBankTransferPayments `json:"bank_transfer_payments"`
+	// The status of the blik payments capability of the account, or whether the account can directly process blik charges.
+	BLIKPayments AccountCapabilitiesBLIKPayments `json:"blik_payments"`
 	// The status of the boleto payments capability of the account, or whether the account can directly process boleto charges.
 	BoletoPayments AccountCapabilityStatus `json:"boleto_payments"`
 	// The status of the card issuing capability of the account, or whether you can use Issuing to distribute funds on cards

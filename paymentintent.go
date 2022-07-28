@@ -702,6 +702,9 @@ type PaymentIntentMandateDataParams struct {
 // If this is an `affirm` PaymentMethod, this hash contains details about the Affirm payment method.
 type PaymentIntentPaymentMethodDataAffirmParams struct{}
 
+// If this is a `blik` PaymentMethod, this hash contains details about the BLIK payment method.
+type PaymentIntentPaymentMethodDataBLIKParams struct{}
+
 // If this is a `customer_balance` PaymentMethod, this hash contains details about the CustomerBalance payment method.
 type PaymentIntentPaymentMethodDataCustomerBalanceParams struct{}
 
@@ -757,6 +760,8 @@ type PaymentIntentPaymentMethodDataParams struct {
 	Bancontact *PaymentMethodBancontactParams `form:"bancontact"`
 	// Billing information associated with the PaymentMethod that may be used or required by particular types of payment methods.
 	BillingDetails *BillingDetailsParams `form:"billing_details"`
+	// If this is a `blik` PaymentMethod, this hash contains details about the BLIK payment method.
+	BLIK *PaymentIntentPaymentMethodDataBLIKParams `form:"blik"`
 	// If this is a `boleto` PaymentMethod, this hash contains details about the Boleto payment method.
 	Boleto *PaymentMethodBoletoParams `form:"boleto"`
 	Card   *PaymentMethodCardParams   `form:"card"`
@@ -921,6 +926,12 @@ type PaymentIntentPaymentMethodOptionsBancontactParams struct {
 	//
 	// If `setup_future_usage` is already set and you are performing a request using a publishable key, you may only update the value from `on_session` to `off_session`.
 	SetupFutureUsage *string `form:"setup_future_usage"`
+}
+
+// If this is a `blik` PaymentMethod, this sub-hash contains details about the BLIK payment method options.
+type PaymentIntentPaymentMethodOptionsBLIKParams struct {
+	// The 6-digit BLIK code that a customer has generated using their banking application. Can only be set on confirmation.
+	Code *string `form:"code"`
 }
 
 // If this is a `boleto` PaymentMethod, this sub-hash contains details about the Boleto payment method options.
@@ -1331,6 +1342,8 @@ type PaymentIntentPaymentMethodOptionsParams struct {
 	BACSDebit *PaymentIntentPaymentMethodOptionsBACSDebitParams `form:"bacs_debit"`
 	// If this is a `bancontact` PaymentMethod, this sub-hash contains details about the Bancontact payment method options.
 	Bancontact *PaymentIntentPaymentMethodOptionsBancontactParams `form:"bancontact"`
+	// If this is a `blik` PaymentMethod, this sub-hash contains details about the BLIK payment method options.
+	BLIK *PaymentIntentPaymentMethodOptionsBLIKParams `form:"blik"`
 	// If this is a `boleto` PaymentMethod, this sub-hash contains details about the Boleto payment method options.
 	Boleto *PaymentIntentPaymentMethodOptionsBoletoParams `form:"boleto"`
 	// Configuration for any card payments attempted on this PaymentIntent.
@@ -1647,8 +1660,6 @@ type PaymentIntentVerifyMicrodepositsParams struct {
 }
 
 // Manually reconcile the remaining amount for a customer_balance PaymentIntent.
-//
-// This can be used when the cash balance for [a customer in manual reconciliation mode](docs/payments/customer-balance/reconciliation#cash-manual-reconciliation) received funds.
 type PaymentIntentApplyCustomerBalanceParams struct {
 	Params `form:"*"`
 	// Amount intended to be applied to this PaymentIntent from the customer's cash balance.
@@ -1698,7 +1709,7 @@ type PaymentIntentNextActionBoletoDisplayDetails struct {
 type PaymentIntentNextActionCardAwaitNotification struct {
 	// The time that payment will be attempted. If customer approval is required, they need to provide approval before this time.
 	ChargeAttemptAt int64 `json:"charge_attempt_at"`
-	// For payments greater than INR 5000, the customer must provide explicit approval of the payment with their bank. For payments of lower amount, no customer action is required.
+	// For payments greater than INR 15000, the customer must provide explicit approval of the payment with their bank. For payments of lower amount, no customer action is required.
 	CustomerApprovalRequired bool `json:"customer_approval_required"`
 }
 
@@ -2002,6 +2013,7 @@ type PaymentIntentPaymentMethodOptionsBancontact struct {
 	// When processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).
 	SetupFutureUsage PaymentIntentPaymentMethodOptionsBancontactSetupFutureUsage `json:"setup_future_usage"`
 }
+type PaymentIntentPaymentMethodOptionsBLIK struct{}
 type PaymentIntentPaymentMethodOptionsBoleto struct {
 	// The number of calendar days before a Boleto voucher expires. For example, if you create a Boleto voucher on Monday and you set expires_after_days to 2, the Boleto voucher will expire on Wednesday at 23:59 America/Sao_Paulo time.
 	ExpiresAfterDays int64 `json:"expires_after_days"`
@@ -2300,6 +2312,7 @@ type PaymentIntentPaymentMethodOptions struct {
 	AUBECSDebit      *PaymentIntentPaymentMethodOptionsAUBECSDebit      `json:"au_becs_debit"`
 	BACSDebit        *PaymentIntentPaymentMethodOptionsBACSDebit        `json:"bacs_debit"`
 	Bancontact       *PaymentIntentPaymentMethodOptionsBancontact       `json:"bancontact"`
+	BLIK             *PaymentIntentPaymentMethodOptionsBLIK             `json:"blik"`
 	Boleto           *PaymentIntentPaymentMethodOptionsBoleto           `json:"boleto"`
 	Card             *PaymentIntentPaymentMethodOptionsCard             `json:"card"`
 	CardPresent      *PaymentIntentPaymentMethodOptionsCardPresent      `json:"card_present"`
@@ -2323,7 +2336,7 @@ type PaymentIntentPaymentMethodOptions struct {
 	WechatPay        *PaymentIntentPaymentMethodOptionsWechatPay        `json:"wechat_pay"`
 }
 type PaymentIntentProcessingCardCustomerNotification struct {
-	// Whether customer approval has been requested for this payment. For payments greater than INR 5000 or mandate amount, the customer must provide explicit approval of the payment with their bank.
+	// Whether customer approval has been requested for this payment. For payments greater than INR 15000 or mandate amount, the customer must provide explicit approval of the payment with their bank.
 	ApprovalRequested bool `json:"approval_requested"`
 	// If customer approval is required, they need to provide approval before this time.
 	CompletesAt int64 `json:"completes_at"`
