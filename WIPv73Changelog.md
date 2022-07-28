@@ -43,6 +43,12 @@
     | --- | --- | --- |
     | FundingInstructions | `FundingInstructionsBankTransferFinancialAddressIban.Bic` | `FundingInstructionsBankTransferFinancialAddressIBAN.BIC` |
   
+  - `Amex` to `AmEx`
+    | Resource | Old name | New name |
+    | --- | --- | --- |
+    | Charge | `ChargePaymentMethodDetailsCardWallet.AmexExpressCheckout` | `ChargePaymentMethodDetailsCardWallet.AmExExpressCheckout` |
+    | Charge | `ChargePaymentMethodDetailsCardWalletAmexExpressCheckout` | `ChargePaymentMethodDetailsCardWalletAmExExpressCheckout` |
+
   - `Bic` to `BIC`
     | Resource | Old name | New name |
     | --- | --- | --- |
@@ -52,6 +58,11 @@
     | Resource | Old name | New name |
     | --- | --- | --- |
     | Charge | `ChargePaymentMethodDetailsTypeEps` | `ChargePaymentMethodDetailsTypeEPS` |
+
+  - `FEDEX` to `FedEx`
+    | Resource | Old name | New name |
+    | --- | --- | --- |
+    | Issuing Card | `IssuingCardShippingCarrierFEDEX` | `IssuingCardShippingCarrierFedEx` |
   
   - `Iban` to `IBAN`
     | Resource | Old name | New name |
@@ -92,15 +103,28 @@
     | Invoice | `InvoicePaymentSettingsPaymentMethodTypeSepaCreditTransfer` | `InvoicePaymentSettingsPaymentMethodTypeSEPACreditTransfer` |
     | Invoice | `InvoicePaymentSettingsPaymentMethodTypeSepaDebit` | `InvoicePaymentSettingsPaymentMethodTypeSEPADebit` |
 
-  - `ExternalAccount` to `AccountExternalAccounts`
+  - `ExternalAccount` to `AccountExternalAccount`
     | Resource | Old name | New name |
     | --- | --- | --- |
-    | Account | `ExternalAccount` | `AccountExternalAccounts` |
-    | Account | `ExternalAccountType` | `AccountExternalAccountsType` |
-    | Account | `ExternalAccountTypeBankAccount` | `AccountExternalAccountsTypeBankAccount` |
-    | Account | `ExternalAccountTypeCard` | `AccountExternalAccountsTypeCard` |
-    | Account | `AccountExternalAccountParams` | `AccountExternalAccountsParams` |
-    | Account | `ExternalAccountList` | `AccountExternalAccountsList` |
+    | Account | `ExternalAccount` | `AccountExternalAccount` |
+    | Account | `ExternalAccountType` | `AccountExternalAccountType` |
+    | Account | `ExternalAccountTypeBankAccount` | `AccountExternalAccountTypeBankAccount` |
+    | Account | `ExternalAccountTypeCard` | `AccountExternalAccountTypeCard` |
+    | Account | `AccountExternalAccountParams` | `AccountExternalAccountParams` |
+    | Account | `ExternalAccountList` | `AccountExternalAccountList` |
+
+  - `InvoiceLine` to `InvoiceLineItem`
+    | Resource | Old name | New name |
+    | --- | --- | --- |
+    | Invoice | `InvoiceLine` | `InvoiceLineItem` |
+    | Invoice | `InvoiceLineList` | `InvoiceLineItemList` |
+    | Invoice | `InvoiceLineType` | `InvoiceLineItemType` |
+    | Invoice | `InvoiceLineTypeInvoiceItem` | `InvoiceLineItemTypeInvoiceItem` |
+    | Invoice | `InvoiceLineTypeSubscription` | `InvoiceLinItemeTypeSubscription` |
+    | Invoice | `InvoiceLineDiscountAmount` | `InvoiceLineItemDiscountAmount` |
+    | Invoice | `InvoiceLineProrationDetails` | `InvoiceLineItemProrationDetails` |
+    | Invoice | `InvoiceLineProrationDetailsCreditedItems` | `InvoiceLineItemProrationDetailsCreditedItems` |
+
   - Other
     | Resource | Old name | New name |
     | --- | --- | --- |
@@ -185,7 +209,6 @@
     | Customer | `CustomerInvoiceCustomFieldParams` | `Customer dInvoiceSettingsCustomFieldParams`|
     | Customer | `CustomerShippingDetails` | `CustomerShipping` |
     | Customer | `CustomerShippingDetailsParams` | `CustomerShippingParams` |
-    | Customer | `CustomerTaxIDDataParams` | `CustomerTaxIDDatumParams` |
     | Dispute | `EvidenceDetails` | `DisputeEvidenceDetails` |
     | FeeRefund | `FeeRefundListParams.ApplicationFee` | `FeeRefundListParams.ID` |
     | Invoice | `InvoiceUpcomingCustomerDetailsShippingParams` | `InvoiceUpcomingLinesCustomerDetailsShippingParams` |
@@ -201,11 +224,23 @@
     | Invoice | `InvoiceTaxAmount` | `InvoiceTotalTaxAmount` |
     | Invoice | `Invoice.ThreasholdReason` | `Invoice.ThresholdReason` (closes #1244) |
     | Invoice | `GetNext` | `Upcoming` |
+    | Issuing | `IssuingAuthorizationWalletType` | `IssuingAuthorizationWallet` |
+    | Issuing | `IssuingAuthorizationWalletTypeApplePay` | `IssuingAuthorizationWalletApplePay` |
+    | Issuing | `IssuingAuthorizationWalletTypeGooglePay` | `IssuingAuthorizationWalletGooglePay` |
+    | Issuing | `IssuingAuthorizationWalletTypeSamsungPlay` | `IssuingAuthorizationWalletSamsungPlay` |
 
 - Replace `AccountAddressParams` with `AccountCompanyAddressKanaParams` and `AccountCompanyAddressKanjiParams`
 - Change type:
   | Resource | Target | Old type | New type | Rationale |
   | --- | --- | --- | --- | --- |
+  | Account | `AccountCapabilities.AffirmPayments` | `AccountCapabilitiesAffirmPayments` | `AccountCapabilityStatus` | Be consistent about using `AccountCapabilityStatus` for all of `AccountCapabilities` (all the same enum values) |
+  | Account | `AccountCapabilities.BankTransferPayments` | `AccountCapabilitiesBankTransferPayments` | `AccountCapabilityStatus` | Be consistent about using `AccountCapabilityStatus` for all of `AccountCapabilities` (all the same enum values) |
+  | Account | `AccountCapabilities.KonbiniPayments` | `AccountCapabilitiesKonbiniPayments` | `AccountCapabilityStatus` | Be consistent about using `AccountCapabilityStatus` for all of `AccountCapabilities` (all the same enum values) |
+  | Account | `AccountCapabilities.LinkPayments` | `AccountCapabilitiesLinkPayments` | `AccountCapabilityStatus` | Be consistent about using `AccountCapabilityStatus` for all of `AccountCapabilities` (all the same enum values) |
+  | Account | `AccountCapabilities.PayNowPayments` | `AccountCapabilitiesPayNowPayments` | `AccountCapabilityStatus` | Be consistent about using `AccountCapabilityStatus` for all of `AccountCapabilities` (all the same enum values) |
+  | Account | `AccountCapabilities.PromptPayPayments` | `AccountCapabilitiesPromptPayPayments` | `AccountCapabilityStatus` | Be consistent about using `AccountCapabilityStatus` for all of `AccountCapabilities` (all the same enum values) |
+  | Account | `AccountCapabilities.Treasury` | `AccountCapabilitiesTreasury` | `AccountCapabilityStatus` | Be consistent about using `AccountCapabilityStatus` for all of `AccountCapabilities` (all the same enum values) |
+  | Account | `AccountCapabilities.USBankAccountAchPayments` | `AccountCapabilitiesUSBankAccountAchPayments` | `AccountCapabilityStatus` | Be consistent about using `AccountCapabilityStatus` for all of `AccountCapabilities` (all the same enum values) |
   | Account | `AccountCompanyParams.Address` | `*AccountAddressParams` | `*AddressParams` | `*AccountAddressParams` had `Town` field that is not applicable to `AccountCompanyParams.Address` |
   | Account | `AccountCompanyParams.AddressKana` | `*AccountAddressParams` | `*AccountCompanyAddressKanaParams` | `AccountAddressParams` has been split into separate `AccountCompanyAddressKanaParams` and `AccountCompanyAddressKanjiParams` |
   | Account | `AccountCompanyParams.AddressKanji` | `*AccountAddressParams` | `*AccountCompanyAddressKanjiParams` | `AccountAddressParams` has been split into separate `AccountCompanyAddressKanaParams` and `AccountCompanyAddressKanjiParams` |
@@ -216,11 +251,15 @@
   | Card | `Card.AddressLine1Check` | `CardVerification` | `CardAddressLine1Check` | Same values. `CardVerification` was replaced with separate definitions for `AddressLine1Check`, `AddressZipCheck`, and `CVCCheck` |
   | Card | `Card.AddressZipCheck` | `CardVerification` | `CardAddressZipCheck` | Same values. `CardVerification` was replaced with separate definitions for `AddressLine1Check`, `AddressZipCheck`, and `CVCCheck` |
   | Card | `Card.CVCCheck` | `CardVerification` | `CardCVCCheck` | Same values. `CardVerification` was replaced with separate definitions for `AddressLine1Check`, `AddressZipCheck`, and `CVCCheck` |
-  | Charge | `ChargeParams.Source` | `*SourceParams` | `*string` | `ChargeParams.Source` should be the ID of a source |
-  | Charge | `CustomerParams.Source` | `*SourceParams` | `*string` | `CustomerParams.Source` should be the ID of a source |
+  | Card | `Card.ExpMonth` | `uint8` | `int64` | Be consistent with `int` types in library |
+  | Card | `Card.ExpYear` | `uint16` | `int64` | Be consistent with `int` types in library |
   | Charge | `Charge.BillingDetails` | `*BillingDetails` | `ChargeBillingDetails` | Unshared with PaymentMethod |
   | Charge | `Charge.Level3` | `ChargeLevel3` | `*ChargeLevel3` | `ChargeLevel3` is expandable |
-  | Charge | `Customer.Address` | `Address` | `*Address` | `Address` is nullable |
+  | Charge | `ChargePaymentMethodDetailsCardChecks.AddressLine1Check` | `CardVerification` | `ChargePaymentMethodDetailsCardChecksAddressLine1Check` | Same values. `CardVerification` was replaced with resource- and field-specific enums (with the same values) |
+  | Charge | `ChargePaymentMethodDetailsCardChecks.AddressPostalCodeCheck` | `CardVerification` | `ChargePaymentMethodDetailsCardChecksAddressPostalCodeCheck` | Same values. `CardVerification` was replaced with resource- and field-specific enums (with the same values) |
+  | Charge | `ChargePaymentMethodDetailsCardChecks.CVCCheck` | `CardVerification` | `ChargePaymentMethodDetailsCardChecksCVCCheck` | Same values. `CardVerification` was replaced with resource- and field-specific enums (with the same values) |
+  | Customer | `Customer.Address` | `Address` | `*Address` | `Address` is nullable |
+  | Customer | `CustomerParams.Source` | `*SourceParams` | `*string` | `CustomerParams.Source` should be the ID of a source |
   | Discount | `Discount.CheckoutSession` | `*CheckoutSession` | `string` | `discount.checkout_session` is not expandable |
   | Discount | `Discount.Customer` | `string` | `*Customer` | `discount.customer` is expandable |
   | Invoice | `InvoiceCustomerTaxID.Type` | `TaxIDType` | `*TaxIDType` | `invoice.customer_tax_ids.type` is nullable |
@@ -229,11 +268,12 @@
   | Invoice | `Invoice.CustomerPhone` | `*string` | `string` | `invoice.customer_phone` is not nullable |
   | Invoice | `Invoice.CustomerTaxExempt` | `CustomerTaxExempt` | `*CustomerTaxExempt` | `invoice.customer_tax_exempt` is nullable |
   | Invoice | `Invoice.StatusTransitions` | `InvoiceStatusTransitions` | `*InvoiceStatusTransitions` | `invoice.status_transitions` is nullable |
+  | Issuing Card | `IssuingCardShippingParams.Name` | `string` | `*string` | Params fields should be pointers |
 
 - Moved `BalanceTransaction` iterator from `balance.go` to `balancetransaction.go`
 - Fixed `BalanceTransactionSource` `UnmarshalJSON` for when `BalanceTransactionSource.Type == "transfer_reversal"` (previously, we were checking if `Type == "reversal"`, which was always false)
 - For BankAccount and Card client methods, check that exactly one of `params.Account` and `params.Customer` is set (previously they could both be set, but only one would be used, and it was different between BankAccount and Card)
-- Replace `CardVerification` with `CardAddressLine1Check`, `CardAddressZipCheck`, and `CardCVCCheck`
+- Replace `CardVerification` with field-specific enums (with the same values)
 - Move `Del` from `discount/client.go` to `customer/client.go` and rename to `DeleteDiscount`
 - Move `DelSub` from `discount/client.go` to `subscription/client.go` and rename to `DeleteDiscount`
 - Add separate parameter struct for CreditNote `ListPreviewLines` (renamed to `PreviewLines`) method (`[CreditNoteLineItemListPreviewParams -> CreditNotePreviewParams].Lines` `CreditNoteLineParams` -> `CreditNotePreviewLineParams`)
@@ -265,11 +305,10 @@
   }
   ```
 
-- `AccountSettingsParams.BACSDebitPayments`, `AccountSettingsBACSDebitPaymentsParams`, `AccountSettingsParams.Dashboard`, and `AccountSettingsDashboardParams` (Note: `BACSDebitPayments` and `Dashboard` are still available on `AccountSettings`, but they're not available as parameters for any of the methods)
+- ``AccountSettingsParams.Dashboard` and `AccountSettingsDashboardParams` (Note: `Dashboard` are still available on `AccountSettings`, but it's not available as parameters for any of the methods)
 - `AccountCompany.RegistrationNumber` (Note: `RegistrationNumber` is still available on `AccountCompanyParams`, but is not returned in the response)
 - `BalanceTransactionStatus`. It was meant to be an enum, but none of the enum values were defined, so it was just an alias for string.
 - `CardParams.AccountType`. `AccountType` does not exist on any client method for Card. It does on BankAccount, which is similar.
-- `Charge.ExchangeRate` and `CaptureParams.ExchangeRate`. `ExchangeRate` does not exist on Charge.
 - `id` param from CheckoutSessions `ListLineItems`. Use `CheckoutSessionListLineItemsParams.Session` instead.
 
   ```go
@@ -285,10 +324,12 @@
 - `CheckoutSessionLineItemPriceDataRecurringParams.AggregateUsage`, `CheckoutSessionLineItemPriceDataRecurringParams.TrialPeriodDays`, and `CheckoutSessionLineItemPriceDataRecurringParams.UsageType`
 - `CheckoutSessionPaymentIntentDataParams.Params`, `CheckoutSessionSetupIntentDataParams.Params`, `CheckoutSessionSubscriptionDataParams.Params`- TODO not top level
 - `CheckoutSessionTotalDetailsBreakdownTax.TaxRate`. Use `CheckoutSessionTotalDetailsBreakdownTax.Rate`
-- `CheckoutSessionTotalDetailsBreakdownTax.Deleted`. Use `CheckoutSessionTotalDetailsBreakdownTax.Rate`
+- `CheckoutSessionTotalDetailsBreakdownTax.Deleted`. TODO
 - `CustomerParams.Token`
 - `Discount` `APIResource` embed
 - `FilePurposeFoundersStockDocument` (`"founders_stock_document"` option for `File.Purpose`)
 - `InvoiceParams.Paid`. Use `invoice.status` to check for status. `invoice.status` is a read-only field.
 - `InvoiceParams.SubscriptionPlan` and `InvoiceParams.SubscriptionQuantity` (note: these would have been on `InvoiceUpcomingParams`)
 - `InvoiceListLinesParams.Customer` and `InvoiceListLinesParams.Subscription` (these are not available for Invoice `ListLines`, but are available for `List`)
+- `IssuingAuthorizationRequestHistoryViolatedAuthorizationControlEntity` and `IssuingAuthorizationRequestHistoryViolatedAuthorizationControlName` (unused enums)
+- `IssuingCardSpendingControlsParams.SpendingLimitsCurrency`. `issuing_card` has `currency`, and `issuing_card.spending_controls.spending_limits.amount` will use that currency
