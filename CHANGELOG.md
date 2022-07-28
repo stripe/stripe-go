@@ -1,5 +1,27 @@
 # Changelog
 
+## 72.122.0 - 2022-07-26
+* [#1508](https://github.com/stripe/stripe-go/pull/1508) API Updates
+  * Add support for new value `exempted` on enums `ChargePaymentMethodDetailsCardThreeDSecureResult` and `SetupAttemptPaymentMethodDetailsCardThreeDSecureResult`
+  * Add support for `CustomerBalance` on `CheckoutSessionPaymentMethodOptionsParams` and `CheckoutSessionPaymentMethodOptions`
+
+## 72.121.0 - 2022-07-25
+* [#1507](https://github.com/stripe/stripe-go/pull/1507) API Updates
+  * Add support for `Installments` on `CheckoutSessionPaymentMethodOptionsCardParams`, `CheckoutSessionPaymentMethodOptionsCard`, `InvoicePaymentSettingsPaymentMethodOptionsCardParams`, and `InvoicePaymentSettingsPaymentMethodOptionsCard`
+  * Add support for `DefaultCurrency` and `InvoiceCreditBalance` on `Customer`
+  * Add support for `Currency` on `InvoiceParams`
+  * Add support for `DefaultMandate` on `InvoicePaymentSettingsParams` and `InvoicePaymentSettings`
+  * Add support for `Mandate` on `InvoicePayParams`
+  
+
+## 72.120.0 - 2022-07-18
+* [#1497](https://github.com/stripe/stripe-go/pull/1497) API Updates
+  * Add support for `BLIKPayments` on `AccountCapabilitiesParams` and `AccountCapabilities`
+  * Add support for `BLIK` on `ChargePaymentMethodDetails`, `MandatePaymentMethodDetails`, `PaymentIntentConfirmPaymentMethodDataParams`, `PaymentIntentConfirmPaymentMethodOptionsParams`, `PaymentIntentPaymentMethodDataParams`, `PaymentIntentPaymentMethodOptionsParams`, `PaymentIntentPaymentMethodOptions`, `PaymentMethodParams`, `PaymentMethod`, `SetupAttemptPaymentMethodDetails`, `SetupIntentConfirmPaymentMethodDataParams`, `SetupIntentConfirmPaymentMethodOptionsParams`, `SetupIntentPaymentMethodDataParams`, `SetupIntentPaymentMethodOptionsParams`, and `SetupIntentPaymentMethodOptions`
+  * Change type of `CheckoutSessionConsentCollectionPromotionsParams`, `CheckoutSessionConsentCollectionPromotions`, `PaymentLinkConsentCollectionPromotionsParams`, and `PaymentLinkConsentCollectionPromotions` from `literal('auto')` to `enum('auto'|'none')`
+  * Add support for new value `blik` on enum `PaymentLinkPaymentMethodTypes`
+  * Add support for new value `blik` on enum `PaymentMethodType`
+
 ## 72.119.0 - 2022-07-12
 * [#1494](https://github.com/stripe/stripe-go/pull/1494) API Updates
   * Add support for `CustomerDetails` on `CheckoutSessionListParams`
