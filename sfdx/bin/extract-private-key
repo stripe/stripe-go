@@ -12,5 +12,8 @@ if [ -z "$SF_JWT_PRIVATE_KEY_PATH" ]; then
   exit 1
 fi
 
+# the certificate associated with this key is uploaded to our SF application on the billing PBO org
+# this is the closest thing we have to a platform key in salesforce
+
 # set `SF_JWT_KEY` on CI to `cat sfdx/jwt-cert/private_key.pem | base64`
 echo $SF_JWT_KEY | base64 --decode --ignore-garbage > $SF_JWT_PRIVATE_KEY_PATH

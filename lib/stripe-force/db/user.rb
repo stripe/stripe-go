@@ -62,6 +62,7 @@ module StripeForce
       end
 
       @client ||= Restforce.new({
+        # this could be expired, if it is the client will automatically refresh it
         oauth_token: salesforce_token,
         refresh_token: salesforce_refresh_token,
         instance_url: sf_endpoint,
@@ -79,7 +80,7 @@ module StripeForce
         log_level: :debug,
       }.merge(optional_client_params))
 
-      # TODO should we conditionally do this?
+      # TODO should refresh & persist the update https://jira.corp.stripe.com/browse/PLATINT-1718
       # @client.authenticate!
 
       @client

@@ -11,6 +11,7 @@
 ### Notify
 
 r? @brennen-stripe
+cc @brianw-stripe
 cc @arnoldezeolisa
 cc @sean-appiphony
 -->

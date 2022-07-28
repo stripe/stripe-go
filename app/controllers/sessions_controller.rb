@@ -17,6 +17,7 @@ class SessionsController < ApplicationController
     end
   end
 
+  # LWC "authorize" button hits this action
   def login_entrypoint
     oauth_type = params.require(:oauth_type)
 
@@ -130,7 +131,6 @@ class SessionsController < ApplicationController
 
     <script type="application/javascript">
     window.opener.postMessage("salesforceConnectionSuccessful", "#{postmessage_domain}")
-    window.opener.postMessage("connectionSuccessful", "#{postmessage_domain}")
     </script>
     EOL
   end

@@ -7,6 +7,7 @@ export default class SystemConnectionsStep extends LightningElement {
     @track stripeComplete = false;
     @track connectWindow;
     @track isSandbox;
+    // TODO should be pulled from APEX
     @track rubyBaseURI = 'https://stripe-force.herokuapp.com';
     @track salesforceNamespace;
     @api hideAction = false;
@@ -23,6 +24,8 @@ export default class SystemConnectionsStep extends LightningElement {
             } else if (event.origin === this.rubyBaseURI && event.data === 'salesforceConnectionSuccessful') {
                 this.connectWindow.close();
                 this.validateConnectionStatus(false, 'stripe');
+            } else {
+                
             }
         }
         window.addEventListener("message", this.postMessageListener.bind(this));
@@ -30,8 +33,10 @@ export default class SystemConnectionsStep extends LightningElement {
 
     disconnectedCallback() {
         window.removeEventListener('message', this.postMessageListener);
-    }
+    }  
 
+    // connected to the "Authorize" button in the UI
+    // main entry point for starting the authorization flow
     connectToStripe(event) {
         let oauthConnectionURL = this.rubyBaseURI;
 
@@ -41,6 +46,7 @@ export default class SystemConnectionsStep extends LightningElement {
             oauthConnectionURL += '/auth/salesforce'
         }
 
+        // TODO should be removed since the namespace is defined via the post install ste[p]
         oauthConnectionURL += "?salesforceNamespace=" + this.salesforceNamespace
 
         this.connectWindow = window.open(oauthConnectionURL, '"_blank"');
