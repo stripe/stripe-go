@@ -5,7 +5,16 @@
 - `CheckoutSessionSetupIntentDataParams.Metadata`
 - Invoice `UpcomingLines` method
 - `SetupAttemptPaymentMethodDetailsCardThreeDSecureResultExempted` constant in `SetupAttemptPaymentMethodDetailsCardThreeDSecureResult`
-- `SetupAttemptPaymentMethodDetailsBLIK`
+- `SKUPackageDimensionsParams`
+- `SKUPackageDimensions`
+- `SourceACHCreditTransfer`, `SourceACHDebit`, `SourceACSSDebit`, `SourceAlipay`, `SourceAUBECSDebit`, `SourceBancontact`, `SourceCard`, `SourceCardPresent`, `SourceEPS`, `SourceGiropay`, `SourceIDEAL`,  `SourceKlarna`, `SourceMultibanco`, `SourceP24`, `SourceRedirect`, `SourceSEPACreditTransfer`, `SourceSEPADebit`, `SourceSofort`, `SourceThreeDSecure`, and `SourceWechat`. Additionally, matching fields in `Source` struct - `ACHCreditTransfer`, `ACHDebit`, `ACSSDebit`, `Alipay`, `AUBECSDebit`, `Bancontact`, `Card`, `CardPresent`, `EPS`, `Giropay`, `IDEAL`, `Klarna`, `Multibanco`, `P24`, `SEPACreditTransfer`, `SEPADebit`, `Sofort`, `ThreeDSecure`, and `Wechat`
+- `SourceTransactionACHCreditTransfer`, `SourceTransactionCHFCreditTransfer`, `SourceTransactionGBPCreditTransfer`, `SourceTransactionPaperCheck`, and `SourceTransactionSEPACreditTransfer` and matching `SourceTransaction.ACHCreditTransfer`, `SourceTransaction.CHFCreditTransfer`, `SourceTransaction.GBPCreditTransfer`, `SourceTransaction.PaperCheck`, and `SourceTransaction.SEPACreditTransfer`
+- `SubscriptionDeleteDiscountParams`
+- `Subscription.DeleteDiscount`
+- `SubscriptionItemUsageRecordSummariesParams`
+- `UsageRecordSummary` `UsageRecordSummaries`, and `UsageRecordSummaryList` methods in `SubscriptionItem`
+- `SubscriptionSchedulePhaseBillingCycleAnchor`, `SubscriptionSchedulePhaseBillingCycleAnchorAutomatic`, and `SubscriptionSchedulePhaseBillingCycleAnchorPhaseStart`
+- `SubscriptionSchedulePhaseInvoiceSettings` and `SubscriptionSchedulePhaseInvoiceSettingsParams `
 
 ## Changed
 
@@ -39,7 +48,9 @@
     | Charge | `ChargePaymentMethodDetailsTypeAchDebit` | `ChargePaymentMethodDetailsTypeACHDebit` |
     | Invoice | `InvoicePaymentSettingsPaymentMethodTypeAchCreditTransfer` | `InvoicePaymentSettingsPaymentMethodTypeACHhCreditTransfer` |
     | Invoice | `InvoicePaymentSettingsPaymentMethodTypeAchDebit` | `InvoicePaymentSettingsPaymentMethodTypeACHDebit` |
-  
+    | Subscription | `SubscriptionPaymentSettingsPaymentMethodTypeAchCreditTransfer` | `SubscriptionPaymentSettingsPaymentMethodTypeACHCreditTransfer` |
+    | Subscription | `SubscriptionPaymentSettingsPaymentMethodTypeAchDebit` | `SubscriptionPaymentSettingsPaymentMethodTypeACHDebit` |
+
   - `Acss` to `ACSS`
     | Resource | Old name | New name |
     | --- | --- | --- |
@@ -95,6 +106,7 @@
     | SetupIntent | `SetupIntentPaymentMethodDataIdealParams` | `SetupIntentPaymentMethodDataIDEALParams` |
     | SetupIntent | `SetupIntentPaymentMethodDataParams.Ideal` | `SetupIntentPaymentMethodDataParams.IDEAL` |
     | SetupIntent | `SetupIntentConfirmPaymentMethodDataParams.Ideal` | `SetupIntentConfirmPaymentMethodDataParams.IDEAL` |
+    | Subscription | `SubscriptionPaymentSettingsPaymentMethodTypeIdeal` | `SubscriptionPaymentSettingsPaymentMethodTypeIDEAL` |
   
   - `Sepa` to `SEPA`
     | Resource | Old name | New name |
@@ -128,6 +140,8 @@
     | SetupIntent | `SetupIntentPaymentMethodOptionsSepaDebitMandateOptions` | `SetupIntentPaymentMethodOptionsSEPADebitMandateOptions` |
     | SetupIntent | `SetupIntentPaymentMethodOptionsSepaDebit` | `SetupIntentPaymentMethodOptionsSEPADebit` |
     | SetupIntent | `SetupIntentPaymentMethodOptionsUSBankAccount.SepaDebit` | `SetupIntentPaymentMethodOptionsUSBankAccount.SEPADebit` |
+    | Subscription | `SubscriptionPaymentSettingsPaymentMethodTypeSepaCreditTransfer` | `SubscriptionPaymentSettingsPaymentMethodTypeSEPACreditTransfer` |
+    | Subscription | `SubscriptionPaymentSettingsPaymentMethodTypeSepaDebit` | `SubscriptionPaymentSettingsPaymentMethodTypeSEPADebit` |
 
   - `ExternalAccount` to `AccountExternalAccounts`
     | Resource | Old name | New name |
@@ -262,6 +276,41 @@
     | Reversal | `ReversalListParams` | `TransferReversalListParams` |
     | Reversal | `Reversal` | `TransferReversal` |
     | Reversal | `ReversalList` | `TransferReversalList` |
+    | Sku | `InventoryParams` | `SKUInventoryParams` |
+    | Sku | `Inventory` | `SKUInventory` |
+    | Source | `SourceCodeVerificationFlowStatus` | `SourceCodeVerificationStatus` |
+    | Source | `SourceCodeVerificationFlowStatusFailed` | `SourceCodeVerificationStatusFailed` |
+    | Source | `SourceCodeVerificationFlowStatusPending` | `SourceCodeVerificationStatusPending` |
+    | Source | `SourceCodeVerificationFlowStatusSucceeded` | `SourceCodeVerificationStatusSucceeded` |
+    | Source | `SourceRefundAttributesMethod` | `SourceReceiverRefundAttributesMethod` |
+    | Source | `SourceRefundAttributesMethodEmail` | `SourceReceiverRefundAttributesMethodEmail` |
+    | Source | `SourceRefundAttributesMethodManual` | `SourceReceiverRefundAttributesMethodManual` |
+    | Source | `SourceRefundAttributesStatus` | `SourceReceiverRefundAttributesStatus` |
+    | Source | `SourceRefundAttributesStatusAvailable` | `SourceReceiverRefundAttributesStatusAvailable` |
+    | Source | `SourceRefundAttributesStatusMissing` | `SourceReceiverRefundAttributesStatusMissing` |
+    | Source | `SourceRefundAttributesStatusRequested` | `SourceReceiverRefundAttributesStatusRequested` |
+    | Source | `SourceRedirectFlowFailureReason` | `SourceRedirectFailureReason` |
+    | Source | `SourceRedirectFlowFailureReasonDeclined` | `SourceRedirectFailureReasonDeclined` |
+    | Source | `SourceRedirectFlowFailureReasonProcessingError` | `SourceRedirectFailureReasonProcessingError` |
+    | Source | `SourceRedirectFlowFailureReasonUserAbort` | `SourceRedirectFailureReasonUserAbort` |
+    | Source | `SourceRedirectFlowStatus` | `SourceRedirectStatus` |
+    | Source | `SourceRedirectFlowStatusFailed` | `SourceRedirectStatusFailed` |
+    | Source | `SourceRedirectFlowStatusNotRequired` | `SourceRedirectStatusNotRequired` |
+    | Source | `SourceRedirectFlowStatusPending` | `SourceRedirectStatusPending` |
+    | Source | `SourceRedirectFlowStatusSucceeded` | `SourceRedirectStatusSucceeded` |
+    | Source | `SourceObjectDetachParams` | `SourceDetachParams` |
+    | Source | `SourceObjectParams` | `SourceParams` |
+    | Source | `SourceOrderItemsParams` | `ourceSourceOrderItemParams` |
+    | Source | `SourceOrderParams` | `SourceSourceOrderParams` |
+    | Source | `RedirectParams` | `SourceRedirectParams` |
+    | Source | `CodeVerificationFlow` | `SourceCodeVerification` |
+    | Source | `SourceSourceOrderItems` | `SourceSourceOrderItem` |
+    | SubscriptionSchedule | `SubscriptionSchedulePhaseBillingCycleAnchor` | `SubscriptionScheduleDefaultSettingsBillingCycleAnchor` |
+    | SubscriptionSchedule | `SubscriptionSchedulePhaseBillingCycleAnchorAutomatic` | `SubscriptionScheduleDefaultSettingsBillingCycleAnchorAutomatic` |
+    | SubscriptionSchedule | `SubscriptionSchedulePhaseBillingCycleAnchorPhaseStart` | `SubscriptionScheduleDefaultSettingsBillingCycleAnchorPhaseStart` |
+    | SubscriptionSchedule | `SubscriptionScheduleInvoiceSettingsParams` | `SubscriptionScheduleDefaultSettingsInvoiceSettingsParams` |
+    | SubscriptionSchedule | `SubscriptionScheduleInvoiceSettings` | `SubscriptionScheduleDefaultSettingsInvoiceSettings` |
+
     
 
 - Replace `AccountAddressParams` with `AccountCompanyAddressKanaParams` and `AccountCompanyAddressKanjiParams`
@@ -294,6 +343,22 @@
   | Refund | `Refund.SourceTransferReversal` | `*Reversal` | `*TransferReversal` | Rename `Reversal` to TransferRev`ersal for consistency with other Stripe client libraries |
   | Refund | `Refund.TransferReversal` | `*Reversal` | `*TransferReversal` | Rename `Reversal` to TransferRev`ersal for consistency with other Stripe client libraries |
   | SetupIntent | `SetupIntentPaymentMethodOptionsACSSDebit.Currency` | `string` | `*SetupIntentPaymentMethodOptionsACSSDebitCurrency` | `SetupIntentPaymentMethodOptionsACSSDebitCurrency` is an alias to `string` type |
+  | Source | `Source.Receiver` | `*ReceiverFlow` | `*SourceReceiver` | TODO |
+  | Source | `Source.Redirect` | `*RedirectFlow` | `*SourceRedirect` | TODO |
+  | Subscription | `SubscriptionListParams.Created` | `int64` | `*int64` | `Created` is nullable |
+  | Subscription | `SubscriptionListParams.Customer` | `string` | `*string` | `Customer` is nullable |
+  | Subscription | `SubscriptionListParams.Plan` | `string` | `*string` | `Plan` is nullable |
+  | Subscription | `SubscriptionListParams.Price` | `string` | `*string` | `Price` is nullable |
+  | Subscription | `SubscriptionListParams.Status` | `string` | `*string` | `Status` is nullable |
+  | Subscription | `Subscription.PauseCollection` | `SubscriptionPauseCollection` | `*SubscriptionPauseCollection` | `PauseCollection` is nullable |
+  | Subscription | `Subscription.PendingInvoiceItemInterval` | `SubscriptionPendingInvoiceItemInterval` | `*SubscriptionPendingInvoiceItemInterval` | `PendingInvoiceItemInterval` is nullable |
+  | SubscriptionItem | `SubscriptionItem.BillingThresholds` | `SubscriptionItemBillingThresholds` | `*SubscriptionItemBillingThresholds` | `BillingThresholds` is nullable |
+  | SubscriptionSchedule | `SubscriptionScheduleListParams.CanceledAt` | `int64` | `*int64` | `CanceledAt` is nullable |
+  | SubscriptionSchedule | `SubscriptionScheduleListParams.CompletedAt` | `int64` | `*int64` | `CompletedAt` is nullable |
+  | SubscriptionSchedule | `SubscriptionScheduleListParams.Created` | `int64` | `*int64` | `Created` is nullable |
+  | SubscriptionSchedule | `SubscriptionScheduleListParams.Customer` | `string` | `*string` | `Customer` is nullable |
+  | SubscriptionSchedule | `SubscriptionScheduleListParams.ReleasedAt` | `int64` | `*int64` | `ReleasedAt` is nullable |
+  | SubscriptionSchedule | `SubscriptionScheduleDefaultSettings.CollectionMethod` | `SubscriptionCollectionMethod` | `*SubscriptionCollectionMethod` | `CollectionMethod` is nullable |
 
 
 - Moved `BalanceTransaction` iterator from `balance.go` to `balancetransaction.go`
@@ -311,7 +376,7 @@
 - SKU TODO
 
 ## Removed
-- `UnmarshalJSON` for resources that are not expandable: `BillingPortalSession`, `Capability`, `CheckoutSession`, `FileLink`, `InvoiceItem`
+- `UnmarshalJSON` for resources that are not expandable: `BillingPortalSession`, `Capability`, `CheckoutSession`, `FileLink`, `InvoiceItem`, `SigmaScheduledQueryRun`, `SKU`
 - `AccountRejectReason` (was only referenced in `account/client_test.go`, actual `AccountRejectParams.Reason` is `*string`)
 - `AccountParams.RequestedCapabilities` (use Capabilities instead: https://stripe.com/docs/connect/account-capabilities)
 
@@ -362,3 +427,16 @@
 - `Name` from `RadarValueListItem`
 - `ReviewReasonType` type from `Review` resource. Use `ReviewReason` instead
 - `SetupIntentCancellationReasonFailedInvoice` and `SetupIntentCancellationReasonFraudulent` values from `SetupIntentCancellationReason`
+- `SigmaScheduledQueryRun.Query`. The field was invalid
+- `SKUParams.Description` and `SKU.Description`
+- `SourceMandateAcceptanceStatus`, `SourceMandateAcceptanceStatusAccepted`, `SourceMandateAcceptanceStatusRefused`, `SourceMandateNotificationMethod`, `SourceMandateNotificationMethodEmail`, `SourceMandateNotificationMethodManual`, and `SourceMandateNotificationMethodNone`
+- `Source.TypeData` and SourceParams and replace with payment method-specific fields (AUBECSDebit, Bancontact, Card, CardPresent, EPS, Giropay, IDEAL, Klarna, Multibanco, P24, SEPACreditTransfer, SEPADebit, Sofort, ThreeDSecure, Wechat) and `Source.AppendTo` method
+- `SourceTransaction.CustomerData`. The field was deprecated
+- `SourceTransaction.TypeData` and `SourceTransaction.UnmarshalJSON`. Use payment specific fields - `ACHCreditTransfer`, `CHFCreditTransfer`, `GBPCreditTransfer`, `PaperCheck`, and `SEPACreditTransfer`
+- `SubscriptionPaymentBehavior`, `SubscriptionPaymentBehaviorAllowIncomplete`, `SubscriptionPaymentBehaviorErrorIfIncomplete`, and `SubscriptionPaymentBehaviorPendingIfIncomplete`
+- `SubscriptionProrationBehavior`, `SubscriptionProrationBehaviorAlwaysInvoice`, `SubscriptionProrationBehaviorCreateProrations`, and `SubscriptionProrationBehaviorNone`
+- `SubscriptionStatusAll`
+- `SubscriptionParams.Card`, `SubscriptionParams.Plan`, and `SubscriptionParams.Quantity`
+- `Subscription.Plan` and `Subscription.Quantity`
+- `SubscriptionItemParams.ID`. The field was deprecated
+- `SubscriptionSchedulePhaseAddInvoiceItemPriceDataRecurringParams` and `SubscriptionSchedulePhaseAddInvoiceItemPriceDataParams`
