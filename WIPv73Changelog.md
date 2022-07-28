@@ -201,6 +201,26 @@
     | Invoice | `InvoiceTaxAmount` | `InvoiceTotalTaxAmount` |
     | Invoice | `Invoice.ThreasholdReason` | `Invoice.ThresholdReason` (closes #1244) |
     | Invoice | `GetNext` | `Upcoming` |
+    | Radar | `RadarValueListItem.RadarValueList` | `RadarValueListItem.ValueList` |
+    | Radar | `RadarValueListItemListParams.RadarValueList` | `RadarValueListItemListParams.ValueList` |
+    | Radar | `RadarValueListItemParams.RadarValueList` | `RadarValueListItemParams.ValueList` |
+    | Radar.EarlyFraudWarning | `RadarEarlyFraudWarningList.Values` | `RadarEarlyFraudWarningList.Data` |
+    | Reporting | `ReportRun` | `ReportingReportRun ` |
+    | Reporting | `ReportRunList` | `ReportingReportRunList ` |
+    | Reporting | `ReportRunListParams` | `ReportingReportRun ` |
+    | Reporting | `ReportRunParams` | `ReportingReportRunParams` |
+    | Reporting | `ReportTypeParams` | `ReportingReportTypeParams` |
+    | Reporting | `ReportTypeListParams` | `ReportingReportTypeListParams` |
+    | Reporting | `ReportRunStatus` | `ReportingReportRunStatus` |
+    | Reporting | `ReportRunStatusFailed` | `ReportingReportRunStatusFailed` |
+    | Reporting | `ReportRunStatusPending` | `ReportingReportRunStatusPending` |
+    | Reporting | `ReportRunStatusSucceeded` | `ReportingReportRunStatusSucceeded` |
+    | Reporting | `ReportRunParametersParams` | `ReportingReportRunParametersParams` |
+    | Reporting | `ReportRunParameters` | `ReportingReportRunParameters` |
+    | Reporting | `ReportTypeParams` | `ReportingReportTypeParams` |
+    | Reporting | `ReportTypeListParams` | `ReportingReportTypeListParams` |
+    | Reporting | `ReportType` | `ReportingReportType` |
+    
 
 - Replace `AccountAddressParams` with `AccountCompanyAddressKanaParams` and `AccountCompanyAddressKanjiParams`
 - Change type:
@@ -229,6 +249,9 @@
   | Invoice | `Invoice.CustomerPhone` | `*string` | `string` | `invoice.customer_phone` is not nullable |
   | Invoice | `Invoice.CustomerTaxExempt` | `CustomerTaxExempt` | `*CustomerTaxExempt` | `invoice.customer_tax_exempt` is nullable |
   | Invoice | `Invoice.StatusTransitions` | `InvoiceStatusTransitions` | `*InvoiceStatusTransitions` | `invoice.status_transitions` is nullable |
+  | Refund | `Refund.SourceTransferReversal` | `*Reversal` | `*TransferReversal` | Rename `Reversal` to TransferRev`ersal for consistency with other Stripe client libraries |
+  | Refund | `Refund.TransferReversal` | `*Reversal` | `*TransferReversal` | Rename `Reversal` to TransferRev`ersal for consistency with other Stripe client libraries |
+
 
 - Moved `BalanceTransaction` iterator from `balance.go` to `balancetransaction.go`
 - Fixed `BalanceTransactionSource` `UnmarshalJSON` for when `BalanceTransactionSource.Type == "transfer_reversal"` (previously, we were checking if `Type == "reversal"`, which was always false)
@@ -292,3 +315,5 @@
 - `InvoiceParams.Paid`. Use `invoice.status` to check for status. `invoice.status` is a read-only field.
 - `InvoiceParams.SubscriptionPlan` and `InvoiceParams.SubscriptionQuantity` (note: these would have been on `InvoiceUpcomingParams`)
 - `InvoiceListLinesParams.Customer` and `InvoiceListLinesParams.Subscription` (these are not available for Invoice `ListLines`, but are available for `List`)
+- `Updated` and `UpdatedBy` from `RadarValueList`
+- `Name` from `RadarValueListItem`
