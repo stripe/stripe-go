@@ -720,7 +720,7 @@ Default API version changed to "2022-07-28".
   }
   ```
 
-- ``AccountSettingsParams.Dashboard` and `AccountSettingsDashboardParams` (Note: `Dashboard` are still available on `AccountSettings`, but it's not available as parameters for any of the methods)
+- `AccountSettingsParams.Dashboard` and `AccountSettingsDashboardParams` (Note: `Dashboard` are still available on `AccountSettings`, but it's not available as parameters for any of the methods)
 - `AccountCompany.RegistrationNumber` (Note: `RegistrationNumber` is still available on `AccountCompanyParams`, but is not returned in the response)
 - `BalanceTransactionStatus`. It was meant to be an enum, but none of the enum values were defined, so it was just an alias for string.
 - `CardParams.AccountType`. `AccountType` does not exist on any client method for Card. It does on BankAccount, which is similar.
@@ -749,14 +749,14 @@ Default API version changed to "2022-07-28".
 - `IssuingAuthorizationRequestHistoryViolatedAuthorizationControlEntity` and `IssuingAuthorizationRequestHistoryViolatedAuthorizationControlName` (unused enums)
 - `IssuingCardSpendingControlsParams.SpendingLimitsCurrency`. `issuing_card` has `currency`, and `issuing_card.spending_controls.spending_limits.amount` will use that currency
 - `IssuingDisputeEvidenceServiceNotAsDescribed.ProductDescription`, `IssuingDisputeEvidenceServiceNotAsDescribed.ProductType`, `IssuingDisputeEvidenceServiceNotAsDescribedParams.ProductDescription`, `IssuingDisputeEvidenceServiceNotAsDescribedParams.ProductType`, and `IssuingDisputeEvidenceServiceNotAsDescribedProductType`. `issuing_dispute.evidence.service_not_as_described` does not have `product_description` or `product_type`. `issuing_dispute.evidence.canceled` does.
-- `LineItemTax.TaxRate`. Use `LineItemTax.Rate`
+- `LineItemTax.TaxRate`. Use `LineItemTax.Rate` instead.
 - `LineItem.Deleted`
 - `LoginLink.RedirectURL`
 - `PaymentIntentOffSession` (unused enum)
 - `PaymentIntentConfirmParams.PaymentMethodTypes`
 - `PaymentMethodFPX.TransactionID`
 - `Payout.BankAccount` and `Payout.Card` (These fields were never populated, use `PayoutDestination.BankAccount` and `PayoutDestination.Card` instead)
-- `PlanParams.ProductID`. Use `PlanParams.Product.ID`
+- `PlanParams.ProductID`. Use `PlanParams.Product.ID` instead.
 
   ```go
   // Before
@@ -791,8 +791,8 @@ Default API version changed to "2022-07-28".
 - `Subscription.Plan` and `Subscription.Quantity`
 - `SubscriptionItemParams.ID`. The field was deprecated
 - `SubscriptionSchedulePhaseAddInvoiceItemPriceDataRecurringParams` and `SubscriptionSchedulePhaseAddInvoiceItemPriceDataParams`
-- `Del` TaxRate
-- `TerminalReaderGetParams`. Use `TerminalReaderParams`
+- `Del` method on `TaxRate`
+- `TerminalReaderGetParams`. Use `TerminalReaderParams` instead.
 - `TerminalReaderList.Location` and `TerminalReaderList.Status` (Not available for the list, but is available for individual `TerminalReader`s in `TerminalReaderList.Data`)
 - `Token.Email` and `TokenParams.Email`
 - `WebhookEndpointListParams.Created` and `WebhookEndpointListParams.CreatedRange` (use `StartingAfter` from `ListParams`)
