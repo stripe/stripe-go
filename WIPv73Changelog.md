@@ -4,6 +4,8 @@
 
 - `CheckoutSessionSetupIntentDataParams.Metadata`
 - Invoice `UpcomingLines` method
+- `SetupAttemptPaymentMethodDetailsCardThreeDSecureResultExempted` constant in `SetupAttemptPaymentMethodDetailsCardThreeDSecureResult`
+- `SetupAttemptPaymentMethodDetailsBLIK`
 
 ## Changed
 
@@ -41,12 +43,20 @@
   - `Acss` to `ACSS`
     | Resource | Old name | New name |
     | --- | --- | --- |
-    | FundingInstructions | `FundingInstructionsBankTransferFinancialAddressIban.Bic` | `FundingInstructionsBankTransferFinancialAddressIBAN.BIC` |
+    | Charge | `ChargePaymentMethodDetailsTypeAcssDebit` | `ChargePaymentMethodDetailsTypeACSSDebit` |
+
+  - `Amex` to `AmEx`
+    | Resource | Old name | New name |
+    | --- | --- | --- |
+    | SetupIntent | `SetupIntentPaymentMethodOptionsCardNetwork.SetupIntentPaymentMethodOptionsCardNetworkAmex` | `SetupIntentPaymentMethodOptionsCardNetwork.SetupIntentPaymentMethodOptionsCardNetworkAmEx` |
   
   - `Bic` to `BIC`
     | Resource | Old name | New name |
     | --- | --- | --- |
-    | Charge | `ChargePaymentMethodDetailsTypeAcssDebit` | `ChargePaymentMethodDetailsTypeACSSDebit` |
+    | FundingInstructions | `FundingInstructionsBankTransferFinancialAddressIban.Bic` | `FundingInstructionsBankTransferFinancialAddressIBAN.BIC` |
+    | SetupAttempt | `SetupAttemptPaymentMethodDetailsBancontact.Bic` | `SetupAttemptPaymentMethodDetailsBancontact.BIC` |
+    | SetupAttempt | `SetupAttemptPaymentMethodDetailsIdeal.Bic` | `SetupAttemptPaymentMethodDetailsIDEAL.BIC` |
+    | SetupAttempt | `SetupAttemptPaymentMethodDetailsSofort.Bic` | `SetupAttemptPaymentMethodDetailsSofort.BIC` |
   
   - `Eps` to `EPS`
     | Resource | Old name | New name |
@@ -60,6 +70,11 @@
     | FundingInstructions | `FundingInstructionsBankTransferFinancialAddressIban` | `FundingInstructionsBankTransferFinancialAddressIBAN` |
     | FundingInstructions | `FundingInstructionsBankTransferFinancialAddressIban.Iban` | `FundingInstructionsBankTransferFinancialAddressIBAN.IBAN` |
     | FundingInstructions | `FundingInstructionsBankTransferFinancialAddressTypeIban` | `FundingInstructionsBankTransferFinancialAddressTypeIBAN` |
+    | SetupAttempt | `SetupAttemptPaymentMethodDetailsBancontact.IbanLast4` | `SetupAttemptPaymentMethodDetailsBancontact.IBANLast4` |
+    | SetupAttempt | `SetupAttemptPaymentMethodDetailsIdeal.IbanLast4` | `SetupAttemptPaymentMethodDetailsIDEAL.IBANLast4` |
+    | SetupAttempt | `SetupAttemptPaymentMethodDetailsSofort.IbanLast4` | `SetupAttemptPaymentMethodDetailsSofort.IBANLast4` |
+    | SetupIntent | `SetupIntentPaymentMethodDataSepaDebitParams.Iban` | `SetupIntentPaymentMethodDataSEPADebitParams.IBAN` |
+    | SetupIntent | `SetupIntentConfirmPaymentMethodDataSepaDebitParams.Iban` | `SetupIntentConfirmPaymentMethodDataSEPADebitParams.IBAN` |
   
   - `Ideal` to `IDEAL`
     | Resource | Old name | New name |
@@ -75,6 +90,11 @@
     | CheckoutSessions | `CheckoutSessionPaymentMethodOptionsIdealParams` | `CheckoutSessionPaymentMethodOptionsIDEALParams` |
     | CheckoutSessions | `CheckoutSessionPaymentMethodOptionsParams.Ideal` | `CheckoutSessionPaymentMethodOptionsParams.IDEAL` |
     | Invoice | `InvoicePaymentSettingsPaymentMethodTypeIdeal` | `InvoicePaymentSettingsPaymentMethodTypeIDEAL` |
+    | SetupAttempt | `SetupAttemptPaymentMethodDetailsIdeal` | `SetupAttemptPaymentMethodDetailsIDEAL` |
+    | SetupAttempt | `SetupAttemptPaymentMethodDetails.Ideal` | `SetupAttemptPaymentMethodDetails.IDEAL` |
+    | SetupIntent | `SetupIntentPaymentMethodDataIdealParams` | `SetupIntentPaymentMethodDataIDEALParams` |
+    | SetupIntent | `SetupIntentPaymentMethodDataParams.Ideal` | `SetupIntentPaymentMethodDataParams.IDEAL` |
+    | SetupIntent | `SetupIntentConfirmPaymentMethodDataParams.Ideal` | `SetupIntentConfirmPaymentMethodDataParams.IDEAL` |
   
   - `Sepa` to `SEPA`
     | Resource | Old name | New name |
@@ -91,6 +111,23 @@
     | FundingInstructions | `FundingInstructionsBankTransferFinancialAddressSupportedNetworkSepa` | `FundingInstructionsBankTransferFinancialAddressSupportedNetworkSEPA` |
     | Invoice | `InvoicePaymentSettingsPaymentMethodTypeSepaCreditTransfer` | `InvoicePaymentSettingsPaymentMethodTypeSEPACreditTransfer` |
     | Invoice | `InvoicePaymentSettingsPaymentMethodTypeSepaDebit` | `InvoicePaymentSettingsPaymentMethodTypeSEPADebit` |
+    | SetupAttempt | `SetupAttemptPaymentMethodDetailsBancontact.GeneratedSepaDebit` | `SetupAttemptPaymentMethodDetailsBancontact.GeneratedSEPADebit` |
+    | SetupAttempt | `SetupAttemptPaymentMethodDetailsBancontact.GeneratedSepaDebitMandate` | `SetupAttemptPaymentMethodDetailsBancontact.GeneratedSEPADebitMandate` |
+    | SetupAttempt | `SetupAttemptPaymentMethodDetailsIdeal.GeneratedSepaDebit` | `SetupAttemptPaymentMethodDetailsIDEAL.GeneratedSEPADebit` |
+    | SetupAttempt | `SetupAttemptPaymentMethodDetailsIdeal.GeneratedSepaDebitMandate` | `SetupAttemptPaymentMethodDetailsIDEAL.GeneratedSEPADebitMandate` |
+    | SetupAttempt | `SetupAttemptPaymentMethodDetailsSepaDebit` | `SetupAttemptPaymentMethodDetailsSEPADebit` |
+    | SetupAttempt | `SetupAttemptPaymentMethodDetailsSofort.GeneratedSepaDebit` | `SetupAttemptPaymentMethodDetailsSofort.GeneratedSEPADebit` |
+    | SetupAttempt | `SetupAttemptPaymentMethodDetailsSofort.GeneratedSepaDebitMandate` | `SetupAttemptPaymentMethodDetailsSofort.GeneratedSEPADebitMandate` |
+    | SetupAttempt | `SetupAttemptPaymentMethodDetails.SepaDebit` | `SetupAttemptPaymentMethodDetails.SEPADebit` |
+    | SetupIntent | `SetupIntentPaymentMethodDataSepaDebitParams` | `SetupIntentPaymentMethodDataSEPADebitParams` |
+    | SetupIntent | `SetupIntentPaymentMethodDataParams.SepaDebit` | `SetupIntentPaymentMethodDataParams.SEPADebit` |
+    | SetupIntent | `SetupIntentPaymentMethodOptionsSepaDebitMandateOptionsParams` | `SetupIntentPaymentMethodOptionsSEPADebitMandateOptionsParams` |
+    | SetupIntent | `SetupIntentPaymentMethodOptionsUSBankAccountParams.SepaDebit` | `SetupIntentPaymentMethodOptionsUSBankAccountParams.SEPADebit` |
+    | SetupIntent | `SetupIntentConfirmPaymentMethodDataSepaDebitParams` | `SetupIntentConfirmPaymentMethodDataSEPADebitParams` |
+    | SetupIntent | `SetupIntentConfirmPaymentMethodDataParams.SepaDebit` | `SetupIntentConfirmPaymentMethodDataParams.SEPADebit` |
+    | SetupIntent | `SetupIntentPaymentMethodOptionsSepaDebitMandateOptions` | `SetupIntentPaymentMethodOptionsSEPADebitMandateOptions` |
+    | SetupIntent | `SetupIntentPaymentMethodOptionsSepaDebit` | `SetupIntentPaymentMethodOptionsSEPADebit` |
+    | SetupIntent | `SetupIntentPaymentMethodOptionsUSBankAccount.SepaDebit` | `SetupIntentPaymentMethodOptionsUSBankAccount.SEPADebit` |
 
   - `ExternalAccount` to `AccountExternalAccounts`
     | Resource | Old name | New name |
@@ -208,18 +245,23 @@
     | Reporting | `ReportRun` | `ReportingReportRun ` |
     | Reporting | `ReportRunList` | `ReportingReportRunList ` |
     | Reporting | `ReportRunListParams` | `ReportingReportRun ` |
+    | Reporting | `ReportRunParameters` | `ReportingReportRunParameters` |
+    | Reporting | `ReportRunParametersParams` | `ReportingReportRunParametersParams` |
     | Reporting | `ReportRunParams` | `ReportingReportRunParams` |
-    | Reporting | `ReportTypeParams` | `ReportingReportTypeParams` |
-    | Reporting | `ReportTypeListParams` | `ReportingReportTypeListParams` |
     | Reporting | `ReportRunStatus` | `ReportingReportRunStatus` |
     | Reporting | `ReportRunStatusFailed` | `ReportingReportRunStatusFailed` |
     | Reporting | `ReportRunStatusPending` | `ReportingReportRunStatusPending` |
     | Reporting | `ReportRunStatusSucceeded` | `ReportingReportRunStatusSucceeded` |
-    | Reporting | `ReportRunParametersParams` | `ReportingReportRunParametersParams` |
-    | Reporting | `ReportRunParameters` | `ReportingReportRunParameters` |
-    | Reporting | `ReportTypeParams` | `ReportingReportTypeParams` |
-    | Reporting | `ReportTypeListParams` | `ReportingReportTypeListParams` |
     | Reporting | `ReportType` | `ReportingReportType` |
+    | Reporting | `ReportTypeListParams` | `ReportingReportTypeListParams` |
+    | Reporting | `ReportTypeListParams` | `ReportingReportTypeListParams` |
+    | Reporting | `ReportTypeParams` | `ReportingReportTypeParams` |
+    | Reporting | `ReportTypeParams` | `ReportingReportTypeParams` |
+    | Reversal | `reversal` | `transferreversal` |
+    | Reversal | `ReversalParams` | `TransferReversalParams` |
+    | Reversal | `ReversalListParams` | `TransferReversalListParams` |
+    | Reversal | `Reversal` | `TransferReversal` |
+    | Reversal | `ReversalList` | `TransferReversalList` |
     
 
 - Replace `AccountAddressParams` with `AccountCompanyAddressKanaParams` and `AccountCompanyAddressKanjiParams`
@@ -251,6 +293,7 @@
   | Invoice | `Invoice.StatusTransitions` | `InvoiceStatusTransitions` | `*InvoiceStatusTransitions` | `invoice.status_transitions` is nullable |
   | Refund | `Refund.SourceTransferReversal` | `*Reversal` | `*TransferReversal` | Rename `Reversal` to TransferRev`ersal for consistency with other Stripe client libraries |
   | Refund | `Refund.TransferReversal` | `*Reversal` | `*TransferReversal` | Rename `Reversal` to TransferRev`ersal for consistency with other Stripe client libraries |
+  | SetupIntent | `SetupIntentPaymentMethodOptionsACSSDebit.Currency` | `string` | `*SetupIntentPaymentMethodOptionsACSSDebitCurrency` | `SetupIntentPaymentMethodOptionsACSSDebitCurrency` is an alias to `string` type |
 
 
 - Moved `BalanceTransaction` iterator from `balance.go` to `balancetransaction.go`
@@ -317,3 +360,5 @@
 - `InvoiceListLinesParams.Customer` and `InvoiceListLinesParams.Subscription` (these are not available for Invoice `ListLines`, but are available for `List`)
 - `Updated` and `UpdatedBy` from `RadarValueList`
 - `Name` from `RadarValueListItem`
+- `ReviewReasonType` type from `Review` resource. Use `ReviewReason` instead
+- `SetupIntentCancellationReasonFailedInvoice` and `SetupIntentCancellationReasonFraudulent` values from `SetupIntentCancellationReason`
