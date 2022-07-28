@@ -7,8 +7,10 @@ delete stripeConnectRec;
 
 scheduleSyncRecordDeletion.abortStripeCronJobs();
 
-List<Setup_Data__c> data = [SELECT Id
-                            FROM Setup_Data__c
-                            WHERE Name = :constants.SETUP_DATA_RECORD_NAME
-                            WITH SECURITY_ENFORCED];
+List<Setup_Data__c> data = [
+  SELECT Id
+  FROM Setup_Data__c
+  WHERE Name = :constants.SETUP_DATA_RECORD_NAME
+  WITH SECURITY_ENFORCED
+];
 delete data;

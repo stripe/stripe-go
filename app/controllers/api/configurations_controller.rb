@@ -94,6 +94,8 @@ module Api
         report_edge_case("important headers are blank on post install", metadata: request.headers)
       end
 
+      log.info 'updating organization key', new_user: user.new?
+
       # these settings are very important, especially the organization key
       user.connector_settings[CONNECTOR_SETTING_SALESFORCE_INSTANCE_TYPE] = salesforce_instance_type_from_headers(request.headers[SALESFORCE_INSTANCE_TYPE_HEADER])
       user.connector_settings[CONNECTOR_SETTING_SALESFORCE_NAMESPACE] = subdomain_namespace_from_param(request.headers[SALESFORCE_PACKAGE_NAMESPACE_HEADER])

@@ -30,6 +30,11 @@ module StripeForce
     # Skip views, helpers and assets when generating a new resource.
     config.api_only = true
 
+    # don't log keys coming from salesforce
+    config.filter_parameters += [
+      :key,
+    ]
+
     # workaround no sessions on API-only applications; we need sessions for oauth
     # https://github.com/omniauth/omniauth#integrating-omniauth-into-your-rails-api
     Rails.application.config.session_store :cookie_store, key: '_stripe-salesforce_session'
