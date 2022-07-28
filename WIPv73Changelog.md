@@ -696,7 +696,7 @@ Default API version changed to "2022-07-28".
 
 ## Deprecated
 
-- SKU
+- The `SKU` resource has been deprecated. This will be replaced by https://stripe.com/docs/api/orders_v2.
 
 ## Removed
 
