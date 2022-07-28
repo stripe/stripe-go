@@ -10,7 +10,16 @@ Default API version changed to "2022-07-28".
 - Add `CheckoutSessionShippingCostTax` and `CheckoutSessionShippingCost` classes
 - Add `IssuingCardCancellationReasonDesignRejected` constant to `IssuingCardCancellationReason`.
 - Add `Validate` field to `Customer` resource.
-- Add `Validate` field to `PaymentSourceParams`. <!-- ---- R, S -->
+- Add `Validate` field to `PaymentSourceParams`.
+- Add `SetupAttemptPaymentMethodDetailsCardThreeDSecureResultExempted` constant in `SetupAttemptPaymentMethodDetailsCardThreeDSecureResult`.
+- Add `SKUPackageDimensionsParams` and `SKUPackageDimensions`.
+- Add `SourceACHCreditTransfer`, `SourceACHDebit`, `SourceACSSDebit`, `SourceAlipay`, `SourceAUBECSDebit`, `SourceBancontact`, `SourceCard`, `SourceCardPresent`, `SourceEPS`, `SourceGiropay`, `SourceIDEAL`,  `SourceKlarna`, `SourceMultibanco`, `SourceP24`, `SourceRedirect`, `SourceSEPACreditTransfer`, `SourceSEPADebit`, `SourceSofort`, `SourceThreeDSecure`, and `SourceWechat`. Additionally, matching fields in `Source` struct - `ACHCreditTransfer`, `ACHDebit`, `ACSSDebit`, `Alipay`, `AUBECSDebit`, `Bancontact`, `Card`, `CardPresent`, `EPS`, `Giropay`, `IDEAL`, `Klarna`, `Multibanco`, `P24`, `SEPACreditTransfer`, `SEPADebit`, `Sofort`, `ThreeDSecure`, and `Wechat`
+- Add `SourceTransactionACHCreditTransfer`, `SourceTransactionCHFCreditTransfer`, `SourceTransactionGBPCreditTransfer`, `SourceTransactionPaperCheck`, and `SourceTransactionSEPACreditTransfer` and matching `SourceTransaction.ACHCreditTransfer`, `SourceTransaction.CHFCreditTransfer`, `SourceTransaction.GBPCreditTransfer`, `SourceTransaction.PaperCheck`, and `SourceTransaction.SEPACreditTransfer`.
+- Add `Subscription.DeleteDiscount` methods.
+- Add `SubscriptionItemUsageRecordSummariesParams`
+- Add `UsageRecordSummary` `UsageRecordSummaries`, and `UsageRecordSummaryList` methods in `SubscriptionItem`
+- Add `SubscriptionSchedulePhaseBillingCycleAnchor`, `SubscriptionSchedulePhaseBillingCycleAnchorAutomatic`, and `SubscriptionSchedulePhaseBillingCycleAnchorPhaseStart`
+- Add `SubscriptionSchedulePhaseInvoiceSettings` and `SubscriptionSchedulePhaseInvoiceSettingsParams `
 - `TerminalLocation` `UnmarshalJSON` - make `TerminalLocation` expandable
 
 ## Changed
@@ -45,7 +54,9 @@ Default API version changed to "2022-07-28".
     | Charge | `ChargePaymentMethodDetailsTypeAchDebit` | `ChargePaymentMethodDetailsTypeACHDebit` |
     | Invoice | `InvoicePaymentSettingsPaymentMethodTypeAchCreditTransfer` | `InvoicePaymentSettingsPaymentMethodTypeACHhCreditTransfer` |
     | Invoice | `InvoicePaymentSettingsPaymentMethodTypeAchDebit` | `InvoicePaymentSettingsPaymentMethodTypeACHDebit` |
-    | PaymentMethod | `PaymentMethodUSBankAccountNetworksSupportedAch` | `PaymentMethodUSBankAccountNetworksSupportedACH` | <!-- ---- R, S -->
+    | PaymentMethod | `PaymentMethodUSBankAccountNetworksSupportedAch` | `PaymentMethodUSBankAccountNetworksSupportedACH` |
+    | Subscription | `SubscriptionPaymentSettingsPaymentMethodTypeAchCreditTransfer` | `SubscriptionPaymentSettingsPaymentMethodTypeACHCreditTransfer` |
+    | Subscription | `SubscriptionPaymentSettingsPaymentMethodTypeAchDebit` | `SubscriptionPaymentSettingsPaymentMethodTypeACHDebit` |
     | Treasury CreditReversal | `TreasuryCreditReversalNetworkAch` | `TreasuryCreditReversalNetworkACH` |
     | Treasury DebitReversal | `TreasuryDebitReversalNetworkAch` | `TreasuryDebitReversalNetworkACH` |
     | Treasury FinancialAccount | `TreasuryFinancialAccountActiveFeatureInboundTransfersAch` | `TreasuryFinancialAccountActiveFeatureInboundTransfersACH` |
@@ -155,7 +166,7 @@ Default API version changed to "2022-07-28".
     | --- | --- | --- |
     | Charge | `ChargePaymentMethodDetails.AcssDebit` | `ChargePaymentMethodDetails.ACSSDebit` |
     | Charge | `ChargePaymentMethodDetailsAcssDebit` | `ChargePaymentMethodDetailsACSSDebit` |
-    | Charge | `ChargePaymentMethodDetailsTypeAcssDebit` | `ChargePaymentMethodDetailsTypeACSSDebit` | <!-- ---- R, S -->
+    | Charge | `ChargePaymentMethodDetailsTypeAcssDebit` | `ChargePaymentMethodDetailsTypeACSSDebit` |
 
   - `Amex` to `AmEx`
     | Resource | Old name | New name |
@@ -164,7 +175,9 @@ Default API version changed to "2022-07-28".
     | Charge | `ChargePaymentMethodDetailsCardWalletAmexExpressCheckout` | `ChargePaymentMethodDetailsCardWalletAmExExpressCheckout` |
     | PaymentMethod | `PaymentMethodCardBrandAmex` | `PaymentMethodCardBrandAmEx` |
     | PaymentMethod | `PaymentMethodCardWalletTypeAmexExpressCheckout` | `PaymentMethodCardWalletTypeAmExExpressCheckout` |
-    | PaymentMethod | `PaymentMethodCardWalletAmexExpressCheckout` | `PaymentMethodCardWalletAmExExpressCheckout` | <!-- ---- R, S -->
+    | PaymentMethod | `PaymentMethodCardWalletAmexExpressCheckout` | `PaymentMethodCardWalletAmExExpressCheckout` |
+    | SetupIntent | `SetupIntentPaymentMethodOptionsCardNetwork.SetupIntentPaymentMethodOptionsCardNetworkAmex` | `SetupIntentPaymentMethodOptionsCardNetwork.SetupIntentPaymentMethodOptionsCardNetworkAmEx` |
+
 
   - `Bic` to `BIC`
     | Resource | Old name | New name |
@@ -177,17 +190,20 @@ Default API version changed to "2022-07-28".
     | Charge | `PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressIban.Bic` | `PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressIBAN.BIC` |
     | FundingInstructions | `FundingInstructionsBankTransferFinancialAddressIBAN.Bic` | `FundingInstructionsBankTransferFinancialAddressIBAN.BIC` |
     | PaymentIntent | `PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressIBAN.Bic` | `PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressIBAN.BIC` |
-    | PaymentMethod | `PaymentMethodIdeal.Bic` | `PaymentMethodIDEAL.BIC` | <!-- ---- R, S -->
+    | PaymentMethod | `PaymentMethodIdeal.Bic` | `PaymentMethodIDEAL.BIC` |
+    | SetupAttempt | `SetupAttemptPaymentMethodDetailsBancontact.Bic` | `SetupAttemptPaymentMethodDetailsBancontact.BIC` |
+    | SetupAttempt | `SetupAttemptPaymentMethodDetailsIdeal.Bic` | `SetupAttemptPaymentMethodDetailsIDEAL.BIC` |
+    | SetupAttempt | `SetupAttemptPaymentMethodDetailsSofort.Bic` | `SetupAttemptPaymentMethodDetailsSofort.BIC` |
 
   - `Eps` to `EPS`
     | Resource | Old name | New name |
     | --- | --- | --- |
-    | Charge | `ChargePaymentMethodDetailsTypeEps` | `ChargePaymentMethodDetailsTypeEPS` | <!-- ---- R, S -->
+    | Charge | `ChargePaymentMethodDetailsTypeEps` | `ChargePaymentMethodDetailsTypeEPS` |
 
   - `FEDEX` to `FedEx`
     | Resource | Old name | New name |
     | --- | --- | --- |
-    | Issuing Card | `IssuingCardShippingCarrierFEDEX` | `IssuingCardShippingCarrierFedEx` | <!-- ---- R, S -->
+    | Issuing Card | `IssuingCardShippingCarrierFEDEX` | `IssuingCardShippingCarrierFedEx` |
 
   - `Iban` to `IBAN`
     | Resource | Old name | New name |
@@ -200,7 +216,12 @@ Default API version changed to "2022-07-28".
     | PaymentIntent | `PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressTypeIban` | `PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressTypeIBAN` |
     | PaymentIntent | `PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddress.Iban` | `PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddress.IBAN` |
     | PaymentIntent | `PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressIban` | `PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressIBAN` |
-    | PaymentIntent | `PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressIban.Iban` | `PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressIBAN.IBAN` | <!-- ---- R, S -->
+    | PaymentIntent | `PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressIban.Iban` | `PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressIBAN.IBAN` |
+    | SetupAttempt | `SetupAttemptPaymentMethodDetailsBancontact.IbanLast4` | `SetupAttemptPaymentMethodDetailsBancontact.IBANLast4` |
+    | SetupAttempt | `SetupAttemptPaymentMethodDetailsIdeal.IbanLast4` | `SetupAttemptPaymentMethodDetailsIDEAL.IBANLast4` |
+    | SetupAttempt | `SetupAttemptPaymentMethodDetailsSofort.IbanLast4` | `SetupAttemptPaymentMethodDetailsSofort.IBANLast4` |
+    | SetupIntent | `SetupIntentPaymentMethodDataSepaDebitParams.Iban` | `SetupIntentPaymentMethodDataSEPADebitParams.IBAN` |
+    | SetupIntent | `SetupIntentConfirmPaymentMethodDataSepaDebitParams.Iban` | `SetupIntentConfirmPaymentMethodDataSEPADebitParams.IBAN` |
 
   - `Ideal` to `IDEAL`
     | Resource | Old name | New name |
@@ -228,7 +249,13 @@ Default API version changed to "2022-07-28".
     | PaymentMethod | `PaymentMethodTypeIdeal` | `PaymentMethodTypeIDEAL` |
     | PaymentMethod | `PaymentMethodParams.Ideal` | `PaymentMethodParams.IDEAL` |
     | PaymentMethod | `PaymentMethod.Ideal` | `PaymentMethod.IDEAL` |
-    | PaymentMethod | `PaymentMethodIdeal` | `PaymentMethodIDEAL` | <!-- ---- R, S -->
+    | PaymentMethod | `PaymentMethodIdeal` | `PaymentMethodIDEAL` |
+    | SetupAttempt | `SetupAttemptPaymentMethodDetailsIdeal` | `SetupAttemptPaymentMethodDetailsIDEAL` |
+    | SetupAttempt | `SetupAttemptPaymentMethodDetails.Ideal` | `SetupAttemptPaymentMethodDetails.IDEAL` |
+    | SetupIntent | `SetupIntentPaymentMethodDataIdealParams` | `SetupIntentPaymentMethodDataIDEALParams` |
+    | SetupIntent | `SetupIntentPaymentMethodDataParams.Ideal` | `SetupIntentPaymentMethodDataParams.IDEAL` |
+    | SetupIntent | `SetupIntentConfirmPaymentMethodDataParams.Ideal` | `SetupIntentConfirmPaymentMethodDataParams.IDEAL` |
+    | Subscription | `SubscriptionPaymentSettingsPaymentMethodTypeIdeal` | `SubscriptionPaymentSettingsPaymentMethodTypeIDEAL` |
 
   - `Sepa` to `SEPA`
     | Resource | Old name | New name |
@@ -266,7 +293,26 @@ Default API version changed to "2022-07-28".
     | PaymentMethod | `PaymentMethodParams.SepaDebit` | `PaymentMethodParams.SEPADebit` |
     | PaymentMethod | `PaymentMethod.SepaDebit` | `PaymentMethod.SEPADebit` |
     | PaymentMethod | `PaymentMethodSepaDebit` | `PaymentMethodSEPADebit` |
-    | PaymentMethod | `PaymentMethodSepaDebitGeneratedFrom` | `PaymentMethodSEPADebitGeneratedFrom` | <!-- ---- R, S -->
+    | PaymentMethod | `PaymentMethodSepaDebitGeneratedFrom` | `PaymentMethodSEPADebitGeneratedFrom` |
+    | SetupAttempt | `SetupAttemptPaymentMethodDetailsBancontact.GeneratedSepaDebit` | `SetupAttemptPaymentMethodDetailsBancontact.GeneratedSEPADebit` |
+    | SetupAttempt | `SetupAttemptPaymentMethodDetailsBancontact.GeneratedSepaDebitMandate` | `SetupAttemptPaymentMethodDetailsBancontact.GeneratedSEPADebitMandate` |
+    | SetupAttempt | `SetupAttemptPaymentMethodDetailsIdeal.GeneratedSepaDebit` | `SetupAttemptPaymentMethodDetailsIDEAL.GeneratedSEPADebit` |
+    | SetupAttempt | `SetupAttemptPaymentMethodDetailsIdeal.GeneratedSepaDebitMandate` | `SetupAttemptPaymentMethodDetailsIDEAL.GeneratedSEPADebitMandate` |
+    | SetupAttempt | `SetupAttemptPaymentMethodDetailsSepaDebit` | `SetupAttemptPaymentMethodDetailsSEPADebit` |
+    | SetupAttempt | `SetupAttemptPaymentMethodDetailsSofort.GeneratedSepaDebit` | `SetupAttemptPaymentMethodDetailsSofort.GeneratedSEPADebit` |
+    | SetupAttempt | `SetupAttemptPaymentMethodDetailsSofort.GeneratedSepaDebitMandate` | `SetupAttemptPaymentMethodDetailsSofort.GeneratedSEPADebitMandate` |
+    | SetupAttempt | `SetupAttemptPaymentMethodDetails.SepaDebit` | `SetupAttemptPaymentMethodDetails.SEPADebit` |
+    | SetupIntent | `SetupIntentPaymentMethodDataSepaDebitParams` | `SetupIntentPaymentMethodDataSEPADebitParams` |
+    | SetupIntent | `SetupIntentPaymentMethodDataParams.SepaDebit` | `SetupIntentPaymentMethodDataParams.SEPADebit` |
+    | SetupIntent | `SetupIntentPaymentMethodOptionsSepaDebitMandateOptionsParams` | `SetupIntentPaymentMethodOptionsSEPADebitMandateOptionsParams` |
+    | SetupIntent | `SetupIntentPaymentMethodOptionsUSBankAccountParams.SepaDebit` | `SetupIntentPaymentMethodOptionsUSBankAccountParams.SEPADebit` |
+    | SetupIntent | `SetupIntentConfirmPaymentMethodDataSepaDebitParams` | `SetupIntentConfirmPaymentMethodDataSEPADebitParams` |
+    | SetupIntent | `SetupIntentConfirmPaymentMethodDataParams.SepaDebit` | `SetupIntentConfirmPaymentMethodDataParams.SEPADebit` |
+    | SetupIntent | `SetupIntentPaymentMethodOptionsSepaDebitMandateOptions` | `SetupIntentPaymentMethodOptionsSEPADebitMandateOptions` |
+    | SetupIntent | `SetupIntentPaymentMethodOptionsSepaDebit` | `SetupIntentPaymentMethodOptionsSEPADebit` |
+    | SetupIntent | `SetupIntentPaymentMethodOptionsUSBankAccount.SepaDebit` | `SetupIntentPaymentMethodOptionsUSBankAccount.SEPADebit` |
+    | Subscription | `SubscriptionPaymentSettingsPaymentMethodTypeSepaCreditTransfer` | `SubscriptionPaymentSettingsPaymentMethodTypeSEPACreditTransfer` |
+    | Subscription | `SubscriptionPaymentSettingsPaymentMethodTypeSepaDebit` | `SubscriptionPaymentSettingsPaymentMethodTypeSEPADebit` |
 
   - `Wechat` to `WeChat`
     | Resource | Old name | New name |
@@ -479,7 +525,65 @@ Default API version changed to "2022-07-28".
     | PaymentSource | `PaymentSource.SourceObject` | `PaymentSource.Source` |
     | Price | `PriceRecurringListParams` | `PriceListRecurringParams` |
     | Product | `PackageDimensions` | `ProductPackageDimensions` |
-    | Product | `PackageDimensionsParams` | `ProductPackageDimensionsParams` | <!-- ---- R, S -->
+    | Product | `PackageDimensionsParams` | `ProductPackageDimensionsParams` |
+    | Radar | `RadarValueListItem.RadarValueList` | `RadarValueListItem.ValueList` |
+    | Radar | `RadarValueListItemListParams.RadarValueList` | `RadarValueListItemListParams.ValueList` |
+    | Radar | `RadarValueListItemParams.RadarValueList` | `RadarValueListItemParams.ValueList` |
+    | Radar.EarlyFraudWarning | `RadarEarlyFraudWarningList.Values` | `RadarEarlyFraudWarningList.Data` |
+    | Reporting | `ReportRun` | `ReportingReportRun ` |
+    | Reporting | `ReportRunList` | `ReportingReportRunList ` |
+    | Reporting | `ReportRunListParams` | `ReportingReportRun ` |
+    | Reporting | `ReportRunParameters` | `ReportingReportRunParameters` |
+    | Reporting | `ReportRunParametersParams` | `ReportingReportRunParametersParams` |
+    | Reporting | `ReportRunParams` | `ReportingReportRunParams` |
+    | Reporting | `ReportRunStatus` | `ReportingReportRunStatus` |
+    | Reporting | `ReportRunStatusFailed` | `ReportingReportRunStatusFailed` |
+    | Reporting | `ReportRunStatusPending` | `ReportingReportRunStatusPending` |
+    | Reporting | `ReportRunStatusSucceeded` | `ReportingReportRunStatusSucceeded` |
+    | Reporting | `ReportType` | `ReportingReportType` |
+    | Reporting | `ReportTypeListParams` | `ReportingReportTypeListParams` |
+    | Reporting | `ReportTypeListParams` | `ReportingReportTypeListParams` |
+    | Reporting | `ReportTypeParams` | `ReportingReportTypeParams` |
+    | Reporting | `ReportTypeParams` | `ReportingReportTypeParams` |
+    | Reversal | `reversal` | `transferreversal` |
+    | Reversal | `ReversalParams` | `TransferReversalParams` |
+    | Reversal | `ReversalListParams` | `TransferReversalListParams` |
+    | Reversal | `Reversal` | `TransferReversal` |
+    | Reversal | `ReversalList` | `TransferReversalList` |
+    | Sku | `InventoryParams` | `SKUInventoryParams` |
+    | Sku | `Inventory` | `SKUInventory` |
+    | Source | `SourceCodeVerificationFlowStatus` | `SourceCodeVerificationStatus` |
+    | Source | `SourceCodeVerificationFlowStatusFailed` | `SourceCodeVerificationStatusFailed` |
+    | Source | `SourceCodeVerificationFlowStatusPending` | `SourceCodeVerificationStatusPending` |
+    | Source | `SourceCodeVerificationFlowStatusSucceeded` | `SourceCodeVerificationStatusSucceeded` |
+    | Source | `SourceRefundAttributesMethod` | `SourceReceiverRefundAttributesMethod` |
+    | Source | `SourceRefundAttributesMethodEmail` | `SourceReceiverRefundAttributesMethodEmail` |
+    | Source | `SourceRefundAttributesMethodManual` | `SourceReceiverRefundAttributesMethodManual` |
+    | Source | `SourceRefundAttributesStatus` | `SourceReceiverRefundAttributesStatus` |
+    | Source | `SourceRefundAttributesStatusAvailable` | `SourceReceiverRefundAttributesStatusAvailable` |
+    | Source | `SourceRefundAttributesStatusMissing` | `SourceReceiverRefundAttributesStatusMissing` |
+    | Source | `SourceRefundAttributesStatusRequested` | `SourceReceiverRefundAttributesStatusRequested` |
+    | Source | `SourceRedirectFlowFailureReason` | `SourceRedirectFailureReason` |
+    | Source | `SourceRedirectFlowFailureReasonDeclined` | `SourceRedirectFailureReasonDeclined` |
+    | Source | `SourceRedirectFlowFailureReasonProcessingError` | `SourceRedirectFailureReasonProcessingError` |
+    | Source | `SourceRedirectFlowFailureReasonUserAbort` | `SourceRedirectFailureReasonUserAbort` |
+    | Source | `SourceRedirectFlowStatus` | `SourceRedirectStatus` |
+    | Source | `SourceRedirectFlowStatusFailed` | `SourceRedirectStatusFailed` |
+    | Source | `SourceRedirectFlowStatusNotRequired` | `SourceRedirectStatusNotRequired` |
+    | Source | `SourceRedirectFlowStatusPending` | `SourceRedirectStatusPending` |
+    | Source | `SourceRedirectFlowStatusSucceeded` | `SourceRedirectStatusSucceeded` |
+    | Source | `SourceObjectDetachParams` | `SourceDetachParams` |
+    | Source | `SourceObjectParams` | `SourceParams` |
+    | Source | `SourceOrderItemsParams` | `ourceSourceOrderItemParams` |
+    | Source | `SourceOrderParams` | `SourceSourceOrderParams` |
+    | Source | `RedirectParams` | `SourceRedirectParams` |
+    | Source | `CodeVerificationFlow` | `SourceCodeVerification` |
+    | Source | `SourceSourceOrderItems` | `SourceSourceOrderItem` |
+    | SubscriptionSchedule | `SubscriptionSchedulePhaseBillingCycleAnchor` | `SubscriptionScheduleDefaultSettingsBillingCycleAnchor` |
+    | SubscriptionSchedule | `SubscriptionSchedulePhaseBillingCycleAnchorAutomatic` | `SubscriptionScheduleDefaultSettingsBillingCycleAnchorAutomatic` |
+    | SubscriptionSchedule | `SubscriptionSchedulePhaseBillingCycleAnchorPhaseStart` | `SubscriptionScheduleDefaultSettingsBillingCycleAnchorPhaseStart` |
+    | SubscriptionSchedule | `SubscriptionScheduleInvoiceSettingsParams` | `SubscriptionScheduleDefaultSettingsInvoiceSettingsParams` |
+    | SubscriptionSchedule | `SubscriptionScheduleInvoiceSettings` | `SubscriptionScheduleDefaultSettingsInvoiceSettings` |
     | TaxRate | `TaxRateTaxTypeJct` | `TaxRateTaxTypeJCT` |
     | Token | `PIIParams` | `TokenPIIParams` |
 
@@ -546,7 +650,26 @@ Default API version changed to "2022-07-28".
   | Person | `PersonParams.AddressKana` | `*AccountAddressParams` | `*PersonAddressKanaParams` | `AccountAddressParams` has been split into separate `PersonAddressKanaParams` and `PersonAddressKanjiParams` |
   | Person | `PersonParams.AddressKanji` | `*AccountAddressParams` | `*PersonAddressKanjiParams` | `AccountAddressParams` has been split into separate `PersonAddressKanaParams` and `PersonAddressKanjiParams` |
   | Plan | `Plan.AggregateUsage` | `string` | `PlanAggregateUsage` | Use enum that was already defined but unused |
-  | Plan | `Plan.TiersMode` | `string` | `PlanTiersMode` | Use enum that was already defined but unused | <!-- ---- R, S -->
+  | Plan | `Plan.TiersMode` | `string` | `PlanTiersMode` | Use enum that was already defined but unused |
+  | Refund | `Refund.SourceTransferReversal` | `*Reversal` | `*TransferReversal` | Rename `Reversal` to `TransferReversal` for consistency with other Stripe client libraries |
+  | Refund | `Refund.TransferReversal` | `*Reversal` | `*TransferReversal` | Rename `Reversal` to `TransferReversal` for consistency with other Stripe client libraries |
+  | SetupIntent | `SetupIntentPaymentMethodOptionsACSSDebit.Currency` | `string` | `*SetupIntentPaymentMethodOptionsACSSDebitCurrency` | `SetupIntentPaymentMethodOptionsACSSDebitCurrency` is an alias to `string` type |
+  | Source | `Source.Receiver` | `*ReceiverFlow` | `*SourceReceiver` | Rename `ReceiverFlow` to `SourceReceiver` for consistency with other Stripe client libraries |
+  | Source | `Source.Redirect` | `*RedirectFlow` | `*SourceRedirect` | Rename `ReceiverFlow` to `SourceReceiver` for consistency with other Stripe client libraries |
+  | Subscription | `SubscriptionListParams.Created` | `int64` | `*int64` | Params fields should be pointers |
+  | Subscription | `SubscriptionListParams.Customer` | `string` | `*string` | Params fields should be pointers |
+  | Subscription | `SubscriptionListParams.Plan` | `string` | `*string` | Params fields should be pointers |
+  | Subscription | `SubscriptionListParams.Price` | `string` | `*string` | Params fields should be pointers |
+  | Subscription | `SubscriptionListParams.Status` | `string` | `*string` | Params fields should be pointers |
+  | Subscription | `Subscription.PauseCollection` | `SubscriptionPauseCollection` | `*SubscriptionPauseCollection` | `PauseCollection` is nullable |
+  | Subscription | `Subscription.PendingInvoiceItemInterval` | `SubscriptionPendingInvoiceItemInterval` | `*SubscriptionPendingInvoiceItemInterval` | `PendingInvoiceItemInterval` is nullable |
+  | SubscriptionItem | `SubscriptionItem.BillingThresholds` | `SubscriptionItemBillingThresholds` | `*SubscriptionItemBillingThresholds` | `BillingThresholds` is nullable |
+  | SubscriptionSchedule | `SubscriptionScheduleListParams.CanceledAt` | `int64` | `*int64` | Params fields should be pointers |
+  | SubscriptionSchedule | `SubscriptionScheduleListParams.CompletedAt` | `int64` | `*int64` | Params fields should be pointers |
+  | SubscriptionSchedule | `SubscriptionScheduleListParams.Created` | `int64` | `*int64` | Params fields should be pointers |
+  | SubscriptionSchedule | `SubscriptionScheduleListParams.Customer` | `string` | `*string` | Params fields should be pointers |
+  | SubscriptionSchedule | `SubscriptionScheduleListParams.ReleasedAt` | `int64` | `*int64` | Params fields should be pointers |
+  | SubscriptionSchedule | `SubscriptionScheduleDefaultSettings.CollectionMethod` | `SubscriptionCollectionMethod` | `*SubscriptionCollectionMethod` | `CollectionMethod` is nullable |
   | Terminal ConnectionToken | `TerminalConnectionTokenParams.Location` | `string` | `*string` | Params fields should be pointers |
   | Terminal Location | `TerminalLocationParams.Account` | `*AccountAddressParams` | `*AddressParams` | `AccountAddressParams` had extra `Town` field |
   | Terminal Location | `AccountAddressParams.Account` | `*AccountAddressParams` | `*Address` | `AccountAddressParams` had extra `Town` field, and also was the Params struct and not resource struct |
@@ -651,9 +774,23 @@ Default API version changed to "2022-07-28".
 - Remove `Shipping` and `ShippingRate` properties from `CheckoutSession` resource. Please use `ShippingCost` and `ShippingDetails` properties instead.
 - Remove `DefaultCurrency` property from `Customer` resource. Please use `Currency` property instead.
 
----- up to R
-
----- after S
+- `Updated` and `UpdatedBy` from `RadarValueList`
+- `Name` from `RadarValueListItem`
+- `ReviewReasonType` type from `Review` resource. Use `ReviewReason` instead
+- `SetupIntentCancellationReasonFailedInvoice` and `SetupIntentCancellationReasonFraudulent` values from `SetupIntentCancellationReason`
+- `SigmaScheduledQueryRun.Query`. The field was invalid
+- `SKUParams.Description` and `SKU.Description`
+- `SourceMandateAcceptanceStatus`, `SourceMandateAcceptanceStatusAccepted`, `SourceMandateAcceptanceStatusRefused`, `SourceMandateNotificationMethod`, `SourceMandateNotificationMethodEmail`, `SourceMandateNotificationMethodManual`, and `SourceMandateNotificationMethodNone`
+- `Source.TypeData` and SourceParams and replace with payment method-specific fields (AUBECSDebit, Bancontact, Card, CardPresent, EPS, Giropay, IDEAL, Klarna, Multibanco, P24, SEPACreditTransfer, SEPADebit, Sofort, ThreeDSecure, Wechat) and `Source.AppendTo` method
+- `SourceTransaction.CustomerData`. The field was deprecated
+- `SourceTransaction.TypeData` and `SourceTransaction.UnmarshalJSON`. Use payment specific fields - `ACHCreditTransfer`, `CHFCreditTransfer`, `GBPCreditTransfer`, `PaperCheck`, and `SEPACreditTransfer`
+- `SubscriptionPaymentBehavior`, `SubscriptionPaymentBehaviorAllowIncomplete`, `SubscriptionPaymentBehaviorErrorIfIncomplete`, and `SubscriptionPaymentBehaviorPendingIfIncomplete`
+- `SubscriptionProrationBehavior`, `SubscriptionProrationBehaviorAlwaysInvoice`, `SubscriptionProrationBehaviorCreateProrations`, and `SubscriptionProrationBehaviorNone`
+- `SubscriptionStatusAll`
+- `SubscriptionParams.Card`, `SubscriptionParams.Plan`, and `SubscriptionParams.Quantity`
+- `Subscription.Plan` and `Subscription.Quantity`
+- `SubscriptionItemParams.ID`. The field was deprecated
+- `SubscriptionSchedulePhaseAddInvoiceItemPriceDataRecurringParams` and `SubscriptionSchedulePhaseAddInvoiceItemPriceDataParams`
 - `Del` TaxRate
 - `TerminalReaderGetParams`. Use `TerminalReaderParams`
 - `TerminalReaderList.Location` and `TerminalReaderList.Status` (Not available for the list, but is available for individual `TerminalReader`s in `TerminalReaderList.Data`)
