@@ -1,9 +1,16 @@
 # Changelog
 
+Default API version changed to "2022-07-28".
+
 ## Added
 
 - `CheckoutSessionSetupIntentDataParams.Metadata`
 - Invoice `UpcomingLines` method
+- Add `ShippingCost` and `ShippingDetails` properties to `CheckoutSession` resource.
+- Add `CheckoutSessionShippingCostTax` and `CheckoutSessionShippingCost` classes
+- Add `IssuingCardCancellationReasonDesignRejected` constant to `IssuingCardCancellationReason`.
+- Add `Validate` field to `Customer` resource.
+- Add `Validate` field to `PaymentSourceParams`.
 
 ## Changed
 
@@ -37,23 +44,37 @@
     | Charge | `ChargePaymentMethodDetailsTypeAchDebit` | `ChargePaymentMethodDetailsTypeACHDebit` |
     | Invoice | `InvoicePaymentSettingsPaymentMethodTypeAchCreditTransfer` | `InvoicePaymentSettingsPaymentMethodTypeACHhCreditTransfer` |
     | Invoice | `InvoicePaymentSettingsPaymentMethodTypeAchDebit` | `InvoicePaymentSettingsPaymentMethodTypeACHDebit` |
-  
+    | PaymentMethod | `PaymentMethodUSBankAccountNetworksSupportedAch` | `PaymentMethodUSBankAccountNetworksSupportedACH` |
+
   - `Acss` to `ACSS`
     | Resource | Old name | New name |
     | --- | --- | --- |
-    | FundingInstructions | `FundingInstructionsBankTransferFinancialAddressIban.Bic` | `FundingInstructionsBankTransferFinancialAddressIBAN.BIC` |
-  
+    | Charge | `ChargePaymentMethodDetails.AcssDebit` | `ChargePaymentMethodDetails.ACSSDebit` |
+    | Charge | `ChargePaymentMethodDetailsAcssDebit` | `ChargePaymentMethodDetailsACSSDebit` |
+    | Charge | `ChargePaymentMethodDetailsTypeAcssDebit` | `ChargePaymentMethodDetailsTypeACSSDebit` |
+
   - `Amex` to `AmEx`
     | Resource | Old name | New name |
     | --- | --- | --- |
     | Charge | `ChargePaymentMethodDetailsCardWallet.AmexExpressCheckout` | `ChargePaymentMethodDetailsCardWallet.AmExExpressCheckout` |
     | Charge | `ChargePaymentMethodDetailsCardWalletAmexExpressCheckout` | `ChargePaymentMethodDetailsCardWalletAmExExpressCheckout` |
+    | PaymentMethod | `PaymentMethodCardBrandAmex` | `PaymentMethodCardBrandAmEx` |
+    | PaymentMethod | `PaymentMethodCardWalletTypeAmexExpressCheckout` | `PaymentMethodCardWalletTypeAmExExpressCheckout` |
+    | PaymentMethod | `PaymentMethodCardWalletAmexExpressCheckout` | `PaymentMethodCardWalletAmExExpressCheckout` |
 
   - `Bic` to `BIC`
     | Resource | Old name | New name |
     | --- | --- | --- |
-    | Charge | `ChargePaymentMethodDetailsTypeAcssDebit` | `ChargePaymentMethodDetailsTypeACSSDebit` |
-  
+    | Charge | `ChargePaymentMethodDetailsBancontact.Bic` | `ChargePaymentMethodDetailsBancontact.BIC` |
+    | Charge | `ChargePaymentMethodDetailsGiropay.Bic` | `ChargePaymentMethodDetailsGiropay.BIC` |
+    | Charge | `ChargePaymentMethodDetailsIDEAL.Bic` | `ChargePaymentMethodDetailsIDEAL.BIC` |
+    | Charge | `ChargePaymentMethodDetailsSEPACreditTransfer.Bic` | `ChargePaymentMethodDetailsSEPACreditTransfer.BIC` |
+    | Charge | `ChargePaymentMethodDetailsSofort.Bic` | `ChargePaymentMethodDetailsSofort.BIC` |
+    | Charge | `PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressIban.Bic` | `PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressIBAN.BIC` |
+    | FundingInstructions | `FundingInstructionsBankTransferFinancialAddressIBAN.Bic` | `FundingInstructionsBankTransferFinancialAddressIBAN.BIC` |
+    | PaymentIntent | `PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressIBAN.Bic` | `PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressIBAN.BIC` |
+    | PaymentMethod | `PaymentMethodIdeal.Bic` | `PaymentMethodIDEAL.BIC` |
+
   - `Eps` to `EPS`
     | Resource | Old name | New name |
     | --- | --- | --- |
@@ -63,7 +84,7 @@
     | Resource | Old name | New name |
     | --- | --- | --- |
     | Issuing Card | `IssuingCardShippingCarrierFEDEX` | `IssuingCardShippingCarrierFedEx` |
-  
+
   - `Iban` to `IBAN`
     | Resource | Old name | New name |
     | --- | --- | --- |
@@ -71,7 +92,12 @@
     | FundingInstructions | `FundingInstructionsBankTransferFinancialAddressIban` | `FundingInstructionsBankTransferFinancialAddressIBAN` |
     | FundingInstructions | `FundingInstructionsBankTransferFinancialAddressIban.Iban` | `FundingInstructionsBankTransferFinancialAddressIBAN.IBAN` |
     | FundingInstructions | `FundingInstructionsBankTransferFinancialAddressTypeIban` | `FundingInstructionsBankTransferFinancialAddressTypeIBAN` |
-  
+    | PaymentIntent | `PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressTypeIban` | `PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressTypeIBAN` |
+    | PaymentIntent | `PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressTypeIban` | `PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressTypeIBAN` |
+    | PaymentIntent | `PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddress.Iban` | `PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddress.IBAN` |
+    | PaymentIntent | `PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressIban` | `PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressIBAN` |
+    | PaymentIntent | `PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressIban.Iban` | `PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressIBAN.IBAN` |
+
   - `Ideal` to `IDEAL`
     | Resource | Old name | New name |
     | --- | --- | --- |
@@ -86,7 +112,20 @@
     | CheckoutSessions | `CheckoutSessionPaymentMethodOptionsIdealParams` | `CheckoutSessionPaymentMethodOptionsIDEALParams` |
     | CheckoutSessions | `CheckoutSessionPaymentMethodOptionsParams.Ideal` | `CheckoutSessionPaymentMethodOptionsParams.IDEAL` |
     | Invoice | `InvoicePaymentSettingsPaymentMethodTypeIdeal` | `InvoicePaymentSettingsPaymentMethodTypeIDEAL` |
-  
+    | PaymentIntent | `PaymentIntentPaymentMethodOptions.Ideal` | `PaymentIntentPaymentMethodOptions.IDEAL` |
+    | PaymentIntent | `PaymentIntentPaymentMethodOptionsIdeal` | `PaymentIntentPaymentMethodOptionsIDEAL` |
+    | PaymentIntent | `PaymentIntentPaymentMethodOptionsIdealSetupFutureUsage` | `PaymentIntentPaymentMethodOptionsIDEALSetupFutureUsage` |
+    | PaymentIntent | `PaymentIntentPaymentMethodOptionsIdealSetupFutureUsageNone` | `PaymentIntentPaymentMethodOptionsIDEALSetupFutureUsageNone` |
+    | PaymentIntent | `PaymentIntentPaymentMethodOptionsIdealSetupFutureUsageOffSession` | `PaymentIntentPaymentMethodOptionsIDEALSetupFutureUsageOffSession` |
+    | PaymentIntent | `PaymentIntentPaymentMethodDataParams.Ideal` | `PaymentIntentPaymentMethodDataParams.IDEAL` |
+    | PaymentIntent | `PaymentIntentPaymentMethodOptionsParams.Ideal` | `PaymentIntentPaymentMethodOptionsParams.IDEAL` |
+    | PaymentIntent | `PaymentIntentPaymentMethodOptionsIdealParams` | `PaymentIntentPaymentMethodOptionsIDEALParams` |
+    | PaymentLink | `PaymentLinkPaymentMethodTypeIdeal` | `PaymentLinkPaymentMethodTypeIDEAL` |
+    | PaymentMethod | `PaymentMethodTypeIdeal` | `PaymentMethodTypeIDEAL` |
+    | PaymentMethod | `PaymentMethodParams.Ideal` | `PaymentMethodParams.IDEAL` |
+    | PaymentMethod | `PaymentMethod.Ideal` | `PaymentMethod.IDEAL` |
+    | PaymentMethod | `PaymentMethodIdeal` | `PaymentMethodIDEAL` |
+
   - `Sepa` to `SEPA`
     | Resource | Old name | New name |
     | --- | --- | --- |
@@ -102,6 +141,28 @@
     | FundingInstructions | `FundingInstructionsBankTransferFinancialAddressSupportedNetworkSepa` | `FundingInstructionsBankTransferFinancialAddressSupportedNetworkSEPA` |
     | Invoice | `InvoicePaymentSettingsPaymentMethodTypeSepaCreditTransfer` | `InvoicePaymentSettingsPaymentMethodTypeSEPACreditTransfer` |
     | Invoice | `InvoicePaymentSettingsPaymentMethodTypeSepaDebit` | `InvoicePaymentSettingsPaymentMethodTypeSEPADebit` |
+    | Mandate | `MandatePaymentMethodDetails.SepaDebit` | `MandatePaymentMethodDetails.SEPADebit` |
+    | Mandate | `MandatePaymentMethodDetailsSepaDebit` | `MandatePaymentMethodDetailsSEPADebit` |
+    | PaymentIntent | `PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressSupportedNetworkSepa` | `PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressSupportedNetworkSEPA` |
+    | PaymentIntent | `PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressTypeSepa` | `PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressTypeSEPA` |
+    | PaymentIntent | `PaymentIntentPaymentMethodOptionsSepaDebitSetupFutureUsage` | `PaymentIntentPaymentMethodOptionsSepaDebitSetupFutureUsage` |
+    | PaymentIntent | `PaymentIntentPaymentMethodOptionsSepaDebitSetupFutureUsageNone` | `PaymentIntentPaymentMethodOptionsSEPADebitSetupFutureUsageNone` |
+    | PaymentIntent | `PaymentIntentPaymentMethodOptionsSepaDebitSetupFutureUsageNone` | `PaymentIntentPaymentMethodOptionsSEPADebitSetupFutureUsageNone` |
+    | PaymentIntent | `PaymentIntentPaymentMethodOptionsSepaDebitSetupFutureUsageOffSession` | `PaymentIntentPaymentMethodOptionsSepaDebitSetupFutureUsageOffSession` |
+    | PaymentIntent | `PaymentIntentPaymentMethodOptionsSepaDebitSetupFutureUsageOnSession` | `PaymentIntentPaymentMethodOptionsSEPADebitSetupFutureUsageOnSession` |
+    | PaymentIntent | `PaymentIntentPaymentMethodDataParams.SepaDebit` | `PaymentIntentPaymentMethodDataParams.SEPADebit` |
+    | PaymentIntent | `PaymentIntentPaymentMethodOptionsSepaDebitMandateOptionsParams` | `PaymentIntentPaymentMethodOptionsSEPADebitMandateOptionsParams` |
+    | PaymentIntent | `PaymentIntentPaymentMethodOptionsParams.SepaDebit` | `PaymentIntentPaymentMethodOptionsParams.SEPADebit` |
+    | PaymentIntent | `PaymentIntentPaymentMethodOptionsSepaDebitParams` | `PaymentIntentPaymentMethodOptionsSEPADebitParams` |
+    | PaymentIntent | `PaymentIntentPaymentMethodOptions.SepaDebit` | `PaymentIntentPaymentMethodOptions.SEPADebit` |
+    | PaymentIntent | `PaymentIntentPaymentMethodOptionsSepaDebit` | `PaymentIntentPaymentMethodOptionsSEPADebit` |
+    | PaymentIntent | `PaymentIntentPaymentMethodOptionsSepaDebitMandateOptions` | `PaymentIntentPaymentMethodOptionsSEPADebitMandateOptions` |
+    | PaymentLink | `PaymentLinkPaymentMethodTypeSepaDebit` | `PaymentLinkPaymentMethodTypeSEPADebit` |
+    | PaymentMethod | `PaymentMethodTypeSepaDebit` | `PaymentMethodTypeSEPADebit` |
+    | PaymentMethod | `PaymentMethodParams.SepaDebit` | `PaymentMethodParams.SEPADebit` |
+    | PaymentMethod | `PaymentMethod.SepaDebit` | `PaymentMethod.SEPADebit` |
+    | PaymentMethod | `PaymentMethodSepaDebit` | `PaymentMethodSEPADebit` |
+    | PaymentMethod | `PaymentMethodSepaDebitGeneratedFrom` | `PaymentMethodSEPADebitGeneratedFrom` |
 
   - `ExternalAccount` to `AccountExternalAccount`
     | Resource | Old name | New name |
@@ -124,6 +185,38 @@
     | Invoice | `InvoiceLineDiscountAmount` | `InvoiceLineItemDiscountAmount` |
     | Invoice | `InvoiceLineProrationDetails` | `InvoiceLineItemProrationDetails` |
     | Invoice | `InvoiceLineProrationDetailsCreditedItems` | `InvoiceLineItemProrationDetailsCreditedItems` |
+
+  - `Person` structs/enums to use `Person` prefix
+    | Old name | New name |
+    | --- | --- |
+    | `VerificationDocumentDetailsCode` | `PersonVerificationDocumentDetailsCode` |
+    | `VerificationDocumentDetailsCodeDocumentCorrupt` | `PersonVerificationDocumentDetailsCodeDocumentCorrupt` |
+    | `VerificationDocumentDetailsCodeDocumentFailedCopy` | `PersonVerificationDocumentDetailsCodeDocumentFailedCopy` |
+    | `VerificationDocumentDetailsCodeDocumentFailedGreyscale` | `PersonVerificationDocumentDetailsCodeDocumentFailedGreyscale` |
+    | `VerificationDocumentDetailsCodeDocumentFailedOther` | `PersonVerificationDocumentDetailsCodeDocumentFailedOther` |
+    | `VerificationDocumentDetailsCodeDocumentFailedTestMode` | `PersonVerificationDocumentDetailsCodeDocumentFailedTestMode` |
+    | `VerificationDocumentDetailsCodeDocumentFraudulent` | `PersonVerificationDocumentDetailsCodeDocumentFraudulent` |
+    | `VerificationDocumentDetailsCodeDocumentIDTypeNotSupported` | `PersonVerificationDocumentDetailsCodeDocumentIDTypeNotSupported` |
+    | `VerificationDocumentDetailsCodeDocumentIDCountryNotSupported` | `PersonVerificationDocumentDetailsCodeDocumentIDCountryNotSupported` |
+    | `VerificationDocumentDetailsCodeDocumentManipulated` | `PersonVerificationDocumentDetailsCodeDocumentManipulated` |
+    | `VerificationDocumentDetailsCodeDocumentMissingBack` | `PersonVerificationDocumentDetailsCodeDocumentMissingBack` |
+    | `VerificationDocumentDetailsCodeDocumentMissingFront` | `PersonVerificationDocumentDetailsCodeDocumentMissingFront` |
+    | `VerificationDocumentDetailsCodeDocumentNotReadable` | `PersonVerificationDocumentDetailsCodeDocumentNotReadable` |
+    | `VerificationDocumentDetailsCodeDocumentNotUploaded` | `PersonVerificationDocumentDetailsCodeDocumentNotUploaded` |
+    | `VerificationDocumentDetailsCodeDocumentTooLarge` | `PersonVerificationDocumentDetailsCodeDocumentTooLarge` |
+    | `IdentityVerificationStatus` | `PersonVerificationStatus` |
+    | `IdentityVerificationStatusPending` | `PersonVerificationStatusPending` |
+    | `IdentityVerificationStatusUnverified` | `PersonVerificationStatusUnverified` |
+    | `IdentityVerificationStatusVerified` | `PersonVerificationStatusVerified` |
+    | `Relationship` | `PersonRelationship` |
+    | `RelationshipParams` | `PersonRelationshipParams` |
+    | `RelationshipListParams` | `PersonListRelationshipParams` |
+    | `DOBParams` | `PersonDOBParams` |
+    | `DocumentsParams` | `PersonDocumentsParams` |
+    | `DocumentsCompanyAuthorizationParams` | `PersonDocumentsCompanyAuthorizationParams` |
+    | `DocumentsPassportParams` | `PersonDocumentsPassportParams` |
+    | `DocumentsVisaParams` | `PersonDocumentsVisaParams` |
+    | `Requirements` | `PersonRequirements` |
 
   - Other
     | Resource | Old name | New name |
@@ -228,6 +321,16 @@
     | Issuing | `IssuingAuthorizationWalletTypeApplePay` | `IssuingAuthorizationWalletApplePay` |
     | Issuing | `IssuingAuthorizationWalletTypeGooglePay` | `IssuingAuthorizationWalletGooglePay` |
     | Issuing | `IssuingAuthorizationWalletTypeSamsungPlay` | `IssuingAuthorizationWalletSamsungPlay` |
+    | PaymentSource | `PaymentSourceTypeObject` | `PaymentSourceTypeSource` |
+    | PaymentSource | `SourceParams` | `PaymentSourceSourceParams` |
+    | PaymentSource | `SourceList` | `PaymentSourceList` |
+    | PaymentSource | `SourceListParams` | `PaymentSourceListParams` |
+    | PaymentSource | `CustomerSourceParams` | `PaymentSourceParams` |
+    | PaymentSource | `SourceVerifyParams` | `PaymentSourceVerifyParams` |
+    | PaymentSource | `PaymentSource.SourceObject` | `PaymentSource.Source` |
+    | Price | `PriceRecurringListParams` | `PriceListRecurringParams` |
+    | Product | `PackageDimensions` | `ProductPackageDimensions` |
+    | Product | `PackageDimensionsParams` | `ProductPackageDimensionsParams` |
 
 - Replace `AccountAddressParams` with `AccountCompanyAddressKanaParams` and `AccountCompanyAddressKanjiParams`
 - Change type:
@@ -269,6 +372,30 @@
   | Invoice | `Invoice.CustomerTaxExempt` | `CustomerTaxExempt` | `*CustomerTaxExempt` | `invoice.customer_tax_exempt` is nullable |
   | Invoice | `Invoice.StatusTransitions` | `InvoiceStatusTransitions` | `*InvoiceStatusTransitions` | `invoice.status_transitions` is nullable |
   | Issuing Card | `IssuingCardShippingParams.Name` | `string` | `*string` | Params fields should be pointers |
+  | Issuing Dispute | `IssuingDispute.Status` | `*IssuingDisputeStatus` | `IssuingDisputeStatus` | `issuing_dispute.status` is not nullable |
+  | Mandate | `MandatePaymentMethodDetails.Type` | `PaymentMethodType` | `MandatePaymentMethodDetailsType` | Unshare enum definition, same types |
+  | PaymentIntent | `PaymentIntentPaymentMethodOptionsCard.Network` | `PaymentMethodCardNetwork` | `PaymentIntentPaymentMethodOptionsCardNetwork` | Unshare enum definition, same types (+ `cartes_bancaires` added to both) |
+  | PaymentIntent | `PaymentIntentMandateDataCustomerAcceptanceParams.AcceptedAt` | `int64` | `*int64` | Params fields should be pointers |
+  | PaymentIntent | `PaymentIntentMandateDataCustomerAcceptanceParams.Type` | `MandateCustomerAcceptanceType` | `*string` | Params do not use enums |
+  | PaymentIntent | `PaymentIntentPaymentMethodDataParams.BillingDetails` | `*BillingDetailsParams` | `*PaymentIntentPaymentMethodDataBillingDetailsParams` | Unshare struct definition, same fields |
+  | PaymentIntent | `PaymentIntent.Currency` | `string` | `Currency` | Use shared enum |
+  | PaymentIntent | `PaymentIntent.ShippingDetails` | `ShippingDetails` | `*ShippingDetails` | `payment_intent.shipping` is nullable |
+  | PaymentMethod | `PaymentMethodCardChecks.AddressLine1Check` | `CardVerification` | `PaymentMethodCardChecksAddressLine1Check` | Same values. `CardVerification` was replaced with separate definitions for `AddressLine1Check`, `AddressPostalCodeCheck`, and `CVCCheck` |
+  | PaymentMethod | `PaymentMethodCardChecks.AddressPostalCodeCheck` | `CardVerification` | `PaymentMethodCardChecksAddressPostalCodeCheck` | Same values. `CardVerification` was replaced with separate definitions for `AddressLine1Check`, `AddressPostalCodeCheck`, and `CVCCheck` |
+  | PaymentMethod | `PaymentMethodCardChecks.CVCCheck` | `CardVerification` | `PaymentMethodCardChecksCVCCheck` | Same values. `CardVerification` was replaced with separate definitions for `AddressLine1Check`, `AddressPostalCodeCheck`, and `CVCCheck` |
+  | PaymentMethod | `BillingDetailsParams.ExpMonth` (now `PaymentMethodBillingDetailsParams.ExpMonth`) | `*string` | `*int64` | Previous type was incorrect |
+  | PaymentMethod | `BillingDetailsParams.ExpYear` (now `PaymentMethodBillingDetailsParams.ExpYear`) | `*string` | `*int64` | Previous type was incorrect |
+  | PaymentMethod | `PaymentMethodCard.ExpMonth` | `uint64` | `int64` | Be consistent with `int` types in library |
+  | PaymentMethod | `PaymentMethodCard.ExpYear` | `uint64` | `int64` | Be consistent with `int` types in library |
+  | Payout | `Payout.Description` | `*string` | `string` | `payout.description` is not nullable |
+  | Person | `Person.Address` | `*AccountAddress` | `*Address` | `*AccountAddress` had `Town` field that is not applicable to `Person.Address` |
+  | Person | `Person.AddressKana` | `*AccountAddress` | `*PersonAddressKana` | `AccountAddress` has been split into separate `PersonAddressKana` and `PersonAddressKanji` |
+  | Person | `Person.AddressKanji` | `*AccountAddress` | `*PersonAddressKanji` | `AccountAddress` has been split into separate `PersonAddressKana` and `PersonAddressKanji` |
+  | Person | `PersonParams.Address` | `*AccountAddressParams` | `*AddressParams` | `*AccountAddressParams` had `Town` field that is not applicable to `PersonParams.Address` |
+  | Person | `PersonParams.AddressKana` | `*AccountAddressParams` | `*PersonAddressKanaParams` | `AccountAddressParams` has been split into separate `PersonAddressKanaParams` and `PersonAddressKanjiParams` |
+  | Person | `PersonParams.AddressKanji` | `*AccountAddressParams` | `*PersonAddressKanjiParams` | `AccountAddressParams` has been split into separate `PersonAddressKanaParams` and `PersonAddressKanjiParams` |
+  | Plan | `Plan.AggregateUsage` | `string` | `PlanAggregateUsage` | Use enum that was already defined but unused |
+  | Plan | `Plan.TiersMode` | `string` | `PlanTiersMode` | Use enum that was already defined but unused |
 
 - Moved `BalanceTransaction` iterator from `balance.go` to `balancetransaction.go`
 - Fixed `BalanceTransactionSource` `UnmarshalJSON` for when `BalanceTransactionSource.Type == "transfer_reversal"` (previously, we were checking if `Type == "reversal"`, which was always false)
@@ -279,13 +406,16 @@
 - Add separate parameter struct for CreditNote `ListPreviewLines` (renamed to `PreviewLines`) method (`[CreditNoteLineItemListPreviewParams -> CreditNotePreviewParams].Lines` `CreditNoteLineParams` -> `CreditNotePreviewLineParams`)
 - Replace `FeeRefundParams.ApplicationFee` with `FeeRefundParams.Fee` and `FeeRefundParams.ID`
 - Add separate parameter struct for Invoice `GetNext` (renamed to `Upcoming`) method (`InvoiceUpcomingParams`, and nested params `InvoiceUpcomingLinesInvoiceItemPriceDataParams`, `InvoiceUpcomingLinesInvoiceItemDiscountParams`, `InvoiceUpcomingLinesDiscountParams`, `InvoiceUpcomingLinesInvoiceItemPeriodParams`). `Upcoming`-only fields `Coupon`, `CustomerDetails`, `InvoiceItems`, `Subscription`, `SubscriptionBillingCycleAnchor`, `Schedule`, `SubscriptionBillingCycleAnchor`, `SubscriptionBillingCycleAnchorNow`, `SubscriptionBillingCycleAnchorUnchanged`, `SubscriptionCancelAt`, `SubscriptionCancelAtPeriodEnd`, `SubscriptionCancelNow`, `SubscriptionDefaultTaxRates`, `SubscriptionItems`, `SubscriptionProrationBehavior`, `SubscriptionProrationDate`, `SubscriptionStartDate`, `SubscriptionTrialEnd`, `SubscriptionTrialEndNow`, and `SubscriptionTrialFromPlan` are removed from `InvoiceParams`.
+- Add separate structs for `BillingDetails` and `BillingDetailsParams`: `PaymentMethodBillingDetails`, `PaymentMethodBillingDetailsParams`
+- Add separate structs for `PaymentMethodCardNetwork`: `PaymentMethodCardNetworksAvailable`, `PaymentMethodCardNetworksPreferred`
 
 ## Deprecated
 
-- SKU TODO
+- SKU. Use the new Orders.
 
 ## Removed
-- `UnmarshalJSON` for resources that are not expandable: `BillingPortalSession`, `Capability`, `CheckoutSession`, `FileLink`, `InvoiceItem`
+
+- `UnmarshalJSON` for resources that are not expandable: `BillingPortalSession`, `Capability`, `CheckoutSession`, `FileLink`, `InvoiceItem`, `LineItem`, `Person`
 - `AccountRejectReason` (was only referenced in `account/client_test.go`, actual `AccountRejectParams.Reason` is `*string`)
 - `AccountParams.RequestedCapabilities` (use Capabilities instead: https://stripe.com/docs/connect/account-capabilities)
 
@@ -322,9 +452,9 @@
   ```
 
 - `CheckoutSessionLineItemPriceDataRecurringParams.AggregateUsage`, `CheckoutSessionLineItemPriceDataRecurringParams.TrialPeriodDays`, and `CheckoutSessionLineItemPriceDataRecurringParams.UsageType`
-- `CheckoutSessionPaymentIntentDataParams.Params`, `CheckoutSessionSetupIntentDataParams.Params`, `CheckoutSessionSubscriptionDataParams.Params`- TODO not top level
+- `CheckoutSessionPaymentIntentDataParams.Params`, `CheckoutSessionSetupIntentDataParams.Params`, `CheckoutSessionSubscriptionDataParams.Params`. `Params` should only be embedded in root method struct, and has extraneous fields not applicable to child/sub structs.
 - `CheckoutSessionTotalDetailsBreakdownTax.TaxRate`. Use `CheckoutSessionTotalDetailsBreakdownTax.Rate`
-- `CheckoutSessionTotalDetailsBreakdownTax.Deleted`. TODO
+- `CheckoutSessionTotalDetailsBreakdownTax.Deleted`
 - `CustomerParams.Token`
 - `Discount` `APIResource` embed
 - `FilePurposeFoundersStockDocument` (`"founders_stock_document"` option for `File.Purpose`)
@@ -333,3 +463,28 @@
 - `InvoiceListLinesParams.Customer` and `InvoiceListLinesParams.Subscription` (these are not available for Invoice `ListLines`, but are available for `List`)
 - `IssuingAuthorizationRequestHistoryViolatedAuthorizationControlEntity` and `IssuingAuthorizationRequestHistoryViolatedAuthorizationControlName` (unused enums)
 - `IssuingCardSpendingControlsParams.SpendingLimitsCurrency`. `issuing_card` has `currency`, and `issuing_card.spending_controls.spending_limits.amount` will use that currency
+- `IssuingDisputeEvidenceServiceNotAsDescribed.ProductDescription`, `IssuingDisputeEvidenceServiceNotAsDescribed.ProductType`, `IssuingDisputeEvidenceServiceNotAsDescribedParams.ProductDescription`, `IssuingDisputeEvidenceServiceNotAsDescribedParams.ProductType`, and `IssuingDisputeEvidenceServiceNotAsDescribedProductType`. `issuing_dispute.evidence.service_not_as_described` does not have `product_description` or `product_type`. `issuing_dispute.evidence.canceled` does.
+- `LineItemTax.TaxRate`. Use `LineItemTax.Rate`
+- `LineItem.Deleted`
+- `LoginLink.RedirectURL`
+- `PaymentIntentOffSession` (unused enum)
+- `PaymentIntentConfirmParams.PaymentMethodTypes`
+- `PaymentMethodFPX.TransactionID`
+- `Payout.BankAccount` and `Payout.Card` (These fields were never populated, use `PayoutDestination.BankAccount` and `PayoutDestination.Card` instead)
+- `PlanParams.ProductID`. Use `PlanParams.Product.ID`
+
+  ```go
+  // Before
+  params := &stripe.PlanParams{
+    ProductID: stripe.String("prod_12345abc"),
+  }
+
+  // After
+  params := &stripe.PlanParams{
+    Product: &stripe.PlanProductParams{
+      ID:                  stripe.String("plan_id"),
+    },
+  }
+  ```
+- Remove `Shipping` and `ShippingRate` properties from `CheckoutSession` resource. Please use `ShippingCost` and `ShippingDetails` properties instead.
+- Remove `DefaultCurrency` property from `Customer` resource. Please use `Currency` property instead.
