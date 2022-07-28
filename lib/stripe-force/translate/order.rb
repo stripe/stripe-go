@@ -118,7 +118,7 @@ class StripeForce::Translate
       # when creating the subscription schedule the start_date must be specified on the heaer
       # when updating it, it is specified on the individual phase object
       subscription_start_date = subscription_params['start_date']
-      subscription_params['start_date'] = salesforce_date_to_unix_timestamp(subscription_start_date)
+      subscription_params['start_date'] = StripeForce::Utilities::SalesforceUtil.salesforce_date_to_unix_timestamp(subscription_start_date)
 
       # TODO this should really be done *before* generating the line items and therefore creating prices
       phase_iterations = transform_iterations_by_billing_frequency(
@@ -286,7 +286,7 @@ class StripeForce::Translate
       # TODO should probably use a completely different key/mapping for the phase items
       phase_params = extract_salesforce_params!(sf_order_amendment, Stripe::SubscriptionSchedule)
 
-      phase_params['start_date'] = salesforce_date_to_unix_timestamp(phase_params['start_date'])
+      phase_params['start_date'] = StripeForce::Utilities::SalesforceUtil.salesforce_date_to_unix_timestamp(phase_params['start_date'])
       phase_params['iterations'] = transform_iterations_by_billing_frequency(
         phase_params['iterations'].to_i,
         T.must(aggregate_phase_items.first).stripe_params[:price]
@@ -401,7 +401,7 @@ class StripeForce::Translate
 
       if existing_phase_item.nil? && new_subscription_item.original_order_line_id
         throw_user_failure!(
-          salesforce_object: new_subscription_item.order_line,
+          salesforce_object: T.must(new_subscription_item.order_line),
           message: "Any order items, revising order items in a previous order, must not be skipped in the previous order." \
                    " Order line with ID '#{new_subscription_item.original_order_line_id}' could not be found."
         )

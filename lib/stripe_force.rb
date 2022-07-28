@@ -15,9 +15,9 @@ end
 
 require_relative './hash_diff'
 
-Dir[File.join(File.dirname(__FILE__), "integrations/**/*.rb")].sort.each {|f| require f }
+Dir[File.join(Rails.root, "lib/integrations/**/*.rb")].sort.each {|f| require f }
 
 require_relative 'stripe-force/resque'
 require_relative 'stripe-force/translate/translate'
 
-Dir[File.join(File.dirname(__FILE__), "stripe-force/**/*.rb")].sort.each {|f| require f }
+Dir[File.join(Rails.root, "lib/stripe-force/**/*.rb")].sort.each {|f| require f }

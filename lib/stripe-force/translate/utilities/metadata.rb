@@ -3,6 +3,8 @@
 
 module StripeForce::Utilities
   module Metadata
+    include StripeForce::Constants
+
     def stripe_metadata_for_sf_object(sf_object)
       {
         sf_object_metadata_key(sf_object) => sf_object.Id,
@@ -19,7 +21,16 @@ module StripeForce::Utilities
     end
 
     def sf_object_metadata_name(sf_object)
-      sf_object.sobject_type.underscore
+      # ex: `SBQQ__OrderItemConsumptionSchedule__c`
+      sf_object
+        .sobject_type
+        .underscore
+        # remove __c on custom objects to save key size
+        .gsub(/__c$/, '')
+        # remove sbqq namespace
+        .gsub('sbqq__', '')
+        # if we are mapping a subfield on order_item, it will be long
+        .gsub('order_item_', 'oi_')
     end
 
     # TODO we should use the pattern more, so we can reference the pure-functional methods directly
