@@ -94,9 +94,8 @@ jobs:
       - image: cimg/node:16.14.2
     steps:
       - checkout
-      - sfdx/install:
-          # TODO should be shared variable
-          version: '7.160.0'
+      - sfdx/install: &sfdx_version
+          version: '7.161.0'
       - run: sfdx/bin/run-tests <<parameters.account>>
       - store_test_results:
           path: sfdx/test-results
@@ -114,9 +113,7 @@ jobs:
       SF_JWT_PRIVATE_KEY_PATH: /home/circleci/project/private.key
     steps:
       - checkout
-      - sfdx/install:
-          # TODO should be shared variable
-          version: '7.160.0'
+      - sfdx/install: *sfdx_version
       - run:
           name: Delete Salesforce Test Data
           command: |
@@ -170,8 +167,7 @@ jobs:
       - browser-tools/install-chrome
       - browser-tools/install-chromedriver
       - checkout
-      - sfdx/install:
-          version: '7.160.0'
+      - sfdx/install: *sfdx_version
       - jq/install
       - ruby/install-deps:
           bundler-version: 2.3.9

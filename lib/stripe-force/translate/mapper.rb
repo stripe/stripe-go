@@ -14,13 +14,8 @@ module StripeForce
 
     attr_reader :user
 
-    sig { params(u: StripeForce::User).void }
-    def initialize(u)
-      @user = u
-    end
-
     sig { params(stripe_record: T.any(Stripe::APIResource, Class), sf_record: T.nilable(Restforce::SObject)).returns(String) }
-    def mapping_key_for_record(stripe_record, sf_record)
+    def self.mapping_key_for_record(stripe_record, sf_record)
       stripe_record_class = if stripe_record.is_a?(Class) && stripe_record < Stripe::APIResource
         stripe_record
       else
@@ -38,6 +33,11 @@ module StripeForce
       else
         stripe_record_key
       end
+    end
+
+    sig { params(u: StripeForce::User).void }
+    def initialize(u)
+      @user = u
     end
 
     sig { params(record: T.any(Stripe::APIResource, Restforce::SObject), key_path: String).returns(T.nilable(T.any(String, Integer, Float, T::Boolean))) }
@@ -100,7 +100,7 @@ module StripeForce
 
     sig { params(record_to_map: Stripe::APIResource, source_record: T.nilable(Restforce::SObject), compound_key: T.nilable(T::Boolean)).void }
     def apply_mapping(record_to_map, source_record=nil, compound_key: false)
-      record_to_map_key = mapping_key_for_record(record_to_map, source_record)
+      record_to_map_key = self.class.mapping_key_for_record(record_to_map, source_record)
 
       field_defaults_for_record = @user.field_defaults[record_to_map_key]
 

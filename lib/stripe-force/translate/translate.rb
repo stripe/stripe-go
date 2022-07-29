@@ -259,12 +259,6 @@ class StripeForce::Translate
     end
   end
 
-  # TODO this is defined globally in SF and needs to be pulled dynamically from our configuration
-  def sf_cpq_term_interval
-    # TODO move sanitization somewhere else
-    @user.connector_settings[CONNECTOR_SETTING_CPQ_TERM_UNIT].downcase
-  end
-
   # TODO this should be dynamic and pulled from the mapper
   # according to the salesforce documentation, if this field is non-nil ("empty") than it's a subscription item
   def recurring_item?(sf_object)
@@ -320,7 +314,7 @@ class StripeForce::Translate
   # param_mapping: { stripe_key_name => salesforce_field_name }
   sig { params(sf_record: Restforce::SObject, stripe_record_or_class: T.any(Class, Stripe::APIResource)).returns(Hash) }
   def extract_salesforce_params!(sf_record, stripe_record_or_class)
-    stripe_mapping_key = mapper.mapping_key_for_record(stripe_record_or_class, sf_record)
+    stripe_mapping_key = StripeForce::Mapper.mapping_key_for_record(stripe_record_or_class, sf_record)
     required_mappings = @user.required_mappings[stripe_mapping_key]
 
     if required_mappings.nil?

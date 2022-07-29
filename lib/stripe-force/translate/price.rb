@@ -79,16 +79,9 @@ class StripeForce::Translate
       existing_stripe_price = T.cast(existing_stripe_price, Stripe::Price)
       generated_stripe_price = generate_price_params_from_sf_object(sf_pricebook_entry, sf_product)
 
-      # TODO should wrap this check in a helper method and move it out of this
       # this should never happen if our identical check is correct, unless the data in Salesforce is mutated over time
-      if BigDecimal(existing_stripe_price.unit_amount_decimal.to_s) != BigDecimal(generated_stripe_price.unit_amount_decimal.to_s) ||
-          existing_stripe_price.recurring.present? != generated_stripe_price.recurring.present? ||
-          existing_stripe_price.recurring.interval != generated_stripe_price.recurring[:interval] ||
-          existing_stripe_price.recurring.interval_count != generated_stripe_price.recurring[:interval_count]
-
-        raise Integrations::Errors::UnhandledEdgeCase.new("expected generated prices to be equal, but they differed",
-          metadata: HashDiff::Comparison.new(existing_stripe_price.to_hash, generated_stripe_price.to_hash).diff
-        )
+      if PriceHelpers.price_billing_amounts_equal?(existing_stripe_price, generated_stripe_price)
+        raise Integrations::Errors::UnhandledEdgeCase.new("expected generated prices to be equal, but they differed")
       end
 
       log.info 'using existing stripe price'
@@ -140,13 +133,14 @@ class StripeForce::Translate
     end
   end
 
+  sig { params(sf_pricebook_entry: Restforce::SObject).returns(Hash) }
   def extract_tiered_price_params_from_pricebook_entry(sf_pricebook_entry)
     # TODO use cache_service
     joining_records = sf.query(
       <<~EOL
         SELECT ConsumptionScheduleId
         FROM ProductConsumptionSchedule
-        WHERE ProductId = '#{sf_pricebook_entry.Product2Id}'
+        WHERE ProductId = '#{sf_pricebook_entry['Product2Id']}'
       EOL
     )
 
@@ -357,24 +351,7 @@ class StripeForce::Translate
 
     # if tiered pricing is set up, then we ignore any non-tiered pricing configuration
     if is_tiered_price
-      # if non-tiered pricing fields are included Stripe will throw an error
-      Integrations::Utilities::StripeUtil.delete_field_from_stripe_object(stripe_price, :unit_amount_decimal)
-
-      # TODO are there other pricing fields we should delete? It's unclear what the requirements are here?
-
-      # API also requires pricing tiers to be sorted. Wat?
-      # TODO https://jira.corp.stripe.com/browse/PLATINT-1573
-      stripe_price.tiers.sort! do |a, b|
-        # TODO can we use null instead of `inf`
-        # a & b should never both be `inf`; this should be checked upstream
-        if a.up_to == 'inf'
-          1
-        elsif b.up_to == 'inf'
-          -1
-        else
-          a.up_to <=> b.up_to
-        end
-      end
+      is_tiered_price = PriceHelpers.sanitize_price_tier_params(stripe_price)
     end
 
     # `recurring` could have been partially constructed by the mapper, which is why we use a symbol-based accessor
@@ -386,13 +363,16 @@ class StripeForce::Translate
     is_recurring_item = recurring_item?(sf_object.sobject_type == SF_PRICEBOOK_ENTRY ? sf_product : sf_object)
 
     if is_recurring_item
+      # TODO move downcase sanitization upstream
+      sf_cpq_term_interval = @user.connector_settings[CONNECTOR_SETTING_CPQ_TERM_UNIT].downcase
+
       # NOTE on the price level, we are not concerned with the billing term
       #      that can be defined (as a default) on the product, but it only comes into play with the subscription schedule
       if sf_cpq_term_interval != 'month'
         raise 'only monthly terms are currently supported'
       end
 
-      stripe_price.recurring[:usage_type] = transform_salesforce_billing_type_to_usage_type(stripe_price.recurring[:usage_type])
+      stripe_price.recurring[:usage_type] = PriceHelpers.transform_salesforce_billing_type_to_usage_type(stripe_price.recurring[:usage_type])
 
       # TODO it's possible that a custom mapping is defined for this value and it's an integer, we should support this case in the helper method
       # this represents how often the price is billed: i.e. if `interval` is month and `interval_count`
@@ -408,16 +388,7 @@ class StripeForce::Translate
 
     # we should only transform licensed prices that are not customized
     if is_recurring_item && !is_tiered_price && sf_object.sobject_type == SF_ORDER_ITEM
-      # TODO this is very naive: we need a better way of determining if the price field was customized
-      # TODO we'll probably need some sort of feature flag for this as well
-      order_line_price_key = mapper.mapping_key_for_record(Stripe::Price, sf_object)
-      is_using_custom_price = !@user.field_defaults.dig(order_line_price_key, 'unit_amount_decimal').nil? ||
-        (
-          !@user.field_mappings.dig(order_line_price_key, 'unit_amount_decimal').nil? &&
-          @user.field_mappings.dig(order_line_price_key, 'unit_amount_decimal') != @user.required_mappings.dig(order_line_price_key, 'unit_amount_decimal')
-        )
-
-      if !is_using_custom_price
+      if !PriceHelpers.using_custom_order_line_price_field?(@user)
         log.info 'custom price not used, adjusting unit_amount_decimal', sf_order_item_id: sf_object['Id']
 
         billing_frequency = StripeForce::Utilities::StripeUtil.billing_frequency_of_price_in_months(stripe_price)
@@ -449,24 +420,7 @@ class StripeForce::Translate
     stripe_price
   end
 
-  sig { params(raw_usage_type: T.nilable(String)).returns(String) }
-  def transform_salesforce_billing_type_to_usage_type(raw_usage_type)
-    # # https://help.salesforce.com/s/articleView?id=sf.cpq_order_product_fields.htm&type=5
-    raw_usage_type ||= begin
-      log.warn 'usage type not defined, defaulting to advance (licensed)'
-      CPQProductBillingTypeOptions::ADVANCE.serialize
-    end
-
-    case CPQProductBillingTypeOptions.try_deserialize(raw_usage_type)
-    when CPQProductBillingTypeOptions::ADVANCE
-      'licensed'
-    when CPQProductBillingTypeOptions::ARREARS
-      'metered'
-    else
-      raise "unexpected billing type"
-    end
-  end
-
+  # TODO this should be in the price helpers; stop using throw_user_failure and instead throw an exception w/o origin_salesforce_object reference
   sig { params(raw_billing_frequency: T.nilable(String)).returns(Integer) }
   def transform_salesforce_billing_frequency_to_recurring_interval(raw_billing_frequency)
     raw_billing_frequency ||= begin

@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-# typed: ignore
+# typed: true
 
 require_relative '../test_helper'
 
@@ -160,101 +160,6 @@ module Critic::Unit
       refute_equal(metadata, stripe_customer.metadata)
     end
 
-    # https://github.com/stripe/stripe-netsuite/issues/825
-    it 'handles associated object annotation' do
-      skip("not yet implemented")
-
-      @user.field_mappings = {
-        'invoice' => {
-          'metadata.random_thing' => 'custbody_random',
-          'metadata.random_float' => 'custbody_random_float',
-          'id' => 'custbody_invoiceid',
-          'amount' => 'tran_id',
-
-          # ensure a bunch of invalid mappings are testing
-          'date' => '',
-          'invalid_field' => 'other_ref_num',
-          'invalid.field' => 'other_ref_num',
-          'currency' => 2,
-          'status' => nil,
-
-          'subscription.metadata.order_number' => 'custbodystripe_subscription_number',
-          'subscription.id' => 'custbody_subscriptionid',
-        },
-      }
-
-      @user.field_mappings['invoice_item'] = {
-        'metadata.foo' => 'description',
-      }
-
-      subscription_id = stripe_create_id(:sub)
-      invoice_line_id = stripe_create_id(:ii)
-
-      stripe_invoice = Stripe::Invoice.construct_from({
-        id: stripe_create_id(:in),
-        subscription: subscription_id,
-        date: Time.now.to_i,
-        currency: 'usd',
-        amount: 100_00,
-        status: 'paid',
-        metadata: {
-          random_thing: 'STRING',
-          random_float: 13.0,
-        },
-        lines: {object: 'list', data: [
-          {
-            # there are many different fields that contain variants of the same obj reference
-            # due to us being on an old API version
-            # https://jira.corp.stripe.com/browse/REPROD-888
-            id: invoice_line_id,
-            unique_id: invoice_line_id,
-            invoice_item: invoice_line_id,
-
-            object: "line_item",
-
-            metadata: {foo: "bar"},
-          },
-        ],},
-      })
-
-      stripe_subscription = Stripe::Subscription.construct_from(
-        id: subscription_id,
-        metadata: {
-          order_number: 'NUMBER',
-        }
-      )
-
-      Stripe::Subscription
-        .expects(:retrieve)
-        .at_least_once
-        .with(stripe_invoice.subscription, @user.stripe_client_credentials)
-        .returns(stripe_subscription)
-
-      Stripe::InvoiceItem
-        .expects(:retrieve)
-        .at_least_once
-        .with(invoice_line_id, anything)
-        .returns(stripe_invoice.lines.first)
-
-      ns_invoice = NetSuite::Records::Invoice.new
-
-      @annotator.annotate(ns_invoice, stripe_invoice)
-
-      assert_equal(5, ns_invoice.custom_field_list.custom_fields.count, ns_invoice.custom_field_list.custom_fields)
-      assert_equal(stripe_subscription.metadata['order_number'], ns_invoice.custom_field_list.custbodystripe_subscription_number.value)
-      assert_equal(stripe_invoice.metadata['random_thing'], ns_invoice.custom_field_list.custbody_random.value)
-      assert_equal(stripe_subscription.id, ns_invoice.custom_field_list.custbody_subscriptionid.value)
-      assert_equal(stripe_invoice.id, ns_invoice.custom_field_list.custbody_invoiceid.value)
-      assert_equal(stripe_invoice.amount, ns_invoice.tran_id)
-      assert_nil(ns_invoice.other_ref_num)
-
-      # annotate invoice lines, which are handled in a specialized way due to our old API version
-      ns_line = ns_invoice.item_list.sublist_class.new
-      @annotator.annotate(ns_line, stripe_invoice.lines.first)
-
-      assert_equal("bar", ns_line.description)
-    end
-
     it 'supports dot path syntax when extracting data from salesforce' do
       # create a customer with a parent reference
       parent_id = create_salesforce_account
@@ -287,7 +192,7 @@ module Critic::Unit
       stripe_record = Stripe::Price.new
       sf_order_item = create_mock_salesforce_order_item
 
-      key = @mapper.mapping_key_for_record(stripe_record, sf_order_item)
+      key = StripeForce::Mapper.mapping_key_for_record(stripe_record, sf_order_item)
 
       assert_equal('price_order_item', key)
     end
