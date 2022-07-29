@@ -26,7 +26,7 @@ const (
 	SKUInventoryValueOutOfStock SKUInventoryValue = "out_of_stock"
 )
 
-// Deprecated: Please use Orders instead: https://stripe.com/docs/api/orders_v2
+// Deprecated: This will be replaced by https://stripe.com/docs/api/orders_v2
 // Retrieves the details of an existing SKU. Supply the unique SKU identifier from either a SKU creation request or from the product, and Stripe will return the corresponding SKU information.
 type SKUParams struct {
 	Params `form:"*"`
@@ -107,7 +107,7 @@ type SKUPackageDimensions struct {
 	Width float64 `json:"width"`
 }
 
-// Deprecated: Please use Orders instead: https://stripe.com/docs/api/orders_v2
+// Deprecated: This will be replaced by https://stripe.com/docs/api/orders_v2
 // Stores representations of [stock keeping units](http://en.wikipedia.org/wiki/Stock_keeping_unit).
 // SKUs describe specific product variations, taking into account any combination of: attributes,
 // currency, and cost. For example, a product may be a T-shirt, whereas a specific SKU represents
