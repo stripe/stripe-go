@@ -171,4 +171,11 @@ class Critic::OrderAmendmentTermination < Critic::OrderAmendmentFunctionalTest
     # TODO is there anything else we need to do when we cancel a subscription schedule? Something with the invoices or subscription?
     assert_equal('canceled', subscription_schedule.status)
   end
+
+  it 'fully terminates an order after multiple amendments' do
+    # intial order: 1 product
+    # second order: +1 quantity
+    # third order: +1 quantity
+    # fourth order: -3 quantity
+  end
 end
