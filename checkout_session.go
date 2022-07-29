@@ -901,6 +901,8 @@ type CheckoutSessionPaymentMethodOptionsCardParams struct {
 	// Provides information about a card payment that customers see on their statements. Concatenated with the Kanji prefix (shortened Kanji descriptor) or Kanji statement descriptor that's set on the account to form the complete statement descriptor. Maximum 17 characters. On card statements, the *concatenation* of both prefix and suffix (including separators) will appear truncated to 17 characters.
 	StatementDescriptorSuffixKanji *string `form:"statement_descriptor_suffix_kanji"`
 }
+
+// Configuration for eu_bank_transfer funding type.
 type CheckoutSessionPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferParams struct {
 	// The desired country code of the bank account information. Permitted values include: `DE`, `ES`, `FR`, `IE`, or `NL`.
 	Country *string `form:"country"`
@@ -908,6 +910,7 @@ type CheckoutSessionPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransfe
 
 // Configuration for the bank transfer funding type, if the `funding_type` is set to `bank_transfer`.
 type CheckoutSessionPaymentMethodOptionsCustomerBalanceBankTransferParams struct {
+	// Configuration for eu_bank_transfer funding type.
 	EUBankTransfer *CheckoutSessionPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferParams `form:"eu_bank_transfer"`
 	// List of address types that should be returned in the financial_addresses response. If not specified, all valid types will be returned.
 	//
