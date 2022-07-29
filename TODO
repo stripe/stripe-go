@@ -10,6 +10,8 @@
 - You cannot modify line item data in SF after it's been activated. This information will not be picked up.
 - Sub lines with different start dates is not supported
 - Custom record metadata key is slightly different for key size saving
+- Document zero quantity items
+- Document no >1 quantity metered billing items
 
 Next:
 

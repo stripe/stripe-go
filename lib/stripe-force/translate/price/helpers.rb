@@ -103,5 +103,10 @@ class StripeForce::Translate
           user.field_mappings.dig(order_line_price_key, 'unit_amount_decimal') != default_mapping
         )
     end
+
+    sig { params(stripe_price: Stripe::Price).returns(T::Boolean) }
+    def self.metered_price?(stripe_price)
+      stripe_price.recurring&.usage_type == 'metered'
+    end
   end
 end

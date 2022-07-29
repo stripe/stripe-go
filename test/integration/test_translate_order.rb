@@ -277,6 +277,34 @@ class Critic::OrderTranslation < Critic::FunctionalTest
   # TODO reuses order line price mapping if the execution halts part way through
 
   describe 'failures' do
+    it 'does not allow a quantity greater than 1 on metered billing items' do
+      sf_product_id, sf_pricebook_id = salesforce_recurring_metered_produce_with_price
+      sf_account_id ||= create_salesforce_account
+      quote_id = create_salesforce_quote(
+        sf_account_id: sf_account_id,
+        additional_quote_fields: {
+          CPQ_QUOTE_SUBSCRIPTION_START_DATE => now_time_formatted_for_salesforce,
+          # one year / 12 months
+          CPQ_QUOTE_SUBSCRIPTION_TERM => 12.0,
+        }
+      )
+
+      quote_with_product = add_product_to_cpq_quote(quote_id, sf_product_id: sf_product_id)
+
+      # bump quantity to 2, which should trigger an error
+      quote_with_product["lineItems"].first["record"]["SBQQ__Quantity__c"] = 2
+
+      calculate_and_save_cpq_quote(quote_with_product)
+
+      sf_order = create_order_from_cpq_quote(quote_id)
+
+      exception = assert_raises(Integrations::Errors::UserError) do
+        SalesforceTranslateRecordJob.translate(@user, sf_order)
+      end
+
+      assert_match("Order lines with a price configured for metered billing cannot have a quantity greater than 1.", exception.message)
+    end
+
     it 'creates a sync failure when the start date does not exist' do
       sf_product_id, sf_pricebook_entry_id = salesforce_recurring_product_with_price
       sf_order = create_salesforce_order(

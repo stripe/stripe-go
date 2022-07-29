@@ -132,7 +132,10 @@ class Critic::OrderAmendmentTranslation < Critic::FunctionalTest
   end
 
   # usage products do NOT have a quantity in Stripe, which introduces additional complexity
-  it 'creates a new phase from an order amendment with monthly usage billed products' do
+  it 'creates a new phase from an order amendment removing a metered billing product' do
+    # initial order: one metered
+    # amendment: remove metered item, add non-metered
+
     amendment_term = 6
     initial_start_date = now_time
     amendment_start_date = initial_start_date + 6.months
@@ -148,14 +151,12 @@ class Critic::OrderAmendmentTranslation < Critic::FunctionalTest
 
     # remove metered billing item completely
     amendment_data["lineItems"].first["record"]["SBQQ__Quantity__c"] = 0
-
     amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_START_DATE] = amendment_start_date.strftime("%Y-%m-%d")
     amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_TERM] = amendment_term
-
     sf_quote_id = calculate_and_save_cpq_quote(amendment_data)
 
+    # add non-metered product
     amendment_data = add_product_to_cpq_quote(sf_quote_id, sf_product_id: sf_product_id)
-
     sf_order_amendment = create_order_from_quote_data(amendment_data)
 
     StripeForce::Translate.perform_inline(@user, sf_order_amendment.Id)
@@ -185,17 +186,10 @@ class Critic::OrderAmendmentTranslation < Critic::FunctionalTest
     assert_equal(0, second_phase.end_date - amendment_end_date.to_i)
 
     # second phase should have a second item with a quantity of 1
-    assert_equal(2, second_phase.items.count)
+    assert_equal(1, second_phase.items.count)
     assert_equal(0, second_phase.add_invoice_items.count)
-    metered_billing_item = T.must(second_phase.items.detect {|i| i[:quantity].nil? })
     subscription_item = T.must(second_phase.items.detect {|i| !i[:quantity].nil? })
     assert_equal(1, subscription_item.quantity)
-
-    # prices should be the same, but the order line reference is different
-    # NOTE if proration is set to day, the pricing will be customized and this check will fail
-    # TODO this check is failing due to a possibly-incorrect way we are structuring pricing
-    assert_equal(first_phase_item.price, metered_billing_item.price)
-    refute_equal(first_phase_item.metadata['salesforce_order_item_id'], subscription_item.metadata['salesforce_order_item_id'])
   end
 
   it 'creates a new phase with a duration equal to billing frequency' do
@@ -390,6 +384,74 @@ class Critic::OrderAmendmentTranslation < Critic::FunctionalTest
       phase.to_hash.reject {|k, _v| excluded_comparison_fields.include?(k) },
       "outside of metadata and end_date the original subscription and terminated subscription should be equal"
     )
+  end
+
+  # stripe allows for zero-quantity line items, we need to make sure they are removed
+  it 'removes a line item that is partially terminated' do
+    # initial order: two lines
+    # order amendment, remove both of the lines
+    # resulting last phase: should have a single item
+
+    initial_start_date = now_time
+    standard_term = 12
+    amendment_term = 6
+    amendment_start_date = initial_start_date + 6.months
+    amendment_end_date = amendment_start_date + amendment_term.months
+
+    sf_product_id_1, sf_pricebook_id_1 = salesforce_recurring_product_with_price
+    sf_product_id_2, sf_pricebook_id_2 = salesforce_recurring_product_with_price
+
+    sf_account_id = create_salesforce_account
+
+    quote_id = create_salesforce_quote(
+      sf_account_id: sf_account_id,
+      additional_quote_fields: {
+        CPQ_QUOTE_SUBSCRIPTION_START_DATE => now_time_formatted_for_salesforce,
+        CPQ_QUOTE_SUBSCRIPTION_TERM => 12.0,
+      }
+    )
+
+    quote_with_product = add_product_to_cpq_quote(quote_id, sf_product_id: sf_product_id_1)
+    calculate_and_save_cpq_quote(quote_with_product)
+
+    quote_with_product = add_product_to_cpq_quote(quote_id, sf_product_id: sf_product_id_2)
+    calculate_and_save_cpq_quote(quote_with_product)
+
+    sf_order = create_order_from_cpq_quote(quote_id)
+
+    sf_contract = create_contract_from_order(sf_order)
+
+    amendment_data = create_quote_data_from_contract_amendment(sf_contract)
+
+    # remove the second product
+    amendment_data["lineItems"].detect {|i| i["record"]["SBQQ__Product__c"] == sf_product_id_2 }["record"]["SBQQ__Quantity__c"] = 0
+
+    amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_START_DATE] = (initial_start_date + 1.month).strftime("%Y-%m-%d")
+    amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_TERM] = standard_term - 1
+
+    sf_order_partial_termination = create_order_from_quote_data(amendment_data)
+
+    StripeForce::Translate.perform_inline(@user, sf_order_partial_termination.Id)
+
+    sf_order.refresh
+    stripe_id = sf_order[prefixed_stripe_field(GENERIC_STRIPE_ID)]
+
+    subscription_schedule = Stripe::SubscriptionSchedule.retrieve(stripe_id, @user.stripe_credentials)
+
+    assert_equal(2, subscription_schedule.phases.count)
+
+    first_phase = T.must(subscription_schedule.phases.first)
+    second_phase = T.must(subscription_schedule.phases[1])
+
+    assert_equal(2, first_phase.items.count)
+    assert_equal(1, second_phase.items.count)
+
+    # only one item since the other was terminated
+    second_phase_item = T.must(second_phase.items.first)
+    assert_equal(1, second_phase_item.quantity)
+
+    price = Stripe::Price.retrieve(second_phase_item.price, @user.stripe_credentials)
+    assert_equal(sf_pricebook_id_1, price.metadata['salesforce_pricebook_entry_id'])
   end
 
   # use case: user decides *right* after signing the contract they want to change their order competely

@@ -283,6 +283,18 @@ class StripeForce::Translate
         raise Integrations::Errors::UnhandledEdgeCase.new("order terminated, but there's more amendmends")
       end
 
+      # if it's not terminated, it could be partially terminated
+      if !is_order_terminated
+        aggregate_phase_items.reject! do |phase_item|
+          if phase_item.is_terminated?
+            log.info 'line iterm terminated', terminated_order_item_id: phase_item.order_line&.Id
+            true
+          else
+            false
+          end
+        end
+      end
+
       # TODO should probably use a completely different key/mapping for the phase items
       phase_params = extract_salesforce_params!(sf_order_amendment, Stripe::SubscriptionSchedule)
 
@@ -500,9 +512,16 @@ class StripeForce::Translate
         quantity: phase_item[:quantity]
       )
 
-      # TODO I wonder it's better for this data sanitization to live within the struct...
       # quantity cannot be specified if usage type is metered
-      if price.recurring&.usage_type == 'metered'
+      if PriceHelpers.metered_price?(price)
+        # allowing > 1 quantities may cause issues with terminations and generally indicates a data issue on the customers end
+        if phase_item_struct.stripe_params[:quantity] > 1
+          throw_user_failure!(
+            salesforce_object: sf_order_item,
+            message: "Order lines with a price configured for metered billing cannot have a quantity greater than 1."
+          )
+        end
+
         # setting quantity to null generates an empty string when `to_hash` is called
         # which will throw an API error when this is passed to Stripe, which is we need this hack
         phase_item_struct.stripe_params.delete(:quantity)
