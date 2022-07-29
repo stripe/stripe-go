@@ -5,7 +5,6 @@
 # bundle exec ruby db/migration.rb
 
 require 'sequel'
-require 'dotenv/load'
 
 is_test_environment = ENV['RAILS_ENV'] && ENV['RAILS_ENV'] == 'test'
 
