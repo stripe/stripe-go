@@ -1,4 +1,4 @@
-package sub
+package subscription
 
 import (
 	"testing"
@@ -92,9 +92,15 @@ func TestSubscriptionNew_WithItems(t *testing.T) {
 
 func TestSubscriptionUpdate(t *testing.T) {
 	params := &stripe.SubscriptionParams{
-		ProrationBehavior: stripe.String(string(stripe.SubscriptionProrationBehaviorNone)),
+		ProrationBehavior: stripe.String("none"),
 	}
 	subscription, err := Update("sub_123", params)
 	assert.Nil(t, err)
 	assert.NotNil(t, subscription)
+}
+
+func TestDeleteDiscount(t *testing.T) {
+	discount, err := DeleteDiscount("sub_123", nil)
+	assert.Nil(t, err)
+	assert.NotNil(t, discount)
 }

@@ -63,7 +63,7 @@ type ChargePaymentMethodDetailsCardNetwork string
 
 // List of values that ChargePaymentMethodDetailsCardNetwork can take
 const (
-	ChargePaymentMethodDetailsCardNetworkAmEx            ChargePaymentMethodDetailsCardNetwork = "amex"
+	ChargePaymentMethodDetailsCardNetworkAmex            ChargePaymentMethodDetailsCardNetwork = "amex"
 	ChargePaymentMethodDetailsCardNetworkCartesBancaires ChargePaymentMethodDetailsCardNetwork = "cartes_bancaires"
 	ChargePaymentMethodDetailsCardNetworkDiners          ChargePaymentMethodDetailsCardNetwork = "diners"
 	ChargePaymentMethodDetailsCardNetworkDiscover        ChargePaymentMethodDetailsCardNetwork = "discover"
@@ -118,7 +118,7 @@ type ChargePaymentMethodDetailsCardPresentNetwork string
 
 // List of values that ChargePaymentMethodDetailsCardPresentNetwork can take
 const (
-	ChargePaymentMethodDetailsCardPresentNetworkAmEx            ChargePaymentMethodDetailsCardPresentNetwork = "amex"
+	ChargePaymentMethodDetailsCardPresentNetworkAmex            ChargePaymentMethodDetailsCardPresentNetwork = "amex"
 	ChargePaymentMethodDetailsCardPresentNetworkCartesBancaires ChargePaymentMethodDetailsCardPresentNetwork = "cartes_bancaires"
 	ChargePaymentMethodDetailsCardPresentNetworkDiners          ChargePaymentMethodDetailsCardPresentNetwork = "diners"
 	ChargePaymentMethodDetailsCardPresentNetworkDiscover        ChargePaymentMethodDetailsCardPresentNetwork = "discover"
@@ -574,7 +574,7 @@ type ChargePaymentMethodDetailsCardThreeDSecure struct {
 	// The version of 3D Secure that was used.
 	Version string `json:"version"`
 }
-type ChargePaymentMethodDetailsCardWalletAmExExpressCheckout struct{}
+type ChargePaymentMethodDetailsCardWalletAmexExpressCheckout struct{}
 type ChargePaymentMethodDetailsCardWalletApplePay struct{}
 type ChargePaymentMethodDetailsCardWalletGooglePay struct{}
 type ChargePaymentMethodDetailsCardWalletMasterpass struct {
@@ -601,7 +601,7 @@ type ChargePaymentMethodDetailsCardWalletVisaCheckout struct {
 
 // If this Card is part of a card wallet, this contains the details of the card wallet.
 type ChargePaymentMethodDetailsCardWallet struct {
-	AmExExpressCheckout *ChargePaymentMethodDetailsCardWalletAmExExpressCheckout `json:"amex_express_checkout"`
+	AmexExpressCheckout *ChargePaymentMethodDetailsCardWalletAmexExpressCheckout `json:"amex_express_checkout"`
 	ApplePay            *ChargePaymentMethodDetailsCardWalletApplePay            `json:"apple_pay"`
 	// (For tokenized numbers only.) The last four digits of the device account number.
 	DynamicLast4 string                                          `json:"dynamic_last4"`

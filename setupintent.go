@@ -147,7 +147,7 @@ type SetupIntentPaymentMethodOptionsCardNetwork string
 
 // List of values that SetupIntentPaymentMethodOptionsCardNetwork can take
 const (
-	SetupIntentPaymentMethodOptionsCardNetworkAmEx            SetupIntentPaymentMethodOptionsCardNetwork = "amex"
+	SetupIntentPaymentMethodOptionsCardNetworkAmex            SetupIntentPaymentMethodOptionsCardNetwork = "amex"
 	SetupIntentPaymentMethodOptionsCardNetworkCartesBancaires SetupIntentPaymentMethodOptionsCardNetwork = "cartes_bancaires"
 	SetupIntentPaymentMethodOptionsCardNetworkDiners          SetupIntentPaymentMethodOptionsCardNetwork = "diners"
 	SetupIntentPaymentMethodOptionsCardNetworkDiscover        SetupIntentPaymentMethodOptionsCardNetwork = "discover"
