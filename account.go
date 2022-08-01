@@ -142,8 +142,7 @@ const (
 type AccountParams struct {
 	Params `form:"*"`
 	// An [account token](https://stripe.com/docs/api#create_account_token), used to securely provide details to the account.
-	AccountToken      *string                         `form:"account_token"`
-	BACSDebitPayments *AccountBACSDebitPaymentsParams `form:"bacs_debit_payments"`
+	AccountToken *string `form:"account_token"`
 	// Business information about the account.
 	BusinessProfile *AccountBusinessProfileParams `form:"business_profile"`
 	// The business type.
@@ -725,9 +724,13 @@ type AccountSettingsTreasuryParams struct {
 	// Details on the account's acceptance of the Stripe Treasury Services Agreement.
 	TOSAcceptance *AccountSettingsTreasuryTOSAcceptanceParams `form:"tos_acceptance"`
 }
+type AccountSettingsBACSDebitPaymentsParams struct {
+	DisplayName *string `form:"display_name"`
+}
 
 // Options for customizing how the account functions within Stripe.
 type AccountSettingsParams struct {
+	BACSDebitPayments *AccountSettingsBACSDebitPaymentsParams `form:"bacs_debit_payments"`
 	// Settings used to apply the account's branding to email receipts, invoices, Checkout, and other products.
 	Branding *AccountSettingsBrandingParams `form:"branding"`
 	// Settings specific to the account's use of the Card Issuing product.
@@ -752,9 +755,6 @@ type AccountTOSAcceptanceParams struct {
 	ServiceAgreement *string `form:"service_agreement"`
 	// The user agent of the browser from which the account representative accepted their service agreement.
 	UserAgent *string `form:"user_agent"`
-}
-type AccountBACSDebitPaymentsParams struct {
-	DisplayName *string `form:"display_name"`
 }
 
 // Returns a list of accounts connected to your platform via [Connect](https://stripe.com/docs/connect). If you're not a platform, the list is empty.
