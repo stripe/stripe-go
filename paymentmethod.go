@@ -13,7 +13,7 @@ type PaymentMethodCardBrand string
 
 // List of values that PaymentMethodCardBrand can take
 const (
-	PaymentMethodCardBrandAmEx       PaymentMethodCardBrand = "amex"
+	PaymentMethodCardBrandAmex       PaymentMethodCardBrand = "amex"
 	PaymentMethodCardBrandDiners     PaymentMethodCardBrand = "diners"
 	PaymentMethodCardBrandDiscover   PaymentMethodCardBrand = "discover"
 	PaymentMethodCardBrandJCB        PaymentMethodCardBrand = "jcb"
@@ -61,7 +61,7 @@ type PaymentMethodCardNetworksAvailable string
 
 // List of values that PaymentMethodCardNetworksAvailable can take
 const (
-	PaymentMethodCardNetworksAvailableAmEx            PaymentMethodCardNetworksAvailable = "amex"
+	PaymentMethodCardNetworksAvailableAmex            PaymentMethodCardNetworksAvailable = "amex"
 	PaymentMethodCardNetworksAvailableCartesBancaires PaymentMethodCardNetworksAvailable = "cartes_bancaires"
 	PaymentMethodCardNetworksAvailableDiners          PaymentMethodCardNetworksAvailable = "diners"
 	PaymentMethodCardNetworksAvailableDiscover        PaymentMethodCardNetworksAvailable = "discover"
@@ -78,7 +78,7 @@ type PaymentMethodCardNetworksPreferred string
 
 // List of values that PaymentMethodCardNetworksPreferred can take
 const (
-	PaymentMethodCardNetworksPreferredAmEx            PaymentMethodCardNetworksPreferred = "amex"
+	PaymentMethodCardNetworksPreferredAmex            PaymentMethodCardNetworksPreferred = "amex"
 	PaymentMethodCardNetworksPreferredCartesBancaires PaymentMethodCardNetworksPreferred = "cartes_bancaires"
 	PaymentMethodCardNetworksPreferredDiners          PaymentMethodCardNetworksPreferred = "diners"
 	PaymentMethodCardNetworksPreferredDiscover        PaymentMethodCardNetworksPreferred = "discover"
@@ -95,7 +95,7 @@ type PaymentMethodCardWalletType string
 
 // List of values that PaymentMethodCardWalletType can take
 const (
-	PaymentMethodCardWalletTypeAmExExpressCheckout PaymentMethodCardWalletType = "amex_express_checkout"
+	PaymentMethodCardWalletTypeAmexExpressCheckout PaymentMethodCardWalletType = "amex_express_checkout"
 	PaymentMethodCardWalletTypeApplePay            PaymentMethodCardWalletType = "apple_pay"
 	PaymentMethodCardWalletTypeGooglePay           PaymentMethodCardWalletType = "google_pay"
 	PaymentMethodCardWalletTypeMasterpass          PaymentMethodCardWalletType = "masterpass"
@@ -526,7 +526,7 @@ type PaymentMethodCardThreeDSecureUsage struct {
 	// Whether 3D Secure is supported on this card.
 	Supported bool `json:"supported"`
 }
-type PaymentMethodCardWalletAmExExpressCheckout struct{}
+type PaymentMethodCardWalletAmexExpressCheckout struct{}
 type PaymentMethodCardWalletApplePay struct{}
 type PaymentMethodCardWalletGooglePay struct{}
 type PaymentMethodCardWalletMasterpass struct {
@@ -553,7 +553,7 @@ type PaymentMethodCardWalletVisaCheckout struct {
 
 // If this Card is part of a card wallet, this contains the details of the card wallet.
 type PaymentMethodCardWallet struct {
-	AmExExpressCheckout *PaymentMethodCardWalletAmExExpressCheckout `json:"amex_express_checkout"`
+	AmexExpressCheckout *PaymentMethodCardWalletAmexExpressCheckout `json:"amex_express_checkout"`
 	ApplePay            *PaymentMethodCardWalletApplePay            `json:"apple_pay"`
 	// (For tokenized numbers only.) The last four digits of the device account number.
 	DynamicLast4 string                             `json:"dynamic_last4"`

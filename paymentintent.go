@@ -302,7 +302,7 @@ type PaymentIntentPaymentMethodOptionsCardNetwork string
 
 // List of values that PaymentIntentPaymentMethodOptionsCardNetwork can take
 const (
-	PaymentIntentPaymentMethodOptionsCardNetworkAmEx            PaymentIntentPaymentMethodOptionsCardNetwork = "amex"
+	PaymentIntentPaymentMethodOptionsCardNetworkAmex            PaymentIntentPaymentMethodOptionsCardNetwork = "amex"
 	PaymentIntentPaymentMethodOptionsCardNetworkCartesBancaires PaymentIntentPaymentMethodOptionsCardNetwork = "cartes_bancaires"
 	PaymentIntentPaymentMethodOptionsCardNetworkDiners          PaymentIntentPaymentMethodOptionsCardNetwork = "diners"
 	PaymentIntentPaymentMethodOptionsCardNetworkDiscover        PaymentIntentPaymentMethodOptionsCardNetwork = "discover"
