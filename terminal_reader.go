@@ -58,11 +58,6 @@ type TerminalReaderParams struct {
 	RegistrationCode *string `form:"registration_code"`
 }
 
-// TerminalReaderGetParams is the set of parameters that can be used to get a terminal reader.
-type TerminalReaderGetParams struct {
-	Params `form:"*"`
-}
-
 // Returns a list of Reader objects.
 type TerminalReaderListParams struct {
 	ListParams `form:"*"`
@@ -216,7 +211,7 @@ type TerminalReader struct {
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
 	// The location identifier of the reader.
-	Location string `json:"location"`
+	Location *TerminalLocation `json:"location"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`
 	// String representing the object's type. Objects of the same type share the same value.
@@ -231,7 +226,5 @@ type TerminalReader struct {
 type TerminalReaderList struct {
 	APIResource
 	ListMeta
-	Data     []*TerminalReader `json:"data"`
-	Location *string           `json:"location"`
-	Status   *string           `json:"status"`
+	Data []*TerminalReader `json:"data"`
 }

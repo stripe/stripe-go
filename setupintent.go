@@ -15,8 +15,6 @@ type SetupIntentCancellationReason string
 const (
 	SetupIntentCancellationReasonAbandoned           SetupIntentCancellationReason = "abandoned"
 	SetupIntentCancellationReasonDuplicate           SetupIntentCancellationReason = "duplicate"
-	SetupIntentCancellationReasonFailedInvoice       SetupIntentCancellationReason = "failed_invoice"
-	SetupIntentCancellationReasonFraudulent          SetupIntentCancellationReason = "fraudulent"
 	SetupIntentCancellationReasonRequestedByCustomer SetupIntentCancellationReason = "requested_by_customer"
 )
 
@@ -149,7 +147,7 @@ type SetupIntentPaymentMethodOptionsCardNetwork string
 
 // List of values that SetupIntentPaymentMethodOptionsCardNetwork can take
 const (
-	SetupIntentPaymentMethodOptionsCardNetworkAmex            SetupIntentPaymentMethodOptionsCardNetwork = "amex"
+	SetupIntentPaymentMethodOptionsCardNetworkAmEx            SetupIntentPaymentMethodOptionsCardNetwork = "amex"
 	SetupIntentPaymentMethodOptionsCardNetworkCartesBancaires SetupIntentPaymentMethodOptionsCardNetwork = "cartes_bancaires"
 	SetupIntentPaymentMethodOptionsCardNetworkDiners          SetupIntentPaymentMethodOptionsCardNetwork = "diners"
 	SetupIntentPaymentMethodOptionsCardNetworkDiscover        SetupIntentPaymentMethodOptionsCardNetwork = "discover"
@@ -230,7 +228,7 @@ type SetupIntentMandateDataCustomerAcceptanceOnlineParams struct {
 // This hash contains details about the customer acceptance of the Mandate.
 type SetupIntentMandateDataCustomerAcceptanceParams struct {
 	// The time at which the customer accepted the Mandate.
-	AcceptedAt int64 `form:"accepted_at"`
+	AcceptedAt *int64 `form:"accepted_at"`
 	// If this is a Mandate accepted offline, this hash contains details about the offline acceptance.
 	Offline *SetupIntentMandateDataCustomerAcceptanceOfflineParams `form:"offline"`
 	// If this is a Mandate accepted online, this hash contains details about the online acceptance.
@@ -328,7 +326,7 @@ type SetupIntentPaymentMethodDataGiropayParams struct{}
 type SetupIntentPaymentMethodDataGrabpayParams struct{}
 
 // If this is an `ideal` PaymentMethod, this hash contains details about the iDEAL payment method.
-type SetupIntentPaymentMethodDataIdealParams struct {
+type SetupIntentPaymentMethodDataIDEALParams struct {
 	// The customer's bank.
 	Bank *string `form:"bank"`
 }
@@ -380,9 +378,9 @@ type SetupIntentPaymentMethodDataRadarOptionsParams struct {
 }
 
 // If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
-type SetupIntentPaymentMethodDataSepaDebitParams struct {
+type SetupIntentPaymentMethodDataSEPADebitParams struct {
 	// IBAN of the bank account.
-	Iban *string `form:"iban"`
+	IBAN *string `form:"iban"`
 }
 
 // If this is a `sofort` PaymentMethod, this hash contains details about the SOFORT payment method.
@@ -406,7 +404,7 @@ type SetupIntentPaymentMethodDataUSBankAccountParams struct {
 }
 
 // If this is an `wechat_pay` PaymentMethod, this hash contains details about the wechat_pay payment method.
-type SetupIntentPaymentMethodDataWechatPayParams struct{}
+type SetupIntentPaymentMethodDataWeChatPayParams struct{}
 
 // When included, this hash creates a PaymentMethod that is set as the [`payment_method`](https://stripe.com/docs/api/setup_intents/object#setup_intent_object-payment_method)
 // value in the SetupIntent.
@@ -442,7 +440,7 @@ type SetupIntentPaymentMethodDataParams struct {
 	// If this is a `grabpay` PaymentMethod, this hash contains details about the GrabPay payment method.
 	Grabpay *SetupIntentPaymentMethodDataGrabpayParams `form:"grabpay"`
 	// If this is an `ideal` PaymentMethod, this hash contains details about the iDEAL payment method.
-	Ideal *SetupIntentPaymentMethodDataIdealParams `form:"ideal"`
+	IDEAL *SetupIntentPaymentMethodDataIDEALParams `form:"ideal"`
 	// If this is an `interac_present` PaymentMethod, this hash contains details about the Interac Present payment method.
 	InteracPresent *SetupIntentPaymentMethodDataInteracPresentParams `form:"interac_present"`
 	// If this is a `klarna` PaymentMethod, this hash contains details about the Klarna payment method.
@@ -464,7 +462,7 @@ type SetupIntentPaymentMethodDataParams struct {
 	// Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
 	RadarOptions *SetupIntentPaymentMethodDataRadarOptionsParams `form:"radar_options"`
 	// If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
-	SepaDebit *SetupIntentPaymentMethodDataSepaDebitParams `form:"sepa_debit"`
+	SEPADebit *SetupIntentPaymentMethodDataSEPADebitParams `form:"sepa_debit"`
 	// If this is a `sofort` PaymentMethod, this hash contains details about the SOFORT payment method.
 	Sofort *SetupIntentPaymentMethodDataSofortParams `form:"sofort"`
 	// The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type.
@@ -472,7 +470,7 @@ type SetupIntentPaymentMethodDataParams struct {
 	// If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
 	USBankAccount *SetupIntentPaymentMethodDataUSBankAccountParams `form:"us_bank_account"`
 	// If this is an `wechat_pay` PaymentMethod, this hash contains details about the wechat_pay payment method.
-	WechatPay *SetupIntentPaymentMethodDataWechatPayParams `form:"wechat_pay"`
+	WeChatPay *SetupIntentPaymentMethodDataWeChatPayParams `form:"wechat_pay"`
 }
 
 // Additional fields for Mandate creation
@@ -550,12 +548,12 @@ type SetupIntentPaymentMethodOptionsLinkParams struct {
 }
 
 // Additional fields for Mandate creation
-type SetupIntentPaymentMethodOptionsSepaDebitMandateOptionsParams struct{}
+type SetupIntentPaymentMethodOptionsSEPADebitMandateOptionsParams struct{}
 
 // If this is a `sepa_debit` SetupIntent, this sub-hash contains details about the SEPA Debit payment method options.
-type SetupIntentPaymentMethodOptionsSepaDebitParams struct {
+type SetupIntentPaymentMethodOptionsSEPADebitParams struct {
 	// Additional fields for Mandate creation
-	MandateOptions *SetupIntentPaymentMethodOptionsSepaDebitMandateOptionsParams `form:"mandate_options"`
+	MandateOptions *SetupIntentPaymentMethodOptionsSEPADebitMandateOptionsParams `form:"mandate_options"`
 }
 
 // Additional fields for Financial Connections Session creation
@@ -593,7 +591,7 @@ type SetupIntentPaymentMethodOptionsParams struct {
 	// If this is a `link` PaymentMethod, this sub-hash contains details about the Link payment method options.
 	Link *SetupIntentPaymentMethodOptionsLinkParams `form:"link"`
 	// If this is a `sepa_debit` SetupIntent, this sub-hash contains details about the SEPA Debit payment method options.
-	SepaDebit *SetupIntentPaymentMethodOptionsSepaDebitParams `form:"sepa_debit"`
+	SEPADebit *SetupIntentPaymentMethodOptionsSEPADebitParams `form:"sepa_debit"`
 	// If this is a `us_bank_account` SetupIntent, this sub-hash contains details about the US bank account payment method options.
 	USBankAccount *SetupIntentPaymentMethodOptionsUSBankAccountParams `form:"us_bank_account"`
 }
@@ -751,7 +749,7 @@ type SetupIntentConfirmPaymentMethodDataGiropayParams struct{}
 type SetupIntentConfirmPaymentMethodDataGrabpayParams struct{}
 
 // If this is an `ideal` PaymentMethod, this hash contains details about the iDEAL payment method.
-type SetupIntentConfirmPaymentMethodDataIdealParams struct {
+type SetupIntentConfirmPaymentMethodDataIDEALParams struct {
 	// The customer's bank.
 	Bank *string `form:"bank"`
 }
@@ -803,9 +801,9 @@ type SetupIntentConfirmPaymentMethodDataRadarOptionsParams struct {
 }
 
 // If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
-type SetupIntentConfirmPaymentMethodDataSepaDebitParams struct {
+type SetupIntentConfirmPaymentMethodDataSEPADebitParams struct {
 	// IBAN of the bank account.
-	Iban *string `form:"iban"`
+	IBAN *string `form:"iban"`
 }
 
 // If this is a `sofort` PaymentMethod, this hash contains details about the SOFORT payment method.
@@ -829,7 +827,7 @@ type SetupIntentConfirmPaymentMethodDataUSBankAccountParams struct {
 }
 
 // If this is an `wechat_pay` PaymentMethod, this hash contains details about the wechat_pay payment method.
-type SetupIntentConfirmPaymentMethodDataWechatPayParams struct{}
+type SetupIntentConfirmPaymentMethodDataWeChatPayParams struct{}
 
 // When included, this hash creates a PaymentMethod that is set as the [`payment_method`](https://stripe.com/docs/api/setup_intents/object#setup_intent_object-payment_method)
 // value in the SetupIntent.
@@ -865,7 +863,7 @@ type SetupIntentConfirmPaymentMethodDataParams struct {
 	// If this is a `grabpay` PaymentMethod, this hash contains details about the GrabPay payment method.
 	Grabpay *SetupIntentConfirmPaymentMethodDataGrabpayParams `form:"grabpay"`
 	// If this is an `ideal` PaymentMethod, this hash contains details about the iDEAL payment method.
-	Ideal *SetupIntentConfirmPaymentMethodDataIdealParams `form:"ideal"`
+	IDEAL *SetupIntentConfirmPaymentMethodDataIDEALParams `form:"ideal"`
 	// If this is an `interac_present` PaymentMethod, this hash contains details about the Interac Present payment method.
 	InteracPresent *SetupIntentConfirmPaymentMethodDataInteracPresentParams `form:"interac_present"`
 	// If this is a `klarna` PaymentMethod, this hash contains details about the Klarna payment method.
@@ -887,7 +885,7 @@ type SetupIntentConfirmPaymentMethodDataParams struct {
 	// Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
 	RadarOptions *SetupIntentConfirmPaymentMethodDataRadarOptionsParams `form:"radar_options"`
 	// If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
-	SepaDebit *SetupIntentConfirmPaymentMethodDataSepaDebitParams `form:"sepa_debit"`
+	SEPADebit *SetupIntentConfirmPaymentMethodDataSEPADebitParams `form:"sepa_debit"`
 	// If this is a `sofort` PaymentMethod, this hash contains details about the SOFORT payment method.
 	Sofort *SetupIntentConfirmPaymentMethodDataSofortParams `form:"sofort"`
 	// The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type.
@@ -895,7 +893,7 @@ type SetupIntentConfirmPaymentMethodDataParams struct {
 	// If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
 	USBankAccount *SetupIntentConfirmPaymentMethodDataUSBankAccountParams `form:"us_bank_account"`
 	// If this is an `wechat_pay` PaymentMethod, this hash contains details about the wechat_pay payment method.
-	WechatPay *SetupIntentConfirmPaymentMethodDataWechatPayParams `form:"wechat_pay"`
+	WeChatPay *SetupIntentConfirmPaymentMethodDataWeChatPayParams `form:"wechat_pay"`
 }
 
 // Confirm that your customer intends to set up the current or
@@ -985,8 +983,8 @@ type SetupIntentPaymentMethodOptionsACSSDebitMandateOptions struct {
 	TransactionType SetupIntentPaymentMethodOptionsACSSDebitMandateOptionsTransactionType `json:"transaction_type"`
 }
 type SetupIntentPaymentMethodOptionsACSSDebit struct {
-	// See SetupIntentPaymentMethodOptionsACSSDebitCurrency for allowed values
-	Currency       string                                                  `json:"currency"`
+	// Currency supported by the bank account
+	Currency       SetupIntentPaymentMethodOptionsACSSDebitCurrency        `json:"currency"`
 	MandateOptions *SetupIntentPaymentMethodOptionsACSSDebitMandateOptions `json:"mandate_options"`
 	// Bank account verification method.
 	VerificationMethod SetupIntentPaymentMethodOptionsACSSDebitVerificationMethod `json:"verification_method"`
@@ -1047,9 +1045,9 @@ type SetupIntentPaymentMethodOptionsLink struct {
 	// Token used for persistent Link logins.
 	PersistentToken string `json:"persistent_token"`
 }
-type SetupIntentPaymentMethodOptionsSepaDebitMandateOptions struct{}
-type SetupIntentPaymentMethodOptionsSepaDebit struct {
-	MandateOptions *SetupIntentPaymentMethodOptionsSepaDebitMandateOptions `json:"mandate_options"`
+type SetupIntentPaymentMethodOptionsSEPADebitMandateOptions struct{}
+type SetupIntentPaymentMethodOptionsSEPADebit struct {
+	MandateOptions *SetupIntentPaymentMethodOptionsSEPADebitMandateOptions `json:"mandate_options"`
 }
 type SetupIntentPaymentMethodOptionsUSBankAccountFinancialConnections struct {
 	// The list of permissions to request. The `payment_method` permission must be included.
@@ -1069,7 +1067,7 @@ type SetupIntentPaymentMethodOptions struct {
 	BLIK          *SetupIntentPaymentMethodOptionsBLIK          `json:"blik"`
 	Card          *SetupIntentPaymentMethodOptionsCard          `json:"card"`
 	Link          *SetupIntentPaymentMethodOptionsLink          `json:"link"`
-	SepaDebit     *SetupIntentPaymentMethodOptionsSepaDebit     `json:"sepa_debit"`
+	SEPADebit     *SetupIntentPaymentMethodOptionsSEPADebit     `json:"sepa_debit"`
 	USBankAccount *SetupIntentPaymentMethodOptionsUSBankAccount `json:"us_bank_account"`
 }
 

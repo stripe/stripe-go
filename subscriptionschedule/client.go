@@ -4,8 +4,8 @@
 //
 //
 
-// Package subschedule provides the /subscription_schedules APIs
-package subschedule
+// Package subscriptionschedule provides the /subscription_schedules APIs
+package subscriptionschedule
 
 import (
 	"net/http"

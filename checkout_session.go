@@ -6,8 +6,6 @@
 
 package stripe
 
-import "encoding/json"
-
 // The status of the most recent automated tax calculation for this session.
 type CheckoutSessionAutomaticTaxStatus string
 
@@ -68,57 +66,57 @@ const (
 )
 
 // The type of the tax ID, one of `eu_vat`, `br_cnpj`, `br_cpf`, `eu_oss_vat`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `li_uid`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, or `unknown`
-type CheckoutSessionCustomerDetailsTaxIDsType string
+type CheckoutSessionCustomerDetailsTaxIDType string
 
-// List of values that CheckoutSessionCustomerDetailsTaxIDsType can take
+// List of values that CheckoutSessionCustomerDetailsTaxIDType can take
 const (
-	CheckoutSessionCustomerDetailsTaxIDsTypeAETRN    CheckoutSessionCustomerDetailsTaxIDsType = "ae_trn"
-	CheckoutSessionCustomerDetailsTaxIDsTypeAUABN    CheckoutSessionCustomerDetailsTaxIDsType = "au_abn"
-	CheckoutSessionCustomerDetailsTaxIDsTypeAUARN    CheckoutSessionCustomerDetailsTaxIDsType = "au_arn"
-	CheckoutSessionCustomerDetailsTaxIDsTypeBGUIC    CheckoutSessionCustomerDetailsTaxIDsType = "bg_uic"
-	CheckoutSessionCustomerDetailsTaxIDsTypeBRCNPJ   CheckoutSessionCustomerDetailsTaxIDsType = "br_cnpj"
-	CheckoutSessionCustomerDetailsTaxIDsTypeBRCPF    CheckoutSessionCustomerDetailsTaxIDsType = "br_cpf"
-	CheckoutSessionCustomerDetailsTaxIDsTypeCABN     CheckoutSessionCustomerDetailsTaxIDsType = "ca_bn"
-	CheckoutSessionCustomerDetailsTaxIDsTypeCAGSTHST CheckoutSessionCustomerDetailsTaxIDsType = "ca_gst_hst"
-	CheckoutSessionCustomerDetailsTaxIDsTypeCAPSTBC  CheckoutSessionCustomerDetailsTaxIDsType = "ca_pst_bc"
-	CheckoutSessionCustomerDetailsTaxIDsTypeCAPSTMB  CheckoutSessionCustomerDetailsTaxIDsType = "ca_pst_mb"
-	CheckoutSessionCustomerDetailsTaxIDsTypeCAPSTSK  CheckoutSessionCustomerDetailsTaxIDsType = "ca_pst_sk"
-	CheckoutSessionCustomerDetailsTaxIDsTypeCAQST    CheckoutSessionCustomerDetailsTaxIDsType = "ca_qst"
-	CheckoutSessionCustomerDetailsTaxIDsTypeCHVAT    CheckoutSessionCustomerDetailsTaxIDsType = "ch_vat"
-	CheckoutSessionCustomerDetailsTaxIDsTypeCLTIN    CheckoutSessionCustomerDetailsTaxIDsType = "cl_tin"
-	CheckoutSessionCustomerDetailsTaxIDsTypeESCIF    CheckoutSessionCustomerDetailsTaxIDsType = "es_cif"
-	CheckoutSessionCustomerDetailsTaxIDsTypeEUOSSVAT CheckoutSessionCustomerDetailsTaxIDsType = "eu_oss_vat"
-	CheckoutSessionCustomerDetailsTaxIDsTypeEUVAT    CheckoutSessionCustomerDetailsTaxIDsType = "eu_vat"
-	CheckoutSessionCustomerDetailsTaxIDsTypeGBVAT    CheckoutSessionCustomerDetailsTaxIDsType = "gb_vat"
-	CheckoutSessionCustomerDetailsTaxIDsTypeGEVAT    CheckoutSessionCustomerDetailsTaxIDsType = "ge_vat"
-	CheckoutSessionCustomerDetailsTaxIDsTypeHKBR     CheckoutSessionCustomerDetailsTaxIDsType = "hk_br"
-	CheckoutSessionCustomerDetailsTaxIDsTypeHUTIN    CheckoutSessionCustomerDetailsTaxIDsType = "hu_tin"
-	CheckoutSessionCustomerDetailsTaxIDsTypeIDNPWP   CheckoutSessionCustomerDetailsTaxIDsType = "id_npwp"
-	CheckoutSessionCustomerDetailsTaxIDsTypeILVAT    CheckoutSessionCustomerDetailsTaxIDsType = "il_vat"
-	CheckoutSessionCustomerDetailsTaxIDsTypeINGST    CheckoutSessionCustomerDetailsTaxIDsType = "in_gst"
-	CheckoutSessionCustomerDetailsTaxIDsTypeISVAT    CheckoutSessionCustomerDetailsTaxIDsType = "is_vat"
-	CheckoutSessionCustomerDetailsTaxIDsTypeJPCN     CheckoutSessionCustomerDetailsTaxIDsType = "jp_cn"
-	CheckoutSessionCustomerDetailsTaxIDsTypeJPRN     CheckoutSessionCustomerDetailsTaxIDsType = "jp_rn"
-	CheckoutSessionCustomerDetailsTaxIDsTypeKRBRN    CheckoutSessionCustomerDetailsTaxIDsType = "kr_brn"
-	CheckoutSessionCustomerDetailsTaxIDsTypeLIUID    CheckoutSessionCustomerDetailsTaxIDsType = "li_uid"
-	CheckoutSessionCustomerDetailsTaxIDsTypeMXRFC    CheckoutSessionCustomerDetailsTaxIDsType = "mx_rfc"
-	CheckoutSessionCustomerDetailsTaxIDsTypeMYFRP    CheckoutSessionCustomerDetailsTaxIDsType = "my_frp"
-	CheckoutSessionCustomerDetailsTaxIDsTypeMYITN    CheckoutSessionCustomerDetailsTaxIDsType = "my_itn"
-	CheckoutSessionCustomerDetailsTaxIDsTypeMYSST    CheckoutSessionCustomerDetailsTaxIDsType = "my_sst"
-	CheckoutSessionCustomerDetailsTaxIDsTypeNOVAT    CheckoutSessionCustomerDetailsTaxIDsType = "no_vat"
-	CheckoutSessionCustomerDetailsTaxIDsTypeNZGST    CheckoutSessionCustomerDetailsTaxIDsType = "nz_gst"
-	CheckoutSessionCustomerDetailsTaxIDsTypeRUINN    CheckoutSessionCustomerDetailsTaxIDsType = "ru_inn"
-	CheckoutSessionCustomerDetailsTaxIDsTypeRUKPP    CheckoutSessionCustomerDetailsTaxIDsType = "ru_kpp"
-	CheckoutSessionCustomerDetailsTaxIDsTypeSAVAT    CheckoutSessionCustomerDetailsTaxIDsType = "sa_vat"
-	CheckoutSessionCustomerDetailsTaxIDsTypeSGGST    CheckoutSessionCustomerDetailsTaxIDsType = "sg_gst"
-	CheckoutSessionCustomerDetailsTaxIDsTypeSGUEN    CheckoutSessionCustomerDetailsTaxIDsType = "sg_uen"
-	CheckoutSessionCustomerDetailsTaxIDsTypeSITIN    CheckoutSessionCustomerDetailsTaxIDsType = "si_tin"
-	CheckoutSessionCustomerDetailsTaxIDsTypeTHVAT    CheckoutSessionCustomerDetailsTaxIDsType = "th_vat"
-	CheckoutSessionCustomerDetailsTaxIDsTypeTWVAT    CheckoutSessionCustomerDetailsTaxIDsType = "tw_vat"
-	CheckoutSessionCustomerDetailsTaxIDsTypeUAVAT    CheckoutSessionCustomerDetailsTaxIDsType = "ua_vat"
-	CheckoutSessionCustomerDetailsTaxIDsTypeUnknown  CheckoutSessionCustomerDetailsTaxIDsType = "unknown"
-	CheckoutSessionCustomerDetailsTaxIDsTypeUSEIN    CheckoutSessionCustomerDetailsTaxIDsType = "us_ein"
-	CheckoutSessionCustomerDetailsTaxIDsTypeZAVAT    CheckoutSessionCustomerDetailsTaxIDsType = "za_vat"
+	CheckoutSessionCustomerDetailsTaxIDTypeAETRN    CheckoutSessionCustomerDetailsTaxIDType = "ae_trn"
+	CheckoutSessionCustomerDetailsTaxIDTypeAUABN    CheckoutSessionCustomerDetailsTaxIDType = "au_abn"
+	CheckoutSessionCustomerDetailsTaxIDTypeAUARN    CheckoutSessionCustomerDetailsTaxIDType = "au_arn"
+	CheckoutSessionCustomerDetailsTaxIDTypeBGUIC    CheckoutSessionCustomerDetailsTaxIDType = "bg_uic"
+	CheckoutSessionCustomerDetailsTaxIDTypeBRCNPJ   CheckoutSessionCustomerDetailsTaxIDType = "br_cnpj"
+	CheckoutSessionCustomerDetailsTaxIDTypeBRCPF    CheckoutSessionCustomerDetailsTaxIDType = "br_cpf"
+	CheckoutSessionCustomerDetailsTaxIDTypeCABN     CheckoutSessionCustomerDetailsTaxIDType = "ca_bn"
+	CheckoutSessionCustomerDetailsTaxIDTypeCAGSTHST CheckoutSessionCustomerDetailsTaxIDType = "ca_gst_hst"
+	CheckoutSessionCustomerDetailsTaxIDTypeCAPSTBC  CheckoutSessionCustomerDetailsTaxIDType = "ca_pst_bc"
+	CheckoutSessionCustomerDetailsTaxIDTypeCAPSTMB  CheckoutSessionCustomerDetailsTaxIDType = "ca_pst_mb"
+	CheckoutSessionCustomerDetailsTaxIDTypeCAPSTSK  CheckoutSessionCustomerDetailsTaxIDType = "ca_pst_sk"
+	CheckoutSessionCustomerDetailsTaxIDTypeCAQST    CheckoutSessionCustomerDetailsTaxIDType = "ca_qst"
+	CheckoutSessionCustomerDetailsTaxIDTypeCHVAT    CheckoutSessionCustomerDetailsTaxIDType = "ch_vat"
+	CheckoutSessionCustomerDetailsTaxIDTypeCLTIN    CheckoutSessionCustomerDetailsTaxIDType = "cl_tin"
+	CheckoutSessionCustomerDetailsTaxIDTypeESCIF    CheckoutSessionCustomerDetailsTaxIDType = "es_cif"
+	CheckoutSessionCustomerDetailsTaxIDTypeEUOSSVAT CheckoutSessionCustomerDetailsTaxIDType = "eu_oss_vat"
+	CheckoutSessionCustomerDetailsTaxIDTypeEUVAT    CheckoutSessionCustomerDetailsTaxIDType = "eu_vat"
+	CheckoutSessionCustomerDetailsTaxIDTypeGBVAT    CheckoutSessionCustomerDetailsTaxIDType = "gb_vat"
+	CheckoutSessionCustomerDetailsTaxIDTypeGEVAT    CheckoutSessionCustomerDetailsTaxIDType = "ge_vat"
+	CheckoutSessionCustomerDetailsTaxIDTypeHKBR     CheckoutSessionCustomerDetailsTaxIDType = "hk_br"
+	CheckoutSessionCustomerDetailsTaxIDTypeHUTIN    CheckoutSessionCustomerDetailsTaxIDType = "hu_tin"
+	CheckoutSessionCustomerDetailsTaxIDTypeIDNPWP   CheckoutSessionCustomerDetailsTaxIDType = "id_npwp"
+	CheckoutSessionCustomerDetailsTaxIDTypeILVAT    CheckoutSessionCustomerDetailsTaxIDType = "il_vat"
+	CheckoutSessionCustomerDetailsTaxIDTypeINGST    CheckoutSessionCustomerDetailsTaxIDType = "in_gst"
+	CheckoutSessionCustomerDetailsTaxIDTypeISVAT    CheckoutSessionCustomerDetailsTaxIDType = "is_vat"
+	CheckoutSessionCustomerDetailsTaxIDTypeJPCN     CheckoutSessionCustomerDetailsTaxIDType = "jp_cn"
+	CheckoutSessionCustomerDetailsTaxIDTypeJPRN     CheckoutSessionCustomerDetailsTaxIDType = "jp_rn"
+	CheckoutSessionCustomerDetailsTaxIDTypeKRBRN    CheckoutSessionCustomerDetailsTaxIDType = "kr_brn"
+	CheckoutSessionCustomerDetailsTaxIDTypeLIUID    CheckoutSessionCustomerDetailsTaxIDType = "li_uid"
+	CheckoutSessionCustomerDetailsTaxIDTypeMXRFC    CheckoutSessionCustomerDetailsTaxIDType = "mx_rfc"
+	CheckoutSessionCustomerDetailsTaxIDTypeMYFRP    CheckoutSessionCustomerDetailsTaxIDType = "my_frp"
+	CheckoutSessionCustomerDetailsTaxIDTypeMYITN    CheckoutSessionCustomerDetailsTaxIDType = "my_itn"
+	CheckoutSessionCustomerDetailsTaxIDTypeMYSST    CheckoutSessionCustomerDetailsTaxIDType = "my_sst"
+	CheckoutSessionCustomerDetailsTaxIDTypeNOVAT    CheckoutSessionCustomerDetailsTaxIDType = "no_vat"
+	CheckoutSessionCustomerDetailsTaxIDTypeNZGST    CheckoutSessionCustomerDetailsTaxIDType = "nz_gst"
+	CheckoutSessionCustomerDetailsTaxIDTypeRUINN    CheckoutSessionCustomerDetailsTaxIDType = "ru_inn"
+	CheckoutSessionCustomerDetailsTaxIDTypeRUKPP    CheckoutSessionCustomerDetailsTaxIDType = "ru_kpp"
+	CheckoutSessionCustomerDetailsTaxIDTypeSAVAT    CheckoutSessionCustomerDetailsTaxIDType = "sa_vat"
+	CheckoutSessionCustomerDetailsTaxIDTypeSGGST    CheckoutSessionCustomerDetailsTaxIDType = "sg_gst"
+	CheckoutSessionCustomerDetailsTaxIDTypeSGUEN    CheckoutSessionCustomerDetailsTaxIDType = "sg_uen"
+	CheckoutSessionCustomerDetailsTaxIDTypeSITIN    CheckoutSessionCustomerDetailsTaxIDType = "si_tin"
+	CheckoutSessionCustomerDetailsTaxIDTypeTHVAT    CheckoutSessionCustomerDetailsTaxIDType = "th_vat"
+	CheckoutSessionCustomerDetailsTaxIDTypeTWVAT    CheckoutSessionCustomerDetailsTaxIDType = "tw_vat"
+	CheckoutSessionCustomerDetailsTaxIDTypeUAVAT    CheckoutSessionCustomerDetailsTaxIDType = "ua_vat"
+	CheckoutSessionCustomerDetailsTaxIDTypeUnknown  CheckoutSessionCustomerDetailsTaxIDType = "unknown"
+	CheckoutSessionCustomerDetailsTaxIDTypeUSEIN    CheckoutSessionCustomerDetailsTaxIDType = "us_ein"
+	CheckoutSessionCustomerDetailsTaxIDTypeZAVAT    CheckoutSessionCustomerDetailsTaxIDType = "za_vat"
 )
 
 // The mode of the Checkout Session.
@@ -292,8 +290,8 @@ type CheckoutSessionPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddr
 
 // List of values that CheckoutSessionPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressType can take
 const (
-	CheckoutSessionPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressTypeIban     CheckoutSessionPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressType = "iban"
-	CheckoutSessionPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressTypeSepa     CheckoutSessionPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressType = "sepa"
+	CheckoutSessionPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressTypeIBAN     CheckoutSessionPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressType = "iban"
+	CheckoutSessionPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressTypeSEPA     CheckoutSessionPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressType = "sepa"
 	CheckoutSessionPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressTypeSortCode CheckoutSessionPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressType = "sort_code"
 	CheckoutSessionPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressTypeSpei     CheckoutSessionPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressType = "spei"
 	CheckoutSessionPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressTypeZengin   CheckoutSessionPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressType = "zengin"
@@ -383,11 +381,11 @@ const (
 // Providing this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.
 //
 // When processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).
-type CheckoutSessionPaymentMethodOptionsIdealSetupFutureUsage string
+type CheckoutSessionPaymentMethodOptionsIDEALSetupFutureUsage string
 
-// List of values that CheckoutSessionPaymentMethodOptionsIdealSetupFutureUsage can take
+// List of values that CheckoutSessionPaymentMethodOptionsIDEALSetupFutureUsage can take
 const (
-	CheckoutSessionPaymentMethodOptionsIdealSetupFutureUsageNone CheckoutSessionPaymentMethodOptionsIdealSetupFutureUsage = "none"
+	CheckoutSessionPaymentMethodOptionsIDEALSetupFutureUsageNone CheckoutSessionPaymentMethodOptionsIDEALSetupFutureUsage = "none"
 )
 
 // Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -457,13 +455,13 @@ const (
 // Providing this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.
 //
 // When processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).
-type CheckoutSessionPaymentMethodOptionsSepaDebitSetupFutureUsage string
+type CheckoutSessionPaymentMethodOptionsSEPADebitSetupFutureUsage string
 
-// List of values that CheckoutSessionPaymentMethodOptionsSepaDebitSetupFutureUsage can take
+// List of values that CheckoutSessionPaymentMethodOptionsSEPADebitSetupFutureUsage can take
 const (
-	CheckoutSessionPaymentMethodOptionsSepaDebitSetupFutureUsageNone       CheckoutSessionPaymentMethodOptionsSepaDebitSetupFutureUsage = "none"
-	CheckoutSessionPaymentMethodOptionsSepaDebitSetupFutureUsageOffSession CheckoutSessionPaymentMethodOptionsSepaDebitSetupFutureUsage = "off_session"
-	CheckoutSessionPaymentMethodOptionsSepaDebitSetupFutureUsageOnSession  CheckoutSessionPaymentMethodOptionsSepaDebitSetupFutureUsage = "on_session"
+	CheckoutSessionPaymentMethodOptionsSEPADebitSetupFutureUsageNone       CheckoutSessionPaymentMethodOptionsSEPADebitSetupFutureUsage = "none"
+	CheckoutSessionPaymentMethodOptionsSEPADebitSetupFutureUsageOffSession CheckoutSessionPaymentMethodOptionsSEPADebitSetupFutureUsage = "off_session"
+	CheckoutSessionPaymentMethodOptionsSEPADebitSetupFutureUsageOnSession  CheckoutSessionPaymentMethodOptionsSEPADebitSetupFutureUsage = "on_session"
 )
 
 // Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -642,13 +640,10 @@ type CheckoutSessionLineItemPriceDataProductDataParams struct {
 
 // The recurring components of a price such as `interval` and `interval_count`.
 type CheckoutSessionLineItemPriceDataRecurringParams struct {
-	AggregateUsage *string `form:"aggregate_usage"`
 	// Specifies billing frequency. Either `day`, `week`, `month` or `year`.
 	Interval *string `form:"interval"`
 	// The number of intervals between subscription billings. For example, `interval=month` and `interval_count=3` bills every 3 months. Maximum of one year interval allowed (1 year, 12 months, or 52 weeks).
-	IntervalCount   *int64  `form:"interval_count"`
-	TrialPeriodDays *int64  `form:"trial_period_days"`
-	UsageType       *string `form:"usage_type"`
+	IntervalCount *int64 `form:"interval_count"`
 }
 
 // Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline. One of `price` or `price_data` is required.
@@ -713,7 +708,6 @@ type CheckoutSessionPaymentIntentDataTransferDataParams struct {
 
 // A subset of parameters to be passed to PaymentIntent creation for Checkout Sessions in `payment` mode.
 type CheckoutSessionPaymentIntentDataParams struct {
-	Params `form:"*"`
 	// The amount of the application fee (if any) that will be requested to be applied to the payment and transferred to the application owner's Stripe account. The amount of the application fee collected will be capped at the total payment amount. For more information, see the PaymentIntents [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
 	ApplicationFeeAmount *int64 `form:"application_fee_amount"`
 	// Controls when the funds will be captured from the customer's account.
@@ -981,7 +975,7 @@ type CheckoutSessionPaymentMethodOptionsGrabpayParams struct {
 }
 
 // contains details about the Ideal payment method options.
-type CheckoutSessionPaymentMethodOptionsIdealParams struct {
+type CheckoutSessionPaymentMethodOptionsIDEALParams struct {
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// Providing this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.
@@ -1049,7 +1043,7 @@ type CheckoutSessionPaymentMethodOptionsPayNowParams struct {
 }
 
 // contains details about the Sepa Debit payment method options.
-type CheckoutSessionPaymentMethodOptionsSepaDebitParams struct {
+type CheckoutSessionPaymentMethodOptionsSEPADebitParams struct {
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// Providing this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.
@@ -1089,7 +1083,7 @@ type CheckoutSessionPaymentMethodOptionsUSBankAccountParams struct {
 }
 
 // contains details about the WeChat Pay payment method options.
-type CheckoutSessionPaymentMethodOptionsWechatPayParams struct {
+type CheckoutSessionPaymentMethodOptionsWeChatPayParams struct {
 	// The app ID registered with WeChat Pay. Only required when client is ios or android.
 	AppID *string `form:"app_id"`
 	// The client type that the end customer will pay from
@@ -1133,7 +1127,7 @@ type CheckoutSessionPaymentMethodOptionsParams struct {
 	// contains details about the Grabpay payment method options.
 	Grabpay *CheckoutSessionPaymentMethodOptionsGrabpayParams `form:"grabpay"`
 	// contains details about the Ideal payment method options.
-	Ideal *CheckoutSessionPaymentMethodOptionsIdealParams `form:"ideal"`
+	IDEAL *CheckoutSessionPaymentMethodOptionsIDEALParams `form:"ideal"`
 	// contains details about the Klarna payment method options.
 	Klarna *CheckoutSessionPaymentMethodOptionsKlarnaParams `form:"klarna"`
 	// contains details about the Konbini payment method options.
@@ -1145,13 +1139,13 @@ type CheckoutSessionPaymentMethodOptionsParams struct {
 	// contains details about the PayNow payment method options.
 	PayNow *CheckoutSessionPaymentMethodOptionsPayNowParams `form:"paynow"`
 	// contains details about the Sepa Debit payment method options.
-	SepaDebit *CheckoutSessionPaymentMethodOptionsSepaDebitParams `form:"sepa_debit"`
+	SEPADebit *CheckoutSessionPaymentMethodOptionsSEPADebitParams `form:"sepa_debit"`
 	// contains details about the Sofort payment method options.
 	Sofort *CheckoutSessionPaymentMethodOptionsSofortParams `form:"sofort"`
 	// contains details about the Us Bank Account payment method options.
 	USBankAccount *CheckoutSessionPaymentMethodOptionsUSBankAccountParams `form:"us_bank_account"`
 	// contains details about the WeChat Pay payment method options.
-	WechatPay *CheckoutSessionPaymentMethodOptionsWechatPayParams `form:"wechat_pay"`
+	WeChatPay *CheckoutSessionPaymentMethodOptionsWeChatPayParams `form:"wechat_pay"`
 }
 
 // Controls phone number collection settings for the session.
@@ -1165,9 +1159,10 @@ type CheckoutSessionPhoneNumberCollectionParams struct {
 
 // A subset of parameters to be passed to SetupIntent creation for Checkout Sessions in `setup` mode.
 type CheckoutSessionSetupIntentDataParams struct {
-	Params `form:"*"`
 	// An arbitrary string attached to the object. Often useful for displaying to users.
 	Description *string `form:"description"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
 	// The Stripe account for which the setup is intended.
 	OnBehalfOf *string `form:"on_behalf_of"`
 }
@@ -1248,7 +1243,7 @@ type CheckoutSessionShippingOptionParams struct {
 }
 
 // A list of items, each with an attached plan, that the customer is subscribing to. Prefer using `line_items`.
-type CheckoutSessionSubscriptionDataItemsParams struct {
+type CheckoutSessionSubscriptionDataItemParams struct {
 	// Plan ID for this item.
 	Plan *string `form:"plan"`
 	// The quantity of the subscription item being purchased. Quantity should not be defined when `recurring.usage_type=metered`.
@@ -1268,7 +1263,6 @@ type CheckoutSessionSubscriptionDataTransferDataParams struct {
 
 // A subset of parameters to be passed to subscription creation for Checkout Sessions in `subscription` mode.
 type CheckoutSessionSubscriptionDataParams struct {
-	Params `form:"*"`
 	// A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice subtotal that will be transferred to the application owner's Stripe account. To use an application fee percent, the request must be made on behalf of another account, using the `Stripe-Account` header or an OAuth key. For more information, see the application fees [documentation](https://stripe.com/docs/connect/subscriptions#collecting-fees-on-subscriptions).
 	ApplicationFeePercent *float64 `form:"application_fee_percent"`
 	// The ID of the coupon to apply to this subscription. A coupon applied to a subscription will only affect invoices created for that particular subscription.
@@ -1282,7 +1276,7 @@ type CheckoutSessionSubscriptionDataParams struct {
 	// for rendering in Stripe hosted surfaces.
 	Description *string `form:"description"`
 	// A list of items, each with an attached plan, that the customer is subscribing to. Prefer using `line_items`.
-	Items []*CheckoutSessionSubscriptionDataItemsParams `form:"items"`
+	Items []*CheckoutSessionSubscriptionDataItemParams `form:"items"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// If specified, the funds from the subscription's invoices will be transferred to the destination and the ID of the resulting transfers will be found on the resulting charges.
@@ -1413,17 +1407,17 @@ type CheckoutSessionParams struct {
 	TaxIDCollection *CheckoutSessionTaxIDCollectionParams `form:"tax_id_collection"`
 }
 
+// When retrieving a Checkout Session, there is an includable line_items property containing the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of line items.
+type CheckoutSessionListLineItemsParams struct {
+	ListParams `form:"*"`
+	Session    *string `form:"-"` // Included in URL
+}
+
 // A Session can be expired when it is in one of these statuses: open
 //
 // After it expires, a customer can't complete a Session and customers loading the Session see a message saying the Session is expired.
 type CheckoutSessionExpireParams struct {
 	Params `form:"*"`
-}
-
-// When retrieving a Checkout Session, there is an includable line_items property containing the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of line items.
-type CheckoutSessionListLineItemsParams struct {
-	ListParams `form:"*"`
-	Session    *string `form:"-"` // Included in URL
 }
 
 // When set, configuration used to recover the Checkout Session on expiry.
@@ -1468,9 +1462,9 @@ type CheckoutSessionConsentCollection struct {
 }
 
 // The customer's tax IDs after a completed Checkout Session.
-type CheckoutSessionCustomerDetailsTaxIDs struct {
+type CheckoutSessionCustomerDetailsTaxID struct {
 	// The type of the tax ID, one of `eu_vat`, `br_cnpj`, `br_cpf`, `eu_oss_vat`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `li_uid`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, or `unknown`
-	Type CheckoutSessionCustomerDetailsTaxIDsType `json:"type"`
+	Type CheckoutSessionCustomerDetailsTaxIDType `json:"type"`
 	// The value of the tax ID.
 	Value string `json:"value"`
 }
@@ -1489,7 +1483,7 @@ type CheckoutSessionCustomerDetails struct {
 	// The customer's tax exempt status after a completed Checkout Session.
 	TaxExempt CheckoutSessionCustomerDetailsTaxExempt `json:"tax_exempt"`
 	// The customer's tax IDs after a completed Checkout Session.
-	TaxIDs []*CheckoutSessionCustomerDetailsTaxIDs `json:"tax_ids"`
+	TaxIDs []*CheckoutSessionCustomerDetailsTaxID `json:"tax_ids"`
 }
 type CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptions struct {
 	// A URL for custom mandate text
@@ -1646,13 +1640,13 @@ type CheckoutSessionPaymentMethodOptionsGrabpay struct {
 	// When processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).
 	SetupFutureUsage CheckoutSessionPaymentMethodOptionsGrabpaySetupFutureUsage `json:"setup_future_usage"`
 }
-type CheckoutSessionPaymentMethodOptionsIdeal struct {
+type CheckoutSessionPaymentMethodOptionsIDEAL struct {
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// Providing this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.
 	//
 	// When processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).
-	SetupFutureUsage CheckoutSessionPaymentMethodOptionsIdealSetupFutureUsage `json:"setup_future_usage"`
+	SetupFutureUsage CheckoutSessionPaymentMethodOptionsIDEALSetupFutureUsage `json:"setup_future_usage"`
 }
 type CheckoutSessionPaymentMethodOptionsKlarna struct {
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -1698,13 +1692,13 @@ type CheckoutSessionPaymentMethodOptionsPayNow struct {
 	// When processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).
 	SetupFutureUsage CheckoutSessionPaymentMethodOptionsPayNowSetupFutureUsage `json:"setup_future_usage"`
 }
-type CheckoutSessionPaymentMethodOptionsSepaDebit struct {
+type CheckoutSessionPaymentMethodOptionsSEPADebit struct {
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// Providing this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.
 	//
 	// When processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).
-	SetupFutureUsage CheckoutSessionPaymentMethodOptionsSepaDebitSetupFutureUsage `json:"setup_future_usage"`
+	SetupFutureUsage CheckoutSessionPaymentMethodOptionsSEPADebitSetupFutureUsage `json:"setup_future_usage"`
 }
 type CheckoutSessionPaymentMethodOptionsSofort struct {
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -1748,13 +1742,13 @@ type CheckoutSessionPaymentMethodOptions struct {
 	FPX              *CheckoutSessionPaymentMethodOptionsFPX              `json:"fpx"`
 	Giropay          *CheckoutSessionPaymentMethodOptionsGiropay          `json:"giropay"`
 	Grabpay          *CheckoutSessionPaymentMethodOptionsGrabpay          `json:"grabpay"`
-	Ideal            *CheckoutSessionPaymentMethodOptionsIdeal            `json:"ideal"`
+	IDEAL            *CheckoutSessionPaymentMethodOptionsIDEAL            `json:"ideal"`
 	Klarna           *CheckoutSessionPaymentMethodOptionsKlarna           `json:"klarna"`
 	Konbini          *CheckoutSessionPaymentMethodOptionsKonbini          `json:"konbini"`
 	OXXO             *CheckoutSessionPaymentMethodOptionsOXXO             `json:"oxxo"`
 	P24              *CheckoutSessionPaymentMethodOptionsP24              `json:"p24"`
 	PayNow           *CheckoutSessionPaymentMethodOptionsPayNow           `json:"paynow"`
-	SepaDebit        *CheckoutSessionPaymentMethodOptionsSepaDebit        `json:"sepa_debit"`
+	SEPADebit        *CheckoutSessionPaymentMethodOptionsSEPADebit        `json:"sepa_debit"`
 	Sofort           *CheckoutSessionPaymentMethodOptionsSofort           `json:"sofort"`
 	USBankAccount    *CheckoutSessionPaymentMethodOptionsUSBankAccount    `json:"us_bank_account"`
 }
@@ -1824,8 +1818,7 @@ type CheckoutSessionTotalDetailsBreakdownTax struct {
 	// Tax rates can be applied to [invoices](https://stripe.com/docs/billing/invoices/tax-rates), [subscriptions](https://stripe.com/docs/billing/subscriptions/taxes) and [Checkout Sessions](https://stripe.com/docs/payments/checkout/set-up-a-subscription#tax-rates) to collect tax.
 	//
 	// Related guide: [Tax Rates](https://stripe.com/docs/billing/taxes/tax-rates).
-	Rate    *TaxRate `json:"rate"`
-	TaxRate *TaxRate `json:"tax_rate"` // Do not use: use `Rate`
+	Rate *TaxRate `json:"rate"`
 }
 type CheckoutSessionTotalDetailsBreakdown struct {
 	// The aggregated discounts.
@@ -1900,7 +1893,6 @@ type CheckoutSession struct {
 	// on file. To access information about the customer once the payment flow is
 	// complete, use the `customer` attribute.
 	CustomerEmail string `json:"customer_email"`
-	Deleted       bool   `json:"deleted"`
 	// The timestamp at which the Checkout Session will expire.
 	ExpiresAt int64 `json:"expires_at"`
 	// Unique identifier for the object. Used to pass to `redirectToCheckout`
@@ -1960,25 +1952,6 @@ type CheckoutSession struct {
 	TotalDetails *CheckoutSessionTotalDetails `json:"total_details"`
 	// The URL to the Checkout Session. Redirect customers to this URL to take them to Checkout. If you're using [Custom Domains](https://stripe.com/docs/payments/checkout/custom-domains), the URL will use your subdomain. Otherwise, it'll use `checkout.stripe.com.`
 	URL string `json:"url"`
-}
-
-// UnmarshalJSON handles deserialization of a CheckoutSession.
-// This custom unmarshaling is needed because the resulting
-// property may be an id or the full struct if it was expanded.
-func (c *CheckoutSession) UnmarshalJSON(data []byte) error {
-	if id, ok := ParseID(data); ok {
-		c.ID = id
-		return nil
-	}
-
-	type checkoutSession CheckoutSession
-	var v checkoutSession
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-
-	*c = CheckoutSession(v)
-	return nil
 }
 
 // CheckoutSessionList is a list of Sessions as retrieved from a list endpoint.

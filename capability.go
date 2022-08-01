@@ -6,8 +6,6 @@
 
 package stripe
 
-import "encoding/json"
-
 // If the capability is disabled, this string describes why. Can be `requirements.past_due`, `requirements.pending_verification`, `listed`, `platform_paused`, `rejected.fraud`, `rejected.listed`, `rejected.terms_of_service`, `rejected.other`, `under_review`, or `other`.
 //
 // `rejected.unsupported_business` means that the account's business is not supported by the capability. For example, payment methods may restrict the businesses they support in their terms of service:
@@ -147,23 +145,4 @@ type CapabilityList struct {
 	APIResource
 	ListMeta
 	Data []*Capability `json:"data"`
-}
-
-// UnmarshalJSON handles deserialization of a Capability.
-// This custom unmarshaling is needed because the resulting
-// property may be an id or the full struct if it was expanded.
-func (c *Capability) UnmarshalJSON(data []byte) error {
-	if id, ok := ParseID(data); ok {
-		c.ID = id
-		return nil
-	}
-
-	type capability Capability
-	var v capability
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-
-	*c = Capability(v)
-	return nil
 }
