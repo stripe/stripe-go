@@ -364,7 +364,7 @@ type InvoiceParams struct {
 	Paid       *bool   `form:"paid"`
 	// Configuration settings for the PaymentIntent that is generated when the invoice is finalized.
 	PaymentSettings *InvoicePaymentSettingsParams `form:"payment_settings"`
-	// How to handle pending invoice items on invoice creation. One of `include`, `exclude`, or `include_and_require`. `include` will include any pending invoice items, and will create an empty draft invoice if no pending invoice items exist. `include_and_require` will include any pending invoice items, if no pending invoice items exist then the request will fail. `exclude` will always create an empty invoice draft regardless if there are pending invoice items or not. Defaults to `include_and_require` if the parameter is omitted.
+	// How to handle pending invoice items on invoice creation. One of `include` or `exclude`. `include` will include any pending invoice items, and will create an empty draft invoice if no pending invoice items exist. `exclude` will always create an empty invoice draft regardless if there are pending invoice items or not. Defaults to `exclude` if the parameter is omitted.
 	PendingInvoiceItemsBehavior *string `form:"pending_invoice_items_behavior"`
 	// Options for invoice PDF rendering.
 	RenderingOptions *InvoiceRenderingOptionsParams `form:"rendering_options"`

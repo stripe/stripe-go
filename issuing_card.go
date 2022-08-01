@@ -13,8 +13,9 @@ type IssuingCardCancellationReason string
 
 // List of values that IssuingCardCancellationReason can take
 const (
-	IssuingCardCancellationReasonLost   IssuingCardCancellationReason = "lost"
-	IssuingCardCancellationReasonStolen IssuingCardCancellationReason = "stolen"
+	IssuingCardCancellationReasonDesignRejected IssuingCardCancellationReason = "design_rejected"
+	IssuingCardCancellationReasonLost           IssuingCardCancellationReason = "lost"
+	IssuingCardCancellationReasonStolen         IssuingCardCancellationReason = "stolen"
 )
 
 // The reason why the previous card needed to be replaced.
