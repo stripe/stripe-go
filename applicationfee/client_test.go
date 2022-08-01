@@ -1,4 +1,4 @@
-package fee
+package applicationfee
 
 import (
 	"testing"

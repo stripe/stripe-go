@@ -12,6 +12,7 @@ import (
 	"github.com/stripe/stripe-go/v72/account"
 	"github.com/stripe/stripe-go/v72/accountlink"
 	"github.com/stripe/stripe-go/v72/applepaydomain"
+	"github.com/stripe/stripe-go/v72/applicationfee"
 	appssecret "github.com/stripe/stripe-go/v72/apps/secret"
 	"github.com/stripe/stripe-go/v72/balance"
 	"github.com/stripe/stripe-go/v72/balancetransaction"
@@ -28,11 +29,9 @@ import (
 	"github.com/stripe/stripe-go/v72/creditnote"
 	"github.com/stripe/stripe-go/v72/customer"
 	"github.com/stripe/stripe-go/v72/customerbalancetransaction"
-	"github.com/stripe/stripe-go/v72/discount"
 	"github.com/stripe/stripe-go/v72/dispute"
 	"github.com/stripe/stripe-go/v72/ephemeralkey"
 	"github.com/stripe/stripe-go/v72/event"
-	"github.com/stripe/stripe-go/v72/fee"
 	"github.com/stripe/stripe-go/v72/feerefund"
 	"github.com/stripe/stripe-go/v72/file"
 	"github.com/stripe/stripe-go/v72/filelink"
@@ -50,8 +49,6 @@ import (
 	"github.com/stripe/stripe-go/v72/loginlink"
 	"github.com/stripe/stripe-go/v72/mandate"
 	"github.com/stripe/stripe-go/v72/oauth"
-	"github.com/stripe/stripe-go/v72/order"
-	"github.com/stripe/stripe-go/v72/orderreturn"
 	"github.com/stripe/stripe-go/v72/paymentintent"
 	"github.com/stripe/stripe-go/v72/paymentlink"
 	"github.com/stripe/stripe-go/v72/paymentmethod"
@@ -69,7 +66,6 @@ import (
 	"github.com/stripe/stripe-go/v72/refund"
 	reportingreportrun "github.com/stripe/stripe-go/v72/reporting/reportrun"
 	reportingreporttype "github.com/stripe/stripe-go/v72/reporting/reporttype"
-	"github.com/stripe/stripe-go/v72/reversal"
 	"github.com/stripe/stripe-go/v72/review"
 	"github.com/stripe/stripe-go/v72/setupattempt"
 	"github.com/stripe/stripe-go/v72/setupintent"
@@ -78,9 +74,9 @@ import (
 	"github.com/stripe/stripe-go/v72/sku"
 	"github.com/stripe/stripe-go/v72/source"
 	"github.com/stripe/stripe-go/v72/sourcetransaction"
-	"github.com/stripe/stripe-go/v72/sub"
-	"github.com/stripe/stripe-go/v72/subitem"
-	"github.com/stripe/stripe-go/v72/subschedule"
+	"github.com/stripe/stripe-go/v72/subscription"
+	"github.com/stripe/stripe-go/v72/subscriptionitem"
+	"github.com/stripe/stripe-go/v72/subscriptionschedule"
 	"github.com/stripe/stripe-go/v72/taxcode"
 	"github.com/stripe/stripe-go/v72/taxid"
 	"github.com/stripe/stripe-go/v72/taxrate"
@@ -101,6 +97,7 @@ import (
 	"github.com/stripe/stripe-go/v72/token"
 	"github.com/stripe/stripe-go/v72/topup"
 	"github.com/stripe/stripe-go/v72/transfer"
+	"github.com/stripe/stripe-go/v72/transferreversal"
 	treasurycreditreversal "github.com/stripe/stripe-go/v72/treasury/creditreversal"
 	treasurydebitreversal "github.com/stripe/stripe-go/v72/treasury/debitreversal"
 	treasuryfinancialaccount "github.com/stripe/stripe-go/v72/treasury/financialaccount"
@@ -118,18 +115,20 @@ import (
 
 // API is the Stripe client. It contains all the different resources available.
 type API struct {
-	// Account is the client used to invoke /accounts APIs.
-	Account *account.Client
 	// AccountLinks is the client used to invoke /account_links APIs.
 	AccountLinks *accountlink.Client
+	// Accounts is the client used to invoke /accounts APIs.
+	Accounts *account.Client
 	// ApplePayDomains is the client used to invoke /apple_pay/domains APIs.
 	ApplePayDomains *applepaydomain.Client
+	// ApplicationFees is the client used to invoke /application_fees APIs.
+	ApplicationFees *applicationfee.Client
 	// AppsSecrets is the client used to invoke /apps/secrets APIs.
 	AppsSecrets *appssecret.Client
 	// Balance is the client used to invoke /balance APIs.
 	Balance *balance.Client
-	// BalanceTransaction is the client used to invoke /balance_transactions APIs.
-	BalanceTransaction *balancetransaction.Client
+	// BalanceTransactions is the client used to invoke /balance_transactions APIs.
+	BalanceTransactions *balancetransaction.Client
 	// BankAccounts is the client used to invoke bankaccount related APIs.
 	BankAccounts *bankaccount.Client
 	// BillingPortalConfigurations is the client used to invoke /billing_portal/configurations APIs.
@@ -146,8 +145,8 @@ type API struct {
 	Charges *charge.Client
 	// CheckoutSessions is the client used to invoke /checkout/sessions APIs.
 	CheckoutSessions *checkoutsession.Client
-	// CountrySpec is the client used to invoke /country_specs APIs.
-	CountrySpec *countryspec.Client
+	// CountrySpecs is the client used to invoke /country_specs APIs.
+	CountrySpecs *countryspec.Client
 	// Coupons is the client used to invoke /coupons APIs.
 	Coupons *coupon.Client
 	// CreditNotes is the client used to invoke /credit_notes APIs.
@@ -156,8 +155,6 @@ type API struct {
 	CustomerBalanceTransactions *customerbalancetransaction.Client
 	// Customers is the client used to invoke /customers APIs.
 	Customers *customer.Client
-	// Discounts is the client used to invoke discount related APIs.
-	Discounts *discount.Client
 	// Disputes is the client used to invoke /disputes APIs.
 	Disputes *dispute.Client
 	// EphemeralKeys is the client used to invoke /ephemeral_keys APIs.
@@ -166,8 +163,6 @@ type API struct {
 	Events *event.Client
 	// FeeRefunds is the client used to invoke /application_fees/{id}/refunds APIs.
 	FeeRefunds *feerefund.Client
-	// Fees is the client used to invoke /application_fees APIs.
-	Fees *fee.Client
 	// FileLinks is the client used to invoke /file_links APIs.
 	FileLinks *filelink.Client
 	// Files is the client used to invoke /files APIs.
@@ -200,18 +195,14 @@ type API struct {
 	Mandates *mandate.Client
 	// OAuth is the client used to invoke /oauth APIs
 	OAuth *oauth.Client
-	// OrderReturns is the client used to invoke /order_returns APIs.
-	OrderReturns *orderreturn.Client
-	// Orders is the client used to invoke /orders APIs.
-	Orders *order.Client
 	// PaymentIntents is the client used to invoke /payment_intents APIs.
 	PaymentIntents *paymentintent.Client
 	// PaymentLinks is the client used to invoke /payment_links APIs.
 	PaymentLinks *paymentlink.Client
 	// PaymentMethods is the client used to invoke /payment_methods APIs.
 	PaymentMethods *paymentmethod.Client
-	// PaymentSource is the client used to invoke /customers/{customer}/sources APIs.
-	PaymentSource *paymentsource.Client
+	// PaymentSources is the client used to invoke /customers/{customer}/sources APIs.
+	PaymentSources *paymentsource.Client
 	// Payouts is the client used to invoke /payouts APIs.
 	Payouts *payout.Client
 	// Persons is the client used to invoke /accounts/{account}/persons APIs.
@@ -234,12 +225,10 @@ type API struct {
 	RadarValueLists *radarvaluelist.Client
 	// Refunds is the client used to invoke /refunds APIs.
 	Refunds *refund.Client
-	// ReportRuns is the client used to invoke /reporting/report_runs APIs.
-	ReportRuns *reportingreportrun.Client
-	// ReportTypes is the client used to invoke /reporting/report_types APIs.
-	ReportTypes *reportingreporttype.Client
-	// Reversals is the client used to invoke /transfers/{id}/reversals APIs.
-	Reversals *reversal.Client
+	// ReportingReportRuns is the client used to invoke /reporting/report_runs APIs.
+	ReportingReportRuns *reportingreportrun.Client
+	// ReportingReportTypes is the client used to invoke /reporting/report_types APIs.
+	ReportingReportTypes *reportingreporttype.Client
 	// Reviews is the client used to invoke /reviews APIs.
 	Reviews *review.Client
 	// SetupAttempts is the client used to invoke /setup_attempts APIs.
@@ -257,11 +246,11 @@ type API struct {
 	// SourceTransactions is the client used to invoke sourcetransaction related APIs.
 	SourceTransactions *sourcetransaction.Client
 	// SubscriptionItems is the client used to invoke /subscription_items APIs.
-	SubscriptionItems *subitem.Client
+	SubscriptionItems *subscriptionitem.Client
 	// Subscriptions is the client used to invoke /subscriptions APIs.
-	Subscriptions *sub.Client
+	Subscriptions *subscription.Client
 	// SubscriptionSchedules is the client used to invoke /subscription_schedules APIs.
-	SubscriptionSchedules *subschedule.Client
+	SubscriptionSchedules *subscriptionschedule.Client
 	// TaxCodes is the client used to invoke /tax_codes APIs.
 	TaxCodes *taxcode.Client
 	// TaxIDs is the client used to invoke /customers/{customer}/tax_ids APIs.
@@ -300,6 +289,8 @@ type API struct {
 	Tokens *token.Client
 	// Topups is the client used to invoke /topups APIs.
 	Topups *topup.Client
+	// TransferReversals is the client used to invoke /transfers/{id}/reversals APIs.
+	TransferReversals *transferreversal.Client
 	// Transfers is the client used to invoke /transfers APIs.
 	Transfers *transfer.Client
 	// TreasuryCreditReversals is the client used to invoke /treasury/credit_reversals APIs.
@@ -340,12 +331,13 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 		}
 	}
 
-	a.Account = &account.Client{B: backends.API, Key: key}
 	a.AccountLinks = &accountlink.Client{B: backends.API, Key: key}
+	a.Accounts = &account.Client{B: backends.API, Key: key}
 	a.ApplePayDomains = &applepaydomain.Client{B: backends.API, Key: key}
+	a.ApplicationFees = &applicationfee.Client{B: backends.API, Key: key}
 	a.AppsSecrets = &appssecret.Client{B: backends.API, Key: key}
 	a.Balance = &balance.Client{B: backends.API, Key: key}
-	a.BalanceTransaction = &balancetransaction.Client{B: backends.API, Key: key}
+	a.BalanceTransactions = &balancetransaction.Client{B: backends.API, Key: key}
 	a.BankAccounts = &bankaccount.Client{B: backends.API, Key: key}
 	a.BillingPortalConfigurations = &billingportalconfiguration.Client{B: backends.API, Key: key}
 	a.BillingPortalSessions = &billingportalsession.Client{B: backends.API, Key: key}
@@ -354,17 +346,15 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.CashBalances = &cashbalance.Client{B: backends.API, Key: key}
 	a.Charges = &charge.Client{B: backends.API, Key: key}
 	a.CheckoutSessions = &checkoutsession.Client{B: backends.API, Key: key}
-	a.CountrySpec = &countryspec.Client{B: backends.API, Key: key}
+	a.CountrySpecs = &countryspec.Client{B: backends.API, Key: key}
 	a.Coupons = &coupon.Client{B: backends.API, Key: key}
 	a.CreditNotes = &creditnote.Client{B: backends.API, Key: key}
 	a.CustomerBalanceTransactions = &customerbalancetransaction.Client{B: backends.API, Key: key}
 	a.Customers = &customer.Client{B: backends.API, Key: key}
-	a.Discounts = &discount.Client{B: backends.API, Key: key}
 	a.Disputes = &dispute.Client{B: backends.API, Key: key}
 	a.EphemeralKeys = &ephemeralkey.Client{B: backends.API, Key: key}
 	a.Events = &event.Client{B: backends.API, Key: key}
 	a.FeeRefunds = &feerefund.Client{B: backends.API, Key: key}
-	a.Fees = &fee.Client{B: backends.API, Key: key}
 	a.FileLinks = &filelink.Client{B: backends.API, Key: key}
 	a.Files = &file.Client{B: backends.Uploads, Key: key}
 	a.FinancialConnectionsAccounts = &financialconnectionsaccount.Client{B: backends.API, Key: key}
@@ -381,12 +371,10 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.LoginLinks = &loginlink.Client{B: backends.API, Key: key}
 	a.Mandates = &mandate.Client{B: backends.API, Key: key}
 	a.OAuth = &oauth.Client{B: backends.Connect, Key: key}
-	a.OrderReturns = &orderreturn.Client{B: backends.API, Key: key}
-	a.Orders = &order.Client{B: backends.API, Key: key}
 	a.PaymentIntents = &paymentintent.Client{B: backends.API, Key: key}
 	a.PaymentLinks = &paymentlink.Client{B: backends.API, Key: key}
 	a.PaymentMethods = &paymentmethod.Client{B: backends.API, Key: key}
-	a.PaymentSource = &paymentsource.Client{B: backends.API, Key: key}
+	a.PaymentSources = &paymentsource.Client{B: backends.API, Key: key}
 	a.Payouts = &payout.Client{B: backends.API, Key: key}
 	a.Persons = &person.Client{B: backends.API, Key: key}
 	a.Plans = &plan.Client{B: backends.API, Key: key}
@@ -398,9 +386,8 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.RadarValueListItems = &radarvaluelistitem.Client{B: backends.API, Key: key}
 	a.RadarValueLists = &radarvaluelist.Client{B: backends.API, Key: key}
 	a.Refunds = &refund.Client{B: backends.API, Key: key}
-	a.ReportRuns = &reportingreportrun.Client{B: backends.API, Key: key}
-	a.ReportTypes = &reportingreporttype.Client{B: backends.API, Key: key}
-	a.Reversals = &reversal.Client{B: backends.API, Key: key}
+	a.ReportingReportRuns = &reportingreportrun.Client{B: backends.API, Key: key}
+	a.ReportingReportTypes = &reportingreporttype.Client{B: backends.API, Key: key}
 	a.Reviews = &review.Client{B: backends.API, Key: key}
 	a.SetupAttempts = &setupattempt.Client{B: backends.API, Key: key}
 	a.SetupIntents = &setupintent.Client{B: backends.API, Key: key}
@@ -409,9 +396,9 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.Skus = &sku.Client{B: backends.API, Key: key}
 	a.Sources = &source.Client{B: backends.API, Key: key}
 	a.SourceTransactions = &sourcetransaction.Client{B: backends.API, Key: key}
-	a.SubscriptionItems = &subitem.Client{B: backends.API, Key: key}
-	a.Subscriptions = &sub.Client{B: backends.API, Key: key}
-	a.SubscriptionSchedules = &subschedule.Client{B: backends.API, Key: key}
+	a.SubscriptionItems = &subscriptionitem.Client{B: backends.API, Key: key}
+	a.Subscriptions = &subscription.Client{B: backends.API, Key: key}
+	a.SubscriptionSchedules = &subscriptionschedule.Client{B: backends.API, Key: key}
 	a.TaxCodes = &taxcode.Client{B: backends.API, Key: key}
 	a.TaxIDs = &taxid.Client{B: backends.API, Key: key}
 	a.TaxRates = &taxrate.Client{B: backends.API, Key: key}
@@ -431,6 +418,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.TestHelpersTreasuryReceivedDebits = &testhelperstreasuryreceiveddebit.Client{B: backends.API, Key: key}
 	a.Tokens = &token.Client{B: backends.API, Key: key}
 	a.Topups = &topup.Client{B: backends.API, Key: key}
+	a.TransferReversals = &transferreversal.Client{B: backends.API, Key: key}
 	a.Transfers = &transfer.Client{B: backends.API, Key: key}
 	a.TreasuryCreditReversals = &treasurycreditreversal.Client{B: backends.API, Key: key}
 	a.TreasuryDebitReversals = &treasurydebitreversal.Client{B: backends.API, Key: key}

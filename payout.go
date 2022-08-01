@@ -135,14 +135,12 @@ type Payout struct {
 	Automatic bool `json:"automatic"`
 	// ID of the balance transaction that describes the impact of this payout on your account balance.
 	BalanceTransaction *BalanceTransaction `json:"balance_transaction"`
-	BankAccount        *BankAccount        `json:"bank_account"`
-	Card               *Card               `json:"card"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
 	Created int64 `json:"created"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency Currency `json:"currency"`
 	// An arbitrary string attached to the object. Often useful for displaying to users.
-	Description *string `json:"description"`
+	Description string `json:"description"`
 	// ID of the bank account or card the payout was sent to.
 	Destination *PayoutDestination `json:"destination"`
 	// If the payout failed or was canceled, this will be the ID of the balance transaction that reversed the initial balance transaction, and puts the funds from the failed payout back in your balance.

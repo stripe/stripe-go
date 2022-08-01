@@ -100,8 +100,8 @@ type SubscriptionPaymentSettingsPaymentMethodType string
 
 // List of values that SubscriptionPaymentSettingsPaymentMethodType can take
 const (
-	SubscriptionPaymentSettingsPaymentMethodTypeAchCreditTransfer  SubscriptionPaymentSettingsPaymentMethodType = "ach_credit_transfer"
-	SubscriptionPaymentSettingsPaymentMethodTypeAchDebit           SubscriptionPaymentSettingsPaymentMethodType = "ach_debit"
+	SubscriptionPaymentSettingsPaymentMethodTypeACHCreditTransfer  SubscriptionPaymentSettingsPaymentMethodType = "ach_credit_transfer"
+	SubscriptionPaymentSettingsPaymentMethodTypeACHDebit           SubscriptionPaymentSettingsPaymentMethodType = "ach_debit"
 	SubscriptionPaymentSettingsPaymentMethodTypeACSSDebit          SubscriptionPaymentSettingsPaymentMethodType = "acss_debit"
 	SubscriptionPaymentSettingsPaymentMethodTypeAUBECSDebit        SubscriptionPaymentSettingsPaymentMethodType = "au_becs_debit"
 	SubscriptionPaymentSettingsPaymentMethodTypeBACSDebit          SubscriptionPaymentSettingsPaymentMethodType = "bacs_debit"
@@ -112,37 +112,16 @@ const (
 	SubscriptionPaymentSettingsPaymentMethodTypeFPX                SubscriptionPaymentSettingsPaymentMethodType = "fpx"
 	SubscriptionPaymentSettingsPaymentMethodTypeGiropay            SubscriptionPaymentSettingsPaymentMethodType = "giropay"
 	SubscriptionPaymentSettingsPaymentMethodTypeGrabpay            SubscriptionPaymentSettingsPaymentMethodType = "grabpay"
-	SubscriptionPaymentSettingsPaymentMethodTypeIdeal              SubscriptionPaymentSettingsPaymentMethodType = "ideal"
+	SubscriptionPaymentSettingsPaymentMethodTypeIDEAL              SubscriptionPaymentSettingsPaymentMethodType = "ideal"
 	SubscriptionPaymentSettingsPaymentMethodTypeKonbini            SubscriptionPaymentSettingsPaymentMethodType = "konbini"
 	SubscriptionPaymentSettingsPaymentMethodTypeLink               SubscriptionPaymentSettingsPaymentMethodType = "link"
 	SubscriptionPaymentSettingsPaymentMethodTypePayNow             SubscriptionPaymentSettingsPaymentMethodType = "paynow"
 	SubscriptionPaymentSettingsPaymentMethodTypePromptPay          SubscriptionPaymentSettingsPaymentMethodType = "promptpay"
-	SubscriptionPaymentSettingsPaymentMethodTypeSepaCreditTransfer SubscriptionPaymentSettingsPaymentMethodType = "sepa_credit_transfer"
-	SubscriptionPaymentSettingsPaymentMethodTypeSepaDebit          SubscriptionPaymentSettingsPaymentMethodType = "sepa_debit"
+	SubscriptionPaymentSettingsPaymentMethodTypeSEPACreditTransfer SubscriptionPaymentSettingsPaymentMethodType = "sepa_credit_transfer"
+	SubscriptionPaymentSettingsPaymentMethodTypeSEPADebit          SubscriptionPaymentSettingsPaymentMethodType = "sepa_debit"
 	SubscriptionPaymentSettingsPaymentMethodTypeSofort             SubscriptionPaymentSettingsPaymentMethodType = "sofort"
 	SubscriptionPaymentSettingsPaymentMethodTypeUSBankAccount      SubscriptionPaymentSettingsPaymentMethodType = "us_bank_account"
-	SubscriptionPaymentSettingsPaymentMethodTypeWechatPay          SubscriptionPaymentSettingsPaymentMethodType = "wechat_pay"
-)
-
-// SubscriptionPaymentBehavior lets you control the behavior of subscription creation in case of
-// a failed payment.
-type SubscriptionPaymentBehavior string
-
-// List of values that SubscriptionPaymentBehavior can take.
-const (
-	SubscriptionPaymentBehaviorAllowIncomplete     SubscriptionPaymentBehavior = "allow_incomplete"
-	SubscriptionPaymentBehaviorErrorIfIncomplete   SubscriptionPaymentBehavior = "error_if_incomplete"
-	SubscriptionPaymentBehaviorPendingIfIncomplete SubscriptionPaymentBehavior = "pending_if_incomplete"
-)
-
-// SubscriptionProrationBehavior determines how to handle prorations when billing cycles change.
-type SubscriptionProrationBehavior string
-
-// List of values that SubscriptionProrationBehavior can take.
-const (
-	SubscriptionProrationBehaviorAlwaysInvoice    SubscriptionProrationBehavior = "always_invoice"
-	SubscriptionProrationBehaviorCreateProrations SubscriptionProrationBehavior = "create_prorations"
-	SubscriptionProrationBehaviorNone             SubscriptionProrationBehavior = "none"
+	SubscriptionPaymentSettingsPaymentMethodTypeWeChatPay          SubscriptionPaymentSettingsPaymentMethodType = "wechat_pay"
 )
 
 // Either `off`, or `on_subscription`. With `on_subscription` Stripe updates `subscription.default_payment_method` when a subscription payment succeeds.
@@ -179,7 +158,6 @@ type SubscriptionStatus string
 // List of values that SubscriptionStatus can take
 const (
 	SubscriptionStatusActive            SubscriptionStatus = "active"
-	SubscriptionStatusAll               SubscriptionStatus = "all"
 	SubscriptionStatusCanceled          SubscriptionStatus = "canceled"
 	SubscriptionStatusIncomplete        SubscriptionStatus = "incomplete"
 	SubscriptionStatusIncompleteExpired SubscriptionStatus = "incomplete_expired"
@@ -203,20 +181,20 @@ type SubscriptionListParams struct {
 	ListParams `form:"*"`
 	// The collection method of the subscriptions to retrieve. Either `charge_automatically` or `send_invoice`.
 	CollectionMethod        *string           `form:"collection_method"`
-	Created                 int64             `form:"created"`
+	Created                 *int64            `form:"created"`
 	CreatedRange            *RangeQueryParams `form:"created"`
 	CurrentPeriodEnd        *int64            `form:"current_period_end"`
 	CurrentPeriodEndRange   *RangeQueryParams `form:"current_period_end"`
 	CurrentPeriodStart      *int64            `form:"current_period_start"`
 	CurrentPeriodStartRange *RangeQueryParams `form:"current_period_start"`
 	// The ID of the customer whose subscriptions will be retrieved.
-	Customer string `form:"customer"`
+	Customer *string `form:"customer"`
 	// The ID of the plan whose subscriptions will be retrieved.
-	Plan string `form:"plan"`
+	Plan *string `form:"plan"`
 	// Filter for subscriptions that contain this recurring price ID.
-	Price string `form:"price"`
+	Price *string `form:"price"`
 	// The status of the subscriptions to retrieve. Passing in a value of `canceled` will return all canceled subscriptions, including those belonging to deleted customers. Pass `ended` to find subscriptions that are canceled and subscriptions that are expired due to [incomplete payment](https://stripe.com/docs/billing/subscriptions/overview#subscription-statuses). Passing in a value of `all` will return subscriptions of all statuses. If no value is supplied, all subscriptions that have not been canceled are returned.
-	Status string `form:"status"`
+	Status *string `form:"status"`
 	// Filter for subscriptions that are associated with the specified test clock. The response will not include subscriptions with test clocks if this and the customer parameter is not set.
 	TestClock *string `form:"test_clock"`
 }
@@ -417,8 +395,7 @@ type SubscriptionParams struct {
 	// A timestamp at which the subscription should cancel. If set to a date before the current period ends, this will cause a proration if prorations have been enabled using `proration_behavior`. If set during a future period, this will always cause a proration for that period.
 	CancelAt *int64 `form:"cancel_at"`
 	// Boolean indicating whether this subscription should cancel at the end of the current period.
-	CancelAtPeriodEnd *bool       `form:"cancel_at_period_end"`
-	Card              *CardParams `form:"card"`
+	CancelAtPeriodEnd *bool `form:"cancel_at_period_end"`
 	// Either `charge_automatically`, or `send_invoice`. When charging automatically, Stripe will attempt to pay this subscription at the end of the cycle using the default source attached to the customer. When sending an invoice, Stripe will email your customer an invoice with payment instructions. Defaults to `charge_automatically`.
 	CollectionMethod *string `form:"collection_method"`
 	// The ID of the coupon to apply to this subscription. A coupon applied to a subscription will only affect invoices created for that particular subscription.
@@ -456,14 +433,12 @@ type SubscriptionParams struct {
 	PaymentSettings *SubscriptionPaymentSettingsParams `form:"payment_settings"`
 	// Specifies an interval for how often to bill for any pending invoice items. It is analogous to calling [Create an invoice](https://stripe.com/docs/api#create_invoice) for the given subscription at the specified interval.
 	PendingInvoiceItemInterval *SubscriptionPendingInvoiceItemIntervalParams `form:"pending_invoice_item_interval"`
-	Plan                       *string                                       `form:"plan"`
 	// The promotion code to apply to this subscription. A promotion code applied to a subscription will only affect invoices created for that particular subscription.
 	PromotionCode *string `form:"promotion_code"`
 	// Determines how to handle [prorations](https://stripe.com/docs/subscriptions/billing-cycle#prorations) when the billing cycle changes (e.g., when switching plans, resetting `billing_cycle_anchor=now`, or starting a trial), or if an item's `quantity` changes.
 	ProrationBehavior *string `form:"proration_behavior"`
 	// If set, the proration will be calculated as though the subscription was updated at the given time. This can be used to apply exactly the same proration that was previewed with [upcoming invoice](https://stripe.com/docs/api#retrieve_customer_invoice) endpoint. It can also be used to implement custom proration logic, such as prorating by day instead of by second, by providing the time that you wish to use for proration calculations.
 	ProrationDate *int64 `form:"proration_date"`
-	Quantity      *int64 `form:"quantity"`
 	// If specified, the funds from the subscription's invoices will be transferred to the destination and the ID of the resulting transfers will be found on the resulting charges. This will be unset if you POST an empty value.
 	TransferData *SubscriptionTransferDataParams `form:"transfer_data"`
 	// Unix timestamp representing the end of the trial period the customer will get before being charged for the first time. This will always overwrite any trials that might apply via a subscribed plan. If set, trial_end will override the default trial period of the plan the customer is being subscribed to. The special value `now` can be provided to end the customer's trial immediately. Can be at most two years from `billing_cycle_anchor`.
@@ -507,6 +482,11 @@ type SubscriptionCancelParams struct {
 	InvoiceNow *bool `form:"invoice_now"`
 	// Will generate a proration invoice item that credits remaining unused time until the subscription period end.
 	Prorate *bool `form:"prorate"`
+}
+
+// Removes the currently applied discount on a subscription.
+type SubscriptionDeleteDiscountParams struct {
+	Params `form:"*"`
 }
 type SubscriptionAutomaticTax struct {
 	// Whether Stripe automatically computes tax on this subscription.
@@ -709,17 +689,15 @@ type Subscription struct {
 	Object     string   `json:"object"`
 	OnBehalfOf *Account `json:"on_behalf_of"`
 	// If specified, payment collection for this subscription will be paused.
-	PauseCollection SubscriptionPauseCollection `json:"pause_collection"`
+	PauseCollection *SubscriptionPauseCollection `json:"pause_collection"`
 	// Payment settings passed on to invoices created by the subscription.
 	PaymentSettings *SubscriptionPaymentSettings `json:"payment_settings"`
 	// Specifies an interval for how often to bill for any pending invoice items. It is analogous to calling [Create an invoice](https://stripe.com/docs/api#create_invoice) for the given subscription at the specified interval.
-	PendingInvoiceItemInterval SubscriptionPendingInvoiceItemInterval `json:"pending_invoice_item_interval"`
+	PendingInvoiceItemInterval *SubscriptionPendingInvoiceItemInterval `json:"pending_invoice_item_interval"`
 	// You can use this [SetupIntent](https://stripe.com/docs/api/setup_intents) to collect user authentication when creating a subscription without immediate payment or updating a subscription's payment method, allowing you to optimize for off-session payments. Learn more in the [SCA Migration Guide](https://stripe.com/docs/billing/migration/strong-customer-authentication#scenario-2).
 	PendingSetupIntent *SetupIntent `json:"pending_setup_intent"`
 	// If specified, [pending updates](https://stripe.com/docs/billing/subscriptions/pending-updates) that will be applied to the subscription once the `latest_invoice` has been paid.
 	PendingUpdate *SubscriptionPendingUpdate `json:"pending_update"`
-	Plan          *Plan                      `json:"plan"`
-	Quantity      int64                      `json:"quantity"`
 	// The schedule attached to the subscription
 	Schedule *SubscriptionSchedule `json:"schedule"`
 	// Date when the subscription was first created. The date might differ from the `created` date due to backdating.

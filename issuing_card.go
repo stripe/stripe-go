@@ -34,7 +34,7 @@ type IssuingCardShippingCarrier string
 // List of values that IssuingCardShippingCarrier can take
 const (
 	IssuingCardShippingCarrierDHL       IssuingCardShippingCarrier = "dhl"
-	IssuingCardShippingCarrierFEDEX     IssuingCardShippingCarrier = "fedex"
+	IssuingCardShippingCarrierFedEx     IssuingCardShippingCarrier = "fedex"
 	IssuingCardShippingCarrierRoyalMail IssuingCardShippingCarrier = "royal_mail"
 	IssuingCardShippingCarrierUSPS      IssuingCardShippingCarrier = "usps"
 )
@@ -149,7 +149,7 @@ type IssuingCardShippingParams struct {
 	// The address that the card is shipped to.
 	Address *AddressParams `form:"address"`
 	// The name printed on the shipping label when shipping the card.
-	Name string `form:"name"`
+	Name *string `form:"name"`
 	// Shipment service.
 	Service *string `form:"service"`
 	// Packaging options.
@@ -173,8 +173,7 @@ type IssuingCardSpendingControlsParams struct {
 	// Array of strings containing [categories](https://stripe.com/docs/api#issuing_authorization_object-merchant_data-category) of authorizations to decline. All other categories will be allowed. Cannot be set with `allowed_categories`.
 	BlockedCategories []*string `form:"blocked_categories"`
 	// Limit spending with amount-based rules that apply across any cards this card replaced (i.e., its `replacement_for` card and _that_ card's `replacement_for` card, up the chain).
-	SpendingLimits         []*IssuingCardSpendingControlsSpendingLimitParams `form:"spending_limits"`
-	SpendingLimitsCurrency *string                                           `form:"spending_limits_currency"`
+	SpendingLimits []*IssuingCardSpendingControlsSpendingLimitParams `form:"spending_limits"`
 }
 
 // Creates an Issuing Card object.

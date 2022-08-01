@@ -28,20 +28,13 @@ type TopupParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency *string `form:"currency"`
 	// An arbitrary string attached to the object. Often useful for displaying to users.
-	Description *string       `form:"description"`
-	Source      *SourceParams `form:"*"` // SourceParams has custom encoding so brought to top level with "*"
+	Description *string `form:"description"`
+	// The ID of a source to transfer funds from. For most users, this should be left unspecified which will use the bank account that was set up in the dashboard for the specified currency. In test mode, this can be a test bank token (see [Testing Top-ups](https://stripe.com/docs/connect/testing#testing-top-ups)).
+	Source *string `form:"source"`
 	// Extra information about a top-up for the source's bank statement. Limited to 15 ASCII characters.
 	StatementDescriptor *string `form:"statement_descriptor"`
 	// A string that identifies this top-up as part of a group.
 	TransferGroup *string `form:"transfer_group"`
-}
-
-// SetSource adds valid sources to a TopupParams object,
-// returning an error for unsupported sources.
-func (p *TopupParams) SetSource(sp interface{}) error {
-	source, err := SourceParamsFor(sp)
-	p.Source = source
-	return err
 }
 
 // Returns a list of top-ups.

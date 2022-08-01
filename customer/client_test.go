@@ -33,7 +33,7 @@ func TestCustomerList(t *testing.T) {
 func TestCustomerNew(t *testing.T) {
 	customer, err := New(&stripe.CustomerParams{
 		Email: stripe.String("foo@example.com"),
-		Shipping: &stripe.CustomerShippingDetailsParams{
+		Shipping: &stripe.CustomerShippingParams{
 			Address: &stripe.AddressParams{
 				Line1: stripe.String("line1"),
 				City:  stripe.String("city"),

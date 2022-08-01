@@ -6,8 +6,6 @@
 
 package stripe
 
-import "encoding/json"
-
 // Indicates if the person or any of their representatives, family members, or other closely related persons, declares that they hold or have held an important public job or function, in any jurisdiction.
 type PersonPoliticalExposure string
 
@@ -18,24 +16,24 @@ const (
 )
 
 // One of `document_corrupt`, `document_country_not_supported`, `document_expired`, `document_failed_copy`, `document_failed_other`, `document_failed_test_mode`, `document_fraudulent`, `document_failed_greyscale`, `document_incomplete`, `document_invalid`, `document_manipulated`, `document_missing_back`, `document_missing_front`, `document_not_readable`, `document_not_uploaded`, `document_photo_mismatch`, `document_too_large`, or `document_type_not_supported`. A machine-readable code specifying the verification state for this document.
-type VerificationDocumentDetailsCode string
+type PersonVerificationDocumentDetailsCode string
 
-// List of values that VerificationDocumentDetailsCode can take
+// List of values that PersonVerificationDocumentDetailsCode can take
 const (
-	VerificationDocumentDetailsCodeDocumentCorrupt               VerificationDocumentDetailsCode = "document_corrupt"
-	VerificationDocumentDetailsCodeDocumentFailedCopy            VerificationDocumentDetailsCode = "document_failed_copy"
-	VerificationDocumentDetailsCodeDocumentFailedGreyscale       VerificationDocumentDetailsCode = "document_failed_greyscale"
-	VerificationDocumentDetailsCodeDocumentFailedOther           VerificationDocumentDetailsCode = "document_failed_other"
-	VerificationDocumentDetailsCodeDocumentFailedTestMode        VerificationDocumentDetailsCode = "document_failed_test_mode"
-	VerificationDocumentDetailsCodeDocumentFraudulent            VerificationDocumentDetailsCode = "document_fraudulent"
-	VerificationDocumentDetailsCodeDocumentIDTypeNotSupported    VerificationDocumentDetailsCode = "document_id_type_not_supported"
-	VerificationDocumentDetailsCodeDocumentIDCountryNotSupported VerificationDocumentDetailsCode = "document_id_country_not_supported"
-	VerificationDocumentDetailsCodeDocumentManipulated           VerificationDocumentDetailsCode = "document_manipulated"
-	VerificationDocumentDetailsCodeDocumentMissingBack           VerificationDocumentDetailsCode = "document_missing_back"
-	VerificationDocumentDetailsCodeDocumentMissingFront          VerificationDocumentDetailsCode = "document_missing_front"
-	VerificationDocumentDetailsCodeDocumentNotReadable           VerificationDocumentDetailsCode = "document_not_readable"
-	VerificationDocumentDetailsCodeDocumentNotUploaded           VerificationDocumentDetailsCode = "document_not_uploaded"
-	VerificationDocumentDetailsCodeDocumentTooLarge              VerificationDocumentDetailsCode = "document_too_large"
+	PersonVerificationDocumentDetailsCodeDocumentCorrupt               PersonVerificationDocumentDetailsCode = "document_corrupt"
+	PersonVerificationDocumentDetailsCodeDocumentFailedCopy            PersonVerificationDocumentDetailsCode = "document_failed_copy"
+	PersonVerificationDocumentDetailsCodeDocumentFailedGreyscale       PersonVerificationDocumentDetailsCode = "document_failed_greyscale"
+	PersonVerificationDocumentDetailsCodeDocumentFailedOther           PersonVerificationDocumentDetailsCode = "document_failed_other"
+	PersonVerificationDocumentDetailsCodeDocumentFailedTestMode        PersonVerificationDocumentDetailsCode = "document_failed_test_mode"
+	PersonVerificationDocumentDetailsCodeDocumentFraudulent            PersonVerificationDocumentDetailsCode = "document_fraudulent"
+	PersonVerificationDocumentDetailsCodeDocumentIDTypeNotSupported    PersonVerificationDocumentDetailsCode = "document_id_type_not_supported"
+	PersonVerificationDocumentDetailsCodeDocumentIDCountryNotSupported PersonVerificationDocumentDetailsCode = "document_id_country_not_supported"
+	PersonVerificationDocumentDetailsCodeDocumentManipulated           PersonVerificationDocumentDetailsCode = "document_manipulated"
+	PersonVerificationDocumentDetailsCodeDocumentMissingBack           PersonVerificationDocumentDetailsCode = "document_missing_back"
+	PersonVerificationDocumentDetailsCodeDocumentMissingFront          PersonVerificationDocumentDetailsCode = "document_missing_front"
+	PersonVerificationDocumentDetailsCodeDocumentNotReadable           PersonVerificationDocumentDetailsCode = "document_not_readable"
+	PersonVerificationDocumentDetailsCodeDocumentNotUploaded           PersonVerificationDocumentDetailsCode = "document_not_uploaded"
+	PersonVerificationDocumentDetailsCodeDocumentTooLarge              PersonVerificationDocumentDetailsCode = "document_too_large"
 )
 
 // One of `document_address_mismatch`, `document_dob_mismatch`, `document_duplicate_type`, `document_id_number_mismatch`, `document_name_mismatch`, `document_nationality_mismatch`, `failed_keyed_identity`, or `failed_other`. A machine-readable code specifying the verification state for the person.
@@ -49,17 +47,17 @@ const (
 )
 
 // The state of verification for the person. Possible values are `unverified`, `pending`, or `verified`.
-type IdentityVerificationStatus string
+type PersonVerificationStatus string
 
-// List of values that IdentityVerificationStatus can take
+// List of values that PersonVerificationStatus can take
 const (
-	IdentityVerificationStatusPending    IdentityVerificationStatus = "pending"
-	IdentityVerificationStatusUnverified IdentityVerificationStatus = "unverified"
-	IdentityVerificationStatusVerified   IdentityVerificationStatus = "verified"
+	PersonVerificationStatusPending    PersonVerificationStatus = "pending"
+	PersonVerificationStatusUnverified PersonVerificationStatus = "unverified"
+	PersonVerificationStatusVerified   PersonVerificationStatus = "verified"
 )
 
 // Filters on the list of people returned based on the person's relationship to the account's company.
-type RelationshipListParams struct {
+type PersonListRelationshipParams struct {
 	// A filter on the list of people returned based on whether these people are directors of the account's company.
 	Director *bool `form:"director"`
 	// A filter on the list of people returned based on whether these people are executives of the account's company.
@@ -75,11 +73,47 @@ type PersonListParams struct {
 	ListParams `form:"*"`
 	Account    *string `form:"-"` // Included in URL
 	// Filters on the list of people returned based on the person's relationship to the account's company.
-	Relationship *RelationshipListParams `form:"relationship"`
+	Relationship *PersonListRelationshipParams `form:"relationship"`
+}
+
+// The Kana variation of the person's address (Japan only).
+type PersonAddressKanaParams struct {
+	// City or ward.
+	City *string `form:"city"`
+	// Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)).
+	Country *string `form:"country"`
+	// Block or building number.
+	Line1 *string `form:"line1"`
+	// Building details.
+	Line2 *string `form:"line2"`
+	// Postal code.
+	PostalCode *string `form:"postal_code"`
+	// Prefecture.
+	State *string `form:"state"`
+	// Town or cho-me.
+	Town *string `form:"town"`
+}
+
+// The Kanji variation of the person's address (Japan only).
+type PersonAddressKanjiParams struct {
+	// City or ward.
+	City *string `form:"city"`
+	// Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)).
+	Country *string `form:"country"`
+	// Block or building number.
+	Line1 *string `form:"line1"`
+	// Building details.
+	Line2 *string `form:"line2"`
+	// Postal code.
+	PostalCode *string `form:"postal_code"`
+	// Prefecture.
+	State *string `form:"state"`
+	// Town or cho-me.
+	Town *string `form:"town"`
 }
 
 // The person's date of birth.
-type DOBParams struct {
+type PersonDOBParams struct {
 	// The day of birth, between 1 and 31.
 	Day *int64 `form:"day"`
 	// The month of birth, between 1 and 12.
@@ -89,35 +123,35 @@ type DOBParams struct {
 }
 
 // One or more documents that demonstrate proof that this person is authorized to represent the company.
-type DocumentsCompanyAuthorizationParams struct {
+type PersonDocumentsCompanyAuthorizationParams struct {
 	// One or more document ids returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `account_requirement`.
 	Files []*string `form:"files"`
 }
 
 // One or more documents showing the person's passport page with photo and personal data.
-type DocumentsPassportParams struct {
+type PersonDocumentsPassportParams struct {
 	// One or more document ids returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `account_requirement`.
 	Files []*string `form:"files"`
 }
 
 // One or more documents showing the person's visa required for living in the country where they are residing.
-type DocumentsVisaParams struct {
+type PersonDocumentsVisaParams struct {
 	// One or more document ids returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `account_requirement`.
 	Files []*string `form:"files"`
 }
 
 // Documents that may be submitted to satisfy various informational requests.
-type DocumentsParams struct {
+type PersonDocumentsParams struct {
 	// One or more documents that demonstrate proof that this person is authorized to represent the company.
-	CompanyAuthorization *DocumentsCompanyAuthorizationParams `form:"company_authorization"`
+	CompanyAuthorization *PersonDocumentsCompanyAuthorizationParams `form:"company_authorization"`
 	// One or more documents showing the person's passport page with photo and personal data.
-	Passport *DocumentsPassportParams `form:"passport"`
+	Passport *PersonDocumentsPassportParams `form:"passport"`
 	// One or more documents showing the person's visa required for living in the country where they are residing.
-	Visa *DocumentsVisaParams `form:"visa"`
+	Visa *PersonDocumentsVisaParams `form:"visa"`
 }
 
 // The relationship that this person has with the account's legal entity.
-type RelationshipParams struct {
+type PersonRelationshipParams struct {
 	// Whether the person is a director of the account's legal entity. Directors are typically members of the governing board of the company, or responsible for ensuring the company meets its regulatory obligations.
 	Director *bool `form:"director"`
 	// Whether the person has significant responsibility to control, manage, or direct the organization.
@@ -153,15 +187,15 @@ type PersonParams struct {
 	Params  `form:"*"`
 	Account *string `form:"-"` // Included in URL
 	// The person's address.
-	Address *AccountAddressParams `form:"address"`
+	Address *AddressParams `form:"address"`
 	// The Kana variation of the person's address (Japan only).
-	AddressKana *AccountAddressParams `form:"address_kana"`
+	AddressKana *PersonAddressKanaParams `form:"address_kana"`
 	// The Kanji variation of the person's address (Japan only).
-	AddressKanji *AccountAddressParams `form:"address_kanji"`
+	AddressKanji *PersonAddressKanjiParams `form:"address_kanji"`
 	// The person's date of birth.
-	DOB *DOBParams `form:"dob"`
+	DOB *PersonDOBParams `form:"dob"`
 	// Documents that may be submitted to satisfy various informational requests.
-	Documents *DocumentsParams `form:"documents"`
+	Documents *PersonDocumentsParams `form:"documents"`
 	// The person's email address.
 	Email *string `form:"email"`
 	// The person's first name.
@@ -197,13 +231,49 @@ type PersonParams struct {
 	// The person's registered address.
 	RegisteredAddress *AddressParams `form:"registered_address"`
 	// The relationship that this person has with the account's legal entity.
-	Relationship *RelationshipParams `form:"relationship"`
+	Relationship *PersonRelationshipParams `form:"relationship"`
 	// The last four digits of the person's Social Security number (U.S. only).
 	SSNLast4 *string `form:"ssn_last_4"`
 	// The person's verification status.
 	Verification *PersonVerificationParams `form:"verification"`
 }
-type DOB struct {
+
+// The Kana variation of the person's address (Japan only).
+type PersonAddressKana struct {
+	// City/Ward.
+	City string `json:"city"`
+	// Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)).
+	Country string `json:"country"`
+	// Block/Building number.
+	Line1 string `json:"line1"`
+	// Building details.
+	Line2 string `json:"line2"`
+	// ZIP or postal code.
+	PostalCode string `json:"postal_code"`
+	// Prefecture.
+	State string `json:"state"`
+	// Town/cho-me.
+	Town string `json:"town"`
+}
+
+// The Kanji variation of the person's address (Japan only).
+type PersonAddressKanji struct {
+	// City/Ward.
+	City string `json:"city"`
+	// Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)).
+	Country string `json:"country"`
+	// Block/Building number.
+	Line1 string `json:"line1"`
+	// Building details.
+	Line2 string `json:"line2"`
+	// ZIP or postal code.
+	PostalCode string `json:"postal_code"`
+	// Prefecture.
+	State string `json:"state"`
+	// Town/cho-me.
+	Town string `json:"town"`
+}
+type PersonDOB struct {
 	// The day of birth, between 1 and 31.
 	Day int64 `json:"day"`
 	// The month of birth, between 1 and 12.
@@ -245,7 +315,7 @@ type PersonFutureRequirements struct {
 	// Fields that may become required depending on the results of verification or review. Will be an empty array unless an asynchronous verification is pending. If verification fails, these fields move to `eventually_due` or `currently_due`.
 	PendingVerification []string `json:"pending_verification"`
 }
-type Relationship struct {
+type PersonRelationship struct {
 	// Whether the person is a director of the account's legal entity. Directors are typically members of the governing board of the company, or responsible for ensuring the company meets its regulatory obligations.
 	Director bool `json:"director"`
 	// Whether the person has significant responsibility to control, manage, or direct the organization.
@@ -269,7 +339,7 @@ type PersonRequirementsAlternative struct {
 }
 
 // Information about the requirements for this person, including what information needs to be collected, and by when.
-type Requirements struct {
+type PersonRequirements struct {
 	// Fields that are due and can be satisfied by providing the corresponding alternative fields instead.
 	Alternatives []*PersonRequirementsAlternative `json:"alternatives"`
 	// Fields that need to be collected to keep the person's account enabled. If not collected by the account's `current_deadline`, these fields appear in `past_due` as well, and the account is disabled.
@@ -291,7 +361,7 @@ type PersonVerificationDocument struct {
 	// A user-displayable string describing the verification state of this document. For example, if a document is uploaded and the picture is too fuzzy, this may say "Identity document is too unclear to read".
 	Details string `json:"details"`
 	// One of `document_corrupt`, `document_country_not_supported`, `document_expired`, `document_failed_copy`, `document_failed_other`, `document_failed_test_mode`, `document_fraudulent`, `document_failed_greyscale`, `document_incomplete`, `document_invalid`, `document_manipulated`, `document_missing_back`, `document_missing_front`, `document_not_readable`, `document_not_uploaded`, `document_photo_mismatch`, `document_too_large`, or `document_type_not_supported`. A machine-readable code specifying the verification state for this document.
-	DetailsCode VerificationDocumentDetailsCode `json:"details_code"`
+	DetailsCode PersonVerificationDocumentDetailsCode `json:"details_code"`
 	// The front of an ID returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `identity_document`.
 	Front *File `json:"front"`
 }
@@ -304,7 +374,7 @@ type PersonVerification struct {
 	DetailsCode PersonVerificationDetailsCode `json:"details_code"`
 	Document    *PersonVerificationDocument   `json:"document"`
 	// The state of verification for the person. Possible values are `unverified`, `pending`, or `verified`.
-	Status IdentityVerificationStatus `json:"status"`
+	Status PersonVerificationStatus `json:"status"`
 }
 
 // This is an object representing a person associated with a Stripe account.
@@ -316,16 +386,16 @@ type PersonVerification struct {
 type Person struct {
 	APIResource
 	// The account the person is associated with.
-	Account string          `json:"account"`
-	Address *AccountAddress `json:"address"`
+	Account string   `json:"account"`
+	Address *Address `json:"address"`
 	// The Kana variation of the person's address (Japan only).
-	AddressKana *AccountAddress `json:"address_kana"`
+	AddressKana *PersonAddressKana `json:"address_kana"`
 	// The Kanji variation of the person's address (Japan only).
-	AddressKanji *AccountAddress `json:"address_kanji"`
+	AddressKanji *PersonAddressKanji `json:"address_kanji"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
-	Created int64 `json:"created"`
-	Deleted bool  `json:"deleted"`
-	DOB     *DOB  `json:"dob"`
+	Created int64      `json:"created"`
+	Deleted bool       `json:"deleted"`
+	DOB     *PersonDOB `json:"dob"`
 	// The person's email address.
 	Email string `json:"email"`
 	// The person's first name.
@@ -365,9 +435,9 @@ type Person struct {
 	// Indicates if the person or any of their representatives, family members, or other closely related persons, declares that they hold or have held an important public job or function, in any jurisdiction.
 	PoliticalExposure PersonPoliticalExposure `json:"political_exposure"`
 	RegisteredAddress *Address                `json:"registered_address"`
-	Relationship      *Relationship           `json:"relationship"`
+	Relationship      *PersonRelationship     `json:"relationship"`
 	// Information about the requirements for this person, including what information needs to be collected, and by when.
-	Requirements *Requirements `json:"requirements"`
+	Requirements *PersonRequirements `json:"requirements"`
 	// Whether the last four digits of the person's Social Security number have been provided (U.S. only).
 	SSNLast4Provided bool                `json:"ssn_last_4_provided"`
 	Verification     *PersonVerification `json:"verification"`
@@ -378,23 +448,4 @@ type PersonList struct {
 	APIResource
 	ListMeta
 	Data []*Person `json:"data"`
-}
-
-// UnmarshalJSON handles deserialization of a Person.
-// This custom unmarshaling is needed because the resulting
-// property may be an id or the full struct if it was expanded.
-func (p *Person) UnmarshalJSON(data []byte) error {
-	if id, ok := ParseID(data); ok {
-		p.ID = id
-		return nil
-	}
-
-	type person Person
-	var v person
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-
-	*p = Person(v)
-	return nil
 }
