@@ -6,8 +6,6 @@
 
 package stripe
 
-import "encoding/json"
-
 // Creates a session of the customer portal.
 type BillingPortalSessionParams struct {
 	Params `form:"*"`
@@ -59,23 +57,4 @@ type BillingPortalSession struct {
 	ReturnURL string `json:"return_url"`
 	// The short-lived URL of the session that gives customers access to the customer portal.
 	URL string `json:"url"`
-}
-
-// UnmarshalJSON handles deserialization of a BillingPortalSession.
-// This custom unmarshaling is needed because the resulting
-// property may be an id or the full struct if it was expanded.
-func (b *BillingPortalSession) UnmarshalJSON(data []byte) error {
-	if id, ok := ParseID(data); ok {
-		b.ID = id
-		return nil
-	}
-
-	type billingPortalSession BillingPortalSession
-	var v billingPortalSession
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-
-	*b = BillingPortalSession(v)
-	return nil
 }

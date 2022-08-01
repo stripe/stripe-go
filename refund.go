@@ -136,11 +136,11 @@ type Refund struct {
 	// This is the transaction number that appears on email receipts sent for this refund.
 	ReceiptNumber string `json:"receipt_number"`
 	// The transfer reversal that is associated with the refund. Only present if the charge came from another Stripe account. See the Connect documentation for details.
-	SourceTransferReversal *Reversal `json:"source_transfer_reversal"`
+	SourceTransferReversal *TransferReversal `json:"source_transfer_reversal"`
 	// Status of the refund. For credit card refunds, this can be `pending`, `succeeded`, or `failed`. For other types of refunds, it can be `pending`, `requires_action`, `succeeded`, `failed`, or `canceled`. Refer to our [refunds](https://stripe.com/docs/refunds#failed-refunds) documentation for more details.
 	Status RefundStatus `json:"status"`
 	// If the accompanying transfer was reversed, the transfer reversal object. Only applicable if the charge was created using the destination parameter.
-	TransferReversal *Reversal `json:"transfer_reversal"`
+	TransferReversal *TransferReversal `json:"transfer_reversal"`
 }
 
 // RefundList is a list of Refunds as retrieved from a list endpoint.

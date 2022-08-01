@@ -4,8 +4,8 @@
 //
 //
 
-// Package fee provides the /application_fees APIs
-package fee
+// Package applicationfee provides the /application_fees APIs
+package applicationfee
 
 import (
 	"net/http"

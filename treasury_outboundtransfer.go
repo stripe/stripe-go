@@ -37,7 +37,7 @@ type TreasuryOutboundTransferDestinationPaymentMethodDetailsUSBankAccountNetwork
 
 // List of values that TreasuryOutboundTransferDestinationPaymentMethodDetailsUSBankAccountNetwork can take
 const (
-	TreasuryOutboundTransferDestinationPaymentMethodDetailsUSBankAccountNetworkAch            TreasuryOutboundTransferDestinationPaymentMethodDetailsUSBankAccountNetwork = "ach"
+	TreasuryOutboundTransferDestinationPaymentMethodDetailsUSBankAccountNetworkACH            TreasuryOutboundTransferDestinationPaymentMethodDetailsUSBankAccountNetwork = "ach"
 	TreasuryOutboundTransferDestinationPaymentMethodDetailsUSBankAccountNetworkUSDomesticWire TreasuryOutboundTransferDestinationPaymentMethodDetailsUSBankAccountNetwork = "us_domestic_wire"
 )
 

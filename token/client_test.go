@@ -40,7 +40,7 @@ func TestTokenNew_WithCard(t *testing.T) {
 
 func TestTokenNew_WithPII(t *testing.T) {
 	token, err := New(&stripe.TokenParams{
-		PII: &stripe.PIIParams{
+		PII: &stripe.TokenPIIParams{
 			IDNumber: stripe.String("000000000"),
 		},
 	})
@@ -80,7 +80,7 @@ func TestTokenNew_WithPerson(t *testing.T) {
 		Person: &stripe.PersonParams{
 			FirstName: stripe.String("Jane"),
 			LastName:  stripe.String("Doe"),
-			Relationship: &stripe.RelationshipParams{
+			Relationship: &stripe.PersonRelationshipParams{
 				Owner: stripe.Bool(true),
 			},
 		},

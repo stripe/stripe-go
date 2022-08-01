@@ -32,9 +32,6 @@ const (
 // The reason the review is currently open or closed. One of `rule`, `manual`, `approved`, `refunded`, `refunded_as_fraud`, `disputed`, or `redacted`.
 type ReviewReason string
 
-// Deprecated: we preserve this name for backwards-compatibility, prefer `ReviewReason`.
-type ReviewReasonType = ReviewReason
-
 // List of values that ReviewReason can take
 const (
 	ReviewReasonApproved        ReviewReason = "approved"

@@ -76,6 +76,21 @@ const (
 	MandatePaymentMethodDetailsBLIKTypeOnSession  MandatePaymentMethodDetailsBLIKType = "on_session"
 )
 
+// The type of the payment method associated with this mandate. An additional hash is included on `payment_method_details` with a name matching this value. It contains mandate information specific to the payment method.
+type MandatePaymentMethodDetailsType string
+
+// List of values that MandatePaymentMethodDetailsType can take
+const (
+	MandatePaymentMethodDetailsTypeACSSDebit     MandatePaymentMethodDetailsType = "acss_debit"
+	MandatePaymentMethodDetailsTypeAUBECSDebit   MandatePaymentMethodDetailsType = "au_becs_debit"
+	MandatePaymentMethodDetailsTypeBACSDebit     MandatePaymentMethodDetailsType = "bacs_debit"
+	MandatePaymentMethodDetailsTypeBLIK          MandatePaymentMethodDetailsType = "blik"
+	MandatePaymentMethodDetailsTypeCard          MandatePaymentMethodDetailsType = "card"
+	MandatePaymentMethodDetailsTypeLink          MandatePaymentMethodDetailsType = "link"
+	MandatePaymentMethodDetailsTypeSEPADebit     MandatePaymentMethodDetailsType = "sepa_debit"
+	MandatePaymentMethodDetailsTypeUSBankAccount MandatePaymentMethodDetailsType = "us_bank_account"
+)
+
 // The status of the mandate, which indicates whether it can be used to initiate a payment.
 type MandateStatus string
 
@@ -156,7 +171,7 @@ type MandatePaymentMethodDetailsBLIK struct {
 }
 type MandatePaymentMethodDetailsCard struct{}
 type MandatePaymentMethodDetailsLink struct{}
-type MandatePaymentMethodDetailsSepaDebit struct {
+type MandatePaymentMethodDetailsSEPADebit struct {
 	// The unique reference of the mandate.
 	Reference string `json:"reference"`
 	// The URL of the mandate. This URL generally contains sensitive information about the customer and should be shared with them exclusively.
@@ -170,9 +185,9 @@ type MandatePaymentMethodDetails struct {
 	BLIK        *MandatePaymentMethodDetailsBLIK        `json:"blik"`
 	Card        *MandatePaymentMethodDetailsCard        `json:"card"`
 	Link        *MandatePaymentMethodDetailsLink        `json:"link"`
-	SepaDebit   *MandatePaymentMethodDetailsSepaDebit   `json:"sepa_debit"`
+	SEPADebit   *MandatePaymentMethodDetailsSEPADebit   `json:"sepa_debit"`
 	// The type of the payment method associated with this mandate. An additional hash is included on `payment_method_details` with a name matching this value. It contains mandate information specific to the payment method.
-	Type          PaymentMethodType                         `json:"type"`
+	Type          MandatePaymentMethodDetailsType           `json:"type"`
 	USBankAccount *MandatePaymentMethodDetailsUSBankAccount `json:"us_bank_account"`
 }
 type MandateSingleUse struct {

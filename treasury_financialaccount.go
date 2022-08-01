@@ -14,11 +14,11 @@ const (
 	TreasuryFinancialAccountActiveFeatureCardIssuing                     TreasuryFinancialAccountActiveFeature = "card_issuing"
 	TreasuryFinancialAccountActiveFeatureDepositInsurance                TreasuryFinancialAccountActiveFeature = "deposit_insurance"
 	TreasuryFinancialAccountActiveFeatureFinancialAddressesAba           TreasuryFinancialAccountActiveFeature = "financial_addresses.aba"
-	TreasuryFinancialAccountActiveFeatureInboundTransfersAch             TreasuryFinancialAccountActiveFeature = "inbound_transfers.ach"
+	TreasuryFinancialAccountActiveFeatureInboundTransfersACH             TreasuryFinancialAccountActiveFeature = "inbound_transfers.ach"
 	TreasuryFinancialAccountActiveFeatureIntraStripeFlows                TreasuryFinancialAccountActiveFeature = "intra_stripe_flows"
-	TreasuryFinancialAccountActiveFeatureOutboundPaymentsAch             TreasuryFinancialAccountActiveFeature = "outbound_payments.ach"
+	TreasuryFinancialAccountActiveFeatureOutboundPaymentsACH             TreasuryFinancialAccountActiveFeature = "outbound_payments.ach"
 	TreasuryFinancialAccountActiveFeatureOutboundPaymentsUSDomesticWire  TreasuryFinancialAccountActiveFeature = "outbound_payments.us_domestic_wire"
-	TreasuryFinancialAccountActiveFeatureOutboundTransfersAch            TreasuryFinancialAccountActiveFeature = "outbound_transfers.ach"
+	TreasuryFinancialAccountActiveFeatureOutboundTransfersACH            TreasuryFinancialAccountActiveFeature = "outbound_transfers.ach"
 	TreasuryFinancialAccountActiveFeatureOutboundTransfersUSDomesticWire TreasuryFinancialAccountActiveFeature = "outbound_transfers.us_domestic_wire"
 	TreasuryFinancialAccountActiveFeatureRemoteDepositCapture            TreasuryFinancialAccountActiveFeature = "remote_deposit_capture"
 )
@@ -28,7 +28,7 @@ type TreasuryFinancialAccountFinancialAddressSupportedNetwork string
 
 // List of values that TreasuryFinancialAccountFinancialAddressSupportedNetwork can take
 const (
-	TreasuryFinancialAccountFinancialAddressSupportedNetworkAch            TreasuryFinancialAccountFinancialAddressSupportedNetwork = "ach"
+	TreasuryFinancialAccountFinancialAddressSupportedNetworkACH            TreasuryFinancialAccountFinancialAddressSupportedNetwork = "ach"
 	TreasuryFinancialAccountFinancialAddressSupportedNetworkUSDomesticWire TreasuryFinancialAccountFinancialAddressSupportedNetwork = "us_domestic_wire"
 )
 
@@ -48,11 +48,11 @@ const (
 	TreasuryFinancialAccountPendingFeatureCardIssuing                     TreasuryFinancialAccountPendingFeature = "card_issuing"
 	TreasuryFinancialAccountPendingFeatureDepositInsurance                TreasuryFinancialAccountPendingFeature = "deposit_insurance"
 	TreasuryFinancialAccountPendingFeatureFinancialAddressesAba           TreasuryFinancialAccountPendingFeature = "financial_addresses.aba"
-	TreasuryFinancialAccountPendingFeatureInboundTransfersAch             TreasuryFinancialAccountPendingFeature = "inbound_transfers.ach"
+	TreasuryFinancialAccountPendingFeatureInboundTransfersACH             TreasuryFinancialAccountPendingFeature = "inbound_transfers.ach"
 	TreasuryFinancialAccountPendingFeatureIntraStripeFlows                TreasuryFinancialAccountPendingFeature = "intra_stripe_flows"
-	TreasuryFinancialAccountPendingFeatureOutboundPaymentsAch             TreasuryFinancialAccountPendingFeature = "outbound_payments.ach"
+	TreasuryFinancialAccountPendingFeatureOutboundPaymentsACH             TreasuryFinancialAccountPendingFeature = "outbound_payments.ach"
 	TreasuryFinancialAccountPendingFeatureOutboundPaymentsUSDomesticWire  TreasuryFinancialAccountPendingFeature = "outbound_payments.us_domestic_wire"
-	TreasuryFinancialAccountPendingFeatureOutboundTransfersAch            TreasuryFinancialAccountPendingFeature = "outbound_transfers.ach"
+	TreasuryFinancialAccountPendingFeatureOutboundTransfersACH            TreasuryFinancialAccountPendingFeature = "outbound_transfers.ach"
 	TreasuryFinancialAccountPendingFeatureOutboundTransfersUSDomesticWire TreasuryFinancialAccountPendingFeature = "outbound_transfers.us_domestic_wire"
 	TreasuryFinancialAccountPendingFeatureRemoteDepositCapture            TreasuryFinancialAccountPendingFeature = "remote_deposit_capture"
 )
@@ -83,11 +83,11 @@ const (
 	TreasuryFinancialAccountRestrictedFeatureCardIssuing                     TreasuryFinancialAccountRestrictedFeature = "card_issuing"
 	TreasuryFinancialAccountRestrictedFeatureDepositInsurance                TreasuryFinancialAccountRestrictedFeature = "deposit_insurance"
 	TreasuryFinancialAccountRestrictedFeatureFinancialAddressesAba           TreasuryFinancialAccountRestrictedFeature = "financial_addresses.aba"
-	TreasuryFinancialAccountRestrictedFeatureInboundTransfersAch             TreasuryFinancialAccountRestrictedFeature = "inbound_transfers.ach"
+	TreasuryFinancialAccountRestrictedFeatureInboundTransfersACH             TreasuryFinancialAccountRestrictedFeature = "inbound_transfers.ach"
 	TreasuryFinancialAccountRestrictedFeatureIntraStripeFlows                TreasuryFinancialAccountRestrictedFeature = "intra_stripe_flows"
-	TreasuryFinancialAccountRestrictedFeatureOutboundPaymentsAch             TreasuryFinancialAccountRestrictedFeature = "outbound_payments.ach"
+	TreasuryFinancialAccountRestrictedFeatureOutboundPaymentsACH             TreasuryFinancialAccountRestrictedFeature = "outbound_payments.ach"
 	TreasuryFinancialAccountRestrictedFeatureOutboundPaymentsUSDomesticWire  TreasuryFinancialAccountRestrictedFeature = "outbound_payments.us_domestic_wire"
-	TreasuryFinancialAccountRestrictedFeatureOutboundTransfersAch            TreasuryFinancialAccountRestrictedFeature = "outbound_transfers.ach"
+	TreasuryFinancialAccountRestrictedFeatureOutboundTransfersACH            TreasuryFinancialAccountRestrictedFeature = "outbound_transfers.ach"
 	TreasuryFinancialAccountRestrictedFeatureOutboundTransfersUSDomesticWire TreasuryFinancialAccountRestrictedFeature = "outbound_transfers.us_domestic_wire"
 	TreasuryFinancialAccountRestrictedFeatureRemoteDepositCapture            TreasuryFinancialAccountRestrictedFeature = "remote_deposit_capture"
 )
@@ -136,7 +136,7 @@ type TreasuryFinancialAccountFeaturesFinancialAddressesParams struct {
 }
 
 // Enables ACH Debits via the InboundTransfers API.
-type TreasuryFinancialAccountFeaturesInboundTransfersAchParams struct {
+type TreasuryFinancialAccountFeaturesInboundTransfersACHParams struct {
 	// Whether the FinancialAccount should have the Feature.
 	Requested *bool `form:"requested"`
 }
@@ -144,7 +144,7 @@ type TreasuryFinancialAccountFeaturesInboundTransfersAchParams struct {
 // Contains settings related to adding funds to a FinancialAccount from another Account with the same owner.
 type TreasuryFinancialAccountFeaturesInboundTransfersParams struct {
 	// Enables ACH Debits via the InboundTransfers API.
-	Ach *TreasuryFinancialAccountFeaturesInboundTransfersAchParams `form:"ach"`
+	ACH *TreasuryFinancialAccountFeaturesInboundTransfersACHParams `form:"ach"`
 }
 
 // Represents the ability for the FinancialAccount to send money to, or receive money from other FinancialAccounts (for example, via OutboundPayment).
@@ -154,7 +154,7 @@ type TreasuryFinancialAccountFeaturesIntraStripeFlowsParams struct {
 }
 
 // Enables ACH transfers via the OutboundPayments API.
-type TreasuryFinancialAccountFeaturesOutboundPaymentsAchParams struct {
+type TreasuryFinancialAccountFeaturesOutboundPaymentsACHParams struct {
 	// Whether the FinancialAccount should have the Feature.
 	Requested *bool `form:"requested"`
 }
@@ -168,13 +168,13 @@ type TreasuryFinancialAccountFeaturesOutboundPaymentsUSDomesticWireParams struct
 // Includes Features related to initiating money movement out of the FinancialAccount to someone else's bucket of money.
 type TreasuryFinancialAccountFeaturesOutboundPaymentsParams struct {
 	// Enables ACH transfers via the OutboundPayments API.
-	Ach *TreasuryFinancialAccountFeaturesOutboundPaymentsAchParams `form:"ach"`
+	ACH *TreasuryFinancialAccountFeaturesOutboundPaymentsACHParams `form:"ach"`
 	// Enables US domestic wire tranfers via the OutboundPayments API.
 	USDomesticWire *TreasuryFinancialAccountFeaturesOutboundPaymentsUSDomesticWireParams `form:"us_domestic_wire"`
 }
 
 // Enables ACH transfers via the OutboundTransfers API.
-type TreasuryFinancialAccountFeaturesOutboundTransfersAchParams struct {
+type TreasuryFinancialAccountFeaturesOutboundTransfersACHParams struct {
 	// Whether the FinancialAccount should have the Feature.
 	Requested *bool `form:"requested"`
 }
@@ -188,7 +188,7 @@ type TreasuryFinancialAccountFeaturesOutboundTransfersUSDomesticWireParams struc
 // Contains a Feature and settings related to moving money out of the FinancialAccount into another Account with the same owner.
 type TreasuryFinancialAccountFeaturesOutboundTransfersParams struct {
 	// Enables ACH transfers via the OutboundTransfers API.
-	Ach *TreasuryFinancialAccountFeaturesOutboundTransfersAchParams `form:"ach"`
+	ACH *TreasuryFinancialAccountFeaturesOutboundTransfersACHParams `form:"ach"`
 	// Enables US domestic wire tranfers via the OutboundTransfers API.
 	USDomesticWire *TreasuryFinancialAccountFeaturesOutboundTransfersUSDomesticWireParams `form:"us_domestic_wire"`
 }
@@ -262,7 +262,7 @@ type TreasuryFinancialAccountUpdateFeaturesFinancialAddressesParams struct {
 }
 
 // Enables ACH Debits via the InboundTransfers API.
-type TreasuryFinancialAccountUpdateFeaturesInboundTransfersAchParams struct {
+type TreasuryFinancialAccountUpdateFeaturesInboundTransfersACHParams struct {
 	// Whether the FinancialAccount should have the Feature.
 	Requested *bool `form:"requested"`
 }
@@ -270,7 +270,7 @@ type TreasuryFinancialAccountUpdateFeaturesInboundTransfersAchParams struct {
 // Contains settings related to adding funds to a FinancialAccount from another Account with the same owner.
 type TreasuryFinancialAccountUpdateFeaturesInboundTransfersParams struct {
 	// Enables ACH Debits via the InboundTransfers API.
-	Ach *TreasuryFinancialAccountUpdateFeaturesInboundTransfersAchParams `form:"ach"`
+	ACH *TreasuryFinancialAccountUpdateFeaturesInboundTransfersACHParams `form:"ach"`
 }
 
 // Represents the ability for the FinancialAccount to send money to, or receive money from other FinancialAccounts (for example, via OutboundPayment).
@@ -280,7 +280,7 @@ type TreasuryFinancialAccountUpdateFeaturesIntraStripeFlowsParams struct {
 }
 
 // Enables ACH transfers via the OutboundPayments API.
-type TreasuryFinancialAccountUpdateFeaturesOutboundPaymentsAchParams struct {
+type TreasuryFinancialAccountUpdateFeaturesOutboundPaymentsACHParams struct {
 	// Whether the FinancialAccount should have the Feature.
 	Requested *bool `form:"requested"`
 }
@@ -294,13 +294,13 @@ type TreasuryFinancialAccountUpdateFeaturesOutboundPaymentsUSDomesticWireParams 
 // Includes Features related to initiating money movement out of the FinancialAccount to someone else's bucket of money.
 type TreasuryFinancialAccountUpdateFeaturesOutboundPaymentsParams struct {
 	// Enables ACH transfers via the OutboundPayments API.
-	Ach *TreasuryFinancialAccountUpdateFeaturesOutboundPaymentsAchParams `form:"ach"`
+	ACH *TreasuryFinancialAccountUpdateFeaturesOutboundPaymentsACHParams `form:"ach"`
 	// Enables US domestic wire tranfers via the OutboundPayments API.
 	USDomesticWire *TreasuryFinancialAccountUpdateFeaturesOutboundPaymentsUSDomesticWireParams `form:"us_domestic_wire"`
 }
 
 // Enables ACH transfers via the OutboundTransfers API.
-type TreasuryFinancialAccountUpdateFeaturesOutboundTransfersAchParams struct {
+type TreasuryFinancialAccountUpdateFeaturesOutboundTransfersACHParams struct {
 	// Whether the FinancialAccount should have the Feature.
 	Requested *bool `form:"requested"`
 }
@@ -314,7 +314,7 @@ type TreasuryFinancialAccountUpdateFeaturesOutboundTransfersUSDomesticWireParams
 // Contains a Feature and settings related to moving money out of the FinancialAccount into another Account with the same owner.
 type TreasuryFinancialAccountUpdateFeaturesOutboundTransfersParams struct {
 	// Enables ACH transfers via the OutboundTransfers API.
-	Ach *TreasuryFinancialAccountUpdateFeaturesOutboundTransfersAchParams `form:"ach"`
+	ACH *TreasuryFinancialAccountUpdateFeaturesOutboundTransfersACHParams `form:"ach"`
 	// Enables US domestic wire tranfers via the OutboundTransfers API.
 	USDomesticWire *TreasuryFinancialAccountUpdateFeaturesOutboundTransfersUSDomesticWireParams `form:"us_domestic_wire"`
 }

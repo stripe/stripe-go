@@ -13,7 +13,7 @@ type FundingInstructionsBankTransferFinancialAddressSupportedNetwork string
 const (
 	FundingInstructionsBankTransferFinancialAddressSupportedNetworkBACS   FundingInstructionsBankTransferFinancialAddressSupportedNetwork = "bacs"
 	FundingInstructionsBankTransferFinancialAddressSupportedNetworkFPS    FundingInstructionsBankTransferFinancialAddressSupportedNetwork = "fps"
-	FundingInstructionsBankTransferFinancialAddressSupportedNetworkSepa   FundingInstructionsBankTransferFinancialAddressSupportedNetwork = "sepa"
+	FundingInstructionsBankTransferFinancialAddressSupportedNetworkSEPA   FundingInstructionsBankTransferFinancialAddressSupportedNetwork = "sepa"
 	FundingInstructionsBankTransferFinancialAddressSupportedNetworkSpei   FundingInstructionsBankTransferFinancialAddressSupportedNetwork = "spei"
 	FundingInstructionsBankTransferFinancialAddressSupportedNetworkZengin FundingInstructionsBankTransferFinancialAddressSupportedNetwork = "zengin"
 )
@@ -23,7 +23,7 @@ type FundingInstructionsBankTransferFinancialAddressType string
 
 // List of values that FundingInstructionsBankTransferFinancialAddressType can take
 const (
-	FundingInstructionsBankTransferFinancialAddressTypeIban     FundingInstructionsBankTransferFinancialAddressType = "iban"
+	FundingInstructionsBankTransferFinancialAddressTypeIBAN     FundingInstructionsBankTransferFinancialAddressType = "iban"
 	FundingInstructionsBankTransferFinancialAddressTypeSortCode FundingInstructionsBankTransferFinancialAddressType = "sort_code"
 	FundingInstructionsBankTransferFinancialAddressTypeSpei     FundingInstructionsBankTransferFinancialAddressType = "spei"
 	FundingInstructionsBankTransferFinancialAddressTypeZengin   FundingInstructionsBankTransferFinancialAddressType = "zengin"
@@ -47,15 +47,15 @@ const (
 )
 
 // Iban Records contain E.U. bank account details per the SEPA format.
-type FundingInstructionsBankTransferFinancialAddressIban struct {
+type FundingInstructionsBankTransferFinancialAddressIBAN struct {
 	// The name of the person or business that owns the bank account
 	AccountHolderName string `json:"account_holder_name"`
 	// The BIC/SWIFT code of the account.
-	Bic string `json:"bic"`
+	BIC string `json:"bic"`
 	// Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)).
 	Country string `json:"country"`
 	// The IBAN of the account.
-	Iban string `json:"iban"`
+	IBAN string `json:"iban"`
 }
 
 // Sort Code Records contain U.K. bank account details per the sort code format.
@@ -99,7 +99,7 @@ type FundingInstructionsBankTransferFinancialAddressZengin struct {
 // A list of financial addresses that can be used to fund a particular balance
 type FundingInstructionsBankTransferFinancialAddress struct {
 	// Iban Records contain E.U. bank account details per the SEPA format.
-	Iban *FundingInstructionsBankTransferFinancialAddressIban `json:"iban"`
+	IBAN *FundingInstructionsBankTransferFinancialAddressIBAN `json:"iban"`
 	// Sort Code Records contain U.K. bank account details per the sort code format.
 	SortCode *FundingInstructionsBankTransferFinancialAddressSortCode `json:"sort_code"`
 	// SPEI Records contain Mexico bank account details per the SPEI format.
