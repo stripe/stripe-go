@@ -1764,6 +1764,30 @@ type CheckoutSessionShippingAddressCollection struct {
 	AllowedCountries []string `json:"allowed_countries"`
 }
 
+// The taxes applied to the shipping rate.
+type CheckoutSessionShippingCostTax struct {
+	// Amount of tax applied for this rate.
+	Amount int64 `json:"amount"`
+	// Tax rates can be applied to [invoices](https://stripe.com/docs/billing/invoices/tax-rates), [subscriptions](https://stripe.com/docs/billing/subscriptions/taxes) and [Checkout Sessions](https://stripe.com/docs/payments/checkout/set-up-a-subscription#tax-rates) to collect tax.
+	//
+	// Related guide: [Tax Rates](https://stripe.com/docs/billing/taxes/tax-rates).
+	Rate *TaxRate `json:"rate"`
+}
+
+// The details of the customer cost of shipping, including the customer chosen ShippingRate.
+type CheckoutSessionShippingCost struct {
+	// Total shipping cost before any discounts or taxes are applied.
+	AmountSubtotal int64 `json:"amount_subtotal"`
+	// Total tax amount applied due to shipping costs. If no tax was applied, defaults to 0.
+	AmountTax int64 `json:"amount_tax"`
+	// Total shipping cost after discounts and taxes are applied.
+	AmountTotal int64 `json:"amount_total"`
+	// The ID of the ShippingRate for this order.
+	ShippingRate *ShippingRate `json:"shipping_rate"`
+	// The taxes applied to the shipping rate.
+	Taxes []*CheckoutSessionShippingCostTax `json:"taxes"`
+}
+
 // The shipping rate options applied to this Session.
 type CheckoutSessionShippingOption struct {
 	// A non-negative integer in cents representing how much to charge.
@@ -1903,14 +1927,14 @@ type CheckoutSession struct {
 	RecoveredFrom string `json:"recovered_from"`
 	// The ID of the SetupIntent for Checkout Sessions in `setup` mode.
 	SetupIntent *SetupIntent `json:"setup_intent"`
-	// Shipping information for this Checkout Session.
-	Shipping *ShippingDetails `json:"shipping"`
 	// When set, provides configuration for Checkout to collect a shipping address from a customer.
 	ShippingAddressCollection *CheckoutSessionShippingAddressCollection `json:"shipping_address_collection"`
+	// The details of the customer cost of shipping, including the customer chosen ShippingRate.
+	ShippingCost *CheckoutSessionShippingCost `json:"shipping_cost"`
+	// Shipping information for this Checkout Session.
+	ShippingDetails *ShippingDetails `json:"shipping_details"`
 	// The shipping rate options applied to this Session.
 	ShippingOptions []*CheckoutSessionShippingOption `json:"shipping_options"`
-	// The ID of the ShippingRate for Checkout Sessions in `payment` mode.
-	ShippingRate *ShippingRate `json:"shipping_rate"`
 	// The status of the Checkout Session, one of `open`, `complete`, or `expired`.
 	Status CheckoutSessionStatus `json:"status"`
 	// Describes the type of transaction being performed by Checkout in order to customize
