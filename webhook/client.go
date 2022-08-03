@@ -171,7 +171,7 @@ type ConstructEventOptions struct {
 	// If set to true, will ignore the `tolerance` option entirely and will not
 	// check the event signature's timestamp. Defaults to false. When false,
 	// constructing an event will fail with an error if the timestamp is not
-	// within the `tolerance` window.
+	// within the `Tolerance` window.
 	IgnoreTolerance bool
 
 	// If set to true, will ignore validating whether an event's API version
