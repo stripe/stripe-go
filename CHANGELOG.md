@@ -1,5 +1,10 @@
 # Changelog
 
+## 73.1.0-beta.1 - 2022-08-03
+* [#1514](https://github.com/stripe/stripe-go/pull/1514) API Updates for beta branch
+  - Updated stable APIs to the latest version
+  - Added the `Order` resource support
+
 ## 73.0.1 - 2022-08-03
 * [#1517](https://github.com/stripe/stripe-go/pull/1517) Export ConstructEventOptions fields
 
