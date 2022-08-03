@@ -214,7 +214,7 @@ func TestConstructEventWithOptions_IgnoreAPIVersionMismatch(t *testing.T) {
 		p.payload = testPayloadWithAPIVersionMismatch
 	})
 
-	evt, err := ConstructEventWithOptions(p.payload, p.header, p.secret, ConstructEventOptions{ignoreAPIVersionMismatch: true})
+	evt, err := ConstructEventWithOptions(p.payload, p.header, p.secret, ConstructEventOptions{IgnoreAPIVersionMismatch: true})
 
 	if err != nil {
 		t.Errorf("Expected no error due ignoreAPIVersionMismatch.")

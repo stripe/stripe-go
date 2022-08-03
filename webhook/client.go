@@ -83,7 +83,7 @@ func ConstructEvent(payload []byte, header string, secret string) (stripe.Event,
 // stripe.APIVersion constant.
 //
 func ConstructEventIgnoringTolerance(payload []byte, header string, secret string) (stripe.Event, error) {
-	return constructEvent(payload, header, secret, ConstructEventOptions{ignoreTolerance: true})
+	return constructEvent(payload, header, secret, ConstructEventOptions{IgnoreTolerance: true})
 }
 
 // ConstructEventWithTolerance initializes an Event object from a JSON webhook payload,
@@ -100,7 +100,7 @@ func ConstructEventIgnoringTolerance(payload []byte, header string, secret strin
 // stripe.APIVersion constant.
 //
 func ConstructEventWithTolerance(payload []byte, header string, secret string, tolerance time.Duration) (stripe.Event, error) {
-	return constructEvent(payload, header, secret, ConstructEventOptions{tolerance: tolerance})
+	return constructEvent(payload, header, secret, ConstructEventOptions{Tolerance: tolerance})
 }
 
 // ConstructEventWithOptions initializes an Event object from a JSON webhook payload,
@@ -110,9 +110,9 @@ func ConstructEventWithTolerance(payload []byte, header string, secret string, t
 // See `ConstructEventOptions` for more details on each of the options.
 //
 // Returns an error if the signature doesn't match, or:
-// - if `ignoreTolerance` is false and the timestamp embedded in the event
+// - if `IgnoreTolerance` is false and the timestamp embedded in the event
 //   header is not within the tolerance window (similar to `ConstructEventWithTolerance`)
-// - if `ignoreAPIVersionMismatch` is false and the webhook event API version
+// - if `IgnoreAPIVersionMismatch` is false and the webhook event API version
 //   does not match the API version of the stripe-go library, as defined in
 //   `stripe.APIVersion`.
 //
@@ -163,21 +163,21 @@ func ValidatePayloadWithTolerance(payload []byte, header string, secret string, 
 }
 
 type ConstructEventOptions struct {
-	// Validates event timestamps using a custom tolerance window. If this is
-	// not set and `ignoreTolerance` is false, will default to
+	// Validates event timestamps using a custom Tolerance window. If this is
+	// not set and `IgnoreTolerance` is false, will default to
 	// `DefaultTolerance`.
-	tolerance time.Duration
+	Tolerance time.Duration
 
 	// If set to true, will ignore the `tolerance` option entirely and will not
 	// check the event signature's timestamp. Defaults to false. When false,
 	// constructing an event will fail with an error if the timestamp is not
-	// within the `tolerance` window.
-	ignoreTolerance bool
+	// within the `Tolerance` window.
+	IgnoreTolerance bool
 
 	// If set to true, will ignore validating whether an event's API version
 	// matches the stripe-go API version. Defaults to false, returning an error
 	// when there is a mismatch.
-	ignoreAPIVersionMismatch bool
+	IgnoreAPIVersionMismatch bool
 }
 
 //
@@ -196,12 +196,12 @@ type signedHeader struct {
 func constructEvent(payload []byte, sigHeader string, secret string, options ConstructEventOptions) (stripe.Event, error) {
 	e := stripe.Event{}
 
-	tolerance := options.tolerance
-	if options.tolerance == 0 && !options.ignoreTolerance {
+	tolerance := options.Tolerance
+	if options.Tolerance == 0 && !options.IgnoreTolerance {
 		tolerance = DefaultTolerance
 	}
 
-	if err := validatePayload(payload, sigHeader, secret, tolerance, !options.ignoreTolerance); err != nil {
+	if err := validatePayload(payload, sigHeader, secret, tolerance, !options.IgnoreTolerance); err != nil {
 		return e, err
 	}
 
@@ -209,7 +209,7 @@ func constructEvent(payload []byte, sigHeader string, secret string, options Con
 		return e, fmt.Errorf("Failed to parse webhook body json: %s", err.Error())
 	}
 
-	if !options.ignoreAPIVersionMismatch && e.APIVersion != stripe.APIVersion {
+	if !options.IgnoreAPIVersionMismatch && e.APIVersion != stripe.APIVersion {
 		return e, fmt.Errorf("Received event with API version %s, but stripe-go %s expects API version %s. We recommend that you create a WebhookEndpoint with this API version. Otherwise, you can disable this error by using `ConstructEventWithOptions(..., ConstructEventOptions{..., ignoreAPIVersionMismatch: true})`  but be wary that objects may be incorrectly deserialized.", e.APIVersion, stripe.ClientVersion, stripe.APIVersion)
 	}
 
