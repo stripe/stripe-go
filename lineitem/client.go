@@ -8,7 +8,7 @@
 package lineitem
 
 import (
-	stripe "github.com/stripe/stripe-go/v72"
+	stripe "github.com/stripe/stripe-go/v73"
 )
 
 // Iter is an iterator for line items.
