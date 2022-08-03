@@ -58,22 +58,10 @@ type SubscriptionItemPriceDataParams struct {
 	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
 	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
 }
-type SubscriptionItemTrialFreeParams struct{}
-type SubscriptionItemTrialNoneParams struct{}
-
-// Details of a different price, quantity, or both, to bill your customer for during a paid trial.
-type SubscriptionItemTrialPaidParams struct {
-	Price    *string `form:"price"`
-	Quantity *int64  `form:"quantity"`
-}
 
 // Define options to configure the trial on the subscription.
 type SubscriptionItemTrialParams struct {
-	Free *SubscriptionItemTrialFreeParams `form:"free"`
-	None *SubscriptionItemTrialNoneParams `form:"none"`
-	// Details of a different price, quantity, or both, to bill your customer for during a paid trial.
-	Paid *SubscriptionItemTrialPaidParams `form:"paid"`
-	Type *string                          `form:"type"`
+	Type *string `form:"type"`
 }
 
 // Adds a new item to an existing subscription. No existing items will be changed or replaced.
@@ -84,8 +72,10 @@ type SubscriptionItemParams struct {
 	// Delete all usage for the given subscription item. Allowed only when the current plan's `usage_type` is `metered`.
 	ClearUsage *bool `form:"clear_usage"`
 	// The coupons to redeem into discounts for the subscription item.
-	Discounts  []*SubscriptionItemDiscountParams `form:"discounts"`
-	OffSession *bool                             `form:"off_session"` // Only supported on update
+	Discounts []*SubscriptionItemDiscountParams `form:"discounts"`
+	// Only supported on update
+	// Indicates if a customer is on or off-session while an invoice payment is attempted.
+	OffSession *bool `form:"off_session"`
 	// Use `allow_incomplete` to transition the subscription to `status=past_due` if a payment is required but cannot be paid. This allows you to manage scenarios where additional user actions are needed to pay a subscription's invoice. For example, SCA regulation may require 3DS authentication to complete payment. See the [SCA Migration Guide](https://stripe.com/docs/billing/migration/strong-customer-authentication) for Billing to learn more. This is the default behavior.
 	//
 	// Use `default_incomplete` to transition the subscription to `status=past_due` when payment is required and await explicit confirmation of the invoice's payment intent. This allows simpler management of scenarios where additional user actions are needed to pay a subscription's invoice. Such as failed payments, [SCA regulation](https://stripe.com/docs/billing/migration/strong-customer-authentication), or collecting a mandate for a bank debit payment method.
@@ -112,37 +102,33 @@ type SubscriptionItemParams struct {
 	TaxRates []*string `form:"tax_rates"`
 	// Define options to configure the trial on the subscription.
 	Trial *SubscriptionItemTrialParams `form:"trial"`
+}
 
-	ID *string `form:"-"` // Deprecated
+// For the specified subscription item, returns a list of summary objects. Each object in the list provides usage information that's been summarized from multiple usage records and over a subscription billing period (e.g., 15 usage records in the month of September).
+//
+// The list is sorted in reverse-chronological order (newest first). The first list item represents the most current usage period that hasn't ended yet. Since new usage records can still be added, the returned summary information for the subscription item's ID should be seen as unstable until the subscription billing period ends.
+type SubscriptionItemUsageRecordSummariesParams struct {
+	ListParams       `form:"*"`
+	SubscriptionItem *string `form:"-"` // Included in URL
 }
 
 // Define thresholds at which an invoice will be sent, and the related subscription advanced to a new billing period
 type SubscriptionItemBillingThresholds struct {
-	UsageGTE int64 `form:"usage_gte"`
-}
-
-// Details of a different price, quantity, or both, to bill your customer for during a paid trial.
-type SubscriptionItemTrialPaid struct {
-	ID string `json:"id"`
-	// The ID of the price object.
-	Price    string `json:"price"`
-	Quantity int64  `json:"quantity"`
+	// Usage threshold that triggers the subscription to create an invoice
+	UsageGTE int64 `json:"usage_gte"`
 }
 
 // Current trial configuration on this item.
 type SubscriptionItemTrial struct {
-	// Unique identifier for the object.
-	ID string `json:"id"`
-	// Details of a different price, quantity, or both, to bill your customer for during a paid trial.
-	Paid *SubscriptionItemTrialPaid `json:"paid"`
-	Type SubscriptionItemTrialType  `json:"type"`
+	Type SubscriptionItemTrialType `json:"type"`
 }
 
 // Subscription items allow you to create customer subscriptions with more than
 // one plan, making it easy to represent complex billing relationships.
 type SubscriptionItem struct {
 	APIResource
-	BillingThresholds SubscriptionItemBillingThresholds `json:"billing_thresholds"`
+	// Define thresholds at which an invoice will be sent, and the related subscription advanced to a new billing period
+	BillingThresholds *SubscriptionItemBillingThresholds `json:"billing_thresholds"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
 	Created int64 `json:"created"`
 	Deleted bool  `json:"deleted"`

@@ -60,7 +60,7 @@ type TreasuryReceivedCreditNetwork string
 
 // List of values that TreasuryReceivedCreditNetwork can take
 const (
-	TreasuryReceivedCreditNetworkAch            TreasuryReceivedCreditNetwork = "ach"
+	TreasuryReceivedCreditNetworkACH            TreasuryReceivedCreditNetwork = "ach"
 	TreasuryReceivedCreditNetworkCard           TreasuryReceivedCreditNetwork = "card"
 	TreasuryReceivedCreditNetworkStripe         TreasuryReceivedCreditNetwork = "stripe"
 	TreasuryReceivedCreditNetworkUSDomesticWire TreasuryReceivedCreditNetwork = "us_domestic_wire"
@@ -71,7 +71,7 @@ type TreasuryReceivedCreditNetworkDetailsType string
 
 // List of values that TreasuryReceivedCreditNetworkDetailsType can take
 const (
-	TreasuryReceivedCreditNetworkDetailsTypeAch TreasuryReceivedCreditNetworkDetailsType = "ach"
+	TreasuryReceivedCreditNetworkDetailsTypeACH TreasuryReceivedCreditNetworkDetailsType = "ach"
 )
 
 // Set if a ReceivedCredit cannot be reversed.
@@ -185,7 +185,7 @@ type TreasuryReceivedCreditLinkedFlows struct {
 }
 
 // Details about an ACH transaction.
-type TreasuryReceivedCreditNetworkDetailsAch struct {
+type TreasuryReceivedCreditNetworkDetailsACH struct {
 	// ACH Addenda record
 	Addenda string `json:"addenda"`
 }
@@ -193,7 +193,7 @@ type TreasuryReceivedCreditNetworkDetailsAch struct {
 // Details specific to the money movement rails.
 type TreasuryReceivedCreditNetworkDetails struct {
 	// Details about an ACH transaction.
-	Ach *TreasuryReceivedCreditNetworkDetailsAch `json:"ach"`
+	ACH *TreasuryReceivedCreditNetworkDetailsACH `json:"ach"`
 	// The type of flow that originated the ReceivedCredit.
 	Type TreasuryReceivedCreditNetworkDetailsType `json:"type"`
 }

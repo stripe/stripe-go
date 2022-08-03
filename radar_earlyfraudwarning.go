@@ -64,6 +64,5 @@ type RadarEarlyFraudWarning struct {
 type RadarEarlyFraudWarningList struct {
 	APIResource
 	ListMeta
-	// TODO: rename `Values` to `Data` in a future major version for consistency with other List structs
-	Values []*RadarEarlyFraudWarning `json:"data"`
+	Data []*RadarEarlyFraudWarning `json:"data"`
 }

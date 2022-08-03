@@ -7,12 +7,12 @@
 package stripe
 
 // Retrieves the details of a Report Type. (Certain report types require a [live-mode API key](https://stripe.com/docs/keys#test-live-modes).)
-type ReportTypeParams struct {
+type ReportingReportTypeParams struct {
 	Params `form:"*"`
 }
 
 // Returns a full list of Report Types.
-type ReportTypeListParams struct {
+type ReportingReportTypeListParams struct {
 	ListParams `form:"*"`
 }
 
@@ -24,9 +24,8 @@ type ReportTypeListParams struct {
 //
 // Note that certain report types can only be run based on your live-mode data (not test-mode
 // data), and will error when queried without a [live-mode API key](https://stripe.com/docs/keys#test-live-modes).
-type ReportType struct {
+type ReportingReportType struct {
 	APIResource
-	Created int64 `json:"created"`
 	// Most recent time for which this Report Type is available. Measured in seconds since the Unix epoch.
 	DataAvailableEnd int64 `json:"data_available_end"`
 	// Earliest time for which this Report Type is available. Measured in seconds since the Unix epoch.
@@ -47,9 +46,9 @@ type ReportType struct {
 	Version int64 `json:"version"`
 }
 
-// ReportTypeList is a list of ReportTypes as retrieved from a list endpoint.
-type ReportTypeList struct {
+// ReportingReportTypeList is a list of ReportTypes as retrieved from a list endpoint.
+type ReportingReportTypeList struct {
 	APIResource
 	ListMeta
-	Data []*ReportType `json:"data"`
+	Data []*ReportingReportType `json:"data"`
 }

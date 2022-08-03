@@ -54,18 +54,6 @@ func TestPlanNew(t *testing.T) {
 	assert.NotNil(t, plan)
 }
 
-func TestPlanNewWithProductID(t *testing.T) {
-	plan, err := New(&stripe.PlanParams{
-		Amount:    stripe.Int64(1),
-		Currency:  stripe.String(string(stripe.CurrencyUSD)),
-		ID:        stripe.String("sapphire-elite"),
-		Interval:  stripe.String(string(stripe.PlanIntervalMonth)),
-		ProductID: stripe.String("prod_12345abc"),
-	})
-	assert.Nil(t, err)
-	assert.NotNil(t, plan)
-}
-
 func TestPlanUpdate(t *testing.T) {
 	plan, err := Update("gold", &stripe.PlanParams{
 		Nickname: stripe.String("Updated nickame"),

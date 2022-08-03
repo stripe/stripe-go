@@ -9,26 +9,26 @@ package stripe
 // Status of this report run. This will be `pending` when the run is initially created.
 //  When the run finishes, this will be set to `succeeded` and the `result` field will be populated.
 //  Rarely, we may encounter an error, at which point this will be set to `failed` and the `error` field will be populated.
-type ReportRunStatus string
+type ReportingReportRunStatus string
 
-// List of values that ReportRunStatus can take
+// List of values that ReportingReportRunStatus can take
 const (
-	ReportRunStatusFailed    ReportRunStatus = "failed"
-	ReportRunStatusPending   ReportRunStatus = "pending"
-	ReportRunStatusSucceeded ReportRunStatus = "succeeded"
+	ReportingReportRunStatusFailed    ReportingReportRunStatus = "failed"
+	ReportingReportRunStatusPending   ReportingReportRunStatus = "pending"
+	ReportingReportRunStatusSucceeded ReportingReportRunStatus = "succeeded"
 )
 
 // Retrieves the details of an existing Report Run.
-type ReportRunParams struct {
+type ReportingReportRunParams struct {
 	Params `form:"*"`
 	// Parameters specifying how the report should be run. Different Report Types have different required and optional parameters, listed in the [API Access to Reports](https://stripe.com/docs/reporting/statements/api) documentation.
-	Parameters *ReportRunParametersParams `form:"parameters"`
+	Parameters *ReportingReportRunParametersParams `form:"parameters"`
 	// The ID of the [report type](https://stripe.com/docs/reporting/statements/api#report-types) to run, such as `"balance.summary.1"`.
 	ReportType *string `form:"report_type"`
 }
 
 // Parameters specifying how the report should be run. Different Report Types have different required and optional parameters, listed in the [API Access to Reports](https://stripe.com/docs/reporting/statements/api) documentation.
-type ReportRunParametersParams struct {
+type ReportingReportRunParametersParams struct {
 	// The set of report columns to include in the report output. If omitted, the Report Type is run with its default column set.
 	Columns []*string `form:"columns"`
 	// Connected account ID to filter for in the report run.
@@ -48,12 +48,12 @@ type ReportRunParametersParams struct {
 }
 
 // Returns a list of Report Runs, with the most recent appearing first.
-type ReportRunListParams struct {
+type ReportingReportRunListParams struct {
 	ListParams   `form:"*"`
 	Created      *int64            `form:"created"`
 	CreatedRange *RangeQueryParams `form:"created"`
 }
-type ReportRunParameters struct {
+type ReportingReportRunParameters struct {
 	// The set of output columns requested for inclusion in the report run.
 	Columns []string `json:"columns"`
 	// Connected account ID by which to filter the report run.
@@ -80,7 +80,7 @@ type ReportRunParameters struct {
 //
 // Note that certain report types can only be run based on your live-mode data (not test-mode
 // data), and will error when queried without a [live-mode API key](https://stripe.com/docs/keys#test-live-modes).
-type ReportRun struct {
+type ReportingReportRun struct {
 	APIResource
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
 	Created int64 `json:"created"`
@@ -92,8 +92,8 @@ type ReportRun struct {
 	// `true` if the report is run on live mode data and `false` if it is run on test mode data.
 	Livemode bool `json:"livemode"`
 	// String representing the object's type. Objects of the same type share the same value.
-	Object     string               `json:"object"`
-	Parameters *ReportRunParameters `json:"parameters"`
+	Object     string                        `json:"object"`
+	Parameters *ReportingReportRunParameters `json:"parameters"`
 	// The ID of the [report type](https://stripe.com/docs/reports/report-types) to run, such as `"balance.summary.1"`.
 	ReportType string `json:"report_type"`
 	// The file object representing the result of the report run (populated when
@@ -102,15 +102,15 @@ type ReportRun struct {
 	// Status of this report run. This will be `pending` when the run is initially created.
 	//  When the run finishes, this will be set to `succeeded` and the `result` field will be populated.
 	//  Rarely, we may encounter an error, at which point this will be set to `failed` and the `error` field will be populated.
-	Status ReportRunStatus `json:"status"`
+	Status ReportingReportRunStatus `json:"status"`
 	// Timestamp at which this run successfully finished (populated when
 	//  `status=succeeded`). Measured in seconds since the Unix epoch.
 	SucceededAt int64 `json:"succeeded_at"`
 }
 
-// ReportRunList is a list of ReportRuns as retrieved from a list endpoint.
-type ReportRunList struct {
+// ReportingReportRunList is a list of ReportRuns as retrieved from a list endpoint.
+type ReportingReportRunList struct {
 	APIResource
 	ListMeta
-	Data []*ReportRun `json:"data"`
+	Data []*ReportingReportRun `json:"data"`
 }

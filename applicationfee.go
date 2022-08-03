@@ -30,7 +30,7 @@ type ApplicationFee struct {
 	// Amount in %s refunded (can be less than the amount attribute on the fee if a partial refund was issued)
 	AmountRefunded int64 `json:"amount_refunded"`
 	// ID of the Connect application that earned the fee.
-	Application string `json:"application"`
+	Application *Application `json:"application"`
 	// Balance transaction that describes the impact of this collected application fee on your account balance (not including refunds).
 	BalanceTransaction *BalanceTransaction `json:"balance_transaction"`
 	// ID of the charge that the application fee was taken from.

@@ -103,7 +103,7 @@ type ProductDefaultPriceDataParams struct {
 }
 
 // The dimensions of this product for shipping purposes.
-type PackageDimensionsParams struct {
+type ProductPackageDimensionsParams struct {
 	// Height, in inches. Maximum precision is 2 decimal places.
 	Height *float64 `form:"height"`
 	// Length, in inches. Maximum precision is 2 decimal places.
@@ -138,7 +138,7 @@ type ProductParams struct {
 	// The product's name, meant to be displayable to the customer.
 	Name *string `form:"name"`
 	// The dimensions of this product for shipping purposes.
-	PackageDimensions *PackageDimensionsParams `form:"package_dimensions"`
+	PackageDimensions *ProductPackageDimensionsParams `form:"package_dimensions"`
 	// Whether this product is shipped (i.e., physical goods).
 	Shippable *bool `form:"shippable"`
 	// An arbitrary string to be displayed on your customer's credit card or bank statement. While most banks display this information consistently, some may display it incorrectly or not at all.
@@ -165,7 +165,7 @@ type ProductListParams struct {
 	Created *int64 `form:"created"`
 	// Only return products that were created during the given date interval.
 	CreatedRange *RangeQueryParams `form:"created"`
-	// Only return products with the given IDs.
+	// Only return products with the given IDs. Cannot be used with [starting_after](https://stripe.com/docs/api#list_products-starting_after) or [ending_before](https://stripe.com/docs/api#list_products-ending_before).
 	IDs []*string `form:"ids"`
 	// Only return products that can be shipped (i.e., physical, not digital products).
 	Shippable *bool `form:"shippable"`
@@ -176,7 +176,7 @@ type ProductListParams struct {
 }
 
 // The dimensions of this product for shipping purposes.
-type PackageDimensions struct {
+type ProductPackageDimensions struct {
 	// Height, in inches.
 	Height float64 `json:"height"`
 	// Length, in inches.
@@ -225,7 +225,7 @@ type Product struct {
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// The dimensions of this product for shipping purposes.
-	PackageDimensions *PackageDimensions `json:"package_dimensions"`
+	PackageDimensions *ProductPackageDimensions `json:"package_dimensions"`
 	// Whether this product is shipped (i.e., physical goods).
 	Shippable bool `json:"shippable"`
 	// Extra information about a product which will appear on your customer's credit card statement. In the case that multiple products are billed at once, the first statement descriptor will be used.

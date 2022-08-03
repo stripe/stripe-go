@@ -46,40 +46,53 @@ func (c Client) Get(id string, params *stripe.OrderParams) (*stripe.Order, error
 }
 
 // Update updates an order's properties.
-func Update(id string, params *stripe.OrderUpdateParams) (*stripe.Order, error) {
+func Update(id string, params *stripe.OrderParams) (*stripe.Order, error) {
 	return getC().Update(id, params)
 }
 
 // Update updates an order's properties.
-func (c Client) Update(id string, params *stripe.OrderUpdateParams) (*stripe.Order, error) {
+func (c Client) Update(id string, params *stripe.OrderParams) (*stripe.Order, error) {
 	path := stripe.FormatURLPath("/v1/orders/%s", id)
 	order := &stripe.Order{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, order)
 	return order, err
 }
 
-// Pay is the method for the `POST /v1/orders/{id}/pay` API.
-func Pay(id string, params *stripe.OrderPayParams) (*stripe.Order, error) {
-	return getC().Pay(id, params)
+// Cancel is the method for the `POST /v1/orders/{id}/cancel` API.
+func Cancel(id string, params *stripe.OrderCancelParams) (*stripe.Order, error) {
+	return getC().Cancel(id, params)
 }
 
-// Pay is the method for the `POST /v1/orders/{id}/pay` API.
-func (c Client) Pay(id string, params *stripe.OrderPayParams) (*stripe.Order, error) {
-	path := stripe.FormatURLPath("/v1/orders/%s/pay", id)
+// Cancel is the method for the `POST /v1/orders/{id}/cancel` API.
+func (c Client) Cancel(id string, params *stripe.OrderCancelParams) (*stripe.Order, error) {
+	path := stripe.FormatURLPath("/v1/orders/%s/cancel", id)
 	order := &stripe.Order{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, order)
 	return order, err
 }
 
-// Return is the method for the `POST /v1/orders/{id}/returns` API.
-func Return(id string, params *stripe.OrderReturnParams) (*stripe.OrderReturn, error) {
-	return getC().Return(id, params)
+// Reopen is the method for the `POST /v1/orders/{id}/reopen` API.
+func Reopen(id string, params *stripe.OrderReopenParams) (*stripe.Order, error) {
+	return getC().Reopen(id, params)
 }
 
-// Return is the method for the `POST /v1/orders/{id}/returns` API.
-func (c Client) Return(id string, params *stripe.OrderReturnParams) (*stripe.OrderReturn, error) {
-	path := stripe.FormatURLPath("/v1/orders/%s/returns", id)
-	order := &stripe.OrderReturn{}
+// Reopen is the method for the `POST /v1/orders/{id}/reopen` API.
+func (c Client) Reopen(id string, params *stripe.OrderReopenParams) (*stripe.Order, error) {
+	path := stripe.FormatURLPath("/v1/orders/%s/reopen", id)
+	order := &stripe.Order{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, order)
+	return order, err
+}
+
+// Submit is the method for the `POST /v1/orders/{id}/submit` API.
+func Submit(id string, params *stripe.OrderSubmitParams) (*stripe.Order, error) {
+	return getC().Submit(id, params)
+}
+
+// Submit is the method for the `POST /v1/orders/{id}/submit` API.
+func (c Client) Submit(id string, params *stripe.OrderSubmitParams) (*stripe.Order, error) {
+	path := stripe.FormatURLPath("/v1/orders/%s/submit", id)
+	order := &stripe.Order{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, order)
 	return order, err
 }
@@ -121,6 +134,49 @@ func (i *Iter) Order() *stripe.Order {
 // continue pagination.
 func (i *Iter) OrderList() *stripe.OrderList {
 	return i.List().(*stripe.OrderList)
+}
+
+// ListLineItems is the method for the `GET /v1/orders/{id}/line_items` API.
+func ListLineItems(params *stripe.OrderListLineItemsParams) *LineItemIter {
+	return getC().ListLineItems(params)
+}
+
+// ListLineItems is the method for the `GET /v1/orders/{id}/line_items` API.
+func (c Client) ListLineItems(listParams *stripe.OrderListLineItemsParams) *LineItemIter {
+	path := stripe.FormatURLPath(
+		"/v1/orders/%s/line_items",
+		stripe.StringValue(listParams.ID),
+	)
+	return &LineItemIter{
+		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
+			list := &stripe.LineItemList{}
+			err := c.B.CallRaw(http.MethodGet, path, c.Key, b, p, list)
+
+			ret := make([]interface{}, len(list.Data))
+			for i, v := range list.Data {
+				ret[i] = v
+			}
+
+			return ret, list, err
+		}),
+	}
+}
+
+// LineItemIter is an iterator for line items.
+type LineItemIter struct {
+	*stripe.Iter
+}
+
+// LineItem returns the line item which the iterator is currently pointing to.
+func (i *LineItemIter) LineItem() *stripe.LineItem {
+	return i.Current().(*stripe.LineItem)
+}
+
+// LineItemList returns the current list object which the iterator is
+// currently using. List objects will change as new API calls are made to
+// continue pagination.
+func (i *LineItemIter) LineItemList() *stripe.LineItemList {
+	return i.List().(*stripe.LineItemList)
 }
 
 func getC() Client {

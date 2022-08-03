@@ -11,15 +11,6 @@ const (
 	ErrorTypeCard           ErrorType = "card_error"
 	ErrorTypeIdempotency    ErrorType = "idempotency_error"
 	ErrorTypeInvalidRequest ErrorType = "invalid_request_error"
-
-	// error type api_connection_error is deprecated and will be removed in the next version
-	ErrorTypeAPIConnection ErrorType = "api_connection_error"
-	// error type authentication_error is deprecated and will be removed in the next version
-	ErrorTypeAuthentication ErrorType = "authentication_error"
-	// error type more_permissions_required is deprecated and will be removed in the next version
-	ErrorTypePermission ErrorType = "more_permissions_required"
-	// error type rate_limit_error is deprecated and will be removed in the next version
-	ErrorTypeRateLimit ErrorType = "rate_limit_error"
 )
 
 // ErrorCode is the list of allowed values for the error's code.
@@ -29,113 +20,150 @@ type ErrorCode string
 type DeclineCode string
 
 // List of values that ErrorCode can take.
+// For descriptions see https://stripe.com/docs/error-codes
 const (
-	ErrorCodeAccountAlreadyExists                   ErrorCode = "account_already_exists"
-	ErrorCodeAccountCountryInvalidAddress           ErrorCode = "account_country_invalid_address"
-	ErrorCodeAccountInvalid                         ErrorCode = "account_invalid"
-	ErrorCodeAccountNumberInvalid                   ErrorCode = "account_number_invalid"
-	ErrorCodeAlipayUpgradeRequired                  ErrorCode = "alipay_upgrade_required"
-	ErrorCodeAmountTooLarge                         ErrorCode = "amount_too_large"
-	ErrorCodeAmountTooSmall                         ErrorCode = "amount_too_small"
-	ErrorCodeAPIKeyExpired                          ErrorCode = "api_key_expired"
-	ErrorCodeAuthenticationRequired                 ErrorCode = "authentication_required"
-	ErrorCodeBalanceInsufficient                    ErrorCode = "balance_insufficient"
-	ErrorCodeBankAccountDeclined                    ErrorCode = "bank_account_declined"
-	ErrorCodeBankAccountExists                      ErrorCode = "bank_account_exists"
-	ErrorCodeBankAccountUnusable                    ErrorCode = "bank_account_unusable"
-	ErrorCodeBankAccountUnverified                  ErrorCode = "bank_account_unverified"
-	ErrorCodeBankAccountVerificationFailed          ErrorCode = "bank_account_verification_failed"
-	ErrorCodeBitcoinUpgradeRequired                 ErrorCode = "bitcoin_upgrade_required"
-	ErrorCodeCardDeclinedRateLimitExceeded          ErrorCode = "card_decline_rate_limit_exceeded"
-	ErrorCodeCardDeclined                           ErrorCode = "card_declined"
-	ErrorCodeChargeAlreadyCaptured                  ErrorCode = "charge_already_captured"
-	ErrorCodeChargeAlreadyRefunded                  ErrorCode = "charge_already_refunded"
-	ErrorCodeChargeDisputed                         ErrorCode = "charge_disputed"
-	ErrorCodeChargeExceedsSourceLimit               ErrorCode = "charge_exceeds_source_limit"
-	ErrorCodeChargeExpiredForCapture                ErrorCode = "charge_expired_for_capture"
-	ErrorCodeChargeInvalidParameter                 ErrorCode = "charge_invalid_parameter"
-	ErrorCodeCountryUnsupported                     ErrorCode = "country_unsupported"
-	ErrorCodeCouponExpired                          ErrorCode = "coupon_expired"
-	ErrorCodeCustomerMaxPaymentMethods              ErrorCode = "customer_max_payment_methods"
-	ErrorCodeCustomerMaxSubscriptions               ErrorCode = "customer_max_subscriptions"
-	ErrorCodeEmailInvalid                           ErrorCode = "email_invalid"
-	ErrorCodeExpiredCard                            ErrorCode = "expired_card"
-	ErrorCodeIdempotencyKeyInUse                    ErrorCode = "idempotency_key_in_use"
-	ErrorCodeIncorrectAddress                       ErrorCode = "incorrect_address"
-	ErrorCodeIncorrectCVC                           ErrorCode = "incorrect_cvc"
-	ErrorCodeIncorrectNumber                        ErrorCode = "incorrect_number"
-	ErrorCodeIncorrectZip                           ErrorCode = "incorrect_zip"
-	ErrorCodeInstantPayoutsUnsupported              ErrorCode = "instant_payouts_unsupported"
-	ErrorCodeInvalidCardType                        ErrorCode = "invalid_card_type"
-	ErrorCodeInvalidCharacters                      ErrorCode = "invalid_characters"
-	ErrorCodeInvalidChargeAmount                    ErrorCode = "invalid_charge_amount"
-	ErrorCodeInvalidCVC                             ErrorCode = "invalid_cvc"
-	ErrorCodeInvalidExpiryMonth                     ErrorCode = "invalid_expiry_month"
-	ErrorCodeInvalidExpiryYear                      ErrorCode = "invalid_expiry_year"
-	ErrorCodeInvalidNumber                          ErrorCode = "invalid_number"
-	ErrorCodeInvalidSourceUsage                     ErrorCode = "invalid_source_usage"
-	ErrorCodeInvoiceNoCustomerLineItems             ErrorCode = "invoice_no_customer_line_items"
-	ErrorCodeInvoiceNoSubscriptionLineItems         ErrorCode = "invoice_no_subscription_line_items"
-	ErrorCodeInvoiceNotEditable                     ErrorCode = "invoice_not_editable"
-	ErrorCodeInvoicePamentIntentRequiresAction      ErrorCode = "invoice_payment_intent_requires_action"
-	ErrorCodeInvoiceUpcomingNone                    ErrorCode = "invoice_upcoming_none"
-	ErrorCodeLivemodeMismatch                       ErrorCode = "livemode_mismatch"
-	ErrorCodeLockTimeout                            ErrorCode = "lock_timeout"
-	ErrorCodeMissing                                ErrorCode = "missing"
-	ErrorCodeNotAllowedOnStandardAccount            ErrorCode = "not_allowed_on_standard_account"
-	ErrorCodeOrderCreationFailed                    ErrorCode = "order_creation_failed"
-	ErrorCodeOrderRequiredSettings                  ErrorCode = "order_required_settings"
-	ErrorCodeOrderStatusInvalid                     ErrorCode = "order_status_invalid"
-	ErrorCodeOrderUpstreamTimeout                   ErrorCode = "order_upstream_timeout"
-	ErrorCodeOutOfInventory                         ErrorCode = "out_of_inventory"
-	ErrorCodeParameterInvalidEmpty                  ErrorCode = "parameter_invalid_empty"
-	ErrorCodeParameterInvalidInteger                ErrorCode = "parameter_invalid_integer"
-	ErrorCodeParameterInvalidStringBlank            ErrorCode = "parameter_invalid_string_blank"
-	ErrorCodeParameterInvalidStringEmpty            ErrorCode = "parameter_invalid_string_empty"
-	ErrorCodeParameterMissing                       ErrorCode = "parameter_missing"
-	ErrorCodeParameterUnknown                       ErrorCode = "parameter_unknown"
-	ErrorCodeParametersExclusive                    ErrorCode = "parameters_exclusive"
-	ErrorCodePaymentIntentActionRequired            ErrorCode = "payment_intent_action_required"
-	ErrorCodePaymentIntentAuthenticationFailure     ErrorCode = "payment_intent_authentication_failure"
-	ErrorCodePaymentIntentIncompatiblePaymentMethod ErrorCode = "payment_intent_incompatible_payment_method"
-	ErrorCodePaymentIntentInvalidParameter          ErrorCode = "payment_intent_invalid_parameter"
-	ErrorCodePaymentIntentPaymentAttemptFailed      ErrorCode = "payment_intent_payment_attempt_failed"
-	ErrorCodePaymentIntentUnexpectedState           ErrorCode = "payment_intent_unexpected_state"
-	ErrorCodePaymentMethodUnactivated               ErrorCode = "payment_method_unactivated"
-	ErrorCodePaymentMethodUnexpectedState           ErrorCode = "payment_method_unexpected_state"
-	ErrorCodePayoutsNotAllowed                      ErrorCode = "payouts_not_allowed"
-	ErrorCodePlatformAPIKeyExpired                  ErrorCode = "platform_api_key_expired"
-	ErrorCodePostalCodeInvalid                      ErrorCode = "postal_code_invalid"
-	ErrorCodeProcessingError                        ErrorCode = "processing_error"
-	ErrorCodeProductInactive                        ErrorCode = "product_inactive"
-	ErrorCodeRateLimit                              ErrorCode = "rate_limit"
-	ErrorCodeResourceAlreadyExists                  ErrorCode = "resource_already_exists"
-	ErrorCodeResourceMissing                        ErrorCode = "resource_missing"
-	ErrorCodeRoutingNumberInvalid                   ErrorCode = "routing_number_invalid"
-	ErrorCodeSecretKeyRequired                      ErrorCode = "secret_key_required"
-	ErrorCodeSepaUnsupportedAccount                 ErrorCode = "sepa_unsupported_account"
-	ErrorCodeSetupAttemptFailed                     ErrorCode = "setup_attempt_failed"
-	ErrorCodeSetupIntentAuthenticationFailure       ErrorCode = "setup_intent_authentication_failure"
-	ErrorCodeSetupIntentInvalidParameter            ErrorCode = "setup_intent_invalid_parameter"
-	ErrorCodeSetupIntentUnexpectedState             ErrorCode = "setup_intent_unexpected_state"
-	ErrorCodeShippingCalculationFailed              ErrorCode = "shipping_calculation_failed"
-	ErrorCodeSkuInactive                            ErrorCode = "sku_inactive"
-	ErrorCodeStateUnsupported                       ErrorCode = "state_unsupported"
-	ErrorCodeTaxIDInvalid                           ErrorCode = "tax_id_invalid"
-	ErrorCodeTaxesCalculationFailed                 ErrorCode = "taxes_calculation_failed"
-	ErrorCodeTestmodeChargesOnly                    ErrorCode = "testmode_charges_only"
-	ErrorCodeTLSVersionUnsupported                  ErrorCode = "tls_version_unsupported"
-	ErrorCodeTokenAlreadyUsed                       ErrorCode = "token_already_used"
-	ErrorCodeTokenInUse                             ErrorCode = "token_in_use"
-	ErrorCodeTransfersNotAllowed                    ErrorCode = "transfers_not_allowed"
-	ErrorCodeUpstreamOrderCreationFailed            ErrorCode = "upstream_order_creation_failed"
-	ErrorCodeURLInvalid                             ErrorCode = "url_invalid"
+	ErrorCodeAccountCountryInvalidAddress                                ErrorCode = "account_country_invalid_address"
+	ErrorCodeAccountErrorCountryChangeRequiresAdditionalSteps            ErrorCode = "account_error_country_change_requires_additional_steps"
+	ErrorCodeAccountInformationMismatch                                  ErrorCode = "account_information_mismatch"
+	ErrorCodeAccountInvalid                                              ErrorCode = "account_invalid"
+	ErrorCodeAccountNumberInvalid                                        ErrorCode = "account_number_invalid"
+	ErrorCodeACSSDebitSessionIncomplete                                  ErrorCode = "acss_debit_session_incomplete"
+	ErrorCodeAlipayUpgradeRequired                                       ErrorCode = "alipay_upgrade_required"
+	ErrorCodeAmountTooLarge                                              ErrorCode = "amount_too_large"
+	ErrorCodeAmountTooSmall                                              ErrorCode = "amount_too_small"
+	ErrorCodeAPIKeyExpired                                               ErrorCode = "api_key_expired"
+	ErrorCodeAuthenticationRequired                                      ErrorCode = "authentication_required"
+	ErrorCodeBalanceInsufficient                                         ErrorCode = "balance_insufficient"
+	ErrorCodeBankAccountBadRoutingNumbers                                ErrorCode = "bank_account_bad_routing_numbers"
+	ErrorCodeBankAccountDeclined                                         ErrorCode = "bank_account_declined"
+	ErrorCodeBankAccountExists                                           ErrorCode = "bank_account_exists"
+	ErrorCodeBankAccountUnusable                                         ErrorCode = "bank_account_unusable"
+	ErrorCodeBankAccountUnverified                                       ErrorCode = "bank_account_unverified"
+	ErrorCodeBankAccountVerificationFailed                               ErrorCode = "bank_account_verification_failed"
+	ErrorCodeBillingInvalidMandate                                       ErrorCode = "billing_invalid_mandate"
+	ErrorCodeBitcoinUpgradeRequired                                      ErrorCode = "bitcoin_upgrade_required"
+	ErrorCodeCardDeclinedRateLimitExceeded                               ErrorCode = "card_decline_rate_limit_exceeded"
+	ErrorCodeCardDeclined                                                ErrorCode = "card_declined"
+	ErrorCodeCardholderPhoneNumberRequired                               ErrorCode = "cardholder_phone_number_required"
+	ErrorCodeChargeAlreadyCaptured                                       ErrorCode = "charge_already_captured"
+	ErrorCodeChargeAlreadyRefunded                                       ErrorCode = "charge_already_refunded"
+	ErrorCodeChargeDisputed                                              ErrorCode = "charge_disputed"
+	ErrorCodeChargeExceedsSourceLimit                                    ErrorCode = "charge_exceeds_source_limit"
+	ErrorCodeChargeExpiredForCapture                                     ErrorCode = "charge_expired_for_capture"
+	ErrorCodeChargeInvalidParameter                                      ErrorCode = "charge_invalid_parameter"
+	ErrorCodeClearingCodeUnsupported                                     ErrorCode = "clearing_code_unsupported"
+	ErrorCodeCountryCodeInvalid                                          ErrorCode = "country_code_invalid"
+	ErrorCodeCountryUnsupported                                          ErrorCode = "country_unsupported"
+	ErrorCodeCouponExpired                                               ErrorCode = "coupon_expired"
+	ErrorCodeCustomerMaxPaymentMethods                                   ErrorCode = "customer_max_payment_methods"
+	ErrorCodeCustomerMaxSubscriptions                                    ErrorCode = "customer_max_subscriptions"
+	ErrorCodeDebitNotAuthorized                                          ErrorCode = "debit_not_authorized"
+	ErrorCodeEmailInvalid                                                ErrorCode = "email_invalid"
+	ErrorCodeExpiredCard                                                 ErrorCode = "expired_card"
+	ErrorCodeIdempotencyKeyInUse                                         ErrorCode = "idempotency_key_in_use"
+	ErrorCodeIncorrectAddress                                            ErrorCode = "incorrect_address"
+	ErrorCodeIncorrectCVC                                                ErrorCode = "incorrect_cvc"
+	ErrorCodeIncorrectNumber                                             ErrorCode = "incorrect_number"
+	ErrorCodeIncorrectZip                                                ErrorCode = "incorrect_zip"
+	ErrorCodeinstantPayoutsLimitExceeded                                 ErrorCode = "instant_payouts_limit_exceeded"
+	ErrorCodeInstantPayoutsUnsupported                                   ErrorCode = "instant_payouts_unsupported"
+	ErrorCodeInsufficientFunds                                           ErrorCode = "insufficient_funds"
+	ErrorCodeIntentInvalidState                                          ErrorCode = "intent_invalid_state"
+	ErrorCodeIntentVerificationMethodMissing                             ErrorCode = "intent_verification_method_missing"
+	ErrorCodeInvalidCardType                                             ErrorCode = "invalid_card_type"
+	ErrorCodeInvalidCharacters                                           ErrorCode = "invalid_characters"
+	ErrorCodeInvalidChargeAmount                                         ErrorCode = "invalid_charge_amount"
+	ErrorCodeInvalidCVC                                                  ErrorCode = "invalid_cvc"
+	ErrorCodeInvalidExpiryMonth                                          ErrorCode = "invalid_expiry_month"
+	ErrorCodeInvalidExpiryYear                                           ErrorCode = "invalid_expiry_year"
+	ErrorCodeInvalidNumber                                               ErrorCode = "invalid_number"
+	ErrorCodeInvalidSourceUsage                                          ErrorCode = "invalid_source_usage"
+	ErrorCodeInvoiceNoCustomerLineItems                                  ErrorCode = "invoice_no_customer_line_items"
+	ErrorCodeInvoiceNoPaymentMethodTypes                                 ErrorCode = "invoice_no_payment_method_types"
+	ErrorCodeInvoiceNoSubscriptionLineItems                              ErrorCode = "invoice_no_subscription_line_items"
+	ErrorCodeInvoiceNotEditable                                          ErrorCode = "invoice_not_editable"
+	ErrorCodeInvoiceOnBehalfOfNotEditable                                ErrorCode = "invoice_on_behalf_of_not_editable"
+	ErrorCodeInvoicePamentIntentRequiresAction                           ErrorCode = "invoice_payment_intent_requires_action"
+	ErrorCodeInvoiceUpcomingNone                                         ErrorCode = "invoice_upcoming_none"
+	ErrorCodeLivemodeMismatch                                            ErrorCode = "livemode_mismatch"
+	ErrorCodeLockTimeout                                                 ErrorCode = "lock_timeout"
+	ErrorCodeMissing                                                     ErrorCode = "missing"
+	ErrorCodeNoAccount                                                   ErrorCode = "no_account"
+	ErrorCodeNotAllowedOnStandardAccount                                 ErrorCode = "not_allowed_on_standard_account"
+	ErrorCodeOutOfInventory                                              ErrorCode = "out_of_inventory"
+	ErrorCodeParameterInvalidEmpty                                       ErrorCode = "parameter_invalid_empty"
+	ErrorCodeParameterInvalidInteger                                     ErrorCode = "parameter_invalid_integer"
+	ErrorCodeParameterInvalidStringBlank                                 ErrorCode = "parameter_invalid_string_blank"
+	ErrorCodeParameterInvalidStringEmpty                                 ErrorCode = "parameter_invalid_string_empty"
+	ErrorCodeParameterMissing                                            ErrorCode = "parameter_missing"
+	ErrorCodeParameterUnknown                                            ErrorCode = "parameter_unknown"
+	ErrorCodeParametersExclusive                                         ErrorCode = "parameters_exclusive"
+	ErrorCodePaymentIntentActionRequired                                 ErrorCode = "payment_intent_action_required"
+	ErrorCodePaymentIntentAuthenticationFailure                          ErrorCode = "payment_intent_authentication_failure"
+	ErrorCodePaymentIntentIncompatiblePaymentMethod                      ErrorCode = "payment_intent_incompatible_payment_method"
+	ErrorCodePaymentIntentInvalidParameter                               ErrorCode = "payment_intent_invalid_parameter"
+	ErrorCodePaymentIntentKonbiniRejectedConfirmationNumber              ErrorCode = "payment_intent_konbini_rejected_confirmation_number"
+	ErrorCodePaymentIntentMandateInvalid                                 ErrorCode = "payment_intent_mandate_invalid"
+	ErrorCodePaymentIntentPaymentAttemptExpired                          ErrorCode = "payment_intent_payment_attempt_expired"
+	ErrorCodePaymentIntentPaymentAttemptFailed                           ErrorCode = "payment_intent_payment_attempt_failed"
+	ErrorCodePaymentIntentUnexpectedState                                ErrorCode = "payment_intent_unexpected_state"
+	ErrorCodePaymentMethodBankAccountAlreadyVerified                     ErrorCode = "payment_method_bank_account_already_verified"
+	ErrorCodePaymentMethodBankAccountBlocked                             ErrorCode = "payment_method_bank_account_blocked"
+	ErrorCodePaymentMethodBillingDetailsAddressMissing                   ErrorCode = "payment_method_billing_details_address_missing"
+	ErrorCodePaymentMethodCurrencyMismatch                               ErrorCode = "payment_method_currency_mismatch"
+	ErrorCodePaymentMethodInvalidParameter                               ErrorCode = "payment_method_invalid_parameter"
+	ErrorCodePaymentMethodInvalidParameterTestmode                       ErrorCode = "payment_method_invalid_parameter_testmode"
+	ErrorCodePaymentMethodMicrodepositFailed                             ErrorCode = "payment_method_microdeposit_failed"
+	ErrorCodePaymentMethodMicrodepositVerificationAmountsInvalid         ErrorCode = "payment_method_microdeposit_verification_amounts_invalid"
+	ErrorCodePaymentMethodMicrodepositVerificationAmountsMismatch        ErrorCode = "payment_method_microdeposit_verification_amounts_mismatch"
+	ErrorCodePaymentMethodMicrodepositVerificationAttemptsExceeded       ErrorCode = "payment_method_microdeposit_verification_attempts_exceeded"
+	ErrorCodePaymentMethodMicrodepositVerificationDescriptorCodeMismatch ErrorCode = "payment_method_microdeposit_verification_descriptor_code_mismatch"
+	ErrorCodePaymentMethodMicrodepositVerificationTimeout                ErrorCode = "payment_method_microdeposit_verification_timeout"
+	ErrorCodePaymentMethodProviderDecline                                ErrorCode = "payment_method_provider_decline"
+	ErrorCodePaymentMethodProviderTimeout                                ErrorCode = "payment_method_provider_timeout"
+	ErrorCodePaymentMethodUnactivated                                    ErrorCode = "payment_method_unactivated"
+	ErrorCodePaymentMethodUnexpectedState                                ErrorCode = "payment_method_unexpected_state"
+	ErrorCodePaymentMethodUnsupportedType                                ErrorCode = "payment_method_unsupported_type"
+	ErrorCodePayoutsNotAllowed                                           ErrorCode = "payouts_not_allowed"
+	ErrorCodePlatformAccountRequired                                     ErrorCode = "platform_account_required"
+	ErrorCodePlatformAPIKeyExpired                                       ErrorCode = "platform_api_key_expired"
+	ErrorCodePostalCodeInvalid                                           ErrorCode = "postal_code_invalid"
+	ErrorCodeProcessingError                                             ErrorCode = "processing_error"
+	ErrorCodeProductInactive                                             ErrorCode = "product_inactive"
+	ErrorCodeRateLimit                                                   ErrorCode = "rate_limit"
+	ErrorCodeReferToCustomer                                             ErrorCode = "refer_to_customer"
+	ErrorCodeRefundDisputedPayment                                       ErrorCode = "refund_disputed_payment"
+	ErrorCodeResourceAlreadyExists                                       ErrorCode = "resource_already_exists"
+	ErrorCodeResourceMissing                                             ErrorCode = "resource_missing"
+	ErrorCodeReturnIntentAlreadyProcessed                                ErrorCode = "return_intent_already_processed"
+	ErrorCodeRoutingNumberInvalid                                        ErrorCode = "routing_number_invalid"
+	ErrorCodeSecretKeyRequired                                           ErrorCode = "secret_key_required"
+	ErrorCodeSepaUnsupportedAccount                                      ErrorCode = "sepa_unsupported_account"
+	ErrorCodeSetupAttemptFailed                                          ErrorCode = "setup_attempt_failed"
+	ErrorCodeSetupIntentAuthenticationFailure                            ErrorCode = "setup_intent_authentication_failure"
+	ErrorCodeSetupIntentInvalidParameter                                 ErrorCode = "setup_intent_invalid_parameter"
+	ErrorCodeSetupIntentSetupAttemptExpired                              ErrorCode = "setup_intent_setup_attempt_expired"
+	ErrorCodeSetupIntentUnexpectedState                                  ErrorCode = "setup_intent_unexpected_state"
+	ErrorCodeShippingCalculationFailed                                   ErrorCode = "shipping_calculation_failed"
+	ErrorCodeSkuInactive                                                 ErrorCode = "sku_inactive"
+	ErrorCodeStateUnsupported                                            ErrorCode = "state_unsupported"
+	ErrorCodeTaxIDInvalid                                                ErrorCode = "tax_id_invalid"
+	ErrorCodeTaxesCalculationFailed                                      ErrorCode = "taxes_calculation_failed"
+	ErrorCodeTerminalLocationCountryUnsupported                          ErrorCode = "terminal_location_country_unsupported"
+	ErrorCodeTestmodeChargesOnly                                         ErrorCode = "testmode_charges_only"
+	ErrorCodeTLSVersionUnsupported                                       ErrorCode = "tls_version_unsupported"
+	ErrorCodeTokenAlreadyUsed                                            ErrorCode = "token_already_used"
+	ErrorCodeTokenInUse                                                  ErrorCode = "token_in_use"
+	ErrorCodeTransferSourceBalanceParametersMismatch                     ErrorCode = "transfer_source_balance_parameters_mismatch"
+	ErrorCodeTransfersNotAllowed                                         ErrorCode = "transfers_not_allowed"
+	ErrorCodeURLInvalid                                                  ErrorCode = "url_invalid"
 
 	// The following error code can be returned though is undocumented
 	ErrorCodeInvalidSwipeData ErrorCode = "invalid_swipe_data"
 )
 
 // List of DeclineCode values.
+// For descriptions see https://stripe.com/docs/declines/codes
 const (
 	DeclineCodeAuthenticationRequired         DeclineCode = "authentication_required"
 	DeclineCodeApproveWithID                  DeclineCode = "approve_with_id"
@@ -187,7 +215,7 @@ const (
 )
 
 // Error is the response returned when a call is unsuccessful.
-// For more details see  https://stripe.com/docs/api#errors.
+// For more details see https://stripe.com/docs/api#errors.
 type Error struct {
 	APIResource
 
@@ -229,16 +257,6 @@ func (e *Error) Unwrap() error {
 	return e.Err
 }
 
-// APIConnectionError is a failure to connect to the Stripe API.
-type APIConnectionError struct {
-	stripeErr *Error
-}
-
-// Error serializes the error object to JSON and returns it as a string.
-func (e *APIConnectionError) Error() string {
-	return e.stripeErr.Error()
-}
-
 // APIError is a catch all for any errors not covered by other types (and
 // should be extremely uncommon).
 type APIError struct {
@@ -247,27 +265,6 @@ type APIError struct {
 
 // Error serializes the error object to JSON and returns it as a string.
 func (e *APIError) Error() string {
-	return e.stripeErr.Error()
-}
-
-// AuthenticationError is a failure to properly authenticate during a request.
-type AuthenticationError struct {
-	stripeErr *Error
-}
-
-// Error serializes the error object to JSON and returns it as a string.
-func (e *AuthenticationError) Error() string {
-	return e.stripeErr.Error()
-}
-
-// PermissionError results when you attempt to make an API request
-// for which your API key doesn't have the right permissions.
-type PermissionError struct {
-	stripeErr *Error
-}
-
-// Error serializes the error object to JSON and returns it as a string.
-func (e *PermissionError) Error() string {
 	return e.stripeErr.Error()
 }
 
@@ -294,17 +291,6 @@ type InvalidRequestError struct {
 
 // Error serializes the error object to JSON and returns it as a string.
 func (e *InvalidRequestError) Error() string {
-	return e.stripeErr.Error()
-}
-
-// RateLimitError occurs when the Stripe API is hit to with too many requests
-// too quickly and indicates that the current request has been rate limited.
-type RateLimitError struct {
-	stripeErr *Error
-}
-
-// Error serializes the error object to JSON and returns it as a string.
-func (e *RateLimitError) Error() string {
 	return e.stripeErr.Error()
 }
 

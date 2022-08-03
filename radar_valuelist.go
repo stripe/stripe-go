@@ -68,9 +68,7 @@ type RadarValueList struct {
 	// The name of the value list.
 	Name string `json:"name"`
 	// String representing the object's type. Objects of the same type share the same value.
-	Object    string `json:"object"`
-	Updated   int64  `json:"updated"`
-	UpdatedBy string `json:"updated_by"`
+	Object string `json:"object"`
 }
 
 // RadarValueListList is a list of ValueLists as retrieved from a list endpoint.

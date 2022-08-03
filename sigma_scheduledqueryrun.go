@@ -6,8 +6,6 @@
 
 package stripe
 
-import "encoding/json"
-
 // The query's execution status, which will be `completed` for successful runs, and `canceled`, `failed`, or `timed_out` otherwise.
 type SigmaScheduledQueryRunStatus string
 
@@ -52,7 +50,6 @@ type SigmaScheduledQueryRun struct {
 	Livemode bool `json:"livemode"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
-	Query  string `json:"query"`
 	// Time at which the result expires and is no longer available for download.
 	ResultAvailableUntil int64 `json:"result_available_until"`
 	// SQL for the query.
@@ -68,23 +65,4 @@ type SigmaScheduledQueryRunList struct {
 	APIResource
 	ListMeta
 	Data []*SigmaScheduledQueryRun `json:"data"`
-}
-
-// UnmarshalJSON handles deserialization of a SigmaScheduledQueryRun.
-// This custom unmarshaling is needed because the resulting
-// property may be an id or the full struct if it was expanded.
-func (s *SigmaScheduledQueryRun) UnmarshalJSON(data []byte) error {
-	if id, ok := ParseID(data); ok {
-		s.ID = id
-		return nil
-	}
-
-	type sigmaScheduledQueryRun SigmaScheduledQueryRun
-	var v sigmaScheduledQueryRun
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-
-	*s = SigmaScheduledQueryRun(v)
-	return nil
 }

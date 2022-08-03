@@ -80,17 +80,17 @@ const (
 	PaymentLinkPaymentMethodTypeFPX              PaymentLinkPaymentMethodType = "fpx"
 	PaymentLinkPaymentMethodTypeGiropay          PaymentLinkPaymentMethodType = "giropay"
 	PaymentLinkPaymentMethodTypeGrabpay          PaymentLinkPaymentMethodType = "grabpay"
-	PaymentLinkPaymentMethodTypeIdeal            PaymentLinkPaymentMethodType = "ideal"
+	PaymentLinkPaymentMethodTypeIDEAL            PaymentLinkPaymentMethodType = "ideal"
 	PaymentLinkPaymentMethodTypeKlarna           PaymentLinkPaymentMethodType = "klarna"
 	PaymentLinkPaymentMethodTypeKonbini          PaymentLinkPaymentMethodType = "konbini"
 	PaymentLinkPaymentMethodTypeOXXO             PaymentLinkPaymentMethodType = "oxxo"
 	PaymentLinkPaymentMethodTypeP24              PaymentLinkPaymentMethodType = "p24"
 	PaymentLinkPaymentMethodTypePayNow           PaymentLinkPaymentMethodType = "paynow"
 	PaymentLinkPaymentMethodTypePromptPay        PaymentLinkPaymentMethodType = "promptpay"
-	PaymentLinkPaymentMethodTypeSepaDebit        PaymentLinkPaymentMethodType = "sepa_debit"
+	PaymentLinkPaymentMethodTypeSEPADebit        PaymentLinkPaymentMethodType = "sepa_debit"
 	PaymentLinkPaymentMethodTypeSofort           PaymentLinkPaymentMethodType = "sofort"
 	PaymentLinkPaymentMethodTypeUSBankAccount    PaymentLinkPaymentMethodType = "us_bank_account"
-	PaymentLinkPaymentMethodTypeWechatPay        PaymentLinkPaymentMethodType = "wechat_pay"
+	PaymentLinkPaymentMethodTypeWeChatPay        PaymentLinkPaymentMethodType = "wechat_pay"
 )
 
 // Indicates the type of transaction being performed which customizes relevant text on the page, such as the submit button.

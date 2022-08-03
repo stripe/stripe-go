@@ -15,7 +15,7 @@ type TaxRateTaxType string
 const (
 	TaxRateTaxTypeGST      TaxRateTaxType = "gst"
 	TaxRateTaxTypeHST      TaxRateTaxType = "hst"
-	TaxRateTaxTypeJct      TaxRateTaxType = "jct"
+	TaxRateTaxTypeJCT      TaxRateTaxType = "jct"
 	TaxRateTaxTypePST      TaxRateTaxType = "pst"
 	TaxRateTaxTypeQST      TaxRateTaxType = "qst"
 	TaxRateTaxTypeRST      TaxRateTaxType = "rst"
