@@ -8,7 +8,7 @@ package stripe
 
 import (
 	"encoding/json"
-	"github.com/stripe/stripe-go/v73/form"
+	"github.com/stripe/stripe-go/v72/form"
 )
 
 // The status of the most recent automated tax calculation for this quote.

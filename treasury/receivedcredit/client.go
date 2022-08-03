@@ -10,8 +10,8 @@ package receivedcredit
 import (
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v73"
-	"github.com/stripe/stripe-go/v73/form"
+	stripe "github.com/stripe/stripe-go/v72"
+	"github.com/stripe/stripe-go/v72/form"
 )
 
 // Client is used to invoke /treasury/received_credits APIs.
