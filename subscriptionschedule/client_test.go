@@ -1,4 +1,4 @@
-package subschedule
+package subscriptionschedule
 
 import (
 	"testing"

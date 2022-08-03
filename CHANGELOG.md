@@ -1,5 +1,33 @@
 # Changelog
 
+## 73.0.1 - 2022-08-03
+* [#1517](https://github.com/stripe/stripe-go/pull/1517) Export ConstructEventOptions fields
+
+## 73.0.0 - 2022-08-02
+
+This release includes breaking changes resulting from:
+
+* Moving to use the new API version "2022-08-01". To learn more about these changes to Stripe products, see https://stripe.com/docs/upgrades#2022-08-01
+* Cleaning up the SDK to remove deprecated/unused APIs and rename classes/methods/properties to sync with product APIs. Read more detailed description at https://github.com/stripe/stripe-go/wiki/Migration-guide-for-v73.
+
+"⚠️" symbol highlights breaking changes.
+
+* [#1513](https://github.com/stripe/stripe-go/pull/1513) API Updates
+* [#1512](https://github.com/stripe/stripe-go/pull/1512) Next major release changes
+
+## 72.122.0 - 2022-07-26
+* [#1508](https://github.com/stripe/stripe-go/pull/1508) API Updates
+  * Add support for new value `exempted` on enums `ChargePaymentMethodDetailsCardThreeDSecureResult` and `SetupAttemptPaymentMethodDetailsCardThreeDSecureResult`
+  * Add support for `CustomerBalance` on `CheckoutSessionPaymentMethodOptionsParams` and `CheckoutSessionPaymentMethodOptions`
+
+## 72.121.0 - 2022-07-25
+* [#1507](https://github.com/stripe/stripe-go/pull/1507) API Updates
+  * Add support for `Installments` on `CheckoutSessionPaymentMethodOptionsCardParams`, `CheckoutSessionPaymentMethodOptionsCard`, `InvoicePaymentSettingsPaymentMethodOptionsCardParams`, and `InvoicePaymentSettingsPaymentMethodOptionsCard`
+  * Add support for `DefaultCurrency` and `InvoiceCreditBalance` on `Customer`
+  * Add support for `Currency` on `InvoiceParams`
+  * Add support for `DefaultMandate` on `InvoicePaymentSettingsParams` and `InvoicePaymentSettings`
+  * Add support for `Mandate` on `InvoicePayParams`
+
 ## 72.121.0-beta.1 - 2022-07-22
 * [#1506](https://github.com/stripe/stripe-go/pull/1506) API Updates for beta branch
   - Updated stable APIs to the latest version

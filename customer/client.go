@@ -84,6 +84,19 @@ func (c Client) CreateFundingInstructions(id string, params *stripe.CustomerCrea
 	return customer, err
 }
 
+// DeleteDiscount is the method for the `DELETE /v1/customers/{customer}/discount` API.
+func DeleteDiscount(id string, params *stripe.CustomerDeleteDiscountParams) (*stripe.Customer, error) {
+	return getC().DeleteDiscount(id, params)
+}
+
+// DeleteDiscount is the method for the `DELETE /v1/customers/{customer}/discount` API.
+func (c Client) DeleteDiscount(id string, params *stripe.CustomerDeleteDiscountParams) (*stripe.Customer, error) {
+	path := stripe.FormatURLPath("/v1/customers/%s/discount", id)
+	customer := &stripe.Customer{}
+	err := c.B.Call(http.MethodDelete, path, c.Key, params, customer)
+	return customer, err
+}
+
 // RetrievePaymentMethod is the method for the `GET /v1/customers/{customer}/payment_methods/{payment_method}` API.
 func RetrievePaymentMethod(id string, params *stripe.CustomerRetrievePaymentMethodParams) (*stripe.Customer, error) {
 	return getC().RetrievePaymentMethod(id, params)

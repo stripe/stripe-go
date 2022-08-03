@@ -3,14 +3,23 @@ package webhook
 import (
 	"encoding/hex"
 	"fmt"
+	"strings"
 	"testing"
 	"time"
+
+	"github.com/stripe/stripe-go/v73"
 )
 
-var testPayload = []byte(`{
+var testPayload = []byte(fmt.Sprintf(`{
   "id": "evt_test_webhook",
-  "object": "event"
-}`)
+  "object": "event",
+  "api_version": "%s"
+}`, stripe.APIVersion))
+var testPayloadWithAPIVersionMismatch = []byte(`{
+	"id": "evt_test_webhook",
+	"object": "event",
+	"api_version": "2020-01-01"
+  }`)
 var testSecret = "whsec_test_secret"
 
 type SignedPayload struct {
@@ -180,5 +189,63 @@ func TestTokenNew(t *testing.T) {
 	evt, err = ConstructEventIgnoringTolerance(p.payload, p.header, p.secret)
 	if err != nil {
 		t.Errorf("Received %v error when timestamp outside window but no tolerance specified", err)
+	}
+}
+
+func TestConstructEvent_ErrorOnAPIVersionMismatch(t *testing.T) {
+	p := newSignedPayload(func(p *SignedPayload) {
+		p.payload = testPayloadWithAPIVersionMismatch
+	})
+
+	_, err := ConstructEvent(p.payload, p.header, p.secret)
+
+	if err == nil {
+		t.Errorf("Expected error due to API version mismatch.")
+	}
+
+	if !strings.Contains(err.Error(), "Received event with API version") {
+		t.Errorf("Expected API version mismatch error but received %v", err)
+	}
+}
+
+func TestConstructEventWithOptions_IgnoreAPIVersionMismatch(t *testing.T) {
+
+	p := newSignedPayload(func(p *SignedPayload) {
+		p.payload = testPayloadWithAPIVersionMismatch
+	})
+
+	evt, err := ConstructEventWithOptions(p.payload, p.header, p.secret, ConstructEventOptions{IgnoreAPIVersionMismatch: true})
+
+	if err != nil {
+		t.Errorf("Expected no error due ignoreAPIVersionMismatch.")
+	}
+
+	if evt.ID != "evt_test_webhook" {
+		t.Errorf("Expected a parsed event matching the test payload, got %v", evt)
+	}
+}
+
+func TestConstructEventWithOptions_UsesDefaultToleranceWhenNoneProvided(t *testing.T) {
+
+	p := newSignedPayload(func(p *SignedPayload) {
+		// Get close to the default tolerance, but give wiggle room to avoid
+		// a flaky test.
+		p.timestamp = time.Now().Add(-DefaultTolerance).Add(1 * time.Second)
+	})
+
+	_, err := ConstructEventWithOptions(p.payload, p.header, p.secret, ConstructEventOptions{})
+
+	if err != nil {
+		t.Errorf("Expected no error due tolerance, but got %v.", err)
+	}
+
+	p = newSignedPayload(func(p *SignedPayload) {
+		p.timestamp = time.Now().Add(-DefaultTolerance).Add(-1 * time.Millisecond)
+	})
+
+	_, err = ConstructEventWithOptions(p.payload, p.header, p.secret, ConstructEventOptions{})
+
+	if err != ErrTooOld {
+		t.Errorf("Expected error due to being too old, but got %v.", err)
 	}
 }

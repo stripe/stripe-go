@@ -177,7 +177,7 @@ type DisputeEvidence struct {
 	// Any additional evidence or statements.
 	UncategorizedText string `json:"uncategorized_text"`
 }
-type EvidenceDetails struct {
+type DisputeEvidenceDetails struct {
 	// Date by which evidence must be submitted in order to successfully challenge dispute. Will be null if the customer's bank or credit card company doesn't allow a response for this particular dispute.
 	DueBy int64 `json:"due_by"`
 	// Whether evidence has been staged for this dispute.
@@ -206,9 +206,9 @@ type Dispute struct {
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
 	Created int64 `json:"created"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency        Currency         `json:"currency"`
-	Evidence        *DisputeEvidence `json:"evidence"`
-	EvidenceDetails *EvidenceDetails `json:"evidence_details"`
+	Currency        Currency                `json:"currency"`
+	Evidence        *DisputeEvidence        `json:"evidence"`
+	EvidenceDetails *DisputeEvidenceDetails `json:"evidence_details"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// If true, it is still possible to refund the disputed payment. Once the payment has been fully refunded, no further funds will be withdrawn from your Stripe account as a result of this dispute.

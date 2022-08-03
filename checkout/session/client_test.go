@@ -49,7 +49,7 @@ func TestCheckoutSessionNew(t *testing.T) {
 			"card",
 		}),
 		SubscriptionData: &stripe.CheckoutSessionSubscriptionDataParams{
-			Items: []*stripe.CheckoutSessionSubscriptionDataItemsParams{
+			Items: []*stripe.CheckoutSessionSubscriptionDataItemParams{
 				{
 					Plan:     stripe.String("plan"),
 					Quantity: stripe.Int64(2),
@@ -80,8 +80,8 @@ func TestCheckoutSessionList(t *testing.T) {
 }
 
 func TestCheckoutSessionListLineItems(t *testing.T) {
-	params := &stripe.CheckoutSessionListLineItemsParams{}
-	i := ListLineItems("cs_123", params)
+	params := &stripe.CheckoutSessionListLineItemsParams{Session: stripe.String("cs_123")}
+	i := ListLineItems(params)
 
 	// Verify that we can get at least one line item.
 	assert.True(t, i.Next())

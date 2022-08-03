@@ -31,12 +31,12 @@ func (c Client) New(params *stripe.FeeRefundParams) (*stripe.FeeRefund, error) {
 	if params == nil {
 		return nil, fmt.Errorf("params cannot be nil")
 	}
-	if params.ApplicationFee == nil {
-		return nil, fmt.Errorf("params.ApplicationFee must be set")
+	if params.ID == nil {
+		return nil, fmt.Errorf("params.ID must be set")
 	}
 	path := stripe.FormatURLPath(
 		"/v1/application_fees/%s/refunds",
-		stripe.StringValue(params.ApplicationFee),
+		stripe.StringValue(params.ID),
 	)
 	feerefund := &stripe.FeeRefund{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, feerefund)
@@ -53,12 +53,12 @@ func (c Client) Get(id string, params *stripe.FeeRefundParams) (*stripe.FeeRefun
 	if params == nil {
 		return nil, fmt.Errorf("params cannot be nil")
 	}
-	if params.ApplicationFee == nil {
-		return nil, fmt.Errorf("params.ApplicationFee must be set")
+	if params.Fee == nil {
+		return nil, fmt.Errorf("params.Fee must be set")
 	}
 	path := stripe.FormatURLPath(
 		"/v1/application_fees/%s/refunds/%s",
-		stripe.StringValue(params.ApplicationFee),
+		stripe.StringValue(params.Fee),
 		id,
 	)
 	feerefund := &stripe.FeeRefund{}
@@ -76,12 +76,12 @@ func (c Client) Update(id string, params *stripe.FeeRefundParams) (*stripe.FeeRe
 	if params == nil {
 		return nil, fmt.Errorf("params cannot be nil")
 	}
-	if params.ApplicationFee == nil {
-		return nil, fmt.Errorf("params.ApplicationFee must be set")
+	if params.Fee == nil {
+		return nil, fmt.Errorf("params.Fee must be set")
 	}
 	path := stripe.FormatURLPath(
 		"/v1/application_fees/%s/refunds/%s",
-		stripe.StringValue(params.ApplicationFee),
+		stripe.StringValue(params.Fee),
 		id,
 	)
 	feerefund := &stripe.FeeRefund{}
@@ -98,7 +98,7 @@ func List(params *stripe.FeeRefundListParams) *Iter {
 func (c Client) List(listParams *stripe.FeeRefundListParams) *Iter {
 	path := stripe.FormatURLPath(
 		"/v1/application_fees/%s/refunds",
-		stripe.StringValue(listParams.ApplicationFee),
+		stripe.StringValue(listParams.ID),
 	)
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {

@@ -9,7 +9,7 @@ import (
 )
 
 func TestSourceGet(t *testing.T) {
-	source, err := Get("card_123", &stripe.CustomerSourceParams{
+	source, err := Get("card_123", &stripe.PaymentSourceParams{
 		Customer: stripe.String("cus_123"),
 	})
 	assert.Nil(t, err)
@@ -17,7 +17,7 @@ func TestSourceGet(t *testing.T) {
 }
 
 func TestSourceList(t *testing.T) {
-	i := List(&stripe.SourceListParams{
+	i := List(&stripe.PaymentSourceListParams{
 		Customer: stripe.String("cus_123"),
 	})
 
@@ -25,14 +25,14 @@ func TestSourceList(t *testing.T) {
 	assert.True(t, i.Next())
 	assert.Nil(t, i.Err())
 	assert.NotNil(t, i.PaymentSource())
-	assert.NotNil(t, i.SourceList())
+	assert.NotNil(t, i.PaymentSourceList())
 }
 
 func TestSourceNew(t *testing.T) {
-	params := &stripe.CustomerSourceParams{
+	params := &stripe.PaymentSourceParams{
 		Customer: stripe.String("cus_123"),
+		Source:   &stripe.PaymentSourceSourceParams{Token: stripe.String("tok_123")},
 	}
-	params.SetSource("tok_123")
 
 	source, err := New(params)
 	assert.Nil(t, err)
@@ -40,7 +40,7 @@ func TestSourceNew(t *testing.T) {
 }
 
 func TestSourceUpdate(t *testing.T) {
-	params := &stripe.CustomerSourceParams{
+	params := &stripe.PaymentSourceParams{
 		Customer: stripe.String("cus_123"),
 	}
 	params.AddMetadata("key", "value")
@@ -51,7 +51,7 @@ func TestSourceUpdate(t *testing.T) {
 }
 
 func TestSourceVerify(t *testing.T) {
-	source, err := Verify("ba_123", &stripe.SourceVerifyParams{
+	source, err := Verify("ba_123", &stripe.PaymentSourceVerifyParams{
 		Customer: stripe.String("cus_123"),
 		Amounts:  [2]int64{32, 45},
 	})
@@ -60,7 +60,7 @@ func TestSourceVerify(t *testing.T) {
 }
 
 func TestSourceObjectVerify(t *testing.T) {
-	source, err := Verify("src_123", &stripe.SourceVerifyParams{
+	source, err := Verify("src_123", &stripe.PaymentSourceVerifyParams{
 		Values: stripe.StringSlice([]string{
 			"32",
 			"45",

@@ -11,7 +11,7 @@ type TreasuryDebitReversalNetwork string
 
 // List of values that TreasuryDebitReversalNetwork can take
 const (
-	TreasuryDebitReversalNetworkAch  TreasuryDebitReversalNetwork = "ach"
+	TreasuryDebitReversalNetworkACH  TreasuryDebitReversalNetwork = "ach"
 	TreasuryDebitReversalNetworkCard TreasuryDebitReversalNetwork = "card"
 )
 

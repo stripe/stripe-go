@@ -37,7 +37,7 @@ func TestProductNew(t *testing.T) {
 		Description: stripe.String("This is a description"),
 		URL:         stripe.String("http://example.com"),
 		Shippable:   stripe.Bool(true),
-		PackageDimensions: &stripe.PackageDimensionsParams{
+		PackageDimensions: &stripe.ProductPackageDimensionsParams{
 			Height: stripe.Float64(2.234),
 			Length: stripe.Float64(5.10),
 			Width:  stripe.Float64(6.50),

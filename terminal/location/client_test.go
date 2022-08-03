@@ -36,7 +36,7 @@ func TestTerminalLocationList(t *testing.T) {
 func TestTerminalLocationNew(t *testing.T) {
 	location, err := New(&stripe.TerminalLocationParams{
 		DisplayName: stripe.String("name"),
-		Address: &stripe.AccountAddressParams{
+		Address: &stripe.AddressParams{
 			Country:    stripe.String("US"),
 			City:       stripe.String("San Francisco"),
 			PostalCode: stripe.String("12345"),

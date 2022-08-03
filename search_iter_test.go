@@ -127,9 +127,6 @@ func TestSearchIterMultiplePages(t *testing.T) {
 	})
 	client := Client{B: backend, Key: Key}
 
-	p := &OrderReturnParams{}
-	p.SetStripeAccount("acct_123")
-
 	iter := client.Search(&SearchParams{
 		Query: "my query",
 	})

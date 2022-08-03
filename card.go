@@ -13,14 +13,25 @@ import (
 )
 
 // If `address_line1` was provided, results of the check: `pass`, `fail`, `unavailable`, or `unchecked`.
-type CardVerification string
+type CardAddressLine1Check string
 
-// List of values that CardVerification can take
+// List of values that CardAddressLine1Check can take
 const (
-	CardVerificationFail        CardVerification = "fail"
-	CardVerificationPass        CardVerification = "pass"
-	CardVerificationUnavailable CardVerification = "unavailable"
-	CardVerificationUnchecked   CardVerification = "unchecked"
+	CardAddressLine1CheckFail        CardAddressLine1Check = "fail"
+	CardAddressLine1CheckPass        CardAddressLine1Check = "pass"
+	CardAddressLine1CheckUnavailable CardAddressLine1Check = "unavailable"
+	CardAddressLine1CheckUnchecked   CardAddressLine1Check = "unchecked"
+)
+
+// If `address_zip` was provided, results of the check: `pass`, `fail`, `unavailable`, or `unchecked`.
+type CardAddressZipCheck string
+
+// List of values that CardAddressZipCheck can take
+const (
+	CardAddressZipCheckFail        CardAddressZipCheck = "fail"
+	CardAddressZipCheckPass        CardAddressZipCheck = "pass"
+	CardAddressZipCheckUnavailable CardAddressZipCheck = "unavailable"
+	CardAddressZipCheckUnchecked   CardAddressZipCheck = "unchecked"
 )
 
 // A set of available payout methods for this card. Only values from this set should be passed as the `method` when creating a payout.
@@ -37,14 +48,25 @@ type CardBrand string
 
 // List of values that CardBrand can take
 const (
-	CardBrandAmex       CardBrand = "American Express"
-	CardBrandDiscover   CardBrand = "Discover"
-	CardBrandDinersClub CardBrand = "Diners Club"
-	CardBrandJCB        CardBrand = "JCB"
-	CardBrandMasterCard CardBrand = "MasterCard"
-	CardBrandUnknown    CardBrand = "Unknown"
-	CardBrandUnionPay   CardBrand = "UnionPay"
-	CardBrandVisa       CardBrand = "Visa"
+	CardBrandAmericanExpress CardBrand = "American Express"
+	CardBrandDiscover        CardBrand = "Discover"
+	CardBrandDinersClub      CardBrand = "Diners Club"
+	CardBrandJCB             CardBrand = "JCB"
+	CardBrandMasterCard      CardBrand = "MasterCard"
+	CardBrandUnknown         CardBrand = "Unknown"
+	CardBrandUnionPay        CardBrand = "UnionPay"
+	CardBrandVisa            CardBrand = "Visa"
+)
+
+// If a CVC was provided, results of the check: `pass`, `fail`, `unavailable`, or `unchecked`. A result of unchecked indicates that CVC was provided but hasn't been checked yet. Checks are typically performed when attaching a card to a Customer object, or when creating a charge. For more details, see [Check if a card is valid without a charge](https://support.stripe.com/questions/check-if-a-card-is-valid-without-a-charge).
+type CardCVCCheck string
+
+// List of values that CardCVCCheck can take
+const (
+	CardCVCCheckFail        CardCVCCheck = "fail"
+	CardCVCCheckPass        CardCVCCheck = "pass"
+	CardCVCCheckUnavailable CardCVCCheck = "unavailable"
+	CardCVCCheckUnchecked   CardCVCCheck = "unchecked"
 )
 
 // Card funding type. Can be `credit`, `debit`, `prepaid`, or `unknown`.
@@ -63,8 +85,8 @@ type CardTokenizationMethod string
 
 // List of values that CardTokenizationMethod can take
 const (
-	TokenizationMethodAndroidPay CardTokenizationMethod = "android_pay"
-	TokenizationMethodApplePay   CardTokenizationMethod = "apple_pay"
+	CardTokenizationMethodAndroidPay CardTokenizationMethod = "android_pay"
+	CardTokenizationMethodApplePay   CardTokenizationMethod = "apple_pay"
 )
 
 type CardOwnerParams struct {
@@ -92,7 +114,6 @@ type CardParams struct {
 	AccountHolderName *string `form:"account_holder_name"`
 	// The type of entity that holds the account. This can be either `individual` or `company`.
 	AccountHolderType *string `form:"account_holder_type"`
-	AccountType       *string `form:"account_type"`
 	// City/District/Suburb/Town/Village.
 	AddressCity *string `form:"address_city"`
 	// Billing address country, if provided when creating card.
@@ -104,16 +125,20 @@ type CardParams struct {
 	// State/County/Province/Region.
 	AddressState *string `form:"address_state"`
 	// ZIP or postal code.
-	AddressZip         *string `form:"address_zip"`
-	Currency           *string `form:"currency"`
-	CVC                *string `form:"cvc"`
-	DefaultForCurrency *bool   `form:"default_for_currency"`
+	AddressZip *string `form:"address_zip"`
+	// Required when adding a card to an account (not applicable to customers or recipients). The card (which must be a debit card) can be used as a transfer destination for funds in this currency.
+	Currency *string `form:"currency"`
+	// Card security code. Highly recommended to always include this value, but it's required only for accounts based in European countries.
+	CVC *string `form:"cvc"`
+	// Applicable only on accounts (not customers or recipients). If you set this to `true` (or if this is the first external account being added in this currency), this card will become the default external account for its currency.
+	DefaultForCurrency *bool `form:"default_for_currency"`
 	// Two digit number representing the card's expiration month.
 	ExpMonth *string `form:"exp_month"`
 	// Four digit number representing the card's expiration year.
 	ExpYear *string `form:"exp_year"`
 	// Cardholder name.
-	Name   *string          `form:"name"`
+	Name *string `form:"name"`
+	// The card number, as a string without any separators.
 	Number *string          `form:"number"`
 	Owner  *CardOwnerParams `form:"owner"`
 	// ID is used when tokenizing a card for shared customers
@@ -256,7 +281,7 @@ type Card struct {
 	// Address line 1 (Street address/PO Box/Company name).
 	AddressLine1 string `json:"address_line1"`
 	// If `address_line1` was provided, results of the check: `pass`, `fail`, `unavailable`, or `unchecked`.
-	AddressLine1Check CardVerification `json:"address_line1_check"`
+	AddressLine1Check CardAddressLine1Check `json:"address_line1_check"`
 	// Address line 2 (Apartment/Suite/Unit/Building).
 	AddressLine2 string `json:"address_line2"`
 	// State/County/Province/Region.
@@ -264,7 +289,7 @@ type Card struct {
 	// ZIP or postal code.
 	AddressZip string `json:"address_zip"`
 	// If `address_zip` was provided, results of the check: `pass`, `fail`, `unavailable`, or `unchecked`.
-	AddressZipCheck CardVerification `json:"address_zip_check"`
+	AddressZipCheck CardAddressZipCheck `json:"address_zip_check"`
 	// A set of available payout methods for this card. Only values from this set should be passed as the `method` when creating a payout.
 	AvailablePayoutMethods []CardAvailablePayoutMethod `json:"available_payout_methods"`
 	// Card brand. Can be `American Express`, `Diners Club`, `Discover`, `JCB`, `MasterCard`, `UnionPay`, `Visa`, or `Unknown`.
@@ -276,7 +301,7 @@ type Card struct {
 	// The customer that this card belongs to. This attribute will not be in the card object if the card belongs to an account or recipient instead.
 	Customer *Customer `json:"customer"`
 	// If a CVC was provided, results of the check: `pass`, `fail`, `unavailable`, or `unchecked`. A result of unchecked indicates that CVC was provided but hasn't been checked yet. Checks are typically performed when attaching a card to a Customer object, or when creating a charge. For more details, see [Check if a card is valid without a charge](https://support.stripe.com/questions/check-if-a-card-is-valid-without-a-charge).
-	CVCCheck CardVerification `json:"cvc_check"`
+	CVCCheck CardCVCCheck `json:"cvc_check"`
 	// Whether this card is the default external account for its currency.
 	DefaultForCurrency bool `json:"default_for_currency"`
 	Deleted            bool `json:"deleted"`
@@ -289,9 +314,9 @@ type Card struct {
 	// (For tokenized numbers only.) The last four digits of the device account number.
 	DynamicLast4 string `json:"dynamic_last4"`
 	// Two-digit number representing the card's expiration month.
-	ExpMonth uint8 `json:"exp_month"`
+	ExpMonth int64 `json:"exp_month"`
 	// Four-digit number representing the card's expiration year.
-	ExpYear uint16 `json:"exp_year"`
+	ExpYear int64 `json:"exp_year"`
 	// Uniquely identifies this particular card number. You can use this attribute to check whether two customers who've signed up with you are using the same card number, for example. For payment methods that tokenize card information (Apple Pay, Google Pay), the tokenized number might be provided instead of the underlying card number.
 	//
 	// *Starting May 1, 2021, card fingerprint in India for Connect will change to allow two fingerprints for the same card --- one for India and one for the rest of the world.*

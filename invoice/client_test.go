@@ -25,15 +25,15 @@ func TestInvoiceList(t *testing.T) {
 }
 
 func TestInvoiceListLines(t *testing.T) {
-	i := ListLines(&stripe.InvoiceLineListParams{
-		ID: stripe.String("in_123"),
+	i := ListLines(&stripe.InvoiceListLinesParams{
+		Invoice: stripe.String("in_123"),
 	})
 
 	// Verify that we can get at least one invoice
 	assert.True(t, i.Next())
 	assert.Nil(t, i.Err())
-	assert.NotNil(t, i.InvoiceLine())
-	assert.NotNil(t, i.InvoiceLineList())
+	assert.NotNil(t, i.InvoiceLineItem())
+	assert.NotNil(t, i.InvoiceLineItemList())
 }
 
 func TestInvoiceNew(t *testing.T) {
@@ -72,7 +72,7 @@ func TestInvoiceDel(t *testing.T) {
 }
 
 func TestInvoiceFinalizeInvoice(t *testing.T) {
-	invoice, err := FinalizeInvoice("in_123", &stripe.InvoiceFinalizeParams{})
+	invoice, err := FinalizeInvoice("in_123", &stripe.InvoiceFinalizeInvoiceParams{})
 	assert.Nil(t, err)
 	assert.NotNil(t, invoice)
 }
@@ -84,13 +84,13 @@ func TestInvoiceMarkUncollectible(t *testing.T) {
 }
 
 func TestInvoiceSendInvoice(t *testing.T) {
-	invoice, err := SendInvoice("in_123", &stripe.InvoiceSendParams{})
+	invoice, err := SendInvoice("in_123", &stripe.InvoiceSendInvoiceParams{})
 	assert.Nil(t, err)
 	assert.NotNil(t, invoice)
 }
 
 func TestInvoiceVoidInvoice(t *testing.T) {
-	invoice, err := VoidInvoice("in_123", &stripe.InvoiceVoidParams{})
+	invoice, err := VoidInvoice("in_123", &stripe.InvoiceVoidInvoiceParams{})
 	assert.Nil(t, err)
 	assert.NotNil(t, invoice)
 }

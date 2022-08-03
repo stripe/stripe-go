@@ -72,33 +72,15 @@ func (c Client) Del(id string, params *stripe.InvoiceParams) (*stripe.Invoice, e
 }
 
 // FinalizeInvoice is the method for the `POST /v1/invoices/{invoice}/finalize` API.
-func FinalizeInvoice(id string, params *stripe.InvoiceFinalizeParams) (*stripe.Invoice, error) {
+func FinalizeInvoice(id string, params *stripe.InvoiceFinalizeInvoiceParams) (*stripe.Invoice, error) {
 	return getC().FinalizeInvoice(id, params)
 }
 
 // FinalizeInvoice is the method for the `POST /v1/invoices/{invoice}/finalize` API.
-func (c Client) FinalizeInvoice(id string, params *stripe.InvoiceFinalizeParams) (*stripe.Invoice, error) {
+func (c Client) FinalizeInvoice(id string, params *stripe.InvoiceFinalizeInvoiceParams) (*stripe.Invoice, error) {
 	path := stripe.FormatURLPath("/v1/invoices/%s/finalize", id)
 	invoice := &stripe.Invoice{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, invoice)
-	return invoice, err
-}
-
-// GetNext is the method for the `GET /v1/invoices/upcoming` API.
-func GetNext(params *stripe.InvoiceParams) (*stripe.Invoice, error) {
-	return getC().GetNext(params)
-}
-
-// GetNext is the method for the `GET /v1/invoices/upcoming` API.
-func (c Client) GetNext(params *stripe.InvoiceParams) (*stripe.Invoice, error) {
-	invoice := &stripe.Invoice{}
-	err := c.B.Call(
-		http.MethodGet,
-		"/v1/invoices/upcoming",
-		c.Key,
-		params,
-		invoice,
-	)
 	return invoice, err
 }
 
@@ -129,25 +111,43 @@ func (c Client) Pay(id string, params *stripe.InvoicePayParams) (*stripe.Invoice
 }
 
 // SendInvoice is the method for the `POST /v1/invoices/{invoice}/send` API.
-func SendInvoice(id string, params *stripe.InvoiceSendParams) (*stripe.Invoice, error) {
+func SendInvoice(id string, params *stripe.InvoiceSendInvoiceParams) (*stripe.Invoice, error) {
 	return getC().SendInvoice(id, params)
 }
 
 // SendInvoice is the method for the `POST /v1/invoices/{invoice}/send` API.
-func (c Client) SendInvoice(id string, params *stripe.InvoiceSendParams) (*stripe.Invoice, error) {
+func (c Client) SendInvoice(id string, params *stripe.InvoiceSendInvoiceParams) (*stripe.Invoice, error) {
 	path := stripe.FormatURLPath("/v1/invoices/%s/send", id)
 	invoice := &stripe.Invoice{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, invoice)
 	return invoice, err
 }
 
+// Upcoming is the method for the `GET /v1/invoices/upcoming` API.
+func Upcoming(params *stripe.InvoiceUpcomingParams) (*stripe.Invoice, error) {
+	return getC().Upcoming(params)
+}
+
+// Upcoming is the method for the `GET /v1/invoices/upcoming` API.
+func (c Client) Upcoming(params *stripe.InvoiceUpcomingParams) (*stripe.Invoice, error) {
+	invoice := &stripe.Invoice{}
+	err := c.B.Call(
+		http.MethodGet,
+		"/v1/invoices/upcoming",
+		c.Key,
+		params,
+		invoice,
+	)
+	return invoice, err
+}
+
 // VoidInvoice is the method for the `POST /v1/invoices/{invoice}/void` API.
-func VoidInvoice(id string, params *stripe.InvoiceVoidParams) (*stripe.Invoice, error) {
+func VoidInvoice(id string, params *stripe.InvoiceVoidInvoiceParams) (*stripe.Invoice, error) {
 	return getC().VoidInvoice(id, params)
 }
 
 // VoidInvoice is the method for the `POST /v1/invoices/{invoice}/void` API.
-func (c Client) VoidInvoice(id string, params *stripe.InvoiceVoidParams) (*stripe.Invoice, error) {
+func (c Client) VoidInvoice(id string, params *stripe.InvoiceVoidInvoiceParams) (*stripe.Invoice, error) {
 	path := stripe.FormatURLPath("/v1/invoices/%s/void", id)
 	invoice := &stripe.Invoice{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, invoice)
@@ -194,19 +194,19 @@ func (i *Iter) InvoiceList() *stripe.InvoiceList {
 }
 
 // ListLines is the method for the `GET /v1/invoices/{invoice}/lines` API.
-func ListLines(params *stripe.InvoiceLineListParams) *LineIter {
+func ListLines(params *stripe.InvoiceListLinesParams) *LineItemIter {
 	return getC().ListLines(params)
 }
 
 // ListLines is the method for the `GET /v1/invoices/{invoice}/lines` API.
-func (c Client) ListLines(listParams *stripe.InvoiceLineListParams) *LineIter {
+func (c Client) ListLines(listParams *stripe.InvoiceListLinesParams) *LineItemIter {
 	path := stripe.FormatURLPath(
 		"/v1/invoices/%s/lines",
-		stripe.StringValue(listParams.ID),
+		stripe.StringValue(listParams.Invoice),
 	)
-	return &LineIter{
+	return &LineItemIter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
-			list := &stripe.InvoiceLineList{}
+			list := &stripe.InvoiceLineItemList{}
 			err := c.B.CallRaw(http.MethodGet, path, c.Key, b, p, list)
 
 			ret := make([]interface{}, len(list.Data))
@@ -219,21 +219,43 @@ func (c Client) ListLines(listParams *stripe.InvoiceLineListParams) *LineIter {
 	}
 }
 
-// LineIter is an iterator for invoice line items.
-type LineIter struct {
+// UpcomingLines is the method for the `GET /v1/invoices/upcoming/lines` API.
+func UpcomingLines(params *stripe.InvoiceUpcomingLinesParams) *LineItemIter {
+	return getC().UpcomingLines(params)
+}
+
+// UpcomingLines is the method for the `GET /v1/invoices/upcoming/lines` API.
+func (c Client) UpcomingLines(listParams *stripe.InvoiceUpcomingLinesParams) *LineItemIter {
+	return &LineItemIter{
+		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
+			list := &stripe.InvoiceLineItemList{}
+			err := c.B.CallRaw(http.MethodGet, "/v1/invoices/upcoming/lines", c.Key, b, p, list)
+
+			ret := make([]interface{}, len(list.Data))
+			for i, v := range list.Data {
+				ret[i] = v
+			}
+
+			return ret, list, err
+		}),
+	}
+}
+
+// LineItemIter is an iterator for invoice line items.
+type LineItemIter struct {
 	*stripe.Iter
 }
 
-// InvoiceLine returns the invoice line item which the iterator is currently pointing to.
-func (i *LineIter) InvoiceLine() *stripe.InvoiceLine {
-	return i.Current().(*stripe.InvoiceLine)
+// InvoiceLineItem returns the invoice line item which the iterator is currently pointing to.
+func (i *LineItemIter) InvoiceLineItem() *stripe.InvoiceLineItem {
+	return i.Current().(*stripe.InvoiceLineItem)
 }
 
-// InvoiceLineList returns the current list object which the iterator is
+// InvoiceLineItemList returns the current list object which the iterator is
 // currently using. List objects will change as new API calls are made to
 // continue pagination.
-func (i *LineIter) InvoiceLineList() *stripe.InvoiceLineList {
-	return i.List().(*stripe.InvoiceLineList)
+func (i *LineItemIter) InvoiceLineItemList() *stripe.InvoiceLineItemList {
+	return i.List().(*stripe.InvoiceLineItemList)
 }
 
 // Search returns a search result containing invoices.

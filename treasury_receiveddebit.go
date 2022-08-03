@@ -50,7 +50,7 @@ type TreasuryReceivedDebitNetwork string
 
 // List of values that TreasuryReceivedDebitNetwork can take
 const (
-	TreasuryReceivedDebitNetworkAch    TreasuryReceivedDebitNetwork = "ach"
+	TreasuryReceivedDebitNetworkACH    TreasuryReceivedDebitNetwork = "ach"
 	TreasuryReceivedDebitNetworkCard   TreasuryReceivedDebitNetwork = "card"
 	TreasuryReceivedDebitNetworkStripe TreasuryReceivedDebitNetwork = "stripe"
 )

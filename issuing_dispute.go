@@ -53,15 +53,6 @@ const (
 	IssuingDisputeEvidenceOtherProductTypeService     IssuingDisputeEvidenceOtherProductType = "service"
 )
 
-// IssuingDisputeEvidenceServiceNotAsDescribedProductType is the list of allowed product types on an issuing dispute of type service not as described.
-type IssuingDisputeEvidenceServiceNotAsDescribedProductType string
-
-// List of values that IssuingDisputeEvidenceServiceNotAsDescribedProductType can take.
-const (
-	IssuingDisputeEvidenceServiceNotAsDescribedProductTypeMerchandise IssuingDisputeEvidenceServiceNotAsDescribedProductType = "merchandise"
-	IssuingDisputeEvidenceServiceNotAsDescribedProductTypeService     IssuingDisputeEvidenceServiceNotAsDescribedProductType = "service"
-)
-
 // The reason for filing the dispute. Its value will match the field containing the evidence.
 type IssuingDisputeEvidenceReason string
 
@@ -200,9 +191,7 @@ type IssuingDisputeEvidenceServiceNotAsDescribedParams struct {
 	// Reason for canceling the order.
 	CancellationReason *string `form:"cancellation_reason"`
 	// Explanation of why the cardholder is disputing this transaction.
-	Explanation        *string `form:"explanation"`
-	ProductDescription *string `form:"product_description"`
-	ProductType        *string `form:"product_type"`
+	Explanation *string `form:"explanation"`
 	// Date when the product was received.
 	ReceivedAt *int64 `form:"received_at"`
 }
@@ -334,9 +323,7 @@ type IssuingDisputeEvidenceServiceNotAsDescribed struct {
 	// Reason for canceling the order.
 	CancellationReason string `json:"cancellation_reason"`
 	// Explanation of why the cardholder is disputing this transaction.
-	Explanation        string                                                 `json:"explanation"`
-	ProductDescription string                                                 `json:"product_description"`
-	ProductType        IssuingDisputeEvidenceServiceNotAsDescribedProductType `json:"product_type"`
+	Explanation string `json:"explanation"`
 	// Date when the product was received.
 	ReceivedAt int64 `json:"received_at"`
 }
@@ -365,7 +352,7 @@ type IssuingDisputeTreasury struct {
 // Related guide: [Disputing Transactions](https://stripe.com/docs/issuing/purchases/disputes)
 type IssuingDispute struct {
 	APIResource
-	// Disputed amount. Usually the amount of the `transaction`, but can differ (usually because of currency fluctuation).
+	// Disputed amount in the card's currency and in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal). Usually the amount of the `transaction`, but can differ (usually because of currency fluctuation).
 	Amount int64 `json:"amount"`
 	// List of balance transactions associated with the dispute.
 	BalanceTransactions []*BalanceTransaction `json:"balance_transactions"`
@@ -383,7 +370,7 @@ type IssuingDispute struct {
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// Current status of the dispute.
-	Status *IssuingDisputeStatus `json:"status"`
+	Status IssuingDisputeStatus `json:"status"`
 	// The transaction being disputed.
 	Transaction *IssuingTransaction `json:"transaction"`
 	// [Treasury](https://stripe.com/docs/api/treasury) details related to this dispute if it was created on a [FinancialAccount](/docs/api/treasury/financial_accounts

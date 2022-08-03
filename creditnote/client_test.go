@@ -28,8 +28,8 @@ func TestCreditNoteList(t *testing.T) {
 }
 
 func TestCreditNoteListLines(t *testing.T) {
-	i := ListLines(&stripe.CreditNoteLineItemListParams{
-		ID: stripe.String("cn_123"),
+	i := ListLines(&stripe.CreditNoteListLinesParams{
+		CreditNote: stripe.String("cn_123"),
 	})
 
 	// Verify that we can get at least one invoice
@@ -39,10 +39,10 @@ func TestCreditNoteListLines(t *testing.T) {
 	assert.NotNil(t, i.CreditNoteLineItemList())
 }
 
-func TestCreditNoteListPreviewLines(t *testing.T) {
-	params := &stripe.CreditNoteLineItemListPreviewParams{
+func TestPreviewLines(t *testing.T) {
+	params := &stripe.CreditNotePreviewLinesParams{
 		Invoice: stripe.String("in_123"),
-		Lines: []*stripe.CreditNoteLineParams{
+		Lines: []*stripe.CreditNotePreviewLinesLineParams{
 			{
 				Type:            stripe.String(string(stripe.CreditNoteLineItemTypeInvoiceLineItem)),
 				Amount:          stripe.Int64(100),
@@ -53,7 +53,7 @@ func TestCreditNoteListPreviewLines(t *testing.T) {
 			},
 		},
 	}
-	i := ListPreviewLines(params)
+	i := PreviewLines(params)
 
 	// Verify that we can get at least one invoice
 	assert.True(t, i.Next())
@@ -99,7 +99,7 @@ func TestCreditNotePreview(t *testing.T) {
 	params := &stripe.CreditNotePreviewParams{
 		Amount:  stripe.Int64(100),
 		Invoice: stripe.String("in_123"),
-		Lines: []*stripe.CreditNoteLineParams{
+		Lines: []*stripe.CreditNotePreviewLineParams{
 			{
 				Type:            stripe.String(string(stripe.CreditNoteLineItemTypeInvoiceLineItem)),
 				Amount:          stripe.Int64(100),
@@ -116,7 +116,7 @@ func TestCreditNotePreview(t *testing.T) {
 }
 
 func TestCreditNoteVoidCreditNote(t *testing.T) {
-	params := &stripe.CreditNoteVoidParams{}
+	params := &stripe.CreditNoteVoidCreditNoteParams{}
 	cn, err := VoidCreditNote("cn_123", params)
 	assert.Nil(t, err)
 	assert.NotNil(t, cn)

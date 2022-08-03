@@ -21,7 +21,7 @@ func TestPriceList(t *testing.T) {
 			"Key1",
 			"Key2",
 		}),
-		Recurring: &stripe.PriceRecurringListParams{
+		Recurring: &stripe.PriceListRecurringParams{
 			Interval:  stripe.String(string(stripe.PriceRecurringIntervalMonth)),
 			UsageType: stripe.String(string(stripe.PriceRecurringUsageTypeLicensed)),
 		},

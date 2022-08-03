@@ -15,7 +15,7 @@ func TestSourceGet(t *testing.T) {
 }
 
 func TestSourceNew(t *testing.T) {
-	source, err := New(&stripe.SourceObjectParams{
+	source, err := New(&stripe.SourceParams{
 		Type:     stripe.String("ach_credit_transfer"),
 		Amount:   stripe.Int64(1000),
 		Currency: stripe.String(string(stripe.CurrencyUSD)),
@@ -31,17 +31,17 @@ func TestSourceNew(t *testing.T) {
 					UserAgent: stripe.String("User-Agent"),
 				},
 				UserAgent: stripe.String("User-Agent"),
-				Status:    stripe.String(string(stripe.SourceMandateAcceptanceStatusAccepted)),
+				Status:    stripe.String("accepted"),
 			},
 			Currency:           stripe.String(string(stripe.CurrencyUSD)),
 			Interval:           stripe.String("one_time"),
-			NotificationMethod: stripe.String(string(stripe.SourceMandateNotificationMethodNone)),
+			NotificationMethod: stripe.String("none"),
 		},
 		Owner: &stripe.SourceOwnerParams{
 			Email: stripe.String("jenny.rosen@example.com"),
 		},
 		Receiver: &stripe.SourceReceiverParams{
-			RefundAttributesMethod: stripe.String(string(stripe.SourceRefundAttributesMethodManual)),
+			RefundAttributesMethod: stripe.String("manual"),
 		},
 	})
 	assert.Nil(t, err)
@@ -49,7 +49,7 @@ func TestSourceNew(t *testing.T) {
 }
 
 func TestSourceUpdate(t *testing.T) {
-	source, err := Update("src_123", &stripe.SourceObjectParams{
+	source, err := Update("src_123", &stripe.SourceParams{
 		Owner: &stripe.SourceOwnerParams{
 			Email: stripe.String("jenny.rosen@example.com"),
 		},
@@ -59,7 +59,7 @@ func TestSourceUpdate(t *testing.T) {
 }
 
 func TestSourceDetach(t *testing.T) {
-	source, err := Detach("src_123", &stripe.SourceObjectDetachParams{
+	source, err := Detach("src_123", &stripe.SourceDetachParams{
 		Customer: stripe.String("cus_123"),
 	})
 	assert.Nil(t, err)
@@ -67,7 +67,7 @@ func TestSourceDetach(t *testing.T) {
 }
 
 func TestSourceSharing(t *testing.T) {
-	params := &stripe.SourceObjectParams{
+	params := &stripe.SourceParams{
 		Type:           stripe.String("card"),
 		Customer:       stripe.String("cus_123"),
 		OriginalSource: stripe.String("src_123"),

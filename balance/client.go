@@ -31,16 +31,6 @@ func (c Client) Get(params *stripe.BalanceParams) (*stripe.Balance, error) {
 	return balance, err
 }
 
-// Iter is an iterator for balance transactions.
-type Iter struct {
-	*stripe.Iter
-}
-
-// BalanceTransaction returns the balance transaction which the iterator is currently pointing to.
-func (i *Iter) BalanceTransaction() *stripe.BalanceTransaction {
-	return i.Current().(*stripe.BalanceTransaction)
-}
-
 func getC() Client {
 	return Client{stripe.GetBackend(stripe.APIBackend), stripe.Key}
 }

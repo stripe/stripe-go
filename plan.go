@@ -161,9 +161,8 @@ type PlanParams struct {
 	// The number of intervals between subscription billings. For example, `interval=month` and `interval_count=3` bills every 3 months. Maximum of one year interval allowed (1 year, 12 months, or 52 weeks).
 	IntervalCount *int64 `form:"interval_count"`
 	// A brief description of the plan, hidden from customers.
-	Nickname  *string            `form:"nickname"`
-	Product   *PlanProductParams `form:"product"`
-	ProductID *string            `form:"product"`
+	Nickname *string            `form:"nickname"`
+	Product  *PlanProductParams `form:"product"`
 	// Each element represents a pricing tier. This parameter requires `billing_scheme` to be set to `tiered`. See also the documentation for `billing_scheme`.
 	Tiers []*PlanTierParams `form:"tiers"`
 	// Defines if the tiering price should be `graduated` or `volume` based. In `volume`-based tiering, the maximum quantity within a period determines the per unit price, in `graduated` tiering pricing can successively change as the quantity grows.
@@ -211,7 +210,7 @@ type Plan struct {
 	// Whether the plan can be used for new purchases.
 	Active bool `json:"active"`
 	// Specifies a usage aggregation strategy for plans of `usage_type=metered`. Allowed values are `sum` for summing up all usage during a period, `last_during_period` for using the last usage record reported within a period, `last_ever` for using the last usage record ever (across period bounds) or `max` which uses the usage record with the maximum reported usage during a period. Defaults to `sum`.
-	AggregateUsage string `json:"aggregate_usage"`
+	AggregateUsage PlanAggregateUsage `json:"aggregate_usage"`
 	// The unit amount in %s to be charged, represented as a whole integer if possible. Only set if `billing_scheme=per_unit`.
 	Amount int64 `json:"amount"`
 	// The unit amount in %s to be charged, represented as a decimal string with at most 12 decimal places. Only set if `billing_scheme=per_unit`.
@@ -242,7 +241,7 @@ type Plan struct {
 	// Each element represents a pricing tier. This parameter requires `billing_scheme` to be set to `tiered`. See also the documentation for `billing_scheme`.
 	Tiers []*PlanTier `json:"tiers"`
 	// Defines if the tiering price should be `graduated` or `volume` based. In `volume`-based tiering, the maximum quantity within a period determines the per unit price. In `graduated` tiering, pricing can change as the quantity grows.
-	TiersMode string `json:"tiers_mode"`
+	TiersMode PlanTiersMode `json:"tiers_mode"`
 	// Apply a transformation to the reported usage or set quantity before computing the amount billed. Cannot be combined with `tiers`.
 	TransformUsage *PlanTransformUsage `json:"transform_usage"`
 	// Default number of trial days when subscribing a customer to this plan using [`trial_from_plan=true`](https://stripe.com/docs/api#create_subscription-trial_from_plan).

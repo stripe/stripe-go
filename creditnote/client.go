@@ -83,12 +83,12 @@ func (c Client) Preview(params *stripe.CreditNotePreviewParams) (*stripe.CreditN
 }
 
 // VoidCreditNote is the method for the `POST /v1/credit_notes/{id}/void` API.
-func VoidCreditNote(id string, params *stripe.CreditNoteVoidParams) (*stripe.CreditNote, error) {
+func VoidCreditNote(id string, params *stripe.CreditNoteVoidCreditNoteParams) (*stripe.CreditNote, error) {
 	return getC().VoidCreditNote(id, params)
 }
 
 // VoidCreditNote is the method for the `POST /v1/credit_notes/{id}/void` API.
-func (c Client) VoidCreditNote(id string, params *stripe.CreditNoteVoidParams) (*stripe.CreditNote, error) {
+func (c Client) VoidCreditNote(id string, params *stripe.CreditNoteVoidCreditNoteParams) (*stripe.CreditNote, error) {
 	path := stripe.FormatURLPath("/v1/credit_notes/%s/void", id)
 	creditnote := &stripe.CreditNote{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, creditnote)
@@ -135,15 +135,15 @@ func (i *Iter) CreditNoteList() *stripe.CreditNoteList {
 }
 
 // ListLines is the method for the `GET /v1/credit_notes/{credit_note}/lines` API.
-func ListLines(params *stripe.CreditNoteLineItemListParams) *LineItemIter {
+func ListLines(params *stripe.CreditNoteListLinesParams) *LineItemIter {
 	return getC().ListLines(params)
 }
 
 // ListLines is the method for the `GET /v1/credit_notes/{credit_note}/lines` API.
-func (c Client) ListLines(listParams *stripe.CreditNoteLineItemListParams) *LineItemIter {
+func (c Client) ListLines(listParams *stripe.CreditNoteListLinesParams) *LineItemIter {
 	path := stripe.FormatURLPath(
 		"/v1/credit_notes/%s/lines",
-		stripe.StringValue(listParams.ID),
+		stripe.StringValue(listParams.CreditNote),
 	)
 	return &LineItemIter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
@@ -160,13 +160,13 @@ func (c Client) ListLines(listParams *stripe.CreditNoteLineItemListParams) *Line
 	}
 }
 
-// ListPreviewLines is the method for the `GET /v1/credit_notes/preview/lines` API.
-func ListPreviewLines(params *stripe.CreditNoteLineItemListPreviewParams) *LineItemIter {
-	return getC().ListPreviewLines(params)
+// PreviewLines is the method for the `GET /v1/credit_notes/preview/lines` API.
+func PreviewLines(params *stripe.CreditNotePreviewLinesParams) *LineItemIter {
+	return getC().PreviewLines(params)
 }
 
-// ListPreviewLines is the method for the `GET /v1/credit_notes/preview/lines` API.
-func (c Client) ListPreviewLines(listParams *stripe.CreditNoteLineItemListPreviewParams) *LineItemIter {
+// PreviewLines is the method for the `GET /v1/credit_notes/preview/lines` API.
+func (c Client) PreviewLines(listParams *stripe.CreditNotePreviewLinesParams) *LineItemIter {
 	return &LineItemIter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.CreditNoteLineItemList{}

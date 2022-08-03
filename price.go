@@ -117,7 +117,7 @@ type PriceSearchParams struct {
 }
 
 // Only return prices with these recurring fields.
-type PriceRecurringListParams struct {
+type PriceListRecurringParams struct {
 	// Filter by billing frequency. Either `day`, `week`, `month` or `year`.
 	Interval *string `form:"interval"`
 	// Filter by the usage type for this price. Can be either `metered` or `licensed`.
@@ -140,7 +140,7 @@ type PriceListParams struct {
 	// Only return prices for the given product.
 	Product *string `form:"product"`
 	// Only return prices with these recurring fields.
-	Recurring *PriceRecurringListParams `form:"recurring"`
+	Recurring *PriceListRecurringParams `form:"recurring"`
 	// Only return prices of type `recurring` or `one_time`.
 	Type *string `form:"type"`
 }
