@@ -110,9 +110,9 @@ func ConstructEventWithTolerance(payload []byte, header string, secret string, t
 // See `ConstructEventOptions` for more details on each of the options.
 //
 // Returns an error if the signature doesn't match, or:
-// - if `ignoreTolerance` is false and the timestamp embedded in the event
+// - if `IgnoreTolerance` is false and the timestamp embedded in the event
 //   header is not within the tolerance window (similar to `ConstructEventWithTolerance`)
-// - if `ignoreAPIVersionMismatch` is false and the webhook event API version
+// - if `IgnoreAPIVersionMismatch` is false and the webhook event API version
 //   does not match the API version of the stripe-go library, as defined in
 //   `stripe.APIVersion`.
 //
@@ -164,7 +164,7 @@ func ValidatePayloadWithTolerance(payload []byte, header string, secret string, 
 
 type ConstructEventOptions struct {
 	// Validates event timestamps using a custom Tolerance window. If this is
-	// not set and `ignoreTolerance` is false, will default to
+	// not set and `IgnoreTolerance` is false, will default to
 	// `DefaultTolerance`.
 	Tolerance time.Duration
 
