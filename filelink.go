@@ -6,10 +6,7 @@
 
 package stripe
 
-import (
-	"encoding/json"
-	"github.com/stripe/stripe-go/v72/form"
-)
+import "github.com/stripe/stripe-go/v72/form"
 
 // Retrieves the file link with the given ID.
 type FileLinkParams struct {
@@ -62,25 +59,6 @@ type FileLink struct {
 	Object string `json:"object"`
 	// The publicly accessible URL to download the file.
 	URL string `json:"url"`
-}
-
-// UnmarshalJSON handles deserialization of a FileLink.
-// This custom unmarshaling is needed because the resulting
-// property may be an id or the full struct if it was expanded.
-func (f *FileLink) UnmarshalJSON(data []byte) error {
-	if id, ok := ParseID(data); ok {
-		f.ID = id
-		return nil
-	}
-
-	type fileLink FileLink
-	var v fileLink
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-
-	*f = FileLink(v)
-	return nil
 }
 
 // FileLinkList is a list of FileLinks as retrieved from a list endpoint.

@@ -25,7 +25,7 @@ type TestHelpersTreasuryReceivedDebitInitiatingPaymentMethodDetailsParams struct
 }
 
 // Optional fields for `ach`.
-type TestHelpersTreasuryReceivedDebitNetworkDetailsAchParams struct {
+type TestHelpersTreasuryReceivedDebitNetworkDetailsACHParams struct {
 	// Addenda record data associated with this ReceivedDebit.
 	Addenda *string `form:"addenda"`
 }
@@ -33,7 +33,7 @@ type TestHelpersTreasuryReceivedDebitNetworkDetailsAchParams struct {
 // Details about the network used for the ReceivedDebit.
 type TestHelpersTreasuryReceivedDebitNetworkDetailsParams struct {
 	// Optional fields for `ach`.
-	Ach *TestHelpersTreasuryReceivedDebitNetworkDetailsAchParams `form:"ach"`
+	ACH *TestHelpersTreasuryReceivedDebitNetworkDetailsACHParams `form:"ach"`
 	// The type of flow that originated the ReceivedDebit.
 	Type *string `form:"type"`
 }

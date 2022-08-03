@@ -708,7 +708,7 @@ type PaymentIntentMandateDataCustomerAcceptanceParams struct {
 	Offline *PaymentIntentMandateDataCustomerAcceptanceOfflineParams `form:"offline"`
 	// If this is a Mandate accepted online, this hash contains details about the online acceptance.
 	Online *PaymentIntentMandateDataCustomerAcceptanceOnlineParams `form:"online"`
-	// The type of customer acceptance information included with the Mandate. One of `online` or `offline`.
+	// The type of customer acceptance information included with the Mandate.
 	Type *string `form:"type"`
 }
 

@@ -46,7 +46,7 @@ type TreasuryOutboundTransferNetworkDetailsType string
 
 // List of values that TreasuryOutboundTransferNetworkDetailsType can take
 const (
-	TreasuryOutboundTransferNetworkDetailsTypeAch TreasuryOutboundTransferNetworkDetailsType = "ach"
+	TreasuryOutboundTransferNetworkDetailsTypeACH TreasuryOutboundTransferNetworkDetailsType = "ach"
 )
 
 // Reason for the return.
@@ -91,7 +91,7 @@ type TreasuryOutboundTransferDestinationPaymentMethodOptionsParams struct {
 }
 
 // Optional fields for `ach`.
-type TreasuryOutboundTransferNetworkDetailsAchParams struct {
+type TreasuryOutboundTransferNetworkDetailsACHParams struct {
 	// Addenda record data associated with this OutboundTransfer.
 	Addenda *string `form:"addenda"`
 }
@@ -99,7 +99,7 @@ type TreasuryOutboundTransferNetworkDetailsAchParams struct {
 // Details about the network used for the OutboundTransfer.
 type TreasuryOutboundTransferNetworkDetailsParams struct {
 	// Optional fields for `ach`.
-	Ach *TreasuryOutboundTransferNetworkDetailsAchParams `form:"ach"`
+	ACH *TreasuryOutboundTransferNetworkDetailsACHParams `form:"ach"`
 	// The type of flow that originated the OutboundTransfer.
 	Type *string `form:"type"`
 }
@@ -169,7 +169,7 @@ type TreasuryOutboundTransferDestinationPaymentMethodDetails struct {
 }
 
 // Details about an ACH transaction.
-type TreasuryOutboundTransferNetworkDetailsAch struct {
+type TreasuryOutboundTransferNetworkDetailsACH struct {
 	// ACH Addenda record
 	Addenda string `json:"addenda"`
 }
@@ -177,7 +177,7 @@ type TreasuryOutboundTransferNetworkDetailsAch struct {
 // Details about the network used for the OutboundTransfer.
 type TreasuryOutboundTransferNetworkDetails struct {
 	// Details about an ACH transaction.
-	Ach *TreasuryOutboundTransferNetworkDetailsAch `json:"ach"`
+	ACH *TreasuryOutboundTransferNetworkDetailsACH `json:"ach"`
 	// The type of flow that originated the OutboundTransfer.
 	Type TreasuryOutboundTransferNetworkDetailsType `json:"type"`
 }
