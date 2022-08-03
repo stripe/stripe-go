@@ -1,5 +1,8 @@
 # Changelog
 
+## 73.0.1 - 2022-08-03
+* [#1517](https://github.com/stripe/stripe-go/pull/1517) Export ConstructEventOptions fields
+
 ## 73.0.0 - 2022-08-02
 
 This release includes breaking changes resulting from:
