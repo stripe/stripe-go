@@ -76,10 +76,6 @@ Here are some of the 'tags' that PR comments will be prefixed with to provide mo
 
 # SalesForce
 
-## Disable MFA on test accounts
-
-First disable Multi Factor Authentication, do that by doing Setup>Session Settings>Session Security Levels and removing Two Factor Authentication. Next there a google plugin called Whitelist All IPs for Salesforce that we use. Install that plugin and go to Setup, switch to Classic, then go to Network Access and there should be a Whitelist All IPs button that you click and will allow anyone to log in without having sent an email verification code.
-
 ## Permission assignments
 
 In order for the ruby service to update Stripe ID fields, it needs to have the right permissions. Here are the two permissions required:
@@ -190,7 +186,7 @@ First, deploy the source to our [QA environment](https://docs.google.com/spreads
 
 ```shell
 cd sfdx
-sfdx force:source:deploy -p force-app/main/default -u mbianco+newstripeconnectorqa@stripe.com
+sfdx force:source:deploy -p force-app/main/default --apiversion=54.0 -u mbianco+newstripeconnectorqa@stripe.com
 ```
 
 If you don't have access to that account, add access:
@@ -213,6 +209,8 @@ Then create a new package in the QA org.
 After rolling, make sure to install it on the package org test account (distinct from the packaging org, which is used to generate the package):
 
 https://appiphony92-dev-ed.my.salesforce.com/
+
+**Warning:** the QA package is automatically updated on each CI build, so it is possible that CI runs the deploy command _right_ after your deploy command finishes running, which could cause strange issues where QA includes a WIP branch.
 
 ## Removing Components from QA or Production Packages
 
@@ -255,7 +253,7 @@ This needs to be done when you are installing the source and not the package:
 ## Platform OAuth Tokens
 
 - The Billing PBO Salesforce org holds our connected application
-- Setup > App Manager > Stripe Connector > Edit to change scopes
+- Setup > App Manager > Stripe Connector > Edit to change scopes or add additional valid callback URLs
 - Same flow with a 'view' action to view consumer tokens
 
 ## Batch Service Example
@@ -269,6 +267,17 @@ http -vvv POST https://appiphony15-dev-ed.my.salesforce.com/services/apexrest/ba
 ```
 bundle exec ruby scripts/refresh-tokens.rb mbianco+biancodevorg@stripe.com
 ```
+
+## Disable MFA (email code verification) on test accounts
+
+Note this _should_ be handled automatically by `scratchSetup/settings/Security` when your scratch org is setup. You may need to deploy these settings on non-scratch orgs.
+
+Disable Multi Factor Authentication (aka mfa, 2fa, email code verification):
+
+- Setup > Session Settings > Session Security Levels
+- remove Multi Factor Authentication
+
+There a google plugin called Whitelist All IPs for Salesforce that our contractors use. Install that plugin and go to Setup, switch to Classic, then go to Network Access and there should be a Whitelist All IPs button that you click and will allow anyone to log in without having sent an email verification code.
 
 ## Connecting to a different org
 

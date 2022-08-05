@@ -24,8 +24,11 @@ workflows:
             parameters:
               # # https://docs.google.com/spreadsheets/d/136PUl_U7bMW7uMSwcqujisasAJNQJIOPQimGGG7iG00/edit#gid=0
               account:
+                # unpackaged source test
                 - mbianco+standardcpq@stripe.com
+                # QA package test
                 - mbianco+cpqpackage@stripe.com
+                # production package test
                 - brennen+prodtest@stripe.com
 
           requires:
@@ -96,7 +99,7 @@ jobs:
     steps:
       - checkout
       - sfdx/install: &sfdx_version
-          version: '7.161.0'
+          version: '7.162.0'
       - run: sfdx/bin/run-tests <<parameters.account>>
       - store_test_results:
           path: sfdx/test-results
@@ -295,7 +298,7 @@ jobs:
             fi
 
             echo "Latest package is installed"
-      
+
       - run:
           name: "PROD CPQ Package Version Check"
           command: |

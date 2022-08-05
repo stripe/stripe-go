@@ -34,5 +34,8 @@
 
 ## Tools
 
-- Santa-blocked, but cool: https://www.pocketsoap.com/osx/soqlx/#Download
-- Also blocked: https://chrome.google.com/webstore/detail/salesforce-inspector/aodjmnfhjibkcdimpodiifdjnnncaafh?hl=en
+Most of these are blocked, but still interesting finds:
+
+- https://www.pocketsoap.com/osx/soqlx/#Download
+- https://chrome.google.com/webstore/detail/salesforce-inspector/aodjmnfhjibkcdimpodiifdjnnncaafh?hl=en
+- https://github.com/motiko/sfdc-debug-logs
