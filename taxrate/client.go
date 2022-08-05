@@ -10,8 +10,8 @@ package taxrate
 import (
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v72"
-	"github.com/stripe/stripe-go/v72/form"
+	stripe "github.com/stripe/stripe-go/v73"
+	"github.com/stripe/stripe-go/v73/form"
 )
 
 // Client is used to invoke /tax_rates APIs.
@@ -55,19 +55,6 @@ func (c Client) Update(id string, params *stripe.TaxRateParams) (*stripe.TaxRate
 	path := stripe.FormatURLPath("/v1/tax_rates/%s", id)
 	taxrate := &stripe.TaxRate{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, taxrate)
-	return taxrate, err
-}
-
-// Del removes a tax rate.
-func Del(id string, params *stripe.TaxRateParams) (*stripe.TaxRate, error) {
-	return getC().Del(id, params)
-}
-
-// Del removes a tax rate.
-func (c Client) Del(id string, params *stripe.TaxRateParams) (*stripe.TaxRate, error) {
-	path := stripe.FormatURLPath("/v1/tax_rates/%s", id)
-	taxrate := &stripe.TaxRate{}
-	err := c.B.Call(http.MethodDelete, path, c.Key, params, taxrate)
 	return taxrate, err
 }
 

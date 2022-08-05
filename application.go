@@ -9,6 +9,7 @@ package stripe
 import "encoding/json"
 
 type Application struct {
+	Deleted bool `json:"deleted"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// The name of the application.

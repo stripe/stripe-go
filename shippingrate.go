@@ -33,6 +33,16 @@ const (
 )
 
 // Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+type ShippingRateFixedAmountCurrencyOptionsTaxBehavior string
+
+// List of values that ShippingRateFixedAmountCurrencyOptionsTaxBehavior can take
+const (
+	ShippingRateFixedAmountCurrencyOptionsTaxBehaviorExclusive   ShippingRateFixedAmountCurrencyOptionsTaxBehavior = "exclusive"
+	ShippingRateFixedAmountCurrencyOptionsTaxBehaviorInclusive   ShippingRateFixedAmountCurrencyOptionsTaxBehavior = "inclusive"
+	ShippingRateFixedAmountCurrencyOptionsTaxBehaviorUnspecified ShippingRateFixedAmountCurrencyOptionsTaxBehavior = "unspecified"
+)
+
+// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
 type ShippingRateTaxBehavior string
 
 // List of values that ShippingRateTaxBehavior can take
@@ -87,12 +97,22 @@ type ShippingRateDeliveryEstimateParams struct {
 	Minimum *ShippingRateDeliveryEstimateMinimumParams `form:"minimum"`
 }
 
+// Shipping rates defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
+type ShippingRateFixedAmountCurrencyOptionsParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
 // Describes a fixed amount to charge for shipping. Must be present if type is `fixed_amount`.
 type ShippingRateFixedAmountParams struct {
 	// A non-negative integer in cents representing how much to charge.
 	Amount *int64 `form:"amount"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency *string `form:"currency"`
+	// Shipping rates defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
+	CurrencyOptions map[string]*ShippingRateFixedAmountCurrencyOptionsParams `form:"currency_options"`
 }
 
 // Creates a new shipping rate object.
@@ -108,7 +128,7 @@ type ShippingRateParams struct {
 	FixedAmount *ShippingRateFixedAmountParams `form:"fixed_amount"`
 	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
 	TaxBehavior *string `form:"tax_behavior"`
-	// A [tax code](https://stripe.com/docs/tax/tax-codes) ID. The Shipping tax code is `txcd_92010001`.
+	// A [tax code](https://stripe.com/docs/tax/tax-categories) ID. The Shipping tax code is `txcd_92010001`.
 	TaxCode *string `form:"tax_code"`
 	// The type of calculation to use on the shipping rate. Can only be `fixed_amount` for now.
 	Type *string `form:"type"`
@@ -137,15 +157,26 @@ type ShippingRateDeliveryEstimate struct {
 	// The lower bound of the estimated range. If empty, represents no lower bound.
 	Minimum *ShippingRateDeliveryEstimateMinimum `json:"minimum"`
 }
+
+// Shipping rates defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
+type ShippingRateFixedAmountCurrencyOptions struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount int64 `json:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior ShippingRateFixedAmountCurrencyOptionsTaxBehavior `json:"tax_behavior"`
+}
 type ShippingRateFixedAmount struct {
 	// A non-negative integer in cents representing how much to charge.
 	Amount int64 `json:"amount"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency Currency `json:"currency"`
+	// Shipping rates defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
+	CurrencyOptions map[string]*ShippingRateFixedAmountCurrencyOptions `json:"currency_options"`
 }
 
 // Shipping rates describe the price of shipping presented to your customers and can be
-// applied to [Checkout Sessions](https://stripe.com/docs/payments/checkout/shipping) to collect shipping costs.
+// applied to [Checkout Sessions](https://stripe.com/docs/payments/checkout/shipping)
+// and [Orders](https://stripe.com/docs/orders/shipping) to collect shipping costs.
 type ShippingRate struct {
 	APIResource
 	// Whether the shipping rate can be used for new purchases. Defaults to `true`.
@@ -167,7 +198,7 @@ type ShippingRate struct {
 	Object string `json:"object"`
 	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
 	TaxBehavior ShippingRateTaxBehavior `json:"tax_behavior"`
-	// A [tax code](https://stripe.com/docs/tax/tax-codes) ID. The Shipping tax code is `txcd_92010001`.
+	// A [tax code](https://stripe.com/docs/tax/tax-categories) ID. The Shipping tax code is `txcd_92010001`.
 	TaxCode *TaxCode `json:"tax_code"`
 	// The type of calculation to use on the shipping rate. Can only be `fixed_amount` for now.
 	Type ShippingRateType `json:"type"`

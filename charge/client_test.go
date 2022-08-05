@@ -4,12 +4,12 @@ import (
 	"testing"
 
 	assert "github.com/stretchr/testify/require"
-	stripe "github.com/stripe/stripe-go/v72"
-	_ "github.com/stripe/stripe-go/v72/testing"
+	stripe "github.com/stripe/stripe-go/v73"
+	_ "github.com/stripe/stripe-go/v73/testing"
 )
 
 func TestChargeCapture(t *testing.T) {
-	charge, err := Capture("ch_123", &stripe.CaptureParams{
+	charge, err := Capture("ch_123", &stripe.ChargeCaptureParams{
 		Amount: stripe.Int64(123),
 	})
 	assert.Nil(t, err)
@@ -49,7 +49,7 @@ func TestChargeNew(t *testing.T) {
 	charge, err := New(&stripe.ChargeParams{
 		Amount:   stripe.Int64(11700),
 		Currency: stripe.String(string(stripe.CurrencyUSD)),
-		Source:   &stripe.SourceParams{Token: stripe.String("src_123")},
+		Source:   &stripe.PaymentSourceSourceParams{Token: stripe.String("src_123")},
 		Shipping: &stripe.ShippingDetailsParams{
 			Address: &stripe.AddressParams{
 				Line1: stripe.String("line1"),
@@ -59,18 +59,6 @@ func TestChargeNew(t *testing.T) {
 			Name:    stripe.String("name"),
 		},
 	})
-	assert.Nil(t, err)
-	assert.NotNil(t, charge)
-}
-
-func TestChargeNew_WithSetSource(t *testing.T) {
-	params := stripe.ChargeParams{
-		Amount:   stripe.Int64(123),
-		Currency: stripe.String(string(stripe.CurrencyUSD)),
-	}
-	params.SetSource("tok_123")
-
-	charge, err := New(&params)
 	assert.Nil(t, err)
 	assert.NotNil(t, charge)
 }

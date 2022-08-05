@@ -4,8 +4,8 @@ import (
 	"testing"
 
 	assert "github.com/stretchr/testify/require"
-	stripe "github.com/stripe/stripe-go/v72"
-	_ "github.com/stripe/stripe-go/v72/testing"
+	stripe "github.com/stripe/stripe-go/v73"
+	_ "github.com/stripe/stripe-go/v73/testing"
 )
 
 func TestCustomerDel(t *testing.T) {
@@ -33,7 +33,7 @@ func TestCustomerList(t *testing.T) {
 func TestCustomerNew(t *testing.T) {
 	customer, err := New(&stripe.CustomerParams{
 		Email: stripe.String("foo@example.com"),
-		Shipping: &stripe.CustomerShippingDetailsParams{
+		Shipping: &stripe.CustomerShippingParams{
 			Address: &stripe.AddressParams{
 				Line1: stripe.String("line1"),
 				City:  stripe.String("city"),

@@ -13,8 +13,9 @@ type IssuingCardCancellationReason string
 
 // List of values that IssuingCardCancellationReason can take
 const (
-	IssuingCardCancellationReasonLost   IssuingCardCancellationReason = "lost"
-	IssuingCardCancellationReasonStolen IssuingCardCancellationReason = "stolen"
+	IssuingCardCancellationReasonDesignRejected IssuingCardCancellationReason = "design_rejected"
+	IssuingCardCancellationReasonLost           IssuingCardCancellationReason = "lost"
+	IssuingCardCancellationReasonStolen         IssuingCardCancellationReason = "stolen"
 )
 
 // The reason why the previous card needed to be replaced.
@@ -34,7 +35,7 @@ type IssuingCardShippingCarrier string
 // List of values that IssuingCardShippingCarrier can take
 const (
 	IssuingCardShippingCarrierDHL       IssuingCardShippingCarrier = "dhl"
-	IssuingCardShippingCarrierFEDEX     IssuingCardShippingCarrier = "fedex"
+	IssuingCardShippingCarrierFedEx     IssuingCardShippingCarrier = "fedex"
 	IssuingCardShippingCarrierRoyalMail IssuingCardShippingCarrier = "royal_mail"
 	IssuingCardShippingCarrierUSPS      IssuingCardShippingCarrier = "usps"
 )
@@ -149,7 +150,7 @@ type IssuingCardShippingParams struct {
 	// The address that the card is shipped to.
 	Address *AddressParams `form:"address"`
 	// The name printed on the shipping label when shipping the card.
-	Name string `form:"name"`
+	Name *string `form:"name"`
 	// Shipment service.
 	Service *string `form:"service"`
 	// Packaging options.
@@ -173,8 +174,7 @@ type IssuingCardSpendingControlsParams struct {
 	// Array of strings containing [categories](https://stripe.com/docs/api#issuing_authorization_object-merchant_data-category) of authorizations to decline. All other categories will be allowed. Cannot be set with `allowed_categories`.
 	BlockedCategories []*string `form:"blocked_categories"`
 	// Limit spending with amount-based rules that apply across any cards this card replaced (i.e., its `replacement_for` card and _that_ card's `replacement_for` card, up the chain).
-	SpendingLimits         []*IssuingCardSpendingControlsSpendingLimitParams `form:"spending_limits"`
-	SpendingLimitsCurrency *string                                           `form:"spending_limits_currency"`
+	SpendingLimits []*IssuingCardSpendingControlsSpendingLimitParams `form:"spending_limits"`
 }
 
 // Creates an Issuing Card object.
@@ -183,7 +183,8 @@ type IssuingCardParams struct {
 	// The [Cardholder](https://stripe.com/docs/api#issuing_cardholder_object) object with which the card will be associated.
 	Cardholder *string `form:"cardholder"`
 	// The currency for the card.
-	Currency *string `form:"currency"`
+	Currency         *string `form:"currency"`
+	FinancialAccount *string `form:"financial_account"`
 	// The desired new PIN for this card.
 	PIN *IssuingCardPINParams `form:"pin"`
 	// The card this is meant to be a replacement for (if any).
@@ -232,7 +233,7 @@ type IssuingCardShipping struct {
 
 // Limit spending with amount-based rules that apply across any cards this card replaced (i.e., its `replacement_for` card and _that_ card's `replacement_for` card, up the chain).
 type IssuingCardSpendingControlsSpendingLimit struct {
-	// Maximum amount allowed to spend per interval.
+	// Maximum amount allowed to spend per interval. This amount is in the card's currency and in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal).
 	Amount int64 `json:"amount"`
 	// Array of strings containing [categories](https://stripe.com/docs/api#issuing_authorization_object-merchant_data-category) this limit applies to. Omitting this field will apply the limit to all categories.
 	Categories []string `json:"categories"`
@@ -283,7 +284,7 @@ type IssuingCard struct {
 	Cardholder *IssuingCardholder `json:"cardholder"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
 	Created int64 `json:"created"`
-	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Supported currencies are `usd` in the US, `eur` in the EU, and `gbp` in the UK.
 	Currency Currency `json:"currency"`
 	// The card's CVC. For security reasons, this is only available for virtual cards, and will be omitted unless you explicitly request it with [the `expand` parameter](https://stripe.com/docs/api/expanding_objects). Additionally, it's only available via the ["Retrieve a card" endpoint](https://stripe.com/docs/api/issuing/cards/retrieve), not via "List all cards" or any other endpoint.
 	CVC string `json:"cvc"`
@@ -291,6 +292,8 @@ type IssuingCard struct {
 	ExpMonth int64 `json:"exp_month"`
 	// The expiration year of the card.
 	ExpYear int64 `json:"exp_year"`
+	// The financial account this card is attached to.
+	FinancialAccount string `json:"financial_account"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// The last 4 digits of the card number.

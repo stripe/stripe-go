@@ -10,8 +10,8 @@ package paymentintent
 import (
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v72"
-	"github.com/stripe/stripe-go/v72/form"
+	stripe "github.com/stripe/stripe-go/v73"
+	"github.com/stripe/stripe-go/v73/form"
 )
 
 // Client is used to invoke /payment_intents APIs.
@@ -114,6 +114,22 @@ func Confirm(id string, params *stripe.PaymentIntentConfirmParams) (*stripe.Paym
 // Confirm is the method for the `POST /v1/payment_intents/{intent}/confirm` API.
 func (c Client) Confirm(id string, params *stripe.PaymentIntentConfirmParams) (*stripe.PaymentIntent, error) {
 	path := stripe.FormatURLPath("/v1/payment_intents/%s/confirm", id)
+	paymentintent := &stripe.PaymentIntent{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, paymentintent)
+	return paymentintent, err
+}
+
+// IncrementAuthorization is the method for the `POST /v1/payment_intents/{intent}/increment_authorization` API.
+func IncrementAuthorization(id string, params *stripe.PaymentIntentIncrementAuthorizationParams) (*stripe.PaymentIntent, error) {
+	return getC().IncrementAuthorization(id, params)
+}
+
+// IncrementAuthorization is the method for the `POST /v1/payment_intents/{intent}/increment_authorization` API.
+func (c Client) IncrementAuthorization(id string, params *stripe.PaymentIntentIncrementAuthorizationParams) (*stripe.PaymentIntent, error) {
+	path := stripe.FormatURLPath(
+		"/v1/payment_intents/%s/increment_authorization",
+		id,
+	)
 	paymentintent := &stripe.PaymentIntent{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, paymentintent)
 	return paymentintent, err

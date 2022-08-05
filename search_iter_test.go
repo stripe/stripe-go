@@ -7,7 +7,7 @@ import (
 	"testing"
 
 	assert "github.com/stretchr/testify/require"
-	"github.com/stripe/stripe-go/v72/form"
+	"github.com/stripe/stripe-go/v73/form"
 )
 
 var nextPageTestToken = "next_page_test_token"
@@ -126,9 +126,6 @@ func TestSearchIterMultiplePages(t *testing.T) {
 		URL: String(ts.URL),
 	})
 	client := Client{B: backend, Key: Key}
-
-	p := &OrderReturnParams{}
-	p.SetStripeAccount("acct_123")
 
 	iter := client.Search(&SearchParams{
 		Query: "my query",

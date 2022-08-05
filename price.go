@@ -8,7 +8,7 @@ package stripe
 
 import (
 	"encoding/json"
-	"github.com/stripe/stripe-go/v72/form"
+	"github.com/stripe/stripe-go/v73/form"
 )
 
 // Describes how to compute the price per period. Either `per_unit` or `tiered`. `per_unit` indicates that the fixed amount (specified in `unit_amount` or `unit_amount_decimal`) will be charged per unit in `quantity` (for prices with `usage_type=licensed`), or per unit of total usage (for prices with `usage_type=metered`). `tiered` indicates that the unit pricing will be computed using a tiering strategy as defined using the `tiers` and `tiers_mode` attributes.
@@ -18,6 +18,16 @@ type PriceBillingScheme string
 const (
 	PriceBillingSchemePerUnit PriceBillingScheme = "per_unit"
 	PriceBillingSchemeTiered  PriceBillingScheme = "tiered"
+)
+
+// Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Once specified as either `inclusive` or `exclusive`, it cannot be changed.
+type PriceCurrencyOptionsTaxBehavior string
+
+// List of values that PriceCurrencyOptionsTaxBehavior can take
+const (
+	PriceCurrencyOptionsTaxBehaviorExclusive   PriceCurrencyOptionsTaxBehavior = "exclusive"
+	PriceCurrencyOptionsTaxBehaviorInclusive   PriceCurrencyOptionsTaxBehavior = "inclusive"
+	PriceCurrencyOptionsTaxBehaviorUnspecified PriceCurrencyOptionsTaxBehavior = "unspecified"
 )
 
 // Specifies a usage aggregation strategy for prices of `usage_type=metered`. Allowed values are `sum` for summing up all usage during a period, `last_during_period` for using the last usage record reported within a period, `last_ever` for using the last usage record ever (across period bounds) or `max` which uses the usage record with the maximum reported usage during a period. Defaults to `sum`.
@@ -99,7 +109,7 @@ type PriceSearchParams struct {
 }
 
 // Only return prices with these recurring fields.
-type PriceRecurringListParams struct {
+type PriceListRecurringParams struct {
 	// Filter by billing frequency. Either `day`, `week`, `month` or `year`.
 	Interval *string `form:"interval"`
 	// Filter by the usage type for this price. Can be either `metered` or `licensed`.
@@ -122,9 +132,69 @@ type PriceListParams struct {
 	// Only return prices for the given product.
 	Product *string `form:"product"`
 	// Only return prices with these recurring fields.
-	Recurring *PriceRecurringListParams `form:"recurring"`
+	Recurring *PriceListRecurringParams `form:"recurring"`
 	// Only return prices of type `recurring` or `one_time`.
 	Type *string `form:"type"`
+}
+
+// When set, provides configuration for the amount to be adjusted by the customer during Checkout Sessions and Payment Links.
+type PriceCurrencyOptionsCustomUnitAmountParams struct {
+	// Pass in `true` to enable `custom_unit_amount`, otherwise omit `custom_unit_amount`.
+	Enabled *bool `form:"enabled"`
+	// The maximum unit amount the customer can specify for this item.
+	Maximum *int64 `form:"maximum"`
+	// The minimum unit amount the customer can specify for this item. Must be at least the minimum charge amount.
+	Minimum *int64 `form:"minimum"`
+	// The starting unit amount which can be updated by the customer.
+	Preset *int64 `form:"preset"`
+}
+
+// Each element represents a pricing tier. This parameter requires `billing_scheme` to be set to `tiered`. See also the documentation for `billing_scheme`.
+type PriceCurrencyOptionsTierParams struct {
+	// The flat billing amount for an entire tier, regardless of the number of units in the tier.
+	FlatAmount *int64 `form:"flat_amount"`
+	// Same as `flat_amount`, but accepts a decimal value representing an integer in the minor units of the currency. Only one of `flat_amount` and `flat_amount_decimal` can be set.
+	FlatAmountDecimal *float64 `form:"flat_amount_decimal,high_precision"`
+	// The per unit billing amount for each individual unit for which this tier applies.
+	UnitAmount *int64 `form:"unit_amount"`
+	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
+	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
+	// Specifies the upper bound of this tier. The lower bound of a tier is the upper bound of the previous tier adding one. Use `inf` to define a fallback tier.
+	UpTo    *int64 `form:"up_to"`
+	UpToInf *bool  `form:"-"` // See custom AppendTo
+}
+
+// AppendTo implements custom encoding logic for PriceCurrencyOptionsTierParams.
+func (p *PriceCurrencyOptionsTierParams) AppendTo(body *form.Values, keyParts []string) {
+	if BoolValue(p.UpToInf) {
+		body.Add(form.FormatKey(append(keyParts, "up_to")), "inf")
+	}
+}
+
+// Prices defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
+type PriceCurrencyOptionsParams struct {
+	// When set, provides configuration for the amount to be adjusted by the customer during Checkout Sessions and Payment Links.
+	CustomUnitAmount *PriceCurrencyOptionsCustomUnitAmountParams `form:"custom_unit_amount"`
+	// Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Once specified as either `inclusive` or `exclusive`, it cannot be changed.
+	TaxBehavior *string `form:"tax_behavior"`
+	// Each element represents a pricing tier. This parameter requires `billing_scheme` to be set to `tiered`. See also the documentation for `billing_scheme`.
+	Tiers []*PriceCurrencyOptionsTierParams `form:"tiers"`
+	// A positive integer in cents (or local equivalent) (or 0 for a free price) representing how much to charge.
+	UnitAmount *int64 `form:"unit_amount"`
+	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
+	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
+}
+
+// When set, provides configuration for the amount to be adjusted by the customer during Checkout Sessions and Payment Links.
+type PriceCustomUnitAmountParams struct {
+	// Pass in `true` to enable `custom_unit_amount`, otherwise omit `custom_unit_amount`.
+	Enabled *bool `form:"enabled"`
+	// The maximum unit amount the customer can specify for this item.
+	Maximum *int64 `form:"maximum"`
+	// The minimum unit amount the customer can specify for this item. Must be at least the minimum charge amount.
+	Minimum *int64 `form:"minimum"`
+	// The starting unit amount which can be updated by the customer.
+	Preset *int64 `form:"preset"`
 }
 
 // These fields can be used to create a new product that this price will belong to.
@@ -141,7 +211,7 @@ type PriceProductDataParams struct {
 	//
 	// This may be up to 22 characters. The statement description may not include `<`, `>`, `\`, `"`, `'` characters, and will appear on your customer's statement in capital letters. Non-ASCII characters are automatically stripped.
 	StatementDescriptor *string `form:"statement_descriptor"`
-	// A [tax code](https://stripe.com/docs/tax/tax-codes) ID.
+	// A [tax code](https://stripe.com/docs/tax/tax-categories) ID.
 	TaxCode *string `form:"tax_code"`
 	// A label that represents units of this product in Stripe and on customers' receipts and invoices. When set, this will be included in associated invoice line item descriptions.
 	UnitLabel *string `form:"unit_label"`
@@ -169,7 +239,7 @@ type PriceTierParams struct {
 	FlatAmountDecimal *float64 `form:"flat_amount_decimal,high_precision"`
 	// The per unit billing amount for each individual unit for which this tier applies.
 	UnitAmount *int64 `form:"unit_amount"`
-	// Same as `unit_amount`, but accepts a decimal value in %s with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
+	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
 	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
 	// Specifies the upper bound of this tier. The lower bound of a tier is the upper bound of the previous tier adding one. Use `inf` to define a fallback tier.
 	UpTo    *int64 `form:"up_to"`
@@ -200,6 +270,10 @@ type PriceParams struct {
 	BillingScheme *string `form:"billing_scheme"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency *string `form:"currency"`
+	// Prices defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
+	CurrencyOptions map[string]*PriceCurrencyOptionsParams `form:"currency_options"`
+	// When set, provides configuration for the amount to be adjusted by the customer during Checkout Sessions and Payment Links.
+	CustomUnitAmount *PriceCustomUnitAmountParams `form:"custom_unit_amount"`
 	// A lookup key used to retrieve prices dynamically from a static string. This may be up to 200 characters.
 	LookupKey *string `form:"lookup_key"`
 	// A brief description of the price, hidden from customers.
@@ -220,10 +294,58 @@ type PriceParams struct {
 	TransferLookupKey *bool `form:"transfer_lookup_key"`
 	// Apply a transformation to the reported usage or set quantity before computing the billed price. Cannot be combined with `tiers`.
 	TransformQuantity *PriceTransformQuantityParams `form:"transform_quantity"`
-	// A positive integer in %s (or 0 for a free price) representing how much to charge.
+	// A positive integer in cents (or local equivalent) (or 0 for a free price) representing how much to charge. One of `unit_amount` or `custom_unit_amount` is required, unless `billing_scheme=tiered`.
 	UnitAmount *int64 `form:"unit_amount"`
-	// Same as `unit_amount`, but accepts a decimal value in %s with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
+	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
 	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
+}
+
+// When set, provides configuration for the amount to be adjusted by the customer during Checkout Sessions and Payment Links.
+type PriceCurrencyOptionsCustomUnitAmount struct {
+	// The maximum unit amount the customer can specify for this item.
+	Maximum int64 `json:"maximum"`
+	// The minimum unit amount the customer can specify for this item. Must be at least the minimum charge amount.
+	Minimum int64 `json:"minimum"`
+	// The starting unit amount which can be updated by the customer.
+	Preset int64 `json:"preset"`
+}
+
+// Each element represents a pricing tier. This parameter requires `billing_scheme` to be set to `tiered`. See also the documentation for `billing_scheme`.
+type PriceCurrencyOptionsTier struct {
+	// Price for the entire tier.
+	FlatAmount int64 `json:"flat_amount"`
+	// Same as `flat_amount`, but contains a decimal value with at most 12 decimal places.
+	FlatAmountDecimal float64 `json:"flat_amount_decimal,string"`
+	// Per unit price for units relevant to the tier.
+	UnitAmount int64 `json:"unit_amount"`
+	// Same as `unit_amount`, but contains a decimal value with at most 12 decimal places.
+	UnitAmountDecimal float64 `json:"unit_amount_decimal,string"`
+	// Up to and including to this quantity will be contained in the tier.
+	UpTo int64 `json:"up_to"`
+}
+
+// Prices defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
+type PriceCurrencyOptions struct {
+	// When set, provides configuration for the amount to be adjusted by the customer during Checkout Sessions and Payment Links.
+	CustomUnitAmount *PriceCurrencyOptionsCustomUnitAmount `json:"custom_unit_amount"`
+	// Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Once specified as either `inclusive` or `exclusive`, it cannot be changed.
+	TaxBehavior PriceCurrencyOptionsTaxBehavior `json:"tax_behavior"`
+	// Each element represents a pricing tier. This parameter requires `billing_scheme` to be set to `tiered`. See also the documentation for `billing_scheme`.
+	Tiers []*PriceCurrencyOptionsTier `json:"tiers"`
+	// The unit amount in %s to be charged, represented as a whole integer if possible. Only set if `billing_scheme=per_unit`.
+	UnitAmount int64 `json:"unit_amount"`
+	// The unit amount in %s to be charged, represented as a decimal string with at most 12 decimal places. Only set if `billing_scheme=per_unit`.
+	UnitAmountDecimal float64 `json:"unit_amount_decimal,string"`
+}
+
+// When set, provides configuration for the amount to be adjusted by the customer during Checkout Sessions and Payment Links.
+type PriceCustomUnitAmount struct {
+	// The maximum unit amount the customer can specify for this item.
+	Maximum int64 `json:"maximum"`
+	// The minimum unit amount the customer can specify for this item. Must be at least the minimum charge amount.
+	Minimum int64 `json:"minimum"`
+	// The starting unit amount which can be updated by the customer.
+	Preset int64 `json:"preset"`
 }
 
 // The recurring components of a price such as `interval` and `usage_type`.
@@ -278,7 +400,11 @@ type Price struct {
 	Created int64 `json:"created"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency Currency `json:"currency"`
-	Deleted  bool     `json:"deleted"`
+	// Prices defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
+	CurrencyOptions map[string]*PriceCurrencyOptions `json:"currency_options"`
+	// When set, provides configuration for the amount to be adjusted by the customer during Checkout Sessions and Payment Links.
+	CustomUnitAmount *PriceCustomUnitAmount `json:"custom_unit_amount"`
+	Deleted          bool                   `json:"deleted"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.

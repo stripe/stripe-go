@@ -53,15 +53,6 @@ const (
 	IssuingDisputeEvidenceOtherProductTypeService     IssuingDisputeEvidenceOtherProductType = "service"
 )
 
-// IssuingDisputeEvidenceServiceNotAsDescribedProductType is the list of allowed product types on an issuing dispute of type service not as described.
-type IssuingDisputeEvidenceServiceNotAsDescribedProductType string
-
-// List of values that IssuingDisputeEvidenceServiceNotAsDescribedProductType can take.
-const (
-	IssuingDisputeEvidenceServiceNotAsDescribedProductTypeMerchandise IssuingDisputeEvidenceServiceNotAsDescribedProductType = "merchandise"
-	IssuingDisputeEvidenceServiceNotAsDescribedProductTypeService     IssuingDisputeEvidenceServiceNotAsDescribedProductType = "service"
-)
-
 // The reason for filing the dispute. Its value will match the field containing the evidence.
 type IssuingDisputeEvidenceReason string
 
@@ -200,9 +191,7 @@ type IssuingDisputeEvidenceServiceNotAsDescribedParams struct {
 	// Reason for canceling the order.
 	CancellationReason *string `form:"cancellation_reason"`
 	// Explanation of why the cardholder is disputing this transaction.
-	Explanation        *string `form:"explanation"`
-	ProductDescription *string `form:"product_description"`
-	ProductType        *string `form:"product_type"`
+	Explanation *string `form:"explanation"`
 	// Date when the product was received.
 	ReceivedAt *int64 `form:"received_at"`
 }
@@ -227,13 +216,21 @@ type IssuingDisputeEvidenceParams struct {
 	ServiceNotAsDescribed *IssuingDisputeEvidenceServiceNotAsDescribedParams `form:"service_not_as_described"`
 }
 
+// Params for disputes related to Treasury FinancialAccounts
+type IssuingDisputeTreasuryParams struct {
+	// The ID of the ReceivedDebit to initiate an Issuings dispute for.
+	ReceivedDebit *string `form:"received_debit"`
+}
+
 // Creates an Issuing Dispute object. Individual pieces of evidence within the evidence object are optional at this point. Stripe only validates that required evidence is present during submission. Refer to [Dispute reasons and evidence](https://stripe.com/docs/issuing/purchases/disputes#dispute-reasons-and-evidence) for more details about evidence requirements.
 type IssuingDisputeParams struct {
 	Params `form:"*"`
 	// Evidence provided for the dispute.
 	Evidence *IssuingDisputeEvidenceParams `form:"evidence"`
-	// The ID of the issuing transaction to create a dispute for.
+	// The ID of the issuing transaction to create a dispute for. For transaction on Treasury FinancialAccounts, use `treasury.received_debit`.
 	Transaction *string `form:"transaction"`
+	// Params for disputes related to Treasury FinancialAccounts
+	Treasury *IssuingDisputeTreasuryParams `form:"treasury"`
 }
 
 // Submits an Issuing Dispute to the card network. Stripe validates that all evidence fields required for the dispute's reason are present. For more details, see [Dispute reasons and evidence](https://stripe.com/docs/issuing/purchases/disputes#dispute-reasons-and-evidence).
@@ -326,9 +323,7 @@ type IssuingDisputeEvidenceServiceNotAsDescribed struct {
 	// Reason for canceling the order.
 	CancellationReason string `json:"cancellation_reason"`
 	// Explanation of why the cardholder is disputing this transaction.
-	Explanation        string                                                 `json:"explanation"`
-	ProductDescription string                                                 `json:"product_description"`
-	ProductType        IssuingDisputeEvidenceServiceNotAsDescribedProductType `json:"product_type"`
+	Explanation string `json:"explanation"`
 	// Date when the product was received.
 	ReceivedAt int64 `json:"received_at"`
 }
@@ -344,12 +339,20 @@ type IssuingDisputeEvidence struct {
 	ServiceNotAsDescribed *IssuingDisputeEvidenceServiceNotAsDescribed `json:"service_not_as_described"`
 }
 
+// [Treasury](https://stripe.com/docs/api/treasury) details related to this dispute if it was created on a [FinancialAccount](/docs/api/treasury/financial_accounts
+type IssuingDisputeTreasury struct {
+	// The Treasury [DebitReversal](https://stripe.com/docs/api/treasury/debit_reversals) representing this Issuing dispute
+	DebitReversal string `json:"debit_reversal"`
+	// The Treasury [ReceivedDebit](https://stripe.com/docs/api/treasury/received_debits) that is being disputed.
+	ReceivedDebit string `json:"received_debit"`
+}
+
 // As a [card issuer](https://stripe.com/docs/issuing), you can dispute transactions that the cardholder does not recognize, suspects to be fraudulent, or has other issues with.
 //
 // Related guide: [Disputing Transactions](https://stripe.com/docs/issuing/purchases/disputes)
 type IssuingDispute struct {
 	APIResource
-	// Disputed amount. Usually the amount of the `transaction`, but can differ (usually because of currency fluctuation).
+	// Disputed amount in the card's currency and in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal). Usually the amount of the `transaction`, but can differ (usually because of currency fluctuation).
 	Amount int64 `json:"amount"`
 	// List of balance transactions associated with the dispute.
 	BalanceTransactions []*BalanceTransaction `json:"balance_transactions"`
@@ -367,9 +370,11 @@ type IssuingDispute struct {
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// Current status of the dispute.
-	Status *IssuingDisputeStatus `json:"status"`
+	Status IssuingDisputeStatus `json:"status"`
 	// The transaction being disputed.
 	Transaction *IssuingTransaction `json:"transaction"`
+	// [Treasury](https://stripe.com/docs/api/treasury) details related to this dispute if it was created on a [FinancialAccount](/docs/api/treasury/financial_accounts
+	Treasury *IssuingDisputeTreasury `json:"treasury"`
 }
 
 // IssuingDisputeList is a list of Disputes as retrieved from a list endpoint.

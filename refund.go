@@ -29,7 +29,7 @@ const (
 	RefundReasonRequestedByCustomer     RefundReason = "requested_by_customer"
 )
 
-// Status of the refund. For credit card refunds, this can be `pending`, `succeeded`, or `failed`. For other types of refunds, it can be `pending`, `succeeded`, `failed`, or `canceled`. Refer to our [refunds](https://stripe.com/docs/refunds#failed-refunds) documentation for more details.
+// Status of the refund. For credit card refunds, this can be `pending`, `succeeded`, or `failed`. For other types of refunds, it can be `pending`, `requires_action`, `succeeded`, `failed`, or `canceled`. Refer to our [refunds](https://stripe.com/docs/refunds#failed-refunds) documentation for more details.
 type RefundStatus string
 
 // List of values that RefundStatus can take
@@ -53,9 +53,18 @@ type RefundListParams struct {
 
 // Create a refund.
 type RefundParams struct {
-	Params               `form:"*"`
-	Amount               *int64  `form:"amount"`
-	Charge               *string `form:"charge"`
+	Params `form:"*"`
+	// A positive integer representing how much to refund.
+	Amount *int64  `form:"amount"`
+	Charge *string `form:"charge"`
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency *string `form:"currency"`
+	// Customer whose customer balance to refund from.
+	Customer *string `form:"customer"`
+	// Address to send refund email, use customer email if not specified
+	InstructionsEmail *string `form:"instructions_email"`
+	// Origin of the refund
+	Origin               *string `form:"origin"`
 	PaymentIntent        *string `form:"payment_intent"`
 	Reason               *string `form:"reason"`
 	RefundApplicationFee *bool   `form:"refund_application_fee"`
@@ -113,6 +122,8 @@ type Refund struct {
 	FailureReason RefundFailureReason `json:"failure_reason"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
+	// Email to which refund instructions, if required, are sent to.
+	InstructionsEmail string `json:"instructions_email"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata   map[string]string `json:"metadata"`
 	NextAction *RefundNextAction `json:"next_action"`
@@ -125,11 +136,11 @@ type Refund struct {
 	// This is the transaction number that appears on email receipts sent for this refund.
 	ReceiptNumber string `json:"receipt_number"`
 	// The transfer reversal that is associated with the refund. Only present if the charge came from another Stripe account. See the Connect documentation for details.
-	SourceTransferReversal *Reversal `json:"source_transfer_reversal"`
-	// Status of the refund. For credit card refunds, this can be `pending`, `succeeded`, or `failed`. For other types of refunds, it can be `pending`, `succeeded`, `failed`, or `canceled`. Refer to our [refunds](https://stripe.com/docs/refunds#failed-refunds) documentation for more details.
+	SourceTransferReversal *TransferReversal `json:"source_transfer_reversal"`
+	// Status of the refund. For credit card refunds, this can be `pending`, `succeeded`, or `failed`. For other types of refunds, it can be `pending`, `requires_action`, `succeeded`, `failed`, or `canceled`. Refer to our [refunds](https://stripe.com/docs/refunds#failed-refunds) documentation for more details.
 	Status RefundStatus `json:"status"`
 	// If the accompanying transfer was reversed, the transfer reversal object. Only applicable if the charge was created using the destination parameter.
-	TransferReversal *Reversal `json:"transfer_reversal"`
+	TransferReversal *TransferReversal `json:"transfer_reversal"`
 }
 
 // RefundList is a list of Refunds as retrieved from a list endpoint.

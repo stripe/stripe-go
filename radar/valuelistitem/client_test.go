@@ -4,8 +4,8 @@ import (
 	"testing"
 
 	assert "github.com/stretchr/testify/require"
-	stripe "github.com/stripe/stripe-go/v72"
-	_ "github.com/stripe/stripe-go/v72/testing"
+	stripe "github.com/stripe/stripe-go/v73"
+	_ "github.com/stripe/stripe-go/v73/testing"
 )
 
 func TestRadarValueListItemDel(t *testing.T) {
@@ -22,7 +22,7 @@ func TestRadarValueListItemGet(t *testing.T) {
 
 func TestRadarValueListItemList(t *testing.T) {
 	i := List(&stripe.RadarValueListItemListParams{
-		RadarValueList: stripe.String("rsl_123"),
+		ValueList: stripe.String("rsl_123"),
 	})
 
 	// Verify that we can get at least one value list item
@@ -34,8 +34,8 @@ func TestRadarValueListItemList(t *testing.T) {
 
 func TestRadarValueListItemNew(t *testing.T) {
 	vli, err := New(&stripe.RadarValueListItemParams{
-		Value:          stripe.String("value"),
-		RadarValueList: stripe.String("rsl_123"),
+		Value:     stripe.String("value"),
+		ValueList: stripe.String("rsl_123"),
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, vli)

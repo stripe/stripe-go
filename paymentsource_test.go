@@ -5,12 +5,12 @@ import (
 	"testing"
 
 	assert "github.com/stretchr/testify/require"
-	"github.com/stripe/stripe-go/v72/form"
+	"github.com/stripe/stripe-go/v73/form"
 )
 
 func TestSourceParams_AppendTo(t *testing.T) {
 	{
-		params := &SourceParams{Token: String("tok_123")}
+		params := &PaymentSourceSourceParams{Token: String("tok_123")}
 		body := &form.Values{}
 		form.AppendTo(body, params)
 		t.Logf("body = %+v", body)
@@ -18,7 +18,7 @@ func TestSourceParams_AppendTo(t *testing.T) {
 	}
 
 	{
-		params := &SourceParams{Card: &CardParams{Number: String("4242424242424242")}}
+		params := &PaymentSourceSourceParams{Card: &CardParams{Number: String("4242424242424242")}}
 		body := &form.Values{}
 		form.AppendTo(body, params)
 		t.Logf("body = %+v", body)

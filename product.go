@@ -6,7 +6,10 @@
 
 package stripe
 
-import "encoding/json"
+import (
+	"encoding/json"
+	"github.com/stripe/stripe-go/v73/form"
+)
 
 // The type of the product. The product is either of type `good`, which is eligible for use with Orders and SKUs, or `service`, which is eligible for use with Subscriptions and Plans.
 type ProductType string
@@ -27,8 +30,80 @@ type ProductSearchParams struct {
 	Page *string `form:"page"`
 }
 
+// When set, provides configuration for the amount to be adjusted by the customer during Checkout Sessions and Payment Links.
+type ProductDefaultPriceDataCurrencyOptionsCustomUnitAmountParams struct {
+	// Pass in `true` to enable `custom_unit_amount`, otherwise omit `custom_unit_amount`.
+	Enabled *bool `form:"enabled"`
+	// The maximum unit amount the customer can specify for this item.
+	Maximum *int64 `form:"maximum"`
+	// The minimum unit amount the customer can specify for this item. Must be at least the minimum charge amount.
+	Minimum *int64 `form:"minimum"`
+	// The starting unit amount which can be updated by the customer.
+	Preset *int64 `form:"preset"`
+}
+
+// Each element represents a pricing tier. This parameter requires `billing_scheme` to be set to `tiered`. See also the documentation for `billing_scheme`.
+type ProductDefaultPriceDataCurrencyOptionsTierParams struct {
+	// The flat billing amount for an entire tier, regardless of the number of units in the tier.
+	FlatAmount *int64 `form:"flat_amount"`
+	// Same as `flat_amount`, but accepts a decimal value representing an integer in the minor units of the currency. Only one of `flat_amount` and `flat_amount_decimal` can be set.
+	FlatAmountDecimal *float64 `form:"flat_amount_decimal,high_precision"`
+	// The per unit billing amount for each individual unit for which this tier applies.
+	UnitAmount *int64 `form:"unit_amount"`
+	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
+	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
+	// Specifies the upper bound of this tier. The lower bound of a tier is the upper bound of the previous tier adding one. Use `inf` to define a fallback tier.
+	UpTo    *int64 `form:"up_to"`
+	UpToInf *bool  `form:"-"` // See custom AppendTo
+}
+
+// AppendTo implements custom encoding logic for ProductDefaultPriceDataCurrencyOptionsTierParams.
+func (p *ProductDefaultPriceDataCurrencyOptionsTierParams) AppendTo(body *form.Values, keyParts []string) {
+	if BoolValue(p.UpToInf) {
+		body.Add(form.FormatKey(append(keyParts, "up_to")), "inf")
+	}
+}
+
+// Prices defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
+type ProductDefaultPriceDataCurrencyOptionsParams struct {
+	// When set, provides configuration for the amount to be adjusted by the customer during Checkout Sessions and Payment Links.
+	CustomUnitAmount *ProductDefaultPriceDataCurrencyOptionsCustomUnitAmountParams `form:"custom_unit_amount"`
+	// Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Once specified as either `inclusive` or `exclusive`, it cannot be changed.
+	TaxBehavior *string `form:"tax_behavior"`
+	// Each element represents a pricing tier. This parameter requires `billing_scheme` to be set to `tiered`. See also the documentation for `billing_scheme`.
+	Tiers []*ProductDefaultPriceDataCurrencyOptionsTierParams `form:"tiers"`
+	// A positive integer in cents (or local equivalent) (or 0 for a free price) representing how much to charge.
+	UnitAmount *int64 `form:"unit_amount"`
+	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
+	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
+}
+
+// The recurring components of a price such as `interval` and `interval_count`.
+type ProductDefaultPriceDataRecurringParams struct {
+	// Specifies billing frequency. Either `day`, `week`, `month` or `year`.
+	Interval *string `form:"interval"`
+	// The number of intervals between subscription billings. For example, `interval=month` and `interval_count=3` bills every 3 months. Maximum of one year interval allowed (1 year, 12 months, or 52 weeks).
+	IntervalCount *int64 `form:"interval_count"`
+}
+
+// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object. This Price will be set as the default price for this product.
+type ProductDefaultPriceDataParams struct {
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency *string `form:"currency"`
+	// Prices defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
+	CurrencyOptions map[string]*ProductDefaultPriceDataCurrencyOptionsParams `form:"currency_options"`
+	// The recurring components of a price such as `interval` and `interval_count`.
+	Recurring *ProductDefaultPriceDataRecurringParams `form:"recurring"`
+	// Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Once specified as either `inclusive` or `exclusive`, it cannot be changed.
+	TaxBehavior *string `form:"tax_behavior"`
+	// A positive integer in cents (or local equivalent) (or 0 for a free price) representing how much to charge. One of `unit_amount` or `unit_amount_decimal` is required.
+	UnitAmount *int64 `form:"unit_amount"`
+	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
+	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
+}
+
 // The dimensions of this product for shipping purposes.
-type PackageDimensionsParams struct {
+type ProductPackageDimensionsParams struct {
 	// Height, in inches. Maximum precision is 2 decimal places.
 	Height *float64 `form:"height"`
 	// Length, in inches. Maximum precision is 2 decimal places.
@@ -50,6 +125,10 @@ type ProductParams struct {
 	Caption *string `form:"caption"`
 	// An array of Connect application names or identifiers that should not be able to order the SKUs for this product. May only be set if `type=good`.
 	DeactivateOn []*string `form:"deactivate_on"`
+	// The ID of the [Price](https://stripe.com/docs/api/prices) object that is the default price for this product.
+	DefaultPrice *string `form:"default_price"`
+	// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object. This Price will be set as the default price for this product.
+	DefaultPriceData *ProductDefaultPriceDataParams `form:"default_price_data"`
 	// The product's description, meant to be displayable to the customer. Use this field to optionally store a long form explanation of the product being sold for your own rendering purposes.
 	Description *string `form:"description"`
 	// An identifier will be randomly generated by Stripe. You can optionally override this ID, but the ID must be unique across all products in your Stripe account.
@@ -59,7 +138,7 @@ type ProductParams struct {
 	// The product's name, meant to be displayable to the customer.
 	Name *string `form:"name"`
 	// The dimensions of this product for shipping purposes.
-	PackageDimensions *PackageDimensionsParams `form:"package_dimensions"`
+	PackageDimensions *ProductPackageDimensionsParams `form:"package_dimensions"`
 	// Whether this product is shipped (i.e., physical goods).
 	Shippable *bool `form:"shippable"`
 	// An arbitrary string to be displayed on your customer's credit card or bank statement. While most banks display this information consistently, some may display it incorrectly or not at all.
@@ -67,7 +146,7 @@ type ProductParams struct {
 	// This may be up to 22 characters. The statement description may not include `<`, `>`, `\`, `"`, `'` characters, and will appear on your customer's statement in capital letters. Non-ASCII characters are automatically stripped.
 	//  It must contain at least one letter. May only be set if `type=service`.
 	StatementDescriptor *string `form:"statement_descriptor"`
-	// A [tax code](https://stripe.com/docs/tax/tax-codes) ID.
+	// A [tax code](https://stripe.com/docs/tax/tax-categories) ID.
 	TaxCode *string `form:"tax_code"`
 	// The type of the product. Defaults to `service` if not explicitly specified, enabling use of this product with Subscriptions and Plans. Set this parameter to `good` to use this product with Orders and SKUs. On API versions before `2018-02-05`, this field defaults to `good` for compatibility reasons.
 	Type *string `form:"type"`
@@ -86,7 +165,7 @@ type ProductListParams struct {
 	Created *int64 `form:"created"`
 	// Only return products that were created during the given date interval.
 	CreatedRange *RangeQueryParams `form:"created"`
-	// Only return products with the given IDs.
+	// Only return products with the given IDs. Cannot be used with [starting_after](https://stripe.com/docs/api#list_products-starting_after) or [ending_before](https://stripe.com/docs/api#list_products-ending_before).
 	IDs []*string `form:"ids"`
 	// Only return products that can be shipped (i.e., physical, not digital products).
 	Shippable *bool `form:"shippable"`
@@ -97,7 +176,7 @@ type ProductListParams struct {
 }
 
 // The dimensions of this product for shipping purposes.
-type PackageDimensions struct {
+type ProductPackageDimensions struct {
 	// Height, in inches.
 	Height float64 `json:"height"`
 	// Length, in inches.
@@ -128,7 +207,9 @@ type Product struct {
 	Created int64 `json:"created"`
 	// An array of connect application identifiers that cannot purchase this product. Only applicable to products of `type=good`.
 	DeactivateOn []string `json:"deactivate_on"`
-	Deleted      bool     `json:"deleted"`
+	// The ID of the [Price](https://stripe.com/docs/api/prices) object that is the default price for this product.
+	DefaultPrice *Price `json:"default_price"`
+	Deleted      bool   `json:"deleted"`
 	// The product's description, meant to be displayable to the customer. Use this field to optionally store a long form explanation of the product being sold for your own rendering purposes.
 	Description string `json:"description"`
 	// Unique identifier for the object.
@@ -144,12 +225,12 @@ type Product struct {
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// The dimensions of this product for shipping purposes.
-	PackageDimensions *PackageDimensions `json:"package_dimensions"`
+	PackageDimensions *ProductPackageDimensions `json:"package_dimensions"`
 	// Whether this product is shipped (i.e., physical goods).
 	Shippable bool `json:"shippable"`
 	// Extra information about a product which will appear on your customer's credit card statement. In the case that multiple products are billed at once, the first statement descriptor will be used.
 	StatementDescriptor string `json:"statement_descriptor"`
-	// A [tax code](https://stripe.com/docs/tax/tax-codes) ID.
+	// A [tax code](https://stripe.com/docs/tax/tax-categories) ID.
 	TaxCode *TaxCode `json:"tax_code"`
 	// The type of the product. The product is either of type `good`, which is eligible for use with Orders and SKUs, or `service`, which is eligible for use with Subscriptions and Plans.
 	Type ProductType `json:"type"`

@@ -30,13 +30,10 @@ type TokenParams struct {
 	Customer *string `form:"customer"`
 	// The updated CVC value this token will represent.
 	CVCUpdate *TokenCVCUpdateParams `form:"cvc_update"`
-	// Email is an undocumented parameter used by Stripe Checkout
-	// It may be removed from the API without notice.
-	Email *string `form:"email"`
 	// Information for the person this token will represent.
 	Person *PersonParams `form:"person"`
 	// The PII this token will represent.
-	PII *PIIParams `form:"pii"`
+	PII *TokenPIIParams `form:"pii"`
 }
 
 // Information for the account this token will represent.
@@ -58,8 +55,7 @@ type TokenCVCUpdateParams struct {
 }
 
 // The PII this token will represent.
-type PIIParams struct {
-	Params `form:"*"`
+type TokenPIIParams struct {
 	// The `id_number` for the PII, in string form.
 	IDNumber *string `form:"id_number"`
 }
@@ -106,9 +102,6 @@ type Token struct {
 	ClientIP string `json:"client_ip"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
 	Created int64 `json:"created"`
-	// Email is an undocumented field but included for all tokens created
-	// with Stripe Checkout.
-	Email string `json:"email"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.

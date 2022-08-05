@@ -6,8 +6,6 @@
 
 package stripe
 
-import "encoding/json"
-
 // Returns a list of your invoice items. Invoice items are returned sorted by creation date, with the most recently created invoice items appearing first.
 type InvoiceItemListParams struct {
 	ListParams   `form:"*"`
@@ -45,16 +43,16 @@ type InvoiceItemPriceDataParams struct {
 	Product *string `form:"product"`
 	// Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Once specified as either `inclusive` or `exclusive`, it cannot be changed.
 	TaxBehavior *string `form:"tax_behavior"`
-	// A positive integer in %s (or 0 for a free price) representing how much to charge.
+	// A positive integer in cents (or local equivalent) (or 0 for a free price) representing how much to charge.
 	UnitAmount *int64 `form:"unit_amount"`
-	// Same as `unit_amount`, but accepts a decimal value in %s with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
+	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
 	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
 }
 
 // Creates an item to be added to a draft invoice (up to 250 items per invoice). If no invoice is specified, the item will be on the next invoice created for the customer specified.
 type InvoiceItemParams struct {
 	Params `form:"*"`
-	// The integer amount in %s of the charge to be applied to the upcoming invoice. If you want to apply a credit to the customer's account, pass a negative amount.
+	// The integer amount in cents (or local equivalent) of the charge to be applied to the upcoming invoice. If you want to apply a credit to the customer's account, pass a negative amount.
 	Amount *int64 `form:"amount"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency *string `form:"currency"`
@@ -80,9 +78,9 @@ type InvoiceItemParams struct {
 	Subscription *string `form:"subscription"`
 	// The tax rates which apply to the invoice item. When set, the `default_tax_rates` on the invoice do not apply to this invoice item. Pass an empty string to remove previously-defined tax rates.
 	TaxRates []*string `form:"tax_rates"`
-	// The integer unit amount in %s of the charge to be applied to the upcoming invoice. This unit_amount will be multiplied by the quantity to get the full amount. If you want to apply a credit to the customer's account, pass a negative unit_amount.
+	// The integer unit amount in cents (or local equivalent) of the charge to be applied to the upcoming invoice. This unit_amount will be multiplied by the quantity to get the full amount. If you want to apply a credit to the customer's account, pass a negative unit_amount.
 	UnitAmount *int64 `form:"unit_amount"`
-	// Same as `unit_amount`, but accepts a decimal value in %s with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
+	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
 	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
 }
 
@@ -141,25 +139,6 @@ type InvoiceItem struct {
 	UnitAmount int64 `json:"unit_amount"`
 	// Same as `unit_amount`, but contains a decimal value with at most 12 decimal places.
 	UnitAmountDecimal float64 `json:"unit_amount_decimal,string"`
-}
-
-// UnmarshalJSON handles deserialization of an InvoiceItem.
-// This custom unmarshaling is needed because the resulting
-// property may be an id or the full struct if it was expanded.
-func (i *InvoiceItem) UnmarshalJSON(data []byte) error {
-	if id, ok := ParseID(data); ok {
-		i.ID = id
-		return nil
-	}
-
-	type invoiceItem InvoiceItem
-	var v invoiceItem
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-
-	*i = InvoiceItem(v)
-	return nil
 }
 
 // InvoiceItemList is a list of InvoiceItems as retrieved from a list endpoint.

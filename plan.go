@@ -8,7 +8,7 @@ package stripe
 
 import (
 	"encoding/json"
-	"github.com/stripe/stripe-go/v72/form"
+	"github.com/stripe/stripe-go/v73/form"
 	"strconv"
 )
 
@@ -97,7 +97,7 @@ type PlanProductParams struct {
 	//
 	// This may be up to 22 characters. The statement description may not include `<`, `>`, `\`, `"`, `'` characters, and will appear on your customer's statement in capital letters. Non-ASCII characters are automatically stripped.
 	StatementDescriptor *string `form:"statement_descriptor"`
-	// A [tax code](https://stripe.com/docs/tax/tax-codes) ID.
+	// A [tax code](https://stripe.com/docs/tax/tax-categories) ID.
 	TaxCode *string `form:"tax_code"`
 	// A label that represents units of this product in Stripe and on customers' receipts and invoices. When set, this will be included in associated invoice line item descriptions.
 	UnitLabel *string `form:"unit_label"`
@@ -112,7 +112,7 @@ type PlanTierParams struct {
 	FlatAmountDecimal *float64 `form:"flat_amount_decimal,high_precision"`
 	// The per unit billing amount for each individual unit for which this tier applies.
 	UnitAmount *int64 `form:"unit_amount"`
-	// Same as `unit_amount`, but accepts a decimal value in %s with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
+	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
 	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
 	// Specifies the upper bound of this tier. The lower bound of a tier is the upper bound of the previous tier adding one. Use `inf` to define a fallback tier.
 	UpTo    *int64 `form:"-"` // See custom AppendTo
@@ -146,7 +146,7 @@ type PlanParams struct {
 	Active *bool `form:"active"`
 	// Specifies a usage aggregation strategy for plans of `usage_type=metered`. Allowed values are `sum` for summing up all usage during a period, `last_during_period` for using the last usage record reported within a period, `last_ever` for using the last usage record ever (across period bounds) or `max` which uses the usage record with the maximum reported usage during a period. Defaults to `sum`.
 	AggregateUsage *string `form:"aggregate_usage"`
-	// A positive integer in %s (or 0 for a free plan) representing how much to charge on a recurring basis.
+	// A positive integer in cents (or local equivalent) (or 0 for a free plan) representing how much to charge on a recurring basis.
 	Amount *int64 `form:"amount"`
 	// Same as `amount`, but accepts a decimal value with at most 12 decimal places. Only one of `amount` and `amount_decimal` can be set.
 	AmountDecimal *float64 `form:"amount_decimal,high_precision"`
@@ -161,9 +161,8 @@ type PlanParams struct {
 	// The number of intervals between subscription billings. For example, `interval=month` and `interval_count=3` bills every 3 months. Maximum of one year interval allowed (1 year, 12 months, or 52 weeks).
 	IntervalCount *int64 `form:"interval_count"`
 	// A brief description of the plan, hidden from customers.
-	Nickname  *string            `form:"nickname"`
-	Product   *PlanProductParams `form:"product"`
-	ProductID *string            `form:"product"`
+	Nickname *string            `form:"nickname"`
+	Product  *PlanProductParams `form:"product"`
 	// Each element represents a pricing tier. This parameter requires `billing_scheme` to be set to `tiered`. See also the documentation for `billing_scheme`.
 	Tiers []*PlanTierParams `form:"tiers"`
 	// Defines if the tiering price should be `graduated` or `volume` based. In `volume`-based tiering, the maximum quantity within a period determines the per unit price, in `graduated` tiering pricing can successively change as the quantity grows.
@@ -211,7 +210,7 @@ type Plan struct {
 	// Whether the plan can be used for new purchases.
 	Active bool `json:"active"`
 	// Specifies a usage aggregation strategy for plans of `usage_type=metered`. Allowed values are `sum` for summing up all usage during a period, `last_during_period` for using the last usage record reported within a period, `last_ever` for using the last usage record ever (across period bounds) or `max` which uses the usage record with the maximum reported usage during a period. Defaults to `sum`.
-	AggregateUsage string `json:"aggregate_usage"`
+	AggregateUsage PlanAggregateUsage `json:"aggregate_usage"`
 	// The unit amount in %s to be charged, represented as a whole integer if possible. Only set if `billing_scheme=per_unit`.
 	Amount int64 `json:"amount"`
 	// The unit amount in %s to be charged, represented as a decimal string with at most 12 decimal places. Only set if `billing_scheme=per_unit`.
@@ -242,7 +241,7 @@ type Plan struct {
 	// Each element represents a pricing tier. This parameter requires `billing_scheme` to be set to `tiered`. See also the documentation for `billing_scheme`.
 	Tiers []*PlanTier `json:"tiers"`
 	// Defines if the tiering price should be `graduated` or `volume` based. In `volume`-based tiering, the maximum quantity within a period determines the per unit price. In `graduated` tiering, pricing can change as the quantity grows.
-	TiersMode string `json:"tiers_mode"`
+	TiersMode PlanTiersMode `json:"tiers_mode"`
 	// Apply a transformation to the reported usage or set quantity before computing the amount billed. Cannot be combined with `tiers`.
 	TransformUsage *PlanTransformUsage `json:"transform_usage"`
 	// Default number of trial days when subscribing a customer to this plan using [`trial_from_plan=true`](https://stripe.com/docs/api#create_subscription-trial_from_plan).

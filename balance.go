@@ -16,9 +16,6 @@ const (
 	BalanceSourceTypeFPX         BalanceSourceType = "fpx"
 )
 
-// BalanceTransactionStatus is the list of allowed values for the balance transaction's status.
-type BalanceTransactionStatus string
-
 // Retrieves the current account balance, based on the authentication that was used to make the request.
 //  For a sample request, see [Accounting for negative balances](https://stripe.com/docs/connect/account-balances#accounting-for-negative-balances).
 type BalanceParams struct {
@@ -28,12 +25,12 @@ type BalanceParams struct {
 // Funds that are available to be transferred or paid out, whether automatically by Stripe or explicitly via the [Transfers API](https://stripe.com/docs/api#transfers) or [Payouts API](https://stripe.com/docs/api#payouts). The available balance for each currency and payment type can be found in the `source_types` property.
 type Amount struct {
 	// Balance amount.
-	Value int64 `json:"amount"`
+	Amount int64 `json:"amount"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency    Currency                    `json:"currency"`
 	SourceTypes map[BalanceSourceType]int64 `json:"source_types"`
 }
-type BalanceDetails struct {
+type BalanceIssuing struct {
 	// Funds that are available for use.
 	Available []*Amount `json:"available"`
 }
@@ -57,7 +54,7 @@ type Balance struct {
 	ConnectReserved []*Amount `json:"connect_reserved"`
 	// Funds that can be paid out using Instant Payouts.
 	InstantAvailable []*Amount       `json:"instant_available"`
-	Issuing          *BalanceDetails `json:"issuing"`
+	Issuing          *BalanceIssuing `json:"issuing"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
 	// String representing the object's type. Objects of the same type share the same value.

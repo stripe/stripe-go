@@ -11,8 +11,8 @@ import (
 	"fmt"
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v72"
-	"github.com/stripe/stripe-go/v72/form"
+	stripe "github.com/stripe/stripe-go/v73"
+	"github.com/stripe/stripe-go/v73/form"
 )
 
 // Client is used to invoke /customers/{customer}/sources APIs.
@@ -22,12 +22,12 @@ type Client struct {
 }
 
 // New creates a new payment source.
-func New(params *stripe.CustomerSourceParams) (*stripe.PaymentSource, error) {
+func New(params *stripe.PaymentSourceParams) (*stripe.PaymentSource, error) {
 	return getC().New(params)
 }
 
 // New creates a new payment source.
-func (c Client) New(params *stripe.CustomerSourceParams) (*stripe.PaymentSource, error) {
+func (c Client) New(params *stripe.PaymentSourceParams) (*stripe.PaymentSource, error) {
 	if params == nil {
 		return nil, fmt.Errorf("params should not be nil")
 	}
@@ -44,12 +44,12 @@ func (c Client) New(params *stripe.CustomerSourceParams) (*stripe.PaymentSource,
 }
 
 // Get returns the details of a payment source.
-func Get(id string, params *stripe.CustomerSourceParams) (*stripe.PaymentSource, error) {
+func Get(id string, params *stripe.PaymentSourceParams) (*stripe.PaymentSource, error) {
 	return getC().Get(id, params)
 }
 
 // Get returns the details of a payment source.
-func (c Client) Get(id string, params *stripe.CustomerSourceParams) (*stripe.PaymentSource, error) {
+func (c Client) Get(id string, params *stripe.PaymentSourceParams) (*stripe.PaymentSource, error) {
 	if params == nil {
 		return nil, fmt.Errorf("params should not be nil")
 	}
@@ -67,12 +67,12 @@ func (c Client) Get(id string, params *stripe.CustomerSourceParams) (*stripe.Pay
 }
 
 // Update updates a payment source's properties.
-func Update(id string, params *stripe.CustomerSourceParams) (*stripe.PaymentSource, error) {
+func Update(id string, params *stripe.PaymentSourceParams) (*stripe.PaymentSource, error) {
 	return getC().Update(id, params)
 }
 
 // Update updates a payment source's properties.
-func (c Client) Update(id string, params *stripe.CustomerSourceParams) (*stripe.PaymentSource, error) {
+func (c Client) Update(id string, params *stripe.PaymentSourceParams) (*stripe.PaymentSource, error) {
 	if params == nil {
 		return nil, fmt.Errorf("params should not be nil")
 	}
@@ -90,12 +90,12 @@ func (c Client) Update(id string, params *stripe.CustomerSourceParams) (*stripe.
 }
 
 // Del removes a payment source.
-func Del(id string, params *stripe.CustomerSourceParams) (*stripe.PaymentSource, error) {
+func Del(id string, params *stripe.PaymentSourceParams) (*stripe.PaymentSource, error) {
 	return getC().Del(id, params)
 }
 
 // Del removes a payment source.
-func (c Client) Del(id string, params *stripe.CustomerSourceParams) (*stripe.PaymentSource, error) {
+func (c Client) Del(id string, params *stripe.PaymentSourceParams) (*stripe.PaymentSource, error) {
 	if params == nil {
 		return nil, fmt.Errorf("params should not be nil")
 	}
@@ -113,12 +113,12 @@ func (c Client) Del(id string, params *stripe.CustomerSourceParams) (*stripe.Pay
 }
 
 // Verify verifies a source which is used for bank accounts.
-func Verify(id string, params *stripe.SourceVerifyParams) (*stripe.PaymentSource, error) {
+func Verify(id string, params *stripe.PaymentSourceVerifyParams) (*stripe.PaymentSource, error) {
 	return getC().Verify(id, params)
 }
 
 // Verify verifies a source which is used for bank accounts.
-func (c Client) Verify(id string, params *stripe.SourceVerifyParams) (*stripe.PaymentSource, error) {
+func (c Client) Verify(id string, params *stripe.PaymentSourceVerifyParams) (*stripe.PaymentSource, error) {
 	if params == nil {
 		return nil, fmt.Errorf("params should not be nil")
 	}
@@ -139,12 +139,12 @@ func (c Client) Verify(id string, params *stripe.SourceVerifyParams) (*stripe.Pa
 }
 
 // List returns a list of payment sources.
-func List(params *stripe.SourceListParams) *Iter {
+func List(params *stripe.PaymentSourceListParams) *Iter {
 	return getC().List(params)
 }
 
 // List returns a list of payment sources.
-func (c Client) List(listParams *stripe.SourceListParams) *Iter {
+func (c Client) List(listParams *stripe.PaymentSourceListParams) *Iter {
 	var outerErr error
 	var path string
 
@@ -158,7 +158,7 @@ func (c Client) List(listParams *stripe.SourceListParams) *Iter {
 	}
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
-			list := &stripe.SourceList{}
+			list := &stripe.PaymentSourceList{}
 
 			if outerErr != nil {
 				return nil, list, outerErr
@@ -186,11 +186,11 @@ func (i *Iter) PaymentSource() *stripe.PaymentSource {
 	return i.Current().(*stripe.PaymentSource)
 }
 
-// SourceList returns the current list object which the iterator is
+// PaymentSourceList returns the current list object which the iterator is
 // currently using. List objects will change as new API calls are made to
 // continue pagination.
-func (i *Iter) SourceList() *stripe.SourceList {
-	return i.List().(*stripe.SourceList)
+func (i *Iter) PaymentSourceList() *stripe.PaymentSourceList {
+	return i.List().(*stripe.PaymentSourceList)
 }
 
 func getC() Client {

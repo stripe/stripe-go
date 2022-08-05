@@ -4,8 +4,8 @@ import (
 	"testing"
 
 	assert "github.com/stretchr/testify/require"
-	stripe "github.com/stripe/stripe-go/v72"
-	_ "github.com/stripe/stripe-go/v72/testing"
+	stripe "github.com/stripe/stripe-go/v73"
+	_ "github.com/stripe/stripe-go/v73/testing"
 )
 
 func TestPlanDel(t *testing.T) {
@@ -49,18 +49,6 @@ func TestPlanNew(t *testing.T) {
 			{UnitAmount: stripe.Int64(200), UpTo: stripe.Int64(20)},
 			{UnitAmount: stripe.Int64(200), UpToInf: stripe.Bool(true)},
 		},
-	})
-	assert.Nil(t, err)
-	assert.NotNil(t, plan)
-}
-
-func TestPlanNewWithProductID(t *testing.T) {
-	plan, err := New(&stripe.PlanParams{
-		Amount:    stripe.Int64(1),
-		Currency:  stripe.String(string(stripe.CurrencyUSD)),
-		ID:        stripe.String("sapphire-elite"),
-		Interval:  stripe.String(string(stripe.PlanIntervalMonth)),
-		ProductID: stripe.String("prod_12345abc"),
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, plan)

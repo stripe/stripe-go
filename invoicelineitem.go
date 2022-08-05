@@ -7,16 +7,16 @@
 package stripe
 
 // A string identifying the type of the source of this line item, either an `invoiceitem` or a `subscription`.
-type InvoiceLineType string
+type InvoiceLineItemType string
 
-// List of values that InvoiceLineType can take
+// List of values that InvoiceLineItemType can take
 const (
-	InvoiceLineTypeInvoiceItem  InvoiceLineType = "invoiceitem"
-	InvoiceLineTypeSubscription InvoiceLineType = "subscription"
+	InvoiceLineItemTypeInvoiceItem  InvoiceLineItemType = "invoiceitem"
+	InvoiceLineItemTypeSubscription InvoiceLineItemType = "subscription"
 )
 
 // The amount of discount calculated per discount for this line item.
-type InvoiceLineDiscountAmount struct {
+type InvoiceLineItemDiscountAmount struct {
 	// The amount, in %s, of the discount.
 	Amount int64 `json:"amount"`
 	// The discount that was applied to get this discount amount.
@@ -24,7 +24,7 @@ type InvoiceLineDiscountAmount struct {
 }
 
 // For a credit proration `line_item`, the original debit line_items to which the credit proration applies.
-type InvoiceLineProrationDetailsCreditedItems struct {
+type InvoiceLineItemProrationDetailsCreditedItems struct {
 	// Invoice containing the credited invoice line items
 	Invoice string `json:"invoice"`
 	// Credited invoice line items
@@ -32,13 +32,15 @@ type InvoiceLineProrationDetailsCreditedItems struct {
 }
 
 // Additional details for proration line items
-type InvoiceLineProrationDetails struct {
+type InvoiceLineItemProrationDetails struct {
 	// For a credit proration `line_item`, the original debit line_items to which the credit proration applies.
-	CreditedItems *InvoiceLineProrationDetailsCreditedItems `json:"credited_items"`
+	CreditedItems *InvoiceLineItemProrationDetailsCreditedItems `json:"credited_items"`
 }
-type InvoiceLine struct {
+type InvoiceLineItem struct {
 	// The amount, in %s.
 	Amount int64 `json:"amount"`
+	// The integer amount in %s representing the amount for this line item, excluding all tax and discounts.
+	AmountExcludingTax int64 `json:"amount_excluding_tax"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency Currency `json:"currency"`
 	// An arbitrary string attached to the object. Often useful for displaying to users.
@@ -46,7 +48,7 @@ type InvoiceLine struct {
 	// If true, discounts will apply to this line item. Always false for prorations.
 	Discountable bool `json:"discountable"`
 	// The amount of discount calculated per discount for this line item.
-	DiscountAmounts []*InvoiceLineDiscountAmount `json:"discount_amounts"`
+	DiscountAmounts []*InvoiceLineItemDiscountAmount `json:"discount_amounts"`
 	// The discounts applied to the invoice line item. Line item discounts are applied before invoice discounts. Use `expand[]=discounts` to expand each discount.
 	Discounts []*Discount `json:"discounts"`
 	// Unique identifier for the object.
@@ -67,7 +69,7 @@ type InvoiceLine struct {
 	// Whether this is a proration.
 	Proration bool `json:"proration"`
 	// Additional details for proration line items
-	ProrationDetails *InvoiceLineProrationDetails `json:"proration_details"`
+	ProrationDetails *InvoiceLineItemProrationDetails `json:"proration_details"`
 	// The quantity of the subscription, if the line item is a subscription or a proration.
 	Quantity int64 `json:"quantity"`
 	// The subscription that the invoice item pertains to, if any.
@@ -75,12 +77,13 @@ type InvoiceLine struct {
 	// The subscription item that generated this invoice item. Left empty if the line item is not an explicit result of a subscription.
 	SubscriptionItem string `json:"subscription_item"`
 	// The amount of tax calculated per tax rate for this line item
-	TaxAmounts []*InvoiceTaxAmount `json:"tax_amounts"`
+	TaxAmounts []*InvoiceTotalTaxAmount `json:"tax_amounts"`
 	// The tax rates which apply to the line item.
 	TaxRates []*TaxRate `json:"tax_rates"`
 	// A string identifying the type of the source of this line item, either an `invoiceitem` or a `subscription`.
-	Type             InvoiceLineType `json:"type"`
-	UnifiedProration bool            `json:"unified_proration"`
+	Type InvoiceLineItemType `json:"type"`
+	// The amount in %s representing the unit amount for this line item, excluding all tax and discounts.
+	UnitAmountExcludingTax float64 `json:"unit_amount_excluding_tax,string"`
 }
 
 // Period is a structure representing a start and end dates.
@@ -89,9 +92,9 @@ type Period struct {
 	Start int64 `json:"start"`
 }
 
-// InvoiceLineList is a list of InvoiceLineItems as retrieved from a list endpoint.
-type InvoiceLineList struct {
+// InvoiceLineItemList is a list of InvoiceLineItems as retrieved from a list endpoint.
+type InvoiceLineItemList struct {
 	APIResource
 	ListMeta
-	Data []*InvoiceLine `json:"data"`
+	Data []*InvoiceLineItem `json:"data"`
 }

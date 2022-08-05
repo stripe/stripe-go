@@ -8,7 +8,7 @@ package stripe
 
 import (
 	"encoding/json"
-	"github.com/stripe/stripe-go/v72/form"
+	"github.com/stripe/stripe-go/v73/form"
 )
 
 // The status of the most recent automated tax calculation for this quote.
@@ -131,9 +131,9 @@ type QuoteLineItemPriceDataParams struct {
 	Recurring *QuoteLineItemPriceDataRecurringParams `form:"recurring"`
 	// Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Once specified as either `inclusive` or `exclusive`, it cannot be changed.
 	TaxBehavior *string `form:"tax_behavior"`
-	// A positive integer in %s (or 0 for a free price) representing how much to charge.
+	// A positive integer in cents (or local equivalent) (or 0 for a free price) representing how much to charge.
 	UnitAmount *int64 `form:"unit_amount"`
-	// Same as `unit_amount`, but accepts a decimal value in %s with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
+	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
 	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
 }
 
@@ -240,9 +240,8 @@ type QuoteAutomaticTax struct {
 type QuoteComputedRecurringTotalDetailsBreakdownDiscount struct {
 	// The amount discounted.
 	Amount int64 `json:"amount"`
-	// A discount represents the actual application of a coupon to a particular
-	// customer. It contains information about when the discount began and when it
-	// will end.
+	// A discount represents the actual application of a [coupon](https://stripe.com/docs/api#coupons) or [promotion code](https://stripe.com/docs/api#promotion_codes).
+	// It contains information about when the discount began, when it will end, and what it is applied to.
 	//
 	// Related guide: [Applying Discounts to Subscriptions](https://stripe.com/docs/billing/subscriptions/discounts).
 	Discount *Discount `json:"discount"`
@@ -290,9 +289,8 @@ type QuoteComputedRecurring struct {
 type QuoteComputedUpfrontTotalDetailsBreakdownDiscount struct {
 	// The amount discounted.
 	Amount int64 `json:"amount"`
-	// A discount represents the actual application of a coupon to a particular
-	// customer. It contains information about when the discount began and when it
-	// will end.
+	// A discount represents the actual application of a [coupon](https://stripe.com/docs/api#coupons) or [promotion code](https://stripe.com/docs/api#promotion_codes).
+	// It contains information about when the discount began, when it will end, and what it is applied to.
 	//
 	// Related guide: [Applying Discounts to Subscriptions](https://stripe.com/docs/billing/subscriptions/discounts).
 	Discount *Discount `json:"discount"`
@@ -369,9 +367,8 @@ type QuoteSubscriptionData struct {
 type QuoteTotalDetailsBreakdownDiscount struct {
 	// The amount discounted.
 	Amount int64 `json:"amount"`
-	// A discount represents the actual application of a coupon to a particular
-	// customer. It contains information about when the discount began and when it
-	// will end.
+	// A discount represents the actual application of a [coupon](https://stripe.com/docs/api#coupons) or [promotion code](https://stripe.com/docs/api#promotion_codes).
+	// It contains information about when the discount began, when it will end, and what it is applied to.
 	//
 	// Related guide: [Applying Discounts to Subscriptions](https://stripe.com/docs/billing/subscriptions/discounts).
 	Discount *Discount `json:"discount"`
@@ -420,6 +417,8 @@ type Quote struct {
 	AmountSubtotal int64 `json:"amount_subtotal"`
 	// Total after discounts and taxes are applied.
 	AmountTotal int64 `json:"amount_total"`
+	// ID of the Connect Application that created the quote.
+	Application *Application `json:"application"`
 	// The amount of the application fee (if any) that will be requested to be applied to the payment and transferred to the application owner's Stripe account. Only applicable if there are no line items with recurring prices on the quote.
 	ApplicationFeeAmount int64 `json:"application_fee_amount"`
 	// A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice subtotal that will be transferred to the application owner's Stripe account. Only applicable if there are line items with recurring prices on the quote.

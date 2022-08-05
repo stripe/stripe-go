@@ -10,8 +10,8 @@ package earlyfraudwarning
 import (
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v72"
-	"github.com/stripe/stripe-go/v72/form"
+	stripe "github.com/stripe/stripe-go/v73"
+	"github.com/stripe/stripe-go/v73/form"
 )
 
 // Client is used to invoke /radar/early_fraud_warnings APIs.
@@ -45,8 +45,8 @@ func (c Client) List(listParams *stripe.RadarEarlyFraudWarningListParams) *Iter 
 			list := &stripe.RadarEarlyFraudWarningList{}
 			err := c.B.CallRaw(http.MethodGet, "/v1/radar/early_fraud_warnings", c.Key, b, p, list)
 
-			ret := make([]interface{}, len(list.Values))
-			for i, v := range list.Values {
+			ret := make([]interface{}, len(list.Data))
+			for i, v := range list.Data {
 				ret[i] = v
 			}
 

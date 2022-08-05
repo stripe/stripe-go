@@ -22,7 +22,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/stripe/stripe-go/v72/form"
+	"github.com/stripe/stripe-go/v73/form"
 )
 
 //
@@ -31,13 +31,16 @@ import (
 
 const (
 	// APIVersion is the currently supported API version
-	APIVersion string = "2020-08-27"
+	APIVersion string = apiVersion
 
 	// APIBackend is a constant representing the API service backend.
 	APIBackend SupportedBackend = "api"
 
 	// APIURL is the URL of the API service backend.
 	APIURL string = "https://api.stripe.com"
+
+	// ClientVersion is the version of the stripe-go library being used.
+	ClientVersion string = clientversion
 
 	// ConnectURL is the URL for OAuth.
 	ConnectURL string = "https://connect.stripe.com"
@@ -693,10 +696,6 @@ func (s *BackendImplementation) ResponseToError(res *http.Response, resBody []by
 	switch raw.Error.Type {
 	case ErrorTypeAPI:
 		typedError = &APIError{stripeErr: raw.Error}
-	case ErrorTypeAPIConnection:
-		typedError = &APIConnectionError{stripeErr: raw.Error}
-	case ErrorTypeAuthentication:
-		typedError = &AuthenticationError{stripeErr: raw.Error}
 	case ErrorTypeCard:
 		cardErr := &CardError{stripeErr: raw.Error}
 
@@ -712,10 +711,6 @@ func (s *BackendImplementation) ResponseToError(res *http.Response, resBody []by
 		typedError = &IdempotencyError{stripeErr: raw.Error}
 	case ErrorTypeInvalidRequest:
 		typedError = &InvalidRequestError{stripeErr: raw.Error}
-	case ErrorTypePermission:
-		typedError = &PermissionError{stripeErr: raw.Error}
-	case ErrorTypeRateLimit:
-		typedError = &RateLimitError{stripeErr: raw.Error}
 	}
 	raw.Error.Err = typedError
 
@@ -1203,7 +1198,7 @@ func StringSlice(v []string) []*string {
 //
 
 // clientversion is the binding version
-const clientversion = "72.101.0"
+const clientversion = "73.0.1"
 
 // defaultHTTPTimeout is the default timeout on the http.Client used by the library.
 // This is chosen to be consistent with the other Stripe language libraries and

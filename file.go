@@ -9,7 +9,7 @@ package stripe
 import (
 	"bytes"
 	"encoding/json"
-	"github.com/stripe/stripe-go/v72/form"
+	"github.com/stripe/stripe-go/v73/form"
 	"io"
 	"mime/multipart"
 	"net/url"
@@ -29,7 +29,6 @@ const (
 	FilePurposeDisputeEvidence                  FilePurpose = "dispute_evidence"
 	FilePurposeDocumentProviderIdentityDocument FilePurpose = "document_provider_identity_document"
 	FilePurposeFinanceReportRun                 FilePurpose = "finance_report_run"
-	FilePurposeFoundersStockDocument            FilePurpose = "founders_stock_document"
 	FilePurposeIdentityDocument                 FilePurpose = "identity_document"
 	FilePurposeIdentityDocumentDownloadable     FilePurpose = "identity_document_downloadable"
 	FilePurposePCIDocument                      FilePurpose = "pci_document"

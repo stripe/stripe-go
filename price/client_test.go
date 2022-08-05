@@ -4,8 +4,8 @@ import (
 	"testing"
 
 	assert "github.com/stretchr/testify/require"
-	stripe "github.com/stripe/stripe-go/v72"
-	_ "github.com/stripe/stripe-go/v72/testing"
+	stripe "github.com/stripe/stripe-go/v73"
+	_ "github.com/stripe/stripe-go/v73/testing"
 )
 
 func TestPriceGet(t *testing.T) {
@@ -21,7 +21,7 @@ func TestPriceList(t *testing.T) {
 			"Key1",
 			"Key2",
 		}),
-		Recurring: &stripe.PriceRecurringListParams{
+		Recurring: &stripe.PriceListRecurringParams{
 			Interval:  stripe.String(string(stripe.PriceRecurringIntervalMonth)),
 			UsageType: stripe.String(string(stripe.PriceRecurringUsageTypeLicensed)),
 		},

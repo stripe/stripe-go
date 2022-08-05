@@ -33,6 +33,12 @@ type CouponAppliesToParams struct {
 	Products []*string `form:"products"`
 }
 
+// Coupons defined in each available currency option (only supported if `amount_off` is passed). Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
+type CouponCurrencyOptionsParams struct {
+	// A positive integer representing the amount to subtract from an invoice total.
+	AmountOff *int64 `form:"amount_off"`
+}
+
 // You can create coupons easily via the [coupon management](https://dashboard.stripe.com/coupons) page of the Stripe dashboard. Coupon creation is also accessible via the API if you need to create coupons on the fly.
 //
 // A coupon has either a percent_off or an amount_off and currency. If you set an amount_off, that amount will be subtracted from any invoice's subtotal. For example, an invoice with a subtotal of 100 will have a final total of 0 if a coupon with an amount_off of 200 is applied to it and an invoice with a subtotal of 300 will have a final total of 100 if a coupon with an amount_off of 200 is applied to it.
@@ -44,6 +50,8 @@ type CouponParams struct {
 	AppliesTo *CouponAppliesToParams `form:"applies_to"`
 	// Three-letter [ISO code for the currency](https://stripe.com/docs/currencies) of the `amount_off` parameter (required if `amount_off` is passed).
 	Currency *string `form:"currency"`
+	// Coupons defined in each available currency option (only supported if the coupon is amount-based). Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
+	CurrencyOptions map[string]*CouponCurrencyOptionsParams `form:"currency_options"`
 	// Specifies how long the discount will be in effect if used on a subscription. Can be `forever`, `once`, or `repeating`. Defaults to `once`.
 	Duration *string `form:"duration"`
 	// Required only if `duration` is `repeating`, in which case it must be a positive integer that specifies the number of months the discount will be in effect.
@@ -64,9 +72,15 @@ type CouponAppliesTo struct {
 	Products []string `json:"products"`
 }
 
+// Coupons defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
+type CouponCurrencyOptions struct {
+	// Amount (in the `currency` specified) that will be taken off the subtotal of any invoices for this customer.
+	AmountOff int64 `json:"amount_off"`
+}
+
 // A coupon contains information about a percent-off or amount-off discount you
-// might want to apply to a customer. Coupons may be applied to [invoices](https://stripe.com/docs/api#invoices) or
-// [orders](https://stripe.com/docs/api#create_order_legacy-coupon). Coupons do not work with conventional one-off [charges](https://stripe.com/docs/api#create_charge).
+// might want to apply to a customer. Coupons may be applied to [subscriptions](https://stripe.com/docs/api#subscriptions), [invoices](https://stripe.com/docs/api#invoices),
+// [checkout sessions](https://stripe.com/docs/api/checkout/sessions), [quotes](https://stripe.com/docs/api#quotes), and more. Coupons do not work with conventional one-off [charges](https://stripe.com/docs/api#create_charge) or [payment intents](https://stripe.com/docs/api/payment_intents).
 type Coupon struct {
 	APIResource
 	// Amount (in the `currency` specified) that will be taken off the subtotal of any invoices for this customer.
@@ -76,7 +90,9 @@ type Coupon struct {
 	Created int64 `json:"created"`
 	// If `amount_off` has been set, the three-letter [ISO code for the currency](https://stripe.com/docs/currencies) of the amount to take off.
 	Currency Currency `json:"currency"`
-	Deleted  bool     `json:"deleted"`
+	// Coupons defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
+	CurrencyOptions map[string]*CouponCurrencyOptions `json:"currency_options"`
+	Deleted         bool                              `json:"deleted"`
 	// One of `forever`, `once`, and `repeating`. Describes how long a customer who applies this coupon will get the discount.
 	Duration CouponDuration `json:"duration"`
 	// If `duration` is `repeating`, the number of months the coupon applies. Null if coupon `duration` is `forever` or `once`.

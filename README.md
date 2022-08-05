@@ -1,7 +1,6 @@
 # Go Stripe
 [![Go Reference](https://pkg.go.dev/badge/github.com/stripe/stripe-go)](https://pkg.go.dev/github.com/stripe/stripe-go)
-[![Build Status](https://travis-ci.org/stripe/stripe-go.svg?branch=master)](https://travis-ci.org/stripe/stripe-go)
-[![Coverage Status](https://coveralls.io/repos/github/stripe/stripe-go/badge.svg?branch=master)](https://coveralls.io/github/stripe/stripe-go?branch=master)
+[![Build Status](https://github.com/stripe/stripe-go/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/stripe/stripe-go/actions/workflows/ci.yml?query=branch%3Amaster)
 
 The official [Stripe][stripe] Go client library.
 
@@ -18,8 +17,8 @@ Then, reference stripe-go in a Go program with `import`:
 
 ``` go
 import (
-	"github.com/stripe/stripe-go/v72"
-	"github.com/stripe/stripe-go/v72/customer"
+	"github.com/stripe/stripe-go/v73"
+	"github.com/stripe/stripe-go/v73/customer"
 )
 ```
 
@@ -29,7 +28,7 @@ toolchain will resolve and fetch the stripe-go module automatically.
 Alternatively, you can also explicitly `go get` the package into a project:
 
 ```bash
-go get -u github.com/stripe/stripe-go/v72
+go get -u github.com/stripe/stripe-go/v73
 ```
 
 ## Documentation
@@ -121,8 +120,8 @@ To use a key, pass it to `API`'s `Init` function:
 ```go
 
 import (
-	"github.com/stripe/stripe-go/v72"
-	"github.com/stripe/stripe-go/v72/client"
+	"github.com/stripe/stripe-go/v73"
+	"github.com/stripe/stripe-go/v73/client"
 )
 
 stripe := &client.API{}
@@ -143,8 +142,8 @@ import (
 	"google.golang.org/appengine"
 	"google.golang.org/appengine/urlfetch"
 
-	"github.com/stripe/stripe-go/v72"
-	"github.com/stripe/stripe-go/v72/client"
+	"github.com/stripe/stripe-go/v73"
+	"github.com/stripe/stripe-go/v73/client"
 )
 
 func handler(w http.ResponseWriter, r *http.Request) {
@@ -178,8 +177,8 @@ client.
 
 ```go
 import (
-	"github.com/stripe/stripe-go/v72"
-	"github.com/stripe/stripe-go/v72/$resource$"
+	"github.com/stripe/stripe-go/v73"
+	"github.com/stripe/stripe-go/v73/$resource$"
 )
 
 // Setup
@@ -218,8 +217,8 @@ individual key.
 
 ```go
 import (
-	"github.com/stripe/stripe-go/v72"
-	"github.com/stripe/stripe-go/v72/client"
+	"github.com/stripe/stripe-go/v73"
+	"github.com/stripe/stripe-go/v73/client"
 )
 
 // Setup
@@ -290,8 +289,8 @@ with `MaxNetworkRetries`:
 
 ```go
 import (
-	"github.com/stripe/stripe-go/v72"
-	"github.com/stripe/stripe-go/v72/client"
+	"github.com/stripe/stripe-go/v73"
+	"github.com/stripe/stripe-go/v73/client"
 )
 
 config := &stripe.BackendConfig{
@@ -371,7 +370,47 @@ c, _ := charge.Retrieve("ch_123", p)
 c.Customer.ID    // ID is still available
 c.Customer.Name  // Name is now also available (if it had a value)
 ```
+### How to use undocumented parameters and properties
 
+stripe-go is a typed library and it supports all public properties or parameters.
+
+Stripe sometimes launches private beta features which introduce new properties or parameters that are not immediately public. These will not have typed accessors in the stripe-go library but can still be used. 
+
+#### Parameters
+
+To pass undocumented parameters to Stripe using stripe-go you need to use the `AddExtra()` method, as shown below:
+
+```go
+
+	params := &stripe.CustomerParams{
+		Email: stripe.String("jenny.rosen@example.com")
+	}
+
+	params.AddExtra("secret_feature_enabled", "true")
+	params.AddExtra("secret_parameter[primary]","primary value")
+	params.AddExtra("secret_parameter[secondary]","secondary value")
+
+	customer, err := customer.Create(params)
+```
+
+#### Properties
+
+You can access undocumented properties returned by Stripe by querying the raw response JSON object. An example of this is shown below:
+
+```go
+customer, _ = customer.Get("cus_1234", nil);
+
+var rawData map[string]interface{}
+_ = json.Unmarshal(customer.LastResponse.RawJSON, &rawData)
+
+secret_feature_enabled, _ := string(rawData["secret_feature_enabled"].(bool))
+
+secret_parameter, ok := rawData["secret_parameter"].(map[string]interface{})
+if ok {
+	primary := secret_parameter["primary"].(string)
+	seconardy := secret_parameter["secondary"].(string)
+} 
+```
 ### Writing a Plugin
 
 If you're writing a plugin that uses the library, we'd appreciate it if you
@@ -452,7 +491,7 @@ pull request][pulls].
 [goref]: https://pkg.go.dev/github.com/stripe/stripe-go
 [gomodrevert]: https://github.com/stripe/stripe-go/pull/774
 [gomodvsdep]: https://github.com/stripe/stripe-go/pull/712
-[idempotency-keys]: https://stripe.com/docs/api/ruby#idempotent_requests
+[idempotency-keys]: https://stripe.com/docs/api/idempotent_requests?lang=go
 [issues]: https://github.com/stripe/stripe-go/issues/new
 [logrus]: https://github.com/sirupsen/logrus/
 [modules]: https://github.com/golang/go/wiki/Modules

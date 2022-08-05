@@ -10,8 +10,8 @@ package customer
 import (
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v72"
-	"github.com/stripe/stripe-go/v72/form"
+	stripe "github.com/stripe/stripe-go/v73"
+	"github.com/stripe/stripe-go/v73/form"
 )
 
 // Client is used to invoke /customers APIs.
@@ -68,6 +68,49 @@ func (c Client) Del(id string, params *stripe.CustomerParams) (*stripe.Customer,
 	path := stripe.FormatURLPath("/v1/customers/%s", id)
 	customer := &stripe.Customer{}
 	err := c.B.Call(http.MethodDelete, path, c.Key, params, customer)
+	return customer, err
+}
+
+// CreateFundingInstructions is the method for the `POST /v1/customers/{customer}/funding_instructions` API.
+func CreateFundingInstructions(id string, params *stripe.CustomerCreateFundingInstructionsParams) (*stripe.Customer, error) {
+	return getC().CreateFundingInstructions(id, params)
+}
+
+// CreateFundingInstructions is the method for the `POST /v1/customers/{customer}/funding_instructions` API.
+func (c Client) CreateFundingInstructions(id string, params *stripe.CustomerCreateFundingInstructionsParams) (*stripe.Customer, error) {
+	path := stripe.FormatURLPath("/v1/customers/%s/funding_instructions", id)
+	customer := &stripe.Customer{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, customer)
+	return customer, err
+}
+
+// DeleteDiscount is the method for the `DELETE /v1/customers/{customer}/discount` API.
+func DeleteDiscount(id string, params *stripe.CustomerDeleteDiscountParams) (*stripe.Customer, error) {
+	return getC().DeleteDiscount(id, params)
+}
+
+// DeleteDiscount is the method for the `DELETE /v1/customers/{customer}/discount` API.
+func (c Client) DeleteDiscount(id string, params *stripe.CustomerDeleteDiscountParams) (*stripe.Customer, error) {
+	path := stripe.FormatURLPath("/v1/customers/%s/discount", id)
+	customer := &stripe.Customer{}
+	err := c.B.Call(http.MethodDelete, path, c.Key, params, customer)
+	return customer, err
+}
+
+// RetrievePaymentMethod is the method for the `GET /v1/customers/{customer}/payment_methods/{payment_method}` API.
+func RetrievePaymentMethod(id string, params *stripe.CustomerRetrievePaymentMethodParams) (*stripe.Customer, error) {
+	return getC().RetrievePaymentMethod(id, params)
+}
+
+// RetrievePaymentMethod is the method for the `GET /v1/customers/{customer}/payment_methods/{payment_method}` API.
+func (c Client) RetrievePaymentMethod(id string, params *stripe.CustomerRetrievePaymentMethodParams) (*stripe.Customer, error) {
+	path := stripe.FormatURLPath(
+		"/v1/customers/%s/payment_methods/%s",
+		stripe.StringValue(params.Customer),
+		id,
+	)
+	customer := &stripe.Customer{}
+	err := c.B.Call(http.MethodGet, path, c.Key, params, customer)
 	return customer, err
 }
 

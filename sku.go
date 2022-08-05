@@ -6,8 +6,6 @@
 
 package stripe
 
-import "encoding/json"
-
 // Inventory type. Possible values are `finite`, `bucket` (not quantified), and `infinite`.
 type SKUInventoryType string
 
@@ -28,6 +26,7 @@ const (
 	SKUInventoryValueOutOfStock SKUInventoryValue = "out_of_stock"
 )
 
+// Deprecated: This will be replaced by https://stripe.com/docs/api/orders_v2
 // Retrieves the details of an existing SKU. Supply the unique SKU identifier from either a SKU creation request or from the product, and Stripe will return the corresponding SKU information.
 type SKUParams struct {
 	Params `form:"*"`
@@ -36,16 +35,15 @@ type SKUParams struct {
 	// A dictionary of attributes and values for the attributes defined by the product. If, for example, a product's attributes are `["size", "gender"]`, a valid SKU has the following dictionary of attributes: `{"size": "Medium", "gender": "Unisex"}`.
 	Attributes map[string]string `form:"attributes"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency    *string `form:"currency"`
-	Description *string `form:"description"`
+	Currency *string `form:"currency"`
 	// The identifier for the SKU. Must be unique. If not provided, an identifier will be randomly generated.
 	ID *string `form:"id"`
 	// The URL of an image for this SKU, meant to be displayable to the customer.
 	Image *string `form:"image"`
 	// Description of the SKU's inventory.
-	Inventory *InventoryParams `form:"inventory"`
+	Inventory *SKUInventoryParams `form:"inventory"`
 	// The dimensions of this SKU for shipping purposes.
-	PackageDimensions *PackageDimensionsParams `form:"package_dimensions"`
+	PackageDimensions *SKUPackageDimensionsParams `form:"package_dimensions"`
 	// The cost of the item as a nonnegative integer in the smallest currency unit (that is, 100 cents to charge $1.00, or 100 to charge ¥100, Japanese Yen being a zero-decimal currency).
 	Price *int64 `form:"price"`
 	// The ID of the product this SKU is associated with. Must be a product with type `good`.
@@ -53,13 +51,25 @@ type SKUParams struct {
 }
 
 // Description of the SKU's inventory.
-type InventoryParams struct {
+type SKUInventoryParams struct {
 	// The count of inventory available. Required if `type` is `finite`.
 	Quantity *int64 `form:"quantity"`
 	// Inventory type. Possible values are `finite`, `bucket` (not quantified), and `infinite`.
 	Type *string `form:"type"`
 	// An indicator of the inventory available. Possible values are `in_stock`, `limited`, and `out_of_stock`. Will be present if and only if `type` is `bucket`.
 	Value *string `form:"value"`
+}
+
+// The dimensions of this SKU for shipping purposes.
+type SKUPackageDimensionsParams struct {
+	// Height, in inches. Maximum precision is 2 decimal places.
+	Height *float64 `form:"height"`
+	// Length, in inches. Maximum precision is 2 decimal places.
+	Length *float64 `form:"length"`
+	// Weight, in ounces. Maximum precision is 2 decimal places.
+	Weight *float64 `form:"weight"`
+	// Width, in inches. Maximum precision is 2 decimal places.
+	Width *float64 `form:"width"`
 }
 
 // Returns a list of your SKUs. The SKUs are returned sorted by creation date, with the most recently created SKUs appearing first.
@@ -76,7 +86,7 @@ type SKUListParams struct {
 	// The ID of the product whose SKUs will be retrieved. Must be a product with type `good`.
 	Product *string `form:"product"`
 }
-type Inventory struct {
+type SKUInventory struct {
 	// The count of inventory available. Will be present if and only if `type` is `finite`.
 	Quantity int64 `json:"quantity"`
 	// Inventory type. Possible values are `finite`, `bucket` (not quantified), and `infinite`.
@@ -85,6 +95,19 @@ type Inventory struct {
 	Value SKUInventoryValue `json:"value"`
 }
 
+// The dimensions of this SKU for shipping purposes.
+type SKUPackageDimensions struct {
+	// Height, in inches.
+	Height float64 `json:"height"`
+	// Length, in inches.
+	Length float64 `json:"length"`
+	// Weight, in ounces.
+	Weight float64 `json:"weight"`
+	// Width, in inches.
+	Width float64 `json:"width"`
+}
+
+// Deprecated: This will be replaced by https://stripe.com/docs/api/orders_v2
 // Stores representations of [stock keeping units](http://en.wikipedia.org/wiki/Stock_keeping_unit).
 // SKUs describe specific product variations, taking into account any combination of: attributes,
 // currency, and cost. For example, a product may be a T-shirt, whereas a specific SKU represents
@@ -100,14 +123,13 @@ type SKU struct {
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
 	Created int64 `json:"created"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency    Currency `json:"currency"`
-	Deleted     bool     `json:"deleted"`
-	Description string   `json:"description"`
+	Currency Currency `json:"currency"`
+	Deleted  bool     `json:"deleted"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// The URL of an image for this SKU, meant to be displayable to the customer.
-	Image     string     `json:"image"`
-	Inventory *Inventory `json:"inventory"`
+	Image     string        `json:"image"`
+	Inventory *SKUInventory `json:"inventory"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
@@ -115,7 +137,7 @@ type SKU struct {
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// The dimensions of this SKU for shipping purposes.
-	PackageDimensions *PackageDimensions `json:"package_dimensions"`
+	PackageDimensions *SKUPackageDimensions `json:"package_dimensions"`
 	// The cost of the item as a positive integer in the smallest currency unit (that is, 100 cents to charge $1.00, or 100 to charge ¥100, Japanese Yen being a zero-decimal currency).
 	Price int64 `json:"price"`
 	// The ID of the product this SKU is associated with. The product must be currently active.
@@ -129,23 +151,4 @@ type SKUList struct {
 	APIResource
 	ListMeta
 	Data []*SKU `json:"data"`
-}
-
-// UnmarshalJSON handles deserialization of a SKU.
-// This custom unmarshaling is needed because the resulting
-// property may be an id or the full struct if it was expanded.
-func (s *SKU) UnmarshalJSON(data []byte) error {
-	if id, ok := ParseID(data); ok {
-		s.ID = id
-		return nil
-	}
-
-	type sKU SKU
-	var v sKU
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-
-	*s = SKU(v)
-	return nil
 }

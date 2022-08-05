@@ -26,12 +26,82 @@ const (
 	PaymentLinkBillingAddressCollectionRequired PaymentLinkBillingAddressCollection = "required"
 )
 
+// If set to `auto`, enables the collection of customer consent for promotional communications.
+type PaymentLinkConsentCollectionPromotions string
+
+// List of values that PaymentLinkConsentCollectionPromotions can take
+const (
+	PaymentLinkConsentCollectionPromotionsAuto PaymentLinkConsentCollectionPromotions = "auto"
+	PaymentLinkConsentCollectionPromotionsNone PaymentLinkConsentCollectionPromotions = "none"
+)
+
+// Configuration for Customer creation during checkout.
+type PaymentLinkCustomerCreation string
+
+// List of values that PaymentLinkCustomerCreation can take
+const (
+	PaymentLinkCustomerCreationAlways     PaymentLinkCustomerCreation = "always"
+	PaymentLinkCustomerCreationIfRequired PaymentLinkCustomerCreation = "if_required"
+)
+
+// Indicates when the funds will be captured from the customer's account.
+type PaymentLinkPaymentIntentDataCaptureMethod string
+
+// List of values that PaymentLinkPaymentIntentDataCaptureMethod can take
+const (
+	PaymentLinkPaymentIntentDataCaptureMethodAutomatic PaymentLinkPaymentIntentDataCaptureMethod = "automatic"
+	PaymentLinkPaymentIntentDataCaptureMethodManual    PaymentLinkPaymentIntentDataCaptureMethod = "manual"
+)
+
+// Indicates that you intend to make future payments with the payment method collected during checkout.
+type PaymentLinkPaymentIntentDataSetupFutureUsage string
+
+// List of values that PaymentLinkPaymentIntentDataSetupFutureUsage can take
+const (
+	PaymentLinkPaymentIntentDataSetupFutureUsageOffSession PaymentLinkPaymentIntentDataSetupFutureUsage = "off_session"
+	PaymentLinkPaymentIntentDataSetupFutureUsageOnSession  PaymentLinkPaymentIntentDataSetupFutureUsage = "on_session"
+)
+
 // The list of payment method types that customers can use. When `null`, Stripe will dynamically show relevant payment methods you've enabled in your [payment method settings](https://dashboard.stripe.com/settings/payment_methods).
 type PaymentLinkPaymentMethodType string
 
 // List of values that PaymentLinkPaymentMethodType can take
 const (
-	PaymentLinkPaymentMethodTypeCard PaymentLinkPaymentMethodType = "card"
+	PaymentLinkPaymentMethodTypeAffirm           PaymentLinkPaymentMethodType = "affirm"
+	PaymentLinkPaymentMethodTypeAfterpayClearpay PaymentLinkPaymentMethodType = "afterpay_clearpay"
+	PaymentLinkPaymentMethodTypeAlipay           PaymentLinkPaymentMethodType = "alipay"
+	PaymentLinkPaymentMethodTypeAUBECSDebit      PaymentLinkPaymentMethodType = "au_becs_debit"
+	PaymentLinkPaymentMethodTypeBACSDebit        PaymentLinkPaymentMethodType = "bacs_debit"
+	PaymentLinkPaymentMethodTypeBancontact       PaymentLinkPaymentMethodType = "bancontact"
+	PaymentLinkPaymentMethodTypeBLIK             PaymentLinkPaymentMethodType = "blik"
+	PaymentLinkPaymentMethodTypeBoleto           PaymentLinkPaymentMethodType = "boleto"
+	PaymentLinkPaymentMethodTypeCard             PaymentLinkPaymentMethodType = "card"
+	PaymentLinkPaymentMethodTypeEPS              PaymentLinkPaymentMethodType = "eps"
+	PaymentLinkPaymentMethodTypeFPX              PaymentLinkPaymentMethodType = "fpx"
+	PaymentLinkPaymentMethodTypeGiropay          PaymentLinkPaymentMethodType = "giropay"
+	PaymentLinkPaymentMethodTypeGrabpay          PaymentLinkPaymentMethodType = "grabpay"
+	PaymentLinkPaymentMethodTypeIDEAL            PaymentLinkPaymentMethodType = "ideal"
+	PaymentLinkPaymentMethodTypeKlarna           PaymentLinkPaymentMethodType = "klarna"
+	PaymentLinkPaymentMethodTypeKonbini          PaymentLinkPaymentMethodType = "konbini"
+	PaymentLinkPaymentMethodTypeOXXO             PaymentLinkPaymentMethodType = "oxxo"
+	PaymentLinkPaymentMethodTypeP24              PaymentLinkPaymentMethodType = "p24"
+	PaymentLinkPaymentMethodTypePayNow           PaymentLinkPaymentMethodType = "paynow"
+	PaymentLinkPaymentMethodTypePromptPay        PaymentLinkPaymentMethodType = "promptpay"
+	PaymentLinkPaymentMethodTypeSEPADebit        PaymentLinkPaymentMethodType = "sepa_debit"
+	PaymentLinkPaymentMethodTypeSofort           PaymentLinkPaymentMethodType = "sofort"
+	PaymentLinkPaymentMethodTypeUSBankAccount    PaymentLinkPaymentMethodType = "us_bank_account"
+	PaymentLinkPaymentMethodTypeWeChatPay        PaymentLinkPaymentMethodType = "wechat_pay"
+)
+
+// Indicates the type of transaction being performed which customizes relevant text on the page, such as the submit button.
+type PaymentLinkSubmitType string
+
+// List of values that PaymentLinkSubmitType can take
+const (
+	PaymentLinkSubmitTypeAuto   PaymentLinkSubmitType = "auto"
+	PaymentLinkSubmitTypeBook   PaymentLinkSubmitType = "book"
+	PaymentLinkSubmitTypeDonate PaymentLinkSubmitType = "donate"
+	PaymentLinkSubmitTypePay    PaymentLinkSubmitType = "pay"
 )
 
 // Returns a list of your payment links.
@@ -69,6 +139,14 @@ type PaymentLinkAutomaticTaxParams struct {
 	Enabled *bool `form:"enabled"`
 }
 
+// Configure fields to gather active consent from customers.
+type PaymentLinkConsentCollectionParams struct {
+	// If set to `auto`, enables the collection of customer consent for promotional communications. The Checkout
+	// Session will determine whether to display an option to opt into promotional communication
+	// from the merchant depending on the customer's locale. Only available to US merchants.
+	Promotions *string `form:"promotions"`
+}
+
 // When set, provides configuration for this item's quantity to be adjusted by the customer during checkout.
 type PaymentLinkLineItemAdjustableQuantityParams struct {
 	// Set to true if the quantity can be adjusted to any non-negative Integer.
@@ -91,6 +169,24 @@ type PaymentLinkLineItemParams struct {
 	Quantity *int64 `form:"quantity"`
 }
 
+// A subset of parameters to be passed to PaymentIntent creation for Checkout Sessions in `payment` mode.
+type PaymentLinkPaymentIntentDataParams struct {
+	// Controls when the funds will be captured from the customer's account.
+	CaptureMethod *string `form:"capture_method"`
+	// Indicates that you intend to [make future payments](https://stripe.com/docs/payments/payment-intents#future-usage) with the payment method collected by this Checkout Session.
+	//
+	// When setting this to `on_session`, Checkout will show a notice to the customer that their payment details will be saved.
+	//
+	// When setting this to `off_session`, Checkout will show a notice to the customer that their payment details will be saved and used for future payments.
+	//
+	// If a Customer has been provided or Checkout creates a new Customer,Checkout will attach the payment method to the Customer.
+	//
+	// If Checkout does not create a Customer, the payment method is not attached to a Customer. To reuse the payment method, you can retrieve it from the Checkout Session's PaymentIntent.
+	//
+	// When processing card payments, Checkout also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as SCA.
+	SetupFutureUsage *string `form:"setup_future_usage"`
+}
+
 // Controls phone number collection settings during checkout.
 //
 // We recommend that you review your privacy policy and check with your legal contacts.
@@ -106,10 +202,22 @@ type PaymentLinkShippingAddressCollectionParams struct {
 	AllowedCountries []*string `form:"allowed_countries"`
 }
 
+// The shipping rate options to apply to [checkout sessions](https://stripe.com/docs/api/checkout/sessions) created by this payment link.
+type PaymentLinkShippingOptionParams struct {
+	// The ID of the Shipping Rate to use for this shipping option.
+	ShippingRate *string `form:"shipping_rate"`
+}
+
 // When creating a subscription, the specified configuration data will be used. There must be at least one line item with a recurring price to use `subscription_data`.
 type PaymentLinkSubscriptionDataParams struct {
 	// Integer representing the number of trial period days before the customer is charged for the first time. Has to be at least 1.
 	TrialPeriodDays *int64 `form:"trial_period_days"`
+}
+
+// Controls tax ID collection during checkout.
+type PaymentLinkTaxIDCollectionParams struct {
+	// Set to `true` to enable tax ID collection.
+	Enabled *bool `form:"enabled"`
 }
 
 // The account (if any) the payments will be attributed to for tax reporting, and where funds from each payment will be transferred to.
@@ -140,11 +248,19 @@ type PaymentLinkParams struct {
 	AutomaticTax *PaymentLinkAutomaticTaxParams `form:"automatic_tax"`
 	// Configuration for collecting the customer's billing address.
 	BillingAddressCollection *string `form:"billing_address_collection"`
+	// Configure fields to gather active consent from customers.
+	ConsentCollection *PaymentLinkConsentCollectionParams `form:"consent_collection"`
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies) and supported by each line item's price.
+	Currency *string `form:"currency"`
+	// Configures whether [checkout sessions](https://stripe.com/docs/api/checkout/sessions) created by this payment link create a [Customer](https://stripe.com/docs/api/customers).
+	CustomerCreation *string `form:"customer_creation"`
 	// The line items representing what is being sold. Each line item represents an item being sold. Up to 20 line items are supported.
 	LineItems []*PaymentLinkLineItemParams `form:"line_items"`
 	// The account on behalf of which to charge.
 	OnBehalfOf *string `form:"on_behalf_of"`
-	// The list of payment method types that customers can use. Only `card` is supported. Pass an empty string to enable automatic payment methods that use your [payment method settings](https://dashboard.stripe.com/settings/payment_methods).
+	// A subset of parameters to be passed to PaymentIntent creation for Checkout Sessions in `payment` mode.
+	PaymentIntentData *PaymentLinkPaymentIntentDataParams `form:"payment_intent_data"`
+	// The list of payment method types that customers can use. Pass an empty string to enable automatic payment methods that use your [payment method settings](https://dashboard.stripe.com/settings/payment_methods).
 	PaymentMethodTypes []*string `form:"payment_method_types"`
 	// Controls phone number collection settings during checkout.
 	//
@@ -152,8 +268,14 @@ type PaymentLinkParams struct {
 	PhoneNumberCollection *PaymentLinkPhoneNumberCollectionParams `form:"phone_number_collection"`
 	// Configuration for collecting the customer's shipping address.
 	ShippingAddressCollection *PaymentLinkShippingAddressCollectionParams `form:"shipping_address_collection"`
+	// The shipping rate options to apply to [checkout sessions](https://stripe.com/docs/api/checkout/sessions) created by this payment link.
+	ShippingOptions []*PaymentLinkShippingOptionParams `form:"shipping_options"`
+	// Describes the type of transaction being performed in order to customize relevant text on the page, such as the submit button. Changing this value will also affect the hostname in the [url](https://stripe.com/docs/api/payment_links/payment_links/object#url) property (example: `donate.stripe.com`).
+	SubmitType *string `form:"submit_type"`
 	// When creating a subscription, the specified configuration data will be used. There must be at least one line item with a recurring price to use `subscription_data`.
 	SubscriptionData *PaymentLinkSubscriptionDataParams `form:"subscription_data"`
+	// Controls tax ID collection during checkout.
+	TaxIDCollection *PaymentLinkTaxIDCollectionParams `form:"tax_id_collection"`
 	// The account (if any) the payments will be attributed to for tax reporting, and where funds from each payment will be transferred to.
 	TransferData *PaymentLinkTransferDataParams `form:"transfer_data"`
 }
@@ -181,6 +303,20 @@ type PaymentLinkAutomaticTax struct {
 	// If `true`, tax will be calculated automatically using the customer's location.
 	Enabled bool `json:"enabled"`
 }
+
+// When set, provides configuration to gather active consent from customers.
+type PaymentLinkConsentCollection struct {
+	// If set to `auto`, enables the collection of customer consent for promotional communications.
+	Promotions PaymentLinkConsentCollectionPromotions `json:"promotions"`
+}
+
+// Indicates the parameters to be passed to PaymentIntent creation during checkout.
+type PaymentLinkPaymentIntentData struct {
+	// Indicates when the funds will be captured from the customer's account.
+	CaptureMethod PaymentLinkPaymentIntentDataCaptureMethod `json:"capture_method"`
+	// Indicates that you intend to make future payments with the payment method collected during checkout.
+	SetupFutureUsage PaymentLinkPaymentIntentDataSetupFutureUsage `json:"setup_future_usage"`
+}
 type PaymentLinkPhoneNumberCollection struct {
 	// If `true`, a phone number will be collected during checkout.
 	Enabled bool `json:"enabled"`
@@ -192,10 +328,22 @@ type PaymentLinkShippingAddressCollection struct {
 	AllowedCountries []string `json:"allowed_countries"`
 }
 
+// The shipping rate options applied to the session.
+type PaymentLinkShippingOption struct {
+	// A non-negative integer in cents representing how much to charge.
+	ShippingAmount int64 `json:"shipping_amount"`
+	// The ID of the Shipping Rate to use for this shipping option.
+	ShippingRate *ShippingRate `json:"shipping_rate"`
+}
+
 // When creating a subscription, the specified configuration data will be used. There must be at least one line item with a recurring price to use `subscription_data`.
 type PaymentLinkSubscriptionData struct {
 	// Integer representing the number of trial period days before the customer is charged for the first time.
 	TrialPeriodDays int64 `json:"trial_period_days"`
+}
+type PaymentLinkTaxIDCollection struct {
+	// Indicates whether tax ID collection is enabled for the session.
+	Enabled bool `json:"enabled"`
 }
 
 // The account (if any) the payments will be attributed to for tax reporting, and where funds from each payment will be transferred to.
@@ -225,6 +373,10 @@ type PaymentLink struct {
 	AutomaticTax          *PaymentLinkAutomaticTax `json:"automatic_tax"`
 	// Configuration for collecting the customer's billing address.
 	BillingAddressCollection PaymentLinkBillingAddressCollection `json:"billing_address_collection"`
+	// When set, provides configuration to gather active consent from customers.
+	ConsentCollection *PaymentLinkConsentCollection `json:"consent_collection"`
+	// Configuration for Customer creation during checkout.
+	CustomerCreation PaymentLinkCustomerCreation `json:"customer_creation"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// The line items representing what is being sold.
@@ -237,13 +389,20 @@ type PaymentLink struct {
 	Object string `json:"object"`
 	// The account on behalf of which to charge. See the [Connect documentation](https://support.stripe.com/questions/sending-invoices-on-behalf-of-connected-accounts) for details.
 	OnBehalfOf *Account `json:"on_behalf_of"`
+	// Indicates the parameters to be passed to PaymentIntent creation during checkout.
+	PaymentIntentData *PaymentLinkPaymentIntentData `json:"payment_intent_data"`
 	// The list of payment method types that customers can use. When `null`, Stripe will dynamically show relevant payment methods you've enabled in your [payment method settings](https://dashboard.stripe.com/settings/payment_methods).
 	PaymentMethodTypes    []PaymentLinkPaymentMethodType    `json:"payment_method_types"`
 	PhoneNumberCollection *PaymentLinkPhoneNumberCollection `json:"phone_number_collection"`
 	// Configuration for collecting the customer's shipping address.
 	ShippingAddressCollection *PaymentLinkShippingAddressCollection `json:"shipping_address_collection"`
+	// The shipping rate options applied to the session.
+	ShippingOptions []*PaymentLinkShippingOption `json:"shipping_options"`
+	// Indicates the type of transaction being performed which customizes relevant text on the page, such as the submit button.
+	SubmitType PaymentLinkSubmitType `json:"submit_type"`
 	// When creating a subscription, the specified configuration data will be used. There must be at least one line item with a recurring price to use `subscription_data`.
 	SubscriptionData *PaymentLinkSubscriptionData `json:"subscription_data"`
+	TaxIDCollection  *PaymentLinkTaxIDCollection  `json:"tax_id_collection"`
 	// The account (if any) the payments will be attributed to for tax reporting, and where funds from each payment will be transferred to.
 	TransferData *PaymentLinkTransferData `json:"transfer_data"`
 	// The public URL that can be shared with customers.

@@ -18,16 +18,17 @@ import "encoding/json"
 // This method will raise an error when called on an already-refunded application fee,
 // or when trying to refund more money than is left on an application fee.
 type FeeRefundParams struct {
-	Params         `form:"*"`
-	ApplicationFee *string `form:"-"` // Included in URL
-	// A positive integer, in _%s_, representing how much of this fee to refund. Can refund only up to the remaining unrefunded amount of the fee.
+	Params `form:"*"`
+	Fee    *string `form:"-"` // Included in URL
+	ID     *string `form:"-"` // Included in URL
+	// A positive integer, in _cents (or local equivalent)_, representing how much of this fee to refund. Can refund only up to the remaining unrefunded amount of the fee.
 	Amount *int64 `form:"amount"`
 }
 
 // You can see a list of the refunds belonging to a specific application fee. Note that the 10 most recent refunds are always available by default on the application fee object. If you need more than those 10, you can use this API method and the limit and starting_after parameters to page through additional refunds.
 type FeeRefundListParams struct {
-	ListParams     `form:"*"`
-	ApplicationFee *string `form:"-"` // Included in URL
+	ListParams `form:"*"`
+	ID         *string `form:"-"` // Included in URL
 }
 
 // `Application Fee Refund` objects allow you to refund an application fee that

@@ -107,9 +107,9 @@ type IssuingCardholderIndividualVerificationParams struct {
 type IssuingCardholderIndividualParams struct {
 	// The date of birth of this cardholder.
 	DOB *IssuingCardholderIndividualDOBParams `form:"dob"`
-	// The first name of this cardholder.
+	// The first name of this cardholder. This field cannot contain any special characters or numbers.
 	FirstName *string `form:"first_name"`
-	// The last name of this cardholder.
+	// The last name of this cardholder. This field cannot contain any special characters or numbers.
 	LastName *string `form:"last_name"`
 	// Government-issued ID document for this cardholder.
 	Verification *IssuingCardholderIndividualVerificationParams `form:"verification"`
@@ -148,7 +148,7 @@ type IssuingCardholderParams struct {
 	Email *string `form:"email"`
 	// Additional information about an `individual` cardholder.
 	Individual *IssuingCardholderIndividualParams `form:"individual"`
-	// The cardholder's name. This will be printed on cards issued to them. The maximum length of this field is 24 characters.
+	// The cardholder's name. This will be printed on cards issued to them. The maximum length of this field is 24 characters. This field cannot contain any special characters or numbers.
 	Name *string `form:"name"`
 	// The cardholder's phone number. This is required for all cardholders who will be creating EU cards. See the [3D Secure documentation](https://stripe.com/docs/issuing/3d-secure) for more details.
 	PhoneNumber *string `form:"phone_number"`
@@ -213,7 +213,7 @@ type IssuingCardholderRequirements struct {
 
 // Limit spending with amount-based rules that apply across this cardholder's cards.
 type IssuingCardholderSpendingControlsSpendingLimit struct {
-	// Maximum amount allowed to spend per interval.
+	// Maximum amount allowed to spend per interval. This amount is in the card's currency and in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal).
 	Amount int64 `json:"amount"`
 	// Array of strings containing [categories](https://stripe.com/docs/api#issuing_authorization_object-merchant_data-category) this limit applies to. Omitting this field will apply the limit to all categories.
 	Categories []string `json:"categories"`

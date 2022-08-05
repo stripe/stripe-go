@@ -150,6 +150,14 @@ type IssuingTransactionPurchaseDetails struct {
 	Reference string `json:"reference"`
 }
 
+// [Treasury](https://stripe.com/docs/api/treasury) details related to this transaction if it was created on a [FinancialAccount](/docs/api/treasury/financial_accounts
+type IssuingTransactionTreasury struct {
+	// The Treasury [ReceivedCredit](https://stripe.com/docs/api/treasury/received_debits) representing this Issuing transaction if it is a refund
+	ReceivedCredit string `json:"received_credit"`
+	// The Treasury [ReceivedDebit](https://stripe.com/docs/api/treasury/received_credits) representing this Issuing transaction if it is a capture
+	ReceivedDebit string `json:"received_debit"`
+}
+
 // Any use of an [issued card](https://stripe.com/docs/issuing) that results in funds entering or leaving
 // your Stripe account, such as a completed purchase or refund, is represented by an Issuing
 // `Transaction` object.
@@ -190,6 +198,8 @@ type IssuingTransaction struct {
 	Object string `json:"object"`
 	// Additional purchase information that is optionally provided by the merchant.
 	PurchaseDetails *IssuingTransactionPurchaseDetails `json:"purchase_details"`
+	// [Treasury](https://stripe.com/docs/api/treasury) details related to this transaction if it was created on a [FinancialAccount](/docs/api/treasury/financial_accounts
+	Treasury *IssuingTransactionTreasury `json:"treasury"`
 	// The nature of the transaction.
 	Type IssuingTransactionType `json:"type"`
 	// The digital wallet used for this transaction. One of `apple_pay`, `google_pay`, or `samsung_pay`.

@@ -6,7 +6,7 @@ import (
 	"testing"
 
 	assert "github.com/stretchr/testify/require"
-	"github.com/stripe/stripe-go/v72/form"
+	"github.com/stripe/stripe-go/v73/form"
 )
 
 func TestPlan_Unmarshal(t *testing.T) {
@@ -76,11 +76,10 @@ func TestPlanParams_AppendTo(t *testing.T) {
 		{"id", &PlanParams{ID: String("sapphire-elite")}, "sapphire-elite"},
 		{"interval", &PlanParams{Interval: String("month")}, "month"},
 		{"interval_count", &PlanParams{IntervalCount: Int64(3)}, strconv.FormatUint(3, 10)},
-		{"product", &PlanParams{ProductID: String("prod_123abc")}, "prod_123abc"},
-		{"product[id]", &PlanParams{Product: &productParams}, "ID"},
+		{"product[id]", &PlanParams{Product: &PlanProductParams{ID: String("prod_123abc")}}, "prod_123abc"},
 		{"product[name]", &PlanParams{Product: &productParams}, "Sapphire Elite"},
 		{"product[statement_descriptor]", &PlanParams{Product: &productParams}, "SAPPHIRE"},
-		{"product", &PlanParams{ProductID: String("prod_123abc")}, "prod_123abc"}, {"tiers_mode", &PlanParams{TiersMode: String(string(PlanTiersModeVolume))}, "volume"},
+		{"tiers_mode", &PlanParams{TiersMode: String(string(PlanTiersModeVolume))}, "volume"},
 		{"tiers[0][unit_amount]", &PlanParams{Tiers: tiers}, strconv.FormatUint(123, 10)},
 		{"tiers[0][up_to]", &PlanParams{Tiers: tiers}, strconv.FormatUint(321, 10)},
 		{"tiers[1][unit_amount]", &PlanParams{Tiers: tiers}, strconv.FormatUint(123, 10)},

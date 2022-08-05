@@ -10,8 +10,8 @@ package reader
 import (
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v72"
-	"github.com/stripe/stripe-go/v72/form"
+	stripe "github.com/stripe/stripe-go/v73"
+	"github.com/stripe/stripe-go/v73/form"
 )
 
 // Client is used to invoke /terminal/readers APIs.
@@ -39,12 +39,12 @@ func (c Client) New(params *stripe.TerminalReaderParams) (*stripe.TerminalReader
 }
 
 // Get returns the details of a terminal reader.
-func Get(id string, params *stripe.TerminalReaderGetParams) (*stripe.TerminalReader, error) {
+func Get(id string, params *stripe.TerminalReaderParams) (*stripe.TerminalReader, error) {
 	return getC().Get(id, params)
 }
 
 // Get returns the details of a terminal reader.
-func (c Client) Get(id string, params *stripe.TerminalReaderGetParams) (*stripe.TerminalReader, error) {
+func (c Client) Get(id string, params *stripe.TerminalReaderParams) (*stripe.TerminalReader, error) {
 	path := stripe.FormatURLPath("/v1/terminal/readers/%s", id)
 	reader := &stripe.TerminalReader{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, reader)

@@ -8,7 +8,7 @@ package stripe
 
 import (
 	"encoding/json"
-	"github.com/stripe/stripe-go/v72/form"
+	"github.com/stripe/stripe-go/v73/form"
 	"strconv"
 )
 
@@ -60,7 +60,8 @@ type BankAccountParams struct {
 	AccountHolderName *string `form:"account_holder_name"`
 	// The type of entity that holds the account. This can be either `individual` or `company`.
 	AccountHolderType *string `form:"account_holder_type"`
-	AccountNumber     *string `form:"account_number"`
+	// The account number for the bank account, in string form. Must be a checking account.
+	AccountNumber *string `form:"account_number"`
 	// The bank account type. This can only be `checking` or `savings` in most countries. In Japan, this can only be `futsu` or `toza`.
 	AccountType *string `form:"account_type"`
 	// City/District/Suburb/Town/Village.
@@ -75,8 +76,10 @@ type BankAccountParams struct {
 	AddressState *string `form:"address_state"`
 	// ZIP or postal code.
 	AddressZip *string `form:"address_zip"`
-	Country    *string `form:"country"`
-	Currency   *string `form:"currency"`
+	// The country in which the bank account is located.
+	Country *string `form:"country"`
+	// The currency the bank account is in. This must be a country/currency pairing that [Stripe supports](https://stripe.com/docs/payouts).
+	Currency *string `form:"currency"`
 	// When set to true, this becomes the default external account for its currency.
 	DefaultForCurrency *bool `form:"default_for_currency"`
 	// Two digit number representing the card's expiration month.
@@ -84,7 +87,8 @@ type BankAccountParams struct {
 	// Four digit number representing the card's expiration year.
 	ExpYear *string `form:"exp_year"`
 	// Cardholder name.
-	Name          *string `form:"name"`
+	Name *string `form:"name"`
+	// The routing number, sort code, or other country-appropriate institution number for the bank account. For US bank accounts, this is required and should be the ACH routing number, not the wire routing number. If you are providing an IBAN for `account_number`, this field is not required.
 	RoutingNumber *string `form:"routing_number"`
 	// ID is used when tokenizing a bank account for shared customers
 	ID *string `form:"*"`
