@@ -11,7 +11,7 @@ gem 'sorbet-rails', '~> 0.7.34'
 # https://github.com/ruby/irb/issues/43
 gem 'reline', '~> 0.3.1'
 
-gem 'dotenv-rails', '2.7.6', groups: [:development, :test]
+gem 'dotenv-rails', '2.8.1', groups: [:development, :test]
 gem 'rails', '~> 6.1.6.1'
 gem 'lograge', '~> 0.12'
 
