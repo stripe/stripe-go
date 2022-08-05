@@ -26,6 +26,7 @@ workflows:
               account:
                 - mbianco+standardcpq@stripe.com
                 - mbianco+cpqpackage@stripe.com
+                - brennen+prodtest@stripe.com
 
           requires:
             # We will wait for the block and typecheck tasks to complete
@@ -150,6 +151,7 @@ jobs:
       # used for private key extraction and usage in the jwt generator
       SF_JWT_PRIVATE_KEY_PATH: /home/circleci/project/private.key
       SF_QA_PACKAGING_EMAIL: mbianco+newstripeconnectorqa@stripe.com
+      SF_PROD_PACKAGING_EMAIL: mbianco+stripeconnector@stripe.com
       SF_USERNAME: <<parameters.account>>
       # SF_PASSWORD
       # SIGNALFX_TOKEN
@@ -240,9 +242,28 @@ jobs:
             # the current code should *always* be able to be deployed against the packaging org, if it can't be, this should block the build
             deploySource "$SF_QA_PACKAGING_EMAIL"
 
+      - run:
+          name: "CPQ Prod Package Deployment Version"
+          command: |
+            if [ "$CIRCLE_BRANCH" != "main" ]; then
+              echo "Not on main, will not deploy produciton package."
+              exit 0
+            fi
+
+            source ./sfdx/bin/run-tests-helpers
+            cd sfdx
+
+            authorizeSalesforceAccount "$SF_PROD_PACKAGING_EMAIL"
+
+            # make sure the same API version is used for local deployments, otherwise you'll run into weird errors
+            # for some reason, the `sfdx config:set apiVersion=52.0` doesn't work and gets overwritten
+
+            # the current code should *always* be able to be deployed against the packaging org, if it can't be, this should block the build
+            deploySource $SF_PROD_PACKAGING_EMAIL
+
       # https://jira.corp.stripe.com/browse/PLATINT-1499
       - run:
-          name: "CPQ Package Version Check"
+          name: "QA CPQ Package Version Check"
           command: |
             if [ "$CIRCLE_NODE_INDEX" != "0" ]; then
               echo "Not first node, exiting"
@@ -252,7 +273,7 @@ jobs:
             SF_ACCOUNT_WITH_QA_PACKAGE_INSTALLED=mbianco+cpqpackage@stripe.com
 
             if [ "$SF_USERNAME" != "$SF_ACCOUNT_WITH_QA_PACKAGE_INSTALLED" ]; then
-              echo "Not the packaged org, exiting"
+              echo "Not the QA packaged org, exiting"
               exit 0
             fi
 
@@ -268,6 +289,35 @@ jobs:
               echo "Latest package version ($latest_package_version) is not installed ($installed_package_version)"
 
               latest_package_id=$(sfdx force:package1:version:list --json -u $SF_QA_PACKAGING_EMAIL | jq -r '.result[-1].MetadataPackageVersionId')
+              echo "https://appiphony92-dev-ed.lightning.force.com/packaging/installPackage.apexp?p0=$latest_package_id"
+
+              exit 1
+            fi
+
+            echo "Latest package is installed"
+      
+      - run:
+          name: "PROD CPQ Package Version Check"
+          command: |
+            SF_ACCOUNT_WITH_PROD_PACKAGE_INSTALLED=brennen+prodtest@stripe.com
+
+            if [ "$SF_USERNAME" != "$SF_ACCOUNT_WITH_PROD_PACKAGE_INSTALLED" ]; then
+              echo "Not the production packaged org, exiting"
+              exit 0
+            fi
+
+            cd sfdx
+
+            # SF_PROD_PACKAGING_EMAIL is authorized in the previous step, otherwise we would need to do this here
+
+            latest_package_version=$(sfdx force:package1:version:list --json -u $SF_PROD_PACKAGING_EMAIL | jq -r '.result[-1].Version')
+            installed_package_version=$(sfdx force:package:installed:list -u $SF_USERNAME --json | jq -r '.result[] | select(.SubscriberPackageName == "stripeConnector").SubscriberPackageVersionNumber')
+
+            # the installed package version always has `.1` appended
+            if [[ "$latest_package_version.1" != $installed_package_version ]]; then
+              echo "Latest package version ($latest_package_version) is not installed ($installed_package_version)"
+
+              latest_package_id=$(sfdx force:package1:version:list --json -u $SF_PROD_PACKAGING_EMAIL | jq -r '.result[-1].MetadataPackageVersionId')
               echo "https://appiphony92-dev-ed.lightning.force.com/packaging/installPackage.apexp?p0=$latest_package_id"
 
               exit 1

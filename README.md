@@ -156,10 +156,31 @@ Some notes:
 - If something is causing an error that you deleted in your source code, you can edit the offending file to resolve whatever is causing the error. This is often easier than asking SF to move your package to beta.
 - Ensure the "old order save behavior" is NOT checked
 
+### Production Package Testing
+
+- We only wish to test the currently deployed production package. Therefore we do NOT run the salesforce tests like we do in QA, this is because those tests involve pushing a new source install.
+- If you accidentally run these tests against production, you must follow the below steps to clean up the prod test account:
+
+  - `sfdx force:source:delete -p force-app/main/default/ --apiversion=54.0 -u brennen+prodtest@stripe.com`
+  - If you are running into issues, try deleting the conflicts via the salesforce UI or via SFDX but specify down the path to just the problematic files.
+  - Some records may need to be manually altered:
+    - Go to the [Lightning App Builder](https://productiontest2-dev-ed.lightning.force.com/lightning/setup/FlexiPageList/page?address=%2F_ui%2Fflexipage%2Fui%2FFlexiPageFilterListPage) and select the 'Sync Record Record Page' that lacks a Namespace Prefix and has an 'Edit' button. Click edit and then 'Activation' in the top right hand corner. Under 'Org Default' click 'Remove as Org Default' and select both Desktop and Phone. Then click Save.
+
+- If you are running into permission errors related to Orders, you are most likely missing the standard CPQ setup permissions that a real account would have. We have some permission sets created for us in the force-app/main/scratchSetup folder. If you are creating a new testing environment you will have to deploy this folder and assign the permissions to your test user.
+
+  - ie: `sfdx force:source:deploy -p force-app/main/scratchSetup -u brennen+prodtest@stripe.com` followed by `sfdx force:user:permset:assign -n "Order_Permissions" -u brennen`+prodtest@stripe.com
+  - Right now, OrderPermissions is the only permission set we have defined but there may be additional ones in the future.
+
+- If you are seeing Order upsert failures like "Can't save order products with negative quantities: Quantity"
+  - Check the following boxes on this page: `sfdx force:org:open -u brennen+prodtest@stripe.com -p "/lightning/setup/OrderSettings/home"`
+    - Enable Negative Quantity
+    - Enable Zero Quantity
+
 ### Production Package Release
 
 - https://security.secure.force.com/security/tools/forcecom/scanner use username and password of the production packaging org.
 - Include sec rev in the username of another account which contains the latest production package.
+- Make sure to write the Release Notes
 
 ## Creating a new QA package
 
@@ -193,12 +214,15 @@ After rolling, make sure to install it on the package org test account (distinct
 
 https://appiphony92-dev-ed.my.salesforce.com/
 
-#### Production Package
+## Removing Components from QA or Production Packages
 
-There are two additional steps that must be completed to launch a production package:
+As referenced above, it is a slightly convoluted process to remove a component from a package once it has been added. You must:
 
-- Release Notes
-- Security scan https://security.secure.force.com/security/tools/forcecom/scanner
+- Log into the partner community (https://partners.salesforce.com)
+- Top right of the page, click your user icon and navigate to my cases
+- This will take you to the SF support page. From here you can create a new case.
+- Make sure you select technical support from the options drop down when creating a new case
+  - Provide the org ID and necessary login credentials.
 
 ## Manually Creating Global Key Metadata
 
@@ -293,6 +317,8 @@ BUNDLE_DISABLE_SHARED_GEMS=1 BUNDLE_PATH=vendor/bundle bundle
 # Tests
 
 - Before running tests, you'll need a valid oauth token: `bundle exec ruby scripts/refresh-tokens.rb`
+  - If the above script is not granting you a new access token for your scratch org, you can also generate a new one via `sfdx force:org:open -u brennen-scratch`
+  - This will have refreshed your access token for SFDX, so you can re-run the refresh-tokens script above to replace it in your ENV. 
 - `NO_RESCUE=true bundle exec rails test "test/**/*test.rb"` will run the entire test suite
 - `NO_RESCUE=1` to avoid autoloading pry-rescue in the test suite
 
@@ -303,3 +329,9 @@ heroku drains:add syslog+tls://logs5.papertrailapp.com:28081
 ```
 
 After adding to papertrail, you'll need to rename the system to something legible. [More instructions here.](https://papertrailapp.com/systems/setup?type=system&platform=heroku)
+
+- To run ruby arbitrary files on a dyno:
+  - Add the file to /bin
+  - Deploy to canary
+  - `heroku run bash -a stripe-force-canary`
+  - `bundle exec ruby bin/<script_file_name.rb>`
