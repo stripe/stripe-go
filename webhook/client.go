@@ -282,3 +282,39 @@ func validatePayload(payload []byte, sigHeader string, secret string, tolerance 
 
 	return ErrNoValidSignature
 }
+
+// For mocking webhook events
+type UnsignedPayload struct {
+	payload   []byte
+	secret    string
+	timestamp time.Time
+	scheme    string
+}
+
+type SignedPayload struct {
+	UnsignedPayload
+
+	signature []byte
+	header    string
+}
+
+func GenerateTestSignedPayload(options *UnsignedPayload) *SignedPayload {
+	signedPayload := &SignedPayload{UnsignedPayload: *options}
+
+	if signedPayload.timestamp == (time.Time{}) {
+		signedPayload.timestamp = time.Now()
+	}
+
+	if signedPayload.scheme == "" {
+		signedPayload.scheme = "v1"
+	}
+
+	signedPayload.signature = ComputeSignature(signedPayload.timestamp, signedPayload.payload, signedPayload.secret)
+	signedPayload.header = generateHeader(*signedPayload)
+
+	return signedPayload
+}
+
+func generateHeader(p SignedPayload) string {
+	return fmt.Sprintf("t=%d,%s=%s", p.timestamp.Unix(), p.scheme, hex.EncodeToString(p.signature))
+}
