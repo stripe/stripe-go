@@ -13,7 +13,7 @@ https://login.salesforce.com/packaging/installPackage.apexp?p0=04t5f00000074P3
 
 # URLs
 
-- Production URL: https://stripe-force.herokuapp.com/auth/salesforce
+- Production URL: https://salesforce.suitesync.io/auth/salesforce
 - Dev URL: http://localhost:3100/
 - [SF dev & test environments](https://docs.google.com/spreadsheets/d/136PUl_U7bMW7uMSwcqujisasAJNQJIOPQimGGG7iG00/edit#gid=0)
 - [high-level architecture for security](https://paper.dropbox.com/doc/SalesForceStripe-Connector-Architecture-A6jDl31hXxE2DOp9QKjl3)
@@ -257,11 +257,11 @@ Checkout `scripts/` and `bin/` for helpful scripts to aid development.
 ## API
 
 ```shell
-http POST https://stripe-force.herokuapp.com/v1/post-install Salesforce-Account-Id:00D5e000003V0C7EAK Salesforce-Key:ORGANIZATION_KEY key=123123
+http POST https://salesforce.suitesync.io/v1/post-install Salesforce-Account-Id:00D5e000003V0C7EAK Salesforce-Key:ORGANIZATION_KEY key=123123
 
-http PUT https://stripe-force.herokuapp.com/v1/configuration field_defaults:='{"subscription_schedule":{"STRIPE_FIELD_2":"value"}}' field_mappings:='{}' Salesforce-Account-Id:00D5e000003V0C7EAK Salesforce-Key:THE_KEY
+http PUT https://salesforce.suitesync.io/v1/configuration field_defaults:='{"subscription_schedule":{"STRIPE_FIELD_2":"value"}}' field_mappings:='{}' Salesforce-Account-Id:00D5e000003V0C7EAK Salesforce-Key:THE_KEY
 
-http https://stripe-force.herokuapp.com/v1/configuration Salesforce-Account-Id:00D5e000003V0C7EAK Salesforce-Key:THE_KEY
+http https://salesforce.suitesync.io/v1/configuration Salesforce-Account-Id:00D5e000003V0C7EAK Salesforce-Key:THE_KEY
 ```
 
 ## Processes

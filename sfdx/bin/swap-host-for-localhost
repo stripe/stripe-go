@@ -10,5 +10,5 @@ fi
 # TODO should make the port dynamic
 # TODO https should be used on CI
 
-rg 'https://stripe-force.herokuapp.com' --files-with-matches -g '!bin/*' | \
-  xargs sed -i '' 's|https://stripe-force.herokuapp.com|http://localhost:4000|g'
+rg 'https://salesforce.suitesync.io' --files-with-matches -g '!bin/*' | \
+  xargs sed -i '' 's|https://salesforce.suitesync.io|http://localhost:4000|g'

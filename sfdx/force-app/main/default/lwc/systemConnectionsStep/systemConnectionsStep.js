@@ -8,7 +8,7 @@ export default class SystemConnectionsStep extends LightningElement {
     @track connectWindow;
     @track isSandbox;
     // TODO should be pulled from APEX
-    @track rubyBaseURI = 'https://stripe-force.herokuapp.com';
+    @track rubyBaseURI = 'https://salesforce.suitesync.io';
     @track salesforceNamespace;
     @api hideAction = false;
 
