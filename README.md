@@ -218,11 +218,21 @@ https://appiphony92-dev-ed.my.salesforce.com/
 
 As referenced above, it is a slightly convoluted process to remove a component from a package once it has been added. You must:
 
-- Log into the partner community (https://partners.salesforce.com)
-- Top right of the page, click your user icon and navigate to my cases
-- This will take you to the SF support page. From here you can create a new case.
+- Log into the partner community (https://help.salesforce.com/)
 - Make sure you select technical support from the options drop down when creating a new case
-  - Provide the org ID and necessary login credentials.
+- Provide them the org ID, package name and version number you would like rolled back to Beta.
+- They will prompt you to do so but you can pre-emptively grant Salesforce Support access via:
+  - Click your name -> My settings -> Personal -> Grant Account Login Access
+  - Set the access duration for Salesforce.com Support to 1 Week
+  - Click Save
+
+For deleting objects, you may need to remove all the dependencies first by making a shell of the component and then deploying that.
+
+- Example commit here: https://github.com/stripe/stripe-salesforce/commit/f
+
+To delete lightning web components, you must delete them from the Lightning Components Page
+
+- https://appiphonycom7-dev-ed.lightning.force.com/lightning/setup/LightningComponentBundles/home
 
 ## Manually Creating Global Key Metadata
 
@@ -318,7 +328,7 @@ BUNDLE_DISABLE_SHARED_GEMS=1 BUNDLE_PATH=vendor/bundle bundle
 
 - Before running tests, you'll need a valid oauth token: `bundle exec ruby scripts/refresh-tokens.rb`
   - If the above script is not granting you a new access token for your scratch org, you can also generate a new one via `sfdx force:org:open -u brennen-scratch`
-  - This will have refreshed your access token for SFDX, so you can re-run the refresh-tokens script above to replace it in your ENV. 
+  - This will have refreshed your access token for SFDX, so you can re-run the refresh-tokens script above to replace it in your ENV.
 - `NO_RESCUE=true bundle exec rails test "test/**/*test.rb"` will run the entire test suite
 - `NO_RESCUE=1` to avoid autoloading pry-rescue in the test suite
 
