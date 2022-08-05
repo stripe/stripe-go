@@ -30,7 +30,7 @@
             top: 0;
         }
     </style>
- 
+
     <div id="lightning">
         <div id="spinner">
             <div role="status" class="slds-spinner slds-spinner_medium">
@@ -42,7 +42,7 @@
     </div>
 
     <script type="text/javascript">
-
+        // mounts the `setup` LWC as the default for this page
         $Lightning.use('{!JSENCODE(namespace)}:lightningOut', function () {
             document.getElementById('lightning').style.display = 'block';
             $Lightning.createComponent('{!JSENCODE(namespace)}:setup', {
@@ -55,6 +55,6 @@
             });
         });
 
-        
+
     </script>
 </apex:page>
