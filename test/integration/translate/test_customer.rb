@@ -57,6 +57,7 @@ class Critic::CustomerTranslation < Critic::FunctionalTest
 
     stripe_customer = Stripe::Customer.retrieve(stripe_customer_id, @user.stripe_credentials)
     assert_equal(sf_account.Id, stripe_customer.metadata['salesforce_account_id'])
+    assert_nil(stripe_customer.test_clock)
 
     assert_nil(stripe_customer.address)
 
@@ -72,5 +73,20 @@ class Critic::CustomerTranslation < Critic::FunctionalTest
     assert_equal("North Carolina", stripe_customer.shipping.address&.state)
     assert_equal("27330", stripe_customer.shipping.address&.postal_code)
     assert_equal("US", stripe_customer.shipping.address&.country)
+  end
+
+  it 'attaches a test clock to a customer when enabled' do
+    @user.enable_feature(:test_clocks)
+
+    sf_account_id = create_salesforce_account
+
+    StripeForce::Translate.perform_inline(@user, sf_account_id)
+
+    sf_account = sf.find(SF_ACCOUNT, sf_account_id)
+    stripe_customer_id = sf_account[prefixed_stripe_field(GENERIC_STRIPE_ID)]
+    refute_nil(stripe_customer_id)
+
+    stripe_customer = Stripe::Customer.retrieve(stripe_customer_id, @user.stripe_credentials)
+    refute_nil(stripe_customer.test_clock)
   end
 end

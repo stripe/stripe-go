@@ -14,6 +14,16 @@ class StripeForce::Translate
     end
 
     customer = create_stripe_object(Stripe::Customer, sf_account) do |generated_stripe_customer|
+      if @user.feature_enabled?(:test_clocks) && !@user.livemode
+        log.debug 'adding test clock to customer'
+
+        test_clock = Stripe::TestHelpers::TestClock.create({
+          frozen_time: Time.now.to_i,
+        }, @user.stripe_credentials)
+
+        generated_stripe_customer.test_clock = test_clock.id
+      end
+
       # passing a partial shipping hash will trigger an error
       if !generated_stripe_customer.shipping.respond_to?(:address) || generated_stripe_customer.shipping.address.to_h.empty?
         log.info 'no address on shipping hash, removing'

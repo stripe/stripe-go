@@ -47,6 +47,9 @@ class Stripe::Customer
   sig { returns(String) }
   def description; end
 
+  sig { returns(T.nilable(String))}
+  def test_clock; end
+
   # TODO should add proper subhash typing
   def shipping; end
 
