@@ -302,6 +302,11 @@ jobs:
       - run:
           name: "PROD CPQ Package Version Check"
           command: |
+            if [ "$CIRCLE_NODE_INDEX" != "0" ]; then
+              echo "Not first node, exiting"
+              exit 0
+            fi
+
             SF_ACCOUNT_WITH_PROD_PACKAGE_INSTALLED=brennen+prodtest@stripe.com
 
             if [ "$SF_USERNAME" != "$SF_ACCOUNT_WITH_PROD_PACKAGE_INSTALLED" ]; then

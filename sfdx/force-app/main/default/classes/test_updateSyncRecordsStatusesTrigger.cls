@@ -2,6 +2,7 @@
 public with sharing class test_updateSyncRecordsStatusesTrigger {
     @isTest
     static public void testUpdateSyncRecordsStatuses() {
+        // TODO why is this being constructed manually here? Shouldn't there be a helper for this?
         Stripe_Connection__c stripeConnectRec = new Stripe_Connection__c(); 
         stripeConnectRec.Stripe_Connected__c = true;
         stripeConnectRec.Salesforce_Connected__c = true;

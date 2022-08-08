@@ -46,7 +46,11 @@ module StripeForce::Utilities
         SF_CONSUMPTION_RATE
       else
         object_prefix = sf_id[0..2]
-        object_description = @user.sf_client.api_get('sobjects').body["sobjects"].detect {|o| o["keyPrefix"] == object_prefix }
+        object_description = @user
+          .sf_client
+          .api_get('sobjects')
+          .body["sobjects"]
+          .detect {|o| o["keyPrefix"] == object_prefix }
 
         # => {"activateable"=>false,
         #   "associateEntityType"=>nil,
