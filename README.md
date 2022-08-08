@@ -408,9 +408,36 @@ secret_feature_enabled, _ := string(rawData["secret_feature_enabled"].(bool))
 secret_parameter, ok := rawData["secret_parameter"].(map[string]interface{})
 if ok {
 	primary := secret_parameter["primary"].(string)
-	seconardy := secret_parameter["secondary"].(string)
+	secondary := secret_parameter["secondary"].(string)
 } 
 ```
+
+### Webhook signing
+Stripe can optionally sign the webhook events it sends to your endpoint, allowing you to validate that they were not sent by a third-party. You can read more about it [here](https://stripe.com/docs/webhooks/signatures).
+
+#### Testing Webhook signing
+You can use `stripe.webhook.GenerateTestSignedPayload` to mock webhook events that come from Stripe:
+
+```go
+payload := map[string]interface{}{
+	"id":          "evt_test_webhook",
+	"object":      "event",
+	"api_version": stripe.APIVersion,
+}
+testSecret := "whsec_test_secret"
+
+payloadBytes, err := json.Marshal(payload)
+
+signedPayload := GenerateTestSignedPayload(&UnsignedPayload{payload: payloadBytes, secret: testSecret})
+event, err := ConstructEvent(signedPayload.payload, signedPayload.header, signedPayload.secret)
+
+if event.ID = payload.id {
+	// Do something with the mocked signed event
+} else {
+	// Handle invalid event payload
+}
+```
+
 ### Writing a Plugin
 
 If you're writing a plugin that uses the library, we'd appreciate it if you

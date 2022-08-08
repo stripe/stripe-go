@@ -22,15 +22,6 @@ var testPayloadWithAPIVersionMismatch = []byte(`{
   }`)
 var testSecret = "whsec_test_secret"
 
-type SignedPayload struct {
-	timestamp time.Time
-	payload   []byte
-	secret    string
-	scheme    string
-	signature []byte
-	header    string
-}
-
 func newSignedPayload(options ...func(*SignedPayload)) *SignedPayload {
 	signedPayload := &SignedPayload{}
 	signedPayload.timestamp = time.Now()
@@ -51,10 +42,6 @@ func newSignedPayload(options ...func(*SignedPayload)) *SignedPayload {
 
 func (p *SignedPayload) hexSignature() string {
 	return hex.EncodeToString(p.signature)
-}
-
-func generateHeader(p SignedPayload) string {
-	return fmt.Sprintf("t=%d,%s=%s", p.timestamp.Unix(), p.scheme, hex.EncodeToString(p.signature))
 }
 
 func TestTokenNew(t *testing.T) {
