@@ -431,9 +431,10 @@ payloadBytes, err := json.Marshal(payload)
 signedPayload := GenerateTestSignedPayload(&UnsignedPayload{payload: payloadBytes, secret: testSecret})
 event, err := ConstructEvent(signedPayload.payload, signedPayload.header, signedPayload.secret)
 
-// Do something with mocked signed event
-if event.ID != payload.id {
-	fmt.Errorf(":(")
+if event.ID = payload.id {
+	// Do something with the mocked signed event
+} else {
+	// Handle invalid event payload
 }
 ```
 
