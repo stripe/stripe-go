@@ -1,11 +1,17 @@
+//
+//
+// File generated from our OpenAPI spec
+//
+//
+
 // Package payout provides the /payouts APIs
 package payout
 
 import (
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v72"
-	"github.com/stripe/stripe-go/v72/form"
+	stripe "github.com/stripe/stripe-go/v73"
+	"github.com/stripe/stripe-go/v73/form"
 )
 
 // Client is used to invoke /payouts APIs.
@@ -52,12 +58,12 @@ func (c Client) Update(id string, params *stripe.PayoutParams) (*stripe.Payout, 
 	return payout, err
 }
 
-// Cancel cancels a pending payout.
+// Cancel is the method for the `POST /v1/payouts/{payout}/cancel` API.
 func Cancel(id string, params *stripe.PayoutParams) (*stripe.Payout, error) {
 	return getC().Cancel(id, params)
 }
 
-// Cancel cancels a pending payout.
+// Cancel is the method for the `POST /v1/payouts/{payout}/cancel` API.
 func (c Client) Cancel(id string, params *stripe.PayoutParams) (*stripe.Payout, error) {
 	path := stripe.FormatURLPath("/v1/payouts/%s/cancel", id)
 	payout := &stripe.Payout{}
@@ -65,12 +71,12 @@ func (c Client) Cancel(id string, params *stripe.PayoutParams) (*stripe.Payout, 
 	return payout, err
 }
 
-// Reverse reverses a pending payout.
+// Reverse is the method for the `POST /v1/payouts/{payout}/reverse` API.
 func Reverse(id string, params *stripe.PayoutReverseParams) (*stripe.Payout, error) {
 	return getC().Reverse(id, params)
 }
 
-// Reverse reverses a pending payout.
+// Reverse is the method for the `POST /v1/payouts/{payout}/reverse` API.
 func (c Client) Reverse(id string, params *stripe.PayoutReverseParams) (*stripe.Payout, error) {
 	path := stripe.FormatURLPath("/v1/payouts/%s/reverse", id)
 	payout := &stripe.Payout{}
@@ -85,17 +91,19 @@ func List(params *stripe.PayoutListParams) *Iter {
 
 // List returns a list of payouts.
 func (c Client) List(listParams *stripe.PayoutListParams) *Iter {
-	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
-		list := &stripe.PayoutList{}
-		err := c.B.CallRaw(http.MethodGet, "/v1/payouts", c.Key, b, p, list)
+	return &Iter{
+		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
+			list := &stripe.PayoutList{}
+			err := c.B.CallRaw(http.MethodGet, "/v1/payouts", c.Key, b, p, list)
 
-		ret := make([]interface{}, len(list.Data))
-		for i, v := range list.Data {
-			ret[i] = v
-		}
+			ret := make([]interface{}, len(list.Data))
+			for i, v := range list.Data {
+				ret[i] = v
+			}
 
-		return ret, list, err
-	})}
+			return ret, list, err
+		}),
+	}
 }
 
 // Iter is an iterator for payouts.

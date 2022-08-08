@@ -10,8 +10,8 @@ package price
 import (
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v72"
-	"github.com/stripe/stripe-go/v72/form"
+	stripe "github.com/stripe/stripe-go/v73"
+	"github.com/stripe/stripe-go/v73/form"
 )
 
 // Client is used to invoke /prices APIs.
@@ -65,17 +65,19 @@ func List(params *stripe.PriceListParams) *Iter {
 
 // List returns a list of prices.
 func (c Client) List(listParams *stripe.PriceListParams) *Iter {
-	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
-		list := &stripe.PriceList{}
-		err := c.B.CallRaw(http.MethodGet, "/v1/prices", c.Key, b, p, list)
+	return &Iter{
+		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
+			list := &stripe.PriceList{}
+			err := c.B.CallRaw(http.MethodGet, "/v1/prices", c.Key, b, p, list)
 
-		ret := make([]interface{}, len(list.Data))
-		for i, v := range list.Data {
-			ret[i] = v
-		}
+			ret := make([]interface{}, len(list.Data))
+			for i, v := range list.Data {
+				ret[i] = v
+			}
 
-		return ret, list, err
-	})}
+			return ret, list, err
+		}),
+	}
 }
 
 // Iter is an iterator for prices.
@@ -93,6 +95,45 @@ func (i *Iter) Price() *stripe.Price {
 // continue pagination.
 func (i *Iter) PriceList() *stripe.PriceList {
 	return i.List().(*stripe.PriceList)
+}
+
+// Search returns a search result containing prices.
+func Search(params *stripe.PriceSearchParams) *SearchIter {
+	return getC().Search(params)
+}
+
+// Search returns a search result containing prices.
+func (c Client) Search(params *stripe.PriceSearchParams) *SearchIter {
+	return &SearchIter{
+		SearchIter: stripe.GetSearchIter(params, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.SearchContainer, error) {
+			list := &stripe.PriceSearchResult{}
+			err := c.B.CallRaw(http.MethodGet, "/v1/prices/search", c.Key, b, p, list)
+
+			ret := make([]interface{}, len(list.Data))
+			for i, v := range list.Data {
+				ret[i] = v
+			}
+
+			return ret, list, err
+		}),
+	}
+}
+
+// SearchIter is an iterator for prices.
+type SearchIter struct {
+	*stripe.SearchIter
+}
+
+// Price returns the price which the iterator is currently pointing to.
+func (i *SearchIter) Price() *stripe.Price {
+	return i.Current().(*stripe.Price)
+}
+
+// PriceSearchResult returns the current list object which the iterator is
+// currently using. List objects will change as new API calls are made to
+// continue pagination.
+func (i *SearchIter) PriceSearchResult() *stripe.PriceSearchResult {
+	return i.SearchResult().(*stripe.PriceSearchResult)
 }
 
 func getC() Client {

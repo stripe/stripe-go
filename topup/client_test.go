@@ -4,8 +4,8 @@ import (
 	"testing"
 
 	assert "github.com/stretchr/testify/require"
-	stripe "github.com/stripe/stripe-go/v72"
-	_ "github.com/stripe/stripe-go/v72/testing"
+	stripe "github.com/stripe/stripe-go/v73"
+	_ "github.com/stripe/stripe-go/v73/testing"
 )
 
 func TestTopupCancel(t *testing.T) {
@@ -24,24 +24,10 @@ func TestTopupNew(t *testing.T) {
 	topup, err := New(&stripe.TopupParams{
 		Amount:              stripe.Int64(123),
 		Currency:            stripe.String(string(stripe.CurrencyUSD)),
-		Source:              &stripe.SourceParams{Token: stripe.String("src_123")},
+		Source:              stripe.String("src_123"),
 		Description:         stripe.String("creating a topup"),
 		StatementDescriptor: stripe.String("topup"),
 	})
-	assert.Nil(t, err)
-	assert.NotNil(t, topup)
-}
-
-func TestTopupNew_WithSetSource(t *testing.T) {
-	params := stripe.TopupParams{
-		Amount:              stripe.Int64(123),
-		Currency:            stripe.String(string(stripe.CurrencyUSD)),
-		Description:         stripe.String("creating a topup"),
-		StatementDescriptor: stripe.String("topup"),
-	}
-	params.SetSource("src_123")
-
-	topup, err := New(&params)
 	assert.Nil(t, err)
 	assert.NotNil(t, topup)
 }

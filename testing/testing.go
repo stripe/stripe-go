@@ -8,8 +8,8 @@ import (
 	"strconv"
 	"strings"
 
-	stripe "github.com/stripe/stripe-go/v72"
-	"github.com/stripe/stripe-go/v72/form"
+	stripe "github.com/stripe/stripe-go/v73"
+	"github.com/stripe/stripe-go/v73/form"
 	"golang.org/x/net/http2"
 )
 
@@ -25,7 +25,7 @@ const (
 	// added in a more recent version of stripe-mock, we can show people a
 	// better error message instead of the test suite crashing with a bunch of
 	// confusing 404 errors or the like.
-	MockMinimumVersion = "0.103.0"
+	MockMinimumVersion = "0.109.0"
 
 	// TestMerchantID is a token that can be used to represent a merchant ID in
 	// simple tests.

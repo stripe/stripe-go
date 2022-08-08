@@ -10,8 +10,8 @@ package product
 import (
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v72"
-	"github.com/stripe/stripe-go/v72/form"
+	stripe "github.com/stripe/stripe-go/v73"
+	"github.com/stripe/stripe-go/v73/form"
 )
 
 // Client is used to invoke /products APIs.
@@ -78,17 +78,19 @@ func List(params *stripe.ProductListParams) *Iter {
 
 // List returns a list of products.
 func (c Client) List(listParams *stripe.ProductListParams) *Iter {
-	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
-		list := &stripe.ProductList{}
-		err := c.B.CallRaw(http.MethodGet, "/v1/products", c.Key, b, p, list)
+	return &Iter{
+		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
+			list := &stripe.ProductList{}
+			err := c.B.CallRaw(http.MethodGet, "/v1/products", c.Key, b, p, list)
 
-		ret := make([]interface{}, len(list.Data))
-		for i, v := range list.Data {
-			ret[i] = v
-		}
+			ret := make([]interface{}, len(list.Data))
+			for i, v := range list.Data {
+				ret[i] = v
+			}
 
-		return ret, list, err
-	})}
+			return ret, list, err
+		}),
+	}
 }
 
 // Iter is an iterator for products.
@@ -106,6 +108,45 @@ func (i *Iter) Product() *stripe.Product {
 // continue pagination.
 func (i *Iter) ProductList() *stripe.ProductList {
 	return i.List().(*stripe.ProductList)
+}
+
+// Search returns a search result containing products.
+func Search(params *stripe.ProductSearchParams) *SearchIter {
+	return getC().Search(params)
+}
+
+// Search returns a search result containing products.
+func (c Client) Search(params *stripe.ProductSearchParams) *SearchIter {
+	return &SearchIter{
+		SearchIter: stripe.GetSearchIter(params, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.SearchContainer, error) {
+			list := &stripe.ProductSearchResult{}
+			err := c.B.CallRaw(http.MethodGet, "/v1/products/search", c.Key, b, p, list)
+
+			ret := make([]interface{}, len(list.Data))
+			for i, v := range list.Data {
+				ret[i] = v
+			}
+
+			return ret, list, err
+		}),
+	}
+}
+
+// SearchIter is an iterator for products.
+type SearchIter struct {
+	*stripe.SearchIter
+}
+
+// Product returns the product which the iterator is currently pointing to.
+func (i *SearchIter) Product() *stripe.Product {
+	return i.Current().(*stripe.Product)
+}
+
+// ProductSearchResult returns the current list object which the iterator is
+// currently using. List objects will change as new API calls are made to
+// continue pagination.
+func (i *SearchIter) ProductSearchResult() *stripe.ProductSearchResult {
+	return i.SearchResult().(*stripe.ProductSearchResult)
 }
 
 func getC() Client {

@@ -1,11 +1,17 @@
+//
+//
+// File generated from our OpenAPI spec
+//
+//
+
 // Package refund provides the /refunds APIs
 package refund
 
 import (
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v72"
-	"github.com/stripe/stripe-go/v72/form"
+	stripe "github.com/stripe/stripe-go/v73"
+	"github.com/stripe/stripe-go/v73/form"
 )
 
 // Client is used to invoke /refunds APIs.
@@ -14,12 +20,12 @@ type Client struct {
 	Key string
 }
 
-// New creates a refund.
+// New creates a new refund.
 func New(params *stripe.RefundParams) (*stripe.Refund, error) {
 	return getC().New(params)
 }
 
-// New creates a refund.
+// New creates a new refund.
 func (c Client) New(params *stripe.RefundParams) (*stripe.Refund, error) {
 	refund := &stripe.Refund{}
 	err := c.B.Call(http.MethodPost, "/v1/refunds", c.Key, params, refund)
@@ -52,6 +58,19 @@ func (c Client) Update(id string, params *stripe.RefundParams) (*stripe.Refund, 
 	return refund, err
 }
 
+// Cancel is the method for the `POST /v1/refunds/{refund}/cancel` API.
+func Cancel(id string, params *stripe.RefundCancelParams) (*stripe.Refund, error) {
+	return getC().Cancel(id, params)
+}
+
+// Cancel is the method for the `POST /v1/refunds/{refund}/cancel` API.
+func (c Client) Cancel(id string, params *stripe.RefundCancelParams) (*stripe.Refund, error) {
+	path := stripe.FormatURLPath("/v1/refunds/%s/cancel", id)
+	refund := &stripe.Refund{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, refund)
+	return refund, err
+}
+
 // List returns a list of refunds.
 func List(params *stripe.RefundListParams) *Iter {
 	return getC().List(params)
@@ -59,17 +78,19 @@ func List(params *stripe.RefundListParams) *Iter {
 
 // List returns a list of refunds.
 func (c Client) List(listParams *stripe.RefundListParams) *Iter {
-	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
-		list := &stripe.RefundList{}
-		err := c.B.CallRaw(http.MethodGet, "/v1/refunds", c.Key, b, p, list)
+	return &Iter{
+		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
+			list := &stripe.RefundList{}
+			err := c.B.CallRaw(http.MethodGet, "/v1/refunds", c.Key, b, p, list)
 
-		ret := make([]interface{}, len(list.Data))
-		for i, v := range list.Data {
-			ret[i] = v
-		}
+			ret := make([]interface{}, len(list.Data))
+			for i, v := range list.Data {
+				ret[i] = v
+			}
 
-		return ret, list, err
-	})}
+			return ret, list, err
+		}),
+	}
 }
 
 // Iter is an iterator for refunds.
@@ -82,9 +103,9 @@ func (i *Iter) Refund() *stripe.Refund {
 	return i.Current().(*stripe.Refund)
 }
 
-// RefundList returns the current list object which the iterator is currently
-// using. List objects will change as new API calls are made to continue
-// pagination.
+// RefundList returns the current list object which the iterator is
+// currently using. List objects will change as new API calls are made to
+// continue pagination.
 func (i *Iter) RefundList() *stripe.RefundList {
 	return i.List().(*stripe.RefundList)
 }

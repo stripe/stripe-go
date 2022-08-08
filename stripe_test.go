@@ -6,11 +6,13 @@ import (
 	"crypto/x509"
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
 	"net/url"
 	"regexp"
 	"runtime"
+	"strings"
 	"sync"
 	"sync/atomic"
 	"testing"
@@ -695,6 +697,140 @@ func TestDo_Redaction(t *testing.T) {
 	assert.Contains(t, logs.String(), "REDACTED")
 }
 
+func TestDoStreaming(t *testing.T) {
+	testServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(200)
+		data := []byte("hello")
+
+		var err error
+		_, err = w.Write(data)
+		assert.NoError(t, err)
+	}))
+	defer testServer.Close()
+
+	var logs bytes.Buffer
+	logger := &LeveledLogger{Level: LevelDebug, stderrOverride: &logs, stdoutOverride: &logs}
+
+	backend := GetBackendWithConfig(
+		APIBackend,
+		&BackendConfig{
+			EnableTelemetry:   Bool(true),
+			LeveledLogger:     logger,
+			MaxNetworkRetries: Int64(0),
+			URL:               String(testServer.URL),
+		},
+	).(*BackendImplementation)
+
+	type streamingResource struct {
+		APIStream
+	}
+
+	response := streamingResource{}
+	err := backend.CallStreaming(
+		http.MethodGet,
+		"/pdf",
+		"sk_test_123",
+		nil,
+		&response,
+	)
+	assert.NoError(t, err)
+	result, err := ioutil.ReadAll(response.LastResponse.Body)
+	assert.NoError(t, err)
+	err = response.LastResponse.Body.Close()
+	assert.NoError(t, err)
+	assert.Equal(t, "hello", string(result))
+}
+
+func TestDoStreaming_ParsableError(t *testing.T) {
+	type testServerResponse struct {
+		Error *Error `json:"error"`
+	}
+	testServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(400)
+		var data []byte
+		var err error
+		data, err = json.Marshal(testServerResponse{Error: &Error{Msg: "Text of error"}})
+		assert.NoError(t, err)
+
+		_, err = w.Write(data)
+		assert.NoError(t, err)
+	}))
+	defer testServer.Close()
+
+	var logs bytes.Buffer
+	logger := &LeveledLogger{Level: LevelDebug, stderrOverride: &logs, stdoutOverride: &logs}
+
+	backend := GetBackendWithConfig(
+		APIBackend,
+		&BackendConfig{
+			EnableTelemetry:   Bool(true),
+			LeveledLogger:     logger,
+			MaxNetworkRetries: Int64(0),
+			URL:               String(testServer.URL),
+		},
+	).(*BackendImplementation)
+
+	type streamingResource struct {
+		APIStream
+	}
+
+	response := streamingResource{}
+	err := backend.CallStreaming(
+		http.MethodGet,
+		"/pdf",
+		"sk_test_123",
+		nil,
+		&response,
+	)
+	assert.NotNil(t, err)
+	stripeErr, ok := err.(*Error)
+	assert.True(t, ok)
+	assert.Equal(t, stripeErr.Msg, "Text of error")
+}
+
+func TestDoStreaming_UnparsableError(t *testing.T) {
+	testServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(400)
+		var data []byte
+		var err error
+		data = []byte("{invalid json}")
+
+		_, err = w.Write(data)
+		assert.NoError(t, err)
+	}))
+	defer testServer.Close()
+
+	var logs bytes.Buffer
+	logger := &LeveledLogger{Level: LevelDebug, stderrOverride: &logs, stdoutOverride: &logs}
+
+	backend := GetBackendWithConfig(
+		APIBackend,
+		&BackendConfig{
+			EnableTelemetry:   Bool(true),
+			LeveledLogger:     logger,
+			MaxNetworkRetries: Int64(0),
+			URL:               String(testServer.URL),
+		},
+	).(*BackendImplementation)
+
+	type streamingResource struct {
+		APIStream
+	}
+
+	response := streamingResource{}
+	err := backend.CallStreaming(
+		http.MethodGet,
+		"/pdf",
+		"sk_test_123",
+		nil,
+		&response,
+	)
+	assert.NotNil(t, err)
+	_, ok := err.(*Error)
+	assert.False(t, ok)
+	assert.True(t, strings.Contains(err.Error(), "Couldn't deserialize JSON"))
+}
+
 func TestFormatURLPath(t *testing.T) {
 	assert.Equal(t, "/v1/resources/1/subresources/2",
 		FormatURLPath("/v1/resources/%s/subresources/%s", "1", "2"))
@@ -886,7 +1022,7 @@ func TestUserAgent(t *testing.T) {
 
 	// We keep out version constant private to the package, so use a regexp
 	// match instead.
-	expectedPattern := regexp.MustCompile(`^Stripe/v1 GoBindings/[1-9][0-9.]+[0-9]$`)
+	expectedPattern := regexp.MustCompile(`^Stripe/v1 GoBindings/[.\-\w\d]+$`)
 
 	match := expectedPattern.MatchString(req.Header.Get("User-Agent"))
 	assert.True(t, match)
@@ -913,7 +1049,7 @@ func TestUserAgentWithAppInfo(t *testing.T) {
 
 	// We keep out version constant private to the package, so use a regexp
 	// match instead.
-	expectedPattern := regexp.MustCompile(`^Stripe/v1 GoBindings/[1-9][0-9.]+[0-9] MyAwesomePlugin/1.2.34 \(https://myawesomeplugin.info\)$`)
+	expectedPattern := regexp.MustCompile(`^Stripe/v1 GoBindings/[.\-\w\d]+ MyAwesomePlugin/1.2.34 \(https://myawesomeplugin.info\)$`)
 
 	match := expectedPattern.MatchString(req.Header.Get("User-Agent"))
 	assert.True(t, match)

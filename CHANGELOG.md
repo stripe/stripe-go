@@ -1,5 +1,810 @@
 # Changelog
 
+## 73.0.1 - 2022-08-03
+* [#1517](https://github.com/stripe/stripe-go/pull/1517) Export ConstructEventOptions fields
+
+## 73.0.0 - 2022-08-02
+
+This release includes breaking changes resulting from:
+
+* Moving to use the new API version "2022-08-01". To learn more about these changes to Stripe products, see https://stripe.com/docs/upgrades#2022-08-01
+* Cleaning up the SDK to remove deprecated/unused APIs and rename classes/methods/properties to sync with product APIs. Read more detailed description at https://github.com/stripe/stripe-go/wiki/Migration-guide-for-v73.
+
+"⚠️" symbol highlights breaking changes.
+
+* [#1513](https://github.com/stripe/stripe-go/pull/1513) API Updates
+* [#1512](https://github.com/stripe/stripe-go/pull/1512) Next major release changes
+
+### Added
+
+- Add `CheckoutSessionSetupIntentDataParams.Metadata`.
+- Add Invoice `UpcomingLines` method.
+- Add `ShippingCost` and `ShippingDetails` properties to `CheckoutSession` resource.
+- Add `CheckoutSessionShippingCostTax` and `CheckoutSessionShippingCost` classes
+- Add `IssuingCardCancellationReasonDesignRejected` constant to `IssuingCardCancellationReason`.
+- Add `Validate` field to `Customer` resource.
+- Add `Validate` field to `PaymentSourceParams`.
+- Add `SetupAttemptPaymentMethodDetailsCardThreeDSecureResultExempted` constant in `SetupAttemptPaymentMethodDetailsCardThreeDSecureResult`.
+- Add `SKUPackageDimensionsParams` and `SKUPackageDimensions`.
+- Add dedicated structs for different payment sources and transfers.
+- Add `Subscription.DeleteDiscount` methods.
+- Add `SubscriptionItemUsageRecordSummariesParams`
+- Add `UsageRecordSummary` `UsageRecordSummaries`, and `UsageRecordSummaryList` methods in `SubscriptionItem`
+- Add `SubscriptionSchedulePhaseBillingCycleAnchor`, `SubscriptionSchedulePhaseBillingCycleAnchorAutomatic`, and `SubscriptionSchedulePhaseBillingCycleAnchorPhaseStart`
+- Add `SubscriptionSchedulePhaseInvoiceSettings` and `SubscriptionSchedulePhaseInvoiceSettingsParams `
+- `TerminalLocation` `UnmarshalJSON` - make `TerminalLocation` expandable
+* Add support for new value `invalid_tos_acceptance` on enums `AccountFutureRequirementsErrorsCode`, `AccountRequirementsErrorsCode`, `CapabilityFutureRequirementsErrorsCode`, `CapabilityRequirementsErrorsCode`, `PersonFutureRequirementsErrorsCode`, and `PersonRequirementsErrorsCode`
+* Add support for `ShippingCost` and `ShippingDetails` on `CheckoutSession`
+
+### ⚠️ Changed
+
+- Rename files to be consistent with the library's naming conventions.
+    - `fee.go` to `applicationfee.go` 
+    - `fee/client.go` to `applicationfee/client.go` 
+    - `sub.go` to `subscription.go` 
+    - `sub/client.go` to `subscription/client.go` 
+    - `subitem.go` to `subscriptionitem.go` 
+    - `subitem/client.go` to `subscriptionitem/client.go` 
+    - `subschedule.go` to `subscriptionschedule.go` 
+    - `subschedule/client.go` to `subscriptionschedule/client.go` 
+    - `reversal.go` to `transferreversal.go` 
+    - `reversal/client.go` to `transferreversal/client.go` 
+
+- Change resource names on `client#API` to be plural to be consistent with the library's naming conventions: 
+- Rename structs, fields, enums, and methods to be consistent with the library's naming conventions and with the other Stripe SDKs.
+  - `Ach` to `ACH`
+  - `Acss` to `ACSS`
+  - `Bic` to `BIC`
+  - `Eps` to `EPS`
+  - `FEDEX` to `FedEx`
+  - `Iban` to `IBAN`
+  - `Ideal` to `IDEAL`
+  - `Sepa` to `SEPA`
+  - `Wechat` to `WeChat`
+  - `ExternalAccount` to `AccountExternalAccount`
+  - `InvoiceLine` to `InvoiceLineItem`
+  - `Person` structs/enums to use `Person` prefix
+  - and others (see Migration guide)
+
+- Change types of various fields in `Account`, `ApplicationFee`, `BalanceTransaction`, `BillingPortalConfiguration`, `Card`, `Charge`, `Customer`, `Discount`, `Invoice`, `Issuing Card`,  `Issuing Dispute `, `Mandate `, `PaymentIntent`, `PaymentMethod`, `Payout`, `Plan `, `Plan `, `Refund`, `SetupIntent`, `Source`, `Source`, `Subscription`, `SubscriptionItem`, `SubscriptionSchedule`, `Terminal ConnectionToken`, `Terminal Location`, `Terminal Reader `, `Topup`, and `Transfer` (see Migration guide).
+
+- Update the Webhook `ConstructEvent,` `ConstructEventIgnoringTolerance` and `ConstructEventWithTolerance` functions to return an error when the webhook event's API version does not match the stripe-go library API version.
+- Update `ErrorType`and `ErrorCode` values.
+- Move `BalanceTransaction` iterator from `balance.go` to `balancetransaction.go`
+- Fix `BalanceTransactionSource` `UnmarshalJSON` for when `BalanceTransactionSource.Type == "transfer_reversal"` (previously, we were checking if `Type == "reversal"`, which was always false)
+- For BankAccount and Card client methods, check that exactly one of `params.Account` and `params.Customer` is set (previously they could both be set, but only one would be used, and it was different between BankAccount and Card)
+- Replace `CardVerification` with field-specific enums (with the same values)
+- Move `Del` from `discount/client.go` to `customer/client.go` and rename to `DeleteDiscount`
+- Move `DelSub` from `discount/client.go` to `subscription/client.go` and rename to `DeleteDiscount`
+- Add separate parameter struct for CreditNote `ListPreviewLines` (renamed to `PreviewLines`) method (`[CreditNoteLineItemListPreviewParams -> CreditNotePreviewParams].Lines` `CreditNoteLineParams` -> `CreditNotePreviewLineParams`)
+- Replace `FeeRefundParams.ApplicationFee` with `FeeRefundParams.Fee` and `FeeRefundParams.ID`
+- Add separate parameter struct for Invoice `GetNext` (renamed to `Upcoming`) method (`InvoiceUpcomingParams`, and nested params `InvoiceUpcomingLinesInvoiceItemPriceDataParams`, `InvoiceUpcomingLinesInvoiceItemDiscountParams`, `InvoiceUpcomingLinesDiscountParams`, `InvoiceUpcomingLinesInvoiceItemPeriodParams`). `Upcoming`-only fields `Coupon`, `CustomerDetails`, `InvoiceItems`, `Subscription`, `SubscriptionBillingCycleAnchor`, `Schedule`, `SubscriptionBillingCycleAnchor`, `SubscriptionBillingCycleAnchorNow`, `SubscriptionBillingCycleAnchorUnchanged`, `SubscriptionCancelAt`, `SubscriptionCancelAtPeriodEnd`, `SubscriptionCancelNow`, `SubscriptionDefaultTaxRates`, `SubscriptionItems`, `SubscriptionProrationBehavior`, `SubscriptionProrationDate`, `SubscriptionStartDate`, `SubscriptionTrialEnd`, `SubscriptionTrialEndNow`, and `SubscriptionTrialFromPlan` are removed from `InvoiceParams`.
+- Add separate structs for `BillingDetails` and `BillingDetailsParams`: `PaymentMethodBillingDetails`, `PaymentMethodBillingDetailsParams`
+- Add separate structs for `PaymentMethodCardNetwork`: `PaymentMethodCardNetworksAvailable`, `PaymentMethodCardNetworksPreferred`
+
+### Deprecated
+
+- The `SKU` resource has been deprecated. This will be replaced by https://stripe.com/docs/api/orders_v2.
+
+### ⚠️ Removed
+
+- Remove the legacy Orders API
+- Remove `AccountCapability` enum definition. This was not referenced in the library.
+- Remove `UnmarshalJSON` for resources that are not expandable: `BillingPortalSession`, `Capability`, `CheckoutSession`, `FileLink`, `InvoiceItem`, `LineItem`, `Person`, `WebhookEndpoint`
+- Remove `AccountRejectReason` (was only referenced in `account/client_test.go`, actual `AccountRejectParams.Reason` is `*string`)
+- Remove `AccountParams.RequestedCapabilities` (use Capabilities instead: https://stripe.com/docs/connect/account-capabilities)
+- Remove `AccountSettingsParams.Dashboard` and `AccountSettingsDashboardParams` (Note: `Dashboard` are still available on `AccountSettings`, but it's not available as parameters for any of the methods)
+- Remove `AccountCompany.RegistrationNumber` (Note: `RegistrationNumber` is still available on `AccountCompanyParams`, but is not returned in the response)
+- Remove `BalanceTransactionStatus`. It was meant to be an enum, but none of the enum values were defined, so it was just an alias for string.
+- Remove `CardParams.AccountType`. `AccountType` does not exist on any client method for Card. It does on BankAccount, which is similar.
+- Remove `id` param from CheckoutSessions `ListLineItems`. Use `CheckoutSessionListLineItemsParams.Session` instead.
+- Remove `CheckoutSessionLineItemPriceDataRecurringParams.AggregateUsage`, `CheckoutSessionLineItemPriceDataRecurringParams.TrialPeriodDays`, and `CheckoutSessionLineItemPriceDataRecurringParams.UsageType`
+- Remove `CheckoutSessionPaymentIntentDataParams.Params`, `CheckoutSessionSetupIntentDataParams.Params`, `CheckoutSessionSubscriptionDataParams.Params`. `Params` should only be embedded in root method struct, and has extraneous fields not applicable to child/sub structs.
+- Remove `CheckoutSessionTotalDetailsBreakdownTax.TaxRate`. Use `CheckoutSessionTotalDetailsBreakdownTax.Rate`
+- Remove `CheckoutSessionTotalDetailsBreakdownTax.Deleted`
+- Remove `CustomerParams.Token`
+- Remove `Discount` `APIResource` embed
+- Remove `DiscountParams`
+- Remove `FilePurposeFoundersStockDocument` (`"founders_stock_document"` option for `File.Purpose`)
+- Remove `InvoiceParams.Paid`. Use `invoice.status` to check for status. `invoice.status` is a read-only field.
+- Remove `InvoiceParams.SubscriptionPlan` and `InvoiceParams.SubscriptionQuantity` (note: these would have been on `InvoiceUpcomingParams`)
+- Remove `InvoiceListLinesParams.Customer` and `InvoiceListLinesParams.Subscription` (these are not available for Invoice `ListLines`, but are available for `List`)
+- Remove `IssuingAuthorizationRequestHistoryViolatedAuthorizationControlEntity` and `IssuingAuthorizationRequestHistoryViolatedAuthorizationControlName` (unused enums)
+- Remove `IssuingCardSpendingControlsParams.SpendingLimitsCurrency`. `issuing_card` has `currency`, and `issuing_card.spending_controls.spending_limits.amount` will use that currency
+- Remove `IssuingDisputeEvidenceServiceNotAsDescribed.ProductDescription`, `IssuingDisputeEvidenceServiceNotAsDescribed.ProductType`, `IssuingDisputeEvidenceServiceNotAsDescribedParams.ProductDescription`, `IssuingDisputeEvidenceServiceNotAsDescribedParams.ProductType`, and `IssuingDisputeEvidenceServiceNotAsDescribedProductType`. `issuing_dispute.evidence.service_not_as_described` does not have `product_description` or `product_type`. `issuing_dispute.evidence.canceled` does.
+- Remove `LineItemTax.TaxRate`. Use `LineItemTax.Rate` instead.
+- Remove `LineItem.Deleted`
+- Remove `LoginLink.RedirectURL`
+- Remove `PaymentIntentOffSession` (unused enum)
+- Remove `PaymentIntentConfirmParams.PaymentMethodTypes`
+- Remove `PaymentMethodFPX.TransactionID`
+- Remove `Payout.BankAccount` and `Payout.Card` (These fields were never populated, use `PayoutDestination.BankAccount` and `PayoutDestination.Card` instead)
+- Remove `PlanParams.ProductID`. Use `PlanParams.Product.ID` instead.
+- Remove `Shipping` and `ShippingRate` properties from `CheckoutSession` resource. Please use `ShippingCost` and `ShippingDetails` properties instead.
+- Remove `DefaultCurrency` property from `Customer` resource. Please use `Currency` property instead.
+- Remove `Updated` and `UpdatedBy` from `RadarValueList`
+- Remove `Name` from `RadarValueListItem`
+- Remove `ReviewReasonType` type from `Review` resource. Use `ReviewReason` instead
+- Remove `SetupIntentCancellationReasonFailedInvoice` and `SetupIntentCancellationReasonFraudulent` values from `SetupIntentCancellationReason`
+- Remove `SigmaScheduledQueryRun.Query`. The field was invalid
+- Remove `SKUParams.Description` and `SKU.Description`
+- Remove `SourceMandateAcceptanceStatus`, `SourceMandateAcceptanceStatusAccepted`, `SourceMandateAcceptanceStatusRefused`, `SourceMandateNotificationMethod`, `SourceMandateNotificationMethodEmail`, `SourceMandateNotificationMethodManual`, and `SourceMandateNotificationMethodNone`
+- Remove `Source.TypeData` and SourceParams and replace with payment method-specific fields (AUBECSDebit, Bancontact, Card, CardPresent, EPS, Giropay, IDEAL, Klarna, Multibanco, P24, SEPACreditTransfer, SEPADebit, Sofort, ThreeDSecure, Wechat) and `Source.AppendTo` method
+- Remove `SourceTransaction.CustomerData`. The field was deprecated
+- Remove `SourceTransaction.TypeData` and `SourceTransaction.UnmarshalJSON`. Use payment specific fields - Remove `ACHCreditTransfer`, `CHFCreditTransfer`, `GBPCreditTransfer`, `PaperCheck`, and `SEPACreditTransfer`
+- Remove `SubscriptionPaymentBehavior`, `SubscriptionPaymentBehaviorAllowIncomplete`, `SubscriptionPaymentBehaviorErrorIfIncomplete`, and `SubscriptionPaymentBehaviorPendingIfIncomplete`
+- Remove `SubscriptionProrationBehavior`, `SubscriptionProrationBehaviorAlwaysInvoice`, `SubscriptionProrationBehaviorCreateProrations`, and `SubscriptionProrationBehaviorNone`
+- Remove `SubscriptionStatusAll`
+- Remove `SubscriptionParams.Card`, `SubscriptionParams.Plan`, and `SubscriptionParams.Quantity`
+- Remove `Subscription.Plan` and `Subscription.Quantity`
+- Remove `SubscriptionItemParams.ID`. The field was deprecated
+- Remove `SubscriptionSchedulePhaseAddInvoiceItemPriceDataRecurringParams` and `SubscriptionSchedulePhaseAddInvoiceItemPriceDataParams`
+- Remove `Del` method on `TaxRate`
+- Remove `TerminalReaderGetParams`. Use `TerminalReaderParams` instead.
+- Remove `TerminalReaderList.Location` and `TerminalReaderList.Status` (Not available for the list, but is available for individual `TerminalReader`s in `TerminalReaderList.Data`)
+- Remove `Token.Email` and `TokenParams.Email`
+- Remove `TopupParams.SetSource`
+- Remove `WebhookEndpointListParams.Created` and `WebhookEndpointListParams.CreatedRange` (use `StartingAfter` from `ListParams`)
+- Remove `WebhookEndpoint.Connected`
+
+## 72.122.0 - 2022-07-26
+* [#1508](https://github.com/stripe/stripe-go/pull/1508) API Updates
+  * Add support for new value `exempted` on enums `ChargePaymentMethodDetailsCardThreeDSecureResult` and `SetupAttemptPaymentMethodDetailsCardThreeDSecureResult`
+  * Add support for `CustomerBalance` on `CheckoutSessionPaymentMethodOptionsParams` and `CheckoutSessionPaymentMethodOptions`
+
+## 72.121.0 - 2022-07-25
+* [#1507](https://github.com/stripe/stripe-go/pull/1507) API Updates
+  * Add support for `Installments` on `CheckoutSessionPaymentMethodOptionsCardParams`, `CheckoutSessionPaymentMethodOptionsCard`, `InvoicePaymentSettingsPaymentMethodOptionsCardParams`, and `InvoicePaymentSettingsPaymentMethodOptionsCard`
+  * Add support for `DefaultCurrency` and `InvoiceCreditBalance` on `Customer`
+  * Add support for `Currency` on `InvoiceParams`
+  * Add support for `DefaultMandate` on `InvoicePaymentSettingsParams` and `InvoicePaymentSettings`
+  * Add support for `Mandate` on `InvoicePayParams`
+  
+
+## 72.120.0 - 2022-07-18
+* [#1497](https://github.com/stripe/stripe-go/pull/1497) API Updates
+  * Add support for `BLIKPayments` on `AccountCapabilitiesParams` and `AccountCapabilities`
+  * Add support for `BLIK` on `ChargePaymentMethodDetails`, `MandatePaymentMethodDetails`, `PaymentIntentConfirmPaymentMethodDataParams`, `PaymentIntentConfirmPaymentMethodOptionsParams`, `PaymentIntentPaymentMethodDataParams`, `PaymentIntentPaymentMethodOptionsParams`, `PaymentIntentPaymentMethodOptions`, `PaymentMethodParams`, `PaymentMethod`, `SetupAttemptPaymentMethodDetails`, `SetupIntentConfirmPaymentMethodDataParams`, `SetupIntentConfirmPaymentMethodOptionsParams`, `SetupIntentPaymentMethodDataParams`, `SetupIntentPaymentMethodOptionsParams`, and `SetupIntentPaymentMethodOptions`
+  * Change type of `CheckoutSessionConsentCollectionPromotionsParams`, `CheckoutSessionConsentCollectionPromotions`, `PaymentLinkConsentCollectionPromotionsParams`, and `PaymentLinkConsentCollectionPromotions` from `literal('auto')` to `enum('auto'|'none')`
+  * Add support for new value `blik` on enum `PaymentLinkPaymentMethodTypes`
+  * Add support for new value `blik` on enum `PaymentMethodType`
+
+## 72.119.0 - 2022-07-12
+* [#1494](https://github.com/stripe/stripe-go/pull/1494) API Updates
+  * Add support for `CustomerDetails` on `CheckoutSessionListParams`
+
+## 72.118.0 - 2022-07-07
+* [#1492](https://github.com/stripe/stripe-go/pull/1492) API Updates
+  * Add support for `Currency` on `CheckoutSessionParams`, `InvoiceUpcomingLinesParams`, `InvoiceUpcomingParams`, `PaymentLinkParams`, `SubscriptionParams`, `SubscriptionSchedulePhasesParams`, `SubscriptionSchedulePhases`, and `Subscription`
+  * Add support for `CurrencyOptions` on `CheckoutSessionShippingOptionsShippingRateDataFixedAmountParams`, `CouponParams`, `Coupon`, `OrderShippingCostShippingRateDataFixedAmountParams`, `PriceParams`, `Price`, `ProductDefaultPriceDataParams`, `PromotionCodeRestrictionsParams`, `PromotionCodeRestrictions`, `ShippingRateFixedAmountParams`, and `ShippingRateFixedAmount`
+  * Add support for `Restrictions` on `PromotionCodeParams`
+  * Add support for `FixedAmount` and `TaxBehavior` on `ShippingRateParams`
+* [#1491](https://github.com/stripe/stripe-go/pull/1491) API Updates
+  * Add support for `Customer` on `CheckoutSessionListParams` and `RefundParams`
+  * Add support for `Currency` and `Origin` on `RefundParams`
+  
+
+## 72.117.0 - 2022-06-29
+* [#1487](https://github.com/stripe/stripe-go/pull/1487) API Updates
+  * Add support for `DeliverCard`, `FailCard`, `ReturnCard`, and `ShipCard` test helper methods on resource `Issuing.Card`
+  * Change type of `PaymentLinkPaymentMethodTypesParams` and `PaymentLinkPaymentMethodTypes` from `literal('card')` to `enum`
+  * Add support for `HostedRegulatoryReceiptURL` on `TreasuryReceivedCredit` and `TreasuryReceivedDebit`
+  
+* [#1483](https://github.com/stripe/stripe-go/pull/1483) Document use of undocumented parameters/properties
+
+## 72.116.0 - 2022-06-23
+* [#1484](https://github.com/stripe/stripe-go/pull/1484) API Updates
+  * Add support for `CaptureMethod` on `PaymentIntentConfirmParams` and `PaymentIntentParams`
+* [#1481](https://github.com/stripe/stripe-go/pull/1481) API Updates
+  * Add support for `PromptPayPayments` on `AccountCapabilitiesParams` and `AccountCapabilities`
+  * Add support for `PromptPay` on `ChargePaymentMethodDetails`, `PaymentIntentConfirmPaymentMethodDataParams`, `PaymentIntentConfirmPaymentMethodOptionsParams`, `PaymentIntentPaymentMethodDataParams`, `PaymentIntentPaymentMethodOptionsParams`, `PaymentIntentPaymentMethodOptions`, `PaymentMethodParams`, `PaymentMethod`, `SetupIntentConfirmPaymentMethodDataParams`, and `SetupIntentPaymentMethodDataParams`
+  * Add support for `SubtotalExcludingTax` on `CreditNote` and `Invoice`
+  * Add support for `AmountExcludingTax` and `UnitAmountExcludingTax` on `CreditNoteLineItem` and `InvoiceLineItem`
+  * Add support for `RenderingOptions` on `InvoiceParams`
+  * Add support for `TotalExcludingTax` on `Invoice`
+  * Add support for new value `promptpay` on enums `InvoicePaymentSettingsPaymentMethodTypes` and `SubscriptionPaymentSettingsPaymentMethodTypes`
+  * Add support for `AutomaticPaymentMethods` on `OrderPaymentSettings`
+  * Add support for `PromptPayDisplayQRCode` on `PaymentIntentNextAction`
+  * Add support for new value `promptpay` on enum `PaymentMethodType`
+  
+* [#1482](https://github.com/stripe/stripe-go/pull/1482) Use the generated API version
+
+## 72.115.0 - 2022-06-17
+* [#1477](https://github.com/stripe/stripe-go/pull/1477) API Updates
+  * Add support for `FundCashBalance` test helper method on resource `Customer`
+  * Add support for `StatementDescriptorPrefixKana` and `StatementDescriptorPrefixKanji` on `AccountSettingsCardPaymentsParams`, `AccountSettingsCardPayments`, and `AccountSettingsPayments`
+  * Add support for `StatementDescriptorSuffixKana` and `StatementDescriptorSuffixKanji` on `CheckoutSessionPaymentMethodOptionsCardParams`, `CheckoutSessionPaymentMethodOptionsCard`, `PaymentIntentConfirmPaymentMethodOptionsCardParams`, `PaymentIntentPaymentMethodOptionsCardParams`, and `PaymentIntentPaymentMethodOptionsCard`
+  * Add support for `TotalExcludingTax` on `CreditNote`
+  * Change type of `CustomerInvoiceSettingsRenderingOptionsParams` from `rendering_options_param` to `emptyStringable(rendering_options_param)`
+  * Add support for `RenderingOptions` on `CustomerInvoiceSettings` and `Invoice`
+* [#1478](https://github.com/stripe/stripe-go/pull/1478) Fix test assert to allow beta versions
+* [#1475](https://github.com/stripe/stripe-go/pull/1475) Trigger workflows on beta branches
+
+## 72.114.0 - 2022-06-09
+* [#1473](https://github.com/stripe/stripe-go/pull/1473) API Updates
+  * Add support for `Treasury` on `AccountSettingsParams` and `AccountSettings`
+  * Add support for `RenderingOptions` on `CustomerInvoiceSettingsParams`
+  * Add support for `EUBankTransfer` on `CustomerCreateFundingInstructionsBankTransferParams`, `InvoicePaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferParams`, `InvoicePaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransfer`, `OrderPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferParams`, `OrderPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransfer`, `PaymentIntentConfirmPaymentMethodOptionsCustomerBalanceBankTransferParams`, `PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferParams`, `PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransfer`, `SubscriptionPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferParams`, and `SubscriptionPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransfer`
+  * Change type of `CustomerCreateFundingInstructionsBankTransferRequestedAddressTypesParams` from `literal('zengin')` to `enum('iban'|'sort_code'|'spei'|'zengin')`
+  * Change type of `CustomerCreateFundingInstructionsBankTransferTypeParams`, `OrderPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferTypeParams`, `OrderPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferType`, `PaymentIntentConfirmPaymentMethodOptionsCustomerBalanceBankTransferTypeParams`, `PaymentIntentNextActionDisplayBankTransferInstructionsType`, `PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferTypeParams`, and `PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferType` from `literal('jp_bank_transfer')` to `enum('eu_bank_transfer'|'gb_bank_transfer'|'jp_bank_transfer'|'mx_bank_transfer')`
+  * Add support for `Iban`, `SortCode`, and `Spei` on `FundingInstructionsBankTransferFinancialAddresses` and `PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddresses`
+  * Add support for new values `bacs`, `fps`, and `spei` on enums `FundingInstructionsBankTransferFinancialAddressesSupportedNetworks` and `PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressesSupportedNetworks`
+  * Add support for new values `sort_code` and `spei` on enums `FundingInstructionsBankTransferFinancialAddressesType` and `PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressesType`
+  * Change type of `OrderPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressTypesParams`, `OrderPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressTypes`, `PaymentIntentConfirmPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressTypesParams`, `PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressTypesParams`, and `PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressTypes` from `literal('zengin')` to `enum`
+  * Add support for `CustomUnitAmount` on `PriceParams` and `Price`
+
+## 72.113.0 - 2022-06-08
+* [#1472](https://github.com/stripe/stripe-go/pull/1472) API Updates
+  * Add support for `Affirm`, `Bancontact`, `Card`, `Ideal`, `P24`, and `Sofort` on `CheckoutSessionPaymentMethodOptionsParams` and `CheckoutSessionPaymentMethodOptions`
+  * Add support for `AUBECSDebit`, `AfterpayClearpay`, `BACSDebit`, `EPS`, `FPX`, `Giropay`, `Grabpay`, `Klarna`, `PayNow`, and `SepaDebit` on `CheckoutSessionPaymentMethodOptionsParams`
+  * Add support for `SetupFutureUsage` on `CheckoutSessionPaymentMethodOptionsAcssDebitParams`, `CheckoutSessionPaymentMethodOptionsAcssDebit`, `CheckoutSessionPaymentMethodOptionsAfterpayClearpay`, `CheckoutSessionPaymentMethodOptionsAlipayParams`, `CheckoutSessionPaymentMethodOptionsAlipay`, `CheckoutSessionPaymentMethodOptionsAuBecsDebit`, `CheckoutSessionPaymentMethodOptionsBacsDebit`, `CheckoutSessionPaymentMethodOptionsBoletoParams`, `CheckoutSessionPaymentMethodOptionsBoleto`, `CheckoutSessionPaymentMethodOptionsEps`, `CheckoutSessionPaymentMethodOptionsFpx`, `CheckoutSessionPaymentMethodOptionsGiropay`, `CheckoutSessionPaymentMethodOptionsGrabpay`, `CheckoutSessionPaymentMethodOptionsKlarna`, `CheckoutSessionPaymentMethodOptionsKonbiniParams`, `CheckoutSessionPaymentMethodOptionsKonbini`, `CheckoutSessionPaymentMethodOptionsOxxoParams`, `CheckoutSessionPaymentMethodOptionsOxxo`, `CheckoutSessionPaymentMethodOptionsPaynow`, `CheckoutSessionPaymentMethodOptionsSepaDebit`, `CheckoutSessionPaymentMethodOptionsUsBankAccountParams`, `CheckoutSessionPaymentMethodOptionsUsBankAccount`, and `CheckoutSessionPaymentMethodOptionsWechatPayParams`
+  * Add support for `AttachToSelf` on `SetupAttempt`, `SetupIntentListParams`, and `SetupIntentParams`
+  * Add support for `FlowDirections` on `SetupAttempt` and `SetupIntentParams`
+* [#1469](https://github.com/stripe/stripe-go/pull/1469) Add test for cash balance methods.
+
+## 72.112.0 - 2022-06-01
+* [#1471](https://github.com/stripe/stripe-go/pull/1471) API Updates
+  * Add support for `RadarOptions` on `ChargeParams`, `Charge`, `PaymentIntentConfirmParams`, `PaymentIntentConfirmPaymentMethodDataParams`, `PaymentIntentParams`, `PaymentIntentPaymentMethodDataParams`, `PaymentMethodParams`, `PaymentMethod`, `SetupIntentConfirmPaymentMethodDataParams`, and `SetupIntentPaymentMethodDataParams`
+  * Add support for `AccountHolderName`, `AccountNumber`, `AccountType`, `BankCode`, `BankName`, `BranchCode`, and `BranchName` on `FundingInstructionsBankTransferFinancialAddressesZengin` and `PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressesZengin`
+  * Change type of `OrderPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferType` and `PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferType` from `enum` to `literal('jp_bank_transfer')`
+  * Add support for `Network` on `SetupIntentPaymentMethodOptionsCard`
+  * Add support for new value `simulated_wisepos_e` on enum `TerminalReaderDeviceType`
+
+## 72.111.0 - 2022-05-26
+* [#1466](https://github.com/stripe/stripe-go/pull/1466) API Updates
+  * Add support for `AffirmPayments` and `LinkPayments` on `AccountCapabilitiesParams` and `AccountCapabilities`
+  * Add support for `IDNumberSecondary` on `AccountIndividualParams`, `PersonParams`, `TokenAccountIndividualParams`, and `TokenPersonParams`
+  * Add support for `HostedInstructionsURL` on `PaymentIntentNextActionDisplayBankTransferInstructions`
+  * Add support for `IDNumberSecondaryProvided` on `Person`
+  * Add support for `CardIssuing` on `TreasuryFinancialAccountFeaturesParams` and `TreasuryFinancialAccountUpdateFeaturesParams`
+  
+
+## 72.110.0 - 2022-05-23
+* [#1465](https://github.com/stripe/stripe-go/pull/1465) API Updates
+  * Add support for `Treasury` on `AccountCapabilitiesParams` and `AccountCapabilities`
+
+## 72.109.0 - 2022-05-23
+* [#1464](https://github.com/stripe/stripe-go/pull/1464) API Updates
+  * Add support for new resource `Apps.Secret`
+  * Add support for `Affirm` on `ChargePaymentMethodDetails`, `PaymentIntentConfirmPaymentMethodDataParams`, `PaymentIntentConfirmPaymentMethodOptionsParams`, `PaymentIntentPaymentMethodDataParams`, `PaymentIntentPaymentMethodOptionsParams`, `PaymentIntentPaymentMethodOptions`, `PaymentMethodParams`, `PaymentMethod`, `SetupIntentConfirmPaymentMethodDataParams`, and `SetupIntentPaymentMethodDataParams`
+  * Add support for `Link` on `ChargePaymentMethodDetails`, `MandatePaymentMethodDetails`, `OrderPaymentSettingsPaymentMethodOptionsParams`, `PaymentIntentConfirmPaymentMethodDataParams`, `PaymentIntentConfirmPaymentMethodOptionsParams`, `PaymentIntentPaymentMethodDataParams`, `PaymentIntentPaymentMethodOptionsParams`, `PaymentIntentPaymentMethodOptions`, `PaymentMethodParams`, `PaymentMethod`, `SetupAttemptPaymentMethodDetails`, `SetupIntentConfirmPaymentMethodDataParams`, `SetupIntentConfirmPaymentMethodOptionsParams`, `SetupIntentPaymentMethodDataParams`, `SetupIntentPaymentMethodOptionsParams`, and `SetupIntentPaymentMethodOptions`
+  * Add support for new value `link` on enums `InvoicePaymentSettingsPaymentMethodTypes` and `SubscriptionPaymentSettingsPaymentMethodTypes`
+  * Add support for new values `affirm` and `link` on enum `PaymentMethodType`
+
+## 72.108.0 - 2022-05-19
+* [#1463](https://github.com/stripe/stripe-go/pull/1463) API Updates
+  * Add support for new resources `Treasury.CreditReversal`, `Treasury.DebitReversal`, `Treasury.FinancialAccountFeatures`, `Treasury.FinancialAccount`, `Treasury.FlowDetails`, `Treasury.InboundTransfer`, `Treasury.OutboundPayment`, `Treasury.OutboundTransfer`, `Treasury.ReceivedCredit`, `Treasury.ReceivedDebit`, `Treasury.TransactionEntry`, and `Treasury.Transaction`
+  * Add support for `RetrievePaymentMethod` method on resource `Customer`
+  * Add support for `ListOwners` and `List` methods on resource `FinancialConnections.Account`
+  * Change type of `BillingPortalSessionReturnUrl` from `string` to `nullable(string)`
+  * Add support for `AUBECSDebit`, `AfterpayClearpay`, `BACSDebit`, `EPS`, `FPX`, `Giropay`, `Grabpay`, `Klarna`, `PayNow`, and `SepaDebit` on `CheckoutSessionPaymentMethodOptions`
+  * Add support for `Treasury` on `IssuingAuthorization`, `IssuingDisputeParams`, `IssuingDispute`, and `IssuingTransaction`
+  * Add support for `FinancialAccount` on `IssuingCardParams` and `IssuingCard`
+  * Add support for `ClientSecret` on `Order`
+  * Add support for `Networks` on `PaymentIntentConfirmPaymentMethodOptionsUsBankAccountParams`, `PaymentIntentPaymentMethodOptionsUsBankAccountParams`, `PaymentMethodUsBankAccount`, `SetupIntentConfirmPaymentMethodOptionsUsBankAccountParams`, and `SetupIntentPaymentMethodOptionsUsBankAccountParams`
+  * Add support for `AttachToSelf` and `FlowDirections` on `SetupIntent`
+  * Add support for `SaveDefaultPaymentMethod` on `SubscriptionPaymentSettingsParams` and `SubscriptionPaymentSettings`
+  * Add support for `CZK` on `TerminalConfigurationTippingParams` and `TerminalConfigurationTipping`
+* [#1461](https://github.com/stripe/stripe-go/pull/1461) API Updates
+  * Add support for `Description` on `CheckoutSessionSubscriptionDataParams`, `SubscriptionParams`, and `Subscription`
+  * Add support for `ConsentCollection`, `PaymentIntentData`, `ShippingOptions`, `SubmitType`, and `TaxIDCollection` on `PaymentLinkParams` and `PaymentLink`
+  * Add support for `CustomerCreation` on `PaymentLinkParams` and `PaymentLink`
+  * Add support for `Metadata` on `SubscriptionSchedulePhasesParams` and `SubscriptionSchedulePhases`
+
+* [#1462](https://github.com/stripe/stripe-go/pull/1462) update build status label and remove outdated code coverage label
+
+## 72.107.0 - 2022-05-11
+* [#1459](https://github.com/stripe/stripe-go/pull/1459) API Updates
+  * Add support for `AmountDiscount`, `AmountTax`, and `Product` on `LineItem`
+  
+
+## 72.106.0 - 2022-05-05
+* [#1457](https://github.com/stripe/stripe-go/pull/1457) API Updates
+  * Add support for `DefaultPriceData` on `ProductParams`
+  * Add support for `DefaultPrice` on `ProductParams` and `Product`
+  * Add support for `InstructionsEmail` on `RefundParams` and `Refund`
+  
+
+## 72.105.0 - 2022-05-05
+* [#1455](https://github.com/stripe/stripe-go/pull/1455) API Updates
+  * Add support for new resources `FinancialConnections.AccountOwner`, `FinancialConnections.AccountOwnership`, `FinancialConnections.Account`, and `FinancialConnections.Session`
+  * Add support for `FinancialConnections` on `CheckoutSessionPaymentMethodOptionsUsBankAccountParams`, `CheckoutSessionPaymentMethodOptionsUsBankAccount`, `InvoicePaymentSettingsPaymentMethodOptionsUsBankAccountParams`, `InvoicePaymentSettingsPaymentMethodOptionsUsBankAccount`, `PaymentIntentConfirmPaymentMethodOptionsUsBankAccountParams`, `PaymentIntentPaymentMethodOptionsUsBankAccountParams`, `PaymentIntentPaymentMethodOptionsUsBankAccount`, `SetupIntentConfirmPaymentMethodOptionsUsBankAccountParams`, `SetupIntentPaymentMethodOptionsUsBankAccountParams`, `SetupIntentPaymentMethodOptionsUsBankAccount`, `SubscriptionPaymentSettingsPaymentMethodOptionsUsBankAccountParams`, and `SubscriptionPaymentSettingsPaymentMethodOptionsUsBankAccount`
+  * Add support for `FinancialConnectionsAccount` on `PaymentIntentConfirmPaymentMethodDataUsBankAccountParams`, `PaymentIntentPaymentMethodDataUsBankAccountParams`, `PaymentMethodUsBankAccountParams`, `PaymentMethodUsBankAccount`, `SetupIntentConfirmPaymentMethodDataUsBankAccountParams`, and `SetupIntentPaymentMethodDataUsBankAccountParams`
+  
+* [#1454](https://github.com/stripe/stripe-go/pull/1454) API Updates
+  * Add support for `RegisteredAddress` on `AccountIndividualParams`, `PersonParams`, `Person`, `TokenAccountIndividualParams`, and `TokenPersonParams`
+  * Add support for `PaymentMethodData` on `SetupIntentConfirmParams` and `SetupIntentParams`
+  
+
+## 72.104.0 - 2022-05-03
+* [#1453](https://github.com/stripe/stripe-go/pull/1453) API Updates
+  * Add support for new resource `CashBalance`
+  * Change type of `BillingPortalConfigurationApplication` from `$Application` to `deletable($Application)`
+  * Add support for `Alipay` on `CheckoutSessionPaymentMethodOptionsParams` and `CheckoutSessionPaymentMethodOptions`
+  * Add support for new value `eu_oss_vat` on enums `CheckoutSessionCustomerDetailsTaxIdsType`, `InvoiceCustomerTaxIdsType`, and `TaxIdType`
+  * Add support for `CashBalance` on `Customer`
+  * Add support for `Application` on `Invoice`, `Quote`, `SubscriptionSchedule`, and `Subscription`
+  
+
+## 72.103.0 - 2022-04-21
+* [#1452](https://github.com/stripe/stripe-go/pull/1452) API Updates
+  * Add support for `Expire` test helper method on resource `Refund`
+
+## 72.102.0 - 2022-04-19
+* [#1451](https://github.com/stripe/stripe-go/pull/1451) API Updates
+  * Add support for new resources `FundingInstructions` and `Terminal.Configuration`
+  * Add support for `CreateFundingInstructions` method on resource `Customer`
+  * Add support for `CustomerBalance` on `ChargePaymentMethodDetails`, `PaymentIntentConfirmPaymentMethodDataParams`, `PaymentIntentConfirmPaymentMethodOptionsParams`, `PaymentIntentPaymentMethodDataParams`, `PaymentIntentPaymentMethodOptionsParams`, `PaymentIntentPaymentMethodOptions`, `PaymentMethodParams`, and `PaymentMethod`
+  * Add support for `CashBalance` on `CustomerParams`
+  * Add support for `AmountDetails` on `PaymentIntent`
+  * Add support for `DisplayBankTransferInstructions` on `PaymentIntentNextAction`
+  * Add support for new value `customer_balance` on enum `PaymentMethodType`
+  * Add support for `ConfigurationOverrides` on `TerminalLocationParams` and `TerminalLocation`
+
+* [#1448](https://github.com/stripe/stripe-go/pull/1448) API Updates
+  * Add support for `IncrementAuthorization` method on resource `PaymentIntent`
+  * Add support for `IncrementalAuthorizationSupported` on `ChargePaymentMethodDetailsCardPresent`
+  * Add support for `RequestIncrementalAuthorizationSupport` on `PaymentIntentConfirmPaymentMethodOptionsCardPresentParams`, `PaymentIntentPaymentMethodOptionsCardPresentParams`, and `PaymentIntentPaymentMethodOptionsCardPresent`
+
+## 72.101.0 - 2022-04-08
+* [#1446](https://github.com/stripe/stripe-go/pull/1446) API Updates
+  * Add support for `ApplyCustomerBalance` method on resource `PaymentIntent`
+
+## 72.100.0 - 2022-04-04
+* [#1443](https://github.com/stripe/stripe-go/pull/1443) Add support for passing expansions in SearchParams.
+
+## 72.99.0 - 2022-04-01
+* [#1442](https://github.com/stripe/stripe-go/pull/1442) API Updates
+  * Add support for `BankTransferPayments` on `AccountCapabilitiesParams` and `AccountCapabilities`
+  * Add support for `CaptureBefore` on `ChargePaymentMethodDetailsCardPresent`
+  * Add support for `Address` and `Name` on `CheckoutSessionCustomerDetails`
+  * Add support for `CustomerBalance` on `InvoicePaymentSettingsPaymentMethodOptionsParams`, `InvoicePaymentSettingsPaymentMethodOptions`, `SubscriptionPaymentSettingsPaymentMethodOptionsParams`, and `SubscriptionPaymentSettingsPaymentMethodOptions`
+  * Add support for new value `customer_balance` on enums `InvoicePaymentSettingsPaymentMethodTypes` and `SubscriptionPaymentSettingsPaymentMethodTypes`
+  * Add support for `RequestExtendedAuthorization` on `PaymentIntentConfirmPaymentMethodOptionsCardPresentParams`, `PaymentIntentPaymentMethodOptionsCardPresentParams`, and `PaymentIntentPaymentMethodOptionsCardPresent`
+
+## 72.98.0 - 2022-03-30
+* [#1440](https://github.com/stripe/stripe-go/pull/1440) API Updates
+  * Add support for `CancelAction`, `ProcessPaymentIntent`, `ProcessSetupIntent`, and `SetReaderDisplay` methods on resource `Terminal.Reader`
+  * Add support for `Action` on `TerminalReader`
+
+## 72.97.0 - 2022-03-29
+* [#1439](https://github.com/stripe/stripe-go/pull/1439) API Updates
+  * Add support for Search API
+    * Add support for `Search` method on resources `Charge`, `Customer`, `Invoice`, `PaymentIntent`, `Price`, `Product`, and `Subscription`
+
+## 72.96.0 - 2022-03-25
+* [#1437](https://github.com/stripe/stripe-go/pull/1437) API Updates
+  * Add support for PayNow and US Bank Accounts Debits payments
+      * **Charge** ([API ref](https://stripe.com/docs/api/charges/object#charge_object-payment_method_details))
+          * Add support for `PayNow` and `USBankAccount` on `ChargePaymentMethodDetails`
+      * **Mandate** ([API ref](https://stripe.com/docs/api/mandates/object#mandate_object-payment_method_details))
+          * Add support for `USBankAccount` on `MandatePaymentMethodDetails`
+      * **Payment Intent** ([API ref](https://stripe.com/docs/api/payment_intents/object#payment_intent_object-payment_method_options))
+          * Add support for `PayNow` and `USBankAccount` on `PaymentIntentPaymentMethodOptions`, `PaymentIntentPaymentMethodDataParams`, `PaymentIntentPaymentMethodOptionsParams`, `PaymentIntentConfirmPaymentMethodDataParams`, and `PaymentIntentConfirmPaymentMethodOptionsParams`
+          * Add support for `PayNowDisplayQRCode` on `PaymentIntentNextAction`
+      * **Setup Intent** ([API ref](https://stripe.com/docs/api/setup_intents/object#setup_intent_object-payment_method_options))
+          * Add support for `USBankAccount` on `SetupIntentPaymentMethodOptionsParams`, `SetupIntentPaymentMethodOptions`, and `SetupIntentConfirmPaymentMethodOptionsParams`
+      * **Setup Attempt** ([API ref](https://stripe.com/docs/api/setup_attempts/object#setup_attempt_object-payment_method_details))
+          * Add support for `USBankAccount` on `SetupAttemptPaymentMethodDetails`
+      * **Payment Method** ([API ref](https://stripe.com/docs/api/payment_methods/object#payment_method_object-paynow))
+          * Add support for `PayNow` and `USBankAccount` on `PaymentMethod` and `PaymentMethodParams`
+          * Add support for new values `paynow` and `us_bank_account` on enum `PaymentMethodType`
+      * **Checkout Session** ([API ref](https://stripe.com/docs/api/checkout/sessions/create#create_checkout_session-payment_method_types))
+          * Add support for `USBankAccount` on `CheckoutSessionPaymentMethodOptionsParams` and `CheckoutSessionPaymentMethodOptions`
+      * **Invoice** ([API ref](https://stripe.com/docs/api/invoices/object#invoice_object-payment_settings-payment_method_types))
+          * Add support for `USBankAccount` on `InvoicePaymentSettingsPaymentMethodOptions` and `InvoicePaymentSettingsPaymentMethodOptionsParams`
+          * Add support for new values `paynow` and `us_bank_account` on enum `InvoicePaymentSettingsPaymentMethodTypes`
+      * **Subscription** ([API ref](https://stripe.com/docs/api/subscriptions/object#subscription_object-payment_settings-payment_method_types))
+          * Add support for `USBankAccount` on `SubscriptionPaymentSettingsPaymentMethodOptions` and `SubscriptionPaymentSettingsPaymentMethodOptionsParams`
+          * Add support for new values `paynow` and `us_bank_account` on enum `SubscriptionPaymentSettingsPaymentMethodTypes`
+      * **Account capabilities** ([API ref](https://stripe.com/docs/api/accounts/object#account_object-capabilities))
+        * Add support for `PayNowPayments` and `USBankAccountAchPayments` on `AccountCapabilities` and `AccountCapabilitiesParams`
+  * Add support for `FailureBalanceTransaction` on `Charge`
+  * Add support for `TestClock` on `SubscriptionListParams`
+  * Add support for `CaptureMethod` on `PaymentIntentConfirmPaymentMethodOptionsAfterpayClearpayParams`, `PaymentIntentConfirmPaymentMethodOptionsCardParams`, `PaymentIntentConfirmPaymentMethodOptionsKlarnaParams`, `PaymentIntentPaymentMethodOptionsAfterpayClearpayParams`, `PaymentIntentPaymentMethodOptionsAfterpayClearpay`, `PaymentIntentPaymentMethodOptionsCardParams`, `PaymentIntentPaymentMethodOptionsCard`, `PaymentIntentPaymentMethodOptionsKlarnaParams`, `PaymentIntentPaymentMethodOptionsKlarna`, and `PaymentIntentTypeSpecificPaymentMethodOptionsClient`
+  * Add additional support for verify microdeposits on Payment Intent and Setup Intent ([API ref](https://stripe.com/docs/api/payment_intents/verify_microdeposits))
+      * Add support for `DescriptorCode` on `PaymentIntentVerifyMicrodepositsParams` and `SetupIntentVerifyMicrodepositsParams`
+      * Add support for `MicrodepositType` on `PaymentIntentNextActionVerifyWithMicrodeposits` and `SetupIntentNextActionVerifyWithMicrodeposits`
+  * Add case for `ConnectCollectionTransfer` on `BalanceTransactionSource` `UnmarshalJSON` (fixes #1392)
+  * Add missing `PayoutFailureCode`s (fixes #1438)
+
+## 72.95.0 - 2022-03-23
+* [#1436](https://github.com/stripe/stripe-go/pull/1436) API Updates
+  * Add support for `Cancel` method on resource `Refund`
+  * Add support for new values `bg_uic`, `hu_tin`, and `si_tin` on enums `CheckoutSessionCustomerDetailsTaxIdsType`, `InvoiceCustomerTaxIdsType`, and `TaxIdType`
+  * Add support for `TestClock` on `QuoteListParams`
+
+## 72.94.0 - 2022-03-18
+* [#1433](https://github.com/stripe/stripe-go/pull/1433) API Updates
+  * Add support for `Status` on `Card`
+* [#1432](https://github.com/stripe/stripe-go/pull/1432) Add StringSlice example to readme
+* [#1324](https://github.com/stripe/stripe-go/pull/1324) Add support for SearchResult objects
+
+## 72.93.0 - 2022-03-11
+* [#1431](https://github.com/stripe/stripe-go/pull/1431) API Updates
+  * Add support for `Mandate` on `ChargePaymentMethodDetailsCard`
+  * Add support for `MandateOptions` on `SetupIntentPaymentMethodOptionsCardParams`, `PaymentIntentPaymentMethodOptionsCardParams`, `PaymentIntentConfirmPaymentMethodOptionsCardParams`, `PaymentIntentPaymentMethodOptionsCard`, SetupIntentConfirmPaymentMethodOptionsCardParams`, and `SetupIntentPaymentMethodOptionsCard`
+  * Add support for `CardAwaitNotification` on `PaymentIntentNextAction`
+  * Add support for `CustomerNotification` on `PaymentIntentProcessingCard`
+
+## 72.92.0 - 2022-03-09
+* [#1430](https://github.com/stripe/stripe-go/pull/1430) API Updates
+  * Add support for `TestClock` on `CustomerListParams`
+* [#1429](https://github.com/stripe/stripe-go/pull/1429) Fix unmarshalling error on schedule create from subscription (ApplicationFeePercent)
+
+## 72.91.0 - 2022-03-02
+* [#1425](https://github.com/stripe/stripe-go/pull/1425) API Updates
+  * Add support for new resources `InvoiceLineProrationDetails` and `InvoiceLineProrationDetailsCreditedItems`
+  * Add support for `ProrationDetails` on `InvoiceLine`
+  
+
+## 72.90.0 - 2022-03-01
+* [#1423](https://github.com/stripe/stripe-go/pull/1423) [#1424](https://github.com/stripe/stripe-go/pull/1424) API Updates
+  * Add support for new resource `TestHelpers.TestClock`
+  * Add support for `TestClock` on `CustomerParams`, `Customer`, `Invoice`, `InvoiceItem`, `QuoteParams`, `Quote`, `Subscription`, and `SubscriptionSchedule`
+  * Add support for `PendingInvoiceItemsBehavior` on `InvoiceParams`
+  * Change type of `ProductUrlParams` from `string` to `emptyStringable(string)`
+  * Add support for `NextAction` on `Refund`
+
+## 72.89.0 - 2022-02-25
+* [#1422](https://github.com/stripe/stripe-go/pull/1422) API Updates
+  * Add support for `KonbiniPayments` on `AccountCapabilitiesParams`, and `AccountCapabilities`
+  `BillingPortalConfigurationBusinessProfileTermsOfServiceUrl` from `string` to `nullable(string)`
+  * Add support for `Konbini` on `ChargePaymentMethodDetails`, `CheckoutSessionPaymentMethodOptionsParams`, `CheckoutSessionPaymentMethodOptions`, `InvoicePaymentSettingsPaymentMethodOptionsParams`, `InvoicePaymentSettingsPaymentMethodOptionsParams`, `InvoicePaymentSettingsPaymentMethodOptions`, `PaymentIntentPaymentMethodDataParams`, `PaymentIntentPaymentMethodOptionsParams`, `PaymentIntentConfirmPaymentMethodDataParams`, `PaymentIntentConfirmPaymentMethodOptionsParams`, `PaymentIntentPaymentMethodOptions`, `PaymentMethodParams`, `PaymentMethod`,  `SubscriptionPaymentSettingsPaymentMethodOptionsParams`, and `SubscriptionPaymentSettingsPaymentMethodOptions`
+  * Add support for new value `konbini` on enums `InvoicePaymentSettingsPaymentMethodTypes` and `SubscriptionPaymentSettingsPaymentMethodTypes`
+  * Add support for `KonbiniDisplayDetails` on `PaymentIntentNextAction`
+  * Add support for new value `konbini` on enum `PaymentMethodType`
+* [#1420](https://github.com/stripe/stripe-go/pull/1420) Generate enums in samples
+
+## 72.88.0 - 2022-02-23
+* [#1421](https://github.com/stripe/stripe-go/pull/1421) API Updates
+  * Add support for `SetupFutureUsage` on `PaymentIntentPaymentMethodOptions.*`
+  * Add support for new values `bbpos_wisepad3` and `stripe_m2` on enum `TerminalReaderDeviceType`
+
+## 72.87.0 - 2022-02-15
+* [#1419](https://github.com/stripe/stripe-go/pull/1419) Add tests for verify_microdeposits
+* [#1416](https://github.com/stripe/stripe-go/pull/1416) API Updates
+  * Add support for `VerifyMicrodeposits` method on resources `PaymentIntent` and `SetupIntent`
+  * Add support for new value `grabpay` on enums `InvoicePaymentSettingsPaymentMethodTypes` and `SubscriptionPaymentSettingsPaymentMethodTypes`
+* [#1415](https://github.com/stripe/stripe-go/pull/1415) API Updates
+  * Add support for `PIN` on `IssuingCardParams`
+* [#1414](https://github.com/stripe/stripe-go/pull/1414) Add comments for deprecated error types
+
+## 72.86.0 - 2022-01-25
+* [#1411](https://github.com/stripe/stripe-go/pull/1411) API Updates
+  * Add support for `PhoneNumberCollection` on `PaymentLinkParams` and `PaymentLink`
+  * Add support for new value `is_vat` on enums `CheckoutSessionCustomerDetailsTaxIdsType`, `InvoiceCustomerTaxIdsType`, and `TaxIdType`
+* [#1384](https://github.com/stripe/stripe-go/pull/1384) godoc is no more
+
+## 72.85.0 - 2022-01-20
+* [#1408](https://github.com/stripe/stripe-go/pull/1408) API Updates
+  * Add support for new resource `PaymentLink`
+  * Add support for `PaymentLink` on `CheckoutSession`
+
+## 72.84.0 - 2022-01-19
+* [#1407](https://github.com/stripe/stripe-go/pull/1407) API Updates
+  * Change type of `ChargeStatus` from `string` to `enum('failed'|'pending'|'succeeded')`
+  * Add support for `BACSDebit` and `EPS` on `PaymentIntentPaymentMethodOptionsParams`, `PaymentIntentPaymentMethodOptionsParams`, `PaymentIntentConfirmPaymentMethodOptionsParams`, and `PaymentIntentPaymentMethodOptions`
+  * Add support for `ImageURLPNG` and `ImageURLSVG` on `PaymentIntentNextActionWechatPayDisplayQRCode`
+  
+* [#1405](https://github.com/stripe/stripe-go/pull/1405) Generate struct field docstrings
+
+## 72.83.0 - 2022-01-13
+* [#1404](https://github.com/stripe/stripe-go/pull/1404) API Updates
+  * Add support for `PaidOutOfBand` on `Invoice`
+
+## 72.82.0 - 2022-01-12
+* [#1403](https://github.com/stripe/stripe-go/pull/1403) API Updates
+  * Add support for `CustomerCreation` on `CheckoutSessionParams` and `CheckoutSession`
+  * Add support for `FPX` and `Grabpay` on `PaymentIntentPaymentMethodOptionsParams` and `PaymentIntentPaymentMethodOptions`
+  
+* [#1399](https://github.com/stripe/stripe-go/pull/1399) API Updates
+  * Add support for `MandateOptions` on `SubscriptionPaymentSettingsPaymentMethodOptionsCardParams`, `SubscriptionPaymentSettingsPaymentMethodOptionsCardParams`, and `SubscriptionPaymentSettingsPaymentMethodOptionsCard`
+* [#1401](https://github.com/stripe/stripe-go/pull/1401) Make source.go and client codegen-able
+  * Add support for `object` on `Source` (value is the string "source")
+  * Add support for `client_secret` on `SourceObjectParams`
+  * Add support for `parent` on `SourceSourceOrderItems`
+* [#1400](https://github.com/stripe/stripe-go/pull/1400) Make paymentsource.go and client codegen-able
+  * Add support for `account_holder_name`, `account_holder_type`, `address_city`, `address_country`, `address_line1`, `address_line2`, `address_state`, `address_zip`, `exp_month`, `exp_year`, `name`, `owner` on `CustomerSourceParams`
+  * Add support for `PaymentSourceOwnerParams`
+  * Add support for `Object` on `SourceListParams`
+* [#1396](https://github.com/stripe/stripe-go/pull/1396) Make bankaccount and card codegen-able
+  * Add support for `address_city`, `address_country`, `address_line1`, `address_line2`, `address_state`, `address_zip`, `exp_month`, `exp_year`, and `name` on `BankAccountParams`
+  * Add support for `account_holder_name`, `account_holder_type`, and `owner` on `CardParams`
+  * Add support for `account` on `Card`
+* [#1398](https://github.com/stripe/stripe-go/pull/1398) Update docs URLs.
+
+## 72.81.0 - 2021-12-22
+* [#1397](https://github.com/stripe/stripe-go/pull/1397) API Updates
+  * Add support for `AUBECSDebit` on `PaymentIntentPaymentMethodOptionsParams`, `PaymentIntentPaymentMethodOptionsParams`, `PaymentIntentConfirmPaymentMethodOptionsParams`, and `PaymentIntentPaymentMethodOptions`
+  * Change type of `PaymentIntentProcessingType` from `string` to `literal('card')`. This is not considered a breaking change as the field was added in the same release.
+  
+* [#1395](https://github.com/stripe/stripe-go/pull/1395) API Updates
+  * Add support for `Boleto` on `SetupAttemptPaymentMethodDetails`
+  
+* [#1393](https://github.com/stripe/stripe-go/pull/1393) API Updates
+  * Add support for `Processing` on `PaymentIntent`
+
+## 72.80.0 - 2021-12-15
+* [#1391](https://github.com/stripe/stripe-go/pull/1391) API Updates
+  * Add support for new resource `PaymentIntentTypeSpecificPaymentMethodOptionsClient`
+  * Add support for `SetupFutureUsage` on `PaymentIntentPaymentMethodOptionsCardParams`, `PaymentIntentPaymentMethodOptionsCardParams`, `PaymentIntentConfirmPaymentMethodOptionsCardParams`, and `PaymentIntentPaymentMethodOptionsCard`
+
+## 72.79.0 - 2021-12-09
+* [#1390](https://github.com/stripe/stripe-go/pull/1390) API Updates
+  * Add support for `Metadata` on `BillingPortalConfiguration`
+* [#1382](https://github.com/stripe/stripe-go/pull/1382) Add unwrap capability to Error
+* [#1388](https://github.com/stripe/stripe-go/pull/1388) Codegen: `sourcetransaction.go` and `sourcetransaction/client.go`
+  * Add support for `Object` and `Status` on `SourceTransaction`.
+
+## 72.78.0 - 2021-12-09
+* [#1389](https://github.com/stripe/stripe-go/pull/1389) API Updates
+  * Add support for new values `ge_vat` and `ua_vat` on enums `CheckoutSessionCustomerDetailsTaxIdsType`, `InvoiceCustomerTaxIdsType`, and `TaxIdType`
+  
+* [#1383](https://github.com/stripe/stripe-go/pull/1383) [#1379](https://github.com/stripe/stripe-go/pull/1379) [#1385](https://github.com/stripe/stripe-go/pull/1385) [#1386](https://github.com/stripe/stripe-go/pull/1386) Codegen-related updates
+  * Add support for `CancellationReason` and `ReceivedAt` on `IssuingDisputeEvidenceServiceNotAsDescribed` and `IssuingDisputeEvidenceServiceNotAsDescribedParams`
+  * Add support for `Created` on `IssuingDisputeListParams`
+  * Add support for `Object` on `Plan`
+  * Add support for `free_zone_establishment`, `free_zone_llc`, `llc`, and `sole_establishment` options for `AccountCompanyStructure`
+  * Add support for `AfterpayClearpayPayments` on `AccountCapabilitiesParams`
+  * Add support for `Created` and `CreatedRange` on `AccountListParams`
+  * Add support for `AfterpayClearpayPayments` and `BoletoPayments` on `AccountCapabilities`
+  * Add support for `Capability` and `Capabilities` method on Account client
+  * Add support for `none` and `renew` options for `SubscriptionScheduleEndBehavior`
+  * Add support for `"now"` string for `EndDate`, `StartDate`, and `TrialEnd` on `SubscriptionSchedulePhaseParams`
+  * Add support for `ProrationBehavior` on `SubscriptionSchedulePhase`
+  * Add support for `APIVersion` and `Object` on `Event`
+  * Add support for `Metadata` on `SubscriptionItemsParams`
+  * Add support for `'automatic_pending_invoice_item_invoice'` option for `InvoiceBillingReason`
+  * Add support for `'deleted'` option for `InvoiceStatus`
+  * Add support for `metadata` on `InvoiceUpcomingCustomerDetailsParams`
+  * Add support for `schedule` on `InvoiceParams`
+  * Add support for `created` on `Person`
+
+## 72.77.0 - 2021-11-19
+* [#1381](https://github.com/stripe/stripe-go/pull/1381) Add support for `Wallets` on `IssuingCard`
+  * Add support for `Wallets` on `IssuingCard`
+* [#1380](https://github.com/stripe/stripe-go/pull/1380) API Updates
+  * Add support for `InteracPresent` on `PaymentIntentPaymentMethodOptionsParams`, `PaymentIntentPaymentMethodOptionsParams`, `PaymentIntentConfirmPaymentMethodOptionsParams`, and `PaymentIntentPaymentMethodOptions`
+  * Add support for new value `jct` on enum `TaxRateTaxType`
+
+## 72.76.0 - 2021-11-17
+* [#1377](https://github.com/stripe/stripe-go/pull/1377) API Updates
+  * Add support for `AutomaticPaymentMethods` on `PaymentIntentParams` and `PaymentIntent`
+
+## 72.75.0 - 2021-11-16
+* [#1375](https://github.com/stripe/stripe-go/pull/1375) API Updates
+  * Add support for new resource `ShippingRate`
+  * Add support for `ShippingOptions` on `CheckoutSessionParams` and `CheckoutSession`
+  * Add support for `ShippingRate` on `CheckoutSession`
+
+## 72.74.0 - 2021-11-11
+* [#1374](https://github.com/stripe/stripe-go/pull/1374) API Updates
+  * Add support for `Expire` method on resource `Checkout.Session`
+  * Add support for `Status` on `CheckoutSession`
+* [#1373](https://github.com/stripe/stripe-go/pull/1373) [#1370](https://github.com/stripe/stripe-go/pull/1370) [#1369](https://github.com/stripe/stripe-go/pull/1369) Codegen-related updates
+  - Add support for `disabled` on `CapabilityStatus`
+*  Make more files codegen-able
+  - Add support for `acss_debit`, `au_becs_debit`, `bacs_debit`, and `sepa_debit` on `SetupAttemptPaymentMethodDetails`
+  - Add support for `setup_intent` on `SetupAttempt`
+  - Add support for `duplicate` option for `SetupIntentCancellationReason`
+  - Add support for `challenge_only` option for `SetupIntentPaymentMethodOptionsCardRequestThreeDSecure`
+  - Add support for `sepa_debit` on `SetupIntentPaymentMethodOptionsParams` and `SetupIntentPaymentMethodOptions`
+  - Add support for `client_secret` on `SetupIntentParams`
+
+## 72.73.1 - 2021-11-04
+* [#1371](https://github.com/stripe/stripe-go/pull/1371) API Updates
+  * Remove support for `OwnershipDeclarationShownAndSigned` on `TokenAccountParams`. This API was unused.
+  * Add support for `OwnershipDeclarationShownAndSigned` on `TokenAccountCompanyParams`
+  
+
+## 72.73.0 - 2021-11-01
+* [#1368](https://github.com/stripe/stripe-go/pull/1368) API Updates
+  * Add support for `OwnershipDeclaration` on `AccountCompanyParams`, `AccountCompanyParams`, `AccountCompany`, and `TokenAccountCompanyParams`
+  * Add support for `ProofOfRegistration` on `AccountDocumentsParams` and `AccountDocumentsParams`
+  * Add support for `OwnershipDeclarationShownAndSigned` on `TokenAccountParams`
+* [#1366](https://github.com/stripe/stripe-go/pull/1366) Make File resource and client codegen-able
+  - Add support for `"selfie"` and `"identity_document_downloadable"` as `FilePurpose` options
+  - Add support for `title` field on `File`
+* [#1365](https://github.com/stripe/stripe-go/pull/1365) Make paymentintent and paymentmethod codegen-able
+  * Fix `WechatPay` form name in `PaymentIntentPaymentMethodDataParams`
+  * Add support for `"challenge_only"` as `PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure` option
+  * Add support for `OffSessionOneOff` and `OffSessionRecurring` on `PaymentIntentConfirmParams`
+  * Add support for `BACSDebit`, `Bancontact`, `Giropay`, `InteracPresent`, `Metadata`, and `Sofort` on `PaymentIntentPaymentMethodDataParams`
+  * Add support for `CardPresent`, `Ideal`, `P24`, and `SepaDebit` on `PaymentIntentPaymentMethodOptionsParams` and `PaymentIntentPaymentMethodOptions`
+  * Add support for `ClientSecret`, `OffSessionOneOff`, and `OffSessionRecurring` on `PaymentIntentParams`
+  * Add support for `Object` on `PaymentIntent`
+  * Add support for `AmexExpressCheckout`, `ApplePay`, `GooglePay`, `Masterpass`, `SamsungPay`, and `VisaCheckout` on `PaymentMethodCardWallet`
+* [#1364](https://github.com/stripe/stripe-go/pull/1364) Update references in test suite to be fully qualified.
+
+## 72.72.0 - 2021-10-20
+* [#1361](https://github.com/stripe/stripe-go/pull/1361) Bugfix: point client.API#Oauth to the Connect backend.
+* [#1358](https://github.com/stripe/stripe-go/pull/1358) API Updates
+  * Add support for `BuyerID` on `ChargePaymentMethodDetailsAlipay`
+
+## 72.71.0 - 2021-10-15
+* [#1357](https://github.com/stripe/stripe-go/pull/1357) API Updates
+  * Change type of `UsageRecordTimestampParams` from `integer` to `literal('now') | integer`
+* [#1356](https://github.com/stripe/stripe-go/pull/1356) Add generated test suite
+* [#1355](https://github.com/stripe/stripe-go/pull/1355) Make order-related files codegen-able
+  * Add support for `SelectedShippingMethod` and `Status` on `OrderStatus`
+  * Add support for `Carrier` and `TrackingNumber` on `ShippingParams`
+  * Add support for `ExternalCouponCode` and `Object` on `Order`
+  * Add support for `Object` on `OrderItem` and `OrderReturn`
+  * Add support for `Deleted` and `Object` on `SKU`
+
+## 72.70.0 - 2021-10-11
+* [#1354](https://github.com/stripe/stripe-go/pull/1354) API Updates
+  * Add support for `PaymentMethodCategory` and `PreferredLocale` on `ChargePaymentMethodDetailsKlarna`
+  * Add support for `Klarna` on `PaymentIntentPaymentMethodDataParams`, `PaymentIntentPaymentMethodOptionsParams`, `PaymentIntentPaymentMethodDataParams`, `PaymentIntentPaymentMethodOptionsParams`, `PaymentIntentPaymentMethodOptions`, `PaymentMethodParams`, and `PaymentMethod`
+  * Add support for new value `klarna` on enum `PaymentMethodType`
+
+## 72.69.0 - 2021-10-11
+* [#1352](https://github.com/stripe/stripe-go/pull/1352) API Updates
+  * Add support for `ListPaymentMethods` method on resource `Customer`
+* [#1331](https://github.com/stripe/stripe-go/pull/1331) Add missing decline codes following official documentation.
+
+## 72.68.0 - 2021-10-07
+* [#1351](https://github.com/stripe/stripe-go/pull/1351) API Updates
+  * Add support for `PhoneNumberCollection` on `CheckoutSessionParams` and `CheckoutSession`
+  * Add support for `Phone` on `CheckoutSessionCustomerDetails`
+  * Add support for new value `customer_id` on enum `RadarValueListItemType`
+  * Add support for new value `bbpos_wisepos_e` on enum `TerminalReaderDeviceType`
+* [#1350](https://github.com/stripe/stripe-go/pull/1350) [#1349](https://github.com/stripe/stripe-go/pull/1349) [#1347](https://github.com/stripe/stripe-go/pull/1347) [#1346](https://github.com/stripe/stripe-go/pull/1346) Codegen-related changes
+  * Add support for `Object` to `Token`
+  * Add support for `Object` on `Reversal`
+
+## 72.67.0 - 2021-09-29
+* [#1345](https://github.com/stripe/stripe-go/pull/1345) API Updates
+  * Add support for `KlarnaPayments` on `AccountCapabilitiesParams`, `AccountCapabilitiesParams`, and `AccountCapabilities`
+
+## 72.66.0 - 2021-09-28
+* [#1344](https://github.com/stripe/stripe-go/pull/1344) API Updates
+  * Add support for `AmountAuthorized` and `OvercaptureSupported` on `ChargePaymentMethodDetailsCardPresent`
+
+## 72.65.0 - 2021-09-16
+* [#1342](https://github.com/stripe/stripe-go/pull/1342) API Updates
+  * Add support for `Livemode` on `ReportingReportType`.
+  * Add support for `DefaultFor` on `CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptionsParams`, `CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptions`, `MandatePaymentMethodDetailsACSSDebit`, `SetupIntentPaymentMethodOptionsACSSDebitMandateOptionsParams`, and `SetupIntentPaymentMethodOptionsACSSDebitMandateOptions`.
+  * Add support for `ACSSDebit` on `InvoicePaymentSettingsPaymentMethodOptionsParams`, `InvoicePaymentSettingsPaymentMethodOptionsParams`, `InvoicePaymentSettingsPaymentMethodOptions`, `SubscriptionPaymentSettingsPaymentMethodOptionsParams`, `SubscriptionPaymentSettingsPaymentMethodOptionsParams`, and `SubscriptionPaymentSettingsPaymentMethodOptions`.
+  * Add support for new value `acss_debit` on enums `InvoicePaymentSettingsPaymentMethodType` and `SubscriptionPaymentSettingsPaymentMethodType`.
+  * Add support for `FullNameAliases` on `PersonParams` and `Person`.
+* [#1339](https://github.com/stripe/stripe-go/pull/1339) API Updates
+  * Add support for new value `rst` on enum `TaxRateTaxType`
+* [#1336](https://github.com/stripe/stripe-go/pull/1336) Adding missing dispute reasons following official documentation (http…
+* [#1337](https://github.com/stripe/stripe-go/pull/1337) Generated go test suites
+
+## 72.64.1 - 2021-09-03
+* [#1335](https://github.com/stripe/stripe-go/pull/1335) Bugfix: prop `form` annotation for `WechatPay` on `PaymentIntentPaymentMethodOptions`
+
+## 72.64.0 - 2021-09-01
+* [#1334](https://github.com/stripe/stripe-go/pull/1334) API Updates
+  * Add support for `FutureRequirements` on `Account`, `Capability`, and `Person`
+  * Add support for `Alternatives` on `AccountRequirements`, `CapabilityRequirements`, and `PersonRequirements`
+
+## 72.63.0 - 2021-09-01
+* [#1332](https://github.com/stripe/stripe-go/pull/1332) API Updates
+  * Add support for `AfterExpiration`, `ConsentCollection`, and `ExpiresAt` on `CheckoutSessionParams` and `CheckoutSession`
+  * Add support for `Consent` and `RecoveredFrom` on `CheckoutSession`
+
+
+## 72.62.0 - 2021-08-27
+* [#1329](https://github.com/stripe/stripe-go/pull/1329) API Updates
+  * Add support for `CancellationReason` on `BillingPortalConfigurationFeaturesSubscriptionCancelParams`, `BillingPortalConfigurationFeaturesSubscriptionCancelParams`, and `BillingPortalConfigurationFeaturesSubscriptionCancel`
+
+## 72.61.0 - 2021-08-19
+* [#1328](https://github.com/stripe/stripe-go/pull/1328) API Updates
+  * Add support for new TaxId type: `au_arn`
+  * Add support for `InteracPresent` on `ChargePaymentMethodDetails`
+  * Add support for `SepaCreditTransfer` on `ChargePaymentMethodDetails`
+  * Codegen related changes:
+    * Moved `ShippingDetails` into `address.go`
+    * Add support for `Object` and `Order` to `Charge`
+    * Renamed `ReviewReasonType` enum to `ReviewReason` but added a type alias to preserve backwards compatibility
+* [#1323](https://github.com/stripe/stripe-go/pull/1323) codegen: api.go
+
+## 72.60.0 - 2021-08-11
+* [#1325](https://github.com/stripe/stripe-go/pull/1325) API Updates
+  * Add support for `locale` on ` BillingPortalSessionParams` and ` BillingPortalSession`
+* [#1317](https://github.com/stripe/stripe-go/pull/1317) codegen: charge, taxrate
+  * Add support for `ApplicationFee` on (Charge) `CaptureParams`
+  * Add support for `PreferredLanguage` on `ChargePaymentMethodDetailsSofort`
+  * Bugfix: correctly deserialize `amount` on `ChargeTransferData`
+
+## 72.59.0 - 2021-07-28
+* [#1322](https://github.com/stripe/stripe-go/pull/1322) API Updates
+  * Add support for `AccountType` on `BankAccount`, `BankAccountParams`, and `CardParams`.
+  * Add support for `CategoryCode` on `IssuingAuthorizationMerchantData`.
+  * Add const definition for value `redacted` on enum `ReviewClosedReason`.
+
+## 72.58.0 - 2021-07-22
+* [#1319](https://github.com/stripe/stripe-go/pull/1319) API Updates
+  * Add support for `payment_settings` on `Subscription` and `SubscriptionParams`.
+* [#1320](https://github.com/stripe/stripe-go/pull/1320) Stop using uploads.stripe.com for the files backend.
+* [#1318](https://github.com/stripe/stripe-go/pull/1318) API Updates
+  * Add support for `Wallet` on `IssuingTransaction`
+  * Add support for `Ideal` on `PaymentIntentPaymentMethodOptionsParams`, `PaymentIntentPaymentMethodOptionsParams`, `PaymentIntentConfirmPaymentMethodOptionsParams`, and `PaymentIntentPaymentMethodOptions`
+* [#1315](https://github.com/stripe/stripe-go/pull/1315) Explicit iter property
+
+## 72.57.0 - 2021-07-14
+* [#1314](https://github.com/stripe/stripe-go/pull/1314) API Updates
+  * Add support for `ListComputedUpfrontLineItems` method on resource `Quote`
+* [#1312](https://github.com/stripe/stripe-go/pull/1312) codegen: 14 more files
+    * Add support for `BillingAddressCollection` to `CheckoutSession`
+    * Add support for `NetworkReasonCode` to `DisputeReason`
+    * Add support for `Object` to `EphemeralKey`, `ApplicationFee`, and `DisputeReason`
+    * Add support for `Description` to `Refund`
+    * Add const definition for value `blocked` on enum `IssuingCardholderStatus`
+    * Bugfix: add support for `Rate` on `CheckoutSessionTotalDetailsBreakdownTax` -- the existing field `TaxRate` has the wrong json annotation and should be deprecated.
+
+## 72.56.0 - 2021-07-09
+* [#1310](https://github.com/stripe/stripe-go/pull/1310) [#1283](https://github.com/stripe/stripe-go/pull/1283) API Updates
+  * Add support for new resource `Quote`
+  * Add support for `Quote` on `Invoice`
+  * Add support for new value `quote_accept` on enum `InvoiceBillingReason`
+* [#1309](https://github.com/stripe/stripe-go/pull/1309) Fix deserialization of Error on Sigma ScheduledQueryRun (warning: this might be a minor breaking change if you attempted to reference this broken field)
+
+## 72.55.0 - 2021-06-30
+* [#1306](https://github.com/stripe/stripe-go/pull/1306) API Updates
+  * Add support for `boleto` on `InvoicePaymentSettingsPaymentMethodType`.
+
+## 72.54.0 - 2021-06-30
+* [#1304](https://github.com/stripe/stripe-go/pull/1304) Add support for Wechat Pay
+  * Add support for `WechatPay` on `ChargePaymentMethodDetails`, `CheckoutSessionPaymentMethodOptionsParams`, `PaymentIntentPaymentMethodDataParams`, `PaymentIntentPaymentMethodOptionsParams`, `PaymentIntentPaymentMethodOptions`, `PaymentMethodParams`, and `PaymentMethod`
+  * Add support for new value `wechat_pay` on enums `InvoicePaymentSettingsPaymentMethodType` and `PaymentMethodType`
+  * Add support for `WechatPayDisplayQRCode`, `WechatPayRedirectToAndroidApp`, and `WechatPayRedirectToIOSApp` on `PaymentIntentNextAction`
+
+## 72.53.0 - 2021-06-29
+* [#1303](https://github.com/stripe/stripe-go/pull/1303) API Updates
+  * Add support for `Boleto` and `OXXO` on `CheckoutSessionPaymentMethodOptionsParams` and `CheckoutSessionPaymentMethodOptions`
+  * Add support for `BoletoPayments` on `AccountCapabilities`
+
+## 72.52.0 - 2021-06-25
+* [#1301](https://github.com/stripe/stripe-go/pull/1301) API Updates
+  * Add support for `boleto` as a `PaymentMethodType`
+  * Add support for `Boleto` on `ChargePaymentMethodDetails`, `PaymentMethod`, `PaymentMethodParams`, `PaymentIntentPaymentMethodOptions`, `PaymentIntentPaymentMethodDataParams`, and `PaymentIntentPaymentMethodOptionsParams`
+  * Add support for `BoletoDisplayDetails` on `PaymentIntentNextAction`
+  * Add support for `il_vat` on enums `CheckoutSessionCustomerDetailsTaxIDsType` and `TaxIDType`
+* [#1299](https://github.com/stripe/stripe-go/pull/1299) API Updates
+  * Add support for new TaxId types: `ca_pst_mb`, `ca_pst_bc`, `ca_gst_hst`, and `ca_pst_sk`.
+
+## 72.51.0 - 2021-06-16
+* [#1298](https://github.com/stripe/stripe-go/pull/1298) API Updates
+  * Add checkout.Session.URL
+
+## 72.50.0 - 2021-06-07
+* [#1295](https://github.com/stripe/stripe-go/pull/1295) Add Secret to EphemeralKey as it now should be accessed directly
+* [#1297](https://github.com/stripe/stripe-go/pull/1297) API Updates
+  * Add support for `TaxIDCollection` to `CheckoutSession` and `CheckoutSessionParams`.
+
+## 72.49.0 - 2021-06-04
+* [#1292](https://github.com/stripe/stripe-go/pull/1292) API Updates
+  * Add support for `Controller` to `Account`
+* [#1287](https://github.com/stripe/stripe-go/pull/1287) [#1293](https://github.com/stripe/stripe-go/pull/1293) [#1290](https://github.com/stripe/stripe-go/pull/1290) codegen: 4 files 
+  * Add missing enum members to `BalanceTransactionType`, `BalanceTransactionSourceType`
+  * Add support for `FeeRefund` and `Topup` to `BalanceTransactionSource`
+  * Add support for `Object` on `BalanceTransaction` and `Transfer`
+  * Removed a redundant form-encoding conversion for `UpTo` in `PriceTierParams.AppendTo` method
+
+
+## 72.48.0 - 2021-06-04
+* [#1291](https://github.com/stripe/stripe-go/pull/1291) API Updates
+  * Add new resource `TaxCode`.
+  * Add support for `AutomaticTax` on `CheckoutSession`, `Invoice`, `Subscription`, and `SubscriptionScheduleDefaultSettings`.
+  * Add support for `CustomerUpdate` on `CheckoutSessionCustomerUpdateParams`
+  * Add support for `Tax` on `Customer` and `CustomerParams`
+  * Add support for `CustomerDetails` on `InvoiceParams`
+  * Add support for `TaxBehavior` on `Price`, `PriceParams`, `CheckoutSessionLineItemPriceDataParams`,  `PriceParams`, `SubscriptionItemPriceDataParams`, `SubscriptionSchedulePhaseAutomaticTaxParams`,`SubscriptionSchedulePhaseAddInvoiceItemPriceDataParams`, and `InvoiceItemPriceDataParams`
+  * Add support for `TaxCode` on `CheckoutSessionLineItemPriceDataProductParams`, `Product`, `ProductParams`, `PlanProductParams` and `PriceProductDataParams`
+
+## 72.47.0 - 2021-05-26
+* [#1286](https://github.com/stripe/stripe-go/pull/1286) API Updates
+  * Added support for `Documents` to `PersonParams`
+
+## 72.46.0 - 2021-05-25
+* [#1285](https://github.com/stripe/stripe-go/pull/1285) API Updates
+  * Add support for Identity VerificationSession and VerificationReport APIs
+
 ## 72.45.0 - 2021-05-06
 * [#1280](https://github.com/stripe/stripe-go/pull/1280) API Updates
   * Added support for `reference` on `Charge.payment_method_details.afterpay_clearpay`

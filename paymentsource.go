@@ -1,79 +1,65 @@
+//
+//
+// File generated from our OpenAPI spec
+//
+//
+
 package stripe
 
 import (
 	"encoding/json"
 	"fmt"
-
-	"github.com/stripe/stripe-go/v72/form"
+	"github.com/stripe/stripe-go/v73/form"
 )
 
-// PaymentSourceType consts represent valid payment sources.
 type PaymentSourceType string
 
-// List of values that PaymentSourceType can take.
+// List of values that PaymentSourceType can take
 const (
 	PaymentSourceTypeAccount     PaymentSourceType = "account"
 	PaymentSourceTypeBankAccount PaymentSourceType = "bank_account"
 	PaymentSourceTypeCard        PaymentSourceType = "card"
-	PaymentSourceTypeObject      PaymentSourceType = "source"
+	PaymentSourceTypeSource      PaymentSourceType = "source"
 )
 
-// SourceParams is a union struct used to describe an
+// List sources for a specified customer.
+type PaymentSourceListParams struct {
+	ListParams `form:"*"`
+	Customer   *string `form:"-"` // Included in URL
+	// Filter sources according to a particular object type.
+	Object *string `form:"object"`
+}
+
+// PaymentSourceSourceParams is a union struct used to describe an
 // arbitrary payment source.
-type SourceParams struct {
+type PaymentSourceSourceParams struct {
 	Card  *CardParams `form:"-"`
 	Token *string     `form:"source"`
 }
 
-// AppendTo implements custom encoding logic for SourceParams.
-func (p *SourceParams) AppendTo(body *form.Values, keyParts []string) {
+// AppendTo implements custom encoding logic for PaymentSourceSourceParams.
+func (p *PaymentSourceSourceParams) AppendTo(body *form.Values, keyParts []string) {
 	if p.Card != nil {
 		p.Card.AppendToAsCardSourceOrExternalAccount(body, keyParts)
 	}
 }
 
-// CustomerSourceParams are used to manipulate a given Stripe
-// Customer object's payment sources.
-// For more details see https://stripe.com/docs/api#sources
-type CustomerSourceParams struct {
-	Params   `form:"*"`
-	Customer *string       `form:"-"` // Goes in the URL
-	Source   *SourceParams `form:"*"` // SourceParams has custom encoding so brought to top level with "*"
-}
-
-// SourceVerifyParams are used to verify a customer source
-// For more details see https://stripe.com/docs/guides/ach-beta
-type SourceVerifyParams struct {
-	Params   `form:"*"`
-	Amounts  [2]int64  `form:"amounts"` // Amounts is used when verifying bank accounts
-	Customer *string   `form:"-"`       // Goes in the URL
-	Values   []*string `form:"values"`  // Values is used when verifying sources
-}
-
-// SetSource adds valid sources to a CustomerSourceParams object,
-// returning an error for unsupported sources.
-func (cp *CustomerSourceParams) SetSource(sp interface{}) error {
-	source, err := SourceParamsFor(sp)
-	cp.Source = source
-	return err
-}
-
-// SourceParamsFor creates SourceParams objects around supported
+// SourceParamsFor creates PaymentSourceSourceParams objects around supported
 // payment sources, returning errors if not.
 //
-// Currently supported source types are Card (CardParams) and
+// Currently supported payment source types are Card (CardParams) and
 // Tokens/IDs (string), where Tokens could be single use card
 // tokens
-func SourceParamsFor(obj interface{}) (*SourceParams, error) {
-	var sp *SourceParams
+func SourceParamsFor(obj interface{}) (*PaymentSourceSourceParams, error) {
+	var sp *PaymentSourceSourceParams
 	var err error
 	switch p := obj.(type) {
 	case *CardParams:
-		sp = &SourceParams{
+		sp = &PaymentSourceSourceParams{
 			Card: p,
 		}
 	case string:
-		sp = &SourceParams{
+		sp = &PaymentSourceSourceParams{
 			Token: &p,
 		}
 	default:
@@ -82,31 +68,75 @@ func SourceParamsFor(obj interface{}) (*SourceParams, error) {
 	return sp, err
 }
 
-// PaymentSource describes the payment source used to make a Charge.
-// The Type should indicate which object is fleshed out (eg. BankAccount or Card)
-// For more details see https://stripe.com/docs/api#retrieve_charge
-type PaymentSource struct {
-	APIResource
-	BankAccount  *BankAccount      `json:"-"`
-	Card         *Card             `json:"-"`
-	Deleted      bool              `json:"deleted"`
-	ID           string            `json:"id"`
-	SourceObject *Source           `json:"-"`
-	Type         PaymentSourceType `json:"object"`
+// When you create a new credit card, you must specify a customer or recipient on which to create it.
+//
+// If the card's owner has no default card, then the new card will become the default.
+// However, if the owner already has a default, then it will not change.
+// To change the default, you should [update the customer](https://stripe.com/docs/api#update_customer) to have a new default_source.
+type PaymentSourceParams struct {
+	Params   `form:"*"`
+	Customer *string `form:"-"` // Included in URL
+	// The name of the person or business that owns the bank account.
+	AccountHolderName *string `form:"account_holder_name"`
+	// The type of entity that holds the account. This can be either `individual` or `company`.
+	AccountHolderType *string `form:"account_holder_type"`
+	// City/District/Suburb/Town/Village.
+	AddressCity *string `form:"address_city"`
+	// Billing address country, if provided when creating card.
+	AddressCountry *string `form:"address_country"`
+	// Address line 1 (Street address/PO Box/Company name).
+	AddressLine1 *string `form:"address_line1"`
+	// Address line 2 (Apartment/Suite/Unit/Building).
+	AddressLine2 *string `form:"address_line2"`
+	// State/County/Province/Region.
+	AddressState *string `form:"address_state"`
+	// ZIP or postal code.
+	AddressZip *string `form:"address_zip"`
+	// Two digit number representing the card's expiration month.
+	ExpMonth *string `form:"exp_month"`
+	// Four digit number representing the card's expiration year.
+	ExpYear *string `form:"exp_year"`
+	// Cardholder name.
+	Name  *string                   `form:"name"`
+	Owner *PaymentSourceOwnerParams `form:"owner"`
+	// Please refer to full [documentation](https://stripe.com/docs/api) instead.
+	Source   *PaymentSourceSourceParams `form:"*"` // PaymentSourceSourceParams has custom encoding so brought to top level with "*"
+	Validate *bool                      `form:"validate"`
+}
+type PaymentSourceOwnerParams struct {
+	// Owner's address.
+	Address *AddressParams `form:"address"`
+	// Owner's email address.
+	Email *string `form:"email"`
+	// Owner's full name.
+	Name *string `form:"name"`
+	// Owner's phone number.
+	Phone *string `form:"phone"`
 }
 
-// SourceList is a list object for cards.
-type SourceList struct {
+// Verify a specified bank account for a given customer.
+type PaymentSourceVerifyParams struct {
+	Params   `form:"*"`
+	Customer *string `form:"-"` // Included in URL
+	// Two positive integers, in *cents*, equal to the values of the microdeposits sent to the bank account.
+	Amounts [2]int64  `form:"amounts"` // Amounts is used when verifying bank accounts
+	Values  []*string `form:"values"`  // Values is used when verifying sources
+}
+type PaymentSource struct {
+	APIResource
+	BankAccount *BankAccount      `json:"-"`
+	Card        *Card             `json:"-"`
+	Deleted     bool              `json:"deleted"`
+	ID          string            `json:"id"`
+	Source      *Source           `json:"-"`
+	Type        PaymentSourceType `json:"object"`
+}
+
+// PaymentSourceList is a list of PaymentSources as retrieved from a list endpoint.
+type PaymentSourceList struct {
 	APIResource
 	ListMeta
 	Data []*PaymentSource `json:"data"`
-}
-
-// SourceListParams are used to enumerate the payment sources that are attached
-// to a Customer.
-type SourceListParams struct {
-	ListParams `form:"*"`
-	Customer   *string `form:"-"` // Handled in URL
 }
 
 // UnmarshalJSON handles deserialization of a PaymentSource.
@@ -132,8 +162,8 @@ func (s *PaymentSource) UnmarshalJSON(data []byte) error {
 		err = json.Unmarshal(data, &s.BankAccount)
 	case PaymentSourceTypeCard:
 		err = json.Unmarshal(data, &s.Card)
-	case PaymentSourceTypeObject:
-		err = json.Unmarshal(data, &s.SourceObject)
+	case PaymentSourceTypeSource:
+		err = json.Unmarshal(data, &s.Source)
 	}
 
 	return err

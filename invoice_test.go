@@ -5,12 +5,12 @@ import (
 	"testing"
 
 	assert "github.com/stretchr/testify/require"
-	"github.com/stripe/stripe-go/v72/form"
+	"github.com/stripe/stripe-go/v73/form"
 )
 
 func TestInvoiceParams_AppendTo(t *testing.T) {
 	{
-		params := &InvoiceParams{SubscriptionBillingCycleAnchorNow: Bool(true)}
+		params := &InvoiceUpcomingParams{SubscriptionBillingCycleAnchorNow: Bool(true)}
 		body := &form.Values{}
 		form.AppendTo(body, params)
 		t.Logf("body = %+v", body)
@@ -18,7 +18,7 @@ func TestInvoiceParams_AppendTo(t *testing.T) {
 	}
 
 	{
-		params := &InvoiceParams{SubscriptionBillingCycleAnchorUnchanged: Bool(true)}
+		params := &InvoiceUpcomingParams{SubscriptionBillingCycleAnchorUnchanged: Bool(true)}
 		body := &form.Values{}
 		form.AppendTo(body, params)
 		t.Logf("body = %+v", body)
@@ -26,7 +26,7 @@ func TestInvoiceParams_AppendTo(t *testing.T) {
 	}
 
 	{
-		params := &InvoiceParams{SubscriptionTrialEndNow: Bool(true)}
+		params := &InvoiceUpcomingParams{SubscriptionTrialEndNow: Bool(true)}
 		body := &form.Values{}
 		form.AppendTo(body, params)
 		t.Logf("body = %+v", body)

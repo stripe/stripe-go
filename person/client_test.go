@@ -4,8 +4,8 @@ import (
 	"testing"
 
 	assert "github.com/stretchr/testify/require"
-	stripe "github.com/stripe/stripe-go/v72"
-	_ "github.com/stripe/stripe-go/v72/testing"
+	stripe "github.com/stripe/stripe-go/v73"
+	_ "github.com/stripe/stripe-go/v73/testing"
 )
 
 func TestPersonDel(t *testing.T) {
@@ -27,7 +27,7 @@ func TestPersonGet(t *testing.T) {
 func TestPersonList(t *testing.T) {
 	i := List(&stripe.PersonListParams{
 		Account: stripe.String("acct_123"),
-		Relationship: &stripe.RelationshipListParams{
+		Relationship: &stripe.PersonListRelationshipParams{
 			Owner: stripe.Bool(true),
 		},
 	})
@@ -43,7 +43,7 @@ func TestPersonNew(t *testing.T) {
 	person, err := New(&stripe.PersonParams{
 		Account:   stripe.String("acct_123"),
 		FirstName: stripe.String("John"),
-		Relationship: &stripe.RelationshipParams{
+		Relationship: &stripe.PersonRelationshipParams{
 			Owner: stripe.Bool(true),
 		},
 		Verification: &stripe.PersonVerificationParams{

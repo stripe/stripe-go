@@ -4,8 +4,8 @@ import (
 	"testing"
 
 	assert "github.com/stretchr/testify/require"
-	stripe "github.com/stripe/stripe-go/v72"
-	_ "github.com/stripe/stripe-go/v72/testing"
+	stripe "github.com/stripe/stripe-go/v73"
+	_ "github.com/stripe/stripe-go/v73/testing"
 )
 
 func TestTerminalLocationDel(t *testing.T) {
@@ -36,7 +36,7 @@ func TestTerminalLocationList(t *testing.T) {
 func TestTerminalLocationNew(t *testing.T) {
 	location, err := New(&stripe.TerminalLocationParams{
 		DisplayName: stripe.String("name"),
-		Address: &stripe.AccountAddressParams{
+		Address: &stripe.AddressParams{
 			Country:    stripe.String("US"),
 			City:       stripe.String("San Francisco"),
 			PostalCode: stripe.String("12345"),

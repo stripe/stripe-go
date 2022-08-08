@@ -6,30 +6,32 @@
 
 package stripe
 
-// ApplePayDomainParams is the set of parameters that can be used when creating an ApplePayDomain object.
-type ApplePayDomainParams struct {
-	Params     `form:"*"`
-	DomainName *string `form:"domain_name"`
-}
-
-// ApplePayDomainListParams are the parameters allowed during ApplePayDomain listing.
+// List apple pay domains.
 type ApplePayDomainListParams struct {
 	ListParams `form:"*"`
 	DomainName *string `form:"domain_name"`
 }
 
-// ApplePayDomain is the resource representing a Stripe ApplePayDomain object
+// Create an apple pay domain.
+type ApplePayDomainParams struct {
+	Params     `form:"*"`
+	DomainName *string `form:"domain_name"`
+}
 type ApplePayDomain struct {
 	APIResource
+	// Time at which the object was created. Measured in seconds since the Unix epoch.
 	Created    int64  `json:"created"`
 	Deleted    bool   `json:"deleted"`
 	DomainName string `json:"domain_name"`
-	ID         string `json:"id"`
-	Livemode   bool   `json:"livemode"`
-	Object     string `json:"object"`
+	// Unique identifier for the object.
+	ID string `json:"id"`
+	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+	Livemode bool `json:"livemode"`
+	// String representing the object's type. Objects of the same type share the same value.
+	Object string `json:"object"`
 }
 
-// ApplePayDomainList is a list of ApplePayDomains as returned from a list endpoint.
+// ApplePayDomainList is a list of ApplePayDomains as retrieved from a list endpoint.
 type ApplePayDomainList struct {
 	APIResource
 	ListMeta

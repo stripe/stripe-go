@@ -1,61 +1,17 @@
+//
+//
+// File generated from our OpenAPI spec
+//
+//
+
 package stripe
 
 import "encoding/json"
 
-// List of values that BalanceTransactionStatus can take.
-const (
-	BalanceTransactionStatusAvailable BalanceTransactionStatus = "available"
-	BalanceTransactionStatusPending   BalanceTransactionStatus = "pending"
-)
-
-// BalanceTransactionType is the list of allowed values for the balance transaction's type.
-type BalanceTransactionType string
-
-// List of values that BalanceTransactionType can take.
-const (
-	BalanceTransactionTypeAdjustment                      BalanceTransactionType = "adjustment"
-	BalanceTransactionTypeAnticipationRepayment           BalanceTransactionType = "anticipation_repayment"
-	BalanceTransactionTypeApplicationFee                  BalanceTransactionType = "application_fee"
-	BalanceTransactionTypeApplicationFeeRefund            BalanceTransactionType = "application_fee_refund"
-	BalanceTransactionTypeCharge                          BalanceTransactionType = "charge"
-	BalanceTransactionTypeContribution                    BalanceTransactionType = "contribution"
-	BalanceTransactionTypeIssuingAuthorizationHold        BalanceTransactionType = "issuing_authorization_hold"
-	BalanceTransactionTypeIssuingAuthorizationRelease     BalanceTransactionType = "issuing_authorization_release"
-	BalanceTransactionTypeIssuingAuthorizationDispute     BalanceTransactionType = "issuing_dispute"
-	BalanceTransactionTypeIssuingAuthorizationTransaction BalanceTransactionType = "issuing_transaction"
-	BalanceTransactionTypePayment                         BalanceTransactionType = "payment"
-	BalanceTransactionTypePaymentFailureRefund            BalanceTransactionType = "payment_failure_refund"
-	BalanceTransactionTypePaymentRefund                   BalanceTransactionType = "payment_refund"
-	BalanceTransactionTypePayout                          BalanceTransactionType = "payout"
-	BalanceTransactionTypePayoutCancel                    BalanceTransactionType = "payout_cancel"
-	BalanceTransactionTypePayoutFailure                   BalanceTransactionType = "payout_failure"
-	BalanceTransactionTypeRefund                          BalanceTransactionType = "refund"
-	BalanceTransactionTypeStripeFee                       BalanceTransactionType = "stripe_fee"
-	BalanceTransactionTypeTransfer                        BalanceTransactionType = "transfer"
-	BalanceTransactionTypeTransferRefund                  BalanceTransactionType = "transfer_refund"
-)
-
-// BalanceTransactionSourceType consts represent valid balance transaction sources.
-type BalanceTransactionSourceType string
-
-// List of values that BalanceTransactionSourceType can take.
-const (
-	BalanceTransactionSourceTypeApplicationFee       BalanceTransactionSourceType = "application_fee"
-	BalanceTransactionSourceTypeCharge               BalanceTransactionSourceType = "charge"
-	BalanceTransactionSourceTypeDispute              BalanceTransactionSourceType = "dispute"
-	BalanceTransactionSourceTypeIssuingAuthorization BalanceTransactionSourceType = "issuing.authorization"
-	BalanceTransactionSourceTypeIssuingDispute       BalanceTransactionSourceType = "issuing.dispute"
-	BalanceTransactionSourceTypeIssuingTransaction   BalanceTransactionSourceType = "issuing.transaction"
-	BalanceTransactionSourceTypePayout               BalanceTransactionSourceType = "payout"
-	BalanceTransactionSourceTypeRefund               BalanceTransactionSourceType = "refund"
-	BalanceTransactionSourceTypeReversal             BalanceTransactionSourceType = "reversal"
-	BalanceTransactionSourceTypeTransfer             BalanceTransactionSourceType = "transfer"
-)
-
-// BalanceTransactionReportingCategory represents reporting categories for balance transactions.
+// [Learn more](https://stripe.com/docs/reports/reporting-categories) about how reporting categories can help you understand balance transactions from an accounting perspective.
 type BalanceTransactionReportingCategory string
 
-// List of values that BalanceTransactionReportingCategory can take.
+// List of values that BalanceTransactionReportingCategory can take
 const (
 	BalanceTransactionReportingCategoryAdvance                     BalanceTransactionReportingCategory = "advance"
 	BalanceTransactionReportingCategoryAdvanceFunding              BalanceTransactionReportingCategory = "advance_funding"
@@ -85,86 +41,184 @@ const (
 	BalanceTransactionReportingCategoryTransferReversal            BalanceTransactionReportingCategory = "transfer_reversal"
 )
 
-// BalanceTransactionSource describes the source of a balance Transaction.
-// The Type should indicate which object is fleshed out.
-// For more details see https://stripe.com/docs/api#retrieve_balance_transaction
-type BalanceTransactionSource struct {
-	ApplicationFee       *ApplicationFee              `json:"-"`
-	Charge               *Charge                      `json:"-"`
-	Dispute              *Dispute                     `json:"-"`
-	ID                   string                       `json:"id"`
-	IssuingAuthorization *IssuingAuthorization        `json:"-"`
-	IssuingDispute       *IssuingDispute              `json:"-"`
-	IssuingTransaction   *IssuingAuthorization        `json:"-"`
-	Payout               *Payout                      `json:"-"`
-	Refund               *Refund                      `json:"-"`
-	Reversal             *Reversal                    `json:"-"`
-	Transfer             *Transfer                    `json:"-"`
-	Type                 BalanceTransactionSourceType `json:"object"`
+type BalanceTransactionSourceType string
+
+// List of values that BalanceTransactionSourceType can take
+const (
+	BalanceTransactionSourceTypeApplicationFee            BalanceTransactionSourceType = "application_fee"
+	BalanceTransactionSourceTypeCharge                    BalanceTransactionSourceType = "charge"
+	BalanceTransactionSourceTypeConnectCollectionTransfer BalanceTransactionSourceType = "connect_collection_transfer"
+	BalanceTransactionSourceTypeDispute                   BalanceTransactionSourceType = "dispute"
+	BalanceTransactionSourceTypeFeeRefund                 BalanceTransactionSourceType = "fee_refund"
+	BalanceTransactionSourceTypeIssuingAuthorization      BalanceTransactionSourceType = "issuing.authorization"
+	BalanceTransactionSourceTypeIssuingDispute            BalanceTransactionSourceType = "issuing.dispute"
+	BalanceTransactionSourceTypeIssuingTransaction        BalanceTransactionSourceType = "issuing.transaction"
+	BalanceTransactionSourceTypePayout                    BalanceTransactionSourceType = "payout"
+	BalanceTransactionSourceTypeRefund                    BalanceTransactionSourceType = "refund"
+	BalanceTransactionSourceTypeTopup                     BalanceTransactionSourceType = "topup"
+	BalanceTransactionSourceTypeTransfer                  BalanceTransactionSourceType = "transfer"
+	BalanceTransactionSourceTypeTransferReversal          BalanceTransactionSourceType = "transfer_reversal"
+)
+
+// If the transaction's net funds are available in the Stripe balance yet. Either `available` or `pending`.
+type BalanceTransactionStatus string
+
+// List of values that BalanceTransactionStatus can take
+const (
+	BalanceTransactionStatusAvailable BalanceTransactionStatus = "available"
+	BalanceTransactionStatusPending   BalanceTransactionStatus = "pending"
+)
+
+// Transaction type: `adjustment`, `advance`, `advance_funding`, `anticipation_repayment`, `application_fee`, `application_fee_refund`, `charge`, `connect_collection_transfer`, `contribution`, `issuing_authorization_hold`, `issuing_authorization_release`, `issuing_dispute`, `issuing_transaction`, `payment`, `payment_failure_refund`, `payment_refund`, `payout`, `payout_cancel`, `payout_failure`, `refund`, `refund_failure`, `reserve_transaction`, `reserved_funds`, `stripe_fee`, `stripe_fx_fee`, `tax_fee`, `topup`, `topup_reversal`, `transfer`, `transfer_cancel`, `transfer_failure`, or `transfer_refund`. [Learn more](https://stripe.com/docs/reports/balance-transaction-types) about balance transaction types and what they represent. If you are looking to classify transactions for accounting purposes, you might want to consider `reporting_category` instead.
+type BalanceTransactionType string
+
+// List of values that BalanceTransactionType can take
+const (
+	BalanceTransactionTypeAdjustment                  BalanceTransactionType = "adjustment"
+	BalanceTransactionTypeAdvance                     BalanceTransactionType = "advance"
+	BalanceTransactionTypeAdvanceFunding              BalanceTransactionType = "advance_funding"
+	BalanceTransactionTypeAnticipationRepayment       BalanceTransactionType = "anticipation_repayment"
+	BalanceTransactionTypeApplicationFee              BalanceTransactionType = "application_fee"
+	BalanceTransactionTypeApplicationFeeRefund        BalanceTransactionType = "application_fee_refund"
+	BalanceTransactionTypeCharge                      BalanceTransactionType = "charge"
+	BalanceTransactionTypeConnectCollectionTransfer   BalanceTransactionType = "connect_collection_transfer"
+	BalanceTransactionTypeContribution                BalanceTransactionType = "contribution"
+	BalanceTransactionTypeIssuingAuthorizationHold    BalanceTransactionType = "issuing_authorization_hold"
+	BalanceTransactionTypeIssuingAuthorizationRelease BalanceTransactionType = "issuing_authorization_release"
+	BalanceTransactionTypeIssuingDispute              BalanceTransactionType = "issuing_dispute"
+	BalanceTransactionTypeIssuingTransaction          BalanceTransactionType = "issuing_transaction"
+	BalanceTransactionTypePayment                     BalanceTransactionType = "payment"
+	BalanceTransactionTypePaymentFailureRefund        BalanceTransactionType = "payment_failure_refund"
+	BalanceTransactionTypePaymentRefund               BalanceTransactionType = "payment_refund"
+	BalanceTransactionTypePayout                      BalanceTransactionType = "payout"
+	BalanceTransactionTypePayoutCancel                BalanceTransactionType = "payout_cancel"
+	BalanceTransactionTypePayoutFailure               BalanceTransactionType = "payout_failure"
+	BalanceTransactionTypeRefund                      BalanceTransactionType = "refund"
+	BalanceTransactionTypeRefundFailure               BalanceTransactionType = "refund_failure"
+	BalanceTransactionTypeReserveTransaction          BalanceTransactionType = "reserve_transaction"
+	BalanceTransactionTypeReservedFunds               BalanceTransactionType = "reserved_funds"
+	BalanceTransactionTypeStripeFee                   BalanceTransactionType = "stripe_fee"
+	BalanceTransactionTypeStripeFxFee                 BalanceTransactionType = "stripe_fx_fee"
+	BalanceTransactionTypeTaxFee                      BalanceTransactionType = "tax_fee"
+	BalanceTransactionTypeTopup                       BalanceTransactionType = "topup"
+	BalanceTransactionTypeTopupReversal               BalanceTransactionType = "topup_reversal"
+	BalanceTransactionTypeTransfer                    BalanceTransactionType = "transfer"
+	BalanceTransactionTypeTransferCancel              BalanceTransactionType = "transfer_cancel"
+	BalanceTransactionTypeTransferFailure             BalanceTransactionType = "transfer_failure"
+	BalanceTransactionTypeTransferRefund              BalanceTransactionType = "transfer_refund"
+)
+
+// Returns a list of transactions that have contributed to the Stripe account balance (e.g., charges, transfers, and so forth). The transactions are returned in sorted order, with the most recent transactions appearing first.
+//
+// Note that this endpoint was previously called “Balance history” and used the path /v1/balance/history.
+type BalanceTransactionListParams struct {
+	ListParams `form:"*"`
+	// This parameter is deprecated and we recommend listing by created and filtering in memory instead.
+	AvailableOn *int64 `form:"available_on"`
+	// This parameter is deprecated and we recommend listing by created and filtering in memory instead.
+	AvailableOnRange *RangeQueryParams `form:"available_on"`
+	Created          *int64            `form:"created"`
+	CreatedRange     *RangeQueryParams `form:"created"`
+	// Only return transactions in a certain currency. Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency *string `form:"currency"`
+	// For automatic Stripe payouts only, only returns transactions that were paid out on the specified payout ID.
+	Payout *string `form:"payout"`
+	// Only returns the original transaction.
+	Source *string `form:"source"`
+	// Only returns transactions of the given type. One of: `adjustment`, `advance`, `advance_funding`, `anticipation_repayment`, `application_fee`, `application_fee_refund`, `charge`, `connect_collection_transfer`, `contribution`, `issuing_authorization_hold`, `issuing_authorization_release`, `issuing_dispute`, `issuing_transaction`, `payment`, `payment_failure_refund`, `payment_refund`, `payout`, `payout_cancel`, `payout_failure`, `refund`, `refund_failure`, `reserve_transaction`, `reserved_funds`, `stripe_fee`, `stripe_fx_fee`, `tax_fee`, `topup`, `topup_reversal`, `transfer`, `transfer_cancel`, `transfer_failure`, or `transfer_refund`.
+	Type *string `form:"type"`
 }
 
-// BalanceTransactionParams is the set of parameters that can be used when retrieving a transaction.
-// For more details see https://stripe.com/docs/api#retrieve_balance_transaction.
+// Retrieves the balance transaction with the given ID.
+//
+// Note that this endpoint previously used the path /v1/balance/history/:id.
 type BalanceTransactionParams struct {
 	Params `form:"*"`
 }
 
-// BalanceTransactionListParams is the set of parameters that can be used when listing balance transactions.
-// For more details see https://stripe.com/docs/api/#balance_history.
-type BalanceTransactionListParams struct {
-	ListParams       `form:"*"`
-	AvailableOn      *int64            `form:"available_on"`
-	AvailableOnRange *RangeQueryParams `form:"available_on"`
-	Created          *int64            `form:"created"`
-	CreatedRange     *RangeQueryParams `form:"created"`
-	Currency         *string           `form:"currency"`
-	Payout           *string           `form:"payout"`
-	Source           *string           `form:"source"`
-	Type             *string           `form:"type"`
+// Detailed breakdown of fees (in %s) paid for this transaction.
+type BalanceTransactionFeeDetail struct {
+	// Amount of the fee, in cents.
+	Amount int64 `json:"amount"`
+	// ID of the Connect application that earned the fee.
+	Application string `json:"application"`
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency Currency `json:"currency"`
+	// An arbitrary string attached to the object. Often useful for displaying to users.
+	Description string `json:"description"`
+	// Type of the fee, one of: `application_fee`, `stripe_fee` or `tax`.
+	Type string `json:"type"`
 }
 
-// BalanceTransaction is the resource representing the balance transaction.
-// For more details see https://stripe.com/docs/api/#balance.
+// Balance transactions represent funds moving through your Stripe account.
+// They're created for every type of transaction that comes into or flows out of your Stripe account balance.
+//
+// Related guide: [Balance Transaction Types](https://stripe.com/docs/reports/balance-transaction-types).
 type BalanceTransaction struct {
 	APIResource
-	Amount            int64                               `json:"amount"`
-	AvailableOn       int64                               `json:"available_on"`
-	Created           int64                               `json:"created"`
-	Currency          Currency                            `json:"currency"`
-	Description       string                              `json:"description"`
-	ExchangeRate      float64                             `json:"exchange_rate"`
-	ID                string                              `json:"id"`
-	Fee               int64                               `json:"fee"`
-	FeeDetails        []*BalanceTransactionFee            `json:"fee_details"`
-	Net               int64                               `json:"net"`
+	// Gross amount of the transaction, in %s.
+	Amount int64 `json:"amount"`
+	// The date the transaction's net funds will become available in the Stripe balance.
+	AvailableOn int64 `json:"available_on"`
+	// Time at which the object was created. Measured in seconds since the Unix epoch.
+	Created int64 `json:"created"`
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency Currency `json:"currency"`
+	// An arbitrary string attached to the object. Often useful for displaying to users.
+	Description string `json:"description"`
+	// The exchange rate used, if applicable, for this transaction. Specifically, if money was converted from currency A to currency B, then the `amount` in currency A, times `exchange_rate`, would be the `amount` in currency B. For example, suppose you charged a customer 10.00 EUR. Then the PaymentIntent's `amount` would be `1000` and `currency` would be `eur`. Suppose this was converted into 12.34 USD in your Stripe account. Then the BalanceTransaction's `amount` would be `1234`, `currency` would be `usd`, and `exchange_rate` would be `1.234`.
+	ExchangeRate float64 `json:"exchange_rate"`
+	// Fees (in %s) paid for this transaction.
+	Fee int64 `json:"fee"`
+	// Detailed breakdown of fees (in %s) paid for this transaction.
+	FeeDetails []*BalanceTransactionFeeDetail `json:"fee_details"`
+	// Unique identifier for the object.
+	ID string `json:"id"`
+	// Net amount of the transaction, in %s.
+	Net int64 `json:"net"`
+	// String representing the object's type. Objects of the same type share the same value.
+	Object string `json:"object"`
+	// [Learn more](https://stripe.com/docs/reports/reporting-categories) about how reporting categories can help you understand balance transactions from an accounting perspective.
 	ReportingCategory BalanceTransactionReportingCategory `json:"reporting_category"`
-	Source            *BalanceTransactionSource           `json:"source"`
-	Status            BalanceTransactionStatus            `json:"status"`
-	Type              BalanceTransactionType              `json:"type"`
+	// The Stripe object to which this transaction is related.
+	Source *BalanceTransactionSource `json:"source"`
+	// If the transaction's net funds are available in the Stripe balance yet. Either `available` or `pending`.
+	Status BalanceTransactionStatus `json:"status"`
+	// Transaction type: `adjustment`, `advance`, `advance_funding`, `anticipation_repayment`, `application_fee`, `application_fee_refund`, `charge`, `connect_collection_transfer`, `contribution`, `issuing_authorization_hold`, `issuing_authorization_release`, `issuing_dispute`, `issuing_transaction`, `payment`, `payment_failure_refund`, `payment_refund`, `payout`, `payout_cancel`, `payout_failure`, `refund`, `refund_failure`, `reserve_transaction`, `reserved_funds`, `stripe_fee`, `stripe_fx_fee`, `tax_fee`, `topup`, `topup_reversal`, `transfer`, `transfer_cancel`, `transfer_failure`, or `transfer_refund`. [Learn more](https://stripe.com/docs/reports/balance-transaction-types) about balance transaction types and what they represent. If you are looking to classify transactions for accounting purposes, you might want to consider `reporting_category` instead.
+	Type BalanceTransactionType `json:"type"`
+}
+type BalanceTransactionSource struct {
+	ID   string                       `json:"id"`
+	Type BalanceTransactionSourceType `json:"object"`
+
+	ApplicationFee            *ApplicationFee            `json:"-"`
+	Charge                    *Charge                    `json:"-"`
+	ConnectCollectionTransfer *ConnectCollectionTransfer `json:"-"`
+	Dispute                   *Dispute                   `json:"-"`
+	FeeRefund                 *FeeRefund                 `json:"-"`
+	IssuingAuthorization      *IssuingAuthorization      `json:"-"`
+	IssuingDispute            *IssuingDispute            `json:"-"`
+	IssuingTransaction        *IssuingTransaction        `json:"-"`
+	Payout                    *Payout                    `json:"-"`
+	Refund                    *Refund                    `json:"-"`
+	Topup                     *Topup                     `json:"-"`
+	Transfer                  *Transfer                  `json:"-"`
+	TransferReversal          *TransferReversal          `json:"-"`
 }
 
-// BalanceTransactionList is a list of transactions as returned from a list endpoint.
+// BalanceTransactionList is a list of BalanceTransactions as retrieved from a list endpoint.
 type BalanceTransactionList struct {
 	APIResource
 	ListMeta
 	Data []*BalanceTransaction `json:"data"`
 }
 
-// BalanceTransactionFee is a structure that breaks down the fees in a transaction.
-type BalanceTransactionFee struct {
-	Amount      int64    `json:"amount"`
-	Application string   `json:"application"`
-	Currency    Currency `json:"currency"`
-	Description string   `json:"description"`
-	Type        string   `json:"type"`
-}
-
-// UnmarshalJSON handles deserialization of a Transaction.
+// UnmarshalJSON handles deserialization of a BalanceTransaction.
 // This custom unmarshaling is needed because the resulting
 // property may be an id or the full struct if it was expanded.
-func (t *BalanceTransaction) UnmarshalJSON(data []byte) error {
+func (b *BalanceTransaction) UnmarshalJSON(data []byte) error {
 	if id, ok := ParseID(data); ok {
-		t.ID = id
+		b.ID = id
 		return nil
 	}
 
@@ -174,16 +228,16 @@ func (t *BalanceTransaction) UnmarshalJSON(data []byte) error {
 		return err
 	}
 
-	*t = BalanceTransaction(v)
+	*b = BalanceTransaction(v)
 	return nil
 }
 
 // UnmarshalJSON handles deserialization of a BalanceTransactionSource.
-// This custom unmarshaling is needed because the specific
-// type of transaction source it refers to is specified in the JSON
-func (s *BalanceTransactionSource) UnmarshalJSON(data []byte) error {
+// This custom unmarshaling is needed because the specific type of
+// BalanceTransactionSource it refers to is specified in the JSON
+func (b *BalanceTransactionSource) UnmarshalJSON(data []byte) error {
 	if id, ok := ParseID(data); ok {
-		s.ID = id
+		b.ID = id
 		return nil
 	}
 
@@ -193,31 +247,36 @@ func (s *BalanceTransactionSource) UnmarshalJSON(data []byte) error {
 		return err
 	}
 
+	*b = BalanceTransactionSource(v)
 	var err error
-	*s = BalanceTransactionSource(v)
 
-	switch s.Type {
+	switch b.Type {
 	case BalanceTransactionSourceTypeApplicationFee:
-		err = json.Unmarshal(data, &s.ApplicationFee)
+		err = json.Unmarshal(data, &b.ApplicationFee)
 	case BalanceTransactionSourceTypeCharge:
-		err = json.Unmarshal(data, &s.Charge)
+		err = json.Unmarshal(data, &b.Charge)
+	case BalanceTransactionSourceTypeConnectCollectionTransfer:
+		err = json.Unmarshal(data, &b.ConnectCollectionTransfer)
 	case BalanceTransactionSourceTypeDispute:
-		err = json.Unmarshal(data, &s.Dispute)
+		err = json.Unmarshal(data, &b.Dispute)
+	case BalanceTransactionSourceTypeFeeRefund:
+		err = json.Unmarshal(data, &b.FeeRefund)
 	case BalanceTransactionSourceTypeIssuingAuthorization:
-		err = json.Unmarshal(data, &s.IssuingAuthorization)
+		err = json.Unmarshal(data, &b.IssuingAuthorization)
 	case BalanceTransactionSourceTypeIssuingDispute:
-		err = json.Unmarshal(data, &s.IssuingDispute)
+		err = json.Unmarshal(data, &b.IssuingDispute)
 	case BalanceTransactionSourceTypeIssuingTransaction:
-		err = json.Unmarshal(data, &s.IssuingTransaction)
+		err = json.Unmarshal(data, &b.IssuingTransaction)
 	case BalanceTransactionSourceTypePayout:
-		err = json.Unmarshal(data, &s.Payout)
+		err = json.Unmarshal(data, &b.Payout)
 	case BalanceTransactionSourceTypeRefund:
-		err = json.Unmarshal(data, &s.Refund)
-	case BalanceTransactionSourceTypeReversal:
-		err = json.Unmarshal(data, &s.Reversal)
+		err = json.Unmarshal(data, &b.Refund)
+	case BalanceTransactionSourceTypeTopup:
+		err = json.Unmarshal(data, &b.Topup)
 	case BalanceTransactionSourceTypeTransfer:
-		err = json.Unmarshal(data, &s.Transfer)
+		err = json.Unmarshal(data, &b.Transfer)
+	case BalanceTransactionSourceTypeTransferReversal:
+		err = json.Unmarshal(data, &b.TransferReversal)
 	}
-
 	return err
 }

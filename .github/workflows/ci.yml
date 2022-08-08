@@ -2,9 +2,17 @@ name: CI
 
 on:
   push:
-    branches: [ master ]
+    branches:
+      - master
+      - beta
+      - sdk-release/**
+      - feature/**
   pull_request:
-    branches: [ master ]
+    branches:
+      - master
+      - beta
+      - sdk-release/**
+      - feature/**
 
 jobs:
   lint:
@@ -15,10 +23,10 @@ jobs:
     steps:
       - uses: actions/checkout@master
 
-      - name: golint & go vet
+      - name: lint
         run: |
-          go get -u golang.org/x/lint/golint &&
-          $HOME/go/bin/golint -set_exit_status ./... &&
+          go get -u honnef.co/go/tools/cmd/staticcheck@latest &&
+          $HOME/go/bin/staticcheck &&
           make vet
 
   test:
@@ -38,7 +46,7 @@ jobs:
          with:
            go-version: ${{ matrix.go }}
        - name: Start stripe-mock
-         run: docker run -d -p 12111-12112:12111-12112 stripemock/stripe-mock && sleep 5
+         run: docker run -d -p 12111-12112:12111-12112 stripe/stripe-mock && sleep 5
        - name: Test
          run: make test &&
               make bench &&

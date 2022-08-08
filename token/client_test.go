@@ -4,8 +4,8 @@ import (
 	"testing"
 
 	assert "github.com/stretchr/testify/require"
-	stripe "github.com/stripe/stripe-go/v72"
-	_ "github.com/stripe/stripe-go/v72/testing"
+	stripe "github.com/stripe/stripe-go/v73"
+	_ "github.com/stripe/stripe-go/v73/testing"
 )
 
 func TestTokenGet(t *testing.T) {
@@ -40,7 +40,7 @@ func TestTokenNew_WithCard(t *testing.T) {
 
 func TestTokenNew_WithPII(t *testing.T) {
 	token, err := New(&stripe.TokenParams{
-		PII: &stripe.PIIParams{
+		PII: &stripe.TokenPIIParams{
 			IDNumber: stripe.String("000000000"),
 		},
 	})
@@ -80,7 +80,7 @@ func TestTokenNew_WithPerson(t *testing.T) {
 		Person: &stripe.PersonParams{
 			FirstName: stripe.String("Jane"),
 			LastName:  stripe.String("Doe"),
-			Relationship: &stripe.RelationshipParams{
+			Relationship: &stripe.PersonRelationshipParams{
 				Owner: stripe.Bool(true),
 			},
 		},

@@ -10,8 +10,8 @@ package customer
 import (
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v72"
-	"github.com/stripe/stripe-go/v72/form"
+	stripe "github.com/stripe/stripe-go/v73"
+	"github.com/stripe/stripe-go/v73/form"
 )
 
 // Client is used to invoke /customers APIs.
@@ -71,6 +71,49 @@ func (c Client) Del(id string, params *stripe.CustomerParams) (*stripe.Customer,
 	return customer, err
 }
 
+// CreateFundingInstructions is the method for the `POST /v1/customers/{customer}/funding_instructions` API.
+func CreateFundingInstructions(id string, params *stripe.CustomerCreateFundingInstructionsParams) (*stripe.Customer, error) {
+	return getC().CreateFundingInstructions(id, params)
+}
+
+// CreateFundingInstructions is the method for the `POST /v1/customers/{customer}/funding_instructions` API.
+func (c Client) CreateFundingInstructions(id string, params *stripe.CustomerCreateFundingInstructionsParams) (*stripe.Customer, error) {
+	path := stripe.FormatURLPath("/v1/customers/%s/funding_instructions", id)
+	customer := &stripe.Customer{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, customer)
+	return customer, err
+}
+
+// DeleteDiscount is the method for the `DELETE /v1/customers/{customer}/discount` API.
+func DeleteDiscount(id string, params *stripe.CustomerDeleteDiscountParams) (*stripe.Customer, error) {
+	return getC().DeleteDiscount(id, params)
+}
+
+// DeleteDiscount is the method for the `DELETE /v1/customers/{customer}/discount` API.
+func (c Client) DeleteDiscount(id string, params *stripe.CustomerDeleteDiscountParams) (*stripe.Customer, error) {
+	path := stripe.FormatURLPath("/v1/customers/%s/discount", id)
+	customer := &stripe.Customer{}
+	err := c.B.Call(http.MethodDelete, path, c.Key, params, customer)
+	return customer, err
+}
+
+// RetrievePaymentMethod is the method for the `GET /v1/customers/{customer}/payment_methods/{payment_method}` API.
+func RetrievePaymentMethod(id string, params *stripe.CustomerRetrievePaymentMethodParams) (*stripe.Customer, error) {
+	return getC().RetrievePaymentMethod(id, params)
+}
+
+// RetrievePaymentMethod is the method for the `GET /v1/customers/{customer}/payment_methods/{payment_method}` API.
+func (c Client) RetrievePaymentMethod(id string, params *stripe.CustomerRetrievePaymentMethodParams) (*stripe.Customer, error) {
+	path := stripe.FormatURLPath(
+		"/v1/customers/%s/payment_methods/%s",
+		stripe.StringValue(params.Customer),
+		id,
+	)
+	customer := &stripe.Customer{}
+	err := c.B.Call(http.MethodGet, path, c.Key, params, customer)
+	return customer, err
+}
+
 // List returns a list of customers.
 func List(params *stripe.CustomerListParams) *Iter {
 	return getC().List(params)
@@ -78,17 +121,19 @@ func List(params *stripe.CustomerListParams) *Iter {
 
 // List returns a list of customers.
 func (c Client) List(listParams *stripe.CustomerListParams) *Iter {
-	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
-		list := &stripe.CustomerList{}
-		err := c.B.CallRaw(http.MethodGet, "/v1/customers", c.Key, b, p, list)
+	return &Iter{
+		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
+			list := &stripe.CustomerList{}
+			err := c.B.CallRaw(http.MethodGet, "/v1/customers", c.Key, b, p, list)
 
-		ret := make([]interface{}, len(list.Data))
-		for i, v := range list.Data {
-			ret[i] = v
-		}
+			ret := make([]interface{}, len(list.Data))
+			for i, v := range list.Data {
+				ret[i] = v
+			}
 
-		return ret, list, err
-	})}
+			return ret, list, err
+		}),
+	}
 }
 
 // Iter is an iterator for customers.
@@ -106,6 +151,88 @@ func (i *Iter) Customer() *stripe.Customer {
 // continue pagination.
 func (i *Iter) CustomerList() *stripe.CustomerList {
 	return i.List().(*stripe.CustomerList)
+}
+
+// ListPaymentMethods is the method for the `GET /v1/customers/{customer}/payment_methods` API.
+func ListPaymentMethods(params *stripe.CustomerListPaymentMethodsParams) *PaymentMethodIter {
+	return getC().ListPaymentMethods(params)
+}
+
+// ListPaymentMethods is the method for the `GET /v1/customers/{customer}/payment_methods` API.
+func (c Client) ListPaymentMethods(listParams *stripe.CustomerListPaymentMethodsParams) *PaymentMethodIter {
+	path := stripe.FormatURLPath(
+		"/v1/customers/%s/payment_methods",
+		stripe.StringValue(listParams.Customer),
+	)
+	return &PaymentMethodIter{
+		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
+			list := &stripe.PaymentMethodList{}
+			err := c.B.CallRaw(http.MethodGet, path, c.Key, b, p, list)
+
+			ret := make([]interface{}, len(list.Data))
+			for i, v := range list.Data {
+				ret[i] = v
+			}
+
+			return ret, list, err
+		}),
+	}
+}
+
+// PaymentMethodIter is an iterator for payment methods.
+type PaymentMethodIter struct {
+	*stripe.Iter
+}
+
+// PaymentMethod returns the payment method which the iterator is currently pointing to.
+func (i *PaymentMethodIter) PaymentMethod() *stripe.PaymentMethod {
+	return i.Current().(*stripe.PaymentMethod)
+}
+
+// PaymentMethodList returns the current list object which the iterator is
+// currently using. List objects will change as new API calls are made to
+// continue pagination.
+func (i *PaymentMethodIter) PaymentMethodList() *stripe.PaymentMethodList {
+	return i.List().(*stripe.PaymentMethodList)
+}
+
+// Search returns a search result containing customers.
+func Search(params *stripe.CustomerSearchParams) *SearchIter {
+	return getC().Search(params)
+}
+
+// Search returns a search result containing customers.
+func (c Client) Search(params *stripe.CustomerSearchParams) *SearchIter {
+	return &SearchIter{
+		SearchIter: stripe.GetSearchIter(params, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.SearchContainer, error) {
+			list := &stripe.CustomerSearchResult{}
+			err := c.B.CallRaw(http.MethodGet, "/v1/customers/search", c.Key, b, p, list)
+
+			ret := make([]interface{}, len(list.Data))
+			for i, v := range list.Data {
+				ret[i] = v
+			}
+
+			return ret, list, err
+		}),
+	}
+}
+
+// SearchIter is an iterator for customers.
+type SearchIter struct {
+	*stripe.SearchIter
+}
+
+// Customer returns the customer which the iterator is currently pointing to.
+func (i *SearchIter) Customer() *stripe.Customer {
+	return i.Current().(*stripe.Customer)
+}
+
+// CustomerSearchResult returns the current list object which the iterator is
+// currently using. List objects will change as new API calls are made to
+// continue pagination.
+func (i *SearchIter) CustomerSearchResult() *stripe.CustomerSearchResult {
+	return i.SearchResult().(*stripe.CustomerSearchResult)
 }
 
 func getC() Client {

@@ -11,7 +11,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/stripe/stripe-go/v72"
+	"github.com/stripe/stripe-go/v73"
 )
 
 //
@@ -63,6 +63,9 @@ func ComputeSignature(t time.Time, payload []byte, secret string) []byte {
 // your signing secret from the Stripe dashboard:
 // https://dashboard.stripe.com/webhooks
 //
+// This will return an error if the event API version does not match the
+// stripe.APIVersion constant.
+//
 func ConstructEvent(payload []byte, header string, secret string) (stripe.Event, error) {
 	return ConstructEventWithTolerance(payload, header, secret, DefaultTolerance)
 }
@@ -76,8 +79,11 @@ func ConstructEvent(payload []byte, header string, secret string) (stripe.Event,
 // your signing secret from the Stripe dashboard:
 // https://dashboard.stripe.com/webhooks
 //
+// This will return an error if the event API version does not match the
+// stripe.APIVersion constant.
+//
 func ConstructEventIgnoringTolerance(payload []byte, header string, secret string) (stripe.Event, error) {
-	return constructEvent(payload, header, secret, 0*time.Second, false)
+	return constructEvent(payload, header, secret, ConstructEventOptions{IgnoreTolerance: true})
 }
 
 // ConstructEventWithTolerance initializes an Event object from a JSON webhook payload,
@@ -90,8 +96,31 @@ func ConstructEventIgnoringTolerance(payload []byte, header string, secret strin
 // your signing secret from the Stripe dashboard:
 // https://dashboard.stripe.com/webhooks
 //
+// This will return an error if the event API version does not match the
+// stripe.APIVersion constant.
+//
 func ConstructEventWithTolerance(payload []byte, header string, secret string, tolerance time.Duration) (stripe.Event, error) {
-	return constructEvent(payload, header, secret, tolerance, true)
+	return constructEvent(payload, header, secret, ConstructEventOptions{Tolerance: tolerance})
+}
+
+// ConstructEventWithOptions initializes an Event object from a JSON webhook payload,
+// validating the signature in the Stripe-Signature header using the specified signing
+// secret and tolerance window provided by the options, if applicable.
+//
+// See `ConstructEventOptions` for more details on each of the options.
+//
+// Returns an error if the signature doesn't match, or:
+// - if `IgnoreTolerance` is false and the timestamp embedded in the event
+//   header is not within the tolerance window (similar to `ConstructEventWithTolerance`)
+// - if `IgnoreAPIVersionMismatch` is false and the webhook event API version
+//   does not match the API version of the stripe-go library, as defined in
+//   `stripe.APIVersion`.
+//
+// NOTE: Stripe will only send Webhook signing headers after you have retrieved
+// your signing secret from the Stripe dashboard:
+// https://dashboard.stripe.com/webhooks
+func ConstructEventWithOptions(payload []byte, header string, secret string, options ConstructEventOptions) (stripe.Event, error) {
+	return constructEvent(payload, header, secret, options)
 }
 
 // ValidatePayload validates the payload against the Stripe-Signature header
@@ -133,6 +162,24 @@ func ValidatePayloadWithTolerance(payload []byte, header string, secret string, 
 	return validatePayload(payload, header, secret, tolerance, true)
 }
 
+type ConstructEventOptions struct {
+	// Validates event timestamps using a custom Tolerance window. If this is
+	// not set and `IgnoreTolerance` is false, will default to
+	// `DefaultTolerance`.
+	Tolerance time.Duration
+
+	// If set to true, will ignore the `tolerance` option entirely and will not
+	// check the event signature's timestamp. Defaults to false. When false,
+	// constructing an event will fail with an error if the timestamp is not
+	// within the `Tolerance` window.
+	IgnoreTolerance bool
+
+	// If set to true, will ignore validating whether an event's API version
+	// matches the stripe-go API version. Defaults to false, returning an error
+	// when there is a mismatch.
+	IgnoreAPIVersionMismatch bool
+}
+
 //
 // Private types
 //
@@ -146,15 +193,24 @@ type signedHeader struct {
 // Private functions
 //
 
-func constructEvent(payload []byte, sigHeader string, secret string, tolerance time.Duration, enforceTolerance bool) (stripe.Event, error) {
+func constructEvent(payload []byte, sigHeader string, secret string, options ConstructEventOptions) (stripe.Event, error) {
 	e := stripe.Event{}
 
-	if err := validatePayload(payload, sigHeader, secret, tolerance, enforceTolerance); err != nil {
+	tolerance := options.Tolerance
+	if options.Tolerance == 0 && !options.IgnoreTolerance {
+		tolerance = DefaultTolerance
+	}
+
+	if err := validatePayload(payload, sigHeader, secret, tolerance, !options.IgnoreTolerance); err != nil {
 		return e, err
 	}
 
 	if err := json.Unmarshal(payload, &e); err != nil {
 		return e, fmt.Errorf("Failed to parse webhook body json: %s", err.Error())
+	}
+
+	if !options.IgnoreAPIVersionMismatch && e.APIVersion != stripe.APIVersion {
+		return e, fmt.Errorf("Received event with API version %s, but stripe-go %s expects API version %s. We recommend that you create a WebhookEndpoint with this API version. Otherwise, you can disable this error by using `ConstructEventWithOptions(..., ConstructEventOptions{..., ignoreAPIVersionMismatch: true})`  but be wary that objects may be incorrectly deserialized.", e.APIVersion, stripe.ClientVersion, stripe.APIVersion)
 	}
 
 	return e, nil
@@ -225,4 +281,40 @@ func validatePayload(payload []byte, sigHeader string, secret string, tolerance 
 	}
 
 	return ErrNoValidSignature
+}
+
+// For mocking webhook events
+type UnsignedPayload struct {
+	payload   []byte
+	secret    string
+	timestamp time.Time
+	scheme    string
+}
+
+type SignedPayload struct {
+	UnsignedPayload
+
+	signature []byte
+	header    string
+}
+
+func GenerateTestSignedPayload(options *UnsignedPayload) *SignedPayload {
+	signedPayload := &SignedPayload{UnsignedPayload: *options}
+
+	if signedPayload.timestamp == (time.Time{}) {
+		signedPayload.timestamp = time.Now()
+	}
+
+	if signedPayload.scheme == "" {
+		signedPayload.scheme = "v1"
+	}
+
+	signedPayload.signature = ComputeSignature(signedPayload.timestamp, signedPayload.payload, signedPayload.secret)
+	signedPayload.header = generateHeader(*signedPayload)
+
+	return signedPayload
+}
+
+func generateHeader(p SignedPayload) string {
+	return fmt.Sprintf("t=%d,%s=%s", p.timestamp.Unix(), p.scheme, hex.EncodeToString(p.signature))
 }

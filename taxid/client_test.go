@@ -4,8 +4,8 @@ import (
 	"testing"
 
 	assert "github.com/stretchr/testify/require"
-	stripe "github.com/stripe/stripe-go/v72"
-	_ "github.com/stripe/stripe-go/v72/testing"
+	stripe "github.com/stripe/stripe-go/v73"
+	_ "github.com/stripe/stripe-go/v73/testing"
 )
 
 func TestTaxIDDel(t *testing.T) {
@@ -18,7 +18,7 @@ func TestTaxIDDel(t *testing.T) {
 
 func TestTaxIDGet(t *testing.T) {
 	taxid, err := Get("txi_123", &stripe.TaxIDParams{
-		Customer: stripe.String("cus_123"),
+		Customer: stripe.String(string(stripe.TaxIDTypeAUABN)),
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, taxid)

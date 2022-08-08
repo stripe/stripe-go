@@ -1,8 +1,6 @@
 # Go Stripe
-
-[![GoDoc](http://img.shields.io/badge/godoc-reference-blue.svg)](http://godoc.org/github.com/stripe/stripe-go)
-[![Build Status](https://travis-ci.org/stripe/stripe-go.svg?branch=master)](https://travis-ci.org/stripe/stripe-go)
-[![Coverage Status](https://coveralls.io/repos/github/stripe/stripe-go/badge.svg?branch=master)](https://coveralls.io/github/stripe/stripe-go?branch=master)
+[![Go Reference](https://pkg.go.dev/badge/github.com/stripe/stripe-go)](https://pkg.go.dev/github.com/stripe/stripe-go)
+[![Build Status](https://github.com/stripe/stripe-go/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/stripe/stripe-go/actions/workflows/ci.yml?query=branch%3Amaster)
 
 The official [Stripe][stripe] Go client library.
 
@@ -19,8 +17,8 @@ Then, reference stripe-go in a Go program with `import`:
 
 ``` go
 import (
-    "github.com/stripe/stripe-go/v72"
-    "github.com/stripe/stripe-go/v72/customer"
+	"github.com/stripe/stripe-go/v73"
+	"github.com/stripe/stripe-go/v73/customer"
 )
 ```
 
@@ -29,8 +27,8 @@ toolchain will resolve and fetch the stripe-go module automatically.
 
 Alternatively, you can also explicitly `go get` the package into a project:
 
-```
-go get -u github.com/stripe/stripe-go/v72
+```bash
+go get -u github.com/stripe/stripe-go/v73
 ```
 
 ## Documentation
@@ -40,8 +38,8 @@ documentation][api-docs].
 
 See [video demonstrations][youtube-playlist] covering how to use the library.
 
-For details on all the functionality in this library, see the [GoDoc][godoc]
-documentation.
+For details on all the functionality in this library, see the [Go
+documentation][goref].
 
 Below are a few simple examples:
 
@@ -49,18 +47,19 @@ Below are a few simple examples:
 
 ```go
 params := &stripe.CustomerParams{
-	Description: stripe.String("Stripe Developer"),
-	Email:       stripe.String("gostripe@stripe.com"),
+	Description:      stripe.String("Stripe Developer"),
+	Email:            stripe.String("gostripe@stripe.com"),
+	PreferredLocales: stripe.StringSlice([]string{"en", "es"}),
 }
 
-customer, err := customer.New(params)
+c, err := customer.New(params)
 ```
 
 ### PaymentIntents
 
 ```go
 params := &stripe.PaymentIntentListParams{
-    Customer: stripe.String(customer.ID),
+	Customer: stripe.String(customer.ID),
 }
 
 i := paymentintent.List(params)
@@ -118,8 +117,8 @@ To use a key, pass it to `API`'s `Init` function:
 ```go
 
 import (
-	"github.com/stripe/stripe-go/v72"
-	"github.com/stripe/stripe-go/v72/client"
+	"github.com/stripe/stripe-go/v73"
+	"github.com/stripe/stripe-go/v73/client"
 )
 
 stripe := &client.API{}
@@ -140,25 +139,25 @@ import (
 	"google.golang.org/appengine"
 	"google.golang.org/appengine/urlfetch"
 
-	"github.com/stripe/stripe-go/v72"
-	"github.com/stripe/stripe-go/v72/client"
+	"github.com/stripe/stripe-go/v73"
+	"github.com/stripe/stripe-go/v73/client"
 )
 
 func handler(w http.ResponseWriter, r *http.Request) {
-        c := appengine.NewContext(r)
-        httpClient := urlfetch.Client(c)
+	c := appengine.NewContext(r)
+	httpClient := urlfetch.Client(c)
 
-        sc := client.New("sk_test_123", stripe.NewBackends(httpClient))
+	sc := client.New("sk_test_123", stripe.NewBackends(httpClient))
 
-        params := &stripe.CustomerParams{
-            Description: stripe.String("Stripe Developer"),
-            Email:       stripe.String("gostripe@stripe.com"),
-        }
-        customer, err := sc.Customers.New(params)
-        if err != nil {
-            fmt.Fprintf(w, "Could not create customer: %v", err)
-        }
-        fmt.Fprintf(w, "Customer created: %v", customer.ID)
+	params := &stripe.CustomerParams{
+		Description: stripe.String("Stripe Developer"),
+		Email:       stripe.String("gostripe@stripe.com"),
+	}
+	customer, err := sc.Customers.New(params)
+	if err != nil {
+		fmt.Fprintf(w, "Could not create customer: %v", err)
+	}
+	fmt.Fprintf(w, "Customer created: %v", customer.ID)
 }
 ```
 
@@ -175,8 +174,8 @@ client.
 
 ```go
 import (
-	"github.com/stripe/stripe-go/v72"
-	"github.com/stripe/stripe-go/v72/$resource$"
+	"github.com/stripe/stripe-go/v73"
+	"github.com/stripe/stripe-go/v73/$resource$"
 )
 
 // Setup
@@ -216,8 +215,8 @@ individual key.
 
 ```go
 import (
-	"github.com/stripe/stripe-go/v72"
-	"github.com/stripe/stripe-go/v72/client"
+	"github.com/stripe/stripe-go/v73"
+	"github.com/stripe/stripe-go/v73/client"
 )
 
 // Setup
@@ -253,7 +252,7 @@ Use `LastResponse` on any `APIResource` to look at the API response that
 generated the current object:
 
 ``` go
-coupon, err := coupon.New(...)
+c, err := coupon.New(...)
 requestID := coupon.LastResponse.RequestID
 ```
 
@@ -288,8 +287,8 @@ with `MaxNetworkRetries`:
 
 ```go
 import (
-	"github.com/stripe/stripe-go/v72"
-	"github.com/stripe/stripe-go/v72/client"
+	"github.com/stripe/stripe-go/v73"
+	"github.com/stripe/stripe-go/v73/client"
 )
 
 config := &stripe.BackendConfig{
@@ -369,6 +368,73 @@ c, _ = charge.Get("ch_123", p)
 c.Customer.ID    // ID is still available
 c.Customer.Name  // Name is now also available (if it had a value)
 ```
+### How to use undocumented parameters and properties
+
+stripe-go is a typed library and it supports all public properties or parameters.
+
+Stripe sometimes launches private beta features which introduce new properties or parameters that are not immediately public. These will not have typed accessors in the stripe-go library but can still be used. 
+
+#### Parameters
+
+To pass undocumented parameters to Stripe using stripe-go you need to use the `AddExtra()` method, as shown below:
+
+```go
+
+	params := &stripe.CustomerParams{
+		Email: stripe.String("jenny.rosen@example.com")
+	}
+
+	params.AddExtra("secret_feature_enabled", "true")
+	params.AddExtra("secret_parameter[primary]","primary value")
+	params.AddExtra("secret_parameter[secondary]","secondary value")
+
+	customer, err := customer.Create(params)
+```
+
+#### Properties
+
+You can access undocumented properties returned by Stripe by querying the raw response JSON object. An example of this is shown below:
+
+```go
+customer, _ = customer.Get("cus_1234", nil);
+
+var rawData map[string]interface{}
+_ = json.Unmarshal(customer.LastResponse.RawJSON, &rawData)
+
+secret_feature_enabled, _ := string(rawData["secret_feature_enabled"].(bool))
+
+secret_parameter, ok := rawData["secret_parameter"].(map[string]interface{})
+if ok {
+	primary := secret_parameter["primary"].(string)
+	secondary := secret_parameter["secondary"].(string)
+} 
+```
+
+### Webhook signing
+Stripe can optionally sign the webhook events it sends to your endpoint, allowing you to validate that they were not sent by a third-party. You can read more about it [here](https://stripe.com/docs/webhooks/signatures).
+
+#### Testing Webhook signing
+You can use `stripe.webhook.GenerateTestSignedPayload` to mock webhook events that come from Stripe:
+
+```go
+payload := map[string]interface{}{
+	"id":          "evt_test_webhook",
+	"object":      "event",
+	"api_version": stripe.APIVersion,
+}
+testSecret := "whsec_test_secret"
+
+payloadBytes, err := json.Marshal(payload)
+
+signedPayload := GenerateTestSignedPayload(&UnsignedPayload{payload: payloadBytes, secret: testSecret})
+event, err := ConstructEvent(signedPayload.payload, signedPayload.header, signedPayload.secret)
+
+if event.ID = payload.id {
+	// Do something with the mocked signed event
+} else {
+	// Handle invalid event payload
+}
+```
 
 ### Writing a Plugin
 
@@ -377,9 +443,9 @@ identified using `stripe.SetAppInfo`:
 
 ```go
 stripe.SetAppInfo(&stripe.AppInfo{
-    Name:    "MyAwesomePlugin",
-    URL:     "https://myawesomeplugin.info",
-    Version: "1.2.34",
+	Name:    "MyAwesomePlugin",
+	URL:     "https://myawesomeplugin.info",
+	Version: "1.2.34",
 })
 ```
 
@@ -441,16 +507,16 @@ Run a single test:
 For any requests, bug or comments, please [open an issue][issues] or [submit a
 pull request][pulls].
 
-[api-docs]: https://stripe.com/docs/api/go
+[api-docs]: https://stripe.com/docs/api/?lang=go
 [api-changelog]: https://stripe.com/docs/upgrades
 [apiresponse]: https://godoc.org/github.com/stripe/stripe-go#APIResponse
 [connect]: https://stripe.com/docs/connect/authentication
 [depgomodsupport]: https://github.com/golang/dep/pull/1963
 [expandableobjects]: https://stripe.com/docs/api/expanding_objects
-[godoc]: http://godoc.org/github.com/stripe/stripe-go
+[goref]: https://pkg.go.dev/github.com/stripe/stripe-go
 [gomodrevert]: https://github.com/stripe/stripe-go/pull/774
 [gomodvsdep]: https://github.com/stripe/stripe-go/pull/712
-[idempotency-keys]: https://stripe.com/docs/api/ruby#idempotent_requests
+[idempotency-keys]: https://stripe.com/docs/api/idempotent_requests?lang=go
 [issues]: https://github.com/stripe/stripe-go/issues/new
 [logrus]: https://github.com/sirupsen/logrus/
 [modules]: https://github.com/golang/go/wiki/Modules

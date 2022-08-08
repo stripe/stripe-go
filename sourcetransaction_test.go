@@ -12,15 +12,14 @@ func TestSourceTransaction_UnmarshalJSON(t *testing.T) {
 		// We build the JSON object manually here because it's key that the
 		// `object` field is included so that the source knows what type to
 		// decode
-		data := []byte(`{"type":"ach", "ach":{"foo":"bar"}}`)
+		data := []byte(`{"type":"ach_credit_transfer", "ach_credit_transfer":{"routing_number":"bar"}}`)
 
 		var v SourceTransaction
 		err := json.Unmarshal(data, &v)
 		assert.NoError(t, err)
-		assert.Equal(t, "ach", v.Type)
+		assert.Equal(t, "ach_credit_transfer", v.Type)
 
-		// The source data is extracted to the special TypeData field
-		assert.Equal(t, "bar", v.TypeData["foo"])
+		assert.Equal(t, "bar", v.ACHCreditTransfer.RoutingNumber)
 	}
 
 	// Test a degenerate case without a type key (this shouldn't happen, but
