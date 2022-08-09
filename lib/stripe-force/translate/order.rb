@@ -151,6 +151,12 @@ class StripeForce::Translate
       mapper.assign_values_from_hash(stripe_transaction, subscription_params)
       apply_mapping(stripe_transaction, sf_order)
 
+      # https://jira.corp.stripe.com/browse/PLATINT-1731
+      days_until_due = stripe_transaction.[](:default_settings)&.[](:invoice_settings)&.[](:days_until_due)
+      if days_until_due
+        stripe_transaction.default_settings.invoice_settings.days_until_due = OrderHelpers.transform_payment_terms_to_days_until_due(days_until_due)
+      end
+
       # TODO the idempotency key here is not perfect, need to refactor and use a job UID or something
 
       catch_stripe_api_errors(sf_order) do

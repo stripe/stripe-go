@@ -67,6 +67,7 @@ module StripeForce
         else
           log.debug 'field does not exist',
             field_component: field_name,
+            normalized_field_component: normalized_field_name,
             field_path: key_path,
             target_object: target_object.sobject_type,
             target_object_id: target_object.Id

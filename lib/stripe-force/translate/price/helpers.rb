@@ -9,6 +9,28 @@ class StripeForce::Translate
     include StripeForce::Constants
     extend SimpleStructuredLogger
 
+    sig { params(raw_billing_frequency: T.nilable(String)).returns(Integer) }
+    def self.transform_salesforce_billing_frequency_to_recurring_interval(raw_billing_frequency)
+      raw_billing_frequency ||= begin
+        log.warn 'interval_count not defined via mapping, using monthly fallback'
+        CPQBillingFrequencyOptions::MONTHLY.serialize
+      end
+
+      # convert picklist description of frequency to month integers
+      case CPQBillingFrequencyOptions.try_deserialize(raw_billing_frequency)
+      when CPQBillingFrequencyOptions::MONTHLY
+        1
+      when CPQBillingFrequencyOptions::QUARTERLY
+        3
+      when CPQBillingFrequencyOptions::SEMIANNUAL
+        6
+      when CPQBillingFrequencyOptions::ANNUAL
+        12
+      else
+        raise StripeForce::Errors::RawUserError.new("Unexpected billing frequency #{raw_billing_frequency}. Must use default CPQ billing frequencies.")
+      end
+    end
+
     sig { params(raw_consumption_schedule_type: String).returns(String) }
     def self.transform_salesforce_consumption_schedule_type_to_tier_mode(raw_consumption_schedule_type)
       case raw_consumption_schedule_type
@@ -18,7 +40,7 @@ class StripeForce::Translate
         'graduated'
       else
         # should never happen
-        raise "unexpected consumption schedule type #{raw_consumption_schedule_type}"
+        raise StripeForce::Errors::RawUserError.new("unexpected consumption schedule type #{raw_consumption_schedule_type}")
       end
     end
 
@@ -53,7 +75,7 @@ class StripeForce::Translate
     def self.transform_salesforce_billing_type_to_usage_type(raw_usage_type)
       # # https://help.salesforce.com/s/articleView?id=sf.cpq_order_product_fields.htm&type=5
       raw_usage_type ||= begin
-        log.warn 'usage type not defined, defaulting to advance (licensed)'
+        log.warn 'usage type not defined, defaulting to advance'
         CPQProductBillingTypeOptions::ADVANCE.serialize
       end
 
@@ -63,10 +85,9 @@ class StripeForce::Translate
       when CPQProductBillingTypeOptions::ARREARS
         'metered'
       else
-        raise "unexpected billing type"
+        raise StripeForce::Errors::RawUserError.new("unexpected billing type #{raw_usage_type}")
       end
     end
-
 
     # right now, this is NOT used everywhere there is a price comparison, we should leverage this more broadly across the codebase
     sig { params(price_1: Stripe::Price, price_2: Stripe::Price).returns(T::Boolean) }

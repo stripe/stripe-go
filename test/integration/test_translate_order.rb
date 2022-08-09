@@ -382,7 +382,7 @@ class Critic::OrderTranslation < Critic::FunctionalTest
 
     sf_account_id = create_salesforce_account(additional_fields: {
       # an email is required for creating an invoice without a payment method
-      "Description" => "#{Time.now.to_i}@example.com",
+      "Description" => create_random_email,
     })
 
     sf_product_id, _ = salesforce_standalone_product_with_price

@@ -377,7 +377,7 @@ class StripeForce::Translate
       # TODO it's possible that a custom mapping is defined for this value and it's an integer, we should support this case in the helper method
       # this represents how often the price is billed: i.e. if `interval` is month and `interval_count`
       # is 2, then this price is billed every two months.
-      stripe_price.recurring[:interval_count] = transform_salesforce_billing_frequency_to_recurring_interval(stripe_price.recurring[:interval_count])
+      stripe_price.recurring[:interval_count] = PriceHelpers.transform_salesforce_billing_frequency_to_recurring_interval(stripe_price.recurring[:interval_count])
 
       # frequency: monthly or daily, defined on the CPQ
       stripe_price.recurring[:interval] = sf_cpq_term_interval
@@ -418,32 +418,5 @@ class StripeForce::Translate
     end
 
     stripe_price
-  end
-
-  # TODO this should be in the price helpers; stop using throw_user_failure and instead throw an exception w/o origin_salesforce_object reference
-  sig { params(raw_billing_frequency: T.nilable(String)).returns(Integer) }
-  def transform_salesforce_billing_frequency_to_recurring_interval(raw_billing_frequency)
-    raw_billing_frequency ||= begin
-      log.warn 'interval_count not defined via mapping, using monthly fallback'
-      CPQBillingFrequencyOptions::MONTHLY.serialize
-    end
-
-    # convert picklist description of frequency to month integers
-    case CPQBillingFrequencyOptions.try_deserialize(raw_billing_frequency)
-    when CPQBillingFrequencyOptions::MONTHLY
-      1
-    when CPQBillingFrequencyOptions::QUARTERLY
-      3
-    when CPQBillingFrequencyOptions::SEMIANNUAL
-      6
-    when CPQBillingFrequencyOptions::ANNUAL
-      12
-    else
-      throw_user_failure!(
-        # TODO including the exact line item reference, or specifying the context upstream, would be an improvement here
-        salesforce_object: @origin_salesforce_object,
-        message: "Unexpected billing frequency #{raw_billing_frequency}. Must use default CPQ billing frequencies."
-      )
-    end
   end
 end

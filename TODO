@@ -12,6 +12,7 @@
 - Custom record metadata key is slightly different for key size saving
 - Document zero quantity items
 - Document no >1 quantity metered billing items
+- Days until due: allows integers, only support defaults, must setup not set by default
 
 Next:
 

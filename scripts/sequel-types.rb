@@ -1,5 +1,6 @@
 # typed: true
 # Description: autogen sorbet typed for sequel models
+# Usage: bundle exec ruby scripts/sequel-types.rb
 
 require File.expand_path('../config/environment', __dir__)
 

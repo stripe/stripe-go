@@ -58,6 +58,10 @@ def example_sf_order
   # @sf.find('Order', '8015e000000IIpgAAG')
 end
 
+def example_sf_quote
+  sf_get(@sf.query("SELECT Id FROM #{SF_ORDER_QUOTE} ORDER BY CreatedDate DESC LIMIT 1").first.Id)
+end
+
 def wipe_record_tree(order_id)
   order = sf.find(SF_ORDER, order_id)
 

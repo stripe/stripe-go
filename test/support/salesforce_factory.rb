@@ -30,6 +30,10 @@ module Critic
       SecureRandom.alphanumeric(18)
     end
 
+    def create_random_email
+      "#{sf_randomized_id}@example.com"
+    end
+
     def create_mock_salesforce_order
       id = create_salesforce_id
       Restforce::SObject.new({"attributes" => {"type" => SF_ORDER, "url" => "/services/data/v52.0/sobjects/#{SF_ORDER}/#{id}", "Id" => id}})
@@ -69,7 +73,7 @@ module Critic
     def create_salesforce_contact
       contact_id = sf.create!(SF_CONTACT, {
         LastName: 'Bianco',
-        Email: "#{sf_randomized_id}@example.com",
+        Email: create_random_email,
       })
     end
 

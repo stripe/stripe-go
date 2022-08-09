@@ -55,37 +55,74 @@ class StripeForce::Translate
   end
 
   def translate(sf_object)
-    @origin_salesforce_object = sf_object
-
     set_error_context(user: @user, integration_record: sf_object)
 
-    case sf_object.sobject_type
-    when SF_ORDER
-      translate_order(sf_object)
-    when SF_PRODUCT
-      translate_product(sf_object)
-    when SF_PRICEBOOK_ENTRY
-      create_price_from_pricebook(sf_object)
-    when SF_ACCOUNT
-      translate_account(sf_object)
-    else
-      raise "unsupported translation type #{sf_object.sobject_type}"
+    catch_errors_with_salesforce_context(primary: sf_object) do
+      case sf_object.sobject_type
+      when SF_ORDER
+        translate_order(sf_object)
+      when SF_PRODUCT
+        translate_product(sf_object)
+      when SF_PRICEBOOK_ENTRY
+        create_price_from_pricebook(sf_object)
+      when SF_ACCOUNT
+        translate_account(sf_object)
+      else
+        raise "unsupported translation type #{sf_object.sobject_type}"
+      end
     end
-  rescue Integrations::Errors::MissingRequiredFields => e
-    create_user_failure(
-      salesforce_object: e.salesforce_object,
-      message: "The following required fields are missing from this Salesforce record: #{e.missing_salesforce_fields.join(', ')}",
-    )
+  end
 
-    raise
-  rescue Restforce::ResponseError => e
-    create_user_failure(
-      # TODO can we indicate a more specific error object here?
-      salesforce_object: @origin_salesforce_object,
-      message: e.message
-    )
+  sig { params(primary: T.nilable(Restforce::SObject), secondary: T.nilable(Restforce::SObject)).void }
+  def catch_errors_with_salesforce_context(primary: nil, secondary: nil)
+    if primary && @origin_salesforce_object
+      raise "origin object already set, exiting"
+    end
 
-    raise
+    # TODO once we rework the `create_user_failure` logic we may be able to stop using instance variable
+
+    if primary
+      @origin_salesforce_object = primary
+    end
+
+    if secondary
+      original_secondary_object = @secondary_salesforce_object
+      @secondary_salesforce_object = secondary
+    end
+
+    begin
+      yield
+    rescue StripeForce::Errors::RawUserError => e
+      # this exception indicates an error that is safe to display to the user
+      create_user_failure(
+        # TODO change create_user_failure to not pull the origin_salesforce_object by default
+        salesforce_object: @origin_salesforce_object,
+        message: e.message
+      )
+
+      # convert to standard UserError to make it clear that it's been reported and converted
+      raise StripeForce::Errors::UserError.new(e.message)
+    rescue Integrations::Errors::MissingRequiredFields => e
+      create_user_failure(
+        salesforce_object: e.salesforce_object,
+        message: "The following required fields are missing from this Salesforce record: #{e.missing_salesforce_fields.join(', ')}",
+      )
+
+      raise
+    rescue Restforce::ResponseError => e
+      create_user_failure(
+        salesforce_object: @origin_salesforce_object,
+        message: e.message
+      )
+
+      raise
+    ensure
+      if primary
+        @origin_salesforce_object = nil
+      end
+
+      @secondary_salesforce_object = original_secondary_object
+    end
   end
 
   # report user failures with the correct secondary SF object context
@@ -120,7 +157,7 @@ class StripeForce::Translate
 
     compound_external_id = generate_compound_external_id(@origin_salesforce_object, salesforce_object)
 
-    log.debug 'creating sync record'
+    log.debug 'creating sync record for failure'
 
     # interestingly enough, if the external ID field does not exist we'll get a NOT_FOUND response
     # https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/dome_upsert.htm

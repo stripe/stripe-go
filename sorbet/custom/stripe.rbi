@@ -105,9 +105,17 @@ class Stripe::SubscriptionSchedulePhase < Stripe::StripeObject
   def metadata; end
 end
 
+class Stripe::SubscriptionScheduleInvoiceSettings
+  sig {returns(Integer)}
+  def days_until_due; end
+end
+
 class Stripe::SubscriptionScheduleSettings
   sig { returns(String) }
   def collection_method; end
+
+  sig { returns(Stripe::SubscriptionScheduleInvoiceSettings)}
+  def invoice_settings; end
 end
 
 class Stripe::SubscriptionSchedule
