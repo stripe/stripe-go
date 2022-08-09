@@ -330,7 +330,11 @@ class Critic::TieredPricingTranslation < Critic::FunctionalTest
     assert_match("The tiers array must include a catch all tier", exception.message)
 
     # unrelated tests: ensure secondary record type is not the top-level order
-    sync_record = get_sync_record_by_primary_id(sf_order.Id)
+    order_items = sf_get_related(sf_order, SF_ORDER_ITEM)
+    assert_equal(1, order_items.size)
+
+    pricebook_entry = sf.find(SF_PRICEBOOK_ENTRY, order_items.first.PricebookEntryId)
+    sync_record = get_sync_record_by_secondary_id(pricebook_entry.Id)
     assert_equal(SF_PRICEBOOK_ENTRY, sync_record[prefixed_stripe_field(SyncRecordFields::SECONDARY_OBJECT_TYPE.serialize)])
   end
 end

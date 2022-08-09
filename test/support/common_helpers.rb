@@ -20,12 +20,28 @@ module CommonHelpers
     ENV.fetch('SF_INSTANCE_ID')
   end
 
-  def get_sync_record_by_primary_id(primary_id)
+  def get_sync_records_by_primary_id(primary_id)
     sync_record_results = sf.query("SELECT Id FROM #{prefixed_stripe_field(SYNC_RECORD)} WHERE #{prefixed_stripe_field(SyncRecordFields::PRIMARY_RECORD_ID.serialize)} = '#{primary_id}'")
+
+
+    sync_records = []
+    sync_record_results.each do |sync_record|
+      sync_record = sf.find(prefixed_stripe_field(SYNC_RECORD), sync_record.Id)
+      sync_records.append(sync_record)
+    end
+
+    sync_records
+  end
+
+  # The get_sync_record_by_secondary_id does not make sense with the addition of Success Sync records, as that is the grouping ID.
+  #  ie the translation of an Order would create multiple sync records, ie (Account, Product2, PricebookEntry as well as the Order itself).
+  # This helper will fetch by the secondary id, ie the id of the actual object the sync record pertains to. Not the parent one that caused its creation.
+  def get_sync_record_by_secondary_id(secondary_id)
+    sync_record_results = sf.query("SELECT Id FROM #{prefixed_stripe_field(SYNC_RECORD)} WHERE #{prefixed_stripe_field(SyncRecordFields::SECONDARY_RECORD_ID.serialize)} = '#{secondary_id}'")
+
     assert_equal(1, sync_record_results.count)
 
-    sync_record_id = sync_record_results.first.Id
-    sync_record = sf.find(prefixed_stripe_field(SYNC_RECORD), sync_record_id)
+    sync_record = sf.find(prefixed_stripe_field(SYNC_RECORD), sync_record_results.first.Id)
   end
 
   sig { params(sandbox: T::Boolean, save: T::Boolean, random_user_id: T::Boolean).returns(StripeForce::User) }

@@ -21,6 +21,7 @@
 - You can't use variables in the `FROM` clause of a SOQL query `[...]`
 - `--loglevel` seems to mess with some commands
 - If you run apex anon, `sfdx` seems to truncate logs. The top of the logs won't come through.
+- the `Test` helpers ensure all async operations/futures complete before assertions
 
 ## SOQL
 

@@ -98,6 +98,11 @@ module StripeForce::Utilities
       end
     end
 
+    sig { params(origin_salesforce_object: Restforce::SObject, salesforce_object: Restforce::SObject).returns(String) }
+    def generate_compound_external_id(origin_salesforce_object, salesforce_object)
+      "#{@origin_salesforce_object.Id}-#{salesforce_object.Id}"
+    end
+
     sig { params(field_name: String).returns(String) }
     def prefixed_stripe_field(field_name)
       custom_field_prefix = case (salesforce_namespace = @user.connector_settings[CONNECTOR_SETTING_SALESFORCE_NAMESPACE])

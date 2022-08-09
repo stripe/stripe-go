@@ -39,7 +39,7 @@ class Critic::BillingFrequencyTranslation < Critic::FunctionalTest
         SalesforceTranslateRecordJob.translate(@user, sf_order)
       end
 
-      sync_record = get_sync_record_by_primary_id(sf_order.Id)
+      sync_record = get_sync_record_by_secondary_id(sf_order.Id)
       assert_match('prices must have the same `interval`', sync_record[prefixed_stripe_field(SyncRecordFields::RESOLUTION_MESSAGE.serialize)])
     end
   end

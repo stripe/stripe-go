@@ -14,6 +14,7 @@ class StripeForce::Translate
   include Integrations::Log
   include Integrations::ErrorContext
   include Integrations::Utilities::Currency
+  include Integrations::Utilities::StripeUtil
 
   include StripeForce::Constants
   include StripeForce::Utilities::Metadata
@@ -117,7 +118,7 @@ class StripeForce::Translate
       error_message: message,
     }
 
-    compound_external_id = "#{@origin_salesforce_object.Id}-#{salesforce_object.Id}"
+    compound_external_id = generate_compound_external_id(@origin_salesforce_object, salesforce_object)
 
     log.debug 'creating sync record'
 
@@ -137,7 +138,53 @@ class StripeForce::Translate
         SyncRecordFields::SECONDARY_OBJECT_TYPE => salesforce_object.sobject_type,
 
         SyncRecordFields::RESOLUTION_MESSAGE => message,
-        SyncRecordFields::RESOLUTION_STATUS => 'Error',
+        SyncRecordFields::RESOLUTION_STATUS => SyncRecordResolutionStatuses::ERROR,
+      }.transform_keys(&:serialize).transform_keys(&method(:prefixed_stripe_field))
+    )
+  end
+
+  sig { params(salesforce_object: Restforce::SObject, stripe_object: Stripe::APIResource).void }
+  def create_user_success(salesforce_object:, stripe_object:)
+    if @origin_salesforce_object&.Id.blank?
+      raise "origin salesforce object is blank, cannot record success"
+    end
+
+    unless @origin_salesforce_object.Id == salesforce_object.Id
+      log.info 'skipping Successful Sync Record creation for child-object.', {
+        primary_salesforce_id: @origin_salesforce_object.Id,
+        secondary_salesforce_id: salesforce_object.Id,
+      }
+      return
+    end
+
+    message = "Sync Successful, created Stripe #{stripe_object.class.to_s.demodulize.titleize} Object with ID: #{stripe_object.id}"
+
+    log.info 'translation success', {
+      secondary_salesforce_id: salesforce_object.Id,
+      secondary_salesforce_type: salesforce_object.sobject_type,
+    }
+
+    compound_external_id = generate_compound_external_id(@origin_salesforce_object, salesforce_object)
+
+    log.debug 'creating sync record'
+
+    # interestingly enough, if the external ID field does not exist we'll get a NOT_FOUND response
+    # https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/dome_upsert.htm
+
+    sf.upsert!(
+      prefixed_stripe_field(SYNC_RECORD),
+      prefixed_stripe_field(SyncRecordFields::COMPOUND_ID.serialize),
+      {
+        SyncRecordFields::COMPOUND_ID => compound_external_id,
+
+        SyncRecordFields::PRIMARY_RECORD_ID => @origin_salesforce_object.Id,
+        SyncRecordFields::PRIMARY_OBJECT_TYPE => @origin_salesforce_object.sobject_type,
+
+        SyncRecordFields::SECONDARY_RECORD_ID => salesforce_object.Id,
+        SyncRecordFields::SECONDARY_OBJECT_TYPE => salesforce_object.sobject_type,
+
+        SyncRecordFields::RESOLUTION_MESSAGE => message,
+        SyncRecordFields::RESOLUTION_STATUS => SyncRecordResolutionStatuses::SUCCESS,
       }.transform_keys(&:serialize).transform_keys(&method(:prefixed_stripe_field))
     )
   end
@@ -180,6 +227,11 @@ class StripeForce::Translate
       SF_ID => sf_object.Id,
       stripe_id_field => stripe_object.id,
     }.merge(additional_salesforce_updates))
+
+    create_user_success(
+      salesforce_object: sf_object,
+      stripe_object: stripe_object
+    )
 
     log.info 'updated with stripe id',
       salesforce_object: sf_object,

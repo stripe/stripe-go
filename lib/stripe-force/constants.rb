@@ -100,6 +100,14 @@ module StripeForce
       end
     end
 
+    class SyncRecordResolutionStatuses < T::Enum
+      enums do
+        SUCCESS = new('Success')
+        ERROR = new('Error')
+        RESOLVED = new('Resolved')
+      end
+    end
+
     # https://developer.salesforce.com/docs/atlas.en-us.packagingGuide.meta/packagingGuide/coa_order_type.htm
     class OrderTypeOptions < T::Enum
       enums do

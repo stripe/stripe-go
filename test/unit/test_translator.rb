@@ -87,6 +87,8 @@ module Critic::Unit
           assert_equal(stripe_customer.id, params["#{SalesforceNamespaceOptions::QA.serialize}__#{GENERIC_STRIPE_ID}"])
         end
 
+        @translator.expects :create_user_success
+
         @translator.update_sf_stripe_id(customer, stripe_customer)
       end
 
@@ -101,6 +103,8 @@ module Critic::Unit
           assert_equal(stripe_customer.id, params["#{SalesforceNamespaceOptions::PRODUCTION.serialize}__#{GENERIC_STRIPE_ID}"])
         end
 
+        @translator.expects :create_user_success
+
         @translator.update_sf_stripe_id(customer, stripe_customer)
       end
 
@@ -114,6 +118,8 @@ module Critic::Unit
           assert_equal(SF_ACCOUNT, name)
           assert_equal(stripe_customer.id, params[GENERIC_STRIPE_ID])
         end
+
+        @translator.expects :create_user_success
 
         @translator.update_sf_stripe_id(customer, stripe_customer)
       end

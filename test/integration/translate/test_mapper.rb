@@ -9,11 +9,6 @@ class Critic::MapperIntegrationTests < Critic::FunctionalTest
     @user = make_user(save: true)
   end
 
-  # TODO needs to be more sophisticated: 1:1 & 1:many
-  def get_related_objects(sf_object, sf_related_object_name)
-    sf.query("SELECT Id FROM #{sf_related_object_name} WHERE #{sf_object.sobject_type}Id = '#{sf_object.Id}'").map {|o| sf_get(o.Id) }
-  end
-
   it 'allows the quantity field to be customized' do
     @user.field_mappings['subscription_item'] = {
       'quantity' => 'Description',
@@ -21,7 +16,7 @@ class Critic::MapperIntegrationTests < Critic::FunctionalTest
 
     sf_order = create_subscription_order
 
-    order_items = get_related_objects(sf_order, SF_ORDER_ITEM)
+    order_items = sf_get_related(sf_order, SF_ORDER_ITEM)
     assert_equal(1, order_items.size)
 
     order_item = order_items.first
@@ -47,7 +42,7 @@ class Critic::MapperIntegrationTests < Critic::FunctionalTest
 
     sf_order = create_subscription_order
 
-    order_items = get_related_objects(sf_order, SF_ORDER_ITEM)
+    order_items = sf_get_related(sf_order, SF_ORDER_ITEM)
     assert_equal(1, order_items.size)
     order_item = order_items.first
 
@@ -85,7 +80,7 @@ class Critic::MapperIntegrationTests < Critic::FunctionalTest
 
     sf_order = create_subscription_order
 
-    order_items = get_related_objects(sf_order, SF_ORDER_ITEM)
+    order_items = sf_get_related(sf_order, SF_ORDER_ITEM)
     assert_equal(1, order_items.size)
     order_item = order_items.first
 
@@ -123,7 +118,7 @@ class Critic::MapperIntegrationTests < Critic::FunctionalTest
 
     sf_order = create_subscription_order
 
-    order_items = get_related_objects(sf_order, SF_ORDER_ITEM)
+    order_items = sf_get_related(sf_order, SF_ORDER_ITEM)
     assert_equal(1, order_items.size)
 
     order_item = order_items.first

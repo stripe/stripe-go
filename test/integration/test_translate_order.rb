@@ -115,6 +115,13 @@ class Critic::OrderTranslation < Critic::FunctionalTest
     Stripe::SubscriptionSchedule.expects(:create).never
 
     SalesforceTranslateRecordJob.translate(@user, sf_order)
+
+    # Sync Records
+    sync_records = get_sync_records_by_primary_id(sf_order.Id)
+    assert_equal(1, sync_records.length)
+
+    assert_equal(SF_ORDER, sync_records.first[prefixed_stripe_field(SyncRecordFields::PRIMARY_OBJECT_TYPE.serialize)])
+    assert_equal(SyncRecordResolutionStatuses::SUCCESS.serialize, sync_records.first[prefixed_stripe_field(SyncRecordFields::RESOLUTION_STATUS.serialize)])
   end
 
   it 'does not filter out $0 line items' do
@@ -272,6 +279,13 @@ class Critic::OrderTranslation < Critic::FunctionalTest
     standalone_item = T.must(phase.add_invoice_items.first)
     price_3 = Stripe::Price.retrieve(standalone_item.price, @user.stripe_credentials)
     assert_equal(sf_pricebook_id_3, price_3.metadata['salesforce_pricebook_entry_id'])
+
+    # Sync Records
+    sync_records = get_sync_records_by_primary_id(sf_order.Id)
+    assert_equal(1, sync_records.length)
+
+    assert_equal(SF_ORDER, sync_records.first[prefixed_stripe_field(SyncRecordFields::PRIMARY_OBJECT_TYPE.serialize)])
+    assert_equal(SyncRecordResolutionStatuses::SUCCESS.serialize, sync_records.first[prefixed_stripe_field(SyncRecordFields::RESOLUTION_STATUS.serialize)])
   end
 
   # TODO reuses order line price mapping if the execution halts part way through
@@ -319,7 +333,7 @@ class Critic::OrderTranslation < Critic::FunctionalTest
         SalesforceTranslateRecordJob.translate(@user, sf_order)
       end
 
-      sync_record = get_sync_record_by_primary_id(sf_order.Id)
+      sync_record = get_sync_record_by_secondary_id(sf_order.Id)
 
       assert_match("The following required fields are missing from this Salesforce record: SBQQ__Quote__c.SBQQ__StartDate__c", sync_record[prefixed_stripe_field(SyncRecordFields::RESOLUTION_MESSAGE.serialize)])
     end
@@ -335,7 +349,10 @@ class Critic::OrderTranslation < Critic::FunctionalTest
         SalesforceTranslateRecordJob.translate(@user, sf_order)
       end
 
-      sync_record = get_sync_record_by_primary_id(sf_order.Id)
+      order_items = sf_get_related(sf_order, SF_ORDER_ITEM)
+      assert_equal(1, order_items.size)
+
+      sync_record = get_sync_record_by_secondary_id(order_items.first.Id)
 
       assert_equal(SF_ORDER, sync_record[prefixed_stripe_field(SyncRecordFields::PRIMARY_OBJECT_TYPE.serialize)])
       assert_equal(SF_ORDER_ITEM, sync_record[prefixed_stripe_field(SyncRecordFields::SECONDARY_OBJECT_TYPE.serialize)])

@@ -335,11 +335,18 @@ BUNDLE_DISABLE_SHARED_GEMS=1 BUNDLE_PATH=vendor/bundle bundle
 
 # Tests
 
-- Before running tests, you'll need a valid oauth token: `bundle exec ruby scripts/refresh-tokens.rb`
-  - If the above script is not granting you a new access token for your scratch org, you can also generate a new one via `sfdx force:org:open -u brennen-scratch`
-  - This will have refreshed your access token for SFDX, so you can re-run the refresh-tokens script above to replace it in your ENV.
-- `NO_RESCUE=true bundle exec rails test "test/**/*test.rb"` will run the entire test suite
-- `NO_RESCUE=1` to avoid autoloading pry-rescue in the test suite
+- Ruby:
+
+  - Before running tests, you'll need a valid oauth token: `bundle exec ruby scripts/refresh-tokens.rb`
+    - If the above script is not granting you a new access token for your scratch org, you can also generate a new one via `sfdx force:org:open -u brennen-scratch`
+    - This will have refreshed your access token for SFDX, so you can re-run the refresh-tokens script above to replace it in your ENV.
+  - `NO_RESCUE=true bundle exec rails test "test/**/*test.rb"` will run the entire test suite
+  - `NO_RESCUE=1` to avoid autoloading pry-rescue in the test suite
+
+- SFDX:
+  - Run a single test: `sfdx force:apex:test:run --classnames <class_name> -u brennen-scratch --synchronous`
+    - ie `sfdx force:apex:test:run --classnames test_updateSyncRecordsStatusesTrigger -u brennen-scratch --synchronous`
+    - `--synchronous` will print the results of the tests instead of async execution, and a seperate command to get results.
 
 # Heroku
 
