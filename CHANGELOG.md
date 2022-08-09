@@ -1,5 +1,14 @@
 # Changelog
 
+## 73.1.0 - 2022-08-09
+* [#1522](https://github.com/stripe/stripe-go/pull/1522) API Updates
+  * Add support for `ProcessConfig` on `TerminalReaderActionProcessPaymentIntent`
+* [#1282](https://github.com/stripe/stripe-go/pull/1282) Miscellaneous fixes to README.md
+* [#1520](https://github.com/stripe/stripe-go/pull/1520) Add GenerateTestSignedPayload to test webhook signing
+* [#1402](https://github.com/stripe/stripe-go/pull/1402) Update testify version
+* [#1519](https://github.com/stripe/stripe-go/pull/1519) API Updates
+  * Add support for `ExpiresAt` on `AppsSecretParams` and `AppsSecret`
+
 ## 73.0.1 - 2022-08-03
 * [#1517](https://github.com/stripe/stripe-go/pull/1517) Export ConstructEventOptions fields
 
