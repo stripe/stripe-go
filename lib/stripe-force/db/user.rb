@@ -23,6 +23,10 @@ module StripeForce
     SF_CONSUMER_KEY = ENV.fetch('SF_CONSUMER_KEY')
     SF_CONSUMER_SECRET = ENV.fetch('SF_CONSUMER_SECRET')
 
+    # platform stripe API tokens
+    SF_STRIPE_LIVEMODE_API_KEY = ENV.fetch('STRIPE_API_KEY')
+    SF_STRIPE_TESTMODE_API_KEY = ENV.fetch('STRIPE_TEST_API_KEY')
+
     DEFAULT_CONNECTOR_SETTINGS = {
       api_percentage_limit: 95,
       sync_start_date: nil,
@@ -40,11 +44,11 @@ module StripeForce
     kms_encrypted_field :salesforce_refresh_token
 
     def after_initialize
+
       if self.new?
         self.enable_feature(:loud_sandbox_logging)
         self.connector_settings = DEFAULT_CONNECTOR_SETTINGS.deep_dup
       end
-
       self.feature_flags.map!(&:to_sym)
     end
 
@@ -229,11 +233,17 @@ module StripeForce
       salesforce_instance_url
     end
 
-    def stripe_credentials
+    sig { params(forced_livemode: T.nilable(T::Boolean)).returns(T::Hash[Symbol, T.nilable(String)]) }
+    def stripe_credentials(forced_livemode: nil)
+      livemode_for_credentials = if forced_livemode.nil?
+        self.livemode
+      else
+        forced_livemode
+      end
+
       {
-        api_key: ENV.fetch('STRIPE_CLIENT_SECRET'),
+        api_key: livemode_for_credentials ? SF_STRIPE_LIVEMODE_API_KEY : SF_STRIPE_TESTMODE_API_KEY,
         stripe_account: stripe_account_id,
-        stripe_version: '2020-08-27',
       }
     end
 

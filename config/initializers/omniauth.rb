@@ -10,7 +10,11 @@
 # routes are defined in routes.rb. This is to work out around a oauth security issue.
 
 Rails.application.config.middleware.use OmniAuth::Builder do
-  provider :stripe, ENV["STRIPE_CLIENT_ID"], ENV["STRIPE_CLIENT_SECRET"], scope: 'read_write'
+  # the key type (livemode, testmode) must match the `STRIPE_CLIENT_ID` environment in Stripe
+  provider :stripe,
+    ENV.fetch("STRIPE_CLIENT_ID"),
+    ENV.fetch("STRIPE_API_KEY"),
+    scope: 'read_write'
 
   provider :salesforce, ENV.fetch('SF_CONSUMER_KEY'), ENV.fetch('SF_CONSUMER_SECRET')
 
