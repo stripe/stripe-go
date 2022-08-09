@@ -133,7 +133,7 @@ module CommonHelpers
 
     DatabaseCleaner.start
 
-    # KMSEncryptionTestHelpers.mock_encryption_fields(StripeSuite::User)
+    KMSEncryptionTestHelpers.mock_encryption_fields(StripeForce::User)
 
     Integrations::Metrics::Writer.instance.timer.shutdown
     Integrations::Metrics::Writer.instance.queue.clear

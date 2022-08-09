@@ -1,22 +1,54 @@
 #!/usr/bin/env bash
 
+# TODO there's a good chance we need to unset `set -e` for this to work, need to wait for it to fail to truly know
+# sfdx will often fail for intermittent reasons. The CLI tool does not have retry functionality.
+# https://stackoverflow.com/questions/8350942/how-to-re-run-the-curl-command-automatically-when-the-error-occurs/8351489#8351489
+function with_backoff {
+  local max_attempts=${ATTEMPTS-5}
+  local timeout=${TIMEOUT-1}
+  local attempt=1
+  local exitCode=0
+
+  while (( $attempt < $max_attempts ))
+  do
+    if "$@"
+    then
+      return 0
+    else
+      exitCode=$?
+    fi
+
+    echo "Failure! Retrying in $timeout.." 1>&2
+    sleep $timeout
+    attempt=$(( attempt + 1 ))
+    timeout=$(( timeout * 2 ))
+  done
+
+  if [[ $exitCode != 0 ]]
+  then
+    echo "You've failed me for the last time! ($@)" 1>&2
+  fi
+
+  return $exitCode
+}
+
 function authorizeSalesforceAccount {
   username=$1
   salesforceAlias=$(echo "$username" | perl -nle 'm/\+([^@]+)/; print $1')
-  echo "Authorizing using alias: $salesforceAlias"
-  sfdx auth:jwt:grant --clientid $SF_CONSUMER_KEY --jwtkeyfile=$SF_JWT_PRIVATE_KEY_PATH --username="$username" --setalias="$salesforceAlias"
+  echo "\nAuthorizing using alias: $salesforceAlias"
+  with_backoff sfdx auth:jwt:grant --clientid $SF_CONSUMER_KEY --jwtkeyfile=$SF_JWT_PRIVATE_KEY_PATH --username="$username" --setalias="$salesforceAlias"
 }
 
 # https://circleci.com/developer/orbs/orb/circleci/salesforce-apex#commands-source-push
 
 function deploySource {
   orgAlias=$1
-  echo '\nDeploying source...'
+  echo "\nDeploying source..."
 
   # make sure the same API version is used for local deployments, otherwise you'll run into weird errors
   # for some reason, the `sfdx config:set apiVersion=52.0` doesn't work and gets overwritten
 
-  sfdx force:source:deploy -p force-app/main/default/ --apiversion=54.0 -u $orgAlias
+  with_backoff sfdx force:source:deploy -p force-app/main/default/ --apiversion=54.0 -u $orgAlias
 }
 
 function runTests {

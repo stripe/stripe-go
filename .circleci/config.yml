@@ -6,7 +6,7 @@ version: 2.1
 orbs:
   ruby: circleci/ruby@1.8.0
   browser-tools: circleci/browser-tools@1.4.0
-  # https://circleci.com/developer/orbs/orb/circleci/salesforce-apex#commands-test
+  # https://circleci.com/developer/orbs/orb/circleci/salesforce-sfdx
   sfdx: circleci/salesforce-sfdx@2.2.0
   jq: circleci/jq@2.2.0
 workflows:
@@ -195,9 +195,7 @@ jobs:
       - run:
           name: Database Migration
           command: |
-            bundle exec ruby db/migration.rb
-            # TODO our current migration script is hacky and needs to be reworked to be a standard migration
-            # bundle exec sequel -m migrations $TEST_DATABASE_URL
+            bundle exec sequel -E -m migrations $TEST_DATABASE_URL
 
       - run:
           name: Setup Salesforce Access
@@ -355,12 +353,12 @@ jobs:
           command: |
             echo "Instance Domain: $SF_INSTANCE_DOMAIN"
             echo "Instance Id: $SF_INSTANCE_ID"
-            echo "Access Token: $SF_ACCESS_TOKEN"
+            echo "Access Token: $SF_ACCESS_TOKEN\n"
 
             # https://discuss.circleci.com/t/test-timings-are-still-missing-with-2-0-and-workflows/21247/14
             # https://github.com/CircleCI-Public/circleci-cli/blob/master/cmd/tests.go#L54
             SPLIT_TEST_FILES=$(circleci tests glob "test/**/test*.rb" | circleci tests split --split-by=timings --timings-type=filename)
-            echo $SPLIT_TEST_FILES
+            echo "Files included in this node:\n$SPLIT_TEST_FILES\n"
             bundle exec rails test --ci-dir $CIRCLE_TEST_REPORTS --profile $SPLIT_TEST_FILES
 
       - run:

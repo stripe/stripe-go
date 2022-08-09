@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 # typed: true
+require_relative './user/kms_encryption'
 
 module StripeForce
   class User < Sequel::Model
@@ -7,6 +8,7 @@ module StripeForce
 
     include StripeForce::Constants
     include Integrations::ErrorContext
+    include KMSEncryption
 
     plugin :timestamps, update_on_create: true
     plugin :after_initialize
@@ -33,6 +35,9 @@ module StripeForce
         SF_PRODUCT => nil,
       }.stringify_keys.freeze,
     }.stringify_keys.freeze
+
+    kms_encrypted_field :salesforce_token
+    kms_encrypted_field :salesforce_refresh_token
 
     def after_initialize
       if self.new?
@@ -63,8 +68,8 @@ module StripeForce
 
       @client ||= Restforce.new({
         # this could be expired, if it is the client will automatically refresh it
-        oauth_token: salesforce_token,
-        refresh_token: salesforce_refresh_token,
+        oauth_token: self.salesforce_token,
+        refresh_token: self.salesforce_refresh_token,
         instance_url: sf_endpoint,
 
         client_id: SF_CONSUMER_KEY,
@@ -231,5 +236,16 @@ module StripeForce
         stripe_version: '2020-08-27',
       }
     end
+
+    protected def kms_encryption_context(field=nil)
+      {
+        'salesforce_account_id' => self.salesforce_account_id,
+      }
+    end
+
+    protected def kms_encryption_key(field=nil)
+      ENV.fetch('AWS_KMS_SALESFORCE_CREDENTIALS')
+    end
+
   end
 end

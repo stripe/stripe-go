@@ -15,7 +15,7 @@ module Parlour
   class ConflictResolver
     extend T::Sig
 
-    sig { params(namespace: RbiGenerator::Namespace, resolver: T.proc.params(
+    sig { params(namespace: Parlour::RbiGenerator::Namespace[T.untyped], resolver: T.proc.params(
           desc: String,
           choices: T::Array[RbiGenerator::RbiObject]
         ).returns(T.nilable(RbiGenerator::RbiObject))).void }
@@ -27,7 +27,7 @@ module Parlour
     sig { params(arr: T::Array[T.untyped]).returns(T::Boolean) }
     def all_eql?(arr); end
 
-    sig { params(namespace: RbiGenerator::Namespace, name: T.nilable(String)).void }
+    sig { params(namespace: Parlour::RbiGenerator::Namespace[T.untyped], name: T.nilable(String)).void }
     def deduplicate_mixins_of_name(namespace, name); end
   end
 
@@ -144,7 +144,7 @@ module Parlour
     sig { params(options: T::Hash[T.untyped, T.untyped]).void }
     def initialize(options); end
 
-    sig { abstract.params(root: RbiGenerator::Namespace).void }
+    sig { abstract.params(root: Parlour::RbiGenerator::Namespace[T.untyped]).void }
     def generate(root); end
 
     sig { returns(T.nilable(String)) }
@@ -154,10 +154,10 @@ module Parlour
   module TypeLoader
     extend T::Sig
 
-    sig { params(source: String, filename: T.nilable(String), generator: T.nilable(RbiGenerator)).returns(RbiGenerator::Namespace) }
+    sig { params(source: String, filename: T.nilable(String), generator: T.nilable(RbiGenerator)).returns(Parlour::RbiGenerator::Namespace[T.untyped]) }
     def self.load_source(source, filename = nil, generator: nil); end
 
-    sig { params(filename: String, generator: T.nilable(RbiGenerator)).returns(RbiGenerator::Namespace) }
+    sig { params(filename: String, generator: T.nilable(RbiGenerator)).returns(Parlour::RbiGenerator::Namespace[T.untyped]) }
     def self.load_file(filename, generator: nil); end
 
     sig do
@@ -166,7 +166,7 @@ module Parlour
         inclusions: T::Array[String],
         exclusions: T::Array[String],
         generator: T.nilable(RbiGenerator)
-      ).returns(RbiGenerator::Namespace)
+      ).returns(Parlour::RbiGenerator::Namespace[T.untyped])
     end
     def self.load_project(root, inclusions: ['.'], exclusions: [], generator: nil); end
   end
@@ -211,7 +211,7 @@ module Parlour
     sig { returns(RbiGenerator) }
     attr_accessor :generator
 
-    sig { returns(RbiGenerator::Namespace) }
+    sig { returns(Parlour::RbiGenerator::Namespace[T.untyped]) }
     def parse_all; end
 
     sig { params(path: NodePath, is_within_eigenclass: T::Boolean).returns(T::Array[RbiGenerator::RbiObject]) }
@@ -693,10 +693,10 @@ module Parlour
       sig { returns(RbsGenerator) }
       attr_reader :rbs_gen
 
-      sig { params(from: RbiGenerator::Namespace, to: RbsGenerator::Namespace).void }
+      sig { params(from: Parlour::RbiGenerator::Namespace[T.untyped], to: Parlour::RbsGenerator::Namespace[T.untyped]).void }
       def convert_all(from, to); end
 
-      sig { params(node: RbiGenerator::RbiObject, new_parent: RbsGenerator::Namespace).void }
+      sig { params(node: RbiGenerator::RbiObject, new_parent: Parlour::RbsGenerator::Namespace[T.untyped]).void }
       def convert_object(node, new_parent); end
     end
   end
@@ -707,7 +707,7 @@ module Parlour
     sig { params(hash: T.untyped).void }
     def initialize(**hash); end
 
-    sig { returns(RbiGenerator::Namespace) }
+    sig { returns(Parlour::RbiGenerator::Namespace[T.untyped]) }
     attr_reader :root
 
     sig { overridable.params(strictness: String).returns(String) }
@@ -782,7 +782,7 @@ module Parlour
           sealed: T::Boolean,
           superclass: T.nilable(String),
           abstract: T::Boolean,
-          block: T.nilable(T.proc.params(x: ClassNamespace).void)
+          block: T.nilable(T.proc.params(x: Parlour::RbiGenerator::ClassNamespace[T.untyped]).void)
         ).void
       end
       def initialize(generator, name, final, sealed, superclass, abstract, &block); end
@@ -857,7 +857,7 @@ module Parlour
           sealed: T::Boolean,
           enums: T::Array[T.any([String, String], String)],
           abstract: T::Boolean,
-          block: T.nilable(T.proc.params(x: EnumClassNamespace).void)
+          block: T.nilable(T.proc.params(x: Parlour::RbiGenerator::EnumClassNamespace[T.untyped]).void)
         ).void
       end
       def initialize(generator, name, final, sealed, enums, abstract, &block); end
@@ -1008,7 +1008,7 @@ module Parlour
           sealed: T::Boolean,
           interface: T::Boolean,
           abstract: T::Boolean,
-          block: T.nilable(T.proc.params(x: ClassNamespace).void)
+          block: T.nilable(T.proc.params(x: Parlour::RbiGenerator::ClassNamespace[T.untyped]).void)
         ).void
       end
       def initialize(generator, name, final, sealed, interface, abstract, &block); end
@@ -1047,7 +1047,7 @@ module Parlour
           name: T.nilable(String),
           final: T::Boolean,
           sealed: T::Boolean,
-          block: T.nilable(T.proc.params(x: Namespace).void)
+          block: T.nilable(T.proc.params(x: Parlour::RbiGenerator::Namespace[T.untyped]).void)
         ).void
       end
       def initialize(generator, name = nil, final = false, sealed = false, &block); end
@@ -1073,7 +1073,7 @@ module Parlour
       sig { returns(T::Array[RbiGenerator::Constant]) }
       def constants; end
 
-      sig { params(constant: Module, block: T.proc.params(x: Namespace).void).void }
+      sig { params(constant: Module, block: T.proc.params(x: Parlour::RbiGenerator::Namespace[T.untyped]).void).void }
       def path(constant, &block); end
 
       sig { params(comment: T.any(String, T::Array[String])).void }
@@ -1086,8 +1086,8 @@ module Parlour
           sealed: T::Boolean,
           superclass: T.nilable(String),
           abstract: T::Boolean,
-          block: T.nilable(T.proc.params(x: ClassNamespace).void)
-        ).returns(ClassNamespace)
+          block: T.nilable(T.proc.params(x: Parlour::RbiGenerator::ClassNamespace[T.untyped]).void)
+        ).returns(Parlour::RbiGenerator::ClassNamespace[T.untyped])
       end
       def create_class(name, final: false, sealed: false, superclass: nil, abstract: false, &block); end
 
@@ -1098,8 +1098,8 @@ module Parlour
           sealed: T::Boolean,
           enums: T.nilable(T::Array[T.any([String, String], String)]),
           abstract: T::Boolean,
-          block: T.nilable(T.proc.params(x: EnumClassNamespace).void)
-        ).returns(EnumClassNamespace)
+          block: T.nilable(T.proc.params(x: Parlour::RbiGenerator::EnumClassNamespace[T.untyped]).void)
+        ).returns(Parlour::RbiGenerator::EnumClassNamespace[T.untyped])
       end
       def create_enum_class(name, final: false, sealed: false, enums: nil, abstract: false, &block); end
 
@@ -1110,8 +1110,8 @@ module Parlour
           sealed: T::Boolean,
           props: T.nilable(T::Array[StructProp]),
           abstract: T::Boolean,
-          block: T.nilable(T.proc.params(x: StructClassNamespace).void)
-        ).returns(StructClassNamespace)
+          block: T.nilable(T.proc.params(x: Parlour::RbiGenerator::StructClassNamespace[T.untyped]).void)
+        ).returns(Parlour::RbiGenerator::StructClassNamespace[T.untyped])
       end
       def create_struct_class(name, final: false, sealed: false, props: nil, abstract: false, &block); end
 
@@ -1122,8 +1122,8 @@ module Parlour
           sealed: T::Boolean,
           interface: T::Boolean,
           abstract: T::Boolean,
-          block: T.nilable(T.proc.params(x: ClassNamespace).void)
-        ).returns(ModuleNamespace)
+          block: T.nilable(T.proc.params(x: Parlour::RbiGenerator::ClassNamespace[T.untyped]).void)
+        ).returns(Parlour::RbiGenerator::ModuleNamespace[T.untyped])
       end
       def create_module(name, final: false, sealed: false, interface: false, abstract: false, &block); end
 
@@ -1309,7 +1309,7 @@ module Parlour
           sealed: T::Boolean,
           props: T::Array[StructProp],
           abstract: T::Boolean,
-          block: T.nilable(T.proc.params(x: StructClassNamespace).void)
+          block: T.nilable(T.proc.params(x: Parlour::RbiGenerator::StructClassNamespace[T.untyped]).void)
         ).void
       end
       def initialize(generator, name, final, sealed, props, abstract, &block); end
@@ -1438,7 +1438,7 @@ module Parlour
     sig { params(hash: T.untyped).void }
     def initialize(**hash); end
 
-    sig { returns(RbsGenerator::Namespace) }
+    sig { returns(Parlour::RbsGenerator::Namespace[T.untyped]) }
     attr_reader :root
 
     sig { overridable.returns(String) }
@@ -1521,7 +1521,7 @@ module Parlour
           generator: Generator,
           name: String,
           superclass: T.nilable(Types::TypeLike),
-          block: T.nilable(T.proc.params(x: ClassNamespace).void)
+          block: T.nilable(T.proc.params(x: Parlour::RbsGenerator::ClassNamespace[T.untyped]).void)
         ).void
       end
       def initialize(generator, name, superclass, &block); end
@@ -1712,7 +1712,7 @@ module Parlour
       sig { override.overridable.params(indent_level: Integer, options: Options).returns(T::Array[String]) }
       def generate_rbs(indent_level, options); end
 
-      sig { params(generator: Generator, name: T.nilable(String), block: T.nilable(T.proc.params(x: Namespace).void)).void }
+      sig { params(generator: Generator, name: T.nilable(String), block: T.nilable(T.proc.params(x: Parlour::RbsGenerator::Namespace[T.untyped]).void)).void }
       def initialize(generator, name = nil, &block); end
 
       sig { returns(T::Array[RbsObject]) }
@@ -1730,19 +1730,19 @@ module Parlour
       sig { returns(T::Array[RbsGenerator::Constant]) }
       def constants; end
 
-      sig { params(object: T.untyped, block: T.proc.params(x: Namespace).void).void }
+      sig { params(object: T.untyped, block: T.proc.params(x: Parlour::RbsGenerator::Namespace[T.untyped]).void).void }
       def path(object, &block); end
 
       sig { params(comment: T.any(String, T::Array[String])).void }
       def add_comment_to_next_child(comment); end
 
-      sig { params(name: String, superclass: T.nilable(Types::TypeLike), block: T.nilable(T.proc.params(x: ClassNamespace).void)).returns(ClassNamespace) }
+      sig { params(name: String, superclass: T.nilable(Types::TypeLike), block: T.nilable(T.proc.params(x: Parlour::RbsGenerator::ClassNamespace[T.untyped]).void)).returns(Parlour::RbsGenerator::ClassNamespace[T.untyped]) }
       def create_class(name, superclass: nil, &block); end
 
-      sig { params(name: String, block: T.nilable(T.proc.params(x: Namespace).void)).returns(ModuleNamespace) }
+      sig { params(name: String, block: T.nilable(T.proc.params(x: Parlour::RbsGenerator::Namespace[T.untyped]).void)).returns(Parlour::RbsGenerator::ModuleNamespace[T.untyped]) }
       def create_module(name, &block); end
 
-      sig { params(name: String, block: T.nilable(T.proc.params(x: Namespace).void)).returns(InterfaceNamespace) }
+      sig { params(name: String, block: T.nilable(T.proc.params(x: Parlour::RbsGenerator::Namespace[T.untyped]).void)).returns(Parlour::RbsGenerator::InterfaceNamespace[T.untyped]) }
       def create_interface(name, &block); end
 
       sig do

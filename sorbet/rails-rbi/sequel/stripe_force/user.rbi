@@ -26,6 +26,18 @@ module StripeForce::User::GeneratedAttributeMethods
   sig { params(value: T::Boolean).void }
   def enabled=(value); end
 
+  sig { returns(T.nilable(String)) }
+  def encrypted_salesforce_refresh_token; end
+
+  sig { params(value: T.nilable(T.any(String, Symbol))).void }
+  def encrypted_salesforce_refresh_token=(value); end
+
+  sig { returns(T.nilable(String)) }
+  def encrypted_salesforce_token; end
+
+  sig { params(value: T.nilable(T.any(String, Symbol))).void }
+  def encrypted_salesforce_token=(value); end
+
   sig { returns(T.any(T::Array[T.untyped], T::Hash[String, T.untyped])) }
   def feature_flags; end
 
@@ -81,18 +93,6 @@ module StripeForce::User::GeneratedAttributeMethods
   def salesforce_organization_key=(value); end
 
   sig { returns(T.nilable(String)) }
-  def salesforce_refresh_token; end
-
-  sig { params(value: T.nilable(T.any(String, Symbol))).void }
-  def salesforce_refresh_token=(value); end
-
-  sig { returns(T.nilable(String)) }
-  def salesforce_token; end
-
-  sig { params(value: T.nilable(T.any(String, Symbol))).void }
-  def salesforce_token=(value); end
-
-  sig { returns(T.nilable(String)) }
   def stripe_account_id; end
 
   sig { params(value: T.nilable(T.any(String, Symbol))).void }
@@ -104,17 +104,23 @@ module StripeForce::User::GeneratedAttributeMethods
   sig { params(value: T.nilable(T.any(String, Symbol))).void }
   def stripe_public_token=(value); end
 
-  sig { returns(T.nilable(String)) }
-  def stripe_refresh_token; end
-
-  sig { params(value: T.nilable(T.any(String, Symbol))).void }
-  def stripe_refresh_token=(value); end
-
   sig { returns(DateTime) }
   def updated_at; end
 
   sig { params(value: T.any(DateTime, Date, Time)).void }
   def updated_at=(value); end
+
+  sig { returns(T.nilable(String)) }
+  def salesforce_refresh_token; end
+
+  sig { params(value: String).void }
+  def salesforce_refresh_token=(value); end
+
+  sig { returns(T.nilable(String)) }
+  def salesforce_token; end
+
+  sig { params(value: String).void }
+  def salesforce_token=(value); end
 end
 
 class StripeForce::User < Sequel::Model

@@ -24,7 +24,7 @@ class ApplicationSystemTest < ActionDispatch::SystemTestCase
 
     DatabaseCleaner.clean_with(:truncation)
 
-    # KMSEncryptionTestHelpers.restore_encryption_fields(StripeSuite::User)
+    KMSEncryptionTestHelpers.restore_encryption_fields(StripeForce::User)
 
     # StripeSuite::Metrics::Writer.instance.timer.shutdown
     # StripeSuite::Metrics::Writer.instance.queue.clear

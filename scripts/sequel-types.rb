@@ -95,6 +95,23 @@ class SequelSorbetPlugin
         return_type: nil,
       )
     end
+
+    if @model_class.included_modules.include?(KMSEncryption)
+      @model_class.kms_encrypted_fields.sort.each do |column_name|
+          attribute_module_rbi.create_method(
+            column_name.to_s,
+            return_type: 'T.nilable(String)',
+          )
+
+          attribute_module_rbi.create_method(
+            "#{column_name}=",
+            parameters: [
+              Parlour::RbiGenerator::Parameter.new("value", type: 'String'),
+            ],
+            return_type: nil,
+          )
+      end
+    end
   end
 
   # sig { params(sequel_type: Symbol).returns(Class) }
