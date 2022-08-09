@@ -10,10 +10,13 @@ class StripeForce::Translate
     const :stripe_params, Hash
 
     # will be nil if this is a net-new line item
-    const :original_order_line_id, T.nilable(String)
+    const :revised_order_line_id, T.nilable(String)
 
-    # when we are creating a struct from a sub schedule phase item, we don't have the SF object handyu
+    # when we are creating a struct from a sub schedule phase item, we don't have the SF object handy
+    # we should not rely on this
     const :order_line, T.nilable(Restforce::SObject)
+
+    const :order_line_id, String
 
     # even in a metered billing scenario, which have no quantity in the subscriptio phase item,
     # this will have a value indicating that the subscripion item should be added to the order.
@@ -31,12 +34,12 @@ class StripeForce::Translate
 
       # TODO I don't like relying on the metadata here; maybe we could regenerate the line items for the first order and use that representation instead?
       #      or maybe in the future we could use an internal sync record to pull references? Either way, this should change.
-      original_order_id = stripe_params_hash[:metadata][:salesforce_order_item_id]
+      order_line_id = stripe_params_hash[:metadata][:salesforce_order_item_id]
 
       self.new(
         stripe_params: stripe_params_hash,
         quantity: quantity,
-        original_order_line_id: original_order_id
+        order_line_id: order_line_id
       )
     end
 

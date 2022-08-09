@@ -56,23 +56,7 @@ class StripeForce::Translate
     end
 
     log.info 'contract for order amendment found', contract_id: sf_contract_id
-
-    # TODO we are hardcoding the subscription start date here as the ordering key, we should pull this dynamically from the mapper
-    # important for results to be ordered with subscription date ascending
-    order_amendment_query = sf.query(
-      <<~EOL
-        SELECT Id FROM #{SF_ORDER}
-        WHERE Opportunity.SBQQ__AmendedContract__c = '#{sf_contract_id}'
-        ORDER BY SBQQ__Quote__r.#{CPQ_QUOTE_SUBSCRIPTION_START_DATE} ASC
-      EOL
-    )
-
-    log.info 'order amendments found',
-      count: order_amendment_query.count,
-      amendmend_ids: order_amendment_query.map(&:Id)
-
-    # TODO use cache_service
-    order_amendments = order_amendment_query.map {|i| sf.find(SF_ORDER, i[SF_ID]) }
+    order_amendments = order_amendments_for_contract(sf_contract_id)
 
     ContractStructure.new(
       initial: initial_order,
@@ -244,8 +228,8 @@ class StripeForce::Translate
     last_phase = T.must(subscription_schedule.phases.last)
 
     # use the current state of the subscription schedule as the starting point for all aggregate line items
+    # however, we don't know *exactly* what order amendment the last phase represents...
     # TODO there is some risk here that if we don't do the calculation properly right away
-    # TODO should we conver the `items` stripe objects into hashes? Probably more consistent this way.
 
     # NOTE `to_hash` is a special method on the stripe object which handles nested objects and is NOT the same as `to_h`
     aggregate_phase_items = last_phase.items.map(&:to_hash).map {|h| ContractItemStructure.new_from_created_phase_item(h) }
@@ -258,12 +242,14 @@ class StripeForce::Translate
     # that was updated in Salesforce changing phase data that the user does not expect to be changed.
 
     contract_structure.amendments.each_with_index do |sf_order_amendment, index|
+      log.info 'processing amendment', salesforce_object: sf_order_amendment, index: index
+
       sf_order_items = order_lines_from_order(sf_order_amendment)
-      invoice_items_for_order_item, subscription_items_for_order_item = phase_items_from_order_lines(sf_order_items)
+      invoice_items_in_order, subscription_items_in_order = phase_items_from_order_lines(sf_order_items)
 
       aggregate_phase_items = merge_subscription_line_items(
         aggregate_phase_items,
-        subscription_items_for_order_item
+        subscription_items_in_order
       )
 
       is_recurring_order = !aggregate_phase_items.empty?
@@ -275,7 +261,7 @@ class StripeForce::Translate
       # TODO this probably needs to be tweaked after item merging is working
       is_order_terminated = aggregate_phase_items.all?(&:is_terminated?)
 
-      if is_order_terminated && !invoice_items_for_order_item.empty?
+      if is_order_terminated && !invoice_items_in_order.empty?
         raise Integrations::Errors::UnhandledEdgeCase.new("one-time invoice items but terminated order")
       end
 
@@ -304,6 +290,7 @@ class StripeForce::Translate
         T.must(aggregate_phase_items.first).stripe_params[:price]
       )
 
+      # TODO this probably needs to be moved higher in the stack
       # this loop excludes the initial phase, which is why we are subtracting by 1
       if subscription_phases.count - 1 > index
         log.info 'phase already exists, checking for diff and skipping'
@@ -312,7 +299,7 @@ class StripeForce::Translate
       end
 
       new_phase = Stripe::StripeObject.construct_from({
-        add_invoice_items: invoice_items_for_order_item.map(&:stripe_params),
+        add_invoice_items: invoice_items_in_order.map(&:stripe_params),
 
         # this is important, otherwise multiple phase changes in a single job run will use the same aggregate phase items
         items: aggregate_phase_items.deep_dup.map(&:stripe_params),
@@ -388,45 +375,48 @@ class StripeForce::Translate
   # TODO will most likely throw this out, but we'll need to model something like this for terminations
   sig do
     params(
-      aggregate_phase_items: T::Array[StripeForce::Translate::ContractItemStructure],
+      original_aggregate_phase_items: T::Array[StripeForce::Translate::ContractItemStructure],
       new_phase_items: T::Array[StripeForce::Translate::ContractItemStructure]
     ).returns(T::Array[StripeForce::Translate::ContractItemStructure])
   end
-  def merge_subscription_line_items(aggregate_phase_items, new_phase_items)
+  def merge_subscription_line_items(original_aggregate_phase_items, new_phase_items)
     # avoid mutating the input value
-    aggregate_phase_items = aggregate_phase_items.dup
+    aggregate_phase_items = original_aggregate_phase_items.dup
 
     # now we have the stripe representation of all of the line items on the order
     new_phase_items.each do |new_subscription_item|
-      # subscription_item entries are still in our internal phase item structure at this point
-      # they get converted into StripeObjects downstream
-      existing_phase_item = if new_subscription_item.original_order_line_id.present?
-        aggregate_phase_items.detect do |possible_existing_item|
-          # TODO I don't like relying on the metadata here; maybe we could regenerate the line items for the first order and use that representation instead?
-          #      or maybe in the future we could use an internal sync record to pull references? Either way, this should change.
-          possible_existing_item.stripe_params[:metadata][:salesforce_order_item_id] == new_subscription_item.original_order_line_id
-        end
-      else
-        log.info 'line is not revising a previous line item'
-        nil
+      if new_subscription_item.revised_order_line_id.blank?
+        log.info 'line is not revising a previous line item, adding'
+        aggregate_phase_items << new_subscription_item
+        next
       end
 
-      if existing_phase_item.nil? && new_subscription_item.original_order_line_id
+      # subscription_item entries are still in our internal phase item structure at this point
+      # they get converted into StripeObjects downstream
+      existing_phase_item = aggregate_phase_items.detect do |possible_existing_item|
+        # TODO I don't like relying on the metadata here; maybe we could regenerate the line items for the first order and use that representation instead?
+        #      or maybe in the future we could use an internal sync record to pull references? Either way, this should change.
+        possible_existing_item.stripe_params[:metadata][:salesforce_order_item_id] == new_subscription_item.revised_order_line_id
+      end
+
+      if existing_phase_item.nil?
         throw_user_failure!(
           salesforce_object: T.must(new_subscription_item.order_line),
           message: "Any order items, revising order items in a previous order, must not be skipped in the previous order." \
-                   " Order line with ID '#{new_subscription_item.original_order_line_id}' could not be found."
+                   " Order line with ID '#{new_subscription_item.revised_order_line_id}' could not be found."
         )
       end
 
-      if !existing_phase_item.nil?
-        new_subscription_item.append_previous_phase_item(existing_phase_item)
+      new_subscription_item.append_previous_phase_item(existing_phase_item)
 
-        # delete the old item from the phase item list, the new `subscription_item` will supercede it
-        deleted_count = aggregate_phase_items.delete_if {|i| i.object_id == existing_phase_item.object_id }.count
+      # delete the old item from the phase item list, the new `subscription_item` will supercede it
+      deleted_count = aggregate_phase_items.delete_if {|i| i.object_id == existing_phase_item.object_id }.count
 
-        log.info 'removed old phase items', count: deleted_count
+      if deleted_count > 1
+        raise "only a single phase item should ever be removed when revising"
       end
+
+      log.info 'removed old phase item'
 
       aggregate_phase_items << new_subscription_item
     end
@@ -435,9 +425,10 @@ class StripeForce::Translate
   end
 
   # retrieves all line items, filters out skipped order lines
+  sig { params(sf_order: Restforce::SObject).returns(Array) }
   def order_lines_from_order(sf_order)
-    # TODO should move to cache service
-    # TODO could include the order line skip field and skip lines before pulling them
+    # we could add our custom fields to the SOQL query, but then we wouldn't get the logging below
+    # TODO use cache_service
     sf_order_items = sf.query(
       <<~EOL
         SELECT Id
@@ -506,9 +497,11 @@ class StripeForce::Translate
         # is_recurring: recurring_item?(sf_order_item),
 
         stripe_params: phase_item.to_hash,
-        order_line: sf_order_item,
 
-        original_order_line_id: sf_order_item[SF_ORDER_ITEM_REVISED_ORDER_PRODUCT],
+        order_line: sf_order_item,
+        order_line_id: sf_order_item.Id,
+
+        revised_order_line_id: sf_order_item[SF_ORDER_ITEM_REVISED_ORDER_PRODUCT],
         quantity: phase_item[:quantity]
       )
 
@@ -622,5 +615,26 @@ class StripeForce::Translate
     log.info 'found initial order', initial_order_id: initial_order_id
 
     sf.find(SF_ORDER, initial_order_id)
+  end
+
+  # TODO this should be a function in a helper module
+  sig { params(sf_contract_id: String).returns(Array) }
+  def order_amendments_for_contract(sf_contract_id)
+    # TODO we are hardcoding the subscription start date here as the ordering key, we should pull this dynamically from the mapper
+    # important for results to be ordered with subscription date ascending'
+    order_amendment_query = sf.query(
+      <<~EOL
+        SELECT Id FROM #{SF_ORDER}
+        WHERE Opportunity.SBQQ__AmendedContract__c = '#{sf_contract_id}'
+        ORDER BY SBQQ__Quote__r.#{CPQ_QUOTE_SUBSCRIPTION_START_DATE} ASC
+      EOL
+    )
+
+    log.info 'order amendments found',
+      count: order_amendment_query.count,
+      amendmend_ids: order_amendment_query.map(&:Id)
+
+    # TODO use cache_service
+    order_amendment_query.map {|i| sf.find(SF_ORDER, i[SF_ID]) }
   end
 end
