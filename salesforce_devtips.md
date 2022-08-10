@@ -33,6 +33,12 @@
 
 - `SBQQ__PriceEditable__c` must be true on the line to customize the price later on
 
+## Packaging
+
+- You'll see an apexdevnet as a remote site https://salesforce.stackexchange.com/questions/33167/apexdevnet-in-the-remote-site
+  - Do not include this in the package
+- If you edit the URL of a remote site, it won't be updated in a package update. However, admins who have installed the package can manually edit it
+
 ## Tools
 
 Most of these are blocked, but still interesting finds:

@@ -1,6 +1,14 @@
-# Installation Link
+# Installation Links
 
-https://login.salesforce.com/packaging/installPackage.apexp?p0=04t5f00000074P3
+Production Package Install:
+https://login.salesforce.com/packaging/installPackage.apexp?p0=04t5f000000n8RNAAY
+
+Update with `sfdx force:package1:version:list --json -u mbianco+stripeconnector@stripe.com | jq -r '.result[-1].MetadataPackageVersionId'`
+
+QA Package Install:
+https://test.salesforce.com/packaging/installPackage.apexp?p0=04t5f00000074nmAAA
+
+Update with `sfdx force:package1:version:list --json -u mbianco+newstripeconnectorqa@stripe.com | jq -r '.result[-1].MetadataPackageVersionId'`
 
 # stripe-salesforce
 
@@ -135,7 +143,6 @@ Then create a new package in the production packaging org.
 - Click on the name of the package
 - Copy the package name field (`stripeConnector`), you'll need it in the next step
 - Click on upload, then:
-
   - Release Type > Managed Released
   - Version Name: `QaStripeConnect`
   - New version number will be determined automatically
@@ -151,6 +158,12 @@ Some notes:
   - Partner Community cases: "View My Cases". We need to provide the reason we are reverting back to beta. Although we need to remove the actual components.
 - If something is causing an error that you deleted in your source code, you can edit the offending file to resolve whatever is causing the error. This is often easier than asking SF to move your package to beta.
 - Ensure the "old order save behavior" is NOT checked
+
+### Production Package Release
+
+- https://security.secure.force.com/security/tools/forcecom/scanner use username and password of the production packaging org.
+- Include sec rev in the username of another account which contains the latest production package.
+- Make sure to write the Release Notes
 
 ### Production Package Testing
 
@@ -171,12 +184,6 @@ Some notes:
   - Check the following boxes on this page: `sfdx force:org:open -u brennen+prodtest@stripe.com -p "/lightning/setup/OrderSettings/home"`
     - Enable Negative Quantity
     - Enable Zero Quantity
-
-### Production Package Release
-
-- https://security.secure.force.com/security/tools/forcecom/scanner use username and password of the production packaging org.
-- Include sec rev in the username of another account which contains the latest production package.
-- Make sure to write the Release Notes
 
 ## Creating a new QA package
 
@@ -211,6 +218,8 @@ After rolling, make sure to install it on the package org test account (distinct
 https://appiphony92-dev-ed.my.salesforce.com/
 
 **Warning:** the QA package is automatically updated on each CI build, so it is possible that CI runs the deploy command _right_ after your deploy command finishes running, which could cause strange issues where QA includes a WIP branch.
+
+**Note:** Everytime you upload a package you'll see a "Are you sure?" message letting you know you can't edit components. Ignore it.
 
 ## Removing Components from QA or Production Packages
 
@@ -286,6 +295,12 @@ TODO this may not be applicable anymore since we've removed the `.sfdx` folder f
 - `sfdx/sfdx-project.json` edit the `sfdcLoginUrl` to match the URL you are logging in against
 - `sfdx/.sfdx/sfdx-config.json` edit the `defaultdevhubusername` / `defaultusername` TODO confirm if this is needed
 - `sf alias:set standardcpq=mbianco+standardcpq@stripe.com` adds an entry to `~/.sfdx/alias.json`
+
+## Resetting Salesforce Org Keys
+
+- Debug console
+- Anon Apex
+- maintenanceUtilities.resetServiceConnection();
 
 # Development
 

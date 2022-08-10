@@ -124,6 +124,7 @@ class Critic::OrderTranslation < Critic::FunctionalTest
     assert_equal(SyncRecordResolutionStatuses::SUCCESS.serialize, sync_records.first[prefixed_stripe_field(SyncRecordFields::RESOLUTION_STATUS.serialize)])
   end
 
+  # https://jira.corp.stripe.com/browse/PLATINT-1482
   it 'does not filter out $0 line items' do
     sf_product_id_1, sf_pricebook_id_1 = salesforce_recurring_product_with_price
     sf_product_id_2, sf_pricebook_id_2 = salesforce_recurring_product_with_price(price: 0)

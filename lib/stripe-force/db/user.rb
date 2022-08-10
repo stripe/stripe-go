@@ -27,6 +27,8 @@ module StripeForce
     SF_STRIPE_LIVEMODE_API_KEY = ENV.fetch('STRIPE_API_KEY')
     SF_STRIPE_TESTMODE_API_KEY = ENV.fetch('STRIPE_TEST_API_KEY')
 
+    AWS_KMS_SALESFORCE_CREDENTIALS = ENV.fetch('AWS_KMS_SALESFORCE_CREDENTIALS')
+
     DEFAULT_CONNECTOR_SETTINGS = {
       api_percentage_limit: 95,
       sync_start_date: nil,
@@ -254,7 +256,7 @@ module StripeForce
     end
 
     protected def kms_encryption_key(field=nil)
-      ENV.fetch('AWS_KMS_SALESFORCE_CREDENTIALS')
+      AWS_KMS_SALESFORCE_CREDENTIALS
     end
 
   end
