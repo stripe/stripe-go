@@ -62,7 +62,7 @@ gem 'rails-html-sanitizer', '~> 1.4.3'
 
 group :test do
   gem 'bundler-audit', '~> 0.9.1', require: false
-  gem 'brakeman', '~> 5.3.0', require: false
+  gem 'brakeman', '~> 5.3.1', require: false
 
   gem 'minitest', '~> 5.16.2'
   gem 'minitest-ci', '~> 3.4.0'
