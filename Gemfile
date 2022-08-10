@@ -33,7 +33,7 @@ gem 'resque-heroku-signals', '~> 2.2.0'
 gem 'redis', '~> 4.5.1'
 
 # database
-gem 'pg', '~> 1.4.2'
+gem 'pg', '~> 1.4.3'
 gem 'sequel', '5.59.0'
 gem 'aws-sdk-kms', '~> 1.42.0'
 
