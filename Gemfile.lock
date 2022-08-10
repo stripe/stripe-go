@@ -368,7 +368,7 @@ GEM
     rufus-scheduler (3.6.0)
       fugit (~> 1.1, >= 1.1.6)
     safe_type (1.1.1)
-    selenium-webdriver (4.3.0)
+    selenium-webdriver (4.4.0)
       childprocess (>= 0.5, < 5.0)
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 3.0)
@@ -501,7 +501,7 @@ DEPENDENCIES
   rubocop (= 0.89.1)
   rubocop-daemon
   rubocop-minitest
-  selenium-webdriver (~> 4.3.0)
+  selenium-webdriver (~> 4.4.0)
   sentry-rails (~> 5.4.1)
   sentry-resque (~> 5.4.1)
   sentry-ruby (~> 5.4.1)
