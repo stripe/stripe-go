@@ -1,4 +1,5 @@
 #!/bin/bash
+# Usage: bin/generate-cpq-scratch-org
 
 # feature options:
 # https://developer.salesforce.com/docs/atlas.en-us.222.0.sfdx_dev.meta/sfdx_dev/sfdx_dev_scratch_orgs_def_file_config_values.htm
@@ -55,8 +56,8 @@ else
   echo "Default username already set, skipping"
 fi
 
-sfdx config:set restDeploy=true
-sfdx force:source:push --loglevel=debug --apiversion=54.0 -u $salesforceAlias
+sfdx config:set restDeploy=true apiVersion=54.0 sourceApiVersion=54.0
+sfdx force:source:push --loglevel=debug -u $salesforceAlias
 
 # needs to be done after the source:push since this references custom perm sets
 sfdx force:user:permset:assign -n "Stripe_Connector_Integration_User, Stripe_Connector_Sync_Management_User, Order_Permissions" -u $salesforceAlias
