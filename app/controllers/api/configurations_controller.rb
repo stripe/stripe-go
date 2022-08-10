@@ -137,6 +137,11 @@ module Api
     end
 
     private def create_user_reference
+      # TODO remove this if we don't run into errors, seeing some weird state in the logs
+      if @user
+        raise "user reference is already set!"
+      end
+
       salesforce_account_id = request.headers[SALESFORCE_ACCOUNT_ID_HEADER]
       salesforce_api_key = request.headers[SALESFORCE_KEY_HEADER]
 
@@ -161,14 +166,13 @@ module Api
         return
       end
 
+      set_error_context(user: @user)
+
       if @user.salesforce_organization_key != salesforce_api_key
         log.error 'api key does not match user'
-        # TODO until the issue with the package is resolved, this needs to stay the way it is
-        # head :not_found
-        # return
+        head :not_found
+        nil
       end
-
-      set_error_context(user: @user)
     end
 
     private def user_configuration_json

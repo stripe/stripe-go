@@ -158,8 +158,6 @@ class Critic::ConfigurationsControllerTest < ApplicationIntegrationTest
       # DB enforces that SF org IDs must be unique
 
       it 'throws an error if the api key does not match' do
-        skip("disabled until package is fixed and users are upgraded")
-
         get api_configuration_path, params: {}, headers: authentication_headers.merge(
           SALESFORCE_KEY_HEADER => SecureRandom.alphanumeric(16)
         )
