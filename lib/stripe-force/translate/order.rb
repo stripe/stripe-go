@@ -85,7 +85,7 @@ class StripeForce::Translate
     # TODO use cache_service
     sf_account = sf.find(SF_ACCOUNT, sf_order[SF_ORDER_ACCOUNT])
 
-    stripe_customer = create_customer_from_sf_account(sf_account)
+    stripe_customer = translate_account(sf_account)
 
     sf_order_items = order_lines_from_order(sf_order)
     invoice_items, subscription_items = phase_items_from_order_lines(sf_order_items)
@@ -159,18 +159,15 @@ class StripeForce::Translate
 
       # TODO the idempotency key here is not perfect, need to refactor and use a job UID or something
 
-      catch_stripe_api_errors(sf_order) do
-        stripe_transaction = Stripe::SubscriptionSchedule.create(
-          stripe_transaction.to_hash,
-          @user.stripe_credentials.merge(idempotency_key: sf_order[SF_ID])
-        )
-      end
+      stripe_transaction = Stripe::SubscriptionSchedule.create(
+        stripe_transaction.to_hash,
+        @user.stripe_credentials.merge(idempotency_key: sf_order[SF_ID])
+      )
     else
       log.info 'no recurring items found, creating a one-time invoice'
 
       # TODO there has got to be a way to include the lines on the invoice item create call
       invoice_items.each do |invoice_item_params|
-        # TODO we should wrap these in `catch_stripe_api_errors`
         # TODO idempotency keys https://jira.corp.stripe.com/browse/PLATINT-1474
         Stripe::InvoiceItem.create(
           {customer: stripe_customer}.merge(invoice_item_params.stripe_params),
@@ -247,6 +244,7 @@ class StripeForce::Translate
     # for this reason we should NOT mutate the existing phases of a subscription. This could result in updating quantity, metadata, etc
     # that was updated in Salesforce changing phase data that the user does not expect to be changed.
 
+    # TODO should break this out into a separate method and wrap in `catch_errors_with_salesforce_context`
     contract_structure.amendments.each_with_index do |sf_order_amendment, index|
       log.info 'processing amendment', salesforce_object: sf_order_amendment, index: index
 
@@ -352,24 +350,21 @@ class StripeForce::Translate
       end
 
       # NOTE intentional decision here NOT to update any other subscription fields
-      if is_subscription_schedule_cancelled
-        # TODO should we add additional metadata here?
-        log.info 'cancelling subscription immediately'
+      catch_errors_with_salesforce_context(secondary: sf_order_amendment) do
+        if is_subscription_schedule_cancelled
+          # TODO should we add additional metadata here?
+          log.info 'cancelling subscription immediately'
 
-        catch_stripe_api_errors(sf_order_amendment) do
           subscription_schedule.cancel(
             invoice_now: false,
             prorate: false
           )
-        end
-      else
-        log.info 'adding phase', sf_order_amendment_id: sf_order_amendment.Id
+        else
+          log.info 'adding phase', sf_order_amendment_id: sf_order_amendment.Id
 
-        # TODO wrap in error context
-        subscription_schedule.proration_behavior = 'none'
-        subscription_schedule.phases = subscription_phases
-
-        catch_stripe_api_errors(sf_order_amendment) do
+          # TODO wrap in error context
+          subscription_schedule.proration_behavior = 'none'
+          subscription_schedule.phases = subscription_phases
           subscription_schedule.save
         end
       end

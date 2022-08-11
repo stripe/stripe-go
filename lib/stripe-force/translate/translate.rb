@@ -64,7 +64,7 @@ class StripeForce::Translate
       when SF_PRODUCT
         translate_product(sf_object)
       when SF_PRICEBOOK_ENTRY
-        create_price_from_pricebook(sf_object)
+        translate_pricebook(sf_object)
       when SF_ACCOUNT
         translate_account(sf_object)
       else
@@ -73,30 +73,54 @@ class StripeForce::Translate
     end
   end
 
-  sig { params(primary: T.nilable(Restforce::SObject), secondary: T.nilable(Restforce::SObject)).void }
-  def catch_errors_with_salesforce_context(primary: nil, secondary: nil)
+  sig { params(primary: T.nilable(Restforce::SObject), secondary: T.nilable(Restforce::SObject), blk: T.proc.returns(T.untyped)).returns(T.untyped) }
+  def catch_errors_with_salesforce_context(primary: nil, secondary: nil, &blk)
     if primary && @origin_salesforce_object
-      raise "origin object already set, exiting"
+      raise Integrations::Errors::ImpossibleInternalError.new("origin object already set, exiting")
+    end
+
+    if primary && secondary
+      raise Integrations::Errors::ImpossibleInternalError.new("should not set primary and secondary salesforce context at the same time")
+    end
+
+    if !primary && !secondary
+      raise Integrations::Errors::ImpossibleInternalError.new("either primary or secondary context should be passed")
     end
 
     # TODO once we rework the `create_user_failure` logic we may be able to stop using instance variable
 
-    if primary
-      @origin_salesforce_object = primary
-    end
-
     if secondary
+      # TODO maybe pass content to sentry as well?
       original_secondary_object = @secondary_salesforce_object
       @secondary_salesforce_object = secondary
+
+      if original_secondary_object
+        log.debug "overwriting secondary object"
+      end
+
+      # if we are a secondary wrapper, do not use the same `rescue` logic below
+      begin
+        # the return result is often a Stripe object that we need to reference downstream, which is why we are careful to retain & return the return value of the incoming block
+        result = yield
+      end
+
+      @secondary_salesforce_object = original_secondary_object
+
+      return result
     end
 
+    @origin_salesforce_object = primary
+
+    # `@origin_salesforce_object` is used as the primary object by `create_user_failure`, so we only use that
+    # if no secondary record is defined. The secondary context could be set within the `yield` which is why
+    # we duplicate the selection logic.
+
     begin
-      yield
+      result = yield
     rescue StripeForce::Errors::RawUserError => e
       # this exception indicates an error that is safe to display to the user
       create_user_failure(
-        # TODO change create_user_failure to not pull the origin_salesforce_object by default
-        salesforce_object: @origin_salesforce_object,
+        salesforce_object: @secondary_salesforce_object || @origin_salesforce_object,
         message: e.message
       )
 
@@ -104,6 +128,7 @@ class StripeForce::Translate
       raise StripeForce::Errors::UserError.new(e.message)
     rescue Integrations::Errors::MissingRequiredFields => e
       create_user_failure(
+        # in the case of missing fields, we know *exactly* which fields are missing
         salesforce_object: e.salesforce_object,
         message: "The following required fields are missing from this Salesforce record: #{e.missing_salesforce_fields.join(', ')}",
       )
@@ -111,35 +136,32 @@ class StripeForce::Translate
       raise
     rescue Restforce::ResponseError => e
       create_user_failure(
-        salesforce_object: @origin_salesforce_object,
+        salesforce_object: @secondary_salesforce_object || @origin_salesforce_object,
         message: e.message
       )
 
       raise
+    rescue Stripe::InvalidRequestError => e
+      # TODO probably remove this in the future, but I want to understand the error code details that are coming through
+      log.warn 'stripe api error',
+        code: e.code,
+        message: e.message
+
+      create_user_failure(
+        salesforce_object: @secondary_salesforce_object || @origin_salesforce_object,
+        # TODO should specify request_id as second field in the future
+        message: "#{e.message} #{e.request_id}"
+      )
+
+      raise
     ensure
-      if primary
-        @origin_salesforce_object = nil
-      end
+      @origin_salesforce_object = nil
 
-      @secondary_salesforce_object = original_secondary_object
+      # if an exception is raised within a secondary context block, this will not be unset
+      @secondary_salesforce_object = nil
     end
-  end
 
-  # report user failures with the correct secondary SF object context
-  def catch_stripe_api_errors(salesforce_object)
-    yield
-  rescue Stripe::InvalidRequestError => e
-    # TODO probably remove this in the future, but I want to understand the error codes that are coming through
-    log.warn 'stripe api error',
-      code: e.code,
-      message: e.message
-
-    create_user_failure(
-      salesforce_object: salesforce_object,
-      message: "#{e.message} #{e.request_id}"
-    )
-
-    raise
+    result
   end
 
   sig { params(salesforce_object: Restforce::SObject, message: String).void }
@@ -303,7 +325,7 @@ class StripeForce::Translate
     # and then converting the finalized object into a parameters hash. However, without using `construct_from`
     # we'd have to pass the object type around when mapping which is equally as bad.
 
-    catch_stripe_api_errors(sf_object) do
+    catch_errors_with_salesforce_context(secondary: sf_object) do
       stripe_class.create(stripe_object.to_hash, @user.stripe_credentials)
     end
   end

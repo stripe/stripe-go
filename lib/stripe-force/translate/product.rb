@@ -3,7 +3,9 @@
 
 class StripeForce::Translate
   def translate_product(sf_product)
-    create_product_from_sf_product(sf_product)
+    catch_errors_with_salesforce_context(secondary: sf_product) do
+      create_product_from_sf_product(sf_product)
+    end
   end
 
   def create_product_from_sf_product(sf_product)

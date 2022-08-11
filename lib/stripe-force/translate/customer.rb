@@ -3,7 +3,9 @@
 
 class StripeForce::Translate
   def translate_account(sf_account)
-    create_customer_from_sf_account(sf_account)
+    catch_errors_with_salesforce_context(secondary: sf_account) do
+      create_customer_from_sf_account(sf_account)
+    end
   end
 
   def create_customer_from_sf_account(sf_account)

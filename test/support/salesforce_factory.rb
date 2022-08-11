@@ -14,6 +14,7 @@ module Critic
     sig { abstract.returns(T.untyped) }
     def sf; end
 
+    sig { returns(String) }
     def now_time_formatted_for_salesforce
       format_date_for_salesforce(now_time)
     end
@@ -26,27 +27,42 @@ module Critic
       date.strftime("%Y-%m-%d")
     end
 
-    def create_salesforce_id
-      SecureRandom.alphanumeric(18)
+    sig { params(prefix: T.nilable(String)).returns(String) }
+    def create_salesforce_id(prefix: nil)
+      (prefix || "") + SecureRandom.alphanumeric(prefix ? 15 : 18)
     end
 
+    sig { returns(String) }
     def create_random_email
       "#{sf_randomized_id}@example.com"
     end
 
     def create_mock_salesforce_order
-      id = create_salesforce_id
-      Restforce::SObject.new({"attributes" => {"type" => SF_ORDER, "url" => "/services/data/v52.0/sobjects/#{SF_ORDER}/#{id}", "Id" => id}})
+      id = create_salesforce_id(prefix: "802")
+      Restforce::SObject.new({
+        "attributes" => {"type" => SF_ORDER, "url" => "/services/data/v52.0/sobjects/#{SF_ORDER}/#{id}"},
+        "Id" => id,
+        "IsDeleted" => false,
+      })
     end
 
     def create_mock_salesforce_order_item
-      id = create_salesforce_id
-      Restforce::SObject.new({"attributes" => {"type" => SF_ORDER_ITEM, "url" => "/services/data/v52.0/sobjects/#{SF_ORDER_ITEM}/#{id}", "Id" => id}})
+      id = create_salesforce_id(prefix: "0Mh")
+      Restforce::SObject.new({
+        "Id" => id,
+        "IsDeleted" => false,
+        "attributes" => {"type" => SF_ORDER_ITEM, "url" => "/services/data/v52.0/sobjects/#{SF_ORDER_ITEM}/#{id}"},
+      })
     end
 
     def create_mock_salesforce_customer
-      id = create_salesforce_id
-      Restforce::SObject.new({"attributes" => {"type" => "Account", "url" => "/services/data/v52.0/sobjects/Account/#{id}", "Id" => id}})
+      # TODO should move all prefixes to an enum
+      id = create_salesforce_id(prefix: "003")
+      Restforce::SObject.new({
+        "attributes" => {"type" => "Account", "url" => "/services/data/v52.0/sobjects/Account/#{id}"},
+        "IsDeleted" => false,
+        "Id" => id,
+      })
     end
 
     def sf_randomized_id

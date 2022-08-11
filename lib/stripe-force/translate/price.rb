@@ -2,12 +2,18 @@
 # typed: true
 
 class StripeForce::Translate
+  def translate_pricebook(sf_pricebook_entry)
+    catch_errors_with_salesforce_context(secondary: sf_pricebook_entry) do
+      create_price_from_pricebook(sf_pricebook_entry)
+    end
+  end
+
   def create_price_from_pricebook(sf_pricebook_entry)
     stripe_price = retrieve_from_stripe(Stripe::Price, sf_pricebook_entry)
     return stripe_price if stripe_price
 
     sf_product = sf.find(SF_PRODUCT, sf_pricebook_entry.Product2Id)
-    stripe_product = create_product_from_sf_product(sf_product)
+    stripe_product = translate_product(sf_product)
 
     stripe_price = create_price_from_sf_object(sf_pricebook_entry, sf_product, stripe_product)
 
@@ -128,7 +134,7 @@ class StripeForce::Translate
 
     sanitize(stripe_price)
 
-    catch_stripe_api_errors(sf_object) do
+    catch_errors_with_salesforce_context(secondary: sf_object) do
       Stripe::Price.create(stripe_price.to_hash, @user.stripe_credentials)
     end
   end

@@ -5,6 +5,7 @@ module Integrations
   module Errors
     class LockTimeout < StandardError; end
     class DyingWorkerError < StandardError; end
+    class ImpossibleInternalError < StandardError; end
 
     class BaseIntegrationError < StandardError
       attr_reader :stripe_resource
