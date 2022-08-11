@@ -236,8 +236,8 @@ class StripeForce::Translate
     when 'FlatFee'
       'flat_amount_decimal'
     else
-      # this should never happen
-      raise "unexpected pricing method #{pricing_method}"
+      # this should never happen unless CPQ changes
+      raise StripeForce::Errors::RawUserError.new("unexpected pricing method #{pricing_method}")
     end
 
     {
@@ -313,7 +313,7 @@ class StripeForce::Translate
   def generate_price_params_from_sf_object(sf_object, sf_product)
     # this should never happen, but provides self-documentation and extra test guards
     if ![SF_ORDER_ITEM, SF_PRICEBOOK_ENTRY].include?(sf_object.sobject_type)
-      raise "price can only be created from an order line or pricebook entry"
+      raise ArgumentError.new("price can only be created from an order line or pricebook entry")
     end
 
     # TODO the tiered pricing logic should be extracted out to a separate method

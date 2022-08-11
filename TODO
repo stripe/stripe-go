@@ -14,6 +14,8 @@
 - Document no >1 quantity metered billing items
 - Days until due: allows integers, only support defaults, must setup not set by default
 - if a customer has more than 3 subscriptions on a customer, they will get an error
+- Phase is not mapped on the initial order, mapped on each order amendment
+- If subscription is created and terminated on the same day, cancel is used
 
 Next:
 

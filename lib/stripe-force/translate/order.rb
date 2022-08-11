@@ -191,6 +191,50 @@ class StripeForce::Translate
     stripe_transaction
   end
 
+  sig do
+    params(
+      previous_phase_items: T::Array[ContractItemStructure],
+      order_amendment: Restforce::SObject
+    ).returns([T::Array[ContractItemStructure], T::Array[ContractItemStructure]])
+  end
+  def build_phase_items_from_order_amendment(previous_phase_items, order_amendment)
+    sf_order_items = order_lines_from_order(order_amendment)
+    invoice_items_in_order, subscription_items_in_order = phase_items_from_order_lines(sf_order_items)
+
+    aggregate_phase_items = merge_subscription_line_items(
+      previous_phase_items,
+      subscription_items_in_order
+    )
+
+    is_recurring_order = !aggregate_phase_items.empty?
+
+    if !is_recurring_order
+      raise Integrations::Errors::UnhandledEdgeCase.new("order amendments representing all one-time invoices")
+    end
+
+    # TODO this should be moved to a helper
+    is_order_terminated = aggregate_phase_items.all?(&:is_terminated?)
+
+    if is_order_terminated && !invoice_items_in_order.empty?
+      raise Integrations::Errors::UnhandledEdgeCase.new("one-time invoice items but terminated order")
+    end
+
+    # if it's not terminated, it could be partially terminated
+    # let's remove any partially terminated items
+    if !is_order_terminated
+      aggregate_phase_items.reject! do |phase_item|
+        if phase_item.is_terminated?
+          log.info 'line iterm terminated', terminated_order_item_id: phase_item.order_line&.Id
+          true
+        else
+          false
+        end
+      end
+    end
+
+    [invoice_items_in_order, aggregate_phase_items]
+  end
+
   sig { params(contract_structure: ContractStructure).void }
   def update_subscription_phases_from_order_amendments(contract_structure)
     return if contract_structure.amendments.empty?
@@ -198,7 +242,7 @@ class StripeForce::Translate
     # refresh to include subscription reference on the Stripe ID field in SF if the order was just translated
     contract_structure.initial.refresh
 
-    # TODO should pull from a sync record in the future
+    # TODO use application sync record
     subscription_schedule = retrieve_from_stripe(
       Stripe::SubscriptionSchedule,
       contract_structure.initial
@@ -248,42 +292,22 @@ class StripeForce::Translate
     contract_structure.amendments.each_with_index do |sf_order_amendment, index|
       log.info 'processing amendment', salesforce_object: sf_order_amendment, index: index
 
-      sf_order_items = order_lines_from_order(sf_order_amendment)
-      invoice_items_in_order, subscription_items_in_order = phase_items_from_order_lines(sf_order_items)
-
-      aggregate_phase_items = merge_subscription_line_items(
-        aggregate_phase_items,
-        subscription_items_in_order
-      )
-
-      is_recurring_order = !aggregate_phase_items.empty?
-
-      if !is_recurring_order
-        raise Integrations::Errors::UnhandledEdgeCase.new("order amendments representing all one-time invoices")
-      end
-
-      # TODO this probably needs to be tweaked after item merging is working
+      invoice_items_in_order, aggregate_phase_items = build_phase_items_from_order_amendment(aggregate_phase_items, sf_order_amendment)
       is_order_terminated = aggregate_phase_items.all?(&:is_terminated?)
 
-      if is_order_terminated && !invoice_items_in_order.empty?
-        raise Integrations::Errors::UnhandledEdgeCase.new("one-time invoice items but terminated order")
-      end
-
       if is_order_terminated && contract_structure.amendments.size - 1 != index
-        raise Integrations::Errors::UnhandledEdgeCase.new("order terminated, but there's more amendmends")
+        raise Integrations::Errors::UnhandledEdgeCase.new("order terminated, but there's more amendments")
       end
 
-      # if it's not terminated, it could be partially terminated
-      if !is_order_terminated
-        aggregate_phase_items.reject! do |phase_item|
-          if phase_item.is_terminated?
-            log.info 'line iterm terminated', terminated_order_item_id: phase_item.order_line&.Id
-            true
-          else
-            false
-          end
-        end
+      # this loop excludes the initial phase, which is why we are subtracting by 1
+      if subscription_phases.count - 1 > index
+        log.info 'phase already exists, checking for diff and skipping'
+        # TODO check for diff and log
+        next
       end
+
+      # TODO price ID dup check on the invoice items
+      # TODO price ID dup check on the subscription item
 
       # TODO should probably use a completely different key/mapping for the phase items
       phase_params = extract_salesforce_params!(sf_order_amendment, Stripe::SubscriptionSchedule)
@@ -293,14 +317,6 @@ class StripeForce::Translate
         phase_params['iterations'].to_i,
         T.must(aggregate_phase_items.first).stripe_params[:price]
       )
-
-      # TODO this probably needs to be moved higher in the stack
-      # this loop excludes the initial phase, which is why we are subtracting by 1
-      if subscription_phases.count - 1 > index
-        log.info 'phase already exists, checking for diff and skipping'
-        # TODO check for diff and log
-        next
-      end
 
       new_phase = Stripe::StripeObject.construct_from({
         add_invoice_items: invoice_items_in_order.map(&:stripe_params),
