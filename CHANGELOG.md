@@ -1,5 +1,10 @@
 # Changelog
 
+## 73.3.0-beta.1 - 2022-08-11
+* [#1525](https://github.com/stripe/stripe-go/pull/1525) API Updates for beta branch
+  - Updated stable APIs to the latest version
+  - Add `RefundPayment` method to Terminal resource
+
 ## 73.2.0 - 2022-08-11
 * [#1524](https://github.com/stripe/stripe-go/pull/1524) API Updates
   * Add support for `PaymentMethodCollection` on `CheckoutSessionParams`, `CheckoutSession`, `PaymentLinkParams`, and `PaymentLink`
