@@ -129,10 +129,18 @@ type TerminalReaderSetReaderDisplayParams struct {
 	Type *string `form:"type"`
 }
 
+// Represents a per-transaction override of a reader configuration
+type TerminalReaderActionProcessPaymentIntentProcessConfig struct {
+	// Override showing a tipping selection screen on this transaction.
+	SkipTipping bool `json:"skip_tipping"`
+}
+
 // Represents a reader action to process a payment intent
 type TerminalReaderActionProcessPaymentIntent struct {
 	// Most recent PaymentIntent processed by the reader.
 	PaymentIntent *PaymentIntent `json:"payment_intent"`
+	// Represents a per-transaction override of a reader configuration
+	ProcessConfig *TerminalReaderActionProcessPaymentIntentProcessConfig `json:"process_config"`
 }
 
 // Represents a reader action to process a setup intent
