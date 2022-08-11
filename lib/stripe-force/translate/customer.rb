@@ -23,12 +23,6 @@ class StripeForce::Translate
 
         generated_stripe_customer.test_clock = test_clock.id
       end
-
-      # passing a partial shipping hash will trigger an error
-      if !generated_stripe_customer.shipping.respond_to?(:address) || generated_stripe_customer.shipping.address.to_h.empty?
-        log.info 'no address on shipping hash, removing'
-        generated_stripe_customer.shipping = {}
-      end
     end
 
     update_sf_stripe_id(sf_account, customer)

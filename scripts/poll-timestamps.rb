@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 # typed: true
+# Usage: heroku run bundle exec ruby scripts/poll-timestamps.rb acct_
 
 def user_from_script_argument
   user_id = ARGV[0]
@@ -46,6 +47,8 @@ def set_initial_poll_timestamp(user, sf_class)
   poll_timestamp.last_polled_at = Time.now
   poll_timestamp.save
 end
+
+include StripeForce::Constants
 
 user = user_from_script_argument
 

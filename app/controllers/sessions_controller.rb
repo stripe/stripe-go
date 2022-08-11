@@ -114,11 +114,7 @@ class SessionsController < ApplicationController
       report_edge_case("stripe account ID already set, overwriting")
     end
 
-    user.update(
-      stripe_account_id: stripe_user_id,
-      # TODO maybe public key?
-      # stripe_refresh_token: stripe_auth[""]
-    )
+    user.update(stripe_account_id: stripe_user_id,)
 
     postmessage_domain = build_postmessage_domain(user, session[:salesforce_namespace])
 
@@ -137,12 +133,6 @@ class SessionsController < ApplicationController
 
   def failure
     render inline: 'Authorization Failure'
-  end
-
-  private def build_postmessage_domain(user, raw_namespace)
-    salesforce_namespace = subdomain_namespace_from_param(raw_namespace)
-    iframe_domain = iframe_domain_from_user(user)
-    "https://#{user.sf_subdomain}--#{salesforce_namespace}.#{iframe_domain}"
   end
 
   private def render_oauth_post_redirect(oauth_type)

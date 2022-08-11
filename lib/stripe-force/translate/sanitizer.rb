@@ -36,6 +36,12 @@ module StripeForce
       if stripe_customer[:shipping] && stripe_customer[:shipping][:phone]
         stripe_customer[:shipping][:phone] = stripe_customer[:shipping][:phone][0..19]
       end
+
+      # passing a partial shipping hash will trigger an error, remove the shipping hash entirely if it's only partial
+      if !stripe_customer.shipping.respond_to?(:address) || stripe_customer.shipping.address.to_h.empty?
+        log.info 'no address on shipping hash, removing'
+        stripe_customer.shipping = {}
+      end
     end
   end
 end

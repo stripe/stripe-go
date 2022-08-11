@@ -16,6 +16,9 @@ module Critic::Unit
         description: original_description,
         shipping: {
           phone: '1 (519) 888-4567 ext. 32110',
+          address: {
+            country: "US",
+          },
         }
       )
 
