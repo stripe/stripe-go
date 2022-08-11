@@ -4,8 +4,9 @@
 # sfdx will often fail for intermittent reasons. The CLI tool does not have retry functionality.
 # https://stackoverflow.com/questions/8350942/how-to-re-run-the-curl-command-automatically-when-the-error-occurs/8351489#8351489
 function with_backoff {
-  local max_attempts=${ATTEMPTS-5}
-  local timeout=${TIMEOUT-1}
+  local max_attempts=5
+  local timeout=5
+
   local attempt=1
   local exitCode=0
 
@@ -35,7 +36,7 @@ function with_backoff {
 function authorizeSalesforceAccount {
   username=$1
   salesforceAlias=$(echo "$username" | perl -nle 'm/\+([^@]+)/; print $1')
-  echo "\nAuthorizing using alias: $salesforceAlias"
+  echo -e "\nAuthorizing using alias: $salesforceAlias"
   with_backoff sfdx auth:jwt:grant --clientid $SF_CONSUMER_KEY --jwtkeyfile=$SF_JWT_PRIVATE_KEY_PATH --username="$username" --setalias="$salesforceAlias"
 }
 
@@ -43,7 +44,7 @@ function authorizeSalesforceAccount {
 
 function deploySource {
   orgAlias=$1
-  echo "\nDeploying source..."
+  echo -e "\nDeploying source..."
 
   # make sure the same API version is used for local deployments, otherwise you'll run into weird errors
   # for some reason, the `sfdx config:set apiVersion=52.0` doesn't work and gets overwritten
@@ -53,7 +54,7 @@ function deploySource {
 
 function runTests {
   orgAlias=$1
-  echo $'\nRunning tests...'
+  echo -e "\nRunning tests..."
   mkdir -p test-results
   sfdx force:apex:test:run --codecoverage --testlevel RunLocalTests -u $orgAlias --resultformat human --outputdir=test-results
 }
@@ -62,6 +63,6 @@ function runTests {
 #      created in future tests does not clog up our test accounts and create a storage limit error
 function deleteTestData {
   orgAlias=$1
-  echo '\nDeleting all test data...'
+  echo -e "\nDeleting all test data..."
   sfdx force:apex:execute -f bin/delete_test_record_data.apex -u $orgAlias
 }
