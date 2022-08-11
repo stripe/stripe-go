@@ -62,6 +62,15 @@ const (
 	PaymentLinkPaymentIntentDataSetupFutureUsageOnSession  PaymentLinkPaymentIntentDataSetupFutureUsage = "on_session"
 )
 
+// Configuration for collecting a payment method during checkout.
+type PaymentLinkPaymentMethodCollection string
+
+// List of values that PaymentLinkPaymentMethodCollection can take
+const (
+	PaymentLinkPaymentMethodCollectionAlways     PaymentLinkPaymentMethodCollection = "always"
+	PaymentLinkPaymentMethodCollectionIfRequired PaymentLinkPaymentMethodCollection = "if_required"
+)
+
 // The list of payment method types that customers can use. When `null`, Stripe will dynamically show relevant payment methods you've enabled in your [payment method settings](https://dashboard.stripe.com/settings/payment_methods).
 type PaymentLinkPaymentMethodType string
 
@@ -260,6 +269,12 @@ type PaymentLinkParams struct {
 	OnBehalfOf *string `form:"on_behalf_of"`
 	// A subset of parameters to be passed to PaymentIntent creation for Checkout Sessions in `payment` mode.
 	PaymentIntentData *PaymentLinkPaymentIntentDataParams `form:"payment_intent_data"`
+	// Specify whether Checkout should collect a payment method. When set to `if_required`, Checkout will not collect a payment method when the total due for the session is 0.This may occur if the Checkout Session includes a free trial or a discount.
+	//
+	// Can only be set in `subscription` mode.
+	//
+	// If you'd like information on how to collect a payment method outside of Checkout, read the guide on [configuring subscriptions with a free trial](https://stripe.com/docs/payments/checkout/free-trials).
+	PaymentMethodCollection *string `form:"payment_method_collection"`
 	// The list of payment method types that customers can use. Pass an empty string to enable automatic payment methods that use your [payment method settings](https://dashboard.stripe.com/settings/payment_methods).
 	PaymentMethodTypes []*string `form:"payment_method_types"`
 	// Controls phone number collection settings during checkout.
@@ -391,6 +406,8 @@ type PaymentLink struct {
 	OnBehalfOf *Account `json:"on_behalf_of"`
 	// Indicates the parameters to be passed to PaymentIntent creation during checkout.
 	PaymentIntentData *PaymentLinkPaymentIntentData `json:"payment_intent_data"`
+	// Configuration for collecting a payment method during checkout.
+	PaymentMethodCollection PaymentLinkPaymentMethodCollection `json:"payment_method_collection"`
 	// The list of payment method types that customers can use. When `null`, Stripe will dynamically show relevant payment methods you've enabled in your [payment method settings](https://dashboard.stripe.com/settings/payment_methods).
 	PaymentMethodTypes    []PaymentLinkPaymentMethodType    `json:"payment_method_types"`
 	PhoneNumberCollection *PaymentLinkPhoneNumberCollection `json:"phone_number_collection"`
