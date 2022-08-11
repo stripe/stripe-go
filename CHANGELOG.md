@@ -1,5 +1,10 @@
 # Changelog
 
+## 73.2.0 - 2022-08-11
+* [#1524](https://github.com/stripe/stripe-go/pull/1524) API Updates
+  * Add support for `PaymentMethodCollection` on `CheckoutSessionParams`, `CheckoutSession`, `PaymentLinkParams`, and `PaymentLink`
+  
+
 ## 73.1.0 - 2022-08-09
 * [#1522](https://github.com/stripe/stripe-go/pull/1522) API Updates
   * Add support for `ProcessConfig` on `TerminalReaderActionProcessPaymentIntent`
