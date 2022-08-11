@@ -13,6 +13,7 @@
 - Document zero quantity items
 - Document no >1 quantity metered billing items
 - Days until due: allows integers, only support defaults, must setup not set by default
+- if a customer has more than 3 subscriptions on a customer, they will get an error
 
 Next:
 

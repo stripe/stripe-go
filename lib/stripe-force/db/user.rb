@@ -49,6 +49,7 @@ module StripeForce
 
       if self.new?
         self.enable_feature(:loud_sandbox_logging)
+        self.enable_feature(:test_clocks)
         self.connector_settings = DEFAULT_CONNECTOR_SETTINGS.deep_dup
       end
       self.feature_flags.map!(&:to_sym)

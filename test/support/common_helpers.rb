@@ -69,6 +69,9 @@ module CommonHelpers
       user.connector_settings[CONNECTOR_SETTING_SALESFORCE_NAMESPACE] = SalesforceNamespaceOptions::NONE.serialize
     end
 
+    # clocks won't be enabled in prod, so we want to mimic this
+    user.disable_feature(:test_clocks)
+
     user.connector_settings[CONNECTOR_SETTING_SALESFORCE_INSTANCE_TYPE] = SFInstanceTypes::SANDBOX.serialize
     user.save if save
 
