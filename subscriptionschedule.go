@@ -190,8 +190,9 @@ type SubscriptionSchedulePhaseItemDiscountParams struct {
 	Discount *string `form:"discount"`
 }
 
-// Settings for trials
+// Options that configure the trial on the subscription item.
 type SubscriptionSchedulePhaseItemTrialParams struct {
+	// Determines the type of trial for this item.
 	Type *string `form:"type"`
 }
 
@@ -213,7 +214,7 @@ type SubscriptionSchedulePhaseItemParams struct {
 	Quantity *int64 `form:"quantity"`
 	// A list of [Tax Rate](https://stripe.com/docs/api/tax_rates) ids. These Tax Rates will override the [`default_tax_rates`](https://stripe.com/docs/api/subscriptions/create#create_subscription-default_tax_rates) on the Subscription. When updating, pass an empty string to remove previously-defined tax rates.
 	TaxRates []*string `form:"tax_rates"`
-	// Settings for trials
+	// Options that configure the trial on the subscription item.
 	Trial *SubscriptionSchedulePhaseItemTrialParams `form:"trial"`
 }
 
@@ -407,8 +408,9 @@ type SubscriptionScheduleAmendAmendmentDiscountActionParams struct {
 	// Details of the discount to remove.
 	Remove *SubscriptionScheduleAmendAmendmentDiscountActionRemoveParams `form:"remove"`
 	// Details of the discount to replace the existing discounts with.
-	Set  *SubscriptionScheduleAmendAmendmentDiscountActionSetParams `form:"set"`
-	Type *string                                                    `form:"type"`
+	Set *SubscriptionScheduleAmendAmendmentDiscountActionSetParams `form:"set"`
+	// Determines the type of discount action.
+	Type *string `form:"type"`
 }
 
 // The discounts applied to the item. Subscription item discounts are applied before subscription discounts.
@@ -419,8 +421,9 @@ type SubscriptionScheduleAmendAmendmentItemActionAddDiscountParams struct {
 	Discount *string `form:"discount"`
 }
 
-// Current trial configuration on this item.
+// Options that configure the trial on the subscription item.
 type SubscriptionScheduleAmendAmendmentItemActionAddTrialParams struct {
+	// Determines the type of trial for this item.
 	Type *string `form:"type"`
 }
 
@@ -436,7 +439,7 @@ type SubscriptionScheduleAmendAmendmentItemActionAddParams struct {
 	Quantity *int64 `form:"quantity"`
 	// The tax rates that apply to this subscription item. When set, the `default_tax_rates` on the subscription do not apply to this `subscription_item`.
 	TaxRates []*string `form:"tax_rates"`
-	// Current trial configuration on this item.
+	// Options that configure the trial on the subscription item.
 	Trial *SubscriptionScheduleAmendAmendmentItemActionAddTrialParams `form:"trial"`
 }
 
@@ -456,6 +459,7 @@ type SubscriptionScheduleAmendAmendmentItemActionSetDiscountParams struct {
 
 // If the an item with the `price` already exists, passing this will override the `trial` configuration on the subscription item that matches that price. Otherwise, the `items` array is cleared and a single new item is added with the supplied `trial`.
 type SubscriptionScheduleAmendAmendmentItemActionSetTrialParams struct {
+	// Determines the type of trial for this item.
 	Type *string `form:"type"`
 }
 
@@ -482,8 +486,9 @@ type SubscriptionScheduleAmendAmendmentItemActionParams struct {
 	// Details of the subscription item to remove.
 	Remove *SubscriptionScheduleAmendAmendmentItemActionRemoveParams `form:"remove"`
 	// Details of the subscription item to replace the existing items with. If an item with the `set[price]` already exists, the `items` array is not cleared. Instead, all of the other `set` properties that are passed in this request will replace the existing values for the configuration item.
-	Set  *SubscriptionScheduleAmendAmendmentItemActionSetParams `form:"set"`
-	Type *string                                                `form:"type"`
+	Set *SubscriptionScheduleAmendAmendmentItemActionSetParams `form:"set"`
+	// Determines the type of item action.
+	Type *string `form:"type"`
 }
 
 // Changes to apply to the phases of the subscription schedule, in the order provided.
@@ -596,7 +601,7 @@ type SubscriptionSchedulePhaseItemDiscount struct {
 	Discount *Discount `json:"discount"`
 }
 
-// Current trial configuration on this item.
+// Options that configure the trial on the subscription item.
 type SubscriptionSchedulePhaseItemTrial struct {
 	Type SubscriptionSchedulePhaseItemTrialType `json:"type"`
 }
@@ -617,7 +622,7 @@ type SubscriptionSchedulePhaseItem struct {
 	Quantity int64 `json:"quantity"`
 	// The tax rates which apply to this `phase_item`. When set, the `default_tax_rates` on the phase do not apply to this `phase_item`.
 	TaxRates []*TaxRate `json:"tax_rates"`
-	// Current trial configuration on this item.
+	// Options that configure the trial on the subscription item.
 	Trial *SubscriptionSchedulePhaseItemTrial `json:"trial"`
 }
 
