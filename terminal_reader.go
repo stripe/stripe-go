@@ -6,6 +6,16 @@
 
 package stripe
 
+// The reason for the refund.
+type TerminalReaderActionRefundPaymentReason string
+
+// List of values that TerminalReaderActionRefundPaymentReason can take
+const (
+	TerminalReaderActionRefundPaymentReasonDuplicate           TerminalReaderActionRefundPaymentReason = "duplicate"
+	TerminalReaderActionRefundPaymentReasonFraudulent          TerminalReaderActionRefundPaymentReason = "fraudulent"
+	TerminalReaderActionRefundPaymentReasonRequestedByCustomer TerminalReaderActionRefundPaymentReason = "requested_by_customer"
+)
+
 // Type of information to be displayed by the reader.
 type TerminalReaderActionSetReaderDisplayType string
 
@@ -31,6 +41,7 @@ type TerminalReaderActionType string
 const (
 	TerminalReaderActionTypeProcessPaymentIntent TerminalReaderActionType = "process_payment_intent"
 	TerminalReaderActionTypeProcessSetupIntent   TerminalReaderActionType = "process_setup_intent"
+	TerminalReaderActionTypeRefundPayment        TerminalReaderActionType = "refund_payment"
 	TerminalReaderActionTypeSetReaderDisplay     TerminalReaderActionType = "set_reader_display"
 )
 
@@ -129,10 +140,33 @@ type TerminalReaderSetReaderDisplayParams struct {
 	Type *string `form:"type"`
 }
 
+// Initiates a refund on a Reader
+type TerminalReaderRefundPaymentParams struct {
+	Params `form:"*"`
+	// A positive integer in __cents__ representing how much of this charge to refund.
+	Amount *int64 `form:"amount"`
+	// ID of the Charge to refund.
+	Charge *string `form:"charge"`
+	// ID of the PaymentIntent to refund.
+	PaymentIntent *string `form:"payment_intent"`
+	// Boolean indicating whether the application fee should be refunded when refunding this charge. If a full charge refund is given, the full application fee will be refunded. Otherwise, the application fee will be refunded in an amount proportional to the amount of the charge refunded. An application fee can be refunded only by the application that created the charge.
+	RefundApplicationFee *bool `form:"refund_application_fee"`
+	// Boolean indicating whether the transfer should be reversed when refunding this charge. The transfer will be reversed proportionally to the amount being refunded (either the entire or partial amount). A transfer can be reversed only by the application that created the charge.
+	ReverseTransfer *bool `form:"reverse_transfer"`
+}
+
+// Represents a per-transaction override of a reader configuration
+type TerminalReaderActionProcessPaymentIntentProcessConfig struct {
+	// Override showing a tipping selection screen on this transaction.
+	SkipTipping bool `json:"skip_tipping"`
+}
+
 // Represents a reader action to process a payment intent
 type TerminalReaderActionProcessPaymentIntent struct {
 	// Most recent PaymentIntent processed by the reader.
 	PaymentIntent *PaymentIntent `json:"payment_intent"`
+	// Represents a per-transaction override of a reader configuration
+	ProcessConfig *TerminalReaderActionProcessPaymentIntentProcessConfig `json:"process_config"`
 }
 
 // Represents a reader action to process a setup intent
@@ -140,6 +174,24 @@ type TerminalReaderActionProcessSetupIntent struct {
 	GeneratedCard string `json:"generated_card"`
 	// Most recent SetupIntent processed by the reader.
 	SetupIntent *SetupIntent `json:"setup_intent"`
+}
+
+// Represents a reader action to refund a payment
+type TerminalReaderActionRefundPayment struct {
+	// The amount being refunded.
+	Amount int64 `json:"amount"`
+	// Charge that is being refunded.
+	Charge *Charge `json:"charge"`
+	// Payment intent that is being refunded.
+	PaymentIntent *PaymentIntent `json:"payment_intent"`
+	// The reason for the refund.
+	Reason TerminalReaderActionRefundPaymentReason `json:"reason"`
+	// Unique identifier for the refund object.
+	Refund *Refund `json:"refund"`
+	// Boolean indicating whether the application fee should be refunded when refunding this charge. If a full charge refund is given, the full application fee will be refunded. Otherwise, the application fee will be refunded in an amount proportional to the amount of the charge refunded. An application fee can be refunded only by the application that created the charge.
+	RefundApplicationFee bool `json:"refund_application_fee"`
+	// Boolean indicating whether the transfer should be reversed when refunding this charge. The transfer will be reversed proportionally to the amount being refunded (either the entire or partial amount). A transfer can be reversed only by the application that created the charge.
+	ReverseTransfer bool `json:"reverse_transfer"`
 }
 
 // List of line items in the cart.
@@ -182,6 +234,8 @@ type TerminalReaderAction struct {
 	ProcessPaymentIntent *TerminalReaderActionProcessPaymentIntent `json:"process_payment_intent"`
 	// Represents a reader action to process a setup intent
 	ProcessSetupIntent *TerminalReaderActionProcessSetupIntent `json:"process_setup_intent"`
+	// Represents a reader action to refund a payment
+	RefundPayment *TerminalReaderActionRefundPayment `json:"refund_payment"`
 	// Represents a reader action to set the reader display
 	SetReaderDisplay *TerminalReaderActionSetReaderDisplay `json:"set_reader_display"`
 	// Status of the action performed by the reader.

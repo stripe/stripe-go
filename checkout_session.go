@@ -129,6 +129,15 @@ const (
 	CheckoutSessionModeSubscription CheckoutSessionMode = "subscription"
 )
 
+// Configure whether a Checkout Session should collect a payment method.
+type CheckoutSessionPaymentMethodCollection string
+
+// List of values that CheckoutSessionPaymentMethodCollection can take
+const (
+	CheckoutSessionPaymentMethodCollectionAlways     CheckoutSessionPaymentMethodCollection = "always"
+	CheckoutSessionPaymentMethodCollectionIfRequired CheckoutSessionPaymentMethodCollection = "if_required"
+)
+
 // List of Stripe products where this mandate can be selected automatically. Returned when the Session is in `setup` mode.
 type CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptionsDefaultFor string
 
@@ -1365,6 +1374,13 @@ type CheckoutSessionParams struct {
 	Mode *string `form:"mode"`
 	// A subset of parameters to be passed to PaymentIntent creation for Checkout Sessions in `payment` mode.
 	PaymentIntentData *CheckoutSessionPaymentIntentDataParams `form:"payment_intent_data"`
+	// Specify whether Checkout should collect a payment method. When set to `if_required`, Checkout will not collect a payment method when the total due for the session is 0.
+	// This may occur if the Checkout Session includes a free trial or a discount.
+	//
+	// Can only be set in `subscription` mode.
+	//
+	// If you'd like information on how to collect a payment method outside of Checkout, read the guide on configuring [subscriptions with a free trial](https://stripe.com/docs/payments/checkout/free-trials).
+	PaymentMethodCollection *string `form:"payment_method_collection"`
 	// Payment-method-specific configuration.
 	PaymentMethodOptions *CheckoutSessionPaymentMethodOptionsParams `form:"payment_method_options"`
 	// A list of the types of payment methods (e.g., `card`) this Checkout Session can accept.
@@ -1914,6 +1930,8 @@ type CheckoutSession struct {
 	PaymentIntent *PaymentIntent `json:"payment_intent"`
 	// The ID of the Payment Link that created this Session.
 	PaymentLink *PaymentLink `json:"payment_link"`
+	// Configure whether a Checkout Session should collect a payment method.
+	PaymentMethodCollection CheckoutSessionPaymentMethodCollection `json:"payment_method_collection"`
 	// Payment-method-specific configuration for the PaymentIntent or SetupIntent of this CheckoutSession.
 	PaymentMethodOptions *CheckoutSessionPaymentMethodOptions `json:"payment_method_options"`
 	// A list of the types of payment methods (e.g. card) this Checkout

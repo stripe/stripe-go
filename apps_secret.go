@@ -43,6 +43,8 @@ type AppsSecretScopeParams struct {
 // Create or replace a secret in the secret store.
 type AppsSecretParams struct {
 	Params `form:"*"`
+	// The Unix timestamp for the expiry time of the secret, after which the secret deletes.
+	ExpiresAt *int64 `form:"expires_at"`
 	// A name for the secret that's unique within the scope.
 	Name *string `form:"name"`
 	// The plaintext secret value to be stored.
@@ -104,6 +106,8 @@ type AppsSecret struct {
 	Created int64 `json:"created"`
 	// If true, indicates that this secret has been deleted
 	Deleted bool `json:"deleted"`
+	// The Unix timestamp for the expiry time of the secret, after which the secret deletes.
+	ExpiresAt int64 `json:"expires_at"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.

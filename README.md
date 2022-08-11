@@ -62,9 +62,6 @@ params := &stripe.PaymentIntentListParams{
 	Customer: stripe.String(customer.ID),
 }
 
-// set this so you can easily retry your request in case of a timeout
-params.Params.IdempotencyKey = stripe.NewIdempotencyKey()
-
 i := paymentintent.List(params)
 for i.Next() {
 	pi := i.PaymentIntent()
@@ -150,7 +147,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	c := appengine.NewContext(r)
 	httpClient := urlfetch.Client(c)
 
-	sc := stripeClient.New("sk_test_123", stripe.NewBackends(httpClient))
+	sc := client.New("sk_test_123", stripe.NewBackends(httpClient))
 
 	params := &stripe.CustomerParams{
 		Description: stripe.String("Stripe Developer"),
@@ -184,24 +181,25 @@ import (
 // Setup
 stripe.Key = "sk_key"
 
-stripe.SetBackend("api", backend) // optional, useful for mocking
+// Set backend (optional, useful for mocking)
+// stripe.SetBackend("api", backend)
 
 // Create
-$resource$, err := $resource$.New(stripe.$Resource$Params)
+resource, err := $resource$.New(&stripe.$Resource$Params{})
 
 // Get
-$resource$, err := $resource$.Get(id, stripe.$Resource$Params)
+resource, err = $resource$.Get(id, &stripe.$Resource$Params{})
 
 // Update
-$resource$, err := $resource$.Update(stripe.$Resource$Params)
+resource, err = $resource$.Update(id, &stripe.$Resource$Params{})
 
 // Delete
-resourceDeleted, err := $resource$.Del(id, stripe.$Resource$Params)
+resourceDeleted, err := $resource$.Del(id, &stripe.$Resource$Params{})
 
 // List
-i := $resource$.List(stripe.$Resource$ListParams)
+i := $resource$.List(&stripe.$Resource$ListParams{})
 for i.Next() {
-	$resource$ := i.$Resource$()
+	resource := i.$Resource$()
 }
 
 if err := i.Err(); err != nil {
@@ -226,21 +224,21 @@ sc := &client.API{}
 sc.Init("sk_key", nil) // the second parameter overrides the backends used if needed for mocking
 
 // Create
-$resource$, err := sc.$Resource$s.New(stripe.$Resource$Params)
+$resource$, err := sc.$Resource$s.New(&stripe.$Resource$Params{})
 
 // Get
-$resource$, err := sc.$Resource$s.Get(id, stripe.$Resource$Params)
+$resource$, err = sc.$Resource$s.Get(id, &stripe.$Resource$Params{})
 
 // Update
-$resource$, err := sc.$Resource$s.Update(stripe.$Resource$Params)
+$resource$, err = sc.$Resource$s.Update(id, &stripe.$Resource$Params{})
 
 // Delete
-resourceDeleted, err := sc.$Resource$s.Del(id, stripe.$Resource$Params)
+$resource$Deleted, err := sc.$Resource$s.Del(id, &stripe.$Resource$Params{})
 
 // List
-i := sc.$Resource$s.List(stripe.$Resource$ListParams)
+i := sc.$Resource$s.List(&stripe.$Resource$ListParams{})
 for i.Next() {
-	resource := i.$Resource$()
+	$resource$ := i.$Resource$()
 }
 
 if err := i.Err(); err != nil {
@@ -265,7 +263,7 @@ object attached to the iterator:
 it := coupon.List(...)
 for it.Next() {
     // Last response *NOT* on the individual iterator object
-    it.Coupon().LastResponse // wrong
+    // it.Coupon().LastResponse // wrong
 
     // But rather on the list object, also accessible through the iterator
     requestID := it.CouponList().LastResponse.RequestID
@@ -355,7 +353,7 @@ parameter structs. For example:
 //
 // *Without* expansion
 //
-c, _ := charge.Retrieve("ch_123", nil)
+c, _ := charge.Get("ch_123", nil)
 
 c.Customer.ID    // Only ID is populated
 c.Customer.Name  // All other fields are always empty
@@ -363,9 +361,9 @@ c.Customer.Name  // All other fields are always empty
 //
 // With expansion
 //
-p := &CustomerParams{}
+p := &stripe.ChargeParams{}
 p.AddExpand("customer")
-c, _ := charge.Retrieve("ch_123", p)
+c, _ = charge.Get("ch_123", p)
 
 c.Customer.ID    // ID is still available
 c.Customer.Name  // Name is now also available (if it had a value)
@@ -408,9 +406,36 @@ secret_feature_enabled, _ := string(rawData["secret_feature_enabled"].(bool))
 secret_parameter, ok := rawData["secret_parameter"].(map[string]interface{})
 if ok {
 	primary := secret_parameter["primary"].(string)
-	seconardy := secret_parameter["secondary"].(string)
+	secondary := secret_parameter["secondary"].(string)
 } 
 ```
+
+### Webhook signing
+Stripe can optionally sign the webhook events it sends to your endpoint, allowing you to validate that they were not sent by a third-party. You can read more about it [here](https://stripe.com/docs/webhooks/signatures).
+
+#### Testing Webhook signing
+You can use `stripe.webhook.GenerateTestSignedPayload` to mock webhook events that come from Stripe:
+
+```go
+payload := map[string]interface{}{
+	"id":          "evt_test_webhook",
+	"object":      "event",
+	"api_version": stripe.APIVersion,
+}
+testSecret := "whsec_test_secret"
+
+payloadBytes, err := json.Marshal(payload)
+
+signedPayload := GenerateTestSignedPayload(&UnsignedPayload{payload: payloadBytes, secret: testSecret})
+event, err := ConstructEvent(signedPayload.payload, signedPayload.header, signedPayload.secret)
+
+if event.ID = payload.id {
+	// Do something with the mocked signed event
+} else {
+	// Handle invalid event payload
+}
+```
+
 ### Writing a Plugin
 
 If you're writing a plugin that uses the library, we'd appreciate it if you

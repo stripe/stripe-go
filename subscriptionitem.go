@@ -59,8 +59,9 @@ type SubscriptionItemPriceDataParams struct {
 	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
 }
 
-// Define options to configure the trial on the subscription.
+// Options that configure the trial on the subscription item.
 type SubscriptionItemTrialParams struct {
+	// Determines the type of trial for this item.
 	Type *string `form:"type"`
 }
 
@@ -100,7 +101,7 @@ type SubscriptionItemParams struct {
 	Subscription *string `form:"subscription"`
 	// A list of [Tax Rate](https://stripe.com/docs/api/tax_rates) ids. These Tax Rates will override the [`default_tax_rates`](https://stripe.com/docs/api/subscriptions/create#create_subscription-default_tax_rates) on the Subscription. When updating, pass an empty string to remove previously-defined tax rates.
 	TaxRates []*string `form:"tax_rates"`
-	// Define options to configure the trial on the subscription.
+	// Options that configure the trial on the subscription item.
 	Trial *SubscriptionItemTrialParams `form:"trial"`
 }
 
@@ -118,7 +119,7 @@ type SubscriptionItemBillingThresholds struct {
 	UsageGTE int64 `json:"usage_gte"`
 }
 
-// Current trial configuration on this item.
+// Options that configure the trial on the subscription item.
 type SubscriptionItemTrial struct {
 	Type SubscriptionItemTrialType `json:"type"`
 }
@@ -162,7 +163,7 @@ type SubscriptionItem struct {
 	Subscription string `json:"subscription"`
 	// The tax rates which apply to this `subscription_item`. When set, the `default_tax_rates` on the subscription do not apply to this `subscription_item`.
 	TaxRates []*TaxRate `json:"tax_rates"`
-	// Current trial configuration on this item.
+	// Options that configure the trial on the subscription item.
 	Trial *SubscriptionItemTrial `json:"trial"`
 }
 
