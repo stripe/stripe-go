@@ -31,5 +31,29 @@ class StripeForce::Translate
         raise StripeForce::Errors::RawUserError.new("unexpected days_until_due option #{raw_days_until_due}")
       end
     end
+
+    sig { params(original_phases: T::Array[Stripe::SubscriptionSchedulePhase]).returns(T::Array[Stripe::SubscriptionSchedulePhase]) }
+    def self.sanitize_subscription_schedule_phase_params(original_phases)
+      # without deep dupping this will mutate the input
+      phases = original_phases.deep_dup
+
+      # TODO report https://jira.corp.stripe.com/browse/PLATINT-1479
+      # You can't pass back the phase in it's original format, it must be modified to avoid:
+      # 'You passed an empty string for 'phases[0][collection_method]'. We assume empty values are an attempt to unset a parameter; however 'phases[0][collection_method]' cannot be unset. You should remove 'phases[0][collection_method]' from your request or supply a non-empty value.'
+      phases.each do |phase|
+        phase
+          .keys
+          # all fields that are nil from the API should be removed before sending to the API
+          .select {|field_sym| phase.send(field_sym).nil? }
+          .each do |field_sym|
+            Integrations::Utilities::StripeUtil.delete_field_from_stripe_object(
+              phase,
+              field_sym
+            )
+          end
+      end
+
+      phases
+    end
   end
 end

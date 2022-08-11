@@ -22,27 +22,6 @@ class StripeForce::Translate
     # this will have a value indicating that the subscripion item should be added to the order.
     prop :quantity, Integer
 
-    # used when generating a phase item struct from the last active phases structure
-    sig { params(stripe_params_hash: Hash).returns(ContractItemStructure) }
-    def self.new_from_created_phase_item(stripe_params_hash)
-      quantity = if stripe_params_hash[:quantity].nil?
-        log.info 'no quantity field, assuming metered billing at quantity 1'
-        1
-      else
-        stripe_params_hash[:quantity]
-      end
-
-      # TODO I don't like relying on the metadata here; maybe we could regenerate the line items for the first order and use that representation instead?
-      #      or maybe in the future we could use an internal sync record to pull references? Either way, this should change.
-      order_line_id = stripe_params_hash[:metadata][:salesforce_order_item_id]
-
-      self.new(
-        stripe_params: stripe_params_hash,
-        quantity: quantity,
-        order_line_id: order_line_id
-      )
-    end
-
     sig { params(old_phase_item: ContractItemStructure).void }
     def append_previous_phase_item(old_phase_item)
       self.quantity += old_phase_item.quantity

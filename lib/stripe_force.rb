@@ -14,6 +14,7 @@ module Integrations
 end
 
 require_relative './hash_diff'
+require_relative './types'
 
 Dir[File.join(Rails.root, "lib/integrations/**/*.rb")].sort.each {|f| require f }
 

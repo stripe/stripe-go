@@ -215,30 +215,30 @@ class StripeForce::Translate
       report_edge_case('subscription is cancelled, it cannot be modified')
     end
 
-    subscription_schedule = T.cast(subscription_schedule, Stripe::SubscriptionSchedule)
-
     # at this point, the initial order would have already been translated
     # and a corresponding subscription schedule created.
 
+    subscription_schedule = T.cast(subscription_schedule, Stripe::SubscriptionSchedule)
+
     # Order amendments contain a negative item if they are adjusting a previous line item.
-    # In order to determine what the line items should be for a given phase we need to aggregate
-    # all previous line items together (i.e. the lines contained in the initial order and all order amendments).
+    # If they are adjusting a previous line item
 
     # How we will know if the line items are the same? Price references won't work.
     # The price of a line item can change across amendments. There's a special field
-    # on an amendmended line item that we can leverage: `SBQQ__RevisedOrderProduct__c`
+    # on an amendmended line item that we can leverage: `SBQQ__RevisedOrderProduct__c`.
+    # However, this field always references the *first* order line, not the last revised
+    # order line.
 
-    last_phase = T.must(subscription_schedule.phases.last)
+    # do NOT use the current state of the subscription schedule at all. This could cause some issues:
+    # if the old SF data was mutated in some way (even metadata!) that data will be used, which could
+    # cause weird unintended side effects. However, the state of the Stripe side would be too hard to infer.
+    # the user could mutate the phase data out-of-band, so we need to (a) limit the phase we are editing
+    # (b) recreate each phase data from the raw order line data.
 
-    # use the current state of the subscription schedule as the starting point for all aggregate line items
-    # however, we don't know *exactly* what order amendment the last phase represents...
-    # TODO there is some risk here that if we don't do the calculation properly right away
+    sf_initial_order_items = order_lines_from_order(contract_structure.initial)
+    _, aggregate_phase_items = phase_items_from_order_lines(sf_initial_order_items)
 
-    # NOTE `to_hash` is a special method on the stripe object which handles nested objects and is NOT the same as `to_h`
-    aggregate_phase_items = last_phase.items.map(&:to_hash).map {|h| ContractItemStructure.new_from_created_phase_item(h) }
     subscription_phases = subscription_schedule.phases
-
-    is_subscription_schedule_cancelled = T.let(false, T::Boolean)
 
     # SF does not enforce mutation restrictions. It's possible to go in and modify anything you want in Salesforce
     # for this reason we should NOT mutate the existing phases of a subscription. This could result in updating quantity, metadata, etc
@@ -333,21 +333,7 @@ class StripeForce::Translate
         subscription_phases << new_phase
       end
 
-      # TODO report https://jira.corp.stripe.com/browse/PLATINT-1479
-      # You can't pass back the phase in it's original format, it must be modified to avoid:
-      # 'You passed an empty string for 'phases[0][collection_method]'. We assume empty values are an attempt to unset a parameter; however 'phases[0][collection_method]' cannot be unset. You should remove 'phases[0][collection_method]' from your request or supply a non-empty value.'
-      subscription_phases.each do |phase|
-        phase
-          .keys
-          # all fields that are nil from the API should be removed before sending to the API
-          .select {|field_sym| phase.send(field_sym).nil? }
-          .each do |field_sym|
-            Integrations::Utilities::StripeUtil.delete_field_from_stripe_object(
-              phase,
-              field_sym
-            )
-          end
-      end
+      subscription_phases = OrderHelpers.sanitize_subscription_schedule_phase_params(subscription_phases)
 
       # NOTE intentional decision here NOT to update any other subscription fields
       catch_errors_with_salesforce_context(secondary: sf_order_amendment) do
