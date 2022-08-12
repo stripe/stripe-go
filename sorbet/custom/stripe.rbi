@@ -37,6 +37,19 @@ class Stripe::Price
   def product=(arg); end
 
   def recurring; end
+
+  def custom_unit_amount; end
+
+  sig { returns(T.nilable(String))}
+  def lookup_key; end
+
+  sig { returns(T.nilable(String))}
+  def nickname; end
+
+  sig { returns(String)}
+  def tax_behavior; end
+
+  def transform_quantity; end
 end
 
 # TODO I swear I added some of these in via the netsuite connector
@@ -68,6 +81,9 @@ end
 class Stripe::SubscriptionSchedulePhaseSubscriptionItem < Stripe::StripeObject
   sig { returns(String) }
   def price; end
+
+  sig { params(arg: String).void }
+  def price=(arg); end
 
   sig { returns(String) }
   def plan; end

@@ -307,7 +307,7 @@ class StripeForce::Translate
       end
 
       # TODO price ID dup check on the invoice items
-      # TODO price ID dup check on the subscription item
+      aggregate_phase_items = OrderHelpers.ensure_unique_phase_item_prices(@user, aggregate_phase_items)
 
       # TODO should probably use a completely different key/mapping for the phase items
       phase_params = extract_salesforce_params!(sf_order_amendment, Stripe::SubscriptionSchedule)

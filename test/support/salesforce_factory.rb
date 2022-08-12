@@ -300,5 +300,70 @@ module Critic
       # contract_id = salesforce_client.create!('Contract', accountId: account_id)
       # order_id = salesforce_client.create!('Order', {Status: "Draft", EffectiveDate: "2021-09-21", AccountId: account_id, ContractId: contract_id})
     end
+
+    def create_recurring_per_unit_tiered_price
+      # although the pricebook entry isn't used on our end when a consumption schedule is in place, it is still required by CPQ to go through the quoting process
+      product_id, pricebook_entry_id = salesforce_recurring_product_with_price
+
+      consumption_schedule_id = create_salesforce_consumption_schedule
+
+      # first tier is priced at per-seat pricing, the rest are not
+      # this test also tested >2 tiered pricing
+      consumption_rate_id_1 = create_salesforce_consumption_rate(consumption_schedule_id)
+      consumption_rate_id_2 = create_salesforce_consumption_rate(consumption_schedule_id, {
+        "LowerBound" => 2,
+        "UpperBound" => 10,
+        "Price" => 20,
+      })
+      consumption_rate_id_3 = create_salesforce_consumption_rate(consumption_schedule_id, {
+        "LowerBound" => 10,
+        "UpperBound" => nil,
+        "Price" => 30,
+      })
+
+      activate_and_link_consumption_schedule(consumption_schedule_id, product_id)
+
+      [product_id, pricebook_entry_id]
+    end
+
+    def create_salesforce_consumption_schedule(additional_fields={})
+      sf.create!(SF_CONSUMPTION_SCHEDULE, {
+        'Name' => sf_randomized_name(SF_CONSUMPTION_SCHEDULE),
+        'Type' => 'Range',
+        'RatingMethod' => 'Tier',
+        'SBQQ__Category__c' => 'Rates',
+        'BillingTerm' => 12,
+        'BillingTermUnit' => "Month",
+        # cannot create the consumption schedule as activated
+        # 'IsActive' => true,
+      }.merge(additional_fields))
+    end
+
+    def create_salesforce_consumption_rate(consumption_schedule_id, additional_fields={})
+      @consumption_schedule_processing_order ||= Hash.new(0)
+      @consumption_schedule_processing_order[consumption_schedule_id] += 1
+
+      sf.create!(SF_CONSUMPTION_RATE, {
+        "ConsumptionScheduleId" => consumption_schedule_id,
+        "ProcessingOrder" => @consumption_schedule_processing_order[consumption_schedule_id],
+        "PricingMethod" => "PerUnit",
+        "LowerBound" => 1,
+        "UpperBound" => 2,
+        "Price" => 10,
+      }.merge(additional_fields))
+    end
+
+    def activate_and_link_consumption_schedule(consumption_schedule_id, product_id)
+      sf.update!(SF_CONSUMPTION_SCHEDULE, {
+        SF_ID => consumption_schedule_id,
+        'IsActive' => true,
+      })
+
+      # joining record, must be an activated consumption schedule
+      sf.create!('ProductConsumptionSchedule', {
+        'ConsumptionScheduleId' => consumption_schedule_id,
+        'ProductId' => product_id,
+      })
+    end
   end
 end

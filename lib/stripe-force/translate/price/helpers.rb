@@ -44,6 +44,11 @@ class StripeForce::Translate
       end
     end
 
+    sig { params(stripe_price: Stripe::Price).returns(T::Boolean) }
+    def self.tiered_price?(stripe_price)
+      stripe_price.billing_scheme == "tiered"
+    end
+
     sig { params(stripe_price: Stripe::Price).returns(Stripe::Price) }
     def self.sanitize_price_tier_params(stripe_price)
       # no side effects, please!

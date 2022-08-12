@@ -32,6 +32,65 @@ class StripeForce::Translate
       end
     end
 
+    sig { params(user: StripeForce::User, original_stripe_price: Stripe::Price).returns(Stripe::Price) }
+    def self.duplicate_stripe_price(user, original_stripe_price)
+      stripe_price_params = original_stripe_price.to_hash
+      stripe_price_params.delete(:id)
+
+      # Stripe::InvalidRequestError: Received unknown parameters: type, object, livemode, created
+      stripe_price_params.delete(:type)
+      stripe_price_params.delete(:object)
+      stripe_price_params.delete(:livemode)
+      stripe_price_params.delete(:created)
+
+      # Stripe::InvalidRequestError: You may only specify one of these parameters: unit_amount, unit_amount_decimal.
+      stripe_price_params.delete(:unit_amount)
+
+      # same error as above
+      # TODO should we conditionally remove the unit amount? Should this be done in the sanitize price params instead?
+      stripe_price_params[:tiers]&.each do |tier|
+        tier.delete(:unit_amount)
+
+        # the API returns nil for `inf` boundary, but API expects `inf` :(
+        if tier.key?(:up_to) && tier[:up_to].nil?
+          tier[:up_to] = 'inf'
+        end
+      end
+
+      stripe_price_params.delete(:active)
+      stripe_price = Stripe::Price.construct_from(stripe_price_params)
+
+      if PriceHelpers.tiered_price?(stripe_price)
+        stripe_price = PriceHelpers.sanitize_price_tier_params(stripe_price)
+      end
+
+      Stripe::Price.create(stripe_price.to_hash, user.stripe_credentials)
+    end
+
+    # since the input and output is "fake" stripe subhash, typing here doesn't work
+    sig { params(user: StripeForce::User, original_phase_items: T::Array[ContractItemStructure]).returns(T::Array[ContractItemStructure]) }
+    def self.ensure_unique_phase_item_prices(user, original_phase_items)
+      phase_items = T.cast(original_phase_items.deep_dup, T::Array[ContractItemStructure])
+
+      price_ids = []
+      phase_items.each do |phase_item|
+        price_id = phase_item.stripe_params[:price]
+
+        if !price_ids.include?(price_id)
+          price_ids << price_id
+          next
+        end
+
+        log.debug "price id is duplicated, creating additional price"
+        original_price = Stripe::Price.retrieve({id: price_id, expand: %w{tiers}}, user.stripe_credentials)
+        new_price = OrderHelpers.duplicate_stripe_price(user, original_price)
+        phase_item.stripe_params[:price] = new_price.id
+        log.info "new price created to avoid duplicate price", new_price_id: new_price.id
+      end
+
+      phase_items
+    end
+
     sig { params(original_phases: T::Array[Stripe::SubscriptionSchedulePhase]).returns(T::Array[Stripe::SubscriptionSchedulePhase]) }
     def self.sanitize_subscription_schedule_phase_params(original_phases)
       # without deep dupping this will mutate the input

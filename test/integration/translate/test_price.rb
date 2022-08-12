@@ -9,6 +9,7 @@ class Critic::PriceTranslation < Critic::FunctionalTest
   end
 
   # TODO complex price map testing from cloudflare
+  # https://jira.corp.stripe.com/browse/PLATINT-1762
 
   describe 'price reuse' do
     it 'uses the same price object when the price object is translated twice' do
