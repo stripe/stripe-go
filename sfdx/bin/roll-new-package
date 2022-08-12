@@ -1,0 +1,91 @@
+#!/bin/bash
+
+# Description: rolls a new QA or Prod package and releases the new verison, tagging the branch appropriately.
+# Usage: cd sfdx && ./bin/roll-new-package -e <qa or prod> -u <sf_alias>
+
+set -e -o pipefail
+
+if [ ! -z "$CI" ]; then
+  echo "This should only be run locally"
+  exit 1
+fi
+
+branch_name=$(git symbolic-ref -q HEAD)
+branch_name=${branch_name##refs/heads/}
+
+# We only want to deploy and tag from main
+if [[ $branch_name != "main" ]] ; then
+  echo "This should only be run on branch main"
+  exit 1
+fi
+
+# Make sure we have the latest source code
+git pull
+
+while getopts e: flag
+do
+    case "${flag}" in
+        e) environment=${OPTARG};;
+        *) echo "Unknown flag ${OPTARG}"; exit 1;;
+    esac
+done
+
+if [[ $environment != "qa" ]] && [[ $environment != "prod" ]] ; then
+  echo "Can only deploy to 'qa' or 'prod'"
+  exit 1
+fi
+
+if [[ $environment == 'qa' ]] ; then
+  sf_user='mbianco+newstripeconnectorqa@stripe.com'
+fi
+
+if [[ $environment == 'prod' ]] ; then
+  sf_user='mbianco+stripeconnector@stripe.com'
+fi
+
+printf "🔁 Pushing source code to $environment with credentials of $sf_user";
+
+# Push the source code, if this fails the script will safely exit.
+#
+# If you don't have access to the specified account, add access:
+# ```
+# sfdx auth:web:login
+# ```
+cd "$HOME/stripe/stripe-salesforce/sfdx" && sfdx force:source:deploy -p force-app/main/default -u $sf_user --apiversion=54.0
+
+printf "\n\n\n🟢 Source code pushed. Please manually roll a new package and return here. \n(Press any button to open package manager)\n"
+read;
+
+# Open up the package manager page so you can navigate to the package and deploy a new version.
+sfdx force:org:open -p /lightning/setup/Package/home -u $sf_user
+
+while true; do
+    read -p $'\nDid you roll a new package and would like to proceed with tagging the branch? (Y/N)\n' yn
+    case $yn in
+        [Yy]* ) break;;
+        [Nn]* ) exit;;
+        * ) echo "Please answer yes or no.";;
+    esac
+done
+
+while true; do
+    latest_package_version=$(sfdx force:package1:version:list --json -u $sf_user | jq -r '.result[-1].Version')
+    echo $'\n'
+    read -p $"The latest package version for $environment is $latest_package_version. Is this the new version you rolled? (Y/N)" yn
+    case $yn in
+        [Yy]* ) break;;
+        [Nn]* ) echo "re-fetching latest package version";;
+        * ) echo "Please answer yes or no.";;
+    esac
+done
+
+# ie 'qa-1.79.0'
+branch_tag_name="$environment-$latest_package_version";
+
+echo "Tagging $branch_name with $branch_tag_name";
+git tag -a $branch_tag_name -m "$environment v$latest_package_version of Salesforce App."
+
+echo "Tagged. Pushing changes."
+git push origin $branch_tag_name
+
+echo "✅ All done!"

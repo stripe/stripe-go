@@ -19,11 +19,17 @@ Update with `sfdx force:package1:version:list --json -u mbianco+newstripeconnect
 - [feature roadmap](https://docs.google.com/spreadsheets/d/136PUl_U7bMW7uMSwcqujisasAJNQJIOPQimGGG7iG00/edit#gid=0)
 - [google drive folder with walkthrough videos and lots of docs](https://drive.google.com/drive/folders/14XhQGty83lqdMhLJduI9pwRI2mWAcrCl)
 
+# Salesforce Environments
+
+- [SF dev & test environments](https://docs.google.com/spreadsheets/d/136PUl_U7bMW7uMSwcqujisasAJNQJIOPQimGGG7iG00/edit#gid=0)
+- Production Packaging Org: `appiphonycom5-dev-ed` subdomain
+  - This org will _not_ expire since it is tied to a production package
+- QA Packaging Org: `appiphonycom7-dev-ed` subdomain
+
 # URLs
 
 - Production URL: https://salesforce.suitesync.io/auth/salesforce
 - Dev URL: http://localhost:3100/
-- [SF dev & test environments](https://docs.google.com/spreadsheets/d/136PUl_U7bMW7uMSwcqujisasAJNQJIOPQimGGG7iG00/edit#gid=0)
 - [high-level architecture for security](https://paper.dropbox.com/doc/SalesForceStripe-Connector-Architecture-A6jDl31hXxE2DOp9QKjl3)
 - [setup guide by appiphony](https://docs.google.com/document/d/17vE7-lL0DTnwRoVcYjgjDboQt72YmOVf3Mc4IS1mbWU/edit)
 
@@ -122,24 +128,14 @@ Each version of a package has a unique URL.
 
 [Here's a video walkthrough](https://drive.google.com/file/d/1Ok4Gl2rBJwy3w4AieeIa9PkWLxyK_4rP/view?usp=sharing)
 
-First, deploy the source to our [production environment](https://docs.google.com/spreadsheets/d/136PUl_U7bMW7uMSwcqujisasAJNQJIOPQimGGG7iG00/edit#gid=0). Right now, this is the subdomain `appiphonycom5-dev-ed`. This org will _not_ expire since it is tied to a production package.
-
-Here's how to deploy the source:
+The below script will guide you through rolling a new Prod package, as well as auto-tag main with the environment and version number (ie 'prod-1.79.0'):
 
 ```shell
-cd sfdx
-sfdx force:source:deploy -p force-app/main/default -u mbianco+stripeconnector@stripe.com
+./sfdx/bin/roll-new-package -e prod
 ```
 
-If you don't have access to that account, add access:
+The script will prompt you to roll a new package, follow the steps below to do so.
 
-```
-sfdx auth:web:login
-```
-
-Then create a new package in the production packaging org.
-
-- Setup > Package Manager (https://appiphonycom5-dev-ed.lightning.force.com/lightning/setup/Package/home)
 - Click on the name of the package
 - Copy the package name field (`stripeConnector`), you'll need it in the next step
 - Click on upload, then:
@@ -187,24 +183,16 @@ Some notes:
 
 ## Creating a new QA package
 
-[Here's the full guide to creating a new package](https://developer.salesforce.com/docs/atlas.en-us.packagingGuide.meta/packagingGuide/uploading_packages.htm). Below is the short guide.
+[Here's the full guide to creating a new package](https://developer.salesforce.com/docs/atlas.en-us.packagingGuide.meta/packagingGuide/uploading_packages.htm).
 
-First, deploy the source to our [QA environment](https://docs.google.com/spreadsheets/d/136PUl_U7bMW7uMSwcqujisasAJNQJIOPQimGGG7iG00/edit#gid=0). You want to do this in stages to avoid errors.
+The below script will guide you through rolling a new QA package, as well as auto-tag main with the environment and version number (ie 'qa-1.79.0'):
 
 ```shell
-cd sfdx
-sfdx force:source:deploy -p force-app/main/default --apiversion=54.0 -u mbianco+newstripeconnectorqa@stripe.com
+./sfdx/bin/roll-new-package -e qa
 ```
 
-If you don't have access to that account, add access:
+The script will prompt you to roll a new package, follow the steps below to do so:
 
-```
-sfdx auth:web:login
-```
-
-Then create a new package in the QA org.
-
-- Setup > Package Manager (https://appiphonycom7-dev-ed.lightning.force.com/lightning/setup/Package/home)
 - Click on the name of the package
 - Copy the package name field, you'll need it in the next step
 - Click on upload, then:
