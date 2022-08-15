@@ -62,6 +62,10 @@ def example_sf_quote
   sf_get(@sf.query("SELECT Id FROM #{SF_ORDER_QUOTE} ORDER BY CreatedDate DESC LIMIT 1").first.Id)
 end
 
+def example_stripe_subscription_schedule
+  Stripe::SubscriptionSchedule.list({}, @user.stripe_credentials).data.sample
+end
+
 def wipe_record_tree(order_id)
   order = sf.find(SF_ORDER, order_id)
 

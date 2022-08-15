@@ -49,7 +49,7 @@ class Critic::OrderPollerTest < Critic::FunctionalTest
       # lock error should be raised if we try lock on another instance of the job
       exception = assert_raises(Integrations::Errors::LockTimeout) do
         initial_poll.update(last_polled_at: DateTime.now - POLL_FREQUENCY - 1.minute)
-        StripeForce::InitiatePollsJobs.perform
+        StripeForce::InitiatePollsJobs.queue_polls_for_user(@user)
       end
 
       # key is included in exception, and should include the job

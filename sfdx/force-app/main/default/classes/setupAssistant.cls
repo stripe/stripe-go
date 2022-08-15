@@ -587,8 +587,10 @@ public with sharing class setupAssistant {
 
                 String whereClause = queryFilterMap.get(objectName);
                 try {
-                    /*Using limit zero in queries so there are no records are returned therefore it
-                    will not count against the total number of rows retrieved salesforce limitation*/
+                    /*
+                    Using limit zero in queries so there are no records are returned therefore it
+                    will not count against the total number of rows retrieved salesforce limitation
+                    */
                     List<sObject> sobjList = Database.query('SELECT Id FROM ' + objectName + ' WHERE ' + whereClause + ' WITH SECURITY_ENFORCED LIMIT 0');
                 } catch (QueryException e) {
                     validationErrorMapList.add(new Map<String, Object> {

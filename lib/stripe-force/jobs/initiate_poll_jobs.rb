@@ -12,7 +12,13 @@ class StripeForce::InitiatePollsJobs
     log.info 'queuing poll jobs'
 
     StripeForce::User.where(enabled: true).extension(:pagination).each_page(50) do |page|
-      page.each {|user| queue_polls_for_user(user) }
+      page.each do |user|
+        begin
+          queue_polls_for_user(user)
+        rescue => e
+          Sentry.capture_exception(e)
+        end
+      end
     end
 
     set_error_context
