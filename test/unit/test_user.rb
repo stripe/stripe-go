@@ -72,7 +72,6 @@ module Critic::Unit
 
       it "returns platform testmode keys for testmode" do
         user = make_user(livemode: false)
-        user.enable_feature(:use_suitesync_api_keys)
 
         credentials = user.stripe_credentials
 

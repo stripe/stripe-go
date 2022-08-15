@@ -76,7 +76,7 @@ class Critic::CustomerTranslation < Critic::FunctionalTest
   end
 
   it 'attaches a test clock to a customer when enabled' do
-    @user.enable_feature(:test_clocks)
+    @user.enable_feature(FeatureFlags::TEST_CLOCKS)
 
     sf_account_id = create_salesforce_account
 

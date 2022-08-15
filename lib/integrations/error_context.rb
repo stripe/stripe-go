@@ -10,6 +10,9 @@ module Integrations
 
     include Log
 
+    # TODO alright, this isn't working: we need to eliminate this `integrations` idea
+    include StripeForce::Constants
+
     def report_exception(exception)
       Sentry.capture_exception(exception)
     end
@@ -132,7 +135,7 @@ module Integrations
 
       return if log.set_log_level_from_environment
 
-      if user&.sandbox? && !user.feature_enabled?(:loud_sandbox_logging)
+      if user&.sandbox? && !user.feature_enabled?(FeatureFlags::LOUD_SANDBOX_LOGGING)
         SimpleStructuredLogger.logger.level = Logger::Severity::WARN
       else
         SimpleStructuredLogger.logger.level = Logger::Severity::INFO

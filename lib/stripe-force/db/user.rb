@@ -48,8 +48,8 @@ module StripeForce
     def after_initialize
 
       if self.new?
-        self.enable_feature(:loud_sandbox_logging)
-        self.enable_feature(:test_clocks)
+        self.enable_feature(FeatureFlags::LOUD_SANDBOX_LOGGING)
+        self.enable_feature(FeatureFlags::TEST_CLOCKS)
         self.connector_settings = DEFAULT_CONNECTOR_SETTINGS.deep_dup
       end
       self.feature_flags.map!(&:to_sym)
@@ -205,10 +205,10 @@ module StripeForce
       }
     end
 
-    sig { params(feature: Symbol, update: T::Boolean).void }
+    sig { params(feature: FeatureFlags, update: T::Boolean).void }
     def enable_feature(feature, update: false)
-      if !feature_flags.include?(feature)
-        feature_flags << feature
+      if !feature_flags.include?(feature.serialize.to_sym)
+        feature_flags << feature.serialize.to_sym
 
         if update
           self.save(columns: [:feature_flags])
@@ -216,16 +216,16 @@ module StripeForce
       end
     end
 
-    sig { params(feature: Symbol, update: T::Boolean).void }
+    sig { params(feature: FeatureFlags, update: T::Boolean).void }
     def disable_feature(feature, update: false)
-      if !feature_flags.delete(feature).nil? && update
+      if !feature_flags.delete(feature.serialize.to_sym).nil? && update
         save(columns: [:feature_flags])
       end
     end
 
-    sig { params(feature: Symbol).returns(T::Boolean) }
+    sig { params(feature: FeatureFlags).returns(T::Boolean) }
     def feature_enabled?(feature)
-      self.feature_flags.include?(feature)
+      self.feature_flags.include?(feature.serialize.to_sym)
     end
 
     def sf_subdomain

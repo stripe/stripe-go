@@ -24730,10 +24730,6 @@ module GeneratedUrlHelpers
   def rails_info_routes_url(*args); end
 
   def rails_info_url(*args); end
-
-  def resque_web_path(*args); end
-
-  def resque_web_url(*args); end
 end
 
 module GeneratedUrlHelpers

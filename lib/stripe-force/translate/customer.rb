@@ -16,7 +16,7 @@ class StripeForce::Translate
     end
 
     customer = create_stripe_object(Stripe::Customer, sf_account) do |generated_stripe_customer|
-      if @user.feature_enabled?(:test_clocks) && !@user.livemode
+      if @user.feature_enabled?(FeatureFlags::TEST_CLOCKS) && !@user.livemode
         log.debug 'adding test clock to customer'
 
         test_clock = Stripe::TestHelpers::TestClock.create({

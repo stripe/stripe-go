@@ -15,6 +15,8 @@ Rails.application.routes.draw do
   get '/auth/salesforcesandbox/callback', to: 'sessions#salesforce_callback'
   get '/auth/stripe/callback', to: 'sessions#stripe_callback'
 
+  post '/stripe-webhooks' => 'stripe_webhook#stripe_webhook'
+
   namespace :v1, module: 'api', as: 'api', constraints: {format: 'json'} do
     resource :configuration, only: [:show, :update]
     post 'post-install' => 'configurations#post_install'

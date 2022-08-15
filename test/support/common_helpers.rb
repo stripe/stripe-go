@@ -70,12 +70,33 @@ module CommonHelpers
     end
 
     # clocks won't be enabled in prod, so we want to mimic this
-    user.disable_feature(:test_clocks)
+    user.disable_feature(FeatureFlags::TEST_CLOCKS)
 
     user.connector_settings[CONNECTOR_SETTING_SALESFORCE_INSTANCE_TYPE] = SFInstanceTypes::SANDBOX.serialize
     user.save if save
 
     user
+  end
+
+  sig { params(type: String, obj: T.nilable(Stripe::StripeObject)).returns(Stripe::Event) }
+  def create_event(type, obj=nil)
+    obj ||= Stripe::Charge.construct_from(
+      id: stripe_create_id(:ch)
+    )
+
+    Stripe::Event.construct_from({
+      "id" => stripe_create_id(:evt),
+      "created" => Time.now.getutc.to_i,
+      "livemode" => false,
+      "type" => type,
+      "data" => {
+        "object" => JSON.parse(obj.to_json),
+      },
+      "object" => "event",
+      "pending_webhooks" => 0,
+      "account" => stripe_create_id(:acct),
+      "request" => stripe_create_id(:iar),
+    })
   end
 
   def stripe_create_id(prefix)

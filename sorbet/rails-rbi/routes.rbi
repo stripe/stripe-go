@@ -61,6 +61,13 @@ module GeneratedUrlHelpers
   sig { params(args: T.untyped, kwargs: T.untyped).returns(String) }
   def auth_stripe_callback_url(*args, **kwargs); end
 
+  # Sigs for route /stripe-webhooks(.:format)
+  sig { params(args: T.untyped, kwargs: T.untyped).returns(String) }
+  def stripe_webhooks_path(*args, **kwargs); end
+
+  sig { params(args: T.untyped, kwargs: T.untyped).returns(String) }
+  def stripe_webhooks_url(*args, **kwargs); end
+
   # Sigs for route /v1/configuration(.:format)
   sig { params(args: T.untyped, kwargs: T.untyped).returns(String) }
   def api_configuration_path(*args, **kwargs); end
@@ -88,4 +95,11 @@ module GeneratedUrlHelpers
 
   sig { params(args: T.untyped, kwargs: T.untyped).returns(String) }
   def api_translate_all_url(*args, **kwargs); end
+
+  # Sigs for route /monitoring/resque-monitor
+  sig { params(args: T.untyped, kwargs: T.untyped).returns(String) }
+  def resque_web_path(*args, **kwargs); end
+
+  sig { params(args: T.untyped, kwargs: T.untyped).returns(String) }
+  def resque_web_url(*args, **kwargs); end
 end

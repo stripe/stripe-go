@@ -151,6 +151,7 @@ jobs:
       LOG_LEVEL: DEBUG
       DISABLE_SPRING: "true"
       STRIPE_ACCOUNT_ID: acct_15uapDIsgf92XbAO
+      STRIPE_WEBHOOK_SECRET: whsec_notarealwebhooksecret
       # used for private key extraction and usage in the jwt generator
       SF_JWT_PRIVATE_KEY_PATH: /home/circleci/project/private.key
       SF_QA_PACKAGING_EMAIL: mbianco+newstripeconnectorqa@stripe.com

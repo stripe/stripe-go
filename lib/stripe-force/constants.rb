@@ -152,5 +152,14 @@ module StripeForce
       end
     end
 
+    class FeatureFlags < T::Enum
+      enums do
+        IGNORE_WEBHOOKS = new('ignore_webhooks')
+        REJECT_WEBHOOKS = new('reject_webhooks')
+        LOUD_SANDBOX_LOGGING = new('loud_sandbox_logging')
+        TEST_CLOCKS = new('test_clocks')
+      end
+    end
+
   end
 end
