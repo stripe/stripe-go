@@ -65,6 +65,14 @@ module StripeForce
       # NOTE lograge doesn't include params by default, we need to manually include them here
       custom_params = {"params" => event.payload[:params].except('controller', 'action')}
 
+      # stripe webhooks are very noisy and gobble up a ton of log space
+      if event.payload[:params]['controller'] == 'stripe_webhook' && event.payload[:params]['action'] == 'stripe_webhook'
+        custom_params = {"params" => {
+          "stripe_event_id" => event.payload[:params]['id'],
+          "stripe_resource_id" => event.payload[:params].dig('data', 'object', 'id'),
+        }}
+      end
+
       # include headers which identify which account and other details the request is coming from=
       SALESFORCE_HEADERS.each {|h| custom_params[h] = event.payload[:request].headers[h] }
 
