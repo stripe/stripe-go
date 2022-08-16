@@ -1,11 +1,15 @@
 public with sharing class utilities {
     public class SetupIsNotCompleteException extends Exception {}
 
+    public static Boolean isPackagedEnvironment() {
+        return !String.isEmpty(constants.NAMESPACE_API);
+    }
+
     @AuraEnabled
     public static String getPackageVersion() {
         responseData rd = new responseData();
 
-        if(String.isEmpty(constants.NAMESPACE_API)) {
+        if(!isPackagedEnvironment()) {
             rd.put('major', '0');
             rd.put('minor', '0');
             return rd.getJsonString();
@@ -263,8 +267,8 @@ public with sharing class utilities {
         request.setHeader('Salesforce-Type', String.valueOf(Sentry_Environment.getInstanceType()));
         request.setHeader('Salesforce-Package-Namespace', constants.NAMESPACE);
 
-        if(!String.isEmpty(constants.NAMESPACE_API)) {
-            request.setHeader('Package-Id', (String)getPackageVersion());
+        if(utilities.isPackagedEnvironment()) {
+            request.setHeader('Salesforce-Package-Id', (String)getPackageVersion());
         }
 
         /*

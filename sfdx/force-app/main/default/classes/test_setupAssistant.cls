@@ -529,7 +529,7 @@ public with sharing class test_setupAssistant {
             System.assertEquals(req.getHeader('Salesforce-Account-Id'), (String)constants.ORG_ID);
             System.assertEquals(req.getHeader('Salesforce-Type'), String.valueOf(Sentry_Environment.getInstanceType()));
             System.assertEquals(req.getHeader('Salesforce-Package-Namespace'), constants.NAMESPACE);
-            if(!String.isEmpty(constants.NAMESPACE_API)) {
+            if(utilities.isPackagedEnvironment()) {
                 System.assertEquals(req.getHeader('Package-Id'), (String)utilities.getPackageVersion());
             }
 
@@ -580,8 +580,8 @@ public with sharing class test_setupAssistant {
                 System.assertEquals(req.getHeader('Salesforce-Account-Id'), (String)constants.ORG_ID);
                 System.assertEquals(req.getHeader('Salesforce-Type'), String.valueOf(Sentry_Environment.getInstanceType()));
                 System.assertEquals(req.getHeader('Salesforce-Package-Namespace'), constants.NAMESPACE);
-                if(!String.isEmpty(constants.NAMESPACE_API)) {
-                    System.assertEquals(req.getHeader('Package-Id'), (String)utilities.getPackageVersion());
+                if(utilities.isPackagedEnvironment()) {
+                    System.assertEquals(req.getHeader('Salesforce-Package-Id'), (String)utilities.getPackageVersion());
                 }
                 Stripe_Connection__c stripeConnectRec = Stripe_Connection__c.getOrgDefaults();
 

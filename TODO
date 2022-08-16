@@ -20,6 +20,7 @@
 - Auto-archived price metadata
 - Prices which are not created directly from pricebooks (i.e. from order lines, or duplicated because of the one-price-per-subscription) are archived (active = false) after they are used
 - Prices which are duplicated because of the one-price-per-subscription) have a special metadata key (salesforce_duplicate = true)
+- Some good test clock docs https://groups.google.com/a/stripe.com/g/cloudflare/c/VjNW1Q4KD-0
 
 Next:
 
