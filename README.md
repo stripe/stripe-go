@@ -1,7 +1,7 @@
 # Installation Links
 
 Production Package Install:
-https://login.salesforce.com/packaging/installPackage.apexp?p0=04t5f000000n8RNAAY
+https://login.salesforce.com/packaging/installPackage.apexp?p0=04t5f000000n8TsAAI
 
 Update with `sfdx force:package1:version:list --json -u mbianco+stripeconnector@stripe.com | jq -r '.result[-1].MetadataPackageVersionId'`
 
@@ -157,7 +157,11 @@ Some notes:
 
 ### Production Package Release
 
+Manual steps that need to be taken for the release to be verified by Salesforce:
+
 - https://security.secure.force.com/security/tools/forcecom/scanner use username and password of the production packaging org.
+  - Report will probably land here https://groups.google.com/a/stripe.com/g/pbo/c/XoQHgHYjRzI
+- Submit something to the partner community (details in the video)
 - Include sec rev in the username of another account which contains the latest production package.
 - Make sure to write the Release Notes
 

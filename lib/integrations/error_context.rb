@@ -34,10 +34,9 @@ module Integrations
       exception = error_class.new(
         message,
 
-        # TODO add additional context
-        # stripe_resource: stripe_resource,
-        # integration_record: integration_record,
-        # metadata: metadata
+        stripe_resource: stripe_resource,
+        salesforce_object: integration_record,
+        metadata: metadata
       )
 
       # stacktrace needs to be set on the exception to appear in sentry
