@@ -9,6 +9,31 @@ class StripeForce::Translate
     include StripeForce::Constants
     extend SimpleStructuredLogger
 
+    sig { params(subscription_schedule: Stripe::SubscriptionSchedule).returns(T::Array[T.any(Stripe::SubscriptionSchedulePhaseSubscriptionItem, Stripe::SubscriptionSchedulePhaseInvoiceItem)]) }
+    def self.extract_all_items_from_subscription_schedule(subscription_schedule)
+      subscription_schedule.phases.map(&:items).flatten + subscription_schedule.phases.map(&:add_invoice_items).flatten
+    end
+
+    # after lines have been adjusted with termination line, they should be removed
+    # however, having terminated lines in the phase items is helpful *right* until
+    # the sub schedule API call is made, which is why this is pulled into a separate method
+    sig { params(original_phase_items: T::Array[ContractItemStructure]).returns(T::Array[ContractItemStructure]) }
+    def self.remove_terminated_lines(original_phase_items)
+      # no mutations
+      phase_items = original_phase_items.dup
+
+      phase_items.delete_if do |phase_item|
+        if phase_item.fully_terminated?
+          log.info 'line item fully terminated, removing', terminated_order_line_id: phase_item.order_line_id
+          true
+        else
+          false
+        end
+      end
+
+      phase_items
+    end
+
     sig { params(raw_days_until_due: T.any(String, Integer)).returns(Integer) }
     def self.transform_payment_terms_to_days_until_due(raw_days_until_due)
       if raw_days_until_due.is_a?(Integer)
@@ -64,6 +89,12 @@ class StripeForce::Translate
         stripe_price = PriceHelpers.sanitize_price_tier_params(stripe_price)
       end
 
+      # indicate that this price was created as a duplicate for avoid Stripe API errors
+      stripe_price.metadata[StripeForce::Utilities::Metadata.metadata_key(user, "duplicate")] = true
+
+      # indicates that this price will be auto-archived after created
+      stripe_price.metadata[StripeForce::Utilities::Metadata.metadata_key(user, "auto_archive")] = true
+
       Stripe::Price.create(stripe_price.to_hash, user.stripe_credentials)
     end
 
@@ -110,6 +141,21 @@ class StripeForce::Translate
               field_sym
             )
           end
+      end
+
+      # (Status 400) (Request req_6sXw1ulKg8naEO) You may only specify one of these parameters: end_date, iterations.>
+      phases.each_with_index do |phase, _i|
+        # `iterations` is not returned by the API once it's set, instead end_date is
+        # however, when we are amending a contract we will set the iterations value as
+        # we "regenerate" each phase (even if we don't send it to stripe)
+        # because of this, we remove the iterations field if the end_date is set (which indicates)
+        # stripe has already consumed the phase change.
+        if phase[:end_date] && phase[:iterations]
+          Integrations::Utilities::StripeUtil.delete_field_from_stripe_object(
+            phase,
+            :iterations
+          )
+        end
       end
 
       phases

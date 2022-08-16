@@ -9,7 +9,6 @@ class Critic::SyncRecords < Critic::FunctionalTest
   end
 
   it 'sync records are updated to success even after initial failure' do
-
     subscription_term = 12
     start_date = now_time
 

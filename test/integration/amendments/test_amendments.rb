@@ -81,16 +81,19 @@ class Critic::OrderAmendmentTranslation < Critic::OrderAmendmentFunctionalTest
 
     # second phase should have a second item with a quantity of 3
     # the order line in SF will have 2 (added 2 to have a net quantity of 3)
-    assert_equal(1, second_phase.items.count)
+    assert_equal(2, second_phase.items.count)
     assert_equal(0, second_phase.add_invoice_items.count)
-    second_phase_item = T.must(second_phase.items.first)
-    assert_equal(3, second_phase_item.quantity)
+    second_phase_item_1 = T.must(second_phase.items.first)
+    second_phase_item_2 = T.must(second_phase.items[1])
+    assert_equal(1, second_phase_item_1.quantity)
+    assert_equal(2, second_phase_item_2.quantity)
 
     # prices should be the same, but the order line reference is different
     # NOTE if proration is set to day, the pricing will be customized and this check will fail
-    # TODO this check is failing due to a possibly-incorrect way we are structuring pricing
-    # assert_equal(first_phase_item.price, second_phase_item.price)
-    refute_equal(first_phase_item.metadata['salesforce_order_item_id'], second_phase_item.metadata['salesforce_order_item_id'])
+    assert_equal(first_phase_item.price, second_phase_item_1.price)
+    refute_equal(first_phase_item.price, second_phase_item_2.price)
+    assert_equal(first_phase_item.metadata['salesforce_order_item_id'], second_phase_item_1.metadata['salesforce_order_item_id'])
+    refute_equal(first_phase_item.metadata['salesforce_order_item_id'], second_phase_item_2.metadata['salesforce_order_item_id'])
   end
 
   # usage products do NOT have a quantity in Stripe, which introduces additional complexity
@@ -208,16 +211,20 @@ class Critic::OrderAmendmentTranslation < Critic::OrderAmendmentFunctionalTest
     assert_equal(0, second_phase.end_date - end_date.to_i)
 
     assert_equal(1, first_phase.items.count)
-    assert_equal(1, second_phase.items.count)
+    assert_equal(2, second_phase.items.count)
 
     first_phase_item = T.must(first_phase.items.first)
-    second_phase_item = T.must(second_phase.items.first)
+    second_phase_item = T.must(second_phase.items.detect {|i| i.quantity == 2 })
+    second_phase_item_single_quantity = T.must(second_phase.items.detect {|i| i.quantity == 1 })
 
     assert_equal(1, first_phase_item.quantity)
-    assert_equal(3, second_phase_item.quantity)
+    assert_equal(1, second_phase_item_single_quantity.quantity)
+    assert_equal(2, second_phase_item.quantity)
 
-    # price should be identical
-    assert_equal(first_phase_item.price, second_phase_item.price)
+    refute_equal(first_phase_item.price, second_phase_item.price)
+
+    # price should be identical for the initial product
+    assert_equal(first_phase_item.price, second_phase_item_single_quantity.price)
   end
 
   it 'creates a new phase with a duration shorter than the billing frequency' do

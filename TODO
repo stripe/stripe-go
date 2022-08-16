@@ -16,6 +16,8 @@
 - if a customer has more than 3 subscriptions on a customer, they will get an error
 - Phase is not mapped on the initial order, mapped on each order amendment
 - If subscription is created and terminated on the same day, cancel is used
+- Duplicate price metadata
+- Auto-archived price metadata
 
 Next:
 

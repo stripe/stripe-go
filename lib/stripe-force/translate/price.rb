@@ -347,6 +347,10 @@ class StripeForce::Translate
     else
       # https://jira.corp.stripe.com/browse/PLATINT-1486
       apply_mapping(stripe_price, sf_object, compound_key: true)
+
+      # indicate that this price was created as a duplicate for avoid Stripe API errors
+      stripe_price[:metadata] ||= {}
+      stripe_price[:metadata][StripeForce::Utilities::Metadata.metadata_key(@user, "auto_archive")] = true
     end
 
     # although we are passing the amount as a decimal, the decimal amount still represents cents

@@ -142,7 +142,7 @@ class Critic::PriceTranslation < Critic::FunctionalTest
       refute_equal(stripe_price_id, item.price)
 
       # is the customized price being used?
-      new_stripe_price = Stripe::Price.retrieve(item.price, @user.stripe_credentials)
+      new_stripe_price = Stripe::Price.retrieve(T.cast(item.price, String), @user.stripe_credentials)
       assert_equal(150_00, new_stripe_price.unit_amount)
 
       order_lines = sf.query("SELECT Id FROM OrderItem WHERE OrderId = '#{sf_order.Id}'")
@@ -150,6 +150,9 @@ class Critic::PriceTranslation < Critic::FunctionalTest
 
       sf_order_item = sf.find(SF_ORDER_ITEM, order_lines.first.Id)
       assert_equal(new_stripe_price.id, sf_order_item[prefixed_stripe_field(GENERIC_STRIPE_ID)])
+
+      # the price for the order item should be archived
+      refute(new_stripe_price.active)
     end
   end
 
@@ -278,6 +281,8 @@ class Critic::PriceTranslation < Critic::FunctionalTest
       assert_equal('licensed', stripe_price.recurring.usage_type)
     end
 
-    it 'handles daily CPQ terms'
+    it 'handles daily CPQ terms' do
+      skip("daily cpq terms are not yet supported")
+    end
   end
 end

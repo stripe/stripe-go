@@ -46,13 +46,13 @@ module Critic
       })
     end
 
-    def create_mock_salesforce_order_item
+    def create_mock_salesforce_order_item(additional_attributes: {})
       id = create_salesforce_id(prefix: "0Mh")
       Restforce::SObject.new({
         "Id" => id,
         "IsDeleted" => false,
         "attributes" => {"type" => SF_ORDER_ITEM, "url" => "/services/data/v52.0/sobjects/#{SF_ORDER_ITEM}/#{id}"},
-      })
+      }.merge(additional_attributes))
     end
 
     def create_mock_salesforce_customer

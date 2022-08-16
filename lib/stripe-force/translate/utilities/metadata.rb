@@ -3,6 +3,7 @@
 
 module StripeForce::Utilities
   module Metadata
+    extend T::Sig
     include StripeForce::Constants
 
     def stripe_metadata_for_sf_object(sf_object)
@@ -38,6 +39,11 @@ module StripeForce::Utilities
 
     def metadata_key(key)
       "#{@user.metadata_prefix}#{key}"
+    end
+
+    sig { params(user: StripeForce::User, key: String).returns(String) }
+    def self.metadata_key(user, key)
+      "#{user.metadata_prefix}#{key}"
     end
   end
 end

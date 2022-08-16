@@ -15,18 +15,16 @@ class Critic::DuplicatePriceTranslation < Critic::FunctionalTest
     order_line = create_mock_salesforce_order_item
 
     phase_items = [
-      StripeForce::Translate::ContractItemStructure.new(
-        quantity: 1,
-        order_line_id: order_line.Id,
-        stripe_params: {
+      StripeForce::Translate::ContractItemStructure.from_order_line_and_params(
+        order_line,
+        {
           price: price_1,
           quantity: 1,
         },
       ),
-      StripeForce::Translate::ContractItemStructure.new(
-        quantity: 1,
-        order_line_id: order_line.Id,
-        stripe_params: {
+      StripeForce::Translate::ContractItemStructure.from_order_line_and_params(
+        order_line,
+        {
           price: price_2,
           quantity: 1,
         },
@@ -53,18 +51,16 @@ class Critic::DuplicatePriceTranslation < Critic::FunctionalTest
 
     order_line = create_mock_salesforce_order_item
     phase_items = [
-      StripeForce::Translate::ContractItemStructure.new(
-        quantity: 1,
-        order_line_id: order_line.Id,
-        stripe_params: {
+      StripeForce::Translate::ContractItemStructure.from_order_line_and_params(
+        order_line,
+        {
           price: recurring_price.id,
           quantity: 1,
         },
       ),
-      StripeForce::Translate::ContractItemStructure.new(
-        quantity: 2,
-        order_line_id: order_line.Id,
-        stripe_params: {
+      StripeForce::Translate::ContractItemStructure.from_order_line_and_params(
+        order_line,
+        {
           price: recurring_price.id,
           quantity: 2,
         },
@@ -86,7 +82,7 @@ class Critic::DuplicatePriceTranslation < Critic::FunctionalTest
     assert_equal(recurring_price.currency, new_price.currency)
     assert_equal(recurring_price.custom_unit_amount, new_price.custom_unit_amount)
     assert_equal(recurring_price.lookup_key, new_price.lookup_key)
-    assert_equal(recurring_price.metadata, new_price.metadata)
+    refute_equal(recurring_price.metadata, new_price.metadata)
     assert_equal(recurring_price.nickname, new_price.nickname)
     assert_equal(recurring_price.product, new_price.product)
     assert_equal(recurring_price.recurring, new_price.recurring)
@@ -96,6 +92,11 @@ class Critic::DuplicatePriceTranslation < Critic::FunctionalTest
     assert_equal(recurring_price.type, new_price.type)
     assert_equal(recurring_price.unit_amount, new_price.unit_amount)
     assert_equal(recurring_price.unit_amount_decimal, new_price.unit_amount_decimal)
+
+    new_price_metadata = new_price.metadata.to_hash
+    assert_equal("true", new_price_metadata.delete(:salesforce_auto_archive))
+    assert_equal("true", new_price_metadata.delete(:salesforce_duplicate))
+    assert_equal(recurring_price.metadata.to_hash, new_price_metadata)
   end
 
   it 'duplicates a one-time price' do
@@ -105,18 +106,16 @@ class Critic::DuplicatePriceTranslation < Critic::FunctionalTest
     order_line = create_mock_salesforce_order_item
 
     phase_items = [
-      StripeForce::Translate::ContractItemStructure.new(
-        quantity: 1,
-        order_line_id: order_line.Id,
-        stripe_params: {
+      StripeForce::Translate::ContractItemStructure.from_order_line_and_params(
+        order_line,
+        {
           price: one_time_price.id,
           quantity: 1,
         },
       ),
-      StripeForce::Translate::ContractItemStructure.new(
-        quantity: 1,
-        order_line_id: order_line.Id,
-        stripe_params: {
+      StripeForce::Translate::ContractItemStructure.from_order_line_and_params(
+        order_line,
+        {
           price: one_time_price.id,
           quantity: 1,
         },
@@ -142,18 +141,16 @@ class Critic::DuplicatePriceTranslation < Critic::FunctionalTest
     order_line = create_mock_salesforce_order_item
 
     phase_items = [
-      StripeForce::Translate::ContractItemStructure.new(
-        quantity: 1,
-        order_line_id: order_line.Id,
-        stripe_params: {
+      StripeForce::Translate::ContractItemStructure.from_order_line_and_params(
+        order_line,
+        {
           price: metered_price.id,
           quantity: 1,
         },
       ),
-      StripeForce::Translate::ContractItemStructure.new(
-        quantity: 1,
-        order_line_id: order_line.Id,
-        stripe_params: {
+      StripeForce::Translate::ContractItemStructure.from_order_line_and_params(
+        order_line,
+        {
           price: metered_price.id,
           quantity: 1,
         },
@@ -181,18 +178,16 @@ class Critic::DuplicatePriceTranslation < Critic::FunctionalTest
     order_line = create_mock_salesforce_order_item
 
     phase_items = [
-      StripeForce::Translate::ContractItemStructure.new(
-        quantity: 1,
-        order_line_id: order_line.Id,
-        stripe_params: {
+      StripeForce::Translate::ContractItemStructure.from_order_line_and_params(
+        order_line,
+        {
           price: tiered_price.id,
           quantity: 1,
         },
       ),
-      StripeForce::Translate::ContractItemStructure.new(
-        quantity: 1,
-        order_line_id: order_line.Id,
-        stripe_params: {
+      StripeForce::Translate::ContractItemStructure.from_order_line_and_params(
+        order_line,
+        {
           price: tiered_price.id,
           quantity: 1,
         },

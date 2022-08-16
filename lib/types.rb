@@ -7,4 +7,6 @@
 # these fake classes. The idea being they are safe to remove from the codebase
 # assuming that the sigs using them are also removed.
 
-class Stripe::SubscriptionSchedulePhase; end
+class Stripe::SubscriptionSchedulePhase < Stripe::StripeObject; end
+class Stripe::SubscriptionSchedulePhaseSubscriptionItem < Stripe::StripeObject; end
+class Stripe::SubscriptionSchedulePhaseInvoiceItem < Stripe::StripeObject; end

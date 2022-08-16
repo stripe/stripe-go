@@ -6,12 +6,7 @@ module Critic::Unit
   class TranslatorTest < Critic::UnitTest
     before do
       @user = make_user
-      @locker = Integrations::Locker.new(@user)
-
-      @translator = StripeForce::Translate.new(
-        @user,
-        @locker
-      )
+      @translator = make_translator(user: @user)
     end
 
     describe 'required and optional mapping' do

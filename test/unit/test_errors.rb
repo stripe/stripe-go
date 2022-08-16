@@ -76,10 +76,7 @@ class Critic::ErrorTest < Critic::UnitTest
   end
 
   it 'records non-exception errors with a backtrace' do
-    user = make_user
-    locker = Integrations::Locker.new(user)
-
-    translator = StripeForce::Translate.new(user, locker)
+    translator = make_translator
 
     event = translator.report_edge_case("hello")
 

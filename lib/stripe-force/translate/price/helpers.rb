@@ -9,6 +9,26 @@ class StripeForce::Translate
     include StripeForce::Constants
     extend SimpleStructuredLogger
 
+    sig { params(user: StripeForce::User, subscription_schedule: Stripe::SubscriptionSchedule).void }
+    def self.auto_archive_prices_on_subscription_schedule(user, subscription_schedule)
+      expanded_subscription_schedule = Stripe::SubscriptionSchedule.retrieve({
+        id: subscription_schedule.id,
+        expand: %w{phases.items.price phases.add_invoice_items.price},
+      }, user.stripe_credentials)
+
+      prices_on_subscription = OrderHelpers.extract_all_items_from_subscription_schedule(expanded_subscription_schedule).map(&:price)
+      prices_on_subscription = T.cast(prices_on_subscription, T::Array[Stripe::Price])
+
+      prices_on_subscription.select(&:active).each do |active_price|
+        if active_price.metadata[StripeForce::Utilities::Metadata.metadata_key(user, "auto_archive")]
+          log.info 'archiving price', archive_price_id: active_price.id
+          active_price.active = false
+          # TODO idempotency_key
+          active_price.save
+        end
+      end
+    end
+
     sig { params(raw_billing_frequency: T.nilable(String)).returns(Integer) }
     def self.transform_salesforce_billing_frequency_to_recurring_interval(raw_billing_frequency)
       raw_billing_frequency ||= begin
@@ -47,6 +67,11 @@ class StripeForce::Translate
     sig { params(stripe_price: Stripe::Price).returns(T::Boolean) }
     def self.tiered_price?(stripe_price)
       stripe_price.billing_scheme == "tiered"
+    end
+
+    sig { params(stripe_price: Stripe::Price).returns(T::Boolean) }
+    def self.recurring_price?(stripe_price)
+      stripe_price.type != "one_time"
     end
 
     sig { params(stripe_price: Stripe::Price).returns(Stripe::Price) }

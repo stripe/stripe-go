@@ -57,7 +57,7 @@ class Critic::MapperIntegrationTests < Critic::FunctionalTest
     stripe_id = sf_order[prefixed_stripe_field(GENERIC_STRIPE_ID)]
     subscription_schedule = Stripe::SubscriptionSchedule.retrieve(stripe_id, @user.stripe_credentials)
 
-    price_id = T.must(subscription_schedule.phases.first&.items&.first&.price)
+    price_id = T.cast(subscription_schedule.phases.first&.items&.first&.price, String)
     price = Stripe::Price.retrieve(price_id, @user.stripe_credentials)
     assert_equal("20012.1212", price.unit_amount_decimal)
 
@@ -102,7 +102,7 @@ class Critic::MapperIntegrationTests < Critic::FunctionalTest
     stripe_id = sf_order[prefixed_stripe_field(GENERIC_STRIPE_ID)]
     subscription_schedule = Stripe::SubscriptionSchedule.retrieve(stripe_id, @user.stripe_credentials)
 
-    price_id = T.must(subscription_schedule.phases.first&.items&.first&.price)
+    price_id = T.cast(subscription_schedule.phases.first&.items&.first&.price, String)
     price = Stripe::Price.retrieve(price_id, @user.stripe_credentials)
     assert_equal("20012.1212", price.unit_amount_decimal)
 

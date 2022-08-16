@@ -111,7 +111,6 @@ class StripeForce::Translate
         T.must(subscription_items.first).stripe_params[:price]
       )
 
-      # TODO we should remove all zero-quantity items
       # TODO we should have a check to ensure all quantities are positive
       # TODO we should check if subscription is backddated, if it is, then we should only proceed if the user has a specific flag enabled
 
@@ -151,6 +150,12 @@ class StripeForce::Translate
       mapper.assign_values_from_hash(stripe_transaction, subscription_params)
       apply_mapping(stripe_transaction, sf_order)
 
+      # this should never happen, but we are still learning about CPQ
+      # if metered billing, quantity is not set, so we set to 1
+      if OrderHelpers.extract_all_items_from_subscription_schedule(stripe_transaction).map {|l| l[:quantity] || 1 }.any?(&:zero?)
+        report_edge_case("quantity is zero on initial subscription schedule")
+      end
+
       # https://jira.corp.stripe.com/browse/PLATINT-1731
       days_until_due = stripe_transaction.[](:default_settings)&.[](:invoice_settings)&.[](:days_until_due)
       if days_until_due
@@ -188,6 +193,10 @@ class StripeForce::Translate
 
     update_sf_stripe_id(sf_order, stripe_transaction, additional_salesforce_updates: order_update_params)
 
+    if stripe_transaction.is_a?(Stripe::SubscriptionSchedule)
+      PriceHelpers.auto_archive_prices_on_subscription_schedule(@user, stripe_transaction)
+    end
+
     stripe_transaction
   end
 
@@ -213,23 +222,10 @@ class StripeForce::Translate
     end
 
     # TODO this should be moved to a helper
-    is_order_terminated = aggregate_phase_items.all?(&:is_terminated?)
+    is_order_terminated = aggregate_phase_items.all?(&:fully_terminated?)
 
     if is_order_terminated && !invoice_items_in_order.empty?
       raise Integrations::Errors::UnhandledEdgeCase.new("one-time invoice items but terminated order")
-    end
-
-    # if it's not terminated, it could be partially terminated
-    # let's remove any partially terminated items
-    if !is_order_terminated
-      aggregate_phase_items.reject! do |phase_item|
-        if phase_item.is_terminated?
-          log.info 'line iterm terminated', terminated_order_item_id: phase_item.order_line&.Id
-          true
-        else
-          false
-        end
-      end
     end
 
     [invoice_items_in_order, aggregate_phase_items]
@@ -293,7 +289,7 @@ class StripeForce::Translate
       log.info 'processing amendment', salesforce_object: sf_order_amendment, index: index
 
       invoice_items_in_order, aggregate_phase_items = build_phase_items_from_order_amendment(aggregate_phase_items, sf_order_amendment)
-      is_order_terminated = aggregate_phase_items.all?(&:is_terminated?)
+      is_order_terminated = aggregate_phase_items.all?(&:fully_terminated?)
 
       if is_order_terminated && contract_structure.amendments.size - 1 != index
         raise Integrations::Errors::UnhandledEdgeCase.new("order terminated, but there's more amendments")
@@ -313,10 +309,19 @@ class StripeForce::Translate
       phase_params = extract_salesforce_params!(sf_order_amendment, Stripe::SubscriptionSchedule)
 
       phase_params['start_date'] = StripeForce::Utilities::SalesforceUtil.salesforce_date_to_unix_timestamp(phase_params['start_date'])
+
+      # TODO check for float value
+      subscription_term_from_sales_force = phase_params['iterations'].to_i
+
+
+
+      # if the order is terminated this is not used
       phase_params['iterations'] = transform_iterations_by_billing_frequency(
-        phase_params['iterations'].to_i,
+        subscription_term_from_sales_force,
         T.must(aggregate_phase_items.first).stripe_params[:price]
       )
+
+      aggregate_phase_items = OrderHelpers.remove_terminated_lines(aggregate_phase_items)
 
       new_phase = Stripe::StripeObject.construct_from({
         add_invoice_items: invoice_items_in_order.map(&:stripe_params),
@@ -373,9 +378,10 @@ class StripeForce::Translate
 
       update_sf_stripe_id(sf_order_amendment, subscription_schedule)
     end
+
+    PriceHelpers.auto_archive_prices_on_subscription_schedule(@user, subscription_schedule)
   end
 
-  # TODO will most likely throw this out, but we'll need to model something like this for terminations
   sig do
     params(
       original_aggregate_phase_items: T::Array[StripeForce::Translate::ContractItemStructure],
@@ -386,42 +392,83 @@ class StripeForce::Translate
     # avoid mutating the input value
     aggregate_phase_items = original_aggregate_phase_items.dup
 
-    # now we have the stripe representation of all of the line items on the order
-    new_phase_items.each do |new_subscription_item|
-      if new_subscription_item.revised_order_line_id.blank?
-        log.info 'line is not revising a previous line item, adding'
-        aggregate_phase_items << new_subscription_item
-        next
+    termination_lines, additive_lines = new_phase_items.partition(&:termination?)
+
+    additive_lines.each do |new_subscription_item|
+      log.info 'adding new line item'
+      aggregate_phase_items << new_subscription_item
+    end
+
+    aggregate_phase_items = terminate_subscription_line_items(aggregate_phase_items, termination_lines)
+    aggregate_phase_items
+  end
+
+  sig do
+    params(
+      original_aggregate_phase_items: T::Array[StripeForce::Translate::ContractItemStructure],
+      termination_lines: T::Array[StripeForce::Translate::ContractItemStructure]
+    ).returns(T::Array[StripeForce::Translate::ContractItemStructure])
+  end
+  def terminate_subscription_line_items(original_aggregate_phase_items, termination_lines)
+    aggregate_phase_items = original_aggregate_phase_items.dup
+    revision_map = T.let({}, T::Hash[String, T::Array[ContractItemStructure]])
+
+    aggregate_phase_items.select(&:new_order_line?).each do |origin_order_line|
+      if revision_map[origin_order_line.order_line_id].present?
+        raise Integrations::Errors::ImpossibleState.new("should never be more than a single revised order ID match")
       end
 
-      # subscription_item entries are still in our internal phase item structure at this point
-      # they get converted into StripeObjects downstream
-      existing_phase_item = aggregate_phase_items.detect do |possible_existing_item|
-        # TODO I don't like relying on the metadata here; maybe we could regenerate the line items for the first order and use that representation instead?
-        #      or maybe in the future we could use an internal sync record to pull references? Either way, this should change.
-        possible_existing_item.stripe_params[:metadata][:salesforce_order_item_id] == new_subscription_item.revised_order_line_id
+      revision_map[origin_order_line.order_line_id] ||= [origin_order_line]
+    end
+
+    # discover one-to-many mapping between line items
+    aggregate_phase_items.
+      # only include revisions
+      reject(&:new_order_line?)
+      .each do |revision_order_line|
+        origin_order_line_id = T.must(revision_order_line.revised_order_line_id)
+        revised_item_list = T.must(revision_map[origin_order_line_id])
+
+        if revised_item_list.map(&:order_line_id).include?(revision_order_line.order_line_id)
+          raise ArgumentError.new("an order line ID should not be listed twice")
+        else
+          revised_item_list << revision_order_line
+        end
       end
 
-      if existing_phase_item.nil?
+    log.debug "order amendment revision map", revision_map: revision_map
+
+    # now let's terminate the related line items
+    termination_lines.each do |termination_line|
+      origin_order_line_id = T.must(termination_line.revised_order_line_id)
+      fifo_order_line_stack = revision_map[origin_order_line_id]
+
+      if !fifo_order_line_stack || fifo_order_line_stack.empty?
         throw_user_failure!(
-          salesforce_object: T.must(new_subscription_item.order_line),
+          salesforce_object: T.must(termination_line.order_line),
           message: "Any order items, revising order items in a previous order, must not be skipped in the previous order." \
-                   " Order line with ID '#{new_subscription_item.revised_order_line_id}' could not be found."
+                   " Order line with ID '#{termination_line.revised_order_line_id}' could not be found."
         )
       end
 
-      new_subscription_item.append_previous_phase_item(existing_phase_item)
-
-      # delete the old item from the phase item list, the new `subscription_item` will supercede it
-      deleted_count = aggregate_phase_items.delete_if {|i| i.object_id == existing_phase_item.object_id }.count
-
-      if deleted_count > 1
-        raise "only a single phase item should ever be removed when revising"
+      if termination_line.quantity > 0
+        raise "quantity on termination lines should never be positive"
       end
 
-      log.info 'removed old phase item'
+      termination_line.quantity.abs.times do
+        fifo_remaining_line = fifo_order_line_stack
+          .reject(&:fully_terminated?)
+          .reverse
+          .first
 
-      aggregate_phase_items << new_subscription_item
+        if fifo_remaining_line
+          log.info 'reducing quantity on line', reducing_line: fifo_remaining_line.order_line_id
+          fifo_remaining_line.reduce_quantity
+        else
+          # this should never happen
+          raise StripeForce::Errors::RawUserError.new("termination quantity is greater than the aggregate quantity for the line item")
+        end
+      end
     end
 
     aggregate_phase_items
@@ -495,23 +542,15 @@ class StripeForce::Translate
       # we know the quantity is not a float, so we can force it to an integer
       phase_item.quantity = phase_item.quantity.to_i
 
-      phase_item_struct = ContractItemStructure.new(
-        # TODO maybe consider including a boolean for this instead?
-        # is_recurring: recurring_item?(sf_order_item),
-
-        stripe_params: phase_item.to_hash,
-
-        order_line: sf_order_item,
-        order_line_id: sf_order_item.Id,
-
-        revised_order_line_id: sf_order_item[SF_ORDER_ITEM_REVISED_ORDER_PRODUCT],
-        quantity: phase_item[:quantity]
+      phase_item_struct = ContractItemStructure.from_order_line_and_params(
+        sf_order_item,
+        phase_item.to_hash,
       )
 
       # quantity cannot be specified if usage type is metered
       if PriceHelpers.metered_price?(price)
         # allowing > 1 quantities may cause issues with terminations and generally indicates a data issue on the customers end
-        if phase_item_struct.stripe_params[:quantity] > 1
+        if phase_item_struct.quantity > 1
           throw_user_failure!(
             salesforce_object: sf_order_item,
             message: "Order lines with a price configured for metered billing cannot have a quantity greater than 1."
@@ -524,12 +563,12 @@ class StripeForce::Translate
       end
 
       # TODO this helper uses a hardcoded field to determine if the line is recurring or not; it should be dynamic instead
-      if recurring_item?(sf_order_item)
+      if PriceHelpers.recurring_price?(price)
         subscription_items << phase_item_struct
       else
+        # TODO this sanitization should be moved somewhere else
         # TODO metadata is currently not supported here https://jira.corp.stripe.com/browse/PLATINT-1609
         phase_item_struct.stripe_params.delete(:metadata)
-
         invoice_items << phase_item_struct
       end
     end

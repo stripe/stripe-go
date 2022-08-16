@@ -53,7 +53,7 @@ class Critic::SubscriptionTermTranslation < Critic::FunctionalTest
     assert_equal(1, phase.items.count)
 
     item = T.must(phase.items.first)
-    price = Stripe::Price.retrieve(item.price, @user.stripe_credentials)
+    price = Stripe::Price.retrieve(T.cast(item.price, String), @user.stripe_credentials)
     assert_equal(12, price.recurring.interval_count)
     assert_equal('month', price.recurring.interval)
   end
@@ -114,7 +114,7 @@ class Critic::SubscriptionTermTranslation < Critic::FunctionalTest
     assert_equal(1, phase.items.count)
 
     item = T.must(phase.items.first)
-    price = Stripe::Price.retrieve(item.price, @user.stripe_credentials)
+    price = Stripe::Price.retrieve(T.cast(item.price, String), @user.stripe_credentials)
     assert_equal(1, price.recurring.interval_count)
     assert_equal('month', price.recurring.interval)
     assert_equal("1000", price.unit_amount_decimal)

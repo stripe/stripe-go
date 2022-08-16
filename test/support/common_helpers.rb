@@ -44,6 +44,17 @@ module CommonHelpers
     sync_record = sf.find(prefixed_stripe_field(SYNC_RECORD), sync_record_results.first.Id)
   end
 
+  sig { params(user: T.nilable(StripeForce::User)).returns(StripeForce::Translate) }
+  def make_translator(user: nil)
+    user ||= make_user
+    locker = Integrations::Locker.new(user)
+
+    StripeForce::Translate.new(
+      user,
+      locker
+    )
+  end
+
   sig { params(sandbox: T::Boolean, save: T::Boolean, random_user_id: T::Boolean, livemode: T::Boolean).returns(StripeForce::User) }
   def make_user(sandbox: false, save: false, random_user_id: false, livemode: false)
     user = StripeForce::User.new(

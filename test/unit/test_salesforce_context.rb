@@ -5,13 +5,7 @@ require_relative '../test_helper'
 module Critic::Unit
   class SalesforceContextTest < Critic::UnitTest
     before do
-      @user = make_user
-      @locker = Integrations::Locker.new(@user)
-
-      @translator = StripeForce::Translate.new(
-        @user,
-        @locker
-      )
+      @translator = make_translator
     end
 
     it 'allows the primary and secondary context to be set' do

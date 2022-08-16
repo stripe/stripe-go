@@ -50,6 +50,12 @@ class Stripe::Price
   def tax_behavior; end
 
   def transform_quantity; end
+
+  sig { returns(T::Boolean)}
+  def active; end
+
+  sig { params(arg: T::Boolean).void}
+  def active=(arg); end
 end
 
 # TODO I swear I added some of these in via the netsuite connector
@@ -76,10 +82,18 @@ class Stripe::Address
   def phone; end
 end
 
+class Stripe::SubscriptionSchedulePhaseInvoiceItem < Stripe::StripeObject
+  sig { returns(T.any(String, Stripe::Price)) }
+  def price; end
+
+  sig { returns(Integer) }
+  def quantity; end
+end
+
 # these are NOT the exact same structure as a subscription item
 # TODO report this as a bug, this is confusing
 class Stripe::SubscriptionSchedulePhaseSubscriptionItem < Stripe::StripeObject
-  sig { returns(String) }
+  sig { returns(T.any(String, Stripe::Price)) }
   def price; end
 
   sig { params(arg: String).void }
@@ -165,4 +179,15 @@ class Stripe::SubscriptionSchedule
 
   sig { returns(Stripe::SubscriptionSchedule).params(id: T.any(String, T::Hash[Symbol, T.untyped]), opts: T.nilable(T::Hash[Symbol, T.untyped])) }
   def self.retrieve(id, opts={}); end
+end
+
+class Stripe::SubscriptionItem < Stripe::APIResource
+  sig { params(arg:Hash).returns(Stripe::SubscriptionItem)}
+  def self.construct_from(arg); end
+
+  sig { returns(Integer)}
+  def quantity; end
+
+  sig { params(arg:Integer).void}
+  def quantity=(arg); end
 end
