@@ -91,107 +91,87 @@ class StripeForce::Translate
     invoice_items, subscription_items = phase_items_from_order_lines(sf_order_items)
     is_recurring_order = !subscription_items.empty?
 
-    order_update_params = {}
-
-    if is_recurring_order
-      log.info 'recurring items found, creating subscription schedule'
-
-      subscription_params = extract_salesforce_params!(sf_order, Stripe::SubscriptionSchedule)
-
-      # TODO should file an API papercut for this
-      # when creating the subscription schedule the start_date must be specified on the heaer
-      # when updating it, it is specified on the individual phase object
-      subscription_start_date = subscription_params['start_date']
-      subscription_params['start_date'] = StripeForce::Utilities::SalesforceUtil.salesforce_date_to_unix_timestamp(subscription_start_date)
-
-      # TODO this should really be done *before* generating the line items and therefore creating prices
-      phase_iterations = transform_iterations_by_billing_frequency(
-        # TODO is the restforce gem somehow formatting everything as a float? Or is this is the real value returned from SF?
-        subscription_params.delete('iterations').to_i,
-        T.must(subscription_items.first).stripe_params[:price]
-      )
-
-      # TODO we should have a check to ensure all quantities are positive
-      # TODO we should check if subscription is backddated, if it is, then we should only proceed if the user has a specific flag enabled
-
-      # initial order, so there is only a single phase
-      initial_phase = {
-        add_invoice_items: invoice_items.map(&:stripe_params),
-        items: subscription_items.map(&:stripe_params),
-        iterations: phase_iterations,
-
-        metadata: stripe_metadata_for_sf_object(sf_order),
-      }
-
-      # TODO this needs to be gated and synced with the specific flag that CF is using
-      if subscription_start_date >= DateTime.now
-        # when `sub_sched_backdating_anchors_on_backdate` is enabled prorating the initial phase
-        # does NOT actually prorate it, but instead bills the full amount of the subscription item
-        # and locks the billing anchor to the start date of the subscription. Without this flag the
-        # billing achor is disconnected from the start date of the invoice
-        initial_phase[:proration_behavior] = 'none'
-      end
-
-      # TODO add mapping support against the subscription schedule phase
-
-      # TODO subs in SF must always have an end date
-      stripe_transaction = Stripe::SubscriptionSchedule.construct_from({
-        customer: stripe_customer.id,
-
-        # TODO this should be specified in the defaults hash... we should create a defaults hash https://jira.corp.stripe.com/browse/PLATINT-1501
-        end_behavior: 'cancel',
-
-        # initial order will only ever contain a single phase
-        phases: [initial_phase],
-
-        metadata: stripe_metadata_for_sf_object(sf_order),
-      })
-
-      mapper.assign_values_from_hash(stripe_transaction, subscription_params)
-      apply_mapping(stripe_transaction, sf_order)
-
-      # this should never happen, but we are still learning about CPQ
-      # if metered billing, quantity is not set, so we set to 1
-      if OrderHelpers.extract_all_items_from_subscription_schedule(stripe_transaction).map {|l| l[:quantity] || 1 }.any?(&:zero?)
-        report_edge_case("quantity is zero on initial subscription schedule")
-      end
-
-      # https://jira.corp.stripe.com/browse/PLATINT-1731
-      days_until_due = stripe_transaction.[](:default_settings)&.[](:invoice_settings)&.[](:days_until_due)
-      if days_until_due
-        stripe_transaction.default_settings.invoice_settings.days_until_due = OrderHelpers.transform_payment_terms_to_days_until_due(days_until_due)
-      end
-
-      # TODO the idempotency key here is not perfect, need to refactor and use a job UID or something
-
-      stripe_transaction = Stripe::SubscriptionSchedule.create(
-        stripe_transaction.to_hash,
-        @user.stripe_credentials.merge(idempotency_key: sf_order[SF_ID])
-      )
-    else
-      log.info 'no recurring items found, creating a one-time invoice'
-
-      # TODO there has got to be a way to include the lines on the invoice item create call
-      invoice_items.each do |invoice_item_params|
-        # TODO idempotency keys https://jira.corp.stripe.com/browse/PLATINT-1474
-        Stripe::InvoiceItem.create(
-          {customer: stripe_customer}.merge(invoice_item_params.stripe_params),
-          @user.stripe_credentials
-        )
-      end
-
-      stripe_transaction = create_stripe_object(Stripe::Invoice, sf_order, additional_stripe_params: {
-        customer: stripe_customer.id,
-      })
-
-      stripe_transaction.finalize_invoice
-
-      order_update_params[prefixed_stripe_field(ORDER_INVOICE_PAYMENT_LINK)] = stripe_transaction.hosted_invoice_url
+    if !is_recurring_order
+      return create_stripe_invoice_from_order(stripe_customer, invoice_items, sf_order)
     end
+
+    log.info 'recurring items found, creating subscription schedule'
+
+    subscription_params = extract_salesforce_params!(sf_order, Stripe::SubscriptionSchedule)
+
+    # TODO should file an API papercut for this
+    # when creating the subscription schedule the start_date must be specified on the heaer
+    # when updating it, it is specified on the individual phase object
+    subscription_start_date = subscription_params['start_date']
+    subscription_params['start_date'] = StripeForce::Utilities::SalesforceUtil.salesforce_date_to_unix_timestamp(subscription_start_date)
+
+    # TODO this should really be done *before* generating the line items and therefore creating prices
+    phase_iterations = transform_iterations_by_billing_frequency(
+      # TODO is the restforce gem somehow formatting everything as a float? Or is this is the real value returned from SF?
+      subscription_params.delete('iterations').to_i,
+      T.must(subscription_items.first).stripe_params[:price]
+    )
+
+    # TODO we should have a check to ensure all quantities are positive
+    # TODO we should check if subscription is backddated, if it is, then we should only proceed if the user has a specific flag enabled
+
+    # initial order, so there is only a single phase
+    initial_phase = {
+      add_invoice_items: invoice_items.map(&:stripe_params),
+      items: subscription_items.map(&:stripe_params),
+      iterations: phase_iterations,
+
+      metadata: stripe_metadata_for_sf_object(sf_order),
+    }
+
+    # TODO this needs to be gated and synced with the specific flag that CF is using
+    if subscription_start_date >= DateTime.now
+      # when `sub_sched_backdating_anchors_on_backdate` is enabled prorating the initial phase
+      # does NOT actually prorate it, but instead bills the full amount of the subscription item
+      # and locks the billing anchor to the start date of the subscription. Without this flag the
+      # billing achor is disconnected from the start date of the invoice
+      initial_phase[:proration_behavior] = 'none'
+    end
+
+    # TODO add mapping support against the subscription schedule phase
+
+    # TODO subs in SF must always have an end date
+    stripe_transaction = Stripe::SubscriptionSchedule.construct_from({
+      customer: stripe_customer.id,
+
+      # TODO this should be specified in the defaults hash... we should create a defaults hash https://jira.corp.stripe.com/browse/PLATINT-1501
+      end_behavior: 'cancel',
+
+      # initial order will only ever contain a single phase
+      phases: [initial_phase],
+
+      metadata: stripe_metadata_for_sf_object(sf_order),
+    })
+
+    mapper.assign_values_from_hash(stripe_transaction, subscription_params)
+    apply_mapping(stripe_transaction, sf_order)
+
+    # this should never happen, but we are still learning about CPQ
+    # if metered billing, quantity is not set, so we set to 1
+    if OrderHelpers.extract_all_items_from_subscription_schedule(stripe_transaction).map {|l| l[:quantity] || 1 }.any?(&:zero?)
+      report_edge_case("quantity is zero on initial subscription schedule")
+    end
+
+    # https://jira.corp.stripe.com/browse/PLATINT-1731
+    days_until_due = stripe_transaction.[](:default_settings)&.[](:invoice_settings)&.[](:days_until_due)
+    if days_until_due
+      stripe_transaction.default_settings.invoice_settings.days_until_due = OrderHelpers.transform_payment_terms_to_days_until_due(days_until_due)
+    end
+
+    # TODO the idempotency key here is not perfect, need to refactor and use a job UID or something
+    stripe_transaction = Stripe::SubscriptionSchedule.create(
+      stripe_transaction.to_hash,
+      @user.stripe_credentials.merge(idempotency_key: sf_order[SF_ID])
+    )
 
     log.info 'stripe subscription or invoice created', stripe_resource_id: stripe_transaction.id
 
-    update_sf_stripe_id(sf_order, stripe_transaction, additional_salesforce_updates: order_update_params)
+    update_sf_stripe_id(sf_order, stripe_transaction)
 
     if stripe_transaction.is_a?(Stripe::SubscriptionSchedule)
       PriceHelpers.auto_archive_prices_on_subscription_schedule(@user, stripe_transaction)
