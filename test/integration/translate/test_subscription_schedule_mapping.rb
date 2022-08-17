@@ -9,6 +9,13 @@ class Critic::SubscriptionScheduleMappingTest < Critic::FunctionalTest
     @user = make_user(save: true)
   end
 
+  describe '#type' do
+    it 'infers the type of a amendment from the databasen structure, not the type field' do
+      # TODO set `Type = Something Crazy` on the order and check to make sure it's still determined to be new
+      # we need to modify our types enum, and serialize that change in our sandbox setup definition, which is why this TODO is here
+    end
+  end
+
   describe 'days_until_due' do
     it 'maps an enum value from SBQQ__PaymentTerms__c' do
       @user.field_defaults['subscription_schedule'] = {

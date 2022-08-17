@@ -12,6 +12,12 @@ class Critic::OrderAmendmentTranslation < Critic::OrderAmendmentFunctionalTest
     sf_order = create_subscription_order
     sf_contract = create_contract_from_order(sf_order)
 
+    # although the associated order is contracted, this does not
+    # contract the associated opportunity. A user can opt to contract
+    # through the opportunity, but we require that they contract the order
+    sf_opportunity = sf_get(sf_contract.SBQQ__Opportunity__c)
+    refute(sf_opportunity['SBQQ__Contracted__c'])
+
     # api precondition: initial orders have a nil contract ID
     sf_order.refresh
     assert_nil(sf_order.ContractId)

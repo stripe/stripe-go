@@ -80,6 +80,29 @@ def delete_sync_records
   end
 end
 
+# we know the quote of the initial order will be 1:1 linked on the contract
+# if this does not return a valid ID, it means the order is an amendment
+def contract_id_from_initial_order(sf_initial_order_id)
+  @sf.query(
+    <<~EOL
+      SELECT Id
+      FROM #{SF_CONTRACT}
+      WHERE SBQQ__Quote__c IN (SELECT SBQQ__Quote__c FROM #{SF_ORDER} WHERE Id = '#{sf_initial_order_id}')
+    EOL
+  ).first.Id
+end
+
+# given a contract ID, get all orders which amend that contract
+def order_amendments_from_contract_id(sf_contract_id)
+  @sf.query(
+    <<~EOL
+      SELECT Id, Type
+      FROM #{SF_ORDER}
+      WHERE Opportunity.SBQQ__AmendedContract__r.#{SF_CONTRACT_QUOTE_ID} = '#{sf_contract_id}'
+    EOL
+  )
+end
+
 # TODO this doesn't seem like it works on some accounts
 # https://salesforce.stackexchange.com/questions/186025/how-to-we-get-list-of-installed-packages-and-it-version-number
 # sf.query("SELECT Id FROM InstalledSubscriberPackage")

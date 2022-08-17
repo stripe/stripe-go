@@ -9,6 +9,7 @@
 - What metadata is available on the account?
 - `sfdx force:mdapi:listmetadata -m Layout` to get all layouts on an account. If you want to pull a namespaced layout: `sfdx force:source:retrieve -m "Layout:Account-SBQQ__CPQ Account Layout"`
 - Pull custom field from an account: `sfdx force:source:retrieve -m CustomField:Order.Stripe_Transaction_ID__c`
+- Lots of debugging info `sfdx force:source:retrieve -m "Layout:Contract-CPQ Contract Layout" --verbose -u cpq-dev --apiversion=55.0 --dev-debug --loglevel=trace`
 
 ## Lighting Web Componetns
 
@@ -19,6 +20,7 @@
 - If `Apex CPU time limit exceeded` is encountered all DB operations are not committed. They are all wrapped into a transaction that is committed at the end of the Apex call.
 - You can't do a callout after a DML (DB) operation. TODO I may be getting the order of operations wrong here, look this up
 - You can't use variables in the `FROM` clause of a SOQL query `[...]`
+- You can't use `*` in a `SELECT` in a SOQL query
 - `--loglevel` seems to mess with some commands
 - If you run apex anon, `sfdx` seems to truncate logs. The top of the logs won't come through.
 - the `Test` helpers ensure all async operations/futures complete before assertions

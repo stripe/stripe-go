@@ -27,7 +27,7 @@ class StripeForce::Translate
     end
 
     # if not new, then it's an amendment. Remember each account can have different Types, which is why we don't do an exaustive type cehck here
-    if sf_order.Type != OrderTypeOptions::NEW.serialize
+    if is_order_amendment?(sf_order)
       initial_order = extract_initial_order_from_amendment(sf_order)
     else
       log.info 'initial order provided'
@@ -584,14 +584,57 @@ class StripeForce::Translate
     contract_query.first[SF_ID]
   end
 
-  def extract_initial_order_from_amendment(sf_order)
+  # TODO move to order amendment helpers
+  # if an order does not have a 'AmendedContract' relationship than it is a initial order
+  sig { params(sf_order: Restforce::SObject).returns(T::Boolean) }
+  def is_order_amendment?(sf_order)
+    order_with_amended_contract_query = sf.query(
+      # include `Type`, `OpportunityId` for debugging purposes
+      <<~EOL
+        SELECT Type, OpportunityId,
+               Opportunity.SBQQ__AmendedContract__c
+        FROM #{SF_ORDER}
+        WHERE Id = '#{sf_order.Id}'
+      EOL
+    )
+
+    if order_with_amended_contract_query.size.zero?
+      raise Integrations::Errors::ImpossibleInternalError.new("query should never return an empty result")
+    end
+
+    if order_with_amended_contract_query.size > 1
+      raise Integrations::Errors::ImpossibleInternalError.new("query should only return a single result")
+    end
+
+    order_with_amended_contract = order_with_amended_contract_query.first
+
+    amended_contract_id = order_with_amended_contract.dig(SF_OPPORTUNITY, "SBQQ__AmendedContract__c")
+    is_order_amendment = amended_contract_id.present?
+
+    if !OrderTypeOptions.values.map(&:serialize).include?(order_with_amended_contract.Type)
+      log.warn 'order type is not standard', order_type: order_with_amended_contract.Type
+    end
+
+    if is_order_amendment && order_with_amended_contract.Type == OrderTypeOptions::NEW.serialize
+      report_edge_case("order is determined to be an amendment, but type is new")
+    end
+
+    is_order_amendment
+  end
+
+  # if we are given an order amendment, determine the original/initial/non-amendment order
+  # there is no direct connection between the amendment and the initial order, so we must run
+  # these dispirate queries to create a connection.
+  def extract_initial_order_from_amendment(sf_order_amendment)
     # in the case of an amendment, the associated opportunity contains a reference to the contract
     # which contains a reference to the original quote, which references the orginal order (initial non-amendment order)
     initial_quote_query = sf.query(
+      # include `OpportunityId`, `SBQQ__AmendedContract__c` for debugging purposes
       <<~EOL
-        SELECT Opportunity.SBQQ__AmendedContract__r.#{SF_CONTRACT_QUOTE_ID}
+        SELECT OpportunityId, Opportunity.SBQQ__AmendedContract__c,
+               Opportunity.SBQQ__AmendedContract__r.#{SF_CONTRACT_QUOTE_ID}
         FROM #{SF_ORDER}
-        WHERE Id = '#{sf_order.Id}'
+        WHERE Id = '#{sf_order_amendment.Id}'
       EOL
     )
 
@@ -613,7 +656,15 @@ class StripeForce::Translate
       SF_CONTRACT_QUOTE_ID
     )
 
-    log.info 'initial quote found', quote_id: sf_original_quote_id
+    if sf_original_quote_id.blank?
+      log.warn "related records while retrieve missing quote",
+        opportunity_id: initial_quote_query.first.dig("OpportunityId"),
+        amended_contract: initial_quote_query.first.dig(SF_OPPORTUNITY, "SBQQ__AmendedContract__c")
+
+      raise StripeForce::Errors::RawUserError.new("Could not find initial quote associated with order amendment")
+    end
+
+    log.info 'quote tied to initial order found', quote_id: sf_original_quote_id
 
     initial_order_query = sf.query(
       <<~EOL

@@ -108,6 +108,7 @@ module StripeForce
       end
     end
 
+    # TODO these types are heavily customized by our users and should not be relied upon in production
     # https://developer.salesforce.com/docs/atlas.en-us.packagingGuide.meta/packagingGuide/coa_order_type.htm
     class OrderTypeOptions < T::Enum
       enums do
