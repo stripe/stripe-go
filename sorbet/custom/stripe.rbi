@@ -9,11 +9,17 @@ class Stripe::Price
   sig { returns(Stripe::Price).params(id: T.any(String, T::Hash[Symbol, T.untyped]), opts: T.nilable(T::Hash[Symbol, T.untyped])) }
   def self.retrieve(id, opts={}); end
 
+  sig { returns(Stripe::Price).params(params: T.nilable(T::Hash[Symbol, T.untyped])) }
+  def self.construct_from(params={}); end
+
   sig { returns(Integer) }
   def unit_amount; end
 
   sig { returns(String) }
   def unit_amount_decimal; end
+
+  sig { params(arg: T.any(String, BigDecimal)).void }
+  def unit_amount_decimal=(arg); end
 
   sig { returns(String) }
   def billing_scheme; end

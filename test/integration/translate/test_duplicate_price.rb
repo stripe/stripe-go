@@ -96,6 +96,7 @@ class Critic::DuplicatePriceTranslation < Critic::FunctionalTest
     new_price_metadata = new_price.metadata.to_hash
     assert_equal("true", new_price_metadata.delete(:salesforce_auto_archive))
     assert_equal("true", new_price_metadata.delete(:salesforce_duplicate))
+    assert_equal(recurring_price.id, new_price_metadata.delete(:salesforce_original_stripe_price_id))
     assert_equal(recurring_price.metadata.to_hash, new_price_metadata)
   end
 

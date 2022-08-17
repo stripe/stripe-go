@@ -73,8 +73,8 @@ class StripeForce::Translate
     end
   end
 
-  sig { params(primary: T.nilable(Restforce::SObject), secondary: T.nilable(Restforce::SObject), blk: T.proc.returns(T.untyped)).returns(T.untyped) }
-  def catch_errors_with_salesforce_context(primary: nil, secondary: nil, &blk)
+  sig { params(primary: T.nilable(Restforce::SObject), secondary: T.nilable(Restforce::SObject), block: T.proc.returns(T.untyped)).returns(T.untyped) }
+  def catch_errors_with_salesforce_context(primary: nil, secondary: nil, &block)
     if primary && @origin_salesforce_object
       raise Integrations::Errors::ImpossibleInternalError.new("origin object already set, exiting")
     end

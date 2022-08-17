@@ -41,8 +41,12 @@ module StripeForce::Utilities
       "#{@user.metadata_prefix}#{key}"
     end
 
-    sig { params(user: StripeForce::User, key: String).returns(String) }
+    sig { params(user: StripeForce::User, key: T.any(T::Enum, String)).returns(String) }
     def self.metadata_key(user, key)
+      if key.is_a?(T::Enum)
+        key = key.serialize
+      end
+
       "#{user.metadata_prefix}#{key}"
     end
   end

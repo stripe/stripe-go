@@ -57,8 +57,14 @@ class StripeForce::Translate
       end
     end
 
-    sig { params(user: StripeForce::User, original_stripe_price: Stripe::Price).returns(Stripe::Price) }
-    def self.duplicate_stripe_price(user, original_stripe_price)
+    sig do
+      params(
+        user: StripeForce::User,
+        original_stripe_price: Stripe::Price,
+        block: T.nilable(T.proc.params(arg0: Stripe::Price).void)
+      ).returns(Stripe::Price)
+    end
+    def self.duplicate_stripe_price(user, original_stripe_price, &block)
       stripe_price_params = original_stripe_price.to_hash
       stripe_price_params.delete(:id)
 
@@ -90,10 +96,17 @@ class StripeForce::Translate
       end
 
       # indicate that this price was created as a duplicate for avoid Stripe API errors
-      stripe_price.metadata[StripeForce::Utilities::Metadata.metadata_key(user, "duplicate")] = true
+      stripe_price.metadata[StripeForce::Utilities::Metadata.metadata_key(user, MetadataKeys::DUPLICATE_PRICE)] = true
 
       # indicates that this price will be auto-archived after created
-      stripe_price.metadata[StripeForce::Utilities::Metadata.metadata_key(user, "auto_archive")] = true
+      stripe_price.metadata[StripeForce::Utilities::Metadata.metadata_key(user, MetadataKeys::AUTO_ARCHIVE_PRICE)] = true
+
+      # links this price to the original price which this was generated from
+      stripe_price.metadata[StripeForce::Utilities::Metadata.metadata_key(user, MetadataKeys::ORIGINAL_PRICE_ID)] = original_stripe_price.id
+
+      if block_given?
+        yield(stripe_price)
+      end
 
       Stripe::Price.create(stripe_price.to_hash, user.stripe_credentials)
     end
