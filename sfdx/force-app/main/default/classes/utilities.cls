@@ -249,7 +249,8 @@ public with sharing class utilities {
         Http httpMethod = new Http();
         HttpRequest request = new HttpRequest();
 
-        Integer requestTimeoutLength = 500;
+        // 5s timeout in case the ruby server is backed up
+        Integer requestTimeoutLength = 5000;
         request.setEndpoint(endPoint);
         request.setMethod(method);
         request.setTimeout(requestTimeoutLength);
