@@ -60,12 +60,12 @@ class StripeForce::Translate
     )
   end
 
-  # TODO How can we organize code to support CPQ & non-CPQ use-cases? how can this be abstracted away from the order?
   def create_stripe_transaction_from_sf_order(sf_order)
     log.info 'translating order', salesforce_object: sf_order
 
+    # this check is rigorously enforced upstream
     if sf_order.Type != OrderTypeOptions::NEW.serialize
-      raise Integrations::Errors::ImpossibleState.new("only new orders should be passed for transaction generation #{sf_order.Id}")
+      log.warn "order is not new, but is treated as such, type field could be customized"
     end
 
     stripe_transaction = retrieve_from_stripe(Stripe::SubscriptionSchedule, sf_order)
