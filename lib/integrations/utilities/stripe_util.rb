@@ -16,21 +16,36 @@ module Integrations::Utilities::StripeUtil
   # a field from the StripeObject once it has been added, thus this incredibly terrible hack
   # TODO https://jira.corp.stripe.com/browse/PLATINT-1572
   sig { params(stripe_object: Stripe::StripeObject, stripe_field_name: Symbol).void }
-  def delete_field_from_stripe_object(stripe_object, stripe_field_name)
+  def self.delete_field_from_stripe_object(stripe_object, stripe_field_name)
     stripe_object.instance_eval do
       # the top-level keys of `@values` seem to be symbolized
       @values.delete(stripe_field_name)
     end
   end
 
-  module_function :delete_field_from_stripe_object
+  # for cleansing objects pulled *from* the Stripe API before sending data *to* the API
+  # this is also helpful for removing nonsense data when doing comparison between objects
+  sig { params(stripe_object: Stripe::StripeObject).returns(Stripe::StripeObject) }
+  def self.delete_nil_fields_from_stripe_object(stripe_object)
+    stripe_object
+      .keys
+      # all fields that are nil from the API should be removed before sending to the API
+      .select {|field_sym| stripe_object.send(field_sym).nil? }
+      .each do |field_sym|
+        Integrations::Utilities::StripeUtil.delete_field_from_stripe_object(
+          stripe_object,
+          field_sym
+        )
+      end
 
-  # not specific to Stripe, but exclusively used in translating data to Stripe
-  def is_integer_value?(value)
-    value.to_i == value.to_f
+    stripe_object
   end
 
-  module_function :is_integer_value?
+  # not specific to Stripe, but exclusively used in translating data to Stripe
+  sig { params(value: T.any(String, Integer, BigDecimal, Float)).returns(T::Boolean) }
+  def self.is_integer_value?(value)
+    value.to_i == value.to_f
+  end
 
   def stripe_class_from_id(stripe_object_id, raise_on_missing: true)
     # Setting raise_on_missing to false should only be used on internal

@@ -86,7 +86,7 @@ class StripeForce::Translate
       generated_stripe_price = generate_price_params_from_sf_object(sf_pricebook_entry, sf_product)
 
       # this should never happen if our identical check is correct, unless the data in Salesforce is mutated over time
-      if PriceHelpers.price_billing_amounts_equal?(existing_stripe_price, generated_stripe_price)
+      if !PriceHelpers.price_billing_amounts_equal?(existing_stripe_price, generated_stripe_price)
         raise Integrations::Errors::UnhandledEdgeCase.new("expected generated prices to be equal, but they differed")
       end
 
@@ -325,6 +325,8 @@ class StripeForce::Translate
       extract_tiered_price_params_from_order_line(sf_object)
     end
 
+    # NOTE not using `tiered_price?` helper here since this method
+    #      constructs the params that the helper uses
     is_tiered_price = !tiered_pricing_params.empty?
 
     # omitting price param here, this should be defined upstream

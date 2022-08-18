@@ -57,6 +57,7 @@ class StripeForce::Translate
       end
     end
 
+    # TODO this should move to the price helpers
     sig do
       params(
         user: StripeForce::User,
@@ -144,16 +145,7 @@ class StripeForce::Translate
       # You can't pass back the phase in it's original format, it must be modified to avoid:
       # 'You passed an empty string for 'phases[0][collection_method]'. We assume empty values are an attempt to unset a parameter; however 'phases[0][collection_method]' cannot be unset. You should remove 'phases[0][collection_method]' from your request or supply a non-empty value.'
       phases.each do |phase|
-        phase
-          .keys
-          # all fields that are nil from the API should be removed before sending to the API
-          .select {|field_sym| phase.send(field_sym).nil? }
-          .each do |field_sym|
-            Integrations::Utilities::StripeUtil.delete_field_from_stripe_object(
-              phase,
-              field_sym
-            )
-          end
+        Integrations::Utilities::StripeUtil.delete_nil_fields_from_stripe_object(phase)
       end
 
       # (Status 400) (Request req_6sXw1ulKg8naEO) You may only specify one of these parameters: end_date, iterations.>

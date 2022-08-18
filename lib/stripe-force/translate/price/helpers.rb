@@ -119,13 +119,14 @@ class StripeForce::Translate
       end
     end
 
-    # right now, this is NOT used everywhere there is a price comparison, we should leverage this more broadly across the codebase
+    # TODO right now, this is NOT used everywhere there is a price comparison, we should leverage this more broadly across the codebase
     sig { params(price_1: Stripe::Price, price_2: Stripe::Price).returns(T::Boolean) }
     def self.price_billing_amounts_equal?(price_1, price_2)
-      billing_amounts_equal = BigDecimal(price_1.unit_amount_decimal.to_s) != BigDecimal(price_2.unit_amount_decimal.to_s) ||
-        price_1.recurring.present? != price_2.recurring.present? ||
-        price_1.recurring.interval != price_2.recurring[:interval] ||
-        price_1.recurring.interval_count != price_2.recurring[:interval_count]
+      # TODO in some cases the `unit_amount_decimal` is already a bigd, we should handle this more cleanly
+      billing_amounts_equal = BigDecimal(price_1.unit_amount_decimal.to_s) == BigDecimal(price_2.unit_amount_decimal.to_s) &&
+        price_1.recurring.present? == price_2.recurring.present? &&
+        price_1.recurring.interval == price_2.recurring[:interval] &&
+        price_1.recurring.interval_count == price_2.recurring[:interval_count]
 
       if !billing_amounts_equal
         log.info 'price not equal', diff: HashDiff::Comparison.new(price_1.to_hash, price_2.to_hash).diff
