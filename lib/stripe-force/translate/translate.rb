@@ -326,7 +326,7 @@ class StripeForce::Translate
     # we'd have to pass the object type around when mapping which is equally as bad.
 
     catch_errors_with_salesforce_context(secondary: sf_object) do
-      stripe_class.create(stripe_object.to_hash, @user.stripe_credentials)
+      stripe_class.create(stripe_object.to_hash, generate_idempotency_key_with_credentials(@user, sf_object))
     end
   end
 
@@ -453,6 +453,19 @@ class StripeForce::Translate
     optional_data = mapper.build_dynamic_mapping_values(sf_record, default_mappings)
 
     required_data.merge(optional_data)
+  end
+
+  sig { params(user: StripeForce::User, sf_object: Restforce::SObject, action: T.nilable(Symbol)).returns(Hash) }
+  def generate_idempotency_key_with_credentials(user, sf_object, action=nil)
+    # TODO if the SF object is mutated in a way which changes inputs, we need a new idempotency key, maybe use created date?
+    # TODO feature flag to turn this off
+    key = sf_object[SF_ID]
+
+    if action
+      key = "#{key}-#{action}"
+    end
+
+    @user.stripe_credentials.merge({idempotency_key: key})
   end
 
   # TODO allow for multiple records to be linked?

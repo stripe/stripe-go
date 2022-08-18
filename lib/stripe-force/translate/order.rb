@@ -159,10 +159,9 @@ class StripeForce::Translate
       stripe_transaction.default_settings.invoice_settings.days_until_due = OrderHelpers.transform_payment_terms_to_days_until_due(days_until_due)
     end
 
-    # TODO the idempotency key here is not perfect, need to refactor and use a job UID or something
     stripe_transaction = Stripe::SubscriptionSchedule.create(
       stripe_transaction.to_hash,
-      @user.stripe_credentials.merge(idempotency_key: sf_order[SF_ID])
+      generate_idempotency_key_with_credentials(@user, sf_order)
     )
 
     log.info 'stripe subscription or invoice created', stripe_resource_id: stripe_transaction.id

@@ -119,5 +119,29 @@ module Critic::Unit
         @translator.update_sf_stripe_id(customer, stripe_customer)
       end
     end
+
+    describe 'generate_idempotency_key_with_credentials' do
+      it 'generates a key' do
+        sf_order = create_mock_salesforce_order
+
+        creds = @translator.generate_idempotency_key_with_credentials(@user, sf_order)
+
+        assert_equal(sf_order.Id, creds.delete(:idempotency_key))
+        assert_equal(@user.stripe_credentials, creds)
+      end
+
+      it 'generates a key with an action' do
+        sf_order = create_mock_salesforce_order
+
+        creds = @translator.generate_idempotency_key_with_credentials(
+          @user,
+          sf_order,
+          :finalize_invoice
+        )
+
+        assert_equal("#{sf_order.Id}-finalize_invoice", creds.delete(:idempotency_key))
+        assert_equal(@user.stripe_credentials, creds)
+      end
+    end
   end
 end

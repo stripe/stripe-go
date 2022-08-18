@@ -24,6 +24,7 @@ class StripeForce::Translate
           log.info 'archiving price', archive_price_id: active_price.id
           active_price.active = false
           # TODO idempotency_key
+          # active_price.save({}, generate_idempotency_key_with_credentials(user, active_price, :archive))
           active_price.save
         end
       end
