@@ -181,6 +181,7 @@ function formatStripeObjectsForMapper(stripeObjectToFormat, objectExcludedReadOn
             if (nestedExpandableFieldMap) {
                 stripeObjectMappings = checkforNestedFields(field, stripeObjectToFormat, stripeObjectMappings, nestedExpandableFieldMap, objectExcludedReadOnlyFields);
             }
+            continue;
         }
 
         var expandableSchemaFieldName;
@@ -274,18 +275,27 @@ function checkForNestedHashFields(stripeObjectMappings, stripeObjectName, expand
                 fields: []
             };
             stripeObjectMappings.push(newSection);
-            const hashFieldName = expandableField.replace(/_+/g, ' ');
-            const hashFieldValue = field + '.' + expandableField;
+  
+            if (Object.keys(expandableSchemaFieldMap).length > 1 ) {
+                for (const [nestedSubHashField, nestedSubHashFieldMap] of Object.entries(expandableSchemaFieldMap)) {
+                    var nestedSubHashFieldName = nestedSubHashField.replace(/_+/g, ' ');
+                    var nestedSubHashFieldValue = field + '.' + nestedSubHashField;
+                    stripeObjectMappings = addNewFieldToSection(stripeObjectMappings, nestedSubHashFieldName, nestedSubHashFieldValue, nestedSubHashFieldMap, nestedSubHashField, field, stripeObjectName);
 
-            stripeObjectMappings = addNewFieldToSection(stripeObjectMappings, hashFieldName, hashFieldValue, expandableSchemaFieldMap, expandableField, field, stripeObjectName);
+                }
+            } else {
+                const hashFieldName = expandableField.replace(/_+/g, ' ');
+                const hashFieldValue = field + '.' + expandableField;
+                stripeObjectMappings = addNewFieldToSection(stripeObjectMappings, hashFieldName, hashFieldValue, expandableSchemaFieldMap, expandableField, field, stripeObjectName);
+            }     
 
         } else if (fieldData['properties'] && fieldData['properties'][expandableField]['properties']) {
             expandableSchemaFieldMap = fieldData['properties'][expandableField]['properties'];
 
             for (const subfield in expandableSchemaFieldMap) {
                 var newSection = {
-                    label: expandableField.charAt(0).toUpperCase() + expandableField.slice(1).replace(/_+/g, ' ')+ ' ' +subfield.charAt(0).toUpperCase() + subfield.slice(1).replace(/_+/g, ' '),
-                    name: [field, expandableField, subfield].join("."),
+                    label: field.charAt(0).toUpperCase() + field.slice(1).replace(/_+/g, ' ')+ ' ' +expandableField.charAt(0).toUpperCase() + expandableField.slice(1).replace(/_+/g, ' '),
+                    name: [field, expandableField].join("."),
                     description: '',
                     fields: []
                 };
@@ -314,16 +324,40 @@ function addNewFieldToSection(stripeObjectMappings, hashFieldName, hashFieldValu
       fieldExpandableMap = getStripeFieldDescription(fieldExpandableMap, unhashedValue);
     }
 
-    fieldExpandableMap['type'] = expandableSchemaFieldMap[expandableField]['type'];
-    var index = stripeObjectMappings.findIndex(objectSection => {
-        return objectSection.name === field;
-    });
-    if (index && stripeObjectMappings[index]) {
-        stripeObjectMappings[index].fields.push(fieldExpandableMap);
-    } else {
-        stripeObjectMappings[stripeObjectMappings.length - 1].fields.push(fieldExpandableMap);
+    if (!fieldExpandableMap['type']) {
+        fieldExpandableMap = getStripeFieldType(fieldExpandableMap, expandableField);
+    } 
+
+    if(fieldExpandableMap['type'] === 'array' || fieldExpandableMap['type'] === 'object') {
+        return stripeObjectMappings;
     }
+    
+    stripeObjectMappings[stripeObjectMappings.length - 1].fields.push(fieldExpandableMap);
+    stripeObjectMappings[stripeObjectMappings.length - 1].fields = removeDuplicates(stripeObjectMappings[stripeObjectMappings.length - 1].fields);
+    stripeObjectMappings = combineDuplicateSections(stripeObjectMappings);
     return stripeObjectMappings;
+}
+
+function removeDuplicates(fieldsList) {
+    return fieldsList.filter((object,index,array) => array.findIndex(objectAtIndex => (objectAtIndex.value === object.value)) === index);
+}
+
+function combineDuplicateSections(stripeObjectMappings) {
+    return stripeObjectMappings.reduce(function(list, obj) {
+        var found = false;
+        for (var i = 0; i < list.length; i++) {
+            if (list[i].name == obj.name) {
+                list[i].fields = list[i].fields.concat(obj.fields);
+                found = true;
+                break;
+            }
+        }
+        if (!found) {
+            list.push(obj);
+        }
+    
+        return list;
+    }, []);
 }
 
 function getNewFieldObject(fieldName, fieldValue) {
@@ -388,13 +422,35 @@ function getStripeFieldDescription(fieldMap, fieldValue) {
     const listOfAllObjectPaths = getAllPaths(openApiSpec, fieldValue);
 
     for (const objectPath of listOfAllObjectPaths) {
-    let nestedValue = findIndex(openApiSpec, objectPath);
+        var nestedValue = findIndex(openApiSpec, objectPath);
         if (nestedValue && nestedValue.description){
             fieldMap['description'] = markdownConverter.makeHtml(nestedValue.description);
             break;
         }
     }
+    
     return fieldMap;
 }
+
+
+//finds the first path in the parsed open spec api where a type exists for a given key
+function getStripeFieldType(fieldMap, fieldValue) {
+    const listOfAllObjectPaths = getAllPaths(openApiSpec, fieldValue);
+
+    for (const objectPath of listOfAllObjectPaths) {
+        var nestedValue = findIndex(openApiSpec, objectPath);
+        if (nestedValue && nestedValue.type){
+            fieldMap['type'] = nestedValue.type;
+            break;
+        }
+    }
+    
+    if (!fieldMap['type']){
+        fieldMap['type'] = 'string';
+    }
+    
+    return fieldMap;
+}
+
 
 

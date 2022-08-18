@@ -281,8 +281,8 @@
       ]
     },
     {
-      "label": "Settings Reconciliation mode",
-      "name": "cash_balance.settings.reconciliation_mode",
+      "label": "Cash balance Settings",
+      "name": "cash_balance.settings",
       "description": "",
       "fields": [
         {
@@ -387,34 +387,6 @@
           "name": "tracking number",
           "value": "shipping.tracking_number",
           "description": "<p>The tracking number for a physical product, obtained from the delivery service. If multiple tracking numbers were generated for this purchase, please separate them with commas.</p>",
-          "type": "string",
-          "defaultValue": "",
-          "requiredValue": "",
-          "hasOverride": false,
-          "staticValue": false,
-          "hasSfValue": false,
-          "hasRequiredValue": false,
-          "sfValue": "",
-          "sfValueType": ""
-        },
-        {
-          "name": "default payment method",
-          "value": "shipping.default_payment_method",
-          "description": "<p>ID of the default payment method for the invoice. It must belong to the customer associated with the invoice. If not set, defaults to the subscription's default payment method, if any, or to the default payment method in the customer's invoice settings.</p>",
-          "type": "string",
-          "defaultValue": "",
-          "requiredValue": "",
-          "hasOverride": false,
-          "staticValue": false,
-          "hasSfValue": false,
-          "hasRequiredValue": false,
-          "sfValue": "",
-          "sfValueType": ""
-        },
-        {
-          "name": "footer",
-          "value": "shipping.footer",
-          "description": "<p>Footer displayed on the invoice.</p>",
           "type": "string",
           "defaultValue": "",
           "requiredValue": "",
@@ -659,6 +631,55 @@
           "sfValueType": ""
         },
         {
+          "name": "tax behavior",
+          "value": "default_price_data.tax_behavior",
+          "description": "<p>Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of <code>inclusive</code>, <code>exclusive</code>, or <code>unspecified</code>. Once specified as either <code>inclusive</code> or <code>exclusive</code>, it cannot be changed.</p>",
+          "type": "string",
+          "defaultValue": "",
+          "requiredValue": "",
+          "hasOverride": false,
+          "staticValue": false,
+          "hasSfValue": false,
+          "hasRequiredValue": false,
+          "sfValue": "",
+          "sfValueType": ""
+        },
+        {
+          "name": "unit amount",
+          "value": "default_price_data.unit_amount",
+          "description": "<p>The cost of each unit of product being credited.</p>",
+          "type": "integer",
+          "defaultValue": "",
+          "requiredValue": "",
+          "hasOverride": false,
+          "staticValue": false,
+          "hasSfValue": false,
+          "hasRequiredValue": false,
+          "sfValue": "",
+          "sfValueType": ""
+        },
+        {
+          "name": "unit amount decimal",
+          "value": "default_price_data.unit_amount_decimal",
+          "description": "<p>Same as <code>unit_amount</code>, but contains a decimal value with at most 12 decimal places.</p>",
+          "type": "string",
+          "defaultValue": "",
+          "requiredValue": "",
+          "hasOverride": false,
+          "staticValue": false,
+          "hasSfValue": false,
+          "hasRequiredValue": false,
+          "sfValue": "",
+          "sfValueType": ""
+        }
+      ]
+    },
+    {
+      "label": "Default price data Recurring",
+      "name": "default_price_data.recurring",
+      "description": "",
+      "fields": [
+        {
           "name": "interval",
           "value": "default_price_data.recurring.interval",
           "description": "<p>Interval (or event) to which the amount applies.</p>",
@@ -821,6 +842,69 @@
           "sfValueType": ""
         },
         {
+          "name": "billing cycle anchor",
+          "value": "default_settings.billing_cycle_anchor",
+          "description": "<p>Determines the date of the first full invoice, and, for plans with <code>month</code> or <code>year</code> intervals, the day of the month for subsequent invoices.</p>",
+          "type": "integer",
+          "defaultValue": "",
+          "requiredValue": "",
+          "hasOverride": false,
+          "staticValue": false,
+          "hasSfValue": false,
+          "hasRequiredValue": false,
+          "sfValue": "",
+          "sfValueType": ""
+        },
+        {
+          "name": "billing thresholds",
+          "value": "default_settings.billing_thresholds",
+          "description": "<p>Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period</p>",
+          "type": "string",
+          "defaultValue": "",
+          "requiredValue": "",
+          "hasOverride": false,
+          "staticValue": false,
+          "hasSfValue": false,
+          "hasRequiredValue": false,
+          "sfValue": "",
+          "sfValueType": ""
+        },
+        {
+          "name": "collection method",
+          "value": "default_settings.collection_method",
+          "description": "<p>Either <code>charge_automatically</code>, or <code>send_invoice</code>. When charging automatically, Stripe will attempt to pay this invoice using the default source attached to the customer. When sending an invoice, Stripe will email this invoice to the customer with payment instructions.</p>",
+          "type": "string",
+          "defaultValue": "",
+          "requiredValue": "",
+          "hasOverride": false,
+          "staticValue": false,
+          "hasSfValue": false,
+          "hasRequiredValue": false,
+          "sfValue": "",
+          "sfValueType": ""
+        },
+        {
+          "name": "default payment method",
+          "value": "default_settings.default_payment_method",
+          "description": "<p>ID of the default payment method for the invoice. It must belong to the customer associated with the invoice. If not set, defaults to the subscription's default payment method, if any, or to the default payment method in the customer's invoice settings.</p>",
+          "type": "string",
+          "defaultValue": "",
+          "requiredValue": "",
+          "hasOverride": false,
+          "staticValue": false,
+          "hasSfValue": false,
+          "hasRequiredValue": false,
+          "sfValue": "",
+          "sfValueType": ""
+        }
+      ]
+    },
+    {
+      "label": "Default settings Automatic tax",
+      "name": "default_settings.automatic_tax",
+      "description": "",
+      "fields": [
+        {
           "name": "enabled",
           "value": "default_settings.automatic_tax.enabled",
           "description": "<p>Whether Stripe automatically computes tax on this invoice.</p>",
@@ -833,7 +917,14 @@
           "hasRequiredValue": false,
           "sfValue": "",
           "sfValueType": ""
-        },
+        }
+      ]
+    },
+    {
+      "label": "Default settings Invoice settings",
+      "name": "default_settings.invoice_settings",
+      "description": "",
+      "fields": [
         {
           "name": "days until due",
           "value": "default_settings.invoice_settings.days_until_due",
