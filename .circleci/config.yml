@@ -29,7 +29,7 @@ workflows:
                 # QA package test
                 - mbianco+cpqpackage@stripe.com
                 # production package test
-                - brennen+prodtest@stripe.com
+                # - brennen+prodtest@stripe.com
 
           requires:
             # We will wait for the block and typecheck tasks to complete
