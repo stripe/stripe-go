@@ -13,21 +13,17 @@ class StripeForce::Translate
   # give an order (amendment or initial order) determine the initial order and all amendments
   sig { params(sf_order: T.untyped).returns(ContractStructure) }
   def extract_contract_from_order(sf_order)
-    # in a fresh CPQ account there is only NEW and AMENDMENT types, but users can and do customize these types
-    # for our purposes, we only care about new and not-new (amendment types) so we don't need to filter these aggressively
-    if ![OrderTypeOptions::AMENDMENT, OrderTypeOptions::NEW].map(&:serialize).include?(sf_order.Type)
-      report_edge_case('unexpected order type', metadata: {type: sf_order.Type})
-    end
+    is_order_amendment = is_order_amendment?(sf_order)
 
     # if the original order, then it will have been contracted if it has additional phases/amendments
     # if it hasn't been contracted, then we know there's no amendments to look up
-    if sf_order.Type == OrderTypeOptions::NEW.serialize && !sf_order[SF_ORDER_CONTRACTED]
+    if !is_order_amendment && !sf_order[SF_ORDER_CONTRACTED]
       log.info 'order is not contracted, assuming only initial order'
       return ContractStructure.new(initial: sf_order)
     end
 
     # if not new, then it's an amendment. Remember each account can have different Types, which is why we don't do an exaustive type cehck here
-    if is_order_amendment?(sf_order)
+    if is_order_amendment
       initial_order = extract_initial_order_from_amendment(sf_order)
     else
       log.info 'initial order provided'
