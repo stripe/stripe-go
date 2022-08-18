@@ -29,6 +29,7 @@ import (
 	"github.com/stripe/stripe-go/v73/creditnote"
 	"github.com/stripe/stripe-go/v73/customer"
 	"github.com/stripe/stripe-go/v73/customerbalancetransaction"
+	"github.com/stripe/stripe-go/v73/customercashbalancetransaction"
 	"github.com/stripe/stripe-go/v73/dispute"
 	"github.com/stripe/stripe-go/v73/ephemeralkey"
 	"github.com/stripe/stripe-go/v73/event"
@@ -153,6 +154,8 @@ type API struct {
 	CreditNotes *creditnote.Client
 	// CustomerBalanceTransactions is the client used to invoke /customers/{customer}/balance_transactions APIs.
 	CustomerBalanceTransactions *customerbalancetransaction.Client
+	// CustomerCashBalanceTransactions is the client used to invoke /customers/{customer}/cash_balance_transactions APIs.
+	CustomerCashBalanceTransactions *customercashbalancetransaction.Client
 	// Customers is the client used to invoke /customers APIs.
 	Customers *customer.Client
 	// Disputes is the client used to invoke /disputes APIs.
@@ -350,6 +353,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.Coupons = &coupon.Client{B: backends.API, Key: key}
 	a.CreditNotes = &creditnote.Client{B: backends.API, Key: key}
 	a.CustomerBalanceTransactions = &customerbalancetransaction.Client{B: backends.API, Key: key}
+	a.CustomerCashBalanceTransactions = &customercashbalancetransaction.Client{B: backends.API, Key: key}
 	a.Customers = &customer.Client{B: backends.API, Key: key}
 	a.Disputes = &dispute.Client{B: backends.API, Key: key}
 	a.EphemeralKeys = &ephemeralkey.Client{B: backends.API, Key: key}
