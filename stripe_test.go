@@ -47,6 +47,31 @@ func TestBearerAuth(t *testing.T) {
 	assert.Equal(t, "Bearer "+key, req.Header.Get("Authorization"))
 }
 
+func TestApiVersion(t *testing.T) {
+	c := GetBackend(APIBackend).(*BackendImplementation)
+	key := "apiKey"
+
+	req, err := c.NewRequest("", "", key, "", nil)
+	assert.NoError(t, err)
+
+	assert.Equal(t, APIVersion, req.Header.Get("Stripe-Version"))
+}
+
+func TestCanSetApiVersion(t *testing.T) {
+	oldVersion := APIVersion
+	APIVersion = "12-23-2022; feature_in_beta=v3"
+
+	c := GetBackend(APIBackend).(*BackendImplementation)
+	key := "apiKey"
+
+	req, err := c.NewRequest("", "", key, "", nil)
+	assert.NoError(t, err)
+
+	assert.Equal(t, "12-23-2022; feature_in_beta=v3", req.Header.Get("Stripe-Version"))
+
+	APIVersion = oldVersion
+}
+
 func TestContext(t *testing.T) {
 	c := GetBackend(APIBackend).(*BackendImplementation)
 	p := &Params{Context: context.Background()}

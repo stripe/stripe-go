@@ -10,11 +10,13 @@ import (
 	"github.com/stripe/stripe-go/v73"
 )
 
-var testPayload = []byte(fmt.Sprintf(`{
+var testPayloadFormat = `{
   "id": "evt_test_webhook",
   "object": "event",
   "api_version": "%s"
-}`, stripe.APIVersion))
+}`
+
+var testPayload = []byte(fmt.Sprintf(testPayloadFormat, trimApiVersion(stripe.APIVersion)))
 var testPayloadWithAPIVersionMismatch = []byte(`{
 	"id": "evt_test_webhook",
 	"object": "event",
@@ -193,6 +195,28 @@ func TestConstructEvent_ErrorOnAPIVersionMismatch(t *testing.T) {
 	if !strings.Contains(err.Error(), "Received event with API version") {
 		t.Errorf("Expected API version mismatch error but received %v", err)
 	}
+}
+
+func TestConstructEvent_GlobalVersionHasBetas(t *testing.T) {
+
+	p := newSignedPayload(func(p *SignedPayload) {
+		p.payload = []byte(fmt.Sprintf(testPayloadFormat, "12-23-2023"))
+	})
+
+	oldVersion := stripe.APIVersion
+	stripe.APIVersion = "12-23-2023; feature_in_beta=v3"
+
+	evt, err := ConstructEvent(p.payload, p.header, p.secret)
+
+	if err != nil {
+		t.Errorf("Expected no error, versions match.")
+	}
+
+	if evt.ID != "evt_test_webhook" {
+		t.Errorf("Expected a parsed event matching the test payload, got %v", evt)
+	}
+
+	stripe.APIVersion = oldVersion
 }
 
 func TestConstructEventWithOptions_IgnoreAPIVersionMismatch(t *testing.T) {
