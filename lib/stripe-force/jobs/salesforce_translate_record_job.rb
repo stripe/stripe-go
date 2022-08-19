@@ -40,5 +40,7 @@ class SalesforceTranslateRecordJob < StripeForce::BaseJob
         sf_object: sf_object
       )
     end
+
+    user.persist_refreshed_credentials
   end
 end

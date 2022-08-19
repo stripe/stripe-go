@@ -92,10 +92,17 @@ module StripeForce
         log_level: :debug,
       }.merge(optional_client_params))
 
-      # TODO should refresh & persist the update https://jira.corp.stripe.com/browse/PLATINT-1718
-      # @client.authenticate!
+      # if access token has expired, this will be automatically refreshed by restforce middleware
+      # if the token is refreshed, we check for this and persist it at the end of a translation job
 
       @client
+    end
+
+    def persist_refreshed_credentials
+      if self.sf_client.options[:oauth_token] != self.salesforce_token
+        log.info 'credentials refreshed, updating'
+        self.update(salesforce_token: self.sf_client.options[:oauth_token])
+      end
     end
 
     # TODO there's not a practical limit here

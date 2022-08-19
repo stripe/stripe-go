@@ -39,6 +39,8 @@ if username
      `SF_URL=#{target_url} SF_USERNAME=#{username} SF_CONSUMER_KEY=#{ENV['SF_CONSUMER_KEY']} SF_JWT_PRIVATE_KEY_PATH=./sfdx/jwt-cert/private_key.pem node ./sfdx/bin/jwt-generator/index.js`.strip
   end
 
+  # TODO refresh tokens are available in the ~/.sfdx token even though they do not show up in `auth:list`
+
   instance_id = auth_info['orgId']
   instance_domain = auth_info['instanceUrl'].match(/https:\/\/(.*)\.my.salesforce.com/)[1]
 

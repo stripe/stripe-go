@@ -8,6 +8,26 @@ module Critic::Unit
       @user = make_user
     end
 
+    describe 'credentials refresh' do
+      it 'does not refresh credentials when they are unchanged' do
+        @user.expects(:update).never
+        @user.persist_refreshed_credentials
+      end
+
+      it 'refreshes credentials when they are expired' do
+        bad_creds = SecureRandom.alphanumeric(32)
+
+        @user.salesforce_token = bad_creds
+        @user.save
+
+        @user.sf_client.options[:oauth_token] = ENV.fetch('SF_ACCESS_TOKEN')
+        @user.persist_refreshed_credentials
+
+        @user = T.must(StripeForce::User[@user.id])
+        assert_equal(ENV.fetch('SF_ACCESS_TOKEN'), @user.salesforce_token)
+      end
+    end
+
     describe 'host selection' do
       it 'uses a test host when not in production' do
         @user.connector_settings[CONNECTOR_SETTING_SALESFORCE_INSTANCE_TYPE] = SFInstanceTypes::SANDBOX.serialize
