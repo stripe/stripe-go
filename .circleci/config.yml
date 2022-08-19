@@ -99,7 +99,7 @@ jobs:
     steps:
       - checkout
       - sfdx/install: &sfdx_version
-          version: '7.163.0'
+          version: '7.164.2'
       - run: sfdx/bin/run-tests <<parameters.account>>
       - store_test_results:
           path: sfdx/test-results

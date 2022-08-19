@@ -12,7 +12,12 @@ class StripeForce::BaseJob
   extend Resque::Plugins::Retry
 
   @queue = :high
+
+  # 3d, once per hour
   @retry_limit = 71
+
+  # 1 hour delay
+  @retry_delay = 60 * 60
 
   @ignore_exceptions = [Resque::TermException, Integrations::Errors::LockTimeout]
   @retry_exceptions = [Exception, Resque::TermException, Integrations::Errors::LockTimeout]
