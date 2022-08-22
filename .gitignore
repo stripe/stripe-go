@@ -34,6 +34,7 @@
 irb.log
 
 .env
+.envrc
 test/reports/
 .DS_Store
 /vendor/bundle

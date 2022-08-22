@@ -21,4 +21,22 @@
     <layoutAssignments>
         <layout>SBQQ__Quote__c-SBQQ__Quote Layout</layout>
     </layoutAssignments>
+    <layoutAssignments>
+        <layout>PricebookEntry-Custom Price Book Entry Layout</layout>
+    </layoutAssignments>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>OrderItem.Test_String_Field__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>OrderItem.Test_Decimal_Field__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>PricebookEntry.Test_String_Field__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
 </Profile>
