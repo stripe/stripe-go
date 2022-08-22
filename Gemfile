@@ -23,7 +23,7 @@ end
 
 # sentry
 gem "sentry-ruby", "~> 5.4.2"
-gem "sentry-rails", "~> 5.4.1"
+gem "sentry-rails", "~> 5.4.2"
 gem "sentry-resque", "~> 5.4.2"
 gem 'simple_structured_logger', '~> 1.0.2'
 
