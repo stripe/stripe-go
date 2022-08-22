@@ -371,12 +371,25 @@ class StripeForce::Translate
             billing_frequency: billing_frequency
           )
 
-          invoice_items_for_prorations << {
+          proration_stripe_item = Stripe::SubscriptionItem.construct_from({
+            metadata: stripe_metadata_for_sf_object(phase_item.order_line).merge(
+              StripeForce::Utilities::Metadata.metadata_key(@user, MetadataKeys::PRORATION_PRICE) => true
+            ),
+          })
+          apply_mapping(proration_stripe_item, phase_item.order_line)
+
+          invoice_items_for_prorations << proration_stripe_item.to_hash.merge({
             quantity: phase_item.quantity,
             price: proration_price.id,
-            # TODO metadata
-            # TODO proration hash
-          }
+            period: {
+              end: {
+                type: 'phase_end',
+              },
+              start: {
+                type: 'phase_start',
+              },
+            },
+          })
         end
       end
 
@@ -628,9 +641,6 @@ class StripeForce::Translate
       if PriceHelpers.recurring_price?(price)
         subscription_items << phase_item_struct
       else
-        # TODO this sanitization should be moved somewhere else
-        # TODO metadata is currently not supported here https://jira.corp.stripe.com/browse/PLATINT-1609
-        phase_item_struct.stripe_params.delete(:metadata)
         invoice_items << phase_item_struct
       end
     end

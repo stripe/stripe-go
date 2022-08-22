@@ -99,9 +99,15 @@ class Critic::ProratedAmendmentTranslation < Critic::OrderAmendmentFunctionalTes
 
     # now, let's take a look at the prorated items!
     assert_equal(1, second_phase.add_invoice_items.count)
-    prorated_item = T.must(second_phase.add_invoice_items.first)
+    prorated_item = T.unsafe(second_phase.add_invoice_items.first)
     assert_equal(2, prorated_item.quantity)
     prorated_price = Stripe::Price.retrieve(T.cast(prorated_item.price, String), @user.stripe_credentials)
+
+    # check additional fields added to the proration invoice item
+    assert_equal("phase_end", prorated_item.period.end.type)
+    assert_equal("phase_start", prorated_item.period.start.type)
+    assert_equal("true", prorated_item.metadata[StripeForce::Utilities::Metadata.metadata_key(@user, MetadataKeys::PRORATION_PRICE)])
+    assert_equal(second_phase_item_additive.metadata['salesforce_order_item_id'], prorated_item.metadata['salesforce_order_item_id'])
 
     assert_equal('one_time', prorated_price.type)
     assert_equal(prorated_price.product, first_phase_item_price.product)
@@ -112,8 +118,6 @@ class Critic::ProratedAmendmentTranslation < Critic::OrderAmendmentFunctionalTes
 
     # since this is an 18mo prorated item we should only bill for 6mo since the rest will be billed by stripe
     assert_equal((yearly_price / (12 / 6)).to_s, prorated_price.unit_amount_decimal)
-
-    # TODO proration hash and metadata assertion
   end
 
   # NOTE this was the first test written and has more extensive edge cases than other amendment tests
@@ -223,9 +227,15 @@ class Critic::ProratedAmendmentTranslation < Critic::OrderAmendmentFunctionalTes
 
     # now, let's take a look at the prorated items!
     assert_equal(1, second_phase.add_invoice_items.count)
-    prorated_item = T.must(second_phase.add_invoice_items.first)
+    prorated_item = T.unsafe(second_phase.add_invoice_items.first)
     assert_equal(2, prorated_item.quantity)
     prorated_price = Stripe::Price.retrieve(T.cast(prorated_item.price, String), @user.stripe_credentials)
+
+    # check additional fields added to the proration invoice item
+    assert_equal("phase_end", prorated_item.period.end.type)
+    assert_equal("phase_start", prorated_item.period.start.type)
+    assert_equal("true", prorated_item.metadata[StripeForce::Utilities::Metadata.metadata_key(@user, MetadataKeys::PRORATION_PRICE)])
+    assert_equal(second_phase_item_additive.metadata['salesforce_order_item_id'], prorated_item.metadata['salesforce_order_item_id'])
 
     assert_equal('one_time', prorated_price.type)
     assert_equal((yearly_price / (12 / amendment_term)).to_s, prorated_price.unit_amount_decimal)
@@ -234,13 +244,16 @@ class Critic::ProratedAmendmentTranslation < Critic::OrderAmendmentFunctionalTes
     assert_equal("true", prorated_price.metadata['salesforce_duplicate'])
     assert_equal("true", prorated_price.metadata['salesforce_proration'])
     assert_equal(second_phase_item_additive_price.id, prorated_price.metadata['salesforce_original_stripe_price_id'])
-    # TODO assertions on proration and metadata
   end
 
   # scenario where the start date is not on a billing cycle boundary but the subscription_term % billing_frequency == 0
   # TODO I am struggling to think of a situation where this could be true, might be impossible with the coterm requirement
   # initial order: 1yr contract, one quarterly item
   # second order: +1 quantity, revising the existing item, 6-24mo
+
+  it 'maps metadata from the order line to the proration line item' do
+
+  end
 
   it 'bills the incremental quantity at a new price' do
 

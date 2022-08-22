@@ -94,6 +94,10 @@ class Stripe::SubscriptionSchedulePhaseInvoiceItem < Stripe::StripeObject
 
   sig { returns(Integer) }
   def quantity; end
+
+  def period; end
+
+  def metadata; end
 end
 
 # these are NOT the exact same structure as a subscription item
