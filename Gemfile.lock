@@ -191,7 +191,7 @@ GEM
     mime-types-data (3.2021.0901)
     mini_mime (1.1.2)
     mini_portile2 (2.8.0)
-    minitest (5.16.2)
+    minitest (5.16.3)
     minitest-ci (3.4.0)
       minitest (>= 5.0.6)
     minitest-profile (0.0.2)
@@ -466,7 +466,7 @@ DEPENDENCIES
   dotenv-rails (= 2.8.1)
   listen
   lograge (~> 0.12)
-  minitest (~> 5.16.2)
+  minitest (~> 5.16.3)
   minitest-ci (~> 3.4.0)
   minitest-profile
   minitest-rails (~> 6.1.0)
