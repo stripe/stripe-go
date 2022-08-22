@@ -179,12 +179,12 @@ class StripeForce::Translate
 
     compound_external_id = generate_compound_external_id(@origin_salesforce_object, salesforce_object)
 
-    log.debug 'creating sync record for failure'
+    log.debug 'creating sync record for failure', external_id: compound_external_id
 
     # interestingly enough, if the external ID field does not exist we'll get a NOT_FOUND response
     # https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/dome_upsert.htm
 
-    sf.upsert!(
+    sf_sync_record_id = sf.upsert!(
       prefixed_stripe_field(SYNC_RECORD),
       prefixed_stripe_field(SyncRecordFields::COMPOUND_ID.serialize),
       {
@@ -200,6 +200,8 @@ class StripeForce::Translate
         SyncRecordFields::RESOLUTION_STATUS => SyncRecordResolutionStatuses::ERROR,
       }.transform_keys(&:serialize).transform_keys(&method(:prefixed_stripe_field))
     )
+
+    log.debug 'sync record created', sync_record_id: sf_sync_record_id
   end
 
   sig { params(salesforce_object: Restforce::SObject, stripe_object: Stripe::APIResource).void }
@@ -370,7 +372,7 @@ class StripeForce::Translate
     end
   end
 
-  # TODO this should be dynamic and pulled from the mapper
+  # TODO this should be dynamic and pulled from the mapper https://jira.corp.stripe.com/browse/PLATINT-1485
   # according to the salesforce documentation, if this field is non-nil ("empty") than it's a subscription item
   def recurring_item?(sf_object)
     if ![SF_ORDER_ITEM, SF_PRODUCT].include?(sf_object.sobject_type)
@@ -381,9 +383,11 @@ class StripeForce::Translate
     !sf_object[CPQ_QUOTE_SUBSCRIPTION_PRICING].nil?
   end
 
-  # service period and billing frequency are decoupled in CPQ
+  # service period and billing frequency are decoupled in CPQ, but they are the same in Stripe
   # both values should be in months, but we want to support days in the future
   def determine_subscription_term_multiplier_for_billing_frequency(subscription_term, billing_frequency)
+    # billing price = order line unit price / quantity / (subscription term / billing frequency)
+
     # if specified iterations is less than the billing frequency of the stripe price then
     if subscription_term < billing_frequency
       # TODO we should probably create a invoice item price instead? Unsure of the best approach here, we would want the invoice item to be tied to a product?

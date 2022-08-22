@@ -25,38 +25,22 @@ class StripeForce::Translate
     stripe_price
   end
 
-  # TODO maybe look at "can edit price" boolean on the product? But what about custom mappings?
-  # TODO https://jira.corp.stripe.com/browse/PLATINT-1485
   def pricebook_and_order_line_identical?(sf_pricebook_entry, sf_order_item, sf_product)
     # generate the full params that would be sent to the price object and compare them
-    # if they aren't *exactly* the same, this will trigger a new price to be created
-    # we'll probably need to do something a bit smarter here in the future but it's not obvious what
-    # additional logic we should include here at the moment.
-    pricebook_params = generate_price_params_from_sf_object(sf_pricebook_entry, sf_product).to_hash
-    order_item_params = generate_price_params_from_sf_object(sf_order_item, sf_product).to_hash
+    # if they aren't *exactly* the same, this will trigger a new price to be created.
+    pricebook_params = generate_price_params_from_sf_object(sf_pricebook_entry, sf_product)
+    order_item_params = generate_price_params_from_sf_object(sf_order_item, sf_product)
 
-    # metadata *could* have important financial data for downstream systems
-    # however, most of the time users will not pull this information directly from prices
-    # (they may use products instead) and a users mappings could change over time, so we don't
-    # want to factor it in to our equality test
-    pricebook_params.delete(:metadata)
-    order_item_params.delete(:metadata)
-
-    # creating prices unnecessarily can be problematic for users: many prices without clarity about why they exist
-    # for this reason, let's log the diff in debug mode so we can easily determine exactly WHY the new price was created
-    if pricebook_params != order_item_params
-      log.debug 'price diff', diff: HashDiff::Comparison.new(pricebook_params, order_item_params).diff
-    end
-
-    pricebook_params == order_item_params
+    PriceHelpers.price_billing_amounts_equal?(pricebook_params, order_item_params)
   end
 
+  # main entry point to creating prices from line items from the order logic
   # TODO what if the list price is updated in SF? We shouldn't probably create a new price object
   def create_price_for_order_item(sf_order_item)
     log.info 'translating price from a order line origin', salesforce_object: sf_order_item
 
     sf_product = sf.find(SF_PRODUCT, sf_order_item.Product2Id)
-    product = create_product_from_sf_product(sf_product)
+    product = translate_product(sf_product)
 
     sf_pricebook_entry = sf.find(SF_PRICEBOOK_ENTRY, sf_order_item.PricebookEntryId)
 
@@ -398,39 +382,62 @@ class StripeForce::Translate
       # stripe_price.recurring = {}
     end
 
-    # we should only transform licensed prices that are not customized
-    if is_recurring_item &&
-        !is_tiered_price &&
-        sf_object.sobject_type == SF_ORDER_ITEM &&
-        !PriceHelpers.using_custom_order_line_price_field?(@user)
+    # prices are only transformed when they are tied to order lines, we trust pricebook prices as is
+    # only licensed prices should be customized, tiered + metered billing prices should be left as is
+    is_recurring_licensed_price_from_order_line = is_recurring_item &&
+      !is_tiered_price &&
+      sf_object.sobject_type == SF_ORDER_ITEM
+
+    if is_recurring_licensed_price_from_order_line && !PriceHelpers.using_custom_order_line_price_field?(@user)
+      # the formula for calculating the adjusted price is:
+      #   billing price = order line unit price / quantity / (subscription term / billing frequency)
 
       log.info 'custom price not used, adjusting unit_amount_decimal', sf_order_item_id: sf_object.Id
 
       billing_frequency = StripeForce::Utilities::StripeUtil.billing_frequency_of_price_in_months(stripe_price)
 
-      # TODO this is a hack and we should really extract this through the extract params
-      quote_subscription_term_path = 'Order.SBQQ__Quote__c.SBQQ__SubscriptionTerm__c'
-      quote_subscription_term = mapper.extract_key_path_for_record(sf_object, quote_subscription_term_path)
+      # TODO use cache_service
+      sf_order = sf.find(SF_ORDER, sf_object['OrderId'])
 
-      if quote_subscription_term.nil?
-        raise Integrations::Errors::MissingRequiredFields.new(
-          salesforce_object: sf_object,
-          missing_salesforce_fields: [quote_subscription_term_path]
-        )
-      end
+      subscription_term = extract_subscription_term_from_order!(sf_order)
+      price_multiplier = BigDecimal(subscription_term) / BigDecimal(billing_frequency)
+      # TODO should we adjust based on the quantity? Most likely, let's wait until tests fail
 
-      # it's looking like these values are never really aligned and we should ignore the line item
-      if sf_object['SBQQ__SubscriptionTerm__c'] == quote_subscription_term
-        report_edge_case("subscription term on quote matches line item")
-      end
-
-      # TODO need to stop hardcoding this value!
       # NOTE in most cases, this value should be the same as `sf_object['SBQQ__ProrateMultiplier__c']` if the user has product-level subscription term enabled
-      price_multiplier = determine_subscription_term_multiplier_for_billing_frequency(quote_subscription_term, billing_frequency)
+      # price_multiplier = determine_subscription_term_multiplier_for_billing_frequency(quote_subscription_term, billing_frequency)
 
       stripe_price.unit_amount_decimal = T.cast(stripe_price.unit_amount_decimal, BigDecimal) / price_multiplier
     end
 
     stripe_price
+  end
+
+  # ideally this would not be an instance method, but having the `mapper` state will reduce API calls and simplify the logic here for now
+  sig { params(sf_order: Restforce::SObject).returns(Integer) }
+  def extract_subscription_term_from_order!(sf_order)
+    subscription_term_stripe_path = ['subscription_schedule', 'iterations']
+    subscription_term_order_path = @user.field_mappings.dig(*subscription_term_stripe_path) ||
+      @user.required_mappings.dig(*subscription_term_stripe_path)
+
+    # quote_subscription_term = T.cast(mapper.extract_key_path_for_record(sf_order, subscription_term_order_path), T.nilable(String))
+    quote_subscription_term = T.cast(mapper.extract_key_path_for_record(sf_order, subscription_term_order_path), T.nilable(T.any(String, Float)))
+
+    if quote_subscription_term.nil?
+      raise Integrations::Errors::MissingRequiredFields.new(
+        salesforce_object: sf_order,
+        missing_salesforce_fields: [subscription_term_order_path]
+      )
+    end
+
+    # it's looking like these values are never really aligned and we should ignore the line item
+    if sf_order['SBQQ__SubscriptionTerm__c'] == quote_subscription_term
+      report_edge_case("subscription term on quote matches line item")
+    end
+
+    if !Integrations::Utilities::StripeUtil.is_integer_value?(quote_subscription_term)
+      raise StripeForce::Errors::RawUserError.new("Subscription term is specified as a decimal value")
+    end
+
+    quote_subscription_term.to_i
   end
 end

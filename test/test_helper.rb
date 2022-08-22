@@ -22,6 +22,8 @@ require "mocha/minitest"
 require 'pry-rescue/minitest' unless ENV['CI'] || ENV['EXT_DIR'] || ENV['NO_RESCUE']
 
 require_relative 'support/common_helpers'
+require_relative 'support/stripe_factory'
+require_relative 'support/salesforce_factory'
 Dir[File.join(File.dirname(__FILE__), "support/**/*.rb")].sort.each {|f| require f }
 
 Minitest::Ci.clean = false if ENV['CI']

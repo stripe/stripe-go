@@ -1,20 +1,18 @@
 # typed: true
 # frozen_string_literal: true
 
-require_relative './salesforce_factory'
 require_relative './salesforce_debugging'
 
-module CommonHelpers
+module Critic::CommonHelpers
   include Kernel
   extend T::Sig
 
+  include Minitest::Assertions
   include StripeForce::Constants
-  include Critic::SalesforceFactory
+  include SalesforceDebugging
 
   # NOTE this is a little dangerous: we are only doing this for `prefixed_stripe_field` right now
   include StripeForce::Utilities::SalesforceUtil
-
-  include SalesforceDebugging
 
   def sf_instance_account_id
     ENV.fetch('SF_INSTANCE_ID')
@@ -23,14 +21,9 @@ module CommonHelpers
   def get_sync_records_by_primary_id(primary_id)
     sync_record_results = sf.query("SELECT Id FROM #{prefixed_stripe_field(SYNC_RECORD)} WHERE #{prefixed_stripe_field(SyncRecordFields::PRIMARY_RECORD_ID.serialize)} = '#{primary_id}'")
 
-
-    sync_records = []
-    sync_record_results.each do |sync_record|
-      sync_record = sf.find(prefixed_stripe_field(SYNC_RECORD), sync_record.Id)
-      sync_records.append(sync_record)
+    sync_record_results.map do |sync_record|
+      sf.find(prefixed_stripe_field(SYNC_RECORD), sync_record.Id)
     end
-
-    sync_records
   end
 
   # The get_sync_record_by_secondary_id does not make sense with the addition of Success Sync records, as that is the grouping ID.
@@ -89,27 +82,6 @@ module CommonHelpers
     user
   end
 
-  sig { params(type: String, obj: T.nilable(Stripe::StripeObject)).returns(Stripe::Event) }
-  def create_event(type, obj=nil)
-    obj ||= Stripe::Charge.construct_from(
-      id: stripe_create_id(:ch)
-    )
-
-    Stripe::Event.construct_from({
-      "id" => stripe_create_id(:evt),
-      "created" => Time.now.getutc.to_i,
-      "livemode" => false,
-      "type" => type,
-      "data" => {
-        "object" => JSON.parse(obj.to_json),
-      },
-      "object" => "event",
-      "pending_webhooks" => 0,
-      "account" => stripe_create_id(:acct),
-      "request" => stripe_create_id(:iar),
-    })
-  end
-
   def stripe_create_id(prefix)
     # NOTE: The number after the underscore has significance for Stripe's internal routing.
     #   While we don't expect these IDs to be used for real API calls, we want to ensure
@@ -121,6 +93,26 @@ module CommonHelpers
     end
 
     prefix.to_s + random_id
+  end
+
+  def sf_randomized_id
+    random_id = SecureRandom.alphanumeric(29)
+
+    if ENV['CIRCLE_NODE_INDEX']
+      random_id = "#{random_id}#{ENV['CIRCLE_NODE_INDEX']}"
+    end
+
+    random_id
+  end
+
+  sig { returns(String) }
+  def create_random_email
+    "#{sf_randomized_id}@example.com"
+  end
+
+  def sf_randomized_name(sf_object_name)
+    node_identifier = ENV['CIRCLE_NODE_INDEX'] || ""
+    "REST #{sf_object_name} #{node_identifier} #{DateTime.now}"
   end
 
   # Helper to poll for an expected result

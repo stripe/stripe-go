@@ -8,6 +8,7 @@ class Critic::SubscriptionTermTranslation < Critic::FunctionalTest
     @user = make_user(save: true)
   end
 
+  # TODO but what exactly is this testing? Document this more clearly.
   it 'integrates an order with annual billing with a valid subscription term' do
     sf_product_id, sf_pricebook_entry_id = salesforce_recurring_product_with_price(
       additional_product_fields: {
@@ -90,6 +91,7 @@ class Critic::SubscriptionTermTranslation < Critic::FunctionalTest
     sf_order_items = sf_get_related(sf_order, SF_ORDER_ITEM)
     assert_equal(1, sf_order_items.count)
 
+    # TODO document this in our technical document
     # if no subscription term is specified on the product, it looks like it is assumed to match the subscription term of the order
     sf_order_item = sf_order_items.first
     assert_equal(1, sf_order_item['SBQQ__ProrateMultiplier__c'])
@@ -118,31 +120,5 @@ class Critic::SubscriptionTermTranslation < Critic::FunctionalTest
     assert_equal(1, price.recurring.interval_count)
     assert_equal('month', price.recurring.interval)
     assert_equal("1000", price.unit_amount_decimal)
-  end
-
-  describe 'errors' do
-    # TODO this will be supported in the future: we will determine the portion of the line which can be prorated
-    it 'throws an error if the subscription term is not divisible by billing frequency and is greater than one' do
-      sf_product_id, sf_pricebook_entry_id = salesforce_recurring_product_with_price(
-        additional_product_fields: {
-          CPQ_QUOTE_BILLING_FREQUENCY => CPQBillingFrequencyOptions::ANNUAL.serialize,
-          CPQ_QUOTE_SUBSCRIPTION_TERM => 12,
-        }
-      )
-
-      sf_order = create_salesforce_order(
-        sf_product_id: sf_product_id,
-        additional_quote_fields: {
-          CPQ_QUOTE_SUBSCRIPTION_TERM => 13,
-          CPQ_QUOTE_SUBSCRIPTION_START_DATE => now_time_formatted_for_salesforce,
-        }
-      )
-
-      exception = assert_raises(Integrations::Errors::UserError) do
-        StripeForce::Translate.perform_inline(@user, sf_order.Id)
-      end
-
-      assert_match("Prorated order amendments are not yet supported", exception.message)
-    end
   end
 end

@@ -5,6 +5,7 @@ module StripeForce
   class Sanitizer
     extend T::Sig
     include Integrations::Log
+    include StripeForce::Constants
 
     sig { params(user: StripeForce::User).void }
     def initialize(user)
@@ -24,7 +25,7 @@ module StripeForce
     private def sanitize_price(stripe_price)
       if stripe_price[:unit_amount_decimal] && !Integrations::Utilities::StripeUtil.is_integer_value?(stripe_price[:unit_amount_decimal])
         # Stripe only supports 12 digits
-        stripe_price[:unit_amount_decimal] = stripe_price[:unit_amount_decimal].round(12)
+        stripe_price[:unit_amount_decimal] = stripe_price[:unit_amount_decimal].round(MAX_STRIPE_PRICE_PRECISION)
       end
     end
 

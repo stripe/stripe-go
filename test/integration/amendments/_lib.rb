@@ -5,6 +5,8 @@ require_relative '../../test_helper'
 
 class Critic::OrderAmendmentFunctionalTest < Critic::FunctionalTest
   def create_contract_from_order(sf_order)
+    log.info 'creating contract'
+
     sf.update!(SF_ORDER, {
       SF_ID => sf_order.Id,
       SF_ORDER_CONTRACTED => true,
@@ -27,10 +29,13 @@ class Critic::OrderAmendmentFunctionalTest < Critic::FunctionalTest
 
   # this API is tricky: requires empty JSON object and Content-Type set correctly
   def create_quote_data_from_contract_amendment(sf_contract)
+    log.info 'creating amendment quote'
     JSON.parse(sf.patch("services/apexrest/SBQQ/ServiceRouter?loader=SBQQ.ContractManipulationAPI.ContractAmender&uid=#{sf_contract.Id}", {}, {"Content-Type" => "application/json"}).body)
   end
 
   def create_order_from_quote_data(sf_quote_data)
+    log.info 'creating order from quote'
+
     sf_quote_id = calculate_and_save_cpq_quote(sf_quote_data)
 
     # the amendment quote process doesn't seem to pick a pricebook, so we need to manually do this

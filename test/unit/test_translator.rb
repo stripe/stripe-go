@@ -75,7 +75,7 @@ module Critic::Unit
         @user.connector_settings[CONNECTOR_SETTING_SALESFORCE_NAMESPACE] = SalesforceNamespaceOptions::QA.serialize
 
         customer = create_mock_salesforce_customer
-        stripe_customer = Stripe::Customer.construct_from(id: create_stripe_id(:cus))
+        stripe_customer = Stripe::Customer.construct_from(id: stripe_create_id(:cus))
 
         @translator.sf.expects(:update!).with do |name, params|
           assert_equal(SF_ACCOUNT, name)
@@ -91,7 +91,7 @@ module Critic::Unit
         @user.connector_settings[CONNECTOR_SETTING_SALESFORCE_NAMESPACE] = SalesforceNamespaceOptions::PRODUCTION.serialize
 
         customer = create_mock_salesforce_customer
-        stripe_customer = Stripe::Customer.construct_from(id: create_stripe_id(:cus))
+        stripe_customer = Stripe::Customer.construct_from(id: stripe_create_id(:cus))
 
         @translator.sf.expects(:update!).with do |name, params|
           assert_equal(SF_ACCOUNT, name)
@@ -107,7 +107,7 @@ module Critic::Unit
         @user.connector_settings[CONNECTOR_SETTING_SALESFORCE_NAMESPACE] = SalesforceNamespaceOptions::NONE.serialize
 
         customer = create_mock_salesforce_customer
-        stripe_customer = Stripe::Customer.construct_from(id: create_stripe_id(:cus))
+        stripe_customer = Stripe::Customer.construct_from(id: stripe_create_id(:cus))
 
         @translator.sf.expects(:update!).with do |name, params|
           assert_equal(SF_ACCOUNT, name)

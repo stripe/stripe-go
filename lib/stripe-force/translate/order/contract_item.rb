@@ -38,6 +38,17 @@ class StripeForce::Translate
       )
     end
 
+    sig { params(user: T.nilable(StripeForce::User)).returns(Stripe::Price) }
+    def price(user=nil)
+      if @price.nil? && user.nil?
+        raise Integrations::Errors::ImpossibleInternalError.new("query should never return an empty result")
+      end
+
+      # sorbet doesn't like instance memoized instance variables
+      @price ||= Stripe::Price.retrieve(self.stripe_params[:price], T.unsafe(user).stripe_credentials)
+      @price
+    end
+
     def reduce_quantity
       if self.quantity < 0
         raise "termination lines should never be reduced"
@@ -60,6 +71,11 @@ class StripeForce::Translate
     sig { returns(T::Boolean) }
     def new_order_line?
       revised_order_line_id.blank?
+    end
+
+    sig { params(sf_order: Restforce::SObject).returns(T::Boolean) }
+    def from_order?(sf_order)
+      self.order_line['OrderId'] == sf_order.Id
     end
   end
 end

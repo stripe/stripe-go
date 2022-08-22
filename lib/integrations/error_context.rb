@@ -18,18 +18,25 @@ module Integrations
     end
 
     def report_edge_case(message, stripe_resource: nil, integration_record: nil, metadata: nil)
+      Integrations::ErrorContext.report_error(Integrations::Errors::UnhandledEdgeCase, message, stripe_resource: stripe_resource, integration_record: integration_record, metadata: metadata)
+    end
+
+    def self.report_edge_case(message, stripe_resource: nil, integration_record: nil, metadata: nil)
       report_error(Integrations::Errors::UnhandledEdgeCase, message, stripe_resource: stripe_resource, integration_record: integration_record, metadata: metadata)
     end
 
     def report_feature_usage(message, stripe_resource: nil, integration_record: nil, metadata: nil)
-      report_error(Integrations::Errors::FeatureUsage, message, stripe_resource: stripe_resource, integration_record: integration_record, metadata: metadata)
+      Integrations::ErrorContext.report_error(Integrations::Errors::FeatureUsage, message, stripe_resource: stripe_resource, integration_record: integration_record, metadata: metadata)
     end
 
     sig { params(error_class: T.class_of(Integrations::Errors::BaseIntegrationError), message: String, stripe_resource: T.nilable(Stripe::StripeObject), integration_record: T.untyped, metadata: T.nilable(Hash)).returns(T.nilable(T.any(Sentry::Event, T::Boolean))) }
-    def report_error(error_class, message, stripe_resource: nil, integration_record: nil, metadata: nil)
+    def self.report_error(error_class, message, stripe_resource: nil, integration_record: nil, metadata: nil)
       sentry_options = {tags: metadata&.delete(:tags)}.compact
 
-      log.error message, {stripe_resource: stripe_resource, integration_record: integration_record}.compact.merge(metadata || {})
+      log.error message, {
+        stripe_resource: stripe_resource,
+        integration_record: integration_record,
+      }.compact.merge(metadata || {})
 
       exception = error_class.new(
         message,

@@ -138,6 +138,29 @@ def activate_pricebooks
   end
 end
 
+def touch_order(sf_order)
+  if sf_order.Description.present?
+    raise "description is not empty"
+  end
+
+  @sf.update!(SF_ORDER, {
+    SF_ID => sf_order.Id,
+    "Description" => "stripe-force: #{Time.now.to_i}"
+  })
+end
+
+def ensure_order_is_included_in_custom_where_clause(sf_order)
+  order_poller = StripeForce::OrderPoller.new(@user)
+  custom_soql = order_poller.send(:user_specified_where_clause_for_object)
+  results = @sf.query("SELECT Id FROM #{SF_ORDER} WHERE Id = '#{sf_order.Id}' " + custom_soql)
+
+  if results.first.empty?
+    puts "Order is not included in custom soql"
+  else
+    puts "Order is included in custom soql"
+  end
+end
+
 require_relative '../test/support/salesforce_debugging'
 include SalesforceDebugging
 

@@ -10,9 +10,7 @@ module Critic
     include Kernel
     include StripeForce::Constants
     include Minitest::Assertions
-
-    sig { abstract.returns(T.untyped) }
-    def sf; end
+    include Critic::CommonHelpers
 
     sig { returns(String) }
     def now_time_formatted_for_salesforce
@@ -30,11 +28,6 @@ module Critic
     sig { params(prefix: T.nilable(String)).returns(String) }
     def create_salesforce_id(prefix: nil)
       (prefix || "") + SecureRandom.alphanumeric(prefix ? 15 : 18)
-    end
-
-    sig { returns(String) }
-    def create_random_email
-      "#{sf_randomized_id}@example.com"
     end
 
     def create_mock_salesforce_order
@@ -63,21 +56,6 @@ module Critic
         "IsDeleted" => false,
         "Id" => id,
       })
-    end
-
-    def sf_randomized_id
-      random_id = SecureRandom.alphanumeric(29)
-
-      if ENV['CIRCLE_NODE_INDEX']
-        random_id = "#{random_id}#{ENV['CIRCLE_NODE_INDEX']}"
-      end
-
-      random_id
-    end
-
-    def sf_randomized_name(sf_object_name)
-      node_identifier = ENV['CIRCLE_NODE_INDEX'] || ""
-      "REST #{sf_object_name} #{node_identifier} #{DateTime.now}"
     end
 
     def create_salesforce_account(additional_fields: {})
@@ -136,15 +114,26 @@ module Critic
       }.merge(additional_fields))
     end
 
-    def salesforce_recurring_metered_produce_with_price
+    def salesforce_recurring_metered_produce_with_price(price_in_cents: nil)
       salesforce_recurring_product_with_price(
+        price: price_in_cents,
         additional_product_fields: {
           CPQ_PRODUCT_BILLING_TYPE => CPQProductBillingTypeOptions::ARREARS.serialize,
         }
       )
     end
 
+    # TODO `price` should be `price_in_cents`
     def salesforce_recurring_product_with_price(price: nil, additional_product_fields: {})
+      # I don't fully understand how the subscription term on the price iteracts with the billing frequency,
+      # but if the term is set to a value which is different than the billing frequency it seems to use the
+      # subscription term value. i.e. a yearly billed product
+      subscription_term = if additional_product_fields.key?(CPQ_QUOTE_BILLING_FREQUENCY) && additional_product_fields[CPQ_QUOTE_BILLING_FREQUENCY] != CPQBillingFrequencyOptions::MONTHLY.serialize
+        nil
+      else
+        1
+      end
+
       # blanking out the subscription type ensures it is a one-time product
       product_id = create_salesforce_product(additional_fields: {
         # anything non-nil indicates subscription/recurring pricing
@@ -152,8 +141,7 @@ module Critic
 
         CPQ_PRODUCT_SUBSCRIPTION_TYPE => CPQProductSubscriptionTypeOptions::RENEWABLE,
 
-        # default term of one month
-        CPQ_QUOTE_SUBSCRIPTION_TERM => 1,
+        CPQ_QUOTE_SUBSCRIPTION_TERM => subscription_term,
 
         # one month
         CPQ_QUOTE_BILLING_FREQUENCY => CPQBillingFrequencyOptions::MONTHLY.serialize,
@@ -221,6 +209,8 @@ module Critic
     end
 
     def calculate_and_save_cpq_quote(quote_data)
+      log.info 'calculate and save quote'
+
       # https://developer.salesforce.com/docs/atlas.en-us.cpq_dev_api.meta/cpq_dev_api/cpq_quote_api_calculate_final.htm
       calculated_quote = JSON.parse(sf.patch('/services/apexrest/SBQQ/ServiceRouter?loader=SBQQ.QuoteAPI.QuoteCalculator', {
         # "context": quote_with_product.to_json

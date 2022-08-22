@@ -22,6 +22,7 @@
 - Prices which are duplicated because of the one-price-per-subscription) have a special metadata key (salesforce_duplicate = true)
 - Some good test clock docs https://groups.google.com/a/stripe.com/g/cloudflare/c/VjNW1Q4KD-0
 - `stripe_proration` metadata key on proration-generated prices, also contains duplicate key, and auto archive
+- fyi if the filter is changed we don't retroactively pick up orders. the orders have to be updated in some fashion (just updating a note/description will do just fine) for it to be reprocessed
 
 Next:
 

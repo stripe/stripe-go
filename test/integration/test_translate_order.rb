@@ -227,9 +227,15 @@ class Critic::OrderTranslation < Critic::FunctionalTest
   end
 
   it 'integrates a subscription order with multiple lines' do
-    sf_product_id_1, sf_pricebook_id_1 = salesforce_recurring_product_with_price
-    sf_product_id_2, sf_pricebook_id_2 = salesforce_recurring_metered_produce_with_price
-    sf_product_id_3, sf_pricebook_id_3 = salesforce_standalone_product_with_price
+    # price customization makes it easier to debug and ensure there aren't weird state bugs
+    # across different price types
+    monthly_price = 120_00
+    one_time_price = 45_00
+    metered_price = 55_00
+
+    sf_product_id_1, sf_pricebook_id_1 = salesforce_recurring_product_with_price(price: monthly_price)
+    sf_product_id_2, sf_pricebook_id_2 = salesforce_recurring_metered_produce_with_price(price_in_cents: metered_price)
+    sf_product_id_3, sf_pricebook_id_3 = salesforce_standalone_product_with_price(price: one_time_price)
 
     sf_account_id = create_salesforce_account
 
@@ -271,11 +277,12 @@ class Critic::OrderTranslation < Critic::FunctionalTest
 
     phase_item_with_five = T.must(phase.items.detect {|i| i.try(:quantity) == 5 })
     price_1 = Stripe::Price.retrieve(T.cast(phase_item_with_five.price, String), @user.stripe_credentials)
+    assert_equal(monthly_price.to_s, price_1.unit_amount_decimal)
     assert_equal(sf_pricebook_id_1, price_1.metadata['salesforce_pricebook_entry_id'])
 
     phase_item_with_metered = T.must(phase.items.detect {|i| !i.respond_to?(:quantity) })
     price_2 = Stripe::Price.retrieve(T.cast(phase_item_with_metered.price, String), @user.stripe_credentials)
-    assert_equal(sf_pricebook_id_2, price_2.metadata['salesforce_pricebook_entry_id'])
+    assert_equal(sf_pricebook_id_2, price_2.metadata['salesforce_pricebook_entry_id'], "pricebook entry does not exist, price may be created in error from an order line")
 
     standalone_item = T.must(phase.add_invoice_items.first)
     price_3 = Stripe::Price.retrieve(T.cast(standalone_item.price, String), @user.stripe_credentials)

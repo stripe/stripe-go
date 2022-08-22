@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 # typed: true
 
-require_relative './common_helpers'
-
 class ApplicationIntegrationTest < ActionDispatch::IntegrationTest
-  include CommonHelpers
+  include Critic::CommonHelpers
+  include Critic::StripeFactory
+  include Critic::SalesforceFactory
 
   def parsed_json
     JSON.parse(response.body)

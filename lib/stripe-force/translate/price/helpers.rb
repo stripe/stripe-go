@@ -120,15 +120,72 @@ class StripeForce::Translate
       end
     end
 
-    # TODO right now, this is NOT used everywhere there is a price comparison, we should leverage this more broadly across the codebase
     sig { params(price_1: Stripe::Price, price_2: Stripe::Price).returns(T::Boolean) }
     def self.price_billing_amounts_equal?(price_1, price_2)
-      # TODO in some cases the `unit_amount_decimal` is already a bigd, we should handle this more cleanly
-      billing_amounts_equal = BigDecimal(price_1.unit_amount_decimal.to_s) == BigDecimal(price_2.unit_amount_decimal.to_s) &&
-        price_1.recurring.present? == price_2.recurring.present? &&
-        price_1.recurring.interval == price_2.recurring[:interval] &&
-        price_1.recurring.interval_count == price_2.recurring[:interval_count]
+      # metadata *could* have important financial data for downstream systems
+      # however, most of the time users will not pull this information directly from prices
+      # (they may use products instead) and a users mappings could change over time, so we don't
+      # want to factor it in to our equality test. If we did, prices would never match and it would
+      # create a massive amount of price objects in their Stripe account.
 
+      # these values could be nil, which is fine as long as they are both nil
+      # if they are not both nil (comparing an existing stripe price to a to-be-created price)
+      # we need to relax the checks a bit: the comparisons should below should infer the correct
+      # pricing types (metered vs licensed)
+
+      fields_to_check_if_both_are_set = %i{
+        product
+        tax_behavior
+        billing_scheme
+        type
+      }
+
+      simple_field_check_passed = fields_to_check_if_both_are_set.all? do |field_sym|
+        # if one of the fields is set, skip the comparison
+        price_1[field_sym].blank? != price_2[field_sym].blank? ||
+          price_1[field_sym] == price_2[field_sym]
+      end
+
+      if !simple_field_check_passed
+        log.info 'price not equal, simple field comparison check failed', diff: HashDiff::Comparison.new(price_1.to_hash, price_2.to_hash).diff
+        return false
+      end
+
+      is_price_equal = if price_1[:billing_scheme].nil? || price_1.billing_scheme == 'per_unit'
+        # TODO we do not expect this occur, if it does we'll need to improve the error message here
+        if price_1.unit_amount_decimal.nil? || price_2.unit_amount_decimal.nil?
+          raise StripeForce::Errors::RawUserError.new("unit_amount_decimal nil on price objects")
+        end
+
+        price_1_decimal = price_1.unit_amount_decimal
+        if !price_1_decimal.is_a?(BigDecimal)
+          price_1_decimal = BigDecimal(price_1_decimal)
+        end
+        price_1_decimal = price_1_decimal.round(MAX_STRIPE_PRICE_PRECISION)
+
+        price_2_decimal = price_2.unit_amount_decimal
+        if !price_2_decimal.is_a?(BigDecimal)
+          price_2_decimal = BigDecimal(price_2_decimal)
+        end
+        price_2_decimal = price_2_decimal.round(MAX_STRIPE_PRICE_PRECISION)
+
+        price_1_decimal == price_2_decimal
+      elsif price_1.billing_scheme == 'tiered'
+        # TODO we will probably need to do some sort of normalization here on tiering amounts
+        # TODO probably need to think through transformed_quantity here and if it could effect this
+        price_1.tiers == price_2.tiers && price_1.tiers_mode == price_2.tiers_mode
+      else
+        raise StripeForce::Errors::RawUserError.new("Unexpected billing_scheme on price encountered #{price_1.billing_scheme}")
+      end
+
+      billing_amounts_equal = is_price_equal &&
+        price_1.currency == price_2.currency &&
+        price_1.recurring.present? == price_2.recurring.present? &&
+        price_1.recurring[:interval] == price_2.recurring[:interval] &&
+        price_1.recurring[:interval_count] == price_2.recurring[:interval_count]
+
+      # creating prices unnecessarily can be problematic for users: many prices without clarity about why they exist
+      # for this reason, let's log the diff in debug mode so we can easily determine exactly WHY the new price was created
       if !billing_amounts_equal
         log.info 'price not equal', diff: HashDiff::Comparison.new(price_1.to_hash, price_2.to_hash).diff
       end

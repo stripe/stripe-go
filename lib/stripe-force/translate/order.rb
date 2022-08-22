@@ -101,6 +101,7 @@ class StripeForce::Translate
     subscription_start_date = subscription_params['start_date']
     subscription_params['start_date'] = StripeForce::Utilities::SalesforceUtil.salesforce_date_to_unix_timestamp(subscription_start_date)
 
+    # TODO should probably just use the end date here and centralize the calculations used on the order side of things
     # TODO this should really be done *before* generating the line items and therefore creating prices
     phase_iterations = transform_iterations_by_billing_frequency(
       # TODO is the restforce gem somehow formatting everything as a float? Or is this is the real value returned from SF?
@@ -206,7 +207,7 @@ class StripeForce::Translate
     [invoice_items_in_order, aggregate_phase_items]
   end
 
-  sig { params(contract_structure: ContractStructure).void }
+  sig { params(contract_structure: ContractStructure).returns(T.nilable(Stripe::SubscriptionSchedule)) }
   def update_subscription_phases_from_order_amendments(contract_structure)
     return if contract_structure.amendments.empty?
 
@@ -283,23 +284,104 @@ class StripeForce::Translate
       # TODO should probably use a completely different key/mapping for the phase items
       phase_params = extract_salesforce_params!(sf_order_amendment, Stripe::SubscriptionSchedule)
 
-      phase_params['start_date'] = StripeForce::Utilities::SalesforceUtil.salesforce_date_to_unix_timestamp(phase_params['start_date'])
+      string_start_date_from_salesforce = phase_params['start_date']
+      start_date_as_timestamp = StripeForce::Utilities::SalesforceUtil.salesforce_date_to_unix_timestamp(string_start_date_from_salesforce)
+      phase_params['start_date'] = start_date_as_timestamp
 
       # TODO check for float value
+      # TODO should probably move this to another helper
       subscription_term_from_sales_force = phase_params['iterations'].to_i
 
+      # originally `iterations` was used, but this fails when subscription term is less than a single billing cycle
+      phase_params['end_date'] = (
+        DateTime.parse(string_start_date_from_salesforce).beginning_of_day.utc +
+        + subscription_term_from_sales_force.months
+      ).to_i
 
-
-      # if the order is terminated this is not used
-      phase_params['iterations'] = transform_iterations_by_billing_frequency(
-        subscription_term_from_sales_force,
-        T.must(aggregate_phase_items.first).stripe_params[:price]
-      )
+      # TODO should we validate the end date vs the subscription schedule?
 
       aggregate_phase_items = OrderHelpers.remove_terminated_lines(aggregate_phase_items)
 
+      # TODO validate that all prices have the same recurrence? Stripe does this downstream,
+      #      but at this point we assume that this check has already done, so it may make sense
+      #      to do this check more explicitly.
+
+      # at this point, we have the finalized list of non-prorated order lines
+      # this means all price data has been mapped and converted into Stripe line items
+      # and we can calculate the finalized billing cycle of the order amendment
+
+      invoice_items_for_prorations = []
+
+      if !is_order_terminated
+        billing_frequency = OrderAmendment.calculate_billing_frequency_from_phase_items(@user, aggregate_phase_items)
+
+        # if the amendment is prorated, then all line items will have prorated component
+        is_prorated = OrderAmendment.prorated_amendment?(
+          user: @user,
+          aggregate_phase_items: aggregate_phase_items,
+          subscription_schedule: subscription_schedule,
+
+          # these params in an ideal world should be pulled from the `subscription_schedule`, but
+          # they are tricky to extract without additional API calls
+          subscription_term: subscription_term_from_sales_force,
+          billing_frequency: billing_frequency,
+          amendment_start_date: start_date_as_timestamp
+        )
+      end
+
+      if !is_order_terminated && is_prorated
+        # TODO extract this out into another helper
+        aggregate_phase_items.each do |phase_item|
+          # TODO I don't like passing the user here, maybe pass in the user with the contract item? Going to see how ugly this feels...
+          if PriceHelpers.metered_price?(phase_item.price(@user))
+            log.info 'metered price, not prorating',
+              prorated_order_item_id: phase_item.order_line_id,
+              price_id: phase_item.price
+            next
+          end
+
+          if PriceHelpers.tiered_price?(phase_item.price)
+            log.info 'tiered price, not prorating',
+              prorated_order_item_id: phase_item.order_line_id,
+              price_id: phase_item.price
+            next
+          end
+
+          if !PriceHelpers.recurring_price?(phase_item.price)
+            log.info 'one time price, not prorating',
+              prorated_order_item_id: phase_item.order_line_id,
+              price_id: phase_item.price
+            next
+          end
+
+          # we only want to prorate the items that are unique to this order
+          if !phase_item.from_order?(sf_order_amendment)
+            log.info 'line item not originated from this amendment, not prorating',
+              prorated_order_item_id: phase_item.order_line_id,
+              price_id: phase_item.price.id
+            next
+          end
+
+          log.info 'prorating order item', prorated_order_item_id: phase_item.order_line_id
+
+          proration_price = OrderAmendment.create_prorated_price_from_phase_item(
+            user: @user,
+            phase_item: phase_item,
+            subscription_term: subscription_term_from_sales_force,
+            billing_frequency: billing_frequency
+          )
+
+          invoice_items_for_prorations << {
+            quantity: phase_item.quantity,
+            price: proration_price.id,
+            # TODO metadata
+            # TODO proration hash
+          }
+        end
+      end
+
       new_phase = Stripe::StripeObject.construct_from({
-        add_invoice_items: invoice_items_in_order.map(&:stripe_params),
+        add_invoice_items: invoice_items_in_order.map(&:stripe_params) + invoice_items_for_prorations,
 
         # this is important, otherwise multiple phase changes in a single job run will use the same aggregate phase items
         items: aggregate_phase_items.deep_dup.map(&:stripe_params),
@@ -334,20 +416,19 @@ class StripeForce::Translate
       # NOTE intentional decision here NOT to update any other subscription fields
       catch_errors_with_salesforce_context(secondary: sf_order_amendment) do
         if is_subscription_schedule_cancelled
-          # TODO should we add additional metadata here?
-          log.info 'cancelling subscription immediately'
+          log.info 'cancelling subscription immediately', sf_order_amendment_id: sf_order_amendment
 
-          subscription_schedule.cancel(
+          # NOTE the intention here is to void/reverse out the entire contract, this is the closest API call we have
+          subscription_schedule.cancel({
             invoice_now: false,
-            prorate: false
-          )
+            prorate: false,
+          }, generate_idempotency_key_with_credentials(@user, sf_order_amendment, :cancel))
         else
           log.info 'adding phase', sf_order_amendment_id: sf_order_amendment.Id
 
-          # TODO wrap in error context
           subscription_schedule.proration_behavior = 'none'
           subscription_schedule.phases = subscription_phases
-          subscription_schedule.save
+          subscription_schedule.save({}, generate_idempotency_key_with_credentials(@user, sf_order_amendment))
         end
       end
 
@@ -355,6 +436,8 @@ class StripeForce::Translate
     end
 
     PriceHelpers.auto_archive_prices_on_subscription_schedule(@user, subscription_schedule)
+
+    subscription_schedule
   end
 
   sig do
@@ -367,6 +450,7 @@ class StripeForce::Translate
     # avoid mutating the input value
     aggregate_phase_items = original_aggregate_phase_items.dup
 
+    # TODO `termination_lines` here is what we need for credit calculation
     termination_lines, additive_lines = new_phase_items.partition(&:termination?)
 
     additive_lines.each do |new_subscription_item|
@@ -411,7 +495,8 @@ class StripeForce::Translate
         end
       end
 
-    log.debug "order amendment revision map", revision_map: revision_map
+    log.debug "order amendment revision map",
+      revision_map: revision_map.transform_values {|ci| ci.map(&:order_line_id) }
 
     # now let's terminate the related line items
     termination_lines.each do |termination_line|
@@ -490,7 +575,9 @@ class StripeForce::Translate
     subscription_items = []
 
     sf_order_lines.map do |sf_order_item|
-      price = create_price_for_order_item(sf_order_item)
+      price = catch_errors_with_salesforce_context(secondary: sf_order_item) do
+        create_price_for_order_item(sf_order_item)
+      end
 
       # could occur if a coupon is required for a negative amount, although this should probably be built into the `price` method instead
       next if price.nil?
@@ -682,6 +769,7 @@ class StripeForce::Translate
 
     log.info 'found initial order', initial_order_id: initial_order_id
 
+    # TODO use cache_service
     sf.find(SF_ORDER, initial_order_id)
   end
 

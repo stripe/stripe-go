@@ -5,6 +5,7 @@ module StripeForce
   module Constants
     # application constants
     POLL_FREQUENCY = T.let(3 * 60, Integer)
+    MAX_STRIPE_PRICE_PRECISION = 12
 
     SF_ORDER = 'Order'
     SF_ORDER_ITEM = 'OrderItem'

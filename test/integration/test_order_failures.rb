@@ -56,7 +56,7 @@ class Critic::OrderFailureTest < Critic::FunctionalTest
   end
 
   # it looks like there are field validations in place to protect against the term being nil'd out on the order line
-  it 'creates a user error when the subscription term does not exist on the order line level' do
+  it 'creates a user error when the subscription term does not exist' do
     sf_order = create_salesforce_order(additional_quote_fields: {
       CPQ_QUOTE_SUBSCRIPTION_START_DATE => now_time_formatted_for_salesforce,
       # omit subscription term
@@ -66,17 +66,15 @@ class Critic::OrderFailureTest < Critic::FunctionalTest
       SalesforceTranslateRecordJob.translate(@user, sf_order)
     end
 
-    order_items = sf_get_related(sf_order, SF_ORDER_ITEM)
-    assert_equal(1, order_items.size)
-
-    sync_record = get_sync_record_by_secondary_id(order_items.first.Id)
+    sync_record = get_sync_record_by_secondary_id(sf_order.Id)
 
     assert_equal(SF_ORDER, sync_record[prefixed_stripe_field(SyncRecordFields::PRIMARY_OBJECT_TYPE.serialize)])
-    assert_equal(SF_ORDER_ITEM, sync_record[prefixed_stripe_field(SyncRecordFields::SECONDARY_OBJECT_TYPE.serialize)])
+    assert_equal(SF_ORDER, sync_record[prefixed_stripe_field(SyncRecordFields::SECONDARY_OBJECT_TYPE.serialize)])
 
     assert_equal(sf_order.Id, sync_record[prefixed_stripe_field(SyncRecordFields::PRIMARY_RECORD_ID.serialize)])
+    assert_equal(sf_order.Id, sync_record[prefixed_stripe_field(SyncRecordFields::SECONDARY_RECORD_ID.serialize)])
     assert_match(sf_order.Id, sync_record[prefixed_stripe_field(SyncRecordFields::COMPOUND_ID.serialize)])
-    assert_match("The following required fields are missing from this Salesforce record: Order.SBQQ__Quote__c.SBQQ__SubscriptionTerm__c", sync_record[prefixed_stripe_field(SyncRecordFields::RESOLUTION_MESSAGE.serialize)])
+    assert_match("The following required fields are missing from this Salesforce record: SBQQ__Quote__c.SBQQ__SubscriptionTerm__c", sync_record[prefixed_stripe_field(SyncRecordFields::RESOLUTION_MESSAGE.serialize)])
 
     assert_match(@user.salesforce_instance_url, sync_record[prefixed_stripe_field('Primary_Record__c')])
     assert_match(@user.salesforce_instance_url, sync_record[prefixed_stripe_field('Secondary_Record__c')])
