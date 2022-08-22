@@ -209,8 +209,10 @@ func constructEvent(payload []byte, sigHeader string, secret string, options Con
 		return e, fmt.Errorf("Failed to parse webhook body json: %s", err.Error())
 	}
 
-	if !options.IgnoreAPIVersionMismatch && e.APIVersion != stripe.APIVersion {
-		return e, fmt.Errorf("Received event with API version %s, but stripe-go %s expects API version %s. We recommend that you create a WebhookEndpoint with this API version. Otherwise, you can disable this error by using `ConstructEventWithOptions(..., ConstructEventOptions{..., ignoreAPIVersionMismatch: true})`  but be wary that objects may be incorrectly deserialized.", e.APIVersion, stripe.ClientVersion, stripe.APIVersion)
+	trimmedVersion := trimApiVersion(stripe.APIVersion)
+
+	if !options.IgnoreAPIVersionMismatch && trimmedVersion != e.APIVersion {
+		return e, fmt.Errorf("Received event with API version %s, but stripe-go %s expects API version %s. We recommend that you create a WebhookEndpoint with this API version. Otherwise, you can disable this error by using `ConstructEventWithOptions(..., ConstructEventOptions{..., ignoreAPIVersionMismatch: true})`  but be wary that objects may be incorrectly deserialized.", e.APIVersion, stripe.ClientVersion, trimmedVersion)
 	}
 
 	return e, nil
@@ -317,4 +319,12 @@ func GenerateTestSignedPayload(options *UnsignedPayload) *SignedPayload {
 
 func generateHeader(p SignedPayload) string {
 	return fmt.Sprintf("t=%d,%s=%s", p.timestamp.Unix(), p.scheme, hex.EncodeToString(p.signature))
+}
+
+func trimApiVersion(apiVersion string) string {
+	semicolonIndex := strings.Index(apiVersion, ";")
+	if semicolonIndex > -1 {
+		return apiVersion[0:semicolonIndex]
+	}
+	return apiVersion
 }

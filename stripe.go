@@ -30,9 +30,6 @@ import (
 //
 
 const (
-	// APIVersion is the currently supported API version
-	APIVersion string = apiVersion
-
 	// APIBackend is a constant representing the API service backend.
 	APIBackend SupportedBackend = "api"
 
@@ -79,6 +76,9 @@ var EnableTelemetry = true
 
 // Key is the Stripe API key used globally in the binding.
 var Key string
+
+// APIVersion is the currently supported API version
+var APIVersion string = apiVersion
 
 //
 // Public types
