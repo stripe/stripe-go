@@ -1,5 +1,11 @@
 # Changelog
 
+## 73.4.0-beta.1 - 2022-08-23
+* [#1531](https://github.com/stripe/stripe-go/pull/1531) API Updates for beta branch
+  - Updated stable APIs to the latest version
+  - `Stripe-Version` beta headers are not pinned by-default and need to be manually specified, please refer to [beta SDKs README section](https://github.com/stripe/stripe-go/blob/master/README.md#beta-sdks) 
+* [#1529](https://github.com/stripe/stripe-go/pull/1529) Allow setting APIVersion
+
 ## 73.3.0 - 2022-08-19
 * [#1528](https://github.com/stripe/stripe-go/pull/1528) API Updates
   * Add support for new resource `CustomerCashBalanceTransaction`
