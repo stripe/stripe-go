@@ -1,0 +1,29 @@
+#!/bin/bash
+
+set -e -o pipefail
+
+cd "$(dirname "$0")/.."
+
+if [[ ! $(npm list --location=global | grep apex-log-filter) ]]; then
+  echo "Install apex-log-filters:"
+  echo "npm install -g apex-log-filter"
+  exit 1
+fi
+
+if [ -z "$1" ]; then
+  echo "No alias specified"
+  exit 1
+else
+  salesforceAlias=$1
+fi
+
+echo "Using alias $salesforceAlias"
+
+while sleep 1; do
+  echo -e "\n\n=== Deleting Apex Data ===\n\n\n"
+  sfdx force:apex:execute \
+    -f bin/delete_test_record_data.apex \
+    -u $salesforceAlias | \
+    # https://github.com/amtrack/apex-log-filter/tree/4aa661e9e5b99175ecc9d31b5be228f3b7619924
+    npx apex-log-filter
+done

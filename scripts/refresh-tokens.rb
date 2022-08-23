@@ -16,7 +16,9 @@ if !username
   user = StripeForce::User.find(salesforce_account_id: ENV.fetch('SF_INSTANCE_ID'))
 end
 
-if !user
+if !user && username
+  puts "Username specified, assuming cpq alias"
+elsif !user && !username
   puts "No local user found, finding default username"
   username = `cd sfdx && sfdx config:get defaultusername --json | jq -r '.result[0].value'`.strip
   puts "Found default username '#{username}'"

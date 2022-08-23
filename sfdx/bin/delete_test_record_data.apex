@@ -6,12 +6,34 @@
 // https://help.salesforce.com/s/articleView?id=000358234&type=1
 // https://appiphony15-dev-ed.lightning.force.com/lightning/setup/CompanyResourceDisk/home
 
-public static void deleteData(String ObjectApiName) {
-    // max that can be used with deleteImmediately
-    Integer batchSize = 500;
+// max that can be used with deleteImmediately
+public static FINAL Integer batchSize = 500;
 
-    if(Limits.getLimitCpuTime() - Limits.getCpuTime() < 4000) {
-        System.debug('Close to limit, quitting!');
+public static Boolean closeToLimits() {
+    if(Limits.getLimitCpuTime() - Limits.getCpuTime() < 1000) {
+        System.debug('Close to cpu limit, quitting!');
+        return True;
+    }
+
+    // it seems as though the DML and SOQL limits may have contributed
+    // to certain actions, even the sync db operations, from committing
+    // which is why we've added all of these limit checks
+
+    if(Limits.getLimitDMLRows() - Limits.getDMLRows() < batchSize * 2) {
+        System.debug('Close to dml limit, quitting!');
+        return True;
+    }
+
+    if(Limits.getLimitQueries() - Limits.getQueries() < 5) {
+        System.debug('Close to soql limit, quitting!');
+        return True;
+    }
+
+    return False;
+}
+
+public static void deleteData(String ObjectApiName) {
+    if(closeToLimits()) {
         return;
     }
 
@@ -31,8 +53,10 @@ public static void deleteData(String ObjectApiName) {
 
             // `false` second params ensure that if there are some errors, we don't fail completely
             // there will always be some errors due to weird data issues in SF
-            Database.delete(listOfRecordsToDelete, false);
+            delete listOfRecordsToDelete;
 
+            // this check allows for some number of corrupt records to stick around
+            // without causing issues with this script.
             if(ListOfRecordsToDelete.size() == batchSize) {
                 deleteData(ObjectApiName);
             }
@@ -50,12 +74,51 @@ public static void deleteData(String ObjectApiName) {
     }
 }
 
+public static void deactivateOrderLines() {
+    if(closeToLimits()) {
+        return;
+    }
+
+    List<OrderItem> activatedOrderItemList = [
+        SELECT Id, SBQQ__Contracted__c
+        FROM OrderItem
+        WHERE SBQQ__Contracted__c = true AND Order.Status = 'Activated'
+        LIMIT :batchSize
+    ];
+
+    System.debug('Updating order items (' + activatedOrderItemList.size() + ') state to enable deletion...');
+
+    // NOTE updates are run sync to enable this script to run faster when it is run mu;tiple times in a row
+
+    if(!activatedOrderItemList.isEmpty()) {
+        try {
+            // before 'deactivating' an order, we have to disable contracting on all order lines
+            for(OrderItem activatedItem : activatedOrderItemList) {
+                activatedItem.SBQQ__Contracted__c = false;
+            }
+
+            update activatedOrderItemList;
+
+            System.debug('Order state cleanup complete...');
+
+            deactivateOrderLines();
+        } catch (Exception excep) {
+            System.debug('order cleanup exception:');
+            System.debug(string.valueOf(excep.getLineNumber()) + excep.getMessage());
+        }
+    }
+}
+
 public static void deactivateOrders() {
+    if(closeToLimits()) {
+        return;
+    }
+
     List<Order> activatedOrderList = [
         SELECT Id, Status, SBQQ__Contracted__c
         FROM Order
         WHERE Status = 'Activated'
-        LIMIT 2000
+        LIMIT :batchSize
     ];
 
     System.debug('Updating order (' + activatedOrderList.size() + ') state to enable deletion...');
@@ -68,13 +131,17 @@ public static void deactivateOrders() {
             for(Order activatedOrder : activatedOrderList) {
                 activatedOrder.SBQQ__Contracted__c = false;
             }
-            Database.updateImmediate((List<SObject>)activatedOrderList);
+            update activatedOrderList;
 
             // now, with the order non-contracted, we can deactivate it
             for(Order activatedOrder : activatedOrderList) {
                 activatedOrder.status = 'Draft';
             }
-            Database.updateImmediate((List<SObject>)activatedOrderList);
+            update activatedOrderList;
+
+            System.debug('Order state cleanup complete...');
+
+            deactivateOrders();
         } catch (Exception excep) {
             System.debug('order cleanup exception:');
             System.debug(string.valueOf(excep.getLineNumber()) + excep.getMessage());
@@ -124,11 +191,15 @@ public static void deleteCPQRecordJobs() {
         return;
     }
 
+    if(closeToLimits()) {
+        return;
+    }
+
     Boolean isRecordJobsUpdated = false;
     List<SBQQ__RecordJob__c> recordJobsToDelete = [
         SELECT SBQQ__JobStatus__c, Id
         FROM SBQQ__RecordJob__c
-        LIMIT 10000
+        LIMIT :batchSize
     ];
 
     System.debug('listOfRecordJobs.size: ' + recordJobsToDelete.size());
@@ -142,14 +213,19 @@ public static void deleteCPQRecordJobs() {
         }
 
         if (isRecordJobsUpdated) {
-            Database.updateImmediate((List<SObject>)recordJobsToDelete);
+            update recordJobsToDelete;
         }
 
-        Database.deleteImmediate((List<SObject>)recordJobsToDelete);
+        delete recordJobsToDelete;
+
+        System.debug('Record jobs deleted');
+
+        deleteCPQRecordJobs();
     }
 }
 
 deleteCPQRecordJobs();
+deactivateOrderLines();
 deactivateOrders();
 
 // determine the packaged namespace in this particular account
@@ -159,8 +235,10 @@ List<String> listOfObjectRecordsToDelete = new List<String> {
     'Contract',
     'SBQQ__OrderItemConsumptionSchedule__c',
     'SBQQ__OrderItemConsumptionRate__c',
-    'Order',
     'OrderItem',
+    'Order',
+    // if you run into an SOQL limit issue with quoteline objects
+    // disable triggers in CPQ: CPQ configure > additional settings > disable triggers
     'SBQQ__QuoteLine__c',
     'SBQQ__Quote__c',
     'Opportunity',
