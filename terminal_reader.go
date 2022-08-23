@@ -171,6 +171,7 @@ type TerminalReaderActionProcessPaymentIntent struct {
 
 // Represents a reader action to process a setup intent
 type TerminalReaderActionProcessSetupIntent struct {
+	// ID of a card PaymentMethod generated from the card_present PaymentMethod that may be attached to a Customer for future transactions. Only present if it was possible to generate a card PaymentMethod.
 	GeneratedCard string `json:"generated_card"`
 	// Most recent SetupIntent processed by the reader.
 	SetupIntent *SetupIntent `json:"setup_intent"`

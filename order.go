@@ -335,7 +335,6 @@ const (
 	OrderPaymentSettingsPaymentMethodTypeLink             OrderPaymentSettingsPaymentMethodType = "link"
 	OrderPaymentSettingsPaymentMethodTypeOXXO             OrderPaymentSettingsPaymentMethodType = "oxxo"
 	OrderPaymentSettingsPaymentMethodTypeP24              OrderPaymentSettingsPaymentMethodType = "p24"
-	OrderPaymentSettingsPaymentMethodTypePaypal           OrderPaymentSettingsPaymentMethodType = "paypal"
 	OrderPaymentSettingsPaymentMethodTypeSEPADebit        OrderPaymentSettingsPaymentMethodType = "sepa_debit"
 	OrderPaymentSettingsPaymentMethodTypeSofort           OrderPaymentSettingsPaymentMethodType = "sofort"
 	OrderPaymentSettingsPaymentMethodTypeWeChatPay        OrderPaymentSettingsPaymentMethodType = "wechat_pay"

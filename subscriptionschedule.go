@@ -327,9 +327,6 @@ type SubscriptionScheduleAmendAmendmentAmendmentEndDurationParams struct {
 	IntervalCount *int64 `form:"interval_count"`
 }
 
-// Cover all remaining phases of the subscription schedule with the amendment.
-type SubscriptionScheduleAmendAmendmentAmendmentEndScheduleEndParams struct{}
-
 // A precise Unix timestamp for the amendment to end. Must be after the `amendment_start`.
 type SubscriptionScheduleAmendAmendmentAmendmentEndTimestampParams struct {
 	// A precise numeric timestamp, provided as an integer number of seconds since the Unix epoch.
@@ -340,8 +337,6 @@ type SubscriptionScheduleAmendAmendmentAmendmentEndTimestampParams struct {
 type SubscriptionScheduleAmendAmendmentAmendmentEndParams struct {
 	// Time span for the amendment starting from the `amendment_start`.
 	Duration *SubscriptionScheduleAmendAmendmentAmendmentEndDurationParams `form:"duration"`
-	// Cover all remaining phases of the subscription schedule with the amendment.
-	ScheduleEnd *SubscriptionScheduleAmendAmendmentAmendmentEndScheduleEndParams `form:"schedule_end"`
 	// A precise Unix timestamp for the amendment to end. Must be after the `amendment_start`.
 	Timestamp *SubscriptionScheduleAmendAmendmentAmendmentEndTimestampParams `form:"timestamp"`
 	// Select one of three ways to pass the `amendment_end`.
@@ -354,9 +349,6 @@ type SubscriptionScheduleAmendAmendmentAmendmentStartAmendmentEndParams struct {
 	Index *int64 `form:"index"`
 }
 
-// Specify that this amendment should start at the current time as determined by Stripe servers. In the case of Test Clocks, `now` uses the frozen time on the testmode clock.
-type SubscriptionScheduleAmendAmendmentAmendmentStartNowParams struct{}
-
 // A precise Unix timestamp for the amendment to start.
 type SubscriptionScheduleAmendAmendmentAmendmentStartTimestampParams struct {
 	// A precise numeric timestamp, provided as an integer number of seconds since the Unix epoch.
@@ -367,8 +359,6 @@ type SubscriptionScheduleAmendAmendmentAmendmentStartTimestampParams struct {
 type SubscriptionScheduleAmendAmendmentAmendmentStartParams struct {
 	// Details of another amendment in the same array, immediately after which this amendment should begin.
 	AmendmentEnd *SubscriptionScheduleAmendAmendmentAmendmentStartAmendmentEndParams `form:"amendment_end"`
-	// Specify that this amendment should start at the current time as determined by Stripe servers. In the case of Test Clocks, `now` uses the frozen time on the testmode clock.
-	Now *SubscriptionScheduleAmendAmendmentAmendmentStartNowParams `form:"now"`
 	// A precise Unix timestamp for the amendment to start.
 	Timestamp *SubscriptionScheduleAmendAmendmentAmendmentStartTimestampParams `form:"timestamp"`
 	// Select one of three ways to pass the `amendment_start`.
@@ -479,7 +469,7 @@ type SubscriptionScheduleAmendAmendmentItemActionSetParams struct {
 	Trial *SubscriptionScheduleAmendAmendmentItemActionSetTrialParams `form:"trial"`
 }
 
-// Changes to the items being billed or provisioned to your customer during the amendment time span.
+// Changes to the subscription items during the amendment time span.
 type SubscriptionScheduleAmendAmendmentItemActionParams struct {
 	// Details of the subscription item to add. The `price` must be unique across all items.
 	Add *SubscriptionScheduleAmendAmendmentItemActionAddParams `form:"add"`
@@ -499,7 +489,7 @@ type SubscriptionScheduleAmendAmendmentParams struct {
 	AmendmentStart *SubscriptionScheduleAmendAmendmentAmendmentStartParams `form:"amendment_start"`
 	// Changes to the coupons being redeemed or discounts being applied during the amendment time span.
 	DiscountActions []*SubscriptionScheduleAmendAmendmentDiscountActionParams `form:"discount_actions"`
-	// Changes to the items being billed or provisioned to your customer during the amendment time span.
+	// Changes to the subscription items during the amendment time span.
 	ItemActions []*SubscriptionScheduleAmendAmendmentItemActionParams `form:"item_actions"`
 	// Changes to how Stripe handles prorations during the amendment time span. Affects if and how prorations are created when a future phase starts. In cases where the amendment changes the currently active phase, it is used to determine whether or how to prorate now, at the time of the request. Also supported as a point-in-time operation when `amendment_end` is `null`.
 	ProrationBehavior *string `form:"proration_behavior"`
