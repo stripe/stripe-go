@@ -7,6 +7,8 @@ ruby '2.7.6'
 gem 'sorbet', '~> 0.5.10346', group: :development
 if ENV.fetch('NO_SORBET_RUNTIME', 'false') != 'true'
   gem 'sorbet-runtime', '~> 0.5.10354', require: true
+else
+  puts "Skipping sorbet-runtime"
 end
 gem 'sorbet-rails', '~> 0.7.34'
 

@@ -1,1 +1,3 @@
+# use `direnv` to automatically load this (and any other!) vars into your shell automatically
+
 export NO_SORBET_RUNTIME=true
