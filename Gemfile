@@ -52,6 +52,7 @@ gem 'rack-attack', '~> 6.6.1'
 gem 'restforce', '~> 5.3.1'
 gem 'stripe', '~> 7.1.0'
 gem 'rest-client', '~> 2.1.0'
+gem 'hash_diff', '~> 1.1.0'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.9.1', require: false

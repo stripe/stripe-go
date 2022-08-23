@@ -46,7 +46,7 @@ module Parlour
     sig { params(object: T.untyped).returns(String) }
     def self.name_for_debug_caller(object); end
 
-    module Tree
+    class Tree
       extend T::Sig
       INDENT_SPACES = 2
 

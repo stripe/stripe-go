@@ -18918,6 +18918,12 @@ module Bootsnap::CompileCache::YAML
   SUPPORTED_INTERNAL_ENCODINGS = ::T.let(nil, ::T.untyped)
 end
 
+class Bootsnap::CompileCache::YAML::NoTagsVisitor
+end
+
+class Bootsnap::CompileCache::YAML::NoTagsVisitor
+end
+
 module Bootsnap::CompileCache::YAML::Psych3
   def input_to_output(data, kwargs); end
 
@@ -19020,6 +19026,10 @@ class Bootsnap::LoadPathCache::Cache
   BUILTIN_FEATURES = ::T.let(nil, ::T.untyped)
 end
 
+module Bootsnap::LoadPathCache::ChangeObserver
+  def self.unregister(arr); end
+end
+
 class Bootsnap::LoadPathCache::LoadedFeaturesIndex
   def cursor(short); end
 
@@ -19046,6 +19056,12 @@ class Bootsnap::LoadPathCache::Store
   VERSION_KEY = ::T.let(nil, ::T.untyped)
 end
 
+module Bootsnap::LoadPathCache
+  def self.enabled?(); end
+
+  def self.unload!(); end
+end
+
 module Bootsnap
   def self.rb_get_path(arg); end
 end
@@ -19066,15 +19082,112 @@ module Builder::XChar
   XML_PREDEFINED = ::T.let(nil, ::T.untyped)
 end
 
+class Bundler::APIResponseInvalidDependenciesError
+  def status_code(); end
+end
+
+class Bundler::APIResponseInvalidDependenciesError
+end
+
+class Bundler::CurrentRuby
+  def jruby_30?(); end
+
+  def jruby_3?(); end
+
+  def maglev_30?(); end
+
+  def maglev_3?(); end
+
+  def mingw_30?(); end
+
+  def mingw_3?(); end
+
+  def mri_30?(); end
+
+  def mri_3?(); end
+
+  def mswin64_30?(); end
+
+  def mswin64_3?(); end
+
+  def mswin_30?(); end
+
+  def mswin_3?(); end
+
+  def on_30?(); end
+
+  def on_3?(); end
+
+  def rbx_30?(); end
+
+  def rbx_3?(); end
+
+  def ruby_30?(); end
+
+  def ruby_3?(); end
+
+  def truffleruby_30?(); end
+
+  def truffleruby_3?(); end
+
+  def x64_mingw_30?(); end
+
+  def x64_mingw_3?(); end
+end
+
+class Bundler::Definition
+  def dependencies_for(groups); end
+
+  def locked_dependencies(); end
+
+  def most_specific_locked_platform(); end
+
+  def requested_dependencies(); end
+
+  def resolve_only_locally!(); end
+end
+
+class Bundler::Definition
+  def self.no_lock(); end
+
+  def self.no_lock=(no_lock); end
+end
+
+class Bundler::DepProxy
+  def clone(); end
+end
+
+class Bundler::DepProxy
+  def self.get_proxy(dep, platform); end
+end
+
 class Bundler::Dependency
   def branch(); end
 
   def expanded_platforms(); end
 
   def git(); end
+
+  def github(); end
+
+  def ref(); end
 end
 
 Bundler::Deprecate = Gem::Deprecate
+
+module Bundler::Digest
+  SHA1_MASK = ::T.let(nil, ::T.untyped)
+  SHA1_WORDS = ::T.let(nil, ::T.untyped)
+end
+
+module Bundler::Digest
+  def self.sha1(string); end
+end
+
+class Bundler::Dsl
+  def check_primary_source_safety(); end
+  GITHUB_PULL_REQUEST_URL = ::T.let(nil, ::T.untyped)
+end
 
 class Bundler::Env
 end
@@ -19085,6 +19198,16 @@ class Bundler::Env
   def self.report(options=T.unsafe(nil)); end
 
   def self.write(io); end
+end
+
+class Bundler::EnvironmentPreserver
+  def replace_with_backup(); end
+end
+
+class Bundler::EnvironmentPreserver
+  def self.env_to_hash(env); end
+
+  def self.from_env(); end
 end
 
 class Bundler::Fetcher
@@ -19147,8 +19270,6 @@ end
 class Bundler::Fetcher::CompactIndex
   def available?(*args, &blk); end
 
-  def fetch_spec(*args, &blk); end
-
   def specs(*args, &blk); end
 
   def specs_for_names(gem_names); end
@@ -19207,8 +19328,6 @@ class Bundler::Fetcher::Downloader
 end
 
 class Bundler::Fetcher::Index
-  def fetch_spec(spec); end
-
   def specs(_gem_names); end
 end
 
@@ -19268,6 +19387,8 @@ class Bundler::GemHelper
 
   def base(); end
 
+  def build_checksum(built_gem_path=T.unsafe(nil)); end
+
   def build_gem(); end
 
   def built_gem_path(); end
@@ -19275,6 +19396,10 @@ class Bundler::GemHelper
   def clean?(); end
 
   def committed?(); end
+
+  def current_branch(); end
+
+  def default_remote(); end
 
   def gem_command(); end
 
@@ -19298,8 +19423,6 @@ class Bundler::GemHelper
 
   def name(); end
 
-  def perform_git_push(options=T.unsafe(nil)); end
-
   def rubygem_push(path); end
 
   def sh(cmd, &block); end
@@ -19309,6 +19432,8 @@ class Bundler::GemHelper
   def sh_with_status(cmd, &block); end
 
   def spec_path(); end
+
+  def tag_prefix=(tag_prefix); end
 
   def tag_version(); end
 
@@ -19325,6 +19450,20 @@ class Bundler::GemHelper
   def self.instance(); end
 
   def self.instance=(instance); end
+
+  def self.tag_prefix=(prefix); end
+end
+
+class Bundler::GemHelpers::PlatformMatch
+  def self.specificity_score(spec_platform, user_platform); end
+end
+
+module Bundler::GemHelpers
+  def self.local_platform(); end
+
+  def self.same_deps(spec, exemplary_spec); end
+
+  def self.same_specificity(platform, spec, exemplary_spec); end
 end
 
 class Bundler::GemVersionPromoter
@@ -19409,28 +19548,34 @@ class Bundler::Injector
   def self.remove(gems, options=T.unsafe(nil)); end
 end
 
-class Bundler::Molinillo::DependencyGraph
-  include ::Enumerable
+class Bundler::LazySpecification
+  def eql?(other); end
+
+  def platform_string(); end
 end
 
-class Bundler::Molinillo::DependencyGraph::Log
-  extend ::Enumerable
+class Bundler::LockfileParser
+  def self.bundled_with(); end
 end
 
-class Bundler::Molinillo::DependencyGraph::Vertex
-  def _recursive_predecessors(vertices=T.unsafe(nil)); end
+module Bundler::Molinillo::SpecificationProvider
+  def dependencies_equal?(dependencies, other_dependencies); end
+end
 
-  def _recursive_successors(vertices=T.unsafe(nil)); end
+class Bundler::PermissionError
+  def parent_folder(); end
+
+  def permission_type(); end
 end
 
 module Bundler::Plugin::API::Source
   def ==(other); end
 
+  def add_dependency_names(names); end
+
   def app_cache_dirname(); end
 
   def app_cache_path(custom_path=T.unsafe(nil)); end
-
-  def bundler_plugin_api_source?(); end
 
   def cache(spec, custom_path=T.unsafe(nil)); end
 
@@ -19452,6 +19597,8 @@ module Bundler::Plugin::API::Source
 
   def hash(); end
 
+  def identifier(); end
+
   def include?(other); end
 
   def initialize(opts); end
@@ -19461,6 +19608,8 @@ module Bundler::Plugin::API::Source
   def install_path(); end
 
   def installed?(); end
+
+  def local!(); end
 
   def name(); end
 
@@ -19473,6 +19622,8 @@ module Bundler::Plugin::API::Source
   def remote!(); end
 
   def root(); end
+
+  def spec_names(); end
 
   def specs(); end
 
@@ -19503,6 +19654,8 @@ class Bundler::Plugin::Index
   def installed_plugins(); end
 
   def plugin_commands(plugin); end
+
+  def unregister_plugin(name); end
 end
 
 class Bundler::Plugin::Index::CommandConflict
@@ -19541,6 +19694,12 @@ end
 class Bundler::Plugin::Installer
 end
 
+class Bundler::Plugin::PluginInstallError
+end
+
+class Bundler::Plugin::PluginInstallError
+end
+
 class Bundler::Plugin::SourceList
 end
 
@@ -19549,6 +19708,10 @@ end
 
 module Bundler::Plugin
   def self.list(); end
+
+  def self.save_plugin(name, spec, optional_plugin=T.unsafe(nil)); end
+
+  def self.uninstall(names, options); end
 end
 
 class Bundler::ProcessLock
@@ -19556,6 +19719,29 @@ end
 
 class Bundler::ProcessLock
   def self.lock(bundle_path=T.unsafe(nil)); end
+end
+
+class Bundler::RemoteSpecification
+  def required_rubygems_version(); end
+end
+
+class Bundler::Resolver
+  include ::Bundler::GemHelpers
+  def results_for(dependency, base); end
+
+  def source_for(name); end
+end
+
+class Bundler::Resolver::SpecGroup
+  def activated_platforms(); end
+
+  def activated_platforms=(activated_platforms); end
+
+  def sorted_activated_platforms(); end
+end
+
+class Bundler::Resolver::SpecGroup
+  def self.create_for(specs, all_platforms, specific_platform); end
 end
 
 class Bundler::Retry
@@ -19586,13 +19772,9 @@ class Bundler::Retry
   def self.default_retries(); end
 end
 
-class Bundler::RubyGemsGemInstaller
-end
-
-class Bundler::RubyGemsGemInstaller
-end
-
 class Bundler::RubygemsIntegration
+  def add_default_gems_to(specs); end
+
   def add_to_load_path(paths); end
 
   def all_specs(); end
@@ -19603,9 +19785,13 @@ class Bundler::RubygemsIntegration
 
   def default_stubs(); end
 
+  def find_bundler(version); end
+
   def find_name(name); end
 
   def gem_remote_fetcher(); end
+
+  def load_env_plugins(); end
 
   def plain_specs(); end
 
@@ -19613,7 +19799,23 @@ class Bundler::RubygemsIntegration
 
   def stub_rubygems(specs); end
 
-  def use_gemdeps(gemfile); end
+  def supports_bundler_trampolining?(); end
+end
+
+class Bundler::SelfManager
+  def install_locked_bundler_and_restart_with_it_if_needed(); end
+
+  def restart_with_locked_bundler_if_needed(); end
+
+  def update_bundler_and_restart_with_it_if_needed(target); end
+end
+
+class Bundler::SelfManager
+end
+
+class Bundler::Settings
+  def processor_count(); end
+  STRING_KEYS = ::T.let(nil, ::T.untyped)
 end
 
 class Bundler::Settings::Mirror
@@ -19675,12 +19877,152 @@ class Bundler::Settings::Validator
   def self.validate!(key, value, settings); end
 end
 
+class Bundler::Settings
+  def self.key_for(key); end
+end
+
+class Bundler::Source
+  def add_dependency_names(names); end
+
+  def cached!(); end
+
+  def identifier(); end
+
+  def local!(); end
+
+  def local_only!(); end
+
+  def remote!(); end
+
+  def spec_names(); end
+end
+
 class Bundler::Source::Git
   def glob(); end
+
+  def local?(); end
+end
+
+class Bundler::Source::Rubygems
+  def default_cache_path_for(dir); end
+
+  def dependency_api_available?(); end
+
+  def multiple_remotes?(); end
+
+  def no_remotes?(); end
+
+  def remote_names(); end
+end
+
+class Bundler::Source::RubygemsAggregate
+  def identifier(); end
+
+  def initialize(sources, source_map); end
+
+  def source_map(); end
+
+  def sources(); end
+
+  def specs(); end
+end
+
+class Bundler::Source::RubygemsAggregate
+end
+
+class Bundler::SourceList
+  def add_global_rubygems_remote(uri); end
+
+  def aggregate_global_source?(); end
+
+  def expired_sources?(replacement_sources); end
+
+  def global_path_source(); end
+
+  def implicit_global_source?(); end
+
+  def local_only!(); end
+
+  def lock_other_sources(); end
+
+  def lock_rubygems_sources(); end
+
+  def merged_gem_lockfile_sections!(replacement_source); end
+
+  def merged_gem_lockfile_sections?(); end
+
+  def non_default_explicit_sources(); end
+
+  def non_global_rubygems_sources(); end
+end
+
+class Bundler::SourceMap
+  def all_requirements(); end
+
+  def dependencies(); end
+
+  def direct_requirements(); end
+
+  def initialize(sources, dependencies, locked_specs); end
+
+  def locked_requirements(); end
+
+  def locked_specs(); end
+
+  def pinned_spec_names(skip=T.unsafe(nil)); end
+
+  def sources(); end
+end
+
+class Bundler::SourceMap
 end
 
 class Bundler::SpecSet
   include ::Enumerable
+  include ::Bundler::TSort
+  def missing_specs(); end
+end
+
+class Bundler::StubSpecification
+  def extensions(); end
+
+  def gem_build_complete_path(); end
+
+  def manually_installed?(); end
+end
+
+module Bundler::TSort
+  def each_strongly_connected_component(&block); end
+
+  def each_strongly_connected_component_from(node, id_map=T.unsafe(nil), stack=T.unsafe(nil), &block); end
+
+  def strongly_connected_components(); end
+
+  def tsort(); end
+
+  def tsort_each(&block); end
+
+  def tsort_each_child(node); end
+
+  def tsort_each_node(); end
+end
+
+class Bundler::TSort::Cyclic
+end
+
+class Bundler::TSort::Cyclic
+end
+
+module Bundler::TSort
+  def self.each_strongly_connected_component(each_node, each_child); end
+
+  def self.each_strongly_connected_component_from(node, each_child, id_map=T.unsafe(nil), stack=T.unsafe(nil)); end
+
+  def self.strongly_connected_components(each_node, each_child); end
+
+  def self.tsort(each_node, each_child); end
+
+  def self.tsort_each(each_node, each_child); end
 end
 
 class Bundler::Thor
@@ -20394,6 +20736,8 @@ class Bundler::Thor::Options
   def switch?(arg); end
 
   def switch_option(arg); end
+
+  def unshift(arg, is_value: T.unsafe(nil)); end
   EQ_RE = ::T.let(nil, ::T.untyped)
   LONG_RE = ::T.let(nil, ::T.untyped)
   OPTS_END = ::T.let(nil, ::T.untyped)
@@ -20451,6 +20795,8 @@ module Bundler::Thor::Shell
   def print_wrapped(*args, &block); end
 
   def say(*args, &block); end
+
+  def say_error(*args, &block); end
 
   def say_status(*args, &block); end
 
@@ -20531,6 +20877,8 @@ class Bundler::Thor::Shell::Basic
 
   def say(message=T.unsafe(nil), color=T.unsafe(nil), force_new_line=T.unsafe(nil)); end
 
+  def say_error(message=T.unsafe(nil), color=T.unsafe(nil), force_new_line=T.unsafe(nil)); end
+
   def say_status(status, message, log_status=T.unsafe(nil)); end
 
   def set_color(string, *arg); end
@@ -20556,6 +20904,8 @@ end
 
 class Bundler::Thor::Shell::Color
   def are_colors_disabled?(); end
+
+  def are_colors_supported?(); end
 
   def diff_lcs_loaded?(); end
 
@@ -20804,7 +21154,7 @@ class Bundler::UI::Shell
 
   def debug?(); end
 
-  def error(msg, newline=T.unsafe(nil)); end
+  def error(msg, newline=T.unsafe(nil), color=T.unsafe(nil)); end
 
   def info(msg, newline=T.unsafe(nil)); end
 
@@ -20826,7 +21176,7 @@ class Bundler::UI::Shell
 
   def unprinted_warnings(); end
 
-  def warn(msg, newline=T.unsafe(nil)); end
+  def warn(msg, newline=T.unsafe(nil), color=T.unsafe(nil)); end
 
   def yes?(msg); end
   LEVELS = ::T.let(nil, ::T.untyped)
@@ -20873,19 +21223,6 @@ class Bundler::URI::Error
 end
 
 class Bundler::URI::Error
-end
-
-module Bundler::URI::Escape
-  def decode(*arg); end
-
-  def encode(*arg); end
-
-  def escape(*arg); end
-
-  def unescape(*arg); end
-end
-
-module Bundler::URI::Escape
 end
 
 class Bundler::URI::FTP
@@ -21254,7 +21591,6 @@ module Bundler::URI::Util
 end
 
 module Bundler::URI
-  extend ::Bundler::URI::Escape
   def self.decode_www_form(str, enc=T.unsafe(nil), separator: T.unsafe(nil), use__charset_: T.unsafe(nil), isindex: T.unsafe(nil)); end
 
   def self.decode_www_form_component(str, enc=T.unsafe(nil)); end
@@ -21264,6 +21600,8 @@ module Bundler::URI
   def self.encode_www_form_component(str, enc=T.unsafe(nil)); end
 
   def self.extract(str, schemes=T.unsafe(nil), &block); end
+
+  def self.for(scheme, *arguments, default: T.unsafe(nil)); end
 
   def self.get_encoding(label); end
 
@@ -21343,9 +21681,19 @@ module Bundler::VersionRanges
 end
 
 module Bundler
+  def self.configure_gem_home_and_path(path=T.unsafe(nil)); end
+
+  def self.most_specific_locked_platform?(platform); end
+
   def self.original_exec(*args); end
 
   def self.original_system(*args); end
+
+  def self.preferred_gemfile_name(); end
+
+  def self.reset_settings_and_root!(); end
+
+  def self.self_manager(); end
 
   def self.unbundled_env(); end
 
@@ -21819,16 +22167,6 @@ end
 
 CodeRay::Styles::Style::PLUGIN_HOST = CodeRay::Styles
 
-module CommonHelpers
-  include ::ActiveSupport::ForkTracker::CoreExtPrivate
-  include ::ActiveSupport::ForkTracker::CoreExt
-end
-
-module CommonHelpers
-  extend ::T::Private::Methods::MethodHooks
-  extend ::T::Private::Methods::SingletonMethodHooks
-end
-
 CompositeIO = Multipart::Post::CompositeReadIO
 
 module Concurrent
@@ -21974,6 +22312,16 @@ class Crass::Tokenizer
   RE_WHITESPACE_ANCHORED = ::T.let(nil, ::T.untyped)
 end
 
+module Critic::CommonHelpers
+  include ::ActiveSupport::ForkTracker::CoreExtPrivate
+  include ::ActiveSupport::ForkTracker::CoreExt
+end
+
+module Critic::CommonHelpers
+  extend ::T::Private::Methods::MethodHooks
+  extend ::T::Private::Methods::SingletonMethodHooks
+end
+
 class Critic::ErrorContextTest
   extend ::T::Private::Methods::MethodHooks
   extend ::T::Private::Methods::SingletonMethodHooks
@@ -21999,6 +22347,8 @@ end
 module Critic::StripeFactory
   extend ::T::Private::Abstract::Hooks
   extend ::T::InterfaceWrapper::Helpers
+  extend ::T::Private::Methods::MethodHooks
+  extend ::T::Private::Methods::SingletonMethodHooks
 end
 
 class Critic::Unit::SanitizerTest
@@ -22464,7 +22814,6 @@ end
 
 module Enumerable
   include ::ActiveSupport::ToJsonWithActiveSupportEncoder
-  def sum(identity=T.unsafe(nil), &block); end
 end
 
 class Enumerator
@@ -22656,11 +23005,14 @@ end
 
 module Erubi
   MATCH_METHOD = ::T.let(nil, ::T.untyped)
-  RANGE_ALL = ::T.let(nil, ::T.untyped)
   RANGE_FIRST = ::T.let(nil, ::T.untyped)
   RANGE_LAST = ::T.let(nil, ::T.untyped)
-  TEXT_END = ::T.let(nil, ::T.untyped)
+  SKIP_DEFINED_FOR_INSTANCE_VARIABLE = ::T.let(nil, ::T.untyped)
   VERSION = ::T.let(nil, ::T.untyped)
+end
+
+class Erubi::Engine
+  DEFAULT_REGEXP = ::T.let(nil, ::T.untyped)
 end
 
 module EtOrbi
@@ -24241,6 +24593,35 @@ class Gem::Ext::ExtConfBuilder
   def self.get_relative_path(path); end
 end
 
+Gem::Installer::ExtensionBuildError = Gem::Ext::BuildError
+
+class Gem::Installer::FakePackage
+  def copy_to(path); end
+
+  def data_mode(); end
+
+  def data_mode=(data_mode); end
+
+  def dir_mode(); end
+
+  def dir_mode=(dir_mode); end
+
+  def extract_files(destination_dir, pattern=T.unsafe(nil)); end
+
+  def initialize(spec); end
+
+  def prog_mode(); end
+
+  def prog_mode=(prog_mode); end
+
+  def spec(); end
+
+  def spec=(spec); end
+end
+
+class Gem::Installer::FakePackage
+end
+
 class Gem::Package
   def gem(); end
 end
@@ -24427,28 +24808,39 @@ class Gem::PathSupport
   def spec_cache_dir(); end
 end
 
-class Gem::RemoteFetcher::FetchError
-  include ::Gem::UriParsing
-  def initialize(message, uri); end
+class Gem::Platform
+  def self.match_gem?(platform, gem_name); end
 
-  def uri(); end
-
-  def uri=(uri); end
-end
-
-class Gem::RemoteFetcher::FetchError
-end
-
-class Gem::RemoteFetcher::UnknownHostError
-end
-
-class Gem::RemoteFetcher::UnknownHostError
+  def self.match_spec?(spec); end
 end
 
 class Gem::Request
   extend ::Gem::UserInteraction
   extend ::Gem::DefaultUserInteraction
   extend ::Gem::Text
+end
+
+class Gem::Requirement
+  include ::Gem::Requirement::OrderIndependentComparison
+  include ::Gem::Requirement::CorrectHashForLambdaOperator
+end
+
+module Gem::Requirement::CorrectHashForLambdaOperator
+  def hash(); end
+end
+
+module Gem::Requirement::CorrectHashForLambdaOperator
+end
+
+module Gem::Requirement::OrderIndependentComparison
+  def ==(other); end
+
+  def _requirements_sorted?(); end
+
+  def _with_sorted_requirements(); end
+end
+
+module Gem::Requirement::OrderIndependentComparison
 end
 
 class Gem::Resolver::CurrentSet
@@ -24621,10 +25013,20 @@ end
 class Gem::Specification
   include ::Bundler::MatchPlatform
   include ::Bundler::GemHelpers
+  include ::Gem::Specification::YamlBackfiller
+  def deleted_gem?(); end
+
   def removed_method_calls(); end
 
   def to_ruby(); end
   REMOVED_METHODS = ::T.let(nil, ::T.untyped)
+end
+
+module Gem::Specification::YamlBackfiller
+  def to_yaml(opts=T.unsafe(nil)); end
+end
+
+module Gem::Specification::YamlBackfiller
 end
 
 class Gem::Specification
@@ -24896,6 +25298,45 @@ end
 
 class Hash
   def self.ruby2_keywords_hash(arg); end
+end
+
+module HashDiff
+  VERSION = ::T.let(nil, ::T.untyped)
+end
+
+class HashDiff::Comparison
+  def diff(); end
+
+  def find_differences(&reporter); end
+
+  def initialize(left, right); end
+
+  def left(); end
+
+  def left_diff(); end
+
+  def right(); end
+
+  def right_diff(); end
+end
+
+class HashDiff::Comparison
+end
+
+class HashDiff::NO_VALUE
+end
+
+class HashDiff::NO_VALUE
+end
+
+module HashDiff
+  def self.diff(*args); end
+
+  def self.left_diff(*args); end
+
+  def self.patch!(); end
+
+  def self.right_diff(*args); end
 end
 
 module Hashie
@@ -26065,7 +26506,6 @@ class Integer
   include ::JSON::Ext::Generator::GeneratorMethods::Integer
   include ::ActiveSupport::NumericWithFormat
   def to_bn(); end
-  GMP_VERSION = ::T.let(nil, ::T.untyped)
 end
 
 module Integrations::ErrorContext
@@ -30265,6 +30705,12 @@ module Minitest::Rails
   VERSION = ::T.let(nil, ::T.untyped)
 end
 
+class Minitest::Rails::SpecTests::Test__allows_the_secondary_object_to_be_set_more_than_once__test_unit_test_salesforce_context_rb__32
+end
+
+class Minitest::Rails::SpecTests::Test__allows_the_secondary_object_to_be_set_more_than_once__test_unit_test_salesforce_context_rb__32
+end
+
 class Minitest::Rails::SpecTests::Test__configuration__test_controllers_test_configurations_controller_rb__125
 end
 
@@ -30277,16 +30723,28 @@ end
 class Minitest::Rails::SpecTests::Test__configuration_errors__test_controllers_test_configurations_controller_rb__142
 end
 
-class Minitest::Rails::SpecTests::Test__cpq_details__test_integration_translate_test_price_rb__256
+class Minitest::Rails::SpecTests::Test__cpq_details__test_integration_translate_test_price_rb__260
 end
 
-class Minitest::Rails::SpecTests::Test__cpq_details__test_integration_translate_test_price_rb__256
+class Minitest::Rails::SpecTests::Test__cpq_details__test_integration_translate_test_price_rb__260
 end
 
-class Minitest::Rails::SpecTests::Test__errors__test_integration_amendments_test_amendments_rb__325
+class Minitest::Rails::SpecTests::Test__credentials_refresh__test_unit_test_user_rb__11
 end
 
-class Minitest::Rails::SpecTests::Test__errors__test_integration_amendments_test_amendments_rb__325
+class Minitest::Rails::SpecTests::Test__credentials_refresh__test_unit_test_user_rb__11
+end
+
+class Minitest::Rails::SpecTests::Test__days_until_due__test_integration_translate_test_subscription_schedule_mapping_rb__19
+end
+
+class Minitest::Rails::SpecTests::Test__days_until_due__test_integration_translate_test_subscription_schedule_mapping_rb__19
+end
+
+class Minitest::Rails::SpecTests::Test__errors__test_integration_amendments_test_amendments_rb__290
+end
+
+class Minitest::Rails::SpecTests::Test__errors__test_integration_amendments_test_amendments_rb__290
 end
 
 class Minitest::Rails::SpecTests::Test__errors__test_integration_translate_test_billing_frequency_rb__11
@@ -30295,22 +30753,22 @@ end
 class Minitest::Rails::SpecTests::Test__errors__test_integration_translate_test_billing_frequency_rb__11
 end
 
-class Minitest::Rails::SpecTests::Test__errors__test_integration_translate_test_subscription_term_rb__123
+class Minitest::Rails::SpecTests::Test__generate_idempotency_key_with_credentials__test_unit_test_translator_rb__123
 end
 
-class Minitest::Rails::SpecTests::Test__errors__test_integration_translate_test_subscription_term_rb__123
+class Minitest::Rails::SpecTests::Test__generate_idempotency_key_with_credentials__test_unit_test_translator_rb__123
 end
 
-class Minitest::Rails::SpecTests::Test__failures__test_integration_test_translate_order_rb__279
+class Minitest::Rails::SpecTests::Test__handling_a_valid_webhook__test_controllers_test_stripe_webhook_controller_rb__50
 end
 
-class Minitest::Rails::SpecTests::Test__failures__test_integration_test_translate_order_rb__279
+class Minitest::Rails::SpecTests::Test__handling_a_valid_webhook__test_controllers_test_stripe_webhook_controller_rb__50
 end
 
-class Minitest::Rails::SpecTests::Test__host_selection__test_unit_test_user_rb__11
+class Minitest::Rails::SpecTests::Test__host_selection__test_unit_test_user_rb__31
 end
 
-class Minitest::Rails::SpecTests::Test__host_selection__test_unit_test_user_rb__11
+class Minitest::Rails::SpecTests::Test__host_selection__test_unit_test_user_rb__31
 end
 
 class Minitest::Rails::SpecTests::Test__initial_login_redirect__test_controllers_test_session_controller_rb__170
@@ -30325,28 +30783,28 @@ end
 class Minitest::Rails::SpecTests::Test__log_level_configuration__test_unit_test_error_context_rb__42
 end
 
-class Minitest::Rails::SpecTests::Test__metadata__test_integration_amendments_test_amendments_rb__321
+class Minitest::Rails::SpecTests::Test__metadata__test_integration_amendments_test_amendments_rb__286
 end
 
-class Minitest::Rails::SpecTests::Test__metadata__test_integration_amendments_test_amendments_rb__321
+class Minitest::Rails::SpecTests::Test__metadata__test_integration_amendments_test_amendments_rb__286
 end
 
-class Minitest::Rails::SpecTests::Test__namespace_custom_field_prefix__test_unit_test_translator_rb__78
+class Minitest::Rails::SpecTests::Test__namespace_custom_field_prefix__test_unit_test_translator_rb__73
 end
 
-class Minitest::Rails::SpecTests::Test__namespace_custom_field_prefix__test_unit_test_translator_rb__78
-end
-
-class Minitest::Rails::SpecTests::Test__post_install__test_controllers_test_configurations_controller_rb__68
+class Minitest::Rails::SpecTests::Test__namespace_custom_field_prefix__test_unit_test_translator_rb__73
 end
 
 class Minitest::Rails::SpecTests::Test__post_install__test_controllers_test_configurations_controller_rb__68
 end
 
-class Minitest::Rails::SpecTests::Test__price_reuse__test_integration_translate_test_price_rb__13
+class Minitest::Rails::SpecTests::Test__post_install__test_controllers_test_configurations_controller_rb__68
 end
 
-class Minitest::Rails::SpecTests::Test__price_reuse__test_integration_translate_test_price_rb__13
+class Minitest::Rails::SpecTests::Test__price_reuse__test_integration_translate_test_price_rb__14
+end
+
+class Minitest::Rails::SpecTests::Test__price_reuse__test_integration_translate_test_price_rb__14
 end
 
 class Minitest::Rails::SpecTests::Test__price_reuse__test_integration_translate_test_product_rb__11
@@ -30355,10 +30813,23 @@ end
 class Minitest::Rails::SpecTests::Test__price_reuse__test_integration_translate_test_product_rb__11
 end
 
-class Minitest::Rails::SpecTests::Test__required_and_optional_mapping__test_unit_test_translator_rb__17
+class Minitest::Rails::SpecTests::Test__required_and_optional_mapping__test_unit_test_translator_rb__12
 end
 
-class Minitest::Rails::SpecTests::Test__required_and_optional_mapping__test_unit_test_translator_rb__17
+class Minitest::Rails::SpecTests::Test__required_and_optional_mapping__test_unit_test_translator_rb__12
+end
+
+class Minitest::Rails::SpecTests::Test__skip_conditions__test_integration_test_proration_auto_bill_rb__45
+end
+
+class Minitest::Rails::SpecTests::Test__skip_conditions__test_integration_test_proration_auto_bill_rb__45
+end
+
+class Minitest::Rails::SpecTests::Test__stripe_credentials__test_unit_test_user_rb__45
+  def make_user_for_client_credentials_tests(overrides=T.unsafe(nil)); end
+end
+
+class Minitest::Rails::SpecTests::Test__stripe_credentials__test_unit_test_user_rb__45
 end
 
 class Minitest::Rails::SpecTests::Test__time__test_unit_test_metrics_rb__92
@@ -30377,6 +30848,12 @@ class Minitest::Rails::SpecTests::Test__translate_all__test_controllers_test_con
 end
 
 class Minitest::Rails::SpecTests::Test__translate_all__test_controllers_test_configurations_controller_rb__7
+end
+
+class Minitest::Rails::SpecTests::Test__type__test_integration_translate_test_subscription_schedule_mapping_rb__12
+end
+
+class Minitest::Rails::SpecTests::Test__type__test_integration_translate_test_subscription_schedule_mapping_rb__12
 end
 
 class Minitest::Rails::SpecTests::Test__using_custom_order_line_price_field__test_unit_test_price_helpers_rb__7
@@ -31026,7 +31503,7 @@ class Mustermann::AST::Node
 
   def self.constant_name(name); end
 
-  def self.parse(*args, &block); end
+  def self.parse(payload=T.unsafe(nil), **options, &block); end
 
   def self.type(); end
 end
@@ -32049,19 +32526,7 @@ module Nokogiri::Gumbo
   DEFAULT_MAX_TREE_DEPTH = ::T.let(nil, ::T.untyped)
 end
 
-module Nokogiri::HTML4
-end
-
-class Nokogiri::HTML4::ElementDescription
-end
-
-Nokogiri::HTML::ElementDescription::Desc = Struct::HTMLElementDescription
-
-class Nokogiri::HTML4::ElementDescription
-end
-
-module Nokogiri::HTML4
-end
+Nokogiri::HTML = Nokogiri::HTML4
 
 module Nokogiri::HTML4
   NamedCharacters = ::T.let(nil, ::T.untyped)
@@ -32177,6 +32642,8 @@ class Nokogiri::HTML4::ElementDescription
   VERSION_ATTR = ::T.let(nil, ::T.untyped)
   WIDTH_ATTR = ::T.let(nil, ::T.untyped)
 end
+
+Nokogiri::HTML4::ElementDescription::Desc = Struct::HTMLElementDescription
 
 module Nokogiri::HTML5
   HTML_NAMESPACE = ::T.let(nil, ::T.untyped)
@@ -35817,7 +36284,7 @@ class Parallel::UserInterruptHandler
   INTERRUPT_SIGNAL = ::T.let(nil, ::T.untyped)
 end
 
-module Parlour::Debugging::Tree
+class Parlour::Debugging::Tree
   def begin(*args, &blk); end
 
   def colour(*args, &blk); end
@@ -38874,7 +39341,11 @@ class Redis::HashRing
 end
 
 class Redis::Namespace
+  def getex(*args, &block); end
+
   def redis=(redis); end
+
+  def smismember(*args, &block); end
   ADMINISTRATIVE_COMMANDS = ::T.let(nil, ::T.untyped)
   COMMANDS = ::T.let(nil, ::T.untyped)
   DEPRECATED_COMMANDS = ::T.let(nil, ::T.untyped)
@@ -39287,625 +39758,49 @@ module Regexp::Syntax
   def self.for(name); end
 end
 
+module Reline
+  DEFAULT_DIALOG_CONTEXT = ::T.let(nil, ::T.untyped)
+  DEFAULT_DIALOG_PROC_AUTOCOMPLETE = ::T.let(nil, ::T.untyped)
+  FILENAME_COMPLETION_PROC = ::T.let(nil, ::T.untyped)
+  HISTORY = ::T.let(nil, ::T.untyped)
+  USERNAME_COMPLETION_PROC = ::T.let(nil, ::T.untyped)
+  VERSION = ::T.let(nil, ::T.untyped)
+end
+
 class Reline::ANSI
   CAPNAME_KEY_BINDINGS = ::T.let(nil, ::T.untyped)
   END_BRACKETED_PASTE = ::T.let(nil, ::T.untyped)
   START_BRACKETED_PASTE = ::T.let(nil, ::T.untyped)
 end
 
-class Reline::ANSI
-  def self.clear_screen(); end
-
-  def self.cursor_pos(); end
-
-  def self.deprep(otio); end
-
-  def self.empty_buffer?(); end
-
-  def self.encoding(); end
-
-  def self.erase_after_cursor(); end
-
-  def self.get_screen_size(); end
-
-  def self.getc(); end
-
-  def self.getc_with_bracketed_paste(); end
-
-  def self.hide_cursor(); end
-
-  def self.in_pasting?(); end
-
-  def self.inner_getc(); end
-
-  def self.input=(val); end
-
-  def self.move_cursor_column(x); end
-
-  def self.move_cursor_down(x); end
-
-  def self.move_cursor_up(x); end
-
-  def self.output=(val); end
-
-  def self.prep(); end
-
-  def self.retrieve_keybuffer(); end
-
-  def self.scroll_down(x); end
-
-  def self.set_default_key_bindings(config); end
-
-  def self.set_default_key_bindings_comprehensive_list(config); end
-
-  def self.set_default_key_bindings_terminfo(config); end
-
-  def self.set_screen_size(rows, columns); end
-
-  def self.set_winch_handler(&handler); end
-
-  def self.show_cursor(); end
-
-  def self.ungetc(c); end
-
-  def self.win?(); end
-end
-
 class Reline::Config
-  def add_default_key_binding(keystroke, target); end
-
-  def add_default_key_binding_by_keymap(keymap, keystroke, target); end
-
-  def add_oneshot_key_binding(keystroke, target); end
-
-  def autocompletion(); end
-
-  def autocompletion=(val); end
-
-  def bind_key(key, func_name); end
-
-  def bind_tty_special_chars(); end
-
-  def bind_tty_special_chars=(bind_tty_special_chars); end
-
-  def bind_variable(name, value); end
-
-  def blink_matching_paren(); end
-
-  def blink_matching_paren=(blink_matching_paren); end
-
-  def byte_oriented(); end
-
-  def byte_oriented=(byte_oriented); end
-
-  def completion_ignore_case(); end
-
-  def completion_ignore_case=(completion_ignore_case); end
-
-  def convert_meta(); end
-
-  def convert_meta=(convert_meta); end
-
-  def disable_completion(); end
-
-  def disable_completion=(disable_completion); end
-
-  def editing_mode(); end
-
-  def editing_mode=(val); end
-
-  def editing_mode_is?(*val); end
-
-  def emacs_mode_string(); end
-
-  def emacs_mode_string=(emacs_mode_string); end
-
-  def enable_bracketed_paste(); end
-
-  def enable_bracketed_paste=(enable_bracketed_paste); end
-
-  def enable_keypad(); end
-
-  def enable_keypad=(enable_keypad); end
-
-  def expand_tilde(); end
-
-  def expand_tilde=(expand_tilde); end
-
-  def handle_directive(directive, file, no); end
-
-  def history_preserve_point(); end
-
-  def history_preserve_point=(history_preserve_point); end
-
-  def history_size(); end
-
-  def history_size=(history_size); end
-
-  def horizontal_scroll_mode(); end
-
-  def horizontal_scroll_mode=(horizontal_scroll_mode); end
-
-  def input_meta(); end
-
-  def input_meta=(input_meta); end
-
-  def inputrc_path(); end
-
-  def isearch_terminators(); end
-
-  def isearch_terminators=(isearch_terminators); end
-
-  def key_bindings(); end
-
-  def key_notation_to_code(notation); end
-
-  def keymap(); end
-
-  def keyseq_timeout(); end
-
-  def keyseq_timeout=(keyseq_timeout); end
-
-  def mark_directories(); end
-
-  def mark_directories=(mark_directories); end
-
-  def mark_modified_lines(); end
-
-  def mark_modified_lines=(mark_modified_lines); end
-
-  def mark_symlinked_directories(); end
-
-  def mark_symlinked_directories=(mark_symlinked_directories); end
-
-  def match_hidden_files(); end
-
-  def match_hidden_files=(match_hidden_files); end
-
-  def meta_flag(); end
-
-  def meta_flag=(meta_flag); end
-
-  def output_meta(); end
-
-  def output_meta=(output_meta); end
-
-  def page_completions(); end
-
-  def page_completions=(page_completions); end
-
-  def parse_keyseq(str); end
-
-  def prefer_visible_bell(); end
-
-  def prefer_visible_bell=(prefer_visible_bell); end
-
-  def print_completions_horizontally(); end
-
-  def print_completions_horizontally=(print_completions_horizontally); end
-
-  def read(file=T.unsafe(nil)); end
-
-  def read_lines(lines, file=T.unsafe(nil)); end
-
-  def reset(); end
-
-  def reset_default_key_bindings(); end
-
-  def reset_oneshot_key_bindings(); end
-
-  def retrieve_string(str); end
-
-  def show_all_if_ambiguous(); end
-
-  def show_all_if_ambiguous=(show_all_if_ambiguous); end
-
-  def show_all_if_unmodified(); end
-
-  def show_all_if_unmodified=(show_all_if_unmodified); end
-
-  def show_mode_in_prompt(); end
-
-  def show_mode_in_prompt=(show_mode_in_prompt); end
-
-  def test_mode(); end
-
-  def vi_cmd_mode_string(); end
-
-  def vi_cmd_mode_string=(vi_cmd_mode_string); end
-
-  def vi_ins_mode_string(); end
-
-  def vi_ins_mode_string=(vi_ins_mode_string); end
-
-  def visible_stats(); end
-
-  def visible_stats=(visible_stats); end
   KEYSEQ_PATTERN = ::T.let(nil, ::T.untyped)
   VARIABLE_NAMES = ::T.let(nil, ::T.untyped)
   VARIABLE_NAME_SYMBOLS = ::T.let(nil, ::T.untyped)
 end
 
-class Reline::Config::InvalidInputrc
-  def file(); end
-
-  def file=(file); end
-
-  def lineno(); end
-
-  def lineno=(lineno); end
-end
-
-class Reline::Config::InvalidInputrc
-end
-
-class Reline::Config
-end
-
-class Reline::ConfigEncodingConversionError
-end
-
-class Reline::ConfigEncodingConversionError
-end
-
 class Reline::Core
-  def add_dialog_proc(name_sym, p, context=T.unsafe(nil)); end
-
-  def ambiguous_width(); end
-
-  def auto_indent_proc(); end
-
-  def auto_indent_proc=(p); end
-
-  def autocompletion(); end
-
-  def autocompletion=(val); end
-
-  def basic_quote_characters(); end
-
-  def basic_quote_characters=(v); end
-
-  def basic_word_break_characters(); end
-
-  def basic_word_break_characters=(v); end
-
-  def completer_quote_characters(); end
-
-  def completer_quote_characters=(v); end
-
-  def completer_word_break_characters(); end
-
-  def completer_word_break_characters=(v); end
-
-  def completion_append_character(); end
-
-  def completion_append_character=(val); end
-
-  def completion_case_fold(); end
-
-  def completion_case_fold=(v); end
-
-  def completion_proc(); end
-
-  def completion_proc=(p); end
-
-  def completion_quote_character(); end
-
-  def config(); end
-
-  def config=(config); end
-
-  def dialog_proc(name_sym); end
-
-  def dig_perfect_match_proc(); end
-
-  def dig_perfect_match_proc=(p); end
-
-  def emacs_editing_mode(); end
-
-  def emacs_editing_mode?(); end
-
-  def encoding(); end
-
-  def filename_quote_characters(); end
-
-  def filename_quote_characters=(v); end
-
-  def get_screen_size(); end
-
-  def input=(val); end
-
-  def key_stroke(); end
-
-  def key_stroke=(key_stroke); end
-
-  def last_incremental_search(); end
-
-  def last_incremental_search=(last_incremental_search); end
-
-  def line_editor(); end
-
-  def line_editor=(line_editor); end
-
-  def output(); end
-
-  def output=(val); end
-
-  def output_modifier_proc(); end
-
-  def output_modifier_proc=(p); end
-
-  def pre_input_hook(); end
-
-  def pre_input_hook=(p); end
-
-  def prompt_proc(); end
-
-  def prompt_proc=(p); end
-
-  def readline(prompt=T.unsafe(nil), add_hist=T.unsafe(nil)); end
-
-  def readmultiline(prompt=T.unsafe(nil), add_hist=T.unsafe(nil), &confirm_multiline_termination); end
-
-  def special_prefixes(); end
-
-  def special_prefixes=(v); end
-
-  def vi_editing_mode(); end
-
-  def vi_editing_mode?(); end
   ATTR_READER_NAMES = ::T.let(nil, ::T.untyped)
-end
-
-class Reline::Core::DialogProc
-  def context(); end
-
-  def context=(_); end
-
-  def dialog_proc(); end
-
-  def dialog_proc=(_); end
-end
-
-class Reline::Core::DialogProc
-  def self.[](*arg); end
-
-  def self.members(); end
-end
-
-class Reline::Core
-end
-
-class Reline::CursorPos
-  def x(); end
-
-  def x=(_); end
-
-  def y(); end
-
-  def y=(_); end
-end
-
-class Reline::CursorPos
-  def self.[](*arg); end
-
-  def self.members(); end
-end
-
-class Reline::DialogRenderInfo
-  def bg_color(); end
-
-  def bg_color=(_); end
-
-  def contents(); end
-
-  def contents=(_); end
-
-  def height(); end
-
-  def height=(_); end
-
-  def pos(); end
-
-  def pos=(_); end
-
-  def scrollbar(); end
-
-  def scrollbar=(_); end
-
-  def width(); end
-
-  def width=(_); end
-end
-
-class Reline::DialogRenderInfo
-  def self.[](*arg); end
-
-  def self.members(); end
-end
-
-class Reline::GeneralIO
-end
-
-class Reline::GeneralIO
-  def self.clear_screen(); end
-
-  def self.cursor_pos(); end
-
-  def self.deprep(otio); end
-
-  def self.encoding(); end
-
-  def self.erase_after_cursor(); end
-
-  def self.finish_pasting(); end
-
-  def self.get_screen_size(); end
-
-  def self.getc(); end
-
-  def self.in_pasting?(); end
-
-  def self.input=(val); end
-
-  def self.move_cursor_column(val); end
-
-  def self.move_cursor_down(val); end
-
-  def self.move_cursor_up(val); end
-
-  def self.prep(); end
-
-  def self.reset(encoding: T.unsafe(nil)); end
-
-  def self.scroll_down(val); end
-
-  def self.set_default_key_bindings(_); end
-
-  def self.set_screen_size(rows, columns); end
-
-  def self.set_winch_handler(&handler); end
-
-  def self.start_pasting(); end
-
-  def self.ungetc(c); end
-
-  def self.win?(); end
-end
-
-class Reline::History
-  def <<(val); end
-
-  def [](index); end
-
-  def []=(index, val); end
-
-  def concat(*val); end
-
-  def delete_at(index); end
-
-  def initialize(config); end
-
-  def push(*val); end
-
-  def to_s(); end
-end
-
-class Reline::History
 end
 
 Reline::IOGate = Reline::ANSI
 
 Reline::Key = Struct::Key
 
-module Reline::KeyActor
-end
-
 class Reline::KeyActor::Base
-  def default_key_bindings(); end
-
-  def get_method(key); end
-
-  def reset_default_key_bindings(); end
   MAPPING = ::T.let(nil, ::T.untyped)
-end
-
-class Reline::KeyActor::Base
 end
 
 class Reline::KeyActor::Emacs
   MAPPING = ::T.let(nil, ::T.untyped)
 end
 
-class Reline::KeyActor::Emacs
-end
-
 class Reline::KeyActor::ViCommand
   MAPPING = ::T.let(nil, ::T.untyped)
 end
 
-class Reline::KeyActor::ViCommand
-end
-
 class Reline::KeyActor::ViInsert
   MAPPING = ::T.let(nil, ::T.untyped)
-end
-
-class Reline::KeyActor::ViInsert
-end
-
-module Reline::KeyActor
-end
-
-class Reline::KeyStroke
-  def compress_meta_key(ary); end
-
-  def equal?(me, other); end
-
-  def expand(input); end
-
-  def initialize(config); end
-
-  def match_status(input); end
-
-  def start_with?(me, other); end
-end
-
-class Reline::KeyStroke
-end
-
-class Reline::KillRing
-  include ::Enumerable
-  def append(string, before_p=T.unsafe(nil)); end
-
-  def each(&blk); end
-
-  def initialize(max=T.unsafe(nil)); end
-
-  def process(); end
-
-  def yank(); end
-
-  def yank_pop(); end
-end
-
-class Reline::KillRing::RingBuffer
-  def <<(point); end
-
-  def empty?(); end
-
-  def head(); end
-
-  def initialize(max=T.unsafe(nil)); end
-
-  def size(); end
-end
-
-class Reline::KillRing::RingBuffer
-end
-
-class Reline::KillRing::RingPoint
-  def ==(other); end
-
-  def backward(); end
-
-  def backward=(_); end
-
-  def forward(); end
-
-  def forward=(_); end
-
-  def initialize(str); end
-
-  def str(); end
-
-  def str=(_); end
-end
-
-class Reline::KillRing::RingPoint
-  def self.[](*arg); end
-
-  def self.members(); end
 end
 
 module Reline::KillRing::State
@@ -39915,110 +39810,7 @@ module Reline::KillRing::State
   YANK = ::T.let(nil, ::T.untyped)
 end
 
-module Reline::KillRing::State
-end
-
-class Reline::KillRing
-end
-
 class Reline::LineEditor
-  def add_dialog_proc(name, p, context=T.unsafe(nil)); end
-
-  def auto_indent_proc(); end
-
-  def auto_indent_proc=(auto_indent_proc); end
-
-  def byte_pointer(); end
-
-  def byte_pointer=(val); end
-
-  def call_completion_proc(); end
-
-  def call_completion_proc_with_checking_args(pre, target, post); end
-
-  def completion_append_character(); end
-
-  def completion_append_character=(completion_append_character); end
-
-  def completion_proc(); end
-
-  def completion_proc=(completion_proc); end
-
-  def confirm_multiline_termination(); end
-
-  def confirm_multiline_termination_proc(); end
-
-  def confirm_multiline_termination_proc=(confirm_multiline_termination_proc); end
-
-  def delete_text(start=T.unsafe(nil), length=T.unsafe(nil)); end
-
-  def dig_perfect_match_proc(); end
-
-  def dig_perfect_match_proc=(dig_perfect_match_proc); end
-
-  def editing_mode(); end
-
-  def eof?(); end
-
-  def finalize(); end
-
-  def finish(); end
-
-  def finished?(); end
-
-  def initialize(config, encoding); end
-
-  def input_key(key); end
-
-  def insert_text(text); end
-
-  def just_move_cursor(); end
-
-  def line(); end
-
-  def multiline_off(); end
-
-  def multiline_on(); end
-
-  def output=(output); end
-
-  def output_modifier_proc(); end
-
-  def output_modifier_proc=(output_modifier_proc); end
-
-  def pre_input_hook(); end
-
-  def pre_input_hook=(pre_input_hook); end
-
-  def prompt_proc(); end
-
-  def prompt_proc=(prompt_proc); end
-
-  def rerender(); end
-
-  def rerender_all(); end
-
-  def reset(prompt=T.unsafe(nil), encoding:); end
-
-  def reset_line(); end
-
-  def reset_variables(prompt=T.unsafe(nil), encoding:); end
-
-  def resize(); end
-
-  def retrieve_completion_block(set_completion_quote_character=T.unsafe(nil)); end
-
-  def set_pasting_state(in_pasting); end
-
-  def set_signal_handlers(); end
-
-  def simplified_rendering?(); end
-
-  def whole_buffer(); end
-
-  def whole_lines(index: T.unsafe(nil), line: T.unsafe(nil)); end
-
-  def wrap_method_call(method_symbol, method_obj, key, with_operator=T.unsafe(nil)); end
   DIALOG_DEFAULT_HEIGHT = ::T.let(nil, ::T.untyped)
   PROMPT_LIST_CACHE_TIMEOUT = ::T.let(nil, ::T.untyped)
   VI_MOTIONS = ::T.let(nil, ::T.untyped)
@@ -40035,116 +39827,11 @@ module Reline::LineEditor::CompletionState
   PERFECT_MATCH = ::T.let(nil, ::T.untyped)
 end
 
-module Reline::LineEditor::CompletionState
-end
-
-class Reline::LineEditor::Dialog
-  def call(key); end
-
-  def column(); end
-
-  def column=(column); end
-
-  def contents(); end
-
-  def contents=(contents); end
-
-  def initialize(name, config, proc_scope); end
-
-  def lines_backup(); end
-
-  def lines_backup=(lines_backup); end
-
-  def name(); end
-
-  def pointer(); end
-
-  def pointer=(pointer); end
-
-  def scroll_top(); end
-
-  def scroll_top=(scroll_top); end
-
-  def scrollbar_pos(); end
-
-  def scrollbar_pos=(scrollbar_pos); end
-
-  def set_cursor_pos(col, row); end
-
-  def trap_key(); end
-
-  def trap_key=(trap_key); end
-
-  def vertical_offset(); end
-
-  def vertical_offset=(vertical_offset); end
-
-  def width(); end
-
-  def width=(v); end
-end
-
-class Reline::LineEditor::Dialog
-end
-
-class Reline::LineEditor::DialogProcScope
-  def call(); end
-
-  def call_completion_proc_with_checking_args(pre, target, post); end
-
-  def completion_journey_data(); end
-
-  def config(); end
-
-  def context(); end
-
-  def cursor_pos(); end
-
-  def dialog(); end
-
-  def initialize(line_editor, config, proc_to_exec, context); end
-
-  def just_cursor_moving(); end
-
-  def key(); end
-
-  def retrieve_completion_block(set_completion_quote_character=T.unsafe(nil)); end
-
-  def screen_width(); end
-
-  def set_cursor_pos(col, row); end
-
-  def set_dialog(dialog); end
-
-  def set_key(key); end
-end
-
-class Reline::LineEditor::DialogProcScope
-end
-
 Reline::LineEditor::MenuInfo = Struct::MenuInfo
 
-class Reline::LineEditor
-end
-
 module Reline::Terminfo
-end
-
-class Reline::Terminfo::TerminfoError
-end
-
-class Reline::Terminfo::TerminfoError
-end
-
-module Reline::Terminfo
-  extend ::Fiddle::Importer
   extend ::Fiddle
   extend ::Fiddle::CParser
-  def self.curses_dl(); end
-
-  def self.curses_dl_files(); end
-
-  def self.enabled?(); end
 end
 
 class Reline::Unicode
@@ -40171,51 +39858,6 @@ class Reline::Unicode::EastAsianWidth
   TYPE_N = ::T.let(nil, ::T.untyped)
   TYPE_NA = ::T.let(nil, ::T.untyped)
   TYPE_W = ::T.let(nil, ::T.untyped)
-end
-
-class Reline::Unicode::EastAsianWidth
-end
-
-class Reline::Unicode
-  def self.calculate_width(str, allow_escape_code=T.unsafe(nil)); end
-
-  def self.ed_transpose_words(line, byte_pointer); end
-
-  def self.em_backward_word(line, byte_pointer); end
-
-  def self.em_big_backward_word(line, byte_pointer); end
-
-  def self.em_forward_word(line, byte_pointer); end
-
-  def self.em_forward_word_with_capitalization(line, byte_pointer); end
-
-  def self.escape_for_print(str); end
-
-  def self.get_mbchar_byte_size_by_first_char(c); end
-
-  def self.get_mbchar_width(mbchar); end
-
-  def self.get_next_mbchar_size(line, byte_pointer); end
-
-  def self.get_prev_mbchar_size(line, byte_pointer); end
-
-  def self.split_by_width(str, max_width, encoding=T.unsafe(nil)); end
-
-  def self.take_range(str, start_col, max_width, encoding=T.unsafe(nil)); end
-
-  def self.vi_backward_word(line, byte_pointer); end
-
-  def self.vi_big_backward_word(line, byte_pointer); end
-
-  def self.vi_big_forward_end_word(line, byte_pointer); end
-
-  def self.vi_big_forward_word(line, byte_pointer); end
-
-  def self.vi_first_print(line); end
-
-  def self.vi_forward_end_word(line, byte_pointer); end
-
-  def self.vi_forward_word(line, byte_pointer, drop_terminate_spaces=T.unsafe(nil)); end
 end
 
 module RequestStore
@@ -43041,6 +42683,38 @@ class Selenium::WebDriver::Chrome::Service
   SHUTDOWN_SUPPORTED = ::T.let(nil, ::T.untyped)
 end
 
+class Selenium::WebDriver::Credential
+  def as_json(*arg); end
+
+  def id(); end
+
+  def initialize(id:, resident_credential:, rp_id:, private_key:, user_handle: T.unsafe(nil), sign_count: T.unsafe(nil)); end
+
+  def private_key(); end
+
+  def resident_credential(); end
+
+  def resident_credential?(); end
+
+  def rp_id(); end
+
+  def sign_count(); end
+
+  def user_handle(); end
+end
+
+class Selenium::WebDriver::Credential
+  def self.decode(base64); end
+
+  def self.encode(byte_array); end
+
+  def self.from_json(opts); end
+
+  def self.non_resident(**opts); end
+
+  def self.resident(**opts); end
+end
+
 class Selenium::WebDriver::DevTools
   def callbacks(); end
 
@@ -43112,6 +42786,17 @@ class Selenium::WebDriver::DevTools::MutationEvent
 end
 
 class Selenium::WebDriver::DevTools::MutationEvent
+end
+
+class Selenium::WebDriver::DevTools::NetworkInterceptor
+  def initialize(devtools); end
+
+  def intercept(&block); end
+  CANNOT_GET_BODY_ON_REDIRECT_ERROR_CODE = ::T.let(nil, ::T.untyped)
+  INVALID_INTERCEPTION_ID_ERROR_CODE = ::T.let(nil, ::T.untyped)
+end
+
+class Selenium::WebDriver::DevTools::NetworkInterceptor
 end
 
 class Selenium::WebDriver::DevTools::PinnedScript
@@ -43196,6 +42881,8 @@ end
 
 class Selenium::WebDriver::Driver
   include ::Selenium::WebDriver::TakesScreenshot
+  def add_virtual_authenticator(options); end
+
   def status(); end
 end
 
@@ -43657,6 +43344,10 @@ class Selenium::WebDriver::Remote::Bridge
 
   def add_cookie(cookie); end
 
+  def add_credential(credential, id); end
+
+  def add_virtual_authenticator(options); end
+
   def alert=(keys); end
 
   def alert_text(); end
@@ -43674,6 +43365,8 @@ class Selenium::WebDriver::Remote::Bridge
   def cookie(name); end
 
   def cookies(); end
+
+  def credentials(authenticator_id); end
 
   def delete_all_cookies(); end
 
@@ -43759,9 +43452,15 @@ class Selenium::WebDriver::Remote::Bridge
 
   def release_actions(); end
 
+  def remove_all_credentials(authenticator_id); end
+
+  def remove_credential(credential_id, authenticator_id); end
+
   def remove_local_storage_item(key); end
 
   def remove_session_storage_item(key); end
+
+  def remove_virtual_authenticator(id); end
 
   def reposition_window(x, y); end
 
@@ -43806,6 +43505,8 @@ class Selenium::WebDriver::Remote::Bridge
   def upload(local_file); end
 
   def url(); end
+
+  def user_verified(verified, authenticator_id); end
 
   def window_handle(); end
 
@@ -44043,6 +43744,72 @@ class Selenium::WebDriver::Timeouts
   def script_timeout(); end
 end
 
+class Selenium::WebDriver::VirtualAuthenticator
+  def add_credential(credential); end
+
+  def credentials(); end
+
+  def initialize(bridge, authenticator_id, options); end
+
+  def options(); end
+
+  def remove!(); end
+
+  def remove_all_credentials(); end
+
+  def remove_credential(credential_id); end
+
+  def user_verified=(verified); end
+
+  def valid?(); end
+end
+
+class Selenium::WebDriver::VirtualAuthenticator
+end
+
+class Selenium::WebDriver::VirtualAuthenticatorOptions
+  def as_json(*arg); end
+
+  def initialize(protocol: T.unsafe(nil), transport: T.unsafe(nil), resident_key: T.unsafe(nil), user_verification: T.unsafe(nil), user_consenting: T.unsafe(nil), user_verified: T.unsafe(nil)); end
+
+  def protocol(); end
+
+  def protocol=(protocol); end
+
+  def resident_key(); end
+
+  def resident_key=(resident_key); end
+
+  def resident_key?(); end
+
+  def transport(); end
+
+  def transport=(transport); end
+
+  def user_consenting(); end
+
+  def user_consenting=(user_consenting); end
+
+  def user_consenting?(); end
+
+  def user_verification(); end
+
+  def user_verification=(user_verification); end
+
+  def user_verification?(); end
+
+  def user_verified(); end
+
+  def user_verified=(user_verified); end
+
+  def user_verified?(); end
+  PROTOCOL = ::T.let(nil, ::T.untyped)
+  TRANSPORT = ::T.let(nil, ::T.untyped)
+end
+
+class Selenium::WebDriver::VirtualAuthenticatorOptions
+end
+
 class Selenium::WebDriver::Wait
   DEFAULT_INTERVAL = ::T.let(nil, ::T.untyped)
   DEFAULT_TIMEOUT = ::T.let(nil, ::T.untyped)
@@ -44056,6 +43823,7 @@ class Selenium::WebDriver::WebSocketConnection
   def initialize(url:); end
 
   def send_cmd(**payload); end
+  MAX_LOG_MESSAGE_SIZE = ::T.let(nil, ::T.untyped)
   RESPONSE_WAIT_INTERVAL = ::T.let(nil, ::T.untyped)
   RESPONSE_WAIT_TIMEOUT = ::T.let(nil, ::T.untyped)
 end
@@ -44177,7 +43945,13 @@ class Sentry::Envelope::Item
 
   def payload=(payload); end
 
+  def serialize(); end
+
+  def size_breakdown(); end
+
   def type(); end
+  MAX_SERIALIZED_PAYLOAD_SIZE = ::T.let(nil, ::T.untyped)
+  STACKTRACE_FRAME_LIMIT_ON_OVERSIZED_PAYLOAD = ::T.let(nil, ::T.untyped)
 end
 
 class Sentry::Envelope::Item
@@ -44198,11 +43972,14 @@ end
 
 class Sentry::Event
   MAX_MESSAGE_SIZE_IN_BYTES = ::T.let(nil, ::T.untyped)
-  MAX_SERIALIZED_PAYLOAD_SIZE = ::T.let(nil, ::T.untyped)
   SERIALIZEABLE_ATTRIBUTES = ::T.let(nil, ::T.untyped)
   SKIP_INSPECTION_ATTRIBUTES = ::T.let(nil, ::T.untyped)
   TYPE = ::T.let(nil, ::T.untyped)
   WRITER_ATTRIBUTES = ::T.let(nil, ::T.untyped)
+end
+
+class Sentry::ExceptionInterface
+  def values(); end
 end
 
 class Sentry::HTTPTransport
@@ -44231,6 +44008,10 @@ end
 module Sentry::Net::HTTP
   BREADCRUMB_CATEGORY = ::T.let(nil, ::T.untyped)
   OP_NAME = ::T.let(nil, ::T.untyped)
+end
+
+class Sentry::Rack::CaptureExceptions
+  ERROR_EVENT_ID_KEY = ::T.let(nil, ::T.untyped)
 end
 
 module Sentry::Rails
@@ -44434,11 +44215,15 @@ module Sentry::Utils::RequestId
 end
 
 module Sentry
+  def self.close(); end
+
   def self.exception_captured?(exc); end
 
   def self.session_flusher(); end
 
   def self.with_child_span(**attributes, &block); end
+
+  def self.with_exception_captured(**options, &block); end
 
   def self.with_session_tracking(&block); end
 end
@@ -45047,10 +44832,6 @@ class Stripe::AccountLink
   OBJECT_NAME = ::T.let(nil, ::T.untyped)
 end
 
-class Stripe::AlipayAccount
-  OBJECT_NAME = ::T.let(nil, ::T.untyped)
-end
-
 class Stripe::ApplePayDomain
   OBJECT_NAME = ::T.let(nil, ::T.untyped)
 end
@@ -45101,14 +44882,6 @@ class Stripe::BillingPortal::Session
   OBJECT_NAME = ::T.let(nil, ::T.untyped)
 end
 
-class Stripe::BitcoinReceiver
-  OBJECT_NAME = ::T.let(nil, ::T.untyped)
-end
-
-class Stripe::BitcoinTransaction
-  OBJECT_NAME = ::T.let(nil, ::T.untyped)
-end
-
 class Stripe::Capability
   OBJECT_NAME = ::T.let(nil, ::T.untyped)
 end
@@ -45130,6 +44903,7 @@ class Stripe::Charge
 end
 
 class Stripe::Checkout::Session
+  def list_line_items(params=T.unsafe(nil), opts=T.unsafe(nil)); end
   OBJECT_NAME = ::T.let(nil, ::T.untyped)
 end
 
@@ -45169,17 +44943,31 @@ class Stripe::Customer::TestHelpers
 end
 
 class Stripe::Customer
+  def self.cash_balance_transactions_url(id, nested_id=T.unsafe(nil)); end
+
   def self.create_funding_instructions(customer, params=T.unsafe(nil), opts=T.unsafe(nil)); end
 
-  def self.retrieve_cash_balance(customer, opts_or_unused_nested_id=T.unsafe(nil), opts=T.unsafe(nil)); end
+  def self.list_cash_balance_transactions(id, params=T.unsafe(nil), opts=T.unsafe(nil)); end
+
+  def self.retrieve_cash_balance(customer, params=T.unsafe(nil), opts=T.unsafe(nil)); end
+
+  def self.retrieve_cash_balance_transaction(id, nested_id, opts=T.unsafe(nil)); end
 
   def self.retrieve_payment_method(customer, payment_method, params=T.unsafe(nil), opts=T.unsafe(nil)); end
 
-  def self.update_cash_balance(customer, unused_nested_id=T.unsafe(nil), params=T.unsafe(nil), opts=T.unsafe(nil)); end
+  def self.update_cash_balance(customer, params=T.unsafe(nil), opts=T.unsafe(nil)); end
 end
 
 class Stripe::CustomerBalanceTransaction
   OBJECT_NAME = ::T.let(nil, ::T.untyped)
+end
+
+class Stripe::CustomerCashBalanceTransaction
+  OBJECT_NAME = ::T.let(nil, ::T.untyped)
+end
+
+class Stripe::CustomerCashBalanceTransaction
+  extend ::Stripe::APIOperations::List
 end
 
 class Stripe::Discount
@@ -45317,10 +45105,6 @@ class Stripe::Issuing::Card::TestHelpers
   def self.ship_card(card, params=T.unsafe(nil), opts=T.unsafe(nil)); end
 end
 
-class Stripe::Issuing::CardDetails
-  OBJECT_NAME = ::T.let(nil, ::T.untyped)
-end
-
 class Stripe::Issuing::Cardholder
   OBJECT_NAME = ::T.let(nil, ::T.untyped)
 end
@@ -45435,14 +45219,6 @@ class Stripe::Radar::ValueListItem
   OBJECT_NAME = ::T.let(nil, ::T.untyped)
 end
 
-class Stripe::Recipient
-  OBJECT_NAME = ::T.let(nil, ::T.untyped)
-end
-
-class Stripe::RecipientTransfer
-  OBJECT_NAME = ::T.let(nil, ::T.untyped)
-end
-
 class Stripe::Refund
   def test_helpers(); end
   OBJECT_NAME = ::T.let(nil, ::T.untyped)
@@ -45523,7 +45299,21 @@ end
 Stripe::StripeResponse::Headers = Stripe::StripeResponseHeaders
 
 class Stripe::Subscription
+  def _deprecated_delete(params=T.unsafe(nil), opts=T.unsafe(nil)); end
+
+  def cancel(params=T.unsafe(nil), opts=T.unsafe(nil)); end
+
+  def delete(*args, &block); end
   OBJECT_NAME = ::T.let(nil, ::T.untyped)
+end
+
+class Stripe::Subscription
+  extend ::Gem::Deprecate
+  def self._deprecated_delete(subscription_exposed_id, params=T.unsafe(nil), opts=T.unsafe(nil)); end
+
+  def self.cancel(subscription_exposed_id, params=T.unsafe(nil), opts=T.unsafe(nil)); end
+
+  def self.delete(*args, &block); end
 end
 
 class Stripe::SubscriptionItem
@@ -45574,10 +45364,6 @@ end
 Stripe::Terminal::Reader::TestHelpers::RESOURCE_CLASS = Stripe::Terminal::Reader
 
 class Stripe::TestHelpers::TestClock
-  OBJECT_NAME = ::T.let(nil, ::T.untyped)
-end
-
-class Stripe::ThreeDSecure
   OBJECT_NAME = ::T.let(nil, ::T.untyped)
 end
 
@@ -45840,6 +45626,11 @@ class StripeForce::PollerBase
   extend ::T::Private::Methods::SingletonMethodHooks
 end
 
+module StripeForce::ProrationAutoBill
+  extend ::T::Private::Methods::MethodHooks
+  extend ::T::Private::Methods::SingletonMethodHooks
+end
+
 class StripeForce::Sanitizer
   extend ::T::Private::Methods::MethodHooks
   extend ::T::Private::Methods::SingletonMethodHooks
@@ -45853,6 +45644,26 @@ end
 
 class StripeForce::Translate::ContractStructure
   def self.inherited(s); end
+end
+
+module StripeForce::Translate::OrderAmendment
+  include ::ActiveSupport::ForkTracker::CoreExtPrivate
+  include ::ActiveSupport::ForkTracker::CoreExt
+end
+
+module StripeForce::Translate::OrderAmendment
+  extend ::T::Private::Methods::MethodHooks
+  extend ::T::Private::Methods::SingletonMethodHooks
+end
+
+module StripeForce::Translate::OrderHelpers
+  include ::ActiveSupport::ForkTracker::CoreExtPrivate
+  include ::ActiveSupport::ForkTracker::CoreExt
+end
+
+module StripeForce::Translate::OrderHelpers
+  extend ::T::Private::Methods::MethodHooks
+  extend ::T::Private::Methods::SingletonMethodHooks
 end
 
 module StripeForce::Translate::PriceHelpers
@@ -45879,8 +45690,6 @@ class StripeForce::User
   def salesforce_refresh_token=(value); end
 
   def salesforce_token=(value); end
-
-  def stripe_refresh_token=(value); end
 end
 
 class StripeForce::User
@@ -45890,6 +45699,11 @@ class StripeForce::User
   extend ::Sequel::Plugins::DefaultsSetter::ClassMethods
   extend ::Sequel::Plugins::UpdateOrCreate::ClassMethods
   extend ::Sequel::Plugins::Serialization::ClassMethods
+  extend ::T::Private::Methods::MethodHooks
+  extend ::T::Private::Methods::SingletonMethodHooks
+end
+
+module StripeForce::Utilities::Metadata
   extend ::T::Private::Methods::MethodHooks
   extend ::T::Private::Methods::SingletonMethodHooks
 end
@@ -45935,71 +45749,7 @@ class Struct::AwsEmptyStructure
   def self.members(); end
 end
 
-class Struct::CompletionJourneyData
-  def list(); end
-
-  def list=(_); end
-
-  def pointer(); end
-
-  def pointer=(_); end
-
-  def postposing(); end
-
-  def postposing=(_); end
-
-  def preposing(); end
-
-  def preposing=(_); end
-end
-
-class Struct::CompletionJourneyData
-  def self.[](*arg); end
-
-  def self.members(); end
-end
-
 Struct::Group = Etc::Group
-
-class Struct::Key
-  def ==(other); end
-
-  def char(); end
-
-  def char=(_); end
-
-  def combined_char(); end
-
-  def combined_char=(_); end
-
-  def match?(other); end
-
-  def with_meta(); end
-
-  def with_meta=(_); end
-end
-
-class Struct::Key
-  def self.[](*arg); end
-
-  def self.members(); end
-end
-
-class Struct::MenuInfo
-  def list(); end
-
-  def list=(_); end
-
-  def target(); end
-
-  def target=(_); end
-end
-
-class Struct::MenuInfo
-  def self.[](*arg); end
-
-  def self.members(); end
-end
 
 Struct::Passwd = Etc::Passwd
 
@@ -46015,6 +45765,14 @@ end
 
 module TZInfo
   VERSION = ::T.let(nil, ::T.untyped)
+end
+
+class TZInfo::DataSource
+  def eager_load!(); end
+end
+
+module TZInfo
+  def self.eager_load!(); end
 end
 
 class Tempfile
@@ -46339,6 +46097,10 @@ class Tilt::StringTemplate
 end
 
 Tilt::TOPOBJECT = Tilt::CompiledTemplates
+
+class Tilt::Template
+  CLASS_METHOD = ::T.let(nil, ::T.untyped)
+end
 
 class Time
   COMMON_YEAR_DAYS_IN_MONTH = ::T.let(nil, ::T.untyped)

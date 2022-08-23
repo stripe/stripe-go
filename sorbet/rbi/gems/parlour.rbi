@@ -20,7 +20,7 @@ module Parlour::Debugging
   extend T::Private::Methods::SingletonMethodHooks
   extend T::Sig
 end
-module Parlour::Debugging::Tree
+class Parlour::Debugging::Tree
   def self.begin(*args, &blk); end
   def self.end(*args, &blk); end
   def self.here(*args, &blk); end

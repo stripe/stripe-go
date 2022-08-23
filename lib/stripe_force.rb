@@ -5,15 +5,9 @@
 # https://devcenter.heroku.com/articles/logging#writing-to-your-log
 $stdout.sync = true
 
-module StripeForce
+module StripeForce; end
+module Integrations; end
 
-end
-
-module Integrations
-
-end
-
-require_relative './hash_diff'
 require_relative './types'
 
 Dir[File.join(Rails.root, "lib/integrations/**/*.rb")].sort.each {|f| require f }

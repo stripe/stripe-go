@@ -157,6 +157,7 @@ GEM
       raabro (~> 1.4)
     globalid (1.0.0)
       activesupport (>= 5.0)
+    hash_diff (1.1.0)
     hashie (5.0.0)
     highline (2.0.3)
     http-accept (1.7.0)
@@ -464,6 +465,7 @@ DEPENDENCIES
   capybara-screenshot (~> 1.0.26)
   database_cleaner (~> 1.7.0)
   dotenv-rails (= 2.8.1)
+  hash_diff (~> 1.1.0)
   listen
   lograge (~> 0.12)
   minitest (~> 5.16.3)
