@@ -126,6 +126,7 @@ type FundingInstructionsBankTransfer struct {
 // `financial_addresses` field.
 // Related guide: [Customer Balance - Funding Instructions](https://stripe.com/docs/payments/customer-balance/funding-instructions) to learn more
 type FundingInstructions struct {
+	APIResource
 	BankTransfer *FundingInstructionsBankTransfer `json:"bank_transfer"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency Currency `json:"currency"`

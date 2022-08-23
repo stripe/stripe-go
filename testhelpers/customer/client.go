@@ -20,19 +20,25 @@ type Client struct {
 }
 
 // FundCashBalance is the method for the `POST /v1/test_helpers/customers/{customer}/fund_cash_balance` API.
-func FundCashBalance(id string, params *stripe.TestHelpersCustomerFundCashBalanceParams) (*stripe.Customer, error) {
+func FundCashBalance(id string, params *stripe.TestHelpersCustomerFundCashBalanceParams) (*stripe.CustomerCashBalanceTransaction, error) {
 	return getC().FundCashBalance(id, params)
 }
 
 // FundCashBalance is the method for the `POST /v1/test_helpers/customers/{customer}/fund_cash_balance` API.
-func (c Client) FundCashBalance(id string, params *stripe.TestHelpersCustomerFundCashBalanceParams) (*stripe.Customer, error) {
+func (c Client) FundCashBalance(id string, params *stripe.TestHelpersCustomerFundCashBalanceParams) (*stripe.CustomerCashBalanceTransaction, error) {
 	path := stripe.FormatURLPath(
 		"/v1/test_helpers/customers/%s/fund_cash_balance",
 		id,
 	)
-	customer := &stripe.Customer{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, customer)
-	return customer, err
+	customercashbalancetransaction := &stripe.CustomerCashBalanceTransaction{}
+	err := c.B.Call(
+		http.MethodPost,
+		path,
+		c.Key,
+		params,
+		customercashbalancetransaction,
+	)
+	return customercashbalancetransaction, err
 }
 
 func getC() Client {
