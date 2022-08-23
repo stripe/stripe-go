@@ -33,6 +33,7 @@ class StripeWebhookController < ApplicationController
     stripe_account_id = event.account
     livemode = event.livemode
     event_id = event.id
+    event_type = event.type
 
     # TODO this should be pulled out into a helper method
     unless stripe_account_id.nil?
@@ -55,13 +56,13 @@ class StripeWebhookController < ApplicationController
 
     if !user.enabled
       log.info "would have responded to event, but account is disabled"
-      render plain: "SuiteSync: would have responded to event, but SuiteSync account is disabled"
+      render plain: "would have responded to event, but account is disabled"
       return
     end
 
     if livemode != user.livemode
       log.info "user exists, but does not match event livemode", expected_livemode: livemode
-      render plain: "SuiteSync: user exists, but does not match SuiteSync mode"
+      render plain: "user exists, but does not match mode"
       return
     end
 
@@ -77,8 +78,12 @@ class StripeWebhookController < ApplicationController
       return
     end
 
-    # TODO here's where we will do the work in the future
-    # EventTranslationJob.work(event_id, user.stripe_user_id, livemode)
+    if event_type != 'invoiceitem.created'
+      head :ok
+      return
+    end
+
+    StripeForce::ProrationAutoBill.create_invoice_from_invoice_item_event(user, event)
 
     log.info "successfully processed event", metric: 'event.received'
 

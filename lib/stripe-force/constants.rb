@@ -165,10 +165,11 @@ module StripeForce
 
     class MetadataKeys < T::Enum
       enums do
+        PRORATION = new('proration')
         DUPLICATE_PRICE = new('duplicate')
-        PRORATION_PRICE = new('proration')
         AUTO_ARCHIVE_PRICE = new('auto_archive')
         ORIGINAL_PRICE_ID = new('original_stripe_price_id')
+        PRORATION_INVOICE = new('proration_invoice')
       end
     end
 

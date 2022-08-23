@@ -5,6 +5,16 @@ class Stripe::APIResource
   def save; end
 end
 
+class Stripe::StripeObject
+  sig {returns(T.any(Stripe::Subscription, Stripe::Customer, Stripe::Invoice, Stripe::InvoiceItem))}
+  def object; end
+end
+
+class Stripe::InvoiceItem
+  sig { returns(T.any(String, Stripe::Subscription))}
+  def subscription; end
+end
+
 class Stripe::Price
   sig { returns(Stripe::Price).params(id: T.any(String, T::Hash[Symbol, T.untyped]), opts: T.nilable(T::Hash[Symbol, T.untyped])) }
   def self.retrieve(id, opts={}); end
@@ -168,7 +178,6 @@ class Stripe::SubscriptionSchedule
   sig { returns(T.any(Stripe::Customer, String))}
   def customer; end
 
-  # TODO can this be nil in specific situations?
   sig { returns(T.any(Stripe::Subscription, String))}
   def subscription; end
 
@@ -200,4 +209,17 @@ class Stripe::SubscriptionItem < Stripe::APIResource
 
   sig { params(arg:Integer).void}
   def quantity=(arg); end
+end
+
+class Stripe::InvoiceItem
+  sig { returns(T.any(String, Stripe::Subscription))}
+  def subscription; end
+end
+
+class Stripe::TestHelpers::TestClock
+  sig { returns(Stripe::TestHelpers::TestClock).params(id: T.any(String, T::Hash[Symbol, T.untyped]), opts: T.nilable(T::Hash[Symbol, T.untyped])) }
+  def self.retrieve(id, opts={}); end
+
+  sig { returns(String)}
+  def status; end
 end

@@ -373,7 +373,7 @@ class StripeForce::Translate
 
           proration_stripe_item = Stripe::SubscriptionItem.construct_from({
             metadata: stripe_metadata_for_sf_object(phase_item.order_line).merge(
-              StripeForce::Utilities::Metadata.metadata_key(@user, MetadataKeys::PRORATION_PRICE) => true
+              StripeForce::Utilities::Metadata.metadata_key(@user, MetadataKeys::PRORATION) => true
             ),
           })
           apply_mapping(proration_stripe_item, phase_item.order_line)

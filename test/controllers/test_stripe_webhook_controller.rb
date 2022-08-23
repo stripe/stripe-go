@@ -54,9 +54,9 @@ class StripeWebhookTest < ApplicationIntegrationTest
     end
 
     it 'handles a valid webhook' do
-      e = create_event('charge.succeeded')
+      e = create_event('invoiceitem.created')
 
-      # TODO assert job successfully process
+      StripeForce::ProrationAutoBill.expects(:create_invoice_from_invoice_item_event).once
 
       send_webhook(e)
       assert_equal(200, response.status, response.body)
@@ -65,9 +65,6 @@ class StripeWebhookTest < ApplicationIntegrationTest
 
     it 'is not rate limited' do
       e = create_event('charge.succeeded')
-
-      # TODO assert on job execution
-      # Resque.expects(:enqueue_to).times(100)
 
       100.times do
         send_webhook(e)
@@ -79,8 +76,7 @@ class StripeWebhookTest < ApplicationIntegrationTest
     it 'skips all webhooks if ignore_all_webhooks is enabled' do
       @user.enable_feature FeatureFlags::IGNORE_WEBHOOKS
 
-      # TODO replace with webhook handler
-      # EventTranslationJob.expects(:work).never
+      StripeForce::ProrationAutoBill.expects(:create_invoice_from_invoice_item_event).never
 
       e = create_event('charge.succeeded')
       send_webhook(e)
@@ -101,8 +97,7 @@ class StripeWebhookTest < ApplicationIntegrationTest
 
       e = create_event('charge.succeeded')
 
-      # TODO assert against
-      # EventTranslationJob.expects(:work).never
+      StripeForce::ProrationAutoBill.expects(:create_invoice_from_invoice_item_event).never
 
       send_webhook(e)
       assert_equal(503, response.status, response.body)

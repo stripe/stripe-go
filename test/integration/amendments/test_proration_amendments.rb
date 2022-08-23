@@ -9,6 +9,8 @@ class Critic::ProratedAmendmentTranslation < Critic::OrderAmendmentFunctionalTes
   end
 
   it 'creates a new phase with a duration longer than the billing frequency, but not divisible' do
+    @user.enable_feature FeatureFlags::TEST_CLOCKS, update: true
+
     # initial order: 2yr contract, one annual item
     # second order: +2 quantity, revising the existing item, 6-24mo
 
@@ -106,7 +108,7 @@ class Critic::ProratedAmendmentTranslation < Critic::OrderAmendmentFunctionalTes
     # check additional fields added to the proration invoice item
     assert_equal("phase_end", prorated_item.period.end.type)
     assert_equal("phase_start", prorated_item.period.start.type)
-    assert_equal("true", prorated_item.metadata[StripeForce::Utilities::Metadata.metadata_key(@user, MetadataKeys::PRORATION_PRICE)])
+    assert_equal("true", prorated_item.metadata[StripeForce::Utilities::Metadata.metadata_key(@user, MetadataKeys::PRORATION)])
     assert_equal(second_phase_item_additive.metadata['salesforce_order_item_id'], prorated_item.metadata['salesforce_order_item_id'])
 
     assert_equal('one_time', prorated_price.type)
@@ -118,6 +120,42 @@ class Critic::ProratedAmendmentTranslation < Critic::OrderAmendmentFunctionalTes
 
     # since this is an 18mo prorated item we should only bill for 6mo since the rest will be billed by stripe
     assert_equal((yearly_price / (12 / 6)).to_s, prorated_price.unit_amount_decimal)
+
+    # now, let's advance the clock and pretent like we are in the future to fully test autobilling
+    sf_account = sf_get(sf_order['AccountId'])
+    stripe_customer_id = sf_account[prefixed_stripe_field(GENERIC_STRIPE_ID)]
+    stripe_customer = stripe_get(stripe_customer_id)
+    refute_nil(stripe_customer.test_clock)
+
+    test_clock = Stripe::TestHelpers::TestClock.retrieve(stripe_customer.test_clock, @user.stripe_credentials)
+    test_clock.advance(frozen_time: (amendment_start_date + 1.day).to_i)
+
+    # test clocks can take some time...
+    wait_until(timeout: 5.minutes) do
+      test_clock.refresh
+      test_clock.status == 'ready'
+    end
+
+    # simulate sending the webhook
+    events = Stripe::Event.list({
+      type: 'invoiceitem.created',
+    }, @user.stripe_credentials)
+
+    invoice_events = events.data.select do |event|
+      event_object = event.data.object
+      event_object.test_clock == test_clock.id && event.request.id.nil?
+    end
+
+    assert_equal(1, invoice_events.count)
+    invoice_event = invoice_events.first
+
+    invoice = T.must(StripeForce::ProrationAutoBill.create_invoice_from_invoice_item_event(@user, invoice_event))
+
+    assert_equal(1, invoice.lines.count)
+    invoice_line = invoice.lines.first
+    assert_equal(2, invoice_line.quantity)
+    assert_equal(60_00 * 2, invoice.total)
+    assert_equal("true", invoice.metadata[StripeForce::Utilities::Metadata.metadata_key(@user, MetadataKeys::PRORATION_INVOICE)])
   end
 
   # NOTE this was the first test written and has more extensive edge cases than other amendment tests
@@ -234,7 +272,7 @@ class Critic::ProratedAmendmentTranslation < Critic::OrderAmendmentFunctionalTes
     # check additional fields added to the proration invoice item
     assert_equal("phase_end", prorated_item.period.end.type)
     assert_equal("phase_start", prorated_item.period.start.type)
-    assert_equal("true", prorated_item.metadata[StripeForce::Utilities::Metadata.metadata_key(@user, MetadataKeys::PRORATION_PRICE)])
+    assert_equal("true", prorated_item.metadata[StripeForce::Utilities::Metadata.metadata_key(@user, MetadataKeys::PRORATION)])
     assert_equal(second_phase_item_additive.metadata['salesforce_order_item_id'], prorated_item.metadata['salesforce_order_item_id'])
 
     assert_equal('one_time', prorated_price.type)

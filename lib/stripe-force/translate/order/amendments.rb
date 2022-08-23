@@ -42,7 +42,7 @@ class StripeForce::Translate
       prorated_billing_amount = unit_amount_decimal * proration_percentage
 
       proration_price = OrderHelpers.duplicate_stripe_price(user, stripe_price) do |duplicated_stripe_price|
-        duplicated_stripe_price.metadata[StripeForce::Utilities::Metadata.metadata_key(user, MetadataKeys::PRORATION_PRICE)] = true
+        duplicated_stripe_price.metadata[StripeForce::Utilities::Metadata.metadata_key(user, MetadataKeys::PRORATION)] = true
         # since we are explicitly doing pricing math here, we should define the max
         duplicated_stripe_price.unit_amount_decimal = prorated_billing_amount.to_s("#{MAX_STRIPE_PRICE_PRECISION}F")
 
