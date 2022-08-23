@@ -1,5 +1,14 @@
 # Changelog
 
+## 73.4.0 - 2022-08-23
+* [#1532](https://github.com/stripe/stripe-go/pull/1532) API Updates
+  * Change type of `TreasuryOutboundTransferDestinationPaymentMethod` from `string` to `nullable(string)`
+  * Change return type of `FundCashBalance` method on `Customer` from `Customer` to `CustomerCashBalanceTransaction`
+    * This is technically a breaking change, but this return type was actually incorrect and so the result of this method did not deserialize correctly.
+  * Change return type of `RetrieveFeatures` and `UpdateFeatures` methods on `TreasuryFinancialAccount` from `TreasuryFinancialAccount` to `TreasuryFinancialAccountFeatures`
+    * This is technically a breaking change, but this return type was actually incorrect and so the result of this method did not deserialize correctly.
+* [#1530](https://github.com/stripe/stripe-go/pull/1530) Add beta readme.md section
+
 ## 73.3.0 - 2022-08-19
 * [#1528](https://github.com/stripe/stripe-go/pull/1528) API Updates
   * Add support for new resource `CustomerCashBalanceTransaction`
