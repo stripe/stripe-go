@@ -180,8 +180,10 @@ class StripeForce::Translate
       end
     end
 
-    sig { params(unit_amount_decimal: T.any(String, BigDecimal)).returns(BigDecimal) }
+    sig { params(unit_amount_decimal: T.nilable(T.any(String, BigDecimal))).returns(T.nilable(BigDecimal)) }
     def self.normalize_unit_amount_decimal_for_comparison(unit_amount_decimal)
+      return nil if unit_amount_decimal.nil?
+
       if !unit_amount_decimal.is_a?(BigDecimal)
         unit_amount_decimal = BigDecimal(unit_amount_decimal)
       end
