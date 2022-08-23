@@ -65,35 +65,41 @@ func (c Client) Update(id string, params *stripe.TreasuryFinancialAccountParams)
 }
 
 // RetrieveFeatures is the method for the `GET /v1/treasury/financial_accounts/{financial_account}/features` API.
-func RetrieveFeatures(id string, params *stripe.TreasuryFinancialAccountRetrieveFeaturesParams) (*stripe.TreasuryFinancialAccount, error) {
+func RetrieveFeatures(id string, params *stripe.TreasuryFinancialAccountRetrieveFeaturesParams) (*stripe.TreasuryFinancialAccountFeatures, error) {
 	return getC().RetrieveFeatures(id, params)
 }
 
 // RetrieveFeatures is the method for the `GET /v1/treasury/financial_accounts/{financial_account}/features` API.
-func (c Client) RetrieveFeatures(id string, params *stripe.TreasuryFinancialAccountRetrieveFeaturesParams) (*stripe.TreasuryFinancialAccount, error) {
+func (c Client) RetrieveFeatures(id string, params *stripe.TreasuryFinancialAccountRetrieveFeaturesParams) (*stripe.TreasuryFinancialAccountFeatures, error) {
 	path := stripe.FormatURLPath(
 		"/v1/treasury/financial_accounts/%s/features",
 		id,
 	)
-	financialaccount := &stripe.TreasuryFinancialAccount{}
-	err := c.B.Call(http.MethodGet, path, c.Key, params, financialaccount)
-	return financialaccount, err
+	financialaccountfeatures := &stripe.TreasuryFinancialAccountFeatures{}
+	err := c.B.Call(http.MethodGet, path, c.Key, params, financialaccountfeatures)
+	return financialaccountfeatures, err
 }
 
 // UpdateFeatures is the method for the `POST /v1/treasury/financial_accounts/{financial_account}/features` API.
-func UpdateFeatures(id string, params *stripe.TreasuryFinancialAccountUpdateFeaturesParams) (*stripe.TreasuryFinancialAccount, error) {
+func UpdateFeatures(id string, params *stripe.TreasuryFinancialAccountUpdateFeaturesParams) (*stripe.TreasuryFinancialAccountFeatures, error) {
 	return getC().UpdateFeatures(id, params)
 }
 
 // UpdateFeatures is the method for the `POST /v1/treasury/financial_accounts/{financial_account}/features` API.
-func (c Client) UpdateFeatures(id string, params *stripe.TreasuryFinancialAccountUpdateFeaturesParams) (*stripe.TreasuryFinancialAccount, error) {
+func (c Client) UpdateFeatures(id string, params *stripe.TreasuryFinancialAccountUpdateFeaturesParams) (*stripe.TreasuryFinancialAccountFeatures, error) {
 	path := stripe.FormatURLPath(
 		"/v1/treasury/financial_accounts/%s/features",
 		id,
 	)
-	financialaccount := &stripe.TreasuryFinancialAccount{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, financialaccount)
-	return financialaccount, err
+	financialaccountfeatures := &stripe.TreasuryFinancialAccountFeatures{}
+	err := c.B.Call(
+		http.MethodPost,
+		path,
+		c.Key,
+		params,
+		financialaccountfeatures,
+	)
+	return financialaccountfeatures, err
 }
 
 // List returns a list of treasury financial accounts.
