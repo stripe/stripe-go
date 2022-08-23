@@ -8,6 +8,21 @@ class Critic::ProrationAutoBillTranslation < Critic::FunctionalTest
     @user = make_user(save: true)
   end
 
+  def get_invoice_event(invoice_item_id)
+    # events can take some time to propogate
+    events = T.let(nil, T.untyped)
+
+    wait_until do
+      events = Stripe::Event.list({
+        object_id: invoice_item_id,
+      }, @user.stripe_credentials)
+
+      events.count >= 1
+    end
+
+    events.first
+  end
+
   it 'creates an invoice automatically for a invoice item' do
     subscription = create_customer_with_subscription
     _, ad_hoc_price = create_price(additional_price_fields: {
@@ -28,14 +43,13 @@ class Critic::ProrationAutoBillTranslation < Critic::FunctionalTest
       },
     }, @user.stripe_credentials)
 
-    events = Stripe::Event.list({
-      object_id: invoice_item.id,
-    }, @user.stripe_credentials)
+    invoice_event = get_invoice_event(invoice_item.id)
 
-    assert_equal(1, events.count)
-    invoice_event = events.first
+    # we don't want the api keys to be in the event so we can mimic prod
+    copied_event = Stripe::Event.construct_from(invoice_event.to_hash)
+    assert_raises(Stripe::AuthenticationError) { copied_event.refresh }
 
-    invoice = StripeForce::ProrationAutoBill.create_invoice_from_invoice_item_event(@user, invoice_event)
+    invoice = StripeForce::ProrationAutoBill.create_invoice_from_invoice_item_event(@user, copied_event)
 
     invoice = T.must(invoice)
     assert_equal(1, invoice.lines.count)
@@ -43,6 +57,30 @@ class Critic::ProrationAutoBillTranslation < Critic::FunctionalTest
   end
 
   describe 'skip conditions' do
+    it 'not tied to a subscription' do
+      customer = create_customer
+      _, ad_hoc_price = create_price(additional_price_fields: {
+        recurring: {},
+      })
+
+      invoice_item = Stripe::InvoiceItem.create({
+        # no subscription!
+        customer: customer.id,
+        price: ad_hoc_price.id,
+        quantity: 1,
+        period: {
+          start: Time.now.to_i,
+          end: Time.now.to_i + 1.day.to_i,
+        },
+      }, @user.stripe_credentials)
+
+      invoice_event = get_invoice_event(invoice_item.id)
+
+      invoice = StripeForce::ProrationAutoBill.create_invoice_from_invoice_item_event(@user, invoice_event)
+
+      assert_nil(invoice)
+    end
+
     it 'does not contain the magic metadata key' do
       subscription = create_customer_with_subscription
       _, ad_hoc_price = create_price(additional_price_fields: {
@@ -60,12 +98,7 @@ class Critic::ProrationAutoBillTranslation < Critic::FunctionalTest
         },
       }, @user.stripe_credentials)
 
-      events = Stripe::Event.list({
-        object_id: invoice_item.id,
-      }, @user.stripe_credentials)
-
-      assert_equal(1, events.count)
-      invoice_event = events.first
+      invoice_event = get_invoice_event(invoice_item.id)
 
       invoice = StripeForce::ProrationAutoBill.create_invoice_from_invoice_item_event(@user, invoice_event)
 

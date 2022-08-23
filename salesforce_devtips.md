@@ -17,6 +17,7 @@
 
 ## Apex
 
+- You cannot exit gracefully out of apex early. There is no `exit 0`.
 - If `Apex CPU time limit exceeded` is encountered all DB operations are not committed. They are all wrapped into a transaction that is committed at the end of the Apex call.
 - You can't do a callout after a DML (DB) operation. TODO I may be getting the order of operations wrong here, look this up
 - You can't use variables in the `FROM` clause of a SOQL query `[...]`

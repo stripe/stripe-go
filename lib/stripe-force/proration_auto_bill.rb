@@ -11,7 +11,7 @@ module StripeForce
     sig { params(user: StripeForce::User, invoice_item_event: Stripe::Event).returns(T.nilable(Stripe::Invoice)) }
     def self.create_invoice_from_invoice_item_event(user, invoice_item_event)
       invoice_item = T.unsafe(invoice_item_event.data.object)
-      subscription_id = T.cast(invoice_item.subscription, String)
+      subscription_id = T.cast(invoice_item.subscription, T.nilable(String))
       customer_id = T.cast(invoice_item.customer, String)
 
       if subscription_id.blank?
@@ -29,7 +29,7 @@ module StripeForce
         return
       end
 
-      invoice_item.refresh
+      invoice_item = Stripe::InvoiceItem.retrieve(invoice_item.id, user.stripe_credentials)
 
       if invoice_item.invoice.present?
         log.info 'already invoiced'
