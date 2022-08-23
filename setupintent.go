@@ -537,6 +537,8 @@ type SetupIntentPaymentMethodOptionsCardParams struct {
 	// as MOTO (Mail Order Telephone Order) and thus out of scope for SCA. This
 	// parameter can only be provided during confirmation.
 	MOTO *bool `form:"moto"`
+	// Selected network to process this SetupIntent on. Depends on the available networks of the card attached to the SetupIntent. Can be only set confirm-time.
+	Network *string `form:"network"`
 	// We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https://stripe.com/docs/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. Permitted values include: `automatic` or `any`. If not provided, defaults to `automatic`. Read our guide on [manually requesting 3D Secure](https://stripe.com/docs/payments/3d-secure#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
 	RequestThreeDSecure *string `form:"request_three_d_secure"`
 }
