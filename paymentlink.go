@@ -390,6 +390,8 @@ type PaymentLink struct {
 	BillingAddressCollection PaymentLinkBillingAddressCollection `json:"billing_address_collection"`
 	// When set, provides configuration to gather active consent from customers.
 	ConsentCollection *PaymentLinkConsentCollection `json:"consent_collection"`
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency Currency `json:"currency"`
 	// Configuration for Customer creation during checkout.
 	CustomerCreation PaymentLinkCustomerCreation `json:"customer_creation"`
 	// Unique identifier for the object.

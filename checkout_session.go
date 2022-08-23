@@ -1867,7 +1867,7 @@ type CheckoutSessionTotalDetails struct {
 // You can create a Checkout Session on your server and pass its ID to the
 // client to begin Checkout.
 //
-// Related guide: [Checkout Server Quickstart](https://stripe.com/docs/payments/checkout/api).
+// Related guide: [Checkout Quickstart](https://stripe.com/docs/checkout/quickstart).
 type CheckoutSession struct {
 	APIResource
 	// When set, provides configuration for actions to take if this Checkout Session expires.

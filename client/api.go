@@ -11,6 +11,7 @@ import (
 	stripe "github.com/stripe/stripe-go/v73"
 	"github.com/stripe/stripe-go/v73/account"
 	"github.com/stripe/stripe-go/v73/accountlink"
+	"github.com/stripe/stripe-go/v73/accountsession"
 	"github.com/stripe/stripe-go/v73/applepaydomain"
 	"github.com/stripe/stripe-go/v73/applicationfee"
 	appssecret "github.com/stripe/stripe-go/v73/apps/secret"
@@ -29,6 +30,7 @@ import (
 	"github.com/stripe/stripe-go/v73/creditnote"
 	"github.com/stripe/stripe-go/v73/customer"
 	"github.com/stripe/stripe-go/v73/customerbalancetransaction"
+	"github.com/stripe/stripe-go/v73/customercashbalancetransaction"
 	"github.com/stripe/stripe-go/v73/dispute"
 	"github.com/stripe/stripe-go/v73/ephemeralkey"
 	"github.com/stripe/stripe-go/v73/event"
@@ -121,6 +123,8 @@ type API struct {
 	AccountLinks *accountlink.Client
 	// Accounts is the client used to invoke /accounts APIs.
 	Accounts *account.Client
+	// AccountSessions is the client used to invoke /account_sessions APIs.
+	AccountSessions *accountsession.Client
 	// ApplePayDomains is the client used to invoke /apple_pay/domains APIs.
 	ApplePayDomains *applepaydomain.Client
 	// ApplicationFees is the client used to invoke /application_fees APIs.
@@ -155,6 +159,8 @@ type API struct {
 	CreditNotes *creditnote.Client
 	// CustomerBalanceTransactions is the client used to invoke /customers/{customer}/balance_transactions APIs.
 	CustomerBalanceTransactions *customerbalancetransaction.Client
+	// CustomerCashBalanceTransactions is the client used to invoke /customers/{customer}/cash_balance_transactions APIs.
+	CustomerCashBalanceTransactions *customercashbalancetransaction.Client
 	// Customers is the client used to invoke /customers APIs.
 	Customers *customer.Client
 	// Disputes is the client used to invoke /disputes APIs.
@@ -339,6 +345,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 
 	a.AccountLinks = &accountlink.Client{B: backends.API, Key: key}
 	a.Accounts = &account.Client{B: backends.API, Key: key}
+	a.AccountSessions = &accountsession.Client{B: backends.API, Key: key}
 	a.ApplePayDomains = &applepaydomain.Client{B: backends.API, Key: key}
 	a.ApplicationFees = &applicationfee.Client{B: backends.API, Key: key}
 	a.AppsSecrets = &appssecret.Client{B: backends.API, Key: key}
@@ -356,6 +363,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.Coupons = &coupon.Client{B: backends.API, Key: key}
 	a.CreditNotes = &creditnote.Client{B: backends.API, Key: key}
 	a.CustomerBalanceTransactions = &customerbalancetransaction.Client{B: backends.API, Key: key}
+	a.CustomerCashBalanceTransactions = &customercashbalancetransaction.Client{B: backends.API, Key: key}
 	a.Customers = &customer.Client{B: backends.API, Key: key}
 	a.Disputes = &dispute.Client{B: backends.API, Key: key}
 	a.EphemeralKeys = &ephemeralkey.Client{B: backends.API, Key: key}
