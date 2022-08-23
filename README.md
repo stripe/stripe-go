@@ -348,6 +348,7 @@ BUNDLE_DISABLE_SHARED_GEMS=1 BUNDLE_PATH=vendor/bundle bundle
     - If the above script is not granting you a new access token for your scratch org, you can also generate a new one via `sfdx force:org:open -u brennen-scratch`
     - This will have refreshed your access token for SFDX, so you can re-run the refresh-tokens script above to replace it in your ENV.
   - `NO_RESCUE=true bundle exec rails test "test/**/test*.rb"` will run the entire test suite
+  - `NO_RESCUE=true RAISE_EXCEPTIONS=true bundle exec rails test "test/**/test*.rb"` will run the entire test suite with exception handling like CI
   - `NO_RESCUE=1` to avoid autoloading pry-rescue in the test suite
 
 - SFDX:

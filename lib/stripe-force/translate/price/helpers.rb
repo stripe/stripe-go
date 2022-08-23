@@ -13,7 +13,10 @@ class StripeForce::Translate
     def self.auto_archive_prices_on_subscription_schedule(user, subscription_schedule)
       expanded_subscription_schedule = Stripe::SubscriptionSchedule.retrieve({
         id: subscription_schedule.id,
-        expand: %w{phases.items.price phases.add_invoice_items.price},
+        expand: %w{
+          phases.items.price
+          phases.add_invoice_items.price
+        },
       }, user.stripe_credentials)
 
       prices_on_subscription = OrderHelpers.extract_all_items_from_subscription_schedule(expanded_subscription_schedule).map(&:price)
@@ -23,7 +26,7 @@ class StripeForce::Translate
         if active_price.metadata[StripeForce::Utilities::Metadata.metadata_key(user, "auto_archive")]
           log.info 'archiving price', archive_price_id: active_price.id
           active_price.active = false
-          # TODO idempotency_key
+          # TODO idempotency_key, needs class method
           # active_price.save({}, generate_idempotency_key_with_credentials(user, active_price, :archive))
           active_price.save
         end
@@ -75,15 +78,72 @@ class StripeForce::Translate
       stripe_price.type != "one_time"
     end
 
+    sig { params(original_price_1: Stripe::Price, original_price_2: Stripe::Price).returns(T::Boolean) }
+    def self.pricing_tiers_equal?(original_price_1, original_price_2)
+      # to-be-created object:
+      #   {"flat_amount":null,"flat_amount_decimal":null,"unit_amount":3000,"unit_amount_decimal":"3000","up_to":null}
+      #
+      # existing stripe object:
+      #   {"up_to":"inf","unit_amount_decimal":"3000.0"}
+
+      # problems:
+      #   1. Tiers could be in different order
+      #   2. Tiers from stripe could have null fields
+      #   3. Tiers from stripe use `null` for `inf`
+
+      # TODO we will probably need to do some sort of normalization here on tiering amounts
+
+      # maybe the values are both nil, this should satisfy this condition
+      if original_price_1[:tiers] == original_price_2[:tiers]
+        return true
+      end
+
+      price_1 = Integrations::Utilities::StripeUtil.deep_copy(original_price_1)
+      price_1_tiers = price_1.tiers.map {|t| Integrations::Utilities::StripeUtil.delete_nil_fields_from_stripe_object(t) }
+
+      price_2 = Integrations::Utilities::StripeUtil.deep_copy(original_price_2)
+      price_2_tiers = price_2.tiers.map {|t| Integrations::Utilities::StripeUtil.delete_nil_fields_from_stripe_object(t) }
+
+      (price_1_tiers + price_2_tiers).each do |tier|
+        # this is a subhash item and sorbet doesn't have these fields typed
+        tier = T.unsafe(tier)
+
+        if tier[:unit_amount].present? && tier[:unit_amount_decimal].present?
+          Integrations::Utilities::StripeUtil.delete_field_from_stripe_object(
+            tier,
+            :unit_amount
+          )
+        end
+
+        tier[:unit_amount_decimal] = normalize_unit_amount_decimal_for_comparison(tier[:unit_amount_decimal])
+
+        if tier.up_to.nil?
+          tier.up_to = 'inf'
+        end
+      end
+
+      if price_1_tiers != price_2_tiers
+        log.info 'tiers are not equal'
+        # TODO hash diff doesn't support arrays right now
+        # diff: HashDiff::Comparison.new(price_1_tiers.map(&:to_hash), price_2_tiers.map(&:to_hash)).diff
+        false
+      else
+        true
+      end
+    end
+
     sig { params(stripe_price: Stripe::Price).returns(Stripe::Price) }
     def self.sanitize_price_tier_params(stripe_price)
       # no side effects, please!
-      stripe_price = stripe_price.dup
+      stripe_price = Integrations::Utilities::StripeUtil.deep_copy(stripe_price)
 
       # if non-tiered pricing fields are included Stripe will throw an error
       Integrations::Utilities::StripeUtil.delete_field_from_stripe_object(stripe_price, :unit_amount_decimal)
 
       # TODO are there other pricing fields we should delete? It's unclear what the requirements are here?
+
+      # if the field types are not the same, you will get the following error:
+      # Caused by ArgumentError: comparison of Stripe::StripeObject with Stripe::StripeObject failed
 
       # API also requires pricing tiers to be sorted. Wat?
       # TODO https://jira.corp.stripe.com/browse/PLATINT-1573
@@ -118,6 +178,15 @@ class StripeForce::Translate
       else
         raise StripeForce::Errors::RawUserError.new("unexpected billing type #{raw_usage_type}")
       end
+    end
+
+    sig { params(unit_amount_decimal: T.any(String, BigDecimal)).returns(BigDecimal) }
+    def self.normalize_unit_amount_decimal_for_comparison(unit_amount_decimal)
+      if !unit_amount_decimal.is_a?(BigDecimal)
+        unit_amount_decimal = BigDecimal(unit_amount_decimal)
+      end
+
+      unit_amount_decimal.round(MAX_STRIPE_PRICE_PRECISION)
     end
 
     sig { params(price_1: Stripe::Price, price_2: Stripe::Price).returns(T::Boolean) }
@@ -157,23 +226,13 @@ class StripeForce::Translate
           raise StripeForce::Errors::RawUserError.new("unit_amount_decimal nil on price objects")
         end
 
-        price_1_decimal = price_1.unit_amount_decimal
-        if !price_1_decimal.is_a?(BigDecimal)
-          price_1_decimal = BigDecimal(price_1_decimal)
-        end
-        price_1_decimal = price_1_decimal.round(MAX_STRIPE_PRICE_PRECISION)
-
-        price_2_decimal = price_2.unit_amount_decimal
-        if !price_2_decimal.is_a?(BigDecimal)
-          price_2_decimal = BigDecimal(price_2_decimal)
-        end
-        price_2_decimal = price_2_decimal.round(MAX_STRIPE_PRICE_PRECISION)
+        price_1_decimal = normalize_unit_amount_decimal_for_comparison(price_1.unit_amount_decimal)
+        price_2_decimal = normalize_unit_amount_decimal_for_comparison(price_2.unit_amount_decimal)
 
         price_1_decimal == price_2_decimal
       elsif price_1.billing_scheme == 'tiered'
-        # TODO we will probably need to do some sort of normalization here on tiering amounts
         # TODO probably need to think through transformed_quantity here and if it could effect this
-        price_1.tiers == price_2.tiers && price_1.tiers_mode == price_2.tiers_mode
+        price_1[:tiers_mode] == price_2[:tiers_mode] && PriceHelpers.pricing_tiers_equal?(price_1, price_2)
       else
         raise StripeForce::Errors::RawUserError.new("Unexpected billing_scheme on price encountered #{price_1.billing_scheme}")
       end

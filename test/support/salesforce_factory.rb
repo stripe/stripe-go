@@ -162,6 +162,7 @@ module Critic
       [product_id, pricebook_entry_id]
     end
 
+    # returns the full object, not the ID
     def create_subscription_order(sf_product_id: nil, sf_account_id: nil)
       create_salesforce_order(
         sf_product_id: sf_product_id,

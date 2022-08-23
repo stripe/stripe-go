@@ -460,7 +460,7 @@ class StripeForce::Translate
     ).returns(T::Array[StripeForce::Translate::ContractItemStructure])
   end
   def merge_subscription_line_items(original_aggregate_phase_items, new_phase_items)
-    # avoid mutating the input value
+    # no side effects, please!
     aggregate_phase_items = original_aggregate_phase_items.dup
 
     # TODO `termination_lines` here is what we need for credit calculation
@@ -535,7 +535,10 @@ class StripeForce::Translate
           .first
 
         if fifo_remaining_line
-          log.info 'reducing quantity on line', reducing_line: fifo_remaining_line.order_line_id
+          log.info 'reducing quantity on line',
+            reducing_line: fifo_remaining_line.order_line_id,
+            quantity: fifo_remaining_line.quantity
+
           fifo_remaining_line.reduce_quantity
         else
           # this should never happen

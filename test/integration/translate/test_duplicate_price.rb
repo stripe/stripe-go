@@ -3,6 +3,7 @@
 
 require_relative '../../test_helper'
 
+# the same price id cannot be used more than once on a subscription, we have specific logic to work around this
 class Critic::DuplicatePriceTranslation < Critic::FunctionalTest
   before do
     @user = make_user(save: true)

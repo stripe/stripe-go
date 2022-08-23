@@ -337,8 +337,18 @@ class StripeForce::Translate
     stripe_id = sf_object[prefixed_stripe_field(GENERIC_STRIPE_ID)]
     return if stripe_id.nil?
 
+    # TODO need to cast to unsafe other sorbet thinks the code below is unreachable
+    # by default tiers are not returned, but this is an important parameter for price comparison purposes
+    additional_retrieve_params = {}
+    if stripe_class == Stripe::Price
+      additional_retrieve_params = {expand: %w{tiers}}
+    end
+
     begin
-      stripe_record = stripe_class.retrieve(sf_object[prefixed_stripe_field(GENERIC_STRIPE_ID)], @user.stripe_credentials)
+      stripe_record = stripe_class.retrieve(
+        {id: sf_object[prefixed_stripe_field(GENERIC_STRIPE_ID)]}.merge(additional_retrieve_params),
+        @user.stripe_credentials
+      )
 
       # if this ID was provided to us by the user, the metadata does not exist in Stripe
       stripe_record_metadata = stripe_metadata_for_sf_object(sf_object)

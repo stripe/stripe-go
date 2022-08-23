@@ -5,6 +5,23 @@ require_relative '../test_helper'
 # tests for assumptions we are making about the ruby bindings
 module Critic::Unit
   class StripeBindingTest < Critic::UnitTest
+    it 'deeply copies' do
+      obj = Stripe::StripeObject.construct_from(
+        fun: "field"
+      )
+
+      obj2 = Integrations::Utilities::StripeUtil.deep_copy(obj)
+      obj2.fun = "nomore"
+
+      refute_equal(obj2.fun, obj.fun)
+
+      # the reason we are doing this is...
+      obj3 = obj.deep_dup
+      obj3.fun = "nomore"
+
+      assert_equal(obj3.fun, obj.fun)
+    end
+
     it 'gracefully handles hash accessor syntax' do
       price = Stripe::Price.new
 

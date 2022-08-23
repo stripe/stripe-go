@@ -118,14 +118,15 @@ module Integrations
 
       log.set_context({
         stripe_account_id: user&.stripe_account_id,
-        salesforce_account_id: user&.salesforce_account_id,
+        sf_account_id: user&.salesforce_account_id,
         livemode: user&.livemode,
 
         stripe_resource_id: stripe_resource&.id,
         stripe_resource_type: stripe_resource&.class,
 
-        integration_record_type: integration_record&.sobject_type,
-        integration_record_id: integration_record&.Id,
+        # `translation` meaning the record which triggered the operation
+        sf_translation_type: integration_record&.sobject_type,
+        sf_translation_id: integration_record&.Id,
       }.compact)
 
       # if `set_error_context` is run from a class method, we want to display the class name

@@ -26,6 +26,11 @@ class StripeForce::Translate
   end
 
   def pricebook_and_order_line_identical?(sf_pricebook_entry, sf_order_item, sf_product)
+    log.info 'comparing price with order line',
+      sf_pricebook_entry_id: sf_pricebook_entry.Id,
+      sf_order_line_id: sf_order_item.Id,
+      sf_product_id: sf_product.Id
+
     # generate the full params that would be sent to the price object and compare them
     # if they aren't *exactly* the same, this will trigger a new price to be created.
     pricebook_params = generate_price_params_from_sf_object(sf_pricebook_entry, sf_product)
@@ -281,6 +286,8 @@ class StripeForce::Translate
 
     tiers_mode = PriceHelpers.transform_salesforce_consumption_schedule_type_to_tier_mode(consumption_schedule.SBQQ__Type__c)
 
+    log.info 'consumption schedule found, configuring as tiered price'
+
     {
       "tiers" => pricing_tiers,
       "tiers_mode" => tiers_mode,
@@ -347,7 +354,7 @@ class StripeForce::Translate
 
     # if tiered pricing is set up, then we ignore any non-tiered pricing configuration
     if is_tiered_price
-      is_tiered_price = PriceHelpers.sanitize_price_tier_params(stripe_price)
+      stripe_price = PriceHelpers.sanitize_price_tier_params(stripe_price)
     end
 
     # `recurring` could have been partially constructed by the mapper, which is why we use a symbol-based accessor

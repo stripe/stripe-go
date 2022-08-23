@@ -122,8 +122,9 @@ def get_all(object_name)
   sf.query("SELECT #{all_fields} FROM #{object_name}")
 end
 
-def limits
-  sf.limits.slice(*%w{DailyApiRequests DailyAsyncApexExecutions DailyBulkApiBatches DailyFunctionsApiCallLimit DailyStreamingApiEvents})
+# or `sfdx force:limits:api:display -u mbianco+cpqpackage@stripe.com`
+def user_limits(user)
+  user.sf_client.limits.slice(*%w{DailyApiRequests DailyAsyncApexExecutions DailyBulkApiBatches DailyFunctionsApiCallLimit DailyStreamingApiEvents})
 end
 
 # new scratch orgs come without pricebooks active, this causes issues with amendments
@@ -149,12 +150,18 @@ def touch_order(sf_order)
   })
 end
 
-def ensure_order_is_included_in_custom_where_clause(sf_order)
+def ensure_order_is_included_in_custom_where_clause(sf_order_or_id)
+  sf_order = if sf_order_or_id.is_a?(String)
+    sf_get(sf_order_or_id)
+  else
+    sf_order_or_id
+  end
+
   order_poller = StripeForce::OrderPoller.new(@user)
   custom_soql = order_poller.send(:user_specified_where_clause_for_object)
   results = @sf.query("SELECT Id FROM #{SF_ORDER} WHERE Id = '#{sf_order.Id}' " + custom_soql)
 
-  if results.first.empty?
+  if results.first.blank?
     puts "Order is not included in custom soql"
   else
     puts "Order is included in custom soql"

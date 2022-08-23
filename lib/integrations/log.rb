@@ -12,8 +12,8 @@ SimpleStructuredLogger.configure do
   expand_log do |tags, default_tags|
     if tags[:salesforce_object] && tags[:salesforce_object].is_a?(Restforce::SObject)
       salesforce_object = tags.delete(:salesforce_object)
-      tags[:salesforce_object_id] = salesforce_object.Id
-      tags[:salesforce_object_type] = salesforce_object.sobject_type
+      tags[:sf_object_id] = salesforce_object.Id
+      tags[:sf_object_type] = salesforce_object.sobject_type
     end
 
     if tags[:stripe_resource] && tags[:stripe_resource].respond_to?(:id)

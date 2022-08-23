@@ -11,6 +11,12 @@ module Integrations::Utilities::StripeUtil
   include Integrations::Log
   include Integrations::ErrorContext
 
+  # NOTE there is a PRIVATE method in ruby bindings to do this for stripe objects, I don't know why it's not public
+  # TODO https://github.com/stripe/stripe-ruby/pull/1120
+  def self.deep_copy(obj)
+    Marshal.load(Marshal.dump(obj))
+  end
+
   # if you null-out a field in a StripeObject it is still sent to the API as an empty string
   # this causes issues for a host of API surfaces in Stripe. Additionally, there is no way to remove
   # a field from the StripeObject once it has been added, thus this incredibly terrible hack
