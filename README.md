@@ -476,11 +476,15 @@ To install a beta version of stripe-go use the commit notation of the `go get` c
 go get -u github.com/stripe/stripe-go/v73@v73.3.0-beta.1
 ```
 
-> Note: There can be breaking changes between beta versions. 
+> **Note**
+> There can be breaking changes between beta versions. 
 
 We highly recommend keeping an eye on when the beta feature you are interested in goes from beta to stable so that you can move from using a beta version of the SDK to the stable version.
 
 If your beta feature requires a `Stripe-Version` header to be sent, use the `stripe.APIVersion` field to set it:
+
+> **Note**
+> The `APIVersion` can only be set in beta versions of the library. 
 
 ```go
 stripe.APIVersion += "; feature_beta=v3"
