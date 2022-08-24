@@ -51,6 +51,12 @@ jobs:
          run: make test &&
               make bench &&
               make check-api-clients
+       - name: Coverage
+         run: make coverage
+       - name: Coveralls
+         env:
+           COVERALLS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+         run: make coveralls
 
   compile-only:
      runs-on: ubuntu-latest
