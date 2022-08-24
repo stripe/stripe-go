@@ -51,6 +51,21 @@ jobs:
          run: make test &&
               make bench &&
               make check-api-clients
+       - name: Coverage
+         run: make coverage
+       - name: Coveralls
+         run: make coveralls
+         env:
+           COVERALLS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+           COVERALLS_PARALLEL: true
+           COVERALLS_FLAG_NAME: Go-${{ matrix.go }}
+
+  finish:
+     needs: test
+     runs-on: ubuntu-latest
+     steps:
+       - name: Coveralls finished
+         run: curl "https://coveralls.io/webhook?repo_token=${{ secrets.GITHUB_TOKEN }}&repo_name=${{ github.repository }}" -d "payload[build_num]=${{ github.run_id }}&payload[status]=done"
 
   compile-only:
      runs-on: ubuntu-latest
