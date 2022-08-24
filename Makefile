@@ -25,7 +25,7 @@ coverage:
 	go run scripts/test_with_stripe_mock/main.go -covermode=count -coverprofile=combined.coverprofile ./...
 
 coveralls:
-	go install github.com/mattn/goveralls@latest && $(HOME)/go/bin/goveralls -service=github -coverprofile=combined.coverprofile
+	go get github.com/mattn/goveralls@latest && $(HOME)/go/bin/goveralls -service=github -coverprofile=combined.coverprofile
 
 clean:
 	find . -name \*.coverprofile -delete
