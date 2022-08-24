@@ -482,6 +482,8 @@ We highly recommend keeping an eye on when the beta feature you are interested i
 
 If your beta feature requires a `Stripe-Version` header to be sent, use the `stripe.APIVersion` field to set it:
 
+> Note: the `APIVersion` can only be set in beta versions of the library. 
+
 ```go
 stripe.APIVersion += "; feature_beta=v3"
 ```
