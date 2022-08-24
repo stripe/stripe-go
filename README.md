@@ -4,10 +4,6 @@
 
 The official [Stripe][stripe] Go client library.
 
-## Support
-
-New features and bug fixes are released on the latest major version of the Stripe Go client library. If you are on an older major version, we recommend that you upgrade to the latest in order to use the new features and bug fixes including those for security vulnerabilities. Older major versions of the package will continue to be available for use, but will not be receiving any updates.
-
 ## Installation
 
 Make sure your project is using Go Modules (it will have a `go.mod` file in its
@@ -469,6 +465,34 @@ config := &stripe.BackendConfig{
 	EnableTelemetry: stripe.Bool(false),
 }
 ```
+
+### Beta SDKs
+
+Stripe has features in the beta phase that can be accessed via the beta version of this package.
+We would love for you to try these and share feedback with us before these features reach the stable phase.
+To install a beta version of stripe-go use the commit notation of the `go get` command to point to a beta tag:
+
+```
+go get -u github.com/stripe/stripe-go/v73@v73.3.0-beta.1
+```
+
+> **Note**
+> There can be breaking changes between beta versions. 
+
+We highly recommend keeping an eye on when the beta feature you are interested in goes from beta to stable so that you can move from using a beta version of the SDK to the stable version.
+
+If your beta feature requires a `Stripe-Version` header to be sent, use the `stripe.APIVersion` field to set it:
+
+> **Note**
+> The `APIVersion` can only be set in beta versions of the library. 
+
+```go
+stripe.APIVersion += "; feature_beta=v3"
+```
+
+## Support
+
+New features and bug fixes are released on the latest major version of the Stripe Go client library. If you are on an older major version, we recommend that you upgrade to the latest in order to use the new features and bug fixes including those for security vulnerabilities. Older major versions of the package will continue to be available for use, but will not be receiving any updates.
 
 ## Development
 
