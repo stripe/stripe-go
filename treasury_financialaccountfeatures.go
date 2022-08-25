@@ -622,6 +622,7 @@ type TreasuryFinancialAccountFeaturesOutboundTransfers struct {
 // Encodes whether a FinancialAccount has access to a particular Feature, with a `status` enum and associated `status_details`.
 // Stripe or the platform can control Features via the requested field.
 type TreasuryFinancialAccountFeatures struct {
+	APIResource
 	// Toggle settings for enabling/disabling a feature
 	CardIssuing *TreasuryFinancialAccountFeaturesCardIssuing `json:"card_issuing"`
 	// Toggle settings for enabling/disabling a feature
