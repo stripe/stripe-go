@@ -1,5 +1,10 @@
 # Changelog
 
+## 73.5.0-beta.1 - 2022-08-26
+* [#1535](https://github.com/stripe/stripe-go/pull/1535) API Updates for beta branch
+  * Updated stable APIs to the latest version
+  * Add support for the beta [Gift Card API](https://stripe.com/docs/gift-cards).
+
 ## 73.4.0 - 2022-08-23
 * [#1532](https://github.com/stripe/stripe-go/pull/1532) API Updates
   * Change type of `TreasuryOutboundTransferDestinationPaymentMethod` from `string` to `nullable(string)`
