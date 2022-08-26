@@ -1,5 +1,14 @@
 # Changelog
 
+## 73.5.0 - 2022-08-26
+* [#1537](https://github.com/stripe/stripe-go/pull/1537) API Updates
+  * Add support for `LoginPage` on `BillingPortalConfigurationParams` and `BillingPortalConfiguration`
+  * Add support for new value `deutsche_bank_ag` on enums `ChargePaymentMethodDetailsEpsBank` and `PaymentMethodEpsBank`
+  * Add support for `Customs` and `PhoneNumber` on `IssuingCardShippingParams` and `IssuingCardShipping`
+  * Add support for `Description` on `QuoteSubscriptionDataParams`, `QuoteSubscriptionData`, `SubscriptionScheduleDefaultSettingsParams`, `SubscriptionScheduleDefaultSettings`, `SubscriptionSchedulePhasesParams`, and `SubscriptionSchedulePhases`
+* [#1536](https://github.com/stripe/stripe-go/pull/1536) Add test coverage using coveralls
+* [#1533](https://github.com/stripe/stripe-go/pull/1533) Update README.md to clarify that API version can only be change in beta
+
 ## 73.4.0 - 2022-08-23
 * [#1532](https://github.com/stripe/stripe-go/pull/1532) API Updates
   * Change type of `TreasuryOutboundTransferDestinationPaymentMethod` from `string` to `nullable(string)`
