@@ -148,7 +148,7 @@ type IssuingCardListParams struct {
 // Customs information for the shipment.
 type IssuingCardShippingCustomsParams struct {
 	// The Economic Operators Registration and Identification (EORI) number to use for Customs. Required for bulk shipments to Europe.
-	EoriNumber *string `form:"eori_number"`
+	EORINumber *string `form:"eori_number"`
 }
 
 // The address where the card will be shipped.
@@ -223,7 +223,7 @@ type IssuingCardPINParams struct {
 // Additional information that may be required for clearing customs.
 type IssuingCardShippingCustoms struct {
 	// A registration number used for customs in Europe. See https://www.gov.uk/eori and https://ec.europa.eu/taxation_customs/business/customs-procedures-import-and-export/customs-procedures/economic-operators-registration-and-identification-number-eori_en.
-	EoriNumber string `json:"eori_number"`
+	EORINumber string `json:"eori_number"`
 }
 
 // Where and how the card will be shipped.
