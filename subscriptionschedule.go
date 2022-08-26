@@ -108,6 +108,8 @@ type SubscriptionScheduleDefaultSettingsParams struct {
 	CollectionMethod *string `form:"collection_method"`
 	// ID of the default payment method for the subscription schedule. It must belong to the customer associated with the subscription schedule. If not set, invoices will use the default payment method in the customer's invoice settings.
 	DefaultPaymentMethod *string `form:"default_payment_method"`
+	// Subscription description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription.
+	Description *string `form:"description"`
 	// All invoices will be billed using the specified settings.
 	InvoiceSettings *SubscriptionScheduleDefaultSettingsInvoiceSettingsParams `form:"invoice_settings"`
 	// The data with which to automatically create a Transfer for each of the associated subscription's invoices.
@@ -176,6 +178,8 @@ type SubscriptionSchedulePhaseParams struct {
 	DefaultPaymentMethod *string `form:"default_payment_method"`
 	// A list of [Tax Rate](https://stripe.com/docs/api/tax_rates) ids. These Tax Rates will set the Subscription's [`default_tax_rates`](https://stripe.com/docs/api/subscriptions/create#create_subscription-default_tax_rates), which means they will be the Invoice's [`default_tax_rates`](https://stripe.com/docs/api/invoices/create#create_invoice-default_tax_rates) for any Invoices issued by the Subscription during this Phase.
 	DefaultTaxRates []*string `form:"default_tax_rates"`
+	// Subscription description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription.
+	Description *string `form:"description"`
 	// The date at which this phase of the subscription schedule ends. If set, `iterations` must not be set.
 	EndDate    *int64 `form:"end_date"`
 	EndDateNow *bool  `form:"-"` // See custom AppendTo
@@ -282,6 +286,8 @@ type SubscriptionScheduleDefaultSettings struct {
 	CollectionMethod *SubscriptionCollectionMethod `json:"collection_method"`
 	// ID of the default payment method for the subscription schedule. If not set, invoices will use the default payment method in the customer's invoice settings.
 	DefaultPaymentMethod *PaymentMethod `json:"default_payment_method"`
+	// Subscription description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription.
+	Description string `json:"description"`
 	// The subscription schedule's default invoice settings.
 	InvoiceSettings *SubscriptionScheduleDefaultSettingsInvoiceSettings `json:"invoice_settings"`
 	// The account (if any) the associated subscription's payments will be attributed to for tax reporting, and where funds from each payment will be transferred to for each of the subscription's invoices.
@@ -339,6 +345,8 @@ type SubscriptionSchedulePhase struct {
 	DefaultPaymentMethod *PaymentMethod `json:"default_payment_method"`
 	// The default tax rates to apply to the subscription during this phase of the subscription schedule.
 	DefaultTaxRates []*TaxRate `json:"default_tax_rates"`
+	// Subscription description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription.
+	Description string `json:"description"`
 	// The end of this phase of the subscription schedule.
 	EndDate int64 `json:"end_date"`
 	// The invoice settings applicable during this phase.
