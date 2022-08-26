@@ -145,12 +145,22 @@ type IssuingCardListParams struct {
 	Type *string `form:"type"`
 }
 
+// Customs information for the shipment.
+type IssuingCardShippingCustomsParams struct {
+	// The Economic Operators Registration and Identification (EORI) number to use for Customs. Required for bulk shipments to Europe.
+	EoriNumber *string `form:"eori_number"`
+}
+
 // The address where the card will be shipped.
 type IssuingCardShippingParams struct {
 	// The address that the card is shipped to.
 	Address *AddressParams `form:"address"`
+	// Customs information for the shipment.
+	Customs *IssuingCardShippingCustomsParams `form:"customs"`
 	// The name printed on the shipping label when shipping the card.
 	Name *string `form:"name"`
+	// Phone number of the recipient of the shipment.
+	PhoneNumber *string `form:"phone_number"`
 	// Shipment service.
 	Service *string `form:"service"`
 	// Packaging options.
@@ -210,15 +220,25 @@ type IssuingCardPINParams struct {
 	EncryptedNumber *string `form:"encrypted_number"`
 }
 
+// Additional information that may be required for clearing customs.
+type IssuingCardShippingCustoms struct {
+	// A registration number used for customs in Europe. See https://www.gov.uk/eori and https://ec.europa.eu/taxation_customs/business/customs-procedures-import-and-export/customs-procedures/economic-operators-registration-and-identification-number-eori_en.
+	EoriNumber string `json:"eori_number"`
+}
+
 // Where and how the card will be shipped.
 type IssuingCardShipping struct {
 	Address *Address `json:"address"`
 	// The delivery company that shipped a card.
 	Carrier IssuingCardShippingCarrier `json:"carrier"`
+	// Additional information that may be required for clearing customs.
+	Customs *IssuingCardShippingCustoms `json:"customs"`
 	// A unix timestamp representing a best estimate of when the card will be delivered.
 	ETA int64 `json:"eta"`
 	// Recipient name.
 	Name string `json:"name"`
+	// The phone number of the receiver of the bulk shipment. This phone number will be provided to the shipping company, who might use it to contact the receiver in case of delivery issues.
+	PhoneNumber string `json:"phone_number"`
 	// Shipment service, such as `standard` or `express`.
 	Service IssuingCardShippingService `json:"service"`
 	// The delivery status of the card.
