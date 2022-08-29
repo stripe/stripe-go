@@ -194,7 +194,6 @@ public with sharing class utilities {
 
     // generates package level key and sends to ruby. Named `salesforce_organization_key` on the ruby side
     public static void generatePackageKey(Stripe_Connection__c stripeConnectRec) {
-
         List<Setup_Connection_Data__mdt> setupConfigList = getStripeConnectionKey();
         if(setupConfigList.isEmpty()) {
             /* This error should only be thrown in a scratch org when unmangaed key is deployed to

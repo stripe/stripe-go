@@ -19,15 +19,21 @@ export default class SystemConnectionsStep extends LightningElement {
     stripeConnectedAppCallback() {
         this.validateConnectionStatus(true, '');
         this.postMessageListener = (event) => {
-            if (event.origin === this.rubyBaseURI && event.data === 'stripeConnectionSuccessful') {
+            if(event.origin !== this.rubyBaseURI) {
+                console.log("bad post message origin")
+                return
+            }
+
+            if (event.data === 'stripeConnectionSuccessful') {
                 this.validateConnectionStatus(false, 'salesforce');
-            } else if (event.origin === this.rubyBaseURI && event.data === 'salesforceConnectionSuccessful') {
+            } else if (event.data === 'salesforceConnectionSuccessful') {
                 this.connectWindow.close();
                 this.validateConnectionStatus(false, 'stripe');
             } else {
-                
+                console.log("bad postmessage data")
             }
         }
+        
         window.addEventListener("message", this.postMessageListener.bind(this));
     }
 

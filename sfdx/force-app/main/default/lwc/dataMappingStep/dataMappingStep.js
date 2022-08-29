@@ -416,12 +416,17 @@ export default class DataMappingStep extends LightningElement {
        if (!this.stripeObjectField.type) {
             return;
         } 
-        var fieldType = this.stripeObjectField.type.toLowerCase()
-        //has to be a copy to force a rerender
-        let modifiedFieldOptions = JSON.parse(JSON.stringify(this.sfFieldOptions))
-        switch(fieldType) {
+
+        const stripeFieldType = this.stripeObjectField.type.toLowerCase()
+
+        // has to be a copy to force a rerender
+        const modifiedFieldOptions = JSON.parse(JSON.stringify(this.sfFieldOptions))
+
+        // TODO this whole switch statement is a mess and is confusing, need to clean this up
+        switch(stripeFieldType) {
             case 'integer' || 'decimal' || 'number':
-                this.sfFieldOptions = modifiedFieldOptions.filter(fieldOptions => fieldOptions.type === 'double' ||fieldOptions.type === 'reference');
+                // NOTE `string` was specifically added as an acceptable value because of the payment terms mapping
+                this.sfFieldOptions = modifiedFieldOptions.filter(fieldOptions => fieldOptions.type === 'double' || fieldOptions.type === 'reference' || fieldOptions.type == 'picklist');
                 return;
             case 'timestamp':
                 this.sfFieldOptions = modifiedFieldOptions.filter(fieldOptions => fieldOptions.type.includes('date') || fieldOptions.type === 'reference' )
@@ -652,6 +657,7 @@ export default class DataMappingStep extends LightningElement {
                 isConnectedCallback: isConnectedCallback,
                 ObjectApiName: ObjectName
             });
+
             const picklistValueResponseData =  JSON.parse(getPicklistValues);
             if(picklistValueResponseData.error) {
                 this.showToast(picklistValueResponseData.error, 'error', 'sticky');
