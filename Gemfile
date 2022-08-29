@@ -31,7 +31,7 @@ gem 'simple_structured_logger', '~> 1.0.2'
 
 # resque
 gem 'resque', '~> 2.2.0'
-gem 'resque-scheduler', "~> 4.5.0"
+gem 'resque-scheduler', "~> 4.6.0"
 gem 'resque-retry', '~> 1.7.6'
 gem 'resque-heroku-signals', '~> 2.2.0'
 gem 'redis', '~> 4.5.1'
