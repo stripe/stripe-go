@@ -191,7 +191,6 @@ GEM
       mime-types-data (~> 3.2015)
     mime-types-data (3.2021.0901)
     mini_mime (1.1.2)
-    mini_portile2 (2.8.0)
     minitest (5.16.3)
     minitest-ci (3.4.0)
       minitest (>= 5.0.6)
@@ -214,9 +213,6 @@ GEM
       ruby2_keywords (~> 0.0.1)
     netrc (0.11.0)
     nio4r (2.5.8)
-    nokogiri (1.13.8)
-      mini_portile2 (~> 2.8.0)
-      racc (~> 1.4)
     nokogiri (1.13.8-arm64-darwin)
       racc (~> 1.4)
     nokogiri (1.13.8-x86_64-darwin)
@@ -390,8 +386,8 @@ GEM
       rack-protection (= 2.2.2)
       tilt (~> 2.0)
     slop (3.6.0)
-    sorbet (0.5.10382)
-      sorbet-static (= 0.5.10382)
+    sorbet (0.5.10346)
+      sorbet-static (= 0.5.10346)
     sorbet-coerce (0.5.0)
       polyfill (~> 1.8)
       safe_type (~> 1.1, >= 1.1.1)
@@ -403,7 +399,9 @@ GEM
       sorbet-coerce (>= 0.2.6)
       sorbet-runtime (>= 0.5.9892)
     sorbet-runtime (0.5.10382)
-    sorbet-static (0.5.10382-x86_64-linux)
+    sorbet-static (0.5.10346-universal-darwin-20)
+    sorbet-static (0.5.10346-universal-darwin-21)
+    sorbet-static (0.5.10346-x86_64-linux)
     spring (4.0.0)
     sprockets (4.1.1)
       concurrent-ruby (~> 1.0)
@@ -440,7 +438,6 @@ GEM
 
 PLATFORMS
   arm64-darwin-21
-  ruby
   x86_64-darwin-20
   x86_64-darwin-21
   x86_64-linux
@@ -500,9 +497,9 @@ DEPENDENCIES
   sentry-ruby (~> 5.4.2)
   sequel (= 5.59.0)
   simple_structured_logger (~> 1.0.2)
-  sorbet (~> 0.5.10382)
+  sorbet (~> 0.5.10346)
   sorbet-rails (~> 0.7.34)
-  sorbet-runtime (~> 0.5.10382)
+  sorbet-runtime (~> 0.5.10346)
   spring
   stripe (~> 7.1.0)
   webdrivers (~> 5.0.0)
@@ -511,4 +508,4 @@ RUBY VERSION
    ruby 2.7.6p207
 
 BUNDLED WITH
-   2.3.9
+   2.3.21

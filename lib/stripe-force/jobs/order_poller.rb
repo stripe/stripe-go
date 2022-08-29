@@ -14,11 +14,14 @@ class StripeForce::OrderPoller < StripeForce::PollerBase
     return if !should_poll?(execution_time, poll_record)
 
     poll_record = T.must(poll_record)
+    end_time = poll_record.last_polled_at
 
-    log.info 'initiating poll', from: poll_record.last_polled_at, to: execution_time
+    log.info 'initiating poll',
+      from: end_time,
+      to: execution_time
 
     # note that SF fields never contain empty strings, they are reported null instead
-    updated_orders = @user.sf_client.query(generate_soql(poll_record.last_polled_at, execution_time))
+    updated_orders = @user.sf_client.query(generate_soql(end_time, execution_time))
 
     # important to use `size` here and not count because of the paging issue described below
     log.info 'order query complete', size: updated_orders.size

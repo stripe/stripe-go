@@ -2,7 +2,7 @@
 
 if [[ -z $(which bundle) ]]; then
   echo "Bundler not installed; installing latest 2.x..."
-  gem install bundler:2.3.9
+  gem install bundler:2.3.21
 fi
 
 gem install foreman
