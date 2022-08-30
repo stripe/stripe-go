@@ -95,6 +95,7 @@ class Critic::ProratedAmendmentTranslation < Critic::OrderAmendmentFunctionalTes
     refute_equal(second_phase_item_additive.metadata, first_phase_item.metadata)
     second_phase_item_additive_price = Stripe::Price.retrieve(T.cast(second_phase_item_additive.price, String), @user.stripe_credentials)
     first_phase_item_price = Stripe::Price.retrieve(T.cast(first_phase_item.price, String), @user.stripe_credentials)
+    assert_equal(yearly_price.to_s, first_phase_item_price.unit_amount_decimal)
     assert_equal(second_phase_item_additive_price.unit_amount_decimal, first_phase_item_price.unit_amount_decimal)
     assert_equal(second_phase_item_additive_price.type, first_phase_item_price.type)
     assert_equal(second_phase_item_additive_price.product, first_phase_item_price.product)
