@@ -7,3 +7,8 @@ StripeForce::User.all.each do |user|
     puts "Skipping order filter:\t#{user.id}"
   end
 end
+
+StripeForce::User.where(stripe_account_id: 'acct_15uapDIsgf92XbAO').all.each do |user|
+  puts "User\t#{user.salesforce_instance_url}\t#{user.id}"
+  user.update(enabled: false)
+end

@@ -168,6 +168,10 @@ def ensure_order_is_included_in_custom_where_clause(sf_order_or_id)
   end
 end
 
+# TODO make limit pages into some sort of helper
+# https://appiphony92-dev-ed.lightning.force.com/lightning/setup/CompanyProfileInfo/home
+# https://appiphony92-dev-ed.lightning.force.com/lightning/setup/CompanyResourceDisk/home
+
 require_relative '../test/support/salesforce_debugging'
 include SalesforceDebugging
 

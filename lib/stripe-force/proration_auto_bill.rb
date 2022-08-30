@@ -14,6 +14,8 @@ module StripeForce
       subscription_id = T.cast(invoice_item.subscription, T.nilable(String))
       customer_id = T.cast(invoice_item.customer, String)
 
+      # TODO should set error and log context
+
       if subscription_id.blank?
         log.info 'no subscription reference, not billing'
         nil
@@ -32,7 +34,7 @@ module StripeForce
       invoice_item = Stripe::InvoiceItem.retrieve(invoice_item.id, user.stripe_credentials)
 
       if invoice_item.invoice.present?
-        log.info 'already invoiced'
+        log.info 'already invoiced, skipping'
         return
       end
 

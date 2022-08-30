@@ -1,5 +1,6 @@
 #!/bin/bash
 # Usage: bin/generate-cpq-scratch-org
+#        bin/generate-cpq-scratch-org your-unique-alias
 
 # feature options:
 # https://developer.salesforce.com/docs/atlas.en-us.222.0.sfdx_dev.meta/sfdx_dev/sfdx_dev_scratch_orgs_def_file_config_values.htm
@@ -56,7 +57,7 @@ else
   echo "Default username already set, skipping"
 fi
 
-sfdx config:set restDeploy=true apiVersion=54.0 sourceApiVersion=54.0
+sfdx config:set restDeploy=true apiVersion=54.0
 sfdx force:source:push --loglevel=debug -u $salesforceAlias
 
 # needs to be done after the source:push since this references custom perm sets
@@ -75,7 +76,7 @@ echo "Manual step: Create global key. Label/Name: Default. Key: pull from env."
 echo $'\n\n'
 sfdx force:org:open -u $salesforceAlias -p '/lightning/setup/CustomMetadata/page?address=%2Fm02%3Fsetupid%3DCustomMetadata' > /dev/null
 
-echo "Opening up another tab to the Stripe app"
+echo "Opening up another tab to the Stripe app, authorize Salesforce & Stripe"
 sfdx force:org:open -u $salesforceAlias -p '/lightning/n/Setup' > /dev/null
 
 echo "All done! Remember: this scratch org will expire in 30d, so have two of these ready so your dev loop is not destroyed."
@@ -86,4 +87,5 @@ echo "Try playing around in a console: 'bundle exec ruby scripts/console.rb'"
 # TODO assign permission set CPQ license https://sf9to5.com/2020/09/08/winter-21-changes-cpq-licensing/
 # TODO make sure Stripe fields are on all layouts
 # include example of how to delete the scratch org `sfdx force:org:delete -p -u test-motqqy6yl1qs@example.com`
+# TODO if scratch org is expired, you will get auth issues. Remove with `sfdx auth:logout -u test-bpruhlkz0qaf@example.com`
 # TODO the pricebooks aren't active by default, debugger => activate_pricebooks

@@ -35,6 +35,7 @@
 ## CPQ
 
 - `SBQQ__PriceEditable__c` must be true on the line to customize the price later on
+- There are triggers which can suck up API calls on records. Don't let the record count build up!
 
 ## Packaging
 

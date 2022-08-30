@@ -24,11 +24,11 @@ workflows:
             parameters:
               # # https://docs.google.com/spreadsheets/d/136PUl_U7bMW7uMSwcqujisasAJNQJIOPQimGGG7iG00/edit#gid=0
               account:
-                # unpackaged source test
+                # unpackaged source test, we do not want a package installed here
                 - mbianco+standardcpq@stripe.com
-                # QA package test
+                # QA package test, all of the fields/rest endpoints/etc have a prefix
                 - mbianco+cpqpackage@stripe.com
-                # production package test
+                # production package test, has a different prefix from QA
                 # - brennen+prodtest@stripe.com
 
           requires:

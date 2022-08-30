@@ -123,9 +123,7 @@ class StripeForce::Translate
       end
 
       if price_1_tiers != price_2_tiers
-        log.info 'tiers are not equal'
-        # TODO hash diff doesn't support arrays right now
-        # diff: HashDiff::Comparison.new(price_1_tiers.map(&:to_hash), price_2_tiers.map(&:to_hash)).diff
+        log.info 'tiers are not equal', diff: HashDiff::Comparison.new(price_1_tiers.map(&:to_hash), price_2_tiers.map(&:to_hash)).diff
         false
       else
         true

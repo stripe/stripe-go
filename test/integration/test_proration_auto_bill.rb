@@ -15,10 +15,13 @@ class Critic::ProrationAutoBillTranslation < Critic::FunctionalTest
     wait_until do
       events = Stripe::Event.list({
         object_id: invoice_item_id,
+        type: 'invoiceitem.created',
       }, @user.stripe_credentials)
 
       events.count >= 1
     end
+
+    assert_equal(1, events.count, "more than one event when we expected one")
 
     events.first
   end
@@ -138,7 +141,6 @@ class Critic::ProrationAutoBillTranslation < Critic::FunctionalTest
         customer: subscription.customer,
         subscription: subscription.id,
       }, @user.stripe_credentials)
-
 
       invoice = StripeForce::ProrationAutoBill.create_invoice_from_invoice_item_event(@user, invoice_event)
 
