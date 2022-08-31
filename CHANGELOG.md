@@ -1,5 +1,9 @@
 # Changelog
 
+## 73.6.0 - 2022-08-31
+* [#1541](https://github.com/stripe/stripe-go/pull/1541) API Updates
+  * Add support for `Description` on `PaymentLinkSubscriptionDataParams` and `PaymentLinkSubscriptionData`
+
 ## 73.5.0 - 2022-08-26
 * [#1537](https://github.com/stripe/stripe-go/pull/1537) API Updates
   * Add support for `LoginPage` on `BillingPortalConfigurationParams` and `BillingPortalConfiguration`
