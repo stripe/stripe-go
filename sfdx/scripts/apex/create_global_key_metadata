@@ -1,0 +1,40 @@
+// Description: Adds global key metadata so you don't have to.
+//              Never run in production accounts. ONly for scratch accounts.
+// Usage: sed "s|____GLOBAL_KEY____|$SF_MANAGED_PACKAGE_API_KEY|" scripts/apex/create_global_key_metadata | sfdx force:apex:execute
+
+public class MetadataInsertUpdate implements Metadata.DeployCallback {
+  public void handleResult(Metadata.DeployResult result, Metadata.DeployCallbackContext context) {
+    if (result.status == Metadata.DeployStatus.Succeeded) {
+      System.debug('success');
+    } else {
+      System.debug('fail:');
+    }
+  }
+}
+
+public static void handleInsertAndUpdate(String fullName, String label, Map<String, Object> fieldWithValuesMap) {
+  Metadata.CustomMetadata customMetadata = new Metadata.CustomMetadata();
+  customMetadata.fullName = fullName;
+  customMetadata.label = label;
+  customMetadata.protected_x = false;
+
+  for (String key: fieldWithValuesMap.keySet()) {
+    Metadata.CustomMetadataValue customField = new Metadata.CustomMetadataValue();
+    customField.field = key;
+    customField.value = fieldWithValuesMap.get(key);
+    customMetadata.values.add(customField);
+  }
+
+  Metadata.DeployContainer mdContainer = new Metadata.DeployContainer();
+  mdContainer.addMetadata(customMetadata);
+
+  metadataInsertUpdate callback = new metadataInsertUpdate();
+  Id jobId = Metadata.Operations.enqueueDeployment(mdContainer, callback);
+  System.debug('job enqueued: ' + jobId);
+}
+
+// https://github.com/jstvz/Cumulus/blob/a2ac2ddeb50164e81360219aa73a7853ecee36fd/src/classes/CMT_MetadataAPI.cls#L51
+// https://www.theblueflamelabs.com/how-to-insert-update-custom-metadata-from-apex-class/
+Map<String, Object> mapTestData = new Map<String, Object>();
+mapTestData.put('Global_Key__c', '____GLOBAL_KEY____');
+metadataInsertUpdate.handleInsertAndUpdate('Setup_Connection_Data__mdt.Default', 'Default', mapTestData);
