@@ -219,6 +219,8 @@ type PaymentLinkShippingOptionParams struct {
 
 // When creating a subscription, the specified configuration data will be used. There must be at least one line item with a recurring price to use `subscription_data`.
 type PaymentLinkSubscriptionDataParams struct {
+	// The subscription's description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription.
+	Description *string `form:"description"`
 	// Integer representing the number of trial period days before the customer is charged for the first time. Has to be at least 1.
 	TrialPeriodDays *int64 `form:"trial_period_days"`
 }
@@ -353,6 +355,8 @@ type PaymentLinkShippingOption struct {
 
 // When creating a subscription, the specified configuration data will be used. There must be at least one line item with a recurring price to use `subscription_data`.
 type PaymentLinkSubscriptionData struct {
+	// The subscription's description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription.
+	Description string `json:"description"`
 	// Integer representing the number of trial period days before the customer is charged for the first time.
 	TrialPeriodDays int64 `json:"trial_period_days"`
 }

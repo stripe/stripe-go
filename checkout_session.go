@@ -677,7 +677,7 @@ type CheckoutSessionLineItemPriceDataParams struct {
 //
 // For `payment` mode, there is a maximum of 100 line items, however it is recommended to consolidate line items if there are more than a few dozen.
 //
-// For `subscription` mode, there is a maximum of 20 line items with recurring Prices and 20 line items with one-time Prices. Line items with one-time Prices in will be on the initial invoice only.
+// For `subscription` mode, there is a maximum of 20 line items with recurring Prices and 20 line items with one-time Prices. Line items with one-time Prices will be on the initial invoice only.
 type CheckoutSessionLineItemParams struct {
 	// When set, provides configuration for this item's quantity to be adjusted by the customer during Checkout.
 	AdjustableQuantity *CheckoutSessionLineItemAdjustableQuantityParams `form:"adjustable_quantity"`
@@ -953,7 +953,7 @@ type CheckoutSessionPaymentMethodOptionsEPSParams struct {
 	SetupFutureUsage *string `form:"setup_future_usage"`
 }
 
-// contains details about the EPS payment method options.
+// contains details about the FPX payment method options.
 type CheckoutSessionPaymentMethodOptionsFPXParams struct {
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
@@ -1129,7 +1129,7 @@ type CheckoutSessionPaymentMethodOptionsParams struct {
 	CustomerBalance *CheckoutSessionPaymentMethodOptionsCustomerBalanceParams `form:"customer_balance"`
 	// contains details about the EPS payment method options.
 	EPS *CheckoutSessionPaymentMethodOptionsEPSParams `form:"eps"`
-	// contains details about the EPS payment method options.
+	// contains details about the FPX payment method options.
 	FPX *CheckoutSessionPaymentMethodOptionsFPXParams `form:"fpx"`
 	// contains details about the Giropay payment method options.
 	Giropay *CheckoutSessionPaymentMethodOptionsGiropayParams `form:"giropay"`
@@ -1366,7 +1366,7 @@ type CheckoutSessionParams struct {
 	//
 	// For `payment` mode, there is a maximum of 100 line items, however it is recommended to consolidate line items if there are more than a few dozen.
 	//
-	// For `subscription` mode, there is a maximum of 20 line items with recurring Prices and 20 line items with one-time Prices. Line items with one-time Prices in will be on the initial invoice only.
+	// For `subscription` mode, there is a maximum of 20 line items with recurring Prices and 20 line items with one-time Prices. Line items with one-time Prices will be on the initial invoice only.
 	LineItems []*CheckoutSessionLineItemParams `form:"line_items"`
 	// The IETF language tag of the locale Checkout is displayed in. If blank or `auto`, the browser's locale is used.
 	Locale *string `form:"locale"`
