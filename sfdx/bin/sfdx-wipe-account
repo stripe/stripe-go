@@ -1,4 +1,6 @@
 #!/bin/bash
+# Description: Rerun the delete script to wipe all records on the account. You have to manually stop it.
+# Usage: sfdx/bin/sfdx-wipe-account mbianco+standardcpq@stripe.com
 
 set -e -o pipefail
 
@@ -19,6 +21,7 @@ fi
 
 echo "Using alias $salesforceAlias"
 
+# TODO detect when `RECORDS DELETED: 0`
 while sleep 1; do
   echo -e "\n\n=== Deleting Apex Data ===\n\n\n"
   sfdx force:apex:execute \

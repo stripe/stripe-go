@@ -17,7 +17,7 @@ if !username
 end
 
 if !user && username
-  puts "Username specified, assuming cpq alias"
+  puts "Username specified but no account ID found, assuming sfdx alias"
 elsif !user && !username
   puts "No local user found, finding default username"
   username = `cd sfdx && sfdx config:get defaultusername --json | jq -r '.result[0].value'`.strip

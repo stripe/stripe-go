@@ -467,7 +467,7 @@ public with sharing class test_setupAssistant {
 
     public static Setup_Connection_Data__mdt getTestStripeConnectionKey() {
         Setup_Connection_Data__mdt testSetupData = new Setup_Connection_Data__mdt();
-        Map<String,Object> fields =  (Map<String,Object>) JSON.deserializeUntyped(JSON.serializePretty(testSetupData));
+        Map<String,Object> fields = (Map<String,Object>) JSON.deserializeUntyped(JSON.serializePretty(testSetupData));
 
         fields.put(Setup_Connection_Data__mdt.Label.getDescribe().getName(), 'Default');
         fields.put(Setup_Connection_Data__mdt.DeveloperName.getDescribe().getName(), 'Default');
@@ -478,8 +478,11 @@ public with sharing class test_setupAssistant {
     }
 
     public static void setTestGlobalKey(Setup_Connection_Data__mdt testSetupData) {
-        List<Setup_Connection_Data__mdt> setupConfigList = [SELECT Global_Key__c
-                                                            FROM Setup_Connection_Data__mdt];
+        List<Setup_Connection_Data__mdt> setupConfigList = [
+            SELECT Global_Key__c
+            FROM Setup_Connection_Data__mdt
+        ];
+
         if(!setupConfigList.isEmpty()) {
             utilities.setupConfigMetadata[0] = testSetupData;
             setupAssistant.setupConfigMetadata[0] = testSetupData;

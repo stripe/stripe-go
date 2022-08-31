@@ -50,7 +50,7 @@ module Integrations
       # https://jira.corp.stripe.com/browse/REPROD-60
       exception.set_backtrace(caller)
 
-      Sentry.capture_exception(exception, sentry_options)
+      Sentry.capture_exception(exception, **sentry_options)
     end
 
     # TODO add an `append: ` option to avoid wiping out existing context

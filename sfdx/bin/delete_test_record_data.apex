@@ -6,8 +6,8 @@
 // https://help.salesforce.com/s/articleView?id=000358234&type=1
 // https://appiphony15-dev-ed.lightning.force.com/lightning/setup/CompanyResourceDisk/home
 
-// max that can be used with deleteImmediately
-public static FINAL Integer batchSize = 500;
+// this number is chosen by incrementally understanding which value causes weird timeout issues
+public static FINAL Integer batchSize = 250;
 
 public static Boolean closeToLimits() {
     if(Limits.getLimitCpuTime() - Limits.getCpuTime() < 1000) {
@@ -32,16 +32,17 @@ public static Boolean closeToLimits() {
     return False;
 }
 
-public static void deleteData(String ObjectApiName) {
+public static Integer deleteData(String ObjectApiName) {
     if(closeToLimits()) {
-        return;
+        return 1;
     }
 
-    try {
-        System.debug('ObjectApiName: ' + ObjectApiName);
+    System.debug('ObjectApiName: ' + ObjectApiName);
 
+    try {
         // magic constants can't be used in a `from` clause
         String query = 'SELECT Id FROM ' + ObjectApiName +
+                       ' WHERE Id NOT IN (\'01u5f00000457LTAAY\', \'0Mo5f000000dL0gCAE\')' +
                         ' WITH SECURITY_ENFORCED' +
                        ' LIMIT ' + batchSize;
 
@@ -51,6 +52,9 @@ public static void deleteData(String ObjectApiName) {
         if(!ListOfRecordsToDelete.isEmpty()) {
             System.debug('deleting records');
 
+            // SBQQ__QuoteLine__c sets off a bunch of CPQ apex triggers and it's easy for it to fail at this point
+            // if it does, you need to disable apex triggers for CPQ
+
             // `false` second params ensure that if there are some errors, we don't fail completely
             // there will always be some errors due to weird data issues in SF
             delete listOfRecordsToDelete;
@@ -58,10 +62,13 @@ public static void deleteData(String ObjectApiName) {
             // this check allows for some number of corrupt records to stick around
             // without causing issues with this script.
             if(ListOfRecordsToDelete.size() == batchSize) {
-                deleteData(ObjectApiName);
+                return listOfRecordsToDelete.size() + deleteData(ObjectApiName);
+            } else {
+                return listOfRecordsToDelete.size();
             }
         } else {
             System.debug('deleted all records');
+            return 0;
         }
     } catch (QueryException queryExcept) {
         // CPQ object does not exist
@@ -72,6 +79,9 @@ public static void deleteData(String ObjectApiName) {
         System.debug('general exception:');
         System.debug(string.valueOf(excep.getLineNumber()) + excep.getMessage());
     }
+
+    // indicate there are still records left
+    return 1;
 }
 
 public static void deactivateOrderLines() {
@@ -252,6 +262,11 @@ List<String> listOfObjectRecordsToDelete = new List<String> {
     'Product2'
 };
 
+Integer recordsDeleted = 0;
+
 for (String objectApiName : listOfObjectRecordsToDelete) {
-    deleteData(objectApiName);
+    recordsDeleted += deleteData(objectApiName);
 }
+
+// to notify upstream caller to check if 0 were deleted
+System.debug('RECORDS DELETED: ' + recordsDeleted);
