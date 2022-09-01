@@ -97,13 +97,13 @@ class StripeForce::Translate
       end
 
       # indicate that this price was created as a duplicate for avoid Stripe API errors
-      stripe_price.metadata[StripeForce::Utilities::Metadata.metadata_key(user, MetadataKeys::DUPLICATE_PRICE)] = true
+      stripe_price.metadata[Metadata.metadata_key(user, MetadataKeys::DUPLICATE_PRICE)] = true
 
       # indicates that this price will be auto-archived after created
-      stripe_price.metadata[StripeForce::Utilities::Metadata.metadata_key(user, MetadataKeys::AUTO_ARCHIVE_PRICE)] = true
+      stripe_price.metadata[Metadata.metadata_key(user, MetadataKeys::AUTO_ARCHIVE_PRICE)] = true
 
       # links this price to the original price which this was generated from
-      stripe_price.metadata[StripeForce::Utilities::Metadata.metadata_key(user, MetadataKeys::ORIGINAL_PRICE_ID)] = original_stripe_price.id
+      stripe_price.metadata[Metadata.metadata_key(user, MetadataKeys::ORIGINAL_PRICE_ID)] = original_stripe_price.id
 
       if block_given?
         yield(stripe_price)

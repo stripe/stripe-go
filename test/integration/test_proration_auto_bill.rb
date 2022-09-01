@@ -42,7 +42,7 @@ class Critic::ProrationAutoBillTranslation < Critic::FunctionalTest
         end: Time.now.to_i + 1.day.to_i,
       },
       metadata: {
-        StripeForce::Utilities::Metadata.metadata_key(@user, MetadataKeys::PRORATION) => "true",
+        StripeForce::Translate::Metadata.metadata_key(@user, MetadataKeys::PRORATION) => "true",
       },
     }, @user.stripe_credentials)
 
@@ -56,7 +56,7 @@ class Critic::ProrationAutoBillTranslation < Critic::FunctionalTest
 
     invoice = T.must(invoice)
     assert_equal(1, invoice.lines.count)
-    assert_equal("true", invoice.metadata[StripeForce::Utilities::Metadata.metadata_key(@user, MetadataKeys::PRORATION_INVOICE)])
+    assert_equal("true", invoice.metadata[StripeForce::Translate::Metadata.metadata_key(@user, MetadataKeys::PRORATION_INVOICE)])
   end
 
   describe 'skip conditions' do
@@ -125,7 +125,7 @@ class Critic::ProrationAutoBillTranslation < Critic::FunctionalTest
           end: Time.now.to_i + 1.day.to_i,
         },
         metadata: {
-          StripeForce::Utilities::Metadata.metadata_key(@user, MetadataKeys::PRORATION) => "true",
+          StripeForce::Translate::Metadata.metadata_key(@user, MetadataKeys::PRORATION) => "true",
         },
       }, @user.stripe_credentials)
 

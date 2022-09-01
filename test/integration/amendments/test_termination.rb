@@ -268,7 +268,7 @@ class Critic::OrderAmendmentTermination < Critic::OrderAmendmentFunctionalTest
     subscription_schedule = Stripe::SubscriptionSchedule.retrieve({id: stripe_id, expand: %w{phases.items.price}}, @user.stripe_credentials)
 
     assert_equal(3, subscription_schedule.phases.count)
-    # test end date
+    # TODO test end date
 
     active_price = T.cast(subscription_schedule.phases.first&.items&.first&.price, Stripe::Price)
     assert(active_price.active)
@@ -277,6 +277,7 @@ class Critic::OrderAmendmentTermination < Critic::OrderAmendmentFunctionalTest
     all_items = StripeForce::Translate::OrderHelpers.extract_all_items_from_subscription_schedule(subscription_schedule).map(&:price)
     all_items = T.cast(all_items, T::Array[Stripe::Price])
 
+    # all prices should be archived, if they aren't something is going wrong
     assert(all_items.reject {|p| p.id == active_price.id }.none?(&:active))
   end
 end

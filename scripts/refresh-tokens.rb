@@ -62,7 +62,7 @@ else
   EOL
 end
 
-puts "# http https://#{instance_domain}.my.salesforce.com 'Authorization: OAuth #{access_token}'"
+puts "# http https://#{instance_domain}.my.salesforce.com/services/data/v54.0/sobjects/Order/describe/ 'Authorization: OAuth #{access_token}'"
 puts shell_vars
 
 if Rails.env.development?

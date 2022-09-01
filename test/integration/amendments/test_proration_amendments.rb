@@ -109,7 +109,7 @@ class Critic::ProratedAmendmentTranslation < Critic::OrderAmendmentFunctionalTes
     # check additional fields added to the proration invoice item
     assert_equal("phase_end", prorated_item.period.end.type)
     assert_equal("phase_start", prorated_item.period.start.type)
-    assert_equal("true", prorated_item.metadata[StripeForce::Utilities::Metadata.metadata_key(@user, MetadataKeys::PRORATION)])
+    assert_equal("true", prorated_item.metadata[StripeForce::Translate::Metadata.metadata_key(@user, MetadataKeys::PRORATION)])
     assert_equal(second_phase_item_additive.metadata['salesforce_order_item_id'], prorated_item.metadata['salesforce_order_item_id'])
 
     assert_equal('one_time', prorated_price.type)
@@ -156,7 +156,7 @@ class Critic::ProratedAmendmentTranslation < Critic::OrderAmendmentFunctionalTes
     invoice_line = invoice.lines.first
     assert_equal(2, invoice_line.quantity)
     assert_equal(60_00 * 2, invoice.total)
-    assert_equal("true", invoice.metadata[StripeForce::Utilities::Metadata.metadata_key(@user, MetadataKeys::PRORATION_INVOICE)])
+    assert_equal("true", invoice.metadata[StripeForce::Translate::Metadata.metadata_key(@user, MetadataKeys::PRORATION_INVOICE)])
   end
 
   # NOTE this was the first test written and has more extensive edge cases than other amendment tests
@@ -200,6 +200,8 @@ class Critic::ProratedAmendmentTranslation < Critic::OrderAmendmentFunctionalTes
 
     # api preconditions: no end date calculated on orders, end date IS calculated on the contract
     assert_nil(sf_order_amendment["EndDate"])
+    # NOTE is seems like the start and end date of the contract are NOT tied to the start date of the
+    assert_equal(format_date_for_salesforce(initial_start_date), sf_order_amendment_contract['StartDate'])
     # TODO understand why the contract end date is one day before Stripe, pretty certain this is due to differences in what "end" really is
     assert_equal(format_date_for_salesforce(amendment_end_date - 1.day), sf_order_amendment_contract['EndDate'])
 
@@ -273,7 +275,7 @@ class Critic::ProratedAmendmentTranslation < Critic::OrderAmendmentFunctionalTes
     # check additional fields added to the proration invoice item
     assert_equal("phase_end", prorated_item.period.end.type)
     assert_equal("phase_start", prorated_item.period.start.type)
-    assert_equal("true", prorated_item.metadata[StripeForce::Utilities::Metadata.metadata_key(@user, MetadataKeys::PRORATION)])
+    assert_equal("true", prorated_item.metadata[StripeForce::Translate::Metadata.metadata_key(@user, MetadataKeys::PRORATION)])
     assert_equal(second_phase_item_additive.metadata['salesforce_order_item_id'], prorated_item.metadata['salesforce_order_item_id'])
 
     assert_equal('one_time', prorated_price.type)

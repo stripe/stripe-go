@@ -37,12 +37,12 @@ class StripeForce::Translate
       #      a billing cycle that needs to be billed for, but let's deal with that later...
       prorated_subscription_term = subscription_term % billing_frequency
       proration_percentage = BigDecimal(prorated_subscription_term) / BigDecimal(billing_frequency)
-      stripe_price = phase_item.price(@user)
+      stripe_price = phase_item.price(user)
       unit_amount_decimal = BigDecimal(stripe_price.unit_amount_decimal)
       prorated_billing_amount = unit_amount_decimal * proration_percentage
 
       proration_price = OrderHelpers.duplicate_stripe_price(user, stripe_price) do |duplicated_stripe_price|
-        duplicated_stripe_price.metadata[StripeForce::Utilities::Metadata.metadata_key(user, MetadataKeys::PRORATION)] = true
+        duplicated_stripe_price.metadata[StripeForce::Translate::Metadata.metadata_key(user, MetadataKeys::PRORATION)] = true
 
         # since we are explicitly doing pricing math here, we should define the max
         duplicated_stripe_price.unit_amount_decimal = prorated_billing_amount.round(MAX_STRIPE_PRICE_PRECISION).to_s("F")
@@ -61,6 +61,85 @@ class StripeForce::Translate
       proration_price
     end
 
+    sig do
+      params(
+        user: StripeForce::User,
+        sf_order_amendment: Restforce::SObject,
+        phase_items: T::Array[ContractItemStructure],
+        subscription_term: Integer,
+        billing_frequency: Integer
+      ).returns(T::Array[T::Hash[Symbol, T.untyped]])
+    end
+    def self.generate_proration_items_from_phase_items(user:, sf_order_amendment:, phase_items:, subscription_term:, billing_frequency:)
+      invoice_items_for_prorations = []
+
+      phase_items.each do |phase_item|
+        # TODO I don't like passing the user here, maybe pass in the user with the contract item? Going to see how ugly this feels...
+        if PriceHelpers.metered_price?(phase_item.price(user))
+          log.info 'metered price, not prorating',
+            prorated_order_item_id: phase_item.order_line_id,
+            price_id: phase_item.price
+          next
+        end
+
+        if PriceHelpers.tiered_price?(phase_item.price)
+          log.info 'tiered price, not prorating',
+            prorated_order_item_id: phase_item.order_line_id,
+            price_id: phase_item.price
+          next
+        end
+
+        if !PriceHelpers.recurring_price?(phase_item.price)
+          log.info 'one time price, not prorating',
+            prorated_order_item_id: phase_item.order_line_id,
+            price_id: phase_item.price
+          next
+        end
+
+        # we only want to prorate the items that are unique to this order
+        if !phase_item.from_order?(sf_order_amendment)
+          log.info 'line item not originated from this amendment, not prorating',
+            prorated_order_item_id: phase_item.order_line_id,
+            price_id: phase_item.price.id
+          next
+        end
+
+        log.info 'prorating order item', prorated_order_item_id: phase_item.order_line_id
+
+        proration_price = OrderAmendment.create_prorated_price_from_phase_item(
+          user: user,
+          phase_item: phase_item,
+
+          # TODO is there a better way to source these variables? They are required in a couple
+          subscription_term: subscription_term,
+          billing_frequency: billing_frequency
+        )
+
+        proration_stripe_item = Stripe::SubscriptionItem.construct_from({
+          metadata: Metadata.stripe_metadata_for_sf_object(user, phase_item.order_line).merge(
+            Metadata.metadata_key(user, MetadataKeys::PRORATION) => true
+          ),
+        })
+
+        StripeForce::Mapper.apply_mapping(user, proration_stripe_item, phase_item.order_line)
+
+        invoice_items_for_prorations << proration_stripe_item.to_hash.merge({
+          quantity: phase_item.quantity,
+          price: proration_price.id,
+          period: {
+            end: {
+              type: 'phase_end',
+            },
+            start: {
+              type: 'phase_start',
+            },
+          },
+        })
+      end
+
+      invoice_items_for_prorations
+    end
+
     sig { params(user: StripeForce::User, aggregate_phase_items: T::Array[ContractItemStructure]).returns(Integer) }
     def self.calculate_billing_frequency_from_phase_items(user, aggregate_phase_items)
       # TODO maybe we add this stuff to the contract stucture? Feels weird to calculate it way down here
@@ -76,6 +155,7 @@ class StripeForce::Translate
     def self.calculate_billing_cycle_dates(user, original_subscription_schedule, billing_frequency)
       subscription_id = T.cast(original_subscription_schedule.subscription, String)
 
+      # TODO hide these API errors
       upcoming_invoice = Stripe::Invoice.upcoming({
         subscription: subscription_id,
       }, user.stripe_credentials)

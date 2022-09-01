@@ -115,7 +115,7 @@ class StripeForce::Translate
     end
 
     stripe_price.product = stripe_product.id
-    stripe_price.metadata = (stripe_price['metadata'].to_h || {}).merge(stripe_metadata_for_sf_object(sf_object))
+    stripe_price.metadata = (stripe_price['metadata'].to_h || {}).merge(Metadata.stripe_metadata_for_sf_object(@user, sf_object))
 
     # considered mapping SF pricebook ID to `lookup_key` but it's not *exactly* an external id and more presents a identifier
     # for an externall-used price so the "latest price" for a specific price-type can be used, probably in a website form or something
@@ -187,7 +187,7 @@ class StripeForce::Translate
       "billing_scheme" => "tiered",
 
       # for convenience, add a link to the consumption schedule in metadata
-      "metadata" => stripe_metadata_for_sf_object(consumption_schedule),
+      "metadata" => Metadata.stripe_metadata_for_sf_object(@user, consumption_schedule),
     }
   end
 
@@ -294,7 +294,7 @@ class StripeForce::Translate
       "billing_scheme" => "tiered",
 
       # for convenience, add a link to the consumption schedule in metadata
-      "metadata" => stripe_metadata_for_sf_object(consumption_schedule),
+      "metadata" => Metadata.stripe_metadata_for_sf_object(@user, consumption_schedule),
     }
   end
 
@@ -343,7 +343,7 @@ class StripeForce::Translate
 
       # indicate that this price was created as a duplicate for avoid Stripe API errors
       stripe_price[:metadata] ||= {}
-      stripe_price[:metadata][StripeForce::Utilities::Metadata.metadata_key(@user, "auto_archive")] = true
+      stripe_price[:metadata][Metadata.metadata_key(@user, "auto_archive")] = true
     end
 
     # although we are passing the amount as a decimal, the decimal amount still represents cents

@@ -2,7 +2,7 @@
 # typed: true
 
 require_relative '../constants'
-require_relative './utilities/metadata'
+require_relative './metadata'
 require_relative './utilities/stripe_util'
 require_relative './utilities/salesforce_util'
 
@@ -17,7 +17,6 @@ class StripeForce::Translate
   include Integrations::Utilities::StripeUtil
 
   include StripeForce::Constants
-  include StripeForce::Utilities::Metadata
   include StripeForce::Utilities::StripeUtil
   include StripeForce::Utilities::SalesforceUtil
 
@@ -311,7 +310,7 @@ class StripeForce::Translate
     # the fields in the resulting hash could be dot-paths, so let's assign them using the mapper
     mapper.assign_values_from_hash(stripe_object, stripe_fields)
 
-    stripe_object.metadata = stripe_metadata_for_sf_object(sf_object)
+    stripe_object.metadata = Metadata.stripe_metadata_for_sf_object(@user, sf_object)
 
     apply_mapping(stripe_object, sf_object)
 
@@ -351,7 +350,7 @@ class StripeForce::Translate
       )
 
       # if this ID was provided to us by the user, the metadata does not exist in Stripe
-      stripe_record_metadata = stripe_metadata_for_sf_object(sf_object)
+      stripe_record_metadata = Metadata.stripe_metadata_for_sf_object(@user, sf_object)
 
       # `to_h` on the StripeObject symbolizes all of the keys
       # <= is a special `includes` operator https://stackoverflow.com/questions/7584801/how-to-check-if-an-hash-is-completely-included-in-another-hash

@@ -14,6 +14,19 @@ module StripeForce
 
     attr_reader :user
 
+    sig do
+      params(
+        user: StripeForce::User,
+        record_to_map: Stripe::APIResource,
+        source_record: Restforce::SObject,
+        compound_key: T::Boolean
+      ).void
+    end
+    def self.apply_mapping(user, record_to_map, source_record, compound_key: false)
+      StripeForce::Mapper.new(user)
+        .apply_mapping(record_to_map, source_record, compound_key: compound_key)
+    end
+
     sig { params(stripe_record: T.any(Stripe::APIResource, Class), sf_record: T.nilable(Restforce::SObject)).returns(String) }
     def self.mapping_key_for_record(stripe_record, sf_record)
       stripe_record_class = if stripe_record.is_a?(Class) && stripe_record < Stripe::APIResource
@@ -29,7 +42,8 @@ module StripeForce
       compound_key = stripe_record_class == Stripe::Price && sf_record&.sobject_type == SF_ORDER_ITEM
 
       if compound_key
-        stripe_record_key + "_" + Utilities::Metadata.sf_object_metadata_name(sf_record)
+        sf_record = T.must(sf_record)
+        stripe_record_key + "_" + Translate::Metadata.sf_object_metadata_name(sf_record)
       else
         stripe_record_key
       end

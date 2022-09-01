@@ -117,8 +117,7 @@ class StripeForce::Translate
       add_invoice_items: invoice_items.map(&:stripe_params),
       items: subscription_items.map(&:stripe_params),
       iterations: phase_iterations,
-
-      metadata: stripe_metadata_for_sf_object(sf_order),
+      metadata: Metadata.stripe_metadata_for_sf_object(@user, sf_order),
     }
 
     # TODO this needs to be gated and synced with the specific flag that CF is using
@@ -129,6 +128,12 @@ class StripeForce::Translate
       # billing achor is disconnected from the start date of the invoice
       initial_phase[:proration_behavior] = 'none'
     end
+
+    # TODO backend order prorations!
+    # is order prorated? we'll need a separate helper for this
+    # if so, iterate through phase items items and generate proration items
+    # create a new phase to store these items, this will be custom for the initial order
+    # pull this out into a separate method so we can use it on the amendment side of things for amendments
 
     # TODO add mapping support against the subscription schedule phase
 
@@ -142,7 +147,7 @@ class StripeForce::Translate
       # initial order will only ever contain a single phase
       phases: [initial_phase],
 
-      metadata: stripe_metadata_for_sf_object(sf_order),
+      metadata: Metadata.stripe_metadata_for_sf_object(@user, sf_order),
     })
 
     mapper.assign_values_from_hash(stripe_transaction, subscription_params)
@@ -262,7 +267,7 @@ class StripeForce::Translate
 
     # TODO should break this out into a separate method and wrap in `catch_errors_with_salesforce_context`
     contract_structure.amendments.each_with_index do |sf_order_amendment, index|
-      log.info 'processing amendment', salesforce_object: sf_order_amendment, index: index
+      log.info 'processing amendment', sf_amendment_id: sf_order_amendment.Id, index: index
 
       invoice_items_in_order, aggregate_phase_items = build_phase_items_from_order_amendment(aggregate_phase_items, sf_order_amendment)
       is_order_terminated = aggregate_phase_items.all?(&:fully_terminated?)
@@ -310,8 +315,6 @@ class StripeForce::Translate
       # this means all price data has been mapped and converted into Stripe line items
       # and we can calculate the finalized billing cycle of the order amendment
 
-      invoice_items_for_prorations = []
-
       if !is_order_terminated
         billing_frequency = OrderAmendment.calculate_billing_frequency_from_phase_items(@user, aggregate_phase_items)
 
@@ -329,68 +332,16 @@ class StripeForce::Translate
         )
       end
 
+      invoice_items_for_prorations = []
+
       if !is_order_terminated && is_prorated
-        # TODO extract this out into another helper
-        aggregate_phase_items.each do |phase_item|
-          # TODO I don't like passing the user here, maybe pass in the user with the contract item? Going to see how ugly this feels...
-          if PriceHelpers.metered_price?(phase_item.price(@user))
-            log.info 'metered price, not prorating',
-              prorated_order_item_id: phase_item.order_line_id,
-              price_id: phase_item.price
-            next
-          end
-
-          if PriceHelpers.tiered_price?(phase_item.price)
-            log.info 'tiered price, not prorating',
-              prorated_order_item_id: phase_item.order_line_id,
-              price_id: phase_item.price
-            next
-          end
-
-          if !PriceHelpers.recurring_price?(phase_item.price)
-            log.info 'one time price, not prorating',
-              prorated_order_item_id: phase_item.order_line_id,
-              price_id: phase_item.price
-            next
-          end
-
-          # we only want to prorate the items that are unique to this order
-          if !phase_item.from_order?(sf_order_amendment)
-            log.info 'line item not originated from this amendment, not prorating',
-              prorated_order_item_id: phase_item.order_line_id,
-              price_id: phase_item.price.id
-            next
-          end
-
-          log.info 'prorating order item', prorated_order_item_id: phase_item.order_line_id
-
-          proration_price = OrderAmendment.create_prorated_price_from_phase_item(
-            user: @user,
-            phase_item: phase_item,
-            subscription_term: subscription_term_from_sales_force,
-            billing_frequency: billing_frequency
-          )
-
-          proration_stripe_item = Stripe::SubscriptionItem.construct_from({
-            metadata: stripe_metadata_for_sf_object(phase_item.order_line).merge(
-              StripeForce::Utilities::Metadata.metadata_key(@user, MetadataKeys::PRORATION) => true
-            ),
-          })
-          apply_mapping(proration_stripe_item, phase_item.order_line)
-
-          invoice_items_for_prorations << proration_stripe_item.to_hash.merge({
-            quantity: phase_item.quantity,
-            price: proration_price.id,
-            period: {
-              end: {
-                type: 'phase_end',
-              },
-              start: {
-                type: 'phase_start',
-              },
-            },
-          })
-        end
+        invoice_items_for_prorations = OrderAmendment.generate_proration_items_from_phase_items(
+          user: @user,
+          sf_order_amendment: sf_order_amendment,
+          phase_items: aggregate_phase_items,
+          subscription_term: subscription_term_from_sales_force,
+          billing_frequency: billing_frequency
+        )
       end
 
       new_phase = Stripe::StripeObject.construct_from({
@@ -402,7 +353,7 @@ class StripeForce::Translate
         # TODO should be moved to global defaults
         proration_behavior: 'none',
 
-        metadata: stripe_metadata_for_sf_object(sf_order_amendment),
+        metadata: Metadata.stripe_metadata_for_sf_object(@user, sf_order_amendment),
       }.merge(phase_params))
 
       previous_phase = T.must(subscription_phases[index])
@@ -575,7 +526,7 @@ class StripeForce::Translate
         !sf_order_item[prefixed_stripe_field(ORDER_LINE_SKIP)]
 
       if !should_keep
-        log.info 'order line marked as skipped'
+        log.info 'order line marked as skipped', sf_order_line_id: sf_order_item.Id
       end
 
       should_keep
@@ -602,7 +553,7 @@ class StripeForce::Translate
       # I wonder if they will eventually converge in the public Stripe API over time?
       phase_item = Stripe::SubscriptionItem.construct_from({
         price: price.id,
-        metadata: stripe_metadata_for_sf_object(sf_order_item),
+        metadata: Metadata.stripe_metadata_for_sf_object(@user, sf_order_item),
       })
 
       phase_item_params = extract_salesforce_params!(sf_order_item, Stripe::SubscriptionItem)
@@ -625,7 +576,7 @@ class StripeForce::Translate
         phase_item.to_hash,
       )
 
-      # quantity cannot be specified if usage type is metered
+      # quantity cannot be specified if usage type is metered, we have to delete the quantity param before sending to Stripe
       if PriceHelpers.metered_price?(price)
         # allowing > 1 quantities may cause issues with terminations and generally indicates a data issue on the customers end
         if phase_item_struct.quantity > 1

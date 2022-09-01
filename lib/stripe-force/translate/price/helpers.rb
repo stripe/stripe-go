@@ -23,7 +23,7 @@ class StripeForce::Translate
       prices_on_subscription = T.cast(prices_on_subscription, T::Array[Stripe::Price])
 
       prices_on_subscription.select(&:active).each do |active_price|
-        if active_price.metadata[StripeForce::Utilities::Metadata.metadata_key(user, "auto_archive")]
+        if active_price.metadata[Metadata.metadata_key(user, "auto_archive")]
           log.info 'archiving price', archive_price_id: active_price.id
           active_price.active = false
           # TODO idempotency_key, needs class method

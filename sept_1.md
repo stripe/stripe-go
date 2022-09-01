@@ -18,24 +18,32 @@
 ### Prorated Order Amendments
 
 - [x] extract out one-time invoicing into separate method
-- [ ] Refactor to pull out order amendment helpers into separate module
 - [x] Helper to detect if order is prorated
   - If there are all new line items on the order, then it doesn't matter
   - If the order start date does NOT align with the next billing date, then it's definitely prorated
   - If the order start date does align, does the subscription term align with the billing cycle
 - [x] Will CF always have co-termed amendments?
   - Yes, sounds like this may be a CPQ thing
-  - [ ] enforce this in code
 - [x] Split unit price on line to get bill cycle amount
-- [ ] Use `end_date` vs iterations in initial phase and rip out associated logic
-- [ ] Improve custom price field detection to be more reliable
-- [ ] Think on "backend" prorations which is not something we thought about
-  - We can create two phases on the initial subscription
-  - Validate bug we encountered when prototyping
 - [x] Sync w/CF on custom price field and if it's needed
   - They need this and are set on using it
 - [x] Accept webhooks
 - [x] Test calculating normal billing cycle price when order line is prorated
-- [ ] Create invoice based on webhook
-- [ ] Test new API endpoints from billing
-- [ ] Test clock based tests to validate things are working properly
+- [x] Create invoice based on webhook
+- [x] Test new API endpoints from billing
+- [x] Test clock based tests to validate things are working properly
+
+### Backend Prorations
+
+- [ ] Validate bug we encountered when prototyping
+- [x] Refactor proration loop into helper that can be easily used
+- [ ] Create two phases on the initial subscription, second with empty items
+- [ ] Launch backend prorations w/o order amendment support
+- [ ] Then launch amendments on backend prorations
+
+### Cleanup
+
+- [ ] enforce coterming with sync errors
+- [ ] Use `end_date` vs iterations in initial phase and rip out associated logic
+- [ ] Improve custom price field detection to be more reliable
+- [ ] Refactor to pull out order amendment helpers into separate module

@@ -4,11 +4,8 @@
 # StripeUtil to avoid namespace madness with Stripe::* objects
 module StripeForce::Utilities
   module SalesforceUtil
-    extend T::Helpers
     extend T::Sig
     include Kernel
-
-    abstract!
 
     include Integrations::ErrorContext
     include StripeForce::Constants

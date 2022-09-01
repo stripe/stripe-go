@@ -26,7 +26,7 @@ module StripeForce
         return
       end
 
-      if invoice_item.metadata[StripeForce::Utilities::Metadata.metadata_key(user, MetadataKeys::PRORATION)] != "true"
+      if invoice_item.metadata[Translate::Metadata.metadata_key(user, MetadataKeys::PRORATION)] != "true"
         log.info 'does not contain proration metadata, skipping'
         return
       end
@@ -43,7 +43,7 @@ module StripeForce
         subscription: subscription_id,
         metadata: {
           # TODO should we link to the originating order? Can we extract that from the line item metadata when we have it?
-          StripeForce::Utilities::Metadata.metadata_key(user, MetadataKeys::PRORATION_INVOICE) => "true",
+          Translate::Metadata.metadata_key(user, MetadataKeys::PRORATION_INVOICE) => "true",
         },
       }, user.stripe_credentials)
 
