@@ -270,6 +270,9 @@ class StripeForce::Translate
       log.info 'processing amendment', sf_amendment_id: sf_order_amendment.Id, index: index
 
       invoice_items_in_order, aggregate_phase_items = build_phase_items_from_order_amendment(aggregate_phase_items, sf_order_amendment)
+
+      # TODO right here, we should filter which lines are terminations and calculate the customer credit
+
       is_order_terminated = aggregate_phase_items.all?(&:fully_terminated?)
 
       if is_order_terminated && contract_structure.amendments.size - 1 != index
@@ -344,10 +347,16 @@ class StripeForce::Translate
         )
       end
 
+      # for debugging
+      aggregate_phase_items.each do |phase_item|
+        log.info 'including item on order', order_line_id: phase_item.order_line_id
+      end
+
       new_phase = Stripe::StripeObject.construct_from({
         add_invoice_items: invoice_items_in_order.map(&:stripe_params) + invoice_items_for_prorations,
 
-        # this is important, otherwise multiple phase changes in a single job run will use the same aggregate phase items
+        # `deep_dup` this is important, otherwise multiple phase changes in a
+        # single job run will use the same aggregate phase items
         items: aggregate_phase_items.deep_dup.map(&:stripe_params),
 
         # TODO should be moved to global defaults
@@ -418,10 +427,11 @@ class StripeForce::Translate
     termination_lines, additive_lines = new_phase_items.partition(&:termination?)
 
     additive_lines.each do |new_subscription_item|
-      log.info 'adding new line item'
+      log.info 'adding new line item', order_line_id: new_subscription_item.order_line_id
       aggregate_phase_items << new_subscription_item
     end
 
+    # NOTE this terminates the lines, but does NOT remove them
     aggregate_phase_items = terminate_subscription_line_items(aggregate_phase_items, termination_lines)
     aggregate_phase_items
   end
@@ -436,6 +446,8 @@ class StripeForce::Translate
     aggregate_phase_items = original_aggregate_phase_items.dup
     revision_map = T.let({}, T::Hash[String, T::Array[ContractItemStructure]])
 
+    # line items that are "new" (i.e. not revising anything) are "origin" lines which future
+    # revisions should be mapped to
     aggregate_phase_items.select(&:new_order_line?).each do |origin_order_line|
       if revision_map[origin_order_line.order_line_id].present?
         raise Integrations::Errors::ImpossibleState.new("should never be more than a single revised order ID match")

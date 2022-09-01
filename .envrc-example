@@ -1,8 +1,5 @@
 #!/bin/bash
 
-# use `direnv` to automatically load this (and any other!) vars into your shell automatically
-export NO_SORBET_RUNTIME=true
-
 # helpful if you are running into weird state issues
 export DISABLE_SPRING=false
 

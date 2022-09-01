@@ -11,7 +11,8 @@ class StripeForce::Translate
 
     sig { params(subscription_schedule: Stripe::SubscriptionSchedule).returns(T::Array[T.any(Stripe::SubscriptionSchedulePhaseSubscriptionItem, Stripe::SubscriptionSchedulePhaseInvoiceItem)]) }
     def self.extract_all_items_from_subscription_schedule(subscription_schedule)
-      subscription_schedule.phases.map(&:items).flatten + subscription_schedule.phases.map(&:add_invoice_items).flatten
+      subscription_schedule.phases.map(&:items).flatten +
+        subscription_schedule.phases.map(&:add_invoice_items).flatten
     end
 
     # after lines have been adjusted with termination line, they should be removed
@@ -66,6 +67,8 @@ class StripeForce::Translate
       ).returns(Stripe::Price)
     end
     def self.duplicate_stripe_price(user, original_stripe_price, &block)
+      log.info 'duplicating price', stripe_price_id: original_stripe_price.id
+
       stripe_price_params = original_stripe_price.to_hash
       stripe_price_params.delete(:id)
 
@@ -109,7 +112,11 @@ class StripeForce::Translate
         yield(stripe_price)
       end
 
-      Stripe::Price.create(stripe_price.to_hash, user.stripe_credentials)
+      new_stripe_price = Stripe::Price.create(stripe_price.to_hash, user.stripe_credentials)
+      log.info 'duplicated price',
+        original_stripe_price: original_stripe_price.id,
+        new_stripe_price: new_stripe_price.id
+      new_stripe_price
     end
 
     # since the input and output is "fake" stripe subhash, typing here doesn't work

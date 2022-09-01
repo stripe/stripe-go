@@ -90,7 +90,7 @@ module StripeForce
         end
 
         if target_object.nil?
-          log.info 'field value is nil',
+          log.debug 'field value is nil',
             field_component: field_name,
             field_path: key_path,
             root_object: sf_object.sobject_type,
