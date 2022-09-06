@@ -1,5 +1,9 @@
 # Changelog
 
+## 73.7.0 - 2022-09-06
+* [#1542](https://github.com/stripe/stripe-go/pull/1542) API Updates
+  * Add support for new value `terminal_reader_splashscreen` on enum `FilePurpose`
+
 ## 73.6.0 - 2022-08-31
 * [#1541](https://github.com/stripe/stripe-go/pull/1541) API Updates
   * Add support for `Description` on `PaymentLinkSubscriptionDataParams` and `PaymentLinkSubscriptionData`
