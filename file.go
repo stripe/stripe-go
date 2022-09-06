@@ -35,6 +35,7 @@ const (
 	FilePurposeSelfie                           FilePurpose = "selfie"
 	FilePurposeSigmaScheduledQuery              FilePurpose = "sigma_scheduled_query"
 	FilePurposeTaxDocumentUserUpload            FilePurpose = "tax_document_user_upload"
+	FilePurposeTerminalReaderSplashscreen       FilePurpose = "terminal_reader_splashscreen"
 )
 
 // Returns a list of the files that your account has access to. The files are returned sorted by creation date, with the most recently created files appearing first.
