@@ -627,7 +627,7 @@ type CheckoutSessionDiscountParams struct {
 type CheckoutSessionLineItemAdjustableQuantityParams struct {
 	// Set to true if the quantity can be adjusted to any non-negative integer. By default customers will be able to remove the line item by setting the quantity to 0.
 	Enabled *bool `form:"enabled"`
-	// The maximum quantity the customer can purchase for the Checkout Session. By default this value is 99. You can specify a value up to 999.
+	// The maximum quantity the customer can purchase for the Checkout Session. By default this value is 99. You can specify a value up to 999999.
 	Maximum *int64 `form:"maximum"`
 	// The minimum quantity the customer must purchase for the Checkout Session. By default this value is 0.
 	Minimum *int64 `form:"minimum"`
