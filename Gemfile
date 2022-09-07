@@ -34,7 +34,7 @@ gem 'redis', '~> 4.5.1'
 
 # database
 gem 'pg', '~> 1.4.3'
-gem 'sequel', '5.59.0'
+gem 'sequel', '5.60.1'
 gem 'aws-sdk-kms', '~> 1.42.0'
 
 # auth
