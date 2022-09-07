@@ -124,6 +124,7 @@ module Critic::Unit
       it 'generates a key' do
         sf_order = create_mock_salesforce_order
 
+        @user.expects(:sandbox?).once.returns(false)
         creds = @translator.generate_idempotency_key_with_credentials(@user, sf_order)
 
         assert_equal(sf_order.Id, creds.delete(:idempotency_key))
@@ -133,6 +134,7 @@ module Critic::Unit
       it 'generates a key with an action' do
         sf_order = create_mock_salesforce_order
 
+        @user.expects(:sandbox?).once.returns(false)
         creds = @translator.generate_idempotency_key_with_credentials(
           @user,
           sf_order,
