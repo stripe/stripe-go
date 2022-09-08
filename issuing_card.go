@@ -161,6 +161,8 @@ type IssuingCardShippingParams struct {
 	Name *string `form:"name"`
 	// Phone number of the recipient of the shipment.
 	PhoneNumber *string `form:"phone_number"`
+	// Whether a signature is required for card delivery.
+	RequireSignature *bool `form:"require_signature"`
 	// Shipment service.
 	Service *string `form:"service"`
 	// Packaging options.
@@ -239,6 +241,8 @@ type IssuingCardShipping struct {
 	Name string `json:"name"`
 	// The phone number of the receiver of the bulk shipment. This phone number will be provided to the shipping company, who might use it to contact the receiver in case of delivery issues.
 	PhoneNumber string `json:"phone_number"`
+	// Whether a signature is required for card delivery. This feature is only supported for US users. Standard shipping service does not support signature on delivery. The default value for standard shipping service is false and for express and priority services is true.
+	RequireSignature bool `json:"require_signature"`
 	// Shipment service, such as `standard` or `express`.
 	Service IssuingCardShippingService `json:"service"`
 	// The delivery status of the card.
