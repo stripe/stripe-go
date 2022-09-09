@@ -107,4 +107,34 @@ class Critic::OrderFailureTest < Critic::FunctionalTest
 
     assert_match("Quantity specified as a decimal value. Only integers are supported", exception.message)
   end
+
+  it 'it creates an error sync record when the customer has been deleted' do
+
+    sf_account_id = create_salesforce_account
+
+    sf_order = create_subscription_order(sf_account_id: sf_account_id)
+    sf_account = @user.sf_client.find(SF_ACCOUNT, sf_account_id)
+
+    SalesforceTranslateRecordJob.translate(@user, sf_account)
+
+    sf_account.refresh
+
+    stripe_customer = Stripe::Customer.retrieve(sf_account[prefixed_stripe_field(GENERIC_STRIPE_ID)], @user.stripe_credentials).delete
+    stripe_customer.refresh
+
+    assert(true, stripe_customer.deleted?)
+
+    exception = assert_raises(Integrations::Errors::UserError) do
+      StripeForce::Translate.perform_inline(@user, sf_order.Id)
+    end
+
+    assert_match("During translation we attempted to fetch a related Stripe::Customer record with ID #{stripe_customer.id}, but found that it was deleted.", exception.message)
+
+    # Sync Records
+    sync_records = get_sync_records_by_primary_id(sf_order.Id)
+    assert_equal(1, sync_records.length)
+
+    assert_equal(SF_ORDER, sync_records.first[prefixed_stripe_field(SyncRecordFields::PRIMARY_OBJECT_TYPE.serialize)])
+    assert_equal(SyncRecordResolutionStatuses::ERROR.serialize, sync_records.first[prefixed_stripe_field(SyncRecordFields::RESOLUTION_STATUS.serialize)])
+  end
 end

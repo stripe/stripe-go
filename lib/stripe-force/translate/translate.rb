@@ -349,6 +349,20 @@ class StripeForce::Translate
         @user.stripe_credentials
       )
 
+      if stripe_record.deleted?
+        log.error 'attempting to retrieve deleted Stripe object. Raising error.',
+          stripe_resource_id: stripe_record.id,
+          stripe_resource_type: stripe_record.class.to_s
+
+        sf_object_to_fail = @origin_salesforce_object
+        sf_object_to_fail ||= sf_object
+
+        throw_user_failure!(
+          salesforce_object: sf_object_to_fail,
+          message: "During translation we attempted to fetch a related #{stripe_record.class} record with ID #{stripe_record.id}, but found that it was deleted."
+        )
+      end
+
       # if this ID was provided to us by the user, the metadata does not exist in Stripe
       stripe_record_metadata = Metadata.stripe_metadata_for_sf_object(@user, sf_object)
 
