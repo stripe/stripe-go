@@ -1,5 +1,9 @@
 # Changelog
 
+## 73.8.0 - 2022-09-09
+* [#1543](https://github.com/stripe/stripe-go/pull/1543) API Updates
+  * Add support for `RequireSignature` on `IssuingCardShippingParams` and `IssuingCardShipping`
+
 ## 73.7.0 - 2022-09-06
 * [#1542](https://github.com/stripe/stripe-go/pull/1542) API Updates
   * Add support for new value `terminal_reader_splashscreen` on enum `FilePurpose`
