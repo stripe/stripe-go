@@ -10,6 +10,7 @@
 <!--
 ### Notify
 
+r? @nadaismail-stripe
 r? @brennen-stripe
 cc @brianw-stripe
 cc @arnoldezeolisa

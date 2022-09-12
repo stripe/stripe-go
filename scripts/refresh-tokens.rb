@@ -29,13 +29,17 @@ if username
   auth_list = JSON.parse(`cd sfdx && sfdx auth:list --json`)
   auth_info = auth_list['result'].detect { |a| a['username'] == username || a['alias'] == username }
 
-  target_url = if auth_info['isScratchOrg']
+  is_scratch_org = auth_info['isScratchOrg'] ||
+    # if you didn't create the scratch org, and you are authorizing someone elses, this regex is needed
+    auth_info["username"] =~ /test-[[:alnum:]]+@example.com/
+
+  target_url = if is_scratch_org
     "https://test.salesforce.com"
   else
     "https://login.salesforce.com"
   end
 
-  access_token = if auth_info['isScratchOrg']
+  access_token = if is_scratch_org
     auth_info['accessToken']
   else
      `SF_URL=#{target_url} SF_USERNAME=#{username} SF_CONSUMER_KEY=#{ENV['SF_CONSUMER_KEY']} SF_JWT_PRIVATE_KEY_PATH=./sfdx/jwt-cert/private_key.pem node ./sfdx/bin/jwt-generator/index.js`.strip

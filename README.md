@@ -44,26 +44,32 @@ Update with `sfdx force:package1:version:list --json -u mbianco+newstripeconnect
 
 Loud logging everywhere:
 
-```
+```ruby
 Stripe.log_level = 'debug'; Restforce.log = true; ENV['LOG_LEVEL'] = 'debug'
 ```
 
 Or, via shell:
 
-```
+```shell
 STRIPE_LOG=debug SALESFORCE_LOG=true LOG_LEVEL=DEBUG bundle exec ruby test/...
 ```
 
 Include debugging tools locally. This is done automatically in dev.
 
-```
+```ruby
 require_relative './test/support/salesforce_debugging.rb'; include StripeForce::Constants; include SalesforceDebugging
 ```
 
 Pull user reference. Helpful for console debugging:
 
-```
+```ruby
 @user = u = StripeForce::User[90]
+```
+
+Perform translation:
+
+```ruby
+StripeForce::Translate.perform_inline(u, 'the_salesforce_id'.strip)
 ```
 
 Check SQL generated:
