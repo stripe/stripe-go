@@ -42,27 +42,28 @@ class StripeForce::Translate
   # main entry point to creating prices from line items from the order logic
   # TODO what if the list price is updated in SF? We shouldn't probably create a new price object
   def create_price_for_order_item(sf_order_item)
-    log.info 'translating price from a order line origin', salesforce_object: sf_order_item
+    log.info 'translating price from a order line', salesforce_object: sf_order_item
 
+    # TODO use cache_service
     sf_product = sf.find(SF_PRODUCT, sf_order_item.Product2Id)
     product = translate_product(sf_product)
 
+    # TODO use cache_service
     sf_pricebook_entry = sf.find(SF_PRICEBOOK_ENTRY, sf_order_item.PricebookEntryId)
 
-    # TODO should be able to use the pricebook entries for these checks
-
-    # if the order line and pricebook entries are identical then we can use a pre-existing price
-    # otherwise, we'll have to create a new price
+    # if the order line and pricebook entries are identical then we can reuse the price
+    # linked to the pricebook entry. Otherwise, we'll have to create a new price.
 
     if pricebook_and_order_line_identical?(sf_pricebook_entry, sf_order_item, sf_product)
-      existing_stripe_price = retrieve_from_stripe(Stripe::Price, sf_pricebook_entry)
+      existing_pricebook_stripe_price = retrieve_from_stripe(Stripe::Price, sf_pricebook_entry)
       sf_target_for_stripe_price = sf_pricebook_entry
 
       log.info 'pricebook and product data is identical, attemping to use existing stripe price',
         pricebook_id: sf_pricebook_entry.Id,
         product_id: sf_product.Id,
-        existing_price: existing_stripe_price&.id
+        existing_price: existing_pricebook_stripe_price&.id
     else
+      # TODO try to extract an existing order line price from the order line
       log.info 'pricebook and product data is different, creating new price from order line',
         pricebook_id: sf_pricebook_entry.Id,
         product_id: sf_product.Id
@@ -70,20 +71,20 @@ class StripeForce::Translate
       sf_target_for_stripe_price = sf_order_item
     end
 
-    if existing_stripe_price
-      existing_stripe_price = T.cast(existing_stripe_price, Stripe::Price)
+    if existing_pricebook_stripe_price
+      existing_pricebook_stripe_price = T.cast(existing_pricebook_stripe_price, Stripe::Price)
       generated_stripe_price = generate_price_params_from_sf_object(sf_pricebook_entry, sf_product)
 
       # this should never happen if our identical check is correct, unless the data in Salesforce is mutated over time
-      if !PriceHelpers.price_billing_amounts_equal?(existing_stripe_price, generated_stripe_price)
+      if !PriceHelpers.price_billing_amounts_equal?(existing_pricebook_stripe_price, generated_stripe_price)
         raise Integrations::Errors::UnhandledEdgeCase.new("expected generated prices to be equal, but they differed")
       end
 
       log.info 'using existing stripe price'
-      return existing_stripe_price
+      return existing_pricebook_stripe_price
     end
 
-    log.info 'existing price not found, creating new price'
+    log.info 'existing pricebook price not found, creating new price'
     stripe_price = create_price_from_sf_object(sf_target_for_stripe_price, sf_product, product)
 
     # TODO remove once negative line items are supported
@@ -94,10 +95,11 @@ class StripeForce::Translate
     stripe_price
   end
 
+  # this method does NOT check for a pre-existing Stripe object linked to the incoming Salesforce records
   sig { params(sf_object: Restforce::SObject, sf_product: Restforce::SObject, stripe_product: Stripe::Product).returns(T.nilable(Stripe::Price)) }
   def create_price_from_sf_object(sf_object, sf_product, stripe_product)
     if ![SF_ORDER_ITEM, SF_PRICEBOOK_ENTRY].include?(sf_object.sobject_type)
-      raise "price can only be created from an order line or pricebook entry"
+      raise ArgumentError.new("price can only be created from an order line or pricebook entry")
     end
 
     log.info 'creating price', salesforce_object: sf_object
@@ -115,12 +117,14 @@ class StripeForce::Translate
     end
 
     stripe_price.product = stripe_product.id
+    # to_h vs to_hash is important here: to_h returns a empty hash if NilClass
     stripe_price.metadata = (stripe_price['metadata'].to_h || {}).merge(Metadata.stripe_metadata_for_sf_object(@user, sf_object))
 
     # considered mapping SF pricebook ID to `lookup_key` but it's not *exactly* an external id and more presents a identifier
     # for an externall-used price so the "latest price" for a specific price-type can be used, probably in a website form or something
     # https://jira.corp.stripe.com/browse/RUN_COREMODELS-1027
 
+    # mapping is applied within `generate_price_params_from_sf_object`
     sanitize(stripe_price)
 
     catch_errors_with_salesforce_context(secondary: sf_object) do
@@ -284,9 +288,10 @@ class StripeForce::Translate
       transform_salesforce_consumption_rate_type_to_tier(consumption_rate)
     end
 
+    # TODO can we extract out this hardcoded field here?
     tiers_mode = PriceHelpers.transform_salesforce_consumption_schedule_type_to_tier_mode(consumption_schedule.SBQQ__Type__c)
 
-    log.info 'consumption schedule found, configuring as tiered price'
+    log.info 'consumption schedule found, configuring as tiered price', consumption_schedule_id: consumption_schedule.Id
 
     {
       "tiers" => pricing_tiers,

@@ -397,7 +397,10 @@ class StripeForce::Translate
             prorate: false,
           }, generate_idempotency_key_with_credentials(@user, sf_order_amendment, :cancel))
         else
-          log.info 'adding phase', sf_order_amendment_id: sf_order_amendment.Id
+          log.info 'adding phase',
+            sf_order_amendment_id: sf_order_amendment.Id,
+            start_date: new_phase.start_date,
+            end_date: new_phase.end_date
 
           subscription_schedule.proration_behavior = 'none'
           subscription_schedule.phases = subscription_phases
@@ -554,6 +557,8 @@ class StripeForce::Translate
     subscription_items = []
 
     sf_order_lines.map do |sf_order_item|
+      # this is a critical step: this performs the complicated logic of comparing pricebook & order line prices
+      # and creating a new price if needed.
       price = catch_errors_with_salesforce_context(secondary: sf_order_item) do
         create_price_for_order_item(sf_order_item)
       end

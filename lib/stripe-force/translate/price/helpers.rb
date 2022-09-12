@@ -11,6 +11,8 @@ class StripeForce::Translate
 
     sig { params(user: StripeForce::User, subscription_schedule: Stripe::SubscriptionSchedule).void }
     def self.auto_archive_prices_on_subscription_schedule(user, subscription_schedule)
+      log.info 'attempting to auto archive stripe prices'
+
       expanded_subscription_schedule = Stripe::SubscriptionSchedule.retrieve({
         id: subscription_schedule.id,
         expand: %w{

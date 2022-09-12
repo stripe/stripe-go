@@ -277,7 +277,7 @@ class StripeForce::Translate
     stripe_id_field = prefixed_stripe_field(GENERIC_STRIPE_ID)
 
     if sf_object[stripe_id_field]
-      log.info 'stripe id already exists on object, overwriting',
+      log.info 'stripe id already exists in salesforce, overwriting',
         old_stripe_id: sf_object[stripe_id_field],
         new_stripe_id: stripe_object.id,
         field_name: stripe_id_field
@@ -293,7 +293,7 @@ class StripeForce::Translate
       stripe_object: stripe_object
     )
 
-    log.info 'updated with stripe id',
+    log.info 'updated salesforce with stripe id',
       salesforce_object: sf_object,
       stripe_id: stripe_object.id
   end
