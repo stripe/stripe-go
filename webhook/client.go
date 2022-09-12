@@ -285,36 +285,36 @@ func validatePayload(payload []byte, sigHeader string, secret string, tolerance 
 
 // For mocking webhook events
 type UnsignedPayload struct {
-	payload   []byte
-	secret    string
-	timestamp time.Time
-	scheme    string
+	Payload   []byte
+	Secret    string
+	Timestamp time.Time
+	Scheme    string
 }
 
 type SignedPayload struct {
 	UnsignedPayload
 
-	signature []byte
-	header    string
+	Signature []byte
+	Header    string
 }
 
 func GenerateTestSignedPayload(options *UnsignedPayload) *SignedPayload {
 	signedPayload := &SignedPayload{UnsignedPayload: *options}
 
-	if signedPayload.timestamp == (time.Time{}) {
-		signedPayload.timestamp = time.Now()
+	if signedPayload.Timestamp == (time.Time{}) {
+		signedPayload.Timestamp = time.Now()
 	}
 
-	if signedPayload.scheme == "" {
-		signedPayload.scheme = "v1"
+	if signedPayload.Scheme == "" {
+		signedPayload.Scheme = "v1"
 	}
 
-	signedPayload.signature = ComputeSignature(signedPayload.timestamp, signedPayload.payload, signedPayload.secret)
-	signedPayload.header = generateHeader(*signedPayload)
+	signedPayload.Signature = ComputeSignature(signedPayload.Timestamp, signedPayload.Payload, signedPayload.Secret)
+	signedPayload.Header = generateHeader(*signedPayload)
 
 	return signedPayload
 }
 
 func generateHeader(p SignedPayload) string {
-	return fmt.Sprintf("t=%d,%s=%s", p.timestamp.Unix(), p.scheme, hex.EncodeToString(p.signature))
+	return fmt.Sprintf("t=%d,%s=%s", p.Timestamp.Unix(), p.Scheme, hex.EncodeToString(p.Signature))
 }
