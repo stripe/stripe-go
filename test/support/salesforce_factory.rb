@@ -58,6 +58,7 @@ module Critic
       })
     end
 
+    sig { params(additional_fields: Hash).returns(String) }
     def create_salesforce_account(additional_fields: {})
       account_id = sf.create!(SF_ACCOUNT, {
         Name: sf_randomized_name(SF_ACCOUNT),

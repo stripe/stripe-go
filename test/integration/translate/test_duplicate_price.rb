@@ -73,8 +73,8 @@ class Critic::DuplicatePriceTranslation < Critic::FunctionalTest
       phase_items
     )
 
-    assert_equal(2, phase_items.map(&:stripe_params).map {|h| h[:price] }.uniq.count)
-    new_item = T.must(phase_items.detect {|i| i.stripe_params[:price] != recurring_price.id })
+    assert_equal(2, new_phase.map(&:stripe_params).map {|h| h[:price] }.uniq.count)
+    new_item = T.must(new_phase.detect {|i| i.stripe_params[:price] != recurring_price.id })
     new_price = Stripe::Price.retrieve(new_item.stripe_params[:price], @user.stripe_credentials)
 
     # let's make this test more paranoid

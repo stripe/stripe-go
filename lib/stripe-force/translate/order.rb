@@ -355,9 +355,9 @@ class StripeForce::Translate
       new_phase = Stripe::StripeObject.construct_from({
         add_invoice_items: invoice_items_in_order.map(&:stripe_params) + invoice_items_for_prorations,
 
-        # `deep_dup` this is important, otherwise multiple phase changes in a
+        # `deep_copy` is important, otherwise multiple phase changes in a
         # single job run will use the same aggregate phase items
-        items: aggregate_phase_items.deep_dup.map(&:stripe_params),
+        items: Integrations::Utilities::StripeUtil.deep_copy(aggregate_phase_items).map(&:stripe_params),
 
         # TODO should be moved to global defaults
         proration_behavior: 'none',

@@ -16,4 +16,13 @@ Restforce::SObject.class_eval do
     # TODO unsure if this is the right call
     deep_update(new_record.attrs)
   end
+
+  def marshal_dump
+    [self.to_hash, self.default]
+  end
+
+  def marshal_load(data)
+    attributes, default = data
+    initialize(attributes, nil, default)
+  end
 end

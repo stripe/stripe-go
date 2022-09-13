@@ -76,4 +76,23 @@ class Critic::ContractItemTest < Critic::UnitTest
 
     assert(calculated_lines.all?(&:fully_terminated?))
   end
+
+  it 'does not mutate across objects' do
+    order_line = create_mock_salesforce_order_item
+
+    @user = make_user
+    _product, price = create_price
+
+    contract_item = StripeForce::Translate::ContractItemStructure.from_order_line_and_params(
+      order_line,
+      {quantity: 1, price: price.id}
+    )
+    contract_item.price(@user)
+    contract_list = [contract_item]
+    # `deep_dup` does NOT work we must marshal things
+    dup_contract_list = Integrations::Utilities::StripeUtil.deep_copy(contract_list)
+
+    dup_contract_list.first.stripe_params[:quantity] = 2
+    refute_equal(dup_contract_list.first.stripe_params[:quantity], contract_list.first.stripe_params[:quantity])
+  end
 end

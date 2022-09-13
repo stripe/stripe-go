@@ -122,7 +122,7 @@ class StripeForce::Translate
     # since the input and output is "fake" stripe subhash, typing here doesn't work
     sig { params(user: StripeForce::User, original_phase_items: T::Array[ContractItemStructure]).returns(T::Array[ContractItemStructure]) }
     def self.ensure_unique_phase_item_prices(user, original_phase_items)
-      phase_items = T.cast(original_phase_items.deep_dup, T::Array[ContractItemStructure])
+      phase_items = T.cast(Integrations::Utilities::StripeUtil.deep_copy(original_phase_items), T::Array[ContractItemStructure])
 
       price_ids = []
       phase_items.each do |phase_item|
@@ -146,7 +146,7 @@ class StripeForce::Translate
     sig { params(original_phases: T::Array[Stripe::SubscriptionSchedulePhase]).returns(T::Array[Stripe::SubscriptionSchedulePhase]) }
     def self.sanitize_subscription_schedule_phase_params(original_phases)
       # without deep dupping this will mutate the input
-      phases = original_phases.deep_dup
+      phases = Integrations::Utilities::StripeUtil.deep_copy(original_phases)
 
       # TODO report https://jira.corp.stripe.com/browse/PLATINT-1479
       # You can't pass back the phase in it's original format, it must be modified to avoid:
