@@ -269,7 +269,10 @@ class StripeForce::Translate
     contract_structure.amendments.each_with_index do |sf_order_amendment, index|
       log.info 'processing amendment', sf_amendment_id: sf_order_amendment.Id, index: index
 
-      invoice_items_in_order, aggregate_phase_items = build_phase_items_from_order_amendment(aggregate_phase_items, sf_order_amendment)
+      invoice_items_in_order, aggregate_phase_items = build_phase_items_from_order_amendment(
+        aggregate_phase_items,
+        sf_order_amendment
+      )
 
       # TODO right here, we should filter which lines are terminations and calculate the customer credit
 
@@ -386,6 +389,10 @@ class StripeForce::Translate
 
       subscription_phases = OrderHelpers.sanitize_subscription_schedule_phase_params(subscription_phases)
 
+      # https://jira.corp.stripe.com/browse/PLATINT-1832
+      stripe_customer_id = T.cast(subscription_schedule.customer, String)
+      subscription_phases = OrderAmendment.delete_past_phases(@user, stripe_customer_id, subscription_phases)
+
       # NOTE intentional decision here NOT to update any other subscription fields
       catch_errors_with_salesforce_context(secondary: sf_order_amendment) do
         if is_subscription_schedule_cancelled
@@ -402,6 +409,7 @@ class StripeForce::Translate
             start_date: new_phase.start_date,
             end_date: new_phase.end_date
 
+          # `none` is really important to ensure that the user is not billed by stripe for any prorated amounts
           subscription_schedule.proration_behavior = 'none'
           subscription_schedule.phases = subscription_phases
           subscription_schedule.save({}, generate_idempotency_key_with_credentials(@user, sf_order_amendment))

@@ -82,7 +82,7 @@ class Stripe::Customer
   sig { returns(String) }
   def description; end
 
-  sig { returns(T.nilable(String))}
+  sig { returns(T.nilable(String, Stripe::TestHelpers::TestClock))}
   def test_clock; end
 
   # TODO should add proper subhash typing
@@ -222,4 +222,7 @@ class Stripe::TestHelpers::TestClock
 
   sig { returns(String)}
   def status; end
+
+  sig { returns(Integer)}
+  def frozen_time; end
 end

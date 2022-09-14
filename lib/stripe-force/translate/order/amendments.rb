@@ -232,5 +232,46 @@ class StripeForce::Translate
 
       false
     end
+
+    sig do
+      params(
+        user: StripeForce::User,
+        stripe_customer_id: String,
+        original_phases: T::Array[Stripe::SubscriptionSchedulePhase]
+      ).returns(T::Array[Stripe::SubscriptionSchedulePhase])
+    end
+    def self.delete_past_phases(user, stripe_customer_id, original_phases)
+      phases = Integrations::Utilities::StripeUtil.deep_copy(original_phases)
+      current_timestamp = determine_current_time(user, stripe_customer_id)
+
+      phases.reject! do |phase|
+        in_past = phase.end_date < current_timestamp
+
+        if in_past
+          log.info 'removing completed phase', end_date: phase.end_date
+        end
+
+        in_past
+      end
+
+      phases
+    end
+
+    sig { params(user: StripeForce::User, stripe_customer_id: String).returns(Integer) }
+    def self.determine_current_time(user, stripe_customer_id)
+      stripe_customer = Stripe::Customer.retrieve({id: stripe_customer_id, expand: %w{test_clock}}, user.stripe_credentials)
+
+      if !stripe_customer.test_clock
+        return Time.now.utc.to_i
+      end
+
+      test_clock = T.cast(stripe_customer.test_clock, Stripe::TestHelpers::TestClock)
+
+      if test_clock.status != "ready"
+        raise StripeForce::Errors::RawUserError.new("Test clock still advancing, scheduling a retry")
+      end
+
+      test_clock.frozen_time
+    end
   end
 end

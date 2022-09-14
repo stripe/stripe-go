@@ -58,14 +58,14 @@ module Critic
       customer
     end
 
-    def create_customer
+    def create_customer(additional_fields: {})
       email = create_random_email
       description = "Sample customer for Salesforce"
 
       customer = Stripe::Customer.create({
         description: description,
         email: email,
-      }, @user.stripe_credentials)
+      }.merge(additional_fields), @user.stripe_credentials)
     end
 
     def create_price(additional_price_fields: {})
