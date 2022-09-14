@@ -308,7 +308,109 @@ class Critic::ProratedAmendmentTranslation < Critic::OrderAmendmentFunctionalTes
 
   end
 
-  it 'creates a new phase without prorations when all items are new' do
-    # if all line items are new
+  # also known as a 'cross sell'
+  # https://jira.corp.stripe.com/browse/PLATINT-1831
+  it 'creates a new phase with prorations when all items are new' do
+    # initial order: 2yr contract, one annual item
+    # second order: additional product, 5-24mo
+
+    yearly_price = 120_00
+    yearly_price_2 = 150_00
+    contract_term = 24
+    amendment_term = 19
+    amendment_start_date = now_time + (contract_term - amendment_term).months
+    amendment_end_date = amendment_start_date + amendment_term.months
+    initial_start_date = now_time
+
+    sf_product_id, sf_pricebook_id = salesforce_recurring_product_with_price(
+      price: yearly_price,
+      additional_product_fields: {
+        CPQ_QUOTE_BILLING_FREQUENCY => CPQBillingFrequencyOptions::ANNUAL.serialize,
+        CPQ_QUOTE_SUBSCRIPTION_TERM => nil,
+      }
+    )
+
+    sf_product_id_2, sf_pricebook_id_2 = salesforce_recurring_product_with_price(
+      price: yearly_price_2,
+      additional_product_fields: {
+        CPQ_QUOTE_BILLING_FREQUENCY => CPQBillingFrequencyOptions::ANNUAL.serialize,
+        CPQ_QUOTE_SUBSCRIPTION_TERM => nil,
+      }
+    )
+
+    sf_order = create_salesforce_order(
+      sf_product_id: sf_product_id,
+      additional_quote_fields: {
+        CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(initial_start_date),
+        CPQ_QUOTE_SUBSCRIPTION_TERM => contract_term,
+      }
+    )
+
+    sf_contract = create_contract_from_order(sf_order)
+    amendment_data = create_quote_data_from_contract_amendment(sf_contract)
+    amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_START_DATE] = format_date_for_salesforce(amendment_start_date)
+    amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_TERM] = amendment_term
+    sf_quote_id = calculate_and_save_cpq_quote(amendment_data)
+
+    amendment_data = add_product_to_cpq_quote(sf_quote_id, sf_product_id: sf_product_id_2)
+
+    sf_order_amendment = create_order_from_quote_data(amendment_data)
+    sf_order_amendment_contract = create_contract_from_order(sf_order_amendment)
+
+    StripeForce::Translate.perform_inline(@user, sf_order_amendment.Id)
+
+    sf_order.refresh
+    stripe_id = sf_order[prefixed_stripe_field(GENERIC_STRIPE_ID)]
+    subscription_schedule = Stripe::SubscriptionSchedule.retrieve(stripe_id, @user.stripe_credentials)
+
+    assert_equal(2, subscription_schedule.phases.count)
+
+    first_phase = T.must(subscription_schedule.phases.first)
+    second_phase = T.must(subscription_schedule.phases[1])
+
+    # first phase should start now and end in 9mo
+    assert_equal(0, first_phase.start_date - initial_start_date.to_i)
+    assert_equal(0, first_phase.end_date - amendment_start_date.to_i)
+
+    # second phase should start at the end date
+    assert_equal(0, second_phase.start_date - amendment_start_date.to_i)
+    assert_equal(0, second_phase.end_date - amendment_end_date.to_i)
+
+    # first phase should have one sub item and no proration items
+    assert_equal(1, first_phase.items.count)
+    assert_empty(first_phase.add_invoice_items)
+
+    # second phase should have two items (one original, one addition)
+    # it should have a single proration item
+    assert_equal(2, second_phase.items.count)
+    assert_equal(1, second_phase.add_invoice_items.count)
+
+    # now, let's take a look at the prorated items!
+    assert_equal(1, second_phase.add_invoice_items.count)
+    prorated_item = T.unsafe(second_phase.add_invoice_items.first)
+    assert_equal(1, prorated_item.quantity)
+    prorated_price = Stripe::Price.retrieve(T.cast(prorated_item.price, String), @user.stripe_credentials)
+
+    first_phase_item = T.must(first_phase.items.first)
+    first_phase_item_price = Stripe::Price.retrieve(T.cast(first_phase_item.price, String), @user.stripe_credentials)
+    second_phase_item = T.must(second_phase.items.detect {|i| i.price == first_phase_item.price })
+    second_phase_item_additive = T.must(second_phase.items.detect {|i| i.price != first_phase_item.price })
+    second_phase_item_additive_price = Stripe::Price.retrieve(T.cast(second_phase_item_additive.price, String), @user.stripe_credentials)
+
+    # check additional fields added to the proration invoice item
+    assert_equal("phase_end", prorated_item.period.end.type)
+    assert_equal("phase_start", prorated_item.period.start.type)
+    assert_equal("true", prorated_item.metadata[StripeForce::Translate::Metadata.metadata_key(@user, MetadataKeys::PRORATION)])
+    assert_equal(second_phase_item_additive.metadata['salesforce_order_item_id'], prorated_item.metadata['salesforce_order_item_id'])
+
+    assert_equal('one_time', prorated_price.type)
+    assert_equal(prorated_price.product, second_phase_item_additive_price.product)
+    assert_equal("true", prorated_price.metadata['salesforce_auto_archive'])
+    assert_equal("true", prorated_price.metadata['salesforce_duplicate'])
+    assert_equal("true", prorated_price.metadata['salesforce_proration'])
+    assert_equal(second_phase_item_additive_price.id, prorated_price.metadata['salesforce_original_stripe_price_id'])
+
+    # since this is an 19mo prorated item we should only bill for 7mo since the rest will be billed by stripe
+    assert_equal((yearly_price_2 / 12 * 7).to_s, prorated_price.unit_amount_decimal)
   end
 end

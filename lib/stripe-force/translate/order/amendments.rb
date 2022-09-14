@@ -206,11 +206,6 @@ class StripeForce::Translate
         return false
       end
 
-      if aggregate_phase_items.all?(&:new_order_line?)
-        log.info "all order lines are new, cannot be prorated order"
-        return false
-      end
-
       # if the subscription term does not match the billing frequency of the stripe item, then there will be some proration
       if (subscription_term % billing_frequency) != 0
         log.info 'billing frequency is not divisible by subscription term, assuming proration',
