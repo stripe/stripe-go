@@ -127,9 +127,12 @@ class StripeForce::Translate
     # mapping is applied within `generate_price_params_from_sf_object`
     sanitize(stripe_price)
 
-    catch_errors_with_salesforce_context(secondary: sf_object) do
+    new_price = catch_errors_with_salesforce_context(secondary: sf_object) do
       Stripe::Price.create(stripe_price.to_hash, @user.stripe_credentials)
     end
+
+    log.info 'price created', price_id: new_price.id
+    new_price
   end
 
   sig { params(sf_pricebook_entry: Restforce::SObject).returns(Hash) }

@@ -106,10 +106,12 @@ class StripeForce::Translate
       price_2 = Integrations::Utilities::StripeUtil.deep_copy(original_price_2)
       price_2_tiers = price_2.tiers.map {|t| Integrations::Utilities::StripeUtil.delete_nil_fields_from_stripe_object(t) }
 
+      # normalize pricing field format between price API response and our generated price structure
       (price_1_tiers + price_2_tiers).each do |tier|
         # this is a subhash item and sorbet doesn't have these fields typed
         tier = T.unsafe(tier)
 
+        # unit_amount_decimal should take precedence
         if tier[:unit_amount].present? && tier[:unit_amount_decimal].present?
           Integrations::Utilities::StripeUtil.delete_field_from_stripe_object(
             tier,
@@ -119,10 +121,32 @@ class StripeForce::Translate
 
         tier[:unit_amount_decimal] = normalize_unit_amount_decimal_for_comparison(tier[:unit_amount_decimal])
 
+        # convert infinity format to API input, not output format
         if tier.up_to.nil?
           tier.up_to = 'inf'
         end
       end
+
+      # https://jira.corp.stripe.com/browse/PLATINT-1817
+      # tier sorting is not gaurenteed upstream, sort to ensure ordering does not cause inequality
+      tier_sort = proc do |a, b|
+        if a[:up_to] == 'inf' && b[:up_to] == 'inf'
+          raise Integrations::Errors::ImpossibleState.new("two tiers should never both have an infinite boundary")
+        end
+
+        if a[:up_to] == 'inf'
+          next 1
+        end
+
+        if b[:up_to] == 'inf'
+          next -1
+        end
+
+        a[:up_to] <=> b[:up_to]
+      end
+
+      price_1_tiers.sort!(&tier_sort)
+      price_2_tiers.sort!(&tier_sort)
 
       if price_1_tiers != price_2_tiers
         log.info 'tiers are not equal', diff: HashDiff::Comparison.new(price_1_tiers.map(&:to_hash), price_2_tiers.map(&:to_hash)).diff
