@@ -150,7 +150,6 @@ class Critic::OrderAmendmentTranslation < Critic::OrderAmendmentFunctionalTest
 
     sf_order.refresh
     stripe_id = sf_order[prefixed_stripe_field(GENERIC_STRIPE_ID)]
-
     subscription_schedule = Stripe::SubscriptionSchedule.retrieve(stripe_id, @user.stripe_credentials)
 
     assert_equal(2, subscription_schedule.phases.count)
@@ -176,6 +175,65 @@ class Critic::OrderAmendmentTranslation < Critic::OrderAmendmentFunctionalTest
     assert_equal(1, second_phase.items.count)
     assert_equal(0, second_phase.add_invoice_items.count)
     subscription_item = T.must(second_phase.items.detect {|i| !i[:quantity].nil? })
+    assert_equal(1, subscription_item.quantity)
+  end
+
+  it 'creates a new phase from an order amendment adding a non-metered product to a metered product' do
+    # initial order: one metered
+    # amendment: keep metered item, add non-metered
+
+    contract_term = TEST_DEFAULT_CONTRACT_TERM
+    amendment_term = 6
+    initial_start_date = now_time
+    amendment_start_date = initial_start_date + (contract_term - amendment_term).months
+    amendment_end_date = amendment_start_date + amendment_term.months
+
+    sf_metered_product_id, sf_metered_pricebook_id = salesforce_recurring_metered_produce_with_price
+    sf_product_id, sf_pricebook_id = salesforce_recurring_product_with_price
+
+    sf_order = create_subscription_order(sf_product_id: sf_metered_product_id)
+    sf_contract = create_contract_from_order(sf_order)
+
+    amendment_data = create_quote_data_from_contract_amendment(sf_contract)
+
+    amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_START_DATE] = format_date_for_salesforce(amendment_start_date)
+    amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_TERM] = amendment_term
+    sf_quote_id = calculate_and_save_cpq_quote(amendment_data)
+
+    # add non-metered product
+    amendment_data = add_product_to_cpq_quote(sf_quote_id, sf_product_id: sf_product_id)
+    sf_order_amendment = create_order_from_quote_data(amendment_data)
+
+    StripeForce::Translate.perform_inline(@user, sf_order_amendment.Id)
+
+    sf_order.refresh
+    stripe_id = sf_order[prefixed_stripe_field(GENERIC_STRIPE_ID)]
+    subscription_schedule = Stripe::SubscriptionSchedule.retrieve(stripe_id, @user.stripe_credentials)
+
+    assert_equal(2, subscription_schedule.phases.count)
+
+    first_phase = T.must(subscription_schedule.phases.first)
+    second_phase = T.must(subscription_schedule.phases[1])
+
+    # first phase should have one item with no quantity, since it is a metered product
+    assert_equal(1, first_phase.items.count)
+    assert_equal(0, first_phase.add_invoice_items.count)
+    first_phase_item = T.must(first_phase.items.first)
+    assert_nil(first_phase_item[:quantity])
+
+    # first phase should start now and end in 9mo
+    assert_equal(0, first_phase.start_date - initial_start_date.to_i)
+    assert_equal(0, first_phase.end_date - amendment_start_date.to_i)
+
+    # second phase should start at the end date
+    assert_equal(0, second_phase.start_date - amendment_start_date.to_i)
+    assert_equal(0, second_phase.end_date - amendment_end_date.to_i)
+
+    # second phase should have a second item with a quantity of 2
+    assert_equal(2, second_phase.items.count)
+    assert_equal(0, second_phase.add_invoice_items.count)
+    subscription_item = T.must(second_phase.items.detect {|i| !i[:quantity].nil? })
+    metered_item = T.must(second_phase.items.detect {|i| i[:quantity].nil? })
     assert_equal(1, subscription_item.quantity)
   end
 

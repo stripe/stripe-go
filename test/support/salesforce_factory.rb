@@ -13,6 +13,8 @@ module Critic
     include Critic::CommonHelpers
     include Integrations::Log
 
+    TEST_DEFAULT_CONTRACT_TERM = 12
+
     sig { returns(String) }
     def now_time_formatted_for_salesforce
       format_date_for_salesforce(now_time)
@@ -172,7 +174,7 @@ module Critic
         additional_quote_fields: {
           CPQ_QUOTE_SUBSCRIPTION_START_DATE => now_time_formatted_for_salesforce,
           # one year / 12 months
-          CPQ_QUOTE_SUBSCRIPTION_TERM => 12.0,
+          CPQ_QUOTE_SUBSCRIPTION_TERM => TEST_DEFAULT_CONTRACT_TERM,
         }
       )
     end
@@ -325,7 +327,7 @@ module Critic
         'Type' => 'Range',
         'RatingMethod' => 'Tier',
         'SBQQ__Category__c' => 'Rates',
-        'BillingTerm' => 12,
+        'BillingTerm' => TEST_DEFAULT_CONTRACT_TERM,
         'BillingTermUnit' => "Month",
         # cannot create the consumption schedule as activated
         # 'IsActive' => true,
