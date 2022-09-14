@@ -124,6 +124,7 @@
                                                     <div class="slds-col">
                                                         <div if:true={field.hasRequiredValue}>
                                                             <lightning-input type="text" label="Default Value" value={field.requiredValue} onfocus={toggleOverride} variant="label-hidden" placeholder="No Default Set"></lightning-input>
+                                                            <div if:true={field.requiredValue} class="slds-text-title slds-m-top_x-small slds-has-flexi-truncate"><strong>Required field.</strong> Default: {field.requiredValue}</div>
                                                         </div>
                                                         <div if:false={field.hasRequiredValue}>
                                                             <lightning-input type="text" label="Default Value" value={field.defaultValue} onfocus={toggleOverride} variant="label-hidden" placeholder="No Default Set"></lightning-input>
