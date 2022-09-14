@@ -156,7 +156,7 @@ class StripeForce::Translate
     # this should never happen, but we are still learning about CPQ
     # if metered billing, quantity is not set, so we set to 1
     if OrderHelpers.extract_all_items_from_subscription_schedule(stripe_transaction).map {|l| l[:quantity] || 1 }.any?(&:zero?)
-      report_edge_case("quantity is zero on initial subscription schedule")
+      Integrations::ErrorContext.report_edge_case("quantity is zero on initial subscription schedule")
     end
 
     # https://jira.corp.stripe.com/browse/PLATINT-1731
@@ -233,7 +233,7 @@ class StripeForce::Translate
 
     # TODO we should short-circuit our logic here sooner, but for now let's just track this in the logs sooner
     if subscription_schedule.status == "canceled"
-      report_edge_case('subscription is cancelled, it cannot be modified')
+      Integrations::ErrorContext.report_edge_case('subscription is cancelled, it cannot be modified')
     end
 
     # at this point, the initial order would have already been translated
@@ -534,7 +534,7 @@ class StripeForce::Translate
     sf_order_items.select do |sf_order_item|
       # never expect this to occur
       if sf_order_item.IsDeleted || !sf_order_item.SBQQ__Activated__c
-        report_edge_case("order line is deleted or not activated")
+        Integrations::ErrorContext.report_edge_case("order line is deleted or not activated")
       end
 
       should_keep = sf_order_item[prefixed_stripe_field(ORDER_LINE_SKIP)].nil? ||
@@ -679,7 +679,7 @@ class StripeForce::Translate
     end
 
     if is_order_amendment && order_with_amended_contract.Type == OrderTypeOptions::NEW.serialize
-      report_edge_case("order is determined to be an amendment, but type is new")
+      Integrations::ErrorContext.report_edge_case("order is determined to be an amendment, but type is new")
     end
 
     is_order_amendment

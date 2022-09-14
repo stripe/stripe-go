@@ -443,7 +443,7 @@ class StripeForce::Translate
 
     # it's looking like these values are never really aligned and we should ignore the line item
     if sf_order['SBQQ__SubscriptionTerm__c'] == quote_subscription_term
-      report_edge_case("subscription term on quote matches line item")
+      Integrations::ErrorContext.report_edge_case("subscription term on quote matches line item")
     end
 
     if !Integrations::Utilities::StripeUtil.is_integer_value?(quote_subscription_term)

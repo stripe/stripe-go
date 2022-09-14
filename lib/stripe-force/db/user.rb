@@ -7,7 +7,6 @@ module StripeForce
     extend T::Sig
 
     include StripeForce::Constants
-    include Integrations::ErrorContext
     include KMSEncryption
 
     plugin :timestamps, update_on_create: true
@@ -125,7 +124,7 @@ module StripeForce
     def salesforce_instance_type
       # if a stripe ID is not set, it's possible that they are early on in the setup process
       if connector_settings[CONNECTOR_SETTING_SALESFORCE_INSTANCE_TYPE].nil? && self.stripe_account_id
-        report_edge_case("instance type should not be empty")
+        Integrations::ErrorContext.report_edge_case("instance type should not be empty")
       end
 
       connector_settings[CONNECTOR_SETTING_SALESFORCE_INSTANCE_TYPE]

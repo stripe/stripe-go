@@ -344,21 +344,19 @@ class StripeForce::Translate
     end
 
     begin
+      # TODO use application sync record here as well
       stripe_record = stripe_class.retrieve(
         {id: sf_object[prefixed_stripe_field(GENERIC_STRIPE_ID)]}.merge(additional_retrieve_params),
         @user.stripe_credentials
       )
 
       if stripe_record.deleted?
-        log.error 'attempting to retrieve deleted Stripe object. Raising error.',
-          stripe_resource_id: stripe_record.id,
-          stripe_resource_type: stripe_record.class.to_s
-
-        sf_object_to_fail = @origin_salesforce_object
-        sf_object_to_fail ||= sf_object
+        log.error 'attempting to retrieve deleted Stripe object, raising error',
+          deleted_id: stripe_record.id,
+          deleted_resource_type: stripe_record.class.to_s
 
         throw_user_failure!(
-          salesforce_object: sf_object_to_fail,
+          salesforce_object: @origin_salesforce_object || sf_object,
           message: "During translation we attempted to fetch a related #{stripe_record.class} record with ID #{stripe_record.id}, but found that it was deleted."
         )
       end

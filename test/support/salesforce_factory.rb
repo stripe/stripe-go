@@ -11,6 +11,7 @@ module Critic
     include StripeForce::Constants
     include Minitest::Assertions
     include Critic::CommonHelpers
+    include Integrations::Log
 
     sig { returns(String) }
     def now_time_formatted_for_salesforce

@@ -5,11 +5,11 @@
 module Integrations::Utilities::StripeUtil
   extend T::Helpers
   extend T::Sig
+  include Kernel
 
   abstract!
 
   include Integrations::Log
-  include Integrations::ErrorContext
 
   # NOTE there is a PRIVATE method in ruby bindings to do this for stripe objects, I don't know why it's not public
   # TODO https://github.com/stripe/stripe-ruby/pull/1120
@@ -106,7 +106,7 @@ module Integrations::Utilities::StripeUtil
     # coupons do not have a prefix since the ID is often exposed to the user
     # https://github.com/stripe/stripe-netsuite/issues/1658
     else
-      raise "unknown stripe id: #{stripe_object_id}" if raise_on_missing
+      raise ArgumentError.new("unknown stripe id: #{stripe_object_id}") if raise_on_missing
       nil
     end
   end
@@ -172,7 +172,7 @@ module Integrations::Utilities::StripeUtil
           ::Stripe::Product
         when /^(card_|src_)/
           # UPGRADE_CHECK right now, the full `source` object is included in the charge response, this may not be true in the future
-          report_edge_case("card or source referenced in annotator")
+          Integrations::ErrorContext.report_edge_case("card or source referenced in annotator")
         else
           # TODO report on unsupported ID if it looks like a stripe ID
           nil

@@ -10,22 +10,18 @@ module Integrations
 
     include Log
 
-    # TODO alright, this isn't working: we need to eliminate this `integrations` idea
+    # TODO alright, this isn't working: we need to eliminate this `Integrations::` idea
     include StripeForce::Constants
 
-    def report_exception(exception)
+    def self.report_exception(exception)
       Sentry.capture_exception(exception)
-    end
-
-    def report_edge_case(message, stripe_resource: nil, integration_record: nil, metadata: nil)
-      Integrations::ErrorContext.report_error(Integrations::Errors::UnhandledEdgeCase, message, stripe_resource: stripe_resource, integration_record: integration_record, metadata: metadata)
     end
 
     def self.report_edge_case(message, stripe_resource: nil, integration_record: nil, metadata: nil)
       report_error(Integrations::Errors::UnhandledEdgeCase, message, stripe_resource: stripe_resource, integration_record: integration_record, metadata: metadata)
     end
 
-    def report_feature_usage(message, stripe_resource: nil, integration_record: nil, metadata: nil)
+    def self.report_feature_usage(message, stripe_resource: nil, integration_record: nil, metadata: nil)
       Integrations::ErrorContext.report_error(Integrations::Errors::FeatureUsage, message, stripe_resource: stripe_resource, integration_record: integration_record, metadata: metadata)
     end
 

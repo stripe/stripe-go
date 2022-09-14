@@ -78,7 +78,7 @@ class Critic::ErrorTest < Critic::UnitTest
   it 'records non-exception errors with a backtrace' do
     translator = make_translator
 
-    event = translator.report_edge_case("hello")
+    event = Integrations::ErrorContext.report_edge_case("hello")
 
     # digging deep into how sentry works here: `to_json_compatible` gives us a representation
     # which ~matches what is sent to Sentry

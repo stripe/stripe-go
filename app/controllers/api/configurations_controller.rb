@@ -87,11 +87,11 @@ module Api
 
       # this can happen if two users are in the setup page at the same time
       if user.new?
-        report_edge_case("updating api key for user, but is already set")
+        Integrations::ErrorContext.report_edge_case("updating api key for user, but is already set")
       end
 
       if request.headers[SALESFORCE_INSTANCE_TYPE_HEADER].blank? || request.headers[SALESFORCE_PACKAGE_NAMESPACE_HEADER].nil?
-        report_edge_case("important headers are blank on post install", metadata: request.headers)
+        Integrations::ErrorContext.report_edge_case("important headers are blank on post install", metadata: request.headers)
       end
 
       log.info 'updating organization key', new_user: user.new?

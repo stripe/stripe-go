@@ -13,7 +13,7 @@ module ControllerHelpers
   protected def subdomain_namespace_from_param(raw_namespace)
     case raw_namespace
     when nil, ""
-      report_edge_case("namespace should not be empty")
+      Integrations::ErrorContext.report_edge_case("namespace should not be empty")
       SalesforceNamespaceOptions::PRODUCTION.serialize
     when *SalesforceNamespaceOptions.values.map(&:serialize)
       raw_namespace

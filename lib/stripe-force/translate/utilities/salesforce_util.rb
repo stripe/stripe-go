@@ -7,7 +7,6 @@ module StripeForce::Utilities
     extend T::Sig
     include Kernel
 
-    include Integrations::ErrorContext
     include StripeForce::Constants
 
     # SF dates have no TZ data and come in as a simple 'YYYY-MM-DD'
@@ -104,7 +103,7 @@ module StripeForce::Utilities
     def prefixed_stripe_field(field_name)
       custom_field_prefix = case (salesforce_namespace = @user.connector_settings[CONNECTOR_SETTING_SALESFORCE_NAMESPACE])
       when nil
-        report_edge_case("expected namespace to be defined, using fallback")
+        Integrations::ErrorContext.report_edge_case("expected namespace to be defined, using fallback")
         ""
       when "c"
         ""

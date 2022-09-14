@@ -46,7 +46,7 @@ class SessionsController < ApplicationController
       user = StripeForce::User.new(salesforce_account_id: sf_account_id)
 
       # TODO log name of user
-      report_feature_usage("new user #{sf_account_id}")
+      Integrations::ErrorContext.report_feature_usage("new user #{sf_account_id}")
     end
 
     log.info 'updating existing user'
@@ -100,7 +100,7 @@ class SessionsController < ApplicationController
     user = StripeForce::User[user_id]
 
     if user.blank?
-      report_edge_case("invalid user identifier", metadata: {user_id: user_id})
+      Integrations::ErrorContext.report_edge_case("invalid user identifier", metadata: {user_id: user_id})
       head :not_found
       return
     end
@@ -111,7 +111,7 @@ class SessionsController < ApplicationController
     log.info 'updating stripe account ID', user_id: user.id, stripe_account_id: stripe_user_id
 
     if user.stripe_account_id && user.stripe_account_id != stripe_user_id
-      report_edge_case("stripe account ID already set, overwriting")
+      Integrations::ErrorContext.report_edge_case("stripe account ID already set, overwriting")
     end
 
     user.update(stripe_account_id: stripe_user_id,)
