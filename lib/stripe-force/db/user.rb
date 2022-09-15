@@ -6,6 +6,7 @@ module StripeForce
   class User < Sequel::Model
     extend T::Sig
 
+    include Integrations::Log
     include StripeForce::Constants
     include KMSEncryption
 
