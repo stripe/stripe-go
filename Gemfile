@@ -26,10 +26,10 @@ gem "sentry-resque", "~> 5.4.2"
 gem 'simple_structured_logger', '~> 1.0.2'
 
 # resque
-gem 'resque', '~> 2.4.0'
+gem 'resque', '~> 2.2.0'
 gem 'resque-scheduler', "~> 4.6.0"
 gem 'resque-retry', '~> 1.7.6'
-gem 'resque-heroku-signals', '~> 2.4.0'
+gem 'resque-heroku-signals', '~> 2.2.0'
 gem 'redis', '~> 4.5.1'
 
 # database
