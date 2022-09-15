@@ -739,6 +739,9 @@ type PaymentIntentPaymentMethodDataLinkParams struct{}
 // If this is a `paynow` PaymentMethod, this hash contains details about the PayNow payment method.
 type PaymentIntentPaymentMethodDataPayNowParams struct{}
 
+// If this is a `pix` PaymentMethod, this hash contains details about the Pix payment method.
+type PaymentIntentPaymentMethodDataPixParams struct{}
+
 // If this is a `promptpay` PaymentMethod, this hash contains details about the PromptPay payment method.
 type PaymentIntentPaymentMethodDataPromptPayParams struct{}
 
@@ -814,6 +817,8 @@ type PaymentIntentPaymentMethodDataParams struct {
 	P24 *PaymentMethodP24Params `form:"p24"`
 	// If this is a `paynow` PaymentMethod, this hash contains details about the PayNow payment method.
 	PayNow *PaymentIntentPaymentMethodDataPayNowParams `form:"paynow"`
+	// If this is a `pix` PaymentMethod, this hash contains details about the Pix payment method.
+	Pix *PaymentIntentPaymentMethodDataPixParams `form:"pix"`
 	// If this is a `promptpay` PaymentMethod, this hash contains details about the PromptPay payment method.
 	PromptPay *PaymentIntentPaymentMethodDataPromptPayParams `form:"promptpay"`
 	// Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
@@ -1256,6 +1261,14 @@ type PaymentIntentPaymentMethodOptionsPayNowParams struct {
 	SetupFutureUsage *string `form:"setup_future_usage"`
 }
 
+// If this is a `pix` PaymentMethod, this sub-hash contains details about the Pix payment method options.
+type PaymentIntentPaymentMethodOptionsPixParams struct {
+	// The number of seconds (between 10 and 1209600) after which Pix payment will expire. Defaults to 86400 seconds.
+	ExpiresAfterSeconds *int64 `form:"expires_after_seconds"`
+	// The timestamp at which the Pix expires (between 10 and 1209600 seconds in the future). Defaults to 1 day in the future.
+	ExpiresAt *int64 `form:"expires_at"`
+}
+
 // If this is a `promptpay` PaymentMethod, this sub-hash contains details about the PromptPay payment method options.
 type PaymentIntentPaymentMethodOptionsPromptPayParams struct {
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -1397,6 +1410,8 @@ type PaymentIntentPaymentMethodOptionsParams struct {
 	P24 *PaymentIntentPaymentMethodOptionsP24Params `form:"p24"`
 	// If this is a `paynow` PaymentMethod, this sub-hash contains details about the PayNow payment method options.
 	PayNow *PaymentIntentPaymentMethodOptionsPayNowParams `form:"paynow"`
+	// If this is a `pix` PaymentMethod, this sub-hash contains details about the Pix payment method options.
+	Pix *PaymentIntentPaymentMethodOptionsPixParams `form:"pix"`
 	// If this is a `promptpay` PaymentMethod, this sub-hash contains details about the PromptPay payment method options.
 	PromptPay *PaymentIntentPaymentMethodOptionsPromptPayParams `form:"promptpay"`
 	// If this is a `sepa_debit` PaymentIntent, this sub-hash contains details about the SEPA Debit payment method options.
@@ -1877,6 +1892,18 @@ type PaymentIntentNextActionPayNowDisplayQRCode struct {
 	// The image_url_svg string used to render QR code
 	ImageURLSVG string `json:"image_url_svg"`
 }
+type PaymentIntentNextActionPixDisplayQRCode struct {
+	// The raw data string used to generate QR code, it should be used together with QR code library.
+	Data string `json:"data"`
+	// The date (unix timestamp) when the PIX expires.
+	ExpiresAt int64 `json:"expires_at"`
+	// The URL to the hosted pix instructions page, which allows customers to view the pix QR code.
+	HostedInstructionsURL string `json:"hosted_instructions_url"`
+	// The image_url_png string used to render png QR code
+	ImageURLPNG string `json:"image_url_png"`
+	// The image_url_svg string used to render svg QR code
+	ImageURLSVG string `json:"image_url_svg"`
+}
 type PaymentIntentNextActionPromptPayDisplayQRCode struct {
 	// The raw data string used to generate QR code, it should be used together with QR code library.
 	Data string `json:"data"`
@@ -1944,6 +1971,7 @@ type PaymentIntentNextAction struct {
 	KonbiniDisplayDetails           *PaymentIntentNextActionKonbiniDisplayDetails           `json:"konbini_display_details"`
 	OXXODisplayDetails              *PaymentIntentNextActionOXXODisplayDetails              `json:"oxxo_display_details"`
 	PayNowDisplayQRCode             *PaymentIntentNextActionPayNowDisplayQRCode             `json:"paynow_display_qr_code"`
+	PixDisplayQRCode                *PaymentIntentNextActionPixDisplayQRCode                `json:"pix_display_qr_code"`
 	PromptPayDisplayQRCode          *PaymentIntentNextActionPromptPayDisplayQRCode          `json:"promptpay_display_qr_code"`
 	RedirectToURL                   *PaymentIntentNextActionRedirectToURL                   `json:"redirect_to_url"`
 	// Type of the next action to perform, one of `redirect_to_url`, `use_stripe_sdk`, `alipay_handle_redirect`, `oxxo_display_details`, or `verify_with_microdeposits`.
@@ -2250,6 +2278,12 @@ type PaymentIntentPaymentMethodOptionsPayNow struct {
 	// When processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).
 	SetupFutureUsage PaymentIntentPaymentMethodOptionsPayNowSetupFutureUsage `json:"setup_future_usage"`
 }
+type PaymentIntentPaymentMethodOptionsPix struct {
+	// The number of seconds (between 10 and 1209600) after which Pix payment will expire.
+	ExpiresAfterSeconds int64 `json:"expires_after_seconds"`
+	// The timestamp at which the Pix expires.
+	ExpiresAt int64 `json:"expires_at"`
+}
 type PaymentIntentPaymentMethodOptionsPromptPay struct {
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
@@ -2334,6 +2368,7 @@ type PaymentIntentPaymentMethodOptions struct {
 	OXXO             *PaymentIntentPaymentMethodOptionsOXXO             `json:"oxxo"`
 	P24              *PaymentIntentPaymentMethodOptionsP24              `json:"p24"`
 	PayNow           *PaymentIntentPaymentMethodOptionsPayNow           `json:"paynow"`
+	Pix              *PaymentIntentPaymentMethodOptionsPix              `json:"pix"`
 	PromptPay        *PaymentIntentPaymentMethodOptionsPromptPay        `json:"promptpay"`
 	SEPADebit        *PaymentIntentPaymentMethodOptionsSEPADebit        `json:"sepa_debit"`
 	Sofort           *PaymentIntentPaymentMethodOptionsSofort           `json:"sofort"`
