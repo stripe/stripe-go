@@ -9,6 +9,8 @@ class StripeForce::BaseJob
   extend Integrations::ErrorContext
   extend Integrations::Metrics::ResqueHooks
 
+  extend StripeForce::Utilities::SalesforceUtil
+
   extend Resque::Plugins::Retry
 
   @queue = :high
@@ -46,8 +48,8 @@ class StripeForce::BaseJob
 
   abstract!
 
-  sig { abstract.params(salesforce_account_id: String, stripe_account_id: String, stripe_livemode: T::Boolean, sf_record_type: String, sf_record_id: String).void }
-  def self.perform(salesforce_account_id, stripe_account_id, stripe_livemode, sf_record_type, sf_record_id); end
+  sig { abstract.params(salesforce_account_id: String, stripe_account_id: String, stripe_livemode: T::Boolean, sf_record_id: String).void }
+  def self.perform(salesforce_account_id, stripe_account_id, stripe_livemode, sf_record_id); end
 
   sig { params(salesforce_account_id: String, stripe_account_id: String, livemode: T::Boolean).returns(StripeForce::User) }
   def self.user_reference(salesforce_account_id, stripe_account_id, livemode)

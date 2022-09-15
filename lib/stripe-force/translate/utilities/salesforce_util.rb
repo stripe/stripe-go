@@ -1,7 +1,7 @@
 # typed: true
 # frozen_string_literal: true
 
-# StripeUtil to avoid namespace madness with Stripe::* objects
+# SalesforceUtil to avoid namespace madness with Stripe::* objects
 module StripeForce::Utilities
   module SalesforceUtil
     extend T::Sig

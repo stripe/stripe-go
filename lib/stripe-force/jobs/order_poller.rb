@@ -43,7 +43,7 @@ class StripeForce::OrderPoller < StripeForce::PollerBase
 
     updated_order_ids.each do |sf_order_id|
       log.info 'queuing order', sf_order_id: sf_order_id
-      SalesforceTranslateRecordJob.work(@user, SF_ORDER, sf_order_id)
+      SalesforceTranslateRecordJob.work(@user, sf_order_id)
     end
 
     log.info 'poll complete', poll_size: updated_order_ids.count

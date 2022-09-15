@@ -22,6 +22,6 @@ class Critic::BaseJobTest < Critic::UnitTest
       assert_equal(selected_user.id, user_1.id)
     end
 
-    SalesforceTranslateRecordJob.work(user_1, 'Order', create_salesforce_id)
+    SalesforceTranslateRecordJob.work(user_1, create_salesforce_id)
   end
 end
