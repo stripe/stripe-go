@@ -1051,6 +1051,12 @@ type CheckoutSessionPaymentMethodOptionsPayNowParams struct {
 	TOSShownAndAccepted *bool `form:"tos_shown_and_accepted"`
 }
 
+// contains details about the Pix payment method options.
+type CheckoutSessionPaymentMethodOptionsPixParams struct {
+	// The number of seconds (between 10 and 1209600) after which Pix payment will expire. Defaults to 86400 seconds.
+	ExpiresAfterSeconds *int64 `form:"expires_after_seconds"`
+}
+
 // contains details about the Sepa Debit payment method options.
 type CheckoutSessionPaymentMethodOptionsSEPADebitParams struct {
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -1147,6 +1153,8 @@ type CheckoutSessionPaymentMethodOptionsParams struct {
 	P24 *CheckoutSessionPaymentMethodOptionsP24Params `form:"p24"`
 	// contains details about the PayNow payment method options.
 	PayNow *CheckoutSessionPaymentMethodOptionsPayNowParams `form:"paynow"`
+	// contains details about the Pix payment method options.
+	Pix *CheckoutSessionPaymentMethodOptionsPixParams `form:"pix"`
 	// contains details about the Sepa Debit payment method options.
 	SEPADebit *CheckoutSessionPaymentMethodOptionsSEPADebitParams `form:"sepa_debit"`
 	// contains details about the Sofort payment method options.
@@ -1385,7 +1393,8 @@ type CheckoutSessionParams struct {
 	PaymentMethodOptions *CheckoutSessionPaymentMethodOptionsParams `form:"payment_method_options"`
 	// A list of the types of payment methods (e.g., `card`) this Checkout Session can accept.
 	//
-	// Do not include this attribute if you prefer to manage your payment methods from the [Stripe Dashboard](https://dashboard.stripe.com/settings/payment_methods).
+	// In `payment` and `subscription` mode, you can omit this attribute to manage your payment methods from the [Stripe Dashboard](https://dashboard.stripe.com/settings/payment_methods).
+	// It is required in `setup` mode.
 	//
 	// Read more about the supported payment methods and their requirements in our [payment
 	// method details guide](https://stripe.com/docs/payments/checkout/payment-methods).
@@ -1708,6 +1717,10 @@ type CheckoutSessionPaymentMethodOptionsPayNow struct {
 	// When processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).
 	SetupFutureUsage CheckoutSessionPaymentMethodOptionsPayNowSetupFutureUsage `json:"setup_future_usage"`
 }
+type CheckoutSessionPaymentMethodOptionsPix struct {
+	// The number of seconds after which Pix payment will expire.
+	ExpiresAfterSeconds int64 `json:"expires_after_seconds"`
+}
 type CheckoutSessionPaymentMethodOptionsSEPADebit struct {
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
@@ -1764,6 +1777,7 @@ type CheckoutSessionPaymentMethodOptions struct {
 	OXXO             *CheckoutSessionPaymentMethodOptionsOXXO             `json:"oxxo"`
 	P24              *CheckoutSessionPaymentMethodOptionsP24              `json:"p24"`
 	PayNow           *CheckoutSessionPaymentMethodOptionsPayNow           `json:"paynow"`
+	Pix              *CheckoutSessionPaymentMethodOptionsPix              `json:"pix"`
 	SEPADebit        *CheckoutSessionPaymentMethodOptionsSEPADebit        `json:"sepa_debit"`
 	Sofort           *CheckoutSessionPaymentMethodOptionsSofort           `json:"sofort"`
 	USBankAccount    *CheckoutSessionPaymentMethodOptionsUSBankAccount    `json:"us_bank_account"`
@@ -1969,6 +1983,7 @@ type CheckoutSession struct {
 	// Tax and discount details for the computed total amount.
 	TotalDetails *CheckoutSessionTotalDetails `json:"total_details"`
 	// The URL to the Checkout Session. Redirect customers to this URL to take them to Checkout. If you're using [Custom Domains](https://stripe.com/docs/payments/checkout/custom-domains), the URL will use your subdomain. Otherwise, it'll use `checkout.stripe.com.`
+	// This value is only present when the session is active.
 	URL string `json:"url"`
 }
 

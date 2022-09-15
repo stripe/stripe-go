@@ -193,6 +193,14 @@ type InvoiceDiscountParams struct {
 	Discount *string `form:"discount"`
 }
 
+// Revise an existing invoice. The new invoice will be created in `status=draft`. See the [revision documentation](https://stripe.com/docs/invoicing/invoice-revisions) for more details.
+type InvoiceFromInvoiceParams struct {
+	// The relation between the new invoice and the original invoice. Currently, only 'revision' is permitted
+	Action *string `form:"action"`
+	// The `id` of the invoice that will be cloned.
+	Invoice *string `form:"invoice"`
+}
+
 // Additional fields for Mandate creation
 type InvoicePaymentSettingsPaymentMethodOptionsACSSDebitMandateOptionsParams struct {
 	// Transaction type of the mandate.
@@ -359,6 +367,8 @@ type InvoiceParams struct {
 	DueDate *int64 `form:"due_date"`
 	// Footer to be displayed on the invoice.
 	Footer *string `form:"footer"`
+	// Revise an existing invoice. The new invoice will be created in `status=draft`. See the [revision documentation](https://stripe.com/docs/invoicing/invoice-revisions) for more details.
+	FromInvoice *InvoiceFromInvoiceParams `form:"from_invoice"`
 	// The account (if any) for which the funds of the invoice payment are intended. If set, the invoice will be presented with the branding and support information of the specified account. See the [Invoices with Connect](https://stripe.com/docs/billing/invoices/connect) documentation for details.
 	OnBehalfOf *string `form:"on_behalf_of"`
 	// Configuration settings for the PaymentIntent that is generated when the invoice is finalized.
@@ -820,6 +830,14 @@ type InvoiceCustomerTaxID struct {
 	// The value of the tax ID.
 	Value string `json:"value"`
 }
+
+// Details of the invoice that was cloned. See the [revision documentation](https://stripe.com/docs/invoicing/invoice-revisions) for more details.
+type InvoiceFromInvoice struct {
+	// The relation between this invoice and the cloned invoice
+	Action string `json:"action"`
+	// The invoice that was cloned.
+	Invoice *Invoice `json:"invoice"`
+}
 type InvoicePaymentSettingsPaymentMethodOptionsACSSDebitMandateOptions struct {
 	// Transaction type of the mandate.
 	TransactionType InvoicePaymentSettingsPaymentMethodOptionsACSSDebitMandateOptionsTransactionType `json:"transaction_type"`
@@ -1063,6 +1081,8 @@ type Invoice struct {
 	EndingBalance int64 `json:"ending_balance"`
 	// Footer displayed on the invoice.
 	Footer string `json:"footer"`
+	// Details of the invoice that was cloned. See the [revision documentation](https://stripe.com/docs/invoicing/invoice-revisions) for more details.
+	FromInvoice *InvoiceFromInvoice `json:"from_invoice"`
 	// The URL for the hosted invoice page, which allows customers to view and pay an invoice. If the invoice has not been finalized yet, this will be null.
 	HostedInvoiceURL string `json:"hosted_invoice_url"`
 	// Unique identifier for the object.
@@ -1071,6 +1091,8 @@ type Invoice struct {
 	InvoicePDF string `json:"invoice_pdf"`
 	// The error encountered during the previous attempt to finalize the invoice. This field is cleared when the invoice is successfully finalized.
 	LastFinalizationError *Error `json:"last_finalization_error"`
+	// The ID of the most recent non-draft revision of this invoice
+	LatestRevision *Invoice `json:"latest_revision"`
 	// The individual line items that make up the invoice. `lines` is sorted as follows: invoice items in reverse chronological order, followed by the subscription, if any.
 	Lines *InvoiceLineItemList `json:"lines"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.

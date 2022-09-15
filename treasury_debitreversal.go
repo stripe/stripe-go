@@ -60,6 +60,8 @@ type TreasuryDebitReversal struct {
 	APIResource
 	// Amount (in cents) transferred.
 	Amount int64 `json:"amount"`
+	// Time at which the object was created. Measured in seconds since the Unix epoch.
+	Created int64 `json:"created"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency Currency `json:"currency"`
 	// The FinancialAccount to reverse funds from.
