@@ -631,7 +631,7 @@ class StripeForce::Translate
   def extract_contract_id_from_initial_order(sf_initial_order)
     # if this occurs, the user's CPQ is not configured properly/as we assume
     if sf_initial_order[SF_ORDER_QUOTE].blank?
-      raise Integrations::Errors::ImpossibleState.new("no quote associated with orde1r")
+      raise StripeForce::Errors::RawUserError.new("No quote associated with an order. Orders pushed to Stripe must have a related CPQ Quote.")
     end
 
     contract_query = sf.query(

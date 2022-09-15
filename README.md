@@ -27,6 +27,12 @@ Update with `sfdx force:package1:version:list --json -u mbianco+newstripeconnect
   - This org will _not_ expire since it is tied to a production package
 - QA Packaging Org: `appiphonycom7-dev-ed` subdomain
 
+# Queue
+
+Monitoring url: https://salesforce.suitesync.io/monitoring/resque-monitor/
+
+Helpful scripts in `scripts/` for manually mutating the queue.
+
 # URLs
 
 - Production URL: https://salesforce.suitesync.io/auth/salesforce
