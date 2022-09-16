@@ -172,14 +172,11 @@ class Stripe::SubscriptionSchedule
   sig { returns(Stripe::SubscriptionScheduleSettings) }
   def default_settings; end
 
-  sig { returns(T.any(Stripe::Subscription, String))}
+  sig { returns(T.nilable(T.any(Stripe::Subscription, String)))}
   def subscription; end
 
   sig { returns(T.any(Stripe::Customer, String))}
   def customer; end
-
-  sig { returns(T.any(Stripe::Subscription, String))}
-  def subscription; end
 
   sig { returns(T::Array[Stripe::SubscriptionSchedulePhase])}
   def phases; end

@@ -134,7 +134,10 @@ class StripeForce::Translate
     # is order prorated? we'll need a separate helper for this
     # if so, iterate through phase items items and generate proration items
     # create a new phase to store these items, this will be custom for the initial order
-    # pull this out into a separate method so we can use it on the amendment side of things for amendments
+    # we can release this, and then support amendments next
+    # pull this '2nd phase creation' out into a separate method so we can use it on the amendment side of things for amendments
+    # make sure the initial state on the order amendments includes the second phase
+    # we may need to do some weird phase merging because the initial order phase could be after the order amendment phase
 
     # TODO add mapping support against the subscription schedule phase
 

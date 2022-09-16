@@ -128,14 +128,7 @@ class Critic::ProratedAmendmentTranslation < Critic::OrderAmendmentFunctionalTes
     stripe_customer = stripe_get(stripe_customer_id)
     refute_nil(stripe_customer.test_clock)
 
-    test_clock = Stripe::TestHelpers::TestClock.retrieve(stripe_customer.test_clock, @user.stripe_credentials)
-    test_clock.advance(frozen_time: (amendment_start_date + 1.day).to_i)
-
-    # test clocks can take some time...
-    wait_until(timeout: 5.minutes) do
-      test_clock.refresh
-      test_clock.status == 'ready'
-    end
+    test_clock = advance_test_clock(stripe_customer, (amendment_start_date + 1.day).to_i)
 
     # simulate sending the webhook
     events = Stripe::Event.list({

@@ -151,17 +151,48 @@ class StripeForce::Translate
     end
 
     # all dates returned are middate utc
-    sig { params(user: StripeForce::User, original_subscription_schedule: Stripe::SubscriptionSchedule, billing_frequency: Integer).returns(T::Array[DateTime]) }
+    sig { params(user: StripeForce::User, original_subscription_schedule: Stripe::SubscriptionSchedule, billing_frequency: Integer).returns(T::Array[Integer]) }
     def self.calculate_billing_cycle_dates(user, original_subscription_schedule, billing_frequency)
-      subscription_id = T.cast(original_subscription_schedule.subscription, String)
+      future_billing_dates = []
 
-      # TODO hide these API errors
-      upcoming_invoice = Stripe::Invoice.upcoming({
-        subscription: subscription_id,
-      }, user.stripe_credentials)
+      # https://jira.corp.stripe.com/browse/PLATINT-1809
+      # the start date of the subscription could be in the future and we may not be able to calculate the upcoming invoice
+      if original_subscription_schedule.subscription
+        subscription_id = T.cast(original_subscription_schedule.subscription, String)
 
-      # all timestamps are in utc
-      next_billing_timestamp = upcoming_invoice.created
+        begin
+          upcoming_invoice = Stripe::Invoice.upcoming({
+            subscription: subscription_id,
+          }, user.stripe_credentials)
+
+          # all timestamps from stripe are in utc
+          next_billing_timestamp = upcoming_invoice.created
+          future_billing_dates << next_billing_timestamp
+        rescue Stripe::InvalidRequestError => e
+          # TODO should report there are two errors for the same thing
+          if !%w{invoice_upcoming_none no_upcoming_exception}.include?(e.code)
+            raise
+          end
+
+          # most likely due to there only being a single invoice in this sub phase which has alread been billed
+          log.info 'upcoming invoice api call failed'
+        end
+
+      end
+
+      if !next_billing_timestamp
+        # if we can't get the next_billing_timestamp from the stripe api, then we'll have to use
+        # the start date of the first phase
+        next_billing_timestamp = T.must(original_subscription_schedule.phases.first).start_date
+
+        log.info 'upcoming invoice api could not be used, using phase start date for billing cycle', start_date: next_billing_timestamp
+
+        # in this case, we don't know if this timestamp is in the past, let's check before adding it to the list
+        customer_id = T.cast(original_subscription_schedule.customer, String)
+        if next_billing_timestamp > determine_current_time(user, customer_id)
+          future_billing_dates << next_billing_timestamp
+        end
+      end
 
       # we don't know the state of the subscription schedule when it is passed in
       # it could be mutated by upstream logic and not yet passed to stripe
@@ -178,10 +209,9 @@ class StripeForce::Translate
       # add the billing_frequency until we are past the last billing date
 
       next_billing_date = Time.at(next_billing_timestamp).utc.to_datetime
-      future_billing_dates = [next_billing_timestamp]
 
       billing_date = next_billing_date
-      while billing_date.to_i <= final_billing_timestamp
+      while billing_date.to_i < final_billing_timestamp
         billing_date += billing_frequency.months
         future_billing_dates << billing_date.to_i
       end

@@ -14,6 +14,7 @@ module Critic
     include Integrations::Log
 
     TEST_DEFAULT_CONTRACT_TERM = 12
+    TEST_DEFAULT_PRICE = 120_00
 
     sig { returns(String) }
     def now_time_formatted_for_salesforce
@@ -85,7 +86,7 @@ module Critic
     end
 
     def create_salesforce_price(sf_product_id: nil, price: nil)
-      price ||= 120_00
+      price ||= TEST_DEFAULT_PRICE
       sf_product_id ||= create_salesforce_product
 
       sf_pricebook_entry_id = sf.create!(SF_PRICEBOOK_ENTRY,
@@ -135,6 +136,7 @@ module Critic
       subscription_term = if additional_product_fields.key?(CPQ_QUOTE_BILLING_FREQUENCY) && additional_product_fields[CPQ_QUOTE_BILLING_FREQUENCY] != CPQBillingFrequencyOptions::MONTHLY.serialize
         nil
       else
+        # 1 month is default
         1
       end
 
@@ -167,7 +169,7 @@ module Critic
     end
 
     # returns the full object, not the ID
-    def create_subscription_order(sf_product_id: nil, sf_account_id: nil)
+    def create_subscription_order(sf_product_id: nil, sf_account_id: nil, additional_fields: {})
       create_salesforce_order(
         sf_product_id: sf_product_id,
         sf_account_id: sf_account_id,
@@ -175,7 +177,7 @@ module Critic
           CPQ_QUOTE_SUBSCRIPTION_START_DATE => now_time_formatted_for_salesforce,
           # one year / 12 months
           CPQ_QUOTE_SUBSCRIPTION_TERM => TEST_DEFAULT_CONTRACT_TERM,
-        }
+        }.merge(additional_fields)
       )
     end
 

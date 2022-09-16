@@ -99,7 +99,7 @@ jobs:
     steps:
       - checkout
       - sfdx/install: &sfdx_version
-          version: '7.164.2'
+          version: '7.167.2'
       - run: sfdx/bin/run-tests <<parameters.account>>
       - store_test_results:
           path: sfdx/test-results
@@ -150,6 +150,7 @@ jobs:
       RACK_ENV: test
       LOG_LEVEL: DEBUG
       DISABLE_SPRING: "true"
+      TZ: "Etc/UTC"
       STRIPE_ACCOUNT_ID: acct_15uapDIsgf92XbAO
       STRIPE_WEBHOOK_SECRET: whsec_notarealwebhooksecret
       # used for private key extraction and usage in the jwt generator
