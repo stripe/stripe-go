@@ -310,8 +310,16 @@ TODO this may not be applicable anymore since we've removed the `.sfdx` folder f
 # Development
 
 ## Deployment
+We have a pipline setup in heroku. You first push to the canary, and then promote it to the rest of the pipeline.
 
-`git remote add heroku https://git.heroku.com/stripe-force.git`
+```
+# on first setup
+git remote add canary https://git.heroku.com/stripe-force-canary.git (push)
+
+# when you are on master and ready to deploy
+git push canary head
+heroku pipelines:promote -r canary
+```
 
 ## Helpful Scripts
 
