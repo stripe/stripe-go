@@ -9,5 +9,3 @@ public with sharing class test_utilities {
         System.assert(packageVersion != null);
     }
 }
-
-
