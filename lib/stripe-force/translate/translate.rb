@@ -275,17 +275,25 @@ class StripeForce::Translate
   sig { params(sf_object: T.untyped, stripe_object: Stripe::APIResource, additional_salesforce_updates: Hash).void }
   def update_sf_stripe_id(sf_object, stripe_object, additional_salesforce_updates: {})
     stripe_id_field = prefixed_stripe_field(GENERIC_STRIPE_ID)
+    stripe_object_id = stripe_object.id
 
     if sf_object[stripe_id_field]
-      log.info 'stripe id already exists in salesforce, overwriting',
+      if sf_object[stripe_id_field] == stripe_object_id
+        log.info 'stripe id already exists in salesforce, no update',
+          stripe_id: sf_object[stripe_id_field],
+          field_name: stripe_id_field
+        return
+      end
+
+      log.info 'stripe id is different than existing stripe id in salesforce, overwriting',
         old_stripe_id: sf_object[stripe_id_field],
-        new_stripe_id: stripe_object.id,
+        new_stripe_id: stripe_object_id,
         field_name: stripe_id_field
     end
 
     sf.update!(sf_object.sobject_type, {
       SF_ID => sf_object.Id,
-      stripe_id_field => stripe_object.id,
+      stripe_id_field => stripe_object_id,
     }.merge(additional_salesforce_updates))
 
     create_user_success(

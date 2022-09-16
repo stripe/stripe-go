@@ -120,6 +120,27 @@ module Critic::Unit
       end
     end
 
+    describe '#update_sf_stripe_id' do
+      it 'dont update sf with stripe id if id has not changed' do
+        # setup
+        customer = create_mock_salesforce_customer
+        stripe_customer = Stripe::Customer.construct_from(id: stripe_create_id(:cus))
+
+        # should update the stripe id in SF the first time
+        @translator.sf.expects(:update!).with do |name, params|
+          assert_equal(SF_ACCOUNT, name)
+          assert_equal(stripe_customer.id, params[prefixed_stripe_field(GENERIC_STRIPE_ID)])
+        end
+        @translator.expects :create_user_success
+        @translator.update_sf_stripe_id(customer, stripe_customer)
+
+        # stripe id should not be updated in SF if there is no change
+        customer[prefixed_stripe_field(GENERIC_STRIPE_ID)] = stripe_customer.id
+        @translator.sf.expects(:update!).never
+        @translator.update_sf_stripe_id(customer, stripe_customer)
+      end
+    end
+
     describe 'generate_idempotency_key_with_credentials' do
       it 'generates a key' do
         sf_order = create_mock_salesforce_order
