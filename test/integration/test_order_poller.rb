@@ -44,6 +44,7 @@ class Critic::OrderPollerTest < Critic::FunctionalTest
         next true
       end
 
+      # make sure the poll actually includes the order we expect
       contains_order = true
 
       # lock error should be raised if we try lock on another instance of the job
@@ -59,7 +60,8 @@ class Critic::OrderPollerTest < Critic::FunctionalTest
       true
     end
 
-    sleep(2)
+    # ensures there are no weird propogation issues in SOQL, we've seen some strange timeouts here
+    sleep(5)
 
     # TODO right now, this works since we only have a single order poll, this will need to be specific to orders in the future
     StripeForce::InitiatePollsJobs.perform

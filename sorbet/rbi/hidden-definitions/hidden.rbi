@@ -45631,7 +45631,7 @@ module StripeForce::ProrationAutoBill
   extend ::T::Private::Methods::SingletonMethodHooks
 end
 
-class StripeForce::Sanitizer
+module StripeForce::Sanitizer
   extend ::T::Private::Methods::MethodHooks
   extend ::T::Private::Methods::SingletonMethodHooks
 end

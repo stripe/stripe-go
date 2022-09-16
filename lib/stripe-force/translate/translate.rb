@@ -516,7 +516,6 @@ class StripeForce::Translate
 
   sig { params(stripe_record: Stripe::StripeObject).void }
   def sanitize(stripe_record)
-    @sanitizer ||= StripeForce::Sanitizer.new(@user)
-    @sanitizer.sanitize(stripe_record)
+    StripeForce::Sanitizer.sanitize(stripe_record)
   end
 end

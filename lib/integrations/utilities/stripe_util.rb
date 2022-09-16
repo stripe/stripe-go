@@ -50,7 +50,14 @@ module Integrations::Utilities::StripeUtil
   # not specific to Stripe, but exclusively used in translating data to Stripe
   sig { params(value: T.any(String, Integer, BigDecimal, Float)).returns(T::Boolean) }
   def self.is_integer_value?(value)
-    value.to_i == value.to_f
+    # if a string, then we want to convert to a precision float for careful comparison
+    float_comparison = if value.is_a?(String)
+      BigDecimal(value)
+    else
+      value
+    end
+
+    value.to_i == float_comparison
   end
 
   def stripe_class_from_id(stripe_object_id, raise_on_missing: true)
