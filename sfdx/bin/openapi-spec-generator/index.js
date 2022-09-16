@@ -275,14 +275,19 @@ function checkForNestedHashFields(stripeObjectMappings, stripeObjectName, expand
                 fields: []
             };
             stripeObjectMappings.push(newSection);
-  
             if (Object.keys(expandableSchemaFieldMap).length > 1 ) {
                 for (const [nestedSubHashField, nestedSubHashFieldMap] of Object.entries(expandableSchemaFieldMap)) {
                     var nestedSubHashFieldName = nestedSubHashField.replace(/_+/g, ' ');
                     var nestedSubHashFieldValue = field + '.' + nestedSubHashField;
-                    stripeObjectMappings = addNewFieldToSection(stripeObjectMappings, nestedSubHashFieldName, nestedSubHashFieldValue, nestedSubHashFieldMap, nestedSubHashField, field, stripeObjectName);
 
+                    //check to see if the object has a nested list
+                    if(expandableSchemaFieldMap[nestedSubHashField]['anyOf'] && expandableSchemaFieldMap[nestedSubHashField]['anyOf'].length) {
+                        stripeObjectMappings = getNestedInnerObjectFields(expandableSchemaFieldMap, nestedSubHashField, stripeObjectMappings, field, stripeObjectName);
+                    } 
+
+                    stripeObjectMappings = addNewFieldToSection(stripeObjectMappings, nestedSubHashFieldName, nestedSubHashFieldValue, nestedSubHashFieldMap, nestedSubHashField, field, stripeObjectName);
                 }
+
             } else {
                 const hashFieldName = expandableField.replace(/_+/g, ' ');
                 const hashFieldValue = field + '.' + expandableField;
@@ -305,11 +310,33 @@ function checkForNestedHashFields(stripeObjectMappings, stripeObjectName, expand
                 stripeObjectMappings = addNewFieldToSection(stripeObjectMappings, nestedHashFieldName, nestedHashFieldValue, expandableSchemaFieldMap, subfield, field, stripeObjectName);
 
             }
-        }
+        } 
     }
     return stripeObjectMappings;
 }
 
+function getNestedInnerObjectFields(expandableSchemaFieldMap, nestedSubHashField, stripeObjectMappings, field, stripeObjectName) {
+    for (let i = 0; i < expandableSchemaFieldMap[nestedSubHashField]['anyOf'].length; i++) {
+        if (!expandableSchemaFieldMap[nestedSubHashField]['anyOf'][i]['properties']) {
+            continue;
+        }
+        nestedExpandableSchemaFieldMap = expandableSchemaFieldMap[nestedSubHashField]['anyOf'][i]['properties'];
+        for (const [innerNestedSubHashField, innerNestedSubHashFieldMap] of Object.entries(nestedExpandableSchemaFieldMap)) {
+            var newSection = {
+                label: field.charAt(0).toUpperCase() + field.slice(1).replace(/_+/g, ' ') + ' ' + nestedSubHashField.charAt(0).toUpperCase() + nestedSubHashField.slice(1).replace(/_+/g, ' '),
+                name: nestedSubHashField,
+                description: '',
+                fields: []
+            };
+            stripeObjectMappings.push(newSection);
+            var innerNestedSubHashFieldName = innerNestedSubHashField.replace(/_+/g, ' ');
+            var innerestedSubHashFieldValue = field + '.' + nestedSubHashField + '.' + innerNestedSubHashField;
+
+            stripeObjectMappings = addNewFieldToSection(stripeObjectMappings, innerNestedSubHashFieldName, innerestedSubHashFieldValue, innerNestedSubHashFieldMap, innerNestedSubHashField, field, stripeObjectName);
+        }
+    }
+    return stripeObjectMappings;
+}
 
 function addNewFieldToSection(stripeObjectMappings, hashFieldName, hashFieldValue, expandableSchemaFieldMap, expandableField, field, stripeObjectName) {
 

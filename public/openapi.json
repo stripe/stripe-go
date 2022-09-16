@@ -854,6 +854,41 @@
           "hasRequiredValue": false,
           "sfValue": "",
           "sfValueType": ""
+        }
+      ]
+    },
+    {
+      "label": "Default settings Billing thresholds",
+      "name": "billing_thresholds",
+      "description": "",
+      "fields": [
+        {
+          "name": "amount gte",
+          "value": "default_settings.billing_thresholds.amount_gte",
+          "description": "<p>The total invoice amount threshold boundary if it triggered the threshold invoice.</p>",
+          "type": "integer",
+          "defaultValue": "",
+          "requiredValue": "",
+          "hasOverride": false,
+          "staticValue": false,
+          "hasSfValue": false,
+          "hasRequiredValue": false,
+          "sfValue": "",
+          "sfValueType": ""
+        },
+        {
+          "name": "reset billing cycle anchor",
+          "value": "default_settings.billing_thresholds.reset_billing_cycle_anchor",
+          "description": "<p>Indicates if the <code>billing_cycle_anchor</code> should be reset when a threshold is reached. If true, <code>billing_cycle_anchor</code> will be updated to the date/time the threshold was last reached; otherwise, the value will remain unchanged. This value may not be <code>true</code> if the subscription contains items with plans that have <code>aggregate_usage=last_ever</code>.</p>",
+          "type": "boolean",
+          "defaultValue": "",
+          "requiredValue": "",
+          "hasOverride": false,
+          "staticValue": false,
+          "hasSfValue": false,
+          "hasRequiredValue": false,
+          "sfValue": "",
+          "sfValueType": ""
         },
         {
           "name": "billing thresholds",
@@ -887,6 +922,41 @@
           "name": "default payment method",
           "value": "default_settings.default_payment_method",
           "description": "<p>ID of the default payment method for the invoice. It must belong to the customer associated with the invoice. If not set, defaults to the subscription's default payment method, if any, or to the default payment method in the customer's invoice settings.</p>",
+          "type": "string",
+          "defaultValue": "",
+          "requiredValue": "",
+          "hasOverride": false,
+          "staticValue": false,
+          "hasSfValue": false,
+          "hasRequiredValue": false,
+          "sfValue": "",
+          "sfValueType": ""
+        }
+      ]
+    },
+    {
+      "label": "Default settings Transfer data",
+      "name": "transfer_data",
+      "description": "",
+      "fields": [
+        {
+          "name": "amount percent",
+          "value": "default_settings.transfer_data.amount_percent",
+          "description": "<p>A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice subtotal that will be transferred to the destination account. By default, the entire amount will be transferred to the destination.</p>",
+          "type": "number",
+          "defaultValue": "",
+          "requiredValue": "",
+          "hasOverride": false,
+          "staticValue": false,
+          "hasSfValue": false,
+          "hasRequiredValue": false,
+          "sfValue": "",
+          "sfValueType": ""
+        },
+        {
+          "name": "destination",
+          "value": "default_settings.transfer_data.destination",
+          "description": "<p>ID of an existing, connected Stripe account to transfer funds to if <code>transfer_data</code> was specified in the charge request.</p>",
           "type": "string",
           "defaultValue": "",
           "requiredValue": "",
