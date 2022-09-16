@@ -150,6 +150,7 @@ class StripeForce::Translate
       billing_frequency_in_months
     end
 
+    # used to help determined if a order is prorated after all 'easier' checks have failed to
     # all dates returned are middate utc
     sig { params(user: StripeForce::User, original_subscription_schedule: Stripe::SubscriptionSchedule, billing_frequency: Integer).returns(T::Array[Integer]) }
     def self.calculate_billing_cycle_dates(user, original_subscription_schedule, billing_frequency)
@@ -231,14 +232,16 @@ class StripeForce::Translate
       ).returns(T::Boolean)
     end
     def self.prorated_amendment?(user:, aggregate_phase_items:, subscription_schedule:, subscription_term:, billing_frequency:, amendment_start_date:)
+      log.info 'determining if order is prorated'
+
       if aggregate_phase_items.empty?
-        log.info 'no subscription items, cannot be a proration'
+        log.info 'no subscription items, cannot be prorated order'
         return false
       end
 
       # if the subscription term does not match the billing frequency of the stripe item, then there will be some proration
       if (subscription_term % billing_frequency) != 0
-        log.info 'billing frequency is not divisible by subscription term, assuming proration',
+        log.info 'billing frequency is not divisible by subscription term, assuming prorated order',
           subscription_term: subscription_term,
           billing_frequency: billing_frequency
         return true

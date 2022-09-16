@@ -28,6 +28,16 @@ def user_from_script_argument
   user
 end
 
+def update_poll_timestamp(user, sf_class, time)
+  poll_timestamp = StripeForce::PollTimestamp.by_user_and_record(
+    user,
+    sf_class
+  )
+
+  poll_timestamp.last_polled_at = time
+  poll_timestamp.save
+end
+
 def set_initial_poll_timestamp(user, sf_class)
   poll_timestamp = StripeForce::PollTimestamp.by_user_and_record(
     user,

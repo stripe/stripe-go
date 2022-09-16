@@ -99,7 +99,7 @@ module Integrations
       end
 
       if integration_record
-        extra_context['integration_record_type'] = integration_record.class.to_s
+        extra_context['integration_record_type'] = integration_record.sobject_type
         extra_context['integration_record_id'] = integration_record.Id
         tags_context['integration_record_id'] = integration_record.Id
       end

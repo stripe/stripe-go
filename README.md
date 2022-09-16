@@ -12,6 +12,7 @@ Update with `sfdx force:package1:version:list --json -u mbianco+newstripeconnect
 
 # stripe-salesforce
 
+- [UXR Notes](https://docs.google.com/document/d/1yHUMSW41bBZSygNP4QT1iPzT4PEM0TwWt0kxk8tIj_Y/edit#)
 - [prioritized jira list](https://jira.corp.stripe.com/issues/?jql=project%20%3D%20PLATINT%20AND%20component%20%3D%20%22Salesforce%20Connector%20for%20Stripe%22%20AND%20status%20!%3D%20%22Done%22%20order%20by%20priority)
 - [user documentation](https://docs.google.com/document/d/1GKfHhp0FwGHiAPxDv8AzJfnf0vJSbvF3ypMuzvhvZdw/edit#heading=h.rib60y3xmt51)
 - [technical design](https://docs.google.com/document/d/1_7kf3oUTuNqQuopfapTP30Di1XwpuY7VYS_APYiGuPY/edit)

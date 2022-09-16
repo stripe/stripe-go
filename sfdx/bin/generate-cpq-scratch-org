@@ -68,6 +68,7 @@ echo "Manual step: Installed Packages > Configure > Pricing & Calculation > Auth
 echo "Manual step: Installed Packages > Configure > Pricing & Calculation > Enable Usage Based Pricing"
 echo "Manual step: Installed Packages > Configure > Subscription & Renewals > Subscription Prorate Precision: Month"
 echo "Manual step: Installed Packages > Configure > Subscription & Renewals > Contract in Foreground"
+echo "Manual step: Installed Packages > Configure > Order > Default Order Start Date > Quote Start Date"
 echo $'\n\n'
 sfdx force:org:open -u $salesforceAlias -p "/lightning/setup/ImportedPackage/home" > /dev/null
 
@@ -78,14 +79,20 @@ sfdx force:org:open -u $salesforceAlias -p '/lightning/setup/CustomMetadata/page
 
 echo "Opening up another tab to the Stripe app, authorize Salesforce & Stripe"
 sfdx force:org:open -u $salesforceAlias -p '/lightning/n/Setup' > /dev/null
+# open https://rest-na.steelbrick.com/oauth/auth/https%3A%2F%2Ftest.salesforce.com/SBQQ
+# open https://salesforce.suitesync.io/auth/salesforcesandbox
 
 echo "All done! Remember: this scratch org will expire in 30d, so have two of these ready so your dev loop is not destroyed."
 echo "You probably want to refresh your development tokens: 'bundle exec ruby scripts/refresh-tokens.rb'"
 echo "Try playing around in a console: 'bundle exec ruby scripts/console.rb'"
 
+# TODO integrate `sed "s|____GLOBAL_KEY____|$SF_MANAGED_PACKAGE_API_KEY|" scripts/apex/create_global_key_metadata | sfdx force:apex:execute`
+#      which will require checking for the SF_MANAGED_PACKAGE_API_KEY existing
 # TODO debug mode lwc, this looks like it cannot be setup automatically
 # TODO assign permission set CPQ license https://sf9to5.com/2020/09/08/winter-21-changes-cpq-licensing/
 # TODO make sure Stripe fields are on all layouts
 # include example of how to delete the scratch org `sfdx force:org:delete -p -u test-motqqy6yl1qs@example.com`
 # TODO if scratch org is expired, you will get auth issues. Remove with `sfdx auth:logout -u test-bpruhlkz0qaf@example.com`
+#      even better: `sfdx force:org:list --clean`
 # TODO the pricebooks aren't active by default, debugger => activate_pricebooks
+# TODO document deployment status `/lightning/setup/DeployStatus/home`

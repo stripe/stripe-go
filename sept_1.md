@@ -47,3 +47,7 @@
 - [ ] Use `end_date` vs iterations in initial phase and rip out associated logic
 - [ ] Improve custom price field detection to be more reliable
 - [ ] Refactor to pull out order amendment helpers into separate module
+
+### Backdated
+
+- The `start_date` of backdated phases looks strange: it's the current time vs the actual start time
