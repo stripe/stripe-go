@@ -99,7 +99,8 @@ class StripeForce::Translate
     # when creating the subscription schedule the start_date must be specified on the heaer
     # when updating it, it is specified on the individual phase object
     subscription_start_date = subscription_params['start_date']
-    subscription_params['start_date'] = StripeForce::Utilities::SalesforceUtil.salesforce_date_to_unix_timestamp(subscription_start_date)
+    subscription_start_date_as_timestamp = StripeForce::Utilities::SalesforceUtil.salesforce_date_to_unix_timestamp(subscription_start_date)
+    subscription_params['start_date'] = subscription_start_date_as_timestamp
 
     # TODO should probably just use the end date here and centralize the calculations used on the order side of things
     # TODO this should really be done *before* generating the line items and therefore creating prices
@@ -121,7 +122,7 @@ class StripeForce::Translate
     }
 
     # TODO this needs to be gated and synced with the specific flag that CF is using
-    if subscription_start_date >= DateTime.now
+    if subscription_start_date_as_timestamp >= OrderAmendment.determine_current_time(@user, stripe_customer.id)
       # when `sub_sched_backdating_anchors_on_backdate` is enabled prorating the initial phase
       # does NOT actually prorate it, but instead bills the full amount of the subscription item
       # and locks the billing anchor to the start date of the subscription. Without this flag the

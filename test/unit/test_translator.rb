@@ -22,7 +22,7 @@ module Critic::Unit
       it 'throws an error if required fields are missing' do
         # omit subscription term to intentionally create an error
         sf_order = create_mock_salesforce_order
-        sf_order[CPQ_QUOTE_SUBSCRIPTION_START_DATE] = DateTime.now.to_s
+        sf_order[CPQ_QUOTE_SUBSCRIPTION_START_DATE] = now_time_formatted_for_salesforce
 
         # TODO should redefine `assert_raises` to accept a dynamic class param
         exception = assert_raises(Integrations::Errors::MissingRequiredFields) do
@@ -43,7 +43,7 @@ module Critic::Unit
 
         # omit subscription term to intentionally create an error
         sf_order = create_mock_salesforce_order
-        sf_order[CPQ_QUOTE_SUBSCRIPTION_START_DATE] = DateTime.now.to_s
+        sf_order[CPQ_QUOTE_SUBSCRIPTION_START_DATE] = now_time_formatted_for_salesforce
         sf_order[CPQ_QUOTE_SUBSCRIPTION_TERM] = 12
         sf_order['Description'] = 'a description'
 
@@ -61,7 +61,7 @@ module Critic::Unit
 
         # omit subscription term to intentionally create an error
         sf_order = create_mock_salesforce_order
-        sf_order[CPQ_QUOTE_SUBSCRIPTION_START_DATE] = DateTime.now.to_s
+        sf_order[CPQ_QUOTE_SUBSCRIPTION_START_DATE] = now_time_formatted_for_salesforce
         sf_order[CPQ_QUOTE_SUBSCRIPTION_TERM] = 12
 
         results = @translator.extract_salesforce_params!(sf_order, Stripe::SubscriptionSchedule)
