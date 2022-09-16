@@ -28,8 +28,6 @@ class StripeForce::Translate
         if active_price.metadata[Metadata.metadata_key(user, "auto_archive")]
           log.info 'archiving price', archive_price_id: active_price.id
           active_price.active = false
-          # TODO idempotency_key, needs class method
-          # active_price.save({}, generate_idempotency_key_with_credentials(user, active_price, :archive))
           active_price.save
         end
       end

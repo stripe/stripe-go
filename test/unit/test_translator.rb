@@ -125,7 +125,7 @@ module Critic::Unit
         sf_order = create_mock_salesforce_order
 
         @user.expects(:sandbox?).once.returns(false)
-        creds = @translator.generate_idempotency_key_with_credentials(@user, sf_order)
+        creds = StripeForce::Utilities::StripeUtil.generate_idempotency_key_with_credentials(@user, sf_order)
 
         assert_equal(sf_order.Id, creds.delete(:idempotency_key))
         assert_equal(@user.stripe_credentials, creds)
@@ -135,7 +135,7 @@ module Critic::Unit
         sf_order = create_mock_salesforce_order
 
         @user.expects(:sandbox?).once.returns(false)
-        creds = @translator.generate_idempotency_key_with_credentials(
+        creds = StripeForce::Utilities::StripeUtil.generate_idempotency_key_with_credentials(
           @user,
           sf_order,
           :finalize_invoice

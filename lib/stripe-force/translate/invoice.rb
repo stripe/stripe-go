@@ -14,7 +14,7 @@ class StripeForce::Translate
       Stripe::InvoiceItem.create(
         # TODO should we add to subscription instead of customer if a sub exists?
         {customer: stripe_customer}.merge(invoice_item.stripe_params),
-        generate_idempotency_key_with_credentials(@user, invoice_item.order_line)
+        StripeForce::Utilities::StripeUtil.generate_idempotency_key_with_credentials(@user, invoice_item.order_line)
       )
     end
 
@@ -27,7 +27,7 @@ class StripeForce::Translate
 
     stripe_invoice.finalize_invoice(
       {},
-      generate_idempotency_key_with_credentials(@user, sf_order, :finalize_invoice),
+      StripeForce::Utilities::StripeUtil.generate_idempotency_key_with_credentials(@user, sf_order, :finalize_invoice),
     )
 
     log.info 'stripe invoice created', stripe_resource_id: stripe_invoice.id

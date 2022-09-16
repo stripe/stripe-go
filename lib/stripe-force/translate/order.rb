@@ -167,7 +167,7 @@ class StripeForce::Translate
 
     stripe_transaction = Stripe::SubscriptionSchedule.create(
       stripe_transaction.to_hash,
-      generate_idempotency_key_with_credentials(@user, sf_order)
+      StripeForce::Utilities::StripeUtil.generate_idempotency_key_with_credentials(@user, sf_order)
     )
 
     log.info 'stripe subscription or invoice created', stripe_resource_id: stripe_transaction.id
@@ -399,10 +399,13 @@ class StripeForce::Translate
           log.info 'cancelling subscription immediately', sf_order_amendment_id: sf_order_amendment
 
           # NOTE the intention here is to void/reverse out the entire contract, this is the closest API call we have
-          subscription_schedule.cancel({
-            invoice_now: false,
-            prorate: false,
-          }, generate_idempotency_key_with_credentials(@user, sf_order_amendment, :cancel))
+          subscription_schedule.cancel(
+            {
+              invoice_now: false,
+              prorate: false,
+            },
+            StripeForce::Utilities::StripeUtil.generate_idempotency_key_with_credentials(@user, sf_order_amendment, :cancel)
+          )
         else
           log.info 'adding phase',
             sf_order_amendment_id: sf_order_amendment.Id,
@@ -412,7 +415,7 @@ class StripeForce::Translate
           # `none` is really important to ensure that the user is not billed by stripe for any prorated amounts
           subscription_schedule.proration_behavior = 'none'
           subscription_schedule.phases = subscription_phases
-          subscription_schedule.save({}, generate_idempotency_key_with_credentials(@user, sf_order_amendment))
+          subscription_schedule.save({}, StripeForce::Utilities::StripeUtil.generate_idempotency_key_with_credentials(@user, sf_order_amendment))
         end
       end
 
