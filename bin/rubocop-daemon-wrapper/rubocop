@@ -2,7 +2,10 @@
 
 set -e
 
-COMMAND_PREFIX="DISABLE_SPRING=true DISABLE_BOOTSNAP=true bundle exec"
+export DISABLE_SPRING=true
+export DISABLE_BOOTSNAP=true
+
+COMMAND_PREFIX="bundle exec"
 
 if [[ "$OSTYPE" == "linux-gnu" ]]; then
   if [ -f "/etc/fedora-release" ]; then

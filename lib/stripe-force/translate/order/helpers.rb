@@ -41,6 +41,10 @@ class StripeForce::Translate
         return raw_days_until_due
       end
 
+      if raw_days_until_due.strip =~ /^[0-9]+$/
+        return raw_days_until_due.strip.to_i
+      end
+
       # TODO it is possible for users to customize the options here, we may need to use regex extraction or something at some point
       case raw_days_until_due
       when "Net 15"
