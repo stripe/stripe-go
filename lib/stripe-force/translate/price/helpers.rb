@@ -109,6 +109,14 @@ class StripeForce::Translate
         # this is a subhash item and sorbet doesn't have these fields typed
         tier = T.unsafe(tier)
 
+        # flat_amount_decimal should take precedence
+        if tier[:flat_amount].present? && tier[:flat_amount_decimal].present?
+          Integrations::Utilities::StripeUtil.delete_field_from_stripe_object(
+            tier,
+            :flat_amount
+          )
+        end
+
         # unit_amount_decimal should take precedence
         if tier[:unit_amount].present? && tier[:unit_amount_decimal].present?
           Integrations::Utilities::StripeUtil.delete_field_from_stripe_object(
@@ -118,6 +126,7 @@ class StripeForce::Translate
         end
 
         tier[:unit_amount_decimal] = normalize_unit_amount_decimal_for_comparison(tier[:unit_amount_decimal])
+        tier[:flat_amount_decimal] = normalize_unit_amount_decimal_for_comparison(tier[:flat_amount_decimal])
 
         # convert infinity format to API input, not output format
         if tier.up_to.nil?
