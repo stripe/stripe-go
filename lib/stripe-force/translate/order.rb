@@ -5,8 +5,10 @@ class StripeForce::Translate
   def translate_order(sf_object)
     contract_structure = extract_contract_from_order(sf_object)
 
+    # process the initial order
     create_stripe_transaction_from_sf_order(contract_structure.initial)
 
+    # after that is created, then process all amendments
     update_subscription_phases_from_order_amendments(contract_structure)
   end
 

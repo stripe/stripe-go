@@ -26,7 +26,7 @@ class StripeForce::Translate
 
     translator = self.new(user, locker)
 
-    sf_type = translator.salesforce_type_from_id(sf_id)
+    sf_type = StripeForce::Utilities::SalesforceUtil.salesforce_type_from_id(user, sf_id)
     sf_object = user.sf_client.find(sf_type, sf_id)
 
     result = translator.translate(sf_object)

@@ -30,7 +30,7 @@ class SalesforceTranslateRecordJob < StripeForce::BaseJob
       return
     end
 
-    sf_record_type = salesforce_type_from_id(sf_record_id)
+    sf_record_type = StripeForce::Utilities::SalesforceUtil.salesforce_type_from_id(user, sf_record_id)
 
     locker = Integrations::Locker.new(user)
     locker.lock_on_user do

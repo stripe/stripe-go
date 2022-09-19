@@ -102,7 +102,7 @@ module StripeForce
         # object references are always string, so we can ignore any other object types
 
         if !is_last_component
-          target_class = salesforce_type_from_id(target_object)
+          target_class = StripeForce::Utilities::SalesforceUtil.salesforce_type_from_id(@user, target_object)
 
           if target_class
             target_object = backoff { @user.sf_client.find(target_class, target_object) }

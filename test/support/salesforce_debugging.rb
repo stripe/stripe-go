@@ -38,7 +38,7 @@ module SalesforceDebugging
       # remove quotes, sometimes easy to pull in when copy/pasting
       gsub("'\"", '')
 
-    sf_type = salesforce_type_from_id(sf_id)
+    sf_type = StripeForce::Utilities::SalesforceUtil.salesforce_type_from_id(@user, sf_id)
     sf_object = @user.sf_client.find(sf_type, sf_id)
   end
 
@@ -98,7 +98,7 @@ module SalesforceDebugging
     end
 
     sf_type = if looks_like_sf_id?(id_or_type_or_object)
-      salesforce_type_from_id(id_or_type_or_object)
+      StripeForce::Utilities::SalesforceUtil.salesforce_type_from_id(@user, id_or_type_or_object)
     else
       id_or_type_or_object
     end

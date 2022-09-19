@@ -267,6 +267,7 @@ public with sharing class utilities {
         request.setHeader('Salesforce-Type', String.valueOf(Sentry_Environment.getInstanceType()));
         request.setHeader('Salesforce-Package-Namespace', constants.NAMESPACE);
 
+        // TODO this does not seem to be coming over properly
         if(utilities.isPackagedEnvironment()) {
             request.setHeader('Salesforce-Package-Id', (String)getPackageVersion());
         }

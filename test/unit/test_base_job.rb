@@ -24,4 +24,14 @@ class Critic::BaseJobTest < Critic::UnitTest
 
     SalesforceTranslateRecordJob.work(user_1, create_salesforce_id)
   end
+
+  it 'handles invalid object id' do
+    user = make_user(save: true)
+
+    exception = assert_raises(ArgumentError) do
+      SalesforceTranslateRecordJob.work(user, 'a_very_bad_id')
+    end
+
+    assert_match('unknown object type', exception.message)
+  end
 end

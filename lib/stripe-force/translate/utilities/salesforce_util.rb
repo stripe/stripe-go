@@ -18,8 +18,8 @@ module StripeForce::Utilities
       DateTime.parse(date_string).beginning_of_day.utc.to_i
     end
 
-    sig { params(sf_id: String).returns(String) }
-    def salesforce_type_from_id(sf_id)
+    sig { params(user: StripeForce::User, sf_id: String).returns(String) }
+    def self.salesforce_type_from_id(user, sf_id)
       case sf_id
       when /^01s/
         SF_PRICEBOOK
@@ -43,12 +43,13 @@ module StripeForce::Utilities
         SF_CONSUMPTION_RATE
       else
         object_prefix = sf_id[0..2]
-        object_description = @user
+        object_description = user
           .sf_client
           .api_get('sobjects')
           .body["sobjects"]
           .detect {|o| o["keyPrefix"] == object_prefix }
 
+        # example single object response
         # => {"activateable"=>false,
         #   "associateEntityType"=>nil,
         #   "associateParentEntity"=>nil,
@@ -87,7 +88,7 @@ module StripeForce::Utilities
 
         # https://help.salesforce.com/s/articleView?id=000325244&type=1
         if !object_description
-          raise "unknown object type #{sf_id}"
+          raise ArgumentError.new("unknown object type #{sf_id}")
         end
 
         # TODO https://jira.corp.stripe.com/browse/PLATINT-1536
