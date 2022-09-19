@@ -71,8 +71,22 @@ require_relative './test/support/salesforce_debugging.rb'; include StripeForce::
 Pull user reference. Helpful for console debugging:
 
 ```ruby
-@user = u = StripeForce::User[90]
+@user = user = u = StripeForce::User[90]
 ```
+
+Or via a search:
+
+```ruby
+@user = user = u = StripeForce::User.where(Sequel.ilike(:salesforce_instance_url, "%the_search_string%")).first
+```
+
+Or by account ID:
+
+```ruby
+@user = user = u = StripeForce::User.find(salesforce_account_id: 'account_sf_id'.strip)
+```
+
+You get the idea
 
 Perform translation:
 
@@ -87,6 +101,18 @@ locker = Integrations::Locker.new(user)
 poller = StripeForce::OrderPoller.new(user)
 poller.send(:generate_soql, DateTime.parse('2022-06-13 12:36:59 +0000'), DateTime.parse('2022-06-13 12:41:29'))
 locker.clear_locked_resources
+```
+
+Get all of the users in prod:
+
+```ruby
+StripeForce::User.dataset.extension(:pretty_table).print(:id, :email, :salesforce_account_id, :salesforce_instance_url)
+```
+
+Get all of the poll timestamps:
+
+```ruby
+StripeForce::PollTimestamp.dataset.extension(:pretty_table).print
 ```
 
 # PR Review Conventions

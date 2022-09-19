@@ -78,7 +78,7 @@ class StripeForce::Translate
         if PriceHelpers.metered_price?(phase_item.price(user))
           log.info 'metered price, not prorating',
             prorated_order_item_id: phase_item.order_line_id,
-            price_id: phase_item.price
+            price_id: phase_item.price.id
           next
         end
 

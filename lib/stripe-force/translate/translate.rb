@@ -169,7 +169,7 @@ class StripeForce::Translate
       raise "origin salesforce object is blank, cannot record error"
     end
 
-    log.error 'translation failed', {
+    log.error 'translation failed, creating sf sync record', {
       metric: 'error.user',
       secondary_salesforce_id: salesforce_object.Id,
       secondary_salesforce_type: salesforce_object.sobject_type,

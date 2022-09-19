@@ -44,5 +44,7 @@ class SalesforceTranslateRecordJob < StripeForce::BaseJob
     end
 
     user.persist_refreshed_credentials
+
+    log.info 'translation job complete'
   end
 end
