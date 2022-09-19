@@ -105,7 +105,7 @@ module StripeForce
           target_class = salesforce_type_from_id(target_object)
 
           if target_class
-            target_object = @user.sf_client.find(target_class, target_object)
+            target_object = backoff { @user.sf_client.find(target_class, target_object) }
           end
         end
       end

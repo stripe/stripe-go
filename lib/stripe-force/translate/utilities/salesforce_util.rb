@@ -7,6 +7,7 @@ module StripeForce::Utilities
     extend T::Sig
     include Kernel
 
+    include Integrations::Log
     include StripeForce::Constants
 
     # SF dates have no TZ data and come in as a simple 'YYYY-MM-DD'
@@ -115,6 +116,43 @@ module StripeForce::Utilities
       end
 
       custom_field_prefix + field_name
+    end
+
+    sig { params(options: {}).returns(T.untyped) }
+    def backoff(options={})
+      count = 0
+
+      options[:attempts] ||= if ENV['SALESFORCE_BACKOFF_ATTEMPTS'].nil?
+        MAX_SF_RETRY_ATTEMPTS
+      else
+        ENV['SALESFORCE_BACKOFF_ATTEMPTS'].to_i
+      end
+
+      begin
+        count += 1
+
+        # runs the block (if given) and returns if no errors raised
+        yield if block_given?
+      rescue Restforce::ErrorCode::UnableToLockRow,
+             Restforce::ServerError,
+             Restforce::NotFoundError,
+             Faraday::ConnectionFailed,
+             Faraday::TimeoutError,
+             Restforce::ResponseError,
+             Restforce::UnauthorizedError => e
+
+        # log & raise error if all retries fail
+        if count >= options[:attempts]
+          log.warn 'finished retrying SF operation, raising error',
+            attempt: count,
+            error_class: e.class.to_s,
+            error_message: e.message
+          raise e
+        end
+
+        sleep(count * count)
+        retry
+      end
     end
   end
 end

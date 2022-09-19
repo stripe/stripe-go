@@ -183,22 +183,24 @@ class StripeForce::Translate
     # interestingly enough, if the external ID field does not exist we'll get a NOT_FOUND response
     # https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/dome_upsert.htm
 
-    sf_sync_record_id = sf.upsert!(
-      prefixed_stripe_field(SYNC_RECORD),
-      prefixed_stripe_field(SyncRecordFields::COMPOUND_ID.serialize),
-      {
-        SyncRecordFields::COMPOUND_ID => compound_external_id,
+    sf_sync_record_id = backoff do
+      sf.upsert!(
+        prefixed_stripe_field(SYNC_RECORD),
+        prefixed_stripe_field(SyncRecordFields::COMPOUND_ID.serialize),
+        {
+          SyncRecordFields::COMPOUND_ID => compound_external_id,
 
-        SyncRecordFields::PRIMARY_RECORD_ID => @origin_salesforce_object.Id,
-        SyncRecordFields::PRIMARY_OBJECT_TYPE => @origin_salesforce_object.sobject_type,
+          SyncRecordFields::PRIMARY_RECORD_ID => @origin_salesforce_object.Id,
+          SyncRecordFields::PRIMARY_OBJECT_TYPE => @origin_salesforce_object.sobject_type,
 
-        SyncRecordFields::SECONDARY_RECORD_ID => salesforce_object.Id,
-        SyncRecordFields::SECONDARY_OBJECT_TYPE => salesforce_object.sobject_type,
+          SyncRecordFields::SECONDARY_RECORD_ID => salesforce_object.Id,
+          SyncRecordFields::SECONDARY_OBJECT_TYPE => salesforce_object.sobject_type,
 
-        SyncRecordFields::RESOLUTION_MESSAGE => message,
-        SyncRecordFields::RESOLUTION_STATUS => SyncRecordResolutionStatuses::ERROR,
-      }.transform_keys(&:serialize).transform_keys(&method(:prefixed_stripe_field))
-    )
+          SyncRecordFields::RESOLUTION_MESSAGE => message,
+          SyncRecordFields::RESOLUTION_STATUS => SyncRecordResolutionStatuses::ERROR,
+        }.transform_keys(&:serialize).transform_keys(&method(:prefixed_stripe_field))
+      )
+    end
 
     log.debug 'sync record created', sync_record_id: sf_sync_record_id
   end
@@ -231,22 +233,24 @@ class StripeForce::Translate
     # interestingly enough, if the external ID field does not exist we'll get a NOT_FOUND response
     # https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/dome_upsert.htm
 
-    sf.upsert!(
-      prefixed_stripe_field(SYNC_RECORD),
-      prefixed_stripe_field(SyncRecordFields::COMPOUND_ID.serialize),
-      {
-        SyncRecordFields::COMPOUND_ID => compound_external_id,
+    backoff do
+      sf.upsert!(
+        prefixed_stripe_field(SYNC_RECORD),
+        prefixed_stripe_field(SyncRecordFields::COMPOUND_ID.serialize),
+        {
+          SyncRecordFields::COMPOUND_ID => compound_external_id,
 
-        SyncRecordFields::PRIMARY_RECORD_ID => @origin_salesforce_object.Id,
-        SyncRecordFields::PRIMARY_OBJECT_TYPE => @origin_salesforce_object.sobject_type,
+          SyncRecordFields::PRIMARY_RECORD_ID => @origin_salesforce_object.Id,
+          SyncRecordFields::PRIMARY_OBJECT_TYPE => @origin_salesforce_object.sobject_type,
 
-        SyncRecordFields::SECONDARY_RECORD_ID => salesforce_object.Id,
-        SyncRecordFields::SECONDARY_OBJECT_TYPE => salesforce_object.sobject_type,
+          SyncRecordFields::SECONDARY_RECORD_ID => salesforce_object.Id,
+          SyncRecordFields::SECONDARY_OBJECT_TYPE => salesforce_object.sobject_type,
 
-        SyncRecordFields::RESOLUTION_MESSAGE => message,
-        SyncRecordFields::RESOLUTION_STATUS => SyncRecordResolutionStatuses::SUCCESS,
-      }.transform_keys(&:serialize).transform_keys(&method(:prefixed_stripe_field))
-    )
+          SyncRecordFields::RESOLUTION_MESSAGE => message,
+          SyncRecordFields::RESOLUTION_STATUS => SyncRecordResolutionStatuses::SUCCESS,
+        }.transform_keys(&:serialize).transform_keys(&method(:prefixed_stripe_field))
+      )
+    end
   end
 
   sig do
@@ -291,10 +295,12 @@ class StripeForce::Translate
         field_name: stripe_id_field
     end
 
-    sf.update!(sf_object.sobject_type, {
-      SF_ID => sf_object.Id,
-      stripe_id_field => stripe_object_id,
-    }.merge(additional_salesforce_updates))
+    backoff do
+      sf.update!(sf_object.sobject_type, {
+        SF_ID => sf_object.Id,
+        stripe_id_field => stripe_object_id,
+      }.merge(additional_salesforce_updates))
+    end
 
     create_user_success(
       salesforce_object: sf_object,
