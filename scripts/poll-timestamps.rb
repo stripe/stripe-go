@@ -38,6 +38,8 @@ def update_poll_timestamp(user, sf_class, time)
   poll_timestamp.save
 end
 
+# sets the initial datetime for the order to start polling from
+# ex: user, SF_ORDER
 def set_initial_poll_timestamp(user, sf_class)
   poll_timestamp = StripeForce::PollTimestamp.by_user_and_record(
     user,

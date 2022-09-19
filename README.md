@@ -62,7 +62,7 @@ Or, via shell:
 STRIPE_LOG=debug SALESFORCE_LOG=true LOG_LEVEL=DEBUG bundle exec ruby test/...
 ```
 
-Include debugging tools locally. This is done automatically in dev.
+Include debugging tools locally. This is done automatically in dev, but you need to manually do this in the prod console.
 
 ```ruby
 require_relative './test/support/salesforce_debugging.rb'; include StripeForce::Constants; include SalesforceDebugging
@@ -74,24 +74,36 @@ Pull user reference. Helpful for console debugging:
 @user = user = u = StripeForce::User[90]
 ```
 
+Want to get a friendly dump of the values?
+
+```ruby
+pp user.values
+```
+
 Or via a search:
 
 ```ruby
 @user = user = u = StripeForce::User.where(Sequel.ilike(:salesforce_instance_url, "%the_search_string%")).first
 ```
 
-Or by account ID:
+Or by account ID. Be warned! There are multiple account IDs, some 15 char & some 18 char. We store the 18 char.
 
 ```ruby
 @user = user = u = StripeForce::User.find(salesforce_account_id: 'account_sf_id'.strip)
 ```
 
-You get the idea
+You get the idea!
 
 Perform translation:
 
 ```ruby
 StripeForce::Translate.perform_inline(u, 'the_salesforce_id'.strip)
+```
+
+[Here's a walkthrough video on this topic](https://drive.google.com/file/d/1eOsbY52bLnRTaKQ-tcORb7X17MILq0nJ/view?usp=sharing). Perform translation on queue in order to get logging in papertrail:
+
+```ruby
+SalesforceTranslateRecordJob.work(u, 'sf_order_id'.strip)
 ```
 
 Check SQL generated:

@@ -259,6 +259,7 @@ module StripeForce
 
     protected def kms_encryption_context(field=nil)
       {
+        # NOTE that the account is the SF organization instance ID
         'salesforce_account_id' => self.salesforce_account_id,
       }
     end
