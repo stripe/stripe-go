@@ -60,7 +60,8 @@ module Integrations::Utilities::StripeUtil
     value.to_i == float_comparison
   end
 
-  def stripe_class_from_id(stripe_object_id, raise_on_missing: true)
+  sig { params(stripe_object_id: String, raise_on_missing: T::Boolean).returns(T.nilable(T.class_of(Stripe::APIResource))) }
+  def self.stripe_class_from_id(stripe_object_id, raise_on_missing: true)
     # Setting raise_on_missing to false should only be used on internal
     # support tooling.
     case stripe_object_id
@@ -106,10 +107,10 @@ module Integrations::Utilities::StripeUtil
       Stripe::PaymentIntent
     when /^pm_/
       Stripe::PaymentMethod
-    when /^sub_/
-      Stripe::Subscription
     when /^sub_sched_/
       Stripe::SubscriptionSchedule
+    when /^sub_/
+      Stripe::Subscription
     # coupons do not have a prefix since the ID is often exposed to the user
     # https://github.com/stripe/stripe-netsuite/issues/1658
     else
@@ -117,8 +118,6 @@ module Integrations::Utilities::StripeUtil
       nil
     end
   end
-
-  module_function :stripe_class_from_id
 
   sig { params(stripe_resource: Stripe::APIResource, field_path: String, field_value: T.nilable(T.any(String, Integer, Float, T::Boolean))).void }
   def set_stripe_resource_field_path(stripe_resource, field_path, field_value)
