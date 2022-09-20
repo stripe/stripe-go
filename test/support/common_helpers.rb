@@ -75,6 +75,8 @@ module Critic::CommonHelpers
 
     # clocks won't be enabled in prod, so we want to mimic this
     user.disable_feature(FeatureFlags::TEST_CLOCKS)
+    # disable this to prevent flooding SF with API calls while testing
+    user.disable_feature(FeatureFlags::CATCH_ALL_ERRORS)
 
     user.connector_settings[CONNECTOR_SETTING_SALESFORCE_INSTANCE_TYPE] = SFInstanceTypes::SANDBOX.serialize
     user.save if save

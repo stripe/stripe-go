@@ -161,6 +161,7 @@ module StripeForce
         REJECT_WEBHOOKS = new('reject_webhooks')
         LOUD_SANDBOX_LOGGING = new('loud_sandbox_logging')
         TEST_CLOCKS = new('test_clocks')
+        CATCH_ALL_ERRORS = new('catch_all_errors')
       end
     end
 

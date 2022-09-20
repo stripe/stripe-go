@@ -1,9 +1,12 @@
 {
   "ruby.rubocop.onSave": true,
   "ruby.rubocop.useBundler": true,
-  "ruby.rubocop.executePath": "/Users/mbianco/stripe/stripe-force/bin/rubocop-daemon-wrapper/",
+  "ruby.rubocop.executePath": "$HOME/stripe/stripe-salesforce/bin/rubocop-daemon-wrapper/",
   // "editor.formatOnSaveTimeout": 1000,
   "editor.formatOnSave": true,
+  "[ruby]": {
+    "editor.formatOnSave": true
+  },
   "[apex]": {
     // don't mess with appiphony's formatting
     "files.trimTrailingWhitespace": false,

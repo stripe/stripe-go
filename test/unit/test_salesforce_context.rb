@@ -5,7 +5,8 @@ require_relative '../test_helper'
 module Critic::Unit
   class SalesforceContextTest < Critic::UnitTest
     before do
-      @translator = make_translator
+      @user = make_user
+      @translator = make_translator(user: @user)
     end
 
     it 'allows the primary and secondary context to be set' do
@@ -105,5 +106,31 @@ module Critic::Unit
       end
     end
 
+    it 'creates sync record for internal errors when feature flag enabled' do
+      sf_order = create_mock_salesforce_order
+
+      # feature flag not enable, so sync record will not be created for Stripe error
+      @translator.expects(:create_user_failure).never
+      assert_raises(ArgumentError) do
+        @translator.catch_errors_with_salesforce_context(primary: sf_order) do
+          raise ArgumentError.new("test error message")
+        end
+      end
+
+      # enable feature flag
+      @user.enable_feature FeatureFlags::CATCH_ALL_ERRORS
+
+      # expect sync record to be created for Stripe error
+      @translator.expects(:create_user_failure).once do |args|
+        assert_equal(sf_order, args[:salesforce_object])
+        assert_equal("test error message", args[:message])
+      end
+
+      assert_raises(ArgumentError) do
+        @translator.catch_errors_with_salesforce_context(primary: sf_order) do
+          raise ArgumentError.new("test error message")
+        end
+      end
+    end
   end
 end

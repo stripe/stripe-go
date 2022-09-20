@@ -87,7 +87,6 @@ class StripeForce::Translate
     end
 
     # TODO once we rework the `create_user_failure` logic we may be able to stop using instance variable
-
     if secondary
       # TODO maybe pass content to sentry as well?
       original_secondary_object = @secondary_salesforce_object
@@ -140,7 +139,7 @@ class StripeForce::Translate
       )
 
       raise
-    rescue Stripe::InvalidRequestError => e
+    rescue Stripe::StripeError => e
       # TODO probably remove this in the future, but I want to understand the error code details that are coming through
       log.warn 'stripe api error',
         code: e.code,
@@ -148,9 +147,17 @@ class StripeForce::Translate
 
       create_user_failure(
         salesforce_object: @secondary_salesforce_object || @origin_salesforce_object,
-        # TODO should specify request_id as second field in the future
-        message: "#{e.message} #{e.request_id}"
+        message: "Stripe error occurred: #{e.message} #{e.request_id}"
       )
+
+      raise
+    rescue
+      if @user.feature_enabled?(FeatureFlags::CATCH_ALL_ERRORS)
+        create_user_failure(
+          salesforce_object: @secondary_salesforce_object || @origin_salesforce_object,
+          message: "Translation error occurred"
+        )
+      end
 
       raise
     ensure
