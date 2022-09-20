@@ -341,7 +341,10 @@ class StripeForce::Translate
     # we'd have to pass the object type around when mapping which is equally as bad.
 
     catch_errors_with_salesforce_context(secondary: sf_object) do
-      stripe_class.create(stripe_object.to_hash, StripeForce::Utilities::StripeUtil.generate_idempotency_key_with_credentials(@user, sf_object))
+      stripe_class.create(
+        stripe_object.to_hash,
+        StripeForce::Utilities::StripeUtil.generate_idempotency_key_with_credentials(@user, sf_object)
+      )
     end
   end
 
@@ -492,29 +495,6 @@ class StripeForce::Translate
     optional_data = mapper.build_dynamic_mapping_values(sf_record, default_mappings)
 
     required_data.merge(optional_data)
-  end
-
-  sig { params(user: StripeForce::User, sf_object: Restforce::SObject, action: T.nilable(Symbol)).returns(Hash) }
-  def self.generate_idempotency_key_with_credentials(user, sf_object, action=nil)
-    if user.sandbox?
-      # Skip idempotency keys in sandbox. Using an idemptotency key is useful to ensure we do not create duplicate
-      # subscriptions but also causes problems when for example a request fails because of a mapping issue
-      # (ie days_until_due on invoice settings is not being set) and upon fixing the mapping via the UI and retrying
-      # it will fail due to duplicate idempotency key with a different request body.
-
-      # We cannot just add the modified date to the key as that would not have changed in the example above.
-      return @user.stripe_credentials
-    end
-
-    # TODO if the SF object is mutated in a way which changes inputs, we need a new idempotency key, maybe use created date?
-    # TODO feature flag to turn this off
-    key = sf_object[SF_ID]
-
-    if action
-      key = "#{key}-#{action}"
-    end
-
-    user.stripe_credentials.merge({idempotency_key: key})
   end
 
   # TODO allow for multiple records to be linked?

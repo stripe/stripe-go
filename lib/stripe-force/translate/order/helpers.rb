@@ -116,10 +116,17 @@ class StripeForce::Translate
         yield(stripe_price)
       end
 
-      new_stripe_price = Stripe::Price.create(stripe_price.to_hash, user.stripe_credentials)
+      new_stripe_price = Stripe::Price.create(
+        stripe_price.to_hash,
+        # there is no corresponding SF object here to generate an idempotency key with
+        # and there ~no risk if create multiple prices in an extreme edge case (dropped network request, etc)
+        user.stripe_credentials
+      )
+
       log.info 'duplicated price',
         original_stripe_price: original_stripe_price.id,
         new_stripe_price: new_stripe_price.id
+
       new_stripe_price
     end
 

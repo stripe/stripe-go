@@ -131,7 +131,10 @@ class StripeForce::Translate
     sanitize(stripe_price)
 
     new_price = catch_errors_with_salesforce_context(secondary: sf_object) do
-      Stripe::Price.create(stripe_price.to_hash, @user.stripe_credentials)
+      Stripe::Price.create(
+        stripe_price.to_hash,
+        StripeForce::Utilities::StripeUtil.generate_idempotency_key_with_credentials(@user, sf_object)
+      )
     end
 
     log.info 'price created', price_id: new_price.id

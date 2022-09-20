@@ -34,6 +34,9 @@ module StripeForce::Utilities
 
     sig { params(user: StripeForce::User, sf_object: Restforce::SObject, action: T.nilable(Symbol)).returns(Hash) }
     def self.generate_idempotency_key_with_credentials(user, sf_object, action=nil)
+      mappings_as_string = user.field_mappings.to_json + user.field_mappings.to_json
+      mapping_uid = Digest::SHA1.hexdigest(mappings_as_string)
+
       if user.sandbox?
         # Skip idempotency keys in sandbox. Using an idemptotency key is useful to ensure we do not create duplicate
         # subscriptions but also causes problems when for example a request fails because of a mapping issue
@@ -46,7 +49,8 @@ module StripeForce::Utilities
 
       # TODO if the SF object is mutated in a way which changes inputs, we need a new idempotency key, maybe use created date?
       # TODO feature flag to turn this off
-      key = sf_object[SF_ID]
+
+      key = "#{mapping_uid}-#{sf_object[SF_ID]}"
 
       if action
         key = "#{key}-#{action}"
