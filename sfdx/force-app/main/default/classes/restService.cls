@@ -24,12 +24,17 @@ global with sharing class restService {
 
     //custom exception
     public class NoOrderIdsOrProductIdsFoundException extends Exception {}
+    public class BatchRestServiceException extends Exception {}
 
      //collects errors from service
     global static Set<Object> responseJsonPayloadErrors = new Set<Object>();
 
     //builds json paylod 
     global static Set<Object> responseJsonPayloadRecords = new Set<Object>();
+
+    //stores list of order and product fields
+    global static Set<String> listOfOrderFields = new Set<String>();
+    global static Set<String> listOfProductFields = new Set<String>();
 
     //readonly annotation is used to increase the SOQL limit from 50k to a 100k 
     @ReadOnly
@@ -77,8 +82,7 @@ global with sharing class restService {
             for(Object requestedProduct2Id : requestListOfProduct2Ids) {
                 listOfProduct2Ids.add(String.valueOf(requestedProduct2Id));
             }
-            Set<String> listOfOrderFields = new Set<String>();
-            Set<String> listOfProductFields = new Set<String>();
+           
             for(Object requestedOrderField : requestListOfOrderFields) {
                 listOfOrderFields.add(String.valueOf(requestedOrderField));
             }
@@ -93,8 +97,15 @@ global with sharing class restService {
             
             List<SObject> listOfOrderRecords = new List<SObject>();
             if(!listOfOrderIds.isEmpty()) {
+
+                String opportunityAmendedContrctQuoteFieldName =  ', Opportunity.SBQQ__AmendedContract__r.SBQQ__Quote__c';
+                Boolean isFieldAccessible = Schema.sObjectType.Order.fields.OpportunityId.isAccessible();
+                if (!isCpqInstalled || !isFieldAccessible) {
+                    opportunityAmendedContrctQuoteFieldName = '';
+                }
+
                 //get all the order records based on list order ids requested
-                String orderQuery = 'SELECT '+ String.join(((Iterable<String>)listOfOrderFields), ',') + ' FROM Order WHERE Id IN :listOfOrderIds WITH SECURITY_ENFORCED';
+                String orderQuery = 'SELECT '+ String.join(((Iterable<String>)listOfOrderFields), ',') + opportunityAmendedContrctQuoteFieldName + ' FROM Order WHERE Id IN :listOfOrderIds WITH SECURITY_ENFORCED';
                 listOfOrderRecords = Database.query(orderQuery);
 
                 //Used to hold all order records after converting to map
@@ -168,7 +179,7 @@ global with sharing class restService {
             responseJsonPayloadErrors.add((Object)DmlExceptionMap);
 
         } catch(SObjectException e) {
-             //Catches any SObject access failure and addes to error response map and continues
+            //Catches any SObject access failure and addes to error response map and continues
             Map<String,Object> SObjectExceptionMap = new Map<String,Object>{
                 'error_type' => 'SObjectException',
                 'error_message' => e.getMessage() + 'Line Number: '+string.valueOf(e.getLineNumber())
@@ -257,6 +268,93 @@ global with sharing class restService {
 
     //fetches all related object records that we care about based on the order record passed in 
     private static Set<Map<String,Object>> addRelatedOrderRecordsToPayload(Set<String> listOfOrderFields, Set<String> listOfOrderItemFields, Set<Map<String, Object>> listOfOrderRecordMapRecords, Set<String> listOfOrderIds, Boolean isCpqInstalled) {
+        //check if CPQ is installed before getting data from objects in the package 
+        if(isCpqInstalled) {
+            //get list of all quote Ids that our orders look up to
+            Set<String> listOfOrderRecordQuoteId = new Set<String>();
+            String cpqQuoteObjectApiName = 'SBQQ__Quote__c';
+            if(listOfOrderFields.contains(cpqQuoteObjectApiName)) {
+                for(Map<String, Object> orderRecordMap : listOfOrderRecordMapRecords) {
+                    if(orderRecordMap.get(cpqQuoteObjectApiName) != null) {
+                        String quoteId = (String)orderRecordMap.get(cpqQuoteObjectApiName);
+                        listOfOrderRecordQuoteId.add(quoteId);
+                    }
+                }
+
+                //get all related initial orders and order amendments             
+                Set<String> listOfInitialOrderRecordQuoteId = new Set<String>();     
+                Set<String> listOfInitialOrderRecordAmmendedContractId = new Set<String>();
+                if(listOfOrderFields.contains(cpqQuoteObjectApiName)) {
+                    Set<String>  listOfAllOrderRelatedOpportunityQuoteIds = buildListOfAllOpportunityQuoteIds(listOfOrderRecordMapRecords);
+                   
+                    String initialOrderQuery = 'SELECT ' + String.join(((Iterable<String>)listOfOrderFields), ',') + ' FROM Order WHERE SBQQ__Quote__c IN :listOfAllOrderRelatedOpportunityQuoteIds AND Id NOT IN :listOfOrderIds WITH SECURITY_ENFORCED';
+                    List<SObject> listOfInitialOrderRecords = Database.query(initialOrderQuery);    
+                    
+                    Map<String,Object> updatedInitalOrderAndQouteListMap =  addInitialOrderToPayload(listOfInitialOrderRecords, listOfOrderRecordMapRecords, listOfInitialOrderRecordQuoteId, listOfOrderIds);
+                    listOfOrderRecordMapRecords = (Set<Map<String, Object>>)updatedInitalOrderAndQouteListMap.get('listOfOrderRecordMapRecords');
+                    listOfInitialOrderRecordQuoteId = (Set<String>)updatedInitalOrderAndQouteListMap.get('listOfInitialOrderRecordQuoteId');  
+                    listOfOrderIds  = (Set<String>)updatedInitalOrderAndQouteListMap.get('listOfOrderIds');  
+
+                    Set<String> listOfRelatetedContractOrderRecordIds = buildListOfRelatedContractIds(listOfOrderRecordMapRecords);
+                    String amendedOrderQuery = 'SELECT ' + String.join(((Iterable<String>)listOfOrderFields), ',') + ' FROM Order WHERE ContractId IN :listOfRelatetedContractOrderRecordIds AND Id NOT IN :listOfOrderIds WITH SECURITY_ENFORCED';
+                    List<SObject> listOfamendedOrderRecords = Database.query(amendedOrderQuery);  
+
+                    Map<String,Object> updatedAmendedOrderAndQouteListMap = addOrderAmendmentsToPayload(listOfamendedOrderRecords, listOfOrderRecordMapRecords, listOfInitialOrderRecordAmmendedContractId, listOfOrderIds);
+                    listOfOrderRecordMapRecords = (Set<Map<String, Object>>)updatedAmendedOrderAndQouteListMap.get('listOfOrderRecordMapRecords');
+                    listOfInitialOrderRecordAmmendedContractId = (Set<String>)updatedAmendedOrderAndQouteListMap.get('listOfInitialOrderRecordAmmendedContractId');
+                    listOfOrderIds = (Set<String>)updatedAmendedOrderAndQouteListMap.get('listOfOrderIds');
+                }
+            }
+
+            //get related records based on the lookup to quote from the order
+            List<SObject> listOfQuoteRecords = new List<SObject>();
+            Set<String> listOfQuoteFields = getAccessableFieldsByObject(cpqQuoteObjectApiName);
+            if(!listOfOrderRecordQuoteId.isEmpty()) {
+                String quoteQuery = 'SELECT '+ String.join(((Iterable<String>)listOfQuoteFields), ',')+' FROM ' + cpqQuoteObjectApiName + ' WHERE Id IN :listOfOrderRecordQuoteId WITH SECURITY_ENFORCED';
+                listOfQuoteRecords = Database.query(quoteQuery);
+            }
+
+            //gets related quote record and specific quote child records based on the quote this order looks up to 
+            Set<Map<String, Object>> listOfQuoteRecordMaps = new Set<Map<String, Object>>();
+            if(!listOfQuoteRecords.isEmpty() ) {
+                for(Map<String, Object> orderRecordMap : listOfOrderRecordMapRecords) {
+                    List<Object> relatedQuoteRecordIdList = new List<Object>();
+                    for(SObject quoteRecord : listOfQuoteRecords) {
+                        if(orderRecordMap.get(cpqQuoteObjectApiName) == quoteRecord.get('Id')) {
+                            Map<String, Object> quoteRecordMap = (Map<String, Object>) JSON.deserializeUntyped(JSON.serialize(quoteRecord));
+                            listOfQuoteRecordMaps.add(quoteRecordMap); 
+                            relatedQuoteRecordIdList.add(quoteRecordMap.get('Id'));
+                        }
+                    }
+                    //adds list of the related quote ID to orderRecords
+                    orderRecordMap.put('Quotes',(Object)relatedQuoteRecordIdList);
+                }
+            }
+            
+            if(listOfQuoteRecordMaps.isEmpty()) {
+                return listOfOrderRecordMapRecords;
+            }
+            //gets related primary contact records based on the contacts the list quote records looks up to 
+            if(listOfQuoteFields.contains('SBQQ__PrimaryContact__c')) {
+                listOfQuoteRecordMaps = addRelatedRecordToPayload(listOfQuoteRecordMaps,'Contact','SBQQ__PrimaryContact__c');
+            }
+
+            //gets related opportunity records based on the opportunities the list quote records looks up to 
+            if(listOfQuoteFields.contains('SBQQ__Opportunity2__c')) {
+                listOfQuoteRecordMaps = addRelatedRecordToPayload(listOfQuoteRecordMaps,'Opportunity','SBQQ__Opportunity2__c');
+            }
+
+            //gets related account records based on the accounts the list quote records looks up to 
+            if(listOfQuoteFields.contains('SBQQ__Account__c')) {
+                listOfQuoteRecordMaps = addRelatedRecordToPayload(listOfQuoteRecordMaps,'Account','SBQQ__Account__c');
+            } 
+            
+            for(Map<String,Object> modifiedQuoteRecordMap : listOfQuoteRecordMaps) {
+                //add modified quote record with lookup ID lists to records param in payload
+                if(modifiedQuoteRecordMap != null && !modifiedQuoteRecordMap.isEmpty())responseJsonPayloadRecords.add((Object)modifiedQuoteRecordMap);
+            }
+        }
+
         if(listOfOrderFields.contains('ContractId')) {
            //pulls out all contract Ids from order records into seperate list
            Set<String> listOfContractRecordIds = new Set<String>();
@@ -277,17 +375,22 @@ global with sharing class restService {
                 Set<String> listOfContractOrderRecordIds = new Set<String>();//delete
                 for(Map<String,Object> orderRecordMap : listOfOrderRecordMapRecords) {
                     for(SObject contractOrderRecord : listOfContractOrderRecords) {
-                        if(orderRecordMap.get('ContractId') == contractOrderRecord.get('ContractId')) {
-                            contractOrderRecordMap = (Map<String, Object>) JSON.deserializeUntyped(JSON.serialize(contractOrderRecord));
-                            //adding all other orders that look up to the same contract to our list of order records to get related data below
-                            listOfOrderRecordMapRecords.add(contractOrderRecordMap);
-
-                            //creating seperate list so we can add back to each order record and the relation to the contract is shown
-                            listOfContractOrderRecordIds.add((String)contractOrderRecordMap.get('Id'));
-
-                            //adding new ids contract order ids to existing list so they will be excluded when we recurse
-                            listOfOrderIds.add((String)contractOrderRecordMap.get('Id'));
+                        if(orderRecordMap.get('ContractId') != contractOrderRecord.get('ContractId')) {
+                            continue;
                         }
+                        contractOrderRecordMap = (Map<String, Object>) JSON.deserializeUntyped(JSON.serialize(contractOrderRecord));
+                        //adding all other orders that look up to the same contract to our list of order records to get related data below
+                        listOfOrderRecordMapRecords.add(contractOrderRecordMap);
+
+                        //creating seperate list so we can add back to each order record and the relation to the contract is shown
+                        listOfContractOrderRecordIds.add((String)contractOrderRecordMap.get('Id'));
+
+                        //adding new ids contract order ids to existing list so they will be excluded when we recurse
+                        listOfOrderIds.add((String)contractOrderRecordMap.get('Id'));
+                    }
+                    
+                    if(listOfContractOrderRecordIds.isEmpty()) {
+                        continue;
                     }
                     orderRecordMap.put('ContractOrders',(Object)listOfContractOrderRecordIds);
                 }
@@ -317,69 +420,161 @@ global with sharing class restService {
             listOfOrderRecordMapRecords = addRelatedRecordToPayload(listOfOrderRecordMapRecords,'Pricebook2','Pricebook2Id');
         }
 
-        //check if CPQ is installed before getting data from objects in the package 
-        if(isCpqInstalled) {
-            //get list of all quote Ids that our orders look up to
-            Set<String> listOfOrderRecordQuoteId = new Set<String>();
-            String cpqQuoteObjectApiName = 'SBQQ__Quote__c';
-            if(listOfOrderFields.contains(cpqQuoteObjectApiName)) {
-                for(Map<String, Object> orderRecordMap : listOfOrderRecordMapRecords) {
-                    if(orderRecordMap.get(cpqQuoteObjectApiName) != null) {
-                        String quoteId = (String)orderRecordMap.get(cpqQuoteObjectApiName);
-                        listOfOrderRecordQuoteId.add(quoteId);
-                    }
-                }
-            }
-
-            //get related records based on the lookup to quote from the order
-            List<SObject> listOfQuoteRecords = new List<SObject>();
-            Set<String> listOfQuoteFields = getAccessableFieldsByObject(cpqQuoteObjectApiName);
-            if(!listOfOrderRecordQuoteId.isEmpty()) {
-                String quoteQuery = 'SELECT '+ String.join(((Iterable<String>)listOfQuoteFields), ',')+' FROM ' + cpqQuoteObjectApiName + ' WHERE Id IN :listOfOrderRecordQuoteId WITH SECURITY_ENFORCED';
-                listOfQuoteRecords = Database.query(quoteQuery);
-            }
-
-            //gets related quote record and specific quote child records based on the quote this order looks up to 
-            Set<Map<String, Object>> listOfQuoteRecordMaps = new Set<Map<String, Object>>();
-            if(!listOfQuoteRecords.isEmpty() ) {
-                for(Map<String, Object> orderRecordMap : listOfOrderRecordMapRecords) {
-                    List<Object> relatedQuoteRecordIdList = new List<Object>();
-                    for(SObject quoteRecord : listOfQuoteRecords) {
-                        if(orderRecordMap.get(cpqQuoteObjectApiName) == quoteRecord.get('Id')) {
-                            Map<String, Object> quoteRecordMap = (Map<String, Object>) JSON.deserializeUntyped(JSON.serialize(quoteRecord));
-                            listOfQuoteRecordMaps.add(quoteRecordMap); 
-                            relatedQuoteRecordIdList.add(quoteRecordMap.get('Id'));
-                        }
-                    }
-                    //adds list of the related quote ID to orderRecords
-                    orderRecordMap.put('Quotes',(Object)relatedQuoteRecordIdList);
-                }
-            }
-            
-            if(!listOfQuoteRecordMaps.isEmpty()) {
-                //gets related primary contact records based on the contacts the list quote records looks up to 
-                if(listOfQuoteFields.contains('SBQQ__PrimaryContact__c')) {
-                    listOfQuoteRecordMaps = addRelatedRecordToPayload(listOfQuoteRecordMaps,'Contact','SBQQ__PrimaryContact__c');
-                }
-
-                //gets related opportunity records based on the opportunities the list quote records looks up to 
-                if(listOfQuoteFields.contains('SBQQ__Opportunity2__c')) {
-                    listOfQuoteRecordMaps = addRelatedRecordToPayload(listOfQuoteRecordMaps,'Opportunity','SBQQ__Opportunity2__c');
-                }
-
-                //gets related account records based on the accounts the list quote records looks up to 
-                if(listOfQuoteFields.contains('SBQQ__Account__c')) {
-                    listOfQuoteRecordMaps = addRelatedRecordToPayload(listOfQuoteRecordMaps,'Account','SBQQ__Account__c');
-                } 
-                
-                for(Map<String,Object> modifiedQuoteRecordMap : listOfQuoteRecordMaps) {
-                    //add modified quote record with lookup ID lists to records param in payload
-                    if(modifiedQuoteRecordMap != null && !modifiedQuoteRecordMap.isEmpty())responseJsonPayloadRecords.add((Object)modifiedQuoteRecordMap);
-                }
-            }
-        }
+        
         return listOfOrderRecordMapRecords;
     }
+
+    private static Set<String> buildListOfAllOpportunityQuoteIds(Set<Map<String, Object>> listOfOrderRecordMapRecords) {
+        Set<String> listOfAllOrderRelatedOpportunityQuoteIds = new Set<String>();
+        for (Map<String, Object> orderRecordMapRecord : listOfOrderRecordMapRecords) {
+            if (orderRecordMapRecord.get('Opportunity') == null) {
+                return listOfAllOrderRelatedOpportunityQuoteIds;
+            }
+            Map<String,Object> relatatedOrderOppertunityMap = (Map<String,Object>)orderRecordMapRecord.get('Opportunity');
+            
+            Set<String> listOfInitialOrderIds = new Set<String>();
+            
+            if (relatatedOrderOppertunityMap.get('SBQQ__AmendedContract__r') == null) {
+                return listOfAllOrderRelatedOpportunityQuoteIds;
+            }
+            Map<String,Object> relatatedOrderContractMap = (Map<String,Object>)relatatedOrderOppertunityMap.get('SBQQ__AmendedContract__r');
+
+            if (relatatedOrderContractMap.get('SBQQ__Quote__c') != null) {
+                return listOfAllOrderRelatedOpportunityQuoteIds;
+            }
+            listOfAllOrderRelatedOpportunityQuoteIds.add(String.valueOf(relatatedOrderContractMap.get('SBQQ__Quote__c')));
+        }
+        return listOfAllOrderRelatedOpportunityQuoteIds;
+    }
+
+    private static Set<String> buildListOfRelatedContractIds(Set<Map<String, Object>> listOfOrderRecordMapRecords) {
+        Set<String> listOfRelatetedContractOrderRecordIds = new Set<String>();
+        for (Map<String, Object> orderRecordMapRecord : listOfOrderRecordMapRecords) {
+            
+            if (orderRecordMapRecord.get('Opportunity') == null) {
+                continue;
+            }
+            Map<String,Object> relatatedOrderOppertunityMap = (Map<String,Object>)orderRecordMapRecord.get('Opportunity');  
+
+            if (relatatedOrderOppertunityMap.get('SBQQ__AmendedContract__r') == null) {
+                continue;
+            }
+            Map<String,Object> relatatedOrderAmendedContractMap = (Map<String,Object>)relatatedOrderOppertunityMap.get('SBQQ__AmendedContract__r');
+            
+            if (relatatedOrderAmendedContractMap.get('Id') == null) {
+                continue;
+            } 
+            listOfRelatetedContractOrderRecordIds.add(String.valueOf(relatatedOrderAmendedContractMap.get('Id')));                        
+        }
+        return listOfRelatetedContractOrderRecordIds;
+    }
+
+    private static Map<String,Object> addInitialOrderToPayload(List<SObject> listOfInitialOrderRecords, Set<Map<String, Object>> listOfOrderRecordMapRecords, Set<String> listOfInitialOrderRecordQuoteId, Set<String> listOfOrderIds) {
+        if (!listOfInitialOrderRecords.isEmpty()) {
+            return new Map<String,Object> {
+                'listOfOrderRecordMapRecords' => listOfOrderRecordMapRecords,
+                'listOfInitialOrderRecordQuoteId' => listOfInitialOrderRecordQuoteId,
+                'listOfOrderIds' => listOfOrderIds
+            };
+        }
+        for (Map<String, Object> orderRecordMapRecord : listOfOrderRecordMapRecords) {
+            Map<String,Object> relatatedOrderOppertunityMap = (Map<String,Object>)orderRecordMapRecord.get('Opportunity');
+            
+            Set<String> listOfInitialOrderIds = new Set<String>();
+            
+            if (relatatedOrderOppertunityMap == null) {
+                continue;
+            }
+
+            Map<String,Object> relatatedOrderContractMap = (Map<String,Object>)relatatedOrderOppertunityMap.get('SBQQ__AmendedContract__r');
+            if (relatatedOrderContractMap == null) {
+                continue;
+            }
+            
+            for (SObject initialOrderRecord : listOfInitialOrderRecords) {                             
+                if (relatatedOrderContractMap.get('SBQQ__Quote__c') != initialOrderRecord.get('SBQQ__Quote__c')) {
+                    continue;
+                }
+                Map<String, Object> initialOrderRecordMap = (Map<String, Object>) JSON.deserializeUntyped(JSON.serialize(initialOrderRecord));
+                listOfOrderRecordMapRecords.add(initialOrderRecordMap);
+
+                listOfInitialOrderIds.add(String.valueOf(initialOrderRecord.get('Id')));
+                listOfOrderIds.add(String.valueOf(initialOrderRecord.get('Id')));
+                listOfInitialOrderRecordQuoteId.add(string.valueOf(initialOrderRecord.get('SBQQ__Quote__c')));
+            }
+
+            if (!listOfInitialOrderIds.isEmpty() && (listOfInitialOrderIds.size() > 1) && Test.isRunningTest()) {
+                throw new BatchRestServiceException('More than one related initial order ID was found: ' + String.valueOf(listOfInitialOrderRecordQuoteId));
+            }
+
+            if (!listOfInitialOrderIds.isEmpty() && (listOfInitialOrderIds.size() > 1) && !Test.isRunningTest()) {
+                try {
+                    throw new BatchRestServiceException('More than one related initial order ID was found: ' + String.valueOf(listOfInitialOrderRecordQuoteId));
+                } catch (BatchRestServiceException e) {
+                    Sentry.record(e);
+                }
+            }
+
+            if (!listOfInitialOrderIds.isEmpty()) {
+                orderRecordMapRecord.put('InitialOrderId', (Object)listOfInitialOrderIds);
+            }
+
+            if (!listOfInitialOrderRecordQuoteId.isEmpty()) {
+                orderRecordMapRecord.put('InitialOrderQuotes', (Object)listOfInitialOrderRecordQuoteId);
+            }
+        }    
+
+        return new Map<String,Object> {
+            'listOfOrderRecordMapRecords' => listOfOrderRecordMapRecords,
+            'listOfInitialOrderRecordQuoteId' => listOfInitialOrderRecordQuoteId,
+            'listOfOrderIds' => listOfOrderIds
+        };
+    }
+
+    private static Map<String,Object> addOrderAmendmentsToPayload(List<SObject> listOfamendedOrderRecords, Set<Map<String, Object>> listOfOrderRecordMapRecords, Set<String> listOfInitialOrderRecordAmmendedContractId, Set<String> listOfOrderIds) {    
+        if (listOfamendedOrderRecords.isEmpty()) {
+            return new Map<String,Object> {
+                'listOfOrderRecordMapRecords' => listOfOrderRecordMapRecords,
+                'listOfInitialOrderRecordAmmendedContractId' => listOfInitialOrderRecordAmmendedContractId,
+                'listOfOrderIds' => listOfOrderIds
+            };
+        }
+
+        for (Map<String, Object> orderRecordMapRecord : listOfOrderRecordMapRecords) {
+            Map<String,Object> relatatedOrderOppertunityMap = (Map<String,Object>)orderRecordMapRecord.get('Opportunity');
+            Map<String,Object> relatatedOrderAmendedContractMap = (Map<String,Object>)relatatedOrderOppertunityMap.get('SBQQ__AmendedContract__r');
+            Set<String> listOfAmendedOrderRecordIds = new Set<String>();
+
+            for (SObject amendedOrderRecord : listOfamendedOrderRecords) {
+                if (relatatedOrderAmendedContractMap.get('Id') != string.valueOf(amendedOrderRecord.get('ContractId'))) {
+                    continue;
+                }
+                
+                Map<String, Object> amendedOrderRecordMap = (Map<String, Object>) JSON.deserializeUntyped(JSON.serialize(amendedOrderRecord));
+                listOfOrderRecordMapRecords.add(amendedOrderRecordMap);
+
+                listOfInitialOrderRecordAmmendedContractId.add(string.valueOf(amendedOrderRecord.get('ContractId')));
+                listOfAmendedOrderRecordIds.add(String.valueOf(amendedOrderRecord.get('Id')));
+                listOfOrderIds.add(String.valueOf(amendedOrderRecord.get('Id')));
+                
+            }
+
+            if (!listOfAmendedOrderRecordIds.isEmpty()) {
+                orderRecordMapRecord.put('AmendedOrders', (Object)listOfAmendedOrderRecordIds);
+            }
+
+            if (!listOfInitialOrderRecordAmmendedContractId.isEmpty()) {
+                orderRecordMapRecord.put('AmendedContracts', (Object)listOfInitialOrderRecordAmmendedContractId);
+            }
+        }
+
+        return new Map<String,Object> {
+            'listOfOrderRecordMapRecords' => listOfOrderRecordMapRecords,
+            'listOfInitialOrderRecordAmmendedContractId' => listOfInitialOrderRecordAmmendedContractId,
+            'listOfOrderIds' => listOfOrderIds
+        };
+    }
+
 
     //gets all related order item records and related child records that we care about
     private static Set<Map<String,Object>> getRelatedOrderItemRecordsById(Set<Map<String, Object>> listOfOrderRecordMapRecords, Set<String> listOfOrderItemFields, Set<String> listOfOrderIds, Boolean isCpqInstalled) {
@@ -391,10 +586,10 @@ global with sharing class restService {
         each related record found*/
         Set<Map<String, Object>> listOfOrderItemRecordMapRecords = new Set<Map<String, Object>>();
 
-        //create list to get all Order Item Ids that are related to the Order record passed in
-        Set<String> listOfOrderItemIds = new Set<String>();
-
         for(Map<String, Object> orderRecord : listOfOrderRecordMapRecords) {
+            //create list to get all Order Item Ids that are related to the Order record passed in
+            Set<String> listOfOrderItemIds = new Set<String>();
+
             String orderRecordId = (String)orderRecord.get('Id');  
             
             for(SObject orderItem : listOfOrderItemData) {
@@ -422,86 +617,93 @@ global with sharing class restService {
         }
         
         //check if CPQ is installed before getting data from objects in the package 
-        if(isCpqInstalled) {
-            //get related order order item consumtption schedule records
-            Set<String> listOfAllOrderItemConsumptionScheduleIds = new Set<String>();
-            Set<String> listOfOrderItemConsumptionScheduleFields = getAccessableFieldsByObject('SBQQ__OrderItemConsumptionSchedule__c');   
-
-            List<SObject> listOfOrderItemConsumptionScheduleRecords; 
-            if(listOfOrderItemConsumptionScheduleFields.contains('SBQQ__OrderItem__c')) {
-                String orderItemConsumptionScheduleQuery = 'SELECT '+ String.join(((Iterable<String>)listOfOrderItemConsumptionScheduleFields), ',') + ' FROM SBQQ__OrderItemConsumptionSchedule__c WHERE SBQQ__OrderItem__c IN :listOfOrderItemIds WITH SECURITY_ENFORCED';
-                listOfOrderItemConsumptionScheduleRecords = Database.query(orderItemConsumptionScheduleQuery);
-
-                if(!listOfOrderItemConsumptionScheduleRecords.isEmpty()) {
-                    for(Map<String, Object> orderItemRecord : listOfOrderItemRecordMapRecords) {
-                        String orderItemRecordId = (String)orderItemRecord.get('Id');  
-                        Set<String> listOfConsumptionScheduleIds = new Set<String>();
-                        for(SObject orderItemConsumptionScheduleRecord : listOfOrderItemConsumptionScheduleRecords) {
-                            //converting orderItem record to a map so we can add the related orderItemConsumptionSchedule Id before adding the record to payload
-                            Map<String, Object> orderItemConsumptionScheduleRecordMap = (Map<String, Object>) JSON.deserializeUntyped(JSON.serialize(orderItemConsumptionScheduleRecord));
-                            if (orderItemRecordId == orderItemConsumptionScheduleRecordMap.get('SBQQ__OrderItem__c')) {
-                                //add each related orderItemConsumptionSchedule item id to a list to put in orderItem record at the end
-                                listOfConsumptionScheduleIds.add(string.valueOf(orderItemConsumptionScheduleRecordMap.get('Id'))); 
-                                listOfAllOrderItemConsumptionScheduleIds.add(string.valueOf(orderItemConsumptionScheduleRecordMap.get('Id')));
-                            }
-                        }
-                        if(!listOfConsumptionScheduleIds.isEmpty()) {
-                            orderItemRecord.put('OrderItemConsumptionSchedules',(Object)listOfConsumptionScheduleIds);
-                        }
-
-                    }   
-                }
+        if(!isCpqInstalled) {
+            //adds each modified order record to payload
+            for(Map<String, Object> modifiedOrderItem : listOfOrderItemRecordMapRecords) {
+                if(modifiedOrderItem != null && !modifiedOrderItem.isEmpty()) responseJsonPayloadRecords.add((Object)modifiedOrderItem);
             }
 
-            //get related consumtption schedule records
-            if(!listOfAllOrderItemConsumptionScheduleIds.isEmpty()) {
-                //Set<String> listOfOrderItemConsumptionScheduleFields
-                Set<String> listOfOrderItemConsumptionRateFields = getAccessableFieldsByObject('SBQQ__OrderItemConsumptionRate__c');   
-                if(listOfOrderItemConsumptionRateFields.contains('SBQQ__OrderItemConsumptionSchedule__c')) {
-                    String orderItemConsumptionRateQuery = 'SELECT '+ String.join(((Iterable<String>)listOfOrderItemConsumptionRateFields), ',') + ' FROM SBQQ__OrderItemConsumptionRate__c WHERE SBQQ__OrderItemConsumptionSchedule__c IN :listOfAllOrderItemConsumptionScheduleIds WITH SECURITY_ENFORCED';
-                    List<SObject> listOfOrderItemConsumptionRateRecords = Database.query(orderItemConsumptionRateQuery);
+            return listOfOrderRecordMapRecords;
+        }
 
-                    if(!listOfOrderItemConsumptionRateRecords.isEmpty()) {
-                        for(SObject orderItemConsumptionScheduleRecord : listOfOrderItemConsumptionScheduleRecords) {
-                            Map<String, Object> orderItemConsumptionScheduleRecordMap = (Map<String, Object>) JSON.deserializeUntyped(JSON.serialize(orderItemConsumptionScheduleRecord));
-                            String orderItemConsumptionScheduleRecordId = (String)orderItemConsumptionScheduleRecordMap.get('Id');  //SBQQ__ConsumptionSchedule__c
-                            Set<String> listOfConsumptionRateIds = new Set<String>();
-                            for(SObject orderItemConsumptionRate : listOfOrderItemConsumptionRateRecords) {
-                                //converting orderItem record to a map so we can add the related orderItemConsumptionSchedule Id before adding the record to payload
-                                
-                                Map<String, Object> orderItemConsumptionRateMap = (Map<String, Object>) JSON.deserializeUntyped(JSON.serialize(orderItemConsumptionRate));
-                                if (orderItemConsumptionScheduleRecordId == orderItemConsumptionRateMap.get('SBQQ__OrderItemConsumptionSchedule__c')) {
-                                    //add each related orderItemConsumptionSchedule item id to a list to put in orderItem record at the end
-                                    listOfConsumptionRateIds.add(string.valueOf(orderItemConsumptionRateMap.get('Id'))); 
-                                }
-                                listOfOrderItemRecordMapRecords.add(orderItemConsumptionRateMap);
+        //get related order order item consumtption schedule records
+        Set<String> listOfAllOrderItemConsumptionScheduleIds = new Set<String>();
+        Set<String> listOfOrderItemConsumptionScheduleFields = getAccessableFieldsByObject('SBQQ__OrderItemConsumptionSchedule__c');   
 
-                            }
-                            orderItemConsumptionScheduleRecordMap.put('OrderItemConsumptionRates', (Object)listOfConsumptionRateIds);
-                            listOfOrderItemRecordMapRecords.add(orderItemConsumptionScheduleRecordMap);
+        List<SObject> listOfOrderItemConsumptionScheduleRecords; 
+        if(listOfOrderItemConsumptionScheduleFields.contains('SBQQ__OrderItem__c')) {
+            String orderItemConsumptionScheduleQuery = 'SELECT '+ String.join(((Iterable<String>)listOfOrderItemConsumptionScheduleFields), ',') + ' FROM SBQQ__OrderItemConsumptionSchedule__c WHERE SBQQ__OrderItem__c IN :listOfOrderItemIds WITH SECURITY_ENFORCED';
+            listOfOrderItemConsumptionScheduleRecords = Database.query(orderItemConsumptionScheduleQuery);
+
+            if(!listOfOrderItemConsumptionScheduleRecords.isEmpty()) {
+                for(Map<String, Object> orderItemRecord : listOfOrderItemRecordMapRecords) {
+                    String orderItemRecordId = (String)orderItemRecord.get('Id');  
+                    Set<String> listOfConsumptionScheduleIds = new Set<String>();
+                    for(SObject orderItemConsumptionScheduleRecord : listOfOrderItemConsumptionScheduleRecords) {
+                        //converting orderItem record to a map so we can add the related orderItemConsumptionSchedule Id before adding the record to payload
+                        Map<String, Object> orderItemConsumptionScheduleRecordMap = (Map<String, Object>) JSON.deserializeUntyped(JSON.serialize(orderItemConsumptionScheduleRecord));
+                        if (orderItemRecordId == orderItemConsumptionScheduleRecordMap.get('SBQQ__OrderItem__c')) {
+                            //add each related orderItemConsumptionSchedule item id to a list to put in orderItem record at the end
+                            listOfConsumptionScheduleIds.add(string.valueOf(orderItemConsumptionScheduleRecordMap.get('Id'))); 
+                            listOfAllOrderItemConsumptionScheduleIds.add(string.valueOf(orderItemConsumptionScheduleRecordMap.get('Id')));
                         }
                     }
-                }
-                listOfOrderItemRecordMapRecords = getRelatedConsumptionScheduleAndRateRecords(listOfOrderItemRecordMapRecords, listOfAllOrderItemConsumptionScheduleIds);
-            }
-            
-            //gets related contract this order item looks up to 
-            if(listOfOrderItemFields.contains('SBQQ__Contract__c')) {
-                listOfOrderItemRecordMapRecords = addRelatedRecordToPayload(listOfOrderItemRecordMapRecords,'Contract','SBQQ__Contract__c');
-            }
-            //gets related contract line item this order item looks up to 
-            if(listOfOrderItemFields.contains('SBQQSC__ContractLineItem__c')) {
-                listOfOrderItemRecordMapRecords = addRelatedRecordToPayload(listOfOrderItemRecordMapRecords,'ContractLineItem','SBQQSC__ContractLineItem__c');
-            }
-            //gets related quote line this order item looks up to 
-            if(listOfOrderItemFields.contains('SBQQ__QuoteLine__c')) {
-                listOfOrderItemRecordMapRecords = addRelatedRecordToPayload(listOfOrderItemRecordMapRecords,'SBQQ__QuoteLine__c','SBQQ__QuoteLine__c');
-            }
-            //gets related subscribtion this order item looks up to 
-            if(listOfOrderItemFields.contains('SBQQ__Subscription__c')) {
-                listOfOrderItemRecordMapRecords = addRelatedRecordToPayload(listOfOrderItemRecordMapRecords,'SBQQ__Subscription__c','SBQQ__Subscription__c');
+                    if(!listOfConsumptionScheduleIds.isEmpty()) {
+                        orderItemRecord.put('OrderItemConsumptionSchedules',(Object)listOfConsumptionScheduleIds);
+                    }
+                }   
             }
         }
+
+        //get related consumtption schedule records
+        if(!listOfAllOrderItemConsumptionScheduleIds.isEmpty()) {
+            //Set<String> listOfOrderItemConsumptionScheduleFields
+            Set<String> listOfOrderItemConsumptionRateFields = getAccessableFieldsByObject('SBQQ__OrderItemConsumptionRate__c');   
+            if(listOfOrderItemConsumptionRateFields.contains('SBQQ__OrderItemConsumptionSchedule__c')) {
+                String orderItemConsumptionRateQuery = 'SELECT '+ String.join(((Iterable<String>)listOfOrderItemConsumptionRateFields), ',') + ' FROM SBQQ__OrderItemConsumptionRate__c WHERE SBQQ__OrderItemConsumptionSchedule__c IN :listOfAllOrderItemConsumptionScheduleIds WITH SECURITY_ENFORCED';
+                List<SObject> listOfOrderItemConsumptionRateRecords = Database.query(orderItemConsumptionRateQuery);
+
+                if(!listOfOrderItemConsumptionRateRecords.isEmpty()) {
+                    for(SObject orderItemConsumptionScheduleRecord : listOfOrderItemConsumptionScheduleRecords) {
+                        Map<String, Object> orderItemConsumptionScheduleRecordMap = (Map<String, Object>) JSON.deserializeUntyped(JSON.serialize(orderItemConsumptionScheduleRecord));
+                        String orderItemConsumptionScheduleRecordId = (String)orderItemConsumptionScheduleRecordMap.get('Id');  //SBQQ__ConsumptionSchedule__c
+                        Set<String> listOfConsumptionRateIds = new Set<String>();
+                        for(SObject orderItemConsumptionRate : listOfOrderItemConsumptionRateRecords) {
+                            //converting orderItem record to a map so we can add the related orderItemConsumptionSchedule Id before adding the record to payload
+                            
+                            Map<String, Object> orderItemConsumptionRateMap = (Map<String, Object>) JSON.deserializeUntyped(JSON.serialize(orderItemConsumptionRate));
+                            if (orderItemConsumptionScheduleRecordId == orderItemConsumptionRateMap.get('SBQQ__OrderItemConsumptionSchedule__c')) {
+                                //add each related orderItemConsumptionSchedule item id to a list to put in orderItem record at the end
+                                listOfConsumptionRateIds.add(string.valueOf(orderItemConsumptionRateMap.get('Id'))); 
+                            }
+                            listOfOrderItemRecordMapRecords.add(orderItemConsumptionRateMap);
+
+                        }
+                        orderItemConsumptionScheduleRecordMap.put('OrderItemConsumptionRates', (Object)listOfConsumptionRateIds);
+                        listOfOrderItemRecordMapRecords.add(orderItemConsumptionScheduleRecordMap);
+                    }
+                }
+            }
+            listOfOrderItemRecordMapRecords = getRelatedConsumptionScheduleAndRateRecords(listOfOrderItemRecordMapRecords, listOfAllOrderItemConsumptionScheduleIds);
+        }
+        
+        //gets related contract this order item looks up to 
+        if(listOfOrderItemFields.contains('SBQQ__Contract__c')) {
+            listOfOrderItemRecordMapRecords = addRelatedRecordToPayload(listOfOrderItemRecordMapRecords,'Contract','SBQQ__Contract__c');
+        }
+        //gets related contract line item this order item looks up to 
+        if(listOfOrderItemFields.contains('SBQQSC__ContractLineItem__c')) {
+            listOfOrderItemRecordMapRecords = addRelatedRecordToPayload(listOfOrderItemRecordMapRecords,'ContractLineItem','SBQQSC__ContractLineItem__c');
+        }
+        //gets related quote line this order item looks up to 
+        if(listOfOrderItemFields.contains('SBQQ__QuoteLine__c')) {
+            listOfOrderItemRecordMapRecords = addRelatedRecordToPayload(listOfOrderItemRecordMapRecords,'SBQQ__QuoteLine__c','SBQQ__QuoteLine__c');
+        }
+        //gets related subscribtion this order item looks up to 
+        if(listOfOrderItemFields.contains('SBQQ__Subscription__c')) {
+            listOfOrderItemRecordMapRecords = addRelatedRecordToPayload(listOfOrderItemRecordMapRecords,'SBQQ__Subscription__c','SBQQ__Subscription__c');
+        }
+        
 
         //adds each modified order record to payload
         for(Map<String, Object> modifiedOrderItem : listOfOrderItemRecordMapRecords) {
@@ -547,80 +749,86 @@ global with sharing class restService {
     We then add a list of Ids with the corresponding plural object name to each record passed in and return to 
     calling function for insertion into the payload */
     private static Set<Map<String, Object>> addRelatedRecordToPayload(Set<Map<String, Object>> listOfOrderRecordMapRecords, String objectApiName, String LookupField) {
-         //gets list of all fields we have access to for an object
-        Set<String> listOfObjectFields = getAccessableFieldsByObject(objectApiName);
+        //gets list of all fields we have access to for an object
+       Set<String> listOfObjectFields = getAccessableFieldsByObject(objectApiName);
 
-        if(!listOfObjectFields.isEmpty()) {
-            //build list of lookup Ids based on lookup field name passed in from the list of records passed in
-            Set<String> listOfOrderRecordIds = new Set<String>();
-            for(Map<String, Object> orderRecord : listOfOrderRecordMapRecords) {
-                if(orderRecord.get(LookupField) != null)listOfOrderRecordIds.add(string.valueOf(orderRecord.get(LookupField)));
+       if(listOfObjectFields.isEmpty()) {
+           return listOfOrderRecordMapRecords;
+       }
+        //build list of lookup Ids based on lookup field name passed in from the list of records passed in
+        Set<String> listOfOrderRecordIds = new Set<String>();
+        for(Map<String, Object> orderRecord : listOfOrderRecordMapRecords) {
+            if(orderRecord.get(LookupField) != null)listOfOrderRecordIds.add(string.valueOf(orderRecord.get(LookupField)));
+        }
+
+        if(!listOfOrderRecordIds.isEmpty()) {
+            //query list of related records based on lookup field and object api name using list of lookup Ids from list of records 
+            String query = 'SELECT '+ String.join(((Iterable<String>)listOfObjectFields), ',') + ' FROM ' + objectApiName +' WHERE Id IN :listOfOrderRecordIds  WITH SECURITY_ENFORCED';
+            List<SObject> listOfRelatedRecordData = Database.query(query);
+            
+            if(!listOfRelatedRecordData.isEmpty()) {
+                return listOfOrderRecordMapRecords;
             }
 
-            if(!listOfOrderRecordIds.isEmpty()) {
-                //query list of related records based on lookup field and object api name using list of lookup Ids from list of records 
-                String query = 'SELECT '+ String.join(((Iterable<String>)listOfObjectFields), ',') + ' FROM ' + objectApiName +' WHERE Id IN :listOfOrderRecordIds  WITH SECURITY_ENFORCED';
-                List<SObject> listOfRelatedRecordData = Database.query(query);
-                
-                if(!listOfRelatedRecordData.isEmpty()) {
-                    /*add each related record to the records json response and add the Id to a list 
-                    to add back to parent record map after*/
-                    for(Map<String, Object> orderRecord : listOfOrderRecordMapRecords) {
-                        //list to related record Ids to populate and add per order record 
-                        Set<String> listOfRelatedRecordsIds = new Set<String> ();
-                        for(SObject relatedRecord : listOfRelatedRecordData) { 
-                            String orderRecordLookupId = (String)orderRecord.get(LookupField);
-                            if(orderRecordLookupId == relatedRecord.get('Id')){
-                                if(relatedRecord != null)responseJsonPayloadRecords.add((Object)relatedRecord);
-                                listOfRelatedRecordsIds.add(string.valueOf(relatedRecord.get('Id'))); 
-                            }
-                        }
-                        if(!listOfRelatedRecordsIds.isEmpty()) {
-                            /* before adding list of related record Ids to the parent 
-                            record switch the objectApiName to the  plural object name */
-                            switch on objectApiName {
-                                when 'Pricebook2' {
-                                    objectApiName = 'PriceBooks';
-                                }
-                                when 'Account' {
-                                    objectApiName = 'Accounts';
-                                }
-                                when 'Opportunity' {
-                                    objectApiName = 'Opportunities';
-                                }
-                                when 'Product2' {
-                                    objectApiName = 'Products';
-                                }
-                                when 'PricebookEntry' {
-                                    objectApiName = 'PricebookEntries';
-                                }
-                                when 'Subscription' {
-                                    objectApiName = 'Subscriptions';
-                                }
-                                when 'Contract' {
-                                    objectApiName = 'Contracts';
-                                }
-                                when 'Contact' {
-                                    objectApiName = 'Contacts';
-                                }
-                                when 'OrderItem' {
-                                    objectApiName = 'OrderItems';
-                                }
-                            }
-
-                            //add list of child ids to parent record if it is not a direct lookup relationship
-                            Object value = orderRecord.get(objectApiName);
-                            if(value == null) {
-                                orderRecord.put(objectApiName,(Object)listOfRelatedRecordsIds);
-                            }
-                        }
+            /*add each related record to the records json response and add the Id to a list 
+            to add back to parent record map after*/
+            for(Map<String, Object> orderRecord : listOfOrderRecordMapRecords) {
+                //list to related record Ids to populate and add per order record 
+                Set<String> listOfRelatedRecordsIds = new Set<String> ();
+                for(SObject relatedRecord : listOfRelatedRecordData) { 
+                    String orderRecordLookupId = (String)orderRecord.get(LookupField);
+                    if(orderRecordLookupId == relatedRecord.get('Id')){
+                        if(relatedRecord != null)responseJsonPayloadRecords.add((Object)relatedRecord);
+                        listOfRelatedRecordsIds.add(string.valueOf(relatedRecord.get('Id'))); 
                     }
                 }
-            }
-        }
-        return listOfOrderRecordMapRecords;
-    }
 
+                if(listOfRelatedRecordsIds.isEmpty()) {
+                    continue;
+                }
+
+                /* before adding list of related record Ids to the parent 
+                record switch the objectApiName to the  plural object name */
+                switch on objectApiName {
+                    when 'Pricebook2' {
+                        objectApiName = 'PriceBooks';
+                    }
+                    when 'Account' {
+                        objectApiName = 'Accounts';
+                    }
+                    when 'Opportunity' {
+                        objectApiName = 'Opportunities';
+                    }
+                    when 'Product2' {
+                        objectApiName = 'Products';
+                    }
+                    when 'PricebookEntry' {
+                        objectApiName = 'PricebookEntries';
+                    }
+                    when 'Subscription' {
+                        objectApiName = 'Subscriptions';
+                    }
+                    when 'Contract' {
+                        objectApiName = 'Contracts';
+                    }
+                    when 'Contact' {
+                        objectApiName = 'Contacts';
+                    }
+                    when 'OrderItem' {
+                        objectApiName = 'OrderItems';
+                    }
+                }
+
+                //add list of child ids to parent record if it is not a direct lookup relationship
+                Object value = orderRecord.get(objectApiName);
+                if(value == null) {
+                    orderRecord.put(objectApiName,(Object)listOfRelatedRecordsIds);
+                }
+            }    
+        }
+       return listOfOrderRecordMapRecords;
+    }
+    
     //get a set off all accesable fields to an object based on the objects api name passed in 
     private static Set<String> getAccessableFieldsByObject(String ObjectApiName) {
         Set<String> accessableFields = new Set<String>();
