@@ -11,44 +11,67 @@ export default class DataMappingStep extends LightningElement {
       changes to the properties of an object and to the elements of an array
      */
 
-    // TODO should be able to remove @track on all non-objects/arrays
     friendlyStripeObjectName = 'Customer';
     activeObject = 'customer';
     activeObjectDescription;
+    staticValue;
+    stripeObjectField;
+    defaultSfObject;
+    isConnected = false;
+    isMappingsUpdated = false;
+    contentLoading = new CustomEvent('contentloading');
+    contentLoadingComplete = new CustomEvent('contentloadingcomplete');
+
+    ACTIVE_OBJECT_INFO = {
+        "customer": {
+            objectName: "Account",
+            friendlyName: 'Account',
+            description: 'Customer objects allow you to perform recurring charges, and to track multiple charges, that are associated with the same customer. The API allows you to create, delete, and update your customers. You can retrieve individual customers as well as a list of all your customers.'
+        },
+        "subscriptionSchedule": {
+            objectName: "Order",
+            friendlyName: 'Subscription Schedule',
+            description: 'A subscription schedule allows you to create and manage the lifecycle of a subscription by predefining expected changes.'
+        },
+        "subscriptionPhase": {
+            objectName: "Order",
+            friendlyName: 'Subscription Phase',
+            description: 'Subscription Phases allow you to create subscription schedules with multiple billing phases.'
+        },
+        "subscriptionItem": {
+            objectName: "OrderItem",
+            friendlyName: 'Subscription Schedule Phase Item',
+            description: 'Subscription items allow you to create customer subscriptions with more than one plan, making it easy to represent complex billing relationships.'
+        },
+        "product": {
+            objectName: "Product2",
+            friendlyName: 'Product',
+            description: 'Products describe the specific goods or services you offer to your customers. For example, you might offer a Standard and Premium version of your goods or service; each version would be a separate Product. They can be used in conjunction with Prices to configure pricing in Checkout and Subscriptions.'
+        },
+        "price": {
+            objectName: "PricebookEntry",
+            friendlyName: 'Price',
+            description: 'Prices define the unit cost, currency, and (optional) billing cycle for both recurring and one-time purchases of products.'
+        },
+        "priceOrderItem": {
+            objectName: "PricebookEntry",
+            friendlyName: 'Price Order Item',
+            description: 'Price order items define the unit cost, currency, and (optional) billing cycle for both recurring and one-time purchases of a single product.'
+        }
+    }
     @track sfFieldOptions = [];
-    @track defaultCustomerSections = [
-        'standard'
-    ];
-    @track defaultProductSections = [
-        'standard'
-    ];
-    @track defaultSubscriptionScheduleSections = [
-        'standard'
-    ];
-    @track defaultSubscriptionItemSections = [
-        'standard'
-    ];
-    @track defaultPriceSections = [
-        'standard'
-    ];
-    @track body;
-    @track staticValue;
-    @track picklistIndex;
-    @track stripeObjectField
-    @track stripeCustomerMappings;
-    @track stripeProductMappings;
-    @track stripeSubscriptionMappings;
-    @track stripeSubscriptionItemMappings;
-    @track stripePriceMappings;
+    @track customerMappings;
+    @track productMappings;
+    @track subscriptionScheduleMappings;
+    @track subscriptionPhaseMappings;
+    @track subscriptionItemMappings;
+    @track priceMappings;
+    @track priceOrderItemMappings;
     @track fieldListByObjectMap;
     // allMappingConfigurations holds all mappings retrieved from ruby, value is set in `getMappingConfigurations`
     @track allMappingConfigurations;
-    @track defaultSfObject;
-    @track isConnected = false;
-    @track isMappingsUpdated = false;
     @track activeStripeObjectMappings;
     @track activeStripeObjectMetadataFields;
-    @track activeStripeObjectSections;
     
     // allMappingList is used to retrieve and send all user mappings `saveMappingConfigurations` 
     @track allMappingList = {
@@ -57,32 +80,39 @@ export default class DataMappingStep extends LightningElement {
             customer: {},
             product: {},
             subscription_schedule: {},
+            subscription_phase: {},
             subscription_item: {},
-            price: {}
+            price: {},
+            price_order_item: {}
         },
         // these are user defined mappings from Salesforce fields to Stripe fields
         field_mappings: {
             customer: {},
             product: {},
             subscription_schedule: {},
-            subscription_item: {},
-            price: {}
+            subscription_phase: {},
+            price: {},
+            price_order_item: {}
         },
         // these are default mappings sent from Ruby (can be overeidden in mapp)
         default_mappings: {
             customer: {},
             product: {},
             subscription_schedule: {},
+            subscription_phase: {},
             subscription_item: {},
-            price: {}
+            price: {},
+            price_order_item: {}
         },
         // these are required mappings sent from Ruby 
         required_mappings: {
             customer: {},
             product: {},
             subscription_schedule: {},
+            subscription_phase: {},
             subscription_item: {},
-            price: {}
+            price: {},
+            price_order_item: {}
         }
     };
     @track customerMetadataFields = {metadataMapping: {
@@ -99,7 +129,21 @@ export default class DataMappingStep extends LightningElement {
         description: '',
         fields: []
     }};;
-    @track subscriptionMetadataFields = {metadataMapping: {
+    @track subscriptionScheduleMetadataFields = {metadataMapping: {
+        label: '',
+        name: '',
+        value: '',
+        description: '',
+        fields: []
+    }};;
+    @track subscriptionPhaseMetadataFields = {metadataMapping: {
+        label: '',
+        name: '',
+        value: '',
+        description: '',
+        fields: []
+    }};;
+    @track subscriptionPhaseMetadataFields = {metadataMapping: {
         label: '',
         name: '',
         value: '',
@@ -120,80 +164,93 @@ export default class DataMappingStep extends LightningElement {
         description: '',
         fields: []
     }};
+    @track priceOrderItemMetadataFields = {metadataMapping: {
+        label: '',
+        name: '',
+        value: '',
+        description: '',
+        fields: []
+    }};
 
-    @track activeStripeObjectMappings = this.stripeCustomerMappings;
+    @track activeStripeObjectMappings = this.customerMappings;
     @track activeStripeObjectMetadataFields = this.customerMetadataFields;
-    @track activeStripeObjectSections = this.defaultCustomerSections;
+    @track activeStripeObjectSections;
 
-    get customerObjectActive() {
-        return this.activeObject == 'customer';
+    get priceOrderItemObjectActive() {
+        return this.activeObject == 'priceOrderItem';
     }
 
-    get productObjectActive() {
-        return this.activeObject == 'product';
-    }
+    get activeStripeObjectSections() {
+        let activeObjectName = this.activeObject;
+        this.activeStripeSections = ['standard'];
 
-    get subscriptionObjectActive() {
-        return this.activeObject == 'subscription';
-    }
-
-    get subscriptionItemObjectActive() {
-        return this.activeObject == 'subscription-item';
-    }
-
-    get priceObjectActive() {
-        return this.activeObject == 'price';
+        if (this[this.activeObject + 'MetadataFields'].metadataMapping.fields.length > 0) {
+            this.activeStripeSections = ['standard', 'metadata']
+        }
+        
+        activeObjectName = activeObjectName.charAt(0).toUpperCase() + activeObjectName.slice(1);
+        return this['default' + activeObjectName + 'Sections'] = this.activeStripeSections
     }
 
     get activeObjectFields() {
-        let activeObjectName = this.activeObject;
-
-        // TODO this special-casing should be removed in the future
-        if (this.activeObject === 'subscription-item') {
-            activeObjectName = 'subscriptionItem'
-        }
-
-        activeObjectName = activeObjectName.charAt(0).toUpperCase() + activeObjectName.slice(1);
-        return this['stripe' + activeObjectName + 'Mappings'];
+        return this[this.activeObject + 'Mappings'];
     }
 
     set activeObjectFields(value) {
         let parsedVal = JSON.parse(JSON.stringify(value));
-        let activeObjectName = this.activeObject;
-
-        // TODO this special-casing should be removed in the future
-        if (this.activeObject === 'subscription-item') {
-            activeObjectName = 'subscriptionItem'
-        }
-
-        // TODO we should try up this transformation and self-document what it actually is
-        activeObjectName = activeObjectName.charAt(0).toUpperCase() + activeObjectName.slice(1);
-
-        this['stripe' + activeObjectName + 'Mappings'] = parsedVal;
+        this[this.activeObject + 'Mappings'] = parsedVal;
     }
 
     get activeMetadataObjectFields() {
         let activeObjectName = this.activeObject;
-
-        // TODO this special-casing should be removed in the future
-        if (this.activeObject === 'subscription-item') {
-            activeObjectName = 'subscriptionItem';
-        }
-
         return this[activeObjectName + 'MetadataFields'];
     }
 
     set activeMetadataObjectFields(value) {
         const parsedVal = JSON.parse(JSON.stringify(value));
         let activeObjectName = this.activeObject;
-
-        // TODO this special-casing should be removed in the future
-        if (this.activeObject === 'subscription-item') {
-            activeObjectName = 'subscriptionItem'
-        }
-
         this[activeObjectName + 'MetadataFields'] = parsedVal;
     }
+
+    get listOfStripeMappingObjects() {
+        return [
+            {
+                object: 'customer',
+                mappingsObject: this.customerMappings,
+                metadataMappingsObject: this.customerMetadataFields
+            },
+            {
+                object: 'product',
+                mappingsObject: this.productMappings,
+                metadataMappingsObject: this.productMetadataFields
+            },
+            {
+                object: 'subscription_schedule',
+                mappingsObject: this.subscriptionScheduleMappings,
+                metadataMappingsObject: this.subscriptionScheduleMetadataFields
+            },
+            {
+                object: 'subscription_phase',
+                mappingsObject: this.subscriptionPhaseMappings,
+                metadataMappingsObject: this.subscriptionPhaseMetadataFields
+            },
+            {
+                object: 'subscription_item',
+                mappingsObject: this.subscriptionItemMappings,
+                metadataMappingsObject: this.subscriptionItemMetadataFields
+            },
+            {
+                object: 'price',
+                mappingsObject: this.priceMappings,
+                metadataMappingsObject: this.priceMetadataFields
+            },
+            {
+                object: 'price_order_item',
+                mappingsObject: this.priceOrderItemMappings,
+                metadataMappingsObject: this.priceOrderItemMetadataFields
+            }
+        ];
+    } 
 
     valueChange() {
         if(!this.isMappingsUpdated) {
@@ -438,7 +495,6 @@ export default class DataMappingStep extends LightningElement {
                 this.sfFieldOptions = modifiedFieldOptions
                 return;
         }
-
     }
 
     updateMetaPicklist(event) {
@@ -490,118 +546,37 @@ export default class DataMappingStep extends LightningElement {
     changeActiveObject(event) {
         this.activeObject = event.detail.name;
 
-       if(!this.fieldListByObjectMap) {
+        if(!this.fieldListByObjectMap || !this.activeObject) {
            return;
-       }
-
-        this.loading = true;
-
-        // future: we need to clean this up. Code duplication like this destroys velocity later on. We should be able to something like changeObject(this.activeObject) and have a single assignment statement for all of the fields.
-        switch(this.activeObject) {
-            case 'customer':
-                this.friendlyStripeObjectName = "Account";
-                this.defaultSfObject = 'Account';
-                this.fieldListByObjectMap.Account.sort(this.mapperFieldSorter);
-                this.sfFieldOptions = this.fieldListByObjectMap.Account;
-                this.activeStripeObjectMappings = this.stripeCustomerMappings;
-                this.activeStripeObjectMetadataFields = this.customerMetadataFields;
-                this.activeStripeObjectSections = this.defaultCustomerSections;
-               break;
-
-            // TODO should change identifier to `subscription_schedule` instead
-            case 'subscription':
-                this.friendlyStripeObjectName = "Subscription Schedule"
-                this.defaultSfObject = 'Order';
-                this.fieldListByObjectMap.Order.sort(this.mapperFieldSorter);
-                this.sfFieldOptions = this.fieldListByObjectMap.Order;
-                this.activeStripeObjectMappings = this.stripeSubscriptionMappings;
-                this.activeStripeObjectMetadataFields = this.subscriptionMetadataFields;
-                this.activeStripeObjectSections = this.defaultSubscriptionScheduleSections;
-                break;
-
-            case 'subscription-item':
-                this.friendlyStripeObjectName = "Subscription Schedule Phase Item";
-                this.defaultSfObject = 'OrderItem';
-                this.fieldListByObjectMap.OrderItem.sort(this.mapperFieldSorter);
-                this.sfFieldOptions = this.fieldListByObjectMap.OrderItem;
-                this.activeStripeObjectMappings = this.stripeSubscriptionItemMappings;
-                this.activeStripeObjectMetadataFields = this.subscriptionItemMetadataFields;
-                this.activeStripeObjectSections = this.defaultSubscriptionItemSections;
-                break;
-    
-            case 'product':
-                this.friendlyStripeObjectName = "Product";
-                this.defaultSfObject = 'Product2';
-                this.fieldListByObjectMap.Product2.sort(this.mapperFieldSorter)
-                this.sfFieldOptions = this.fieldListByObjectMap.Product2;
-                this.activeStripeObjectMappings = this.stripeProductMappings;
-                this.activeStripeObjectMetadataFields = this.productMetadataFields;
-                this.activeStripeObjectSections = this.defaultProductSections;
-                break;
-
-
-            case 'price':
-                this.friendlyStripeObjectName = "Price";
-                this.defaultSfObject = 'PricebookEntry';
-                this.fieldListByObjectMap.PricebookEntry.sort(this.mapperFieldSorter)
-                this.sfFieldOptions = this.fieldListByObjectMap.PricebookEntry;
-                this.activeStripeObjectMappings = this.stripePriceMappings;
-                this.activeStripeObjectMetadataFields = this.priceMetadataFields;
-                this.activeStripeObjectSections = this.defaultPriceSections;
-                break;
-
-            default:
-                 // TODO should send to sentry when that is possible
-                console.log("uncaught sidebar click");
-                break;
         }
-
+    
+        this.dispatchEvent(this.contentLoading);
+        this.activeObjectDescription = this.ACTIVE_OBJECT_INFO[this.activeObject]['description'];
+        this.updateObjectFieldsAndSetMappings(this.ACTIVE_OBJECT_INFO[this.activeObject]['objectName'], this.ACTIVE_OBJECT_INFO[this.activeObject]['friendlyName']);
         this.openActiveSection();
-        this.setDescription();
-        this.loading = false;
+        this.dispatchEvent(this.contentLoadingComplete);
         return;
+    }
 
+    updateObjectFieldsAndSetMappings(objectName, friendlyName) {
+        const METADATAFIELDS = 'MetadataFields';
+        this.friendlyStripeObjectName = friendlyName;
+        this.defaultSfObject = objectName;
+        this.fieldListByObjectMap[objectName].sort(this.mapperFieldSorter);
+        this.sfFieldOptions = this.fieldListByObjectMap[objectName];
+        this.activeStripeObjectMappings = this[this.activeObject + 'Mappings'];
+        this.activeStripeObjectMetadataFields = this[this.activeObject + METADATAFIELDS];
     }
 
     // Open 'Metadata' mapping section if metadata mappings exist
     openActiveSection() {
-        this.activeStripeObjectSections = ['standard']
-        let activeStripeObjectName = this.activeObject; 
-        // TODO this should not be special cased but changing this would require changes in the html and other places in this file and ensuring things do not break due to the change.
-        if ( this.activeObject === 'subscription-item') {
-            activeStripeObjectName = 'subscriptionItem';
-        }
-        if (this[activeStripeObjectName + 'MetadataFields'].metadataMapping.fields.length <= 0) {
-            return
-        }
-        this.activeStripeObjectSections = ['standard', 'metadata'];
-        return;
-    }
+        this.activeStripeObjectSections = ['standard'];
 
-    setDescription() {
-        
-        switch(this.activeObject) {
-            case 'customer':
-              this.activeObjectDescription = 'Customer objects allow you to perform recurring charges, and to track multiple charges, that are associated with the same customer. The API allows you to create, delete, and update your customers. You can retrieve individual customers as well as a list of all your customers.';
-              break;
-            case 'product':
-                this.activeObjectDescription = 'Products describe the specific goods or services you offer to your customers. For example, you might offer a Standard and Premium version of your goods or service; each version would be a separate Product. They can be used in conjunction with Prices to configure pricing in Checkout and Subscriptions.';
-                break;
-            case 'subscription':
-                this.activeObjectDescription = 'A subscription schedule allows you to create and manage the lifecycle of a subscription by predefining expected changes.';
-                break;
-            case 'subscription-item':
-                this.activeObjectDescription = 'Subscription items allow you to create customer subscriptions with more than one plan, making it easy to represent complex billing relationships.';
-                break;
-            case 'price':
-                this.activeObjectDescription = 'Prices define the unit cost, currency, and (optional) billing cycle for both recurring and one-time purchases of products.';
-                break;
-            default:
-                return;
+        if (this[this.activeObject + 'MetadataFields'].metadataMapping.fields.length > 0) {
+            this.activeStripeObjectSections = ['standard', 'metadata']
         }
         
-        return;
-
+        return this[this.activeObject + 'Sections'] = this.activeStripeObjectSections
     }
 
     openStripeApi(event) {
@@ -609,11 +584,12 @@ export default class DataMappingStep extends LightningElement {
         let apiUrl = "https://stripe.com/docs/api/";
 
         // subscription_items are unique and really represent subscription schedule phase items
-        if(stripeObject == 'subscription-item') {
+        if(stripeObject == 'subscriptionItem') {
             apiUrl += "subscription_schedules/create#create_subscription_schedule-phases-items"
-        } else if(stripeObject == 'subscription') {
-            // TODO right now the wrong identifier is being used for subscriptions... ugh. Fix this when `subscription` => `subscription_schedule`
+        } else if(stripeObject == 'subscriptionSchedule' || stripeObject == 'subscriptionPhase') {
             apiUrl += "subscription_schedules/create"
+        }else if(stripeObject == 'priceOrderItem') {
+            apiUrl += "prices/create"
         } else {
             // our API calls are always #create, so let's link to that specific area in the docs
             apiUrl += `${stripeObject}s/create`;
@@ -623,8 +599,7 @@ export default class DataMappingStep extends LightningElement {
     }
 
     @api async connectedCallback() {
-        this.setDescription();
-        this.dispatchEvent(new CustomEvent('contentloading'));
+        this.dispatchEvent(this.contentLoading);
         try {
             const getFormattedStripeObjects = await getFormattedStripeObjectFields();
             const responseData = JSON.parse(getFormattedStripeObjects);
@@ -632,21 +607,24 @@ export default class DataMappingStep extends LightningElement {
                 this.showToast(responseData.error, 'error', 'sticky');
                 return;
             }
-            this.stripeCustomerMappings = responseData.results.formattedStripeCustomerFields;
-            this.stripeProductMappings = responseData.results.formattedStripeProductItemFields;
-            this.stripeSubscriptionMappings = responseData.results.formattedStripeSubscriptionFields;
-            this.stripeSubscriptionItemMappings = responseData.results.formattedStripeSubscriptionItemFields;
-            this.stripePriceMappings = responseData.results.formattedStripePriceFields;
+
+            this.customerMappings = responseData.results.formattedStripeCustomerFields;
+            this.productMappings = responseData.results.formattedStripeProductItemFields;
+            this.subscriptionScheduleMappings = responseData.results.formattedStripeSubscriptionFields;
+            this.subscriptionPhaseMappings = responseData.results.formattedStripeSubscriptionSchedulePhaseFields;
+            this.subscriptionItemMappings = responseData.results.formattedStripeSubscriptionItemFields;
+            this.priceMappings = responseData.results.formattedStripePriceFields;
+            this.priceOrderItemMappings = responseData.results.formattedStripePriceOrderItemFields;
 
             this.getPicklistValuesForMapper(true, '', false);
         } catch (error) {
-            let errorMessage = getErrorMessage(error);
+            const errorMessage = getErrorMessage(error);
             this.showToast(errorMessage, 'error');
         } finally {
             this.activeObject = 'customer';
-            this.activeStripeObjectMappings = this.stripeCustomerMappings;
+            this.activeObjectDescription = this.ACTIVE_OBJECT_INFO[this.activeObject]['description'];
+            this.activeStripeObjectMappings = this.customerMappings;
             this.activeStripeObjectMetadataFields = this.customerMetadataFields;
-            this.activeStripeObjectSections = this.defaultCustomerSections;
         }
     }
 
@@ -698,35 +676,8 @@ export default class DataMappingStep extends LightningElement {
                 return;
             }
             this.allMappingConfigurations = mappingConfigurationResponseData.results.allMappingConfigurations;
-            const listOfStripeMappingObjects = [
-                {
-                    object: 'customer',
-                    mappingsObject: this.stripeCustomerMappings,
-                    metadataMappingsObject: this.customerMetadataFields
-                },
-                {
-                    object: 'product',
-                    mappingsObject: this.stripeProductMappings,
-                    metadataMappingsObject: this.productMetadataFields
-                },
-                {
-                    object: 'subscription_schedule',
-                    mappingsObject: this.stripeSubscriptionMappings,
-                    metadataMappingsObject: this.subscriptionMetadataFields
-                },
-                {
-                    object: 'subscription_item',
-                    mappingsObject: this.stripeSubscriptionItemMappings,
-                    metadataMappingsObject: this.subscriptionItemMetadataFields
-                },
-                {
-                    object: 'price',
-                    mappingsObject: this.stripePriceMappings,
-                    metadataMappingsObject: this.priceMetadataFields
-                }
-            ];
-            
-            for (const mappingContainer of listOfStripeMappingObjects) {
+           
+            for (const mappingContainer of this.listOfStripeMappingObjects) {
                 this.setFieldMappings(mappingContainer.object, mappingContainer.mappingsObject, mappingContainer.metadataMappingsObject.metadataMapping.fields);
             }
             
@@ -734,10 +685,11 @@ export default class DataMappingStep extends LightningElement {
             this.allMappingList['required_mappings'] = this.allMappingConfigurations['required_mappings'];
 
         } catch (error) {
-            let errorMessage = getErrorMessage(error);
+            const errorMessage = getErrorMessage(error);
             this.showToast(errorMessage, 'error', 'sticky');
         } finally {
-            this.dispatchEvent(new CustomEvent('contentloadingcomplete'));
+            this.openActiveSection();
+            this.dispatchEvent(this.contentLoadingComplete);
             if(targetElement) targetElement.dropdownLoading = false;
         }
     }
@@ -817,8 +769,6 @@ export default class DataMappingStep extends LightningElement {
                 }
             }
         }
-        this.openActiveSection();
-        
     }
 
     getFieldObject(name, value, type, defaultValue, hasOverride, staticValue, sfValue, sfValueType) {
@@ -839,35 +789,7 @@ export default class DataMappingStep extends LightningElement {
         this.loading = true;
         let saveSuccess = false;
 
-        const listOfStripeMappingObjects = [
-            {
-                object: 'customer',
-                mappingsObject: this.stripeCustomerMappings,
-                metadataMappingsObject: this.customerMetadataFields
-            },
-            {
-                object: 'product',
-                mappingsObject: this.stripeProductMappings,
-                metadataMappingsObject: this.productMetadataFields
-            },
-            {
-                object: 'subscription_schedule',
-                mappingsObject: this.stripeSubscriptionMappings,
-                metadataMappingsObject: this.subscriptionMetadataFields
-            },
-            {
-                object: 'subscription_item',
-                mappingsObject: this.stripeSubscriptionItemMappings,
-                metadataMappingsObject: this.subscriptionItemMetadataFields
-            },
-            {
-                object: 'price',
-                mappingsObject: this.stripePriceMappings,
-                metadataMappingsObject: this.priceMetadataFields
-            }
-        ];
-
-        for (const mappingContainer of listOfStripeMappingObjects) {
+        for (const mappingContainer of this.listOfStripeMappingObjects) {
             this.allMappingList = this.saveObjectMappings(mappingContainer.mappingsObject, this.allMappingList, mappingContainer.metadataMappingsObject, mappingContainer.object);
         }
 

@@ -227,8 +227,11 @@ public with sharing class setupAssistant {
                 rd.put('formattedStripeCustomerFields', (List<Object>)responseBody.get('formattedStripeCustomerFields'));
                 rd.put('formattedStripeProductItemFields', (List<Object>)responseBody.get('formattedStripeProductItemFields'));
                 rd.put('formattedStripeSubscriptionFields', (List<Object>)responseBody.get('formattedStripeSubscriptionFields'));
+                rd.put('formattedStripeSubscriptionSchedulePhaseFields', (List<Object>)responseBody.get('formattedStripeSubscriptionSchedulePhaseFields'));
                 rd.put('formattedStripeSubscriptionItemFields', (List<Object>)responseBody.get('formattedStripeSubscriptionItemFields'));
                 rd.put('formattedStripePriceFields', (List<Object>)responseBody.get('formattedStripePriceFields'));
+                rd.put('formattedStripePriceOrderItemFields', (List<Object>)responseBody.get('formattedStripePriceFields'));
+                
             } else {
                 errorLogger.create('getFormattedStripeObjectFields', String.valueOf(response.getStatusCode()), (String)response.getStatus(), 'Failed to get mapping configuration from ruby service.');
             }

@@ -293,12 +293,14 @@ public with sharing class test_setupAssistant {
         List<Object> testCustomerFields =  (List<Object>)resultsMap.get('formattedStripeCustomerFields');
         List<Object> testProductFields =  (List<Object>)resultsMap.get('formattedStripeProductItemFields');
         List<Object> testSubscriptionFields =  (List<Object>)resultsMap.get('formattedStripeSubscriptionFields');
+        List<Object> testSubscriptionPhaseFields =  (List<Object>)resultsMap.get('formattedStripeSubscriptionSchedulePhaseFields'); 
         List<Object> testSubscriptionItemFields =  (List<Object>)resultsMap.get('formattedStripeSubscriptionItemFields');
         List<Object> testPriceFields =  (List<Object>)resultsMap.get('formattedStripePriceFields');
 
         System.assertEquals(5, testCustomerFields.size());
         System.assertEquals(5, testProductFields.size());
         System.assertEquals(5, testSubscriptionFields.size());
+        System.assertEquals(5, testSubscriptionPhaseFields.size());
         System.assertEquals(5, testSubscriptionItemFields.size());
         System.assertEquals(5, testPriceFields.size());
     }
@@ -642,6 +644,7 @@ public with sharing class test_setupAssistant {
                     responseBody.put('formattedStripeProductItemFields', (Object)testFormattedFieldsList);
                     responseBody.put('formattedStripeSubscriptionFields', (Object)testFormattedFieldsList);
                     responseBody.put('formattedStripeSubscriptionItemFields', (Object)testFormattedFieldsList);
+                    responseBody.put('formattedStripeSubscriptionSchedulePhaseFields', (Object)testFormattedFieldsList);
                     responseBody.put('formattedStripePriceFields', (Object)testFormattedFieldsList);
                     res.setBody(Json.serialize(responseBody));
                     res.setStatusCode(200);
