@@ -49,6 +49,9 @@ class StripeForce::Translate
     set_error_context(user: user)
   end
 
+  sig { returns(Integrations::Locker) }
+  attr_reader :locker
+
   def sf
     @user.sf_client
   end

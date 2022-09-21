@@ -3,6 +3,8 @@
 
 class StripeForce::Translate
   def translate_order(sf_object)
+    locker.lock_salesforce_record(sf_object)
+
     contract_structure = extract_contract_from_order(sf_object)
 
     # process the initial order
@@ -273,6 +275,8 @@ class StripeForce::Translate
 
     # TODO should break this out into a separate method and wrap in `catch_errors_with_salesforce_context`
     contract_structure.amendments.each_with_index do |sf_order_amendment, index|
+      locker.lock_salesforce_record(sf_order_amendment)
+
       log.info 'processing amendment', sf_amendment_id: sf_order_amendment.Id, index: index
 
       invoice_items_in_order, aggregate_phase_items = build_phase_items_from_order_amendment(

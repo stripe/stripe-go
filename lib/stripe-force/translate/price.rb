@@ -3,6 +3,8 @@
 
 class StripeForce::Translate
   def translate_pricebook(sf_pricebook_entry)
+    locker.lock_salesforce_record(sf_pricebook_entry)
+
     catch_errors_with_salesforce_context(secondary: sf_pricebook_entry) do
       create_price_from_pricebook(sf_pricebook_entry)
     end
@@ -44,6 +46,8 @@ class StripeForce::Translate
   # TODO remove nilable return once negative line items are supported https://jira.corp.stripe.com/browse/PLATINT-1483
   sig { params(sf_order_item: T.untyped).returns(T.nilable(Stripe::Price)) }
   def create_price_for_order_item(sf_order_item)
+    locker.lock_salesforce_record(sf_order_item)
+
     log.info 'translating price from a order line', salesforce_object: sf_order_item
 
     # TODO use cache_service

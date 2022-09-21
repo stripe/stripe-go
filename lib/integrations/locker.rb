@@ -14,7 +14,7 @@ module Integrations
 
     # TODO https://github.com/stripe/stripe-netsuite/issues/902
     sig { params(user: StripeForce::User).returns(String) }
-    def self.generate_netsuite_account_lock_key(user)
+    def self.generate_salesforce_account_lock_key(user)
       "user-#{user.salesforce_account_id}"
     end
 
@@ -76,12 +76,12 @@ module Integrations
       acquire_or_refresh_resource_lock(resource_lock_key, expiration_time)
     end
 
-    def lock_salesforce_record(ns_record)
-      record_lock_key = generate_salesforce_record_lock_key(ns_record)
+    def lock_salesforce_record(sf_record)
+      record_lock_key = generate_salesforce_record_lock_key(sf_record)
 
       # TODO we should probably refresh the lock here
       if @locked_resource_keys.include?(record_lock_key)
-        log.info 'record is already locked', key: record_lock_key, ns_record: ns_record
+        log.info 'record is already locked', key: record_lock_key, sf_record: sf_record
         return
       end
 
@@ -125,7 +125,7 @@ module Integrations
 
     private def generate_salesforce_record_lock_key(sf_record)
       [
-        generate_user_lock_key(user),
+        self.class.generate_salesforce_account_lock_key(user),
         'record',
         sf_record.sobject_type,
         sf_record.Id,
@@ -193,7 +193,7 @@ module Integrations
     # https://github.com/stripe/stripe-netsuite/issues/751
     sig { params(user: StripeForce::User).returns(String) }
     private def generate_user_lock_key(user)
-      base_key = self.class.generate_netsuite_account_lock_key(user)
+      base_key = self.class.generate_salesforce_account_lock_key(user)
 
       # NOTE usage should be 1 less than the desired amount because of base_key
       concurrent_connection_limit = user.concurrent_connections - 1
