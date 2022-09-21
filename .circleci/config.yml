@@ -13,6 +13,9 @@ workflows:
   version: 2
   build_typecheck_rubocop:
     jobs: &build_typecheck_rubocop_jobs
+      - typecheck
+      - rubocop
+
       - block_workflow:
           # builds can take ~2hrs when NetSuite is slow and
           # a build could be pending on multiple builds
@@ -31,22 +34,13 @@ workflows:
                 # production package test, has a different prefix from QA
                 # - brennen+prodtest@stripe.com
 
-          requires:
-            # We will wait for the block and typecheck tasks to complete
-            # We intentionally do not wait for the results of rubocop as it's not necessary
-            - block_workflow
-            - typecheck
-            - salesforce
-      - build:
-          matrix: *ruby_test_accounts
+          # We will wait for the block and typecheck tasks to complete
+          # We intentionally do not wait for the results of rubocop as it's not necessary
+          requires: ["block_workflow"]
 
-          requires:
-            - clean_salesforce
-      - typecheck
-      - rubocop
       - salesforce:
           name: salesforce-<< matrix.account >>
-          requires: ["block_workflow"]
+          requires: ["clean_salesforce"]
           matrix:
             parameters:
               # https://docs.google.com/spreadsheets/d/136PUl_U7bMW7uMSwcqujisasAJNQJIOPQimGGG7iG00/edit#gid=0
@@ -56,6 +50,14 @@ workflows:
                 - mbianco+cpqplus@stripe.com
                 - mbianco+noncpq@stripe.com
                 - mbianco+cpqubp@stripe.com
+      - clean_salesforce_2:
+          matrix: *ruby_test_accounts
+          requires: ["salesforce"]
+
+      - build:
+          matrix: *ruby_test_accounts
+          requires: ["clean_salesforce_2"]
+
 
   nightly:
     jobs: *build_typecheck_rubocop_jobs
@@ -107,7 +109,7 @@ jobs:
           destination: apex-test-results
           path: sfdx/test-results
 
-  clean_salesforce:
+  clean_salesforce: &clean_salesforce
     parameters:
       account:
         type: string
@@ -131,6 +133,8 @@ jobs:
 
             # this only needs to be done once for all parallel builds, which is why we have a separate job we are using here
             deleteTestData <<parameters.account>>
+
+  clean_salesforce_2: *clean_salesforce
 
   build:
     parallelism: 10
