@@ -178,6 +178,10 @@ class Critic::OrderAmendmentTranslation < Critic::OrderAmendmentFunctionalTest
     assert_equal(1, subscription_item.quantity)
   end
 
+  it 'does not treat a order amendment as a new order if it has not been contracted' do
+    # if an amendment has not been contracted we should throw an error
+  end
+
   it 'creates a new phase from an order amendment adding a non-metered product to a metered product' do
     # initial order: one metered
     # amendment: keep metered item, add non-metered
@@ -317,23 +321,8 @@ class Critic::OrderAmendmentTranslation < Critic::OrderAmendmentFunctionalTest
     StripeForce::Translate.perform_inline(@user, sf_order.Id)
   end
 
+  # TODO pretty sure this is tested in the price reuse tests, check if any additional cases need to be tested here
   it 'customized prices on the line level' do
-
-  end
-
-  it 'adding new product' do
-
-  end
-
-  it 'removing a product' do
-
-  end
-
-  it 'uses metadata on the original line item if an item is not removed' do
-
-  end
-
-  it 'uses the latest metadata on an order line represented in a previous subscription schedule phase' do
 
   end
 
@@ -446,9 +435,9 @@ class Critic::OrderAmendmentTranslation < Critic::OrderAmendmentFunctionalTest
       contract_term = TEST_DEFAULT_CONTRACT_TERM
       amendment_term = 7
       initial_order_start_date = now_time
-      start_date = initial_order_start_date + (contract_term - amendment_term).months
-      end_date = start_date + amendment_term.months
       initial_start_date = initial_order_start_date
+      amendment_start_date = initial_order_start_date + (contract_term - amendment_term).months
+      amendment_end_date = amendment_start_date + amendment_term.months
 
       sf_product_id, sf_pricebook_id = salesforce_recurring_product_with_price(
         additional_product_fields: {
@@ -458,7 +447,7 @@ class Critic::OrderAmendmentTranslation < Critic::OrderAmendmentFunctionalTest
 
       sf_order = create_subscription_order(sf_product_id: sf_product_id)
 
-      # translate the initial order, and advance the clock
+      # translate the initial order, and advance the clock past the first billing cycle
       StripeForce::Translate.perform_inline(@user, sf_order.Id)
 
       sf_account = sf_get(sf_order['AccountId'])
@@ -496,7 +485,7 @@ class Critic::OrderAmendmentTranslation < Critic::OrderAmendmentFunctionalTest
 
       # increase quantity by 2
       amendment_data["lineItems"].first["record"]["SBQQ__Quantity__c"] = 2
-      amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_START_DATE] = format_date_for_salesforce(start_date)
+      amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_START_DATE] = format_date_for_salesforce(amendment_start_date)
       amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_TERM] = amendment_term
 
       sf_order_amendment = create_order_from_quote_data(amendment_data)
@@ -512,11 +501,11 @@ class Critic::OrderAmendmentTranslation < Critic::OrderAmendmentFunctionalTest
 
       # first phase should start now and end in 9mo
       assert_equal(0, first_phase.start_date - initial_start_date.to_i)
-      assert_equal(0, first_phase.end_date - start_date.to_i)
+      assert_equal(0, first_phase.end_date - amendment_start_date.to_i)
 
       # second phase should start at the end date
-      assert_equal(0, second_phase.start_date - start_date.to_i)
-      assert_equal(0, second_phase.end_date - end_date.to_i)
+      assert_equal(0, second_phase.start_date - amendment_start_date.to_i)
+      assert_equal(0, second_phase.end_date - amendment_end_date.to_i)
 
       assert_equal(1, first_phase.items.count)
       assert_equal(2, second_phase.items.count)
@@ -542,13 +531,7 @@ class Critic::OrderAmendmentTranslation < Critic::OrderAmendmentFunctionalTest
 
   describe 'metadata' do
     it 'pulls metadata from each order amendment to the phase of each subscription'
+    it 'uses metadata on the original line item if an item is not removed'
+    it 'uses the latest metadata on an order line represented in a previous subscription schedule phase'
   end
-
-  describe 'errors' do
-    it 'creates a sync error when MISSING FIELDS' do
-
-    end
-  end
-
-
 end

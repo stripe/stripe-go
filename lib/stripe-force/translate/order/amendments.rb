@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 # typed: true
 
-# using `Order::Amendment` conflicts will too many other things
+# https://docs.google.com/document/d/15d1nO0wkGKGyLS7fRCflI_3LEPQd6yOBhtkDUS6-_hk/edit
 class StripeForce::Translate
+  # using `Order::Amendment` conflicts will too many other things
   module OrderAmendment
     extend T::Sig
 
@@ -35,8 +36,16 @@ class StripeForce::Translate
 
       # TODO we'll need to have some sort of logic for backend prorations to calculate the amount before
       #      a billing cycle that needs to be billed for, but let's deal with that later...
+
       prorated_subscription_term = subscription_term % billing_frequency
       proration_percentage = BigDecimal(prorated_subscription_term) / BigDecimal(billing_frequency)
+
+      # https://jira.corp.stripe.com/browse/PLATINT-1808
+      if prorated_subscription_term.zero?
+        log.warn 'subscription term is equal to billing frequency, amendment is most likely happening on the same day'
+        proration_percentage = 1
+      end
+
       stripe_price = phase_item.price(user)
       unit_amount_decimal = BigDecimal(stripe_price.unit_amount_decimal)
       prorated_billing_amount = unit_amount_decimal * proration_percentage
@@ -278,6 +287,10 @@ class StripeForce::Translate
       current_timestamp = determine_current_time(user, stripe_customer_id)
 
       phases.reject! do |phase|
+        if phase.end_date == 'now'
+          next false
+        end
+
         in_past = phase.end_date < current_timestamp
 
         if in_past

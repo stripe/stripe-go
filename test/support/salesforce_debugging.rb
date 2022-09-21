@@ -179,4 +179,18 @@ module SalesforceDebugging
       })
     end
   end
+
+  def wipe_object(sf_object_or_id)
+    sf_object = if sf_object_or_id.is_a?(String)
+      sf_get(sf_object_or_id)
+    else
+      sf_object_or_id
+    end
+
+    puts "updating\t#{sf_object.sobject_type}\t#{sf_object.Id}"
+    @user.sf_client.update!(sf_object.sobject_type, {
+      SF_ID => sf_object.Id,
+      prefixed_stripe_field(GENERIC_STRIPE_ID) => "",
+    })
+  end
 end

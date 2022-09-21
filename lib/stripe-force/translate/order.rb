@@ -5,6 +5,7 @@ class StripeForce::Translate
   def translate_order(sf_object)
     locker.lock_salesforce_record(sf_object)
 
+    # get initial order and all amendments
     contract_structure = extract_contract_from_order(sf_object)
 
     # process the initial order
@@ -314,10 +315,10 @@ class StripeForce::Translate
       subscription_term_from_sales_force = phase_params['iterations'].to_i
 
       # originally `iterations` was used, but this fails when subscription term is less than a single billing cycle
-      phase_params['end_date'] = (
-        DateTime.parse(string_start_date_from_salesforce).beginning_of_day.utc +
+      phase_params['end_date'] = StripeForce::Utilities::SalesforceUtil.datetime_to_unix_timestamp(
+        DateTime.parse(string_start_date_from_salesforce) +
         + subscription_term_from_sales_force.months
-      ).to_i
+      )
 
       # TODO should we validate the end date vs the subscription schedule?
 
@@ -382,6 +383,16 @@ class StripeForce::Translate
 
       # TODO dynamic metadata on the phase?
 
+      # if the current day is the same day as the start day, then use now
+      current_time = OrderAmendment.determine_current_time(@user, T.cast(subscription_schedule.customer, String))
+      normalized_current_time = StripeForce::Utilities::SalesforceUtil.datetime_to_unix_timestamp(Time.at(current_time))
+      is_same_day = normalized_current_time == new_phase.start_date
+
+      if is_same_day
+        log.info 'phase starts on the current day, using now'
+        new_phase.start_date = 'now'
+      end
+
       # TODO this is very naive... something better here?
       # align date boundaries of the schedules
       previous_phase.end_date = new_phase.start_date
@@ -389,7 +400,8 @@ class StripeForce::Translate
       # TODO I wonder if we can do something smarter here: if the invoice has not been paid/billed, do XYZ?
       # this is a special case: subscription is cancelled on the same day, the intention here is to not bill the user at all
       is_subscription_schedule_cancelled = is_order_terminated &&
-        previous_phase.start_date == previous_phase.end_date &&
+        # use `start_date_as_timestamp` since `previous_phase.end_date` could be `now`
+        previous_phase.start_date == start_date_as_timestamp &&
         contract_structure.amendments.count == 1
 
       # if the order is terminated, updating the last phase end date and NOT adding another phase is all that needs to be done
@@ -402,6 +414,8 @@ class StripeForce::Translate
       # https://jira.corp.stripe.com/browse/PLATINT-1832
       stripe_customer_id = T.cast(subscription_schedule.customer, String)
       subscription_phases = OrderAmendment.delete_past_phases(@user, stripe_customer_id, subscription_phases)
+
+      # TODO add a "merge equal phases"
 
       # NOTE intentional decision here NOT to update any other subscription fields
       catch_errors_with_salesforce_context(secondary: sf_order_amendment) do
@@ -669,7 +683,7 @@ class StripeForce::Translate
   end
 
   # TODO move to order amendment helpers
-  # if an order does not have a 'AmendedContract' relationship than it is a initial order
+  # If an order's opportunity does not have a 'AmendedContract' relationship than it is a initial order
   sig { params(sf_order: Restforce::SObject).returns(T::Boolean) }
   def is_order_amendment?(sf_order)
     order_with_amended_contract_query = sf.query(

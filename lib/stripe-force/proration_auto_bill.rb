@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 # typed: true
 
+# Design doc:
+# https://docs.google.com/document/d/1jE0vB0CWeww-rMMhDpPSE7RZbU8_6wj-6Q5BFTKfMRM/edit#heading=h.k69akfih61q
 module StripeForce
   module ProrationAutoBill
     extend T::Sig
@@ -38,6 +40,8 @@ module StripeForce
         return
       end
 
+      # TODO we need billing to offer the ability to pass in a list of invoice items,
+      #      this logic could "scoop up" invoice items which the user does NOT intend to bill
       invoice = Stripe::Invoice.create({
         customer: customer_id,
         subscription: subscription_id,

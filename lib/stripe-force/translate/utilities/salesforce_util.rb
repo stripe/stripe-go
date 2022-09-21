@@ -14,8 +14,12 @@ module StripeForce::Utilities
     # Stripe APIs speak UTC, so we convert to UTC + unix timestamp
     sig { params(date_string: String).returns(Integer) }
     def self.salesforce_date_to_unix_timestamp(date_string)
-      # TODO if beginning of day is in the past, maybe offer a 'now' option on the subscription?
-      DateTime.parse(date_string).beginning_of_day.utc.to_i
+      DateTime.parse(date_string).utc.beginning_of_day.to_i
+    end
+
+    sig { params(datetime: T.any(Time, DateTime)).returns(Integer) }
+    def self.datetime_to_unix_timestamp(datetime)
+      datetime.utc.beginning_of_day.to_i
     end
 
     sig { params(user: StripeForce::User, sf_id: String).returns(String) }

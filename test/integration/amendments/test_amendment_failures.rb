@@ -8,6 +8,10 @@ class Critic::OrderAmendmentTranslation < Critic::OrderAmendmentFunctionalTest
     @user = make_user(save: true)
   end
 
+  it 'creates a sync error when MISSING FIELDS' do
+
+  end
+
   # this can occur if the SBQQ__RevisedOrderProduct__c is negative because of permission issues in salesforce
   it 'throws an error when a subscription item is negative' do
     # manually nil out the
