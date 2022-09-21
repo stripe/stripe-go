@@ -221,8 +221,9 @@ class StripeForce::Translate
       raise "origin salesforce object is blank, cannot record success"
     end
 
+    # TODO we want to just skip order lines
     unless @origin_salesforce_object.Id == salesforce_object.Id
-      log.info 'skipping Successful Sync Record creation for child-object.', {
+      log.info 'skipping successful sync record creation in sf for child-object', {
         primary_salesforce_id: @origin_salesforce_object.Id,
         secondary_salesforce_id: salesforce_object.Id,
       }
@@ -350,12 +351,16 @@ class StripeForce::Translate
     # and then converting the finalized object into a parameters hash. However, without using `construct_from`
     # we'd have to pass the object type around when mapping which is equally as bad.
 
-    catch_errors_with_salesforce_context(secondary: sf_object) do
+    created_stripe_object = catch_errors_with_salesforce_context(secondary: sf_object) do
       stripe_class.create(
         stripe_object.to_hash,
         StripeForce::Utilities::StripeUtil.generate_idempotency_key_with_credentials(@user, sf_object)
       )
     end
+
+    log.info 'created stripe object', stripe_id: created_stripe_object.id
+
+    created_stripe_object
   end
 
   sig { params(stripe_class: T.class_of(Stripe::APIResource), sf_object: Restforce::SObject).returns(T.nilable(Stripe::APIResource)) }
