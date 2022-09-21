@@ -50,6 +50,7 @@ module StripeForce
       if self.new?
         self.enable_feature(FeatureFlags::LOUD_SANDBOX_LOGGING)
         self.enable_feature(FeatureFlags::TEST_CLOCKS)
+        self.enable_feature(FeatureFlags::CATCH_ALL_ERRORS)
         self.connector_settings = DEFAULT_CONNECTOR_SETTINGS.deep_dup
       end
       self.feature_flags.map!(&:to_sym)
