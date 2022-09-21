@@ -21,7 +21,7 @@ class StripeForce::OrderPoller < StripeForce::PollerBase
       to: execution_time
 
     # note that SF fields never contain empty strings, they are reported null instead
-    updated_orders = @user.sf_client.query(generate_soql(end_time, execution_time))
+    updated_orders = backoff { @user.sf_client.query(generate_soql(end_time, execution_time)) }
 
     # important to use `size` here and not count because of the paging issue described below
     log.info 'order query complete', size: updated_orders.size

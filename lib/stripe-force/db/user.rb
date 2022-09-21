@@ -112,11 +112,6 @@ module StripeForce
       10
     end
 
-    # TODO should move to a status service
-    def has_cpq_installed?
-      sf_client.query("SELECT COUNT() FROM PackageLicense WHERE NamespacePrefix LIKE 'SBQQ%'").count >= 1
-    end
-
     def salesforce_namespace
       self.connector_settings[CONNECTOR_SETTING_SALESFORCE_NAMESPACE]
     end

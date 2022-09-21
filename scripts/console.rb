@@ -168,6 +168,10 @@ def ensure_order_is_included_in_custom_where_clause(sf_order_or_id)
   end
 end
 
+def has_cpq_installed?
+  sf_client.query("SELECT COUNT() FROM PackageLicense WHERE NamespacePrefix LIKE 'SBQQ%'").count >= 1
+end
+
 # TODO make limit pages into some sort of helper
 # https://appiphony92-dev-ed.lightning.force.com/lightning/setup/CompanyProfileInfo/home
 # https://appiphony92-dev-ed.lightning.force.com/lightning/setup/CompanyResourceDisk/home
