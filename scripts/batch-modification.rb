@@ -12,3 +12,8 @@ StripeForce::User.where(stripe_account_id: 'acct_15uapDIsgf92XbAO').all.each do 
   puts "User\t#{user.salesforce_instance_url}\t#{user.id}"
   user.update(enabled: false)
 end
+
+StripeForce::User.all.each do |user|
+    user.enable_feature StripeForce::Constants::FeatureFlags::CATCH_ALL_ERRORS, update: true
+  end
+end
