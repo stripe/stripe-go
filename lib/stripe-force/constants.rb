@@ -21,6 +21,7 @@ module StripeForce
     SF_CONTRACT = 'Contract'
 
     SF_ID = 'Id'
+    SF_LAST_MODIFIED_DATE = 'LastModifiedDate'
     SF_ORDER_ACCOUNT = 'AccountId'
     SF_ORDER_CONTRACTED = 'SBQQ__Contracted__c'
     SF_ORDER_QUOTE = 'SBQQ__Quote__c'

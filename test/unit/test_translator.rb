@@ -140,54 +140,5 @@ module Critic::Unit
         @translator.update_sf_stripe_id(customer, stripe_customer)
       end
     end
-
-    describe 'generate_idempotency_key_with_credentials' do
-      it 'generates a key' do
-        sf_order = create_mock_salesforce_order
-
-        @user.expects(:sandbox?).once.returns(false)
-        creds = StripeForce::Utilities::StripeUtil.generate_idempotency_key_with_credentials(@user, sf_order)
-
-        refute_nil(sf_order.Id)
-        assert_match(sf_order.Id, creds.delete(:idempotency_key))
-        assert_equal(@user.stripe_credentials, creds)
-      end
-
-      it 'generates a key with an action' do
-        sf_order = create_mock_salesforce_order
-
-        @user.expects(:sandbox?).once.returns(false)
-
-        creds = StripeForce::Utilities::StripeUtil.generate_idempotency_key_with_credentials(
-          @user,
-          sf_order,
-          :finalize_invoice
-        )
-
-        assert_match("#{sf_order.Id}-finalize_invoice", creds.delete(:idempotency_key))
-        assert_equal(@user.stripe_credentials, creds)
-      end
-
-      it 'generates a different key when mappings change' do
-        sf_order = create_mock_salesforce_order
-
-        @user.expects(:sandbox?).twice.returns(false)
-
-        cred_1 = StripeForce::Utilities::StripeUtil.generate_idempotency_key_with_credentials(@user, sf_order)
-        key_1 = cred_1[:idempotency_key]
-
-        # now let's update the mapping
-        @user.field_mappings['price'] = {'some' => 'map'}
-
-        cred_2 = StripeForce::Utilities::StripeUtil.generate_idempotency_key_with_credentials(@user, sf_order)
-        key_2 = cred_2[:idempotency_key]
-
-        refute_equal(key_2, key_1)
-
-        # max idempotency key size
-        assert(key_2.size < 255)
-        assert(key_1.size < 255)
-      end
-    end
   end
 end

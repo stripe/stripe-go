@@ -40,6 +40,7 @@ module Critic
         "attributes" => {"type" => SF_ORDER, "url" => "/services/data/v52.0/sobjects/#{SF_ORDER}/#{id}"},
         "Id" => id,
         "IsDeleted" => false,
+        SF_LAST_MODIFIED_DATE => "2022-09-20T17:53:31.000+0000",
       })
     end
 

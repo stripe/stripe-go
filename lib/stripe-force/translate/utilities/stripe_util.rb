@@ -37,20 +37,8 @@ module StripeForce::Utilities
       mappings_as_string = user.field_mappings.to_json + user.field_mappings.to_json
       mapping_uid = Digest::SHA1.hexdigest(mappings_as_string)
 
-      if user.sandbox?
-        # Skip idempotency keys in sandbox. Using an idemptotency key is useful to ensure we do not create duplicate
-        # subscriptions but also causes problems when for example a request fails because of a mapping issue
-        # (ie days_until_due on invoice settings is not being set) and upon fixing the mapping via the UI and retrying
-        # it will fail due to duplicate idempotency key with a different request body.
-
-        # We cannot just add the modified date to the key as that would not have changed in the example above.
-        return user.stripe_credentials
-      end
-
-      # TODO if the SF object is mutated in a way which changes inputs, we need a new idempotency key, maybe use created date?
-      # TODO feature flag to turn this off
-
-      key = "#{mapping_uid}-#{sf_object[SF_ID]}"
+      last_modified_as_timestamp = DateTime.parse(sf_object[SF_LAST_MODIFIED_DATE]).to_i
+      key = "#{mapping_uid}-#{sf_object[SF_ID]}-#{last_modified_as_timestamp}"
 
       if action
         key = "#{key}-#{action}"

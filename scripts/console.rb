@@ -49,17 +49,23 @@ def loud_sf_logging
 end
 
 def example_sf_order
-  # sf.find('Order', '8015e000000IJ1rAAG')
+  sf_get(@sf.query("SELECT Id FROM #{SF_ORDER} ORDER BY CreatedDate DESC LIMIT 1").first.Id)
+end
 
-  # order with recurring item
-  # sf.find('Order', '8015e000000IJDxAAO')
-
-  @sf.find('Order', '8015e000000IJF5AAO')
-  # @sf.find('Order', '8015e000000IIpgAAG')
+def example_sf_customer
+  sf_get(@sf.query("SELECT Id FROM #{SF_ACCOUNT} ORDER BY CreatedDate DESC LIMIT 1").first.Id)
 end
 
 def example_sf_quote
   sf_get(@sf.query("SELECT Id FROM #{SF_ORDER_QUOTE} ORDER BY CreatedDate DESC LIMIT 1").first.Id)
+end
+
+def example_sf_product
+  sf_get(@sf.query("SELECT Id FROM #{SF_PRODUCT} ORDER BY CreatedDate DESC LIMIT 1").first.Id)
+end
+
+def example_sf_pricebook
+  sf_get(@sf.query("SELECT Id FROM #{SF_PRICEBOOK_ENTRY} ORDER BY CreatedDate DESC LIMIT 1").first.Id)
 end
 
 def example_stripe_subscription_schedule
