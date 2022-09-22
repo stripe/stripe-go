@@ -240,6 +240,7 @@ class StripeForce::Translate
         tax_behavior
         billing_scheme
         type
+        currency
       }
 
       simple_field_check_passed = fields_to_check_if_both_are_set.all? do |field_sym|
@@ -270,19 +271,30 @@ class StripeForce::Translate
         raise StripeForce::Errors::RawUserError.new("Unexpected billing_scheme on price encountered #{price_1.billing_scheme}")
       end
 
-      billing_amounts_equal = is_price_equal &&
-        price_1.currency == price_2.currency &&
-        price_1.recurring.present? == price_2.recurring.present? &&
-        price_1.recurring[:interval] == price_2.recurring[:interval] &&
-        price_1.recurring[:interval_count] == price_2.recurring[:interval_count]
-
-      # creating prices unnecessarily can be problematic for users: many prices without clarity about why they exist
-      # for this reason, let's log the diff in debug mode so we can easily determine exactly WHY the new price was created
-      if !billing_amounts_equal
-        log.info 'price not equal', diff: HashDiff::Comparison.new(price_1.to_hash, price_2.to_hash).diff
+      if !is_price_equal
+        log.info 'price comparison is not equal', diff: HashDiff::Comparison.new(price_1.to_hash, price_2.to_hash).diff
+        return false
       end
 
-      billing_amounts_equal
+      if (price_1.recurring.present? && !price_1.recurring.to_hash.empty?) != (price_2.recurring.present? && !price_2.recurring.to_hash.empty?)
+        log.info 'price not equal, recurring is not consistent', diff: HashDiff::Comparison.new(price_1.to_hash, price_2.to_hash).diff
+        return false
+      end
+
+      has_recurring_price = price_1.recurring.present? && !price_1.recurring.to_hash.empty?
+
+      if has_recurring_price
+        recurring_billing_amounts_equal = price_1.recurring[:interval] == price_2.recurring[:interval] &&
+          price_1.recurring[:interval_count] == price_2.recurring[:interval_count]
+
+        if !recurring_billing_amounts_equal
+          log.info 'price not equal, recurring params not the same', diff: HashDiff::Comparison.new(price_1.to_hash, price_2.to_hash).diff
+        end
+
+        recurring_billing_amounts_equal
+      else
+        true
+      end
     end
 
     # TODO this is very naive: we need a better way of determining if the price field was customized

@@ -150,6 +150,88 @@ module Critic::Unit
       end
     end
 
+    describe '#price_billing_amounts_equal?' do
+      it 'prices are not treated as equal if currencies do not match' do
+        price_1 = Stripe::Price.construct_from({
+          id: "price_1LkAdSIsgf92XbAOR0IC4XkV",
+          object: "price",
+          billing_scheme: "per_unit",
+          currency: "eur",
+          product: "prod_MT6r0AWW02Zj6K",
+          recurring: nil,
+          tax_behavior: "unspecified",
+          tiers_mode: nil,
+          type: "one_time",
+          unit_amount: 12000,
+          unit_amount_decimal: "12000",
+        })
+
+        price_2 = Stripe::Price.construct_from({
+          currency: "usd",
+          unit_amount_decimal: BigDecimal("12000.0"),
+          recurring: {},
+        })
+
+        refute(StripeForce::Translate::PriceHelpers.price_billing_amounts_equal?(price_1, price_2))
+      end
+
+      it 'properly compares one time prices when they are not equal' do
+        price_1 = Stripe::Price.construct_from({
+          id: "price_1LkAdSIsgf92XbAOR0IC4XkV",
+          object: "price",
+          billing_scheme: "per_unit",
+          currency: "usd",
+          product: "prod_MT6r0AWW02Zj6K",
+          recurring: nil,
+          tax_behavior: "unspecified",
+          tiers_mode: nil,
+          type: "one_time",
+          unit_amount: 12000,
+          unit_amount_decimal: "12000",
+        })
+
+        price_2 = Stripe::Price.construct_from({
+          currency: "usd",
+          unit_amount_decimal: BigDecimal("12100.0"),
+          recurring: {},
+        })
+
+        refute(StripeForce::Translate::PriceHelpers.price_billing_amounts_equal?(price_1, price_2))
+      end
+
+      it 'properly compares one time prices when they are equal' do
+        price_1 = Stripe::Price.construct_from({
+          id: "price_1LkAdSIsgf92XbAOR0IC4XkV",
+          object: "price",
+          active: true,
+          billing_scheme: "per_unit",
+          created: 1663696410,
+          currency: "usd",
+          custom_unit_amount: nil,
+          livemode: false,
+          lookup_key: nil,
+          metadata: {salesforce_pricebook_entry_id: "01u0R00000KMmNyQAL", salesforce_pricebook_entry_link: "https://force-java-9147-dev-ed.my.salesforce.com/01u0R00000KMmNyQAL"},
+          nickname: nil,
+          product: "prod_MT6r0AWW02Zj6K",
+          recurring: nil,
+          tax_behavior: "unspecified",
+          tiers_mode: nil,
+          transform_quantity: nil,
+          type: "one_time",
+          unit_amount: 12000,
+          unit_amount_decimal: "12000",
+        })
+
+        price_2 = Stripe::Price.construct_from({
+          currency: "usd",
+          unit_amount_decimal: BigDecimal("12000.0"),
+          recurring: {},
+        })
+
+        assert(StripeForce::Translate::PriceHelpers.price_billing_amounts_equal?(price_1, price_2))
+      end
+    end
+
     describe '#using_custom_order_line_price_field' do
       it 'detects if a custom pricing field is not used' do
         user = make_user
