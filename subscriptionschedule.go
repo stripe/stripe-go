@@ -134,6 +134,8 @@ type SubscriptionScheduleDefaultSettingsParams struct {
 	CollectionMethod *string `form:"collection_method"`
 	// ID of the default payment method for the subscription schedule. It must belong to the customer associated with the subscription schedule. If not set, invoices will use the default payment method in the customer's invoice settings.
 	DefaultPaymentMethod *string `form:"default_payment_method"`
+	// Subscription description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription.
+	Description *string `form:"description"`
 	// All invoices will be billed using the specified settings.
 	InvoiceSettings *SubscriptionScheduleDefaultSettingsInvoiceSettingsParams `form:"invoice_settings"`
 	// The data with which to automatically create a Transfer for each of the associated subscription's invoices.
@@ -240,6 +242,8 @@ type SubscriptionSchedulePhaseParams struct {
 	DefaultPaymentMethod *string `form:"default_payment_method"`
 	// A list of [Tax Rate](https://stripe.com/docs/api/tax_rates) ids. These Tax Rates will set the Subscription's [`default_tax_rates`](https://stripe.com/docs/api/subscriptions/create#create_subscription-default_tax_rates), which means they will be the Invoice's [`default_tax_rates`](https://stripe.com/docs/api/invoices/create#create_invoice-default_tax_rates) for any Invoices issued by the Subscription during this Phase.
 	DefaultTaxRates []*string `form:"default_tax_rates"`
+	// Subscription description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription.
+	Description *string `form:"description"`
 	// The coupons to redeem into discounts for the schedule phase. If not specified, inherits the discount from the subscription's customer. Pass an empty string to avoid inheriting any discounts.
 	Discounts []*SubscriptionSchedulePhaseDiscountParams `form:"discounts"`
 	// The date at which this phase of the subscription schedule ends. If set, `iterations` must not be set.
@@ -417,7 +421,7 @@ type SubscriptionScheduleAmendAmendmentItemActionAddTrialParams struct {
 	Type *string `form:"type"`
 }
 
-// Details of the subscription item to add. The `price` must be unique across all items.
+// Details of the subscription item to add. If an item with the same `price` exists, it will be replaced by this new item. Otherwise, it adds the new item.
 type SubscriptionScheduleAmendAmendmentItemActionAddParams struct {
 	// The discounts applied to the item. Subscription item discounts are applied before subscription discounts.
 	Discounts []*SubscriptionScheduleAmendAmendmentItemActionAddDiscountParams `form:"discounts"`
@@ -471,7 +475,7 @@ type SubscriptionScheduleAmendAmendmentItemActionSetParams struct {
 
 // Changes to the subscription items during the amendment time span.
 type SubscriptionScheduleAmendAmendmentItemActionParams struct {
-	// Details of the subscription item to add. The `price` must be unique across all items.
+	// Details of the subscription item to add. If an item with the same `price` exists, it will be replaced by this new item. Otherwise, it adds the new item.
 	Add *SubscriptionScheduleAmendAmendmentItemActionAddParams `form:"add"`
 	// Details of the subscription item to remove.
 	Remove *SubscriptionScheduleAmendAmendmentItemActionRemoveParams `form:"remove"`
@@ -543,6 +547,8 @@ type SubscriptionScheduleDefaultSettings struct {
 	CollectionMethod *SubscriptionCollectionMethod `json:"collection_method"`
 	// ID of the default payment method for the subscription schedule. If not set, invoices will use the default payment method in the customer's invoice settings.
 	DefaultPaymentMethod *PaymentMethod `json:"default_payment_method"`
+	// Subscription description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription.
+	Description string `json:"description"`
 	// The subscription schedule's default invoice settings.
 	InvoiceSettings *SubscriptionScheduleDefaultSettingsInvoiceSettings `json:"invoice_settings"`
 	// The account (if any) the associated subscription's payments will be attributed to for tax reporting, and where funds from each payment will be transferred to for each of the subscription's invoices.
@@ -637,6 +643,8 @@ type SubscriptionSchedulePhase struct {
 	DefaultPaymentMethod *PaymentMethod `json:"default_payment_method"`
 	// The default tax rates to apply to the subscription during this phase of the subscription schedule.
 	DefaultTaxRates []*TaxRate `json:"default_tax_rates"`
+	// Subscription description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription.
+	Description string `json:"description"`
 	// The stackable discounts that will be applied to the subscription on this phase. Subscription item discounts are applied before subscription discounts.
 	Discounts []*SubscriptionSchedulePhaseDiscount `json:"discounts"`
 	// The end of this phase of the subscription schedule.

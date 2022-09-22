@@ -533,6 +533,14 @@ const (
 	PaymentIntentPaymentMethodOptionsPayNowSetupFutureUsageNone PaymentIntentPaymentMethodOptionsPayNowSetupFutureUsage = "none"
 )
 
+// Controls when the funds will be captured from the customer's account.
+type PaymentIntentPaymentMethodOptionsPaypalCaptureMethod string
+
+// List of values that PaymentIntentPaymentMethodOptionsPaypalCaptureMethod can take
+const (
+	PaymentIntentPaymentMethodOptionsPaypalCaptureMethodManual PaymentIntentPaymentMethodOptionsPaypalCaptureMethod = "manual"
+)
+
 // Indicates that you intend to make future payments with this PaymentIntent's payment method.
 //
 // Providing this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.
@@ -748,6 +756,9 @@ type PaymentIntentPaymentMethodDataLinkParams struct{}
 // If this is a `paynow` PaymentMethod, this hash contains details about the PayNow payment method.
 type PaymentIntentPaymentMethodDataPayNowParams struct{}
 
+// If this is a `paypal` PaymentMethod, this hash contains details about the PayPal payment method.
+type PaymentIntentPaymentMethodDataPaypalParams struct{}
+
 // If this is a `pix` PaymentMethod, this hash contains details about the Pix payment method.
 type PaymentIntentPaymentMethodDataPixParams struct{}
 
@@ -826,6 +837,8 @@ type PaymentIntentPaymentMethodDataParams struct {
 	P24 *PaymentMethodP24Params `form:"p24"`
 	// If this is a `paynow` PaymentMethod, this hash contains details about the PayNow payment method.
 	PayNow *PaymentIntentPaymentMethodDataPayNowParams `form:"paynow"`
+	// If this is a `paypal` PaymentMethod, this hash contains details about the PayPal payment method.
+	Paypal *PaymentIntentPaymentMethodDataPaypalParams `form:"paypal"`
 	// If this is a `pix` PaymentMethod, this hash contains details about the Pix payment method.
 	Pix *PaymentIntentPaymentMethodDataPixParams `form:"pix"`
 	// If this is a `promptpay` PaymentMethod, this hash contains details about the PromptPay payment method.
@@ -1270,6 +1283,12 @@ type PaymentIntentPaymentMethodOptionsPayNowParams struct {
 	SetupFutureUsage *string `form:"setup_future_usage"`
 }
 
+// If this is a `paypal` PaymentMethod, this sub-hash contains details about the PayPal payment method options.
+type PaymentIntentPaymentMethodOptionsPaypalParams struct {
+	CaptureMethod   *string `form:"capture_method"`
+	PreferredLocale *string `form:"preferred_locale"`
+}
+
 // If this is a `pix` PaymentMethod, this sub-hash contains details about the Pix payment method options.
 type PaymentIntentPaymentMethodOptionsPixParams struct {
 	// The number of seconds (between 10 and 1209600) after which Pix payment will expire. Defaults to 86400 seconds.
@@ -1419,6 +1438,8 @@ type PaymentIntentPaymentMethodOptionsParams struct {
 	P24 *PaymentIntentPaymentMethodOptionsP24Params `form:"p24"`
 	// If this is a `paynow` PaymentMethod, this sub-hash contains details about the PayNow payment method options.
 	PayNow *PaymentIntentPaymentMethodOptionsPayNowParams `form:"paynow"`
+	// If this is a `paypal` PaymentMethod, this sub-hash contains details about the PayPal payment method options.
+	Paypal *PaymentIntentPaymentMethodOptionsPaypalParams `form:"paypal"`
 	// If this is a `pix` PaymentMethod, this sub-hash contains details about the Pix payment method options.
 	Pix *PaymentIntentPaymentMethodOptionsPixParams `form:"pix"`
 	// If this is a `promptpay` PaymentMethod, this sub-hash contains details about the PromptPay payment method options.
@@ -2293,6 +2314,12 @@ type PaymentIntentPaymentMethodOptionsPayNow struct {
 	// When processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).
 	SetupFutureUsage PaymentIntentPaymentMethodOptionsPayNowSetupFutureUsage `json:"setup_future_usage"`
 }
+type PaymentIntentPaymentMethodOptionsPaypal struct {
+	// Controls when the funds will be captured from the customer's account.
+	CaptureMethod PaymentIntentPaymentMethodOptionsPaypalCaptureMethod `json:"capture_method"`
+	// Preferred locale of the PayPal checkout page that the customer is redirected to.
+	PreferredLocale string `json:"preferred_locale"`
+}
 type PaymentIntentPaymentMethodOptionsPix struct {
 	// The number of seconds (between 10 and 1209600) after which Pix payment will expire.
 	ExpiresAfterSeconds int64 `json:"expires_after_seconds"`
@@ -2383,6 +2410,7 @@ type PaymentIntentPaymentMethodOptions struct {
 	OXXO             *PaymentIntentPaymentMethodOptionsOXXO             `json:"oxxo"`
 	P24              *PaymentIntentPaymentMethodOptionsP24              `json:"p24"`
 	PayNow           *PaymentIntentPaymentMethodOptionsPayNow           `json:"paynow"`
+	Paypal           *PaymentIntentPaymentMethodOptionsPaypal           `json:"paypal"`
 	Pix              *PaymentIntentPaymentMethodOptionsPix              `json:"pix"`
 	PromptPay        *PaymentIntentPaymentMethodOptionsPromptPay        `json:"promptpay"`
 	SEPADebit        *PaymentIntentPaymentMethodOptionsSEPADebit        `json:"sepa_debit"`

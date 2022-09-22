@@ -1055,6 +1055,11 @@ type CheckoutSessionPaymentMethodOptionsPayNowParams struct {
 	TOSShownAndAccepted *bool `form:"tos_shown_and_accepted"`
 }
 
+// contains details about the PayPal payment method options.
+type CheckoutSessionPaymentMethodOptionsPaypalParams struct {
+	Currency *string `form:"currency"`
+}
+
 // contains details about the Pix payment method options.
 type CheckoutSessionPaymentMethodOptionsPixParams struct {
 	// The number of seconds (between 10 and 1209600) after which Pix payment will expire. Defaults to 86400 seconds.
@@ -1157,6 +1162,8 @@ type CheckoutSessionPaymentMethodOptionsParams struct {
 	P24 *CheckoutSessionPaymentMethodOptionsP24Params `form:"p24"`
 	// contains details about the PayNow payment method options.
 	PayNow *CheckoutSessionPaymentMethodOptionsPayNowParams `form:"paynow"`
+	// contains details about the PayPal payment method options.
+	Paypal *CheckoutSessionPaymentMethodOptionsPaypalParams `form:"paypal"`
 	// contains details about the Pix payment method options.
 	Pix *CheckoutSessionPaymentMethodOptionsPixParams `form:"pix"`
 	// contains details about the Sepa Debit payment method options.
