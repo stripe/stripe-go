@@ -65,8 +65,7 @@ func TestContext(t *testing.T) {
 // You can get pretty good visibility into what's going on by running just this
 // test on verbose:
 //
-//     go test . -run TestDo_Retry -test.v
-//
+//	go test . -run TestDo_Retry -test.v
 func TestDo_Retry(t *testing.T) {
 	type testServerResponse struct {
 		APIResource

@@ -35,6 +35,14 @@ const (
 	CheckoutSessionConsentPromotionsOptOut CheckoutSessionConsentPromotions = "opt_out"
 )
 
+// If `accepted`, the customer in this Checkout Session has agreed to the merchant's terms of service.
+type CheckoutSessionConsentTermsOfService string
+
+// List of values that CheckoutSessionConsentTermsOfService can take
+const (
+	CheckoutSessionConsentTermsOfServiceAccepted CheckoutSessionConsentTermsOfService = "accepted"
+)
+
 // If set to `auto`, enables the collection of customer consent for promotional communications. The Checkout
 // Session will determine whether to display an option to opt into promotional communication
 // from the merchant depending on the customer's locale. Only available to US merchants.
@@ -44,6 +52,15 @@ type CheckoutSessionConsentCollectionPromotions string
 const (
 	CheckoutSessionConsentCollectionPromotionsAuto CheckoutSessionConsentCollectionPromotions = "auto"
 	CheckoutSessionConsentCollectionPromotionsNone CheckoutSessionConsentCollectionPromotions = "none"
+)
+
+// If set to `required`, it requires customers to accept the terms of service before being able to pay.
+type CheckoutSessionConsentCollectionTermsOfService string
+
+// List of values that CheckoutSessionConsentCollectionTermsOfService can take
+const (
+	CheckoutSessionConsentCollectionTermsOfServiceNone     CheckoutSessionConsentCollectionTermsOfService = "none"
+	CheckoutSessionConsentCollectionTermsOfServiceRequired CheckoutSessionConsentCollectionTermsOfService = "required"
 )
 
 // Configure whether a Checkout Session creates a Customer when the Checkout Session completes.
@@ -601,6 +618,9 @@ type CheckoutSessionConsentCollectionParams struct {
 	// Session will determine whether to display an option to opt into promotional communication
 	// from the merchant depending on the customer's locale. Only available to US merchants.
 	Promotions *string `form:"promotions"`
+	// If set to `required`, it requires customers to check a terms of service checkbox before being able to pay.
+	// There must be a valid terms of service URL set in your [Dashboard settings](https://dashboard.stripe.com/settings/public).
+	TermsOfService *string `form:"terms_of_service"`
 }
 
 // Controls what fields on Customer can be updated by the Checkout Session. Can only be provided when `customer` is provided.
@@ -872,27 +892,11 @@ type CheckoutSessionPaymentMethodOptionsBoletoParams struct {
 	SetupFutureUsage *string `form:"setup_future_usage"`
 }
 
-// The selected installment plan to use for this payment attempt.
-// This parameter can only be provided during confirmation.
-type CheckoutSessionPaymentMethodOptionsCardInstallmentsPlanParams struct {
-	// For `fixed_count` installment plans, this is the number of installment payments your customer will make to their credit card.
-	Count *int64 `form:"count"`
-	// For `fixed_count` installment plans, this is the interval between installment payments your customer will make to their credit card.
-	// One of `month`.
-	Interval *string `form:"interval"`
-	// Type of installment plan, one of `fixed_count`.
-	Type *string `form:"type"`
-}
-
 // Installment options for card payments
 type CheckoutSessionPaymentMethodOptionsCardInstallmentsParams struct {
-	// Setting to true enables installments for this PaymentIntent.
-	// This will cause the response to contain a list of available installment plans.
-	// Setting to false will prevent any selected plan from applying to a charge.
+	// Setting to true enables installments for this Checkout Session.
+	// Setting to false will prevent any installment plan from applying to a payment.
 	Enabled *bool `form:"enabled"`
-	// The selected installment plan to use for this payment attempt.
-	// This parameter can only be provided during confirmation.
-	Plan *CheckoutSessionPaymentMethodOptionsCardInstallmentsPlanParams `form:"plan"`
 }
 
 // contains details about the Card payment method options.
@@ -1476,6 +1480,8 @@ type CheckoutSessionConsent struct {
 	// If `opt_in`, the customer consents to receiving promotional communications
 	// from the merchant about this Checkout Session.
 	Promotions CheckoutSessionConsentPromotions `json:"promotions"`
+	// If `accepted`, the customer in this Checkout Session has agreed to the merchant's terms of service.
+	TermsOfService CheckoutSessionConsentTermsOfService `json:"terms_of_service"`
 }
 
 // When set, provides configuration for the Checkout Session to gather active consent from customers.
@@ -1484,6 +1490,8 @@ type CheckoutSessionConsentCollection struct {
 	// Session will determine whether to display an option to opt into promotional communication
 	// from the merchant depending on the customer's locale. Only available to US merchants.
 	Promotions CheckoutSessionConsentCollectionPromotions `json:"promotions"`
+	// If set to `required`, it requires customers to accept the terms of service before being able to pay.
+	TermsOfService CheckoutSessionConsentCollectionTermsOfService `json:"terms_of_service"`
 }
 
 // The customer's tax IDs after a completed Checkout Session.

@@ -1680,6 +1680,8 @@ type PaymentIntentIncrementAuthorizationParams struct {
 	ApplicationFeeAmount *int64 `form:"application_fee_amount"`
 	// An arbitrary string attached to the object. Often useful for displaying to users.
 	Description *string `form:"description"`
+	// For non-card charges, you can use this value as the complete description that appears on your customers' statements. Must contain at least one letter, maximum 22 characters.
+	StatementDescriptor *string `form:"statement_descriptor"`
 	// The parameters used to automatically create a Transfer when the payment is captured.
 	// For more information, see the PaymentIntents [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
 	TransferData *PaymentIntentIncrementAuthorizationTransferDataParams `form:"transfer_data"`
