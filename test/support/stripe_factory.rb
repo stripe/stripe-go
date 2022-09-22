@@ -11,6 +11,25 @@ module Critic
     include StripeForce::Constants
     include CommonHelpers
 
+    sig { params(invoice_item_id: String).returns(Stripe::Event) }
+    def get_invoice_item_event(invoice_item_id)
+      # events can take some time to propogate
+      events = T.let(nil, T.untyped)
+
+      wait_until do
+        events = Stripe::Event.list({
+          object_id: invoice_item_id,
+          type: 'invoiceitem.created',
+        }, @user.stripe_credentials)
+
+        events.count >= 1
+      end
+
+      assert_equal(1, events.count, "more than one event when we expected one")
+
+      events.first
+    end
+
     sig { params(type: String, obj: T.nilable(Stripe::StripeObject)).returns(Stripe::Event) }
     def create_event(type, obj=nil)
       obj ||= Stripe::Charge.construct_from(

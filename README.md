@@ -10,7 +10,7 @@ https://test.salesforce.com/packaging/installPackage.apexp?p0=04t5f00000074nmAAA
 
 Update with `sfdx force:package1:version:list --json -u mbianco+newstripeconnectorqa@stripe.com | jq -r '.result[-1].MetadataPackageVersionId'`
 
-# stripe-salesforce
+# Key Documents
 
 - [UXR Notes](https://docs.google.com/document/d/1yHUMSW41bBZSygNP4QT1iPzT4PEM0TwWt0kxk8tIj_Y/edit#)
 - [prioritized jira list](https://jira.corp.stripe.com/issues/?jql=project%20%3D%20PLATINT%20AND%20component%20%3D%20%22Salesforce%20Connector%20for%20Stripe%22%20AND%20status%20!%3D%20%22Done%22%20order%20by%20priority)
@@ -20,6 +20,10 @@ Update with `sfdx force:package1:version:list --json -u mbianco+newstripeconnect
 - [setup guide by appiphony](https://docs.google.com/document/d/17vE7-lL0DTnwRoVcYjgjDboQt72YmOVf3Mc4IS1mbWU/edit)
 - [feature roadmap](https://docs.google.com/spreadsheets/d/136PUl_U7bMW7uMSwcqujisasAJNQJIOPQimGGG7iG00/edit#gid=0)
 - [google drive folder with walkthrough videos and lots of docs](https://drive.google.com/drive/folders/14XhQGty83lqdMhLJduI9pwRI2mWAcrCl)
+
+## Design Docs
+- [order amendment redesign](https://docs.google.com/document/d/15d1nO0wkGKGyLS7fRCflI_3LEPQd6yOBhtkDUS6-_hk/edit#heading=h.cz1xkpga7giy)
+- [prorated order amendments design](https://docs.google.com/document/d/15d1nO0wkGKGyLS7fRCflI_3LEPQd6yOBhtkDUS6-_hk/edit#)
 
 # Salesforce Environments
 

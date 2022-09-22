@@ -8,24 +8,6 @@ class Critic::ProrationAutoBillTranslation < Critic::FunctionalTest
     @user = make_user(save: true)
   end
 
-  def get_invoice_event(invoice_item_id)
-    # events can take some time to propogate
-    events = T.let(nil, T.untyped)
-
-    wait_until do
-      events = Stripe::Event.list({
-        object_id: invoice_item_id,
-        type: 'invoiceitem.created',
-      }, @user.stripe_credentials)
-
-      events.count >= 1
-    end
-
-    assert_equal(1, events.count, "more than one event when we expected one")
-
-    events.first
-  end
-
   it 'creates an invoice automatically for a invoice item' do
     subscription = create_customer_with_subscription
     _, ad_hoc_price = create_price(additional_price_fields: {
@@ -46,7 +28,7 @@ class Critic::ProrationAutoBillTranslation < Critic::FunctionalTest
       },
     }, @user.stripe_credentials)
 
-    invoice_event = get_invoice_event(invoice_item.id)
+    invoice_event = get_invoice_item_event(invoice_item.id)
 
     # we don't want the api keys to be in the event so we can mimic prod
     copied_event = Stripe::Event.construct_from(invoice_event.to_hash)
@@ -77,7 +59,7 @@ class Critic::ProrationAutoBillTranslation < Critic::FunctionalTest
         },
       }, @user.stripe_credentials)
 
-      invoice_event = get_invoice_event(invoice_item.id)
+      invoice_event = get_invoice_item_event(invoice_item.id)
 
       invoice = StripeForce::ProrationAutoBill.create_invoice_from_invoice_item_event(@user, invoice_event)
 
@@ -101,7 +83,7 @@ class Critic::ProrationAutoBillTranslation < Critic::FunctionalTest
         },
       }, @user.stripe_credentials)
 
-      invoice_event = get_invoice_event(invoice_item.id)
+      invoice_event = get_invoice_item_event(invoice_item.id)
 
       invoice = StripeForce::ProrationAutoBill.create_invoice_from_invoice_item_event(@user, invoice_event)
 

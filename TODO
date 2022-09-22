@@ -4,40 +4,19 @@
 - Price can be mapped to two objects: order line and pricebook
 - Override will cause metadata to be added to stripe
 - Timezone handling. All date strings are converted into midnight UTC unix timestamp values.
-- we need to document this: the price is mapped to two unique objects
-- you can't contract + order from oppt, it won't generate the `SBQQ__RevisedOrderProduct__c`
+- price being mapped to two unique objects (order line & pricebook)
 - SOQL query status conditionally not being a hard requirement
 - You cannot modify line item data in SF after it's been activated. This information will not be picked up.
 - Sub lines with different start dates is not supported
 - Custom record metadata key is slightly different for key size saving
-- Document zero quantity items
+- Document zero quantity items (they are removed? Need to double check)
 - Document no >1 quantity metered billing items
-- Days until due: allows integers, only support defaults, must setup not set by default
-- if a customer has more than 3 subscriptions on a customer, they will get an error
+- Days until due: allows integers, only support defaults, must setup not set by default. Cannot support float.
+- if a customer has more than 3 subscriptions on a customer, they will get an error (maybe this just applies to test clocks?)
 - Phase is not mapped on the initial order, mapped on each order amendment
-- If subscription is created and terminated on the same day, cancel is used
-- Duplicate price metadata
-- Auto-archived price metadata
 - Prices which are not created directly from pricebooks (i.e. from order lines, or duplicated because of the one-price-per-subscription) are archived (active = false) after they are used
-- Prices which are duplicated because of the one-price-per-subscription) have a special metadata key (salesforce_duplicate = true)
 - Some good test clock docs https://groups.google.com/a/stripe.com/g/cloudflare/c/VjNW1Q4KD-0
-- `stripe_proration` metadata key on proration-generated prices, also contains duplicate key, and auto archive
 - fyi if the filter is changed we don't retroactively pick up orders. the orders have to be updated in some fashion (just updating a note/description will do just fine) for it to be reprocessed
-
-Next:
-
-- Think through prorations
-- Separate order processing into a separate job
-- Separate redis connection for locker
-- Implement amendment logic
-- resque pool
-- KMS
-
-Future:
-
-- web server timeout for 30s heroku? https://devcenter.heroku.com/articles/deploying-rails-applications-with-the-puma-web-server#timeout
-- maybe preload database connections here? https://devcenter.heroku.com/articles/deploying-rails-applications-with-the-puma-web-server
-- https://github.com/fohte/rubocop-daemon
 
 Apex / checks:
 
