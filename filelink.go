@@ -14,7 +14,7 @@ type FileLinkParams struct {
 	// A future timestamp after which the link will no longer be usable, or `now` to expire the link immediately.
 	ExpiresAt    *int64 `form:"expires_at"`
 	ExpiresAtNow *bool  `form:"-"` // See custom AppendTo
-	// The ID of the file. The file's `purpose` must be one of the following: `business_icon`, `business_logo`, `customer_signature`, `dispute_evidence`, `finance_report_run`, `identity_document_downloadable`, `pci_document`, `selfie`, `sigma_scheduled_query`, or `tax_document_user_upload`.
+	// The ID of the file. The file's `purpose` must be one of the following: `business_icon`, `business_logo`, `customer_signature`, `dispute_evidence`, `finance_report_run`, `identity_document_downloadable`, `pci_document`, `selfie`, `sigma_scheduled_query`, `tax_document_user_upload`, or `terminal_reader_splashscreen`.
 	File *string `form:"file"`
 }
 

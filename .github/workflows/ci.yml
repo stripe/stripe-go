@@ -51,6 +51,12 @@ jobs:
          run: make test &&
               make bench &&
               make check-api-clients
+       - name: Coveralls
+         run: make coverage && make coveralls
+         if: matrix.go == '1.16'
+         env:
+           COVERALLS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+           COVERALLS_FLAG_NAME: Go-${{ matrix.go }}
 
   compile-only:
      runs-on: ubuntu-latest

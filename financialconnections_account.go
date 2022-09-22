@@ -78,16 +78,16 @@ const (
 
 // If `category` is `cash`, one of:
 //
-//  - `checking`
-//  - `savings`
-//  - `other`
+//   - `checking`
+//   - `savings`
+//   - `other`
 //
 // If `category` is `credit`, one of:
 //
-//  - `mortgage`
-//  - `line_of_credit`
-//  - `credit_card`
-//  - `other`
+//   - `mortgage`
+//   - `line_of_credit`
+//   - `credit_card`
+//   - `other`
 //
 // If `category` is `investment` or `other`, this will be `other`.
 type FinancialConnectionsAccountSubcategory string
@@ -144,7 +144,7 @@ type FinancialConnectionsAccountListOwnersParams struct {
 // Refreshes the data associated with a Financial Connections Account.
 type FinancialConnectionsAccountRefreshParams struct {
 	Params `form:"*"`
-	// The list of account features that you would like to refresh. Either: `balance` or `ownership`.
+	// The list of account features that you would like to refresh.
 	Features []*string `form:"features"`
 }
 

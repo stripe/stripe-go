@@ -65,7 +65,6 @@ func ComputeSignature(t time.Time, payload []byte, secret string) []byte {
 //
 // This will return an error if the event API version does not match the
 // stripe.APIVersion constant.
-//
 func ConstructEvent(payload []byte, header string, secret string) (stripe.Event, error) {
 	return ConstructEventWithTolerance(payload, header, secret, DefaultTolerance)
 }
@@ -81,7 +80,6 @@ func ConstructEvent(payload []byte, header string, secret string) (stripe.Event,
 //
 // This will return an error if the event API version does not match the
 // stripe.APIVersion constant.
-//
 func ConstructEventIgnoringTolerance(payload []byte, header string, secret string) (stripe.Event, error) {
 	return constructEvent(payload, header, secret, ConstructEventOptions{IgnoreTolerance: true})
 }
@@ -98,7 +96,6 @@ func ConstructEventIgnoringTolerance(payload []byte, header string, secret strin
 //
 // This will return an error if the event API version does not match the
 // stripe.APIVersion constant.
-//
 func ConstructEventWithTolerance(payload []byte, header string, secret string, tolerance time.Duration) (stripe.Event, error) {
 	return constructEvent(payload, header, secret, ConstructEventOptions{Tolerance: tolerance})
 }
@@ -110,11 +107,11 @@ func ConstructEventWithTolerance(payload []byte, header string, secret string, t
 // See `ConstructEventOptions` for more details on each of the options.
 //
 // Returns an error if the signature doesn't match, or:
-// - if `IgnoreTolerance` is false and the timestamp embedded in the event
-//   header is not within the tolerance window (similar to `ConstructEventWithTolerance`)
-// - if `IgnoreAPIVersionMismatch` is false and the webhook event API version
-//   does not match the API version of the stripe-go library, as defined in
-//   `stripe.APIVersion`.
+//   - if `IgnoreTolerance` is false and the timestamp embedded in the event
+//     header is not within the tolerance window (similar to `ConstructEventWithTolerance`)
+//   - if `IgnoreAPIVersionMismatch` is false and the webhook event API version
+//     does not match the API version of the stripe-go library, as defined in
+//     `stripe.APIVersion`.
 //
 // NOTE: Stripe will only send Webhook signing headers after you have retrieved
 // your signing secret from the Stripe dashboard:
@@ -131,7 +128,6 @@ func ConstructEventWithOptions(payload []byte, header string, secret string, opt
 // NOTE: Stripe will only send Webhook signing headers after you have retrieved
 // your signing secret from the Stripe dashboard:
 // https://dashboard.stripe.com/webhooks
-//
 func ValidatePayload(payload []byte, header string, secret string) error {
 	return ValidatePayloadWithTolerance(payload, header, secret, DefaultTolerance)
 }
@@ -144,7 +140,6 @@ func ValidatePayload(payload []byte, header string, secret string) error {
 // NOTE: Stripe will only send Webhook signing headers after you have retrieved
 // your signing secret from the Stripe dashboard:
 // https://dashboard.stripe.com/webhooks
-//
 func ValidatePayloadIgnoringTolerance(payload []byte, header string, secret string) error {
 	return validatePayload(payload, header, secret, 0*time.Second, false)
 }
@@ -157,7 +152,6 @@ func ValidatePayloadIgnoringTolerance(payload []byte, header string, secret stri
 // NOTE: Stripe will only send Webhook signing headers after you have retrieved
 // your signing secret from the Stripe dashboard:
 // https://dashboard.stripe.com/webhooks
-//
 func ValidatePayloadWithTolerance(payload []byte, header string, secret string, tolerance time.Duration) error {
 	return validatePayload(payload, header, secret, tolerance, true)
 }
@@ -287,38 +281,38 @@ func validatePayload(payload []byte, sigHeader string, secret string, tolerance 
 
 // For mocking webhook events
 type UnsignedPayload struct {
-	payload   []byte
-	secret    string
-	timestamp time.Time
-	scheme    string
+	Payload   []byte
+	Secret    string
+	Timestamp time.Time
+	Scheme    string
 }
 
 type SignedPayload struct {
 	UnsignedPayload
 
-	signature []byte
-	header    string
+	Signature []byte
+	Header    string
 }
 
 func GenerateTestSignedPayload(options *UnsignedPayload) *SignedPayload {
 	signedPayload := &SignedPayload{UnsignedPayload: *options}
 
-	if signedPayload.timestamp == (time.Time{}) {
-		signedPayload.timestamp = time.Now()
+	if signedPayload.Timestamp == (time.Time{}) {
+		signedPayload.Timestamp = time.Now()
 	}
 
-	if signedPayload.scheme == "" {
-		signedPayload.scheme = "v1"
+	if signedPayload.Scheme == "" {
+		signedPayload.Scheme = "v1"
 	}
 
-	signedPayload.signature = ComputeSignature(signedPayload.timestamp, signedPayload.payload, signedPayload.secret)
-	signedPayload.header = generateHeader(*signedPayload)
+	signedPayload.Signature = ComputeSignature(signedPayload.Timestamp, signedPayload.Payload, signedPayload.Secret)
+	signedPayload.Header = generateHeader(*signedPayload)
 
 	return signedPayload
 }
 
 func generateHeader(p SignedPayload) string {
-	return fmt.Sprintf("t=%d,%s=%s", p.timestamp.Unix(), p.scheme, hex.EncodeToString(p.signature))
+	return fmt.Sprintf("t=%d,%s=%s", p.Timestamp.Unix(), p.Scheme, hex.EncodeToString(p.Signature))
 }
 
 func trimApiVersion(apiVersion string) string {

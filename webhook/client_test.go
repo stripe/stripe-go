@@ -26,156 +26,156 @@ var testSecret = "whsec_test_secret"
 
 func newSignedPayload(options ...func(*SignedPayload)) *SignedPayload {
 	signedPayload := &SignedPayload{}
-	signedPayload.timestamp = time.Now()
-	signedPayload.payload = testPayload
-	signedPayload.secret = testSecret
-	signedPayload.scheme = "v1"
+	signedPayload.Timestamp = time.Now()
+	signedPayload.Payload = testPayload
+	signedPayload.Secret = testSecret
+	signedPayload.Scheme = "v1"
 
 	for _, opt := range options {
 		opt(signedPayload)
 	}
 
-	if signedPayload.signature == nil {
-		signedPayload.signature = ComputeSignature(signedPayload.timestamp, signedPayload.payload, signedPayload.secret)
+	if signedPayload.Signature == nil {
+		signedPayload.Signature = ComputeSignature(signedPayload.Timestamp, signedPayload.Payload, signedPayload.Secret)
 	}
-	signedPayload.header = generateHeader(*signedPayload)
+	signedPayload.Header = generateHeader(*signedPayload)
 	return signedPayload
 }
 
 func (p *SignedPayload) hexSignature() string {
-	return hex.EncodeToString(p.signature)
+	return hex.EncodeToString(p.Signature)
 }
 
 func TestTokenNew(t *testing.T) {
 	p := newSignedPayload()
 
-	evt, err := ConstructEvent(p.payload, p.header, p.secret)
+	evt, err := ConstructEvent(p.Payload, p.Header, p.Secret)
 	if err != nil {
 		t.Errorf("Error validating signature: %v", err)
 	} else if evt.ID != "evt_test_webhook" {
-		t.Errorf("Expected a parsed event matching the test payload, got %v", evt)
+		t.Errorf("Expected a parsed event matching the test Payload, got %v", evt)
 	}
 
 	p = newSignedPayload(func(p *SignedPayload) {
-		p.payload = append(p.payload, byte('['))
+		p.Payload = append(p.Payload, byte('['))
 	})
-	evt, err = ConstructEvent(p.payload, p.header, p.secret)
+	evt, err = ConstructEvent(p.Payload, p.Header, p.Secret)
 	if err == nil {
 		t.Errorf("Invalid JSON did not cause a parse error")
 	}
 
 	p = newSignedPayload()
-	err = ValidatePayload(p.payload, "", p.secret)
+	err = ValidatePayload(p.Payload, "", p.Secret)
 	if err != ErrNotSigned {
 		t.Errorf("Expected ErrNotSigned from missing signature, got %v", err)
 	}
-	evt, err = ConstructEvent(p.payload, "", p.secret)
+	evt, err = ConstructEvent(p.Payload, "", p.Secret)
 	if err != ErrNotSigned {
 		t.Errorf("Expected ErrNotSigned from missing signature, got %v", err)
 	}
 
-	evt, err = ConstructEvent(p.payload, "v1,t=1", p.secret)
+	evt, err = ConstructEvent(p.Payload, "v1,t=1", p.Secret)
 	if err != ErrInvalidHeader {
 		t.Errorf("Expected ErrInvalidHeader from bad header format, got %v", err)
 	}
 
-	err = ValidatePayload(p.payload, "t=", p.secret)
+	err = ValidatePayload(p.Payload, "t=", p.Secret)
 	if err != ErrInvalidHeader {
 		t.Errorf("Expected ErrInvalidHeader from bad header format, got %v", err)
 	}
-	evt, err = ConstructEvent(p.payload, "t=", p.secret)
+	evt, err = ConstructEvent(p.Payload, "t=", p.Secret)
 	if err != ErrInvalidHeader {
 		t.Errorf("Expected ErrInvalidHeader from bad header format, got %v", err)
 	}
 
-	err = ValidatePayload(p.payload, p.header+",v1=bad_signature", p.secret)
+	err = ValidatePayload(p.Payload, p.Header+",v1=bad_signature", p.Secret)
 	if err != nil {
 		t.Errorf("Received unexpected %v error with an unreadable signature in the header (should be ignored)", err)
 	}
-	evt, err = ConstructEvent(p.payload, p.header+",v1=bad_signature", p.secret)
+	evt, err = ConstructEvent(p.Payload, p.Header+",v1=bad_signature", p.Secret)
 	if err != nil {
 		t.Errorf("Received unexpected %v error with an unreadable signature in the header (should be ignored)", err)
 	}
 
 	p = newSignedPayload(func(p *SignedPayload) {
-		p.scheme = "v0"
+		p.Scheme = "v0"
 	})
-	err = ValidatePayload(p.payload, p.header, p.secret)
+	err = ValidatePayload(p.Payload, p.Header, p.Secret)
 	if err != ErrNoValidSignature {
 		t.Errorf("Expected error from mismatched schema, got %v", err)
 	}
-	evt, err = ConstructEvent(p.payload, p.header, p.secret)
+	evt, err = ConstructEvent(p.Payload, p.Header, p.Secret)
 	if err != ErrNoValidSignature {
 		t.Errorf("Expected error from mismatched schema, got %v", err)
 	}
 
 	p = newSignedPayload(func(p *SignedPayload) {
-		p.signature = []byte("deadbeef")
+		p.Signature = []byte("deadbeef")
 	})
-	err = ValidatePayload(p.payload, p.header, p.secret)
+	err = ValidatePayload(p.Payload, p.Header, p.Secret)
 	if err != ErrNoValidSignature {
 		t.Errorf("Expected error from fake signature, got %v", err)
 	}
-	evt, err = ConstructEvent(p.payload, p.header, p.secret)
+	evt, err = ConstructEvent(p.Payload, p.Header, p.Secret)
 	if err != ErrNoValidSignature {
 		t.Errorf("Expected error from fake signature, got %v", err)
 	}
 
 	p = newSignedPayload()
 	p2 := newSignedPayload(func(p *SignedPayload) {
-		p.secret = testSecret + "_rolled_key"
+		p.Secret = testSecret + "_rolled_key"
 	})
-	headerWithRolledKey := p.header + ",v1=" + p2.hexSignature()
+	headerWithRolledKey := p.Header + ",v1=" + p2.hexSignature()
 	if p.hexSignature() == p2.hexSignature() {
 		t.Errorf("Got the same signature with two different secret keys")
 	}
 
-	err = ValidatePayload(p.payload, headerWithRolledKey, p.secret)
+	err = ValidatePayload(p.Payload, headerWithRolledKey, p.Secret)
 	if err != nil {
 		t.Errorf("Expected to be able to decode webhook with old key after rolling key, but got %v", err)
 	}
-	evt, err = ConstructEvent(p.payload, headerWithRolledKey, p.secret)
+	evt, err = ConstructEvent(p.Payload, headerWithRolledKey, p.Secret)
 	if err != nil {
 		t.Errorf("Expected to be able to decode webhook with old key after rolling key, but got %v", err)
 	}
-	err = ValidatePayload(p.payload, headerWithRolledKey, p2.secret)
+	err = ValidatePayload(p.Payload, headerWithRolledKey, p2.Secret)
 	if err != nil {
 		t.Errorf("Expected to be able to decode webhook with new key after rolling key, but got %v", err)
 	}
-	evt, err = ConstructEvent(p.payload, headerWithRolledKey, p2.secret)
+	evt, err = ConstructEvent(p.Payload, headerWithRolledKey, p2.Secret)
 	if err != nil {
 		t.Errorf("Expected to be able to decode webhook with new key after rolling key, but got %v", err)
 	}
 
 	p = newSignedPayload(func(p *SignedPayload) {
-		p.timestamp = time.Now().Add(-15 * time.Second)
+		p.Timestamp = time.Now().Add(-15 * time.Second)
 	})
-	err = ValidatePayloadWithTolerance(p.payload, p.header, p.secret, 10*time.Second)
+	err = ValidatePayloadWithTolerance(p.Payload, p.Header, p.Secret, 10*time.Second)
 	if err != ErrTooOld {
 		t.Errorf("Received %v error when validating timestamp outside of allowed timing window", err)
 	}
-	evt, err = ConstructEventWithTolerance(p.payload, p.header, p.secret, 10*time.Second)
+	evt, err = ConstructEventWithTolerance(p.Payload, p.Header, p.Secret, 10*time.Second)
 	if err != ErrTooOld {
 		t.Errorf("Received %v error when validating timestamp outside of allowed timing window", err)
 	}
 
-	err = ValidatePayloadWithTolerance(p.payload, p.header, p.secret, 20*time.Second)
+	err = ValidatePayloadWithTolerance(p.Payload, p.Header, p.Secret, 20*time.Second)
 	if err != nil {
 		t.Errorf("Received %v error when validating timestamp inside allowed timing window", err)
 	}
-	evt, err = ConstructEventWithTolerance(p.payload, p.header, p.secret, 20*time.Second)
+	evt, err = ConstructEventWithTolerance(p.Payload, p.Header, p.Secret, 20*time.Second)
 	if err != nil {
 		t.Errorf("Received %v error when validating timestamp inside allowed timing window", err)
 	}
 
 	p = newSignedPayload(func(p *SignedPayload) {
-		p.timestamp = time.Unix(12345, 0)
+		p.Timestamp = time.Unix(12345, 0)
 	})
-	err = ValidatePayloadIgnoringTolerance(p.payload, p.header, p.secret)
+	err = ValidatePayloadIgnoringTolerance(p.Payload, p.Header, p.Secret)
 	if err != nil {
 		t.Errorf("Received %v error when timestamp outside window but no tolerance specified", err)
 	}
-	evt, err = ConstructEventIgnoringTolerance(p.payload, p.header, p.secret)
+	evt, err = ConstructEventIgnoringTolerance(p.Payload, p.Header, p.Secret)
 	if err != nil {
 		t.Errorf("Received %v error when timestamp outside window but no tolerance specified", err)
 	}
@@ -183,10 +183,10 @@ func TestTokenNew(t *testing.T) {
 
 func TestConstructEvent_ErrorOnAPIVersionMismatch(t *testing.T) {
 	p := newSignedPayload(func(p *SignedPayload) {
-		p.payload = testPayloadWithAPIVersionMismatch
+		p.Payload = testPayloadWithAPIVersionMismatch
 	})
 
-	_, err := ConstructEvent(p.payload, p.header, p.secret)
+	_, err := ConstructEvent(p.Payload, p.Header, p.Secret)
 
 	if err == nil {
 		t.Errorf("Expected error due to API version mismatch.")
@@ -222,17 +222,17 @@ func TestConstructEvent_GlobalVersionHasBetas(t *testing.T) {
 func TestConstructEventWithOptions_IgnoreAPIVersionMismatch(t *testing.T) {
 
 	p := newSignedPayload(func(p *SignedPayload) {
-		p.payload = testPayloadWithAPIVersionMismatch
+		p.Payload = testPayloadWithAPIVersionMismatch
 	})
 
-	evt, err := ConstructEventWithOptions(p.payload, p.header, p.secret, ConstructEventOptions{IgnoreAPIVersionMismatch: true})
+	evt, err := ConstructEventWithOptions(p.Payload, p.Header, p.Secret, ConstructEventOptions{IgnoreAPIVersionMismatch: true})
 
 	if err != nil {
 		t.Errorf("Expected no error due ignoreAPIVersionMismatch.")
 	}
 
 	if evt.ID != "evt_test_webhook" {
-		t.Errorf("Expected a parsed event matching the test payload, got %v", evt)
+		t.Errorf("Expected a parsed event matching the test Payload, got %v", evt)
 	}
 }
 
@@ -241,20 +241,20 @@ func TestConstructEventWithOptions_UsesDefaultToleranceWhenNoneProvided(t *testi
 	p := newSignedPayload(func(p *SignedPayload) {
 		// Get close to the default tolerance, but give wiggle room to avoid
 		// a flaky test.
-		p.timestamp = time.Now().Add(-DefaultTolerance).Add(1 * time.Second)
+		p.Timestamp = time.Now().Add(-DefaultTolerance).Add(1 * time.Second)
 	})
 
-	_, err := ConstructEventWithOptions(p.payload, p.header, p.secret, ConstructEventOptions{})
+	_, err := ConstructEventWithOptions(p.Payload, p.Header, p.Secret, ConstructEventOptions{})
 
 	if err != nil {
 		t.Errorf("Expected no error due tolerance, but got %v.", err)
 	}
 
 	p = newSignedPayload(func(p *SignedPayload) {
-		p.timestamp = time.Now().Add(-DefaultTolerance).Add(-1 * time.Millisecond)
+		p.Timestamp = time.Now().Add(-DefaultTolerance).Add(-1 * time.Millisecond)
 	})
 
-	_, err = ConstructEventWithOptions(p.payload, p.header, p.secret, ConstructEventOptions{})
+	_, err = ConstructEventWithOptions(p.Payload, p.Header, p.Secret, ConstructEventOptions{})
 
 	if err != ErrTooOld {
 		t.Errorf("Expected error due to being too old, but got %v.", err)
