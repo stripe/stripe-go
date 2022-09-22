@@ -35,6 +35,15 @@ const (
 	PaymentLinkConsentCollectionPromotionsNone PaymentLinkConsentCollectionPromotions = "none"
 )
 
+// If set to `required`, it requires cutomers to accept the terms of service before being able to pay. If set to `none`, customers won't be shown a checkbox to accept the terms of service.
+type PaymentLinkConsentCollectionTermsOfService string
+
+// List of values that PaymentLinkConsentCollectionTermsOfService can take
+const (
+	PaymentLinkConsentCollectionTermsOfServiceNone     PaymentLinkConsentCollectionTermsOfService = "none"
+	PaymentLinkConsentCollectionTermsOfServiceRequired PaymentLinkConsentCollectionTermsOfService = "required"
+)
+
 // Configuration for Customer creation during checkout.
 type PaymentLinkCustomerCreation string
 
@@ -155,6 +164,9 @@ type PaymentLinkConsentCollectionParams struct {
 	// Session will determine whether to display an option to opt into promotional communication
 	// from the merchant depending on the customer's locale. Only available to US merchants.
 	Promotions *string `form:"promotions"`
+	// If set to `required`, it requires customers to check a terms of service checkbox before being able to pay.
+	// There must be a valid terms of service URL set in your [Dashboard settings](https://dashboard.stripe.com/settings/public).
+	TermsOfService *string `form:"terms_of_service"`
 }
 
 // When set, provides configuration for this item's quantity to be adjusted by the customer during checkout.
@@ -326,6 +338,8 @@ type PaymentLinkAutomaticTax struct {
 type PaymentLinkConsentCollection struct {
 	// If set to `auto`, enables the collection of customer consent for promotional communications.
 	Promotions PaymentLinkConsentCollectionPromotions `json:"promotions"`
+	// If set to `required`, it requires cutomers to accept the terms of service before being able to pay. If set to `none`, customers won't be shown a checkbox to accept the terms of service.
+	TermsOfService PaymentLinkConsentCollectionTermsOfService `json:"terms_of_service"`
 }
 
 // Indicates the parameters to be passed to PaymentIntent creation during checkout.
