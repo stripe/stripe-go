@@ -1,5 +1,12 @@
 # Changelog
 
+## 73.10.0 - 2022-09-22
+* [#1547](https://github.com/stripe/stripe-go/pull/1547) API Updates
+  * Add support for `TermsOfService` on `CheckoutSessionConsentCollectionParams`, `CheckoutSessionConsentCollection`, `CheckoutSessionConsent`, `PaymentLinkConsentCollectionParams`, and `PaymentLinkConsentCollection`
+  * ⚠️ Remove support for `Plan` on `CheckoutSessionPaymentMethodOptionsCardInstallmentsParams`. The property was mistakenly released and never worked.
+  * Add support for `StatementDescriptor` on `PaymentIntentIncrementAuthorizationParams`
+  
+
 ## 73.9.0 - 2022-09-15
 * [#1546](https://github.com/stripe/stripe-go/pull/1546) API Updates
   * Add support for `Pix` on `ChargePaymentMethodDetails`, `CheckoutSessionPaymentMethodOptionsParams`, `CheckoutSessionPaymentMethodOptions`, `PaymentIntentConfirmPaymentMethodDataParams`, `PaymentIntentConfirmPaymentMethodOptionsParams`, `PaymentIntentPaymentMethodDataParams`, `PaymentIntentPaymentMethodOptionsParams`, `PaymentIntentPaymentMethodOptions`, `PaymentMethodParams`, `PaymentMethod`, `SetupIntentConfirmPaymentMethodDataParams`, and `SetupIntentPaymentMethodDataParams`
