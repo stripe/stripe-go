@@ -64,7 +64,7 @@ class Critic::SameDayAmendments < Critic::OrderAmendmentFunctionalTest
     amendment_data = create_quote_data_from_contract_amendment(sf_contract)
 
     # increase quantity by 1
-    amendment_data["lineItems"].first["record"]["SBQQ__Quantity__c"] = 2
+    amendment_data["lineItems"].first["record"][CPQ_QUOTE_QUANTITY] = 2
 
     # midnight of the current day!
     amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_START_DATE] = format_date_for_salesforce(initial_start_date)
@@ -156,7 +156,7 @@ class Critic::SameDayAmendments < Critic::OrderAmendmentFunctionalTest
     amendment_data = create_quote_data_from_contract_amendment(sf_contract)
 
     # increase quantity by 1
-    amendment_data["lineItems"].first["record"]["SBQQ__Quantity__c"] = 2
+    amendment_data["lineItems"].first["record"][CPQ_QUOTE_QUANTITY] = 2
 
     # midnight of the current day!
     amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_START_DATE] = format_date_for_salesforce(initial_start_date)

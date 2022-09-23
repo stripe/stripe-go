@@ -42,7 +42,7 @@ class Critic::ProratedAmendmentTranslation < Critic::OrderAmendmentFunctionalTes
     amendment_data = create_quote_data_from_contract_amendment(sf_contract)
 
     # increase quantity
-    amendment_data["lineItems"].first["record"]["SBQQ__Quantity__c"] = 3
+    amendment_data["lineItems"].first["record"][CPQ_QUOTE_QUANTITY] = 3
 
     amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_START_DATE] = format_date_for_salesforce(amendment_start_date)
     amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_TERM] = amendment_term
@@ -183,7 +183,7 @@ class Critic::ProratedAmendmentTranslation < Critic::OrderAmendmentFunctionalTes
     amendment_data = create_quote_data_from_contract_amendment(sf_contract)
 
     # increase quantity
-    amendment_data["lineItems"].first["record"]["SBQQ__Quantity__c"] = 3
+    amendment_data["lineItems"].first["record"][CPQ_QUOTE_QUANTITY] = 3
 
     amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_START_DATE] = format_date_for_salesforce(amendment_start_date)
     amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_TERM] = amendment_term

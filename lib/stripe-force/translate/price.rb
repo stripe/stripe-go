@@ -350,7 +350,7 @@ class StripeForce::Translate
 
     # the params are extracted here *and* we apply custom mappings because this enables the user to setup custom mappings for
     # *everything* we sent to the price API including UnitPrice and other fields which go through custom transformations
-    price_params = extract_salesforce_params!(sf_object, Stripe::Price)
+    price_params = StripeForce::Utilities::SalesforceUtil.extract_salesforce_params!(mapper, sf_object, Stripe::Price)
     mapper.assign_values_from_hash(stripe_price, price_params)
 
     if sf_object.sobject_type == SF_PRICEBOOK_ENTRY

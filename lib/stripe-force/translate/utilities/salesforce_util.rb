@@ -14,13 +14,19 @@ module StripeForce::Utilities
     # Stripe APIs speak UTC, so we convert to UTC + unix timestamp
     sig { params(date_string: String).returns(Integer) }
     def self.salesforce_date_to_unix_timestamp(date_string)
-      DateTime.parse(date_string).utc.beginning_of_day.to_i
+      salesforce_date_to_beginning_of_day(date_string).to_i
     end
 
     sig { params(datetime: T.any(Time, DateTime)).returns(Integer) }
     def self.datetime_to_unix_timestamp(datetime)
       datetime.utc.beginning_of_day.to_i
     end
+
+    sig { params(date_string: String).returns(Time) }
+    def self.salesforce_date_to_beginning_of_day(date_string)
+      DateTime.parse(date_string).utc.beginning_of_day
+    end
+
 
     sig { params(user: StripeForce::User, sf_id: String).returns(String) }
     def self.salesforce_type_from_id(user, sf_id)
@@ -158,6 +164,41 @@ module StripeForce::Utilities
         sleep(count * count)
         retry
       end
+    end
+
+    # param_mapping: { stripe_key_name => salesforce_field_name }
+    sig { params(mapper: StripeForce::Mapper, sf_record: Restforce::SObject, stripe_record_or_class: T.any(Class, Stripe::APIResource)).returns(Hash) }
+    def self.extract_salesforce_params!(mapper, sf_record, stripe_record_or_class)
+      stripe_mapping_key = StripeForce::Mapper.mapping_key_for_record(stripe_record_or_class, sf_record)
+
+      user = mapper.user
+      required_mappings = user.required_mappings[stripe_mapping_key]
+
+      if required_mappings.nil?
+        raise "expected mappings for #{stripe_mapping_key} but they were nil"
+      end
+
+      # first, let's pull required mappings and check if there's anything missing
+      required_data = mapper.build_dynamic_mapping_values(sf_record, required_mappings)
+
+      missing_stripe_fields = required_mappings.select {|k, _v| required_data[k].nil? }
+
+      if missing_stripe_fields.present?
+        missing_salesforce_fields = missing_stripe_fields.keys.map {|k| required_mappings[k] }
+
+        raise Integrations::Errors::MissingRequiredFields.new(
+          salesforce_object: sf_record,
+          missing_salesforce_fields: missing_salesforce_fields
+        )
+      end
+
+      # then, let's extract optional fields and then merge them in
+      default_mappings = user.default_mappings[stripe_mapping_key]
+      return required_data if default_mappings.blank?
+
+      optional_data = mapper.build_dynamic_mapping_values(sf_record, default_mappings)
+
+      required_data.merge(optional_data)
     end
   end
 end

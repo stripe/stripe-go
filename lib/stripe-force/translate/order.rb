@@ -98,7 +98,7 @@ class StripeForce::Translate
 
     log.info 'recurring items found, creating subscription schedule'
 
-    subscription_params = extract_salesforce_params!(sf_order, Stripe::SubscriptionSchedule)
+    subscription_params = StripeForce::Utilities::SalesforceUtil.extract_salesforce_params!(mapper, sf_order, Stripe::SubscriptionSchedule)
 
     # TODO should file an API papercut for this
     # when creating the subscription schedule the start_date must be specified on the heaer
@@ -250,6 +250,10 @@ class StripeForce::Translate
 
     subscription_schedule = T.cast(subscription_schedule, Stripe::SubscriptionSchedule)
 
+    if !OrderAmendment.contract_co_terminated?(mapper, contract_structure)
+      raise StripeForce::Errors::RawUserError.new("order amendments must coterminate with the initial order")
+    end
+
     # Order amendments contain a negative item if they are adjusting a previous line item.
     # If they are adjusting a previous line item
 
@@ -304,7 +308,7 @@ class StripeForce::Translate
       aggregate_phase_items = OrderHelpers.ensure_unique_phase_item_prices(@user, aggregate_phase_items)
 
       # TODO should probably use a completely different key/mapping for the phase items
-      phase_params = extract_salesforce_params!(sf_order_amendment, Stripe::SubscriptionSchedule)
+      phase_params = StripeForce::Utilities::SalesforceUtil.extract_salesforce_params!(mapper, sf_order_amendment, Stripe::SubscriptionSchedule)
 
       string_start_date_from_salesforce = phase_params['start_date']
       start_date_as_timestamp = StripeForce::Utilities::SalesforceUtil.salesforce_date_to_unix_timestamp(string_start_date_from_salesforce)
@@ -608,7 +612,7 @@ class StripeForce::Translate
         metadata: Metadata.stripe_metadata_for_sf_object(@user, sf_order_item),
       })
 
-      phase_item_params = extract_salesforce_params!(sf_order_item, Stripe::SubscriptionItem)
+      phase_item_params = StripeForce::Utilities::SalesforceUtil.extract_salesforce_params!(mapper, sf_order_item, Stripe::SubscriptionItem)
       mapper.assign_values_from_hash(phase_item, phase_item_params)
       apply_mapping(phase_item, sf_order_item)
 

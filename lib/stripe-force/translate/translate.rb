@@ -327,7 +327,7 @@ class StripeForce::Translate
     stripe_fields = if skip_field_extraction
       {}
     else
-      extract_salesforce_params!(sf_object, stripe_class)
+      StripeForce::Utilities::SalesforceUtil.extract_salesforce_params!(mapper, sf_object, stripe_class)
     end
 
     stripe_object = stripe_class.construct_from(additional_stripe_params)
@@ -477,39 +477,6 @@ class StripeForce::Translate
 
     billing_frequency_in_months = StripeForce::Utilities::StripeUtil.billing_frequency_of_price_in_months(price)
     determine_subscription_term_multiplier_for_billing_frequency(iterations, billing_frequency_in_months)
-  end
-
-  # param_mapping: { stripe_key_name => salesforce_field_name }
-  sig { params(sf_record: Restforce::SObject, stripe_record_or_class: T.any(Class, Stripe::APIResource)).returns(Hash) }
-  def extract_salesforce_params!(sf_record, stripe_record_or_class)
-    stripe_mapping_key = StripeForce::Mapper.mapping_key_for_record(stripe_record_or_class, sf_record)
-    required_mappings = @user.required_mappings[stripe_mapping_key]
-
-    if required_mappings.nil?
-      raise "expected mappings for #{stripe_mapping_key} but they were nil"
-    end
-
-    # first, let's pull required mappings and check if there's anything missing
-    required_data = mapper.build_dynamic_mapping_values(sf_record, required_mappings)
-
-    missing_stripe_fields = required_mappings.select {|k, _v| required_data[k].nil? }
-
-    if missing_stripe_fields.present?
-      missing_salesforce_fields = missing_stripe_fields.keys.map {|k| required_mappings[k] }
-
-      raise Integrations::Errors::MissingRequiredFields.new(
-        salesforce_object: sf_record,
-        missing_salesforce_fields: missing_salesforce_fields
-      )
-    end
-
-    # then, let's extract optional fields and then merge them in
-    default_mappings = @user.default_mappings[stripe_mapping_key]
-    return required_data if default_mappings.blank?
-
-    optional_data = mapper.build_dynamic_mapping_values(sf_record, default_mappings)
-
-    required_data.merge(optional_data)
   end
 
   # TODO allow for multiple records to be linked?

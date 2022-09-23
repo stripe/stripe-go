@@ -26,7 +26,7 @@ module Critic::Unit
 
         # TODO should redefine `assert_raises` to accept a dynamic class param
         exception = assert_raises(Integrations::Errors::MissingRequiredFields) do
-          @translator.extract_salesforce_params!(sf_order, Stripe::SubscriptionSchedule)
+          StripeForce::Utilities::SalesforceUtil.extract_salesforce_params!(@translator.mapper, sf_order, Stripe::SubscriptionSchedule)
         end
 
         exception = T.cast(exception, Integrations::Errors::MissingRequiredFields)
@@ -47,7 +47,7 @@ module Critic::Unit
         sf_order[CPQ_QUOTE_SUBSCRIPTION_TERM] = 12
         sf_order['Description'] = 'a description'
 
-        results = @translator.extract_salesforce_params!(sf_order, Stripe::SubscriptionSchedule)
+        results = StripeForce::Utilities::SalesforceUtil.extract_salesforce_params!(@translator.mapper, sf_order, Stripe::SubscriptionSchedule)
 
         assert_equal({"start_date" => sf_order[CPQ_QUOTE_SUBSCRIPTION_START_DATE], "subscription_iterations" => 12, "extra" => "a description"}, results)
       end
@@ -64,7 +64,7 @@ module Critic::Unit
         sf_order[CPQ_QUOTE_SUBSCRIPTION_START_DATE] = now_time_formatted_for_salesforce
         sf_order[CPQ_QUOTE_SUBSCRIPTION_TERM] = 12
 
-        results = @translator.extract_salesforce_params!(sf_order, Stripe::SubscriptionSchedule)
+        results = StripeForce::Utilities::SalesforceUtil.extract_salesforce_params!(@translator.mapper, sf_order, Stripe::SubscriptionSchedule)
 
         assert_equal({"start_date" => sf_order[CPQ_QUOTE_SUBSCRIPTION_START_DATE], "subscription_iterations" => 12}, results)
       end

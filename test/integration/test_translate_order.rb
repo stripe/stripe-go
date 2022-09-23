@@ -249,7 +249,7 @@ class Critic::OrderTranslation < Critic::FunctionalTest
 
     # set first product quantity to 5
     quote_with_product = add_product_to_cpq_quote(quote_id, sf_product_id: sf_product_id_1)
-    quote_with_product["lineItems"].first["record"]["SBQQ__Quantity__c"] = 5.0
+    quote_with_product["lineItems"].first["record"][CPQ_QUOTE_QUANTITY] = 5.0
     calculate_and_save_cpq_quote(quote_with_product)
 
     # recurring and arrears, should not have a quantity set when passed to stripe

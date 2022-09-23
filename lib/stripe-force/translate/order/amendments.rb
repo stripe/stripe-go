@@ -11,19 +11,26 @@ class StripeForce::Translate
     include StripeForce::Constants
     extend SimpleStructuredLogger
 
-    # for now, let's not support non-co-terminated contracts
-    sig { params(contract_structure: ContractStructure).returns(T::Boolean) }
-    def self.contract_co_terminated?(contract_structure)
-      target_end_date = calculate_order_end_date(contract_structure.initial)
+    # determines if order amendments coterminate with the initial order,
+    # this is required by our integration but is allowed by CPQ in some situations
+    sig { params(mapper: StripeForce::Mapper, contract_structure: ContractStructure).returns(T::Boolean) }
+    def self.contract_co_terminated?(mapper, contract_structure)
+      initial_order_end_date = calculate_order_end_date(mapper, contract_structure.initial)
 
-      contract_structure.amendments.all? do |sf_order|
-        calculate_order_end_date(sf_order) == target_end_date
+      # the end date must be the same for all order amendments
+      contract_structure.amendments.all? do |sf_order_amendment|
+        calculate_order_end_date(mapper, sf_order_amendment) == initial_order_end_date
       end
     end
 
-    def self.calculate_order_end_date(sf_order)
-      # get start date
-      # add subscription term
+    sig { params(mapper: StripeForce::Mapper, sf_order: Restforce::SObject).returns(Integer) }
+    def self.calculate_order_end_date(mapper, sf_order)
+      subscription_params = StripeForce::Utilities::SalesforceUtil.extract_salesforce_params!(mapper, sf_order, Stripe::SubscriptionSchedule)
+      salesforce_start_date_as_string = subscription_params['start_date']
+      salesforce_subscription_term = subscription_params['iterations'].to_i
+
+      # end date = start date + subscription term
+      (StripeForce::Utilities::SalesforceUtil.salesforce_date_to_beginning_of_day(salesforce_start_date_as_string) + salesforce_subscription_term.months).to_i
     end
 
     # NOTE at this point it's assumed that the price is NOT a metered billing item or tiered price

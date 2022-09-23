@@ -43,6 +43,7 @@ module StripeForce
     CPQ_QUOTE_SUBSCRIPTION_START_DATE = 'SBQQ__StartDate__c'
     CPQ_QUOTE_SUBSCRIPTION_TERM = 'SBQQ__SubscriptionTerm__c'
     CPQ_QUOTE_SUBSCRIPTION_PRICING = 'SBQQ__SubscriptionPricing__c'
+    CPQ_QUOTE_QUANTITY = 'SBQQ__Quantity__c'
 
     CPQ_QUOTE_BILLING_FREQUENCY = 'SBQQ__BillingFrequency__c'
     class CPQBillingFrequencyOptions < T::Enum
