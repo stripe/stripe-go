@@ -81,3 +81,9 @@ end
 class Restforce::SObject
   def refresh; end
 end
+
+# https://github.com/sorbet/sorbet/blob/3542f977568c181cf0f908bd0f89bc3a6282a53b/rbi/stdlib/date.rbi#L343
+class Date
+  sig {params(arg0: T.any(Integer, Float, Rational, ActiveSupport::Duration)).returns(T.self_type)}
+  def +(arg0); end
+end

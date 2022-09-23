@@ -33152,14 +33152,6 @@ end
 class OpenSSL::KDF::KDFError
 end
 
-module OpenSSL::KDF
-  def self.hkdf(*arg); end
-
-  def self.pbkdf2_hmac(*arg); end
-
-  def self.scrypt(*arg); end
-end
-
 class OpenSSL::OCSP::Request
   def signed?(); end
 end
