@@ -200,13 +200,13 @@ func TestConstructEvent_ErrorOnAPIVersionMismatch(t *testing.T) {
 func TestConstructEvent_GlobalVersionHasBetas(t *testing.T) {
 
 	p := newSignedPayload(func(p *SignedPayload) {
-		p.payload = []byte(fmt.Sprintf(testPayloadFormat, "12-23-2023"))
+		p.Payload = []byte(fmt.Sprintf(testPayloadFormat, "12-23-2023"))
 	})
 
 	oldVersion := stripe.APIVersion
 	stripe.APIVersion = "12-23-2023; feature_in_beta=v3"
 
-	evt, err := ConstructEvent(p.payload, p.header, p.secret)
+	evt, err := ConstructEvent(p.Payload, p.Header, p.Secret)
 
 	if err != nil {
 		t.Errorf("Expected no error, versions match.")
