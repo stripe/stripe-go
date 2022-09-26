@@ -401,7 +401,7 @@ GEM
     sorbet-static (0.5.10455-universal-darwin-20)
     sorbet-static (0.5.10455-universal-darwin-21)
     sorbet-static (0.5.10455-x86_64-linux)
-    spring (4.0.0)
+    spring (4.1.0)
     sprockets (4.1.1)
       concurrent-ruby (~> 1.0)
       rack (> 1, < 3)
