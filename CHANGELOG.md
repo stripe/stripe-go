@@ -1,5 +1,10 @@
 # Changelog
 
+## 73.11.0-beta.1 - 2022-09-26
+* [#1548](https://github.com/stripe/stripe-go/pull/1548) API Updates for beta branch
+  * Updated stable APIs to the latest version
+  * Add `FinancingOffer`, `FinancingSummary` and `FinancingTransaction` resources.
+
 ## 73.10.0 - 2022-09-22
 * [#1547](https://github.com/stripe/stripe-go/pull/1547) API Updates
   * Add support for `TermsOfService` on `CheckoutSessionConsentCollectionParams`, `CheckoutSessionConsentCollection`, `CheckoutSessionConsent`, `PaymentLinkConsentCollectionParams`, and `PaymentLinkConsentCollection`
