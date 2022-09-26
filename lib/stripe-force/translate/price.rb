@@ -424,7 +424,7 @@ class StripeForce::Translate
       # TODO use cache_service
       sf_order = sf.find(SF_ORDER, sf_object['OrderId'])
 
-      subscription_term = extract_subscription_term_from_order!(sf_order)
+      subscription_term = StripeForce::Utilities::SalesforceUtil.extract_subscription_term_from_order!(mapper, sf_order)
       price_multiplier = BigDecimal(subscription_term) / BigDecimal(billing_frequency)
       # TODO should we adjust based on the quantity? Most likely, let's wait until tests fail
 
@@ -435,35 +435,5 @@ class StripeForce::Translate
     end
 
     stripe_price
-  end
-
-  # TODO this should be moved out of the price helpers, I believe it is used more broadly
-  # ideally this would not be an instance method, but having the `mapper` state will reduce API calls and simplify the logic here for now
-  sig { params(sf_order: Restforce::SObject).returns(Integer) }
-  def extract_subscription_term_from_order!(sf_order)
-    subscription_term_stripe_path = ['subscription_schedule', 'iterations']
-    subscription_term_order_path = @user.field_mappings.dig(*subscription_term_stripe_path) ||
-      @user.required_mappings.dig(*subscription_term_stripe_path)
-
-    # quote_subscription_term = T.cast(mapper.extract_key_path_for_record(sf_order, subscription_term_order_path), T.nilable(String))
-    quote_subscription_term = T.cast(mapper.extract_key_path_for_record(sf_order, subscription_term_order_path), T.nilable(T.any(String, Float)))
-
-    if quote_subscription_term.nil?
-      raise Integrations::Errors::MissingRequiredFields.new(
-        salesforce_object: sf_order,
-        missing_salesforce_fields: [subscription_term_order_path]
-      )
-    end
-
-    # it's looking like these values are never really aligned and we should ignore the line item
-    if sf_order['SBQQ__SubscriptionTerm__c'] == quote_subscription_term
-      Integrations::ErrorContext.report_edge_case("subscription term on quote matches line item")
-    end
-
-    if !Integrations::Utilities::StripeUtil.is_integer_value?(quote_subscription_term)
-      raise StripeForce::Errors::RawUserError.new("Subscription term is specified as a decimal value")
-    end
-
-    quote_subscription_term.to_i
   end
 end
