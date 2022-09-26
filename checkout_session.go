@@ -35,6 +35,14 @@ const (
 	CheckoutSessionConsentPromotionsOptOut CheckoutSessionConsentPromotions = "opt_out"
 )
 
+// If `accepted`, the customer in this Checkout Session has agreed to the merchant's terms of service.
+type CheckoutSessionConsentTermsOfService string
+
+// List of values that CheckoutSessionConsentTermsOfService can take
+const (
+	CheckoutSessionConsentTermsOfServiceAccepted CheckoutSessionConsentTermsOfService = "accepted"
+)
+
 // If set to `auto`, enables the collection of customer consent for promotional communications. The Checkout
 // Session will determine whether to display an option to opt into promotional communication
 // from the merchant depending on the customer's locale. Only available to US merchants.
@@ -44,6 +52,15 @@ type CheckoutSessionConsentCollectionPromotions string
 const (
 	CheckoutSessionConsentCollectionPromotionsAuto CheckoutSessionConsentCollectionPromotions = "auto"
 	CheckoutSessionConsentCollectionPromotionsNone CheckoutSessionConsentCollectionPromotions = "none"
+)
+
+// If set to `required`, it requires customers to accept the terms of service before being able to pay.
+type CheckoutSessionConsentCollectionTermsOfService string
+
+// List of values that CheckoutSessionConsentCollectionTermsOfService can take
+const (
+	CheckoutSessionConsentCollectionTermsOfServiceNone     CheckoutSessionConsentCollectionTermsOfService = "none"
+	CheckoutSessionConsentCollectionTermsOfServiceRequired CheckoutSessionConsentCollectionTermsOfService = "required"
 )
 
 // Configure whether a Checkout Session creates a Customer when the Checkout Session completes.
@@ -601,6 +618,9 @@ type CheckoutSessionConsentCollectionParams struct {
 	// Session will determine whether to display an option to opt into promotional communication
 	// from the merchant depending on the customer's locale. Only available to US merchants.
 	Promotions *string `form:"promotions"`
+	// If set to `required`, it requires customers to check a terms of service checkbox before being able to pay.
+	// There must be a valid terms of service URL set in your [Dashboard settings](https://dashboard.stripe.com/settings/public).
+	TermsOfService *string `form:"terms_of_service"`
 }
 
 // Controls what fields on Customer can be updated by the Checkout Session. Can only be provided when `customer` is provided.
@@ -627,7 +647,7 @@ type CheckoutSessionDiscountParams struct {
 type CheckoutSessionLineItemAdjustableQuantityParams struct {
 	// Set to true if the quantity can be adjusted to any non-negative integer. By default customers will be able to remove the line item by setting the quantity to 0.
 	Enabled *bool `form:"enabled"`
-	// The maximum quantity the customer can purchase for the Checkout Session. By default this value is 99. You can specify a value up to 999.
+	// The maximum quantity the customer can purchase for the Checkout Session. By default this value is 99. You can specify a value up to 999999.
 	Maximum *int64 `form:"maximum"`
 	// The minimum quantity the customer must purchase for the Checkout Session. By default this value is 0.
 	Minimum *int64 `form:"minimum"`
@@ -677,7 +697,7 @@ type CheckoutSessionLineItemPriceDataParams struct {
 //
 // For `payment` mode, there is a maximum of 100 line items, however it is recommended to consolidate line items if there are more than a few dozen.
 //
-// For `subscription` mode, there is a maximum of 20 line items with recurring Prices and 20 line items with one-time Prices. Line items with one-time Prices in will be on the initial invoice only.
+// For `subscription` mode, there is a maximum of 20 line items with recurring Prices and 20 line items with one-time Prices. Line items with one-time Prices will be on the initial invoice only.
 type CheckoutSessionLineItemParams struct {
 	// When set, provides configuration for this item's quantity to be adjusted by the customer during Checkout.
 	AdjustableQuantity *CheckoutSessionLineItemAdjustableQuantityParams `form:"adjustable_quantity"`
@@ -872,27 +892,11 @@ type CheckoutSessionPaymentMethodOptionsBoletoParams struct {
 	SetupFutureUsage *string `form:"setup_future_usage"`
 }
 
-// The selected installment plan to use for this payment attempt.
-// This parameter can only be provided during confirmation.
-type CheckoutSessionPaymentMethodOptionsCardInstallmentsPlanParams struct {
-	// For `fixed_count` installment plans, this is the number of installment payments your customer will make to their credit card.
-	Count *int64 `form:"count"`
-	// For `fixed_count` installment plans, this is the interval between installment payments your customer will make to their credit card.
-	// One of `month`.
-	Interval *string `form:"interval"`
-	// Type of installment plan, one of `fixed_count`.
-	Type *string `form:"type"`
-}
-
 // Installment options for card payments
 type CheckoutSessionPaymentMethodOptionsCardInstallmentsParams struct {
-	// Setting to true enables installments for this PaymentIntent.
-	// This will cause the response to contain a list of available installment plans.
-	// Setting to false will prevent any selected plan from applying to a charge.
+	// Setting to true enables installments for this Checkout Session.
+	// Setting to false will prevent any installment plan from applying to a payment.
 	Enabled *bool `form:"enabled"`
-	// The selected installment plan to use for this payment attempt.
-	// This parameter can only be provided during confirmation.
-	Plan *CheckoutSessionPaymentMethodOptionsCardInstallmentsPlanParams `form:"plan"`
 }
 
 // contains details about the Card payment method options.
@@ -953,7 +957,7 @@ type CheckoutSessionPaymentMethodOptionsEPSParams struct {
 	SetupFutureUsage *string `form:"setup_future_usage"`
 }
 
-// contains details about the EPS payment method options.
+// contains details about the FPX payment method options.
 type CheckoutSessionPaymentMethodOptionsFPXParams struct {
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
@@ -1051,6 +1055,17 @@ type CheckoutSessionPaymentMethodOptionsPayNowParams struct {
 	TOSShownAndAccepted *bool `form:"tos_shown_and_accepted"`
 }
 
+// contains details about the PayPal payment method options.
+type CheckoutSessionPaymentMethodOptionsPaypalParams struct {
+	Currency *string `form:"currency"`
+}
+
+// contains details about the Pix payment method options.
+type CheckoutSessionPaymentMethodOptionsPixParams struct {
+	// The number of seconds (between 10 and 1209600) after which Pix payment will expire. Defaults to 86400 seconds.
+	ExpiresAfterSeconds *int64 `form:"expires_after_seconds"`
+}
+
 // contains details about the Sepa Debit payment method options.
 type CheckoutSessionPaymentMethodOptionsSEPADebitParams struct {
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -1129,7 +1144,7 @@ type CheckoutSessionPaymentMethodOptionsParams struct {
 	CustomerBalance *CheckoutSessionPaymentMethodOptionsCustomerBalanceParams `form:"customer_balance"`
 	// contains details about the EPS payment method options.
 	EPS *CheckoutSessionPaymentMethodOptionsEPSParams `form:"eps"`
-	// contains details about the EPS payment method options.
+	// contains details about the FPX payment method options.
 	FPX *CheckoutSessionPaymentMethodOptionsFPXParams `form:"fpx"`
 	// contains details about the Giropay payment method options.
 	Giropay *CheckoutSessionPaymentMethodOptionsGiropayParams `form:"giropay"`
@@ -1147,6 +1162,10 @@ type CheckoutSessionPaymentMethodOptionsParams struct {
 	P24 *CheckoutSessionPaymentMethodOptionsP24Params `form:"p24"`
 	// contains details about the PayNow payment method options.
 	PayNow *CheckoutSessionPaymentMethodOptionsPayNowParams `form:"paynow"`
+	// contains details about the PayPal payment method options.
+	Paypal *CheckoutSessionPaymentMethodOptionsPaypalParams `form:"paypal"`
+	// contains details about the Pix payment method options.
+	Pix *CheckoutSessionPaymentMethodOptionsPixParams `form:"pix"`
 	// contains details about the Sepa Debit payment method options.
 	SEPADebit *CheckoutSessionPaymentMethodOptionsSEPADebitParams `form:"sepa_debit"`
 	// contains details about the Sofort payment method options.
@@ -1366,7 +1385,7 @@ type CheckoutSessionParams struct {
 	//
 	// For `payment` mode, there is a maximum of 100 line items, however it is recommended to consolidate line items if there are more than a few dozen.
 	//
-	// For `subscription` mode, there is a maximum of 20 line items with recurring Prices and 20 line items with one-time Prices. Line items with one-time Prices in will be on the initial invoice only.
+	// For `subscription` mode, there is a maximum of 20 line items with recurring Prices and 20 line items with one-time Prices. Line items with one-time Prices will be on the initial invoice only.
 	LineItems []*CheckoutSessionLineItemParams `form:"line_items"`
 	// The IETF language tag of the locale Checkout is displayed in. If blank or `auto`, the browser's locale is used.
 	Locale *string `form:"locale"`
@@ -1385,7 +1404,8 @@ type CheckoutSessionParams struct {
 	PaymentMethodOptions *CheckoutSessionPaymentMethodOptionsParams `form:"payment_method_options"`
 	// A list of the types of payment methods (e.g., `card`) this Checkout Session can accept.
 	//
-	// Do not include this attribute if you prefer to manage your payment methods from the [Stripe Dashboard](https://dashboard.stripe.com/settings/payment_methods).
+	// In `payment` and `subscription` mode, you can omit this attribute to manage your payment methods from the [Stripe Dashboard](https://dashboard.stripe.com/settings/payment_methods).
+	// It is required in `setup` mode.
 	//
 	// Read more about the supported payment methods and their requirements in our [payment
 	// method details guide](https://stripe.com/docs/payments/checkout/payment-methods).
@@ -1467,6 +1487,8 @@ type CheckoutSessionConsent struct {
 	// If `opt_in`, the customer consents to receiving promotional communications
 	// from the merchant about this Checkout Session.
 	Promotions CheckoutSessionConsentPromotions `json:"promotions"`
+	// If `accepted`, the customer in this Checkout Session has agreed to the merchant's terms of service.
+	TermsOfService CheckoutSessionConsentTermsOfService `json:"terms_of_service"`
 }
 
 // When set, provides configuration for the Checkout Session to gather active consent from customers.
@@ -1475,6 +1497,8 @@ type CheckoutSessionConsentCollection struct {
 	// Session will determine whether to display an option to opt into promotional communication
 	// from the merchant depending on the customer's locale. Only available to US merchants.
 	Promotions CheckoutSessionConsentCollectionPromotions `json:"promotions"`
+	// If set to `required`, it requires customers to accept the terms of service before being able to pay.
+	TermsOfService CheckoutSessionConsentCollectionTermsOfService `json:"terms_of_service"`
 }
 
 // The customer's tax IDs after a completed Checkout Session.
@@ -1708,6 +1732,10 @@ type CheckoutSessionPaymentMethodOptionsPayNow struct {
 	// When processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).
 	SetupFutureUsage CheckoutSessionPaymentMethodOptionsPayNowSetupFutureUsage `json:"setup_future_usage"`
 }
+type CheckoutSessionPaymentMethodOptionsPix struct {
+	// The number of seconds after which Pix payment will expire.
+	ExpiresAfterSeconds int64 `json:"expires_after_seconds"`
+}
 type CheckoutSessionPaymentMethodOptionsSEPADebit struct {
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
@@ -1764,6 +1792,7 @@ type CheckoutSessionPaymentMethodOptions struct {
 	OXXO             *CheckoutSessionPaymentMethodOptionsOXXO             `json:"oxxo"`
 	P24              *CheckoutSessionPaymentMethodOptionsP24              `json:"p24"`
 	PayNow           *CheckoutSessionPaymentMethodOptionsPayNow           `json:"paynow"`
+	Pix              *CheckoutSessionPaymentMethodOptionsPix              `json:"pix"`
 	SEPADebit        *CheckoutSessionPaymentMethodOptionsSEPADebit        `json:"sepa_debit"`
 	Sofort           *CheckoutSessionPaymentMethodOptionsSofort           `json:"sofort"`
 	USBankAccount    *CheckoutSessionPaymentMethodOptionsUSBankAccount    `json:"us_bank_account"`
@@ -1969,6 +1998,7 @@ type CheckoutSession struct {
 	// Tax and discount details for the computed total amount.
 	TotalDetails *CheckoutSessionTotalDetails `json:"total_details"`
 	// The URL to the Checkout Session. Redirect customers to this URL to take them to Checkout. If you're using [Custom Domains](https://stripe.com/docs/payments/checkout/custom-domains), the URL will use your subdomain. Otherwise, it'll use `checkout.stripe.com.`
+	// This value is only present when the session is active.
 	URL string `json:"url"`
 }
 

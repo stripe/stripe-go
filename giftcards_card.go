@@ -54,7 +54,7 @@ type GiftCardsCardValidateParams struct {
 	// The gift card code to be validated.
 	Code *string `form:"code"`
 	// The pin associated with the gift card. Not all gift cards have pins.
-	PIN *string `form:"pin"`
+	GiftcardPIN *string `form:"giftcard_pin"`
 }
 type GiftCardsCardCreatedByCheckout struct {
 	// The Stripe CheckoutSession that created this object.

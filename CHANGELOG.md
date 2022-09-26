@@ -1,5 +1,44 @@
 # Changelog
 
+## 73.10.0 - 2022-09-22
+* [#1547](https://github.com/stripe/stripe-go/pull/1547) API Updates
+  * Add support for `TermsOfService` on `CheckoutSessionConsentCollectionParams`, `CheckoutSessionConsentCollection`, `CheckoutSessionConsent`, `PaymentLinkConsentCollectionParams`, and `PaymentLinkConsentCollection`
+  * ⚠️ Remove support for `Plan` on `CheckoutSessionPaymentMethodOptionsCardInstallmentsParams`. The property was mistakenly released and never worked.
+  * Add support for `StatementDescriptor` on `PaymentIntentIncrementAuthorizationParams`
+
+## 73.9.0 - 2022-09-15
+* [#1546](https://github.com/stripe/stripe-go/pull/1546) API Updates
+  * Add support for `Pix` on `ChargePaymentMethodDetails`, `CheckoutSessionPaymentMethodOptionsParams`, `CheckoutSessionPaymentMethodOptions`, `PaymentIntentConfirmPaymentMethodDataParams`, `PaymentIntentConfirmPaymentMethodOptionsParams`, `PaymentIntentPaymentMethodDataParams`, `PaymentIntentPaymentMethodOptionsParams`, `PaymentIntentPaymentMethodOptions`, `PaymentMethodParams`, `PaymentMethod`, `SetupIntentConfirmPaymentMethodDataParams`, and `SetupIntentPaymentMethodDataParams`
+  * Add support for `FromInvoice` on `InvoiceParams` and `Invoice`
+  * Add support for `LatestRevision` on `Invoice`
+  * Add support for `Amount` on `IssuingDisputeParams`
+  * Add support for `PixDisplayQRCode` on `PaymentIntentNextAction`
+  * Add support for new value `pix` on enum `PaymentLinkPaymentMethodTypes`
+  * Add support for new value `pix` on enum `PaymentMethodType`
+  * Add support for `Created` on `TreasuryCreditReversal` and `TreasuryDebitReversal`
+* [#1545](https://github.com/stripe/stripe-go/pull/1545) Export UnsignedPayload/SignedPayload fields
+
+## 73.8.0 - 2022-09-09
+* [#1543](https://github.com/stripe/stripe-go/pull/1543) API Updates
+  * Add support for `RequireSignature` on `IssuingCardShippingParams` and `IssuingCardShipping`
+
+## 73.7.0 - 2022-09-06
+* [#1542](https://github.com/stripe/stripe-go/pull/1542) API Updates
+  * Add support for new value `terminal_reader_splashscreen` on enum `FilePurpose`
+
+## 73.6.0 - 2022-08-31
+* [#1541](https://github.com/stripe/stripe-go/pull/1541) API Updates
+  * Add support for `Description` on `PaymentLinkSubscriptionDataParams` and `PaymentLinkSubscriptionData`
+
+## 73.5.0 - 2022-08-26
+* [#1537](https://github.com/stripe/stripe-go/pull/1537) API Updates
+  * Add support for `LoginPage` on `BillingPortalConfigurationParams` and `BillingPortalConfiguration`
+  * Add support for new value `deutsche_bank_ag` on enums `ChargePaymentMethodDetailsEpsBank` and `PaymentMethodEpsBank`
+  * Add support for `Customs` and `PhoneNumber` on `IssuingCardShippingParams` and `IssuingCardShipping`
+  * Add support for `Description` on `QuoteSubscriptionDataParams`, `QuoteSubscriptionData`, `SubscriptionScheduleDefaultSettingsParams`, `SubscriptionScheduleDefaultSettings`, `SubscriptionSchedulePhasesParams`, and `SubscriptionSchedulePhases`
+* [#1536](https://github.com/stripe/stripe-go/pull/1536) Add test coverage using coveralls
+* [#1533](https://github.com/stripe/stripe-go/pull/1533) Update README.md to clarify that API version can only be change in beta
+
 ## 73.5.0-beta.1 - 2022-08-26
 * [#1535](https://github.com/stripe/stripe-go/pull/1535) API Updates for beta branch
   * Updated stable APIs to the latest version

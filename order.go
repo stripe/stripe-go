@@ -343,6 +343,7 @@ const (
 	OrderPaymentSettingsPaymentMethodTypeLink             OrderPaymentSettingsPaymentMethodType = "link"
 	OrderPaymentSettingsPaymentMethodTypeOXXO             OrderPaymentSettingsPaymentMethodType = "oxxo"
 	OrderPaymentSettingsPaymentMethodTypeP24              OrderPaymentSettingsPaymentMethodType = "p24"
+	OrderPaymentSettingsPaymentMethodTypePaypal           OrderPaymentSettingsPaymentMethodType = "paypal"
 	OrderPaymentSettingsPaymentMethodTypeSEPADebit        OrderPaymentSettingsPaymentMethodType = "sepa_debit"
 	OrderPaymentSettingsPaymentMethodTypeSofort           OrderPaymentSettingsPaymentMethodType = "sofort"
 	OrderPaymentSettingsPaymentMethodTypeWeChatPay        OrderPaymentSettingsPaymentMethodType = "wechat_pay"
@@ -779,6 +780,12 @@ type OrderPaymentSettingsPaymentMethodOptionsP24Params struct {
 	TOSShownAndAccepted *bool `form:"tos_shown_and_accepted"`
 }
 
+// If paying by `paypal`, this sub-hash contains details about the PayPal payment method options to pass to the order's PaymentIntent.
+type OrderPaymentSettingsPaymentMethodOptionsPaypalParams struct {
+	CaptureMethod   *string `form:"capture_method"`
+	PreferredLocale *string `form:"preferred_locale"`
+}
+
 // Additional fields for Mandate creation
 type OrderPaymentSettingsPaymentMethodOptionsSEPADebitMandateOptionsParams struct{}
 
@@ -850,6 +857,8 @@ type OrderPaymentSettingsPaymentMethodOptionsParams struct {
 	OXXO *OrderPaymentSettingsPaymentMethodOptionsOXXOParams `form:"oxxo"`
 	// If paying by `p24`, this sub-hash contains details about the P24 payment method options to pass to the order's PaymentIntent.
 	P24 *OrderPaymentSettingsPaymentMethodOptionsP24Params `form:"p24"`
+	// If paying by `paypal`, this sub-hash contains details about the PayPal payment method options to pass to the order's PaymentIntent.
+	Paypal *OrderPaymentSettingsPaymentMethodOptionsPaypalParams `form:"paypal"`
 	// If paying by `sepa_debit`, this sub-hash contains details about the SEPA Debit payment method options to pass to the order's PaymentIntent.
 	SEPADebit *OrderPaymentSettingsPaymentMethodOptionsSEPADebitParams `form:"sepa_debit"`
 	// If paying by `sofort`, this sub-hash contains details about the Sofort payment method options to pass to the order's PaymentIntent.

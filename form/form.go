@@ -598,14 +598,14 @@ func (f *Values) Get(key string) []string {
 // a cohesive way. For example, an array of maps in Rack is encoded with a
 // string like:
 //
-//     arr[][foo]=foo0&arr[][bar]=bar0&arr[][foo]=foo1&arr[][bar]=bar1
+//	arr[][foo]=foo0&arr[][bar]=bar0&arr[][foo]=foo1&arr[][bar]=bar1
 //
 // Because url.Values is a map, values will be handled in a way that's grouped
 // by their key instead of in the order they were added. Therefore the above
 // may by encoded to something like (maps are unordered so the actual result is
 // somewhat non-deterministic):
 //
-//     arr[][foo]=foo0&arr[][foo]=foo1&arr[][bar]=bar0&arr[][bar]=bar1
+//	arr[][foo]=foo0&arr[][foo]=foo1&arr[][bar]=bar0&arr[][bar]=bar1
 //
 // And thus result in an incorrect request to Stripe.
 func (f *Values) ToValues() url.Values {

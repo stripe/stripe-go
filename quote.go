@@ -271,6 +271,8 @@ type QuoteSubscriptionDataParams struct {
 	BillingBehavior *string `form:"billing_behavior"`
 	// When specified as `reset`, the subscription will always start a new billing period when the quote is accepted.
 	BillingCycleAnchor *string `form:"billing_cycle_anchor"`
+	// The subscription's description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription.
+	Description *string `form:"description"`
 	// When creating a new subscription, the date of which the subscription schedule will start after the quote is accepted. When updating a subscription, the date of which the subscription will be updated using a subscription schedule. The special value `current_period_end` can be provided to update a subscription at the end of its current period. The `effective_date` is ignored if it is in the past when the quote is accepted.
 	EffectiveDate                 *int64 `form:"effective_date"`
 	EffectiveDateCurrentPeriodEnd *bool  `form:"-"` // See custom AppendTo
@@ -502,6 +504,8 @@ type QuoteSubscriptionData struct {
 	BillingBehavior QuoteSubscriptionDataBillingBehavior `json:"billing_behavior"`
 	// Whether the subscription will always start a new billing period when the quote is accepted.
 	BillingCycleAnchor QuoteSubscriptionDataBillingCycleAnchor `json:"billing_cycle_anchor"`
+	// The subscription's description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription.
+	Description string `json:"description"`
 	// When creating a new subscription, the date of which the subscription schedule will start after the quote is accepted. This date is ignored if it is in the past when the quote is accepted. Measured in seconds since the Unix epoch.
 	EffectiveDate int64 `json:"effective_date"`
 	// Behavior of the subscription schedule and underlying subscription when it ends. Possible values are `release` and `cancel`.

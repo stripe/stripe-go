@@ -175,6 +175,14 @@ type BillingPortalConfigurationFeaturesParams struct {
 	SubscriptionUpdate *BillingPortalConfigurationFeaturesSubscriptionUpdateParams `form:"subscription_update"`
 }
 
+// The hosted login page for this configuration. Learn more about the portal login page in our [integration docs](https://stripe.com/docs/billing/subscriptions/integrating-customer-portal#share).
+type BillingPortalConfigurationLoginPageParams struct {
+	// Set to `true` to generate a shareable URL [`login_page.url`](https://stripe.com/docs/api/customer_portal/configuration#portal_configuration_object-login_page-url) that will take your customers to a hosted login page for the customer portal.
+	//
+	// Set to `false` to deactivate the `login_page.url`.
+	Enabled *bool `form:"enabled"`
+}
+
 // Creates a configuration that describes the functionality and behavior of a PortalSession
 type BillingPortalConfigurationParams struct {
 	Params `form:"*"`
@@ -186,6 +194,8 @@ type BillingPortalConfigurationParams struct {
 	DefaultReturnURL *string `form:"default_return_url"`
 	// Information about the features available in the portal.
 	Features *BillingPortalConfigurationFeaturesParams `form:"features"`
+	// The hosted login page for this configuration. Learn more about the portal login page in our [integration docs](https://stripe.com/docs/billing/subscriptions/integrating-customer-portal#share).
+	LoginPage *BillingPortalConfigurationLoginPageParams `form:"login_page"`
 }
 type BillingPortalConfigurationBusinessProfile struct {
 	// The messaging shown to customers in the portal.
@@ -254,6 +264,14 @@ type BillingPortalConfigurationFeatures struct {
 	SubscriptionPause   *BillingPortalConfigurationFeaturesSubscriptionPause   `json:"subscription_pause"`
 	SubscriptionUpdate  *BillingPortalConfigurationFeaturesSubscriptionUpdate  `json:"subscription_update"`
 }
+type BillingPortalConfigurationLoginPage struct {
+	// If `true`, a shareable `url` will be generated that will take your customers to a hosted login page for the customer portal.
+	//
+	// If `false`, the previously generated `url`, if any, will be deactivated.
+	Enabled bool `json:"enabled"`
+	// A shareable URL to the hosted portal login page. Your customers will be able to log in with their [email](https://stripe.com/docs/api/customers/object#customer_object-email) and receive a link to their customer portal.
+	URL string `json:"url"`
+}
 
 // A portal configuration describes the functionality and behavior of a portal session.
 type BillingPortalConfiguration struct {
@@ -273,7 +291,8 @@ type BillingPortalConfiguration struct {
 	// Whether the configuration is the default. If `true`, this configuration can be managed in the Dashboard and portal sessions will use this configuration unless it is overriden when creating the session.
 	IsDefault bool `json:"is_default"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
-	Livemode bool `json:"livemode"`
+	Livemode  bool                                 `json:"livemode"`
+	LoginPage *BillingPortalConfigurationLoginPage `json:"login_page"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`
 	// String representing the object's type. Objects of the same type share the same value.

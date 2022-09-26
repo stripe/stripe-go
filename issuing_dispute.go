@@ -225,6 +225,8 @@ type IssuingDisputeTreasuryParams struct {
 // Creates an Issuing Dispute object. Individual pieces of evidence within the evidence object are optional at this point. Stripe only validates that required evidence is present during submission. Refer to [Dispute reasons and evidence](https://stripe.com/docs/issuing/purchases/disputes#dispute-reasons-and-evidence) for more details about evidence requirements.
 type IssuingDisputeParams struct {
 	Params `form:"*"`
+	// The dispute amount in the card's currency and in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal).
+	Amount *int64 `form:"amount"`
 	// Evidence provided for the dispute.
 	Evidence *IssuingDisputeEvidenceParams `form:"evidence"`
 	// The ID of the issuing transaction to create a dispute for. For transaction on Treasury FinancialAccounts, use `treasury.received_debit`.

@@ -368,6 +368,12 @@ type SetupIntentPaymentMethodDataP24Params struct {
 // If this is a `paynow` PaymentMethod, this hash contains details about the PayNow payment method.
 type SetupIntentPaymentMethodDataPayNowParams struct{}
 
+// If this is a `paypal` PaymentMethod, this hash contains details about the PayPal payment method.
+type SetupIntentPaymentMethodDataPaypalParams struct{}
+
+// If this is a `pix` PaymentMethod, this hash contains details about the Pix payment method.
+type SetupIntentPaymentMethodDataPixParams struct{}
+
 // If this is a `promptpay` PaymentMethod, this hash contains details about the PromptPay payment method.
 type SetupIntentPaymentMethodDataPromptPayParams struct{}
 
@@ -457,6 +463,10 @@ type SetupIntentPaymentMethodDataParams struct {
 	P24 *SetupIntentPaymentMethodDataP24Params `form:"p24"`
 	// If this is a `paynow` PaymentMethod, this hash contains details about the PayNow payment method.
 	PayNow *SetupIntentPaymentMethodDataPayNowParams `form:"paynow"`
+	// If this is a `paypal` PaymentMethod, this hash contains details about the PayPal payment method.
+	Paypal *SetupIntentPaymentMethodDataPaypalParams `form:"paypal"`
+	// If this is a `pix` PaymentMethod, this hash contains details about the Pix payment method.
+	Pix *SetupIntentPaymentMethodDataPixParams `form:"pix"`
 	// If this is a `promptpay` PaymentMethod, this hash contains details about the PromptPay payment method.
 	PromptPay *SetupIntentPaymentMethodDataPromptPayParams `form:"promptpay"`
 	// Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
@@ -793,6 +803,12 @@ type SetupIntentConfirmPaymentMethodDataP24Params struct {
 // If this is a `paynow` PaymentMethod, this hash contains details about the PayNow payment method.
 type SetupIntentConfirmPaymentMethodDataPayNowParams struct{}
 
+// If this is a `paypal` PaymentMethod, this hash contains details about the PayPal payment method.
+type SetupIntentConfirmPaymentMethodDataPaypalParams struct{}
+
+// If this is a `pix` PaymentMethod, this hash contains details about the Pix payment method.
+type SetupIntentConfirmPaymentMethodDataPixParams struct{}
+
 // If this is a `promptpay` PaymentMethod, this hash contains details about the PromptPay payment method.
 type SetupIntentConfirmPaymentMethodDataPromptPayParams struct{}
 
@@ -882,6 +898,10 @@ type SetupIntentConfirmPaymentMethodDataParams struct {
 	P24 *SetupIntentConfirmPaymentMethodDataP24Params `form:"p24"`
 	// If this is a `paynow` PaymentMethod, this hash contains details about the PayNow payment method.
 	PayNow *SetupIntentConfirmPaymentMethodDataPayNowParams `form:"paynow"`
+	// If this is a `paypal` PaymentMethod, this hash contains details about the PayPal payment method.
+	Paypal *SetupIntentConfirmPaymentMethodDataPaypalParams `form:"paypal"`
+	// If this is a `pix` PaymentMethod, this hash contains details about the Pix payment method.
+	Pix *SetupIntentConfirmPaymentMethodDataPixParams `form:"pix"`
 	// If this is a `promptpay` PaymentMethod, this hash contains details about the PromptPay payment method.
 	PromptPay *SetupIntentConfirmPaymentMethodDataPromptPayParams `form:"promptpay"`
 	// Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
