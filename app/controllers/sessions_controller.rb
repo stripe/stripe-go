@@ -120,7 +120,7 @@ class SessionsController < ApplicationController
 
     render inline: <<-EOL
     <div style="text-align:center; font-family:'Helvetica Neue', Arial, sans-serif;">
-      <h1 style="margin-top: 30%;">Great, your connected!</h1>
+      <h1 style="margin-top: 30%;">Great, you're connected!</h1>
       <p>Your Stripe & Salesforce accounts are connected. You can safely close this window.</p>
       <p>Navigate to Salesforce to configure this connector.</p>
     </div>

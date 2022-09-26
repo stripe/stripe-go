@@ -385,6 +385,8 @@ class StripeForce::Translate
 
       previous_phase = T.must(subscription_phases[index])
 
+      is_identical_to_previous_phase_time_range = previous_phase.end_date == new_phase.end_date && previous_phase.start_date == new_phase.start_date
+
       # TODO dynamic metadata on the phase?
 
       # if the current day is the same day as the start day, then use now
@@ -395,6 +397,15 @@ class StripeForce::Translate
       if is_same_day
         log.info 'phase starts on the current day, using now'
         new_phase.start_date = 'now'
+      end
+
+      # if the time ranges are identical, then the previous phase should be removed
+      # the previous phases subscription items should be overwritten by the latest phase calculation
+      # but any one-off items would be lost without "merging" these items
+
+      if !is_same_day && is_identical_to_previous_phase_time_range && !previous_phase.add_invoice_items.empty?
+        log.info 'previous phase identical, merging invoice items'
+        new_phase.add_invoice_items += previous_phase.add_invoice_items
       end
 
       # TODO this is very naive... something better here?
@@ -410,6 +421,11 @@ class StripeForce::Translate
 
       # if the order is terminated, updating the last phase end date and NOT adding another phase is all that needs to be done
       if !is_order_terminated
+        if !is_same_day && is_identical_to_previous_phase_time_range
+          log.info 'previous phase identical, removing previous phase'
+          subscription_phases.delete_at(index)
+        end
+
         subscription_phases << new_phase
       end
 

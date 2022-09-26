@@ -23,7 +23,7 @@ class Critic::OrderFailureTest < Critic::FunctionalTest
     quote_with_product = add_product_to_cpq_quote(quote_id, sf_product_id: sf_product_id)
 
     # bump quantity to 2, which should trigger an error
-    quote_with_product["lineItems"].first["record"]["SBQQ__Quantity__c"] = 2
+    quote_with_product["lineItems"].first["record"][CPQ_QUOTE_QUANTITY] = 2
 
     calculate_and_save_cpq_quote(quote_with_product)
 
@@ -96,7 +96,7 @@ class Critic::OrderFailureTest < Critic::FunctionalTest
     quote_with_product = add_product_to_cpq_quote(quote_id, sf_product_id: sf_product_id)
 
     # bump quantity to a float value
-    quote_with_product["lineItems"].first["record"]["SBQQ__Quantity__c"] = "1.5"
+    quote_with_product["lineItems"].first["record"][CPQ_QUOTE_QUANTITY] = "1.5"
 
     calculate_and_save_cpq_quote(quote_with_product)
     sf_order = create_order_from_cpq_quote(quote_id)

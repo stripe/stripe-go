@@ -78,8 +78,6 @@ class Critic::SameDayAmendments < Critic::OrderAmendmentFunctionalTest
     stripe_id = sf_order[prefixed_stripe_field(GENERIC_STRIPE_ID)]
     subscription_schedule = Stripe::SubscriptionSchedule.retrieve(stripe_id, @user.stripe_credentials)
 
-    # test_clock = advance_test_clock(stripe_customer, (initial_start_date + 24.hours).to_i)
-
     # one phase running for less than a day with a single quantity
     # second phase starting midday for a single quantity, billing the prorated amount
     assert_equal(2, subscription_schedule.phases.count)
@@ -115,6 +113,8 @@ class Critic::SameDayAmendments < Critic::OrderAmendmentFunctionalTest
     prorated_price = Stripe::Price.retrieve(T.cast(prorated_item.price, String), @user.stripe_credentials)
     assert_equal(TEST_DEFAULT_PRICE, prorated_price.unit_amount_decimal.to_i)
     assert_equal(1, prorated_item.quantity)
+
+    # TODO maybe test invoice generation too and push to the prorated billing thing?
   end
 
   it 'supports amending an order today which has already started and is billed monthly' do
@@ -231,5 +231,91 @@ class Critic::SameDayAmendments < Critic::OrderAmendmentFunctionalTest
   # https://jira.corp.stripe.com/browse/PLATINT-1815
   it 'supports amending a order on the start date that has not yet started' do
     # start date is in the future, but amendment date is the same as the initial order start date
+
+    @user.enable_feature FeatureFlags::TEST_CLOCKS, update: true
+
+    # initial order: one product, one one-time product, starting a month from now
+    # amendment: add +1 quantity of the same product, a month from now
+
+    contract_term = TEST_DEFAULT_CONTRACT_TERM
+    amendment_term = TEST_DEFAULT_CONTRACT_TERM
+    initial_start_date = now_time + 1.month
+    amendment_start_date = initial_start_date + (contract_term - amendment_term).month
+    amendment_end_date = amendment_start_date + amendment_term.months
+
+    sf_product_id, sf_pricebook_id = salesforce_recurring_product_with_price(
+      additional_product_fields: {
+        CPQ_QUOTE_BILLING_FREQUENCY => CPQBillingFrequencyOptions::ANNUAL.serialize,
+      }
+    )
+
+    sf_standalone_product_id, sf_pricebook_standalone_id = salesforce_standalone_product_with_price
+
+    sf_account_id = create_salesforce_account
+    quote_id = create_salesforce_quote(
+      sf_account_id: sf_account_id,
+      additional_quote_fields: {
+        CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(initial_start_date),
+        CPQ_QUOTE_SUBSCRIPTION_TERM => TEST_DEFAULT_CONTRACT_TERM,
+      }
+    )
+
+    quote_with_product = add_product_to_cpq_quote(quote_id, sf_product_id: sf_product_id)
+    calculate_and_save_cpq_quote(quote_with_product)
+
+    # add one-time product: this should be carried over when the phases are merged
+    quote_with_product = add_product_to_cpq_quote(quote_id, sf_product_id: sf_standalone_product_id)
+    calculate_and_save_cpq_quote(quote_with_product)
+
+    sf_order = create_order_from_cpq_quote(quote_id)
+
+    sf_contract = create_contract_from_order(sf_order)
+    amendment_data = create_quote_data_from_contract_amendment(sf_contract)
+
+    # increase quantity by 1
+    amendment_data["lineItems"].first["record"][CPQ_QUOTE_QUANTITY] = 2
+
+    # midnight of the current day!
+    amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_START_DATE] = format_date_for_salesforce(initial_start_date)
+    amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_TERM] = amendment_term
+
+    sf_order_amendment = create_order_from_quote_data(amendment_data)
+
+    StripeForce::Translate.perform_inline(@user, sf_order_amendment.Id)
+
+    sf_order.refresh
+    stripe_id = sf_order[prefixed_stripe_field(GENERIC_STRIPE_ID)]
+    subscription_schedule = Stripe::SubscriptionSchedule.retrieve(stripe_id, @user.stripe_credentials)
+
+    # the two phases are merged into one
+    assert_equal(1, subscription_schedule.phases.count)
+
+    first_phase = T.must(subscription_schedule.phases.first)
+
+    # first phase should have one item with a single quantity
+    assert_equal(2, first_phase.items.count)
+    assert_equal(1, first_phase.add_invoice_items.count)
+    first_item = T.must(first_phase.items.first)
+    second_item = T.must(first_phase.items[1])
+    ad_hoc_item = T.must(first_phase.add_invoice_items.first)
+    assert_equal(1, first_item[:quantity])
+    assert_equal(1, second_item[:quantity])
+    assert_equal(1, ad_hoc_item[:quantity])
+
+    # let's make sure the prices are correct
+    add_hoc_item = Stripe::Price.retrieve(T.cast(ad_hoc_item.price, String), @user.stripe_credentials)
+    assert_equal(TEST_DEFAULT_PRICE, add_hoc_item.unit_amount_decimal.to_i)
+
+    first_item_price = Stripe::Price.retrieve(T.cast(first_item.price, String), @user.stripe_credentials)
+    assert_equal(TEST_DEFAULT_PRICE, first_item_price.unit_amount_decimal.to_i)
+
+    second_item_price = Stripe::Price.retrieve(T.cast(second_item.price, String), @user.stripe_credentials)
+    assert_equal(TEST_DEFAULT_PRICE, second_item_price.unit_amount_decimal.to_i)
+
+    assert_equal(first_item_price.product, second_item_price.product)
+
+    # first phase should start now and end in 9mo
+    assert_equal(0, first_phase.start_date - initial_start_date.to_i)
+    assert_equal(0, first_phase.end_date - amendment_end_date.to_i)
   end
 end
