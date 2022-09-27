@@ -37,6 +37,21 @@ module Critic::Unit
         assert_equal(@user.stripe_credentials, creds)
       end
 
+      it 'generates a different key when defaults change' do
+        sf_order = create_mock_salesforce_order
+
+        cred_1 = StripeForce::Utilities::StripeUtil.generate_idempotency_key_with_credentials(@user, sf_order)
+        key_1 = cred_1[:idempotency_key]
+
+        # now let's update the defaults
+        @user.field_defaults['price'] = {'some' => 'map'}
+
+        cred_2 = StripeForce::Utilities::StripeUtil.generate_idempotency_key_with_credentials(@user, sf_order)
+        key_2 = cred_2[:idempotency_key]
+
+        refute_equal(key_2, key_1)
+      end
+
       it 'generates a different key when mappings change' do
         sf_order = create_mock_salesforce_order
 

@@ -34,7 +34,7 @@ module StripeForce::Utilities
 
     sig { params(user: StripeForce::User, sf_object: Restforce::SObject, action: T.nilable(Symbol)).returns(Hash) }
     def self.generate_idempotency_key_with_credentials(user, sf_object, action=nil)
-      mappings_as_string = user.field_mappings.to_json + user.field_mappings.to_json
+      mappings_as_string = user.field_defaults.to_json + user.field_mappings.to_json
       mapping_uid = Digest::SHA1.hexdigest(mappings_as_string)
 
       last_modified_as_timestamp = DateTime.parse(sf_object[SF_LAST_MODIFIED_DATE]).to_i
