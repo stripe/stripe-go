@@ -141,7 +141,7 @@ module StripeForce
 
         extracted_value = extract_key_path_for_record(source_record, source_field_path)
 
-        log.debug 'extracting value for mapping',
+        log.debug 'extracted value for mapping',
           source_field_path: source_field_path,
           destination_field_name: destination_field_name,
           extracted_value: extracted_value

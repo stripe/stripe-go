@@ -230,6 +230,45 @@ module Critic::Unit
 
         assert(StripeForce::Translate::PriceHelpers.price_billing_amounts_equal?(price_1, price_2))
       end
+
+      # this originally occured because of a user-provided field_default which customized billing_scheme
+      it 'fails when billing_scheme is set on one price but not the other' do
+        # pricebook params
+        price_1 = Stripe::Price.construct_from({
+          currency: "usd",
+          unit_amount_decimal: 0.0,
+          # major difference between objects
+          billing_scheme: "tiered",
+          metadata: {
+            Product: "Standard Success Global",
+            Interval: 1.0,
+            "Unit Amount Decimal": 0.0,
+          },
+          recurring: {
+            usage_type: "licensed",
+            interval_count: 1,
+            interval: "month",
+          },
+        })
+
+        price_2 = Stripe::Price.construct_from({
+          currency: "usd",
+          unit_amount_decimal: 0.0,
+          recurring: {
+            interval_count: 1,
+            usage_type: "licensed",
+            interval: "month",
+          },
+          metadata: {
+            Product: "Standard Success Global",
+            Interval: 1.0,
+            "Unit Amount Decimal": 0.0,
+            salesforce_auto_archive: true,
+          },
+        })
+
+        refute(StripeForce::Translate::PriceHelpers.price_billing_amounts_equal?(price_1, price_2))
+      end
     end
 
     describe '#using_custom_order_line_price_field' do

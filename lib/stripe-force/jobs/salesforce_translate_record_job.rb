@@ -32,6 +32,8 @@ class SalesforceTranslateRecordJob < StripeForce::BaseJob
 
     sf_record_type = StripeForce::Utilities::SalesforceUtil.salesforce_type_from_id(user, sf_record_id)
 
+    log.info 'translation job starting'
+
     locker = Integrations::Locker.new(user)
     locker.lock_on_user do
       sf_object = backoff { user.sf_client.find(sf_record_type, sf_record_id) }

@@ -250,11 +250,35 @@ class StripeForce::Translate
       end
 
       if !simple_field_check_passed
-        log.info 'price not equal, simple field comparison check failed', diff: HashDiff::Comparison.new(price_1.to_hash, price_2.to_hash).diff
+        log.info 'price not equal, simple field comparison failed', diff: HashDiff::Comparison.new(price_1.to_hash, price_2.to_hash).diff
         return false
       end
 
-      is_price_equal = if price_1[:billing_scheme].nil? || price_1.billing_scheme == 'per_unit'
+      # billing_scheme is important in price comparison because it indicates to us *how* prices should be compared:
+      # i.e. should the tiers be compared? Should the top-level unit_amount_decimal be compared? etc. We use the billing_scheme
+      # field to branch the comparison logic below. However, this field may not always be set when comparing an existing Stripe price object
+      # with the generated params from the connector. The connector does *not* set the billing_scheme if not mapped explicitly
+      # so the stripe default value is used instead. Currently (09/22) the default billing_scheme value is `per_unit` which is why
+      # we assume that value below if the `billing_scheme` field is nil.
+
+      price_1_billing_scheme = if price_1[:billing_scheme].nil?
+        'per_unit'
+      else
+        price_1.billing_scheme
+      end
+
+      price_2_billing_scheme = if price_2[:billing_scheme].nil?
+        'per_unit'
+      else
+        price_2.billing_scheme
+      end
+
+      if price_1_billing_scheme != price_2_billing_scheme
+        log.info 'price not equal, billing scheme comparison failed'
+        return false
+      end
+
+      is_price_equal = if price_1_billing_scheme == 'per_unit'
         # TODO we do not expect this occur, if it does we'll need to improve the error message here
         if price_1.unit_amount_decimal.nil? || price_2.unit_amount_decimal.nil?
           raise StripeForce::Errors::RawUserError.new("unit_amount_decimal nil on price objects")
@@ -264,10 +288,11 @@ class StripeForce::Translate
         price_2_decimal = normalize_unit_amount_decimal_for_comparison(price_2.unit_amount_decimal)
 
         price_1_decimal == price_2_decimal
-      elsif price_1.billing_scheme == 'tiered'
+      elsif price_1_billing_scheme == 'tiered'
         # TODO probably need to think through transformed_quantity here and if it could effect this
         price_1[:tiers_mode] == price_2[:tiers_mode] && PriceHelpers.pricing_tiers_equal?(price_1, price_2)
       else
+        # stripe currently (10/22) only allows for two values here (tiered, per_unit), throw an error in case the API shape changes in the future
         raise StripeForce::Errors::RawUserError.new("Unexpected billing_scheme on price encountered #{price_1.billing_scheme}")
       end
 

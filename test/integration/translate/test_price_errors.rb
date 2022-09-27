@@ -9,7 +9,7 @@ class Critic::PriceReuse < Critic::FunctionalTest
   end
 
   it 'gracefully fails when a metered price is specified without billing tiers' do
-    @user.field_defaults = {"price" => {"billing_scheme" => "tiered"}}
+    @user.field_defaults = {"price_order_item" => {"billing_scheme" => "tiered"}}
     @user.save
 
     sf_order = create_subscription_order

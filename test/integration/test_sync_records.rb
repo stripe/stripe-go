@@ -58,7 +58,7 @@ class Critic::SyncRecords < Critic::FunctionalTest
 
   it 'updates secondary id failures when the primary succeeds' do
     @user.field_defaults = {
-      "price" => {
+      "price_order_item" => {
         "billing_scheme" => "bad_value",
       },
     }
@@ -67,7 +67,7 @@ class Critic::SyncRecords < Critic::FunctionalTest
     sf_product_id, sf_pricebook_id = salesforce_recurring_product_with_price
     sf_order = create_subscription_order
 
-    exception = assert_raises(StripeForce::Errors::UserError) do
+    exception = assert_raises(Stripe::InvalidRequestError) do
       SalesforceTranslateRecordJob.translate(@user, sf_order)
     end
 

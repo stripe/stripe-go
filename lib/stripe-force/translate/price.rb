@@ -64,7 +64,7 @@ class StripeForce::Translate
       existing_stripe_price = retrieve_from_stripe(Stripe::Price, sf_pricebook_entry)
       sf_target_for_stripe_price = sf_pricebook_entry
 
-      log.info 'pricebook and product data is identical, creating or reusing pricebook price',
+      log.info 'pricebook and order line data is identical, creating or reusing pricebook price',
         pricebook_id: sf_pricebook_entry.Id,
         product_id: sf_product.Id,
         existing_pricebook_price: existing_stripe_price&.id
@@ -91,7 +91,9 @@ class StripeForce::Translate
       return existing_stripe_price
     end
 
-    log.info 'existing price not found, creating new'
+    log.info 'existing price not found, creating new',
+      sf_target_id: sf_target_for_stripe_price
+
     stripe_price = create_price_from_sf_object(sf_target_for_stripe_price, sf_product, product)
 
     # TODO remove once negative line items are supported
@@ -271,6 +273,8 @@ class StripeForce::Translate
     if consumption_schedules.count > 1
       raise "should not be more than one consumption schedule associated with an order line"
     end
+
+    # from here on out, we know there is exactly one consumption schedule
 
     # the CPQ consumption schedule is materially different from the standard consumption schedule, so we can't do a drop-in replacement
 

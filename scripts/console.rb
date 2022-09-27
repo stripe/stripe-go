@@ -36,6 +36,10 @@ end
 @user = user
 @sf = sf = user.sf_client
 
+def hash_diff(a, b)
+  HashDiff::Comparison.new(a.to_hash, b.to_hash).diff
+end
+
 def translate_order(order_id)
   locker = Integrations::Locker.new(@user)
   sf_order = @sf.find(SF_ORDER, order_id)
