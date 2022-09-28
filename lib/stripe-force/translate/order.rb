@@ -2,6 +2,7 @@
 # typed: true
 
 class StripeForce::Translate
+
   def translate_order(sf_object)
     locker.lock_salesforce_record(sf_object)
 
@@ -18,7 +19,7 @@ class StripeForce::Translate
   # give an order (amendment or initial order) determine the initial order and all amendments
   sig { params(sf_order: T.untyped).returns(ContractStructure) }
   def extract_contract_from_order(sf_order)
-    is_order_amendment = is_order_amendment?(sf_order)
+    is_order_amendment = StripeForce::Translate::OrderHelpers.is_order_amendment?(@user, sf_order)
 
     # if the original order, then it will have been contracted if it has additional phases/amendments
     # if it hasn't been contracted, then we know there's no amendments to look up
@@ -83,8 +84,7 @@ class StripeForce::Translate
       return
     end
 
-    # TODO use cache_service
-    sf_account = sf.find(SF_ACCOUNT, sf_order[SF_ORDER_ACCOUNT])
+    sf_account = cache_service.get_record_from_cache(SF_ACCOUNT, sf_order[SF_ORDER_ACCOUNT])
 
     stripe_customer = translate_account(sf_account)
 
@@ -574,17 +574,11 @@ class StripeForce::Translate
   # retrieves all line items, filters out skipped order lines
   sig { params(sf_order: Restforce::SObject).returns(Array) }
   def order_lines_from_order(sf_order)
-    # we could add our custom fields to the SOQL query, but then we wouldn't get the logging below
-    # TODO use cache_service
-    sf_order_items = sf.query(
-      <<~EOL
-        SELECT Id
-        FROM #{SF_ORDER_ITEM}
-        WHERE OrderID = '#{sf_order.Id}'
-      EOL
-    ).map(&:Id).map do |order_line_id|
-      sf.find(SF_ORDER_ITEM, order_line_id)
-    end
+    sf_order_items = cache_service.get_related_records_from_cache(
+      sf_order[SF_ID],
+      :OrderId,
+      SF_ORDER_ITEM,
+    )
 
     sf_order_items.select do |sf_order_item|
       # never expect this to occur
@@ -681,63 +675,19 @@ class StripeForce::Translate
       raise StripeForce::Errors::RawUserError.new("No quote associated with an order. Orders pushed to Stripe must have a related CPQ Quote.")
     end
 
-    contract_query = sf.query(
-      <<~EOL
-        SELECT #{SF_ID}
-        FROM #{SF_CONTRACT}
-        WHERE #{SF_CONTRACT_QUOTE_ID} = '#{sf_initial_order[SF_ORDER_QUOTE]}'
-      EOL
+    contract = cache_service.get_related_record_from_cache(
+      sf_initial_order[SF_ORDER_QUOTE],
+      SF_CONTRACT_QUOTE_ID.to_sym,
+      SF_CONTRACT
     )
 
-    if contract_query.size > 1
-      raise Integrations::Errors::ImpossibleState.new("more than one contract associated with order")
-    end
-
     # this can occur if contracts are processed async
-    if contract_query.count.zero?
+    if contract.nil?
       log.info 'order is contracted, but no contract is associated'
       return nil
     end
 
-    contract_query.first[SF_ID]
-  end
-
-  # TODO move to order amendment helpers
-  # If an order's opportunity does not have a 'AmendedContract' relationship than it is a initial order
-  sig { params(sf_order: Restforce::SObject).returns(T::Boolean) }
-  def is_order_amendment?(sf_order)
-    order_with_amended_contract_query = sf.query(
-      # include `Type`, `OpportunityId` for debugging purposes
-      <<~EOL
-        SELECT Type, OpportunityId,
-               Opportunity.SBQQ__AmendedContract__c
-        FROM #{SF_ORDER}
-        WHERE Id = '#{sf_order.Id}'
-      EOL
-    )
-
-    if order_with_amended_contract_query.size.zero?
-      raise Integrations::Errors::ImpossibleInternalError.new("query should never return an empty result")
-    end
-
-    if order_with_amended_contract_query.size > 1
-      raise Integrations::Errors::ImpossibleInternalError.new("query should only return a single result")
-    end
-
-    order_with_amended_contract = order_with_amended_contract_query.first
-
-    amended_contract_id = order_with_amended_contract.dig(SF_OPPORTUNITY, "SBQQ__AmendedContract__c")
-    is_order_amendment = amended_contract_id.present?
-
-    if !OrderTypeOptions.values.map(&:serialize).include?(order_with_amended_contract.Type)
-      log.warn 'order type is not standard', order_type: order_with_amended_contract.Type
-    end
-
-    if is_order_amendment && order_with_amended_contract.Type == OrderTypeOptions::NEW.serialize
-      Integrations::ErrorContext.report_edge_case("order is determined to be an amendment, but type is new")
-    end
-
-    is_order_amendment
+    contract[SF_ID]
   end
 
   # if we are given an order amendment, determine the original/initial/non-amendment order
@@ -805,20 +755,27 @@ class StripeForce::Translate
 
     log.info 'found initial order', initial_order_id: initial_order_id
 
-    # TODO use cache_service
-    sf.find(SF_ORDER, initial_order_id)
+    cache_service.get_record_from_cache(SF_ORDER, initial_order_id)
   end
 
   # TODO this should be a function in a helper module
   sig { params(sf_contract_id: String).returns(Array) }
   def order_amendments_for_contract(sf_contract_id)
+
+    # TODO: use this and add a sort func
+    # order_amendments = cache_service.search_cache_via_nested_field(
+    #   SF_ORDER,
+    #   [SF_OPPORTUNITY, CPQ_AMENDED_CONTRACT],
+    #   sf_contract_id
+    # )
+
     # TODO we are hardcoding the subscription start date here as the ordering key, we should pull this dynamically from the mapper
     # important for results to be ordered with subscription date ascending'
     order_amendment_query = sf.query(
       <<~EOL
         SELECT Id FROM #{SF_ORDER}
         WHERE Opportunity.SBQQ__AmendedContract__c = '#{sf_contract_id}'
-        ORDER BY SBQQ__Quote__r.#{CPQ_QUOTE_SUBSCRIPTION_START_DATE} ASC
+        ORDER BY SBQQ__Quote__r.SBQQ__StartDate__c ASC
       EOL
     )
 
@@ -826,7 +783,6 @@ class StripeForce::Translate
       count: order_amendment_query.count,
       amendmend_ids: order_amendment_query.map(&:Id)
 
-    # TODO use cache_service
-    order_amendment_query.map {|i| sf.find(SF_ORDER, i[SF_ID]) }
+    order_amendment_query.map {|i| cache_service.get_record_from_cache(SF_ORDER, i[SF_ID]) }
   end
 end

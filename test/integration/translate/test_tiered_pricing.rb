@@ -122,6 +122,7 @@ class Critic::TieredPricingTranslation < Critic::FunctionalTest
       expand: %w{tiers},
     }, @user.stripe_credentials.merge)
 
+    # implicitly we are are testing to ensure the consumption schedule is linked to the price and not the order line
     assert_equal(consumption_schedule_id, price.metadata['salesforce_consumption_schedule_id'])
     # TODO maybe assert nil on pricebook link since it isn't used for consumption schedule calculation
 

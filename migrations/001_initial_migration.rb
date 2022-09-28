@@ -1,5 +1,6 @@
 # Usage: bundle exec sequel -E -m migrations $DATABASE_URL
 
+
 # frozen_string_literal: true
 # typed: false
 

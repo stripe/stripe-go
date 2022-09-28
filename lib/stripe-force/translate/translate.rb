@@ -56,8 +56,16 @@ class StripeForce::Translate
     @user.sf_client
   end
 
+  sig { returns(CacheService) }
+  def cache_service
+    @cache_service ||= CacheService.new(@user)
+  end
+
   def translate(sf_object)
     set_error_context(user: @user, integration_record: sf_object)
+
+    # Cache Related Objects
+    cache_service.cache_for_object(sf_object)
 
     catch_errors_with_salesforce_context(primary: sf_object) do
       case sf_object.sobject_type
@@ -317,6 +325,9 @@ class StripeForce::Translate
       salesforce_object: sf_object,
       stripe_object: stripe_object
     )
+
+    # The cached object is missing the new Stripe ID field value, we could append but it's safer to invalidate and refetch when needed.
+    cache_service.invalidate_cache_object(sf_object[SF_ID])
 
     log.info 'updated salesforce with stripe id',
       salesforce_object: sf_object,

@@ -183,5 +183,43 @@ class StripeForce::Translate
 
       phases
     end
+
+    # if an order does not have a 'AmendedContract' relationship than it is a initial order
+    sig { params(user: StripeForce::User, sf_order: Restforce::SObject).returns(T::Boolean) }
+    def self.is_order_amendment?(user, sf_order)
+      order_with_amended_contract_query = user.sf_client.query(
+        # include `Type`, `OpportunityId` for debugging purposes
+        <<~EOL
+          SELECT Type, OpportunityId,
+                Opportunity.SBQQ__AmendedContract__c
+          FROM #{SF_ORDER}
+          WHERE Id = '#{sf_order.Id}'
+        EOL
+      )
+
+      if order_with_amended_contract_query.size.zero?
+        raise Integrations::Errors::ImpossibleInternalError.new("query should never return an empty result")
+      end
+
+      if order_with_amended_contract_query.size > 1
+        raise Integrations::Errors::ImpossibleInternalError.new("query should only return a single result")
+      end
+
+      order_with_amended_contract = order_with_amended_contract_query.first
+
+      amended_contract_id = order_with_amended_contract.dig(SF_OPPORTUNITY, "SBQQ__AmendedContract__c")
+      is_order_amendment = amended_contract_id.present?
+
+      if !OrderTypeOptions.values.map(&:serialize).include?(order_with_amended_contract.Type)
+        log.warn 'order type is not standard', order_type: order_with_amended_contract.Type
+      end
+
+      if is_order_amendment && order_with_amended_contract.Type == OrderTypeOptions::NEW.serialize
+        Integrations::ErrorContext.report_edge_case("order is determined to be an amendment, but type is new")
+      end
+
+      is_order_amendment
+    end
+
   end
 end

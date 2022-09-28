@@ -18,6 +18,10 @@ module Critic::CommonHelpers
     ENV.fetch('SF_INSTANCE_ID')
   end
 
+  def sf_caching_global_disabled
+    ENV['DISABLE_CACHE'] == 'true'
+  end
+
   def get_sync_records_by_primary_id(primary_id)
     sync_record_results = sf.query("SELECT Id FROM #{prefixed_stripe_field(SYNC_RECORD)} WHERE #{prefixed_stripe_field(SyncRecordFields::PRIMARY_RECORD_ID.serialize)} = '#{primary_id}'")
 
@@ -48,8 +52,8 @@ module Critic::CommonHelpers
     )
   end
 
-  sig { params(sandbox: T::Boolean, save: T::Boolean, random_user_id: T::Boolean, livemode: T::Boolean).returns(StripeForce::User) }
-  def make_user(sandbox: false, save: false, random_user_id: false, livemode: false)
+  sig { params(sandbox: T::Boolean, save: T::Boolean, random_user_id: T::Boolean, livemode: T::Boolean, enable_cache: T::Boolean).returns(StripeForce::User) }
+  def make_user(sandbox: false, save: false, random_user_id: false, livemode: false, enable_cache: true)
     user = StripeForce::User.new(
       livemode: livemode,
 
@@ -65,6 +69,12 @@ module Critic::CommonHelpers
         ENV.fetch('STRIPE_ACCOUNT_ID')
       end
     )
+
+    if enable_cache
+      unless ENV['CI'] && sf_caching_global_disabled
+        user.enable_feature(FeatureFlags::SF_CACHING)
+      end
+    end
 
     # mbianco+cpqpackage@stripe.com
     if user.salesforce_account_id == "00D8c000006J9X9EAK"

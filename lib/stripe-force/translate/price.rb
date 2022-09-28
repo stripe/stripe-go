@@ -14,7 +14,7 @@ class StripeForce::Translate
     stripe_price = retrieve_from_stripe(Stripe::Price, sf_pricebook_entry)
     return stripe_price if stripe_price
 
-    sf_product = sf.find(SF_PRODUCT, sf_pricebook_entry.Product2Id)
+    sf_product = cache_service.get_record_from_cache(SF_PRODUCT, sf_pricebook_entry.Product2Id)
     stripe_product = translate_product(sf_product)
 
     stripe_price = create_price_from_sf_object(sf_pricebook_entry, sf_product, stripe_product)
@@ -50,12 +50,10 @@ class StripeForce::Translate
 
     log.info 'translating price from a order line', salesforce_object: sf_order_item
 
-    # TODO use cache_service
-    sf_product = sf.find(SF_PRODUCT, sf_order_item.Product2Id)
+    sf_product = cache_service.get_record_from_cache(SF_PRODUCT, sf_order_item.Product2Id)
     product = translate_product(sf_product)
 
-    # TODO use cache_service
-    sf_pricebook_entry = sf.find(SF_PRICEBOOK_ENTRY, sf_order_item.PricebookEntryId)
+    sf_pricebook_entry = cache_service.get_record_from_cache(SF_PRICEBOOK_ENTRY, sf_order_item.PricebookEntryId)
 
     # if the order line and pricebook entries are identical then we can reuse the price
     # linked to the pricebook entry. Otherwise, we'll have to create a new price.
@@ -149,13 +147,10 @@ class StripeForce::Translate
 
   sig { params(sf_pricebook_entry: Restforce::SObject).returns(Hash) }
   def extract_tiered_price_params_from_pricebook_entry(sf_pricebook_entry)
-    # TODO use cache_service
-    joining_records = sf.query(
-      <<~EOL
-        SELECT ConsumptionScheduleId
-        FROM ProductConsumptionSchedule
-        WHERE ProductId = '#{sf_pricebook_entry['Product2Id']}'
-      EOL
+    joining_records = cache_service.get_related_records_from_cache(
+      sf_pricebook_entry['Product2Id'],
+      :ProductId,
+      SF_PRODUCT_CONSUMPTION_SCHEDULE
     )
 
     if joining_records.count.zero?
@@ -167,8 +162,7 @@ class StripeForce::Translate
       raise "should not be more than one consumption schedule linked to a pricebook"
     end
 
-    # TODO use cache_service
-    consumption_schedule = sf.find(SF_CONSUMPTION_SCHEDULE, joining_records.first.ConsumptionScheduleId)
+    consumption_schedule = cache_service.get_record_from_cache(SF_CONSUMPTION_SCHEDULE, joining_records.first.ConsumptionScheduleId)
 
     if consumption_schedule.IsDeleted
       log.warn 'consumption schedule is deleted, ignoring'
@@ -185,14 +179,11 @@ class StripeForce::Translate
       raise "unexpected rating method #{consumption_schedule.RatingMethod}"
     end
 
-    # TODO use cache_service
-    consumption_rates = sf.query(
-      <<~EOL
-        SELECT Id
-        FROM #{SF_CONSUMPTION_RATE}
-        WHERE ConsumptionScheduleId = '#{consumption_schedule.Id}'
-      EOL
-    ).map {|o| sf.find(SF_CONSUMPTION_RATE, o.Id) }
+    consumption_rates = cache_service.get_related_records_from_cache(
+      consumption_schedule[SF_ID],
+      :ConsumptionScheduleId,
+      SF_CONSUMPTION_RATE,
+    )
 
     pricing_tiers = consumption_rates.map do |consumption_rate|
       transform_salesforce_consumption_rate_type_to_tier(consumption_rate)
@@ -256,14 +247,11 @@ class StripeForce::Translate
 
   sig { params(sf_order_line: Restforce::SObject).returns(Hash) }
   def extract_tiered_price_params_from_order_line(sf_order_line)
-    # TODO use cache_service
-    consumption_schedules = sf.query(
-      <<~EOL
-        SELECT Id
-        FROM #{CPQ_CONSUMPTION_SCHEDULE}
-        WHERE SBQQ__OrderItem__c = '#{sf_order_line[SF_ID]}'
-      EOL
-    ).map {|o| sf.find(CPQ_CONSUMPTION_SCHEDULE, o.Id) }
+    consumption_schedules = cache_service.get_related_records_from_cache(
+      sf_order_line[SF_ID],
+      :SBQQ__OrderItem__c,
+      CPQ_CONSUMPTION_SCHEDULE
+    )
 
     if consumption_schedules.count.zero?
       return {}
@@ -292,14 +280,11 @@ class StripeForce::Translate
       raise "unexpected rating method #{consumption_schedule.SBQQ__RatingMethod__c}"
     end
 
-    # TODO use cache_service
-    consumption_rates = sf.query(
-      <<~EOL
-        SELECT Id
-        FROM #{CPQ_CONSUMPTION_RATE}
-        WHERE #{CPQ_CONSUMPTION_SCHEDULE} = '#{consumption_schedule.Id}'
-      EOL
-    ).map {|o| sf.find(CPQ_CONSUMPTION_RATE, o.Id) }
+    consumption_rates = cache_service.get_related_records_from_cache(
+      consumption_schedule.Id,
+      CPQ_CONSUMPTION_SCHEDULE.to_sym,
+      CPQ_CONSUMPTION_RATE
+    )
 
     pricing_tiers = consumption_rates.map do |consumption_rate|
       transform_salesforce_consumption_rate_type_to_tier(consumption_rate)
@@ -425,8 +410,7 @@ class StripeForce::Translate
 
       billing_frequency = StripeForce::Utilities::StripeUtil.billing_frequency_of_price_in_months(stripe_price)
 
-      # TODO use cache_service
-      sf_order = sf.find(SF_ORDER, sf_object['OrderId'])
+      sf_order = cache_service.get_record_from_cache(SF_ORDER, sf_object['OrderId'])
 
       subscription_term = StripeForce::Utilities::SalesforceUtil.extract_subscription_term_from_order!(mapper, sf_order)
       price_multiplier = BigDecimal(subscription_term) / BigDecimal(billing_frequency)

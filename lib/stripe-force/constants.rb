@@ -17,6 +17,7 @@ module StripeForce
     SF_PRICEBOOK = 'Pricebook2'
     SF_PRICEBOOK_ENTRY = 'PricebookEntry'
     SF_CONSUMPTION_SCHEDULE = 'ConsumptionSchedule'
+    SF_PRODUCT_CONSUMPTION_SCHEDULE = 'ProductConsumptionSchedule'
     SF_CONSUMPTION_RATE = 'ConsumptionRate'
     SF_CONTRACT = 'Contract'
 
@@ -34,6 +35,8 @@ module StripeForce
     CPQ_QUOTE = 'SBQQ__Quote__c'
     CPQ_CONSUMPTION_SCHEDULE = 'SBQQ__OrderItemConsumptionSchedule__c'
     CPQ_CONSUMPTION_RATE = 'SBQQ__OrderItemConsumptionRate__c'
+
+    CPQ_AMENDED_CONTRACT = 'SBQQ__AmendedContract__c'
 
     CPQ_QUOTE_PRIMARY_CONTACT = 'SBQQ__PrimaryContact__c'
     CPQ_QUOTE_PRICEBOOK = "SBQQ__PricebookId__c"
@@ -163,6 +166,7 @@ module StripeForce
         REJECT_WEBHOOKS = new('reject_webhooks')
         LOUD_SANDBOX_LOGGING = new('loud_sandbox_logging')
         TEST_CLOCKS = new('test_clocks')
+        SF_CACHING = new('sf_caching')
         CATCH_ALL_ERRORS = new('catch_all_errors')
       end
     end

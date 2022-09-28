@@ -73,7 +73,7 @@ echo $'\n\n'
 sfdx force:org:open -u $salesforceAlias -p "/lightning/setup/ImportedPackage/home" > /dev/null
 
 echo "# Connector Setup"
-echo "Manual step: Create global key. Label/Name: Default. Key: pull from env."
+echo "Manual step: Create global key. Label/Name: Default. Key: pull from SF_MANAGED_PACKAGE_API_KEY in your env."
 echo $'\n\n'
 sfdx force:org:open -u $salesforceAlias -p '/lightning/setup/CustomMetadata/page?address=%2Fm02%3Fsetupid%3DCustomMetadata' > /dev/null
 

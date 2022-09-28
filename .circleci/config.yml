@@ -19,13 +19,12 @@ workflows:
       - block_workflow:
           # 2hrs
           time: "1440"
-          # check job queue twice before assumes it's unblocked
-          confidence: "2"
+
       - clean_salesforce:
-          matrix: &ruby_test_accounts
-            parameters:
+          matrix:
+            parameters: &ruby_test_accounts
               # # https://docs.google.com/spreadsheets/d/136PUl_U7bMW7uMSwcqujisasAJNQJIOPQimGGG7iG00/edit#gid=0
-              account:
+              account: 
                 # unpackaged source test, we do not want a package installed here
                 - mbianco+standardcpq@stripe.com
                 # QA package test, all of the fields/rest endpoints/etc have a prefix
@@ -50,13 +49,18 @@ workflows:
                 - mbianco+noncpq@stripe.com
                 - mbianco+cpqubp@stripe.com
       - clean_salesforce_2:
-          matrix: *ruby_test_accounts
+          matrix: 
+           parameters: *ruby_test_accounts
           requires: ["salesforce"]
 
       - build:
-          matrix: *ruby_test_accounts
+          matrix:
+            parameters:
+              <<: *ruby_test_accounts
+              cache_disabled:
+                - "true"
+                - "false"
           requires: ["clean_salesforce_2"]
-
 
   nightly:
     jobs: *build_typecheck_rubocop_jobs
@@ -138,6 +142,8 @@ jobs:
   build:
     parallelism: 10
     parameters:
+      cache_disabled:
+        type: string
       account:
         type: string
     environment:
@@ -161,6 +167,7 @@ jobs:
       SF_QA_PACKAGING_EMAIL: mbianco+newstripeconnectorqa@stripe.com
       SF_PROD_PACKAGING_EMAIL: mbianco+stripeconnector@stripe.com
       SF_USERNAME: <<parameters.account>>
+      DISABLE_CACHE: <<parameters.cache_disabled>>
       # SF_PASSWORD
       # SIGNALFX_TOKEN
     docker:
@@ -353,6 +360,7 @@ jobs:
             fi
 
       - run:
+          name: Non-Caching Run
           when: always
           no_output_timeout: "20m"
           command: |
