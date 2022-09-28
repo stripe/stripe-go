@@ -43,5 +43,43 @@ module Critic::Unit
         assert_equal(1, count)
       end
     end
+
+    describe '#salesforce_type_from_id' do
+      it 'does not fetch custom sf obj prefix when in cache' do
+        @user = make_user
+
+        # sanity check to make sure prefix mappings are clean
+        assert_equal({}, @user.salesforce_object_prefix_mappings)
+
+        # setup
+        sf_object_id = 'a257V000008itIeQAI'
+        sf_object_prefix = 'a25'
+        sf_object_name = 'SBQQ__Quote__c'
+
+        @user.salesforce_object_prefix_mappings[sf_object_prefix] = sf_object_name
+        @user.save
+
+        # we don't expect to make an api call for the object info
+        @user.expects(:save).never
+        StripeForce::Utilities::SalesforceUtil.salesforce_type_from_id(@user, sf_object_id)
+      end
+
+      it 'attempts to fetch custom sf obj prefix when not in db' do
+        @user = make_user(save: true)
+
+        # sanity check to make sure prefix mappings are clean
+        assert_equal({}, @user.salesforce_object_prefix_mappings)
+
+        # setup
+        sf_object_id = '6S97V000008itIeQAI'
+        sf_object_prefix = '6S9'
+        sf_object_name = "AIApplicationConfig"
+
+        StripeForce::Utilities::SalesforceUtil.salesforce_type_from_id(@user, sf_object_id)
+
+        # we expect to have saved the object info
+        assert_equal({'6S9' => 'AIApplicationConfig'}, @user.salesforce_object_prefix_mappings)
+      end
+    end
   end
 end

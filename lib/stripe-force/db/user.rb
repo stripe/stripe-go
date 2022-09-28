@@ -19,6 +19,7 @@ module StripeForce
     plugin :serialization, :json, :field_defaults
     plugin :serialization, :json, :field_mappings
     plugin :serialization, :json, :connector_settings
+    plugin :serialization, :json, :salesforce_object_prefix_mappings
 
     SF_CONSUMER_KEY = ENV.fetch('SF_CONSUMER_KEY')
     SF_CONSUMER_SECRET = ENV.fetch('SF_CONSUMER_SECRET')

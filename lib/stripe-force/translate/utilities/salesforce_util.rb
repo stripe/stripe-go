@@ -52,57 +52,33 @@ module StripeForce::Utilities
       when /^0Mo/
         SF_CONSUMPTION_RATE
       else
-        object_prefix = sf_id[0..2]
-        object_description = user
-          .sf_client
-          .api_get('sobjects')
-          .body["sobjects"]
-          .detect {|o| o["keyPrefix"] == object_prefix }
+        object_prefix = T.must(sf_id[0..2])
 
-        # example single object response
-        # => {"activateable"=>false,
-        #   "associateEntityType"=>nil,
-        #   "associateParentEntity"=>nil,
-        #   "createable"=>true,
-        #   "custom"=>true,
-        #   "customSetting"=>false,
-        #   "deepCloneable"=>false,
-        #   "deletable"=>true,
-        #   "deprecatedAndHidden"=>false,
-        #   "feedEnabled"=>false,
-        #   "hasSubtypes"=>false,
-        #   "isInterface"=>false,
-        #   "isSubtype"=>false,
-        #   "keyPrefix"=>"a0z",
-        #   "label"=>"Quote",
-        #   "labelPlural"=>"Quotes",
-        #   "layoutable"=>true,
-        #   "mergeable"=>false,
-        #   "mruEnabled"=>true,
-        #   "name"=>"SBQQ__Quote__c",
-        #   "queryable"=>true,
-        #   "replicateable"=>true,
-        #   "retrieveable"=>true,
-        #   "searchable"=>true,
-        #   "triggerable"=>true,
-        #   "undeletable"=>true,
-        #   "updateable"=>true,
-        #   "urls"=>
-        #    {"compactLayouts"=>"/services/data/v52.0/sobjects/SBQQ__Quote__c/describe/compactLayouts",
-        #     "rowTemplate"=>"/services/data/v52.0/sobjects/SBQQ__Quote__c/{ID}",
-        #     "approvalLayouts"=>"/services/data/v52.0/sobjects/SBQQ__Quote__c/describe/approvalLayouts",
-        #     "describe"=>"/services/data/v52.0/sobjects/SBQQ__Quote__c/describe",
-        #     "quickActions"=>"/services/data/v52.0/sobjects/SBQQ__Quote__c/quickActions",
-        #     "layouts"=>"/services/data/v52.0/sobjects/SBQQ__Quote__c/describe/layouts",
-        #     "sobject"=>"/services/data/v52.0/sobjects/SBQQ__Quote__c"}}
+        # check if we have cached this object's prefix mapping before
+        user_prefix_mappings = user.salesforce_object_prefix_mappings
 
-        # https://help.salesforce.com/s/articleView?id=000325244&type=1
-        if !object_description
-          raise ArgumentError.new("unknown object type #{sf_id}")
+        if user_prefix_mappings[object_prefix].present?
+          user_prefix_mappings[object_prefix]
+        else
+          # we have not seen this object prefix before, fetch the object info
+          object_description = user
+            .sf_client
+            .api_get('sobjects')
+            .body["sobjects"]
+            .detect {|o| o["keyPrefix"] == object_prefix }
+
+          # https://help.salesforce.com/s/articleView?id=000325244&type=1
+          if !object_description
+            raise ArgumentError.new("unknown object type #{sf_id}")
+          end
+
+          # cache the object's prefix to name value
+          object_type = object_description["name"]
+          user.salesforce_object_prefix_mappings[object_prefix] = object_type
+          user.save
+
+          object_type
         end
-
-        # TODO https://jira.corp.stripe.com/browse/PLATINT-1536
-        object_description["name"]
       end
     end
 

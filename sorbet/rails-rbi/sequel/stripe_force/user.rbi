@@ -86,6 +86,12 @@ module StripeForce::User::GeneratedAttributeMethods
   sig { params(value: T.nilable(T.any(String, Symbol))).void }
   def salesforce_instance_url=(value); end
 
+  sig { returns(T.any(T::Hash[String, T.untyped])) }
+  def salesforce_object_prefix_mappings; end
+
+  sig { params(value: T.any(T::Hash[String, T.untyped])).void }
+  def salesforce_object_prefix_mappings=(value); end
+
   sig { returns(T.nilable(String)) }
   def salesforce_organization_key; end
 
