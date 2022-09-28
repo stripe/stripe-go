@@ -22,6 +22,7 @@ Update with `sfdx force:package1:version:list --json -u mbianco+newstripeconnect
 - [google drive folder with walkthrough videos and lots of docs](https://drive.google.com/drive/folders/14XhQGty83lqdMhLJduI9pwRI2mWAcrCl)
 
 ## Design Docs
+
 - [order amendment redesign](https://docs.google.com/document/d/15d1nO0wkGKGyLS7fRCflI_3LEPQd6yOBhtkDUS6-_hk/edit#heading=h.cz1xkpga7giy)
 - [prorated order amendments design](https://docs.google.com/document/d/15d1nO0wkGKGyLS7fRCflI_3LEPQd6yOBhtkDUS6-_hk/edit#)
 
@@ -352,16 +353,21 @@ TODO this may not be applicable anymore since we've removed the `.sfdx` folder f
 
 # Development
 
-## Deployment
-We have a pipline setup in heroku. You first push to the canary, and then promote it to the rest of the pipeline.
+## Ruby Code Deployment
+
+We have a pipline setup in heroku. You first push to the canary, and then promote it to the rest of the pipeline. Canary is still production, but is just a single worker so you can push your changes up to recieve a minor fraction of traffic for a time when integrating large changes / features.
 
 ```
 # on first setup
 git remote add canary https://git.heroku.com/stripe-force-canary.git (push)
 
-# when you are on master and ready to deploy
-git push canary head
-heroku pipelines:promote -r canary
+# when you are on main and ready to deploy:
+
+# Pushes to canary worker
+git push stripe-force-canary origin/main:main
+
+# Pushes to rest of production workers
+heroku pipelines:promote -r stripe-force-canary
 ```
 
 ## Helpful Scripts
