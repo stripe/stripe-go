@@ -103,16 +103,16 @@ class StripeForce::Translate
     # TODO should file an API papercut for this
     # when creating the subscription schedule the start_date must be specified on the heaer
     # when updating it, it is specified on the individual phase object
-    subscription_start_date = subscription_params['start_date']
-    subscription_start_date_as_timestamp = StripeForce::Utilities::SalesforceUtil.salesforce_date_to_unix_timestamp(subscription_start_date)
+    string_start_date_from_salesforce = subscription_params['start_date']
+    subscription_start_date_as_timestamp = StripeForce::Utilities::SalesforceUtil.salesforce_date_to_unix_timestamp(string_start_date_from_salesforce)
     subscription_params['start_date'] = subscription_start_date_as_timestamp
 
-    # TODO should probably just use the end date here and centralize the calculations used on the order side of things
-    # TODO this should really be done *before* generating the line items and therefore creating prices
-    phase_iterations = transform_iterations_by_billing_frequency(
-      # TODO is the restforce gem somehow formatting everything as a float? Or is this is the real value returned from SF?
-      subscription_params.delete('iterations').to_i,
-      T.must(subscription_items.first).stripe_params[:price]
+    subscription_term_from_sales_force = subscription_params.delete('iterations').to_i
+
+    # originally `iterations` was used, but this fails when subscription term is less than a single billing cycle
+    initial_phase_end_date = StripeForce::Utilities::SalesforceUtil.datetime_to_unix_timestamp(
+      DateTime.parse(string_start_date_from_salesforce) +
+      + subscription_term_from_sales_force.months
     )
 
     # TODO we should have a check to ensure all quantities are positive
@@ -122,7 +122,7 @@ class StripeForce::Translate
     initial_phase = {
       add_invoice_items: invoice_items.map(&:stripe_params),
       items: subscription_items.map(&:stripe_params),
-      iterations: phase_iterations,
+      end_date: initial_phase_end_date,
       metadata: Metadata.stripe_metadata_for_sf_object(@user, sf_order),
     }
 
@@ -316,7 +316,7 @@ class StripeForce::Translate
 
       # TODO check for float value
       # TODO should probably move this to another helper
-      subscription_term_from_sales_force = phase_params['iterations'].to_i
+      subscription_term_from_sales_force = phase_params.delete('iterations').to_i
 
       # originally `iterations` was used, but this fails when subscription term is less than a single billing cycle
       phase_params['end_date'] = StripeForce::Utilities::SalesforceUtil.datetime_to_unix_timestamp(

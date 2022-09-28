@@ -17,11 +17,10 @@ workflows:
       - rubocop
 
       - block_workflow:
-          # builds can take ~2hrs when NetSuite is slow and
-          # a build could be pending on multiple builds
-          # 6hrs is an insane value, but it's better than waking up to a bunch of
-          # broken builds that you need to re-run
+          # 2hrs
           time: "1440"
+          # check job queue twice before assumes it's unblocked
+          confidence: "2"
       - clean_salesforce:
           matrix: &ruby_test_accounts
             parameters:
@@ -30,7 +29,7 @@ workflows:
                 # unpackaged source test, we do not want a package installed here
                 - mbianco+standardcpq@stripe.com
                 # QA package test, all of the fields/rest endpoints/etc have a prefix
-                - mbianco+cpqpackage@stripe.com
+                - platform-integrations-bots+cpqqapackage@stripe.com
                 # production package test, has a different prefix from QA
                 # - brennen+prodtest@stripe.com
 

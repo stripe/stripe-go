@@ -436,49 +436,6 @@ class StripeForce::Translate
     !sf_object[CPQ_QUOTE_SUBSCRIPTION_PRICING].nil?
   end
 
-  # service period and billing frequency are decoupled in CPQ, but they are the same in Stripe
-  # both values should be in months, but we want to support days in the future
-  def determine_subscription_term_multiplier_for_billing_frequency(subscription_term, billing_frequency)
-    # billing price = order line unit price / quantity / (subscription term / billing frequency)
-
-    # if specified iterations is less than the billing frequency of the stripe price then
-    if subscription_term < billing_frequency
-      # TODO we should probably create a invoice item price instead? Unsure of the best approach here, we would want the invoice item to be tied to a product?
-      #      also, if we take this approach we should process all subscription items instead of just one
-      log.info 'iterations is less than price billing frequency, creating a new price for the prorated amount', subscription_term: subscription_term, frequency: billing_frequency
-      return 1
-    end
-
-    # TODO I expect this to happen in proration cases, i.e. 24mo subscription with a order amendment at mo 6
-    if subscription_term % billing_frequency != 0
-      throw_user_failure!(
-        salesforce_object: @origin_salesforce_object,
-        message: "Prorated order amendments are not yet supported"
-      )
-    end
-
-    # TODO maybe this logic should be different if the term source is customized in salesforce?
-    subscription_term / billing_frequency
-  end
-
-  sig { params(iterations: Integer, subscription_price_id: String).returns(Integer) }
-  def transform_iterations_by_billing_frequency(iterations, subscription_price_id)
-    # this is terrible: the best way to figure out the recurrance schedule of a subscription
-    # is to pull one of it's items and check the `recurring` hash.
-    #
-    # Why is this the case?
-    #
-    # because of the level of field customization we allow, the values for the recurring hash
-    # could be *anywhere* so the only alternative would be to regenerate the line items
-    # or bubble up the recurrance through the line item helpers, which would mix responsibility
-    # and make it more challenging to support multi-frequency subscriptions in the future
-
-    price = Stripe::Price.retrieve(subscription_price_id, @user.stripe_credentials)
-
-    billing_frequency_in_months = StripeForce::Utilities::StripeUtil.billing_frequency_of_price_in_months(price)
-    determine_subscription_term_multiplier_for_billing_frequency(iterations, billing_frequency_in_months)
-  end
-
   # TODO allow for multiple records to be linked?
   sig { params(record_to_map: Stripe::APIResource, source_record: Restforce::SObject, compound_key: T.nilable(T::Boolean)).void }
   def apply_mapping(record_to_map, source_record, compound_key: false)
