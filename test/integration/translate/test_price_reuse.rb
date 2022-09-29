@@ -190,7 +190,7 @@ class Critic::PriceReuse < Critic::FunctionalTest
   describe 'order line' do
     # https://jira.corp.stripe.com/browse/PLATINT-1833
     it 'uses the same order line price when the order line is translated twice' do
-      translator = make_translator
+      translator = make_translator(user: @user)
 
       price_in_cents = 120_00
       adjusted_price = price_in_cents + 20_00
