@@ -63,6 +63,16 @@ sfdx force:source:push --loglevel=debug -u $salesforceAlias
 # needs to be done after the source:push since this references custom perm sets
 sfdx force:user:permset:assign -n "Stripe_Connector_Integration_User, Stripe_Connector_Sync_Management_User, Order_Permissions" -u $salesforceAlias
 
+# create global key metadata
+if [ ! -z "$SF_MANAGED_PACKAGE_API_KEY" ]; then
+  echo -e "Managed package key is not yet, set up global key manually.\n"
+  echo "# Connector Setup"
+  echo -e "Manual step: Create global key. Label/Name: Default. Key: pull from SF_MANAGED_PACKAGE_API_KEY in your env.\n\n"
+  sfdx force:org:open -u $salesforceAlias -p '/lightning/setup/CustomMetadata/page?address=%2Fm02%3Fsetupid%3DCustomMetadata' > /dev/null
+else
+  sed "s|____GLOBAL_KEY____|$SF_MANAGED_PACKAGE_API_KEY|" scripts/apex/create_global_key_metadata | sfdx force:apex:execute
+fi
+
 echo "# CPQ Setup"
 echo "Manual step: Installed Packages > Configure > Pricing & Calculation > Authorize"
 echo "Manual step: Installed Packages > Configure > Pricing & Calculation > Enable Usage Based Pricing"
@@ -71,11 +81,6 @@ echo "Manual step: Installed Packages > Configure > Subscription & Renewals > Co
 echo "Manual step: Installed Packages > Configure > Order > Default Order Start Date > Quote Start Date"
 echo $'\n\n'
 sfdx force:org:open -u $salesforceAlias -p "/lightning/setup/ImportedPackage/home" > /dev/null
-
-echo "# Connector Setup"
-echo "Manual step: Create global key. Label/Name: Default. Key: pull from SF_MANAGED_PACKAGE_API_KEY in your env."
-echo $'\n\n'
-sfdx force:org:open -u $salesforceAlias -p '/lightning/setup/CustomMetadata/page?address=%2Fm02%3Fsetupid%3DCustomMetadata' > /dev/null
 
 echo "Opening up another tab to the Stripe app, authorize Salesforce & Stripe"
 sfdx force:org:open -u $salesforceAlias -p '/lightning/n/Setup' > /dev/null
@@ -86,8 +91,6 @@ echo "All done! Remember: this scratch org will expire in 30d, so have two of th
 echo "You probably want to refresh your development tokens: 'bundle exec ruby scripts/refresh-tokens.rb'"
 echo "Try playing around in a console: 'bundle exec ruby scripts/console.rb'"
 
-# TODO integrate `sed "s|____GLOBAL_KEY____|$SF_MANAGED_PACKAGE_API_KEY|" scripts/apex/create_global_key_metadata | sfdx force:apex:execute`
-#      which will require checking for the SF_MANAGED_PACKAGE_API_KEY existing
 # TODO debug mode lwc, this looks like it cannot be setup automatically
 # TODO assign permission set CPQ license https://sf9to5.com/2020/09/08/winter-21-changes-cpq-licensing/
 # TODO make sure Stripe fields are on all layouts

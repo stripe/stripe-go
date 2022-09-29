@@ -13,7 +13,7 @@ class Critic::OrderAmendmentTranslation < Critic::OrderAmendmentFunctionalTest
     # amendment: starts month 9, lasts 3 months, adds quantity 2
 
     monthly_price = 10_00
-    contract_term = 12
+    contract_term = TEST_DEFAULT_CONTRACT_TERM
     amendment_term = 3
     start_date = now_time + (contract_term - amendment_term).months
     end_date = start_date + amendment_term.months

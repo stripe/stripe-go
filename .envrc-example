@@ -3,5 +3,5 @@
 # helpful if you are running into weird state issues
 export DISABLE_SPRING=false
 
-# for scratch org setup
+# for scratch org global key automated setup
 export SF_MANAGED_PACKAGE_API_KEY=
