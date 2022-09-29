@@ -156,6 +156,20 @@ In order for the ruby service to update Stripe ID fields, it needs to have the r
 
 In the org, go to setup>permission sets> stripe connector integration user> manage assignments>add assignments and check your user in the org > then click assign.
 
+## Clearing Our Test Data
+
+Here's how to manually clear our test data. This may be fixed with `SBQQ.TriggerControl.disable()` in the delete script, can remove this later if this is the case!
+
+```shell
+sfdx force:org:open -u platform-integrations-bots+cpqqapackage@stripe.com -p "/lightning/setup/ImportedPackage/home" > /dev/null
+sfdx force:org:open -u mbianco+standardcpq@stripe.com -p "/lightning/setup/ImportedPackage/home" > /dev/null
+
+# disable apex triggers
+
+sfdx/bin/sfdx-wipe-account platform-integrations-bots+cpqqapackage@stripe.com
+sfdx/bin/sfdx-wipe-account mbianco+standardcpq@stripe.com
+```
+
 ## Creating a stratch org
 
 - Specify your dev hub via `sfdx force:config:set --defaultdevusername`. This can be any salesforce dev org.

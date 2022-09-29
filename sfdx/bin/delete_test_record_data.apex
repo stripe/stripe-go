@@ -234,6 +234,9 @@ public static void deleteCPQRecordJobs() {
     }
 }
 
+// https://developer.salesforce.com/docs/atlas.en-us.cpq_dev_api.meta/cpq_dev_api/cpq_api_disable_apex_triggers.htm
+SBQQ.TriggerControl.disable();
+
 deleteCPQRecordJobs();
 deactivateOrderLines();
 deactivateOrders();
@@ -267,6 +270,8 @@ Integer recordsDeleted = 0;
 for (String objectApiName : listOfObjectRecordsToDelete) {
     recordsDeleted += deleteData(objectApiName);
 }
+
+SBQQ.TriggerControl.enable();
 
 // to notify upstream caller to check if 0 were deleted
 System.debug('RECORDS DELETED: ' + recordsDeleted);
