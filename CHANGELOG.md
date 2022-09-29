@@ -1,5 +1,13 @@
 # Changelog
 
+## 73.11.0 - 2022-09-29
+* [#1549](https://github.com/stripe/stripe-go/pull/1549) API Updates
+  * Change type of `ChargePaymentMethodDetailsCardPresentIncrementalAuthorizationSupported` and `ChargePaymentMethodDetailsCardPresentOvercaptureSupported` from `nullable(boolean)` to `boolean`
+  * Add support for `Created` on `CheckoutSession`
+  * Add support for `SetupFutureUsage` on `PaymentIntentConfirmPaymentMethodOptionsPixParams`, `PaymentIntentPaymentMethodOptionsPixParams`, and `PaymentIntentPaymentMethodOptionsPix`
+  * Deprecate `CheckoutSessionSubscriptionDataTransferDataParams.items` and `CheckoutSessionSubscriptionDataItemParams` (use the `line_items` param instead). This will be removed in the next major version.
+  
+
 ## 73.10.0 - 2022-09-22
 * [#1547](https://github.com/stripe/stripe-go/pull/1547) API Updates
   * Add support for `TermsOfService` on `CheckoutSessionConsentCollectionParams`, `CheckoutSessionConsentCollection`, `CheckoutSessionConsent`, `PaymentLinkConsentCollectionParams`, and `PaymentLinkConsentCollection`
