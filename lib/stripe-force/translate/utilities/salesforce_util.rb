@@ -108,12 +108,7 @@ module StripeForce::Utilities
     sig { params(options: {}).returns(T.untyped) }
     def backoff(options={})
       count = 0
-
-      options[:attempts] ||= if ENV['SALESFORCE_BACKOFF_ATTEMPTS'].nil?
-        MAX_SF_RETRY_ATTEMPTS
-      else
-        ENV['SALESFORCE_BACKOFF_ATTEMPTS'].to_i
-      end
+      options[:attempts] ||= ENV.fetch('SALESFORCE_BACKOFF_ATTEMPTS', MAX_SF_RETRY_ATTEMPTS).to_i
 
       begin
         count += 1

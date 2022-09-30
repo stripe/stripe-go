@@ -14,6 +14,5 @@ StripeForce::User.where(stripe_account_id: 'acct_15uapDIsgf92XbAO').all.each do 
 end
 
 StripeForce::User.all.each do |user|
-    user.enable_feature StripeForce::Constants::FeatureFlags::CATCH_ALL_ERRORS, update: true
-  end
+  user.enable_feature StripeForce::Constants::FeatureFlags::CATCH_ALL_ERRORS, update: true
 end

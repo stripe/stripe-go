@@ -19,6 +19,7 @@ module Critic::CommonHelpers
   end
 
   def sf_caching_global_disabled
+    # TODO should change to use a more specific name `DISABLE_SALESFORCE_CACHE_SERVICE`
     ENV['DISABLE_CACHE'] == 'true'
   end
 
@@ -52,8 +53,8 @@ module Critic::CommonHelpers
     )
   end
 
-  sig { params(sandbox: T::Boolean, save: T::Boolean, random_user_id: T::Boolean, livemode: T::Boolean, enable_cache: T::Boolean).returns(StripeForce::User) }
-  def make_user(sandbox: false, save: false, random_user_id: false, livemode: false, enable_cache: true)
+  sig { params(sandbox: T::Boolean, save: T::Boolean, random_user_id: T::Boolean, livemode: T::Boolean).returns(StripeForce::User) }
+  def make_user(sandbox: false, save: false, random_user_id: false, livemode: false)
     user = StripeForce::User.new(
       livemode: livemode,
 
@@ -70,10 +71,9 @@ module Critic::CommonHelpers
       end
     )
 
-    if enable_cache
-      unless ENV['CI'] && sf_caching_global_disabled
-        user.enable_feature(FeatureFlags::SF_CACHING)
-      end
+    if !sf_caching_global_disabled
+      log.debug 'enabling salesforce caching'
+      user.enable_feature(FeatureFlags::SF_CACHING)
     end
 
     # mbianco+cpqpackage@stripe.com

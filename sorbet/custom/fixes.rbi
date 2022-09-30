@@ -9,6 +9,7 @@
 class ActiveSupport::StringInquirer
   def development?; end
   def production?; end
+  def test?; end
 end
 
 # TODO for some reason this class is excluded from the autogen's rbis

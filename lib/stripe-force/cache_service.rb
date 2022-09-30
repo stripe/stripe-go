@@ -96,12 +96,15 @@ class CacheService
     end
 
     if matched_objects.empty?
-      missed_objects = @user.sf_client.query(
-        <<~EOL
-          SELECT Id FROM #{sf_object_type}
-          WHERE #{nested_fields.join('.')} = '#{search_value}'
-        EOL
-      )
+      missed_objects = backoff do
+        @user.sf_client.query(
+          <<~EOL
+            SELECT Id FROM #{sf_object_type}
+            WHERE #{nested_fields.join('.')} = '#{search_value}'
+          EOL
+        )
+      end
+
       cache_list_of_records(missed_objects)
       matched_objects = missed_objects.map {|i| get_record_from_cache(sf_object_type, i[SF_ID]) }
       # TODO: log if we caught missed objs
@@ -139,18 +142,17 @@ class CacheService
   end
 
   # ex: get_record_from_cache("OrderLine", "0015e00000NNGYwAAP")
+  sig { params(sf_record_type: String, sf_record_id: String).returns(T.untyped) }
   def get_record_from_cache(sf_record_type, sf_record_id)
     @cache[sf_record_type] ||= {}
 
     if enabled?
-
       cached_record = @cache[sf_record_type][sf_record_id]
-
       return cached_record if cached_record
     end
 
     # Log if we find but didnt have in cache
-    missed_object = @user.sf_client.find(sf_record_type, sf_record_id)
+    missed_object = backoff { @user.sf_client.find(sf_record_type, sf_record_id) }
 
     # TODO; Cache missed object even when cache is disabled
     # https://jira.corp.stripe.com/browse/PLATINT-1878
@@ -171,7 +173,6 @@ class CacheService
   private def enabled?
     @user.feature_enabled?(FeatureFlags::SF_CACHING)
   end
-
 
   private def cache_list_of_records(record_list)
     record_list.each do |record|
@@ -204,31 +205,35 @@ class CacheService
 
     url = generate_batch_service_url
 
-    response = @user.sf_client.post(url, args)
+    response = backoff { @user.sf_client.post(url, args) }
     response.body
   end
 
   private def report_missing_cache(message, metadata)
     Integrations::ErrorContext.report_edge_case(message, metadata: metadata)
+
     # Error out in tests, provide the meatdata for alerting us to what exactly is missing.
-    if ENV['CI'] || ENV['RAILS_ENV'] == 'test'
-      raise message + ". Metadata: #{metadata}"
+    if ENV['CI'] || Rails.env.test?
+      raise Integrations::Errors::TranslatorError.new(message, metadata: metadata)
     end
   end
 
   private def cache_missed_relationships(foreign_key_sf_object_id, foreign_key_field, related_sf_object_type)
+    record_list = backoff do
+      @user.sf_client.query(
+        <<~EOL
+          SELECT Id
+          FROM #{related_sf_object_type}
+          WHERE #{foreign_key_field} = '#{foreign_key_sf_object_id}'
+        EOL
+      )
+    end
 
-    record_list = @user.sf_client.query(
-      <<~EOL
-        SELECT Id
-        FROM #{related_sf_object_type}
-        WHERE #{foreign_key_field} = '#{foreign_key_sf_object_id}'
-      EOL
-    ).map(&:Id).map do |related_object_id|
+    record_list = record_list.map(&:Id).map do |related_object_id|
       # SOQL does not support *, so we must use find() to get all fields.
       # We can't pass a field list, as we need to make sure we have all
       # of the user specific custom fields incase they are used in mappings.
-      @user.sf_client.find(related_sf_object_type, related_object_id)
+      backoff { @user.sf_client.find(related_sf_object_type, related_object_id) }
     end
 
     cache_list_of_records(record_list)
@@ -242,6 +247,7 @@ class CacheService
       message = "Missed cache for relational objects, but found when reaching out to Salesforce API"
       report_missing_cache(message, metadata)
     end
+
     record_list
   end
 

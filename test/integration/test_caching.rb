@@ -1,12 +1,17 @@
 # frozen_string_literal: true
-# typed: ignore
+# typed: true
 
 require_relative './amendments/_lib'
 
 class Critic::CachingTest < Critic::OrderAmendmentFunctionalTest
+  before do
+    @user = make_user
+  end
 
   it 'disables the cache and verifies batch service is not called' do
-    @user = make_user(enable_cache: false)
+    @user = make_user
+    @user.disable_feature(FeatureFlags::SF_CACHING)
+
     cache_service = CacheService.new(@user)
 
     cache_service.expects(:retrieve_related_objects_from_salesforce).never
@@ -15,12 +20,7 @@ class Critic::CachingTest < Critic::OrderAmendmentFunctionalTest
   end
 
   it 'invalidates an object in the cache' do
-    if sf_caching_global_disabled
-      assert(true)
-      return
-    end
-
-    @user = make_user(enable_cache: true)
+    @user.enable_feature(FeatureFlags::SF_CACHING)
     sf_order = create_salesforce_order
 
     cache_service = CacheService.new(@user)
@@ -31,19 +31,18 @@ class Critic::CachingTest < Critic::OrderAmendmentFunctionalTest
 
     cache_service.invalidate_cache_object(sf_order.Id)
 
-    assert_raises(RuntimeError) do
+    # TODO why do we expect an exception here? The test suite will invalidate cache objects, that should not trigger a cache miss
+    exception = assert_raises(Integrations::Errors::TranslatorError) do
       cached_order = cache_service.get_record_from_cache(SF_ORDER, sf_order.Id)
     end
 
+    assert_match("Missed cache for SF Object", exception.message)
   end
 
   it 'caches records related to an amendment order, then utilizes the cache for translation' do
-    if sf_caching_global_disabled
-      assert(true)
-      return
-    end
+    skip("cache is disabled") if sf_caching_global_disabled
 
-    @user = make_user(enable_cache: true)
+    @user.enable_feature(FeatureFlags::SF_CACHING)
 
     # initial order: 1yr contract, monthly billed
     # amendment: starts month 9, lasts 3 months, adds quantity 2
@@ -97,7 +96,5 @@ class Critic::CachingTest < Critic::OrderAmendmentFunctionalTest
 
     #   The original contract
     cached_contract = cache_service.get_record_from_cache(SF_CONTRACT, sf_contract.Id)
-
   end
-
 end
