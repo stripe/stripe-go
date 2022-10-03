@@ -196,11 +196,39 @@ class Critic::ConfigurationsControllerTest < ApplicationIntegrationTest
       assert_equal(10_000, result['settings']['sync_record_retention'])
       assert_equal('USD', result['settings']['default_currency'])
       assert_nil(result['settings']['sync_start_date'])
+      assert_equal(40, result['configuration_hash'].size)
+      assert(result['enabled'])
 
       refute_nil(result['settings']['filters'])
       assert_equal("Status = 'Activated'", result['settings']['filters'][SF_ORDER])
       assert_nil(result['settings']['filters'][SF_ACCOUNT])
       assert_nil(result['settings']['filters'][SF_PRODUCT])
+    end
+
+    it 'updates the configuration_hash when mappings change' do
+      get api_configuration_path, headers: authentication_headers
+      assert_response :success
+      result = parsed_json
+
+      initial_hash = result['configuration_hash']
+
+      get api_configuration_path, headers: authentication_headers
+      assert_response :success
+      result = parsed_json
+
+      # hash should remain the same when something doesn't change
+      assert_equal(initial_hash, result['configuration_hash'])
+
+      @user.field_mappings['price'] = {'special' => 'mapping'}
+      @user.save
+
+      get api_configuration_path, headers: authentication_headers
+      assert_response :success
+      result = parsed_json
+
+      # if mappings change, hash should be different
+      refute_equal(initial_hash, result['configuration_hash'])
+      assert_equal(40, result['configuration_hash'].size)
     end
 
     it 'updates settings' do

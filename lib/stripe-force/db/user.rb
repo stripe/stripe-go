@@ -254,6 +254,22 @@ module StripeForce
       }
     end
 
+    # this hash is used to prevent same-time editing via the SF UI
+    def configuration_hash
+      mappings_as_string = self.field_defaults.to_json + self.field_mappings.to_json
+
+      # take into account all configuration options which are set via the UI
+      selective_configuration_json = self.connector_settings.slice(*DEFAULT_CONNECTOR_SETTINGS.keys).to_json
+
+      Digest::SHA1.hexdigest(mappings_as_string + selective_configuration_json)
+    end
+
+    # used for the idempotency key generation
+    def mapping_hash
+      mappings_as_string = self.field_defaults.to_json + self.field_mappings.to_json
+      Digest::SHA1.hexdigest(mappings_as_string)
+    end
+
     protected def kms_encryption_context(field=nil)
       {
         # NOTE that the account is the SF organization instance ID

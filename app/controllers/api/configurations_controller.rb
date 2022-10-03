@@ -178,11 +178,14 @@ module Api
     private def user_configuration_json
       {
         salesforce_account_id: @user.salesforce_account_id,
+
         field_mappings: @user.field_mappings,
         field_defaults: @user.field_defaults,
         default_mappings: @user.default_mappings,
         required_mappings: @user.required_mappings,
+
         feature_flags: @user.feature_flags,
+
         connection_status: {
           # TODO use dynamic connection status
           salesforce: @user.salesforce_token.present?,
@@ -191,7 +194,11 @@ module Api
           last_synced: Time.now.to_i,
           stripe_account_id: @user.stripe_account_id,
         },
+
         settings: @user.connector_settings,
+
+        enabled: @user.enabled,
+        configuration_hash: @user.configuration_hash,
       }
     end
 

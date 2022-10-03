@@ -361,9 +361,8 @@ TODO this may not be applicable anymore since we've removed the `.sfdx` folder f
 
 ## Resetting Salesforce Org Keys
 
-- Debug console
-- Anon Apex
-- maintenanceUtilities.resetServiceConnection();
+- Debug console > Debug > Open Execute Anonmous Window
+- `maintenanceUtilities.resetServiceConnection();` or `QaStripeConnect.maintenanceUtilities.resetServiceConnection();` if in a packaged environment
 
 # Development
 
