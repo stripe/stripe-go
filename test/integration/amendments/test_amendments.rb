@@ -138,7 +138,7 @@ class Critic::OrderAmendmentTranslation < Critic::OrderAmendmentFunctionalTest
 
     # remove metered billing item completely
     amendment_data["lineItems"].first["record"][CPQ_QUOTE_QUANTITY] = 0
-    amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_START_DATE] = amendment_start_date.strftime("%Y-%m-%d")
+    amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_START_DATE] = format_date_for_salesforce(amendment_start_date)
     amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_TERM] = amendment_term
     sf_quote_id = calculate_and_save_cpq_quote(amendment_data)
 

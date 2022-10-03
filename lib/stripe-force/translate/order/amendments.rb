@@ -25,6 +25,9 @@ class StripeForce::Translate
 
     sig { params(mapper: StripeForce::Mapper, sf_order: Restforce::SObject).returns(Integer) }
     def self.calculate_order_end_date(mapper, sf_order)
+      # TODO should use a helper instead, which respects custom mapping
+      # salesforce_subscription_term = StripeForce::Utilities::SalesforceUtil.extract_subscription_term_from_order!(mapper, sf_order)
+
       subscription_params = StripeForce::Utilities::SalesforceUtil.extract_salesforce_params!(mapper, sf_order, Stripe::SubscriptionSchedule)
       salesforce_start_date_as_string = subscription_params['start_date']
       salesforce_subscription_term = subscription_params['iterations'].to_i
@@ -34,6 +37,14 @@ class StripeForce::Translate
     end
 
     # NOTE at this point it's assumed that the price is NOT a metered billing item or tiered price
+    sig do
+      params(
+        user: StripeForce::User,
+        phase_item: ContractItemStructure,
+        subscription_term: Integer,
+        billing_frequency: Integer
+      ).returns(Stripe::Price)
+    end
     def self.create_prorated_price_from_phase_item(user:, phase_item:, subscription_term:, billing_frequency:)
       # at this point, we know what the billing amount is per billing cycle, since that has alread been defined
       # on the price object at the order line. We calculate the percentage of the original line price that should
@@ -90,6 +101,8 @@ class StripeForce::Translate
       invoice_items_for_prorations = []
 
       phase_items.each do |phase_item|
+        # metered prices are calculated based on user-provided usage information and therefore cannot be prorated because
+        # we do not know the full billing amount ahead of time.
         # TODO I don't like passing the user here, maybe pass in the user with the contract item? Going to see how ugly this feels...
         if PriceHelpers.metered_price?(phase_item.price(user))
           log.info 'metered price, not prorating',
@@ -98,6 +111,8 @@ class StripeForce::Translate
           next
         end
 
+        # right now, you can only have tiered pricing specified through consumption schedules, which are only used if the
+        # price is metered billed. We may need to support prorated tiered prices in the future.
         if PriceHelpers.tiered_price?(phase_item.price)
           log.info 'tiered price, not prorating',
             prorated_order_item_id: phase_item.order_line_id,
@@ -105,6 +120,7 @@ class StripeForce::Translate
           next
         end
 
+        # if the price is not recurring, there is no need to prorate it since it will be fully billed up front
         if !PriceHelpers.recurring_price?(phase_item.price)
           log.info 'one time price, not prorating',
             prorated_order_item_id: phase_item.order_line_id,
@@ -113,6 +129,8 @@ class StripeForce::Translate
         end
 
         # we only want to prorate the items that are unique to this order
+        # in other words, if the item needed to be prorated it would have already happened when processing the
+        # order that it was originally included on.
         if !phase_item.from_order?(sf_order_amendment)
           log.info 'line item not originated from this amendment, not prorating',
             prorated_order_item_id: phase_item.order_line_id,

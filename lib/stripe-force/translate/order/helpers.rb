@@ -9,6 +9,32 @@ class StripeForce::Translate
     include StripeForce::Constants
     extend SimpleStructuredLogger
 
+    sig do
+      params(
+        phase_items: T::Array[ContractItemStructure],
+        subscription_term: Integer,
+        billing_frequency: Integer,
+      ).returns(T::Boolean)
+    end
+    def self.prorated_initial_order?(phase_items:, subscription_term:, billing_frequency:)
+      log.info 'determining if initial order is prorated'
+
+      if phase_items.empty?
+        log.info 'no subscription items, cannot be prorated order'
+        return false
+      end
+
+      # if the subscription term does not match the billing frequency of the stripe item, then there will be some proration
+      if (subscription_term % billing_frequency) != 0
+        log.info 'billing frequency is not divisible by subscription term, assuming prorated initial order',
+          subscription_term: subscription_term,
+          billing_frequency: billing_frequency
+        return true
+      end
+
+      false
+    end
+
     sig { params(subscription_schedule: Stripe::SubscriptionSchedule).returns(T::Array[T.any(Stripe::SubscriptionSchedulePhaseSubscriptionItem, Stripe::SubscriptionSchedulePhaseInvoiceItem)]) }
     def self.extract_all_items_from_subscription_schedule(subscription_schedule)
       subscription_schedule.phases.map(&:items).flatten +

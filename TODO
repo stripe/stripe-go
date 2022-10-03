@@ -17,6 +17,8 @@
 - Prices which are not created directly from pricebooks (i.e. from order lines, or duplicated because of the one-price-per-subscription) are archived (active = false) after they are used
 - Some good test clock docs https://groups.google.com/a/stripe.com/g/cloudflare/c/VjNW1Q4KD-0
 - fyi if the filter is changed we don't retroactively pick up orders. the orders have to be updated in some fashion (just updating a note/description will do just fine) for it to be reprocessed
+- On a backend prorated order amendment the same metadata is used as the initial order
+- Tiered prices cannot be prorated
 
 Apex / checks:
 

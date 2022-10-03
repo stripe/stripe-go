@@ -178,6 +178,10 @@ class Stripe::SubscriptionSchedulePhase < Stripe::StripeObject
   sig { params(arg: Integer).void }
   def start_date=(arg); end
 
+  sig { returns(String) }
+  def proration_behavior; end
+
+
   sig { returns(Integer)}
   def end_date; end
 

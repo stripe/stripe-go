@@ -309,7 +309,7 @@ class Critic::ProratedAmendmentTranslation < Critic::OrderAmendmentFunctionalTes
 
     yearly_price = 120_00
     yearly_price_2 = 150_00
-    contract_term = 24
+    contract_term = TEST_DEFAULT_CONTRACT_TERM * 2
     amendment_term = 19
     amendment_start_date = now_time + (contract_term - amendment_term).months
     amendment_end_date = amendment_start_date + amendment_term.months

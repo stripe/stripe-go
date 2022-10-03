@@ -339,7 +339,7 @@ class StripeForce::Translate
 
     stripe_object = stripe_class.construct_from(additional_stripe_params)
 
-    # the fields in the resulting hash could be dot-paths, so let's assign them using the mapper
+    # the keys (stripe references) in the resulting hash could be dot-paths, so let's assign them using the mapper
     mapper.assign_values_from_hash(stripe_object, stripe_fields)
 
     stripe_object.metadata = Metadata.stripe_metadata_for_sf_object(@user, salesforce_object)
