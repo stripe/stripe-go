@@ -74,28 +74,61 @@ class Stripe::Price
   def active=(arg); end
 end
 
-# TODO I swear I added some of these in via the netsuite connector
 class Stripe::Customer
   sig { returns(String) }
   def currency; end
 
+  sig { returns(T.nilable(Stripe::Address)) }
+  def address; end
+
   sig { returns(String) }
   def description; end
+
+  sig { returns(String) }
+  def email; end
+
+  sig { returns(String) }
+  def name; end
 
   sig { returns(T.nilable(String, Stripe::TestHelpers::TestClock))}
   def test_clock; end
 
-  # TODO should add proper subhash typing
+  sig { returns(Stripe::Shipping) }
   def shipping; end
 
   sig { returns(T.nilable(String)) }
   def phone; end
 end
 
-# TODO the address subhash typings need to be cleaned up
-class Stripe::Address
+class Stripe::Shipping
+  sig { returns(T.nilable(Stripe::Address)) }
+  def address; end
+
+  sig { returns(T.nilable(String)) }
+  def name; end
+
   sig { returns(T.nilable(String)) }
   def phone; end
+end
+
+class Stripe::Address
+  sig { returns(T.nilable(String)) }
+  def city; end
+
+  sig { returns(T.nilable(String)) }
+  def country; end
+
+  sig { returns(T.nilable(String)) }
+  def line1; end
+
+  sig { returns(T.nilable(String)) }
+  def line2; end
+
+  sig { returns(T.nilable(String)) }
+  def postal_code; end
+
+  sig { returns(T.nilable(String)) }
+  def state; end
 end
 
 class Stripe::SubscriptionSchedulePhaseInvoiceItem < Stripe::StripeObject

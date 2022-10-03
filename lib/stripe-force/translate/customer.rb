@@ -6,16 +6,23 @@ class StripeForce::Translate
     locker.lock_salesforce_record(sf_account)
 
     catch_errors_with_salesforce_context(secondary: sf_account) do
-      create_customer_from_sf_account(sf_account)
+      existing_stripe_customer = retrieve_from_stripe(Stripe::Customer, sf_account)
+      if existing_stripe_customer.blank?
+        # creates a new stripe customer
+        create_customer_from_sf_account(sf_account)
+      else
+        # check if the feature flag to update an existing customer is enabled
+        if @user.feature_enabled?(FeatureFlags::UPDATE_CUSTOMER_ON_ORDER_TRANSLATION)
+          update_stripe_object(stripe_class: Stripe::Customer, stripe_object_id: existing_stripe_customer.id, sf_object: sf_account)
+        else
+          existing_stripe_customer
+        end
+      end
     end
   end
 
   def create_customer_from_sf_account(sf_account)
     log.info 'translating customer', salesforce_object: sf_account
-
-    if (stripe_customer = retrieve_from_stripe(Stripe::Customer, sf_account))
-      return stripe_customer
-    end
 
     customer = create_stripe_object(Stripe::Customer, sf_account) do |generated_stripe_customer|
       if @user.feature_enabled?(FeatureFlags::TEST_CLOCKS) && !@user.livemode

@@ -334,27 +334,50 @@ class StripeForce::Translate
       stripe_id: stripe_object.id
   end
 
-  def create_stripe_object(stripe_class, sf_object, additional_stripe_params: {}, skip_field_extraction: false)
-    stripe_fields = if skip_field_extraction
-      {}
-    else
-      StripeForce::Utilities::SalesforceUtil.extract_salesforce_params!(mapper, sf_object, stripe_class)
-    end
+  def construct_stripe_object(stripe_class:, salesforce_object:, additional_stripe_params: {})
+    stripe_fields = StripeForce::Utilities::SalesforceUtil.extract_salesforce_params!(mapper, salesforce_object, stripe_class)
 
     stripe_object = stripe_class.construct_from(additional_stripe_params)
 
     # the fields in the resulting hash could be dot-paths, so let's assign them using the mapper
     mapper.assign_values_from_hash(stripe_object, stripe_fields)
 
-    stripe_object.metadata = Metadata.stripe_metadata_for_sf_object(@user, sf_object)
+    stripe_object.metadata = Metadata.stripe_metadata_for_sf_object(@user, salesforce_object)
 
-    apply_mapping(stripe_object, sf_object)
+    apply_mapping(stripe_object, salesforce_object)
+
+    sanitize(stripe_object)
+
+    stripe_object
+  end
+
+  def update_stripe_object(stripe_class:, stripe_object_id:, sf_object:)
+    # creates the stripe object from the sf_object
+    stripe_object = construct_stripe_object(stripe_class: stripe_class, salesforce_object: sf_object)
+
+    log.info 'updating stripe object', stripe_id: stripe_object_id, stripe_object_type: stripe_class
+
+    # note: the stripe_object should not contain it's id or the Stripe update call will fail
+    # since we are not allowed to update the id of an existing object
+    updated_stripe_object = catch_errors_with_salesforce_context(secondary: sf_object) do
+      stripe_class.update(
+        stripe_object_id,
+        stripe_object.to_hash,
+        @user.stripe_credentials
+      )
+    end
+
+    log.info 'updated stripe object', stripe_id: stripe_object_id, stripe_object_type: stripe_class
+
+    updated_stripe_object
+  end
+
+  def create_stripe_object(stripe_class, sf_object, additional_stripe_params: {})
+    stripe_object = construct_stripe_object(stripe_class: stripe_class, salesforce_object: sf_object, additional_stripe_params: additional_stripe_params)
 
     if block_given?
       yield(stripe_object)
     end
-
-    sanitize(stripe_object)
 
     log.info 'creating stripe object', salesforce_object: sf_object, stripe_object_type: stripe_class
 
