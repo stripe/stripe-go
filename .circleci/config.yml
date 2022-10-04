@@ -307,6 +307,12 @@ jobs:
               exit 1
             fi
 
+            # Ensure the latest version has been tagged in git
+            if [[ $(git tag -l | grep -c "qa-${latest_package_version}") == 0 ]]; then
+                echo "Latest QA package version ($latest_package_version) has not been tagged on main. Please only roll packages with ./sfdx/bin/roll-new-package/"
+                exit 1
+            fi
+
             echo "Latest package is installed"
 
       - run:
@@ -339,6 +345,12 @@ jobs:
               echo "https://appiphony92-dev-ed.lightning.force.com/packaging/installPackage.apexp?p0=$latest_package_id"
 
               exit 1
+            fi
+
+            # Ensure the latest version has been tagged in git
+            if [[ $(git tag -l | grep -c "prod-${latest_package_version}") == 0 ]]; then
+                echo "Latest production package version ($latest_package_version) has not been tagged on main. Please only roll packages with ./sfdx/bin/roll-new-package/"
+                exit 1
             fi
 
             echo "Latest package is installed"

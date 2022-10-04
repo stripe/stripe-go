@@ -425,6 +425,16 @@ BUNDLE_DISABLE_SHARED_GEMS=1 BUNDLE_PATH=vendor/bundle bundle
 
 # Tests
 
+## Test Data for Contractors
+
+If the contractor team wants some test data in one of their scratch orgs, do the following:
+
+1. Auth your CLI with the test credentials they provide: `sfdx force:auth:web:login -d -a <contractor-name>-scratch -r https://test.salesforce.com`
+2. Replace your local tokens with: `bundle exec ruby scripts/refresh-tokens.rb <contractor-name>-scratch`
+3. Run our integration test suite to generate data: `NO_RESCUE=true bundle exec rails test "test/integration/**/test*.rb"`
+
+If you see an error like "Restforce::ErrorCode::ApexError: APEX_ERROR: SBQQ.RestClient.RefreshTokenNilException: Invalid nil argument: OAuth Refresh Token", this is a strong indication that they did not follow all the manual steps in the generate-cpq-scratch-org script. This particular error is them not authorizing the CPQ package as a pricing and calculation service.
+
 ## Ruby
 
 - Before running tests, you'll need a valid oauth token: `bundle exec ruby scripts/refresh-tokens.rb`
