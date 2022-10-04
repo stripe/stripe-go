@@ -78,7 +78,7 @@ module Critic::Unit
         StripeForce::Utilities::SalesforceUtil.salesforce_type_from_id(@user, sf_object_id)
 
         # we expect to have saved the object info
-        assert_equal({'6S9' => 'AIApplicationConfig'}, @user.salesforce_object_prefix_mappings)
+        assert_equal({sf_object_prefix => sf_object_name}, @user.salesforce_object_prefix_mappings)
       end
     end
   end

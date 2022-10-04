@@ -217,4 +217,82 @@ class Critic::CustomerTranslation < Critic::FunctionalTest
       assert_equal(sf_account_updated_name, stripe_customer.name)
       assert_equal(sf_account_updated_postal_code, T.must(stripe_customer.shipping.address).postal_code)
   end
+
+  it 'ensures customer metadata is merged on customer updates' do
+      @user.enable_feature(FeatureFlags::UPDATE_CUSTOMER_ON_ORDER_TRANSLATION)
+
+      # add a custom metadata field which maps to the sf account name
+      @user.field_mappings = {
+        "customer" => {
+          "metadata.sf_mapped_metadata_field_1" => "Name",
+          "metadata.sf_mapped_metadata_field_2" => "Description",
+        },
+      }
+
+      # create the sf account
+      sf_account_name = "Awesome Test Account Name"
+      sf_account_description = "Awesome Test Account Description"
+      sf_account_id = create_salesforce_account(additional_fields: {
+        "Name" => sf_account_name,
+        "Description" => sf_account_description,
+      })
+
+      # translate the sf account
+      StripeForce::Translate.perform_inline(@user, sf_account_id)
+
+      # confirm the sf account was translated
+      sf_account = sf.find(SF_ACCOUNT, sf_account_id)
+      stripe_customer_id = sf_account[prefixed_stripe_field(GENERIC_STRIPE_ID)]
+      refute_nil(stripe_customer_id)
+
+      # retrieve the corresponding stripe customer
+      stripe_customer = Stripe::Customer.retrieve(stripe_customer_id, @user.stripe_credentials)
+
+      # confirm the stripe customer metadata includes our custom metadata and the sf mapped metadata
+      assert_equal(4, stripe_customer.metadata.keys.count)
+      assert_equal(sf_account_id, stripe_customer.metadata['salesforce_account_id'])
+      assert_match(sf_account_id, stripe_customer.metadata['salesforce_account_link'])
+      assert_match(sf_account_name, stripe_customer.metadata['sf_mapped_metadata_field_1'])
+      assert_match(sf_account_description, stripe_customer.metadata['sf_mapped_metadata_field_2'])
+
+      # update the salesforce customer name
+      updated_sf_account_name = "Incredible Test Account Name"
+      sf.update!(SF_ACCOUNT, {
+        SF_ID => sf_account_id,
+        "Name" => updated_sf_account_name,
+      })
+
+      # add a custom metadata field on the stripe customer
+      stripe_customer.metadata["stripe_custom_metadata_field"] = "stripe_custom_metadata_value"
+      stripe_customer.save
+
+      # retranslate the sf account
+      StripeForce::Translate.perform_inline(@user, sf_account_id)
+      stripe_customer.refresh
+
+      # confirm the newly added stripe metadata field has been added
+      # and the sf account name has been updated
+      assert_equal(5, stripe_customer.metadata.keys.count)
+      assert_equal(sf_account_id, stripe_customer.metadata['salesforce_account_id'])
+      assert_match(sf_account_id, stripe_customer.metadata['salesforce_account_link'])
+      assert_equal("stripe_custom_metadata_value", stripe_customer.metadata['stripe_custom_metadata_field'])
+      assert_match(updated_sf_account_name, stripe_customer.metadata['sf_mapped_metadata_field_1'])
+      assert_match(sf_account_description, stripe_customer.metadata['sf_mapped_metadata_field_2'])
+
+      # update the user mappings to remove the 2nd mapping
+      @user.field_mappings = {
+        "customer" => {
+          "metadata.sf_mapped_metadata_field_1" => "Name",
+        },
+      }
+
+      # retranslate the sf account
+      StripeForce::Translate.perform_inline(@user, sf_account_id)
+      stripe_customer.refresh
+
+      # confirm this key is not wiped
+      # in order to remove a metadat field, you must set the value to empty
+      assert_equal(5, stripe_customer.metadata.keys.count)
+      assert_match(sf_account_description, stripe_customer.metadata['sf_mapped_metadata_field_2'])
+  end
 end

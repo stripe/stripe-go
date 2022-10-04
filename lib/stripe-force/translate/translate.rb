@@ -357,8 +357,10 @@ class StripeForce::Translate
 
     log.info 'updating stripe object', stripe_id: stripe_object_id, stripe_object_type: stripe_class
 
-    # note: the stripe_object should not contain it's id or the Stripe update call will fail
-    # since we are not allowed to update the id of an existing object
+    # updates only the parameters passed in and will leave any parameters not passed in unchanged
+    # NOTE the stripe_object should not contain it's id or the Stripe update call will fail
+    #      since we are not allowed to update the id of an existing object
+    # NOTE the individual keys in the stripe_object metadata field will be replaced and not the entire metadata field
     updated_stripe_object = catch_errors_with_salesforce_context(secondary: sf_object) do
       stripe_class.update(
         stripe_object_id,
