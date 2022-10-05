@@ -6,7 +6,7 @@ https://login.salesforce.com/packaging/installPackage.apexp?p0=04t5f000000n8TsAA
 Update with `sfdx force:package1:version:list --json -u mbianco+stripeconnector@stripe.com | jq -r '.result[-1].MetadataPackageVersionId'`
 
 QA Package Install:
-https://test.salesforce.com/packaging/installPackage.apexp?p0=04t5f00000074nmAAA
+https://test.salesforce.com/packaging/installPackage.apexp?p0=04t5f00000074nwAAA
 
 Update with `sfdx force:package1:version:list --json -u mbianco+newstripeconnectorqa@stripe.com | jq -r '.result[-1].MetadataPackageVersionId'`
 

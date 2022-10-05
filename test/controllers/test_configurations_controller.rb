@@ -174,166 +174,226 @@ class Critic::ConfigurationsControllerTest < ApplicationIntegrationTest
       end
     end
 
-    it 'returns user status JSON' do
-      assert_equal(1, StripeForce::User.count)
+    describe '#show' do
+      it 'returns user status JSON' do
+        assert_equal(1, StripeForce::User.count)
 
-      get api_configuration_path, headers: authentication_headers
+        get api_configuration_path, headers: authentication_headers
 
-      assert_response :success
+        assert_response :success
 
-      result = parsed_json
+        result = parsed_json
 
-      refute_nil(result['default_mappings'])
-      refute_nil(result['default_mappings'])
-      refute_nil(result['required_mappings'])
-      refute_nil(result['feature_flags'])
+        refute_nil(result['default_mappings'])
+        refute_nil(result['required_mappings'])
+        refute_nil(result['feature_flags'])
 
-      assert_equal(@user.salesforce_account_id, result["salesforce_account_id"])
-      assert_equal(@user.field_mappings, result["field_mappings"])
-      assert_equal(@user.field_defaults, result["field_defaults"])
+        assert_equal(@user.salesforce_account_id, result["salesforce_account_id"])
+        assert_equal(@user.field_mappings, result["field_mappings"])
+        assert_equal(@user.field_defaults, result["field_defaults"])
 
-      assert_equal(95, result['settings']['api_percentage_limit'])
-      assert_equal(10_000, result['settings']['sync_record_retention'])
-      assert_equal('USD', result['settings']['default_currency'])
-      assert_nil(result['settings']['sync_start_date'])
-      assert_equal(40, result['configuration_hash'].size)
-      assert(result['enabled'])
+        assert_equal(95, result['settings']['api_percentage_limit'])
+        assert_equal(10_000, result['settings']['sync_record_retention'])
+        assert_equal('USD', result['settings']['default_currency'])
+        assert_nil(result['settings']['sync_start_date'])
+        assert_equal(40, result['configuration_hash'].size)
+        assert(result['enabled'])
 
-      refute_nil(result['settings']['filters'])
-      assert_equal("Status = 'Activated'", result['settings']['filters'][SF_ORDER])
-      assert_nil(result['settings']['filters'][SF_ACCOUNT])
-      assert_nil(result['settings']['filters'][SF_PRODUCT])
+        refute_nil(result['settings']['filters'])
+        assert_equal("Status = 'Activated'", result['settings']['filters'][SF_ORDER])
+        assert_nil(result['settings']['filters'][SF_ACCOUNT])
+        assert_nil(result['settings']['filters'][SF_PRODUCT])
+      end
+
+      it 'updates the configuration_hash when mappings change' do
+        get api_configuration_path, headers: authentication_headers
+        assert_response :success
+        result = parsed_json
+
+        initial_hash = result['configuration_hash']
+
+        get api_configuration_path, headers: authentication_headers
+        assert_response :success
+        result = parsed_json
+
+        # hash should remain the same when something doesn't change
+        assert_equal(initial_hash, result['configuration_hash'])
+
+        @user.field_mappings['price'] = {'special' => 'mapping'}
+        @user.save
+
+        get api_configuration_path, headers: authentication_headers
+        assert_response :success
+        result = parsed_json
+
+        # if mappings change, hash should be different
+        refute_equal(initial_hash, result['configuration_hash'])
+        assert_equal(40, result['configuration_hash'].size)
+      end
     end
 
-    it 'updates the configuration_hash when mappings change' do
-      get api_configuration_path, headers: authentication_headers
-      assert_response :success
-      result = parsed_json
+    describe '#configuration' do
+      it 'updates settings' do
+        assert(@user.enabled)
 
-      initial_hash = result['configuration_hash']
+        future_time = Time.now.to_i + 3600
 
-      get api_configuration_path, headers: authentication_headers
-      assert_response :success
-      result = parsed_json
+        put api_configuration_path, params: {
+          enabled: false,
+          settings: {
+            api_percentage_limit: 90,
+            sync_start_date: future_time,
+            sync_record_retention: 1_000,
+            default_currency: 'EUR',
+          },
+        }, as: :json, headers: authentication_headers
 
-      # hash should remain the same when something doesn't change
-      assert_equal(initial_hash, result['configuration_hash'])
+        assert_response :success
 
-      @user.field_mappings['price'] = {'special' => 'mapping'}
-      @user.save
+        result = parsed_json
 
-      get api_configuration_path, headers: authentication_headers
-      assert_response :success
-      result = parsed_json
+        @user = T.must(StripeForce::User[@user.id])
 
-      # if mappings change, hash should be different
-      refute_equal(initial_hash, result['configuration_hash'])
-      assert_equal(40, result['configuration_hash'].size)
-    end
+        assert_equal(90, result['settings']['api_percentage_limit'])
+        assert_equal(1_000, result['settings']['sync_record_retention'])
+        assert_equal('EUR', result['settings']['default_currency'])
+        assert_equal(result['settings']['sync_start_date'], future_time)
+        assert(result['enabled'] == @user.enabled && @user.enabled == false)
+      end
 
-    it 'updates settings' do
-      future_time = Time.now.to_i + 3600
+      it 'does not remove settings which are not present in the incoming hash' do
+        @user.connector_settings['salesforce_namespace'] = SalesforceNamespaceOptions::QA.serialize
+        @user.save
 
-      put api_configuration_path, params: {
-        settings: {
-          api_percentage_limit: 90,
-          sync_start_date: future_time,
-          sync_record_retention: 1_000,
-          default_currency: 'EUR',
-        },
-      }, as: :json, headers: authentication_headers
+        put api_configuration_path, params: {
+          settings: {
+            default_currency: 'EUR',
+          },
+        }, as: :json, headers: authentication_headers
 
-      assert_response :success
+        assert_response :success
 
-      result = parsed_json
+        result = parsed_json
 
-      @user = T.must(StripeForce::User[@user.id])
+        @user = T.must(StripeForce::User[@user.id])
 
-      assert_equal(90, result['settings']['api_percentage_limit'])
-      assert_equal(1_000, result['settings']['sync_record_retention'])
-      assert_equal('EUR', result['settings']['default_currency'])
-      assert_equal(result['settings']['sync_start_date'], future_time)
-    end
+        assert_equal('EUR', @user.connector_settings['default_currency'])
+        assert_equal(SalesforceNamespaceOptions::QA.serialize, @user.connector_settings['salesforce_namespace'])
+        assert(result['enabled'])
+      end
 
-    it 'does not remove settings which are not present in the incoming hash' do
-      @user.connector_settings['salesforce_namespace'] = SalesforceNamespaceOptions::QA.serialize
-      @user.save
-
-      put api_configuration_path, params: {
-        settings: {
-          default_currency: 'EUR',
-        },
-      }, as: :json, headers: authentication_headers
-
-      assert_response :success
-
-      result = parsed_json
-
-      @user = T.must(StripeForce::User[@user.id])
-
-      assert_equal('EUR', @user.connector_settings['default_currency'])
-      assert_equal(SalesforceNamespaceOptions::QA.serialize, @user.connector_settings['salesforce_namespace'])
-    end
-
-    it 'updates mappings and defaults without settings' do
-      updated_field_mapping = {
-        "subscription_schedule" => {
-          "Email" => "email",
-        },
-        "customer" => {},
-      }
-
-      updated_field_defaults = {
-        "customer" => {
-          "phone" => "1231231234",
-        },
-      }
-
-      put api_configuration_path, params: {
-        field_mappings: updated_field_mapping,
-        field_defaults: updated_field_defaults,
-      }, as: :json, headers: authentication_headers
-
-      assert_response :success
-
-      result = parsed_json
-
-      @user = T.must(StripeForce::User[@user.id])
-
-      assert_equal(@user.field_mappings, updated_field_mapping)
-      assert_equal(@user.field_defaults, updated_field_defaults)
-
-      assert_equal(@user.field_mappings, result["field_mappings"])
-      assert_equal(@user.field_defaults, result["field_defaults"])
-    end
-
-    it 'preserves keys which are not supported in the mapper' do
-      @user.field_mappings['special_key'] = {
-        'Description' => 'metadata.special_key',
-      }
-
-      # this should be replaced when a payload is passed from the mapper
-      @user.field_mappings['subscription'] = {
-        'Description' => 'metadata.normal_key',
-      }
-
-      @user.save
-
-      put api_configuration_path, params: {
-        "field_mappings" => {
-          "subscription" => {
-            'Description' => 'metadata.passed_key',
+      it 'updates mappings and defaults without settings' do
+        updated_field_mapping = {
+          "subscription_schedule" => {
+            "Email" => "email",
           },
           "customer" => {},
-        },
-        "field_defaults" => {},
-      }, as: :json, headers: authentication_headers
+        }
 
-      assert_response :success
+        updated_field_defaults = {
+          "customer" => {
+            "phone" => "1231231234",
+          },
+        }
 
-      @user = T.must(StripeForce::User[@user.id])
-      assert_equal({'Description' => 'metadata.passed_key'}, @user.field_mappings['subscription'])
-      assert_equal({'Description' => 'metadata.special_key'}, @user.field_mappings['special_key'])
+        put api_configuration_path, params: {
+          field_mappings: updated_field_mapping,
+          field_defaults: updated_field_defaults,
+        }, as: :json, headers: authentication_headers
+
+        assert_response :success
+
+        result = parsed_json
+
+        @user = T.must(StripeForce::User[@user.id])
+
+        assert_equal(@user.field_mappings, updated_field_mapping)
+        assert_equal(@user.field_defaults, updated_field_defaults)
+        assert(result['enabled'])
+
+        assert_equal(@user.field_mappings, result["field_mappings"])
+        assert_equal(@user.field_defaults, result["field_defaults"])
+      end
+
+      it 'preserves keys which are not supported in the mapper' do
+        @user.field_mappings['special_key'] = {
+          'Description' => 'metadata.special_key',
+        }
+
+        @user.field_defaults['special_key'] = {
+          'metadata.special_key' => 'special_value',
+        }
+
+        # this should be replaced when a payload is passed from the mapper
+        @user.field_mappings['subscription'] = {
+          'Description' => 'metadata.normal_key',
+        }
+
+        @user.save
+
+        put api_configuration_path, params: {
+          "field_mappings" => {
+            "subscription" => {
+              'Description' => 'metadata.passed_key',
+            },
+            "customer" => {},
+          },
+          "field_defaults" => {
+            "customer": {
+              "some": "key",
+            },
+          },
+        }, as: :json, headers: authentication_headers
+
+        assert_response :success
+
+        @user = T.must(StripeForce::User[@user.id])
+
+        assert_equal({'Description' => 'metadata.passed_key'}, @user.field_mappings['subscription'])
+        assert_equal({'Description' => 'metadata.special_key'}, @user.field_mappings['special_key'])
+
+        assert_equal({'some' => 'key'}, @user.field_defaults['customer'])
+        assert_equal({'metadata.special_key' => 'special_value'}, @user.field_defaults['special_key'])
+      end
+
+      it 'succeeds if the user content has not changed' do
+        get api_configuration_path, headers: authentication_headers
+        assert_response :success
+        result = parsed_json
+
+        configuration_hash = result['configuration_hash']
+        assert(configuration_hash)
+
+        put api_configuration_path, params: {
+          "configuration_hash" => configuration_hash,
+          "field_mappings" => {},
+          "field_defaults" => {},
+        }, as: :json, headers: authentication_headers
+
+        assert_response :success
+      end
+
+      it 'fails if the user content has changed since the managed package ui was loaded' do
+        get api_configuration_path, headers: authentication_headers
+        assert_response :success
+        result = parsed_json
+
+        configuration_hash = result['configuration_hash']
+        assert(configuration_hash)
+
+        @user.field_defaults["customer"] = {"async" => "change"}
+        @user.save
+
+        put api_configuration_path, params: {
+          "configuration_hash" => configuration_hash,
+          "field_mappings" => {},
+          "field_defaults" => {},
+        }, as: :json, headers: authentication_headers
+
+        assert_response :conflict
+        failure_result = parsed_json
+        assert_equal("Another user has updated the account. Refresh your account and try again.", failure_result["error"])
+      end
     end
   end
 end

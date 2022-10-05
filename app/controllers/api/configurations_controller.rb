@@ -111,11 +111,22 @@ module Api
     end
 
     def update
-      update_hash = params.permit(settings: {}, field_defaults: {}, field_mappings: {}).to_h
+      update_hash = params.permit({settings: {}, field_defaults: {}, field_mappings: {}}, :enabled, :configuration_hash).to_h
 
-      if update_hash.keys != %w{field_defaults field_mappings} && update_hash.keys != ['settings']
+      # the mapping update passes the field mappings & defaults, the settings update passes over the settings hash
+      # if the requests don't have this shape, it's invalid. Note that additional fields, like `enabled` and `configuration_hash`
+      # are not listed here since they are not consistent across the managed package install base yet
+      if (%w{field_defaults field_mappings} & update_hash.keys).empty? && (%w{settings} & update_hash.keys).empty?
         log.info 'invalid parameters passed', keys: update_hash.keys
         head :bad_request
+        return
+      end
+
+      incoming_configuration_hash = update_hash.delete("configuration_hash")
+
+      if incoming_configuration_hash.present? && incoming_configuration_hash != @user.configuration_hash
+        log.info 'configuration hash does not match'
+        render json: {error: "Another user has updated the account. Refresh your account and try again."}, status: :conflict
         return
       end
 
@@ -129,6 +140,10 @@ module Api
       # top-level keys not passed by the mapper should be preserved, but all 2nd level keys should be removed
       if update_hash.key?('field_mappings')
         update_hash['field_mappings'] = @user.field_mappings.merge(update_hash['field_mappings'])
+      end
+
+      if update_hash.key?('field_defaults')
+        update_hash['field_defaults'] = @user.field_defaults.merge(update_hash['field_defaults'])
       end
 
       @user.update(update_hash)
