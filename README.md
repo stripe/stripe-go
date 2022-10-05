@@ -423,6 +423,12 @@ Install all gems locally to easily grep through them:
 BUNDLE_DISABLE_SHARED_GEMS=1 BUNDLE_PATH=vendor/bundle bundle
 ```
 
+# Database
+
+To run migrations, `bundle exec sequel -E -m migrations $DATABASE_URL`
+
+If after a migration, you are seeing the changes reflected in postico but NOT in your bundle exectuion. It's a weird caching issue. Run `bundle exec spring stop` and then re-run your code.
+
 # Tests
 
 ## Test Data for Contractors
