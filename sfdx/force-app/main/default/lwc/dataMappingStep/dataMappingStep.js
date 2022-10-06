@@ -91,6 +91,7 @@ export default class DataMappingStep extends LightningElement {
             product: {},
             subscription_schedule: {},
             subscription_phase: {},
+            subscription_item: {},
             price: {},
             price_order_item: {}
         },
@@ -263,7 +264,7 @@ export default class DataMappingStep extends LightningElement {
                 if(!fieldData.sfValue) {
                     continue
                 }
-
+                
                 if(fieldData.staticValue === true) {
                     listOfAllMappings.field_defaults[stripeObjectName][fieldData.value] = fieldData.sfValue;
                 } else {
