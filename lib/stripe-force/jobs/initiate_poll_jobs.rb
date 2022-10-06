@@ -30,15 +30,19 @@ class StripeForce::InitiatePollsJobs
 
     # TODO should check if there is a valid NS + Stripe connection
 
-    log.info 'queuing poll', poll_job: StripeForce::OrderPoller
+    queue_poll_job_for_user(user, StripeForce::OrderPoller)
 
-    # TODO spit out to a separate job
+    if @user.feature_enabled?(StripeForce::Constants::FeatureFlags::ACCOUNT_POLLING)
+      queue_poll_job_for_user(user, StripeForce::AccountPoller)
+    end
+  end
+
+  def self.queue_poll_job_for_user(user, poller_job)
+    log.info 'queuing poll', poll_job: poller_job
+
     locker = Integrations::Locker.new(user)
     locker.lock_on_user do
-      StripeForce::OrderPoller.perform(
-        user: user,
-        locker: locker
-      )
+      poller_job.perform(user: user, locker: locker)
     end
   end
 end

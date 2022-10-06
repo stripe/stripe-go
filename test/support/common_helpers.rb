@@ -202,4 +202,20 @@ module Critic::CommonHelpers
   def redis
     Resque.redis
   end
+
+  def initial_poll_delta; 60 * 60 * 24 end
+
+  def set_initial_poll_timestamp(sf_class)
+    initial_poll = DateTime.now - initial_poll_delta
+
+    poll_timestamp = StripeForce::PollTimestamp.build_with_user_and_record(
+      @user,
+      sf_class
+    )
+
+    poll_timestamp.last_polled_at = initial_poll
+    poll_timestamp.save
+
+    poll_timestamp
+  end
 end

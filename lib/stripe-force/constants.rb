@@ -169,6 +169,7 @@ module StripeForce
         SF_CACHING = new('sf_caching')
         CATCH_ALL_ERRORS = new('catch_all_errors')
         UPDATE_CUSTOMER_ON_ORDER_TRANSLATION = new('update_customer_on_order_creation')
+        ACCOUNT_POLLING = new('account_polling')
       end
     end
 
