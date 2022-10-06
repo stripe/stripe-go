@@ -180,18 +180,6 @@ export default class DataMappingStep extends LightningElement {
         return this.activeObject == 'priceOrderItem';
     }
 
-    get activeStripeObjectSections() {
-        let activeObjectName = this.activeObject;
-        this.activeStripeSections = ['standard'];
-
-        if (this[this.activeObject + 'MetadataFields'].metadataMapping.fields.length > 0) {
-            this.activeStripeSections = ['standard', 'metadata']
-        }
-        
-        activeObjectName = activeObjectName.charAt(0).toUpperCase() + activeObjectName.slice(1);
-        return this['default' + activeObjectName + 'Sections'] = this.activeStripeSections
-    }
-
     get activeObjectFields() {
         return this[this.activeObject + 'Mappings'];
     }
@@ -459,7 +447,26 @@ export default class DataMappingStep extends LightningElement {
             updatedSelection.hasOverride = this.activeObjectFields[targetSectionIndex].fields[parseInt(targetFieldIndex)].defaultValue ? true : false;
             updatedSelection.hasRequiredValue = this.activeObjectFields[targetSectionIndex].fields[parseInt(targetFieldIndex)].requiredValue ? true : false;
             Object.assign(this.activeObjectFields[targetSectionIndex].fields[parseInt(targetFieldIndex)], updatedSelection);
+
+            this.openPicklist(event);
         }
+    }
+
+    openPicklist(event) {
+        const targetContainer = event.currentTarget.closest('td'); // Get the parent container of the targeted input 
+        const staticInput = targetContainer.querySelector('lightning-input');
+        if (staticInput) {
+            staticInput.focus();
+        } 
+        this.updatePicklistChoices(event);
+        
+        //setting timeout to force next render cycle and allow picker to to be rendered
+        setTimeout(() => {
+            const fieldPicker = targetContainer.querySelector('c-field-picker');
+            if (fieldPicker) {
+                fieldPicker.focus();
+            }
+        }, 100);
     }
 
     updatePicklistChoices(event) {

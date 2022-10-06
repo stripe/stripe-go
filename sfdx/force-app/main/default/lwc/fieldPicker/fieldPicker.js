@@ -76,11 +76,7 @@ export default class fieldPicker extends LightningElement {
 
     @api
     focus() {
-        if (!this.showMenu) {
-            this.toggleMenu();
-        } else {
-            this.template.querySelector(".sp-menu-button").focus();
-        }
+        this.toggleMenu();
     }
 
     @api
@@ -319,10 +315,6 @@ export default class fieldPicker extends LightningElement {
         ) {
             event.preventDefault();
         }
-    }
-
-    focus() {
-        this.dispatchEvent(new Event("focus"));
     }
 
     click(event) {
