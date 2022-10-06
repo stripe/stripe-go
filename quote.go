@@ -21,7 +21,7 @@ const (
 	QuoteAutomaticTaxStatusRequiresLocationInputs QuoteAutomaticTaxStatus = "requires_location_inputs"
 )
 
-// Either `charge_automatically`, or `send_invoice`. When charging automatically, Stripe will attempt to pay invoices at the end of the subscription cycle or on finalization using the default payment method attached to the subscription or customer. When sending an invoice, Stripe will email your customer an invoice with payment instructions. Defaults to `charge_automatically`.
+// Either `charge_automatically`, or `send_invoice`. When charging automatically, Stripe will attempt to pay invoices at the end of the subscription cycle or on finalization using the default payment method attached to the subscription or customer. When sending an invoice, Stripe will email your customer an invoice with payment instructions and mark the subscription as `active`. Defaults to `charge_automatically`.
 type QuoteCollectionMethod string
 
 // List of values that QuoteCollectionMethod can take
@@ -61,7 +61,7 @@ type QuoteParams struct {
 	ApplicationFeePercent *float64 `form:"application_fee_percent"`
 	// Settings for automatic tax lookup for this quote and resulting invoices and subscriptions.
 	AutomaticTax *QuoteAutomaticTaxParams `form:"automatic_tax"`
-	// Either `charge_automatically`, or `send_invoice`. When charging automatically, Stripe will attempt to pay invoices at the end of the subscription cycle or at invoice finalization using the default payment method attached to the subscription or customer. When sending an invoice, Stripe will email your customer an invoice with payment instructions. Defaults to `charge_automatically`.
+	// Either `charge_automatically`, or `send_invoice`. When charging automatically, Stripe will attempt to pay invoices at the end of the subscription cycle or at invoice finalization using the default payment method attached to the subscription or customer. When sending an invoice, Stripe will email your customer an invoice with payment instructions and mark the subscription as `active`. Defaults to `charge_automatically`.
 	CollectionMethod *string `form:"collection_method"`
 	// The customer for which this quote belongs to. A customer is required before finalizing the quote. Once specified, it cannot be changed.
 	Customer *string `form:"customer"`
@@ -428,7 +428,7 @@ type Quote struct {
 	// A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice subtotal that will be transferred to the application owner's Stripe account. Only applicable if there are line items with recurring prices on the quote.
 	ApplicationFeePercent float64            `json:"application_fee_percent"`
 	AutomaticTax          *QuoteAutomaticTax `json:"automatic_tax"`
-	// Either `charge_automatically`, or `send_invoice`. When charging automatically, Stripe will attempt to pay invoices at the end of the subscription cycle or on finalization using the default payment method attached to the subscription or customer. When sending an invoice, Stripe will email your customer an invoice with payment instructions. Defaults to `charge_automatically`.
+	// Either `charge_automatically`, or `send_invoice`. When charging automatically, Stripe will attempt to pay invoices at the end of the subscription cycle or on finalization using the default payment method attached to the subscription or customer. When sending an invoice, Stripe will email your customer an invoice with payment instructions and mark the subscription as `active`. Defaults to `charge_automatically`.
 	CollectionMethod QuoteCollectionMethod `json:"collection_method"`
 	Computed         *QuoteComputed        `json:"computed"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.

@@ -164,6 +164,7 @@ type SetupAttemptPaymentMethodDetailsIDEAL struct {
 	// (if supported) at the time of authorization or settlement. They cannot be set or mutated.
 	VerifiedName string `json:"verified_name"`
 }
+type SetupAttemptPaymentMethodDetailsKlarna struct{}
 type SetupAttemptPaymentMethodDetailsLink struct{}
 type SetupAttemptPaymentMethodDetailsSEPADebit struct{}
 type SetupAttemptPaymentMethodDetailsSofort struct {
@@ -197,6 +198,7 @@ type SetupAttemptPaymentMethodDetails struct {
 	Card        *SetupAttemptPaymentMethodDetailsCard        `json:"card"`
 	CardPresent *SetupAttemptPaymentMethodDetailsCardPresent `json:"card_present"`
 	IDEAL       *SetupAttemptPaymentMethodDetailsIDEAL       `json:"ideal"`
+	Klarna      *SetupAttemptPaymentMethodDetailsKlarna      `json:"klarna"`
 	Link        *SetupAttemptPaymentMethodDetailsLink        `json:"link"`
 	SEPADebit   *SetupAttemptPaymentMethodDetailsSEPADebit   `json:"sepa_debit"`
 	Sofort      *SetupAttemptPaymentMethodDetailsSofort      `json:"sofort"`
