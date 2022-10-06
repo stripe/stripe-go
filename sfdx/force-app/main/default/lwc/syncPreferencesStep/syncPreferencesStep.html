@@ -1,5 +1,27 @@
 <template>
     <div class="slds-p-around_large">
+        <div if:true={setupComplete} class="stripe-settings__item slds-grid">
+            <div class="slds-col_bump-right">
+                <h4 class="slds-text-heading_small slds-m-bottom_xx-small">
+                    Integration Enabled
+                </h4>
+                <p>
+                    The current active status for the Stripe Billing Connector. The default working state is 'Enabled', which allows order processing to proceed normally. Disabling the integration will halt all order processing.
+                </p>
+            </div>
+            <div class="slds-col slds-p-left_xx-large slds-size_1-of-3 slds-text-align_right">
+                <lightning-input type="toggle" 
+                    label="Integration Enabled" 
+                    variant="label-hidden" 
+                    checked={isConfigEnabled} 
+                    message-toggle-active="" 
+                    message-toggle-inactive=""
+                    class="stripe-input_enable-integration slds-show_inline-block"
+                    onchange={updateEnabledStatus}>
+                </lightning-input>
+            </div>
+        </div>
+
         <div class="stripe-settings__item slds-grid">
             <div class="slds-col_bump-right">
                 <h4 class="slds-text-heading_small slds-m-bottom_xx-small">
@@ -202,4 +224,12 @@
     <lightning-button slot="footer" label="Sync All Pricebooks" variant="brand" class="slds-button" onclick={syncPricebooks}></lightning-button>
 </c-modal>
 <!-- /Manual Sync Confirmation Modals -->
+
+<c-modal class="stripe-modal_disable-integration" title="Confirm Disable Integration" onmodalclose={disableIntegrationCancel}>
+    <p class="slds-text-align_center">
+        Disabling the integration will halt all order processing. Are you sure you want to continue?
+    </p>
+    <lightning-button slot="footer" label="Cancel" variant="neutral" class="slds-button" onclick={disableIntegrationCancel}></lightning-button>
+    <lightning-button slot="footer" label="Disable Integration" variant="destructive" class="slds-button" onclick={disableIntegrationConfirm}></lightning-button>
+</c-modal>
 </template>

@@ -22,6 +22,7 @@ export default class SyncPreferencesStep extends LightningElement {
     @track totalApiCalls; 
     @track currencyOptions;
     @track isCpqInstalled;
+    @track isConfigEnabled;
     @track orderFilter;
     @track accountFilter;
     @track productFilter;
@@ -62,6 +63,7 @@ export default class SyncPreferencesStep extends LightningElement {
             this.cpqTermUnit = responseData.results.cpq_term_unit;
             this.isCpqInstalled = responseData.results.isCpqInstalled;
             this.isSandbox = responseData.results.isSandbox;
+            this.isConfigEnabled = responseData.results.enabled;
 
             const multiCurrencyCheck = await getMulticurrencySelectionOptions();
             const multiCurrencyResponseData = JSON.parse(multiCurrencyCheck);
@@ -90,6 +92,30 @@ export default class SyncPreferencesStep extends LightningElement {
         } finally {
             this.loading = false;
         }
+    }
+
+    updateEnabledStatus() {
+        // If currently enabled, show disable confirmation modal
+        if (this.isConfigEnabled) {
+            this.template.querySelector('.stripe-modal_disable-integration').show();
+            return;
+        }
+
+        // If currently disabled, enable integration
+        this.isConfigEnabled = true;
+        this.dispatchEvent(new CustomEvent('valuechange'));
+    }
+
+    async disableIntegrationConfirm() {
+        this.isConfigEnabled = false;
+        await this.saveModifiedSyncPreferences();
+        this.template.querySelector('.stripe-input_enable-integration').checked = this.isConfigEnabled;
+        this.template.querySelector('.stripe-modal_disable-integration').hide();
+    }
+
+    disableIntegrationCancel() {
+        this.template.querySelector('.stripe-input_enable-integration').checked = this.isConfigEnabled;
+        this.template.querySelector('.stripe-modal_disable-integration').hide();
     }
 
     updateDefaultCurrency(event) {
@@ -208,7 +234,8 @@ export default class SyncPreferencesStep extends LightningElement {
                     defaultCurrency: this.defaultCurrency,
                     syncRecordRetention: this.syncRecordRetention,
                     syncStartDate: (new Date(this.syncStartDate).getTime() / 1000),
-                    apiPercentageLimit: this.apiPercentageLimit
+                    apiPercentageLimit: this.apiPercentageLimit,
+                    isConfigEnabled: this.isConfigEnabled
                 });
                 const savedSyncPreferencesResponseData =  JSON.parse(updatedSyncPreferences);
                 if(savedSyncPreferencesResponseData.isSuccess) {

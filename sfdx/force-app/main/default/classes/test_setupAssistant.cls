@@ -328,6 +328,7 @@ public with sharing class test_setupAssistant {
         System.assertEquals('yesterday', (String)resultsMap.get('sync_start_date'));
         System.assertEquals('1000515', (String)resultsMap.get('api_percentage_limit'));
         System.assertEquals('monthly', (String)resultsMap.get('cpq_term_unit'));
+        System.assertEquals(true, (Boolean)resultsMap.get('enabled'));
     }
 
  @isTest
@@ -383,7 +384,7 @@ public with sharing class test_setupAssistant {
 
         Test.startTest();
         Test.setMock(HttpCalloutMock.class, new stripeConnectionSuccessMock());
-        String response = setupAssistant.saveSyncPreferences('TEST','10000', '1644854972', '95', 'monthly');
+        String response = setupAssistant.saveSyncPreferences('TEST','10000', '1644854972', '95', 'monthly', true);
         Map<String, Object> responseMap = (Map<String, Object>)JSON.deserializeUntyped(response);
         Test.stopTest();
 
@@ -541,7 +542,9 @@ public with sharing class test_setupAssistant {
             if(req.getEndpoint().endsWith('configuration')) {
                 Stripe_Connection__c stripeConnectRec = Stripe_Connection__c.getOrgDefaults();
                 System.assertEquals(req.getHeader('Salesforce-Key'), (String)stripeConnectRec.API_Key__c);
-                Map<String,Object> responseBody = new Map<String,Object>();
+                Map<String,Object> responseBody = new Map<String,Object>{
+                    'enabled' => true
+                };
                 responseBody.put('connection_status', (Object)new Map<String,Object>{
                     'salesforce' => true,
                     'stripe' => true,

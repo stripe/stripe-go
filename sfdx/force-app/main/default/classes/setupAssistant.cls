@@ -354,7 +354,8 @@ public with sharing class setupAssistant {
                     upsert stripeConnectRec;
                     return rd.getJsonString();
                 }
-
+                
+                rd.put('enabled', (Boolean)responseBody.get('enabled'));
                 Map<String, Object> settings = (Map<String,Object>)responseBody.get('settings');
 
                 List<String> settingsFields = new List<String> {
@@ -434,12 +435,13 @@ public with sharing class setupAssistant {
 
     //sends updated sync preference data to the ruby service and saves the values
     @AuraEnabled
-    public static String saveSyncPreferences(String defaultCurrency, String syncRecordRetention, String syncStartDate, String apiPercentageLimit, String cpqTermUnit) {
+    public static String saveSyncPreferences(String defaultCurrency, String syncRecordRetention, String syncStartDate, String apiPercentageLimit, String cpqTermUnit, Boolean isConfigEnabled) {
         responseData rd = new responseData();
         try {
             Stripe_Connection__c stripeConnectRec = Stripe_Connection__c.getOrgDefaults();
             if(stripeConnectRec.Id != null) {
                 Map<String, Object> resquestBody = new Map<String, Object> {
+                    'enabled' => isConfigEnabled,
                     'settings' => new Map<String, Object> {
                         'api_percentage_limit' => apiPercentageLimit,
                         'sync_start_date' => syncStartDate,
