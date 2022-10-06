@@ -1,5 +1,18 @@
 # Changelog
 
+## 73.12.0 - 2022-10-06
+* [#1551](https://github.com/stripe/stripe-go/pull/1551) API Updates
+  * Add support for new value `invalid_dob_age_under_18` on enums `AccountFutureRequirementsErrorsCode`, `AccountRequirementsErrorsCode`, `CapabilityFutureRequirementsErrorsCode`, `CapabilityRequirementsErrorsCode`, `PersonFutureRequirementsErrorsCode`, and `PersonRequirementsErrorsCode`
+  * Add support for new value `bank_of_china` on enums `ChargePaymentMethodDetailsFpxBank` and `PaymentMethodFpxBank`
+  * Add support for `Klarna` on `SetupAttemptPaymentMethodDetails`
+
+## 73.11.0 - 2022-09-29
+* [#1549](https://github.com/stripe/stripe-go/pull/1549) API Updates
+  * Change type of `ChargePaymentMethodDetailsCardPresentIncrementalAuthorizationSupported` and `ChargePaymentMethodDetailsCardPresentOvercaptureSupported` from `nullable(boolean)` to `boolean`
+  * Add support for `Created` on `CheckoutSession`
+  * Add support for `SetupFutureUsage` on `PaymentIntentConfirmPaymentMethodOptionsPixParams`, `PaymentIntentPaymentMethodOptionsPixParams`, and `PaymentIntentPaymentMethodOptionsPix`
+  * Deprecate `CheckoutSessionSubscriptionDataTransferDataParams.items` and `CheckoutSessionSubscriptionDataItemParams` (use the `line_items` param instead). This will be removed in the next major version.
+
 ## 73.11.0-beta.1 - 2022-09-26
 * [#1548](https://github.com/stripe/stripe-go/pull/1548) API Updates for beta branch
   * Updated stable APIs to the latest version
