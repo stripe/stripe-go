@@ -331,18 +331,12 @@ type SubscriptionScheduleAmendAmendmentAmendmentEndDurationParams struct {
 	IntervalCount *int64 `form:"interval_count"`
 }
 
-// A precise Unix timestamp for the amendment to end. Must be after the `amendment_start`.
-type SubscriptionScheduleAmendAmendmentAmendmentEndTimestampParams struct {
-	// A precise numeric timestamp, provided as an integer number of seconds since the Unix epoch.
-	Value *int64 `form:"value"`
-}
-
 // Details to identify the end of the time range modified by the proposed change. If not supplied, the amendment is considered a point-in-time operation that only affects the exact timestamp at `amendment_start`, and a restricted set of attributes is supported on the amendment.
 type SubscriptionScheduleAmendAmendmentAmendmentEndParams struct {
 	// Time span for the amendment starting from the `amendment_start`.
 	Duration *SubscriptionScheduleAmendAmendmentAmendmentEndDurationParams `form:"duration"`
 	// A precise Unix timestamp for the amendment to end. Must be after the `amendment_start`.
-	Timestamp *SubscriptionScheduleAmendAmendmentAmendmentEndTimestampParams `form:"timestamp"`
+	Timestamp *int64 `form:"timestamp"`
 	// Select one of three ways to pass the `amendment_end`.
 	Type *string `form:"type"`
 }
@@ -353,18 +347,12 @@ type SubscriptionScheduleAmendAmendmentAmendmentStartAmendmentEndParams struct {
 	Index *int64 `form:"index"`
 }
 
-// A precise Unix timestamp for the amendment to start.
-type SubscriptionScheduleAmendAmendmentAmendmentStartTimestampParams struct {
-	// A precise numeric timestamp, provided as an integer number of seconds since the Unix epoch.
-	Value *int64 `form:"value"`
-}
-
 // Details to identify the earliest timestamp where the proposed change should take effect.
 type SubscriptionScheduleAmendAmendmentAmendmentStartParams struct {
 	// Details of another amendment in the same array, immediately after which this amendment should begin.
 	AmendmentEnd *SubscriptionScheduleAmendAmendmentAmendmentStartAmendmentEndParams `form:"amendment_end"`
 	// A precise Unix timestamp for the amendment to start.
-	Timestamp *SubscriptionScheduleAmendAmendmentAmendmentStartTimestampParams `form:"timestamp"`
+	Timestamp *int64 `form:"timestamp"`
 	// Select one of three ways to pass the `amendment_start`.
 	Type *string `form:"type"`
 }

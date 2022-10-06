@@ -1299,6 +1299,7 @@ type PaymentIntentPaymentMethodOptionsPayNowParams struct {
 type PaymentIntentPaymentMethodOptionsPaypalParams struct {
 	CaptureMethod   *string `form:"capture_method"`
 	PreferredLocale *string `form:"preferred_locale"`
+	ReferenceID     *string `form:"reference_id"`
 }
 
 // If this is a `pix` PaymentMethod, this sub-hash contains details about the Pix payment method options.
@@ -2339,6 +2340,8 @@ type PaymentIntentPaymentMethodOptionsPaypal struct {
 	CaptureMethod PaymentIntentPaymentMethodOptionsPaypalCaptureMethod `json:"capture_method"`
 	// Preferred locale of the PayPal checkout page that the customer is redirected to.
 	PreferredLocale string `json:"preferred_locale"`
+	// A unique reference ID of the PayPal transaction. This must be a globally unique ID across all PayPal transactions or the transaction will fail.
+	ReferenceID string `json:"reference_id"`
 }
 type PaymentIntentPaymentMethodOptionsPix struct {
 	// The number of seconds (between 10 and 1209600) after which Pix payment will expire.

@@ -14,7 +14,7 @@ const (
 	QuotePhaseBillingCycleAnchorReset QuotePhaseBillingCycleAnchor = "reset"
 )
 
-// Either `charge_automatically`, or `send_invoice`. When charging automatically, Stripe will attempt to pay the underlying subscription at the end of each billing cycle using the default source attached to the customer. When sending an invoice, Stripe will email your customer an invoice with payment instructions.
+// Either `charge_automatically`, or `send_invoice`. When charging automatically, Stripe will attempt to pay the underlying subscription at the end of each billing cycle using the default source attached to the customer. When sending an invoice, Stripe will email your customer an invoice with payment instructions and mark the subscription as `active`.
 type QuotePhaseCollectionMethod string
 
 // List of values that QuotePhaseCollectionMethod can take
@@ -102,7 +102,7 @@ type QuotePhase struct {
 	AmountTotal int64 `json:"amount_total"`
 	// If set to `reset`, the billing_cycle_anchor of the subscription is set to the start of the phase when entering the phase. If unset, then the billing cycle anchor is automatically modified as needed when entering the phase. For more information, see the billing cycle [documentation](https://stripe.com/docs/billing/subscriptions/billing-cycle).
 	BillingCycleAnchor QuotePhaseBillingCycleAnchor `json:"billing_cycle_anchor"`
-	// Either `charge_automatically`, or `send_invoice`. When charging automatically, Stripe will attempt to pay the underlying subscription at the end of each billing cycle using the default source attached to the customer. When sending an invoice, Stripe will email your customer an invoice with payment instructions.
+	// Either `charge_automatically`, or `send_invoice`. When charging automatically, Stripe will attempt to pay the underlying subscription at the end of each billing cycle using the default source attached to the customer. When sending an invoice, Stripe will email your customer an invoice with payment instructions and mark the subscription as `active`.
 	CollectionMethod QuotePhaseCollectionMethod `json:"collection_method"`
 	// The default tax rates to apply to the subscription during this phase of the quote.
 	DefaultTaxRates []*TaxRate `json:"default_tax_rates"`
