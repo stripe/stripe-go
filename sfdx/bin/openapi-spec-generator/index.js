@@ -276,16 +276,25 @@ function checkForNestedHashFields(stripeObjectMappings, stripeObjectName, expand
             };
             stripeObjectMappings.push(newSection);
             if (Object.keys(expandableSchemaFieldMap).length > 1 ) {
+                //checking for further nested hashes in `subscription schedule` default settings hash 2 seperate checks to maintain index
                 for (const [nestedSubHashField, nestedSubHashFieldMap] of Object.entries(expandableSchemaFieldMap)) {
                     var nestedSubHashFieldName = nestedSubHashField.replace(/_+/g, ' ');
                     var nestedSubHashFieldValue = field + '.' + nestedSubHashField;
+                    if(expandableSchemaFieldMap[nestedSubHashField]['anyOf'] && expandableSchemaFieldMap[nestedSubHashField]['anyOf'].length) {
+                        continue
+                    } 
 
+                    stripeObjectMappings = addNewFieldToSection(stripeObjectMappings, nestedSubHashFieldName, nestedSubHashFieldValue, nestedSubHashFieldMap, nestedSubHashField, field, stripeObjectName);
+                }
+
+                for (const [nestedSubHashField, nestedSubHashFieldMap] of Object.entries(expandableSchemaFieldMap)) {
+                    var nestedSubHashFieldName = nestedSubHashField.replace(/_+/g, ' ');
+                    var nestedSubHashFieldValue = field + '.' + nestedSubHashField;
+        
                     //check to see if the object has a nested list
                     if(expandableSchemaFieldMap[nestedSubHashField]['anyOf'] && expandableSchemaFieldMap[nestedSubHashField]['anyOf'].length) {
                         stripeObjectMappings = getNestedInnerObjectFields(expandableSchemaFieldMap, nestedSubHashField, stripeObjectMappings, field, stripeObjectName);
                     } 
-
-                    stripeObjectMappings = addNewFieldToSection(stripeObjectMappings, nestedSubHashFieldName, nestedSubHashFieldValue, nestedSubHashFieldMap, nestedSubHashField, field, stripeObjectName);
                 }
 
             } else {
