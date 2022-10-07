@@ -32,7 +32,7 @@ class StripeForce::InitiatePollsJobs
 
     queue_poll_job_for_user(user, StripeForce::OrderPoller)
 
-    if @user.feature_enabled?(StripeForce::Constants::FeatureFlags::ACCOUNT_POLLING)
+    if user.feature_enabled?(StripeForce::Constants::FeatureFlags::ACCOUNT_POLLING)
       queue_poll_job_for_user(user, StripeForce::AccountPoller)
     end
   end
