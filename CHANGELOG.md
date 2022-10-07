@@ -3,6 +3,8 @@
 ## 73.13.0-beta.1 - 2022-10-07
 * [#1552](https://github.com/stripe/stripe-go/pull/1552) API Updates for beta branch
   * Updated stable APIs to the latest version
+  * Add `ReferenceID` to `OrderPaymentSettingsPaymentMethodOptionsPaypalParams` and `OrderPaymentSettingsPaymentMethodOptionsPaypal`
+  * Rename `CapitalFinancingSummaries` client to `CapitalFinancingSummary`.
 
 ## 73.12.0 - 2022-10-06
 * [#1551](https://github.com/stripe/stripe-go/pull/1551) API Updates
