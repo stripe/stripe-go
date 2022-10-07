@@ -150,8 +150,8 @@ type API struct {
 	Capabilities *capability.Client
 	// CapitalFinancingOffers is the client used to invoke /capital/financing_offers APIs.
 	CapitalFinancingOffers *capitalfinancingoffer.Client
-	// CapitalFinancingSummaries is the client used to invoke /capital/financing_summary APIs.
-	CapitalFinancingSummaries *capitalfinancingsummary.Client
+	// CapitalFinancingSummary is the client used to invoke /capital/financing_summary APIs.
+	CapitalFinancingSummary *capitalfinancingsummary.Client
 	// CapitalFinancingTransactions is the client used to invoke /capital/financing_transactions APIs.
 	CapitalFinancingTransactions *capitalfinancingtransaction.Client
 	// Cards is the client used to invoke card related APIs.
@@ -371,7 +371,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.BillingPortalSessions = &billingportalsession.Client{B: backends.API, Key: key}
 	a.Capabilities = &capability.Client{B: backends.API, Key: key}
 	a.CapitalFinancingOffers = &capitalfinancingoffer.Client{B: backends.API, Key: key}
-	a.CapitalFinancingSummaries = &capitalfinancingsummary.Client{B: backends.API, Key: key}
+	a.CapitalFinancingSummary = &capitalfinancingsummary.Client{B: backends.API, Key: key}
 	a.CapitalFinancingTransactions = &capitalfinancingtransaction.Client{B: backends.API, Key: key}
 	a.Cards = &card.Client{B: backends.API, Key: key}
 	a.CashBalances = &cashbalance.Client{B: backends.API, Key: key}

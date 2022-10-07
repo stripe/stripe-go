@@ -1270,7 +1270,7 @@ type CheckoutSessionShippingOptionParams struct {
 	ShippingRateData *CheckoutSessionShippingOptionShippingRateDataParams `form:"shipping_rate_data"`
 }
 
-// A list of items, each with an attached plan, that the customer is subscribing to. Prefer using `line_items`.
+// This parameter is deprecated. Use the line_items parameter on the Session instead.
 type CheckoutSessionSubscriptionDataItemParams struct {
 	// Plan ID for this item.
 	Plan *string `form:"plan"`
@@ -1303,7 +1303,7 @@ type CheckoutSessionSubscriptionDataParams struct {
 	// Use this field to optionally store an explanation of the subscription
 	// for rendering in Stripe hosted surfaces.
 	Description *string `form:"description"`
-	// A list of items, each with an attached plan, that the customer is subscribing to. Prefer using `line_items`.
+	// This parameter is deprecated. Use the line_items parameter on the Session instead.
 	Items []*CheckoutSessionSubscriptionDataItemParams `form:"items"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
@@ -1920,6 +1920,8 @@ type CheckoutSession struct {
 	Consent *CheckoutSessionConsent `json:"consent"`
 	// When set, provides configuration for the Checkout Session to gather active consent from customers.
 	ConsentCollection *CheckoutSessionConsentCollection `json:"consent_collection"`
+	// Time at which the object was created. Measured in seconds since the Unix epoch.
+	Created int64 `json:"created"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency Currency `json:"currency"`
 	// The ID of the customer for this Session.

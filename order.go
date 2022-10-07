@@ -784,6 +784,7 @@ type OrderPaymentSettingsPaymentMethodOptionsP24Params struct {
 type OrderPaymentSettingsPaymentMethodOptionsPaypalParams struct {
 	CaptureMethod   *string `form:"capture_method"`
 	PreferredLocale *string `form:"preferred_locale"`
+	ReferenceID     *string `form:"reference_id"`
 }
 
 // Additional fields for Mandate creation
@@ -1239,6 +1240,8 @@ type OrderPaymentSettingsPaymentMethodOptionsPaypal struct {
 	CaptureMethod OrderPaymentSettingsPaymentMethodOptionsPaypalCaptureMethod `json:"capture_method"`
 	// Preferred locale of the PayPal checkout page that the customer is redirected to.
 	PreferredLocale string `json:"preferred_locale"`
+	// A unique reference ID of the PayPal transaction. This must be a globally unique ID across all PayPal transactions or the transaction will fail.
+	ReferenceID string `json:"reference_id"`
 }
 type OrderPaymentSettingsPaymentMethodOptionsSEPADebitMandateOptions struct{}
 type OrderPaymentSettingsPaymentMethodOptionsSEPADebit struct {

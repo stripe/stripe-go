@@ -1154,7 +1154,7 @@ type Invoice struct {
 	ReceiptNumber string `json:"receipt_number"`
 	// Options for invoice PDF rendering.
 	RenderingOptions *InvoiceRenderingOptions `json:"rendering_options"`
-	// Starting customer balance before the invoice is finalized. If the invoice has not been finalized yet, this will be the current customer balance.
+	// Starting customer balance before the invoice is finalized. If the invoice has not been finalized yet, this will be the current customer balance. For revision invoices, this also includes any customer balance that was applied to the original invoice.
 	StartingBalance int64 `json:"starting_balance"`
 	// Extra information about an invoice for the customer's credit card statement.
 	StatementDescriptor string `json:"statement_descriptor"`

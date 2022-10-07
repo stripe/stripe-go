@@ -130,7 +130,7 @@ type SubscriptionScheduleDefaultSettingsParams struct {
 	BillingCycleAnchor *string `form:"billing_cycle_anchor"`
 	// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. Pass an empty string to remove previously-defined thresholds.
 	BillingThresholds *SubscriptionBillingThresholdsParams `form:"billing_thresholds"`
-	// Either `charge_automatically`, or `send_invoice`. When charging automatically, Stripe will attempt to pay the underlying subscription at the end of each billing cycle using the default source attached to the customer. When sending an invoice, Stripe will email your customer an invoice with payment instructions. Defaults to `charge_automatically` on creation.
+	// Either `charge_automatically`, or `send_invoice`. When charging automatically, Stripe will attempt to pay the underlying subscription at the end of each billing cycle using the default source attached to the customer. When sending an invoice, Stripe will email your customer an invoice with payment instructions and mark the subscription as `active`. Defaults to `charge_automatically` on creation.
 	CollectionMethod *string `form:"collection_method"`
 	// ID of the default payment method for the subscription schedule. It must belong to the customer associated with the subscription schedule. If not set, invoices will use the default payment method in the customer's invoice settings.
 	DefaultPaymentMethod *string `form:"default_payment_method"`
@@ -232,7 +232,7 @@ type SubscriptionSchedulePhaseParams struct {
 	BillingCycleAnchor *string `form:"billing_cycle_anchor"`
 	// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. Pass an empty string to remove previously-defined thresholds.
 	BillingThresholds *SubscriptionBillingThresholdsParams `form:"billing_thresholds"`
-	// Either `charge_automatically`, or `send_invoice`. When charging automatically, Stripe will attempt to pay the underlying subscription at the end of each billing cycle using the default source attached to the customer. When sending an invoice, Stripe will email your customer an invoice with payment instructions. Defaults to `charge_automatically` on creation.
+	// Either `charge_automatically`, or `send_invoice`. When charging automatically, Stripe will attempt to pay the underlying subscription at the end of each billing cycle using the default source attached to the customer. When sending an invoice, Stripe will email your customer an invoice with payment instructions and mark the subscription as `active`. Defaults to `charge_automatically` on creation.
 	CollectionMethod *string `form:"collection_method"`
 	// The identifier of the coupon to apply to this phase of the subscription schedule.
 	Coupon *string `form:"coupon"`
@@ -331,18 +331,12 @@ type SubscriptionScheduleAmendAmendmentAmendmentEndDurationParams struct {
 	IntervalCount *int64 `form:"interval_count"`
 }
 
-// A precise Unix timestamp for the amendment to end. Must be after the `amendment_start`.
-type SubscriptionScheduleAmendAmendmentAmendmentEndTimestampParams struct {
-	// A precise numeric timestamp, provided as an integer number of seconds since the Unix epoch.
-	Value *int64 `form:"value"`
-}
-
 // Details to identify the end of the time range modified by the proposed change. If not supplied, the amendment is considered a point-in-time operation that only affects the exact timestamp at `amendment_start`, and a restricted set of attributes is supported on the amendment.
 type SubscriptionScheduleAmendAmendmentAmendmentEndParams struct {
 	// Time span for the amendment starting from the `amendment_start`.
 	Duration *SubscriptionScheduleAmendAmendmentAmendmentEndDurationParams `form:"duration"`
 	// A precise Unix timestamp for the amendment to end. Must be after the `amendment_start`.
-	Timestamp *SubscriptionScheduleAmendAmendmentAmendmentEndTimestampParams `form:"timestamp"`
+	Timestamp *int64 `form:"timestamp"`
 	// Select one of three ways to pass the `amendment_end`.
 	Type *string `form:"type"`
 }
@@ -353,18 +347,12 @@ type SubscriptionScheduleAmendAmendmentAmendmentStartAmendmentEndParams struct {
 	Index *int64 `form:"index"`
 }
 
-// A precise Unix timestamp for the amendment to start.
-type SubscriptionScheduleAmendAmendmentAmendmentStartTimestampParams struct {
-	// A precise numeric timestamp, provided as an integer number of seconds since the Unix epoch.
-	Value *int64 `form:"value"`
-}
-
 // Details to identify the earliest timestamp where the proposed change should take effect.
 type SubscriptionScheduleAmendAmendmentAmendmentStartParams struct {
 	// Details of another amendment in the same array, immediately after which this amendment should begin.
 	AmendmentEnd *SubscriptionScheduleAmendAmendmentAmendmentStartAmendmentEndParams `form:"amendment_end"`
 	// A precise Unix timestamp for the amendment to start.
-	Timestamp *SubscriptionScheduleAmendAmendmentAmendmentStartTimestampParams `form:"timestamp"`
+	Timestamp *int64 `form:"timestamp"`
 	// Select one of three ways to pass the `amendment_start`.
 	Type *string `form:"type"`
 }
@@ -543,7 +531,7 @@ type SubscriptionScheduleDefaultSettings struct {
 	BillingCycleAnchor SubscriptionScheduleDefaultSettingsBillingCycleAnchor `json:"billing_cycle_anchor"`
 	// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period
 	BillingThresholds *SubscriptionBillingThresholds `json:"billing_thresholds"`
-	// Either `charge_automatically`, or `send_invoice`. When charging automatically, Stripe will attempt to pay the underlying subscription at the end of each billing cycle using the default source attached to the customer. When sending an invoice, Stripe will email your customer an invoice with payment instructions.
+	// Either `charge_automatically`, or `send_invoice`. When charging automatically, Stripe will attempt to pay the underlying subscription at the end of each billing cycle using the default source attached to the customer. When sending an invoice, Stripe will email your customer an invoice with payment instructions and mark the subscription as `active`.
 	CollectionMethod *SubscriptionCollectionMethod `json:"collection_method"`
 	// ID of the default payment method for the subscription schedule. If not set, invoices will use the default payment method in the customer's invoice settings.
 	DefaultPaymentMethod *PaymentMethod `json:"default_payment_method"`
@@ -633,7 +621,7 @@ type SubscriptionSchedulePhase struct {
 	BillingCycleAnchor SubscriptionSchedulePhaseBillingCycleAnchor `json:"billing_cycle_anchor"`
 	// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period
 	BillingThresholds *SubscriptionBillingThresholds `json:"billing_thresholds"`
-	// Either `charge_automatically`, or `send_invoice`. When charging automatically, Stripe will attempt to pay the underlying subscription at the end of each billing cycle using the default source attached to the customer. When sending an invoice, Stripe will email your customer an invoice with payment instructions.
+	// Either `charge_automatically`, or `send_invoice`. When charging automatically, Stripe will attempt to pay the underlying subscription at the end of each billing cycle using the default source attached to the customer. When sending an invoice, Stripe will email your customer an invoice with payment instructions and mark the subscription as `active`.
 	CollectionMethod *SubscriptionCollectionMethod `json:"collection_method"`
 	// ID of the coupon to use during this phase of the subscription schedule.
 	Coupon *Coupon `json:"coupon"`
