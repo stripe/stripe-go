@@ -5,6 +5,10 @@
 
 The official [Stripe][stripe] Go client library.
 
+## Requirements
+
+- Go 1.15 or later
+
 ## Installation
 
 Make sure your project is using Go Modules (it will have a `go.mod` file in its
