@@ -15,25 +15,24 @@ class StripeForce::Translate
     # this is required by our integration but is allowed by CPQ in some situations
     sig { params(mapper: StripeForce::Mapper, contract_structure: ContractStructure).returns(T::Boolean) }
     def self.contract_co_terminated?(mapper, contract_structure)
-      initial_order_end_date = calculate_order_end_date(mapper, contract_structure.initial)
+      initial_order_end_date = StripeForce::Utilities::SalesforceUtil.calculate_order_end_date(mapper, contract_structure.initial)
 
       # the end date must be the same for all order amendments
-      contract_structure.amendments.all? do |sf_order_amendment|
-        calculate_order_end_date(mapper, sf_order_amendment) == initial_order_end_date
+      amendment_end_dates = contract_structure.amendments.map do |sf_order_amendment|
+        StripeForce::Utilities::SalesforceUtil.normalize_sf_order_amendment_end_date(mapper: mapper, sf_order_amendment: sf_order_amendment, sf_initial_order: contract_structure.initial)
       end
-    end
 
-    sig { params(mapper: StripeForce::Mapper, sf_order: Restforce::SObject).returns(Integer) }
-    def self.calculate_order_end_date(mapper, sf_order)
-      # TODO should use a helper instead, which respects custom mapping
-      # salesforce_subscription_term = StripeForce::Utilities::SalesforceUtil.extract_subscription_term_from_order!(mapper, sf_order)
+      is_co_terminated = amendment_end_dates.all? do |sf_amendment_end_date|
+        sf_amendment_end_date.to_i == initial_order_end_date.to_i
+      end
 
-      subscription_params = StripeForce::Utilities::SalesforceUtil.extract_salesforce_params!(mapper, sf_order, Stripe::SubscriptionSchedule)
-      salesforce_start_date_as_string = subscription_params['start_date']
-      salesforce_subscription_term = subscription_params['iterations'].to_i
+      if !is_co_terminated
+        log.info 'order is not coterminated',
+          initial_end_date: initial_order_end_date,
+          amendment_end_dates: amendment_end_dates
+      end
 
-      # end date = start date + subscription term
-      (StripeForce::Utilities::SalesforceUtil.salesforce_date_to_beginning_of_day(salesforce_start_date_as_string) + salesforce_subscription_term.months).to_i
+      is_co_terminated
     end
 
     # NOTE at this point it's assumed that the price is NOT a metered billing item or tiered price

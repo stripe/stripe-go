@@ -247,5 +247,33 @@ class StripeForce::Translate
       is_order_amendment
     end
 
+    sig { params(order_date: Time).returns(T::Boolean) }
+    def self.is_order_date_eom?(order_date)
+      days_in_month = Date.new(order_date.year, order_date.month, -1).day
+      days_in_month == order_date.day
+    end
+
+    # shifts the amendment order time ahead, up to 3 days in the same month,
+    # to match the initial order day of month
+    # adapted from https://git.corp.stripe.com/stripe-internal/pay-server/blob/2c870dba2b488984042102dde344d55b83a466d9/chalk/tools/lib/chalk_tools/time_utils/time_utils.rb#L307-L320
+    sig { params(amendment_order_time: Time, initial_order_day_of_month: Integer).returns(Time) }
+    def self.anchor_time_to_day_of_month(amendment_order_time:, initial_order_day_of_month:)
+      normalized_amendment_order_time = amendment_order_time.clone
+      amendment_order_day_of_month = normalized_amendment_order_time.day
+
+      # adjust down for current month
+      days_in_month = Date.new(normalized_amendment_order_time.year, normalized_amendment_order_time.month, -1).day
+      days_to_add = [initial_order_day_of_month, days_in_month].min - amendment_order_day_of_month
+      if days_to_add > 0 && days_to_add <= 3
+        normalized_amendment_order_time += days_to_seconds(days_to_add)
+      end
+
+      normalized_amendment_order_time
+    end
+
+    sig { params(days: Integer).returns(Integer) }
+    def self.days_to_seconds(days)
+      days * 24 * 60 * 60
+    end
   end
 end

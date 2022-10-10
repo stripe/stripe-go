@@ -200,5 +200,61 @@ module StripeForce::Utilities
 
       quote_subscription_term.to_i
     end
+
+    sig { params(mapper: StripeForce::Mapper, sf_order: Restforce::SObject).returns(Time) }
+    def self.extract_subscription_start_date_from_order(mapper, sf_order)
+      user = mapper.user
+
+      subscription_start_date_stripe_path = ['subscription_schedule', 'start_date']
+      start_date_order_path = user.field_mappings.dig(*subscription_start_date_stripe_path) ||
+        user.required_mappings.dig(*subscription_start_date_stripe_path)
+
+      quote_start_date = T.cast(mapper.extract_key_path_for_record(sf_order, start_date_order_path), T.nilable(T.any(String, Integer)))
+
+      if quote_start_date.nil?
+        raise Integrations::Errors::MissingRequiredFields.new(
+          salesforce_object: sf_order,
+          missing_salesforce_fields: [start_date_order_path]
+        )
+      end
+
+      salesforce_date_to_beginning_of_day(quote_start_date.to_s)
+    end
+
+    sig { params(mapper: StripeForce::Mapper, sf_order: Restforce::SObject).returns(Time) }
+    def self.calculate_order_end_date(mapper, sf_order)
+      sf_order_start_date = extract_subscription_start_date_from_order(mapper, sf_order)
+      sf_order_subscription_term = extract_subscription_term_from_order!(mapper, sf_order)
+
+      # end date = start date + subscription term
+      sf_order_start_date + sf_order_subscription_term.months
+    end
+
+    # this function determines the amendment order end date and takes into account a special case
+    # that occurs when then initial order starts on a day of the month that doesn't exist in the amendment month
+    # in this case, we want to snap the amendment start date to the initial order start date if two conditions are true:
+    #   1 the order amendment start day of month is the eom
+    #   2 the initial order start day is greater than the amendment start day of month
+    # an example of this case is if an initial order had a start date of Sept 30 and the amendment start date is Feb 28
+    # https://jira.corp.stripe.com/browse/PLATINT-1807
+    sig { params(mapper: StripeForce::Mapper, sf_order_amendment: Restforce::SObject, sf_initial_order: Restforce::SObject).returns(Time) }
+    def self.normalize_sf_order_amendment_end_date(mapper:, sf_order_amendment:, sf_initial_order:)
+        amendment_start_date = extract_subscription_start_date_from_order(mapper, sf_order_amendment)
+        amendment_end_date = calculate_order_end_date(mapper, sf_order_amendment)
+        initial_order_end_date = calculate_order_end_date(mapper, sf_initial_order)
+
+        # if the order amendment start date day-of-month is the eom AND
+        # the initial order starts on a day that is greater than the order amendment
+        # then we snap the amendment end date to eom
+        # https://git.corp.stripe.com/stripe-internal/pay-server/blob/2c870dba2b488984042102dde344d55b83a466d9/chalk/tools/lib/chalk_tools/time_utils/time_utils.rb
+        days_diff = initial_order_end_date.day - amendment_end_date.day
+        if StripeForce::Translate::OrderHelpers.is_order_date_eom?(amendment_start_date) && days_diff > 0 && days_diff <= 3
+          # snaps the order amendment end date day-of-month to the eom
+          # if initial order has a day that doesn't exist in the amendment month
+          amendment_end_date = StripeForce::Translate::OrderHelpers.anchor_time_to_day_of_month(amendment_order_time: amendment_end_date, initial_order_day_of_month: initial_order_end_date.day)
+        end
+
+        amendment_end_date
+    end
   end
 end

@@ -11,15 +11,14 @@ class Critic::OrderAmendmentTranslation < Critic::OrderAmendmentFunctionalTest
   it 'creates a new phase from an order amendment with monthly billed products' do
     # initial order: 1yr contract, monthly billed
     # amendment: starts month 9, lasts 3 months, adds quantity 2
-
     monthly_price = 10_00
+    initial_start_date = now_time
     contract_term = TEST_DEFAULT_CONTRACT_TERM
     amendment_term = 3
-    start_date = now_time + (contract_term - amendment_term).months
-    end_date = start_date + amendment_term.months
-    initial_start_date = now_time
+    amendment_start_date = initial_start_date + (contract_term - amendment_term).months
+    amendment_end_date = amendment_start_date + amendment_term.months
 
-    sf_product_id, sf_pricebook_id = salesforce_recurring_product_with_price(price: monthly_price)
+    sf_product_id, _sf_pricebook_id = salesforce_recurring_product_with_price(price: monthly_price)
     sf_order = create_subscription_order(sf_product_id: sf_product_id)
     sf_contract = create_contract_from_order(sf_order)
 
@@ -36,12 +35,10 @@ class Critic::OrderAmendmentTranslation < Critic::OrderAmendmentFunctionalTest
     # the contract should reference the initial order that was created
     assert_equal(sf_order[SF_ID], sf_contract[SF_CONTRACT_ORDER_ID])
 
-    amendment_data = create_quote_data_from_contract_amendment(sf_contract)
-
     # increase quantity by 2
+    amendment_data = create_quote_data_from_contract_amendment(sf_contract)
     amendment_data["lineItems"].first["record"][CPQ_QUOTE_QUANTITY] = 3
-
-    amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_START_DATE] = format_date_for_salesforce(start_date)
+    amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_START_DATE] = format_date_for_salesforce(amendment_start_date)
     amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_TERM] = amendment_term
 
     sf_order_amendment = create_order_from_quote_data(amendment_data)
@@ -71,7 +68,6 @@ class Critic::OrderAmendmentTranslation < Critic::OrderAmendmentFunctionalTest
     subscription_schedule = Stripe::SubscriptionSchedule.retrieve(stripe_id, @user.stripe_credentials)
 
     assert_equal(2, subscription_schedule.phases.count)
-
     first_phase = T.must(subscription_schedule.phases.first)
     second_phase = T.must(subscription_schedule.phases[1])
 
@@ -83,11 +79,11 @@ class Critic::OrderAmendmentTranslation < Critic::OrderAmendmentFunctionalTest
 
     # first phase should start now and end in 9mo
     assert_equal(0, first_phase.start_date - initial_start_date.to_i)
-    assert_equal(0, first_phase.end_date - start_date.to_i)
+    assert_equal(0, first_phase.end_date - amendment_start_date.to_i)
 
     # second phase should start at the end date
-    assert_equal(0, second_phase.start_date - start_date.to_i)
-    assert_equal(0, second_phase.end_date - end_date.to_i)
+    assert_equal(0, second_phase.start_date - amendment_start_date.to_i)
+    assert_equal(0, second_phase.end_date - amendment_end_date.to_i)
 
     # second phase should have a second item with a quantity of 3
     # the order line in SF will have 2 (added 2 to have a net quantity of 3)
@@ -128,8 +124,8 @@ class Critic::OrderAmendmentTranslation < Critic::OrderAmendmentFunctionalTest
     amendment_start_date = initial_start_date + 6.months
     amendment_end_date = amendment_start_date + amendment_term.months
 
-    sf_metered_product_id, sf_metered_pricebook_id = salesforce_recurring_metered_produce_with_price
-    sf_product_id, sf_pricebook_id = salesforce_recurring_product_with_price
+    sf_metered_product_id, _sf_metered_pricebook_id = salesforce_recurring_metered_produce_with_price
+    sf_product_id, _sf_pricebook_id = salesforce_recurring_product_with_price
 
     sf_order = create_subscription_order(sf_product_id: sf_metered_product_id)
     sf_contract = create_contract_from_order(sf_order)
@@ -192,8 +188,8 @@ class Critic::OrderAmendmentTranslation < Critic::OrderAmendmentFunctionalTest
     amendment_start_date = initial_start_date + (contract_term - amendment_term).months
     amendment_end_date = amendment_start_date + amendment_term.months
 
-    sf_metered_product_id, sf_metered_pricebook_id = salesforce_recurring_metered_produce_with_price
-    sf_product_id, sf_pricebook_id = salesforce_recurring_product_with_price
+    sf_metered_product_id, _sf_metered_pricebook_id = salesforce_recurring_metered_produce_with_price
+    sf_product_id, _sf_pricebook_id = salesforce_recurring_product_with_price
 
     sf_order = create_subscription_order(sf_product_id: sf_metered_product_id)
     sf_contract = create_contract_from_order(sf_order)
@@ -247,7 +243,7 @@ class Critic::OrderAmendmentTranslation < Critic::OrderAmendmentFunctionalTest
     end_date = start_date + amendment_term.months
     initial_start_date = now_time
 
-    sf_product_id, sf_pricebook_id = salesforce_recurring_product_with_price(
+    sf_product_id, _sf_pricebook_id = salesforce_recurring_product_with_price(
       additional_product_fields: {
         CPQ_QUOTE_BILLING_FREQUENCY => CPQBillingFrequencyOptions::ANNUAL.serialize,
       }
@@ -272,7 +268,6 @@ class Critic::OrderAmendmentTranslation < Critic::OrderAmendmentFunctionalTest
     amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_TERM] = amendment_term
 
     sf_order_amendment = create_order_from_quote_data(amendment_data)
-    sf_order_amendment_contract = create_contract_from_order(sf_order_amendment)
 
     StripeForce::Translate.perform_inline(@user, sf_order_amendment.Id)
 
@@ -343,7 +338,7 @@ class Critic::OrderAmendmentTranslation < Critic::OrderAmendmentFunctionalTest
       end_date = start_date + amendment_term.months
       initial_start_date = initial_order_start_date
 
-      sf_product_id, sf_pricebook_id = salesforce_recurring_product_with_price(
+      sf_product_id, _sf_pricebook_id = salesforce_recurring_product_with_price(
         additional_product_fields: {
           CPQ_QUOTE_BILLING_FREQUENCY => CPQBillingFrequencyOptions::ANNUAL.serialize,
         }
@@ -439,7 +434,7 @@ class Critic::OrderAmendmentTranslation < Critic::OrderAmendmentFunctionalTest
       amendment_start_date = initial_order_start_date + (contract_term - amendment_term).months
       amendment_end_date = amendment_start_date + amendment_term.months
 
-      sf_product_id, sf_pricebook_id = salesforce_recurring_product_with_price(
+      sf_product_id, _sf_pricebook_id = salesforce_recurring_product_with_price(
         additional_product_fields: {
           CPQ_QUOTE_BILLING_FREQUENCY => CPQBillingFrequencyOptions::ANNUAL.serialize,
         }
@@ -463,7 +458,7 @@ class Critic::OrderAmendmentTranslation < Critic::OrderAmendmentFunctionalTest
       # we expect the invoice api to fail
       # Stripe::InvalidRequestError: No upcoming invoices for customer: cus_MQpWiftgQua7UT
       no_upcoming_exception = assert_raises(Stripe::InvalidRequestError) do
-        upcoming_invoice = Stripe::Invoice.upcoming({
+        Stripe::Invoice.upcoming({
           subscription: subscription_schedule.subscription,
         }, @user.stripe_credentials)
       end
@@ -535,9 +530,8 @@ class Critic::OrderAmendmentTranslation < Critic::OrderAmendmentFunctionalTest
       # amendment: starts in 6 months, ends 7 months later (so one month after initial order)
 
       # setup
-      initial_order_term = TEST_DEFAULT_CONTRACT_TERM
       initial_order_start_date = now_time
-      # term is intentionally longer than the original end date
+      # amendment term is intentionally longer than the original end date
       amendment_term = 7
       amendment_start_date = initial_order_start_date + 6.months
 
@@ -554,13 +548,86 @@ class Critic::OrderAmendmentTranslation < Critic::OrderAmendmentFunctionalTest
       # the contract should reference the initial order that was created
       assert_equal(sf_order[SF_ID], sf_contract[SF_CONTRACT_ORDER_ID])
 
-      #  quote is generated by CPQ API, so set these fields manually
+      # quote is generated by CPQ API, so set these fields manually
       amendment_data = create_quote_data_from_contract_amendment(sf_contract)
       amendment_data["lineItems"].first["record"][CPQ_QUOTE_QUANTITY] = 2
       amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_START_DATE] = format_date_for_salesforce(amendment_start_date)
       amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_TERM] = amendment_term
       sf_order_amendment = create_order_from_quote_data(amendment_data)
 
+      assert_equal(sf_order_amendment.Type, OrderTypeOptions::AMENDMENT.serialize)
+
+      # translate order
+      contracts_not_coterminating_error = assert_raises(StripeForce::Errors::UserError) do
+        StripeForce::Translate.perform_inline(@user, sf_order_amendment.Id)
+      end
+      assert_match("order amendments must coterminate with the initial order", contracts_not_coterminating_error.message.downcase)
+    end
+
+    it 'initial order should coterminate with amendment even though initial order day of month does not exist in amendment month' do
+      # initial order: starts Sept 29, billed yearly
+      # amendment: starts 5 months later, on Feb 28, and ends 7 months later (should co-terminate with initial order)
+
+      # specifically pick an initial order day of month that does not exist in the amendment month
+      initial_order_start_date = DateTime.new(2022, 9, 30).utc.beginning_of_day
+      amendment_start_date = initial_order_start_date + 5.months
+      amendment_term = 7
+
+      # create the initial sf order
+      sf_order = create_subscription_order(
+        additional_fields: {
+          CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(initial_order_start_date),
+        }
+      )
+      sf_contract = create_contract_from_order(sf_order)
+      sf_order.refresh
+
+      # the contract should reference the initial order that was created
+      assert_equal(sf_order[SF_ID], sf_contract[SF_CONTRACT_ORDER_ID])
+
+      # quote is generated by CPQ API, so set these fields manually
+      amendment_data = create_quote_data_from_contract_amendment(sf_contract)
+      amendment_data["lineItems"].first["record"][CPQ_QUOTE_QUANTITY] = 2
+      amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_START_DATE] = format_date_for_salesforce(amendment_start_date)
+      amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_TERM] = amendment_term
+
+      # create the sf order amendment
+      sf_order_amendment = create_order_from_quote_data(amendment_data)
+      assert_equal(sf_order_amendment.Type, OrderTypeOptions::AMENDMENT.serialize)
+
+      # translate order and confirm no error raised
+      StripeForce::Translate.perform_inline(@user, sf_order_amendment.Id)
+    end
+
+    it 'initial order does not coterminate with amendment order but both end in same month' do
+      # initial order: starts Sept 27, billed yearly => ends Sept 27, 2023
+      # amendment: starts a day and 5 months later, on Feb 28, and ends 7 months later => Sept 28, 2023
+
+      # specifically pick an initial order day of month that does not exist in the amendment month
+      initial_order_start_date = DateTime.new(2022, 9, 27).utc.beginning_of_day
+      amendment_start_date = initial_order_start_date + + 1.day + 5.months
+      amendment_term = 7
+
+      # create the initial sf order
+      sf_order = create_subscription_order(
+        additional_fields: {
+          CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(initial_order_start_date),
+        }
+      )
+      sf_contract = create_contract_from_order(sf_order)
+      sf_order.refresh
+
+      # the contract should reference the initial order that was created
+      assert_equal(sf_order[SF_ID], sf_contract[SF_CONTRACT_ORDER_ID])
+
+      # quote is generated by CPQ API, so set these fields manually
+      amendment_data = create_quote_data_from_contract_amendment(sf_contract)
+      amendment_data["lineItems"].first["record"][CPQ_QUOTE_QUANTITY] = 2
+      amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_START_DATE] = format_date_for_salesforce(amendment_start_date)
+      amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_TERM] = amendment_term
+
+      # create the sf order amendment
+      sf_order_amendment = create_order_from_quote_data(amendment_data)
       assert_equal(sf_order_amendment.Type, OrderTypeOptions::AMENDMENT.serialize)
 
       # translate order

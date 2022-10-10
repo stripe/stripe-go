@@ -321,7 +321,7 @@ class StripeForce::Translate
     subscription_schedule = T.cast(subscription_schedule, Stripe::SubscriptionSchedule)
 
     if !OrderAmendment.contract_co_terminated?(mapper, contract_structure)
-      raise StripeForce::Errors::RawUserError.new("order amendments must coterminate with the initial order")
+      raise StripeForce::Errors::RawUserError.new("Order amendments must coterminate with the initial order")
     end
 
     # Order amendments contain a negative item if they are adjusting a previous line item.
@@ -372,7 +372,6 @@ class StripeForce::Translate
       # TODO right here, we should filter which lines are terminations and calculate the customer credit
 
       is_order_terminated = aggregate_phase_items.all?(&:fully_terminated?)
-
       if is_order_terminated && contract_structure.amendments.size - 1 != index
         raise Integrations::Errors::UnhandledEdgeCase.new("order terminated, but there's more amendments")
       end
@@ -391,17 +390,19 @@ class StripeForce::Translate
       phase_params = StripeForce::Utilities::SalesforceUtil.extract_salesforce_params!(mapper, sf_order_amendment, Stripe::SubscriptionSchedule)
 
       string_start_date_from_salesforce = phase_params['start_date']
-      start_date_as_timestamp = StripeForce::Utilities::SalesforceUtil.salesforce_date_to_unix_timestamp(string_start_date_from_salesforce)
-      phase_params['start_date'] = start_date_as_timestamp
+      sf_order_amendment_start_date_as_timestamp = StripeForce::Utilities::SalesforceUtil.salesforce_date_to_unix_timestamp(string_start_date_from_salesforce)
+      phase_params['start_date'] = sf_order_amendment_start_date_as_timestamp
 
       # TODO check for float value
       # TODO should probably move this to another helper
       subscription_term_from_sales_force = phase_params.delete('iterations').to_i
 
       # originally `iterations` was used, but this fails when subscription term is less than a single billing cycle
-      phase_params['end_date'] = StripeForce::Utilities::SalesforceUtil.datetime_to_unix_timestamp(
-        DateTime.parse(string_start_date_from_salesforce) + subscription_term_from_sales_force.months
-      )
+
+      # we need to normalize the amendment order end date to take into account a special cases
+      # that can occur when then initial order starts on a day of the month that doesn't exist in the amendment month
+      sf_order_amendment_end_date = StripeForce::Utilities::SalesforceUtil.normalize_sf_order_amendment_end_date(mapper: mapper, sf_order_amendment: sf_order_amendment, sf_initial_order: contract_structure.initial)
+      phase_params['end_date'] = StripeForce::Utilities::SalesforceUtil.datetime_to_unix_timestamp(sf_order_amendment_end_date)
 
       # TODO should we validate the end date vs the subscription schedule?
 
@@ -428,7 +429,7 @@ class StripeForce::Translate
           # they are tricky to extract without additional API calls
           subscription_term: subscription_term_from_sales_force,
           billing_frequency: billing_frequency,
-          amendment_start_date: start_date_as_timestamp
+          amendment_start_date: sf_order_amendment_start_date_as_timestamp
         )
       end
 
@@ -481,7 +482,6 @@ class StripeForce::Translate
       # if the time ranges are identical, then the previous phase should be removed
       # the previous phases subscription items should be overwritten by the latest phase calculation
       # but any one-off items would be lost without "merging" these items
-
       if !is_same_day && is_identical_to_previous_phase_time_range && !previous_phase.add_invoice_items.empty?
         log.info 'previous phase identical, merging invoice items'
         new_phase.add_invoice_items += previous_phase.add_invoice_items
@@ -495,7 +495,7 @@ class StripeForce::Translate
       # this is a special case: subscription is cancelled on the same day, the intention here is to not bill the user at all
       is_subscription_schedule_cancelled = is_order_terminated &&
         # use `start_date_as_timestamp` since `previous_phase.end_date` could be `now`
-        previous_phase.start_date == start_date_as_timestamp &&
+        previous_phase.start_date == sf_order_amendment_start_date_as_timestamp &&
         contract_structure.amendments.count == 1
 
       # if the order is terminated, updating the last phase end date and NOT adding another phase is all that needs to be done
