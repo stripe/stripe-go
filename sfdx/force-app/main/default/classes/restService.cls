@@ -286,17 +286,17 @@ global with sharing class restService {
                 Set<String> listOfInitialOrderRecordAmmendedContractId = new Set<String>();
                 if(listOfOrderFields.contains(cpqQuoteObjectApiName)) {
                     Set<String>  listOfAllOrderRelatedOpportunityQuoteIds = buildListOfAllOpportunityQuoteIds(listOfOrderRecordMapRecords);
-                   
                     String initialOrderQuery = 'SELECT ' + String.join(((Iterable<String>)listOfOrderFields), ',') + ' FROM Order WHERE SBQQ__Quote__c IN :listOfAllOrderRelatedOpportunityQuoteIds AND Id NOT IN :listOfOrderIds WITH SECURITY_ENFORCED';
                     List<SObject> listOfInitialOrderRecords = Database.query(initialOrderQuery);    
-                    
+
                     Map<String,Object> updatedInitalOrderAndQouteListMap =  addInitialOrderToPayload(listOfInitialOrderRecords, listOfOrderRecordMapRecords, listOfInitialOrderRecordQuoteId, listOfOrderIds);
                     listOfOrderRecordMapRecords = (Set<Map<String, Object>>)updatedInitalOrderAndQouteListMap.get('listOfOrderRecordMapRecords');
                     listOfInitialOrderRecordQuoteId = (Set<String>)updatedInitalOrderAndQouteListMap.get('listOfInitialOrderRecordQuoteId');  
                     listOfOrderIds  = (Set<String>)updatedInitalOrderAndQouteListMap.get('listOfOrderIds');  
 
-                    Set<String> listOfRelatetedContractOrderRecordIds = buildListOfRelatedContractIds(listOfOrderRecordMapRecords);
-                    String amendedOrderQuery = 'SELECT ' + String.join(((Iterable<String>)listOfOrderFields), ',') + ' FROM Order WHERE ContractId IN :listOfRelatetedContractOrderRecordIds AND Id NOT IN :listOfOrderIds WITH SECURITY_ENFORCED';
+                    Set<String> listOfRelatetedContractOrderRecordIds = buildListOfRelatedContractIds(listOfOrderIds, listOfOrderRecordQuoteId);
+                    
+                    String amendedOrderQuery = 'SELECT ' + String.join(((Iterable<String>)listOfOrderFields), ',') + ' FROM Order WHERE Opportunity.SBQQ__AmendedContract__c IN :listOfRelatetedContractOrderRecordIds AND Id NOT IN :listOfOrderIds WITH SECURITY_ENFORCED';
                     List<SObject> listOfamendedOrderRecords = Database.query(amendedOrderQuery);  
 
                     Map<String,Object> updatedAmendedOrderAndQouteListMap = addOrderAmendmentsToPayload(listOfamendedOrderRecords, listOfOrderRecordMapRecords, listOfInitialOrderRecordAmmendedContractId, listOfOrderIds);
@@ -326,6 +326,11 @@ global with sharing class restService {
                             relatedQuoteRecordIdList.add(quoteRecordMap.get('Id'));
                         }
                     }
+
+                    if (relatedQuoteRecordIdList.isEmpty()) {
+                        continue;
+                    }
+                    
                     //adds list of the related quote ID to orderRecords
                     orderRecordMap.put('Quotes',(Object)relatedQuoteRecordIdList);
                 }
@@ -402,7 +407,6 @@ global with sharing class restService {
             //get all related order items based on the orders contained in list
             listOfOrderRecordMapRecords = getRelatedOrderItemRecordsById(listOfOrderRecordMapRecords,listOfOrderItemFields, listOfOrderIds, isCpqInstalled);
         }
-
         //gets related account records based on the accounts any order in our list looks up to 
         if(listOfOrderFields.contains('AccountId')) {
             listOfOrderRecordMapRecords = addRelatedRecordToPayload(listOfOrderRecordMapRecords,'Account','AccountId');
@@ -419,7 +423,6 @@ global with sharing class restService {
         if(listOfOrderFields.contains('Pricebook2Id')) {
             listOfOrderRecordMapRecords = addRelatedRecordToPayload(listOfOrderRecordMapRecords,'Pricebook2','Pricebook2Id');
         }
-
         
         return listOfOrderRecordMapRecords;
     }
@@ -430,16 +433,15 @@ global with sharing class restService {
             if (orderRecordMapRecord.get('Opportunity') == null) {
                 return listOfAllOrderRelatedOpportunityQuoteIds;
             }
-            Map<String,Object> relatatedOrderOppertunityMap = (Map<String,Object>)orderRecordMapRecord.get('Opportunity');
             
+            Map<String,Object> relatatedOrderOppertunityMap = (Map<String,Object>)orderRecordMapRecord.get('Opportunity');     
             Set<String> listOfInitialOrderIds = new Set<String>();
-            
             if (relatatedOrderOppertunityMap.get('SBQQ__AmendedContract__r') == null) {
                 return listOfAllOrderRelatedOpportunityQuoteIds;
             }
             Map<String,Object> relatatedOrderContractMap = (Map<String,Object>)relatatedOrderOppertunityMap.get('SBQQ__AmendedContract__r');
 
-            if (relatatedOrderContractMap.get('SBQQ__Quote__c') != null) {
+            if (relatatedOrderContractMap.get('SBQQ__Quote__c') == null) {
                 return listOfAllOrderRelatedOpportunityQuoteIds;
             }
             listOfAllOrderRelatedOpportunityQuoteIds.add(String.valueOf(relatatedOrderContractMap.get('SBQQ__Quote__c')));
@@ -447,30 +449,27 @@ global with sharing class restService {
         return listOfAllOrderRelatedOpportunityQuoteIds;
     }
 
-    private static Set<String> buildListOfRelatedContractIds(Set<Map<String, Object>> listOfOrderRecordMapRecords) {
+    private static Set<String> buildListOfRelatedContractIds(Set<String> listOfOrderIds, Set<String> listOfOrderRecordQuoteId) {
         Set<String> listOfRelatetedContractOrderRecordIds = new Set<String>();
-        for (Map<String, Object> orderRecordMapRecord : listOfOrderRecordMapRecords) {
-            
-            if (orderRecordMapRecord.get('Opportunity') == null) {
-                continue;
-            }
-            Map<String,Object> relatatedOrderOppertunityMap = (Map<String,Object>)orderRecordMapRecord.get('Opportunity');  
+        String relatedContractQuery = 'SELECT ID, SBQQ__Quote__c FROM Contract WHERE SBQQ__Quote__c IN :listOfOrderRecordQuoteId AND Id NOT IN :listOfOrderIds WITH SECURITY_ENFORCED';
+        List<SObject> listOfAmendedOrderContractRecords = Database.query(relatedContractQuery); 
 
-            if (relatatedOrderOppertunityMap.get('SBQQ__AmendedContract__r') == null) {
+        if (listOfAmendedOrderContractRecords.isEmpty()) {
+            return listOfRelatetedContractOrderRecordIds;
+        }
+        for (SObject relatedContractRecord : listOfAmendedOrderContractRecords) {
+            Map<String, Object> relatedContractRecordMap = (Map<String, Object>) JSON.deserializeUntyped(JSON.serialize(relatedContractRecord));
+            if (relatedContractRecord.get('SBQQ__Quote__c') == null) {
                 continue;
             }
-            Map<String,Object> relatatedOrderAmendedContractMap = (Map<String,Object>)relatatedOrderOppertunityMap.get('SBQQ__AmendedContract__r');
-            
-            if (relatatedOrderAmendedContractMap.get('Id') == null) {
-                continue;
-            } 
-            listOfRelatetedContractOrderRecordIds.add(String.valueOf(relatatedOrderAmendedContractMap.get('Id')));                        
+
+            listOfRelatetedContractOrderRecordIds.add((String)relatedContractRecord.get('Id'));
         }
         return listOfRelatetedContractOrderRecordIds;
     }
 
     private static Map<String,Object> addInitialOrderToPayload(List<SObject> listOfInitialOrderRecords, Set<Map<String, Object>> listOfOrderRecordMapRecords, Set<String> listOfInitialOrderRecordQuoteId, Set<String> listOfOrderIds) {
-        if (!listOfInitialOrderRecords.isEmpty()) {
+        if (listOfInitialOrderRecords.isEmpty()) {
             return new Map<String,Object> {
                 'listOfOrderRecordMapRecords' => listOfOrderRecordMapRecords,
                 'listOfInitialOrderRecordQuoteId' => listOfInitialOrderRecordQuoteId,
@@ -546,10 +545,6 @@ global with sharing class restService {
             Set<String> listOfAmendedOrderRecordIds = new Set<String>();
 
             for (SObject amendedOrderRecord : listOfamendedOrderRecords) {
-                if (relatatedOrderAmendedContractMap.get('Id') != string.valueOf(amendedOrderRecord.get('ContractId'))) {
-                    continue;
-                }
-                
                 Map<String, Object> amendedOrderRecordMap = (Map<String, Object>) JSON.deserializeUntyped(JSON.serialize(amendedOrderRecord));
                 listOfOrderRecordMapRecords.add(amendedOrderRecordMap);
 
@@ -761,71 +756,74 @@ global with sharing class restService {
             if(orderRecord.get(LookupField) != null)listOfOrderRecordIds.add(string.valueOf(orderRecord.get(LookupField)));
         }
 
-        if(!listOfOrderRecordIds.isEmpty()) {
-            //query list of related records based on lookup field and object api name using list of lookup Ids from list of records 
-            String query = 'SELECT '+ String.join(((Iterable<String>)listOfObjectFields), ',') + ' FROM ' + objectApiName +' WHERE Id IN :listOfOrderRecordIds  WITH SECURITY_ENFORCED';
-            List<SObject> listOfRelatedRecordData = Database.query(query);
-            
-            if(!listOfRelatedRecordData.isEmpty()) {
-                return listOfOrderRecordMapRecords;
+        if(listOfOrderRecordIds.isEmpty()) {
+            return listOfOrderRecordMapRecords;
+        }
+
+        //query list of related records based on lookup field and object api name using list of lookup Ids from list of records 
+        String query = 'SELECT '+ String.join(((Iterable<String>)listOfObjectFields), ',') + ' FROM ' + objectApiName +' WHERE Id IN :listOfOrderRecordIds  WITH SECURITY_ENFORCED';
+        List<SObject> listOfRelatedRecordData = Database.query(query);
+        
+        if(listOfRelatedRecordData.isEmpty()) {
+            return listOfOrderRecordMapRecords;
+        }
+
+        /*add each related record to the records json response and add the Id to a list 
+        to add back to parent record map after*/
+        for(Map<String, Object> orderRecord : listOfOrderRecordMapRecords) {
+            //list to related record Ids to populate and add per order record 
+            Set<String> listOfRelatedRecordsIds = new Set<String> ();
+            for(SObject relatedRecord : listOfRelatedRecordData) { 
+                String orderRecordLookupId = (String)orderRecord.get(LookupField);
+                if(orderRecordLookupId == relatedRecord.get('Id')){
+                    Map<String, Object> relatedRecordMap = (Map<String, Object>) JSON.deserializeUntyped(JSON.serialize(relatedRecord));
+                    responseJsonPayloadRecords.add((Object)relatedRecord);
+                    listOfRelatedRecordsIds.add(string.valueOf(relatedRecord.get('Id')));
+                }
             }
 
-            /*add each related record to the records json response and add the Id to a list 
-            to add back to parent record map after*/
-            for(Map<String, Object> orderRecord : listOfOrderRecordMapRecords) {
-                //list to related record Ids to populate and add per order record 
-                Set<String> listOfRelatedRecordsIds = new Set<String> ();
-                for(SObject relatedRecord : listOfRelatedRecordData) { 
-                    String orderRecordLookupId = (String)orderRecord.get(LookupField);
-                    if(orderRecordLookupId == relatedRecord.get('Id')){
-                        if(relatedRecord != null)responseJsonPayloadRecords.add((Object)relatedRecord);
-                        listOfRelatedRecordsIds.add(string.valueOf(relatedRecord.get('Id'))); 
-                    }
-                }
+            if(listOfRelatedRecordsIds.isEmpty()) {
+                continue;
+            }
 
-                if(listOfRelatedRecordsIds.isEmpty()) {
-                    continue;
+            /* before adding list of related record Ids to the parent 
+            record switch the objectApiName to the  plural object name */
+            switch on objectApiName {
+                when 'Pricebook2' {
+                    objectApiName = 'PriceBooks';
                 }
+                when 'Account' {
+                    objectApiName = 'Accounts';
+                }
+                when 'Opportunity' {
+                    objectApiName = 'Opportunities';
+                }
+                when 'Product2' {
+                    objectApiName = 'Products';
+                }
+                when 'PricebookEntry' {
+                    objectApiName = 'PricebookEntries';
+                }
+                when 'Subscription' {
+                    objectApiName = 'Subscriptions';
+                }
+                when 'Contract' {
+                    objectApiName = 'Contracts';
+                }
+                when 'Contact' {
+                    objectApiName = 'Contacts';
+                }
+                when 'OrderItem' {
+                    objectApiName = 'OrderItems';
+                }
+            }
 
-                /* before adding list of related record Ids to the parent 
-                record switch the objectApiName to the  plural object name */
-                switch on objectApiName {
-                    when 'Pricebook2' {
-                        objectApiName = 'PriceBooks';
-                    }
-                    when 'Account' {
-                        objectApiName = 'Accounts';
-                    }
-                    when 'Opportunity' {
-                        objectApiName = 'Opportunities';
-                    }
-                    when 'Product2' {
-                        objectApiName = 'Products';
-                    }
-                    when 'PricebookEntry' {
-                        objectApiName = 'PricebookEntries';
-                    }
-                    when 'Subscription' {
-                        objectApiName = 'Subscriptions';
-                    }
-                    when 'Contract' {
-                        objectApiName = 'Contracts';
-                    }
-                    when 'Contact' {
-                        objectApiName = 'Contacts';
-                    }
-                    when 'OrderItem' {
-                        objectApiName = 'OrderItems';
-                    }
-                }
-
-                //add list of child ids to parent record if it is not a direct lookup relationship
-                Object value = orderRecord.get(objectApiName);
-                if(value == null) {
-                    orderRecord.put(objectApiName,(Object)listOfRelatedRecordsIds);
-                }
-            }    
-        }
+            //add list of child ids to parent record if it is not a direct lookup relationship
+            Object value = orderRecord.get(objectApiName);
+            if(value == null) {
+                orderRecord.put(objectApiName,(Object)listOfRelatedRecordsIds);
+            }
+        }   
        return listOfOrderRecordMapRecords;
     }
     

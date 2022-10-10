@@ -252,6 +252,7 @@ class Critic::OrderAmendmentTermination < Critic::OrderAmendmentFunctionalTest
     sf_order.refresh
     locker = Integrations::Locker.new(@user)
     translator = StripeForce::Translate.new(@user, locker)
+    translator.cache_service.cache_for_object(sf_order)
     contract_structure = translator.extract_contract_from_order(sf_order)
 
     # the order of the amendments is important

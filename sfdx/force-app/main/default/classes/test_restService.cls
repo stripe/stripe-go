@@ -1,7 +1,525 @@
 @isTest
-public with sharing class test_restService {     
+public with sharing class test_restService {   
+    
     @isTest 
-    public static void test_restServiceEvents() {
+    public static void test_restServiceEventsAmendmentOrder() {
+
+        Map<String,Object> testRecordsMap = makeData(true);
+        Boolean isCpqInstalled = (Boolean)testRecordsMap.get('isCpqInstalled');
+        Id pricebookId = (Id)testRecordsMap.get('pricebookId');
+        Account account = (Account)testRecordsMap.get('account');
+        Opportunity opportunity = (Opportunity)testRecordsMap.get('opportunity');
+        Opportunity amendedOpportunity = (Opportunity)testRecordsMap.get('amendedOpportunity');
+        sObject quote = (sObject)testRecordsMap.get('quote');
+        sObject amendedQuote = (sObject)testRecordsMap.get('amendedQuote');
+        Product2 product = (Product2)testRecordsMap.get('product');
+        ConsumptionSchedule consumptionSchedule = (ConsumptionSchedule)testRecordsMap.get('consumptionSchedule');
+        ConsumptionRate consumptionRate = (ConsumptionRate)testRecordsMap.get('consumptionRate');
+        ProductConsumptionSchedule productConsumptionSchedule = (ProductConsumptionSchedule)testRecordsMap.get('productConsumptionSchedule');
+        Contract contract = (Contract)testRecordsMap.get('contract');
+        Order order = (Order)testRecordsMap.get('order');
+        Contract amendedContract = (Contract)testRecordsMap.get('amendedContract');
+        Order amendedOrder = (Order)testRecordsMap.get('amendedOrder');
+        OrderItem orderItem = (OrderItem)testRecordsMap.get('orderItem');
+        OrderItem orderItem2 = (OrderItem)testRecordsMap.get('orderItem2');
+        PricebookEntry standardPrice = (PricebookEntry)testRecordsMap.get('standardPrice');
+        sObject orderItemConsumptionRate = (sObject)testRecordsMap.get('orderItemConsumptionRate');
+        sObject orderItemConsumptionSchedule = (sObject)testRecordsMap.get('orderItemConsumptionSchedule');
+        Contact contact = (Contact)testRecordsMap.get('contact');
+
+
+        Test.startTest();
+        
+        //make mock request
+        List<String> listOfOrderIds = new List<String>{(String)order.id};
+        List<String> listOfProductIds = new List<String>{(String)product.id};
+        Map<String,Object> requestOrderMap = new Map<String,Object> {
+            'order_ids' => (Object)listOfOrderIds,
+            'product2_ids' => (Object)listOfProductIds
+            };
+        RestRequest request = new RestRequest();
+        request.requestBody = Blob.valueOf(JSON.serialize(requestOrderMap));
+        request.httpMethod = 'Post';
+        RestContext.request = request;
+        RestContext.response = new RestResponse();
+        RestResponse response = RestContext.response;
+
+        restService.executeBatchApi();
+        Map<String, Object> parsedReqBody = (Map<String, Object>)JSON.deserializeUntyped(response.responseBody.toString());
+        System.debug('AmendedOrder ' + JSON.serialize(parsedReqBody));
+    
+        Test.stopTest();
+
+        Set<String> allObjectsToPullDataFrom = new Set<String>();
+        List<Object> records = (List<Object>)parsedReqBody.get('records');
+        
+        for(Object record : records) {
+            Map<String, Object> recordMap = (Map<String, Object>)record;
+            if(recordMap.get('attributes') != null) {              
+                Map<String, Object> attributes = (Map<String, Object>)recordMap.get('attributes');
+                String objectType = (String)attributes.get('type');
+                
+                switch on objectType {
+                    when 'Contract' {
+                        allObjectsToPullDataFrom.add('Contract');
+                        if (recordMap.get('Id') == (String)contract.id) {
+                            System.assertEquals((String)recordMap.get('Id'), (String)contract.id);
+                            System.assertEquals(recordMap.get('ContractTerm'), 12);
+                            System.assertEquals((String)recordMap.get('StartDate'), String.valueOf(system.today()));
+                            System.assertEquals((String)recordMap.get('AccountId'), (String)account.id);
+                            if(isCpqInstalled) {
+                                System.assertEquals((String)recordMap.get('SBQQ__RenewalPricebookId__c'), pricebookId);
+                                System.assertEquals((String)recordMap.get('SBQQ__AmendmentPricebookId__c'), pricebookId);
+                                System.assertEquals((String)recordMap.get('SBQQ__Opportunity__c'), (String)opportunity.id);
+                            }
+                        }
+                    }
+                    when 'Account' {
+                        allObjectsToPullDataFrom.add('Account');
+                        System.assertEquals((String)recordMap.get('Id'), (String)account.id);
+                        System.assertEquals((String)recordMap.get('Name'), 'SFDC Account');
+                        if(isCpqInstalled) System.assertEquals((String)recordMap.get('SBQQ__RenewalModel__c'), 'Contract Based');
+                    }
+                    when 'Contact' {
+                        allObjectsToPullDataFrom.add('Contact');
+                        System.assertEquals((String)recordMap.get('Id'), (String)contact.id);
+                        System.assertEquals((String)recordMap.get('FirstName'), 'testContact');
+                        System.assertEquals((String)recordMap.get('LastName'), 'testContact');
+                        System.assertEquals((String)recordMap.get('Email'),'testcontact@testcontact.com');
+                        System.assertEquals((String)recordMap.get('AccountId'), (String)account.id);
+                    }
+                    when 'Product2' {
+                        allObjectsToPullDataFrom.add('Product2');
+                        System.assertEquals((String)recordMap.get('Id'), (String)product.id);
+                        System.assertEquals((String)recordMap.get('Name'), 'testProduct');
+                        System.assertEquals((String)recordMap.get('Description'), 'testProductEntry');
+                        if (recordMap.get('ProductConsumptionSchedules') != null ) {
+                            List<Object> ProductConsumptionSchedulesList = (List<Object>)recordMap.get('ProductConsumptionSchedules');
+                            List<Object> ConsumptionSchedulesList = (List<Object>)recordMap.get('ConsumptionSchedules');
+                            System.assertEquals(ProductConsumptionSchedulesList[0], productConsumptionSchedule.Id);
+                            System.assertEquals(ConsumptionSchedulesList[0], consumptionSchedule.Id);
+                        }
+                    }
+                    when 'PricebookEntry' {
+                        allObjectsToPullDataFrom.add('PricebookEntry');
+                        System.assertEquals((String)recordMap.get('Id'), (String)standardPrice.id);
+                        System.assertEquals((String)recordMap.get('Pricebook2Id'), (String)pricebookId);
+                        System.assertEquals((String)recordMap.get('Product2Id'), (String)product.id);
+                        System.assertEquals(recordMap.get('UnitPrice'), 1);
+                    }
+                    when 'OrderItem' {
+                        allObjectsToPullDataFrom.add('OrderItem');
+                        if((String)recordMap.get('Id') == orderItem.id) {
+                            System.assertEquals((String)recordMap.get('Id'), (String)orderItem.id);
+                            System.assertEquals((String)recordMap.get('OrderId'), (String)order.id);
+                            System.assertEquals((String)recordMap.get('PricebookEntryId'), (String)standardPrice.id);
+                            System.assertEquals(recordMap.get('Quantity'), 24);
+                            System.assertEquals(recordMap.get('UnitPrice'), 240);
+                            System.assertEquals((String)recordMap.get('ServiceDate'), String.valueOf(system.today() + 4));
+                            System.assertEquals((String)recordMap.get('EndDate'), String.valueOf(system.today() + 14));
+                            System.assertEquals((String)recordMap.get('Product2Id'), (String)product.id);
+                            if (isCpqInstalled && recordMap.get('OrderItemConsumptionSchedules') != null ) {
+                                List<Object> orderItemConsumptionSchedulesList = (List<Object>)recordMap.get('OrderItemConsumptionSchedules');
+                                List<Object> ConsumptionSchedulesList = (List<Object>)recordMap.get('ConsumptionSchedules');
+                                System.assertEquals(orderItemConsumptionSchedulesList[0], orderItemConsumptionSchedule.Id);
+                            }
+                        } else {
+                            System.assertEquals((String)recordMap.get('Id'), (String)orderItem2.id);
+                            System.assertEquals((String)recordMap.get('OrderId'), (String)amendedOrder.id);
+                            System.assertEquals((String)recordMap.get('PricebookEntryId'), (String)standardPrice.id);
+                            //checking that we get the updated quantity and price 
+                            System.assertEquals(recordMap.get('Quantity'), 80);
+                            System.assertEquals(recordMap.get('UnitPrice'), 500);
+                            System.assertEquals((String)recordMap.get('ServiceDate'), String.valueOf(system.today() + 4));
+                            System.assertEquals((String)recordMap.get('EndDate'), String.valueOf(system.today() + 14));
+                            List<Object> Products = (List<Object>)recordMap.get('Products');
+                            List<Object> PricebookEntries = (List<Object>)recordMap.get('PricebookEntries');
+                        }
+                    }
+                    when 'Order' {
+                        if(((String)recordMap.get('Id') == order.id)) {
+                            allObjectsToPullDataFrom.add('Order');
+                            System.assertEquals((String)recordMap.get('Id'), (String)order.id);
+                            System.assertEquals((String)recordMap.get('AccountId'), (String)account.id);
+                            System.assertEquals((String)recordMap.get('BillToContactId'), (String)contact.id);
+                            System.assertEquals((String)recordMap.get('ContractId'), (String)contract.id);
+                            System.assertEquals((String)recordMap.get('Pricebook2Id'), (String)pricebookId);
+                            System.assertEquals((String)recordMap.get('EffectiveDate'), String.valueOf(system.today()));
+                            System.assertEquals((String)recordMap.get('EndDate'), String.valueOf(system.today() + 40));
+                            System.assertEquals((String)recordMap.get('Name'), 'testOrder');
+                            List<Object> Contracts = (List<Object>)recordMap.get('Contracts');
+                            List<Object> OrderItems = (List<Object>)recordMap.get('OrderItems');
+                            List<Object> AmendedContracts = (List<Object>)recordMap.get('AmendedContracts');
+                            List<Object> AmendedOrders = (List<Object>)recordMap.get('AmendedOrders');
+                            List<Object> Accounts = (List<Object>)recordMap.get('Accounts');
+                            List<Object> Contacts = (List<Object>)recordMap.get('Contacts');
+                            List<Object> Quotes = (List<Object>)recordMap.get('Quotes');
+                            System.assertEquals((String)Accounts[0], (String)account.id);
+                            System.assertEquals((String)Contacts[0], (String)contact.id);
+                            if(isCpqInstalled) {
+                                System.assertNotEquals((String)Quotes[0], null);
+                                System.assertEquals((String)OrderItems[0], (String)orderItem.id);
+                                System.assertEquals((String)AmendedOrders[0], (String)amendedOrder.id);
+                                System.assertEquals((String)AmendedContracts[0], (String)amendedContract.id);
+                            } 
+                        } else if((String)recordMap.get('Id') == amendedOrder.id) {
+                            allObjectsToPullDataFrom.add('amendedOrder');
+                            System.assertEquals((String)recordMap.get('Id'), (String)amendedOrder.id);
+                            System.assertEquals((String)recordMap.get('AccountId'), (String)account.id);
+                            System.assertEquals((String)recordMap.get('BillToContactId'), (String)contact.id);
+                            System.assertEquals((String)recordMap.get('ContractId'), (String)amendedContract.id);
+                            System.assertEquals((String)recordMap.get('Pricebook2Id'), (String)pricebookId);
+                            System.assertEquals((String)recordMap.get('EffectiveDate'), String.valueOf(system.today()));
+                            System.assertEquals((String)recordMap.get('EndDate'), String.valueOf(system.today() + 40));
+                            System.assertEquals((String)recordMap.get('Name'), 'testamendedOrder');
+                            List<Object> OrderItems = (List<Object>)recordMap.get('OrderItems');
+                            List<Object> Contracts = (List<Object>)recordMap.get('Contracts');
+                            List<Object> Accounts = (List<Object>)recordMap.get('Accounts');
+                            List<Object> Contacts = (List<Object>)recordMap.get('Contacts');
+                            System.assertEquals((String)OrderItems[0], (String)orderItem2.id);
+                            System.assertEquals((String)Contracts[0], (String)amendedContract.id);
+                            System.assertEquals((String)Accounts[0], (String)account.id);
+                            System.assertEquals((String)Contacts[0], (String)contact.id);
+                            System.assertEquals((String)OrderItems[0], (String)orderItem2.id);
+                        }
+                    }
+                    when 'Opportunity' {
+                        allObjectsToPullDataFrom.add('Opportunity');
+                        if(((String)recordMap.get('Id') == opportunity.id)) {
+                            System.assertEquals((String)recordMap.get('Id'), (String)opportunity.id);
+                            System.assertEquals((String)recordMap.get('AccountId'), (String)account.id);
+                            System.assertEquals((String)recordMap.get('Pricebook2Id'), (String)pricebookId);
+                            System.assertEquals((String)recordMap.get('StageName'), 'Prospecting');
+                            System.assertEquals((String)recordMap.get('Name'), 'testOpportunity');
+                            System.assertEquals((String)recordMap.get('CloseDate'), String.valueOf(system.today() + 4));
+                        } else {
+                            System.assertEquals((String)recordMap.get('Id'), (String)amendedOpportunity.id);
+                            System.assertEquals((String)recordMap.get('AccountId'), (String)account.id);
+                            System.assertEquals((String)recordMap.get('Pricebook2Id'), (String)pricebookId);
+                            System.assertEquals((String)recordMap.get('StageName'), 'Prospecting');
+                            System.assertEquals((String)recordMap.get('Name'), 'testOpportunity');
+                            System.assertEquals((String)recordMap.get('CloseDate'), String.valueOf(system.today() + 4));
+                        }
+                    } when 'ProductConsumptionSchedule' {
+                        allObjectsToPullDataFrom.add('ProductConsumptionSchedule');
+                        System.assertEquals((String)recordMap.get('Id'), (String)productConsumptionSchedule.id);
+                        if (recordMap.get('ConsumptionScheduleId') != null ) {
+                            System.assertEquals((String)recordMap.get('ConsumptionScheduleId'), consumptionSchedule.Id);
+                        }
+                    } when 'ConsumptionSchedule' {
+                        allObjectsToPullDataFrom.add('ConsumptionSchedule');
+                        System.assertEquals((String)recordMap.get('Id'), (String)consumptionSchedule.id);
+                        if (recordMap.get('ConsumptionRates') != null ) {
+                            List<Object> consumptionRatesList = (List<Object>)recordMap.get('ConsumptionRates');
+                            System.assertEquals(consumptionRatesList[0], consumptionRate.Id);
+                        }
+                    } when 'ConsumptionRate' {
+                        allObjectsToPullDataFrom.add('ConsumptionRate');
+                        System.assertEquals((String)recordMap.get('Id'), (String)consumptionRate.id);
+                    } when 'SBQQ__OrderItemConsumptionSchedule__c' {
+                        allObjectsToPullDataFrom.add('SBQQ__OrderItemConsumptionSchedule__c');
+                        System.assertEquals((String)recordMap.get('Id'), (String)orderItemConsumptionSchedule.id);
+                        if (recordMap.get('OrderItemConsumptionRates') != null ) {
+                            List<Object> orderItemConsumptionRatesList = (List<Object>)recordMap.get('OrderItemConsumptionRates');
+                            System.assertEquals(orderItemConsumptionRatesList[0], orderItemConsumptionRate.Id);
+                        }
+                    } when 'SBQQ__OrderItemConsumptionRate__c' {
+                        allObjectsToPullDataFrom.add('SBQQ__OrderItemConsumptionRate__c');
+                        System.assertEquals((String)recordMap.get('Id'), (String)orderItemConsumptionRate.id);
+                    }
+                }
+            } 
+        }
+
+        Set<String> allObjects = new Set<String>{
+            'Contract',
+            'Account',
+            'Contact',
+            'Product2',
+            'PricebookEntry',
+            'OrderItem',
+            'Order',
+            'ProductConsumptionSchedule',
+            'ConsumptionSchedule'
+        };
+
+        if(isCpqInstalled) {
+            allObjects.add('Opportunity');
+            allObjects.add('amendedOrder');
+        }
+
+        Set<String> listOfMissingObjectNames = new Set<String>();
+        for (String objectName : allObjects) {
+            if (!allObjectsToPullDataFrom.contains(objectName)) {
+                listOfMissingObjectNames.add(objectName);
+            }
+        }
+
+        if (!listOfMissingObjectNames.isEmpty()) {
+            system.assertEquals(null, listOfMissingObjectNames);
+        }
+    }
+
+    @isTest 
+    public static void test_restServiceEventsInitialOrder() {
+        Map<String,Object> testRecordsMap = makeData(false);
+        Boolean isCpqInstalled = (Boolean)testRecordsMap.get('isCpqInstalled');
+        Id pricebookId = (Id)testRecordsMap.get('pricebookId');
+        Account account = (Account)testRecordsMap.get('account');
+        Opportunity opportunity = (Opportunity)testRecordsMap.get('opportunity');
+        Opportunity amendedOpportunity = (Opportunity)testRecordsMap.get('amendedOpportunity');
+        sObject quote = (sObject)testRecordsMap.get('quote');
+        sObject amendedQuote = (sObject)testRecordsMap.get('amendedQuote');
+        Product2 product = (Product2)testRecordsMap.get('product');
+        ConsumptionSchedule consumptionSchedule = (ConsumptionSchedule)testRecordsMap.get('consumptionSchedule');
+        ConsumptionRate consumptionRate = (ConsumptionRate)testRecordsMap.get('consumptionRate');
+        ProductConsumptionSchedule productConsumptionSchedule = (ProductConsumptionSchedule)testRecordsMap.get('productConsumptionSchedule');
+        Contract contract = (Contract)testRecordsMap.get('contract');
+        Order initalOrder = (Order)testRecordsMap.get('order');
+        Contract amendedContract = (Contract)testRecordsMap.get('amendedContract');
+        Order amendedOrder = (Order)testRecordsMap.get('amendedOrder');
+        OrderItem orderItem = (OrderItem)testRecordsMap.get('orderItem');
+        OrderItem orderItem2 = (OrderItem)testRecordsMap.get('orderItem2');
+        PricebookEntry standardPrice = (PricebookEntry)testRecordsMap.get('standardPrice');
+        sObject orderItemConsumptionRate = (sObject)testRecordsMap.get('orderItemConsumptionRate');
+        sObject orderItemConsumptionSchedule = (sObject)testRecordsMap.get('orderItemConsumptionSchedule');
+        Contact contact = (Contact)testRecordsMap.get('contact');
+
+        Test.startTest();
+        //make mock request
+        List<String> listOfOrderIds = new List<String>{(String)amendedOrder.id};
+        List<String> listOfProductIds = new List<String>{(String)product.id};
+        Map<String,Object> requestOrderMap = new Map<String,Object> {
+            'order_ids' => (Object)listOfOrderIds,
+            'product2_ids' => (Object)listOfProductIds
+            };
+        RestRequest request = new RestRequest();
+        request.requestBody = Blob.valueOf(JSON.serialize(requestOrderMap));
+        request.httpMethod = 'Post';
+        RestContext.request = request;
+        RestContext.response = new RestResponse();
+        RestResponse response = RestContext.response;
+
+        restService.executeBatchApi();
+        Map<String, Object> parsedReqBody = (Map<String, Object>)JSON.deserializeUntyped(response.responseBody.toString());
+        System.debug('InitialOrder ' +JSON.serialize(parsedReqBody));
+    
+        Test.stopTest();
+        
+        List<Object> records = (List<Object>)parsedReqBody.get('records');
+       
+        Set<String> allObjectsToPullDataFrom = new Set<String>();
+        
+        for(Object record : records) {
+            Map<String, Object> recordMap = (Map<String, Object>)record;
+            if(recordMap.get('attributes') != null) {              
+                Map<String, Object> attributes = (Map<String, Object>)recordMap.get('attributes');
+                String objectType = (String)attributes.get('type');
+                
+                switch on objectType {
+                    when 'Contract' {
+                        allObjectsToPullDataFrom.add('Contract');
+                        System.assertEquals(recordMap.get('ContractTerm'), 12);
+                        System.assertEquals((String)recordMap.get('StartDate'), String.valueOf(system.today()));
+                        System.assertEquals((String)recordMap.get('AccountId'), (String)account.id);
+                        if(isCpqInstalled) {
+                            System.assertEquals((String)recordMap.get('SBQQ__RenewalPricebookId__c'), pricebookId);
+                            System.assertEquals((String)recordMap.get('SBQQ__AmendmentPricebookId__c'), pricebookId);
+                            System.assertEquals((String)recordMap.get('SBQQ__Opportunity__c'), (String)opportunity.id);
+                        }
+                    }
+                    when 'Account' {
+                        allObjectsToPullDataFrom.add('Account');
+                        System.assertEquals((String)recordMap.get('Id'), (String)account.id);
+                        System.assertEquals((String)recordMap.get('Name'), 'SFDC Account');
+                        if(isCpqInstalled) System.assertEquals((String)recordMap.get('SBQQ__RenewalModel__c'), 'Contract Based');
+                    }
+                    when 'Contact' {
+                        allObjectsToPullDataFrom.add('Contact');
+                        System.assertEquals((String)recordMap.get('Id'), (String)contact.id);
+                        System.assertEquals((String)recordMap.get('FirstName'), 'testContact');
+                        System.assertEquals((String)recordMap.get('LastName'), 'testContact');
+                        System.assertEquals((String)recordMap.get('Email'),'testcontact@testcontact.com');
+                        System.assertEquals((String)recordMap.get('AccountId'), (String)account.id);
+                    }
+                    when 'Product2' {
+                        allObjectsToPullDataFrom.add('Product2');
+                        System.assertEquals((String)recordMap.get('Id'), (String)product.id);
+                        System.assertEquals((String)recordMap.get('Name'), 'testProduct');
+                        System.assertEquals((String)recordMap.get('Description'), 'testProductEntry');
+                        if (recordMap.get('ProductConsumptionSchedules') != null ) {
+                            List<Object> ProductConsumptionSchedulesList = (List<Object>)recordMap.get('ProductConsumptionSchedules');
+                            List<Object> ConsumptionSchedulesList = (List<Object>)recordMap.get('ConsumptionSchedules');
+                            System.assertEquals(ProductConsumptionSchedulesList[0], productConsumptionSchedule.Id);
+                            System.assertEquals(ConsumptionSchedulesList[0], consumptionSchedule.Id);
+                        }
+                    }
+                    when 'PricebookEntry' {
+                        allObjectsToPullDataFrom.add('PricebookEntry');
+                        System.assertEquals((String)recordMap.get('Id'), (String)standardPrice.id);
+                        System.assertEquals((String)recordMap.get('Pricebook2Id'), (String)pricebookId);
+                        System.assertEquals((String)recordMap.get('Product2Id'), (String)product.id);
+                        System.assertEquals(recordMap.get('UnitPrice'), 1);
+                    }
+                    when 'OrderItem' {
+                        allObjectsToPullDataFrom.add('OrderItem');
+                        if((String)recordMap.get('Id') == orderItem.id) {
+                            System.assertEquals((String)recordMap.get('Id'), (String)orderItem.id);
+                            System.assertEquals((String)recordMap.get('OrderId'), (String)initalOrder.id);
+                            System.assertEquals((String)recordMap.get('PricebookEntryId'), (String)standardPrice.id);
+                            System.assertEquals(recordMap.get('Quantity'), 24);
+                            System.assertEquals(recordMap.get('UnitPrice'), 240);
+                            System.assertEquals((String)recordMap.get('ServiceDate'), String.valueOf(system.today() + 4));
+                            System.assertEquals((String)recordMap.get('EndDate'), String.valueOf(system.today() + 14));
+                            System.assertEquals((String)recordMap.get('Product2Id'), (String)product.id);
+                            if (isCpqInstalled && recordMap.get('OrderItemConsumptionSchedules') != null ) {
+                                List<Object> orderItemConsumptionSchedulesList = (List<Object>)recordMap.get('OrderItemConsumptionSchedules');
+                                List<Object> ConsumptionSchedulesList = (List<Object>)recordMap.get('ConsumptionSchedules');
+                                System.assertEquals(orderItemConsumptionSchedulesList[0], orderItemConsumptionSchedule.Id);
+                            }
+                        } else {
+                            System.assertEquals((String)recordMap.get('Id'), (String)orderItem2.id);
+                            System.assertEquals((String)recordMap.get('OrderId'), (String)amendedOrder.id);
+                            System.assertEquals((String)recordMap.get('PricebookEntryId'), (String)standardPrice.id);
+                            //checking that we get the updated quantity and price 
+                            System.assertEquals(recordMap.get('Quantity'), 80);
+                            System.assertEquals(recordMap.get('UnitPrice'), 500);
+                            System.assertEquals((String)recordMap.get('ServiceDate'), String.valueOf(system.today() + 4));
+                            System.assertEquals((String)recordMap.get('EndDate'), String.valueOf(system.today() + 14));
+                            List<Object> Products = (List<Object>)recordMap.get('Products');
+                            List<Object> PricebookEntries = (List<Object>)recordMap.get('PricebookEntries');
+                        }
+                    }
+                    when 'Order' {
+                        allObjectsToPullDataFrom.add('initialOrder');
+                        if(((String)recordMap.get('Id') == amendedOrder.id)) {
+                            System.assertEquals((String)recordMap.get('Id'), (String)amendedOrder.id);
+                            System.assertEquals((String)recordMap.get('AccountId'), (String)account.id);
+                            System.assertEquals((String)recordMap.get('BillToContactId'), (String)contact.id);
+                            System.assertEquals((String)recordMap.get('ContractId'), (String)amendedContract.id);
+                            System.assertEquals((String)recordMap.get('Pricebook2Id'), (String)pricebookId);
+                            System.assertEquals((String)recordMap.get('EffectiveDate'), String.valueOf(system.today()));
+                            System.assertEquals((String)recordMap.get('EndDate'), String.valueOf(system.today() + 40));
+                            System.assertEquals((String)recordMap.get('Name'), 'testamendedOrder');
+                            List<Object> Contracts = (List<Object>)recordMap.get('Contracts');
+                            List<Object> Quotes = (List<Object>)recordMap.get('Quotes');
+                            List<Object> OrderItems = (List<Object>)recordMap.get('OrderItems');
+                            List<Object> InitialOrderQuotes = (List<Object>)recordMap.get('InitialOrderQuotes');
+                            List<Object> InitialOrderIds = (List<Object>)recordMap.get('InitialOrderId');
+                            List<Object> Accounts = (List<Object>)recordMap.get('Accounts');
+                            List<Object> Contacts = (List<Object>)recordMap.get('Contacts');
+                            List<Object> Opportunities = (List<Object>)recordMap.get('Opportunities');
+                            System.assertEquals((String)Accounts[0], (String)account.id);
+                            System.assertEquals((String)Contacts[0], (String)contact.id);
+                            if(isCpqInstalled) {
+                                System.assertNotEquals((String)Quotes[0], null);
+                                System.assertEquals((String)OrderItems[0], (String)orderItem2.id);
+                                System.assertEquals((String)InitialOrderIds[0], (String)initalOrder.id);
+                                System.assertNotEquals((String)InitialOrderQuotes[0], null);
+                                System.assertEquals((String)Opportunities[0], (String)amendedOpportunity.id);
+                            } 
+                        } else if((String)recordMap.get('Id') == initalOrder.id) {
+                            allObjectsToPullDataFrom.add('Order');
+                            System.assertEquals((String)recordMap.get('Id'), (String)initalOrder.id);
+                            System.assertEquals((String)recordMap.get('AccountId'), (String)account.id);
+                            System.assertEquals((String)recordMap.get('BillToContactId'), (String)contact.id);
+                            System.assertEquals((String)recordMap.get('ContractId'), (String)contract.id);
+                            System.assertEquals((String)recordMap.get('Pricebook2Id'), (String)pricebookId);
+                            System.assertEquals((String)recordMap.get('EffectiveDate'), String.valueOf(system.today()));
+                            System.assertEquals((String)recordMap.get('EndDate'), String.valueOf(system.today() + 40));
+                            System.assertEquals((String)recordMap.get('Name'), 'testOrder');
+                            List<Object> OrderItems = (List<Object>)recordMap.get('OrderItems');
+                            List<Object> Contracts = (List<Object>)recordMap.get('Contracts');
+                            List<Object> Accounts = (List<Object>)recordMap.get('Accounts');
+                            List<Object> Contacts = (List<Object>)recordMap.get('Contacts');
+                            List<Object> Opportunities = (List<Object>)recordMap.get('Opportunities');
+                            System.assertEquals((String)Contracts[0], (String)contract.id);
+                            System.assertEquals((String)Accounts[0], (String)account.id);
+                            System.assertEquals((String)Contacts[0], (String)contact.id);
+                            System.assertEquals((String)OrderItems[0], (String)orderItem.id);
+                            System.assertEquals((String)Opportunities[0], (String)opportunity.id);
+                        }
+                    }
+                    when 'Opportunity' {
+                        allObjectsToPullDataFrom.add('Opportunity');
+                        if(((String)recordMap.get('Id') == opportunity.id)) {
+                            System.assertEquals((String)recordMap.get('Id'), (String)opportunity.id);
+                            System.assertEquals((String)recordMap.get('AccountId'), (String)account.id);
+                            System.assertEquals((String)recordMap.get('Pricebook2Id'), (String)pricebookId);
+                            System.assertEquals((String)recordMap.get('StageName'), 'Prospecting');
+                            System.assertEquals((String)recordMap.get('Name'), 'testOpportunity');
+                            System.assertEquals((String)recordMap.get('CloseDate'), String.valueOf(system.today() + 4));
+                        } else {
+                            System.assertEquals((String)recordMap.get('Id'), (String)amendedOpportunity.id);
+                            System.assertEquals((String)recordMap.get('AccountId'), (String)account.id);
+                            System.assertEquals((String)recordMap.get('Pricebook2Id'), (String)pricebookId);
+                            System.assertEquals((String)recordMap.get('StageName'), 'Prospecting');
+                            System.assertEquals((String)recordMap.get('Name'), 'testOpportunity');
+                            System.assertEquals((String)recordMap.get('CloseDate'), String.valueOf(system.today() + 4));
+                        }
+                    } when 'ProductConsumptionSchedule' {
+                        allObjectsToPullDataFrom.add('ProductConsumptionSchedule');
+                        System.assertEquals((String)recordMap.get('Id'), (String)productConsumptionSchedule.id);
+                        if (recordMap.get('ConsumptionScheduleId') != null ) {
+                            System.assertEquals((String)recordMap.get('ConsumptionScheduleId'), consumptionSchedule.Id);
+                        }
+                    } when 'ConsumptionSchedule' {
+                        allObjectsToPullDataFrom.add('ConsumptionSchedule');
+                        System.assertEquals((String)recordMap.get('Id'), (String)consumptionSchedule.id);
+                        if (recordMap.get('ConsumptionRates') != null ) {
+                            List<Object> consumptionRatesList = (List<Object>)recordMap.get('ConsumptionRates');
+                            System.assertEquals(consumptionRatesList[0], consumptionRate.Id);
+                        }
+                    } when 'ConsumptionRate' {
+                        allObjectsToPullDataFrom.add('ConsumptionRates');
+                        System.assertEquals((String)recordMap.get('Id'), (String)consumptionRate.id);
+                    } when 'SBQQ__OrderItemConsumptionSchedule__c' {
+                        allObjectsToPullDataFrom.add('SBQQ__OrderItemConsumptionSchedule__c');
+                        System.assertEquals((String)recordMap.get('Id'), (String)orderItemConsumptionSchedule.id);
+                        if (recordMap.get('OrderItemConsumptionRates') != null ) {
+                            List<Object> orderItemConsumptionRatesList = (List<Object>)recordMap.get('OrderItemConsumptionRates');
+                            System.assertEquals(orderItemConsumptionRatesList[0], orderItemConsumptionRate.Id);
+                        }
+                    } when 'SBQQ__OrderItemConsumptionRate__c' {
+                        allObjectsToPullDataFrom.add('SBQQ__OrderItemConsumptionRate__c');
+                        System.assertEquals((String)recordMap.get('Id'), (String)orderItemConsumptionRate.id);
+                    }
+                }
+            } 
+        }
+
+        Set<String> allObjects = new Set<String>{
+            'Contract',
+            'Account',
+            'Contact',
+            'Product2',
+            'PricebookEntry',
+            'OrderItem',
+            'initialOrder',
+            'ProductConsumptionSchedule',
+            'ConsumptionSchedule'
+        };
+        
+        if(isCpqInstalled) {
+            allObjects.add('SBQQ__OrderItemConsumptionSchedule__c');
+            allObjects.add('SBQQ__OrderItemConsumptionRate__c');
+            allObjects.add('Opportunity');
+            allObjects.add('Order');
+        }
+
+        Set<String> listOfMissingObjectNames = new Set<String>();
+        for (String objectName : allObjects) {
+            if (!allObjectsToPullDataFrom.contains(objectName)) {
+                listOfMissingObjectNames.add(objectName);
+            }
+        }
+
+        if (!listOfMissingObjectNames.isEmpty()) {
+            system.assertEquals(null, listOfMissingObjectNames);
+        }
+    }
+
+    private static Map<String,Object> makeData(Boolean isAmendedOrderTest) {
         Boolean isCpqInstalled = utilities.isCpqEnabled();
 
         //insert all the records we will be checking the JSON response for
@@ -32,8 +550,21 @@ public with sharing class test_restService {
             opportunity.put('SBQQ__Contracted__c', true);
         }
         insert opportunity;
+
+
+        sObject amendedOpportunity = opportunityObject.get('Opportunity').newSObject();
+        amendedOpportunity.put('Name', 'testOpportunity');
+        amendedOpportunity.put('AccountId', account.id);
+        amendedOpportunity.put('StageName','prospecting');
+        amendedOpportunity.put('CloseDate', system.today() + 4);
+        amendedOpportunity.put('Pricebook2Id', pricebookId);
+        if(isCpqInstalled) {
+            amendedOpportunity.put('SBQQ__Contracted__c', true);
+        }
+        insert amendedOpportunity;
         
         sObject quote;
+        sObject amendedQuote;
         if(isCpqInstalled) {
             Map<String, Schema.SObjectType> quoteObject = Schema.getGlobalDescribe();
             quote = quoteObject.get('SBQQ__Quote__c').newSObject();
@@ -48,8 +579,24 @@ public with sharing class test_restService {
             quote.put('SBQQ__Ordered__c',true);
             insert quote;
 
+            Map<String, Schema.SObjectType> amendedQuoteObject = Schema.getGlobalDescribe();
+            amendedQuote = amendedQuoteObject.get('SBQQ__Quote__c').newSObject();
+            amendedQuote.put('SBQQ__Account__c',account.id);
+            amendedQuote.put('SBQQ__Status__c','Approved');
+            amendedQuote.put('SBQQ__StartDate__c',date.today());
+            amendedQuote.put('SBQQ__PricebookId__c',pricebookId);
+            amendedQuote.put('SBQQ__Opportunity2__c',amendedOpportunity.id);
+            amendedQuote.put('SBQQ__SubscriptionTerm__c',12);
+            amendedQuote.put('SBQQ__ContractingMethod__c','By Subscription End Date');
+            amendedQuote.put('SBQQ__Primary__c',true);
+            amendedQuote.put('SBQQ__Ordered__c',true);
+            insert amendedQuote;
+
             opportunity.put('SBQQ__PrimaryQuote__c', quote.Id);
             upsert opportunity;
+
+            amendedOpportunity.put('SBQQ__PrimaryQuote__c', amendedQuote.Id);
+            upsert amendedOpportunity;
         }
 
         sObject quoteLineGroup;
@@ -218,6 +765,7 @@ public with sharing class test_restService {
         if(isCpqInstalled)order.put('SBQQ__Quote__c',quote.id);
         insert order;
 
+        //this stays
         Map<String, Schema.SObjectType> contractObject2 = Schema.getGlobalDescribe();
         sObject amendedContract = contractObject2.get('Contract').newSObject();
         amendedContract.put('AccountId',account.id);
@@ -225,15 +773,22 @@ public with sharing class test_restService {
         amendedContract.put('Status','Draft');
         amendedContract.put('StartDate', system.today());
         if(isCpqInstalled) {
-            amendedContract.put('SBQQ__Quote__c',quote.id);
+            
             amendedContract.put('SBQQ__Opportunity__c',opportunity.id);
             amendedContract.put('SBQQ__RenewalPricebookId__c',pricebookId);
             amendedContract.put('SBQQ__AmendmentRenewalBehavior__c','Latest End Date');
             amendedContract.put('SBQQ__AmendmentStartDate__c',system.today().AddMonths(1));
             amendedContract.put('SBQQ__AmendmentPricebookId__c',pricebookId);
             amendedContract.put('SBQQ__PreserveBundleStructureUponRenewals__c',true);
+            amendedContract.put('SBQQ__Quote__c',amendedQuote.id);
         }
         insert amendedContract;
+        if(isCpqInstalled && isAmendedOrderTest) {
+            order.put('SBQQ__Quote__c',amendedQuote.id);
+            upsert order;
+            amendedOpportunity.put('SBQQ__AmendedContract__c',amendedContract.id);
+            upsert amendedOpportunity;
+        } 
 
         Map<String, Schema.SObjectType> amendedOrderObject = Schema.getGlobalDescribe();
         sObject amendedOrder = amendedOrderObject.get('Order').newSObject();
@@ -241,12 +796,12 @@ public with sharing class test_restService {
         amendedOrder.put('AccountId',account.id);
         amendedOrder.put('BillToContactId',contact.id);
         amendedOrder.put('ContractId',amendedContract.id);
-        amendedOrder.put('OpportunityId',opportunity.id);
+        amendedOrder.put('OpportunityId',amendedOpportunity.id);
         amendedOrder.put('status','Draft');
         amendedOrder.put('EffectiveDate',system.today());
         amendedOrder.put('EndDate',system.today() + 40);
         amendedOrder.put('Pricebook2Id',pricebookId);
-        if(isCpqInstalled)amendedOrder.put('SBQQ__Quote__c',quote.id);
+        if(isCpqInstalled)amendedOrder.put('SBQQ__Quote__c',amendedQuote.id);
         insert amendedOrder;
 
         Map<String, Schema.SObjectType> orderItemObject = Schema.getGlobalDescribe();
@@ -268,19 +823,20 @@ public with sharing class test_restService {
 
             contract.put('SBQQ__Order__c',order.id);
             upsert contract;
-
-            String relatedOpportunityId = opportunity.id;
-            String amendedContractOpportunityQuery = 'SELECT Id, SBQQ__AmendedContract__c FROM Opportunity WHERE Id = :relatedOpportunityId LIMIT 1';
-            SObject contractOpportunityRecord  = Database.query(amendedContractOpportunityQuery);
-            contractOpportunityRecord.put('SBQQ__AmendedContract__c', amendedContract.id);
-            upsert contractOpportunityRecord;
-
-            String relatedAmendedContractId = amendedContract.id;
-            String quoteContractQuery = 'SELECT Id, SBQQ__Quote__c FROM Contract WHERE Id = :relatedAmendedContractId LIMIT 1';
-            SObject quoteContractRecord  = Database.query(quoteContractQuery);
-            quoteContractRecord.put('SBQQ__Quote__c', quote.id);
-            upsert quoteContractRecord;
-
+            if(!isAmendedOrderTest) {
+                String relatedOpportunityId = amendedOpportunity.id;
+        
+                String amendedContractOpportunityQuery = 'SELECT Id, SBQQ__AmendedContract__c FROM Opportunity WHERE Id = :relatedOpportunityId LIMIT 1';
+                SObject contractOpportunityRecord  = Database.query(amendedContractOpportunityQuery);
+                contractOpportunityRecord.put('SBQQ__AmendedContract__c', amendedContract.id);
+                upsert contractOpportunityRecord;
+    
+                String relatedAmendedContractId = amendedContract.id;
+                String quoteContractQuery = 'SELECT Id, SBQQ__Quote__c FROM Contract WHERE Id = :relatedAmendedContractId LIMIT 1';
+                SObject quoteContractRecord  = Database.query(quoteContractQuery);
+                quoteContractRecord.put('SBQQ__Quote__c', quote.id);
+                upsert quoteContractRecord;
+            } 
             Map<String, Schema.SObjectType> orderItemConsumptionScheduleObject = Schema.getGlobalDescribe();
             orderItemConsumptionSchedule = orderItemConsumptionScheduleObject.get('SBQQ__OrderItemConsumptionSchedule__c').newSObject();
             orderItemConsumptionSchedule.put('Name','testOrderItemConsumptionSchedule');
@@ -347,173 +903,30 @@ public with sharing class test_restService {
             }
             upsert listOfOrderIdRecords;
         }
-
-        Test.startTest();
         
-        //make mock request
-        List<String> listOfOrderIds = new List<String>{(String)order.id};
-        List<String> listOfProductIds = new List<String>{(String)product.id};
-        Map<String,Object> requestOrderMap = new Map<String,Object> {
-            'order_ids' => (Object)listOfOrderIds,
-            'product2_ids' => (Object)listOfProductIds
-            };
-        RestRequest request = new RestRequest();
-        request.requestBody = Blob.valueOf(JSON.serialize(requestOrderMap));
-        request.httpMethod = 'Post';
-        RestContext.request = request;
-        RestContext.response = new RestResponse();
-        RestResponse response = RestContext.response;
-
-        restService.executeBatchApi();
-        Map<String, Object> parsedReqBody = (Map<String, Object>)JSON.deserializeUntyped(response.responseBody.toString());
-        System.debug(JSON.serialize(parsedReqBody));
-    
-        Test.stopTest();
-        
-        List<Object> records = (List<Object>)parsedReqBody.get('records');
-        
-        for(Object record : records) {
-            Map<String, Object> recordMap = (Map<String, Object>)record;
-            if(recordMap.get('attributes') != null) {              
-                Map<String, Object> attributes = (Map<String, Object>)recordMap.get('attributes');
-                String objectType = (String)attributes.get('type');
-                
-                switch on objectType {
-                    when 'Contract' {
-                        //System.assertEquals((String)recordMap.get('Id'), (String)contract.id);
-                        System.assertEquals(recordMap.get('ContractTerm'), 12);
-                        System.assertEquals((String)recordMap.get('StartDate'), String.valueOf(system.today()));
-                        System.assertEquals((String)recordMap.get('AccountId'), (String)account.id);
-                        if(isCpqInstalled) {
-                            System.assertEquals((String)recordMap.get('SBQQ__RenewalPricebookId__c'), pricebookId);
-                            System.assertEquals((String)recordMap.get('SBQQ__AmendmentPricebookId__c'), pricebookId);
-                            System.assertEquals((String)recordMap.get('SBQQ__Opportunity__c'), (String)opportunity.id);
-                        }
-                    }
-                    when 'Account' {
-                        System.assertEquals((String)recordMap.get('Id'), (String)account.id);
-                        System.assertEquals((String)recordMap.get('Name'), 'SFDC Account');
-                        if(isCpqInstalled) System.assertEquals((String)recordMap.get('SBQQ__RenewalModel__c'), 'Contract Based');
-                    }
-                    when 'Contact' {
-                        System.assertEquals((String)recordMap.get('Id'), (String)contact.id);
-                        System.assertEquals((String)recordMap.get('FirstName'), 'testContact');
-                        System.assertEquals((String)recordMap.get('LastName'), 'testContact');
-                        System.assertEquals((String)recordMap.get('Email'),'testcontact@testcontact.com');
-                        System.assertEquals((String)recordMap.get('AccountId'), (String)account.id);
-                    }
-                    when 'Product2' {
-                        System.assertEquals((String)recordMap.get('Id'), (String)product.id);
-                        System.assertEquals((String)recordMap.get('Name'), 'testProduct');
-                        System.assertEquals((String)recordMap.get('Description'), 'testProductEntry');
-                        if (recordMap.get('ProductConsumptionSchedules') != null ) {
-                            List<Object> ProductConsumptionSchedulesList = (List<Object>)recordMap.get('ProductConsumptionSchedules');
-                            List<Object> ConsumptionSchedulesList = (List<Object>)recordMap.get('ConsumptionSchedules');
-                            System.assertEquals(ProductConsumptionSchedulesList[0], productConsumptionSchedule.Id);
-                            System.assertEquals(ConsumptionSchedulesList[0], consumptionSchedule.Id);
-                        }
-                    }
-                    when 'PricebookEntry' {
-                        System.assertEquals((String)recordMap.get('Id'), (String)standardPrice.id);
-                        System.assertEquals((String)recordMap.get('Pricebook2Id'), (String)pricebookId);
-                        System.assertEquals((String)recordMap.get('Product2Id'), (String)product.id);
-                        System.assertEquals(recordMap.get('UnitPrice'), 1);
-                    }
-                    when 'OrderItem' {
-                        if((String)recordMap.get('Id') == orderItem.id) {
-                            System.assertEquals((String)recordMap.get('Id'), (String)orderItem.id);
-                            System.assertEquals((String)recordMap.get('OrderId'), (String)order.id);
-                            System.assertEquals((String)recordMap.get('PricebookEntryId'), (String)standardPrice.id);
-                            System.assertEquals(recordMap.get('Quantity'), 24);
-                            System.assertEquals(recordMap.get('UnitPrice'), 240);
-                            System.assertEquals((String)recordMap.get('ServiceDate'), String.valueOf(system.today() + 4));
-                            System.assertEquals((String)recordMap.get('EndDate'), String.valueOf(system.today() + 14));
-                            System.assertEquals((String)recordMap.get('Product2Id'), (String)product.id);
-                            if (isCpqInstalled && recordMap.get('OrderItemConsumptionSchedules') != null ) {
-                                List<Object> orderItemConsumptionSchedulesList = (List<Object>)recordMap.get('OrderItemConsumptionSchedules');
-                                List<Object> ConsumptionSchedulesList = (List<Object>)recordMap.get('ConsumptionSchedules');
-                                System.assertEquals(orderItemConsumptionSchedulesList[0], orderItemConsumptionSchedule.Id);
-                            }
-                        } else {
-                            System.assertEquals((String)recordMap.get('Id'), (String)orderItem2.id);
-                            System.assertEquals((String)recordMap.get('OrderId'), (String)amendedOrder.id);
-                            System.assertEquals((String)recordMap.get('PricebookEntryId'), (String)standardPrice.id);
-                            //checking that we get the updated quantity and price 
-                            System.assertEquals(recordMap.get('Quantity'), 80);
-                            System.assertEquals(recordMap.get('UnitPrice'), 500);
-                            System.assertEquals((String)recordMap.get('ServiceDate'), String.valueOf(system.today() + 4));
-                            System.assertEquals((String)recordMap.get('EndDate'), String.valueOf(system.today() + 14));
-                            List<Object> Products = (List<Object>)recordMap.get('Products');
-                            List<Object> PricebookEntries = (List<Object>)recordMap.get('PricebookEntries');
-                        }
-                    }
-                    when 'Order' {
-                        if(((String)recordMap.get('Id') == order.id)) {
-                            System.assertEquals((String)recordMap.get('Id'), (String)order.id);
-                            System.assertEquals((String)recordMap.get('AccountId'), (String)account.id);
-                            System.assertEquals((String)recordMap.get('BillToContactId'), (String)contact.id);
-                            System.assertEquals((String)recordMap.get('ContractId'), (String)contract.id);
-                            System.assertEquals((String)recordMap.get('Pricebook2Id'), (String)pricebookId);
-                            System.assertEquals((String)recordMap.get('EffectiveDate'), String.valueOf(system.today()));
-                            System.assertEquals((String)recordMap.get('EndDate'), String.valueOf(system.today() + 40));
-                            System.assertEquals((String)recordMap.get('Name'), 'testOrder');
-                            List<Object> Contracts = (List<Object>)recordMap.get('Contracts');
-                            List<Object> Quotes = (List<Object>)recordMap.get('Quotes');
-                            List<Object> OrderItems = (List<Object>)recordMap.get('OrderItems');
-                            List<Object> AmendedContracts = (List<Object>)recordMap.get('AmendedContracts');
-                            List<Object> AmendedOrders = (List<Object>)recordMap.get('AmendedOrders');
-                            if(isCpqInstalled) {
-                                System.assertEquals((String)Quotes[0], (String)quote.id);
-                                System.assertEquals((String)OrderItems[0], (String)orderItem.id);
-                                System.assertEquals((String)AmendedOrders[0], (String)amendedOrder.id);
-                                System.assertEquals((String)AmendedContracts[0], (String)amendedContract.id);
-                            } 
-                        } else if((String)recordMap.get('Id') == amendedOrder.id) {
-                            System.assertEquals((String)recordMap.get('Id'), (String)amendedOrder.id);
-                            System.assertEquals((String)recordMap.get('AccountId'), (String)account.id);
-                            System.assertEquals((String)recordMap.get('BillToContactId'), (String)contact.id);
-                            System.assertEquals((String)recordMap.get('ContractId'), (String)amendedContract.id);
-                            System.assertEquals((String)recordMap.get('Pricebook2Id'), (String)pricebookId);
-                            System.assertEquals((String)recordMap.get('EffectiveDate'), String.valueOf(system.today()));
-                            System.assertEquals((String)recordMap.get('EndDate'), String.valueOf(system.today() + 40));
-                            System.assertEquals((String)recordMap.get('Name'), 'testamendedOrder');
-                            List<Object> OrderItems = (List<Object>)recordMap.get('OrderItems');
-                            List<Object> Quotes = (List<Object>)recordMap.get('Quotes');
-                            System.assertEquals((String)Quotes[0], (String)quote.id);
-                            System.assertEquals((String)OrderItems[0], (String)orderItem2.id);
-                        }
-                    }
-                    when 'Opportunity' {
-                        System.assertEquals((String)recordMap.get('Id'), (String)opportunity.id);
-                        System.assertEquals((String)recordMap.get('AccountId'), (String)account.id);
-                        System.assertEquals((String)recordMap.get('Pricebook2Id'), (String)pricebookId);
-                        System.assertEquals((String)recordMap.get('StageName'), 'Prospecting');
-                        System.assertEquals((String)recordMap.get('Name'), 'testOpportunity');
-                        System.assertEquals((String)recordMap.get('CloseDate'), String.valueOf(system.today() + 4));
-                    } when 'ProductConsumptionSchedule' {
-                        System.assertEquals((String)recordMap.get('Id'), (String)productConsumptionSchedule.id);
-                        if (recordMap.get('ConsumptionScheduleId') != null ) {
-                            System.assertEquals((String)recordMap.get('ConsumptionScheduleId'), consumptionSchedule.Id);
-                        }
-                    } when 'ConsumptionSchedule' {
-                        System.assertEquals((String)recordMap.get('Id'), (String)consumptionSchedule.id);
-                        if (recordMap.get('ConsumptionRates') != null ) {
-                            List<Object> consumptionRatesList = (List<Object>)recordMap.get('ConsumptionRates');
-                            System.assertEquals(consumptionRatesList[0], consumptionRate.Id);
-                        }
-                    } when 'ConsumptionRate' {
-                        System.assertEquals((String)recordMap.get('Id'), (String)consumptionRate.id);
-                    } when 'SBQQ__OrderItemConsumptionSchedule__c' {
-                        System.assertEquals((String)recordMap.get('Id'), (String)orderItemConsumptionSchedule.id);
-                        if (recordMap.get('OrderItemConsumptionRates') != null ) {
-                            List<Object> orderItemConsumptionRatesList = (List<Object>)recordMap.get('OrderItemConsumptionRates');
-                            System.assertEquals(orderItemConsumptionRatesList[0], orderItemConsumptionRate.Id);
-                        }
-                    } when 'SBQQ__OrderItemConsumptionRate__c' {
-                        System.assertEquals((String)recordMap.get('Id'), (String)orderItemConsumptionRate.id);
-                    }
-                }
-            } 
-        }
-    }
+        return new Map<String,Object> {
+            'order' => order,
+            'product' => product,
+            'contract' => contract,
+            'pricebookId' => pricebookId,
+            'account' => account,
+            'opportunity' => opportunity,
+            'contact' => contact,
+            'productConsumptionSchedule' => productConsumptionSchedule,
+            'consumptionSchedule' => consumptionSchedule,
+            'standardPrice' => standardPrice,
+            'orderItem' => orderItem,
+            'orderItemConsumptionSchedule' => orderItemConsumptionSchedule,
+            'orderItem2' => orderItem2,
+            'amendedOrder' => amendedOrder,
+            'amendedContract' => amendedContract,
+            'amendedOpportunity' => amendedOpportunity,
+            'productConsumptionSchedule' => productConsumptionSchedule,
+            'consumptionSchedule' => consumptionSchedule,
+            'consumptionRate' => consumptionRate,
+            'orderItemConsumptionSchedule' => orderItemConsumptionSchedule,
+            'orderItemConsumptionRate' => orderItemConsumptionRate,
+            'isCpqInstalled' => isCpqInstalled
+        };
+    } 
 }

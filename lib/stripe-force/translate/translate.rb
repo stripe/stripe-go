@@ -64,16 +64,19 @@ class StripeForce::Translate
   def translate(sf_object)
     set_error_context(user: @user, integration_record: sf_object)
 
-    # Cache Related Objects
-    cache_service.cache_for_object(sf_object)
-
     catch_errors_with_salesforce_context(primary: sf_object) do
       case sf_object.sobject_type
       when SF_ORDER
+        # Cache Related Objects
+        cache_service.cache_for_object(sf_object)
         translate_order(sf_object)
       when SF_PRODUCT
+        # Cache Related Objects
+        cache_service.cache_for_object(sf_object)
         translate_product(sf_object)
       when SF_PRICEBOOK_ENTRY
+        # Cache Related Objects
+        cache_service.cache_for_object(sf_object)
         translate_pricebook(sf_object)
       when SF_ACCOUNT
         translate_account(sf_object)

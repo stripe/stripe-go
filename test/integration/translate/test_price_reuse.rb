@@ -223,6 +223,8 @@ class Critic::PriceReuse < Critic::FunctionalTest
       assert_equal(1, sf_lines.count)
       sf_line = sf_lines[0]
 
+      translator.cache_service.cache_for_object(sf_order)
+
       # although stripe price is only created once, we expect two upsert calls to the same sync record
       translator.expects(:create_user_success).twice
 

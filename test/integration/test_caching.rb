@@ -31,7 +31,16 @@ class Critic::CachingTest < Critic::OrderAmendmentFunctionalTest
 
     cache_service.invalidate_cache_object(sf_order.Id)
 
-    # TODO why do we expect an exception here? The test suite will invalidate cache objects, that should not trigger a cache miss
+    # This should not trigger a cache miss
+    cached_order = cache_service.get_record_from_cache(SF_ORDER, sf_order.Id)
+  end
+
+  it 'triggers a cache miss' do
+    @user.enable_feature(FeatureFlags::SF_CACHING)
+    sf_order = create_salesforce_order
+
+    cache_service = CacheService.new(@user)
+
     exception = assert_raises(Integrations::Errors::TranslatorError) do
       cached_order = cache_service.get_record_from_cache(SF_ORDER, sf_order.Id)
     end

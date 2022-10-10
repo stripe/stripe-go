@@ -18,6 +18,7 @@ class CacheService
   def initialize(user)
     @user = user
     @cache = {}
+    @previously_invalidated = []
   end
 
   sig { params(sf_object: Restforce::SObject).void }
@@ -33,8 +34,11 @@ class CacheService
   end
 
   def invalidate_cache_object(sf_object_id)
+    log.info("Invalidating cached object", sf_object_id: sf_object_id)
     @cache[StripeForce::Utilities::SalesforceUtil.salesforce_type_from_id(@user, sf_object_id)] ||= {}
     @cache[StripeForce::Utilities::SalesforceUtil.salesforce_type_from_id(@user, sf_object_id)].delete(sf_object_id)
+
+    @previously_invalidated.append(sf_object_id)
   end
 
   # ie
@@ -162,7 +166,7 @@ class CacheService
         sf_record_id: sf_record_id,
       }
       message = "Missed cache for SF Object, but found when reaching out to Salesforce API"
-      report_missing_cache(message, metadata)
+      report_missing_cache(message, metadata, missing_record_ids: [sf_record_id])
       @cache[sf_record_type][sf_record_id] = missed_object
     end
 
@@ -209,11 +213,21 @@ class CacheService
     response.body
   end
 
-  private def report_missing_cache(message, metadata)
+  private def previously_invalidated?(sf_object_ids)
+    sf_object_ids.each do |id|
+      if @previously_invalidated.include? id
+        return true
+      end
+    end
+    false
+  end
+
+
+  private def report_missing_cache(message, metadata, missing_record_ids: [])
     Integrations::ErrorContext.report_edge_case(message, metadata: metadata)
 
     # Error out in tests, provide the meatdata for alerting us to what exactly is missing.
-    if ENV['CI'] || Rails.env.test?
+    if (ENV['CI'] || Rails.env.test?) && !previously_invalidated?(missing_record_ids)
       raise Integrations::Errors::TranslatorError.new(message, metadata: metadata)
     end
   end
@@ -245,7 +259,7 @@ class CacheService
         root_object_id: foreign_key_sf_object_id,
       }
       message = "Missed cache for relational objects, but found when reaching out to Salesforce API"
-      report_missing_cache(message, metadata)
+      report_missing_cache(message, metadata, missing_record_ids: record_list.map(&:Id))
     end
 
     record_list
