@@ -1263,17 +1263,6 @@ type CheckoutSessionShippingOptionParams struct {
 	ShippingRateData *CheckoutSessionShippingOptionShippingRateDataParams `form:"shipping_rate_data"`
 }
 
-// This parameter is deprecated. Use the line_items parameter on the Session instead.
-type CheckoutSessionSubscriptionDataItemParams struct {
-	// Plan ID for this item.
-	Plan *string `form:"plan"`
-	// The quantity of the subscription item being purchased. Quantity should not be defined when `recurring.usage_type=metered`.
-	Quantity *int64 `form:"quantity"`
-	// The tax rates which apply to this item. When set, the `default_tax_rates`
-	// on `subscription_data` do not apply to this item.
-	TaxRates []*string `form:"tax_rates"`
-}
-
 // If specified, the funds from the subscription's invoices will be transferred to the destination and the ID of the resulting transfers will be found on the resulting charges.
 type CheckoutSessionSubscriptionDataTransferDataParams struct {
 	// A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice subtotal that will be transferred to the destination account. By default, the entire amount is transferred to the destination.
@@ -1296,8 +1285,6 @@ type CheckoutSessionSubscriptionDataParams struct {
 	// Use this field to optionally store an explanation of the subscription
 	// for rendering in Stripe hosted surfaces.
 	Description *string `form:"description"`
-	// This parameter is deprecated. Use the line_items parameter on the Session instead.
-	Items []*CheckoutSessionSubscriptionDataItemParams `form:"items"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// If specified, the funds from the subscription's invoices will be transferred to the destination and the ID of the resulting transfers will be found on the resulting charges.
