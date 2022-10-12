@@ -49,12 +49,6 @@ func TestCheckoutSessionNew(t *testing.T) {
 			"card",
 		}),
 		SubscriptionData: &stripe.CheckoutSessionSubscriptionDataParams{
-			Items: []*stripe.CheckoutSessionSubscriptionDataItemParams{
-				{
-					Plan:     stripe.String("plan"),
-					Quantity: stripe.Int64(2),
-				},
-			},
 			Metadata: map[string]string{
 				"attr1": "val1",
 				"attr2": "val2",
