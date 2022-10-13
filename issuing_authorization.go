@@ -126,6 +126,12 @@ type IssuingAuthorizationMerchantData struct {
 	State string `json:"state"`
 }
 
+// Details about the authorization, such as identifiers, set by the card network.
+type IssuingAuthorizationNetworkData struct {
+	// ID from the network that identifies the acquiring financial institution. For Visa and Mastercard credit transactions this is as 6 digit code. For Maestro debit transactions this is a 9 digit code. Uncommonly, acquiring institution ID is not provided. When this occurs, the value will be null.
+	AcquiringInstitutionID string `json:"acquiring_institution_id"`
+}
+
 // The pending authorization request. This field will only be non-null during an `issuing_authorization.request` webhook.
 type IssuingAuthorizationPendingRequest struct {
 	// The additional amount Stripe will hold if the authorization is approved, in the card's [currency](https://stripe.com/docs/api#issuing_authorization_object-pending-request-currency) and in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal).
@@ -218,6 +224,8 @@ type IssuingAuthorization struct {
 	MerchantData     *IssuingAuthorizationMerchantData `json:"merchant_data"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`
+	// Details about the authorization, such as identifiers, set by the card network.
+	NetworkData *IssuingAuthorizationNetworkData `json:"network_data"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// The pending authorization request. This field will only be non-null during an `issuing_authorization.request` webhook.
