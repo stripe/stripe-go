@@ -1,5 +1,10 @@
 # Changelog
 
+## 73.13.0 - 2022-10-13
+* [#1558](https://github.com/stripe/stripe-go/pull/1558) API Updates
+  * Add support for `NetworkData` on `IssuingAuthorization`
+* [#1553](https://github.com/stripe/stripe-go/pull/1553) Add RequestLogURL on Error
+
 ## 73.12.0 - 2022-10-06
 * [#1551](https://github.com/stripe/stripe-go/pull/1551) API Updates
   * Add support for new value `invalid_dob_age_under_18` on enums `AccountFutureRequirementsErrorsCode`, `AccountRequirementsErrorsCode`, `CapabilityFutureRequirementsErrorsCode`, `CapabilityRequirementsErrorsCode`, `PersonFutureRequirementsErrorsCode`, and `PersonRequirementsErrorsCode`
