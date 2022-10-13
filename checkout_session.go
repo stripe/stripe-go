@@ -1382,7 +1382,7 @@ type CheckoutSessionParams struct {
 	LineItems []*CheckoutSessionLineItemParams `form:"line_items"`
 	// The IETF language tag of the locale Checkout is displayed in. If blank or `auto`, the browser's locale is used.
 	Locale *string `form:"locale"`
-	// The mode of the Checkout Session. Required when using prices or `setup` mode. Pass `subscription` if the Checkout Session includes at least one recurring item.
+	// The mode of the Checkout Session. Pass `subscription` if the Checkout Session includes at least one recurring item.
 	Mode *string `form:"mode"`
 	// A subset of parameters to be passed to PaymentIntent creation for Checkout Sessions in `payment` mode.
 	PaymentIntentData *CheckoutSessionPaymentIntentDataParams `form:"payment_intent_data"`
