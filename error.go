@@ -237,6 +237,7 @@ type Error struct {
 	PaymentMethod     *PaymentMethod    `json:"payment_method,omitempty"`
 	PaymentMethodType PaymentMethodType `json:"payment_method_type,omitempty"`
 	RequestID         string            `json:"request_id,omitempty"`
+	RequestLogURL     string            `json:"request_log_url,omitempty"`
 	SetupIntent       *SetupIntent      `json:"setup_intent,omitempty"`
 	Source            *PaymentSource    `json:"source,omitempty"`
 	Type              ErrorType         `json:"type"`

@@ -1,5 +1,10 @@
 # Changelog
 
+## 73.13.0 - 2022-10-13
+* [#1558](https://github.com/stripe/stripe-go/pull/1558) API Updates
+  * Add support for `NetworkData` on `IssuingAuthorization`
+* [#1553](https://github.com/stripe/stripe-go/pull/1553) Add RequestLogURL on Error
+
 ## 73.13.0-beta.1 - 2022-10-07
 * [#1552](https://github.com/stripe/stripe-go/pull/1552) API Updates for beta branch
   * Updated stable APIs to the latest version

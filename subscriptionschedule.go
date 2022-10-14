@@ -487,11 +487,19 @@ type SubscriptionScheduleAmendAmendmentParams struct {
 	ProrationBehavior *string `form:"proration_behavior"`
 }
 
+// Changes to apply to the subscription schedule.
+type SubscriptionScheduleAmendScheduleSettingsParams struct {
+	// Configures how the subscription schedule behaves when it ends.
+	EndBehavior *string `form:"end_behavior"`
+}
+
 // Amends an existing subscription schedule.
 type SubscriptionScheduleAmendParams struct {
 	Params `form:"*"`
 	// Changes to apply to the phases of the subscription schedule, in the order provided.
 	Amendments []*SubscriptionScheduleAmendAmendmentParams `form:"amendments"`
+	// Changes to apply to the subscription schedule.
+	ScheduleSettings *SubscriptionScheduleAmendScheduleSettingsParams `form:"schedule_settings"`
 }
 
 // Cancels a subscription schedule and its associated subscription immediately (if the subscription schedule has an active subscription). A subscription schedule can only be canceled if its status is not_started or active.
