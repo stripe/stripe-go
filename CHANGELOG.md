@@ -1,5 +1,10 @@
 # Changelog
 
+## 73.14.0-beta.1 - 2022-10-14
+* [#1559](https://github.com/stripe/stripe-go/pull/1559) API Updates for beta branch
+  * Updated stable APIs to the latest version
+  * Add support for `ScheduleSettings` on `SubscriptionScheduleAmendParams`
+
 ## 73.13.0 - 2022-10-13
 * [#1558](https://github.com/stripe/stripe-go/pull/1558) API Updates
   * Add support for `NetworkData` on `IssuingAuthorization`
