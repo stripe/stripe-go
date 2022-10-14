@@ -52,7 +52,7 @@ type CouponParams struct {
 	Currency *string `form:"currency"`
 	// Coupons defined in each available currency option (only supported if the coupon is amount-based). Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
 	CurrencyOptions map[string]*CouponCurrencyOptionsParams `form:"currency_options"`
-	// Specifies how long the discount will be in effect if used on a subscription. Can be `forever`, `once`, or `repeating`. Defaults to `once`.
+	// Specifies how long the discount will be in effect if used on a subscription. Defaults to `once`.
 	Duration *string `form:"duration"`
 	// Required only if `duration` is `repeating`, in which case it must be a positive integer that specifies the number of months the discount will be in effect.
 	DurationInMonths *int64 `form:"duration_in_months"`
