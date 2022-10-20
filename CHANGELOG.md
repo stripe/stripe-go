@@ -1,5 +1,10 @@
 # Changelog
 
+## 73.14.0 - 2022-10-20
+* [#1560](https://github.com/stripe/stripe-go/pull/1560) API Updates
+  * Add support for new values `jp_trn` and `ke_pin` on enums `CheckoutSessionCustomerDetailsTaxIdsType`, `InvoiceCustomerTaxIdsType`, `OrderTaxDetailsTaxIdsType`, and `TaxIdType`
+  * Add support for `Tipping` on `TerminalReaderActionProcessPaymentIntentProcessConfig` and `TerminalReaderProcessPaymentIntentProcessConfigParams`
+
 ## 73.13.0 - 2022-10-13
 * [#1558](https://github.com/stripe/stripe-go/pull/1558) API Updates
   * Add support for `NetworkData` on `IssuingAuthorization`
