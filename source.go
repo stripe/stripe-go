@@ -412,6 +412,17 @@ type SourceOwner struct {
 type SourceP24 struct {
 	Reference string `json:"reference"`
 }
+type SourcePaypal struct {
+	BillingAgreement            string `json:"billing_agreement"`
+	Fingerprint                 string `json:"fingerprint"`
+	PayerID                     string `json:"payer_id"`
+	ReferenceID                 string `json:"reference_id"`
+	ReferenceTransactionAmount  string `json:"reference_transaction_amount"`
+	ReferenceTransactionCharged bool   `json:"reference_transaction_charged"`
+	StatementDescriptor         string `json:"statement_descriptor"`
+	TransactionID               string `json:"transaction_id"`
+	VerifiedEmail               string `json:"verified_email"`
+}
 type SourceReceiver struct {
 	// The address of the receiver source. This is the value that should be communicated to the customer to send their funds to.
 	Address string `json:"address"`
@@ -571,6 +582,7 @@ type Source struct {
 	// Information about the owner of the payment instrument that may be used or required by particular source types.
 	Owner              *SourceOwner              `json:"owner"`
 	P24                *SourceP24                `json:"p24"`
+	Paypal             *SourcePaypal             `json:"paypal"`
 	Receiver           *SourceReceiver           `json:"receiver"`
 	Redirect           *SourceRedirect           `json:"redirect"`
 	SEPACreditTransfer *SourceSEPACreditTransfer `json:"sepa_credit_transfer"`
