@@ -479,6 +479,8 @@ type SubscriptionScheduleAmendAmendmentParams struct {
 	AmendmentEnd *SubscriptionScheduleAmendAmendmentAmendmentEndParams `form:"amendment_end"`
 	// Details to identify the earliest timestamp where the proposed change should take effect.
 	AmendmentStart *SubscriptionScheduleAmendAmendmentAmendmentStartParams `form:"amendment_start"`
+	// For a point-in-time amendment, this attribute lets you set or update whether the subscription's billing cycle anchor is reset at the `amendment_start` timestamp.
+	BillingCycleAnchor *string `form:"billing_cycle_anchor"`
 	// Changes to the coupons being redeemed or discounts being applied during the amendment time span.
 	DiscountActions []*SubscriptionScheduleAmendAmendmentDiscountActionParams `form:"discount_actions"`
 	// Changes to the subscription items during the amendment time span.

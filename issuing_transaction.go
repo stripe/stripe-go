@@ -74,6 +74,12 @@ type IssuingTransactionAmountDetails struct {
 	ATMFee int64 `json:"atm_fee"`
 }
 
+// Details about the transaction, such as processing dates, set by the card network.
+type IssuingTransactionNetworkData struct {
+	// The date the transaction was processed by the card network. This can be different from the date the seller recorded the transaction depending on when the acquirer submits the transaction to the network.
+	ProcessingDate string `json:"processing_date"`
+}
+
 // The legs of the trip.
 type IssuingTransactionPurchaseDetailsFlightSegment struct {
 	// The three-letter IATA airport code of the flight's destination.
@@ -152,9 +158,9 @@ type IssuingTransactionPurchaseDetails struct {
 
 // [Treasury](https://stripe.com/docs/api/treasury) details related to this transaction if it was created on a [FinancialAccount](/docs/api/treasury/financial_accounts
 type IssuingTransactionTreasury struct {
-	// The Treasury [ReceivedCredit](https://stripe.com/docs/api/treasury/received_debits) representing this Issuing transaction if it is a refund
+	// The Treasury [ReceivedCredit](https://stripe.com/docs/api/treasury/received_credits) representing this Issuing transaction if it is a refund
 	ReceivedCredit string `json:"received_credit"`
-	// The Treasury [ReceivedDebit](https://stripe.com/docs/api/treasury/received_credits) representing this Issuing transaction if it is a capture
+	// The Treasury [ReceivedDebit](https://stripe.com/docs/api/treasury/received_debits) representing this Issuing transaction if it is a capture
 	ReceivedDebit string `json:"received_debit"`
 }
 
@@ -194,6 +200,8 @@ type IssuingTransaction struct {
 	MerchantData     *IssuingAuthorizationMerchantData `json:"merchant_data"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`
+	// Details about the transaction, such as processing dates, set by the card network.
+	NetworkData *IssuingTransactionNetworkData `json:"network_data"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// Additional purchase information that is optionally provided by the merchant.
