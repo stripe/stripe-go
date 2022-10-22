@@ -78,9 +78,10 @@ type PaymentIntentNextActionType string
 
 // List of values that PaymentIntentNextActionType can take
 const (
-	PaymentIntentNextActionTypeAlipayHandleRedirect PaymentIntentNextActionType = "alipay_handle_redirect"
-	PaymentIntentNextActionTypeOXXODisplayDetails   PaymentIntentNextActionType = "oxxo_display_details"
-	PaymentIntentNextActionTypeRedirectToURL        PaymentIntentNextActionType = "redirect_to_url"
+	PaymentIntentNextActionTypeAlipayHandleRedirect    PaymentIntentNextActionType = "alipay_handle_redirect"
+	PaymentIntentNextActionTypeOXXODisplayDetails      PaymentIntentNextActionType = "oxxo_display_details"
+	PaymentIntentNextActionTypeRedirectToURL           PaymentIntentNextActionType = "redirect_to_url"
+	PaymentIntentNextActionTypeVerifyWithMicrodeposits PaymentIntentNextActionType = "verify_with_microdeposits"
 )
 
 // The type of the microdeposit sent to the customer. Used to distinguish between different verification methods.
