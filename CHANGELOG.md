@@ -1,5 +1,13 @@
 # Changelog
 
+## 73.15.0-beta.1 - 2022-10-21
+* [#1561](https://github.com/stripe/stripe-go/pull/1561) API Updates for beta branch
+  * Updated stable APIs to the latest version
+  * Add support for `Paypal` on `ChargePaymentMethodDetails` and `Source`
+  * Add support for `NetworkData` on `IssuingTransaction`
+  * Add support for new value `paypal` on enum `SourceType`
+  * Add support for `BillingCycleAnchor` on `SubscriptionScheduleAmendAmendmentsParams`
+
 ## 73.14.0 - 2022-10-20
 * [#1560](https://github.com/stripe/stripe-go/pull/1560) API Updates
   * Add support for new values `jp_trn` and `ke_pin` on enums `CheckoutSessionCustomerDetailsTaxIdsType`, `InvoiceCustomerTaxIdsType`, `OrderTaxDetailsTaxIdsType`, and `TaxIdType`
