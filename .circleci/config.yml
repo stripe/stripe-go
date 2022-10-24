@@ -46,7 +46,7 @@ workflows:
                 - mbianco+standardcpq@stripe.com
                 - mbianco+cpqmulticurrency@stripe.com
                 - mbianco+cpqplus@stripe.com
-                - mbianco+noncpq@stripe.com
+                # - mbianco+noncpq@stripe.com
                 - mbianco+cpqubp@stripe.com
       - clean_salesforce_2:
           matrix: 
