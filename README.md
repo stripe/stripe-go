@@ -211,7 +211,7 @@ The script will prompt you to roll a new package, follow the steps below to do s
 - Copy the package name field (`stripeConnector`), you'll need it in the next step
 - Click on upload, then:
   - Release Type > Managed Released
-  - Version Name: `QaStripeConnect`
+  - Version Name: `stripeConnector`
   - New version number will be determined automatically
   - New Order Save Behavior: unchecked (this should be done by default)
   - Do not worry about description or release notes
