@@ -24,6 +24,19 @@ public with sharing class utilities {
         return rd.getJsonString();
     }
 
+    public static String getPackageVersionString() {
+
+        if(!isPackagedEnvironment()) {
+            return '0.0.0';
+        }
+
+        String major = String.valueOf(System.requestVersion().major());
+        String minor = String.valueOf(System.requestVersion().minor());
+        String patch = String.valueOf(System.requestVersion().patch());
+
+        return major + '.' + minor + '.' + patch;
+    }
+
     public static sObject getSobjectByMap(Map<String, Object> sourceMap, String sObjectName) {
         return getSobjectByMap(sourceMap, sObjectName, constants.NAMESPACE_API);
     }
@@ -269,7 +282,7 @@ public with sharing class utilities {
 
         // TODO this does not seem to be coming over properly
         if(utilities.isPackagedEnvironment()) {
-            request.setHeader('Salesforce-Package-Id', (String)getPackageVersion());
+            request.setHeader('Salesforce-Package-Id', (String)getPackageVersionString());
         }
 
         /*
