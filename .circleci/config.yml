@@ -58,7 +58,6 @@ workflows:
             parameters:
               <<: *ruby_test_accounts
               cache_disabled:
-                - "true"
                 - "false"
           requires: ["clean_salesforce_2"]
 
