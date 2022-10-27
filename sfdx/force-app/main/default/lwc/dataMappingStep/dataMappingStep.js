@@ -144,13 +144,6 @@ export default class DataMappingStep extends LightningElement {
         description: '',
         fields: []
     }};;
-    @track subscriptionPhaseMetadataFields = {metadataMapping: {
-        label: '',
-        name: '',
-        value: '',
-        description: '',
-        fields: []
-    }};;
     @track subscriptionItemMetadataFields = {metadataMapping: {
         label: '',
         name: '',
@@ -261,7 +254,7 @@ export default class DataMappingStep extends LightningElement {
                 
                 const fieldData = stripeObjectMappings[i].fields[j];
 
-                if(!fieldData.sfValue) {
+                if(!fieldData.value || !fieldData.sfValue) {
                     continue
                 }
                 
