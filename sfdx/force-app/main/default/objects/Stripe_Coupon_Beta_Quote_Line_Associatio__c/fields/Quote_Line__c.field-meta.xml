@@ -4,8 +4,8 @@
     <externalId>false</externalId>
     <label>Quote Line</label>
     <referenceTo>SBQQ__QuoteLine__c</referenceTo>
-    <relationshipLabel>Stripe Coupon Beta Quote Lines</relationshipLabel>
-    <relationshipName>Stripe_Coupon_Beta_Quote_Lines</relationshipName>
+    <relationshipLabel>Stripe Coupon Beta Quote Line</relationshipLabel>
+    <relationshipName>Stripe_Coupon_Beta_Quote_Line</relationshipName>
     <relationshipOrder>1</relationshipOrder>
     <reparentableMasterDetail>false</reparentableMasterDetail>
     <trackTrending>false</trackTrending>
