@@ -170,12 +170,19 @@
         <errorConditionFormula>AND(ISPICKVAL(Duration__c, "repeating"), ISBLANK(Duration_In_Months__c))</errorConditionFormula>
         <errorMessage>Duration in Months must be specified if Duration is set to "repeating".</errorMessage>
     </validationRules>
+   <validationRules>
+        <fullName>Either_Coupon_Type_Off_Is_Set</fullName>
+        <description>A Stripe Coupon should have either Percent Off or Amount Off set.</description>
+        <active>true</active>
+        <errorConditionFormula>AND(ISBLANK(Amount_Off__c), ISBLANK(Percent_Off__c))</errorConditionFormula>
+        <errorMessage>Either Percent Off or Amount Off should be set on a Stripe Coupon.</errorMessage>
+    </validationRules>
     <validationRules>
         <fullName>Only_One_Coupon_Type_Off_Is_Set</fullName>
-        <description>A Stripe Coupon should have either Percent Off or Amount Off set. The coupon is invalid if both or none of the fields are specified.</description>
+        <description>A Stripe Coupon should have either Percent Off or Amount Off set. The Stripe Coupon is invalid if both of the fields are set.</description>
         <active>true</active>
-        <errorConditionFormula>OR(ISBLANK(Amount_Off__c), ISBLANK(Percent_Off__c))</errorConditionFormula>
-        <errorMessage>Either Percent Off or Amount Off should be set on a Stripe Coupon.</errorMessage>
+        <errorConditionFormula>AND(NOT(ISBLANK(Amount_Off__c)), NOT(ISBLANK(Percent_Off__c)))</errorConditionFormula>
+        <errorMessage>Both Percent Off or Amount Off can not be set on a single Stripe Coupon.</errorMessage>
     </validationRules>
     <visibility>Public</visibility>
 </CustomObject>
