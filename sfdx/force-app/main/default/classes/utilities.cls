@@ -34,6 +34,10 @@ public with sharing class utilities {
         String minor = String.valueOf(System.requestVersion().minor());
         String patch = String.valueOf(System.requestVersion().patch());
 
+        if (patch == null) {
+            patch = '0';
+        }
+
         return major + '.' + minor + '.' + patch;
     }
 
