@@ -168,21 +168,21 @@
         <description>When you use the value repeating for duration, you must specify duration_in_months as the number of months that the coupon repeatedly applies to.</description>
         <active>true</active>
         <errorConditionFormula>AND(ISPICKVAL(Duration__c, "repeating"), ISBLANK(Duration_In_Months__c))</errorConditionFormula>
-        <errorMessage>Duration in Months must be specified if Duration is set to "repeating".</errorMessage>
+        <errorMessage>The Duration_In_Months__c param must be set when creating a coupon with a repeating duration.</errorMessage>
     </validationRules>
    <validationRules>
         <fullName>Either_Coupon_Type_Off_Is_Set</fullName>
-        <description>A Stripe Coupon should have either Percent Off or Amount Off set.</description>
+        <description>Stripe Coupon has either Percent Off or Amount Off set.</description>
         <active>true</active>
         <errorConditionFormula>AND(ISBLANK(Amount_Off__c), ISBLANK(Percent_Off__c))</errorConditionFormula>
-        <errorMessage>Either Percent Off or Amount Off should be set on a Stripe Coupon.</errorMessage>
+        <errorMessage>Must provide Percent_Off__c or Amount_Off__c on a Stripe Coupon.</errorMessage>
     </validationRules>
     <validationRules>
         <fullName>Only_One_Coupon_Type_Off_Is_Set</fullName>
-        <description>A Stripe Coupon should have either Percent Off or Amount Off set. The Stripe Coupon is invalid if both of the fields are set.</description>
+        <description>Stripe Coupon does not have both Percent Off or Amount Off set.</description>
         <active>true</active>
         <errorConditionFormula>AND(NOT(ISBLANK(Amount_Off__c)), NOT(ISBLANK(Percent_Off__c)))</errorConditionFormula>
-        <errorMessage>Both Percent Off or Amount Off can not be set on a single Stripe Coupon.</errorMessage>
+        <errorMessage>Received both Percent_Off__c and Amount_Off__c parameters. Please pass in only one.</errorMessage>
     </validationRules>
     <visibility>Public</visibility>
 </CustomObject>
