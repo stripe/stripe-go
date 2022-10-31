@@ -21,4 +21,13 @@ class Critic::PriceReuse < Critic::FunctionalTest
 
     assert_match("tiered the parameter tiers must be set", exception.message)
   end
+
+  it 'translation does not fail if aggregate_usage field is set on a licensed price' do
+      @user.field_defaults = {"price" => {"recurring.aggregate_usage" => "last_during_period"}}
+      @user.save
+
+      sf_order = create_subscription_order
+
+      StripeForce::Translate.perform_inline(@user, sf_order.Id)
+  end
 end

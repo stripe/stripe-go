@@ -112,7 +112,7 @@ class StripeForce::Translate
     log.info 'creating price', salesforce_object: sf_object
 
     # TODO the pricebook entry is really a 'suggested' price and it can be overwritten by the quote or order line
-    # TODO if the list price is used, we shoudl try to create a price for this in Stripe, otherwise we'll create a price and use that
+    # TODO if the list price is used, we should try to create a price for this in Stripe, otherwise we'll create a price and use that
     stripe_price = generate_price_params_from_sf_object(sf_object, sf_product)
 
     # TODO these need to be partitioned and created as discounts
@@ -263,9 +263,7 @@ class StripeForce::Translate
     end
 
     # from here on out, we know there is exactly one consumption schedule
-
     # the CPQ consumption schedule is materially different from the standard consumption schedule, so we can't do a drop-in replacement
-
     consumption_schedule = consumption_schedules.first
 
     if consumption_schedule.IsDeleted
@@ -275,7 +273,7 @@ class StripeForce::Translate
 
     # unlike pricebook consumption schedule, this consumption schedule does not have a IsActive field
 
-    # In our CPQ testing, "Tier" is the only valid picklist value, so we do not expect any other values
+    # in our CPQ testing, "Tier" is the only valid picklist value, so we do not expect any other values
     if consumption_schedule.SBQQ__RatingMethod__c != "Tier"
       raise "unexpected rating method #{consumption_schedule.SBQQ__RatingMethod__c}"
     end
@@ -329,8 +327,7 @@ class StripeForce::Translate
 
     # omitting price param here, this should be defined upstream
     stripe_price = Stripe::Price.construct_from({
-      # TODO most likely need to pass the order over? Can
-      # TODO not seeing currency anywhere? This is only enab  led on certain accounts
+      # TODO most likely need to pass the order over?
       currency: Integrations::Utilities::Currency.base_currency_iso(@user),
 
       # TODO using a `lookup_key` here would allow users to easily update prices
@@ -383,6 +380,13 @@ class StripeForce::Translate
       end
 
       stripe_price.recurring[:usage_type] = PriceHelpers.transform_salesforce_billing_type_to_usage_type(stripe_price.recurring[:usage_type])
+
+      # wipe the `recurring.aggregate_usage` field (if set via the data mapper)
+      # since you can only specify `aggregate_usage` for plans with `usage_type=metered`
+      # https://jira.corp.stripe.com/browse/PLATINT-1956
+      if stripe_price.recurring[:usage_type] == 'licensed'
+        stripe_price.recurring[:aggregate_usage] = nil
+      end
 
       # TODO it's possible that a custom mapping is defined for this value and it's an integer, we should support this case in the helper method
       # this represents how often the price is billed: i.e. if `interval` is month and `interval_count`
