@@ -12,14 +12,21 @@ class Critic::OrderAmendmentTranslation < Critic::OrderAmendmentFunctionalTest
     # initial order: 1yr contract, monthly billed
     # amendment: starts month 9, lasts 3 months, adds quantity 2
     monthly_price = 10_00
-    initial_start_date = now_time
     contract_term = TEST_DEFAULT_CONTRACT_TERM
+    initial_start_date = now_time
+    initial_order_end_date = initial_start_date + contract_term
+
     amendment_term = 3
     amendment_start_date = initial_start_date + (contract_term - amendment_term).months
     amendment_end_date = amendment_start_date + amendment_term.months
 
+    # normalize the amendment_end_date so test doesn't fail EOM
+    amendment_end_date = StripeForce::Translate::OrderHelpers.anchor_time_to_day_of_month(base_time: amendment_end_date, anchor_day_of_month: initial_order_end_date.day)
+
     sf_product_id, _sf_pricebook_id = salesforce_recurring_product_with_price(price: monthly_price)
-    sf_order = create_subscription_order(sf_product_id: sf_product_id)
+    sf_order = create_subscription_order(sf_product_id: sf_product_id, additional_fields: {
+      CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(initial_start_date),
+    })
     sf_contract = create_contract_from_order(sf_order)
 
     # although the associated order is contracted, this does not
@@ -120,9 +127,13 @@ class Critic::OrderAmendmentTranslation < Critic::OrderAmendmentFunctionalTest
     # amendment: remove metered item, add non-metered
 
     amendment_term = 6
-    initial_start_date = now_time
-    amendment_start_date = initial_start_date + 6.months
+    initial_order_start_date = now_time
+    initial_order_end_date = initial_order_start_date + TEST_DEFAULT_CONTRACT_TERM
+    amendment_start_date = initial_order_start_date + 6.months
     amendment_end_date = amendment_start_date + amendment_term.months
+
+    # normalize the amendment_end_date so tests don't fail EOM
+    amendment_end_date = StripeForce::Translate::OrderHelpers.anchor_time_to_day_of_month(base_time: amendment_end_date, anchor_day_of_month: initial_order_end_date.day)
 
     sf_metered_product_id, _sf_metered_pricebook_id = salesforce_recurring_metered_produce_with_price
     sf_product_id, _sf_pricebook_id = salesforce_recurring_product_with_price
@@ -160,7 +171,7 @@ class Critic::OrderAmendmentTranslation < Critic::OrderAmendmentFunctionalTest
     assert_nil(first_phase_item[:quantity])
 
     # first phase should start now and end in 9mo
-    assert_equal(0, first_phase.start_date - initial_start_date.to_i)
+    assert_equal(0, first_phase.start_date - initial_order_start_date.to_i)
     assert_equal(0, first_phase.end_date - amendment_start_date.to_i)
 
     # second phase should start at the end date
@@ -185,8 +196,12 @@ class Critic::OrderAmendmentTranslation < Critic::OrderAmendmentFunctionalTest
     contract_term = TEST_DEFAULT_CONTRACT_TERM
     amendment_term = 6
     initial_start_date = now_time
+    initial_order_end_date = initial_start_date + contract_term
     amendment_start_date = initial_start_date + (contract_term - amendment_term).months
     amendment_end_date = amendment_start_date + amendment_term.months
+
+    # normalize the amendment_end_date so test doesn't fail EOM
+    amendment_end_date = StripeForce::Translate::OrderHelpers.anchor_time_to_day_of_month(base_time: amendment_end_date, anchor_day_of_month: initial_order_end_date.day)
 
     sf_metered_product_id, _sf_metered_pricebook_id = salesforce_recurring_metered_produce_with_price
     sf_product_id, _sf_pricebook_id = salesforce_recurring_product_with_price
@@ -195,7 +210,6 @@ class Critic::OrderAmendmentTranslation < Critic::OrderAmendmentFunctionalTest
     sf_contract = create_contract_from_order(sf_order)
 
     amendment_data = create_quote_data_from_contract_amendment(sf_contract)
-
     amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_START_DATE] = format_date_for_salesforce(amendment_start_date)
     amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_TERM] = amendment_term
     sf_quote_id = calculate_and_save_cpq_quote(amendment_data)
@@ -211,7 +225,6 @@ class Critic::OrderAmendmentTranslation < Critic::OrderAmendmentFunctionalTest
     subscription_schedule = Stripe::SubscriptionSchedule.retrieve(stripe_id, @user.stripe_credentials)
 
     assert_equal(2, subscription_schedule.phases.count)
-
     first_phase = T.must(subscription_schedule.phases.first)
     second_phase = T.must(subscription_schedule.phases[1])
 
@@ -252,7 +265,7 @@ class Critic::OrderAmendmentTranslation < Critic::OrderAmendmentFunctionalTest
     sf_order = create_salesforce_order(
       sf_product_id: sf_product_id,
       additional_quote_fields: {
-        CPQ_QUOTE_SUBSCRIPTION_START_DATE => initial_start_date.strftime("%Y-%m-%d"),
+        CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(initial_start_date),
         # 2yr term, two billing cycles
         CPQ_QUOTE_SUBSCRIPTION_TERM => 24.0,
       }
@@ -264,7 +277,7 @@ class Critic::OrderAmendmentTranslation < Critic::OrderAmendmentFunctionalTest
     # increase quantity
     amendment_data["lineItems"].first["record"][CPQ_QUOTE_QUANTITY] = 3
 
-    amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_START_DATE] = start_date.strftime("%Y-%m-%d")
+    amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_START_DATE] = format_date_for_salesforce(start_date)
     amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_TERM] = amendment_term
 
     sf_order_amendment = create_order_from_quote_data(amendment_data)
@@ -329,14 +342,13 @@ class Critic::OrderAmendmentTranslation < Critic::OrderAmendmentFunctionalTest
   describe 'subscription without a billing cycle' do
     it 'supports amending an order when the start date is in the future' do
       # initial order: starts in 1 month, standard product
-      # amendment: starts in 2 months, qty +1
+      # amendment: starts in 9 months, qty +1
 
       contract_term = TEST_DEFAULT_CONTRACT_TERM
       amendment_term = 3
       initial_order_start_date = now_time + 1.month
-      start_date = initial_order_start_date + (contract_term - amendment_term).months
-      end_date = start_date + amendment_term.months
-      initial_start_date = initial_order_start_date
+      amendment_start_date = initial_order_start_date + (contract_term - amendment_term).months
+      amendment_end_date = amendment_start_date + amendment_term.months
 
       sf_product_id, _sf_pricebook_id = salesforce_recurring_product_with_price(
         additional_product_fields: {
@@ -377,7 +389,7 @@ class Critic::OrderAmendmentTranslation < Critic::OrderAmendmentFunctionalTest
 
       # increase quantity by 1
       amendment_data["lineItems"].first["record"][CPQ_QUOTE_QUANTITY] = 2
-      amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_START_DATE] = format_date_for_salesforce(start_date)
+      amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_START_DATE] = format_date_for_salesforce(amendment_start_date)
       amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_TERM] = amendment_term
 
       sf_order_amendment = create_order_from_quote_data(amendment_data)
@@ -392,12 +404,12 @@ class Critic::OrderAmendmentTranslation < Critic::OrderAmendmentFunctionalTest
       second_phase = T.must(subscription_schedule.phases[1])
 
       # first phase should start now and end in 9mo
-      assert_equal(0, first_phase.start_date - initial_start_date.to_i)
-      assert_equal(0, first_phase.end_date - start_date.to_i)
+      assert_equal(0, first_phase.start_date - initial_order_start_date.to_i)
+      assert_equal(0, first_phase.end_date - amendment_start_date.to_i)
 
       # second phase should start at the end date
-      assert_equal(0, second_phase.start_date - start_date.to_i)
-      assert_equal(0, second_phase.end_date - end_date.to_i)
+      assert_equal(0, second_phase.start_date - amendment_start_date.to_i)
+      assert_equal(0, second_phase.end_date - amendment_end_date.to_i)
 
       assert_equal(1, first_phase.items.count)
       assert_equal(2, second_phase.items.count)
@@ -423,16 +435,15 @@ class Critic::OrderAmendmentTranslation < Critic::OrderAmendmentFunctionalTest
     it 'supports amending when there is a single billing cycle which has already passed ' do
       @user.enable_feature FeatureFlags::TEST_CLOCKS, update: true
 
-      # initial order: starts now, billed yearly
-      # amendment: in 1mo
-      # test clock: advanced 1mo in the future so invoice already has passed
+      # initial order: starts on Sept 30, billed yearly
+      # amendment: starts in 5 months, Feb 28
+      # test clock: advanced 1 month in the future so invoice already has passed
 
       contract_term = TEST_DEFAULT_CONTRACT_TERM
-      amendment_term = 7
-      initial_order_start_date = now_time
-      initial_start_date = initial_order_start_date
+      amendment_term = 6
+      initial_order_start_date = DateTime.new(2022, 10, 30).utc.beginning_of_day
       amendment_start_date = initial_order_start_date + (contract_term - amendment_term).months
-      amendment_end_date = amendment_start_date + amendment_term.months
+      amendment_end_date = initial_order_start_date + TEST_DEFAULT_CONTRACT_TERM.months
 
       sf_product_id, _sf_pricebook_id = salesforce_recurring_product_with_price(
         additional_product_fields: {
@@ -440,20 +451,25 @@ class Critic::OrderAmendmentTranslation < Critic::OrderAmendmentFunctionalTest
         }
       )
 
-      sf_order = create_subscription_order(sf_product_id: sf_product_id)
+      sf_order = create_subscription_order(sf_product_id: sf_product_id, additional_fields: {
+        CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(initial_order_start_date),
+      })
 
-      # translate the initial order, and advance the clock past the first billing cycle
+      # translate the initial order
       StripeForce::Translate.perform_inline(@user, sf_order.Id)
 
+      # advance the clock past the first billing cycle
       sf_account = sf_get(sf_order['AccountId'])
       stripe_customer_id = sf_account[prefixed_stripe_field(GENERIC_STRIPE_ID)]
       stripe_customer = stripe_get(stripe_customer_id)
       refute_nil(stripe_customer.test_clock)
       advance_test_clock(stripe_customer, (initial_order_start_date + 1.month).to_i)
 
+      # fetch the corresponding subscription schedule
       sf_order.refresh
       stripe_id = sf_order[prefixed_stripe_field(GENERIC_STRIPE_ID)]
       subscription_schedule = Stripe::SubscriptionSchedule.retrieve(stripe_id, @user.stripe_credentials)
+      assert_equal(1, subscription_schedule.phases.count)
 
       # we expect the invoice api to fail
       # Stripe::InvalidRequestError: No upcoming invoices for customer: cus_MQpWiftgQua7UT
@@ -466,6 +482,7 @@ class Critic::OrderAmendmentTranslation < Critic::OrderAmendmentFunctionalTest
 
       # unit test the upcoming calculation
       billing_cycle_dates = StripeForce::Translate::OrderAmendment.calculate_billing_cycle_dates(@user, subscription_schedule, 12)
+
       # they should all be in the future
       assert(billing_cycle_dates.all? {|ts| ts >= now_time.to_i })
       assert(initial_order_start_date < Time.now.to_i)
@@ -484,18 +501,16 @@ class Critic::OrderAmendmentTranslation < Critic::OrderAmendmentFunctionalTest
       amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_TERM] = amendment_term
 
       sf_order_amendment = create_order_from_quote_data(amendment_data)
-
       StripeForce::Translate.perform_inline(@user, sf_order_amendment.Id)
 
       subscription_schedule.refresh
-
       assert_equal(2, subscription_schedule.phases.count)
 
       first_phase = T.must(subscription_schedule.phases.first)
       second_phase = T.must(subscription_schedule.phases[1])
 
       # first phase should start now and end in 9mo
-      assert_equal(0, first_phase.start_date - initial_start_date.to_i)
+      assert_equal(0, first_phase.start_date - initial_order_start_date.to_i)
       assert_equal(0, first_phase.end_date - amendment_start_date.to_i)
 
       # second phase should start at the end date
@@ -511,10 +526,11 @@ class Critic::OrderAmendmentTranslation < Critic::OrderAmendmentFunctionalTest
       # out of an abundance of caution, ensure the correct prorated amount is calculated
       refute_empty(second_phase.add_invoice_items)
       assert_equal(1, second_phase.add_invoice_items.count)
+
       prorated_item = T.unsafe(second_phase.add_invoice_items.first)
       assert_equal(1, prorated_item.quantity)
-      prorated_price = Stripe::Price.retrieve(T.cast(prorated_item.price, String), @user.stripe_credentials)
 
+      prorated_price = Stripe::Price.retrieve(T.cast(prorated_item.price, String), @user.stripe_credentials)
       assert_equal('one_time', prorated_price.type)
       assert_equal((TEST_DEFAULT_PRICE / (contract_term / BigDecimal(amendment_term))).round(MAX_STRIPE_PRICE_PRECISION), BigDecimal(prorated_price.unit_amount_decimal))
       assert_equal("true", prorated_price.metadata['salesforce_auto_archive'])
@@ -605,7 +621,7 @@ class Critic::OrderAmendmentTranslation < Critic::OrderAmendmentFunctionalTest
 
       # specifically pick an initial order day of month that does not exist in the amendment month
       initial_order_start_date = DateTime.new(2022, 9, 27).utc.beginning_of_day
-      amendment_start_date = initial_order_start_date + + 1.day + 5.months
+      amendment_start_date = initial_order_start_date + 1.day + 5.months
       amendment_term = 7
 
       # create the initial sf order

@@ -16,10 +16,15 @@ class Critic::ProratedAmendmentTranslation < Critic::OrderAmendmentFunctionalTes
 
     yearly_price = 120_00
     contract_term = 24
+    initial_order_start_date = now_time
+    initial_order_end_date = initial_order_start_date + contract_term
+
     amendment_term = 18
     amendment_start_date = now_time + (contract_term - amendment_term).months
     amendment_end_date = amendment_start_date + amendment_term.months
-    initial_start_date = now_time
+
+    # normalize the amendment_end_date so test doesn't fail EOM
+    amendment_end_date = StripeForce::Translate::OrderHelpers.anchor_time_to_day_of_month(base_time: amendment_end_date, anchor_day_of_month: initial_order_end_date.day)
 
     sf_product_id, sf_pricebook_id = salesforce_recurring_product_with_price(
       price: yearly_price,
@@ -33,7 +38,7 @@ class Critic::ProratedAmendmentTranslation < Critic::OrderAmendmentFunctionalTes
     sf_order = create_salesforce_order(
       sf_product_id: sf_product_id,
       additional_quote_fields: {
-        CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(initial_start_date),
+        CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(initial_order_start_date),
         CPQ_QUOTE_SUBSCRIPTION_TERM => contract_term,
       }
     )
@@ -62,7 +67,7 @@ class Critic::ProratedAmendmentTranslation < Critic::OrderAmendmentFunctionalTes
     second_phase = T.must(subscription_schedule.phases[1])
 
     # first phase should start now and end in 9mo
-    assert_equal(0, first_phase.start_date - initial_start_date.to_i)
+    assert_equal(0, first_phase.start_date - initial_order_start_date.to_i)
     assert_equal(0, first_phase.end_date - amendment_start_date.to_i)
 
     # second phase should start at the end date
@@ -159,10 +164,15 @@ class Critic::ProratedAmendmentTranslation < Critic::OrderAmendmentFunctionalTes
 
     yearly_price = 120_00
     contract_term = 24
+
+    initial_order_start_date = now_time
+    initial_order_end_date = initial_order_start_date + contract_term
     amendment_start_date = now_time + 18.months
     amendment_term = 6
-    amendment_end_date = (amendment_start_date + amendment_term.months)
-    initial_start_date = now_time
+    amendment_end_date = amendment_start_date + amendment_term.months
+
+    # normalize the amendment_end_date so test doesn't fail EOM
+    amendment_end_date = StripeForce::Translate::OrderHelpers.anchor_time_to_day_of_month(base_time: amendment_end_date, anchor_day_of_month: initial_order_end_date.day)
 
     sf_product_id, sf_pricebook_id = salesforce_recurring_product_with_price(
       price: yearly_price,
@@ -174,7 +184,7 @@ class Critic::ProratedAmendmentTranslation < Critic::OrderAmendmentFunctionalTes
     sf_order = create_salesforce_order(
       sf_product_id: sf_product_id,
       additional_quote_fields: {
-        CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(initial_start_date),
+        CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(initial_order_start_date),
         CPQ_QUOTE_SUBSCRIPTION_TERM => contract_term,
       }
     )
@@ -194,7 +204,7 @@ class Critic::ProratedAmendmentTranslation < Critic::OrderAmendmentFunctionalTes
     # api preconditions: no end date calculated on orders, end date IS calculated on the contract
     assert_nil(sf_order_amendment["EndDate"])
     # NOTE is seems like the start and end date of the contract are NOT tied to the start date of the
-    assert_equal(format_date_for_salesforce(initial_start_date), sf_order_amendment_contract['StartDate'])
+    assert_equal(format_date_for_salesforce(initial_order_start_date), sf_order_amendment_contract['StartDate'])
     # TODO understand why the contract end date is one day before Stripe, pretty certain this is due to differences in what "end" really is
     assert_equal(format_date_for_salesforce(amendment_end_date - 1.day), sf_order_amendment_contract['EndDate'])
 
@@ -210,7 +220,7 @@ class Critic::ProratedAmendmentTranslation < Critic::OrderAmendmentFunctionalTes
     second_phase = T.must(subscription_schedule.phases[1])
 
     # first phase should start now and end in 9mo
-    assert_equal(0, first_phase.start_date - initial_start_date.to_i)
+    assert_equal(0, first_phase.start_date - initial_order_start_date.to_i)
     assert_equal(0, first_phase.end_date - amendment_start_date.to_i)
 
     # second phase should start at the end date

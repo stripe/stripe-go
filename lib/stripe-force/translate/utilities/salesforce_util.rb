@@ -251,10 +251,10 @@ module StripeForce::Utilities
         if StripeForce::Translate::OrderHelpers.is_order_date_eom?(amendment_start_date) && days_diff > 0 && days_diff <= 3
           # snaps the order amendment end date day-of-month to the eom
           # if initial order has a day that doesn't exist in the amendment month
-          amendment_end_date = StripeForce::Translate::OrderHelpers.anchor_time_to_day_of_month(amendment_order_time: amendment_end_date, initial_order_day_of_month: initial_order_end_date.day)
+          amendment_end_date = StripeForce::Translate::OrderHelpers.anchor_time_to_day_of_month(base_time: amendment_end_date, anchor_day_of_month: initial_order_end_date.day)
         end
 
-        amendment_end_date
+        T.cast(amendment_end_date, Time)
     end
   end
 end

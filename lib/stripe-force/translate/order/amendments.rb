@@ -211,7 +211,6 @@ class StripeForce::Translate
           # most likely due to there only being a single invoice in this sub phase which has alread been billed
           log.info 'upcoming invoice api call failed'
         end
-
       end
 
       if !next_billing_timestamp
@@ -243,11 +242,21 @@ class StripeForce::Translate
       # add the billing_frequency until we are past the last billing date
 
       next_billing_date = Time.at(next_billing_timestamp).utc.to_datetime
+      is_next_billing_date_eom = StripeForce::Translate::OrderHelpers.is_order_date_eom?(next_billing_date)
 
       billing_date = next_billing_date
       while billing_date.to_i < final_billing_timestamp
         billing_date += billing_frequency.months
-        future_billing_dates << billing_date.to_i
+
+        if is_next_billing_date_eom
+          # normalizes the billing date day to the end of month in the case where the final billing timestamp occurs on day-of-month that does not exist
+          # in the billing date month
+          days_in_month = Date.new(billing_date.year, billing_date.month, -1).day
+          normalized_billing_date = StripeForce::Translate::OrderHelpers.anchor_time_to_day_of_month(base_time: billing_date.to_time, anchor_day_of_month: days_in_month)
+          future_billing_dates << normalized_billing_date.to_i
+        else
+          future_billing_dates << billing_date.to_i
+        end
       end
 
       future_billing_dates
