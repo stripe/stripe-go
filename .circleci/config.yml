@@ -254,24 +254,24 @@ jobs:
             # the current code should *always* be able to be deployed against the packaging org, if it can't be, this should block the build
             deploySource "$SF_QA_PACKAGING_EMAIL"
 
-      - run:
-          name: "CPQ Prod Package Deployment Version"
-          command: |
-            if [ "$CIRCLE_BRANCH" != "main" ]; then
-              echo "Not on main, will not deploy produciton package."
-              exit 0
-            fi
+      # - run:
+      #     name: "CPQ Prod Package Deployment Version"
+      #     command: |
+      #       if [ "$CIRCLE_BRANCH" != "main" ]; then
+      #         echo "Not on main, will not deploy produciton package."
+      #         exit 0
+      #       fi
 
-            source ./sfdx/bin/run-tests-helpers
-            cd sfdx
+      #       source ./sfdx/bin/run-tests-helpers
+      #       cd sfdx
 
-            authorizeSalesforceAccount "$SF_PROD_PACKAGING_EMAIL"
+      #       authorizeSalesforceAccount "$SF_PROD_PACKAGING_EMAIL"
 
-            # make sure the same API version is used for local deployments, otherwise you'll run into weird errors
-            # for some reason, the `sfdx config:set apiVersion=52.0` doesn't work and gets overwritten
+      #       # make sure the same API version is used for local deployments, otherwise you'll run into weird errors
+      #       # for some reason, the `sfdx config:set apiVersion=52.0` doesn't work and gets overwritten
 
-            # the current code should *always* be able to be deployed against the packaging org, if it can't be, this should block the build
-            deploySource $SF_PROD_PACKAGING_EMAIL
+      #       # the current code should *always* be able to be deployed against the packaging org, if it can't be, this should block the build
+      #       deploySource $SF_PROD_PACKAGING_EMAIL
 
       # https://jira.corp.stripe.com/browse/PLATINT-1499
       - run:
