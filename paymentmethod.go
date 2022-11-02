@@ -128,6 +128,7 @@ const (
 	PaymentMethodTypeBoleto           PaymentMethodType = "boleto"
 	PaymentMethodTypeCard             PaymentMethodType = "card"
 	PaymentMethodTypeCardPresent      PaymentMethodType = "card_present"
+	PaymentMethodTypeCashapp          PaymentMethodType = "cashapp"
 	PaymentMethodTypeCustomerBalance  PaymentMethodType = "customer_balance"
 	PaymentMethodTypeEPS              PaymentMethodType = "eps"
 	PaymentMethodTypeFPX              PaymentMethodType = "fpx"
@@ -148,6 +149,7 @@ const (
 	PaymentMethodTypeSofort           PaymentMethodType = "sofort"
 	PaymentMethodTypeUSBankAccount    PaymentMethodType = "us_bank_account"
 	PaymentMethodTypeWeChatPay        PaymentMethodType = "wechat_pay"
+	PaymentMethodTypeZip              PaymentMethodType = "zip"
 )
 
 // Account holder type: individual or company.
@@ -248,6 +250,9 @@ type PaymentMethodCardParams struct {
 	Number *string `form:"number"`
 	Token  *string `form:"token"`
 }
+
+// If this is a `cashapp` PaymentMethod, this hash contains details about the Cash App Pay payment method.
+type PaymentMethodCashappParams struct{}
 
 // If this is a `customer_balance` PaymentMethod, this hash contains details about the CustomerBalance payment method.
 type PaymentMethodCustomerBalanceParams struct{}
@@ -359,6 +364,9 @@ type PaymentMethodUSBankAccountParams struct {
 // If this is an `wechat_pay` PaymentMethod, this hash contains details about the wechat_pay payment method.
 type PaymentMethodWeChatPayParams struct{}
 
+// If this is a `zip` PaymentMethod, this hash contains details about the Zip payment method.
+type PaymentMethodZipParams struct{}
+
 // Creates a PaymentMethod object. Read the [Stripe.js reference](https://stripe.com/docs/stripe-js/reference#stripe-create-payment-method) to learn how to create PaymentMethods via Stripe.js.
 //
 // Instead of creating a PaymentMethod directly, we recommend using the [PaymentIntents API to accept a payment immediately or the <a href="/docs/payments/save-and-reuse">SetupIntent](https://stripe.com/docs/payments/accept-a-payment) API to collect payment method details ahead of a future payment.
@@ -386,6 +394,8 @@ type PaymentMethodParams struct {
 	Boleto *PaymentMethodBoletoParams `form:"boleto"`
 	// If this is a `card` PaymentMethod, this hash contains the user's card details. For backwards compatibility, you can alternatively provide a Stripe token (e.g., for Apple Pay, Amex Express Checkout, or legacy Checkout) into the card hash with format `card: {token: "tok_visa"}`. When providing a card number, you must meet the requirements for [PCI compliance](https://stripe.com/docs/security#validating-pci-compliance). We strongly recommend using Stripe.js instead of interacting with this API directly.
 	Card *PaymentMethodCardParams `form:"card"`
+	// This is a legacy parameter that will be removed in the future. It is a hash that does not accept any keys.
+	Cashapp *PaymentMethodCashappParams `form:"cashapp"`
 	// If this is a `customer_balance` PaymentMethod, this hash contains details about the CustomerBalance payment method.
 	CustomerBalance *PaymentMethodCustomerBalanceParams `form:"customer_balance"`
 	// If this is an `eps` PaymentMethod, this hash contains details about the EPS payment method.
@@ -430,6 +440,8 @@ type PaymentMethodParams struct {
 	USBankAccount *PaymentMethodUSBankAccountParams `form:"us_bank_account"`
 	// If this is an `wechat_pay` PaymentMethod, this hash contains details about the wechat_pay payment method.
 	WeChatPay *PaymentMethodWeChatPayParams `form:"wechat_pay"`
+	// This is a legacy parameter that will be removed in the future. It is a hash that does not accept any keys.
+	Zip *PaymentMethodZipParams `form:"zip"`
 	// The following parameters are used when cloning a PaymentMethod to the connected account
 	// The `Customer` to whom the original PaymentMethod is attached.
 	Customer *string `form:"customer"`
@@ -613,6 +625,7 @@ type PaymentMethodCard struct {
 	Issuer string `json:"issuer"`
 }
 type PaymentMethodCardPresent struct{}
+type PaymentMethodCashapp struct{}
 type PaymentMethodCustomerBalance struct{}
 type PaymentMethodEPS struct {
 	// The customer's bank. Should be one of `arzte_und_apotheker_bank`, `austrian_anadi_bank_ag`, `bank_austria`, `bankhaus_carl_spangler`, `bankhaus_schelhammer_und_schattera_ag`, `bawag_psk_ag`, `bks_bank_ag`, `brull_kallmus_bank_ag`, `btv_vier_lander_bank`, `capital_bank_grawe_gruppe_ag`, `deutsche_bank_ag`, `dolomitenbank`, `easybank_ag`, `erste_bank_und_sparkassen`, `hypo_alpeadriabank_international_ag`, `hypo_noe_lb_fur_niederosterreich_u_wien`, `hypo_oberosterreich_salzburg_steiermark`, `hypo_tirol_bank_ag`, `hypo_vorarlberg_bank_ag`, `hypo_bank_burgenland_aktiengesellschaft`, `marchfelder_bank`, `oberbank_ag`, `raiffeisen_bankengruppe_osterreich`, `schoellerbank_ag`, `sparda_bank_wien`, `volksbank_gruppe`, `volkskreditbank_ag`, or `vr_bank_braunau`.
@@ -722,6 +735,7 @@ type PaymentMethodUSBankAccount struct {
 	RoutingNumber string `json:"routing_number"`
 }
 type PaymentMethodWeChatPay struct{}
+type PaymentMethodZip struct{}
 
 // PaymentMethod objects represent your customer's payment instruments.
 // You can use them with [PaymentIntents](https://stripe.com/docs/payments/payment-intents) to collect payments or save them to
@@ -742,6 +756,7 @@ type PaymentMethod struct {
 	Boleto           *PaymentMethodBoleto           `json:"boleto"`
 	Card             *PaymentMethodCard             `json:"card"`
 	CardPresent      *PaymentMethodCardPresent      `json:"card_present"`
+	Cashapp          *PaymentMethodCashapp          `json:"cashapp"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
 	Created int64 `json:"created"`
 	// The ID of the Customer to which this PaymentMethod is saved. This will not be set when the PaymentMethod has not been saved to a Customer.
@@ -778,6 +793,7 @@ type PaymentMethod struct {
 	Type          PaymentMethodType           `json:"type"`
 	USBankAccount *PaymentMethodUSBankAccount `json:"us_bank_account"`
 	WeChatPay     *PaymentMethodWeChatPay     `json:"wechat_pay"`
+	Zip           *PaymentMethodZip           `json:"zip"`
 }
 
 // PaymentMethodList is a list of PaymentMethods as retrieved from a list endpoint.

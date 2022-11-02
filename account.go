@@ -265,6 +265,12 @@ type AccountCapabilitiesCartesBancairesPaymentsParams struct {
 	Requested *bool `form:"requested"`
 }
 
+// The cashapp_payments capability.
+type AccountCapabilitiesCashappPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
 // The eps_payments capability.
 type AccountCapabilitiesEPSPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
@@ -391,6 +397,12 @@ type AccountCapabilitiesUSBankAccountACHPaymentsParams struct {
 	Requested *bool `form:"requested"`
 }
 
+// The zip_payments capability.
+type AccountCapabilitiesZipPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
 // Each key of the dictionary represents a capability, and each capability maps to its settings (e.g. whether it has been requested or not). Each capability will be inactive until you have provided its specific requirements and Stripe has verified them. An account may have some of its requested capabilities be active and some be inactive.
 type AccountCapabilitiesParams struct {
 	// The acss_debit_payments capability.
@@ -417,6 +429,8 @@ type AccountCapabilitiesParams struct {
 	CardPayments *AccountCapabilitiesCardPaymentsParams `form:"card_payments"`
 	// The cartes_bancaires_payments capability.
 	CartesBancairesPayments *AccountCapabilitiesCartesBancairesPaymentsParams `form:"cartes_bancaires_payments"`
+	// The cashapp_payments capability.
+	CashappPayments *AccountCapabilitiesCashappPaymentsParams `form:"cashapp_payments"`
 	// The eps_payments capability.
 	EPSPayments *AccountCapabilitiesEPSPaymentsParams `form:"eps_payments"`
 	// The fpx_payments capability.
@@ -459,6 +473,8 @@ type AccountCapabilitiesParams struct {
 	Treasury *AccountCapabilitiesTreasuryParams `form:"treasury"`
 	// The us_bank_account_ach_payments capability.
 	USBankAccountACHPayments *AccountCapabilitiesUSBankAccountACHPaymentsParams `form:"us_bank_account_ach_payments"`
+	// The zip_payments capability.
+	ZipPayments *AccountCapabilitiesZipPaymentsParams `form:"zip_payments"`
 }
 
 // The Kana variation of the company's primary address (Japan only).
@@ -842,6 +858,8 @@ type AccountCapabilities struct {
 	CardPayments AccountCapabilityStatus `json:"card_payments"`
 	// The status of the Cartes Bancaires payments capability of the account, or whether the account can directly process Cartes Bancaires card charges in EUR currency.
 	CartesBancairesPayments AccountCapabilityStatus `json:"cartes_bancaires_payments"`
+	// The status of the Cash App Pay capability of the account, or whether the account can directly process Cash App Pay payments.
+	CashappPayments AccountCapabilityStatus `json:"cashapp_payments"`
 	// The status of the EPS payments capability of the account, or whether the account can directly process EPS charges.
 	EPSPayments AccountCapabilityStatus `json:"eps_payments"`
 	// The status of the FPX payments capability of the account, or whether the account can directly process FPX charges.
@@ -884,6 +902,8 @@ type AccountCapabilities struct {
 	Treasury AccountCapabilityStatus `json:"treasury"`
 	// The status of the US bank account ACH payments capability of the account, or whether the account can directly process US bank account charges.
 	USBankAccountACHPayments AccountCapabilityStatus `json:"us_bank_account_ach_payments"`
+	// The status of the Zip capability of the account, or whether the account can directly process Zip charges.
+	ZipPayments AccountCapabilityStatus `json:"zip_payments"`
 }
 
 // The Kana variation of the company's primary address (Japan only).
