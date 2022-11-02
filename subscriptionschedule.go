@@ -112,6 +112,8 @@ type SubscriptionScheduleDefaultSettingsParams struct {
 	Description *string `form:"description"`
 	// All invoices will be billed using the specified settings.
 	InvoiceSettings *SubscriptionScheduleDefaultSettingsInvoiceSettingsParams `form:"invoice_settings"`
+	// The account on behalf of which to charge, for each of the associated subscription's invoices.
+	OnBehalfOf *string `form:"on_behalf_of"`
 	// The data with which to automatically create a Transfer for each of the associated subscription's invoices.
 	TransferData *SubscriptionTransferDataParams `form:"transfer_data"`
 }
@@ -191,6 +193,8 @@ type SubscriptionSchedulePhaseParams struct {
 	Iterations *int64 `form:"iterations"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to a phase. Metadata on a schedule's phase will update the underlying subscription's `metadata` when the phase is entered, adding new keys and replacing existing keys in the subscription's `metadata`. Individual keys in the subscription's `metadata` can be unset by posting an empty value to them in the phase's `metadata`. To unset all keys in the subscription's `metadata`, update the subscription directly or unset every key individually from the phase's `metadata`.
 	Metadata map[string]string `form:"metadata"`
+	// The account on behalf of which to charge, for each of the associated subscription's invoices.
+	OnBehalfOf *string `form:"on_behalf_of"`
 	// Whether the subscription schedule will create [prorations](https://stripe.com/docs/billing/subscriptions/prorations) when transitioning to this phase. The default value is `create_prorations`.
 	ProrationBehavior *string `form:"proration_behavior"`
 	// The date at which this phase of the subscription schedule starts or `now`. Must be set on the first phase.
@@ -290,6 +294,8 @@ type SubscriptionScheduleDefaultSettings struct {
 	Description string `json:"description"`
 	// The subscription schedule's default invoice settings.
 	InvoiceSettings *SubscriptionScheduleDefaultSettingsInvoiceSettings `json:"invoice_settings"`
+	// The account (if any) the charge was made on behalf of for charges associated with the schedule's subscription. See the Connect documentation for details.
+	OnBehalfOf *Account `json:"on_behalf_of"`
 	// The account (if any) the associated subscription's payments will be attributed to for tax reporting, and where funds from each payment will be transferred to for each of the subscription's invoices.
 	TransferData *SubscriptionTransferData `json:"transfer_data"`
 }
@@ -355,6 +361,8 @@ type SubscriptionSchedulePhase struct {
 	Items []*SubscriptionSchedulePhaseItem `json:"items"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to a phase. Metadata on a schedule's phase will update the underlying subscription's `metadata` when the phase is entered. Updating the underlying subscription's `metadata` directly will not affect the current phase's `metadata`.
 	Metadata map[string]string `json:"metadata"`
+	// The account (if any) the charge was made on behalf of for charges associated with the schedule's subscription. See the Connect documentation for details.
+	OnBehalfOf *Account `json:"on_behalf_of"`
 	// If the subscription schedule will prorate when transitioning to this phase. Possible values are `create_prorations` and `none`.
 	ProrationBehavior SubscriptionSchedulePhaseProrationBehavior `json:"proration_behavior"`
 	// The start of this phase of the subscription schedule.
