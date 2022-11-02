@@ -61,6 +61,8 @@ type SubscriptionItemPriceDataParams struct {
 
 // Options that configure the trial on the subscription item.
 type SubscriptionItemTrialParams struct {
+	// List of price IDs which, if present on the subscription following a paid trial, constitute opting-in to the paid trial.
+	ConvertsTo []*string `form:"converts_to"`
 	// Determines the type of trial for this item.
 	Type *string `form:"type"`
 }
@@ -121,7 +123,9 @@ type SubscriptionItemBillingThresholds struct {
 
 // Options that configure the trial on the subscription item.
 type SubscriptionItemTrial struct {
-	Type SubscriptionItemTrialType `json:"type"`
+	// List of price IDs which, if present on the subscription following a paid trial, constitute opting-in to the paid trial.
+	ConvertsTo []string                  `json:"converts_to"`
+	Type       SubscriptionItemTrialType `json:"type"`
 }
 
 // Subscription items allow you to create customer subscriptions with more than

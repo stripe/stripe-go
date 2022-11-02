@@ -76,6 +76,15 @@ const (
 	SubscriptionSchedulePhaseTrialContinuationNone     SubscriptionSchedulePhaseTrialContinuation = "none"
 )
 
+// Configure how an opt-in following a paid trial is billed when using `billing_behavior: prorate_up_front`.
+type SubscriptionSchedulePhaseTrialSettingsEndBehaviorProrateUpFront string
+
+// List of values that SubscriptionSchedulePhaseTrialSettingsEndBehaviorProrateUpFront can take
+const (
+	SubscriptionSchedulePhaseTrialSettingsEndBehaviorProrateUpFrontDefer   SubscriptionSchedulePhaseTrialSettingsEndBehaviorProrateUpFront = "defer"
+	SubscriptionSchedulePhaseTrialSettingsEndBehaviorProrateUpFrontInclude SubscriptionSchedulePhaseTrialSettingsEndBehaviorProrateUpFront = "include"
+)
+
 // The present status of the subscription schedule. Possible values are `not_started`, `active`, `completed`, `released`, and `canceled`. You can read more about the different states in our [behavior guide](https://stripe.com/docs/billing/subscriptions/subscription-schedules).
 type SubscriptionScheduleStatus string
 
@@ -138,6 +147,8 @@ type SubscriptionScheduleDefaultSettingsParams struct {
 	Description *string `form:"description"`
 	// All invoices will be billed using the specified settings.
 	InvoiceSettings *SubscriptionScheduleDefaultSettingsInvoiceSettingsParams `form:"invoice_settings"`
+	// The account on behalf of which to charge, for each of the associated subscription's invoices.
+	OnBehalfOf *string `form:"on_behalf_of"`
 	// The data with which to automatically create a Transfer for each of the associated subscription's invoices.
 	TransferData *SubscriptionTransferDataParams `form:"transfer_data"`
 }
@@ -194,6 +205,8 @@ type SubscriptionSchedulePhaseItemDiscountParams struct {
 
 // Options that configure the trial on the subscription item.
 type SubscriptionSchedulePhaseItemTrialParams struct {
+	// List of price IDs which, if present on the subscription following a paid trial, constitute opting-in to the paid trial.
+	ConvertsTo []*string `form:"converts_to"`
 	// Determines the type of trial for this item.
 	Type *string `form:"type"`
 }
@@ -218,6 +231,18 @@ type SubscriptionSchedulePhaseItemParams struct {
 	TaxRates []*string `form:"tax_rates"`
 	// Options that configure the trial on the subscription item.
 	Trial *SubscriptionSchedulePhaseItemTrialParams `form:"trial"`
+}
+
+// Defines how the subscription should behave when a trial ends.
+type SubscriptionSchedulePhaseTrialSettingsEndBehaviorParams struct {
+	// Configure how an opt-in following a paid trial is billed when using `billing_behavior: prorate_up_front`.
+	ProrateUpFront *string `form:"prorate_up_front"`
+}
+
+// Settings related to subscription trials.
+type SubscriptionSchedulePhaseTrialSettingsParams struct {
+	// Defines how the subscription should behave when a trial ends.
+	EndBehavior *SubscriptionSchedulePhaseTrialSettingsEndBehaviorParams `form:"end_behavior"`
 }
 
 // List representing phases of the subscription schedule. Each phase can be customized to have different durations, plans, and coupons. If there are multiple phases, the `end_date` of one phase will always equal the `start_date` of the next phase.
@@ -257,6 +282,8 @@ type SubscriptionSchedulePhaseParams struct {
 	Iterations *int64 `form:"iterations"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to a phase. Metadata on a schedule's phase will update the underlying subscription's `metadata` when the phase is entered, adding new keys and replacing existing keys in the subscription's `metadata`. Individual keys in the subscription's `metadata` can be unset by posting an empty value to them in the phase's `metadata`. To unset all keys in the subscription's `metadata`, update the subscription directly or unset every key individually from the phase's `metadata`.
 	Metadata map[string]string `form:"metadata"`
+	// The account on behalf of which to charge, for each of the associated subscription's invoices.
+	OnBehalfOf *string `form:"on_behalf_of"`
 	// Whether the subscription schedule will create [prorations](https://stripe.com/docs/billing/subscriptions/prorations) when transitioning to this phase. The default value is `create_prorations`.
 	ProrationBehavior *string `form:"proration_behavior"`
 	// The date at which this phase of the subscription schedule starts or `now`. Must be set on the first phase.
@@ -271,6 +298,8 @@ type SubscriptionSchedulePhaseParams struct {
 	// Sets the phase to trialing from the start date to this date. Must be before the phase end date, can not be combined with `trial`
 	TrialEnd    *int64 `form:"trial_end"`
 	TrialEndNow *bool  `form:"-"` // See custom AppendTo
+	// Settings related to subscription trials.
+	TrialSettings *SubscriptionSchedulePhaseTrialSettingsParams `form:"trial_settings"`
 }
 
 // AppendTo implements custom encoding logic for SubscriptionSchedulePhaseParams.
@@ -323,6 +352,12 @@ func (s *SubscriptionScheduleParams) AppendTo(body *form.Values, keyParts []stri
 	}
 }
 
+// Use the `end` time of a given discount.
+type SubscriptionScheduleAmendAmendmentAmendmentEndDiscountEndParams struct {
+	// The ID of a specific discount.
+	Discount *string `form:"discount"`
+}
+
 // Time span for the amendment starting from the `amendment_start`.
 type SubscriptionScheduleAmendAmendmentAmendmentEndDurationParams struct {
 	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
@@ -333,6 +368,8 @@ type SubscriptionScheduleAmendAmendmentAmendmentEndDurationParams struct {
 
 // Details to identify the end of the time range modified by the proposed change. If not supplied, the amendment is considered a point-in-time operation that only affects the exact timestamp at `amendment_start`, and a restricted set of attributes is supported on the amendment.
 type SubscriptionScheduleAmendAmendmentAmendmentEndParams struct {
+	// Use the `end` time of a given discount.
+	DiscountEnd *SubscriptionScheduleAmendAmendmentAmendmentEndDiscountEndParams `form:"discount_end"`
 	// Time span for the amendment starting from the `amendment_start`.
 	Duration *SubscriptionScheduleAmendAmendmentAmendmentEndDurationParams `form:"duration"`
 	// A precise Unix timestamp for the amendment to end. Must be after the `amendment_start`.
@@ -347,10 +384,18 @@ type SubscriptionScheduleAmendAmendmentAmendmentStartAmendmentEndParams struct {
 	Index *int64 `form:"index"`
 }
 
+// Use the `end` time of a given discount.
+type SubscriptionScheduleAmendAmendmentAmendmentStartDiscountEndParams struct {
+	// The ID of a specific discount.
+	Discount *string `form:"discount"`
+}
+
 // Details to identify the earliest timestamp where the proposed change should take effect.
 type SubscriptionScheduleAmendAmendmentAmendmentStartParams struct {
 	// Details of another amendment in the same array, immediately after which this amendment should begin.
 	AmendmentEnd *SubscriptionScheduleAmendAmendmentAmendmentStartAmendmentEndParams `form:"amendment_end"`
+	// Use the `end` time of a given discount.
+	DiscountEnd *SubscriptionScheduleAmendAmendmentAmendmentStartDiscountEndParams `form:"discount_end"`
 	// A precise Unix timestamp for the amendment to start.
 	Timestamp *int64 `form:"timestamp"`
 	// Select one of three ways to pass the `amendment_start`.
@@ -405,6 +450,8 @@ type SubscriptionScheduleAmendAmendmentItemActionAddDiscountParams struct {
 
 // Options that configure the trial on the subscription item.
 type SubscriptionScheduleAmendAmendmentItemActionAddTrialParams struct {
+	// List of price IDs which, if present on the subscription following a paid trial, constitute opting-in to the paid trial.
+	ConvertsTo []*string `form:"converts_to"`
 	// Determines the type of trial for this item.
 	Type *string `form:"type"`
 }
@@ -431,7 +478,7 @@ type SubscriptionScheduleAmendAmendmentItemActionRemoveParams struct {
 	Price *string `form:"price"`
 }
 
-// If the an item with the `price` already exists, passing this will override the `discounts` array on the subscription item that matches that price. Otherwise, the `items` array is cleared and a single new item is added with the supplied `discounts`.
+// If an item with the `price` already exists, passing this will override the `discounts` array on the subscription item that matches that price. Otherwise, the `items` array is cleared and a single new item is added with the supplied `discounts`.
 type SubscriptionScheduleAmendAmendmentItemActionSetDiscountParams struct {
 	// ID of the coupon to create a new discount for.
 	Coupon *string `form:"coupon"`
@@ -439,25 +486,27 @@ type SubscriptionScheduleAmendAmendmentItemActionSetDiscountParams struct {
 	Discount *string `form:"discount"`
 }
 
-// If the an item with the `price` already exists, passing this will override the `trial` configuration on the subscription item that matches that price. Otherwise, the `items` array is cleared and a single new item is added with the supplied `trial`.
+// If an item with the `price` already exists, passing this will override the `trial` configuration on the subscription item that matches that price. Otherwise, the `items` array is cleared and a single new item is added with the supplied `trial`.
 type SubscriptionScheduleAmendAmendmentItemActionSetTrialParams struct {
+	// List of price IDs which, if present on the subscription following a paid trial, constitute opting-in to the paid trial.
+	ConvertsTo []*string `form:"converts_to"`
 	// Determines the type of trial for this item.
 	Type *string `form:"type"`
 }
 
 // Details of the subscription item to replace the existing items with. If an item with the `set[price]` already exists, the `items` array is not cleared. Instead, all of the other `set` properties that are passed in this request will replace the existing values for the configuration item.
 type SubscriptionScheduleAmendAmendmentItemActionSetParams struct {
-	// If the an item with the `price` already exists, passing this will override the `discounts` array on the subscription item that matches that price. Otherwise, the `items` array is cleared and a single new item is added with the supplied `discounts`.
+	// If an item with the `price` already exists, passing this will override the `discounts` array on the subscription item that matches that price. Otherwise, the `items` array is cleared and a single new item is added with the supplied `discounts`.
 	Discounts []*SubscriptionScheduleAmendAmendmentItemActionSetDiscountParams `form:"discounts"`
-	// If the an item with the `price` already exists, passing this will override the `metadata` on the subscription item that matches that price. Otherwise, the `items` array is cleared and a single new item is added with the supplied `metadata`.
+	// If an item with the `price` already exists, passing this will override the `metadata` on the subscription item that matches that price. Otherwise, the `items` array is cleared and a single new item is added with the supplied `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// The ID of the price object.
 	Price *string `form:"price"`
-	// If the an item with the `price` already exists, passing this will override the quantity on the subscription item that matches that price. Otherwise, the `items` array is cleared and a single new item is added with the supplied `quantity`.
+	// If an item with the `price` already exists, passing this will override the quantity on the subscription item that matches that price. Otherwise, the `items` array is cleared and a single new item is added with the supplied `quantity`.
 	Quantity *int64 `form:"quantity"`
-	// If the an item with the `price` already exists, passing this will override the `tax_rates` array on the subscription item that matches that price. Otherwise, the `items` array is cleared and a single new item is added with the supplied `tax_rates`.
+	// If an item with the `price` already exists, passing this will override the `tax_rates` array on the subscription item that matches that price. Otherwise, the `items` array is cleared and a single new item is added with the supplied `tax_rates`.
 	TaxRates []*string `form:"tax_rates"`
-	// If the an item with the `price` already exists, passing this will override the `trial` configuration on the subscription item that matches that price. Otherwise, the `items` array is cleared and a single new item is added with the supplied `trial`.
+	// If an item with the `price` already exists, passing this will override the `trial` configuration on the subscription item that matches that price. Otherwise, the `items` array is cleared and a single new item is added with the supplied `trial`.
 	Trial *SubscriptionScheduleAmendAmendmentItemActionSetTrialParams `form:"trial"`
 }
 
@@ -471,6 +520,18 @@ type SubscriptionScheduleAmendAmendmentItemActionParams struct {
 	Set *SubscriptionScheduleAmendAmendmentItemActionSetParams `form:"set"`
 	// Determines the type of item action.
 	Type *string `form:"type"`
+}
+
+// Defines how the subscription should behave when a trial ends.
+type SubscriptionScheduleAmendAmendmentTrialSettingsEndBehaviorParams struct {
+	// Configure how an opt-in following a paid trial is billed when using `billing_behavior: prorate_up_front`.
+	ProrateUpFront *string `form:"prorate_up_front"`
+}
+
+// Settings related to subscription trials.
+type SubscriptionScheduleAmendAmendmentTrialSettingsParams struct {
+	// Defines how the subscription should behave when a trial ends.
+	EndBehavior *SubscriptionScheduleAmendAmendmentTrialSettingsEndBehaviorParams `form:"end_behavior"`
 }
 
 // Changes to apply to the phases of the subscription schedule, in the order provided.
@@ -487,6 +548,8 @@ type SubscriptionScheduleAmendAmendmentParams struct {
 	ItemActions []*SubscriptionScheduleAmendAmendmentItemActionParams `form:"item_actions"`
 	// Changes to how Stripe handles prorations during the amendment time span. Affects if and how prorations are created when a future phase starts. In cases where the amendment changes the currently active phase, it is used to determine whether or how to prorate now, at the time of the request. Also supported as a point-in-time operation when `amendment_end` is `null`.
 	ProrationBehavior *string `form:"proration_behavior"`
+	// Settings related to subscription trials.
+	TrialSettings *SubscriptionScheduleAmendAmendmentTrialSettingsParams `form:"trial_settings"`
 }
 
 // Changes to apply to the subscription schedule.
@@ -549,6 +612,8 @@ type SubscriptionScheduleDefaultSettings struct {
 	Description string `json:"description"`
 	// The subscription schedule's default invoice settings.
 	InvoiceSettings *SubscriptionScheduleDefaultSettingsInvoiceSettings `json:"invoice_settings"`
+	// The account (if any) the charge was made on behalf of for charges associated with the schedule's subscription. See the Connect documentation for details.
+	OnBehalfOf *Account `json:"on_behalf_of"`
 	// The account (if any) the associated subscription's payments will be attributed to for tax reporting, and where funds from each payment will be transferred to for each of the subscription's invoices.
 	TransferData *SubscriptionTransferData `json:"transfer_data"`
 }
@@ -597,7 +662,9 @@ type SubscriptionSchedulePhaseItemDiscount struct {
 
 // Options that configure the trial on the subscription item.
 type SubscriptionSchedulePhaseItemTrial struct {
-	Type SubscriptionSchedulePhaseItemTrialType `json:"type"`
+	// List of price IDs which, if present on the subscription following a paid trial, constitute opting-in to the paid trial.
+	ConvertsTo []string                               `json:"converts_to"`
+	Type       SubscriptionSchedulePhaseItemTrialType `json:"type"`
 }
 
 // Subscription items to configure the subscription to during this phase of the subscription schedule.
@@ -618,6 +685,18 @@ type SubscriptionSchedulePhaseItem struct {
 	TaxRates []*TaxRate `json:"tax_rates"`
 	// Options that configure the trial on the subscription item.
 	Trial *SubscriptionSchedulePhaseItemTrial `json:"trial"`
+}
+
+// Defines how the subscription should behaves when a trial ensd.
+type SubscriptionSchedulePhaseTrialSettingsEndBehavior struct {
+	// Configure how an opt-in following a paid trial is billed when using `billing_behavior: prorate_up_front`.
+	ProrateUpFront SubscriptionSchedulePhaseTrialSettingsEndBehaviorProrateUpFront `json:"prorate_up_front"`
+}
+
+// Settings related to any trials on the subscription during this phase.
+type SubscriptionSchedulePhaseTrialSettings struct {
+	// Defines how the subscription should behaves when a trial ensd.
+	EndBehavior *SubscriptionSchedulePhaseTrialSettingsEndBehavior `json:"end_behavior"`
 }
 
 // Configuration for the subscription schedule's phases.
@@ -653,6 +732,8 @@ type SubscriptionSchedulePhase struct {
 	Items []*SubscriptionSchedulePhaseItem `json:"items"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to a phase. Metadata on a schedule's phase will update the underlying subscription's `metadata` when the phase is entered. Updating the underlying subscription's `metadata` directly will not affect the current phase's `metadata`.
 	Metadata map[string]string `json:"metadata"`
+	// The account (if any) the charge was made on behalf of for charges associated with the schedule's subscription. See the Connect documentation for details.
+	OnBehalfOf *Account `json:"on_behalf_of"`
 	// If the subscription schedule will prorate when transitioning to this phase. Possible values are `create_prorations` and `none`.
 	ProrationBehavior SubscriptionSchedulePhaseProrationBehavior `json:"proration_behavior"`
 	// The start of this phase of the subscription schedule.
@@ -663,6 +744,8 @@ type SubscriptionSchedulePhase struct {
 	TrialContinuation SubscriptionSchedulePhaseTrialContinuation `json:"trial_continuation"`
 	// When the trial ends within the phase.
 	TrialEnd int64 `json:"trial_end"`
+	// Settings related to any trials on the subscription during this phase.
+	TrialSettings *SubscriptionSchedulePhaseTrialSettings `json:"trial_settings"`
 }
 
 // Time period and invoice for a Subscription billed in advance.

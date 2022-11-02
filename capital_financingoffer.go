@@ -47,6 +47,7 @@ const (
 	CapitalFinancingOfferStatusFullyRepaid CapitalFinancingOfferStatus = "fully_repaid"
 	CapitalFinancingOfferStatusPaidOut     CapitalFinancingOfferStatus = "paid_out"
 	CapitalFinancingOfferStatusRejected    CapitalFinancingOfferStatus = "rejected"
+	CapitalFinancingOfferStatusReplaced    CapitalFinancingOfferStatus = "replaced"
 	CapitalFinancingOfferStatusUndelivered CapitalFinancingOfferStatus = "undelivered"
 )
 
@@ -152,6 +153,10 @@ type CapitalFinancingOffer struct {
 	OfferedTerms *CapitalFinancingOfferOfferedTerms `json:"offered_terms"`
 	// Financing product identifier.
 	ProductType CapitalFinancingOfferProductType `json:"product_type"`
+	// The ID of the financing offer that replaced this offer.
+	Replacement string `json:"replacement"`
+	// The ID of the financing offer that this offer is a replacement for.
+	ReplacementFor string `json:"replacement_for"`
 	// The current status of the offer.
 	Status CapitalFinancingOfferStatus `json:"status"`
 	// See [financing_type](https://stripe.com/docs/api/capital/connect_financing_object#financing_offer_object-financing_type).

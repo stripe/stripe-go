@@ -302,6 +302,9 @@ type SetupIntentPaymentMethodDataBoletoParams struct {
 	TaxID *string `form:"tax_id"`
 }
 
+// If this is a `cashapp` PaymentMethod, this hash contains details about the Cash App Pay payment method.
+type SetupIntentPaymentMethodDataCashappParams struct{}
+
 // If this is a `customer_balance` PaymentMethod, this hash contains details about the CustomerBalance payment method.
 type SetupIntentPaymentMethodDataCustomerBalanceParams struct{}
 
@@ -412,6 +415,9 @@ type SetupIntentPaymentMethodDataUSBankAccountParams struct {
 // If this is an `wechat_pay` PaymentMethod, this hash contains details about the wechat_pay payment method.
 type SetupIntentPaymentMethodDataWeChatPayParams struct{}
 
+// If this is a `zip` PaymentMethod, this hash contains details about the Zip payment method.
+type SetupIntentPaymentMethodDataZipParams struct{}
+
 // When included, this hash creates a PaymentMethod that is set as the [`payment_method`](https://stripe.com/docs/api/setup_intents/object#setup_intent_object-payment_method)
 // value in the SetupIntent.
 type SetupIntentPaymentMethodDataParams struct {
@@ -435,6 +441,8 @@ type SetupIntentPaymentMethodDataParams struct {
 	BLIK *SetupIntentPaymentMethodDataBLIKParams `form:"blik"`
 	// If this is a `boleto` PaymentMethod, this hash contains details about the Boleto payment method.
 	Boleto *SetupIntentPaymentMethodDataBoletoParams `form:"boleto"`
+	// If this is a `cashapp` PaymentMethod, this hash contains details about the Cash App Pay payment method.
+	Cashapp *SetupIntentPaymentMethodDataCashappParams `form:"cashapp"`
 	// If this is a `customer_balance` PaymentMethod, this hash contains details about the CustomerBalance payment method.
 	CustomerBalance *SetupIntentPaymentMethodDataCustomerBalanceParams `form:"customer_balance"`
 	// If this is an `eps` PaymentMethod, this hash contains details about the EPS payment method.
@@ -481,6 +489,8 @@ type SetupIntentPaymentMethodDataParams struct {
 	USBankAccount *SetupIntentPaymentMethodDataUSBankAccountParams `form:"us_bank_account"`
 	// If this is an `wechat_pay` PaymentMethod, this hash contains details about the wechat_pay payment method.
 	WeChatPay *SetupIntentPaymentMethodDataWeChatPayParams `form:"wechat_pay"`
+	// If this is a `zip` PaymentMethod, this hash contains details about the Zip payment method.
+	Zip *SetupIntentPaymentMethodDataZipParams `form:"zip"`
 }
 
 // Additional fields for Mandate creation
@@ -737,6 +747,9 @@ type SetupIntentConfirmPaymentMethodDataBoletoParams struct {
 	TaxID *string `form:"tax_id"`
 }
 
+// If this is a `cashapp` PaymentMethod, this hash contains details about the Cash App Pay payment method.
+type SetupIntentConfirmPaymentMethodDataCashappParams struct{}
+
 // If this is a `customer_balance` PaymentMethod, this hash contains details about the CustomerBalance payment method.
 type SetupIntentConfirmPaymentMethodDataCustomerBalanceParams struct{}
 
@@ -847,6 +860,9 @@ type SetupIntentConfirmPaymentMethodDataUSBankAccountParams struct {
 // If this is an `wechat_pay` PaymentMethod, this hash contains details about the wechat_pay payment method.
 type SetupIntentConfirmPaymentMethodDataWeChatPayParams struct{}
 
+// If this is a `zip` PaymentMethod, this hash contains details about the Zip payment method.
+type SetupIntentConfirmPaymentMethodDataZipParams struct{}
+
 // When included, this hash creates a PaymentMethod that is set as the [`payment_method`](https://stripe.com/docs/api/setup_intents/object#setup_intent_object-payment_method)
 // value in the SetupIntent.
 type SetupIntentConfirmPaymentMethodDataParams struct {
@@ -870,6 +886,8 @@ type SetupIntentConfirmPaymentMethodDataParams struct {
 	BLIK *SetupIntentConfirmPaymentMethodDataBLIKParams `form:"blik"`
 	// If this is a `boleto` PaymentMethod, this hash contains details about the Boleto payment method.
 	Boleto *SetupIntentConfirmPaymentMethodDataBoletoParams `form:"boleto"`
+	// If this is a `cashapp` PaymentMethod, this hash contains details about the Cash App Pay payment method.
+	Cashapp *SetupIntentConfirmPaymentMethodDataCashappParams `form:"cashapp"`
 	// If this is a `customer_balance` PaymentMethod, this hash contains details about the CustomerBalance payment method.
 	CustomerBalance *SetupIntentConfirmPaymentMethodDataCustomerBalanceParams `form:"customer_balance"`
 	// If this is an `eps` PaymentMethod, this hash contains details about the EPS payment method.
@@ -916,6 +934,8 @@ type SetupIntentConfirmPaymentMethodDataParams struct {
 	USBankAccount *SetupIntentConfirmPaymentMethodDataUSBankAccountParams `form:"us_bank_account"`
 	// If this is an `wechat_pay` PaymentMethod, this hash contains details about the wechat_pay payment method.
 	WeChatPay *SetupIntentConfirmPaymentMethodDataWeChatPayParams `form:"wechat_pay"`
+	// If this is a `zip` PaymentMethod, this hash contains details about the Zip payment method.
+	Zip *SetupIntentConfirmPaymentMethodDataZipParams `form:"zip"`
 }
 
 // Confirm that your customer intends to set up the current or
@@ -965,6 +985,21 @@ type SetupIntentVerifyMicrodepositsParams struct {
 	// A six-character code starting with SM present in the microdeposit sent to the bank account.
 	DescriptorCode *string `form:"descriptor_code"`
 }
+type SetupIntentNextActionCashappHandleRedirectOrDisplayQRCodeQRCode struct {
+	// The date (unix timestamp) when the QR code expires.
+	ExpiresAt int64 `json:"expires_at"`
+	// The image_url_png string used to render QR code
+	ImageURLPNG string `json:"image_url_png"`
+	// The image_url_svg string used to render QR code
+	ImageURLSVG string `json:"image_url_svg"`
+}
+type SetupIntentNextActionCashappHandleRedirectOrDisplayQRCode struct {
+	// The URL to the hosted Cash App Pay instructions page, which allows customers to view the QR code, and supports QR code refreshing on expiration.
+	HostedInstructionsURL string `json:"hosted_instructions_url"`
+	// The url for mobile redirect based auth
+	MobileAuthURL string                                                           `json:"mobile_auth_url"`
+	QRCode        *SetupIntentNextActionCashappHandleRedirectOrDisplayQRCodeQRCode `json:"qr_code"`
+}
 type SetupIntentNextActionRedirectToURL struct {
 	// If the customer does not exit their browser while authenticating, they will be redirected to this specified URL after completion.
 	ReturnURL string `json:"return_url"`
@@ -985,7 +1020,8 @@ type SetupIntentNextActionVerifyWithMicrodeposits struct {
 
 // If present, this property tells you what actions you need to take in order for your customer to continue payment setup.
 type SetupIntentNextAction struct {
-	RedirectToURL *SetupIntentNextActionRedirectToURL `json:"redirect_to_url"`
+	CashappHandleRedirectOrDisplayQRCode *SetupIntentNextActionCashappHandleRedirectOrDisplayQRCode `json:"cashapp_handle_redirect_or_display_qr_code"`
+	RedirectToURL                        *SetupIntentNextActionRedirectToURL                        `json:"redirect_to_url"`
 	// Type of the next action to perform, one of `redirect_to_url`, `use_stripe_sdk`, `alipay_handle_redirect`, `oxxo_display_details`, or `verify_with_microdeposits`.
 	Type SetupIntentNextActionType `json:"type"`
 	// When confirming a SetupIntent with Stripe.js, Stripe.js depends on the contents of this dictionary to invoke authentication flows. The shape of the contents is subject to change and is only intended to be used by Stripe.js.
