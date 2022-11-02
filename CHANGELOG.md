@@ -1,5 +1,9 @@
 # Changelog
 
+## 73.15.0-beta.2 - 2022-11-02
+* [#1564](https://github.com/stripe/stripe-go/pull/1564) API Updates for beta branch
+  * Updated stable APIs to the latest version
+
 ## 73.15.0-beta.1 - 2022-10-21
 * [#1561](https://github.com/stripe/stripe-go/pull/1561) API Updates for beta branch
   * Updated stable APIs to the latest version
