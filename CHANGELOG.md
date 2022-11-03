@@ -1,5 +1,11 @@
 # Changelog
 
+## 73.15.0 - 2022-11-03
+* [#1563](https://github.com/stripe/stripe-go/pull/1563) API Updates
+  * Add support for `OnBehalfOf` on `CheckoutSessionSubscriptionDataParams`, `SubscriptionParams`, `SubscriptionScheduleDefaultSettingsParams`, `SubscriptionScheduleDefaultSettings`, `SubscriptionSchedulePhasesParams`, `SubscriptionSchedulePhases`, and `Subscription`
+  * Add support for new values `eg_tin`, `ph_tin`, and `tr_tin` on enums `CheckoutSessionCustomerDetailsTaxIdsType`, `InvoiceCustomerTaxIdsType`, `OrderTaxDetailsTaxIdsType`, and `TaxIdType`
+  * Add support for `TaxBehavior` and `TaxCode` on `InvoiceItemParams`, `InvoiceUpcomingInvoiceItemsParams`, and `InvoiceUpcomingLinesInvoiceItemsParams`
+
 ## 73.14.0 - 2022-10-20
 * [#1560](https://github.com/stripe/stripe-go/pull/1560) API Updates
   * Add support for new values `jp_trn` and `ke_pin` on enums `CheckoutSessionCustomerDetailsTaxIdsType`, `InvoiceCustomerTaxIdsType`, `OrderTaxDetailsTaxIdsType`, and `TaxIdType`
