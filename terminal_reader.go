@@ -69,10 +69,18 @@ type TerminalReaderListParams struct {
 	Status *string `form:"status"`
 }
 
+// Tipping configuration for this transaction.
+type TerminalReaderProcessPaymentIntentProcessConfigTippingParams struct {
+	// Amount used to calculate tip suggestions on tipping selection screen for this transaction. Must be a positive integer in the smallest currency unit (e.g., 100 cents to represent $1.00 or 100 to represent ¥100, a zero-decimal currency).
+	AmountEligible *int64 `form:"amount_eligible"`
+}
+
 // Configuration overrides
 type TerminalReaderProcessPaymentIntentProcessConfigParams struct {
 	// Override showing a tipping selection screen on this transaction.
 	SkipTipping *bool `form:"skip_tipping"`
+	// Tipping configuration for this transaction.
+	Tipping *TerminalReaderProcessPaymentIntentProcessConfigTippingParams `form:"tipping"`
 }
 
 // Initiates a payment flow on a Reader.
@@ -129,10 +137,18 @@ type TerminalReaderSetReaderDisplayParams struct {
 	Type *string `form:"type"`
 }
 
+// Represents a per-transaction tipping configuration
+type TerminalReaderActionProcessPaymentIntentProcessConfigTipping struct {
+	// Amount used to calculate tip suggestions on tipping selection screen for this transaction. Must be a positive integer in the smallest currency unit (e.g., 100 cents to represent $1.00 or 100 to represent ¥100, a zero-decimal currency).
+	AmountEligible int64 `json:"amount_eligible"`
+}
+
 // Represents a per-transaction override of a reader configuration
 type TerminalReaderActionProcessPaymentIntentProcessConfig struct {
 	// Override showing a tipping selection screen on this transaction.
 	SkipTipping bool `json:"skip_tipping"`
+	// Represents a per-transaction tipping configuration
+	Tipping *TerminalReaderActionProcessPaymentIntentProcessConfigTipping `json:"tipping"`
 }
 
 // Represents a reader action to process a payment intent
