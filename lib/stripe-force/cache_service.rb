@@ -228,8 +228,7 @@ class CacheService
 
     # Error out in tests, provide the meatdata for alerting us to what exactly is missing.
     if (ENV['CI'] || Rails.env.test?) && !previously_invalidated?(missing_record_ids)
-      # TODO: Uncomment the line below once the batch service is updated to support tiered pricing
-      # raise Integrations::Errors::TranslatorError.new(message, metadata: metadata)
+      raise Integrations::Errors::TranslatorError.new(message, metadata: metadata)
     end
   end
 
