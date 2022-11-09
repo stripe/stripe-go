@@ -26,6 +26,106 @@ module SalesforceDebugging
     stripe_class.retrieve(stripe_id, @user.stripe_credentials)
   end
 
+  def is_order_amendment?(sf_order)
+    order_with_amended_contract_query = @user.sf_client.query(
+      # include `Type`, `OpportunityId` for debugging purposes
+      <<~EOL
+        SELECT Type, OpportunityId,
+              Opportunity.SBQQ__AmendedContract__c
+        FROM #{SF_ORDER}
+        WHERE Id = '#{sf_order.Id}'
+      EOL
+    )
+
+    if order_with_amended_contract_query.size.zero?
+      raise Integrations::Errors::ImpossibleInternalError.new("query should never return an empty result")
+    end
+
+    if order_with_amended_contract_query.size > 1
+      raise Integrations::Errors::ImpossibleInternalError.new("query should only return a single result")
+    end
+
+    order_with_amended_contract = order_with_amended_contract_query.first
+
+    amended_contract_id = order_with_amended_contract.dig(SF_OPPORTUNITY, "SBQQ__AmendedContract__c")
+    is_order_amendment = amended_contract_id.present?
+
+    if !OrderTypeOptions.values.map(&:serialize).include?(order_with_amended_contract.Type)
+      log.warn 'order type is not standard', order_type: order_with_amended_contract.Type
+    end
+
+    if is_order_amendment && order_with_amended_contract.Type == OrderTypeOptions::NEW.serialize
+      Integrations::ErrorContext.report_edge_case("order is determined to be an amendment, but type is new")
+    end
+
+    is_order_amendment
+  end
+
+  def extract_initial_order_from_amendment(sf_order_amendment)
+    # in the case of an amendment, the associated opportunity contains a reference to the contract
+    # which contains a reference to the original quote, which references the orginal order (initial non-amendment order)
+    initial_quote_query = @user.sf_client.query(
+      # include `OpportunityId`, `SBQQ__AmendedContract__c` for debugging purposes
+      <<~EOL
+        SELECT OpportunityId, Opportunity.SBQQ__AmendedContract__c,
+               Opportunity.SBQQ__AmendedContract__r.#{SF_CONTRACT_QUOTE_ID}
+        FROM #{SF_ORDER}
+        WHERE Id = '#{sf_order_amendment.Id}'
+      EOL
+    )
+
+    if initial_quote_query.count.zero?
+      raise Integrations::Errors::ImpossibleState.new("order amendments should always be associated with the initial quote")
+    end
+
+    # TODO this should never happen and should be removed
+    if initial_quote_query.count > 1
+      raise Integrations::Errors::ImpossibleState.new("exact ID match yields two records")
+    end
+
+    # the contract tied to the amended order has the ID of the quote of the original order
+    # let's get that ID, then we can pull the order tied to that original quote
+    sf_original_quote_id = initial_quote_query.first.dig(
+      SF_OPPORTUNITY,
+      # TODO should pull into a constant
+      "SBQQ__AmendedContract__r",
+      SF_CONTRACT_QUOTE_ID
+    )
+
+    if sf_original_quote_id.blank?
+      log.warn "related records while retrieve missing quote",
+        opportunity_id: initial_quote_query.first.dig("OpportunityId"),
+        amended_contract: initial_quote_query.first.dig(SF_OPPORTUNITY, "SBQQ__AmendedContract__c")
+
+      raise StripeForce::Errors::RawUserError.new("Could not find initial quote associated with order amendment")
+    end
+
+    log.info 'quote tied to initial order found', quote_id: sf_original_quote_id
+
+    initial_order_query = @user.sf_client.query(
+      <<~EOL
+        SELECT Id
+        FROM #{SF_ORDER}
+        WHERE SBQQ__Quote__c = '#{sf_original_quote_id}'
+      EOL
+    )
+
+    if initial_order_query.count.zero?
+      raise Integrations::Errors::ImpossibleState.new("initial order should be associated with an initial quote")
+    end
+
+    # TODO this should never happen and should be removed
+    if initial_order_query.count > 1
+      raise Integrations::Errors::ImpossibleState.new("exact ID match yields two records")
+    end
+
+    initial_order_id = initial_order_query.first[SF_ID]
+
+    log.info 'found initial order', initial_order_id: initial_order_id
+
+    sf_get(initial_order_id)
+  end
+
   # https://stackoverflow.com/questions/9742913/validating-a-salesforce-id
   def looks_like_sf_id?(some_string)
     some_string =~ /^([a-zA-Z0-9]{18}|[a-zA-Z0-9]{15})$/
