@@ -1,5 +1,10 @@
 # Changelog
 
+## 73.16.0 - 2022-11-08
+* [#1568](https://github.com/stripe/stripe-go/pull/1568) API Updates
+  * Add support for `ReasonMessage` on `IssuingAuthorizationRequestHistory`
+  * Add support for new value `webhook_error` on enum `IssuingAuthorizationRequestHistoryReason`
+
 ## 73.15.0 - 2022-11-03
 * [#1563](https://github.com/stripe/stripe-go/pull/1563) API Updates
   * Add support for `OnBehalfOf` on `CheckoutSessionSubscriptionDataParams`, `SubscriptionParams`, `SubscriptionScheduleDefaultSettingsParams`, `SubscriptionScheduleDefaultSettings`, `SubscriptionSchedulePhasesParams`, `SubscriptionSchedulePhases`, and `Subscription`
