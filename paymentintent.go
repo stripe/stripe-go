@@ -2459,8 +2459,6 @@ type PaymentIntent struct {
 	CancellationReason PaymentIntentCancellationReason `json:"cancellation_reason"`
 	// Controls when the funds will be captured from the customer's account.
 	CaptureMethod PaymentIntentCaptureMethod `json:"capture_method"`
-	// Charges that were created by this PaymentIntent, if any.
-	Charges *ChargeList `json:"charges"`
 	// The client secret of this PaymentIntent. Used for client-side retrieval using a publishable key.
 	//
 	// The client secret can be used to complete a payment from your frontend. It should not be stored, logged, or exposed to anyone other than the customer. Make sure that you have TLS enabled on any page that includes the client secret.
@@ -2486,6 +2484,8 @@ type PaymentIntent struct {
 	Invoice *Invoice `json:"invoice"`
 	// The payment error encountered in the previous PaymentIntent confirmation. It will be cleared if the PaymentIntent is later updated for any reason.
 	LastPaymentError *Error `json:"last_payment_error"`
+	// The latest charge created by this payment intent.
+	LatestCharge *Charge `json:"latest_charge"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. For more information, see the [documentation](https://stripe.com/docs/payments/payment-intents/creating-payment-intents#storing-information-in-metadata).
