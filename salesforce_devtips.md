@@ -10,6 +10,7 @@
 - `sfdx force:mdapi:listmetadata -m Layout` to get all layouts on an account. If you want to pull a namespaced layout: `sfdx force:source:retrieve -m "Layout:Account-SBQQ__CPQ Account Layout"`
 - Pull custom field from an account: `sfdx force:source:retrieve -m CustomField:Order.Stripe_Transaction_ID__c`
 - Lots of debugging info `sfdx force:source:retrieve -m "Layout:Contract-CPQ Contract Layout" --verbose -u cpq-dev --apiversion=55.0 --dev-debug --loglevel=trace`
+- Pull a custom object `sfdx force:source:retrieve -m 'CustomObject:Stripe_Coupon_Beta_Quote_Line_Associatio__c`
 
 ## Lighting Web Componetns
 

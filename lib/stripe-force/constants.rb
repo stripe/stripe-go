@@ -20,6 +20,8 @@ module StripeForce
     SF_PRODUCT_CONSUMPTION_SCHEDULE = 'ProductConsumptionSchedule'
     SF_CONSUMPTION_RATE = 'ConsumptionRate'
     SF_CONTRACT = 'Contract'
+    SF_STRIPE_COUPON = 'Stripe_Coupon_Beta__c'
+    SF_STRIPE_COUPON_QUOTE_LINE_ASSOCIATION = 'Stripe_Coupon_Beta_Quote_Line_Associatio__c'
 
     SF_ID = 'Id'
     SF_LAST_MODIFIED_DATE = 'LastModifiedDate'
@@ -33,6 +35,7 @@ module StripeForce
     SF_CONTRACT_QUOTE_ID = 'SBQQ__Quote__c'
 
     CPQ_QUOTE = 'SBQQ__Quote__c'
+    CPQ_QUOTE_LINE = 'SBQQ__QuoteLine__c'
     CPQ_CONSUMPTION_SCHEDULE = 'SBQQ__OrderItemConsumptionSchedule__c'
     CPQ_CONSUMPTION_RATE = 'SBQQ__OrderItemConsumptionRate__c'
 
@@ -92,6 +95,18 @@ module StripeForce
     ORDER_SUBSCRIPTION_PAYMENT_LINK = 'Stripe_Subscription_Payment_Link__c'
 
     SYNC_RECORD = 'Sync_Record__c'
+
+    class SalesforceStripeCouponFields < T::Enum
+     enums do
+        NAME = new('Name__c')
+        PERCENT_OFF = new('Percent_Off__c')
+        AMOUNT_OFF = new('Amount_Off__c')
+        DURATION = new('Duration__c')
+        DURATION_IN_MONTHS = new('Duration_In_Months__c')
+        MAX_REDEMPTIONS = new('Max_Redemptions__c')
+     end
+    end
+
     class SyncRecordFields < T::Enum
       enums do
         COMPOUND_ID = new('Compound_ID__c')

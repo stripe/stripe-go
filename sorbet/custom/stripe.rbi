@@ -260,3 +260,26 @@ class Stripe::TestHelpers::TestClock
   sig { returns(Integer)}
   def frozen_time; end
 end
+
+class Stripe::Coupon
+  sig { returns(String)}
+  def id; end
+
+  sig { returns(Integer)}
+  def percent_off; end
+
+  sig { returns(Integer)}
+  def amount_off; end
+
+  sig { returns(String)}
+  def duration; end
+
+  sig { returns(String)}
+  def duration_in_months; end
+
+  sig { returns(String)}
+  def max_redemptions; end
+
+  sig { returns(String)}
+  def currency; end
+end

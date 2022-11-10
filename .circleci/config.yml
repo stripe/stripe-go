@@ -28,7 +28,7 @@ workflows:
                 # unpackaged source test, we do not want a package installed here
                 - mbianco+standardcpq@stripe.com
                 # QA package test, all of the fields/rest endpoints/etc have a prefix
-                - platform-integrations-bots+cpqqapackage@stripe.com
+                # - platform-integrations-bots+cpqqapackage@stripe.com
                 # production package test, has a different prefix from QA
                 # - brennen+prodtest@stripe.com
 

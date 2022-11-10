@@ -120,6 +120,47 @@ module Critic
       }.merge(additional_fields))
     end
 
+    def create_salesforce_stripe_coupon_quote_line_association(sf_quote_line_id:, sf_stripe_coupon_id:)
+      sf_stripe_coupon_id ||= create_salesforce_stripe_coupon
+
+      sf.create!(prefixed_stripe_field(SF_STRIPE_COUPON_QUOTE_LINE_ASSOCIATION), {
+        "Quote_Line__c" => sf_quote_line_id,
+        "Stripe_Coupon__c" => sf_stripe_coupon_id,
+      }.transform_keys(&method(:prefixed_stripe_field)))
+    end
+
+    def create_salesforce_stripe_coupon(additional_fields: {})
+      # we want to ensure that either amount_off or percent_off is set and not both
+      amount_off = nil
+      if additional_fields[SalesforceStripeCouponFields::PERCENT_OFF].nil?
+          amount_off = TEST_DEFAULT_PRICE / 2
+      end
+
+      sf.create!(prefixed_stripe_field(SF_STRIPE_COUPON), {
+        SalesforceStripeCouponFields::NAME => sf_randomized_name(SF_STRIPE_COUPON),
+        SalesforceStripeCouponFields::AMOUNT_OFF => amount_off,
+        SalesforceStripeCouponFields::DURATION => 'once',
+      }.merge(additional_fields).transform_keys(&:serialize).transform_keys(&method(:prefixed_stripe_field)))
+    end
+
+    def get_salesforce_stripe_coupons_associated_to_quote_line(quote_line_id:)
+      quote_line_associations = sf.query("Select Id from #{prefixed_stripe_field(SF_STRIPE_COUPON_QUOTE_LINE_ASSOCIATION)} where #{prefixed_stripe_field('Quote_Line__c')} = '#{quote_line_id}'")
+
+      if !quote_line_associations
+        raise "could not find any stripe coupon quote line associations related to this quote line"
+      end
+
+      # there could be multiple coupons associated with a quote line
+      coupons = quote_line_associations.map do |quote_line_association|
+          association = sf.find(prefixed_stripe_field(SF_STRIPE_COUPON_QUOTE_LINE_ASSOCIATION), quote_line_association.Id)
+          coupon_id = association[prefixed_stripe_field('Stripe_Coupon__c')]
+
+          # return the coupon object
+          sf.find(prefixed_stripe_field(SF_STRIPE_COUPON), coupon_id)
+      end
+      coupons
+    end
+
     def salesforce_recurring_metered_produce_with_price(price_in_cents: nil)
       salesforce_recurring_product_with_price(
         price: price_in_cents,

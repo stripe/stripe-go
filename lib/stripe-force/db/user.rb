@@ -160,6 +160,7 @@ module StripeForce
         "price_order_item" => {
           "unit_amount_decimal" => 'UnitPrice',
         },
+        "coupon" => {},
       }
     end
 
@@ -206,6 +207,15 @@ module StripeForce
         },
 
         "invoice" => {},
+
+        "coupon" => {
+          "name" => "Name__c",
+          "amount_off" => "Amount_Off__c",
+          "percent_off" => "Percent_Off__c",
+          "duration" => "Duration__c",
+          "duration_in_months" => "Duration_In_Months__c",
+          "max_redemptions" => "Max_Redemptions__c",
+        },
       }
     end
 

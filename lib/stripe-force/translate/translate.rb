@@ -80,6 +80,8 @@ class StripeForce::Translate
         translate_pricebook(sf_object)
       when SF_ACCOUNT
         translate_account(sf_object)
+      when prefixed_stripe_field(SF_STRIPE_COUPON)
+        translate_coupon(sf_object)
       else
         raise "unsupported translation type #{sf_object.sobject_type}"
       end
@@ -301,6 +303,7 @@ class StripeForce::Translate
   sig { params(sf_object: T.untyped, stripe_object: Stripe::APIResource, additional_salesforce_updates: Hash).void }
   def update_sf_stripe_id(sf_object, stripe_object, additional_salesforce_updates: {})
     stripe_id_field = prefixed_stripe_field(GENERIC_STRIPE_ID)
+
     stripe_object_id = stripe_object.id
 
     if sf_object[stripe_id_field]
