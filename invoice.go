@@ -201,8 +201,6 @@ type InvoiceDiscountParams struct {
 	Discount *string `form:"discount"`
 	// Details to determine how long the discount should be applied for.
 	DiscountEnd *InvoiceDiscountDiscountEndParams `form:"discount_end"`
-	// Details to determine how long the discount should be applied for.
-	DiscountEndTODOINCOMPATIBLECOMBINATION *InvoiceDiscountDiscountEndParams `form:"discount_endTODO_INCOMPATIBLE_COMBINATION"`
 }
 
 // Revise an existing invoice. The new invoice will be created in `status=draft`. See the [revision documentation](https://stripe.com/docs/invoicing/invoice-revisions) for more details.
@@ -436,14 +434,6 @@ type InvoiceUpcomingCustomerDetailsParams struct {
 	TaxExempt *string `form:"tax_exempt"`
 	// The customer's tax IDs.
 	TaxIDs []*InvoiceUpcomingCustomerDetailsTaxIDParams `form:"tax_ids"`
-}
-
-// Details to determine how long the discount should be applied for.
-type InvoiceUpcomingDiscountDiscountEndParams struct {
-	// A precise Unix timestamp for the discount to end. Must be in the future.
-	Timestamp *int64 `form:"timestamp"`
-	// The type of calculation made to determine when the discount ends.
-	Type *string `form:"type"`
 }
 
 // The period associated with this invoice item. When set to different values, the period will be rendered on the invoice.
