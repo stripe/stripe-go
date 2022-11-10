@@ -37,6 +37,7 @@ const (
 	IssuingAuthorizationRequestHistoryReasonVerificationFailed             IssuingAuthorizationRequestHistoryReason = "verification_failed"
 	IssuingAuthorizationRequestHistoryReasonWebhookApproved                IssuingAuthorizationRequestHistoryReason = "webhook_approved"
 	IssuingAuthorizationRequestHistoryReasonWebhookDeclined                IssuingAuthorizationRequestHistoryReason = "webhook_declined"
+	IssuingAuthorizationRequestHistoryReasonWebhookError                   IssuingAuthorizationRequestHistoryReason = "webhook_error"
 	IssuingAuthorizationRequestHistoryReasonWebhookTimeout                 IssuingAuthorizationRequestHistoryReason = "webhook_timeout"
 )
 
@@ -168,6 +169,8 @@ type IssuingAuthorizationRequestHistory struct {
 	MerchantCurrency Currency `json:"merchant_currency"`
 	// The reason for the approval or decline.
 	Reason IssuingAuthorizationRequestHistoryReason `json:"reason"`
+	// If approve/decline decision is directly responsed to the webhook with json payload and if the response is invalid (e.g., parsing errors), we surface the detailed message via this field.
+	ReasonMessage string `json:"reason_message"`
 }
 
 // [Treasury](https://stripe.com/docs/api/treasury) details related to this authorization if it was created on a [FinancialAccount](https://stripe.com/docs/api/treasury/financial_accounts).

@@ -1,5 +1,16 @@
 # Changelog
 
+## 73.16.0 - 2022-11-08
+* [#1568](https://github.com/stripe/stripe-go/pull/1568) API Updates
+  * Add support for `ReasonMessage` on `IssuingAuthorizationRequestHistory`
+  * Add support for new value `webhook_error` on enum `IssuingAuthorizationRequestHistoryReason`
+
+## 73.15.0 - 2022-11-03
+* [#1563](https://github.com/stripe/stripe-go/pull/1563) API Updates
+  * Add support for `OnBehalfOf` on `CheckoutSessionSubscriptionDataParams`, `SubscriptionParams`, `SubscriptionScheduleDefaultSettingsParams`, `SubscriptionScheduleDefaultSettings`, `SubscriptionSchedulePhasesParams`, `SubscriptionSchedulePhases`, and `Subscription`
+  * Add support for new values `eg_tin`, `ph_tin`, and `tr_tin` on enums `CheckoutSessionCustomerDetailsTaxIdsType`, `InvoiceCustomerTaxIdsType`, `OrderTaxDetailsTaxIdsType`, and `TaxIdType`
+  * Add support for `TaxBehavior` and `TaxCode` on `InvoiceItemParams`, `InvoiceUpcomingInvoiceItemsParams`, and `InvoiceUpcomingLinesInvoiceItemsParams`
+
 ## 73.15.0-beta.2 - 2022-11-02
 * [#1564](https://github.com/stripe/stripe-go/pull/1564) API Updates for beta branch
   * Updated stable APIs to the latest version
