@@ -1056,8 +1056,6 @@ type CheckoutSessionPaymentMethodOptionsPayNowParams struct {
 	//
 	// When processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).
 	SetupFutureUsage *string `form:"setup_future_usage"`
-	// Confirm that the payer has accepted the P24 terms and conditions.
-	TOSShownAndAccepted *bool `form:"tos_shown_and_accepted"`
 }
 
 // contains details about the PayPal payment method options.

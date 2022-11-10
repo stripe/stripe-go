@@ -185,12 +185,22 @@ type InvoiceCustomFieldParams struct {
 	Value *string `form:"value"`
 }
 
+// Details to determine how long the discount should be applied for.
+type InvoiceDiscountDiscountEndParams struct {
+	// A precise Unix timestamp for the discount to end. Must be in the future.
+	Timestamp *int64 `form:"timestamp"`
+	// The type of calculation made to determine when the discount ends.
+	Type *string `form:"type"`
+}
+
 // The coupons to redeem into discounts for the invoice. If not specified, inherits the discount from the invoice's customer. Pass an empty string to avoid inheriting any discounts.
 type InvoiceDiscountParams struct {
 	// ID of the coupon to create a new discount for.
 	Coupon *string `form:"coupon"`
 	// ID of an existing discount on the object (or one of its ancestors) to reuse.
 	Discount *string `form:"discount"`
+	// Details to determine how long the discount should be applied for.
+	DiscountEnd *InvoiceDiscountDiscountEndParams `form:"discount_end"`
 }
 
 // Revise an existing invoice. The new invoice will be created in `status=draft`. See the [revision documentation](https://stripe.com/docs/invoicing/invoice-revisions) for more details.
@@ -613,12 +623,30 @@ type InvoiceUpcomingLinesCustomerDetailsParams struct {
 	TaxIDs []*InvoiceUpcomingLinesCustomerDetailsTaxIDParams `form:"tax_ids"`
 }
 
+// Details to determine how long the discount should be applied for.
+type InvoiceUpcomingLinesDiscountDiscountEndParams struct {
+	// A precise Unix timestamp for the discount to end. Must be in the future.
+	Timestamp *int64 `form:"timestamp"`
+	// The type of calculation made to determine when the discount ends.
+	Type *string `form:"type"`
+}
+
 // The coupons to redeem into discounts for the invoice preview. If not specified, inherits the discount from the customer or subscription. This only works for coupons directly applied to the invoice. To apply a coupon to a subscription, you must use the `coupon` parameter instead. Pass an empty string to avoid inheriting any discounts. To preview the upcoming invoice for a subscription that hasn't been created, use `coupon` instead.
 type InvoiceUpcomingLinesDiscountParams struct {
 	// ID of the coupon to create a new discount for.
 	Coupon *string `form:"coupon"`
 	// ID of an existing discount on the object (or one of its ancestors) to reuse.
 	Discount *string `form:"discount"`
+	// Details to determine how long the discount should be applied for.
+	DiscountEnd *InvoiceUpcomingLinesDiscountDiscountEndParams `form:"discount_end"`
+}
+
+// Details to determine how long the discount should be applied for.
+type InvoiceUpcomingLinesInvoiceItemDiscountDiscountEndParams struct {
+	// A precise Unix timestamp for the discount to end. Must be in the future.
+	Timestamp *int64 `form:"timestamp"`
+	// The type of calculation made to determine when the discount ends.
+	Type *string `form:"type"`
 }
 
 // The coupons to redeem into discounts for the invoice item in the preview.
@@ -627,6 +655,8 @@ type InvoiceUpcomingLinesInvoiceItemDiscountParams struct {
 	Coupon *string `form:"coupon"`
 	// ID of an existing discount on the object (or one of its ancestors) to reuse.
 	Discount *string `form:"discount"`
+	// Details to determine how long the discount should be applied for.
+	DiscountEnd *InvoiceUpcomingLinesInvoiceItemDiscountDiscountEndParams `form:"discount_end"`
 }
 
 // The period associated with this invoice item. When set to different values, the period will be rendered on the invoice.
@@ -693,12 +723,22 @@ type InvoiceUpcomingLinesSubscriptionItemBillingThresholdsParams struct {
 	UsageGTE *int64 `form:"usage_gte"`
 }
 
+// Details to determine how long the discount should be applied for.
+type InvoiceUpcomingLinesSubscriptionItemDiscountDiscountEndParams struct {
+	// A precise Unix timestamp for the discount to end. Must be in the future.
+	Timestamp *int64 `form:"timestamp"`
+	// The type of calculation made to determine when the discount ends.
+	Type *string `form:"type"`
+}
+
 // The coupons to redeem into discounts for the subscription item.
 type InvoiceUpcomingLinesSubscriptionItemDiscountParams struct {
 	// ID of the coupon to create a new discount for.
 	Coupon *string `form:"coupon"`
 	// ID of an existing discount on the object (or one of its ancestors) to reuse.
 	Discount *string `form:"discount"`
+	// Details to determine how long the discount should be applied for.
+	DiscountEnd *InvoiceUpcomingLinesSubscriptionItemDiscountDiscountEndParams `form:"discount_end"`
 }
 
 // The recurring components of a price such as `interval` and `interval_count`.

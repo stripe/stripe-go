@@ -16,6 +16,7 @@ const (
 	CouponDurationForever   CouponDuration = "forever"
 	CouponDurationOnce      CouponDuration = "once"
 	CouponDurationRepeating CouponDuration = "repeating"
+	CouponDurationVariable  CouponDuration = "variable"
 )
 
 // Returns a list of your coupons.

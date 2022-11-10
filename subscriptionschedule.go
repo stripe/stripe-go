@@ -153,12 +153,22 @@ type SubscriptionScheduleDefaultSettingsParams struct {
 	TransferData *SubscriptionTransferDataParams `form:"transfer_data"`
 }
 
+// Details to determine how long the discount should be applied for.
+type SubscriptionSchedulePhaseAddInvoiceItemDiscountDiscountEndParams struct {
+	// A precise Unix timestamp for the discount to end. Must be in the future.
+	Timestamp *int64 `form:"timestamp"`
+	// The type of calculation made to determine when the discount ends.
+	Type *string `form:"type"`
+}
+
 // The coupons to redeem into discounts for the item.
 type SubscriptionSchedulePhaseAddInvoiceItemDiscountParams struct {
 	// ID of the coupon to create a new discount for.
 	Coupon *string `form:"coupon"`
 	// ID of an existing discount on the object (or one of its ancestors) to reuse.
 	Discount *string `form:"discount"`
+	// Details to determine how long the discount should be applied for.
+	DiscountEnd *SubscriptionSchedulePhaseAddInvoiceItemDiscountDiscountEndParams `form:"discount_end"`
 }
 
 // A list of prices and quantities that will generate invoice items appended to the next invoice for this phase. You may pass up to 20 items.
@@ -181,12 +191,22 @@ type SubscriptionSchedulePhaseAutomaticTaxParams struct {
 	Enabled *bool `form:"enabled"`
 }
 
+// Details to determine how long the discount should be applied for.
+type SubscriptionSchedulePhaseDiscountDiscountEndParams struct {
+	// A precise Unix timestamp for the discount to end. Must be in the future.
+	Timestamp *int64 `form:"timestamp"`
+	// The type of calculation made to determine when the discount ends.
+	Type *string `form:"type"`
+}
+
 // The coupons to redeem into discounts for the schedule phase. If not specified, inherits the discount from the subscription's customer. Pass an empty string to avoid inheriting any discounts.
 type SubscriptionSchedulePhaseDiscountParams struct {
 	// ID of the coupon to create a new discount for.
 	Coupon *string `form:"coupon"`
 	// ID of an existing discount on the object (or one of its ancestors) to reuse.
 	Discount *string `form:"discount"`
+	// Details to determine how long the discount should be applied for.
+	DiscountEnd *SubscriptionSchedulePhaseDiscountDiscountEndParams `form:"discount_end"`
 }
 
 // All invoices will be billed using the specified settings.
@@ -195,12 +215,22 @@ type SubscriptionSchedulePhaseInvoiceSettingsParams struct {
 	DaysUntilDue *int64 `form:"days_until_due"`
 }
 
+// Details to determine how long the discount should be applied for.
+type SubscriptionSchedulePhaseItemDiscountDiscountEndParams struct {
+	// A precise Unix timestamp for the discount to end. Must be in the future.
+	Timestamp *int64 `form:"timestamp"`
+	// The type of calculation made to determine when the discount ends.
+	Type *string `form:"type"`
+}
+
 // The coupons to redeem into discounts for the subscription item.
 type SubscriptionSchedulePhaseItemDiscountParams struct {
 	// ID of the coupon to create a new discount for.
 	Coupon *string `form:"coupon"`
 	// ID of an existing discount on the object (or one of its ancestors) to reuse.
 	Discount *string `form:"discount"`
+	// Details to determine how long the discount should be applied for.
+	DiscountEnd *SubscriptionSchedulePhaseItemDiscountDiscountEndParams `form:"discount_end"`
 }
 
 // Options that configure the trial on the subscription item.
@@ -402,12 +432,20 @@ type SubscriptionScheduleAmendAmendmentAmendmentStartParams struct {
 	Type *string `form:"type"`
 }
 
+// Details to determine how long the discount should be applied for.
+type SubscriptionScheduleAmendAmendmentDiscountActionAddDiscountEndParams struct {
+	// The type of calculation made to determine when the discount ends.
+	Type *string `form:"type"`
+}
+
 // Details of the discount to add.
 type SubscriptionScheduleAmendAmendmentDiscountActionAddParams struct {
 	// The coupon code to redeem.
 	Coupon *string `form:"coupon"`
 	// An ID of an existing discount for a coupon that was already redeemed.
 	Discount *string `form:"discount"`
+	// Details to determine how long the discount should be applied for.
+	DiscountEnd *SubscriptionScheduleAmendAmendmentDiscountActionAddDiscountEndParams `form:"discount_end"`
 	// The index, starting at 0, at which to position the new discount. When not supplied, Stripe defaults to appending the discount to the end of the `discounts` array.
 	Index *int64 `form:"index"`
 }
@@ -440,12 +478,22 @@ type SubscriptionScheduleAmendAmendmentDiscountActionParams struct {
 	Type *string `form:"type"`
 }
 
+// Details to determine how long the discount should be applied for.
+type SubscriptionScheduleAmendAmendmentItemActionAddDiscountDiscountEndParams struct {
+	// A precise Unix timestamp for the discount to end. Must be in the future.
+	Timestamp *int64 `form:"timestamp"`
+	// The type of calculation made to determine when the discount ends.
+	Type *string `form:"type"`
+}
+
 // The discounts applied to the item. Subscription item discounts are applied before subscription discounts.
 type SubscriptionScheduleAmendAmendmentItemActionAddDiscountParams struct {
 	// ID of the coupon to create a new discount for.
 	Coupon *string `form:"coupon"`
 	// ID of an existing discount on the object (or one of its ancestors) to reuse.
 	Discount *string `form:"discount"`
+	// Details to determine how long the discount should be applied for.
+	DiscountEnd *SubscriptionScheduleAmendAmendmentItemActionAddDiscountDiscountEndParams `form:"discount_end"`
 }
 
 // Options that configure the trial on the subscription item.
@@ -478,12 +526,22 @@ type SubscriptionScheduleAmendAmendmentItemActionRemoveParams struct {
 	Price *string `form:"price"`
 }
 
+// Details to determine how long the discount should be applied for.
+type SubscriptionScheduleAmendAmendmentItemActionSetDiscountDiscountEndParams struct {
+	// A precise Unix timestamp for the discount to end. Must be in the future.
+	Timestamp *int64 `form:"timestamp"`
+	// The type of calculation made to determine when the discount ends.
+	Type *string `form:"type"`
+}
+
 // If an item with the `price` already exists, passing this will override the `discounts` array on the subscription item that matches that price. Otherwise, the `items` array is cleared and a single new item is added with the supplied `discounts`.
 type SubscriptionScheduleAmendAmendmentItemActionSetDiscountParams struct {
 	// ID of the coupon to create a new discount for.
 	Coupon *string `form:"coupon"`
 	// ID of an existing discount on the object (or one of its ancestors) to reuse.
 	Discount *string `form:"discount"`
+	// Details to determine how long the discount should be applied for.
+	DiscountEnd *SubscriptionScheduleAmendAmendmentItemActionSetDiscountDiscountEndParams `form:"discount_end"`
 }
 
 // If an item with the `price` already exists, passing this will override the `trial` configuration on the subscription item that matches that price. Otherwise, the `items` array is cleared and a single new item is added with the supplied `trial`.
