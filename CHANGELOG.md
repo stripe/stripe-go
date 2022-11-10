@@ -1,5 +1,11 @@
 # Changelog
 
+## 73.17.0-beta.1 - 2022-11-10
+* [#1572](https://github.com/stripe/stripe-go/pull/1572) API Updates for beta branch
+  * Updated stable APIs to the latest version
+  * Add support for `DiscountEnd` on `*DiscountParams`.
+  * Add support for `URL` on `IssuingAuthorizationMerchantData`.
+
 ## 73.16.0 - 2022-11-08
 * [#1568](https://github.com/stripe/stripe-go/pull/1568) API Updates
   * Add support for `ReasonMessage` on `IssuingAuthorizationRequestHistory`
