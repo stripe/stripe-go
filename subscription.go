@@ -280,14 +280,6 @@ type SubscriptionDiscountParams struct {
 	DiscountEnd *SubscriptionDiscountDiscountEndParams `form:"discount_end"`
 }
 
-// Details to determine how long the discount should be applied for.
-type SubscriptionItemDiscountDiscountEndParams struct {
-	// A precise Unix timestamp for the discount to end. Must be in the future.
-	Timestamp *int64 `form:"timestamp"`
-	// The type of calculation made to determine when the discount ends.
-	Type *string `form:"type"`
-}
-
 // A list of up to 20 subscription items, each with an attached price.
 type SubscriptionItemsParams struct {
 	Params `form:"*"`
