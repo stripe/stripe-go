@@ -137,12 +137,22 @@ type QuoteAutomaticTaxParams struct {
 	Enabled *bool `form:"enabled"`
 }
 
+// Details to determine how long the discount should be applied for.
+type QuoteDiscountDiscountEndParams struct {
+	// A precise Unix timestamp for the discount to end. Must be in the future.
+	Timestamp *int64 `form:"timestamp"`
+	// The type of calculation made to determine when the discount ends.
+	Type *string `form:"type"`
+}
+
 // The discounts applied to the quote. You can only set up to one discount.
 type QuoteDiscountParams struct {
 	// ID of the coupon to create a new discount for.
 	Coupon *string `form:"coupon"`
 	// ID of an existing discount on the object (or one of its ancestors) to reuse.
 	Discount *string `form:"discount"`
+	// Details to determine how long the discount should be applied for.
+	DiscountEnd *QuoteDiscountDiscountEndParams `form:"discount_end"`
 }
 
 // All invoices will be billed using the specified settings.
@@ -151,12 +161,22 @@ type QuoteInvoiceSettingsParams struct {
 	DaysUntilDue *int64 `form:"days_until_due"`
 }
 
+// Details to determine how long the discount should be applied for.
+type QuoteLineItemDiscountDiscountEndParams struct {
+	// A precise Unix timestamp for the discount to end. Must be in the future.
+	Timestamp *int64 `form:"timestamp"`
+	// The type of calculation made to determine when the discount ends.
+	Type *string `form:"type"`
+}
+
 // The discounts applied to this line item.
 type QuoteLineItemDiscountParams struct {
 	// ID of the coupon to create a new discount for.
 	Coupon *string `form:"coupon"`
 	// ID of an existing discount on the object (or one of its ancestors) to reuse.
 	Discount *string `form:"discount"`
+	// Details to determine how long the discount should be applied for.
+	DiscountEnd *QuoteLineItemDiscountDiscountEndParams `form:"discount_end"`
 }
 
 // The recurring components of a price such as `interval` and `interval_count`.
@@ -199,12 +219,22 @@ type QuoteLineItemParams struct {
 	TaxRates []*string `form:"tax_rates"`
 }
 
+// Details to determine how long the discount should be applied for.
+type QuotePhaseDiscountDiscountEndParams struct {
+	// A precise Unix timestamp for the discount to end. Must be in the future.
+	Timestamp *int64 `form:"timestamp"`
+	// The type of calculation made to determine when the discount ends.
+	Type *string `form:"type"`
+}
+
 // The coupons to redeem into discounts for the schedule phase. If not specified, inherits the discount from the subscription's customer. Pass an empty string to avoid inheriting any discounts.
 type QuotePhaseDiscountParams struct {
 	// ID of the coupon to create a new discount for.
 	Coupon *string `form:"coupon"`
 	// ID of an existing discount on the object (or one of its ancestors) to reuse.
 	Discount *string `form:"discount"`
+	// Details to determine how long the discount should be applied for.
+	DiscountEnd *QuotePhaseDiscountDiscountEndParams `form:"discount_end"`
 }
 
 // All invoices will be billed using the specified settings.
@@ -213,12 +243,22 @@ type QuotePhaseInvoiceSettingsParams struct {
 	DaysUntilDue *int64 `form:"days_until_due"`
 }
 
+// Details to determine how long the discount should be applied for.
+type QuotePhaseLineItemDiscountDiscountEndParams struct {
+	// A precise Unix timestamp for the discount to end. Must be in the future.
+	Timestamp *int64 `form:"timestamp"`
+	// The type of calculation made to determine when the discount ends.
+	Type *string `form:"type"`
+}
+
 // The discounts applied to this line item.
 type QuotePhaseLineItemDiscountParams struct {
 	// ID of the coupon to create a new discount for.
 	Coupon *string `form:"coupon"`
 	// ID of an existing discount on the object (or one of its ancestors) to reuse.
 	Discount *string `form:"discount"`
+	// Details to determine how long the discount should be applied for.
+	DiscountEnd *QuotePhaseLineItemDiscountDiscountEndParams `form:"discount_end"`
 }
 
 // The recurring components of a price such as `interval` and `interval_count`.

@@ -216,12 +216,22 @@ type SubscriptionListParams struct {
 	TestClock *string `form:"test_clock"`
 }
 
+// Details to determine how long the discount should be applied for.
+type SubscriptionAddInvoiceItemDiscountDiscountEndParams struct {
+	// A precise Unix timestamp for the discount to end. Must be in the future.
+	Timestamp *int64 `form:"timestamp"`
+	// The type of calculation made to determine when the discount ends.
+	Type *string `form:"type"`
+}
+
 // The coupons to redeem into discounts for the item.
 type SubscriptionAddInvoiceItemDiscountParams struct {
 	// ID of the coupon to create a new discount for.
 	Coupon *string `form:"coupon"`
 	// ID of an existing discount on the object (or one of its ancestors) to reuse.
 	Discount *string `form:"discount"`
+	// Details to determine how long the discount should be applied for.
+	DiscountEnd *SubscriptionAddInvoiceItemDiscountDiscountEndParams `form:"discount_end"`
 }
 
 // A list of prices and quantities that will generate invoice items appended to the next invoice for this subscription. You may pass up to 20 items.
@@ -252,12 +262,30 @@ type SubscriptionBillingThresholdsParams struct {
 	ResetBillingCycleAnchor *bool `form:"reset_billing_cycle_anchor"`
 }
 
+// Details to determine how long the discount should be applied for.
+type SubscriptionDiscountDiscountEndParams struct {
+	// A precise Unix timestamp for the discount to end. Must be in the future.
+	Timestamp *int64 `form:"timestamp"`
+	// The type of calculation made to determine when the discount ends.
+	Type *string `form:"type"`
+}
+
 // The coupons to redeem into discounts for the subscription. If not specified or empty, inherits the discount from the subscription's customer.
 type SubscriptionDiscountParams struct {
 	// ID of the coupon to create a new discount for.
 	Coupon *string `form:"coupon"`
 	// ID of an existing discount on the object (or one of its ancestors) to reuse.
 	Discount *string `form:"discount"`
+	// Details to determine how long the discount should be applied for.
+	DiscountEnd *SubscriptionDiscountDiscountEndParams `form:"discount_end"`
+}
+
+// Details to determine how long the discount should be applied for.
+type SubscriptionItemDiscountDiscountEndParams struct {
+	// A precise Unix timestamp for the discount to end. Must be in the future.
+	Timestamp *int64 `form:"timestamp"`
+	// The type of calculation made to determine when the discount ends.
+	Type *string `form:"type"`
 }
 
 // A list of up to 20 subscription items, each with an attached price.

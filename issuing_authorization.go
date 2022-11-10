@@ -61,6 +61,17 @@ const (
 	IssuingAuthorizationVerificationDataCheckNotProvided IssuingAuthorizationVerificationDataCheck = "not_provided"
 )
 
+// The outcome of the 3D Secure authentication request.
+type IssuingAuthorizationVerificationDataThreeDSecureResult string
+
+// List of values that IssuingAuthorizationVerificationDataThreeDSecureResult can take
+const (
+	IssuingAuthorizationVerificationDataThreeDSecureResultAttemptAcknowledged IssuingAuthorizationVerificationDataThreeDSecureResult = "attempt_acknowledged"
+	IssuingAuthorizationVerificationDataThreeDSecureResultAuthenticated       IssuingAuthorizationVerificationDataThreeDSecureResult = "authenticated"
+	IssuingAuthorizationVerificationDataThreeDSecureResultFailed              IssuingAuthorizationVerificationDataThreeDSecureResult = "failed"
+	IssuingAuthorizationVerificationDataThreeDSecureResultRequired            IssuingAuthorizationVerificationDataThreeDSecureResult = "required"
+)
+
 // The digital wallet used for this authorization. One of `apple_pay`, `google_pay`, or `samsung_pay`.
 type IssuingAuthorizationWallet string
 
@@ -127,6 +138,8 @@ type IssuingAuthorizationMerchantData struct {
 	PostalCode string `json:"postal_code"`
 	// State where the seller is located
 	State string `json:"state"`
+	// URL provided by the merchant on a 3DS request
+	URL string `json:"url"`
 }
 
 // Details about the authorization, such as identifiers, set by the card network.
@@ -182,6 +195,12 @@ type IssuingAuthorizationTreasury struct {
 	// The Treasury [Transaction](https://stripe.com/docs/api/treasury/transactions) associated with this authorization
 	Transaction string `json:"transaction"`
 }
+
+// 3D Secure details.
+type IssuingAuthorizationVerificationDataThreeDSecure struct {
+	// The outcome of the 3D Secure authentication request.
+	Result IssuingAuthorizationVerificationDataThreeDSecureResult `json:"result"`
+}
 type IssuingAuthorizationVerificationData struct {
 	// Whether the cardholder provided an address first line and if it matched the cardholder's `billing.address.line1`.
 	AddressLine1Check IssuingAuthorizationVerificationDataCheck `json:"address_line1_check"`
@@ -191,6 +210,8 @@ type IssuingAuthorizationVerificationData struct {
 	CVCCheck IssuingAuthorizationVerificationDataCheck `json:"cvc_check"`
 	// Whether the cardholder provided an expiry date and if it matched Stripe's record.
 	ExpiryCheck IssuingAuthorizationVerificationDataCheck `json:"expiry_check"`
+	// 3D Secure details.
+	ThreeDSecure *IssuingAuthorizationVerificationDataThreeDSecure `json:"three_d_secure"`
 }
 
 // When an [issued card](https://stripe.com/docs/issuing) is used to make a purchase, an Issuing `Authorization`

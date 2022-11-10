@@ -150,7 +150,8 @@ type IssuingCardholderParams struct {
 	Individual *IssuingCardholderIndividualParams `form:"individual"`
 	// The cardholder's name. This will be printed on cards issued to them. The maximum length of this field is 24 characters. This field cannot contain any special characters or numbers.
 	Name *string `form:"name"`
-	// The cardholder's phone number. This is required for all cardholders who will be creating EU cards. See the [3D Secure documentation](https://stripe.com/docs/issuing/3d-secure) for more details.
+	// The cardholder's phone number. This is required for all cardholders who will be creating EU cards.
+	//  While phone number is optional if the cardholder will not be creating EU cards, note that this cardholder will not be eligible for 3DS without a phone number. See the [3D Secure documentation](https://stripe.com/docs/issuing/3d-secure#when-is-3d-secure-applied) for more details.
 	PhoneNumber *string `form:"phone_number"`
 	// Rules that control spending across this cardholder's cards. Refer to our [documentation](https://stripe.com/docs/issuing/controls/spending-controls) for more details.
 	SpendingControls *IssuingCardholderSpendingControlsParams `form:"spending_controls"`

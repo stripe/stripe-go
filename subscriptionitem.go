@@ -27,12 +27,22 @@ type SubscriptionItemBillingThresholdsParams struct {
 	UsageGTE *int64 `form:"usage_gte"`
 }
 
+// Details to determine how long the discount should be applied for.
+type SubscriptionItemDiscountDiscountEndParams struct {
+	// A precise Unix timestamp for the discount to end. Must be in the future.
+	Timestamp *int64 `form:"timestamp"`
+	// The type of calculation made to determine when the discount ends.
+	Type *string `form:"type"`
+}
+
 // The coupons to redeem into discounts for the subscription item.
 type SubscriptionItemDiscountParams struct {
 	// ID of the coupon to create a new discount for.
 	Coupon *string `form:"coupon"`
 	// ID of an existing discount on the object (or one of its ancestors) to reuse.
 	Discount *string `form:"discount"`
+	// Details to determine how long the discount should be applied for.
+	DiscountEnd *SubscriptionItemDiscountDiscountEndParams `form:"discount_end"`
 }
 
 // The recurring components of a price such as `interval` and `interval_count`.
