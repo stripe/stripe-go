@@ -170,6 +170,14 @@ sfdx/bin/sfdx-wipe-account platform-integrations-bots+cpqqapackage@stripe.com
 sfdx/bin/sfdx-wipe-account mbianco+standardcpq@stripe.com
 ```
 
+## Creating a new CI testing org
+
+1. Log into the PBO
+2. Search for `environment hub` in the app launcher
+3. Click Create Org in top right corner
+
+- If you do not see all the accounts, change the filter from Recently Viewed to All
+
 ## Creating a stratch org
 
 - Specify your dev hub via `sfdx force:config:set --defaultdevusername`. This can be any salesforce dev org.
