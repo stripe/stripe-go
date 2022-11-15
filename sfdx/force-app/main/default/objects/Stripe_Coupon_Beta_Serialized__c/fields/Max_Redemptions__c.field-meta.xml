@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Amount_Off__c</fullName>
-    <description>The amount that is taken off the subtotal for the duration of the coupon.</description>
+    <fullName>Max_Redemptions__c</fullName>
+    <description>Maximum number of times a coupon can be redeemed across all customers.</description>
     <externalId>false</externalId>
-    <label>Amount Off</label>
+    <label>Max Redemptions</label>
     <precision>18</precision>
     <required>false</required>
     <scale>0</scale>

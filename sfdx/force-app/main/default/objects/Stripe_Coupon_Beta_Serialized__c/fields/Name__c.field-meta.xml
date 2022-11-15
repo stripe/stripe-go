@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Amount_Off__c</fullName>
-    <description>The amount that is taken off the subtotal for the duration of the coupon.</description>
+    <fullName>Name__c</fullName>
+    <description>The name of the Stripe coupon.</description>
     <externalId>false</externalId>
-    <label>Amount Off</label>
-    <precision>18</precision>
+    <label>Name</label>
+    <length>40</length>
     <required>false</required>
-    <scale>0</scale>
     <trackTrending>false</trackTrending>
-    <type>Number</type>
+    <type>Text</type>
     <unique>false</unique>
 </CustomField>

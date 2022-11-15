@@ -85,6 +85,51 @@ class Critic::CouponTranslation < Critic::FunctionalTest
     assert(25, coupon_1.Percent_Off__c)
   end
 
+  it 'coupons are copied to order lines when a quote is ordered' do
+    # setup
+    PRODUCT_PRICE = 100
+    sf_account_id = create_salesforce_account
+    sf_product_id, _sf_pricebook_id = salesforce_recurring_product_with_price(price: PRODUCT_PRICE)
+
+    # create a SF CPQ quote
+    sf_quote_id = create_salesforce_quote(sf_account_id: sf_account_id, additional_quote_fields: {
+      CPQ_QUOTE_SUBSCRIPTION_START_DATE => now_time_formatted_for_salesforce,
+      CPQ_QUOTE_SUBSCRIPTION_TERM => 12.0,
+    })
+
+    # create a quote with a product
+    quote_with_product = add_product_to_cpq_quote(sf_quote_id, sf_product_id: sf_product_id)
+    sf_quote_id = calculate_and_save_cpq_quote(quote_with_product)
+
+    # retrieve the quote line
+    quote_lines = sf_get_related(sf_quote_id, CPQ_QUOTE_LINE)
+    assert_equal(1, quote_lines.size)
+    quote_line_id = quote_lines.first.Id
+
+    # create a coupon and attach to the quote line
+    sf_stripe_coupon = create_salesforce_stripe_coupon(additional_fields: {
+      SalesforceStripeCouponFields::NAME => 'Special 50% off coupon',
+      SalesforceStripeCouponFields::PERCENT_OFF => 50,
+    })
+
+    # create the association object to map the coupon to the quote line
+    create_salesforce_stripe_coupon_quote_line_association(sf_quote_line_id: quote_line_id, sf_stripe_coupon_id: sf_stripe_coupon)
+
+    sf_order = create_order_from_cpq_quote(sf_quote_id)
+
+    # query for the association objects that have a reference to this order line
+    sf_order_line_items = sf_get_related(sf_order, SF_ORDER_ITEM)
+    assert_equal(1, sf_order_line_items.count)
+
+    sf_order_item_id = sf_order_line_items.first.Id
+    associated_coupons = StripeForce::Translate.get_salesforce_stripe_coupons_associated_to_order_line(sf_client: @user.sf_client, sf_order_line_id: sf_order_item_id)
+    assert_equal(1, associated_coupons.size)
+
+    order_line_coupon = associated_coupons.first
+    assert_equal('Special 50% off coupon', order_line_coupon.Name__c)
+    assert_equal(50, order_line_coupon.Percent_Off__c)
+  end
+
   it 'translate order with coupon' do
     # TODO https://jira.corp.stripe.com/browse/PLATINT-1952
   end

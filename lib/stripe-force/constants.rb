@@ -21,7 +21,9 @@ module StripeForce
     SF_CONSUMPTION_RATE = 'ConsumptionRate'
     SF_CONTRACT = 'Contract'
     SF_STRIPE_COUPON = 'Stripe_Coupon_Beta__c'
+    SF_STRIPE_COUPON_SERIALIZED = 'Stripe_Coupon_Beta_Serialized__c'
     SF_STRIPE_COUPON_QUOTE_LINE_ASSOCIATION = 'Stripe_Coupon_Beta_Quote_Line_Associatio__c'
+    SF_STRIPE_COUPON_ORDER_ITEM_ASSOCIATION = 'Stripe_Coupon_Beta_Order_Item_Associatio__c'
 
     SF_ID = 'Id'
     SF_LAST_MODIFIED_DATE = 'LastModifiedDate'
