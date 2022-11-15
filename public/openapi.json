@@ -1514,5 +1514,98 @@
         }
       ]
     }
+  ],
+  "formattedStripeCouponFields": [
+    {
+      "label": "Standard Mappings",
+      "name": "standard",
+      "description": "",
+      "fields": [
+        {
+          "name": "amount off",
+          "value": "amount_off",
+          "description": "<p>A positive integer representing the amount to subtract from an invoice total (required if <code>percent_off</code> is not passed).</p>",
+          "type": "integer",
+          "defaultValue": "",
+          "requiredValue": "",
+          "hasOverride": false,
+          "staticValue": false,
+          "hasSfValue": false,
+          "hasRequiredValue": false,
+          "sfValue": "",
+          "sfValueType": ""
+        },
+        {
+          "name": "duration",
+          "value": "duration",
+          "description": "<p>Specifies how long the discount will be in effect if used on a subscription. Can be <code>forever</code>, <code>once</code>, or <code>repeating</code>. Defaults to <code>once</code>.</p>",
+          "type": "string",
+          "defaultValue": "",
+          "requiredValue": "",
+          "hasOverride": false,
+          "staticValue": false,
+          "hasSfValue": false,
+          "hasRequiredValue": false,
+          "sfValue": "",
+          "sfValueType": ""
+        },
+        {
+          "name": "duration in months",
+          "value": "duration_in_months",
+          "description": "<p>Required only if <code>duration</code> is <code>repeating</code>, in which case it must be a positive integer that specifies the number of months the discount will be in effect.</p>",
+          "type": "integer",
+          "defaultValue": "",
+          "requiredValue": "",
+          "hasOverride": false,
+          "staticValue": false,
+          "hasSfValue": false,
+          "hasRequiredValue": false,
+          "sfValue": "",
+          "sfValueType": ""
+        },
+        {
+          "name": "max redemptions",
+          "value": "max_redemptions",
+          "description": "<p>A positive integer specifying the number of times the coupon can be redeemed before it's no longer valid. For example, you might have a 50% off coupon that the first 20 readers of your blog can use.</p>",
+          "type": "integer",
+          "defaultValue": "",
+          "requiredValue": "",
+          "hasOverride": false,
+          "staticValue": false,
+          "hasSfValue": false,
+          "hasRequiredValue": false,
+          "sfValue": "",
+          "sfValueType": ""
+        },
+        {
+          "name": "name",
+          "value": "name",
+          "description": "<p>Name of the coupon displayed to customers on, for instance invoices, or receipts. By default the <code>id</code> is shown if <code>name</code> is not set.</p>",
+          "type": "string",
+          "defaultValue": "",
+          "requiredValue": "",
+          "hasOverride": false,
+          "staticValue": false,
+          "hasSfValue": false,
+          "hasRequiredValue": false,
+          "sfValue": "",
+          "sfValueType": ""
+        },
+        {
+          "name": "percent off",
+          "value": "percent_off",
+          "description": "<p>A positive float larger than 0, and smaller or equal to 100, that represents the discount the coupon will apply (required if <code>amount_off</code> is not passed).</p>",
+          "type": "number",
+          "defaultValue": "",
+          "requiredValue": "",
+          "hasOverride": false,
+          "staticValue": false,
+          "hasSfValue": false,
+          "hasRequiredValue": false,
+          "sfValue": "",
+          "sfValueType": ""
+        }
+      ]
+    }
   ]
 }

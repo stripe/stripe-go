@@ -15,7 +15,6 @@ const excludedFields = {
     product: [
         // not essential to exclude the ID, but not using a standard ID makes maintaining an account confusing
         'id',
-
         'price'
     ],
 
@@ -43,7 +42,12 @@ const excludedFields = {
         'product_data'
     ],
 
-    subscription_schedule_phase: []
+    subscription_schedule_phase: [],
+    coupon: [
+        'id',
+        'currency',
+        'redeem_by'
+    ]
 }
 
 const ListOfStripeObjects = [
@@ -52,6 +56,7 @@ const ListOfStripeObjects = [
     'subscription_schedule',
     'subscription_item',
     'price',
+    'coupon'
 ]
 
 const OPTIONS = {
