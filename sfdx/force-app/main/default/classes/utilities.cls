@@ -171,7 +171,7 @@ public with sharing class utilities {
         //checks if the namespace of the CPQ package exists (all CPQ package namespaces start with 'SBQQ'
         //if a non-admin installs this package, this check would fail
         //we are using a wildcard because there are variants of the CPQ package which have a unique namespace (SBQQW)
-        Integer sbqqPackageCount = [SELECT COUNT() FROM PackageLicense WHERE NamespacePrefix LIKE 'SBQQ%'];
+        Integer sbqqPackageCount = Database.countQuery('SELECT COUNT() FROM PackageLicense WHERE NamespacePrefix LIKE \'SBQQ%\'');
         return sbqqPackageCount > 0;
     }
 
