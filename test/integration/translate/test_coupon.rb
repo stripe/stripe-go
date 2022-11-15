@@ -9,6 +9,13 @@ class Critic::CouponTranslation < Critic::FunctionalTest
   end
 
   it 'translate an SF coupon with percent off set' do
+    @user.field_defaults = {
+      "coupon" => {
+        "metadata.customMetadataKey" => "customMetadataValue",
+      },
+    }
+    @user.save
+
     # setup
     COUPON_NAME = '100% off coupon'
     COUPON_PERCENT_OFF = 100
@@ -36,6 +43,7 @@ class Critic::CouponTranslation < Critic::FunctionalTest
     assert_equal(COUPON_PERCENT_OFF, stripe_coupon.percent_off)
     assert_equal('once', stripe_coupon.duration)
     assert_nil(stripe_coupon.currency)
+    assert_equal('customMetadataValue', stripe_coupon.metadata['customMetadataKey'])
     assert_equal(sf_coupon.Id, stripe_coupon.metadata['salesforce_stripe_coupon_beta_id'])
     assert_match(sf_coupon.Id, stripe_coupon.metadata['salesforce_stripe_coupon_beta_link'])
   end

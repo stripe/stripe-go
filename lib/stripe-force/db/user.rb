@@ -146,7 +146,6 @@ module StripeForce
         "product" => {},
         "customer" => {},
         "invoice" => {},
-
         "subscription_schedule" => {
           "start_date" => "#{CPQ_QUOTE}.#{CPQ_QUOTE_SUBSCRIPTION_START_DATE}",
           "iterations" => "#{CPQ_QUOTE}.#{CPQ_QUOTE_SUBSCRIPTION_TERM}",
@@ -171,14 +170,12 @@ module StripeForce
           "name" => "Name",
           "phone" => "Phone",
           "description" => "Description",
-
           # TODO may need to split BillingStreet into `line2` if multiple lines
           "address.line1" => "BillingStreet",
           "address.city" => "BillingCity",
           "address.state" => "BillingState",
           "address.postal_code" => "BillingPostalCode",
           "address.country" => "BillingCountry",
-
           "shipping.name" => "Name",
           "shipping.phone" => "Phone",
           "shipping.address.line1" => "ShippingStreet",

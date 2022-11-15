@@ -38,6 +38,8 @@ module StripeForce
 
     CPQ_QUOTE = 'SBQQ__Quote__c'
     CPQ_QUOTE_LINE = 'SBQQ__QuoteLine__c'
+    CPQ_QUOTE_LINE_PRODUCT = 'SBQQ__Product__c'
+    CPQ_QUOTE_LINE_PRICEBOOK_ENTRY = 'SBQQ__PricebookEntryId__c'
     CPQ_CONSUMPTION_SCHEDULE = 'SBQQ__OrderItemConsumptionSchedule__c'
     CPQ_CONSUMPTION_RATE = 'SBQQ__OrderItemConsumptionRate__c'
 
@@ -85,10 +87,6 @@ module StripeForce
         ARREARS = new("Arrears")
       end
     end
-
-    CPQ_QUOTE_LINE = 'SBQQ__QuoteLine__c'
-    CPQ_QUOTE_LINE_PRODUCT = 'SBQQ__Product__c'
-    CPQ_QUOTE_LINE_PRICEBOOK_ENTRY = 'SBQQ__PricebookEntryId__c'
 
     # custom fields added by our package
     GENERIC_STRIPE_ID = 'Stripe_ID__c'

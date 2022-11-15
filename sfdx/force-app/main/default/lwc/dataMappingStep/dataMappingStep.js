@@ -57,6 +57,11 @@ export default class DataMappingStep extends LightningElement {
             objectName: "PricebookEntry",
             friendlyName: 'Price Order Item',
             description: 'Price order items define the unit cost, currency, and (optional) billing cycle for both recurring and one-time purchases of a single product.'
+        },
+        "coupon": {
+            objectName: "Stripe_Coupon_Beta__c",
+            friendlyName: 'Stripe Coupon',
+            description: 'Coupons contain information about a percent-off or amount-off discount you might want to apply to a subscription or subscription item.'
         }
     }
     @track sfFieldOptions = [];
@@ -67,6 +72,7 @@ export default class DataMappingStep extends LightningElement {
     @track subscriptionItemMappings;
     @track priceMappings;
     @track priceOrderItemMappings;
+    @track couponMappings;
     @track fieldListByObjectMap;
     // allMappingConfigurations holds all mappings retrieved from ruby, value is set in `getMappingConfigurations`
     @track allMappingConfigurations;
@@ -83,7 +89,8 @@ export default class DataMappingStep extends LightningElement {
             subscription_phase: {},
             subscription_item: {},
             price: {},
-            price_order_item: {}
+            price_order_item: {},
+            coupon: {}
         },
         // these are user defined mappings from Salesforce fields to Stripe fields
         field_mappings: {
@@ -93,9 +100,10 @@ export default class DataMappingStep extends LightningElement {
             subscription_phase: {},
             subscription_item: {},
             price: {},
-            price_order_item: {}
+            price_order_item: {},
+            coupon: {}
         },
-        // these are default mappings sent from Ruby (can be overeidden in mapp)
+        // these are default mappings sent from Ruby (can be overridden in map)
         default_mappings: {
             customer: {},
             product: {},
@@ -103,7 +111,8 @@ export default class DataMappingStep extends LightningElement {
             subscription_phase: {},
             subscription_item: {},
             price: {},
-            price_order_item: {}
+            price_order_item: {},
+            coupon: {}
         },
         // these are required mappings sent from Ruby 
         required_mappings: {
@@ -113,7 +122,8 @@ export default class DataMappingStep extends LightningElement {
             subscription_phase: {},
             subscription_item: {},
             price: {},
-            price_order_item: {}
+            price_order_item: {},
+            coupon: {}
         }
     };
     @track customerMetadataFields = {metadataMapping: {
@@ -159,6 +169,13 @@ export default class DataMappingStep extends LightningElement {
         fields: []
     }};
     @track priceOrderItemMetadataFields = {metadataMapping: {
+        label: '',
+        name: '',
+        value: '',
+        description: '',
+        fields: []
+    }};
+    @track couponMetadataFields = {metadataMapping: {
         label: '',
         name: '',
         value: '',
@@ -230,6 +247,11 @@ export default class DataMappingStep extends LightningElement {
                 object: 'price_order_item',
                 mappingsObject: this.priceOrderItemMappings,
                 metadataMappingsObject: this.priceOrderItemMetadataFields
+            },
+            {
+                object: 'coupon',
+                mappingsObject: this.couponMappings, 
+                metadataMappingsObject: this.couponMetadataFields
             }
         ];
     } 
@@ -616,7 +638,8 @@ export default class DataMappingStep extends LightningElement {
             this.subscriptionItemMappings = responseData.results.formattedStripeSubscriptionItemFields;
             this.priceMappings = responseData.results.formattedStripePriceFields;
             this.priceOrderItemMappings = responseData.results.formattedStripePriceOrderItemFields;
-
+            this.couponMappings = responseData.results.formattedStripeCouponFields;
+            
             this.getPicklistValuesForMapper(true, '', false);
         } catch (error) {
             const errorMessage = getErrorMessage(error);

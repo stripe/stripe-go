@@ -124,7 +124,8 @@ public with sharing class utilities {
                                         'Pricebook2',
                                         'ContractLineItem',
                                         'OpportunityLineItem',
-                                        'ProductItem'
+                                        'ProductItem',
+                                        'Stripe_Coupon_Beta__c'
                                     };
                                     if(listOfImportantObjectsApiNames.contains(stringReferncedObjecect)) {
                                         objectFieldMap = addFieldsToObjectFieldMap(objectFieldMap, objectApiFieldMap, objectFieldName, isFieldCustom, typeOfField, isObjectCustom);
@@ -158,7 +159,7 @@ public with sharing class utilities {
     }
 
     private static Map<String, Object> addFieldsToObjectFieldMap(Map<String, Object> objectFieldMap, Map<String, Schema.SObjectField> objectApiFieldMap, String objectFieldName, Boolean isFieldCustom, String typeOfField, Boolean isObjectCustom) {
-        objectFieldMap.put('label',objectApiFieldMap.get(objectFieldName).getDescribe().getLabel());
+        objectFieldMap.put('label', objectApiFieldMap.get(objectFieldName).getDescribe().getLabel());
         //REST API is case sensitive and requires CamelCase field names
         objectFieldMap.put('value',objectApiFieldMap.get(objectFieldName).getDescribe().getName());
         objectFieldMap.put('type',typeOfField);

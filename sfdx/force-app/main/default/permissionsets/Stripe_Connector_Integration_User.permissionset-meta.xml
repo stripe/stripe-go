@@ -404,6 +404,7 @@
         <allowDelete>true</allowDelete>
         <allowEdit>true</allowEdit>
         <allowRead>true</allowRead>
+        <modifyAllRecords>true</modifyAllRecords>
         <object>Stripe_Coupon_Beta__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>

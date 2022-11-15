@@ -192,7 +192,8 @@ public with sharing class setupAssistant {
                         'Order' => utilities.getListOfFieldsByObject('Order'),
                         'Account' => utilities.getListOfFieldsByObject('Account'),
                         'Product2' => utilities.getListOfFieldsByObject('Product2'),
-                        'PricebookEntry' => utilities.getListOfFieldsByObject('PricebookEntry')
+                        'PricebookEntry' => utilities.getListOfFieldsByObject('PricebookEntry'),
+                        'Stripe_Coupon_Beta__c' => utilities.getListOfFieldsByObject('Stripe_Coupon_Beta__c')
                     };
                     rd.put('fieldListByObjectMap', fieldListByObjectMap);
                 } else {
@@ -231,7 +232,7 @@ public with sharing class setupAssistant {
                 rd.put('formattedStripeSubscriptionItemFields', (List<Object>)responseBody.get('formattedStripeSubscriptionItemFields'));
                 rd.put('formattedStripePriceFields', (List<Object>)responseBody.get('formattedStripePriceFields'));
                 rd.put('formattedStripePriceOrderItemFields', (List<Object>)responseBody.get('formattedStripePriceFields'));
-                
+                rd.put('formattedStripeCouponFields', (List<Object>)responseBody.get('formattedStripeCouponFields'));
             } else {
                 errorLogger.create('getFormattedStripeObjectFields', String.valueOf(response.getStatusCode()), (String)response.getStatus(), 'Failed to get mapping configuration from ruby service.');
             }
@@ -698,6 +699,7 @@ public with sharing class setupAssistant {
                 'Order',
                 'OrderItem',
                 'PricebookEntry'
+                // 'Stripe_Coupon_Beta__c'
             };
 
             if ((Boolean)utilities.isCpqEnabled()) {
