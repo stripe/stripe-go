@@ -111,7 +111,20 @@ const HTTPREQUEST = HTTPS.request(OPTIONS, HttpResponse => {
                 formattedStripeObjectsForMapper['formattedStripeSubscriptionSchedulePhaseFields'] = formatStripeObjectsForMapper(extractSubscriptionPhaseObject(openApiSpec), excludedFields['subscription_schedule_phase'], 'subscriptionSchedulePhase');
             }
 
+            if (convertedObjectName === 'Subscription') {
+                formattedStripeObjectsForMapper = manuallyAddSectionToParsedOpenSpec(
+                    formattedStripeObjectsForMapper, 
+                    convertedObjectName,
+                    'Pre-Billing',
+                    'prebilling',
+                    'Iterations',
+                    'prebilling.iterations',
+                    '<p>.This is a <b>gated feature</b>, please reach out before attempting to use. This is used to determine the number of billing cycles to prebill.</p>',
+                    'integer'
+                );
+            }
         }
+        
         formattedStripeObjectsForMapper = JSON.stringify(formattedStripeObjectsForMapper);
         console.log(formattedStripeObjectsForMapper);
         return formattedStripeObjectsForMapper;
@@ -491,6 +504,32 @@ function getStripeFieldType(fieldMap, fieldValue) {
     }
     
     return fieldMap;
+}
+
+function manuallyAddSectionToParsedOpenSpec(formattedStripeObjectsForMapper, convertedObjectName, sectionLabel, sectionName, fieldName, fieldValue, fieldDescription, fieldType) {
+    formattedStripeObjectsForMapper['formattedStripe' + convertedObjectName + 'Fields'].push({
+        label: sectionLabel,
+        name: sectionName,
+        description: '',
+        fields: [
+          {
+            name: fieldName,
+            value: fieldValue,
+            description: fieldDescription,
+            type: fieldType,
+            defaultValue: '',
+            requiredValue: '',
+            hasOverride: false,
+            staticValue: false,
+            hasSfValue: false,
+            hasRequiredValue: false,
+            sfValue: '',
+            sfValueType: ''
+          }
+        ]
+      }
+    );
+    return formattedStripeObjectsForMapper;
 }
 
 

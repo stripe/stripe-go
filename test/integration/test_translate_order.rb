@@ -94,9 +94,8 @@ class Critic::OrderTranslation < Critic::FunctionalTest
 
     line = invoice.lines.data.last
     assert_equal(1, line.quantity)
-    # TODO this is incorrect: looks like stripe is billing for the whole year. https://jira.corp.stripe.com/browse/PLATINT-1677
-    # assert_equal(price * backdated_months, line.amount)
-    assert_equal(price * subscription_term, line.amount)
+    # First invoice should be for the backdated months as well as the next
+    assert_equal(price * (backdated_months + 1), line.amount)
 
     # right now, price translation is tied to both a pricebook and order line in SF
     # test the price translation logic here right now instead of in a separate price test

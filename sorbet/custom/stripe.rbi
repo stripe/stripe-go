@@ -205,9 +205,23 @@ class Stripe::SubscriptionScheduleSettings
   def invoice_settings; end
 end
 
+class Stripe::SubscriptionSchedulePrebilling
+  sig { returns(String) }
+  def invoice; end
+
+  sig { returns(Integer) }
+  def period_start; end
+
+  sig { returns(Integer) }
+  def period_end; end
+end
+
 class Stripe::SubscriptionSchedule
   sig { returns(Stripe::SubscriptionScheduleSettings) }
   def default_settings; end
+
+  sig { returns(Stripe::SubscriptionSchedulePrebilling)}
+  def prebilling; end
 
   sig { returns(T.nilable(T.any(Stripe::Subscription, String)))}
   def subscription; end

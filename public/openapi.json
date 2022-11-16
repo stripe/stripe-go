@@ -996,6 +996,27 @@
           "sfValueType": ""
         }
       ]
+    },
+    {
+      "label": "Pre-Billing",
+      "name": "prebilling",
+      "description": "",
+      "fields": [
+        {
+          "name": "Iterations",
+          "value": "prebilling.iterations",
+          "description": "<p>.This is a <b>gated feature</b>, please reach out before attempting to use. This is used to determine the number of billing cycles to prebill.</p>",
+          "type": "integer",
+          "defaultValue": "",
+          "requiredValue": "",
+          "hasOverride": false,
+          "staticValue": false,
+          "hasSfValue": false,
+          "hasRequiredValue": false,
+          "sfValue": "",
+          "sfValueType": ""
+        }
+      ]
     }
   ],
   "formattedStripeSubscriptionItemFields": [
