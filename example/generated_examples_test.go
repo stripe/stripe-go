@@ -51,7 +51,6 @@ import (
 	setupintent "github.com/stripe/stripe-go/v73/setupintent"
 	shippingrate "github.com/stripe/stripe-go/v73/shippingrate"
 	sigma_scheduledqueryrun "github.com/stripe/stripe-go/v73/sigma/scheduledqueryrun"
-	sku "github.com/stripe/stripe-go/v73/sku"
 	source "github.com/stripe/stripe-go/v73/source"
 	taxcode "github.com/stripe/stripe-go/v73/taxcode"
 	taxid "github.com/stripe/stripe-go/v73/taxid"
@@ -1967,48 +1966,6 @@ func TestSigmaScheduledQueryRunList(t *testing.T) {
 func TestSigmaScheduledQueryRunRetrieve(t *testing.T) {
 	params := &stripe.SigmaScheduledQueryRunParams{}
 	result, _ := sigma_scheduledqueryrun.Get("sqr_xxxxxxxxxxxxx", params)
-	assert.NotNil(t, result)
-}
-
-func TestSKUList(t *testing.T) {
-	params := &stripe.SKUListParams{}
-	params.Limit = stripe.Int64(3)
-	result := sku.List(params)
-	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
-}
-
-func TestSKUCreate(t *testing.T) {
-	params := &stripe.SKUParams{
-		Attributes: map[string]string{"size": "Medium", "gender": "Unisex"},
-		Price:      stripe.Int64(1500),
-		Currency:   stripe.String(string(stripe.CurrencyUSD)),
-		Inventory: &stripe.SKUInventoryParams{
-			Type:     stripe.String(string(stripe.SKUInventoryTypeFinite)),
-			Quantity: stripe.Int64(500),
-		},
-		Product: stripe.String("prod_xxxxxxxxxxxxx"),
-	}
-	result, _ := sku.New(params)
-	assert.NotNil(t, result)
-}
-
-func TestSKUDelete(t *testing.T) {
-	params := &stripe.SKUParams{}
-	result, _ := sku.Del("sku_xxxxxxxxxxxxx", params)
-	assert.NotNil(t, result)
-}
-
-func TestSKURetrieve(t *testing.T) {
-	params := &stripe.SKUParams{}
-	result, _ := sku.Get("sku_xxxxxxxxxxxxx", params)
-	assert.NotNil(t, result)
-}
-
-func TestSKUUpdate(t *testing.T) {
-	params := &stripe.SKUParams{}
-	params.AddMetadata("order_id", "6735")
-	result, _ := sku.Update("sku_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 }
 

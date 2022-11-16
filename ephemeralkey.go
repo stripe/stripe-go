@@ -19,10 +19,6 @@ type EphemeralKeyParams struct {
 }
 type EphemeralKey struct {
 	APIResource
-	AssociatedObjects []struct {
-		ID   string `json:"id"`
-		Type string `json:"type"`
-	} `json:"associated_objects"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
 	Created int64 `json:"created"`
 	// Time at which the key will expire. Measured in seconds since the Unix epoch.

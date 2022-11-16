@@ -706,18 +706,8 @@ type CheckoutSessionLineItemPriceDataParams struct {
 type CheckoutSessionLineItemParams struct {
 	// When set, provides configuration for this item's quantity to be adjusted by the customer during Checkout.
 	AdjustableQuantity *CheckoutSessionLineItemAdjustableQuantityParams `form:"adjustable_quantity"`
-	// [Deprecated] The amount to be collected per unit of the line item. If specified, must also pass `currency` and `name`.
-	Amount *int64 `form:"amount"`
-	// [Deprecated] Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Required if `amount` is passed.
-	Currency *string `form:"currency"`
-	// [Deprecated] The description for the line item, to be displayed on the Checkout page.
-	Description *string `form:"description"`
 	// The [tax rates](https://stripe.com/docs/api/tax_rates) that will be applied to this line item depending on the customer's billing/shipping address. We currently support the following countries: US, GB, AU, and all countries in the EU.
 	DynamicTaxRates []*string `form:"dynamic_tax_rates"`
-	// [Deprecated] A list of image URLs representing this line item. Each image can be up to 5 MB in size. If passing `price` or `price_data`, specify images on the associated product instead.
-	Images []*string `form:"images"`
-	// [Deprecated] The name for the item to be displayed on the Checkout page. Required if `amount` is passed.
-	Name *string `form:"name"`
 	// The ID of the [Price](https://stripe.com/docs/api/prices) or [Plan](https://stripe.com/docs/api/plans) object. One of `price` or `price_data` is required.
 	Price *string `form:"price"`
 	// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline. One of `price` or `price_data` is required.
@@ -1266,17 +1256,6 @@ type CheckoutSessionShippingOptionParams struct {
 	ShippingRateData *CheckoutSessionShippingOptionShippingRateDataParams `form:"shipping_rate_data"`
 }
 
-// This parameter is deprecated. Use the line_items parameter on the Session instead.
-type CheckoutSessionSubscriptionDataItemParams struct {
-	// Plan ID for this item.
-	Plan *string `form:"plan"`
-	// The quantity of the subscription item being purchased. Quantity should not be defined when `recurring.usage_type=metered`.
-	Quantity *int64 `form:"quantity"`
-	// The tax rates which apply to this item. When set, the `default_tax_rates`
-	// on `subscription_data` do not apply to this item.
-	TaxRates []*string `form:"tax_rates"`
-}
-
 // If specified, the funds from the subscription's invoices will be transferred to the destination and the ID of the resulting transfers will be found on the resulting charges.
 type CheckoutSessionSubscriptionDataTransferDataParams struct {
 	// A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice subtotal that will be transferred to the destination account. By default, the entire amount is transferred to the destination.
@@ -1299,8 +1278,6 @@ type CheckoutSessionSubscriptionDataParams struct {
 	// Use this field to optionally store an explanation of the subscription
 	// for rendering in Stripe hosted surfaces.
 	Description *string `form:"description"`
-	// This parameter is deprecated. Use the line_items parameter on the Session instead.
-	Items []*CheckoutSessionSubscriptionDataItemParams `form:"items"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// The account on behalf of which to charge, for each of the subscription's invoices.
