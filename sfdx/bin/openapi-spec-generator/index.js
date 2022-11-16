@@ -115,11 +115,11 @@ const HTTPREQUEST = HTTPS.request(OPTIONS, HttpResponse => {
                 formattedStripeObjectsForMapper = manuallyAddSectionToParsedOpenSpec(
                     formattedStripeObjectsForMapper, 
                     convertedObjectName,
-                    'Pre-Billing',
+                    'Prebilling',
                     'prebilling',
                     'Iterations',
                     'prebilling.iterations',
-                    '<p>.This is a <b>gated feature</b>, please reach out before attempting to use. This is used to determine the number of billing cycles to prebill.</p>',
+                    '<p>This is used to determine the number of billing cycles to prebill.</p>',
                     'integer'
                 );
             }

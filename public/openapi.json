@@ -998,14 +998,14 @@
       ]
     },
     {
-      "label": "Pre-Billing",
+      "label": "Prebilling",
       "name": "prebilling",
       "description": "",
       "fields": [
         {
           "name": "Iterations",
           "value": "prebilling.iterations",
-          "description": "<p>.This is a <b>gated feature</b>, please reach out before attempting to use. This is used to determine the number of billing cycles to prebill.</p>",
+          "description": "<p>This is used to determine the number of billing cycles to prebill.</p>",
           "type": "integer",
           "defaultValue": "",
           "requiredValue": "",
