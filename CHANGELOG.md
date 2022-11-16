@@ -1,5 +1,21 @@
 # Changelog
 
+## 74.0.0 - 2022-11-15
+
+Breaking changes that arose during code generation of the library that we postponed for the next major version. For changes to the Stripe products, read more at https://stripe.com/docs/upgrades#2022-11-15.
+
+"⚠️" symbol highlights breaking changes.
+
+⚠️ Removed
+- Removed deprecated `sku` resource (#1557)
+- Removed `lineitem.Product` property that was released by mistake. (#1555)
+- Removed deprecated `CheckoutSessionSubscriptionDataParams.Items` field. (#1555)
+- Removed deprecated `EphemeralKey.AssociatedObjects` field. (#1566)
+- Removed deprecated `Amount`, `Currency`, `Description`, `Images`, `Name` properties from `CheckoutSessionLineItemParams` (https://github.com/stripe/stripe-go/pull/1570)
+- Removed `Charges` field on `PaymentIntent` and replace it with `LatestCharge`. (https://github.com/stripe/stripe-go/pull/1570)
+- Dropped support for Go versions less than 1.15 (#1554)
+- Remove support for `TOSShownAndAccepted` on `CheckoutSessionPaymentMethodOptionsPaynowParams`. The property was mistakenly released and never worked ([#1571](https://github.com/stripe/stripe-go/pull/1571)).
+
 ## 73.16.0 - 2022-11-08
 * [#1568](https://github.com/stripe/stripe-go/pull/1568) API Updates
   * Add support for `ReasonMessage` on `IssuingAuthorizationRequestHistory`
