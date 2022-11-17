@@ -61,10 +61,18 @@ class StripeForce::Translate
       phase_items
     end
 
-    sig { params(raw_days_until_due: T.any(String, Integer)).returns(Integer) }
+    sig { params(raw_days_until_due: T.any(String, Integer, Float)).returns(Integer) }
     def self.transform_payment_terms_to_days_until_due(raw_days_until_due)
       if raw_days_until_due.is_a?(Integer)
         return raw_days_until_due
+      end
+
+      # https://sentry.corp.stripe.com/organizations/stripe/issues/2252023/?project=610&query=is%3Aunresolved
+      if raw_days_until_due.is_a?(Float)
+        if raw_days_until_due % 1 == 0
+          return raw_days_until_due.to_i
+        end
+        raise StripeForce::Errors::RawUserError.new("unexpected float for days_until_due option #{raw_days_until_due}")
       end
 
       if raw_days_until_due.strip =~ /^[0-9]+$/
