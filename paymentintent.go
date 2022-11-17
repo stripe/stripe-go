@@ -1906,6 +1906,8 @@ type PaymentIntentNextActionOXXODisplayDetails struct {
 type PaymentIntentNextActionPayNowDisplayQRCode struct {
 	// The raw data string used to generate QR code, it should be used together with QR code library.
 	Data string `json:"data"`
+	// The URL to the hosted PayNow instructions page, which allows customers to view the PayNow QR code.
+	HostedInstructionsURL string `json:"hosted_instructions_url"`
 	// The image_url_png string used to render QR code
 	ImageURLPNG string `json:"image_url_png"`
 	// The image_url_svg string used to render QR code
@@ -1928,9 +1930,9 @@ type PaymentIntentNextActionPromptPayDisplayQRCode struct {
 	Data string `json:"data"`
 	// The URL to the hosted PromptPay instructions page, which allows customers to view the PromptPay QR code.
 	HostedInstructionsURL string `json:"hosted_instructions_url"`
-	// The image_url_png string used to render QR code, can be used as <img src="…" />
+	// The PNG path used to render the QR code, can be used as the source in an HTML img tag
 	ImageURLPNG string `json:"image_url_png"`
-	// The image_url_svg string used to render QR code, can be used as <img src="…" />
+	// The SVG path used to render the QR code, can be used as the source in an HTML img tag
 	ImageURLSVG string `json:"image_url_svg"`
 }
 type PaymentIntentNextActionRedirectToURL struct {
@@ -1953,6 +1955,8 @@ type PaymentIntentNextActionVerifyWithMicrodeposits struct {
 type PaymentIntentNextActionWeChatPayDisplayQRCode struct {
 	// The data being used to generate QR code
 	Data string `json:"data"`
+	// The URL to the hosted WeChat Pay instructions page, which allows customers to view the WeChat Pay QR code.
+	HostedInstructionsURL string `json:"hosted_instructions_url"`
 	// The base64 image data for a pre-generated QR code
 	ImageDataURL string `json:"image_data_url"`
 	// The image_url_png string used to render QR code

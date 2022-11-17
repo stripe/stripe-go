@@ -628,6 +628,26 @@ type CheckoutSessionConsentCollectionParams struct {
 	TermsOfService *string `form:"terms_of_service"`
 }
 
+// Custom text that should be displayed alongside shipping address collection.
+type CheckoutSessionCustomTextShippingAddressParams struct {
+	// Text may be up to 500 characters in length.
+	Message *string `form:"message"`
+}
+
+// Custom text that should be displayed alongside the payment confirmation button.
+type CheckoutSessionCustomTextSubmitParams struct {
+	// Text may be up to 500 characters in length.
+	Message *string `form:"message"`
+}
+
+// Display additional text for your customers using custom text.
+type CheckoutSessionCustomTextParams struct {
+	// Custom text that should be displayed alongside shipping address collection.
+	ShippingAddress *CheckoutSessionCustomTextShippingAddressParams `form:"shipping_address"`
+	// Custom text that should be displayed alongside the payment confirmation button.
+	Submit *CheckoutSessionCustomTextSubmitParams `form:"submit"`
+}
+
 // Controls what fields on Customer can be updated by the Checkout Session. Can only be provided when `customer` is provided.
 type CheckoutSessionCustomerUpdateParams struct {
 	// Describes whether Checkout saves the billing address onto `customer.address`.
@@ -1352,6 +1372,8 @@ type CheckoutSessionParams struct {
 	CustomerEmail *string `form:"customer_email"`
 	// Controls what fields on Customer can be updated by the Checkout Session. Can only be provided when `customer` is provided.
 	CustomerUpdate *CheckoutSessionCustomerUpdateParams `form:"customer_update"`
+	// Display additional text for your customers using custom text.
+	CustomText *CheckoutSessionCustomTextParams `form:"custom_text"`
 	// The coupon or promotion code to apply to this Session. Currently, only up to one may be specified.
 	Discounts []*CheckoutSessionDiscountParams `form:"discounts"`
 	// The Epoch time in seconds at which the Checkout Session will expire. It can be anywhere from 30 minutes to 24 hours after Checkout Session creation. By default, this value is 24 hours from creation.
@@ -1474,6 +1496,24 @@ type CheckoutSessionConsentCollection struct {
 	Promotions CheckoutSessionConsentCollectionPromotions `json:"promotions"`
 	// If set to `required`, it requires customers to accept the terms of service before being able to pay.
 	TermsOfService CheckoutSessionConsentCollectionTermsOfService `json:"terms_of_service"`
+}
+
+// Custom text that should be displayed alongside shipping address collection.
+type CheckoutSessionCustomTextShippingAddress struct {
+	// Text may be up to 500 characters in length.
+	Message string `json:"message"`
+}
+
+// Custom text that should be displayed alongside the payment confirmation button.
+type CheckoutSessionCustomTextSubmit struct {
+	// Text may be up to 500 characters in length.
+	Message string `json:"message"`
+}
+type CheckoutSessionCustomText struct {
+	// Custom text that should be displayed alongside shipping address collection.
+	ShippingAddress *CheckoutSessionCustomTextShippingAddress `json:"shipping_address"`
+	// Custom text that should be displayed alongside the payment confirmation button.
+	Submit *CheckoutSessionCustomTextSubmit `json:"submit"`
 }
 
 // The customer's tax IDs after a completed Checkout Session.
@@ -1914,7 +1954,8 @@ type CheckoutSession struct {
 	// Use this parameter to prefill customer data if you already have an email
 	// on file. To access information about the customer once the payment flow is
 	// complete, use the `customer` attribute.
-	CustomerEmail string `json:"customer_email"`
+	CustomerEmail string                     `json:"customer_email"`
+	CustomText    *CheckoutSessionCustomText `json:"custom_text"`
 	// The timestamp at which the Checkout Session will expire.
 	ExpiresAt int64 `json:"expires_at"`
 	// Unique identifier for the object. Used to pass to `redirectToCheckout`

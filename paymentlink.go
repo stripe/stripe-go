@@ -169,6 +169,26 @@ type PaymentLinkConsentCollectionParams struct {
 	TermsOfService *string `form:"terms_of_service"`
 }
 
+// Custom text that should be displayed alongside shipping address collection.
+type PaymentLinkCustomTextShippingAddressParams struct {
+	// Text may be up to 500 characters in length.
+	Message *string `form:"message"`
+}
+
+// Custom text that should be displayed alongside the payment confirmation button.
+type PaymentLinkCustomTextSubmitParams struct {
+	// Text may be up to 500 characters in length.
+	Message *string `form:"message"`
+}
+
+// Display additional text for your customers using custom text.
+type PaymentLinkCustomTextParams struct {
+	// Custom text that should be displayed alongside shipping address collection.
+	ShippingAddress *PaymentLinkCustomTextShippingAddressParams `form:"shipping_address"`
+	// Custom text that should be displayed alongside the payment confirmation button.
+	Submit *PaymentLinkCustomTextSubmitParams `form:"submit"`
+}
+
 // When set, provides configuration for this item's quantity to be adjusted by the customer during checkout.
 type PaymentLinkLineItemAdjustableQuantityParams struct {
 	// Set to true if the quantity can be adjusted to any non-negative Integer.
@@ -278,6 +298,8 @@ type PaymentLinkParams struct {
 	Currency *string `form:"currency"`
 	// Configures whether [checkout sessions](https://stripe.com/docs/api/checkout/sessions) created by this payment link create a [Customer](https://stripe.com/docs/api/customers).
 	CustomerCreation *string `form:"customer_creation"`
+	// Display additional text for your customers using custom text.
+	CustomText *PaymentLinkCustomTextParams `form:"custom_text"`
 	// The line items representing what is being sold. Each line item represents an item being sold. Up to 20 line items are supported.
 	LineItems []*PaymentLinkLineItemParams `form:"line_items"`
 	// The account on behalf of which to charge.
@@ -340,6 +362,24 @@ type PaymentLinkConsentCollection struct {
 	Promotions PaymentLinkConsentCollectionPromotions `json:"promotions"`
 	// If set to `required`, it requires cutomers to accept the terms of service before being able to pay. If set to `none`, customers won't be shown a checkbox to accept the terms of service.
 	TermsOfService PaymentLinkConsentCollectionTermsOfService `json:"terms_of_service"`
+}
+
+// Custom text that should be displayed alongside shipping address collection.
+type PaymentLinkCustomTextShippingAddress struct {
+	// Text may be up to 500 characters in length.
+	Message string `json:"message"`
+}
+
+// Custom text that should be displayed alongside the payment confirmation button.
+type PaymentLinkCustomTextSubmit struct {
+	// Text may be up to 500 characters in length.
+	Message string `json:"message"`
+}
+type PaymentLinkCustomText struct {
+	// Custom text that should be displayed alongside shipping address collection.
+	ShippingAddress *PaymentLinkCustomTextShippingAddress `json:"shipping_address"`
+	// Custom text that should be displayed alongside the payment confirmation button.
+	Submit *PaymentLinkCustomTextSubmit `json:"submit"`
 }
 
 // Indicates the parameters to be passed to PaymentIntent creation during checkout.
@@ -413,6 +453,7 @@ type PaymentLink struct {
 	Currency Currency `json:"currency"`
 	// Configuration for Customer creation during checkout.
 	CustomerCreation PaymentLinkCustomerCreation `json:"customer_creation"`
+	CustomText       *PaymentLinkCustomText      `json:"custom_text"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// The line items representing what is being sold.
