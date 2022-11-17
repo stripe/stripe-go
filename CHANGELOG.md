@@ -1,5 +1,11 @@
 # Changelog
 
+## 74.1.0 - 2022-11-17
+* [#1574](https://github.com/stripe/stripe-go/pull/1574) API Updates
+  * Add support for `CustomText` on `CheckoutSessionParams`, `CheckoutSession`, `PaymentLinkParams`, and `PaymentLink`
+  * Add support for `HostedInstructionsURL` on `PaymentIntentNextActionPaynowDisplayQrCode` and `PaymentIntentNextActionWechatPayDisplayQrCode`
+  
+
 ## 74.0.0 - 2022-11-15
 
 Breaking changes that arose during code generation of the library that we postponed for the next major version. For changes to the Stripe products, read more at https://stripe.com/docs/upgrades#2022-11-15.
