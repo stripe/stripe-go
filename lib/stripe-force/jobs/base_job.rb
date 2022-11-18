@@ -15,11 +15,12 @@ class StripeForce::BaseJob
 
   @queue = :high
 
-  # 3d, once per hour
-  @retry_limit = 71
+  # the first delay will be 0 seconds, the 2nd will be 60 seconds, etc...
+  @backoff_strategy = [0, 60, 300, 600, 1800, 3600, 3600, 3600, 10800, 21600]
 
-  # 1 hour delay
-  @retry_delay = 60 * 60
+  # the delay values will be multiplied by a random float between min and max
+  @retry_delay_multiplicand_min = 1.0
+  @retry_delay_multiplicand_max = 2.0
 
   @ignore_exceptions = [Resque::TermException, Integrations::Errors::LockTimeout]
   @retry_exceptions = [Exception, Resque::TermException, Integrations::Errors::LockTimeout]
@@ -39,7 +40,7 @@ class StripeForce::BaseJob
   def self.inherited(subclass)
     super(subclass)
 
-    %w{@queue @ignore_exceptions @retry_exceptions @retry_delay @retry_limit @auto_retry_limit}.each do |variable|
+    %w{@queue @ignore_exceptions @retry_exceptions @backoff_strategy @auto_retry_limit}.each do |variable|
       value = self.instance_variable_get(variable)
       value = value&.dup
       subclass.instance_variable_set(variable, value)

@@ -9,8 +9,8 @@ module Integrations
     extend T::Sig
     include Log
 
-    # expiration should exceed NS timeouts configured in `init_netsuite_client`
     LOCK_EXPIRATION_TIME = 60 * 5
+    SF_RESOURCE_LOCK_EXPIRATION_TIME = 60 * 2
 
     # TODO https://github.com/stripe/stripe-netsuite/issues/902
     sig { params(user: StripeForce::User).returns(String) }
@@ -38,6 +38,23 @@ module Integrations
         @expiration = generate_expiration(expiration_time: expiration_time)
         redis.set(user_key, @expiration)
       end
+    end
+
+    def release_salesforce_record_lock(sf_record)
+      if sf_record.class != Restforce::SObject
+        return
+      end
+
+      record_lock_key = generate_salesforce_record_lock_key(sf_record)
+
+      # if lock does not exist, no op
+      if !@locked_resource_keys.include?(record_lock_key)
+        return
+      end
+
+      # delete the key
+      redis.del(record_lock_key)
+      @locked_resource_keys -= [record_lock_key]
     end
 
     # `except` must be an array of Stripe or NetSuite record instances, or an empty array
@@ -85,7 +102,7 @@ module Integrations
         return
       end
 
-      acquire_lock(record_lock_key)
+      acquire_lock(record_lock_key, SF_RESOURCE_LOCK_EXPIRATION_TIME)
 
       @locked_resource_keys << record_lock_key
     end
@@ -162,9 +179,9 @@ module Integrations
       @locked_resource_keys << resource_lock_key
     end
 
-    sig { params(key: String).returns(Float) }
-    private def acquire_lock(key)
-      expiration = generate_expiration
+    sig { params(key: String, expiration_time: T.nilable(Integer)).returns(Float) }
+    private def acquire_lock(key, expiration_time=nil)
+      expiration = generate_expiration(expiration_time: expiration_time)
 
       # Use the expiration as the value of the lock.
       if redis.setnx(key, expiration)
@@ -173,20 +190,19 @@ module Integrations
 
       # Lock is being held, now check if expired
       # See "Handling Deadlocks" section on http://redis.io/commands/setnx
-
       if key_expired?(key)
-        # If it's expired, use GETSET to update it.
+        # If it's expired, use GETSET to update it
         old_expiration = redis.getset(key, expiration).to_f
 
         # Since GETSET returns the old value of the lock, if the old expiration
         # is still in the past, we know no one else has expired the locked
-        # and we now have it.
+        # and we now have it
         if old_expiration < Time.now.to_f
           return expiration
         end
       end
 
-      log.debug 'could not acquire lock', key: key
+      log.info 'could not acquire lock', key: key
       raise Integrations::Errors::LockTimeout.new("lock #{key} not available")
     end
 
@@ -220,7 +236,6 @@ module Integrations
     private def generate_expiration(expiration_time: nil)
       # ensure a minimum expiration time is in place
       expiration_time ||= LOCK_EXPIRATION_TIME
-      expiration_time = [expiration_time, LOCK_EXPIRATION_TIME].max
 
       (Time.now + expiration_time).to_f
     end

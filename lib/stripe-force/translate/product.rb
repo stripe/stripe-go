@@ -7,6 +7,8 @@ class StripeForce::Translate
 
     catch_errors_with_salesforce_context(secondary: sf_product) do
       create_product_from_sf_product(sf_product)
+    ensure
+      locker.release_salesforce_record_lock(sf_product)
     end
   end
 
