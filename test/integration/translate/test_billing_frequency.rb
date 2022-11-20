@@ -12,18 +12,17 @@ class Critic::BillingFrequencyTranslation < Critic::FunctionalTest
     # TODO this will be supported in the future
     it 'throws an error when billing frequency of items do not match' do
       # one monthly and one annual price
-      sf_product_id_1, sf_pricebook_id_1 = salesforce_recurring_product_with_price
-      sf_product_id_2, sf_pricebook_id_2 = salesforce_recurring_product_with_price(
+      sf_product_id_1, _sf_pricebook_id_1 = salesforce_recurring_product_with_price
+      sf_product_id_2, _sf_pricebook_id_2 = salesforce_recurring_product_with_price(
         additional_product_fields: {
           CPQ_QUOTE_BILLING_FREQUENCY => CPQBillingFrequencyOptions::ANNUAL.serialize,
         }
       )
-
       sf_account_id = create_salesforce_account
 
       quote_id = create_salesforce_quote(sf_account_id: sf_account_id, additional_quote_fields: {
         CPQ_QUOTE_SUBSCRIPTION_START_DATE => now_time_formatted_for_salesforce,
-        CPQ_QUOTE_SUBSCRIPTION_TERM => 12.0,
+        CPQ_QUOTE_SUBSCRIPTION_TERM => TEST_DEFAULT_CONTRACT_TERM,
       })
 
       quote_with_product = add_product_to_cpq_quote(quote_id, sf_product_id: sf_product_id_1)

@@ -325,7 +325,6 @@ class StripeForce::Translate
     end
 
     # Order amendments contain a negative item if they are adjusting a previous line item.
-    # If they are adjusting a previous line item
 
     # How we will know if the line items are the same? Price references won't work.
     # The price of a line item can change across amendments. There's a special field
@@ -333,7 +332,7 @@ class StripeForce::Translate
     # However, this field always references the *first* order line, not the last revised
     # order line.
 
-    # do NOT use the current state of the subscription schedule at all. This could cause some issues:
+    # Do NOT use the current state of the subscription schedule at all. This could cause some issues:
     # if the old SF data was mutated in some way (even metadata!) that data will be used, which could
     # cause weird unintended side effects. However, the state of the Stripe side would be too hard to infer.
     # the user could mutate the phase data out-of-band, so we need to (a) limit the phase we are editing
@@ -686,7 +685,7 @@ class StripeForce::Translate
 
     sf_order_lines.map do |sf_order_item|
       # this is a critical step: this performs the complicated logic of comparing pricebook & order line prices
-      # and creating a new price if needed.
+      # and creating a new price if needed
       price = catch_errors_with_salesforce_context(secondary: sf_order_item) do
         create_price_for_order_item(sf_order_item)
       end
@@ -699,6 +698,7 @@ class StripeForce::Translate
       phase_item = Stripe::SubscriptionItem.construct_from({
         price: price.id,
         metadata: Metadata.stripe_metadata_for_sf_object(@user, sf_order_item),
+        discounts: discounts_from_sf_order_item(sf_order_item: sf_order_item),
       })
 
       phase_item_params = StripeForce::Utilities::SalesforceUtil.extract_salesforce_params!(mapper, sf_order_item, Stripe::SubscriptionItem)

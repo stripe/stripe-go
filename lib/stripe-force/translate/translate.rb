@@ -303,7 +303,6 @@ class StripeForce::Translate
   sig { params(sf_object: T.untyped, stripe_object: Stripe::APIResource, additional_salesforce_updates: Hash).void }
   def update_sf_stripe_id(sf_object, stripe_object, additional_salesforce_updates: {})
     stripe_id_field = prefixed_stripe_field(GENERIC_STRIPE_ID)
-
     stripe_object_id = stripe_object.id
 
     if sf_object[stripe_id_field]
@@ -332,7 +331,7 @@ class StripeForce::Translate
       stripe_object: stripe_object
     )
 
-    # The cached object is missing the new Stripe ID field value, we could append but it's safer to invalidate and refetch when needed.
+    # the cached object is missing the new Stripe ID field value, we could append but it's safer to invalidate and refetch when needed.
     cache_service.invalidate_cache_object(sf_object[SF_ID])
 
     log.info 'updated salesforce with stripe id',

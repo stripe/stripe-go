@@ -42,7 +42,6 @@ module StripeForce
     CPQ_QUOTE_LINE_PRICEBOOK_ENTRY = 'SBQQ__PricebookEntryId__c'
     CPQ_CONSUMPTION_SCHEDULE = 'SBQQ__OrderItemConsumptionSchedule__c'
     CPQ_CONSUMPTION_RATE = 'SBQQ__OrderItemConsumptionRate__c'
-
     CPQ_AMENDED_CONTRACT = 'SBQQ__AmendedContract__c'
 
     CPQ_QUOTE_PRIMARY_CONTACT = 'SBQQ__PrimaryContact__c'

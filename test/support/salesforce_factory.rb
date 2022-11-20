@@ -288,8 +288,6 @@ module Critic
         CPQ_QUOTE_ORDERED => true,
       })
 
-      sf_quote = sf.find(CPQ_QUOTE, sf_quote_id)
-
       # TODO this is silly, I should do a simple SOQL query and grab the result
       # https://salesforce.stackexchange.com/questions/251904/get-sales-order-line-on-rest-api
       # TODO note that looking in the UI is the easiest way to get these magic relational values

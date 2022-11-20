@@ -15,6 +15,20 @@ module StripeForce
       if stripe_record.is_a?(Stripe::Price)
         sanitize_price(stripe_record)
       end
+
+      # values are stored as decimals in Salesforce
+      if stripe_record.is_a?(Stripe::Coupon)
+        sanitize_coupon(stripe_record)
+      end
+    end
+
+    private_class_method def self.sanitize_coupon(stripe_coupon)
+      if stripe_coupon[:amount_off]
+        stripe_coupon[:amount_off] = stripe_coupon[:amount_off].to_i
+
+        # TODO remove this once we add the currency field to the Stripe object
+        stripe_coupon[:currency] = "USD"
+      end
     end
 
     private_class_method def self.sanitize_price(stripe_price)

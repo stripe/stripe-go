@@ -163,6 +163,9 @@ class Stripe::SubscriptionSchedulePhaseSubscriptionItem < Stripe::StripeObject
 
   sig { returns(T::Hash[T.any(String, Symbol), T.untyped]) }
   def metadata; end
+
+  sig { returns(T::Array[Stripe::Discounts]) }
+  def discounts; end
 end
 
 class Stripe::SubscriptionSchedulePhase < Stripe::StripeObject
@@ -181,7 +184,6 @@ class Stripe::SubscriptionSchedulePhase < Stripe::StripeObject
   sig { returns(String) }
   def proration_behavior; end
 
-
   sig { returns(Integer)}
   def end_date; end
 
@@ -190,6 +192,9 @@ class Stripe::SubscriptionSchedulePhase < Stripe::StripeObject
 
   sig { returns(T::Hash[T.any(String, Symbol), T.untyped]) }
   def metadata; end
+
+  sig { returns(T::Array[Stripe::Discounts]) }
+  def discounts; end
 end
 
 class Stripe::SubscriptionScheduleInvoiceSettings
@@ -257,6 +262,9 @@ class Stripe::SubscriptionItem < Stripe::APIResource
 
   sig { params(arg:Integer).void}
   def quantity=(arg); end
+
+  sig { params(arg:Stripe::Discounts).returns(Stripe::Discounts) }
+  def discounts=(arg); end
 end
 
 class Stripe::InvoiceItem
@@ -296,4 +304,12 @@ class Stripe::Coupon
 
   sig { returns(String)}
   def currency; end
+end
+
+class Stripe::Discounts
+  sig { returns(String)}
+  def coupon; end
+
+  sig { returns(String)}
+  def discount; end
 end

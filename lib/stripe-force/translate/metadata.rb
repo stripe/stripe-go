@@ -25,6 +25,11 @@ class StripeForce::Translate
         key = key.serialize
       end
 
+      # stripe api limits keys to be a string under 40 characters
+      if key.starts_with?('stripe_coupon_beta')
+        key = 'stripe_coupon'
+      end
+
       "#{user.metadata_prefix}#{key}"
     end
 
