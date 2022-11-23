@@ -167,6 +167,15 @@ class StripeForce::Translate
       )
 
       raise
+    rescue Integrations::Errors::LockTimeout
+      if @user.feature_enabled?(FeatureFlags::CATCH_ALL_ERRORS)
+        create_user_failure(
+          salesforce_object: @secondary_salesforce_object || @origin_salesforce_object,
+          message: "A lock for a related object was unable to be acquired and will be retried later"
+        )
+      end
+
+      raise
     rescue
       if @user.feature_enabled?(FeatureFlags::CATCH_ALL_ERRORS)
         create_user_failure(

@@ -137,4 +137,39 @@ class Critic::OrderFailureTest < Critic::FunctionalTest
     assert_equal(SF_ORDER, sync_records.first[prefixed_stripe_field(SyncRecordFields::PRIMARY_OBJECT_TYPE.serialize)])
     assert_equal(SyncRecordResolutionStatuses::ERROR.serialize, sync_records.first[prefixed_stripe_field(SyncRecordFields::RESOLUTION_STATUS.serialize)])
   end
+
+  it 'it creates an error sync record when the product is locked' do
+
+    sf_account_id = create_salesforce_account
+
+    sf_product_id, _ = salesforce_recurring_product_with_price
+    sf_product = @user.sf_client.find(SF_PRODUCT, sf_product_id)
+
+    sf_order = create_subscription_order(sf_product_id: sf_product_id, sf_account_id: sf_account_id)
+
+    locker = Integrations::Locker.new(@user)
+
+    locker.lock_on_user do
+      locker.lock_salesforce_record(sf_product)
+
+      sf_account = @user.sf_client.find(SF_ACCOUNT, sf_account_id)
+
+      SalesforceTranslateRecordJob.translate(@user, sf_account)
+
+      @user.enable_feature(FeatureFlags::CATCH_ALL_ERRORS)
+
+      exception = assert_raises(Integrations::Errors::LockTimeout) do
+        StripeForce::Translate.perform_inline(@user, sf_order.Id)
+      end
+      assert_match("lock user-#{@user.salesforce_account_id}-record-Product2-#{sf_product.Id} not available", exception.message)
+
+      # Sync Records
+      sync_records = get_sync_records_by_primary_id(sf_order.Id)
+      assert_equal(1, sync_records.length)
+
+      assert_equal(SF_ORDER, sync_records.first[prefixed_stripe_field(SyncRecordFields::PRIMARY_OBJECT_TYPE.serialize)])
+      assert_equal(SyncRecordResolutionStatuses::ERROR.serialize, sync_records.first[prefixed_stripe_field(SyncRecordFields::RESOLUTION_STATUS.serialize)])
+      assert_equal("A lock for a related object was unable to be acquired and will be retried later", sync_records.first[prefixed_stripe_field(SyncRecordFields::RESOLUTION_MESSAGE.serialize)])
+    end
+  end
 end
