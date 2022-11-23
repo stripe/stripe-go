@@ -199,6 +199,10 @@ class StripeForce::Translate
       metadata: Metadata.stripe_metadata_for_sf_object(@user, sf_order),
     }
 
+    if @user.feature_enabled?(FeatureFlags::COUPONS)
+      initial_phase["discounts"] = stripe_discounts_for_sf_object(sf_object: sf_order)
+    end
+
     prorated_phase = nil
 
     # TODO this needs to be gated and synced with the specific flag that CF is using
@@ -698,8 +702,11 @@ class StripeForce::Translate
       phase_item = Stripe::SubscriptionItem.construct_from({
         price: price.id,
         metadata: Metadata.stripe_metadata_for_sf_object(@user, sf_order_item),
-        discounts: discounts_from_sf_order_item(sf_order_item: sf_order_item),
       })
+
+      if @user.feature_enabled?(FeatureFlags::COUPONS)
+        phase_item.discounts = stripe_discounts_for_sf_object(sf_object: sf_order_item)
+      end
 
       phase_item_params = StripeForce::Utilities::SalesforceUtil.extract_salesforce_params!(mapper, sf_order_item, Stripe::SubscriptionItem)
       mapper.assign_values_from_hash(phase_item, phase_item_params)

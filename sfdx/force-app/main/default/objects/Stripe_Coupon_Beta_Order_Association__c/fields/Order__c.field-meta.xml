@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Order__c</fullName>
+    <externalId>false</externalId>
+    <label>Order</label>
+    <referenceTo>Order</referenceTo>
+    <relationshipLabel>Stripe Coupon Beta Order Connection</relationshipLabel>
+    <relationshipName>Stripe_Coupon_Beta_Order_Connection</relationshipName>
+    <reparentableMasterDetail>false</reparentableMasterDetail>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

@@ -22,7 +22,9 @@ module StripeForce
     SF_CONTRACT = 'Contract'
     SF_STRIPE_COUPON = 'Stripe_Coupon_Beta__c'
     SF_STRIPE_COUPON_SERIALIZED = 'Stripe_Coupon_Beta_Serialized__c'
+    SF_STRIPE_COUPON_QUOTE_ASSOCIATION = 'Stripe_Coupon_Beta_Quote_Association__c'
     SF_STRIPE_COUPON_QUOTE_LINE_ASSOCIATION = 'Stripe_Coupon_Beta_Quote_Line_Associatio__c'
+    SF_STRIPE_COUPON_ORDER_ASSOCIATION = 'Stripe_Coupon_Beta_Order_Association__c'
     SF_STRIPE_COUPON_ORDER_ITEM_ASSOCIATION = 'Stripe_Coupon_Beta_Order_Item_Associatio__c'
 
     SF_ID = 'Id'
@@ -184,6 +186,7 @@ module StripeForce
         CATCH_ALL_ERRORS = new('catch_all_errors')
         UPDATE_CUSTOMER_ON_ORDER_TRANSLATION = new('update_customer_on_order_creation')
         ACCOUNT_POLLING = new('account_polling')
+        COUPONS = new('coupons')
       end
     end
 

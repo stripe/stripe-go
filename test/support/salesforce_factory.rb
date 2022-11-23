@@ -120,6 +120,15 @@ module Critic
       }.merge(additional_fields))
     end
 
+    def create_salesforce_stripe_coupon_quote_association(sf_quote_id:, sf_stripe_coupon_id:)
+     sf_stripe_coupon_id ||= create_salesforce_stripe_coupon
+
+     sf.create!(prefixed_stripe_field(SF_STRIPE_COUPON_QUOTE_ASSOCIATION), {
+       "Quote__c" => sf_quote_id,
+       "Stripe_Coupon__c" => sf_stripe_coupon_id,
+     }.transform_keys(&method(:prefixed_stripe_field)))
+    end
+
     def create_salesforce_stripe_coupon_quote_line_association(sf_quote_line_id:, sf_stripe_coupon_id:)
       sf_stripe_coupon_id ||= create_salesforce_stripe_coupon
 

@@ -6,6 +6,7 @@ require_relative '../../test_helper'
 class Critic::CouponTranslation < Critic::FunctionalTest
   before do
     @user = make_user(save: true)
+    @user.enable_feature(FeatureFlags::COUPONS)
   end
 
   it 'validation error thrown if SF Stripe coupon is created with both Amount_Off__c and Percent_Off__c set' do
@@ -61,51 +62,6 @@ class Critic::CouponTranslation < Critic::FunctionalTest
 
     coupon_1 = associated_coupons.first.Name__c == '25% off coupon' ? associated_coupons[0] : associated_coupons[1]
     assert_equal(25, coupon_1.Percent_Off__c)
-  end
-
-  it 'coupons are copied to order lines when a quote is ordered' do
-    # setup
-    PRODUCT_PRICE = 100
-    sf_account_id = create_salesforce_account
-    sf_product_id, _sf_pricebook_id = salesforce_recurring_product_with_price(price: PRODUCT_PRICE)
-
-    # create a SF CPQ quote
-    sf_quote_id = create_salesforce_quote(sf_account_id: sf_account_id, additional_quote_fields: {
-      CPQ_QUOTE_SUBSCRIPTION_START_DATE => now_time_formatted_for_salesforce,
-      CPQ_QUOTE_SUBSCRIPTION_TERM => TEST_DEFAULT_CONTRACT_TERM,
-    })
-
-    # create a quote with a product
-    quote_with_product = add_product_to_cpq_quote(sf_quote_id, sf_product_id: sf_product_id)
-    sf_quote_id = calculate_and_save_cpq_quote(quote_with_product)
-
-    # retrieve the quote line
-    quote_lines = sf_get_related(sf_quote_id, CPQ_QUOTE_LINE)
-    assert_equal(1, quote_lines.size)
-    quote_line_id = quote_lines.first.Id
-
-    # create a coupon and attach to the quote line
-    sf_stripe_coupon = create_salesforce_stripe_coupon(additional_fields: {
-      SalesforceStripeCouponFields::NAME => 'Special 50% off coupon',
-      SalesforceStripeCouponFields::PERCENT_OFF => 50,
-    })
-
-    # create the association object to map the coupon to the quote line
-    create_salesforce_stripe_coupon_quote_line_association(sf_quote_line_id: quote_line_id, sf_stripe_coupon_id: sf_stripe_coupon)
-
-    sf_order = create_order_from_cpq_quote(sf_quote_id)
-
-    # query for the association objects that have a reference to this order line
-    sf_order_line_items = sf_get_related(sf_order, SF_ORDER_ITEM)
-    assert_equal(1, sf_order_line_items.count)
-
-    sf_order_item_id = sf_order_line_items.first.Id
-    associated_coupons = StripeForce::Translate.get_salesforce_stripe_coupons_associated_to_order_line(sf_client: @user.sf_client, sf_order_line_id: sf_order_item_id)
-    assert_equal(1, associated_coupons.size)
-
-    order_line_coupon = associated_coupons.first
-    assert_equal('Special 50% off coupon', order_line_coupon.Name__c)
-    assert_equal(50, order_line_coupon.Percent_Off__c)
   end
 
   it 'translate sf order with multiple coupons on an order line' do
@@ -185,11 +141,86 @@ class Critic::CouponTranslation < Critic::FunctionalTest
     assert_equal(stripe_percent_off_coupon.id, sf_percent_off_coupon[prefixed_stripe_field(GENERIC_STRIPE_ID)])
   end
 
-  it 'translate an sf order with multiple coupons on order' do
-    # TODO need to add Quote/Order coupon association objects first
+  it 'translate an sf order with coupons on both the order and order items' do
+    # setup
+    sf_account_id = create_salesforce_account
+    sf_product_id, _sf_pricebook_id = salesforce_recurring_product_with_price
+
+    # create a CPQ quote
+    sf_quote_id = create_salesforce_quote(sf_account_id: sf_account_id, additional_quote_fields: {
+      CPQ_QUOTE_SUBSCRIPTION_START_DATE => now_time_formatted_for_salesforce,
+      CPQ_QUOTE_SUBSCRIPTION_TERM => TEST_DEFAULT_CONTRACT_TERM,
+    })
+
+    # create a quote with a product
+    quote_with_product = add_product_to_cpq_quote(sf_quote_id, sf_product_id: sf_product_id)
+    sf_quote_id = calculate_and_save_cpq_quote(quote_with_product)
+
+    # retrieve the quote line
+    quote_lines = sf_get_related(sf_quote_id, CPQ_QUOTE_LINE)
+    assert_equal(1, quote_lines.size)
+    quote_line_id = quote_lines.first.Id
+
+    # create two coupons
+    sf_percent_off_coupon_id = create_salesforce_stripe_coupon(additional_fields: {
+      SalesforceStripeCouponFields::NAME => '25% off coupon',
+      SalesforceStripeCouponFields::PERCENT_OFF => 25,
+    })
+    sf_amount_off_coupon_id = create_salesforce_stripe_coupon(additional_fields: {
+      SalesforceStripeCouponFields::NAME => '$50 off coupon',
+      SalesforceStripeCouponFields::AMOUNT_OFF => 50,
+    })
+
+    # create the quote line coupon association object to map the coupon to the quote line
+    create_salesforce_stripe_coupon_quote_line_association(sf_quote_line_id: quote_line_id, sf_stripe_coupon_id: sf_percent_off_coupon_id)
+    # create the quote coupon association object to map the coupon to the quote
+    create_salesforce_stripe_coupon_quote_association(sf_quote_id: sf_quote_id, sf_stripe_coupon_id: sf_amount_off_coupon_id)
+
+    # create and translate the SF order
+    sf_order = create_order_from_cpq_quote(sf_quote_id)
+    StripeForce::Translate.perform_inline(@user, sf_order.Id)
+
+    # fetch the stripe subscription schedule
+    sf_order.refresh
+    stripe_id = sf_order[prefixed_stripe_field(GENERIC_STRIPE_ID)]
+    subscription_schedule = Stripe::SubscriptionSchedule.retrieve(stripe_id, @user.stripe_credentials)
+    assert_equal(1, subscription_schedule.phases.count)
+
+    # the first phase should have a coupon
+    first_phase = T.must(subscription_schedule.phases.first)
+    phase_discount = first_phase.discounts
+    assert_equal(1, phase_discount.count)
+
+    # the first phase item should have one coupons
+    first_phase_item = T.must(first_phase.items.first)
+    phase_item_discount = first_phase_item.discounts
+    assert_equal(1, phase_item_discount.count)
+
+    # retrieve the two stripe coupons
+    stripe_phase_coupon = Stripe::Coupon.retrieve(T.must(phase_discount.first).coupon, @user.stripe_credentials)
+    stripe_phase_item_coupon = Stripe::Coupon.retrieve(T.must(phase_item_discount.first).coupon, @user.stripe_credentials)
+
+    # sanity check the stripe coupons have the right data
+    assert_equal(50, stripe_phase_coupon.amount_off)
+    assert_equal("usd", stripe_phase_coupon.currency)
+    assert_equal("once", stripe_phase_coupon.duration)
+    assert_equal(sf_amount_off_coupon_id, stripe_phase_coupon.metadata['salesforce_stripe_coupon_id'])
+
+    assert_equal(25, stripe_phase_item_coupon.percent_off)
+    assert_equal("once", stripe_phase_item_coupon.duration)
+    assert_equal(sf_percent_off_coupon_id, stripe_phase_item_coupon.metadata['salesforce_stripe_coupon_id'])
+
+    # fetch invoice and verify final amount due
+    sf_account = sf_get(sf_account_id)
+    stripe_customer_id = sf_account[prefixed_stripe_field(GENERIC_STRIPE_ID)]
+    invoice = Stripe::Invoice.list({customer: stripe_customer_id}, @user.stripe_credentials)
+    assert_equal(1, invoice.data.count)
+
+    # expected price should equal $120 (original price) with 25%-off and $0-off coupons applied
+    assert_includes([(TEST_DEFAULT_PRICE * 0.75 - 50).to_i, ((TEST_DEFAULT_PRICE - 50) * 0.75).to_i], invoice.data.first.amount_due)
   end
 
-  it 'uses the same stripe coupon if translated twice' do
+  it 'reuses the same stripe coupon if translated twice' do
     # setup
     sf_account_id = create_salesforce_account
     sf_product_id_1, _sf_pricebook_id = salesforce_recurring_product_with_price
@@ -274,7 +305,7 @@ class Critic::CouponTranslation < Critic::FunctionalTest
     StripeForce::Translate.perform_inline(@user, sf_order_1.Id)
     sf_order_1.refresh
 
-    # now update the coupon in salesforce and attempt to translate a new order using this coupon
+    # update the coupon in salesforce and attempt to translate a new order using this coupon
     sf.update!(SF_STRIPE_COUPON, {
       SF_ID => sf_percent_off_coupon_id,
       prefixed_stripe_field("Name__c") => 'Special coupon',
@@ -312,15 +343,19 @@ class Critic::CouponTranslation < Critic::FunctionalTest
     phase_item_2 = T.must(first_phase_2.items.first)
     phase_item_2_discount = T.must(phase_item_2.discounts.first)
 
-    # the coupons on the phase items should not be equal
+    # the coupons on the phase items should be equal
     assert_not_equal(phase_item_1_discount.coupon, phase_item_2_discount.coupon)
+
+    # confirm the stripe coupon name was updated
+    phase_item_1_stripe_coupon = Stripe::Coupon.retrieve(phase_item_1_discount.coupon, @user.stripe_credentials)
+    phase_item_2_stripe_coupon = Stripe::Coupon.retrieve(phase_item_2_discount.coupon, @user.stripe_credentials)
+    assert_not_equal(phase_item_1_stripe_coupon.name, phase_item_2_stripe_coupon.name)
+    assert_equal("55% off coupon", phase_item_1_stripe_coupon.name)
+    assert_equal("Special coupon", phase_item_2_stripe_coupon.name)
   end
 
   it 'stripe invoice final due amount reflects coupons' do
-    @user.enable_feature FeatureFlags::TEST_CLOCKS, update: true
-
     # setup
-    order_start_date = now_time
     sf_account_id = create_salesforce_account
     sf_product_id, _sf_pricebook_id = salesforce_recurring_product_with_price
 
@@ -357,15 +392,10 @@ class Critic::CouponTranslation < Critic::FunctionalTest
     sf_order = create_order_from_cpq_quote(sf_quote_id)
     StripeForce::Translate.perform_inline(@user, sf_order.Id)
 
-    # now let's advance the clock and pretend we are in the future to verify the invoice final due amount
+    # fetch invoice and verify final amount due
     sf_account = sf_get(sf_account_id)
     stripe_customer_id = sf_account[prefixed_stripe_field(GENERIC_STRIPE_ID)]
-    stripe_customer = stripe_get(stripe_customer_id)
-    refute_nil(stripe_customer.test_clock)
-    advance_test_clock(stripe_customer, (order_start_date + 1.day).to_i)
-
-    # get invoice and verify final amount due
-    invoice = Stripe::Invoice.list({customer: stripe_customer.id}, @user.stripe_credentials)
+    invoice = Stripe::Invoice.list({customer: stripe_customer_id}, @user.stripe_credentials)
     assert_equal(1, invoice.data.count)
 
     # expected price should equal $120 with 25% off and $30 off coupons applied

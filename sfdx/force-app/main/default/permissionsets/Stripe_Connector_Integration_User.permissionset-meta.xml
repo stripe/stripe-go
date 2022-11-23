@@ -370,6 +370,11 @@
         <field>Stripe_Coupon_Beta_Order_Item_Associatio__c.Order_Item__c</field>
         <readable>true</readable>
     </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Stripe_Coupon_Beta_Order_Association__c.Order__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <hasActivationRequired>false</hasActivationRequired>
     <label>Stripe Connector Integration User</label>
     <objectPermissions>

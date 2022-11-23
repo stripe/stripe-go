@@ -9,15 +9,15 @@ class StripeForce::Translate
 
     catch_errors_with_salesforce_context(secondary: sf_coupon) do
       create_coupon_from_sf_coupon(sf_coupon)
+    ensure
+      locker.release_salesforce_record_lock(sf_coupon)
     end
   end
 
   def create_coupon_from_sf_coupon(sf_coupon)
     # check if the original sf coupon has been translated prior and exists in Stripe
-    # this is the coupon that the serialized coupon on the order/order item was copied from
-
-    # TODO hook up to cache service
-    original_sf_coupon = sf.find(SF_STRIPE_COUPON, sf_coupon.Original_Stripe_Coupon_Beta_Id__c)
+    # this original coupon is the coupon that the order / order item coupon was copied from
+    original_sf_coupon = sf.find(prefixed_stripe_field(SF_STRIPE_COUPON), sf_coupon[prefixed_stripe_field("Original_Stripe_Coupon_Beta_Id__c").to_s])
     existing_stripe_coupon = retrieve_from_stripe(Stripe::Coupon, original_sf_coupon)
     if existing_stripe_coupon
       existing_stripe_coupon = T.cast(existing_stripe_coupon, Stripe::Coupon)
@@ -26,7 +26,7 @@ class StripeForce::Translate
       # this should never happen unless the coupon data in Salesforce is mutated
       # if so, we want to create a new Stripe object and write back the new id
       if coupons_are_equal?(existing_stripe_coupon: existing_stripe_coupon, generated_stripe_coupon: generated_stripe_coupon)
-        log.info 'using existing stripe coupon', existing_stripe_coupon_id: existing_stripe_coupon.id
+        log.info 'reusing existing stripe coupon', existing_stripe_coupon_id: existing_stripe_coupon.id
         return existing_stripe_coupon
       end
     end
@@ -60,39 +60,54 @@ class StripeForce::Translate
       simple_field_check_passed
   end
 
+  # Coupon can be related to an order or an order item. Either way, Stripe expects these coupons to be specified as discounts:
   # https://site-admin.stripe.com/docs/api/subscription_schedules/object#subscription_schedule_object-phases-discounts
-  def discounts_from_sf_order_item(sf_order_item:)
-    sf_coupons = StripeForce::Translate.get_salesforce_stripe_coupons_associated_to_order_line(sf_client: @user.sf_client, sf_order_line_id: sf_order_item.Id)
-    if !sf_coupons || sf_coupons.empty?
+  def stripe_discounts_for_sf_object(sf_object:)
+    sf_coupons = get_salesforce_stripe_coupons_associated_to_sf_object(sf_client: @user.sf_client, sf_object: sf_object)
+
+    if sf_coupons.nil?
       return
     end
 
-    log.info 'found coupons for sf order item', salesforce_object: sf_order_item
+    log.info 'found coupons for sf object', salesforce_object: sf_object
 
-    # this is the format the stripe api expects
     sf_coupons.map do |sf_coupon|
       coupon = translate_coupon(sf_coupon)
       {coupon: coupon.id}
     end
   end
 
-  def self.get_salesforce_stripe_coupons_associated_to_order_line(sf_client:, sf_order_line_id:)
-    order_item_associations = sf_client.query("Select Id from #{SF_STRIPE_COUPON_ORDER_ITEM_ASSOCIATION} where Order_Item__c = '#{sf_order_line_id}'")
+  def get_salesforce_stripe_coupons_associated_to_sf_object(sf_client:, sf_object:)
+    catch_errors_with_salesforce_context(secondary: sf_object) do
+      # coupons can either be related to an order or order item
+      if sf_object.sobject_type == SF_ORDER
+        association_obj_type = SF_STRIPE_COUPON_ORDER_ASSOCIATION
+        association_field = 'Order__c'
+      elsif sf_object.sobject_type == SF_ORDER_ITEM
+        association_obj_type = SF_STRIPE_COUPON_ORDER_ITEM_ASSOCIATION
+        association_field = 'Order_Item__c'
+      else
+        # this should never happen since coupons can only be tied to an order or order item
+        raise "unsupported sf object type for coupons #{sf_object.sobject_type}"
+      end
 
-    if !order_item_associations || order_item_associations.size == 0
-      log.info "no stripe coupon order line associations related to this order line", salesforce_object: sf_order_line_id
-      return
+      associations = sf_client.query("Select Id from #{prefixed_stripe_field(association_obj_type)} where #{prefixed_stripe_field(association_field)} = '#{sf_object.Id}'")
+
+      if !associations || associations.size == 0
+        log.info "no stripe coupon associations related to this sf object", salesforce_object: sf_object
+        return
+      end
+
+      # there could be multiple coupons associated with a single order line
+      coupons = associations.map do |association|
+          association = sf_client.find(association_obj_type, association.Id)
+          coupon = sf_client.query("Select Id from #{prefixed_stripe_field(SF_STRIPE_COUPON_SERIALIZED)} where Id = '#{association.Stripe_Coupon__c}'")
+
+          # return the coupon object
+          sf_client.find(prefixed_stripe_field(SF_STRIPE_COUPON_SERIALIZED), coupon.first.Id)
+      end
+
+      coupons
     end
-
-    # there could be multiple coupons associated with a single order line
-    coupons = order_item_associations.map do |order_item_association|
-        association = sf_client.find(SF_STRIPE_COUPON_ORDER_ITEM_ASSOCIATION, order_item_association.Id)
-        coupon = sf_client.query("Select Id from #{SF_STRIPE_COUPON_SERIALIZED} where Id = '#{association.Stripe_Coupon__c}'")
-
-        # return the coupon object
-        sf_client.find(SF_STRIPE_COUPON_SERIALIZED, coupon.first.Id)
-    end
-
-    coupons
   end
 end
