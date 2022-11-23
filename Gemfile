@@ -80,6 +80,7 @@ group :test do
   gem 'mocha', '~> 1.15'
   gem 'rack-test', '~> 2.0.2'
   gem 'database_cleaner', '~> 1.7.0'
+  gem 'simplecov', '~> 0.21.2'
 end
 
 group :test, :development do

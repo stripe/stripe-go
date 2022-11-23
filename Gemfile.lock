@@ -117,6 +117,7 @@ GEM
     crass (1.0.6)
     database_cleaner (1.7.0)
     debug_inspector (1.1.0)
+    docile (1.4.0)
     domain_name (0.5.20190701)
       unf (>= 0.0.5, < 1.0.0)
     dotenv (2.8.1)
@@ -191,7 +192,6 @@ GEM
       mime-types-data (~> 3.2015)
     mime-types-data (3.2021.0901)
     mini_mime (1.1.2)
-    mini_portile2 (2.8.0)
     minitest (5.16.3)
     minitest-ci (3.4.0)
       minitest (>= 5.0.6)
@@ -214,9 +214,6 @@ GEM
       ruby2_keywords (~> 0.0.1)
     netrc (0.11.0)
     nio4r (2.5.8)
-    nokogiri (1.13.9)
-      mini_portile2 (~> 2.8.0)
-      racc (~> 1.4)
     nokogiri (1.13.9-arm64-darwin)
       racc (~> 1.4)
     nokogiri (1.13.9-x86_64-darwin)
@@ -383,6 +380,12 @@ GEM
       concurrent-ruby (~> 1.0, >= 1.0.2)
     sequel (5.61.0)
     simple_structured_logger (1.0.2)
+    simplecov (0.21.2)
+      docile (~> 1.1)
+      simplecov-html (~> 0.11)
+      simplecov_json_formatter (~> 0.1)
+    simplecov-html (0.12.3)
+    simplecov_json_formatter (0.1.4)
     sinatra (2.2.2)
       mustermann (~> 2.0)
       rack (~> 2.2)
@@ -404,6 +407,7 @@ GEM
     sorbet-runtime (0.5.10477)
     sorbet-static (0.5.10477-universal-darwin-20)
     sorbet-static (0.5.10477-universal-darwin-21)
+    sorbet-static (0.5.10477-universal-darwin-22)
     sorbet-static (0.5.10477-x86_64-linux)
     spring (4.1.0)
     sprockets (4.1.1)
@@ -438,9 +442,9 @@ GEM
 
 PLATFORMS
   arm64-darwin-21
-  ruby
   x86_64-darwin-20
   x86_64-darwin-21
+  x86_64-darwin-22
   x86_64-linux
 
 DEPENDENCIES
@@ -497,6 +501,7 @@ DEPENDENCIES
   sentry-ruby (~> 5.4.2)
   sequel (= 5.61.0)
   simple_structured_logger (~> 1.0.2)
+  simplecov (~> 0.21.2)
   sorbet (~> 0.5.10477)
   sorbet-rails (~> 0.7.34)
   sorbet-runtime (~> 0.5.10477)

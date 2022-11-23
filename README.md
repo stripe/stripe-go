@@ -1,3 +1,21 @@
+# Required Software
+
+| Package | URL / Install command                                                                                                                                                                                              |
+|---------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Postgres 14.5 | [https://www.enterprisedb.com/downloads/postgres-postgresql-downloads](https://www.enterprisedb.com/downloads/postgres-postgresql-downloads)                                                                       |
+| Redis | `brew install redis && brew services restart redis`                                                                                                                                                                                           |
+| SFDX | [https://developer.salesforce.com/docs/atlas.en-us.sfdx_setup.meta/sfdx_setup/sfdx_setup_install_cli.htm](https://developer.salesforce.com/docs/atlas.en-us.sfdx_setup.meta/sfdx_setup/sfdx_setup_install_cli.htm) |
+| Node v14.18.1 | [https://nodejs.org/download/release/latest-v18.x/](https://nodejs.org/download/release/latest-v18.x/)                                                                                                             |
+| Ruby 2.7.6 | `rbenv install 2.7.6 && rbenv global 2.7.6 && rbenv local 2.7.6`                                                                                                                                                   |
+
+# Environment Setup
+
+1. From `<project_dir>` run `bundle exec sequel -E -m migrations postgres://postgres:postgres@127.0.0.1:5432/stripeforce`
+2. From `<project_dir>` run `bundle exec sequel -E -m migrations postgres://postgres:postgres@127.0.0.1:5432/test_stripeforce`
+3. From `<project_dir>/sfdx` run `./bin/generate-cpq-scratch-org $(whoami)-scratch`
+4. From `<project_dir>` run `bundle exec ruby scripts/refresh-tokens.rb $(whoami)-scratch`
+5. From `<project_dir>` run `bundle exec rails test "test/integration/test_translate_order.rb" -n "/integrates a standard subscription order/"`
+
 # Installation Links
 
 Production Package Install:

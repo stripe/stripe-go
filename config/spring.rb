@@ -12,3 +12,12 @@ Spring.watch(
 Spring.after_fork do
   Sequel::DATABASES.each(&:disconnect)
 end
+Spring.after_fork do
+  rubylib_path = ENV['DEBUGGER_STORED_RUBYLIB'] || ''
+  if rubylib_path
+    rubylib_path.split(File::PATH_SEPARATOR).each do |path|
+      next unless path =~ /ruby-debug-ide/
+      load path + '/ruby-debug-ide/multiprocess/starter.rb'
+    end
+  end
+end
