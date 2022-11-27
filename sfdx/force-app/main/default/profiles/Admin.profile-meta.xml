@@ -339,6 +339,18 @@
     <objectPermissions>
         <allowCreate>true</allowCreate>
         <allowRead>true</allowRead>
+        <object>Stripe_Coupon_Quote_Line_Association__c</object>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowRead>true</allowRead>
+        <object>Stripe_Coupon_Quote_Association__c</object>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowRead>true</allowRead>
         <object>Stripe_Coupon_Order_Item_Association__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
