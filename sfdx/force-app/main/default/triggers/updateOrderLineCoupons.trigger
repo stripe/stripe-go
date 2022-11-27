@@ -25,9 +25,9 @@ trigger updateOrderLineCoupons on SBQQ__Quote__c (after update) {
           Id orderItemId =  orderItem.get(0).Id;
 
           // fetch the Stripe Coupon Quote Line Associations for this quote line
-          List<Stripe_Coupon_Beta_Quote_Line_Associatio__c> stripeCouponQuoteLineAssociations = [
+          List<Stripe_Coupon_Quote_Line_Association__c> stripeCouponQuoteLineAssociations = [
             SELECT Id, Stripe_Coupon__c
-            FROM Stripe_Coupon_Beta_Quote_Line_Associatio__c
+            FROM Stripe_Coupon_Quote_Line_Association__c
             WHERE Quote_Line__c = :quoteLine.Id
           ];
 
@@ -37,29 +37,29 @@ trigger updateOrderLineCoupons on SBQQ__Quote__c (after update) {
           }
 
           // for each Stripe Coupon Quote Line Association
-          for (Stripe_Coupon_Beta_Quote_Line_Associatio__c stripeCouponQuoteLineAssociation: stripeCouponQuoteLineAssociations)
+          for (Stripe_Coupon_Quote_Line_Association__c stripeCouponQuoteLineAssociation: stripeCouponQuoteLineAssociations)
           {
-            Stripe_Coupon_Beta__c quoteLineCoupon = [
+            Stripe_Coupon__c quoteLineCoupon = [
               SELECT Amount_Off__c, Duration__c, Duration_In_Months__c, Max_Redemptions__c, Name__c, Percent_Off__c
-              FROM Stripe_Coupon_Beta__c
+              FROM Stripe_Coupon__c
               WHERE Id = :stripeCouponQuoteLineAssociation.Stripe_Coupon__c
             ].get(0);
             
             // clone the Stripe Coupon on the quote line, it will have a different Id
-            Stripe_Coupon_Beta_Serialized__c clonedCoupon = new Stripe_Coupon_Beta_Serialized__c(
+            Stripe_Coupon_Serialized__c clonedCoupon = new Stripe_Coupon_Serialized__c(
               Amount_Off__c = quoteLineCoupon.Amount_Off__c,
               Duration__c = quoteLineCoupon.Duration__c,
               Duration_In_Months__c = quoteLineCoupon.Duration_In_Months__c,
               Max_Redemptions__c = quoteLineCoupon.Max_Redemptions__c,
               Name__c = quoteLineCoupon.Name__c,
               Percent_Off__c = quoteLineCoupon.Percent_Off__c,
-              Original_Stripe_Coupon_Beta_Id__c = quoteLineCoupon.Id
+              Original_Stripe_Coupon_Id__c = quoteLineCoupon.Id
             );
             // insert the cloned Stripe coupon
             Database.insertImmediate((sObject)clonedCoupon);
             
             // create a Stripe Coupon Order Line Association
-            Stripe_Coupon_Beta_Order_Item_Associatio__c orderLineStripeCouponAssociation = new Stripe_Coupon_Beta_Order_Item_Associatio__c(
+            Stripe_Coupon_Order_Item_Association__c orderLineStripeCouponAssociation = new Stripe_Coupon_Order_Item_Association__c(
               Stripe_Coupon__c = clonedCoupon.Id,
               Order_Item__c = orderItemId
             );

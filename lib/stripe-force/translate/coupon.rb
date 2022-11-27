@@ -17,7 +17,7 @@ class StripeForce::Translate
   def create_coupon_from_sf_coupon(sf_coupon)
     # check if the original sf coupon has been translated prior and exists in Stripe
     # this original coupon is the coupon that the order / order item coupon was copied from
-    original_sf_coupon = sf.find(prefixed_stripe_field(SF_STRIPE_COUPON), sf_coupon[prefixed_stripe_field("Original_Stripe_Coupon_Beta_Id__c").to_s])
+    original_sf_coupon = sf.find(prefixed_stripe_field(SF_STRIPE_COUPON), sf_coupon[prefixed_stripe_field("Original_Stripe_Coupon_Id__c")])
     existing_stripe_coupon = retrieve_from_stripe(Stripe::Coupon, original_sf_coupon)
     if existing_stripe_coupon
       existing_stripe_coupon = T.cast(existing_stripe_coupon, Stripe::Coupon)
@@ -101,7 +101,7 @@ class StripeForce::Translate
       # there could be multiple coupons associated with a single order line
       coupons = associations.map do |association|
           association = sf_client.find(association_obj_type, association.Id)
-          coupon = sf_client.query("Select Id from #{prefixed_stripe_field(SF_STRIPE_COUPON_SERIALIZED)} where Id = '#{association.Stripe_Coupon__c}'")
+          coupon = sf_client.query("Select Id from #{prefixed_stripe_field(SF_STRIPE_COUPON_SERIALIZED)} where Id = '#{association[prefixed_stripe_field('Stripe_Coupon__c')]}'")
 
           # return the coupon object
           sf_client.find(prefixed_stripe_field(SF_STRIPE_COUPON_SERIALIZED), coupon.first.Id)

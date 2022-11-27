@@ -59,7 +59,7 @@ export default class DataMappingStep extends LightningElement {
             description: 'Price order items define the unit cost, currency, and (optional) billing cycle for both recurring and one-time purchases of a single product.'
         },
         "coupon": {
-            objectName: "Stripe_Coupon_Beta__c",
+            objectName: "Stripe_Coupon__c",
             friendlyName: 'Stripe Coupon',
             description: 'Coupons contain information about a percent-off or amount-off discount you might want to apply to a subscription or subscription item.'
         }

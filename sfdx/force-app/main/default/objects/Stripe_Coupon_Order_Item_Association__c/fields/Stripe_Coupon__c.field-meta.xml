@@ -3,9 +3,9 @@
     <fullName>Stripe_Coupon__c</fullName>
     <externalId>false</externalId>
     <label>Stripe Coupon</label>
-    <referenceTo>Stripe_Coupon_Beta__c</referenceTo>
-    <relationshipLabel>Stripe Coupon Beta Quote Lines</relationshipLabel>
-    <relationshipName>Stripe_Coupon_Beta_Quote_Lines</relationshipName>
+    <referenceTo>Stripe_Coupon_Serialized__c</referenceTo>
+    <relationshipLabel>Stripe Coupon Order Item Link</relationshipLabel>
+    <relationshipName>Stripe_Coupon_Order_Item_Link</relationshipName>
     <relationshipOrder>0</relationshipOrder>
     <reparentableMasterDetail>false</reparentableMasterDetail>
     <trackTrending>false</trackTrending>

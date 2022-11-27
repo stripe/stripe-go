@@ -143,25 +143,67 @@
     <allowInChatterGroups>false</allowInChatterGroups>
     <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
     <deploymentStatus>Deployed</deploymentStatus>
-    <description>Custom junction object linking a Stripe Coupon and a CPQ Quote Line.</description>
+    <description>Custom object representing a Stripe Coupon.</description>
     <enableActivities>false</enableActivities>
     <enableBulkApi>true</enableBulkApi>
     <enableFeeds>false</enableFeeds>
     <enableHistory>false</enableHistory>
     <enableLicensing>false</enableLicensing>
     <enableReports>false</enableReports>
-    <enableSearch>false</enableSearch>
+    <enableSearch>true</enableSearch>
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
-    <externalSharingModel>ControlledByParent</externalSharingModel>
-    <label>Stripe Coupon Beta Quote Line Associatio</label>
+    <externalSharingModel>Private</externalSharingModel>
+    <label>Stripe Coupon</label>
     <nameField>
         <displayFormat>{0000}</displayFormat>
-        <label>Stripe Coupon Beta Quote Line Associatio Name</label>
+        <label>Coupon Number</label>
         <type>AutoNumber</type>
     </nameField>
-    <pluralLabel>Stripe Coupon Beta Quote Lines</pluralLabel>
+    <pluralLabel>Stripe Coupons</pluralLabel>
     <searchLayouts></searchLayouts>
-    <sharingModel>ControlledByParent</sharingModel>
+    <sharingModel>ReadWrite</sharingModel>
+    <validationRules>
+        <fullName>Duration_In_Months_Set_For_Repeating</fullName>
+        <description>When you use the value repeating for duration, you must specify duration_in_months as the number of months that the coupon repeatedly applies to.</description>
+        <active>true</active>
+        <errorConditionFormula>AND(ISPICKVAL(Duration__c, "repeating"), ISBLANK(Duration_In_Months__c))</errorConditionFormula>
+        <errorMessage>The Duration_In_Months__c param must be set when creating a coupon with a repeating duration.</errorMessage>
+    </validationRules>
+   <validationRules>
+        <fullName>Either_Coupon_Type_Off_Is_Set</fullName>
+        <description>Stripe Coupon has either Percent Off or Amount Off set.</description>
+        <active>true</active>
+        <errorConditionFormula>AND(ISBLANK(Amount_Off__c), ISBLANK(Percent_Off__c))</errorConditionFormula>
+        <errorMessage>Must provide Percent_Off__c or Amount_Off__c on a Stripe Coupon.</errorMessage>
+    </validationRules>
+    <validationRules>
+        <fullName>Only_One_Coupon_Type_Off_Is_Set</fullName>
+        <description>Stripe Coupon does not have both Percent Off or Amount Off set.</description>
+        <active>true</active>
+        <errorConditionFormula>AND(NOT(ISBLANK(Amount_Off__c)), NOT(ISBLANK(Percent_Off__c)))</errorConditionFormula>
+        <errorMessage>Received both Percent_Off__c and Amount_Off__c parameters. Please pass in only one.</errorMessage>
+    </validationRules>
+    <validationRules>
+        <fullName>Percent_Off_Is_In_Range</fullName>
+        <description>Percent_Off__c value should be between 0 and 100.</description>
+        <active>true</active>
+        <errorConditionFormula>AND(NOT(ISBLANK(Percent_Off__c)), Percent_Off__c > 100.0)</errorConditionFormula>
+        <errorMessage>Percent_Off__c value must be greater than 0 and less or equal to 100.</errorMessage>
+    </validationRules>
+    <validationRules>
+        <fullName>Amount_Off_and_Percent_Off_Not_Updated</fullName>
+        <description>You cannot change `Amount_Off__c` or `Percent_Off__c` after the coupon is created in Stripe.</description>
+        <active>true</active>
+        <errorConditionFormula>AND(NOT(ISBLANK(Stripe_ID__c)), OR(ISCHANGED(Amount_Off__c), ISCHANGED(Percent_Off__c)))</errorConditionFormula>
+        <errorMessage>You cannot update Amount_Off__c or Percent_Off__c after the coupon has been created.</errorMessage>
+    </validationRules>
+    <validationRules>
+        <fullName>Duration_Not_Updated</fullName>
+        <description>You cannot change `Duration__c` after the coupon is created in Stripe.</description>
+        <active>true</active>
+        <errorConditionFormula>AND(NOT(ISBLANK(Stripe_ID__c)), OR(ISCHANGED(Duration__c)))</errorConditionFormula>
+        <errorMessage>You cannot update Duration__c after the coupon has been created.</errorMessage>
+    </validationRules>
     <visibility>Public</visibility>
 </CustomObject>

@@ -143,25 +143,25 @@
     <allowInChatterGroups>false</allowInChatterGroups>
     <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
     <deploymentStatus>Deployed</deploymentStatus>
-    <description>Custom object representing a Stripe Coupon that has been translated.</description>
+    <description>Custom junction object linking a Stripe Coupon and a CPQ Quote Line.</description>
     <enableActivities>false</enableActivities>
     <enableBulkApi>true</enableBulkApi>
     <enableFeeds>false</enableFeeds>
     <enableHistory>false</enableHistory>
     <enableLicensing>false</enableLicensing>
     <enableReports>false</enableReports>
-    <enableSearch>true</enableSearch>
+    <enableSearch>false</enableSearch>
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
-    <externalSharingModel>Private</externalSharingModel>
-    <label>Stripe Coupon Beta Serialized</label>
+    <externalSharingModel>ControlledByParent</externalSharingModel>
+    <label>Stripe Coupon Quote Line Association</label>
     <nameField>
         <displayFormat>{0000}</displayFormat>
-        <label>Coupon Number</label>
+        <label>Stripe Coupon Quote Line Association</label>
         <type>AutoNumber</type>
     </nameField>
-    <pluralLabel>Stripe Coupons Beta Serialized</pluralLabel>
+    <pluralLabel>Stripe Coupon Quote Line Associations</pluralLabel>
     <searchLayouts></searchLayouts>
-    <sharingModel>ReadWrite</sharingModel>
+    <sharingModel>ControlledByParent</sharingModel>
     <visibility>Public</visibility>
 </CustomObject>

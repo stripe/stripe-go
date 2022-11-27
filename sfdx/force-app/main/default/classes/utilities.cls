@@ -125,7 +125,7 @@ public with sharing class utilities {
                                         'ContractLineItem',
                                         'OpportunityLineItem',
                                         'ProductItem',
-                                        'Stripe_Coupon_Beta__c'
+                                        'Stripe_Coupon__c'
                                     };
                                     if(listOfImportantObjectsApiNames.contains(stringReferncedObjecect)) {
                                         objectFieldMap = addFieldsToObjectFieldMap(objectFieldMap, objectApiFieldMap, objectFieldName, isFieldCustom, typeOfField, isObjectCustom);

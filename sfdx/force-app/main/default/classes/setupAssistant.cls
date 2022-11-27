@@ -193,7 +193,7 @@ public with sharing class setupAssistant {
                         'Account' => utilities.getListOfFieldsByObject('Account'),
                         'Product2' => utilities.getListOfFieldsByObject('Product2'),
                         'PricebookEntry' => utilities.getListOfFieldsByObject('PricebookEntry'),
-                        'Stripe_Coupon_Beta__c' => utilities.getListOfFieldsByObject('Stripe_Coupon_Beta__c')
+                        'Stripe_Coupon__c' => utilities.getListOfFieldsByObject('Stripe_Coupon__c')
                     };
                     rd.put('fieldListByObjectMap', fieldListByObjectMap);
                 } else {
@@ -699,7 +699,6 @@ public with sharing class setupAssistant {
                 'Order',
                 'OrderItem',
                 'PricebookEntry'
-                // 'Stripe_Coupon_Beta__c'
             };
 
             if ((Boolean)utilities.isCpqEnabled()) {

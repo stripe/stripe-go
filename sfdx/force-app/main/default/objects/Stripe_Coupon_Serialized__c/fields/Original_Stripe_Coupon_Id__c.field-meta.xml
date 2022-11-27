@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Original_Stripe_Coupon_Beta_Id__c</fullName>
+    <fullName>Original_Stripe_Coupon_Id__c</fullName>
     <description>The unique identifier for the initial coupon this coupon was duplicated from.</description>
     <externalId>false</externalId>
     <label>Original Stripe Coupon ID</label>
