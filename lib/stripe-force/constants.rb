@@ -99,7 +99,6 @@ module StripeForce
 
     class SalesforceStripeCouponFields < T::Enum
      enums do
-        ID = new('Id')
         NAME = new('Name__c')
         PERCENT_OFF = new('Percent_Off__c')
         AMOUNT_OFF = new('Amount_Off__c')

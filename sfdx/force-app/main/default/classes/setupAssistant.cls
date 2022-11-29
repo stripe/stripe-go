@@ -185,7 +185,7 @@ public with sharing class setupAssistant {
 
             if(stripeConnectRec.Id != null && stripeConnectRec.Salesforce_Connected__c && stripeConnectRec.Stripe_Connected__c) {
                 isConnected = true;
-                if(isConnectedCallback == true) {
+                if(isConnectedCallback == true) {   
                     //builds a map of fields lists by object
                     Map<String, Set<Object>> fieldListByObjectMap = new Map<String, Set<Object>>{
                         'OrderItem' => utilities.getListOfFieldsByObject('OrderItem'),
@@ -193,7 +193,7 @@ public with sharing class setupAssistant {
                         'Account' => utilities.getListOfFieldsByObject('Account'),
                         'Product2' => utilities.getListOfFieldsByObject('Product2'),
                         'PricebookEntry' => utilities.getListOfFieldsByObject('PricebookEntry'),
-                        'Stripe_Coupon__c' => utilities.getListOfFieldsByObject('Stripe_Coupon__c')
+                        'Stripe_Coupon__c' => utilities.getListOfFieldsByObject(constants.NAMESPACE_API + 'Stripe_Coupon__c')
                     };
                     rd.put('fieldListByObjectMap', fieldListByObjectMap);
                 } else {

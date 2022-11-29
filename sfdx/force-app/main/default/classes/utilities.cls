@@ -1,63 +1,6 @@
 public with sharing class utilities {
     public class SetupIsNotCompleteException extends Exception {}
 
-    public static String getObjectName(String sObjectName)
-    {
-        if (!Schema.getGlobalDescribe().containsKey(sObjectName)) {
-            if (Schema.getGlobalDescribe().containsKey(constants.NAMESPACE_API + sObjectName)) {
-                sObjectName = constants.NAMESPACE_API + sObjectName;
-            } else {
-                return null;
-            }
-        }
-        return sObjectName;
-    }
-
-    public static List<SObject> fetchStripeCouponsFromAssociations(String associationName, String associationField, String sObjectId){
-        String prefixedCouponField = constants.NAMESPACE_API + 'Stripe_Coupon__c';
-        String prefixedAssociationName = getObjectName(associationName);
-        String prefixedAssociationField = constants.NAMESPACE_API + associationField;
-        String query = 'SELECT ' + prefixedCouponField + ' FROM ' + prefixedAssociationName + ' WHERE ' + prefixedAssociationField + ' = ' + '\''+sObjectId+'\'';
-        return Database.Query(query); 
-    } 
-
-    public static SObject fetchStripeCoupon(String couponId){
-        String[] fields = new String[]{'Amount_Off__c', 'Duration__c', 'Duration_In_Months__c', 'Max_Redemptions__c', 'Name__c', 'Percent_Off__c'};
-        List<String> prefixedCouponFields = new List<String>();
-        for (String field: fields){
-            prefixedCouponFields.add(constants.NAMESPACE_API + field);
-        }
-        
-        String prefixedCouponObjName = getObjectName('Stripe_Coupon__c');
-        String couponFieldsList = String.join(prefixedCouponFields, ', ');
-        String query = 'SELECT ' + couponFieldsList + ' FROM ' + prefixedCouponObjName + ' WHERE Id = ' + '\''+couponId+'\'';
-        return Database.Query(query).get(0);
-    } 
-
-    public static sObject cloneStripeCoupon(sObject original_coupon)
-    {
-        String prefixedStripeCouponSerializedObjName = getObjectName('Stripe_Coupon_Serialized__c');
-        sObject clonedCoupon = Schema.getGlobalDescribe().get(prefixedStripeCouponSerializedObjName).newSObject();
-        
-        String prefixedAmountOffField = constants.NAMESPACE_API + 'Amount_Off__c';
-        String prefixedDurationField = constants.NAMESPACE_API + 'Duration__c';
-        String prefixedDurationInMonthsField = constants.NAMESPACE_API + 'Duration_In_Months__c';
-        String prefixedMaxRedemptionsField = constants.NAMESPACE_API + 'Max_Redemptions__c';
-        String prefixedNameField = constants.NAMESPACE_API + 'Name__c';
-        String prefixedPercentOffField = constants.NAMESPACE_API + 'Percent_Off__c';
-        String prefixedStripeCouponIdField = constants.NAMESPACE_API + 'Original_Stripe_Coupon_Id__c';
-
-        clonedCoupon.put(prefixedAmountOffField, (Decimal)original_coupon.get(prefixedAmountOffField));
-        clonedCoupon.put(prefixedDurationField, (String)original_coupon.get(prefixedDurationField));
-        clonedCoupon.put(prefixedDurationInMonthsField, (Decimal)original_coupon.get(prefixedDurationInMonthsField));
-        clonedCoupon.put(prefixedMaxRedemptionsField, (Decimal)original_coupon.get(prefixedMaxRedemptionsField));
-        clonedCoupon.put(prefixedNameField, (String)original_coupon.get(prefixedNameField));
-        clonedCoupon.put(prefixedPercentOffField, (Decimal)original_coupon.get(prefixedPercentOffField));
-        clonedCoupon.put(prefixedStripeCouponIdField, (String)original_coupon.get('Id'));
-        
-        return clonedCoupon;
-    }
-
     public static Boolean isPackagedEnvironment() {
         return !String.isEmpty(constants.NAMESPACE_API);
     }
