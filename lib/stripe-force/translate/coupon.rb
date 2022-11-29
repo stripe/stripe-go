@@ -91,20 +91,20 @@ class StripeForce::Translate
         raise "unsupported sf object type for coupons #{sf_object.sobject_type}"
       end
 
+      # check if there are any coupon associations to this order or order item
       associations = sf_client.query("Select Id from #{prefixed_stripe_field(association_obj_type)} where #{prefixed_stripe_field(association_field)} = '#{sf_object.Id}'")
-
       if !associations || associations.size == 0
         log.info "no stripe coupon associations related to this sf object", salesforce_object: sf_object
         return
       end
 
-      # there could be multiple coupons associated with a single order line
+      # there could be multiple coupons associated with a single order or order line
       coupons = associations.map do |association|
-          association = sf_client.find(association_obj_type, association.Id)
-          coupon = sf_client.query("Select Id from #{prefixed_stripe_field(SF_STRIPE_COUPON_SERIALIZED)} where Id = '#{association[prefixed_stripe_field('Stripe_Coupon__c')]}'")
+          association = sf_client.find(prefixed_stripe_field(association_obj_type), association.Id)
 
           # return the coupon object
-          sf_client.find(prefixed_stripe_field(SF_STRIPE_COUPON_SERIALIZED), coupon.first.Id)
+          serializedCouponId = association[prefixed_stripe_field('Stripe_Coupon__c')]
+          sf_client.find(prefixed_stripe_field(SF_STRIPE_COUPON_SERIALIZED), serializedCouponId)
       end
 
       coupons

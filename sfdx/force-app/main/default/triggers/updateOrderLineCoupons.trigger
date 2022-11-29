@@ -22,50 +22,36 @@ trigger updateOrderLineCoupons on SBQQ__Quote__c (after update) {
           {
             continue;
           }
-          Id orderItemId =  orderItem.get(0).Id;
+          Id orderItemId = orderItem.get(0).Id;
 
           // fetch the Stripe Coupon Quote Line Associations for this quote line
-          List<Stripe_Coupon_Quote_Line_Association__c> stripeCouponQuoteLineAssociations = [
-            SELECT Id, Stripe_Coupon__c
-            FROM Stripe_Coupon_Quote_Line_Association__c
-            WHERE Quote_Line__c = :quoteLine.Id
-          ];
-
+          List<sObject> stripeCouponQuoteLineAssociations = Utilities.fetchStripeCouponsFromAssociations('Stripe_Coupon_Quote_Line_Association__c', 'Quote_Line__c', quoteLine.Id);
           if (stripeCouponQuoteLineAssociations == null)
           {
             continue;
           }
 
           // for each Stripe Coupon Quote Line Association
-          for (Stripe_Coupon_Quote_Line_Association__c stripeCouponQuoteLineAssociation: stripeCouponQuoteLineAssociations)
+          for (sObject stripeCouponQuoteLineAssociation: stripeCouponQuoteLineAssociations)
           {
-            Stripe_Coupon__c quoteLineCoupon = [
-              SELECT Amount_Off__c, Duration__c, Duration_In_Months__c, Max_Redemptions__c, Name__c, Percent_Off__c
-              FROM Stripe_Coupon__c
-              WHERE Id = :stripeCouponQuoteLineAssociation.Stripe_Coupon__c
-            ].get(0);
+            String prefixedStripeCoupon = constants.NAMESPACE_API + 'Stripe_Coupon__c';
+            String couponId = (String)stripeCouponQuoteLineAssociation.get(prefixedStripeCoupon);
+            sObject quoteLineCoupon = Utilities.fetchStripeCoupon(couponId);
             
             // clone the Stripe Coupon on the quote line, it will have a different Id
-            Stripe_Coupon_Serialized__c clonedCoupon = new Stripe_Coupon_Serialized__c(
-              Amount_Off__c = quoteLineCoupon.Amount_Off__c,
-              Duration__c = quoteLineCoupon.Duration__c,
-              Duration_In_Months__c = quoteLineCoupon.Duration_In_Months__c,
-              Max_Redemptions__c = quoteLineCoupon.Max_Redemptions__c,
-              Name__c = quoteLineCoupon.Name__c,
-              Percent_Off__c = quoteLineCoupon.Percent_Off__c,
-              Original_Stripe_Coupon_Id__c = quoteLineCoupon.Id
-            );
+            sObject clonedCoupon = Utilities.cloneStripeCoupon(quoteLineCoupon);
+          
             // insert the cloned Stripe coupon
-            Database.insertImmediate((sObject)clonedCoupon);
+            Database.insertImmediate(clonedCoupon);
             
-            // create a Stripe Coupon Order Line Association
-            Stripe_Coupon_Order_Item_Association__c orderLineStripeCouponAssociation = new Stripe_Coupon_Order_Item_Association__c(
-              Stripe_Coupon__c = clonedCoupon.Id,
-              Order_Item__c = orderItemId
-            );
+            // create a Stripe Coupon Order Item Association
+            String prefixedOrderItemAssociationObjName = Utilities.getObjectName('Stripe_Coupon_Order_Item_Association__c');
+            sObject orderItemStripeCouponAssociation = Schema.getGlobalDescribe().get(prefixedOrderItemAssociationObjName).newSObject();
+            orderItemStripeCouponAssociation.put((constants.NAMESPACE_API + 'Stripe_Coupon__c'), clonedCoupon.Id);
+            orderItemStripeCouponAssociation.put((constants.NAMESPACE_API + 'Order_Item__c'), orderItemId);
 
             // insert this record
-            Database.insertImmediate((sObject)orderLineStripeCouponAssociation);
+            Database.insertImmediate(orderItemStripeCouponAssociation);
           }
         }
       }
