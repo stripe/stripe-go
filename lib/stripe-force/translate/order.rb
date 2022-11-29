@@ -150,6 +150,8 @@ class StripeForce::Translate
       subscription_schedule.default_settings.invoice_settings.days_until_due = OrderHelpers.transform_payment_terms_to_days_until_due(days_until_due)
     end
 
+    sanitize(subscription_schedule)
+
     subscription_schedule = Stripe::SubscriptionSchedule.create(
       subscription_schedule.to_hash,
       StripeForce::Utilities::StripeUtil.generate_idempotency_key_with_credentials(@user, sf_order)

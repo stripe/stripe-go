@@ -20,6 +20,18 @@ module StripeForce
       if stripe_record.is_a?(Stripe::Coupon)
         sanitize_coupon(stripe_record)
       end
+
+      # Users may send iterations over as a decimal, we will round down.
+      # https://jira.corp.stripe.com/browse/PLATINT-2050
+      if stripe_record.is_a?(Stripe::SubscriptionSchedule)
+        sanitize_subscription_schedule(stripe_record)
+      end
+    end
+
+    private_class_method def self.sanitize_subscription_schedule(stripe_subscription_schedule)
+      if stripe_subscription_schedule[:prebilling] && stripe_subscription_schedule[:prebilling][:iterations]
+        stripe_subscription_schedule[:prebilling][:iterations] = stripe_subscription_schedule[:prebilling][:iterations].to_i
+      end
     end
 
     private_class_method def self.sanitize_coupon(stripe_coupon)
