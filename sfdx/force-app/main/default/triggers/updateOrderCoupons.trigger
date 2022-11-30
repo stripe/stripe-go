@@ -2,12 +2,9 @@ trigger updateOrderCoupons on SBQQ__Quote__c (after update) {
   public class CouponException extends Exception {}
 
   try {
-    // for all newly ordered quotes, check if the quote has coupon and copy/duplicate to the corresponding order
-    Integer count = 0;
+    // for all newly ordered quotes, check if the quote has coupons and duplicate/copy to the corresponding order
     for(SBQQ__Quote__c quote : Trigger.new) {
       if (quote.SBQQ__Ordered__c == true && Trigger.oldMap.get(quote.Id).SBQQ__Ordered__c == false) {
-        count++;
-
         // get the corresponding order for this quote 
         List<Order> order = [
           SELECT Id
@@ -19,7 +16,7 @@ trigger updateOrderCoupons on SBQQ__Quote__c (after update) {
         {
           if (constants.NAMESPACE_API == 'QaStripeConnect__')
           {
-            throw new CouponException('no orders found');
+            throw new CouponException('no corresponding order found for quote');
           }
           continue;
         }
@@ -27,7 +24,7 @@ trigger updateOrderCoupons on SBQQ__Quote__c (after update) {
 
         // fetch the Stripe Coupon Quote Associations for this quote
         List<Stripe_Coupon_Quote_Association__c> stripeCouponQuoteAssociations = [
-          SELECT Id, Stripe_Coupon__c
+          SELECT Stripe_Coupon__c
           FROM Stripe_Coupon_Quote_Association__c
           WHERE Quote__c = :quote.Id
         ];
@@ -36,7 +33,7 @@ trigger updateOrderCoupons on SBQQ__Quote__c (after update) {
         {
           if (constants.NAMESPACE_API == 'QaStripeConnect__')
           {
-            throw new CouponException('no stripeCouponQuoteAssociations found"');
+            throw new CouponException('no stripeCouponQuoteAssociations found for this quote');
           }
           continue;
         }
@@ -52,7 +49,7 @@ trigger updateOrderCoupons on SBQQ__Quote__c (after update) {
           
           if (quoteCoupon == null)
           {
-            throw new CouponException('no stripeCoupon found for stripeCouponQuoteAssociation');
+            throw new CouponException('no stripeCoupon found for stripeCouponQuoteAssociation' + stripeCouponQuoteAssociation);
             // return;
           }
 
@@ -79,17 +76,13 @@ trigger updateOrderCoupons on SBQQ__Quote__c (after update) {
           Database.insertImmediate((sObject)orderStripeCouponAssociation);
           if (constants.NAMESPACE_API == 'QaStripeConnect__')
           {
-            throw new CouponException('updateOrderCouponsTrigger finished');
+            throw new CouponException('updateOrderCouponsTrigger finished running');
           } 
         }
       }
     }
-    if (count == 0 && constants.NAMESPACE_API == 'QaStripeConnect__')
-    {
-      throw new CouponException('no quote was ordered');
-    }
   } catch (Exception e) {
-      throw new CouponException('updateOrderCouponsTrigger message: ' + e.getMessage() + 'lineNumber: ' + e.getLineNumber());
+      throw new CouponException('updateOrderCouponsTrigger: lineNumber: ' + e.getLineNumber() + ' message: ' + e.getMessage());
       // errorLogger.create('updateOrderCouponsTrigger', e);
   }
 }
