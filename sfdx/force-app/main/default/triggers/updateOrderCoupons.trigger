@@ -14,10 +14,6 @@ trigger updateOrderCoupons on SBQQ__Quote__c (after update) {
         
         if (order == null || order.size() == 0)
         {
-          if (constants.NAMESPACE_API == 'QaStripeConnect__')
-          {
-            throw new CouponException('no corresponding order found for quote');
-          }
           continue;
         }
         Id orderId =  order.get(0).Id;
@@ -31,10 +27,6 @@ trigger updateOrderCoupons on SBQQ__Quote__c (after update) {
 
         if (stripeCouponQuoteAssociations == null)
         {
-          if (constants.NAMESPACE_API == 'QaStripeConnect__')
-          {
-            throw new CouponException('no stripeCouponQuoteAssociations found for this quote');
-          }
           continue;
         }
 
