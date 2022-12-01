@@ -1,4 +1,6 @@
-trigger updateOrderLineCoupons on SBQQ__Quote__c (after update) {
+trigger updateOrderLineCoupons on SBQQ__Quote__c (after insert, after update) {
+  public class CouponException extends Exception {}
+
   try {
     // for all newly ordered quotes, check if the quote lines have coupon and duplicate to the corresponbding order lines
     for(SBQQ__Quote__c quote : Trigger.new) {
@@ -31,7 +33,7 @@ trigger updateOrderLineCoupons on SBQQ__Quote__c (after update) {
             WHERE Quote_Line__c = :quoteLine.Id
           ];
 
-          if (stripeCouponQuoteLineAssociations == null)
+          if (stripeCouponQuoteLineAssociations.isEmpty())
           {
             continue;
           }
@@ -39,11 +41,17 @@ trigger updateOrderLineCoupons on SBQQ__Quote__c (after update) {
           // for each Stripe Coupon Quote Line Association
           for (Stripe_Coupon_Quote_Line_Association__c stripeCouponQuoteLineAssociation: stripeCouponQuoteLineAssociations)
           {
-            Stripe_Coupon__c quoteLineCoupon = [
+            List<Stripe_Coupon__c> quoteLineCoupons = [
               SELECT Amount_Off__c, Duration__c, Duration_In_Months__c, Max_Redemptions__c, Name__c, Percent_Off__c
               FROM Stripe_Coupon__c
               WHERE Id = :stripeCouponQuoteLineAssociation.Stripe_Coupon__c
-            ].get(0);
+            ];
+            
+            if (quoteLineCoupons.isEmpty())
+            {
+              throw new CouponException('no stripeCoupon found for stripeCouponQuoteAssociation: ' + stripeCouponQuoteLineAssociation);
+            }
+            Stripe_Coupon__c quoteLineCoupon = quoteLineCoupons.get(0);
             
             // clone the Stripe Coupon on the quote line, it will have a different Id
             Stripe_Coupon_Serialized__c clonedCoupon = new Stripe_Coupon_Serialized__c(

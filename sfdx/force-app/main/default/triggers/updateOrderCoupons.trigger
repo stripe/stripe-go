@@ -1,6 +1,6 @@
-trigger updateOrderCoupons on SBQQ__Quote__c (after update) {
+trigger updateOrderCoupons on SBQQ__Quote__c (after insert, after update) {
   public class CouponException extends Exception {}
-
+  
   try {
     // for all newly ordered quotes, check if the quote has coupons and duplicate/copy to the corresponding order
     for(SBQQ__Quote__c quote : Trigger.new) {
@@ -25,7 +25,7 @@ trigger updateOrderCoupons on SBQQ__Quote__c (after update) {
           WHERE Quote__c = :quote.Id
         ];
 
-        if (stripeCouponQuoteAssociations == null)
+        if (stripeCouponQuoteAssociations.isEmpty())
         {
           continue;
         }
@@ -33,17 +33,17 @@ trigger updateOrderCoupons on SBQQ__Quote__c (after update) {
         // for each Stripe Coupon Quote Association
         for (Stripe_Coupon_Quote_Association__c stripeCouponQuoteAssociation: stripeCouponQuoteAssociations)
         {
-          Stripe_Coupon__c quoteCoupon = [
+          List<Stripe_Coupon__c> quoteCoupons = [
             SELECT Amount_Off__c, Duration__c, Duration_In_Months__c, Max_Redemptions__c, Name__c, Percent_Off__c
             FROM Stripe_Coupon__c
             WHERE Id = :stripeCouponQuoteAssociation.Stripe_Coupon__c
-          ].get(0);
+          ];
           
-          if (quoteCoupon == null)
+          if (quoteCoupons.isEmpty())
           {
-            throw new CouponException('no stripeCoupon found for stripeCouponQuoteAssociation' + stripeCouponQuoteAssociation);
-            // return;
+            throw new CouponException('no stripeCoupon found for stripeCouponQuoteAssociation: ' + stripeCouponQuoteAssociation);
           }
+          Stripe_Coupon__c quoteCoupon = quoteCoupons.get(0);
 
           // clone the Stripe Coupon on the quote, it will have a different Id
           Stripe_Coupon_Serialized__c clonedCoupon = new Stripe_Coupon_Serialized__c(
@@ -66,15 +66,10 @@ trigger updateOrderCoupons on SBQQ__Quote__c (after update) {
 
           // insert this record
           Database.insertImmediate((sObject)orderStripeCouponAssociation);
-          if (constants.NAMESPACE_API == 'QaStripeConnect__')
-          {
-            throw new CouponException('updateOrderCouponsTrigger finished running');
-          } 
         }
       }
     }
   } catch (Exception e) {
-      throw new CouponException('updateOrderCouponsTrigger: lineNumber: ' + e.getLineNumber() + ' message: ' + e.getMessage());
-      // errorLogger.create('updateOrderCouponsTrigger', e);
+    errorLogger.create('updateOrderCouponsTrigger', e);
   }
 }
