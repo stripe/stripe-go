@@ -441,7 +441,8 @@ class Critic::OrderAmendmentTranslation < Critic::OrderAmendmentFunctionalTest
 
       contract_term = TEST_DEFAULT_CONTRACT_TERM
       amendment_term = 6
-      initial_order_start_date = DateTime.new(2022, 10, 30).utc.beginning_of_day
+      # 1 year in the future, so our test clock advancement does not result in the past
+      initial_order_start_date = DateTime.new(Time.now.year + 1, 10, 30).utc.beginning_of_day
       amendment_start_date = initial_order_start_date + (contract_term - amendment_term).months
       amendment_end_date = initial_order_start_date + TEST_DEFAULT_CONTRACT_TERM.months
 
@@ -486,8 +487,8 @@ class Critic::OrderAmendmentTranslation < Critic::OrderAmendmentFunctionalTest
       # they should all be in the future
       assert(billing_cycle_dates.all? {|ts| ts >= now_time.to_i })
       assert(initial_order_start_date < Time.now.to_i)
-      # first cycle should be a year apart from the billing cycle that has already passed
-      assert_equal(365, (T.must(billing_cycle_dates.first) - initial_order_start_date.to_i) / (60 * 60 * 24))
+      # first cycle should be a year apart from the billing cycle that has already passed (account for leap years)
+      assert_includes([365, 366], (T.must(billing_cycle_dates.first) - initial_order_start_date.to_i) / (60 * 60 * 24))
       # there should be a single billing dates: one in the future, since the past one has already passed due to the test clock
       # we may be need to change this: this isn't actually billed, but it is a billing cycle boundary
       assert_equal(1, billing_cycle_dates.count)
