@@ -285,6 +285,10 @@
         <object>SBQQ__Quote__c</object>
     </objectPermissions>
     <objectPermissions>
+        <allowRead>true</allowRead>
+        <object>Order</object>
+    </objectPermissions>
+    <objectPermissions>
         <allowCreate>true</allowCreate>
         <allowRead>true</allowRead>
         <object>Stripe_Coupon_Serialized__c</object>

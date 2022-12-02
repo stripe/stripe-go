@@ -1,15 +1,33 @@
-trigger updateOrderLineCoupons on SBQQ__Quote__c (after insert, after update) {
+trigger updateOrderLineCoupon on Order (after update) {
   public class CouponException extends Exception {}
 
   try {
-    // for all newly ordered quotes, check if the quote lines have coupon and duplicate to the corresponbding order lines
-    for(SBQQ__Quote__c quote : Trigger.new) {
-      if (quote.SBQQ__Ordered__c == true && Trigger.oldMap.get(quote.Id).SBQQ__Ordered__c == false) {
+    // for all new Orders, check if the corresponding quote has coupons and duplicate/copy to the corresponding order
+    for (Order order : Trigger.new) {
+      if (order.SBQQ__Quote__c != null && order.Status == 'Activated' && (Trigger.oldMap.get(order.Id) == null || Trigger.oldMap.get(order.Id).Status != 'Activated')) {
+        // get the corresponding quote for this order
+        List<Order> orders = [
+          SELECT Id, SBQQ__Quote__c
+          FROM Order
+          WHERE Id = :order.Id
+        ];
+ 
+        if (orders.isEmpty())
+        {
+          continue;
+        }
+
+        Id quoteId = orders.get(0).SBQQ__Quote__c;
+        if (quoteId == null)
+        {
+          throw new CouponException('Order does not contain SBQQ__Quote__c field'); 
+        }
+
         // fetch the related quote lines
         List<SBQQ__QuoteLine__c> quoteLines = [
           SELECT Id
           FROM SBQQ__QuoteLine__c
-          WHERE SBQQ__Quote__c = :quote.Id
+          WHERE SBQQ__Quote__c = :quoteId
         ];
 
         for (SBQQ__QuoteLine__c quoteLine : quoteLines) {   
@@ -49,8 +67,9 @@ trigger updateOrderLineCoupons on SBQQ__Quote__c (after insert, after update) {
             
             if (quoteLineCoupons.isEmpty())
             {
-              throw new CouponException('no stripeCoupon found for stripeCouponQuoteAssociation: ' + stripeCouponQuoteLineAssociation);
+              throw new CouponException('no stripeCoupon found for stripeCouponQuoteLineAssociation: ' + stripeCouponQuoteLineAssociation);
             }
+            
             Stripe_Coupon__c quoteLineCoupon = quoteLineCoupons.get(0);
             
             // clone the Stripe Coupon on the quote line, it will have a different Id

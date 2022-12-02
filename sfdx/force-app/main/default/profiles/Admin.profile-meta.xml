@@ -133,6 +133,10 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <field>Order.SBQQ__Quote__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>PricebookEntry.Stripe_Dashboard_Link__c</field>
         <readable>true</readable>
@@ -342,9 +346,24 @@
         <object>Stripe_Coupon_Quote_Line_Association__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
+        <objectPermissions>
+        <allowRead>true</allowRead>
+        <object>SBQQ__QuoteLine__c</object>
+    </objectPermissions>
+    <objectPermissions>
+        <allowRead>true</allowRead>
+        <object>SBQQ__Quote__c</object>
+    </objectPermissions>
+    <objectPermissions>
+        <allowRead>true</allowRead>
+        <object>Order</object>
+    </objectPermissions>
     <objectPermissions>
         <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
         <allowRead>true</allowRead>
+        <modifyAllRecords>true</modifyAllRecords>
         <object>Stripe_Coupon_Quote_Association__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>

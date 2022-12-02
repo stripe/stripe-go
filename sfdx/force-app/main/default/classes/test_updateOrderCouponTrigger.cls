@@ -8,7 +8,7 @@ public with sharing class test_updateOrderCouponTrigger {
             return;
         }
 
-        // Setup test Data
+        // Setup test data
         SBQQ__Quote__c quote = generateQuote();
         Stripe_Coupon__c coupon = createStripeCoupon();
         createStripeCouponQuoteAssociation(quote.id, coupon.id);
@@ -25,23 +25,42 @@ public with sharing class test_updateOrderCouponTrigger {
                     System.debug('Fields that affected this error: ' + err.getFields());
                 }
             }
+
+            // mark the quote as activated
+            List<Order> orders = [
+                SELECT Id
+                FROM Order
+                WHERE SBQQ__Quote__c = :quote.id];
+            System.assertEquals(1, orders.size());
+            Order order = orders.get(0);
+            order.Status = 'Activated';
+            Database.update(order, true);
+            
         Test.stopTest();
 
         // Verify
-        List<Order> orders = [
-            SELECT Id
-            FROM Order
-            WHERE SBQQ__Quote__c = :quote.id];
-        System.assertEquals(1, orders.size());
 
-        // trigger should have fired and created a serialized Stripe Coupon
-        List<Stripe_Coupon_Serialized__c> serializedStripeCoupons = getStripeCouponSerialized(coupon.Id);
+        // sanity check that the Stripe Coupon Quote Association was created
+        List<Stripe_Coupon_Quote_Association__c> stripeCouponQuoteAssociations = getStripeCouponQuoteAssociation(quote);
+        System.assertEquals(1, stripeCouponQuoteAssociations.size());
+
+        // sanity check that the Stripe Coupon has the correct data
+        List<Stripe_Coupon__c> quoteStripeCoupons = getStripeCoupons(stripeCouponQuoteAssociations.get(0));
+        System.assertEquals(1, quoteStripeCoupons.size());
+        
+        Stripe_Coupon__c quoteCoupon = quoteStripeCoupons.get(0);
+        System.assertEquals('55 percent off coupon', quoteCoupon.Name__c);
+        System.assertEquals(55, quoteCoupon.Percent_Off__c);
+        System.assertEquals('once', quoteCoupon.Duration__c);
+
+        // trigger should have created a serialized Stripe Coupon
+        List<Stripe_Coupon_Serialized__c> serializedStripeCoupons = getStripeCouponSerialized(quoteCoupon.id);
         System.assertEquals(1, serializedStripeCoupons.size());
         
         Stripe_Coupon_Serialized__c serializedStripeCoupon = serializedStripeCoupons.get(0);
         System.assertEquals('55 percent off coupon', serializedStripeCoupon.Name__c);
 
-        // should have create a Stripe Coupon Order Association__c as well
+        // trigger should have created a Stripe Coupon Order Association__c as well
         List<Stripe_Coupon_Order_Association__c> stripeCouponOrderAssociations = getstripeCouponOrderAssociations(orders.get(0).id);
         System.assertEquals(1, stripeCouponOrderAssociations.size());
     }
@@ -49,6 +68,7 @@ public with sharing class test_updateOrderCouponTrigger {
     static public SBQQ__Quote__c generateQuote() {
         Id pricebookId = Test.getStandardPricebookId();
 
+        // create an Account
         Account account = new Account();
         account.name = 'SFDC Account';
         account.SBQQ__RenewalModel__c = 'Contract Based';
@@ -92,6 +112,7 @@ public with sharing class test_updateOrderCouponTrigger {
         opportunity.put('SBQQ__Contracted__c', true);
         Database.insertImmediate((sObject)opportunity);
 
+        // Create the quote and quote line
         SBQQ__Quote__c quote = new SBQQ__Quote__c();
         quote.SBQQ__Account__c = account.id;
         quote.SBQQ__Status__c = 'Approved';
@@ -110,7 +131,7 @@ public with sharing class test_updateOrderCouponTrigger {
         quoteLine.SBQQ__Quantity__c = 10; 
         Database.insertImmediate((sObject)quoteLine);
 
-        return (SBQQ__Quote__c) quote; 
+        return quote; 
     }
 
     static public Stripe_Coupon__c createStripeCoupon() {
@@ -129,7 +150,23 @@ public with sharing class test_updateOrderCouponTrigger {
         Database.insertImmediate((sObject)salesforceStripeCouponQuoteAssociation);
     }
 
-    static public List<Stripe_Coupon_Serialized__c> getStripeCouponSerialized(Id originalCouponId) {
+    static public List<Stripe_Coupon__c> getStripeCoupons(Stripe_Coupon_Quote_Association__c stripeCouponQuoteAssociation) {
+        return [
+            SELECT Amount_Off__c, Duration__c, Duration_In_Months__c, Max_Redemptions__c, Name__c, Percent_Off__c
+            FROM Stripe_Coupon__c
+            WHERE Id = :stripeCouponQuoteAssociation.Stripe_Coupon__c
+        ];
+    }
+
+    static public List<Stripe_Coupon_Quote_Association__c> getStripeCouponQuoteAssociation(SBQQ__Quote__c quote) {
+        return [
+          SELECT Stripe_Coupon__c
+          FROM Stripe_Coupon_Quote_Association__c
+          WHERE Quote__c = :quote.Id
+        ];
+    }
+
+    static public List<Stripe_Coupon_Serialized__c> getStripeCouponSerialized(String originalCouponId) {
         return [
             SELECT Id, Name__c 
             FROM Stripe_Coupon_Serialized__c
