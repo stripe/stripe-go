@@ -5,6 +5,31 @@ public with sharing class utilities {
         return !String.isEmpty(constants.NAMESPACE_API);
     }
 
+    public static Stripe_Coupon_Serialized__c cloneStripeCoupon(Stripe_Coupon__c originalCoupon)
+    {
+        // clone the Stripe Coupon on the quote, it will have a different Id
+        Stripe_Coupon_Serialized__c clonedCoupon = new Stripe_Coupon_Serialized__c();
+        clonedCoupon.Amount_Off__c = originalCoupon.Amount_Off__c;
+        clonedCoupon.Duration__c = originalCoupon.Duration__c;
+        clonedCoupon.Duration_In_Months__c = originalCoupon.Duration_In_Months__c;
+        clonedCoupon.Max_Redemptions__c = originalCoupon.Max_Redemptions__c;
+        clonedCoupon.Name__c = originalCoupon.Name__c;
+        clonedCoupon.Percent_Off__c = originalCoupon.Percent_Off__c;
+        clonedCoupon.Original_Stripe_Coupon_Id__c = originalCoupon.Id;
+    
+        // insert the cloned Stripe coupon
+        Database.SaveResult result = Database.insertImmediate((sObject)clonedCoupon);
+        if (!result.isSuccess()) { 
+            // operation failed, so get all errors                
+            for(Database.Error err : result.getErrors()) {
+                System.debug('The following error has occurred.');                    
+                System.debug(err.getStatusCode() + ': ' + err.getMessage());
+                System.debug('Fields that affected this error: ' + err.getFields());
+            }
+        }
+        return clonedCoupon;
+    }
+    
     @AuraEnabled
     public static String getPackageVersion() {
         responseData rd = new responseData();
