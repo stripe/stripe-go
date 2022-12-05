@@ -1,25 +1,12 @@
-trigger updateOrderCoupon on Order (after insert, after update) {
+trigger updateOrderCoupon on Order (after update) {
   public class CouponException extends Exception {}
   
   try {
     // for all new Orders, check if the corresponding quote has coupons and duplicate/copy to the corresponding order
     for (Order order : Trigger.new) {
-      if (order.SBQQ__Quote__c != null && order.Status == 'Activated' && (Trigger.oldMap.get(order.Id) == null || Trigger.oldMap.get(order.Id).Status != 'Activated')) {
+      if (order.SBQQ__Quote__c != null && order.Status == 'Activated' && Trigger.oldMap.get(order.Id).Status != 'Activated') {
         // get the corresponding quote for this order
-        List<Order> orders = [
-          SELECT Id, SBQQ__Quote__c
-          FROM Order
-          WHERE Id = :order.Id
-        ];
- 
-        if (orders.isEmpty()) {
-          continue;
-        }
-
-        Id quoteId = orders.get(0).SBQQ__Quote__c;
-        if (quoteId == null) {
-          throw new CouponException('Order does not contain SBQQ__Quote__c field'); 
-        }
+        Id quoteId = order.SBQQ__Quote__c;
 
         // fetch the Stripe Coupon Quote Associations for this quote
         List<Stripe_Coupon_Quote_Association__c> stripeCouponQuoteAssociations = [
@@ -28,13 +15,13 @@ trigger updateOrderCoupon on Order (after insert, after update) {
           WHERE Quote__c = :quoteId
         ];
 
-        // Check if this Quote has associated coupons
+        // check if this quote has any associated coupons
         if (stripeCouponQuoteAssociations.isEmpty())
         {
           continue;
         }
 
-        // for each Stripe Coupon Quote Association
+        // for each Stripe_Coupon_Quote_Association__c, create a corresponding Stripe_Coupon_Order_Association__c
         for (Stripe_Coupon_Quote_Association__c stripeCouponQuoteAssociation: stripeCouponQuoteAssociations)
         {
           List<Stripe_Coupon__c> quoteCoupons = [

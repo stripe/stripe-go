@@ -14,7 +14,7 @@ public with sharing class test_updateOrderCouponTrigger {
         createStripeCouponQuoteAssociation(quote.id, coupon.id);
 
         Test.startTest();
-            // insert an ordered quote
+            // update quote to be ordered
             quote.SBQQ__Ordered__c = true;
             Database.SaveResult result = Database.update(quote, true);
             if (!result.isSuccess()) {
@@ -26,19 +26,17 @@ public with sharing class test_updateOrderCouponTrigger {
                 }
             }
 
-            // mark the quote as activated
+            // mark the order as activated
             List<Order> orders = [
                 SELECT Id
                 FROM Order
                 WHERE SBQQ__Quote__c = :quote.id];
             System.assertEquals(1, orders.size());
+            
             Order order = orders.get(0);
             order.Status = 'Activated';
-            Database.update(order, true);
-            
+            Database.update(order, true); 
         Test.stopTest();
-
-        // Verify
 
         // sanity check that the Stripe Coupon Quote Association was created
         List<Stripe_Coupon_Quote_Association__c> stripeCouponQuoteAssociations = getStripeCouponQuoteAssociation(quote);
