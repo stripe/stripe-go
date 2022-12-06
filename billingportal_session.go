@@ -6,6 +6,63 @@
 
 package stripe
 
+// The specified type of behavior after the flow is completed.
+type BillingPortalSessionFlowAfterCompletionType string
+
+// List of values that BillingPortalSessionFlowAfterCompletionType can take
+const (
+	BillingPortalSessionFlowAfterCompletionTypeHostedConfirmation BillingPortalSessionFlowAfterCompletionType = "hosted_confirmation"
+	BillingPortalSessionFlowAfterCompletionTypePortalHomepage     BillingPortalSessionFlowAfterCompletionType = "portal_homepage"
+	BillingPortalSessionFlowAfterCompletionTypeRedirect           BillingPortalSessionFlowAfterCompletionType = "redirect"
+)
+
+// Type of flow that the customer will go through.
+type BillingPortalSessionFlowType string
+
+// List of values that BillingPortalSessionFlowType can take
+const (
+	BillingPortalSessionFlowTypePaymentMethodUpdate BillingPortalSessionFlowType = "payment_method_update"
+	BillingPortalSessionFlowTypeSubscriptionCancel  BillingPortalSessionFlowType = "subscription_cancel"
+)
+
+// Configuration when `after_completion.type=hosted_confirmation`.
+type BillingPortalSessionFlowDataAfterCompletionHostedConfirmationParams struct {
+	// A custom message to display to the customer after the flow is completed.
+	CustomMessage *string `form:"custom_message"`
+}
+
+// Configuration when `after_completion.type=redirect`.
+type BillingPortalSessionFlowDataAfterCompletionRedirectParams struct {
+	// The URL the customer will be redirected to after the flow is completed.
+	ReturnURL *string `form:"return_url"`
+}
+
+// Behavior after the flow is completed.
+type BillingPortalSessionFlowDataAfterCompletionParams struct {
+	// Configuration when `after_completion.type=hosted_confirmation`.
+	HostedConfirmation *BillingPortalSessionFlowDataAfterCompletionHostedConfirmationParams `form:"hosted_confirmation"`
+	// Configuration when `after_completion.type=redirect`.
+	Redirect *BillingPortalSessionFlowDataAfterCompletionRedirectParams `form:"redirect"`
+	// The specified behavior after the flow is completed.
+	Type *string `form:"type"`
+}
+
+// Configuration when `flow_data.type=subscription_cancel`.
+type BillingPortalSessionFlowDataSubscriptionCancelParams struct {
+	// The ID of the subscription to be canceled.
+	Subscription *string `form:"subscription"`
+}
+
+// Information about a specific flow for the customer to go through.
+type BillingPortalSessionFlowDataParams struct {
+	// Behavior after the flow is completed.
+	AfterCompletion *BillingPortalSessionFlowDataAfterCompletionParams `form:"after_completion"`
+	// Configuration when `flow_data.type=subscription_cancel`.
+	SubscriptionCancel *BillingPortalSessionFlowDataSubscriptionCancelParams `form:"subscription_cancel"`
+	// Type of flow that the customer will go through.
+	Type *string `form:"type"`
+}
+
 // Creates a session of the customer portal.
 type BillingPortalSessionParams struct {
 	Params `form:"*"`
@@ -13,12 +70,49 @@ type BillingPortalSessionParams struct {
 	Configuration *string `form:"configuration"`
 	// The ID of an existing customer.
 	Customer *string `form:"customer"`
+	// Information about a specific flow for the customer to go through.
+	FlowData *BillingPortalSessionFlowDataParams `form:"flow_data"`
 	// The IETF language tag of the locale Customer Portal is displayed in. If blank or auto, the customer's `preferred_locales` or browser's locale is used.
 	Locale *string `form:"locale"`
 	// The `on_behalf_of` account to use for this session. When specified, only subscriptions and invoices with this `on_behalf_of` account appear in the portal. For more information, see the [docs](https://stripe.com/docs/connect/charges-transfers#on-behalf-of). Use the [Accounts API](https://stripe.com/docs/api/accounts/object#account_object-settings-branding) to modify the `on_behalf_of` account's branding settings, which the portal displays.
 	OnBehalfOf *string `form:"on_behalf_of"`
 	// The default URL to redirect customers to when they click on the portal's link to return to your website.
 	ReturnURL *string `form:"return_url"`
+}
+
+// Configuration when `after_completion.type=hosted_confirmation`.
+type BillingPortalSessionFlowAfterCompletionHostedConfirmation struct {
+	// A custom message to display to the customer after the flow is completed.
+	CustomMessage string `json:"custom_message"`
+}
+
+// Configuration when `after_completion.type=redirect`.
+type BillingPortalSessionFlowAfterCompletionRedirect struct {
+	// The URL the customer will be redirected to after the flow is completed.
+	ReturnURL string `json:"return_url"`
+}
+type BillingPortalSessionFlowAfterCompletion struct {
+	// Configuration when `after_completion.type=hosted_confirmation`.
+	HostedConfirmation *BillingPortalSessionFlowAfterCompletionHostedConfirmation `json:"hosted_confirmation"`
+	// Configuration when `after_completion.type=redirect`.
+	Redirect *BillingPortalSessionFlowAfterCompletionRedirect `json:"redirect"`
+	// The specified type of behavior after the flow is completed.
+	Type BillingPortalSessionFlowAfterCompletionType `json:"type"`
+}
+
+// Configuration when `flow.type=subscription_cancel`.
+type BillingPortalSessionFlowSubscriptionCancel struct {
+	// The ID of the subscription to be canceled.
+	Subscription string `json:"subscription"`
+}
+
+// Information about a specific flow for the customer to go through.
+type BillingPortalSessionFlow struct {
+	AfterCompletion *BillingPortalSessionFlowAfterCompletion `json:"after_completion"`
+	// Configuration when `flow.type=subscription_cancel`.
+	SubscriptionCancel *BillingPortalSessionFlowSubscriptionCancel `json:"subscription_cancel"`
+	// Type of flow that the customer will go through.
+	Type BillingPortalSessionFlowType `json:"type"`
 }
 
 // The Billing customer portal is a Stripe-hosted UI for subscription and
@@ -43,6 +137,8 @@ type BillingPortalSession struct {
 	Created int64 `json:"created"`
 	// The ID of the customer for this session.
 	Customer string `json:"customer"`
+	// Information about a specific flow for the customer to go through.
+	Flow *BillingPortalSessionFlow `json:"flow"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
