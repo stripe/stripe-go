@@ -193,9 +193,9 @@ type PaymentLinkCustomTextParams struct {
 type PaymentLinkLineItemAdjustableQuantityParams struct {
 	// Set to true if the quantity can be adjusted to any non-negative Integer.
 	Enabled *bool `form:"enabled"`
-	// The maximum quantity the customer can purchase. By default this value is 99. You can specify a value up to 99.
+	// The maximum quantity the customer can purchase. By default this value is 99. You can specify a value up to 999.
 	Maximum *int64 `form:"maximum"`
-	// The minimum quantity the customer can purchase. By default this value is 0. You can specify a value up to 98. If there is only one item in the cart then that item's quantity cannot go down to 0.
+	// The minimum quantity the customer can purchase. By default this value is 0. If there is only one item in the cart then that item's quantity cannot go down to 0.
 	Minimum *int64 `form:"minimum"`
 }
 
