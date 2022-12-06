@@ -37,7 +37,7 @@ type InvoiceItemDiscountParams struct {
 	DiscountEnd *InvoiceItemDiscountDiscountEndParams `form:"discount_end"`
 }
 
-// The period associated with this invoice item. When set to different values, the period will be rendered on the invoice.
+// The period associated with this invoice item. When set to different values, the period will be rendered on the invoice. If you have [Stripe Revenue Recognition](https://stripe.com/docs/revenue-recognition) enabled, the period will be used to recognize and defer revenue. See the [Revenue Recognition documentation](https://stripe.com/docs/revenue-recognition/methodology/subscriptions-and-invoicing) for details.
 type InvoiceItemPeriodParams struct {
 	// The end of the period, which must be greater than or equal to the start.
 	End *int64 `form:"end"`
@@ -76,7 +76,7 @@ type InvoiceItemParams struct {
 	Discounts []*InvoiceItemDiscountParams `form:"discounts"`
 	// The ID of an existing invoice to add this invoice item to. When left blank, the invoice item will be added to the next upcoming scheduled invoice. This is useful when adding invoice items in response to an invoice.created webhook. You can only add invoice items to draft invoices and there is a maximum of 250 items per invoice.
 	Invoice *string `form:"invoice"`
-	// The period associated with this invoice item. When set to different values, the period will be rendered on the invoice.
+	// The period associated with this invoice item. When set to different values, the period will be rendered on the invoice. If you have [Stripe Revenue Recognition](https://stripe.com/docs/revenue-recognition) enabled, the period will be used to recognize and defer revenue. See the [Revenue Recognition documentation](https://stripe.com/docs/revenue-recognition/methodology/subscriptions-and-invoicing) for details.
 	Period *InvoiceItemPeriodParams `form:"period"`
 	// The ID of the price object.
 	Price *string `form:"price"`
