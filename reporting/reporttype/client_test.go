@@ -4,8 +4,8 @@ import (
 	"testing"
 
 	assert "github.com/stretchr/testify/require"
-	stripe "github.com/stripe/stripe-go/v73"
-	_ "github.com/stripe/stripe-go/v73/testing"
+	stripe "github.com/stripe/stripe-go/v74"
+	_ "github.com/stripe/stripe-go/v74/testing"
 )
 
 func TestReportTestGet(t *testing.T) {

@@ -18,8 +18,8 @@ Then, reference stripe-go in a Go program with `import`:
 
 ``` go
 import (
-	"github.com/stripe/stripe-go/v73"
-	"github.com/stripe/stripe-go/v73/customer"
+	"github.com/stripe/stripe-go/v74"
+	"github.com/stripe/stripe-go/v74/customer"
 )
 ```
 
@@ -29,7 +29,7 @@ toolchain will resolve and fetch the stripe-go module automatically.
 Alternatively, you can also explicitly `go get` the package into a project:
 
 ```bash
-go get -u github.com/stripe/stripe-go/v73
+go get -u github.com/stripe/stripe-go/v74
 ```
 
 ## Documentation
@@ -118,8 +118,8 @@ To use a key, pass it to `API`'s `Init` function:
 ```go
 
 import (
-	"github.com/stripe/stripe-go/v73"
-	"github.com/stripe/stripe-go/v73/client"
+	"github.com/stripe/stripe-go/v74"
+	"github.com/stripe/stripe-go/v74/client"
 )
 
 stripe := &client.API{}
@@ -140,8 +140,8 @@ import (
 	"google.golang.org/appengine"
 	"google.golang.org/appengine/urlfetch"
 
-	"github.com/stripe/stripe-go/v73"
-	"github.com/stripe/stripe-go/v73/client"
+	"github.com/stripe/stripe-go/v74"
+	"github.com/stripe/stripe-go/v74/client"
 )
 
 func handler(w http.ResponseWriter, r *http.Request) {
@@ -175,8 +175,8 @@ client.
 
 ```go
 import (
-	"github.com/stripe/stripe-go/v73"
-	"github.com/stripe/stripe-go/v73/$resource$"
+	"github.com/stripe/stripe-go/v74"
+	"github.com/stripe/stripe-go/v74/$resource$"
 )
 
 // Setup
@@ -216,8 +216,8 @@ individual key.
 
 ```go
 import (
-	"github.com/stripe/stripe-go/v73"
-	"github.com/stripe/stripe-go/v73/client"
+	"github.com/stripe/stripe-go/v74"
+	"github.com/stripe/stripe-go/v74/client"
 )
 
 // Setup
@@ -288,8 +288,8 @@ with `MaxNetworkRetries`:
 
 ```go
 import (
-	"github.com/stripe/stripe-go/v73"
-	"github.com/stripe/stripe-go/v73/client"
+	"github.com/stripe/stripe-go/v74"
+	"github.com/stripe/stripe-go/v74/client"
 )
 
 config := &stripe.BackendConfig{
@@ -474,7 +474,7 @@ We would love for you to try these and share feedback with us before these featu
 To install a beta version of stripe-go use the commit notation of the `go get` command to point to a beta tag:
 
 ```
-go get -u github.com/stripe/stripe-go/v73@v73.3.0-beta.1
+go get -u github.com/stripe/stripe-go/v74@v73.3.0-beta.1
 ```
 
 > **Note**
