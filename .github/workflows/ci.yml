@@ -25,7 +25,7 @@ jobs:
 
       - name: lint
         run: |
-          go get -u honnef.co/go/tools/cmd/staticcheck@latest &&
+          go install honnef.co/go/tools/cmd/staticcheck@latest &&
           $HOME/go/bin/staticcheck &&
           make vet
 
