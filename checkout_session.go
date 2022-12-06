@@ -668,6 +668,44 @@ type CheckoutSessionDiscountParams struct {
 	PromotionCode *string `form:"promotion_code"`
 }
 
+// Default custom fields to be displayed on invoices for this customer.
+type CheckoutSessionInvoiceCreationInvoiceDataCustomFieldParams struct {
+	// The name of the custom field. This may be up to 30 characters.
+	Name *string `form:"name"`
+	// The value of the custom field. This may be up to 30 characters.
+	Value *string `form:"value"`
+}
+
+// Default options for invoice PDF rendering for this customer.
+type CheckoutSessionInvoiceCreationInvoiceDataRenderingOptionsParams struct {
+	// How line-item prices and amounts will be displayed with respect to tax on invoice PDFs. One of `exclude_tax` or `include_inclusive_tax`. `include_inclusive_tax` will include inclusive tax (and exclude exclusive tax) in invoice PDF amounts. `exclude_tax` will exclude all tax (inclusive and exclusive alike) from invoice PDF amounts.
+	AmountTaxDisplay *string `form:"amount_tax_display"`
+}
+
+// Parameters passed when creating invoices for payment-mode Checkout Sessions.
+type CheckoutSessionInvoiceCreationInvoiceDataParams struct {
+	// The account tax IDs associated with the invoice.
+	AccountTaxIDs []*string `form:"account_tax_ids"`
+	// Default custom fields to be displayed on invoices for this customer.
+	CustomFields []*CheckoutSessionInvoiceCreationInvoiceDataCustomFieldParams `form:"custom_fields"`
+	// An arbitrary string attached to the object. Often useful for displaying to users.
+	Description *string `form:"description"`
+	// Default footer to be displayed on invoices for this customer.
+	Footer *string `form:"footer"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+	// Default options for invoice PDF rendering for this customer.
+	RenderingOptions *CheckoutSessionInvoiceCreationInvoiceDataRenderingOptionsParams `form:"rendering_options"`
+}
+
+// Generate a post-purchase Invoice for one-time payments.
+type CheckoutSessionInvoiceCreationParams struct {
+	// Set to `true` to enable invoice creation.
+	Enabled *bool `form:"enabled"`
+	// Parameters passed when creating invoices for payment-mode Checkout Sessions.
+	InvoiceData *CheckoutSessionInvoiceCreationInvoiceDataParams `form:"invoice_data"`
+}
+
 // When set, provides configuration for this item's quantity to be adjusted by the customer during Checkout.
 type CheckoutSessionLineItemAdjustableQuantityParams struct {
 	// Set to true if the quantity can be adjusted to any non-negative integer. By default customers will be able to remove the line item by setting the quantity to 0.
@@ -1378,6 +1416,8 @@ type CheckoutSessionParams struct {
 	Discounts []*CheckoutSessionDiscountParams `form:"discounts"`
 	// The Epoch time in seconds at which the Checkout Session will expire. It can be anywhere from 30 minutes to 24 hours after Checkout Session creation. By default, this value is 24 hours from creation.
 	ExpiresAt *int64 `form:"expires_at"`
+	// Generate a post-purchase Invoice for one-time payments.
+	InvoiceCreation *CheckoutSessionInvoiceCreationParams `form:"invoice_creation"`
 	// A list of items the customer is purchasing. Use this parameter to pass one-time or recurring [Prices](https://stripe.com/docs/api/prices).
 	//
 	// For `payment` mode, there is a maximum of 100 line items, however it is recommended to consolidate line items if there are more than a few dozen.
@@ -1539,6 +1579,41 @@ type CheckoutSessionCustomerDetails struct {
 	TaxExempt CheckoutSessionCustomerDetailsTaxExempt `json:"tax_exempt"`
 	// The customer's tax IDs after a completed Checkout Session.
 	TaxIDs []*CheckoutSessionCustomerDetailsTaxID `json:"tax_ids"`
+}
+
+// Custom fields displayed on the invoice.
+type CheckoutSessionInvoiceCreationInvoiceDataCustomField struct {
+	// The name of the custom field.
+	Name string `json:"name"`
+	// The value of the custom field.
+	Value string `json:"value"`
+}
+
+// Options for invoice PDF rendering.
+type CheckoutSessionInvoiceCreationInvoiceDataRenderingOptions struct {
+	// How line-item prices and amounts will be displayed with respect to tax on invoice PDFs.
+	AmountTaxDisplay string `json:"amount_tax_display"`
+}
+type CheckoutSessionInvoiceCreationInvoiceData struct {
+	// The account tax IDs associated with the invoice.
+	AccountTaxIDs []*TaxID `json:"account_tax_ids"`
+	// Custom fields displayed on the invoice.
+	CustomFields []*CheckoutSessionInvoiceCreationInvoiceDataCustomField `json:"custom_fields"`
+	// An arbitrary string attached to the object. Often useful for displaying to users.
+	Description string `json:"description"`
+	// Footer displayed on the invoice.
+	Footer string `json:"footer"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	Metadata map[string]string `json:"metadata"`
+	// Options for invoice PDF rendering.
+	RenderingOptions *CheckoutSessionInvoiceCreationInvoiceDataRenderingOptions `json:"rendering_options"`
+}
+
+// Details on the state of invoice creation for the Checkout Session.
+type CheckoutSessionInvoiceCreation struct {
+	// Indicates whether invoice creation is enabled for the Checkout Session.
+	Enabled     bool                                       `json:"enabled"`
+	InvoiceData *CheckoutSessionInvoiceCreationInvoiceData `json:"invoice_data"`
 }
 type CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptions struct {
 	// A URL for custom mandate text
@@ -1961,6 +2036,10 @@ type CheckoutSession struct {
 	// Unique identifier for the object. Used to pass to `redirectToCheckout`
 	// in Stripe.js.
 	ID string `json:"id"`
+	// ID of the invoice created by the Checkout Session, if it exists.
+	Invoice *Invoice `json:"invoice"`
+	// Details on the state of invoice creation for the Checkout Session.
+	InvoiceCreation *CheckoutSessionInvoiceCreation `json:"invoice_creation"`
 	// The line items purchased by the customer.
 	LineItems *LineItemList `json:"line_items"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.

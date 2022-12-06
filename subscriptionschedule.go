@@ -146,6 +146,8 @@ type SubscriptionSchedulePhaseInvoiceSettingsParams struct {
 type SubscriptionSchedulePhaseItemParams struct {
 	// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. When updating, pass an empty string to remove previously-defined thresholds.
 	BillingThresholds *SubscriptionItemBillingThresholdsParams `form:"billing_thresholds"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to a configuration item. Metadata on a configuration item will update the underlying subscription item's `metadata` when the phase is entered, adding new keys and replacing existing keys. Individual keys in the subscription item's `metadata` can be unset by posting an empty value to them in the configuration item's `metadata`. To unset all keys in the subscription item's `metadata`, update the subscription item directly or unset every key individually from the configuration item's `metadata`.
+	Metadata map[string]string `form:"metadata"`
 	// The plan ID to subscribe to. You may specify the same ID in `plan` and `price`.
 	Plan *string `form:"plan"`
 	// The ID of the price object.
@@ -320,6 +322,8 @@ type SubscriptionSchedulePhaseInvoiceSettings struct {
 type SubscriptionSchedulePhaseItem struct {
 	// Define thresholds at which an invoice will be sent, and the related subscription advanced to a new billing period
 	BillingThresholds *SubscriptionItemBillingThresholds `json:"billing_thresholds"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an item. Metadata on this item will update the underlying subscription item's `metadata` when the phase is entered.
+	Metadata map[string]string `json:"metadata"`
 	// ID of the plan to which the customer should be subscribed.
 	Plan *Plan `json:"plan"`
 	// ID of the price to which the customer should be subscribed.

@@ -295,6 +295,12 @@ type AccountCapabilitiesIDEALPaymentsParams struct {
 	Requested *bool `form:"requested"`
 }
 
+// The india_international_payments capability.
+type AccountCapabilitiesIndiaInternationalPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
 // The jcb_payments capability.
 type AccountCapabilitiesJCBPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
@@ -427,6 +433,8 @@ type AccountCapabilitiesParams struct {
 	GrabpayPayments *AccountCapabilitiesGrabpayPaymentsParams `form:"grabpay_payments"`
 	// The ideal_payments capability.
 	IDEALPayments *AccountCapabilitiesIDEALPaymentsParams `form:"ideal_payments"`
+	// The india_international_payments capability.
+	IndiaInternationalPayments *AccountCapabilitiesIndiaInternationalPaymentsParams `form:"india_international_payments"`
 	// The jcb_payments capability.
 	JCBPayments *AccountCapabilitiesJCBPaymentsParams `form:"jcb_payments"`
 	// The klarna_payments capability.
@@ -852,6 +860,8 @@ type AccountCapabilities struct {
 	GrabpayPayments AccountCapabilityStatus `json:"grabpay_payments"`
 	// The status of the iDEAL payments capability of the account, or whether the account can directly process iDEAL charges.
 	IDEALPayments AccountCapabilityStatus `json:"ideal_payments"`
+	// The status of the india_international_payments capability of the account, or whether the account can process international charges (non INR) in India.
+	IndiaInternationalPayments AccountCapabilityStatus `json:"india_international_payments"`
 	// The status of the JCB payments capability of the account, or whether the account (Japan only) can directly process JCB credit card charges in JPY currency.
 	JCBPayments AccountCapabilityStatus `json:"jcb_payments"`
 	// The status of the Klarna payments capability of the account, or whether the account can directly process Klarna charges.
