@@ -103,6 +103,17 @@ const (
 	OrderPaymentSettingsPaymentMethodOptionsAlipaySetupFutureUsageOffSession OrderPaymentSettingsPaymentMethodOptionsAlipaySetupFutureUsage = "off_session"
 )
 
+// Preferred language of the Bancontact authorization page that the customer is redirected to.
+type OrderPaymentSettingsPaymentMethodOptionsBancontactPreferredLanguage string
+
+// List of values that OrderPaymentSettingsPaymentMethodOptionsBancontactPreferredLanguage can take
+const (
+	OrderPaymentSettingsPaymentMethodOptionsBancontactPreferredLanguageDe OrderPaymentSettingsPaymentMethodOptionsBancontactPreferredLanguage = "de"
+	OrderPaymentSettingsPaymentMethodOptionsBancontactPreferredLanguageEn OrderPaymentSettingsPaymentMethodOptionsBancontactPreferredLanguage = "en"
+	OrderPaymentSettingsPaymentMethodOptionsBancontactPreferredLanguageFr OrderPaymentSettingsPaymentMethodOptionsBancontactPreferredLanguage = "fr"
+	OrderPaymentSettingsPaymentMethodOptionsBancontactPreferredLanguageNl OrderPaymentSettingsPaymentMethodOptionsBancontactPreferredLanguage = "nl"
+)
+
 // Indicates that you intend to make future payments with this PaymentIntent's payment method.
 //
 // Providing this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.
@@ -139,6 +150,18 @@ const (
 	OrderPaymentSettingsPaymentMethodOptionsCardSetupFutureUsageNone       OrderPaymentSettingsPaymentMethodOptionsCardSetupFutureUsage = "none"
 	OrderPaymentSettingsPaymentMethodOptionsCardSetupFutureUsageOffSession OrderPaymentSettingsPaymentMethodOptionsCardSetupFutureUsage = "off_session"
 	OrderPaymentSettingsPaymentMethodOptionsCardSetupFutureUsageOnSession  OrderPaymentSettingsPaymentMethodOptionsCardSetupFutureUsage = "on_session"
+)
+
+// The desired country code of the bank account information. Permitted values include: `DE`, `ES`, `FR`, `IE`, or `NL`.
+type OrderPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferCountry string
+
+// List of values that OrderPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferCountry can take
+const (
+	OrderPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferCountryDE OrderPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferCountry = "DE"
+	OrderPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferCountryES OrderPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferCountry = "ES"
+	OrderPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferCountryFR OrderPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferCountry = "FR"
+	OrderPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferCountryIE OrderPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferCountry = "IE"
+	OrderPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferCountryNL OrderPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferCountry = "NL"
 )
 
 // List of address types that should be returned in the financial_addresses response. If not specified, all valid types will be returned.
@@ -284,6 +307,20 @@ const (
 	OrderPaymentSettingsPaymentMethodOptionsSEPADebitSetupFutureUsageNone       OrderPaymentSettingsPaymentMethodOptionsSEPADebitSetupFutureUsage = "none"
 	OrderPaymentSettingsPaymentMethodOptionsSEPADebitSetupFutureUsageOffSession OrderPaymentSettingsPaymentMethodOptionsSEPADebitSetupFutureUsage = "off_session"
 	OrderPaymentSettingsPaymentMethodOptionsSEPADebitSetupFutureUsageOnSession  OrderPaymentSettingsPaymentMethodOptionsSEPADebitSetupFutureUsage = "on_session"
+)
+
+// Preferred language of the SOFORT authorization page that the customer is redirected to.
+type OrderPaymentSettingsPaymentMethodOptionsSofortPreferredLanguage string
+
+// List of values that OrderPaymentSettingsPaymentMethodOptionsSofortPreferredLanguage can take
+const (
+	OrderPaymentSettingsPaymentMethodOptionsSofortPreferredLanguageDe OrderPaymentSettingsPaymentMethodOptionsSofortPreferredLanguage = "de"
+	OrderPaymentSettingsPaymentMethodOptionsSofortPreferredLanguageEn OrderPaymentSettingsPaymentMethodOptionsSofortPreferredLanguage = "en"
+	OrderPaymentSettingsPaymentMethodOptionsSofortPreferredLanguageEs OrderPaymentSettingsPaymentMethodOptionsSofortPreferredLanguage = "es"
+	OrderPaymentSettingsPaymentMethodOptionsSofortPreferredLanguageFr OrderPaymentSettingsPaymentMethodOptionsSofortPreferredLanguage = "fr"
+	OrderPaymentSettingsPaymentMethodOptionsSofortPreferredLanguageIt OrderPaymentSettingsPaymentMethodOptionsSofortPreferredLanguage = "it"
+	OrderPaymentSettingsPaymentMethodOptionsSofortPreferredLanguageNl OrderPaymentSettingsPaymentMethodOptionsSofortPreferredLanguage = "nl"
+	OrderPaymentSettingsPaymentMethodOptionsSofortPreferredLanguagePl OrderPaymentSettingsPaymentMethodOptionsSofortPreferredLanguage = "pl"
 )
 
 // Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -1146,7 +1183,7 @@ type OrderPaymentSettingsPaymentMethodOptionsAlipay struct {
 }
 type OrderPaymentSettingsPaymentMethodOptionsBancontact struct {
 	// Preferred language of the Bancontact authorization page that the customer is redirected to.
-	PreferredLanguage string `json:"preferred_language"`
+	PreferredLanguage OrderPaymentSettingsPaymentMethodOptionsBancontactPreferredLanguage `json:"preferred_language"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// Providing this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.
@@ -1168,7 +1205,7 @@ type OrderPaymentSettingsPaymentMethodOptionsCard struct {
 }
 type OrderPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransfer struct {
 	// The desired country code of the bank account information. Permitted values include: `DE`, `ES`, `FR`, `IE`, or `NL`.
-	Country string `json:"country"`
+	Country OrderPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferCountry `json:"country"`
 }
 type OrderPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransfer struct {
 	EUBankTransfer *OrderPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransfer `json:"eu_bank_transfer"`
@@ -1260,7 +1297,7 @@ type OrderPaymentSettingsPaymentMethodOptionsSEPADebit struct {
 }
 type OrderPaymentSettingsPaymentMethodOptionsSofort struct {
 	// Preferred language of the SOFORT authorization page that the customer is redirected to.
-	PreferredLanguage string `json:"preferred_language"`
+	PreferredLanguage OrderPaymentSettingsPaymentMethodOptionsSofortPreferredLanguage `json:"preferred_language"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// Providing this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.

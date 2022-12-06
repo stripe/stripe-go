@@ -49,6 +49,10 @@ type LineItem struct {
 	Object string `json:"object"`
 	// The price used to generate the line item.
 	Price *Price `json:"price"`
+	// The ID of the product for this line item.
+	//
+	// This will always be the same as `price.product`.
+	Product *Product `json:"product"`
 	// The quantity of products being purchased.
 	Quantity int64 `json:"quantity"`
 	// The taxes applied to the line item.

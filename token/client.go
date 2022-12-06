@@ -10,7 +10,7 @@ package token
 import (
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v73"
+	stripe "github.com/stripe/stripe-go/v74"
 )
 
 // Client is used to invoke /tokens APIs.

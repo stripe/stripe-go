@@ -8,7 +8,7 @@ package stripe
 
 import (
 	"encoding/json"
-	"github.com/stripe/stripe-go/v73/form"
+	"github.com/stripe/stripe-go/v74/form"
 )
 
 // Configures when the subscription schedule generates prorations for phase transitions. Possible values are `prorate_on_next_phase` or `prorate_up_front` with the default being `prorate_on_next_phase`. `prorate_on_next_phase` will apply phase changes and generate prorations at transition time.`prorate_up_front` will bill for all phases within the current billing cycle up front.
@@ -40,6 +40,14 @@ const (
 	SubscriptionScheduleEndBehaviorRenew   SubscriptionScheduleEndBehavior = "renew"
 )
 
+// The discount end type
+type SubscriptionSchedulePhaseAddInvoiceItemDiscountDiscountEndType string
+
+// List of values that SubscriptionSchedulePhaseAddInvoiceItemDiscountDiscountEndType can take
+const (
+	SubscriptionSchedulePhaseAddInvoiceItemDiscountDiscountEndTypeTimestamp SubscriptionSchedulePhaseAddInvoiceItemDiscountDiscountEndType = "timestamp"
+)
+
 // Possible values are `phase_start` or `automatic`. If `phase_start` then billing cycle anchor of the subscription is set to the start of the phase when entering the phase. If `automatic` then the billing cycle anchor is automatically modified as needed when entering the phase. For more information, see the billing cycle [documentation](https://stripe.com/docs/billing/subscriptions/billing-cycle).
 type SubscriptionSchedulePhaseBillingCycleAnchor string
 
@@ -47,6 +55,22 @@ type SubscriptionSchedulePhaseBillingCycleAnchor string
 const (
 	SubscriptionSchedulePhaseBillingCycleAnchorAutomatic  SubscriptionSchedulePhaseBillingCycleAnchor = "automatic"
 	SubscriptionSchedulePhaseBillingCycleAnchorPhaseStart SubscriptionSchedulePhaseBillingCycleAnchor = "phase_start"
+)
+
+// The discount end type
+type SubscriptionSchedulePhaseDiscountDiscountEndType string
+
+// List of values that SubscriptionSchedulePhaseDiscountDiscountEndType can take
+const (
+	SubscriptionSchedulePhaseDiscountDiscountEndTypeTimestamp SubscriptionSchedulePhaseDiscountDiscountEndType = "timestamp"
+)
+
+// The discount end type
+type SubscriptionSchedulePhaseItemDiscountDiscountEndType string
+
+// List of values that SubscriptionSchedulePhaseItemDiscountDiscountEndType can take
+const (
+	SubscriptionSchedulePhaseItemDiscountDiscountEndTypeTimestamp SubscriptionSchedulePhaseItemDiscountDiscountEndType = "timestamp"
 )
 
 type SubscriptionSchedulePhaseItemTrialType string
@@ -580,6 +604,18 @@ type SubscriptionScheduleAmendAmendmentItemActionParams struct {
 	Type *string `form:"type"`
 }
 
+// Instructions for how to modify phase metadata
+type SubscriptionScheduleAmendAmendmentMetadataActionParams struct {
+	// Key-value pairs to add to schedule phase metadata. These values will merge with existing schedule phase metadata.
+	Add map[string]string `form:"add"`
+	// Keys to remove from schedule phase metadata.
+	Remove []*string `form:"remove"`
+	// Key-value pairs to set as schedule phase metadata. Existing schedule phase metadata will be overwritten.
+	Set map[string]string `form:"set"`
+	// Select one of three ways to update phase-level `metadata` on subscription schedules.
+	Type *string `form:"type"`
+}
+
 // Defines how the subscription should behave when a trial ends.
 type SubscriptionScheduleAmendAmendmentTrialSettingsEndBehaviorParams struct {
 	// Configure how an opt-in following a paid trial is billed when using `billing_behavior: prorate_up_front`.
@@ -604,6 +640,8 @@ type SubscriptionScheduleAmendAmendmentParams struct {
 	DiscountActions []*SubscriptionScheduleAmendAmendmentDiscountActionParams `form:"discount_actions"`
 	// Changes to the subscription items during the amendment time span.
 	ItemActions []*SubscriptionScheduleAmendAmendmentItemActionParams `form:"item_actions"`
+	// Instructions for how to modify phase metadata
+	MetadataActions []*SubscriptionScheduleAmendAmendmentMetadataActionParams `form:"metadata_actions"`
 	// Changes to how Stripe handles prorations during the amendment time span. Affects if and how prorations are created when a future phase starts. In cases where the amendment changes the currently active phase, it is used to determine whether or how to prorate now, at the time of the request. Also supported as a point-in-time operation when `amendment_end` is `null`.
 	ProrationBehavior *string `form:"proration_behavior"`
 	// Settings related to subscription trials.
@@ -621,6 +659,9 @@ type SubscriptionScheduleAmendParams struct {
 	Params `form:"*"`
 	// Changes to apply to the phases of the subscription schedule, in the order provided.
 	Amendments []*SubscriptionScheduleAmendAmendmentParams `form:"amendments"`
+	// In cases where the amendment changes the currently active phase,
+	//  specifies if and how to prorate at the time of the request.
+	ProrationBehavior *string `form:"proration_behavior"`
 	// Changes to apply to the subscription schedule.
 	ScheduleSettings *SubscriptionScheduleAmendScheduleSettingsParams `form:"schedule_settings"`
 }
@@ -676,12 +717,22 @@ type SubscriptionScheduleDefaultSettings struct {
 	TransferData *SubscriptionTransferData `json:"transfer_data"`
 }
 
+// Details to determine how long the discount should be applied for.
+type SubscriptionSchedulePhaseAddInvoiceItemDiscountDiscountEnd struct {
+	// The discount end timestamp
+	Timestamp int64 `json:"timestamp"`
+	// The discount end type
+	Type SubscriptionSchedulePhaseAddInvoiceItemDiscountDiscountEndType `json:"type"`
+}
+
 // The stackable discounts that will be applied to the item.
 type SubscriptionSchedulePhaseAddInvoiceItemDiscount struct {
 	// ID of the coupon to create a new discount for.
 	Coupon *Coupon `json:"coupon"`
 	// ID of an existing discount on the object (or one of its ancestors) to reuse.
 	Discount *Discount `json:"discount"`
+	// Details to determine how long the discount should be applied for.
+	DiscountEnd *SubscriptionSchedulePhaseAddInvoiceItemDiscountDiscountEnd `json:"discount_end"`
 }
 
 // A list of prices and quantities that will generate invoice items appended to the next invoice for this phase.
@@ -696,12 +747,22 @@ type SubscriptionSchedulePhaseAddInvoiceItem struct {
 	TaxRates []*TaxRate `json:"tax_rates"`
 }
 
+// Details to determine how long the discount should be applied for.
+type SubscriptionSchedulePhaseDiscountDiscountEnd struct {
+	// The discount end timestamp
+	Timestamp int64 `json:"timestamp"`
+	// The discount end type
+	Type SubscriptionSchedulePhaseDiscountDiscountEndType `json:"type"`
+}
+
 // The stackable discounts that will be applied to the subscription on this phase. Subscription item discounts are applied before subscription discounts.
 type SubscriptionSchedulePhaseDiscount struct {
 	// ID of the coupon to create a new discount for.
 	Coupon *Coupon `json:"coupon"`
 	// ID of an existing discount on the object (or one of its ancestors) to reuse.
 	Discount *Discount `json:"discount"`
+	// Details to determine how long the discount should be applied for.
+	DiscountEnd *SubscriptionSchedulePhaseDiscountDiscountEnd `json:"discount_end"`
 }
 
 // The invoice settings applicable during this phase.
@@ -710,12 +771,22 @@ type SubscriptionSchedulePhaseInvoiceSettings struct {
 	DaysUntilDue int64 `json:"days_until_due"`
 }
 
+// Details to determine how long the discount should be applied for.
+type SubscriptionSchedulePhaseItemDiscountDiscountEnd struct {
+	// The discount end timestamp
+	Timestamp int64 `json:"timestamp"`
+	// The discount end type
+	Type SubscriptionSchedulePhaseItemDiscountDiscountEndType `json:"type"`
+}
+
 // The discounts applied to the subscription item. Subscription item discounts are applied before subscription discounts. Use `expand[]=discounts` to expand each discount.
 type SubscriptionSchedulePhaseItemDiscount struct {
 	// ID of the coupon to create a new discount for.
 	Coupon *Coupon `json:"coupon"`
 	// ID of an existing discount on the object (or one of its ancestors) to reuse.
 	Discount *Discount `json:"discount"`
+	// Details to determine how long the discount should be applied for.
+	DiscountEnd *SubscriptionSchedulePhaseItemDiscountDiscountEnd `json:"discount_end"`
 }
 
 // Options that configure the trial on the subscription item.
