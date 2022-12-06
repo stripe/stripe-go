@@ -1,5 +1,16 @@
 # Changelog
 
+## 74.2.0 - 2022-12-06
+* [#1579](https://github.com/stripe/stripe-go/pull/1579) API Updates
+  * Add support for `FlowData` on `BillingPortalSessionParams`
+  * Add support for `Flow` on `BillingPortalSession`
+* [#1578](https://github.com/stripe/stripe-go/pull/1578) API Updates
+  * Add support for `IndiaInternationalPayments` on `AccountCapabilitiesParams` and `AccountCapabilities`
+  * Add support for `InvoiceCreation` on `CheckoutSessionParams` and `CheckoutSession`
+  * Add support for `Invoice` on `CheckoutSession`
+  * Add support for `Metadata` on `SubscriptionSchedulePhasesItemsParams` and `SubscriptionSchedulePhasesItems`
+* [#1575](https://github.com/stripe/stripe-go/pull/1575) Add version to go reference path
+
 ## 74.1.0 - 2022-11-17
 * [#1574](https://github.com/stripe/stripe-go/pull/1574) API Updates
   * Add support for `CustomText` on `CheckoutSessionParams`, `CheckoutSession`, `PaymentLinkParams`, and `PaymentLink`
