@@ -11,8 +11,8 @@ package cardholder
 import (
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v74"
-	"github.com/stripe/stripe-go/v74/form"
+	stripe "github.com/stripe/stripe-go/v73"
+	"github.com/stripe/stripe-go/v73/form"
 )
 
 // Client is used to invoke /issuing/cardholders APIs.

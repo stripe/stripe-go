@@ -8,7 +8,7 @@ package stripe
 
 import (
 	"encoding/json"
-	"github.com/stripe/stripe-go/v74/form"
+	"github.com/stripe/stripe-go/v73/form"
 )
 
 // The business type.
