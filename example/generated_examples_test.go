@@ -5,87 +5,85 @@ import (
 	"testing"
 
 	assert "github.com/stretchr/testify/require"
-	stripe "github.com/stripe/stripe-go/v73"
-	account "github.com/stripe/stripe-go/v73/account"
-	accountlink "github.com/stripe/stripe-go/v73/accountlink"
-	apps_secret "github.com/stripe/stripe-go/v73/apps/secret"
-	balancetransaction "github.com/stripe/stripe-go/v73/balancetransaction"
-	billingportal_configuration "github.com/stripe/stripe-go/v73/billingportal/configuration"
-	billingportal_session "github.com/stripe/stripe-go/v73/billingportal/session"
-	capability "github.com/stripe/stripe-go/v73/capability"
-	cashbalance "github.com/stripe/stripe-go/v73/cashbalance"
-	charge "github.com/stripe/stripe-go/v73/charge"
-	checkout_session "github.com/stripe/stripe-go/v73/checkout/session"
-	countryspec "github.com/stripe/stripe-go/v73/countryspec"
-	coupon "github.com/stripe/stripe-go/v73/coupon"
-	customer "github.com/stripe/stripe-go/v73/customer"
-	customerbalancetransaction "github.com/stripe/stripe-go/v73/customerbalancetransaction"
-	dispute "github.com/stripe/stripe-go/v73/dispute"
-	event "github.com/stripe/stripe-go/v73/event"
-	financialconnections_account "github.com/stripe/stripe-go/v73/financialconnections/account"
-	financialconnections_session "github.com/stripe/stripe-go/v73/financialconnections/session"
-	identity_verificationreport "github.com/stripe/stripe-go/v73/identity/verificationreport"
-	identity_verificationsession "github.com/stripe/stripe-go/v73/identity/verificationsession"
-	invoice "github.com/stripe/stripe-go/v73/invoice"
-	invoiceitem "github.com/stripe/stripe-go/v73/invoiceitem"
-	issuing_authorization "github.com/stripe/stripe-go/v73/issuing/authorization"
-	issuing_card "github.com/stripe/stripe-go/v73/issuing/card"
-	issuing_cardholder "github.com/stripe/stripe-go/v73/issuing/cardholder"
-	issuing_dispute "github.com/stripe/stripe-go/v73/issuing/dispute"
-	issuing_transaction "github.com/stripe/stripe-go/v73/issuing/transaction"
-	mandate "github.com/stripe/stripe-go/v73/mandate"
-	order "github.com/stripe/stripe-go/v73/order"
-	paymentintent "github.com/stripe/stripe-go/v73/paymentintent"
-	paymentlink "github.com/stripe/stripe-go/v73/paymentlink"
-	paymentmethod "github.com/stripe/stripe-go/v73/paymentmethod"
-	payout "github.com/stripe/stripe-go/v73/payout"
-	person "github.com/stripe/stripe-go/v73/person"
-	plan "github.com/stripe/stripe-go/v73/plan"
-	price "github.com/stripe/stripe-go/v73/price"
-	product "github.com/stripe/stripe-go/v73/product"
-	promotioncode "github.com/stripe/stripe-go/v73/promotioncode"
-	quote "github.com/stripe/stripe-go/v73/quote"
-	radar_earlyfraudwarning "github.com/stripe/stripe-go/v73/radar/earlyfraudwarning"
-	refund "github.com/stripe/stripe-go/v73/refund"
-	review "github.com/stripe/stripe-go/v73/review"
-	setupattempt "github.com/stripe/stripe-go/v73/setupattempt"
-	setupintent "github.com/stripe/stripe-go/v73/setupintent"
-	shippingrate "github.com/stripe/stripe-go/v73/shippingrate"
-	sigma_scheduledqueryrun "github.com/stripe/stripe-go/v73/sigma/scheduledqueryrun"
-	sku "github.com/stripe/stripe-go/v73/sku"
-	source "github.com/stripe/stripe-go/v73/source"
-	taxcode "github.com/stripe/stripe-go/v73/taxcode"
-	taxid "github.com/stripe/stripe-go/v73/taxid"
-	taxrate "github.com/stripe/stripe-go/v73/taxrate"
-	terminal_configuration "github.com/stripe/stripe-go/v73/terminal/configuration"
-	terminal_connectiontoken "github.com/stripe/stripe-go/v73/terminal/connectiontoken"
-	terminal_location "github.com/stripe/stripe-go/v73/terminal/location"
-	terminal_reader "github.com/stripe/stripe-go/v73/terminal/reader"
-	testhelpers_customer "github.com/stripe/stripe-go/v73/testhelpers/customer"
-	testhelpers_issuing_card "github.com/stripe/stripe-go/v73/testhelpers/issuing/card"
-	testhelpers_refund "github.com/stripe/stripe-go/v73/testhelpers/refund"
-	testhelpers_testclock "github.com/stripe/stripe-go/v73/testhelpers/testclock"
-	testhelpers_treasury_inboundtransfer "github.com/stripe/stripe-go/v73/testhelpers/treasury/inboundtransfer"
-	testhelpers_treasury_outboundtransfer "github.com/stripe/stripe-go/v73/testhelpers/treasury/outboundtransfer"
-	testhelpers_treasury_receivedcredit "github.com/stripe/stripe-go/v73/testhelpers/treasury/receivedcredit"
-	testhelpers_treasury_receiveddebit "github.com/stripe/stripe-go/v73/testhelpers/treasury/receiveddebit"
-	_ "github.com/stripe/stripe-go/v73/testing"
-	topup "github.com/stripe/stripe-go/v73/topup"
-	transfer "github.com/stripe/stripe-go/v73/transfer"
-	transferreversal "github.com/stripe/stripe-go/v73/transferreversal"
-	treasury_creditreversal "github.com/stripe/stripe-go/v73/treasury/creditreversal"
-	treasury_debitreversal "github.com/stripe/stripe-go/v73/treasury/debitreversal"
-	treasury_financialaccount "github.com/stripe/stripe-go/v73/treasury/financialaccount"
-	treasury_inboundtransfer "github.com/stripe/stripe-go/v73/treasury/inboundtransfer"
-	treasury_outboundpayment "github.com/stripe/stripe-go/v73/treasury/outboundpayment"
-	treasury_outboundtransfer "github.com/stripe/stripe-go/v73/treasury/outboundtransfer"
-	treasury_receivedcredit "github.com/stripe/stripe-go/v73/treasury/receivedcredit"
-	treasury_receiveddebit "github.com/stripe/stripe-go/v73/treasury/receiveddebit"
-	treasury_transaction "github.com/stripe/stripe-go/v73/treasury/transaction"
-	treasury_transactionentry "github.com/stripe/stripe-go/v73/treasury/transactionentry"
-	usagerecord "github.com/stripe/stripe-go/v73/usagerecord"
-	usagerecordsummary "github.com/stripe/stripe-go/v73/usagerecordsummary"
-	webhookendpoint "github.com/stripe/stripe-go/v73/webhookendpoint"
+	stripe "github.com/stripe/stripe-go/v74"
+	account "github.com/stripe/stripe-go/v74/account"
+	accountlink "github.com/stripe/stripe-go/v74/accountlink"
+	apps_secret "github.com/stripe/stripe-go/v74/apps/secret"
+	balancetransaction "github.com/stripe/stripe-go/v74/balancetransaction"
+	billingportal_configuration "github.com/stripe/stripe-go/v74/billingportal/configuration"
+	billingportal_session "github.com/stripe/stripe-go/v74/billingportal/session"
+	capability "github.com/stripe/stripe-go/v74/capability"
+	cashbalance "github.com/stripe/stripe-go/v74/cashbalance"
+	charge "github.com/stripe/stripe-go/v74/charge"
+	checkout_session "github.com/stripe/stripe-go/v74/checkout/session"
+	countryspec "github.com/stripe/stripe-go/v74/countryspec"
+	coupon "github.com/stripe/stripe-go/v74/coupon"
+	customer "github.com/stripe/stripe-go/v74/customer"
+	customerbalancetransaction "github.com/stripe/stripe-go/v74/customerbalancetransaction"
+	dispute "github.com/stripe/stripe-go/v74/dispute"
+	event "github.com/stripe/stripe-go/v74/event"
+	financialconnections_account "github.com/stripe/stripe-go/v74/financialconnections/account"
+	financialconnections_session "github.com/stripe/stripe-go/v74/financialconnections/session"
+	identity_verificationreport "github.com/stripe/stripe-go/v74/identity/verificationreport"
+	identity_verificationsession "github.com/stripe/stripe-go/v74/identity/verificationsession"
+	invoice "github.com/stripe/stripe-go/v74/invoice"
+	invoiceitem "github.com/stripe/stripe-go/v74/invoiceitem"
+	issuing_authorization "github.com/stripe/stripe-go/v74/issuing/authorization"
+	issuing_card "github.com/stripe/stripe-go/v74/issuing/card"
+	issuing_cardholder "github.com/stripe/stripe-go/v74/issuing/cardholder"
+	issuing_dispute "github.com/stripe/stripe-go/v74/issuing/dispute"
+	issuing_transaction "github.com/stripe/stripe-go/v74/issuing/transaction"
+	mandate "github.com/stripe/stripe-go/v74/mandate"
+	paymentintent "github.com/stripe/stripe-go/v74/paymentintent"
+	paymentlink "github.com/stripe/stripe-go/v74/paymentlink"
+	paymentmethod "github.com/stripe/stripe-go/v74/paymentmethod"
+	payout "github.com/stripe/stripe-go/v74/payout"
+	person "github.com/stripe/stripe-go/v74/person"
+	plan "github.com/stripe/stripe-go/v74/plan"
+	price "github.com/stripe/stripe-go/v74/price"
+	product "github.com/stripe/stripe-go/v74/product"
+	promotioncode "github.com/stripe/stripe-go/v74/promotioncode"
+	quote "github.com/stripe/stripe-go/v74/quote"
+	radar_earlyfraudwarning "github.com/stripe/stripe-go/v74/radar/earlyfraudwarning"
+	refund "github.com/stripe/stripe-go/v74/refund"
+	review "github.com/stripe/stripe-go/v74/review"
+	setupattempt "github.com/stripe/stripe-go/v74/setupattempt"
+	setupintent "github.com/stripe/stripe-go/v74/setupintent"
+	shippingrate "github.com/stripe/stripe-go/v74/shippingrate"
+	sigma_scheduledqueryrun "github.com/stripe/stripe-go/v74/sigma/scheduledqueryrun"
+	source "github.com/stripe/stripe-go/v74/source"
+	taxcode "github.com/stripe/stripe-go/v74/taxcode"
+	taxid "github.com/stripe/stripe-go/v74/taxid"
+	taxrate "github.com/stripe/stripe-go/v74/taxrate"
+	terminal_configuration "github.com/stripe/stripe-go/v74/terminal/configuration"
+	terminal_connectiontoken "github.com/stripe/stripe-go/v74/terminal/connectiontoken"
+	terminal_location "github.com/stripe/stripe-go/v74/terminal/location"
+	terminal_reader "github.com/stripe/stripe-go/v74/terminal/reader"
+	testhelpers_customer "github.com/stripe/stripe-go/v74/testhelpers/customer"
+	testhelpers_issuing_card "github.com/stripe/stripe-go/v74/testhelpers/issuing/card"
+	testhelpers_refund "github.com/stripe/stripe-go/v74/testhelpers/refund"
+	testhelpers_testclock "github.com/stripe/stripe-go/v74/testhelpers/testclock"
+	testhelpers_treasury_inboundtransfer "github.com/stripe/stripe-go/v74/testhelpers/treasury/inboundtransfer"
+	testhelpers_treasury_outboundtransfer "github.com/stripe/stripe-go/v74/testhelpers/treasury/outboundtransfer"
+	testhelpers_treasury_receivedcredit "github.com/stripe/stripe-go/v74/testhelpers/treasury/receivedcredit"
+	testhelpers_treasury_receiveddebit "github.com/stripe/stripe-go/v74/testhelpers/treasury/receiveddebit"
+	_ "github.com/stripe/stripe-go/v74/testing"
+	topup "github.com/stripe/stripe-go/v74/topup"
+	transfer "github.com/stripe/stripe-go/v74/transfer"
+	transferreversal "github.com/stripe/stripe-go/v74/transferreversal"
+	treasury_creditreversal "github.com/stripe/stripe-go/v74/treasury/creditreversal"
+	treasury_debitreversal "github.com/stripe/stripe-go/v74/treasury/debitreversal"
+	treasury_financialaccount "github.com/stripe/stripe-go/v74/treasury/financialaccount"
+	treasury_inboundtransfer "github.com/stripe/stripe-go/v74/treasury/inboundtransfer"
+	treasury_outboundpayment "github.com/stripe/stripe-go/v74/treasury/outboundpayment"
+	treasury_outboundtransfer "github.com/stripe/stripe-go/v74/treasury/outboundtransfer"
+	treasury_receivedcredit "github.com/stripe/stripe-go/v74/treasury/receivedcredit"
+	treasury_receiveddebit "github.com/stripe/stripe-go/v74/treasury/receiveddebit"
+	treasury_transaction "github.com/stripe/stripe-go/v74/treasury/transaction"
+	treasury_transactionentry "github.com/stripe/stripe-go/v74/treasury/transactionentry"
+	usagerecord "github.com/stripe/stripe-go/v74/usagerecord"
+	usagerecordsummary "github.com/stripe/stripe-go/v74/usagerecordsummary"
+	webhookendpoint "github.com/stripe/stripe-go/v74/webhookendpoint"
 )
 
 func TestAppsSecretList(t *testing.T) {
@@ -243,56 +241,6 @@ func TestFinancialConnectionsSessionCreate(t *testing.T) {
 func TestFinancialConnectionsSessionRetrieve(t *testing.T) {
 	params := &stripe.FinancialConnectionsSessionParams{}
 	result, _ := financialconnections_session.Get("fcsess_xyz", params)
-	assert.NotNil(t, result)
-}
-
-func TestOrderCreate(t *testing.T) {
-	params := &stripe.OrderParams{
-		Description: stripe.String("description"),
-		Currency:    stripe.String(string(stripe.CurrencyUSD)),
-		LineItems: []*stripe.OrderLineItemParams{
-			&stripe.OrderLineItemParams{Description: stripe.String("my line item")},
-		},
-	}
-	result, _ := order.New(params)
-	assert.NotNil(t, result)
-}
-
-func TestOrderRetrieve(t *testing.T) {
-	params := &stripe.OrderParams{}
-	result, _ := order.Get("order_xyz", params)
-	assert.NotNil(t, result)
-}
-
-func TestOrderUpdate(t *testing.T) {
-	params := &stripe.OrderParams{IPAddress: stripe.String("0.0.0.0")}
-	params.AddMetadata("reference_number", "123")
-	result, _ := order.Update("order_xyz", params)
-	assert.NotNil(t, result)
-}
-
-func TestOrderCancel(t *testing.T) {
-	params := &stripe.OrderCancelParams{}
-	result, _ := order.Cancel("order_xyz", params)
-	assert.NotNil(t, result)
-}
-
-func TestOrderListLineItems(t *testing.T) {
-	params := &stripe.OrderListLineItemsParams{ID: stripe.String("order_xyz")}
-	result := order.ListLineItems(params)
-	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
-}
-
-func TestOrderReopen(t *testing.T) {
-	params := &stripe.OrderReopenParams{}
-	result, _ := order.Reopen("order_xyz", params)
-	assert.NotNil(t, result)
-}
-
-func TestOrderSubmit(t *testing.T) {
-	params := &stripe.OrderSubmitParams{ExpectedTotal: stripe.Int64(100)}
-	result, _ := order.Submit("order_xyz", params)
 	assert.NotNil(t, result)
 }
 
@@ -1468,14 +1416,6 @@ func TestMandateRetrieve(t *testing.T) {
 	assert.NotNil(t, result)
 }
 
-func TestOrderList(t *testing.T) {
-	params := &stripe.OrderListParams{}
-	params.Limit = stripe.Int64(3)
-	result := order.List(params)
-	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
-}
-
 func TestPaymentIntentList(t *testing.T) {
 	params := &stripe.PaymentIntentListParams{}
 	params.Limit = stripe.Int64(3)
@@ -2026,48 +1966,6 @@ func TestSigmaScheduledQueryRunList(t *testing.T) {
 func TestSigmaScheduledQueryRunRetrieve(t *testing.T) {
 	params := &stripe.SigmaScheduledQueryRunParams{}
 	result, _ := sigma_scheduledqueryrun.Get("sqr_xxxxxxxxxxxxx", params)
-	assert.NotNil(t, result)
-}
-
-func TestSKUList(t *testing.T) {
-	params := &stripe.SKUListParams{}
-	params.Limit = stripe.Int64(3)
-	result := sku.List(params)
-	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
-}
-
-func TestSKUCreate(t *testing.T) {
-	params := &stripe.SKUParams{
-		Attributes: map[string]string{"size": "Medium", "gender": "Unisex"},
-		Price:      stripe.Int64(1500),
-		Currency:   stripe.String(string(stripe.CurrencyUSD)),
-		Inventory: &stripe.SKUInventoryParams{
-			Type:     stripe.String(string(stripe.SKUInventoryTypeFinite)),
-			Quantity: stripe.Int64(500),
-		},
-		Product: stripe.String("prod_xxxxxxxxxxxxx"),
-	}
-	result, _ := sku.New(params)
-	assert.NotNil(t, result)
-}
-
-func TestSKUDelete(t *testing.T) {
-	params := &stripe.SKUParams{}
-	result, _ := sku.Del("sku_xxxxxxxxxxxxx", params)
-	assert.NotNil(t, result)
-}
-
-func TestSKURetrieve(t *testing.T) {
-	params := &stripe.SKUParams{}
-	result, _ := sku.Get("sku_xxxxxxxxxxxxx", params)
-	assert.NotNil(t, result)
-}
-
-func TestSKUUpdate(t *testing.T) {
-	params := &stripe.SKUParams{}
-	params.AddMetadata("order_id", "6735")
-	result, _ := sku.Update("sku_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 }
 

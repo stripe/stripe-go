@@ -8,7 +8,7 @@ package stripe
 
 import (
 	"encoding/json"
-	"github.com/stripe/stripe-go/v73/form"
+	"github.com/stripe/stripe-go/v74/form"
 )
 
 // The status of the most recent automated tax calculation for this quote.
@@ -137,8 +137,18 @@ type QuoteAutomaticTaxParams struct {
 	Enabled *bool `form:"enabled"`
 }
 
+// Time span for the redeemed discount.
+type QuoteDiscountDiscountEndDurationParams struct {
+	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
+	Interval *string `form:"interval"`
+	// The number of intervals, as an whole number greater than 0. Stripe multiplies this by the interval type to get the overall duration.
+	IntervalCount *int64 `form:"interval_count"`
+}
+
 // Details to determine how long the discount should be applied for.
 type QuoteDiscountDiscountEndParams struct {
+	// Time span for the redeemed discount.
+	Duration *QuoteDiscountDiscountEndDurationParams `form:"duration"`
 	// A precise Unix timestamp for the discount to end. Must be in the future.
 	Timestamp *int64 `form:"timestamp"`
 	// The type of calculation made to determine when the discount ends.
@@ -161,8 +171,18 @@ type QuoteInvoiceSettingsParams struct {
 	DaysUntilDue *int64 `form:"days_until_due"`
 }
 
+// Time span for the redeemed discount.
+type QuoteLineItemDiscountDiscountEndDurationParams struct {
+	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
+	Interval *string `form:"interval"`
+	// The number of intervals, as an whole number greater than 0. Stripe multiplies this by the interval type to get the overall duration.
+	IntervalCount *int64 `form:"interval_count"`
+}
+
 // Details to determine how long the discount should be applied for.
 type QuoteLineItemDiscountDiscountEndParams struct {
+	// Time span for the redeemed discount.
+	Duration *QuoteLineItemDiscountDiscountEndDurationParams `form:"duration"`
 	// A precise Unix timestamp for the discount to end. Must be in the future.
 	Timestamp *int64 `form:"timestamp"`
 	// The type of calculation made to determine when the discount ends.
@@ -219,8 +239,18 @@ type QuoteLineItemParams struct {
 	TaxRates []*string `form:"tax_rates"`
 }
 
+// Time span for the redeemed discount.
+type QuotePhaseDiscountDiscountEndDurationParams struct {
+	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
+	Interval *string `form:"interval"`
+	// The number of intervals, as an whole number greater than 0. Stripe multiplies this by the interval type to get the overall duration.
+	IntervalCount *int64 `form:"interval_count"`
+}
+
 // Details to determine how long the discount should be applied for.
 type QuotePhaseDiscountDiscountEndParams struct {
+	// Time span for the redeemed discount.
+	Duration *QuotePhaseDiscountDiscountEndDurationParams `form:"duration"`
 	// A precise Unix timestamp for the discount to end. Must be in the future.
 	Timestamp *int64 `form:"timestamp"`
 	// The type of calculation made to determine when the discount ends.
@@ -243,8 +273,18 @@ type QuotePhaseInvoiceSettingsParams struct {
 	DaysUntilDue *int64 `form:"days_until_due"`
 }
 
+// Time span for the redeemed discount.
+type QuotePhaseLineItemDiscountDiscountEndDurationParams struct {
+	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
+	Interval *string `form:"interval"`
+	// The number of intervals, as an whole number greater than 0. Stripe multiplies this by the interval type to get the overall duration.
+	IntervalCount *int64 `form:"interval_count"`
+}
+
 // Details to determine how long the discount should be applied for.
 type QuotePhaseLineItemDiscountDiscountEndParams struct {
+	// Time span for the redeemed discount.
+	Duration *QuotePhaseLineItemDiscountDiscountEndDurationParams `form:"duration"`
 	// A precise Unix timestamp for the discount to end. Must be in the future.
 	Timestamp *int64 `form:"timestamp"`
 	// The type of calculation made to determine when the discount ends.

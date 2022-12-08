@@ -1,5 +1,37 @@
 # Changelog
 
+## 74.2.0 - 2022-12-06
+* [#1579](https://github.com/stripe/stripe-go/pull/1579) API Updates
+  * Add support for `FlowData` on `BillingPortalSessionParams`
+  * Add support for `Flow` on `BillingPortalSession`
+* [#1578](https://github.com/stripe/stripe-go/pull/1578) API Updates
+  * Add support for `IndiaInternationalPayments` on `AccountCapabilitiesParams` and `AccountCapabilities`
+  * Add support for `InvoiceCreation` on `CheckoutSessionParams` and `CheckoutSession`
+  * Add support for `Invoice` on `CheckoutSession`
+  * Add support for `Metadata` on `SubscriptionSchedulePhasesItemsParams` and `SubscriptionSchedulePhasesItems`
+* [#1575](https://github.com/stripe/stripe-go/pull/1575) Add version to go reference path
+
+## 74.1.0 - 2022-11-17
+* [#1574](https://github.com/stripe/stripe-go/pull/1574) API Updates
+  * Add support for `CustomText` on `CheckoutSessionParams`, `CheckoutSession`, `PaymentLinkParams`, and `PaymentLink`
+  * Add support for `HostedInstructionsURL` on `PaymentIntentNextActionPaynowDisplayQrCode` and `PaymentIntentNextActionWechatPayDisplayQrCode`
+
+## 74.0.0 - 2022-11-15
+
+Breaking changes that arose during code generation of the library that we postponed for the next major version. For changes to the Stripe products, read more at https://stripe.com/docs/upgrades#2022-11-15.
+
+"⚠️" symbol highlights breaking changes.
+
+⚠️ Removed
+- Removed deprecated `sku` resource (#1557)
+- Removed `lineitem.Product` property that was released by mistake. (#1555)
+- Removed deprecated `CheckoutSessionSubscriptionDataParams.Items` field. (#1555)
+- Removed deprecated `EphemeralKey.AssociatedObjects` field. (#1566)
+- Removed deprecated `Amount`, `Currency`, `Description`, `Images`, `Name` properties from `CheckoutSessionLineItemParams` (https://github.com/stripe/stripe-go/pull/1570)
+- Removed `Charges` field on `PaymentIntent` and replace it with `LatestCharge`. (https://github.com/stripe/stripe-go/pull/1570)
+- Dropped support for Go versions less than 1.15 (#1554)
+- Remove support for `TOSShownAndAccepted` on `CheckoutSessionPaymentMethodOptionsPaynowParams`. The property was mistakenly released and never worked ([#1571](https://github.com/stripe/stripe-go/pull/1571)).
+
 ## 73.17.0-beta.1 - 2022-11-10
 * [#1572](https://github.com/stripe/stripe-go/pull/1572) API Updates for beta branch
   * Updated stable APIs to the latest version
@@ -167,7 +199,7 @@
 This release includes breaking changes resulting from:
 
 * Moving to use the new API version "2022-08-01". To learn more about these changes to Stripe products, see https://stripe.com/docs/upgrades#2022-08-01
-* Cleaning up the SDK to remove deprecated/unused APIs and rename classes/methods/properties to sync with product APIs. Read more detailed description at https://github.com/stripe/stripe-go/wiki/Migration-guide-for-v73.
+* Cleaning up the SDK to remove deprecated/unused APIs and rename classes/methods/properties to sync with product APIs. Read more detailed description at https://github.com/stripe/stripe-go/wiki/Migration-guide-for-v74.
 
 "⚠️" symbol highlights breaking changes.
 

@@ -27,8 +27,18 @@ type SubscriptionItemBillingThresholdsParams struct {
 	UsageGTE *int64 `form:"usage_gte"`
 }
 
+// Time span for the redeemed discount.
+type SubscriptionItemDiscountDiscountEndDurationParams struct {
+	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
+	Interval *string `form:"interval"`
+	// The number of intervals, as an whole number greater than 0. Stripe multiplies this by the interval type to get the overall duration.
+	IntervalCount *int64 `form:"interval_count"`
+}
+
 // Details to determine how long the discount should be applied for.
 type SubscriptionItemDiscountDiscountEndParams struct {
+	// Time span for the redeemed discount.
+	Duration *SubscriptionItemDiscountDiscountEndDurationParams `form:"duration"`
 	// A precise Unix timestamp for the discount to end. Must be in the future.
 	Timestamp *int64 `form:"timestamp"`
 	// The type of calculation made to determine when the discount ends.

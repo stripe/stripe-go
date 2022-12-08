@@ -8,7 +8,7 @@ package stripe
 
 import (
 	"encoding/json"
-	"github.com/stripe/stripe-go/v73/form"
+	"github.com/stripe/stripe-go/v74/form"
 )
 
 // The status of the most recent automated tax calculation for this invoice.
@@ -185,8 +185,20 @@ type InvoiceCustomFieldParams struct {
 	Value *string `form:"value"`
 }
 
+// Time span for the redeemed discount.
+type InvoiceDiscountDiscountEndDurationParams struct {
+	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
+	Interval *string `form:"interval"`
+	// The number of intervals, as an whole number greater than 0. Stripe multiplies this by the interval type to get the overall duration.
+	IntervalCount *int64 `form:"interval_count"`
+}
+
 // Details to determine how long the discount should be applied for.
 type InvoiceDiscountDiscountEndParams struct {
+	// Time span for the redeemed discount.
+	Duration *InvoiceDiscountDiscountEndDurationParams `form:"duration"`
+	// Time span for the redeemed discount.
+	DurationTODOINCOMPATIBLECOMBINATION *InvoiceDiscountDiscountEndDurationParams `form:"durationTODO_INCOMPATIBLE_COMBINATION"`
 	// A precise Unix timestamp for the discount to end. Must be in the future.
 	Timestamp *int64 `form:"timestamp"`
 	// The type of calculation made to determine when the discount ends.
@@ -389,7 +401,7 @@ type InvoiceParams struct {
 	RenderingOptions *InvoiceRenderingOptionsParams `form:"rendering_options"`
 	// Extra information about a charge for the customer's credit card statement. It must contain at least one letter. If not specified and this invoice is part of a subscription, the default `statement_descriptor` will be set to the first subscription item's product's `statement_descriptor`.
 	StatementDescriptor *string `form:"statement_descriptor"`
-	// The ID of the subscription to invoice, if any. If set, the created invoice will only include pending invoice items for that subscription and pending invoice items not associated with any subscription if `pending_invoice_items_behavior` is `include`. The subscription's billing cycle and regular subscription events won't be affected.
+	// The ID of the subscription to invoice, if any. If set, the created invoice will only include pending invoice items for that subscription. The subscription's billing cycle and regular subscription events won't be affected.
 	Subscription *string `form:"subscription"`
 	// If specified, the funds from the invoice will be transferred to the destination and the ID of the resulting transfer will be found on the invoice's charge. This will be unset if you POST an empty value.
 	TransferData *InvoiceTransferDataParams `form:"transfer_data"`
@@ -436,7 +448,15 @@ type InvoiceUpcomingCustomerDetailsParams struct {
 	TaxIDs []*InvoiceUpcomingCustomerDetailsTaxIDParams `form:"tax_ids"`
 }
 
-// The period associated with this invoice item. When set to different values, the period will be rendered on the invoice.
+// Time span for the redeemed discount.
+type InvoiceUpcomingDiscountDiscountEndDurationParams struct {
+	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
+	Interval *string `form:"interval"`
+	// The number of intervals, as an whole number greater than 0. Stripe multiplies this by the interval type to get the overall duration.
+	IntervalCount *int64 `form:"interval_count"`
+}
+
+// The period associated with this invoice item. When set to different values, the period will be rendered on the invoice. If you have [Stripe Revenue Recognition](https://stripe.com/docs/revenue-recognition) enabled, the period will be used to recognize and defer revenue. See the [Revenue Recognition documentation](https://stripe.com/docs/revenue-recognition/methodology/subscriptions-and-invoicing) for details.
 type InvoiceUpcomingInvoiceItemPeriodParams struct {
 	// The end of the period, which must be greater than or equal to the start.
 	End *int64 `form:"end"`
@@ -460,7 +480,7 @@ type InvoiceUpcomingInvoiceItemParams struct {
 	InvoiceItem *string `form:"invoiceitem"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
-	// The period associated with this invoice item. When set to different values, the period will be rendered on the invoice.
+	// The period associated with this invoice item. When set to different values, the period will be rendered on the invoice. If you have [Stripe Revenue Recognition](https://stripe.com/docs/revenue-recognition) enabled, the period will be used to recognize and defer revenue. See the [Revenue Recognition documentation](https://stripe.com/docs/revenue-recognition/methodology/subscriptions-and-invoicing) for details.
 	Period *InvoiceUpcomingInvoiceItemPeriodParams `form:"period"`
 	// The ID of the price object.
 	Price *string `form:"price"`
@@ -623,8 +643,18 @@ type InvoiceUpcomingLinesCustomerDetailsParams struct {
 	TaxIDs []*InvoiceUpcomingLinesCustomerDetailsTaxIDParams `form:"tax_ids"`
 }
 
+// Time span for the redeemed discount.
+type InvoiceUpcomingLinesDiscountDiscountEndDurationParams struct {
+	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
+	Interval *string `form:"interval"`
+	// The number of intervals, as an whole number greater than 0. Stripe multiplies this by the interval type to get the overall duration.
+	IntervalCount *int64 `form:"interval_count"`
+}
+
 // Details to determine how long the discount should be applied for.
 type InvoiceUpcomingLinesDiscountDiscountEndParams struct {
+	// Time span for the redeemed discount.
+	Duration *InvoiceUpcomingLinesDiscountDiscountEndDurationParams `form:"duration"`
 	// A precise Unix timestamp for the discount to end. Must be in the future.
 	Timestamp *int64 `form:"timestamp"`
 	// The type of calculation made to determine when the discount ends.
@@ -641,8 +671,18 @@ type InvoiceUpcomingLinesDiscountParams struct {
 	DiscountEnd *InvoiceUpcomingLinesDiscountDiscountEndParams `form:"discount_end"`
 }
 
+// Time span for the redeemed discount.
+type InvoiceUpcomingLinesInvoiceItemDiscountDiscountEndDurationParams struct {
+	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
+	Interval *string `form:"interval"`
+	// The number of intervals, as an whole number greater than 0. Stripe multiplies this by the interval type to get the overall duration.
+	IntervalCount *int64 `form:"interval_count"`
+}
+
 // Details to determine how long the discount should be applied for.
 type InvoiceUpcomingLinesInvoiceItemDiscountDiscountEndParams struct {
+	// Time span for the redeemed discount.
+	Duration *InvoiceUpcomingLinesInvoiceItemDiscountDiscountEndDurationParams `form:"duration"`
 	// A precise Unix timestamp for the discount to end. Must be in the future.
 	Timestamp *int64 `form:"timestamp"`
 	// The type of calculation made to determine when the discount ends.
@@ -659,7 +699,7 @@ type InvoiceUpcomingLinesInvoiceItemDiscountParams struct {
 	DiscountEnd *InvoiceUpcomingLinesInvoiceItemDiscountDiscountEndParams `form:"discount_end"`
 }
 
-// The period associated with this invoice item. When set to different values, the period will be rendered on the invoice.
+// The period associated with this invoice item. When set to different values, the period will be rendered on the invoice. If you have [Stripe Revenue Recognition](https://stripe.com/docs/revenue-recognition) enabled, the period will be used to recognize and defer revenue. See the [Revenue Recognition documentation](https://stripe.com/docs/revenue-recognition/methodology/subscriptions-and-invoicing) for details.
 type InvoiceUpcomingLinesInvoiceItemPeriodParams struct {
 	// The end of the period, which must be greater than or equal to the start.
 	End *int64 `form:"end"`
@@ -697,7 +737,7 @@ type InvoiceUpcomingLinesInvoiceItemParams struct {
 	InvoiceItem *string `form:"invoiceitem"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
-	// The period associated with this invoice item. When set to different values, the period will be rendered on the invoice.
+	// The period associated with this invoice item. When set to different values, the period will be rendered on the invoice. If you have [Stripe Revenue Recognition](https://stripe.com/docs/revenue-recognition) enabled, the period will be used to recognize and defer revenue. See the [Revenue Recognition documentation](https://stripe.com/docs/revenue-recognition/methodology/subscriptions-and-invoicing) for details.
 	Period *InvoiceUpcomingLinesInvoiceItemPeriodParams `form:"period"`
 	// The ID of the price object.
 	Price *string `form:"price"`
@@ -723,8 +763,18 @@ type InvoiceUpcomingLinesSubscriptionItemBillingThresholdsParams struct {
 	UsageGTE *int64 `form:"usage_gte"`
 }
 
+// Time span for the redeemed discount.
+type InvoiceUpcomingLinesSubscriptionItemDiscountDiscountEndDurationParams struct {
+	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
+	Interval *string `form:"interval"`
+	// The number of intervals, as an whole number greater than 0. Stripe multiplies this by the interval type to get the overall duration.
+	IntervalCount *int64 `form:"interval_count"`
+}
+
 // Details to determine how long the discount should be applied for.
 type InvoiceUpcomingLinesSubscriptionItemDiscountDiscountEndParams struct {
+	// Time span for the redeemed discount.
+	Duration *InvoiceUpcomingLinesSubscriptionItemDiscountDiscountEndDurationParams `form:"duration"`
 	// A precise Unix timestamp for the discount to end. Must be in the future.
 	Timestamp *int64 `form:"timestamp"`
 	// The type of calculation made to determine when the discount ends.

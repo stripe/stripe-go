@@ -8,7 +8,7 @@ package stripe
 
 import (
 	"encoding/json"
-	"github.com/stripe/stripe-go/v73/form"
+	"github.com/stripe/stripe-go/v74/form"
 )
 
 // Either `charge_automatically`, or `send_invoice`. When charging automatically, Stripe will attempt to pay this subscription at the end of the cycle using the default source attached to the customer. When sending an invoice, Stripe will email your customer an invoice with payment instructions and mark the subscription as `active`.
@@ -216,8 +216,18 @@ type SubscriptionListParams struct {
 	TestClock *string `form:"test_clock"`
 }
 
+// Time span for the redeemed discount.
+type SubscriptionAddInvoiceItemDiscountDiscountEndDurationParams struct {
+	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
+	Interval *string `form:"interval"`
+	// The number of intervals, as an whole number greater than 0. Stripe multiplies this by the interval type to get the overall duration.
+	IntervalCount *int64 `form:"interval_count"`
+}
+
 // Details to determine how long the discount should be applied for.
 type SubscriptionAddInvoiceItemDiscountDiscountEndParams struct {
+	// Time span for the redeemed discount.
+	Duration *SubscriptionAddInvoiceItemDiscountDiscountEndDurationParams `form:"duration"`
 	// A precise Unix timestamp for the discount to end. Must be in the future.
 	Timestamp *int64 `form:"timestamp"`
 	// The type of calculation made to determine when the discount ends.
@@ -262,8 +272,18 @@ type SubscriptionBillingThresholdsParams struct {
 	ResetBillingCycleAnchor *bool `form:"reset_billing_cycle_anchor"`
 }
 
+// Time span for the redeemed discount.
+type SubscriptionDiscountDiscountEndDurationParams struct {
+	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
+	Interval *string `form:"interval"`
+	// The number of intervals, as an whole number greater than 0. Stripe multiplies this by the interval type to get the overall duration.
+	IntervalCount *int64 `form:"interval_count"`
+}
+
 // Details to determine how long the discount should be applied for.
 type SubscriptionDiscountDiscountEndParams struct {
+	// Time span for the redeemed discount.
+	Duration *SubscriptionDiscountDiscountEndDurationParams `form:"duration"`
 	// A precise Unix timestamp for the discount to end. Must be in the future.
 	Timestamp *int64 `form:"timestamp"`
 	// The type of calculation made to determine when the discount ends.
