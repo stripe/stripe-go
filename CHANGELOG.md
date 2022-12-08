@@ -199,7 +199,7 @@ Breaking changes that arose during code generation of the library that we postpo
 This release includes breaking changes resulting from:
 
 * Moving to use the new API version "2022-08-01". To learn more about these changes to Stripe products, see https://stripe.com/docs/upgrades#2022-08-01
-* Cleaning up the SDK to remove deprecated/unused APIs and rename classes/methods/properties to sync with product APIs. Read more detailed description at https://github.com/stripe/stripe-go/wiki/Migration-guide-for-v73.
+* Cleaning up the SDK to remove deprecated/unused APIs and rename classes/methods/properties to sync with product APIs. Read more detailed description at https://github.com/stripe/stripe-go/wiki/Migration-guide-for-v74.
 
 "⚠️" symbol highlights breaking changes.
 

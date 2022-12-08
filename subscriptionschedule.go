@@ -45,6 +45,7 @@ type SubscriptionSchedulePhaseAddInvoiceItemDiscountDiscountEndType string
 
 // List of values that SubscriptionSchedulePhaseAddInvoiceItemDiscountDiscountEndType can take
 const (
+	SubscriptionSchedulePhaseAddInvoiceItemDiscountDiscountEndTypeDuration  SubscriptionSchedulePhaseAddInvoiceItemDiscountDiscountEndType = "duration"
 	SubscriptionSchedulePhaseAddInvoiceItemDiscountDiscountEndTypeTimestamp SubscriptionSchedulePhaseAddInvoiceItemDiscountDiscountEndType = "timestamp"
 )
 
@@ -62,6 +63,7 @@ type SubscriptionSchedulePhaseDiscountDiscountEndType string
 
 // List of values that SubscriptionSchedulePhaseDiscountDiscountEndType can take
 const (
+	SubscriptionSchedulePhaseDiscountDiscountEndTypeDuration  SubscriptionSchedulePhaseDiscountDiscountEndType = "duration"
 	SubscriptionSchedulePhaseDiscountDiscountEndTypeTimestamp SubscriptionSchedulePhaseDiscountDiscountEndType = "timestamp"
 )
 
@@ -70,6 +72,7 @@ type SubscriptionSchedulePhaseItemDiscountDiscountEndType string
 
 // List of values that SubscriptionSchedulePhaseItemDiscountDiscountEndType can take
 const (
+	SubscriptionSchedulePhaseItemDiscountDiscountEndTypeDuration  SubscriptionSchedulePhaseItemDiscountDiscountEndType = "duration"
 	SubscriptionSchedulePhaseItemDiscountDiscountEndTypeTimestamp SubscriptionSchedulePhaseItemDiscountDiscountEndType = "timestamp"
 )
 
@@ -177,8 +180,18 @@ type SubscriptionScheduleDefaultSettingsParams struct {
 	TransferData *SubscriptionTransferDataParams `form:"transfer_data"`
 }
 
+// Time span for the redeemed discount.
+type SubscriptionSchedulePhaseAddInvoiceItemDiscountDiscountEndDurationParams struct {
+	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
+	Interval *string `form:"interval"`
+	// The number of intervals, as an whole number greater than 0. Stripe multiplies this by the interval type to get the overall duration.
+	IntervalCount *int64 `form:"interval_count"`
+}
+
 // Details to determine how long the discount should be applied for.
 type SubscriptionSchedulePhaseAddInvoiceItemDiscountDiscountEndParams struct {
+	// Time span for the redeemed discount.
+	Duration *SubscriptionSchedulePhaseAddInvoiceItemDiscountDiscountEndDurationParams `form:"duration"`
 	// A precise Unix timestamp for the discount to end. Must be in the future.
 	Timestamp *int64 `form:"timestamp"`
 	// The type of calculation made to determine when the discount ends.
@@ -215,8 +228,18 @@ type SubscriptionSchedulePhaseAutomaticTaxParams struct {
 	Enabled *bool `form:"enabled"`
 }
 
+// Time span for the redeemed discount.
+type SubscriptionSchedulePhaseDiscountDiscountEndDurationParams struct {
+	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
+	Interval *string `form:"interval"`
+	// The number of intervals, as an whole number greater than 0. Stripe multiplies this by the interval type to get the overall duration.
+	IntervalCount *int64 `form:"interval_count"`
+}
+
 // Details to determine how long the discount should be applied for.
 type SubscriptionSchedulePhaseDiscountDiscountEndParams struct {
+	// Time span for the redeemed discount.
+	Duration *SubscriptionSchedulePhaseDiscountDiscountEndDurationParams `form:"duration"`
 	// A precise Unix timestamp for the discount to end. Must be in the future.
 	Timestamp *int64 `form:"timestamp"`
 	// The type of calculation made to determine when the discount ends.
@@ -239,8 +262,18 @@ type SubscriptionSchedulePhaseInvoiceSettingsParams struct {
 	DaysUntilDue *int64 `form:"days_until_due"`
 }
 
+// Time span for the redeemed discount.
+type SubscriptionSchedulePhaseItemDiscountDiscountEndDurationParams struct {
+	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
+	Interval *string `form:"interval"`
+	// The number of intervals, as an whole number greater than 0. Stripe multiplies this by the interval type to get the overall duration.
+	IntervalCount *int64 `form:"interval_count"`
+}
+
 // Details to determine how long the discount should be applied for.
 type SubscriptionSchedulePhaseItemDiscountDiscountEndParams struct {
+	// Time span for the redeemed discount.
+	Duration *SubscriptionSchedulePhaseItemDiscountDiscountEndDurationParams `form:"duration"`
 	// A precise Unix timestamp for the discount to end. Must be in the future.
 	Timestamp *int64 `form:"timestamp"`
 	// The type of calculation made to determine when the discount ends.
@@ -502,8 +535,18 @@ type SubscriptionScheduleAmendAmendmentDiscountActionParams struct {
 	Type *string `form:"type"`
 }
 
+// Time span for the redeemed discount.
+type SubscriptionScheduleAmendAmendmentItemActionAddDiscountDiscountEndDurationParams struct {
+	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
+	Interval *string `form:"interval"`
+	// The number of intervals, as an whole number greater than 0. Stripe multiplies this by the interval type to get the overall duration.
+	IntervalCount *int64 `form:"interval_count"`
+}
+
 // Details to determine how long the discount should be applied for.
 type SubscriptionScheduleAmendAmendmentItemActionAddDiscountDiscountEndParams struct {
+	// Time span for the redeemed discount.
+	Duration *SubscriptionScheduleAmendAmendmentItemActionAddDiscountDiscountEndDurationParams `form:"duration"`
 	// A precise Unix timestamp for the discount to end. Must be in the future.
 	Timestamp *int64 `form:"timestamp"`
 	// The type of calculation made to determine when the discount ends.
@@ -550,8 +593,18 @@ type SubscriptionScheduleAmendAmendmentItemActionRemoveParams struct {
 	Price *string `form:"price"`
 }
 
+// Time span for the redeemed discount.
+type SubscriptionScheduleAmendAmendmentItemActionSetDiscountDiscountEndDurationParams struct {
+	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
+	Interval *string `form:"interval"`
+	// The number of intervals, as an whole number greater than 0. Stripe multiplies this by the interval type to get the overall duration.
+	IntervalCount *int64 `form:"interval_count"`
+}
+
 // Details to determine how long the discount should be applied for.
 type SubscriptionScheduleAmendAmendmentItemActionSetDiscountDiscountEndParams struct {
+	// Time span for the redeemed discount.
+	Duration *SubscriptionScheduleAmendAmendmentItemActionSetDiscountDiscountEndDurationParams `form:"duration"`
 	// A precise Unix timestamp for the discount to end. Must be in the future.
 	Timestamp *int64 `form:"timestamp"`
 	// The type of calculation made to determine when the discount ends.

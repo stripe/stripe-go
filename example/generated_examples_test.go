@@ -263,38 +263,6 @@ func TestOrderRetrieve(t *testing.T) {
 	assert.NotNil(t, result)
 }
 
-func TestOrderUpdate(t *testing.T) {
-	params := &stripe.OrderParams{IPAddress: stripe.String("0.0.0.0")}
-	params.AddMetadata("reference_number", "123")
-	result, _ := order.Update("order_xyz", params)
-	assert.NotNil(t, result)
-}
-
-func TestOrderCancel(t *testing.T) {
-	params := &stripe.OrderCancelParams{}
-	result, _ := order.Cancel("order_xyz", params)
-	assert.NotNil(t, result)
-}
-
-func TestOrderListLineItems(t *testing.T) {
-	params := &stripe.OrderListLineItemsParams{ID: stripe.String("order_xyz")}
-	result := order.ListLineItems(params)
-	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
-}
-
-func TestOrderReopen(t *testing.T) {
-	params := &stripe.OrderReopenParams{}
-	result, _ := order.Reopen("order_xyz", params)
-	assert.NotNil(t, result)
-}
-
-func TestOrderSubmit(t *testing.T) {
-	params := &stripe.OrderSubmitParams{ExpectedTotal: stripe.Int64(100)}
-	result, _ := order.Submit("order_xyz", params)
-	assert.NotNil(t, result)
-}
-
 func TestPaymentIntentCreate(t *testing.T) {
 	params := &stripe.PaymentIntentParams{
 		Amount:   stripe.Int64(1099),
