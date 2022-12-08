@@ -7,7 +7,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/stripe/stripe-go/v73"
+	"github.com/stripe/stripe-go/v74"
 )
 
 var testPayloadFormat = `{
