@@ -300,14 +300,6 @@ type SubscriptionDiscountParams struct {
 	DiscountEnd *SubscriptionDiscountDiscountEndParams `form:"discount_end"`
 }
 
-// Time span for the redeemed discount.
-type SubscriptionItemDiscountDiscountEndDurationParams struct {
-	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
-	Interval *string `form:"interval"`
-	// The number of intervals, as an whole number greater than 0. Stripe multiplies this by the interval type to get the overall duration.
-	IntervalCount *int64 `form:"interval_count"`
-}
-
 // A list of up to 20 subscription items, each with an attached price.
 type SubscriptionItemsParams struct {
 	Params `form:"*"`
