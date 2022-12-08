@@ -6,7 +6,7 @@
 
 package stripe
 
-import "github.com/stripe/stripe-go/v73/form"
+import "github.com/stripe/stripe-go/v74/form"
 
 // Retrieves the file link with the given ID.
 type FileLinkParams struct {
