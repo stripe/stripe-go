@@ -14,28 +14,30 @@ class StripeForce::Translate
     end
   end
 
-  def create_coupon_from_sf_coupon(sf_coupon)
+  def create_coupon_from_sf_coupon(order_sf_coupon)
     # check if the original sf coupon has been translated prior and exists in Stripe
     # this original coupon is the coupon that the order / order item coupon was copied from
-    original_sf_coupon = sf.find(prefixed_stripe_field(SF_STRIPE_COUPON), sf_coupon[prefixed_stripe_field("Original_Stripe_Coupon_Id__c")])
-    existing_stripe_coupon = retrieve_from_stripe(Stripe::Coupon, original_sf_coupon)
+    quote_sf_coupon = sf.find(prefixed_stripe_field(SF_STRIPE_COUPON), order_sf_coupon[prefixed_stripe_field("Original_Stripe_Coupon_Id__c")])
+    existing_stripe_coupon = retrieve_from_stripe(Stripe::Coupon, quote_sf_coupon)
     if existing_stripe_coupon
       existing_stripe_coupon = T.cast(existing_stripe_coupon, Stripe::Coupon)
-      generated_stripe_coupon = construct_stripe_object(stripe_class: Stripe::Coupon, salesforce_object: original_sf_coupon)
+      generated_stripe_coupon = construct_stripe_object(stripe_class: Stripe::Coupon, salesforce_object: quote_sf_coupon)
 
-      # this should never happen unless the coupon data in Salesforce is mutated
-      # if so, we want to create a new Stripe object and write back the new id
       if coupons_are_equal?(existing_stripe_coupon: existing_stripe_coupon, generated_stripe_coupon: generated_stripe_coupon)
         log.info 'reusing existing stripe coupon', existing_stripe_coupon_id: existing_stripe_coupon.id
         return existing_stripe_coupon
+      else
+        # this should never happen unless the coupon data in Salesforce is mutated
+        # if so, we will log and continue to create a new stripe coupon
+        log.info 'salesforce and stripe coupon differ. creating a new stripe coupon', existing_stripe_coupon_id: existing_stripe_coupon.id
       end
     end
 
     # create a new stripe coupon
-    stripe_coupon = create_stripe_object(Stripe::Coupon, original_sf_coupon)
+    stripe_coupon = create_stripe_object(Stripe::Coupon, quote_sf_coupon)
 
-    # update the sf coupon id on the original coupon
-    update_sf_stripe_id(original_sf_coupon, stripe_coupon)
+    # update the quote sf coupon stripe id
+    update_sf_stripe_id(quote_sf_coupon, stripe_coupon)
 
     stripe_coupon
   end
@@ -88,11 +90,11 @@ class StripeForce::Translate
         association_field = 'Order_Item__c'
       else
         # this should never happen since coupons can only be tied to an order or order item
-        raise "unsupported sf object type for coupons #{sf_object.sobject_type}"
+        raise Integrations::Errors::ImpossibleState.new("unsupported sf object type for coupons: #{sf_object.sobject_type}")
       end
 
       # check if there are any coupon associations to this order or order item
-      associations = sf_client.query("Select Id from #{prefixed_stripe_field(association_obj_type)} where #{prefixed_stripe_field(association_field)} = '#{sf_object.Id}'")
+      associations = sf_client.query("Select #{SF_ID} from #{prefixed_stripe_field(association_obj_type)} where #{prefixed_stripe_field(association_field)} = '#{sf_object.Id}'")
       if !associations || associations.size == 0
         log.info "no stripe coupon associations related to this sf object", salesforce_object: sf_object
         return

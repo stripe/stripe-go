@@ -25,6 +25,12 @@ class StripeForce::Translate
         key = key.serialize
       end
 
+      if key.include? "qa_stripe_connect"
+        key.slice! "qa_stripe_connect__"
+      elsif key.include? "stripe_connector"
+        key.slice! "stripe_connector__"
+      end
+
       "#{user.metadata_prefix}#{key}"
     end
 

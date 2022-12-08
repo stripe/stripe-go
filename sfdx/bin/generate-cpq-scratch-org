@@ -58,7 +58,7 @@ else
 fi
 
 # needs to be done before source:push since custom coupon object depend on this license
-sfdx force:user:permsetlicense:assign -n 'Salesforce CPQ License'
+sfdx force:user:permsetlicense:assign -n 'Salesforce CPQ License' -u $salesforceAlias
 
 sfdx config:set restDeploy=true apiVersion=54.0
 sfdx force:source:push --loglevel=debug -u $salesforceAlias

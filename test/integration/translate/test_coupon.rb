@@ -61,12 +61,12 @@ class Critic::CouponTranslation < Critic::FunctionalTest
 
       # create and translate the SF order
       sf_order = create_order_from_cpq_quote(sf_quote_id)
-      sf_order_lines = sf.query("SELECT Id FROM OrderItem WHERE OrderId = '#{sf_order.Id}'")
+      sf_order_lines = sf.query("SELECT #{SF_ID} FROM #{SF_ORDER_ITEM} WHERE OrderId = '#{sf_order.Id}'")
       StripeForce::Translate.perform_inline(@user, sf_order.Id)
 
       # check if there are any coupon associations to this order or order item
-      order_associations = @user.sf_client.query("Select Id from #{prefixed_stripe_field(SF_STRIPE_COUPON_ORDER_ASSOCIATION)} where #{prefixed_stripe_field('Order__c')} = '#{sf_order.Id}'")
-      order_item_associations = @user.sf_client.query("Select Id from #{prefixed_stripe_field(SF_STRIPE_COUPON_ORDER_ITEM_ASSOCIATION)} where #{prefixed_stripe_field('Order_Item__c')} = '#{sf_order_lines.first.Id}'")
+      order_associations = sf.query("SELECT #{SF_ID} FROM #{prefixed_stripe_field(SF_STRIPE_COUPON_ORDER_ASSOCIATION)} WHERE #{prefixed_stripe_field('Order__c')} = '#{sf_order.Id}'")
+      order_item_associations = sf.query("SELECT #{SF_ID} FROM #{prefixed_stripe_field(SF_STRIPE_COUPON_ORDER_ITEM_ASSOCIATION)} WHERE #{prefixed_stripe_field('Order_Item__c')} = '#{sf_order_lines.first.Id}'")
 
       assert_equal(order_associations.size, order_item_associations.size)
       assert_equal(1, order_associations.size)
@@ -143,7 +143,7 @@ class Critic::CouponTranslation < Critic::FunctionalTest
       assert_equal("once", stripe_percent_off_coupon.duration)
       assert_equal(sf_percent_off_coupon_id, stripe_percent_off_coupon.metadata['salesforce_stripe_coupon_id'])
 
-      # confirm the stripe coupon ids were written back to the original coupons in salesforce
+      # confirm the stripe coupon ids were written back to the quote coupons in salesforce
       sf_amount_off_coupon = sf_get(sf_amount_off_coupon_id)
       assert_equal(stripe_amount_off_coupon.id, sf_amount_off_coupon[prefixed_stripe_field(GENERIC_STRIPE_ID)])
 

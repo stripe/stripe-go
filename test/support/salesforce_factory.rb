@@ -102,7 +102,7 @@ module Critic
 
     def default_pricebook_id
       # https://help.salesforce.com/s/articleView?id=000326219&type=1
-      standard_pricebook = sf.query("Select Id from #{SF_PRICEBOOK} where IsStandard = true").first
+      standard_pricebook = sf.query("Select #{SF_ID} from #{SF_PRICEBOOK} where IsStandard = true").first
 
       if !standard_pricebook
         raise "could not find standard pricebook"
@@ -153,7 +153,7 @@ module Critic
     end
 
     def get_salesforce_stripe_coupons_associated_to_quote_line(quote_line_id:)
-      quote_line_associations = sf.query("Select Id from #{prefixed_stripe_field(SF_STRIPE_COUPON_QUOTE_LINE_ASSOCIATION)} where #{prefixed_stripe_field('Quote_Line__c')} = '#{quote_line_id}'")
+      quote_line_associations = sf.query("Select #{SF_ID} from #{prefixed_stripe_field(SF_STRIPE_COUPON_QUOTE_LINE_ASSOCIATION)} where #{prefixed_stripe_field('Quote_Line__c')} = '#{quote_line_id}'")
 
       if !quote_line_associations
         raise "could not find any stripe coupon quote line associations related to this quote line"

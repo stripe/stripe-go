@@ -206,12 +206,12 @@ module StripeForce
         "invoice" => {},
 
         "coupon" => {
-          "name" => "Name__c",
-          "amount_off" => "Amount_Off__c",
-          "percent_off" => "Percent_Off__c",
-          "duration" => "Duration__c",
-          "duration_in_months" => "Duration_In_Months__c",
-          "max_redemptions" => "Max_Redemptions__c",
+          "name" => StripeForce::Utilities::SalesforceUtil.prefixed_stripe_field(user: self, field_name: 'Name__c'),
+          "amount_off" => StripeForce::Utilities::SalesforceUtil.prefixed_stripe_field(user: self, field_name: 'Amount_Off__c'),
+          "percent_off" => StripeForce::Utilities::SalesforceUtil.prefixed_stripe_field(user: self, field_name: 'Percent_Off__c'),
+          "duration" => StripeForce::Utilities::SalesforceUtil.prefixed_stripe_field(user: self, field_name: 'Duration__c'),
+          "duration_in_months" => StripeForce::Utilities::SalesforceUtil.prefixed_stripe_field(user: self, field_name: 'Duration_In_Months__c'),
+          "max_redemptions" => StripeForce::Utilities::SalesforceUtil.prefixed_stripe_field(user: self, field_name: 'Max_Redemptions__c'),
         },
       }
     end

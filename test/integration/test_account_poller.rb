@@ -18,7 +18,7 @@ class Critic::AccountPollerTest < Critic::FunctionalTest
     assert_equal(0, StripeForce::PollTimestamp.count)
   end
 
-  it 'polls only if feature flag ACCOUNT_POLLING is enabled' do
+  it 'polls when feature flag ACCOUNT_POLLING is enabled' do
     # enable account polling
     @user.enable_feature(FeatureFlags::ACCOUNT_POLLING)
 
@@ -30,9 +30,6 @@ class Critic::AccountPollerTest < Critic::FunctionalTest
     StripeForce::Translate.perform_inline(@user, sf_account_id)
 
     locker = Integrations::Locker.new(@user)
-
-    # assert that account translation will occur
-    SalesforceTranslateRecordJob.expects(:perform).at_least_once
 
     # kick off account poll job for this user
     StripeForce::AccountPoller.perform(user: @user, locker: locker)
@@ -49,10 +46,12 @@ class Critic::AccountPollerTest < Critic::FunctionalTest
     # disable feature ACCOUNT_POLLING
     @user.disable_feature(FeatureFlags::ACCOUNT_POLLING)
 
-    # assert that account translation will not occur since feature flag is disabled
-    SalesforceTranslateRecordJob.expects(:perform).never
+    # assert that only order polling will occur (not account polling since feature flag is disabled)
+    StripeForce::InitiatePollsJobs.expects(:queue_poll_job_for_user).once do |args|
+      assert_equal(StripeForce::OrderPoller, args[:poller_job])
+    end
 
     # kick off account poll job for this user
-    StripeForce::AccountPoller.perform(user: @user, locker: locker)
+    StripeForce::InitiatePollsJobs.queue_polls_for_user(@user)
   end
 end
