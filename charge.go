@@ -1052,7 +1052,7 @@ type Charge struct {
 	Disputed bool `json:"disputed"`
 	// ID of the balance transaction that describes the reversal of the balance on your account due to payment failure.
 	FailureBalanceTransaction *BalanceTransaction `json:"failure_balance_transaction"`
-	// Error code explaining reason for charge failure if available (see [the errors section](https://stripe.com/docs/api#errors) for a list of codes).
+	// Error code explaining reason for charge failure if available (see [the errors section](https://stripe.com/docs/error-codes) for a list of codes).
 	FailureCode string `json:"failure_code"`
 	// Message to user further explaining reason for charge failure if available.
 	FailureMessage string `json:"failure_message"`
