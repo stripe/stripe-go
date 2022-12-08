@@ -34,7 +34,6 @@ import (
 	issuing_dispute "github.com/stripe/stripe-go/v74/issuing/dispute"
 	issuing_transaction "github.com/stripe/stripe-go/v74/issuing/transaction"
 	mandate "github.com/stripe/stripe-go/v74/mandate"
-	order "github.com/stripe/stripe-go/v74/order"
 	paymentintent "github.com/stripe/stripe-go/v74/paymentintent"
 	paymentlink "github.com/stripe/stripe-go/v74/paymentlink"
 	paymentmethod "github.com/stripe/stripe-go/v74/paymentmethod"
@@ -242,24 +241,6 @@ func TestFinancialConnectionsSessionCreate(t *testing.T) {
 func TestFinancialConnectionsSessionRetrieve(t *testing.T) {
 	params := &stripe.FinancialConnectionsSessionParams{}
 	result, _ := financialconnections_session.Get("fcsess_xyz", params)
-	assert.NotNil(t, result)
-}
-
-func TestOrderCreate(t *testing.T) {
-	params := &stripe.OrderParams{
-		Description: stripe.String("description"),
-		Currency:    stripe.String(string(stripe.CurrencyUSD)),
-		LineItems: []*stripe.OrderLineItemParams{
-			&stripe.OrderLineItemParams{Description: stripe.String("my line item")},
-		},
-	}
-	result, _ := order.New(params)
-	assert.NotNil(t, result)
-}
-
-func TestOrderRetrieve(t *testing.T) {
-	params := &stripe.OrderParams{}
-	result, _ := order.Get("order_xyz", params)
 	assert.NotNil(t, result)
 }
 
@@ -1435,14 +1416,6 @@ func TestMandateRetrieve(t *testing.T) {
 	assert.NotNil(t, result)
 }
 
-func TestOrderList(t *testing.T) {
-	params := &stripe.OrderListParams{}
-	params.Limit = stripe.Int64(3)
-	result := order.List(params)
-	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
-}
-
 func TestPaymentIntentList(t *testing.T) {
 	params := &stripe.PaymentIntentListParams{}
 	params.Limit = stripe.Int64(3)
@@ -2333,7 +2306,7 @@ func TestTransferReversalCreate(t *testing.T) {
 
 func TestTransferReversalUpdate(t *testing.T) {
 	params := &stripe.TransferReversalParams{
-		Transfer: stripe.String("tr_xxxxxxxxxxxxx"),
+		ID: stripe.String("tr_xxxxxxxxxxxxx"),
 	}
 	params.AddMetadata("order_id", "6735")
 	result, _ := transferreversal.Update("trr_xxxxxxxxxxxxx", params)
