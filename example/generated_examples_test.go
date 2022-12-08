@@ -2306,7 +2306,7 @@ func TestTransferReversalCreate(t *testing.T) {
 
 func TestTransferReversalUpdate(t *testing.T) {
 	params := &stripe.TransferReversalParams{
-		Transfer: stripe.String("tr_xxxxxxxxxxxxx"),
+		ID: stripe.String("tr_xxxxxxxxxxxxx"),
 	}
 	params.AddMetadata("order_id", "6735")
 	result, _ := transferreversal.Update("trr_xxxxxxxxxxxxx", params)
