@@ -1,5 +1,11 @@
 # Changelog
 
+## 74.3.0-beta.1 - 2022-12-08
+* [#1582](https://github.com/stripe/stripe-go/pull/1582) API Updates for beta branch
+  * Updated stable APIs to the latest version
+* [#1580](https://github.com/stripe/stripe-go/pull/1580) API Updates for beta branch
+  * Updated stable APIs to the latest version
+
 ## 74.2.0 - 2022-12-06
 * [#1579](https://github.com/stripe/stripe-go/pull/1579) API Updates
   * Add support for `FlowData` on `BillingPortalSessionParams`
