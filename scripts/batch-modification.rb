@@ -16,3 +16,7 @@ end
 StripeForce::User.all.each do |user|
   user.enable_feature StripeForce::Constants::FeatureFlags::CATCH_ALL_ERRORS, update: true
 end
+
+StripeForce::User.all.each do |user|
+  user.enable_feature StripeForce::Constants::FeatureFlags::SF_CACHING, update: true
+end
