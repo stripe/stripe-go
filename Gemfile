@@ -8,6 +8,9 @@ gem 'sorbet', '~> 0.5.10477', group: :development
 gem 'sorbet-runtime', '~> 0.5.10477', require: true
 gem 'sorbet-rails', '~> 0.7.34'
 
+# Force version dependents (to appease security audits)
+gem 'sinatra', '~> 2.2.3' # resque dependent
+
 # https://github.com/ruby/irb/issues/43
 gem 'reline', '~> 0.3.1'
 
@@ -56,7 +59,7 @@ gem 'bootsnap', '>= 1.9.1', require: false
 gem 'omniauth', '~> 2.1.0'
 
 # CVE-2019-13117 https://github.com/sparklemotion/nokogiri/issues/1943
-gem 'nokogiri', '>= 1.13.9'
+gem 'nokogiri', '>= 1.13.10'
 
 # https://groups.google.com/g/rubyonrails-security/c/ce9PhUANQ6s
 gem 'rails-html-sanitizer', '~> 1.4.3'
