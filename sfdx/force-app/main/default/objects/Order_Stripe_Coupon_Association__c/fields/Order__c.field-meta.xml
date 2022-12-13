@@ -4,8 +4,7 @@
     <externalId>false</externalId>
     <label>Order</label>
     <referenceTo>Order</referenceTo>
-    <relationshipLabel>Stripe Coupon Order Connection</relationshipLabel>
-    <relationshipName>Stripe_Coupon_Order_Connection</relationshipName>
+    <relationshipName>Order_In_Association</relationshipName>
     <reparentableMasterDetail>false</reparentableMasterDetail>
     <trackTrending>false</trackTrending>
     <type>Lookup</type>

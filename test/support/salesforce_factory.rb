@@ -125,7 +125,7 @@ module Critic
 
      sf.create!(prefixed_stripe_field(SF_STRIPE_COUPON_QUOTE_ASSOCIATION), {
        "Quote__c" => sf_quote_id,
-       "Stripe_Coupon__c" => sf_stripe_coupon_id,
+       QUOTE_SF_STRIPE_COUPON => sf_stripe_coupon_id,
      }.transform_keys(&method(:prefixed_stripe_field)))
     end
 
@@ -134,7 +134,7 @@ module Critic
 
       sf.create!(prefixed_stripe_field(SF_STRIPE_COUPON_QUOTE_LINE_ASSOCIATION), {
         "Quote_Line__c" => sf_quote_line_id,
-        "Stripe_Coupon__c" => sf_stripe_coupon_id,
+        QUOTE_SF_STRIPE_COUPON => sf_stripe_coupon_id,
       }.transform_keys(&method(:prefixed_stripe_field)))
     end
 
@@ -145,8 +145,8 @@ module Critic
           amount_off = TEST_DEFAULT_PRICE / 2
       end
 
-      sf.create!(prefixed_stripe_field(SF_STRIPE_COUPON), {
-        SalesforceStripeCouponFields::NAME => sf_randomized_name(SF_STRIPE_COUPON),
+      sf.create!(prefixed_stripe_field(QUOTE_SF_STRIPE_COUPON), {
+        SalesforceStripeCouponFields::NAME => sf_randomized_name(QUOTE_SF_STRIPE_COUPON),
         SalesforceStripeCouponFields::AMOUNT_OFF => amount_off,
         SalesforceStripeCouponFields::DURATION => 'once',
       }.merge(additional_fields).transform_keys(&:serialize).transform_keys(&method(:prefixed_stripe_field)))
@@ -162,10 +162,10 @@ module Critic
       # there could be multiple coupons associated with a quote line
       coupons = quote_line_associations.map do |quote_line_association|
           association = sf.find(prefixed_stripe_field(SF_STRIPE_COUPON_QUOTE_LINE_ASSOCIATION), quote_line_association.Id)
-          coupon_id = association[prefixed_stripe_field('Stripe_Coupon__c')]
+          coupon_id = association[prefixed_stripe_field('Quote_Stripe_Coupon__c')]
 
           # return the coupon object
-          sf.find(prefixed_stripe_field(SF_STRIPE_COUPON), coupon_id)
+          sf.find(prefixed_stripe_field(QUOTE_SF_STRIPE_COUPON), coupon_id)
       end
       coupons
     end

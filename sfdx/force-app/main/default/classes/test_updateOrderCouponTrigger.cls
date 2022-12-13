@@ -10,7 +10,7 @@ public with sharing class test_updateOrderCouponTrigger {
 
         // Setup test data
         SBQQ__Quote__c quote = generateQuote();
-        Stripe_Coupon__c coupon = createStripeCoupon();
+        Quote_Stripe_Coupon__c coupon = createStripeCoupon();
         createStripeCouponQuoteAssociation(quote.id, coupon.id);
 
         Test.startTest();
@@ -39,27 +39,27 @@ public with sharing class test_updateOrderCouponTrigger {
         Test.stopTest();
 
         // sanity check that the Stripe Coupon Quote Association was created
-        List<Stripe_Coupon_Quote_Association__c> stripeCouponQuoteAssociations = getStripeCouponQuoteAssociation(quote);
+        List<Quote_Stripe_Coupon_Association__c> stripeCouponQuoteAssociations = getStripeCouponQuoteAssociation(quote);
         System.assertEquals(1, stripeCouponQuoteAssociations.size());
 
         // sanity check that the Stripe Coupon has the correct data
-        List<Stripe_Coupon__c> quoteStripeCoupons = getStripeCoupons(stripeCouponQuoteAssociations.get(0));
+        List<Quote_Stripe_Coupon__c> quoteStripeCoupons = getStripeCoupons(stripeCouponQuoteAssociations.get(0));
         System.assertEquals(1, quoteStripeCoupons.size());
         
-        Stripe_Coupon__c quoteCoupon = quoteStripeCoupons.get(0);
+        Quote_Stripe_Coupon__c quoteCoupon = quoteStripeCoupons.get(0);
         System.assertEquals('55 percent off coupon', quoteCoupon.Name__c);
         System.assertEquals(55, quoteCoupon.Percent_Off__c);
         System.assertEquals('once', quoteCoupon.Duration__c);
 
         // trigger should have created a serialized Stripe Coupon
-        List<Stripe_Coupon_Serialized__c> serializedStripeCoupons = getStripeCouponSerialized(quoteCoupon.id);
+        List<Order_Stripe_Coupon__c> serializedStripeCoupons = getStripeCouponSerialized(quoteCoupon.id);
         System.assertEquals(1, serializedStripeCoupons.size());
         
-        Stripe_Coupon_Serialized__c serializedStripeCoupon = serializedStripeCoupons.get(0);
+        Order_Stripe_Coupon__c serializedStripeCoupon = serializedStripeCoupons.get(0);
         System.assertEquals('55 percent off coupon', serializedStripeCoupon.Name__c);
 
         // trigger should have created a Stripe Coupon Order Association__c as well
-        List<Stripe_Coupon_Order_Association__c> stripeCouponOrderAssociations = getstripeCouponOrderAssociations(orders.get(0).id);
+        List<Order_Stripe_Coupon_Association__c> stripeCouponOrderAssociations = getstripeCouponOrderAssociations(orders.get(0).id);
         System.assertEquals(1, stripeCouponOrderAssociations.size());
     }
 
@@ -132,49 +132,49 @@ public with sharing class test_updateOrderCouponTrigger {
         return quote; 
     }
 
-    static public Stripe_Coupon__c createStripeCoupon() {
-        Stripe_Coupon__c salesforceStripeCoupon =  new Stripe_Coupon__c();
-        salesforceStripeCoupon.Name__c = '55 percent off coupon';
-        salesforceStripeCoupon.Percent_Off__c = 55;
-        salesforceStripeCoupon.Duration__c = 'once';
-        Database.insertImmediate((sObject) salesforceStripeCoupon);
-        return salesforceStripeCoupon;
+    static public Quote_Stripe_Coupon__c createStripeCoupon() {
+        Quote_Stripe_Coupon__c quoteCoupon = new Quote_Stripe_Coupon__c();
+        quoteCoupon.Name__c = '55 percent off coupon';
+        quoteCoupon.Percent_Off__c = 55;
+        quoteCoupon.Duration__c = 'once';
+        Database.insertImmediate((sObject) quoteCoupon);
+        return quoteCoupon;
     }
 
     static public void createStripeCouponQuoteAssociation(String quoteId, String couponId) {
-        Stripe_Coupon_Quote_Association__c salesforceStripeCouponQuoteAssociation =  new Stripe_Coupon_Quote_Association__c();
+        Quote_Stripe_Coupon_Association__c salesforceStripeCouponQuoteAssociation =  new Quote_Stripe_Coupon_Association__c();
         salesforceStripeCouponQuoteAssociation.Quote__c = quoteId;
-        salesforceStripeCouponQuoteAssociation.Stripe_Coupon__c = couponId;
+        salesforceStripeCouponQuoteAssociation.Quote_Stripe_Coupon__c = couponId;
         Database.insertImmediate((sObject)salesforceStripeCouponQuoteAssociation);
     }
 
-    static public List<Stripe_Coupon__c> getStripeCoupons(Stripe_Coupon_Quote_Association__c stripeCouponQuoteAssociation) {
+    static public List<Quote_Stripe_Coupon__c> getStripeCoupons(Quote_Stripe_Coupon_Association__c stripeCouponQuoteAssociation) {
         return [
             SELECT Amount_Off__c, Duration__c, Duration_In_Months__c, Max_Redemptions__c, Name__c, Percent_Off__c
-            FROM Stripe_Coupon__c
-            WHERE Id = :stripeCouponQuoteAssociation.Stripe_Coupon__c
+            FROM Quote_Stripe_Coupon__c
+            WHERE Id = :stripeCouponQuoteAssociation.Quote_Stripe_Coupon__c
         ];
     }
 
-    static public List<Stripe_Coupon_Quote_Association__c> getStripeCouponQuoteAssociation(SBQQ__Quote__c quote) {
+    static public List<Quote_Stripe_Coupon_Association__c> getStripeCouponQuoteAssociation(SBQQ__Quote__c quote) {
         return [
-          SELECT Stripe_Coupon__c
-          FROM Stripe_Coupon_Quote_Association__c
+          SELECT Quote_Stripe_Coupon__c
+          FROM Quote_Stripe_Coupon_Association__c
           WHERE Quote__c = :quote.Id
         ];
     }
 
-    static public List<Stripe_Coupon_Serialized__c> getStripeCouponSerialized(String originalCouponId) {
+    static public List<Order_Stripe_Coupon__c> getStripeCouponSerialized(String quoteCouponId) {
         return [
             SELECT Id, Name__c 
-            FROM Stripe_Coupon_Serialized__c
-            WHERE Original_Stripe_Coupon_Id__c = :originalCouponId];
+            FROM Order_Stripe_Coupon__c
+            WHERE Quote_Stripe_Coupon_Id__c = :quoteCouponId];
     }
 
-    static public List<Stripe_Coupon_Order_Association__c> getStripeCouponOrderAssociations(String orderId) {
+    static public List<Order_Stripe_Coupon_Association__c> getStripeCouponOrderAssociations(String orderId) {
         return [
             SELECT Id
-            FROM Stripe_Coupon_Order_Association__c
+            FROM Order_Stripe_Coupon_Association__c
             WHERE Order__c = :orderId];  
     }
 }

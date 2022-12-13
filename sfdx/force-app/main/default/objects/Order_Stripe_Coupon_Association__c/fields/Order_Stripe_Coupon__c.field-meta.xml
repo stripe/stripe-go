@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Stripe_Coupon__c</fullName>
+    <fullName>Order_Stripe_Coupon__c</fullName>
     <externalId>false</externalId>
-    <label>Stripe Coupon</label>
-    <referenceTo>Stripe_Coupon_Serialized__c</referenceTo>
-    <relationshipLabel>Stripe Coupon Order Item Link</relationshipLabel>
-    <relationshipName>Stripe_Coupon_Order_Item_Link</relationshipName>
+    <label>Order Stripe Coupon</label>
+    <referenceTo>Order_Stripe_Coupon__c</referenceTo>
+    <relationshipName>Stripe_Coupon_In_Order_Association</relationshipName>
     <relationshipOrder>0</relationshipOrder>
     <reparentableMasterDetail>false</reparentableMasterDetail>
     <trackTrending>false</trackTrending>

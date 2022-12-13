@@ -193,7 +193,7 @@ public with sharing class setupAssistant {
                         'Account' => utilities.getListOfFieldsByObject('Account'),
                         'Product2' => utilities.getListOfFieldsByObject('Product2'),
                         'PricebookEntry' => utilities.getListOfFieldsByObject('PricebookEntry'),
-                        'Stripe_Coupon__c' => utilities.getListOfFieldsByObject(constants.NAMESPACE_API + 'Stripe_Coupon__c')
+                        'Order_Stripe_Coupon__c' => utilities.getListOfFieldsByObject(constants.NAMESPACE_API + 'Order_Stripe_Coupon__c')
                     };
                     rd.put('fieldListByObjectMap', fieldListByObjectMap);
                 } else {

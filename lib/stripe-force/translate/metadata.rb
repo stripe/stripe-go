@@ -8,7 +8,7 @@ class StripeForce::Translate
     sig { params(sf_object: Restforce::SObject).returns(String) }
     def self.sf_object_metadata_name(sf_object)
       # ex: `SBQQ__OrderItemConsumptionSchedule__c`
-      sf_object
+      key = sf_object
         .sobject_type
         .underscore
         # remove __c on custom objects to save key size
@@ -17,18 +17,22 @@ class StripeForce::Translate
         .gsub('sbqq__', '')
         # if we are mapping a subfield on order_item, it will be long
         .gsub('order_item_', 'oi_')
+
+      # remove the namespace prefix since Stripe errors if key length > 40 chars
+      namespace_prefixes = [StripeForce::Constants::SalesforceNamespaceOptions::QA, StripeForce::Constants::SalesforceNamespaceOptions::PRODUCTION].map(&:serialize).map(&:underscore)
+      if key.include? namespace_prefixes.first
+        key.slice! namespace_prefixes.first
+      elsif key.include? namespace_prefixes[1]
+        key.slice! namespace_prefixes[1]
+      end
+
+      key
     end
 
     sig { params(user: StripeForce::User, key: T.any(T::Enum, String)).returns(String) }
     def self.metadata_key(user, key)
       if key.is_a?(T::Enum)
         key = key.serialize
-      end
-
-      if key.include? "qa_stripe_connect"
-        key.slice! "qa_stripe_connect__"
-      elsif key.include? "stripe_connector"
-        key.slice! "stripe_connector__"
       end
 
       "#{user.metadata_prefix}#{key}"

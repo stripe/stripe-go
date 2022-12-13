@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Name__c</fullName>
-    <description>The name of the Stripe coupon.</description>
+    <description>The name of the coupon.</description>
     <externalId>false</externalId>
     <label>Name</label>
     <length>40</length>

@@ -315,72 +315,75 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Stripe_Coupon__c.Amount_Off__c</field>
+        <field>Quote_Stripe_Coupon__c.Amount_Off__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Stripe_Coupon__c.Duration_In_Months__c</field>
+        <field>Quote_Stripe_Coupon__c.Duration_In_Months__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Stripe_Coupon__c.Max_Redemptions__c</field>
+        <field>Quote_Stripe_Coupon__c.Max_Redemptions__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Stripe_Coupon__c.Name__c</field>
+        <field>Quote_Stripe_Coupon__c.Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Stripe_Coupon__c.Percent_Off__c</field>
+        <field>Quote_Stripe_Coupon__c.Percent_Off__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Stripe_Coupon__c.Stripe_Dashboard_Link__c</field>
+        <field>Quote_Stripe_Coupon__c.Stripe_Dashboard_Link__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Stripe_Coupon__c.Stripe_ID__c</field>
+        <field>Quote_Stripe_Coupon__c.Stripe_ID__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Stripe_Coupon_Serialized__c.Amount_Off__c</field>
+        <field>Order_Stripe_Coupon__c.Stripe_ID__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Stripe_Coupon_Serialized__c.Duration_In_Months__c</field>
+        <field>Order_Stripe_Coupon__c.Stripe_Dashboard_Link__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
-        <field>Stripe_Coupon_Serialized__c.Max_Redemptions__c</field>
+        <field>Order_Stripe_Coupon__c.Amount_Off__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
-        <field>Stripe_Coupon_Serialized__c.Name__c</field>
+        <field>Order_Stripe_Coupon__c.Duration_In_Months__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
-        <field>Stripe_Coupon_Serialized__c.Percent_Off__c</field>
+        <field>Order_Stripe_Coupon__c.Max_Redemptions__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
-        <field>Stripe_Coupon_Order_Item_Association__c.Order_Item__c</field>
+        <field>Order_Stripe_Coupon__c.Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
-        <field>Stripe_Coupon_Order_Association__c.Order__c</field>
+        <field>Order_Stripe_Coupon__c.Percent_Off__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <field>Order_Item_Stripe_Coupon_Association__c.Order_Item__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <field>Order_Stripe_Coupon_Association__c.Order__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <hasActivationRequired>false</hasActivationRequired>
@@ -418,7 +421,7 @@
         <allowEdit>true</allowEdit>
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
-        <object>Stripe_Coupon__c</object>
+        <object>Quote_Stripe_Coupon__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
@@ -427,7 +430,7 @@
         <allowEdit>true</allowEdit>
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
-        <object>Stripe_Coupon_Quote_Association__c</object>
+        <object>Quote_Stripe_Coupon_Association__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
@@ -436,7 +439,7 @@
         <allowEdit>true</allowEdit>
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
-        <object>Stripe_Coupon_Quote_Line_Association__c</object>
+        <object>Quote_Line_Stripe_Coupon_Association__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
@@ -454,19 +457,19 @@
     <objectPermissions>
         <allowCreate>true</allowCreate>
         <allowRead>true</allowRead>
-        <object>Stripe_Coupon_Serialized__c</object>
+        <object>Order_Stripe_Coupon__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
         <allowCreate>true</allowCreate>
         <allowRead>true</allowRead>
-        <object>Stripe_Coupon_Order_Association__c</object>
+        <object>Order_Stripe_Coupon_Association__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
         <allowCreate>true</allowCreate>
         <allowRead>true</allowRead>
-        <object>Stripe_Coupon_Order_Item_Association__c</object>
+        <object>Order_Item_Stripe_Coupon_Association__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <pageAccesses>

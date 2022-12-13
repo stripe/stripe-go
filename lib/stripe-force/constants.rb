@@ -20,12 +20,14 @@ module StripeForce
     SF_PRODUCT_CONSUMPTION_SCHEDULE = 'ProductConsumptionSchedule'
     SF_CONSUMPTION_RATE = 'ConsumptionRate'
     SF_CONTRACT = 'Contract'
-    SF_STRIPE_COUPON = 'Stripe_Coupon__c'
-    SF_STRIPE_COUPON_SERIALIZED = 'Stripe_Coupon_Serialized__c'
-    SF_STRIPE_COUPON_QUOTE_ASSOCIATION = 'Stripe_Coupon_Quote_Association__c'
-    SF_STRIPE_COUPON_QUOTE_LINE_ASSOCIATION = 'Stripe_Coupon_Quote_Line_Association__c'
-    SF_STRIPE_COUPON_ORDER_ASSOCIATION = 'Stripe_Coupon_Order_Association__c'
-    SF_STRIPE_COUPON_ORDER_ITEM_ASSOCIATION = 'Stripe_Coupon_Order_Item_Association__c'
+
+    # custom coupon objects
+    QUOTE_SF_STRIPE_COUPON = 'Quote_Stripe_Coupon__c'
+    ORDER_SF_STRIPE_COUPON = 'Order_Stripe_Coupon__c'
+    SF_STRIPE_COUPON_QUOTE_ASSOCIATION = 'Quote_Stripe_Coupon_Association__c'
+    SF_STRIPE_COUPON_QUOTE_LINE_ASSOCIATION = 'Quote_Line_Stripe_Coupon_Association__c'
+    SF_STRIPE_COUPON_ORDER_ASSOCIATION = 'Order_Stripe_Coupon_Association__c'
+    SF_STRIPE_COUPON_ORDER_ITEM_ASSOCIATION = 'Order_Item_Stripe_Coupon_Association__c'
 
     SF_ID = 'Id'
     SF_LAST_MODIFIED_DATE = 'LastModifiedDate'

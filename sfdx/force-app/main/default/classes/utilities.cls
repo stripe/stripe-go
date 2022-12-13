@@ -5,17 +5,17 @@ public with sharing class utilities {
         return !String.isEmpty(constants.NAMESPACE_API);
     }
 
-    public static Stripe_Coupon_Serialized__c cloneStripeCoupon(Stripe_Coupon__c originalCoupon)
+    public static Order_Stripe_Coupon__c cloneStripeCoupon(Quote_Stripe_Coupon__c quoteCoupon)
     {
         // clone the Stripe Coupon on the quote, it will have a different Id
-        Stripe_Coupon_Serialized__c clonedCoupon = new Stripe_Coupon_Serialized__c();
-        clonedCoupon.Amount_Off__c = originalCoupon.Amount_Off__c;
-        clonedCoupon.Duration__c = originalCoupon.Duration__c;
-        clonedCoupon.Duration_In_Months__c = originalCoupon.Duration_In_Months__c;
-        clonedCoupon.Max_Redemptions__c = originalCoupon.Max_Redemptions__c;
-        clonedCoupon.Name__c = originalCoupon.Name__c;
-        clonedCoupon.Percent_Off__c = originalCoupon.Percent_Off__c;
-        clonedCoupon.Original_Stripe_Coupon_Id__c = originalCoupon.Id;
+        Order_Stripe_Coupon__c clonedCoupon = new Order_Stripe_Coupon__c();
+        clonedCoupon.Amount_Off__c = quoteCoupon.Amount_Off__c;
+        clonedCoupon.Duration__c = quoteCoupon.Duration__c;
+        clonedCoupon.Duration_In_Months__c = quoteCoupon.Duration_In_Months__c;
+        clonedCoupon.Max_Redemptions__c = quoteCoupon.Max_Redemptions__c;
+        clonedCoupon.Name__c = quoteCoupon.Name__c;
+        clonedCoupon.Percent_Off__c = quoteCoupon.Percent_Off__c;
+        clonedCoupon.Quote_Stripe_Coupon_Id__c = quoteCoupon.Id;
     
         // insert the cloned Stripe coupon
         Database.SaveResult result = Database.insertImmediate((sObject)clonedCoupon);
@@ -150,7 +150,7 @@ public with sharing class utilities {
                                         'ContractLineItem',
                                         'OpportunityLineItem',
                                         'ProductItem',
-                                        'Stripe_Coupon__c'
+                                        'Quote_Stripe_Coupon__c'
                                     };
                                     if(listOfImportantObjectsApiNames.contains(stringReferncedObjecect)) {
                                         objectFieldMap = addFieldsToObjectFieldMap(objectFieldMap, objectApiFieldMap, objectFieldName, isFieldCustom, typeOfField, isObjectCustom);

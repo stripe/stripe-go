@@ -304,6 +304,9 @@ class Stripe::Coupon
 
   sig { returns(String)}
   def currency; end
+
+  sig { returns(T::Boolean)}
+  def valid; end
 end
 
 class Stripe::Discounts

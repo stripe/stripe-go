@@ -2,22 +2,22 @@
 # typed: true
 
 class StripeForce::Translate
-  def translate_coupon(sf_coupon)
-    locker.lock_salesforce_record(sf_coupon)
+  def translate_coupon(order_sf_coupon)
+    locker.lock_salesforce_record(order_sf_coupon)
 
-    log.info 'translating coupon', salesforce_object: sf_coupon
+    log.info 'translating coupon', salesforce_object: order_sf_coupon
 
-    catch_errors_with_salesforce_context(secondary: sf_coupon) do
-      create_coupon_from_sf_coupon(sf_coupon)
+    catch_errors_with_salesforce_context(secondary: order_sf_coupon) do
+      create_coupon_from_sf_coupon(order_sf_coupon)
     ensure
-      locker.release_salesforce_record_lock(sf_coupon)
+      locker.release_salesforce_record_lock(order_sf_coupon)
     end
   end
 
   def create_coupon_from_sf_coupon(order_sf_coupon)
-    # check if the original sf coupon has been translated prior and exists in Stripe
-    # this original coupon is the coupon that the order / order item coupon was copied from
-    quote_sf_coupon = sf.find(prefixed_stripe_field(SF_STRIPE_COUPON), order_sf_coupon[prefixed_stripe_field("Original_Stripe_Coupon_Id__c")])
+    # check if the quote sf coupon has been translated prior and exists in Stripe
+    # the quote coupon is the coupon that the order / order item coupon was copied from
+    quote_sf_coupon = sf.find(prefixed_stripe_field(QUOTE_SF_STRIPE_COUPON), order_sf_coupon[prefixed_stripe_field("Quote_Stripe_Coupon_Id__c")])
     existing_stripe_coupon = retrieve_from_stripe(Stripe::Coupon, quote_sf_coupon)
     if existing_stripe_coupon
       existing_stripe_coupon = T.cast(existing_stripe_coupon, Stripe::Coupon)
@@ -38,6 +38,8 @@ class StripeForce::Translate
 
     # update the quote sf coupon stripe id
     update_sf_stripe_id(quote_sf_coupon, stripe_coupon)
+    # update the order sf coupon stripe id
+    update_sf_stripe_id(order_sf_coupon, stripe_coupon)
 
     stripe_coupon
   end
@@ -82,15 +84,16 @@ class StripeForce::Translate
   def get_salesforce_stripe_coupons_associated_to_sf_object(sf_client:, sf_object:)
     catch_errors_with_salesforce_context(secondary: sf_object) do
       # coupons can either be related to an order or order item
-      if sf_object.sobject_type == SF_ORDER
+      source_sf_record_type = sf_object.sobject_type
+      if source_sf_record_type == SF_ORDER
         association_obj_type = SF_STRIPE_COUPON_ORDER_ASSOCIATION
         association_field = 'Order__c'
-      elsif sf_object.sobject_type == SF_ORDER_ITEM
+      elsif source_sf_record_type == SF_ORDER_ITEM
         association_obj_type = SF_STRIPE_COUPON_ORDER_ITEM_ASSOCIATION
         association_field = 'Order_Item__c'
       else
         # this should never happen since coupons can only be tied to an order or order item
-        raise Integrations::Errors::ImpossibleState.new("unsupported sf object type for coupons: #{sf_object.sobject_type}")
+        raise Integrations::Errors::ImpossibleState.new("unsupported sf object type for coupons: #{source_sf_record_type}")
       end
 
       # check if there are any coupon associations to this order or order item
@@ -105,8 +108,8 @@ class StripeForce::Translate
           association = sf_client.find(prefixed_stripe_field(association_obj_type), association.Id)
 
           # return the coupon object
-          serializedCouponId = association[prefixed_stripe_field('Stripe_Coupon__c')]
-          sf_client.find(prefixed_stripe_field(SF_STRIPE_COUPON_SERIALIZED), serializedCouponId)
+          serializedCouponId = association[prefixed_stripe_field('Order_Stripe_Coupon__c')]
+          sf_client.find(prefixed_stripe_field(ORDER_SF_STRIPE_COUPON), serializedCouponId)
       end
 
       coupons

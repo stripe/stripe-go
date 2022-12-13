@@ -59,10 +59,10 @@ export default class DataMappingStep extends LightningElement {
             description: 'Price order items define the unit cost, currency, and (optional) billing cycle for both recurring and one-time purchases of a single product.'
         },
         "coupon": {
-            objectName: "Stripe_Coupon__c",
-            friendlyName: 'Stripe Coupon',
+            objectName: "Order_Stripe_Coupon__c",
+            friendlyName: 'Stripe Coupon on Order',
             description: 'Coupons contain information about a percent-off or amount-off discount you might want to apply to a subscription or subscription item.'
-        }
+        },
     }
     @track sfFieldOptions = [];
     @track customerMappings;
@@ -181,7 +181,8 @@ export default class DataMappingStep extends LightningElement {
         value: '',
         description: '',
         fields: []
-    }};
+    }
+    };
 
     @track activeStripeObjectMappings = this.customerMappings;
     @track activeStripeObjectMetadataFields = this.customerMetadataFields;
@@ -639,7 +640,7 @@ export default class DataMappingStep extends LightningElement {
             this.priceMappings = responseData.results.formattedStripePriceFields;
             this.priceOrderItemMappings = responseData.results.formattedStripePriceOrderItemFields;
             this.couponMappings = responseData.results.formattedStripeCouponFields;
-            
+
             this.getPicklistValuesForMapper(true, '', false);
         } catch (error) {
             const errorMessage = getErrorMessage(error);

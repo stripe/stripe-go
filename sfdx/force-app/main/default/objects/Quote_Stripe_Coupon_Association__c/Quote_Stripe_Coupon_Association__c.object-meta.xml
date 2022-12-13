@@ -143,7 +143,7 @@
     <allowInChatterGroups>false</allowInChatterGroups>
     <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
     <deploymentStatus>Deployed</deploymentStatus>
-    <description>Custom junction object linking a Stripe Coupon and an Order Line.</description>
+    <description>Custom junction object linking a Stripe Coupon and a CPQ Quote.</description>
     <enableActivities>false</enableActivities>
     <enableBulkApi>true</enableBulkApi>
     <enableFeeds>false</enableFeeds>
@@ -154,21 +154,14 @@
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
     <externalSharingModel>ControlledByParent</externalSharingModel>
-    <label>Stripe Coupon Order Item Association</label>
+    <label>Quote Stripe Coupon Association</label>
     <nameField>
         <displayFormat>{0000}</displayFormat>
-        <label>Stripe Coupon Order Item Association</label>Quot
+        <label>Quote Stripe Coupon Association</label>
         <type>AutoNumber</type>
     </nameField>
-    <pluralLabel>Stripe Coupon Order Item Associations</pluralLabel>
+    <pluralLabel>Quote Stripe Coupon Associations</pluralLabel>
     <searchLayouts></searchLayouts>
     <sharingModel>ControlledByParent</sharingModel>
-    <validationRules>
-        <fullName>Order_Item_Field_Must_Be_Set</fullName>
-        <description>Order_Item__c is a required field.</description>
-        <active>true</active>
-        <errorConditionFormula>ISBLANK(Order_Item__c)</errorConditionFormula>
-        <errorMessage>Order_Item__c is a required field.</errorMessage>
-    </validationRules>
     <visibility>Public</visibility>
 </CustomObject>

@@ -8,22 +8,22 @@ trigger updateOrderCoupon on Order (after update) {
         // get the corresponding quote for this order
         Id quoteId = order.SBQQ__Quote__c;
 
-        // fetch any Stripe_Coupon_Quote_Association__c for this order
-        List<Stripe_Coupon_Quote_Association__c> stripeCouponQuoteAssociations = [
-          SELECT Stripe_Coupon__c
-          FROM Stripe_Coupon_Quote_Association__c
+        // fetch any Quote_Stripe_Coupon_Association__c for this order
+        List<Quote_Stripe_Coupon_Association__c> stripeCouponQuoteAssociations = [
+          SELECT Quote_Stripe_Coupon__c
+          FROM Quote_Stripe_Coupon_Association__c
           WHERE Quote__c = :quoteId
         ];
 
-        // for each Stripe_Coupon_Quote_Association__c, create a corresponding Stripe_Coupon_Order_Association__c
+        // for each Quote_Stripe_Coupon_Association__c, create a corresponding Order_Stripe_Coupon_Association__c
         if (!stripeCouponQuoteAssociations.isEmpty())
         {
-          for (Stripe_Coupon_Quote_Association__c stripeCouponQuoteAssociation: stripeCouponQuoteAssociations)
+          for (Quote_Stripe_Coupon_Association__c stripeCouponQuoteAssociation: stripeCouponQuoteAssociations)
           {
-            List<Stripe_Coupon__c> quoteCoupons = [
+            List<Quote_Stripe_Coupon__c> quoteCoupons = [
               SELECT Id, Amount_Off__c, Duration__c, Duration_In_Months__c, Max_Redemptions__c, Name__c, Percent_Off__c
-              FROM Stripe_Coupon__c
-              WHERE Id = :stripeCouponQuoteAssociation.Stripe_Coupon__c
+              FROM Quote_Stripe_Coupon__c
+              WHERE Id = :stripeCouponQuoteAssociation.Quote_Stripe_Coupon__c
             ];
             
             if (quoteCoupons.isEmpty())
@@ -31,12 +31,12 @@ trigger updateOrderCoupon on Order (after update) {
               throw new CouponException('no stripeCoupon found for stripeCouponQuoteAssociation: ' + stripeCouponQuoteAssociation.Id);
             }
             
-            Stripe_Coupon__c quoteCoupon = quoteCoupons.get(0);
-            Stripe_Coupon_Serialized__c clonedCoupon = Utilities.cloneStripeCoupon(quoteCoupon);
+            Quote_Stripe_Coupon__c quoteCoupon = quoteCoupons.get(0);
+            Order_Stripe_Coupon__c clonedCoupon = Utilities.cloneStripeCoupon(quoteCoupon);
             
             // create a Stripe Coupon Order Association junction object
-            Stripe_Coupon_Order_Association__c orderStripeCouponAssociation = new Stripe_Coupon_Order_Association__c();
-            orderStripeCouponAssociation.Stripe_Coupon__c = clonedCoupon.Id;
+            Order_Stripe_Coupon_Association__c orderStripeCouponAssociation = new Order_Stripe_Coupon_Association__c();
+            orderStripeCouponAssociation.Order_Stripe_Coupon__c = clonedCoupon.Id;
             orderStripeCouponAssociation.Order__c = order.Id;
 
             // insert this record
@@ -53,21 +53,21 @@ trigger updateOrderCoupon on Order (after update) {
 
         for (SBQQ__QuoteLine__c quoteLine : quoteLines) {   
           // fetch the Stripe Coupon Quote Line Associations for this quote line
-          List<Stripe_Coupon_Quote_Line_Association__c> stripeCouponQuoteLineAssociations = [
-            SELECT Id, Stripe_Coupon__c
-            FROM Stripe_Coupon_Quote_Line_Association__c
+          List<Quote_Line_Stripe_Coupon_Association__c> stripeCouponQuoteLineAssociations = [
+            SELECT Id, Quote_Stripe_Coupon__c
+            FROM Quote_Line_Stripe_Coupon_Association__c
             WHERE Quote_Line__c = :quoteLine.Id
           ];
 
-          // for each Stripe_Coupon_Quote_Line_Association__c, create a corresponding Stripe_Coupon_Order_Item_Association__c
+          // for each Quote_Line_Stripe_Coupon_Association__c, create a corresponding Order_Item_Stripe_Coupon_Association__c
           if (!stripeCouponQuoteLineAssociations.isEmpty())
           {
-            for (Stripe_Coupon_Quote_Line_Association__c stripeCouponQuoteLineAssociation: stripeCouponQuoteLineAssociations)
+            for (Quote_Line_Stripe_Coupon_Association__c stripeCouponQuoteLineAssociation: stripeCouponQuoteLineAssociations)
             {
-              List<Stripe_Coupon__c> quoteLineCoupons = [
+              List<Quote_Stripe_Coupon__c> quoteLineCoupons = [
                 SELECT Amount_Off__c, Duration__c, Duration_In_Months__c, Max_Redemptions__c, Name__c, Percent_Off__c
-                FROM Stripe_Coupon__c
-                WHERE Id = :stripeCouponQuoteLineAssociation.Stripe_Coupon__c
+                FROM Quote_Stripe_Coupon__c
+                WHERE Id = :stripeCouponQuoteLineAssociation.Quote_Stripe_Coupon__c
               ];
               
               if (quoteLineCoupons.isEmpty())
@@ -75,8 +75,8 @@ trigger updateOrderCoupon on Order (after update) {
                 throw new CouponException('no stripeCoupon found for stripeCouponQuoteLineAssociation: ' + stripeCouponQuoteLineAssociation.Id);
               }
               
-              Stripe_Coupon__c quoteLineCoupon = quoteLineCoupons.get(0);
-              Stripe_Coupon_Serialized__c clonedCoupon = Utilities.cloneStripeCoupon(quoteLineCoupon);
+              Quote_Stripe_Coupon__c quoteLineCoupon = quoteLineCoupons.get(0);
+              Order_Stripe_Coupon__c clonedCoupon = Utilities.cloneStripeCoupon(quoteLineCoupon);
             
               // get the corresponding order line for this quote line
               List<OrderItem> orderItem = [
@@ -87,9 +87,9 @@ trigger updateOrderCoupon on Order (after update) {
          
               Id orderItemId =  orderItem.get(0).Id;
 
-              // create the corresponding Stripe_Coupon_Order_Item_Association__c
-              Stripe_Coupon_Order_Item_Association__c orderLineStripeCouponAssociation = new Stripe_Coupon_Order_Item_Association__c();
-              orderLineStripeCouponAssociation.Stripe_Coupon__c = clonedCoupon.Id;
+              // create the corresponding Order_Item_Stripe_Coupon_Association__c
+              Order_Item_Stripe_Coupon_Association__c orderLineStripeCouponAssociation = new Order_Item_Stripe_Coupon_Association__c();
+              orderLineStripeCouponAssociation.Order_Stripe_Coupon__c = clonedCoupon.Id;
               orderLineStripeCouponAssociation.Order_Item__c = orderItemId;
 
               // insert this record

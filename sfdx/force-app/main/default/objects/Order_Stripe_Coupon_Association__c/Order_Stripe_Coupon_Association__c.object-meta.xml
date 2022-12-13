@@ -154,13 +154,13 @@
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
     <externalSharingModel>ControlledByParent</externalSharingModel>
-    <label>Stripe Coupon Order Association</label>
+    <label>Order Stripe Coupon Association</label>
     <nameField>
         <displayFormat>{0000}</displayFormat>
-        <label>Stripe Coupon Order Association</label>
+        <label>Order Stripe Coupon Association</label>
         <type>AutoNumber</type>
     </nameField>
-    <pluralLabel>Stripe Coupon Order</pluralLabel>
+    <pluralLabel>Order Stripe Coupon Associations</pluralLabel>
     <searchLayouts></searchLayouts>
     <sharingModel>ControlledByParent</sharingModel>
     <validationRules>

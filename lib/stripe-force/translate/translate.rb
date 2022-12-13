@@ -80,8 +80,6 @@ class StripeForce::Translate
         translate_pricebook(sf_object)
       when SF_ACCOUNT
         translate_account(sf_object)
-      when prefixed_stripe_field(SF_STRIPE_COUPON)
-        translate_coupon(sf_object)
       else
         raise "unsupported translation type #{sf_object.sobject_type}"
       end

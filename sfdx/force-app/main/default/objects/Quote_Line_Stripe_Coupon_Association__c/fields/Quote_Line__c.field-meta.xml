@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Stripe_Coupon__c</fullName>
+    <fullName>Quote_Line__c</fullName>
     <externalId>false</externalId>
-    <label>Stripe Coupon</label>
-    <referenceTo>Stripe_Coupon__c</referenceTo>
-    <relationshipLabel>Stripe Coupon Quote Lines</relationshipLabel>
-    <relationshipName>Stripe_Coupon_Quote_Lines</relationshipName>
-    <relationshipOrder>0</relationshipOrder>
+    <label>Quote Line</label>
+    <referenceTo>SBQQ__QuoteLine__c</referenceTo>
+    <relationshipName>Quote_Line_In_Association</relationshipName>
+    <relationshipOrder>1</relationshipOrder>
     <reparentableMasterDetail>false</reparentableMasterDetail>
     <trackTrending>false</trackTrending>
     <type>MasterDetail</type>

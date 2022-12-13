@@ -90,11 +90,11 @@ module StripeForce::Utilities
     # TODO delete this function after updating callsites to pass in the user
     sig { params(field_name: String).returns(String) }
     def prefixed_stripe_field(field_name)
-      StripeForce::Utilities::SalesforceUtil.prefixed_stripe_field(user: @user, field_name: field_name)
+      StripeForce::Utilities::SalesforceUtil.prefixed_stripe_field_(user: @user, field_name: field_name)
     end
 
     sig { params(user: T.untyped, field_name: String).returns(String) }
-    def self.prefixed_stripe_field(user:, field_name:)
+    def self.prefixed_stripe_field_(user:, field_name:)
       custom_field_prefix = case (salesforce_namespace = user.connector_settings[CONNECTOR_SETTING_SALESFORCE_NAMESPACE])
       when nil
         Integrations::ErrorContext.report_edge_case("expected namespace to be defined, using fallback")
