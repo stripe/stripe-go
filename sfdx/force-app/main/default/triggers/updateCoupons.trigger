@@ -1,4 +1,4 @@
-trigger updateOrderCoupon on Order (after update) {
+trigger updateCoupons on Order (after update) {
   public class CouponException extends Exception {}
   
   try {

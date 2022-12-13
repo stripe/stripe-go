@@ -163,12 +163,5 @@
     <pluralLabel>Order Stripe Coupon Associations</pluralLabel>
     <searchLayouts></searchLayouts>
     <sharingModel>ControlledByParent</sharingModel>
-    <validationRules>
-        <fullName>Order_Field_Must_Be_Set</fullName>
-        <description>Order__c is a required field.</description>
-        <active>true</active>
-        <errorConditionFormula>ISBLANK(Order__c)</errorConditionFormula>
-        <errorMessage>Order__c is a required field.</errorMessage>
-    </validationRules>
     <visibility>Public</visibility>
 </CustomObject>
