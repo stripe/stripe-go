@@ -18,12 +18,12 @@ class StripeForce::Translate
         # if we are mapping a subfield on order_item, it will be long
         .gsub('order_item_', 'oi_')
 
-      # remove the namespace prefix since Stripe errors if key length > 40 chars
-      namespace_prefixes = [StripeForce::Constants::SalesforceNamespaceOptions::QA, StripeForce::Constants::SalesforceNamespaceOptions::PRODUCTION].map(&:serialize).map(&:underscore)
-      if key.include? namespace_prefixes.first
-        key.slice! namespace_prefixes.first
-      elsif key.include? namespace_prefixes[1]
-        key.slice! namespace_prefixes[1]
+      # TODO refactor to be more clear where these strings are coming from
+      # namespace_prefixes = [StripeForce::Constants::SalesforceNamespaceOptions::QA, StripeForce::Constants::SalesforceNamespaceOptions::PRODUCTION].map(&:serialize).map(&:underscore)
+      if key.include? "qa_stripe_connect"
+        key.slice! "qa_stripe_connect__"
+      elsif key.include? "stripe_connector"
+        key.slice! "stripe_connector__"
       end
 
       key

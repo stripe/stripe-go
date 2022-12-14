@@ -76,9 +76,9 @@ class Critic::CouponTranslation < Critic::FunctionalTest
       order_coupon = sf.find(prefixed_stripe_field(ORDER_SF_STRIPE_COUPON), order_associations.first[prefixed_stripe_field('Order_Stripe_Coupon__c')])
       assert_equal('$10 off coupon', order_coupon[prefixed_stripe_field('Name__c')])
       assert_equal(10, order_coupon[prefixed_stripe_field('Amount_Off__c')])
-      assert_equal(sf_amount_off_coupon_id, order_coupon[prefixed_stripe_field('Quote_Stripe_Coupon__c')])
-      assert_empty(order_coupon[prefixed_stripe_field('Percent_Off__c')])
-      assert_empty(order_coupon[prefixed_stripe_field('Max_Redemptions__c')])
+      assert_equal(sf_amount_off_coupon_id, order_coupon[prefixed_stripe_field('Quote_Stripe_Coupon_Id__c')])
+      assert_nil(order_coupon[prefixed_stripe_field('Percent_Off__c')])
+      assert_nil(order_coupon[prefixed_stripe_field('Max_Redemptions__c')])
     end
   end
 
@@ -86,7 +86,7 @@ class Critic::CouponTranslation < Critic::FunctionalTest
     it 'translate sf order with multiple coupons on an order line' do
       # add a custom metadata field mapping
       @user.field_mappings['coupon'] = {
-        'metadata.sf_mapped_metadata_field' => 'Name__c',
+        'metadata.sf_mapped_metadata_field' => prefixed_stripe_field('Name__c'),
       }
       @user.save
 
