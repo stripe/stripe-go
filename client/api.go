@@ -85,9 +85,11 @@ import (
 	"github.com/stripe/stripe-go/v74/subscription"
 	"github.com/stripe/stripe-go/v74/subscriptionitem"
 	"github.com/stripe/stripe-go/v74/subscriptionschedule"
+	"github.com/stripe/stripe-go/v74/taxcalculation"
 	"github.com/stripe/stripe-go/v74/taxcode"
 	"github.com/stripe/stripe-go/v74/taxid"
 	"github.com/stripe/stripe-go/v74/taxrate"
+	"github.com/stripe/stripe-go/v74/taxtransaction"
 	terminalconfiguration "github.com/stripe/stripe-go/v74/terminal/configuration"
 	terminalconnectiontoken "github.com/stripe/stripe-go/v74/terminal/connectiontoken"
 	terminallocation "github.com/stripe/stripe-go/v74/terminal/location"
@@ -275,12 +277,16 @@ type API struct {
 	Subscriptions *subscription.Client
 	// SubscriptionSchedules is the client used to invoke /subscription_schedules APIs.
 	SubscriptionSchedules *subscriptionschedule.Client
+	// TaxCalculations is the client used to invoke /tax/calculations APIs.
+	TaxCalculations *taxcalculation.Client
 	// TaxCodes is the client used to invoke /tax_codes APIs.
 	TaxCodes *taxcode.Client
 	// TaxIDs is the client used to invoke /customers/{customer}/tax_ids APIs.
 	TaxIDs *taxid.Client
 	// TaxRates is the client used to invoke /tax_rates APIs.
 	TaxRates *taxrate.Client
+	// TaxTransactions is the client used to invoke /tax/transactions APIs.
+	TaxTransactions *taxtransaction.Client
 	// TerminalConfigurations is the client used to invoke /terminal/configurations APIs.
 	TerminalConfigurations *terminalconfiguration.Client
 	// TerminalConnectionTokens is the client used to invoke /terminal/connection_tokens APIs.
@@ -431,9 +437,11 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.SubscriptionItems = &subscriptionitem.Client{B: backends.API, Key: key}
 	a.Subscriptions = &subscription.Client{B: backends.API, Key: key}
 	a.SubscriptionSchedules = &subscriptionschedule.Client{B: backends.API, Key: key}
+	a.TaxCalculations = &taxcalculation.Client{B: backends.API, Key: key}
 	a.TaxCodes = &taxcode.Client{B: backends.API, Key: key}
 	a.TaxIDs = &taxid.Client{B: backends.API, Key: key}
 	a.TaxRates = &taxrate.Client{B: backends.API, Key: key}
+	a.TaxTransactions = &taxtransaction.Client{B: backends.API, Key: key}
 	a.TerminalConfigurations = &terminalconfiguration.Client{B: backends.API, Key: key}
 	a.TerminalConnectionTokens = &terminalconnectiontoken.Client{B: backends.API, Key: key}
 	a.TerminalLocations = &terminallocation.Client{B: backends.API, Key: key}
