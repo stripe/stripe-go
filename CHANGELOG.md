@@ -1,5 +1,10 @@
 # Changelog
 
+## 74.3.0 - 2022-12-15
+* [#1584](https://github.com/stripe/stripe-go/pull/1584) API Updates
+  * Add support for new value `invoice_overpaid` on enum `CustomerBalanceTransactionType`
+* [#1581](https://github.com/stripe/stripe-go/pull/1581) API Updates
+
 ## 74.3.0-beta.1 - 2022-12-08
 * [#1582](https://github.com/stripe/stripe-go/pull/1582) API Updates for beta branch
   * Updated stable APIs to the latest version
