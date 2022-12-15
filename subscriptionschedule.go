@@ -11,6 +11,15 @@ import (
 	"github.com/stripe/stripe-go/v74/form"
 )
 
+// Describes whether the quote line is affecting a new schedule or an existing schedule.
+type SubscriptionScheduleAppliesToType string
+
+// List of values that SubscriptionScheduleAppliesToType can take
+const (
+	SubscriptionScheduleAppliesToTypeNewReference         SubscriptionScheduleAppliesToType = "new_reference"
+	SubscriptionScheduleAppliesToTypeSubscriptionSchedule SubscriptionScheduleAppliesToType = "subscription_schedule"
+)
+
 // Configures when the subscription schedule generates prorations for phase transitions. Possible values are `prorate_on_next_phase` or `prorate_up_front` with the default being `prorate_on_next_phase`. `prorate_on_next_phase` will apply phase changes and generate prorations at transition time.`prorate_up_front` will bill for all phases within the current billing cycle up front.
 type SubscriptionScheduleBillingBehavior string
 
@@ -45,7 +54,6 @@ type SubscriptionSchedulePhaseAddInvoiceItemDiscountDiscountEndType string
 
 // List of values that SubscriptionSchedulePhaseAddInvoiceItemDiscountDiscountEndType can take
 const (
-	SubscriptionSchedulePhaseAddInvoiceItemDiscountDiscountEndTypeDuration  SubscriptionSchedulePhaseAddInvoiceItemDiscountDiscountEndType = "duration"
 	SubscriptionSchedulePhaseAddInvoiceItemDiscountDiscountEndTypeTimestamp SubscriptionSchedulePhaseAddInvoiceItemDiscountDiscountEndType = "timestamp"
 )
 
@@ -63,7 +71,6 @@ type SubscriptionSchedulePhaseDiscountDiscountEndType string
 
 // List of values that SubscriptionSchedulePhaseDiscountDiscountEndType can take
 const (
-	SubscriptionSchedulePhaseDiscountDiscountEndTypeDuration  SubscriptionSchedulePhaseDiscountDiscountEndType = "duration"
 	SubscriptionSchedulePhaseDiscountDiscountEndTypeTimestamp SubscriptionSchedulePhaseDiscountDiscountEndType = "timestamp"
 )
 
@@ -72,7 +79,6 @@ type SubscriptionSchedulePhaseItemDiscountDiscountEndType string
 
 // List of values that SubscriptionSchedulePhaseItemDiscountDiscountEndType can take
 const (
-	SubscriptionSchedulePhaseItemDiscountDiscountEndTypeDuration  SubscriptionSchedulePhaseItemDiscountDiscountEndType = "duration"
 	SubscriptionSchedulePhaseItemDiscountDiscountEndTypeTimestamp SubscriptionSchedulePhaseItemDiscountDiscountEndType = "timestamp"
 )
 
@@ -735,6 +741,16 @@ type SubscriptionScheduleReleaseParams struct {
 	PreserveCancelDate *bool `form:"preserve_cancel_date"`
 }
 
+// Details to identify the subscription schedule the quote line applies to.
+type SubscriptionScheduleAppliesTo struct {
+	// A custom string that identifies a new subscription schedule being created upon quote acceptance. All quote lines with the same `new_reference` field will be applied to the creation of a new subscription schedule.
+	NewReference string `json:"new_reference"`
+	// The ID of the schedule the line applies to.
+	SubscriptionSchedule string `json:"subscription_schedule"`
+	// Describes whether the quote line is affecting a new schedule or an existing schedule.
+	Type SubscriptionScheduleAppliesToType `json:"type"`
+}
+
 // Object representing the start and end dates for the current phase of the subscription schedule, if it is `active`.
 type SubscriptionScheduleCurrentPhase struct {
 	// The end of this phase of the subscription schedule.
@@ -786,6 +802,8 @@ type SubscriptionSchedulePhaseAddInvoiceItemDiscount struct {
 	Discount *Discount `json:"discount"`
 	// Details to determine how long the discount should be applied for.
 	DiscountEnd *SubscriptionSchedulePhaseAddInvoiceItemDiscountDiscountEnd `json:"discount_end"`
+	// The index, starting at 0, at which to position the new discount. When not supplied, Stripe defaults to appending the discount to the end of the `discounts` array.
+	Index int64 `json:"index"`
 }
 
 // A list of prices and quantities that will generate invoice items appended to the next invoice for this phase.
@@ -816,6 +834,8 @@ type SubscriptionSchedulePhaseDiscount struct {
 	Discount *Discount `json:"discount"`
 	// Details to determine how long the discount should be applied for.
 	DiscountEnd *SubscriptionSchedulePhaseDiscountDiscountEnd `json:"discount_end"`
+	// The index, starting at 0, at which to position the new discount. When not supplied, Stripe defaults to appending the discount to the end of the `discounts` array.
+	Index int64 `json:"index"`
 }
 
 // The invoice settings applicable during this phase.
@@ -840,6 +860,8 @@ type SubscriptionSchedulePhaseItemDiscount struct {
 	Discount *Discount `json:"discount"`
 	// Details to determine how long the discount should be applied for.
 	DiscountEnd *SubscriptionSchedulePhaseItemDiscountDiscountEnd `json:"discount_end"`
+	// The index, starting at 0, at which to position the new discount. When not supplied, Stripe defaults to appending the discount to the end of the `discounts` array.
+	Index int64 `json:"index"`
 }
 
 // Options that configure the trial on the subscription item.
@@ -947,6 +969,8 @@ type SubscriptionSchedule struct {
 	APIResource
 	// ID of the Connect Application that created the schedule.
 	Application *Application `json:"application"`
+	// Details to identify the subscription schedule the quote line applies to.
+	AppliesTo *SubscriptionScheduleAppliesTo `json:"applies_to"`
 	// Configures when the subscription schedule generates prorations for phase transitions. Possible values are `prorate_on_next_phase` or `prorate_up_front` with the default being `prorate_on_next_phase`. `prorate_on_next_phase` will apply phase changes and generate prorations at transition time.`prorate_up_front` will bill for all phases within the current billing cycle up front.
 	BillingBehavior SubscriptionScheduleBillingBehavior `json:"billing_behavior"`
 	// Time at which the subscription schedule was canceled. Measured in seconds since the Unix epoch.

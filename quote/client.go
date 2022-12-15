@@ -85,6 +85,19 @@ func (c Client) Cancel(id string, params *stripe.QuoteCancelParams) (*stripe.Quo
 	return quote, err
 }
 
+// DraftQuote is the method for the `POST /v1/quotes/{quote}/draft` API.
+func DraftQuote(id string, params *stripe.QuoteDraftQuoteParams) (*stripe.Quote, error) {
+	return getC().DraftQuote(id, params)
+}
+
+// DraftQuote is the method for the `POST /v1/quotes/{quote}/draft` API.
+func (c Client) DraftQuote(id string, params *stripe.QuoteDraftQuoteParams) (*stripe.Quote, error) {
+	path := stripe.FormatURLPath("/v1/quotes/%s/draft", id)
+	quote := &stripe.Quote{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, quote)
+	return quote, err
+}
+
 // FinalizeQuote is the method for the `POST /v1/quotes/{quote}/finalize` API.
 func FinalizeQuote(id string, params *stripe.QuoteFinalizeQuoteParams) (*stripe.Quote, error) {
 	return getC().FinalizeQuote(id, params)
@@ -109,6 +122,19 @@ func (c Client) PDF(id string, params *stripe.QuotePDFParams) (*stripe.APIStream
 	stream := &stripe.APIStream{}
 	err := c.PDFBackend.CallStreaming(http.MethodGet, path, c.Key, params, stream)
 	return stream, err
+}
+
+// Reestimate is the method for the `POST /v1/quotes/{quote}/reestimate` API.
+func Reestimate(id string, params *stripe.QuoteReestimateParams) (*stripe.Quote, error) {
+	return getC().Reestimate(id, params)
+}
+
+// Reestimate is the method for the `POST /v1/quotes/{quote}/reestimate` API.
+func (c Client) Reestimate(id string, params *stripe.QuoteReestimateParams) (*stripe.Quote, error) {
+	path := stripe.FormatURLPath("/v1/quotes/%s/reestimate", id)
+	quote := &stripe.Quote{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, quote)
+	return quote, err
 }
 
 // List returns a list of quotes.
@@ -217,6 +243,178 @@ func (i *LineItemIter) LineItem() *stripe.LineItem {
 // continue pagination.
 func (i *LineItemIter) LineItemList() *stripe.LineItemList {
 	return i.List().(*stripe.LineItemList)
+}
+
+// ListLines is the method for the `GET /v1/quotes/{quote}/lines` API.
+func ListLines(params *stripe.QuoteListLinesParams) *LineIter {
+	return getC().ListLines(params)
+}
+
+// ListLines is the method for the `GET /v1/quotes/{quote}/lines` API.
+func (c Client) ListLines(listParams *stripe.QuoteListLinesParams) *LineIter {
+	path := stripe.FormatURLPath(
+		"/v1/quotes/%s/lines",
+		stripe.StringValue(listParams.Quote),
+	)
+	return &LineIter{
+		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
+			list := &stripe.QuoteLineList{}
+			err := c.B.CallRaw(http.MethodGet, path, c.Key, b, p, list)
+
+			ret := make([]interface{}, len(list.Data))
+			for i, v := range list.Data {
+				ret[i] = v
+			}
+
+			return ret, list, err
+		}),
+	}
+}
+
+// LineIter is an iterator for quote lines.
+type LineIter struct {
+	*stripe.Iter
+}
+
+// QuoteLine returns the quote line which the iterator is currently pointing to.
+func (i *LineIter) QuoteLine() *stripe.QuoteLine {
+	return i.Current().(*stripe.QuoteLine)
+}
+
+// QuoteLineList returns the current list object which the iterator is
+// currently using. List objects will change as new API calls are made to
+// continue pagination.
+func (i *LineIter) QuoteLineList() *stripe.QuoteLineList {
+	return i.List().(*stripe.QuoteLineList)
+}
+
+// PreviewInvoiceLines is the method for the `GET /v1/quotes/{quote}/preview_invoice_lines` API.
+func PreviewInvoiceLines(params *stripe.QuotePreviewInvoiceLinesParams) *InvoiceLineItemIter {
+	return getC().PreviewInvoiceLines(params)
+}
+
+// PreviewInvoiceLines is the method for the `GET /v1/quotes/{quote}/preview_invoice_lines` API.
+func (c Client) PreviewInvoiceLines(listParams *stripe.QuotePreviewInvoiceLinesParams) *InvoiceLineItemIter {
+	path := stripe.FormatURLPath(
+		"/v1/quotes/%s/preview_invoice_lines",
+		stripe.StringValue(listParams.Quote),
+	)
+	return &InvoiceLineItemIter{
+		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
+			list := &stripe.InvoiceLineItemList{}
+			err := c.B.CallRaw(http.MethodGet, path, c.Key, b, p, list)
+
+			ret := make([]interface{}, len(list.Data))
+			for i, v := range list.Data {
+				ret[i] = v
+			}
+
+			return ret, list, err
+		}),
+	}
+}
+
+// InvoiceLineItemIter is an iterator for invoice line items.
+type InvoiceLineItemIter struct {
+	*stripe.Iter
+}
+
+// InvoiceLineItem returns the invoice line item which the iterator is currently pointing to.
+func (i *InvoiceLineItemIter) InvoiceLineItem() *stripe.InvoiceLineItem {
+	return i.Current().(*stripe.InvoiceLineItem)
+}
+
+// InvoiceLineItemList returns the current list object which the iterator is
+// currently using. List objects will change as new API calls are made to
+// continue pagination.
+func (i *InvoiceLineItemIter) InvoiceLineItemList() *stripe.InvoiceLineItemList {
+	return i.List().(*stripe.InvoiceLineItemList)
+}
+
+// PreviewInvoices is the method for the `GET /v1/quotes/{quote}/preview_invoices` API.
+func PreviewInvoices(params *stripe.QuotePreviewInvoicesParams) *InvoiceIter {
+	return getC().PreviewInvoices(params)
+}
+
+// PreviewInvoices is the method for the `GET /v1/quotes/{quote}/preview_invoices` API.
+func (c Client) PreviewInvoices(listParams *stripe.QuotePreviewInvoicesParams) *InvoiceIter {
+	path := stripe.FormatURLPath(
+		"/v1/quotes/%s/preview_invoices",
+		stripe.StringValue(listParams.Quote),
+	)
+	return &InvoiceIter{
+		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
+			list := &stripe.InvoiceList{}
+			err := c.B.CallRaw(http.MethodGet, path, c.Key, b, p, list)
+
+			ret := make([]interface{}, len(list.Data))
+			for i, v := range list.Data {
+				ret[i] = v
+			}
+
+			return ret, list, err
+		}),
+	}
+}
+
+// InvoiceIter is an iterator for invoices.
+type InvoiceIter struct {
+	*stripe.Iter
+}
+
+// Invoice returns the invoice which the iterator is currently pointing to.
+func (i *InvoiceIter) Invoice() *stripe.Invoice {
+	return i.Current().(*stripe.Invoice)
+}
+
+// InvoiceList returns the current list object which the iterator is
+// currently using. List objects will change as new API calls are made to
+// continue pagination.
+func (i *InvoiceIter) InvoiceList() *stripe.InvoiceList {
+	return i.List().(*stripe.InvoiceList)
+}
+
+// PreviewSubscriptionSchedules is the method for the `GET /v1/quotes/{quote}/preview_subscription_schedules` API.
+func PreviewSubscriptionSchedules(params *stripe.QuotePreviewSubscriptionSchedulesParams) *SubscriptionScheduleIter {
+	return getC().PreviewSubscriptionSchedules(params)
+}
+
+// PreviewSubscriptionSchedules is the method for the `GET /v1/quotes/{quote}/preview_subscription_schedules` API.
+func (c Client) PreviewSubscriptionSchedules(listParams *stripe.QuotePreviewSubscriptionSchedulesParams) *SubscriptionScheduleIter {
+	path := stripe.FormatURLPath(
+		"/v1/quotes/%s/preview_subscription_schedules",
+		stripe.StringValue(listParams.Quote),
+	)
+	return &SubscriptionScheduleIter{
+		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
+			list := &stripe.SubscriptionScheduleList{}
+			err := c.B.CallRaw(http.MethodGet, path, c.Key, b, p, list)
+
+			ret := make([]interface{}, len(list.Data))
+			for i, v := range list.Data {
+				ret[i] = v
+			}
+
+			return ret, list, err
+		}),
+	}
+}
+
+// SubscriptionScheduleIter is an iterator for subscription schedules.
+type SubscriptionScheduleIter struct {
+	*stripe.Iter
+}
+
+// SubscriptionSchedule returns the subscription schedule which the iterator is currently pointing to.
+func (i *SubscriptionScheduleIter) SubscriptionSchedule() *stripe.SubscriptionSchedule {
+	return i.Current().(*stripe.SubscriptionSchedule)
+}
+
+// SubscriptionScheduleList returns the current list object which the iterator is
+// currently using. List objects will change as new API calls are made to
+// continue pagination.
+func (i *SubscriptionScheduleIter) SubscriptionScheduleList() *stripe.SubscriptionScheduleList {
+	return i.List().(*stripe.SubscriptionScheduleList)
 }
 
 func getC() Client {

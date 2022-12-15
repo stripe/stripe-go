@@ -46,10 +46,69 @@ type QuoteStatus string
 
 // List of values that QuoteStatus can take
 const (
-	QuoteStatusAccepted QuoteStatus = "accepted"
-	QuoteStatusCanceled QuoteStatus = "canceled"
-	QuoteStatusDraft    QuoteStatus = "draft"
-	QuoteStatusOpen     QuoteStatus = "open"
+	QuoteStatusAccepted  QuoteStatus = "accepted"
+	QuoteStatusAccepting QuoteStatus = "accepting"
+	QuoteStatusCanceled  QuoteStatus = "canceled"
+	QuoteStatusDraft     QuoteStatus = "draft"
+	QuoteStatusOpen      QuoteStatus = "open"
+	QuoteStatusStale     QuoteStatus = "stale"
+)
+
+// The reason this quote was marked as canceled.
+type QuoteStatusDetailsCanceledReason string
+
+// List of values that QuoteStatusDetailsCanceledReason can take
+const (
+	QuoteStatusDetailsCanceledReasonQuoteAccepted        QuoteStatusDetailsCanceledReason = "quote_accepted"
+	QuoteStatusDetailsCanceledReasonQuoteExpired         QuoteStatusDetailsCanceledReason = "quote_expired"
+	QuoteStatusDetailsCanceledReasonQuoteSuperseded      QuoteStatusDetailsCanceledReason = "quote_superseded"
+	QuoteStatusDetailsCanceledReasonSubscriptionCanceled QuoteStatusDetailsCanceledReason = "subscription_canceled"
+	QuoteStatusDetailsCanceledReasonUserCanceled         QuoteStatusDetailsCanceledReason = "user_canceled"
+)
+
+// The reason the quote was marked as stale.
+type QuoteStatusDetailsStaleLastReasonType string
+
+// List of values that QuoteStatusDetailsStaleLastReasonType can take
+const (
+	QuoteStatusDetailsStaleLastReasonTypeBillOnAcceptanceInvalid     QuoteStatusDetailsStaleLastReasonType = "bill_on_acceptance_invalid"
+	QuoteStatusDetailsStaleLastReasonTypeLineInvalid                 QuoteStatusDetailsStaleLastReasonType = "line_invalid"
+	QuoteStatusDetailsStaleLastReasonTypeSubscriptionChanged         QuoteStatusDetailsStaleLastReasonType = "subscription_changed"
+	QuoteStatusDetailsStaleLastReasonTypeSubscriptionScheduleChanged QuoteStatusDetailsStaleLastReasonType = "subscription_schedule_changed"
+)
+
+// The type of method to specify the `bill_from` time.
+type QuoteSubscriptionDataBillOnAcceptanceBillFromType string
+
+// List of values that QuoteSubscriptionDataBillOnAcceptanceBillFromType can take
+const (
+	QuoteSubscriptionDataBillOnAcceptanceBillFromTypeLineStartsAt        QuoteSubscriptionDataBillOnAcceptanceBillFromType = "line_starts_at"
+	QuoteSubscriptionDataBillOnAcceptanceBillFromTypeNow                 QuoteSubscriptionDataBillOnAcceptanceBillFromType = "now"
+	QuoteSubscriptionDataBillOnAcceptanceBillFromTypeQuoteAcceptanceDate QuoteSubscriptionDataBillOnAcceptanceBillFromType = "quote_acceptance_date"
+	QuoteSubscriptionDataBillOnAcceptanceBillFromTypeTimestamp           QuoteSubscriptionDataBillOnAcceptanceBillFromType = "timestamp"
+)
+
+// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
+type QuoteSubscriptionDataBillOnAcceptanceBillUntilDurationInterval string
+
+// List of values that QuoteSubscriptionDataBillOnAcceptanceBillUntilDurationInterval can take
+const (
+	QuoteSubscriptionDataBillOnAcceptanceBillUntilDurationIntervalDay   QuoteSubscriptionDataBillOnAcceptanceBillUntilDurationInterval = "day"
+	QuoteSubscriptionDataBillOnAcceptanceBillUntilDurationIntervalMonth QuoteSubscriptionDataBillOnAcceptanceBillUntilDurationInterval = "month"
+	QuoteSubscriptionDataBillOnAcceptanceBillUntilDurationIntervalWeek  QuoteSubscriptionDataBillOnAcceptanceBillUntilDurationInterval = "week"
+	QuoteSubscriptionDataBillOnAcceptanceBillUntilDurationIntervalYear  QuoteSubscriptionDataBillOnAcceptanceBillUntilDurationInterval = "year"
+)
+
+// The type of method to specify the `bill_until` time.
+type QuoteSubscriptionDataBillOnAcceptanceBillUntilType string
+
+// List of values that QuoteSubscriptionDataBillOnAcceptanceBillUntilType can take
+const (
+	QuoteSubscriptionDataBillOnAcceptanceBillUntilTypeDuration        QuoteSubscriptionDataBillOnAcceptanceBillUntilType = "duration"
+	QuoteSubscriptionDataBillOnAcceptanceBillUntilTypeLineEndsAt      QuoteSubscriptionDataBillOnAcceptanceBillUntilType = "line_ends_at"
+	QuoteSubscriptionDataBillOnAcceptanceBillUntilTypeScheduleEnd     QuoteSubscriptionDataBillOnAcceptanceBillUntilType = "schedule_end"
+	QuoteSubscriptionDataBillOnAcceptanceBillUntilTypeTimestamp       QuoteSubscriptionDataBillOnAcceptanceBillUntilType = "timestamp"
+	QuoteSubscriptionDataBillOnAcceptanceBillUntilTypeUpcomingInvoice QuoteSubscriptionDataBillOnAcceptanceBillUntilType = "upcoming_invoice"
 )
 
 // Configures when the subscription schedule generates prorations for phase transitions. Possible values are `prorate_on_next_phase` or `prorate_up_front` with the default being `prorate_on_next_phase`. `prorate_on_next_phase` will apply phase changes and generate prorations at transition time.`prorate_up_front` will bill for all phases within the current billing cycle up front.
@@ -88,6 +147,86 @@ const (
 	QuoteSubscriptionDataProrationBehaviorNone             QuoteSubscriptionDataProrationBehavior = "none"
 )
 
+// Describes whether the quote line is affecting a new schedule or an existing schedule.
+type QuoteSubscriptionDataOverrideAppliesToType string
+
+// List of values that QuoteSubscriptionDataOverrideAppliesToType can take
+const (
+	QuoteSubscriptionDataOverrideAppliesToTypeNewReference         QuoteSubscriptionDataOverrideAppliesToType = "new_reference"
+	QuoteSubscriptionDataOverrideAppliesToTypeSubscriptionSchedule QuoteSubscriptionDataOverrideAppliesToType = "subscription_schedule"
+)
+
+// The type of method to specify the `bill_from` time.
+type QuoteSubscriptionDataOverrideBillOnAcceptanceBillFromType string
+
+// List of values that QuoteSubscriptionDataOverrideBillOnAcceptanceBillFromType can take
+const (
+	QuoteSubscriptionDataOverrideBillOnAcceptanceBillFromTypeLineStartsAt        QuoteSubscriptionDataOverrideBillOnAcceptanceBillFromType = "line_starts_at"
+	QuoteSubscriptionDataOverrideBillOnAcceptanceBillFromTypeNow                 QuoteSubscriptionDataOverrideBillOnAcceptanceBillFromType = "now"
+	QuoteSubscriptionDataOverrideBillOnAcceptanceBillFromTypeQuoteAcceptanceDate QuoteSubscriptionDataOverrideBillOnAcceptanceBillFromType = "quote_acceptance_date"
+	QuoteSubscriptionDataOverrideBillOnAcceptanceBillFromTypeTimestamp           QuoteSubscriptionDataOverrideBillOnAcceptanceBillFromType = "timestamp"
+)
+
+// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
+type QuoteSubscriptionDataOverrideBillOnAcceptanceBillUntilDurationInterval string
+
+// List of values that QuoteSubscriptionDataOverrideBillOnAcceptanceBillUntilDurationInterval can take
+const (
+	QuoteSubscriptionDataOverrideBillOnAcceptanceBillUntilDurationIntervalDay   QuoteSubscriptionDataOverrideBillOnAcceptanceBillUntilDurationInterval = "day"
+	QuoteSubscriptionDataOverrideBillOnAcceptanceBillUntilDurationIntervalMonth QuoteSubscriptionDataOverrideBillOnAcceptanceBillUntilDurationInterval = "month"
+	QuoteSubscriptionDataOverrideBillOnAcceptanceBillUntilDurationIntervalWeek  QuoteSubscriptionDataOverrideBillOnAcceptanceBillUntilDurationInterval = "week"
+	QuoteSubscriptionDataOverrideBillOnAcceptanceBillUntilDurationIntervalYear  QuoteSubscriptionDataOverrideBillOnAcceptanceBillUntilDurationInterval = "year"
+)
+
+// The type of method to specify the `bill_until` time.
+type QuoteSubscriptionDataOverrideBillOnAcceptanceBillUntilType string
+
+// List of values that QuoteSubscriptionDataOverrideBillOnAcceptanceBillUntilType can take
+const (
+	QuoteSubscriptionDataOverrideBillOnAcceptanceBillUntilTypeDuration        QuoteSubscriptionDataOverrideBillOnAcceptanceBillUntilType = "duration"
+	QuoteSubscriptionDataOverrideBillOnAcceptanceBillUntilTypeLineEndsAt      QuoteSubscriptionDataOverrideBillOnAcceptanceBillUntilType = "line_ends_at"
+	QuoteSubscriptionDataOverrideBillOnAcceptanceBillUntilTypeScheduleEnd     QuoteSubscriptionDataOverrideBillOnAcceptanceBillUntilType = "schedule_end"
+	QuoteSubscriptionDataOverrideBillOnAcceptanceBillUntilTypeTimestamp       QuoteSubscriptionDataOverrideBillOnAcceptanceBillUntilType = "timestamp"
+	QuoteSubscriptionDataOverrideBillOnAcceptanceBillUntilTypeUpcomingInvoice QuoteSubscriptionDataOverrideBillOnAcceptanceBillUntilType = "upcoming_invoice"
+)
+
+// Configures when the subscription schedule generates prorations for phase transitions. Possible values are `prorate_on_next_phase` or `prorate_up_front` with the default being `prorate_on_next_phase`. `prorate_on_next_phase` will apply phase changes and generate prorations at transition time.`prorate_up_front` will bill for all phases within the current billing cycle up front.
+type QuoteSubscriptionDataOverrideBillingBehavior string
+
+// List of values that QuoteSubscriptionDataOverrideBillingBehavior can take
+const (
+	QuoteSubscriptionDataOverrideBillingBehaviorProrateOnNextPhase QuoteSubscriptionDataOverrideBillingBehavior = "prorate_on_next_phase"
+	QuoteSubscriptionDataOverrideBillingBehaviorProrateUpFront     QuoteSubscriptionDataOverrideBillingBehavior = "prorate_up_front"
+)
+
+// Behavior of the subscription schedule and underlying subscription when it ends. Possible values are `release` and `cancel`.
+type QuoteSubscriptionDataOverrideEndBehavior string
+
+// List of values that QuoteSubscriptionDataOverrideEndBehavior can take
+const (
+	QuoteSubscriptionDataOverrideEndBehaviorCancel  QuoteSubscriptionDataOverrideEndBehavior = "cancel"
+	QuoteSubscriptionDataOverrideEndBehaviorRelease QuoteSubscriptionDataOverrideEndBehavior = "release"
+)
+
+// Determines how to handle [prorations](https://stripe.com/docs/subscriptions/billing-cycle#prorations) when the quote is accepted.
+type QuoteSubscriptionDataOverrideProrationBehavior string
+
+// List of values that QuoteSubscriptionDataOverrideProrationBehavior can take
+const (
+	QuoteSubscriptionDataOverrideProrationBehaviorAlwaysInvoice    QuoteSubscriptionDataOverrideProrationBehavior = "always_invoice"
+	QuoteSubscriptionDataOverrideProrationBehaviorCreateProrations QuoteSubscriptionDataOverrideProrationBehavior = "create_prorations"
+	QuoteSubscriptionDataOverrideProrationBehaviorNone             QuoteSubscriptionDataOverrideProrationBehavior = "none"
+)
+
+// Describes whether the quote line is affecting a new schedule or an existing schedule.
+type QuoteSubscriptionScheduleAppliesToType string
+
+// List of values that QuoteSubscriptionScheduleAppliesToType can take
+const (
+	QuoteSubscriptionScheduleAppliesToTypeNewReference         QuoteSubscriptionScheduleAppliesToType = "new_reference"
+	QuoteSubscriptionScheduleAppliesToTypeSubscriptionSchedule QuoteSubscriptionScheduleAppliesToType = "subscription_schedule"
+)
+
 // Retrieves the quote with the given ID.
 type QuoteParams struct {
 	Params `form:"*"`
@@ -119,12 +258,16 @@ type QuoteParams struct {
 	InvoiceSettings *QuoteInvoiceSettingsParams `form:"invoice_settings"`
 	// A list of line items the customer is being quoted for. Each line item includes information about the product, the quantity, and the resulting cost.
 	LineItems []*QuoteLineItemParams `form:"line_items"`
+	// A list of lines on the quote. These lines describe changes that will be used to create new subscription schedules or update existing subscription schedules when the quote is accepted.
+	Lines []*QuoteLineParams `form:"lines"`
 	// The account on behalf of which to charge.
 	OnBehalfOf *string `form:"on_behalf_of"`
 	// List representing phases of the Quote. Each phase can be customized to have different durations, prices, and coupons.
 	Phases []*QuotePhaseParams `form:"phases"`
 	// When creating a subscription or subscription schedule, the specified configuration data will be used. There must be at least one line item with a recurring price for a subscription or subscription schedule to be created. A subscription schedule is created if `subscription_data[effective_date]` is present and in the future, otherwise a subscription is created.
 	SubscriptionData *QuoteSubscriptionDataParams `form:"subscription_data"`
+	// List representing overrides for `subscription_data` configurations for specific groups.
+	SubscriptionDataOverrides []*QuoteSubscriptionDataOverrideParams `form:"subscription_data_overrides"`
 	// ID of the test clock to attach to the quote.
 	TestClock *string `form:"test_clock"`
 	// The data with which to automatically create a Transfer for each of the invoices.
@@ -239,6 +382,268 @@ type QuoteLineItemParams struct {
 	TaxRates []*string `form:"tax_rates"`
 }
 
+// Details to determine how long the discount should be applied for.
+type QuoteLineActionAddDiscountDiscountEndParams struct {
+	// The type of calculation made to determine when the discount ends.
+	Type *string `form:"type"`
+}
+
+// Details for the `add_discount` type.
+type QuoteLineActionAddDiscountParams struct {
+	// The coupon code to redeem.
+	Coupon *string `form:"coupon"`
+	// An ID of an existing discount for a coupon that was already redeemed.
+	Discount *string `form:"discount"`
+	// Details to determine how long the discount should be applied for.
+	DiscountEnd *QuoteLineActionAddDiscountDiscountEndParams `form:"discount_end"`
+	// The index, starting at 0, at which to position the new discount. When not supplied, Stripe defaults to appending the discount to the end of the `discounts` array.
+	Index *int64 `form:"index"`
+}
+
+// Time span for the redeemed discount.
+type QuoteLineActionAddItemDiscountDiscountEndDurationParams struct {
+	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
+	Interval *string `form:"interval"`
+	// The number of intervals, as an whole number greater than 0. Stripe multiplies this by the interval type to get the overall duration.
+	IntervalCount *int64 `form:"interval_count"`
+}
+
+// Details to determine how long the discount should be applied for.
+type QuoteLineActionAddItemDiscountDiscountEndParams struct {
+	// Time span for the redeemed discount.
+	Duration *QuoteLineActionAddItemDiscountDiscountEndDurationParams `form:"duration"`
+	// A precise Unix timestamp for the discount to end. Must be in the future.
+	Timestamp *int64 `form:"timestamp"`
+	// The type of calculation made to determine when the discount ends.
+	Type *string `form:"type"`
+}
+
+// The discounts applied to the item. Subscription item discounts are applied before subscription discounts.
+type QuoteLineActionAddItemDiscountParams struct {
+	// ID of the coupon to create a new discount for.
+	Coupon *string `form:"coupon"`
+	// ID of an existing discount on the object (or one of its ancestors) to reuse.
+	Discount *string `form:"discount"`
+	// Details to determine how long the discount should be applied for.
+	DiscountEnd *QuoteLineActionAddItemDiscountDiscountEndParams `form:"discount_end"`
+}
+
+// Options that configure the trial on the subscription item.
+type QuoteLineActionAddItemTrialParams struct {
+	// List of price IDs which, if present on the subscription following a paid trial, constitute opting-in to the paid trial.
+	ConvertsTo []*string `form:"converts_to"`
+	// Determines the type of trial for this item.
+	Type *string `form:"type"`
+}
+
+// Details for the `add_item` type.
+type QuoteLineActionAddItemParams struct {
+	// The discounts applied to the item. Subscription item discounts are applied before subscription discounts.
+	Discounts []*QuoteLineActionAddItemDiscountParams `form:"discounts"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+	// The ID of the price object.
+	Price *string `form:"price"`
+	// Quantity for this item.
+	Quantity *int64 `form:"quantity"`
+	// The tax rates that apply to this subscription item. When set, the `default_tax_rates` on the subscription do not apply to this `subscription_item`.
+	TaxRates []*string `form:"tax_rates"`
+	// Options that configure the trial on the subscription item.
+	Trial *QuoteLineActionAddItemTrialParams `form:"trial"`
+}
+
+// Details for the `remove_discount` type.
+type QuoteLineActionRemoveDiscountParams struct {
+	// The coupon code to remove from the `discounts` array.
+	Coupon *string `form:"coupon"`
+	// The ID of a discount to remove from the `discounts` array.
+	Discount *string `form:"discount"`
+}
+
+// Details for the `remove_item` type.
+type QuoteLineActionRemoveItemParams struct {
+	// ID of a price to remove.
+	Price *string `form:"price"`
+}
+
+// Details for the `set_discounts` type.
+type QuoteLineActionSetDiscountParams struct {
+	// The coupon code to replace the `discounts` array with.
+	Coupon *string `form:"coupon"`
+	// An ID of an existing discount to replace the `discounts` array with.
+	Discount *string `form:"discount"`
+}
+
+// Time span for the redeemed discount.
+type QuoteLineActionSetItemDiscountDiscountEndDurationParams struct {
+	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
+	Interval *string `form:"interval"`
+	// The number of intervals, as an whole number greater than 0. Stripe multiplies this by the interval type to get the overall duration.
+	IntervalCount *int64 `form:"interval_count"`
+}
+
+// Details to determine how long the discount should be applied for.
+type QuoteLineActionSetItemDiscountDiscountEndParams struct {
+	// Time span for the redeemed discount.
+	Duration *QuoteLineActionSetItemDiscountDiscountEndDurationParams `form:"duration"`
+	// A precise Unix timestamp for the discount to end. Must be in the future.
+	Timestamp *int64 `form:"timestamp"`
+	// The type of calculation made to determine when the discount ends.
+	Type *string `form:"type"`
+}
+
+// If an item with the `price` already exists, passing this will override the `discounts` array on the subscription item that matches that price. Otherwise, the `items` array is cleared and a single new item is added with the supplied `discounts`.
+type QuoteLineActionSetItemDiscountParams struct {
+	// ID of the coupon to create a new discount for.
+	Coupon *string `form:"coupon"`
+	// ID of an existing discount on the object (or one of its ancestors) to reuse.
+	Discount *string `form:"discount"`
+	// Details to determine how long the discount should be applied for.
+	DiscountEnd *QuoteLineActionSetItemDiscountDiscountEndParams `form:"discount_end"`
+}
+
+// If an item with the `price` already exists, passing this will override the `trial` configuration on the subscription item that matches that price. Otherwise, the `items` array is cleared and a single new item is added with the supplied `trial`.
+type QuoteLineActionSetItemTrialParams struct {
+	// List of price IDs which, if present on the subscription following a paid trial, constitute opting-in to the paid trial.
+	ConvertsTo []*string `form:"converts_to"`
+	// Determines the type of trial for this item.
+	Type *string `form:"type"`
+}
+
+// Details for the `set_items` type.
+type QuoteLineActionSetItemParams struct {
+	// If an item with the `price` already exists, passing this will override the `discounts` array on the subscription item that matches that price. Otherwise, the `items` array is cleared and a single new item is added with the supplied `discounts`.
+	Discounts []*QuoteLineActionSetItemDiscountParams `form:"discounts"`
+	// If an item with the `price` already exists, passing this will override the `metadata` on the subscription item that matches that price. Otherwise, the `items` array is cleared and a single new item is added with the supplied `metadata`.
+	Metadata map[string]string `form:"metadata"`
+	// The ID of the price object.
+	Price *string `form:"price"`
+	// If an item with the `price` already exists, passing this will override the quantity on the subscription item that matches that price. Otherwise, the `items` array is cleared and a single new item is added with the supplied `quantity`.
+	Quantity *int64 `form:"quantity"`
+	// If an item with the `price` already exists, passing this will override the `tax_rates` array on the subscription item that matches that price. Otherwise, the `items` array is cleared and a single new item is added with the supplied `tax_rates`.
+	TaxRates []*string `form:"tax_rates"`
+	// If an item with the `price` already exists, passing this will override the `trial` configuration on the subscription item that matches that price. Otherwise, the `items` array is cleared and a single new item is added with the supplied `trial`.
+	Trial *QuoteLineActionSetItemTrialParams `form:"trial"`
+}
+
+// An array of operations the quote line performs.
+type QuoteLineActionParams struct {
+	// Details for the `add_discount` type.
+	AddDiscount *QuoteLineActionAddDiscountParams `form:"add_discount"`
+	// Details for the `add_item` type.
+	AddItem *QuoteLineActionAddItemParams `form:"add_item"`
+	// Details for the `add_metadata` type: specify a hash of key-value pairs.
+	AddMetadata map[string]string `form:"add_metadata"`
+	// Details for the `remove_discount` type.
+	RemoveDiscount *QuoteLineActionRemoveDiscountParams `form:"remove_discount"`
+	// Details for the `remove_item` type.
+	RemoveItem *QuoteLineActionRemoveItemParams `form:"remove_item"`
+	// Details for the `remove_metadata` type: specify an array of metadata keys.
+	RemoveMetadata []*string `form:"remove_metadata"`
+	// Details for the `set_discounts` type.
+	SetDiscounts []*QuoteLineActionSetDiscountParams `form:"set_discounts"`
+	// Details for the `set_items` type.
+	SetItems []*QuoteLineActionSetItemParams `form:"set_items"`
+	// Details for the `set_metadata` type: specify an array of key-value pairs.
+	SetMetadata map[string]string `form:"set_metadata"`
+	// The type of action the quote line performs.
+	Type *string `form:"type"`
+}
+
+// Details to identify the subscription schedule the quote line applies to.
+type QuoteLineAppliesToParams struct {
+	// A custom string that identifies a new subscription schedule being created upon quote acceptance. All quote lines with the same `new_reference` field will be applied to the creation of a new subscription schedule.
+	NewReference *string `form:"new_reference"`
+	// The ID of the schedule the line applies to.
+	SubscriptionSchedule *string `form:"subscription_schedule"`
+	// Describes whether the quote line is affecting a new schedule or an existing schedule.
+	Type *string `form:"type"`
+}
+
+// Use the `end` time of a given discount.
+type QuoteLineEndsAtDiscountEndParams struct {
+	// The ID of a specific discount.
+	Discount *string `form:"discount"`
+}
+
+// Time span for the quote line starting from the `starts_at` date.
+type QuoteLineEndsAtDurationParams struct {
+	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
+	Interval *string `form:"interval"`
+	// The number of intervals, as an whole number greater than 0. Stripe multiplies this by the interval type to get the overall duration.
+	IntervalCount *int64 `form:"interval_count"`
+}
+
+// Details to identify the end of the time range modified by the proposed change. If not supplied, the quote line is considered a point-in-time operation that only affects the exact timestamp at `starts_at`, and a restricted set of attributes is supported on the quote line.
+type QuoteLineEndsAtParams struct {
+	// Use the `end` time of a given discount.
+	DiscountEnd *QuoteLineEndsAtDiscountEndParams `form:"discount_end"`
+	// Time span for the quote line starting from the `starts_at` date.
+	Duration *QuoteLineEndsAtDurationParams `form:"duration"`
+	// A precise Unix timestamp.
+	Timestamp *int64 `form:"timestamp"`
+	// Select a way to pass in `ends_at`.
+	Type *string `form:"type"`
+}
+
+// Use the `end` time of a given discount.
+type QuoteLineStartsAtDiscountEndParams struct {
+	// The ID of a specific discount.
+	Discount *string `form:"discount"`
+}
+
+// The timestamp the given line ends at.
+type QuoteLineStartsAtLineEndsAtParams struct {
+	// The ID of a quote line.
+	ID *string `form:"id"`
+	// The position of the previous quote line in the `lines` array after which this line should begin. Indexes start from 0 and must be less than the index of the current line in the array.
+	Index *int64 `form:"index"`
+}
+
+// Details to identify the earliest timestamp where the proposed change should take effect.
+type QuoteLineStartsAtParams struct {
+	// Use the `end` time of a given discount.
+	DiscountEnd *QuoteLineStartsAtDiscountEndParams `form:"discount_end"`
+	// The timestamp the given line ends at.
+	LineEndsAt *QuoteLineStartsAtLineEndsAtParams `form:"line_ends_at"`
+	// A precise Unix timestamp.
+	Timestamp *int64 `form:"timestamp"`
+	// Select a way to pass in `starts_at`.
+	Type *string `form:"type"`
+}
+
+// Defines how the subscription should behave when a trial ends.
+type QuoteLineTrialSettingsEndBehaviorParams struct {
+	// Configure how an opt-in following a paid trial is billed when using `billing_behavior: prorate_up_front`.
+	ProrateUpFront *string `form:"prorate_up_front"`
+}
+
+// Settings related to subscription trials.
+type QuoteLineTrialSettingsParams struct {
+	// Defines how the subscription should behave when a trial ends.
+	EndBehavior *QuoteLineTrialSettingsEndBehaviorParams `form:"end_behavior"`
+}
+
+// A list of lines on the quote. These lines describe changes that will be used to create new subscription schedules or update existing subscription schedules when the quote is accepted.
+type QuoteLineParams struct {
+	// An array of operations the quote line performs.
+	Actions []*QuoteLineActionParams `form:"actions"`
+	// Details to identify the subscription schedule the quote line applies to.
+	AppliesTo *QuoteLineAppliesToParams `form:"applies_to"`
+	// For a point-in-time operation, this attribute lets you set or update whether the subscription's billing cycle anchor is reset at the `starts_at` timestamp.
+	BillingCycleAnchor *string `form:"billing_cycle_anchor"`
+	// Details to identify the end of the time range modified by the proposed change. If not supplied, the quote line is considered a point-in-time operation that only affects the exact timestamp at `starts_at`, and a restricted set of attributes is supported on the quote line.
+	EndsAt *QuoteLineEndsAtParams `form:"ends_at"`
+	// The ID of an existing line on the quote.
+	ID *string `form:"id"`
+	// Changes to how Stripe handles prorations during the quote line's time span. Affects if and how prorations are created when a future phase starts.
+	ProrationBehavior *string `form:"proration_behavior"`
+	// Details to identify the earliest timestamp where the proposed change should take effect.
+	StartsAt *QuoteLineStartsAtParams `form:"starts_at"`
+	// Settings related to subscription trials.
+	TrialSettings *QuoteLineTrialSettingsParams `form:"trial_settings"`
+}
+
 // Time span for the redeemed discount.
 type QuotePhaseDiscountDiscountEndDurationParams struct {
 	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
@@ -339,6 +744,62 @@ type QuotePhaseLineItemParams struct {
 	TaxRates []*string `form:"tax_rates"`
 }
 
+// Details of a Quote line to start the bill period from.
+type QuoteSubscriptionDataBillOnAcceptanceBillFromLineStartsAtParams struct {
+	// The ID of a quote line.
+	ID *string `form:"id"`
+	// The position of the previous quote line in the `lines` array after which this line should begin. Indexes start from 0 and must be less than the index of the current line in the array.
+	Index *int64 `form:"index"`
+}
+
+// Details for a Unix timestamp to start the bill period from.
+type QuoteSubscriptionDataBillOnAcceptanceBillFromTimestampParams struct {
+	// A precise Unix timestamp.
+	Timestamp *int64 `form:"timestamp"`
+}
+
+// The start of the period to bill from when the Quote is accepted.
+type QuoteSubscriptionDataBillOnAcceptanceBillFromParams struct {
+	// Details of a Quote line to start the bill period from.
+	LineStartsAt *QuoteSubscriptionDataBillOnAcceptanceBillFromLineStartsAtParams `form:"line_starts_at"`
+	// Details for a Unix timestamp to start the bill period from.
+	Timestamp *QuoteSubscriptionDataBillOnAcceptanceBillFromTimestampParams `form:"timestamp"`
+	// The type of method to specify the `bill_from` time.
+	Type *string `form:"type"`
+}
+
+// Details of a Quote line item from which to bill until.
+type QuoteSubscriptionDataBillOnAcceptanceBillUntilLineStartsAtParams struct {
+	// The ID of a quote line.
+	ID *string `form:"id"`
+	// The position of the previous quote line in the `lines` array after which this line should begin. Indexes start from 0 and must be less than the index of the current line in the array.
+	Index *int64 `form:"index"`
+}
+
+// Details of a Unix timestamp to bill until.
+type QuoteSubscriptionDataBillOnAcceptanceBillUntilTimestampParams struct {
+	// A precise Unix timestamp.
+	Timestamp *int64 `form:"timestamp"`
+}
+
+// The end of the period to bill until when the Quote is accepted.
+type QuoteSubscriptionDataBillOnAcceptanceBillUntilParams struct {
+	// Details of a Quote line item from which to bill until.
+	LineStartsAt *QuoteSubscriptionDataBillOnAcceptanceBillUntilLineStartsAtParams `form:"line_starts_at"`
+	// Details of a Unix timestamp to bill until.
+	Timestamp *QuoteSubscriptionDataBillOnAcceptanceBillUntilTimestampParams `form:"timestamp"`
+	// The type of method to specify the `bill_until` time.
+	Type *string `form:"type"`
+}
+
+// The start of the period to bill from when the Quote is accepted.
+type QuoteSubscriptionDataBillOnAcceptanceParams struct {
+	// The start of the period to bill from when the Quote is accepted.
+	BillFrom *QuoteSubscriptionDataBillOnAcceptanceBillFromParams `form:"bill_from"`
+	// The end of the period to bill until when the Quote is accepted.
+	BillUntil *QuoteSubscriptionDataBillOnAcceptanceBillUntilParams `form:"bill_until"`
+}
+
 // If specified, the invoicing for the given billing cycle iterations will be processed when the quote is accepted. Cannot be used with `effective_date`.
 type QuoteSubscriptionDataPrebillingParams struct {
 	// This is used to determine the number of billing cycles to prebill.
@@ -351,6 +812,8 @@ type QuoteSubscriptionDataParams struct {
 	BillingBehavior *string `form:"billing_behavior"`
 	// When specified as `reset`, the subscription will always start a new billing period when the quote is accepted.
 	BillingCycleAnchor *string `form:"billing_cycle_anchor"`
+	// The start of the period to bill from when the Quote is accepted.
+	BillOnAcceptance *QuoteSubscriptionDataBillOnAcceptanceParams `form:"bill_on_acceptance"`
 	// The subscription's description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription.
 	Description *string `form:"description"`
 	// When creating a new subscription, the date of which the subscription schedule will start after the quote is accepted. When updating a subscription, the date of which the subscription will be updated using a subscription schedule. The special value `current_period_end` can be provided to update a subscription at the end of its current period. The `effective_date` is ignored if it is in the past when the quote is accepted.
@@ -381,6 +844,96 @@ func (q *QuoteSubscriptionDataParams) AppendTo(body *form.Values, keyParts []str
 	if BoolValue(q.EffectiveDateCurrentPeriodEnd) {
 		body.Add(form.FormatKey(append(keyParts, "effective_date")), "current_period_end")
 	}
+}
+
+// Whether the override applies to an existing Subscription Schedule or a new Subscription Schedule.
+type QuoteSubscriptionDataOverrideAppliesToParams struct {
+	// A custom string that identifies a new subscription schedule being created upon quote acceptance. All quote lines with the same `new_reference` field will be applied to the creation of a new subscription schedule.
+	NewReference *string `form:"new_reference"`
+	// The ID of the schedule the line applies to.
+	SubscriptionSchedule *string `form:"subscription_schedule"`
+	// Describes whether the quote line is affecting a new schedule or an existing schedule.
+	Type *string `form:"type"`
+}
+
+// Details of a Quote line to start the bill period from.
+type QuoteSubscriptionDataOverrideBillOnAcceptanceBillFromLineStartsAtParams struct {
+	// The ID of a quote line.
+	ID *string `form:"id"`
+	// The position of the previous quote line in the `lines` array after which this line should begin. Indexes start from 0 and must be less than the index of the current line in the array.
+	Index *int64 `form:"index"`
+}
+
+// Details for a Unix timestamp to start the bill period from.
+type QuoteSubscriptionDataOverrideBillOnAcceptanceBillFromTimestampParams struct {
+	// A precise Unix timestamp.
+	Timestamp *int64 `form:"timestamp"`
+}
+
+// The start of the period to bill from when the Quote is accepted.
+type QuoteSubscriptionDataOverrideBillOnAcceptanceBillFromParams struct {
+	// Details of a Quote line to start the bill period from.
+	LineStartsAt *QuoteSubscriptionDataOverrideBillOnAcceptanceBillFromLineStartsAtParams `form:"line_starts_at"`
+	// Details for a Unix timestamp to start the bill period from.
+	Timestamp *QuoteSubscriptionDataOverrideBillOnAcceptanceBillFromTimestampParams `form:"timestamp"`
+	// The type of method to specify the `bill_from` time.
+	Type *string `form:"type"`
+}
+
+// Details of a Quote line item from which to bill until.
+type QuoteSubscriptionDataOverrideBillOnAcceptanceBillUntilLineStartsAtParams struct {
+	// The ID of a quote line.
+	ID *string `form:"id"`
+	// The position of the previous quote line in the `lines` array after which this line should begin. Indexes start from 0 and must be less than the index of the current line in the array.
+	Index *int64 `form:"index"`
+}
+
+// Details of a Unix timestamp to bill until.
+type QuoteSubscriptionDataOverrideBillOnAcceptanceBillUntilTimestampParams struct {
+	// A precise Unix timestamp.
+	Timestamp *int64 `form:"timestamp"`
+}
+
+// The end of the period to bill until when the Quote is accepted.
+type QuoteSubscriptionDataOverrideBillOnAcceptanceBillUntilParams struct {
+	// Details of a Quote line item from which to bill until.
+	LineStartsAt *QuoteSubscriptionDataOverrideBillOnAcceptanceBillUntilLineStartsAtParams `form:"line_starts_at"`
+	// Details of a Unix timestamp to bill until.
+	Timestamp *QuoteSubscriptionDataOverrideBillOnAcceptanceBillUntilTimestampParams `form:"timestamp"`
+	// The type of method to specify the `bill_until` time.
+	Type *string `form:"type"`
+}
+
+// The start of the period to bill from when the Quote is accepted.
+type QuoteSubscriptionDataOverrideBillOnAcceptanceParams struct {
+	// The start of the period to bill from when the Quote is accepted.
+	BillFrom *QuoteSubscriptionDataOverrideBillOnAcceptanceBillFromParams `form:"bill_from"`
+	// The end of the period to bill until when the Quote is accepted.
+	BillUntil *QuoteSubscriptionDataOverrideBillOnAcceptanceBillUntilParams `form:"bill_until"`
+}
+
+// List representing overrides for `subscription_data` configurations for specific groups.
+type QuoteSubscriptionDataOverrideParams struct {
+	// Whether the override applies to an existing Subscription Schedule or a new Subscription Schedule.
+	AppliesTo *QuoteSubscriptionDataOverrideAppliesToParams `form:"applies_to"`
+	// Configures when the subscription schedule generates prorations for phase transitions. Possible values are `prorate_on_next_phase` or `prorate_up_front` with the default being `prorate_on_next_phase`. `prorate_on_next_phase` will apply phase changes and generate prorations at transition time.`prorate_up_front` will bill for all phases within the current billing cycle up front.
+	BillingBehavior *string `form:"billing_behavior"`
+	// The start of the period to bill from when the Quote is accepted.
+	BillOnAcceptance *QuoteSubscriptionDataOverrideBillOnAcceptanceParams `form:"bill_on_acceptance"`
+	// The customer the Subscription Data override applies to. This is only relevant when `applies_to.type=new_reference`.
+	Customer *string `form:"customer"`
+	// The subscription's description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription.
+	Description *string `form:"description"`
+	// Configures how the subscription schedule behaves when it ends. Possible values are `release` or `cancel` with the default being `release`. `release` will end the subscription schedule and keep the underlying subscription running.`cancel` will end the subscription schedule and cancel the underlying subscription.
+	EndBehavior *string `form:"end_behavior"`
+	// Determines how to handle [prorations](https://stripe.com/docs/subscriptions/billing-cycle#prorations). When creating a subscription, valid values are `create_prorations` or `none`.
+	//
+	// When updating a subscription, valid values are `create_prorations`, `none`, or `always_invoice`.
+	//
+	// Passing `create_prorations` will cause proration invoice items to be created when applicable. These proration items will only be invoiced immediately under [certain conditions](https://stripe.com/docs/subscriptions/upgrading-downgrading#immediate-payment). In order to always invoice immediately for prorations, pass `always_invoice`.
+	//
+	// Prorations can be disabled by passing `none`.
+	ProrationBehavior *string `form:"proration_behavior"`
 }
 
 // The data with which to automatically create a Transfer for each of the invoices.
@@ -431,6 +984,16 @@ type QuoteAcceptParams struct {
 	Params `form:"*"`
 }
 
+// Recompute the upcoming invoice estimate for the quote.
+type QuoteReestimateParams struct {
+	Params `form:"*"`
+}
+
+// Converts a stale quote to draft.
+type QuoteDraftQuoteParams struct {
+	Params `form:"*"`
+}
+
 // When retrieving a quote, there is an includable line_items property containing the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of line items.
 type QuoteListLineItemsParams struct {
 	ListParams `form:"*"`
@@ -439,6 +1002,42 @@ type QuoteListLineItemsParams struct {
 
 // When retrieving a quote, there is an includable [computed.upfront.line_items](https://stripe.com/docs/api/quotes/object#quote_object-computed-upfront-line_items) property containing the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of upfront line items.
 type QuoteListComputedUpfrontLineItemsParams struct {
+	ListParams `form:"*"`
+	Quote      *string `form:"-"` // Included in URL
+}
+
+// Preview the invoices that would be generated by accepting the quote.
+type QuotePreviewInvoicesParams struct {
+	ListParams `form:"*"`
+	Quote      *string `form:"-"` // Included in URL
+}
+
+// Details to identify the subscription schedule the quote line applies to.
+type QuotePreviewInvoiceLinesAppliesToParams struct {
+	// A custom string that identifies a new subscription schedule being created upon quote acceptance. All quote lines with the same `new_reference` field will be applied to the creation of a new subscription schedule.
+	NewReference *string `form:"new_reference"`
+	// The ID of the schedule the line applies to.
+	SubscriptionSchedule *string `form:"subscription_schedule"`
+	// Describes whether the quote line is affecting a new schedule or an existing schedule.
+	Type *string `form:"type"`
+}
+
+// Preview the invoice line items that would be generated by accepting the quote.
+type QuotePreviewInvoiceLinesParams struct {
+	ListParams `form:"*"`
+	Quote      *string `form:"-"` // Included in URL
+	// Details to identify the subscription schedule the quote line applies to.
+	AppliesTo *QuotePreviewInvoiceLinesAppliesToParams `form:"applies_to"`
+}
+
+// Preview the schedules that would be generated by accepting the quote
+type QuotePreviewSubscriptionSchedulesParams struct {
+	ListParams `form:"*"`
+	Quote      *string `form:"-"` // Included in URL
+}
+
+// When retrieving a quote, there is an includable lines property containing the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of lines.
+type QuoteListLinesParams struct {
 	ListParams `form:"*"`
 	Quote      *string `form:"-"` // Included in URL
 }
@@ -550,7 +1149,9 @@ type QuoteComputedUpfront struct {
 type QuoteComputed struct {
 	// The definitive totals and line items the customer will be charged on a recurring basis. Takes into account the line items with recurring prices and discounts with `duration=forever` coupons only. Defaults to `null` if no inputted line items with recurring prices.
 	Recurring *QuoteComputedRecurring `json:"recurring"`
-	Upfront   *QuoteComputedUpfront   `json:"upfront"`
+	// The time at which the quote's estimated schedules and upcoming invoices were generated.
+	UpdatedAt int64                 `json:"updated_at"`
+	Upfront   *QuoteComputedUpfront `json:"upfront"`
 }
 
 // Details of the quote that was cloned. See the [cloning documentation](https://stripe.com/docs/quotes/clone) for more details.
@@ -566,6 +1167,58 @@ type QuoteInvoiceSettings struct {
 	// Number of days within which a customer must pay invoices generated by this quote. This value will be `null` for quotes where `collection_method=charge_automatically`.
 	DaysUntilDue int64 `json:"days_until_due"`
 }
+
+// Details on when and why a quote has been marked as canceled.
+type QuoteStatusDetailsCanceled struct {
+	// The reason this quote was marked as canceled.
+	Reason QuoteStatusDetailsCanceledReason `json:"reason"`
+	// Time at which the quote was marked as canceled. Measured in seconds since the Unix epoch.
+	TransitionedAt int64 `json:"transitioned_at"`
+}
+
+// The state of the subscription before the quote was marked as stale.
+type QuoteStatusDetailsStaleLastReasonSubscriptionChanged struct {
+	// The subscription's state before the quote was marked as stale.
+	PreviousSubscription *Subscription `json:"previous_subscription"`
+}
+
+// The state of the subscription schedule before the quote was marked as stale.
+type QuoteStatusDetailsStaleLastReasonSubscriptionScheduleChanged struct {
+	// The subscription schedule's state before the quote was marked as stale.
+	PreviousSubscriptionSchedule *SubscriptionSchedule `json:"previous_subscription_schedule"`
+}
+
+// The most recent reason this quote was marked as stale.
+type QuoteStatusDetailsStaleLastReason struct {
+	// The ID of the line that is invalid if the stale reason type is `line_invalid`.
+	LineInvalid string `json:"line_invalid"`
+	// The state of the subscription before the quote was marked as stale.
+	SubscriptionChanged *QuoteStatusDetailsStaleLastReasonSubscriptionChanged `json:"subscription_changed"`
+	// The state of the subscription schedule before the quote was marked as stale.
+	SubscriptionScheduleChanged *QuoteStatusDetailsStaleLastReasonSubscriptionScheduleChanged `json:"subscription_schedule_changed"`
+	// The reason the quote was marked as stale.
+	Type QuoteStatusDetailsStaleLastReasonType `json:"type"`
+}
+
+// Details on when and why a quote has been marked as stale.
+type QuoteStatusDetailsStale struct {
+	// Time at which the quote expires. Measured in seconds since the Unix epoch.
+	ExpiresAt int64 `json:"expires_at"`
+	// The most recent reason this quote was marked as stale.
+	LastReason *QuoteStatusDetailsStaleLastReason `json:"last_reason"`
+	// Time at which the stale reason was updated. Measured in seconds since the Unix epoch.
+	LastUpdatedAt int64 `json:"last_updated_at"`
+	// Time at which the quote was marked as stale. Measured in seconds since the Unix epoch.
+	TransitionedAt int64 `json:"transitioned_at"`
+}
+
+// Details on when and why a quote has been marked as stale or canceled.
+type QuoteStatusDetails struct {
+	// Details on when and why a quote has been marked as canceled.
+	Canceled *QuoteStatusDetailsCanceled `json:"canceled"`
+	// Details on when and why a quote has been marked as stale.
+	Stale *QuoteStatusDetailsStale `json:"stale"`
+}
 type QuoteStatusTransitions struct {
 	// The time that the quote was accepted. Measured in seconds since Unix epoch.
 	AcceptedAt int64 `json:"accepted_at"`
@@ -573,6 +1226,60 @@ type QuoteStatusTransitions struct {
 	CanceledAt int64 `json:"canceled_at"`
 	// The time that the quote was finalized. Measured in seconds since Unix epoch.
 	FinalizedAt int64 `json:"finalized_at"`
+}
+
+// The timestamp the given line starts at.
+type QuoteSubscriptionDataBillOnAcceptanceBillFromLineStartsAt struct {
+	// Unique identifier for the object.
+	ID string `json:"id"`
+}
+
+// The start of the period to bill from when the Quote is accepted.
+type QuoteSubscriptionDataBillOnAcceptanceBillFrom struct {
+	// The materialized time.
+	Computed int64 `json:"computed"`
+	// The timestamp the given line starts at.
+	LineStartsAt *QuoteSubscriptionDataBillOnAcceptanceBillFromLineStartsAt `json:"line_starts_at"`
+	// A precise Unix timestamp.
+	Timestamp int64 `json:"timestamp"`
+	// The type of method to specify the `bill_from` time.
+	Type QuoteSubscriptionDataBillOnAcceptanceBillFromType `json:"type"`
+}
+
+// Time span for the quote line starting from the `starts_at` date.
+type QuoteSubscriptionDataBillOnAcceptanceBillUntilDuration struct {
+	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
+	Interval QuoteSubscriptionDataBillOnAcceptanceBillUntilDurationInterval `json:"interval"`
+	// The number of intervals, as an whole number greater than 0. Stripe multiplies this by the interval type to get the overall duration.
+	IntervalCount int64 `json:"interval_count"`
+}
+
+// The timestamp the given line ends at.
+type QuoteSubscriptionDataBillOnAcceptanceBillUntilLineEndsAt struct {
+	// Unique identifier for the object.
+	ID string `json:"id"`
+}
+
+// The end of the period to bill until when the Quote is accepted.
+type QuoteSubscriptionDataBillOnAcceptanceBillUntil struct {
+	// The materialized time.
+	Computed int64 `json:"computed"`
+	// Time span for the quote line starting from the `starts_at` date.
+	Duration *QuoteSubscriptionDataBillOnAcceptanceBillUntilDuration `json:"duration"`
+	// The timestamp the given line ends at.
+	LineEndsAt *QuoteSubscriptionDataBillOnAcceptanceBillUntilLineEndsAt `json:"line_ends_at"`
+	// A precise Unix timestamp.
+	Timestamp int64 `json:"timestamp"`
+	// The type of method to specify the `bill_until` time.
+	Type QuoteSubscriptionDataBillOnAcceptanceBillUntilType `json:"type"`
+}
+
+// TODO
+type QuoteSubscriptionDataBillOnAcceptance struct {
+	// The start of the period to bill from when the Quote is accepted.
+	BillFrom *QuoteSubscriptionDataBillOnAcceptanceBillFrom `json:"bill_from"`
+	// The end of the period to bill until when the Quote is accepted.
+	BillUntil *QuoteSubscriptionDataBillOnAcceptanceBillUntil `json:"bill_until"`
 }
 
 // If specified, the invoicing for the given billing cycle iterations will be processed when the quote is accepted. Cannot be used with `effective_date`.
@@ -584,6 +1291,8 @@ type QuoteSubscriptionData struct {
 	BillingBehavior QuoteSubscriptionDataBillingBehavior `json:"billing_behavior"`
 	// Whether the subscription will always start a new billing period when the quote is accepted.
 	BillingCycleAnchor QuoteSubscriptionDataBillingCycleAnchor `json:"billing_cycle_anchor"`
+	// TODO
+	BillOnAcceptance *QuoteSubscriptionDataBillOnAcceptance `json:"bill_on_acceptance"`
 	// The subscription's description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription.
 	Description string `json:"description"`
 	// When creating a new subscription, the date of which the subscription schedule will start after the quote is accepted. This date is ignored if it is in the past when the quote is accepted. Measured in seconds since the Unix epoch.
@@ -600,6 +1309,98 @@ type QuoteSubscriptionData struct {
 	ProrationBehavior QuoteSubscriptionDataProrationBehavior `json:"proration_behavior"`
 	// Integer representing the number of trial period days before the customer is charged for the first time.
 	TrialPeriodDays int64 `json:"trial_period_days"`
+}
+type QuoteSubscriptionDataOverrideAppliesTo struct {
+	// A custom string that identifies a new subscription schedule being created upon quote acceptance. All quote lines with the same `new_reference` field will be applied to the creation of a new subscription schedule.
+	NewReference string `json:"new_reference"`
+	// The ID of the schedule the line applies to.
+	SubscriptionSchedule string `json:"subscription_schedule"`
+	// Describes whether the quote line is affecting a new schedule or an existing schedule.
+	Type QuoteSubscriptionDataOverrideAppliesToType `json:"type"`
+}
+
+// The timestamp the given line starts at.
+type QuoteSubscriptionDataOverrideBillOnAcceptanceBillFromLineStartsAt struct {
+	// Unique identifier for the object.
+	ID string `json:"id"`
+}
+
+// The start of the period to bill from when the Quote is accepted.
+type QuoteSubscriptionDataOverrideBillOnAcceptanceBillFrom struct {
+	// The materialized time.
+	Computed int64 `json:"computed"`
+	// The timestamp the given line starts at.
+	LineStartsAt *QuoteSubscriptionDataOverrideBillOnAcceptanceBillFromLineStartsAt `json:"line_starts_at"`
+	// A precise Unix timestamp.
+	Timestamp int64 `json:"timestamp"`
+	// The type of method to specify the `bill_from` time.
+	Type QuoteSubscriptionDataOverrideBillOnAcceptanceBillFromType `json:"type"`
+}
+
+// Time span for the quote line starting from the `starts_at` date.
+type QuoteSubscriptionDataOverrideBillOnAcceptanceBillUntilDuration struct {
+	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
+	Interval QuoteSubscriptionDataOverrideBillOnAcceptanceBillUntilDurationInterval `json:"interval"`
+	// The number of intervals, as an whole number greater than 0. Stripe multiplies this by the interval type to get the overall duration.
+	IntervalCount int64 `json:"interval_count"`
+}
+
+// The timestamp the given line ends at.
+type QuoteSubscriptionDataOverrideBillOnAcceptanceBillUntilLineEndsAt struct {
+	// Unique identifier for the object.
+	ID string `json:"id"`
+}
+
+// The end of the period to bill until when the Quote is accepted.
+type QuoteSubscriptionDataOverrideBillOnAcceptanceBillUntil struct {
+	// The materialized time.
+	Computed int64 `json:"computed"`
+	// Time span for the quote line starting from the `starts_at` date.
+	Duration *QuoteSubscriptionDataOverrideBillOnAcceptanceBillUntilDuration `json:"duration"`
+	// The timestamp the given line ends at.
+	LineEndsAt *QuoteSubscriptionDataOverrideBillOnAcceptanceBillUntilLineEndsAt `json:"line_ends_at"`
+	// A precise Unix timestamp.
+	Timestamp int64 `json:"timestamp"`
+	// The type of method to specify the `bill_until` time.
+	Type QuoteSubscriptionDataOverrideBillOnAcceptanceBillUntilType `json:"type"`
+}
+
+// The start of the period to bill from when the Quote is accepted.
+type QuoteSubscriptionDataOverrideBillOnAcceptance struct {
+	// The start of the period to bill from when the Quote is accepted.
+	BillFrom *QuoteSubscriptionDataOverrideBillOnAcceptanceBillFrom `json:"bill_from"`
+	// The end of the period to bill until when the Quote is accepted.
+	BillUntil *QuoteSubscriptionDataOverrideBillOnAcceptanceBillUntil `json:"bill_until"`
+}
+type QuoteSubscriptionDataOverride struct {
+	AppliesTo *QuoteSubscriptionDataOverrideAppliesTo `json:"applies_to"`
+	// Configures when the subscription schedule generates prorations for phase transitions. Possible values are `prorate_on_next_phase` or `prorate_up_front` with the default being `prorate_on_next_phase`. `prorate_on_next_phase` will apply phase changes and generate prorations at transition time.`prorate_up_front` will bill for all phases within the current billing cycle up front.
+	BillingBehavior QuoteSubscriptionDataOverrideBillingBehavior `json:"billing_behavior"`
+	// The start of the period to bill from when the Quote is accepted.
+	BillOnAcceptance *QuoteSubscriptionDataOverrideBillOnAcceptance `json:"bill_on_acceptance"`
+	// The customer which this quote belongs to. A customer is required before finalizing the quote. Once specified, it cannot be changed.
+	Customer string `json:"customer"`
+	// The subscription's description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription.
+	Description string `json:"description"`
+	// Behavior of the subscription schedule and underlying subscription when it ends. Possible values are `release` and `cancel`.
+	EndBehavior QuoteSubscriptionDataOverrideEndBehavior `json:"end_behavior"`
+	// Determines how to handle [prorations](https://stripe.com/docs/subscriptions/billing-cycle#prorations) when the quote is accepted.
+	ProrationBehavior QuoteSubscriptionDataOverrideProrationBehavior `json:"proration_behavior"`
+}
+type QuoteSubscriptionScheduleAppliesTo struct {
+	// A custom string that identifies a new subscription schedule being created upon quote acceptance. All quote lines with the same `new_reference` field will be applied to the creation of a new subscription schedule.
+	NewReference string `json:"new_reference"`
+	// The ID of the schedule the line applies to.
+	SubscriptionSchedule string `json:"subscription_schedule"`
+	// Describes whether the quote line is affecting a new schedule or an existing schedule.
+	Type QuoteSubscriptionScheduleAppliesToType `json:"type"`
+}
+
+// The subscription schedule that was created or updated from this quote.
+type QuoteSubscriptionSchedule struct {
+	AppliesTo *QuoteSubscriptionScheduleAppliesTo `json:"applies_to"`
+	// The subscription schedule that was created or updated from this quote.
+	SubscriptionSchedule string `json:"subscription_schedule"`
 }
 
 // The aggregated discounts.
@@ -694,6 +1495,8 @@ type Quote struct {
 	InvoiceSettings *QuoteInvoiceSettings `json:"invoice_settings"`
 	// A list of items the customer is being quoted for.
 	LineItems *LineItemList `json:"line_items"`
+	// A list of lines on the quote. These lines describe changes that will be used to create new subscription schedules or update existing subscription schedules when the quote is accepted.
+	Lines []string `json:"lines"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
@@ -705,13 +1508,18 @@ type Quote struct {
 	// The account on behalf of which to charge. See the [Connect documentation](https://support.stripe.com/questions/sending-invoices-on-behalf-of-connected-accounts) for details.
 	OnBehalfOf *Account `json:"on_behalf_of"`
 	// The status of the quote.
-	Status            QuoteStatus             `json:"status"`
+	Status QuoteStatus `json:"status"`
+	// Details on when and why a quote has been marked as stale or canceled.
+	StatusDetails     *QuoteStatusDetails     `json:"status_details"`
 	StatusTransitions *QuoteStatusTransitions `json:"status_transitions"`
 	// The subscription that was created or updated from this quote.
-	Subscription     *Subscription          `json:"subscription"`
-	SubscriptionData *QuoteSubscriptionData `json:"subscription_data"`
+	Subscription              *Subscription                    `json:"subscription"`
+	SubscriptionData          *QuoteSubscriptionData           `json:"subscription_data"`
+	SubscriptionDataOverrides []*QuoteSubscriptionDataOverride `json:"subscription_data_overrides"`
 	// The subscription schedule that was created or updated from this quote.
 	SubscriptionSchedule *SubscriptionSchedule `json:"subscription_schedule"`
+	// The subscription schedules that were created or updated from this quote.
+	SubscriptionSchedules []*QuoteSubscriptionSchedule `json:"subscription_schedules"`
 	// ID of the test clock this quote belongs to.
 	TestClock    *TestHelpersTestClock `json:"test_clock"`
 	TotalDetails *QuoteTotalDetails    `json:"total_details"`
