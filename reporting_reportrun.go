@@ -7,9 +7,8 @@
 package stripe
 
 // Status of this report run. This will be `pending` when the run is initially created.
-//
-//	When the run finishes, this will be set to `succeeded` and the `result` field will be populated.
-//	Rarely, we may encounter an error, at which point this will be set to `failed` and the `error` field will be populated.
+//  When the run finishes, this will be set to `succeeded` and the `result` field will be populated.
+//  Rarely, we may encounter an error, at which point this will be set to `failed` and the `error` field will be populated.
 type ReportingReportRunStatus string
 
 // List of values that ReportingReportRunStatus can take
