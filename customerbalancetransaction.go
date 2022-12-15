@@ -8,7 +8,7 @@ package stripe
 
 import "encoding/json"
 
-// Transaction type: `adjustment`, `applied_to_invoice`, `credit_note`, `initial`, `invoice_too_large`, `invoice_too_small`, `unspent_receiver_credit`, or `unapplied_from_invoice`. See the [Customer Balance page](https://stripe.com/docs/billing/customer/balance#types) to learn more about transaction types.
+// Transaction type: `adjustment`, `applied_to_invoice`, `credit_note`, `initial`, `invoice_overpaid`, `invoice_too_large`, `invoice_too_small`, `unspent_receiver_credit`, or `unapplied_from_invoice`. See the [Customer Balance page](https://stripe.com/docs/billing/customer/balance#types) to learn more about transaction types.
 type CustomerBalanceTransactionType string
 
 // List of values that CustomerBalanceTransactionType can take
@@ -17,6 +17,7 @@ const (
 	CustomerBalanceTransactionTypeAppliedToInvoice      CustomerBalanceTransactionType = "applied_to_invoice"
 	CustomerBalanceTransactionTypeCreditNote            CustomerBalanceTransactionType = "credit_note"
 	CustomerBalanceTransactionTypeInitial               CustomerBalanceTransactionType = "initial"
+	CustomerBalanceTransactionTypeInvoiceOverpaid       CustomerBalanceTransactionType = "invoice_overpaid"
 	CustomerBalanceTransactionTypeInvoiceTooLarge       CustomerBalanceTransactionType = "invoice_too_large"
 	CustomerBalanceTransactionTypeInvoiceTooSmall       CustomerBalanceTransactionType = "invoice_too_small"
 	CustomerBalanceTransactionTypeMigration             CustomerBalanceTransactionType = "migration"
@@ -74,7 +75,7 @@ type CustomerBalanceTransaction struct {
 	Metadata map[string]string `json:"metadata"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
-	// Transaction type: `adjustment`, `applied_to_invoice`, `credit_note`, `initial`, `invoice_too_large`, `invoice_too_small`, `unspent_receiver_credit`, or `unapplied_from_invoice`. See the [Customer Balance page](https://stripe.com/docs/billing/customer/balance#types) to learn more about transaction types.
+	// Transaction type: `adjustment`, `applied_to_invoice`, `credit_note`, `initial`, `invoice_overpaid`, `invoice_too_large`, `invoice_too_small`, `unspent_receiver_credit`, or `unapplied_from_invoice`. See the [Customer Balance page](https://stripe.com/docs/billing/customer/balance#types) to learn more about transaction types.
 	Type CustomerBalanceTransactionType `json:"type"`
 }
 
