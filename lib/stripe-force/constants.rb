@@ -23,11 +23,9 @@ module StripeForce
 
     # custom coupon objects
     QUOTE_SF_STRIPE_COUPON = 'Quote_Stripe_Coupon__c'
+    QUOTE_SF_STRIPE_COUPON_ASSOCIATION = 'Quote_Stripe_Coupon_Association__c'
+    QUOTE_LINE_SF_STRIPE_COUPON_ASSOCIATION = 'Quote_Line_Stripe_Coupon_Association__c'
     ORDER_SF_STRIPE_COUPON = 'Order_Stripe_Coupon__c'
-    SF_STRIPE_COUPON_QUOTE_ASSOCIATION = 'Quote_Stripe_Coupon_Association__c'
-    SF_STRIPE_COUPON_QUOTE_LINE_ASSOCIATION = 'Quote_Line_Stripe_Coupon_Association__c'
-    SF_STRIPE_COUPON_ORDER_ASSOCIATION = 'Order_Stripe_Coupon_Association__c'
-    SF_STRIPE_COUPON_ORDER_ITEM_ASSOCIATION = 'Order_Item_Stripe_Coupon_Association__c'
 
     SF_ID = 'Id'
     SF_LAST_MODIFIED_DATE = 'LastModifiedDate'

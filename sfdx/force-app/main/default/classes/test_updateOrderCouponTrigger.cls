@@ -52,15 +52,15 @@ public with sharing class test_updateOrderCouponTrigger {
         System.assertEquals('once', quoteCoupon.Duration__c);
 
         // trigger should have created a serialized Stripe Coupon
-        List<Order_Stripe_Coupon__c> serializedStripeCoupons = getStripeCouponSerialized(quoteCoupon.id);
-        System.assertEquals(1, serializedStripeCoupons.size());
+        List<Order_Stripe_Coupon__c> orderStripeCoupons = getStripeCouponSerialized(quoteCoupon.id);
+        System.assertEquals(1, orderStripeCoupons.size());
         
-        Order_Stripe_Coupon__c serializedStripeCoupon = serializedStripeCoupons.get(0);
-        System.assertEquals('55 percent off coupon', serializedStripeCoupon.Name__c);
-
-        // trigger should have created a Stripe Coupon Order Association__c as well
-        List<Order_Stripe_Coupon_Association__c> stripeCouponOrderAssociations = getstripeCouponOrderAssociations(orders.get(0).id);
-        System.assertEquals(1, stripeCouponOrderAssociations.size());
+        Order_Stripe_Coupon__c orderCoupon = orderStripeCoupons.get(0);
+        System.assertEquals('55 percent off coupon', orderCoupon.Name__c);
+        System.assertEquals(55, orderCoupon.Percent_Off__c);
+        System.assertEquals('once', orderCoupon.Duration__c);
+        System.assertEquals(quoteCoupon.id, orderCoupon.Quote_Stripe_Coupon_Id__c);
+        System.assertEquals(order.id, orderCoupon.Order__c);
     }
 
     static public SBQQ__Quote__c generateQuote() {
@@ -166,7 +166,7 @@ public with sharing class test_updateOrderCouponTrigger {
 
     static public List<Order_Stripe_Coupon__c> getStripeCouponSerialized(String quoteCouponId) {
         return [
-            SELECT Id, Name__c 
+            SELECT Id, Name__c, Percent_Off__c, Duration__c, Quote_Stripe_Coupon_Id__c, Order__c
             FROM Order_Stripe_Coupon__c
             WHERE Quote_Stripe_Coupon_Id__c = :quoteCouponId];
     }

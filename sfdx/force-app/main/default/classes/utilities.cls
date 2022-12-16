@@ -5,7 +5,7 @@ public with sharing class utilities {
         return !String.isEmpty(constants.NAMESPACE_API);
     }
 
-    public static Order_Stripe_Coupon__c cloneStripeCoupon(Quote_Stripe_Coupon__c quoteCoupon)
+    public static Order_Stripe_Coupon__c cloneStripeCoupon(Quote_Stripe_Coupon__c quoteCoupon, SObject parentRecord)
     {
         // clone the Stripe Coupon on the quote, it will have a different Id
         Order_Stripe_Coupon__c clonedCoupon = new Order_Stripe_Coupon__c();
@@ -16,7 +16,13 @@ public with sharing class utilities {
         clonedCoupon.Name__c = quoteCoupon.Name__c;
         clonedCoupon.Percent_Off__c = quoteCoupon.Percent_Off__c;
         clonedCoupon.Quote_Stripe_Coupon_Id__c = quoteCoupon.Id;
-    
+
+        if (parentRecord.getSObjectType() == Order.getSObjectType()) {
+            clonedCoupon.Order__c = parentRecord.Id;
+        } else if (parentRecord.getSObjectType() == OrderItem.getSObjectType()) {
+            clonedCoupon.Order_Item__c = parentRecord.Id;
+        }
+
         // insert the cloned Stripe coupon
         Database.SaveResult result = Database.insertImmediate((sObject)clonedCoupon);
         if (!result.isSuccess()) { 

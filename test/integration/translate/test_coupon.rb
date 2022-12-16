@@ -62,18 +62,14 @@ class Critic::CouponTranslation < Critic::FunctionalTest
 
       # create and translate the sf order
       sf_order = create_order_from_cpq_quote(sf_quote_id)
-      sf_order_lines = sf.query("SELECT #{SF_ID} FROM #{SF_ORDER_ITEM} WHERE OrderId = '#{sf_order.Id}'")
       StripeForce::Translate.perform_inline(@user, sf_order.Id)
 
       # verify the coupon order or order item associations were created
-      order_associations = sf.query("SELECT #{SF_ID}, #{prefixed_stripe_field('Order_Stripe_Coupon__c')} FROM #{prefixed_stripe_field(SF_STRIPE_COUPON_ORDER_ASSOCIATION)} WHERE #{prefixed_stripe_field('Order__c')} = '#{sf_order.Id}'")
-      order_item_associations = sf.query("SELECT #{SF_ID} FROM #{prefixed_stripe_field(SF_STRIPE_COUPON_ORDER_ITEM_ASSOCIATION)} WHERE #{prefixed_stripe_field('Order_Item__c')} = '#{sf_order_lines.first.Id}'")
-
-      assert_equal(order_associations.size, order_item_associations.size)
-      assert_equal(1, order_associations.size)
+      order_coupons = sf.query("SELECT #{SF_ID} FROM #{prefixed_stripe_field(ORDER_SF_STRIPE_COUPON)} WHERE #{prefixed_stripe_field('Order__c')} = '#{sf_order.Id}'")
+      assert_equal(1, order_coupons.count)
 
       # sanity check the order coupon info is the same as the quote coupon
-      order_coupon = sf.find(prefixed_stripe_field(ORDER_SF_STRIPE_COUPON), order_associations.first[prefixed_stripe_field('Order_Stripe_Coupon__c')])
+      order_coupon = sf.find(prefixed_stripe_field(ORDER_SF_STRIPE_COUPON), order_coupons.first.Id)
       assert_equal('$10 off coupon', order_coupon[prefixed_stripe_field('Name__c')])
       assert_equal(10, order_coupon[prefixed_stripe_field('Amount_Off__c')])
       assert_equal(sf_amount_off_coupon_id, order_coupon[prefixed_stripe_field('Quote_Stripe_Coupon_Id__c')])
@@ -86,7 +82,8 @@ class Critic::CouponTranslation < Critic::FunctionalTest
     it 'translate sf order with multiple coupons on an order line' do
       # add a custom metadata field mapping
       @user.field_mappings['coupon'] = {
-        'metadata.sf_mapped_metadata_field' => prefixed_stripe_field('Name__c'),
+        'metadata.sf_coupon_mapped_metadata_field' => prefixed_stripe_field('Name__c'),
+        'metadata.sf_order_mapped_metadata_field' => prefixed_stripe_field('Order_Item__c.OrderId'),
       }
       @user.save
 
@@ -151,14 +148,20 @@ class Critic::CouponTranslation < Critic::FunctionalTest
       assert_equal(10, stripe_amount_off_coupon.amount_off)
       assert_equal("usd", stripe_amount_off_coupon.currency)
       assert_equal("once", stripe_amount_off_coupon.duration)
-      assert_equal(sf_amount_off_coupon_id, stripe_amount_off_coupon.metadata['salesforce_quote_stripe_coupon_id'])
-      assert_equal('$10 off coupon', stripe_amount_off_coupon.metadata['sf_mapped_metadata_field'])
+
+      sf_amount_off_order_coupon = get_sf_order_coupon_from_quote_coupon_id(sf_amount_off_coupon_id)
+      assert_equal(sf_amount_off_order_coupon.Id, stripe_amount_off_coupon.metadata['salesforce_order_stripe_coupon_id'])
+      assert_equal('$10 off coupon', stripe_amount_off_coupon.metadata['sf_coupon_mapped_metadata_field'])
+      assert_equal(sf_order.Id, stripe_amount_off_coupon.metadata['sf_order_mapped_metadata_field'])
 
       stripe_percent_off_coupon = stripe_coupon_1.name == '25% off coupon' ? stripe_coupon_1 : stripe_coupon_2
       assert_equal(25, stripe_percent_off_coupon.percent_off)
       assert_equal("once", stripe_percent_off_coupon.duration)
-      assert_equal(sf_percent_off_coupon_id, stripe_percent_off_coupon.metadata['salesforce_quote_stripe_coupon_id'])
-      assert_equal('25% off coupon', stripe_percent_off_coupon.metadata['sf_mapped_metadata_field'])
+
+      sf_percent_off_order_coupon = get_sf_order_coupon_from_quote_coupon_id(sf_percent_off_coupon_id)
+      assert_equal(sf_percent_off_order_coupon.Id, stripe_percent_off_coupon.metadata['salesforce_order_stripe_coupon_id'])
+      assert_equal('25% off coupon', stripe_percent_off_coupon.metadata['sf_coupon_mapped_metadata_field'])
+      assert_equal(sf_order.Id, stripe_percent_off_coupon.metadata['sf_order_mapped_metadata_field'])
 
       # confirm the stripe coupon ids were written back to the quote coupons in salesforce
       sf_amount_off_coupon = sf_get(sf_amount_off_coupon_id)
@@ -189,19 +192,19 @@ class Critic::CouponTranslation < Critic::FunctionalTest
       quote_line_id = quote_lines.first.Id
 
       # create two coupons
-      sf_percent_off_coupon_id = create_salesforce_stripe_coupon(additional_fields: {
+      sf_percent_off_quote_coupon_id = create_salesforce_stripe_coupon(additional_fields: {
         SalesforceStripeCouponFields::NAME => '25% off coupon',
         SalesforceStripeCouponFields::PERCENT_OFF => 25,
       })
-      sf_amount_off_coupon_id = create_salesforce_stripe_coupon(additional_fields: {
+      sf_amount_off_quote_coupon_id = create_salesforce_stripe_coupon(additional_fields: {
         SalesforceStripeCouponFields::NAME => '$50 off coupon',
         SalesforceStripeCouponFields::AMOUNT_OFF => 50,
       })
 
       # create the quote line coupon association object to map the coupon to the quote line
-      create_salesforce_stripe_coupon_quote_line_association(sf_quote_line_id: quote_line_id, sf_stripe_coupon_id: sf_percent_off_coupon_id)
+      create_salesforce_stripe_coupon_quote_line_association(sf_quote_line_id: quote_line_id, sf_stripe_coupon_id: sf_percent_off_quote_coupon_id)
       # create the quote coupon association object to map the coupon to the quote
-      create_salesforce_stripe_coupon_quote_association(sf_quote_id: sf_quote_id, sf_stripe_coupon_id: sf_amount_off_coupon_id)
+      create_salesforce_stripe_coupon_quote_association(sf_quote_id: sf_quote_id, sf_stripe_coupon_id: sf_amount_off_quote_coupon_id)
 
       # create and translate the SF order
       sf_order = create_order_from_cpq_quote(sf_quote_id)
@@ -225,17 +228,18 @@ class Critic::CouponTranslation < Critic::FunctionalTest
 
       # retrieve the two stripe coupons
       stripe_phase_coupon = Stripe::Coupon.retrieve(T.must(phase_discount.first).coupon, @user.stripe_credentials)
-      stripe_phase_item_coupon = Stripe::Coupon.retrieve(T.must(phase_item_discount.first).coupon, @user.stripe_credentials)
-
       # sanity check the stripe coupons have the right data
       assert_equal(50, stripe_phase_coupon.amount_off)
       assert_equal("usd", stripe_phase_coupon.currency)
       assert_equal("once", stripe_phase_coupon.duration)
-      assert_equal(sf_amount_off_coupon_id, stripe_phase_coupon.metadata['salesforce_quote_stripe_coupon_id'])
+      sf_amount_off_order_coupon = get_sf_order_coupon_from_quote_coupon_id(sf_amount_off_quote_coupon_id)
+      assert_equal(sf_amount_off_order_coupon.Id, stripe_phase_coupon.metadata['salesforce_order_stripe_coupon_id'])
 
+      stripe_phase_item_coupon = Stripe::Coupon.retrieve(T.must(phase_item_discount.first).coupon, @user.stripe_credentials)
       assert_equal(25, stripe_phase_item_coupon.percent_off)
       assert_equal("once", stripe_phase_item_coupon.duration)
-      assert_equal(sf_percent_off_coupon_id, stripe_phase_item_coupon.metadata['salesforce_quote_stripe_coupon_id'])
+      sf_percent_off_coupon = get_sf_order_coupon_from_quote_coupon_id(sf_percent_off_quote_coupon_id)
+      assert_equal(sf_percent_off_coupon.Id, stripe_phase_item_coupon.metadata['salesforce_order_stripe_coupon_id'])
 
       # fetch invoice and verify final amount due
       sf_account = sf_get(sf_account_id)

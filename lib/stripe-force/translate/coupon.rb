@@ -34,12 +34,12 @@ class StripeForce::Translate
     end
 
     # create a new stripe coupon
-    stripe_coupon = create_stripe_object(Stripe::Coupon, quote_sf_coupon)
+    stripe_coupon = create_stripe_object(Stripe::Coupon, order_sf_coupon)
 
-    # update the quote sf coupon stripe id
-    update_sf_stripe_id(quote_sf_coupon, stripe_coupon)
     # update the order sf coupon stripe id
     update_sf_stripe_id(order_sf_coupon, stripe_coupon)
+    # also update the quote sf coupon stripe id so the same coupon object can be reused in another quote/order
+    update_sf_stripe_id(quote_sf_coupon, stripe_coupon)
 
     stripe_coupon
   end
@@ -86,30 +86,20 @@ class StripeForce::Translate
       # coupons can either be related to an order or order item
       source_sf_record_type = sf_object.sobject_type
       if source_sf_record_type == SF_ORDER
-        association_obj_type = SF_STRIPE_COUPON_ORDER_ASSOCIATION
-        association_field = 'Order__c'
+        lookup_field = 'Order__c'
       elsif source_sf_record_type == SF_ORDER_ITEM
-        association_obj_type = SF_STRIPE_COUPON_ORDER_ITEM_ASSOCIATION
-        association_field = 'Order_Item__c'
+        lookup_field = 'Order_Item__c'
       else
         # this should never happen since coupons can only be tied to an order or order item
         raise Integrations::Errors::ImpossibleState.new("unsupported sf object type for coupons: #{source_sf_record_type}")
       end
 
       # check if there are any coupon associations to this order or order item
-      associations = sf_client.query("Select #{SF_ID} from #{prefixed_stripe_field(association_obj_type)} where #{prefixed_stripe_field(association_field)} = '#{sf_object.Id}'")
-      if !associations || associations.size == 0
-        log.info "no stripe coupon associations related to this sf object", salesforce_object: sf_object
-        return
-      end
+      coupon_data = sf_client.query("Select #{SF_ID} from #{prefixed_stripe_field(ORDER_SF_STRIPE_COUPON)} where #{prefixed_stripe_field(lookup_field)} = '#{sf_object.Id}'")
 
       # there could be multiple coupons associated with a single order or order line
-      coupons = associations.map do |association|
-          association = sf_client.find(prefixed_stripe_field(association_obj_type), association.Id)
-
-          # return the coupon object
-          serializedCouponId = association[prefixed_stripe_field('Order_Stripe_Coupon__c')]
-          sf_client.find(prefixed_stripe_field(ORDER_SF_STRIPE_COUPON), serializedCouponId)
+      coupons = coupon_data.map do |data|
+        sf_client.find(prefixed_stripe_field(ORDER_SF_STRIPE_COUPON), data.Id)
       end
 
       coupons

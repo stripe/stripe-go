@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Order__c</fullName>
-    <externalId>false</externalId>
     <label>Order</label>
     <referenceTo>Order</referenceTo>
-    <relationshipName>Order_In_Association</relationshipName>
-    <reparentableMasterDetail>false</reparentableMasterDetail>
-    <trackTrending>false</trackTrending>
+    <relationshipName>Order_Lookup</relationshipName>
     <type>Lookup</type>
 </CustomField>

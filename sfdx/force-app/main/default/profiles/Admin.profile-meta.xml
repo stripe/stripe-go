@@ -256,6 +256,16 @@
         <field>Quote_Stripe_Coupon__c.Stripe_ID__c</field>
         <readable>true</readable>
     </fieldPermissions>
+        <fieldPermissions>
+        <editable>true</editable>
+        <field>Order_Stripe_Coupon__c.Order__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Order_Stripe_Coupon__c.Order_Item__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>Order_Stripe_Coupon__c.Stripe_ID__c</field>
@@ -284,14 +294,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <field>Order_Stripe_Coupon__c.Percent_Off__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <field>Order_Item_Stripe_Coupon_Association__c.Order_Item__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <field>Order_Stripe_Coupon_Association__c.Order__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <layoutAssignments>
@@ -373,18 +375,6 @@
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
         <object>Quote_Stripe_Coupon_Association__c</object>
-        <viewAllRecords>true</viewAllRecords>
-    </objectPermissions>
-    <objectPermissions>
-        <allowCreate>true</allowCreate>
-        <allowRead>true</allowRead>
-        <object>Order_Item_Stripe_Coupon_Association__c</object>
-        <viewAllRecords>true</viewAllRecords>
-    </objectPermissions>
-    <objectPermissions>
-        <allowCreate>true</allowCreate>
-        <allowRead>true</allowRead>
-        <object>Order_Stripe_Coupon_Association__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <pageAccesses>

@@ -32,15 +32,7 @@ trigger updateCoupons on Order (after update) {
             }
             
             Quote_Stripe_Coupon__c quoteCoupon = quoteCoupons.get(0);
-            Order_Stripe_Coupon__c clonedCoupon = Utilities.cloneStripeCoupon(quoteCoupon);
-            
-            // create a Stripe Coupon Order Association junction object
-            Order_Stripe_Coupon_Association__c orderStripeCouponAssociation = new Order_Stripe_Coupon_Association__c();
-            orderStripeCouponAssociation.Order_Stripe_Coupon__c = clonedCoupon.Id;
-            orderStripeCouponAssociation.Order__c = order.Id;
-
-            // insert this record
-            Database.insert((sObject)orderStripeCouponAssociation);
+            Order_Stripe_Coupon__c clonedCoupon = Utilities.cloneStripeCoupon(quoteCoupon, order);
           }
         }
       
@@ -76,24 +68,16 @@ trigger updateCoupons on Order (after update) {
               }
               
               Quote_Stripe_Coupon__c quoteLineCoupon = quoteLineCoupons.get(0);
-              Order_Stripe_Coupon__c clonedCoupon = Utilities.cloneStripeCoupon(quoteLineCoupon);
-            
+          
               // get the corresponding order line for this quote line
-              List<OrderItem> orderItem = [
+              List<OrderItem> orderItems = [
                 SELECT Id
                 FROM OrderItem
                 WHERE SBQQ__QuoteLine__c = :quoteLine.Id
               ];
          
-              Id orderItemId =  orderItem.get(0).Id;
-
-              // create the corresponding Order_Item_Stripe_Coupon_Association__c
-              Order_Item_Stripe_Coupon_Association__c orderLineStripeCouponAssociation = new Order_Item_Stripe_Coupon_Association__c();
-              orderLineStripeCouponAssociation.Order_Stripe_Coupon__c = clonedCoupon.Id;
-              orderLineStripeCouponAssociation.Order_Item__c = orderItemId;
-
-              // insert this record
-              Database.insert((sObject)orderLineStripeCouponAssociation);
+              OrderItem orderItem = orderItems.get(0);
+              Order_Stripe_Coupon__c clonedCoupon = Utilities.cloneStripeCoupon(quoteLineCoupon, orderItem);
             }
           }
         }

@@ -214,14 +214,6 @@
         <field>Order_Stripe_Coupon__c.Percent_Off__c</field>
         <readable>true</readable>
     </fieldPermissions>
-    <fieldPermissions>
-        <field>Order_Item_Stripe_Coupon_Association__c.Order_Item__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <field>Order_Stripe_Coupon_Association__c.Order__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
     <hasActivationRequired>false</hasActivationRequired>
     <label>Stripe Connector Sync Management User</label>
     <objectPermissions>

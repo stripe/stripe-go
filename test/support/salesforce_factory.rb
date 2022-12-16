@@ -123,7 +123,7 @@ module Critic
     def create_salesforce_stripe_coupon_quote_association(sf_quote_id:, sf_stripe_coupon_id:)
      sf_stripe_coupon_id ||= create_salesforce_stripe_coupon
 
-     sf.create!(prefixed_stripe_field(SF_STRIPE_COUPON_QUOTE_ASSOCIATION), {
+     sf.create!(prefixed_stripe_field(QUOTE_SF_STRIPE_COUPON_ASSOCIATION), {
        "Quote__c" => sf_quote_id,
        QUOTE_SF_STRIPE_COUPON => sf_stripe_coupon_id,
      }.transform_keys(&method(:prefixed_stripe_field)))
@@ -132,7 +132,7 @@ module Critic
     def create_salesforce_stripe_coupon_quote_line_association(sf_quote_line_id:, sf_stripe_coupon_id:)
       sf_stripe_coupon_id ||= create_salesforce_stripe_coupon
 
-      sf.create!(prefixed_stripe_field(SF_STRIPE_COUPON_QUOTE_LINE_ASSOCIATION), {
+      sf.create!(prefixed_stripe_field(QUOTE_LINE_SF_STRIPE_COUPON_ASSOCIATION), {
         "Quote_Line__c" => sf_quote_line_id,
         QUOTE_SF_STRIPE_COUPON => sf_stripe_coupon_id,
       }.transform_keys(&method(:prefixed_stripe_field)))
@@ -152,8 +152,15 @@ module Critic
       }.merge(additional_fields).transform_keys(&:serialize).transform_keys(&method(:prefixed_stripe_field)))
     end
 
+    def get_sf_order_coupon_from_quote_coupon_id(quote_coupon_id)
+      order_coupons = sf.query("SELECT #{SF_ID} FROM #{prefixed_stripe_field(ORDER_SF_STRIPE_COUPON)} WHERE #{prefixed_stripe_field('Quote_Stripe_Coupon_Id__c')} = '#{quote_coupon_id}'")
+
+      # sanity check the order coupon info is the same as the quote coupon
+      sf.find(prefixed_stripe_field(ORDER_SF_STRIPE_COUPON), order_coupons.first.Id)
+    end
+
     def get_salesforce_stripe_coupons_associated_to_quote_line(quote_line_id:)
-      quote_line_associations = sf.query("Select #{SF_ID} from #{prefixed_stripe_field(SF_STRIPE_COUPON_QUOTE_LINE_ASSOCIATION)} where #{prefixed_stripe_field('Quote_Line__c')} = '#{quote_line_id}'")
+      quote_line_associations = sf.query("Select #{SF_ID} from #{prefixed_stripe_field(QUOTE_LINE_SF_STRIPE_COUPON_ASSOCIATION)} where #{prefixed_stripe_field('Quote_Line__c')} = '#{quote_line_id}'")
 
       if !quote_line_associations
         raise "could not find any stripe coupon quote line associations related to this quote line"
@@ -161,7 +168,7 @@ module Critic
 
       # there could be multiple coupons associated with a quote line
       coupons = quote_line_associations.map do |quote_line_association|
-          association = sf.find(prefixed_stripe_field(SF_STRIPE_COUPON_QUOTE_LINE_ASSOCIATION), quote_line_association.Id)
+          association = sf.find(prefixed_stripe_field(QUOTE_LINE_SF_STRIPE_COUPON_ASSOCIATION), quote_line_association.Id)
           coupon_id = association[prefixed_stripe_field('Quote_Stripe_Coupon__c')]
 
           # return the coupon object
