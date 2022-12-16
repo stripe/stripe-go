@@ -1,5 +1,12 @@
 # Changelog
 
+## 74.4.0-beta.1 - 2022-12-15
+* [#1585](https://github.com/stripe/stripe-go/pull/1585) API Updates for beta branch
+  * Updated stable APIs to the latest version
+  * Add support for new resources `QuoteLine`, `TaxCalculation`, and `TaxTransaction`
+  * Add support for `ListLineItems` and `New` methods on resource `TaxCalculation`
+  * Add support for `CreateReversal`, `Get`, and `New` methods on resource `TaxTransaction`
+
 ## 74.3.0 - 2022-12-15
 * [#1584](https://github.com/stripe/stripe-go/pull/1584) API Updates
   * Add support for new value `invoice_overpaid` on enum `CustomerBalanceTransactionType`
