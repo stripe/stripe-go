@@ -170,11 +170,4 @@ public with sharing class test_updateOrderCouponTrigger {
             FROM Order_Stripe_Coupon__c
             WHERE Quote_Stripe_Coupon_Id__c = :quoteCouponId];
     }
-
-    static public List<Order_Stripe_Coupon_Association__c> getStripeCouponOrderAssociations(String orderId) {
-        return [
-            SELECT Id
-            FROM Order_Stripe_Coupon_Association__c
-            WHERE Order__c = :orderId];  
-    }
 }

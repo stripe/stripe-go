@@ -34,9 +34,13 @@ class StripeForce::Translate
     end
 
     # create a new stripe coupon
-    stripe_coupon = create_stripe_object(Stripe::Coupon, order_sf_coupon)
+    stripe_coupon = create_stripe_object(Stripe::Coupon, order_sf_coupon) do |stripe_coupon_data|
+      sanitize_stripe_coupon(stripe_coupon_data)
+    end
 
-    # update the order sf coupon stripe id
+    # update the sf quote coupon stripe id
+    update_sf_stripe_id(quote_sf_coupon, stripe_coupon)
+    # update the sf order coupon stripe id
     update_sf_stripe_id(order_sf_coupon, stripe_coupon)
     # also update the quote sf coupon stripe id so the same coupon object can be reused in another quote/order
     update_sf_stripe_id(quote_sf_coupon, stripe_coupon)
@@ -54,6 +58,8 @@ class StripeForce::Translate
         currency
       }
 
+      generated_stripe_coupon = sanitize_stripe_coupon(generated_stripe_coupon)
+
       simple_field_check_passed = fields_to_check_if_both_are_set.all? do |field_sym|
         existing_stripe_coupon[field_sym].blank? == generated_stripe_coupon[field_sym].blank? && existing_stripe_coupon[field_sym] == generated_stripe_coupon[field_sym]
       end
@@ -62,6 +68,26 @@ class StripeForce::Translate
         log.info 'coupons are not equal, simple field comparison failed', diff: HashDiff::Comparison.new(existing_stripe_coupon.to_hash, generated_stripe_coupon.to_hash).diff
       end
       simple_field_check_passed
+  end
+
+  def sanitize_stripe_coupon(stripe_coupon)
+    # Stripe expects amount_off to be specified in cents
+    if !stripe_coupon["amount_off"].nil?
+      stripe_coupon["amount_off"] = normalize_float_amount_for_stripe(stripe_coupon["amount_off"].to_s, @user)
+      stripe_coupon["currency"] = 'usd'
+    end
+
+    # Prevents Stripe API error 'Stripe::InvalidRequestError: Invalid integer: 1.0'
+    # since Salesforce stores these values as decimals (1.0) but Stripe expects an integer
+    if stripe_coupon["duration"] == 'repeating'
+      stripe_coupon["duration_in_months"] = stripe_coupon["duration_in_months"].to_i
+    end
+
+    if !stripe_coupon["max_redemptions"].nil?
+      stripe_coupon["max_redemptions"] = stripe_coupon["max_redemptions"].to_i
+    end
+
+    stripe_coupon
   end
 
   # Coupon can be related to an order or an order item. Either way, Stripe expects these coupons to be specified as discounts:
