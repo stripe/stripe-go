@@ -25,12 +25,14 @@ type CashBalanceParams struct {
 
 // A hash of settings for this cash balance.
 type CashBalanceSettingsParams struct {
-	// Controls how funds transferred by the customer are applied to payment intents and invoices. Valid options are `automatic` or `manual`. For more information about these reconciliation modes, see [Reconciliation](https://stripe.com/docs/payments/customer-balance/reconciliation).
+	// Controls how funds transferred by the customer are applied to payment intents and invoices. Valid options are `automatic`, `manual`, or `merchant_default`. For more information about these reconciliation modes, see [Reconciliation](https://stripe.com/docs/payments/customer-balance/reconciliation).
 	ReconciliationMode *string `form:"reconciliation_mode"`
 }
 type CashBalanceSettings struct {
 	// The configuration for how funds that land in the customer cash balance are reconciled.
 	ReconciliationMode CashBalanceSettingsReconciliationMode `json:"reconciliation_mode"`
+	// A flag to indicate if reconciliation mode returned is the user's default or is specific to this customer cash balance
+	UsingMerchantDefault bool `json:"using_merchant_default"`
 }
 
 // A customer's `Cash balance` represents real funds. Customers can add funds to their cash balance by sending a bank transfer. These funds can be used for payment and can eventually be paid out to your bank account.
