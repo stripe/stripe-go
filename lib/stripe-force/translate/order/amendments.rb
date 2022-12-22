@@ -90,6 +90,132 @@ class StripeForce::Translate
     sig do
       params(
         user: StripeForce::User,
+        phase_item: ContractItemStructure,
+        subscription_term: Integer,
+        billing_frequency: Integer
+      ).returns(Hash)
+    end
+    def self.create_credit_price_data_from_terminated_phase_item(user:, phase_item:, subscription_term:, billing_frequency:)
+      # our goal here is to identify the correct amount to credit this user, pass it into a price_data hash to be bubbled to the Subscription Item
+
+      unless phase_item.fully_terminated?
+        raise Integrations::Errors::ImpossibleState.new("attempted to create credit price_data for non-terminated line")
+      end
+
+      # since we are processing a prorated negative line item, the unused term is the same as the proration period if the line item was positive
+      unused_term = subscription_term % billing_frequency
+      unused_term_percentage = BigDecimal(unused_term) / BigDecimal(billing_frequency)
+
+      # https://jira.corp.stripe.com/browse/PLATINT-1808
+      if unused_term.zero?
+        log.warn 'subscription term is equal to billing frequency, amendment is most likely happening on the same day'
+        unused_term_percentage = 1
+      end
+
+      original_stripe_price = phase_item.price(user)
+      unit_amount_decimal = BigDecimal(original_stripe_price.unit_amount_decimal)
+      credit_amount = unit_amount_decimal * unused_term_percentage * -1
+
+      # We should eventually use a Price here instead of price data. Details in ticket below
+      # https://jira.corp.stripe.com/browse/PLATINT-2090
+      price_data = {
+        currency: original_stripe_price.currency,
+        product: original_stripe_price.product,
+        unit_amount_decimal: credit_amount.round(MAX_STRIPE_PRICE_PRECISION).to_s("F"),
+        tax_behavior: original_stripe_price.tax_behavior,
+      }
+
+      log.info 'parsed credit into price_data', price_data: price_data
+
+      price_data
+    end
+
+    sig do
+      params(
+        user: StripeForce::User,
+        sf_order_amendment: Restforce::SObject,
+        terminated_phase_items: T::Array[ContractItemStructure],
+        subscription_term: Integer,
+        billing_frequency: Integer
+      ).returns(T::Array[T::Hash[Symbol, T.untyped]])
+    end
+    # creating one-time invoice items for terminated lines for the unused prorated amount (which has already been billed)
+    def self.generate_proration_credits_from_terminated_phase_items(user:, sf_order_amendment:, terminated_phase_items:, subscription_term:, billing_frequency:)
+      negative_invoice_items_for_prorations = []
+
+      terminated_phase_items.each do |phase_item|
+
+        unless phase_item.fully_terminated?
+          log.info 'non-terminated phase_item, not creating credit for unused time'
+          next
+        end
+
+        # metered prices should not create credits since we do not know how much the user is billed in CPQ
+        if PriceHelpers.metered_price?(phase_item.price(user))
+          log.info 'metered price, not creating credit for unused time',
+            prorated_order_item_id: phase_item.order_line_id,
+            price_id: phase_item.price.id
+          next
+        end
+
+        # right now, you can only have tiered pricing specified through consumption schedules, which are only used if the
+        # price is metered billed. We may need to support prorated tiered prices in the future, if so this check should be removed
+        if PriceHelpers.tiered_price?(phase_item.price)
+          log.info 'tiered price, not creating credit for unused time',
+            prorated_order_item_id: phase_item.order_line_id,
+            price_id: phase_item.price
+          next
+        end
+
+        # We do not need to create credits for any items originating in this order amendment, the
+        # items creating credits should have been added in a previous order and removed / terminated in this one.
+        if phase_item.from_order?(sf_order_amendment)
+          log.info 'line item originating from this amendment, not creating credit',
+            prorated_order_item_id: phase_item.order_line_id,
+            price_id: phase_item.price.id
+          next
+        end
+
+        log.info 'creating credit for unused time', prorated_order_item_id: phase_item.order_line_id
+
+        # create price data, not price
+        price_data = create_credit_price_data_from_terminated_phase_item(
+          user: user,
+          phase_item: phase_item, # https://jira.corp.stripe.com/browse/PLATINT-2090
+
+          # TODO is there a better way to source these variables? They are required in a couple
+          subscription_term: subscription_term,
+          billing_frequency: billing_frequency
+        )
+
+        credit_stripe_item = Stripe::SubscriptionItem.construct_from({
+          metadata: Metadata.stripe_metadata_for_sf_object(user, phase_item.order_line).merge(
+            Metadata.metadata_key(user, MetadataKeys::CREDIT) => true
+          ),
+        })
+
+        StripeForce::Mapper.apply_mapping(user, credit_stripe_item, phase_item.order_line)
+
+        negative_invoice_items_for_prorations << credit_stripe_item.to_hash.merge({
+          quantity: phase_item.reduce_quantity * -1, # reduce_quantity is a negative integer but we want a positive value for quantity
+          price_data: price_data,
+          period: {
+            end: {
+              type: 'phase_end',
+            },
+            start: {
+              type: 'phase_start',
+            },
+          },
+        })
+      end
+
+      negative_invoice_items_for_prorations
+    end
+
+    sig do
+      params(
+        user: StripeForce::User,
         sf_order_amendment: Restforce::SObject,
         phase_items: T::Array[ContractItemStructure],
         subscription_term: Integer,

@@ -44,21 +44,24 @@ class StripeForce::Translate
     # after lines have been adjusted with termination line, they should be removed
     # however, having terminated lines in the phase items is helpful *right* until
     # the sub schedule API call is made, which is why this is pulled into a separate method
-    sig { params(original_phase_items: T::Array[ContractItemStructure]).returns(T::Array[ContractItemStructure]) }
+    # terminated lines are returned after being removed from incoming phase items so they can easily be used by other logic
+    sig { params(original_phase_items: T::Array[ContractItemStructure]).returns([T::Array[ContractItemStructure], T::Array[ContractItemStructure]]) }
     def self.remove_terminated_lines(original_phase_items)
       # no mutations
       phase_items = original_phase_items.dup
+      terminated_items = []
 
       phase_items.delete_if do |phase_item|
         if phase_item.fully_terminated?
           log.info 'line item fully terminated, removing', terminated_order_line_id: phase_item.order_line_id
+          terminated_items.append(phase_item)
           true
         else
           false
         end
       end
 
-      phase_items
+      [phase_items, terminated_items]
     end
 
     sig { params(raw_days_until_due: T.any(String, Integer, Float)).returns(Integer) }

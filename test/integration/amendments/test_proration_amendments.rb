@@ -416,4 +416,579 @@ class Critic::ProratedAmendmentTranslation < Critic::OrderAmendmentFunctionalTes
     # since this is an 19mo prorated item we should only bill for 7mo since the rest will be billed by stripe
     assert_equal((yearly_price_2 / 12 * 7).to_s, prorated_price.unit_amount_decimal)
   end
+
+  describe 'supports negative order items' do
+    # When we ecounter terminated items, we will create a negative line item in Stripe for their associated credit.
+    it 'supports an upsell, with credit for unused time' do
+      @user.enable_feature FeatureFlags::TERMINATED_ORDER_ITEM_CREDIT, update: true
+      @user.enable_feature FeatureFlags::TEST_CLOCKS, update: true
+
+      # initial order: 2yr contract (two billing cycles), silver tier (one item)
+      # second order: upgrade to platinum tier (one item) two months into contract
+      #                 - cancels remaining silver tier (issuing credit via negative line item for $1000)
+      #                 - creates an invoice item for gold tier for remaining time ($2000)
+      #                 - resulting invoice will have a total of $1000, ie $2000 prorated amount - $1000 credit
+
+      yearly_silver_tier_price = 1200_00
+      yearly_gold_tier_price = 2400_00
+      contract_term = 24
+      amendment_term = 22
+
+      initial_order_start_date = now_time
+      initial_order_end_date = initial_order_start_date + contract_term
+      amendment_start_date = now_time + (contract_term - amendment_term).months
+      amendment_end_date = amendment_start_date + amendment_term.months
+
+      # normalize the amendment_end_date so test doesn't fail EOM
+      amendment_end_date = StripeForce::Translate::OrderHelpers.anchor_time_to_day_of_month(base_time: amendment_end_date, anchor_day_of_month: initial_order_end_date.day)
+
+      sf_silver_tier_product_id, sf_silver_tier_pricebook_id = salesforce_recurring_product_with_price(
+        price: yearly_silver_tier_price,
+        additional_product_fields: {
+          CPQ_QUOTE_BILLING_FREQUENCY => CPQBillingFrequencyOptions::ANNUAL.serialize,
+        }
+      )
+
+      sf_gold_tier_product_id, sf_gold_tier_pricebook_id = salesforce_recurring_product_with_price(
+        price: yearly_gold_tier_price,
+        additional_product_fields: {
+          CPQ_QUOTE_BILLING_FREQUENCY => CPQBillingFrequencyOptions::ANNUAL.serialize,
+        }
+      )
+
+      sf_order = create_salesforce_order(
+        sf_product_id: sf_silver_tier_product_id,
+        additional_quote_fields: {
+          CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(initial_order_start_date),
+          CPQ_QUOTE_SUBSCRIPTION_TERM => contract_term,
+        }
+      )
+
+      sf_contract = create_contract_from_order(sf_order)
+      amendment_data = create_quote_data_from_contract_amendment(sf_contract)
+
+      # cancel silver tier
+      amendment_data["lineItems"].first["record"][CPQ_QUOTE_QUANTITY] = 0
+
+      amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_START_DATE] = format_date_for_salesforce(amendment_start_date)
+      amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_TERM] = amendment_term
+      sf_quote_id = calculate_and_save_cpq_quote(amendment_data)
+
+      amendment_data = add_product_to_cpq_quote(sf_quote_id, sf_product_id: sf_gold_tier_product_id)
+
+      sf_order_amendment = create_order_from_quote_data(amendment_data)
+      sf_order_amendment_contract = create_contract_from_order(sf_order_amendment)
+
+      StripeForce::Translate.perform_inline(@user, sf_order_amendment.Id)
+
+      # Get SubscriptionSchedule Id
+      sf_order.refresh
+      stripe_subscription_schedule_id = sf_order[prefixed_stripe_field(GENERIC_STRIPE_ID)]
+      stripe_subscription_schedule = Stripe::SubscriptionSchedule.retrieve(stripe_subscription_schedule_id, @user.stripe_credentials)
+
+      # Get Customer
+      sf_account = sf_get(sf_order['AccountId'])
+      stripe_customer_id = sf_account[prefixed_stripe_field(GENERIC_STRIPE_ID)]
+      stripe_customer = stripe_get(stripe_customer_id)
+      refute_nil(stripe_customer.test_clock)
+
+      # Pay off initial invoice
+      invoices = Stripe::Invoice.list({customer: stripe_customer.id}, @user.stripe_credentials).data
+
+      assert_equal(1, invoices.length)
+
+      initial_invoice = invoices.first
+
+      assert_equal(1200_00, initial_invoice.amount_due)
+      assert_equal(1, initial_invoice.lines.data.length)
+
+      initial_invoice.pay({'paid_out_of_band': true})
+
+      # now, let's advance the clock and pretent like we are in the future to fully test autobilling
+
+      test_clock = advance_test_clock(stripe_customer, (amendment_start_date + 1.day).to_i)
+
+      # simulate sending the webhook
+      events = Stripe::Event.list({
+        type: 'invoiceitem.created',
+      }, @user.stripe_credentials)
+
+      invoice_events = events.data.select do |event|
+        event_object = event.data.object
+        event_object.test_clock == test_clock.id && event.request.id.nil?
+      end
+
+      assert_equal(2, invoice_events.count)
+      proration_invoice_event = invoice_events[1]
+
+      assert_equal("true", proration_invoice_event.data.object.metadata[StripeForce::Translate::Metadata.metadata_key(@user, MetadataKeys::PRORATION)])
+
+      # TODO: Lets revert the below back to invoice = T.must(porationautibill) and ditch invoice search after CI account is swapped out
+      # This may already have been invoiced (caught by a web worker), but lets ensure it has been
+      StripeForce::ProrationAutoBill.create_invoice_from_invoice_item_event(@user, proration_invoice_event)
+
+      invoices = Stripe::Invoice.list({customer: stripe_customer.id, status: 'draft'}, @user.stripe_credentials).data
+
+      assert_equal(1, invoices.length)
+
+      proration_invoice = invoices.first
+
+      assert_equal(2, proration_invoice.lines.count)
+      assert_equal(1000_00, proration_invoice.total)
+      assert_equal("true", proration_invoice.metadata[StripeForce::Translate::Metadata.metadata_key(@user, MetadataKeys::PRORATION_INVOICE)])
+    end
+
+    it 'supports an upsell for a single year contract' do
+      # Same as above test, but a single year contract (ie one billing cycle)
+      @user.enable_feature FeatureFlags::TERMINATED_ORDER_ITEM_CREDIT, update: true
+      @user.enable_feature FeatureFlags::TEST_CLOCKS, update: true
+
+      # initial order: 1yr contract (one billing cycle), silver tier (one item)
+      # second order: upgrade to gold tier (one item) two months into contract
+      #                 - cancels remaining silver tier (issuing credit via negative line item for $1000)
+      #                 - creates an invoice item for gold tier for remaining time ($2000)
+      #                 - resulting invoice will have a total of $1000, ie $2000 prorated amount - $1000 credit
+
+      yearly_silver_tier_price = 1200_00
+      yearly_gold_tier_price = 2400_00
+      contract_term = 12
+      amendment_term = 10
+
+      initial_order_start_date = now_time
+      initial_order_end_date = initial_order_start_date + contract_term
+      amendment_start_date = now_time + (contract_term - amendment_term).months
+      amendment_end_date = amendment_start_date + amendment_term.months
+
+      # normalize the amendment_end_date so test doesn't fail EOM
+      amendment_end_date = StripeForce::Translate::OrderHelpers.anchor_time_to_day_of_month(base_time: amendment_end_date, anchor_day_of_month: initial_order_end_date.day)
+
+      sf_silver_tier_product_id, sf_silver_tier_pricebook_id = salesforce_recurring_product_with_price(
+        price: yearly_silver_tier_price,
+        additional_product_fields: {
+          CPQ_QUOTE_BILLING_FREQUENCY => CPQBillingFrequencyOptions::ANNUAL.serialize,
+        }
+      )
+
+      sf_gold_tier_product_id, sf_gold_tier_pricebook_id = salesforce_recurring_product_with_price(
+        price: yearly_gold_tier_price,
+        additional_product_fields: {
+          CPQ_QUOTE_BILLING_FREQUENCY => CPQBillingFrequencyOptions::ANNUAL.serialize,
+        }
+      )
+
+      sf_order = create_salesforce_order(
+        sf_product_id: sf_silver_tier_product_id,
+        additional_quote_fields: {
+          CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(initial_order_start_date),
+          CPQ_QUOTE_SUBSCRIPTION_TERM => contract_term,
+        }
+      )
+
+      sf_contract = create_contract_from_order(sf_order)
+      amendment_data = create_quote_data_from_contract_amendment(sf_contract)
+
+      # cancel silver tier
+      amendment_data["lineItems"].first["record"][CPQ_QUOTE_QUANTITY] = 0
+
+      amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_START_DATE] = format_date_for_salesforce(amendment_start_date)
+      amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_TERM] = amendment_term
+      sf_quote_id = calculate_and_save_cpq_quote(amendment_data)
+
+      amendment_data = add_product_to_cpq_quote(sf_quote_id, sf_product_id: sf_gold_tier_product_id)
+
+      sf_order_amendment = create_order_from_quote_data(amendment_data)
+      sf_order_amendment_contract = create_contract_from_order(sf_order_amendment)
+
+      StripeForce::Translate.perform_inline(@user, sf_order_amendment.Id)
+
+      # Get SubscriptionSchedule Id
+      sf_order.refresh
+      stripe_subscription_schedule_id = sf_order[prefixed_stripe_field(GENERIC_STRIPE_ID)]
+      stripe_subscription_schedule = Stripe::SubscriptionSchedule.retrieve(stripe_subscription_schedule_id, @user.stripe_credentials)
+
+      # Get Customer
+      sf_account = sf_get(sf_order['AccountId'])
+      stripe_customer_id = sf_account[prefixed_stripe_field(GENERIC_STRIPE_ID)]
+      stripe_customer = stripe_get(stripe_customer_id)
+      refute_nil(stripe_customer.test_clock)
+
+      # Pay off initial invoice
+      invoices = Stripe::Invoice.list({customer: stripe_customer.id}, @user.stripe_credentials).data
+
+      assert_equal(1, invoices.length)
+
+      initial_invoice = invoices.first
+
+      assert_equal(1200_00, initial_invoice.amount_due)
+      assert_equal(1, initial_invoice.lines.data.length)
+
+      initial_invoice.pay({'paid_out_of_band': true})
+
+      # now, let's advance the clock and pretent like we are in the future to fully test autobilling
+
+      test_clock = advance_test_clock(stripe_customer, (amendment_start_date + 1.day).to_i)
+
+      # simulate sending the webhook
+      events = Stripe::Event.list({
+        type: 'invoiceitem.created',
+      }, @user.stripe_credentials)
+
+      invoice_events = events.data.select do |event|
+        event_object = event.data.object
+        event_object.test_clock == test_clock.id && event.request.id.nil?
+      end
+
+      assert_equal(2, invoice_events.count)
+      proration_invoice_event = invoice_events[1]
+
+      assert_equal("true", proration_invoice_event.data.object.metadata[StripeForce::Translate::Metadata.metadata_key(@user, MetadataKeys::PRORATION)])
+
+      # TODO: Lets revert the below back to invoice = T.must(porationautibill) and ditch invoice search after CI account is swapped out
+      # This may already have been invoiced (caught by a web worker), but lets ensure it has been
+      StripeForce::ProrationAutoBill.create_invoice_from_invoice_item_event(@user, proration_invoice_event)
+
+      invoices = Stripe::Invoice.list({customer: stripe_customer.id, status: 'draft'}, @user.stripe_credentials).data
+
+      assert_equal(1, invoices.length)
+
+      proration_invoice = invoices.first
+
+      assert_equal(2, proration_invoice.lines.count)
+      assert_equal(1000_00, proration_invoice.total)
+      assert_equal("true", proration_invoice.metadata[StripeForce::Translate::Metadata.metadata_key(@user, MetadataKeys::PRORATION_INVOICE)])
+    end
+
+    it 'supports an upsell for a two year contract, in the second year' do
+      # Same as first negative invoice item test, but the amendment is in the second year
+      @user.enable_feature FeatureFlags::TERMINATED_ORDER_ITEM_CREDIT, update: true
+      @user.enable_feature FeatureFlags::TEST_CLOCKS, update: true
+
+      # initial order: 2yr contract (two billing cycles), silver tier (one item)
+      # second order: upgrade to platinum tier (one item) 18 months into contract (six months into second billing cycle)
+      #                 - cancels remaining silver tier (issuing credit via negative line item for $600)
+      #                 - creates an invoice item for platinum tier for remaining time ($2500)
+      #                 - resulting invoice will have a total of $1900, ie $2500 prorated amount - $600 credit
+
+      yearly_silver_tier_price = 1200_00
+      yearly_platinum_tier_price = 5000_00
+      contract_term = 24
+      amendment_term = 6
+
+      initial_order_start_date = now_time
+      initial_order_end_date = initial_order_start_date + contract_term
+      amendment_start_date = now_time + (contract_term - amendment_term).months
+      amendment_end_date = amendment_start_date + amendment_term.months
+
+      # normalize the amendment_end_date so test doesn't fail EOM
+      amendment_end_date = StripeForce::Translate::OrderHelpers.anchor_time_to_day_of_month(base_time: amendment_end_date, anchor_day_of_month: initial_order_end_date.day)
+
+      sf_silver_tier_product_id, sf_silver_tier_pricebook_id = salesforce_recurring_product_with_price(
+        price: yearly_silver_tier_price,
+        additional_product_fields: {
+          CPQ_QUOTE_BILLING_FREQUENCY => CPQBillingFrequencyOptions::ANNUAL.serialize,
+        }
+      )
+
+      sf_platinum_tier_product_id, sf_platinum_tier_pricebook_id = salesforce_recurring_product_with_price(
+        price: yearly_platinum_tier_price,
+        additional_product_fields: {
+          CPQ_QUOTE_BILLING_FREQUENCY => CPQBillingFrequencyOptions::ANNUAL.serialize,
+        }
+      )
+
+      sf_order = create_salesforce_order(
+        sf_product_id: sf_silver_tier_product_id,
+        additional_quote_fields: {
+          CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(initial_order_start_date),
+          CPQ_QUOTE_SUBSCRIPTION_TERM => contract_term,
+        }
+      )
+
+      sf_contract = create_contract_from_order(sf_order)
+      amendment_data = create_quote_data_from_contract_amendment(sf_contract)
+
+      # cancel silver tier
+      amendment_data["lineItems"].first["record"][CPQ_QUOTE_QUANTITY] = 0
+
+      amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_START_DATE] = format_date_for_salesforce(amendment_start_date)
+      amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_TERM] = amendment_term
+      sf_quote_id = calculate_and_save_cpq_quote(amendment_data)
+
+      amendment_data = add_product_to_cpq_quote(sf_quote_id, sf_product_id: sf_platinum_tier_product_id)
+
+      sf_order_amendment = create_order_from_quote_data(amendment_data)
+      sf_order_amendment_contract = create_contract_from_order(sf_order_amendment)
+
+      StripeForce::Translate.perform_inline(@user, sf_order_amendment.Id)
+
+      # Get SubscriptionSchedule Id
+      sf_order.refresh
+      stripe_subscription_schedule_id = sf_order[prefixed_stripe_field(GENERIC_STRIPE_ID)]
+      stripe_subscription_schedule = Stripe::SubscriptionSchedule.retrieve(stripe_subscription_schedule_id, @user.stripe_credentials)
+
+      # Get Customer
+      sf_account = sf_get(sf_order['AccountId'])
+      stripe_customer_id = sf_account[prefixed_stripe_field(GENERIC_STRIPE_ID)]
+      stripe_customer = stripe_get(stripe_customer_id)
+      refute_nil(stripe_customer.test_clock)
+
+      # Pay off initial invoice
+      invoices = Stripe::Invoice.list({customer: stripe_customer.id}, @user.stripe_credentials).data
+
+      assert_equal(1, invoices.length)
+
+      initial_invoice = invoices.first
+
+      assert_equal(1200_00, initial_invoice.amount_due)
+      assert_equal(1, initial_invoice.lines.data.length)
+
+      initial_invoice.pay({'paid_out_of_band': true})
+
+      # now, let's advance the clock and pretent like we are in the future to fully test autobilling
+
+      test_clock = advance_test_clock(stripe_customer, (amendment_start_date + 1.day).to_i)
+
+      # simulate sending the webhook
+      events = Stripe::Event.list({
+        type: 'invoiceitem.created',
+      }, @user.stripe_credentials)
+
+      invoice_events = events.data.select do |event|
+        event_object = event.data.object
+        event_object.test_clock == test_clock.id && event.request.id.nil?
+      end
+
+      assert_equal(2, invoice_events.count)
+      proration_invoice_event = invoice_events[1]
+
+      assert_equal("true", proration_invoice_event.data.object.metadata[StripeForce::Translate::Metadata.metadata_key(@user, MetadataKeys::PRORATION)])
+
+      # TODO: Lets revert the below back to invoice = T.must(porationautibill) and ditch invoice search after CI account is swapped out
+      # This may already have been invoiced (caught by a web worker), but lets ensure it has been
+      StripeForce::ProrationAutoBill.create_invoice_from_invoice_item_event(@user, proration_invoice_event)
+
+      invoices = Stripe::Invoice.list({customer: stripe_customer.id, status: 'draft'}, @user.stripe_credentials).data
+
+      assert_equal(1, invoices.length)
+
+      proration_invoice = invoices.first
+
+      assert_equal(2, proration_invoice.lines.count)
+      assert_equal(1900_00, proration_invoice.total)
+      assert_equal("true", proration_invoice.metadata[StripeForce::Translate::Metadata.metadata_key(@user, MetadataKeys::PRORATION_INVOICE)])
+    end
+
+    # https://jira.corp.stripe.com/browse/PLATINT-2091
+    it 'terminates a line without adding a new one' do
+      # Does not create a credit for a fully terminated order
+      @user.enable_feature FeatureFlags::TERMINATED_ORDER_ITEM_CREDIT, update: true
+      @user.enable_feature FeatureFlags::TEST_CLOCKS, update: true
+
+      # initial order: 1yr contract (one billing cycle), silver tier (one item)
+      # second order: cancel silver tier (issuing credit via negative line item for $1000)
+
+      yearly_silver_tier_price = 1200_00
+      contract_term = 12
+      amendment_term = 10
+
+      initial_order_start_date = now_time
+      initial_order_end_date = initial_order_start_date + contract_term
+      amendment_start_date = now_time + (contract_term - amendment_term).months
+      amendment_end_date = amendment_start_date + amendment_term.months
+
+      # normalize the amendment_end_date so test doesn't fail EOM
+      amendment_end_date = StripeForce::Translate::OrderHelpers.anchor_time_to_day_of_month(base_time: amendment_end_date, anchor_day_of_month: initial_order_end_date.day)
+
+      sf_silver_tier_product_id, sf_silver_tier_pricebook_id = salesforce_recurring_product_with_price(
+        price: yearly_silver_tier_price,
+        additional_product_fields: {
+          CPQ_QUOTE_BILLING_FREQUENCY => CPQBillingFrequencyOptions::ANNUAL.serialize,
+        }
+      )
+
+      sf_order = create_salesforce_order(
+        sf_product_id: sf_silver_tier_product_id,
+        additional_quote_fields: {
+          CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(initial_order_start_date),
+          CPQ_QUOTE_SUBSCRIPTION_TERM => contract_term,
+        }
+      )
+
+      sf_contract = create_contract_from_order(sf_order)
+      amendment_data = create_quote_data_from_contract_amendment(sf_contract)
+
+      # cancel silver tier
+      amendment_data["lineItems"].first["record"][CPQ_QUOTE_QUANTITY] = 0
+
+      amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_START_DATE] = format_date_for_salesforce(amendment_start_date)
+      amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_TERM] = amendment_term
+      sf_quote_id = calculate_and_save_cpq_quote(amendment_data)
+
+      sf_order_amendment = create_order_from_quote_data(amendment_data)
+      sf_order_amendment_contract = create_contract_from_order(sf_order_amendment)
+
+      StripeForce::Translate.perform_inline(@user, sf_order_amendment.Id)
+
+      # Get SubscriptionSchedule Id
+      sf_order.refresh
+      stripe_subscription_schedule_id = sf_order[prefixed_stripe_field(GENERIC_STRIPE_ID)]
+      stripe_subscription_schedule = Stripe::SubscriptionSchedule.retrieve(stripe_subscription_schedule_id, @user.stripe_credentials)
+
+      # Get Customer
+      sf_account = sf_get(sf_order['AccountId'])
+      stripe_customer_id = sf_account[prefixed_stripe_field(GENERIC_STRIPE_ID)]
+      stripe_customer = stripe_get(stripe_customer_id)
+      refute_nil(stripe_customer.test_clock)
+
+      # Pay off initial invoice
+      invoices = Stripe::Invoice.list({customer: stripe_customer.id}, @user.stripe_credentials).data
+
+      assert_equal(1, invoices.length)
+
+      initial_invoice = invoices.first
+
+      assert_equal(1200_00, initial_invoice.amount_due)
+      assert_equal(1, initial_invoice.lines.data.length)
+
+      initial_invoice.pay({'paid_out_of_band': true})
+
+      # now, let's advance the clock and pretent like we are in the future to fully test autobilling
+      test_clock = advance_test_clock(stripe_customer, (amendment_start_date + 1.day).to_i)
+
+      # simulate sending the webhook
+      events = Stripe::Event.list({
+        type: 'invoiceitem.created',
+      }, @user.stripe_credentials)
+
+      invoice_events = events.data.select do |event|
+        event_object = event.data.object
+        event_object.test_clock == test_clock.id && event.request.id.nil?
+      end
+
+      assert_equal(0, invoice_events.count)
+    end
+
+    it 'supports credits on monthly billing cycles' do
+      # TODO
+      pass
+    end
+
+    it 'does not issue credit for merchant not gated into feature' do
+      # initial order: 2yr contract (two billing cycles), silver tier (one item)
+      # second order: upgrade to platinum tier (one item) two months into contract
+      #                 - cancels remaining silver tier
+      #                 - creates an invoice item for gold tier for remaining time ($2000)
+      #                 - resulting invoice will have a total of $2000, ie $2000 prorated amount with no credit
+
+      @user.enable_feature FeatureFlags::TEST_CLOCKS, update: true
+
+      yearly_silver_tier_price = 1200_00
+      yearly_gold_tier_price = 2400_00
+      contract_term = 24
+      amendment_term = 22
+
+      initial_order_start_date = now_time
+      initial_order_end_date = initial_order_start_date + contract_term
+      amendment_start_date = now_time + (contract_term - amendment_term).months
+      amendment_end_date = amendment_start_date + amendment_term.months
+
+      # normalize the amendment_end_date so test doesn't fail EOM
+      amendment_end_date = StripeForce::Translate::OrderHelpers.anchor_time_to_day_of_month(base_time: amendment_end_date, anchor_day_of_month: initial_order_end_date.day)
+
+      sf_silver_tier_product_id, sf_silver_tier_pricebook_id = salesforce_recurring_product_with_price(
+        price: yearly_silver_tier_price,
+        additional_product_fields: {
+          CPQ_QUOTE_BILLING_FREQUENCY => CPQBillingFrequencyOptions::ANNUAL.serialize,
+        }
+      )
+
+      sf_gold_tier_product_id, sf_gold_tier_pricebook_id = salesforce_recurring_product_with_price(
+        price: yearly_gold_tier_price,
+        additional_product_fields: {
+          CPQ_QUOTE_BILLING_FREQUENCY => CPQBillingFrequencyOptions::ANNUAL.serialize,
+        }
+      )
+
+      sf_order = create_salesforce_order(
+        sf_product_id: sf_silver_tier_product_id,
+        additional_quote_fields: {
+          CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(initial_order_start_date),
+          CPQ_QUOTE_SUBSCRIPTION_TERM => contract_term,
+        }
+      )
+
+      sf_contract = create_contract_from_order(sf_order)
+      amendment_data = create_quote_data_from_contract_amendment(sf_contract)
+
+      # cancel silver tier
+      amendment_data["lineItems"].first["record"][CPQ_QUOTE_QUANTITY] = 0
+
+      amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_START_DATE] = format_date_for_salesforce(amendment_start_date)
+      amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_TERM] = amendment_term
+      sf_quote_id = calculate_and_save_cpq_quote(amendment_data)
+
+      amendment_data = add_product_to_cpq_quote(sf_quote_id, sf_product_id: sf_gold_tier_product_id)
+
+      sf_order_amendment = create_order_from_quote_data(amendment_data)
+      sf_order_amendment_contract = create_contract_from_order(sf_order_amendment)
+
+      StripeForce::Translate.perform_inline(@user, sf_order_amendment.Id)
+
+      # Get SubscriptionSchedule Id
+      sf_order.refresh
+      stripe_subscription_schedule_id = sf_order[prefixed_stripe_field(GENERIC_STRIPE_ID)]
+      stripe_subscription_schedule = Stripe::SubscriptionSchedule.retrieve(stripe_subscription_schedule_id, @user.stripe_credentials)
+
+      # Get Customer
+      sf_account = sf_get(sf_order['AccountId'])
+      stripe_customer_id = sf_account[prefixed_stripe_field(GENERIC_STRIPE_ID)]
+      stripe_customer = stripe_get(stripe_customer_id)
+      refute_nil(stripe_customer.test_clock)
+
+      # Pay off initial invoice
+      invoices = Stripe::Invoice.list({customer: stripe_customer.id}, @user.stripe_credentials).data
+
+      assert_equal(1, invoices.length)
+
+      initial_invoice = invoices.first
+
+      assert_equal(1200_00, initial_invoice.amount_due)
+      assert_equal(1, initial_invoice.lines.data.length)
+
+      initial_invoice.pay({'paid_out_of_band': true})
+
+      # now, let's advance the clock and pretent like we are in the future to fully test autobilling
+
+      test_clock = advance_test_clock(stripe_customer, (amendment_start_date + 1.day).to_i)
+
+      # simulate sending the webhook
+      events = Stripe::Event.list({
+        type: 'invoiceitem.created',
+      }, @user.stripe_credentials)
+
+      invoice_events = events.data.select do |event|
+        event_object = event.data.object
+        event_object.test_clock == test_clock.id && event.request.id.nil?
+      end
+
+      assert_equal(1, invoice_events.count)
+      proration_invoice_event = invoice_events.first
+
+      assert_equal("true", proration_invoice_event.data.object.metadata[StripeForce::Translate::Metadata.metadata_key(@user, MetadataKeys::PRORATION)])
+
+      # TODO: Lets revert the below back to invoice = T.must(porationautibill) and ditch invoice search after CI account is swapped out
+      # This may already have been invoiced (caught by a web worker), but lets ensure it has been
+      StripeForce::ProrationAutoBill.create_invoice_from_invoice_item_event(@user, proration_invoice_event)
+
+      invoices = Stripe::Invoice.list({customer: stripe_customer.id, status: 'draft'}, @user.stripe_credentials).data
+
+      assert_equal(1, invoices.length)
+
+      proration_invoice = invoices.first
+
+      assert_equal(1, proration_invoice.lines.count)
+      assert_equal(2000_00, proration_invoice.total)
+      assert_equal("true", proration_invoice.metadata[StripeForce::Translate::Metadata.metadata_key(@user, MetadataKeys::PRORATION_INVOICE)])
+    end
+  end
 end

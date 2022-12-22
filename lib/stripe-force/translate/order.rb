@@ -374,8 +374,6 @@ class StripeForce::Translate
         sf_order_amendment
       )
 
-      # TODO right here, we should filter which lines are terminations and calculate the customer credit
-
       is_order_terminated = aggregate_phase_items.all?(&:fully_terminated?)
       if is_order_terminated && contract_structure.amendments.size - 1 != index
         raise Integrations::Errors::UnhandledEdgeCase.new("order terminated, but there's more amendments")
@@ -411,7 +409,25 @@ class StripeForce::Translate
 
       # TODO should we validate the end date vs the subscription schedule?
 
-      aggregate_phase_items = OrderHelpers.remove_terminated_lines(aggregate_phase_items)
+      billing_frequency = OrderAmendment.calculate_billing_frequency_from_phase_items(@user, aggregate_phase_items)
+
+      aggregate_phase_items, terminated_phase_items = OrderHelpers.remove_terminated_lines(aggregate_phase_items)
+
+      negative_invoice_items = []
+      if @user.feature_enabled?(FeatureFlags::TERMINATED_ORDER_ITEM_CREDIT)
+        # https://jira.corp.stripe.com/browse/PLATINT-2092
+        # For now, we will only issue credits for terminated lines (to support the most requested feature of license expansion / upgrades)
+        #     in the future, we could augment the below method to take in all aggregate_phase items and account for partial line termination credits.
+        #     i.e. when a customer is moving from 50 to 30 quantity of a subscription item  half way through a billing cycle. The merchant may want to issue credit
+        #     for the 20 units removed. However, for now we would only issue credit if they terminate the line by removing all 50 units.
+        negative_invoice_items = OrderAmendment.generate_proration_credits_from_terminated_phase_items(
+          user: @user,
+          sf_order_amendment: sf_order_amendment,
+          terminated_phase_items: terminated_phase_items,
+          subscription_term: subscription_term_from_sales_force,
+          billing_frequency: billing_frequency
+        )
+      end
 
       # TODO validate that all prices have the same recurrence? Stripe does this downstream,
       #      but at this point we assume that this check has already done, so it may make sense
@@ -422,8 +438,6 @@ class StripeForce::Translate
       # and we can calculate the finalized billing cycle of the order amendment
 
       if !is_order_terminated
-        billing_frequency = OrderAmendment.calculate_billing_frequency_from_phase_items(@user, aggregate_phase_items)
-
         # if the amendment is prorated, then all line items will have prorated component
         is_prorated = OrderAmendment.prorated_amendment?(
           user: @user,
@@ -456,7 +470,7 @@ class StripeForce::Translate
       end
 
       new_phase = Stripe::StripeObject.construct_from({
-        add_invoice_items: invoice_items_in_order.map(&:stripe_params) + invoice_items_for_prorations,
+        add_invoice_items: invoice_items_in_order.map(&:stripe_params) + invoice_items_for_prorations + negative_invoice_items,
 
         # `deep_copy` is important, otherwise multiple phase changes in a
         # single job run will use the same aggregate phase items
@@ -510,6 +524,10 @@ class StripeForce::Translate
           subscription_phases.delete_at(index)
         end
 
+        # TODO: https://jira.corp.stripe.com/browse/PLATINT-2091
+        # We are only adding a new phase if an order is not fully terminated, therefore our negative invoice items are never
+        # created because the new phase does not get created. If merchants wish to issue credits for fully cancelled orders we should
+        # think about conditionally making a call to create our negative_invoice_items here.
         subscription_phases << new_phase
       end
 
@@ -543,6 +561,7 @@ class StripeForce::Translate
           # `none` is really important to ensure that the user is not billed by stripe for any prorated amounts
           subscription_schedule.proration_behavior = 'none'
           subscription_schedule.phases = subscription_phases
+
           subscription_schedule.save({}, StripeForce::Utilities::StripeUtil.generate_idempotency_key_with_credentials(@user, sf_order_amendment))
         end
       end
@@ -565,7 +584,6 @@ class StripeForce::Translate
     # no side effects, please!
     aggregate_phase_items = original_aggregate_phase_items.dup
 
-    # TODO `termination_lines` here is what we need for credit calculation
     termination_lines, additive_lines = new_phase_items.partition(&:termination?)
 
     additive_lines.each do |new_subscription_item|

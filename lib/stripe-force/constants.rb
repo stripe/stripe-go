@@ -187,12 +187,14 @@ module StripeForce
         UPDATE_CUSTOMER_ON_ORDER_TRANSLATION = new('update_customer_on_order_creation')
         ACCOUNT_POLLING = new('account_polling')
         COUPONS = new('coupons')
+        TERMINATED_ORDER_ITEM_CREDIT = new('terminated_order_item_credit')
       end
     end
 
     class MetadataKeys < T::Enum
       enums do
         PRORATION = new('proration')
+        CREDIT = new('credit')
         DUPLICATE_PRICE = new('duplicate')
         AUTO_ARCHIVE_PRICE = new('auto_archive')
         ORIGINAL_PRICE_ID = new('original_stripe_price_id')
