@@ -1078,6 +1078,8 @@ type PaymentIntentPaymentMethodOptionsCardPresentParams struct {
 	// Request ability to [increment](https://stripe.com/docs/terminal/features/incremental-authorizations) this PaymentIntent if the combination of MCC and card brand is eligible. Check [incremental_authorization_supported](https://stripe.com/docs/api/charges/object#charge_object-payment_method_details-card_present-incremental_authorization_supported) in the [Confirm](https://stripe.com/docs/api/payment_intents/confirm) response to verify support.
 	RequestIncrementalAuthorizationSupport *bool `form:"request_incremental_authorization_support"`
 }
+
+// Configuration for the eu_bank_transfer funding type.
 type PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferParams struct {
 	// The desired country code of the bank account information. Permitted values include: `DE`, `ES`, `FR`, `IE`, or `NL`.
 	Country *string `form:"country"`
@@ -1085,6 +1087,7 @@ type PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferP
 
 // Configuration for the bank transfer funding type, if the `funding_type` is set to `bank_transfer`.
 type PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferParams struct {
+	// Configuration for the eu_bank_transfer funding type.
 	EUBankTransfer *PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferParams `form:"eu_bank_transfer"`
 	// List of address types that should be returned in the financial_addresses response. If not specified, all valid types will be returned.
 	//
