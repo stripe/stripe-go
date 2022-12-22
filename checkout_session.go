@@ -1377,7 +1377,7 @@ type CheckoutSessionParams struct {
 	AutomaticTax *CheckoutSessionAutomaticTaxParams `form:"automatic_tax"`
 	// Specify whether Checkout should collect the customer's billing address.
 	BillingAddressCollection *string `form:"billing_address_collection"`
-	// The URL the customer will be directed to if they decide to cancel payment and return to your website.
+	// If set, Checkout displays a back button and customers will be directed to this URL if they decide to cancel payment and return to your website.
 	CancelURL *string `form:"cancel_url"`
 	// A unique string to reference the Checkout Session. This can be a
 	// customer ID, a cart ID, or similar, and can be used to reconcile the
@@ -2007,7 +2007,7 @@ type CheckoutSession struct {
 	AutomaticTax *CheckoutSessionAutomaticTax `json:"automatic_tax"`
 	// Describes whether Checkout should collect the customer's billing address.
 	BillingAddressCollection CheckoutSessionBillingAddressCollection `json:"billing_address_collection"`
-	// The URL the customer will be directed to if they decide to cancel payment and return to your website.
+	// If set, Checkout displays a back button and customers will be directed to this URL if they decide to cancel payment and return to your website.
 	CancelURL string `json:"cancel_url"`
 	// A unique string to reference the Checkout Session. This can be a
 	// customer ID, a cart ID, or similar, and can be used to reconcile the

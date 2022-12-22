@@ -38,7 +38,7 @@ const (
 	SubscriptionScheduleDefaultSettingsBillingCycleAnchorPhaseStart SubscriptionScheduleDefaultSettingsBillingCycleAnchor = "phase_start"
 )
 
-// Behavior of the subscription schedule and underlying subscription when it ends. Possible values are `release` and `cancel`.
+// Behavior of the subscription schedule and underlying subscription when it ends. Possible values are `release` or `cancel` with the default being `release`. `release` will end the subscription schedule and keep the underlying subscription running.`cancel` will end the subscription schedule and cancel the underlying subscription.
 type SubscriptionScheduleEndBehavior string
 
 // List of values that SubscriptionScheduleEndBehavior can take
@@ -423,7 +423,7 @@ type SubscriptionScheduleParams struct {
 	Customer *string `form:"customer"`
 	// Object representing the subscription schedule's default settings.
 	DefaultSettings *SubscriptionScheduleDefaultSettingsParams `form:"default_settings"`
-	// Configures how the subscription schedule behaves when it ends. Possible values are `release` or `cancel` with the default being `release`. `release` will end the subscription schedule and keep the underlying subscription running.`cancel` will end the subscription schedule and cancel the underlying subscription.
+	// Behavior of the subscription schedule and underlying subscription when it ends. Possible values are `release` or `cancel` with the default being `release`. `release` will end the subscription schedule and keep the underlying subscription running.`cancel` will end the subscription schedule and cancel the underlying subscription.
 	EndBehavior *string `form:"end_behavior"`
 	// Migrate an existing subscription to be managed by a subscription schedule. If this parameter is set, a subscription schedule will be created using the subscription's item(s), set to auto-renew using the subscription's interval. When using this parameter, other parameters (such as phase values) cannot be set. To create a subscription schedule with other modifications, we recommend making two separate API calls.
 	FromSubscription *string `form:"from_subscription"`
@@ -984,7 +984,7 @@ type SubscriptionSchedule struct {
 	// ID of the customer who owns the subscription schedule.
 	Customer        *Customer                            `json:"customer"`
 	DefaultSettings *SubscriptionScheduleDefaultSettings `json:"default_settings"`
-	// Behavior of the subscription schedule and underlying subscription when it ends. Possible values are `release` and `cancel`.
+	// Behavior of the subscription schedule and underlying subscription when it ends. Possible values are `release` or `cancel` with the default being `release`. `release` will end the subscription schedule and keep the underlying subscription running.`cancel` will end the subscription schedule and cancel the underlying subscription.
 	EndBehavior SubscriptionScheduleEndBehavior `json:"end_behavior"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
