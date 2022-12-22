@@ -709,7 +709,7 @@ type SubscriptionScheduleAmendAmendmentParams struct {
 
 // Changes to apply to the subscription schedule.
 type SubscriptionScheduleAmendScheduleSettingsParams struct {
-	// Configures how the subscription schedule behaves when it ends.
+	// Behavior of the subscription schedule and underlying subscription when it ends.
 	EndBehavior *string `form:"end_behavior"`
 }
 

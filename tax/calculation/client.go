@@ -4,8 +4,8 @@
 //
 //
 
-// Package taxcalculation provides the /tax/calculations APIs
-package taxcalculation
+// Package calculation provides the /tax/calculations APIs
+package calculation
 
 import (
 	"net/http"
@@ -27,15 +27,15 @@ func New(params *stripe.TaxCalculationParams) (*stripe.TaxCalculation, error) {
 
 // New creates a new tax calculation.
 func (c Client) New(params *stripe.TaxCalculationParams) (*stripe.TaxCalculation, error) {
-	taxcalculation := &stripe.TaxCalculation{}
+	calculation := &stripe.TaxCalculation{}
 	err := c.B.Call(
 		http.MethodPost,
 		"/v1/tax/calculations",
 		c.Key,
 		params,
-		taxcalculation,
+		calculation,
 	)
-	return taxcalculation, err
+	return calculation, err
 }
 
 // ListLineItems is the method for the `GET /v1/tax/calculations/{calculation}/line_items` API.

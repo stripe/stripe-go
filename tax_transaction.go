@@ -106,14 +106,14 @@ type TaxTransactionCreateReversalLineItemParams struct {
 	Reference *string `form:"reference"`
 }
 
-// Creates a partial or full reversal of a previously created Transaction.
+// Partially or fully reverses a previously created Transaction.
 type TaxTransactionCreateReversalParams struct {
 	Params `form:"*"`
 	// The line item amounts to reverse.
 	LineItems []*TaxTransactionCreateReversalLineItemParams `form:"line_items"`
 	// If `partial`, the provided line item amounts are reversed. If `full`, the original transaction is fully reversed.
 	Mode *string `form:"mode"`
-	// The ID of the transaction to partially or fully reverse.
+	// The ID of the Transaction to partially or fully reverse.
 	OriginalTransaction *string `form:"original_transaction"`
 	// A custom identifier for this reversal, such as 'myOrder_123-refund_1'. Must be unique across all transactions.
 	Reference *string `form:"reference"`
@@ -139,7 +139,7 @@ type TaxTransactionCustomerDetails struct {
 
 // If `type=reversal`, contains information about what was reversed.
 type TaxTransactionReversal struct {
-	// The `id` of the `Transaction` object that this one reversed.
+	// The `id` of the reversed `Transaction` object.
 	OriginalTransaction string `json:"original_transaction"`
 }
 
