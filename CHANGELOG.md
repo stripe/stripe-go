@@ -1,5 +1,10 @@
 # Changelog
 
+## 74.5.0-beta.1 - 2022-12-22
+* [#1587](https://github.com/stripe/stripe-go/pull/1587) API Updates for beta branch
+  * Updated stable APIs to the latest version
+  * Move `taxcalculation` package to `tax/calculation` package, and `taxtransaction` package to `tax/transaction` package.
+
 ## 74.4.0 - 2022-12-22
 * [#1586](https://github.com/stripe/stripe-go/pull/1586) API Updates
   * Add support for `UsingMerchantDefault` on `CashBalanceSettings`
