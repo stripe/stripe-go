@@ -1,5 +1,10 @@
 # Changelog
 
+## 74.4.0 - 2022-12-22
+* [#1586](https://github.com/stripe/stripe-go/pull/1586) API Updates
+  * Add support for `UsingMerchantDefault` on `CashBalanceSettings`
+  * Change type of `CheckoutSessionCancelUrl` from `string` to `nullable(string)`
+
 ## 74.3.0 - 2022-12-15
 * [#1584](https://github.com/stripe/stripe-go/pull/1584) API Updates
   * Add support for new value `invoice_overpaid` on enum `CustomerBalanceTransactionType`
