@@ -4,8 +4,8 @@
 //
 //
 
-// Package taxtransaction provides the /tax/transactions APIs
-package taxtransaction
+// Package transaction provides the /tax/transactions APIs
+package transaction
 
 import (
 	"net/http"
@@ -26,15 +26,15 @@ func New(params *stripe.TaxTransactionParams) (*stripe.TaxTransaction, error) {
 
 // New creates a new tax transaction.
 func (c Client) New(params *stripe.TaxTransactionParams) (*stripe.TaxTransaction, error) {
-	taxtransaction := &stripe.TaxTransaction{}
+	transaction := &stripe.TaxTransaction{}
 	err := c.B.Call(
 		http.MethodPost,
 		"/v1/tax/transactions",
 		c.Key,
 		params,
-		taxtransaction,
+		transaction,
 	)
-	return taxtransaction, err
+	return transaction, err
 }
 
 // Get returns the details of a tax transaction.
@@ -45,9 +45,9 @@ func Get(id string, params *stripe.TaxTransactionParams) (*stripe.TaxTransaction
 // Get returns the details of a tax transaction.
 func (c Client) Get(id string, params *stripe.TaxTransactionParams) (*stripe.TaxTransaction, error) {
 	path := stripe.FormatURLPath("/v1/tax/transactions/%s", id)
-	taxtransaction := &stripe.TaxTransaction{}
-	err := c.B.Call(http.MethodGet, path, c.Key, params, taxtransaction)
-	return taxtransaction, err
+	transaction := &stripe.TaxTransaction{}
+	err := c.B.Call(http.MethodGet, path, c.Key, params, transaction)
+	return transaction, err
 }
 
 // CreateReversal is the method for the `POST /v1/tax/transactions/create_reversal` API.
@@ -57,15 +57,15 @@ func CreateReversal(params *stripe.TaxTransactionCreateReversalParams) (*stripe.
 
 // CreateReversal is the method for the `POST /v1/tax/transactions/create_reversal` API.
 func (c Client) CreateReversal(params *stripe.TaxTransactionCreateReversalParams) (*stripe.TaxTransaction, error) {
-	taxtransaction := &stripe.TaxTransaction{}
+	transaction := &stripe.TaxTransaction{}
 	err := c.B.Call(
 		http.MethodPost,
 		"/v1/tax/transactions/create_reversal",
 		c.Key,
 		params,
-		taxtransaction,
+		transaction,
 	)
-	return taxtransaction, err
+	return transaction, err
 }
 
 func getC() Client {

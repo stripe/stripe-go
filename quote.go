@@ -128,7 +128,7 @@ const (
 	QuoteSubscriptionDataBillingCycleAnchorReset QuoteSubscriptionDataBillingCycleAnchor = "reset"
 )
 
-// Behavior of the subscription schedule and underlying subscription when it ends. Possible values are `release` and `cancel`.
+// Behavior of the subscription schedule and underlying subscription when it ends.
 type QuoteSubscriptionDataEndBehavior string
 
 // List of values that QuoteSubscriptionDataEndBehavior can take
@@ -199,7 +199,7 @@ const (
 	QuoteSubscriptionDataOverrideBillingBehaviorProrateUpFront     QuoteSubscriptionDataOverrideBillingBehavior = "prorate_up_front"
 )
 
-// Behavior of the subscription schedule and underlying subscription when it ends. Possible values are `release` and `cancel`.
+// Behavior of the subscription schedule and underlying subscription when it ends.
 type QuoteSubscriptionDataOverrideEndBehavior string
 
 // List of values that QuoteSubscriptionDataOverrideEndBehavior can take
@@ -819,7 +819,7 @@ type QuoteSubscriptionDataParams struct {
 	// When creating a new subscription, the date of which the subscription schedule will start after the quote is accepted. When updating a subscription, the date of which the subscription will be updated using a subscription schedule. The special value `current_period_end` can be provided to update a subscription at the end of its current period. The `effective_date` is ignored if it is in the past when the quote is accepted.
 	EffectiveDate                 *int64 `form:"effective_date"`
 	EffectiveDateCurrentPeriodEnd *bool  `form:"-"` // See custom AppendTo
-	// Configures how the subscription schedule behaves when it ends. Possible values are `release` or `cancel` with the default being `release`. `release` will end the subscription schedule and keep the underlying subscription running.`cancel` will end the subscription schedule and cancel the underlying subscription.
+	// Behavior of the subscription schedule and underlying subscription when it ends.
 	EndBehavior *string `form:"end_behavior"`
 	// The id of a subscription schedule the quote will update. The quote will inherit the state of the subscription schedule, such as `phases`. Cannot be combined with other parameters.
 	FromSchedule *string `form:"from_schedule"`
@@ -924,7 +924,7 @@ type QuoteSubscriptionDataOverrideParams struct {
 	Customer *string `form:"customer"`
 	// The subscription's description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription.
 	Description *string `form:"description"`
-	// Configures how the subscription schedule behaves when it ends. Possible values are `release` or `cancel` with the default being `release`. `release` will end the subscription schedule and keep the underlying subscription running.`cancel` will end the subscription schedule and cancel the underlying subscription.
+	// Behavior of the subscription schedule and underlying subscription when it ends.
 	EndBehavior *string `form:"end_behavior"`
 	// Determines how to handle [prorations](https://stripe.com/docs/subscriptions/billing-cycle#prorations). When creating a subscription, valid values are `create_prorations` or `none`.
 	//
@@ -1274,7 +1274,7 @@ type QuoteSubscriptionDataBillOnAcceptanceBillUntil struct {
 	Type QuoteSubscriptionDataBillOnAcceptanceBillUntilType `json:"type"`
 }
 
-// TODO
+// Describes what period to bill for upon accepting the quote.
 type QuoteSubscriptionDataBillOnAcceptance struct {
 	// The start of the period to bill from when the Quote is accepted.
 	BillFrom *QuoteSubscriptionDataBillOnAcceptanceBillFrom `json:"bill_from"`
@@ -1291,13 +1291,13 @@ type QuoteSubscriptionData struct {
 	BillingBehavior QuoteSubscriptionDataBillingBehavior `json:"billing_behavior"`
 	// Whether the subscription will always start a new billing period when the quote is accepted.
 	BillingCycleAnchor QuoteSubscriptionDataBillingCycleAnchor `json:"billing_cycle_anchor"`
-	// TODO
+	// Describes what period to bill for upon accepting the quote.
 	BillOnAcceptance *QuoteSubscriptionDataBillOnAcceptance `json:"bill_on_acceptance"`
 	// The subscription's description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription.
 	Description string `json:"description"`
 	// When creating a new subscription, the date of which the subscription schedule will start after the quote is accepted. This date is ignored if it is in the past when the quote is accepted. Measured in seconds since the Unix epoch.
 	EffectiveDate int64 `json:"effective_date"`
-	// Behavior of the subscription schedule and underlying subscription when it ends. Possible values are `release` and `cancel`.
+	// Behavior of the subscription schedule and underlying subscription when it ends.
 	EndBehavior QuoteSubscriptionDataEndBehavior `json:"end_behavior"`
 	// The id of the subscription schedule that will be updated when the quote is accepted.
 	FromSchedule *SubscriptionSchedule `json:"from_schedule"`
@@ -1382,7 +1382,7 @@ type QuoteSubscriptionDataOverride struct {
 	Customer string `json:"customer"`
 	// The subscription's description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription.
 	Description string `json:"description"`
-	// Behavior of the subscription schedule and underlying subscription when it ends. Possible values are `release` and `cancel`.
+	// Behavior of the subscription schedule and underlying subscription when it ends.
 	EndBehavior QuoteSubscriptionDataOverrideEndBehavior `json:"end_behavior"`
 	// Determines how to handle [prorations](https://stripe.com/docs/subscriptions/billing-cycle#prorations) when the quote is accepted.
 	ProrationBehavior QuoteSubscriptionDataOverrideProrationBehavior `json:"proration_behavior"`

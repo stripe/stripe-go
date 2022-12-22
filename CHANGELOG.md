@@ -1,5 +1,10 @@
 # Changelog
 
+## 74.4.0 - 2022-12-22
+* [#1586](https://github.com/stripe/stripe-go/pull/1586) API Updates
+  * Add support for `UsingMerchantDefault` on `CashBalanceSettings`
+  * Change type of `CheckoutSessionCancelUrl` from `string` to `nullable(string)`
+
 ## 74.4.0-beta.1 - 2022-12-15
 * [#1585](https://github.com/stripe/stripe-go/pull/1585) API Updates for beta branch
   * Updated stable APIs to the latest version

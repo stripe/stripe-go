@@ -1150,6 +1150,8 @@ type PaymentIntentPaymentMethodOptionsCashappParams struct {
 	// If `setup_future_usage` is already set and you are performing a request using a publishable key, you may only update the value from `on_session` to `off_session`.
 	SetupFutureUsage *string `form:"setup_future_usage"`
 }
+
+// Configuration for the eu_bank_transfer funding type.
 type PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferParams struct {
 	// The desired country code of the bank account information. Permitted values include: `DE`, `ES`, `FR`, `IE`, or `NL`.
 	Country *string `form:"country"`
@@ -1157,6 +1159,7 @@ type PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferP
 
 // Configuration for the bank transfer funding type, if the `funding_type` is set to `bank_transfer`.
 type PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferParams struct {
+	// Configuration for the eu_bank_transfer funding type.
 	EUBankTransfer *PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferParams `form:"eu_bank_transfer"`
 	// List of address types that should be returned in the financial_addresses response. If not specified, all valid types will be returned.
 	//
