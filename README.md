@@ -163,16 +163,25 @@ Here are some of the 'tags' that PR comments will be prefixed with to provide mo
 - `suggestion`
 - `issue`
 
-# SalesForce
+# Salesforce
 
 ## Permission assignments
 
-In order for the ruby service to update Stripe ID fields, it needs to have the right permissions. Here are the two permissions required:
 
+### Required permission sets
+In order for the ruby service to update Stripe ID fields, the user needs to have the right permissions. Here are the two permissions required:
 - "Stripe Connector Integration User" permission set
 - Update Activated Orders
 
-In the org, go to setup>permission sets> stripe connector integration user> manage assignments>add assignments and check your user in the org > then click assign.
+In order for users to add coupons to a CPQ quote or quote line, the user will need to have:
+- "Stripe Connector Coupon User" permission set
+
+Note: The user can't assign the "Stripe Connector Coupon User" permission set without first having the 'Salesforce CPQ License' permission set license. Otherwise, you'll get an error 'This permission set contains an object that requires a license. Before continuing, assign the user to the related permission set license.' when trying to add the permission set.
+
+### Assigning a permission set
+- In the org, go to setup>permission sets> select the permission set (e.g, stripe connector integration user)> manage assignments>add assignments and check your user in the org > then click assign
+- It is possible to bulk [assign a permission set license](https://help.salesforce.com/s/articleView?id=000384595&type=1) and/or [assign a permission set](https://help.salesforce.com/s/articleView?id=000383736&type=1in) Salesforce through the UI.
+
 
 ## Clearing Our Test Data
 
@@ -312,8 +321,16 @@ https://appiphony92-dev-ed.my.salesforce.com/
 
 ## Removing Components from QA or Production Packages
 
-As referenced above, it is a slightly convoluted process to remove a component from a package once it has been added. You must:
+As referenced above, it is a slightly convoluted process to remove a component from a package once it has been added. You must either:
 
+Manually delete objects & their dependencies via the Object Manager in the respective QA / Prod org
+- If you don't see a 'Del' button, try reverting to 'Salesforce Classic' by selecting 'Profile'->'Switch to Salesforce ClassicSwitch information'
+- ** Important** You cannot create a new validation rule, trigger, field with the same name after it's been deleted. In other words, ensure that future changes to these objects will not be made. 
+- You will have to delete any associated validation rules, triggers, fields in order to delete the custom object
+- After deleting the objects, you may still see them referenced in the 'Unused Components' during a package install. These objects are not included in the package though.
+  - Salesfore case discussing this: https://help.salesforce.com/s/case-view?caseId=500Hx00000AFa8fIAD
+
+Reverting to package to Beta
 - Log into the partner community (https://help.salesforce.com/)
 - Make sure you select technical support from the options drop down when creating a new case
 - Provide them the org ID, package name and version number you would like rolled back to Beta.
