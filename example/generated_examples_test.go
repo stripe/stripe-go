@@ -52,6 +52,9 @@ import (
 	shippingrate "github.com/stripe/stripe-go/v74/shippingrate"
 	sigma_scheduledqueryrun "github.com/stripe/stripe-go/v74/sigma/scheduledqueryrun"
 	source "github.com/stripe/stripe-go/v74/source"
+	subscription "github.com/stripe/stripe-go/v74/subscription"
+	subscriptionitem "github.com/stripe/stripe-go/v74/subscriptionitem"
+	subscriptionschedule "github.com/stripe/stripe-go/v74/subscriptionschedule"
 	taxcode "github.com/stripe/stripe-go/v74/taxcode"
 	taxid "github.com/stripe/stripe-go/v74/taxid"
 	taxrate "github.com/stripe/stripe-go/v74/taxrate"
@@ -82,7 +85,6 @@ import (
 	treasury_transaction "github.com/stripe/stripe-go/v74/treasury/transaction"
 	treasury_transactionentry "github.com/stripe/stripe-go/v74/treasury/transactionentry"
 	usagerecord "github.com/stripe/stripe-go/v74/usagerecord"
-	usagerecordsummary "github.com/stripe/stripe-go/v74/usagerecordsummary"
 	webhookendpoint "github.com/stripe/stripe-go/v74/webhookendpoint"
 )
 
@@ -1988,12 +1990,50 @@ func TestSourceUpdate(t *testing.T) {
 	assert.NotNil(t, result)
 }
 
-func TestUsageRecordSummaryList(t *testing.T) {
-	params := &stripe.UsageRecordSummaryListParams{
+func TestSubscriptionItemList(t *testing.T) {
+	params := &stripe.SubscriptionItemListParams{
+		Subscription: stripe.String("sub_xxxxxxxxxxxxx"),
+	}
+	result := subscriptionitem.List(params)
+	assert.NotNil(t, result)
+	assert.Nil(t, result.Err())
+}
+
+func TestSubscriptionItemCreate(t *testing.T) {
+	params := &stripe.SubscriptionItemParams{
+		Subscription: stripe.String("sub_xxxxxxxxxxxxx"),
+		Price:        stripe.String("price_xxxxxxxxxxxxx"),
+		Quantity:     stripe.Int64(2),
+	}
+	result, _ := subscriptionitem.New(params)
+	assert.NotNil(t, result)
+}
+
+func TestSubscriptionItemDelete(t *testing.T) {
+	params := &stripe.SubscriptionItemParams{}
+	result, _ := subscriptionitem.Del("si_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+}
+
+func TestSubscriptionItemRetrieve(t *testing.T) {
+	params := &stripe.SubscriptionItemParams{}
+	result, _ := subscriptionitem.Get("si_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+}
+
+func TestSubscriptionItemUpdate(t *testing.T) {
+	params := &stripe.SubscriptionItemParams{}
+	params.AddMetadata("order_id", "6735")
+	result, _ := subscriptionitem.Update("si_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+}
+
+func TestSubscriptionItemUsageRecordSummaries(t *testing.T) {
+	params := &stripe.SubscriptionItemUsageRecordSummariesParams{
 		SubscriptionItem: stripe.String("si_xxxxxxxxxxxxx"),
 	}
 	params.Limit = stripe.Int64(3)
-	result := usagerecordsummary.List(params)
+	result := subscriptionitem.UsageRecordSummaries(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
 }
@@ -2005,6 +2045,112 @@ func TestUsageRecordCreate(t *testing.T) {
 	}
 	result, _ := usagerecord.New(params)
 	assert.NotNil(t, result)
+}
+
+func TestSubscriptionScheduleList(t *testing.T) {
+	params := &stripe.SubscriptionScheduleListParams{}
+	params.Limit = stripe.Int64(3)
+	result := subscriptionschedule.List(params)
+	assert.NotNil(t, result)
+	assert.Nil(t, result.Err())
+}
+
+func TestSubscriptionScheduleCreate(t *testing.T) {
+	params := &stripe.SubscriptionScheduleParams{
+		Customer:    stripe.String("cus_xxxxxxxxxxxxx"),
+		StartDate:   stripe.Int64(1652909005),
+		EndBehavior: stripe.String(string(stripe.SubscriptionScheduleEndBehaviorRelease)),
+		Phases: []*stripe.SubscriptionSchedulePhaseParams{
+			&stripe.SubscriptionSchedulePhaseParams{
+				Items: []*stripe.SubscriptionSchedulePhaseItemParams{
+					&stripe.SubscriptionSchedulePhaseItemParams{
+						Price:    stripe.String("price_xxxxxxxxxxxxx"),
+						Quantity: stripe.Int64(1),
+					},
+				},
+				Iterations: stripe.Int64(12),
+			},
+		},
+	}
+	result, _ := subscriptionschedule.New(params)
+	assert.NotNil(t, result)
+}
+
+func TestSubscriptionScheduleRetrieve(t *testing.T) {
+	params := &stripe.SubscriptionScheduleParams{}
+	result, _ := subscriptionschedule.Get("sub_sched_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+}
+
+func TestSubscriptionScheduleUpdate(t *testing.T) {
+	params := &stripe.SubscriptionScheduleParams{
+		EndBehavior: stripe.String(string(stripe.SubscriptionScheduleEndBehaviorRelease)),
+	}
+	result, _ := subscriptionschedule.Update("sub_sched_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+}
+
+func TestSubscriptionScheduleCancel(t *testing.T) {
+	params := &stripe.SubscriptionScheduleCancelParams{}
+	result, _ := subscriptionschedule.Cancel("sub_sched_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+}
+
+func TestSubscriptionScheduleRelease(t *testing.T) {
+	params := &stripe.SubscriptionScheduleReleaseParams{}
+	result, _ := subscriptionschedule.Release("sub_sched_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+}
+
+func TestSubscriptionList(t *testing.T) {
+	params := &stripe.SubscriptionListParams{}
+	params.Limit = stripe.Int64(3)
+	result := subscription.List(params)
+	assert.NotNil(t, result)
+	assert.Nil(t, result.Err())
+}
+
+func TestSubscriptionCreate(t *testing.T) {
+	params := &stripe.SubscriptionParams{
+		Customer: stripe.String("cus_xxxxxxxxxxxxx"),
+		Items: []*stripe.SubscriptionItemsParams{
+			&stripe.SubscriptionItemsParams{
+				Price: stripe.String("price_xxxxxxxxxxxxx"),
+			},
+		},
+	}
+	result, _ := subscription.New(params)
+	assert.NotNil(t, result)
+}
+
+func TestSubscriptionCancel(t *testing.T) {
+	params := &stripe.SubscriptionCancelParams{}
+	result, _ := subscription.Cancel("sub_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+}
+
+func TestSubscriptionRetrieve(t *testing.T) {
+	params := &stripe.SubscriptionParams{}
+	result, _ := subscription.Get("sub_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+}
+
+func TestSubscriptionUpdate(t *testing.T) {
+	params := &stripe.SubscriptionParams{}
+	params.AddMetadata("order_id", "6735")
+	result, _ := subscription.Update("sub_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+}
+
+func TestSubscriptionSearch(t *testing.T) {
+	params := &stripe.SubscriptionSearchParams{
+		SearchParams: stripe.SearchParams{
+			Query: "status:'active' AND metadata['order_id']:'6735'",
+		},
+	}
+	result := subscription.Search(params)
+	assert.NotNil(t, result)
+	assert.Nil(t, result.Err())
 }
 
 func TestTaxCodeList(t *testing.T) {
