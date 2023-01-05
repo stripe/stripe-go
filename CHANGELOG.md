@@ -1,5 +1,13 @@
 # Changelog
 
+## 74.6.0-beta.1 - 2023-01-05
+* [#1589](https://github.com/stripe/stripe-go/pull/1589) API Updates for beta branch
+  * Updated stable APIs to the latest version
+  * Add support for `MarkStaleQuote` method on resource `Quote`
+  * Add support for `Duration` and `LineEndsAt` on `QuoteSubscriptionDataBillOnAcceptanceBillUntilParams` and `QuoteSubscriptionDataOverridesBillOnAcceptanceBillUntilParams`
+  * Remove support for `LineStartsAt` on `QuoteSubscriptionDataBillOnAcceptanceBillUntilParams` and `QuoteSubscriptionDataOverridesBillOnAcceptanceBillUntilParams`
+  * Add support for `Metadata` on `TerminalReaderActionRefundPayment` and `TerminalReaderRefundPaymentParams`
+
 ## 74.5.0 - 2023-01-05
 * [#1588](https://github.com/stripe/stripe-go/pull/1588) API Updates
   * Add support for `CardIssuing` on `IssuingCardholderIndividual`
