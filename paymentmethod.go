@@ -529,7 +529,7 @@ type PaymentMethodCardNetworks struct {
 	Preferred PaymentMethodCardNetworksPreferred `json:"preferred"`
 }
 
-// Contains details on how this Card maybe be used for 3D Secure authentication.
+// Contains details on how this Card may be used for 3D Secure authentication.
 type PaymentMethodCardThreeDSecureUsage struct {
 	// Whether 3D Secure is supported on this card.
 	Supported bool `json:"supported"`
@@ -593,7 +593,7 @@ type PaymentMethodCard struct {
 	Last4 string `json:"last4"`
 	// Contains information about card networks that can be used to process the payment.
 	Networks *PaymentMethodCardNetworks `json:"networks"`
-	// Contains details on how this Card maybe be used for 3D Secure authentication.
+	// Contains details on how this Card may be used for 3D Secure authentication.
 	ThreeDSecureUsage *PaymentMethodCardThreeDSecureUsage `json:"three_d_secure_usage"`
 	// If this Card is part of a card wallet, this contains the details of the card wallet.
 	Wallet *PaymentMethodCardWallet `json:"wallet"`
