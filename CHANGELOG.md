@@ -1,5 +1,9 @@
 # Changelog
 
+## 74.5.0 - 2023-01-05
+* [#1588](https://github.com/stripe/stripe-go/pull/1588) API Updates
+  * Add support for `CardIssuing` on `IssuingCardholderIndividual`
+
 ## 74.5.0-beta.1 - 2022-12-22
 * [#1587](https://github.com/stripe/stripe-go/pull/1587) API Updates for beta branch
   * Updated stable APIs to the latest version

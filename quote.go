@@ -768,8 +768,16 @@ type QuoteSubscriptionDataBillOnAcceptanceBillFromParams struct {
 	Type *string `form:"type"`
 }
 
+// Details of the duration over which to bill.
+type QuoteSubscriptionDataBillOnAcceptanceBillUntilDurationParams struct {
+	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
+	Interval *string `form:"interval"`
+	// The number of intervals, as an whole number greater than 0. Stripe multiplies this by the interval type to get the overall duration.
+	IntervalCount *int64 `form:"interval_count"`
+}
+
 // Details of a Quote line item from which to bill until.
-type QuoteSubscriptionDataBillOnAcceptanceBillUntilLineStartsAtParams struct {
+type QuoteSubscriptionDataBillOnAcceptanceBillUntilLineEndsAtParams struct {
 	// The ID of a quote line.
 	ID *string `form:"id"`
 	// The position of the previous quote line in the `lines` array after which this line should begin. Indexes start from 0 and must be less than the index of the current line in the array.
@@ -784,15 +792,17 @@ type QuoteSubscriptionDataBillOnAcceptanceBillUntilTimestampParams struct {
 
 // The end of the period to bill until when the Quote is accepted.
 type QuoteSubscriptionDataBillOnAcceptanceBillUntilParams struct {
+	// Details of the duration over which to bill.
+	Duration *QuoteSubscriptionDataBillOnAcceptanceBillUntilDurationParams `form:"duration"`
 	// Details of a Quote line item from which to bill until.
-	LineStartsAt *QuoteSubscriptionDataBillOnAcceptanceBillUntilLineStartsAtParams `form:"line_starts_at"`
+	LineEndsAt *QuoteSubscriptionDataBillOnAcceptanceBillUntilLineEndsAtParams `form:"line_ends_at"`
 	// Details of a Unix timestamp to bill until.
 	Timestamp *QuoteSubscriptionDataBillOnAcceptanceBillUntilTimestampParams `form:"timestamp"`
 	// The type of method to specify the `bill_until` time.
 	Type *string `form:"type"`
 }
 
-// The start of the period to bill from when the Quote is accepted.
+// Describes the period to bill for upon accepting the quote.
 type QuoteSubscriptionDataBillOnAcceptanceParams struct {
 	// The start of the period to bill from when the Quote is accepted.
 	BillFrom *QuoteSubscriptionDataBillOnAcceptanceBillFromParams `form:"bill_from"`
@@ -812,7 +822,7 @@ type QuoteSubscriptionDataParams struct {
 	BillingBehavior *string `form:"billing_behavior"`
 	// When specified as `reset`, the subscription will always start a new billing period when the quote is accepted.
 	BillingCycleAnchor *string `form:"billing_cycle_anchor"`
-	// The start of the period to bill from when the Quote is accepted.
+	// Describes the period to bill for upon accepting the quote.
 	BillOnAcceptance *QuoteSubscriptionDataBillOnAcceptanceParams `form:"bill_on_acceptance"`
 	// The subscription's description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription.
 	Description *string `form:"description"`
@@ -880,8 +890,16 @@ type QuoteSubscriptionDataOverrideBillOnAcceptanceBillFromParams struct {
 	Type *string `form:"type"`
 }
 
+// Details of the duration over which to bill.
+type QuoteSubscriptionDataOverrideBillOnAcceptanceBillUntilDurationParams struct {
+	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
+	Interval *string `form:"interval"`
+	// The number of intervals, as an whole number greater than 0. Stripe multiplies this by the interval type to get the overall duration.
+	IntervalCount *int64 `form:"interval_count"`
+}
+
 // Details of a Quote line item from which to bill until.
-type QuoteSubscriptionDataOverrideBillOnAcceptanceBillUntilLineStartsAtParams struct {
+type QuoteSubscriptionDataOverrideBillOnAcceptanceBillUntilLineEndsAtParams struct {
 	// The ID of a quote line.
 	ID *string `form:"id"`
 	// The position of the previous quote line in the `lines` array after which this line should begin. Indexes start from 0 and must be less than the index of the current line in the array.
@@ -896,15 +914,17 @@ type QuoteSubscriptionDataOverrideBillOnAcceptanceBillUntilTimestampParams struc
 
 // The end of the period to bill until when the Quote is accepted.
 type QuoteSubscriptionDataOverrideBillOnAcceptanceBillUntilParams struct {
+	// Details of the duration over which to bill.
+	Duration *QuoteSubscriptionDataOverrideBillOnAcceptanceBillUntilDurationParams `form:"duration"`
 	// Details of a Quote line item from which to bill until.
-	LineStartsAt *QuoteSubscriptionDataOverrideBillOnAcceptanceBillUntilLineStartsAtParams `form:"line_starts_at"`
+	LineEndsAt *QuoteSubscriptionDataOverrideBillOnAcceptanceBillUntilLineEndsAtParams `form:"line_ends_at"`
 	// Details of a Unix timestamp to bill until.
 	Timestamp *QuoteSubscriptionDataOverrideBillOnAcceptanceBillUntilTimestampParams `form:"timestamp"`
 	// The type of method to specify the `bill_until` time.
 	Type *string `form:"type"`
 }
 
-// The start of the period to bill from when the Quote is accepted.
+// Describes the period to bill for upon accepting the quote.
 type QuoteSubscriptionDataOverrideBillOnAcceptanceParams struct {
 	// The start of the period to bill from when the Quote is accepted.
 	BillFrom *QuoteSubscriptionDataOverrideBillOnAcceptanceBillFromParams `form:"bill_from"`
@@ -918,7 +938,7 @@ type QuoteSubscriptionDataOverrideParams struct {
 	AppliesTo *QuoteSubscriptionDataOverrideAppliesToParams `form:"applies_to"`
 	// Configures when the subscription schedule generates prorations for phase transitions. Possible values are `prorate_on_next_phase` or `prorate_up_front` with the default being `prorate_on_next_phase`. `prorate_on_next_phase` will apply phase changes and generate prorations at transition time.`prorate_up_front` will bill for all phases within the current billing cycle up front.
 	BillingBehavior *string `form:"billing_behavior"`
-	// The start of the period to bill from when the Quote is accepted.
+	// Describes the period to bill for upon accepting the quote.
 	BillOnAcceptance *QuoteSubscriptionDataOverrideBillOnAcceptanceParams `form:"bill_on_acceptance"`
 	// The customer the Subscription Data override applies to. This is only relevant when `applies_to.type=new_reference`.
 	Customer *string `form:"customer"`
@@ -991,6 +1011,11 @@ type QuoteReestimateParams struct {
 
 // Converts a stale quote to draft.
 type QuoteDraftQuoteParams struct {
+	Params `form:"*"`
+}
+
+// Converts a draft or open quote to stale.
+type QuoteMarkStaleQuoteParams struct {
 	Params `form:"*"`
 }
 
@@ -1274,7 +1299,7 @@ type QuoteSubscriptionDataBillOnAcceptanceBillUntil struct {
 	Type QuoteSubscriptionDataBillOnAcceptanceBillUntilType `json:"type"`
 }
 
-// Describes what period to bill for upon accepting the quote.
+// Describes the period to bill for upon accepting the quote.
 type QuoteSubscriptionDataBillOnAcceptance struct {
 	// The start of the period to bill from when the Quote is accepted.
 	BillFrom *QuoteSubscriptionDataBillOnAcceptanceBillFrom `json:"bill_from"`
@@ -1291,7 +1316,7 @@ type QuoteSubscriptionData struct {
 	BillingBehavior QuoteSubscriptionDataBillingBehavior `json:"billing_behavior"`
 	// Whether the subscription will always start a new billing period when the quote is accepted.
 	BillingCycleAnchor QuoteSubscriptionDataBillingCycleAnchor `json:"billing_cycle_anchor"`
-	// Describes what period to bill for upon accepting the quote.
+	// Describes the period to bill for upon accepting the quote.
 	BillOnAcceptance *QuoteSubscriptionDataBillOnAcceptance `json:"bill_on_acceptance"`
 	// The subscription's description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription.
 	Description string `json:"description"`
@@ -1365,7 +1390,7 @@ type QuoteSubscriptionDataOverrideBillOnAcceptanceBillUntil struct {
 	Type QuoteSubscriptionDataOverrideBillOnAcceptanceBillUntilType `json:"type"`
 }
 
-// The start of the period to bill from when the Quote is accepted.
+// Describes the period to bill for upon accepting the quote.
 type QuoteSubscriptionDataOverrideBillOnAcceptance struct {
 	// The start of the period to bill from when the Quote is accepted.
 	BillFrom *QuoteSubscriptionDataOverrideBillOnAcceptanceBillFrom `json:"bill_from"`
@@ -1376,7 +1401,7 @@ type QuoteSubscriptionDataOverride struct {
 	AppliesTo *QuoteSubscriptionDataOverrideAppliesTo `json:"applies_to"`
 	// Configures when the subscription schedule generates prorations for phase transitions. Possible values are `prorate_on_next_phase` or `prorate_up_front` with the default being `prorate_on_next_phase`. `prorate_on_next_phase` will apply phase changes and generate prorations at transition time.`prorate_up_front` will bill for all phases within the current billing cycle up front.
 	BillingBehavior QuoteSubscriptionDataOverrideBillingBehavior `json:"billing_behavior"`
-	// The start of the period to bill from when the Quote is accepted.
+	// Describes the period to bill for upon accepting the quote.
 	BillOnAcceptance *QuoteSubscriptionDataOverrideBillOnAcceptance `json:"bill_on_acceptance"`
 	// The customer which this quote belongs to. A customer is required before finalizing the quote. Once specified, it cannot be changed.
 	Customer string `json:"customer"`

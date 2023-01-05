@@ -199,6 +199,8 @@ type TerminalReaderActionRefundPayment struct {
 	Amount int64 `json:"amount"`
 	// Charge that is being refunded.
 	Charge *Charge `json:"charge"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	Metadata map[string]string `json:"metadata"`
 	// Payment intent that is being refunded.
 	PaymentIntent *PaymentIntent `json:"payment_intent"`
 	// The reason for the refund.

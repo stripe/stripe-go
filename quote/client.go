@@ -111,6 +111,19 @@ func (c Client) FinalizeQuote(id string, params *stripe.QuoteFinalizeQuoteParams
 	return quote, err
 }
 
+// MarkStaleQuote is the method for the `POST /v1/quotes/{quote}/mark_stale` API.
+func MarkStaleQuote(id string, params *stripe.QuoteMarkStaleQuoteParams) (*stripe.Quote, error) {
+	return getC().MarkStaleQuote(id, params)
+}
+
+// MarkStaleQuote is the method for the `POST /v1/quotes/{quote}/mark_stale` API.
+func (c Client) MarkStaleQuote(id string, params *stripe.QuoteMarkStaleQuoteParams) (*stripe.Quote, error) {
+	path := stripe.FormatURLPath("/v1/quotes/%s/mark_stale", id)
+	quote := &stripe.Quote{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, quote)
+	return quote, err
+}
+
 // PDF is the method for the `GET /v1/quotes/{quote}/pdf` API.
 func PDF(id string, params *stripe.QuotePDFParams) (*stripe.APIStream, error) {
 	return getC().PDF(id, params)
