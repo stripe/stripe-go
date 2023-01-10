@@ -45,6 +45,7 @@ gem 'aws-sdk-kms', '~> 1.42.0'
 gem 'omniauth-rails_csrf_protection', '~> 1.0.1'
 gem 'omniauth-salesforce', github: 'accel-com/omniauth-salesforce'
 gem 'omniauth-stripe'
+gem 'omniauth-oauth2', '1.7.2'
 gem 'rack-attack', '~> 6.6.1'
 
 # translation
