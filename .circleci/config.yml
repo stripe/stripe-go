@@ -182,6 +182,7 @@ jobs:
     steps:
       - browser-tools/install-chrome
       - browser-tools/install-chromedriver
+      - run: rm -f LICENSE.chromedriver # ls -lR /home/circleci/project revealed this file after checkout step was failing due to a non-empty directory
       - checkout
       - sfdx/install: *sfdx_version
       - jq/install

@@ -6,9 +6,9 @@
 
 Generate a certificate and add it to the SF app:
 
-1. `jwt-cert/generate`
+1. `./jwt-cert/generate-jwt-cert`
 2. Upload public_key.cer to the SF org managing the app. This is the Billing BPO.
-   - Salesforce > Setup > Manage Connected apps > View > Edit
+   - Log in to PBO Org -> Setup -> App Manager -> Stripe Connector for Salesforce (StripeConnector) -> Edit
    - Use Digital Signature: true
    - Upload jwt-cert/public_key.cer
    - There are some unique permissions that need to be added to the app even if "full access" is requested.
