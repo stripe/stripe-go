@@ -1,12 +1,12 @@
 # Required Software
 
-| Package | URL / Install command                                                                                                                                                                                              |
-|---------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Package       | URL / Install command                                                                                                                                                                                              |
+| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | Postgres 14.5 | [https://www.enterprisedb.com/downloads/postgres-postgresql-downloads](https://www.enterprisedb.com/downloads/postgres-postgresql-downloads)                                                                       |
-| Redis | `brew install redis && brew services restart redis`                                                                                                                                                                                           |
-| SFDX | [https://developer.salesforce.com/docs/atlas.en-us.sfdx_setup.meta/sfdx_setup/sfdx_setup_install_cli.htm](https://developer.salesforce.com/docs/atlas.en-us.sfdx_setup.meta/sfdx_setup/sfdx_setup_install_cli.htm) |
+| Redis         | `brew install redis && brew services restart redis`                                                                                                                                                                |
+| SFDX          | [https://developer.salesforce.com/docs/atlas.en-us.sfdx_setup.meta/sfdx_setup/sfdx_setup_install_cli.htm](https://developer.salesforce.com/docs/atlas.en-us.sfdx_setup.meta/sfdx_setup/sfdx_setup_install_cli.htm) |
 | Node v14.18.1 | [https://nodejs.org/download/release/latest-v18.x/](https://nodejs.org/download/release/latest-v18.x/)                                                                                                             |
-| Ruby 2.7.6 | `rbenv install 2.7.6 && rbenv global 2.7.6 && rbenv local 2.7.6`                                                                                                                                                   |
+| Ruby 2.7.6    | `rbenv install 2.7.6 && rbenv global 2.7.6 && rbenv local 2.7.6`                                                                                                                                                   |
 
 # Environment Setup
 
@@ -167,21 +167,23 @@ Here are some of the 'tags' that PR comments will be prefixed with to provide mo
 
 ## Permission assignments
 
-
 ### Required permission sets
+
 In order for the ruby service to update Stripe ID fields, the user needs to have the right permissions. Here are the two permissions required:
+
 - "Stripe Connector Integration User" permission set
 - Update Activated Orders
 
 In order for users to add coupons to a CPQ quote or quote line, the user will need to have:
+
 - "Stripe Connector Coupon User" permission set
 
 Note: The user can't assign the "Stripe Connector Coupon User" permission set without first having the 'Salesforce CPQ License' permission set license. Otherwise, you'll get an error 'This permission set contains an object that requires a license. Before continuing, assign the user to the related permission set license.' when trying to add the permission set.
 
 ### Assigning a permission set
+
 - In the org, go to setup>permission sets> select the permission set (e.g, stripe connector integration user)> manage assignments>add assignments and check your user in the org > then click assign
 - It is possible to bulk [assign a permission set license](https://help.salesforce.com/s/articleView?id=000384595&type=1) and/or [assign a permission set](https://help.salesforce.com/s/articleView?id=000383736&type=1in) Salesforce through the UI.
-
 
 ## Clearing Our Test Data
 
@@ -324,13 +326,15 @@ https://appiphony92-dev-ed.my.salesforce.com/
 As referenced above, it is a slightly convoluted process to remove a component from a package once it has been added. You must either:
 
 Manually delete objects & their dependencies via the Object Manager in the respective QA / Prod org
+
 - If you don't see a 'Del' button, try reverting to 'Salesforce Classic' by selecting 'Profile'->'Switch to Salesforce ClassicSwitch information'
-- ** Important** You cannot create a new validation rule, trigger, field with the same name after it's been deleted. In other words, ensure that future changes to these objects will not be made. 
+- ** Important** You cannot create a new validation rule, trigger, field with the same name after it's been deleted. In other words, ensure that future changes to these objects will not be made.
 - You will have to delete any associated validation rules, triggers, fields in order to delete the custom object
 - After deleting the objects, you may still see them referenced in the 'Unused Components' during a package install. These objects are not included in the package though.
   - Salesfore case discussing this: https://help.salesforce.com/s/case-view?caseId=500Hx00000AFa8fIAD
 
 Reverting to package to Beta
+
 - Log into the partner community (https://help.salesforce.com/)
 - Make sure you select technical support from the options drop down when creating a new case
 - Provide them the org ID, package name and version number you would like rolled back to Beta.
@@ -465,6 +469,18 @@ Install all gems locally to easily grep through them:
 ```shell
 BUNDLE_DISABLE_SHARED_GEMS=1 BUNDLE_PATH=vendor/bundle bundle
 ```
+
+# OAuth
+
+Currently we do not have a flow for testing oauth locally. When you authenticate your Scratch org, it will be hitting the production web worker to handle the oauth flow.Below are some important details when understanding the oauth flow:
+
+- For our Stripe oauth, we always use the production client and keys. Even if we are authenticating a sandbox account.
+- We use omniauth to abstract away the standard oauth flows for both Stripe and Salesforce.
+
+  - Our omni-auth strategy ([omniauth-stripe](https://github.com/fnando/omniauth-stripe)) has a child dependency of the [omniauth-oauth2 gem](https://github.com/omniauth/omniauth-oauth2), which depends on the [oauth2 gem](https://gitlab.com/oauth-xx/oauth2). Upgrading past v1.7.2 of `omniauth-oauth2` using v0.1.0 of `omniauth-stripe` results in the oauth client attempting to use `basic` authentication instead of `request body` authentication, due to a change in default behavior between the `oauth` gem 1.x and 2.x versions. Specifically, we end up passing the client id instead of the api key to the token endpoint (https://connect.stripe.com/oauth/token).
+    - The actual reason it doesn't work is that it looks like (currently) the Stripe API doesn't support a part of the standard OAuth2 Basic Authentication scheme. In the `oauth2` gem, when `auth_scheme` is set to `basic`, the client sets an `Authorization` header with `<username>:<password>` which for our purposes means `<client_id>:<client_secret>`. The Stripe API only expects `<client_secret>`, which means it only looks at the <client_id> we send, and results in the error of "No such API Key: <client_id>".
+
+- [Helpful walkthrough video](https://drive.google.com/file/d/1jejg4rOlNJYeSPmnLwRWVd2sEnBo-RSb/view?usp=share_link)
 
 # Database
 
