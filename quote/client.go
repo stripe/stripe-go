@@ -85,14 +85,14 @@ func (c Client) Cancel(id string, params *stripe.QuoteCancelParams) (*stripe.Quo
 	return quote, err
 }
 
-// DraftQuote is the method for the `POST /v1/quotes/{quote}/draft` API.
+// DraftQuote is the method for the `POST /v1/quotes/{quote}/mark_draft` API.
 func DraftQuote(id string, params *stripe.QuoteDraftQuoteParams) (*stripe.Quote, error) {
 	return getC().DraftQuote(id, params)
 }
 
-// DraftQuote is the method for the `POST /v1/quotes/{quote}/draft` API.
+// DraftQuote is the method for the `POST /v1/quotes/{quote}/mark_draft` API.
 func (c Client) DraftQuote(id string, params *stripe.QuoteDraftQuoteParams) (*stripe.Quote, error) {
-	path := stripe.FormatURLPath("/v1/quotes/%s/draft", id)
+	path := stripe.FormatURLPath("/v1/quotes/%s/mark_draft", id)
 	quote := &stripe.Quote{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, quote)
 	return quote, err

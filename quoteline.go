@@ -6,15 +6,15 @@
 
 package stripe
 
-// The discount end type
+// The discount end type.
 type QuoteLineActionAddDiscountDiscountEndType string
 
 // List of values that QuoteLineActionAddDiscountDiscountEndType can take
 const (
-	QuoteLineActionAddDiscountDiscountEndTypeTimestamp QuoteLineActionAddDiscountDiscountEndType = "timestamp"
+	QuoteLineActionAddDiscountDiscountEndTypeLineEndsAt QuoteLineActionAddDiscountDiscountEndType = "line_ends_at"
 )
 
-// The discount end type
+// The discount end type.
 type QuoteLineActionAddItemDiscountDiscountEndType string
 
 // List of values that QuoteLineActionAddItemDiscountDiscountEndType can take
@@ -30,7 +30,7 @@ const (
 	QuoteLineActionAddItemTrialTypePaid QuoteLineActionAddItemTrialType = "paid"
 )
 
-// The discount end type
+// The discount end type.
 type QuoteLineActionRemoveDiscountDiscountEndType string
 
 // List of values that QuoteLineActionRemoveDiscountDiscountEndType can take
@@ -38,7 +38,7 @@ const (
 	QuoteLineActionRemoveDiscountDiscountEndTypeTimestamp QuoteLineActionRemoveDiscountDiscountEndType = "timestamp"
 )
 
-// The discount end type
+// The discount end type.
 type QuoteLineActionSetDiscountDiscountEndType string
 
 // List of values that QuoteLineActionSetDiscountDiscountEndType can take
@@ -46,7 +46,7 @@ const (
 	QuoteLineActionSetDiscountDiscountEndTypeTimestamp QuoteLineActionSetDiscountDiscountEndType = "timestamp"
 )
 
-// The discount end type
+// The discount end type.
 type QuoteLineActionSetItemDiscountDiscountEndType string
 
 // List of values that QuoteLineActionSetItemDiscountDiscountEndType can take
@@ -157,9 +157,7 @@ const (
 
 // Details to determine how long the discount should be applied for.
 type QuoteLineActionAddDiscountDiscountEnd struct {
-	// The discount end timestamp
-	Timestamp int64 `json:"timestamp"`
-	// The discount end type
+	// The discount end type.
 	Type QuoteLineActionAddDiscountDiscountEndType `json:"type"`
 }
 
@@ -177,9 +175,9 @@ type QuoteLineActionAddDiscount struct {
 
 // Details to determine how long the discount should be applied for.
 type QuoteLineActionAddItemDiscountDiscountEnd struct {
-	// The discount end timestamp
+	// The discount end timestamp.
 	Timestamp int64 `json:"timestamp"`
-	// The discount end type
+	// The discount end type.
 	Type QuoteLineActionAddItemDiscountDiscountEndType `json:"type"`
 }
 
@@ -191,8 +189,6 @@ type QuoteLineActionAddItemDiscount struct {
 	Discount *Discount `json:"discount"`
 	// Details to determine how long the discount should be applied for.
 	DiscountEnd *QuoteLineActionAddItemDiscountDiscountEnd `json:"discount_end"`
-	// The index, starting at 0, at which to position the new discount. When not supplied, Stripe defaults to appending the discount to the end of the `discounts` array.
-	Index int64 `json:"index"`
 }
 
 // Options that configure the trial on the subscription item.
@@ -220,9 +216,9 @@ type QuoteLineActionAddItem struct {
 
 // Details to determine how long the discount should be applied for.
 type QuoteLineActionRemoveDiscountDiscountEnd struct {
-	// The discount end timestamp
+	// The discount end timestamp.
 	Timestamp int64 `json:"timestamp"`
-	// The discount end type
+	// The discount end type.
 	Type QuoteLineActionRemoveDiscountDiscountEndType `json:"type"`
 }
 
@@ -234,8 +230,6 @@ type QuoteLineActionRemoveDiscount struct {
 	Discount *Discount `json:"discount"`
 	// Details to determine how long the discount should be applied for.
 	DiscountEnd *QuoteLineActionRemoveDiscountDiscountEnd `json:"discount_end"`
-	// The index, starting at 0, at which to position the new discount. When not supplied, Stripe defaults to appending the discount to the end of the `discounts` array.
-	Index int64 `json:"index"`
 }
 
 // Details for the `remove_item` type.
@@ -246,9 +240,9 @@ type QuoteLineActionRemoveItem struct {
 
 // Details to determine how long the discount should be applied for.
 type QuoteLineActionSetDiscountDiscountEnd struct {
-	// The discount end timestamp
+	// The discount end timestamp.
 	Timestamp int64 `json:"timestamp"`
-	// The discount end type
+	// The discount end type.
 	Type QuoteLineActionSetDiscountDiscountEndType `json:"type"`
 }
 
@@ -260,15 +254,13 @@ type QuoteLineActionSetDiscount struct {
 	Discount *Discount `json:"discount"`
 	// Details to determine how long the discount should be applied for.
 	DiscountEnd *QuoteLineActionSetDiscountDiscountEnd `json:"discount_end"`
-	// The index, starting at 0, at which to position the new discount. When not supplied, Stripe defaults to appending the discount to the end of the `discounts` array.
-	Index int64 `json:"index"`
 }
 
 // Details to determine how long the discount should be applied for.
 type QuoteLineActionSetItemDiscountDiscountEnd struct {
-	// The discount end timestamp
+	// The discount end timestamp.
 	Timestamp int64 `json:"timestamp"`
-	// The discount end type
+	// The discount end type.
 	Type QuoteLineActionSetItemDiscountDiscountEndType `json:"type"`
 }
 
@@ -280,8 +272,6 @@ type QuoteLineActionSetItemDiscount struct {
 	Discount *Discount `json:"discount"`
 	// Details to determine how long the discount should be applied for.
 	DiscountEnd *QuoteLineActionSetItemDiscountDiscountEnd `json:"discount_end"`
-	// The index, starting at 0, at which to position the new discount. When not supplied, Stripe defaults to appending the discount to the end of the `discounts` array.
-	Index int64 `json:"index"`
 }
 
 // Options that configure the trial on the subscription item.
