@@ -63,7 +63,7 @@ gem 'omniauth', '~> 2.1.0'
 gem 'nokogiri', '>= 1.13.10'
 
 # https://groups.google.com/g/rubyonrails-security/c/ce9PhUANQ6s
-gem 'rails-html-sanitizer', '~> 1.4.3'
+gem 'rails-html-sanitizer', '1.4.4'
 
 group :test do
   gem 'bundler-audit', '~> 0.9.1', require: false

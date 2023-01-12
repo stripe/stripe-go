@@ -159,7 +159,7 @@ jobs:
       LOG_LEVEL: DEBUG
       DISABLE_SPRING: "true"
       TZ: "Etc/UTC"
-      STRIPE_ACCOUNT_ID: acct_15uapDIsgf92XbAO
+      STRIPE_ACCOUNT_ID: acct_1MHBTOC9fP1FVBtd # StripeForce CI
       STRIPE_WEBHOOK_SECRET: whsec_notarealwebhooksecret
       # used for private key extraction and usage in the jwt generator
       SF_JWT_PRIVATE_KEY_PATH: /home/circleci/project/private.key
@@ -180,10 +180,10 @@ jobs:
       - image: cimg/redis:6.2
 
     steps:
+      - checkout
+      # checkout must be done before browser install as it needs to be an empty directory (chromedriver install leaves behind a license file)
       - browser-tools/install-chrome
       - browser-tools/install-chromedriver
-      - run: rm -f LICENSE.chromedriver # ls -lR /home/circleci/project revealed this file after checkout step was failing due to a non-empty directory
-      - checkout
       - sfdx/install: *sfdx_version
       - jq/install
       - ruby/install-deps:

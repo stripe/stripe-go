@@ -8,6 +8,7 @@ StripeForce::User.all.each do |user|
   end
 end
 
+# StripeForce Demo Account is acct_15uapDIsgf92XbAO
 StripeForce::User.where(stripe_account_id: 'acct_15uapDIsgf92XbAO').all.each do |user|
   puts "User\t#{user.salesforce_instance_url}\t#{user.id}"
   user.update(enabled: false)
