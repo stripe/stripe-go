@@ -76,6 +76,16 @@ const (
 	AccountCompanyVerificationDocumentDetailsCodeDocumentTooLarge       AccountCompanyVerificationDocumentDetailsCode = "document_too_large"
 )
 
+// Whether this account has access to the full Stripe dashboard (`full`), to the Express dashboard (`express`), or to no dashboard (`none`).
+type AccountControllerDashboardType string
+
+// List of values that AccountControllerDashboardType can take
+const (
+	AccountControllerDashboardTypeExpress AccountControllerDashboardType = "express"
+	AccountControllerDashboardTypeFull    AccountControllerDashboardType = "full"
+	AccountControllerDashboardTypeNone    AccountControllerDashboardType = "none"
+)
+
 // The controller type. Can be `application`, if a Connect application controls the account, or `account`, if the account controls itself.
 type AccountControllerType string
 
@@ -151,6 +161,8 @@ type AccountParams struct {
 	Capabilities *AccountCapabilitiesParams `form:"capabilities"`
 	// Information about the company or business. This field is available for any `business_type`.
 	Company *AccountCompanyParams `form:"company"`
+	// The configuration of the account when `type` is not provided.
+	Controller *AccountControllerParams `form:"controller"`
 	// The country in which the account holder resides, or in which the business is legally established. This should be an ISO 3166-1 alpha-2 country code. For example, if you are in the United States and the business for which you're creating an account is legally represented in Canada, you would use `CA` as the country for the account being created. Available countries include [Stripe's global markets](https://stripe.com/global) as well as countries where [cross-border payouts](https://stripe.com/docs/connect/cross-border-payouts) are supported.
 	Country *string `form:"country"`
 	// Three-letter ISO currency code representing the default currency for the account. This must be a currency that [Stripe supports in the account's country](https://stripe.com/docs/payouts).
@@ -585,6 +597,24 @@ type AccountCompanyParams struct {
 	Verification *AccountCompanyVerificationParams `form:"verification"`
 }
 
+// Properties of the controlling application.
+type AccountControllerApplicationParams struct {
+	// Whether the controller is liable for losses on this account. For details, see [Understanding Connect Account Balances](https://stripe.com/docs/connect/account-balances).
+	LossLiable *bool `form:"loss_liable"`
+	// Whether the controller owns onboarding for this account.
+	OnboardingOwner *bool `form:"onboarding_owner"`
+	// Whether the controller has pricing controls for this account.
+	PricingControls *bool `form:"pricing_controls"`
+}
+
+// The configuration of the account when using unified accounts.
+type AccountControllerParams struct {
+	// The documentation for the application hash.
+	Application *AccountControllerApplicationParams `form:"application"`
+	// Properties of the account's dashboard.
+	Dashboard *AccountControllerDashboardParams `form:"dashboard"`
+}
+
 // One or more documents that support the [Bank account ownership verification](https://support.stripe.com/questions/bank-account-ownership-verification) requirement. Must be a document associated with the account's primary active bank account that displays the last 4 digits of the account number, either a statement or a voided check.
 type AccountDocumentsBankAccountOwnershipVerificationParams struct {
 	// One or more document ids returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `account_requirement`.
@@ -786,6 +816,12 @@ type AccountListParams struct {
 	ListParams   `form:"*"`
 	Created      *int64            `form:"created"`
 	CreatedRange *RangeQueryParams `form:"created"`
+}
+
+// Properties of the account's dashboard.
+type AccountControllerDashboardParams struct {
+	// Whether this account should have access to the full Stripe dashboard (`full`) or no dashboard (`none`).
+	Type *string `form:"type"`
 }
 
 // With [Connect](https://stripe.com/docs/connect), you may flag accounts as suspicious.
@@ -1009,7 +1045,21 @@ type AccountCompany struct {
 	// Information on the verification state of the company.
 	Verification *AccountCompanyVerification `json:"verification"`
 }
+type AccountControllerApplication struct {
+	// `true` if the Connect application is responsible for negative balances and should manage credit and fraud risk on the account.
+	LossLiable bool `json:"loss_liable"`
+	// `true` if the Connect application is responsible for onboarding the account.
+	OnboardingOwner bool `json:"onboarding_owner"`
+	// `true` if the Connect application is responsible for paying Stripe fees on pricing-control eligible products.
+	PricingControls bool `json:"pricing_controls"`
+}
+type AccountControllerDashboard struct {
+	// Whether this account has access to the full Stripe dashboard (`full`), to the Express dashboard (`express`), or to no dashboard (`none`).
+	Type AccountControllerDashboardType `json:"type"`
+}
 type AccountController struct {
+	Application *AccountControllerApplication `json:"application"`
+	Dashboard   *AccountControllerDashboard   `json:"dashboard"`
 	// `true` if the Connect application retrieving the resource controls the account and can therefore exercise [platform controls](https://stripe.com/docs/connect/platform-controls-for-standard-accounts). Otherwise, this field is null.
 	IsController bool `json:"is_controller"`
 	// The controller type. Can be `application`, if a Connect application controls the account, or `account`, if the account controls itself.

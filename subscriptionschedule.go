@@ -49,7 +49,7 @@ const (
 	SubscriptionScheduleEndBehaviorRenew   SubscriptionScheduleEndBehavior = "renew"
 )
 
-// The discount end type
+// The discount end type.
 type SubscriptionSchedulePhaseAddInvoiceItemDiscountDiscountEndType string
 
 // List of values that SubscriptionSchedulePhaseAddInvoiceItemDiscountDiscountEndType can take
@@ -66,7 +66,7 @@ const (
 	SubscriptionSchedulePhaseBillingCycleAnchorPhaseStart SubscriptionSchedulePhaseBillingCycleAnchor = "phase_start"
 )
 
-// The discount end type
+// The discount end type.
 type SubscriptionSchedulePhaseDiscountDiscountEndType string
 
 // List of values that SubscriptionSchedulePhaseDiscountDiscountEndType can take
@@ -74,7 +74,7 @@ const (
 	SubscriptionSchedulePhaseDiscountDiscountEndTypeTimestamp SubscriptionSchedulePhaseDiscountDiscountEndType = "timestamp"
 )
 
-// The discount end type
+// The discount end type.
 type SubscriptionSchedulePhaseItemDiscountDiscountEndType string
 
 // List of values that SubscriptionSchedulePhaseItemDiscountDiscountEndType can take
@@ -788,9 +788,9 @@ type SubscriptionScheduleDefaultSettings struct {
 
 // Details to determine how long the discount should be applied for.
 type SubscriptionSchedulePhaseAddInvoiceItemDiscountDiscountEnd struct {
-	// The discount end timestamp
+	// The discount end timestamp.
 	Timestamp int64 `json:"timestamp"`
-	// The discount end type
+	// The discount end type.
 	Type SubscriptionSchedulePhaseAddInvoiceItemDiscountDiscountEndType `json:"type"`
 }
 
@@ -802,8 +802,6 @@ type SubscriptionSchedulePhaseAddInvoiceItemDiscount struct {
 	Discount *Discount `json:"discount"`
 	// Details to determine how long the discount should be applied for.
 	DiscountEnd *SubscriptionSchedulePhaseAddInvoiceItemDiscountDiscountEnd `json:"discount_end"`
-	// The index, starting at 0, at which to position the new discount. When not supplied, Stripe defaults to appending the discount to the end of the `discounts` array.
-	Index int64 `json:"index"`
 }
 
 // A list of prices and quantities that will generate invoice items appended to the next invoice for this phase.
@@ -820,9 +818,9 @@ type SubscriptionSchedulePhaseAddInvoiceItem struct {
 
 // Details to determine how long the discount should be applied for.
 type SubscriptionSchedulePhaseDiscountDiscountEnd struct {
-	// The discount end timestamp
+	// The discount end timestamp.
 	Timestamp int64 `json:"timestamp"`
-	// The discount end type
+	// The discount end type.
 	Type SubscriptionSchedulePhaseDiscountDiscountEndType `json:"type"`
 }
 
@@ -834,8 +832,6 @@ type SubscriptionSchedulePhaseDiscount struct {
 	Discount *Discount `json:"discount"`
 	// Details to determine how long the discount should be applied for.
 	DiscountEnd *SubscriptionSchedulePhaseDiscountDiscountEnd `json:"discount_end"`
-	// The index, starting at 0, at which to position the new discount. When not supplied, Stripe defaults to appending the discount to the end of the `discounts` array.
-	Index int64 `json:"index"`
 }
 
 // The invoice settings applicable during this phase.
@@ -846,9 +842,9 @@ type SubscriptionSchedulePhaseInvoiceSettings struct {
 
 // Details to determine how long the discount should be applied for.
 type SubscriptionSchedulePhaseItemDiscountDiscountEnd struct {
-	// The discount end timestamp
+	// The discount end timestamp.
 	Timestamp int64 `json:"timestamp"`
-	// The discount end type
+	// The discount end type.
 	Type SubscriptionSchedulePhaseItemDiscountDiscountEndType `json:"type"`
 }
 
@@ -860,8 +856,6 @@ type SubscriptionSchedulePhaseItemDiscount struct {
 	Discount *Discount `json:"discount"`
 	// Details to determine how long the discount should be applied for.
 	DiscountEnd *SubscriptionSchedulePhaseItemDiscountDiscountEnd `json:"discount_end"`
-	// The index, starting at 0, at which to position the new discount. When not supplied, Stripe defaults to appending the discount to the end of the `discounts` array.
-	Index int64 `json:"index"`
 }
 
 // Options that configure the trial on the subscription item.
