@@ -109,7 +109,6 @@ class Critic::OrderFailureTest < Critic::FunctionalTest
   end
 
   it 'it creates an error sync record when the customer has been deleted' do
-
     sf_account_id = create_salesforce_account
 
     sf_order = create_subscription_order(sf_account_id: sf_account_id)
@@ -136,6 +135,12 @@ class Critic::OrderFailureTest < Critic::FunctionalTest
 
     assert_equal(SF_ORDER, sync_records.first[prefixed_stripe_field(SyncRecordFields::PRIMARY_OBJECT_TYPE.serialize)])
     assert_equal(SyncRecordResolutionStatuses::ERROR.serialize, sync_records.first[prefixed_stripe_field(SyncRecordFields::RESOLUTION_STATUS.serialize)])
+
+    # https://app.circleci.com/pipelines/github/stripe/stripe-salesforce/3523/workflows/620f3fa1-28fa-4abb-b04c-2d98525165aa/jobs/32615
+    # Clean up the SF Account, so it does not throw the above UserError for other tests (notably Account Poller tests).
+    # We should ideally just sf_account.destroy here but deleting objects in Salesforce is difficult. Instead, we will just wipe
+    # the Stripe Customer field so it translates as a fresh customer next time (if it is picked up).
+    wipe_object(sf_account)
   end
 
   it 'it creates an error sync record when the product is locked' do

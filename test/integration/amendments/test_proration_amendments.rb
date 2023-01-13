@@ -523,15 +523,7 @@ class Critic::ProratedAmendmentTranslation < Critic::OrderAmendmentFunctionalTes
 
       assert_equal("true", proration_invoice_event.data.object.metadata[StripeForce::Translate::Metadata.metadata_key(@user, MetadataKeys::PRORATION)])
 
-      # TODO: Lets revert the below back to invoice = T.must(porationautibill) and ditch invoice search after CI account is swapped out
-      # This may already have been invoiced (caught by a web worker), but lets ensure it has been
-      StripeForce::ProrationAutoBill.create_invoice_from_invoice_item_event(@user, proration_invoice_event)
-
-      invoices = Stripe::Invoice.list({customer: stripe_customer.id, status: 'draft'}, @user.stripe_credentials).data
-
-      assert_equal(1, invoices.length)
-
-      proration_invoice = invoices.first
+      proration_invoice = T.must(StripeForce::ProrationAutoBill.create_invoice_from_invoice_item_event(@user, proration_invoice_event))
 
       assert_equal(2, proration_invoice.lines.count)
       assert_equal(1000_00, proration_invoice.total)
@@ -643,15 +635,7 @@ class Critic::ProratedAmendmentTranslation < Critic::OrderAmendmentFunctionalTes
 
       assert_equal("true", proration_invoice_event.data.object.metadata[StripeForce::Translate::Metadata.metadata_key(@user, MetadataKeys::PRORATION)])
 
-      # TODO: Lets revert the below back to invoice = T.must(porationautibill) and ditch invoice search after CI account is swapped out
-      # This may already have been invoiced (caught by a web worker), but lets ensure it has been
-      StripeForce::ProrationAutoBill.create_invoice_from_invoice_item_event(@user, proration_invoice_event)
-
-      invoices = Stripe::Invoice.list({customer: stripe_customer.id, status: 'draft'}, @user.stripe_credentials).data
-
-      assert_equal(1, invoices.length)
-
-      proration_invoice = invoices.first
+      proration_invoice = T.must(StripeForce::ProrationAutoBill.create_invoice_from_invoice_item_event(@user, proration_invoice_event))
 
       assert_equal(2, proration_invoice.lines.count)
       assert_equal(1000_00, proration_invoice.total)
@@ -763,15 +747,7 @@ class Critic::ProratedAmendmentTranslation < Critic::OrderAmendmentFunctionalTes
 
       assert_equal("true", proration_invoice_event.data.object.metadata[StripeForce::Translate::Metadata.metadata_key(@user, MetadataKeys::PRORATION)])
 
-      # TODO: Lets revert the below back to invoice = T.must(porationautibill) and ditch invoice search after CI account is swapped out
-      # This may already have been invoiced (caught by a web worker), but lets ensure it has been
-      StripeForce::ProrationAutoBill.create_invoice_from_invoice_item_event(@user, proration_invoice_event)
-
-      invoices = Stripe::Invoice.list({customer: stripe_customer.id, status: 'draft'}, @user.stripe_credentials).data
-
-      assert_equal(1, invoices.length)
-
-      proration_invoice = invoices.first
+      proration_invoice = T.must(StripeForce::ProrationAutoBill.create_invoice_from_invoice_item_event(@user, proration_invoice_event))
 
       assert_equal(2, proration_invoice.lines.count)
       assert_equal(1900_00, proration_invoice.total)
@@ -976,15 +952,7 @@ class Critic::ProratedAmendmentTranslation < Critic::OrderAmendmentFunctionalTes
 
       assert_equal("true", proration_invoice_event.data.object.metadata[StripeForce::Translate::Metadata.metadata_key(@user, MetadataKeys::PRORATION)])
 
-      # TODO: Lets revert the below back to invoice = T.must(porationautibill) and ditch invoice search after CI account is swapped out
-      # This may already have been invoiced (caught by a web worker), but lets ensure it has been
-      StripeForce::ProrationAutoBill.create_invoice_from_invoice_item_event(@user, proration_invoice_event)
-
-      invoices = Stripe::Invoice.list({customer: stripe_customer.id, status: 'draft'}, @user.stripe_credentials).data
-
-      assert_equal(1, invoices.length)
-
-      proration_invoice = invoices.first
+      proration_invoice = T.must(StripeForce::ProrationAutoBill.create_invoice_from_invoice_item_event(@user, proration_invoice_event))
 
       assert_equal(1, proration_invoice.lines.count)
       assert_equal(2000_00, proration_invoice.total)
