@@ -958,5 +958,137 @@ class Critic::ProratedAmendmentTranslation < Critic::OrderAmendmentFunctionalTes
       assert_equal(2000_00, proration_invoice.total)
       assert_equal("true", proration_invoice.metadata[StripeForce::Translate::Metadata.metadata_key(@user, MetadataKeys::PRORATION_INVOICE)])
     end
+
+    it 'terminate an item that had quantity > 1' do
+      # initial order: 24 quantity gold tier ($24,000 / year), billed anually on 1 year contract
+      # ammendment order: remove all 24 of gold tier and add a single silver from month 2 onwards
+      #                   - Credit for *$1000 * 24) * (11 / 12) = $22,000
+      #                   - Debit for $120 * (11 / 12) = $110
+      #                   - Invoice total of -$21,890
+
+      @user.enable_feature FeatureFlags::TERMINATED_ORDER_ITEM_CREDIT, update: true
+      @user.enable_feature FeatureFlags::TEST_CLOCKS, update: true
+
+      contract_term = 12
+      amendment_term = 11
+
+      gold_quantity = 24
+      gold_unit_price = 1000_00
+      gold_total = gold_unit_price * gold_quantity
+
+      silver_unit_price = 120_00
+
+      initial_order_start_date = now_time
+      initial_order_end_date = initial_order_start_date + contract_term
+      amendment_start_date = now_time + (contract_term - amendment_term).months
+      amendment_end_date = amendment_start_date + amendment_term.months
+
+      sf_account_id = create_salesforce_account
+
+      # normalize the amendment_end_date so test doesn't fail EOM
+      amendment_end_date = StripeForce::Translate::OrderHelpers.anchor_time_to_day_of_month(base_time: amendment_end_date, anchor_day_of_month: initial_order_end_date.day)
+
+      sf_gold_tier_product_id, sf_gold_tier_pricebook_id = salesforce_recurring_product_with_price(
+        price: gold_unit_price,
+        additional_product_fields: {
+          CPQ_QUOTE_BILLING_FREQUENCY => CPQBillingFrequencyOptions::ANNUAL.serialize,
+        }
+      )
+
+      sf_silver_tier_product_id, sf_silver_tier_pricebook_id = salesforce_recurring_product_with_price(
+        price: silver_unit_price,
+        additional_product_fields: {
+          CPQ_QUOTE_BILLING_FREQUENCY => CPQBillingFrequencyOptions::ANNUAL.serialize,
+        }
+      )
+
+      quote_id = create_salesforce_quote(
+        sf_account_id: sf_account_id,
+        additional_quote_fields: {
+          CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(initial_order_start_date),
+          CPQ_QUOTE_SUBSCRIPTION_TERM => contract_term,
+        }
+      )
+
+      # set first product quantity
+      quote_with_product = add_product_to_cpq_quote(quote_id, sf_product_id: sf_gold_tier_product_id)
+      quote_with_product["lineItems"].first["record"][CPQ_QUOTE_QUANTITY] = gold_quantity
+      quote_id = calculate_and_save_cpq_quote(quote_with_product)
+
+      sf_order = create_order_from_cpq_quote(quote_id)
+
+      sf_contract = create_contract_from_order(sf_order)
+      amendment_data = create_quote_data_from_contract_amendment(sf_contract)
+
+      # remove gold and add silver tier
+      amendment_data["lineItems"].first["record"][CPQ_QUOTE_QUANTITY] = 0
+
+      amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_START_DATE] = format_date_for_salesforce(amendment_start_date)
+      amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_TERM] = amendment_term
+      sf_quote_id = calculate_and_save_cpq_quote(amendment_data)
+
+      amendment_data = add_product_to_cpq_quote(sf_quote_id, sf_product_id: sf_silver_tier_product_id)
+
+      sf_order_amendment = create_order_from_quote_data(amendment_data)
+      sf_order_amendment_contract = create_contract_from_order(sf_order_amendment)
+
+      # Translate
+      StripeForce::Translate.perform_inline(@user, sf_order_amendment.Id)
+
+      # Get SubscriptionSchedule Id
+      sf_order.refresh
+      stripe_subscription_schedule_id = sf_order[prefixed_stripe_field(GENERIC_STRIPE_ID)]
+      stripe_subscription_schedule = Stripe::SubscriptionSchedule.retrieve(stripe_subscription_schedule_id, @user.stripe_credentials)
+
+      # Get Customer
+      sf_account = sf_get(sf_order['AccountId'])
+      stripe_customer_id = sf_account[prefixed_stripe_field(GENERIC_STRIPE_ID)]
+      stripe_customer = stripe_get(stripe_customer_id)
+      refute_nil(stripe_customer.test_clock)
+
+      # Pay off initial invoice
+      invoices = Stripe::Invoice.list({customer: stripe_customer.id}, @user.stripe_credentials).data
+
+      assert_equal(1, invoices.length)
+
+      initial_invoice = invoices.first
+
+      assert_equal(gold_total, initial_invoice.amount_due)
+      assert_equal(1, initial_invoice.lines.data.length)
+
+      initial_invoice.pay({'paid_out_of_band': true})
+
+      # now, let's advance the clock and pretent like we are in the future to fully test autobilling
+
+      test_clock = advance_test_clock(stripe_customer, (amendment_start_date + 1.day).to_i)
+
+      # simulate sending the webhook
+      events = Stripe::Event.list({
+        type: 'invoiceitem.created',
+      }, @user.stripe_credentials)
+
+      invoice_events = events.data.select do |event|
+        event_object = event.data.object
+        event_object.test_clock == test_clock.id && event.request.id.nil?
+      end
+
+      assert_equal(2, invoice_events.count)
+      proration_invoice_event = invoice_events[1]
+
+      assert_equal("true", proration_invoice_event.data.object.metadata[StripeForce::Translate::Metadata.metadata_key(@user, MetadataKeys::PRORATION)])
+
+      proration_invoice = T.must(StripeForce::ProrationAutoBill.create_invoice_from_invoice_item_event(@user, proration_invoice_event))
+
+      assert_equal(2, proration_invoice.lines.count)
+
+      proration_multiplier = 11.to_f / 12
+      gold_prorated_credit = (gold_unit_price * gold_quantity) * proration_multiplier * -1
+      silver_prorated_debit = silver_unit_price * proration_multiplier
+
+      assert_equal(gold_prorated_credit, proration_invoice.lines.first.amount)
+      assert_equal(silver_prorated_debit + gold_prorated_credit, proration_invoice.total)
+
+      assert_equal("true", proration_invoice.metadata[StripeForce::Translate::Metadata.metadata_key(@user, MetadataKeys::PRORATION_INVOICE)])
+    end
   end
 end

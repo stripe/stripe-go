@@ -197,7 +197,7 @@ class StripeForce::Translate
         StripeForce::Mapper.apply_mapping(user, credit_stripe_item, phase_item.order_line)
 
         negative_invoice_items_for_prorations << credit_stripe_item.to_hash.merge({
-          quantity: phase_item.reduce_quantity * -1, # reduce_quantity is a negative integer but we want a positive value for quantity
+          quantity: phase_item.reduced_by,
           price_data: price_data,
           period: {
             end: {

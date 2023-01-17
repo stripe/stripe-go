@@ -22,6 +22,9 @@ class StripeForce::Translate
     # not const so we can mutate it (`reduce_quantity`, etc)
     prop :quantity, Integer
 
+    # the delta in quantity for order amendments
+    prop :reduced_by, Integer
+
     # TODO maybe consider including a boolean for this instead?
     # is_recurring: recurring_item?(sf_order_item),
 
@@ -34,7 +37,8 @@ class StripeForce::Translate
         order_line_id: sf_order_line.Id,
 
         revised_order_line_id: sf_order_line[SF_ORDER_ITEM_REVISED_ORDER_PRODUCT],
-        quantity: stripe_params[:quantity]
+        quantity: stripe_params[:quantity],
+        reduced_by: 0
       )
     end
 
@@ -54,6 +58,7 @@ class StripeForce::Translate
         raise "termination lines should never be reduced"
       end
 
+      self.reduced_by += 1
       self.quantity -= 1
     end
 
