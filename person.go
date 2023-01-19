@@ -21,19 +21,25 @@ type PersonVerificationDocumentDetailsCode string
 // List of values that PersonVerificationDocumentDetailsCode can take
 const (
 	PersonVerificationDocumentDetailsCodeDocumentCorrupt               PersonVerificationDocumentDetailsCode = "document_corrupt"
+	PersonVerificationDocumentDetailsCodeDocumentCountryNotSupported   PersonVerificationDocumentDetailsCode = "document_country_not_supported"
+	PersonVerificationDocumentDetailsCodeDocumentExpired               PersonVerificationDocumentDetailsCode = "document_expired"
 	PersonVerificationDocumentDetailsCodeDocumentFailedCopy            PersonVerificationDocumentDetailsCode = "document_failed_copy"
-	PersonVerificationDocumentDetailsCodeDocumentFailedGreyscale       PersonVerificationDocumentDetailsCode = "document_failed_greyscale"
 	PersonVerificationDocumentDetailsCodeDocumentFailedOther           PersonVerificationDocumentDetailsCode = "document_failed_other"
 	PersonVerificationDocumentDetailsCodeDocumentFailedTestMode        PersonVerificationDocumentDetailsCode = "document_failed_test_mode"
 	PersonVerificationDocumentDetailsCodeDocumentFraudulent            PersonVerificationDocumentDetailsCode = "document_fraudulent"
 	PersonVerificationDocumentDetailsCodeDocumentIDTypeNotSupported    PersonVerificationDocumentDetailsCode = "document_id_type_not_supported"
 	PersonVerificationDocumentDetailsCodeDocumentIDCountryNotSupported PersonVerificationDocumentDetailsCode = "document_id_country_not_supported"
+	PersonVerificationDocumentDetailsCodeDocumentFailedGreyscale       PersonVerificationDocumentDetailsCode = "document_failed_greyscale"
+	PersonVerificationDocumentDetailsCodeDocumentIncomplete            PersonVerificationDocumentDetailsCode = "document_incomplete"
+	PersonVerificationDocumentDetailsCodeDocumentInvalid               PersonVerificationDocumentDetailsCode = "document_invalid"
 	PersonVerificationDocumentDetailsCodeDocumentManipulated           PersonVerificationDocumentDetailsCode = "document_manipulated"
 	PersonVerificationDocumentDetailsCodeDocumentMissingBack           PersonVerificationDocumentDetailsCode = "document_missing_back"
 	PersonVerificationDocumentDetailsCodeDocumentMissingFront          PersonVerificationDocumentDetailsCode = "document_missing_front"
 	PersonVerificationDocumentDetailsCodeDocumentNotReadable           PersonVerificationDocumentDetailsCode = "document_not_readable"
 	PersonVerificationDocumentDetailsCodeDocumentNotUploaded           PersonVerificationDocumentDetailsCode = "document_not_uploaded"
+	PersonVerificationDocumentDetailsCodeDocumentPhotoMismatch         PersonVerificationDocumentDetailsCode = "document_photo_mismatch"
 	PersonVerificationDocumentDetailsCodeDocumentTooLarge              PersonVerificationDocumentDetailsCode = "document_too_large"
+	PersonVerificationDocumentDetailsCodeDocumentTypeNotSupported      PersonVerificationDocumentDetailsCode = "document_type_not_supported"
 )
 
 // One of `document_address_mismatch`, `document_dob_mismatch`, `document_duplicate_type`, `document_id_number_mismatch`, `document_name_mismatch`, `document_nationality_mismatch`, `failed_keyed_identity`, or `failed_other`. A machine-readable code specifying the verification state for the person.
@@ -41,9 +47,15 @@ type PersonVerificationDetailsCode string
 
 // List of values that PersonVerificationDetailsCode can take
 const (
-	PersonVerificationDetailsCodeFailedKeyedIdentity PersonVerificationDetailsCode = "failed_keyed_identity"
-	PersonVerificationDetailsCodeFailedOther         PersonVerificationDetailsCode = "failed_other"
-	PersonVerificationDetailsCodeScanNameMismatch    PersonVerificationDetailsCode = "scan_name_mismatch"
+	PersonVerificationDetailsCodeFailedKeyedIdentity         PersonVerificationDetailsCode = "failed_keyed_identity"
+	PersonVerificationDetailsCodeFailedOther                 PersonVerificationDetailsCode = "failed_other"
+	PersonVerificationDetailsCodeScanNameMismatch            PersonVerificationDetailsCode = "scan_name_mismatch"
+	PersonVerificationDetailsCodeDocumentAddressMismatch     PersonVerificationDetailsCode = "document_address_mismatch"
+	PersonVerificationDetailsCodeDocumentDOBMismatch         PersonVerificationDetailsCode = "document_dob_mismatch"
+	PersonVerificationDetailsCodeDocumentDuplicateType       PersonVerificationDetailsCode = "document_duplicate_type"
+	PersonVerificationDetailsCodeDocumentIDNumberMismatch    PersonVerificationDetailsCode = "document_id_number_mismatch"
+	PersonVerificationDetailsCodeDocumentNameMismatch        PersonVerificationDetailsCode = "document_name_mismatch"
+	PersonVerificationDetailsCodeDocumentNationalityMismatch PersonVerificationDetailsCode = "document_nationality_mismatch"
 )
 
 // The state of verification for the person. Possible values are `unverified`, `pending`, or `verified`.
