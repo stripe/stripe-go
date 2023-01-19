@@ -1,5 +1,10 @@
 # Changelog
 
+## 74.6.0 - 2023-01-19
+* [#1595](https://github.com/stripe/stripe-go/pull/1595) API Updates
+  * Add support for `VerificationSession` on `EphemeralKeyParams`
+  * Add missing enum values to `RefundStatus`, `PersonVerificationDetailsCode`, `PersonVerificationDocumentDetailsCode`, `AccountCompanyVerificationDocumentDetailsCode` .
+
 ## 74.6.0-beta.2 - 2023-01-12
 * [#1591](https://github.com/stripe/stripe-go/pull/1591) API Updates for beta branch
   * Updated stable APIs to the latest version
@@ -10,7 +15,6 @@
   * Remove support for `Timestamp` on `QuoteLineActionsAddDiscountDiscountEnd`
   * Change type of `QuoteLineActionsAddDiscountDiscountEndType` from `literal('timestamp')` to `literal('line_ends_at')`
   * Remove support for `Index` on `QuoteLineActionsAddItemDiscounts`, `QuoteLineActionsRemoveDiscount`, `QuoteLineActionsSetDiscounts`, `QuoteLineActionsSetItemsDiscounts`, `SubscriptionSchedulePhasesAddInvoiceItemsDiscounts`, `SubscriptionSchedulePhasesDiscounts`, and `SubscriptionSchedulePhasesItemsDiscounts`
-  
 
 ## 74.6.0-beta.1 - 2023-01-05
 * [#1589](https://github.com/stripe/stripe-go/pull/1589) API Updates for beta branch
