@@ -1,5 +1,11 @@
 # Changelog
 
+## 74.6.0 - 2023-01-19
+* [#1595](https://github.com/stripe/stripe-go/pull/1595) API Updates
+  * Add support for `VerificationSession` on `EphemeralKeyParams`
+  * Add missing enum values to `RefundStatus`, `PersonVerificationDetailsCode`, `PersonVerificationDocumentDetailsCode`, `AccountCompanyVerificationDocumentDetailsCode` .
+  
+
 ## 74.5.0 - 2023-01-05
 * [#1588](https://github.com/stripe/stripe-go/pull/1588) API Updates
   * Add support for `CardIssuing` on `IssuingCardholderIndividual`
