@@ -1,5 +1,10 @@
 # Changelog
 
+## 74.7.0-beta.1 - 2023-01-19
+* [#1596](https://github.com/stripe/stripe-go/pull/1596) API Updates for beta branch
+  * Updated stable APIs to the latest version
+  * Add support for `Tax.Settings` resource.
+
 ## 74.6.0 - 2023-01-19
 * [#1595](https://github.com/stripe/stripe-go/pull/1595) API Updates
   * Add support for `VerificationSession` on `EphemeralKeyParams`
