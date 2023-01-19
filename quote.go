@@ -59,11 +59,11 @@ type QuoteStatusDetailsCanceledReason string
 
 // List of values that QuoteStatusDetailsCanceledReason can take
 const (
+	QuoteStatusDetailsCanceledReasonCanceled             QuoteStatusDetailsCanceledReason = "canceled"
 	QuoteStatusDetailsCanceledReasonQuoteAccepted        QuoteStatusDetailsCanceledReason = "quote_accepted"
 	QuoteStatusDetailsCanceledReasonQuoteExpired         QuoteStatusDetailsCanceledReason = "quote_expired"
 	QuoteStatusDetailsCanceledReasonQuoteSuperseded      QuoteStatusDetailsCanceledReason = "quote_superseded"
 	QuoteStatusDetailsCanceledReasonSubscriptionCanceled QuoteStatusDetailsCanceledReason = "subscription_canceled"
-	QuoteStatusDetailsCanceledReasonUserCanceled         QuoteStatusDetailsCanceledReason = "user_canceled"
 )
 
 // The reason the quote was marked as stale.
@@ -71,10 +71,15 @@ type QuoteStatusDetailsStaleLastReasonType string
 
 // List of values that QuoteStatusDetailsStaleLastReasonType can take
 const (
-	QuoteStatusDetailsStaleLastReasonTypeBillOnAcceptanceInvalid     QuoteStatusDetailsStaleLastReasonType = "bill_on_acceptance_invalid"
-	QuoteStatusDetailsStaleLastReasonTypeLineInvalid                 QuoteStatusDetailsStaleLastReasonType = "line_invalid"
-	QuoteStatusDetailsStaleLastReasonTypeSubscriptionChanged         QuoteStatusDetailsStaleLastReasonType = "subscription_changed"
-	QuoteStatusDetailsStaleLastReasonTypeSubscriptionScheduleChanged QuoteStatusDetailsStaleLastReasonType = "subscription_schedule_changed"
+	QuoteStatusDetailsStaleLastReasonTypeBillOnAcceptanceInvalid      QuoteStatusDetailsStaleLastReasonType = "bill_on_acceptance_invalid"
+	QuoteStatusDetailsStaleLastReasonTypeLineInvalid                  QuoteStatusDetailsStaleLastReasonType = "line_invalid"
+	QuoteStatusDetailsStaleLastReasonTypeMarkedStale                  QuoteStatusDetailsStaleLastReasonType = "marked_stale"
+	QuoteStatusDetailsStaleLastReasonTypeSubscriptionCanceled         QuoteStatusDetailsStaleLastReasonType = "subscription_canceled"
+	QuoteStatusDetailsStaleLastReasonTypeSubscriptionChanged          QuoteStatusDetailsStaleLastReasonType = "subscription_changed"
+	QuoteStatusDetailsStaleLastReasonTypeSubscriptionExpired          QuoteStatusDetailsStaleLastReasonType = "subscription_expired"
+	QuoteStatusDetailsStaleLastReasonTypeSubscriptionScheduleCanceled QuoteStatusDetailsStaleLastReasonType = "subscription_schedule_canceled"
+	QuoteStatusDetailsStaleLastReasonTypeSubscriptionScheduleChanged  QuoteStatusDetailsStaleLastReasonType = "subscription_schedule_changed"
+	QuoteStatusDetailsStaleLastReasonTypeSubscriptionScheduleReleased QuoteStatusDetailsStaleLastReasonType = "subscription_schedule_released"
 )
 
 // The type of method to specify the `bill_from` time.
@@ -1200,14 +1205,10 @@ type QuoteStatusDetailsCanceled struct {
 	// Time at which the quote was marked as canceled. Measured in seconds since the Unix epoch.
 	TransitionedAt int64 `json:"transitioned_at"`
 }
-
-// The state of the subscription before the quote was marked as stale.
 type QuoteStatusDetailsStaleLastReasonSubscriptionChanged struct {
 	// The subscription's state before the quote was marked as stale.
 	PreviousSubscription *Subscription `json:"previous_subscription"`
 }
-
-// The state of the subscription schedule before the quote was marked as stale.
 type QuoteStatusDetailsStaleLastReasonSubscriptionScheduleChanged struct {
 	// The subscription schedule's state before the quote was marked as stale.
 	PreviousSubscriptionSchedule *SubscriptionSchedule `json:"previous_subscription_schedule"`
@@ -1217,10 +1218,16 @@ type QuoteStatusDetailsStaleLastReasonSubscriptionScheduleChanged struct {
 type QuoteStatusDetailsStaleLastReason struct {
 	// The ID of the line that is invalid if the stale reason type is `line_invalid`.
 	LineInvalid string `json:"line_invalid"`
-	// The state of the subscription before the quote was marked as stale.
-	SubscriptionChanged *QuoteStatusDetailsStaleLastReasonSubscriptionChanged `json:"subscription_changed"`
-	// The state of the subscription schedule before the quote was marked as stale.
-	SubscriptionScheduleChanged *QuoteStatusDetailsStaleLastReasonSubscriptionScheduleChanged `json:"subscription_schedule_changed"`
+	// The ID of the subscription that was canceled.
+	SubscriptionCanceled string                                                `json:"subscription_canceled"`
+	SubscriptionChanged  *QuoteStatusDetailsStaleLastReasonSubscriptionChanged `json:"subscription_changed"`
+	// The ID of the subscription that was expired
+	SubscriptionExpired string `json:"subscription_expired"`
+	// The ID of the subscription schedule that was canceled.
+	SubscriptionScheduleCanceled string                                                        `json:"subscription_schedule_canceled"`
+	SubscriptionScheduleChanged  *QuoteStatusDetailsStaleLastReasonSubscriptionScheduleChanged `json:"subscription_schedule_changed"`
+	// The ID of the subscription schedule that was released.
+	SubscriptionScheduleReleased string `json:"subscription_schedule_released"`
 	// The reason the quote was marked as stale.
 	Type QuoteStatusDetailsStaleLastReasonType `json:"type"`
 }
