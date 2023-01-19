@@ -630,13 +630,13 @@ type CheckoutSessionConsentCollectionParams struct {
 
 // Custom text that should be displayed alongside shipping address collection.
 type CheckoutSessionCustomTextShippingAddressParams struct {
-	// Text may be up to 500 characters in length.
+	// Text may be up to 1000 characters in length.
 	Message *string `form:"message"`
 }
 
 // Custom text that should be displayed alongside the payment confirmation button.
 type CheckoutSessionCustomTextSubmitParams struct {
-	// Text may be up to 500 characters in length.
+	// Text may be up to 1000 characters in length.
 	Message *string `form:"message"`
 }
 
@@ -1540,13 +1540,13 @@ type CheckoutSessionConsentCollection struct {
 
 // Custom text that should be displayed alongside shipping address collection.
 type CheckoutSessionCustomTextShippingAddress struct {
-	// Text may be up to 500 characters in length.
+	// Text may be up to 1000 characters in length.
 	Message string `json:"message"`
 }
 
 // Custom text that should be displayed alongside the payment confirmation button.
 type CheckoutSessionCustomTextSubmit struct {
-	// Text may be up to 500 characters in length.
+	// Text may be up to 1000 characters in length.
 	Message string `json:"message"`
 }
 type CheckoutSessionCustomText struct {

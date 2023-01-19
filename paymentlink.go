@@ -171,13 +171,13 @@ type PaymentLinkConsentCollectionParams struct {
 
 // Custom text that should be displayed alongside shipping address collection.
 type PaymentLinkCustomTextShippingAddressParams struct {
-	// Text may be up to 500 characters in length.
+	// Text may be up to 1000 characters in length.
 	Message *string `form:"message"`
 }
 
 // Custom text that should be displayed alongside the payment confirmation button.
 type PaymentLinkCustomTextSubmitParams struct {
-	// Text may be up to 500 characters in length.
+	// Text may be up to 1000 characters in length.
 	Message *string `form:"message"`
 }
 
@@ -366,13 +366,13 @@ type PaymentLinkConsentCollection struct {
 
 // Custom text that should be displayed alongside shipping address collection.
 type PaymentLinkCustomTextShippingAddress struct {
-	// Text may be up to 500 characters in length.
+	// Text may be up to 1000 characters in length.
 	Message string `json:"message"`
 }
 
 // Custom text that should be displayed alongside the payment confirmation button.
 type PaymentLinkCustomTextSubmit struct {
-	// Text may be up to 500 characters in length.
+	// Text may be up to 1000 characters in length.
 	Message string `json:"message"`
 }
 type PaymentLinkCustomText struct {

@@ -39,6 +39,7 @@ const (
 	ReviewReasonManual          ReviewReason = "manual"
 	ReviewReasonRefunded        ReviewReason = "refunded"
 	ReviewReasonRefundedAsFraud ReviewReason = "refunded_as_fraud"
+	ReviewReasonRedacted        ReviewReason = "redacted"
 	ReviewReasonRule            ReviewReason = "rule"
 )
 

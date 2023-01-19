@@ -34,10 +34,11 @@ type RefundStatus string
 
 // List of values that RefundStatus can take
 const (
-	RefundStatusCanceled  RefundStatus = "canceled"
-	RefundStatusFailed    RefundStatus = "failed"
-	RefundStatusPending   RefundStatus = "pending"
-	RefundStatusSucceeded RefundStatus = "succeeded"
+	RefundStatusCanceled       RefundStatus = "canceled"
+	RefundStatusFailed         RefundStatus = "failed"
+	RefundStatusPending        RefundStatus = "pending"
+	RefundStatusSucceeded      RefundStatus = "succeeded"
+	RefundStatusRequiresAction RefundStatus = "requires_action"
 )
 
 // Returns a list of all refunds you've previously created. The refunds are returned in sorted order, with the most recent refunds appearing first. For convenience, the 10 most recent refunds are always available by default on the charge object.
