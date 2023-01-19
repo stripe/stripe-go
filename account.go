@@ -64,16 +64,20 @@ type AccountCompanyVerificationDocumentDetailsCode string
 
 // List of values that AccountCompanyVerificationDocumentDetailsCode can take
 const (
-	AccountCompanyVerificationDocumentDetailsCodeDocumentCorrupt        AccountCompanyVerificationDocumentDetailsCode = "document_corrupt"
-	AccountCompanyVerificationDocumentDetailsCodeDocumentFailedCopy     AccountCompanyVerificationDocumentDetailsCode = "document_failed_copy"
-	AccountCompanyVerificationDocumentDetailsCodeDocumentFailedOther    AccountCompanyVerificationDocumentDetailsCode = "document_failed_other"
-	AccountCompanyVerificationDocumentDetailsCodeDocumentFailedTestMode AccountCompanyVerificationDocumentDetailsCode = "document_failed_test_mode"
-	AccountCompanyVerificationDocumentDetailsCodeDocumentFraudulent     AccountCompanyVerificationDocumentDetailsCode = "document_fraudulent"
-	AccountCompanyVerificationDocumentDetailsCodeDocumentInvalid        AccountCompanyVerificationDocumentDetailsCode = "document_invalid"
-	AccountCompanyVerificationDocumentDetailsCodeDocumentManipulated    AccountCompanyVerificationDocumentDetailsCode = "document_manipulated"
-	AccountCompanyVerificationDocumentDetailsCodeDocumentNotReadable    AccountCompanyVerificationDocumentDetailsCode = "document_not_readable"
-	AccountCompanyVerificationDocumentDetailsCodeDocumentNotUploaded    AccountCompanyVerificationDocumentDetailsCode = "document_not_uploaded"
-	AccountCompanyVerificationDocumentDetailsCodeDocumentTooLarge       AccountCompanyVerificationDocumentDetailsCode = "document_too_large"
+	AccountCompanyVerificationDocumentDetailsCodeDocumentCorrupt          AccountCompanyVerificationDocumentDetailsCode = "document_corrupt"
+	AccountCompanyVerificationDocumentDetailsCodeDocumentExpired          AccountCompanyVerificationDocumentDetailsCode = "document_expired"
+	AccountCompanyVerificationDocumentDetailsCodeDocumentFailedCopy       AccountCompanyVerificationDocumentDetailsCode = "document_failed_copy"
+	AccountCompanyVerificationDocumentDetailsCodeDocumentFailedOther      AccountCompanyVerificationDocumentDetailsCode = "document_failed_other"
+	AccountCompanyVerificationDocumentDetailsCodeDocumentFailedTestMode   AccountCompanyVerificationDocumentDetailsCode = "document_failed_test_mode"
+	AccountCompanyVerificationDocumentDetailsCodeDocumentFailedGreyscale  AccountCompanyVerificationDocumentDetailsCode = "document_failed_greyscale"
+	AccountCompanyVerificationDocumentDetailsCodeDocumentFraudulent       AccountCompanyVerificationDocumentDetailsCode = "document_fraudulent"
+	AccountCompanyVerificationDocumentDetailsCodeDocumentInvalid          AccountCompanyVerificationDocumentDetailsCode = "document_invalid"
+	AccountCompanyVerificationDocumentDetailsCodeDocumentIncomplete       AccountCompanyVerificationDocumentDetailsCode = "document_incomplete"
+	AccountCompanyVerificationDocumentDetailsCodeDocumentManipulated      AccountCompanyVerificationDocumentDetailsCode = "document_manipulated"
+	AccountCompanyVerificationDocumentDetailsCodeDocumentNotReadable      AccountCompanyVerificationDocumentDetailsCode = "document_not_readable"
+	AccountCompanyVerificationDocumentDetailsCodeDocumentNotUploaded      AccountCompanyVerificationDocumentDetailsCode = "document_not_uploaded"
+	AccountCompanyVerificationDocumentDetailsCodeDocumentTooLarge         AccountCompanyVerificationDocumentDetailsCode = "document_too_large"
+	AccountCompanyVerificationDocumentDetailsCodeDocumentTypeNotSupported AccountCompanyVerificationDocumentDetailsCode = "document_type_not_supported"
 )
 
 // The controller type. Can be `application`, if a Connect application controls the account, or `account`, if the account controls itself.
