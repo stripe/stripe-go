@@ -81,6 +81,7 @@ const (
 	PaymentIntentNextActionTypeAlipayHandleRedirect    PaymentIntentNextActionType = "alipay_handle_redirect"
 	PaymentIntentNextActionTypeOXXODisplayDetails      PaymentIntentNextActionType = "oxxo_display_details"
 	PaymentIntentNextActionTypeRedirectToURL           PaymentIntentNextActionType = "redirect_to_url"
+	PaymentIntentNextActionTypeUseStripeSDK            PaymentIntentNextActionType = "use_stripe_sdk"
 	PaymentIntentNextActionTypeVerifyWithMicrodeposits PaymentIntentNextActionType = "verify_with_microdeposits"
 )
 
