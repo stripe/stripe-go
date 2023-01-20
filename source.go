@@ -36,6 +36,7 @@ type SourceReceiverRefundAttributesMethod string
 const (
 	SourceReceiverRefundAttributesMethodEmail  SourceReceiverRefundAttributesMethod = "email"
 	SourceReceiverRefundAttributesMethodManual SourceReceiverRefundAttributesMethod = "manual"
+	SourceReceiverRefundAttributesMethodNone   SourceReceiverRefundAttributesMethod = "none"
 )
 
 // Type of refund attribute status, one of `missing`, `requested`, or `available`.
