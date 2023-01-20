@@ -190,7 +190,8 @@ class StripeForce::Translate
 
         credit_stripe_item = Stripe::SubscriptionItem.construct_from({
           metadata: Metadata.stripe_metadata_for_sf_object(user, phase_item.order_line).merge(
-            Metadata.metadata_key(user, MetadataKeys::CREDIT) => true
+            Metadata.metadata_key(user, MetadataKeys::CREDIT) => true,
+            Metadata.metadata_key(user, MetadataKeys::PRORATION) => true,
           ),
         })
 
