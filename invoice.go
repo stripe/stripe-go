@@ -8,7 +8,7 @@ package stripe
 
 import (
 	"encoding/json"
-	"github.com/stripe/stripe-go/v73/form"
+	"github.com/stripe/stripe-go/v74/form"
 )
 
 // The status of the most recent automated tax calculation for this invoice.
@@ -379,7 +379,7 @@ type InvoiceParams struct {
 	RenderingOptions *InvoiceRenderingOptionsParams `form:"rendering_options"`
 	// Extra information about a charge for the customer's credit card statement. It must contain at least one letter. If not specified and this invoice is part of a subscription, the default `statement_descriptor` will be set to the first subscription item's product's `statement_descriptor`.
 	StatementDescriptor *string `form:"statement_descriptor"`
-	// The ID of the subscription to invoice, if any. If set, the created invoice will only include pending invoice items for that subscription and pending invoice items not associated with any subscription if `pending_invoice_items_behavior` is `include`. The subscription's billing cycle and regular subscription events won't be affected.
+	// The ID of the subscription to invoice, if any. If set, the created invoice will only include pending invoice items for that subscription. The subscription's billing cycle and regular subscription events won't be affected.
 	Subscription *string `form:"subscription"`
 	// If specified, the funds from the invoice will be transferred to the destination and the ID of the resulting transfer will be found on the invoice's charge. This will be unset if you POST an empty value.
 	TransferData *InvoiceTransferDataParams `form:"transfer_data"`
@@ -406,7 +406,7 @@ type InvoiceUpcomingCustomerDetailsTaxParams struct {
 
 // The customer's tax IDs.
 type InvoiceUpcomingCustomerDetailsTaxIDParams struct {
-	// Type of the tax ID, one of `ae_trn`, `au_abn`, `au_arn`, `bg_uic`, `br_cnpj`, `br_cpf`, `ca_bn`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `ca_qst`, `ch_vat`, `cl_tin`, `es_cif`, `eu_oss_vat`, `eu_vat`, `gb_vat`, `ge_vat`, `hk_br`, `hu_tin`, `id_npwp`, `il_vat`, `in_gst`, `is_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `ke_pin`, `kr_brn`, `li_uid`, `mx_rfc`, `my_frp`, `my_itn`, `my_sst`, `no_vat`, `nz_gst`, `ru_inn`, `ru_kpp`, `sa_vat`, `sg_gst`, `sg_uen`, `si_tin`, `th_vat`, `tw_vat`, `ua_vat`, `us_ein`, or `za_vat`
+	// Type of the tax ID, one of `ae_trn`, `au_abn`, `au_arn`, `bg_uic`, `br_cnpj`, `br_cpf`, `ca_bn`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `ca_qst`, `ch_vat`, `cl_tin`, `eg_tin`, `es_cif`, `eu_oss_vat`, `eu_vat`, `gb_vat`, `ge_vat`, `hk_br`, `hu_tin`, `id_npwp`, `il_vat`, `in_gst`, `is_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `ke_pin`, `kr_brn`, `li_uid`, `mx_rfc`, `my_frp`, `my_itn`, `my_sst`, `no_vat`, `nz_gst`, `ph_tin`, `ru_inn`, `ru_kpp`, `sa_vat`, `sg_gst`, `sg_uen`, `si_tin`, `th_vat`, `tr_tin`, `tw_vat`, `ua_vat`, `us_ein`, or `za_vat`
 	Type *string `form:"type"`
 	// Value of the tax ID.
 	Value *string `form:"value"`
@@ -426,7 +426,7 @@ type InvoiceUpcomingCustomerDetailsParams struct {
 	TaxIDs []*InvoiceUpcomingCustomerDetailsTaxIDParams `form:"tax_ids"`
 }
 
-// The period associated with this invoice item. When set to different values, the period will be rendered on the invoice.
+// The period associated with this invoice item. When set to different values, the period will be rendered on the invoice. If you have [Stripe Revenue Recognition](https://stripe.com/docs/revenue-recognition) enabled, the period will be used to recognize and defer revenue. See the [Revenue Recognition documentation](https://stripe.com/docs/revenue-recognition/methodology/subscriptions-and-invoicing) for details.
 type InvoiceUpcomingInvoiceItemPeriodParams struct {
 	// The end of the period, which must be greater than or equal to the start.
 	End *int64 `form:"end"`
@@ -450,7 +450,7 @@ type InvoiceUpcomingInvoiceItemParams struct {
 	InvoiceItem *string `form:"invoiceitem"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
-	// The period associated with this invoice item. When set to different values, the period will be rendered on the invoice.
+	// The period associated with this invoice item. When set to different values, the period will be rendered on the invoice. If you have [Stripe Revenue Recognition](https://stripe.com/docs/revenue-recognition) enabled, the period will be used to recognize and defer revenue. See the [Revenue Recognition documentation](https://stripe.com/docs/revenue-recognition/methodology/subscriptions-and-invoicing) for details.
 	Period *InvoiceUpcomingInvoiceItemPeriodParams `form:"period"`
 	// The ID of the price object.
 	Price *string `form:"price"`
@@ -458,6 +458,10 @@ type InvoiceUpcomingInvoiceItemParams struct {
 	PriceData *InvoiceItemPriceDataParams `form:"price_data"`
 	// Non-negative integer. The quantity of units for the invoice item.
 	Quantity *int64 `form:"quantity"`
+	// Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Once specified as either `inclusive` or `exclusive`, it cannot be changed.
+	TaxBehavior *string `form:"tax_behavior"`
+	// A [tax code](https://stripe.com/docs/tax/tax-categories) ID.
+	TaxCode *string `form:"tax_code"`
 	// The tax rates that apply to the item. When set, any `default_tax_rates` do not apply to this item.
 	TaxRates []*string `form:"tax_rates"`
 	// The integer unit amount in cents (or local equivalent) of the charge to be applied to the upcoming invoice. This unit_amount will be multiplied by the quantity to get the full amount. If you want to apply a credit to the customer's account, pass a negative unit_amount.
@@ -505,7 +509,7 @@ type InvoiceUpcomingParams struct {
 	SubscriptionDefaultTaxRates []*string `form:"subscription_default_tax_rates"`
 	// A list of up to 20 subscription items, each with an attached price.
 	SubscriptionItems []*SubscriptionItemsParams `form:"subscription_items"`
-	// Determines how to handle [prorations](https://stripe.com/docs/subscriptions/billing-cycle#prorations) when the billing cycle changes (e.g., when switching plans, resetting `billing_cycle_anchor=now`, or starting a trial), or if an item's `quantity` changes.
+	// Determines how to handle [prorations](https://stripe.com/docs/subscriptions/billing-cycle#prorations) when the billing cycle changes (e.g., when switching plans, resetting `billing_cycle_anchor=now`, or starting a trial), or if an item's `quantity` changes. The default value is `create_prorations`.
 	SubscriptionProrationBehavior *string `form:"subscription_proration_behavior"`
 	// If previewing an update to a subscription, and doing proration, `subscription_proration_date` forces the proration to be calculated as though the update was done at the specified time. The time given must be within the current subscription period, and cannot be before the subscription was on its current plan. If set, `subscription`, and one of `subscription_items`, or `subscription_trial_end` are required. Also, `subscription_proration_behavior` cannot be set to 'none'.
 	SubscriptionProrationDate *int64 `form:"subscription_proration_date"`
@@ -581,7 +585,7 @@ type InvoiceUpcomingLinesCustomerDetailsTaxParams struct {
 
 // The customer's tax IDs.
 type InvoiceUpcomingLinesCustomerDetailsTaxIDParams struct {
-	// Type of the tax ID, one of `ae_trn`, `au_abn`, `au_arn`, `bg_uic`, `br_cnpj`, `br_cpf`, `ca_bn`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `ca_qst`, `ch_vat`, `cl_tin`, `es_cif`, `eu_oss_vat`, `eu_vat`, `gb_vat`, `ge_vat`, `hk_br`, `hu_tin`, `id_npwp`, `il_vat`, `in_gst`, `is_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `ke_pin`, `kr_brn`, `li_uid`, `mx_rfc`, `my_frp`, `my_itn`, `my_sst`, `no_vat`, `nz_gst`, `ru_inn`, `ru_kpp`, `sa_vat`, `sg_gst`, `sg_uen`, `si_tin`, `th_vat`, `tw_vat`, `ua_vat`, `us_ein`, or `za_vat`
+	// Type of the tax ID, one of `ae_trn`, `au_abn`, `au_arn`, `bg_uic`, `br_cnpj`, `br_cpf`, `ca_bn`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `ca_qst`, `ch_vat`, `cl_tin`, `eg_tin`, `es_cif`, `eu_oss_vat`, `eu_vat`, `gb_vat`, `ge_vat`, `hk_br`, `hu_tin`, `id_npwp`, `il_vat`, `in_gst`, `is_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `ke_pin`, `kr_brn`, `li_uid`, `mx_rfc`, `my_frp`, `my_itn`, `my_sst`, `no_vat`, `nz_gst`, `ph_tin`, `ru_inn`, `ru_kpp`, `sa_vat`, `sg_gst`, `sg_uen`, `si_tin`, `th_vat`, `tr_tin`, `tw_vat`, `ua_vat`, `us_ein`, or `za_vat`
 	Type *string `form:"type"`
 	// Value of the tax ID.
 	Value *string `form:"value"`
@@ -617,7 +621,7 @@ type InvoiceUpcomingLinesInvoiceItemDiscountParams struct {
 	Discount *string `form:"discount"`
 }
 
-// The period associated with this invoice item. When set to different values, the period will be rendered on the invoice.
+// The period associated with this invoice item. When set to different values, the period will be rendered on the invoice. If you have [Stripe Revenue Recognition](https://stripe.com/docs/revenue-recognition) enabled, the period will be used to recognize and defer revenue. See the [Revenue Recognition documentation](https://stripe.com/docs/revenue-recognition/methodology/subscriptions-and-invoicing) for details.
 type InvoiceUpcomingLinesInvoiceItemPeriodParams struct {
 	// The end of the period, which must be greater than or equal to the start.
 	End *int64 `form:"end"`
@@ -655,7 +659,7 @@ type InvoiceUpcomingLinesInvoiceItemParams struct {
 	InvoiceItem *string `form:"invoiceitem"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
-	// The period associated with this invoice item. When set to different values, the period will be rendered on the invoice.
+	// The period associated with this invoice item. When set to different values, the period will be rendered on the invoice. If you have [Stripe Revenue Recognition](https://stripe.com/docs/revenue-recognition) enabled, the period will be used to recognize and defer revenue. See the [Revenue Recognition documentation](https://stripe.com/docs/revenue-recognition/methodology/subscriptions-and-invoicing) for details.
 	Period *InvoiceUpcomingLinesInvoiceItemPeriodParams `form:"period"`
 	// The ID of the price object.
 	Price *string `form:"price"`
@@ -663,6 +667,10 @@ type InvoiceUpcomingLinesInvoiceItemParams struct {
 	PriceData *InvoiceUpcomingLinesInvoiceItemPriceDataParams `form:"price_data"`
 	// Non-negative integer. The quantity of units for the invoice item.
 	Quantity *int64 `form:"quantity"`
+	// Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Once specified as either `inclusive` or `exclusive`, it cannot be changed.
+	TaxBehavior *string `form:"tax_behavior"`
+	// A [tax code](https://stripe.com/docs/tax/tax-categories) ID.
+	TaxCode *string `form:"tax_code"`
 	// The tax rates that apply to the item. When set, any `default_tax_rates` do not apply to this item.
 	TaxRates []*string `form:"tax_rates"`
 	// The integer unit amount in cents (or local equivalent) of the charge to be applied to the upcoming invoice. This unit_amount will be multiplied by the quantity to get the full amount. If you want to apply a credit to the customer's account, pass a negative unit_amount.
@@ -760,7 +768,7 @@ type InvoiceUpcomingLinesParams struct {
 	SubscriptionDefaultTaxRates []*string `form:"subscription_default_tax_rates"`
 	// A list of up to 20 subscription items, each with an attached price.
 	SubscriptionItems []*InvoiceUpcomingLinesSubscriptionItemParams `form:"subscription_items"`
-	// Determines how to handle [prorations](https://stripe.com/docs/subscriptions/billing-cycle#prorations) when the billing cycle changes (e.g., when switching plans, resetting `billing_cycle_anchor=now`, or starting a trial), or if an item's `quantity` changes.
+	// Determines how to handle [prorations](https://stripe.com/docs/subscriptions/billing-cycle#prorations) when the billing cycle changes (e.g., when switching plans, resetting `billing_cycle_anchor=now`, or starting a trial), or if an item's `quantity` changes. The default value is `create_prorations`.
 	SubscriptionProrationBehavior *string `form:"subscription_proration_behavior"`
 	// If previewing an update to a subscription, and doing proration, `subscription_proration_date` forces the proration to be calculated as though the update was done at the specified time. The time given must be within the current subscription period, and cannot be before the subscription was on its current plan. If set, `subscription`, and one of `subscription_items`, or `subscription_trial_end` are required. Also, `subscription_proration_behavior` cannot be set to 'none'.
 	SubscriptionProrationDate *int64 `form:"subscription_proration_date"`
@@ -825,7 +833,7 @@ type InvoiceCustomField struct {
 
 // The customer's tax IDs. Until the invoice is finalized, this field will contain the same tax IDs as `customer.tax_ids`. Once the invoice is finalized, this field will no longer be updated.
 type InvoiceCustomerTaxID struct {
-	// The type of the tax ID, one of `eu_vat`, `br_cnpj`, `br_cpf`, `eu_oss_vat`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, or `unknown`
+	// The type of the tax ID, one of `eu_vat`, `br_cnpj`, `br_cpf`, `eu_oss_vat`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, or `unknown`
 	Type *TaxIDType `json:"type"`
 	// The value of the tax ID.
 	Value string `json:"value"`

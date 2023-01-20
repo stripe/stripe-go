@@ -8,7 +8,7 @@ package stripe
 
 import (
 	"encoding/json"
-	"github.com/stripe/stripe-go/v73/form"
+	"github.com/stripe/stripe-go/v74/form"
 )
 
 // Either `charge_automatically`, or `send_invoice`. When charging automatically, Stripe will attempt to pay this subscription at the end of the cycle using the default source attached to the customer. When sending an invoice, Stripe will email your customer an invoice with payment instructions and mark the subscription as `active`.
@@ -436,7 +436,8 @@ type SubscriptionParams struct {
 	// A list of up to 20 subscription items, each with an attached price.
 	Items []*SubscriptionItemsParams `form:"items"`
 	// Indicates if a customer is on or off-session while an invoice payment is attempted.
-	OffSession *bool   `form:"off_session"`
+	OffSession *bool `form:"off_session"`
+	// The account on behalf of which to charge, for each of the subscription's invoices.
 	OnBehalfOf *string `form:"on_behalf_of"`
 	// If specified, payment collection for this subscription will be paused.
 	PauseCollection *SubscriptionPauseCollectionParams `form:"pause_collection"`
@@ -454,7 +455,7 @@ type SubscriptionParams struct {
 	PendingInvoiceItemInterval *SubscriptionPendingInvoiceItemIntervalParams `form:"pending_invoice_item_interval"`
 	// The promotion code to apply to this subscription. A promotion code applied to a subscription will only affect invoices created for that particular subscription.
 	PromotionCode *string `form:"promotion_code"`
-	// Determines how to handle [prorations](https://stripe.com/docs/subscriptions/billing-cycle#prorations) when the billing cycle changes (e.g., when switching plans, resetting `billing_cycle_anchor=now`, or starting a trial), or if an item's `quantity` changes.
+	// Determines how to handle [prorations](https://stripe.com/docs/subscriptions/billing-cycle#prorations) when the billing cycle changes (e.g., when switching plans, resetting `billing_cycle_anchor=now`, or starting a trial), or if an item's `quantity` changes. The default value is `create_prorations`.
 	ProrationBehavior *string `form:"proration_behavior"`
 	// If set, the proration will be calculated as though the subscription was updated at the given time. This can be used to apply exactly the same proration that was previewed with [upcoming invoice](https://stripe.com/docs/api#retrieve_customer_invoice) endpoint. It can also be used to implement custom proration logic, such as prorating by day instead of by second, by providing the time that you wish to use for proration calculations.
 	ProrationDate *int64 `form:"proration_date"`
@@ -707,7 +708,8 @@ type Subscription struct {
 	// Specifies the approximate timestamp on which any pending invoice items will be billed according to the schedule provided at `pending_invoice_item_interval`.
 	NextPendingInvoiceItemInvoice int64 `json:"next_pending_invoice_item_invoice"`
 	// String representing the object's type. Objects of the same type share the same value.
-	Object     string   `json:"object"`
+	Object string `json:"object"`
+	// The account (if any) the charge was made on behalf of for charges associated with this subscription. See the Connect documentation for details.
 	OnBehalfOf *Account `json:"on_behalf_of"`
 	// If specified, payment collection for this subscription will be paused.
 	PauseCollection *SubscriptionPauseCollection `json:"pause_collection"`

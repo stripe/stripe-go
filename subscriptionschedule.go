@@ -8,7 +8,7 @@ package stripe
 
 import (
 	"encoding/json"
-	"github.com/stripe/stripe-go/v73/form"
+	"github.com/stripe/stripe-go/v74/form"
 )
 
 // Possible values are `phase_start` or `automatic`. If `phase_start` then billing cycle anchor of the subscription is set to the start of the phase when entering the phase. If `automatic` then the billing cycle anchor is automatically modified as needed when entering the phase. For more information, see the billing cycle [documentation](https://stripe.com/docs/billing/subscriptions/billing-cycle).
@@ -20,7 +20,7 @@ const (
 	SubscriptionScheduleDefaultSettingsBillingCycleAnchorPhaseStart SubscriptionScheduleDefaultSettingsBillingCycleAnchor = "phase_start"
 )
 
-// Behavior of the subscription schedule and underlying subscription when it ends. Possible values are `release` and `cancel`.
+// Behavior of the subscription schedule and underlying subscription when it ends. Possible values are `release` or `cancel` with the default being `release`. `release` will end the subscription schedule and keep the underlying subscription running.`cancel` will end the subscription schedule and cancel the underlying subscription.
 type SubscriptionScheduleEndBehavior string
 
 // List of values that SubscriptionScheduleEndBehavior can take
@@ -112,6 +112,8 @@ type SubscriptionScheduleDefaultSettingsParams struct {
 	Description *string `form:"description"`
 	// All invoices will be billed using the specified settings.
 	InvoiceSettings *SubscriptionScheduleDefaultSettingsInvoiceSettingsParams `form:"invoice_settings"`
+	// The account on behalf of which to charge, for each of the associated subscription's invoices.
+	OnBehalfOf *string `form:"on_behalf_of"`
 	// The data with which to automatically create a Transfer for each of the associated subscription's invoices.
 	TransferData *SubscriptionTransferDataParams `form:"transfer_data"`
 }
@@ -144,6 +146,8 @@ type SubscriptionSchedulePhaseInvoiceSettingsParams struct {
 type SubscriptionSchedulePhaseItemParams struct {
 	// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. When updating, pass an empty string to remove previously-defined thresholds.
 	BillingThresholds *SubscriptionItemBillingThresholdsParams `form:"billing_thresholds"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to a configuration item. Metadata on a configuration item will update the underlying subscription item's `metadata` when the phase is entered, adding new keys and replacing existing keys. Individual keys in the subscription item's `metadata` can be unset by posting an empty value to them in the configuration item's `metadata`. To unset all keys in the subscription item's `metadata`, update the subscription item directly or unset every key individually from the configuration item's `metadata`.
+	Metadata map[string]string `form:"metadata"`
 	// The plan ID to subscribe to. You may specify the same ID in `plan` and `price`.
 	Plan *string `form:"plan"`
 	// The ID of the price object.
@@ -191,7 +195,9 @@ type SubscriptionSchedulePhaseParams struct {
 	Iterations *int64 `form:"iterations"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to a phase. Metadata on a schedule's phase will update the underlying subscription's `metadata` when the phase is entered, adding new keys and replacing existing keys in the subscription's `metadata`. Individual keys in the subscription's `metadata` can be unset by posting an empty value to them in the phase's `metadata`. To unset all keys in the subscription's `metadata`, update the subscription directly or unset every key individually from the phase's `metadata`.
 	Metadata map[string]string `form:"metadata"`
-	// Whether the subscription schedule will create [prorations](https://stripe.com/docs/billing/subscriptions/prorations) when transitioning to this phase. The default value is `create_prorations`.
+	// The account on behalf of which to charge, for each of the associated subscription's invoices.
+	OnBehalfOf *string `form:"on_behalf_of"`
+	// Whether the subscription schedule will create [prorations](https://stripe.com/docs/billing/subscriptions/prorations) when transitioning to this phase. The default value is `create_prorations`. This setting controls prorations when a phase is started asynchronously and it is persisted as a field on the phase. It's different from the request-level [proration_behavior](https://stripe.com/docs/api/subscription_schedules/update#update_subscription_schedule-proration_behavior) parameter which controls what happens if the update request affects the billing configuration of the current phase.
 	ProrationBehavior *string `form:"proration_behavior"`
 	// The date at which this phase of the subscription schedule starts or `now`. Must be set on the first phase.
 	StartDate    *int64 `form:"start_date"`
@@ -225,7 +231,7 @@ type SubscriptionScheduleParams struct {
 	Customer *string `form:"customer"`
 	// Object representing the subscription schedule's default settings.
 	DefaultSettings *SubscriptionScheduleDefaultSettingsParams `form:"default_settings"`
-	// Configures how the subscription schedule behaves when it ends. Possible values are `release` or `cancel` with the default being `release`. `release` will end the subscription schedule and keep the underlying subscription running.`cancel` will end the subscription schedule and cancel the underlying subscription.
+	// Behavior of the subscription schedule and underlying subscription when it ends. Possible values are `release` or `cancel` with the default being `release`. `release` will end the subscription schedule and keep the underlying subscription running.`cancel` will end the subscription schedule and cancel the underlying subscription.
 	EndBehavior *string `form:"end_behavior"`
 	// Migrate an existing subscription to be managed by a subscription schedule. If this parameter is set, a subscription schedule will be created using the subscription's item(s), set to auto-renew using the subscription's interval. When using this parameter, other parameters (such as phase values) cannot be set. To create a subscription schedule with other modifications, we recommend making two separate API calls.
 	FromSubscription *string `form:"from_subscription"`
@@ -290,6 +296,8 @@ type SubscriptionScheduleDefaultSettings struct {
 	Description string `json:"description"`
 	// The subscription schedule's default invoice settings.
 	InvoiceSettings *SubscriptionScheduleDefaultSettingsInvoiceSettings `json:"invoice_settings"`
+	// The account (if any) the charge was made on behalf of for charges associated with the schedule's subscription. See the Connect documentation for details.
+	OnBehalfOf *Account `json:"on_behalf_of"`
 	// The account (if any) the associated subscription's payments will be attributed to for tax reporting, and where funds from each payment will be transferred to for each of the subscription's invoices.
 	TransferData *SubscriptionTransferData `json:"transfer_data"`
 }
@@ -314,6 +322,8 @@ type SubscriptionSchedulePhaseInvoiceSettings struct {
 type SubscriptionSchedulePhaseItem struct {
 	// Define thresholds at which an invoice will be sent, and the related subscription advanced to a new billing period
 	BillingThresholds *SubscriptionItemBillingThresholds `json:"billing_thresholds"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an item. Metadata on this item will update the underlying subscription item's `metadata` when the phase is entered.
+	Metadata map[string]string `json:"metadata"`
 	// ID of the plan to which the customer should be subscribed.
 	Plan *Plan `json:"plan"`
 	// ID of the price to which the customer should be subscribed.
@@ -355,6 +365,8 @@ type SubscriptionSchedulePhase struct {
 	Items []*SubscriptionSchedulePhaseItem `json:"items"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to a phase. Metadata on a schedule's phase will update the underlying subscription's `metadata` when the phase is entered. Updating the underlying subscription's `metadata` directly will not affect the current phase's `metadata`.
 	Metadata map[string]string `json:"metadata"`
+	// The account (if any) the charge was made on behalf of for charges associated with the schedule's subscription. See the Connect documentation for details.
+	OnBehalfOf *Account `json:"on_behalf_of"`
 	// If the subscription schedule will prorate when transitioning to this phase. Possible values are `create_prorations` and `none`.
 	ProrationBehavior SubscriptionSchedulePhaseProrationBehavior `json:"proration_behavior"`
 	// The start of this phase of the subscription schedule.
@@ -383,7 +395,7 @@ type SubscriptionSchedule struct {
 	// ID of the customer who owns the subscription schedule.
 	Customer        *Customer                            `json:"customer"`
 	DefaultSettings *SubscriptionScheduleDefaultSettings `json:"default_settings"`
-	// Behavior of the subscription schedule and underlying subscription when it ends. Possible values are `release` and `cancel`.
+	// Behavior of the subscription schedule and underlying subscription when it ends. Possible values are `release` or `cancel` with the default being `release`. `release` will end the subscription schedule and keep the underlying subscription running.`cancel` will end the subscription schedule and cancel the underlying subscription.
 	EndBehavior SubscriptionScheduleEndBehavior `json:"end_behavior"`
 	// Unique identifier for the object.
 	ID string `json:"id"`

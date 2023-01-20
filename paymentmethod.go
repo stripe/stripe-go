@@ -431,12 +431,12 @@ type PaymentMethodParams struct {
 	PaymentMethod *string `form:"payment_method"`
 }
 
-// Returns a list of PaymentMethods attached to the StripeAccount. For listing a customer's payment methods, you should use [List a Customer's PaymentMethods](https://stripe.com/docs/api/payment_methods/customer_list)
+// Returns a list of PaymentMethods for Treasury flows. If you want to list the PaymentMethods attached to a Customer for payments, you should use the [List a Customer's PaymentMethods](https://stripe.com/docs/api/payment_methods/customer_list) API instead.
 type PaymentMethodListParams struct {
 	ListParams `form:"*"`
 	// The ID of the customer whose PaymentMethods will be retrieved.
 	Customer *string `form:"customer"`
-	// A required filter on the list, based on the object `type` field.
+	// An optional filter on the list, based on the object `type` field. Without the filter, the list includes all current and future payment method types. If your integration expects only one type of payment method in the response, make sure to provide a type value in the request.
 	Type *string `form:"type"`
 }
 
@@ -529,7 +529,7 @@ type PaymentMethodCardNetworks struct {
 	Preferred PaymentMethodCardNetworksPreferred `json:"preferred"`
 }
 
-// Contains details on how this Card maybe be used for 3D Secure authentication.
+// Contains details on how this Card may be used for 3D Secure authentication.
 type PaymentMethodCardThreeDSecureUsage struct {
 	// Whether 3D Secure is supported on this card.
 	Supported bool `json:"supported"`
@@ -593,7 +593,7 @@ type PaymentMethodCard struct {
 	Last4 string `json:"last4"`
 	// Contains information about card networks that can be used to process the payment.
 	Networks *PaymentMethodCardNetworks `json:"networks"`
-	// Contains details on how this Card maybe be used for 3D Secure authentication.
+	// Contains details on how this Card may be used for 3D Secure authentication.
 	ThreeDSecureUsage *PaymentMethodCardThreeDSecureUsage `json:"three_d_secure_usage"`
 	// If this Card is part of a card wallet, this contains the details of the card wallet.
 	Wallet *PaymentMethodCardWallet `json:"wallet"`

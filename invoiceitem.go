@@ -27,7 +27,7 @@ type InvoiceItemDiscountParams struct {
 	Discount *string `form:"discount"`
 }
 
-// The period associated with this invoice item. When set to different values, the period will be rendered on the invoice.
+// The period associated with this invoice item. When set to different values, the period will be rendered on the invoice. If you have [Stripe Revenue Recognition](https://stripe.com/docs/revenue-recognition) enabled, the period will be used to recognize and defer revenue. See the [Revenue Recognition documentation](https://stripe.com/docs/revenue-recognition/methodology/subscriptions-and-invoicing) for details.
 type InvoiceItemPeriodParams struct {
 	// The end of the period, which must be greater than or equal to the start.
 	End *int64 `form:"end"`
@@ -66,7 +66,7 @@ type InvoiceItemParams struct {
 	Discounts []*InvoiceItemDiscountParams `form:"discounts"`
 	// The ID of an existing invoice to add this invoice item to. When left blank, the invoice item will be added to the next upcoming scheduled invoice. This is useful when adding invoice items in response to an invoice.created webhook. You can only add invoice items to draft invoices and there is a maximum of 250 items per invoice.
 	Invoice *string `form:"invoice"`
-	// The period associated with this invoice item. When set to different values, the period will be rendered on the invoice.
+	// The period associated with this invoice item. When set to different values, the period will be rendered on the invoice. If you have [Stripe Revenue Recognition](https://stripe.com/docs/revenue-recognition) enabled, the period will be used to recognize and defer revenue. See the [Revenue Recognition documentation](https://stripe.com/docs/revenue-recognition/methodology/subscriptions-and-invoicing) for details.
 	Period *InvoiceItemPeriodParams `form:"period"`
 	// The ID of the price object.
 	Price *string `form:"price"`
@@ -76,6 +76,10 @@ type InvoiceItemParams struct {
 	Quantity *int64 `form:"quantity"`
 	// The ID of a subscription to add this invoice item to. When left blank, the invoice item will be be added to the next upcoming scheduled invoice. When set, scheduled invoices for subscriptions other than the specified subscription will ignore the invoice item. Use this when you want to express that an invoice item has been accrued within the context of a particular subscription.
 	Subscription *string `form:"subscription"`
+	// Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Once specified as either `inclusive` or `exclusive`, it cannot be changed.
+	TaxBehavior *string `form:"tax_behavior"`
+	// A [tax code](https://stripe.com/docs/tax/tax-categories) ID.
+	TaxCode *string `form:"tax_code"`
 	// The tax rates which apply to the invoice item. When set, the `default_tax_rates` on the invoice do not apply to this invoice item. Pass an empty string to remove previously-defined tax rates.
 	TaxRates []*string `form:"tax_rates"`
 	// The integer unit amount in cents (or local equivalent) of the charge to be applied to the upcoming invoice. This unit_amount will be multiplied by the quantity to get the full amount. If you want to apply a credit to the customer's account, pass a negative unit_amount.

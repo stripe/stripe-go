@@ -8,7 +8,7 @@ package stripe
 
 import (
 	"encoding/json"
-	"github.com/stripe/stripe-go/v73/form"
+	"github.com/stripe/stripe-go/v74/form"
 )
 
 // Describes how to compute the price per period. Either `per_unit` or `tiered`. `per_unit` indicates that the fixed amount (specified in `unit_amount` or `unit_amount_decimal`) will be charged per unit in `quantity` (for prices with `usage_type=licensed`), or per unit of total usage (for prices with `usage_type=metered`). `tiered` indicates that the unit pricing will be computed using a tiering strategy as defined using the `tiers` and `tiers_mode` attributes.
@@ -213,7 +213,7 @@ type PriceProductDataParams struct {
 	StatementDescriptor *string `form:"statement_descriptor"`
 	// A [tax code](https://stripe.com/docs/tax/tax-categories) ID.
 	TaxCode *string `form:"tax_code"`
-	// A label that represents units of this product in Stripe and on customers' receipts and invoices. When set, this will be included in associated invoice line item descriptions.
+	// A label that represents units of this product. When set, this will be included in customers' receipts, invoices, Checkout, and the customer portal.
 	UnitLabel *string `form:"unit_label"`
 }
 

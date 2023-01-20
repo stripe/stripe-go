@@ -14,15 +14,13 @@ type EphemeralKeyParams struct {
 	// The ID of the Customer you'd like to modify using the resulting ephemeral key.
 	Customer *string `form:"customer"`
 	// The ID of the Issuing Card you'd like to access using the resulting ephemeral key.
-	IssuingCard   *string `form:"issuing_card"`
-	StripeVersion *string `form:"-"` // This goes in the `Stripe-Version` header
+	IssuingCard *string `form:"issuing_card"`
+	// The ID of the Identity VerificationSession you'd like to access using the resulting ephemeral key
+	VerificationSession *string `form:"verification_session"`
+	StripeVersion       *string `form:"-"` // This goes in the `Stripe-Version` header
 }
 type EphemeralKey struct {
 	APIResource
-	AssociatedObjects []struct {
-		ID   string `json:"id"`
-		Type string `json:"type"`
-	} `json:"associated_objects"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
 	Created int64 `json:"created"`
 	// Time at which the key will expire. Measured in seconds since the Unix epoch.

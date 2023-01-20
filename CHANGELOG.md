@@ -1,5 +1,70 @@
 # Changelog
 
+## 74.6.0 - 2023-01-19
+* [#1595](https://github.com/stripe/stripe-go/pull/1595) API Updates
+  * Add support for `VerificationSession` on `EphemeralKeyParams`
+  * Add missing enum values to `RefundStatus`, `PersonVerificationDetailsCode`, `PersonVerificationDocumentDetailsCode`, `AccountCompanyVerificationDocumentDetailsCode` .
+  
+
+## 74.5.0 - 2023-01-05
+* [#1588](https://github.com/stripe/stripe-go/pull/1588) API Updates
+  * Add support for `CardIssuing` on `IssuingCardholderIndividual`
+
+## 74.4.0 - 2022-12-22
+* [#1586](https://github.com/stripe/stripe-go/pull/1586) API Updates
+  * Add support for `UsingMerchantDefault` on `CashBalanceSettings`
+  * Change type of `CheckoutSessionCancelUrl` from `string` to `nullable(string)`
+
+## 74.3.0 - 2022-12-15
+* [#1584](https://github.com/stripe/stripe-go/pull/1584) API Updates
+  * Add support for new value `invoice_overpaid` on enum `CustomerBalanceTransactionType`
+* [#1581](https://github.com/stripe/stripe-go/pull/1581) API Updates
+
+
+## 74.2.0 - 2022-12-06
+* [#1579](https://github.com/stripe/stripe-go/pull/1579) API Updates
+  * Add support for `FlowData` on `BillingPortalSessionParams`
+  * Add support for `Flow` on `BillingPortalSession`
+* [#1578](https://github.com/stripe/stripe-go/pull/1578) API Updates
+  * Add support for `IndiaInternationalPayments` on `AccountCapabilitiesParams` and `AccountCapabilities`
+  * Add support for `InvoiceCreation` on `CheckoutSessionParams` and `CheckoutSession`
+  * Add support for `Invoice` on `CheckoutSession`
+  * Add support for `Metadata` on `SubscriptionSchedulePhasesItemsParams` and `SubscriptionSchedulePhasesItems`
+* [#1575](https://github.com/stripe/stripe-go/pull/1575) Add version to go reference path
+
+## 74.1.0 - 2022-11-17
+* [#1574](https://github.com/stripe/stripe-go/pull/1574) API Updates
+  * Add support for `CustomText` on `CheckoutSessionParams`, `CheckoutSession`, `PaymentLinkParams`, and `PaymentLink`
+  * Add support for `HostedInstructionsURL` on `PaymentIntentNextActionPaynowDisplayQrCode` and `PaymentIntentNextActionWechatPayDisplayQrCode`
+  
+
+## 74.0.0 - 2022-11-15
+
+Breaking changes that arose during code generation of the library that we postponed for the next major version. For changes to the Stripe products, read more at https://stripe.com/docs/upgrades#2022-11-15.
+
+"⚠️" symbol highlights breaking changes.
+
+⚠️ Removed
+- Removed deprecated `sku` resource (#1557)
+- Removed `lineitem.Product` property that was released by mistake. (#1555)
+- Removed deprecated `CheckoutSessionSubscriptionDataParams.Items` field. (#1555)
+- Removed deprecated `EphemeralKey.AssociatedObjects` field. (#1566)
+- Removed deprecated `Amount`, `Currency`, `Description`, `Images`, `Name` properties from `CheckoutSessionLineItemParams` (https://github.com/stripe/stripe-go/pull/1570)
+- Removed `Charges` field on `PaymentIntent` and replace it with `LatestCharge`. (https://github.com/stripe/stripe-go/pull/1570)
+- Dropped support for Go versions less than 1.15 (#1554)
+- Remove support for `TOSShownAndAccepted` on `CheckoutSessionPaymentMethodOptionsPaynowParams`. The property was mistakenly released and never worked ([#1571](https://github.com/stripe/stripe-go/pull/1571)).
+
+## 73.16.0 - 2022-11-08
+* [#1568](https://github.com/stripe/stripe-go/pull/1568) API Updates
+  * Add support for `ReasonMessage` on `IssuingAuthorizationRequestHistory`
+  * Add support for new value `webhook_error` on enum `IssuingAuthorizationRequestHistoryReason`
+
+## 73.15.0 - 2022-11-03
+* [#1563](https://github.com/stripe/stripe-go/pull/1563) API Updates
+  * Add support for `OnBehalfOf` on `CheckoutSessionSubscriptionDataParams`, `SubscriptionParams`, `SubscriptionScheduleDefaultSettingsParams`, `SubscriptionScheduleDefaultSettings`, `SubscriptionSchedulePhasesParams`, `SubscriptionSchedulePhases`, and `Subscription`
+  * Add support for new values `eg_tin`, `ph_tin`, and `tr_tin` on enums `CheckoutSessionCustomerDetailsTaxIdsType`, `InvoiceCustomerTaxIdsType`, `OrderTaxDetailsTaxIdsType`, and `TaxIdType`
+  * Add support for `TaxBehavior` and `TaxCode` on `InvoiceItemParams`, `InvoiceUpcomingInvoiceItemsParams`, and `InvoiceUpcomingLinesInvoiceItemsParams`
+
 ## 73.14.0 - 2022-10-20
 * [#1560](https://github.com/stripe/stripe-go/pull/1560) API Updates
   * Add support for new values `jp_trn` and `ke_pin` on enums `CheckoutSessionCustomerDetailsTaxIdsType`, `InvoiceCustomerTaxIdsType`, `OrderTaxDetailsTaxIdsType`, and `TaxIdType`

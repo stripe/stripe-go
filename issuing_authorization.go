@@ -20,7 +20,7 @@ const (
 	IssuingAuthorizationAuthorizationMethodSwipe       IssuingAuthorizationAuthorizationMethod = "swipe"
 )
 
-// The reason for the approval or decline.
+// When an authorization is approved or declined by you or by Stripe, this field provides additional detail on the reason for the outcome.
 type IssuingAuthorizationRequestHistoryReason string
 
 // List of values that IssuingAuthorizationRequestHistoryReason can take
@@ -37,6 +37,7 @@ const (
 	IssuingAuthorizationRequestHistoryReasonVerificationFailed             IssuingAuthorizationRequestHistoryReason = "verification_failed"
 	IssuingAuthorizationRequestHistoryReasonWebhookApproved                IssuingAuthorizationRequestHistoryReason = "webhook_approved"
 	IssuingAuthorizationRequestHistoryReasonWebhookDeclined                IssuingAuthorizationRequestHistoryReason = "webhook_declined"
+	IssuingAuthorizationRequestHistoryReasonWebhookError                   IssuingAuthorizationRequestHistoryReason = "webhook_error"
 	IssuingAuthorizationRequestHistoryReasonWebhookTimeout                 IssuingAuthorizationRequestHistoryReason = "webhook_timeout"
 )
 
@@ -60,7 +61,7 @@ const (
 	IssuingAuthorizationVerificationDataCheckNotProvided IssuingAuthorizationVerificationDataCheck = "not_provided"
 )
 
-// The digital wallet used for this authorization. One of `apple_pay`, `google_pay`, or `samsung_pay`.
+// The digital wallet used for this transaction. One of `apple_pay`, `google_pay`, or `samsung_pay`. Will populate as `null` when no digital wallet was utilized.
 type IssuingAuthorizationWallet string
 
 // List of values that IssuingAuthorizationWallet can take
@@ -91,6 +92,7 @@ type IssuingAuthorizationParams struct {
 }
 
 // Approves a pending Issuing Authorization object. This request should be made within the timeout window of the [real-time authorization](https://stripe.com/docs/issuing/controls/real-time-authorizations) flow.
+// You can also respond directly to the webhook request to approve an authorization (preferred). More details can be found [here](https://site-admin.stripe.com/docs/issuing/controls/real-time-authorizations#authorization-handling).
 type IssuingAuthorizationApproveParams struct {
 	Params `form:"*"`
 	// If the authorization's `pending_request.is_amount_controllable` property is `true`, you may provide this value to control how much to hold for the authorization. Must be positive (use [`decline`](https://stripe.com/docs/api/issuing/authorizations/decline) to decline an authorization request).
@@ -98,6 +100,7 @@ type IssuingAuthorizationApproveParams struct {
 }
 
 // Declines a pending Issuing Authorization object. This request should be made within the timeout window of the [real time authorization](https://stripe.com/docs/issuing/controls/real-time-authorizations) flow.
+// You can also respond directly to the webhook request to decline an authorization (preferred). More details can be found [here](https://site-admin.stripe.com/docs/issuing/controls/real-time-authorizations#authorization-handling).
 type IssuingAuthorizationDeclineParams struct {
 	Params `form:"*"`
 }
@@ -118,7 +121,7 @@ type IssuingAuthorizationMerchantData struct {
 	Country string `json:"country"`
 	// Name of the seller
 	Name string `json:"name"`
-	// Identifier assigned to the seller by the card brand
+	// Identifier assigned to the seller by the card network. Different card networks may assign different network_id fields to the same merchant.
 	NetworkID string `json:"network_id"`
 	// Postal code where the seller is located
 	PostalCode string `json:"postal_code"`
@@ -128,7 +131,7 @@ type IssuingAuthorizationMerchantData struct {
 
 // Details about the authorization, such as identifiers, set by the card network.
 type IssuingAuthorizationNetworkData struct {
-	// ID from the network that identifies the acquiring financial institution. For Visa and Mastercard credit transactions this is as 6 digit code. For Maestro debit transactions this is a 9 digit code. Uncommonly, acquiring institution ID is not provided. When this occurs, the value will be null.
+	// Identifier assigned to the acquirer by the card network. Sometimes this value is not provided by the network; in this case, the value will be `null`.
 	AcquiringInstitutionID string `json:"acquiring_institution_id"`
 }
 
@@ -148,7 +151,7 @@ type IssuingAuthorizationPendingRequest struct {
 	MerchantCurrency Currency `json:"merchant_currency"`
 }
 
-// History of every time `pending_request` was approved/denied, either by you directly or by Stripe (e.g. based on your `spending_controls`). If the merchant changes the authorization by performing an [incremental authorization](https://stripe.com/docs/issuing/purchases/authorizations), you can look at this field to see the previous requests for the authorization.
+// History of every time a `pending_request` authorization was approved/declined, either by you directly or by Stripe (e.g. based on your spending_controls). If the merchant changes the authorization by performing an incremental authorization, you can look at this field to see the previous requests for the authorization. This field can be helpful in determining why a given authorization was approved/declined.
 type IssuingAuthorizationRequestHistory struct {
 	// The `pending_request.amount` at the time of the request, presented in your card's currency and in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal). Stripe held this amount from your account to fund the authorization if the request was approved.
 	Amount int64 `json:"amount"`
@@ -164,8 +167,10 @@ type IssuingAuthorizationRequestHistory struct {
 	MerchantAmount int64 `json:"merchant_amount"`
 	// The currency that was collected by the merchant and presented to the cardholder for the authorization. Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	MerchantCurrency Currency `json:"merchant_currency"`
-	// The reason for the approval or decline.
+	// When an authorization is approved or declined by you or by Stripe, this field provides additional detail on the reason for the outcome.
 	Reason IssuingAuthorizationRequestHistoryReason `json:"reason"`
+	// If approve/decline decision is directly responsed to the webhook with json payload and if the response is invalid (e.g., parsing errors), we surface the detailed message via this field.
+	ReasonMessage string `json:"reason_message"`
 }
 
 // [Treasury](https://stripe.com/docs/api/treasury) details related to this authorization if it was created on a [FinancialAccount](https://stripe.com/docs/api/treasury/financial_accounts).
@@ -230,7 +235,7 @@ type IssuingAuthorization struct {
 	Object string `json:"object"`
 	// The pending authorization request. This field will only be non-null during an `issuing_authorization.request` webhook.
 	PendingRequest *IssuingAuthorizationPendingRequest `json:"pending_request"`
-	// History of every time `pending_request` was approved/denied, either by you directly or by Stripe (e.g. based on your `spending_controls`). If the merchant changes the authorization by performing an [incremental authorization](https://stripe.com/docs/issuing/purchases/authorizations), you can look at this field to see the previous requests for the authorization.
+	// History of every time a `pending_request` authorization was approved/declined, either by you directly or by Stripe (e.g. based on your spending_controls). If the merchant changes the authorization by performing an incremental authorization, you can look at this field to see the previous requests for the authorization. This field can be helpful in determining why a given authorization was approved/declined.
 	RequestHistory []*IssuingAuthorizationRequestHistory `json:"request_history"`
 	// The current status of the authorization in its lifecycle.
 	Status IssuingAuthorizationStatus `json:"status"`
@@ -239,7 +244,7 @@ type IssuingAuthorization struct {
 	// [Treasury](https://stripe.com/docs/api/treasury) details related to this authorization if it was created on a [FinancialAccount](https://stripe.com/docs/api/treasury/financial_accounts).
 	Treasury         *IssuingAuthorizationTreasury         `json:"treasury"`
 	VerificationData *IssuingAuthorizationVerificationData `json:"verification_data"`
-	// The digital wallet used for this authorization. One of `apple_pay`, `google_pay`, or `samsung_pay`.
+	// The digital wallet used for this transaction. One of `apple_pay`, `google_pay`, or `samsung_pay`. Will populate as `null` when no digital wallet was utilized.
 	Wallet IssuingAuthorizationWallet `json:"wallet"`
 }
 

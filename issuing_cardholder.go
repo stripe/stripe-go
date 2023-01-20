@@ -169,6 +169,20 @@ type IssuingCardholderCompany struct {
 	TaxIDProvided bool `json:"tax_id_provided"`
 }
 
+// Information about cardholder acceptance of [Authorized User Terms](https://stripe.com/docs/issuing/cards).
+type IssuingCardholderIndividualCardIssuingUserTermsAcceptance struct {
+	// The Unix timestamp marking when the cardholder accepted the Authorized User Terms.
+	Date int64 `json:"date"`
+	// The IP address from which the cardholder accepted the Authorized User Terms.
+	IP string `json:"ip"`
+	// The user agent of the browser from which the cardholder accepted the Authorized User Terms.
+	UserAgent string `json:"user_agent"`
+}
+type IssuingCardholderIndividualCardIssuing struct {
+	// Information about cardholder acceptance of [Authorized User Terms](https://stripe.com/docs/issuing/cards).
+	UserTermsAcceptance *IssuingCardholderIndividualCardIssuingUserTermsAcceptance `json:"user_terms_acceptance"`
+}
+
 // The date of birth of this cardholder.
 type IssuingCardholderIndividualDOB struct {
 	// The day of birth, between 1 and 31.
@@ -195,6 +209,7 @@ type IssuingCardholderIndividualVerification struct {
 
 // Additional information about an `individual` cardholder.
 type IssuingCardholderIndividual struct {
+	CardIssuing *IssuingCardholderIndividualCardIssuing `json:"card_issuing"`
 	// The date of birth of this cardholder.
 	DOB *IssuingCardholderIndividualDOB `json:"dob"`
 	// The first name of this cardholder.

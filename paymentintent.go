@@ -1079,6 +1079,8 @@ type PaymentIntentPaymentMethodOptionsCardPresentParams struct {
 	// Request ability to [increment](https://stripe.com/docs/terminal/features/incremental-authorizations) this PaymentIntent if the combination of MCC and card brand is eligible. Check [incremental_authorization_supported](https://stripe.com/docs/api/charges/object#charge_object-payment_method_details-card_present-incremental_authorization_supported) in the [Confirm](https://stripe.com/docs/api/payment_intents/confirm) response to verify support.
 	RequestIncrementalAuthorizationSupport *bool `form:"request_incremental_authorization_support"`
 }
+
+// Configuration for the eu_bank_transfer funding type.
 type PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferParams struct {
 	// The desired country code of the bank account information. Permitted values include: `DE`, `ES`, `FR`, `IE`, or `NL`.
 	Country *string `form:"country"`
@@ -1086,6 +1088,7 @@ type PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferP
 
 // Configuration for the bank transfer funding type, if the `funding_type` is set to `bank_transfer`.
 type PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferParams struct {
+	// Configuration for the eu_bank_transfer funding type.
 	EUBankTransfer *PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferParams `form:"eu_bank_transfer"`
 	// List of address types that should be returned in the financial_addresses response. If not specified, all valid types will be returned.
 	//
@@ -1628,11 +1631,11 @@ type PaymentIntentConfirmParams struct {
 	UseStripeSDK *bool `form:"use_stripe_sdk"`
 }
 
-// A PaymentIntent object can be canceled when it is in one of these statuses: requires_payment_method, requires_capture, requires_confirmation, requires_action, or processing.
+// A PaymentIntent object can be canceled when it is in one of these statuses: requires_payment_method, requires_capture, requires_confirmation, requires_action or, [in rare cases](https://stripe.com/docs/payments/intents), processing.
 //
 // Once canceled, no additional charges will be made by the PaymentIntent and any operations on the PaymentIntent will fail with an error. For PaymentIntents with status='requires_capture', the remaining amount_capturable will automatically be refunded.
 //
-// You cannot cancel the PaymentIntent for a Checkout Session. [Expire the Checkout Session](https://stripe.com/docs/api/checkout/sessions/expire) instead
+// You cannot cancel the PaymentIntent for a Checkout Session. [Expire the Checkout Session](https://stripe.com/docs/api/checkout/sessions/expire) instead.
 type PaymentIntentCancelParams struct {
 	Params `form:"*"`
 	// Reason for canceling this PaymentIntent. Possible values are `duplicate`, `fraudulent`, `requested_by_customer`, or `abandoned`
@@ -1907,6 +1910,8 @@ type PaymentIntentNextActionOXXODisplayDetails struct {
 type PaymentIntentNextActionPayNowDisplayQRCode struct {
 	// The raw data string used to generate QR code, it should be used together with QR code library.
 	Data string `json:"data"`
+	// The URL to the hosted PayNow instructions page, which allows customers to view the PayNow QR code.
+	HostedInstructionsURL string `json:"hosted_instructions_url"`
 	// The image_url_png string used to render QR code
 	ImageURLPNG string `json:"image_url_png"`
 	// The image_url_svg string used to render QR code
@@ -1929,9 +1934,9 @@ type PaymentIntentNextActionPromptPayDisplayQRCode struct {
 	Data string `json:"data"`
 	// The URL to the hosted PromptPay instructions page, which allows customers to view the PromptPay QR code.
 	HostedInstructionsURL string `json:"hosted_instructions_url"`
-	// The image_url_png string used to render QR code, can be used as <img src="…" />
+	// The PNG path used to render the QR code, can be used as the source in an HTML img tag
 	ImageURLPNG string `json:"image_url_png"`
-	// The image_url_svg string used to render QR code, can be used as <img src="…" />
+	// The SVG path used to render the QR code, can be used as the source in an HTML img tag
 	ImageURLSVG string `json:"image_url_svg"`
 }
 type PaymentIntentNextActionRedirectToURL struct {
@@ -1954,6 +1959,8 @@ type PaymentIntentNextActionVerifyWithMicrodeposits struct {
 type PaymentIntentNextActionWeChatPayDisplayQRCode struct {
 	// The data being used to generate QR code
 	Data string `json:"data"`
+	// The URL to the hosted WeChat Pay instructions page, which allows customers to view the WeChat Pay QR code.
+	HostedInstructionsURL string `json:"hosted_instructions_url"`
 	// The base64 image data for a pre-generated QR code
 	ImageDataURL string `json:"image_data_url"`
 	// The image_url_png string used to render QR code
@@ -2460,8 +2467,6 @@ type PaymentIntent struct {
 	CancellationReason PaymentIntentCancellationReason `json:"cancellation_reason"`
 	// Controls when the funds will be captured from the customer's account.
 	CaptureMethod PaymentIntentCaptureMethod `json:"capture_method"`
-	// Charges that were created by this PaymentIntent, if any.
-	Charges *ChargeList `json:"charges"`
 	// The client secret of this PaymentIntent. Used for client-side retrieval using a publishable key.
 	//
 	// The client secret can be used to complete a payment from your frontend. It should not be stored, logged, or exposed to anyone other than the customer. Make sure that you have TLS enabled on any page that includes the client secret.
@@ -2487,6 +2492,8 @@ type PaymentIntent struct {
 	Invoice *Invoice `json:"invoice"`
 	// The payment error encountered in the previous PaymentIntent confirmation. It will be cleared if the PaymentIntent is later updated for any reason.
 	LastPaymentError *Error `json:"last_payment_error"`
+	// The latest charge created by this payment intent.
+	LatestCharge *Charge `json:"latest_charge"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. For more information, see the [documentation](https://stripe.com/docs/payments/payment-intents/creating-payment-intents#storing-information-in-metadata).

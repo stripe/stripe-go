@@ -8,7 +8,7 @@ package stripe
 
 import (
 	"encoding/json"
-	"github.com/stripe/stripe-go/v73/form"
+	"github.com/stripe/stripe-go/v74/form"
 )
 
 // The business type.
@@ -64,16 +64,20 @@ type AccountCompanyVerificationDocumentDetailsCode string
 
 // List of values that AccountCompanyVerificationDocumentDetailsCode can take
 const (
-	AccountCompanyVerificationDocumentDetailsCodeDocumentCorrupt        AccountCompanyVerificationDocumentDetailsCode = "document_corrupt"
-	AccountCompanyVerificationDocumentDetailsCodeDocumentFailedCopy     AccountCompanyVerificationDocumentDetailsCode = "document_failed_copy"
-	AccountCompanyVerificationDocumentDetailsCodeDocumentFailedOther    AccountCompanyVerificationDocumentDetailsCode = "document_failed_other"
-	AccountCompanyVerificationDocumentDetailsCodeDocumentFailedTestMode AccountCompanyVerificationDocumentDetailsCode = "document_failed_test_mode"
-	AccountCompanyVerificationDocumentDetailsCodeDocumentFraudulent     AccountCompanyVerificationDocumentDetailsCode = "document_fraudulent"
-	AccountCompanyVerificationDocumentDetailsCodeDocumentInvalid        AccountCompanyVerificationDocumentDetailsCode = "document_invalid"
-	AccountCompanyVerificationDocumentDetailsCodeDocumentManipulated    AccountCompanyVerificationDocumentDetailsCode = "document_manipulated"
-	AccountCompanyVerificationDocumentDetailsCodeDocumentNotReadable    AccountCompanyVerificationDocumentDetailsCode = "document_not_readable"
-	AccountCompanyVerificationDocumentDetailsCodeDocumentNotUploaded    AccountCompanyVerificationDocumentDetailsCode = "document_not_uploaded"
-	AccountCompanyVerificationDocumentDetailsCodeDocumentTooLarge       AccountCompanyVerificationDocumentDetailsCode = "document_too_large"
+	AccountCompanyVerificationDocumentDetailsCodeDocumentCorrupt          AccountCompanyVerificationDocumentDetailsCode = "document_corrupt"
+	AccountCompanyVerificationDocumentDetailsCodeDocumentExpired          AccountCompanyVerificationDocumentDetailsCode = "document_expired"
+	AccountCompanyVerificationDocumentDetailsCodeDocumentFailedCopy       AccountCompanyVerificationDocumentDetailsCode = "document_failed_copy"
+	AccountCompanyVerificationDocumentDetailsCodeDocumentFailedOther      AccountCompanyVerificationDocumentDetailsCode = "document_failed_other"
+	AccountCompanyVerificationDocumentDetailsCodeDocumentFailedTestMode   AccountCompanyVerificationDocumentDetailsCode = "document_failed_test_mode"
+	AccountCompanyVerificationDocumentDetailsCodeDocumentFailedGreyscale  AccountCompanyVerificationDocumentDetailsCode = "document_failed_greyscale"
+	AccountCompanyVerificationDocumentDetailsCodeDocumentFraudulent       AccountCompanyVerificationDocumentDetailsCode = "document_fraudulent"
+	AccountCompanyVerificationDocumentDetailsCodeDocumentInvalid          AccountCompanyVerificationDocumentDetailsCode = "document_invalid"
+	AccountCompanyVerificationDocumentDetailsCodeDocumentIncomplete       AccountCompanyVerificationDocumentDetailsCode = "document_incomplete"
+	AccountCompanyVerificationDocumentDetailsCodeDocumentManipulated      AccountCompanyVerificationDocumentDetailsCode = "document_manipulated"
+	AccountCompanyVerificationDocumentDetailsCodeDocumentNotReadable      AccountCompanyVerificationDocumentDetailsCode = "document_not_readable"
+	AccountCompanyVerificationDocumentDetailsCodeDocumentNotUploaded      AccountCompanyVerificationDocumentDetailsCode = "document_not_uploaded"
+	AccountCompanyVerificationDocumentDetailsCodeDocumentTooLarge         AccountCompanyVerificationDocumentDetailsCode = "document_too_large"
+	AccountCompanyVerificationDocumentDetailsCodeDocumentTypeNotSupported AccountCompanyVerificationDocumentDetailsCode = "document_type_not_supported"
 )
 
 // The controller type. Can be `application`, if a Connect application controls the account, or `account`, if the account controls itself.
@@ -295,6 +299,12 @@ type AccountCapabilitiesIDEALPaymentsParams struct {
 	Requested *bool `form:"requested"`
 }
 
+// The india_international_payments capability.
+type AccountCapabilitiesIndiaInternationalPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
 // The jcb_payments capability.
 type AccountCapabilitiesJCBPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
@@ -427,6 +437,8 @@ type AccountCapabilitiesParams struct {
 	GrabpayPayments *AccountCapabilitiesGrabpayPaymentsParams `form:"grabpay_payments"`
 	// The ideal_payments capability.
 	IDEALPayments *AccountCapabilitiesIDEALPaymentsParams `form:"ideal_payments"`
+	// The india_international_payments capability.
+	IndiaInternationalPayments *AccountCapabilitiesIndiaInternationalPaymentsParams `form:"india_international_payments"`
 	// The jcb_payments capability.
 	JCBPayments *AccountCapabilitiesJCBPaymentsParams `form:"jcb_payments"`
 	// The klarna_payments capability.
@@ -852,6 +864,8 @@ type AccountCapabilities struct {
 	GrabpayPayments AccountCapabilityStatus `json:"grabpay_payments"`
 	// The status of the iDEAL payments capability of the account, or whether the account can directly process iDEAL charges.
 	IDEALPayments AccountCapabilityStatus `json:"ideal_payments"`
+	// The status of the india_international_payments capability of the account, or whether the account can process international charges (non INR) in India.
+	IndiaInternationalPayments AccountCapabilityStatus `json:"india_international_payments"`
 	// The status of the JCB payments capability of the account, or whether the account (Japan only) can directly process JCB credit card charges in JPY currency.
 	JCBPayments AccountCapabilityStatus `json:"jcb_payments"`
 	// The status of the Klarna payments capability of the account, or whether the account can directly process Klarna charges.

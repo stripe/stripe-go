@@ -32,19 +32,9 @@ func TestPaymentIntent_UnmarshalJSON(t *testing.T) {
 	intentData := map[string]interface{}{
 		"id":     "pi_123",
 		"object": "payment_intent",
-		"charges": map[string]interface{}{
-			"object":   "list",
-			"has_more": true,
-			"data": []map[string]interface{}{
-				{
-					"id":     "ch_123",
-					"object": "charge",
-				},
-				{
-					"id":     "ch_234",
-					"object": "charge",
-				},
-			},
+		"latest_charge": map[string]interface{}{
+			"id":     "ch_123",
+			"object": "charge",
 		},
 		"payment_method_types": []interface{}{
 			"card",
@@ -60,6 +50,6 @@ func TestPaymentIntent_UnmarshalJSON(t *testing.T) {
 
 	assert.Equal(t, "pi_123", intent.ID)
 
-	assert.Equal(t, 2, len(intent.Charges.Data))
+	assert.Equal(t, "ch_123", intent.LatestCharge.ID)
 	assert.Equal(t, 1, len(intent.PaymentMethodTypes))
 }
