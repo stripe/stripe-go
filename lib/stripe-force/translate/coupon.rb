@@ -79,7 +79,7 @@ class StripeForce::Translate
 
     # Prevents Stripe API error 'Stripe::InvalidRequestError: Invalid integer: 1.0'
     # since Salesforce stores these values as decimals (1.0) but Stripe expects an integer
-    if stripe_coupon["duration"] == 'repeating'
+    if !stripe_coupon["duration_in_months"].nil?
       stripe_coupon["duration_in_months"] = stripe_coupon["duration_in_months"].to_i
     end
 
