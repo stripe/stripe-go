@@ -33,7 +33,7 @@ public with sharing class Sentry_Event {
 
     public String[] modules;
 
-    public Map<String, Object> request = Sentry_Context.Basic();
+    public Map<String, Object> request = Sentry_Context.Request();
 
     public Map<String, Object> extra = Sentry_Context.Basic();
 

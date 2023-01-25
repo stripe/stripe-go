@@ -55,4 +55,12 @@ public abstract class Sentry_Context {
             'id' => UserInfo.getUserId()
         };
     }
+
+    public static Map<String, String> Request() {
+        System.Request req = System.Request.getCurrent();
+        return new Map<String, String> {
+            'id' => req.getRequestId(),
+            'quiddity' => String.valueOf(req.getQuiddity())
+        };
+    }
 }

@@ -5,37 +5,6 @@ public with sharing class utilities {
         return !String.isEmpty(constants.NAMESPACE_API);
     }
 
-    public static Order_Stripe_Coupon__c cloneStripeCoupon(Quote_Stripe_Coupon__c quoteCoupon, SObject parentRecord)
-    {
-        // clone the Stripe Coupon on the quote, it will have a different Id
-        Order_Stripe_Coupon__c clonedCoupon = new Order_Stripe_Coupon__c();
-        clonedCoupon.Amount_Off__c = quoteCoupon.Amount_Off__c;
-        clonedCoupon.Duration__c = quoteCoupon.Duration__c;
-        clonedCoupon.Duration_In_Months__c = quoteCoupon.Duration_In_Months__c;
-        clonedCoupon.Max_Redemptions__c = quoteCoupon.Max_Redemptions__c;
-        clonedCoupon.Name__c = quoteCoupon.Name__c;
-        clonedCoupon.Percent_Off__c = quoteCoupon.Percent_Off__c;
-        clonedCoupon.Quote_Stripe_Coupon_Id__c = quoteCoupon.Id;
-
-        if (parentRecord.getSObjectType() == Order.getSObjectType()) {
-            clonedCoupon.Order__c = parentRecord.Id;
-        } else if (parentRecord.getSObjectType() == OrderItem.getSObjectType()) {
-            clonedCoupon.Order_Item__c = parentRecord.Id;
-        }
-
-        // insert the cloned Stripe coupon
-        Database.SaveResult result = Database.insertImmediate((sObject)clonedCoupon);
-        if (!result.isSuccess()) { 
-            // operation failed, so get all errors                
-            for(Database.Error err : result.getErrors()) {
-                System.debug('The following error has occurred.');                    
-                System.debug(err.getStatusCode() + ': ' + err.getMessage());
-                System.debug('Fields that affected this error: ' + err.getFields());
-            }
-        }
-        return clonedCoupon;
-    }
-    
     @AuraEnabled
     public static String getPackageVersion() {
         responseData rd = new responseData();
