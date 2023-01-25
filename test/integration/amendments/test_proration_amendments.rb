@@ -31,7 +31,6 @@ class Critic::ProratedAmendmentTranslation < Critic::OrderAmendmentFunctionalTes
       additional_product_fields: {
         CPQ_QUOTE_BILLING_FREQUENCY => CPQBillingFrequencyOptions::ANNUAL.serialize,
         CPQ_QUOTE_SUBSCRIPTION_TERM => nil,
-        # CPQ_QUOTE_SUBSCRIPTION_TERM => 12,
       }
     )
 
@@ -48,7 +47,6 @@ class Critic::ProratedAmendmentTranslation < Critic::OrderAmendmentFunctionalTes
 
     # increase quantity
     amendment_data["lineItems"].first["record"][CPQ_QUOTE_QUANTITY] = 3
-
     amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_START_DATE] = format_date_for_salesforce(amendment_start_date)
     amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_TERM] = amendment_term
 
@@ -112,7 +110,7 @@ class Critic::ProratedAmendmentTranslation < Critic::OrderAmendmentFunctionalTes
     prorated_price = Stripe::Price.retrieve(T.cast(prorated_item.price, String), @user.stripe_credentials)
 
     # check additional fields added to the proration invoice item
-    assert_equal("phase_end", prorated_item.period.end.type)
+    assert_equal("subscription_period_end", prorated_item.period.end.type)
     assert_equal("phase_start", prorated_item.period.start.type)
     assert_equal("true", prorated_item.metadata[StripeForce::Translate::Metadata.metadata_key(@user, MetadataKeys::PRORATION)])
     assert_equal(second_phase_item_additive.metadata['salesforce_order_item_id'], prorated_item.metadata['salesforce_order_item_id'])
@@ -155,6 +153,13 @@ class Critic::ProratedAmendmentTranslation < Critic::OrderAmendmentFunctionalTes
     assert_equal(2, invoice_line.quantity)
     assert_equal(60_00 * 2, invoice.total)
     assert_equal("true", invoice.metadata[StripeForce::Translate::Metadata.metadata_key(@user, MetadataKeys::PRORATION_INVOICE)])
+
+    # sanity check the usage period of this proration invoice
+    # should be from the amendment start to the next billing cycle date
+    assert_equal(amendment_start_date.to_i, invoice.period_start)
+    # the proration period end should align with the next billing cycle
+    # since this is billed 'Annually', add a year to the initial order start date to get the start of the next billing cycle
+    assert_equal((initial_order_start_date + 1.year).to_i, invoice.period_end.to_i)
   end
 
   # NOTE this was the first test written and has more extensive edge cases than other amendment tests
@@ -276,7 +281,7 @@ class Critic::ProratedAmendmentTranslation < Critic::OrderAmendmentFunctionalTes
     prorated_price = Stripe::Price.retrieve(T.cast(prorated_item.price, String), @user.stripe_credentials)
 
     # check additional fields added to the proration invoice item
-    assert_equal("phase_end", prorated_item.period.end.type)
+    assert_equal("subscription_period_end", prorated_item.period.end.type)
     assert_equal("phase_start", prorated_item.period.start.type)
     assert_equal("true", prorated_item.metadata[StripeForce::Translate::Metadata.metadata_key(@user, MetadataKeys::PRORATION)])
     assert_equal(second_phase_item_additive.metadata['salesforce_order_item_id'], prorated_item.metadata['salesforce_order_item_id'])
@@ -401,7 +406,7 @@ class Critic::ProratedAmendmentTranslation < Critic::OrderAmendmentFunctionalTes
     second_phase_item_additive_price = Stripe::Price.retrieve(T.cast(second_phase_item_additive.price, String), @user.stripe_credentials)
 
     # check additional fields added to the proration invoice item
-    assert_equal("phase_end", prorated_item.period.end.type)
+    assert_equal("subscription_period_end", prorated_item.period.end.type)
     assert_equal("phase_start", prorated_item.period.start.type)
     assert_equal("true", prorated_item.metadata[StripeForce::Translate::Metadata.metadata_key(@user, MetadataKeys::PRORATION)])
     assert_equal(second_phase_item_additive.metadata['salesforce_order_item_id'], prorated_item.metadata['salesforce_order_item_id'])

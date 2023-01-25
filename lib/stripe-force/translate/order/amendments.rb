@@ -202,7 +202,7 @@ class StripeForce::Translate
           price_data: price_data,
           period: {
             end: {
-              type: 'phase_end',
+              type: 'subscription_period_end',
             },
             start: {
               type: 'phase_start',
@@ -288,7 +288,7 @@ class StripeForce::Translate
           price: proration_price.id,
           period: {
             end: {
-              type: 'phase_end',
+              type: 'subscription_period_end',
             },
             start: {
               type: 'phase_start',

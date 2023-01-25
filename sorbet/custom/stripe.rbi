@@ -267,6 +267,14 @@ class Stripe::SubscriptionItem < Stripe::APIResource
   def discounts=(arg); end
 end
 
+class Stripe::Invoice
+  sig { returns(Integer)}
+  def period_end; end
+
+  sig { returns(Integer)}
+  def period_start; end
+end
+
 class Stripe::InvoiceItem
   sig { returns(T.any(String, Stripe::Subscription))}
   def subscription; end
