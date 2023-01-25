@@ -5,6 +5,7 @@ public with sharing class test_updateOrderCouponTrigger {
     private static final Integer COUPON_PERCENT_OFF = 55;
     private static final String COUPON_DURATION = 'once';
     private static final String ORDER_STATUS_ACTIVATED = 'Activated';
+    private static final String ORDER_STATUS_DRAFT = 'Draft';
 
     @IsTest
     static public void testUpdateOrderCouponTriggerOnQuoteCoupons() {
@@ -13,15 +14,14 @@ public with sharing class test_updateOrderCouponTrigger {
             return;
         }
 
-        // Setup test data
+        // setup test data
         SBQQ__Quote__c quote = createQuote();
         Quote_Stripe_Coupon__c coupon = createStripeCoupon();
         createStripeCouponQuoteAssociation(quote.Id, coupon.Id);
 
+        // fires trigger
         Test.startTest();
-
         Order order = activateOrderFromQuote(quote);
-
         Test.stopTest();
 
         // sanity check that the Quote Stripe Coupon Association was created
@@ -38,7 +38,7 @@ public with sharing class test_updateOrderCouponTrigger {
         System.assertEquals(COUPON_DURATION, quoteCoupon.Duration__c);
 
         // trigger should have created an Order Stripe Coupon
-        List<Order_Stripe_Coupon__c> orderStripeCoupons = getOrderStripeCoupon(quoteCoupon.Id);
+        List<Order_Stripe_Coupon__c> orderStripeCoupons = getOrderCouponFromQuoteCouponId(quoteCoupon.Id);
         System.assertEquals(1, orderStripeCoupons.size());
         
         Order_Stripe_Coupon__c orderStripeCoupon = orderStripeCoupons.get(0);
@@ -52,16 +52,15 @@ public with sharing class test_updateOrderCouponTrigger {
             return;
         }
 
-        // Setup test data
+        // setup test data
         SBQQ__Quote__c quote = createQuote();
         Quote_Stripe_Coupon__c coupon = createStripeCoupon();
         SBQQ__QuoteLine__c quoteLine = [SELECT Id FROM SBQQ__QuoteLine__c WHERE SBQQ__Quote__c = :quote.Id];
         createStripeCouponQuoteLineAssociation(quoteLine.Id, coupon.Id);
 
+        // fires trigger
         Test.startTest();
-
         Order order = activateOrderFromQuote(quote);
-
         Test.stopTest();
 
         List<SBQQ__QuoteLine__c> quoteLines = [SELECT Id FROM SBQQ__QuoteLine__c WHERE SBQQ__Quote__c = :quote.Id];
@@ -81,7 +80,7 @@ public with sharing class test_updateOrderCouponTrigger {
         System.assertEquals(COUPON_DURATION, quoteCoupon.Duration__c);
 
         // trigger should have created an Order Stripe Coupon
-        List<Order_Stripe_Coupon__c> orderStripeCoupons = getOrderStripeCoupon(quoteCoupon.Id);
+        List<Order_Stripe_Coupon__c> orderStripeCoupons = getOrderCouponFromQuoteCouponId(quoteCoupon.Id);
         System.assertEquals(1, orderStripeCoupons.size());
 
         Order_Stripe_Coupon__c orderStripeCoupon = orderStripeCoupons.get(0);
@@ -89,6 +88,48 @@ public with sharing class test_updateOrderCouponTrigger {
 
         List<OrderItem> orderItems = [SELECT Id FROM OrderItem WHERE OrderId = :order.Id];
         System.assertEquals(1, orderItems.size());
+    }
+
+    @IsTest
+    static public void testDoubleFiringTrigger() {
+        Boolean isCpqInstalled = utilities.isCpqEnabled();
+        if(!isCpqInstalled) {
+            return;
+        }
+
+        // setup test data
+        SBQQ__Quote__c quote = createQuote();
+        SBQQ__QuoteLine__c quoteLine = [SELECT Id FROM SBQQ__QuoteLine__c WHERE SBQQ__Quote__c = :quote.Id];
+        
+        // add a coupon on the quote
+        Quote_Stripe_Coupon__c quoteCoupon = createStripeCoupon();
+        createStripeCouponQuoteAssociation(quote.Id, quoteCoupon.Id);
+
+        // add two coupons on the quote line
+        Quote_Stripe_Coupon__c quoteLineCoupon = createStripeCoupon();
+        createStripeCouponQuoteLineAssociation(quoteLine.Id, quoteLineCoupon.Id);
+        createStripeCouponQuoteLineAssociation(quoteLine.Id, quoteLineCoupon.Id);
+
+        // fire trigger by activating the quote
+        Order order = activateOrderFromQuote(quote);
+ 
+        // initial trigger should have created 3 order coupons (1 on the order and 2 on the order line)
+        List<Order_Stripe_Coupon__c> orderStripeCoupons = getOrderCouponFromQuoteCouponId(quoteCoupon.Id);
+        System.assertEquals(1, orderStripeCoupons.size());
+
+        List<Order_Stripe_Coupon__c> orderLineStripeCoupons = getOrderCouponFromQuoteCouponId(quoteLineCoupon.Id);
+        System.assertEquals(2, orderLineStripeCoupons.size());
+
+        // now let's refire the updateCoupons trigger
+        Test.startTest();
+        refireTrigger(order);
+        Test.stopTest();
+
+        // confirm that no new order coupons were created due to the trigger firing again
+        orderStripeCoupons = getOrderCouponFromQuoteCouponId(quoteCoupon.Id);
+        System.assertEquals(1, orderStripeCoupons.size());
+        orderLineStripeCoupons = getOrderCouponFromQuoteCouponId(quoteLineCoupon.Id);
+        System.assertEquals(2, orderLineStripeCoupons.size());
     }
 
     static private Order activateOrderFromQuote(SBQQ__Quote__c quote) {
@@ -244,10 +285,19 @@ public with sharing class test_updateOrderCouponTrigger {
         ];
     }
 
-    static public List<Order_Stripe_Coupon__c> getOrderStripeCoupon(Id quoteCouponId) {
+    static public List<Order_Stripe_Coupon__c> getOrderCouponFromQuoteCouponId(Id quoteCouponId) {
         return [
             SELECT Id, Name__c, Percent_Off__c, Duration__c, Quote_Stripe_Coupon_Id__c, Order__c
             FROM Order_Stripe_Coupon__c
             WHERE Quote_Stripe_Coupon_Id__c = :quoteCouponId];
+    }
+
+    // This helper is used only in test to cause the updateCoupons trigger to refire
+    static private void refireTrigger(Order order)
+    {
+        order.Status = ORDER_STATUS_DRAFT;
+        Database.update(order, true);
+        order.Status = ORDER_STATUS_ACTIVATED;
+        Database.update(order, true);
     }
 }

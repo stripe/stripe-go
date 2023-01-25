@@ -1,6 +1,4 @@
 trigger updateCoupons on Order (after update) {
-  public class CouponException extends Exception {}
-  
   try {
     // for all new Orders, check if the corresponding Quote has coupons and duplicate/copy to the corresponding order
     Map<Id, Id> quoteIdsToOrderIds = new Map<Id, Id>();
@@ -16,8 +14,7 @@ trigger updateCoupons on Order (after update) {
     }
 
     OrderCouponTriggerHandler handler = new OrderCouponTriggerHandler(quoteIdsToOrderIds);
-    handler.processQuoteCoupons();
-    handler.processQuoteLineCoupons();
+    handler.process();
     handler.persistChanges();
     handler.refreshState(new Map<Id, Id>());
 

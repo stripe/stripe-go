@@ -1,7 +1,7 @@
 public with sharing class OrderCouponTriggerHandler {
     public class CouponException extends Sentry_Exception {}
 
-    private Map<Id, Id> quoteIdsToOrderIds = null;   
+    private Map<Id, Id> quoteIdsToOrderIds = null;
     private Map<Id, SBQQ__QuoteLine__c> quoteLines = null;
     // the order coupons that are bulk persisted at the end of the trigger execution
     private List<Order_Stripe_Coupon__c> orderCouponsToSave = null;
@@ -19,6 +19,55 @@ public with sharing class OrderCouponTriggerHandler {
 
         orderCouponsToSave = new List<Order_Stripe_Coupon__c>();
         quoteLines = new Map<Id, SBQQ__QuoteLine__c>();
+    }
+
+    public void process() {
+        removePreviouslyProcessedOrders();
+        processQuoteCoupons();
+        processQuoteLineCoupons();
+    }
+
+    // in case the user has workflows that would cause the trigger to fire twice, let's ensure we don't create duplicate Order Stripe Coupons
+    public void removePreviouslyProcessedOrders() {
+        // create the reverse map of order id -> quote id
+        Map<Id, Id> orderIdsToQuoteIds = new Map<Id, Id>();
+        for (Id quoteId : quoteIdsToOrderIds.keySet()) {
+            orderIdsToQuoteIds.put(quoteIdsToOrderIds.get(quoteId), quoteId);
+        }
+
+        Map<Id, OrderItem> orderItemsById = new Map<Id, OrderItem>([SELECT Id, OrderId FROM OrderItem WHERE OrderId = :quoteIdsToOrderIds.values()]);
+
+        // query for all Order Stripe Coupons that are tied to these orders or order items
+        List<Order_Stripe_Coupon__c> coupons = [
+            SELECT
+                Order__c,
+                Order_Item__c
+            FROM Order_Stripe_Coupon__c
+            WHERE
+                Order__c = :quoteIdsToOrderIds.values()
+                OR Order_Item__c = :orderItemsById.keySet()
+        ];
+
+        for (Order_Stripe_Coupon__c coupon : coupons) {
+            Id orderId = null;
+            if (coupon.Order_Item__c != null) {
+                orderId = orderItemsById.get(coupon.Order_Item__c).OrderId;
+            } else if (coupon.Order__c != null) {
+                orderId = coupon.Order__c;
+            }
+
+            // this should really never happen since an Order Stripe Coupon 
+            // should always be created with either Order__c or Order_Item__c fields set
+            if (orderId == null) {
+                continue;
+            }
+
+            // remove any quote we have already processed
+            Id quoteId = orderIdsToQuoteIds.get(orderId);
+            if (quoteIdsToOrderIds.containsKey(quoteId)) {
+                quoteIdsToOrderIds.remove(quoteId);
+            }
+        }
     }
 
     public void processQuoteCoupons() {
