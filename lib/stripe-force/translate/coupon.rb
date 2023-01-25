@@ -3,14 +3,10 @@
 
 class StripeForce::Translate
   def translate_coupon(order_sf_coupon)
-    locker.lock_salesforce_record(order_sf_coupon)
-
     log.info 'translating coupon', salesforce_object: order_sf_coupon
 
     catch_errors_with_salesforce_context(secondary: order_sf_coupon) do
       create_coupon_from_sf_coupon(order_sf_coupon)
-    ensure
-      locker.release_salesforce_record_lock(order_sf_coupon)
     end
   end
 
@@ -38,11 +34,9 @@ class StripeForce::Translate
       sanitize_stripe_coupon(stripe_coupon_data)
     end
 
-    # update the sf quote coupon stripe id
-    update_sf_stripe_id(quote_sf_coupon, stripe_coupon)
     # update the sf order coupon stripe id
     update_sf_stripe_id(order_sf_coupon, stripe_coupon)
-    # also update the quote sf coupon stripe id so the same coupon object can be reused in another quote/order
+    # also update the quote sf coupon stripe id so the same coupon object can be reused in another quote
     update_sf_stripe_id(quote_sf_coupon, stripe_coupon)
 
     stripe_coupon

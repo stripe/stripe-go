@@ -655,6 +655,231 @@ class Critic::OrderAmendmentTranslation < Critic::OrderAmendmentFunctionalTest
     end
   end
 
+  describe 'coupons' do
+    it 'phase coupons are not copied over to new phase on amendment orders' do
+      @user.enable_feature(FeatureFlags::COUPONS)
+
+      # setup
+      sf_account_id = create_salesforce_account
+      sf_product_id, _sf_pricebook_id = salesforce_recurring_product_with_price
+
+      contract_term = TEST_DEFAULT_CONTRACT_TERM
+      amendment_term = 6
+      initial_order_start_date = now_time
+      amendment_start_date = initial_order_start_date + (contract_term - amendment_term).month
+      amendment_end_date = amendment_start_date + amendment_term.months
+
+      # create a CPQ quote
+      sf_quote_id = create_salesforce_quote(sf_account_id: sf_account_id, additional_quote_fields: {
+        CPQ_QUOTE_SUBSCRIPTION_START_DATE => now_time_formatted_for_salesforce,
+        CPQ_QUOTE_SUBSCRIPTION_TERM => TEST_DEFAULT_CONTRACT_TERM,
+      })
+
+      # create a quote with a product
+      quote_with_product = add_product_to_cpq_quote(sf_quote_id, sf_product_id: sf_product_id)
+      sf_quote_id = calculate_and_save_cpq_quote(quote_with_product)
+
+      # retrieve the quote line
+      quote_lines = sf_get_related(sf_quote_id, CPQ_QUOTE_LINE)
+      assert_equal(1, quote_lines.size)
+      quote_line_id = quote_lines.first.Id
+
+      # create two coupons and attach one to the quote and the other to the quote line
+      sf_percent_off_coupon_id = create_salesforce_stripe_coupon(additional_fields: {
+        SalesforceStripeCouponFields::NAME => '25% off coupon',
+        SalesforceStripeCouponFields::PERCENT_OFF => 25,
+      })
+      sf_amount_off_coupon_id = create_salesforce_stripe_coupon(additional_fields: {
+        SalesforceStripeCouponFields::NAME => '$10 off coupon',
+        SalesforceStripeCouponFields::AMOUNT_OFF => 10,
+      })
+
+      # create the quote line coupon association object to map the coupons to the quote line
+      create_salesforce_stripe_coupon_quote_line_association(sf_quote_line_id: quote_line_id, sf_stripe_coupon_id: sf_percent_off_coupon_id)
+      create_salesforce_stripe_coupon_quote_association(sf_quote_id: sf_quote_id, sf_stripe_coupon_id: sf_amount_off_coupon_id)
+
+      # create and translate the initial sf order
+      sf_order = create_order_from_cpq_quote(sf_quote_id)
+      StripeForce::Translate.perform_inline(@user, sf_order.Id)
+
+      # now create and translate an amendment
+      sf_contract = create_contract_from_order(sf_order)
+      amendment_data = create_quote_data_from_contract_amendment(sf_contract)
+
+      # increase quantity of the line item by 1
+      amendment_data["lineItems"].first["record"][CPQ_QUOTE_QUANTITY] = 2
+      amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_START_DATE] = format_date_for_salesforce(amendment_start_date)
+      amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_TERM] = amendment_term
+
+      # translate the sf amendment
+      sf_order_amendment = create_order_from_quote_data(amendment_data)
+      StripeForce::Translate.perform_inline(@user, sf_order_amendment.Id)
+
+      # fetch the corresponding stripe subscription schedule
+      sf_order.refresh
+      stripe_id = sf_order[prefixed_stripe_field(GENERIC_STRIPE_ID)]
+      subscription_schedule = Stripe::SubscriptionSchedule.retrieve(stripe_id, @user.stripe_credentials)
+      assert_equal(2, subscription_schedule.phases.count)
+
+      first_phase = T.must(subscription_schedule.phases.first)
+      second_phase = T.must(subscription_schedule.phases[1])
+
+      # first phase should have one discount
+      assert_equal(1, first_phase.discounts.count)
+
+      # sanity check it's the coupon we attached
+      original_phase_coupon_id = T.must(first_phase.discounts.first).coupon
+      stripe_coupon = Stripe::Coupon.retrieve(original_phase_coupon_id, @user.stripe_credentials)
+      sf_amount_off_order_coupon = get_sf_order_coupon_from_quote_coupon_id(sf_amount_off_coupon_id)
+      assert_equal(sf_amount_off_order_coupon.Id, stripe_coupon.metadata['salesforce_order_stripe_coupon_id'])
+
+      # first phase should have one item with a single quantity
+      assert_equal(1, first_phase.items.count)
+      first_phase_item = T.must(first_phase.items.first)
+      assert_equal(1, first_phase_item[:quantity])
+
+      # first phase item should have one coupon
+      assert_equal(1, first_phase_item.discounts.count)
+
+      # sanity check the phase item coupon data
+      original_phase_item_coupon_id = T.must(first_phase_item.discounts.first).coupon
+      stripe_coupon = Stripe::Coupon.retrieve(original_phase_item_coupon_id, @user.stripe_credentials)
+      assert_equal(25, stripe_coupon.percent_off)
+      assert_equal("once", stripe_coupon.duration)
+      sf_percent_off_order_coupon = get_sf_order_coupon_from_quote_coupon_id(sf_percent_off_coupon_id)
+      assert_equal(sf_percent_off_order_coupon.Id, stripe_coupon.metadata['salesforce_order_stripe_coupon_id'])
+
+      # second phase should start at the end date
+      assert_equal(0, second_phase.start_date - amendment_start_date.to_i)
+      assert_equal(0, second_phase.end_date - amendment_end_date.to_i)
+
+      # second phase should have two items
+      second_phase_items = second_phase.items
+      assert_equal(2, second_phase_items.count)
+
+      # one of the second phase items should have a coupon
+      phase_items_with_discount = second_phase_items.reject! {|d| d.discounts.empty? }
+      assert_equal(1, T.must(phase_items_with_discount).count)
+
+      # sanity check the second phase item coupon
+      phase_item_discount = T.must(T.must(phase_items_with_discount).first).discounts
+      stripe_coupon = Stripe::Coupon.retrieve(T.must(phase_item_discount.first).coupon, @user.stripe_credentials)
+      assert_equal(25, stripe_coupon.percent_off)
+      assert_equal("once", stripe_coupon.duration)
+      assert_equal(sf_percent_off_order_coupon.Id, stripe_coupon.metadata['salesforce_order_stripe_coupon_id'])
+    end
+
+    it 'supports adding new phase and phase item coupons to an sf amendment order' do
+      @user.enable_feature(FeatureFlags::COUPONS)
+
+      # setup
+      sf_account_id = create_salesforce_account
+      sf_product_id, _sf_pricebook_id = salesforce_recurring_product_with_price
+
+      contract_term = TEST_DEFAULT_CONTRACT_TERM
+      amendment_term = 6
+      initial_order_start_date = now_time
+      amendment_start_date = initial_order_start_date + (contract_term - amendment_term).month
+      amendment_end_date = amendment_start_date + amendment_term.months
+
+      # create a CPQ quote
+      sf_quote_id = create_salesforce_quote(sf_account_id: sf_account_id, additional_quote_fields: {
+        CPQ_QUOTE_SUBSCRIPTION_START_DATE => now_time_formatted_for_salesforce,
+        CPQ_QUOTE_SUBSCRIPTION_TERM => TEST_DEFAULT_CONTRACT_TERM,
+      })
+
+      # create a quote with a product
+      quote_with_product = add_product_to_cpq_quote(sf_quote_id, sf_product_id: sf_product_id)
+      sf_quote_id = calculate_and_save_cpq_quote(quote_with_product)
+
+      # create and translate the initial sf order
+      sf_order = create_order_from_cpq_quote(sf_quote_id)
+      StripeForce::Translate.perform_inline(@user, sf_order.Id)
+      sf_order.refresh
+
+      # now create an amendment order
+      sf_contract = create_contract_from_order(sf_order)
+
+      # increase quantity by 2
+      amendment_data = create_quote_data_from_contract_amendment(sf_contract)
+      amendment_data["lineItems"].first["record"][CPQ_QUOTE_QUANTITY] = 2
+      amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_START_DATE] = format_date_for_salesforce(amendment_start_date)
+      amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_TERM] = amendment_term
+
+      # retrieve the amendment quote and quote line Id
+      sf_amendment_quote_id = calculate_and_save_cpq_quote(amendment_data)
+      quote_lines = sf_get_related(sf_amendment_quote_id, CPQ_QUOTE_LINE)
+      assert_equal(1, quote_lines.size)
+      sf_amendment_quote_line_id = quote_lines.first.Id
+
+      # create two coupons and attach one to the quote and the other to quote line
+      sf_percent_off_coupon_id = create_salesforce_stripe_coupon(additional_fields: {
+        SalesforceStripeCouponFields::NAME => '26.7% off coupon',
+        SalesforceStripeCouponFields::PERCENT_OFF => 26.7,
+      })
+      sf_amount_off_coupon_id = create_salesforce_stripe_coupon(additional_fields: {
+        SalesforceStripeCouponFields::NAME => '$10 off coupon',
+        SalesforceStripeCouponFields::AMOUNT_OFF => 10,
+      })
+
+      # create the quote line coupon association object to map the coupons to the quote line
+      create_salesforce_stripe_coupon_quote_line_association(sf_quote_line_id: sf_amendment_quote_line_id, sf_stripe_coupon_id: sf_percent_off_coupon_id)
+      create_salesforce_stripe_coupon_quote_association(sf_quote_id: sf_amendment_quote_id, sf_stripe_coupon_id: sf_amount_off_coupon_id)
+
+      # create and translate amendment order
+      sf_order_amendment = create_order_from_quote_data(amendment_data)
+      assert_equal(sf_order_amendment.Type, OrderTypeOptions::AMENDMENT.serialize)
+      StripeForce::Translate.perform_inline(@user, sf_order_amendment.Id)
+
+      # fetch the corresponding stripe subscription schedule
+      stripe_id = sf_order[prefixed_stripe_field(GENERIC_STRIPE_ID)]
+      subscription_schedule = Stripe::SubscriptionSchedule.retrieve(stripe_id, @user.stripe_credentials)
+      assert_equal(2, subscription_schedule.phases.count)
+
+      first_phase = T.must(subscription_schedule.phases.first)
+      second_phase = T.must(subscription_schedule.phases[1])
+
+      # first phase should have one item and no coupons
+      first_phase_items = first_phase.items
+      assert_equal(1, first_phase_items.count)
+
+      # first phase should have no discounts
+      assert_empty(first_phase.discounts)
+      # first phase item should no discounts
+      assert_empty(T.must(first_phase_items.first).discounts)
+
+      # second phase should start at the initial order end date
+      assert_equal(0, second_phase.start_date - amendment_start_date.to_i)
+      assert_equal(0, second_phase.end_date - amendment_end_date.to_i)
+
+      # second phase should have one coupon
+      assert_equal(1, second_phase.discounts.count)
+
+      # second phase item should have one item with a single quantity
+      assert_equal(2, second_phase.items.count)
+      assert_equal(0, second_phase.add_invoice_items.count)
+
+      # sanity check the phase coupon info
+      amendment_phase_coupon_id = T.must(second_phase.discounts.first).coupon
+      stripe_coupon = Stripe::Coupon.retrieve(amendment_phase_coupon_id, @user.stripe_credentials)
+      assert_equal(10 * 100, stripe_coupon.amount_off)
+      sf_amount_off_order_coupon = get_sf_order_coupon_from_quote_coupon_id(sf_amount_off_coupon_id)
+      assert_equal(sf_amount_off_order_coupon.Id, stripe_coupon.metadata['salesforce_order_stripe_coupon_id'])
+
+      # one of the two phase items should have a coupon
+      items_with_coupons = second_phase.items.select {|item| item.discounts.count > 0 }
+      assert_equal(1, items_with_coupons.count)
+
+      # sanity check the phase item coupons
+      amendment_phase_item_coupon_id = T.must(T.must(items_with_coupons.first).discounts.first).coupon
+      stripe_coupon = Stripe::Coupon.retrieve(amendment_phase_item_coupon_id, @user.stripe_credentials)
+      assert_in_delta(26.7, stripe_coupon.percent_off)
+      assert_equal("once", stripe_coupon.duration)
+      sf_percent_off_order_coupon = get_sf_order_coupon_from_quote_coupon_id(sf_percent_off_coupon_id)
+      assert_equal(sf_percent_off_order_coupon.Id, stripe_coupon.metadata['salesforce_order_stripe_coupon_id'])
+    end
+  end
+
   describe 'metadata' do
     it 'pulls metadata from each order amendment to the phase of each subscription'
     it 'uses metadata on the original line item if an item is not removed'

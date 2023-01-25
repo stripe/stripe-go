@@ -482,6 +482,10 @@ class StripeForce::Translate
         metadata: Metadata.stripe_metadata_for_sf_object(@user, sf_order_amendment),
       }.merge(phase_params))
 
+      if @user.feature_enabled?(FeatureFlags::COUPONS)
+        new_phase["discounts"] = stripe_discounts_for_sf_object(sf_object: sf_order_amendment)
+      end
+
       previous_phase = T.must(subscription_phases[index])
 
       is_identical_to_previous_phase_time_range = previous_phase.end_date == new_phase.end_date && previous_phase.start_date == new_phase.start_date

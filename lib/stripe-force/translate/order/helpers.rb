@@ -191,6 +191,30 @@ class StripeForce::Translate
       phase_items
     end
 
+    # You can't pass back the phase items in their original format. Must be modified to avoid:
+    # Stripe::InvalidRequestError by specifying both {coupon: discount:}
+    def self.sanitize_subscription_schedule_phase_discounts(phase)
+      # sanitize the phase discounts
+      unless phase["discounts"].nil?
+        phase["discounts"].each do |discount|
+          Integrations::Utilities::StripeUtil.delete_nil_fields_from_stripe_object(discount)
+        end
+      end
+
+      unless phase["coupon"].nil?
+        phase["coupon"] = nil
+      end
+
+      # sanitize the phase item discounts
+      phase.items.each do |item|
+        unless item["discounts"].nil?
+          item["discounts"].each do |discount|
+            Integrations::Utilities::StripeUtil.delete_nil_fields_from_stripe_object(discount)
+          end
+        end
+      end
+    end
+
     sig { params(original_phases: T::Array[Stripe::SubscriptionSchedulePhase]).returns(T::Array[Stripe::SubscriptionSchedulePhase]) }
     def self.sanitize_subscription_schedule_phase_params(original_phases)
       # without deep dupping this will mutate the input
@@ -200,6 +224,7 @@ class StripeForce::Translate
       # You can't pass back the phase in it's original format, it must be modified to avoid:
       # 'You passed an empty string for 'phases[0][collection_method]'. We assume empty values are an attempt to unset a parameter; however 'phases[0][collection_method]' cannot be unset. You should remove 'phases[0][collection_method]' from your request or supply a non-empty value.'
       phases.each do |phase|
+        self.sanitize_subscription_schedule_phase_discounts(phase)
         Integrations::Utilities::StripeUtil.delete_nil_fields_from_stripe_object(phase)
       end
 

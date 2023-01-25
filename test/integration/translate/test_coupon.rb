@@ -413,7 +413,7 @@ class Critic::CouponTranslation < Critic::FunctionalTest
 
       # now update the coupon in salesforce and attempt to translate a new order using this coupon
       sf.update!(prefixed_stripe_field(QUOTE_SF_STRIPE_COUPON), {
-        'Id' => sf_percent_off_coupon_id,
+        SF_ID => sf_percent_off_coupon_id,
         prefixed_stripe_field('Name__c') => 'Special coupon',
       })
 
