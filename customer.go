@@ -190,7 +190,7 @@ type CustomerRetrievePaymentMethodParams struct {
 
 // Configuration for eu_bank_transfer funding type.
 type CustomerCreateFundingInstructionsBankTransferEUBankTransferParams struct {
-	// The desired country code of the bank account information. Permitted values include: `DE`, `ES`, `FR`, `IE`, or `NL`.
+	// The desired country code of the bank account information. Permitted values include: `BE`, `DE`, `ES`, `FR`, `IE`, or `NL`.
 	Country *string `form:"country"`
 }
 

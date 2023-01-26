@@ -970,7 +970,7 @@ type CheckoutSessionPaymentMethodOptionsCardParams struct {
 
 // Configuration for eu_bank_transfer funding type.
 type CheckoutSessionPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferParams struct {
-	// The desired country code of the bank account information. Permitted values include: `DE`, `ES`, `FR`, `IE`, or `NL`.
+	// The desired country code of the bank account information. Permitted values include: `BE`, `DE`, `ES`, `FR`, `IE`, or `NL`.
 	Country *string `form:"country"`
 }
 
@@ -1108,7 +1108,8 @@ type CheckoutSessionPaymentMethodOptionsPayNowParams struct {
 
 // contains details about the PayPal payment method options.
 type CheckoutSessionPaymentMethodOptionsPaypalParams struct {
-	Currency *string `form:"currency"`
+	BillingAgreementID *string `form:"billing_agreement_id"`
+	Currency           *string `form:"currency"`
 }
 
 // contains details about the Pix payment method options.
@@ -1722,7 +1723,7 @@ type CheckoutSessionPaymentMethodOptionsCard struct {
 	StatementDescriptorSuffixKanji string `json:"statement_descriptor_suffix_kanji"`
 }
 type CheckoutSessionPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransfer struct {
-	// The desired country code of the bank account information. Permitted values include: `DE`, `ES`, `FR`, `IE`, or `NL`.
+	// The desired country code of the bank account information. Permitted values include: `BE`, `DE`, `ES`, `FR`, `IE`, or `NL`.
 	Country string `json:"country"`
 }
 type CheckoutSessionPaymentMethodOptionsCustomerBalanceBankTransfer struct {

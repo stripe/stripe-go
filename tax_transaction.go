@@ -90,6 +90,11 @@ type TaxTransactionParams struct {
 	FromCalculation *string `form:"from_calculation"`
 }
 
+// Lists Tax Transaction objects.
+type TaxTransactionListTransactionsParams struct {
+	ListParams `form:"*"`
+}
+
 // The line item amounts to reverse.
 type TaxTransactionCreateReversalLineItemParams struct {
 	// The amount to reverse, in negative integer cents.
@@ -117,6 +122,12 @@ type TaxTransactionCreateReversalParams struct {
 	OriginalTransaction *string `form:"original_transaction"`
 	// A custom identifier for this reversal, such as 'myOrder_123-refund_1'. Must be unique across all transactions.
 	Reference *string `form:"reference"`
+}
+
+// Retrieves the line items of a committed standalone transaction as a collection.
+type TaxTransactionListLineItemsParams struct {
+	ListParams  `form:"*"`
+	Transaction *string `form:"-"` // Included in URL
 }
 
 // The customer's tax IDs (e.g., EU VAT numbers).
@@ -171,4 +182,11 @@ type TaxTransaction struct {
 	TaxDate int64 `json:"tax_date"`
 	// If `reversal`, this transaction reverses an earlier transaction.
 	Type TaxTransactionType `json:"type"`
+}
+
+// TaxTransactionList is a list of Transactions as retrieved from a list endpoint.
+type TaxTransactionList struct {
+	APIResource
+	ListMeta
+	Data []*TaxTransaction `json:"data"`
 }

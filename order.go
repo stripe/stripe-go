@@ -152,11 +152,12 @@ const (
 	OrderPaymentSettingsPaymentMethodOptionsCardSetupFutureUsageOnSession  OrderPaymentSettingsPaymentMethodOptionsCardSetupFutureUsage = "on_session"
 )
 
-// The desired country code of the bank account information. Permitted values include: `DE`, `ES`, `FR`, `IE`, or `NL`.
+// The desired country code of the bank account information. Permitted values include: `BE`, `DE`, `ES`, `FR`, `IE`, or `NL`.
 type OrderPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferCountry string
 
 // List of values that OrderPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferCountry can take
 const (
+	OrderPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferCountryBE OrderPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferCountry = "BE"
 	OrderPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferCountryDE OrderPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferCountry = "DE"
 	OrderPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferCountryES OrderPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferCountry = "ES"
 	OrderPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferCountryFR OrderPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferCountry = "FR"
@@ -713,7 +714,7 @@ type OrderPaymentSettingsPaymentMethodOptionsCardParams struct {
 
 // Configuration for the eu_bank_transfer funding type.
 type OrderPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferParams struct {
-	// The desired country code of the bank account information. Permitted values include: `DE`, `ES`, `FR`, `IE`, or `NL`.
+	// The desired country code of the bank account information. Permitted values include: `BE`, `DE`, `ES`, `FR`, `IE`, or `NL`.
 	Country *string `form:"country"`
 }
 
@@ -1207,7 +1208,7 @@ type OrderPaymentSettingsPaymentMethodOptionsCard struct {
 	SetupFutureUsage OrderPaymentSettingsPaymentMethodOptionsCardSetupFutureUsage `json:"setup_future_usage"`
 }
 type OrderPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransfer struct {
-	// The desired country code of the bank account information. Permitted values include: `DE`, `ES`, `FR`, `IE`, or `NL`.
+	// The desired country code of the bank account information. Permitted values include: `BE`, `DE`, `ES`, `FR`, `IE`, or `NL`.
 	Country OrderPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferCountry `json:"country"`
 }
 type OrderPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransfer struct {

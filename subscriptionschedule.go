@@ -703,6 +703,8 @@ type SubscriptionScheduleAmendAmendmentParams struct {
 	MetadataActions []*SubscriptionScheduleAmendAmendmentMetadataActionParams `form:"metadata_actions"`
 	// Changes to how Stripe handles prorations during the amendment time span. Affects if and how prorations are created when a future phase starts. In cases where the amendment changes the currently active phase, it is used to determine whether or how to prorate now, at the time of the request. Also supported as a point-in-time operation when `amendment_end` is `null`.
 	ProrationBehavior *string `form:"proration_behavior"`
+	// Ends the subscription schedule early as dictated by either the accompanying amendment's start or end.
+	SetScheduleEnd *string `form:"set_schedule_end"`
 	// Settings related to subscription trials.
 	TrialSettings *SubscriptionScheduleAmendAmendmentTrialSettingsParams `form:"trial_settings"`
 }

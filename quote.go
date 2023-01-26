@@ -643,6 +643,8 @@ type QuoteLineParams struct {
 	ID *string `form:"id"`
 	// Changes to how Stripe handles prorations during the quote line's time span. Affects if and how prorations are created when a future phase starts.
 	ProrationBehavior *string `form:"proration_behavior"`
+	// Timestsamp helper to end the underlying schedule early, based on the acompanying line's start or end date.
+	SetScheduleEnd *string `form:"set_schedule_end"`
 	// Details to identify the earliest timestamp where the proposed change should take effect.
 	StartsAt *QuoteLineStartsAtParams `form:"starts_at"`
 	// Settings related to subscription trials.
@@ -757,18 +759,12 @@ type QuoteSubscriptionDataBillOnAcceptanceBillFromLineStartsAtParams struct {
 	Index *int64 `form:"index"`
 }
 
-// Details for a Unix timestamp to start the bill period from.
-type QuoteSubscriptionDataBillOnAcceptanceBillFromTimestampParams struct {
-	// A precise Unix timestamp.
-	Timestamp *int64 `form:"timestamp"`
-}
-
 // The start of the period to bill from when the Quote is accepted.
 type QuoteSubscriptionDataBillOnAcceptanceBillFromParams struct {
 	// Details of a Quote line to start the bill period from.
 	LineStartsAt *QuoteSubscriptionDataBillOnAcceptanceBillFromLineStartsAtParams `form:"line_starts_at"`
-	// Details for a Unix timestamp to start the bill period from.
-	Timestamp *QuoteSubscriptionDataBillOnAcceptanceBillFromTimestampParams `form:"timestamp"`
+	// A precise Unix timestamp.
+	Timestamp *int64 `form:"timestamp"`
 	// The type of method to specify the `bill_from` time.
 	Type *string `form:"type"`
 }
@@ -789,20 +785,14 @@ type QuoteSubscriptionDataBillOnAcceptanceBillUntilLineEndsAtParams struct {
 	Index *int64 `form:"index"`
 }
 
-// Details of a Unix timestamp to bill until.
-type QuoteSubscriptionDataBillOnAcceptanceBillUntilTimestampParams struct {
-	// A precise Unix timestamp.
-	Timestamp *int64 `form:"timestamp"`
-}
-
 // The end of the period to bill until when the Quote is accepted.
 type QuoteSubscriptionDataBillOnAcceptanceBillUntilParams struct {
 	// Details of the duration over which to bill.
 	Duration *QuoteSubscriptionDataBillOnAcceptanceBillUntilDurationParams `form:"duration"`
 	// Details of a Quote line item from which to bill until.
 	LineEndsAt *QuoteSubscriptionDataBillOnAcceptanceBillUntilLineEndsAtParams `form:"line_ends_at"`
-	// Details of a Unix timestamp to bill until.
-	Timestamp *QuoteSubscriptionDataBillOnAcceptanceBillUntilTimestampParams `form:"timestamp"`
+	// A precise Unix timestamp.
+	Timestamp *int64 `form:"timestamp"`
 	// The type of method to specify the `bill_until` time.
 	Type *string `form:"type"`
 }
@@ -879,18 +869,12 @@ type QuoteSubscriptionDataOverrideBillOnAcceptanceBillFromLineStartsAtParams str
 	Index *int64 `form:"index"`
 }
 
-// Details for a Unix timestamp to start the bill period from.
-type QuoteSubscriptionDataOverrideBillOnAcceptanceBillFromTimestampParams struct {
-	// A precise Unix timestamp.
-	Timestamp *int64 `form:"timestamp"`
-}
-
 // The start of the period to bill from when the Quote is accepted.
 type QuoteSubscriptionDataOverrideBillOnAcceptanceBillFromParams struct {
 	// Details of a Quote line to start the bill period from.
 	LineStartsAt *QuoteSubscriptionDataOverrideBillOnAcceptanceBillFromLineStartsAtParams `form:"line_starts_at"`
-	// Details for a Unix timestamp to start the bill period from.
-	Timestamp *QuoteSubscriptionDataOverrideBillOnAcceptanceBillFromTimestampParams `form:"timestamp"`
+	// A precise Unix timestamp.
+	Timestamp *int64 `form:"timestamp"`
 	// The type of method to specify the `bill_from` time.
 	Type *string `form:"type"`
 }
@@ -911,20 +895,14 @@ type QuoteSubscriptionDataOverrideBillOnAcceptanceBillUntilLineEndsAtParams stru
 	Index *int64 `form:"index"`
 }
 
-// Details of a Unix timestamp to bill until.
-type QuoteSubscriptionDataOverrideBillOnAcceptanceBillUntilTimestampParams struct {
-	// A precise Unix timestamp.
-	Timestamp *int64 `form:"timestamp"`
-}
-
 // The end of the period to bill until when the Quote is accepted.
 type QuoteSubscriptionDataOverrideBillOnAcceptanceBillUntilParams struct {
 	// Details of the duration over which to bill.
 	Duration *QuoteSubscriptionDataOverrideBillOnAcceptanceBillUntilDurationParams `form:"duration"`
 	// Details of a Quote line item from which to bill until.
 	LineEndsAt *QuoteSubscriptionDataOverrideBillOnAcceptanceBillUntilLineEndsAtParams `form:"line_ends_at"`
-	// Details of a Unix timestamp to bill until.
-	Timestamp *QuoteSubscriptionDataOverrideBillOnAcceptanceBillUntilTimestampParams `form:"timestamp"`
+	// A precise Unix timestamp.
+	Timestamp *int64 `form:"timestamp"`
 	// The type of method to specify the `bill_until` time.
 	Type *string `form:"type"`
 }
