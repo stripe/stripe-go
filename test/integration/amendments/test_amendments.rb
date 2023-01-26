@@ -334,9 +334,8 @@ class Critic::OrderAmendmentTranslation < Critic::OrderAmendmentFunctionalTest
 
   end
 
-  it 'supports adding one-off line items on a order amendment' do
-
-  end
+  it 'supports adding one-time line items on a order amendment'
+  it 'supports adding multiple one-time items of the pricebook id to an order amendment'
 
   # https://jira.corp.stripe.com/browse/PLATINT-1809
   describe 'subscription without a billing cycle' do

@@ -11,6 +11,70 @@ class StripeForce::Translate
     include StripeForce::Constants
     extend SimpleStructuredLogger
 
+    def self.inject_backend_proration(original_subscription_phases, backend_proration_phase)
+      subscription_phases = Integrations::Utilities::StripeUtil.deep_copy(original_subscription_phases)
+
+      # if there is a phase starting *on* the backend_proration start date, then we can simply add the add_invoice_items to that phase
+      exact_phase_match = subscription_phases.detect {|p| p.start_date == backend_proration_phase.start_date }
+      if exact_phase_match
+        log.info 'exact backend phase match, adding invoice items'
+        exact_phase_match.add_invoice_items += backend_proration_phase.add_invoice_items
+        return subscription_phases
+      end
+
+      raise StripeForce::Errors::RawUserError.new("This specific backend prorated order amendment case is not yet supported")
+
+      # is there a phase starting after the backend_proration phase start date? If so, we need to add the backend proration phase
+      # before that phase and set the end date of the backend_proration phase to the start date of the other phase.
+
+      # we know there is at least one amendment, so at this point it must be starting before the start date
+      # of the backend proration phase. In this case we need to take the subscription items from that phase
+      # and use them instead of the subscription items on the backend proration phase
+    end
+
+    sig do
+      params(
+        user: StripeForce::User,
+        original_subscription_phases: T::Array[Stripe::SubscriptionSchedulePhase]
+      ).returns([
+        # since the objects are *really* not SubscriptionSchedulePhase we can't fool sorbet-runtime
+        T.nilable(Stripe::StripeObject),
+        T::Array[Stripe::SubscriptionSchedulePhase],
+      ])
+    end
+    def self.extract_backend_proration_phase(user, original_subscription_phases)
+      subscription_phases = Integrations::Utilities::StripeUtil.deep_copy(original_subscription_phases)
+
+      # TODO we probably need to adjust the starting and ending dates if we remove the phase
+
+      matching_indexes = T.let([], T::Array[Integer])
+
+      # intentionally mutates the phase objects
+      subscription_phases.each_with_index do |phase, index|
+        # this isn't a *great* way to detect the backend proration phase since this metadata could be changed by the user
+        # a better approach would be to compare the add_invoice_items & subscription_items, but this is surprisingly hard to do
+        # because price IDs are not consistent (can't have dup price IDs on a sub), metadata could change, etc. To avoid this
+        # complexity initially we simply check for metadata. We know there is exactly one
+        if phase[:metadata][StripeForce::Translate::Metadata.metadata_key(user, MetadataKeys::BACKEND_PRORATION)] == "true"
+          matching_indexes << index
+        end
+      end
+
+      if matching_indexes.empty?
+        log.warn 'no backend proration phase found'
+        return [nil, subscription_phases]
+      end
+
+      if matching_indexes.size > 1
+        raise Integrations::Errors::TranslatorError.new("more than one backend proration phase found")
+      end
+
+      matching_index = matching_indexes.first
+      backend_proration = subscription_phases.delete_at(matching_index)
+
+      [backend_proration, subscription_phases]
+    end
+
     # determines if order amendments coterminate with the initial order,
     # this is required by our integration but is allowed by CPQ in some situations
     sig { params(mapper: StripeForce::Mapper, contract_structure: ContractStructure).returns(T::Boolean) }

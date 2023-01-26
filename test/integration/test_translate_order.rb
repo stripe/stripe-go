@@ -295,8 +295,9 @@ class Critic::OrderTranslation < Critic::FunctionalTest
     assert_equal(SyncRecordResolutionStatuses::SUCCESS.serialize, sync_records.first[prefixed_stripe_field(SyncRecordFields::RESOLUTION_STATUS.serialize)])
   end
 
-  # TODO reuses order line price mapping if the execution halts part way through
+  it 'supports adding multiple one-time items of the pricebook id to an initial order'
 
+  # TODO reuses order line price mapping if the execution halts part way through
   # TODO multiple quantity
   # TODO start date in the future
   # TODO missing fields / failure

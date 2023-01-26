@@ -199,6 +199,7 @@ module StripeForce
         AUTO_ARCHIVE_PRICE = new('auto_archive')
         ORIGINAL_PRICE_ID = new('original_stripe_price_id')
         PRORATION_INVOICE = new('proration_invoice')
+        BACKEND_PRORATION = new('backend_proration')
       end
     end
 

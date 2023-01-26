@@ -2,6 +2,7 @@
 # typed: true
 
 class StripeForce::Translate
+  include StripeForce::Constants
 
   def translate_order(sf_object)
     locker.lock_salesforce_record(sf_object)
@@ -196,7 +197,7 @@ class StripeForce::Translate
     initial_phase = {
       add_invoice_items: invoice_items.map(&:stripe_params),
       items: subscription_items.map(&:stripe_params),
-      # TODO so annoying we cannot put the start_date here
+      # TODO so annoying we cannot put the start_date here https://jira.corp.stripe.com/browse/PLATINT-1479
       end_date: initial_phase_end_date,
       metadata: Metadata.stripe_metadata_for_sf_object(@user, sf_order),
     }
@@ -240,11 +241,17 @@ class StripeForce::Translate
         billing_frequency: billing_frequency
       )
 
+      # add special metadata to line items as well
+      invoice_items_for_prorations.each do |invoice_item|
+        invoice_item[:metadata][StripeForce::Translate::Metadata.metadata_key(@user, MetadataKeys::BACKEND_PRORATION)] = true
+      end
+
       backend_proration_term = subscription_term_from_sales_force % billing_frequency
       backend_proration_start_date = start_date_from_salesforce + (subscription_term_from_sales_force - backend_proration_term).months
       backend_proration_start_date_timestamp = StripeForce::Utilities::SalesforceUtil.datetime_to_unix_timestamp(backend_proration_start_date)
 
       prorated_phase = {
+        # TODO https://jira.corp.stripe.com/browse/PLATINT-1501
         # we do not want to bill the user for a entire billing cycle, so we turn off prorations
         proration_behavior: 'none',
 
@@ -253,12 +260,11 @@ class StripeForce::Translate
 
         # on initial creation, you cannot specify a start_date!
         end_date: initial_phase_end_date,
-
         add_invoice_items: invoice_items_for_prorations,
-
-        # TODO think about adding a special metadata field to indicate that this is a split phase
         metadata: Metadata.stripe_metadata_for_sf_object(@user, sf_order),
       }
+
+      prorated_phase[:metadata][StripeForce::Translate::Metadata.metadata_key(@user, MetadataKeys::BACKEND_PRORATION)] = true
 
       initial_phase['end_date'] = backend_proration_start_date_timestamp
     end
@@ -347,17 +353,26 @@ class StripeForce::Translate
     sf_initial_order_items = order_lines_from_order(contract_structure.initial)
     _, aggregate_phase_items = phase_items_from_order_lines(sf_initial_order_items)
 
+    # another complexity here is 'backend' prorated order amendments (i.e. 18mo contract, billed yearly)
+    # in this case, the initial order creates two phases. Effectively, there is an amendment without an order.
+    # However, this 'amendment' does *not* contain the latest subscription items. The latest amendment always contains
+    # the latest aggregated subscription items. However, we can't lose the add_invoice_items contained in the 2nd phase
+    # of a backend order amendment, since that is what will cause the non-subscription (prorated) component of the contract
+    # to be billed for.
+
     is_initial_order_prorated = OrderHelpers.prorated_initial_order?(
       phase_items: aggregate_phase_items,
       subscription_term: StripeForce::Utilities::SalesforceUtil.extract_subscription_term_from_order!(@mapper, contract_structure.initial),
       billing_frequency: OrderAmendment.calculate_billing_frequency_from_phase_items(@user, aggregate_phase_items)
     )
 
-    if is_initial_order_prorated
-      raise StripeForce::Errors::RawUserError.new("Amending prorated initial orders is not yet supported")
-    end
-
+    # TODO we generally make the assumption that the connector is the only system modifying phases, we should make
+    #      this assumption explicit and error when we notice this is not the case
     subscription_phases = subscription_schedule.phases
+
+    if is_initial_order_prorated
+      backend_proration, subscription_phases = OrderAmendment.extract_backend_proration_phase(@user, subscription_phases)
+    end
 
     # SF does not enforce mutation restrictions. It's possible to go in and modify anything you want in Salesforce
     # for this reason we should NOT mutate the existing phases of a subscription. This could result in updating quantity, metadata, etc
@@ -386,7 +401,19 @@ class StripeForce::Translate
         next
       end
 
+      # it's possible for users to mutate the subscription schedule phases themselves
+      # if they do, we can't rely on the naive phase count logic above. This provides us another
+      # layer of protection, although this is not something we can fully trust right away, which is
+      # why we are only soft asserting at this point.
+      # TODO replace with local sync record call in the future
+      order_amendment_subscription_id = sf_order_amendment[prefixed_stripe_field(GENERIC_STRIPE_ID)]
+      if order_amendment_subscription_id.present?
+        Integrations::ErrorContext.report_edge_case("not enough phases, but order amendment already marked as processed")
+      end
+
       # TODO price ID dup check on the invoice items
+      # make sure to run this *after* checking if the amendment is already processed, otherwise
+      # we'll create price IDs which will never be archived since they won't be used in an active phase
       aggregate_phase_items = OrderHelpers.ensure_unique_phase_item_prices(@user, aggregate_phase_items)
 
       # TODO should probably use a completely different key/mapping for the phase items
@@ -397,7 +424,7 @@ class StripeForce::Translate
       phase_params['start_date'] = sf_order_amendment_start_date_as_timestamp
 
       # TODO check for float value
-      # TODO should probably move this to another helper
+      # TODO should probably move iteration extraction to another helper
       subscription_term_from_sales_force = phase_params.delete('iterations').to_i
 
       # originally `iterations` was used, but this fails when subscription term is less than a single billing cycle
@@ -476,7 +503,7 @@ class StripeForce::Translate
         # single job run will use the same aggregate phase items
         items: Integrations::Utilities::StripeUtil.deep_copy(aggregate_phase_items).map(&:stripe_params),
 
-        # TODO should be moved to global defaults
+        # TODO move to global defaults https://jira.corp.stripe.com/browse/PLATINT-1501
         proration_behavior: 'none',
 
         metadata: Metadata.stripe_metadata_for_sf_object(@user, sf_order_amendment),
@@ -488,7 +515,8 @@ class StripeForce::Translate
 
       previous_phase = T.must(subscription_phases[index])
 
-      is_identical_to_previous_phase_time_range = previous_phase.end_date == new_phase.end_date && previous_phase.start_date == new_phase.start_date
+      is_identical_to_previous_phase_time_range = previous_phase.end_date == new_phase.end_date &&
+        previous_phase.start_date == new_phase.start_date
 
       # TODO dynamic metadata on the phase?
 
@@ -524,6 +552,7 @@ class StripeForce::Translate
       # if the order is terminated, updating the last phase end date and NOT adding another phase is all that needs to be done
       if !is_order_terminated
         if !is_same_day && is_identical_to_previous_phase_time_range
+          # https://jira.corp.stripe.com/browse/PLATINT-1815
           log.info 'previous phase identical, removing previous phase'
           subscription_phases.delete_at(index)
         end
@@ -562,10 +591,16 @@ class StripeForce::Translate
             start_date: new_phase.start_date,
             end_date: new_phase.end_date
 
+          # we do NOT want the next amendment loop to use the version of subscription phases with the backend proration in place
+          final_subscription_phases = if is_initial_order_prorated
+            OrderAmendment.inject_backend_proration(subscription_phases, backend_proration)
+          else
+            subscription_phases
+          end
+
           # `none` is really important to ensure that the user is not billed by stripe for any prorated amounts
           subscription_schedule.proration_behavior = 'none'
-          subscription_schedule.phases = subscription_phases
-
+          subscription_schedule.phases = final_subscription_phases
           subscription_schedule.save({}, StripeForce::Utilities::StripeUtil.generate_idempotency_key_with_credentials(@user, sf_order_amendment))
         end
       end

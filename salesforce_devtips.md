@@ -1,6 +1,7 @@
 ## General
 
 - List of system level permissions https://developer.salesforce.com/docs/atlas.en-us.sfFieldRef.meta/sfFieldRef/salesforce_field_reference_PermissionSet.htm
+- You cannot assign permissions to standard objects in a custom permission set contained within a package
 
 ## Metadata
 
@@ -15,6 +16,7 @@
 ## Lighting Web Componetns
 
 - `#lightning` in `pages/setup.page` is where the primary component is mounted
+- If you have a getter the same name as a tracked variable, debug mode may not work
 
 ## Apex
 

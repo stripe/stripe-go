@@ -19,6 +19,7 @@
 - fyi if the filter is changed we don't retroactively pick up orders. the orders have to be updated in some fashion (just updating a note/description will do just fine) for it to be reprocessed
 - On a backend prorated order amendment the same metadata is used as the initial order
 - Tiered prices cannot be prorated
+- Special metadata key is added to a backend prorated phase
 
 Apex / checks:
 

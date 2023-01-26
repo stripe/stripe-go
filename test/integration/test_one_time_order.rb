@@ -43,4 +43,6 @@ class Critic::OneTimeOrderTranslation < Critic::FunctionalTest
     line = invoice.lines.first
     assert_equal("one_time", line.price.type)
   end
+
+  it 'allows the same pricebook entry to be used multiple times on one-time invoices'
 end
