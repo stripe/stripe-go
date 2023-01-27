@@ -1,5 +1,12 @@
 # Changelog
 
+## 74.7.0-beta.2 - 2023-01-26
+* [#1598](https://github.com/stripe/stripe-go/pull/1598) API Updates for beta branch
+  * Updated stable APIs to the latest version
+  * Add support for `ListTransactions` method on resource `Tax.Transaction`
+  * Add support for `BillingAgreementID` on `CheckoutSessionPaymentMethodOptionsPaypalParams`
+  * Change type of `QuoteSubscriptionDataOverridesParams` from `array(create_specs)` to `emptyStringable(array(update_specs))`
+
 ## 74.7.0-beta.1 - 2023-01-19
 * [#1596](https://github.com/stripe/stripe-go/pull/1596) API Updates for beta branch
   * Updated stable APIs to the latest version
