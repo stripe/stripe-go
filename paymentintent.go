@@ -78,9 +78,11 @@ type PaymentIntentNextActionType string
 
 // List of values that PaymentIntentNextActionType can take
 const (
-	PaymentIntentNextActionTypeAlipayHandleRedirect PaymentIntentNextActionType = "alipay_handle_redirect"
-	PaymentIntentNextActionTypeOXXODisplayDetails   PaymentIntentNextActionType = "oxxo_display_details"
-	PaymentIntentNextActionTypeRedirectToURL        PaymentIntentNextActionType = "redirect_to_url"
+	PaymentIntentNextActionTypeAlipayHandleRedirect    PaymentIntentNextActionType = "alipay_handle_redirect"
+	PaymentIntentNextActionTypeOXXODisplayDetails      PaymentIntentNextActionType = "oxxo_display_details"
+	PaymentIntentNextActionTypeRedirectToURL           PaymentIntentNextActionType = "redirect_to_url"
+	PaymentIntentNextActionTypeUseStripeSDK            PaymentIntentNextActionType = "use_stripe_sdk"
+	PaymentIntentNextActionTypeVerifyWithMicrodeposits PaymentIntentNextActionType = "verify_with_microdeposits"
 )
 
 // The type of the microdeposit sent to the customer. Used to distinguish between different verification methods.
@@ -1153,7 +1155,7 @@ type PaymentIntentPaymentMethodOptionsCashappParams struct {
 
 // Configuration for the eu_bank_transfer funding type.
 type PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferParams struct {
-	// The desired country code of the bank account information. Permitted values include: `DE`, `ES`, `FR`, `IE`, or `NL`.
+	// The desired country code of the bank account information. Permitted values include: `BE`, `DE`, `ES`, `FR`, `IE`, or `NL`.
 	Country *string `form:"country"`
 }
 
@@ -2287,7 +2289,7 @@ type PaymentIntentPaymentMethodOptionsCashapp struct {
 	SetupFutureUsage PaymentIntentPaymentMethodOptionsCashappSetupFutureUsage `json:"setup_future_usage"`
 }
 type PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransfer struct {
-	// The desired country code of the bank account information. Permitted values include: `DE`, `ES`, `FR`, `IE`, or `NL`.
+	// The desired country code of the bank account information. Permitted values include: `BE`, `DE`, `ES`, `FR`, `IE`, or `NL`.
 	Country string `json:"country"`
 }
 type PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransfer struct {
