@@ -255,7 +255,7 @@ type InvoicePaymentSettingsPaymentMethodOptionsCardParams struct {
 
 // Configuration for eu_bank_transfer funding type.
 type InvoicePaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferParams struct {
-	// The desired country code of the bank account information. Permitted values include: `DE`, `ES`, `FR`, `IE`, or `NL`.
+	// The desired country code of the bank account information. Permitted values include: `BE`, `DE`, `ES`, `FR`, `IE`, or `NL`.
 	Country *string `form:"country"`
 }
 
@@ -324,6 +324,84 @@ type InvoiceRenderingOptionsParams struct {
 	AmountTaxDisplay *string `form:"amount_tax_display"`
 }
 
+// The upper bound of the estimated range. If empty, represents no upper bound i.e., infinite.
+type InvoiceShippingCostShippingRateDataDeliveryEstimateMaximumParams struct {
+	// A unit of time.
+	Unit *string `form:"unit"`
+	// Must be greater than 0.
+	Value *int64 `form:"value"`
+}
+
+// The lower bound of the estimated range. If empty, represents no lower bound.
+type InvoiceShippingCostShippingRateDataDeliveryEstimateMinimumParams struct {
+	// A unit of time.
+	Unit *string `form:"unit"`
+	// Must be greater than 0.
+	Value *int64 `form:"value"`
+}
+
+// The estimated range for how long shipping will take, meant to be displayable to the customer. This will appear on CheckoutSessions.
+type InvoiceShippingCostShippingRateDataDeliveryEstimateParams struct {
+	// The upper bound of the estimated range. If empty, represents no upper bound i.e., infinite.
+	Maximum *InvoiceShippingCostShippingRateDataDeliveryEstimateMaximumParams `form:"maximum"`
+	// The lower bound of the estimated range. If empty, represents no lower bound.
+	Minimum *InvoiceShippingCostShippingRateDataDeliveryEstimateMinimumParams `form:"minimum"`
+}
+
+// Shipping rates defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
+type InvoiceShippingCostShippingRateDataFixedAmountCurrencyOptionsParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Describes a fixed amount to charge for shipping. Must be present if type is `fixed_amount`.
+type InvoiceShippingCostShippingRateDataFixedAmountParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency *string `form:"currency"`
+	// Shipping rates defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
+	CurrencyOptions map[string]*InvoiceShippingCostShippingRateDataFixedAmountCurrencyOptionsParams `form:"currency_options"`
+}
+
+// Parameters to create a new ad-hoc shipping rate for this order.
+type InvoiceShippingCostShippingRateDataParams struct {
+	// The estimated range for how long shipping will take, meant to be displayable to the customer. This will appear on CheckoutSessions.
+	DeliveryEstimate *InvoiceShippingCostShippingRateDataDeliveryEstimateParams `form:"delivery_estimate"`
+	// The name of the shipping rate, meant to be displayable to the customer. This will appear on CheckoutSessions.
+	DisplayName *string `form:"display_name"`
+	// Describes a fixed amount to charge for shipping. Must be present if type is `fixed_amount`.
+	FixedAmount *InvoiceShippingCostShippingRateDataFixedAmountParams `form:"fixed_amount"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+	// A [tax code](https://stripe.com/docs/tax/tax-categories) ID. The Shipping tax code is `txcd_92010001`.
+	TaxCode *string `form:"tax_code"`
+	// The type of calculation to use on the shipping rate. Can only be `fixed_amount` for now.
+	Type *string `form:"type"`
+}
+
+// Settings for the cost of shipping for this invoice.
+type InvoiceShippingCostParams struct {
+	// The ID of the shipping rate to use for this order.
+	ShippingRate *string `form:"shipping_rate"`
+	// Parameters to create a new ad-hoc shipping rate for this order.
+	ShippingRateData *InvoiceShippingCostShippingRateDataParams `form:"shipping_rate_data"`
+}
+
+// Shipping details for the invoice. The Invoice PDF will use the `shipping_details` value if it is set, otherwise the PDF will render the shipping address from the customer.
+type InvoiceShippingDetailsParams struct {
+	// Shipping address
+	Address *AddressParams `form:"address"`
+	// Recipient name.
+	Name *string `form:"name"`
+	// Recipient phone (including extension)
+	Phone *string `form:"phone"`
+}
+
 // If specified, the funds from the invoice will be transferred to the destination and the ID of the resulting transfer will be found on the invoice's charge.
 type InvoiceTransferDataParams struct {
 	// The amount that will be transferred automatically when the invoice is paid. If no amount is set, the full amount is transferred.
@@ -377,6 +455,10 @@ type InvoiceParams struct {
 	PendingInvoiceItemsBehavior *string `form:"pending_invoice_items_behavior"`
 	// Options for invoice PDF rendering.
 	RenderingOptions *InvoiceRenderingOptionsParams `form:"rendering_options"`
+	// Settings for the cost of shipping for this invoice.
+	ShippingCost *InvoiceShippingCostParams `form:"shipping_cost"`
+	// Shipping details for the invoice. The Invoice PDF will use the `shipping_details` value if it is set, otherwise the PDF will render the shipping address from the customer.
+	ShippingDetails *InvoiceShippingDetailsParams `form:"shipping_details"`
 	// Extra information about a charge for the customer's credit card statement. It must contain at least one letter. If not specified and this invoice is part of a subscription, the default `statement_descriptor` will be set to the first subscription item's product's `statement_descriptor`.
 	StatementDescriptor *string `form:"statement_descriptor"`
 	// The ID of the subscription to invoice, if any. If set, the created invoice will only include pending invoice items for that subscription. The subscription's billing cycle and regular subscription events won't be affected.
@@ -511,8 +593,10 @@ type InvoiceUpcomingParams struct {
 	SubscriptionItems []*SubscriptionItemsParams `form:"subscription_items"`
 	// Determines how to handle [prorations](https://stripe.com/docs/subscriptions/billing-cycle#prorations) when the billing cycle changes (e.g., when switching plans, resetting `billing_cycle_anchor=now`, or starting a trial), or if an item's `quantity` changes. The default value is `create_prorations`.
 	SubscriptionProrationBehavior *string `form:"subscription_proration_behavior"`
-	// If previewing an update to a subscription, and doing proration, `subscription_proration_date` forces the proration to be calculated as though the update was done at the specified time. The time given must be within the current subscription period, and cannot be before the subscription was on its current plan. If set, `subscription`, and one of `subscription_items`, or `subscription_trial_end` are required. Also, `subscription_proration_behavior` cannot be set to 'none'.
+	// If previewing an update to a subscription, and doing proration, `subscription_proration_date` forces the proration to be calculated as though the update was done at the specified time. The time given must be within the current subscription period and within the current phase of the schedule backing this subscription, if the schedule exists. If set, `subscription`, and one of `subscription_items`, or `subscription_trial_end` are required. Also, `subscription_proration_behavior` cannot be set to 'none'.
 	SubscriptionProrationDate *int64 `form:"subscription_proration_date"`
+	// For paused subscriptions, setting `subscription_resume_at` to `now` will preview the invoice that will be generated if the subscription is resumed.
+	SubscriptionResumeAt *string `form:"subscription_resume_at"`
 	// Date a subscription is intended to start (can be future or past)
 	SubscriptionStartDate *int64 `form:"subscription_start_date"`
 	// If provided, the invoice returned will preview updating or creating a subscription with that trial end. If set, one of `subscription_items` or `subscription` is required.
@@ -770,8 +854,10 @@ type InvoiceUpcomingLinesParams struct {
 	SubscriptionItems []*InvoiceUpcomingLinesSubscriptionItemParams `form:"subscription_items"`
 	// Determines how to handle [prorations](https://stripe.com/docs/subscriptions/billing-cycle#prorations) when the billing cycle changes (e.g., when switching plans, resetting `billing_cycle_anchor=now`, or starting a trial), or if an item's `quantity` changes. The default value is `create_prorations`.
 	SubscriptionProrationBehavior *string `form:"subscription_proration_behavior"`
-	// If previewing an update to a subscription, and doing proration, `subscription_proration_date` forces the proration to be calculated as though the update was done at the specified time. The time given must be within the current subscription period, and cannot be before the subscription was on its current plan. If set, `subscription`, and one of `subscription_items`, or `subscription_trial_end` are required. Also, `subscription_proration_behavior` cannot be set to 'none'.
+	// If previewing an update to a subscription, and doing proration, `subscription_proration_date` forces the proration to be calculated as though the update was done at the specified time. The time given must be within the current subscription period and within the current phase of the schedule backing this subscription, if the schedule exists. If set, `subscription`, and one of `subscription_items`, or `subscription_trial_end` are required. Also, `subscription_proration_behavior` cannot be set to 'none'.
 	SubscriptionProrationDate *int64 `form:"subscription_proration_date"`
+	// For paused subscriptions, setting `subscription_resume_at` to `now` will preview the invoice that will be generated if the subscription is resumed.
+	SubscriptionResumeAt *string `form:"subscription_resume_at"`
 	// Date a subscription is intended to start (can be future or past)
 	SubscriptionStartDate *int64 `form:"subscription_start_date"`
 	// If provided, the invoice returned will preview updating or creating a subscription with that trial end. If set, one of `subscription_items` or `subscription` is required.
@@ -875,7 +961,7 @@ type InvoicePaymentSettingsPaymentMethodOptionsCard struct {
 	RequestThreeDSecure InvoicePaymentSettingsPaymentMethodOptionsCardRequestThreeDSecure `json:"request_three_d_secure"`
 }
 type InvoicePaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransfer struct {
-	// The desired country code of the bank account information. Permitted values include: `DE`, `ES`, `FR`, `IE`, or `NL`.
+	// The desired country code of the bank account information. Permitted values include: `BE`, `DE`, `ES`, `FR`, `IE`, or `NL`.
 	Country string `json:"country"`
 }
 type InvoicePaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransfer struct {
@@ -933,6 +1019,30 @@ type InvoicePaymentSettings struct {
 type InvoiceRenderingOptions struct {
 	// How line-item prices and amounts will be displayed with respect to tax on invoice PDFs.
 	AmountTaxDisplay string `json:"amount_tax_display"`
+}
+
+// The taxes applied to the shipping rate.
+type InvoiceShippingCostTax struct {
+	// Amount of tax applied for this rate.
+	Amount int64 `json:"amount"`
+	// Tax rates can be applied to [invoices](https://stripe.com/docs/billing/invoices/tax-rates), [subscriptions](https://stripe.com/docs/billing/subscriptions/taxes) and [Checkout Sessions](https://stripe.com/docs/payments/checkout/set-up-a-subscription#tax-rates) to collect tax.
+	//
+	// Related guide: [Tax Rates](https://stripe.com/docs/billing/taxes/tax-rates).
+	Rate *TaxRate `json:"rate"`
+}
+
+// The details of the cost of shipping, including the ShippingRate applied on the invoice.
+type InvoiceShippingCost struct {
+	// Total shipping cost before any taxes are applied.
+	AmountSubtotal int64 `json:"amount_subtotal"`
+	// Total tax amount applied due to shipping costs. If no tax was applied, defaults to 0.
+	AmountTax int64 `json:"amount_tax"`
+	// Total shipping cost after taxes are applied.
+	AmountTotal int64 `json:"amount_total"`
+	// The ID of the ShippingRate for this invoice.
+	ShippingRate *ShippingRate `json:"shipping_rate"`
+	// The taxes applied to the shipping rate.
+	Taxes []*InvoiceShippingCostTax `json:"taxes"`
 }
 type InvoiceStatusTransitions struct {
 	// The time that the invoice draft was finalized.
@@ -1031,6 +1141,8 @@ type Invoice struct {
 	AmountPaid int64 `json:"amount_paid"`
 	// The difference between amount_due and amount_paid, in %s.
 	AmountRemaining int64 `json:"amount_remaining"`
+	// This is the sum of all the shipping amounts.
+	AmountShipping int64 `json:"amount_shipping"`
 	// ID of the Connect Application that created the invoice.
 	Application *Application `json:"application"`
 	// The fee in %s that will be applied to the invoice and transferred to the application owner's Stripe account when the invoice is paid.
@@ -1136,6 +1248,10 @@ type Invoice struct {
 	ReceiptNumber string `json:"receipt_number"`
 	// Options for invoice PDF rendering.
 	RenderingOptions *InvoiceRenderingOptions `json:"rendering_options"`
+	// The details of the cost of shipping, including the ShippingRate applied on the invoice.
+	ShippingCost *InvoiceShippingCost `json:"shipping_cost"`
+	// Shipping details for the invoice. The Invoice PDF will use the `shipping_details` value if it is set, otherwise the PDF will render the shipping address from the customer.
+	ShippingDetails *ShippingDetails `json:"shipping_details"`
 	// Starting customer balance before the invoice is finalized. If the invoice has not been finalized yet, this will be the current customer balance. For revision invoices, this also includes any customer balance that was applied to the original invoice.
 	StartingBalance int64 `json:"starting_balance"`
 	// Extra information about an invoice for the customer's credit card statement.
