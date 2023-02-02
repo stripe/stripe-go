@@ -633,6 +633,15 @@ func TestCapabilityUpdate(t *testing.T) {
 	assert.NotNil(t, result)
 }
 
+func TestSubscriptionResume(t *testing.T) {
+	params := &stripe.SubscriptionResumeParams{
+		ProrationDate:     stripe.Int64(1675400000),
+		ProrationBehavior: stripe.String("always_invoice"),
+	}
+	result, _ := subscription.Resume("sub_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+}
+
 func TestPersonList(t *testing.T) {
 	params := &stripe.PersonListParams{
 		Account: stripe.String("acct_xxxxxxxxxxxxx"),
