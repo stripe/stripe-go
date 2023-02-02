@@ -190,6 +190,44 @@ type PaymentLinkCustomTextParams struct {
 	Submit *PaymentLinkCustomTextSubmitParams `form:"submit"`
 }
 
+// Default custom fields to be displayed on invoices for this customer.
+type PaymentLinkInvoiceCreationInvoiceDataCustomFieldParams struct {
+	// The name of the custom field. This may be up to 30 characters.
+	Name *string `form:"name"`
+	// The value of the custom field. This may be up to 30 characters.
+	Value *string `form:"value"`
+}
+
+// Default options for invoice PDF rendering for this customer.
+type PaymentLinkInvoiceCreationInvoiceDataRenderingOptionsParams struct {
+	// How line-item prices and amounts will be displayed with respect to tax on invoice PDFs. One of `exclude_tax` or `include_inclusive_tax`. `include_inclusive_tax` will include inclusive tax (and exclude exclusive tax) in invoice PDF amounts. `exclude_tax` will exclude all tax (inclusive and exclusive alike) from invoice PDF amounts.
+	AmountTaxDisplay *string `form:"amount_tax_display"`
+}
+
+// Invoice PDF configuration.
+type PaymentLinkInvoiceCreationInvoiceDataParams struct {
+	// The account tax IDs associated with the invoice.
+	AccountTaxIDs []*string `form:"account_tax_ids"`
+	// Default custom fields to be displayed on invoices for this customer.
+	CustomFields []*PaymentLinkInvoiceCreationInvoiceDataCustomFieldParams `form:"custom_fields"`
+	// An arbitrary string attached to the object. Often useful for displaying to users.
+	Description *string `form:"description"`
+	// Default footer to be displayed on invoices for this customer.
+	Footer *string `form:"footer"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+	// Default options for invoice PDF rendering for this customer.
+	RenderingOptions *PaymentLinkInvoiceCreationInvoiceDataRenderingOptionsParams `form:"rendering_options"`
+}
+
+// Generate a post-purchase Invoice for one-time payments.
+type PaymentLinkInvoiceCreationParams struct {
+	// Whether the feature is enabled
+	Enabled *bool `form:"enabled"`
+	// Invoice PDF configuration.
+	InvoiceData *PaymentLinkInvoiceCreationInvoiceDataParams `form:"invoice_data"`
+}
+
 // When set, provides configuration for this item's quantity to be adjusted by the customer during checkout.
 type PaymentLinkLineItemAdjustableQuantityParams struct {
 	// Set to true if the quantity can be adjusted to any non-negative Integer.
@@ -301,6 +339,8 @@ type PaymentLinkParams struct {
 	CustomerCreation *string `form:"customer_creation"`
 	// Display additional text for your customers using custom text.
 	CustomText *PaymentLinkCustomTextParams `form:"custom_text"`
+	// Generate a post-purchase Invoice for one-time payments.
+	InvoiceCreation *PaymentLinkInvoiceCreationParams `form:"invoice_creation"`
 	// The line items representing what is being sold. Each line item represents an item being sold. Up to 20 line items are supported.
 	LineItems []*PaymentLinkLineItemParams `form:"line_items"`
 	// The account on behalf of which to charge.
@@ -383,6 +423,44 @@ type PaymentLinkCustomText struct {
 	Submit *PaymentLinkCustomTextSubmit `json:"submit"`
 }
 
+// A list of up to 4 custom fields to be displayed on the invoice.
+type PaymentLinkInvoiceCreationInvoiceDataCustomField struct {
+	// The name of the custom field.
+	Name string `json:"name"`
+	// The value of the custom field.
+	Value string `json:"value"`
+}
+
+// Options for invoice PDF rendering.
+type PaymentLinkInvoiceCreationInvoiceDataRenderingOptions struct {
+	// How line-item prices and amounts will be displayed with respect to tax on invoice PDFs.
+	AmountTaxDisplay string `json:"amount_tax_display"`
+}
+
+// Configuration for the invoice. Default invoice values will be used if unspecified.
+type PaymentLinkInvoiceCreationInvoiceData struct {
+	// The account tax IDs associated with the invoice.
+	AccountTaxIDs []*TaxID `json:"account_tax_ids"`
+	// A list of up to 4 custom fields to be displayed on the invoice.
+	CustomFields []*PaymentLinkInvoiceCreationInvoiceDataCustomField `json:"custom_fields"`
+	// An arbitrary string attached to the object. Often useful for displaying to users.
+	Description string `json:"description"`
+	// Footer to be displayed on the invoice.
+	Footer string `json:"footer"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	Metadata map[string]string `json:"metadata"`
+	// Options for invoice PDF rendering.
+	RenderingOptions *PaymentLinkInvoiceCreationInvoiceDataRenderingOptions `json:"rendering_options"`
+}
+
+// Configuration for creating invoice for payment mode payment links.
+type PaymentLinkInvoiceCreation struct {
+	// Enable creating an invoice on successful payment.
+	Enabled bool `json:"enabled"`
+	// Configuration for the invoice. Default invoice values will be used if unspecified.
+	InvoiceData *PaymentLinkInvoiceCreationInvoiceData `json:"invoice_data"`
+}
+
 // Indicates the parameters to be passed to PaymentIntent creation during checkout.
 type PaymentLinkPaymentIntentData struct {
 	// Indicates when the funds will be captured from the customer's account.
@@ -457,6 +535,8 @@ type PaymentLink struct {
 	CustomText       *PaymentLinkCustomText      `json:"custom_text"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
+	// Configuration for creating invoice for payment mode payment links.
+	InvoiceCreation *PaymentLinkInvoiceCreation `json:"invoice_creation"`
 	// The line items representing what is being sold.
 	LineItems *LineItemList `json:"line_items"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.

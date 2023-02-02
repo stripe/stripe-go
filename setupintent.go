@@ -184,6 +184,17 @@ const (
 	SetupIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsPermissionTransactions  SetupIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsPermission = "transactions"
 )
 
+// Data features requested to be retrieved upon account creation.
+type SetupIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsPrefetch string
+
+// List of values that SetupIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsPrefetch can take
+const (
+	SetupIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsPrefetchBalances         SetupIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsPrefetch = "balances"
+	SetupIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsPrefetchInferredBalances SetupIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsPrefetch = "inferred_balances"
+	SetupIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsPrefetchOwnership        SetupIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsPrefetch = "ownership"
+	SetupIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsPrefetchTransactions     SetupIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsPrefetch = "transactions"
+)
+
 // Bank account verification method.
 type SetupIntentPaymentMethodOptionsUSBankAccountVerificationMethod string
 
@@ -586,6 +597,8 @@ type SetupIntentPaymentMethodOptionsSEPADebitParams struct {
 type SetupIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsParams struct {
 	// The list of permissions to request. If this parameter is passed, the `payment_method` permission must be included. Valid permissions include: `balances`, `ownership`, `payment_method`, and `transactions`.
 	Permissions []*string `form:"permissions"`
+	// List of data features that you would like to retrieve upon account creation.
+	Prefetch []*string `form:"prefetch"`
 	// For webview integrations only. Upon completing OAuth login in the native browser, the user will be redirected to this URL to return to your app.
 	ReturnURL *string `form:"return_url"`
 }
@@ -1114,6 +1127,8 @@ type SetupIntentPaymentMethodOptionsSEPADebit struct {
 type SetupIntentPaymentMethodOptionsUSBankAccountFinancialConnections struct {
 	// The list of permissions to request. The `payment_method` permission must be included.
 	Permissions []SetupIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsPermission `json:"permissions"`
+	// Data features requested to be retrieved upon account creation.
+	Prefetch []SetupIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsPrefetch `json:"prefetch"`
 	// For webview integrations only. Upon completing OAuth login in the native browser, the user will be redirected to this URL to return to your app.
 	ReturnURL string `json:"return_url"`
 }

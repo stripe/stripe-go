@@ -518,6 +518,17 @@ const (
 	CheckoutSessionPaymentMethodOptionsUSBankAccountFinancialConnectionsPermissionTransactions  CheckoutSessionPaymentMethodOptionsUSBankAccountFinancialConnectionsPermission = "transactions"
 )
 
+// Data features requested to be retrieved upon account creation.
+type CheckoutSessionPaymentMethodOptionsUSBankAccountFinancialConnectionsPrefetch string
+
+// List of values that CheckoutSessionPaymentMethodOptionsUSBankAccountFinancialConnectionsPrefetch can take
+const (
+	CheckoutSessionPaymentMethodOptionsUSBankAccountFinancialConnectionsPrefetchBalances         CheckoutSessionPaymentMethodOptionsUSBankAccountFinancialConnectionsPrefetch = "balances"
+	CheckoutSessionPaymentMethodOptionsUSBankAccountFinancialConnectionsPrefetchInferredBalances CheckoutSessionPaymentMethodOptionsUSBankAccountFinancialConnectionsPrefetch = "inferred_balances"
+	CheckoutSessionPaymentMethodOptionsUSBankAccountFinancialConnectionsPrefetchOwnership        CheckoutSessionPaymentMethodOptionsUSBankAccountFinancialConnectionsPrefetch = "ownership"
+	CheckoutSessionPaymentMethodOptionsUSBankAccountFinancialConnectionsPrefetchTransactions     CheckoutSessionPaymentMethodOptionsUSBankAccountFinancialConnectionsPrefetch = "transactions"
+)
+
 // Indicates that you intend to make future payments with this PaymentIntent's payment method.
 //
 // Providing this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.
@@ -591,6 +602,8 @@ type CheckoutSessionListParams struct {
 	CustomerDetails *CheckoutSessionListCustomerDetailsParams `form:"customer_details"`
 	// Only return the Checkout Session for the PaymentIntent specified.
 	PaymentIntent *string `form:"payment_intent"`
+	// Only return the Checkout Sessions for the Payment Link specified.
+	PaymentLink *string `form:"payment_link"`
 	// Only return the Checkout Session for the subscription specified.
 	Subscription *string `form:"subscription"`
 }
@@ -1142,6 +1155,8 @@ type CheckoutSessionPaymentMethodOptionsSofortParams struct {
 type CheckoutSessionPaymentMethodOptionsUSBankAccountFinancialConnectionsParams struct {
 	// The list of permissions to request. If this parameter is passed, the `payment_method` permission must be included. Valid permissions include: `balances`, `ownership`, `payment_method`, and `transactions`.
 	Permissions []*string `form:"permissions"`
+	// List of data features that you would like to retrieve upon account creation.
+	Prefetch []*string `form:"prefetch"`
 }
 
 // contains details about the Us Bank Account payment method options.
@@ -1330,6 +1345,18 @@ type CheckoutSessionSubscriptionDataTransferDataParams struct {
 	Destination *string `form:"destination"`
 }
 
+// Defines how the subscription should behave when the user's free trial ends.
+type CheckoutSessionSubscriptionDataTrialSettingsEndBehaviorParams struct {
+	// Indicates how the subscription should change when the trial ends if the user did not provide a payment method.
+	MissingPaymentMethod *string `form:"missing_payment_method"`
+}
+
+// Settings related to subscription trials.
+type CheckoutSessionSubscriptionDataTrialSettingsParams struct {
+	// Defines how the subscription should behave when the user's free trial ends.
+	EndBehavior *CheckoutSessionSubscriptionDataTrialSettingsEndBehaviorParams `form:"end_behavior"`
+}
+
 // A subset of parameters to be passed to subscription creation for Checkout Sessions in `subscription` mode.
 type CheckoutSessionSubscriptionDataParams struct {
 	// A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice subtotal that will be transferred to the application owner's Stripe account. To use an application fee percent, the request must be made on behalf of another account, using the `Stripe-Account` header or an OAuth key. For more information, see the application fees [documentation](https://stripe.com/docs/connect/subscriptions#collecting-fees-on-subscriptions).
@@ -1359,6 +1386,8 @@ type CheckoutSessionSubscriptionDataParams struct {
 	// Integer representing the number of trial period days before the
 	// customer is charged for the first time. Has to be at least 1.
 	TrialPeriodDays *int64 `form:"trial_period_days"`
+	// Settings related to subscription trials.
+	TrialSettings *CheckoutSessionSubscriptionDataTrialSettingsParams `form:"trial_settings"`
 }
 
 // Controls tax ID collection settings for the session.
@@ -1853,6 +1882,8 @@ type CheckoutSessionPaymentMethodOptionsSofort struct {
 type CheckoutSessionPaymentMethodOptionsUSBankAccountFinancialConnections struct {
 	// The list of permissions to request. The `payment_method` permission must be included.
 	Permissions []CheckoutSessionPaymentMethodOptionsUSBankAccountFinancialConnectionsPermission `json:"permissions"`
+	// Data features requested to be retrieved upon account creation.
+	Prefetch []CheckoutSessionPaymentMethodOptionsUSBankAccountFinancialConnectionsPrefetch `json:"prefetch"`
 	// For webview integrations only. Upon completing OAuth login in the native browser, the user will be redirected to this URL to return to your app.
 	ReturnURL string `json:"return_url"`
 }
