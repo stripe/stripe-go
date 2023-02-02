@@ -719,6 +719,8 @@ type PaymentMethodUSBankAccountNetworks struct {
 type PaymentMethodUSBankAccount struct {
 	// Account holder type: individual or company.
 	AccountHolderType PaymentMethodUSBankAccountAccountHolderType `json:"account_holder_type"`
+	// Account number of the bank account.
+	AccountNumber string `json:"account_number"`
 	// Account type: checkings or savings. Defaults to checking if omitted.
 	AccountType PaymentMethodUSBankAccountAccountType `json:"account_type"`
 	// The name of the bank.

@@ -46,6 +46,16 @@ const (
 )
 
 // The status of the last refresh attempt.
+type FinancialConnectionsAccountInferredBalancesRefreshStatus string
+
+// List of values that FinancialConnectionsAccountInferredBalancesRefreshStatus can take
+const (
+	FinancialConnectionsAccountInferredBalancesRefreshStatusFailed    FinancialConnectionsAccountInferredBalancesRefreshStatus = "failed"
+	FinancialConnectionsAccountInferredBalancesRefreshStatusPending   FinancialConnectionsAccountInferredBalancesRefreshStatus = "pending"
+	FinancialConnectionsAccountInferredBalancesRefreshStatusSucceeded FinancialConnectionsAccountInferredBalancesRefreshStatus = "succeeded"
+)
+
+// The status of the last refresh attempt.
 type FinancialConnectionsAccountOwnershipRefreshStatus string
 
 // List of values that FinancialConnectionsAccountOwnershipRefreshStatus can take
@@ -78,16 +88,16 @@ const (
 
 // If `category` is `cash`, one of:
 //
-//  - `checking`
-//  - `savings`
-//  - `other`
+//   - `checking`
+//   - `savings`
+//   - `other`
 //
 // If `category` is `credit`, one of:
 //
-//  - `mortgage`
-//  - `line_of_credit`
-//  - `credit_card`
-//  - `other`
+//   - `mortgage`
+//   - `line_of_credit`
+//   - `credit_card`
+//   - `other`
 //
 // If `category` is `investment` or `other`, this will be `other`.
 type FinancialConnectionsAccountSubcategory string
@@ -102,6 +112,15 @@ const (
 	FinancialConnectionsAccountSubcategorySavings      FinancialConnectionsAccountSubcategory = "savings"
 )
 
+// The list of data refresh subscriptions requested on this account.
+type FinancialConnectionsAccountSubscription string
+
+// List of values that FinancialConnectionsAccountSubscription can take
+const (
+	FinancialConnectionsAccountSubscriptionInferredBalances FinancialConnectionsAccountSubscription = "inferred_balances"
+	FinancialConnectionsAccountSubscriptionTransactions     FinancialConnectionsAccountSubscription = "transactions"
+)
+
 // The [PaymentMethod type](https://stripe.com/docs/api/payment_methods/object#payment_method_object-type)(s) that can be created from this account.
 type FinancialConnectionsAccountSupportedPaymentMethodType string
 
@@ -109,6 +128,16 @@ type FinancialConnectionsAccountSupportedPaymentMethodType string
 const (
 	FinancialConnectionsAccountSupportedPaymentMethodTypeLink          FinancialConnectionsAccountSupportedPaymentMethodType = "link"
 	FinancialConnectionsAccountSupportedPaymentMethodTypeUSBankAccount FinancialConnectionsAccountSupportedPaymentMethodType = "us_bank_account"
+)
+
+// The status of the last refresh attempt.
+type FinancialConnectionsAccountTransactionRefreshStatus string
+
+// List of values that FinancialConnectionsAccountTransactionRefreshStatus can take
+const (
+	FinancialConnectionsAccountTransactionRefreshStatusFailed    FinancialConnectionsAccountTransactionRefreshStatus = "failed"
+	FinancialConnectionsAccountTransactionRefreshStatusPending   FinancialConnectionsAccountTransactionRefreshStatus = "pending"
+	FinancialConnectionsAccountTransactionRefreshStatusSucceeded FinancialConnectionsAccountTransactionRefreshStatus = "succeeded"
 )
 
 // If present, only return accounts that belong to the specified account holder. `account_holder[customer]` and `account_holder[account]` are mutually exclusive.
@@ -203,12 +232,30 @@ type FinancialConnectionsAccountBalanceRefresh struct {
 	Status FinancialConnectionsAccountBalanceRefreshStatus `json:"status"`
 }
 
+// The state of the most recent attempt to refresh the account's inferred balance history.
+type FinancialConnectionsAccountInferredBalancesRefresh struct {
+	// The time at which the last refresh attempt was initiated. Measured in seconds since the Unix epoch.
+	LastAttemptedAt int64 `json:"last_attempted_at"`
+	// The status of the last refresh attempt.
+	Status FinancialConnectionsAccountInferredBalancesRefreshStatus `json:"status"`
+}
+
 // The state of the most recent attempt to refresh the account owners.
 type FinancialConnectionsAccountOwnershipRefresh struct {
 	// The time at which the last refresh attempt was initiated. Measured in seconds since the Unix epoch.
 	LastAttemptedAt int64 `json:"last_attempted_at"`
 	// The status of the last refresh attempt.
 	Status FinancialConnectionsAccountOwnershipRefreshStatus `json:"status"`
+}
+
+// The state of the most recent attempt to refresh the account transactions.
+type FinancialConnectionsAccountTransactionRefresh struct {
+	// Unique identifier for the object.
+	ID string `json:"id"`
+	// The time at which the last refresh attempt was initiated. Measured in seconds since the Unix epoch.
+	LastAttemptedAt int64 `json:"last_attempted_at"`
+	// The status of the last refresh attempt.
+	Status FinancialConnectionsAccountTransactionRefreshStatus `json:"status"`
 }
 
 // A Financial Connections Account represents an account that exists outside of Stripe, to which you have been granted some degree of access.
@@ -228,6 +275,8 @@ type FinancialConnectionsAccount struct {
 	DisplayName string `json:"display_name"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
+	// The state of the most recent attempt to refresh the account's inferred balance history.
+	InferredBalancesRefresh *FinancialConnectionsAccountInferredBalancesRefresh `json:"inferred_balances_refresh"`
 	// The name of the institution that holds this account.
 	InstitutionName string `json:"institution_name"`
 	// The last 4 digits of the account number. If present, this will be 4 numeric characters.
@@ -259,8 +308,12 @@ type FinancialConnectionsAccount struct {
 	//
 	// If `category` is `investment` or `other`, this will be `other`.
 	Subcategory FinancialConnectionsAccountSubcategory `json:"subcategory"`
+	// The list of data refresh subscriptions requested on this account.
+	Subscriptions []FinancialConnectionsAccountSubscription `json:"subscriptions"`
 	// The [PaymentMethod type](https://stripe.com/docs/api/payment_methods/object#payment_method_object-type)(s) that can be created from this account.
 	SupportedPaymentMethodTypes []FinancialConnectionsAccountSupportedPaymentMethodType `json:"supported_payment_method_types"`
+	// The state of the most recent attempt to refresh the account transactions.
+	TransactionRefresh *FinancialConnectionsAccountTransactionRefresh `json:"transaction_refresh"`
 }
 
 // FinancialConnectionsAccountList is a list of Accounts as retrieved from a list endpoint.

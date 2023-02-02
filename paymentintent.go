@@ -627,6 +627,17 @@ const (
 	PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsPermissionTransactions  PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsPermission = "transactions"
 )
 
+// Data features requested to be retrieved upon account creation.
+type PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsPrefetch string
+
+// List of values that PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsPrefetch can take
+const (
+	PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsPrefetchBalances         PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsPrefetch = "balances"
+	PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsPrefetchInferredBalances PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsPrefetch = "inferred_balances"
+	PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsPrefetchOwnership        PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsPrefetch = "ownership"
+	PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsPrefetchTransactions     PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsPrefetch = "transactions"
+)
+
 // Indicates that you intend to make future payments with this PaymentIntent's payment method.
 //
 // Providing this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.
@@ -1420,6 +1431,8 @@ type PaymentIntentPaymentMethodOptionsSofortParams struct {
 type PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsParams struct {
 	// The list of permissions to request. If this parameter is passed, the `payment_method` permission must be included. Valid permissions include: `balances`, `ownership`, `payment_method`, and `transactions`.
 	Permissions []*string `form:"permissions"`
+	// List of data features that you would like to retrieve upon account creation.
+	Prefetch []*string `form:"prefetch"`
 	// For webview integrations only. Upon completing OAuth login in the native browser, the user will be redirected to this URL to return to your app.
 	ReturnURL *string `form:"return_url"`
 }
@@ -2470,6 +2483,8 @@ type PaymentIntentPaymentMethodOptionsSofort struct {
 type PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnections struct {
 	// The list of permissions to request. The `payment_method` permission must be included.
 	Permissions []PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsPermission `json:"permissions"`
+	// Data features requested to be retrieved upon account creation.
+	Prefetch []PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsPrefetch `json:"prefetch"`
 	// For webview integrations only. Upon completing OAuth login in the native browser, the user will be redirected to this URL to return to your app.
 	ReturnURL string `json:"return_url"`
 }

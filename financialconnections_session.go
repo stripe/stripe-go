@@ -26,6 +26,37 @@ const (
 	FinancialConnectionsSessionPermissionTransactions  FinancialConnectionsSessionPermission = "transactions"
 )
 
+// Data features requested to be retrieved upon account creation.
+type FinancialConnectionsSessionPrefetch string
+
+// List of values that FinancialConnectionsSessionPrefetch can take
+const (
+	FinancialConnectionsSessionPrefetchBalances         FinancialConnectionsSessionPrefetch = "balances"
+	FinancialConnectionsSessionPrefetchInferredBalances FinancialConnectionsSessionPrefetch = "inferred_balances"
+	FinancialConnectionsSessionPrefetchOwnership        FinancialConnectionsSessionPrefetch = "ownership"
+	FinancialConnectionsSessionPrefetchTransactions     FinancialConnectionsSessionPrefetch = "transactions"
+)
+
+// The current state of the session.
+type FinancialConnectionsSessionStatus string
+
+// List of values that FinancialConnectionsSessionStatus can take
+const (
+	FinancialConnectionsSessionStatusCancelled FinancialConnectionsSessionStatus = "cancelled"
+	FinancialConnectionsSessionStatusFailed    FinancialConnectionsSessionStatus = "failed"
+	FinancialConnectionsSessionStatusPending   FinancialConnectionsSessionStatus = "pending"
+	FinancialConnectionsSessionStatusSucceeded FinancialConnectionsSessionStatus = "succeeded"
+)
+
+// The reason for the Session being cancelled.
+type FinancialConnectionsSessionStatusDetailsCancelledReason string
+
+// List of values that FinancialConnectionsSessionStatusDetailsCancelledReason can take
+const (
+	FinancialConnectionsSessionStatusDetailsCancelledReasonCustomManualEntry FinancialConnectionsSessionStatusDetailsCancelledReason = "custom_manual_entry"
+	FinancialConnectionsSessionStatusDetailsCancelledReasonOther             FinancialConnectionsSessionStatusDetailsCancelledReason = "other"
+)
+
 // The account holder to link accounts for.
 type FinancialConnectionsSessionAccountHolderParams struct {
 	// The ID of the Stripe account whose accounts will be retrieved. Should only be present if `type` is `account`.
@@ -42,6 +73,14 @@ type FinancialConnectionsSessionFiltersParams struct {
 	Countries []*string `form:"countries"`
 }
 
+// Settings for configuring manual entry of account details for this Session.
+type FinancialConnectionsSessionManualEntryParams struct {
+	// Whether manual entry will be allowed on this Session.
+	Enabled *bool `form:"enabled"`
+	// Whether manual entry will be handled by Stripe during the Session.
+	Mode *string `form:"mode"`
+}
+
 // To launch the Financial Connections authorization flow, create a Session. The session's client_secret can be used to launch the flow using Stripe.js.
 type FinancialConnectionsSessionParams struct {
 	Params `form:"*"`
@@ -49,10 +88,14 @@ type FinancialConnectionsSessionParams struct {
 	AccountHolder *FinancialConnectionsSessionAccountHolderParams `form:"account_holder"`
 	// Filters to restrict the kinds of accounts to collect.
 	Filters *FinancialConnectionsSessionFiltersParams `form:"filters"`
+	// Settings for configuring manual entry of account details for this Session.
+	ManualEntry *FinancialConnectionsSessionManualEntryParams `form:"manual_entry"`
 	// List of data features that you would like to request access to.
 	//
 	// Possible values are `balances`, `transactions`, `ownership`, and `payment_method`.
 	Permissions []*string `form:"permissions"`
+	// List of data features that you would like to retrieve upon account creation.
+	Prefetch []*string `form:"prefetch"`
 	// For webview integrations only. Upon completing OAuth login in the native browser, the user will be redirected to this URL to return to your app.
 	ReturnURL *string `form:"return_url"`
 }
@@ -70,6 +113,14 @@ type FinancialConnectionsSessionFilters struct {
 	// List of countries from which to filter accounts.
 	Countries []string `json:"countries"`
 }
+type FinancialConnectionsSessionManualEntry struct{}
+type FinancialConnectionsSessionStatusDetailsCancelled struct {
+	// The reason for the Session being cancelled.
+	Reason FinancialConnectionsSessionStatusDetailsCancelledReason `json:"reason"`
+}
+type FinancialConnectionsSessionStatusDetails struct {
+	Cancelled *FinancialConnectionsSessionStatusDetailsCancelled `json:"cancelled"`
+}
 
 // A Financial Connections Session is the secure way to programmatically launch the client-side Stripe.js modal that lets your users link their accounts.
 type FinancialConnectionsSession struct {
@@ -84,11 +135,17 @@ type FinancialConnectionsSession struct {
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
-	Livemode bool `json:"livemode"`
+	Livemode    bool                                    `json:"livemode"`
+	ManualEntry *FinancialConnectionsSessionManualEntry `json:"manual_entry"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// Permissions requested for accounts collected during this session.
 	Permissions []FinancialConnectionsSessionPermission `json:"permissions"`
+	// Data features requested to be retrieved upon account creation.
+	Prefetch []FinancialConnectionsSessionPrefetch `json:"prefetch"`
 	// For webview integrations only. Upon completing OAuth login in the native browser, the user will be redirected to this URL to return to your app.
 	ReturnURL string `json:"return_url"`
+	// The current state of the session.
+	Status        FinancialConnectionsSessionStatus         `json:"status"`
+	StatusDetails *FinancialConnectionsSessionStatusDetails `json:"status_details"`
 }

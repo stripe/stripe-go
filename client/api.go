@@ -41,7 +41,9 @@ import (
 	"github.com/stripe/stripe-go/v74/file"
 	"github.com/stripe/stripe-go/v74/filelink"
 	financialconnectionsaccount "github.com/stripe/stripe-go/v74/financialconnections/account"
+	financialconnectionsinferredbalance "github.com/stripe/stripe-go/v74/financialconnections/inferredbalance"
 	financialconnectionssession "github.com/stripe/stripe-go/v74/financialconnections/session"
+	financialconnectionstransaction "github.com/stripe/stripe-go/v74/financialconnections/transaction"
 	giftcardscard "github.com/stripe/stripe-go/v74/giftcards/card"
 	giftcardstransaction "github.com/stripe/stripe-go/v74/giftcards/transaction"
 	identityverificationreport "github.com/stripe/stripe-go/v74/identity/verificationreport"
@@ -191,8 +193,12 @@ type API struct {
 	Files *file.Client
 	// FinancialConnectionsAccounts is the client used to invoke /financial_connections/accounts APIs.
 	FinancialConnectionsAccounts *financialconnectionsaccount.Client
+	// FinancialConnectionsInferredBalances is the client used to invoke /financial_connections/accounts/{account}/inferred_balances APIs.
+	FinancialConnectionsInferredBalances *financialconnectionsinferredbalance.Client
 	// FinancialConnectionsSessions is the client used to invoke /financial_connections/sessions APIs.
 	FinancialConnectionsSessions *financialconnectionssession.Client
+	// FinancialConnectionsTransactions is the client used to invoke /financial_connections/transactions APIs.
+	FinancialConnectionsTransactions *financialconnectionstransaction.Client
 	// GiftCardsCards is the client used to invoke /gift_cards/cards APIs.
 	GiftCardsCards *giftcardscard.Client
 	// GiftCardsTransactions is the client used to invoke /gift_cards/transactions APIs.
@@ -399,7 +405,9 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.FileLinks = &filelink.Client{B: backends.API, Key: key}
 	a.Files = &file.Client{B: backends.Uploads, Key: key}
 	a.FinancialConnectionsAccounts = &financialconnectionsaccount.Client{B: backends.API, Key: key}
+	a.FinancialConnectionsInferredBalances = &financialconnectionsinferredbalance.Client{B: backends.API, Key: key}
 	a.FinancialConnectionsSessions = &financialconnectionssession.Client{B: backends.API, Key: key}
+	a.FinancialConnectionsTransactions = &financialconnectionstransaction.Client{B: backends.API, Key: key}
 	a.GiftCardsCards = &giftcardscard.Client{B: backends.API, Key: key}
 	a.GiftCardsTransactions = &giftcardstransaction.Client{B: backends.API, Key: key}
 	a.IdentityVerificationReports = &identityverificationreport.Client{B: backends.API, Key: key}
