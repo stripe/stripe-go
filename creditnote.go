@@ -57,6 +57,12 @@ type CreditNoteLineParams struct {
 	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
 }
 
+// When shipping_cost contains the shipping_rate from the invoice, the shipping_cost is included in the credit note.
+type CreditNoteShippingCostParams struct {
+	// The ID of the shipping rate to use for this order.
+	ShippingRate *string `form:"shipping_rate"`
+}
+
 // Issue a credit note to adjust the amount of a finalized invoice. For a status=open invoice, a credit note reduces
 // its amount_due. For a status=paid invoice, a credit note does not affect its amount_due. Instead, it can result
 // in any combination of the following:
@@ -89,6 +95,8 @@ type CreditNoteParams struct {
 	Refund *string `form:"refund"`
 	// The integer amount in cents (or local equivalent) representing the amount to refund. If set, a refund will be created for the charge associated with the invoice.
 	RefundAmount *int64 `form:"refund_amount"`
+	// When shipping_cost contains the shipping_rate from the invoice, the shipping_cost is included in the credit note.
+	ShippingCost *CreditNoteShippingCostParams `form:"shipping_cost"`
 }
 
 // Returns a list of credit notes.
@@ -120,6 +128,12 @@ type CreditNotePreviewLineParams struct {
 	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
 }
 
+// When shipping_cost contains the shipping_rate from the invoice, the shipping_cost is included in the credit note.
+type CreditNotePreviewShippingCostParams struct {
+	// The ID of the shipping rate to use for this order.
+	ShippingRate *string `form:"shipping_rate"`
+}
+
 // Get a preview of a credit note without creating it.
 type CreditNotePreviewParams struct {
 	Params `form:"*"`
@@ -141,6 +155,8 @@ type CreditNotePreviewParams struct {
 	Refund *string `form:"refund"`
 	// The integer amount in cents (or local equivalent) representing the amount to refund. If set, a refund will be created for the charge associated with the invoice.
 	RefundAmount *int64 `form:"refund_amount"`
+	// When shipping_cost contains the shipping_rate from the invoice, the shipping_cost is included in the credit note.
+	ShippingCost *CreditNotePreviewShippingCostParams `form:"shipping_cost"`
 }
 
 // Marks a credit note as void. Learn more about [voiding credit notes](https://stripe.com/docs/billing/invoices/credit-notes#voiding).
@@ -168,6 +184,12 @@ type CreditNotePreviewLinesLineParams struct {
 	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
 }
 
+// When shipping_cost contains the shipping_rate from the invoice, the shipping_cost is included in the credit note.
+type CreditNotePreviewLinesShippingCostParams struct {
+	// The ID of the shipping rate to use for this order.
+	ShippingRate *string `form:"shipping_rate"`
+}
+
 // When retrieving a credit note preview, you'll get a lines property containing the first handful of those items. This URL you can retrieve the full (paginated) list of line items.
 type CreditNotePreviewLinesParams struct {
 	ListParams `form:"*"`
@@ -189,6 +211,8 @@ type CreditNotePreviewLinesParams struct {
 	Refund *string `form:"refund"`
 	// The integer amount in cents (or local equivalent) representing the amount to refund. If set, a refund will be created for the charge associated with the invoice.
 	RefundAmount *int64 `form:"refund_amount"`
+	// When shipping_cost contains the shipping_rate from the invoice, the shipping_cost is included in the credit note.
+	ShippingCost *CreditNotePreviewLinesShippingCostParams `form:"shipping_cost"`
 }
 
 // When retrieving a credit note, you'll get a lines property containing the the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of line items.
@@ -203,6 +227,30 @@ type CreditNoteDiscountAmount struct {
 	Amount int64 `json:"amount"`
 	// The discount that was applied to get this discount amount.
 	Discount *Discount `json:"discount"`
+}
+
+// The taxes applied to the shipping rate.
+type CreditNoteShippingCostTax struct {
+	// Amount of tax applied for this rate.
+	Amount int64 `json:"amount"`
+	// Tax rates can be applied to [invoices](https://stripe.com/docs/billing/invoices/tax-rates), [subscriptions](https://stripe.com/docs/billing/subscriptions/taxes) and [Checkout Sessions](https://stripe.com/docs/payments/checkout/set-up-a-subscription#tax-rates) to collect tax.
+	//
+	// Related guide: [Tax Rates](https://stripe.com/docs/billing/taxes/tax-rates).
+	Rate *TaxRate `json:"rate"`
+}
+
+// The details of the cost of shipping, including the ShippingRate applied to the invoice.
+type CreditNoteShippingCost struct {
+	// Total shipping cost before any taxes are applied.
+	AmountSubtotal int64 `json:"amount_subtotal"`
+	// Total tax amount applied due to shipping costs. If no tax was applied, defaults to 0.
+	AmountTax int64 `json:"amount_tax"`
+	// Total shipping cost after taxes are applied.
+	AmountTotal int64 `json:"amount_total"`
+	// The ID of the ShippingRate for this invoice.
+	ShippingRate *ShippingRate `json:"shipping_rate"`
+	// The taxes applied to the shipping rate.
+	Taxes []*CreditNoteShippingCostTax `json:"taxes"`
 }
 
 // The aggregate amounts calculated per tax rate for all line items.
@@ -222,6 +270,8 @@ type CreditNote struct {
 	APIResource
 	// The integer amount in %s representing the total amount of the credit note, including tax.
 	Amount int64 `json:"amount"`
+	// This is the sum of all the shipping amounts.
+	AmountShipping int64 `json:"amount_shipping"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
 	Created int64 `json:"created"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
@@ -258,6 +308,8 @@ type CreditNote struct {
 	Reason CreditNoteReason `json:"reason"`
 	// Refund related to this credit note.
 	Refund *Refund `json:"refund"`
+	// The details of the cost of shipping, including the ShippingRate applied to the invoice.
+	ShippingCost *CreditNoteShippingCost `json:"shipping_cost"`
 	// Status of this credit note, one of `issued` or `void`. Learn more about [voiding credit notes](https://stripe.com/docs/billing/invoices/credit-notes#voiding).
 	Status CreditNoteStatus `json:"status"`
 	// The integer amount in %s representing the amount of the credit note, excluding exclusive tax and invoice level discounts.
