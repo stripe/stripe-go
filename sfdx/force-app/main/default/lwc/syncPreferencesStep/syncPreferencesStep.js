@@ -3,6 +3,7 @@ import getSyncPreferences from '@salesforce/apex/setupAssistant.getSyncPreferenc
 import getMulticurrencySelectionOptions from '@salesforce/apex/setupAssistant.getMulticurrencySelectionOptions';
 import getFilterSettings from '@salesforce/apex/setupAssistant.getFilterSettings';
 import saveFilterSettings from '@salesforce/apex/setupAssistant.saveFilterSettings';
+import manualTranslation from '@salesforce/apex/setupAssistant.manualTranslation';
 import syncAllRecords from '@salesforce/apex/setupAssistant.syncAllRecords';
 import { LightningElement, api, track} from 'lwc';
 import { getErrorMessage } from 'c/utils'
@@ -42,7 +43,88 @@ export default class SyncPreferencesStep extends LightningElement {
     accountFilterError = '';
     orderFilterError = '';
     productFilterError = '';
- 
+
+
+    // DEV NOTE: Manual Translation additions: refactor or remove these //
+    manualTranslationValue = '';
+    manualTranslationProcessing = false;
+
+    updateManualTranslationValue(event) {
+        this.manualTranslationValue = event.currentTarget.value;
+    }
+
+    async translateRecordId() {
+        // prevent double-clicks
+        if (this.manualTranslationProcessing) {
+            return;
+        }
+
+        this.manualTranslationProcessing = true;
+
+        let inputField = this.template.querySelector('[data-id="manualTranslationId"]');
+        if (inputField === null) {
+            this.manualTranslationProcessing = false;
+            return;
+        }
+
+        // check that somehow we didn't get called with an invalid input
+        if (inputField.checkValidity() === false) {
+            inputField.reportValidity();
+            this.manualTranslationProcessing = false;
+            return;
+        }
+
+        const translateRecord = await manualTranslation({
+            translationRecordID: this.manualTranslationValue
+        });
+        const responseData = JSON.parse(translateRecord);
+
+        this.manualTranslationProcessing = false;
+
+        if(responseData.error) {
+            this.showToast(responseData.error, 'error', 'sticky');
+            return;
+        }
+        if(!responseData.results.isRecordValid) {
+            this.showToast(responseData.results.errorMessage, 'error', 'sticky');
+            return;
+        }
+
+        this.showToast('Record "' + this.manualTranslationValue + '" successfully queued for translation', 'success');
+        this.manualTranslationValue = '';
+        inputField.focus();
+
+        return;
+    }
+
+    /***
+     *
+     * @returns {boolean}
+     */
+    get disableManualTranslationId() {
+        return this.manualTranslationProcessing;
+    }
+
+    /**
+     *
+     * @returns {boolean}
+     */
+    get disableManualTranslation() {
+        // we check the local values to ensure this is re-ran whenever they change.
+        if (this.manualTranslationValue.length === 0 || this.manualTranslationProcessing) {
+            return true;
+        }
+
+        // we defer to the input to tell us if it's valid or not.
+        let inputField = this.template.querySelector('[data-id="manualTranslationId"]');
+
+        if (inputField === null) {
+            return true;
+        }
+
+        return inputField.checkValidity() === false;
+    }
+
     @api async connectedCallback() {
         try {
             const syncPreferences = await getSyncPreferences();

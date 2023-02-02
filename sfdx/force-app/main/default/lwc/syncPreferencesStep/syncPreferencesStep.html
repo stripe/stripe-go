@@ -205,31 +205,83 @@
                 <lightning-button label="Sync Products" variant="neutral" icon-name="utility:sync" icon-position="left" onclick={showProductSyncModal} disabled={syncProductsDisabled}></lightning-button>
             </div>
         </div>
+
+        <div if:true={setupComplete} class="stripe-settings__item slds-grid">
+            <div class="slds-col_bump-right">
+                <h4 class="slds-text-heading_small slds-m-bottom_xx-small">
+                    Manual Translation
+                </h4>
+                <p>
+                    Provide a Salesforce record Id to be sent to Stripe for manual translation.
+                </p>
+            </div>
+            <div class="slds-col slds-p-left_xx-large slds-size_1-of-3">
+                <div class="slds-grid slds-gutters_direct-xxx-small">
+                    <div class="slds-col">
+                        <lightning-input
+                                data-id="manualTranslationId"
+                                type="text"
+                                label="Target Record Id"
+                                variant="label-hidden"
+                                placeholder="Provide Record Id..."
+                                min-length="15"
+                                max-length="18"
+                                pattern="^(01s|01t|801|001)([0-9a-zA-Z]{12}|[0-9a-zA-Z]{15})$"
+                                message-when-pattern-mismatch="Id is not a valid Product, Account, Pricebook, or Order Id"
+                                message-when-too-short="Id length should be at least 15 characters."
+                                message-when-too-long="Id length should be less than 18 characters."
+                                value={manualTranslationValue}
+                                onchange={updateManualTranslationValue}
+                                disabled={disableManualTranslationId}>
+                        </lightning-input>
+                    </div>
+                    <div class="slds-col slds-no-flex">
+                        <lightning-button-icon
+                                icon-name="utility:send"
+                                variant="border-filled"
+                                alternative-text="Translate"
+                                disabled={disableManualTranslation}
+                                onclick={translateRecordId}>
+                        </lightning-button-icon>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
-<!-- Manual Sync Confirmation Modals -->
-<c-modal class="stripe-modal_product-sync" title="Sync All Products">
-    <p class="slds-text-align_center">
-        Are you sure you want to sync all products in your Salesforce org with your Stripe account? This process may take some time to complete and cannot be stopped once initiated.
-    </p>
-    <lightning-button slot="footer" label="Cancel" variant="neutral" class="slds-button" onclick={hideProductSyncModal}></lightning-button>
-    <lightning-button slot="footer" label="Sync All Products" variant="brand" class="slds-button" onclick={syncProducts}></lightning-button>
-</c-modal>
+    <!-- Manual Sync Confirmation Modals -->
+    <c-modal class="stripe-modal_product-sync" title="Sync All Products">
+        <p class="slds-text-align_center">
+            Are you sure you want to sync all products in your Salesforce org with your Stripe account? This process may
+            take some time to complete and cannot be stopped once initiated.
+            </p>
+        <lightning-button slot="footer" label="Cancel" variant="neutral" class="slds-button"
+            onclick={hideProductSyncModal}></lightning-button>
+        <lightning-button slot="footer" label="Sync All Products" variant="brand" class="slds-button"
+            onclick={syncProducts}></lightning-button>
+        </c-modal>
 
-<c-modal class="stripe-modal_pricebook-sync" title="Sync All Pricebooks">
-    <p class="slds-text-align_center">
-        Are you sure you want to sync all pricebooks in your Salesforce org with your Stripe account? Syncing all pricebooks will also sync all products with your Stripe account. This process may take some time to complete and cannot be stopped once initiated.
-    </p>
-    <lightning-button slot="footer" label="Cancel" variant="neutral" class="slds-button" onclick={hidePricebookSyncModal}></lightning-button>
-    <lightning-button slot="footer" label="Sync All Pricebooks" variant="brand" class="slds-button" onclick={syncPricebooks}></lightning-button>
-</c-modal>
-<!-- /Manual Sync Confirmation Modals -->
+    <c-modal class="stripe-modal_pricebook-sync" title="Sync All Pricebooks">
+        <p class="slds-text-align_center">
+            Are you sure you want to sync all pricebooks in your Salesforce org with your Stripe account? Syncing all
+            pricebooks will also sync all products with your Stripe account. This process may take some time to complete and
+            cannot be stopped once initiated.
+            </p>
+        <lightning-button slot="footer" label="Cancel" variant="neutral" class="slds-button"
+            onclick={hidePricebookSyncModal}></lightning-button>
+        <lightning-button slot="footer" label="Sync All Pricebooks" variant="brand" class="slds-button"
+            onclick={syncPricebooks}></lightning-button>
+        </c-modal>
+        <!-- /Manual Sync Confirmation Modals -->
 
-<c-modal class="stripe-modal_disable-integration" title="Confirm Disable Integration" onmodalclose={disableIntegrationCancel}>
-    <p class="slds-text-align_center">
-        Disabling the integration will halt all order processing. Are you sure you want to continue?
-    </p>
-    <lightning-button slot="footer" label="Cancel" variant="neutral" class="slds-button" onclick={disableIntegrationCancel}></lightning-button>
-    <lightning-button slot="footer" label="Disable Integration" variant="destructive" class="slds-button" onclick={disableIntegrationConfirm}></lightning-button>
-</c-modal>
+    <c-modal class="stripe-modal_disable-integration" title="Confirm Disable Integration"
+        onmodalclose={disableIntegrationCancel}>
+        <p class="slds-text-align_center">
+            Disabling the integration will halt all order processing. Are you sure you want to continue?
+        </p>
+        <lightning-button slot="footer" label="Cancel" variant="neutral" class="slds-button"
+            onclick={disableIntegrationCancel}></lightning-button>
+        <lightning-button slot="footer" label="Disable Integration" variant="destructive" class="slds-button"
+            onclick={disableIntegrationConfirm}></lightning-button>
+        </c-modal>
 </template>

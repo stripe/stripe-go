@@ -377,6 +377,58 @@ public with sharing class test_setupAssistant {
     }
 
     @isTest
+    static public void testSetupAssistant_manualTranslation() {
+        Setup_Connection_Data__mdt testSetupData = getTestStripeConnectionKey();
+        setTestGlobalKey(testSetupData);
+        insertTestConnectedRecord();
+        
+        Account testAccountRecord = new Account (
+            Name = 'TestAccount'
+        );
+        insert testAccountRecord;
+
+        Test.startTest();
+        Test.setMock(HttpCalloutMock.class, new stripeSuccessMock());
+        String response = setupAssistant.manualTranslation(string.valueOf(testAccountRecord.Id));
+        Map<String, Object> responseMap = (Map<String, Object>)JSON.deserializeUntyped(response);
+        Test.stopTest();
+
+        System.assert((Boolean)responseMap.get('isSuccess'), responseMap.get('error'));
+    }
+
+    @isTest
+    static public void testSetupAssistant_manualTranslationFail() {
+        Setup_Connection_Data__mdt testSetupData = getTestStripeConnectionKey();
+        setTestGlobalKey(testSetupData);
+        insertTestConnectedRecord();
+        
+        Opportunity testOpportunityRecord = new Opportunity (
+            Name = 'testOpportunity',
+            CloseDate = system.today() + 4,
+            StageName = 'prospecting'
+        );
+        insert testOpportunityRecord;
+
+        Test.startTest();
+        Test.setMock(HttpCalloutMock.class, new stripeSuccessMock());
+        String unsupportedObjectResponse = setupAssistant.manualTranslation(string.valueOf(testOpportunityRecord.Id));
+        Map<String, Object> unsupportedObjectResponseMap = (Map<String, Object>)JSON.deserializeUntyped(unsupportedObjectResponse);
+        
+        String fakeAccountRecordResponse = setupAssistant.manualTranslation('001DR00001MM9tsZZZ');
+        Map<String, Object> fakeAccountRecordResponseMap = (Map<String, Object>)JSON.deserializeUntyped(fakeAccountRecordResponse);
+        Test.stopTest();
+
+        System.assert((Boolean)unsupportedObjectResponseMap.get('isSuccess'), unsupportedObjectResponseMap.get('error'));
+
+        Map<String, Object> unsupportedObjectResultsMap = (Map<String, Object>)unsupportedObjectResponseMap.get('results');
+        System.assertEquals('this is an id for a record on the Opportunity object which is not suppoted, full list of supported objects: (Account, Order, Pricebook2, Product2)', (String)unsupportedObjectResultsMap.get('errorMessage'));
+
+        System.assert((Boolean)fakeAccountRecordResponseMap.get('isSuccess'), fakeAccountRecordResponseMap.get('error'));
+        Map<String, Object> fakeAccountRecordResultsMap = (Map<String, Object>)fakeAccountRecordResponseMap.get('results');
+        System.assertEquals('No Account objects found for this Salesforce record Id', (String)fakeAccountRecordResultsMap.get('errorMessage'));
+    }
+
+    @isTest
     static public void testSetupAssistant_saveSyncPreferences() {
         Setup_Connection_Data__mdt testSetupData = getTestStripeConnectionKey();
         setTestGlobalKey(testSetupData);

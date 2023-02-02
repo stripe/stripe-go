@@ -677,6 +677,57 @@ public with sharing class setupAssistant {
         return rd.getJsonString();
     }
 
+    //sends object name for all records syncing to the ruby service
+    @AuraEnabled
+    public static String manualTranslation(String translationRecordID) {
+        responseData rd = new responseData();
+        try {
+            List<String> listOfAcceptableObjects = new List<String> {
+                'Account',
+                'Order',
+                'Pricebook2',
+                'Product2'
+            };
+            rd.put('isRecordValid', false);
+
+            Id recordId = Id.valueOf(translationRecordID);
+            String objectName = string.valueOf(recordId.getsobjecttype());
+            if(!listOfAcceptableObjects.contains(objectName)) {
+                rd.put('errorMessage', 'this is an id for a record on the ' + objectName + ' object which is not suppoted, full list of supported objects: ' + listOfAcceptableObjects);
+                return rd.getJsonString();
+            }
+
+            String validationQuery = 'SELECT Id FROM ' + objectName + ' WHERE Id = :recordId WITH SECURITY_ENFORCED LIMIT 1';
+            List<SObject> listOfFoundRecords = Database.query(validationQuery);
+            if (listOfFoundRecords.isEmpty()) {
+                rd.put('errorMessage', 'No ' + objectName + ' objects found for this Salesforce record Id');
+                return rd.getJsonString();
+            }
+
+            //here is where we need to validate if its record or not
+            String route = constants.RUBY_SERVICE_BASE_URI + '/v1/translate';
+
+            Map<String, Object> body = new Map<String, Object> {
+                'object_type' => objectName,
+                'object_ids' => new List<String> {
+                    translationRecordID
+                }
+            };
+
+            HttpResponse response =  utilities.makeCallout(route, 'POST', JSON.serialize(body));
+            if(response.getStatusCode() == 200) {
+                rd.put('isRecordValid', true);
+            } else {
+                errorLogger.create('manualTranslation', String.valueOf(response.getStatusCode()), (String)response.getStatus(), 'Translation Record ID That Failed: '+(String)recordId);
+                throw new CalloutException('There was an error in queueing this record for translation, check sync logs for more detail');
+            }
+
+        } catch (Exception e) {
+            rd.addError(e);
+        }
+        return rd.getJsonString();
+    }
+
     //performs a permission check on user before granting access to the application
     @AuraEnabled
     public static String checkUserPermissions() {
