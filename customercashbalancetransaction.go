@@ -24,6 +24,7 @@ type CustomerCashBalanceTransactionType string
 const (
 	CustomerCashBalanceTransactionTypeAppliedToPayment     CustomerCashBalanceTransactionType = "applied_to_payment"
 	CustomerCashBalanceTransactionTypeFunded               CustomerCashBalanceTransactionType = "funded"
+	CustomerCashBalanceTransactionTypeFundingReversed      CustomerCashBalanceTransactionType = "funding_reversed"
 	CustomerCashBalanceTransactionTypeRefundedFromPayment  CustomerCashBalanceTransactionType = "refunded_from_payment"
 	CustomerCashBalanceTransactionTypeReturnCanceled       CustomerCashBalanceTransactionType = "return_canceled"
 	CustomerCashBalanceTransactionTypeReturnInitiated      CustomerCashBalanceTransactionType = "return_initiated"

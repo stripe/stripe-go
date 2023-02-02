@@ -179,8 +179,19 @@ const (
 	SubscriptionStatusIncomplete        SubscriptionStatus = "incomplete"
 	SubscriptionStatusIncompleteExpired SubscriptionStatus = "incomplete_expired"
 	SubscriptionStatusPastDue           SubscriptionStatus = "past_due"
+	SubscriptionStatusPaused            SubscriptionStatus = "paused"
 	SubscriptionStatusTrialing          SubscriptionStatus = "trialing"
 	SubscriptionStatusUnpaid            SubscriptionStatus = "unpaid"
+)
+
+// Indicates how the subscription should change when the trial ends if the user did not provide a payment method.
+type SubscriptionTrialSettingsEndBehaviorMissingPaymentMethod string
+
+// List of values that SubscriptionTrialSettingsEndBehaviorMissingPaymentMethod can take
+const (
+	SubscriptionTrialSettingsEndBehaviorMissingPaymentMethodCancel        SubscriptionTrialSettingsEndBehaviorMissingPaymentMethod = "cancel"
+	SubscriptionTrialSettingsEndBehaviorMissingPaymentMethodCreateInvoice SubscriptionTrialSettingsEndBehaviorMissingPaymentMethod = "create_invoice"
+	SubscriptionTrialSettingsEndBehaviorMissingPaymentMethodPause         SubscriptionTrialSettingsEndBehaviorMissingPaymentMethod = "pause"
 )
 
 // Search for subscriptions you've previously created using Stripe's [Search Query Language](https://stripe.com/docs/search#search-query-language).
@@ -456,6 +467,18 @@ type SubscriptionTransferDataParams struct {
 	Destination *string `form:"destination"`
 }
 
+// Defines how the subscription should behave when the user's free trial ends.
+type SubscriptionTrialSettingsEndBehaviorParams struct {
+	// Indicates how the subscription should change when the trial ends if the user did not provide a payment method.
+	MissingPaymentMethod *string `form:"missing_payment_method"`
+}
+
+// Settings related to subscription trials.
+type SubscriptionTrialSettingsParams struct {
+	// Defines how the subscription should behave when the user's free trial ends.
+	EndBehavior *SubscriptionTrialSettingsEndBehaviorParams `form:"end_behavior"`
+}
+
 // Creates a new subscription on an existing customer. Each customer can have up to 500 active or scheduled subscriptions.
 //
 // When you create a subscription with collection_method=charge_automatically, the first invoice is finalized as part of the request.
@@ -540,6 +563,8 @@ type SubscriptionParams struct {
 	TrialFromPlan *bool `form:"trial_from_plan"`
 	// Integer representing the number of trial period days before the customer is charged for the first time. This will always overwrite any trials that might apply via a subscribed plan. See [Using trial periods on subscriptions](https://stripe.com/docs/billing/subscriptions/trials) to learn more.
 	TrialPeriodDays *int64 `form:"trial_period_days"`
+	// Settings related to subscription trials.
+	TrialSettings *SubscriptionTrialSettingsParams `form:"trial_settings"`
 }
 
 // AppendTo implements custom encoding logic for SubscriptionParams.
@@ -574,6 +599,17 @@ type SubscriptionCancelParams struct {
 	InvoiceNow *bool `form:"invoice_now"`
 	// Will generate a proration invoice item that credits remaining unused time until the subscription period end.
 	Prorate *bool `form:"prorate"`
+}
+
+// Initiates resumption of a paused subscription, optionally resetting the billing cycle anchor and creating prorations. If a resumption invoice is generated, it must be paid or marked uncollectible before the subscription will be unpaused. If payment succeeds the subscription will become active, and if payment fails the subscription will be past_due. The resumption invoice will void automatically if not paid by the expiration date.
+type SubscriptionResumeParams struct {
+	Params `form:"*"`
+	// Either `now` or `unchanged`. Setting the value to `now` resets the subscription's billing cycle anchor to the current time (in UTC). Setting the value to `unchanged` advances the subscription's billing cycle anchor to the period that surrounds the current time. For more information, see the billing cycle [documentation](https://stripe.com/docs/billing/subscriptions/billing-cycle).
+	BillingCycleAnchor *string `form:"billing_cycle_anchor"`
+	// Determines how to handle [prorations](https://stripe.com/docs/subscriptions/billing-cycle#prorations) when the billing cycle changes (e.g., when switching plans, resetting `billing_cycle_anchor=now`, or starting a trial), or if an item's `quantity` changes. The default value is `create_prorations`.
+	ProrationBehavior *string `form:"proration_behavior"`
+	// If set, the proration will be calculated as though the subscription was resumed at the given time. This can be used to apply exactly the same proration that was previewed with [upcoming invoice](https://stripe.com/docs/api#retrieve_customer_invoice) endpoint.
+	ProrationDate *int64 `form:"proration_date"`
 }
 
 // Removes the currently applied discount on a subscription.
@@ -733,6 +769,18 @@ type SubscriptionTransferData struct {
 	Destination *Account `json:"destination"`
 }
 
+// Defines how a subscription behaves when a free trial ends.
+type SubscriptionTrialSettingsEndBehavior struct {
+	// Indicates how the subscription should change when the trial ends if the user did not provide a payment method.
+	MissingPaymentMethod SubscriptionTrialSettingsEndBehaviorMissingPaymentMethod `json:"missing_payment_method"`
+}
+
+// Settings related to subscription trials.
+type SubscriptionTrialSettings struct {
+	// Defines how a subscription behaves when a free trial ends.
+	EndBehavior *SubscriptionTrialSettingsEndBehavior `json:"end_behavior"`
+}
+
 // Subscriptions allow you to charge a customer on a recurring basis.
 //
 // Related guide: [Creating Subscriptions](https://stripe.com/docs/billing/subscriptions/creating).
@@ -829,6 +877,8 @@ type Subscription struct {
 	TransferData *SubscriptionTransferData `json:"transfer_data"`
 	// If the subscription has a trial, the end of that trial.
 	TrialEnd int64 `json:"trial_end"`
+	// Settings related to subscription trials.
+	TrialSettings *SubscriptionTrialSettings `json:"trial_settings"`
 	// If the subscription has a trial, the beginning of that trial.
 	TrialStart int64 `json:"trial_start"`
 }
