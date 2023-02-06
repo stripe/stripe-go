@@ -244,6 +244,7 @@ class StripeForce::Translate
       # add special metadata to line items as well
       invoice_items_for_prorations.each do |invoice_item|
         invoice_item[:metadata][StripeForce::Translate::Metadata.metadata_key(@user, MetadataKeys::BACKEND_PRORATION)] = true
+        invoice_item[:period][:end][:type] = 'phase_end'
       end
 
       backend_proration_term = subscription_term_from_sales_force % billing_frequency

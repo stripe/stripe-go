@@ -9,10 +9,13 @@ class Critic::BackendProratedAmendmentTranslation < Critic::OrderAmendmentFuncti
   end
 
   it 'handles an initial order with a backend proration' do
+    @user.enable_feature FeatureFlags::TEST_CLOCKS, update: true
+
     backend_prorated_term = 6
     contract_term = TEST_DEFAULT_CONTRACT_TERM + backend_prorated_term
     initial_start_date = now_time
-    end_date = initial_start_date + contract_term.months
+    initial_end_date = initial_start_date + contract_term.months
+    backend_proration_start = initial_start_date + TEST_DEFAULT_CONTRACT_TERM.months
 
     sf_product_id, sf_pricebook_entry_id = salesforce_recurring_product_with_price(
       additional_product_fields: {
@@ -46,11 +49,11 @@ class Critic::BackendProratedAmendmentTranslation < Critic::OrderAmendmentFuncti
 
     # first phase should start now and end at the end of the billing cycle
     assert_equal(0, first_phase.start_date - initial_start_date.to_i)
-    assert_equal(0, first_phase.end_date - (initial_start_date + TEST_DEFAULT_CONTRACT_TERM.months).to_i)
+    assert_equal(0, first_phase.end_date - backend_proration_start.to_i)
 
     # second phase should start at the end of the billing cycle and end at the contract term
-    assert_equal(0, second_phase.start_date - (initial_start_date + TEST_DEFAULT_CONTRACT_TERM.months).to_i)
-    assert_equal(0, second_phase.end_date - end_date.to_i)
+    assert_equal(0, second_phase.start_date - backend_proration_start.to_i)
+    assert_equal(0, second_phase.end_date - initial_end_date.to_i)
 
     # first phase should have one item with no quantity, since it is a metered product
     assert_equal(1, first_phase.items.count)
@@ -74,6 +77,35 @@ class Critic::BackendProratedAmendmentTranslation < Critic::OrderAmendmentFuncti
     assert_equal(TEST_DEFAULT_PRICE / 2, prorated_price.unit_amount_decimal.to_i)
     assert_equal("one_time", prorated_price.type)
     assert_equal("true", prorated_price.metadata[StripeForce::Translate::Metadata.metadata_key(@user, MetadataKeys::PRORATION)])
+
+    # now, let's advance the clock
+    sf_account = sf_get(sf_order['AccountId'])
+    stripe_customer_id = sf_account[prefixed_stripe_field(GENERIC_STRIPE_ID)]
+    stripe_customer = stripe_get(stripe_customer_id)
+    refute_nil(stripe_customer.test_clock)
+
+    test_clock = advance_test_clock(stripe_customer, (backend_proration_start + 1.day).to_i)
+
+    # simulate sending the webhook
+    events = Stripe::Event.list({
+      type: 'invoiceitem.created',
+    }, @user.stripe_credentials)
+
+    invoice_events = events.data.select do |event|
+      event_object = event.data.object
+      event_object.test_clock == test_clock.id && event.request.id.nil?
+    end
+
+    assert_equal(1, invoice_events.count)
+    invoice_event = invoice_events.first
+
+    invoice_period_start = invoice_event.data.object.period.start
+    invoice_period_end = invoice_event.data.object.period.end
+
+    # sanity check the usage period of this proration invoice
+    # should be from the first phase end to contract end
+    assert_equal(backend_proration_start.to_i, invoice_period_start)
+    assert_equal(initial_end_date.to_i, invoice_period_end)
   end
 
   describe 'amendments' do

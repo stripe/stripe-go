@@ -20,7 +20,7 @@ class Critic::ProratedAmendmentTranslation < Critic::OrderAmendmentFunctionalTes
     initial_order_end_date = initial_order_start_date + contract_term
 
     amendment_term = 18
-    amendment_start_date = now_time + (contract_term - amendment_term).months
+    amendment_start_date = initial_order_start_date + (contract_term - amendment_term).months
     amendment_end_date = amendment_start_date + amendment_term.months
 
     # normalize the amendment_end_date so test doesn't fail EOM
@@ -60,7 +60,6 @@ class Critic::ProratedAmendmentTranslation < Critic::OrderAmendmentFunctionalTes
     subscription_schedule = Stripe::SubscriptionSchedule.retrieve(stripe_id, @user.stripe_credentials)
 
     assert_equal(2, subscription_schedule.phases.count)
-
     first_phase = T.must(subscription_schedule.phases.first)
     second_phase = T.must(subscription_schedule.phases[1])
 
@@ -146,6 +145,16 @@ class Critic::ProratedAmendmentTranslation < Critic::OrderAmendmentFunctionalTes
     assert_equal(1, invoice_events.count)
     invoice_event = invoice_events.first
 
+    invoice_period_start = invoice_event.data.object.period.start
+    invoice_period_end = invoice_event.data.object.period.end
+
+    # sanity check the usage period of this proration invoice
+    # should be from the amendment start to the next billing cycle date
+    assert_equal(amendment_start_date.to_i, invoice_period_start)
+    # the proration period end should align with the next billing cycle
+    # since this is billed 'Annually', add a year to the initial order start date to get the start of the next billing cycle
+    assert_equal((initial_order_start_date + 1.year).to_i, invoice_period_end)
+
     invoice = T.must(StripeForce::ProrationAutoBill.create_invoice_from_invoice_item_event(@user, invoice_event))
 
     assert_equal(1, invoice.lines.count)
@@ -153,13 +162,6 @@ class Critic::ProratedAmendmentTranslation < Critic::OrderAmendmentFunctionalTes
     assert_equal(2, invoice_line.quantity)
     assert_equal(60_00 * 2, invoice.total)
     assert_equal("true", invoice.metadata[StripeForce::Translate::Metadata.metadata_key(@user, MetadataKeys::PRORATION_INVOICE)])
-
-    # sanity check the usage period of this proration invoice
-    # should be from the amendment start to the next billing cycle date
-    assert_equal(amendment_start_date.to_i, invoice.period_start)
-    # the proration period end should align with the next billing cycle
-    # since this is billed 'Annually', add a year to the initial order start date to get the start of the next billing cycle
-    assert_equal((initial_order_start_date + 1.year).to_i, invoice.period_end.to_i)
   end
 
   # NOTE this was the first test written and has more extensive edge cases than other amendment tests
