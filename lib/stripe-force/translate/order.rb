@@ -235,10 +235,11 @@ class StripeForce::Translate
 
       invoice_items_for_prorations = OrderAmendment.generate_proration_items_from_phase_items(
         user: @user,
+        mapper: mapper,
         sf_order_amendment: sf_order,
         phase_items: subscription_items,
         subscription_term: subscription_term_from_sales_force,
-        billing_frequency: billing_frequency
+        billing_frequency: billing_frequency,
       )
 
       # add special metadata to line items as well
@@ -450,10 +451,11 @@ class StripeForce::Translate
         #     for the 20 units removed. However, for now we would only issue credit if they terminate the line by removing all 50 units.
         negative_invoice_items = OrderAmendment.generate_proration_credits_from_terminated_phase_items(
           user: @user,
+          mapper: mapper,
           sf_order_amendment: sf_order_amendment,
           terminated_phase_items: terminated_phase_items,
           subscription_term: subscription_term_from_sales_force,
-          billing_frequency: billing_frequency
+          billing_frequency: billing_frequency,
         )
       end
 
@@ -485,10 +487,11 @@ class StripeForce::Translate
       if !is_order_terminated && is_prorated
         invoice_items_for_prorations = OrderAmendment.generate_proration_items_from_phase_items(
           user: @user,
+          mapper: mapper,
           sf_order_amendment: sf_order_amendment,
           phase_items: aggregate_phase_items,
           subscription_term: subscription_term_from_sales_force,
-          billing_frequency: billing_frequency
+          billing_frequency: billing_frequency,
         )
       end
 

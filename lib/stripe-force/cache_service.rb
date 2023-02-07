@@ -21,6 +21,15 @@ class CacheService
     @previously_invalidated = []
   end
 
+  # TODO: Remove this after batch service includes mapper relationships (https://github.com/stripe/stripe-salesforce/issues/959)
+  def silent(&block)
+    @silence_failures = true
+    result = yield
+    @silence_failures = false
+
+    result
+  end
+
   sig { params(sf_object: Restforce::SObject).void }
   def cache_for_object(sf_object)
     record_list = []
@@ -204,7 +213,8 @@ class CacheService
     when SF_PRICEBOOK_ENTRY
       {product2_ids: [sf_object.Product2Id]}
     else
-      raise ArgumentError.new("unexpected salesforce object type when pulling cache #{sf_object.sobject_type}")
+      log.info("Attempted to retrieve related objects for an SF Object type not currently supported by the batching service", sf_object_type: sf_object.sobject_type)
+      return []
     end
 
     url = generate_batch_service_url
@@ -222,12 +232,20 @@ class CacheService
     false
   end
 
+  # We want to throw hard failures in the following case:
+  #   1. We are in CI or local tests
+  #   2. The records have not been previously invalidated
+  #   3. We are not silencing failures
+  private def throw_hard_failure?(missing_record_ids)
+    (ENV['CI'] || Rails.env.test?) && !previously_invalidated?(missing_record_ids) && !@silence_failures
+  end
+
 
   private def report_missing_cache(message, metadata, missing_record_ids: [])
     Integrations::ErrorContext.report_edge_case(message, metadata: metadata)
 
     # Error out in tests, provide the meatdata for alerting us to what exactly is missing.
-    if (ENV['CI'] || Rails.env.test?) && !previously_invalidated?(missing_record_ids)
+    if throw_hard_failure?(missing_record_ids)
       raise Integrations::Errors::TranslatorError.new(message, metadata: metadata)
     end
   end

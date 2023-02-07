@@ -197,14 +197,15 @@ class StripeForce::Translate
     sig do
       params(
         user: StripeForce::User,
+        mapper: StripeForce::Mapper,
         sf_order_amendment: Restforce::SObject,
         terminated_phase_items: T::Array[ContractItemStructure],
         subscription_term: Integer,
-        billing_frequency: Integer
+        billing_frequency: Integer,
       ).returns(T::Array[T::Hash[Symbol, T.untyped]])
     end
     # creating one-time invoice items for terminated lines for the unused prorated amount (which has already been billed)
-    def self.generate_proration_credits_from_terminated_phase_items(user:, sf_order_amendment:, terminated_phase_items:, subscription_term:, billing_frequency:)
+    def self.generate_proration_credits_from_terminated_phase_items(user:, mapper:, sf_order_amendment:, terminated_phase_items:, subscription_term:, billing_frequency:)
       negative_invoice_items_for_prorations = []
 
       terminated_phase_items.each do |phase_item|
@@ -259,7 +260,7 @@ class StripeForce::Translate
           ),
         })
 
-        StripeForce::Mapper.apply_mapping(user, credit_stripe_item, phase_item.order_line)
+        mapper.apply_mapping(credit_stripe_item, phase_item.order_line)
 
         negative_invoice_items_for_prorations << credit_stripe_item.to_hash.merge({
           quantity: phase_item.reduced_by,
@@ -281,13 +282,14 @@ class StripeForce::Translate
     sig do
       params(
         user: StripeForce::User,
+        mapper: StripeForce::Mapper,
         sf_order_amendment: Restforce::SObject,
         phase_items: T::Array[ContractItemStructure],
         subscription_term: Integer,
-        billing_frequency: Integer
+        billing_frequency: Integer,
       ).returns(T::Array[T::Hash[Symbol, T.untyped]])
     end
-    def self.generate_proration_items_from_phase_items(user:, sf_order_amendment:, phase_items:, subscription_term:, billing_frequency:)
+    def self.generate_proration_items_from_phase_items(user:, mapper:, sf_order_amendment:, phase_items:, subscription_term:, billing_frequency:)
       invoice_items_for_prorations = []
 
       phase_items.each do |phase_item|
@@ -345,7 +347,7 @@ class StripeForce::Translate
           ),
         })
 
-        StripeForce::Mapper.apply_mapping(user, proration_stripe_item, phase_item.order_line)
+        mapper.apply_mapping(proration_stripe_item, phase_item.order_line)
 
         invoice_items_for_prorations << proration_stripe_item.to_hash.merge({
           quantity: phase_item.quantity,

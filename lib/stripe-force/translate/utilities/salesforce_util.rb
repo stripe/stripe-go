@@ -186,7 +186,7 @@ module StripeForce::Utilities
       subscription_term_order_path = user.field_mappings.dig(*subscription_term_stripe_path) ||
         user.required_mappings.dig(*subscription_term_stripe_path)
 
-      quote_subscription_term = T.cast(mapper.extract_key_path_for_record(sf_order, subscription_term_order_path), T.nilable(T.any(String, Float)))
+      quote_subscription_term = T.cast(mapper.extract_key_path_for_record(sf_order, subscription_term_order_path), T.nilable(T.any(String, Float, Integer)))
 
       if quote_subscription_term.nil?
         raise Integrations::Errors::MissingRequiredFields.new(

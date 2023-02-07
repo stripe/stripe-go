@@ -7,7 +7,8 @@ module Critic::Unit
   class MapperTest < Critic::UnitTest
     before do
       @user = make_user(random_user_id: true)
-      @mapper = StripeForce::Mapper.new(@user)
+      cache_service = CacheService.new(@user)
+      @mapper = StripeForce::Mapper.new(@user, cache_service)
     end
 
     it 'properly saves the annotator hashes' do

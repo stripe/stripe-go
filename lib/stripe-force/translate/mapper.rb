@@ -14,19 +14,6 @@ module StripeForce
 
     attr_reader :user
 
-    sig do
-      params(
-        user: StripeForce::User,
-        record_to_map: Stripe::APIResource,
-        source_record: Restforce::SObject,
-        compound_key: T::Boolean
-      ).void
-    end
-    def self.apply_mapping(user, record_to_map, source_record, compound_key: false)
-      StripeForce::Mapper.new(user)
-        .apply_mapping(record_to_map, source_record, compound_key: compound_key)
-    end
-
     sig { params(stripe_record: T.any(Stripe::APIResource, Class), sf_record: T.nilable(Restforce::SObject)).returns(String) }
     def self.mapping_key_for_record(stripe_record, sf_record)
       stripe_record_class = if stripe_record.is_a?(Class) && stripe_record < Stripe::APIResource
@@ -49,9 +36,10 @@ module StripeForce
       end
     end
 
-    sig { params(u: StripeForce::User).void }
-    def initialize(u)
+    sig { params(u: StripeForce::User, cache_service: CacheService).void }
+    def initialize(u, cache_service)
       @user = u
+      @cache_service = cache_service
     end
 
     sig { params(record: T.any(Stripe::APIResource, Restforce::SObject), key_path: String).returns(T.nilable(T.any(String, Integer, Float, T::Boolean))) }
@@ -105,7 +93,7 @@ module StripeForce
           target_class = StripeForce::Utilities::SalesforceUtil.salesforce_type_from_id(@user, target_object)
 
           if target_class
-            target_object = backoff { @user.sf_client.find(target_class, target_object) }
+            target_object = @cache_service.silent { @cache_service.get_record_from_cache(target_class, target_object) }
           end
         end
       end
