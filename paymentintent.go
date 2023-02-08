@@ -1083,7 +1083,7 @@ type PaymentIntentPaymentMethodOptionsCardPresentParams struct {
 
 // Configuration for the eu_bank_transfer funding type.
 type PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferParams struct {
-	// The desired country code of the bank account information. Permitted values include: `DE`, `ES`, `FR`, `IE`, or `NL`.
+	// The desired country code of the bank account information. Permitted values include: `BE`, `DE`, `ES`, `FR`, `IE`, or `NL`.
 	Country *string `form:"country"`
 }
 
@@ -2176,7 +2176,7 @@ type PaymentIntentPaymentMethodOptionsCardPresent struct {
 	RequestIncrementalAuthorizationSupport bool `json:"request_incremental_authorization_support"`
 }
 type PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransfer struct {
-	// The desired country code of the bank account information. Permitted values include: `DE`, `ES`, `FR`, `IE`, or `NL`.
+	// The desired country code of the bank account information. Permitted values include: `BE`, `DE`, `ES`, `FR`, `IE`, or `NL`.
 	Country string `json:"country"`
 }
 type PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransfer struct {

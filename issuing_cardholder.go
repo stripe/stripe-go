@@ -212,9 +212,9 @@ type IssuingCardholderIndividual struct {
 	CardIssuing *IssuingCardholderIndividualCardIssuing `json:"card_issuing"`
 	// The date of birth of this cardholder.
 	DOB *IssuingCardholderIndividualDOB `json:"dob"`
-	// The first name of this cardholder.
+	// The first name of this cardholder. This field cannot contain any numbers, special characters (except periods, commas, hyphens, spaces and apostrophes) or non-latin letters.
 	FirstName string `json:"first_name"`
-	// The last name of this cardholder.
+	// The last name of this cardholder. This field cannot contain any numbers, special characters (except periods, commas, hyphens, spaces and apostrophes) or non-latin letters.
 	LastName string `json:"last_name"`
 	// Government-issued ID document for this cardholder.
 	Verification *IssuingCardholderIndividualVerification `json:"verification"`
