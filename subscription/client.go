@@ -90,6 +90,19 @@ func (c Client) DeleteDiscount(id string, params *stripe.SubscriptionDeleteDisco
 	return subscription, err
 }
 
+// Resume is the method for the `POST /v1/subscriptions/{subscription}/resume` API.
+func Resume(id string, params *stripe.SubscriptionResumeParams) (*stripe.Subscription, error) {
+	return getC().Resume(id, params)
+}
+
+// Resume is the method for the `POST /v1/subscriptions/{subscription}/resume` API.
+func (c Client) Resume(id string, params *stripe.SubscriptionResumeParams) (*stripe.Subscription, error) {
+	path := stripe.FormatURLPath("/v1/subscriptions/%s/resume", id)
+	subscription := &stripe.Subscription{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, subscription)
+	return subscription, err
+}
+
 // List returns a list of subscriptions.
 func List(params *stripe.SubscriptionListParams) *Iter {
 	return getC().List(params)

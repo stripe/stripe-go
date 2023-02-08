@@ -591,6 +591,8 @@ type CheckoutSessionListParams struct {
 	CustomerDetails *CheckoutSessionListCustomerDetailsParams `form:"customer_details"`
 	// Only return the Checkout Session for the PaymentIntent specified.
 	PaymentIntent *string `form:"payment_intent"`
+	// Only return the Checkout Sessions for the Payment Link specified.
+	PaymentLink *string `form:"payment_link"`
 	// Only return the Checkout Session for the subscription specified.
 	Subscription *string `form:"subscription"`
 }
@@ -970,7 +972,7 @@ type CheckoutSessionPaymentMethodOptionsCardParams struct {
 
 // Configuration for eu_bank_transfer funding type.
 type CheckoutSessionPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferParams struct {
-	// The desired country code of the bank account information. Permitted values include: `DE`, `ES`, `FR`, `IE`, or `NL`.
+	// The desired country code of the bank account information. Permitted values include: `BE`, `DE`, `ES`, `FR`, `IE`, or `NL`.
 	Country *string `form:"country"`
 }
 
@@ -1322,6 +1324,18 @@ type CheckoutSessionSubscriptionDataTransferDataParams struct {
 	Destination *string `form:"destination"`
 }
 
+// Defines how the subscription should behave when the user's free trial ends.
+type CheckoutSessionSubscriptionDataTrialSettingsEndBehaviorParams struct {
+	// Indicates how the subscription should change when the trial ends if the user did not provide a payment method.
+	MissingPaymentMethod *string `form:"missing_payment_method"`
+}
+
+// Settings related to subscription trials.
+type CheckoutSessionSubscriptionDataTrialSettingsParams struct {
+	// Defines how the subscription should behave when the user's free trial ends.
+	EndBehavior *CheckoutSessionSubscriptionDataTrialSettingsEndBehaviorParams `form:"end_behavior"`
+}
+
 // A subset of parameters to be passed to subscription creation for Checkout Sessions in `subscription` mode.
 type CheckoutSessionSubscriptionDataParams struct {
 	// A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice subtotal that will be transferred to the application owner's Stripe account. To use an application fee percent, the request must be made on behalf of another account, using the `Stripe-Account` header or an OAuth key. For more information, see the application fees [documentation](https://stripe.com/docs/connect/subscriptions#collecting-fees-on-subscriptions).
@@ -1351,6 +1365,8 @@ type CheckoutSessionSubscriptionDataParams struct {
 	// Integer representing the number of trial period days before the
 	// customer is charged for the first time. Has to be at least 1.
 	TrialPeriodDays *int64 `form:"trial_period_days"`
+	// Settings related to subscription trials.
+	TrialSettings *CheckoutSessionSubscriptionDataTrialSettingsParams `form:"trial_settings"`
 }
 
 // Controls tax ID collection settings for the session.
@@ -1715,7 +1731,7 @@ type CheckoutSessionPaymentMethodOptionsCard struct {
 	StatementDescriptorSuffixKanji string `json:"statement_descriptor_suffix_kanji"`
 }
 type CheckoutSessionPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransfer struct {
-	// The desired country code of the bank account information. Permitted values include: `DE`, `ES`, `FR`, `IE`, or `NL`.
+	// The desired country code of the bank account information. Permitted values include: `BE`, `DE`, `ES`, `FR`, `IE`, or `NL`.
 	Country string `json:"country"`
 }
 type CheckoutSessionPaymentMethodOptionsCustomerBalanceBankTransfer struct {
