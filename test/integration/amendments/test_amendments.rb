@@ -381,7 +381,7 @@ class Critic::OrderAmendmentTranslation < Critic::OrderAmendmentFunctionalTest
       # we may be need to change this: the second date isn't actually billed, but it is a billing cycle boundary
       assert_equal(2, billing_cycle_dates.count)
       # billing dates should be a year apart
-      assert_equal(365, (T.must(billing_cycle_dates[1]) - T.must(billing_cycle_dates[0])) / (60 * 60 * 24))
+      assert_includes([365, 366], (T.must(billing_cycle_dates[1]) - T.must(billing_cycle_dates[0])) / (60 * 60 * 24))
 
       sf_contract = create_contract_from_order(sf_order)
       amendment_data = create_quote_data_from_contract_amendment(sf_contract)

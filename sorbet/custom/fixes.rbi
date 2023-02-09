@@ -46,8 +46,8 @@ end
 
 class Array
   # pretty certain delete works for anything, not just symbols or strings, but the original def was just symbols
-  sig { params(obj: T.any(String, Symbol)).returns(T.nilable(T.any(String, Symbol)))}
-  def delete(obj); end
+  sig { params(obj: T.any(String, Symbol), blk: T.untyped).returns(T.nilable(T.any(String, Symbol)))}
+  def delete(obj, &blk); end
 end
 
 # TODO look into why this isn't autogen'd at all via sorbet
