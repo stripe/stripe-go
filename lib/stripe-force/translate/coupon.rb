@@ -89,11 +89,11 @@ class StripeForce::Translate
   def stripe_discounts_for_sf_object(sf_object:)
     sf_coupons = get_salesforce_stripe_coupons_associated_to_sf_object(sf_client: @user.sf_client, sf_object: sf_object)
 
-    if sf_coupons.nil?
+    if sf_coupons.nil? || sf_coupons.size < 1
       return
     end
 
-    log.info 'found coupons for sf object', salesforce_object: sf_object
+    log.info 'found coupons for sf object', salesforce_object: sf_object, sf_coupon_count: sf_coupons.size
 
     sf_coupons.map do |sf_coupon|
       coupon = translate_coupon(sf_coupon)
@@ -115,11 +115,11 @@ class StripeForce::Translate
       end
 
       # check if there are any coupon associations to this order or order item
-      coupon_data = sf_client.query("Select #{SF_ID} from #{prefixed_stripe_field(ORDER_SF_STRIPE_COUPON)} where #{prefixed_stripe_field(lookup_field)} = '#{sf_object.Id}'")
+      coupon_data = backoff { sf_client.query("Select #{SF_ID} from #{prefixed_stripe_field(ORDER_SF_STRIPE_COUPON)} where #{prefixed_stripe_field(lookup_field)} = '#{sf_object.Id}'") }
 
       # there could be multiple coupons associated with a single order or order line
       coupons = coupon_data.map do |data|
-        sf_client.find(prefixed_stripe_field(ORDER_SF_STRIPE_COUPON), data.Id)
+        backoff { sf_client.find(prefixed_stripe_field(ORDER_SF_STRIPE_COUPON), data.Id) }
       end
 
       coupons
