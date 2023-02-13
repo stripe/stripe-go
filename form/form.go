@@ -344,10 +344,9 @@ func mapEncoder(values *Values, v reflect.Value, keyParts []string, _ bool, _ *f
 		if keyVal.Kind() != reflect.String {
 			if Strict {
 				panic("Don't support serializing maps with non-string keys")
-			} else {
-				// otherwise keyVal.String() will panic later
-				continue
 			}
+			// otherwise keyVal.String() will panic later
+			continue
 		}
 		keys = append(keys, keyVal.String())
 	}
