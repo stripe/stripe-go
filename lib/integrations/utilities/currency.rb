@@ -28,10 +28,10 @@ module Integrations::Utilities::Currency
     ZERO_DECIMAL_CURRENCIES.include?(currency_iso.upcase)
   end
 
-  sig { params(string_float_amount: String, user: StripeForce::User, as_decimal: T::Boolean).returns(T.any(Integer, BigDecimal, String)) }
-  def normalize_float_amount_for_stripe(string_float_amount, user, as_decimal: false)
+  sig { params(stripe_currency: String, string_float_amount: String, user: StripeForce::User, as_decimal: T::Boolean).returns(T.any(Integer, BigDecimal, String)) }
+  def normalize_float_amount_for_stripe(stripe_currency, string_float_amount, user, as_decimal: false)
     normalize_float_amount_in_currency_for_stripe(
-      Integrations::Utilities::Currency.base_currency_iso(user),
+      stripe_currency,
       string_float_amount,
       as_decimal: as_decimal
     )
@@ -56,6 +56,21 @@ module Integrations::Utilities::Currency
       end
     end
   end
+
+  sig { params(user: StripeForce::User, sf_object: Restforce::SObject).returns(String) }
+  def currency_for_sf_object(user, sf_object)
+    currency = ''
+
+    if user.is_multicurrency_org? && sf_object.key?(StripeForce::Constants::SF_CURRENCY_ISO_CODE)
+      currency = sf_object[StripeForce::Constants::SF_CURRENCY_ISO_CODE]
+    else
+      currency = Integrations::Utilities::Currency.base_currency_iso(user)
+    end
+
+    # stripe always expects lowercase currency
+    currency.downcase
+  end
+  module_function :currency_for_sf_object
 
   sig { params(user: StripeForce::User).returns(String) }
   def base_currency_iso(user)

@@ -239,9 +239,10 @@ class StripeForce::Translate
       raise StripeForce::Errors::RawUserError.new("unexpected pricing method #{pricing_method}")
     end
 
+    stripe_currency = Integrations::Utilities::Currency.currency_for_sf_object(@user, sf_consumption_rate)
     {
       'up_to' => up_to,
-      pricing_key => normalize_float_amount_for_stripe(price.to_s, @user, as_decimal: true),
+      pricing_key => normalize_float_amount_for_stripe(stripe_currency, price.to_s, @user, as_decimal: true),
     }
   end
 
@@ -328,7 +329,7 @@ class StripeForce::Translate
     # omitting price param here, this should be defined upstream
     stripe_price = Stripe::Price.construct_from({
       # TODO most likely need to pass the order over?
-      currency: Integrations::Utilities::Currency.base_currency_iso(@user),
+      currency: Integrations::Utilities::Currency.currency_for_sf_object(@user, sf_object),
 
       # TODO using a `lookup_key` here would allow users to easily update prices
       # https://jira.corp.stripe.com/browse/RUN_COREMODELS-1027
@@ -352,7 +353,8 @@ class StripeForce::Translate
 
     # although we are passing the amount as a decimal, the decimal amount still represents cents
     # to_s is used here to (a) satisfy typing requirements and (b) ensure BigDecimal can parse the float properly
-    stripe_price.unit_amount_decimal = T.cast(normalize_float_amount_for_stripe(stripe_price.unit_amount_decimal.to_s, @user, as_decimal: true), BigDecimal)
+    stripe_currency = Integrations::Utilities::Currency.currency_for_sf_object(@user, sf_object)
+    stripe_price.unit_amount_decimal = T.cast(normalize_float_amount_for_stripe(stripe_currency, stripe_price.unit_amount_decimal.to_s, @user, as_decimal: true), BigDecimal)
 
     # TODO validate billing frequency and subscription term
 

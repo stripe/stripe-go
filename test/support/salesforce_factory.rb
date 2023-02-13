@@ -77,7 +77,15 @@ module Critic
       })
     end
 
-    def create_salesforce_opportunity(sf_account_id:, additional_fields: {})
+    def create_salesforce_opportunity(sf_account_id:, currency_iso_code: nil, additional_fields: {})
+      currency_iso_code ||= @user.connector_settings['default_currency']
+
+      if @user.is_multicurrency_org?
+        additional_fields.merge({
+          SF_CURRENCY_ISO_CODE => currency_iso_code,
+        })
+      end
+
       sf.create!(SF_OPPORTUNITY, {
         Name: sf_randomized_name(SF_OPPORTUNITY),
         "CloseDate": now_time_formatted_for_salesforce,
@@ -86,18 +94,24 @@ module Critic
       }.merge(additional_fields))
     end
 
-    def create_salesforce_price(sf_product_id: nil, price: nil)
+    def create_salesforce_price(sf_product_id: nil, price: nil, currency_iso_code: nil, additional_fields: {})
       price ||= TEST_DEFAULT_PRICE
       sf_product_id ||= create_salesforce_product
+      currency_iso_code ||= @user.connector_settings['default_currency']
 
-      sf_pricebook_entry_id = sf.create!(SF_PRICEBOOK_ENTRY,
+      if @user.is_multicurrency_org?
+        additional_fields.merge({
+          SF_CURRENCY_ISO_CODE => currency_iso_code,
+        })
+      end
+
+      sf_pricebook_entry_id = sf.create!(SF_PRICEBOOK_ENTRY, {
         "Pricebook2Id" => default_pricebook_id,
         "Product2Id" => sf_product_id,
-
         "IsActive" => true,
         "UnitPrice" => price / 100.0,
         'UseStandardPrice' => false,
-      )
+      }.merge(additional_fields))
     end
 
     def default_pricebook_id
@@ -187,7 +201,7 @@ module Critic
     end
 
     # TODO `price` should be `price_in_cents`
-    def salesforce_recurring_product_with_price(price: nil, additional_product_fields: {})
+    def salesforce_recurring_product_with_price(price: nil, currency_iso_code: nil, additional_product_fields: {})
       # I don't fully understand how the subscription term on the price iteracts with the billing frequency,
       # but if the term is set to a value which is different than the billing frequency it seems to use the
       # subscription term value. i.e. a yearly billed product
@@ -211,7 +225,7 @@ module Critic
         CPQ_QUOTE_BILLING_FREQUENCY => CPQBillingFrequencyOptions::MONTHLY.serialize,
       }.merge(additional_product_fields))
 
-      pricebook_entry_id = create_salesforce_price(sf_product_id: product_id, price: price)
+      pricebook_entry_id = create_salesforce_price(sf_product_id: product_id, price: price, currency_iso_code: currency_iso_code)
       [product_id, pricebook_entry_id]
     end
 
@@ -227,10 +241,11 @@ module Critic
     end
 
     # returns the full object, not the ID
-    def create_subscription_order(sf_product_id: nil, sf_account_id: nil, additional_fields: {})
+    def create_subscription_order(sf_product_id: nil, sf_account_id: nil, currency_iso_code: nil, additional_fields: {})
       create_salesforce_order(
         sf_product_id: sf_product_id,
         sf_account_id: sf_account_id,
+        currency_iso_code: currency_iso_code,
         additional_quote_fields: {
           CPQ_QUOTE_SUBSCRIPTION_START_DATE => now_time_formatted_for_salesforce,
           # one year / 12 months
@@ -299,6 +314,9 @@ module Critic
     sig { params(sf_quote_id: String).returns(T.untyped) }
     def create_order_from_cpq_quote(sf_quote_id)
       # it looks like there is additional field validation triggered here when `ordered` is set to true
+      # If you recieve a "FIELD_CUSTOM_VALIDATION_EXCEPTION: Required fields are missing: [PricebookEntryId]" here,
+      #   this means that SF could not find a pricebook entry for the product you are passing in. This may be because of a
+      #   currency mismatch on the opportunity and the pricebook entry you created for the product.
       sf.update!(CPQ_QUOTE, {
         SF_ID => sf_quote_id,
         CPQ_QUOTE_ORDERED => true,
@@ -319,9 +337,9 @@ module Critic
       sf_order
     end
 
-    def create_salesforce_quote(sf_pricebook_id: nil, sf_account_id:, additional_quote_fields: {})
+    def create_salesforce_quote(sf_pricebook_id: nil, sf_account_id:, currency_iso_code: nil, additional_quote_fields: {})
       sf_pricebook_id ||= default_pricebook_id
-      opportunity_id = create_salesforce_opportunity(sf_account_id: sf_account_id)
+      opportunity_id = create_salesforce_opportunity(sf_account_id: sf_account_id, currency_iso_code: currency_iso_code)
       contact_id = create_salesforce_contact
 
       # you can create a quote without *any* fields, which seems completely silly
@@ -334,15 +352,15 @@ module Critic
     end
 
     # https://github.com/sseixas/CPQ-JS
-    def create_salesforce_order(sf_product_id: nil, sf_account_id: nil, sf_pricebook_id: nil, additional_quote_fields: {})
+    def create_salesforce_order(sf_product_id: nil, sf_account_id: nil, sf_pricebook_id: nil, currency_iso_code: nil, additional_quote_fields: {})
       if !sf_product_id
-        sf_product_id, _ = salesforce_recurring_product_with_price
+        sf_product_id, _ = salesforce_recurring_product_with_price(currency_iso_code: currency_iso_code)
       end
 
       sf_pricebook_id ||= default_pricebook_id
       sf_account_id ||= create_salesforce_account
 
-      quote_id = create_salesforce_quote(sf_account_id: sf_account_id, additional_quote_fields: additional_quote_fields)
+      quote_id = create_salesforce_quote(sf_account_id: sf_account_id, currency_iso_code: currency_iso_code, additional_quote_fields: additional_quote_fields)
 
       quote_with_product = add_product_to_cpq_quote(quote_id, sf_product_id: sf_product_id)
 

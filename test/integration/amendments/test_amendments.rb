@@ -431,7 +431,7 @@ class Critic::OrderAmendmentTranslation < Critic::OrderAmendmentFunctionalTest
       assert_equal(second_phase_item.price, prorated_price.metadata['salesforce_original_stripe_price_id'])
     end
 
-    it 'supports amending when there is a single billing cycle which has already passed ' do
+    it 'supports amending when there is a single billing cycle which has already passed' do
       @user.enable_feature FeatureFlags::TEST_CLOCKS, update: true
 
       # initial order: starts on Sept 30, billed yearly

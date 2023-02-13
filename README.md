@@ -152,7 +152,7 @@ StripeForce::PollTimestamp.dataset.extension(:pretty_table).print
 
 # PR Review Conventions
 
-Here are some of the 'tags' that PR comments will be prefixed with to provide more context:
+Here are some of the 'tags' that PR comments will be prefixed with to provide more context: 
 
 - no tag: requested change that requires either an explanation or fix
 - `fyi` sharing some sort of domain or product knowledge that may be helpful

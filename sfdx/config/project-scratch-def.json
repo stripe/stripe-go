@@ -3,6 +3,9 @@
   "adminEmail": "pbo+billing-scratch-admin@stripe.com",
   "edition": "Developer",
   "settings": {
+    "currencySettings":{ 
+      "enableMultiCurrency": true 
+    },
     "mobileSettings": {
       "enableS1EncryptedStoragePref2": false
     },

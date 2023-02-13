@@ -118,6 +118,10 @@ module StripeForce
       self.connector_settings[CONNECTOR_SETTING_SALESFORCE_NAMESPACE]
     end
 
+    def is_multicurrency_org?
+      self.connector_settings[CONNECTOR_SETTING_MULTICURRENCY_ENABLED]
+    end
+
     # although you can write the logic to extract this in REST, we need this value to properly
     # establish a connection.
     def salesforce_instance_type

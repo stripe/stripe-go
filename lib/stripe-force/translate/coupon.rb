@@ -67,8 +67,9 @@ class StripeForce::Translate
   def sanitize_stripe_coupon(stripe_coupon)
     # Stripe expects amount_off to be specified in cents
     if !stripe_coupon["amount_off"].nil?
-      stripe_coupon["amount_off"] = normalize_float_amount_for_stripe(stripe_coupon["amount_off"].to_s, @user)
       stripe_coupon["currency"] = 'usd'
+      stripe_coupon["amount_off"] = normalize_float_amount_for_stripe(stripe_coupon.currency, stripe_coupon["amount_off"].to_s, @user)
+
     end
 
     # Prevents Stripe API error 'Stripe::InvalidRequestError: Invalid integer: 1.0'

@@ -31,6 +31,8 @@ workflows:
                 - platform-integrations-bots+cpqqapackage@stripe.com
                 # production package test, has a different prefix from QA
                 # - brennen+prodtest@stripe.com
+                # unpackaged source test, on an org with multi-currency enabled
+                - mbianco+cpqmulticurrency@stripe.com
 
           # We will wait for the block and typecheck tasks to complete
           # We intentionally do not wait for the results of rubocop as it's not necessary

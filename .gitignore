@@ -38,6 +38,8 @@ IlluminatedCloud
 # Ignore the irb history
 irb.log
 
+.sfdx/*
+
 .env
 .envrc
 test/reports/

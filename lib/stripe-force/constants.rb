@@ -33,6 +33,8 @@ module StripeForce
     SF_ORDER_CONTRACTED = 'SBQQ__Contracted__c'
     SF_ORDER_QUOTE = 'SBQQ__Quote__c'
 
+    SF_CURRENCY_ISO_CODE = 'CurrencyIsoCode'
+
     SF_ORDER_ITEM_REVISED_ORDER_PRODUCT = 'SBQQ__RevisedOrderProduct__c'
 
     SF_CONTRACT_ORDER_ID = 'SBQQ__Order__c'
@@ -158,6 +160,7 @@ module StripeForce
     CONNECTOR_SETTING_SALESFORCE_NAMESPACE = "salesforce_namespace"
     CONNECTOR_SETTING_SALESFORCE_INSTANCE_TYPE = 'salesforce_instance_type'
     CONNECTOR_SETTING_CPQ_TERM_UNIT = 'cpq_term_unit'
+    CONNECTOR_SETTING_MULTICURRENCY_ENABLED = 'multicurrency_enabled'
 
     class SalesforceNamespaceOptions < T::Enum
       enums do
