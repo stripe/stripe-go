@@ -314,8 +314,77 @@ class Critic::ProratedAmendmentTranslation < Critic::OrderAmendmentFunctionalTes
 
   end
 
-  it 'excludes metered billing, tiered pricing, and one-time invoice items from proration calculation' do
+  it 'excludes tiered pricing, and one-time invoice items' do
 
+  end
+
+  it 'excludes metered billing from proration calculation' do
+      @user.enable_feature FeatureFlags::TERMINATED_ORDER_ITEM_CREDIT, update: true
+
+      # initial order: 2yr contract (two billing cycles), silver metered item
+      # amendment order: two months into contract, upgrade to gold metered item
+      silver_tier_price = 1200_00
+      gold_tier_price = 2400_00
+
+      contract_term = 12
+      amendment_term = 10
+
+      initial_order_start_date = now_time
+      initial_order_end_date = initial_order_start_date + contract_term
+      amendment_start_date = now_time + (contract_term - amendment_term).months
+      amendment_end_date = amendment_start_date + amendment_term.months
+      # normalize the amendment_end_date so test doesn't fail at EOM
+      amendment_end_date = StripeForce::Translate::OrderHelpers.anchor_time_to_day_of_month(base_time: amendment_end_date, anchor_day_of_month: initial_order_end_date.day)
+
+      sf_metered_silver_product_id, _sf_metered_silver_pricebook_id = salesforce_recurring_metered_produce_with_price(price_in_cents: silver_tier_price)
+      sf_order = create_subscription_order(sf_product_id: sf_metered_silver_product_id)
+
+      # translate the initial order
+      StripeForce::Translate.perform_inline(@user, sf_order.Id)
+
+      # create amendment to remove silver metered and upsell to gold metered product
+      sf_contract = create_contract_from_order(sf_order)
+      amendment_data = create_quote_data_from_contract_amendment(sf_contract)
+
+      # remove silver item
+      amendment_data["lineItems"].first["record"][CPQ_QUOTE_QUANTITY] = 0
+      amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_START_DATE] = format_date_for_salesforce(amendment_start_date)
+      amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_TERM] = amendment_term
+      sf_quote_id = calculate_and_save_cpq_quote(amendment_data)
+
+      # # add gold metered product
+      sf_metered_gold_product_id, _sf_metered_gold_pricebook_id = salesforce_recurring_metered_produce_with_price(price_in_cents: gold_tier_price)
+      amendment_data = add_product_to_cpq_quote(sf_quote_id, sf_product_id: sf_metered_gold_product_id)
+      sf_order_amendment = create_order_from_quote_data(amendment_data)
+
+      # translate the amendment order
+      StripeForce::Translate.perform_inline(@user, sf_order_amendment.Id)
+
+      sf_order.refresh
+      stripe_id = sf_order[prefixed_stripe_field(GENERIC_STRIPE_ID)]
+      subscription_schedule = Stripe::SubscriptionSchedule.retrieve(stripe_id, @user.stripe_credentials)
+
+      assert_equal(2, subscription_schedule.phases.count)
+
+      # validate the first phase
+      first_phase = T.must(subscription_schedule.phases.first)
+      # first phase should have one item (silver metered item)
+      assert_equal(1, first_phase.items.count)
+      first_phase_item = T.must(first_phase.items.first)
+      first_phase_item_price = Stripe::Price.retrieve(T.cast(first_phase_item.price, String), @user.stripe_credentials)
+      assert_equal(silver_tier_price.to_s, first_phase_item_price.unit_amount_decimal)
+
+      # validate the second phase
+      second_phase = T.must(subscription_schedule.phases[1])
+      # second phase should have two items (silver and gold metered items)
+      # and no proration items
+      assert_equal(1, second_phase.items.count)
+      second_phase_item = T.must(second_phase.items.first)
+      second_phase_item_price = Stripe::Price.retrieve(T.cast(second_phase_item.price, String), @user.stripe_credentials)
+      assert_equal(gold_tier_price.to_s, second_phase_item_price.unit_amount_decimal)
+      assert_equal('metered', second_phase_item_price.recurring.usage_type)
+
+      assert_equal(0, second_phase.add_invoice_items.count)
   end
 
   # also known as a 'cross sell'
