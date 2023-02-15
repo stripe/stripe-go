@@ -27,6 +27,7 @@ export default class SyncPreferencesStep extends LightningElement {
     @track orderFilter;
     @track accountFilter;
     @track productFilter;
+    @track priceBookFilter;
     @track isSandbox;
     @track syncProductsDisabled = false; 
     @track syncPricebooksDisabled = false;
@@ -43,7 +44,7 @@ export default class SyncPreferencesStep extends LightningElement {
     accountFilterError = '';
     orderFilterError = '';
     productFilterError = '';
-
+    priceBookFilterError = '';
 
     // DEV NOTE: Manual Translation additions: refactor or remove these //
     manualTranslationValue = '';
@@ -167,6 +168,7 @@ export default class SyncPreferencesStep extends LightningElement {
             this.orderFilter = filterSettingsResponseData.results.Order;
             this.accountFilter = filterSettingsResponseData.results.Account;
             this.productFilter = filterSettingsResponseData.results.Product2;
+            this.priceBookFilter = filterSettingsResponseData.results.PricebookEntry;
 
         } catch (error) {
             let errorMessage = getErrorMessage(error);
@@ -240,6 +242,11 @@ export default class SyncPreferencesStep extends LightningElement {
         this.orderFilter = updatedValue;
     }
 
+    updatePriceBookFilter(event) {
+        let updatedValue = this.valueChange(this.priceBookFilter, event.detail.value)
+        this.priceBookFilter = updatedValue;
+    }
+
     valueChange(savedValue, updatedValue) {
         if(savedValue !== updatedValue) {
             this.dispatchEvent(new CustomEvent('valuechange'));
@@ -295,6 +302,10 @@ export default class SyncPreferencesStep extends LightningElement {
         return this.productFilterError.length > 0;
     }
 
+    get hasPriceBookFilterError  () {
+        return this.priceBookFilterError.length > 0;
+    }
+
     get accountFilterClassList() {
         return (this.accountFilterError.length > 0? 'slds-has-error' : ''); 
     }
@@ -305,6 +316,10 @@ export default class SyncPreferencesStep extends LightningElement {
 
     get productFilterClassList() {
         return (this.productFilterError.length > 0 ? 'slds-has-error' : ''); 
+    }
+
+    get priceBookFilterClassList() {
+        return (this.priceBookFilterError.length > 0 ? 'slds-has-error' : ''); 
     }
 
     @api async saveModifiedSyncPreferences() {
@@ -325,10 +340,12 @@ export default class SyncPreferencesStep extends LightningElement {
                     this.accountFilterError = '';
                     this.productFilterError = '';
                     this.orderFilterError = '';
+                    this.priceBookFilterError = '';
                     const updatedFilterSettings = await saveFilterSettings({
                         productFilter: this.productFilter,
                         orderFilter: this.orderFilter,
-                        accountFiter: this.accountFilter
+                        accountFiter: this.accountFilter,
+                        priceBookFilter: this.priceBookFilter
                     });
                     const filterResponseData =  JSON.parse(updatedFilterSettings);
                     if (filterResponseData.isSuccess ) {
@@ -350,7 +367,10 @@ export default class SyncPreferencesStep extends LightningElement {
                                         } else if (objectWithError === 'Order') {
                                             // Set order validation message
                                             this.orderFilterError = exceptionThrown;
-                                        }  
+                                        }  else if (objectWithError === 'PricebookEntry') {
+                                            // Set pricebook validation message
+                                            this.priceBookFilterError = exceptionThrown;
+                                        } 
                                     }
                                 return;
                             } else {

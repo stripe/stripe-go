@@ -472,7 +472,7 @@ public with sharing class test_setupAssistant {
 
         Test.startTest();
         Test.setMock(HttpCalloutMock.class, new stripeConnectionSuccessMock());
-        String response = setupAssistant.saveFilterSettings('Id != null', 'Ids != null', '');
+        String response = setupAssistant.saveFilterSettings('Id != null', 'Ids != null', '', '');
         Map<String, Object> responseMap = (Map<String, Object>)JSON.deserializeUntyped(response);
         Test.stopTest();
 
@@ -491,7 +491,7 @@ public with sharing class test_setupAssistant {
 
         Test.startTest();
         Test.setMock(HttpCalloutMock.class, new stripeConnectionSuccessMock());
-        String response = setupAssistant.saveFilterSettings('Id != null', 'Id != null', 'Id != null');
+        String response = setupAssistant.saveFilterSettings('Id != null', 'Id != null', 'Id != null', 'Id != null');
         Map<String, Object> responseMap = (Map<String, Object>)JSON.deserializeUntyped(response);
         Test.stopTest();
 

@@ -556,7 +556,8 @@ public with sharing class setupAssistant {
             List<String> filterFields = new List<String> {
                 'Product2',
                 'Order',
-                'Account'
+                'Account',
+                'PricebookEntry'
             };
 
             //gets filter fields and values for front end
@@ -573,13 +574,14 @@ public with sharing class setupAssistant {
 
     //sends updated sync preference data to the ruby service and saves the values
     @AuraEnabled
-    public static String saveFilterSettings(String productFilter, String orderFilter, String accountFiter) {
+    public static String saveFilterSettings(String productFilter, String orderFilter, String accountFiter, String priceBookFilter) {
         responseData rd = new responseData();
         try {
             Map<String, String> queryFilterMap = new Map<String, String> {
                 'Product2' => productFilter,
                 'Order' => orderFilter,
-                'Account' => accountFiter
+                'Account' => accountFiter,
+                'PricebookEntry' => priceBookFilter
             };
 
             List<Map<String, Object>> validationErrorMapList = new List<Map<String, Object>> ();

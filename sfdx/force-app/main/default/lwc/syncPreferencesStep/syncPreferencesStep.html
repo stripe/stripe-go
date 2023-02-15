@@ -165,8 +165,8 @@
                     Custom Product Sync Conditions
                 </h4>
                 <p>
-                    If products or pricebooks are manually synced using the button below, all products are synced to Stripe. To customize which products are synced to Stripe, specify a SOQL <code>WHERE</code> clause here.
-                    This custom query determines which products will be synchronized when the "Sync All Products" or "Sync All Pricebooks" button is pressed below. Products that do not meet the criteria defined here are excluded from the sync to Stripe.
+                    If products are manually synced using the button below, all products are synced to Stripe. To customize which products are synced to Stripe, specify a SOQL <code>WHERE</code> clause here.
+                    This custom query determines which products will be synchronized when the "Sync All Products" button is pressed below. Products that do not meet the criteria defined here are excluded from the sync to Stripe.
                     This conditional will <strong>not</strong> limit which products connected to an activated order are synced.
                 </p>
             </div>
@@ -174,6 +174,24 @@
                 <lightning-input label="Include Product records where:" type="text" value={productFilter} placeholder="Provide filter logic..." class={productFilterClassList} onchange={updateProductFilter}></lightning-input>
                 <div if:true={hasProductFilterError} class="slds-form-element__help slds-text-color_error">
                     {productFilterError}
+                </div>
+            </div>
+        </div>
+        <div class="stripe-settings__item slds-grid">
+            <div class="slds-col_bump-right">
+                <h4 class="slds-text-heading_small slds-m-bottom_xx-small">
+                    Custom PricebookEntry Sync Conditions
+                </h4>
+                <p>
+                    If pricebooks are manually synced using the button below, all pricebooks are synced to Stripe. To customize which pricebooks are synced to Stripe, specify a SOQL <code>WHERE</code> clause here.
+                    This custom query determines which pricebooks will be synchronized when the "Sync All Pricebooks" button is pressed below. PriceBooks that do not meet the criteria defined here are excluded from the sync to Stripe.
+                    This conditional will <strong>not</strong> limit which pricebooks connected to an activated order are synced.
+                </p>
+            </div>
+            <div class="slds-col slds-p-left_xx-large slds-size_1-of-3">
+                <lightning-input label="Include PricebookEntry records where:" type="text" value={priceBookFilter} placeholder="Provide filter logic..." class={priceBookFilterClassList} onchange={updatePriceBookFilter}></lightning-input>
+                <div if:true={hasPriceBookFilterError} class="slds-form-element__help slds-text-color_error">
+                    {priceBookFilterError}
                 </div>
             </div>
         </div>
