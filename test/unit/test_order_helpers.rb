@@ -32,6 +32,11 @@ module Critic::Unit
       it 'allows CPQ enum values' do
         assert_equal(90, StripeForce::Translate::OrderHelpers.transform_payment_terms_to_days_until_due("Net 90"))
       end
+
+      it 'allows CPQ enum values with dash' do
+        assert_equal(15, StripeForce::Translate::OrderHelpers.transform_payment_terms_to_days_until_due("Net-15"))
+        assert_equal(90, StripeForce::Translate::OrderHelpers.transform_payment_terms_to_days_until_due("Net-90"))
+      end
     end
   end
 end

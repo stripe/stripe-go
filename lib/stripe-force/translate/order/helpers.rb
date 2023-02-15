@@ -66,6 +66,7 @@ class StripeForce::Translate
 
     sig { params(raw_days_until_due: T.any(String, Integer, Float)).returns(Integer) }
     def self.transform_payment_terms_to_days_until_due(raw_days_until_due)
+      log.info "transforming payment terms to days_until_due", raw_days_until_due: raw_days_until_due
       if raw_days_until_due.is_a?(Integer)
         return raw_days_until_due
       end
@@ -82,21 +83,25 @@ class StripeForce::Translate
         return raw_days_until_due.strip.to_i
       end
 
-      # TODO it is possible for users to customize the options here, we may need to use regex extraction or something at some point
-      case raw_days_until_due
-      when "Net 15"
-        15
-      when "Net 30"
-        30
-      when "Net 45"
-        45
-      when "Net 60"
-        60
-      when "Net 90"
-        90
-      else
+      # Get the rest of the string after "Net " or "Net-"
+      # https://stackoverflow.com/questions/5006716/getting-the-text-that-follows-after-the-regex-match
+      raw_days = raw_days_until_due[/(?<=Net[- ]).*/, 0]
+
+      unless raw_days
         raise StripeForce::Errors::RawUserError.new("unexpected days_until_due option #{raw_days_until_due}")
       end
+
+      unless [15, 30, 45, 60, 90].include?(raw_days.to_i)
+        Integrations::ErrorContext.report_edge_case(
+          "recieved unexpected days_until_due option",
+           metadata: {
+             raw_days_until_due: raw_days_until_due,
+             raw_days: raw_days,
+           }
+        )
+      end
+
+      raw_days.to_i
     end
 
     # TODO this should move to the price helpers
