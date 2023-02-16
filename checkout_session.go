@@ -63,6 +63,24 @@ const (
 	CheckoutSessionConsentCollectionTermsOfServiceRequired CheckoutSessionConsentCollectionTermsOfService = "required"
 )
 
+// The type of the label.
+type CheckoutSessionCustomFieldLabelType string
+
+// List of values that CheckoutSessionCustomFieldLabelType can take
+const (
+	CheckoutSessionCustomFieldLabelTypeCustom CheckoutSessionCustomFieldLabelType = "custom"
+)
+
+// The type of the field.
+type CheckoutSessionCustomFieldType string
+
+// List of values that CheckoutSessionCustomFieldType can take
+const (
+	CheckoutSessionCustomFieldTypeDropdown CheckoutSessionCustomFieldType = "dropdown"
+	CheckoutSessionCustomFieldTypeNumeric  CheckoutSessionCustomFieldType = "numeric"
+	CheckoutSessionCustomFieldTypeText     CheckoutSessionCustomFieldType = "text"
+)
+
 // Configure whether a Checkout Session creates a Customer when the Checkout Session completes.
 type CheckoutSessionCustomerCreation string
 
@@ -628,6 +646,42 @@ type CheckoutSessionConsentCollectionParams struct {
 	// If set to `required`, it requires customers to check a terms of service checkbox before being able to pay.
 	// There must be a valid terms of service URL set in your [Dashboard settings](https://dashboard.stripe.com/settings/public).
 	TermsOfService *string `form:"terms_of_service"`
+}
+
+// The options available for the customer to select. Up to 200 options allowed.
+type CheckoutSessionCustomFieldDropdownOptionParams struct {
+	// The label for the option, displayed to the customer. Up to 100 characters.
+	Label *string `form:"label"`
+	// The value for this option, not displayed to the customer, used by your integration to reconcile the option selected by the customer. Must be unique to this option, alphanumeric, and up to 100 characters.
+	Value *string `form:"value"`
+}
+
+// Configuration for `type=dropdown` fields.
+type CheckoutSessionCustomFieldDropdownParams struct {
+	// The options available for the customer to select. Up to 200 options allowed.
+	Options []*CheckoutSessionCustomFieldDropdownOptionParams `form:"options"`
+}
+
+// The label for the field, displayed to the customer.
+type CheckoutSessionCustomFieldLabelParams struct {
+	// Custom text for the label, displayed to the customer. Up to 50 characters.
+	Custom *string `form:"custom"`
+	// The type of the label.
+	Type *string `form:"type"`
+}
+
+// Collect additional information from your customer using custom fields. Up to 2 fields are supported.
+type CheckoutSessionCustomFieldParams struct {
+	// Configuration for `type=dropdown` fields.
+	Dropdown *CheckoutSessionCustomFieldDropdownParams `form:"dropdown"`
+	// String of your choice that your integration can use to reconcile this field. Must be unique to this field, alphanumeric, and up to 200 characters.
+	Key *string `form:"key"`
+	// The label for the field, displayed to the customer.
+	Label *CheckoutSessionCustomFieldLabelParams `form:"label"`
+	// Whether the customer is required to complete the field before completing the Checkout Session. Defaults to `false`.
+	Optional *bool `form:"optional"`
+	// The type of the field.
+	Type *string `form:"type"`
 }
 
 // Custom text that should be displayed alongside shipping address collection.
@@ -1426,6 +1480,8 @@ type CheckoutSessionParams struct {
 	CustomerEmail *string `form:"customer_email"`
 	// Controls what fields on Customer can be updated by the Checkout Session. Can only be provided when `customer` is provided.
 	CustomerUpdate *CheckoutSessionCustomerUpdateParams `form:"customer_update"`
+	// Collect additional information from your customer using custom fields. Up to 2 fields are supported.
+	CustomFields []*CheckoutSessionCustomFieldParams `form:"custom_fields"`
 	// Display additional text for your customers using custom text.
 	CustomText *CheckoutSessionCustomTextParams `form:"custom_text"`
 	// The coupon or promotion code to apply to this Session. Currently, only up to one may be specified.
@@ -1552,6 +1608,57 @@ type CheckoutSessionConsentCollection struct {
 	Promotions CheckoutSessionConsentCollectionPromotions `json:"promotions"`
 	// If set to `required`, it requires customers to accept the terms of service before being able to pay.
 	TermsOfService CheckoutSessionConsentCollectionTermsOfService `json:"terms_of_service"`
+}
+
+// The options available for the customer to select. Up to 200 options allowed.
+type CheckoutSessionCustomFieldDropdownOption struct {
+	// The label for the option, displayed to the customer. Up to 100 characters.
+	Label string `json:"label"`
+	// The value for this option, not displayed to the customer, used by your integration to reconcile the option selected by the customer. Must be unique to this option, alphanumeric, and up to 100 characters.
+	Value string `json:"value"`
+}
+
+// Configuration for `type=dropdown` fields.
+type CheckoutSessionCustomFieldDropdown struct {
+	// The options available for the customer to select. Up to 200 options allowed.
+	Options []*CheckoutSessionCustomFieldDropdownOption `json:"options"`
+	// The option selected by the customer. This will be the `value` for the option.
+	Value string `json:"value"`
+}
+type CheckoutSessionCustomFieldLabel struct {
+	// Custom text for the label, displayed to the customer. Up to 50 characters.
+	Custom string `json:"custom"`
+	// The type of the label.
+	Type CheckoutSessionCustomFieldLabelType `json:"type"`
+}
+
+// Configuration for `type=numeric` fields.
+type CheckoutSessionCustomFieldNumeric struct {
+	// The value entered by the customer, containing only digits.
+	Value string `json:"value"`
+}
+
+// Configuration for `type=text` fields.
+type CheckoutSessionCustomFieldText struct {
+	// The value entered by the customer.
+	Value string `json:"value"`
+}
+
+// Collect additional information from your customer using custom fields. Up to 2 fields are supported.
+type CheckoutSessionCustomField struct {
+	// Configuration for `type=dropdown` fields.
+	Dropdown *CheckoutSessionCustomFieldDropdown `json:"dropdown"`
+	// String of your choice that your integration can use to reconcile this field. Must be unique to this field, alphanumeric, and up to 200 characters.
+	Key   string                           `json:"key"`
+	Label *CheckoutSessionCustomFieldLabel `json:"label"`
+	// Configuration for `type=numeric` fields.
+	Numeric *CheckoutSessionCustomFieldNumeric `json:"numeric"`
+	// Whether the customer is required to complete the field before completing the Checkout Session. Defaults to `false`.
+	Optional bool `json:"optional"`
+	// Configuration for `type=text` fields.
+	Text *CheckoutSessionCustomFieldText `json:"text"`
+	// The type of the field.
+	Type CheckoutSessionCustomFieldType `json:"type"`
 }
 
 // Custom text that should be displayed alongside shipping address collection.
@@ -1999,8 +2106,8 @@ type CheckoutSessionTotalDetails struct {
 // [PaymentIntent](https://stripe.com/docs/api/payment_intents) or an active
 // [Subscription](https://stripe.com/docs/api/subscriptions).
 //
-// You can create a Checkout Session on your server and pass its ID to the
-// client to begin Checkout.
+// You can create a Checkout Session on your server and redirect to its URL
+// to begin Checkout.
 //
 // Related guide: [Checkout Quickstart](https://stripe.com/docs/checkout/quickstart).
 type CheckoutSession struct {
@@ -2045,12 +2152,13 @@ type CheckoutSession struct {
 	// Use this parameter to prefill customer data if you already have an email
 	// on file. To access information about the customer once the payment flow is
 	// complete, use the `customer` attribute.
-	CustomerEmail string                     `json:"customer_email"`
-	CustomText    *CheckoutSessionCustomText `json:"custom_text"`
+	CustomerEmail string `json:"customer_email"`
+	// Collect additional information from your customer using custom fields. Up to 2 fields are supported.
+	CustomFields []*CheckoutSessionCustomField `json:"custom_fields"`
+	CustomText   *CheckoutSessionCustomText    `json:"custom_text"`
 	// The timestamp at which the Checkout Session will expire.
 	ExpiresAt int64 `json:"expires_at"`
-	// Unique identifier for the object. Used to pass to `redirectToCheckout`
-	// in Stripe.js.
+	// Unique identifier for the object.
 	ID string `json:"id"`
 	// ID of the invoice created by the Checkout Session, if it exists.
 	Invoice *Invoice `json:"invoice"`

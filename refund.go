@@ -8,7 +8,7 @@ package stripe
 
 import "encoding/json"
 
-// If the refund failed, the reason for refund failure if known. Possible values are `lost_or_stolen_card`, `expired_or_canceled_card`, or `unknown`.
+// If the refund failed, the reason for refund failure if known. Possible values are `lost_or_stolen_card`, `expired_or_canceled_card`, `charge_for_pending_refund_disputed`, `insufficient_funds`, `declined`, `merchant_request` or `unknown`.
 type RefundFailureReason string
 
 // List of values that RefundFailureReason can take
@@ -119,7 +119,7 @@ type Refund struct {
 	Description string `json:"description"`
 	// If the refund failed, this balance transaction describes the adjustment made on your account balance that reverses the initial balance transaction.
 	FailureBalanceTransaction *BalanceTransaction `json:"failure_balance_transaction"`
-	// If the refund failed, the reason for refund failure if known. Possible values are `lost_or_stolen_card`, `expired_or_canceled_card`, or `unknown`.
+	// If the refund failed, the reason for refund failure if known. Possible values are `lost_or_stolen_card`, `expired_or_canceled_card`, `charge_for_pending_refund_disputed`, `insufficient_funds`, `declined`, `merchant_request` or `unknown`.
 	FailureReason RefundFailureReason `json:"failure_reason"`
 	// Unique identifier for the object.
 	ID string `json:"id"`

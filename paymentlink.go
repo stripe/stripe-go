@@ -44,6 +44,24 @@ const (
 	PaymentLinkConsentCollectionTermsOfServiceRequired PaymentLinkConsentCollectionTermsOfService = "required"
 )
 
+// The type of the label.
+type PaymentLinkCustomFieldLabelType string
+
+// List of values that PaymentLinkCustomFieldLabelType can take
+const (
+	PaymentLinkCustomFieldLabelTypeCustom PaymentLinkCustomFieldLabelType = "custom"
+)
+
+// The type of the field.
+type PaymentLinkCustomFieldType string
+
+// List of values that PaymentLinkCustomFieldType can take
+const (
+	PaymentLinkCustomFieldTypeDropdown PaymentLinkCustomFieldType = "dropdown"
+	PaymentLinkCustomFieldTypeNumeric  PaymentLinkCustomFieldType = "numeric"
+	PaymentLinkCustomFieldTypeText     PaymentLinkCustomFieldType = "text"
+)
+
 // Configuration for Customer creation during checkout.
 type PaymentLinkCustomerCreation string
 
@@ -167,6 +185,42 @@ type PaymentLinkConsentCollectionParams struct {
 	// If set to `required`, it requires customers to check a terms of service checkbox before being able to pay.
 	// There must be a valid terms of service URL set in your [Dashboard settings](https://dashboard.stripe.com/settings/public).
 	TermsOfService *string `form:"terms_of_service"`
+}
+
+// The options available for the customer to select. Up to 200 options allowed.
+type PaymentLinkCustomFieldDropdownOptionParams struct {
+	// The label for the option, displayed to the customer. Up to 100 characters.
+	Label *string `form:"label"`
+	// The value for this option, not displayed to the customer, used by your integration to reconcile the option selected by the customer. Must be unique to this option, alphanumeric, and up to 100 characters.
+	Value *string `form:"value"`
+}
+
+// Configuration for `type=dropdown` fields.
+type PaymentLinkCustomFieldDropdownParams struct {
+	// The options available for the customer to select. Up to 200 options allowed.
+	Options []*PaymentLinkCustomFieldDropdownOptionParams `form:"options"`
+}
+
+// The label for the field, displayed to the customer.
+type PaymentLinkCustomFieldLabelParams struct {
+	// Custom text for the label, displayed to the customer. Up to 50 characters.
+	Custom *string `form:"custom"`
+	// The type of the label.
+	Type *string `form:"type"`
+}
+
+// Collect additional information from your customer using custom fields. Up to 2 fields are supported.
+type PaymentLinkCustomFieldParams struct {
+	// Configuration for `type=dropdown` fields.
+	Dropdown *PaymentLinkCustomFieldDropdownParams `form:"dropdown"`
+	// String of your choice that your integration can use to reconcile this field. Must be unique to this field, alphanumeric, and up to 200 characters.
+	Key *string `form:"key"`
+	// The label for the field, displayed to the customer.
+	Label *PaymentLinkCustomFieldLabelParams `form:"label"`
+	// Whether the customer is required to complete the field before completing the Checkout Session. Defaults to `false`.
+	Optional *bool `form:"optional"`
+	// The type of the field.
+	Type *string `form:"type"`
 }
 
 // Custom text that should be displayed alongside shipping address collection.
@@ -336,6 +390,8 @@ type PaymentLinkParams struct {
 	Currency *string `form:"currency"`
 	// Configures whether [checkout sessions](https://stripe.com/docs/api/checkout/sessions) created by this payment link create a [Customer](https://stripe.com/docs/api/customers).
 	CustomerCreation *string `form:"customer_creation"`
+	// Collect additional information from your customer using custom fields. Up to 2 fields are supported.
+	CustomFields []*PaymentLinkCustomFieldParams `form:"custom_fields"`
 	// Display additional text for your customers using custom text.
 	CustomText *PaymentLinkCustomTextParams `form:"custom_text"`
 	// Generate a post-purchase Invoice for one-time payments.
@@ -402,6 +458,39 @@ type PaymentLinkConsentCollection struct {
 	Promotions PaymentLinkConsentCollectionPromotions `json:"promotions"`
 	// If set to `required`, it requires cutomers to accept the terms of service before being able to pay. If set to `none`, customers won't be shown a checkbox to accept the terms of service.
 	TermsOfService PaymentLinkConsentCollectionTermsOfService `json:"terms_of_service"`
+}
+
+// The options available for the customer to select. Up to 200 options allowed.
+type PaymentLinkCustomFieldDropdownOption struct {
+	// The label for the option, displayed to the customer. Up to 100 characters.
+	Label string `json:"label"`
+	// The value for this option, not displayed to the customer, used by your integration to reconcile the option selected by the customer. Must be unique to this option, alphanumeric, and up to 100 characters.
+	Value string `json:"value"`
+}
+
+// Configuration for `type=dropdown` fields.
+type PaymentLinkCustomFieldDropdown struct {
+	// The options available for the customer to select. Up to 200 options allowed.
+	Options []*PaymentLinkCustomFieldDropdownOption `json:"options"`
+}
+type PaymentLinkCustomFieldLabel struct {
+	// Custom text for the label, displayed to the customer. Up to 50 characters.
+	Custom string `json:"custom"`
+	// The type of the label.
+	Type PaymentLinkCustomFieldLabelType `json:"type"`
+}
+
+// Collect additional information from your customer using custom fields. Up to 2 fields are supported.
+type PaymentLinkCustomField struct {
+	// Configuration for `type=dropdown` fields.
+	Dropdown *PaymentLinkCustomFieldDropdown `json:"dropdown"`
+	// String of your choice that your integration can use to reconcile this field. Must be unique to this field, alphanumeric, and up to 200 characters.
+	Key   string                       `json:"key"`
+	Label *PaymentLinkCustomFieldLabel `json:"label"`
+	// Whether the customer is required to complete the field before completing the Checkout Session. Defaults to `false`.
+	Optional bool `json:"optional"`
+	// The type of the field.
+	Type PaymentLinkCustomFieldType `json:"type"`
 }
 
 // Custom text that should be displayed alongside shipping address collection.
@@ -531,7 +620,9 @@ type PaymentLink struct {
 	Currency Currency `json:"currency"`
 	// Configuration for Customer creation during checkout.
 	CustomerCreation PaymentLinkCustomerCreation `json:"customer_creation"`
-	CustomText       *PaymentLinkCustomText      `json:"custom_text"`
+	// Collect additional information from your customer using custom fields. Up to 2 fields are supported.
+	CustomFields []*PaymentLinkCustomField `json:"custom_fields"`
+	CustomText   *PaymentLinkCustomText    `json:"custom_text"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// Configuration for creating invoice for payment mode payment links.
