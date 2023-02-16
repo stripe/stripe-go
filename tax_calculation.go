@@ -138,8 +138,6 @@ type TaxCalculationParams struct {
 	LineItems []*TaxCalculationLineItemParams `form:"line_items"`
 	// The boolean value that indicates if the calculation is a preview. If true, the calculation is not stored. If false, the calculation is stored for 48 hours. Defaults to true.
 	Preview *bool `form:"preview"`
-	// A custom order or sale identifier, such as 'myOrder_123'.
-	Reference *string `form:"reference"`
 	// Timestamp of date at which the tax rules and rates in effect applies for the calculation. Measured in seconds since the Unix epoch.
 	TaxDate *int64 `form:"tax_date"`
 }
@@ -209,8 +207,6 @@ type TaxCalculation struct {
 	Livemode bool `json:"livemode"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
-	// A custom unique identifier, such as 'myOrder_123'.
-	Reference string `json:"reference"`
 	// The amount of tax to be collected on top of the line item prices.
 	TaxAmountExclusive int64 `json:"tax_amount_exclusive"`
 	// The amount of tax already included in the line item prices.

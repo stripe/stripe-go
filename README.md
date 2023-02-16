@@ -471,6 +471,54 @@ config := &stripe.BackendConfig{
 }
 ```
 
+### Mocking clients for unit tests
+
+To mock a Stripe client for a unit tests using [GoMock](https://github.com/golang/mock):
+
+1. Generate a `Backend` type mock.
+```
+mockgen -destination=mocks/backend.go -package=mocks github.com/stripe/stripe-go/v74 Backend
+```
+2. Use the `Backend` mock to initialize and call methods on the client.
+```go
+
+import (
+	"example/hello/mocks"
+	"testing"
+
+	"github.com/golang/mock/gomock"
+	"github.com/stretchr/testify/assert"
+	"github.com/stripe/stripe-go/v74"
+	"github.com/stripe/stripe-go/v74/account"
+)
+
+func UseMockedStripeClient(t *testing.T) {
+	// Create a mock controller
+	mockCtrl := gomock.NewController(t)
+	defer mockCtrl.Finish()
+	// Create a mock stripe backend
+	mockBackend := mocks.NewMockBackend(mockCtrl)
+	client := account.Client{B: mockBackend, Key: "key_123"}
+
+	// Set up a mock call
+	mockBackend.EXPECT().Call("GET", "/v1/accounts/acc_123", gomock.Any(), gomock.Any(), gomock.Any()).
+		// Return nil error
+		Return(nil).
+		Do(func(method string, path string, key string, params stripe.ParamsContainer, v *stripe.Account) {
+			// Set the return value for the method
+			*v = stripe.Account{
+				ID: "acc_123",
+			}
+		}).Times(1)
+
+	// Call the client method
+	acc, _ := client.GetByID("acc_123", nil)
+
+	// Asset the result
+	assert.Equal(t, acc.ID, "acc_123")
+}
+```
+
 ### Beta SDKs
 
 Stripe has features in the beta phase that can be accessed via the beta version of this package.

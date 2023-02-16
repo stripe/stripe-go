@@ -379,6 +379,43 @@ func TestAppendToPrefixed(t *testing.T) {
 	assert.Equal(t, []string{"foo"}, form.Get("prefix[string]"))
 }
 
+func TestEncode(t *testing.T) {
+	form := &Values{}
+	form.Add("foo", "bar")
+	form.Add("foo[bar]", "baz")
+	assert.Equal(t, "foo=bar&foo[bar]=baz", form.Encode())
+}
+
+func TestEncodeDeterministically(t *testing.T) {
+	data := map[string]string{
+		"first":  "foo",
+		"second": "bar",
+	}
+	initialForm := &Values{}
+	AppendTo(initialForm, data)
+	encoded := initialForm.Encode()
+
+	for i := 0; i < 100; i++ {
+		form := &Values{}
+		AppendTo(form, data)
+		assert.Equal(t, encoded, form.Encode(), "iteration %d", i)
+	}
+}
+
+func TestEncodeMapNonStringKey(t *testing.T) {
+	// Disable strict mode for this test, so the non-string key is ignored.
+	Strict = false
+	defer func() {
+		Strict = true
+	}()
+
+	form := &Values{}
+	assert.NotPanics(t, func() {
+		AppendTo(form, map[int]string{1: "foo"})
+	})
+	assert.Len(t, form.values, 0)
+}
+
 func TestFormatKey(t *testing.T) {
 	assert.Equal(t, "param", FormatKey([]string{"param"}))
 	assert.Equal(t, "param[key]", FormatKey([]string{"param", "key"}))

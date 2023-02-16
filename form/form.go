@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net/url"
 	"reflect"
+	"sort"
 	"strconv"
 	"strings"
 	"sync"
@@ -338,16 +339,24 @@ func isAppender(t reflect.Type) bool {
 }
 
 func mapEncoder(values *Values, v reflect.Value, keyParts []string, _ bool, _ *formOptions) {
+	keys := make([]string, 0, v.Len())
 	for _, keyVal := range v.MapKeys() {
-		if Strict && keyVal.Kind() != reflect.String {
-			panic("Don't support serializing maps with non-string keys")
+		if keyVal.Kind() != reflect.String {
+			if Strict {
+				panic("Don't support serializing maps with non-string keys")
+			}
+			// otherwise keyVal.String() will panic later
+			continue
 		}
-
+		keys = append(keys, keyVal.String())
+	}
+	sort.Strings(keys)
+	for _, key := range keys {
 		// Unlike a property on a struct which will contain a zero value even
 		// if never set, any value found in a map has been explicitly set, so
 		// we always make an effort to encode them, even if a zero value
 		// (that's why we pass through `true` here).
-		reflectValue(values, v.MapIndex(keyVal), true, append(keyParts, keyVal.String()))
+		reflectValue(values, v.MapIndex(reflect.ValueOf(key)), true, append(keyParts, key))
 	}
 }
 

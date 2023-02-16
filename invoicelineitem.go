@@ -93,7 +93,7 @@ type InvoiceLineItem struct {
 	Quantity int64 `json:"quantity"`
 	// The subscription that the invoice item pertains to, if any.
 	Subscription string `json:"subscription"`
-	// The subscription item that generated this invoice item. Left empty if the line item is not an explicit result of a subscription.
+	// The subscription item that generated this line item. Left empty if the line item is not an explicit result of a subscription.
 	SubscriptionItem string `json:"subscription_item"`
 	// The amount of tax calculated per tax rate for this line item
 	TaxAmounts []*InvoiceTotalTaxAmount `json:"tax_amounts"`
