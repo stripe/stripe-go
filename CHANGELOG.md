@@ -12,7 +12,6 @@
   * Add support for new value `ownership` on enums `InvoicePaymentSettingsPaymentMethodOptionsUsBankAccountFinancialConnectionsPermissions` and `SubscriptionPaymentSettingsPaymentMethodOptionsUsBankAccountFinancialConnectionsPermissions`
   * Add support for `AccountNumber` on `PaymentMethodUsBankAccount`
   * Remove support for `ID` on `QuoteLinesStartsAtLineEndsAtParams`
-  
 
 ## 74.7.0 - 2023-02-02
 * [#1600](https://github.com/stripe/stripe-go/pull/1600) API Updates
