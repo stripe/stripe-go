@@ -73,10 +73,14 @@ type FinancialConnectionsSessionFiltersParams struct {
 	Countries []*string `form:"countries"`
 }
 
+// Settings for configuring Session-specific limits.
+type FinancialConnectionsSessionLimitsParams struct {
+	// The number of accounts that can be linked in this Session.
+	Accounts *int64 `form:"accounts"`
+}
+
 // Settings for configuring manual entry of account details for this Session.
 type FinancialConnectionsSessionManualEntryParams struct {
-	// Whether manual entry will be allowed on this Session.
-	Enabled *bool `form:"enabled"`
 	// Whether manual entry will be handled by Stripe during the Session.
 	Mode *string `form:"mode"`
 }
@@ -88,6 +92,8 @@ type FinancialConnectionsSessionParams struct {
 	AccountHolder *FinancialConnectionsSessionAccountHolderParams `form:"account_holder"`
 	// Filters to restrict the kinds of accounts to collect.
 	Filters *FinancialConnectionsSessionFiltersParams `form:"filters"`
+	// Settings for configuring Session-specific limits.
+	Limits *FinancialConnectionsSessionLimitsParams `form:"limits"`
 	// Settings for configuring manual entry of account details for this Session.
 	ManualEntry *FinancialConnectionsSessionManualEntryParams `form:"manual_entry"`
 	// List of data features that you would like to request access to.
@@ -113,6 +119,10 @@ type FinancialConnectionsSessionFilters struct {
 	// List of countries from which to filter accounts.
 	Countries []string `json:"countries"`
 }
+type FinancialConnectionsSessionLimits struct {
+	// The number of accounts that can be linked in this Session.
+	Accounts int64 `json:"accounts"`
+}
 type FinancialConnectionsSessionManualEntry struct{}
 type FinancialConnectionsSessionStatusDetailsCancelled struct {
 	// The reason for the Session being cancelled.
@@ -133,7 +143,8 @@ type FinancialConnectionsSession struct {
 	ClientSecret string                              `json:"client_secret"`
 	Filters      *FinancialConnectionsSessionFilters `json:"filters"`
 	// Unique identifier for the object.
-	ID string `json:"id"`
+	ID     string                             `json:"id"`
+	Limits *FinancialConnectionsSessionLimits `json:"limits"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode    bool                                    `json:"livemode"`
 	ManualEntry *FinancialConnectionsSessionManualEntry `json:"manual_entry"`
