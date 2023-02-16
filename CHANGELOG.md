@@ -1,5 +1,18 @@
 # Changelog
 
+## 74.8.0 - 2023-02-16
+* [#1605](https://github.com/stripe/stripe-go/pull/1605) API Updates
+  * Add support for `RefundPayment` method on resource `Terminal.Reader`
+  * Add support for new value `name` on enum `BillingPortalConfigurationFeaturesCustomerUpdateAllowedUpdates`
+  * Add support for `CustomFields` on `CheckoutSessionParams`, `CheckoutSession`, `PaymentLinkParams`, and `PaymentLink`
+  * Add support for `InteracPresent` on `TestHelpersTerminalReaderPresentPaymentMethodParams`
+  * Change type of `TestHelpersTerminalReaderPresentPaymentMethodTypeParams` from `literal('card_present')` to `enum('card_present'|'interac_present')`
+  * Add support for `RefundPayment` on `TerminalReaderAction`
+  * Add support for new value `refund_payment` on enum `TerminalReaderActionType`
+* [#1607](https://github.com/stripe/stripe-go/pull/1607) fix: deterministic encoding
+* [#1603](https://github.com/stripe/stripe-go/pull/1603) Add an example of client mocking
+* [#1604](https://github.com/stripe/stripe-go/pull/1604) Run lint on go 1.19
+
 ## 74.7.0 - 2023-02-02
 * [#1600](https://github.com/stripe/stripe-go/pull/1600) API Updates
   * Add support for `Resume` method on resource `Subscription`
