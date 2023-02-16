@@ -1,5 +1,16 @@
 # Changelog
 
+## 74.9.0-beta.1 - 2023-02-16
+* [#1608](https://github.com/stripe/stripe-go/pull/1608) API Updates for beta branch
+  * Updated stable APIs to the latest version
+  * Add support for `CurrencyConversion` on `CheckoutSession`
+  * Add support for `Limits` on `FinancialConnectionsSessionParams` and `FinancialConnectionsSession`
+  * Remove support for `Enabled` on `FinancialConnectionsSessionManualEntryParams`
+  * Change type of `QuoteStatusDetailsCanceled` from `nullable(QuotesResourceStatusDetailsCanceledStatusDetails)` to `QuotesResourceStatusDetailsCanceledStatusDetails`
+  * Change type of `QuoteStatusDetailsStale` from `nullable(QuotesResourceStatusDetailsStaleStatusDetails)` to `QuotesResourceStatusDetailsStaleStatusDetails`
+  * Remove support for `Reference` on `TaxCalculationParams` and `TaxCalculation`
+  * Add support for `Reference` on `TaxTransactionParams`
+
 ## 74.8.0-beta.1 - 2023-02-02
 * [#1601](https://github.com/stripe/stripe-go/pull/1601) API Updates for beta branch
   * Updated stable APIs to the latest version
