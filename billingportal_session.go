@@ -53,7 +53,7 @@ type BillingPortalSessionFlowDataSubscriptionCancelParams struct {
 	Subscription *string `form:"subscription"`
 }
 
-// Information about a specific flow for the customer to go through.
+// Information about a specific flow for the customer to go through. See the [docs](https://stripe.com/docs/customer-management/portal-deep-links) to learn more about using customer portal deep links and flows.
 type BillingPortalSessionFlowDataParams struct {
 	// Behavior after the flow is completed.
 	AfterCompletion *BillingPortalSessionFlowDataAfterCompletionParams `form:"after_completion"`
@@ -70,7 +70,7 @@ type BillingPortalSessionParams struct {
 	Configuration *string `form:"configuration"`
 	// The ID of an existing customer.
 	Customer *string `form:"customer"`
-	// Information about a specific flow for the customer to go through.
+	// Information about a specific flow for the customer to go through. See the [docs](https://stripe.com/docs/customer-management/portal-deep-links) to learn more about using customer portal deep links and flows.
 	FlowData *BillingPortalSessionFlowDataParams `form:"flow_data"`
 	// The IETF language tag of the locale Customer Portal is displayed in. If blank or auto, the customer's `preferred_locales` or browser's locale is used.
 	Locale *string `form:"locale"`
@@ -106,7 +106,7 @@ type BillingPortalSessionFlowSubscriptionCancel struct {
 	Subscription string `json:"subscription"`
 }
 
-// Information about a specific flow for the customer to go through.
+// Information about a specific flow for the customer to go through. See the [docs](https://stripe.com/docs/customer-management/portal-deep-links) to learn more about using customer portal deep links and flows.
 type BillingPortalSessionFlow struct {
 	AfterCompletion *BillingPortalSessionFlowAfterCompletion `json:"after_completion"`
 	// Configuration when `flow.type=subscription_cancel`.
@@ -137,7 +137,7 @@ type BillingPortalSession struct {
 	Created int64 `json:"created"`
 	// The ID of the customer for this session.
 	Customer string `json:"customer"`
-	// Information about a specific flow for the customer to go through.
+	// Information about a specific flow for the customer to go through. See the [docs](https://stripe.com/docs/customer-management/portal-deep-links) to learn more about using customer portal deep links and flows.
 	Flow *BillingPortalSessionFlow `json:"flow"`
 	// Unique identifier for the object.
 	ID string `json:"id"`

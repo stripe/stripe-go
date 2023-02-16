@@ -122,6 +122,19 @@ func (c Client) ProcessSetupIntent(id string, params *stripe.TerminalReaderProce
 	return reader, err
 }
 
+// RefundPayment is the method for the `POST /v1/terminal/readers/{reader}/refund_payment` API.
+func RefundPayment(id string, params *stripe.TerminalReaderRefundPaymentParams) (*stripe.TerminalReader, error) {
+	return getC().RefundPayment(id, params)
+}
+
+// RefundPayment is the method for the `POST /v1/terminal/readers/{reader}/refund_payment` API.
+func (c Client) RefundPayment(id string, params *stripe.TerminalReaderRefundPaymentParams) (*stripe.TerminalReader, error) {
+	path := stripe.FormatURLPath("/v1/terminal/readers/%s/refund_payment", id)
+	reader := &stripe.TerminalReader{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, reader)
+	return reader, err
+}
+
 // SetReaderDisplay is the method for the `POST /v1/terminal/readers/{reader}/set_reader_display` API.
 func SetReaderDisplay(id string, params *stripe.TerminalReaderSetReaderDisplayParams) (*stripe.TerminalReader, error) {
 	return getC().SetReaderDisplay(id, params)

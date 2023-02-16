@@ -8,20 +8,27 @@ import (
 	stripe "github.com/stripe/stripe-go/v74"
 	account "github.com/stripe/stripe-go/v74/account"
 	accountlink "github.com/stripe/stripe-go/v74/accountlink"
+	applicationfee "github.com/stripe/stripe-go/v74/applicationfee"
 	apps_secret "github.com/stripe/stripe-go/v74/apps/secret"
 	balancetransaction "github.com/stripe/stripe-go/v74/balancetransaction"
+	bankaccount "github.com/stripe/stripe-go/v74/bankaccount"
 	billingportal_configuration "github.com/stripe/stripe-go/v74/billingportal/configuration"
 	billingportal_session "github.com/stripe/stripe-go/v74/billingportal/session"
 	capability "github.com/stripe/stripe-go/v74/capability"
+	card "github.com/stripe/stripe-go/v74/card"
 	cashbalance "github.com/stripe/stripe-go/v74/cashbalance"
 	charge "github.com/stripe/stripe-go/v74/charge"
 	checkout_session "github.com/stripe/stripe-go/v74/checkout/session"
 	countryspec "github.com/stripe/stripe-go/v74/countryspec"
 	coupon "github.com/stripe/stripe-go/v74/coupon"
+	creditnote "github.com/stripe/stripe-go/v74/creditnote"
 	customer "github.com/stripe/stripe-go/v74/customer"
 	customerbalancetransaction "github.com/stripe/stripe-go/v74/customerbalancetransaction"
 	dispute "github.com/stripe/stripe-go/v74/dispute"
 	event "github.com/stripe/stripe-go/v74/event"
+	feerefund "github.com/stripe/stripe-go/v74/feerefund"
+	file "github.com/stripe/stripe-go/v74/file"
+	filelink "github.com/stripe/stripe-go/v74/filelink"
 	financialconnections_account "github.com/stripe/stripe-go/v74/financialconnections/account"
 	financialconnections_session "github.com/stripe/stripe-go/v74/financialconnections/session"
 	identity_verificationreport "github.com/stripe/stripe-go/v74/identity/verificationreport"
@@ -33,10 +40,12 @@ import (
 	issuing_cardholder "github.com/stripe/stripe-go/v74/issuing/cardholder"
 	issuing_dispute "github.com/stripe/stripe-go/v74/issuing/dispute"
 	issuing_transaction "github.com/stripe/stripe-go/v74/issuing/transaction"
+	loginlink "github.com/stripe/stripe-go/v74/loginlink"
 	mandate "github.com/stripe/stripe-go/v74/mandate"
 	paymentintent "github.com/stripe/stripe-go/v74/paymentintent"
 	paymentlink "github.com/stripe/stripe-go/v74/paymentlink"
 	paymentmethod "github.com/stripe/stripe-go/v74/paymentmethod"
+	paymentsource "github.com/stripe/stripe-go/v74/paymentsource"
 	payout "github.com/stripe/stripe-go/v74/payout"
 	person "github.com/stripe/stripe-go/v74/person"
 	plan "github.com/stripe/stripe-go/v74/plan"
@@ -45,7 +54,11 @@ import (
 	promotioncode "github.com/stripe/stripe-go/v74/promotioncode"
 	quote "github.com/stripe/stripe-go/v74/quote"
 	radar_earlyfraudwarning "github.com/stripe/stripe-go/v74/radar/earlyfraudwarning"
+	radar_valuelist "github.com/stripe/stripe-go/v74/radar/valuelist"
+	radar_valuelistitem "github.com/stripe/stripe-go/v74/radar/valuelistitem"
 	refund "github.com/stripe/stripe-go/v74/refund"
+	reporting_reportrun "github.com/stripe/stripe-go/v74/reporting/reportrun"
+	reporting_reporttype "github.com/stripe/stripe-go/v74/reporting/reporttype"
 	review "github.com/stripe/stripe-go/v74/review"
 	setupattempt "github.com/stripe/stripe-go/v74/setupattempt"
 	setupintent "github.com/stripe/stripe-go/v74/setupintent"
@@ -71,6 +84,7 @@ import (
 	testhelpers_treasury_receivedcredit "github.com/stripe/stripe-go/v74/testhelpers/treasury/receivedcredit"
 	testhelpers_treasury_receiveddebit "github.com/stripe/stripe-go/v74/testhelpers/treasury/receiveddebit"
 	_ "github.com/stripe/stripe-go/v74/testing"
+	token "github.com/stripe/stripe-go/v74/token"
 	topup "github.com/stripe/stripe-go/v74/topup"
 	transfer "github.com/stripe/stripe-go/v74/transfer"
 	transferreversal "github.com/stripe/stripe-go/v74/transferreversal"
@@ -619,15 +633,6 @@ func TestCapabilityUpdate(t *testing.T) {
 	assert.NotNil(t, result)
 }
 
-func TestSubscriptionResume(t *testing.T) {
-	params := &stripe.SubscriptionResumeParams{
-		ProrationDate:     stripe.Int64(1675400000),
-		ProrationBehavior: stripe.String("always_invoice"),
-	}
-	result, _ := subscription.Resume("sub_xxxxxxxxxxxxx", params)
-	assert.NotNil(t, result)
-}
-
 func TestPersonList(t *testing.T) {
 	params := &stripe.PersonListParams{
 		Account: stripe.String("acct_xxxxxxxxxxxxx"),
@@ -652,6 +657,18 @@ func TestPersonUpdate(t *testing.T) {
 	params.AddMetadata("order_id", "6735")
 	result, _ := person.Update("person_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+}
+
+func TestAppsSecretList2(t *testing.T) {
+	params := &stripe.AppsSecretListParams{
+		Scope: &stripe.AppsSecretListScopeParams{
+			Type: stripe.String(string(stripe.AppsSecretScopeTypeAccount)),
+		},
+	}
+	params.Limit = stripe.Int64(2)
+	result := apps_secret.List(params)
+	assert.NotNil(t, result)
+	assert.Nil(t, result.Err())
 }
 
 func TestAppsSecretCreate2(t *testing.T) {
@@ -750,7 +767,7 @@ func TestChargeCreate(t *testing.T) {
 		Amount:      stripe.Int64(2000),
 		Currency:    stripe.String(string(stripe.CurrencyUSD)),
 		Source:      &stripe.PaymentSourceSourceParams{Token: stripe.String("tok_xxxx")},
-		Description: stripe.String("My First Test Charge (created for API docs)"),
+		Description: stripe.String("My First Test Charge (created for API docs at https://www.stripe.com/docs/api)"),
 	}
 	result, _ := charge.New(params)
 	assert.NotNil(t, result)
@@ -875,7 +892,7 @@ func TestCustomerList2(t *testing.T) {
 
 func TestCustomerCreate(t *testing.T) {
 	params := &stripe.CustomerParams{
-		Description: stripe.String("My First Test Customer (created for API docs)"),
+		Description: stripe.String("My First Test Customer (created for API docs at https://www.stripe.com/docs/api)"),
 	}
 	result, _ := customer.New(params)
 	assert.NotNil(t, result)
@@ -1054,6 +1071,15 @@ func TestFinancialConnectionsAccountList2(t *testing.T) {
 func TestFinancialConnectionsAccountRetrieve2(t *testing.T) {
 	params := &stripe.FinancialConnectionsAccountParams{}
 	result, _ := financialconnections_account.GetByID(
+		"fca_xxxxxxxxxxxxx",
+		params,
+	)
+	assert.NotNil(t, result)
+}
+
+func TestFinancialConnectionsAccountDisconnect2(t *testing.T) {
+	params := &stripe.FinancialConnectionsAccountDisconnectParams{}
+	result, _ := financialconnections_account.Disconnect(
 		"fca_xxxxxxxxxxxxx",
 		params,
 	)
@@ -1437,9 +1463,11 @@ func TestPaymentIntentList(t *testing.T) {
 
 func TestPaymentIntentCreate2(t *testing.T) {
 	params := &stripe.PaymentIntentParams{
-		Amount:             stripe.Int64(2000),
-		Currency:           stripe.String(string(stripe.CurrencyUSD)),
-		PaymentMethodTypes: []*string{stripe.String("card")},
+		Amount:   stripe.Int64(2000),
+		Currency: stripe.String(string(stripe.CurrencyUSD)),
+		AutomaticPaymentMethods: &stripe.PaymentIntentAutomaticPaymentMethodsParams{
+			Enabled: stripe.Bool(true),
+		},
 	}
 	result, _ := paymentintent.New(params)
 	assert.NotNil(t, result)
@@ -1489,6 +1517,14 @@ func TestPaymentIntentIncrementAuthorization(t *testing.T) {
 		Amount: stripe.Int64(2099),
 	}
 	result, _ := paymentintent.IncrementAuthorization("pi_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+}
+
+func TestPaymentIntentVerifyMicrodeposits2(t *testing.T) {
+	params := &stripe.PaymentIntentVerifyMicrodepositsParams{
+		Amounts: []*int64{stripe.Int64(32), stripe.Int64(45)},
+	}
+	result, _ := paymentintent.VerifyMicrodeposits("pi_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 }
 
@@ -1932,6 +1968,14 @@ func TestSetupIntentConfirm(t *testing.T) {
 	assert.NotNil(t, result)
 }
 
+func TestSetupIntentVerifyMicrodeposits2(t *testing.T) {
+	params := &stripe.SetupIntentVerifyMicrodepositsParams{
+		Amounts: []*int64{stripe.Int64(32), stripe.Int64(45)},
+	}
+	result, _ := setupintent.VerifyMicrodeposits("seti_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+}
+
 func TestShippingRateList2(t *testing.T) {
 	params := &stripe.ShippingRateListParams{}
 	params.Limit = stripe.Int64(3)
@@ -2067,7 +2111,7 @@ func TestSubscriptionScheduleList(t *testing.T) {
 func TestSubscriptionScheduleCreate(t *testing.T) {
 	params := &stripe.SubscriptionScheduleParams{
 		Customer:    stripe.String("cus_xxxxxxxxxxxxx"),
-		StartDate:   stripe.Int64(1652909005),
+		StartDate:   stripe.Int64(1676070661),
 		EndBehavior: stripe.String(string(stripe.SubscriptionScheduleEndBehaviorRelease)),
 		Phases: []*stripe.SubscriptionSchedulePhaseParams{
 			&stripe.SubscriptionSchedulePhaseParams{
@@ -2268,8 +2312,9 @@ func TestTerminalLocationCreate(t *testing.T) {
 		Address: &stripe.AddressParams{
 			Line1:      stripe.String("1234 Main Street"),
 			City:       stripe.String("San Francisco"),
-			Country:    stripe.String("US"),
 			PostalCode: stripe.String("94111"),
+			State:      stripe.String("CA"),
+			Country:    stripe.String("US"),
 		},
 	}
 	result, _ := terminal_location.New(params)
@@ -2343,6 +2388,15 @@ func TestTerminalReaderProcessPaymentIntent(t *testing.T) {
 	assert.NotNil(t, result)
 }
 
+func TestTerminalReaderProcessSetupIntent(t *testing.T) {
+	params := &stripe.TerminalReaderProcessSetupIntentParams{
+		SetupIntent:              stripe.String("seti_xxxxxxxxxxxxx"),
+		CustomerConsentCollected: stripe.Bool(true),
+	}
+	result, _ := terminal_reader.ProcessSetupIntent("tmr_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+}
+
 func TestTestHelpersTestClockList2(t *testing.T) {
 	params := &stripe.TestHelpersTestClockListParams{}
 	params.Limit = stripe.Int64(3)
@@ -2373,7 +2427,7 @@ func TestTestHelpersTestClockRetrieve2(t *testing.T) {
 
 func TestTestHelpersTestClockAdvance2(t *testing.T) {
 	params := &stripe.TestHelpersTestClockAdvanceParams{
-		FrozenTime: stripe.Int64(1652390605),
+		FrozenTime: stripe.Int64(1675552261),
 	}
 	result, _ := testhelpers_testclock.Advance("clock_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -2555,19 +2609,6 @@ func TestTreasuryFinancialAccountRetrieveFeatures(t *testing.T) {
 	assert.NotNil(t, result)
 }
 
-func TestTreasuryFinancialAccountUpdateFeatures(t *testing.T) {
-	params := &stripe.TreasuryFinancialAccountUpdateFeaturesParams{
-		CardIssuing: &stripe.TreasuryFinancialAccountUpdateFeaturesCardIssuingParams{
-			Requested: stripe.Bool(false),
-		},
-	}
-	result, _ := treasury_financialaccount.UpdateFeatures(
-		"fa_xxxxxxxxxxxxx",
-		params,
-	)
-	assert.NotNil(t, result)
-}
-
 func TestTreasuryInboundTransferList(t *testing.T) {
 	params := &stripe.TreasuryInboundTransferListParams{
 		FinancialAccount: stripe.String("fa_xxxxxxxxxxxxx"),
@@ -2617,7 +2658,7 @@ func TestTreasuryOutboundPaymentCreate(t *testing.T) {
 		FinancialAccount:         stripe.String("fa_xxxxxxxxxxxxx"),
 		Amount:                   stripe.Int64(10000),
 		Currency:                 stripe.String(string(stripe.CurrencyUSD)),
-		Customer:                 stripe.String("cu_xxxxxxxxxxxxx"),
+		Customer:                 stripe.String("cus_xxxxxxxxxxxxx"),
 		DestinationPaymentMethod: stripe.String("pm_xxxxxxxxxxxxx"),
 		Description:              stripe.String("OutboundPayment to a 3rd party"),
 	}
@@ -2627,13 +2668,13 @@ func TestTreasuryOutboundPaymentCreate(t *testing.T) {
 
 func TestTreasuryOutboundPaymentRetrieve(t *testing.T) {
 	params := &stripe.TreasuryOutboundPaymentParams{}
-	result, _ := treasury_outboundpayment.Get("obp_xxxxxxxxxxxxx", params)
+	result, _ := treasury_outboundpayment.Get("bot_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 }
 
 func TestTreasuryOutboundPaymentCancel(t *testing.T) {
 	params := &stripe.TreasuryOutboundPaymentCancelParams{}
-	result, _ := treasury_outboundpayment.Cancel("obp_xxxxxxxxxxxxx", params)
+	result, _ := treasury_outboundpayment.Cancel("bot_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 }
 
