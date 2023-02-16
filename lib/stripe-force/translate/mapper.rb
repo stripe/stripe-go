@@ -58,7 +58,7 @@ module StripeForce
       components.each_with_index do |field_name, i|
         is_last_component = i == components.size - 1
 
-        normalized_field_name = if !is_last_component && !field_name.end_with?('__c')
+        normalized_field_name = if !is_last_component && !field_name.end_with?('__c') && !field_name.end_with?('Id')
           field_name + "Id"
         else
           field_name

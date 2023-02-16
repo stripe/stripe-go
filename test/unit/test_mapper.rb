@@ -83,6 +83,7 @@ module Critic::Unit
         "subscription_schedule" => {
           'metadata.field_custom' => 'CustomField__c',
           'metadata.second_custom' => 'CustomField__c',
+          'metadata.third_custom' => 'AccountId.Id',
           'default_settings.automatic_tax' => 'TaxBoolean__c',
         },
       }
