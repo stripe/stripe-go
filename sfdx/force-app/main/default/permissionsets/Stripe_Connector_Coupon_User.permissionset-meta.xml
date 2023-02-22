@@ -4,6 +4,10 @@
         <apexClass>OrderCouponTriggerHandler</apexClass>
         <enabled>true</enabled>
     </classAccesses>
+    <classAccesses>
+        <apexClass>QuoteCouponAssociationTriggerHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
     <fieldPermissions>
         <editable>true</editable>
         <field>Quote_Stripe_Coupon__c.Name__c</field>

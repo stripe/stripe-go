@@ -6,6 +6,8 @@ public with sharing class OrderCouponTriggerHandler {
     // the order coupons that are bulk persisted at the end of the trigger execution
     private List<Order_Stripe_Coupon__c> orderCouponsToSave = null;
 
+    private static final String FIELD_CURRENCY_ISO_CODE = constants.FIELD_CURRENCY_ISO_CODE;
+
     public OrderCouponTriggerHandler(Map<Id, Id> quoteIdsToOrderIds) {
         this.refreshState(quoteIdsToOrderIds);
     }
@@ -151,7 +153,7 @@ public with sharing class OrderCouponTriggerHandler {
 
     public static Order_Stripe_Coupon__c createOrderCoupon(Quote_Stripe_Coupon__c quoteCoupon) {
         // clone the Quote Coupon on the quote, it will have a different Id
-        return new Order_Stripe_Coupon__c(
+        Order_Stripe_Coupon__c osc = new Order_Stripe_Coupon__c(
             Amount_Off__c = quoteCoupon.Amount_Off__c,
             Duration__c = quoteCoupon.Duration__c,
             Duration_In_Months__c = quoteCoupon.Duration_In_Months__c,
@@ -160,23 +162,39 @@ public with sharing class OrderCouponTriggerHandler {
             Percent_Off__c = quoteCoupon.Percent_Off__c,
             Quote_Stripe_Coupon_Id__c = quoteCoupon.Id
         );
+
+        if (UserInfo.isMultiCurrencyOrganization()) {
+            osc.put(FIELD_CURRENCY_ISO_CODE, quoteCoupon.get(FIELD_CURRENCY_ISO_CODE));
+        }
+
+        return osc;
     }
 
     private List<Quote_Stripe_Coupon_Association__c> getQuoteCouponAssociations(Set<Id> quoteIds) {
-        return new List<Quote_Stripe_Coupon_Association__c>([
-            SELECT
-                Quote__c,
-                Quote_Stripe_Coupon__c,
-                Quote_Stripe_Coupon__r.Id,
-                Quote_Stripe_Coupon__r.Amount_Off__c,
-                Quote_Stripe_Coupon__r.Duration__c,
-                Quote_Stripe_Coupon__r.Duration_In_Months__c,
-                Quote_Stripe_Coupon__r.Max_Redemptions__c,
-                Quote_Stripe_Coupon__r.Name__c,
-                Quote_Stripe_Coupon__r.Percent_Off__c
-            FROM Quote_Stripe_Coupon_Association__c
-            WHERE Quote__c IN :quoteIds
-        ]);
+        List<String> fields = new List<String> {
+            'Quote__c',
+            'Quote_Stripe_Coupon__c',
+            'Quote_Stripe_Coupon__r.Id',
+            'Quote_Stripe_Coupon__r.Amount_Off__c',
+            'Quote_Stripe_Coupon__r.Duration__c',
+            'Quote_Stripe_Coupon__r.Duration_In_Months__c',
+            'Quote_Stripe_Coupon__r.Max_Redemptions__c',
+            'Quote_Stripe_Coupon__r.Name__c',
+            'Quote_Stripe_Coupon__r.Percent_Off__c'
+        };
+
+        List<String> multiCurrFields = new List<String> {
+            'Quote_Stripe_Coupon__r.' + FIELD_CURRENCY_ISO_CODE,
+            FIELD_CURRENCY_ISO_CODE
+        };
+
+        return utilities.execMultiCurrLookupQuery(
+                Quote_Stripe_Coupon_Association__c.SObjectType,
+                'Quote__c',
+                quoteIds,
+                fields,
+                multiCurrFields
+        );
     }
 
     private Map<Id, SBQQ__QuoteLine__c> getQuoteLinesByIds(Set<Id> quoteIds) {
@@ -197,23 +215,33 @@ public with sharing class OrderCouponTriggerHandler {
     }
 
     private List<Quote_Line_Stripe_Coupon_Association__c> getQuoteLineCouponAssociations(Set<Id> quoteLineIds) {
-        return [
-            SELECT
-                Id,
-                Quote_Line__c,
-                Quote_Line__r.Id,
-                Quote_Line__r.SBQQ__Quote__c,
-                Quote_Stripe_Coupon__c,
-                Quote_Stripe_Coupon__r.Id,
-                Quote_Stripe_Coupon__r.Amount_Off__c,
-                Quote_Stripe_Coupon__r.Duration__c,
-                Quote_Stripe_Coupon__r.Duration_In_Months__c,
-                Quote_Stripe_Coupon__r.Max_Redemptions__c,
-                Quote_Stripe_Coupon__r.Name__c,
-                Quote_Stripe_Coupon__r.Percent_Off__c
-            FROM Quote_Line_Stripe_Coupon_Association__c
-            WHERE Quote_Line__c IN :quoteLineIds
-        ];
+        List<String> fields = new List<String> {
+            'Id',
+            'Quote_Line__c',
+            'Quote_Line__r.Id',
+            'Quote_Line__r.SBQQ__Quote__c',
+            'Quote_Stripe_Coupon__c',
+            'Quote_Stripe_Coupon__r.Id',
+            'Quote_Stripe_Coupon__r.Amount_Off__c',
+            'Quote_Stripe_Coupon__r.Duration__c',
+            'Quote_Stripe_Coupon__r.Duration_In_Months__c',
+            'Quote_Stripe_Coupon__r.Max_Redemptions__c',
+            'Quote_Stripe_Coupon__r.Name__c',
+            'Quote_Stripe_Coupon__r.Percent_Off__c'
+        };
+
+        List<String> multiCurrFields = new List<String> {
+            'Quote_Stripe_Coupon__r.' + FIELD_CURRENCY_ISO_CODE,
+            FIELD_CURRENCY_ISO_CODE
+        };
+
+        return utilities.execMultiCurrLookupQuery(
+                Quote_Line_Stripe_Coupon_Association__c.SObjectType,
+                'Quote_Line__c',
+                quoteLineIds,
+                fields,
+                multiCurrFields
+        );
     }
 
      private Map<Id, Id> getOrderItemIdByQuoteLineIds(Set<Id> quoteLineIds) {

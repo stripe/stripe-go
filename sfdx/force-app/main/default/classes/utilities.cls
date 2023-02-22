@@ -317,6 +317,68 @@ public with sharing class utilities {
         return response;
     }
 
+    // keeps us from repeating this logic over and over
+    // multiCurrFields is usually some reference to CurrencyIsoCode
+    public static List<SObject> execMultiCurrLookupQuery(SObjectType objType, String idField, Set<Id> lookupIds, List<String> objFields, List<String> multiCurrFields) {
+        List<String> fields = new List<String>(objFields);
+
+        if (UserInfo.isMultiCurrencyOrganization()) {
+            fields.addAll(multiCurrFields);
+        }
+
+        String fieldList = String.join(fields, ', ');
+        String ids = idsToQueryString(lookupIds);
+
+        String table = objType.getDescribe().getName();
+
+        String query = 'SELECT ' + fieldList + ' FROM ' + table;
+        query += ' WHERE ' + idField + ' IN ' + ids;
+
+        // this fanciness is to ensure that the array type matches the field so you don't run into silly errors
+        Type retType = getDynamicType('List', table);
+        List<SObject> retVal = (List<SObject>) retType.newInstance();
+        retVal.addAll(Database.query(query));
+
+        return retVal;
+    }
+
+    public static String idsToQueryString(Set<Id> ids) {
+        List<String> idList = new List<String>();
+        for (Id idObj : ids) {
+            idList.add(idObj);
+        }
+
+        return '(\'' + String.join(idList, '\',\'') + '\')';
+    }
+
+    public static Type getDynamicType(String augmentation, String objectType) {
+        return getDynamicType(augmentation + '<' + objectType + '>');
+    }
+
+    public static Type getDynamicType(String objectType) {
+        return Type.forName(objectType);
+    }
+
+    public static String getCurrencyIsoCodePreferNonDefault() {
+        if (UserInfo.isMultiCurrencyOrganization() == false) {
+            return UserInfo.getDefaultCurrency();
+        }
+
+        String supportedISOCodesQuery = 'SELECT ISOCode FROM CurrencyType WHERE IsActive = true';
+        List<SObject> supportedISOCodesQueryResults = Database.query(supportedISOCodesQuery);
+        String isoCurrency = UserInfo.getDefaultCurrency();
+
+        // try to use a non-default isocode for better tests.
+        for (SObject iso : supportedISOCodesQueryResults) {
+            String isoCode = (String) iso.get('ISOCode');
+            if (isoCode != isoCurrency && isoCode != UserInfo.getDefaultCurrency()) {
+                isoCurrency = isoCode;
+            }
+        }
+
+        return isoCurrency;
+    }
+
     //Creates a test metadata record in test context
     @testVisible static List<Setup_Connection_Data__mdt> setupConfigMetadata {
         get {
