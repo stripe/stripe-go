@@ -26,6 +26,12 @@ module StripeForce
     private_class_method def self.sanitize_subscription_schedule(stripe_subscription_schedule)
       if stripe_subscription_schedule[:prebilling] && stripe_subscription_schedule[:prebilling][:iterations]
         stripe_subscription_schedule[:prebilling][:iterations] = stripe_subscription_schedule[:prebilling][:iterations].to_i
+
+        # Passing prebilling.iterations = '0' results in a Stripe::InvalidRequestError since the value must be greater than or equal to 1,
+        # but we want to enable users to map to a value of '0' (instead of nil) to represent no prebilling
+        if stripe_subscription_schedule[:prebilling][:iterations] == 0
+          stripe_subscription_schedule[:prebilling][:iterations] = nil
+        end
       end
     end
 

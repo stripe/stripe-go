@@ -286,4 +286,30 @@ class Critic::Prebilling < Critic::FunctionalTest
 
      SalesforceTranslateRecordJob.translate(@user, sf_order)
   end
+
+  it 'prebilling iterations = 0 does not result in a Stripe API error' do
+    # setup
+    prebill_iterations = 0.0
+    @user.field_defaults = {
+      "subscription_schedule" => {
+        "prebilling.iterations" => prebill_iterations,
+      },
+    }
+    @user.save
+
+    # translate the Salesforce order
+    sf_order = create_salesforce_order(
+      additional_quote_fields: {
+        CPQ_QUOTE_SUBSCRIPTION_START_DATE => now_time_formatted_for_salesforce,
+        CPQ_QUOTE_SUBSCRIPTION_TERM => TEST_DEFAULT_CONTRACT_TERM,
+      }
+    )
+    SalesforceTranslateRecordJob.translate(@user, sf_order)
+    sf_order.refresh
+
+    # confirm prebilling was not set
+    stripe_id = sf_order[prefixed_stripe_field(GENERIC_STRIPE_ID)]
+    subscription_schedule = Stripe::SubscriptionSchedule.retrieve(stripe_id, @user.stripe_credentials)
+    assert_nil(subscription_schedule.prebilling)
+  end
 end
