@@ -232,6 +232,18 @@ sfdx force:package:install --upgradetype DELETE -p 04t5f000000aSFv
 
 Each version of a package has a unique URL.
 
+## Connection Data's Default Global Key
+This is secret key which is used by our package for post install verification.
+
+This key is jointly defined in our package as well as our Ruby code's environment variables.
+
+** Rolling this key will result in breaking package installations for new users on old package versions. **
+
+To roll this key:
+  1. Change Apex Code in both QA / prod packaging orgs: Package Manager -> Default (Component Name) - Setup Connection Data (Type) -> Edit
+  2. Change the key in all environment variables (Prod and local environment vars)
+  3. Deploy ruby and roll new QA and prod packages.
+
 ## Production Package Deployment
 
 [Here's a video walkthrough](https://drive.google.com/file/d/1Ok4Gl2rBJwy3w4AieeIa9PkWLxyK_4rP/view?usp=sharing)
