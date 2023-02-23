@@ -9,10 +9,14 @@ class Critic::ProrationAutoBillTranslation < Critic::FunctionalTest
   end
 
   it 'creates an invoice automatically for a invoice item' do
+    @user.enable_feature FeatureFlags::AUTO_ADVANCE_PRORATION_INVOICE, update: true
+    @user.enable_feature FeatureFlags::TEST_CLOCKS, update: true
+
     subscription = create_customer_with_subscription
     _, ad_hoc_price = create_price(additional_price_fields: {
       recurring: {},
     })
+
     # create an invoice item that looks similar to what we'll get from add_invoice_items
     invoice_item = Stripe::InvoiceItem.create({
       customer: subscription.customer,
@@ -39,6 +43,17 @@ class Critic::ProrationAutoBillTranslation < Critic::FunctionalTest
     invoice = T.must(invoice)
     assert_equal(1, invoice.lines.count)
     assert_equal("true", invoice.metadata[StripeForce::Translate::Metadata.metadata_key(@user, MetadataKeys::PRORATION_INVOICE)])
+
+    assert(invoice.auto_advance)
+    assert_equal('draft', invoice.status)
+
+    # let's advance the clock by an hour and test the invoice finalizes
+    stripe_customer = stripe_get(subscription.customer)
+    refute_nil(stripe_customer.test_clock)
+    advance_test_clock(stripe_customer, (Time.now + 2.hour).to_i)
+
+    invoice = Stripe::Invoice.retrieve(invoice.id, @user.stripe_credentials)
+    assert_not_equal('draft', invoice.status)
   end
 
   describe 'skip conditions' do

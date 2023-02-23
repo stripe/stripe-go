@@ -66,7 +66,13 @@ module Critic
     end
 
     def create_customer_with_card
-      customer = create_customer
+      if @user.feature_enabled?(FeatureFlags::TEST_CLOCKS) && !@user.livemode
+        test_clock = Stripe::TestHelpers::TestClock.create({
+          frozen_time: Time.now.to_i,
+        }, @user.stripe_credentials)
+      end
+      customer = create_customer(additional_fields: {test_clock: test_clock})
+
       payment_method = Stripe::PaymentMethod.attach(
         'pm_card_visa',
         {customer: customer.id},

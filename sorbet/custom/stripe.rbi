@@ -268,6 +268,9 @@ class Stripe::SubscriptionItem < Stripe::APIResource
 end
 
 class Stripe::Invoice
+  sig { returns(T::Boolean)}
+  def auto_advance; end
+  
   sig { returns(Integer)}
   def period_end; end
 

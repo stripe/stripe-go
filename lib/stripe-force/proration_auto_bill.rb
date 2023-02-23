@@ -42,6 +42,7 @@ module StripeForce
 
       # TODO we need billing to offer the ability to pass in a list of invoice items,
       #      this logic could "scoop up" invoice items which the user does NOT intend to bill
+      auto_advance = user.feature_enabled? FeatureFlags::AUTO_ADVANCE_PRORATION_INVOICE
       invoice = Stripe::Invoice.create({
         customer: customer_id,
         subscription: subscription_id,
@@ -49,6 +50,7 @@ module StripeForce
           # TODO should we link to the originating order? Can we extract that from the line item metadata when we have it?
           Translate::Metadata.metadata_key(user, MetadataKeys::PRORATION_INVOICE) => "true",
         },
+        auto_advance: auto_advance,
       }, user.stripe_credentials)
 
       log.info 'invoice created for proration', invoice_id: invoice.id
