@@ -1,5 +1,11 @@
 # Changelog
 
+## 74.9.0 - 2023-02-23
+* [#1609](https://github.com/stripe/stripe-go/pull/1609) API Updates
+  * Add support for new value `yoursafe` on enums `ChargePaymentMethodDetailsIdealBank`, `PaymentMethodIdealBank`, and `SetupAttemptPaymentMethodDetailsIdealBank`
+  * Add support for new value `BITSNL2A` on enums `ChargePaymentMethodDetailsIdealBic`, `PaymentMethodIdealBic`, and `SetupAttemptPaymentMethodDetailsIdealBic`
+  * Add support for new value `igst` on enum `TaxRateTaxType`
+
 ## 74.8.0 - 2023-02-16
 * [#1605](https://github.com/stripe/stripe-go/pull/1605) API Updates
   * Add support for `RefundPayment` method on resource `Terminal.Reader`
