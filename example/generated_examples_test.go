@@ -8,20 +8,27 @@ import (
 	stripe "github.com/stripe/stripe-go/v74"
 	account "github.com/stripe/stripe-go/v74/account"
 	accountlink "github.com/stripe/stripe-go/v74/accountlink"
+	applicationfee "github.com/stripe/stripe-go/v74/applicationfee"
 	apps_secret "github.com/stripe/stripe-go/v74/apps/secret"
 	balancetransaction "github.com/stripe/stripe-go/v74/balancetransaction"
+	bankaccount "github.com/stripe/stripe-go/v74/bankaccount"
 	billingportal_configuration "github.com/stripe/stripe-go/v74/billingportal/configuration"
 	billingportal_session "github.com/stripe/stripe-go/v74/billingportal/session"
 	capability "github.com/stripe/stripe-go/v74/capability"
+	card "github.com/stripe/stripe-go/v74/card"
 	cashbalance "github.com/stripe/stripe-go/v74/cashbalance"
 	charge "github.com/stripe/stripe-go/v74/charge"
 	checkout_session "github.com/stripe/stripe-go/v74/checkout/session"
 	countryspec "github.com/stripe/stripe-go/v74/countryspec"
 	coupon "github.com/stripe/stripe-go/v74/coupon"
+	creditnote "github.com/stripe/stripe-go/v74/creditnote"
 	customer "github.com/stripe/stripe-go/v74/customer"
 	customerbalancetransaction "github.com/stripe/stripe-go/v74/customerbalancetransaction"
 	dispute "github.com/stripe/stripe-go/v74/dispute"
 	event "github.com/stripe/stripe-go/v74/event"
+	feerefund "github.com/stripe/stripe-go/v74/feerefund"
+	file "github.com/stripe/stripe-go/v74/file"
+	filelink "github.com/stripe/stripe-go/v74/filelink"
 	financialconnections_account "github.com/stripe/stripe-go/v74/financialconnections/account"
 	financialconnections_session "github.com/stripe/stripe-go/v74/financialconnections/session"
 	identity_verificationreport "github.com/stripe/stripe-go/v74/identity/verificationreport"
@@ -33,10 +40,12 @@ import (
 	issuing_cardholder "github.com/stripe/stripe-go/v74/issuing/cardholder"
 	issuing_dispute "github.com/stripe/stripe-go/v74/issuing/dispute"
 	issuing_transaction "github.com/stripe/stripe-go/v74/issuing/transaction"
+	loginlink "github.com/stripe/stripe-go/v74/loginlink"
 	mandate "github.com/stripe/stripe-go/v74/mandate"
 	paymentintent "github.com/stripe/stripe-go/v74/paymentintent"
 	paymentlink "github.com/stripe/stripe-go/v74/paymentlink"
 	paymentmethod "github.com/stripe/stripe-go/v74/paymentmethod"
+	paymentsource "github.com/stripe/stripe-go/v74/paymentsource"
 	payout "github.com/stripe/stripe-go/v74/payout"
 	person "github.com/stripe/stripe-go/v74/person"
 	plan "github.com/stripe/stripe-go/v74/plan"
@@ -45,7 +54,11 @@ import (
 	promotioncode "github.com/stripe/stripe-go/v74/promotioncode"
 	quote "github.com/stripe/stripe-go/v74/quote"
 	radar_earlyfraudwarning "github.com/stripe/stripe-go/v74/radar/earlyfraudwarning"
+	radar_valuelist "github.com/stripe/stripe-go/v74/radar/valuelist"
+	radar_valuelistitem "github.com/stripe/stripe-go/v74/radar/valuelistitem"
 	refund "github.com/stripe/stripe-go/v74/refund"
+	reporting_reportrun "github.com/stripe/stripe-go/v74/reporting/reportrun"
+	reporting_reporttype "github.com/stripe/stripe-go/v74/reporting/reporttype"
 	review "github.com/stripe/stripe-go/v74/review"
 	setupattempt "github.com/stripe/stripe-go/v74/setupattempt"
 	setupintent "github.com/stripe/stripe-go/v74/setupintent"
@@ -71,6 +84,7 @@ import (
 	testhelpers_treasury_receivedcredit "github.com/stripe/stripe-go/v74/testhelpers/treasury/receivedcredit"
 	testhelpers_treasury_receiveddebit "github.com/stripe/stripe-go/v74/testhelpers/treasury/receiveddebit"
 	_ "github.com/stripe/stripe-go/v74/testing"
+	token "github.com/stripe/stripe-go/v74/token"
 	topup "github.com/stripe/stripe-go/v74/topup"
 	transfer "github.com/stripe/stripe-go/v74/transfer"
 	transferreversal "github.com/stripe/stripe-go/v74/transferreversal"
@@ -1221,6 +1235,13 @@ func TestInvoiceDelete(t *testing.T) {
 
 func TestInvoiceRetrieve(t *testing.T) {
 	params := &stripe.InvoiceParams{}
+	result, _ := invoice.Get("in_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+}
+
+func TestInvoiceRetrieve2(t *testing.T) {
+	params := &stripe.InvoiceParams{}
+	params.AddExpand("customer")
 	result, _ := invoice.Get("in_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 }
