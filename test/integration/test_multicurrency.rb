@@ -7,6 +7,8 @@ class Critic::OrderTranslation < Critic::FunctionalTest
   before do
     @user = make_user(save: true)
     # Only run on Multi-Currency Enabled CI Accounts
+    # If you are running this locally on a multi-currency scratch org, please go into make_user
+    #   and add your scratch org ID similar to brennen's
     unless @user.is_multicurrency_org?
       skip("Skipping multicurrency test on non-multicurrency org")
     end
@@ -200,6 +202,158 @@ class Critic::OrderTranslation < Critic::FunctionalTest
       assert_equal(SF_ORDER, sync_records.first[prefixed_stripe_field(SyncRecordFields::PRIMARY_OBJECT_TYPE.serialize)])
       assert_equal(SyncRecordResolutionStatuses::SUCCESS.serialize, sync_records.first[prefixed_stripe_field(SyncRecordFields::RESOLUTION_STATUS.serialize)])
     end
+
+    it 'translates an order with a coupon in a currency other than USD' do
+      @user.enable_feature(FeatureFlags::COUPONS)
+
+      # add a custom metadata field mapping
+      @user.field_mappings['coupon'] = {
+        'metadata.sf_coupon_mapped_metadata_field' => prefixed_stripe_field('Name__c'),
+        'metadata.sf_order_mapped_metadata_field' => prefixed_stripe_field('Order_Item__c.OrderId'),
+      }
+      @user.save
+
+      currency_iso_code = 'GBP'
+
+      # setup
+      sf_account_id = create_salesforce_account
+      sf_product_id, _sf_pricebook_id = salesforce_recurring_product_with_price(currency_iso_code: currency_iso_code)
+
+      # create a CPQ quote
+      sf_quote_id = create_salesforce_quote(sf_account_id: sf_account_id, currency_iso_code: currency_iso_code, additional_quote_fields: {
+        CPQ_QUOTE_SUBSCRIPTION_START_DATE => now_time_formatted_for_salesforce,
+        CPQ_QUOTE_SUBSCRIPTION_TERM => TEST_DEFAULT_CONTRACT_TERM,
+      })
+
+      # create a quote with a product
+      quote_with_product = add_product_to_cpq_quote(sf_quote_id, sf_product_id: sf_product_id)
+      sf_quote_id = calculate_and_save_cpq_quote(quote_with_product)
+
+      # retrieve the quote line
+      quote_lines = sf_get_related(sf_quote_id, CPQ_QUOTE_LINE)
+      assert_equal(1, quote_lines.size)
+      quote_line_id = quote_lines.first.Id
+
+      sf_amount_off_coupon_id = create_salesforce_stripe_coupon(additional_fields: {
+        SalesforceStripeCouponFields::NAME => '£10 off coupon',
+        SalesforceStripeCouponFields::AMOUNT_OFF => 10,
+        SalesforceStripeCouponFields::CURRENCY_ISO_CODE => currency_iso_code,
+      })
+
+      # create the quote line coupon association object to map the coupons to the quote line
+      create_salesforce_stripe_coupon_quote_line_association(sf_quote_line_id: quote_line_id, sf_stripe_coupon_id: sf_amount_off_coupon_id)
+
+      # create and translate the SF order
+      sf_order = create_order_from_cpq_quote(sf_quote_id)
+      StripeForce::Translate.perform_inline(@user, sf_order.Id)
+
+      # fetch the stripe subscription schedule
+      sf_order.refresh
+      stripe_id = sf_order[prefixed_stripe_field(GENERIC_STRIPE_ID)]
+      subscription_schedule = Stripe::SubscriptionSchedule.retrieve(stripe_id, @user.stripe_credentials)
+      assert_equal(1, subscription_schedule.phases.count)
+
+      # first phase should have one item
+      first_phase = T.must(subscription_schedule.phases.first)
+      assert_equal(1, first_phase.items.count)
+
+      # the first phase item should have two coupons
+      first_phase_item = T.must(first_phase.items.first)
+      discounts = first_phase_item.discounts
+      assert_equal(1, discounts.count)
+
+      # retrieve the two stripe coupons
+      stripe_coupon = Stripe::Coupon.retrieve(T.must(discounts.first).coupon, @user.stripe_credentials)
+
+      # sanity check both stripe coupons have the right data
+      assert_equal(10 * 100, stripe_coupon.amount_off)
+      assert_equal(currency_iso_code.downcase, stripe_coupon.currency)
+      assert_equal("once", stripe_coupon.duration)
+
+      sf_amount_off_order_coupon = get_sf_order_coupon_from_quote_coupon_id(sf_amount_off_coupon_id)
+      assert_equal(sf_amount_off_order_coupon.Id, stripe_coupon.metadata['salesforce_order_stripe_coupon_id'])
+      assert_equal('£10 off coupon', stripe_coupon.metadata['sf_coupon_mapped_metadata_field'])
+      assert_equal(sf_order.Id, stripe_coupon.metadata['sf_order_mapped_metadata_field'])
+
+      # confirm the stripe coupon ids were written back to the quote coupons in salesforce
+      sf_amount_off_coupon = sf_get(sf_amount_off_coupon_id)
+      assert_equal(stripe_coupon.id, sf_amount_off_coupon[prefixed_stripe_field(GENERIC_STRIPE_ID)])
+    end
+
+    it 'allows association of a percent off coupon with an quote in a different currency' do
+      @user.enable_feature(FeatureFlags::COUPONS)
+
+      # add a custom metadata field mapping
+      @user.field_mappings['coupon'] = {
+        'metadata.sf_coupon_mapped_metadata_field' => prefixed_stripe_field('Name__c'),
+        'metadata.sf_order_mapped_metadata_field' => prefixed_stripe_field('Order_Item__c.OrderId'),
+      }
+      @user.save
+
+      quote_currency_iso_code = 'GBP'
+      coupon_currency_iso_code = 'USD'
+
+      # setup
+      sf_account_id = create_salesforce_account
+      sf_product_id, _sf_pricebook_id = salesforce_recurring_product_with_price(currency_iso_code: quote_currency_iso_code)
+
+      # create a CPQ quote
+      sf_quote_id = create_salesforce_quote(sf_account_id: sf_account_id, currency_iso_code: quote_currency_iso_code, additional_quote_fields: {
+        CPQ_QUOTE_SUBSCRIPTION_START_DATE => now_time_formatted_for_salesforce,
+        CPQ_QUOTE_SUBSCRIPTION_TERM => TEST_DEFAULT_CONTRACT_TERM,
+      })
+
+      # create a quote with a product
+      quote_with_product = add_product_to_cpq_quote(sf_quote_id, sf_product_id: sf_product_id)
+      sf_quote_id = calculate_and_save_cpq_quote(quote_with_product)
+
+      # retrieve the quote line
+      quote_lines = sf_get_related(sf_quote_id, CPQ_QUOTE_LINE)
+      assert_equal(1, quote_lines.size)
+      quote_line_id = quote_lines.first.Id
+
+      sf_percent_off_coupon_id = create_salesforce_stripe_coupon(additional_fields: {
+        SalesforceStripeCouponFields::NAME => '20% off coupon',
+        SalesforceStripeCouponFields::PERCENT_OFF => 20,
+        SalesforceStripeCouponFields::CURRENCY_ISO_CODE => coupon_currency_iso_code,
+      })
+
+      # create the quote line coupon association object to map the coupons to the quote line
+      create_salesforce_stripe_coupon_quote_line_association(sf_quote_line_id: quote_line_id, sf_stripe_coupon_id: sf_percent_off_coupon_id)
+
+      # create and translate the SF order
+      sf_order = create_order_from_cpq_quote(sf_quote_id)
+      StripeForce::Translate.perform_inline(@user, sf_order.Id)
+
+      # fetch the stripe subscription schedule
+      sf_order.refresh
+      stripe_id = sf_order[prefixed_stripe_field(GENERIC_STRIPE_ID)]
+      subscription_schedule = Stripe::SubscriptionSchedule.retrieve(stripe_id, @user.stripe_credentials)
+      assert_equal(1, subscription_schedule.phases.count)
+
+      # first phase should have one item
+      first_phase = T.must(subscription_schedule.phases.first)
+      assert_equal(1, first_phase.items.count)
+
+      # the first phase item should have two coupons
+      first_phase_item = T.must(first_phase.items.first)
+      discounts = first_phase_item.discounts
+      assert_equal(1, discounts.count)
+
+      # retrieve the two stripe coupons
+      stripe_coupon = Stripe::Coupon.retrieve(T.must(discounts.first).coupon, @user.stripe_credentials)
+
+      assert_equal(20, stripe_coupon.percent_off)
+      assert_equal("once", stripe_coupon.duration)
+
+      sf_percent_off_order_coupon = get_sf_order_coupon_from_quote_coupon_id(sf_percent_off_coupon_id)
+      assert_equal(sf_percent_off_order_coupon.Id, stripe_coupon.metadata['salesforce_order_stripe_coupon_id'])
+      assert_equal('20% off coupon', stripe_coupon.metadata['sf_coupon_mapped_metadata_field'])
+      assert_equal(sf_order.Id, stripe_coupon.metadata['sf_order_mapped_metadata_field'])
+
+      sf_percent_off_coupon = sf_get(sf_percent_off_coupon_id)
+      assert_equal(stripe_coupon.id, sf_percent_off_coupon[prefixed_stripe_field(GENERIC_STRIPE_ID)])
+    end
   end
 
   describe 'failure cases' do
@@ -255,6 +409,55 @@ class Critic::OrderTranslation < Critic::FunctionalTest
 
       assert_equal(SF_ORDER, sync_records.first[prefixed_stripe_field(SyncRecordFields::PRIMARY_OBJECT_TYPE.serialize)])
       assert_equal(SyncRecordResolutionStatuses::ERROR.serialize, sync_records.first[prefixed_stripe_field(SyncRecordFields::RESOLUTION_STATUS.serialize)])
+    end
+
+    it 'fails to create associate a coupon with an quote in a different currency' do
+      @user.enable_feature(FeatureFlags::COUPONS)
+
+      # add a custom metadata field mapping
+      @user.field_mappings['coupon'] = {
+        'metadata.sf_coupon_mapped_metadata_field' => prefixed_stripe_field('Name__c'),
+        'metadata.sf_order_mapped_metadata_field' => prefixed_stripe_field('Order_Item__c.OrderId'),
+      }
+      @user.save
+
+      quote_currency_iso_code = 'GBP'
+      coupon_currency_iso_code = 'USD'
+
+      # setup
+      sf_account_id = create_salesforce_account
+      sf_product_id, _sf_pricebook_id = salesforce_recurring_product_with_price(currency_iso_code: quote_currency_iso_code)
+
+      # create a CPQ quote
+      sf_quote_id = create_salesforce_quote(sf_account_id: sf_account_id, currency_iso_code: quote_currency_iso_code, additional_quote_fields: {
+        CPQ_QUOTE_SUBSCRIPTION_START_DATE => now_time_formatted_for_salesforce,
+        CPQ_QUOTE_SUBSCRIPTION_TERM => TEST_DEFAULT_CONTRACT_TERM,
+      })
+
+      # create a quote with a product
+      quote_with_product = add_product_to_cpq_quote(sf_quote_id, sf_product_id: sf_product_id)
+      sf_quote_id = calculate_and_save_cpq_quote(quote_with_product)
+
+      # retrieve the quote line
+      quote_lines = sf_get_related(sf_quote_id, CPQ_QUOTE_LINE)
+      assert_equal(1, quote_lines.size)
+      quote_line_id = quote_lines.first.Id
+
+      sf_amount_off_coupon_id = create_salesforce_stripe_coupon(additional_fields: {
+        SalesforceStripeCouponFields::NAME => '£10 off coupon',
+        SalesforceStripeCouponFields::AMOUNT_OFF => 10,
+        SalesforceStripeCouponFields::CURRENCY_ISO_CODE => coupon_currency_iso_code,
+      })
+
+      exception = assert_raises(Restforce::ErrorCode::FieldCustomValidationException) do
+        # create the quote line coupon association object to map the coupons to the quote line
+        create_salesforce_stripe_coupon_quote_line_association(sf_quote_line_id: quote_line_id, sf_stripe_coupon_id: sf_amount_off_coupon_id)
+      end
+
+      assert_equal(
+        "FIELD_CUSTOM_VALIDATION_EXCEPTION: The Currency of the Quote (GBP) does not match the Currency of the Quote Stripe Coupon (USD).",
+        exception.message
+      )
     end
   end
 

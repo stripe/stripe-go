@@ -107,6 +107,7 @@ module StripeForce
         DURATION = new('Duration__c')
         DURATION_IN_MONTHS = new('Duration_In_Months__c')
         MAX_REDEMPTIONS = new('Max_Redemptions__c')
+        CURRENCY_ISO_CODE = new(StripeForce::Constants::SF_CURRENCY_ISO_CODE)
      end
     end
 

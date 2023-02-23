@@ -213,6 +213,12 @@ sfdx/bin/sfdx-wipe-account mbianco+standardcpq@stripe.com
 - Then use `sfdx force:org:create -s -f config/project-scratch-def.json -a cool-alias -d 30` to create a stratch org. Lasts for a max of 30d.
   `alias sf=sfdx` is going to make your CLI-life easier.
 
+- FOR MULTICURRENCY SCRATCH ORGS: 
+  - Prior to running `generate-scratch-org`, do the following:
+    - Go to `config/project-scratch-def.json` and set `enableMultiCurrency` to true
+    - Go to `sfdx/force-app/main/scratchSetup/layouts/PricebookEntry-Custom Price Book Entry Layout.layout-meta.xml` and make sure the `CurrencyIsoCode` layout item is uncommented.
+  - After running `generate-scratch-org` and following it's manual set up, go to `/lightning/setup/CompanyCurrency/home` and set up `GBP` as a new currency (exchange rate doesn't matter).
+
 Apex triggers run synchronously, TODO add to notes
 
 ## Finding an existing package

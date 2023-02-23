@@ -81,8 +81,8 @@ module Critic
       currency_iso_code ||= @user.connector_settings['default_currency']
 
       if @user.is_multicurrency_org?
-        additional_fields.merge({
-          SF_CURRENCY_ISO_CODE => currency_iso_code,
+        additional_fields = additional_fields.merge({
+          StripeForce::Constants::SF_CURRENCY_ISO_CODE => currency_iso_code,
         })
       end
 
@@ -100,8 +100,8 @@ module Critic
       currency_iso_code ||= @user.connector_settings['default_currency']
 
       if @user.is_multicurrency_org?
-        additional_fields.merge({
-          SF_CURRENCY_ISO_CODE => currency_iso_code,
+        additional_fields = additional_fields.merge({
+          StripeForce::Constants::SF_CURRENCY_ISO_CODE => currency_iso_code,
         })
       end
 
@@ -146,10 +146,21 @@ module Critic
     def create_salesforce_stripe_coupon_quote_line_association(sf_quote_line_id:, sf_stripe_coupon_id:)
       sf_stripe_coupon_id ||= create_salesforce_stripe_coupon
 
+      # Our association objects unfortunately have currency fields in multicurrency orgs, so we must pass
+      #   the coupon's currency to the association here.
+      # This is error checked in the UI with this PR: https://github.com/stripe/stripe-salesforce/pull/1006
+      currency_field = {}
+      if @user.is_multicurrency_org?
+        sf_stripe_coupon = sf_get(sf_stripe_coupon_id)
+        currency_field = {
+          StripeForce::Constants::SF_CURRENCY_ISO_CODE => sf_stripe_coupon[StripeForce::Constants::SF_CURRENCY_ISO_CODE],
+        }
+      end
+
       sf.create!(prefixed_stripe_field(QUOTE_LINE_SF_STRIPE_COUPON_ASSOCIATION), {
         "Quote_Line__c" => sf_quote_line_id,
         QUOTE_SF_STRIPE_COUPON => sf_stripe_coupon_id,
-      }.transform_keys(&method(:prefixed_stripe_field)))
+      }.merge(currency_field).transform_keys(&method(:prefixed_stripe_field)))
     end
 
     def create_salesforce_stripe_coupon(additional_fields: {})

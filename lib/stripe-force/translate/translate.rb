@@ -353,6 +353,11 @@ class StripeForce::Translate
 
     stripe_object.metadata = Metadata.stripe_metadata_for_sf_object(@user, salesforce_object)
 
+    # Prices and Coupons require currency fields
+    if [Stripe::Price, Stripe::Coupon].include?(stripe_object.class)
+      stripe_object['currency'] = Integrations::Utilities::Currency.currency_for_sf_object(@user, salesforce_object)
+    end
+
     apply_mapping(stripe_object, salesforce_object)
 
     sanitize(stripe_object)

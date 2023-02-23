@@ -18,6 +18,10 @@
                 <behavior>Required</behavior>
                 <field>UnitPrice</field>
             </layoutItems>
+            <!-- <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>CurrencyIsoCode</field>
+            </layoutItems> -->
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>UseStandardPrice</field>

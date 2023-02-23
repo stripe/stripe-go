@@ -83,10 +83,21 @@ module Critic::CommonHelpers
       user.connector_settings[CONNECTOR_SETTING_SALESFORCE_NAMESPACE] = SalesforceNamespaceOptions::NONE.serialize
     end
 
-    # brennen-multi-curr-scratch
-    if user.salesforce_account_id == "00DDM000003rZgW2AU"
+    # MULTI_CURRENCY ORG OVERRIDES -------------------------------------------------------------------------
+    # If you are adding an account here, make sure you have added 'GBP' in Setup -> Manage Currencies
+
+    # Default to False
+    user.connector_settings[CONNECTOR_SETTING_MULTICURRENCY_ENABLED] = false
+
+    # mbianco+cpqmulticurrency@stripe.com
+    if user.salesforce_account_id == "00D5f000006O9HAEA0"
       user.connector_settings[CONNECTOR_SETTING_MULTICURRENCY_ENABLED] = true
     end
+    # brennen-multi-curr-scratch
+    if user.salesforce_account_id == "00D52000000YKbHEAW"
+      user.connector_settings[CONNECTOR_SETTING_MULTICURRENCY_ENABLED] = true
+    end
+    # ------------------------------------------------------------------------------------------------------
 
     # clocks won't be enabled in prod, so we want to mimic this
     user.disable_feature(FeatureFlags::TEST_CLOCKS)
