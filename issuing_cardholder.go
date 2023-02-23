@@ -107,9 +107,9 @@ type IssuingCardholderIndividualVerificationParams struct {
 type IssuingCardholderIndividualParams struct {
 	// The date of birth of this cardholder.
 	DOB *IssuingCardholderIndividualDOBParams `form:"dob"`
-	// The first name of this cardholder. This field cannot contain any special characters or numbers.
+	// The first name of this cardholder. Required before activating Cards. This field cannot contain any numbers, special characters (except periods, commas, hyphens, spaces and apostrophes) or non-latin letters.
 	FirstName *string `form:"first_name"`
-	// The last name of this cardholder. This field cannot contain any special characters or numbers.
+	// The last name of this cardholder. Required before activating Cards. This field cannot contain any numbers, special characters (except periods, commas, hyphens, spaces and apostrophes) or non-latin letters.
 	LastName *string `form:"last_name"`
 	// Government-issued ID document for this cardholder.
 	Verification *IssuingCardholderIndividualVerificationParams `form:"verification"`
@@ -156,7 +156,7 @@ type IssuingCardholderParams struct {
 	SpendingControls *IssuingCardholderSpendingControlsParams `form:"spending_controls"`
 	// Specifies whether to permit authorizations on this cardholder's cards.
 	Status *string `form:"status"`
-	// One of `individual` or `company`.
+	// One of `individual` or `company`. See [Choose a cardholder type](https://stripe.com/docs/issuing/other/choose-cardholder) for more details.
 	Type *string `form:"type"`
 }
 type IssuingCardholderBilling struct {
@@ -171,13 +171,15 @@ type IssuingCardholderCompany struct {
 
 // Information about cardholder acceptance of [Authorized User Terms](https://stripe.com/docs/issuing/cards).
 type IssuingCardholderIndividualCardIssuingUserTermsAcceptance struct {
-	// The Unix timestamp marking when the cardholder accepted the Authorized User Terms.
+	// The Unix timestamp marking when the cardholder accepted the Authorized User Terms. Required for Celtic Spend Card users.
 	Date int64 `json:"date"`
-	// The IP address from which the cardholder accepted the Authorized User Terms.
+	// The IP address from which the cardholder accepted the Authorized User Terms. Required for Celtic Spend Card users.
 	IP string `json:"ip"`
 	// The user agent of the browser from which the cardholder accepted the Authorized User Terms.
 	UserAgent string `json:"user_agent"`
 }
+
+// Information related to the card_issuing program for this cardholder.
 type IssuingCardholderIndividualCardIssuing struct {
 	// Information about cardholder acceptance of [Authorized User Terms](https://stripe.com/docs/issuing/cards).
 	UserTermsAcceptance *IssuingCardholderIndividualCardIssuingUserTermsAcceptance `json:"user_terms_acceptance"`
@@ -209,12 +211,13 @@ type IssuingCardholderIndividualVerification struct {
 
 // Additional information about an `individual` cardholder.
 type IssuingCardholderIndividual struct {
+	// Information related to the card_issuing program for this cardholder.
 	CardIssuing *IssuingCardholderIndividualCardIssuing `json:"card_issuing"`
 	// The date of birth of this cardholder.
 	DOB *IssuingCardholderIndividualDOB `json:"dob"`
-	// The first name of this cardholder. This field cannot contain any numbers, special characters (except periods, commas, hyphens, spaces and apostrophes) or non-latin letters.
+	// The first name of this cardholder. Required before activating Cards. This field cannot contain any numbers, special characters (except periods, commas, hyphens, spaces and apostrophes) or non-latin letters.
 	FirstName string `json:"first_name"`
-	// The last name of this cardholder. This field cannot contain any numbers, special characters (except periods, commas, hyphens, spaces and apostrophes) or non-latin letters.
+	// The last name of this cardholder. Required before activating Cards. This field cannot contain any numbers, special characters (except periods, commas, hyphens, spaces and apostrophes) or non-latin letters.
 	LastName string `json:"last_name"`
 	// Government-issued ID document for this cardholder.
 	Verification *IssuingCardholderIndividualVerification `json:"verification"`

@@ -150,7 +150,7 @@ type SetupAttemptPaymentMethodDetailsCardPresent struct {
 	GeneratedCard *PaymentMethod `json:"generated_card"`
 }
 type SetupAttemptPaymentMethodDetailsIDEAL struct {
-	// The customer's bank. Can be one of `abn_amro`, `asn_bank`, `bunq`, `handelsbanken`, `ing`, `knab`, `moneyou`, `rabobank`, `regiobank`, `revolut`, `sns_bank`, `triodos_bank`, or `van_lanschot`.
+	// The customer's bank. Can be one of `abn_amro`, `asn_bank`, `bunq`, `handelsbanken`, `ing`, `knab`, `moneyou`, `rabobank`, `regiobank`, `revolut`, `sns_bank`, `triodos_bank`, `van_lanschot`, or `yoursafe`.
 	Bank string `json:"bank"`
 	// The Bank Identifier Code of the customer's bank.
 	BIC string `json:"bic"`
