@@ -85,7 +85,7 @@ const (
 	IssuingCardSpendingControlsSpendingLimitIntervalYearly           IssuingCardSpendingControlsSpendingLimitInterval = "yearly"
 )
 
-// Whether authorizations can be approved on this card.
+// Whether authorizations can be approved on this card. May be blocked from activating cards depending on past-due Cardholder requirements. Defaults to `inactive`.
 type IssuingCardStatus string
 
 // List of values that IssuingCardStatus can take
@@ -207,7 +207,7 @@ type IssuingCardParams struct {
 	Shipping *IssuingCardShippingParams `form:"shipping"`
 	// Rules that control spending for this card. Refer to our [documentation](https://stripe.com/docs/issuing/controls/spending-controls) for more details.
 	SpendingControls *IssuingCardSpendingControlsParams `form:"spending_controls"`
-	// Dictates whether authorizations can be approved on this card. If this card is being canceled because it was lost or stolen, this information should be provided as `cancellation_reason`.
+	// Dictates whether authorizations can be approved on this card. May be blocked from activating cards depending on past-due Cardholder requirements. Defaults to `inactive`. If this card is being canceled because it was lost or stolen, this information should be provided as `cancellation_reason`.
 	Status *string `form:"status"`
 	// The type of card to issue. Possible values are `physical` or `virtual`.
 	Type *string `form:"type"`
@@ -339,7 +339,7 @@ type IssuingCard struct {
 	// Where and how the card will be shipped.
 	Shipping         *IssuingCardShipping         `json:"shipping"`
 	SpendingControls *IssuingCardSpendingControls `json:"spending_controls"`
-	// Whether authorizations can be approved on this card.
+	// Whether authorizations can be approved on this card. May be blocked from activating cards depending on past-due Cardholder requirements. Defaults to `inactive`.
 	Status IssuingCardStatus `json:"status"`
 	// The type of the card.
 	Type IssuingCardType `json:"type"`
