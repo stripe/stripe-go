@@ -81,7 +81,7 @@ type TaxCalculationTaxBreakdownTaxRateDetailsTaxType string
 const (
 	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeGST      TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "gst"
 	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeHST      TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "hst"
-	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeIgst     TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "igst"
+	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeIGST     TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "igst"
 	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeJCT      TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "jct"
 	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypePST      TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "pst"
 	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeQST      TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "qst"
