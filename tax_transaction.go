@@ -88,7 +88,7 @@ type TaxTransactionParams struct {
 	Params `form:"*"`
 	// Tax Calculation ID to be used as input when creating the transaction.
 	FromCalculation *string `form:"from_calculation"`
-	// A custom order or sale identifier, such as 'myOrder_123'.
+	// A custom order or sale identifier, such as 'myOrder_123'. Must be unique across all transactions.
 	Reference *string `form:"reference"`
 }
 

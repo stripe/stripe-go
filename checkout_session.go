@@ -525,6 +525,15 @@ const (
 	CheckoutSessionPaymentMethodOptionsSofortSetupFutureUsageNone CheckoutSessionPaymentMethodOptionsSofortSetupFutureUsage = "none"
 )
 
+// Settings for configuring manual entry of account details.
+type CheckoutSessionPaymentMethodOptionsUSBankAccountFinancialConnectionsManualEntryMode string
+
+// List of values that CheckoutSessionPaymentMethodOptionsUSBankAccountFinancialConnectionsManualEntryMode can take
+const (
+	CheckoutSessionPaymentMethodOptionsUSBankAccountFinancialConnectionsManualEntryModeAutomatic CheckoutSessionPaymentMethodOptionsUSBankAccountFinancialConnectionsManualEntryMode = "automatic"
+	CheckoutSessionPaymentMethodOptionsUSBankAccountFinancialConnectionsManualEntryModeCustom    CheckoutSessionPaymentMethodOptionsUSBankAccountFinancialConnectionsManualEntryMode = "custom"
+)
+
 // The list of permissions to request. The `payment_method` permission must be included.
 type CheckoutSessionPaymentMethodOptionsUSBankAccountFinancialConnectionsPermission string
 
@@ -1996,7 +2005,12 @@ type CheckoutSessionPaymentMethodOptionsSofort struct {
 	// When processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).
 	SetupFutureUsage CheckoutSessionPaymentMethodOptionsSofortSetupFutureUsage `json:"setup_future_usage"`
 }
+type CheckoutSessionPaymentMethodOptionsUSBankAccountFinancialConnectionsManualEntry struct {
+	// Settings for configuring manual entry of account details.
+	Mode CheckoutSessionPaymentMethodOptionsUSBankAccountFinancialConnectionsManualEntryMode `json:"mode"`
+}
 type CheckoutSessionPaymentMethodOptionsUSBankAccountFinancialConnections struct {
+	ManualEntry *CheckoutSessionPaymentMethodOptionsUSBankAccountFinancialConnectionsManualEntry `json:"manual_entry"`
 	// The list of permissions to request. The `payment_method` permission must be included.
 	Permissions []CheckoutSessionPaymentMethodOptionsUSBankAccountFinancialConnectionsPermission `json:"permissions"`
 	// Data features requested to be retrieved upon account creation.

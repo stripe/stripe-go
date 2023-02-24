@@ -563,9 +563,9 @@ type InvoiceUpcomingDiscountDiscountEndDurationParams struct {
 
 // The period associated with this invoice item. When set to different values, the period will be rendered on the invoice. If you have [Stripe Revenue Recognition](https://stripe.com/docs/revenue-recognition) enabled, the period will be used to recognize and defer revenue. See the [Revenue Recognition documentation](https://stripe.com/docs/revenue-recognition/methodology/subscriptions-and-invoicing) for details.
 type InvoiceUpcomingInvoiceItemPeriodParams struct {
-	// The end of the period, which must be greater than or equal to the start.
+	// The end of the period, which must be greater than or equal to the start. This value is inclusive.
 	End *int64 `form:"end"`
-	// The start of the period.
+	// The start of the period. This value is inclusive.
 	Start *int64 `form:"start"`
 }
 
@@ -808,9 +808,9 @@ type InvoiceUpcomingLinesInvoiceItemDiscountParams struct {
 
 // The period associated with this invoice item. When set to different values, the period will be rendered on the invoice. If you have [Stripe Revenue Recognition](https://stripe.com/docs/revenue-recognition) enabled, the period will be used to recognize and defer revenue. See the [Revenue Recognition documentation](https://stripe.com/docs/revenue-recognition/methodology/subscriptions-and-invoicing) for details.
 type InvoiceUpcomingLinesInvoiceItemPeriodParams struct {
-	// The end of the period, which must be greater than or equal to the start.
+	// The end of the period, which must be greater than or equal to the start. This value is inclusive.
 	End *int64 `form:"end"`
-	// The start of the period.
+	// The start of the period. This value is inclusive.
 	Start *int64 `form:"start"`
 }
 

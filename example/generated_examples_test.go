@@ -1225,6 +1225,13 @@ func TestInvoiceRetrieve(t *testing.T) {
 	assert.NotNil(t, result)
 }
 
+func TestInvoiceRetrieve2(t *testing.T) {
+	params := &stripe.InvoiceParams{}
+	params.AddExpand("customer")
+	result, _ := invoice.Get("in_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+}
+
 func TestInvoiceUpdate(t *testing.T) {
 	params := &stripe.InvoiceParams{}
 	params.AddMetadata("order_id", "6735")

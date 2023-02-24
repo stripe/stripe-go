@@ -616,6 +616,15 @@ const (
 	PaymentIntentPaymentMethodOptionsSofortSetupFutureUsageOffSession PaymentIntentPaymentMethodOptionsSofortSetupFutureUsage = "off_session"
 )
 
+// Settings for configuring manual entry of account details.
+type PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsManualEntryMode string
+
+// List of values that PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsManualEntryMode can take
+const (
+	PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsManualEntryModeAutomatic PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsManualEntryMode = "automatic"
+	PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsManualEntryModeCustom    PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsManualEntryMode = "custom"
+)
+
 // The list of permissions to request. The `payment_method` permission must be included.
 type PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsPermission string
 
@@ -1427,8 +1436,16 @@ type PaymentIntentPaymentMethodOptionsSofortParams struct {
 	SetupFutureUsage *string `form:"setup_future_usage"`
 }
 
+// Customize manual entry behavior
+type PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsManualEntryParams struct {
+	// Settings for configuring manual entry of account details.
+	Mode *string `form:"mode"`
+}
+
 // Additional fields for Financial Connections Session creation
 type PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsParams struct {
+	// Customize manual entry behavior
+	ManualEntry *PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsManualEntryParams `form:"manual_entry"`
 	// The list of permissions to request. If this parameter is passed, the `payment_method` permission must be included. Valid permissions include: `balances`, `ownership`, `payment_method`, and `transactions`.
 	Permissions []*string `form:"permissions"`
 	// List of data features that you would like to retrieve upon account creation.
@@ -2480,7 +2497,12 @@ type PaymentIntentPaymentMethodOptionsSofort struct {
 	// When processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).
 	SetupFutureUsage PaymentIntentPaymentMethodOptionsSofortSetupFutureUsage `json:"setup_future_usage"`
 }
+type PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsManualEntry struct {
+	// Settings for configuring manual entry of account details.
+	Mode PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsManualEntryMode `json:"mode"`
+}
 type PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnections struct {
+	ManualEntry *PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsManualEntry `json:"manual_entry"`
 	// The list of permissions to request. The `payment_method` permission must be included.
 	Permissions []PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsPermission `json:"permissions"`
 	// Data features requested to be retrieved upon account creation.
