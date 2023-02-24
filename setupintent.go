@@ -173,6 +173,15 @@ const (
 	SetupIntentPaymentMethodOptionsCardRequestThreeDSecureChallengeOnly SetupIntentPaymentMethodOptionsCardRequestThreeDSecure = "challenge_only"
 )
 
+// Settings for configuring manual entry of account details.
+type SetupIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsManualEntryMode string
+
+// List of values that SetupIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsManualEntryMode can take
+const (
+	SetupIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsManualEntryModeAutomatic SetupIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsManualEntryMode = "automatic"
+	SetupIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsManualEntryModeCustom    SetupIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsManualEntryMode = "custom"
+)
+
 // The list of permissions to request. The `payment_method` permission must be included.
 type SetupIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsPermission string
 
@@ -593,8 +602,16 @@ type SetupIntentPaymentMethodOptionsSEPADebitParams struct {
 	MandateOptions *SetupIntentPaymentMethodOptionsSEPADebitMandateOptionsParams `form:"mandate_options"`
 }
 
+// Customize manual entry behavior
+type SetupIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsManualEntryParams struct {
+	// Settings for configuring manual entry of account details.
+	Mode *string `form:"mode"`
+}
+
 // Additional fields for Financial Connections Session creation
 type SetupIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsParams struct {
+	// Customize manual entry behavior
+	ManualEntry *SetupIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsManualEntryParams `form:"manual_entry"`
 	// The list of permissions to request. If this parameter is passed, the `payment_method` permission must be included. Valid permissions include: `balances`, `ownership`, `payment_method`, and `transactions`.
 	Permissions []*string `form:"permissions"`
 	// List of data features that you would like to retrieve upon account creation.
@@ -1124,7 +1141,12 @@ type SetupIntentPaymentMethodOptionsSEPADebitMandateOptions struct{}
 type SetupIntentPaymentMethodOptionsSEPADebit struct {
 	MandateOptions *SetupIntentPaymentMethodOptionsSEPADebitMandateOptions `json:"mandate_options"`
 }
+type SetupIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsManualEntry struct {
+	// Settings for configuring manual entry of account details.
+	Mode SetupIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsManualEntryMode `json:"mode"`
+}
 type SetupIntentPaymentMethodOptionsUSBankAccountFinancialConnections struct {
+	ManualEntry *SetupIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsManualEntry `json:"manual_entry"`
 	// The list of permissions to request. The `payment_method` permission must be included.
 	Permissions []SetupIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsPermission `json:"permissions"`
 	// Data features requested to be retrieved upon account creation.
