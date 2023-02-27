@@ -17,26 +17,27 @@ module StripeForce
       customer_id = T.cast(invoice_item.customer, String)
 
       # TODO should set error and log context
+      invoice_item_id = invoice_item.id
 
       if subscription_id.blank?
-        log.info 'no subscription reference, not billing'
+        log.info 'no subscription reference, not billing', invoice_item_id: invoice_item_id
         nil
       end
 
       if invoice_item.period.start == invoice_item.period.end
-        log.info 'period start and end are equal, not proration'
+        log.info 'period start and end are equal, not proration', invoice_item_id: invoice_item_id
         return
       end
 
       if invoice_item.metadata[Translate::Metadata.metadata_key(user, MetadataKeys::PRORATION)] != "true"
-        log.info 'does not contain proration metadata, skipping'
+        log.info 'does not contain proration metadata, skipping', invoice_item_id: invoice_item_id
         return
       end
 
-      invoice_item = Stripe::InvoiceItem.retrieve(invoice_item.id, user.stripe_credentials)
+      invoice_item = Stripe::InvoiceItem.retrieve(invoice_item_id, user.stripe_credentials)
 
       if invoice_item.invoice.present?
-        log.info 'already invoiced, skipping'
+        log.info 'already invoiced, skipping', invoice_item_id: invoice_item_id
         return
       end
 
