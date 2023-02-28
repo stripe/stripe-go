@@ -4,6 +4,7 @@ class StripeWebhookController < ApplicationController
   skip_forgery_protection
 
   WEBHOOK_SECRET = ENV.fetch("STRIPE_WEBHOOK_SECRET")
+  STRIPEFORCE_CI_ACCOUNT = "acct_1MHBTOC9fP1FVBtd"
 
   def stripe_webhook
     payload = request.body.read.freeze
@@ -35,16 +36,13 @@ class StripeWebhookController < ApplicationController
     event_id = event.id
     event_type = event.type
 
-    # TODO this should be pulled out into a helper method
-    unless stripe_account_id.nil?
-      user = StripeForce::User.find(stripe_account_id: stripe_account_id, livemode: livemode)
-
-      # if a user does not exist for the specified livemode, search a user in a different livemode
-      # if one exists, return 200 to webhook originator to avoid resending this webhook
-      if !user
-        user = StripeForce::User.find(stripe_account_id: stripe_account_id)
-      end
+    # ignore webhooks and don't error for StripeForce CI account
+    if stripe_account_id == STRIPEFORCE_CI_ACCOUNT
+      render plain: "ignoring webhook for StripeForce CI account"
+      return
     end
+
+    user = find_user(stripe_account_id, livemode)
 
     if user.nil?
       log.info "no user found for webhook"
@@ -88,5 +86,20 @@ class StripeWebhookController < ApplicationController
     log.info "successfully processed event", metric: 'event.received'
 
     render plain: "Successfully processed event #{event_id}"
+  end
+
+  def find_user(stripe_account_id, livemode)
+    user = nil
+
+    unless stripe_account_id.nil?
+      user = StripeForce::User.find(stripe_account_id: stripe_account_id, livemode: livemode)
+
+      # if a user does not exist for the specified livemode, search for the user in a different livemode
+      # if one exists, return 200 to webhook originator to avoid resending this webhook
+      if !user
+        user = StripeForce::User.find(stripe_account_id: stripe_account_id)
+      end
+    end
+    user
   end
 end
