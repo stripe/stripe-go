@@ -17,6 +17,7 @@ const (
 	TaxRateTaxTypeHST      TaxRateTaxType = "hst"
 	TaxRateTaxTypeIGST     TaxRateTaxType = "igst"
 	TaxRateTaxTypeJCT      TaxRateTaxType = "jct"
+	TaxRateTaxTypeLeaseTax TaxRateTaxType = "lease_tax"
 	TaxRateTaxTypePST      TaxRateTaxType = "pst"
 	TaxRateTaxTypeQST      TaxRateTaxType = "qst"
 	TaxRateTaxTypeRST      TaxRateTaxType = "rst"
