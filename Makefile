@@ -40,5 +40,6 @@ update-version:
 
 codegen-format:
 	go fmt ./...
+	goimports -w example/generated_examples_test.go
 
 .PHONY: codegen-format update-version

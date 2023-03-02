@@ -601,24 +601,6 @@ type AccountCompanyParams struct {
 	Verification *AccountCompanyVerificationParams `form:"verification"`
 }
 
-// Properties of the controlling application.
-type AccountControllerApplicationParams struct {
-	// Whether the controller is liable for losses on this account. For details, see [Understanding Connect Account Balances](https://stripe.com/docs/connect/account-balances).
-	LossLiable *bool `form:"loss_liable"`
-	// Whether the controller owns onboarding for this account.
-	OnboardingOwner *bool `form:"onboarding_owner"`
-	// Whether the controller has pricing controls for this account.
-	PricingControls *bool `form:"pricing_controls"`
-}
-
-// The configuration of the account when using unified accounts.
-type AccountControllerParams struct {
-	// The documentation for the application hash.
-	Application *AccountControllerApplicationParams `form:"application"`
-	// Properties of the account's dashboard.
-	Dashboard *AccountControllerDashboardParams `form:"dashboard"`
-}
-
 // One or more documents that support the [Bank account ownership verification](https://support.stripe.com/questions/bank-account-ownership-verification) requirement. Must be a document associated with the account's primary active bank account that displays the last 4 digits of the account number, either a statement or a voided check.
 type AccountDocumentsBankAccountOwnershipVerificationParams struct {
 	// One or more document ids returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `account_requirement`.
@@ -822,10 +804,28 @@ type AccountListParams struct {
 	CreatedRange *RangeQueryParams `form:"created"`
 }
 
+// The documentation for the application hash.
+type AccountControllerApplicationParams struct {
+	// Whether the controller is liable for losses on this account. For details, see [Understanding Connect Account Balances](https://stripe.com/docs/connect/account-balances).
+	LossLiable *bool `form:"loss_liable"`
+	// Whether the controller owns onboarding for this account.
+	OnboardingOwner *bool `form:"onboarding_owner"`
+	// Whether the controller has pricing controls for this account.
+	PricingControls *bool `form:"pricing_controls"`
+}
+
 // Properties of the account's dashboard.
 type AccountControllerDashboardParams struct {
 	// Whether this account should have access to the full Stripe dashboard (`full`) or no dashboard (`none`).
 	Type *string `form:"type"`
+}
+
+// The configuration of the account when `type` is not provided.
+type AccountControllerParams struct {
+	// The documentation for the application hash.
+	Application *AccountControllerApplicationParams `form:"application"`
+	// Properties of the account's dashboard.
+	Dashboard *AccountControllerDashboardParams `form:"dashboard"`
 }
 
 // With [Connect](https://stripe.com/docs/connect), you may flag accounts as suspicious.

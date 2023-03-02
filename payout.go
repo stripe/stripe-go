@@ -47,6 +47,16 @@ const (
 	PayoutMethodStandard PayoutMethodType = "standard"
 )
 
+// If `completed`, the [Balance Transactions API](https://stripe.com/docs/api/balance_transactions/list#balance_transaction_list-payout) may be used to list all Balance Transactions that were paid out in this payout.
+type PayoutReconciliationStatus string
+
+// List of values that PayoutReconciliationStatus can take
+const (
+	PayoutReconciliationStatusCompleted     PayoutReconciliationStatus = "completed"
+	PayoutReconciliationStatusInProgress    PayoutReconciliationStatus = "in_progress"
+	PayoutReconciliationStatusNotApplicable PayoutReconciliationStatus = "not_applicable"
+)
+
 // The source balance this payout came from. One of `card`, `fpx`, or `bank_account`.
 type PayoutSourceType string
 
@@ -161,6 +171,8 @@ type Payout struct {
 	Object string `json:"object"`
 	// If the payout reverses another, this is the ID of the original payout.
 	OriginalPayout *Payout `json:"original_payout"`
+	// If `completed`, the [Balance Transactions API](https://stripe.com/docs/api/balance_transactions/list#balance_transaction_list-payout) may be used to list all Balance Transactions that were paid out in this payout.
+	ReconciliationStatus PayoutReconciliationStatus `json:"reconciliation_status"`
 	// If the payout was reversed, this is the ID of the payout that reverses this payout.
 	ReversedBy *Payout `json:"reversed_by"`
 	// The source balance this payout came from. One of `card`, `fpx`, or `bank_account`.
