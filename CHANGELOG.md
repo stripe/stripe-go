@@ -1,5 +1,14 @@
 # Changelog
 
+## 74.11.0-beta.1 - 2023-03-02
+* [#1615](https://github.com/stripe/stripe-go/pull/1615) API Updates for beta branch
+  * Updated stable APIs to the latest version
+  * Add support for new resources `Issuing.CardBundle` and `Issuing.CardDesign`
+  * Add support for `Get` and `List` methods on resource `CardBundle`
+  * Add support for `Get`, `List`, and `Update` methods on resource `CardDesign`
+  * Remove support for `Controller` on `AccountParams`
+  * Add support for `CardDesign` on `IssuingCardParams` and `IssuingCard`
+
 ## 74.10.0 - 2023-03-02
 * [#1614](https://github.com/stripe/stripe-go/pull/1614) API Updates
   * Add support for `ReconciliationStatus` on `Payout`
