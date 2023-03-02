@@ -1,5 +1,13 @@
 # Changelog
 
+## 74.10.0 - 2023-03-02
+* [#1614](https://github.com/stripe/stripe-go/pull/1614) API Updates
+  * Add support for `ReconciliationStatus` on `Payout`
+  * Add support for new value `lease_tax` on enum `TaxRateTaxType`
+  
+* [#1613](https://github.com/stripe/stripe-go/pull/1613) Update golang.org/x/net
+* [#1611](https://github.com/stripe/stripe-go/pull/1611) Run goimports on generated test suite
+
 ## 74.10.0-beta.1 - 2023-02-23
 * [#1610](https://github.com/stripe/stripe-go/pull/1610) API Updates for beta branch
   * Updated stable APIs to the latest version
