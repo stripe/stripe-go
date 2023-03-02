@@ -192,6 +192,8 @@ type IssuingCardSpendingControlsParams struct {
 // Creates an Issuing Card object.
 type IssuingCardParams struct {
 	Params `form:"*"`
+	// The card design object belonging to this card.
+	CardDesign *string `form:"card_design"`
 	// The [Cardholder](https://stripe.com/docs/api#issuing_cardholder_object) object with which the card will be associated.
 	Cardholder *string `form:"cardholder"`
 	// The currency for the card.
@@ -302,6 +304,8 @@ type IssuingCard struct {
 	Brand string `json:"brand"`
 	// The reason why the card was canceled.
 	CancellationReason IssuingCardCancellationReason `json:"cancellation_reason"`
+	// The card design object belonging to this card.
+	CardDesign *IssuingCardDesign `json:"card_design"`
 	// An Issuing `Cardholder` object represents an individual or business entity who is [issued](https://stripe.com/docs/issuing) cards.
 	//
 	// Related guide: [How to create a Cardholder](https://stripe.com/docs/issuing/cards#create-cardholder)
