@@ -7,24 +7,25 @@
 public with sharing class test_QuoteCouponAssociationTgrHndlr {
 
     // we use this to save multiple queries to look things up
-    private static Boolean isAltPathEnvironmentFlag = null;
+    private static Boolean isCpqInstalled = utilities.isCpqEnabled();
+    private static String defaultIsoCurrency = UserInfo.getDefaultCurrency();
+    private static String alternateIsoCurrency = utilities.getCurrencyIsoCodePreferNonDefault();
+    private static Boolean isTrueMultiCurrencyEnvironment = UserInfo.isMultiCurrencyOrganization() && alternateIsoCurrency != defaultIsoCurrency;
+    private static Boolean isNotTrueMultiCurrencyEnvironment = isTrueMultiCurrencyEnvironment == false;
 
     // this combines both the individual processing tests and ONLY runs when multi-curr
     // with two currencies is enabled.
     @IsTest
     static void testProcessQuoteAndQuoteLineCouponAssociationsAsASafeGuard() {
-        Boolean isCpqInstalled = utilities.isCpqEnabled();
-        String isoCurrency = utilities.getCurrencyIsoCodePreferNonDefault();
-
-        if(!isCpqInstalled || isAltPathEnvironment()) {
+        if(!isCpqInstalled || isNotTrueMultiCurrencyEnvironment) {
             return;
         }
 
         QuoteCouponAssociationTriggerHandler th = new QuoteCouponAssociationTriggerHandler();
 
-        SBQQ__Quote__c quote = test_updateOrderCouponTrigger.createQuote(isoCurrency);
+        SBQQ__Quote__c quote = test_updateOrderCouponTrigger.createQuote(alternateIsoCurrency);
 
-        Quote_Stripe_Coupon__c coupon = test_updateOrderCouponTrigger.createStripeCoupon(isoCurrency);
+        Quote_Stripe_Coupon__c coupon = test_updateOrderCouponTrigger.createStripeCoupon(alternateIsoCurrency);
         coupon.Percent_Off__c = null;
         coupon.Amount_Off__c = 1;
         update coupon;
@@ -34,12 +35,12 @@ public with sharing class test_QuoteCouponAssociationTgrHndlr {
         Quote_Stripe_Coupon_Association__c quoteAssoc =  new Quote_Stripe_Coupon_Association__c();
         quoteAssoc.Quote__c = quote.Id;
         quoteAssoc.Quote_Stripe_Coupon__c = coupon.Id;
-        quoteAssoc.put(th.ASSOC_FIELD_CURRENCY_ISO_CODE, isoCurrency);
+        quoteAssoc.put(th.ASSOC_FIELD_CURRENCY_ISO_CODE, alternateIsoCurrency);
 
         Quote_Line_Stripe_Coupon_Association__c quoteLineAssoc =  new Quote_Line_Stripe_Coupon_Association__c();
         quoteLineAssoc.Quote_Line__c = quoteLine.Id;
         quoteLineAssoc.Quote_Stripe_Coupon__c = coupon.Id;
-        quoteLineAssoc.put(th.ASSOC_FIELD_CURRENCY_ISO_CODE, isoCurrency);
+        quoteLineAssoc.put(th.ASSOC_FIELD_CURRENCY_ISO_CODE, alternateIsoCurrency);
 
         List<Quote_Stripe_Coupon_Association__c> quoteAssocList = new List<Quote_Stripe_Coupon_Association__c> { quoteAssoc };
         List<Quote_Line_Stripe_Coupon_Association__c> quoteLineAssocList = new List<Quote_Line_Stripe_Coupon_Association__c> { quoteLineAssoc };
@@ -54,7 +55,7 @@ public with sharing class test_QuoteCouponAssociationTgrHndlr {
         System.assert(quoteAssoc.getErrors().isEmpty());
         System.assert(quoteLineAssoc.getErrors().isEmpty());
 
-        coupon.put(th.COUPON_FIELD_CURRENCY_ISO_CODE, UserInfo.getDefaultCurrency());
+        coupon.put(th.COUPON_FIELD_CURRENCY_ISO_CODE, defaultIsoCurrency);
         update coupon;
 
         th.process(quoteAssocList);
@@ -66,7 +67,6 @@ public with sharing class test_QuoteCouponAssociationTgrHndlr {
 
     @IsTest
     static void testProcessQuoteCouponAssociationsWithAmountOff() {
-        Boolean isCpqInstalled = utilities.isCpqEnabled();
         if(!isCpqInstalled) {
             return;
         }
@@ -83,22 +83,15 @@ public with sharing class test_QuoteCouponAssociationTgrHndlr {
         quoteAssoc.Quote__c = quote.Id;
         quoteAssoc.Quote_Stripe_Coupon__c = coupon.Id;
 
-        if (isMultiCurrencyEnvironment()) {
-            quoteAssoc.put(th.ASSOC_FIELD_CURRENCY_ISO_CODE, UserInfo.getDefaultCurrency());
+        String altCurrencyToUse = alternateIsoCurrency;
+
+        if (isTrueMultiCurrencyEnvironment) {
+            quoteAssoc.put(th.ASSOC_FIELD_CURRENCY_ISO_CODE, defaultIsoCurrency);
         } else {
-            // we're going to use the name as the 'currency', so we have to insert to populate it
-            // and we're disabling the trigger from processing here because we're not /testing/ it here.
-            QuoteCouponAssociationTriggerHandler.TRIGGER_ENABLED = false;
-            insert quoteAssoc;
-            QuoteCouponAssociationTriggerHandler.TRIGGER_ENABLED = true;
-            // we need to pull again to get the name
-            quoteAssoc = [SELECT Id, Name, Quote__c, Quote_Stripe_Coupon__c FROM Quote_Stripe_Coupon_Association__c WHERE Id = :quoteAssoc.Id];
+            // we pick a random currency since we're faking the constraints anyway
+            altCurrencyToUse = 'EUR';
 
-            // we set the pointer fields to the name of the coupon
-            quote.put(th.QUOTE_FIELD_CURRENCY_ISO_CODE, quoteAssoc.get(th.ASSOC_FIELD_CURRENCY_ISO_CODE));
-            coupon.put(th.COUPON_FIELD_CURRENCY_ISO_CODE, quoteAssoc.get(th.ASSOC_FIELD_CURRENCY_ISO_CODE));
-
-            update new List<SObject> { quote, coupon };
+            quoteAssoc = setUpAlternateCurrencyFields(quoteAssoc, true, th, quote, coupon);
         }
 
         List<Quote_Stripe_Coupon_Association__c> quoteAssocList = new List<Quote_Stripe_Coupon_Association__c> { quoteAssoc };
@@ -107,9 +100,10 @@ public with sharing class test_QuoteCouponAssociationTgrHndlr {
 
         th.process(quoteAssocList);
 
+        System.debug(quoteAssoc.getErrors());
         System.assert(quoteAssoc.getErrors().isEmpty());
 
-        coupon.put(th.COUPON_FIELD_CURRENCY_ISO_CODE, 'EUR');
+        coupon.put(th.COUPON_FIELD_CURRENCY_ISO_CODE, altCurrencyToUse);
         update coupon;
 
         th.process(quoteAssocList);
@@ -121,7 +115,6 @@ public with sharing class test_QuoteCouponAssociationTgrHndlr {
 
     @IsTest
     static void testProcessQuoteCouponAssociationsWithPercentOff() {
-        Boolean isCpqInstalled = utilities.isCpqEnabled();
         if(!isCpqInstalled) {
             return;
         }
@@ -136,24 +129,15 @@ public with sharing class test_QuoteCouponAssociationTgrHndlr {
         quoteAssoc.Quote__c = quote.Id;
         quoteAssoc.Quote_Stripe_Coupon__c = coupon.Id;
 
-        if (isMultiCurrencyEnvironment()) {
-            quoteAssoc.put(th.ASSOC_FIELD_CURRENCY_ISO_CODE, UserInfo.getDefaultCurrency());
+        String altCurrencyToUse = alternateIsoCurrency;
+
+        if (isTrueMultiCurrencyEnvironment) {
+            quoteAssoc.put(th.ASSOC_FIELD_CURRENCY_ISO_CODE, defaultIsoCurrency);
         } else {
-            // we're going to use the name as the 'currency', so we have to insert to populate it
-            // and we're disabling the trigger from processing here because we're not /testing/ it here.
-            QuoteCouponAssociationTriggerHandler.TRIGGER_ENABLED = false;
-            insert quoteAssoc;
-            QuoteCouponAssociationTriggerHandler.TRIGGER_ENABLED = true;
-            // we need to pull again to get the name
-            quoteAssoc = [SELECT Id, Name, Quote__c, Quote_Stripe_Coupon__c FROM Quote_Stripe_Coupon_Association__c WHERE Id = :quoteAssoc.Id];
+            // we pick a random currency since we're faking the constraints anyway
+            altCurrencyToUse = 'EUR';
 
-            // we set the pointer fields to the name of the coupon
-            // we're manually setting the values wrong to ensure it /should/ fail if it were actually checked
-            // but it won't be checked because the coupon is a percent off.
-            quote.put(th.QUOTE_FIELD_CURRENCY_ISO_CODE, quoteAssoc.get(th.ASSOC_FIELD_CURRENCY_ISO_CODE) + ' No Match');
-            coupon.put(th.COUPON_FIELD_CURRENCY_ISO_CODE, quoteAssoc.get(th.ASSOC_FIELD_CURRENCY_ISO_CODE) + ' No Match');
-
-            update new List<SObject> { quote, coupon };
+            quoteAssoc = setUpAlternateCurrencyFields(quoteAssoc, false, th, quote, coupon);
         }
 
         List<Quote_Stripe_Coupon_Association__c> quoteAssocList = new List<Quote_Stripe_Coupon_Association__c> { quoteAssoc };
@@ -164,7 +148,7 @@ public with sharing class test_QuoteCouponAssociationTgrHndlr {
 
         System.assert(quoteAssoc.getErrors().isEmpty());
 
-        coupon.put(th.COUPON_FIELD_CURRENCY_ISO_CODE, 'EUR');
+        coupon.put(th.COUPON_FIELD_CURRENCY_ISO_CODE, altCurrencyToUse);
         update coupon;
 
         th.process(quoteAssocList);
@@ -196,22 +180,15 @@ public with sharing class test_QuoteCouponAssociationTgrHndlr {
         quoteLineAssoc.Quote_Line__c = quoteLine.Id;
         quoteLineAssoc.Quote_Stripe_Coupon__c = coupon.Id;
 
-        if (isMultiCurrencyEnvironment()) {
-            // we're going to use the name as the 'currency', so we have to insert to populate it
-            quoteLineAssoc.put(th.ASSOC_FIELD_CURRENCY_ISO_CODE, UserInfo.getDefaultCurrency());
+        String altCurrencyToUse = alternateIsoCurrency;
+
+        if (isTrueMultiCurrencyEnvironment) {
+            quoteLineAssoc.put(th.ASSOC_FIELD_CURRENCY_ISO_CODE, defaultIsoCurrency);
         } else {
-            // we're going to use the name as the 'currency', so we have to insert to populate it
-            // and we're disabling the trigger from processing here because we're not /testing/ it here.
-            QuoteCouponAssociationTriggerHandler.TRIGGER_ENABLED = false;
-            insert quoteLineAssoc;
-            QuoteCouponAssociationTriggerHandler.TRIGGER_ENABLED = true;
-            // we need to pull again to get the name
-            quoteLineAssoc = [SELECT Id, Name, Quote_Line__c, Quote_Stripe_Coupon__c FROM Quote_Line_Stripe_Coupon_Association__c WHERE Id = :quoteLineAssoc.Id];
+            // we pick a random currency since we're faking the constraints anyway
+            altCurrencyToUse = 'EUR';
 
-            quote.put(th.QUOTE_FIELD_CURRENCY_ISO_CODE, quoteLineAssoc.get(th.ASSOC_FIELD_CURRENCY_ISO_CODE));
-            coupon.put(th.COUPON_FIELD_CURRENCY_ISO_CODE, quoteLineAssoc.get(th.ASSOC_FIELD_CURRENCY_ISO_CODE));
-
-            update new List<SObject> { quote, coupon };
+            quoteLineAssoc = setUpAlternateCurrencyFields(quoteLineAssoc, true, th, quote, coupon);
         }
 
         List<Quote_Line_Stripe_Coupon_Association__c> quoteLineAssocList = new List<Quote_Line_Stripe_Coupon_Association__c> { quoteLineAssoc };
@@ -222,7 +199,7 @@ public with sharing class test_QuoteCouponAssociationTgrHndlr {
 
         System.assert(quoteLineAssoc.getErrors().isEmpty());
 
-        coupon.put(th.COUPON_FIELD_CURRENCY_ISO_CODE, 'EUR');
+        coupon.put(th.COUPON_FIELD_CURRENCY_ISO_CODE, altCurrencyToUse);
         update coupon;
 
         th.process(quoteLineAssocList);
@@ -249,25 +226,15 @@ public with sharing class test_QuoteCouponAssociationTgrHndlr {
         quoteLineAssoc.Quote_Line__c = quoteLine.Id;
         quoteLineAssoc.Quote_Stripe_Coupon__c = coupon.Id;
 
-        if (isMultiCurrencyEnvironment()) {
-            // we're going to use the name as the 'currency', so we have to insert to populate it
-            quoteLineAssoc.put(th.ASSOC_FIELD_CURRENCY_ISO_CODE, UserInfo.getDefaultCurrency());
+        String altCurrencyToUse = alternateIsoCurrency;
+
+        if (isTrueMultiCurrencyEnvironment) {
+            quoteLineAssoc.put(th.ASSOC_FIELD_CURRENCY_ISO_CODE, defaultIsoCurrency);
         } else {
-            // we're going to use the name as the 'currency', so we have to insert to populate it
-            // and we're disabling the trigger from processing here because we're not /testing/ it here.
-            QuoteCouponAssociationTriggerHandler.TRIGGER_ENABLED = false;
-            insert quoteLineAssoc;
-            QuoteCouponAssociationTriggerHandler.TRIGGER_ENABLED = true;
-            // we need to pull again to get the name
-            quoteLineAssoc = [SELECT Id, Name, Quote_Line__c, Quote_Stripe_Coupon__c FROM Quote_Line_Stripe_Coupon_Association__c WHERE Id = :quoteLineAssoc.Id];
+            // we pick a random currency since we're faking the constraints anyway
+            altCurrencyToUse = 'EUR';
 
-            // we set the pointer fields to the name of the coupon
-            // we're manually setting the values wrong to ensure it /should/ fail if it were actually checked
-            // but it won't be checked because the coupon is a percent off.
-            quote.put(th.QUOTE_FIELD_CURRENCY_ISO_CODE, quoteLineAssoc.get(th.ASSOC_FIELD_CURRENCY_ISO_CODE) + ' No Match');
-            coupon.put(th.COUPON_FIELD_CURRENCY_ISO_CODE, quoteLineAssoc.get(th.ASSOC_FIELD_CURRENCY_ISO_CODE) + ' No Match');
-
-            update new List<SObject> { quote, coupon };
+            quoteLineAssoc = setUpAlternateCurrencyFields(quoteLineAssoc, false, th, quote, coupon);
         }
 
         List<Quote_Line_Stripe_Coupon_Association__c> quoteLineAssocList = new List<Quote_Line_Stripe_Coupon_Association__c> { quoteLineAssoc };
@@ -278,7 +245,7 @@ public with sharing class test_QuoteCouponAssociationTgrHndlr {
 
         System.assert(quoteLineAssoc.getErrors().isEmpty());
 
-        coupon.put(th.COUPON_FIELD_CURRENCY_ISO_CODE, 'EUR');
+        coupon.put(th.COUPON_FIELD_CURRENCY_ISO_CODE, altCurrencyToUse);
         update coupon;
 
         th.process(quoteLineAssocList);
@@ -427,6 +394,60 @@ public with sharing class test_QuoteCouponAssociationTgrHndlr {
         System.assert(ids.contains(coupon2.Id));
     }
 
+    static Quote_Line_Stripe_Coupon_Association__c setUpAlternateCurrencyFields(
+            Quote_Line_Stripe_Coupon_Association__c quoteLineAssoc,
+            Boolean match,
+            QuoteCouponAssociationTriggerHandler th,
+            SBQQ__Quote__c quote,
+            Quote_Stripe_Coupon__c coupon) {
+        // we're going to use the name as the 'currency', so we have to insert to populate it
+        // and we're disabling the trigger from processing here because we're not /testing/ it here.
+        QuoteCouponAssociationTriggerHandler.TRIGGER_ENABLED = false;
+        insert quoteLineAssoc;
+        QuoteCouponAssociationTriggerHandler.TRIGGER_ENABLED = true;
+
+        // we need to pull again to get the name
+        quoteLineAssoc = [SELECT Id, Name, Quote_Line__c, Quote_Stripe_Coupon__c FROM Quote_Line_Stripe_Coupon_Association__c WHERE Id = :quoteLineAssoc.Id];
+
+        // we set the pointer fields to the name of the coupon
+        // we're manually setting the values wrong to ensure it /should/ fail if it were actually checked
+        // but it won't be checked because the coupon is a percent off.
+        String suffix = match ? '' : ' No Match';
+        quote.put(th.QUOTE_FIELD_CURRENCY_ISO_CODE, quoteLineAssoc.get(th.ASSOC_FIELD_CURRENCY_ISO_CODE) + suffix);
+        coupon.put(th.COUPON_FIELD_CURRENCY_ISO_CODE, quoteLineAssoc.get(th.ASSOC_FIELD_CURRENCY_ISO_CODE) + suffix);
+
+        update new List<SObject> { quote, coupon };
+
+        return quoteLineAssoc;
+    }
+
+    static Quote_Stripe_Coupon_Association__c setUpAlternateCurrencyFields(
+            Quote_Stripe_Coupon_Association__c quoteAssoc,
+            Boolean match,
+            QuoteCouponAssociationTriggerHandler th,
+            SBQQ__Quote__c quote,
+            Quote_Stripe_Coupon__c coupon) {
+        // we're going to use the name as the 'currency', so we have to insert to populate it
+        // and we're disabling the trigger from processing here because we're not /testing/ it here.
+        QuoteCouponAssociationTriggerHandler.TRIGGER_ENABLED = false;
+        insert quoteAssoc;
+        QuoteCouponAssociationTriggerHandler.TRIGGER_ENABLED = true;
+
+        // we need to pull again to get the name
+        quoteAssoc = [SELECT Id, Name, Quote__c, Quote_Stripe_Coupon__c FROM Quote_Stripe_Coupon_Association__c WHERE Id = :quoteAssoc.Id];
+
+        // we set the pointer fields to the name of the coupon
+        // we're manually setting the values wrong to ensure it /should/ fail if it were actually checked
+        // but it won't be checked because the coupon is a percent off.
+        String suffix = match ? '' : ' No Match';
+        quote.put(th.QUOTE_FIELD_CURRENCY_ISO_CODE, quoteAssoc.get(th.ASSOC_FIELD_CURRENCY_ISO_CODE) + suffix);
+        coupon.put(th.COUPON_FIELD_CURRENCY_ISO_CODE, quoteAssoc.get(th.ASSOC_FIELD_CURRENCY_ISO_CODE) + suffix);
+
+        update new List<SObject> { quote, coupon };
+
+        return quoteAssoc;
+    }
+
     static void assertHasNoErrors(SObject obj) {
         List<Database.Error> errors = obj.getErrors();
         System.assertEquals(0, errors.size());
@@ -439,31 +460,10 @@ public with sharing class test_QuoteCouponAssociationTgrHndlr {
         return errors.get(0);
     }
 
-    static Boolean isMultiCurrencyEnvironment() {
-        return isAltPathEnvironment() == false;
-    }
-
-    static Boolean isAltPathEnvironment() {
-        if (isAltPathEnvironmentFlag != null) {
-            return isAltPathEnvironmentFlag;
-        }
-
-        String isoCurrency = utilities.getCurrencyIsoCodePreferNonDefault();
-        Boolean usingDefaultCurrency = isoCurrency == UserInfo.getDefaultCurrency();
-
-        if (UserInfo.isMultiCurrencyOrganization() == false || usingDefaultCurrency == true) {
-            isAltPathEnvironmentFlag = true;
-        } else {
-            isAltPathEnvironmentFlag = false;
-        }
-
-        return isAltPathEnvironmentFlag;
-    }
-
     static QuoteCouponAssociationTriggerHandler getNewTriggerHandler() {
         QuoteCouponAssociationTriggerHandler th = new QuoteCouponAssociationTriggerHandler();
 
-        if (isAltPathEnvironment()) {
+        if (isNotTrueMultiCurrencyEnvironment) {
             th.ASSOC_FIELD_CURRENCY_ISO_CODE = 'Name';
             th.QUOTE_FIELD_CURRENCY_ISO_CODE = 'SBQQ__Notes__c';
             th.COUPON_FIELD_CURRENCY_ISO_CODE = 'Name__c';
