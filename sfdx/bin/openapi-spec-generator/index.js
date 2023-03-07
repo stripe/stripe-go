@@ -122,6 +122,26 @@ const HTTPREQUEST = HTTPS.request(OPTIONS, HttpResponse => {
                     '<p>This is used to determine the number of billing cycles to prebill.</p>',
                     'integer'
                 );
+                formattedStripeObjectsForMapper = manuallyAddSectionToParsedOpenSpec(
+                    formattedStripeObjectsForMapper, 
+                    convertedObjectName,
+                    'Default settings Invoice settings',
+                    'default_settings.invoice_settings',
+                    'Invoice Rendering Template',
+                    'invoice_settings.template',
+                    '<p>Invoice rendering template id to use for this subscription\'s invoice.</p>',
+                    'string'
+                );
+                formattedStripeObjectsForMapper = manuallyAddSectionToParsedOpenSpec(
+                    formattedStripeObjectsForMapper, 
+                    convertedObjectName,
+                    'Default settings Invoice settings',
+                    'default_settings.invoice_settings',
+                    'Invoice Rendering Template Version',
+                    'invoice_settings.template_version',
+                    '<p>Version of the rendering template that will be used. If this field is null, then the latest version of the template will be automatically used.</p>',
+                    'integer'
+                );
             }
         }
         

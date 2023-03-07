@@ -1017,6 +1017,48 @@
           "sfValueType": ""
         }
       ]
+    },
+    {
+      "label": "Default settings Invoice settings",
+      "name": "default_settings.invoice_settings",
+      "description": "",
+      "fields": [
+        {
+          "name": "Invoice Rendering Template",
+          "value": "invoice_settings.template",
+          "description": "<p>Invoice rendering template id to use for this subscription's invoice.</p>",
+          "type": "string",
+          "defaultValue": "",
+          "requiredValue": "",
+          "hasOverride": false,
+          "staticValue": false,
+          "hasSfValue": false,
+          "hasRequiredValue": false,
+          "sfValue": "",
+          "sfValueType": ""
+        }
+      ]
+    },
+    {
+      "label": "Default settings Invoice settings",
+      "name": "default_settings.invoice_settings",
+      "description": "",
+      "fields": [
+        {
+          "name": "Invoice Rendering Template Version",
+          "value": "invoice_settings.template_version",
+          "description": "<p>Version of the rendering template that will be used. If this field is null, then the latest version of the template will be automatically used.</p>",
+          "type": "integer",
+          "defaultValue": "",
+          "requiredValue": "",
+          "hasOverride": false,
+          "staticValue": false,
+          "hasSfValue": false,
+          "hasRequiredValue": false,
+          "sfValue": "",
+          "sfValueType": ""
+        }
+      ]
     }
   ],
   "formattedStripeSubscriptionItemFields": [
