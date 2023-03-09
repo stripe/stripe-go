@@ -9,6 +9,7 @@ class Critic::OrderTranslation < Critic::FunctionalTest
     # Only run on Multi-Currency Enabled CI Accounts
     # If you are running this locally on a multi-currency scratch org, please go into make_user
     #   and add your scratch org ID similar to brennen's
+    log.info "Multi-currency test user details", is_multicurrency_org: @user.is_multicurrency_org?, sf_account_id: @user.salesforce_account_id
     unless @user.is_multicurrency_org?
       skip("Skipping multicurrency test on non-multicurrency org")
     end

@@ -265,7 +265,7 @@ GEM
       nio4r (~> 2.0)
     raabro (1.4.0)
     racc (1.6.2)
-    rack (2.2.6.2)
+    rack (2.2.6.3)
     rack-attack (6.6.1)
       rack (>= 1.0, < 3)
     rack-protection (2.2.4)
@@ -436,7 +436,6 @@ GEM
 
 PLATFORMS
   arm64-darwin-21
-  ruby
   x86_64-darwin-20
   x86_64-darwin-21
   x86_64-darwin-22
@@ -476,6 +475,7 @@ DEPENDENCIES
   pry-rescue (~> 1.5.2)
   pry-stack_explorer (~> 0.6.1)
   puma (~> 5.6.5)
+  rack (>= 2.2.6.3)
   rack-attack (~> 6.6.1)
   rack-test (~> 2.0.2)
   rails (~> 6.1.7.2)

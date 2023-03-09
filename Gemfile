@@ -10,6 +10,7 @@ gem 'sorbet-rails', '~> 0.7.34'
 
 # Force version dependents (to appease security audits)
 gem 'sinatra', '~> 2.2.3' # resque dependent
+gem 'rack', '>= 2.2.6.3'
 
 # https://github.com/ruby/irb/issues/43
 gem 'reline', '~> 0.3.1'

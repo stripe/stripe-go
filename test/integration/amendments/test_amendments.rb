@@ -584,8 +584,10 @@ class Critic::OrderAmendmentTranslation < Critic::OrderAmendmentFunctionalTest
       # initial order: starts Sept 29, billed yearly
       # amendment: starts 5 months later, on Feb 28, and ends 7 months later (should co-terminate with initial order)
 
-      # specifically pick an initial order day of month that does not exist in the amendment month
-      initial_order_start_date = DateTime.new(2022, 9, 30).utc.beginning_of_day
+      # Pick an initial order date that will result in the amendment start date landing on the 29th of February in a non-leap year (ie the 29th doesn't exist)
+      # If this test fails, it's most likely because we have passed initial_order_start_date + 5.months as initial_order_start_date is hard coded.
+      # To fix, just bump initial_order_start_date a year forward so long as that year + 1 is not a leap year.
+      initial_order_start_date = DateTime.new(2026, 9, 30).utc.beginning_of_day
       amendment_start_date = initial_order_start_date + 5.months
       amendment_term = 7
 
