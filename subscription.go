@@ -198,6 +198,15 @@ const (
 	SubscriptionPendingInvoiceItemIntervalIntervalYear  SubscriptionPendingInvoiceItemIntervalInterval = "year"
 )
 
+// Whether to cancel or preserve `prebilling` if the subscription is updated during the prebilled period.
+type SubscriptionPrebillingUpdateBehavior string
+
+// List of values that SubscriptionPrebillingUpdateBehavior can take
+const (
+	SubscriptionPrebillingUpdateBehaviorPrebill SubscriptionPrebillingUpdateBehavior = "prebill"
+	SubscriptionPrebillingUpdateBehaviorReset   SubscriptionPrebillingUpdateBehavior = "reset"
+)
+
 // Possible values are `incomplete`, `incomplete_expired`, `trialing`, `active`, `past_due`, `canceled`, or `unpaid`.
 //
 // For `collection_method=charge_automatically` a subscription moves into `incomplete` if the initial payment attempt fails. A subscription in this state can only have metadata and default_source updated. Once the first invoice is paid, the subscription moves into an `active` state. If the first invoice is not paid within 23 hours, the subscription transitions to `incomplete_expired`. This is a terminal state, the open invoice will be voided and no further invoices will be generated.
@@ -496,6 +505,8 @@ type SubscriptionPendingInvoiceItemIntervalParams struct {
 type SubscriptionPrebillingParams struct {
 	// This is used to determine the number of billing cycles to prebill.
 	Iterations *int64 `form:"iterations"`
+	// Whether to cancel or preserve `prebilling` if the subscription is updated during the prebilled period. The default value is `reset`.
+	UpdateBehavior *string `form:"update_behavior"`
 }
 
 // If specified, the funds from the subscription's invoices will be transferred to the destination and the ID of the resulting transfers will be found on the resulting charges.
@@ -830,6 +841,8 @@ type SubscriptionPrebilling struct {
 	PeriodEnd int64 `json:"period_end"`
 	// The start of the first period for which the invoice pre-bills.
 	PeriodStart int64 `json:"period_start"`
+	// Whether to cancel or preserve `prebilling` if the subscription is updated during the prebilled period.
+	UpdateBehavior SubscriptionPrebillingUpdateBehavior `json:"update_behavior"`
 }
 
 // The account (if any) the subscription's payments will be attributed to for tax reporting, and where funds from each payment will be transferred to for each of the subscription's invoices.

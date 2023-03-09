@@ -74,6 +74,16 @@ const (
 	TaxTransactionCustomerDetailsTaxIDTypeZAVAT    TaxTransactionCustomerDetailsTaxIDType = "za_vat"
 )
 
+// The taxability override used for taxation
+type TaxTransactionCustomerDetailsTaxabilityOverride string
+
+// List of values that TaxTransactionCustomerDetailsTaxabilityOverride can take
+const (
+	TaxTransactionCustomerDetailsTaxabilityOverrideCustomerExempt TaxTransactionCustomerDetailsTaxabilityOverride = "customer_exempt"
+	TaxTransactionCustomerDetailsTaxabilityOverrideNone           TaxTransactionCustomerDetailsTaxabilityOverride = "none"
+	TaxTransactionCustomerDetailsTaxabilityOverrideReverseCharge  TaxTransactionCustomerDetailsTaxabilityOverride = "reverse_charge"
+)
+
 // If `reversal`, this transaction reverses an earlier transaction.
 type TaxTransactionType string
 
@@ -90,11 +100,6 @@ type TaxTransactionParams struct {
 	FromCalculation *string `form:"from_calculation"`
 	// A custom order or sale identifier, such as 'myOrder_123'. Must be unique across all transactions.
 	Reference *string `form:"reference"`
-}
-
-// Lists Tax Transaction objects.
-type TaxTransactionListTransactionsParams struct {
-	ListParams `form:"*"`
 }
 
 // The line item amounts to reverse.
@@ -146,6 +151,8 @@ type TaxTransactionCustomerDetails struct {
 	AddressSource TaxTransactionCustomerDetailsAddressSource `json:"address_source"`
 	// The customer's IP address (IPv4 or IPv6).
 	IPAddress string `json:"ip_address"`
+	// The taxability override used for taxation
+	TaxabilityOverride TaxTransactionCustomerDetailsTaxabilityOverride `json:"taxability_override"`
 	// The customer's tax IDs (e.g., EU VAT numbers).
 	TaxIDs []*TaxTransactionCustomerDetailsTaxID `json:"tax_ids"`
 }
@@ -184,11 +191,4 @@ type TaxTransaction struct {
 	TaxDate int64 `json:"tax_date"`
 	// If `reversal`, this transaction reverses an earlier transaction.
 	Type TaxTransactionType `json:"type"`
-}
-
-// TaxTransactionList is a list of Transactions as retrieved from a list endpoint.
-type TaxTransactionList struct {
-	APIResource
-	ListMeta
-	Data []*TaxTransaction `json:"data"`
 }

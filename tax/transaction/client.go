@@ -112,45 +112,6 @@ func (i *LineItemIter) LineItemList() *stripe.LineItemList {
 	return i.List().(*stripe.LineItemList)
 }
 
-// ListTransactions is the method for the `GET /v1/tax/transactions` API.
-func ListTransactions(params *stripe.TaxTransactionListTransactionsParams) *Iter {
-	return getC().ListTransactions(params)
-}
-
-// ListTransactions is the method for the `GET /v1/tax/transactions` API.
-func (c Client) ListTransactions(listParams *stripe.TaxTransactionListTransactionsParams) *Iter {
-	return &Iter{
-		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
-			list := &stripe.TaxTransactionList{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/tax/transactions", c.Key, b, p, list)
-
-			ret := make([]interface{}, len(list.Data))
-			for i, v := range list.Data {
-				ret[i] = v
-			}
-
-			return ret, list, err
-		}),
-	}
-}
-
-// Iter is an iterator for tax transactions.
-type Iter struct {
-	*stripe.Iter
-}
-
-// TaxTransaction returns the tax transaction which the iterator is currently pointing to.
-func (i *Iter) TaxTransaction() *stripe.TaxTransaction {
-	return i.Current().(*stripe.TaxTransaction)
-}
-
-// TaxTransactionList returns the current list object which the iterator is
-// currently using. List objects will change as new API calls are made to
-// continue pagination.
-func (i *Iter) TaxTransactionList() *stripe.TaxTransactionList {
-	return i.List().(*stripe.TaxTransactionList)
-}
-
 func getC() Client {
 	return Client{stripe.GetBackend(stripe.APIBackend), stripe.Key}
 }
