@@ -11,6 +11,31 @@ import (
 	"github.com/stripe/stripe-go/v74/form"
 )
 
+// The customer submitted reason for why they cancelled, if the subscription was cancelled explicitly by the user.
+type SubscriptionCancellationDetailsFeedback string
+
+// List of values that SubscriptionCancellationDetailsFeedback can take
+const (
+	SubscriptionCancellationDetailsFeedbackCustomerService SubscriptionCancellationDetailsFeedback = "customer_service"
+	SubscriptionCancellationDetailsFeedbackLowQuality      SubscriptionCancellationDetailsFeedback = "low_quality"
+	SubscriptionCancellationDetailsFeedbackMissingFeatures SubscriptionCancellationDetailsFeedback = "missing_features"
+	SubscriptionCancellationDetailsFeedbackOther           SubscriptionCancellationDetailsFeedback = "other"
+	SubscriptionCancellationDetailsFeedbackSwitchedService SubscriptionCancellationDetailsFeedback = "switched_service"
+	SubscriptionCancellationDetailsFeedbackTooComplex      SubscriptionCancellationDetailsFeedback = "too_complex"
+	SubscriptionCancellationDetailsFeedbackTooExpensive    SubscriptionCancellationDetailsFeedback = "too_expensive"
+	SubscriptionCancellationDetailsFeedbackUnused          SubscriptionCancellationDetailsFeedback = "unused"
+)
+
+// Why this subscription was cancelled.
+type SubscriptionCancellationDetailsReason string
+
+// List of values that SubscriptionCancellationDetailsReason can take
+const (
+	SubscriptionCancellationDetailsReasonCancellationRequested SubscriptionCancellationDetailsReason = "cancellation_requested"
+	SubscriptionCancellationDetailsReasonPaymentDisputed       SubscriptionCancellationDetailsReason = "payment_disputed"
+	SubscriptionCancellationDetailsReasonPaymentFailed         SubscriptionCancellationDetailsReason = "payment_failed"
+)
+
 // Either `charge_automatically`, or `send_invoice`. When charging automatically, Stripe will attempt to pay this subscription at the end of the cycle using the default source attached to the customer. When sending an invoice, Stripe will email your customer an invoice with payment instructions and mark the subscription as `active`.
 type SubscriptionCollectionMethod string
 
@@ -171,6 +196,15 @@ const (
 	SubscriptionPendingInvoiceItemIntervalIntervalMonth SubscriptionPendingInvoiceItemIntervalInterval = "month"
 	SubscriptionPendingInvoiceItemIntervalIntervalWeek  SubscriptionPendingInvoiceItemIntervalInterval = "week"
 	SubscriptionPendingInvoiceItemIntervalIntervalYear  SubscriptionPendingInvoiceItemIntervalInterval = "year"
+)
+
+// Whether to cancel or preserve `prebilling` if the subscription is updated during the prebilled period.
+type SubscriptionPrebillingUpdateBehavior string
+
+// List of values that SubscriptionPrebillingUpdateBehavior can take
+const (
+	SubscriptionPrebillingUpdateBehaviorPrebill SubscriptionPrebillingUpdateBehavior = "prebill"
+	SubscriptionPrebillingUpdateBehaviorReset   SubscriptionPrebillingUpdateBehavior = "reset"
 )
 
 // Possible values are `incomplete`, `incomplete_expired`, `trialing`, `active`, `past_due`, `canceled`, or `unpaid`.
@@ -471,6 +505,8 @@ type SubscriptionPendingInvoiceItemIntervalParams struct {
 type SubscriptionPrebillingParams struct {
 	// This is used to determine the number of billing cycles to prebill.
 	Iterations *int64 `form:"iterations"`
+	// Whether to cancel or preserve `prebilling` if the subscription is updated during the prebilled period. The default value is `reset`.
+	UpdateBehavior *string `form:"update_behavior"`
 }
 
 // If specified, the funds from the subscription's invoices will be transferred to the destination and the ID of the resulting transfers will be found on the resulting charges.
@@ -520,6 +556,8 @@ type SubscriptionParams struct {
 	CancelAt *int64 `form:"cancel_at"`
 	// Boolean indicating whether this subscription should cancel at the end of the current period.
 	CancelAtPeriodEnd *bool `form:"cancel_at_period_end"`
+	// Details about why this subscription was cancelled
+	CancellationDetails *SubscriptionCancellationDetailsParams `form:"cancellation_details"`
 	// Either `charge_automatically`, or `send_invoice`. When charging automatically, Stripe will attempt to pay this subscription at the end of the cycle using the default source attached to the customer. When sending an invoice, Stripe will email your customer an invoice with payment instructions and mark the subscription as `active`. Defaults to `charge_automatically`.
 	CollectionMethod *string `form:"collection_method"`
 	// The ID of the coupon to apply to this subscription. A coupon applied to a subscription will only affect invoices created for that particular subscription.
@@ -594,12 +632,28 @@ func (s *SubscriptionParams) AppendTo(body *form.Values, keyParts []string) {
 	}
 }
 
+// Details about why this subscription was cancelled
+type SubscriptionCancellationDetailsParams struct {
+	// Additional comments about why the user canceled the subscription, if the subscription was cancelled explicitly by the user.
+	Comment *string `form:"comment"`
+	// The customer submitted reason for why they cancelled, if the subscription was cancelled explicitly by the user.
+	Feedback *string `form:"feedback"`
+}
+
 // If specified, payment collection for this subscription will be paused.
 type SubscriptionPauseCollectionParams struct {
 	// The payment collection behavior for this subscription while paused. One of `keep_as_draft`, `mark_uncollectible`, or `void`.
 	Behavior *string `form:"behavior"`
 	// The time after which the subscription will resume collecting payments.
 	ResumesAt *int64 `form:"resumes_at"`
+}
+
+// Details about why this subscription was cancelled
+type SubscriptionCancelCancellationDetailsParams struct {
+	// Additional comments about why the user canceled the subscription, if the subscription was cancelled explicitly by the user.
+	Comment *string `form:"comment"`
+	// The customer submitted reason for why they cancelled, if the subscription was cancelled explicitly by the user.
+	Feedback *string `form:"feedback"`
 }
 
 // Cancels a customer's subscription immediately. The customer will not be charged again for the subscription.
@@ -609,6 +663,8 @@ type SubscriptionPauseCollectionParams struct {
 // By default, upon subscription cancellation, Stripe will stop automatic collection of all finalized invoices for the customer. This is intended to prevent unexpected payment attempts after the customer has canceled a subscription. However, you can resume automatic collection of the invoices manually after subscription cancellation to have us proceed. Or, you could check for unpaid invoices before allowing the customer to cancel the subscription at all.
 type SubscriptionCancelParams struct {
 	Params `form:"*"`
+	// Details about why this subscription was cancelled
+	CancellationDetails *SubscriptionCancelCancellationDetailsParams `form:"cancellation_details"`
 	// Will generate a final invoice that invoices for any un-invoiced metered usage and new/pending proration invoice items.
 	InvoiceNow *bool `form:"invoice_now"`
 	// Will generate a proration invoice item that credits remaining unused time until the subscription period end.
@@ -641,6 +697,16 @@ type SubscriptionBillingThresholds struct {
 	AmountGTE int64 `json:"amount_gte"`
 	// Indicates if the `billing_cycle_anchor` should be reset when a threshold is reached. If true, `billing_cycle_anchor` will be updated to the date/time the threshold was last reached; otherwise, the value will remain unchanged. This value may not be `true` if the subscription contains items with plans that have `aggregate_usage=last_ever`.
 	ResetBillingCycleAnchor bool `json:"reset_billing_cycle_anchor"`
+}
+
+// Details about why this subscription was cancelled
+type SubscriptionCancellationDetails struct {
+	// Additional comments about why the user canceled the subscription, if the subscription was cancelled explicitly by the user.
+	Comment string `json:"comment"`
+	// The customer submitted reason for why they cancelled, if the subscription was cancelled explicitly by the user.
+	Feedback SubscriptionCancellationDetailsFeedback `json:"feedback"`
+	// Why this subscription was cancelled.
+	Reason SubscriptionCancellationDetailsReason `json:"reason"`
 }
 
 // If specified, payment collection for this subscription will be paused.
@@ -775,6 +841,8 @@ type SubscriptionPrebilling struct {
 	PeriodEnd int64 `json:"period_end"`
 	// The start of the first period for which the invoice pre-bills.
 	PeriodStart int64 `json:"period_start"`
+	// Whether to cancel or preserve `prebilling` if the subscription is updated during the prebilled period.
+	UpdateBehavior SubscriptionPrebillingUpdateBehavior `json:"update_behavior"`
 }
 
 // The account (if any) the subscription's payments will be attributed to for tax reporting, and where funds from each payment will be transferred to for each of the subscription's invoices.
@@ -817,6 +885,8 @@ type Subscription struct {
 	CancelAtPeriodEnd bool `json:"cancel_at_period_end"`
 	// If the subscription has been canceled, the date of that cancellation. If the subscription was canceled with `cancel_at_period_end`, `canceled_at` will reflect the time of the most recent update request, not the end of the subscription period when the subscription is automatically moved to a canceled state.
 	CanceledAt int64 `json:"canceled_at"`
+	// Details about why this subscription was cancelled
+	CancellationDetails *SubscriptionCancellationDetails `json:"cancellation_details"`
 	// Either `charge_automatically`, or `send_invoice`. When charging automatically, Stripe will attempt to pay this subscription at the end of the cycle using the default source attached to the customer. When sending an invoice, Stripe will email your customer an invoice with payment instructions and mark the subscription as `active`.
 	CollectionMethod SubscriptionCollectionMethod `json:"collection_method"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.

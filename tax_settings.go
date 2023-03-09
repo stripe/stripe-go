@@ -6,6 +6,16 @@
 
 package stripe
 
+// Default [tax behavior](https://stripe.com/docs/tax/products-prices-tax-categories-tax-behavior#tax-behavior) used to specify whether the price is considered inclusive of taxes or exclusive of taxes. If the item's price has a tax behavior set, it will take precedence over the default tax behavior.
+type TaxSettingsDefaultsTaxBehavior string
+
+// List of values that TaxSettingsDefaultsTaxBehavior can take
+const (
+	TaxSettingsDefaultsTaxBehaviorExclusive          TaxSettingsDefaultsTaxBehavior = "exclusive"
+	TaxSettingsDefaultsTaxBehaviorInclusive          TaxSettingsDefaultsTaxBehavior = "inclusive"
+	TaxSettingsDefaultsTaxBehaviorInferredByCurrency TaxSettingsDefaultsTaxBehavior = "inferred_by_currency"
+)
+
 // The role of this location address.
 type TaxSettingsLocationRole string
 
@@ -25,6 +35,8 @@ type TaxSettingsParams struct {
 
 // Default configuration to be used on Stripe Tax calculations.
 type TaxSettingsDefaultsParams struct {
+	// Specifies the default [tax behavior](https://stripe.com/docs/tax/products-prices-tax-categories-tax-behavior#tax-behavior) to be used when the item's price has unspecified tax behavior. One of inclusive, exclusive, or inferred_by_currency. Once specified, it cannot be changed back to null.
+	TaxBehavior *string `form:"tax_behavior"`
 	// A [tax code](https://stripe.com/docs/tax/tax-categories) ID.
 	TaxCode *string `form:"tax_code"`
 }
@@ -37,6 +49,8 @@ type TaxSettingsLocationParams struct {
 	Role *string `form:"role"`
 }
 type TaxSettingsDefaults struct {
+	// Default [tax behavior](https://stripe.com/docs/tax/products-prices-tax-categories-tax-behavior#tax-behavior) used to specify whether the price is considered inclusive of taxes or exclusive of taxes. If the item's price has a tax behavior set, it will take precedence over the default tax behavior.
+	TaxBehavior TaxSettingsDefaultsTaxBehavior `json:"tax_behavior"`
 	// Default [tax code](https://stripe.com/docs/tax/tax-categories) used to classify your products and prices.
 	TaxCode string `json:"tax_code"`
 }

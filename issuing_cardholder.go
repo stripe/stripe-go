@@ -13,9 +13,10 @@ type IssuingCardholderRequirementsDisabledReason string
 
 // List of values that IssuingCardholderRequirementsDisabledReason can take
 const (
-	IssuingCardholderRequirementsDisabledReasonListed         IssuingCardholderRequirementsDisabledReason = "listed"
-	IssuingCardholderRequirementsDisabledReasonRejectedListed IssuingCardholderRequirementsDisabledReason = "rejected.listed"
-	IssuingCardholderRequirementsDisabledReasonUnderReview    IssuingCardholderRequirementsDisabledReason = "under_review"
+	IssuingCardholderRequirementsDisabledReasonListed              IssuingCardholderRequirementsDisabledReason = "listed"
+	IssuingCardholderRequirementsDisabledReasonRejectedListed      IssuingCardholderRequirementsDisabledReason = "rejected.listed"
+	IssuingCardholderRequirementsDisabledReasonRequirementsPastDue IssuingCardholderRequirementsDisabledReason = "requirements.past_due"
+	IssuingCardholderRequirementsDisabledReasonUnderReview         IssuingCardholderRequirementsDisabledReason = "under_review"
 )
 
 // Interval (or event) to which the amount applies.
@@ -79,6 +80,22 @@ type IssuingCardholderCompanyParams struct {
 	TaxID *string `form:"tax_id"`
 }
 
+// Information about cardholder acceptance of [Authorized User Terms](https://stripe.com/docs/issuing/cards).
+type IssuingCardholderIndividualCardIssuingUserTermsAcceptanceParams struct {
+	// The Unix timestamp marking when the cardholder accepted the Authorized User Terms. Required for Celtic Spend Card users.
+	Date *int64 `form:"date"`
+	// The IP address from which the cardholder accepted the Authorized User Terms. Required for Celtic Spend Card users.
+	IP *string `form:"ip"`
+	// The user agent of the browser from which the cardholder accepted the Authorized User Terms.
+	UserAgent *string `form:"user_agent"`
+}
+
+// Information related to the card_issuing program for this cardholder.
+type IssuingCardholderIndividualCardIssuingParams struct {
+	// Information about cardholder acceptance of [Authorized User Terms](https://stripe.com/docs/issuing/cards).
+	UserTermsAcceptance *IssuingCardholderIndividualCardIssuingUserTermsAcceptanceParams `form:"user_terms_acceptance"`
+}
+
 // The date of birth of this cardholder.
 type IssuingCardholderIndividualDOBParams struct {
 	// The day of birth, between 1 and 31.
@@ -105,6 +122,8 @@ type IssuingCardholderIndividualVerificationParams struct {
 
 // Additional information about an `individual` cardholder.
 type IssuingCardholderIndividualParams struct {
+	// Information related to the card_issuing program for this cardholder.
+	CardIssuing *IssuingCardholderIndividualCardIssuingParams `form:"card_issuing"`
 	// The date of birth of this cardholder.
 	DOB *IssuingCardholderIndividualDOBParams `form:"dob"`
 	// The first name of this cardholder. Required before activating Cards. This field cannot contain any numbers, special characters (except periods, commas, hyphens, spaces and apostrophes) or non-latin letters.

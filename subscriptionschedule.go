@@ -118,6 +118,15 @@ const (
 	SubscriptionSchedulePhaseTrialSettingsEndBehaviorProrateUpFrontInclude SubscriptionSchedulePhaseTrialSettingsEndBehaviorProrateUpFront = "include"
 )
 
+// Whether to cancel or preserve `prebilling` if the subscription is updated during the prebilled period.
+type SubscriptionSchedulePrebillingUpdateBehavior string
+
+// List of values that SubscriptionSchedulePrebillingUpdateBehavior can take
+const (
+	SubscriptionSchedulePrebillingUpdateBehaviorPrebill SubscriptionSchedulePrebillingUpdateBehavior = "prebill"
+	SubscriptionSchedulePrebillingUpdateBehaviorReset   SubscriptionSchedulePrebillingUpdateBehavior = "reset"
+)
+
 // The present status of the subscription schedule. Possible values are `not_started`, `active`, `completed`, `released`, and `canceled`. You can read more about the different states in our [behavior guide](https://stripe.com/docs/billing/subscriptions/subscription-schedules).
 type SubscriptionScheduleStatus string
 
@@ -412,6 +421,8 @@ func (s *SubscriptionSchedulePhaseParams) AppendTo(body *form.Values, keyParts [
 type SubscriptionSchedulePrebillingParams struct {
 	// This is used to determine the number of billing cycles to prebill.
 	Iterations *int64 `form:"iterations"`
+	// Whether to cancel or preserve `prebilling` if the subscription is updated during the prebilled period. The default value is `reset`.
+	UpdateBehavior *string `form:"update_behavior"`
 }
 
 // Creates a new subscription schedule object. Each customer can have up to 500 active or scheduled subscriptions.
@@ -709,6 +720,60 @@ type SubscriptionScheduleAmendAmendmentParams struct {
 	TrialSettings *SubscriptionScheduleAmendAmendmentTrialSettingsParams `form:"trial_settings"`
 }
 
+// Start the prebilled period when a specified amendment begins.
+type SubscriptionScheduleAmendPrebillingBillFromAmendmentStartParams struct {
+	// The position of the amendment in the `amendments` array with which prebilling should begin. Indexes start from 0 and must be less than the total number of supplied amendments.
+	Index *int64 `form:"index"`
+}
+
+// The beginning of the prebilled time period. The default value is `now`.
+type SubscriptionScheduleAmendPrebillingBillFromParams struct {
+	// Start the prebilled period when a specified amendment begins.
+	AmendmentStart *SubscriptionScheduleAmendPrebillingBillFromAmendmentStartParams `form:"amendment_start"`
+	// Start the prebilled period at a precise integer timestamp, starting from the Unix epoch.
+	Timestamp *int64 `form:"timestamp"`
+	// Select one of several ways to pass the `bill_from` value.
+	Type *string `form:"type"`
+}
+
+// End the prebilled period when a specified amendment ends.
+type SubscriptionScheduleAmendPrebillingBillUntilAmendmentEndParams struct {
+	// The position of the amendment in the `amendments` array at which prebilling should end. Indexes start from 0 and must be less than the total number of supplied amendments.
+	Index *int64 `form:"index"`
+}
+
+// Time span for prebilling, starting from `bill_from`.
+type SubscriptionScheduleAmendPrebillingBillUntilDurationParams struct {
+	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
+	Interval *string `form:"interval"`
+	// The number of intervals, as an whole number greater than 0. Stripe multiplies this by the interval type to get the overall duration.
+	IntervalCount *int64 `form:"interval_count"`
+}
+
+// The end of the prebilled time period.
+type SubscriptionScheduleAmendPrebillingBillUntilParams struct {
+	// End the prebilled period when a specified amendment ends.
+	AmendmentEnd *SubscriptionScheduleAmendPrebillingBillUntilAmendmentEndParams `form:"amendment_end"`
+	// Time span for prebilling, starting from `bill_from`.
+	Duration *SubscriptionScheduleAmendPrebillingBillUntilDurationParams `form:"duration"`
+	// End the prebilled period at a precise integer timestamp, starting from the Unix epoch.
+	Timestamp *int64 `form:"timestamp"`
+	// Select one of several ways to pass the `bill_until` value.
+	Type *string `form:"type"`
+}
+
+// Provide any time periods to bill in advance.
+type SubscriptionScheduleAmendPrebillingParams struct {
+	// The beginning of the prebilled time period. The default value is `now`.
+	BillFrom *SubscriptionScheduleAmendPrebillingBillFromParams `form:"bill_from"`
+	// The end of the prebilled time period.
+	BillUntil *SubscriptionScheduleAmendPrebillingBillUntilParams `form:"bill_until"`
+	// When the prebilling invoice should be created. The default value is `now`.
+	InvoiceAt *string `form:"invoice_at"`
+	// Whether to cancel or preserve `prebilling` if the subscription is updated during the prebilled period. The default value is `reset`.
+	UpdateBehavior *string `form:"update_behavior"`
+}
+
 // Changes to apply to the subscription schedule.
 type SubscriptionScheduleAmendScheduleSettingsParams struct {
 	// Behavior of the subscription schedule and underlying subscription when it ends.
@@ -720,6 +785,8 @@ type SubscriptionScheduleAmendParams struct {
 	Params `form:"*"`
 	// Changes to apply to the phases of the subscription schedule, in the order provided.
 	Amendments []*SubscriptionScheduleAmendAmendmentParams `form:"amendments"`
+	// Provide any time periods to bill in advance.
+	Prebilling []*SubscriptionScheduleAmendPrebillingParams `form:"prebilling"`
 	// In cases where the amendment changes the currently active phase,
 	//  specifies if and how to prorate at the time of the request.
 	ProrationBehavior *string `form:"proration_behavior"`
@@ -742,8 +809,6 @@ type SubscriptionScheduleReleaseParams struct {
 	// Keep any cancellation on the subscription that the schedule has set
 	PreserveCancelDate *bool `form:"preserve_cancel_date"`
 }
-
-// Details to identify the subscription schedule the quote line applies to.
 type SubscriptionScheduleAppliesTo struct {
 	// A custom string that identifies a new subscription schedule being created upon quote acceptance. All quote lines with the same `new_reference` field will be applied to the creation of a new subscription schedule.
 	NewReference string `json:"new_reference"`
@@ -956,6 +1021,8 @@ type SubscriptionSchedulePrebilling struct {
 	PeriodEnd int64 `json:"period_end"`
 	// The start of the first period for which the invoice pre-bills.
 	PeriodStart int64 `json:"period_start"`
+	// Whether to cancel or preserve `prebilling` if the subscription is updated during the prebilled period.
+	UpdateBehavior SubscriptionSchedulePrebillingUpdateBehavior `json:"update_behavior"`
 }
 
 // A subscription schedule allows you to create and manage the lifecycle of a subscription by predefining expected changes.
@@ -964,9 +1031,8 @@ type SubscriptionSchedulePrebilling struct {
 type SubscriptionSchedule struct {
 	APIResource
 	// ID of the Connect Application that created the schedule.
-	Application *Application `json:"application"`
-	// Details to identify the subscription schedule the quote line applies to.
-	AppliesTo *SubscriptionScheduleAppliesTo `json:"applies_to"`
+	Application *Application                   `json:"application"`
+	AppliesTo   *SubscriptionScheduleAppliesTo `json:"applies_to"`
 	// Configures when the subscription schedule generates prorations for phase transitions. Possible values are `prorate_on_next_phase` or `prorate_up_front` with the default being `prorate_on_next_phase`. `prorate_on_next_phase` will apply phase changes and generate prorations at transition time.`prorate_up_front` will bill for all phases within the current billing cycle up front.
 	BillingBehavior SubscriptionScheduleBillingBehavior `json:"billing_behavior"`
 	// Time at which the subscription schedule was canceled. Measured in seconds since the Unix epoch.
