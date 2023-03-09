@@ -1,5 +1,12 @@
 # Changelog
 
+## 74.11.0 - 2023-03-09
+* [#1616](https://github.com/stripe/stripe-go/pull/1616) API Updates
+  * Add support for `CardIssuing` on `IssuingCardholderIndividualParams`
+  * Add support for new value `requirements.past_due` on enum `IssuingCardholderRequirementsDisabledReason`
+  * Add support for `CancellationDetails` on `SubscriptionCancelParams`, `SubscriptionParams`, and `Subscription`
+  
+
 ## 74.10.0 - 2023-03-02
 * [#1614](https://github.com/stripe/stripe-go/pull/1614) API Updates
   * Add support for `ReconciliationStatus` on `Payout`
