@@ -1,5 +1,11 @@
 # Changelog
 
+## 74.11.0 - 2023-03-09
+* [#1616](https://github.com/stripe/stripe-go/pull/1616) API Updates
+  * Add support for `CardIssuing` on `IssuingCardholderIndividualParams`
+  * Add support for new value `requirements.past_due` on enum `IssuingCardholderRequirementsDisabledReason`
+  * Add support for `CancellationDetails` on `SubscriptionCancelParams`, `SubscriptionParams`, and `Subscription`
+
 ## 74.11.0-beta.1 - 2023-03-02
 * [#1615](https://github.com/stripe/stripe-go/pull/1615) API Updates for beta branch
   * Updated stable APIs to the latest version
