@@ -122,26 +122,20 @@ const HTTPREQUEST = HTTPS.request(OPTIONS, HttpResponse => {
                     '<p>This is used to determine the number of billing cycles to prebill.</p>',
                     'integer'
                 );
-                formattedStripeObjectsForMapper = manuallyAddSectionToParsedOpenSpec(
-                    formattedStripeObjectsForMapper, 
-                    convertedObjectName,
-                    'Default settings Invoice settings',
-                    'default_settings.invoice_settings',
-                    'Invoice Rendering Template',
-                    'invoice_settings.template',
-                    '<p>Invoice rendering template id to use for this subscription\'s invoice.</p>',
-                    'string'
-                );
-                formattedStripeObjectsForMapper = manuallyAddSectionToParsedOpenSpec(
-                    formattedStripeObjectsForMapper, 
-                    convertedObjectName,
-                    'Default settings Invoice settings',
-                    'default_settings.invoice_settings',
-                    'Invoice Rendering Template Version',
-                    'invoice_settings.template_version',
-                    '<p>Version of the rendering template that will be used. If this field is null, then the latest version of the template will be automatically used.</p>',
-                    'integer'
-                );
+          
+                // Push fields to 'Default settings Invoice settings' section
+                rendering_template_field = getNewFieldObject(
+                    "template",
+                    "default_settings.invoice_settings.rendering.template",
+                    "Invoice rendering template id to use for this subscription\'s invoice",
+                    "string");
+                rendering_template_version_field = getNewFieldObject(
+                    'template version',
+                    'default_settings.invoice_settings.rendering.template_version',
+                    'Version of the rendering template that will be used. If this field is null, then the latest version of the template will be automatically used.',
+                    'integer'); 
+                formattedStripeObjectsForMapper['formattedStripe' + convertedObjectName + 'Fields']
+                    .find(object => object.name == "default_settings.invoice_settings").fields.push(rendering_template_field, rendering_template_version_field);
             }
         }
         
@@ -434,12 +428,12 @@ function combineDuplicateSections(stripeObjectMappings) {
     }, []);
 }
 
-function getNewFieldObject(fieldName, fieldValue) {
+function getNewFieldObject(fieldName, fieldValue, description='', type='') {
     const fieldMap = {
         name: fieldName,
         value: fieldValue,
-        description: '',
-        type: '',
+        description: description,
+        type: type,
         defaultValue: '',
         requiredValue: '',
         hasOverride: false,

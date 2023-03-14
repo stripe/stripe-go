@@ -197,9 +197,20 @@ class Stripe::SubscriptionSchedulePhase < Stripe::StripeObject
   def discounts; end
 end
 
+class Stripe::InvoiceSettingRendering
+  sig { returns(String) }
+  def template; end
+
+  sig { returns(Integer) }
+  def template_version; end
+end
+
 class Stripe::SubscriptionScheduleInvoiceSettings
   sig {returns(Integer)}
   def days_until_due; end
+
+  sig {returns(Stripe::InvoiceSettingRendering)}
+  def rendering; end
 end
 
 class Stripe::SubscriptionScheduleSettings

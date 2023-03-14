@@ -109,5 +109,16 @@ module Critic
 
       [stripe_product, stripe_price]
     end
+
+    # Creating an Invoice Rendering Templates is not yet supported
+    # You can use the CreateInvoiceRenderingTemplate excelsior task (excl_NV8KZJ1238xCtc) to create a test template
+    def create_invoice_rendering_template
+       if ENV['CI']
+        return "inrtem_1MlJnCC9fP1FVBtd3ts6JiPC"
+       end
+
+       # StripeForceDemo acct
+       "inrtem_1Mk83SIsgf92XbAOfQinG8BA"
+    end
   end
 end
