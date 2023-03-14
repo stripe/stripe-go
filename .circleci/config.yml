@@ -61,6 +61,7 @@ workflows:
               <<: *ruby_test_accounts
               cache_disabled:
                 - "false"
+                - "true"
           requires: ["clean_salesforce_2"]
 
   nightly:
@@ -374,10 +375,18 @@ jobs:
             fi
 
       - run:
-          name: Non-Caching Run
+          name: Ruby Tests
           when: always
           no_output_timeout: "20m"
           command: |
+
+            # Skip non-caching run unless this is the nightly job
+            # more info on why `CIRCLE_USERNAME` is used: https://github.com/stripe/stripe-netsuite/pull/2455
+            if [ ! -z "$CIRCLE_USERNAME" ] && [ "$DISABLE_CACHE" == "true" ]; then
+              echo "Skipping live API calls on non-nightly run build."
+              exit 0
+            fi
+            
             echo "Instance Domain: $SF_INSTANCE_DOMAIN"
             echo "Instance Id: $SF_INSTANCE_ID"
             echo "Access Token: $SF_ACCESS_TOKEN\n"
