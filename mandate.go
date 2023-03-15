@@ -170,6 +170,7 @@ type MandatePaymentMethodDetailsBLIK struct {
 	Type MandatePaymentMethodDetailsBLIKType `json:"type"`
 }
 type MandatePaymentMethodDetailsCard struct{}
+type MandatePaymentMethodDetailsCashapp struct{}
 type MandatePaymentMethodDetailsLink struct{}
 type MandatePaymentMethodDetailsSEPADebit struct {
 	// The unique reference of the mandate.
@@ -184,6 +185,7 @@ type MandatePaymentMethodDetails struct {
 	BACSDebit   *MandatePaymentMethodDetailsBACSDebit   `json:"bacs_debit"`
 	BLIK        *MandatePaymentMethodDetailsBLIK        `json:"blik"`
 	Card        *MandatePaymentMethodDetailsCard        `json:"card"`
+	Cashapp     *MandatePaymentMethodDetailsCashapp     `json:"cashapp"`
 	Link        *MandatePaymentMethodDetailsLink        `json:"link"`
 	SEPADebit   *MandatePaymentMethodDetailsSEPADebit   `json:"sepa_debit"`
 	// The type of the payment method associated with this mandate. An additional hash is included on `payment_method_details` with a name matching this value. It contains mandate information specific to the payment method.

@@ -269,6 +269,12 @@ type AccountCapabilitiesCartesBancairesPaymentsParams struct {
 	Requested *bool `form:"requested"`
 }
 
+// The cashapp_payments capability.
+type AccountCapabilitiesCashappPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
 // The eps_payments capability.
 type AccountCapabilitiesEPSPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
@@ -427,6 +433,8 @@ type AccountCapabilitiesParams struct {
 	CardPayments *AccountCapabilitiesCardPaymentsParams `form:"card_payments"`
 	// The cartes_bancaires_payments capability.
 	CartesBancairesPayments *AccountCapabilitiesCartesBancairesPaymentsParams `form:"cartes_bancaires_payments"`
+	// The cashapp_payments capability.
+	CashappPayments *AccountCapabilitiesCashappPaymentsParams `form:"cashapp_payments"`
 	// The eps_payments capability.
 	EPSPayments *AccountCapabilitiesEPSPaymentsParams `form:"eps_payments"`
 	// The fpx_payments capability.
@@ -854,6 +862,8 @@ type AccountCapabilities struct {
 	CardPayments AccountCapabilityStatus `json:"card_payments"`
 	// The status of the Cartes Bancaires payments capability of the account, or whether the account can directly process Cartes Bancaires card charges in EUR currency.
 	CartesBancairesPayments AccountCapabilityStatus `json:"cartes_bancaires_payments"`
+	// The status of the Cash App Pay capability of the account, or whether the account can directly process Cash App Pay payments.
+	CashappPayments AccountCapabilityStatus `json:"cashapp_payments"`
 	// The status of the EPS payments capability of the account, or whether the account can directly process EPS charges.
 	EPSPayments AccountCapabilityStatus `json:"eps_payments"`
 	// The status of the FPX payments capability of the account, or whether the account can directly process FPX charges.
