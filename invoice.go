@@ -115,6 +115,7 @@ const (
 	InvoicePaymentSettingsPaymentMethodTypeBancontact         InvoicePaymentSettingsPaymentMethodType = "bancontact"
 	InvoicePaymentSettingsPaymentMethodTypeBoleto             InvoicePaymentSettingsPaymentMethodType = "boleto"
 	InvoicePaymentSettingsPaymentMethodTypeCard               InvoicePaymentSettingsPaymentMethodType = "card"
+	InvoicePaymentSettingsPaymentMethodTypeCashapp            InvoicePaymentSettingsPaymentMethodType = "cashapp"
 	InvoicePaymentSettingsPaymentMethodTypeCustomerBalance    InvoicePaymentSettingsPaymentMethodType = "customer_balance"
 	InvoicePaymentSettingsPaymentMethodTypeFPX                InvoicePaymentSettingsPaymentMethodType = "fpx"
 	InvoicePaymentSettingsPaymentMethodTypeGiropay            InvoicePaymentSettingsPaymentMethodType = "giropay"
