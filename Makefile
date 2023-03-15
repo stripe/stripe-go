@@ -40,6 +40,6 @@ update-version:
 
 codegen-format:
 	go fmt ./...
-	goimports -w example/generated_examples_test.go
+	go install golang.org/x/tools/cmd/goimports@latest && goimports -w example/generated_examples_test.go
 
 .PHONY: codegen-format update-version
