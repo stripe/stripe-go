@@ -447,5 +447,20 @@ module Critic
         'ProductId' => product_id,
       })
     end
+
+    def stub_salesforce_query_result(number_of_results: 1)
+
+      # RestForce abstracts away paging, so we can safely mock this as a simple list
+      # https://github.com/restforce/restforce/blob/main/lib/restforce/collection.rb#L15
+      result_list = []
+
+      number_of_results.times do |_t|
+        result_list << Restforce::SObject.new({"Id" => create_salesforce_id})
+      end
+
+      Restforce::Data::Client.any_instance.expects(:query).returns(result_list)
+
+      result_list
+    end
   end
 end

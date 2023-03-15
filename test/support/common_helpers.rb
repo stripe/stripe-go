@@ -54,7 +54,7 @@ module Critic::CommonHelpers
   end
 
   sig { params(sandbox: T::Boolean, save: T::Boolean, random_user_id: T::Boolean, livemode: T::Boolean).returns(StripeForce::User) }
-  def make_user(sandbox: false, save: false, random_user_id: false, livemode: false)
+  def make_user(sandbox: true, save: false, random_user_id: false, livemode: false)
     user = StripeForce::User.new(
       livemode: livemode,
 
@@ -104,7 +104,12 @@ module Critic::CommonHelpers
     # disable this to prevent flooding SF with API calls while testing
     user.disable_feature(FeatureFlags::CATCH_ALL_ERRORS)
 
-    user.connector_settings[CONNECTOR_SETTING_SALESFORCE_INSTANCE_TYPE] = SFInstanceTypes::SANDBOX.serialize
+    if sandbox
+      user.connector_settings[CONNECTOR_SETTING_SALESFORCE_INSTANCE_TYPE] = SFInstanceTypes::SANDBOX.serialize
+    else
+      user.connector_settings[CONNECTOR_SETTING_SALESFORCE_INSTANCE_TYPE] = SFInstanceTypes::PRODUCTION.serialize
+    end
+
     user.save if save
 
     user

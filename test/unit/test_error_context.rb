@@ -79,7 +79,7 @@ class Critic::ErrorContextTest < Critic::UnitTest
     end
 
     it 'decreases log level for sandbox users to reduce log noise' do
-      user = make_user(sandbox: true)
+      user = make_user
       user.disable_feature(FeatureFlags::LOUD_SANDBOX_LOGGING)
       assert(user.sandbox?)
 

@@ -5,8 +5,6 @@ require_relative 'poller_base'
 
 class StripeForce::OrderPoller < StripeForce::PollerBase
   def perform
-    # TODO lock on job in a separate wrapper job in the future
-    locker.lock_on_poll_job(self.class)
 
     execution_time = Time.now.utc
     poll_record = poll_timestamp
@@ -26,25 +24,26 @@ class StripeForce::OrderPoller < StripeForce::PollerBase
     # important to use `size` here and not count because of the paging issue described below
     log.info 'order query complete', size: updated_orders.size
 
+    fail_if_dying_worker!
+
     # although `updated_orders` looks like a normal array, it's a Restforce::Collection
     # `each` will automatically loop through all pages, but `map` and other array-methods will NOT.
     # make sure `each` is always used here.
-    # https://github.com/restforce/restforce/blob/685900a6c3d24f860f18b38448eda7b39187b2fe/lib/restforce/collection.rb#L15
-
+    # https://github.com/restforce/restforce/blob/main/lib/restforce/collection.rb#L15
     updated_order_ids = []
     updated_orders.each do |sf_order|
+      # refresh lock every 100 records in case we are processing a large batch
+      if !locker.nil? && updated_order_ids.length % 100 == 0
+        locker.lock_on_poll_job(self.class)
+      end
+
+      log.info 'queuing order', sf_order_id: sf_order.Id
+      SalesforceTranslateRecordJob.work(@user, sf_order.Id)
+
       updated_order_ids << sf_order.Id
     end
 
-    fail_if_dying_worker!
-
-    # TODO should refresh the poll lock
     # TODO updating the line item does NOT update the order, do we need to worry about this?
-
-    updated_order_ids.each do |sf_order_id|
-      log.info 'queuing order', sf_order_id: sf_order_id
-      SalesforceTranslateRecordJob.work(@user, sf_order_id)
-    end
 
     log.info 'poll complete', poll_size: updated_order_ids.count
 

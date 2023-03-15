@@ -5,8 +5,6 @@ require_relative 'poller_base'
 
 class StripeForce::AccountPoller < StripeForce::PollerBase
   def perform
-    locker.lock_on_poll_job(self.class)
-
     current_execution_time = Time.now.utc
     poll_record = poll_timestamp
 

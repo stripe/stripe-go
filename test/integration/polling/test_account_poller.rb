@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 # typed: ignore
 
-require_relative '../test_helper'
+require_relative '../../test_helper'
 
 class Critic::AccountPollerTest < Critic::FunctionalTest
   before do

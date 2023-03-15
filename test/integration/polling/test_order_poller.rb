@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 # typed: ignore
 
-require_relative '../test_helper'
+require_relative '../../test_helper'
 
 class Critic::OrderPollerTest < Critic::FunctionalTest
   before do
-    @user = make_user
+    @user = make_user(save: true)
     inline_job_processing!
   end
 
@@ -34,7 +34,7 @@ class Critic::OrderPollerTest < Critic::FunctionalTest
       # lock error should be raised if we try lock on another instance of the job
       exception = assert_raises(Integrations::Errors::LockTimeout) do
         initial_poll.update(last_polled_at: DateTime.now - POLL_FREQUENCY - 1.minute)
-        StripeForce::InitiatePollsJobs.queue_polls_for_user(@user)
+        StripeForce::SalesforcePollJob.perform(@user.salesforce_account_id, @user.stripe_account_id, @user.livemode, "StripeForce::OrderPoller")
       end
 
       # key is included in exception, and should include the job
@@ -87,27 +87,25 @@ class Critic::OrderPollerTest < Critic::FunctionalTest
     # ensure the ending time is not in the same second
     sleep(1)
 
-    # TODO right now, this works since we only have a single order poll, this will need to be specific to orders in the future
-    StripeForce::InitiatePollsJobs.perform
+    StripeForce::SalesforcePollJob.perform(@user.salesforce_account_id, @user.stripe_account_id, @user.livemode, "StripeForce::OrderPoller")
   end
 
   it 'refreshes the poll lock if there are locks of records to process' do
-    skip("to implement after we split out the poll job into a separate resque job")
 
     inline_job_processing!
 
-    initial_poll = set_initial_poll_timestamp(NetSuite::Records::Invoice)
+    initial_poll = set_initial_poll_timestamp(SF_ORDER)
 
     # lock is refreshed every 100 records
     record_total = 105
-    stub_netsuite_batch_search_result(NetSuite::Records::Invoice, number_of_results: record_total)
+    stub_salesforce_query_result(number_of_results: record_total)
 
     lock_key = nil
     initial_lock_value = nil
     final_lock_value = nil
     queued_count = 0
 
-    NetsuiteProcessRecordJob.expects(:work).at_least_once.with do |*args|
+    SalesforceTranslateRecordJob.expects(:work).at_least_once.with do |*args|
       # sleep for ~second to ensure the expiration time will change when refreshed
       sleep 0.01
 
@@ -122,15 +120,14 @@ class Critic::OrderPollerTest < Critic::FunctionalTest
       # for a poll job lock key and retrieve the expiration value to ensure it's refreshed
       # later in the processing loop
       if initial_lock_value.nil?
-        lock_key = redis.keys.detect {|k| k.include?('SuiteSync::InvoicePoller') }
+        lock_key = redis.keys.detect {|k| k.include?('StripeForce::OrderPoller') }
         initial_lock_value = redis.get(lock_key)
       end
 
-      args[0].id == @user.id &&
-        args[1] == SuiteSync::InvoiceProcessor
+      args[0].id == @user.id
     end
 
-    NetsuitePollJob.work(@user, SuiteSync::InvoicePoller)
+    StripeForce::SalesforcePollJob.work(@user, StripeForce::OrderPoller)
 
     refute_nil(initial_lock_value)
     refute_nil(final_lock_value)
@@ -138,53 +135,47 @@ class Critic::OrderPollerTest < Critic::FunctionalTest
   end
 
   it 'does not run polls if salesforce credentials are invalid' do
-    skip("implement after polling is in a separate job")
+    StripeForce::BaseJob.stubs(:valid_system_credentials!).raises(Integrations::Errors::InvalidSalesforceCredentialsError)
 
-    refute(@user.status.valid_netsuite_credentials?(refresh: true))
+    StripeForce::OrderPoller.expects(:perform).never
 
-    SuiteSync::InvoicePoller.expects(:perform).never
-
-    NetsuitePollJob.work(@user, SuiteSync::InvoicePoller)
+    assert_raises(Integrations::Errors::InvalidSalesforceCredentialsError) { StripeForce::SalesforcePollJob.work(@user, StripeForce::OrderPoller) }
   end
 
   # order poller is used for the remainder of the test suite since it is most commonly used
   describe 'basic test for all pollers' do
-    def expect_tracked_search_results(records:, poller:)
-      StripeSuite::Metrics::Writer.instance.expects(:track_counter).once.with do |*args|
-        args.first == StripeSuite::Metrics::NETSUITE_POLL_RECORDS_COUNTER &&
-          args.last == {value: records, dimensions: {poller: poller}}
-      end
-    end
-
-    def expect_timed_search(poller:)
-      Integrations::Metrics::Writer.instance.expects(:track_gauge).once.with do |metric, _, dimensions|
-        metric == Integrations::Metrics::NETSUITE_SEARCH_TIME &&
-          dimensions == {dimensions: {poller: poller}}
-      end
-    end
 
     # TODO when we add support for additional poll types test them here
-    it 'SuiteSync::CashSalePoller' do
-      skip("stop referencing netsuite")
+    it 'StripeForce::OrderPoller' do
 
-      initial_poll = set_initial_poll_timestamp(NetSuite::Records::CashSale)
+      initial_poll = set_initial_poll_timestamp(SF_ORDER)
 
-      stub_netsuite_batch_search_result(NetSuite::Records::CashSale)
+      stubbed_ids = stub_salesforce_query_result
 
-      NetsuiteProcessRecordJob.expects(:work).once.with do |*args|
-        args[0].id == @user.id &&
-          args[1] == SuiteSync::CashSaleProcessor &&
-          args[2] == ns_record_id
+      SalesforceTranslateRecordJob.expects(:work).once.with do |*args|
+        args[0] == @user && args[1] == stubbed_ids.first.Id
       end
 
-      expect_tracked_search_results(records: 1, poller: "SuiteSync::CashSalePoller")
-      expect_timed_search(poller: "SuiteSync::CashSalePoller")
+      order_poller = StripeForce::OrderPoller.new(@user)
+      order_poller.perform
+    end
 
-      cash_sale_poller = SuiteSync::CashSalePoller.new(user: @user)
-      cash_sale_poller.perform
+    it 'StripeForce::AccountPoller' do
+
+      initial_poll = set_initial_poll_timestamp(SF_ACCOUNT)
+
+      stubbed_ids = stub_salesforce_query_result
+
+      SalesforceTranslateRecordJob.expects(:work).once.with do |*args|
+        args[0] == @user && args[1] == stubbed_ids.first.Id
+      end
+
+      account_poller = StripeForce::AccountPoller.new(@user)
+      account_poller.perform
     end
 
   end
+
 
   describe 'general tests using order poller' do
     it 'does not poll if no initial timestamp is set' do
@@ -201,9 +192,7 @@ class Critic::OrderPollerTest < Critic::FunctionalTest
 
       SalesforceTranslateRecordJob.expects(:perform)
 
-      Restforce::Data::Client.any_instance.expects(:query).returns([
-        Restforce::SObject.new({"Id" => create_salesforce_id}),
-      ])
+      stub_salesforce_query_result
 
       locker = Integrations::Locker.new(@user)
       StripeForce::OrderPoller.perform(user: @user, locker: locker)

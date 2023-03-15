@@ -21,7 +21,6 @@ class StripeForce::InitiatePollsJobs
       end
     end
 
-    set_error_context
     log.info 'poll queuing complete'
   end
 
@@ -37,12 +36,16 @@ class StripeForce::InitiatePollsJobs
     end
   end
 
-  def self.queue_poll_job_for_user(user, poller_job)
-    log.info 'queuing poll', poll_job: poller_job
+  def self.queue_poll_job_for_user(user, poller_class)
+    log.info 'queuing poll', poll_job: poller_class
 
-    locker = Integrations::Locker.new(user)
-    locker.lock_on_user do
-      poller_job.perform(user: user, locker: locker)
-    end
+    StripeForce::SalesforcePollJob.work(user, poller_class)
+
+    Integrations::Metrics::Writer.instance.track_counter('poll.queued', dimensions: {
+      livemode: user.livemode,
+      stripe_account_id: user.stripe_account_id,
+      salesforce_account_id: user.salesforce_account_id,
+      poller_job: poller_class.to_s,
+    })
   end
 end
