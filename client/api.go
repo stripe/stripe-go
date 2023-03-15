@@ -21,8 +21,6 @@ import (
 	billingportalconfiguration "github.com/stripe/stripe-go/v74/billingportal/configuration"
 	billingportalsession "github.com/stripe/stripe-go/v74/billingportal/session"
 	"github.com/stripe/stripe-go/v74/capability"
-	capitalfinancingoffer "github.com/stripe/stripe-go/v74/capital/financingoffer"
-	capitalfinancingsummary "github.com/stripe/stripe-go/v74/capital/financingsummary"
 	capitalfinancingtransaction "github.com/stripe/stripe-go/v74/capital/financingtransaction"
 	"github.com/stripe/stripe-go/v74/card"
 	"github.com/stripe/stripe-go/v74/cashbalance"
@@ -156,10 +154,6 @@ type API struct {
 	BillingPortalSessions *billingportalsession.Client
 	// Capabilities is the client used to invoke /accounts/{account}/capabilities APIs.
 	Capabilities *capability.Client
-	// CapitalFinancingOffers is the client used to invoke /capital/financing_offers APIs.
-	CapitalFinancingOffers *capitalfinancingoffer.Client
-	// CapitalFinancingSummary is the client used to invoke /capital/financing_summary APIs.
-	CapitalFinancingSummary *capitalfinancingsummary.Client
 	// CapitalFinancingTransactions is the client used to invoke /capital/financing_transactions APIs.
 	CapitalFinancingTransactions *capitalfinancingtransaction.Client
 	// Cards is the client used to invoke card related APIs.
@@ -394,8 +388,6 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.BillingPortalConfigurations = &billingportalconfiguration.Client{B: backends.API, Key: key}
 	a.BillingPortalSessions = &billingportalsession.Client{B: backends.API, Key: key}
 	a.Capabilities = &capability.Client{B: backends.API, Key: key}
-	a.CapitalFinancingOffers = &capitalfinancingoffer.Client{B: backends.API, Key: key}
-	a.CapitalFinancingSummary = &capitalfinancingsummary.Client{B: backends.API, Key: key}
 	a.CapitalFinancingTransactions = &capitalfinancingtransaction.Client{B: backends.API, Key: key}
 	a.Cards = &card.Client{B: backends.API, Key: key}
 	a.CashBalances = &cashbalance.Client{B: backends.API, Key: key}

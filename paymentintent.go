@@ -570,6 +570,19 @@ const (
 // Providing this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.
 //
 // When processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).
+type PaymentIntentPaymentMethodOptionsPaypalSetupFutureUsage string
+
+// List of values that PaymentIntentPaymentMethodOptionsPaypalSetupFutureUsage can take
+const (
+	PaymentIntentPaymentMethodOptionsPaypalSetupFutureUsageNone       PaymentIntentPaymentMethodOptionsPaypalSetupFutureUsage = "none"
+	PaymentIntentPaymentMethodOptionsPaypalSetupFutureUsageOffSession PaymentIntentPaymentMethodOptionsPaypalSetupFutureUsage = "off_session"
+)
+
+// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+//
+// Providing this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.
+//
+// When processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).
 type PaymentIntentPaymentMethodOptionsPixSetupFutureUsage string
 
 // List of values that PaymentIntentPaymentMethodOptionsPixSetupFutureUsage can take
@@ -961,6 +974,8 @@ type PaymentIntentPaymentMethodOptionsAffirmParams struct {
 	//
 	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter will unset the stored value for this payment method type.
 	CaptureMethod *string `form:"capture_method"`
+	// Preferred language of the Affirm authorization page that the customer is redirected to.
+	PreferredLocale *string `form:"preferred_locale"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// Providing this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.
@@ -1375,6 +1390,14 @@ type PaymentIntentPaymentMethodOptionsPaypalParams struct {
 	CaptureMethod   *string `form:"capture_method"`
 	PreferredLocale *string `form:"preferred_locale"`
 	ReferenceID     *string `form:"reference_id"`
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// Providing this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.
+	//
+	// When processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).
+	//
+	// If `setup_future_usage` is already set and you are performing a request using a publishable key, you may only update the value from `on_session` to `off_session`.
+	SetupFutureUsage *string `form:"setup_future_usage"`
 }
 
 // If this is a `pix` PaymentMethod, this sub-hash contains details about the Pix payment method options.
@@ -2168,6 +2191,8 @@ type PaymentIntentPaymentMethodOptionsACSSDebit struct {
 type PaymentIntentPaymentMethodOptionsAffirm struct {
 	// Controls when the funds will be captured from the customer's account.
 	CaptureMethod PaymentIntentPaymentMethodOptionsAffirmCaptureMethod `json:"capture_method"`
+	// Preferred language of the Affirm authorization page that the customer is redirected to.
+	PreferredLocale string `json:"preferred_locale"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// Providing this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.
@@ -2456,6 +2481,12 @@ type PaymentIntentPaymentMethodOptionsPaypal struct {
 	PreferredLocale string `json:"preferred_locale"`
 	// A unique reference ID of the PayPal transaction. This must be a globally unique ID across all PayPal transactions or the transaction will fail.
 	ReferenceID string `json:"reference_id"`
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// Providing this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.
+	//
+	// When processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).
+	SetupFutureUsage PaymentIntentPaymentMethodOptionsPaypalSetupFutureUsage `json:"setup_future_usage"`
 }
 type PaymentIntentPaymentMethodOptionsPix struct {
 	// The number of seconds (between 10 and 1209600) after which Pix payment will expire.

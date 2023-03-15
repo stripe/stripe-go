@@ -112,6 +112,7 @@ const (
 	PaymentLinkPaymentMethodTypeBLIK             PaymentLinkPaymentMethodType = "blik"
 	PaymentLinkPaymentMethodTypeBoleto           PaymentLinkPaymentMethodType = "boleto"
 	PaymentLinkPaymentMethodTypeCard             PaymentLinkPaymentMethodType = "card"
+	PaymentLinkPaymentMethodTypeCashapp          PaymentLinkPaymentMethodType = "cashapp"
 	PaymentLinkPaymentMethodTypeEPS              PaymentLinkPaymentMethodType = "eps"
 	PaymentLinkPaymentMethodTypeFPX              PaymentLinkPaymentMethodType = "fpx"
 	PaymentLinkPaymentMethodTypeGiropay          PaymentLinkPaymentMethodType = "giropay"
@@ -600,7 +601,7 @@ type PaymentLinkTransferData struct {
 //
 // When a customer opens a payment link it will open a new [checkout session](https://stripe.com/docs/api/checkout/sessions) to render the payment page. You can use [checkout session events](https://stripe.com/docs/api/events/types#event_types-checkout.session.completed) to track payments through payment links.
 //
-// Related guide: [Payment Links API](https://stripe.com/docs/payments/payment-links/api)
+// Related guide: [Payment Links API](https://stripe.com/docs/payment-links)
 type PaymentLink struct {
 	APIResource
 	// Whether the payment link's `url` is active. If `false`, customers visiting the URL will be shown a page saying that the link has been deactivated.

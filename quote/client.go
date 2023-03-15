@@ -301,16 +301,17 @@ func (i *LineIter) QuoteLineList() *stripe.QuoteLineList {
 	return i.List().(*stripe.QuoteLineList)
 }
 
-// PreviewInvoiceLines is the method for the `GET /v1/quotes/{quote}/preview_invoice_lines` API.
+// PreviewInvoiceLines is the method for the `GET /v1/quotes/{quote}/preview_invoices/{preview_invoice}/lines` API.
 func PreviewInvoiceLines(params *stripe.QuotePreviewInvoiceLinesParams) *InvoiceLineItemIter {
 	return getC().PreviewInvoiceLines(params)
 }
 
-// PreviewInvoiceLines is the method for the `GET /v1/quotes/{quote}/preview_invoice_lines` API.
+// PreviewInvoiceLines is the method for the `GET /v1/quotes/{quote}/preview_invoices/{preview_invoice}/lines` API.
 func (c Client) PreviewInvoiceLines(listParams *stripe.QuotePreviewInvoiceLinesParams) *InvoiceLineItemIter {
 	path := stripe.FormatURLPath(
-		"/v1/quotes/%s/preview_invoice_lines",
+		"/v1/quotes/%s/preview_invoices/%s/lines",
 		stripe.StringValue(listParams.Quote),
+		stripe.StringValue(listParams.PreviewInvoice),
 	)
 	return &InvoiceLineItemIter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {

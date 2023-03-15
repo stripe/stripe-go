@@ -593,6 +593,12 @@ type SetupIntentPaymentMethodOptionsLinkParams struct {
 	PersistentToken *string `form:"persistent_token"`
 }
 
+// If this is a `paypal` PaymentMethod, this sub-hash contains details about the PayPal payment method options.
+type SetupIntentPaymentMethodOptionsPaypalParams struct {
+	BillingAgreementID *string `form:"billing_agreement_id"`
+	Currency           *string `form:"currency"`
+}
+
 // Additional fields for Mandate creation
 type SetupIntentPaymentMethodOptionsSEPADebitMandateOptionsParams struct{}
 
@@ -646,6 +652,8 @@ type SetupIntentPaymentMethodOptionsParams struct {
 	Card *SetupIntentPaymentMethodOptionsCardParams `form:"card"`
 	// If this is a `link` PaymentMethod, this sub-hash contains details about the Link payment method options.
 	Link *SetupIntentPaymentMethodOptionsLinkParams `form:"link"`
+	// If this is a `paypal` PaymentMethod, this sub-hash contains details about the PayPal payment method options.
+	Paypal *SetupIntentPaymentMethodOptionsPaypalParams `form:"paypal"`
 	// If this is a `sepa_debit` SetupIntent, this sub-hash contains details about the SEPA Debit payment method options.
 	SEPADebit *SetupIntentPaymentMethodOptionsSEPADebitParams `form:"sepa_debit"`
 	// If this is a `us_bank_account` SetupIntent, this sub-hash contains details about the US bank account payment method options.
@@ -1137,6 +1145,12 @@ type SetupIntentPaymentMethodOptionsLink struct {
 	// Token used for persistent Link logins.
 	PersistentToken string `json:"persistent_token"`
 }
+type SetupIntentPaymentMethodOptionsPaypal struct {
+	// The ID of the PayPal Billing Agreement
+	BillingAgreementID string `json:"billing_agreement_id"`
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency Currency `json:"currency"`
+}
 type SetupIntentPaymentMethodOptionsSEPADebitMandateOptions struct{}
 type SetupIntentPaymentMethodOptionsSEPADebit struct {
 	MandateOptions *SetupIntentPaymentMethodOptionsSEPADebitMandateOptions `json:"mandate_options"`
@@ -1166,6 +1180,7 @@ type SetupIntentPaymentMethodOptions struct {
 	BLIK          *SetupIntentPaymentMethodOptionsBLIK          `json:"blik"`
 	Card          *SetupIntentPaymentMethodOptionsCard          `json:"card"`
 	Link          *SetupIntentPaymentMethodOptionsLink          `json:"link"`
+	Paypal        *SetupIntentPaymentMethodOptionsPaypal        `json:"paypal"`
 	SEPADebit     *SetupIntentPaymentMethodOptionsSEPADebit     `json:"sepa_debit"`
 	USBankAccount *SetupIntentPaymentMethodOptionsUSBankAccount `json:"us_bank_account"`
 }
