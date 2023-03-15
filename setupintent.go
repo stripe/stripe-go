@@ -327,7 +327,7 @@ type SetupIntentPaymentMethodDataBoletoParams struct {
 }
 
 // If this is a `cashapp` PaymentMethod, this hash contains details about the Cash App Pay payment method.
-type SetupIntentPaymentMethodDataCashappParams struct{}
+type SetupIntentPaymentMethodDataCashAppParams struct{}
 
 // If this is a `customer_balance` PaymentMethod, this hash contains details about the CustomerBalance payment method.
 type SetupIntentPaymentMethodDataCustomerBalanceParams struct{}
@@ -466,7 +466,7 @@ type SetupIntentPaymentMethodDataParams struct {
 	// If this is a `boleto` PaymentMethod, this hash contains details about the Boleto payment method.
 	Boleto *SetupIntentPaymentMethodDataBoletoParams `form:"boleto"`
 	// If this is a `cashapp` PaymentMethod, this hash contains details about the Cash App Pay payment method.
-	Cashapp *SetupIntentPaymentMethodDataCashappParams `form:"cashapp"`
+	CashApp *SetupIntentPaymentMethodDataCashAppParams `form:"cashapp"`
 	// If this is a `customer_balance` PaymentMethod, this hash contains details about the CustomerBalance payment method.
 	CustomerBalance *SetupIntentPaymentMethodDataCustomerBalanceParams `form:"customer_balance"`
 	// If this is an `eps` PaymentMethod, this hash contains details about the EPS payment method.
@@ -790,7 +790,7 @@ type SetupIntentConfirmPaymentMethodDataBoletoParams struct {
 }
 
 // If this is a `cashapp` PaymentMethod, this hash contains details about the Cash App Pay payment method.
-type SetupIntentConfirmPaymentMethodDataCashappParams struct{}
+type SetupIntentConfirmPaymentMethodDataCashAppParams struct{}
 
 // If this is a `customer_balance` PaymentMethod, this hash contains details about the CustomerBalance payment method.
 type SetupIntentConfirmPaymentMethodDataCustomerBalanceParams struct{}
@@ -929,7 +929,7 @@ type SetupIntentConfirmPaymentMethodDataParams struct {
 	// If this is a `boleto` PaymentMethod, this hash contains details about the Boleto payment method.
 	Boleto *SetupIntentConfirmPaymentMethodDataBoletoParams `form:"boleto"`
 	// If this is a `cashapp` PaymentMethod, this hash contains details about the Cash App Pay payment method.
-	Cashapp *SetupIntentConfirmPaymentMethodDataCashappParams `form:"cashapp"`
+	CashApp *SetupIntentConfirmPaymentMethodDataCashAppParams `form:"cashapp"`
 	// If this is a `customer_balance` PaymentMethod, this hash contains details about the CustomerBalance payment method.
 	CustomerBalance *SetupIntentConfirmPaymentMethodDataCustomerBalanceParams `form:"customer_balance"`
 	// If this is an `eps` PaymentMethod, this hash contains details about the EPS payment method.
@@ -1027,7 +1027,7 @@ type SetupIntentVerifyMicrodepositsParams struct {
 	// A six-character code starting with SM present in the microdeposit sent to the bank account.
 	DescriptorCode *string `form:"descriptor_code"`
 }
-type SetupIntentNextActionCashappHandleRedirectOrDisplayQRCodeQRCode struct {
+type SetupIntentNextActionCashAppHandleRedirectOrDisplayQRCodeQRCode struct {
 	// The date (unix timestamp) when the QR code expires.
 	ExpiresAt int64 `json:"expires_at"`
 	// The image_url_png string used to render QR code
@@ -1035,12 +1035,12 @@ type SetupIntentNextActionCashappHandleRedirectOrDisplayQRCodeQRCode struct {
 	// The image_url_svg string used to render QR code
 	ImageURLSVG string `json:"image_url_svg"`
 }
-type SetupIntentNextActionCashappHandleRedirectOrDisplayQRCode struct {
+type SetupIntentNextActionCashAppHandleRedirectOrDisplayQRCode struct {
 	// The URL to the hosted Cash App Pay instructions page, which allows customers to view the QR code, and supports QR code refreshing on expiration.
 	HostedInstructionsURL string `json:"hosted_instructions_url"`
 	// The url for mobile redirect based auth
 	MobileAuthURL string                                                           `json:"mobile_auth_url"`
-	QRCode        *SetupIntentNextActionCashappHandleRedirectOrDisplayQRCodeQRCode `json:"qr_code"`
+	QRCode        *SetupIntentNextActionCashAppHandleRedirectOrDisplayQRCodeQRCode `json:"qr_code"`
 }
 type SetupIntentNextActionRedirectToURL struct {
 	// If the customer does not exit their browser while authenticating, they will be redirected to this specified URL after completion.
@@ -1062,7 +1062,7 @@ type SetupIntentNextActionVerifyWithMicrodeposits struct {
 
 // If present, this property tells you what actions you need to take in order for your customer to continue payment setup.
 type SetupIntentNextAction struct {
-	CashappHandleRedirectOrDisplayQRCode *SetupIntentNextActionCashappHandleRedirectOrDisplayQRCode `json:"cashapp_handle_redirect_or_display_qr_code"`
+	CashAppHandleRedirectOrDisplayQRCode *SetupIntentNextActionCashAppHandleRedirectOrDisplayQRCode `json:"cashapp_handle_redirect_or_display_qr_code"`
 	RedirectToURL                        *SetupIntentNextActionRedirectToURL                        `json:"redirect_to_url"`
 	// Type of the next action to perform, one of `redirect_to_url`, `use_stripe_sdk`, `alipay_handle_redirect`, `oxxo_display_details`, or `verify_with_microdeposits`.
 	Type SetupIntentNextActionType `json:"type"`

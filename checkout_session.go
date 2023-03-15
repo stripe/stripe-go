@@ -337,11 +337,11 @@ const (
 // Providing this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.
 //
 // When processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).
-type CheckoutSessionPaymentMethodOptionsCashappSetupFutureUsage string
+type CheckoutSessionPaymentMethodOptionsCashAppSetupFutureUsage string
 
-// List of values that CheckoutSessionPaymentMethodOptionsCashappSetupFutureUsage can take
+// List of values that CheckoutSessionPaymentMethodOptionsCashAppSetupFutureUsage can take
 const (
-	CheckoutSessionPaymentMethodOptionsCashappSetupFutureUsageNone CheckoutSessionPaymentMethodOptionsCashappSetupFutureUsage = "none"
+	CheckoutSessionPaymentMethodOptionsCashAppSetupFutureUsageNone CheckoutSessionPaymentMethodOptionsCashAppSetupFutureUsage = "none"
 )
 
 // List of address types that should be returned in the financial_addresses response. If not specified, all valid types will be returned.
@@ -1057,7 +1057,7 @@ type CheckoutSessionPaymentMethodOptionsCardParams struct {
 }
 
 // contains details about the Cashapp Pay payment method options.
-type CheckoutSessionPaymentMethodOptionsCashappParams struct {
+type CheckoutSessionPaymentMethodOptionsCashAppParams struct {
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// Providing this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.
@@ -1293,7 +1293,7 @@ type CheckoutSessionPaymentMethodOptionsParams struct {
 	// contains details about the Card payment method options.
 	Card *CheckoutSessionPaymentMethodOptionsCardParams `form:"card"`
 	// contains details about the Cashapp Pay payment method options.
-	Cashapp *CheckoutSessionPaymentMethodOptionsCashappParams `form:"cashapp"`
+	CashApp *CheckoutSessionPaymentMethodOptionsCashAppParams `form:"cashapp"`
 	// contains details about the Customer Balance payment method options.
 	CustomerBalance *CheckoutSessionPaymentMethodOptionsCustomerBalanceParams `form:"customer_balance"`
 	// contains details about the EPS payment method options.
@@ -1901,13 +1901,13 @@ type CheckoutSessionPaymentMethodOptionsCard struct {
 	// Provides information about a card payment that customers see on their statements. Concatenated with the Kanji prefix (shortened Kanji descriptor) or Kanji statement descriptor that's set on the account to form the complete statement descriptor. Maximum 17 characters. On card statements, the *concatenation* of both prefix and suffix (including separators) will appear truncated to 17 characters.
 	StatementDescriptorSuffixKanji string `json:"statement_descriptor_suffix_kanji"`
 }
-type CheckoutSessionPaymentMethodOptionsCashapp struct {
+type CheckoutSessionPaymentMethodOptionsCashApp struct {
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// Providing this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.
 	//
 	// When processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).
-	SetupFutureUsage CheckoutSessionPaymentMethodOptionsCashappSetupFutureUsage `json:"setup_future_usage"`
+	SetupFutureUsage CheckoutSessionPaymentMethodOptionsCashAppSetupFutureUsage `json:"setup_future_usage"`
 }
 type CheckoutSessionPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransfer struct {
 	// The desired country code of the bank account information. Permitted values include: `BE`, `DE`, `ES`, `FR`, `IE`, or `NL`.
@@ -2073,7 +2073,7 @@ type CheckoutSessionPaymentMethodOptions struct {
 	Bancontact       *CheckoutSessionPaymentMethodOptionsBancontact       `json:"bancontact"`
 	Boleto           *CheckoutSessionPaymentMethodOptionsBoleto           `json:"boleto"`
 	Card             *CheckoutSessionPaymentMethodOptionsCard             `json:"card"`
-	Cashapp          *CheckoutSessionPaymentMethodOptionsCashapp          `json:"cashapp"`
+	CashApp          *CheckoutSessionPaymentMethodOptionsCashApp          `json:"cashapp"`
 	CustomerBalance  *CheckoutSessionPaymentMethodOptionsCustomerBalance  `json:"customer_balance"`
 	EPS              *CheckoutSessionPaymentMethodOptionsEPS              `json:"eps"`
 	FPX              *CheckoutSessionPaymentMethodOptionsFPX              `json:"fpx"`
