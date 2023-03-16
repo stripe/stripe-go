@@ -135,11 +135,11 @@ class Critic::OrderPollerTest < Critic::FunctionalTest
   end
 
   it 'does not run polls if salesforce credentials are invalid' do
-    StripeForce::BaseJob.stubs(:valid_system_credentials!).raises(Integrations::Errors::InvalidSalesforceCredentialsError)
+    StripeForce::BaseJob.stubs(:valid_system_credentials!).raises(Integrations::Errors::InvalidCredentialsError)
 
     StripeForce::OrderPoller.expects(:perform).never
 
-    assert_raises(Integrations::Errors::InvalidSalesforceCredentialsError) { StripeForce::SalesforcePollJob.work(@user, StripeForce::OrderPoller) }
+    assert_raises(Integrations::Errors::InvalidCredentialsError) { StripeForce::SalesforcePollJob.work(@user, StripeForce::OrderPoller) }
   end
 
   # order poller is used for the remainder of the test suite since it is most commonly used

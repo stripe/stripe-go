@@ -214,6 +214,50 @@ class SessionsControllerTest < ApplicationIntegrationTest
     refute_nil(user.email)
   end
 
+  it 'caches user as authenticated with salesforce post auth' do
+    user = create_post_install_user
+
+    mock_omniauth_salesforce
+
+    assert_nil(user.get_cached_connection_status(StripeForce::Constants::Platforms::SALESFORCE))
+
+    get auth_salesforce_callback_path
+
+    assert(user.get_cached_connection_status(StripeForce::Constants::Platforms::SALESFORCE))
+
+    assert_response :success
+    assert_post_redirect(omniauth_path(:stripe))
+
+    user = T.must(StripeForce::User[user.id])
+
+    assert_equal(1, StripeForce::User.count)
+
+    refute_nil(user.salesforce_account_id)
+    refute_nil(user.salesforce_refresh_token)
+    refute_nil(user.salesforce_instance_url)
+    refute_nil(user.salesforce_token)
+
+    refute_nil(user.name)
+    refute_nil(user.email)
+  end
+
+  it 'caches user as authenticated with stripe post auth' do
+    user = create_post_install_user
+
+    mock_omniauth_salesforce
+
+    assert_nil(user.get_cached_connection_status(StripeForce::Constants::Platforms::STRIPE))
+
+    get auth_salesforce_callback_path
+    assert_response :success
+
+    get auth_stripe_callback_path
+    assert_response :success
+
+    assert(user.get_cached_connection_status(StripeForce::Constants::Platforms::STRIPE))
+
+  end
+
   it 'updates the stripe account id after the stripe account is authenticated' do
     # in order to set the session, which cannot be set via the test suite
     get omniauth_path(:salesforce, salesforceNamespace: "c")

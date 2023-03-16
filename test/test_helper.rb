@@ -28,6 +28,9 @@ Dir[File.join(File.dirname(__FILE__), "support/**/*.rb")].sort.each {|f| require
 
 Minitest::Ci.clean = false if ENV['CI']
 
+# Caching TTLs, make them short for test runs
+StripeForce::Constants::CACHED_CREDENTIAL_STATUS_TTL = 5
+
 # purely for convenience: let's include debugging tools where we need them
 Pry.config.hooks.add_hook(:before_session, :include_salesforce_debugging) do
   include SalesforceDebugging

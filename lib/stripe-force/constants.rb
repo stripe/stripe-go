@@ -163,6 +163,15 @@ module StripeForce
     CONNECTOR_SETTING_CPQ_TERM_UNIT = 'cpq_term_unit'
     CONNECTOR_SETTING_MULTICURRENCY_ENABLED = 'multicurrency_enabled'
 
+    class Platforms < T::Enum
+      enums do
+        STRIPE = new("Stripe")
+        SALESFORCE = new("Salesforce")
+      end
+    end
+
+    CACHED_CREDENTIAL_STATUS_TTL = 43200 # 12 hours, in seconds
+
     class SalesforceNamespaceOptions < T::Enum
       enums do
         QA = new("QaStripeConnect")

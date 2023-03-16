@@ -114,6 +114,63 @@ module StripeForce
       10
     end
 
+    sig { params(platform: StripeForce::Constants::Platforms).returns(String) }
+    def cached_valid_credential_key(platform)
+      "cached-#{platform}-connection-status-#{self.stripe_account_id}-#{self.salesforce_account_id}-#{self.livemode}"
+    end
+
+    sig { params(platform: StripeForce::Constants::Platforms, connected: T::Boolean).returns(T::Boolean) }
+    def cache_connection_status(platform, connected)
+      redis.set(self.cached_valid_credential_key(platform), connected, ex: StripeForce::Constants::CACHED_CREDENTIAL_STATUS_TTL)
+      connected
+    end
+
+    def get_cached_connection_status(platform)
+      cached_value = redis.get(self.cached_valid_credential_key(platform))
+      # Redis only stores strings, so we have to do this awkward workaround
+      unless cached_value.nil?
+        return cached_value == 'true'
+      end
+
+      nil
+    end
+
+    # TODO: Make this more robust via a cron (caching status, sending emails etc)
+    # https://jira.corp.stripe.com/browse/PLATINT-1450
+    def valid_credentials?
+      # If our cached value has expired, these will return nil and they will be fetched again.
+      stripe_credentials_valid = get_cached_connection_status(StripeForce::Constants::Platforms::STRIPE)
+      salesforce_credentials_valid = get_cached_connection_status(StripeForce::Constants::Platforms::SALESFORCE)
+
+      # Stripe
+      if stripe_credentials_valid.nil?
+        stripe_credentials_valid = begin
+          Stripe::Account.retrieve(
+            self.stripe_account_id,
+            self.stripe_credentials
+          )
+          self.cache_connection_status(StripeForce::Constants::Platforms::STRIPE, true)
+        rescue Stripe::AuthenticationError, Stripe::PermissionError
+          log.info "invalid Stripe credentials"
+          self.cache_connection_status(StripeForce::Constants::Platforms::STRIPE, false)
+        end
+      end
+
+      # Salesforce
+      if salesforce_credentials_valid.nil?
+        salesforce_credentials_valid = begin
+          # just initializing the client is not enough, a call must be attempted
+          self.sf_client.user_info
+          self.cache_connection_status(StripeForce::Constants::Platforms::SALESFORCE, true)
+        rescue Restforce::UnauthorizedError, Restforce::AuthenticationError
+          log.info "invalid Salesforce credentials"
+          self.cache_connection_status(StripeForce::Constants::Platforms::SALESFORCE, false)
+        end
+      end
+
+      stripe_credentials_valid && salesforce_credentials_valid
+    end
+
     def salesforce_namespace
       self.connector_settings[CONNECTOR_SETTING_SALESFORCE_NAMESPACE]
     end
@@ -291,6 +348,10 @@ module StripeForce
 
     protected def kms_encryption_key(field=nil)
       AWS_KMS_SALESFORCE_CREDENTIALS
+    end
+
+    private def redis
+      Resque.redis
     end
 
   end

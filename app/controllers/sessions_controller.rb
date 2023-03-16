@@ -71,6 +71,8 @@ class SessionsController < ApplicationController
 
     user.save
 
+    user.cache_connection_status(StripeForce::Constants::Platforms::SALESFORCE, true)
+
     session[:user_id] = user.id
 
     # TODO before redirecting to Stripe, check if there's a valid Stripe connection
@@ -113,6 +115,8 @@ class SessionsController < ApplicationController
     if user.stripe_account_id && user.stripe_account_id != stripe_user_id
       Integrations::ErrorContext.report_edge_case("stripe account ID already set, overwriting")
     end
+
+    user.cache_connection_status(StripeForce::Constants::Platforms::STRIPE, true)
 
     user.update(stripe_account_id: stripe_user_id,)
 

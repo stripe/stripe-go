@@ -42,6 +42,42 @@ module Critic::Unit
       end
     end
 
+    it 'validates credentials' do
+      assert(@user.valid_credentials?)
+
+      sleep StripeForce::Constants::CACHED_CREDENTIAL_STATUS_TTL
+
+      @user.sf_client.stubs(:user_info).raises(Restforce::AuthenticationError)
+      refute(@user.valid_credentials?)
+
+      sleep StripeForce::Constants::CACHED_CREDENTIAL_STATUS_TTL
+
+      @user.sf_client.unstub(:user_info)
+      assert(@user.valid_credentials?)
+
+      sleep StripeForce::Constants::CACHED_CREDENTIAL_STATUS_TTL
+
+      Stripe::Account.stubs(:retrieve).raises(Stripe::AuthenticationError)
+      refute(@user.valid_credentials?)
+    end
+
+    it 'validates and caches credentials' do
+      assert_nil(@user.get_cached_connection_status(StripeForce::Constants::Platforms::STRIPE))
+      assert_nil(@user.get_cached_connection_status(StripeForce::Constants::Platforms::SALESFORCE))
+
+      assert(@user.valid_credentials?)
+
+      assert(@user.get_cached_connection_status(StripeForce::Constants::Platforms::STRIPE))
+      assert(@user.get_cached_connection_status(StripeForce::Constants::Platforms::SALESFORCE))
+
+      # 5 seconds for test runs
+      sleep StripeForce::Constants::CACHED_CREDENTIAL_STATUS_TTL
+
+      # Make sure the cache was evicted so they will be refreshed on next check
+      assert_nil(@user.get_cached_connection_status(StripeForce::Constants::Platforms::STRIPE))
+      assert_nil(@user.get_cached_connection_status(StripeForce::Constants::Platforms::SALESFORCE))
+    end
+
     describe '#stripe_credentials' do
       # minitest doesn't have around hooks :(
       before(:each) do

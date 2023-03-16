@@ -68,7 +68,8 @@ class StripeForce::BaseJob
   end
 
   def self.valid_system_credentials!(user)
-    # TODO actually check SF & Stripe credentials
-    true
+    unless user.valid_credentials?
+      raise Integrations::Errors::InvalidCredentialsError
+    end
   end
 end
