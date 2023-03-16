@@ -76,8 +76,9 @@ type PaymentLinkPaymentIntentDataCaptureMethod string
 
 // List of values that PaymentLinkPaymentIntentDataCaptureMethod can take
 const (
-	PaymentLinkPaymentIntentDataCaptureMethodAutomatic PaymentLinkPaymentIntentDataCaptureMethod = "automatic"
-	PaymentLinkPaymentIntentDataCaptureMethodManual    PaymentLinkPaymentIntentDataCaptureMethod = "manual"
+	PaymentLinkPaymentIntentDataCaptureMethodAutomatic      PaymentLinkPaymentIntentDataCaptureMethod = "automatic"
+	PaymentLinkPaymentIntentDataCaptureMethodAutomaticAsync PaymentLinkPaymentIntentDataCaptureMethod = "automatic_async"
+	PaymentLinkPaymentIntentDataCaptureMethodManual         PaymentLinkPaymentIntentDataCaptureMethod = "manual"
 )
 
 // Indicates that you intend to make future payments with the payment method collected during checkout.

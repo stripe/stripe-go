@@ -72,8 +72,9 @@ type OrderPaymentSettingsPaymentMethodOptionsAfterpayClearpayCaptureMethod strin
 
 // List of values that OrderPaymentSettingsPaymentMethodOptionsAfterpayClearpayCaptureMethod can take
 const (
-	OrderPaymentSettingsPaymentMethodOptionsAfterpayClearpayCaptureMethodAutomatic OrderPaymentSettingsPaymentMethodOptionsAfterpayClearpayCaptureMethod = "automatic"
-	OrderPaymentSettingsPaymentMethodOptionsAfterpayClearpayCaptureMethodManual    OrderPaymentSettingsPaymentMethodOptionsAfterpayClearpayCaptureMethod = "manual"
+	OrderPaymentSettingsPaymentMethodOptionsAfterpayClearpayCaptureMethodAutomatic      OrderPaymentSettingsPaymentMethodOptionsAfterpayClearpayCaptureMethod = "automatic"
+	OrderPaymentSettingsPaymentMethodOptionsAfterpayClearpayCaptureMethodAutomaticAsync OrderPaymentSettingsPaymentMethodOptionsAfterpayClearpayCaptureMethod = "automatic_async"
+	OrderPaymentSettingsPaymentMethodOptionsAfterpayClearpayCaptureMethodManual         OrderPaymentSettingsPaymentMethodOptionsAfterpayClearpayCaptureMethod = "manual"
 )
 
 // Indicates that you intend to make future payments with the payment method.
@@ -132,8 +133,9 @@ type OrderPaymentSettingsPaymentMethodOptionsCardCaptureMethod string
 
 // List of values that OrderPaymentSettingsPaymentMethodOptionsCardCaptureMethod can take
 const (
-	OrderPaymentSettingsPaymentMethodOptionsCardCaptureMethodAutomatic OrderPaymentSettingsPaymentMethodOptionsCardCaptureMethod = "automatic"
-	OrderPaymentSettingsPaymentMethodOptionsCardCaptureMethodManual    OrderPaymentSettingsPaymentMethodOptionsCardCaptureMethod = "manual"
+	OrderPaymentSettingsPaymentMethodOptionsCardCaptureMethodAutomatic      OrderPaymentSettingsPaymentMethodOptionsCardCaptureMethod = "automatic"
+	OrderPaymentSettingsPaymentMethodOptionsCardCaptureMethodAutomaticAsync OrderPaymentSettingsPaymentMethodOptionsCardCaptureMethod = "automatic_async"
+	OrderPaymentSettingsPaymentMethodOptionsCardCaptureMethodManual         OrderPaymentSettingsPaymentMethodOptionsCardCaptureMethod = "manual"
 )
 
 // Indicates that you intend to make future payments with the payment method.
