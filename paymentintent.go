@@ -27,8 +27,9 @@ type PaymentIntentCaptureMethod string
 
 // List of values that PaymentIntentCaptureMethod can take
 const (
-	PaymentIntentCaptureMethodAutomatic PaymentIntentCaptureMethod = "automatic"
-	PaymentIntentCaptureMethodManual    PaymentIntentCaptureMethod = "manual"
+	PaymentIntentCaptureMethodAutomatic      PaymentIntentCaptureMethod = "automatic"
+	PaymentIntentCaptureMethodAutomaticAsync PaymentIntentCaptureMethod = "automatic_async"
+	PaymentIntentCaptureMethodManual         PaymentIntentCaptureMethod = "manual"
 )
 
 type PaymentIntentConfirmationMethod string
