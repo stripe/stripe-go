@@ -851,7 +851,11 @@ type ChargePaymentMethodDetailsKonbini struct {
 	// If the payment succeeded, this contains the details of the convenience store where the payment was completed.
 	Store *ChargePaymentMethodDetailsKonbiniStore `json:"store"`
 }
-type ChargePaymentMethodDetailsLink struct{}
+type ChargePaymentMethodDetailsLink struct {
+	// Two-letter ISO code representing the funding source country beneath the Link payment.
+	// You could use this attribute to get a sense of international fees.
+	Country string `json:"country"`
+}
 type ChargePaymentMethodDetailsMultibanco struct {
 	// Entity number associated with this Multibanco payment.
 	Entity string `json:"entity"`
