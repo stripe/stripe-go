@@ -27,8 +27,9 @@ type PaymentIntentCaptureMethod string
 
 // List of values that PaymentIntentCaptureMethod can take
 const (
-	PaymentIntentCaptureMethodAutomatic PaymentIntentCaptureMethod = "automatic"
-	PaymentIntentCaptureMethodManual    PaymentIntentCaptureMethod = "manual"
+	PaymentIntentCaptureMethodAutomatic      PaymentIntentCaptureMethod = "automatic"
+	PaymentIntentCaptureMethodAutomaticAsync PaymentIntentCaptureMethod = "automatic_async"
+	PaymentIntentCaptureMethodManual         PaymentIntentCaptureMethod = "manual"
 )
 
 type PaymentIntentConfirmationMethod string
@@ -341,11 +342,11 @@ const (
 )
 
 // Controls when the funds will be captured from the customer's account.
-type PaymentIntentPaymentMethodOptionsCashappCaptureMethod string
+type PaymentIntentPaymentMethodOptionsCashAppCaptureMethod string
 
-// List of values that PaymentIntentPaymentMethodOptionsCashappCaptureMethod can take
+// List of values that PaymentIntentPaymentMethodOptionsCashAppCaptureMethod can take
 const (
-	PaymentIntentPaymentMethodOptionsCashappCaptureMethodManual PaymentIntentPaymentMethodOptionsCashappCaptureMethod = "manual"
+	PaymentIntentPaymentMethodOptionsCashAppCaptureMethodManual PaymentIntentPaymentMethodOptionsCashAppCaptureMethod = "manual"
 )
 
 // Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -353,13 +354,13 @@ const (
 // Providing this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.
 //
 // When processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).
-type PaymentIntentPaymentMethodOptionsCashappSetupFutureUsage string
+type PaymentIntentPaymentMethodOptionsCashAppSetupFutureUsage string
 
-// List of values that PaymentIntentPaymentMethodOptionsCashappSetupFutureUsage can take
+// List of values that PaymentIntentPaymentMethodOptionsCashAppSetupFutureUsage can take
 const (
-	PaymentIntentPaymentMethodOptionsCashappSetupFutureUsageNone       PaymentIntentPaymentMethodOptionsCashappSetupFutureUsage = "none"
-	PaymentIntentPaymentMethodOptionsCashappSetupFutureUsageOffSession PaymentIntentPaymentMethodOptionsCashappSetupFutureUsage = "off_session"
-	PaymentIntentPaymentMethodOptionsCashappSetupFutureUsageOnSession  PaymentIntentPaymentMethodOptionsCashappSetupFutureUsage = "on_session"
+	PaymentIntentPaymentMethodOptionsCashAppSetupFutureUsageNone       PaymentIntentPaymentMethodOptionsCashAppSetupFutureUsage = "none"
+	PaymentIntentPaymentMethodOptionsCashAppSetupFutureUsageOffSession PaymentIntentPaymentMethodOptionsCashAppSetupFutureUsage = "off_session"
+	PaymentIntentPaymentMethodOptionsCashAppSetupFutureUsageOnSession  PaymentIntentPaymentMethodOptionsCashAppSetupFutureUsage = "on_session"
 )
 
 // List of address types that should be returned in the financial_addresses response. If not specified, all valid types will be returned.
@@ -764,7 +765,7 @@ type PaymentIntentPaymentMethodDataBillingDetailsParams struct {
 type PaymentIntentPaymentMethodDataBLIKParams struct{}
 
 // If this is a `cashapp` PaymentMethod, this hash contains details about the Cash App Pay payment method.
-type PaymentIntentPaymentMethodDataCashappParams struct{}
+type PaymentIntentPaymentMethodDataCashAppParams struct{}
 
 // If this is a `customer_balance` PaymentMethod, this hash contains details about the CustomerBalance payment method.
 type PaymentIntentPaymentMethodDataCustomerBalanceParams struct{}
@@ -829,7 +830,7 @@ type PaymentIntentPaymentMethodDataParams struct {
 	// If this is a `boleto` PaymentMethod, this hash contains details about the Boleto payment method.
 	Boleto *PaymentMethodBoletoParams `form:"boleto"`
 	// If this is a `cashapp` PaymentMethod, this hash contains details about the Cash App Pay payment method.
-	Cashapp *PaymentIntentPaymentMethodDataCashappParams `form:"cashapp"`
+	CashApp *PaymentIntentPaymentMethodDataCashAppParams `form:"cashapp"`
 	// If this is a `customer_balance` PaymentMethod, this hash contains details about the CustomerBalance payment method.
 	CustomerBalance *PaymentIntentPaymentMethodDataCustomerBalanceParams `form:"customer_balance"`
 	// If this is an `eps` PaymentMethod, this hash contains details about the EPS payment method.
@@ -1111,7 +1112,7 @@ type PaymentIntentPaymentMethodOptionsCardPresentParams struct {
 }
 
 // If this is a `cashapp` PaymentMethod, this sub-hash contains details about the Cash App Pay payment method options.
-type PaymentIntentPaymentMethodOptionsCashappParams struct {
+type PaymentIntentPaymentMethodOptionsCashAppParams struct {
 	// Controls when the funds will be captured from the customer's account.
 	//
 	// If provided, this parameter will override the top-level `capture_method` when finalizing the payment with this payment method type.
@@ -1457,7 +1458,7 @@ type PaymentIntentPaymentMethodOptionsParams struct {
 	// If this is a `card_present` PaymentMethod, this sub-hash contains details about the Card Present payment method options.
 	CardPresent *PaymentIntentPaymentMethodOptionsCardPresentParams `form:"card_present"`
 	// If this is a `cashapp` PaymentMethod, this sub-hash contains details about the Cash App Pay payment method options.
-	Cashapp *PaymentIntentPaymentMethodOptionsCashappParams `form:"cashapp"`
+	CashApp *PaymentIntentPaymentMethodOptionsCashAppParams `form:"cashapp"`
 	// If this is a `customer balance` PaymentMethod, this sub-hash contains details about the customer balance payment method options.
 	CustomerBalance *PaymentIntentPaymentMethodOptionsCustomerBalanceParams `form:"customer_balance"`
 	// If this is a `eps` PaymentMethod, this sub-hash contains details about the EPS payment method options.
@@ -1820,7 +1821,7 @@ type PaymentIntentNextActionCardAwaitNotification struct {
 	// For payments greater than INR 15000, the customer must provide explicit approval of the payment with their bank. For payments of lower amount, no customer action is required.
 	CustomerApprovalRequired bool `json:"customer_approval_required"`
 }
-type PaymentIntentNextActionCashappHandleRedirectOrDisplayQRCodeQRCode struct {
+type PaymentIntentNextActionCashAppHandleRedirectOrDisplayQRCodeQRCode struct {
 	// The date (unix timestamp) when the QR code expires.
 	ExpiresAt int64 `json:"expires_at"`
 	// The image_url_png string used to render QR code
@@ -1828,12 +1829,12 @@ type PaymentIntentNextActionCashappHandleRedirectOrDisplayQRCodeQRCode struct {
 	// The image_url_svg string used to render QR code
 	ImageURLSVG string `json:"image_url_svg"`
 }
-type PaymentIntentNextActionCashappHandleRedirectOrDisplayQRCode struct {
+type PaymentIntentNextActionCashAppHandleRedirectOrDisplayQRCode struct {
 	// The URL to the hosted Cash App Pay instructions page, which allows customers to view the QR code, and supports QR code refreshing on expiration.
 	HostedInstructionsURL string `json:"hosted_instructions_url"`
 	// The url for mobile redirect based auth
 	MobileAuthURL string                                                             `json:"mobile_auth_url"`
-	QRCode        *PaymentIntentNextActionCashappHandleRedirectOrDisplayQRCodeQRCode `json:"qr_code"`
+	QRCode        *PaymentIntentNextActionCashAppHandleRedirectOrDisplayQRCodeQRCode `json:"qr_code"`
 }
 
 // Iban Records contain E.U. bank account details per the SEPA format.
@@ -2059,7 +2060,7 @@ type PaymentIntentNextAction struct {
 	AlipayHandleRedirect                 *PaymentIntentNextActionAlipayHandleRedirect                 `json:"alipay_handle_redirect"`
 	BoletoDisplayDetails                 *PaymentIntentNextActionBoletoDisplayDetails                 `json:"boleto_display_details"`
 	CardAwaitNotification                *PaymentIntentNextActionCardAwaitNotification                `json:"card_await_notification"`
-	CashappHandleRedirectOrDisplayQRCode *PaymentIntentNextActionCashappHandleRedirectOrDisplayQRCode `json:"cashapp_handle_redirect_or_display_qr_code"`
+	CashAppHandleRedirectOrDisplayQRCode *PaymentIntentNextActionCashAppHandleRedirectOrDisplayQRCode `json:"cashapp_handle_redirect_or_display_qr_code"`
 	DisplayBankTransferInstructions      *PaymentIntentNextActionDisplayBankTransferInstructions      `json:"display_bank_transfer_instructions"`
 	KonbiniDisplayDetails                *PaymentIntentNextActionKonbiniDisplayDetails                `json:"konbini_display_details"`
 	OXXODisplayDetails                   *PaymentIntentNextActionOXXODisplayDetails                   `json:"oxxo_display_details"`
@@ -2242,15 +2243,15 @@ type PaymentIntentPaymentMethodOptionsCardPresent struct {
 	// Request ability to [increment](https://stripe.com/docs/terminal/features/incremental-authorizations) this PaymentIntent if the combination of MCC and card brand is eligible. Check [incremental_authorization_supported](https://stripe.com/docs/api/charges/object#charge_object-payment_method_details-card_present-incremental_authorization_supported) in the [Confirm](https://stripe.com/docs/api/payment_intents/confirm) response to verify support.
 	RequestIncrementalAuthorizationSupport bool `json:"request_incremental_authorization_support"`
 }
-type PaymentIntentPaymentMethodOptionsCashapp struct {
+type PaymentIntentPaymentMethodOptionsCashApp struct {
 	// Controls when the funds will be captured from the customer's account.
-	CaptureMethod PaymentIntentPaymentMethodOptionsCashappCaptureMethod `json:"capture_method"`
+	CaptureMethod PaymentIntentPaymentMethodOptionsCashAppCaptureMethod `json:"capture_method"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// Providing this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.
 	//
 	// When processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).
-	SetupFutureUsage PaymentIntentPaymentMethodOptionsCashappSetupFutureUsage `json:"setup_future_usage"`
+	SetupFutureUsage PaymentIntentPaymentMethodOptionsCashAppSetupFutureUsage `json:"setup_future_usage"`
 }
 type PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransfer struct {
 	// The desired country code of the bank account information. Permitted values include: `BE`, `DE`, `ES`, `FR`, `IE`, or `NL`.
@@ -2466,7 +2467,7 @@ type PaymentIntentPaymentMethodOptions struct {
 	Boleto           *PaymentIntentPaymentMethodOptionsBoleto           `json:"boleto"`
 	Card             *PaymentIntentPaymentMethodOptionsCard             `json:"card"`
 	CardPresent      *PaymentIntentPaymentMethodOptionsCardPresent      `json:"card_present"`
-	Cashapp          *PaymentIntentPaymentMethodOptionsCashapp          `json:"cashapp"`
+	CashApp          *PaymentIntentPaymentMethodOptionsCashApp          `json:"cashapp"`
 	CustomerBalance  *PaymentIntentPaymentMethodOptionsCustomerBalance  `json:"customer_balance"`
 	EPS              *PaymentIntentPaymentMethodOptionsEPS              `json:"eps"`
 	FPX              *PaymentIntentPaymentMethodOptionsFPX              `json:"fpx"`

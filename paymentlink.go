@@ -76,8 +76,9 @@ type PaymentLinkPaymentIntentDataCaptureMethod string
 
 // List of values that PaymentLinkPaymentIntentDataCaptureMethod can take
 const (
-	PaymentLinkPaymentIntentDataCaptureMethodAutomatic PaymentLinkPaymentIntentDataCaptureMethod = "automatic"
-	PaymentLinkPaymentIntentDataCaptureMethodManual    PaymentLinkPaymentIntentDataCaptureMethod = "manual"
+	PaymentLinkPaymentIntentDataCaptureMethodAutomatic      PaymentLinkPaymentIntentDataCaptureMethod = "automatic"
+	PaymentLinkPaymentIntentDataCaptureMethodAutomaticAsync PaymentLinkPaymentIntentDataCaptureMethod = "automatic_async"
+	PaymentLinkPaymentIntentDataCaptureMethodManual         PaymentLinkPaymentIntentDataCaptureMethod = "manual"
 )
 
 // Indicates that you intend to make future payments with the payment method collected during checkout.
@@ -112,7 +113,7 @@ const (
 	PaymentLinkPaymentMethodTypeBLIK             PaymentLinkPaymentMethodType = "blik"
 	PaymentLinkPaymentMethodTypeBoleto           PaymentLinkPaymentMethodType = "boleto"
 	PaymentLinkPaymentMethodTypeCard             PaymentLinkPaymentMethodType = "card"
-	PaymentLinkPaymentMethodTypeCashapp          PaymentLinkPaymentMethodType = "cashapp"
+	PaymentLinkPaymentMethodTypeCashApp          PaymentLinkPaymentMethodType = "cashapp"
 	PaymentLinkPaymentMethodTypeEPS              PaymentLinkPaymentMethodType = "eps"
 	PaymentLinkPaymentMethodTypeFPX              PaymentLinkPaymentMethodType = "fpx"
 	PaymentLinkPaymentMethodTypeGiropay          PaymentLinkPaymentMethodType = "giropay"
