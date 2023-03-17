@@ -1,5 +1,29 @@
 # Changelog
 
+## 74.12.0 - 2023-03-16
+* [#1622](https://github.com/stripe/stripe-go/pull/1622) API Updates
+  * Add support for `CashAppPayments` on `AccountCapabilitiesParams` and `AccountCapabilities`
+  * Add support for `FutureRequirements` and `Requirements` on `BankAccount`
+  * Add support for `CashApp` on `ChargePaymentMethodDetails`, `CheckoutSessionPaymentMethodOptionsParams`, `CheckoutSessionPaymentMethodOptions`, `MandatePaymentMethodDetails`, `PaymentIntentConfirmPaymentMethodDataParams`, `PaymentIntentConfirmPaymentMethodOptionsParams`, `PaymentIntentPaymentMethodDataParams`, `PaymentIntentPaymentMethodOptionsParams`, `PaymentIntentPaymentMethodOptions`, `PaymentMethodParams`, `PaymentMethod`, `SetupAttemptPaymentMethodDetails`, `SetupIntentConfirmPaymentMethodDataParams`, and `SetupIntentPaymentMethodDataParams`
+  * Add support for `Country` on `ChargePaymentMethodDetailsLink`
+  * Add support for new value `cashapp` on enums `InvoicePaymentSettingsPaymentMethodTypes` and `SubscriptionPaymentSettingsPaymentMethodTypes`
+  * Add support for `PreferredLocale` on `PaymentIntentConfirmPaymentMethodOptionsAffirmParams`, `PaymentIntentPaymentMethodOptionsAffirmParams`, and `PaymentIntentPaymentMethodOptionsAffirm`
+  * Add support for new value `automatic_async` on enums `PaymentIntentCaptureMethod` and `PaymentLinkPaymentIntentDataCaptureMethod`
+  * Add support for `CashAppHandleRedirectOrDisplayQRCode` on `PaymentIntentNextAction` and `SetupIntentNextAction`
+  * Add support for new value `cashapp` on enum `PaymentLinkPaymentMethodTypes`
+  * Add support for new value `cashapp` on enum `PaymentMethodType`
+  
+  
+* [#1619](https://github.com/stripe/stripe-go/pull/1619) Update generated code (new)
+  * Add support for `CashappPayments` on `AccountCapabilitiesParams` and `AccountCapabilities`
+  * Add support for `Cashapp` on `ChargePaymentMethodDetails`, `CheckoutSessionPaymentMethodOptionsParams`, `CheckoutSessionPaymentMethodOptions`, `MandatePaymentMethodDetails`, `PaymentIntentConfirmPaymentMethodDataParams`, `PaymentIntentConfirmPaymentMethodOptionsParams`, `PaymentIntentPaymentMethodDataParams`, `PaymentIntentPaymentMethodOptionsParams`, `PaymentIntentPaymentMethodOptions`, `PaymentMethodParams`, `PaymentMethod`, `SetupAttemptPaymentMethodDetails`, `SetupIntentConfirmPaymentMethodDataParams`, and `SetupIntentPaymentMethodDataParams`
+  * Add support for new value `cashapp` on enums `InvoicePaymentSettingsPaymentMethodTypes` and `SubscriptionPaymentSettingsPaymentMethodTypes`
+  * Add support for `PreferredLocale` on `PaymentIntentConfirmPaymentMethodOptionsAffirmParams`, `PaymentIntentPaymentMethodOptionsAffirmParams`, and `PaymentIntentPaymentMethodOptionsAffirm`
+  * Add support for `CashappHandleRedirectOrDisplayQRCode` on `PaymentIntentNextAction` and `SetupIntentNextAction`
+  * Add support for new value `cashapp` on enum `PaymentLinkPaymentMethodTypes`
+  * Add support for new value `cashapp` on enum `PaymentMethodType`
+* [#1618](https://github.com/stripe/stripe-go/pull/1618) Install goimports before trying to run it
+
 ## 74.11.0 - 2023-03-09
 * [#1616](https://github.com/stripe/stripe-go/pull/1616) API Updates
   * Add support for `CardIssuing` on `IssuingCardholderIndividualParams`
