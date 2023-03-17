@@ -238,6 +238,12 @@ const (
 	SetupIntentUsageOnSession  SetupIntentUsage = "on_session"
 )
 
+// When enabled, this SetupIntent will accept payment methods that you have enabled in the Dashboard and are compatible with this SetupIntent's other parameters.
+type SetupIntentAutomaticPaymentMethodsParams struct {
+	// Whether this feature is enabled.
+	Enabled *bool `form:"enabled"`
+}
+
 // If this is a Mandate accepted offline, this hash contains details about the offline acceptance.
 type SetupIntentMandateDataCustomerAcceptanceOfflineParams struct{}
 
@@ -678,6 +684,8 @@ type SetupIntentParams struct {
 	//
 	// It can only be used for this Stripe Account's own money movement flows like InboundTransfer and OutboundTransfers. It cannot be set to true when setting up a PaymentMethod for a Customer, and defaults to false when attaching a PaymentMethod to a Customer.
 	AttachToSelf *bool `form:"attach_to_self"`
+	// When enabled, this SetupIntent will accept payment methods that you have enabled in the Dashboard and are compatible with this SetupIntent's other parameters.
+	AutomaticPaymentMethods *SetupIntentAutomaticPaymentMethodsParams `form:"automatic_payment_methods"`
 	// The client secret of the SetupIntent. Required if a publishable key is used to retrieve the SetupIntent.
 	ClientSecret *string `form:"client_secret"`
 	// Set to `true` to attempt to confirm this SetupIntent immediately. This parameter defaults to `false`. If the payment method attached is a card, a return_url may be provided in case additional authentication is required.
@@ -1027,6 +1035,12 @@ type SetupIntentVerifyMicrodepositsParams struct {
 	// A six-character code starting with SM present in the microdeposit sent to the bank account.
 	DescriptorCode *string `form:"descriptor_code"`
 }
+
+// Settings for automatic payment methods compatible with this Setup Intent
+type SetupIntentAutomaticPaymentMethods struct {
+	// Automatically calculates compatible payment methods
+	Enabled bool `json:"enabled"`
+}
 type SetupIntentNextActionCashAppHandleRedirectOrDisplayQRCodeQRCode struct {
 	// The date (unix timestamp) when the QR code expires.
 	ExpiresAt int64 `json:"expires_at"`
@@ -1215,6 +1229,8 @@ type SetupIntent struct {
 	//
 	// It can only be used for this Stripe Account's own money movement flows like InboundTransfer and OutboundTransfers. It cannot be set to true when setting up a PaymentMethod for a Customer, and defaults to false when attaching a PaymentMethod to a Customer.
 	AttachToSelf bool `json:"attach_to_self"`
+	// Settings for automatic payment methods compatible with this Setup Intent
+	AutomaticPaymentMethods *SetupIntentAutomaticPaymentMethods `json:"automatic_payment_methods"`
 	// Reason for cancellation of this SetupIntent, one of `abandoned`, `requested_by_customer`, or `duplicate`.
 	CancellationReason SetupIntentCancellationReason `json:"cancellation_reason"`
 	// The client secret of this SetupIntent. Used for client-side retrieval using a publishable key.
