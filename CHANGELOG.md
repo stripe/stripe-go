@@ -1,5 +1,19 @@
 # Changelog
 
+## 74.13.0-beta.1 - 2023-03-16
+* [#1621](https://github.com/stripe/stripe-go/pull/1621) API Updates
+  * Add support for `CreateFromCalculation` method on resource `Tax.Transaction`
+  * Change type of `InvoiceAppliesTo` from `nullable(QuotesResourceQuoteLinesAppliesTo)` to `QuotesResourceQuoteLinesAppliesTo`
+  * Add support for `Paypal` on `MandatePaymentMethodDetails`, `SetupAttemptPaymentMethodDetails`, `SetupIntentConfirmPaymentMethodOptionsParams`, `SetupIntentPaymentMethodOptionsParams`, and `SetupIntentPaymentMethodOptions`
+  * Add support for `SetupFutureUsage` on `OrderPaymentSettingsPaymentMethodOptionsPaypalParams`, `OrderPaymentSettingsPaymentMethodOptionsPaypal`, `PaymentIntentConfirmPaymentMethodOptionsPaypalParams`, `PaymentIntentPaymentMethodOptionsPaypalParams`, and `PaymentIntentPaymentMethodOptionsPaypal`
+  * Add support for new value `automatic_async` on enums `OrderPaymentSettingsPaymentMethodOptionsAfterpayClearpayCaptureMethod` and `OrderPaymentSettingsPaymentMethodOptionsCardCaptureMethod`
+  * Remove support for `AppliesTo` on `QuotePreviewInvoiceLinesParams`
+  * Add support for `ShippingCost` on `TaxCalculationParams`, `TaxCalculation`, `TaxTransactionCreateReversalParams`, and `TaxTransaction`
+  * Add support for `TaxBreakdown` on `TaxCalculation`
+  * Remove support for `TaxSummary` on `TaxCalculation`
+  
+* [#1620](https://github.com/stripe/stripe-go/pull/1620) Merge upstream master
+
 ## 74.12.0-beta.1 - 2023-03-09
 * [#1617](https://github.com/stripe/stripe-go/pull/1617) API Updates for beta branch
   * Updated stable APIs to the latest version
