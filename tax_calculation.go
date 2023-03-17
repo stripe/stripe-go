@@ -94,20 +94,20 @@ const (
 )
 
 // The tax type, such as `vat` or `sales_tax`.
-type TaxCalculationTaxSummaryTaxRateDetailsTaxType string
+type TaxCalculationTaxBreakdownTaxRateDetailsTaxType string
 
-// List of values that TaxCalculationTaxSummaryTaxRateDetailsTaxType can take
+// List of values that TaxCalculationTaxBreakdownTaxRateDetailsTaxType can take
 const (
-	TaxCalculationTaxSummaryTaxRateDetailsTaxTypeGST      TaxCalculationTaxSummaryTaxRateDetailsTaxType = "gst"
-	TaxCalculationTaxSummaryTaxRateDetailsTaxTypeHST      TaxCalculationTaxSummaryTaxRateDetailsTaxType = "hst"
-	TaxCalculationTaxSummaryTaxRateDetailsTaxTypeIGST     TaxCalculationTaxSummaryTaxRateDetailsTaxType = "igst"
-	TaxCalculationTaxSummaryTaxRateDetailsTaxTypeJCT      TaxCalculationTaxSummaryTaxRateDetailsTaxType = "jct"
-	TaxCalculationTaxSummaryTaxRateDetailsTaxTypeLeaseTax TaxCalculationTaxSummaryTaxRateDetailsTaxType = "lease_tax"
-	TaxCalculationTaxSummaryTaxRateDetailsTaxTypePST      TaxCalculationTaxSummaryTaxRateDetailsTaxType = "pst"
-	TaxCalculationTaxSummaryTaxRateDetailsTaxTypeQST      TaxCalculationTaxSummaryTaxRateDetailsTaxType = "qst"
-	TaxCalculationTaxSummaryTaxRateDetailsTaxTypeRST      TaxCalculationTaxSummaryTaxRateDetailsTaxType = "rst"
-	TaxCalculationTaxSummaryTaxRateDetailsTaxTypeSalesTax TaxCalculationTaxSummaryTaxRateDetailsTaxType = "sales_tax"
-	TaxCalculationTaxSummaryTaxRateDetailsTaxTypeVAT      TaxCalculationTaxSummaryTaxRateDetailsTaxType = "vat"
+	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeGST      TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "gst"
+	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeHST      TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "hst"
+	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeIGST     TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "igst"
+	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeJCT      TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "jct"
+	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeLeaseTax TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "lease_tax"
+	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypePST      TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "pst"
+	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeQST      TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "qst"
+	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeRST      TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "rst"
+	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeSalesTax TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "sales_tax"
+	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeVAT      TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "vat"
 )
 
 // The customer's tax IDs.
@@ -218,7 +218,7 @@ type TaxCalculationShippingCost struct {
 	// The [tax code](https://stripe.com/docs/tax/tax-categories) ID used for shipping.
 	TaxCode string `json:"tax_code"`
 }
-type TaxCalculationTaxSummaryTaxRateDetails struct {
+type TaxCalculationTaxBreakdownTaxRateDetails struct {
 	// Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)).
 	Country string `json:"country"`
 	// The tax rate percentage as a string. For example, 8.5% is represented as `"8.5"`.
@@ -226,18 +226,18 @@ type TaxCalculationTaxSummaryTaxRateDetails struct {
 	// State, county, province, or region.
 	State string `json:"state"`
 	// The tax type, such as `vat` or `sales_tax`.
-	TaxType TaxCalculationTaxSummaryTaxRateDetailsTaxType `json:"tax_type"`
+	TaxType TaxCalculationTaxBreakdownTaxRateDetailsTaxType `json:"tax_type"`
 }
 
-// Summary of individual tax amounts that add up to the total.
-type TaxCalculationTaxSummary struct {
+// Breakdown of individual tax amounts that add up to the total.
+type TaxCalculationTaxBreakdown struct {
 	// The amount of tax, in integer cents.
 	Amount int64 `json:"amount"`
 	// Specifies whether the tax amount is included in the line item amount.
 	Inclusive bool `json:"inclusive"`
 	// The amount on which tax is calculated, in integer cents.
-	TaxableAmount  int64                                   `json:"taxable_amount"`
-	TaxRateDetails *TaxCalculationTaxSummaryTaxRateDetails `json:"tax_rate_details"`
+	TaxableAmount  int64                                     `json:"taxable_amount"`
+	TaxRateDetails *TaxCalculationTaxBreakdownTaxRateDetails `json:"tax_rate_details"`
 }
 
 // A Tax `Calculation` allows you to calculate the tax to collect from your customer.
@@ -266,8 +266,8 @@ type TaxCalculation struct {
 	TaxAmountExclusive int64 `json:"tax_amount_exclusive"`
 	// The amount of tax already included in the line item prices.
 	TaxAmountInclusive int64 `json:"tax_amount_inclusive"`
+	// Breakdown of individual tax amounts that add up to the total.
+	TaxBreakdown []*TaxCalculationTaxBreakdown `json:"tax_breakdown"`
 	// Timestamp of date at which the tax rules and rates in effect applies for the calculation.
 	TaxDate int64 `json:"tax_date"`
-	// Summary of individual tax amounts that add up to the total.
-	TaxSummary []*TaxCalculationTaxSummary `json:"tax_summary"`
 }
