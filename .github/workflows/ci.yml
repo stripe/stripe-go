@@ -51,8 +51,7 @@ jobs:
          uses: actions/setup-go@v1
          with:
            go-version: ${{ matrix.go }}
-       - name: Start stripe-mock
-         run: docker run -d -p 12111-12112:12111-12112 stripe/stripe-mock && sleep 5
+       - uses: stripe/openapi/actions/stripe-mock@master
        - name: Test
          run: make ci-test
        - name: Coveralls
