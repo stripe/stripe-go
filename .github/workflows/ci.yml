@@ -54,9 +54,7 @@ jobs:
        - name: Start stripe-mock
          run: docker run -d -p 12111-12112:12111-12112 stripe/stripe-mock && sleep 5
        - name: Test
-         run: make test &&
-              make bench &&
-              make check-api-clients
+         run: make ci-test
        - name: Coveralls
          run: make coverage && make coveralls
          if: matrix.go == '1.16'
