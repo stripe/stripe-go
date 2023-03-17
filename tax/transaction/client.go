@@ -51,6 +51,24 @@ func (c Client) Get(id string, params *stripe.TaxTransactionParams) (*stripe.Tax
 	return transaction, err
 }
 
+// CreateFromCalculation is the method for the `POST /v1/tax/transactions/create_from_calculation` API.
+func CreateFromCalculation(params *stripe.TaxTransactionCreateFromCalculationParams) (*stripe.TaxTransaction, error) {
+	return getC().CreateFromCalculation(params)
+}
+
+// CreateFromCalculation is the method for the `POST /v1/tax/transactions/create_from_calculation` API.
+func (c Client) CreateFromCalculation(params *stripe.TaxTransactionCreateFromCalculationParams) (*stripe.TaxTransaction, error) {
+	transaction := &stripe.TaxTransaction{}
+	err := c.B.Call(
+		http.MethodPost,
+		"/v1/tax/transactions/create_from_calculation",
+		c.Key,
+		params,
+		transaction,
+	)
+	return transaction, err
+}
+
 // CreateReversal is the method for the `POST /v1/tax/transactions/create_reversal` API.
 func CreateReversal(params *stripe.TaxTransactionCreateReversalParams) (*stripe.TaxTransaction, error) {
 	return getC().CreateReversal(params)

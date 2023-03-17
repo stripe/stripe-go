@@ -84,6 +84,15 @@ const (
 	TaxCalculationCustomerDetailsTaxabilityOverrideReverseCharge  TaxCalculationCustomerDetailsTaxabilityOverride = "reverse_charge"
 )
 
+// Specifies whether the `amount` includes taxes. If `tax_behavior=inclusive`, then the amount includes taxes.
+type TaxCalculationShippingCostTaxBehavior string
+
+// List of values that TaxCalculationShippingCostTaxBehavior can take
+const (
+	TaxCalculationShippingCostTaxBehaviorExclusive TaxCalculationShippingCostTaxBehavior = "exclusive"
+	TaxCalculationShippingCostTaxBehaviorInclusive TaxCalculationShippingCostTaxBehavior = "inclusive"
+)
+
 // The tax type, such as `vat` or `sales_tax`.
 type TaxCalculationTaxSummaryTaxRateDetailsTaxType string
 
@@ -113,7 +122,7 @@ type TaxCalculationCustomerDetailsTaxIDParams struct {
 type TaxCalculationCustomerDetailsParams struct {
 	// The customer's postal address (e.g., home or business location).
 	Address *AddressParams `form:"address"`
-	// The type of customer address provided. Required when using `address`.
+	// The type of customer address provided.
 	AddressSource *string `form:"address_source"`
 	// The customer's IP address (IPv4 or IPv6).
 	IPAddress *string `form:"ip_address"`
@@ -139,6 +148,18 @@ type TaxCalculationLineItemParams struct {
 	TaxCode *string `form:"tax_code"`
 }
 
+// Shipping cost details to be used for the calculation
+type TaxCalculationShippingCostParams struct {
+	// A positive integer in cents representing the shipping charge. If `tax_behavior=inclusive`, then this amount includes taxes. Otherwise, taxes are calculated on top of this amount.
+	Amount *int64 `form:"amount"`
+	// If provided, the shipping rate's `amount`, `tax_code` and `tax_behavior` are used. It cannot be used with `amount`, `tax_code` and `tax_behavior`
+	ShippingRate *string `form:"shipping_rate"`
+	// Specifies whether the `amount` includes taxes. If `tax_behavior=inclusive`, then the amount includes taxes. Defaults to `exclusive`.
+	TaxBehavior *string `form:"tax_behavior"`
+	// The [tax code](https://stripe.com/docs/tax/tax-categories) used to calculate tax on shipping. If not provided, the default shipping tax code from your [Tax Settings](https://stripe.com/settings/tax) is used.
+	TaxCode *string `form:"tax_code"`
+}
+
 // Calculates tax based on input and returns a Tax Calculation object.
 type TaxCalculationParams struct {
 	Params `form:"*"`
@@ -152,6 +173,8 @@ type TaxCalculationParams struct {
 	LineItems []*TaxCalculationLineItemParams `form:"line_items"`
 	// The boolean value that indicates if the calculation is a preview. If true, the calculation is not stored. If false, the calculation is stored for 48 hours. Defaults to true.
 	Preview *bool `form:"preview"`
+	// Shipping cost details to be used for the calculation
+	ShippingCost *TaxCalculationShippingCostParams `form:"shipping_cost"`
 	// Timestamp of date at which the tax rules and rates in effect applies for the calculation. Measured in seconds since the Unix epoch.
 	TaxDate *int64 `form:"tax_date"`
 }
@@ -180,6 +203,20 @@ type TaxCalculationCustomerDetails struct {
 	TaxabilityOverride TaxCalculationCustomerDetailsTaxabilityOverride `json:"taxability_override"`
 	// The customer's tax IDs (e.g., EU VAT numbers).
 	TaxIDs []*TaxCalculationCustomerDetailsTaxID `json:"tax_ids"`
+}
+
+// The shipping cost details for the calculation.
+type TaxCalculationShippingCost struct {
+	// The shipping amount in integer cents. If `tax_behavior=inclusive`, then this amount includes taxes. Otherwise, taxes were calculated on top of this amount.
+	Amount int64 `json:"amount"`
+	// The amount of tax calculated for shipping, in integer cents.
+	AmountTax int64 `json:"amount_tax"`
+	// The ID of an existing [ShippingRate](https://stripe.com/docs/api/shipping_rates/object)
+	ShippingRate string `json:"shipping_rate"`
+	// Specifies whether the `amount` includes taxes. If `tax_behavior=inclusive`, then the amount includes taxes.
+	TaxBehavior TaxCalculationShippingCostTaxBehavior `json:"tax_behavior"`
+	// The [tax code](https://stripe.com/docs/tax/tax-categories) ID used for shipping.
+	TaxCode string `json:"tax_code"`
 }
 type TaxCalculationTaxSummaryTaxRateDetails struct {
 	// Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)).
@@ -223,6 +260,8 @@ type TaxCalculation struct {
 	Livemode bool `json:"livemode"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
+	// The shipping cost details for the calculation.
+	ShippingCost *TaxCalculationShippingCost `json:"shipping_cost"`
 	// The amount of tax to be collected on top of the line item prices.
 	TaxAmountExclusive int64 `json:"tax_amount_exclusive"`
 	// The amount of tax already included in the line item prices.

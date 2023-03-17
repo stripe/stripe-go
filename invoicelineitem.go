@@ -6,15 +6,6 @@
 
 package stripe
 
-// Describes whether the quote line is affecting a new schedule or an existing schedule.
-type InvoiceLineItemAppliesToType string
-
-// List of values that InvoiceLineItemAppliesToType can take
-const (
-	InvoiceLineItemAppliesToTypeNewReference         InvoiceLineItemAppliesToType = "new_reference"
-	InvoiceLineItemAppliesToTypeSubscriptionSchedule InvoiceLineItemAppliesToType = "subscription_schedule"
-)
-
 // A string identifying the type of the source of this line item, either an `invoiceitem` or a `subscription`.
 type InvoiceLineItemType string
 
@@ -23,15 +14,6 @@ const (
 	InvoiceLineItemTypeInvoiceItem  InvoiceLineItemType = "invoiceitem"
 	InvoiceLineItemTypeSubscription InvoiceLineItemType = "subscription"
 )
-
-type InvoiceLineItemAppliesTo struct {
-	// A custom string that identifies a new subscription schedule being created upon quote acceptance. All quote lines with the same `new_reference` field will be applied to the creation of a new subscription schedule.
-	NewReference string `json:"new_reference"`
-	// The ID of the schedule the line applies to.
-	SubscriptionSchedule string `json:"subscription_schedule"`
-	// Describes whether the quote line is affecting a new schedule or an existing schedule.
-	Type InvoiceLineItemAppliesToType `json:"type"`
-}
 
 // The amount of discount calculated per discount for this line item.
 type InvoiceLineItemDiscountAmount struct {
@@ -58,8 +40,7 @@ type InvoiceLineItem struct {
 	// The amount, in %s.
 	Amount int64 `json:"amount"`
 	// The integer amount in %s representing the amount for this line item, excluding all tax and discounts.
-	AmountExcludingTax int64                     `json:"amount_excluding_tax"`
-	AppliesTo          *InvoiceLineItemAppliesTo `json:"applies_to"`
+	AmountExcludingTax int64 `json:"amount_excluding_tax"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency Currency `json:"currency"`
 	// An arbitrary string attached to the object. Often useful for displaying to users.

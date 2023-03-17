@@ -84,6 +84,15 @@ const (
 	TaxTransactionCustomerDetailsTaxabilityOverrideReverseCharge  TaxTransactionCustomerDetailsTaxabilityOverride = "reverse_charge"
 )
 
+// Specifies whether the `amount` includes taxes. If `tax_behavior=inclusive`, then the amount includes taxes.
+type TaxTransactionShippingCostTaxBehavior string
+
+// List of values that TaxTransactionShippingCostTaxBehavior can take
+const (
+	TaxTransactionShippingCostTaxBehaviorExclusive TaxTransactionShippingCostTaxBehavior = "exclusive"
+	TaxTransactionShippingCostTaxBehaviorInclusive TaxTransactionShippingCostTaxBehavior = "inclusive"
+)
+
 // If `reversal`, this transaction reverses an earlier transaction.
 type TaxTransactionType string
 
@@ -98,7 +107,7 @@ type TaxTransactionParams struct {
 	Params `form:"*"`
 	// Tax Calculation ID to be used as input when creating the transaction.
 	FromCalculation *string `form:"from_calculation"`
-	// A custom order or sale identifier, such as 'myOrder_123'. Must be unique across all transactions.
+	// A custom order or sale identifier, such as 'myOrder_123'. Must be unique across all transactions including reversals.
 	Reference *string `form:"reference"`
 }
 
@@ -118,16 +127,35 @@ type TaxTransactionCreateReversalLineItemParams struct {
 	Reference *string `form:"reference"`
 }
 
+// The shipping cost to reverse.
+type TaxTransactionCreateReversalShippingCostParams struct {
+	// The amount to reverse, in negative integer cents.
+	Amount *int64 `form:"amount"`
+	// The amount of tax to reverse, in negative integer cents.
+	AmountTax *int64 `form:"amount_tax"`
+}
+
 // Partially or fully reverses a previously created Transaction.
 type TaxTransactionCreateReversalParams struct {
 	Params `form:"*"`
 	// The line item amounts to reverse.
 	LineItems []*TaxTransactionCreateReversalLineItemParams `form:"line_items"`
-	// If `partial`, the provided line item amounts are reversed. If `full`, the original transaction is fully reversed.
+	// If `partial`, the provided line item or shipping cost amounts are reversed. If `full`, the original transaction is fully reversed.
 	Mode *string `form:"mode"`
 	// The ID of the Transaction to partially or fully reverse.
 	OriginalTransaction *string `form:"original_transaction"`
 	// A custom identifier for this reversal, such as 'myOrder_123-refund_1'. Must be unique across all transactions.
+	Reference *string `form:"reference"`
+	// The shipping cost to reverse.
+	ShippingCost *TaxTransactionCreateReversalShippingCostParams `form:"shipping_cost"`
+}
+
+// Creates a Tax Transaction from a calculation.
+type TaxTransactionCreateFromCalculationParams struct {
+	Params `form:"*"`
+	// Tax Calculation ID to be used as input when creating the transaction.
+	Calculation *string `form:"calculation"`
+	// A custom order or sale identifier, such as 'myOrder_123'. Must be unique across all transactions including reversals.
 	Reference *string `form:"reference"`
 }
 
@@ -163,6 +191,20 @@ type TaxTransactionReversal struct {
 	OriginalTransaction string `json:"original_transaction"`
 }
 
+// The shipping cost details for the transaction.
+type TaxTransactionShippingCost struct {
+	// The shipping amount in integer cents. If `tax_behavior=inclusive`, then this amount includes taxes. Otherwise, taxes were calculated on top of this amount.
+	Amount int64 `json:"amount"`
+	// The amount of tax calculated for shipping, in integer cents.
+	AmountTax int64 `json:"amount_tax"`
+	// The ID of an existing [ShippingRate](https://stripe.com/docs/api/shipping_rates/object)
+	ShippingRate string `json:"shipping_rate"`
+	// Specifies whether the `amount` includes taxes. If `tax_behavior=inclusive`, then the amount includes taxes.
+	TaxBehavior TaxTransactionShippingCostTaxBehavior `json:"tax_behavior"`
+	// The [tax code](https://stripe.com/docs/tax/tax-categories) ID used for shipping.
+	TaxCode string `json:"tax_code"`
+}
+
 // A Tax `Transaction` records the tax collected from or refunded to your customer.
 type TaxTransaction struct {
 	APIResource
@@ -187,6 +229,8 @@ type TaxTransaction struct {
 	Reference string `json:"reference"`
 	// If `type=reversal`, contains information about what was reversed.
 	Reversal *TaxTransactionReversal `json:"reversal"`
+	// The shipping cost details for the transaction.
+	ShippingCost *TaxTransactionShippingCost `json:"shipping_cost"`
 	// Timestamp of date at which the tax rules and rates in effect applies for the calculation.
 	TaxDate int64 `json:"tax_date"`
 	// If `reversal`, this transaction reverses an earlier transaction.

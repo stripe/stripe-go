@@ -327,7 +327,7 @@ type SetupIntentPaymentMethodDataBoletoParams struct {
 }
 
 // If this is a `cashapp` PaymentMethod, this hash contains details about the Cash App Pay payment method.
-type SetupIntentPaymentMethodDataCashappParams struct{}
+type SetupIntentPaymentMethodDataCashAppParams struct{}
 
 // If this is a `customer_balance` PaymentMethod, this hash contains details about the CustomerBalance payment method.
 type SetupIntentPaymentMethodDataCustomerBalanceParams struct{}
@@ -466,7 +466,7 @@ type SetupIntentPaymentMethodDataParams struct {
 	// If this is a `boleto` PaymentMethod, this hash contains details about the Boleto payment method.
 	Boleto *SetupIntentPaymentMethodDataBoletoParams `form:"boleto"`
 	// If this is a `cashapp` PaymentMethod, this hash contains details about the Cash App Pay payment method.
-	Cashapp *SetupIntentPaymentMethodDataCashappParams `form:"cashapp"`
+	CashApp *SetupIntentPaymentMethodDataCashAppParams `form:"cashapp"`
 	// If this is a `customer_balance` PaymentMethod, this hash contains details about the CustomerBalance payment method.
 	CustomerBalance *SetupIntentPaymentMethodDataCustomerBalanceParams `form:"customer_balance"`
 	// If this is an `eps` PaymentMethod, this hash contains details about the EPS payment method.
@@ -593,6 +593,12 @@ type SetupIntentPaymentMethodOptionsLinkParams struct {
 	PersistentToken *string `form:"persistent_token"`
 }
 
+// If this is a `paypal` PaymentMethod, this sub-hash contains details about the PayPal payment method options.
+type SetupIntentPaymentMethodOptionsPaypalParams struct {
+	BillingAgreementID *string `form:"billing_agreement_id"`
+	Currency           *string `form:"currency"`
+}
+
 // Additional fields for Mandate creation
 type SetupIntentPaymentMethodOptionsSEPADebitMandateOptionsParams struct{}
 
@@ -646,6 +652,8 @@ type SetupIntentPaymentMethodOptionsParams struct {
 	Card *SetupIntentPaymentMethodOptionsCardParams `form:"card"`
 	// If this is a `link` PaymentMethod, this sub-hash contains details about the Link payment method options.
 	Link *SetupIntentPaymentMethodOptionsLinkParams `form:"link"`
+	// If this is a `paypal` PaymentMethod, this sub-hash contains details about the PayPal payment method options.
+	Paypal *SetupIntentPaymentMethodOptionsPaypalParams `form:"paypal"`
 	// If this is a `sepa_debit` SetupIntent, this sub-hash contains details about the SEPA Debit payment method options.
 	SEPADebit *SetupIntentPaymentMethodOptionsSEPADebitParams `form:"sepa_debit"`
 	// If this is a `us_bank_account` SetupIntent, this sub-hash contains details about the US bank account payment method options.
@@ -782,7 +790,7 @@ type SetupIntentConfirmPaymentMethodDataBoletoParams struct {
 }
 
 // If this is a `cashapp` PaymentMethod, this hash contains details about the Cash App Pay payment method.
-type SetupIntentConfirmPaymentMethodDataCashappParams struct{}
+type SetupIntentConfirmPaymentMethodDataCashAppParams struct{}
 
 // If this is a `customer_balance` PaymentMethod, this hash contains details about the CustomerBalance payment method.
 type SetupIntentConfirmPaymentMethodDataCustomerBalanceParams struct{}
@@ -921,7 +929,7 @@ type SetupIntentConfirmPaymentMethodDataParams struct {
 	// If this is a `boleto` PaymentMethod, this hash contains details about the Boleto payment method.
 	Boleto *SetupIntentConfirmPaymentMethodDataBoletoParams `form:"boleto"`
 	// If this is a `cashapp` PaymentMethod, this hash contains details about the Cash App Pay payment method.
-	Cashapp *SetupIntentConfirmPaymentMethodDataCashappParams `form:"cashapp"`
+	CashApp *SetupIntentConfirmPaymentMethodDataCashAppParams `form:"cashapp"`
 	// If this is a `customer_balance` PaymentMethod, this hash contains details about the CustomerBalance payment method.
 	CustomerBalance *SetupIntentConfirmPaymentMethodDataCustomerBalanceParams `form:"customer_balance"`
 	// If this is an `eps` PaymentMethod, this hash contains details about the EPS payment method.
@@ -1019,7 +1027,7 @@ type SetupIntentVerifyMicrodepositsParams struct {
 	// A six-character code starting with SM present in the microdeposit sent to the bank account.
 	DescriptorCode *string `form:"descriptor_code"`
 }
-type SetupIntentNextActionCashappHandleRedirectOrDisplayQRCodeQRCode struct {
+type SetupIntentNextActionCashAppHandleRedirectOrDisplayQRCodeQRCode struct {
 	// The date (unix timestamp) when the QR code expires.
 	ExpiresAt int64 `json:"expires_at"`
 	// The image_url_png string used to render QR code
@@ -1027,12 +1035,12 @@ type SetupIntentNextActionCashappHandleRedirectOrDisplayQRCodeQRCode struct {
 	// The image_url_svg string used to render QR code
 	ImageURLSVG string `json:"image_url_svg"`
 }
-type SetupIntentNextActionCashappHandleRedirectOrDisplayQRCode struct {
+type SetupIntentNextActionCashAppHandleRedirectOrDisplayQRCode struct {
 	// The URL to the hosted Cash App Pay instructions page, which allows customers to view the QR code, and supports QR code refreshing on expiration.
 	HostedInstructionsURL string `json:"hosted_instructions_url"`
 	// The url for mobile redirect based auth
 	MobileAuthURL string                                                           `json:"mobile_auth_url"`
-	QRCode        *SetupIntentNextActionCashappHandleRedirectOrDisplayQRCodeQRCode `json:"qr_code"`
+	QRCode        *SetupIntentNextActionCashAppHandleRedirectOrDisplayQRCodeQRCode `json:"qr_code"`
 }
 type SetupIntentNextActionRedirectToURL struct {
 	// If the customer does not exit their browser while authenticating, they will be redirected to this specified URL after completion.
@@ -1054,7 +1062,7 @@ type SetupIntentNextActionVerifyWithMicrodeposits struct {
 
 // If present, this property tells you what actions you need to take in order for your customer to continue payment setup.
 type SetupIntentNextAction struct {
-	CashappHandleRedirectOrDisplayQRCode *SetupIntentNextActionCashappHandleRedirectOrDisplayQRCode `json:"cashapp_handle_redirect_or_display_qr_code"`
+	CashAppHandleRedirectOrDisplayQRCode *SetupIntentNextActionCashAppHandleRedirectOrDisplayQRCode `json:"cashapp_handle_redirect_or_display_qr_code"`
 	RedirectToURL                        *SetupIntentNextActionRedirectToURL                        `json:"redirect_to_url"`
 	// Type of the next action to perform, one of `redirect_to_url`, `use_stripe_sdk`, `alipay_handle_redirect`, `oxxo_display_details`, or `verify_with_microdeposits`.
 	Type SetupIntentNextActionType `json:"type"`
@@ -1137,6 +1145,12 @@ type SetupIntentPaymentMethodOptionsLink struct {
 	// Token used for persistent Link logins.
 	PersistentToken string `json:"persistent_token"`
 }
+type SetupIntentPaymentMethodOptionsPaypal struct {
+	// The ID of the PayPal Billing Agreement
+	BillingAgreementID string `json:"billing_agreement_id"`
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency Currency `json:"currency"`
+}
 type SetupIntentPaymentMethodOptionsSEPADebitMandateOptions struct{}
 type SetupIntentPaymentMethodOptionsSEPADebit struct {
 	MandateOptions *SetupIntentPaymentMethodOptionsSEPADebitMandateOptions `json:"mandate_options"`
@@ -1166,6 +1180,7 @@ type SetupIntentPaymentMethodOptions struct {
 	BLIK          *SetupIntentPaymentMethodOptionsBLIK          `json:"blik"`
 	Card          *SetupIntentPaymentMethodOptionsCard          `json:"card"`
 	Link          *SetupIntentPaymentMethodOptionsLink          `json:"link"`
+	Paypal        *SetupIntentPaymentMethodOptionsPaypal        `json:"paypal"`
 	SEPADebit     *SetupIntentPaymentMethodOptionsSEPADebit     `json:"sepa_debit"`
 	USBankAccount *SetupIntentPaymentMethodOptionsUSBankAccount `json:"us_bank_account"`
 }
