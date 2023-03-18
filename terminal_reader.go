@@ -6,6 +6,24 @@
 
 package stripe
 
+// The button style for the choice
+type TerminalReaderActionCollectInputsInputSelectionChoiceStyle string
+
+// List of values that TerminalReaderActionCollectInputsInputSelectionChoiceStyle can take
+const (
+	TerminalReaderActionCollectInputsInputSelectionChoiceStylePrimary   TerminalReaderActionCollectInputsInputSelectionChoiceStyle = "primary"
+	TerminalReaderActionCollectInputsInputSelectionChoiceStyleSecondary TerminalReaderActionCollectInputsInputSelectionChoiceStyle = "secondary"
+)
+
+// Which supported input type will be collected.
+type TerminalReaderActionCollectInputsInputType string
+
+// List of values that TerminalReaderActionCollectInputsInputType can take
+const (
+	TerminalReaderActionCollectInputsInputTypeSelection TerminalReaderActionCollectInputsInputType = "selection"
+	TerminalReaderActionCollectInputsInputTypeSignature TerminalReaderActionCollectInputsInputType = "signature"
+)
+
 // The reason for the refund.
 type TerminalReaderActionRefundPaymentReason string
 
@@ -39,6 +57,7 @@ type TerminalReaderActionType string
 
 // List of values that TerminalReaderActionType can take
 const (
+	TerminalReaderActionTypeCollectInputs        TerminalReaderActionType = "collect_inputs"
 	TerminalReaderActionTypeProcessPaymentIntent TerminalReaderActionType = "process_payment_intent"
 	TerminalReaderActionTypeProcessSetupIntent   TerminalReaderActionType = "process_setup_intent"
 	TerminalReaderActionTypeRefundPayment        TerminalReaderActionType = "refund_payment"
@@ -148,6 +167,51 @@ type TerminalReaderSetReaderDisplayParams struct {
 	Type *string `form:"type"`
 }
 
+// Customize the text which will be displayed while collecting this input
+type TerminalReaderCollectInputsInputCustomTextParams struct {
+	// The description which will be displayed when collecting this input
+	Description *string `form:"description"`
+	// The skip button text
+	SkipButton *string `form:"skip_button"`
+	// The submit button text
+	SubmitButton *string `form:"submit_button"`
+	// The title which will be displayed when collecting this input
+	Title *string `form:"title"`
+}
+
+// List of choices for the `selection` input
+type TerminalReaderCollectInputsInputSelectionChoiceParams struct {
+	// The style of the button which will be shown for this choice
+	Style *string `form:"style"`
+	// The text which will be shown on the button for this choice
+	Value *string `form:"value"`
+}
+
+// Options for the `selection` input
+type TerminalReaderCollectInputsInputSelectionParams struct {
+	// List of choices for the `selection` input
+	Choices []*TerminalReaderCollectInputsInputSelectionChoiceParams `form:"choices"`
+}
+
+// List of inputs to be collected using the Reader
+type TerminalReaderCollectInputsInputParams struct {
+	// Customize the text which will be displayed while collecting this input
+	CustomText *TerminalReaderCollectInputsInputCustomTextParams `form:"custom_text"`
+	// Indicate that this input is required, disabling the skip button
+	Required *bool `form:"required"`
+	// Options for the `selection` input
+	Selection *TerminalReaderCollectInputsInputSelectionParams `form:"selection"`
+	// The type of input to collect
+	Type *string `form:"type"`
+}
+
+// Initiates an input collection flow on a Reader.
+type TerminalReaderCollectInputsParams struct {
+	Params `form:"*"`
+	// List of inputs to be collected using the Reader
+	Inputs []*TerminalReaderCollectInputsInputParams `form:"inputs"`
+}
+
 // Initiates a refund on a Reader
 type TerminalReaderRefundPaymentParams struct {
 	Params `form:"*"`
@@ -161,6 +225,59 @@ type TerminalReaderRefundPaymentParams struct {
 	RefundApplicationFee *bool `form:"refund_application_fee"`
 	// Boolean indicating whether the transfer should be reversed when refunding this charge. The transfer will be reversed proportionally to the amount being refunded (either the entire or partial amount). A transfer can be reversed only by the application that created the charge.
 	ReverseTransfer *bool `form:"reverse_transfer"`
+}
+type TerminalReaderActionCollectInputsInputCustomText struct {
+	// Customize the default description for this input
+	Description string `json:"description"`
+	// Customize the default label for this input's skip button
+	SkipButton string `json:"skip_button"`
+	// Customize the default label for this input's submit button
+	SubmitButton string `json:"submit_button"`
+	// Customize the default title for this input
+	Title string `json:"title"`
+}
+
+// List of possible choices to be selected
+type TerminalReaderActionCollectInputsInputSelectionChoice struct {
+	// The button style for the choice
+	Style TerminalReaderActionCollectInputsInputSelectionChoiceStyle `json:"style"`
+	// A value to be selected
+	Value string `json:"value"`
+}
+
+// Information about a selection being collected using a reader
+type TerminalReaderActionCollectInputsInputSelection struct {
+	// List of possible choices to be selected
+	Choices []*TerminalReaderActionCollectInputsInputSelectionChoice `json:"choices"`
+	// The value of the selected choice
+	Value string `json:"value"`
+}
+
+// Information about a signature being collected using a reader
+type TerminalReaderActionCollectInputsInputSignature struct {
+	// The File ID of a collected signature image
+	Value string `json:"value"`
+}
+
+// List of inputs to be collected.
+type TerminalReaderActionCollectInputsInput struct {
+	CustomText *TerminalReaderActionCollectInputsInputCustomText `json:"custom_text"`
+	Required   bool                                              `json:"required"`
+	// Information about a selection being collected using a reader
+	Selection *TerminalReaderActionCollectInputsInputSelection `json:"selection"`
+	// Information about a signature being collected using a reader
+	Signature *TerminalReaderActionCollectInputsInputSignature `json:"signature"`
+	Skipped   bool                                             `json:"skipped"`
+	// Which supported input type will be collected.
+	Type TerminalReaderActionCollectInputsInputType `json:"type"`
+}
+
+// Represents a reader action to collect customer inputs
+type TerminalReaderActionCollectInputs struct {
+	// List of inputs to be collected.
+	Inputs []*TerminalReaderActionCollectInputsInput `json:"inputs"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	Metadata map[string]string `json:"metadata"`
 }
 
 // Represents a per-transaction tipping configuration
@@ -245,6 +362,8 @@ type TerminalReaderActionSetReaderDisplay struct {
 
 // The most recent action performed by the reader.
 type TerminalReaderAction struct {
+	// Represents a reader action to collect customer inputs
+	CollectInputs *TerminalReaderActionCollectInputs `json:"collect_inputs"`
 	// Failure code, only set if status is `failed`.
 	FailureCode string `json:"failure_code"`
 	// Detailed failure message, only set if status is `failed`.
