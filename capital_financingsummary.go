@@ -64,6 +64,8 @@ type CapitalFinancingSummary struct {
 	// fee amount, withhold rate, remaining amount, paid amount, current repayment interval,
 	// repayment start date, and advance payout date.
 	Details *CapitalFinancingSummaryDetails `json:"details"`
+	// The Financing Offer ID this Financing Summary corresponds to
+	FinancingOffer string `json:"financing_offer"`
 	// The object type: financing_summary
 	Object string `json:"object"`
 	// Status of the Connected Account's financing. [/v1/capital/financing_summary](https://stripe.com/docs/api/capital/financing_summary) will only return `details` for `paid_out` financing.
