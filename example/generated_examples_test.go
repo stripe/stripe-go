@@ -2818,3 +2818,13 @@ func TestTaxTransactionCreateFromCalculation(t *testing.T) {
 	result, _ := tax_transaction.CreateFromCalculation(params)
 	assert.NotNil(t, result)
 }
+
+func TestQuotePreviewInvoiceLines(t *testing.T) {
+	params := &stripe.QuotePreviewInvoiceLinesParams{
+		Quote:          stripe.String("qt_xyz"),
+		PreviewInvoice: stripe.String("in_xyz"),
+	}
+	result := quote.PreviewInvoiceLines(params)
+	assert.NotNil(t, result)
+	assert.Nil(t, result.Err())
+}
