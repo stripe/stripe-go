@@ -171,8 +171,6 @@ type TaxCalculationParams struct {
 	CustomerDetails *TaxCalculationCustomerDetailsParams `form:"customer_details"`
 	// A list of items the customer is purchasing.
 	LineItems []*TaxCalculationLineItemParams `form:"line_items"`
-	// The boolean value that indicates if the calculation is a preview. If true, the calculation is not stored. If false, the calculation is stored for 48 hours. Defaults to true.
-	Preview *bool `form:"preview"`
 	// Shipping cost details to be used for the calculation
 	ShippingCost *TaxCalculationShippingCostParams `form:"shipping_cost"`
 	// Timestamp of date at which the tax rules and rates in effect applies for the calculation. Measured in seconds since the Unix epoch.
