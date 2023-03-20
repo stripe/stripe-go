@@ -147,6 +147,7 @@ export default class SyncPreferencesStep extends LightningElement {
             this.isCpqInstalled = responseData.results.isCpqInstalled;
             this.isSandbox = responseData.results.isSandbox;
             this.isConfigEnabled = responseData.results.enabled;
+            this.configurationHash = responseData.results.configurationHash;
 
             const multiCurrencyCheck = await getMulticurrencySelectionOptions();
             const multiCurrencyResponseData = JSON.parse(multiCurrencyCheck);
@@ -332,10 +333,12 @@ export default class SyncPreferencesStep extends LightningElement {
                     syncRecordRetention: this.syncRecordRetention,
                     syncStartDate: (new Date(this.syncStartDate).getTime() / 1000),
                     apiPercentageLimit: this.apiPercentageLimit,
-                    isConfigEnabled: this.isConfigEnabled
+                    isConfigEnabled: this.isConfigEnabled,
+                    configurationHash: this.configurationHash
                 });
                 const savedSyncPreferencesResponseData =  JSON.parse(updatedSyncPreferences);
                 if(savedSyncPreferencesResponseData.isSuccess) {
+                    this.configurationHash = savedSyncPreferencesResponseData.results.configurationHash;
                     // Reset object filter validation messages
                     this.accountFilterError = '';
                     this.productFilterError = '';
@@ -381,26 +384,22 @@ export default class SyncPreferencesStep extends LightningElement {
                 } else {
                     this.showToast(savedSyncPreferencesResponseData.error, 'error', 'sticky');
                 }
-                
-                const responseData =  JSON.parse(updatedSyncPreferences);
-                if(responseData.isSuccess) {
-                    saveSuccess = true;
-                    this.showToast('Changes were successfully saved', 'success');
-                } else {
-                    this.showToast(responseData.error, 'error', 'sticky');
-                } 
-            }  
-
+            }
         } catch (error) {
             let errorMessage = getErrorMessage(error);
             this.showToast(errorMessage, 'error', 'sticky');
         } finally {
             this.dispatchEvent(new CustomEvent('savecomplete', {
                 detail: {
-                    saveSuccess: saveSuccess
+                    saveSuccess: saveSuccess,
+                    configurationHash: this.configurationHash
                 }
             }));
         }
+    }
+
+    @api updateConfigHash(configHash) {
+        this.configurationHash = configHash;
     }
 
     async syncAllRecords(objectType) {

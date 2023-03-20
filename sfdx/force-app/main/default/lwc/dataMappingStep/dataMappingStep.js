@@ -19,6 +19,7 @@ export default class DataMappingStep extends LightningElement {
     defaultSfObject;
     isConnected = false;
     isMappingsUpdated = false;
+    configurationHash;
     contentLoading = new CustomEvent('contentloading');
     contentLoadingComplete = new CustomEvent('contentloadingcomplete');
 
@@ -78,7 +79,7 @@ export default class DataMappingStep extends LightningElement {
     @track allMappingConfigurations;
     @track activeStripeObjectMappings;
     @track activeStripeObjectMetadataFields;
-    
+
     // allMappingList is used to retrieve and send all user mappings `saveMappingConfigurations` 
     @track allMappingList = {
         // these are static values defined by the user in the mapper UI
@@ -700,6 +701,8 @@ export default class DataMappingStep extends LightningElement {
             if(!mappingConfigurationResponseData.results.isConnected) {
                 return;
             }
+
+            this.configurationHash = mappingConfigurationResponseData.results.configurationHash;
             this.allMappingConfigurations = mappingConfigurationResponseData.results.allMappingConfigurations;
            
             for (const mappingContainer of this.listOfStripeMappingObjects) {
@@ -810,7 +813,7 @@ export default class DataMappingStep extends LightningElement {
         return fieldObject;
     }
 
-    @api async saveCongfiguredMappings() {
+    @api async saveDataMappings() {
         this.loading = true;
         let saveSuccess = false;
 
@@ -818,9 +821,12 @@ export default class DataMappingStep extends LightningElement {
             this.allMappingList = this.saveObjectMappings(mappingContainer.mappingsObject, this.allMappingList, mappingContainer.metadataMappingsObject, mappingContainer.object);
         }
 
+        const payload = JSON.parse(JSON.stringify(this.allMappingList));
+        payload.configuration_hash = this.configurationHash;
+
         try {
             const saveMappingData = await saveMappingConfigurations({
-                jsonMappingConfigurationsObject: JSON.stringify(this.allMappingList)
+                jsonMappingConfigurationsObject: JSON.stringify(payload)
             });
 
             const responseData = JSON.parse(saveMappingData);
@@ -831,9 +837,11 @@ export default class DataMappingStep extends LightningElement {
 
             const isConfigSaved = responseData.results.isConfigSaved;
             if(!isConfigSaved) {
-                this.showToast('There was a problem saving data mapping', 'error', 'sticky');
+                this.showToast('There was a problem saving the data mapping', 'error', 'sticky');
                 return;  
-            } 
+            }
+
+            this.configurationHash = responseData.results.configurationHash;
 
             this.showToast('Data mapping was successfully saved', 'success');
             saveSuccess = true;
@@ -847,10 +855,15 @@ export default class DataMappingStep extends LightningElement {
             // triggers the `oncompletesave` bound function, which is tied to `completeSave` in the setup component
             this.dispatchEvent(new CustomEvent('savecomplete', {
                 detail: {
-                    saveSuccess: saveSuccess
+                    saveSuccess: saveSuccess,
+                    configurationHash: this.configurationHash,
                 }
             }));
         }
+    }
+
+    @api updateConfigHash(configHash) {
+        this.configurationHash = configHash;
     }
 
     showToast(message, variant, mode) {

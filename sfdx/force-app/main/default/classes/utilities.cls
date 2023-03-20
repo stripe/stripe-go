@@ -317,6 +317,29 @@ public with sharing class utilities {
         return response;
     }
 
+    public static responseData validateCalloutResponse(HttpResponse response, String actionTaken) {
+        responseData rd = new responseData();
+        rd.put('isConfigSaved', false);
+        
+        if(response.getStatusCode() >= 200 && response.getStatusCode() < 300) {
+            rd.put('isConfigSaved', true);
+            if (actionTaken == 'saveSyncPreferences' || actionTaken == 'saveMappingConfigurations') {
+                Map<String, Object> responseBody = (Map<String, Object>) JSON.deserializeUntyped(response.getBody());
+                rd.put('configurationHash', (String)responseBody.get('configuration_hash'));
+            }
+            return rd;
+        } 
+
+        if((response.getStatusCode() < 200 || response.getStatusCode() >= 300) && (response.getBody() != null)) {
+            Map<String, Object> responseBody = (Map<String,Object>)JSON.deserializeUntyped(response.getBody());
+            String errorMessage = (String)responseBody.get('error');
+            throw new CalloutException(errorMessage);
+        }
+        
+        errorLogger.create(actionTaken, String.valueOf(response.getStatusCode()), (String)response.getStatus(), '');
+        return rd;
+    }
+    
     // keeps us from repeating this logic over and over
     // multiCurrFields is usually some reference to CurrencyIsoCode
     public static List<SObject> execMultiCurrLookupQuery(SObjectType objType, String idField, Set<Id> lookupIds, List<String> objFields, List<String> multiCurrFields) {

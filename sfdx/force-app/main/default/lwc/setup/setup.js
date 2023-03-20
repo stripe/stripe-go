@@ -35,30 +35,48 @@ export default class FirstTimeSetup extends LightningElement {
             name: 'C-ORG-SETTINGS-STEP',
             orderIndex: 1,
             isComplete: false,
-            isActive: false
+            isActive: false,
+            component: 'c-org-settings-step',
         },
         {
             title: 'Connect Stripe and Salesforce',
             name: 'C-SYSTEM-CONNECTIONS-STEP',
             orderIndex: 2,
             isComplete: false,
-            isActive: false
+            isActive: false,
+            component: 'c-system-connections-step',
         },
         {
             title: 'Define Data Mapping',
             name: 'C-DATA-MAPPING-STEP',
             orderIndex: 3,
             isComplete: false,
-            isActive: false
+            isActive: false,
+            component: 'c-data-mapping-step',
         },
         {
             title: 'Configure Sync Preferences',
             name: 'C-SYNC-PREFERENCES-STEP',
             orderIndex: 4,
             isComplete: false,
-            isActive: false
+            isActive: false,
+            component: 'c-sync-preferences-step',
         }
     ];
+
+    setupStepRefs = {
+        orgSettings: 0,
+        systemConnections: 1,
+        dataMapping: 2,
+        syncPreferences: 3,
+    };
+
+    generalStepRefs = {
+        systemConnections: 0,
+        dataMapping: 1,
+        syncPreferences: 2,
+    };
+
     @track missingPermissions = {};
     @track hasMissingPermissions = false;
 
@@ -120,13 +138,17 @@ export default class FirstTimeSetup extends LightningElement {
     }
 
     completeSave(event) {
+        if (event.detail.saveSuccess) {
+            this.template.querySelector('c-data-mapping-step').updateConfigHash(event.detail.configurationHash);
+            this.template.querySelector('c-sync-preferences-step').updateConfigHash(event.detail.configurationHash);
+        }
+
         this.contentLoading = false;
         if(event.detail.saveSuccess && this.setupComplete === true) {
             this.saveDisabled = true;
-        } else if (event.detail.saveSuccess && this.setupComplete === false) {
+        } 
+        if (event.detail.saveSuccess && this.setupComplete === false) {
             this.nextNavigate();
-        } else {
-            this.showSetupToast('There was a problem saving your changes. Make sure that all updated values are valid before saving.', 'error', 'sticky');
         }
     }
 
@@ -196,7 +218,7 @@ export default class FirstTimeSetup extends LightningElement {
                 this.setupStarted = true;
                 this.steps[this.activeStepIndex].isComplete = true;
                 this.steps[this.activeStepIndex].isActive = false;
-                this.activeStepIndex = 1
+                this.activeStepIndex = this.setupStepRefs.systemConnections;
                 this.steps[this.activeStepIndex].isActive = true;
                 return;
             }
@@ -226,9 +248,9 @@ export default class FirstTimeSetup extends LightningElement {
 
     save() {
         this.contentLoading = true;
-        if(this.activeSectionIndex == 1) {
-            this.template.querySelector('c-data-mapping-step').saveCongfiguredMappings();
-        } else if(this.activeSectionIndex == 2) {
+        if(this.activeSectionIndex == this.generalStepRefs.dataMapping) {
+            this.template.querySelector('c-data-mapping-step').saveDataMappings();
+        } else if(this.activeSectionIndex == this.generalStepRefs.syncPreferences) {
             this.template.querySelector('c-sync-preferences-step').saveModifiedSyncPreferences();
         }
     }
@@ -237,7 +259,7 @@ export default class FirstTimeSetup extends LightningElement {
         this.contentLoading = true;
         this.stepName = this.steps[this.activeStepIndex].name;
         if(this.stepName === 'C-DATA-MAPPING-STEP') {
-            this.template.querySelector('c-data-mapping-step').saveCongfiguredMappings();
+            this.template.querySelector('c-data-mapping-step').saveDataMappings();
         } else if(this.stepName === 'C-SYNC-PREFERENCES-STEP') {
             this.template.querySelector('c-sync-preferences-step').saveModifiedSyncPreferences();
         } else {
@@ -335,7 +357,7 @@ export default class FirstTimeSetup extends LightningElement {
     runTabConnectedCallback() {
         this.saveDisabled = true;
         this.changesCanceled = true;
-        if(this.activeSectionIndex == 2) {
+        if(this.activeSectionIndex == this.generalStepRefs.syncPreferences) {
             this.template.querySelector('c-sync-preferences-step').connectedCallback();
             this.hideCancelModal();
             return;

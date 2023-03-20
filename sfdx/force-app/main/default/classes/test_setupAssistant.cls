@@ -226,10 +226,7 @@ public with sharing class test_setupAssistant {
         Map<String, Object> responseMap = (Map<String, Object>)JSON.deserializeUntyped(response);
         Test.stopTest();
 
-        System.assertEquals((Boolean)responseMap.get('isSuccess'), true);
-
-        Map<String, Object> resultsMap = (Map<String, Object>)responseMap.get('results');
-        System.assertEquals((Boolean)resultsMap.get('isConfigSaved'), false);
+        System.assertEquals((Boolean)responseMap.get('isSuccess'), false);
     }
 
     @isTest
@@ -252,12 +249,14 @@ public with sharing class test_setupAssistant {
         Map<String, Object> field_defaults = (Map<String, Object>)allMappingConfigurations.get('field_defaults');
         Map<String, Object> field_mappings = (Map<String, Object>)allMappingConfigurations.get('field_mappings');
         Map<String, Object> required_mappings = (Map<String, Object>)allMappingConfigurations.get('required_mappings');
+        String configurationHash = (String)resultsMap.get('configurationHash');
 
         System.assertNotEquals(allMappingConfigurations, null);
         System.assertNotEquals(default_mappings, null);
         System.assertNotEquals(field_defaults, null);
         System.assertNotEquals(field_mappings, null);
         System.assertNotEquals(required_mappings, null);
+        System.assertEquals(configurationHash, '1234');
     }
 
     @isTest
@@ -317,6 +316,7 @@ public with sharing class test_setupAssistant {
         String response = setupAssistant.getSyncPreferences();
         Map<String, Object> responseMap = (Map<String, Object>)JSON.deserializeUntyped(response);
         Test.stopTest();
+        
         System.debug(responseMap);
         System.assert((Boolean)responseMap.get('isSuccess'));
 
@@ -329,6 +329,7 @@ public with sharing class test_setupAssistant {
         System.assertEquals('1000515', (String)resultsMap.get('api_percentage_limit'));
         System.assertEquals('monthly', (String)resultsMap.get('cpq_term_unit'));
         System.assertEquals(true, (Boolean)resultsMap.get('enabled'));
+        System.assertEquals('1234', (String)resultsMap.get('configurationHash'));
     }
 
  @isTest
@@ -436,7 +437,7 @@ public with sharing class test_setupAssistant {
 
         Test.startTest();
         Test.setMock(HttpCalloutMock.class, new stripeConnectionSuccessMock());
-        String response = setupAssistant.saveSyncPreferences('TEST','10000', '1644854972', '95', 'monthly', true);
+        String response = setupAssistant.saveSyncPreferences('TEST','10000', '1644854972', '95', 'monthly', true, '1234');
         Map<String, Object> responseMap = (Map<String, Object>)JSON.deserializeUntyped(response);
         Test.stopTest();
 
@@ -595,7 +596,8 @@ public with sharing class test_setupAssistant {
                 Stripe_Connection__c stripeConnectRec = Stripe_Connection__c.getOrgDefaults();
                 System.assertEquals(req.getHeader('Salesforce-Key'), (String)stripeConnectRec.API_Key__c);
                 Map<String,Object> responseBody = new Map<String,Object>{
-                    'enabled' => true
+                    'enabled' => true,
+                    'configuration_hash' => '1234'
                 };
                 responseBody.put('connection_status', (Object)new Map<String,Object>{
                     'salesforce' => true,
@@ -669,6 +671,7 @@ public with sharing class test_setupAssistant {
                     fieldDefaultMap.put('field_defaults', (Object)testFieldDefaultMap);
 
                     Map<String,Object> responseBody = new Map<String,Object>();
+                    responseBody.put('configuration_hash', '1234');
                     responseBody.put('field_mappings', (Object)fieldMap);
                     responseBody.put('default_mappings', (Object)defaultMap);
                     responseBody.put('required_mappings', (Object)requiredMapping);

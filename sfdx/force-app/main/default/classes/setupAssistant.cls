@@ -243,7 +243,7 @@ public with sharing class setupAssistant {
     }
 
     //gets all saved mappings from ruby service
-    @AuraEnabled
+    @AuraEnabled(Cacheable = false)
     public static String getMappingConfigurations() {
         responseData rd = new responseData();
         Boolean isConnected = false;
@@ -264,6 +264,7 @@ public with sharing class setupAssistant {
                 if(response.getStatusCode() == 200) {
                     responseBody = (Map<String,Object>)JSON.deserializeUntyped(response.getBody());
 
+                    rd.put('configurationHash', (String)responseBody.get('configuration_hash'));
                     Map<String, Object> fieldMappingsMap = (Map<String,Object>)responseBody.get('field_mappings');
                     if (fieldMappingsMap != null && !fieldMappingsMap.isEmpty()) {
                         allMappingConfigurations.put('field_mappings', fieldMappingsMap);
@@ -284,7 +285,6 @@ public with sharing class setupAssistant {
                         allMappingConfigurations.put('field_defaults', fieldDefaultsMappingsMap);
                     }
                     rd.put('allMappingConfigurations', allMappingConfigurations);
-
                 } else {
                     errorLogger.create('getMappingConfigurations', String.valueOf(response.getStatusCode()), (String)response.getStatus(), 'Failed to get mapping configuration from ruby service.');
                 }
@@ -300,27 +300,21 @@ public with sharing class setupAssistant {
     @AuraEnabled
     public static String saveMappingConfigurations(String jsonMappingConfigurationsObject) {
         responseData rd = new responseData();
-        Boolean isConfigSaved = false;
         try {
             Stripe_Connection__c stripeConnectRec = Stripe_Connection__c.getOrgDefaults();
             if(stripeConnectRec.Id != null && stripeConnectRec.Salesforce_Connected__c && stripeConnectRec.Stripe_Connected__c) {
                 String route = constants.RUBY_SERVICE_BASE_URI + '/v1/configuration';
-                HttpResponse response =  utilities.makeCallout(route,'PUT',jsonMappingConfigurationsObject);
-                if(response.getStatusCode() == 200) {
-                    isConfigSaved = true;
-                } else {
-                    errorLogger.create('saveMappingConfigurations', String.valueOf(response.getStatusCode()), (String)response.getStatus(), 'Configuration that failed: '+jsonMappingConfigurationsObject);
-                }
+                HttpResponse response =  utilities.makeCallout(route, 'PUT', jsonMappingConfigurationsObject);
+                rd = utilities.validateCalloutResponse(response, 'saveMappingConfigurations');
             }
         } catch (Exception e) {
             rd.addError(e);
         }
-        rd.put('isConfigSaved', isConfigSaved);
         return rd.getJsonString();
     }
 
      //gets all saved sync prefrences data
-     @AuraEnabled
+     @AuraEnabled(Cacheable = false)
      public static String getSyncPreferences() {
          responseData rd = new responseData();
          try {
@@ -357,6 +351,7 @@ public with sharing class setupAssistant {
                 }
                 
                 rd.put('enabled', (Boolean)responseBody.get('enabled'));
+                rd.put('configurationHash', (String)responseBody.get('configuration_hash'));
                 Map<String, Object> settings = (Map<String,Object>)responseBody.get('settings');
 
                 List<String> settingsFields = new List<String> {
@@ -436,13 +431,14 @@ public with sharing class setupAssistant {
 
     //sends updated sync preference data to the ruby service and saves the values
     @AuraEnabled
-    public static String saveSyncPreferences(String defaultCurrency, String syncRecordRetention, String syncStartDate, String apiPercentageLimit, String cpqTermUnit, Boolean isConfigEnabled) {
+    public static String saveSyncPreferences(String defaultCurrency, String syncRecordRetention, String syncStartDate, String apiPercentageLimit, String cpqTermUnit, Boolean isConfigEnabled, String configurationHash) {
         responseData rd = new responseData();
         try {
             Stripe_Connection__c stripeConnectRec = Stripe_Connection__c.getOrgDefaults();
             if(stripeConnectRec.Id != null) {
                 Map<String, Object> resquestBody = new Map<String, Object> {
                     'enabled' => isConfigEnabled,
+                    'configuration_hash' => configurationHash,
                     'settings' => new Map<String, Object> {
                         'api_percentage_limit' => apiPercentageLimit,
                         'sync_start_date' => syncStartDate,
@@ -452,15 +448,11 @@ public with sharing class setupAssistant {
                         'cpq_term_unit' => cpqTermUnit
                     }
                 };
+
                 String route = constants.RUBY_SERVICE_BASE_URI + '/v1/configuration';
                 HttpResponse response =  utilities.makeCallout(route, 'PUT', JSON.serialize(resquestBody));
+                rd = utilities.validateCalloutResponse(response, 'saveSyncPreferences');
 
-                if(response.getStatusCode() == 200) {
-                    stripeConnectRec.Sync_Record_Retention__c = syncRecordRetention;
-                    upsert stripeConnectRec;
-                } else {
-                    errorLogger.create('saveSyncPreferences', String.valueOf(response.getStatusCode()), (String)response.getStatus(), '');
-                }
             }
        } catch (Exception e) {
            rd.addError(e);
