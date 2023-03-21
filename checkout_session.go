@@ -1670,6 +1670,8 @@ type CheckoutSessionCurrencyConversion struct {
 	AmountSubtotal int64 `json:"amount_subtotal"`
 	// Total of all items in source currency after discounts and taxes are applied.
 	AmountTotal int64 `json:"amount_total"`
+	// Exchange rate used to convert source currency amounts to customer currency amounts
+	FxRate float64 `json:"fx_rate,string"`
 	// Creation currency of the CheckoutSession before localization
 	SourceCurrency Currency `json:"source_currency"`
 }
