@@ -39,9 +39,8 @@ global with sharing class restService {
     global static Set<String> listOfProductFields = new Set<String>();
     private static Rest_Service_Helper helper = new Rest_Service_Helper();
 
-    // Marked TestVisible so we can enable it in tests.
     @TestVisible
-    private static Boolean enableDebug = false;
+    private static Debug_Helper debugger = new Debug_Helper();
 
     //readonly annotation is used to increase the SOQL limit from 50k to a 100k 
     @ReadOnly
@@ -49,7 +48,7 @@ global with sharing class restService {
     // using POST here to make it easier to send a JSON message body (the SF ruby gem does not support GET with body out of the box)
     @HttpPost
     global static void executeBatchApi() {
-        debug('restService.executeBatchApi', 'start');
+        debugger.debug('restService.executeBatchApi', 'start');
         RestRequest restRequest = RestContext.request;
         RestResponse response = RestContext.response;
         try {
@@ -66,19 +65,19 @@ global with sharing class restService {
 
             if (parsedReqBody.get('order_ids') != null) {
                 requestedListOfOrderIds = (List<Object>) parsedReqBody.get('order_ids');
-                debug('restService.executeBatchApi(order_ids)', requestedListOfOrderIds);
+                debugger.debug('restService.executeBatchApi(order_ids)', requestedListOfOrderIds);
             }
             if (parsedReqBody.get('product2_ids') != null) {
                 requestListOfProduct2Ids = (List<Object>) parsedReqBody.get('product2_ids');
-                debug('restService.executeBatchApi(productIds)', requestListOfProduct2Ids);
+                debugger.debug('restService.executeBatchApi(productIds)', requestListOfProduct2Ids);
             }
             if (parsedReqBody.get('product2_fields') != null) {
                 requestListOfProductFields = (List<Object>) parsedReqBody.get('product2_fields');
-                debug('restService.executeBatchApi(product2_fields)', requestListOfProductFields);
+                debugger.debug('restService.executeBatchApi(product2_fields)', requestListOfProductFields);
             }
             if (parsedReqBody.get('order_fields') != null) {
                 requestListOfOrderFields = (List<Object>) parsedReqBody.get('order_fields');
-                debug('restService.executeBatchApi(order_fields)', requestListOfOrderFields);
+                debugger.debug('restService.executeBatchApi(order_fields)', requestListOfOrderFields);
             }
 
             if (requestedListOfOrderIds.isEmpty() && requestListOfProduct2Ids.isEmpty()) {
@@ -190,7 +189,7 @@ global with sharing class restService {
             Map<String, List<Object>> orderDetails = new Map<String, List<Object>>();
             resBody.put('records', (Object) responseJsonPayloadRecords);
             String respBody = JSON.serialize(resBody);
-            debug('response(success)', respBody);
+            debugger.debug('response(success)', respBody);
             response.responseBody = Blob.valueOf(respBody);
             return;
         } catch (DmlException e) {
@@ -216,7 +215,7 @@ global with sharing class restService {
             resBody.put('error_type', 'APEX_ERROR');
             resBody.put('error_message', e.getLineNumber() + ': ' + e.getMessage());
             String respBody = JSON.serialize(resBody);
-            debug('response(exception)', respBody);
+            debugger.debug('response(exception)', respBody);
             response.responseBody = Blob.valueOf(respBody);
             return;
         }
@@ -225,11 +224,11 @@ global with sharing class restService {
             response.statusCode = 400;
             response.addHeader('Content-Type', 'application/json');
             response.responseBody = Blob.valueOf('"no results"');
-            debug('response(unknown)', 'no results');
+            debugger.debug('response(unknown)', 'no results');
         } else {
             response.statusCode = 500;
             String respBody = JSON.serialize(responseJsonPayloadErrors);
-            debug('response(errors)', respBody);
+            debugger.debug('response(errors)', respBody);
             response.addHeader('Content-Type', 'application/json');
             response.responseBody = Blob.valueOf(respBody);
         }
@@ -237,7 +236,7 @@ global with sharing class restService {
 
     //fetches all related object records that we care about
     private static Set<Map<String, Object>> addRelatedProductRecordsToPayload(Set<String> listOfProductFields, Set<Map<String, Object>> listOfProduct2RecordMapRecords, Set<String> listOfProduct2Ids, Boolean isCpqInstalled) {
-        debug('restService.addRelatedProductRecordsToPayload(listOfProduct2Ids)', listOfProduct2Ids);
+        debugger.debug('restService.addRelatedProductRecordsToPayload(listOfProduct2Ids)', listOfProduct2Ids);
         String strProductIds = helper.setToQueryString(listOfProduct2Ids);
         //get related pricebook entry records
         Set<String> listOfPricebookEntryFields = getAccessibleFields('PricebookEntry');
@@ -264,20 +263,20 @@ global with sharing class restService {
         //get related product consumption schedule records
         Set<String> listOfAllConsumptionScheduleIds = new Set<String>();
         Set<String> listOfProductConsumptionScheduleFields = getAccessibleFields('ProductConsumptionSchedule');
-        debug('restService.addRelatedProductRecordsToPayload(listOfProductConsumptionScheduleFields)', listOfProductConsumptionScheduleFields);
+        debugger.debug('restService.addRelatedProductRecordsToPayload(listOfProductConsumptionScheduleFields)', listOfProductConsumptionScheduleFields);
 
         if (listOfProductConsumptionScheduleFields.contains('ProductId')) {
-            debug('restService.addRelatedProductRecordsToPayload(listOfProductConsumptionScheduleFields)', 'found ProductId');
+            debugger.debug('restService.addRelatedProductRecordsToPayload(listOfProductConsumptionScheduleFields)', 'found ProductId');
             List<SObject> listOfProductConsumptionScheduleRecords = query(listOfProductConsumptionScheduleFields, 'ProductConsumptionSchedule', 'ProductId IN ' + strProductIds);
             if (!listOfProductConsumptionScheduleRecords.isEmpty()) {
                 for (Map<String, Object> productRecord : listOfProduct2RecordMapRecords) {
-                    debug('restService.addRelatedProductRecordsToPayload(productRecord)', JSON.serialize(productRecord));
+                    debugger.debug('restService.addRelatedProductRecordsToPayload(productRecord)', JSON.serialize(productRecord));
                     Set<String> listOfProductConsumptionScheduleIds = new Set<String>();
                     Set<String> listOfConsumptionScheduleIds = new Set<String>();
                     for (SObject productConsumptionScheduleRecord : listOfProductConsumptionScheduleRecords) {
                         //converting pricebookEntry record to a map so we can add the related pricebookEntry Id before adding the record to payload
                         Map<String, Object> productConsumptionScheduleMap = (Map<String, Object>) JSON.deserializeUntyped(JSON.serialize(productConsumptionScheduleRecord));
-                        debug('restService.addRelatedProductRecordsToPayload(ProductId)', productConsumptionScheduleMap.get('ProductId'));
+                        debugger.debug('restService.addRelatedProductRecordsToPayload(ProductId)', productConsumptionScheduleMap.get('ProductId'));
 
                         if (listOfProduct2Ids.contains((String)productConsumptionScheduleMap.get('ProductId'))) {
                             //add each related pricebookEntry item id to a list to put in proct record at the end
@@ -667,16 +666,16 @@ global with sharing class restService {
             listOfOrderItemRecordMapRecords = addRelatedRecordToPayload(listOfOrderItemRecordMapRecords, 'Product2', 'Product2Id');
         }
 
-        debug('restService.getRelatedOrderItemRecordsById(productIds)', 'begin');
+        debugger.debug('restService.getRelatedOrderItemRecordsById(productIds)', 'begin');
         Set<String> productIds = new Set<String>();
         for (Map<String, Object> item : listOfOrderItemRecordMapRecords) {
             Map<String, Object> attrs = (Map<String, Object>) item.get('attributes');
             if (attrs == null || attrs.isEmpty()) {
-                debug('restService.getRelatedOrderItemRecordsById(productIds)', 'no attributes');
+                debugger.debug('restService.getRelatedOrderItemRecordsById(productIds)', 'no attributes');
                 continue;
             }
             String objType = (String) attrs.get('type');
-            debug('restService.getRelatedOrderItemRecordsById(productIds)', objType);
+            debugger.debug('restService.getRelatedOrderItemRecordsById(productIds)', objType);
             if (objType == 'Product2') {
                 productIds.add((String) item.get('Id'));
             }
@@ -685,7 +684,7 @@ global with sharing class restService {
             }
         }
 
-        debug('restService.getRelatedOrderItemRecordsById(productIds)', productIds);
+        debugger.debug('restService.getRelatedOrderItemRecordsById(productIds)', productIds);
         Set<String> productFields = helper.getAccessibleFields('Product2', responseJsonPayloadErrors);
         listOfOrderItemRecordMapRecords = addRelatedProductRecordsToPayload(productFields, listOfOrderItemRecordMapRecords, productIds, utilities.isCpqEnabled());
 
@@ -956,39 +955,11 @@ global with sharing class restService {
         if (withSecurity) {
             q = q + ' WITH SECURITY_ENFORCED';
         }
-        debug('restService.query(query)', q);
+        debugger.debug('restService.query(query)', q);
         return Database.query(q);
     }
 
     private static List<SObject> query(Set<String> fields, String objectName, String whereClause) {
         return query(fields, objectName, whereClause, true);
-    }
-
-    private static void debug(String source, Object data) {
-        debug(source, data.toString());
-    }
-    private static void debug(String source, String message) {
-        if (enableDebug == false) {
-            return;
-        }
-
-        Integer lengthLimit = 100;
-
-        if (message.length() < lengthLimit) {
-            System.debug('[' + source + '] ' + message);
-            return;
-        }
-
-        while (message.length() > 0) {
-//            Integer nextLen = message.length() < lengthLimit ? message.length() : lengthLimit;
-            if (message.length() > lengthLimit) {
-                String nextMsg = message.substring(0, lengthLimit);
-                message = message.substring(lengthLimit);
-                System.debug('[' + source + '] ' + nextMsg);
-            } else {
-                System.debug('[' + source + '] ' + message);
-                message = '';
-            }
-        }
     }
 }
