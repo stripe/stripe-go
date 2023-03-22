@@ -1634,6 +1634,18 @@ type CheckoutSessionConsentCollection struct {
 	TermsOfService CheckoutSessionConsentCollectionTermsOfService `json:"terms_of_service"`
 }
 
+// Currency conversion details for automatic currency conversion sessions
+type CheckoutSessionCurrencyConversion struct {
+	// Total of all items in source currency before discounts or taxes are applied.
+	AmountSubtotal int64 `json:"amount_subtotal"`
+	// Total of all items in source currency after discounts and taxes are applied.
+	AmountTotal int64 `json:"amount_total"`
+	// Exchange rate used to convert source currency amounts to customer currency amounts
+	FxRate float64 `json:"fx_rate,string"`
+	// Creation currency of the CheckoutSession before localization
+	SourceCurrency Currency `json:"source_currency"`
+}
+
 // The options available for the customer to select. Up to 200 options allowed.
 type CheckoutSessionCustomFieldDropdownOption struct {
 	// The label for the option, displayed to the customer. Up to 100 characters.
@@ -2170,6 +2182,8 @@ type CheckoutSession struct {
 	Created int64 `json:"created"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency Currency `json:"currency"`
+	// Currency conversion details for automatic currency conversion sessions
+	CurrencyConversion *CheckoutSessionCurrencyConversion `json:"currency_conversion"`
 	// The ID of the customer for this Session.
 	// For Checkout Sessions in `payment` or `subscription` mode, Checkout
 	// will create a new customer object based on information provided
