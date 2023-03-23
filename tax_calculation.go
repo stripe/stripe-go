@@ -253,7 +253,7 @@ type TaxCalculation struct {
 	// Unique identifier for the calculation.
 	ID string `json:"id"`
 	// The list of items the customer is purchasing.
-	LineItems *LineItemList `json:"line_items"`
+	LineItems *TaxCalculationLineItemList `json:"line_items"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
 	// String representing the object's type. Objects of the same type share the same value.

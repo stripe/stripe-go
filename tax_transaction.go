@@ -218,7 +218,7 @@ type TaxTransaction struct {
 	// Unique identifier for the transaction.
 	ID string `json:"id"`
 	// The tax collected or refunded, by line item.
-	LineItems *LineItemList `json:"line_items"`
+	LineItems *TaxTransactionLineItemList `json:"line_items"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
