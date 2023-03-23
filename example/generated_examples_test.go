@@ -55,6 +55,8 @@ import (
 	subscription "github.com/stripe/stripe-go/v74/subscription"
 	subscriptionitem "github.com/stripe/stripe-go/v74/subscriptionitem"
 	subscriptionschedule "github.com/stripe/stripe-go/v74/subscriptionschedule"
+	tax_calculation "github.com/stripe/stripe-go/v74/tax/calculation"
+	tax_transaction "github.com/stripe/stripe-go/v74/tax/transaction"
 	taxcode "github.com/stripe/stripe-go/v74/taxcode"
 	taxid "github.com/stripe/stripe-go/v74/taxid"
 	taxrate "github.com/stripe/stripe-go/v74/taxrate"
@@ -2807,4 +2809,22 @@ func TestWebhookEndpointUpdate(t *testing.T) {
 	}
 	result, _ := webhookendpoint.Update("we_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+}
+
+func TestTaxTransactionCreateFromCalculation(t *testing.T) {
+	params := &stripe.TaxTransactionCreateFromCalculationParams{
+		Calculation: stripe.String("xxx"),
+		Reference:   stripe.String("yyy"),
+	}
+	result, _ := tax_transaction.CreateFromCalculation(params)
+	assert.NotNil(t, result)
+}
+
+func TestTaxCalculationListLineItems(t *testing.T) {
+	params := &stripe.TaxCalculationListLineItemsParams{
+		Calculation: stripe.String("xxx"),
+	}
+	result := tax_calculation.ListLineItems(params)
+	assert.NotNil(t, result)
+	assert.Nil(t, result.Err())
 }
