@@ -74,7 +74,7 @@ const (
 	TaxCalculationCustomerDetailsTaxIDTypeZAVAT    TaxCalculationCustomerDetailsTaxIDType = "za_vat"
 )
 
-// The taxability override used for taxation
+// The taxability override used for taxation.
 type TaxCalculationCustomerDetailsTaxabilityOverride string
 
 // List of values that TaxCalculationCustomerDetailsTaxabilityOverride can take
@@ -120,13 +120,13 @@ type TaxCalculationCustomerDetailsTaxIDParams struct {
 
 // Details about the customer, including address and tax IDs.
 type TaxCalculationCustomerDetailsParams struct {
-	// The customer's postal address (e.g., home or business location).
+	// The customer's postal address (for example, home or business location).
 	Address *AddressParams `form:"address"`
 	// The type of customer address provided.
 	AddressSource *string `form:"address_source"`
 	// The customer's IP address (IPv4 or IPv6).
 	IPAddress *string `form:"ip_address"`
-	// When `reverse_charge` is provided, the reverse charge rule is applied for taxation. When `customer_exempt` is sent, it treats the customer as tax exempt. Defaults to `none`.
+	// Overrides the tax calculation result to allow you to not collect tax from your customer. Use this if you've manually checked your customer's tax exemptions. Prefer providing the customer's `tax_ids` where possible, which automatically determines whether `reverse_charge` applies.
 	TaxabilityOverride *string `form:"taxability_override"`
 	// The customer's tax IDs.
 	TaxIDs []*TaxCalculationCustomerDetailsTaxIDParams `form:"tax_ids"`
@@ -138,13 +138,13 @@ type TaxCalculationLineItemParams struct {
 	Amount *int64 `form:"amount"`
 	// If provided, the product's `tax_code` will be used as the line item's `tax_code`.
 	Product *string `form:"product"`
-	// The number of units of the item being purchased. The `amount` is a total amount for the whole line. Used to calculate the per-unit price, when required.
+	// The number of units of the item being purchased. Used to calculate the per-unit price from the total `amount` for the line. For example, if `amount=100` and `quantity=4`, the calculated unit price is 25.
 	Quantity *int64 `form:"quantity"`
-	// A custom identifier for this line item. Must be unique across the line items in the calculation.
+	// A custom identifier for this line item, which must be unique across the line items in the calculation. The reference helps identify each line item in exported [tax reports](https://stripe.com/docs/tax/reports).
 	Reference *string `form:"reference"`
-	// Specifies whether the `amount` includes taxes. If `tax_behavior=inclusive`, then the amount includes taxes.
+	// Specifies whether the `amount` includes taxes. Defaults to `exclusive`.
 	TaxBehavior *string `form:"tax_behavior"`
-	// A [tax code](https://stripe.com/docs/tax/tax-categories) ID to use for this line item. If not provided, we will use the tax code from the provided `product` param. If neither `tax_code` or `product` is provided, we will use the default tax code from your Tax Settings.
+	// A [tax code](https://stripe.com/docs/tax/tax-categories) ID to use for this line item. If not provided, we will use the tax code from the provided `product` param. If neither `tax_code` nor `product` is provided, we will use the default tax code from your Tax Settings.
 	TaxCode *string `form:"tax_code"`
 }
 
@@ -152,7 +152,7 @@ type TaxCalculationLineItemParams struct {
 type TaxCalculationShippingCostParams struct {
 	// A positive integer in cents representing the shipping charge. If `tax_behavior=inclusive`, then this amount includes taxes. Otherwise, taxes are calculated on top of this amount.
 	Amount *int64 `form:"amount"`
-	// If provided, the shipping rate's `amount`, `tax_code` and `tax_behavior` are used. It cannot be used with `amount`, `tax_code` and `tax_behavior`
+	// If provided, the [shipping rate](https://stripe.com/docs/api/shipping_rates/object)'s `amount`, `tax_code` and `tax_behavior` are used. If you provide a shipping rate, then you cannot pass the `amount`, `tax_code`, or `tax_behavior` parameters.
 	ShippingRate *string `form:"shipping_rate"`
 	// Specifies whether the `amount` includes taxes. If `tax_behavior=inclusive`, then the amount includes taxes. Defaults to `exclusive`.
 	TaxBehavior *string `form:"tax_behavior"`
@@ -173,7 +173,7 @@ type TaxCalculationParams struct {
 	LineItems []*TaxCalculationLineItemParams `form:"line_items"`
 	// Shipping cost details to be used for the calculation
 	ShippingCost *TaxCalculationShippingCostParams `form:"shipping_cost"`
-	// Timestamp of date at which the tax rules and rates in effect applies for the calculation. Measured in seconds since the Unix epoch.
+	// Timestamp of date at which the tax rules and rates in effect applies for the calculation. Measured in seconds since the Unix epoch. Can be up to 48 hours in the past, and up to 48 hours in the future.
 	TaxDate *int64 `form:"tax_date"`
 }
 
@@ -183,7 +183,7 @@ type TaxCalculationListLineItemsParams struct {
 	Calculation *string `form:"-"` // Included in URL
 }
 
-// The customer's tax IDs (e.g., EU VAT numbers).
+// The customer's tax IDs (for example, EU VAT numbers).
 type TaxCalculationCustomerDetailsTaxID struct {
 	// The type of the tax ID, one of `eu_vat`, `br_cnpj`, `br_cpf`, `eu_oss_vat`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, or `unknown`
 	Type TaxCalculationCustomerDetailsTaxIDType `json:"type"`
@@ -191,15 +191,15 @@ type TaxCalculationCustomerDetailsTaxID struct {
 	Value string `json:"value"`
 }
 type TaxCalculationCustomerDetails struct {
-	// The customer's postal address (e.g., home or business location).
+	// The customer's postal address (for example, home or business location).
 	Address *Address `json:"address"`
 	// The type of customer address provided.
 	AddressSource TaxCalculationCustomerDetailsAddressSource `json:"address_source"`
 	// The customer's IP address (IPv4 or IPv6).
 	IPAddress string `json:"ip_address"`
-	// The taxability override used for taxation
+	// The taxability override used for taxation.
 	TaxabilityOverride TaxCalculationCustomerDetailsTaxabilityOverride `json:"taxability_override"`
-	// The customer's tax IDs (e.g., EU VAT numbers).
+	// The customer's tax IDs (for example, EU VAT numbers).
 	TaxIDs []*TaxCalculationCustomerDetailsTaxID `json:"tax_ids"`
 }
 
@@ -248,7 +248,7 @@ type TaxCalculation struct {
 	// The ID of an existing [Customer](https://stripe.com/docs/api/customers/object) used for the resource.
 	Customer        string                         `json:"customer"`
 	CustomerDetails *TaxCalculationCustomerDetails `json:"customer_details"`
-	// Timestamp of date at which the tax calculation will expire. Empty if the calculation is an unsaved preview.
+	// Timestamp of date at which the tax calculation will expire.
 	ExpiresAt int64 `json:"expires_at"`
 	// Unique identifier for the calculation.
 	ID string `json:"id"`
