@@ -100,7 +100,7 @@ func (c Client) ListLineItems(listParams *stripe.TaxTransactionListLineItemsPara
 	)
 	return &LineItemIter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
-			list := &stripe.LineItemList{}
+			list := &stripe.TaxTransactionLineItemList{}
 			err := c.B.CallRaw(http.MethodGet, path, c.Key, b, p, list)
 
 			ret := make([]interface{}, len(list.Data))
@@ -113,21 +113,21 @@ func (c Client) ListLineItems(listParams *stripe.TaxTransactionListLineItemsPara
 	}
 }
 
-// LineItemIter is an iterator for line items.
+// LineItemIter is an iterator for tax transaction line items.
 type LineItemIter struct {
 	*stripe.Iter
 }
 
-// LineItem returns the line item which the iterator is currently pointing to.
-func (i *LineItemIter) LineItem() *stripe.LineItem {
-	return i.Current().(*stripe.LineItem)
+// TaxTransactionLineItem returns the tax transaction line item which the iterator is currently pointing to.
+func (i *LineItemIter) TaxTransactionLineItem() *stripe.TaxTransactionLineItem {
+	return i.Current().(*stripe.TaxTransactionLineItem)
 }
 
-// LineItemList returns the current list object which the iterator is
+// TaxTransactionLineItemList returns the current list object which the iterator is
 // currently using. List objects will change as new API calls are made to
 // continue pagination.
-func (i *LineItemIter) LineItemList() *stripe.LineItemList {
-	return i.List().(*stripe.LineItemList)
+func (i *LineItemIter) TaxTransactionLineItemList() *stripe.TaxTransactionLineItemList {
+	return i.List().(*stripe.TaxTransactionLineItemList)
 }
 
 func getC() Client {

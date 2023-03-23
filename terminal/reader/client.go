@@ -90,6 +90,19 @@ func (c Client) CancelAction(id string, params *stripe.TerminalReaderCancelActio
 	return reader, err
 }
 
+// CollectInputs is the method for the `POST /v1/terminal/readers/{reader}/collect_inputs` API.
+func CollectInputs(id string, params *stripe.TerminalReaderCollectInputsParams) (*stripe.TerminalReader, error) {
+	return getC().CollectInputs(id, params)
+}
+
+// CollectInputs is the method for the `POST /v1/terminal/readers/{reader}/collect_inputs` API.
+func (c Client) CollectInputs(id string, params *stripe.TerminalReaderCollectInputsParams) (*stripe.TerminalReader, error) {
+	path := stripe.FormatURLPath("/v1/terminal/readers/%s/collect_inputs", id)
+	reader := &stripe.TerminalReader{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, reader)
+	return reader, err
+}
+
 // ProcessPaymentIntent is the method for the `POST /v1/terminal/readers/{reader}/process_payment_intent` API.
 func ProcessPaymentIntent(id string, params *stripe.TerminalReaderProcessPaymentIntentParams) (*stripe.TerminalReader, error) {
 	return getC().ProcessPaymentIntent(id, params)

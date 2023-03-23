@@ -178,7 +178,7 @@ type DisputeEvidence struct {
 	UncategorizedText string `json:"uncategorized_text"`
 }
 type DisputeEvidenceDetails struct {
-	// Date by which evidence must be submitted in order to successfully challenge dispute. Will be null if the customer's bank or credit card company doesn't allow a response for this particular dispute.
+	// Date by which evidence must be submitted in order to successfully challenge dispute. Will be 0 if the customer's bank or credit card company doesn't allow a response for this particular dispute.
 	DueBy int64 `json:"due_by"`
 	// Whether evidence has been staged for this dispute.
 	HasEvidence bool `json:"has_evidence"`
