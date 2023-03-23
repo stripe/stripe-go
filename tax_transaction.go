@@ -74,7 +74,7 @@ const (
 	TaxTransactionCustomerDetailsTaxIDTypeZAVAT    TaxTransactionCustomerDetailsTaxIDType = "za_vat"
 )
 
-// The taxability override used for taxation
+// The taxability override used for taxation.
 type TaxTransactionCustomerDetailsTaxabilityOverride string
 
 // List of values that TaxTransactionCustomerDetailsTaxabilityOverride can take
@@ -121,7 +121,7 @@ type TaxTransactionCreateReversalLineItemParams struct {
 	Metadata map[string]string `form:"metadata"`
 	// The `id` of the line item to reverse in the original transaction.
 	OriginalLineItem *string `form:"original_line_item"`
-	// The quantity reversed.
+	// The quantity reversed. Appears in [tax exports](https://stripe.com/docs/tax/reports), but does not affect the amount of tax reversed.
 	Quantity *int64 `form:"quantity"`
 	// A custom identifier for this line item in the reversal transaction, such as 'L1-refund'.
 	Reference *string `form:"reference"`
@@ -144,7 +144,7 @@ type TaxTransactionCreateReversalParams struct {
 	Mode *string `form:"mode"`
 	// The ID of the Transaction to partially or fully reverse.
 	OriginalTransaction *string `form:"original_transaction"`
-	// A custom identifier for this reversal, such as 'myOrder_123-refund_1'. Must be unique across all transactions.
+	// A custom identifier for this reversal, such as 'myOrder_123-refund_1', which must be unique across all transactions. The reference helps identify this reversal transaction in exported [tax reports](https://stripe.com/docs/tax/reports).
 	Reference *string `form:"reference"`
 	// The shipping cost to reverse.
 	ShippingCost *TaxTransactionCreateReversalShippingCostParams `form:"shipping_cost"`
@@ -155,7 +155,7 @@ type TaxTransactionCreateFromCalculationParams struct {
 	Params `form:"*"`
 	// Tax Calculation ID to be used as input when creating the transaction.
 	Calculation *string `form:"calculation"`
-	// A custom order or sale identifier, such as 'myOrder_123'. Must be unique across all transactions including reversals.
+	// A custom order or sale identifier, such as 'myOrder_123'. Must be unique across all transactions, including reversals.
 	Reference *string `form:"reference"`
 }
 
@@ -165,7 +165,7 @@ type TaxTransactionListLineItemsParams struct {
 	Transaction *string `form:"-"` // Included in URL
 }
 
-// The customer's tax IDs (e.g., EU VAT numbers).
+// The customer's tax IDs (for example, EU VAT numbers).
 type TaxTransactionCustomerDetailsTaxID struct {
 	// The type of the tax ID, one of `eu_vat`, `br_cnpj`, `br_cpf`, `eu_oss_vat`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, or `unknown`
 	Type TaxTransactionCustomerDetailsTaxIDType `json:"type"`
@@ -173,15 +173,15 @@ type TaxTransactionCustomerDetailsTaxID struct {
 	Value string `json:"value"`
 }
 type TaxTransactionCustomerDetails struct {
-	// The customer's postal address (e.g., home or business location).
+	// The customer's postal address (for example, home or business location).
 	Address *Address `json:"address"`
 	// The type of customer address provided.
 	AddressSource TaxTransactionCustomerDetailsAddressSource `json:"address_source"`
 	// The customer's IP address (IPv4 or IPv6).
 	IPAddress string `json:"ip_address"`
-	// The taxability override used for taxation
+	// The taxability override used for taxation.
 	TaxabilityOverride TaxTransactionCustomerDetailsTaxabilityOverride `json:"taxability_override"`
-	// The customer's tax IDs (e.g., EU VAT numbers).
+	// The customer's tax IDs (for example, EU VAT numbers).
 	TaxIDs []*TaxTransactionCustomerDetailsTaxID `json:"tax_ids"`
 }
 
@@ -205,7 +205,7 @@ type TaxTransactionShippingCost struct {
 	TaxCode string `json:"tax_code"`
 }
 
-// A Tax `Transaction` records the tax collected from or refunded to your customer.
+// A Tax transaction records the tax collected from or refunded to your customer.
 type TaxTransaction struct {
 	APIResource
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
