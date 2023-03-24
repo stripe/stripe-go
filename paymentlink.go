@@ -121,6 +121,7 @@ const (
 	PaymentLinkPaymentMethodTypeIDEAL            PaymentLinkPaymentMethodType = "ideal"
 	PaymentLinkPaymentMethodTypeKlarna           PaymentLinkPaymentMethodType = "klarna"
 	PaymentLinkPaymentMethodTypeKonbini          PaymentLinkPaymentMethodType = "konbini"
+	PaymentLinkPaymentMethodTypeLink             PaymentLinkPaymentMethodType = "link"
 	PaymentLinkPaymentMethodTypeOXXO             PaymentLinkPaymentMethodType = "oxxo"
 	PaymentLinkPaymentMethodTypeP24              PaymentLinkPaymentMethodType = "p24"
 	PaymentLinkPaymentMethodTypePayNow           PaymentLinkPaymentMethodType = "paynow"
