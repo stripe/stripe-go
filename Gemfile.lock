@@ -137,6 +137,7 @@ GEM
       multipart-post (~> 2)
     faraday-net_http (2.1.0)
     ffi (1.15.5)
+    foreman (0.87.2)
     fugit (1.8.1)
       et-orbi (~> 1, >= 1.2.7)
       raabro (~> 1.4)
@@ -453,6 +454,7 @@ DEPENDENCIES
   capybara-screenshot (~> 1.0.26)
   database_cleaner (~> 1.7.0)
   dotenv-rails (= 2.8.1)
+  foreman
   hash_diff (~> 1.1.1)
   listen
   lograge (~> 0.12)

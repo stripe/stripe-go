@@ -7,7 +7,7 @@ export default class SystemConnectionsStep extends LightningElement {
     @track stripeComplete = false;
     @track connectWindow;
     @track isSandbox;
-    // TODO should be pulled from APEX
+    // TODO should be pulled from APEX, use http://localhost:3100 for localdev
     @track rubyBaseURI = 'https://salesforce.suitesync.io';
     @track salesforceNamespace;
     @api hideAction = false;
@@ -19,6 +19,7 @@ export default class SystemConnectionsStep extends LightningElement {
     stripeConnectedAppCallback() {
         this.validateConnectionStatus(true, '');
         this.postMessageListener = (event) => {
+//            console.log('Got event: ' + JSON.parse(JSON.stringify(event)));
             if(event.origin !== this.rubyBaseURI) {
                 console.log("bad post message origin")
                 return

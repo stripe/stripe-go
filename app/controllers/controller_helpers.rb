@@ -32,7 +32,7 @@ module ControllerHelpers
   sig { params(user: StripeForce::User).returns(String) }
   protected def iframe_domain_from_user(user)
     if user.scratch_org?
-      "vf.force.com"
+      "scratch.vf.force.com"
     else
       "visualforce.com"
     end
