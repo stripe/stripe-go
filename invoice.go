@@ -159,7 +159,6 @@ type InvoiceStatus string
 
 // List of values that InvoiceStatus can take
 const (
-	InvoiceStatusDeleted       InvoiceStatus = "deleted"
 	InvoiceStatusDraft         InvoiceStatus = "draft"
 	InvoiceStatusOpen          InvoiceStatus = "open"
 	InvoiceStatusPaid          InvoiceStatus = "paid"
