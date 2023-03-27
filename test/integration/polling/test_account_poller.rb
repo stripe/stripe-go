@@ -9,8 +9,10 @@ class Critic::AccountPollerTest < Critic::FunctionalTest
     inline_job_processing!
   end
 
-  it 'does not poll if no initial poll timestamp is set' do
+  it 'does not poll if polling is disabled' do
     @user.enable_feature(FeatureFlags::ACCOUNT_POLLING)
+    @user.connector_settings[CONNECTOR_SETTING_POLLING_ENABLED] = false
+    @user.save
 
     locker = Integrations::Locker.new(@user)
 
@@ -21,6 +23,8 @@ class Critic::AccountPollerTest < Critic::FunctionalTest
   it 'polls when feature flag ACCOUNT_POLLING is enabled' do
     # enable account polling
     @user.enable_feature(FeatureFlags::ACCOUNT_POLLING)
+    @user.connector_settings[CONNECTOR_SETTING_POLLING_ENABLED] = true
+    @user.save
 
     # set up the intiial poll timestamp to enable account polling
     initial_poll_timestamp = set_initial_poll_timestamp(SF_ACCOUNT).last_polled_at

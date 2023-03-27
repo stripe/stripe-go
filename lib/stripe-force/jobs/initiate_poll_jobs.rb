@@ -27,7 +27,15 @@ class StripeForce::InitiatePollsJobs
   def self.queue_polls_for_user(user)
     set_error_context(user: user)
 
-    # TODO should check if there is a valid NS + Stripe connection
+    unless user.valid_credentials?
+      log.info "skipping poll queueing for user with invalid credentials", sf_account_id: user.salesforce_account_id
+      return
+    end
+
+    unless user.polling_enabled?
+      log.info "skipping poll queueing for user with polling disabled", sf_account_id: user.salesforce_account_id
+      return
+    end
 
     queue_poll_job_for_user(user, StripeForce::OrderPoller)
 

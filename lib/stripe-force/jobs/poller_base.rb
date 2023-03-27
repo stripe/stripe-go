@@ -31,9 +31,17 @@ class StripeForce::PollerBase
   def should_poll?(execution_time, poll_record)
     fail_if_dying_worker!
 
-    if poll_record.nil?
-      log.warn 'no initial poll timestamp defined, not performing'
+    unless @user.polling_enabled?
+      log.info 'skipping poll for user that has polling disabled'
       return false
+    end
+
+    if poll_record.nil?
+      poll_record = StripeForce::PollTimestamp.build_with_user_and_record(
+        @user,
+        poll_type
+      )
+      poll_record.save
     end
 
     should_poll = execution_time.to_i - poll_record.last_polled_at.to_i > POLL_FREQUENCY

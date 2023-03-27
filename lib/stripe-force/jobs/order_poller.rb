@@ -7,11 +7,10 @@ class StripeForce::OrderPoller < StripeForce::PollerBase
   def perform
 
     execution_time = Time.now.utc
-    poll_record = poll_timestamp
 
-    return if !should_poll?(execution_time, poll_record)
+    return if !should_poll?(execution_time, poll_timestamp)
 
-    poll_record = T.must(poll_record)
+    poll_record = T.must(poll_timestamp)
     end_time = poll_record.last_polled_at
 
     log.info 'initiating poll',

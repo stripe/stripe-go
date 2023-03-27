@@ -196,8 +196,11 @@ class Critic::ConfigurationsControllerTest < ApplicationIntegrationTest
         assert_equal(10_000, result['settings']['sync_record_retention'])
         assert_equal('USD', result['settings']['default_currency'])
         assert_nil(result['settings']['sync_start_date'])
+        refute(result['settings']['polling_enabled'])
         assert_equal(40, result['configuration_hash'].size)
         assert(result['enabled'])
+
+        assert_nil(result['connection_status']['last_synced'])
 
         refute_nil(result['settings']['filters'])
         assert_equal("Status = 'Activated'", result['settings']['filters'][SF_ORDER])
@@ -245,6 +248,7 @@ class Critic::ConfigurationsControllerTest < ApplicationIntegrationTest
             sync_start_date: future_time,
             sync_record_retention: 1_000,
             default_currency: 'EUR',
+            polling_enabled: true,
           },
         }, as: :json, headers: authentication_headers
 
@@ -257,6 +261,7 @@ class Critic::ConfigurationsControllerTest < ApplicationIntegrationTest
         assert_equal(90, result['settings']['api_percentage_limit'])
         assert_equal(1_000, result['settings']['sync_record_retention'])
         assert_equal('EUR', result['settings']['default_currency'])
+        assert(result['settings']['polling_enabled'])
         assert_equal(result['settings']['sync_start_date'], future_time)
         assert(result['enabled'] == @user.enabled && @user.enabled == false)
       end

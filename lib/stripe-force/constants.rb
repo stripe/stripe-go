@@ -162,6 +162,8 @@ module StripeForce
     CONNECTOR_SETTING_SALESFORCE_INSTANCE_TYPE = 'salesforce_instance_type'
     CONNECTOR_SETTING_CPQ_TERM_UNIT = 'cpq_term_unit'
     CONNECTOR_SETTING_MULTICURRENCY_ENABLED = 'multicurrency_enabled'
+    CONNECTOR_SETTING_POLLING_ENABLED = 'polling_enabled'
+    CONNECTOR_SETTING_SYNC_START_DATE = 'sync_start_date'
 
     class Platforms < T::Enum
       enums do

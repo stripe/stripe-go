@@ -35,6 +35,8 @@ module StripeForce
       sync_start_date: nil,
       sync_record_retention: 10_000,
       default_currency: 'USD',
+      CONNECTOR_SETTING_POLLING_ENABLED => false,
+      CONNECTOR_SETTING_SYNC_START_DATE => nil,
       CONNECTOR_SETTING_CPQ_TERM_UNIT => 'month',
       "filters": {
         SF_ACCOUNT => nil,
@@ -188,6 +190,29 @@ module StripeForce
       end
 
       connector_settings[CONNECTOR_SETTING_SALESFORCE_INSTANCE_TYPE]
+    end
+
+    def last_polled_timestamp_record(sf_record_class: SF_ORDER)
+      StripeForce::PollTimestamp.by_user_and_record(self, sf_record_class)
+    end
+
+    def last_synced
+      poll_timestamp_record = last_polled_timestamp_record
+      unless poll_timestamp_record.nil?
+        return poll_timestamp_record.last_polled_at.to_i
+      end
+
+      nil
+    end
+
+    def polling_enabled?
+      # For existing users, this setting might not be set.
+      if connector_settings[CONNECTOR_SETTING_POLLING_ENABLED].nil?
+        # If we have set up their Order poll timestamp, we can safely say this is true otherwise lets say false
+        connector_settings[CONNECTOR_SETTING_POLLING_ENABLED] = self.last_polled_timestamp_record.nil? ? false : true
+      end
+
+      connector_settings[CONNECTOR_SETTING_POLLING_ENABLED]
     end
 
     # for our purposes a sandbox is anything that isn't a production account

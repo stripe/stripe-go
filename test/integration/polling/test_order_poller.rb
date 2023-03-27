@@ -5,14 +5,14 @@ require_relative '../../test_helper'
 
 class Critic::OrderPollerTest < Critic::FunctionalTest
   before do
-    @user = make_user(save: true)
+    @user = make_user
+    # Default to enable polling and individual tests can disable if needed
+    @user.connector_settings[CONNECTOR_SETTING_POLLING_ENABLED] = true
+    @user.save
     inline_job_processing!
   end
 
   it 'polls orders and does not allow two polls to run at once' do
-    # must persist user record in order for initial poll job to pick it up
-    @user.save
-
     initial_poll = set_initial_poll_timestamp(SF_ORDER)
     initial_poll.update(last_polled_at: DateTime.now - POLL_FREQUENCY - 1.minutes)
 
@@ -51,6 +51,74 @@ class Critic::OrderPollerTest < Critic::FunctionalTest
     StripeForce::InitiatePollsJobs.perform
 
     assert(contains_order)
+  end
+
+  it 'does not poll for a user with polling disabled' do
+    @user.connector_settings[CONNECTOR_SETTING_POLLING_ENABLED] = false
+    @user.save
+
+    StripeForce::SalesforcePollJob.expects(:work).never
+
+    StripeForce::InitiatePollsJobs.perform
+  end
+
+  it 'polls for a user with polling enabled' do
+    # polling_enabled = true in before step
+
+    StripeForce::SalesforcePollJob.expects(:work).once
+
+    StripeForce::InitiatePollsJobs.perform
+  end
+
+  it 'creates a poll timestamp for a user with polling enabled' do
+    # polling_enabled = true in before step
+
+    assert_nil(@user.last_polled_timestamp_record)
+    assert_nil(@user.last_synced)
+
+    sf_order = create_salesforce_order
+
+    SalesforceTranslateRecordJob.expects(:work).at_least_once
+    StripeForce::SalesforcePollJob.work(@user, StripeForce::OrderPoller)
+
+    refute_nil(@user.last_polled_timestamp_record)
+  end
+
+
+  it 'creates a poll timestamp for a user with polling enabled and a sync start date defined' do
+    # polling_enabled = true in before step
+    @user.connector_settings[CONNECTOR_SETTING_SYNC_START_DATE] = "1662681600"
+    @user.save
+
+    assert_nil(@user.last_polled_timestamp_record)
+    assert_nil(@user.last_synced)
+
+    sf_order = create_salesforce_order
+
+    SalesforceTranslateRecordJob.expects(:work).at_least_once
+    StripeForce::SalesforcePollJob.work(@user, StripeForce::OrderPoller)
+
+    timestamp_record = @user.last_polled_timestamp_record
+    refute_nil(timestamp_record)
+    assert_equal(@user.last_synced, timestamp_record.last_polled_at.to_i)
+  end
+
+  it 'uses the sync start date' do
+    # polling_enabled = true in before step
+    @user.connector_settings[CONNECTOR_SETTING_SYNC_START_DATE] = "1662681600"
+    @user.save
+
+    assert_nil(@user.last_polled_timestamp_record)
+    assert_nil(@user.last_synced)
+
+    op = StripeForce::OrderPoller.new(@user)
+    should_poll = op.should_poll?(Time.now.utc, @user.last_polled_timestamp_record)
+
+    assert(should_poll)
+
+    timestamp_record = @user.last_polled_timestamp_record
+    refute_nil(timestamp_record)
+    assert_equal(@user.connector_settings[CONNECTOR_SETTING_SYNC_START_DATE].to_i, timestamp_record.last_polled_at.to_i)
   end
 
   it 'allows for query customizations' do
@@ -178,7 +246,10 @@ class Critic::OrderPollerTest < Critic::FunctionalTest
 
 
   describe 'general tests using order poller' do
-    it 'does not poll if no initial timestamp is set' do
+    it 'does not poll if polling is disabled' do
+      @user.connector_settings[CONNECTOR_SETTING_POLLING_ENABLED] = false
+      @user.save
+
       Restforce::Data::Client.any_instance.expects(:get_updated).never
 
       locker = Integrations::Locker.new(@user)
@@ -187,7 +258,7 @@ class Critic::OrderPollerTest < Critic::FunctionalTest
       assert_equal(0, StripeForce::PollTimestamp.count)
     end
 
-    it 'polls if a timestamp is set' do
+    it 'polls if polling is enabled' do
       initial_poll = set_initial_poll_timestamp(SF_ORDER).last_polled_at
 
       SalesforceTranslateRecordJob.expects(:perform)

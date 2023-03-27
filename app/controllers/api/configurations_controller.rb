@@ -206,7 +206,7 @@ module Api
           salesforce: @user.salesforce_token.present?,
           stripe: @user.stripe_account_id.present?,
 
-          last_synced: Time.now.to_i,
+          last_synced: @user.last_synced,
           stripe_account_id: @user.stripe_account_id,
         },
 
