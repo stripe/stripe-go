@@ -90,6 +90,34 @@ def delete_sync_records
   end
 end
 
+
+def sync_all_products_or_pricebooks(sf_record_type)
+  if ![SF_PRODUCT, SF_PRICEBOOK_ENTRY].include?(sf_record_type)
+    put "sf record type is not a #{SF_PRODUCT} or #{SF_PRICEBOOK_ENTRY}" 
+    return
+  end
+
+  put "sync all #{sf_record_type} start"  
+  
+  # check if user has custom filters
+  custom_query = @user.connector_settings.dig("filters", sf_record_type)
+  if custom_query && custom_query.strip.present?
+    put "found #{sf_record_type} custom filters. adding custom filters to query..."
+    custom_query  = " AND " + custom_query
+  end
+
+  # query for all the records  
+  records = @sf.query("SELECT Id FROM #{sf_record_type} WHERE #{prefixed_stripe_field(GENERIC_STRIPE_ID)} = null #{custom_query}")
+  puts "#{records.count} #{sf_record_type} records found"
+
+  # queue each record for translation  
+  records.each do |record|
+    puts "syncing #{sf_record_type} with Id = \t#{record.Id}"
+    SalesforceTranslateRecordJob.work(@user, record.Id.strip)
+  end
+  put "sync all #{sf_record_type} end"    
+end
+
 # we know the quote of the initial order will be 1:1 linked on the contract
 # if this does not return a valid ID, it means the order is an amendment
 def contract_id_from_initial_order(sf_initial_order_id)
