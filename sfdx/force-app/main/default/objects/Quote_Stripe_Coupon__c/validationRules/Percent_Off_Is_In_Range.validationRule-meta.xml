@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Percent_Off_Is_In_Range</fullName>
+    <active>true</active>
+    <description>Percent_Off__c value should be between 0 and 100.</description>
+    <errorConditionFormula>AND(NOT(ISBLANK(Percent_Off__c)), Percent_Off__c &gt; 100.0)</errorConditionFormula>
+    <errorMessage>Percent_Off__c value must be greater than 0 and less or equal to 100.</errorMessage>
+</ValidationRule>

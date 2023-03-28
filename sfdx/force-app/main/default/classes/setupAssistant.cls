@@ -477,25 +477,29 @@ public with sharing class setupAssistant {
                                                         WITH SECURITY_ENFORCED
                                                         LIMIT 1];
 
-                if(!syncRecordList.isEmpty()) {
-                    Sync_Record__c recordToSync = syncRecordList[0];
-                    String route = constants.RUBY_SERVICE_BASE_URI + '/v1/translate';
+                if (syncRecordList.isEmpty()) {
+                    rd.put('isSyncRecordDispactched', isSyncRecordDispactched);
+                    return rd.getJsonString();
+                }
 
-                    Map<String, Object> body = new Map<String, Object>{
-                        'object_type' => (String)recordToSync.Primary_Object_Type__c,
-                        'object_ids' => new List<String> {
-                            (String)recordToSync.Primary_Record_ID__c
-                        }
-                    };
+                Sync_Record__c recordToSync = syncRecordList[0];
+                
+                String route = constants.RUBY_SERVICE_BASE_URI + '/v1/translate';
 
-                    HttpResponse response =  utilities.makeCallout(route, 'POST', JSON.serialize(body));
-
-                    if(response.getStatusCode() == 200) {
-                        isSyncRecordDispactched = true;
-                    } else {
-                        rd.put('isSyncRecordDispactched', false);
-                        errorLogger.create('manualRetry', String.valueOf(response.getStatusCode()), (String)response.getStatus(), 'Sync_Record ID that failed: '+(String)recordId);
+                Map<String, Object> body = new Map<String, Object>{
+                    'object_type' => (String)recordToSync.Primary_Object_Type__c,
+                    'object_ids' => new List<String> {
+                        (String)recordToSync.Primary_Record_ID__c
                     }
+                };
+
+                HttpResponse response =  utilities.makeCallout(route, 'POST', JSON.serialize(body));
+
+                if(response.getStatusCode() == 200) {
+                    isSyncRecordDispactched = true;
+                } else {
+                    rd.put('isSyncRecordDispactched', false);
+                    errorLogger.create('manualRetry', String.valueOf(response.getStatusCode()), (String)response.getStatus(), 'Sync_Record ID that failed: '+(String)recordId);
                 }
             }
         } catch (Exception e) {

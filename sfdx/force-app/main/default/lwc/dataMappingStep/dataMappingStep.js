@@ -3,7 +3,34 @@ import getPicklistValuesForMapper from '@salesforce/apex/setupAssistant.getPickl
 import getFormattedStripeObjectFields from '@salesforce/apex/setupAssistant.getFormattedStripeObjectFields';
 import getMappingConfigurations from '@salesforce/apex/setupAssistant.getMappingConfigurations';
 import saveMappingConfigurations from '@salesforce/apex/setupAssistant.saveMappingConfigurations';
-import { getErrorMessage } from 'c/utils'
+import { getErrorMessage } from 'c/utils';
+import Alert from 'c/alert';
+
+const blankMetadataMapping = () => {
+    return {
+        metadataMapping: {
+            label: '',
+            name: '',
+            value: '',
+            description: '',
+            alerts: [],
+            fields: []
+        }
+    };
+}
+
+const mappingListDefaults = () => {
+    return {
+        customer: {},
+        product: {},
+        subscription_schedule: {},
+        subscription_phase: {},
+        subscription_item: {},
+        price: {},
+        price_order_item: {},
+        coupon: {}
+    };
+};
 
 export default class DataMappingStep extends LightningElement {
     /*
@@ -14,6 +41,7 @@ export default class DataMappingStep extends LightningElement {
     friendlyStripeObjectName = 'Customer';
     activeObject = 'customer';
     activeObjectDescription;
+    activeObjectAlerts;
     staticValue;
     stripeObjectField;
     defaultSfObject;
@@ -52,12 +80,18 @@ export default class DataMappingStep extends LightningElement {
         "price": {
             objectName: "PricebookEntry",
             friendlyName: 'Price',
-            description: 'Prices define the unit cost, currency, and (optional) billing cycle for both recurring and one-time purchases of products.'
+            description: 'Prices define the unit cost, currency, and (optional) billing cycle for both recurring and one-time purchases of products.',
         },
         "priceOrderItem": {
-            objectName: "PricebookEntry",
-            friendlyName: 'Price Order Item',
-            description: 'Price order items define the unit cost, currency, and (optional) billing cycle for both recurring and one-time purchases of a single product.'
+            objectName: "OrderItem",
+            friendlyName: 'Price (Order Item)',
+            description: 'Price order items define the unit cost, currency, and (optional) billing cycle for both recurring and one-time purchases of a single product.',
+            alerts: [
+                {
+                    type: Alert.Types.warning,
+                    message: 'In some cases we create Stripe Prices out of Order Items, for example when the UnitPrice on an Order Item differs from the associated Pricebook Entry\'s UnitPrice. You can set the mappings for this case here.',
+                },
+            ],
         },
         "coupon": {
             objectName: "Order_Stripe_Coupon__c",
@@ -83,111 +117,30 @@ export default class DataMappingStep extends LightningElement {
     // allMappingList is used to retrieve and send all user mappings `saveMappingConfigurations` 
     @track allMappingList = {
         // these are static values defined by the user in the mapper UI
-        field_defaults: {
-            customer: {},
-            product: {},
-            subscription_schedule: {},
-            subscription_phase: {},
-            subscription_item: {},
-            price: {},
-            price_order_item: {},
-            coupon: {}
-        },
+        field_defaults: mappingListDefaults(),
         // these are user defined mappings from Salesforce fields to Stripe fields
-        field_mappings: {
-            customer: {},
-            product: {},
-            subscription_schedule: {},
-            subscription_phase: {},
-            subscription_item: {},
-            price: {},
-            price_order_item: {},
-            coupon: {}
-        },
+        field_mappings: mappingListDefaults(),
         // these are default mappings sent from Ruby (can be overridden in map)
-        default_mappings: {
-            customer: {},
-            product: {},
-            subscription_schedule: {},
-            subscription_phase: {},
-            subscription_item: {},
-            price: {},
-            price_order_item: {},
-            coupon: {}
-        },
+        default_mappings: mappingListDefaults(),
         // these are required mappings sent from Ruby 
-        required_mappings: {
-            customer: {},
-            product: {},
-            subscription_schedule: {},
-            subscription_phase: {},
-            subscription_item: {},
-            price: {},
-            price_order_item: {},
-            coupon: {}
-        }
+        required_mappings: mappingListDefaults()
     };
-    @track customerMetadataFields = {metadataMapping: {
-        label: '',
-        name: '',
-        value: '',
-        description: '',
-        fields: []
-    }};
-    @track productMetadataFields = {metadataMapping: {
-        label: '',
-        name: '',
-        value: '',
-        description: '',
-        fields: []
-    }};;
-    @track subscriptionScheduleMetadataFields = {metadataMapping: {
-        label: '',
-        name: '',
-        value: '',
-        description: '',
-        fields: []
-    }};;
-    @track subscriptionPhaseMetadataFields = {metadataMapping: {
-        label: '',
-        name: '',
-        value: '',
-        description: '',
-        fields: []
-    }};;
-    @track subscriptionItemMetadataFields = {metadataMapping: {
-        label: '',
-        name: '',
-        value: '',
-        description: '',
-        fields: []
-    }};;
-    @track priceMetadataFields = {metadataMapping: {
-        label: '',
-        name: '',
-        value: '',
-        description: '',
-        fields: []
-    }};
-    @track priceOrderItemMetadataFields = {metadataMapping: {
-        label: '',
-        name: '',
-        value: '',
-        description: '',
-        fields: []
-    }};
-    @track couponMetadataFields = {metadataMapping: {
-        label: '',
-        name: '',
-        value: '',
-        description: '',
-        fields: []
-    }
-    };
+    @track customerMetadataFields = blankMetadataMapping();
+    @track productMetadataFields = blankMetadataMapping();
+    @track subscriptionScheduleMetadataFields = blankMetadataMapping();
+    @track subscriptionPhaseMetadataFields = blankMetadataMapping();
+    @track subscriptionItemMetadataFields = blankMetadataMapping();
+    @track priceMetadataFields = blankMetadataMapping();
+    @track priceOrderItemMetadataFields = blankMetadataMapping();
+    @track couponMetadataFields = blankMetadataMapping();
 
     @track activeStripeObjectMappings = this.customerMappings;
     @track activeStripeObjectMetadataFields = this.customerMetadataFields;
     @track activeStripeObjectSections;
+
+    get hasActiveAlerts() {
+        return this.activeObjectAlerts !== undefined && this.activeObjectAlerts instanceof Array;
+    }
 
     get priceOrderItemObjectActive() {
         return this.activeObject == 'priceOrderItem';
@@ -577,6 +530,7 @@ export default class DataMappingStep extends LightningElement {
     
         this.dispatchEvent(this.contentLoading);
         this.activeObjectDescription = this.ACTIVE_OBJECT_INFO[this.activeObject]['description'];
+        this.activeObjectAlerts = this.ACTIVE_OBJECT_INFO[this.activeObject]['alerts'];
         this.updateObjectFieldsAndSetMappings(this.ACTIVE_OBJECT_INFO[this.activeObject]['objectName'], this.ACTIVE_OBJECT_INFO[this.activeObject]['friendlyName']);
         this.openActiveSection();
         this.dispatchEvent(this.contentLoadingComplete);
@@ -649,6 +603,7 @@ export default class DataMappingStep extends LightningElement {
         } finally {
             this.activeObject = 'customer';
             this.activeObjectDescription = this.ACTIVE_OBJECT_INFO[this.activeObject]['description'];
+            this.activeObjectAlerts = this.ACTIVE_OBJECT_INFO[this.activeObject]['alerts'];
             this.activeStripeObjectMappings = this.customerMappings;
             this.activeStripeObjectMetadataFields = this.customerMetadataFields;
         }

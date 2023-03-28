@@ -9,7 +9,7 @@
                     <lightning-vertical-navigation-item label="Subscription Item" name="subscriptionItem"></lightning-vertical-navigation-item>
                     <lightning-vertical-navigation-item label="Product" name="product"></lightning-vertical-navigation-item>
                     <lightning-vertical-navigation-item label="Price" name="price"></lightning-vertical-navigation-item>
-                    <lightning-vertical-navigation-item label="Price Order Line" name="priceOrderItem"></lightning-vertical-navigation-item>
+                    <lightning-vertical-navigation-item label="Price (Order Item)" name="priceOrderItem"></lightning-vertical-navigation-item>
                     <lightning-vertical-navigation-item label="Coupon" name="coupon"></lightning-vertical-navigation-item>
                 </lightning-vertical-navigation-section>
             </lightning-vertical-navigation>
@@ -19,17 +19,30 @@
             <!-- Mapper Main Content -->
             <h1 class="slds-text-heading_medium">
                 {friendlyStripeObjectName}
-                <lightning-button-icon
+                <lightning-button
+                    variant="neutral"
+                    label="Stripe API"
+                    title="View Stripe API Documentation"
                     icon-name="utility:new_window"
-                    variant="bare"
-                    size="medium"
-                    alternative-text="View Stripe API Documentation"
+                    icon-position="right"
                     data-object={activeObject}
                     onclick={openStripeApi}
-                    class="stripe-button_inline slds-button slds-m-left_x-small">
-                </lightning-button-icon>
+                    class="slds-text-body_regular stripe-button_inline slds-m-left_x-small">
+                </lightning-button>
             </h1>
             <h4 class="slds-m-top_xx-small slds-m-bottom_small">Salesforce Object: <strong>{defaultSfObject}</strong></h4>
+            <template if:true={hasActiveAlerts} for:each={activeObjectAlerts} for:item="alert" for:index="alertIdx">
+                <c-alert
+                        key={alert}
+                        type={alert.type}
+                        classes={alert.classes}
+                        title={alert.title}
+                        icon={alert.icon}
+                        icon-size={alert.iconSize}
+                        message={alert.message}>
+                </c-alert>
+
+            </template>
             <p class="slds-m-vertical_small slds-text-color_weak">{activeObjectDescription}</p>
             <!-- Mapping Groups -->
             <lightning-accordion

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomApplication xmlns="http://soap.sforce.com/2006/04/metadata">
     <brand>
-        <headerColor>#FFC148</headerColor>
-        <logo>Billing_for_light_background</logo>
+        <headerColor>#625BF6</headerColor>
+        <logo>stripelogosquare</logo>
         <logoVersion>1</logoVersion>
         <shouldOverrideOrgTheme>false</shouldOverrideOrgTheme>
     </brand>
@@ -10,6 +10,7 @@
     <formFactors>Large</formFactors>
     <isNavAutoTempTabsDisabled>false</isNavAutoTempTabsDisabled>
     <isNavPersonalizationDisabled>false</isNavPersonalizationDisabled>
+    <isNavTabPersistenceDisabled>false</isNavTabPersistenceDisabled>
     <label>Stripe Billing Setup</label>
     <navType>Standard</navType>
     <tabs>Setup</tabs>

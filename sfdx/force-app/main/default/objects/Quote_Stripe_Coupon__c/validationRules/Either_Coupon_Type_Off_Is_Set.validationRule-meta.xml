@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Either_Coupon_Type_Off_Is_Set</fullName>
+    <active>true</active>
+    <description>Stripe Coupon has either Percent Off or Amount Off set.</description>
+    <errorConditionFormula>AND(ISBLANK(Amount_Off__c), ISBLANK(Percent_Off__c))</errorConditionFormula>
+    <errorMessage>Must provide Percent_Off__c or Amount_Off__c on a Stripe Coupon.</errorMessage>
+</ValidationRule>

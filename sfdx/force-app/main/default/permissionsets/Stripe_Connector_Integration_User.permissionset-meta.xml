@@ -69,10 +69,6 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>scheduleSyncRecordDeletion</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>constants</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -97,7 +93,15 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>scheduleSyncRecordDeletion</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>setupAssistant</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>test_batchDeleteSyncRecords</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -113,23 +117,19 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>test_setupAssistant</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>test_scheduleSyncRecordDeletion</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>test_batchDeleteSyncRecords</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>test_updateSyncRecordsStatusesTrigger</apexClass>
+        <apexClass>test_setupAssistant</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>test_updateOrderCouponTrigger</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>test_updateSyncRecordsStatusesTrigger</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -176,21 +176,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>OrderItem.Skip_Line_Item__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>OrderItem.Stripe_Dashboard_Link__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>OrderItem.Stripe_ID__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Error_Log__c.Action_Taken__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -221,6 +206,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Order.SBQQ__Quote__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Order.Stripe_Dashboard_Link__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -235,7 +225,18 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <field>Order.SBQQ__Quote__c</field>
+        <editable>true</editable>
+        <field>OrderItem.Skip_Line_Item__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>OrderItem.Stripe_Dashboard_Link__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>OrderItem.Stripe_ID__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -347,12 +348,12 @@
         <enabled>true</enabled>
     </pageAccesses>
     <tabSettings>
-        <tab>Error_Log__c</tab>
-        <visibility>None</visibility>
-    </tabSettings>
-    <tabSettings>
         <tab>Setup</tab>
         <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
+        <tab>Setup_Data__c</tab>
+        <visibility>Available</visibility>
     </tabSettings>
     <tabSettings>
         <tab>Sync_Record__c</tab>

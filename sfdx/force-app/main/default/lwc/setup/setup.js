@@ -194,6 +194,15 @@ export default class FirstTimeSetup extends LightningElement {
             this.showSetupToast(errorMessage, 'error', 'sticky');
         } finally {
             this.loading = false;
+
+            // skip the initial landing screen by grabbing the first nav item and "clicking"
+            if (this.setupComplete && this.activeSectionIndex === undefined) {
+                const comp = this;
+                setTimeout(() => {
+                    const orgSettings = comp.template.querySelector('li[data-section-name="orgSettings"]');
+                    orgSettings.click();
+                }, 0);
+            }
         }
     }
 

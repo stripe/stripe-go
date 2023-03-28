@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Amount_Off_and_Percent_Off_Not_Updated</fullName>
+    <active>true</active>
+    <description>You cannot change `Amount_Off__c` or `Percent_Off__c` after the coupon is created in Stripe.</description>
+    <errorConditionFormula>AND(NOT(ISBLANK(Stripe_ID__c)), OR(ISCHANGED(Amount_Off__c), ISCHANGED(Percent_Off__c)))</errorConditionFormula>
+    <errorMessage>You cannot update Amount_Off__c or Percent_Off__c after the coupon has been created.</errorMessage>
+</ValidationRule>

@@ -1,0 +1,11 @@
+<!--
+ - Created by jmather-c on 3/23/23.
+ -->
+
+<!-- Alert -->
+<template>
+    <div key={getTitle} class={getClasses} role="alert">
+        <lightning-icon icon-name={getIcon} alternative-text={getTitle} title={getTitle} size={getIconSize}></lightning-icon>
+        <h2>{getMessage}</h2>
+    </div>
+</template>

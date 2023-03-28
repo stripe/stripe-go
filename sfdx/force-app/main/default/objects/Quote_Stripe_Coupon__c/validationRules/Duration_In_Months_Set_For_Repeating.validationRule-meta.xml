@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Duration_In_Months_Set_For_Repeating</fullName>
+    <active>true</active>
+    <description>When you use the value repeating for duration, you must specify duration_in_months as the number of months that the coupon repeatedly applies to.</description>
+    <errorConditionFormula>AND(ISPICKVAL(Duration__c, &quot;repeating&quot;), ISBLANK(Duration_In_Months__c))</errorConditionFormula>
+    <errorMessage>The Duration_In_Months__c param must be set when creating a coupon with a repeating duration.</errorMessage>
+</ValidationRule>

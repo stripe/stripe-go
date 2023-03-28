@@ -36,6 +36,8 @@ public with sharing class constants {
 
     public static final String FIELD_CURRENCY_ISO_CODE = 'CurrencyIsoCode';
 
+    public static final String RESOLUTION_STATUS_ERROR = 'Error';
+
     // this seemingly-useless code is used for the bootstrap process in the setup.page
     public String getNamespace() {
         return constants.NAMESPACE;
