@@ -93,16 +93,16 @@ end
 
 def sync_all_products_or_pricebooks(sf_record_type)
   if ![SF_PRODUCT, SF_PRICEBOOK_ENTRY].include?(sf_record_type)
-    put "sf record type is not a #{SF_PRODUCT} or #{SF_PRICEBOOK_ENTRY}" 
+    puts "sf record type is not a #{SF_PRODUCT} or #{SF_PRICEBOOK_ENTRY}" 
     return
   end
 
-  put "sync all #{sf_record_type} start"  
+  puts "sync all #{sf_record_type} start"  
   
   # check if user has custom filters
   custom_query = @user.connector_settings.dig("filters", sf_record_type)
   if custom_query && custom_query.strip.present?
-    put "found #{sf_record_type} custom filters. adding custom filters to query..."
+    puts "found #{sf_record_type} custom filters. adding custom filters to query..."
     custom_query  = " AND " + custom_query
   end
 
@@ -112,10 +112,10 @@ def sync_all_products_or_pricebooks(sf_record_type)
 
   # queue each record for translation  
   records.each do |record|
-    puts "syncing #{sf_record_type} with Id = \t#{record.Id}"
+    puts "syncing #{sf_record_type} with Id = #{record.Id}"
     SalesforceTranslateRecordJob.work(@user, record.Id.strip)
   end
-  put "sync all #{sf_record_type} end"    
+  puts "sync all #{sf_record_type} end"
 end
 
 # we know the quote of the initial order will be 1:1 linked on the contract
