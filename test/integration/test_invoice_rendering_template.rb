@@ -44,7 +44,7 @@ class Critic::InvoiceRendering < Critic::FunctionalTest
     invoice = Stripe::Invoice.list({customer: stripe_customer_id}, @user.stripe_credentials)
 
     assert_equal(invoice_rendering_template_id, invoice.data.first.rendering.template)
-    assert_nil(invoice.data.first.rendering.template_version)
+    assert_equal(1, invoice.data.first.rendering.template_version)
   end
 
   it 'translates a sf order with an invoice rendering template for a specific version' do
