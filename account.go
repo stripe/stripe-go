@@ -553,6 +553,10 @@ type AccountCompanyParams struct {
 	DirectorsProvided *bool `form:"directors_provided"`
 	// Whether the company's executives have been provided. Set this Boolean to `true` after creating all the company's executives with [the Persons API](https://stripe.com/docs/api/persons) for accounts with a `relationship.executive` requirement.
 	ExecutivesProvided *bool `form:"executives_provided"`
+	// The export license ID number of the company, also referred as Import Export Code (India only).
+	ExportLicenseID *string `form:"export_license_id"`
+	// The purpose code to use for export transactions (India only).
+	ExportPurposeCode *string `form:"export_purpose_code"`
 	// The company's legal name.
 	Name *string `form:"name"`
 	// The Kana variation of the company's legal name (Japan only).
@@ -980,6 +984,10 @@ type AccountCompany struct {
 	DirectorsProvided bool `json:"directors_provided"`
 	// Whether the company's executives have been provided. This Boolean will be `true` if you've manually indicated that all executives are provided via [the `executives_provided` parameter](https://stripe.com/docs/api/accounts/update#update_account-company-executives_provided), or if Stripe determined that sufficient executives were provided.
 	ExecutivesProvided bool `json:"executives_provided"`
+	// The export license ID number of the company, also referred as Import Export Code (India only).
+	ExportLicenseID string `json:"export_license_id"`
+	// The purpose code to use for export transactions (India only).
+	ExportPurposeCode string `json:"export_purpose_code"`
 	// The company's legal name.
 	Name string `json:"name"`
 	// The Kana variation of the company's legal name (Japan only).
