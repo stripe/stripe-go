@@ -1,5 +1,9 @@
 # Changelog
 
+## 74.15.0-beta.1 - 2023-03-30
+* [#1634](https://github.com/stripe/stripe-go/pull/1634) Update generated code
+  * Add support for new value `ioss` on enum `TaxRegistrationType`
+
 ## 74.14.0-beta.1 - 2023-03-23
 * [#1623](https://github.com/stripe/stripe-go/pull/1623) Update generated code for beta (new)
   * Add support for new resources `Tax.CalculationLineItem` and `Tax.TransactionLineItem`
