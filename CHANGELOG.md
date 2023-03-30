@@ -16,6 +16,15 @@
   * Add support for `CollectInputs` on `TerminalReaderAction`
   * Add support for new value `collect_inputs` on enum `TerminalReaderActionType`
 
+## 74.13.0 - 2023-03-23
+* [#1624](https://github.com/stripe/stripe-go/pull/1624) Update generated code
+  * Add support for new resources `Tax.CalculationLineItem`, `Tax.Calculation`, `Tax.TransactionLineItem`, and `Tax.Transaction`
+  * Add support for `ListLineItems` and `New` methods on resource `Calculation`
+  * Add support for `CreateFromCalculation`, `CreateReversal`, `Get`, `ListLineItems`, and `New` methods on resource `Transaction`
+  * Add support for `CurrencyConversion` on `CheckoutSession`
+  * Add support for new value `link` on enum `PaymentLinkPaymentMethodTypes`
+  * Add support for `AutomaticPaymentMethods` on `SetupIntentParams` and `SetupIntent`
+
 ## 74.13.0-beta.1 - 2023-03-16
 * [#1621](https://github.com/stripe/stripe-go/pull/1621) API Updates
   * Add support for `CreateFromCalculation` method on resource `Tax.Transaction`
@@ -29,18 +38,6 @@
   * Remove support for `TaxSummary` on `TaxCalculation`
   
 * [#1620](https://github.com/stripe/stripe-go/pull/1620) Merge upstream master
-
-## 74.12.0-beta.1 - 2023-03-09
-* [#1617](https://github.com/stripe/stripe-go/pull/1617) API Updates for beta branch
-  * Updated stable APIs to the latest version
-  * Remove support for `ListTransactions` method on resource `Tax.Transaction`
-  * Add support for `UpdateBehavior` on `SubscriptionPrebillingParams`, `SubscriptionPrebilling`, `SubscriptionSchedulePrebillingParams`, and `SubscriptionSchedulePrebilling`
-  * Add support for `Prebilling` on `SubscriptionScheduleAmendParams`
-  * Change type of `SubscriptionScheduleAppliesTo` from `nullable(QuotesResourceQuoteLinesAppliesTo)` to `QuotesResourceQuoteLinesAppliesTo`
-  * Add support for `TaxabilityOverride` on `TaxCalculationCustomerDetailsParams`, `TaxCalculationCustomerDetails`, and `TaxTransactionCustomerDetails`
-  * Add support for `TaxSummary` on `TaxCalculation`
-  * Remove support for `TaxBreakdown` on `TaxCalculation`
-  * Add support for `TaxBehavior` on `TaxSettingsDefaultsParams` and `TaxSettingsDefaults`
 
 ## 74.12.0 - 2023-03-16
 * [#1622](https://github.com/stripe/stripe-go/pull/1622) API Updates
@@ -65,6 +62,18 @@
   * Add support for new value `cashapp` on enum `PaymentLinkPaymentMethodTypes`
   * Add support for new value `cashapp` on enum `PaymentMethodType`
 * [#1618](https://github.com/stripe/stripe-go/pull/1618) Install goimports before trying to run it
+
+## 74.12.0-beta.1 - 2023-03-09
+* [#1617](https://github.com/stripe/stripe-go/pull/1617) API Updates for beta branch
+  * Updated stable APIs to the latest version
+  * Remove support for `ListTransactions` method on resource `Tax.Transaction`
+  * Add support for `UpdateBehavior` on `SubscriptionPrebillingParams`, `SubscriptionPrebilling`, `SubscriptionSchedulePrebillingParams`, and `SubscriptionSchedulePrebilling`
+  * Add support for `Prebilling` on `SubscriptionScheduleAmendParams`
+  * Change type of `SubscriptionScheduleAppliesTo` from `nullable(QuotesResourceQuoteLinesAppliesTo)` to `QuotesResourceQuoteLinesAppliesTo`
+  * Add support for `TaxabilityOverride` on `TaxCalculationCustomerDetailsParams`, `TaxCalculationCustomerDetails`, and `TaxTransactionCustomerDetails`
+  * Add support for `TaxSummary` on `TaxCalculation`
+  * Remove support for `TaxBreakdown` on `TaxCalculation`
+  * Add support for `TaxBehavior` on `TaxSettingsDefaultsParams` and `TaxSettingsDefaults`
 
 ## 74.11.0 - 2023-03-09
 * [#1616](https://github.com/stripe/stripe-go/pull/1616) API Updates

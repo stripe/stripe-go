@@ -22,6 +22,7 @@ type TaxRegistrationType string
 // List of values that TaxRegistrationType can take
 const (
 	TaxRegistrationTypeDomesticSmallSeller TaxRegistrationType = "domestic_small_seller"
+	TaxRegistrationTypeIoss                TaxRegistrationType = "ioss"
 	TaxRegistrationTypeSimplified          TaxRegistrationType = "simplified"
 	TaxRegistrationTypeStandard            TaxRegistrationType = "standard"
 	TaxRegistrationTypeVATOssNonUnion      TaxRegistrationType = "vat_oss_non_union"

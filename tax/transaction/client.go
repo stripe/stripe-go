@@ -20,24 +20,6 @@ type Client struct {
 	Key string
 }
 
-// New creates a new tax transaction.
-func New(params *stripe.TaxTransactionParams) (*stripe.TaxTransaction, error) {
-	return getC().New(params)
-}
-
-// New creates a new tax transaction.
-func (c Client) New(params *stripe.TaxTransactionParams) (*stripe.TaxTransaction, error) {
-	transaction := &stripe.TaxTransaction{}
-	err := c.B.Call(
-		http.MethodPost,
-		"/v1/tax/transactions",
-		c.Key,
-		params,
-		transaction,
-	)
-	return transaction, err
-}
-
 // Get returns the details of a tax transaction.
 func Get(id string, params *stripe.TaxTransactionParams) (*stripe.TaxTransaction, error) {
 	return getC().Get(id, params)
