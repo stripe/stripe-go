@@ -288,6 +288,9 @@ public with sharing class utilities {
         // TODO this does not seem to be coming over properly
         if(utilities.isPackagedEnvironment()) {
             request.setHeader('Salesforce-Package-Id', (String)getPackageVersionString());
+        } else {
+            // For non-package environments, lets just set it as version 0
+            request.setHeader('Salesforce-Package-Id', '0.0.0.0');
         }
 
         /*

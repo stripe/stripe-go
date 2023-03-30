@@ -159,6 +159,8 @@ module Api
 
       salesforce_account_id = request.headers[SALESFORCE_ACCOUNT_ID_HEADER]
       salesforce_api_key = request.headers[SALESFORCE_KEY_HEADER]
+      salesforce_package_version = request.headers[SALESFORCE_PACKAGE_ID_HEADER]
+      salesforce_package_namespace = request.headers[SALESFORCE_PACKAGE_NAMESPACE_HEADER]
 
       if salesforce_account_id.blank?
         log.warn 'no salesforce account ID specified'
@@ -187,6 +189,19 @@ module Api
         log.error 'api key does not match user'
         head :not_found
         nil
+      end
+
+      if @user.connector_settings[CONNECTOR_SETTING_PACKAGE_VERSION].nil?
+        @user.connector_settings[CONNECTOR_SETTING_PACKAGE_VERSION] = salesforce_package_version
+      end
+
+      if @user.connector_settings[CONNECTOR_SETTING_PACKAGE_VERSION] != salesforce_package_version
+        log.info('user updated package version',
+          old_version: @user.connector_settings[CONNECTOR_SETTING_PACKAGE_VERSION],
+          new_version: salesforce_package_version,
+          package_namespace: salesforce_package_namespace
+        )
+        @user.connector_settings[CONNECTOR_SETTING_PACKAGE_VERSION] = salesforce_package_version
       end
     end
 
