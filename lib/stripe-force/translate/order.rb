@@ -13,7 +13,7 @@ class StripeForce::Translate
     # in case the amendment order was synced but the initial order was not ready to be synced
     if !orders_respect_custom_filters([contract_structure.initial])
       log.info 'initial order does not respect users custom order filters. not syncing: ', order_ids: contract_structure.initial
-      raise StripeForce::Errors::RawUserError.new("attempted to sync amendment order when initial order was skipped because it didn't match custom filters")
+      raise StripeForce::Errors::RawUserError.new("Attempted to sync amendment order when initial order was skipped because it didn't match custom sync filters")
     end
 
     # process the initial order

@@ -944,7 +944,7 @@ class Critic::OrderAmendmentTranslation < Critic::OrderAmendmentFunctionalTest
       exception = assert_raises(StripeForce::Errors::UserError) do
         StripeForce::Translate.perform_inline(@user, sf_amendment_order.Id)
       end
-      assert_match("attempted to sync amendment order before syncing corresponding initial order", exception.message)
+      assert_match("attempted to sync amendment order when initial order was skipped because it didn't match custom sync filters", exception.message.downcase)
     end
   end
 
