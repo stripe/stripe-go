@@ -4,6 +4,20 @@
 * [#1634](https://github.com/stripe/stripe-go/pull/1634) Update generated code
   * Add support for new value `ioss` on enum `TaxRegistrationType`
 
+## 74.14.0 - 2023-03-30
+* [#1635](https://github.com/stripe/stripe-go/pull/1635) Update generated code
+  * Remove support for `New` method on resource `Tax.Transaction`
+    * This is not a breaking change, as this method was deprecated before the Tax Transactions API was released in favor of the `CreateFromCalculation` method.
+  * Add support for `ExportLicenseID` and `ExportPurposeCode` on `AccountCompanyParams`, `AccountCompany`, and `TokenAccountCompanyParams`
+  * Remove support for value `deleted` from enum `InvoiceStatus`
+    * This is not a breaking change, as the value was never returned or accepted as input.
+  * Add support for `AmountTip` on `TestHelpersTerminalReaderPresentPaymentMethodParams`
+* [#1633](https://github.com/stripe/stripe-go/pull/1633) Trigger workflow for tags
+* [#1632](https://github.com/stripe/stripe-go/pull/1632) Update generated code (new)
+  Release specs are identical.
+* [#1631](https://github.com/stripe/stripe-go/pull/1631) Update generated code (new)
+  Release specs are identical.
+
 ## 74.14.0-beta.1 - 2023-03-23
 * [#1623](https://github.com/stripe/stripe-go/pull/1623) Update generated code for beta (new)
   * Add support for new resources `Tax.CalculationLineItem` and `Tax.TransactionLineItem`
