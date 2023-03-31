@@ -60,19 +60,8 @@ class StripeForce::OrderPoller < StripeForce::PollerBase
       #{prefixed_stripe_field(GENERIC_STRIPE_ID)} = null AND
       LastModifiedDate >= #{time_start.iso8601} AND
       LastModifiedDate < #{time_end.iso8601}
-      #{user_specified_where_clause_for_object}
+      #{@user.user_specified_where_clause_for_object(poll_type)}
     EOL
-  end
-
-  private def user_specified_where_clause_for_object
-    custom_query = @user.connector_settings.dig("filters", poll_type)
-
-    if custom_query && custom_query.strip.present?
-      log.info 'adding custom query to poll', poll_type: poll_type
-      " AND " + custom_query
-    else
-      ""
-    end
   end
 
   private def poll_type

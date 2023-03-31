@@ -10,11 +10,41 @@ class StripeForce::Translate
     # get initial order and all amendments
     contract_structure = extract_contract_from_order(sf_object)
 
+    # in case the amendment order was synced but the initial order was not ready to be synced
+    if !orders_respect_custom_filters([contract_structure.initial])
+      log.info 'initial order does not respect users custom order filters. not syncing: ', order_ids: contract_structure.initial
+      raise StripeForce::Errors::RawUserError.new("attempted to sync amendment order when initial order was skipped because it didn't match custom filters")
+    end
+
     # process the initial order
     create_stripe_transaction_from_sf_order(contract_structure.initial)
 
+    # if there are amendment orders for this initial order, ensure the order respects
+    # the user's custom order filters before syncing
+    if !orders_respect_custom_filters(contract_structure.amendments)
+      log.info 'not all amendment orders respect users custom order filters. not syncing orders: ', order_ids: contract_structure.amendments
+      return
+    end
+
     # after that is created, then process all amendments
     update_subscription_phases_from_order_amendments(contract_structure)
+  end
+
+  # we need to ensure that both the initial order and the amendment order respect the user's custom order filters
+  # regardless of which one is picked up by the connector
+  sig { params(sf_orders: T::Array[Restforce::SObject]).returns(T::Boolean) }
+  def orders_respect_custom_filters(sf_orders)
+    sf_orders.each do |sf_order|
+      sf_order_id = sf_order.Id
+      user_specified_order_filters = @user.user_specified_where_clause_for_object(SF_ORDER)
+      results = backoff { @user.sf_client.query("SELECT Id FROM #{SF_ORDER} WHERE Id = '#{sf_order_id}' #{user_specified_order_filters}") }
+
+      # if one of the order amendments does not meet the custom filters, do not sync over all of them
+      if results.empty?
+        return false
+      end
+    end
+    true
   end
 
   # give an order (amendment or initial order) determine the initial order and all amendments

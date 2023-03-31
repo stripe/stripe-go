@@ -364,6 +364,17 @@ module StripeForce
       Digest::SHA1.hexdigest(mappings_as_string)
     end
 
+    def user_specified_where_clause_for_object(poll_type)
+      custom_query = self.connector_settings.dig("filters", poll_type)
+
+      if custom_query && custom_query.strip.present?
+        log.info 'found custom query for poll type', poll_type: poll_type
+        " AND " + custom_query
+      else
+        ""
+      end
+    end
+
     protected def kms_encryption_context(field=nil)
       {
         # NOTE that the account is the SF organization instance ID

@@ -46,4 +46,27 @@ class Critic::OrderAmendmentFunctionalTest < Critic::FunctionalTest
 
     create_order_from_cpq_quote(sf_quote_id)
   end
+
+  # this create a Salesforce order without 'Activating' it
+  def create_draft_order_from_quote(sf_quote_id)
+    log.info 'creating draft order from quote'
+
+    # manually add the pricebook
+    sf.update!(CPQ_QUOTE, {
+      SF_ID => sf_quote_id,
+      CPQ_QUOTE_PRICEBOOK => default_pricebook_id,
+    })
+
+    # order the quote
+    sf.update!(CPQ_QUOTE, {
+      SF_ID => sf_quote_id,
+      CPQ_QUOTE_ORDERED => true,
+    })
+
+    # grab the order from the quote
+    related_orders = sf.get("/services/data/v52.0/sobjects/#{CPQ_QUOTE}/#{sf_quote_id}/SBQQ__Orders__r")
+    sf_order = related_orders.body.first
+    sf_order.refresh
+    sf_order
+  end
 end
