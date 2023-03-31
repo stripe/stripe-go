@@ -650,6 +650,9 @@ type PaymentMethodKlarna struct {
 }
 type PaymentMethodKonbini struct{}
 type PaymentMethodLink struct {
+	// Two-letter ISO code representing the funding source (i.e. card, bank) country beneath the Link payment method.
+	// You could use this attribute to get a sense of the international breakdown of funding sources you've collected.
+	Country string `json:"country"`
 	// Account owner's email address.
 	Email string `json:"email"`
 	// Token used for persistent Link logins.
