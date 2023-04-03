@@ -46,6 +46,8 @@ type CapitalFinancingTransactionListParams struct {
 	FinancingOffer *string `form:"financing_offer"`
 	// Only returns transactions that are responsible for reversing this financing transaction ID.
 	ReversedTransaction *string `form:"reversed_transaction"`
+	// For transactions of type `paydown` and reason `automatic_withholding` only, only returns transactions that were created as a result of this Treasury Transaction.
+	TreasuryTransaction *string `form:"treasury_transaction"`
 }
 
 // This is an object representing a linked transaction on a Capital Financing Transaction.
