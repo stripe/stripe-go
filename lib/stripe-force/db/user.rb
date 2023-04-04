@@ -303,6 +303,22 @@ module StripeForce
       }
     end
 
+    # fields to hide from the Data Mapper UI depending
+    # on the feature flags the user has enabled
+    def hidden_mapper_fields
+      hidden_mapper_fields = []
+
+      if !feature_enabled?(FeatureFlags::COUPONS)
+        hidden_mapper_fields << "coupon"
+      end
+
+      if !feature_enabled?(FeatureFlags::PREBILLING)
+        hidden_mapper_fields << "subscription_schedule.prebilling.iterations"
+      end
+
+      hidden_mapper_fields
+    end
+
     sig { params(feature: FeatureFlags, update: T::Boolean).void }
     def enable_feature(feature, update: false)
       if !feature_flags.include?(feature.serialize.to_sym)

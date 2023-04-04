@@ -205,6 +205,7 @@ module StripeForce
         COUPONS = new('coupons')
         TERMINATED_ORDER_ITEM_CREDIT = new('terminated_order_item_credit')
         AUTO_ADVANCE_PRORATION_INVOICE = new('auto_advance_proration_invoices')
+        PREBILLING = new('prebilling')
       end
     end
 

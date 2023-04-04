@@ -233,6 +233,29 @@ class Critic::ConfigurationsControllerTest < ApplicationIntegrationTest
         refute_equal(initial_hash, result['configuration_hash'])
         assert_equal(40, result['configuration_hash'].size)
       end
+
+      it 'hidden mapper fields is updated when features are enabled' do
+        get api_configuration_path, headers: authentication_headers
+        assert_response :success
+        result = parsed_json
+
+        # initially the hidden mapper fields should contain values
+        # if no feature flag is enabled for the user
+        assert(2, result['hidden_mapper_fields'].count)
+        assert_equal(['coupon', 'subscription_schedule.prebilling.iterations'], result['hidden_mapper_fields'])
+
+        # enable features
+        @user.enable_feature(FeatureFlags::COUPONS)
+        @user.enable_feature(FeatureFlags::PREBILLING)
+        @user.save
+
+        get api_configuration_path, headers: authentication_headers
+        assert_response :success
+        result = parsed_json
+
+        # if mappings change, hash should be different
+        assert_equal([], result['hidden_mapper_fields'])
+      end
     end
 
     describe '#configuration' do
