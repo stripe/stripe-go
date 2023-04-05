@@ -414,20 +414,71 @@ class StripeForce::Translate
 
       log.info 'custom price not used, adjusting unit_amount_decimal', sf_order_item_id: sf_object.Id
 
-      billing_frequency = StripeForce::Utilities::StripeUtil.billing_frequency_of_price_in_months(stripe_price)
-
       sf_order = cache_service.get_record_from_cache(SF_ORDER, sf_object['OrderId'])
 
-      subscription_term = StripeForce::Utilities::SalesforceUtil.extract_subscription_term_from_order!(mapper, sf_order)
-      price_multiplier = BigDecimal(subscription_term) / BigDecimal(billing_frequency)
-      # TODO should we adjust based on the quantity? Most likely, let's wait until tests fail
-
-      # NOTE in most cases, this value should be the same as `sf_object['SBQQ__ProrateMultiplier__c']` if the user has product-level subscription term enabled
-      # price_multiplier = determine_subscription_term_multiplier_for_billing_frequency(quote_subscription_term, billing_frequency)
-
+      billing_frequency = StripeForce::Utilities::StripeUtil.billing_frequency_of_price_in_months(stripe_price)
+      price_multiplier = calculate_price_multiplier(mapper, sf_order, sf_object, billing_frequency)
       stripe_price.unit_amount_decimal = T.cast(stripe_price.unit_amount_decimal, BigDecimal) / price_multiplier
     end
 
     stripe_price
+  end
+
+  sig { params(mapper: StripeForce::Mapper, sf_order: Restforce::SObject, sf_order_item: Restforce::SObject, billing_frequency: Integer).returns(BigDecimal) }
+  def calculate_price_multiplier(mapper, sf_order, sf_order_item, billing_frequency)
+    sf_subscription_term = StripeForce::Utilities::SalesforceUtil.extract_subscription_term_from_order!(mapper, sf_order)
+
+    sf_order_end_date = StripeForce::Utilities::SalesforceUtil.extract_subscription_end_date_from_order(mapper, sf_order)
+    if @user.feature_enabled?(FeatureFlags::NON_ANNIVERSARY_AMENDMENTS) && !sf_order_end_date.nil?
+      sf_order_start_date = StripeForce::Utilities::SalesforceUtil.extract_subscription_start_date_from_order(mapper, sf_order)
+
+      # calculate the number of days to prorate
+      days = StripeForce::Utilities::SalesforceUtil.calculate_days_to_prorate(
+        sf_order_start_date: sf_order_start_date,
+        sf_order_end_date: T.must(sf_order_end_date),
+        sf_order_subscription_term: sf_subscription_term)
+
+      # if there is a partial month due to a non-anniversary amendment
+      # we calculate the price multiplier differently depending on the CPQ Subscription Prorate Precision setting
+      if days > 0
+        if @user.feature_enabled?(FeatureFlags::DAY_PRORATIONS)
+          # calculate the price multiplier for when CPQ Subscription Prorate Precision = 'Month + Day'
+          product_subscription_term = StripeForce::Utilities::SalesforceUtil.determine_quote_line_subscription_term(mapper, sf_order_item, sf_order)
+          calculated_price_multiplier = StripeForce::Utilities::SalesforceUtil.calculate_month_plus_day_price_multiple(whole_months: sf_subscription_term, partial_month_days: days, product_subscription_term: product_subscription_term)
+        else
+          # calculate the price multiplier for when CPQ Subscription Prorate Precision = 'Month'
+          # therefore cpq treats the partial month as a whole month so we add one to the provided subscription term
+          sf_subscription_term += 1
+          calculated_price_multiplier = BigDecimal(T.must(sf_subscription_term)) / BigDecimal(billing_frequency)
+        end
+
+        cpq_price_multiplier = sf_order_item[CPQ_PRORATE_MULTIPLIER]
+        if !cpq_price_multiplier.nil?
+          validate_price_multipliers(calculated_price_multiplier, cpq_price_multiplier.to_d)
+        end
+        return calculated_price_multiplier
+      end
+    end
+
+    # TODO should we adjust based on the quantity? Most likely, let's wait until tests fail
+    price_multiplier = BigDecimal(T.must(sf_subscription_term)) / BigDecimal(billing_frequency)
+    price_multiplier
+  end
+
+  sig { params(calculated_price_multiplier: BigDecimal, cpq_price_multiplier: BigDecimal).returns(T::Boolean) }
+  def validate_price_multipliers(calculated_price_multiplier, cpq_price_multiplier)
+    # check that the calculated price multiplier is equal to the cpq provided price multiplier
+    # throw an error if they are not equal
+    # note: we do not use the cpq_price_multiplier since the prorate multiplier field that you see on CPQ objects is rounded
+    if !cpq_price_multiplier.nil?
+      threshold = 0.0000000001
+      if (calculated_price_multiplier - cpq_price_multiplier).abs > threshold
+        log.error 'Calculated price multipler does not equal CPQ price multiplier',
+          calculated_price_multiplier: calculated_price_multiplier, cpq_price_multiplier: cpq_price_multiplier
+        raise Integrations::Errors::TranslatorError.new("calculated price multiplier differs from cpq price multiplier")
+      end
+    end
+
+    true
   end
 end

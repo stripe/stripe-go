@@ -227,13 +227,55 @@ module StripeForce::Utilities
       salesforce_date_to_beginning_of_day(quote_start_date.to_s)
     end
 
+    sig { params(mapper: StripeForce::Mapper, sf_order: Restforce::SObject).returns(T.nilable(Time)) }
+    def self.extract_subscription_end_date_from_order(mapper, sf_order)
+      cpq_order_end_date_path = "#{CPQ_QUOTE}.#{CPQ_QUOTE_SUBSCRIPTION_END_DATE}"
+      cpq_quote_end_date = T.cast(mapper.extract_key_path_for_record(sf_order, cpq_order_end_date_path), T.nilable(String))
+
+      if cpq_quote_end_date.nil?
+        log.warn 'SBQQ__EndDate__c does not exist for order', order_id: sf_order.Id
+        return cpq_quote_end_date
+      end
+
+      # we add 1.day here since the Salesforce CPQ returns the day before the last day
+      # e.g, year contract starting June 1, 2023 would return May 31, 2024 as compared to June 1, 2024
+      salesforce_date_to_beginning_of_day(T.must(cpq_quote_end_date)) + 1.day
+    end
+
+    # https://help.salesforce.com/s/articleView?id=sf.cpq_subscription_terms.htm&type=5
+    sig { params(mapper: StripeForce::Mapper, sf_order_item: Restforce::SObject, sf_order: Restforce::SObject).returns(Integer) }
+    def self.determine_quote_line_subscription_term(mapper, sf_order_item, sf_order)
+      # check if the quote line subscription term exists
+      quote_line_subscription_term = sf_order_item[CPQ_QUOTE_SUBSCRIPTION_TERM]
+      if !quote_line_subscription_term.nil?
+        return quote_line_subscription_term.to_i
+      end
+
+      # if no quote line or quote subscription term exists,  the quote line inherits from the default subscription term
+      default_quote_line_subscription_term = sf_order_item[CPQ_DEFAULT_SUBSCRIPTION_TERM]
+      if !default_quote_line_subscription_term.nil?
+        return default_quote_line_subscription_term.to_i
+      end
+
+      # if no subscription term is specified, the default is annual
+      CPQ_QUOTE_LINE_DEFAULT_SUBSCRIPTION_TERM
+    end
+
+    # this function calculates a Salesforce Order End Date using the following formula:
+    # end date = start date + subscription term (in months)
     sig { params(mapper: StripeForce::Mapper, sf_order: Restforce::SObject).returns(Time) }
     def self.calculate_order_end_date(mapper, sf_order)
       sf_order_start_date = extract_subscription_start_date_from_order(mapper, sf_order)
       sf_order_subscription_term = extract_subscription_term_from_order!(mapper, sf_order)
+      calculated_order_end_date = sf_order_start_date + sf_order_subscription_term.months
 
-      # end date = start date + subscription term
-      sf_order_start_date + sf_order_subscription_term.months
+      # https://jira.corp.stripe.com/browse/PLATINT-1514
+      cpq_order_end_date = extract_subscription_end_date_from_order(mapper, sf_order)
+      if !cpq_order_end_date.nil? && calculated_order_end_date != cpq_order_end_date
+        log.info 'calculated order end date differs from CPQ provided end date', cpq_end_date: cpq_order_end_date, calculated_order_end_date: calculated_order_end_date
+      end
+
+      calculated_order_end_date
     end
 
     # this function determines the amendment order end date and takes into account a special case
@@ -245,9 +287,9 @@ module StripeForce::Utilities
     # https://jira.corp.stripe.com/browse/PLATINT-1807
     sig { params(mapper: StripeForce::Mapper, sf_order_amendment: Restforce::SObject, sf_initial_order: Restforce::SObject).returns(Time) }
     def self.normalize_sf_order_amendment_end_date(mapper:, sf_order_amendment:, sf_initial_order:)
+        initial_order_end_date = calculate_order_end_date(mapper, sf_initial_order)
         amendment_start_date = extract_subscription_start_date_from_order(mapper, sf_order_amendment)
         amendment_end_date = calculate_order_end_date(mapper, sf_order_amendment)
-        initial_order_end_date = calculate_order_end_date(mapper, sf_initial_order)
 
         # if the order amendment start date day-of-month is the eom AND
         # the initial order starts on a day that is greater than the order amendment
@@ -258,9 +300,74 @@ module StripeForce::Utilities
           # snaps the order amendment end date day-of-month to the eom
           # if initial order has a day that doesn't exist in the amendment month
           amendment_end_date = StripeForce::Translate::OrderHelpers.anchor_time_to_day_of_month(base_time: amendment_end_date, anchor_day_of_month: initial_order_end_date.day)
+        elsif days_diff.abs > 0
+          # throw an error if NON_ANNIVERSARY_AMENDMENTS is not enabled
+          non_anniversay_amendments_enabled = mapper.user.feature_enabled?(StripeForce::Constants::FeatureFlags::NON_ANNIVERSARY_AMENDMENTS)
+          if !non_anniversay_amendments_enabled
+            sf_initial_order_start_date = extract_subscription_start_date_from_order(mapper, sf_initial_order)
+            log.error 'amendment order does not start on the same day of month as the initial order',
+              initial_order_start_date: sf_initial_order_start_date,
+              amendment_order_start_date: amendment_start_date
+            raise StripeForce::Errors::RawUserError.new("Amendment orders must start on the same day of month as the initial order")
+          end
+
+          amendment_end_date = get_non_anniversary_amendment_order_end_date(mapper, sf_order_amendment)
         end
 
         T.cast(amendment_end_date, Time)
+    end
+
+    sig { params(mapper: StripeForce::Mapper, sf_order_amendment: Restforce::SObject).returns(Time) }
+    def self.get_non_anniversary_amendment_order_end_date(mapper, sf_order_amendment)
+      # at this point we know:
+      #  (1) feature NON_ANNIVERSARY_AMENDMENTS is enabled
+      #  (2) the amendment order starts on a different day of the month than the initial order
+      # let's fetch the cpq order end date
+      amendment_end_date = extract_subscription_end_date_from_order(mapper, sf_order_amendment)
+      if amendment_end_date.nil?
+        raise Integrations::Errors::MissingRequiredFields.new(salesforce_object: sf_order_amendment, missing_salesforce_fields: [CPQ_QUOTE_SUBSCRIPTION_END_DATE])
+      end
+
+      # let's verify the provided subscription term and compare this against the calculated sub term
+      # the sub term should equal the number of whole months between the start and end date
+      amendment_start_date = extract_subscription_start_date_from_order(mapper, sf_order_amendment)
+      amendment_subscription_term = extract_subscription_term_from_order!(mapper, sf_order_amendment)
+
+      # Sanity check the provided amendment subscription term (since users can input whatever) by calculating
+      # the number of whole months between amendment start and end dates and confirming its equal to the amendment_subscription_term
+      # This is important since this will be used downstream for proration calculations
+      num_months = (amendment_end_date.year * 12 + amendment_end_date.month) - (amendment_start_date.year * 12 + amendment_start_date.month)
+      # partial months don't count towards the number of whole months
+      if amendment_end_date.day < amendment_start_date.day
+        num_months -= 1
+      end
+
+      if num_months != amendment_subscription_term
+        log.info 'Amendment order subscription term does not equal number of whole months between the order start and end date.',
+          amendment_order_start_date: amendment_start_date,
+          amendment_order_end_date: amendment_end_date,
+          amendment_subscription_term: amendment_subscription_term
+        raise StripeForce::Errors::RawUserError.new("Amendment order subscription term does not equal number of whole months between start and end date")
+      end
+      amendment_end_date
+    end
+
+    # Determines the number of days to prorate given the amendment order start and end dates and subscription term
+    # CPQ ignores leap years
+    # We make the following assumptions in the connector:
+    # (1) subscription term represents whole 'months'
+    # (2) amendment order end date coterminates with the initial order
+    sig { params(sf_order_start_date: Time, sf_order_end_date: Time, sf_order_subscription_term: Integer).returns(Integer) }
+    def self.calculate_days_to_prorate(sf_order_start_date:, sf_order_end_date:, sf_order_subscription_term:)
+      days = (sf_order_end_date - (sf_order_start_date + sf_order_subscription_term.months)) / SECONDS_IN_DAY
+      Integer(days)
+    end
+
+    # Prorate multiplier formula for CPQ Subscription Prorate Precision = 'Month + Day'
+    # https://help.salesforce.com/s/articleView?id=sf.cpq_subscriptions_prorate_precision_1.htm&type=5
+    sig { params(whole_months: Integer, partial_month_days: Integer, product_subscription_term: Integer).returns(BigDecimal) }
+    def self.calculate_month_plus_day_price_multiple(whole_months:, partial_month_days:, product_subscription_term:)
+      (whole_months + (BigDecimal(partial_month_days) / (BigDecimal(DAYS_IN_YEAR) / BigDecimal(MONTHS_IN_YEAR)))) / BigDecimal(product_subscription_term)
     end
   end
 end

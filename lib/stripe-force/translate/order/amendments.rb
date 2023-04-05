@@ -82,54 +82,76 @@ class StripeForce::Translate
       initial_order_end_date = StripeForce::Utilities::SalesforceUtil.calculate_order_end_date(mapper, contract_structure.initial)
 
       # the end date must be the same for all order amendments
-      amendment_end_dates = contract_structure.amendments.map do |sf_order_amendment|
+      amendment_orders_end_dates = contract_structure.amendments.map do |sf_order_amendment|
         StripeForce::Utilities::SalesforceUtil.normalize_sf_order_amendment_end_date(mapper: mapper, sf_order_amendment: sf_order_amendment, sf_initial_order: contract_structure.initial)
       end
 
-      is_co_terminated = amendment_end_dates.all? do |sf_amendment_end_date|
+      is_co_terminated = amendment_orders_end_dates.all? do |sf_amendment_end_date|
         sf_amendment_end_date.to_i == initial_order_end_date.to_i
       end
 
       if !is_co_terminated
-        log.info 'order is not coterminated',
+        log.info 'amendment order is not coterminated',
           initial_end_date: initial_order_end_date,
-          amendment_end_dates: amendment_end_dates
+          amendment_end_dates: amendment_orders_end_dates
       end
 
       is_co_terminated
     end
 
-    # NOTE at this point it's assumed that the price is NOT a metered billing item or tiered price
     sig do
       params(
-        user: StripeForce::User,
-        phase_item: ContractItemStructure,
+        stripe_price: Stripe::Price,
         subscription_term: Integer,
-        billing_frequency: Integer
-      ).returns(Stripe::Price)
+        product_subscription_term: Integer,
+        billing_frequency: Integer,
+        days_prorating: Integer,
+      ).returns(BigDecimal)
     end
-    def self.create_prorated_price_from_phase_item(user:, phase_item:, subscription_term:, billing_frequency:)
-      # at this point, we know what the billing amount is per billing cycle, since that has alread been defined
-      # on the price object at the order line. We calculate the percentage of the original line price that should
-      # be billed and multiply that against the decimal price on the stripe price.
-
-      # TODO validate that it isn't a tiered or metered billing price
-
-      # TODO we'll need to have some sort of logic for backend prorations to calculate the amount before
-      #      a billing cycle that needs to be billed for, but let's deal with that later...
-
+    def self.calculate_prorated_billing_amount(stripe_price:, subscription_term:, product_subscription_term:, billing_frequency:, days_prorating:)
+      # prorated billing amount is months of subscription term that is not included
       prorated_subscription_term = subscription_term % billing_frequency
       proration_percentage = BigDecimal(prorated_subscription_term) / BigDecimal(billing_frequency)
 
+      if days_prorating > 0
+        # at this point, we know feature DAY_PRORATIONS is enabled since days_prorating is non-zero
+        # and we calculate the partial month value in our prorate multiplier like CPQ-based calculations
+        # https://help.salesforce.com/s/articleView?id=sf.cpq_subscriptions_prorate_precision_1.htm&type=5
+        proration_percentage = StripeForce::Utilities::SalesforceUtil.calculate_month_plus_day_price_multiple(whole_months: (subscription_term % billing_frequency), partial_month_days: days_prorating, product_subscription_term: product_subscription_term)
+      end
+
       # https://jira.corp.stripe.com/browse/PLATINT-1808
-      if prorated_subscription_term.zero?
+      if prorated_subscription_term.zero? && days_prorating == 0
         log.warn 'subscription term is equal to billing frequency, amendment is most likely happening on the same day'
         proration_percentage = 1
       end
 
-      stripe_price = phase_item.price(user)
       unit_amount_decimal = BigDecimal(stripe_price.unit_amount_decimal)
       prorated_billing_amount = unit_amount_decimal * proration_percentage
+      prorated_billing_amount
+    end
+
+    # NOTE at this point it's assumed that the price is NOT a metered billing item or tiered price
+    sig do
+      params(
+        mapper: StripeForce::Mapper,
+        phase_item: ContractItemStructure,
+        subscription_term: Integer,
+        billing_frequency: Integer,
+        days_prorating: Integer
+      ).returns(Stripe::Price)
+    end
+    def self.create_prorated_price_from_phase_item(mapper:, phase_item:, subscription_term:, billing_frequency:, days_prorating:)
+      # at this point, we know what the billing amount is per billing cycle, since that has already been defined
+      # on the price object at the order line. We calculate the percentage of the original line price that should
+      # be billed and multiply that against the decimal price on the stripe price.
+      # we also have validated that it isn't a tiered or metered billing price
+      user = mapper.user
+      stripe_price = phase_item.price(user)
+      sf_order_item = phase_item.order_line
+      sf_order_amendment = user.sf_client.find(SF_ORDER, sf_order_item["OrderId"])
+      product_subscription_term = StripeForce::Utilities::SalesforceUtil.determine_quote_line_subscription_term(mapper, sf_order_item, sf_order_amendment)
+      prorated_billing_amount = calculate_prorated_billing_amount(stripe_price: stripe_price, subscription_term: subscription_term, product_subscription_term: product_subscription_term, billing_frequency: billing_frequency, days_prorating: days_prorating)
 
       proration_price = OrderHelpers.duplicate_stripe_price(user, stripe_price) do |duplicated_stripe_price|
         duplicated_stripe_price.metadata[StripeForce::Translate::Metadata.metadata_key(user, MetadataKeys::PRORATION)] = true
@@ -287,9 +309,10 @@ class StripeForce::Translate
         phase_items: T::Array[ContractItemStructure],
         subscription_term: Integer,
         billing_frequency: Integer,
+        days_prorating: Integer,
       ).returns(T::Array[T::Hash[Symbol, T.untyped]])
     end
-    def self.generate_proration_items_from_phase_items(user:, mapper:, sf_order_amendment:, phase_items:, subscription_term:, billing_frequency:)
+    def self.generate_proration_items_from_phase_items(user:, mapper:, sf_order_amendment:, phase_items:, subscription_term:, billing_frequency:, days_prorating: 0)
       invoice_items_for_prorations = []
 
       phase_items.each do |phase_item|
@@ -333,12 +356,12 @@ class StripeForce::Translate
         log.info 'prorating order item', prorated_order_item_id: phase_item.order_line_id
 
         proration_price = OrderAmendment.create_prorated_price_from_phase_item(
-          user: user,
+          mapper: mapper,
           phase_item: phase_item,
-
           # TODO is there a better way to source these variables? They are required in a couple
           subscription_term: subscription_term,
-          billing_frequency: billing_frequency
+          billing_frequency: billing_frequency,
+          days_prorating: days_prorating
         )
 
         proration_stripe_item = Stripe::SubscriptionItem.construct_from({
@@ -467,7 +490,7 @@ class StripeForce::Translate
       ).returns(T::Boolean)
     end
     def self.prorated_amendment?(user:, aggregate_phase_items:, subscription_schedule:, subscription_term:, billing_frequency:, amendment_start_date:)
-      log.info 'determining if order is prorated'
+      log.info 'determining if amendment order is prorated'
 
       if aggregate_phase_items.empty?
         log.info 'no subscription items, cannot be prorated order'
@@ -488,10 +511,6 @@ class StripeForce::Translate
       # we only care about the date, not the time
       # TODO we need to be very careful about date comparison, there's a good chance a nuance here will cause us issues
       if billing_dates.none? {|d| d == amendment_start_date }
-        # TODO need to do more thinking here, but I think this specific case may be impossible since we are enforcing coterm
-        #      let's track this and then possibly remove this codepath in the future
-        Integrations::ErrorContext.report_edge_case("start date is not on the next or future billing dates")
-
         log.info 'start date is not on the next or future billing dates',
           amendment_start_date: amendment_start_date,
           billing_dates: billing_dates

@@ -217,9 +217,9 @@ module Critic
       # but if the term is set to a value which is different than the billing frequency it seems to use the
       # subscription term value. i.e. a yearly billed product
       subscription_term = if additional_product_fields.key?(CPQ_QUOTE_BILLING_FREQUENCY) && additional_product_fields[CPQ_QUOTE_BILLING_FREQUENCY] != CPQBillingFrequencyOptions::MONTHLY.serialize
+        # Defaults to annually (12) if not set
         nil
       else
-        # 1 month is default
         1
       end
 

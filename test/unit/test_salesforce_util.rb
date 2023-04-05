@@ -81,5 +81,50 @@ module Critic::Unit
         assert_equal({sf_object_prefix => sf_object_name}, @user.salesforce_object_prefix_mappings)
       end
     end
+
+    describe '#calculate_days_to_prorate' do
+      it 'calculate days to prorate' do
+        # the amendment order end date should always be equal to the initial order end date since we
+        # require amendment orders to coterminate with the initial order
+        order_end_date = Time.new(2024, 1, 1)
+
+        order_start_date = Time.new(2023, 1, 2)
+        order_subscription_term = 11
+        days = StripeForce::Utilities::SalesforceUtil.calculate_days_to_prorate(sf_order_start_date: order_start_date, sf_order_end_date: order_end_date, sf_order_subscription_term: order_subscription_term)
+        assert_equal(30, days)
+
+        order_start_date = Time.new(2023, 1, 30)
+        order_subscription_term = 11
+        days = StripeForce::Utilities::SalesforceUtil.calculate_days_to_prorate(sf_order_start_date: order_start_date, sf_order_end_date: order_end_date, sf_order_subscription_term: order_subscription_term)
+        assert_equal(2, days)
+
+        order_start_date = Time.new(2023, 2, 27)
+        order_subscription_term = 10
+        days = StripeForce::Utilities::SalesforceUtil.calculate_days_to_prorate(sf_order_start_date: order_start_date, sf_order_end_date: order_end_date, sf_order_subscription_term: order_subscription_term)
+        assert_equal(5, days)
+      end
+
+      it 'calculate days to prorate in leap year' do
+        # note: 2024 is a leap year
+        order_end_date = Time.new(2024, 2, 28)
+
+        order_start_date = Time.new(2023, 3, 30)
+        order_subscription_term = 10
+        days = StripeForce::Utilities::SalesforceUtil.calculate_days_to_prorate(sf_order_start_date: order_start_date, sf_order_end_date: order_end_date, sf_order_subscription_term: order_subscription_term)
+        assert_equal(29, days)
+      end
+
+      # TODO test whole month eom cases
+      # https://help.salesforce.com/s/articleView?id=sf.cpq_whole_month_calc_guidelines.htm&type=5
+      it 'calculate days to prorate at eom' do
+        order_end_date = Time.new(2024, 3, 15)
+
+        # in this example, June 30 is the EOM, so when we add 9.months, it should end March 31 (eom)
+        order_start_date = Time.new(2023, 12, 31)
+        order_subscription_term = 2
+        # days = StripeForce::Utilities::SalesforceUtil.calculate_days_to_prorate(sf_order_start_date: order_start_date, sf_order_end_date: order_end_date, sf_order_subscription_term: order_subscription_term)
+        # assert_equal(14, days)
+      end
+    end
   end
 end

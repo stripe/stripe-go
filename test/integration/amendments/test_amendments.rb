@@ -6,6 +6,10 @@ require_relative './_lib'
 class Critic::OrderAmendmentTranslation < Critic::OrderAmendmentFunctionalTest
   before do
     @user = make_user(save: true)
+    # note: enabling non_anniversary amendments should not affect anniversary amendments
+    # therefore enable for this for the entire test suite
+    @user.enable_feature FeatureFlags::NON_ANNIVERSARY_AMENDMENTS, update: true
+    @user.enable_feature FeatureFlags::DAY_PRORATIONS, update: true
   end
 
   it 'creates a new phase from an order amendment with monthly billed products' do
@@ -541,7 +545,7 @@ class Critic::OrderAmendmentTranslation < Critic::OrderAmendmentFunctionalTest
   end
 
   describe '#contract_co_terminated' do
-    it 'test order amendments not coterminating with initial order' do
+    it 'order amendment does not coterminating with initial order' do
       # initial order: starts now, billed yearly
       # amendment: starts in 6 months, ends 7 months later (so one month after initial order)
 
@@ -580,7 +584,7 @@ class Critic::OrderAmendmentTranslation < Critic::OrderAmendmentFunctionalTest
       assert_match("order amendments must coterminate with the initial order", contracts_not_coterminating_error.message.downcase)
     end
 
-    it 'initial order should coterminate with amendment even though initial order day of month does not exist in amendment month' do
+    it 'amendment order coterminates with initial order even though initial order day of month does not exist in amendment month' do
       # initial order: starts Sept 29, billed yearly
       # amendment: starts 5 months later, on Feb 28, and ends 7 months later (should co-terminate with initial order)
 
@@ -617,13 +621,13 @@ class Critic::OrderAmendmentTranslation < Critic::OrderAmendmentFunctionalTest
       StripeForce::Translate.perform_inline(@user, sf_order_amendment.Id)
     end
 
-    it 'initial order does not coterminate with amendment order but both end in same month' do
+    it 'amendment order does not coterminate with initial order but both end in same month' do
       # initial order: starts Sept 27, billed yearly => ends Sept 27, 2023
-      # amendment: starts a day and 5 months later, on Feb 28, and ends 7 months later => Sept 28, 2023
+      # amendment: starts 5 months + 1 day later, on Feb 28 => ends Sept 28, 2023
 
       # specifically pick an initial order day of month that does not exist in the amendment month
       initial_order_start_date = DateTime.new(2022, 9, 27).utc.beginning_of_day
-      amendment_start_date = initial_order_start_date + 1.day + 5.months
+      amendment_start_date = initial_order_start_date + 5.months + 1.day
       amendment_term = 7
 
       # create the initial sf order
@@ -652,7 +656,164 @@ class Critic::OrderAmendmentTranslation < Critic::OrderAmendmentFunctionalTest
       contracts_not_coterminating_error = assert_raises(StripeForce::Errors::UserError) do
         StripeForce::Translate.perform_inline(@user, sf_order_amendment.Id)
       end
-      assert_match("order amendments must coterminate with the initial order", contracts_not_coterminating_error.message.downcase)
+      assert_match("amendment order subscription term does not equal number of whole months between start and end date", contracts_not_coterminating_error.message.downcase)
+    end
+
+    it 'non anniversary amendment order coterminates with initial order' do
+      # initial order: starts Feb 15, year contracts, billed semi-annually
+      initial_order_contract_term = TEST_DEFAULT_CONTRACT_TERM
+      initial_order_start_date = now_time
+      initial_order_end_date = initial_order_start_date + initial_order_contract_term.months
+
+      # first amendment order: starts 6 days later, and should co-terminate with initial order
+      # even though the amendment starts on a different day of month than the initial order
+      amendment_start_date_1 = initial_order_start_date + 6.days
+      amendment_term_1 = 11
+
+      # second amendment order: starts 2 months + 3 days later, and should co-terminate with initial order
+      # even though the amendment starts on a different day of month than the initial order
+      amendment_start_date_2 = initial_order_start_date + 2.months + 3.days
+      amendment_term_2 = 9
+
+      # create the initial sf order
+      sf_order = create_subscription_order(
+        additional_fields: {
+          CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(initial_order_start_date),
+          CPQ_QUOTE_BILLING_FREQUENCY => CPQBillingFrequencyOptions::SEMIANNUAL.serialize,
+          CPQ_QUOTE_SUBSCRIPTION_TERM => initial_order_contract_term,
+        }
+      )
+
+      # the contract should reference the initial order that was created
+      sf_contract = create_contract_from_order(sf_order)
+      assert_equal(sf_order[SF_ID], sf_contract[SF_CONTRACT_ORDER_ID])
+
+      # create and translate the first sf order amendment
+      amendment_data = create_quote_data_from_contract_amendment(sf_contract)
+      amendment_data["lineItems"].first["record"][CPQ_QUOTE_QUANTITY] = 2
+      amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_START_DATE] = format_date_for_salesforce(amendment_start_date_1)
+      amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_TERM] = amendment_term_1
+      sf_order_amendment_1 = create_order_from_quote_data(amendment_data)
+
+      # create and translate the second sf amendment order
+      amendment_data = create_quote_data_from_contract_amendment(sf_contract)
+      amendment_data["lineItems"].first["record"][CPQ_QUOTE_QUANTITY] = 3
+      amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_START_DATE] = format_date_for_salesforce(amendment_start_date_2)
+      amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_TERM] = amendment_term_2
+      sf_order_amendment_2 = create_order_from_quote_data(amendment_data)
+
+      # translate the order and confirm no error raised
+      StripeForce::Translate.perform_inline(@user, sf_order.Id)
+      sf_order.refresh
+      sf_order_amendment_1.refresh
+      sf_order_amendment_2.refresh
+
+      # confirm subscription schedule phase dates are what we expect
+      assert_equal(sf_order_amendment_1[prefixed_stripe_field(GENERIC_STRIPE_ID)], sf_order_amendment_2[prefixed_stripe_field(GENERIC_STRIPE_ID)])
+      stripe_id = sf_order_amendment_1[prefixed_stripe_field(GENERIC_STRIPE_ID)]
+      subscription_schedule = Stripe::SubscriptionSchedule.retrieve(stripe_id, @user.stripe_credentials)
+      assert_equal(3, subscription_schedule.phases.count)
+
+      first_phase = T.must(subscription_schedule.phases.first)
+      assert_equal(0, first_phase.start_date - initial_order_start_date.to_i)
+      assert_equal(0, first_phase.end_date - amendment_start_date_1.to_i)
+
+      second_phase = T.must(subscription_schedule.phases[1])
+      assert_equal(0, second_phase.start_date - amendment_start_date_1.to_i)
+      assert_equal(0, second_phase.end_date - amendment_start_date_2.to_i)
+
+      third_phase = T.must(subscription_schedule.phases[2])
+      assert_equal(0, third_phase.start_date - amendment_start_date_2.to_i)
+      assert_equal(0, third_phase.end_date - initial_order_end_date.to_i)
+    end
+
+    it 'non anniversary amendment order missing CPQ_QUOTE_SUBSCRIPTION_END_DATE does not coterminate with initial order' do
+      @user.enable_feature FeatureFlags::TEST_CLOCKS, update: true
+
+      # initial order: starts now, billed semi-annually
+      # amendment order: starts 10 days later and does not coterminate with initial order
+      contract_term = 12
+      initial_order_start_date = now_time
+      amendment_order_start_date = initial_order_start_date + 15.days
+      amendment_term = 11
+
+      # create the initial sf order
+      sf_order = create_subscription_order(
+        additional_fields: {
+          CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(initial_order_start_date),
+          CPQ_QUOTE_BILLING_FREQUENCY => CPQBillingFrequencyOptions::SEMIANNUAL.serialize,
+          CPQ_QUOTE_SUBSCRIPTION_TERM => contract_term,
+        }
+      )
+      StripeForce::Translate.perform_inline(@user, sf_order.Id)
+      sf_order.refresh
+
+      # the contract should reference the initial order that was created
+      sf_contract = create_contract_from_order(sf_order)
+      assert_equal(sf_order[SF_ID], sf_contract[SF_CONTRACT_ORDER_ID])
+
+      # create the sf order amendment
+      amendment_data = create_quote_data_from_contract_amendment(sf_contract)
+      amendment_data["lineItems"].first["record"][CPQ_QUOTE_QUANTITY] = 2
+      amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_START_DATE] = format_date_for_salesforce(amendment_order_start_date)
+      amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_END_DATE] = nil
+      amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_TERM] = amendment_term
+      sf_order_amendment = create_order_from_quote_data(amendment_data)
+      assert_equal(sf_order_amendment.Type, OrderTypeOptions::AMENDMENT.serialize)
+
+      # translate order and confirm error raised
+      contracts_not_coterminating_error = assert_raises(Integrations::Errors::MissingRequiredFields) do
+        StripeForce::Translate.perform_inline(@user, sf_order_amendment.Id)
+      end
+      assert_match("missing required fields", contracts_not_coterminating_error.message.downcase)
+    end
+
+    it 'non anniversary amendment order with invalid subscription term does not coterminate with initial order' do
+      @user.enable_feature FeatureFlags::TEST_CLOCKS, update: true
+
+      # initial order: starts now, billed semi-annually
+      # amendment order: starts 10 days later and does not coterminate with initial order
+      contract_term = 24
+      initial_order_start_date = now_time
+      amendment_order_start_date = initial_order_start_date + 2.months + 1.days
+
+      # intentially set this subscription term to be wrong
+      # the subscription term should be the number of whole months remaining in the amendment term
+      long_invalid_amendment_term = 22
+      short_invalid_amendment_term = 20
+
+      # create the initial sf order
+      sf_order = create_subscription_order(
+        additional_fields: {
+          CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(initial_order_start_date),
+          CPQ_QUOTE_BILLING_FREQUENCY => CPQBillingFrequencyOptions::SEMIANNUAL.serialize,
+          CPQ_QUOTE_SUBSCRIPTION_TERM => contract_term,
+        }
+      )
+
+      # the contract should reference the initial order that was created
+      sf_contract = create_contract_from_order(sf_order)
+      assert_equal(sf_order[SF_ID], sf_contract[SF_CONTRACT_ORDER_ID])
+
+      # create the sf order amendment
+      amendment_data = create_quote_data_from_contract_amendment(sf_contract)
+      amendment_data["lineItems"].first["record"][CPQ_QUOTE_QUANTITY] = 2
+      amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_START_DATE] = format_date_for_salesforce(amendment_order_start_date)
+      amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_TERM] = long_invalid_amendment_term
+      sf_order_amendment_1 = create_order_from_quote_data(amendment_data)
+
+      # create another amendment term and ensure it still errors
+      amendment_data = create_quote_data_from_contract_amendment(sf_contract)
+      amendment_data["lineItems"].first["record"][CPQ_QUOTE_QUANTITY] = 3
+      amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_START_DATE] = format_date_for_salesforce(amendment_order_start_date)
+      amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_TERM] = short_invalid_amendment_term
+      sf_order_amendment_2 = create_order_from_quote_data(amendment_data)
+
+      # translate order and confirm error raised
+      contracts_not_coterminating_error = assert_raises(StripeForce::Errors::UserError) do
+        StripeForce::Translate.perform_inline(@user, sf_order.Id)
+      end
+      assert_match('amendment order subscription term does not equal number of whole months between start and end date', contracts_not_coterminating_error.message.downcase)
     end
   end
 

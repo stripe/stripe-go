@@ -17,7 +17,7 @@ class Critic::ProratedAmendmentTranslation < Critic::OrderAmendmentFunctionalTes
     yearly_price = 120_00
     contract_term = 24
     initial_order_start_date = now_time
-    initial_order_end_date = initial_order_start_date + contract_term
+    initial_order_end_date = initial_order_start_date + contract_term.months
 
     amendment_term = 18
     amendment_start_date = initial_order_start_date + (contract_term - amendment_term).months
@@ -26,7 +26,7 @@ class Critic::ProratedAmendmentTranslation < Critic::OrderAmendmentFunctionalTes
     # normalize the amendment_end_date so test doesn't fail EOM
     amendment_end_date = StripeForce::Translate::OrderHelpers.anchor_time_to_day_of_month(base_time: amendment_end_date, anchor_day_of_month: initial_order_end_date.day)
 
-    sf_product_id, sf_pricebook_id = salesforce_recurring_product_with_price(
+    sf_product_id, _sf_pricebook_id = salesforce_recurring_product_with_price(
       price: yearly_price,
       additional_product_fields: {
         CPQ_QUOTE_BILLING_FREQUENCY => CPQBillingFrequencyOptions::ANNUAL.serialize,
@@ -775,16 +775,10 @@ class Critic::ProratedAmendmentTranslation < Critic::OrderAmendmentFunctionalTes
       sf_quote_id = calculate_and_save_cpq_quote(amendment_data)
 
       amendment_data = add_product_to_cpq_quote(sf_quote_id, sf_product_id: sf_platinum_tier_product_id)
-
       sf_order_amendment = create_order_from_quote_data(amendment_data)
-      sf_order_amendment_contract = create_contract_from_order(sf_order_amendment)
 
       StripeForce::Translate.perform_inline(@user, sf_order_amendment.Id)
-
-      # Get SubscriptionSchedule Id
       sf_order.refresh
-      stripe_subscription_schedule_id = sf_order[prefixed_stripe_field(GENERIC_STRIPE_ID)]
-      stripe_subscription_schedule = Stripe::SubscriptionSchedule.retrieve(stripe_subscription_schedule_id, @user.stripe_credentials)
 
       # Get Customer
       sf_account = sf_get(sf_order['AccountId'])
@@ -851,7 +845,7 @@ class Critic::ProratedAmendmentTranslation < Critic::OrderAmendmentFunctionalTes
       # normalize the amendment_end_date so test doesn't fail EOM
       amendment_end_date = StripeForce::Translate::OrderHelpers.anchor_time_to_day_of_month(base_time: amendment_end_date, anchor_day_of_month: initial_order_end_date.day)
 
-      sf_silver_tier_product_id, sf_silver_tier_pricebook_id = salesforce_recurring_product_with_price(
+      sf_silver_tier_product_id, _sf_silver_tier_pricebook_id = salesforce_recurring_product_with_price(
         price: yearly_silver_tier_price,
         additional_product_fields: {
           CPQ_QUOTE_BILLING_FREQUENCY => CPQBillingFrequencyOptions::ANNUAL.serialize,
@@ -874,17 +868,10 @@ class Critic::ProratedAmendmentTranslation < Critic::OrderAmendmentFunctionalTes
 
       amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_START_DATE] = format_date_for_salesforce(amendment_start_date)
       amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_TERM] = amendment_term
-      sf_quote_id = calculate_and_save_cpq_quote(amendment_data)
 
       sf_order_amendment = create_order_from_quote_data(amendment_data)
-      sf_order_amendment_contract = create_contract_from_order(sf_order_amendment)
-
       StripeForce::Translate.perform_inline(@user, sf_order_amendment.Id)
-
-      # Get SubscriptionSchedule Id
       sf_order.refresh
-      stripe_subscription_schedule_id = sf_order[prefixed_stripe_field(GENERIC_STRIPE_ID)]
-      stripe_subscription_schedule = Stripe::SubscriptionSchedule.retrieve(stripe_subscription_schedule_id, @user.stripe_credentials)
 
       # Get Customer
       sf_account = sf_get(sf_order['AccountId'])
@@ -984,17 +971,11 @@ class Critic::ProratedAmendmentTranslation < Critic::OrderAmendmentFunctionalTes
 
       amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_START_DATE] = format_date_for_salesforce(amendment_start_date)
       amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_TERM] = amendment_term
-      sf_quote_id = calculate_and_save_cpq_quote(amendment_data)
-
       sf_order_amendment = create_order_from_quote_data(amendment_data)
-      sf_order_amendment_contract = create_contract_from_order(sf_order_amendment)
 
       StripeForce::Translate.perform_inline(@user, sf_order_amendment.Id)
 
-      # Get SubscriptionSchedule Id
       sf_order.refresh
-      stripe_subscription_schedule_id = sf_order[prefixed_stripe_field(GENERIC_STRIPE_ID)]
-      stripe_subscription_schedule = Stripe::SubscriptionSchedule.retrieve(stripe_subscription_schedule_id, @user.stripe_credentials)
 
       # Get Customer
       sf_account = sf_get(sf_order['AccountId'])
@@ -1286,6 +1267,714 @@ class Critic::ProratedAmendmentTranslation < Critic::OrderAmendmentFunctionalTes
       assert_equal(silver_prorated_debit + gold_prorated_credit, proration_invoice.total)
 
       assert_equal("true", proration_invoice.metadata[StripeForce::Translate::Metadata.metadata_key(@user, MetadataKeys::PRORATION_INVOICE)])
+    end
+  end
+
+  describe 'non_anniversary_amendments' do
+    it 'translates non-anniversary amendment order billed monthly' do
+      @user.enable_feature FeatureFlags::NON_ANNIVERSARY_AMENDMENTS, update: true
+      @user.enable_feature FeatureFlags::TEST_CLOCKS, update: true
+
+      # initial order: starts now, billed monthly
+      # amendment order: starts 3 days later (non-anniversary day)
+      contract_term = 12
+      amendment_term = 11
+
+      initial_order_start_date = now_time
+      initial_order_end_date = initial_order_start_date + contract_term.months
+
+      # amendment order starts on non-anniversary day
+      amendment_start_date = initial_order_start_date + 3.days
+
+      # create the initial sf order
+      sf_product_id, _sf_pricebook_id = salesforce_recurring_product_with_price(
+        price: TEST_DEFAULT_PRICE,
+        additional_product_fields: {
+          CPQ_QUOTE_BILLING_FREQUENCY => CPQBillingFrequencyOptions::MONTHLY.serialize,
+        }
+      )
+
+      sf_order = create_subscription_order(
+        sf_product_id: sf_product_id,
+        additional_fields: {
+          CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(initial_order_start_date),
+          CPQ_QUOTE_SUBSCRIPTION_TERM => contract_term,
+          CPQ_QUOTE_BILLING_FREQUENCY => CPQBillingFrequencyOptions::MONTHLY.serialize,
+        }
+      )
+      StripeForce::Translate.perform_inline(@user, sf_order.Id)
+      sf_order.refresh
+
+      # get customer
+      sf_account = sf_get(sf_order['AccountId'])
+      stripe_customer_id = sf_account[prefixed_stripe_field(GENERIC_STRIPE_ID)]
+      stripe_customer = stripe_get(stripe_customer_id)
+      refute_nil(stripe_customer.test_clock)
+
+      # pay off the initial invoice
+      invoices = Stripe::Invoice.list({customer: stripe_customer.id}, @user.stripe_credentials).data
+      assert_equal(1, invoices.length)
+      initial_invoice = invoices.first
+      assert_equal(TEST_DEFAULT_PRICE, initial_invoice.amount_due)
+      assert_equal(1, initial_invoice.lines.data.length)
+      initial_invoice.pay({'paid_out_of_band': true})
+
+      # create and sync the sf order amendment to increase +1
+      sf_contract = create_contract_from_order(sf_order)
+      amendment_quote = create_quote_data_from_contract_amendment(sf_contract)
+      amendment_quote["lineItems"].first["record"][CPQ_QUOTE_QUANTITY] = 2
+      amendment_quote["record"][CPQ_QUOTE_SUBSCRIPTION_START_DATE] = format_date_for_salesforce(amendment_start_date)
+      amendment_quote["record"][CPQ_QUOTE_SUBSCRIPTION_TERM] = amendment_term
+
+      sf_order_amendment = create_order_from_quote_data(amendment_quote)
+      assert_equal(sf_order_amendment.Type, OrderTypeOptions::AMENDMENT.serialize)
+
+      # translate amendment order and confirm no errors raised
+      exception = assert_raises(Integrations::Errors::TranslatorError) do
+        StripeForce::Translate.perform_inline(@user, sf_order_amendment.Id)
+      end
+      assert_match("calculated price multiplier differs from cpq price multiplier", exception.message)
+
+      # Note: the below is commented out since this will fail CI since the below is for when CPQ Subscription Prorate equals 'Month'
+      # sf_order_amendment.refresh
+
+      # fetch the subscription schedule
+      # stripe_subscription_schedule_id = sf_order_amendment[prefixed_stripe_field(GENERIC_STRIPE_ID)]
+      # stripe_subscription_schedule = Stripe::SubscriptionSchedule.retrieve(stripe_subscription_schedule_id, @user.stripe_credentials)
+      # assert_equal(2, stripe_subscription_schedule.phases.count)
+
+      # # verify phase dates
+      # first_phase = T.must(stripe_subscription_schedule.phases.first)
+      # assert_equal(0, first_phase.start_date - initial_order_start_date.to_i)
+      # assert_equal(0, first_phase.end_date - amendment_start_date.to_i)
+
+      # # first phase should have one sub item and no proration items
+      # assert_equal(1, first_phase.items.count)
+      # assert_empty(first_phase.add_invoice_items)
+
+      # second_phase = T.must(stripe_subscription_schedule.phases[1])
+      # assert_equal(0, second_phase.start_date - amendment_start_date.to_i)
+      # assert_equal(0, second_phase.end_date - initial_order_end_date.to_i)
+
+      # # second phase should have two items (one original, one addition)
+      # # it should have a single proration item
+      # assert_equal(2, second_phase.items.count)
+      # assert_equal(1, second_phase.add_invoice_items.count)
+
+      # prorated_item = T.unsafe(second_phase.add_invoice_items.first)
+      # assert_equal("true", prorated_item.metadata[StripeForce::Translate::Metadata.metadata_key(@user, MetadataKeys::PRORATION)])
+      # assert_equal(1, prorated_item.quantity)
+
+      # # check additional fields added to the proration invoice item
+      # assert_equal("phase_start", prorated_item.period.start.type)
+      # assert_equal("subscription_period_end", prorated_item.period.end.type)
+      # assert_equal("true", prorated_item.metadata[StripeForce::Translate::Metadata.metadata_key(@user, MetadataKeys::PRORATION)])
+
+      # prorated_price = Stripe::Price.retrieve(T.cast(prorated_item.price, String), @user.stripe_credentials)
+      # assert_equal('one_time', prorated_price.type)
+      # assert_equal("true", prorated_price.metadata['salesforce_auto_archive'])
+      # assert_equal("true", prorated_price.metadata['salesforce_duplicate'])
+      # assert_equal("true", prorated_price.metadata['salesforce_proration'])
+
+      # now let's advance the test clock
+      # test_clock = advance_test_clock(stripe_customer, (amendment_start_date + 2.day).to_i)
+
+      # # simulate sending the webhook
+      # events = Stripe::Event.list({
+      #   type: 'invoiceitem.created',
+      # }, @user.stripe_credentials)
+
+      # invoice_events = events.data.select do |event|
+      #   event_object = event.data.object
+      #   event_object.test_clock == test_clock.id && event.request.id.nil?
+      # end
+      # assert_equal(1, invoice_events.count)
+
+      # # verify proration invoice total
+      # # partial month equal a whole month for proration calculation
+      # proration_invoice_event = invoice_events[0]
+      # prorated_invoice_amount = proration_invoice_event.data.object.amount
+      # assert_equal(TEST_DEFAULT_PRICE, prorated_invoice_amount)
+
+      # # sanity check this proration calc aligns with what is in Salesforce CPQ
+      # # the Salesforce Prorated List Price = List Price - Already Billed Amount + CPQ Prorated Invoice Amount
+      # price_in_dollars = TEST_DEFAULT_PRICE / 100
+      # total_list_price = price_in_dollars * contract_term
+      # previously_billed_amount = price_in_dollars * (contract_term - amendment_term)
+      # prorated_invoice_amount_in_dollars = BigDecimal(prorated_invoice_amount) / 100
+
+      # cpq_prorated_list_price = total_list_price - previously_billed_amount + prorated_invoice_amount_in_dollars
+      # assert_equal(sf_order_amendment["TotalAmount"], cpq_prorated_list_price)
+    end
+
+    it 'translates non-anniversary amendment order billed annually' do
+      @user.enable_feature FeatureFlags::NON_ANNIVERSARY_AMENDMENTS, update: true
+      @user.enable_feature FeatureFlags::TEST_CLOCKS, update: true
+
+      # initial order: starts now, billed annually
+      # amendment order: starts 1 months + 3 days later on a non-anniversary day
+      contract_term = 12
+      amendment_term = 10
+
+      initial_order_start_date = now_time
+
+      # intentially start amendment order on non-anniversary day
+      amendment_start_date = initial_order_start_date + (contract_term - amendment_term).months - (1.month - 3.days)
+
+      # create the initial sf order
+      sf_product_id, _sf_pricebook_id = salesforce_recurring_product_with_price(
+        price: TEST_DEFAULT_PRICE,
+        additional_product_fields: {
+          CPQ_QUOTE_BILLING_FREQUENCY => CPQBillingFrequencyOptions::ANNUAL.serialize,
+        }
+      )
+
+      sf_order = create_subscription_order(
+        sf_product_id: sf_product_id,
+        additional_fields: {
+          CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(initial_order_start_date),
+          CPQ_QUOTE_SUBSCRIPTION_TERM => contract_term,
+          CPQ_QUOTE_BILLING_FREQUENCY => CPQBillingFrequencyOptions::ANNUAL.serialize,
+        }
+      )
+      StripeForce::Translate.perform_inline(@user, sf_order.Id)
+      sf_order.refresh
+
+      # get customer
+      sf_account = sf_get(sf_order['AccountId'])
+      stripe_customer_id = sf_account[prefixed_stripe_field(GENERIC_STRIPE_ID)]
+      stripe_customer = stripe_get(stripe_customer_id)
+      refute_nil(stripe_customer.test_clock)
+
+      # pay off the initial invoice
+      invoices = Stripe::Invoice.list({customer: stripe_customer.id}, @user.stripe_credentials).data
+      assert_equal(1, invoices.length)
+      initial_invoice = invoices.first
+      assert_equal(TEST_DEFAULT_PRICE, initial_invoice.amount_due)
+      assert_equal(1, initial_invoice.lines.data.length)
+      initial_invoice.pay({'paid_out_of_band': true})
+
+      # create and sync the sf order amendment
+      sf_contract = create_contract_from_order(sf_order)
+      amendment_data = create_quote_data_from_contract_amendment(sf_contract)
+      amendment_data["lineItems"].first["record"][CPQ_QUOTE_QUANTITY] = 2
+      amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_START_DATE] = format_date_for_salesforce(amendment_start_date)
+      amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_TERM] = amendment_term
+
+      sf_order_amendment = create_order_from_quote_data(amendment_data)
+      assert_equal(sf_order_amendment.Type, OrderTypeOptions::AMENDMENT.serialize)
+
+      # translate order
+      exception = assert_raises(Integrations::Errors::TranslatorError) do
+        StripeForce::Translate.perform_inline(@user, sf_order_amendment.Id)
+      end
+      assert_match("calculated price multiplier differs from cpq price multiplier", exception.message)
+
+      # Note: the below is commented out since this will fail CI since the below is for when CPQ Subscription Prorate equals 'Month'
+
+      # sf_order_amendment.refresh
+
+      # # get customer
+      # sf_account = sf_get(sf_order['AccountId'])
+      # stripe_customer_id = sf_account[prefixed_stripe_field(GENERIC_STRIPE_ID)]
+      # stripe_customer = stripe_get(stripe_customer_id)
+      # refute_nil(stripe_customer.test_clock)
+
+      # invoices = Stripe::Invoice.list({customer: stripe_customer.id}, @user.stripe_credentials).data
+      # assert_equal(1, invoices.length)
+
+      # now let's advance the clock
+      # test_clock = advance_test_clock(stripe_customer, (amendment_start_date + 1.day).to_i)
+
+      # # simulate sending the webhook
+      # events = Stripe::Event.list({
+      #   type: 'invoiceitem.created',
+      # }, @user.stripe_credentials)
+
+      # invoice_events = events.data.select do |event|
+      #   event_object = event.data.object
+      #   event_object.test_clock == test_clock.id && event.request.id.nil?
+      # end
+      # assert_equal(1, invoice_events.count)
+
+      # # verify this is a proration invoice
+      # proration_invoice_event = invoice_events[0]
+      # assert_equal("true", proration_invoice_event.data.object.metadata[StripeForce::Translate::Metadata.metadata_key(@user, MetadataKeys::PRORATION)])
+
+      # # verify proration invoice total
+      # prorated_invoice_amount = proration_invoice_event.data.object.amount
+      # assert_equal(TEST_DEFAULT_PRICE * BigDecimal(amendment_term + 1) / contract_term, prorated_invoice_amount)
+
+      # # sanity check this proration calc aligns with what is in Salesforce CPQ
+      # # Salesforce Prorated List Price = List Price - Already Billed Amount + CPQ Proration Amount
+      # price_in_dollars = TEST_DEFAULT_PRICE / 100
+      # total_list_price = price_in_dollars
+      # previously_billed_amount = total_list_price
+      # prorated_invoice_amount_in_dollars = BigDecimal(prorated_invoice_amount) / 100
+
+      # cpq_prorated_list_price = total_list_price - previously_billed_amount + prorated_invoice_amount_in_dollars
+      # assert_equal(sf_order_amendment["TotalAmount"], cpq_prorated_list_price)
+    end
+  end
+
+  describe 'non-anniversary amendments with day porations' do
+    it 'translates non-anniversary amendment order billed monthly with day proration enabled' do
+      # Note feature DAY_PRORATIONS should only be enabled if CPQ Subscription Prorate Precision is set to 'Month + Day'
+      @user.enable_feature FeatureFlags::DAY_PRORATIONS, update: true
+      @user.enable_feature FeatureFlags::NON_ANNIVERSARY_AMENDMENTS, update: true
+      @user.enable_feature FeatureFlags::TEST_CLOCKS, update: true
+
+      # initial order: starts now, billed monthly
+      # amendment order: starts 1 month and 4 days later on a non-anniversary day
+      contract_term = 12
+      amendment_term = 10
+
+      initial_order_start_date = now_time # march 22
+      initial_order_end_date = initial_order_start_date + contract_term.months
+
+      # intentially start amendment order on non-anniversary day
+      amendment_start_date = initial_order_start_date + 1.months + 22.days
+
+      # create the initial sf order
+      billing_frequency_serialized = CPQBillingFrequencyOptions::MONTHLY.serialize
+      sf_product_id, _sf_pricebook_id = salesforce_recurring_product_with_price(
+        price: TEST_DEFAULT_PRICE,
+        additional_product_fields: {
+          CPQ_QUOTE_BILLING_FREQUENCY => billing_frequency_serialized,
+        }
+      )
+
+      sf_order = create_subscription_order(
+        sf_product_id: sf_product_id,
+        additional_fields: {
+          CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(initial_order_start_date),
+          CPQ_QUOTE_SUBSCRIPTION_TERM => contract_term,
+          CPQ_QUOTE_BILLING_FREQUENCY => billing_frequency_serialized,
+        }
+      )
+      StripeForce::Translate.perform_inline(@user, sf_order.Id)
+      sf_order.refresh
+
+      # get customer
+      sf_account = sf_get(sf_order['AccountId'])
+      stripe_customer_id = sf_account[prefixed_stripe_field(GENERIC_STRIPE_ID)]
+      stripe_customer = stripe_get(stripe_customer_id)
+      refute_nil(stripe_customer.test_clock)
+
+      # pay off the initial invoice
+      invoices = Stripe::Invoice.list({customer: stripe_customer.id}, @user.stripe_credentials).data
+      assert_equal(1, invoices.length)
+      initial_invoice = invoices.first
+      assert_equal(TEST_DEFAULT_PRICE, initial_invoice.amount_due)
+      assert_equal(1, initial_invoice.lines.data.length)
+      initial_invoice.pay({'paid_out_of_band': true})
+
+      # create and sync the sf order amendment
+      sf_contract = create_contract_from_order(sf_order)
+      amendment_quote = create_quote_data_from_contract_amendment(sf_contract)
+      amendment_quote["lineItems"].first["record"][CPQ_QUOTE_QUANTITY] = 2
+      amendment_quote["record"][CPQ_QUOTE_SUBSCRIPTION_START_DATE] = format_date_for_salesforce(amendment_start_date)
+      amendment_quote["record"][CPQ_QUOTE_SUBSCRIPTION_TERM] = amendment_term
+
+      sf_order_amendment = create_order_from_quote_data(amendment_quote)
+      StripeForce::Translate.perform_inline(@user, sf_order_amendment.Id)
+      sf_order_amendment.refresh
+
+      # fetch the subscription schedule
+      stripe_subscription_schedule_id = sf_order_amendment[prefixed_stripe_field(GENERIC_STRIPE_ID)]
+      stripe_subscription_schedule = Stripe::SubscriptionSchedule.retrieve(stripe_subscription_schedule_id, @user.stripe_credentials)
+      assert_equal(2, stripe_subscription_schedule.phases.count)
+
+      # verify phase dates
+      first_phase = T.must(stripe_subscription_schedule.phases.first)
+      assert_equal(0, first_phase.start_date - initial_order_start_date.to_i)
+      assert_equal(0, first_phase.end_date - amendment_start_date.to_i)
+
+      # first phase should have one sub item and no proration items
+      assert_equal(1, first_phase.items.count)
+      assert_empty(first_phase.add_invoice_items)
+
+      second_phase = T.must(stripe_subscription_schedule.phases[1])
+      assert_equal(0, second_phase.start_date - amendment_start_date.to_i)
+      assert_equal(0, second_phase.end_date - initial_order_end_date.to_i)
+
+      # second phase should have two items (one original, one addition)
+      # it should have a single proration item
+      assert_equal(2, second_phase.items.count)
+      assert_equal(1, second_phase.add_invoice_items.count)
+
+      # now let's advance the test clock
+      test_clock = advance_test_clock(stripe_customer, (amendment_start_date + 2.day).to_i)
+
+      # simulate sending the webhook
+      events = Stripe::Event.list({
+        type: 'invoiceitem.created',
+      }, @user.stripe_credentials)
+
+      invoice_events = events.data.select do |event|
+        event_object = event.data.object
+        event_object.test_clock == test_clock.id && event.request.id.nil?
+      end
+      assert_equal(1, invoice_events.count)
+
+      # verify proration invoice total
+      days_prorating = StripeForce::Utilities::SalesforceUtil.calculate_days_to_prorate(
+        sf_order_start_date: amendment_start_date,
+        sf_order_end_date: initial_order_end_date,
+        sf_order_subscription_term: amendment_term)
+      billing_frequency = StripeForce::Translate::PriceHelpers.transform_salesforce_billing_frequency_to_recurring_interval(billing_frequency_serialized)
+      proration_percentage = StripeForce::Utilities::SalesforceUtil.calculate_month_plus_day_price_multiple(whole_months: (amendment_term % billing_frequency), partial_month_days: days_prorating, product_subscription_term: 1)
+      prorated_amount = TEST_DEFAULT_PRICE * proration_percentage
+      prorated_invoice_amount = invoice_events[0].data.object.amount
+      assert_equal(prorated_amount.round, prorated_invoice_amount)
+
+      # sanity check this proration calc aligns with what is in Salesforce CPQ
+      # Salesforce Prorated List Price = List Price - Already Billed Amount + CPQ Proration Amount
+      price_in_dollars = TEST_DEFAULT_PRICE / 100
+      total_list_price = price_in_dollars * contract_term
+      previously_billed_amount = price_in_dollars * (contract_term - amendment_term)
+      prorated_invoice_amount_in_dollars = BigDecimal(prorated_invoice_amount) / 100
+
+      cpq_prorated_list_price = total_list_price - previously_billed_amount + prorated_invoice_amount_in_dollars
+      assert_equal(sf_order_amendment["TotalAmount"], cpq_prorated_list_price)
+    end
+
+    it 'translates non-anniversary amendment order billed annually with day prorations enabled' do
+      # Note feature DAY_PRORATIONS should only be enabled if CPQ Subscription Prorate Precision is set to 'Month + Day'
+      @user.enable_feature FeatureFlags::DAY_PRORATIONS, update: true
+      @user.enable_feature FeatureFlags::NON_ANNIVERSARY_AMENDMENTS, update: true
+      @user.enable_feature FeatureFlags::TEST_CLOCKS, update: true
+
+      # initial order: starts now, billed annually
+      # amendment order: starts 4 days later (on a non-anniversary day)
+      contract_term = 12
+      amendment_term = 11
+
+      initial_order_start_date = now_time
+      initial_order_end_date = initial_order_start_date + contract_term.months
+
+      # intentially start amendment order on non-anniversary day
+      amendment_start_date = initial_order_start_date + 4.days
+
+      # create the initial sf order
+      billing_frequency_serialized = CPQBillingFrequencyOptions::ANNUAL.serialize
+      sf_product_id, _sf_pricebook_id = salesforce_recurring_product_with_price(
+        price: TEST_DEFAULT_PRICE,
+        additional_product_fields: {
+          CPQ_QUOTE_BILLING_FREQUENCY => billing_frequency_serialized,
+        }
+      )
+
+      sf_order = create_subscription_order(
+        sf_product_id: sf_product_id,
+        additional_fields: {
+          CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(initial_order_start_date),
+          CPQ_QUOTE_SUBSCRIPTION_TERM => contract_term,
+        }
+      )
+      StripeForce::Translate.perform_inline(@user, sf_order.Id)
+      sf_order.refresh
+
+      # get customer
+      sf_account = sf_get(sf_order['AccountId'])
+      stripe_customer_id = sf_account[prefixed_stripe_field(GENERIC_STRIPE_ID)]
+      stripe_customer = stripe_get(stripe_customer_id)
+      refute_nil(stripe_customer.test_clock)
+
+      # create and sync the sf order amendment
+      sf_contract = create_contract_from_order(sf_order)
+      amendment_quote = create_quote_data_from_contract_amendment(sf_contract)
+      amendment_quote["lineItems"].first["record"][CPQ_QUOTE_QUANTITY] = 2
+      amendment_quote["record"][CPQ_QUOTE_SUBSCRIPTION_START_DATE] = format_date_for_salesforce(amendment_start_date)
+      amendment_quote["record"][CPQ_QUOTE_SUBSCRIPTION_TERM] = amendment_term
+
+      sf_order_amendment = create_order_from_quote_data(amendment_quote)
+      StripeForce::Translate.perform_inline(@user, sf_order_amendment.Id)
+      sf_order_amendment.refresh
+
+      # fetch the subscription schedule
+      stripe_subscription_schedule_id = sf_order_amendment[prefixed_stripe_field(GENERIC_STRIPE_ID)]
+      stripe_subscription_schedule = Stripe::SubscriptionSchedule.retrieve(stripe_subscription_schedule_id, @user.stripe_credentials)
+      assert_equal(2, stripe_subscription_schedule.phases.count)
+
+      # verify phase dates
+      first_phase = T.must(stripe_subscription_schedule.phases.first)
+      assert_equal(0, first_phase.start_date - initial_order_start_date.to_i)
+      assert_equal(0, first_phase.end_date - amendment_start_date.to_i)
+
+      # first phase should have one sub item and no proration items
+      assert_equal(1, first_phase.items.count)
+      assert_empty(first_phase.add_invoice_items)
+
+      second_phase = T.must(stripe_subscription_schedule.phases[1])
+      assert_equal(0, second_phase.start_date - amendment_start_date.to_i)
+      assert_equal(0, second_phase.end_date - initial_order_end_date.to_i)
+
+      # second phase should have two items (one original, one addition)
+      # it should have a single proration item
+      assert_equal(2, second_phase.items.count)
+      assert_equal(1, second_phase.add_invoice_items.count)
+
+      # now let's advance the test clock
+      test_clock = advance_test_clock(stripe_customer, (amendment_start_date + 2.day).to_i)
+
+      # simulate sending the webhook
+      events = Stripe::Event.list({
+        type: 'invoiceitem.created',
+      }, @user.stripe_credentials)
+
+      invoice_events = events.data.select do |event|
+        event_object = event.data.object
+        event_object.test_clock == test_clock.id && event.request.id.nil?
+      end
+      assert_equal(1, invoice_events.count)
+
+      # verify proration invoice total
+      days_prorating = StripeForce::Utilities::SalesforceUtil.calculate_days_to_prorate(
+        sf_order_start_date: amendment_start_date,
+        sf_order_end_date: initial_order_end_date,
+        sf_order_subscription_term: amendment_term)
+      billing_frequency = StripeForce::Translate::PriceHelpers.transform_salesforce_billing_frequency_to_recurring_interval(billing_frequency_serialized)
+      proration_percentage = StripeForce::Utilities::SalesforceUtil.calculate_month_plus_day_price_multiple(whole_months: (amendment_term % billing_frequency), partial_month_days: days_prorating, product_subscription_term: CPQ_QUOTE_LINE_DEFAULT_SUBSCRIPTION_TERM)
+      prorated_amount = TEST_DEFAULT_PRICE * proration_percentage
+      prorated_invoice_amount = invoice_events[0].data.object.amount
+      assert_equal(prorated_amount.round, prorated_invoice_amount)
+
+      # sanity check this proration calc aligns with what is in Salesforce CPQ
+      # Salesforce Prorated List Price = List Price - Already Billed Amount + CPQ Proration Amount
+      price_in_dollars = TEST_DEFAULT_PRICE / 100
+      total_list_price = price_in_dollars
+      previously_billed_amount = price_in_dollars
+      prorated_invoice_amount_in_dollars = BigDecimal(prorated_invoice_amount) / 100
+
+      cpq_prorated_list_price = total_list_price - previously_billed_amount + prorated_invoice_amount_in_dollars
+      assert_equal(sf_order_amendment["TotalAmount"], cpq_prorated_list_price)
+    end
+
+    it 'translates non-anniversary amendment order billed semi-annually with day prorations enabled' do
+      # Note feature DAY_PRORATIONS should only be enabled if CPQ Subscription Prorate Precision is set to 'Month + Day'
+      @user.enable_feature FeatureFlags::DAY_PRORATIONS, update: true
+      @user.enable_feature FeatureFlags::NON_ANNIVERSARY_AMENDMENTS, update: true
+      @user.enable_feature FeatureFlags::TEST_CLOCKS, update: true
+
+      # initial order: starts now, billed semi-annually
+      # amendment order: starts 20 days later on a non-anniversary day
+      contract_term = 24
+      amendment_term = 23
+
+      initial_order_start_date = now_time
+      initial_order_end_date = initial_order_start_date + contract_term.months
+
+      # intentially start amendment order on non-anniversary day
+      amendment_start_date = initial_order_start_date + 20.days
+
+      # create the initial sf order
+      annual_price = 100_00
+      billing_frequency_serialized = CPQBillingFrequencyOptions::SEMIANNUAL.serialize
+      sf_product_id, _sf_pricebook_id = salesforce_recurring_product_with_price(
+        price: annual_price,
+        additional_product_fields: {
+          CPQ_QUOTE_BILLING_FREQUENCY => billing_frequency_serialized,
+        }
+      )
+
+      sf_order = create_subscription_order(
+        sf_product_id: sf_product_id,
+        additional_fields: {
+          CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(initial_order_start_date),
+          CPQ_QUOTE_SUBSCRIPTION_TERM => contract_term,
+
+        }
+      )
+
+      # create and sync the sf order amendment
+      sf_contract = create_contract_from_order(sf_order)
+      amendment_quote = create_quote_data_from_contract_amendment(sf_contract)
+      amendment_quote["lineItems"].first["record"][CPQ_QUOTE_QUANTITY] = 2
+      amendment_quote["record"][CPQ_QUOTE_SUBSCRIPTION_START_DATE] = format_date_for_salesforce(amendment_start_date)
+      amendment_quote["record"][CPQ_QUOTE_SUBSCRIPTION_TERM] = amendment_term
+
+      sf_order_amendment = create_order_from_quote_data(amendment_quote)
+      StripeForce::Translate.perform_inline(@user, sf_order_amendment.Id)
+      sf_order_amendment.refresh
+
+      # fetch the subscription schedule
+      stripe_subscription_schedule_id = sf_order_amendment[prefixed_stripe_field(GENERIC_STRIPE_ID)]
+      stripe_subscription_schedule = Stripe::SubscriptionSchedule.retrieve(stripe_subscription_schedule_id, @user.stripe_credentials)
+      assert_equal(2, stripe_subscription_schedule.phases.count)
+
+      # get customer
+      sf_account = sf_get(sf_order['AccountId'])
+      stripe_customer_id = sf_account[prefixed_stripe_field(GENERIC_STRIPE_ID)]
+      stripe_customer = stripe_get(stripe_customer_id)
+      refute_nil(stripe_customer.test_clock)
+
+      # now let's advance the test clock
+      test_clock = advance_test_clock(stripe_customer, (amendment_start_date + 2.day).to_i)
+
+      # simulate sending the webhook
+      events = Stripe::Event.list({
+        type: 'invoiceitem.created',
+      }, @user.stripe_credentials)
+
+      invoice_events = events.data.select do |event|
+        event_object = event.data.object
+        event_object.test_clock == test_clock.id && event.request.id.nil?
+      end
+      assert_equal(1, invoice_events.count)
+
+      # verify proration invoice total
+      days_prorating = StripeForce::Utilities::SalesforceUtil.calculate_days_to_prorate(
+        sf_order_start_date: amendment_start_date,
+        sf_order_end_date: initial_order_end_date,
+        sf_order_subscription_term: amendment_term)
+      billing_frequency = StripeForce::Translate::PriceHelpers.transform_salesforce_billing_frequency_to_recurring_interval(billing_frequency_serialized)
+      proration_percentage = StripeForce::Utilities::SalesforceUtil.calculate_month_plus_day_price_multiple(whole_months: (amendment_term % billing_frequency), partial_month_days: days_prorating, product_subscription_term: CPQ_QUOTE_LINE_DEFAULT_SUBSCRIPTION_TERM)
+      prorated_amount = annual_price * proration_percentage
+      prorated_invoice_amount = invoice_events[0].data.object.amount
+      assert_equal(prorated_amount.round, prorated_invoice_amount)
+
+      # sanity check this proration calc aligns with what is in Salesforce CPQ
+      # Salesforce Prorated List Price = List Price - Already Billed Amount + CPQ Proration Amount
+      price_in_dollars = annual_price / 100
+      total_list_price = price_in_dollars * (contract_term / CPQ_QUOTE_LINE_DEFAULT_SUBSCRIPTION_TERM)
+      previously_billed_amount = price_in_dollars * BigDecimal(billing_frequency) / BigDecimal(CPQ_QUOTE_LINE_DEFAULT_SUBSCRIPTION_TERM)
+      prorated_invoice_amount_in_dollars = BigDecimal(prorated_invoice_amount) / 100
+
+      cpq_prorated_list_price = total_list_price - previously_billed_amount + prorated_invoice_amount_in_dollars
+      assert_equal(sf_order_amendment["TotalAmount"], cpq_prorated_list_price)
+    end
+
+    it 'translates non-anniversary amendment order billed quarterly with day prorations enabled' do
+      # Note feature DAY_PRORATIONS should only be enabled if CPQ Subscription Prorate Precision is set to 'Month + Day'
+      @user.enable_feature FeatureFlags::DAY_PRORATIONS, update: true
+      @user.enable_feature FeatureFlags::NON_ANNIVERSARY_AMENDMENTS, update: true
+      @user.enable_feature FeatureFlags::TEST_CLOCKS, update: true
+
+      # initial order: starts now, billed quarterly
+      # amendment order: starts 1 month + 3 days later on a non-anniversary day
+      contract_term = 24
+      amendment_term = 22
+
+      initial_order_start_date = now_time
+      initial_order_end_date = initial_order_start_date + contract_term.months
+
+      # intentially start amendment order on non-anniversary day
+      amendment_start_date = initial_order_start_date + (contract_term - amendment_term - 1).months + 3.day
+
+      # create the initial sf order
+      billing_frequency_serialized = CPQBillingFrequencyOptions::QUARTERLY.serialize
+      sf_product_id, _sf_pricebook_id = salesforce_recurring_product_with_price(
+        price: TEST_DEFAULT_PRICE,
+        additional_product_fields: {
+          CPQ_QUOTE_BILLING_FREQUENCY => billing_frequency_serialized,
+        }
+      )
+
+      sf_order = create_subscription_order(
+        sf_product_id: sf_product_id,
+        additional_fields: {
+          CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(initial_order_start_date),
+          CPQ_QUOTE_SUBSCRIPTION_TERM => contract_term,
+        }
+      )
+      StripeForce::Translate.perform_inline(@user, sf_order.Id)
+      sf_order.refresh
+
+      # create and sync the sf order amendment
+      sf_contract = create_contract_from_order(sf_order)
+      amendment_quote = create_quote_data_from_contract_amendment(sf_contract)
+      amendment_quote["lineItems"].first["record"][CPQ_QUOTE_QUANTITY] = 2
+      amendment_quote["record"][CPQ_QUOTE_SUBSCRIPTION_START_DATE] = format_date_for_salesforce(amendment_start_date)
+      amendment_quote["record"][CPQ_QUOTE_SUBSCRIPTION_TERM] = amendment_term
+
+      sf_order_amendment = create_order_from_quote_data(amendment_quote)
+      StripeForce::Translate.perform_inline(@user, sf_order_amendment.Id)
+      sf_order_amendment.refresh
+
+      # fetch the subscription schedule
+      stripe_subscription_schedule_id = sf_order_amendment[prefixed_stripe_field(GENERIC_STRIPE_ID)]
+      stripe_subscription_schedule = Stripe::SubscriptionSchedule.retrieve(stripe_subscription_schedule_id, @user.stripe_credentials)
+      assert_equal(2, stripe_subscription_schedule.phases.count)
+
+      # verify phase dates
+      first_phase = T.must(stripe_subscription_schedule.phases.first)
+      assert_equal(0, first_phase.start_date - initial_order_start_date.to_i)
+      assert_equal(0, first_phase.end_date - amendment_start_date.to_i)
+
+      # first phase should have one sub item and no proration items
+      assert_equal(1, first_phase.items.count)
+      assert_empty(first_phase.add_invoice_items)
+
+      second_phase = T.must(stripe_subscription_schedule.phases[1])
+      assert_equal(0, second_phase.start_date - amendment_start_date.to_i)
+      assert_equal(0, second_phase.end_date - initial_order_end_date.to_i)
+
+      # second phase should have two items (one original, one addition)
+      # it should have a single proration item
+      assert_equal(2, second_phase.items.count)
+      assert_equal(1, second_phase.add_invoice_items.count)
+
+      # sanity check regular line item has quarterly interval
+      recurring_price = Stripe::Price.retrieve(T.cast(T.must(second_phase.items.first).price, String), @user.stripe_credentials)
+      assert_equal('recurring', recurring_price.type)
+      assert_equal(3, recurring_price['recurring']['interval_count'])
+
+      prorated_item = T.unsafe(second_phase.add_invoice_items.first)
+      assert_equal("true", prorated_item.metadata[StripeForce::Translate::Metadata.metadata_key(@user, MetadataKeys::PRORATION)])
+      assert_equal(1, prorated_item.quantity)
+
+      # check additional fields added to the proration invoice item
+      assert_equal("phase_start", prorated_item.period.start.type)
+      assert_equal("subscription_period_end", prorated_item.period.end.type)
+      assert_equal("true", prorated_item.metadata[StripeForce::Translate::Metadata.metadata_key(@user, MetadataKeys::PRORATION)])
+
+      prorated_price = Stripe::Price.retrieve(T.cast(prorated_item.price, String), @user.stripe_credentials)
+      assert_equal('one_time', prorated_price.type)
+      assert_equal("true", prorated_price.metadata['salesforce_auto_archive'])
+      assert_equal("true", prorated_price.metadata['salesforce_duplicate'])
+      assert_equal("true", prorated_price.metadata['salesforce_proration'])
+
+      # get customer
+      sf_account = sf_get(sf_order['AccountId'])
+      stripe_customer_id = sf_account[prefixed_stripe_field(GENERIC_STRIPE_ID)]
+      stripe_customer = stripe_get(stripe_customer_id)
+      refute_nil(stripe_customer.test_clock)
+
+      # now let's advance the test clock
+      test_clock = advance_test_clock(stripe_customer, (amendment_start_date + 2.day).to_i)
+
+      # simulate sending the webhook
+      events = Stripe::Event.list({
+        type: 'invoiceitem.created',
+      }, @user.stripe_credentials)
+
+      invoice_events = events.data.select do |event|
+        event_object = event.data.object
+        event_object.test_clock == test_clock.id && event.request.id.nil?
+      end
+      assert_equal(1, invoice_events.count)
+
+      # verify proration invoice total
+      days_prorating = StripeForce::Utilities::SalesforceUtil.calculate_days_to_prorate(
+        sf_order_start_date: amendment_start_date,
+        sf_order_end_date: initial_order_end_date,
+        sf_order_subscription_term: amendment_term)
+      billing_frequency = StripeForce::Translate::PriceHelpers.transform_salesforce_billing_frequency_to_recurring_interval(billing_frequency_serialized)
+      proration_percentage = StripeForce::Utilities::SalesforceUtil.calculate_month_plus_day_price_multiple(whole_months: (amendment_term % billing_frequency), partial_month_days: days_prorating, product_subscription_term: CPQ_QUOTE_LINE_DEFAULT_SUBSCRIPTION_TERM)
+      prorated_amount = TEST_DEFAULT_PRICE * proration_percentage
+      prorated_invoice_amount = invoice_events[0].data.object.amount
+      assert_equal(prorated_amount.round, prorated_invoice_amount)
+
+      # sanity check this proration calc aligns with what is in Salesforce CPQ
+      # Salesforce Prorated List Price = List Price - Already Billed Amount + CPQ Proration Amount
+      price_in_dollars = TEST_DEFAULT_PRICE / 100
+      total_list_price = price_in_dollars * (contract_term / CPQ_QUOTE_LINE_DEFAULT_SUBSCRIPTION_TERM)
+      previously_billed_amount = price_in_dollars * (BigDecimal(billing_frequency) / BigDecimal(CPQ_QUOTE_LINE_DEFAULT_SUBSCRIPTION_TERM))
+      prorated_invoice_amount_in_dollars = BigDecimal(prorated_invoice_amount) / 100
+
+      cpq_prorated_list_price = total_list_price - previously_billed_amount + prorated_invoice_amount_in_dollars
+      assert_equal(sf_order_amendment["TotalAmount"], cpq_prorated_list_price)
     end
   end
 end

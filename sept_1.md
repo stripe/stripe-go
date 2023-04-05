@@ -43,7 +43,7 @@
 
 ### Cleanup
 
-- [ ] enforce coterming with sync errors
+- [x ] enforce coterming with sync errors
 - [ ] Use `end_date` vs iterations in initial phase and rip out associated logic
 - [ ] Improve custom price field detection to be more reliable
 - [ ] Refactor to pull out order amendment helpers into separate module

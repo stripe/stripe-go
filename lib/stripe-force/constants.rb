@@ -54,9 +54,14 @@ module StripeForce
     CPQ_QUOTE_ORDERED = 'SBQQ__Ordered__c'
     CPQ_QUOTE_PRIMARY = 'SBQQ__Primary__c'
     CPQ_QUOTE_SUBSCRIPTION_START_DATE = 'SBQQ__StartDate__c'
+    CPQ_QUOTE_SUBSCRIPTION_END_DATE = 'SBQQ__EndDate__c'
     CPQ_QUOTE_SUBSCRIPTION_TERM = 'SBQQ__SubscriptionTerm__c'
     CPQ_QUOTE_SUBSCRIPTION_PRICING = 'SBQQ__SubscriptionPricing__c'
     CPQ_QUOTE_QUANTITY = 'SBQQ__Quantity__c'
+    CPQ_PRORATE_MULTIPLIER = 'SBQQ__ProrateMultiplier__c'
+
+    CPQ_DEFAULT_SUBSCRIPTION_TERM = 'SBQQ__DefaultSubscriptionTerm__c'
+    CPQ_QUOTE_LINE_DEFAULT_SUBSCRIPTION_TERM = 12
 
     CPQ_QUOTE_BILLING_FREQUENCY = 'SBQQ__BillingFrequency__c'
     class CPQBillingFrequencyOptions < T::Enum
@@ -204,6 +209,9 @@ module StripeForce
         ACCOUNT_POLLING = new('account_polling')
         COUPONS = new('coupons')
         TERMINATED_ORDER_ITEM_CREDIT = new('terminated_order_item_credit')
+        NON_ANNIVERSARY_AMENDMENTS = new('non_anniversary_amendments')
+        # DAY_PRORATIONS should only be enabled if CPQ Subscription Prorate Precision = 'Month + Day'
+        DAY_PRORATIONS = new('day_prorations')
         AUTO_ADVANCE_PRORATION_INVOICE = new('auto_advance_proration_invoices')
         PREBILLING = new('prebilling')
       end
@@ -221,5 +229,9 @@ module StripeForce
       end
     end
 
+    # time related constants
+    SECONDS_IN_DAY = 86400
+    DAYS_IN_YEAR = 365
+    MONTHS_IN_YEAR = 12
   end
 end

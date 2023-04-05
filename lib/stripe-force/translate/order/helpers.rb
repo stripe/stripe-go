@@ -314,7 +314,7 @@ class StripeForce::Translate
 
     sig { params(days: Integer).returns(Integer) }
     def self.days_to_seconds(days)
-      days * 24 * 60 * 60
+      days * SECONDS_IN_DAY
     end
   end
 end

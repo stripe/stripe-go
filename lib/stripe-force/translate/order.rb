@@ -153,7 +153,7 @@ class StripeForce::Translate
     end
 
     # TODO should file a Stripe API papercut for this, weird to have the start date on the header but the end date on the phase
-    # when creating the subscription schedule the start_date must be specified on the heaer
+    # when creating the subscription schedule the start_date must be specified on the header
     # when updating it, it is specified on the individual phase object
 
     subscription_start_date_as_timestamp = StripeForce::Utilities::SalesforceUtil.salesforce_date_to_unix_timestamp(subscription_schedule.start_date)
@@ -213,11 +213,11 @@ class StripeForce::Translate
     start_date_from_salesforce = DateTime.parse(string_start_date_from_salesforce)
     subscription_start_date_as_timestamp = StripeForce::Utilities::SalesforceUtil.salesforce_date_to_unix_timestamp(string_start_date_from_salesforce)
 
-    subscription_term_from_sales_force = subscription_schedule['iterations'].to_i
+    subscription_term_from_salesforce = subscription_schedule['iterations'].to_i
 
     # originally `iterations` was used, but this fails when subscription term is less than a single billing cycle
     initial_phase_end_date = StripeForce::Utilities::SalesforceUtil.datetime_to_unix_timestamp(
-      start_date_from_salesforce + subscription_term_from_sales_force.months
+      start_date_from_salesforce + subscription_term_from_salesforce.months
     )
 
     # TODO we should have a check to ensure all quantities are positive
@@ -251,7 +251,7 @@ class StripeForce::Translate
 
     is_initial_order_prorated = OrderHelpers.prorated_initial_order?(
       phase_items: subscription_items,
-      subscription_term: subscription_term_from_sales_force,
+      subscription_term: subscription_term_from_salesforce,
       billing_frequency: billing_frequency
     )
 
@@ -268,7 +268,7 @@ class StripeForce::Translate
         mapper: mapper,
         sf_order_amendment: sf_order,
         phase_items: subscription_items,
-        subscription_term: subscription_term_from_sales_force,
+        subscription_term: subscription_term_from_salesforce,
         billing_frequency: billing_frequency,
       )
 
@@ -278,8 +278,8 @@ class StripeForce::Translate
         invoice_item[:period][:end][:type] = 'phase_end'
       end
 
-      backend_proration_term = subscription_term_from_sales_force % billing_frequency
-      backend_proration_start_date = start_date_from_salesforce + (subscription_term_from_sales_force - backend_proration_term).months
+      backend_proration_term = subscription_term_from_salesforce % billing_frequency
+      backend_proration_start_date = start_date_from_salesforce + (subscription_term_from_salesforce - backend_proration_term).months
       backend_proration_start_date_timestamp = StripeForce::Utilities::SalesforceUtil.datetime_to_unix_timestamp(backend_proration_start_date)
 
       prorated_phase = {
@@ -362,8 +362,7 @@ class StripeForce::Translate
     # at this point, the initial order would have already been translated
     # and a corresponding subscription schedule created.
 
-    subscription_schedule = T.cast(subscription_schedule, Stripe::SubscriptionSchedule)
-
+    # verify that all the amendment orders co-terminate with the initial order
     if !OrderAmendment.contract_co_terminated?(mapper, contract_structure)
       raise StripeForce::Errors::RawUserError.new("Order amendments must coterminate with the initial order")
     end
@@ -457,13 +456,14 @@ class StripeForce::Translate
 
       # TODO check for float value
       # TODO should probably move iteration extraction to another helper
-      subscription_term_from_sales_force = phase_params.delete('iterations').to_i
+      subscription_term_from_salesforce = phase_params.delete('iterations').to_i
 
       # originally `iterations` was used, but this fails when subscription term is less than a single billing cycle
 
-      # we need to normalize the amendment order end date to take into account a special cases
+      # we need to normalize the amendment order end date to take into account special cases
       # that can occur when then initial order starts on a day of the month that doesn't exist in the amendment month
       sf_order_amendment_end_date = StripeForce::Utilities::SalesforceUtil.normalize_sf_order_amendment_end_date(mapper: mapper, sf_order_amendment: sf_order_amendment, sf_initial_order: contract_structure.initial)
+      # at this point, we have verified the order amendment end date is equal to the initial order
       phase_params['end_date'] = StripeForce::Utilities::SalesforceUtil.datetime_to_unix_timestamp(sf_order_amendment_end_date)
 
       # TODO should we validate the end date vs the subscription schedule?
@@ -484,7 +484,7 @@ class StripeForce::Translate
           mapper: mapper,
           sf_order_amendment: sf_order_amendment,
           terminated_phase_items: terminated_phase_items,
-          subscription_term: subscription_term_from_sales_force,
+          subscription_term: subscription_term_from_salesforce,
           billing_frequency: billing_frequency,
         )
       end
@@ -506,22 +506,55 @@ class StripeForce::Translate
 
           # these params in an ideal world should be pulled from the `subscription_schedule`, but
           # they are tricky to extract without additional API calls
-          subscription_term: subscription_term_from_sales_force,
+          subscription_term: subscription_term_from_salesforce,
           billing_frequency: billing_frequency,
-          amendment_start_date: sf_order_amendment_start_date_as_timestamp
+          amendment_start_date: sf_order_amendment_start_date_as_timestamp,
         )
       end
 
       invoice_items_for_prorations = []
 
       if !is_order_terminated && is_prorated
+        # the subscription term represents the number of whole months
+        # the days prorating represents the partial month (or days) remaining
+        subscription_term = subscription_term_from_salesforce
+        days_prorating = 0
+
+        if @user.feature_enabled?(FeatureFlags::NON_ANNIVERSARY_AMENDMENTS)
+          days = StripeForce::Utilities::SalesforceUtil.calculate_days_to_prorate(
+            sf_order_start_date: StripeForce::Utilities::SalesforceUtil.salesforce_date_to_beginning_of_day(string_start_date_from_salesforce),
+            sf_order_end_date: sf_order_amendment_end_date,
+            sf_order_subscription_term: subscription_term)
+
+          # CPQ Proration Calculations
+          # https://help.salesforce.com/s/articleView?id=sf.cpq_subscriptions_prorate_precision_1.htm&type=5
+          # in CPQ, the proration multiple is the number of whole months plus a decimal for any partial month at the end of the term
+          # which is represented by the subscription term and the days below
+          # depending on the CPQ setting <=> feature flag enabled, the calculation will differ
+          if days > 0
+            # if feature DAY_PRORATIONS is enabled, set the number of days to prorate
+            # else, a partial month equals a whole month so add one to the subscription term
+            if @user.feature_enabled?(FeatureFlags::DAY_PRORATIONS)
+              log.info 'prorating line items by days', days_prorating: days
+              days_prorating = days
+            else
+              # the subscription term represents the number of whole months
+              # plus a decimal for any partial month at the end of the term if your term contains a partial month (days_prorating > 0)
+              # so we round the number of months to the nearest whole number (if there are days) by adding one since the subscription_term
+              log.info 'prorating line items by months but accounting for partial month', days_prorating: days
+              subscription_term += 1
+            end
+          end
+        end
+
         invoice_items_for_prorations = OrderAmendment.generate_proration_items_from_phase_items(
           user: @user,
           mapper: mapper,
           sf_order_amendment: sf_order_amendment,
           phase_items: aggregate_phase_items,
-          subscription_term: subscription_term_from_sales_force,
+          subscription_term: subscription_term,
           billing_frequency: billing_frequency,
+          days_prorating: days_prorating
         )
       end
 
