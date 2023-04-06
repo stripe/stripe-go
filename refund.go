@@ -62,7 +62,7 @@ type RefundParams struct {
 	Currency *string `form:"currency"`
 	// Customer whose customer balance to refund from.
 	Customer *string `form:"customer"`
-	// Address to send refund email, use customer email if not specified
+	// For payment methods without native refund support (e.g., Konbini, PromptPay), use this email from the customer to receive refund instructions.
 	InstructionsEmail *string `form:"instructions_email"`
 	// Origin of the refund
 	Origin               *string `form:"origin"`
@@ -123,7 +123,7 @@ type Refund struct {
 	FailureReason RefundFailureReason `json:"failure_reason"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
-	// Email to which refund instructions, if required, are sent to.
+	// For payment methods without native refund support (e.g., Konbini, PromptPay), email for the customer to receive refund instructions.
 	InstructionsEmail string `json:"instructions_email"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata   map[string]string `json:"metadata"`

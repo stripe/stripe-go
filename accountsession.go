@@ -13,13 +13,13 @@ type AccountSessionParams struct {
 	Account *string `form:"account"`
 }
 
-// An AccountSession allows a Connect platform to grant access to a connected account in Connect embedded UIs.
+// An AccountSession allows a Connect platform to grant access to a connected account in Connect embedded components.
 //
-// We recommend that you create an AccountSession each time you need to display an embedded UI
+// We recommend that you create an AccountSession each time you need to display an embedded component
 // to your user. Do not save AccountSessions to your database as they expire relatively
 // quickly, and cannot be used more than once.
 //
-// Related guide: [Connect embedded UIs](https://stripe.com/docs/connect/get-started-connect-embedded-uis).
+// Related guide: [Connect embedded components](https://stripe.com/docs/connect/get-started-connect-embedded-components).
 type AccountSession struct {
 	APIResource
 	// The ID of the account the AccountSession was created for
@@ -28,7 +28,7 @@ type AccountSession struct {
 	//
 	// The client secret can be used to provide access to `account` from your frontend. It should not be stored, logged, or exposed to anyone other than the connected account. Make sure that you have TLS enabled on any page that includes the client secret.
 	//
-	// Refer to our docs to [setup Connect embedded UIs](https://stripe.com/docs/connect/get-started-connect-embedded-uis) and learn about how `client_secret` should be handled.
+	// Refer to our docs to [setup Connect embedded components](https://stripe.com/docs/connect/get-started-connect-embedded-components) and learn about how `client_secret` should be handled.
 	ClientSecret string `json:"client_secret"`
 	// The timestamp at which this AccountSession will expire.
 	ExpiresAt int64 `json:"expires_at"`

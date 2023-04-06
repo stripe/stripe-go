@@ -46,6 +46,16 @@ type CapitalFinancingTransactionListParams struct {
 	FinancingOffer *string `form:"financing_offer"`
 	// Only returns transactions that are responsible for reversing this financing transaction ID.
 	ReversedTransaction *string `form:"reversed_transaction"`
+	// For transactions of type `paydown` and reason `automatic_withholding` only, only returns transactions that were created as a result of this Treasury Transaction.
+	TreasuryTransaction *string `form:"treasury_transaction"`
+}
+
+// This is an object representing a linked transaction on a Capital Financing Transaction.
+type CapitalFinancingTransactionDetailsTransaction struct {
+	// The linked payment ID.
+	Charge string `json:"charge"`
+	// The linked Treasury Financing Transaction ID.
+	TreasuryTransaction string `json:"treasury_transaction"`
 }
 
 // This is an object representing a transaction on a Capital financing offer.
@@ -56,8 +66,7 @@ type CapitalFinancingTransactionDetails struct {
 	Currency Currency `json:"currency"`
 	// The fee amount being repaid, paid out, or reversed in minor units.
 	FeeAmount int64 `json:"fee_amount"`
-	// The linked payment for the transaction. This field only applies to
-	// financing transactions of type `paydown` and reason `automatic_withholding`.
+	// The linked payment for the transaction. This field only applies to financing transactions of type `paydown` and reason `automatic_withholding`.
 	LinkedPayment string `json:"linked_payment"`
 	// The reason for the financing transaction (if applicable).
 	Reason CapitalFinancingTransactionDetailsReason `json:"reason"`
@@ -66,6 +75,8 @@ type CapitalFinancingTransactionDetails struct {
 	ReversedTransaction string `json:"reversed_transaction"`
 	// The advance and fee amount being repaid, paid out, or reversed in minor units.
 	TotalAmount int64 `json:"total_amount"`
+	// This is an object representing a linked transaction on a Capital Financing Transaction.
+	Transaction *CapitalFinancingTransactionDetailsTransaction `json:"transaction"`
 }
 
 // This is an object representing the details of a transaction on a Capital financing object.
