@@ -42,7 +42,7 @@ const (
 	IssuingCardholderStatusInactive IssuingCardholderStatus = "inactive"
 )
 
-// One of `individual` or `company`.
+// One of `individual` or `company`. See [Choose a cardholder type](https://stripe.com/docs/issuing/other/choose-cardholder) for more details.
 type IssuingCardholderType string
 
 // List of values that IssuingCardholderType can take
@@ -301,7 +301,7 @@ type IssuingCardholder struct {
 	SpendingControls *IssuingCardholderSpendingControls `json:"spending_controls"`
 	// Specifies whether to permit authorizations on this cardholder's cards.
 	Status IssuingCardholderStatus `json:"status"`
-	// One of `individual` or `company`.
+	// One of `individual` or `company`. See [Choose a cardholder type](https://stripe.com/docs/issuing/other/choose-cardholder) for more details.
 	Type IssuingCardholderType `json:"type"`
 }
 

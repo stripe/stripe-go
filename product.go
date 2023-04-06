@@ -68,7 +68,7 @@ func (p *ProductDefaultPriceDataCurrencyOptionsTierParams) AppendTo(body *form.V
 type ProductDefaultPriceDataCurrencyOptionsParams struct {
 	// When set, provides configuration for the amount to be adjusted by the customer during Checkout Sessions and Payment Links.
 	CustomUnitAmount *ProductDefaultPriceDataCurrencyOptionsCustomUnitAmountParams `form:"custom_unit_amount"`
-	// Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Once specified as either `inclusive` or `exclusive`, it cannot be changed.
+	// Only required if a [default tax behavior](https://stripe.com/docs/tax/products-prices-tax-categories-tax-behavior#setting-a-default-tax-behavior-(recommended)) was not provided in the Stripe Tax settings. Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Once specified as either `inclusive` or `exclusive`, it cannot be changed.
 	TaxBehavior *string `form:"tax_behavior"`
 	// Each element represents a pricing tier. This parameter requires `billing_scheme` to be set to `tiered`. See also the documentation for `billing_scheme`.
 	Tiers []*ProductDefaultPriceDataCurrencyOptionsTierParams `form:"tiers"`
@@ -94,7 +94,7 @@ type ProductDefaultPriceDataParams struct {
 	CurrencyOptions map[string]*ProductDefaultPriceDataCurrencyOptionsParams `form:"currency_options"`
 	// The recurring components of a price such as `interval` and `interval_count`.
 	Recurring *ProductDefaultPriceDataRecurringParams `form:"recurring"`
-	// Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Once specified as either `inclusive` or `exclusive`, it cannot be changed.
+	// Only required if a [default tax behavior](https://stripe.com/docs/tax/products-prices-tax-categories-tax-behavior#setting-a-default-tax-behavior-(recommended)) was not provided in the Stripe Tax settings. Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Once specified as either `inclusive` or `exclusive`, it cannot be changed.
 	TaxBehavior *string `form:"tax_behavior"`
 	// A positive integer in cents (or local equivalent) (or 0 for a free price) representing how much to charge. One of `unit_amount` or `unit_amount_decimal` is required.
 	UnitAmount *int64 `form:"unit_amount"`
