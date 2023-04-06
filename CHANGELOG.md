@@ -1,5 +1,11 @@
 # Changelog
 
+## 74.15.0 - 2023-04-06
+* [#1638](https://github.com/stripe/stripe-go/pull/1638) Update generated code
+  * Add support for new value `link` on enum `PaymentMethodCardWalletType`
+  * Add support for `Country` on `PaymentMethodLink`
+  * Add support for `StatusDetails` on `PaymentMethodUsBankAccount`
+
 ## 74.14.0 - 2023-03-30
 * [#1635](https://github.com/stripe/stripe-go/pull/1635) Update generated code
   * Remove support for `New` method on resource `Tax.Transaction`
