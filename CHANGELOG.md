@@ -1,5 +1,11 @@
 # Changelog
 
+## 74.16.0-beta.1 - 2023-04-06
+* [#1637](https://github.com/stripe/stripe-go/pull/1637) Update generated code for beta
+  * Add support for `TreasuryTransaction` on `CapitalFinancingTransactionListParams`
+  * Add support for `Transaction` on `CapitalFinancingTransactionDetails`
+  * Add support for new value `link` on enum `PaymentMethodCardWalletType`
+
 ## 74.15.0 - 2023-04-06
 * [#1638](https://github.com/stripe/stripe-go/pull/1638) Update generated code
   * Add support for new value `link` on enum `PaymentMethodCardWalletType`
