@@ -8,7 +8,7 @@ package stripe
 
 import "encoding/json"
 
-// Card brand. Can be `amex`, `diners`, `discover`, `jcb`, `mastercard`, `unionpay`, `visa`, or `unknown`.
+// Card brand. Can be `amex`, `diners`, `discover`, `eftpos_au`, `jcb`, `mastercard`, `unionpay`, `visa`, or `unknown`.
 type PaymentMethodCardBrand string
 
 // List of values that PaymentMethodCardBrand can take
@@ -90,7 +90,7 @@ const (
 	PaymentMethodCardNetworksPreferredUnknown         PaymentMethodCardNetworksPreferred = "unknown"
 )
 
-// The type of the card wallet, one of `amex_express_checkout`, `apple_pay`, `google_pay`, `masterpass`, `samsung_pay`, or `visa_checkout`. An additional hash is included on the Wallet subhash with a name matching this value. It contains additional information specific to the card wallet type.
+// The type of the card wallet, one of `amex_express_checkout`, `apple_pay`, `google_pay`, `masterpass`, `samsung_pay`, `visa_checkout`, or `link`. An additional hash is included on the Wallet subhash with a name matching this value. It contains additional information specific to the card wallet type.
 type PaymentMethodCardWalletType string
 
 // List of values that PaymentMethodCardWalletType can take
@@ -98,6 +98,7 @@ const (
 	PaymentMethodCardWalletTypeAmexExpressCheckout PaymentMethodCardWalletType = "amex_express_checkout"
 	PaymentMethodCardWalletTypeApplePay            PaymentMethodCardWalletType = "apple_pay"
 	PaymentMethodCardWalletTypeGooglePay           PaymentMethodCardWalletType = "google_pay"
+	PaymentMethodCardWalletTypeLink                PaymentMethodCardWalletType = "link"
 	PaymentMethodCardWalletTypeMasterpass          PaymentMethodCardWalletType = "masterpass"
 	PaymentMethodCardWalletTypeSamsungPay          PaymentMethodCardWalletType = "samsung_pay"
 	PaymentMethodCardWalletTypeVisaCheckout        PaymentMethodCardWalletType = "visa_checkout"
@@ -177,6 +178,38 @@ type PaymentMethodUSBankAccountNetworksSupported string
 const (
 	PaymentMethodUSBankAccountNetworksSupportedACH            PaymentMethodUSBankAccountNetworksSupported = "ach"
 	PaymentMethodUSBankAccountNetworksSupportedUSDomesticWire PaymentMethodUSBankAccountNetworksSupported = "us_domestic_wire"
+)
+
+// The ACH network code that resulted in this block.
+type PaymentMethodUSBankAccountStatusDetailsBlockedNetworkCode string
+
+// List of values that PaymentMethodUSBankAccountStatusDetailsBlockedNetworkCode can take
+const (
+	PaymentMethodUSBankAccountStatusDetailsBlockedNetworkCodeR02 PaymentMethodUSBankAccountStatusDetailsBlockedNetworkCode = "R02"
+	PaymentMethodUSBankAccountStatusDetailsBlockedNetworkCodeR03 PaymentMethodUSBankAccountStatusDetailsBlockedNetworkCode = "R03"
+	PaymentMethodUSBankAccountStatusDetailsBlockedNetworkCodeR04 PaymentMethodUSBankAccountStatusDetailsBlockedNetworkCode = "R04"
+	PaymentMethodUSBankAccountStatusDetailsBlockedNetworkCodeR05 PaymentMethodUSBankAccountStatusDetailsBlockedNetworkCode = "R05"
+	PaymentMethodUSBankAccountStatusDetailsBlockedNetworkCodeR07 PaymentMethodUSBankAccountStatusDetailsBlockedNetworkCode = "R07"
+	PaymentMethodUSBankAccountStatusDetailsBlockedNetworkCodeR08 PaymentMethodUSBankAccountStatusDetailsBlockedNetworkCode = "R08"
+	PaymentMethodUSBankAccountStatusDetailsBlockedNetworkCodeR10 PaymentMethodUSBankAccountStatusDetailsBlockedNetworkCode = "R10"
+	PaymentMethodUSBankAccountStatusDetailsBlockedNetworkCodeR11 PaymentMethodUSBankAccountStatusDetailsBlockedNetworkCode = "R11"
+	PaymentMethodUSBankAccountStatusDetailsBlockedNetworkCodeR16 PaymentMethodUSBankAccountStatusDetailsBlockedNetworkCode = "R16"
+	PaymentMethodUSBankAccountStatusDetailsBlockedNetworkCodeR20 PaymentMethodUSBankAccountStatusDetailsBlockedNetworkCode = "R20"
+	PaymentMethodUSBankAccountStatusDetailsBlockedNetworkCodeR29 PaymentMethodUSBankAccountStatusDetailsBlockedNetworkCode = "R29"
+	PaymentMethodUSBankAccountStatusDetailsBlockedNetworkCodeR31 PaymentMethodUSBankAccountStatusDetailsBlockedNetworkCode = "R31"
+)
+
+// The reason why this PaymentMethod's fingerprint has been blocked
+type PaymentMethodUSBankAccountStatusDetailsBlockedReason string
+
+// List of values that PaymentMethodUSBankAccountStatusDetailsBlockedReason can take
+const (
+	PaymentMethodUSBankAccountStatusDetailsBlockedReasonBankAccountClosed         PaymentMethodUSBankAccountStatusDetailsBlockedReason = "bank_account_closed"
+	PaymentMethodUSBankAccountStatusDetailsBlockedReasonBankAccountFrozen         PaymentMethodUSBankAccountStatusDetailsBlockedReason = "bank_account_frozen"
+	PaymentMethodUSBankAccountStatusDetailsBlockedReasonBankAccountInvalidDetails PaymentMethodUSBankAccountStatusDetailsBlockedReason = "bank_account_invalid_details"
+	PaymentMethodUSBankAccountStatusDetailsBlockedReasonBankAccountRestricted     PaymentMethodUSBankAccountStatusDetailsBlockedReason = "bank_account_restricted"
+	PaymentMethodUSBankAccountStatusDetailsBlockedReasonBankAccountUnusable       PaymentMethodUSBankAccountStatusDetailsBlockedReason = "bank_account_unusable"
+	PaymentMethodUSBankAccountStatusDetailsBlockedReasonDebitNotAuthorized        PaymentMethodUSBankAccountStatusDetailsBlockedReason = "debit_not_authorized"
 )
 
 // If this is an `acss_debit` PaymentMethod, this hash contains details about the ACSS Debit payment method.
@@ -586,12 +619,12 @@ type PaymentMethodCardWallet struct {
 	GooglePay    *PaymentMethodCardWalletGooglePay  `json:"google_pay"`
 	Masterpass   *PaymentMethodCardWalletMasterpass `json:"masterpass"`
 	SamsungPay   *PaymentMethodCardWalletSamsungPay `json:"samsung_pay"`
-	// The type of the card wallet, one of `amex_express_checkout`, `apple_pay`, `google_pay`, `masterpass`, `samsung_pay`, or `visa_checkout`. An additional hash is included on the Wallet subhash with a name matching this value. It contains additional information specific to the card wallet type.
+	// The type of the card wallet, one of `amex_express_checkout`, `apple_pay`, `google_pay`, `masterpass`, `samsung_pay`, `visa_checkout`, or `link`. An additional hash is included on the Wallet subhash with a name matching this value. It contains additional information specific to the card wallet type.
 	Type         PaymentMethodCardWalletType          `json:"type"`
 	VisaCheckout *PaymentMethodCardWalletVisaCheckout `json:"visa_checkout"`
 }
 type PaymentMethodCard struct {
-	// Card brand. Can be `amex`, `diners`, `discover`, `jcb`, `mastercard`, `unionpay`, `visa`, or `unknown`.
+	// Card brand. Can be `amex`, `diners`, `discover`, `eftpos_au`, `jcb`, `mastercard`, `unionpay`, `visa`, or `unknown`.
 	Brand PaymentMethodCardBrand `json:"brand"`
 	// Checks on Card address and CVC if provided.
 	Checks *PaymentMethodCardChecks `json:"checks"`
@@ -719,6 +752,17 @@ type PaymentMethodUSBankAccountNetworks struct {
 	// All supported networks.
 	Supported []PaymentMethodUSBankAccountNetworksSupported `json:"supported"`
 }
+type PaymentMethodUSBankAccountStatusDetailsBlocked struct {
+	// The ACH network code that resulted in this block.
+	NetworkCode PaymentMethodUSBankAccountStatusDetailsBlockedNetworkCode `json:"network_code"`
+	// The reason why this PaymentMethod's fingerprint has been blocked
+	Reason PaymentMethodUSBankAccountStatusDetailsBlockedReason `json:"reason"`
+}
+
+// Contains information about the future reusability of this PaymentMethod.
+type PaymentMethodUSBankAccountStatusDetails struct {
+	Blocked *PaymentMethodUSBankAccountStatusDetailsBlocked `json:"blocked"`
+}
 type PaymentMethodUSBankAccount struct {
 	// Account holder type: individual or company.
 	AccountHolderType PaymentMethodUSBankAccountAccountHolderType `json:"account_holder_type"`
@@ -738,6 +782,8 @@ type PaymentMethodUSBankAccount struct {
 	Networks *PaymentMethodUSBankAccountNetworks `json:"networks"`
 	// Routing number of the bank account.
 	RoutingNumber string `json:"routing_number"`
+	// Contains information about the future reusability of this PaymentMethod.
+	StatusDetails *PaymentMethodUSBankAccountStatusDetails `json:"status_details"`
 }
 type PaymentMethodWeChatPay struct{}
 type PaymentMethodZip struct{}
