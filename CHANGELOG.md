@@ -1,5 +1,11 @@
 # Changelog
 
+## 74.15.0 - 2023-04-06
+* [#1638](https://github.com/stripe/stripe-go/pull/1638) Update generated code
+  * Add support for new value `link` on enum `PaymentMethodCardWalletType`
+  * Add support for `Country` on `PaymentMethodLink`
+  * Add support for `StatusDetails` on `PaymentMethodUsBankAccount`
+
 ## 74.15.0-beta.1 - 2023-03-30
 * [#1634](https://github.com/stripe/stripe-go/pull/1634) Update generated code
   * Add support for new value `ioss` on enum `TaxRegistrationType`
