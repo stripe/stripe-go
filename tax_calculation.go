@@ -148,7 +148,7 @@ type TaxCalculationLineItemParams struct {
 	TaxCode *string `form:"tax_code"`
 }
 
-// Shipping cost details to be used for the calculation
+// Shipping cost details to be used for the calculation.
 type TaxCalculationShippingCostParams struct {
 	// A positive integer in cents representing the shipping charge. If `tax_behavior=inclusive`, then this amount includes taxes. Otherwise, taxes are calculated on top of this amount.
 	Amount *int64 `form:"amount"`
@@ -171,7 +171,7 @@ type TaxCalculationParams struct {
 	CustomerDetails *TaxCalculationCustomerDetailsParams `form:"customer_details"`
 	// A list of items the customer is purchasing.
 	LineItems []*TaxCalculationLineItemParams `form:"line_items"`
-	// Shipping cost details to be used for the calculation
+	// Shipping cost details to be used for the calculation.
 	ShippingCost *TaxCalculationShippingCostParams `form:"shipping_cost"`
 	// Timestamp of date at which the tax rules and rates in effect applies for the calculation. Measured in seconds since the Unix epoch. Can be up to 48 hours in the past, and up to 48 hours in the future.
 	TaxDate *int64 `form:"tax_date"`
@@ -238,7 +238,9 @@ type TaxCalculationTaxBreakdown struct {
 	TaxRateDetails *TaxCalculationTaxBreakdownTaxRateDetails `json:"tax_rate_details"`
 }
 
-// A Tax `Calculation` allows you to calculate the tax to collect from your customer.
+// A Tax Calculation allows you to calculate the tax to collect from your customer.
+//
+// Related guide: [Calculate tax in your custom payment flow](https://stripe.com/docs/tax/custom).
 type TaxCalculation struct {
 	APIResource
 	// Total after taxes.
