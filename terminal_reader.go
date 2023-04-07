@@ -58,6 +58,8 @@ type TerminalReaderActionType string
 // List of values that TerminalReaderActionType can take
 const (
 	TerminalReaderActionTypeCollectInputs        TerminalReaderActionType = "collect_inputs"
+	TerminalReaderActionTypeCollectPaymentMethod TerminalReaderActionType = "collect_payment_method"
+	TerminalReaderActionTypeConfirmPaymentIntent TerminalReaderActionType = "confirm_payment_intent"
 	TerminalReaderActionTypeProcessPaymentIntent TerminalReaderActionType = "process_payment_intent"
 	TerminalReaderActionTypeProcessSetupIntent   TerminalReaderActionType = "process_setup_intent"
 	TerminalReaderActionTypeRefundPayment        TerminalReaderActionType = "refund_payment"
@@ -226,6 +228,36 @@ type TerminalReaderRefundPaymentParams struct {
 	// Boolean indicating whether the transfer should be reversed when refunding this charge. The transfer will be reversed proportionally to the amount being refunded (either the entire or partial amount). A transfer can be reversed only by the application that created the charge.
 	ReverseTransfer *bool `form:"reverse_transfer"`
 }
+
+// Tipping configuration for this transaction.
+type TerminalReaderCollectPaymentMethodCollectConfigTippingParams struct {
+	// Amount used to calculate tip suggestions on tipping selection screen for this transaction. Must be a positive integer in the smallest currency unit (e.g., 100 cents to represent $1.00 or 100 to represent ¥100, a zero-decimal currency).
+	AmountEligible *int64 `form:"amount_eligible"`
+}
+
+// Configuration overrides
+type TerminalReaderCollectPaymentMethodCollectConfigParams struct {
+	// Override showing a tipping selection screen on this transaction.
+	SkipTipping *bool `form:"skip_tipping"`
+	// Tipping configuration for this transaction.
+	Tipping *TerminalReaderCollectPaymentMethodCollectConfigTippingParams `form:"tipping"`
+}
+
+// Initiates a payment flow on a Reader and updates the PaymentIntent with card details before manual confirmation.
+type TerminalReaderCollectPaymentMethodParams struct {
+	Params `form:"*"`
+	// Configuration overrides
+	CollectConfig *TerminalReaderCollectPaymentMethodCollectConfigParams `form:"collect_config"`
+	// PaymentIntent ID
+	PaymentIntent *string `form:"payment_intent"`
+}
+
+// Finializes a payment on a Reader.
+type TerminalReaderConfirmPaymentIntentParams struct {
+	Params `form:"*"`
+	// PaymentIntent ID
+	PaymentIntent *string `form:"payment_intent"`
+}
 type TerminalReaderActionCollectInputsInputCustomText struct {
 	// Customize the default description for this input
 	Description string `json:"description"`
@@ -281,6 +313,42 @@ type TerminalReaderActionCollectInputs struct {
 }
 
 // Represents a per-transaction tipping configuration
+type TerminalReaderActionCollectPaymentMethodCollectConfigTipping struct {
+	// Amount used to calculate tip suggestions on tipping selection screen for this transaction. Must be a positive integer in the smallest currency unit (e.g., 100 cents to represent $1.00 or 100 to represent ¥100, a zero-decimal currency).
+	AmountEligible int64 `json:"amount_eligible"`
+}
+
+// Represents a per-transaction override of a reader configuration
+type TerminalReaderActionCollectPaymentMethodCollectConfig struct {
+	// Override showing a tipping selection screen on this transaction.
+	SkipTipping bool `json:"skip_tipping"`
+	// Represents a per-transaction tipping configuration
+	Tipping *TerminalReaderActionCollectPaymentMethodCollectConfigTipping `json:"tipping"`
+}
+
+// Represents a reader action to collect a payment method
+type TerminalReaderActionCollectPaymentMethod struct {
+	// Represents a per-transaction override of a reader configuration
+	CollectConfig *TerminalReaderActionCollectPaymentMethodCollectConfig `json:"collect_config"`
+	// Most recent PaymentIntent processed by the reader.
+	PaymentIntent *PaymentIntent `json:"payment_intent"`
+	// PaymentMethod objects represent your customer's payment instruments.
+	// You can use them with [PaymentIntents](https://stripe.com/docs/payments/payment-intents) to collect payments or save them to
+	// Customer objects to store instrument details for future payments.
+	//
+	// Related guides: [Payment Methods](https://stripe.com/docs/payments/payment-methods) and [More Payment Scenarios](https://stripe.com/docs/payments/more-payment-scenarios).
+	PaymentMethod *PaymentMethod `json:"payment_method"`
+	StripeAccount string         `json:"stripe_account"`
+}
+
+// Represents a reader action to confirm a payment
+type TerminalReaderActionConfirmPaymentIntent struct {
+	// Most recent PaymentIntent processed by the reader.
+	PaymentIntent *PaymentIntent `json:"payment_intent"`
+	StripeAccount string         `json:"stripe_account"`
+}
+
+// Represents a per-transaction tipping configuration
 type TerminalReaderActionProcessPaymentIntentProcessConfigTipping struct {
 	// Amount used to calculate tip suggestions on tipping selection screen for this transaction. Must be a positive integer in the smallest currency unit (e.g., 100 cents to represent $1.00 or 100 to represent ¥100, a zero-decimal currency).
 	AmountEligible int64 `json:"amount_eligible"`
@@ -300,6 +368,7 @@ type TerminalReaderActionProcessPaymentIntent struct {
 	PaymentIntent *PaymentIntent `json:"payment_intent"`
 	// Represents a per-transaction override of a reader configuration
 	ProcessConfig *TerminalReaderActionProcessPaymentIntentProcessConfig `json:"process_config"`
+	StripeAccount string                                                 `json:"stripe_account"`
 }
 
 // Represents a reader action to process a setup intent
@@ -327,7 +396,8 @@ type TerminalReaderActionRefundPayment struct {
 	// Boolean indicating whether the application fee should be refunded when refunding this charge. If a full charge refund is given, the full application fee will be refunded. Otherwise, the application fee will be refunded in an amount proportional to the amount of the charge refunded. An application fee can be refunded only by the application that created the charge.
 	RefundApplicationFee bool `json:"refund_application_fee"`
 	// Boolean indicating whether the transfer should be reversed when refunding this charge. The transfer will be reversed proportionally to the amount being refunded (either the entire or partial amount). A transfer can be reversed only by the application that created the charge.
-	ReverseTransfer bool `json:"reverse_transfer"`
+	ReverseTransfer bool   `json:"reverse_transfer"`
+	StripeAccount   string `json:"stripe_account"`
 }
 
 // List of line items in the cart.
@@ -364,6 +434,10 @@ type TerminalReaderActionSetReaderDisplay struct {
 type TerminalReaderAction struct {
 	// Represents a reader action to collect customer inputs
 	CollectInputs *TerminalReaderActionCollectInputs `json:"collect_inputs"`
+	// Represents a reader action to collect a payment method
+	CollectPaymentMethod *TerminalReaderActionCollectPaymentMethod `json:"collect_payment_method"`
+	// Represents a reader action to confirm a payment
+	ConfirmPaymentIntent *TerminalReaderActionConfirmPaymentIntent `json:"confirm_payment_intent"`
 	// Failure code, only set if status is `failed`.
 	FailureCode string `json:"failure_code"`
 	// Detailed failure message, only set if status is `failed`.
