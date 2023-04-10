@@ -406,13 +406,18 @@ public with sharing class setupAssistant {
     }
 
     private static List<String> getListFieldFromPayload(String listKey, Map<String,Object> responseBody, Boolean ensureList) {
-        List<String> respFields = (List<String>) responseBody.get(listKey);
+        List<Object> respFields = (List<Object>) responseBody.get(listKey);
+        List<String> respList = new List<String>();
 
         if (respFields == null && ensureList) {
             return new List<String>();
         }
 
-        return respFields;
+        for (Object obj : respFields) {
+            respList.add(String.valueOf(obj));
+        }
+
+        return respList;
     }
 
     //gets multi currency options if it is enablec in the org
