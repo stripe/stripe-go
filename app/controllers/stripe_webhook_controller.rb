@@ -42,11 +42,12 @@ class StripeWebhookController < ApplicationController
       return
     end
 
-    user = find_user(stripe_account_id, livemode)
+    Integrations::Metrics::Writer.instance.track_counter('webhook.event.received', dimensions: {livemode: livemode, stripe_account_id: stripe_account_id})
 
+    user = find_user(stripe_account_id, livemode)
     if user.nil?
       log.info "no user found for webhook"
-      render status: :not_found, plain: "SuiteSync: user not found"
+      render status: :not_found, plain: "user not found"
       return
     end
 
@@ -83,7 +84,8 @@ class StripeWebhookController < ApplicationController
 
     StripeForce::ProrationAutoBill.create_invoice_from_invoice_item_event(user, event)
 
-    log.info "successfully processed event", metric: 'event.received'
+    log.info "successfully processed event"
+    Integrations::Metrics::Writer.instance.track_counter('webhook.event.processed', dimensions: {livemode: livemode, stripe_account_id: stripe_account_id})
 
     render plain: "Successfully processed event #{event_id}"
   end

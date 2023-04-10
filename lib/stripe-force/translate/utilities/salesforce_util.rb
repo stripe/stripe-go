@@ -131,10 +131,12 @@ module StripeForce::Utilities
 
         # log & raise error if all retries fail
         if count >= options[:attempts]
-          log.warn 'finished retrying SF operation, raising error',
+          log.error 'finished retrying SF operation, raising error', {
+            metric: 'translation.error.salesforce',
             attempt: count,
             error_class: e.class.to_s,
             error_message: e.message
+          }
           raise e
         end
 

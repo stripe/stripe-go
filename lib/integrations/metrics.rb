@@ -4,6 +4,8 @@ module Integrations
   module Metrics
     include Log
 
+    RESOURCE_TRANSLATION_TIME = 'resource_translation_time'
+
     def metrics
       Integrations::Metrics::Writer.instance
     end
@@ -52,14 +54,12 @@ module Integrations
       end
 
       def time(name, dimensions: {})
-        start = Time.now
+        # https://stackoverflow.com/questions/2289381/how-to-time-an-operation-in-milliseconds-in-ruby/45483168#45483168
+        start = Process.clock_gettime(Process::CLOCK_MONOTONIC)
         yield
       ensure
         start = T.must(start)
-        duration_in_seconds = Time.now - start
-
-        # sfx assumes milliseconds, so we need to convert before sending
-        track_gauge(name, (duration_in_seconds * 1_000), dimensions: dimensions)
+        track_gauge(name, ((Process.clock_gettime(Process::CLOCK_MONOTONIC) - start) * 1000), dimensions: dimensions)
       end
 
       # For testing, poking with REPL
@@ -77,7 +77,7 @@ module Integrations
 
       private def build_args(metric, value, dimensions)
         {
-          metric: "suitesync.#{metric}",
+          metric: "cpq_connector.#{metric}",
           dimensions: build_dimensions.merge(dimensions).transform_values(&:to_s),
           value: value,
           timestamp: (Time.now.utc.to_f * 1000).floor,

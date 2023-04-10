@@ -5,11 +5,7 @@ class SalesforceTranslateRecordJob < StripeForce::BaseJob
 
   sig { params(user: StripeForce::User, sf_record_id: String).void }
   def self.work(user, sf_record_id)
-    Resque.enqueue(
-      self,
-
-      user.salesforce_account_id, user.stripe_account_id, user.livemode, sf_record_id
-    )
+    Resque.enqueue(self, user.salesforce_account_id, user.stripe_account_id, user.livemode, sf_record_id)
   end
 
   def self.translate(user, sf_record)

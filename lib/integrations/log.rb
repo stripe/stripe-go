@@ -9,7 +9,7 @@ end
 SimpleStructuredLogger.configure do
   T.bind(self, SimpleStructuredLogger::Configuration)
 
-  expand_log do |tags, default_tags|
+  expand_log do |tags|
     if tags[:salesforce_object] && tags[:salesforce_object].is_a?(Restforce::SObject)
       salesforce_object = tags.delete(:salesforce_object)
       tags[:sf_object_id] = salesforce_object.Id
@@ -23,8 +23,7 @@ SimpleStructuredLogger.configure do
     end
 
     if tags[:metric]
-      dimensions = default_tags.slice(:stripe_user_id, :livemode, :salesforce_id)
-      Integrations::Metrics::Writer.instance.track_counter(tags[:metric], dimensions: dimensions)
+      Integrations::Metrics::Writer.instance.track_counter(tags[:metric], dimensions: tags)
     end
 
     tags

@@ -48,7 +48,7 @@ module Api
 
       sf_record_ids.each do |sf_record_id|
         # TODO validate that SF IDs look correct? Quick regex sanity check?
-        log.info 'queuing object', salesforce_id: sf_record_id, salesforce_type: sf_record_type
+        log.info 'queuing object', salesforce_object_id: sf_record_id, salesforce_object_type: sf_record_type
         SalesforceTranslateRecordJob.work(@user, sf_record_id)
       end
 

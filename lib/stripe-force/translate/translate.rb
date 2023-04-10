@@ -67,19 +67,24 @@ class StripeForce::Translate
     # Cache Related Objects
     cache_service.cache_for_object(sf_object)
 
-    catch_errors_with_salesforce_context(primary: sf_object) do
-      case sf_object.sobject_type
-      when SF_ORDER
-        translate_order(sf_object)
-      when SF_PRODUCT
-        translate_product(sf_object)
-      when SF_PRICEBOOK_ENTRY
-        translate_pricebook(sf_object)
-      when SF_ACCOUNT
-        translate_account(sf_object)
-      else
-        raise "unsupported translation type #{sf_object.sobject_type}"
-      end
+    Integrations::Metrics::Writer.instance.time(
+      Integrations::Metrics::RESOURCE_TRANSLATION_TIME,
+      dimensions: {salesforce_account_id: @user.salesforce_account_id, stripe_account_id: @user.stripe_account_id, livemode: @user.livemode, sf_object_type: sf_object.sobject_type}
+    ) do
+        catch_errors_with_salesforce_context(primary: sf_object) do
+          case sf_object.sobject_type
+          when SF_ORDER
+            translate_order(sf_object)
+          when SF_PRODUCT
+            translate_product(sf_object)
+          when SF_PRICEBOOK_ENTRY
+            translate_pricebook(sf_object)
+          when SF_ACCOUNT
+            translate_account(sf_object)
+          else
+            raise "unsupported translation type #{sf_object.sobject_type}"
+          end
+        end
     end
   end
 
@@ -130,7 +135,8 @@ class StripeForce::Translate
       # this exception indicates an error that is safe to display to the user
       create_user_failure(
         salesforce_object: @secondary_salesforce_object || @origin_salesforce_object,
-        message: e.message
+        message: e.message,
+        error: e
       )
 
       # convert to standard UserError to make it clear that it's been reported and converted
@@ -140,13 +146,15 @@ class StripeForce::Translate
         # in the case of missing fields, we know *exactly* which fields are missing
         salesforce_object: e.salesforce_object,
         message: "The following required fields are missing from this Salesforce record: #{e.missing_salesforce_fields.join(', ')}",
+        error: e
       )
 
       raise
     rescue Restforce::ResponseError => e
       create_user_failure(
         salesforce_object: @secondary_salesforce_object || @origin_salesforce_object,
-        message: e.message
+        message: e.message,
+        error: e
       )
 
       raise
@@ -158,25 +166,21 @@ class StripeForce::Translate
 
       create_user_failure(
         salesforce_object: @secondary_salesforce_object || @origin_salesforce_object,
-        message: "Stripe error occurred: #{e.message} #{e.request_id}"
+        message: "Stripe error occurred: #{e.message} #{e.request_id}",
+        error: e
       )
 
       raise
-    rescue Integrations::Errors::LockTimeout
-      if @user.feature_enabled?(FeatureFlags::CATCH_ALL_ERRORS)
+    rescue => e
+      if @user.feature_enabled?(FeatureFlags::CATCH_ALL_ERRORS) && e.class != Integrations::Errors::LockTimeout
         create_user_failure(
           salesforce_object: @secondary_salesforce_object || @origin_salesforce_object,
-          message: "A lock for a related object was unable to be acquired and will be retried later"
+          message: "Translation error occurred",
+          error: e
         )
-      end
-
-      raise
-    rescue
-      if @user.feature_enabled?(FeatureFlags::CATCH_ALL_ERRORS)
-        create_user_failure(
-          salesforce_object: @secondary_salesforce_object || @origin_salesforce_object,
-          message: "Translation error occurred"
-        )
+      else
+        # log this error but don't create a sync record
+        log.error metric: transform_error_into_metric(e), stripe_account_id: @user.stripe_account_id, error_message: e.message, error_class: e.class
       end
 
       raise
@@ -190,17 +194,44 @@ class StripeForce::Translate
     result
   end
 
-  sig { params(salesforce_object: Restforce::SObject, message: String).void }
-  def create_user_failure(salesforce_object:, message:)
+  def transform_error_into_metric(error)
+    prefix = "translation.error"
+
+    if error.nil?
+      return prefix
+    end
+
+    suffix = ""
+    error_class = error.class
+    error_class_as_string = error_class.to_s
+
+    if error_class_as_string.starts_with?("Stripe::StripeError")
+      suffix = ".stripe"
+    elsif error_class_as_string.starts_with?("Restforce")
+      suffix = ".salesforce"
+    elsif error_class == StripeForce::Errors::RawUserError || error_class == StripeForce::Errors::UserError || error_class == Integrations::Errors::MissingRequiredFields
+      suffix = ".user"
+    elsif error_class == Integrations::Errors::UnhandledEdgeCase || error_class == Integrations::Errors::TranslatorError
+      suffix = ".system"
+    end
+
+    "#{prefix}#{suffix}"
+  end
+
+  sig { params(salesforce_object: Restforce::SObject, message: String, error: T.nilable(Exception)).void }
+  def create_user_failure(salesforce_object:, message:, error: nil)
     if @origin_salesforce_object&.Id.blank?
       raise "origin salesforce object is blank, cannot record error"
     end
 
     log.error 'translation failed, creating sf sync record', {
-      metric: 'error.user',
-      secondary_salesforce_id: salesforce_object.Id,
-      secondary_salesforce_type: salesforce_object.sobject_type,
+      metric: transform_error_into_metric(error),
+      stripe_account_id: @user.stripe_account_id,
+      salesforce_account_id: @user.salesforce_account_id,
+      salesforce_object_id: salesforce_object.Id,
+      salesforce_object_type: salesforce_object.sobject_type,
       error_message: message,
+      error_class: error.class,
     }
 
     compound_external_id = generate_compound_external_id(@origin_salesforce_object, salesforce_object)
@@ -250,10 +281,10 @@ class StripeForce::Translate
     message = "Sync Successful, created Stripe #{stripe_object.class.to_s.demodulize.titleize} Object with ID: #{stripe_object.id}"
 
     log.info 'translation success', {
-      secondary_salesforce_id: salesforce_object.Id,
-      secondary_salesforce_type: salesforce_object.sobject_type,
+      metric: 'translation.success',
+      salesforce_object_id: salesforce_object.Id,
+      salesforce_object_type: salesforce_object.sobject_type,
     }
-
     compound_external_id = generate_compound_external_id(@origin_salesforce_object, salesforce_object)
 
     log.debug 'creating sync record'
@@ -287,21 +318,20 @@ class StripeForce::Translate
     .returns(T.noreturn)
   end
   def throw_user_failure!(salesforce_object:, message:, error_class: nil)
-    create_user_failure(
-      salesforce_object: salesforce_object,
-      message: message,
-    )
-
-    # TODO right now all attempt/audit log information is stored in salesforce
-    #      if the user chooses to add record history to the sync record
-    #      it may make sense to change that at some point in the future
-
     error_class ||= Integrations::Errors::UserError
 
-    raise error_class.new(
+    error = error_class.new(
       message,
       salesforce_object: salesforce_object
     )
+
+    create_user_failure(
+      salesforce_object: salesforce_object,
+      message: message,
+      error: error
+    )
+
+    raise error
   end
 
   sig { params(sf_object: T.untyped, stripe_object: Stripe::APIResource, additional_salesforce_updates: Hash).void }

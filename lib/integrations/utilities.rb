@@ -9,10 +9,6 @@ module Integrations
       raise Integrations::Errors::DyingWorkerError if Resque.heroku_will_terminate?
     end
 
-    def feature?(flag)
-      @user.feature_enabled?(flag)
-    end
-
     autoload :StripeUtil, 'integrations/utilities/stripe_util'
     autoload :Currency, 'integrations/utilities/currency'
   end
