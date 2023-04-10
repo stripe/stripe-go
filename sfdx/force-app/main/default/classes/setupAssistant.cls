@@ -285,6 +285,8 @@ public with sharing class setupAssistant {
                         allMappingConfigurations.put('field_defaults', fieldDefaultsMappingsMap);
                     }
                     rd.put('allMappingConfigurations', allMappingConfigurations);
+
+                    rd.put('hiddenMapperFields', getListFieldFromPayload('hidden_mapper_fields', responseBody));
                 } else {
                     errorLogger.create('getMappingConfigurations', String.valueOf(response.getStatusCode()), (String)response.getStatus(), 'Failed to get mapping configuration from ruby service.');
                 }
@@ -381,6 +383,14 @@ public with sharing class setupAssistant {
                 for(String readOnlyField : connectionReadOnlyFields) {
                     rd.put(readOnlyField, String.valueOf(connectionStatus.get(readOnlyField)));
                 }
+
+                List<String> hiddenSyncPrefFields = getListFieldFromPayload('hidden_sync_pref_fields', responseBody, false);
+                if (hiddenSyncPrefFields == null) {
+                    rd.put('hiddenSyncPrefsFields', new List<String> { 'api-percentage-limit', 'cpq-term-unit' });
+                } else {
+                    rd.put('hiddenSyncPrefsFields', hiddenSyncPrefFields);
+
+                }
             }
             rd.put('isConnected', true);
             rd.put('isCpqInstalled', utilities.isCpqEnabled());
@@ -389,6 +399,20 @@ public with sharing class setupAssistant {
         }
 
         return rd.getJsonString();
+    }
+
+    private static List<String> getListFieldFromPayload(String listKey, Map<String,Object> responseBody) {
+        return getListFieldFromPayload(listKey, responseBody, true);
+    }
+
+    private static List<String> getListFieldFromPayload(String listKey, Map<String,Object> responseBody, Boolean ensureList) {
+        List<String> respFields = (List<String>) responseBody.get(listKey);
+
+        if (respFields == null && ensureList) {
+            return new List<String>();
+        }
+
+        return respFields;
     }
 
     //gets multi currency options if it is enablec in the org

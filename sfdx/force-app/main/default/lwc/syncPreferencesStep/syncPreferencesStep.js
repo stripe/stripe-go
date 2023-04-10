@@ -31,6 +31,7 @@ export default class SyncPreferencesStep extends LightningElement {
     @track isSandbox;
     @track syncProductsDisabled = false; 
     @track syncPricebooksDisabled = false;
+    @track hiddenSyncPrefsFields = [];
     @track intervalOptions = [
         {
             label: 'Month',
@@ -148,6 +149,7 @@ export default class SyncPreferencesStep extends LightningElement {
             this.isSandbox = responseData.results.isSandbox;
             this.isConfigEnabled = responseData.results.enabled;
             this.configurationHash = responseData.results.configurationHash;
+            this.hiddenSyncPrefsFields = responseData.results.hiddenSyncPrefsFields;
 
             const multiCurrencyCheck = await getMulticurrencySelectionOptions();
             const multiCurrencyResponseData = JSON.parse(multiCurrencyCheck);

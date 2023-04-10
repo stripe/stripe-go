@@ -2,3 +2,5 @@
 .sfdx/
 sfdx/.sfdx/
 **/.eslintrc.json
+force-app/main/default/featureParameters/**
+force-app/main/default/customMetadata/Setup_Connection_Data.Default.md-meta.xml

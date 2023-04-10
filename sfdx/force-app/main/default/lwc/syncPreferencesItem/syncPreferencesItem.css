@@ -1,0 +1,7 @@
+/**
+ * Created by jmather-c on 3/24/23.
+ */
+
+.stripe-settings__item {
+    margin-top: var(--lwc-spacingXLarge, 2rem);
+}
