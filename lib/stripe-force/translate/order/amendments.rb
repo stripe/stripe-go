@@ -121,7 +121,7 @@ class StripeForce::Translate
       end
 
       # https://jira.corp.stripe.com/browse/PLATINT-1808
-      if prorated_subscription_term.zero? && days_prorating == 0
+      if days_prorating == 0 && prorated_subscription_term.zero?
         log.warn 'subscription term is equal to billing frequency, amendment is most likely happening on the same day'
         proration_percentage = 1
       end
@@ -537,8 +537,7 @@ class StripeForce::Translate
         end
 
         in_past = phase.end_date < current_timestamp
-
-        if in_past
+        if in_past && !user.feature_enabled?(FeatureFlags::BACKDATED_AMENDMENTS)
           log.info 'removing completed phase', end_date: phase.end_date
         end
 

@@ -427,6 +427,7 @@ class StripeForce::Translate
   sig { params(mapper: StripeForce::Mapper, sf_order: Restforce::SObject, sf_order_item: Restforce::SObject, billing_frequency: Integer).returns(BigDecimal) }
   def calculate_price_multiplier(mapper, sf_order, sf_order_item, billing_frequency)
     sf_subscription_term = StripeForce::Utilities::SalesforceUtil.extract_subscription_term_from_order!(mapper, sf_order)
+    cpq_price_multiplier = sf_order_item[CPQ_PRORATE_MULTIPLIER]
 
     sf_order_end_date = StripeForce::Utilities::SalesforceUtil.extract_subscription_end_date_from_order(mapper, sf_order)
     if @user.feature_enabled?(FeatureFlags::NON_ANNIVERSARY_AMENDMENTS) && !sf_order_end_date.nil?
@@ -452,30 +453,30 @@ class StripeForce::Translate
           calculated_price_multiplier = BigDecimal(T.must(sf_subscription_term)) / BigDecimal(billing_frequency)
         end
 
-        cpq_price_multiplier = sf_order_item[CPQ_PRORATE_MULTIPLIER]
-        if !cpq_price_multiplier.nil?
-          validate_price_multipliers(calculated_price_multiplier, cpq_price_multiplier.to_d)
-        end
+        validate_price_multipliers(calculated_price_multiplier, cpq_price_multiplier, true)
         return calculated_price_multiplier
       end
     end
 
     # TODO should we adjust based on the quantity? Most likely, let's wait until tests fail
     price_multiplier = BigDecimal(T.must(sf_subscription_term)) / BigDecimal(billing_frequency)
+    validate_price_multipliers(price_multiplier, cpq_price_multiplier, false)
     price_multiplier
   end
 
-  sig { params(calculated_price_multiplier: BigDecimal, cpq_price_multiplier: BigDecimal).returns(T::Boolean) }
-  def validate_price_multipliers(calculated_price_multiplier, cpq_price_multiplier)
+  sig { params(calculated_price_multiplier: BigDecimal, cpq_price_multiplier: Float, throw_error: T.nilable(T::Boolean)).returns(T::Boolean) }
+  def validate_price_multipliers(calculated_price_multiplier, cpq_price_multiplier, throw_error)
     # check that the calculated price multiplier is equal to the cpq provided price multiplier
     # throw an error if they are not equal
     # note: we do not use the cpq_price_multiplier since the prorate multiplier field that you see on CPQ objects is rounded
     if !cpq_price_multiplier.nil?
+      cpq_price_multiplier = cpq_price_multiplier.to_d
       threshold = 0.0000000001
       if (calculated_price_multiplier - cpq_price_multiplier).abs > threshold
-        log.error 'Calculated price multipler does not equal CPQ price multiplier',
-          calculated_price_multiplier: calculated_price_multiplier, cpq_price_multiplier: cpq_price_multiplier
-        raise Integrations::Errors::TranslatorError.new("calculated price multiplier differs from cpq price multiplier")
+        log.error 'calculated price multipler does not equal CPQ price multiplier', calculated_price_multiplier: calculated_price_multiplier, cpq_price_multiplier: cpq_price_multiplier
+        if throw_error
+          raise Integrations::Errors::TranslatorError.new("calculated price multiplier differs from cpq price multiplier")
+        end
       end
     end
 

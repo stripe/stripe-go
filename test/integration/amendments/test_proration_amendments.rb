@@ -401,7 +401,7 @@ class Critic::ProratedAmendmentTranslation < Critic::OrderAmendmentFunctionalTes
     amendment_end_date = amendment_start_date + amendment_term.months
     initial_start_date = now_time
 
-    sf_product_id, sf_pricebook_id = salesforce_recurring_product_with_price(
+    sf_product_id, _sf_pricebook_id = salesforce_recurring_product_with_price(
       price: yearly_price,
       additional_product_fields: {
         CPQ_QUOTE_BILLING_FREQUENCY => CPQBillingFrequencyOptions::ANNUAL.serialize,
@@ -409,7 +409,7 @@ class Critic::ProratedAmendmentTranslation < Critic::OrderAmendmentFunctionalTes
       }
     )
 
-    sf_product_id_2, sf_pricebook_id_2 = salesforce_recurring_product_with_price(
+    sf_product_id_2, _sf_pricebook_id_2 = salesforce_recurring_product_with_price(
       price: yearly_price_2,
       additional_product_fields: {
         CPQ_QUOTE_BILLING_FREQUENCY => CPQBillingFrequencyOptions::ANNUAL.serialize,
@@ -518,14 +518,14 @@ class Critic::ProratedAmendmentTranslation < Critic::OrderAmendmentFunctionalTes
       # normalize the amendment_end_date so test doesn't fail EOM
       amendment_end_date = StripeForce::Translate::OrderHelpers.anchor_time_to_day_of_month(base_time: amendment_end_date, anchor_day_of_month: initial_order_end_date.day)
 
-      sf_silver_tier_product_id, sf_silver_tier_pricebook_id = salesforce_recurring_product_with_price(
+      sf_silver_tier_product_id, _sf_silver_tier_pricebook_id = salesforce_recurring_product_with_price(
         price: yearly_silver_tier_price,
         additional_product_fields: {
           CPQ_QUOTE_BILLING_FREQUENCY => CPQBillingFrequencyOptions::ANNUAL.serialize,
         }
       )
 
-      sf_gold_tier_product_id, sf_gold_tier_pricebook_id = salesforce_recurring_product_with_price(
+      sf_gold_tier_product_id, _sf_gold_tier_pricebook_id = salesforce_recurring_product_with_price(
         price: yearly_gold_tier_price,
         additional_product_fields: {
           CPQ_QUOTE_BILLING_FREQUENCY => CPQBillingFrequencyOptions::ANNUAL.serialize,
@@ -545,22 +545,15 @@ class Critic::ProratedAmendmentTranslation < Critic::OrderAmendmentFunctionalTes
 
       # cancel silver tier
       amendment_data["lineItems"].first["record"][CPQ_QUOTE_QUANTITY] = 0
-
       amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_START_DATE] = format_date_for_salesforce(amendment_start_date)
       amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_TERM] = amendment_term
       sf_quote_id = calculate_and_save_cpq_quote(amendment_data)
 
       amendment_data = add_product_to_cpq_quote(sf_quote_id, sf_product_id: sf_gold_tier_product_id)
-
       sf_order_amendment = create_order_from_quote_data(amendment_data)
       sf_order_amendment_contract = create_contract_from_order(sf_order_amendment)
 
       StripeForce::Translate.perform_inline(@user, sf_order_amendment.Id)
-
-      # Get SubscriptionSchedule Id
-      sf_order.refresh
-      stripe_subscription_schedule_id = sf_order[prefixed_stripe_field(GENERIC_STRIPE_ID)]
-      stripe_subscription_schedule = Stripe::SubscriptionSchedule.retrieve(stripe_subscription_schedule_id, @user.stripe_credentials)
 
       # Get Customer
       sf_account = sf_get(sf_order['AccountId'])
@@ -570,7 +563,6 @@ class Critic::ProratedAmendmentTranslation < Critic::OrderAmendmentFunctionalTes
 
       # Pay off initial invoice
       invoices = Stripe::Invoice.list({customer: stripe_customer.id}, @user.stripe_credentials).data
-
       assert_equal(1, invoices.length)
 
       initial_invoice = invoices.first
@@ -657,13 +649,11 @@ class Critic::ProratedAmendmentTranslation < Critic::OrderAmendmentFunctionalTes
 
       # cancel silver tier
       amendment_data["lineItems"].first["record"][CPQ_QUOTE_QUANTITY] = 0
-
       amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_START_DATE] = format_date_for_salesforce(amendment_start_date)
       amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_TERM] = amendment_term
       sf_quote_id = calculate_and_save_cpq_quote(amendment_data)
 
       amendment_data = add_product_to_cpq_quote(sf_quote_id, sf_product_id: sf_gold_tier_product_id)
-
       sf_order_amendment = create_order_from_quote_data(amendment_data)
       sf_order_amendment_contract = create_contract_from_order(sf_order_amendment)
 
@@ -708,7 +698,6 @@ class Critic::ProratedAmendmentTranslation < Critic::OrderAmendmentFunctionalTes
 
       assert_equal(2, invoice_events.count)
       proration_invoice_event = invoice_events[1]
-
       assert_equal("true", proration_invoice_event.data.object.metadata[StripeForce::Translate::Metadata.metadata_key(@user, MetadataKeys::PRORATION)])
 
       proration_invoice = T.must(StripeForce::ProrationAutoBill.create_invoice_from_invoice_item_event(@user, proration_invoice_event))

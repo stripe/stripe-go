@@ -214,6 +214,7 @@ module StripeForce
         DAY_PRORATIONS = new('day_prorations')
         AUTO_ADVANCE_PRORATION_INVOICE = new('auto_advance_proration_invoices')
         PREBILLING = new('prebilling')
+        BACKDATED_AMENDMENTS = new('backdated_amendments')
       end
     end
 

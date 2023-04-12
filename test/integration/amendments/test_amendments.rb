@@ -1109,6 +1109,248 @@ class Critic::OrderAmendmentTranslation < Critic::OrderAmendmentFunctionalTest
     end
   end
 
+  describe 'backdated amendment order' do
+    it 'syncs a backdated initial and amendment order billed monthly with a billing cycle passed' do
+      @user.enable_feature FeatureFlags::TEST_CLOCKS, update: true
+      @user.enable_feature FeatureFlags::BACKDATED_AMENDMENTS, update: true
+
+      # initial order: starts in the past, billed monthly
+      # amendment order: starts 1 month later
+      contract_term = 12
+      amendment_term = 11
+      initial_order_start_date = Time.new(2023, 2, 15).utc.beginning_of_day
+      initial_order_end_date = initial_order_start_date + contract_term.months
+      amendment_order_start_date = initial_order_start_date + (contract_term - amendment_term).months
+      monthly_price = 24_00
+
+      sf_product_id, _sf_pricebook_id = salesforce_recurring_product_with_price(
+        price: monthly_price,
+        additional_product_fields: {
+          CPQ_QUOTE_BILLING_FREQUENCY => CPQBillingFrequencyOptions::MONTHLY.serialize,
+        }
+      )
+
+      # create the initial sf order
+      sf_order = create_subscription_order(
+        sf_product_id: sf_product_id,
+        additional_fields: {
+          CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(initial_order_start_date),
+          CPQ_QUOTE_BILLING_FREQUENCY => CPQBillingFrequencyOptions::MONTHLY.serialize,
+          CPQ_QUOTE_SUBSCRIPTION_TERM => contract_term,
+        }
+      )
+
+      StripeForce::Translate.perform_inline(@user, sf_order.Id)
+      sf_order.refresh
+
+      # get Stripe customer
+      sf_account = sf_get(sf_order['AccountId'])
+      stripe_customer_id = sf_account[prefixed_stripe_field(GENERIC_STRIPE_ID)]
+      stripe_customer = stripe_get(stripe_customer_id)
+      refute_nil(stripe_customer.test_clock)
+
+      # pay off initial invoice
+      invoices = Stripe::Invoice.list({customer: stripe_customer.id}, @user.stripe_credentials).data
+      assert_equal(1, invoices.length)
+
+      initial_invoice = invoices.first
+      # three months of services
+      assert_equal(monthly_price * 2, initial_invoice.amount_due)
+      assert_equal(1, initial_invoice.lines.data.length)
+      initial_invoice.pay({'paid_out_of_band': true})
+
+      # the contract should reference the initial order that was created
+      sf_contract = create_contract_from_order(sf_order)
+
+      # create the sf order amendment
+      amendment_data = create_quote_data_from_contract_amendment(sf_contract)
+      amendment_data["lineItems"].first["record"][CPQ_QUOTE_QUANTITY] = 2
+      amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_START_DATE] = format_date_for_salesforce(amendment_order_start_date)
+      amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_TERM] = amendment_term
+      sf_order_amendment = create_order_from_quote_data(amendment_data)
+
+      # translate the amendment order
+      StripeForce::Translate.perform_inline(@user, sf_order_amendment.Id)
+      sf_order_amendment.refresh
+
+      stripe_subscription_schedule_id = sf_order_amendment[prefixed_stripe_field(GENERIC_STRIPE_ID)]
+      stripe_subscription_schedule = Stripe::SubscriptionSchedule.retrieve(stripe_subscription_schedule_id, @user.stripe_credentials)
+      assert_equal(2, stripe_subscription_schedule.phases.count)
+
+      # first phase should have one item
+      first_phase = T.must(stripe_subscription_schedule.phases.first)
+      assert_equal(1, first_phase.items.count)
+      T.must(first_phase.items.first)
+
+      assert_equal(0, first_phase.start_date - initial_order_start_date.to_i)
+      # since we use 'now' for the phase date, there will be an offset but ensure it's less than a day
+      assert((first_phase.end_date - now_time.to_i) < SECONDS_IN_DAY)
+
+      # first phase should have one sub item and no proration items
+      assert_equal(1, first_phase.items.count)
+      assert_empty(first_phase.add_invoice_items)
+
+      second_phase = T.must(stripe_subscription_schedule.phases[1])
+      assert_equal(0, second_phase.start_date - first_phase.end_date)
+      assert_equal(0, second_phase.end_date - initial_order_end_date.to_i)
+
+      # second phase should have two items (the original and the addition) and should have a single proration item
+      assert_equal(2, second_phase.items.count)
+      assert_equal(1, second_phase.add_invoice_items.count)
+
+      prorated_item = T.unsafe(second_phase.add_invoice_items.first)
+      assert_equal(1, prorated_item.quantity)
+      assert_equal("true", prorated_item.metadata[StripeForce::Translate::Metadata.metadata_key(@user, MetadataKeys::PRORATION)])
+
+      # sanity check the generated invoice
+      # although we're using the current time to update the subscription schedule
+      # the generated invoice should be created for the backdated date
+
+      # advance the test clock
+      test_clock = advance_test_clock(stripe_customer, (now_time + 2.day).to_i)
+
+      # simulate sending the webhook
+      events = Stripe::Event.list({
+        type: 'invoiceitem.created',
+      }, @user.stripe_credentials)
+
+      invoice_events = events.data.select do |event|
+        event_object = event.data.object
+        event_object.test_clock == test_clock.id && event.data.object.metadata[StripeForce::Translate::Metadata.metadata_key(@user, MetadataKeys::PRORATION)] == "true"
+      end
+      assert_equal(1, invoice_events.count)
+
+      proration_invoice_event = invoice_events[0]
+      proration_invoice = T.must(StripeForce::ProrationAutoBill.create_invoice_from_invoice_item_event(@user, proration_invoice_event))
+      assert_equal(1, proration_invoice.lines.count)
+      assert_equal(monthly_price, proration_invoice.total)
+      assert_equal((monthly_price * amendment_term) / 100, sf_order_amendment["TotalAmount"])
+      assert_equal("true", proration_invoice.metadata[StripeForce::Translate::Metadata.metadata_key(@user, MetadataKeys::PRORATION_INVOICE)])
+    end
+
+    it 'syncs a backdated initial and amendment order billed annually' do
+      @user.enable_feature FeatureFlags::TEST_CLOCKS, update: true
+      @user.enable_feature FeatureFlags::BACKDATED_AMENDMENTS, update: true
+
+      # initial order: starts in the past, billed annually
+      # amendment order: starts 1 month later
+      contract_term = 12
+      amendment_term = 11
+      initial_order_start_date = Time.new(2023, 1, 15).utc.beginning_of_day
+      initial_order_end_date = initial_order_start_date + contract_term.months
+      amendment_order_start_date = initial_order_start_date + (contract_term - amendment_term).months
+
+      sf_product_id, _sf_pricebook_id = salesforce_recurring_product_with_price(
+        price: TEST_DEFAULT_PRICE,
+        additional_product_fields: {
+          CPQ_QUOTE_BILLING_FREQUENCY => CPQBillingFrequencyOptions::ANNUAL.serialize,
+        }
+      )
+
+      # create the initial sf order
+      sf_order = create_subscription_order(
+        sf_product_id: sf_product_id,
+        additional_fields: {
+          CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(initial_order_start_date),
+          CPQ_QUOTE_BILLING_FREQUENCY => CPQBillingFrequencyOptions::ANNUAL.serialize,
+          CPQ_QUOTE_SUBSCRIPTION_TERM => contract_term,
+        }
+      )
+
+      # the contract should reference the initial order that was created
+      sf_contract = create_contract_from_order(sf_order)
+
+      # create the sf order amendment
+      amendment_data = create_quote_data_from_contract_amendment(sf_contract)
+      amendment_data["lineItems"].first["record"][CPQ_QUOTE_QUANTITY] = 2
+      amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_START_DATE] = format_date_for_salesforce(amendment_order_start_date)
+      amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_TERM] = amendment_term
+      sf_order_amendment = create_order_from_quote_data(amendment_data)
+
+      # translate order
+      StripeForce::Translate.perform_inline(@user, sf_order_amendment.Id)
+      sf_order_amendment.refresh
+
+      stripe_subscription_schedule_id = sf_order_amendment[prefixed_stripe_field(GENERIC_STRIPE_ID)]
+      stripe_subscription_schedule = Stripe::SubscriptionSchedule.retrieve(stripe_subscription_schedule_id, @user.stripe_credentials)
+      assert_equal(2, stripe_subscription_schedule.phases.count)
+
+      # first phase should have one item
+      first_phase = T.must(stripe_subscription_schedule.phases.first)
+      assert_equal(1, first_phase.items.count)
+      first_phase_item = T.must(first_phase.items.first)
+
+      assert_equal(0, first_phase.start_date - initial_order_start_date.to_i)
+      # since we use 'now' for the phase date, there will be an offset
+      # ensure it's less than a day 60 * 60
+      assert((first_phase.end_date - now_time.to_i) < SECONDS_IN_DAY)
+
+      # first phase should have one sub item and no proration items
+      assert_equal(1, first_phase.items.count)
+      assert_empty(first_phase.add_invoice_items)
+
+      second_phase = T.must(stripe_subscription_schedule.phases[1])
+      assert_equal(0, second_phase.start_date - first_phase.end_date)
+      assert_equal(0, second_phase.end_date - initial_order_end_date.to_i)
+
+      # second phase should have two items (the original and the addition)
+      # it should have a single proration item
+      assert_equal(2, second_phase.items.count)
+      assert_equal(1, second_phase.add_invoice_items.count)
+
+      prorated_item = T.unsafe(second_phase.add_invoice_items.first)
+      assert_equal("true", prorated_item.metadata[StripeForce::Translate::Metadata.metadata_key(@user, MetadataKeys::PRORATION)])
+
+      assert_equal(1, prorated_item.quantity)
+      prorated_price = Stripe::Price.retrieve(T.cast(prorated_item.price, String), @user.stripe_credentials)
+      expected_prorated_price = TEST_DEFAULT_PRICE * BigDecimal(amendment_term) / BigDecimal(contract_term)
+      assert_equal(TEST_DEFAULT_PRICE * BigDecimal(amendment_term) / BigDecimal(contract_term), prorated_price.unit_amount_decimal.to_i)
+
+      prorated_invoice_amount_in_dollars = BigDecimal(prorated_price.unit_amount_decimal.to_i) / 100
+      assert_equal(prorated_invoice_amount_in_dollars, sf_order_amendment["TotalAmount"])
+
+      # get customer
+      sf_account = sf_get(sf_order_amendment['AccountId'])
+      stripe_customer_id = sf_account[prefixed_stripe_field(GENERIC_STRIPE_ID)]
+      stripe_customer = stripe_get(stripe_customer_id)
+      refute_nil(stripe_customer.test_clock)
+
+      # pay off initial invoice
+      invoices = Stripe::Invoice.list({customer: stripe_customer.id}, @user.stripe_credentials).data
+      assert_equal(1, invoices.length)
+
+      initial_invoice = invoices.first
+      assert_equal(TEST_DEFAULT_PRICE, initial_invoice.amount_due)
+      assert_equal(1, initial_invoice.lines.data.length)
+      initial_invoice.pay({'paid_out_of_band': true})
+
+      # sanity check the generated invoice
+      # although we're using the current time to update the subscription schedule
+      # the generated invoice should be created for the backdated date
+
+      # advance the test clock
+      test_clock = advance_test_clock(stripe_customer, (now_time + 2.day).to_i)
+
+      # simulate sending the webhook
+      events = Stripe::Event.list({
+        type: 'invoiceitem.created',
+      }, @user.stripe_credentials)
+
+      invoice_events = events.data.select do |event|
+        event_object = event.data.object
+        event_object.test_clock == test_clock.id && event_object.unit_amount == expected_prorated_price
+      end
+      assert_equal(1, invoice_events.count)
+      proration_invoice_event = invoice_events[0]
+      assert_equal("true", proration_invoice_event.data.object.metadata[StripeForce::Translate::Metadata.metadata_key(@user, MetadataKeys::PRORATION)])
+
+      proration_invoice = T.must(StripeForce::ProrationAutoBill.create_invoice_from_invoice_item_event(@user, proration_invoice_event))
+      assert_equal(1, proration_invoice.lines.count)
+      assert_equal(expected_prorated_price, proration_invoice.total)
+      assert_equal("true", proration_invoice.metadata[StripeForce::Translate::Metadata.metadata_key(@user, MetadataKeys::PRORATION_INVOICE)])
+    end
+  end
+
   describe 'metadata' do
     it 'pulls metadata from each order amendment to the phase of each subscription'
     it 'uses metadata on the original line item if an item is not removed'
