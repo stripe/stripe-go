@@ -15,7 +15,7 @@ class SessionsControllerTest < ApplicationIntegrationTest
   def mock_omniauth_salesforce
     OmniAuth.config.mock_auth.delete :default
 
-    OmniAuth.config.mock_auth[:stripe] = OmniAuth::AuthHash.new({
+    OmniAuth.config.mock_auth[:stripetestmode] = OmniAuth::AuthHash.new({
       "uid" => ENV.fetch('STRIPE_ACCOUNT_ID'),
     })
 
@@ -199,7 +199,7 @@ class SessionsControllerTest < ApplicationIntegrationTest
     get auth_salesforce_callback_path
 
     assert_response :success
-    assert_post_redirect(omniauth_path(:stripe))
+    assert_post_redirect(omniauth_path(:stripetestmode))
 
     user = T.must(StripeForce::User[user.id])
 
@@ -226,7 +226,7 @@ class SessionsControllerTest < ApplicationIntegrationTest
     assert(user.get_cached_connection_status(StripeForce::Constants::Platforms::SALESFORCE))
 
     assert_response :success
-    assert_post_redirect(omniauth_path(:stripe))
+    assert_post_redirect(omniauth_path(:stripetestmode))
 
     user = T.must(StripeForce::User[user.id])
 
@@ -251,7 +251,7 @@ class SessionsControllerTest < ApplicationIntegrationTest
     get auth_salesforce_callback_path
     assert_response :success
 
-    get auth_stripe_callback_path
+    get auth_stripetestmode_callback_path
     assert_response :success
 
     assert(user.get_cached_connection_status(StripeForce::Constants::Platforms::STRIPE))
@@ -269,13 +269,13 @@ class SessionsControllerTest < ApplicationIntegrationTest
     get auth_salesforce_callback_path
     assert_response :success
 
-    get auth_stripe_callback_path
+    get auth_stripetestmode_callback_path
     assert_response :success
 
     assert_equal(1, StripeForce::User.count)
 
     user = T.must(StripeForce::User[user.id])
-    assert_equal(OmniAuth.config.mock_auth[:stripe]["uid"], user.stripe_account_id)
+    assert_equal(OmniAuth.config.mock_auth[:stripetestmode]["uid"], user.stripe_account_id)
 
     # ensures the correct namespace is used for the callback
     assert_includes(response.body, "--c")

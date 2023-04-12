@@ -13,7 +13,8 @@ Rails.application.routes.draw do
   get '/auth/:oauth_type', to: 'sessions#login_entrypoint', as: :omniauth
   get '/auth/salesforce/callback', to: 'sessions#salesforce_callback'
   get '/auth/salesforcesandbox/callback', to: 'sessions#salesforce_callback'
-  get '/auth/stripe/callback', to: 'sessions#stripe_callback'
+  get '/auth/stripelivemode/callback', to: 'sessions#stripe_callback'
+  get '/auth/stripetestmode/callback', to: 'sessions#stripe_callback'
 
   post '/stripe-webhooks' => 'stripe_webhook#stripe_webhook'
 

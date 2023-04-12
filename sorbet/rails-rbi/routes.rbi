@@ -54,12 +54,19 @@ module GeneratedUrlHelpers
   sig { params(args: T.untyped, kwargs: T.untyped).returns(String) }
   def auth_salesforcesandbox_callback_url(*args, **kwargs); end
 
-  # Sigs for route /auth/stripe/callback(.:format)
+  # Sigs for route /auth/stripelivemode/callback(.:format)
   sig { params(args: T.untyped, kwargs: T.untyped).returns(String) }
-  def auth_stripe_callback_path(*args, **kwargs); end
+  def auth_stripelivemode_callback_path(*args, **kwargs); end
 
   sig { params(args: T.untyped, kwargs: T.untyped).returns(String) }
-  def auth_stripe_callback_url(*args, **kwargs); end
+  def auth_stripelivemode_callback_url(*args, **kwargs); end
+
+  # Sigs for route /auth/stripetestmode/callback(.:format)
+  sig { params(args: T.untyped, kwargs: T.untyped).returns(String) }
+  def auth_stripetestmode_callback_path(*args, **kwargs); end
+
+  sig { params(args: T.untyped, kwargs: T.untyped).returns(String) }
+  def auth_stripetestmode_callback_url(*args, **kwargs); end
 
   # Sigs for route /stripe-webhooks(.:format)
   sig { params(args: T.untyped, kwargs: T.untyped).returns(String) }

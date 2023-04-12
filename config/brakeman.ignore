@@ -2,24 +2,24 @@
   "ignored_warnings": [
     {
       "warning_type": "Unmaintained Dependency",
-      "warning_code": 123,
-      "fingerprint": "870fa4a5cfd770898e1b7a159368b4210fe366634512563f9fb1c1cbbfef1d78",
+      "warning_code": 121,
+      "fingerprint": "9a3951031616a07c8e02c86652f537e92c08685da97f5ec2b12d5d3602b55bb8",
       "check_name": "EOLRuby",
-      "message": "Support for Ruby 2.7.6 ends on 2023-03-31",
+      "message": "Support for Ruby 2.7.6 ended on 2023-03-31",
       "file": "Gemfile.lock",
-      "line": 275,
+      "line": 276,
       "link": "https://brakemanscanner.org/docs/warning_types/unmaintained_dependency/",
       "code": null,
       "render_path": null,
       "location": null,
       "user_input": null,
-      "confidence": "Medium",
+      "confidence": "High",
       "cwe_id": [
         1104
       ],
-      "note": "pay-server uses 2.7 something so we cant upgrade"
+      "note": ""
     }
   ],
-  "updated": "2023-03-09 13:08:34 -0500",
+  "updated": "2023-04-05 11:30:29 -0400",
   "brakeman_version": "5.3.1"
 }

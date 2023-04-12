@@ -64,6 +64,10 @@ include StripeForce::Constants
 
 user = user_from_script_argument
 
+user.connector_settings[CONNECTOR_SETTING_POLLING_ENABLED] = true
+
+user.save
+
 set_initial_poll_timestamp(
   user,
   SF_ORDER

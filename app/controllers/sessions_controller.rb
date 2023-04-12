@@ -26,6 +26,9 @@ class SessionsController < ApplicationController
     salesforce_namespace = subdomain_namespace_from_param(params.permit(:salesforceNamespace)["salesforceNamespace"])
     session[:salesforce_namespace] = salesforce_namespace
 
+    salesforce_instance_type = salesforce_instance_type_from_headers(request.headers[SALESFORCE_INSTANCE_TYPE_HEADER])
+    session[:salesforce_instance_type] = salesforce_instance_type
+
     render_oauth_post_redirect(oauth_type)
   end
 
@@ -79,14 +82,22 @@ class SessionsController < ApplicationController
 
     postmessage_domain = build_postmessage_domain(user, session[:salesforce_namespace])
 
+    is_production_org = session[:salesforce_instance_type] == SFInstanceTypes::PRODUCTION.serialize
+
+    omniauth_path_name = is_production_org ? 'stripelivemode' : 'stripetestmode'
+
     render inline: <<-EOL
-    <%= form_tag(omniauth_path('stripe'), method: 'post', id: 'js-submission') %>
+    <%= form_tag(omniauth_path('#{omniauth_path_name}'), method: 'post', id: 'js-submission') %>
 
     <script>
     window.opener.postMessage("stripeConnectionSuccessful", "#{postmessage_domain}")
     document.getElementById('js-submission').submit()
     </script>
     EOL
+  end
+
+  private def salesforce_instance_type_from_headers(raw_header)
+    SFInstanceTypes.try_deserialize(raw_header)&.serialize
   end
 
   def stripe_callback
