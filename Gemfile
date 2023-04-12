@@ -63,7 +63,7 @@ gem 'bootsnap', '>= 1.9.1', require: false
 gem 'omniauth', '~> 2.1.0'
 
 # CVE-2019-13117 https://github.com/sparklemotion/nokogiri/issues/1943
-gem 'nokogiri', '>= 1.13.10'
+gem 'nokogiri', '>= 1.14.3'
 
 # https://groups.google.com/g/rubyonrails-security/c/ce9PhUANQ6s
 gem 'rails-html-sanitizer', '1.4.4'

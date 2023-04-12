@@ -135,7 +135,7 @@ module StripeForce::Utilities
             metric: 'translation.error.salesforce',
             attempt: count,
             error_class: e.class.to_s,
-            error_message: e.message
+            error_message: e.message,
           }
           raise e
         end
