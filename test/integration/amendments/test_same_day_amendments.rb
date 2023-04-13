@@ -6,6 +6,7 @@ require_relative './_lib'
 class Critic::SameDayAmendments < Critic::OrderAmendmentFunctionalTest
   before do
     @user = make_user(save: true)
+    @user.enable_feature FeatureFlags::BACKDATED_AMENDMENTS, update: true
   end
 
   def get_proration_invoice_item(stripe_customer_id)

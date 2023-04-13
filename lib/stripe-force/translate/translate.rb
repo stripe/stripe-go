@@ -69,7 +69,7 @@ class StripeForce::Translate
 
     Integrations::Metrics::Writer.instance.time(
       Integrations::Metrics::RESOURCE_TRANSLATION_TIME,
-      dimensions: {salesforce_account_id: @user.salesforce_account_id, stripe_account_id: @user.stripe_account_id, livemode: @user.livemode, sf_object_type: sf_object.sobject_type}
+      dimensions: {salesforce_account_id: @user.salesforce_account_id, stripe_account_id: @user.stripe_account_id, livemode: @user.livemode, salesforce_object_type: sf_object.sobject_type}
     ) do
         catch_errors_with_salesforce_context(primary: sf_object) do
           case sf_object.sobject_type
@@ -228,6 +228,7 @@ class StripeForce::Translate
       metric: transform_error_into_metric(error),
       stripe_account_id: @user.stripe_account_id,
       salesforce_account_id: @user.salesforce_account_id,
+      livemode: @user.livemode,
       salesforce_object_id: salesforce_object.Id,
       salesforce_object_type: salesforce_object.sobject_type,
       error_message: message,
@@ -282,6 +283,7 @@ class StripeForce::Translate
 
     log.info 'translation success', {
       metric: 'translation.success',
+      salesforce_account_id: @user.salesforce_account_id,
       salesforce_object_id: salesforce_object.Id,
       salesforce_object_type: salesforce_object.sobject_type,
     }

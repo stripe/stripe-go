@@ -10,6 +10,7 @@ class Critic::OrderAmendmentTranslation < Critic::OrderAmendmentFunctionalTest
     # therefore enable for this for the entire test suite
     @user.enable_feature FeatureFlags::NON_ANNIVERSARY_AMENDMENTS, update: true
     @user.enable_feature FeatureFlags::DAY_PRORATIONS, update: true
+    @user.enable_feature FeatureFlags::BACKDATED_AMENDMENTS, update: true
   end
 
   it 'creates a new phase from an order amendment with monthly billed products' do
@@ -1110,9 +1111,8 @@ class Critic::OrderAmendmentTranslation < Critic::OrderAmendmentFunctionalTest
   end
 
   describe 'backdated amendment order' do
-    it 'syncs a backdated initial and amendment order billed monthly with a billing cycle passed' do
+    it 'syncs a backdated initial and amendment order billed monthly' do
       @user.enable_feature FeatureFlags::TEST_CLOCKS, update: true
-      @user.enable_feature FeatureFlags::BACKDATED_AMENDMENTS, update: true
 
       # initial order: starts in the past, billed monthly
       # amendment order: starts 1 month later
@@ -1221,16 +1221,15 @@ class Critic::OrderAmendmentTranslation < Critic::OrderAmendmentFunctionalTest
       assert_equal(1, invoice_events.count)
 
       proration_invoice_event = invoice_events[0]
-      proration_invoice = T.must(StripeForce::ProrationAutoBill.create_invoice_from_invoice_item_event(@user, proration_invoice_event))
-      assert_equal(1, proration_invoice.lines.count)
-      assert_equal(monthly_price, proration_invoice.total)
+      proration_invoice_data = proration_invoice_event.data.object
+      assert_equal(1, proration_invoice_event.data.object.quantity)
+      assert_equal(monthly_price, proration_invoice_data.amount)
       assert_equal((monthly_price * amendment_term) / 100, sf_order_amendment["TotalAmount"])
-      assert_equal("true", proration_invoice.metadata[StripeForce::Translate::Metadata.metadata_key(@user, MetadataKeys::PRORATION_INVOICE)])
+      assert_equal("true", proration_invoice_data.metadata[StripeForce::Translate::Metadata.metadata_key(@user, MetadataKeys::PRORATION)])
     end
 
     it 'syncs a backdated initial and amendment order billed annually' do
       @user.enable_feature FeatureFlags::TEST_CLOCKS, update: true
-      @user.enable_feature FeatureFlags::BACKDATED_AMENDMENTS, update: true
 
       # initial order: starts in the past, billed annually
       # amendment order: starts 1 month later
