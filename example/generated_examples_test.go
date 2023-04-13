@@ -73,6 +73,7 @@ import (
 	testhelpers_treasury_receivedcredit "github.com/stripe/stripe-go/v74/testhelpers/treasury/receivedcredit"
 	testhelpers_treasury_receiveddebit "github.com/stripe/stripe-go/v74/testhelpers/treasury/receiveddebit"
 	_ "github.com/stripe/stripe-go/v74/testing"
+	token "github.com/stripe/stripe-go/v74/token"
 	topup "github.com/stripe/stripe-go/v74/topup"
 	transfer "github.com/stripe/stripe-go/v74/transfer"
 	transferreversal "github.com/stripe/stripe-go/v74/transferreversal"
@@ -530,6 +531,19 @@ func TestTestHelpersTreasuryReceivedDebitCreate(t *testing.T) {
 		Currency:         stripe.String(string(stripe.CurrencyUSD)),
 	}
 	result, _ := testhelpers_treasury_receiveddebit.New(params)
+	assert.NotNil(t, result)
+}
+
+func TestTokenCreate(t *testing.T) {
+	params := &stripe.TokenParams{
+		Card: &stripe.CardParams{
+			Number:   stripe.String("4242424242424242"),
+			ExpMonth: stripe.String("5"),
+			ExpYear:  stripe.String("2023"),
+			CVC:      stripe.String("314"),
+		},
+	}
+	result, _ := token.New(params)
 	assert.NotNil(t, result)
 }
 
@@ -2428,6 +2442,69 @@ func TestTestHelpersTestClockAdvance2(t *testing.T) {
 	assert.NotNil(t, result)
 }
 
+func TestTokenCreate2(t *testing.T) {
+	params := &stripe.TokenParams{
+		BankAccount: &stripe.BankAccountParams{
+			Country:           stripe.String("US"),
+			Currency:          stripe.String(string(stripe.CurrencyUSD)),
+			AccountHolderName: stripe.String("Jenny Rosen"),
+			AccountHolderType: stripe.String("individual"),
+			RoutingNumber:     stripe.String("110000000"),
+			AccountNumber:     stripe.String("000123456789"),
+		},
+	}
+	result, _ := token.New(params)
+	assert.NotNil(t, result)
+}
+
+func TestTokenCreate3(t *testing.T) {
+	params := &stripe.TokenParams{
+		PII: &stripe.TokenPIIParams{IDNumber: stripe.String("000000000")},
+	}
+	result, _ := token.New(params)
+	assert.NotNil(t, result)
+}
+
+func TestTokenCreate4(t *testing.T) {
+	params := &stripe.TokenParams{
+		Account: &stripe.TokenAccountParams{
+			Individual: &stripe.PersonParams{
+				FirstName: stripe.String("Jane"),
+				LastName:  stripe.String("Doe"),
+			},
+			TOSShownAndAccepted: stripe.Bool(true),
+		},
+	}
+	result, _ := token.New(params)
+	assert.NotNil(t, result)
+}
+
+func TestTokenCreate5(t *testing.T) {
+	params := &stripe.TokenParams{
+		Person: &stripe.PersonParams{
+			FirstName:    stripe.String("Jane"),
+			LastName:     stripe.String("Doe"),
+			Relationship: &stripe.PersonRelationshipParams{Owner: stripe.Bool(true)},
+		},
+	}
+	result, _ := token.New(params)
+	assert.NotNil(t, result)
+}
+
+func TestTokenCreate6(t *testing.T) {
+	params := &stripe.TokenParams{
+		CVCUpdate: &stripe.TokenCVCUpdateParams{CVC: stripe.String("123")},
+	}
+	result, _ := token.New(params)
+	assert.NotNil(t, result)
+}
+
+func TestTokenRetrieve(t *testing.T) {
+	params := &stripe.TokenParams{}
+	result, _ := token.Get("tok_xxxx", params)
+	assert.NotNil(t, result)
+}
+
 func TestTopupList(t *testing.T) {
 	params := &stripe.TopupListParams{}
 	params.Limit = stripe.Int64(3)
@@ -2827,4 +2904,17 @@ func TestTaxCalculationListLineItems(t *testing.T) {
 	result := tax_calculation.ListLineItems(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
+}
+
+func TestPaymentIntentCreate3(t *testing.T) {
+	params := &stripe.PaymentIntentParams{
+		Amount:   stripe.Int64(200),
+		Currency: stripe.String(string(stripe.CurrencyUSD)),
+		PaymentMethodData: &stripe.PaymentIntentPaymentMethodDataParams{
+			Type: stripe.String("p24"),
+			P24:  &stripe.PaymentMethodP24Params{Bank: stripe.String("blik")},
+		},
+	}
+	result, _ := paymentintent.New(params)
+	assert.NotNil(t, result)
 }
