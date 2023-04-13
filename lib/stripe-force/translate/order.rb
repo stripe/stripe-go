@@ -592,9 +592,20 @@ class StripeForce::Translate
       current_time = OrderAmendment.determine_current_time(@user, stripe_customer_id)
       normalized_current_time = StripeForce::Utilities::SalesforceUtil.datetime_to_unix_timestamp(Time.at(current_time))
       is_same_day = normalized_current_time == new_phase.start_date
+      is_in_past = new_phase.start_date < normalized_current_time
 
       if is_same_day
         log.info 'phase starts on the current day, using now'
+        new_phase.start_date = 'now'
+      elsif @user.feature_enabled?(FeatureFlags::BACKDATED_AMENDMENTS) && is_in_past
+        # if this is a backdated amendment, then use the current time to update the subscription schedule
+        # ensure a billing cycle has not passed since the backdated amendment and throw an error
+        # TODO in these cases, we should create a one-off invoice that accounts for this time period as well
+        if (normalized_current_time - new_phase.start_date) > billing_frequency.month.to_i
+          raise StripeForce::Errors::RawUserError.new('Unsupported backdated amendment. Attempted to sync a backdated amendment when a billing cycle has already passed')
+        end
+
+        log.info 'backdated amendment, using now'
         new_phase.start_date = 'now'
       end
 
@@ -606,17 +617,6 @@ class StripeForce::Translate
         new_phase.add_invoice_items += previous_phase.add_invoice_items
       end
 
-      # if this is a backdated amendment, then use the current time to update the subscription schedule
-      if @user.feature_enabled?(FeatureFlags::BACKDATED_AMENDMENTS) && new_phase.start_date < normalized_current_time
-        # ensure a billing cycle has not passed since the backdated amendment and throw an error
-        # TODO in these cases, we should create a one-off invoice that accounts for this time period as well
-        if (normalized_current_time - new_phase.start_date) > billing_frequency.month.to_i
-          raise StripeForce::Errors::RawUserError.new('Unsupported backdated amendment. Attempted to sync a backdated amendment when a billing cycle has already passed')
-        end
-
-        log.info 'backdated amendment, using now'
-        new_phase.start_date = 'now'
-      end
 
       # align date boundaries of the schedules
       previous_phase.end_date = new_phase.start_date
