@@ -181,6 +181,8 @@ type IssuingCardholderParams struct {
 	Email *string `form:"email"`
 	// Additional information about an `individual` cardholder.
 	Individual *IssuingCardholderIndividualParams `form:"individual"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
 	// The cardholder's name. This will be printed on cards issued to them. The maximum length of this field is 24 characters. This field cannot contain any special characters or numbers.
 	Name *string `form:"name"`
 	// The cardholder's phone number. This is required for all cardholders who will be creating EU cards. See the [3D Secure documentation](https://stripe.com/docs/issuing/3d-secure) for more details.
@@ -195,6 +197,16 @@ type IssuingCardholderParams struct {
 	// One of `individual` or `company`. See [Choose a cardholder type](https://stripe.com/docs/issuing/other/choose-cardholder) for more details.
 	Type *string `form:"type"`
 }
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *IssuingCardholderParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
 type IssuingCardholderBilling struct {
 	Address *Address `json:"address"`
 }

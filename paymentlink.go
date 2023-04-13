@@ -297,6 +297,15 @@ type PaymentLinkInvoiceCreationInvoiceDataParams struct {
 	RenderingOptions *PaymentLinkInvoiceCreationInvoiceDataRenderingOptionsParams `form:"rendering_options"`
 }
 
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *PaymentLinkInvoiceCreationInvoiceDataParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
 // Generate a post-purchase Invoice for one-time payments.
 type PaymentLinkInvoiceCreationParams struct {
 	// Whether the feature is enabled
@@ -422,6 +431,8 @@ type PaymentLinkParams struct {
 	InvoiceCreation *PaymentLinkInvoiceCreationParams `form:"invoice_creation"`
 	// The line items representing what is being sold. Each line item represents an item being sold. Up to 20 line items are supported.
 	LineItems []*PaymentLinkLineItemParams `form:"line_items"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`. Metadata associated with this Payment Link will automatically be copied to [checkout sessions](https://stripe.com/docs/api/checkout/sessions) created by this payment link.
+	Metadata map[string]string `form:"metadata"`
 	// The account on behalf of which to charge.
 	OnBehalfOf *string `form:"on_behalf_of"`
 	// A subset of parameters to be passed to PaymentIntent creation for Checkout Sessions in `payment` mode.
@@ -450,6 +461,15 @@ type PaymentLinkParams struct {
 	TaxIDCollection *PaymentLinkTaxIDCollectionParams `form:"tax_id_collection"`
 	// The account (if any) the payments will be attributed to for tax reporting, and where funds from each payment will be transferred to.
 	TransferData *PaymentLinkTransferDataParams `form:"transfer_data"`
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *PaymentLinkParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
 }
 
 // When retrieving a payment link, there is an includable line_items property containing the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of line items.

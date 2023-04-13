@@ -136,6 +136,8 @@ type CreditNoteParams struct {
 	Lines []*CreditNoteLineParams `form:"lines"`
 	// Credit note memo.
 	Memo *string `form:"memo"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
 	// The integer amount in cents (or local equivalent) representing the amount that is credited outside of Stripe.
 	OutOfBandAmount *int64 `form:"out_of_band_amount"`
 	// Reason for issuing this credit note, one of `duplicate`, `fraudulent`, `order_change`, or `product_unsatisfactory`
@@ -146,6 +148,15 @@ type CreditNoteParams struct {
 	RefundAmount *int64 `form:"refund_amount"`
 	// When shipping_cost contains the shipping_rate from the invoice, the shipping_cost is included in the credit note.
 	ShippingCost *CreditNoteShippingCostParams `form:"shipping_cost"`
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *CreditNoteParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
 }
 
 // Returns a list of credit notes.
@@ -198,6 +209,8 @@ type CreditNotePreviewParams struct {
 	Lines []*CreditNotePreviewLineParams `form:"lines"`
 	// The credit note's memo appears on the credit note PDF.
 	Memo *string `form:"memo"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
 	// The integer amount in cents (or local equivalent) representing the amount that is credited outside of Stripe.
 	OutOfBandAmount *int64 `form:"out_of_band_amount"`
 	// Reason for issuing this credit note, one of `duplicate`, `fraudulent`, `order_change`, or `product_unsatisfactory`
@@ -208,6 +221,15 @@ type CreditNotePreviewParams struct {
 	RefundAmount *int64 `form:"refund_amount"`
 	// When shipping_cost contains the shipping_rate from the invoice, the shipping_cost is included in the credit note.
 	ShippingCost *CreditNotePreviewShippingCostParams `form:"shipping_cost"`
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *CreditNotePreviewParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
 }
 
 // Marks a credit note as void. Learn more about [voiding credit notes](https://stripe.com/docs/billing/invoices/credit-notes#voiding).

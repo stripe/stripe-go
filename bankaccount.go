@@ -212,6 +212,8 @@ type BankAccountParams struct {
 	ExpMonth *string `form:"exp_month"`
 	// Four digit number representing the card's expiration year.
 	ExpYear *string `form:"exp_year"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
 	// Cardholder name.
 	Name *string `form:"name"`
 	// The routing number, sort code, or other country-appropriate institution number for the bank account. For US bank accounts, this is required and should be the ACH routing number, not the wire routing number. If you are providing an IBAN for `account_number`, this field is not required.
@@ -232,13 +234,13 @@ type BankAccountParams struct {
 // This is not a pattern that we want to push forward, and this largely exists
 // because the bank accounts endpoint is a little unusual. There is one other
 // resource like it, which is cards.
-func (a *BankAccountParams) AppendToAsSourceOrExternalAccount(body *form.Values) {
+func (p *BankAccountParams) AppendToAsSourceOrExternalAccount(body *form.Values) {
 	// Rather than being called in addition to `AppendTo`, this function
 	// *replaces* `AppendTo`, so we must also make sure to handle the encoding
 	// of `Params` so metadata and the like is included in the encoded payload.
-	form.AppendTo(body, a.Params)
+	form.AppendTo(body, p.Params)
 
-	isCustomer := a.Customer != nil
+	isCustomer := p.Customer != nil
 
 	var sourceType string
 	if isCustomer {
@@ -248,40 +250,49 @@ func (a *BankAccountParams) AppendToAsSourceOrExternalAccount(body *form.Values)
 	}
 
 	// Use token (if exists) or a dictionary containing a user’s bank account details.
-	if a.Token != nil {
-		body.Add(sourceType, StringValue(a.Token))
+	if p.Token != nil {
+		body.Add(sourceType, StringValue(p.Token))
 
-		if a.DefaultForCurrency != nil {
+		if p.DefaultForCurrency != nil {
 			body.Add(
 				"default_for_currency",
-				strconv.FormatBool(BoolValue(a.DefaultForCurrency)),
+				strconv.FormatBool(BoolValue(p.DefaultForCurrency)),
 			)
 		}
 	} else {
 		body.Add(sourceType+"[object]", "bank_account")
-		body.Add(sourceType+"[country]", StringValue(a.Country))
-		body.Add(sourceType+"[account_number]", StringValue(a.AccountNumber))
-		body.Add(sourceType+"[currency]", StringValue(a.Currency))
+		body.Add(sourceType+"[country]", StringValue(p.Country))
+		body.Add(sourceType+"[account_number]", StringValue(p.AccountNumber))
+		body.Add(sourceType+"[currency]", StringValue(p.Currency))
 
 		// These are optional and the API will fail if we try to send empty
 		// values in for them, so make sure to check that they're actually set
 		// before encoding them.
-		if a.AccountHolderName != nil {
-			body.Add(sourceType+"[account_holder_name]", StringValue(a.AccountHolderName))
+		if p.AccountHolderName != nil {
+			body.Add(sourceType+"[account_holder_name]", StringValue(p.AccountHolderName))
 		}
 
-		if a.AccountHolderType != nil {
-			body.Add(sourceType+"[account_holder_type]", StringValue(a.AccountHolderType))
+		if p.AccountHolderType != nil {
+			body.Add(sourceType+"[account_holder_type]", StringValue(p.AccountHolderType))
 		}
 
-		if a.RoutingNumber != nil {
-			body.Add(sourceType+"[routing_number]", StringValue(a.RoutingNumber))
+		if p.RoutingNumber != nil {
+			body.Add(sourceType+"[routing_number]", StringValue(p.RoutingNumber))
 		}
 
-		if a.DefaultForCurrency != nil {
-			body.Add(sourceType+"[default_for_currency]", strconv.FormatBool(BoolValue(a.DefaultForCurrency)))
+		if p.DefaultForCurrency != nil {
+			body.Add(sourceType+"[default_for_currency]", strconv.FormatBool(BoolValue(p.DefaultForCurrency)))
 		}
 	}
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *BankAccountParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
 }
 
 type BankAccountListParams struct {

@@ -123,6 +123,8 @@ type SourceParams struct {
 	Flow *string `form:"flow"`
 	// Information about a mandate possibility attached to a source object (generally for bank debits) as well as its acceptance status.
 	Mandate *SourceMandateParams `form:"mandate"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
 	// The source to share.
 	OriginalSource *string `form:"original_source"`
 	// Information about the owner of the payment instrument that may be used or required by particular source types.
@@ -140,6 +142,15 @@ type SourceParams struct {
 	// The `type` of the source to create. Required unless `customer` and `original_source` are specified (see the [Cloning card Sources](https://stripe.com/docs/sources/connect#cloning-card-sources) guide)
 	Type  *string `form:"type"`
 	Usage *string `form:"usage"`
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *SourceParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
 }
 
 // The parameters required to store a mandate accepted offline. Should only be set if `mandate[type]` is `offline`

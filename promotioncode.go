@@ -23,8 +23,19 @@ type PromotionCodeParams struct {
 	ExpiresAt *int64 `form:"expires_at"`
 	// A positive integer specifying the number of times the promotion code can be redeemed. If the coupon has specified a `max_redemptions`, then this value cannot be greater than the coupon's `max_redemptions`.
 	MaxRedemptions *int64 `form:"max_redemptions"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
 	// Settings that restrict the redemption of the promotion code.
 	Restrictions *PromotionCodeRestrictionsParams `form:"restrictions"`
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *PromotionCodeParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
 }
 
 // Promotion codes defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).

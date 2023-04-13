@@ -275,7 +275,7 @@ type BackendImplementation struct {
 	requestMetricsBuffer chan requestMetrics
 }
 
-func extractParams(params ParamsContainer) (*form.Values, *Params) {
+func extractParams(params ParamsContainer) (*form.Values, *Params, error) {
 	var formValues *form.Values
 	var commonParams *Params
 
@@ -292,23 +292,36 @@ func extractParams(params ParamsContainer) (*form.Values, *Params) {
 
 		if reflectValue.Kind() == reflect.Ptr && !reflectValue.IsNil() {
 			commonParams = params.GetParams()
+
+			if reflectValue.Elem().FieldByName("Metadata").IsZero() {
+				if commonParams.Metadata != nil {
+					return nil, nil, fmt.Errorf("You cannot specify both the (deprecated) .Params.Metadata and .Metadata in %s", reflectValue.Elem().Type().Name())
+				}
+			}
+
 			formValues = &form.Values{}
 			form.AppendTo(formValues, params)
 		}
 	}
-	return formValues, commonParams
+	return formValues, commonParams, nil
 }
 
 // Call is the Backend.Call implementation for invoking Stripe APIs.
 func (s *BackendImplementation) Call(method, path, key string, params ParamsContainer, v LastResponseSetter) error {
-	body, commonParams := extractParams(params)
+	body, commonParams, err := extractParams(params)
+	if err != nil {
+		return err
+	}
 	return s.CallRaw(method, path, key, body, commonParams, v)
 }
 
 // CallStreaming is the Backend.Call implementation for invoking Stripe APIs
 // without buffering the response into memory.
 func (s *BackendImplementation) CallStreaming(method, path, key string, params ParamsContainer, v StreamingLastResponseSetter) error {
-	formValues, commonParams := extractParams(params)
+	formValues, commonParams, err := extractParams(params)
+	if err != nil {
+		return err
+	}
 
 	var body string
 	if formValues != nil && !formValues.Empty() {

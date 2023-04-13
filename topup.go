@@ -29,12 +29,23 @@ type TopupParams struct {
 	Currency *string `form:"currency"`
 	// An arbitrary string attached to the object. Often useful for displaying to users.
 	Description *string `form:"description"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
 	// The ID of a source to transfer funds from. For most users, this should be left unspecified which will use the bank account that was set up in the dashboard for the specified currency. In test mode, this can be a test bank token (see [Testing Top-ups](https://stripe.com/docs/connect/testing#testing-top-ups)).
 	Source *string `form:"source"`
 	// Extra information about a top-up for the source's bank statement. Limited to 15 ASCII characters.
 	StatementDescriptor *string `form:"statement_descriptor"`
 	// A string that identifies this top-up as part of a group.
 	TransferGroup *string `form:"transfer_group"`
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *TopupParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
 }
 
 // Returns a list of top-ups.
