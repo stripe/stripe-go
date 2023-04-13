@@ -1,5 +1,14 @@
 # Changelog
 
+## 74.16.0-beta.2 - 2023-04-13
+* [#1639](https://github.com/stripe/stripe-go/pull/1639) Update generated code for beta
+  * Add support for `CollectPaymentMethod` and `ConfirmPaymentIntent` methods on resource `Terminal.Reader`
+  * Add support for `PaypalPayments` on `AccountCapabilitiesParams` and `AccountCapabilities`
+  * Add support for new value `REVOIE23` on enums `ChargePaymentMethodDetailsIdealBic`, `PaymentMethodIdealBic`, and `SetupAttemptPaymentMethodDetailsIdealBic`
+  * Add support for `CollectPaymentMethod` and `ConfirmPaymentIntent` on `TerminalReaderAction`
+  * Add support for `StripeAccount` on `TerminalReaderActionProcessPaymentIntent` and `TerminalReaderActionRefundPayment`
+  * Add support for new values `collect_payment_method` and `confirm_payment_intent` on enum `TerminalReaderActionType`
+
 ## 74.16.0-beta.1 - 2023-04-06
 * [#1637](https://github.com/stripe/stripe-go/pull/1637) Update generated code for beta
   * Add support for `TreasuryTransaction` on `CapitalFinancingTransactionListParams`
