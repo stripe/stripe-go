@@ -189,10 +189,10 @@ type Params struct {
 	// Headers may be used to provide extra header lines on the HTTP request.
 	Headers http.Header `form:"-"`
 
-	IdempotencyKey *string           `form:"-"` // Passed as header
+	IdempotencyKey *string `form:"-"` // Passed as header
 
 	// Deprecated: Please use Metadata in the containing struct instead.
-	Metadata       map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata"`
 
 	// StripeAccount may contain the ID of a connected account. By including
 	// this field, the request is made as if it originated from the connected

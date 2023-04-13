@@ -293,7 +293,7 @@ func extractParams(params ParamsContainer) (*form.Values, *Params, error) {
 		if reflectValue.Kind() == reflect.Ptr && !reflectValue.IsNil() {
 			commonParams = params.GetParams()
 
-			if reflectValue.Elem().FieldByName("Metadata").IsZero() {
+			if !reflectValue.Elem().FieldByName("Metadata").IsZero() {
 				if commonParams.Metadata != nil {
 					return nil, nil, fmt.Errorf("You cannot specify both the (deprecated) .Params.Metadata and .Metadata in %s", reflectValue.Elem().Type().Name())
 				}
