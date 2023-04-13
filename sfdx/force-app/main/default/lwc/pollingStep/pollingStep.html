@@ -1,0 +1,65 @@
+<!--
+ - Created by jmather-c on 3/28/23.
+ -->
+
+<!-- Polling Step -->
+<template>
+    <lightning-card>
+        <h3 if:true={showTitle} slot="title">
+            Polling
+            <lightning-badge icon-name={badgeIcon} icon-position="end" label={badgeLabel} class={badgeClass}></lightning-badge>
+        </h3>
+        <lightning-button if:true={canDevReset} slot="actions" label="Reset" onclick={devReset}></lightning-button>
+        <lightning-button if:true={showButton} slot="actions" label={actionLabel} variant={actionBrand} icon-name={actionIcon} onclick={activatePolling}></lightning-button>
+        <div class="slds-card__body_inner">
+            <div class="stripe-settings__item slds-grid">
+                <div class="slds-col_bump-right">
+                    <h4 class="slds-text-heading_small slds-m-bottom_xx-small">
+                        Stripe Account
+                    </h4>
+                    <p>
+                        The Stripe account connected to Salesforce. This account contains Stripe data being synced from your Salesforce account.
+                    </p>
+                </div>
+                <div class="slds-col slds-p-left_xx-large slds-size_1-of-3">
+                    <lightning-input type="text" label="Stripe Account" value={stripeAccountId} variant="label-hidden" placeholder="No Stripe Account Found" disabled></lightning-input>
+                </div>
+            </div>
+            <div class="stripe-settings__item slds-grid">
+                <div class="slds-col_bump-right">
+                    <h4 class="slds-text-heading_small slds-m-bottom_xx-small">
+                        Sync Start Date
+                    </h4>
+                    <p>
+                        The date on which Stripe data will begin syncing with Salesforce. This setting is progressive, meaning all relevant data from this date moving forward will be synced, while any data before the specified date will be ignored.
+                    </p>
+                </div>
+                <div class="slds-col slds-p-left_xx-large slds-size_1-of-3">
+                    <lightning-input
+                            data-id="sync-start-date"
+                            label="Sync Start Date"
+                            type="date"
+                            date-style="short"
+                            variant="label-hidden"
+                            value={syncStartDate}
+                            onchange={updateSyncStartDate}
+                            placeholder="Select Sync Start Date..."
+                            disabled={hasSynced}></lightning-input>
+                </div>
+            </div>
+            <div if:true={hasSynced} class="stripe-settings__item slds-grid">
+                <div class="slds-col_bump-right">
+                    <h4 class="slds-text-heading_small slds-m-bottom_xx-small">
+                        Last Synced
+                    </h4>
+                    <p>
+                        The last time Stripe data was synced with this Salesforce org.
+                    </p>
+                </div>
+                <div class="slds-col slds-p-left_xx-large slds-size_1-of-3">
+                    <lightning-input label="Last Synced" type="text" variant="label-hidden" value={lastSynced} placeholder="N/A" disabled></lightning-input>
+                </div>
+            </div>
+        </div>
+    </lightning-card>
+</template>

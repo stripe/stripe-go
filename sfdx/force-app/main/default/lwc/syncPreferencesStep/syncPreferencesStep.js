@@ -7,9 +7,16 @@ import manualTranslation from '@salesforce/apex/setupAssistant.manualTranslation
 import syncAllRecords from '@salesforce/apex/setupAssistant.syncAllRecords';
 import { LightningElement, api, track} from 'lwc';
 import { getErrorMessage } from 'c/utils'
+import LightningConfirm from 'lightning/confirm';
+
+const POLLING_FIRST_ENABLE_ALERT_TITLE = 'Are you sure?';
+const POLLING_FIRST_ENABLE_ALERT_TEMPLATE = `You are activating live syncing for your integration, meaning we will begin creating Stripe subscriptions for all Salesforce orders activated on or after SYNC_START_DATE. You can pause this in the future in the 'Sync Preferences' menu.`
+const POLLING_DISABLE_ALERT_TITLE = 'Confirm Disable Syncing';
+const POLLING_DISABLE_ALERT = 'Disabling syncing will halt all order processing. Are you sure you want to continue?';
 
 export default class SyncPreferencesStep extends LightningElement {
-    @api setupComplete = false; 
+    isDev = false;
+    @api setupComplete = false;
     @track stripeConnectRecord;
     @track stripeAccountId;
     @track lastSynced;
@@ -23,7 +30,6 @@ export default class SyncPreferencesStep extends LightningElement {
     @track totalApiCalls; 
     @track currencyOptions;
     @track isCpqInstalled;
-    @track isConfigEnabled;
     @track orderFilter;
     @track accountFilter;
     @track productFilter;
@@ -31,6 +37,8 @@ export default class SyncPreferencesStep extends LightningElement {
     @track isSandbox;
     @track syncProductsDisabled = false; 
     @track syncPricebooksDisabled = false;
+    @track pollingEnabled = false;
+    @track pollingEnabledInitialValue = false;
     @track hiddenSyncPrefsFields = [];
     @track intervalOptions = [
         {
@@ -50,6 +58,19 @@ export default class SyncPreferencesStep extends LightningElement {
     // DEV NOTE: Manual Translation additions: refactor or remove these //
     manualTranslationValue = '';
     manualTranslationProcessing = false;
+
+    get canDevReset() {
+        return this.isDev && this.hasSynced;
+    }
+
+    devReset() {
+        if (this.isDev === false) {
+            return;
+        }
+
+        this.pollingEnabled = false;
+        this.lastSynced = null;
+    }
 
     updateManualTranslationValue(event) {
         this.manualTranslationValue = event.currentTarget.value;
@@ -147,7 +168,8 @@ export default class SyncPreferencesStep extends LightningElement {
             this.cpqTermUnit = responseData.results.cpq_term_unit;
             this.isCpqInstalled = responseData.results.isCpqInstalled;
             this.isSandbox = responseData.results.isSandbox;
-            this.isConfigEnabled = responseData.results.enabled;
+            this.pollingEnabled = responseData.results.polling_enabled;
+            this.pollingEnabledInitialValue = responseData.results.polling_enabled;
             this.configurationHash = responseData.results.configurationHash;
             this.hiddenSyncPrefsFields = responseData.results.hiddenSyncPrefsFields;
 
@@ -181,28 +203,13 @@ export default class SyncPreferencesStep extends LightningElement {
         }
     }
 
-    updateEnabledStatus() {
-        // If currently enabled, show disable confirmation modal
-        if (this.isConfigEnabled) {
-            this.template.querySelector('.stripe-modal_disable-integration').show();
-            return;
-        }
+    get pollingEnabledChanged() {
+        return this.pollingEnabled !== this.pollingEnabledInitialValue;
+    }
 
-        // If currently disabled, enable integration
-        this.isConfigEnabled = true;
+    async updatePollingEnabled(event) {
+        this.pollingEnabled = !this.pollingEnabled;
         this.dispatchEvent(new CustomEvent('valuechange'));
-    }
-
-    async disableIntegrationConfirm() {
-        this.isConfigEnabled = false;
-        await this.saveModifiedSyncPreferences();
-        this.template.querySelector('.stripe-input_enable-integration').checked = this.isConfigEnabled;
-        this.template.querySelector('.stripe-modal_disable-integration').hide();
-    }
-
-    disableIntegrationCancel() {
-        this.template.querySelector('.stripe-input_enable-integration').checked = this.isConfigEnabled;
-        this.template.querySelector('.stripe-modal_disable-integration').hide();
     }
 
     updateDefaultCurrency(event) {
@@ -328,19 +335,61 @@ export default class SyncPreferencesStep extends LightningElement {
     @api async saveModifiedSyncPreferences() {
         let saveSuccess = false;
         try {
+            // confirm they wish to pause polling
+            if (this.pollingEnabledChanged && this.hasSynced && this.pollingEnabled === false) {
+                const result = await LightningConfirm.open({
+                    message: POLLING_DISABLE_ALERT,
+                    theme: 'texture',
+                    label: POLLING_DISABLE_ALERT_TITLE, // this is the header text
+                });
+
+                if (result === false) {
+                    this.dispatchEvent(new CustomEvent('savecomplete', {
+                        detail: {
+                            saveSuccess: saveSuccess,
+                            configurationHash: this.configurationHash
+                        }
+                    }));
+                    return;
+                }
+            }
+
+            // confirm they wish to initialize polling
+            if (this.pollingEnabledChanged && this.hasSynced === false && this.pollingEnabled) {
+                const formattedDate = new Date(this.syncStartDate).toLocaleDateString();
+                const alertMsg = POLLING_FIRST_ENABLE_ALERT_TEMPLATE.replace('SYNC_START_DATE', formattedDate);
+
+                const result = await LightningConfirm.open({
+                    message: alertMsg,
+                    theme: 'texture',
+                    label: POLLING_FIRST_ENABLE_ALERT_TITLE, // this is the header text
+                });
+
+                if (result === false) {
+                    this.dispatchEvent(new CustomEvent('savecomplete', {
+                        detail: {
+                            saveSuccess: saveSuccess,
+                            configurationHash: this.configurationHash
+                        }
+                    }));
+                    return;
+                }
+            }
+
             if((this.apiPercentageLimit < 100 && this.apiPercentageLimit > 0) && (this.syncRecordRetention < 1000000 && this.syncRecordRetention > 100)) {
                 const updatedSyncPreferences = await saveSyncPreferences({
+                    pollingEnabled: this.pollingEnabled,
                     cpqTermUnit: this.cpqTermUnit,
                     defaultCurrency: this.defaultCurrency,
                     syncRecordRetention: this.syncRecordRetention,
                     syncStartDate: (new Date(this.syncStartDate).getTime() / 1000),
                     apiPercentageLimit: this.apiPercentageLimit,
-                    isConfigEnabled: this.isConfigEnabled,
                     configurationHash: this.configurationHash
                 });
                 const savedSyncPreferencesResponseData =  JSON.parse(updatedSyncPreferences);
                 if(savedSyncPreferencesResponseData.isSuccess) {
                     this.configurationHash = savedSyncPreferencesResponseData.results.configurationHash;
+                    this.pollingEnabledInitialValue = this.pollingEnabled;
                     // Reset object filter validation messages
                     this.accountFilterError = '';
                     this.productFilterError = '';
@@ -360,24 +409,23 @@ export default class SyncPreferencesStep extends LightningElement {
                         } else {
                             if(filterResponseData.results.isValidationError) {
                                 const listOfExceptions = filterResponseData.results.ValidationErrors;
-                                    for (let i = 0; i < listOfExceptions.length; i++) {
-                                        let objectWithError = listOfExceptions[i].Object;
-                                        let exceptionThrown = listOfExceptions[i].Error;
-                                        if (objectWithError === 'Account') {
-                                            // Set account validation message
-                                            this.accountFilterError = exceptionThrown;
-                                        } else if (objectWithError === 'Product2') {
-                                            // Set product validation message
-                                            this.productFilterError = exceptionThrown;
-                                        } else if (objectWithError === 'Order') {
-                                            // Set order validation message
-                                            this.orderFilterError = exceptionThrown;
-                                        }  else if (objectWithError === 'PricebookEntry') {
-                                            // Set pricebook validation message
-                                            this.priceBookFilterError = exceptionThrown;
-                                        } 
+                                for (let i = 0; i < listOfExceptions.length; i++) {
+                                    let objectWithError = listOfExceptions[i].Object;
+                                    let exceptionThrown = listOfExceptions[i].Error;
+                                    if (objectWithError === 'Account') {
+                                        // Set account validation message
+                                        this.accountFilterError = exceptionThrown;
+                                    } else if (objectWithError === 'Product2') {
+                                        // Set product validation message
+                                        this.productFilterError = exceptionThrown;
+                                    } else if (objectWithError === 'Order') {
+                                        // Set order validation message
+                                        this.orderFilterError = exceptionThrown;
+                                    }  else if (objectWithError === 'PricebookEntry') {
+                                        // Set pricebook validation message
+                                        this.priceBookFilterError = exceptionThrown;
                                     }
-                                return;
+                                }
                             } else {
                                 this.showToast(filterResponseData.error, 'error', 'sticky');
                             } 
@@ -402,6 +450,10 @@ export default class SyncPreferencesStep extends LightningElement {
 
     @api updateConfigHash(configHash) {
         this.configurationHash = configHash;
+    }
+
+    get hasSynced() {
+        return this.lastSynced !== null && this.lastSynced !== undefined;
     }
 
     async syncAllRecords(objectType) {

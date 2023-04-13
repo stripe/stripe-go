@@ -322,7 +322,7 @@ public with sharing class test_setupAssistant {
 
         Map<String, Object> resultsMap = (Map<String, Object>)responseMap.get('results');
         System.assertEquals('1234', (String)resultsMap.get('stripe_account_id'));
-        System.assertEquals('test', (String)resultsMap.get('last_synced'));
+        System.assertEquals('1', (String)resultsMap.get('last_synced'));
         System.assertEquals('USD', (String)resultsMap.get('default_currency'));
         System.assertEquals('2 days', (String)resultsMap.get('sync_record_retention'));
         System.assertEquals('yesterday', (String)resultsMap.get('sync_start_date'));
@@ -438,6 +438,21 @@ public with sharing class test_setupAssistant {
         Test.startTest();
         Test.setMock(HttpCalloutMock.class, new stripeConnectionSuccessMock());
         String response = setupAssistant.saveSyncPreferences('TEST','10000', '1644854972', '95', 'monthly', true, '1234');
+        Map<String, Object> responseMap = (Map<String, Object>)JSON.deserializeUntyped(response);
+        Test.stopTest();
+
+        System.assert((Boolean)responseMap.get('isSuccess'), responseMap.get('error'));
+    }
+
+    @isTest
+    static public void testSetupAssistant_activatePolling() {
+        Setup_Connection_Data__mdt testSetupData = getTestStripeConnectionKey();
+        setTestGlobalKey(testSetupData);
+        insertTestConnectedRecord();
+
+        Test.startTest();
+        Test.setMock(HttpCalloutMock.class, new stripeConnectionSuccessMock());
+        String response = setupAssistant.activatePolling('1644854972', true, '1234');
         Map<String, Object> responseMap = (Map<String, Object>)JSON.deserializeUntyped(response);
         Test.stopTest();
 
@@ -591,7 +606,6 @@ public with sharing class test_setupAssistant {
             if(utilities.isPackagedEnvironment()) {
                 System.assertEquals(req.getHeader('Salesforce-Package-Id'), (String)utilities.getPackageVersionString());
             }
-
             if(req.getEndpoint().endsWith('configuration')) {
                 Stripe_Connection__c stripeConnectRec = Stripe_Connection__c.getOrgDefaults();
                 System.assertEquals(req.getHeader('Salesforce-Key'), (String)stripeConnectRec.API_Key__c);
@@ -602,7 +616,7 @@ public with sharing class test_setupAssistant {
                 responseBody.put('connection_status', (Object)new Map<String,Object>{
                     'salesforce' => true,
                     'stripe' => true,
-                    'last_synced' => 'test',
+                    'last_synced' => '1',
                     'stripe_account_id' => 1234
                 });
                 responseBody.put('settings', (Object)new Map<String,Object>{

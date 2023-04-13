@@ -55,12 +55,20 @@ export default class FirstTimeSetup extends LightningElement {
             component: 'c-data-mapping-step',
         },
         {
-            title: 'Configure Sync Preferences',
+            title: 'Manage Integration',
             name: 'C-SYNC-PREFERENCES-STEP',
             orderIndex: 4,
             isComplete: false,
             isActive: false,
             component: 'c-sync-preferences-step',
+        },
+        {
+            title: 'Activate Syncing',
+            name: 'C-POLLING-STEP',
+            orderIndex: 5,
+            isComplete: false,
+            isActive: false,
+            component: 'c-polling-step',
         }
     ];
 
@@ -69,6 +77,7 @@ export default class FirstTimeSetup extends LightningElement {
         systemConnections: 1,
         dataMapping: 2,
         syncPreferences: 3,
+        polling: 4,
     };
 
     generalStepRefs = {
@@ -138,9 +147,15 @@ export default class FirstTimeSetup extends LightningElement {
     }
 
     completeSave(event) {
-        if (event.detail.saveSuccess) {
+        if (event.detail.saveSuccess && event.detail.configurationHash) {
             this.template.querySelector('c-data-mapping-step').updateConfigHash(event.detail.configurationHash);
             this.template.querySelector('c-sync-preferences-step').updateConfigHash(event.detail.configurationHash);
+
+            // only present during setup.
+            const maybeStep = this.template.querySelector('c-polling-step');
+            if (maybeStep) {
+                maybeStep.updateConfigHash(event.detail.configurationHash);
+            }
         }
 
         this.contentLoading = false;
@@ -255,24 +270,30 @@ export default class FirstTimeSetup extends LightningElement {
         }
     }
 
-    save() {
+    async save() {
         this.contentLoading = true;
         if(this.activeSectionIndex == this.generalStepRefs.dataMapping) {
-            this.template.querySelector('c-data-mapping-step').saveDataMappings();
+            return this.template.querySelector('c-data-mapping-step').saveDataMappings();
         } else if(this.activeSectionIndex == this.generalStepRefs.syncPreferences) {
-            this.template.querySelector('c-sync-preferences-step').saveModifiedSyncPreferences();
+            return this.template.querySelector('c-sync-preferences-step').saveModifiedSyncPreferences();
         }
     }
 
-    next() {
+    next(e) {
         this.contentLoading = true;
         this.stepName = this.steps[this.activeStepIndex].name;
         if(this.stepName === 'C-DATA-MAPPING-STEP') {
-            this.template.querySelector('c-data-mapping-step').saveDataMappings();
+            return this.template.querySelector('c-data-mapping-step').saveDataMappings();
         } else if(this.stepName === 'C-SYNC-PREFERENCES-STEP') {
-            this.template.querySelector('c-sync-preferences-step').saveModifiedSyncPreferences();
+            return this.template.querySelector('c-sync-preferences-step').saveModifiedSyncPreferences();
+        } else if(this.stepName === 'C-POLLING-STEP') {
+            if (e.currentTarget.dataset && e.currentTarget.dataset.activate === "now") {
+                return this.template.querySelector('c-polling-step').activatePolling();
+            } else {
+                return this.nextNavigate();
+            }
         } else {
-            this.nextNavigate();
+            return this.nextNavigate();
         }
     }
 

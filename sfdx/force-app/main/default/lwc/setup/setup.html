@@ -296,7 +296,7 @@
                                                 <span>Data Mapping</span>
                                             </li>
                                             <li class="stripe-navigation-item" data-index="2" data-section-name="syncPreferences" onclick={sectionNavigate}>
-                                                <span>Sync Preferences</span>
+                                                <span>Manage Integration</span>
                                             </li>
                                         </ul>
                                     </template>
@@ -344,7 +344,7 @@
                                             onshowtoast={showToast}>
                                         </c-data-mapping-step>
                                     </c-step>
-                                    <c-step step-name="Configure Sync Preferences" data-index="3" setup-complete={setupComplete} onnext={next} onback={back} next-label="Finish" class="slds-hide" loading={contentLoading} illustration-url={syncPreferencesIllustration} show-intro>
+                                    <c-step step-name="Manage Integration" data-index="3" setup-complete={setupComplete} onnext={next} onback={back} next-label="Next" class="slds-hide" loading={contentLoading} illustration-url={syncPreferencesIllustration} show-intro>
                                         <p slot="description">
                                             Determine how and when data is synced between Stripe and Salesforce. A set of default settings has been provided; review and make any adjustments to these settings to suit your org before proceeding.
                                         </p>
@@ -352,9 +352,33 @@
                                             Determine how and when data is synced between Stripe and Salesforce. Review and make any adjustments to the default settings to best suit your Salesforce org.
                                         </p>
                                         <c-sync-preferences-step
-                                            onsavecomplete={completeSave}
-                                            onshowtoast={showToast}>
+                                                onsavecomplete={completeSave}
+                                                onshowtoast={showToast}>
                                         </c-sync-preferences-step>
+                                    </c-step>
+                                    <c-step step-name="Activate Syncing" data-index="4" setup-complete={setupComplete} onnext={next} onback={back} next-label="Finish" class="slds-hide" loading={contentLoading} illustration-url={syncPreferencesIllustration} show-intro>
+                                        <p slot="description">
+                                            Activate your integration to begin bringing Salesforce orders over to Stripe in real time.
+                                        </p>
+                                        <p slot="intro-description">
+                                            Activate your integration to begin bringing Salesforce orders over to Stripe in real time.
+                                        </p>
+                                        <c-polling-step
+                                                onsavecomplete={completeSave}
+                                                onshowtoast={showToast}>
+                                        </c-polling-step>
+                                        <div slot="footer">
+                                            <div class="slds-grid slds-grid_align-spread">
+                                                <div class="slds-col">
+                                                    <lightning-button label="Back" variant="neutral" onclick={back} disabled={backDisabled}></lightning-button>
+                                                </div>
+                                                <div class="slds-col">
+                                                    <lightning-button data-activate="later" label="Activate Later" variant="neutral" onclick={next} disabled={nextDisabled}></lightning-button>
+                                                    &nbsp;
+                                                    <lightning-button data-activate="now" label="Activate Now" variant="brand" onclick={next} disabled={nextDisabled}></lightning-button>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </c-step>
                                 </template>
                                 <!-- /First Time Setup Steps -->
@@ -399,7 +423,7 @@
                                                 onshowtoast={showToast}>
                                             </c-data-mapping-step>
                                         </c-step>
-                                        <c-step step-name="Configure Sync Preferences" setup-complete class="slds-hide" onsave={save} save-disabled={saveDisabled} data-index="2" loading={contentLoading}>
+                                        <c-step step-name="Manage Integration" setup-complete class="slds-hide" onsave={save} save-disabled={saveDisabled} data-index="2" loading={contentLoading}>
                                             <p slot="description">
                                                 Determine how and when data is synced between Stripe and Salesforce. Adjust when Stripe data should start to sync, how many records are saved in your org at one time, how many Salesforce API calls Stripe is allowed to make, and more. Default values have been provided; be sure to review and adjust sync settings to suit your Salesforce org's needs.
                                             </p>

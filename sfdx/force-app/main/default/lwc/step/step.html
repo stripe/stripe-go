@@ -45,23 +45,26 @@
             <template if:false={footerHidden}>
                 <div class="stripe-footer__sticky">
                     <div class="slds-p-around_large slds-border_top">
-                        <template if:false={setupComplete}>
-                            <div class="slds-grid slds-grid_align-spread">
-                                <div class="slds-col">
-                                    <lightning-button label={backLabel} variant="neutral" onclick={back} disabled={backDisabled}></lightning-button>
+                        <template if:true={useStandardFooter}>
+                            <template if:false={setupComplete}>
+                                <div class="slds-grid slds-grid_align-spread">
+                                    <div class="slds-col">
+                                        <lightning-button label={backLabel} variant="neutral" onclick={back} disabled={backDisabled}></lightning-button>
+                                    </div>
+                                    <div class="slds-col">
+                                        <lightning-button label={nextLabel} variant="brand" onclick={next} disabled={nextDisabled}></lightning-button>
+                                    </div>
                                 </div>
-                                <div class="slds-col">
-                                    <lightning-button label={nextLabel} variant="brand" onclick={next} disabled={nextDisabled}></lightning-button>
+                            </template>
+                            <template if:true={setupComplete}>
+                                <div class="slds-grid slds-grid_align-end">
+                                    <div class="slds-col">
+                                        <lightning-button label="Save" variant="brand" onclick={save} disabled={saveDisabled}></lightning-button>
+                                    </div>
                                 </div>
-                            </div>
+                            </template>
                         </template>
-                        <template if:true={setupComplete}>
-                            <div class="slds-grid slds-grid_align-end">
-                                <div class="slds-col">
-                                    <lightning-button label="Save" variant="brand" onclick={save} disabled={saveDisabled}></lightning-button>
-                                </div>
-                            </div>
-                        </template>
+                        <slot name="footer" onslotchange={handleFooterSlotChange}></slot>
                     </div>
                 </div>
             </template>

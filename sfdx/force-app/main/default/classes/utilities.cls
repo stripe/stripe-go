@@ -212,7 +212,7 @@ public with sharing class utilities {
 
     // generates package level key and sends to ruby. Named `salesforce_organization_key` on the ruby side
     public static void generatePackageKey(Stripe_Connection__c stripeConnectRec) {
-        List<Setup_Connection_Data__mdt> setupConfigList = getStripeConnectionKey();
+        List<Setup_Connection_Data__mdt> setupConfigList = setupConfigMetadata;
         if(setupConfigList.isEmpty()) {
             /* This error should only be thrown in a scratch org when unmangaed key is deployed to
             an org and the custom metadata record containing the global key was not created */
@@ -326,7 +326,7 @@ public with sharing class utilities {
         
         if(response.getStatusCode() >= 200 && response.getStatusCode() < 300) {
             rd.put('isConfigSaved', true);
-            if (actionTaken == 'saveSyncPreferences' || actionTaken == 'saveMappingConfigurations') {
+            if (actionTaken == 'saveSyncPreferences' || actionTaken == 'saveMappingConfigurations' || actionTaken == 'activatePolling') {
                 Map<String, Object> responseBody = (Map<String, Object>) JSON.deserializeUntyped(response.getBody());
                 rd.put('configurationHash', (String)responseBody.get('configuration_hash'));
             }

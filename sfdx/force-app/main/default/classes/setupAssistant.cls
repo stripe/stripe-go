@@ -364,6 +364,10 @@ public with sharing class setupAssistant {
                     'cpq_term_unit'
                 };
 
+                List<String> booleanFields = new List<String> {
+                    'polling_enabled'
+                };
+
                 List<String> connectionReadOnlyFields = new List<String> {
                     'stripe_account_id',
                     'last_synced'
@@ -376,6 +380,15 @@ public with sharing class setupAssistant {
                         rd.put(settingsField, String.valueOf(settings.get(settingsField)));
                         stripeConnectRec.Sync_Record_Retention__c = String.valueOf(settings.get(settingsField));
                         upsert stripeConnectRec;
+                    }
+                }
+
+                //gets boolean connection fields from response for frontend
+                for(String booleanField : booleanFields) {
+                    if (settings.get(booleanField) == null) {
+                        rd.put(booleanField, false);
+                    } else {
+                        rd.put(booleanField, Boolean.valueOf(settings.get(booleanField)));
                     }
                 }
 
@@ -395,7 +408,7 @@ public with sharing class setupAssistant {
             rd.put('isConnected', true);
             rd.put('isCpqInstalled', utilities.isCpqEnabled());
         } catch (Exception e) {
-            rd.addError(e);
+             rd.addError(e);
         }
 
         return rd.getJsonString();
@@ -409,8 +422,12 @@ public with sharing class setupAssistant {
         List<Object> respFields = (List<Object>) responseBody.get(listKey);
         List<String> respList = new List<String>();
 
-        if (respFields == null && ensureList) {
-            return new List<String>();
+        if (respFields == null) {
+            if (ensureList) {
+                return new List<String>();
+            } else {
+                return null;
+            }
         }
 
         for (Object obj : respFields) {
@@ -460,15 +477,15 @@ public with sharing class setupAssistant {
 
     //sends updated sync preference data to the ruby service and saves the values
     @AuraEnabled
-    public static String saveSyncPreferences(String defaultCurrency, String syncRecordRetention, String syncStartDate, String apiPercentageLimit, String cpqTermUnit, Boolean isConfigEnabled, String configurationHash) {
+    public static String saveSyncPreferences(String defaultCurrency, String syncRecordRetention, String syncStartDate, String apiPercentageLimit, String cpqTermUnit, Boolean pollingEnabled, String configurationHash) {
         responseData rd = new responseData();
         try {
             Stripe_Connection__c stripeConnectRec = Stripe_Connection__c.getOrgDefaults();
             if(stripeConnectRec.Id != null) {
                 Map<String, Object> resquestBody = new Map<String, Object> {
-                    'enabled' => isConfigEnabled,
                     'configuration_hash' => configurationHash,
                     'settings' => new Map<String, Object> {
+                        'polling_enabled' => pollingEnabled,
                         'api_percentage_limit' => apiPercentageLimit,
                         'sync_start_date' => syncStartDate,
                         'sync_record_retention' => syncRecordRetention,
@@ -487,6 +504,32 @@ public with sharing class setupAssistant {
            rd.addError(e);
        }
        return rd.getJsonString();
+    }
+
+    //activates polling in the ruby service
+    @AuraEnabled
+    public static String activatePolling(String syncStartDate, Boolean isConfigEnabled, String configurationHash) {
+        responseData rd = new responseData();
+        try {
+            Stripe_Connection__c stripeConnectRec = Stripe_Connection__c.getOrgDefaults();
+            if(stripeConnectRec.Id != null) {
+                Map<String, Object> resquestBody = new Map<String, Object> {
+                        'enabled' => isConfigEnabled,
+                        'configuration_hash' => configurationHash,
+                        'settings' => new Map<String, Object> {
+                                'polling_enabled' => true,
+                                'sync_start_date' => syncStartDate
+                        }
+                };
+
+                String route = constants.RUBY_SERVICE_BASE_URI + '/v1/configuration';
+                HttpResponse response =  utilities.makeCallout(route, 'PUT', JSON.serialize(resquestBody));
+                rd = utilities.validateCalloutResponse(response, 'activatePolling');
+            }
+        } catch (Exception e) {
+            rd.addError(e);
+        }
+        return rd.getJsonString();
     }
 
     //sends records to be synced to ruby service called from quick action button on record detail page

@@ -1,25 +1,26 @@
 <template>
     <div class="slds-p-around_large">
+        <lightning-button if:true={canDevReset} slot="actions" label="Reset" onclick={devReset}></lightning-button>
         <lightning-accordion>
-            <lightning-accordion-section name="Activation" label="Activation Settings">
-                <div if:true={setupComplete} class="stripe-settings__item slds-grid">
+            <lightning-accordion-section if:true={setupComplete} name="Activation" label="Activation Settings">
+                <div class="stripe-settings__item slds-grid">
                     <div class="slds-col_bump-right">
                         <h4 class="slds-text-heading_small slds-m-bottom_xx-small">
-                            Integration Enabled
+                            Live Syncing
                         </h4>
                         <p>
-                            The current active status for the Stripe Billing Connector. The default working state is 'Enabled', which allows order processing to proceed normally. Disabling the integration will halt all order processing.
+                            Enable or disable the realtime syncing of orders to Stripe. Disabling this will effectively pause your integration, while allowing you to still use the manual translation features below.
                         </p>
                     </div>
                     <div class="slds-col slds-p-left_xx-large slds-size_1-of-3 slds-text-align_right">
                         <lightning-input type="toggle"
-                                         label="Integration Enabled"
+                                         label="Syncing Enabled"
                                          variant="label-hidden"
-                                         checked={isConfigEnabled}
+                                         checked={pollingEnabled}
                                          message-toggle-active=""
                                          message-toggle-inactive=""
                                          class="stripe-input_enable-integration slds-show_inline-block"
-                                         onchange={updateEnabledStatus}>
+                                         onchange={updatePollingEnabled}>
                         </lightning-input>
                     </div>
                 </div>
@@ -38,7 +39,21 @@
                     </div>
                 </div>
 
-                <div if:true={setupComplete} class="stripe-settings__item slds-grid">
+                <div class="stripe-settings__item slds-grid">
+                    <div class="slds-col_bump-right">
+                        <h4 class="slds-text-heading_small slds-m-bottom_xx-small">
+                            Sync Start Date
+                        </h4>
+                        <p>
+                            The date on which Stripe data will begin syncing with Salesforce. This setting is progressive, meaning all relevant data from this date moving forward will be synced, while any data before the specified date will be ignored.
+                        </p>
+                    </div>
+                    <div class="slds-col slds-p-left_xx-large slds-size_1-of-3">
+                        <lightning-input label="Sync Start Date" type="date" date-style="short" variant="label-hidden" value={syncStartDate} onchange={updateSyncStartDate} placeholder="Select Sync Start Date..." disabled={hasSynced}></lightning-input>
+                    </div>
+                </div>
+
+                <div class="stripe-settings__item slds-grid">
                     <div class="slds-col_bump-right">
                         <h4 class="slds-text-heading_small slds-m-bottom_xx-small">
                             Last Synced
@@ -82,20 +97,6 @@
                         <div class="slds-text-title slds-m-top_xx-small slds-p-left_xx-small">
                             Max 1,000,000 records, min 100 records
                         </div>
-                    </div>
-                </div>
-
-                <div class="stripe-settings__item slds-grid">
-                    <div class="slds-col_bump-right">
-                        <h4 class="slds-text-heading_small slds-m-bottom_xx-small">
-                            Sync Start Date
-                        </h4>
-                        <p>
-                            The date on which Stripe data will begin syncing with Salesforce. This setting is progressive, meaning all relevant data from this date moving forward will be synced, while any data before the specified date will be ignored.
-                        </p>
-                    </div>
-                    <div class="slds-col slds-p-left_xx-large slds-size_1-of-3">
-                        <lightning-input label="Sync Start Date" type="date" date-style="short" variant="label-hidden" value={syncStartDate} onchange={updateSyncStartDate} placeholder="Select Sync Start Date..."></lightning-input>
                     </div>
                 </div>
 
@@ -299,7 +300,7 @@
             onclick={hideProductSyncModal}></lightning-button>
         <lightning-button slot="footer" label="Sync All Products" variant="brand" class="slds-button"
             onclick={syncProducts}></lightning-button>
-        </c-modal>
+    </c-modal>
 
     <c-modal class="stripe-modal_pricebook-sync" title="Sync All Pricebooks">
         <p class="slds-text-align_center">
@@ -311,17 +312,6 @@
             onclick={hidePricebookSyncModal}></lightning-button>
         <lightning-button slot="footer" label="Sync All Pricebooks" variant="brand" class="slds-button"
             onclick={syncPricebooks}></lightning-button>
-        </c-modal>
-        <!-- /Manual Sync Confirmation Modals -->
-
-    <c-modal class="stripe-modal_disable-integration" title="Confirm Disable Integration"
-        onmodalclose={disableIntegrationCancel}>
-        <p class="slds-text-align_center">
-            Disabling the integration will halt all order processing. Are you sure you want to continue?
-        </p>
-        <lightning-button slot="footer" label="Cancel" variant="neutral" class="slds-button"
-            onclick={disableIntegrationCancel}></lightning-button>
-        <lightning-button slot="footer" label="Disable Integration" variant="destructive" class="slds-button"
-            onclick={disableIntegrationConfirm}></lightning-button>
-        </c-modal>
+    </c-modal>
+    <!-- /Manual Sync Confirmation Modals -->
 </template>

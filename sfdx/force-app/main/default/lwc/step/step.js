@@ -13,6 +13,7 @@ export default class SetupStep extends LightningElement {
     @api illustrationUrl = '';
     @api loading = false;
     @track _showIntro;
+    @track useStandardFooter = true;
     
     @api 
     get showIntro() {
@@ -54,5 +55,9 @@ export default class SetupStep extends LightningElement {
             bubbles: true,
             composed: true
         }));
+    }
+
+    handleFooterSlotChange() {
+        this.useStandardFooter = false;
     }
 }
