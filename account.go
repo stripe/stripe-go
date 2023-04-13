@@ -371,6 +371,12 @@ type AccountCapabilitiesPayNowPaymentsParams struct {
 	Requested *bool `form:"requested"`
 }
 
+// The paypal_payments capability.
+type AccountCapabilitiesPaypalPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
 // The promptpay_payments capability.
 type AccountCapabilitiesPromptPayPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
@@ -481,6 +487,8 @@ type AccountCapabilitiesParams struct {
 	P24Payments *AccountCapabilitiesP24PaymentsParams `form:"p24_payments"`
 	// The paynow_payments capability.
 	PayNowPayments *AccountCapabilitiesPayNowPaymentsParams `form:"paynow_payments"`
+	// The paypal_payments capability.
+	PaypalPayments *AccountCapabilitiesPaypalPaymentsParams `form:"paypal_payments"`
 	// The promptpay_payments capability.
 	PromptPayPayments *AccountCapabilitiesPromptPayPaymentsParams `form:"promptpay_payments"`
 	// The sepa_debit_payments capability.
@@ -940,6 +948,8 @@ type AccountCapabilities struct {
 	P24Payments AccountCapabilityStatus `json:"p24_payments"`
 	// The status of the paynow payments capability of the account, or whether the account can directly process paynow charges.
 	PayNowPayments AccountCapabilityStatus `json:"paynow_payments"`
+	// The status of the PayPal payments capability of the account, or whether the account can directly process PayPal charges.
+	PaypalPayments AccountCapabilityStatus `json:"paypal_payments"`
 	// The status of the promptpay payments capability of the account, or whether the account can directly process promptpay charges.
 	PromptPayPayments AccountCapabilityStatus `json:"promptpay_payments"`
 	// The status of the SEPA Direct Debits payments capability of the account, or whether the account can directly process SEPA Direct Debits charges.
