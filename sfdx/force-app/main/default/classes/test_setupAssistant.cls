@@ -636,10 +636,8 @@ public with sharing class test_setupAssistant {
                 res.setStatusCode(200);
             }
             if(req.getEndpoint().endsWith('post-install')) {
-                List<Setup_Connection_Data__mdt> setupConfigList = [SELECT Global_Key__c
-                                                                    FROM Setup_Connection_Data__mdt];
-                if(!setupConfigList.isEmpty()) {
-                    System.assertEquals(req.getHeader('Salesforce-Key'), setupConfigList[0].Global_Key__c);
+                if(!utilities.setupConfigMetadata.isEmpty()) {
+                    System.assertEquals(req.getHeader('Salesforce-Key'), utilities.setupConfigMetadata[0].Global_Key__c);
                 } else {
                     System.assertEquals(req.getHeader('Salesforce-Key'), 'testGlobalGUID');
                 }
