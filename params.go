@@ -215,6 +215,7 @@ func (p *Params) AddExtra(key, value string) {
 	p.Extra.Add(key, value)
 }
 
+// AddMetadata is deprecated.
 // Deprecated: please use .AddMetadata of the containing Params struct.
 func (p *Params) AddMetadata(key, value string) {
 	if p.Metadata == nil {
