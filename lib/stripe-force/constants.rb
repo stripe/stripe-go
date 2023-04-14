@@ -215,6 +215,7 @@ module StripeForce
         AUTO_ADVANCE_PRORATION_INVOICE = new('auto_advance_proration_invoices')
         PREBILLING = new('prebilling')
         BACKDATED_AMENDMENTS = new('backdated_amendments')
+        INVOICE_RENDERING_TEMPLATE = new('invoice_rendering_template')
       end
     end
 

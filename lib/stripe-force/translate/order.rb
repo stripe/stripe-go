@@ -354,13 +354,12 @@ class StripeForce::Translate
 
     subscription_schedule = T.cast(subscription_schedule, Stripe::SubscriptionSchedule)
 
-    # TODO we should short-circuit our logic here sooner, but for now let's just track this in the logs sooner
     if subscription_schedule.status == "canceled"
       Integrations::ErrorContext.report_edge_case('subscription is cancelled, it cannot be modified')
     end
 
     # at this point, the initial order would have already been translated
-    # and a corresponding subscription schedule created.
+    # and a corresponding subscription schedule created
 
     # verify that all the amendment orders co-terminate with the initial order
     if !OrderAmendment.contract_co_terminated?(mapper, contract_structure)
@@ -454,7 +453,6 @@ class StripeForce::Translate
       sf_order_amendment_start_date_as_timestamp = StripeForce::Utilities::SalesforceUtil.salesforce_date_to_unix_timestamp(string_start_date_from_salesforce)
       phase_params['start_date'] = sf_order_amendment_start_date_as_timestamp
 
-      # TODO check for float value
       # TODO should probably move iteration extraction to another helper
       subscription_term_from_salesforce = phase_params.delete('iterations').to_i
 
@@ -649,6 +647,18 @@ class StripeForce::Translate
       subscription_phases = OrderAmendment.delete_past_phases(@user, stripe_customer_id, subscription_phases)
 
       # TODO add a "merge equal phases"
+
+      # note: we do not currently map to the subscription schedule (again) when there is an amendment order
+      # but a different invoice_rendering_template could be used between the initial and amendment order
+      # therefore extract the mapped values again
+      if @user.feature_enabled?(StripeForce::Constants::FeatureFlags::INVOICE_RENDERING_TEMPLATE)
+        invoice_rendering_template = StripeForce::Utilities::SalesforceUtil.extract_optional_fields_from_order(mapper, sf_order_amendment, ['subscription_schedule', 'default_settings.invoice_settings.rendering.template'])
+
+        if !invoice_rendering_template.nil?
+          invoice_rendering_template_version = StripeForce::Utilities::SalesforceUtil.extract_optional_fields_from_order(mapper, sf_order_amendment, ['subscription_schedule', 'default_settings.invoice_settings.rendering.template_version'])
+          subscription_schedule[:default_settings][:invoice_settings][:rendering] = {"template": invoice_rendering_template, "template_version": invoice_rendering_template_version}
+        end
+      end
 
       # NOTE intentional decision here NOT to update any other subscription fields
       catch_errors_with_salesforce_context(secondary: sf_order_amendment) do

@@ -244,6 +244,25 @@ module StripeForce::Utilities
       salesforce_date_to_beginning_of_day(T.must(cpq_quote_end_date)) + 1.day
     end
 
+    sig { params(mapper: StripeForce::Mapper, sf_order: Restforce::SObject, stripe_path: T::Array[String]).returns(T.nilable(String)) }
+    def self.extract_optional_fields_from_order(mapper, sf_order, stripe_path)
+      user = mapper.user
+
+      # check field_defaults first
+      static_value = user.field_defaults.dig(*stripe_path)
+      if static_value.present?
+        return static_value
+      end
+
+      # then check field_mappings
+      mapped_order_path = user.field_mappings.dig(*stripe_path)
+      if mapped_order_path.present?
+        return T.cast(mapper.extract_key_path_for_record(sf_order, mapped_order_path), T.nilable(String))
+      end
+
+      nil
+    end
+
     # https://help.salesforce.com/s/articleView?id=sf.cpq_subscription_terms.htm&type=5
     sig { params(mapper: StripeForce::Mapper, sf_order_item: Restforce::SObject, sf_order: Restforce::SObject).returns(Integer) }
     def self.determine_quote_line_subscription_term(mapper, sf_order_item, sf_order)

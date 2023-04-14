@@ -316,6 +316,11 @@ module StripeForce
         hidden_mapper_fields << "subscription_schedule.prebilling.iterations"
       end
 
+      if !feature_enabled?(FeatureFlags::INVOICE_RENDERING_TEMPLATE)
+        hidden_mapper_fields << "subscription_schedule.default_settings.invoice_settings.rendering.template"
+        hidden_mapper_fields << "subscription_schedule.default_settings.invoice_settings.rendering.template_version"
+      end
+
       hidden_mapper_fields
     end
 

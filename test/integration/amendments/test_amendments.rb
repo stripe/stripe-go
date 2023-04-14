@@ -1043,6 +1043,68 @@ class Critic::OrderAmendmentTranslation < Critic::OrderAmendmentFunctionalTest
     end
   end
 
+  describe 'invoice rendering template' do
+    it 'updates the invoice rendering template for an amendment order' do
+      @user.enable_feature(StripeForce::Constants::FeatureFlags::INVOICE_RENDERING_TEMPLATE)
+      # setup
+      contract_term = 12
+      amendment_term = 11
+      initial_order_start_date = now_time
+      amendment_start_date = initial_order_start_date + (contract_term - amendment_term).months
+      invoice_rendering_template_id = create_invoice_rendering_template
+
+      @user.field_defaults = {
+        "subscription_schedule" => {
+          "default_settings.invoice_settings.rendering.template" => invoice_rendering_template_id,
+        },
+      }
+      @user.save
+
+      # create and translate a Salesforce initial order
+      sf_product_id, _sf_pricebook_entry_id = salesforce_recurring_product_with_price
+      sf_account_id = create_salesforce_account
+      sf_order = create_salesforce_order(
+        sf_product_id: sf_product_id,
+        sf_account_id: sf_account_id,
+
+        additional_quote_fields: {
+          CPQ_QUOTE_SUBSCRIPTION_START_DATE => now_time_formatted_for_salesforce,
+          CPQ_QUOTE_SUBSCRIPTION_TERM => TEST_DEFAULT_CONTRACT_TERM,
+        }
+      )
+
+      SalesforceTranslateRecordJob.translate(@user, sf_order)
+      sf_order.refresh
+
+      # fetch the generated subscription and verify the invoice rendering template is set
+      stripe_id = sf_order[prefixed_stripe_field(GENERIC_STRIPE_ID)]
+      subscription_schedule = Stripe::SubscriptionSchedule.retrieve(stripe_id, @user.stripe_credentials)
+      assert_equal(invoice_rendering_template_id, subscription_schedule.default_settings.invoice_settings.rendering.template)
+
+      # update the template
+      @user.field_defaults = {
+        "subscription_schedule" => {
+          "default_settings.invoice_settings.rendering.template" => 'invalid_id',
+        },
+      }
+      @user.save
+
+      # create an amendment order and translate
+      sf_contract = create_contract_from_order(sf_order)
+      amendment_data = create_quote_data_from_contract_amendment(sf_contract)
+      amendment_data["lineItems"].first["record"][CPQ_QUOTE_QUANTITY] = 2
+      amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_START_DATE] = format_date_for_salesforce(amendment_start_date)
+      amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_TERM] = amendment_term
+      sf_order_amendment = create_order_from_quote_data(amendment_data)
+
+      # translate the sf amendment
+      template_does_not_exist_error = assert_raises(Stripe::InvalidRequestError) do
+        StripeForce::Translate.perform_inline(@user, sf_order_amendment.Id)
+      end
+      assert_match('no such invoice rendering template', template_does_not_exist_error.message.downcase)
+    end
+  end
+
   describe 'custom order filters' do
     it 'does not translate an amendment order if it does not meet user\'s custom filters' do
       # setup

@@ -6,6 +6,7 @@ require_relative '../test_helper'
 class Critic::InvoiceRendering < Critic::FunctionalTest
   before do
     @user = make_user(save: true)
+    @user.enable_feature(StripeForce::Constants::FeatureFlags::INVOICE_RENDERING_TEMPLATE)
   end
 
   it 'translates a sf order with an invoice rendering template' do
