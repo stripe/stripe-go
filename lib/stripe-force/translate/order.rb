@@ -264,7 +264,6 @@ class StripeForce::Translate
       # we may need to do some weird phase merging because the initial order phase could be after the order amendment phase
 
       invoice_items_for_prorations = OrderAmendment.generate_proration_items_from_phase_items(
-        user: @user,
         mapper: mapper,
         sf_order_amendment: sf_order,
         phase_items: subscription_items,
@@ -510,8 +509,28 @@ class StripeForce::Translate
         )
       end
 
-      invoice_items_for_prorations = []
+      stripe_customer_id = T.cast(subscription_schedule.customer, String)
+      current_time = OrderAmendment.determine_current_time(@user, stripe_customer_id)
+      normalized_current_time = StripeForce::Utilities::SalesforceUtil.datetime_to_unix_timestamp(Time.at(current_time))
+      is_in_past = sf_order_amendment_start_date_as_timestamp < normalized_current_time
 
+      # determine if this is a backdated order since this has implications on how we prorate
+      backdated_billing_cycles = nil
+      if @user.feature_enabled?(StripeForce::Constants::FeatureFlags::BACKDATED_AMENDMENTS) && is_in_past
+        backdated_billing_cycles = 0
+        subscription_schedule_start = T.must(subscription_schedule.phases.first).start_date
+        next_billing_timestamp = StripeForce::Utilities::SalesforceUtil.datetime_to_unix_timestamp(Time.at(subscription_schedule_start))
+
+        # determine if a billing cycle has passed between the amendment start date and current time
+        while next_billing_timestamp <= normalized_current_time
+          if next_billing_timestamp > sf_order_amendment_start_date_as_timestamp
+            backdated_billing_cycles += 1
+          end
+          next_billing_timestamp += billing_frequency.months.to_i
+        end
+      end
+
+      invoice_items_for_prorations = []
       if !is_order_terminated && is_prorated
         # the subscription term represents the number of whole months
         # the days prorating represents the partial month (or days) remaining
@@ -546,13 +565,13 @@ class StripeForce::Translate
         end
 
         invoice_items_for_prorations = OrderAmendment.generate_proration_items_from_phase_items(
-          user: @user,
           mapper: mapper,
           sf_order_amendment: sf_order_amendment,
           phase_items: aggregate_phase_items,
           subscription_term: subscription_term,
           billing_frequency: billing_frequency,
-          days_prorating: days_prorating
+          days_prorating: days_prorating,
+          backdated_billing_cycles: backdated_billing_cycles,
         )
       end
 
@@ -586,23 +605,12 @@ class StripeForce::Translate
       # TODO dynamic metadata on the phase?
 
       # if the current day is the same day as the start day, then use 'now'
-      stripe_customer_id = T.cast(subscription_schedule.customer, String)
-      current_time = OrderAmendment.determine_current_time(@user, stripe_customer_id)
-      normalized_current_time = StripeForce::Utilities::SalesforceUtil.datetime_to_unix_timestamp(Time.at(current_time))
       is_same_day = normalized_current_time == new_phase.start_date
-      is_in_past = new_phase.start_date < normalized_current_time
-
       if is_same_day
         log.info 'phase starts on the current day, using now'
         new_phase.start_date = 'now'
       elsif @user.feature_enabled?(FeatureFlags::BACKDATED_AMENDMENTS) && is_in_past
         # if this is a backdated amendment, then use the current time to update the subscription schedule
-        # ensure a billing cycle has not passed since the backdated amendment and throw an error
-        # TODO in these cases, we should create a one-off invoice that accounts for this time period as well
-        if (normalized_current_time - new_phase.start_date) > billing_frequency.month.to_i
-          raise StripeForce::Errors::RawUserError.new('Unsupported backdated amendment. Attempted to sync a backdated amendment when a billing cycle has already passed')
-        end
-
         log.info 'backdated amendment, using now'
         new_phase.start_date = 'now'
       end

@@ -283,7 +283,9 @@ class StripeForce::Translate
 
     log.info 'translation success', {
       metric: 'translation.success',
+      stripe_account_id: @user.stripe_account_id,
       salesforce_account_id: @user.salesforce_account_id,
+      livemode: @user.livemode,
       salesforce_object_id: salesforce_object.Id,
       salesforce_object_type: salesforce_object.sobject_type,
     }

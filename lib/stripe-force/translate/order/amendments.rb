@@ -138,10 +138,11 @@ class StripeForce::Translate
         phase_item: ContractItemStructure,
         subscription_term: Integer,
         billing_frequency: Integer,
-        days_prorating: Integer
+        days_prorating: Integer,
+        backdated_billing_cycles: Integer
       ).returns(Stripe::Price)
     end
-    def self.create_prorated_price_from_phase_item(mapper:, phase_item:, subscription_term:, billing_frequency:, days_prorating:)
+    def self.create_prorated_price_from_phase_item(mapper:, phase_item:, subscription_term:, billing_frequency:, days_prorating:, backdated_billing_cycles:)
       # at this point, we know what the billing amount is per billing cycle, since that has already been defined
       # on the price object at the order line. We calculate the percentage of the original line price that should
       # be billed and multiply that against the decimal price on the stripe price.
@@ -152,6 +153,11 @@ class StripeForce::Translate
       sf_order_amendment = user.sf_client.find(SF_ORDER, sf_order_item["OrderId"])
       product_subscription_term = StripeForce::Utilities::SalesforceUtil.determine_quote_line_subscription_term(mapper, sf_order_item, sf_order_amendment)
       prorated_billing_amount = calculate_prorated_billing_amount(stripe_price: stripe_price, subscription_term: subscription_term, product_subscription_term: product_subscription_term, billing_frequency: billing_frequency, days_prorating: days_prorating)
+
+      # if the order is backdated and was synced after a billing cycle, we need to add the amount of the backdated billing cycle
+      if user.feature_enabled?(FeatureFlags::BACKDATED_AMENDMENTS) && backdated_billing_cycles > 0
+        prorated_billing_amount += stripe_price.unit_amount * backdated_billing_cycles
+      end
 
       proration_price = OrderHelpers.duplicate_stripe_price(user, stripe_price) do |duplicated_stripe_price|
         duplicated_stripe_price.metadata[StripeForce::Translate::Metadata.metadata_key(user, MetadataKeys::PRORATION)] = true
@@ -303,16 +309,17 @@ class StripeForce::Translate
 
     sig do
       params(
-        user: StripeForce::User,
         mapper: StripeForce::Mapper,
         sf_order_amendment: Restforce::SObject,
         phase_items: T::Array[ContractItemStructure],
         subscription_term: Integer,
         billing_frequency: Integer,
+        backdated_billing_cycles: T.nilable(Integer),
         days_prorating: Integer,
       ).returns(T::Array[T::Hash[Symbol, T.untyped]])
     end
-    def self.generate_proration_items_from_phase_items(user:, mapper:, sf_order_amendment:, phase_items:, subscription_term:, billing_frequency:, days_prorating: 0)
+    def self.generate_proration_items_from_phase_items(mapper:, sf_order_amendment:, phase_items:, subscription_term:, billing_frequency:, backdated_billing_cycles: nil, days_prorating: 0)
+      user = mapper.user
       invoice_items_for_prorations = []
 
       phase_items.each do |phase_item|
@@ -358,10 +365,10 @@ class StripeForce::Translate
         proration_price = OrderAmendment.create_prorated_price_from_phase_item(
           mapper: mapper,
           phase_item: phase_item,
-          # TODO is there a better way to source these variables? They are required in a couple
           subscription_term: subscription_term,
           billing_frequency: billing_frequency,
-          days_prorating: days_prorating
+          days_prorating: days_prorating,
+          backdated_billing_cycles: backdated_billing_cycles.nil? ? 0 : backdated_billing_cycles,
         )
 
         proration_stripe_item = Stripe::SubscriptionItem.construct_from({
@@ -372,16 +379,23 @@ class StripeForce::Translate
 
         mapper.apply_mapping(proration_stripe_item, phase_item.order_line)
 
+        # adjust the proration item dates if this order is backdated
+        # since the amendment start date is in the past (different) compared to the current time
+        proration_period_start = {type: 'phase_start'}
+        proration_period_end = {type: 'subscription_period_end'}
+        if !backdated_billing_cycles.nil?
+          amendment_start_date = StripeForce::Utilities::SalesforceUtil.extract_subscription_start_date_from_order(mapper, sf_order_amendment)
+          proration_period_start = {type: 'timestamp', timestamp: amendment_start_date.to_i}
+          # TODO this should be the user's current time
+          proration_period_end = {type: 'timestamp', timestamp: Time.now.utc.to_i}
+        end
+
         invoice_items_for_prorations << proration_stripe_item.to_hash.merge({
           quantity: phase_item.quantity,
           price: proration_price.id,
           period: {
-            end: {
-              type: 'subscription_period_end',
-            },
-            start: {
-              type: 'phase_start',
-            },
+            end: proration_period_end,
+            start: proration_period_start,
           },
         })
       end
