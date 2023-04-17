@@ -1180,7 +1180,7 @@ class Critic::OrderAmendmentTranslation < Critic::OrderAmendmentFunctionalTest
       # amendment order: starts 1 month later
       contract_term = 12
       amendment_term = 11
-      initial_order_start_date = Time.new(2023, 2, 15).utc.beginning_of_day
+      initial_order_start_date = now_time - 2.months - 1.day
       initial_order_end_date = initial_order_start_date + contract_term.months
       amendment_order_start_date = initial_order_start_date + (contract_term - amendment_term).months
       monthly_price = 24_00
@@ -1217,7 +1217,7 @@ class Critic::OrderAmendmentTranslation < Critic::OrderAmendmentFunctionalTest
 
       initial_invoice = invoices.first
       # three months of services
-      assert_equal(monthly_price * 2, initial_invoice.amount_due)
+      assert_equal(monthly_price * 3, initial_invoice.amount_due)
       assert_equal(1, initial_invoice.lines.data.length)
       initial_invoice.pay({'paid_out_of_band': true})
 
@@ -1285,7 +1285,7 @@ class Critic::OrderAmendmentTranslation < Critic::OrderAmendmentFunctionalTest
       proration_invoice_event = invoice_events[0]
       proration_invoice_data = proration_invoice_event.data.object
       assert_equal(1, proration_invoice_event.data.object.quantity)
-      assert_equal(monthly_price, proration_invoice_data.amount)
+      assert_equal(monthly_price * 2, proration_invoice_data.amount)
       assert_equal((monthly_price * amendment_term) / 100, sf_order_amendment["TotalAmount"])
       assert_equal("true", proration_invoice_data.metadata[StripeForce::Translate::Metadata.metadata_key(@user, MetadataKeys::PRORATION)])
     end

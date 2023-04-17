@@ -156,7 +156,7 @@ class StripeForce::Translate
 
       # if the order is backdated and was synced after a billing cycle, we need to add the amount of the backdated billing cycle
       if user.feature_enabled?(FeatureFlags::BACKDATED_AMENDMENTS) && backdated_billing_cycles > 0
-        prorated_billing_amount += stripe_price.unit_amount * backdated_billing_cycles
+        prorated_billing_amount += stripe_price.unit_amount_decimal.to_d * backdated_billing_cycles
       end
 
       proration_price = OrderHelpers.duplicate_stripe_price(user, stripe_price) do |duplicated_stripe_price|
