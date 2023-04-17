@@ -160,8 +160,6 @@ class StripeForce::Translate
 
       new_stripe_price = Stripe::Price.create(
         stripe_price.to_hash,
-        # there is no corresponding SF object here to generate an idempotency key with
-        # and there ~no risk if create multiple prices in an extreme edge case (dropped network request, etc)
         user.stripe_credentials
       )
 

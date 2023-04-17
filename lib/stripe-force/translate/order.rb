@@ -185,7 +185,7 @@ class StripeForce::Translate
 
     subscription_schedule = Stripe::SubscriptionSchedule.create(
       subscription_schedule.to_hash,
-      StripeForce::Utilities::StripeUtil.generate_idempotency_key_with_credentials(@user, sf_order)
+      @user.stripe_credentials
     )
 
     log.info 'stripe subscription schedule created', stripe_subscription_schedule_id: subscription_schedule.id
@@ -679,7 +679,7 @@ class StripeForce::Translate
               invoice_now: false,
               prorate: false,
             },
-            StripeForce::Utilities::StripeUtil.generate_idempotency_key_with_credentials(@user, sf_order_amendment, :cancel)
+            @user.stripe_credentials
           )
         else
           log.info 'adding phase',
@@ -697,7 +697,7 @@ class StripeForce::Translate
           # `none` is really important to ensure that the user is not billed by stripe for any prorated amounts
           subscription_schedule.proration_behavior = 'none'
           subscription_schedule.phases = final_subscription_phases
-          subscription_schedule.save({}, StripeForce::Utilities::StripeUtil.generate_idempotency_key_with_credentials(@user, sf_order_amendment))
+          subscription_schedule.save({}, @user.stripe_credentials)
         end
       end
 

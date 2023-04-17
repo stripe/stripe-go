@@ -379,12 +379,6 @@ module StripeForce
       Digest::SHA1.hexdigest(mappings_as_string + selective_configuration_json)
     end
 
-    # used for the idempotency key generation
-    def mapping_hash
-      mappings_as_string = self.field_defaults.to_json + self.field_mappings.to_json
-      Digest::SHA1.hexdigest(mappings_as_string)
-    end
-
     def user_specified_where_clause_for_object(poll_type)
       custom_query = self.connector_settings.dig("filters", poll_type)
 

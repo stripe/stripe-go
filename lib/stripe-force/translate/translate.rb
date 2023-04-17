@@ -438,7 +438,7 @@ class StripeForce::Translate
     created_stripe_object = catch_errors_with_salesforce_context(secondary: sf_object) do
       stripe_class.create(
         stripe_object.to_hash,
-        StripeForce::Utilities::StripeUtil.generate_idempotency_key_with_credentials(@user, sf_object)
+        @user.stripe_credentials
       )
     end
 

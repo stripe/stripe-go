@@ -137,7 +137,7 @@ class StripeForce::Translate
     new_price = catch_errors_with_salesforce_context(secondary: sf_object) do
       Stripe::Price.create(
         stripe_price.to_hash,
-        StripeForce::Utilities::StripeUtil.generate_idempotency_key_with_credentials(@user, sf_object)
+        @user.stripe_credentials
       )
     end
 
