@@ -3,14 +3,9 @@
         <div class="slds-col slds-border_right slds-no-flex" style="width: 210px;">
             <lightning-vertical-navigation selected-item={activeObject} onselect={changeActiveObject} >
                 <lightning-vertical-navigation-section label="Stripe Objects">
-                    <lightning-vertical-navigation-item label="Customer" name="customer"></lightning-vertical-navigation-item>
-                    <lightning-vertical-navigation-item label="Subscription Schedule" name="subscriptionSchedule"></lightning-vertical-navigation-item>
-                    <lightning-vertical-navigation-item label="Subscription Phase" name="subscriptionPhase"></lightning-vertical-navigation-item>
-                    <lightning-vertical-navigation-item label="Subscription Item" name="subscriptionItem"></lightning-vertical-navigation-item>
-                    <lightning-vertical-navigation-item label="Product" name="product"></lightning-vertical-navigation-item>
-                    <lightning-vertical-navigation-item label="Price" name="price"></lightning-vertical-navigation-item>
-                    <lightning-vertical-navigation-item label="Price (Order Item)" name="priceOrderItem"></lightning-vertical-navigation-item>
-                    <lightning-vertical-navigation-item label="Coupon" name="coupon"></lightning-vertical-navigation-item>
+                    <template for:each={menuItems} for:item="item">
+                        <lightning-vertical-navigation-item if:false={item.hidden} key={item.object} label={item.label} name={item.name}></lightning-vertical-navigation-item>
+                    </template>
                 </lightning-vertical-navigation-section>
             </lightning-vertical-navigation>
         </div>
@@ -49,7 +44,7 @@
                 active-section-name={activeStripeObjectSections}
                 allow-multiple-sections-open>
                 <template for:each={activeStripeObjectMappings} for:item="section" for:index="sectionIndex">
-                    <lightning-accordion-section name={section.name} label={section.label} key={section.name} data-index={sectionIndex} class="slds-p-vertical_small">
+                    <lightning-accordion-section if:false={section.hidden} name={section.name} label={section.label} key={section.name} data-index={sectionIndex} class="slds-p-vertical_small">
                         <table class="stripe-table_mapping slds-table slds-no-row-hover slds-table_bordered slds-table_cell-buffer">
                             <thead>
                                 <tr class="slds-line-height_reset">
@@ -66,7 +61,7 @@
                             </thead>
                             <tbody>
                                 <template for:each={section.fields} for:item="field" for:index="fieldIndex">
-                                    <tr key={field.value} data-index={fieldIndex} data-section-name={section.name} data-field-name={field.name}>
+                                    <tr if:false={field.hidden} key={field.value} data-index={fieldIndex} data-section-name={section.name} data-field-name={field.name}>
                                         <td>
                                             <div class="slds-truncate slds-text-heading_small">{field.name} <span class="slds-badge slds-m-left_xx-small">{field.type}</span></div>
                                             <p class="slds-text-title slds-m-top_x-small">

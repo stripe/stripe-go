@@ -39,7 +39,7 @@ export default class DataMappingStep extends LightningElement {
      */
 
     friendlyStripeObjectName = 'Customer';
-    activeObject = 'customer';
+    @track activeObject = 'customer';
     activeObjectDescription;
     activeObjectAlerts;
     staticValue;
@@ -50,6 +50,17 @@ export default class DataMappingStep extends LightningElement {
     configurationHash;
     contentLoading = new CustomEvent('contentloading');
     contentLoadingComplete = new CustomEvent('contentloadingcomplete');
+
+    MENU = [
+        { object: "customer", name: "customer", label: "Customer", hidden: false },
+        { object: "subscription_schedule", name: "subscriptionSchedule", label: "Subscription Schedule", hidden: false },
+        { object: "subscription_phase", name: "subscriptionPhase", label: "Subscription Phase", hidden: false },
+        { object: "subscription_item", name: "subscriptionItem", label: "Subscription Item", hidden: false },
+        { object: "product", name: "product", label: "Product", hidden: false },
+        { object: "price", name: "price", label: "Price", hidden: false },
+        { object: "price_order_item", name: "priceOrderItem", label: "Price (Order Item)", hidden: false },
+        { object: "coupon", name: "coupon", label: "Coupon", hidden: false },
+    ]
 
     ACTIVE_OBJECT_INFO = {
         "customer": {
@@ -99,6 +110,7 @@ export default class DataMappingStep extends LightningElement {
             description: 'Coupons contain information about a percent-off or amount-off discount you might want to apply to a subscription or subscription item.'
         },
     }
+    @track hiddenMapperFields = [];
     @track sfFieldOptions = [];
     @track customerMappings;
     @track productMappings;
@@ -111,8 +123,6 @@ export default class DataMappingStep extends LightningElement {
     @track fieldListByObjectMap;
     // allMappingConfigurations holds all mappings retrieved from ruby, value is set in `getMappingConfigurations`
     @track allMappingConfigurations;
-    @track activeStripeObjectMappings;
-    @track activeStripeObjectMetadataFields;
 
     // allMappingList is used to retrieve and send all user mappings `saveMappingConfigurations` 
     @track allMappingList = {
@@ -134,8 +144,6 @@ export default class DataMappingStep extends LightningElement {
     @track priceOrderItemMetadataFields = blankMetadataMapping();
     @track couponMetadataFields = blankMetadataMapping();
 
-    @track activeStripeObjectMappings = this.customerMappings;
-    @track activeStripeObjectMetadataFields = this.customerMetadataFields;
     @track activeStripeObjectSections;
 
     get hasActiveAlerts() {
@@ -166,8 +174,12 @@ export default class DataMappingStep extends LightningElement {
         this[activeObjectName + 'MetadataFields'] = parsedVal;
     }
 
+    get menuItems() {
+        return this.applyHiddenMapperFieldDataToTopLevel(this.MENU);
+    }
+
     get listOfStripeMappingObjects() {
-        return [
+        return this.applyHiddenMapperFieldDataToTopLevel([
             {
                 object: 'customer',
                 mappingsObject: this.customerMappings,
@@ -208,7 +220,7 @@ export default class DataMappingStep extends LightningElement {
                 mappingsObject: this.couponMappings, 
                 metadataMappingsObject: this.couponMetadataFields
             }
-        ];
+        ]);
     } 
 
     valueChange() {
@@ -543,8 +555,6 @@ export default class DataMappingStep extends LightningElement {
         this.defaultSfObject = objectName;
         this.fieldListByObjectMap[objectName].sort(this.mapperFieldSorter);
         this.sfFieldOptions = this.fieldListByObjectMap[objectName];
-        this.activeStripeObjectMappings = this[this.activeObject + 'Mappings'];
-        this.activeStripeObjectMetadataFields = this[this.activeObject + METADATAFIELDS];
     }
 
     // Open 'Metadata' mapping section if metadata mappings exist
@@ -596,7 +606,7 @@ export default class DataMappingStep extends LightningElement {
             this.priceOrderItemMappings = responseData.results.formattedStripePriceOrderItemFields;
             this.couponMappings = responseData.results.formattedStripeCouponFields;
 
-            this.getPicklistValuesForMapper(true, '', false);
+            await this.getPicklistValuesForMapper(true, '', false);
         } catch (error) {
             const errorMessage = getErrorMessage(error);
             this.showToast(errorMessage, 'error');
@@ -604,8 +614,7 @@ export default class DataMappingStep extends LightningElement {
             this.activeObject = 'customer';
             this.activeObjectDescription = this.ACTIVE_OBJECT_INFO[this.activeObject]['description'];
             this.activeObjectAlerts = this.ACTIVE_OBJECT_INFO[this.activeObject]['alerts'];
-            this.activeStripeObjectMappings = this.customerMappings;
-            this.activeStripeObjectMetadataFields = this.customerMetadataFields;
+            // console.log('activeMappings', JSON.parse(JSON.stringify(this.activeStripeObjectMappings)));
         }
     }
 
@@ -658,8 +667,10 @@ export default class DataMappingStep extends LightningElement {
             }
 
             this.configurationHash = mappingConfigurationResponseData.results.configurationHash;
+            this.hiddenMapperFields = mappingConfigurationResponseData.results.hiddenMapperFields;
+            // console.log('hiddenMapperFields', JSON.parse(JSON.stringify(this.hiddenMapperFields)));
             this.allMappingConfigurations = mappingConfigurationResponseData.results.allMappingConfigurations;
-           
+            // console.log('listOfStripeMappingObjects', JSON.parse(JSON.stringify(this.listOfStripeMappingObjects)));
             for (const mappingContainer of this.listOfStripeMappingObjects) {
                 this.setFieldMappings(mappingContainer.object, mappingContainer.mappingsObject, mappingContainer.metadataMappingsObject.metadataMapping.fields);
             }
@@ -675,6 +686,116 @@ export default class DataMappingStep extends LightningElement {
             this.dispatchEvent(this.contentLoadingComplete);
             if(targetElement) targetElement.dropdownLoading = false;
         }
+    }
+
+    get activeObjectSnakeCase() {
+        return this.activeObject.replace(/[A-Z]/g, letter => `_${letter.toLowerCase()}`);
+    }
+
+    get activeStripeObjectMetadataFields() {
+        return this[this.activeObject + 'MetadataFields'];
+    }
+
+    get activeStripeObjectMappings() {
+        return this.applyHiddenMapperFieldDataToCategories(this.activeObjectSnakeCase, this[this.activeObject + 'Mappings']);
+    }
+
+    applyHiddenMapperFieldDataToCategories(objectName, mappingObjs) {
+        const segments = this.hiddenMapperFieldSegments;
+        // console.log('segments.paths', segments.paths);
+        if (segments.paths.length === 0) {
+            return mappingObjs;
+        }
+
+        const paths = this.getHiddenMapperFieldPathsForObject(objectName, segments.paths);
+        // console.log('paths', paths);
+
+        if (paths.length === 0) {
+            return mappingObjs;
+        }
+
+        for (let i = 0; i < mappingObjs.length; i++) {
+            mappingObjs[i].hidden = paths.indexOf(mappingObjs[i].name) !== -1;
+            if (mappingObjs[i].hidden) {
+                continue;
+            }
+
+            this.applyHiddenMapperFieldDataToFieldLevel(mappingObjs[i], paths);
+        }
+
+        return mappingObjs;
+    }
+
+    applyHiddenMapperFieldDataToFieldLevel(section, paths) {
+        for (let i = 0; i < section.fields.length; i++) {
+            const field = section.fields[i];
+            // handles standard object.section.field format
+            const check1 = section.name + '.' + field.value;
+            // console.log('check1', check1);
+            field.hidden = paths.indexOf(check1) !== -1
+            const fieldSegment = field.value.indexOf('.');
+            if (field.hidden === false && fieldSegment !== -1) {
+                const sectionEmbed = field.value.indexOf(section.name + '.');
+                if (sectionEmbed !== -1) {
+                    // handles subscription_schedule billing_thresholds default_settings.billing_thresholds.amount_gte
+                    //   referenced as subscription_schedule.billing_thresholds.amount_gte
+                    // handles subscription_schedule prebilling prebilling.iterations
+                    //   referenced as subscription_schedule.prebilling.iterations
+                    const check2 = section.name + field.value.substring(sectionEmbed + section.name.length);
+                    // console.log('check2', check2);
+                    field.hidden = paths.indexOf(check2) !== -1;
+                }
+            }
+        }
+    }
+
+    applyHiddenMapperFieldDataToTopLevel(mappingObjs) {
+        const segments = this.hiddenMapperFieldSegments;
+
+        if (Object.keys(segments.objects).length === 0) {
+            return mappingObjs;
+        }
+
+        for (let i = 0; i < mappingObjs.length; i++) {
+            const mappingObj = mappingObjs[i];
+            mappingObj.hidden = segments.objects[mappingObj.object];
+        }
+        return mappingObjs;
+    }
+
+    /**
+     *
+     * @param {string} objectName
+     * @param {Array<string>} paths
+     * @return {Array<string>}
+     */
+    getHiddenMapperFieldPathsForObject(objectName, paths) {
+        const found = [];
+        const match = objectName + '.';
+        for (let i = 0; i < paths.length; i++) {
+            // console.log('check', match, paths[0]);
+            if (paths[i].indexOf(match) === 0) {
+                found.push(paths[i].substring(match.length));
+            }
+        }
+        return found;
+    }
+
+    /**
+     *
+     * @returns {{objects: Object<string, boolean>, paths: Array<string>}}
+     */
+    get hiddenMapperFieldSegments() {
+        const ret = { objects: {}, paths: [] };
+        for (let i = 0; i < this.hiddenMapperFields.length; i++) {
+            if (this.hiddenMapperFields[i].indexOf('.') === -1) {
+                ret.objects[this.hiddenMapperFields[i]] = true;
+            } else {
+                ret.paths.push(this.hiddenMapperFields[i]);
+            }
+        }
+
+        return ret;
     }
 
     setFieldMappings(stripeObject, stripeObjectMap, metadataFieldList) {

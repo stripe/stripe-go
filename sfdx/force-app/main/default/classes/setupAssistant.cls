@@ -286,7 +286,12 @@ public with sharing class setupAssistant {
                     }
                     rd.put('allMappingConfigurations', allMappingConfigurations);
 
-                    rd.put('hiddenMapperFields', getListFieldFromPayload('hidden_mapper_fields', responseBody));
+                    List<String> hiddenMapperFields = getListFieldFromPayload('hidden_mapper_fields', responseBody);
+                    if (hiddenMapperFields == null) {
+                        rd.put('hiddenMapperFields', new List<String> { 'coupon', 'subscription_schedule.prebilling', 'customer.standard.coupon' });
+                    } else {
+                        rd.put('hiddenMapperFields', hiddenMapperFields);
+                    }
                 } else {
                     errorLogger.create('getMappingConfigurations', String.valueOf(response.getStatusCode()), (String)response.getStatus(), 'Failed to get mapping configuration from ruby service.');
                 }
@@ -415,20 +420,18 @@ public with sharing class setupAssistant {
         return rd.getJsonString();
     }
 
+    @TestVisible
     private static List<String> getListFieldFromPayload(String listKey, Map<String,Object> responseBody) {
         return getListFieldFromPayload(listKey, responseBody, true);
     }
 
+    @TestVisible
     private static List<String> getListFieldFromPayload(String listKey, Map<String,Object> responseBody, Boolean ensureList) {
         List<Object> respFields = (List<Object>) responseBody.get(listKey);
         List<String> respList = new List<String>();
 
         if (respFields == null) {
-            if (ensureList) {
-                return new List<String>();
-            } else {
-                return null;
-            }
+            return ensureList ? new List<String>() : null;
         }
 
         for (Object obj : respFields) {

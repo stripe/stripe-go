@@ -1,5 +1,29 @@
 @isTest
 public with sharing class test_setupAssistant {
+    @IsTest
+    static void testGetListFieldFromPayload() {
+        Map<String,Object> responseBody = new Map<String, Object> {
+            'empty' => new List<Object>(),
+            'some' => new List<Object> { 'A', 'B' }
+        };
+
+        List<String> nullRes = setupAssistant.getListFieldFromPayload('null', responseBody);
+        List<String> nullResRaw = setupAssistant.getListFieldFromPayload('null', responseBody, false);
+        List<String> someRes = setupAssistant.getListFieldFromPayload('some', responseBody);
+        List<String> emptyRes = setupAssistant.getListFieldFromPayload('empty', responseBody);
+
+        System.assertNotEquals(null, nullRes, 'null ref with ensured list is not null');
+        System.assertEquals(0, nullRes.size(), 'null ref with ensure list is empty');
+
+        System.assertEquals(null, nullResRaw, 'null ref without ensure list is null');
+
+        System.assertNotEquals(null, emptyRes, 'empty ref is not null');
+        System.assertEquals(0, emptyRes.size(), 'empty ref is empty');
+
+        System.assertNotEquals(null, someRes, 'some ref is not null');
+        System.assertEquals(2, someRes.size(), 'some ref is not empty');
+    }
+
     @isTest
     static public void testSetupAssistant_getSetupData() {
         setupAssistant.saveData(new Map<String, Object>(), false);
