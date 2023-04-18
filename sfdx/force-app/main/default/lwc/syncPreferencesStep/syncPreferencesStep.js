@@ -161,6 +161,7 @@ export default class SyncPreferencesStep extends LightningElement {
             }
             this.stripeAccountId = responseData.results.stripe_account_id;
             this.lastSynced = new Date(responseData.results.last_synced * 1000).toLocaleString(undefined, {year:'numeric', month:'numeric', day: '2-digit', hour: 'numeric', minute:'2-digit', timeZoneName:'short'});
+            this.isM = responseData.results.default_currency;
             this.defaultCurrency = responseData.results.default_currency;
             this.syncRecordRetention = responseData.results.sync_record_retention;
             this.syncStartDate = new Date(responseData.results.sync_start_date * 1000).toISOString();

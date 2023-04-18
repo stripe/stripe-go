@@ -354,10 +354,11 @@ public with sharing class setupAssistant {
                 
                 rd.put('enabled', (Boolean)responseBody.get('enabled'));
                 rd.put('configurationHash', (String)responseBody.get('configuration_hash'));
+                rd.put('default_currency', UserInfo.getDefaultCurrency());
+
                 Map<String, Object> settings = (Map<String,Object>)responseBody.get('settings');
 
                 List<String> settingsFields = new List<String> {
-                    'default_currency',
                     'sync_record_retention',
                     'sync_start_date',
                     'api_percentage_limit',
@@ -489,7 +490,7 @@ public with sharing class setupAssistant {
                         'api_percentage_limit' => apiPercentageLimit,
                         'sync_start_date' => syncStartDate,
                         'sync_record_retention' => syncRecordRetention,
-                        'default_currency' => defaultCurrency,
+                        'default_currency' => UserInfo.getDefaultCurrency(),
                         'multicurrency_enabled' => UserInfo.isMultiCurrencyOrganization(),
                         'cpq_term_unit' => cpqTermUnit
                     }

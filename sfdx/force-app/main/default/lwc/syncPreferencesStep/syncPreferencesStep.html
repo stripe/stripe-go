@@ -71,14 +71,16 @@
                 <div class="stripe-settings__item slds-grid">
                     <div class="slds-col_bump-right">
                         <h4 class="slds-text-heading_small slds-m-bottom_xx-small">
-                            Default Currency
+                            Billing Currency
                         </h4>
-                        <p>
-                            Currency to be used for Salesforce data being synced with Stripe. If multiple currencies are enabled in your Salesforce org, select the default currency from the list of currencies enabled in your org. This setting defaults to the default currency set in your org.
+                        <p if:false={isMultiCurrencyEnabled}>
+                            Currency to be used for Salesforce data being synced with Stripe. If you enable multiple currencies in your Salesforce organization, the currency specified on your price objects will be used.
+                        </p>
+                        <p if:true={isMultiCurrencyEnabled}>
+                            Your organization has multiple currency support enabled. The currency specified on your price objects will be used.
                         </p>
                     </div>
                     <div class="slds-col slds-p-left_xx-large slds-size_1-of-3">
-                        <c-picklist if:true={isMultiCurrencyEnabled} label="Default Currency" options={currencyOptions} variant="label-hidden" value={defaultCurrency} onselect={updateDefaultCurrency} placeholder="Select Default Currency..." searchable></c-picklist>
                         <lightning-input if:false={isMultiCurrencyEnabled} type="text" label="Default Currency" value={defaultCurrency} variant="label-hidden" placeholder="N/A" disabled></lightning-input>
                     </div>
                 </div>
