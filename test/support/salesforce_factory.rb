@@ -246,7 +246,7 @@ module Critic
         CPQ_PRODUCT_SUBSCRIPTION_TYPE => CPQProductSubscriptionTypeOptions::ONE_TIME,
       })
 
-      pricebook_entry_id = create_salesforce_price(sf_product_id: product_id)
+      pricebook_entry_id = create_salesforce_price(sf_product_id: product_id, price: price)
 
       [product_id, pricebook_entry_id]
     end

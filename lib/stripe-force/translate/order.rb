@@ -220,6 +220,14 @@ class StripeForce::Translate
       start_date_from_salesforce + subscription_term_from_salesforce.months
     )
 
+    billing_frequency = OrderAmendment.calculate_billing_frequency_from_phase_items(@user, subscription_items)
+
+    is_initial_order_backend_prorated, _is_initial_order_frontend_prorated = OrderHelpers.prorated_initial_order?(
+      phase_items: subscription_items,
+      subscription_term: subscription_term_from_salesforce,
+      billing_frequency: billing_frequency
+    )
+
     # TODO we should have a check to ensure all quantities are positive
     # TODO we should check if subscription is backddated, if it is, then we should only proceed if the user has a specific flag enabled
 
@@ -247,15 +255,7 @@ class StripeForce::Translate
       initial_phase[:proration_behavior] = 'none'
     end
 
-    billing_frequency = OrderAmendment.calculate_billing_frequency_from_phase_items(@user, subscription_items)
-
-    is_initial_order_prorated = OrderHelpers.prorated_initial_order?(
-      phase_items: subscription_items,
-      subscription_term: subscription_term_from_salesforce,
-      billing_frequency: billing_frequency
-    )
-
-    if is_initial_order_prorated
+    if is_initial_order_backend_prorated
       # create a new phase to store these items, this will be custom for the initial order
       # pull this '2nd phase creation' out into a separate method so we can use it on the amendment side of things for amendments
 
@@ -389,7 +389,7 @@ class StripeForce::Translate
     # of a backend order amendment, since that is what will cause the non-subscription (prorated) component of the contract
     # to be billed for.
 
-    is_initial_order_prorated = OrderHelpers.prorated_initial_order?(
+    is_initial_order_backend_prorated, _is_initial_order_frontend_prorated = OrderHelpers.prorated_initial_order?(
       phase_items: aggregate_phase_items,
       subscription_term: StripeForce::Utilities::SalesforceUtil.extract_subscription_term_from_order!(@mapper, contract_structure.initial),
       billing_frequency: OrderAmendment.calculate_billing_frequency_from_phase_items(@user, aggregate_phase_items)
@@ -399,7 +399,7 @@ class StripeForce::Translate
     #      this assumption explicit and error when we notice this is not the case
     subscription_phases = subscription_schedule.phases
 
-    if is_initial_order_prorated
+    if is_initial_order_backend_prorated
       backend_proration, subscription_phases = OrderAmendment.extract_backend_proration_phase(@user, subscription_phases)
     end
 
@@ -690,7 +690,7 @@ class StripeForce::Translate
             end_date: new_phase.end_date
 
           # we do NOT want the next amendment loop to use the version of subscription phases with the backend proration in place
-          final_subscription_phases = if is_initial_order_prorated
+          final_subscription_phases = if is_initial_order_backend_prorated
             OrderAmendment.inject_backend_proration(subscription_phases, backend_proration)
           else
             subscription_phases

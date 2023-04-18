@@ -14,25 +14,44 @@ class StripeForce::Translate
         phase_items: T::Array[ContractItemStructure],
         subscription_term: Integer,
         billing_frequency: Integer,
-      ).returns(T::Boolean)
+      ).returns(T::Array[T::Boolean])
     end
     def self.prorated_initial_order?(phase_items:, subscription_term:, billing_frequency:)
       log.info 'determining if initial order is prorated'
 
       if phase_items.empty?
         log.info 'no subscription items, cannot be prorated order'
-        return false
+        return false, false
       end
+
+      OrderHelpers.prorated_order?(subscription_term: subscription_term, billing_frequency: billing_frequency)
+    end
+
+    sig do
+      params(
+        subscription_term: Integer,
+        billing_frequency: Integer,
+      ).returns(T::Array[T::Boolean])
+    end
+    def self.prorated_order?(subscription_term:, billing_frequency:)
+      log.info 'determining if an order is prorated'
 
       # if the subscription term does not match the billing frequency of the stripe item, then there will be some proration
       if (subscription_term % billing_frequency) != 0
+
+        is_initial_order_backend_prorated = subscription_term > billing_frequency
+        is_initial_order_frontend_prorated = subscription_term < billing_frequency
+
         log.info 'billing frequency is not divisible by subscription term, assuming prorated initial order',
           subscription_term: subscription_term,
-          billing_frequency: billing_frequency
-        return true
+          billing_frequency: billing_frequency,
+          is_initial_order_backend_prorated: is_initial_order_backend_prorated,
+          is_initial_order_frontend_prorated: is_initial_order_frontend_prorated
+
+        return is_initial_order_backend_prorated, is_initial_order_frontend_prorated
       end
 
-      false
+      [false, false]
     end
 
     sig { params(subscription_schedule: Stripe::SubscriptionSchedule).returns(T::Array[T.any(Stripe::SubscriptionSchedulePhaseSubscriptionItem, Stripe::SubscriptionSchedulePhaseInvoiceItem)]) }

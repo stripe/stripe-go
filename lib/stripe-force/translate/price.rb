@@ -92,7 +92,7 @@ class StripeForce::Translate
     log.info 'existing price not found, creating new',
       sf_target_id: sf_target_for_stripe_price
 
-    stripe_price = create_price_from_sf_object(sf_target_for_stripe_price, sf_product, product)
+    stripe_price = create_price_from_sf_object(sf_target_for_stripe_price, sf_product, product, sf_order_item)
 
     # TODO remove once negative line items are supported
     return if !stripe_price
@@ -103,8 +103,8 @@ class StripeForce::Translate
   end
 
   # this method does NOT check for a pre-existing Stripe object linked to the incoming Salesforce records
-  sig { params(sf_object: Restforce::SObject, sf_product: Restforce::SObject, stripe_product: Stripe::Product).returns(T.nilable(Stripe::Price)) }
-  def create_price_from_sf_object(sf_object, sf_product, stripe_product)
+  sig { params(sf_object: Restforce::SObject, sf_product: Restforce::SObject, stripe_product: Stripe::Product, sf_order_item: T.nilable(Restforce::SObject)).returns(T.nilable(Stripe::Price)) }
+  def create_price_from_sf_object(sf_object, sf_product, stripe_product, sf_order_item=nil)
     if ![SF_ORDER_ITEM, SF_PRICEBOOK_ENTRY].include?(sf_object.sobject_type)
       raise ArgumentError.new("price can only be created from an order line or pricebook entry")
     end
@@ -126,6 +126,38 @@ class StripeForce::Translate
     stripe_price.product = stripe_product.id
     # to_h vs to_hash is important here: to_h returns a empty hash if NilClass
     stripe_price.metadata = (stripe_price['metadata'].to_h || {}).merge(Metadata.stripe_metadata_for_sf_object(@user, sf_object))
+
+    # Is this a subscription price? We only care about frontend proration for recurring prices
+    if sf_order_item && !stripe_price["recurring"].to_h.empty?
+      sf_order = cache_service.get_record_from_cache(SF_ORDER, sf_order_item["OrderId"])
+
+      # Get the term and billing frequency to calculate proration
+      subscription_term = StripeForce::Utilities::SalesforceUtil.extract_subscription_term_from_order!(@mapper, sf_order)
+      billing_frequency = StripeForce::Utilities::StripeUtil.billing_frequency_of_price_in_months(stripe_price)
+
+      _is_order_backend_prorated, is_order_frontend_prorated = OrderHelpers.prorated_order?(
+        subscription_term: subscription_term,
+        billing_frequency: billing_frequency
+      )
+
+      if is_order_frontend_prorated && @user.feature_enabled?(FeatureFlags::FRONTEND_PRORATIONS)
+        log.info 'prorating price due to frontend prorated order', subscription_term: subscription_term, billing_frequency: billing_frequency, sf_order: sf_order.Id
+
+        # Frontend Prorated Order (ie 9 month subscription on an annually billed item)
+        product_subscription_term = StripeForce::Utilities::SalesforceUtil.determine_quote_line_subscription_term(mapper, sf_order_item, sf_order)
+        prorated_billing_amount = OrderAmendment.calculate_prorated_billing_amount(
+          stripe_price: stripe_price,
+          subscription_term: subscription_term,
+          product_subscription_term: product_subscription_term,
+          billing_frequency: billing_frequency,
+          days_prorating: 0
+        )
+
+        stripe_price.unit_amount_decimal = prorated_billing_amount.round(MAX_STRIPE_PRICE_PRECISION).to_s("F")
+        stripe_price.metadata[StripeForce::Translate::Metadata.metadata_key(@user, MetadataKeys::FRONTEND_PRORATION)] = true
+      end
+    end
+
 
     # considered mapping SF pricebook ID to `lookup_key` but it's not *exactly* an external id and more presents a identifier
     # for an externall-used price so the "latest price" for a specific price-type can be used, probably in a website form or something
