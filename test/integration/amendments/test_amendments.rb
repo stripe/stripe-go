@@ -1221,10 +1221,8 @@ class Critic::OrderAmendmentTranslation < Critic::OrderAmendmentFunctionalTest
       assert_equal(1, initial_invoice.lines.data.length)
       initial_invoice.pay({'paid_out_of_band': true})
 
-      # the contract should reference the initial order that was created
-      sf_contract = create_contract_from_order(sf_order)
-
       # create the sf order amendment
+      sf_contract = create_contract_from_order(sf_order)
       amendment_data = create_quote_data_from_contract_amendment(sf_contract)
       amendment_data["lineItems"].first["record"][CPQ_QUOTE_QUANTITY] = 2
       amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_START_DATE] = format_date_for_salesforce(amendment_order_start_date)
@@ -1235,6 +1233,7 @@ class Critic::OrderAmendmentTranslation < Critic::OrderAmendmentFunctionalTest
       StripeForce::Translate.perform_inline(@user, sf_order_amendment.Id)
       sf_order_amendment.refresh
 
+      # fetch the subscription schedule
       stripe_subscription_schedule_id = sf_order_amendment[prefixed_stripe_field(GENERIC_STRIPE_ID)]
       stripe_subscription_schedule = Stripe::SubscriptionSchedule.retrieve(stripe_subscription_schedule_id, @user.stripe_credentials)
       assert_equal(2, stripe_subscription_schedule.phases.count)
@@ -1288,6 +1287,11 @@ class Critic::OrderAmendmentTranslation < Critic::OrderAmendmentFunctionalTest
       assert_equal(monthly_price * 2, proration_invoice_data.amount)
       assert_equal((monthly_price * amendment_term) / 100, sf_order_amendment["TotalAmount"])
       assert_equal("true", proration_invoice_data.metadata[StripeForce::Translate::Metadata.metadata_key(@user, MetadataKeys::PRORATION)])
+
+      # confirm the proration invoice dates
+      assert_equal(amendment_order_start_date.to_i, proration_invoice_data.period.start)
+      # the proration invoice end date should be until the next billing cycle date (no missed period)
+      assert_equal((now_time - 1.day + 1.month).to_i, proration_invoice_data.period.end)
     end
 
     it 'syncs a backdated initial and amendment order billed annually' do
@@ -1297,7 +1301,7 @@ class Critic::OrderAmendmentTranslation < Critic::OrderAmendmentFunctionalTest
       # amendment order: starts 1 month later
       contract_term = 12
       amendment_term = 11
-      initial_order_start_date = Time.new(2023, 1, 15).utc.beginning_of_day
+      initial_order_start_date = now_time - 4.months
       initial_order_end_date = initial_order_start_date + contract_term.months
       amendment_order_start_date = initial_order_start_date + (contract_term - amendment_term).months
 
@@ -1318,20 +1322,19 @@ class Critic::OrderAmendmentTranslation < Critic::OrderAmendmentFunctionalTest
         }
       )
 
-      # the contract should reference the initial order that was created
-      sf_contract = create_contract_from_order(sf_order)
-
       # create the sf order amendment
+      sf_contract = create_contract_from_order(sf_order)
       amendment_data = create_quote_data_from_contract_amendment(sf_contract)
       amendment_data["lineItems"].first["record"][CPQ_QUOTE_QUANTITY] = 2
       amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_START_DATE] = format_date_for_salesforce(amendment_order_start_date)
       amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_TERM] = amendment_term
       sf_order_amendment = create_order_from_quote_data(amendment_data)
 
-      # translate order
+      # translate the order
       StripeForce::Translate.perform_inline(@user, sf_order_amendment.Id)
       sf_order_amendment.refresh
 
+      # fetch the subscription schedule
       stripe_subscription_schedule_id = sf_order_amendment[prefixed_stripe_field(GENERIC_STRIPE_ID)]
       stripe_subscription_schedule = Stripe::SubscriptionSchedule.retrieve(stripe_subscription_schedule_id, @user.stripe_credentials)
       assert_equal(2, stripe_subscription_schedule.phases.count)
@@ -1402,10 +1405,18 @@ class Critic::OrderAmendmentTranslation < Critic::OrderAmendmentFunctionalTest
         event_object.test_clock == test_clock.id && event_object.unit_amount == expected_prorated_price
       end
       assert_equal(1, invoice_events.count)
-      proration_invoice_event = invoice_events[0]
-      assert_equal("true", proration_invoice_event.data.object.metadata[StripeForce::Translate::Metadata.metadata_key(@user, MetadataKeys::PRORATION)])
+      proration_invoice_event = invoice_events[0].data.object
+      assert_equal("true", proration_invoice_event.metadata[StripeForce::Translate::Metadata.metadata_key(@user, MetadataKeys::PRORATION)])
 
-      proration_invoice = T.must(StripeForce::ProrationAutoBill.create_invoice_from_invoice_item_event(@user, proration_invoice_event))
+      # verify the dates on the proration invoice dates
+      assert_equal(amendment_order_start_date.to_i, proration_invoice_event.period.start)
+      assert_equal(initial_order_end_date.to_i, Time.at(proration_invoice_event.period.end).utc.beginning_of_day.to_i)
+
+      assert_equal(expected_prorated_price, proration_invoice_event.unit_amount_decimal.to_i)
+      assert_equal("true", proration_invoice_event.metadata[StripeForce::Translate::Metadata.metadata_key(@user, MetadataKeys::PRORATION)])
+      assert_equal(expected_prorated_price / 100, sf_order_amendment["TotalAmount"])
+
+      proration_invoice = T.must(StripeForce::ProrationAutoBill.create_invoice_from_invoice_item_event(@user, invoice_events[0]))
       assert_equal(1, proration_invoice.lines.count)
       assert_equal(expected_prorated_price, proration_invoice.total)
       assert_equal("true", proration_invoice.metadata[StripeForce::Translate::Metadata.metadata_key(@user, MetadataKeys::PRORATION_INVOICE)])
@@ -1514,13 +1525,13 @@ class Critic::OrderAmendmentTranslation < Critic::OrderAmendmentFunctionalTest
       assert_equal(1, invoice_events.count)
 
       proration_invoice_event = invoice_events[0].data.object
-      assert_equal(monthly_price * (backdated_months - (contract_term - amendment_term)), proration_invoice_event.unit_amount_decimal.to_i)
+      assert_equal(monthly_price * 2, proration_invoice_event.unit_amount_decimal.to_i)
       assert_equal("true", proration_invoice_event.metadata[StripeForce::Translate::Metadata.metadata_key(@user, MetadataKeys::PRORATION)])
       assert_equal((monthly_price * amendment_term) / 100, sf_order_amendment["TotalAmount"])
 
-      # verify the dates on the proration invoice
+      # verify the dates on the proration invoice dates
       assert_equal(amendment_order_start_date.to_i, proration_invoice_event.period.start)
-      assert_equal(now_time.to_i, Time.at(proration_invoice_event.period.end).utc.beginning_of_day.to_i)
+      assert_equal((now_time + 5.day).to_i, Time.at(proration_invoice_event.period.end).utc.beginning_of_day.to_i)
     end
   end
 

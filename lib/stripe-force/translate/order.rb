@@ -516,7 +516,8 @@ class StripeForce::Translate
 
       # determine if this is a backdated order since this has implications on how we prorate
       backdated_billing_cycles = nil
-      if @user.feature_enabled?(StripeForce::Constants::FeatureFlags::BACKDATED_AMENDMENTS) && is_in_past
+      next_billing_timestamp = nil
+      if is_in_past && @user.feature_enabled?(StripeForce::Constants::FeatureFlags::BACKDATED_AMENDMENTS)
         backdated_billing_cycles = 0
         subscription_schedule_start = T.must(subscription_schedule.phases.first).start_date
         next_billing_timestamp = StripeForce::Utilities::SalesforceUtil.datetime_to_unix_timestamp(Time.at(subscription_schedule_start))
@@ -526,7 +527,7 @@ class StripeForce::Translate
           if next_billing_timestamp > sf_order_amendment_start_date_as_timestamp
             backdated_billing_cycles += 1
           end
-          next_billing_timestamp += billing_frequency.months.to_i
+          next_billing_timestamp = (Time.at(next_billing_timestamp).utc.beginning_of_day + billing_frequency.months).to_i
         end
       end
 
@@ -572,6 +573,7 @@ class StripeForce::Translate
           billing_frequency: billing_frequency,
           days_prorating: days_prorating,
           backdated_billing_cycles: backdated_billing_cycles,
+          next_billing_timestamp: next_billing_timestamp,
         )
       end
 

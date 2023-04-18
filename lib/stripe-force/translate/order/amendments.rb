@@ -315,10 +315,11 @@ class StripeForce::Translate
         subscription_term: Integer,
         billing_frequency: Integer,
         backdated_billing_cycles: T.nilable(Integer),
+        next_billing_timestamp: T.nilable(Integer),
         days_prorating: Integer,
       ).returns(T::Array[T::Hash[Symbol, T.untyped]])
     end
-    def self.generate_proration_items_from_phase_items(mapper:, sf_order_amendment:, phase_items:, subscription_term:, billing_frequency:, backdated_billing_cycles: nil, days_prorating: 0)
+    def self.generate_proration_items_from_phase_items(mapper:, sf_order_amendment:, phase_items:, subscription_term:, billing_frequency:, backdated_billing_cycles: nil, next_billing_timestamp: nil, days_prorating: 0)
       user = mapper.user
       invoice_items_for_prorations = []
 
@@ -383,11 +384,10 @@ class StripeForce::Translate
         # since the amendment start date is in the past (different) compared to the current time
         proration_period_start = {type: 'phase_start'}
         proration_period_end = {type: 'subscription_period_end'}
-        if !backdated_billing_cycles.nil?
+        if !next_billing_timestamp.nil?
           amendment_start_date = StripeForce::Utilities::SalesforceUtil.extract_subscription_start_date_from_order(mapper, sf_order_amendment)
           proration_period_start = {type: 'timestamp', timestamp: amendment_start_date.to_i}
-          # TODO this should be the user's current time
-          proration_period_end = {type: 'timestamp', timestamp: Time.now.utc.to_i}
+          proration_period_end = {type: 'timestamp', timestamp: next_billing_timestamp}
         end
 
         invoice_items_for_prorations << proration_stripe_item.to_hash.merge({
