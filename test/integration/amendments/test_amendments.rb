@@ -1424,7 +1424,6 @@ class Critic::OrderAmendmentTranslation < Critic::OrderAmendmentFunctionalTest
 
     it 'syncs a backdated initial and amendment order billed monthly with a billing cycle passed' do
       @user.enable_feature FeatureFlags::TEST_CLOCKS, update: true
-      @user.enable_feature FeatureFlags::BACKDATED_AMENDMENTS, update: true
 
       # initial order: starts almost three months in the past, billed monthly
       # amendment order: starts one month after, in the past
@@ -1532,6 +1531,94 @@ class Critic::OrderAmendmentTranslation < Critic::OrderAmendmentFunctionalTest
       # verify the dates on the proration invoice dates
       assert_equal(amendment_order_start_date.to_i, proration_invoice_event.period.start)
       assert_equal((now_time + 5.day).to_i, Time.at(proration_invoice_event.period.end).utc.beginning_of_day.to_i)
+    end
+  end
+
+  describe 'update subscription schedule fields on amendments' do
+    it 'update days_until_due on subscription schedule' do
+      @user.enable_feature FeatureFlags::TEST_CLOCKS, update: true
+      @user.field_defaults = {
+        "customer" => {
+          "email" => "test@test.com",
+        },
+        "subscription_schedule" => {
+          "default_settings.invoice_settings.days_until_due" => "Net-30",
+          "default_settings.collection_method" => "send_invoice", # note: you can only specify 'days_until_due' if invoice collection method is 'send_invoice'
+        },
+      }
+      @user.save
+
+      # setup
+      contract_term = 12
+      amendment_term = 11
+      initial_order_start_date = now_time
+      amendment_order_start_date = initial_order_start_date + (contract_term - amendment_term).months
+      monthly_price = 111_00
+
+      sf_product_id, _sf_pricebook_id = salesforce_recurring_product_with_price(
+        price: monthly_price,
+        additional_product_fields: {
+          CPQ_QUOTE_BILLING_FREQUENCY => CPQBillingFrequencyOptions::MONTHLY.serialize,
+        }
+      )
+
+      # create the initial sf order
+      sf_order = create_subscription_order(
+        sf_product_id: sf_product_id,
+        additional_fields: {
+          CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(initial_order_start_date),
+          CPQ_QUOTE_BILLING_FREQUENCY => CPQBillingFrequencyOptions::MONTHLY.serialize,
+          CPQ_QUOTE_SUBSCRIPTION_TERM => contract_term,
+        }
+      )
+
+      # translate initial order
+      StripeForce::Translate.perform_inline(@user, sf_order.Id)
+      sf_order.refresh
+
+      # get Stripe customer
+      sf_account = sf_get(sf_order['AccountId'])
+      stripe_customer_id = sf_account[prefixed_stripe_field(GENERIC_STRIPE_ID)]
+      stripe_customer = stripe_get(stripe_customer_id)
+      refute_nil(stripe_customer.test_clock)
+
+      # check and pay off the initial invoice
+      invoices = Stripe::Invoice.list({customer: stripe_customer.id}, @user.stripe_credentials).data
+      assert_equal(1, invoices.length)
+
+      initial_invoice = invoices.first
+      assert_equal((now_time + 30.days).to_i, Time.at(initial_invoice.due_date).utc.beginning_of_day.to_i)
+      initial_invoice.pay({'paid_out_of_band': true})
+
+      # create the sf amendment order
+      sf_contract = create_contract_from_order(sf_order)
+      amendment_data = create_quote_data_from_contract_amendment(sf_contract)
+      amendment_data["lineItems"].first["record"][CPQ_QUOTE_QUANTITY] = 2
+      amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_START_DATE] = format_date_for_salesforce(amendment_order_start_date)
+      amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_TERM] = amendment_term
+      sf_order_amendment = create_order_from_quote_data(amendment_data)
+
+      # update days_until_due
+      @user.field_defaults = {
+        "subscription_schedule" => {
+          "default_settings.invoice_settings.days_until_due" => "Net-15",
+        },
+      }
+      @user.save
+
+      # translate the sf amendment order
+      StripeForce::Translate.perform_inline(@user, sf_order_amendment.Id)
+      sf_order_amendment.refresh
+
+      # advance the test clock
+      advance_test_clock(stripe_customer, (amendment_order_start_date + 10.day).to_i)
+
+      # confirm the new invoice has the update days_until_due
+      invoices = Stripe::Invoice.list({customer: stripe_customer.id}, @user.stripe_credentials).data
+      assert_equal(2, invoices.length)
+
+      proration_invoice = invoices.first {|invoice| invoice.status != "paid" }
+      assert_equal((amendment_order_start_date + 15.days).to_i, Time.at(proration_invoice.due_date).utc.beginning_of_day.to_i)
     end
   end
 

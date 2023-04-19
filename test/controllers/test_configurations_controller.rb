@@ -247,6 +247,7 @@ class Critic::ConfigurationsControllerTest < ApplicationIntegrationTest
         # enable features
         @user.enable_feature(FeatureFlags::COUPONS)
         @user.enable_feature(FeatureFlags::PREBILLING)
+        @user.enable_feature(FeatureFlags::INVOICE_RENDERING_TEMPLATE)
         @user.save
 
         get api_configuration_path, headers: authentication_headers
