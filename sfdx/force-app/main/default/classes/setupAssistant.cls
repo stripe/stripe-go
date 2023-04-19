@@ -286,7 +286,7 @@ public with sharing class setupAssistant {
                     }
                     rd.put('allMappingConfigurations', allMappingConfigurations);
 
-                    List<String> hiddenMapperFields = getListFieldFromPayload('hidden_mapper_fields', responseBody);
+                    List<String> hiddenMapperFields = getListFieldFromPayload('hidden_mapper_fields', responseBody, false);
                     if (hiddenMapperFields == null) {
                         rd.put('hiddenMapperFields', new List<String> { 'coupon', 'subscription_schedule.prebilling', 'customer.standard.coupon' });
                     } else {
@@ -427,15 +427,22 @@ public with sharing class setupAssistant {
 
     @TestVisible
     private static List<String> getListFieldFromPayload(String listKey, Map<String,Object> responseBody, Boolean ensureList) {
-        List<Object> respFields = (List<Object>) responseBody.get(listKey);
+        List<Object> respFields;
         List<String> respList = new List<String>();
 
-        if (respFields == null) {
-            return ensureList ? new List<String>() : null;
-        }
+        try {
+            respFields = (List<Object>) responseBody.get(listKey);
 
-        for (Object obj : respFields) {
-            respList.add(String.valueOf(obj));
+            if (respFields == null) {
+                return ensureList ? new List<String>() : null;
+            }
+
+            for (Object obj : respFields) {
+                respList.add(String.valueOf(obj));
+            }
+        } catch (Exception e) {
+            // data is not in the format we expect...
+            return ensureList ? new List<String>() : null;
         }
 
         return respList;
