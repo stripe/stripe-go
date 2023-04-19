@@ -304,7 +304,7 @@ class Critic::SameDayAmendments < Critic::OrderAmendmentFunctionalTest
 
     # let's make sure the prices are correct
     add_hoc_item = Stripe::Price.retrieve(T.cast(ad_hoc_item.price, String), @user.stripe_credentials)
-    assert_equal(TEST_DEFAULT_PRICE, add_hoc_item.unit_amount_decimal.to_i)
+    assert_equal(TEST_DEFAULT_STANDALONE_PRICE, add_hoc_item.unit_amount_decimal.to_i)
 
     first_item_price = Stripe::Price.retrieve(T.cast(first_item.price, String), @user.stripe_credentials)
     assert_equal(TEST_DEFAULT_PRICE, first_item_price.unit_amount_decimal.to_i)
@@ -387,7 +387,7 @@ class Critic::SameDayAmendments < Critic::OrderAmendmentFunctionalTest
 
     # let's make sure the prices are correct
     add_hoc_item = Stripe::Price.retrieve(T.cast(ad_hoc_item.price, String), @user.stripe_credentials)
-    assert_equal(TEST_DEFAULT_PRICE, add_hoc_item.unit_amount_decimal.to_i)
+    assert_equal(TEST_DEFAULT_STANDALONE_PRICE, add_hoc_item.unit_amount_decimal.to_i)
 
     first_item_price = Stripe::Price.retrieve(T.cast(first_item.price, String), @user.stripe_credentials)
     assert_equal(TEST_DEFAULT_PRICE, first_item_price.unit_amount_decimal.to_i)

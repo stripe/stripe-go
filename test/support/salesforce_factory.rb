@@ -15,6 +15,7 @@ module Critic
 
     TEST_DEFAULT_CONTRACT_TERM = 12
     TEST_DEFAULT_PRICE = 120_00
+    TEST_DEFAULT_STANDALONE_PRICE = 100_00
 
     sig { returns(String) }
     def now_time_formatted_for_salesforce
@@ -240,7 +241,7 @@ module Critic
       [product_id, pricebook_entry_id]
     end
 
-    def salesforce_standalone_product_with_price(price: 100_00)
+    def salesforce_standalone_product_with_price(price: TEST_DEFAULT_STANDALONE_PRICE)
       # blanking out the subscription type ensures it is a one-time product
       product_id = create_salesforce_product(additional_fields: {
         CPQ_PRODUCT_SUBSCRIPTION_TYPE => CPQProductSubscriptionTypeOptions::ONE_TIME,
