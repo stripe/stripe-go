@@ -725,7 +725,7 @@ type TaxRegistrationCountryOptionsBgParams struct {
 
 // Options for the provincial tax registration.
 type TaxRegistrationCountryOptionsCaProvinceStandardParams struct {
-	// Two-letter CA province code ([ISO 3166-2]((https://en.wikipedia.org/wiki/ISO_3166-2))).
+	// Two-letter CA province code ([ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2)).
 	Province *string `form:"province"`
 }
 
@@ -1275,7 +1275,7 @@ type TaxRegistrationCountryOptionsBg struct {
 	Type TaxRegistrationCountryOptionsBgType `json:"type"`
 }
 type TaxRegistrationCountryOptionsCaProvinceStandard struct {
-	// Two-letter CA province code ([ISO 3166-2]((https://en.wikipedia.org/wiki/ISO_3166-2))).
+	// Two-letter CA province code ([ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2)).
 	Province string `json:"province"`
 }
 type TaxRegistrationCountryOptionsCa struct {
