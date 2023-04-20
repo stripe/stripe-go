@@ -1123,7 +1123,7 @@ type TaxRegistrationCountryOptionsSkParams struct {
 
 // Options for the local lease tax registration.
 type TaxRegistrationCountryOptionsUSLocalLeaseTaxParams struct {
-	// A FIPS/GNIS code representing the local jurisdiction.
+	// A [FIPS code](https://www.census.gov/library/reference/code-lists/ansi.html) representing the local jurisdiction.
 	Jurisdiction *string `form:"jurisdiction"`
 }
 
@@ -1532,7 +1532,7 @@ type TaxRegistrationCountryOptionsSk struct {
 	Type TaxRegistrationCountryOptionsSkType `json:"type"`
 }
 type TaxRegistrationCountryOptionsUSLocalLeaseTax struct {
-	// A FIPS/GNIS code representing the local jurisdiction.
+	// A [FIPS code](https://www.census.gov/library/reference/code-lists/ansi.html) representing the local jurisdiction.
 	Jurisdiction string `json:"jurisdiction"`
 }
 type TaxRegistrationCountryOptionsUS struct {
@@ -1591,7 +1591,7 @@ type TaxRegistrationCountryOptions struct {
 
 // A Tax `Registration` lets us know that your business is registered to collect tax on payments within a region, enabling you to [automatically collect tax](https://stripe.com/docs/tax).
 //
-// Stripe will not register on your behalf with the relevant authorities when you create a Tax `Registration` object. For more information on how to register to collect tax, see [our guide](https://stripe.com/docs/tax/registering).
+// Stripe doesn't register on your behalf with the relevant authorities when you create a Tax `Registration` object. For more information on how to register to collect tax, see [our guide](https://stripe.com/docs/tax/registering).
 type TaxRegistration struct {
 	APIResource
 	// Time at which the registration becomes active. Measured in seconds since the Unix epoch.
