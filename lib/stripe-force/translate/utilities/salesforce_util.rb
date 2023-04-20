@@ -244,7 +244,7 @@ module StripeForce::Utilities
       salesforce_date_to_beginning_of_day(T.must(cpq_quote_end_date)) + 1.day
     end
 
-    sig { params(mapper: StripeForce::Mapper, sf_order: Restforce::SObject, stripe_path: T::Array[String]).returns(T.nilable(String)) }
+    sig { params(mapper: StripeForce::Mapper, sf_order: Restforce::SObject, stripe_path: T::Array[String]).returns(T.nilable(T.any(TrueClass, FalseClass, String, Integer, Float))) }
     def self.extract_optional_fields_from_order(mapper, sf_order, stripe_path)
       user = mapper.user
 
@@ -257,7 +257,7 @@ module StripeForce::Utilities
       # then check field_mappings
       mapped_order_path = user.field_mappings.dig(*stripe_path)
       if mapped_order_path.present?
-        return T.cast(mapper.extract_key_path_for_record(sf_order, mapped_order_path), T.nilable(String))
+        return mapper.extract_key_path_for_record(sf_order, mapped_order_path)
       end
 
       nil

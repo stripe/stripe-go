@@ -720,6 +720,7 @@ class StripeForce::Translate
     # update days_until_due on sub schedule
     days_until_due = StripeForce::Utilities::SalesforceUtil.extract_optional_fields_from_order(mapper, sf_order_amendment, ['subscription_schedule', 'default_settings.invoice_settings.days_until_due'])
     if days_until_due.present?
+      days_until_due = T.cast(days_until_due, T.any(String, Integer, Float))
       subscription_schedule[:default_settings][:invoice_settings][:days_until_due] = OrderHelpers.transform_payment_terms_to_days_until_due(days_until_due)
     end
 
