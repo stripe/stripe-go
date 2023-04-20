@@ -1,5 +1,11 @@
 # Changelog
 
+## 74.16.0-beta.3 - 2023-04-20
+* [#1642](https://github.com/stripe/stripe-go/pull/1642) Update generated code for beta
+  * Add support for `Zip` on `PaymentIntentConfirmPaymentMethodOptionsParams`, `PaymentIntentPaymentMethodOptionsParams`, and `PaymentIntentPaymentMethodOptions`
+  * Add support for `CountryOptions` on `TaxRegistrationParams` and `TaxRegistration`
+  * Remove support for `State` and `Type` on `TaxRegistrationParams` and `TaxRegistration`
+
 ## 74.16.0-beta.2 - 2023-04-13
 * [#1639](https://github.com/stripe/stripe-go/pull/1639) Update generated code for beta
   * Add support for `CollectPaymentMethod` and `ConfirmPaymentIntent` methods on resource `Terminal.Reader`
