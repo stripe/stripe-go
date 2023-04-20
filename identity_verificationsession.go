@@ -169,6 +169,8 @@ type IdentityVerificationSessionOptionsDocument struct {
 	RequireMatchingSelfie bool `json:"require_matching_selfie"`
 }
 type IdentityVerificationSessionOptionsIDNumber struct{}
+
+// A set of options for the session's verification checks.
 type IdentityVerificationSessionOptions struct {
 	Document *IdentityVerificationSessionOptionsDocument `json:"document"`
 	IDNumber *IdentityVerificationSessionOptionsIDNumber `json:"id_number"`
@@ -234,7 +236,8 @@ type IdentityVerificationSession struct {
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`
 	// String representing the object's type. Objects of the same type share the same value.
-	Object  string                              `json:"object"`
+	Object string `json:"object"`
+	// A set of options for the session's verification checks.
 	Options *IdentityVerificationSessionOptions `json:"options"`
 	// Redaction status of this VerificationSession. If the VerificationSession is not redacted, this field will be null.
 	Redaction *IdentityVerificationSessionRedaction `json:"redaction"`
