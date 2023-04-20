@@ -41,7 +41,7 @@ func TestBearerAuth(t *testing.T) {
 	c := GetBackend(APIBackend).(*BackendImplementation)
 	key := "apiKey"
 
-	req, err := c.NewRequest("", "", key, "", nil)
+	req, err := c.newRequest("", "", key, "", nil)
 	assert.NoError(t, err)
 
 	assert.Equal(t, "Bearer "+key, req.Header.Get("Authorization"))
@@ -76,7 +76,7 @@ func TestContext(t *testing.T) {
 	c := GetBackend(APIBackend).(*BackendImplementation)
 	p := &Params{Context: context.Background()}
 
-	req, err := c.NewRequest("", "", "", "", p)
+	req, err := c.newRequest("", "", "", "", p)
 	assert.NoError(t, err)
 
 	// We assume that contexts are sufficiently tested in the standard library
@@ -144,7 +144,7 @@ func TestDo_Retry(t *testing.T) {
 	// Disable sleeping duration our tests.
 	backend.SetNetworkRetriesSleep(false)
 
-	request, err := backend.NewRequest(
+	request, err := backend.newRequest(
 		http.MethodPost,
 		"/hello",
 		"sk_test_123",
@@ -386,7 +386,7 @@ func TestDo_RetryOnTimeout(t *testing.T) {
 
 	backend.SetNetworkRetriesSleep(false)
 
-	request, err := backend.NewRequest(
+	request, err := backend.newRequest(
 		http.MethodPost,
 		"/hello",
 		"sk_test_123",
@@ -436,7 +436,7 @@ func TestDo_LastResponsePopulated(t *testing.T) {
 		},
 	).(*BackendImplementation)
 
-	request, err := backend.NewRequest(
+	request, err := backend.newRequest(
 		http.MethodGet,
 		"/hello",
 		"sk_test_123",
@@ -499,7 +499,7 @@ func TestDo_TelemetryDisabled(t *testing.T) {
 	// _next_ request via the `X-Stripe-Client-Telemetry header`. To test that
 	// metrics aren't being sent, we need to fire off two requests in sequence.
 	for i := 0; i < 2; i++ {
-		request, err := backend.NewRequest(
+		request, err := backend.newRequest(
 			http.MethodGet,
 			"/hello",
 			"sk_test_123",
@@ -586,7 +586,7 @@ func TestDo_TelemetryEnabled(t *testing.T) {
 	).(*BackendImplementation)
 
 	for i := 0; i < 2; i++ {
-		request, err := backend.NewRequest(
+		request, err := backend.newRequest(
 			http.MethodGet,
 			"/hello",
 			"sk_test_123",
@@ -648,7 +648,7 @@ func TestDo_TelemetryEnabledNoDataRace(t *testing.T) {
 
 	for i := 0; i < times; i++ {
 		go func() {
-			request, err := backend.NewRequest(
+			request, err := backend.newRequest(
 				http.MethodGet,
 				"/hello",
 				"sk_test_123",
@@ -704,7 +704,7 @@ func TestDo_Redaction(t *testing.T) {
 		},
 	).(*BackendImplementation)
 
-	request, err := backend.NewRequest(
+	request, err := backend.newRequest(
 		http.MethodGet,
 		"/hello",
 		"sk_test_123",
@@ -956,7 +956,7 @@ func TestMultipleAPICalls(t *testing.T) {
 			c := GetBackend(APIBackend).(*BackendImplementation)
 			key := "apiKey"
 
-			req, err := c.NewRequest("", "", key, "", nil)
+			req, err := c.newRequest("", "", key, "", nil)
 			assert.NoError(t, err)
 
 			assert.Equal(t, "Bearer "+key, req.Header.Get("Authorization"))
@@ -969,7 +969,7 @@ func TestIdempotencyKey(t *testing.T) {
 	c := GetBackend(APIBackend).(*BackendImplementation)
 	p := &Params{IdempotencyKey: String("idempotency-key")}
 
-	req, err := c.NewRequest("", "", "", "", p)
+	req, err := c.newRequest("", "", "", "", p)
 	assert.NoError(t, err)
 
 	assert.Equal(t, "idempotency-key", req.Header.Get("Idempotency-Key"))
@@ -987,7 +987,7 @@ func TestStripeAccount(t *testing.T) {
 	p := &Params{}
 	p.SetStripeAccount("acct_123")
 
-	req, err := c.NewRequest("", "", "", "", p)
+	req, err := c.newRequest("", "", "", "", p)
 	assert.NoError(t, err)
 
 	assert.Equal(t, "acct_123", req.Header.Get("Stripe-Account"))
@@ -1041,7 +1041,7 @@ func TestUnmarshalJSONVerbose(t *testing.T) {
 func TestUserAgent(t *testing.T) {
 	c := GetBackend(APIBackend).(*BackendImplementation)
 
-	req, err := c.NewRequest("", "", "", "", nil)
+	req, err := c.newRequest("", "", "", "", nil)
 	assert.NoError(t, err)
 
 	// We keep out version constant private to the package, so use a regexp
@@ -1064,7 +1064,7 @@ func TestUserAgentWithAppInfo(t *testing.T) {
 
 	c := GetBackend(APIBackend).(*BackendImplementation)
 
-	req, err := c.NewRequest("", "", "", "", nil)
+	req, err := c.newRequest("", "", "", "", nil)
 	assert.NoError(t, err)
 
 	//
@@ -1100,7 +1100,7 @@ func TestUserAgentWithAppInfo(t *testing.T) {
 func TestStripeClientUserAgent(t *testing.T) {
 	c := GetBackend(APIBackend).(*BackendImplementation)
 
-	req, err := c.NewRequest("", "", "", "", nil)
+	req, err := c.newRequest("", "", "", "", nil)
 	assert.NoError(t, err)
 
 	encodedUserAgent := req.Header.Get("X-Stripe-Client-User-Agent")
@@ -1134,7 +1134,7 @@ func TestStripeClientUserAgentWithAppInfo(t *testing.T) {
 
 	c := GetBackend(APIBackend).(*BackendImplementation)
 
-	req, err := c.NewRequest("", "", "", "", nil)
+	req, err := c.newRequest("", "", "", "", nil)
 	assert.NoError(t, err)
 
 	encodedUserAgent := req.Header.Get("X-Stripe-Client-User-Agent")

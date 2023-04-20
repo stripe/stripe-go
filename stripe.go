@@ -322,7 +322,7 @@ func (s *BackendImplementation) CallStreaming(method, path, key string, params P
 	}
 	bodyBuffer := bytes.NewBufferString(body)
 
-	req, err := s.NewRequest(method, path, key, "application/x-www-form-urlencoded", commonParams)
+	req, err := s.newRequest(method, path, key, "application/x-www-form-urlencoded", commonParams)
 	if err != nil {
 		return err
 	}
@@ -338,7 +338,7 @@ func (s *BackendImplementation) CallStreaming(method, path, key string, params P
 func (s *BackendImplementation) CallMultipart(method, path, key, boundary string, body *bytes.Buffer, params *Params, v LastResponseSetter) error {
 	contentType := "multipart/form-data; boundary=" + boundary
 
-	req, err := s.NewRequest(method, path, key, contentType, params)
+	req, err := s.newRequest(method, path, key, contentType, params)
 	if err != nil {
 		return err
 	}
@@ -364,7 +364,7 @@ func (s *BackendImplementation) CallRaw(method, path, key string, form *form.Val
 	}
 	bodyBuffer := bytes.NewBufferString(body)
 
-	req, err := s.NewRequest(method, path, key, "application/x-www-form-urlencoded", params)
+	req, err := s.newRequest(method, path, key, "application/x-www-form-urlencoded", params)
 	if err != nil {
 		return err
 	}
@@ -376,9 +376,47 @@ func (s *BackendImplementation) CallRaw(method, path, key string, form *form.Val
 	return nil
 }
 
-// NewRequest is used by Call to generate an http.Request. It handles encoding
+func newRequestHeader(method, key, contentType string, params *Params) (http.Header, error) {
+	header := make(http.Header)
+
+	authorization := "Bearer " + key
+
+	header.Add("Authorization", authorization)
+	header.Add("Content-Type", contentType)
+	header.Add("Stripe-Version", APIVersion)
+	header.Add("User-Agent", encodedUserAgent)
+	header.Add("X-Stripe-Client-User-Agent", encodedStripeUserAgent)
+
+	if params != nil {
+		if params.IdempotencyKey != nil {
+			idempotencyKey := strings.TrimSpace(*params.IdempotencyKey)
+			if len(idempotencyKey) > 255 {
+				return nil, errors.New("cannot use an idempotency key longer than 255 characters")
+			}
+
+			header.Add("Idempotency-Key", idempotencyKey)
+		} else if isHTTPWriteMethod(method) {
+			header.Add("Idempotency-Key", NewIdempotencyKey())
+		}
+
+		if params.StripeAccount != nil {
+			header.Add("Stripe-Account", strings.TrimSpace(*params.StripeAccount))
+		}
+
+		for k, v := range params.Headers {
+			for _, line := range v {
+				// Use Set to override the default value possibly set before
+				header.Set(k, line)
+			}
+		}
+	}
+	return header, nil
+}
+
+
+// newRequest is used by Call to generate an http.Request. It handles encoding
 // parameters and attaching the appropriate headers.
-func (s *BackendImplementation) NewRequest(method, path, key, contentType string, params *Params) (*http.Request, error) {
+func (s *BackendImplementation) newRequest(method, path, key, contentType string, params *Params) (*http.Request, error) {
 	if !strings.HasPrefix(path, "/") {
 		path = "/" + path
 	}
@@ -391,40 +429,14 @@ func (s *BackendImplementation) NewRequest(method, path, key, contentType string
 		s.LeveledLogger.Errorf("Cannot create Stripe request: %v", err)
 		return nil, err
 	}
-
-	authorization := "Bearer " + key
-
-	req.Header.Add("Authorization", authorization)
-	req.Header.Add("Content-Type", contentType)
-	req.Header.Add("Stripe-Version", APIVersion)
-	req.Header.Add("User-Agent", encodedUserAgent)
-	req.Header.Add("X-Stripe-Client-User-Agent", encodedStripeUserAgent)
+	req.Header, err = newRequestHeader(method, key, contentType, params)
+	if err != nil {
+		return nil, err
+	}
 
 	if params != nil {
 		if params.Context != nil {
 			req = req.WithContext(params.Context)
-		}
-
-		if params.IdempotencyKey != nil {
-			idempotencyKey := strings.TrimSpace(*params.IdempotencyKey)
-			if len(idempotencyKey) > 255 {
-				return nil, errors.New("cannot use an idempotency key longer than 255 characters")
-			}
-
-			req.Header.Add("Idempotency-Key", idempotencyKey)
-		} else if isHTTPWriteMethod(method) {
-			req.Header.Add("Idempotency-Key", NewIdempotencyKey())
-		}
-
-		if params.StripeAccount != nil {
-			req.Header.Add("Stripe-Account", strings.TrimSpace(*params.StripeAccount))
-		}
-
-		for k, v := range params.Headers {
-			for _, line := range v {
-				// Use Set to override the default value possibly set before
-				req.Header.Set(k, line)
-			}
 		}
 	}
 
