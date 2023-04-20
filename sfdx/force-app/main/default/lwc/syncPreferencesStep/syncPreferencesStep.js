@@ -160,11 +160,15 @@ export default class SyncPreferencesStep extends LightningElement {
                 return;
             }
             this.stripeAccountId = responseData.results.stripe_account_id;
-            this.lastSynced = new Date(responseData.results.last_synced * 1000).toLocaleString(undefined, {year:'numeric', month:'numeric', day: '2-digit', hour: 'numeric', minute:'2-digit', timeZoneName:'short'});
+            if (responseData.results.last_synced) {
+                this.lastSynced = new Date(responseData.results.last_synced * 1000).toLocaleString(undefined, {year:'numeric', month:'numeric', day: '2-digit', hour: 'numeric', minute:'2-digit', timeZoneName:'short'});
+            }
             this.isM = responseData.results.default_currency;
             this.defaultCurrency = responseData.results.default_currency;
             this.syncRecordRetention = responseData.results.sync_record_retention;
-            this.syncStartDate = new Date(responseData.results.sync_start_date * 1000).toISOString();
+            if (responseData.results.sync_start_date && responseData.results.sync_start_date !== "0") {
+                this.syncStartDate = new Date(responseData.results.sync_start_date * 1000).toISOString();
+            }
             this.apiPercentageLimit = responseData.results.api_percentage_limit;
             this.cpqTermUnit = responseData.results.cpq_term_unit;
             this.isCpqInstalled = responseData.results.isCpqInstalled;
@@ -357,6 +361,12 @@ export default class SyncPreferencesStep extends LightningElement {
 
             // confirm they wish to initialize polling
             if (this.pollingEnabledChanged && this.hasSynced === false && this.pollingEnabled) {
+                const startDateEle = this.template.querySelector('[data-id="syncStartDate"]');
+                if (startDateEle.checkValidity() === false) {
+                    startDateEle.reportValidity();
+                    this.showToast("A Sync Start Date must be set.", 'error', 'sticky');
+                    return;
+                }
                 const formattedDate = new Date(this.syncStartDate).toLocaleDateString();
                 const alertMsg = POLLING_FIRST_ENABLE_ALERT_TEMPLATE.replace('SYNC_START_DATE', formattedDate);
 
@@ -375,6 +385,9 @@ export default class SyncPreferencesStep extends LightningElement {
                     }));
                     return;
                 }
+
+                // hack to make the sync start date input disable
+                this.lastSynced = 'Scheduled';
             }
 
             if((this.apiPercentageLimit < 100 && this.apiPercentageLimit > 0) && (this.syncRecordRetention < 1000000 && this.syncRecordRetention > 100)) {

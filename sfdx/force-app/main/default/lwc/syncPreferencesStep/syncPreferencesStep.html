@@ -49,7 +49,7 @@
                         </p>
                     </div>
                     <div class="slds-col slds-p-left_xx-large slds-size_1-of-3">
-                        <lightning-input label="Sync Start Date" type="date" date-style="short" variant="label-hidden" value={syncStartDate} onchange={updateSyncStartDate} placeholder="Select Sync Start Date..." disabled={hasSynced}></lightning-input>
+                        <lightning-input data-id="syncStartDate" label="Sync Start Date" type="date" date-style="short" variant="label-hidden" required={pollingEnabled} value={syncStartDate} onchange={updateSyncStartDate} placeholder="Select Sync Start Date..." disabled={hasSynced}></lightning-input>
                     </div>
                 </div>
 
