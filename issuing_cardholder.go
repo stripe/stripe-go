@@ -303,6 +303,8 @@ type IssuingCardholder struct {
 	Status IssuingCardholderStatus `json:"status"`
 	// One of `individual` or `company`. See [Choose a cardholder type](https://stripe.com/docs/issuing/other/choose-cardholder) for more details.
 	Type IssuingCardholderType `json:"type"`
+	// The cardholder's associated linked account.
+	LinkedToAccount string `json:"linked_to_account,omitempty"`
 }
 
 // IssuingCardholderList is a list of Cardholders as retrieved from a list endpoint.
