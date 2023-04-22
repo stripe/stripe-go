@@ -6,6 +6,7 @@ import (
 	"crypto/x509"
 	"encoding/json"
 	"fmt"
+	"io"
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
@@ -956,7 +957,7 @@ func TestMultipleAPICalls(t *testing.T) {
 			c := GetBackend(APIBackend).(*BackendImplementation)
 			key := "apiKey"
 
-			req, err := newRequest(c,"", "", key, "", nil)
+			req, err := newRequest(c, "", "", key, "", nil)
 			assert.NoError(t, err)
 
 			assert.Equal(t, "Bearer "+key, req.Header.Get("Authorization"))
@@ -969,7 +970,7 @@ func TestIdempotencyKey(t *testing.T) {
 	c := GetBackend(APIBackend).(*BackendImplementation)
 	p := &Params{IdempotencyKey: String("idempotency-key")}
 
-	req, err := newRequest(c,"", "", "", "", p)
+	req, err := newRequest(c, "", "", "", "", p)
 	assert.NoError(t, err)
 
 	assert.Equal(t, "idempotency-key", req.Header.Get("Idempotency-Key"))
@@ -987,7 +988,7 @@ func TestStripeAccount(t *testing.T) {
 	p := &Params{}
 	p.SetStripeAccount("acct_123")
 
-	req, err := newRequest(c,"", "", "", "", p)
+	req, err := newRequest(c, "", "", "", "", p)
 	assert.NoError(t, err)
 
 	assert.Equal(t, "acct_123", req.Header.Get("Stripe-Account"))
@@ -1041,7 +1042,7 @@ func TestUnmarshalJSONVerbose(t *testing.T) {
 func TestUserAgent(t *testing.T) {
 	c := GetBackend(APIBackend).(*BackendImplementation)
 
-	req, err := newRequest(c,"", "", "", "", nil)
+	req, err := newRequest(c, "", "", "", "", nil)
 	assert.NoError(t, err)
 
 	// We keep out version constant private to the package, so use a regexp
@@ -1064,7 +1065,7 @@ func TestUserAgentWithAppInfo(t *testing.T) {
 
 	c := GetBackend(APIBackend).(*BackendImplementation)
 
-	req, err := newRequest(c,"", "", "", "", nil)
+	req, err := newRequest(c, "", "", "", "", nil)
 	assert.NoError(t, err)
 
 	//
@@ -1100,7 +1101,7 @@ func TestUserAgentWithAppInfo(t *testing.T) {
 func TestStripeClientUserAgent(t *testing.T) {
 	c := GetBackend(APIBackend).(*BackendImplementation)
 
-	req, err := newRequest(c,"", "", "", "", nil)
+	req, err := newRequest(c, "", "", "", "", nil)
 	assert.NoError(t, err)
 
 	encodedUserAgent := req.Header.Get("X-Stripe-Client-User-Agent")
@@ -1123,7 +1124,7 @@ func TestStripeClientUserAgent(t *testing.T) {
 	assert.NotEqual(t, UnknownPlatform, userAgent["lang_version"])
 }
 
-func newRequest (c *BackendImplementation, method, path, key, contentType string, params *Params) (*http.Request, error) {
+func newRequest(c *BackendImplementation, method, path, key, contentType string, params *Params) (*http.Request, error) {
 	header, ctx, err := newRequestHeader(method, key, contentType, params)
 	if err != nil {
 		return nil, err
@@ -1269,6 +1270,39 @@ func TestBoolSlice(t *testing.T) {
 	assert.Equal(t, false, *result[3])
 
 	assert.Equal(t, 0, len(BoolSlice(nil)))
+}
+
+func TestRawRequest(t *testing.T) {
+	var body string
+	testServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		resp, _ := io.ReadAll(r.Body)
+		r.Body.Close()
+		body = string(resp)
+		w.WriteHeader(http.StatusOK)
+		w.Write([]byte(`{"hello": "world"}`))
+	}))
+
+	backend := GetBackendWithConfig(
+		APIBackend,
+		&BackendConfig{
+			LeveledLogger:     debugLeveledLogger,
+			MaxNetworkRetries: Int64(0),
+			URL:               String(testServer.URL),
+		},
+	).(*BackendImplementation)
+	type myBarParams struct {
+		Baz bool `json:"baz"`
+	}
+	type myParams struct {
+		Params `json:"-"`
+		Foo string      `json:"foo"`
+		Bar myBarParams `json:"bar"`
+	}
+	response, err := backend.RawRequest(http.MethodPost, "/v1/llamas", "sk_test_xyz", &myParams{Params{Encoding: JSONEncoding}, "hi", myBarParams{false}})
+	assert.NoError(t, err)
+	assert.Equal(t, string(response.RawJSON), "{\"hello\": \"world\"}")
+	assert.Equal(t, body, `{"foo":"hi","bar":{"baz":false}}`)
+	defer testServer.Close()
 }
 
 //

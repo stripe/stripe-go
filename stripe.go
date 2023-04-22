@@ -275,7 +275,22 @@ type BackendImplementation struct {
 	requestMetricsBuffer chan requestMetrics
 }
 
-func extractParams(params ParamsContainer) (*form.Values, *Params) {
+func extractParamJSON(params ParamsContainer) ([]byte, *Params, error) {
+	var commonParams *Params
+	if params != nil {
+		reflectValue := reflect.ValueOf(params)
+
+		if reflectValue.Kind() == reflect.Ptr && !reflectValue.IsNil() {
+			commonParams = params.GetParams()
+		}
+	}
+	json, err := json.Marshal(params)
+	if err != nil {
+		return nil, nil, err
+	}
+	return json, commonParams, nil
+}
+func extractParamFormValues(params ParamsContainer) (*form.Values, *Params) {
 	var formValues *form.Values
 	var commonParams *Params
 
@@ -301,14 +316,14 @@ func extractParams(params ParamsContainer) (*form.Values, *Params) {
 
 // Call is the Backend.Call implementation for invoking Stripe APIs.
 func (s *BackendImplementation) Call(method, path, key string, params ParamsContainer, v LastResponseSetter) error {
-	body, commonParams := extractParams(params)
+	body, commonParams := extractParamFormValues(params)
 	return s.CallRaw(method, path, key, body, commonParams, v)
 }
 
 // CallStreaming is the Backend.Call implementation for invoking Stripe APIs
 // without buffering the response into memory.
 func (s *BackendImplementation) CallStreaming(method, path, key string, params ParamsContainer, v StreamingLastResponseSetter) error {
-	formValues, commonParams := extractParams(params)
+	formValues, commonParams := extractParamFormValues(params)
 
 	var body string
 	if formValues != nil && !formValues.Empty() {
@@ -355,6 +370,59 @@ func (s *BackendImplementation) CallMultipart(method, path, key, boundary string
 	return nil
 }
 
+// Call is the Backend.Call implementation for invoking Stripe APIs.
+func (s *BackendImplementation) RawRequest(method, path, key string, params ParamsContainer) (*APIResponse, error) {
+	var bodyBuffer *bytes.Buffer
+	var commonParams *Params
+	var err error
+	var contentType string
+	if method != http.MethodPost && method != http.MethodGet && method != http.MethodDelete {
+		return nil, fmt.Errorf("method must be POST, GET, or DELETE. Received %s", method)
+	}
+	if method != http.MethodPost {
+		var form *form.Values
+		form, commonParams = extractParamFormValues(params)
+		bodyBuffer = bytes.NewBufferString("")
+		queryString := form.Encode()
+		path += "?" + queryString
+	} else if params.GetParams().GetEncoding() == FormEncoding {
+		var form *form.Values
+		form, commonParams = extractParamFormValues(params)
+		bodyBuffer = bytes.NewBufferString(form.Encode())
+		contentType = "application/x-www-form-urlencoded"
+	} else if params.GetParams().GetEncoding() == JSONEncoding {
+		var json []byte
+		json, commonParams, err = extractParamJSON(params)
+		if err != nil {
+			return nil, err
+		}
+		bodyBuffer = bytes.NewBuffer(json)
+		contentType = "application/json"
+	} else {
+		return nil, fmt.Errorf("Unknown encoding %s", commonParams.GetParams().GetEncoding())
+	}
+
+	header, ctx, err := newRequestHeader(method, key, contentType, commonParams)
+	req, err := s.newRequest(ctx, method, path, header)
+	if err != nil {
+		return nil, err
+	}
+
+	handleResponse := func(res *http.Response, err error) (interface{}, error) {
+		return s.handleResponseBufferingErrors(res, err)
+	}
+
+	resp, result, err := s.requestWithRetriesAndTelemetry(req, bodyBuffer, handleResponse)
+	if err != nil {
+		return nil, err
+	}
+	body, err := io.ReadAll(result.(io.ReadCloser))
+	if err != nil {
+		return nil, err
+	}
+	return newAPIResponse(resp, body), nil
+}
+
 // CallRaw is the implementation for invoking Stripe APIs internally without a backend.
 func (s *BackendImplementation) CallRaw(method, path, key string, form *form.Values, params *Params, v LastResponseSetter) error {
 	var body string
@@ -362,7 +430,7 @@ func (s *BackendImplementation) CallRaw(method, path, key string, form *form.Val
 		body = form.Encode()
 
 		// On `GET`, move the payload into the URL
-		if method == http.MethodGet {
+		if method != http.MethodPost {
 			path += "?" + body
 			body = ""
 		}
@@ -388,7 +456,7 @@ func newRequestHeader(method, key, contentType string, params *Params) (http.Hea
 	authorization := "Bearer " + key
 
 	header.Add("Authorization", authorization)
-	header.Add("Content-Type", contentType)
+  header.Add("Content-Type", contentType)
 	header.Add("Stripe-Version", APIVersion)
 	header.Add("User-Agent", encodedUserAgent)
 	header.Add("X-Stripe-Client-User-Agent", encodedStripeUserAgent)
@@ -420,7 +488,6 @@ func newRequestHeader(method, key, contentType string, params *Params) (http.Hea
 	}
 	return header, ctx, nil
 }
-
 
 // newRequest is used by Call to generate an http.Request. It handles encoding
 // parameters and attaching the appropriate headers.
@@ -611,38 +678,40 @@ func (s *BackendImplementation) logError(statusCode int, err error) {
 	}
 }
 
+func (s *BackendImplementation) handleResponseBufferingErrors(res *http.Response, err error) (io.ReadCloser, error) {
+	// Some sort of connection error
+	if err != nil {
+		s.LeveledLogger.Errorf("Request failed with error: %v", err)
+		return res.Body, err
+	}
+
+	// Successful response, return the body ReadCloser
+	if res.StatusCode < 400 {
+		return res.Body, err
+	}
+
+	// Failure: try and parse the json of the response
+	// when logging the error
+	var resBody []byte
+	resBody, err = ioutil.ReadAll(res.Body)
+	res.Body.Close()
+	if err == nil {
+		err = s.ResponseToError(res, resBody)
+	} else {
+		s.logError(res.StatusCode, err)
+	}
+
+	return res.Body, err
+}
+
 // DoStreaming is used by CallStreaming to execute an API request. It uses the
 // backend's HTTP client to execure the request.  In successful cases, it sets
 // a StreamingLastResponse onto v, but in unsuccessful cases handles unmarshaling
 // errors returned by the API.
 func (s *BackendImplementation) DoStreaming(req *http.Request, body *bytes.Buffer, v StreamingLastResponseSetter) error {
 	handleResponse := func(res *http.Response, err error) (interface{}, error) {
-
-		// Some sort of connection error
-		if err != nil {
-			s.LeveledLogger.Errorf("Request failed with error: %v", err)
-			return res.Body, err
-		}
-
-		// Successful response, return the body ReadCloser
-		if res.StatusCode < 400 {
-			return res.Body, err
-		}
-
-		// Failure: try and parse the json of the response
-		// when logging the error
-		var resBody []byte
-		resBody, err = ioutil.ReadAll(res.Body)
-		res.Body.Close()
-		if err == nil {
-			err = s.ResponseToError(res, resBody)
-		} else {
-			s.logError(res.StatusCode, err)
-		}
-
-		return res.Body, err
+		return s.handleResponseBufferingErrors(res, err)
 	}
-
 	resp, result, err := s.requestWithRetriesAndTelemetry(req, body, handleResponse)
 	if err != nil {
 		return err

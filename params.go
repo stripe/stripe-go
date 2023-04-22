@@ -170,6 +170,10 @@ type ListParamsContainer interface {
 	GetListParams() *ListParams
 }
 
+type Encoding string
+var JSONEncoding Encoding = "json"
+var FormEncoding Encoding = "form"
+
 // Params is the structure that contains the common properties
 // of any *Params structure.
 type Params struct {
@@ -192,11 +196,20 @@ type Params struct {
 	IdempotencyKey *string           `form:"-"` // Passed as header
 	Metadata       map[string]string `form:"metadata"`
 
+	Encoding Encoding `form:"-"`
+
 	// StripeAccount may contain the ID of a connected account. By including
 	// this field, the request is made as if it originated from the connected
 	// account instead of under the account of the owner of the configured
 	// Stripe key.
 	StripeAccount *string `form:"-"` // Passed as header
+}
+
+func (p Params) GetEncoding() Encoding {
+	if (p.Encoding == "") {
+		return FormEncoding
+	}
+	return p.Encoding
 }
 
 // AddExpand appends a new field to expand.
