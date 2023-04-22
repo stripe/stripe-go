@@ -132,6 +132,7 @@ import (
 
 // API is the Stripe client. It contains all the different resources available.
 type API struct {
+	rawRequest func(method, path, key string, params stripe.ParamsContainer) (*stripe.APIResponse, error)
 	// AccountLinks is the client used to invoke /account_links APIs.
 	AccountLinks *accountlink.Client
 	// Accounts is the client used to invoke /accounts APIs.
@@ -381,6 +382,9 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 			Uploads: stripe.GetBackend(stripe.UploadsBackend),
 		}
 	}
+	if bi, ok := backends.API.(*stripe.BackendImplementation); ok {
+		a.rawRequest = bi.RawRequest
+	}
 
 	a.AccountLinks = &accountlink.Client{B: backends.API, Key: key}
 	a.Accounts = &account.Client{B: backends.API, Key: key}
@@ -501,6 +505,10 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.UsageRecords = &usagerecord.Client{B: backends.API, Key: key}
 	a.UsageRecordSummaries = &usagerecordsummary.Client{B: backends.API, Key: key}
 	a.WebhookEndpoints = &webhookendpoint.Client{B: backends.API, Key: key}
+}
+
+func (a *API) RawRequest(method, path, key string, params stripe.ParamsContainer) (*stripe.APIResponse, error) {
+	return a.RawRequest(method, path, key, params)
 }
 
 // New creates a new Stripe client with the appropriate secret key
