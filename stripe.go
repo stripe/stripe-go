@@ -201,6 +201,10 @@ type Backend interface {
 	SetMaxNetworkRetries(maxNetworkRetries int64)
 }
 
+type RawRequestBackend interface {
+	RawRequest(method, path, key string, params ParamsContainer) (*APIResponse, error)
+}
+
 // BackendConfig is used to configure a new Stripe backend.
 type BackendConfig struct {
 	// EnableTelemetry allows request metrics (request id and duration) to be sent
@@ -371,7 +375,7 @@ func (s *BackendImplementation) CallMultipart(method, path, key, boundary string
 }
 
 // Call is the Backend.Call implementation for invoking Stripe APIs.
-func (s *BackendImplementation) RawRequest(method, path, key string, params ParamsContainer) (*APIResponse, error) {
+func (s *BackendImplementation) RawRequest(method, path, key string, params RawParamsContainer) (*APIResponse, error) {
 	var bodyBuffer *bytes.Buffer
 	var commonParams *Params
 	var err error
@@ -385,12 +389,12 @@ func (s *BackendImplementation) RawRequest(method, path, key string, params Para
 		bodyBuffer = bytes.NewBufferString("")
 		queryString := form.Encode()
 		path += "?" + queryString
-	} else if params.GetParams().GetEncoding() == FormEncoding {
+	} else if params.GetEncoding() == FormEncoding {
 		var form *form.Values
 		form, commonParams = extractParamFormValues(params)
 		bodyBuffer = bytes.NewBufferString(form.Encode())
 		contentType = "application/x-www-form-urlencoded"
-	} else if params.GetParams().GetEncoding() == JSONEncoding {
+	} else if params.GetEncoding() == JSONEncoding {
 		var json []byte
 		json, commonParams, err = extractParamJSON(params)
 		if err != nil {
@@ -399,7 +403,7 @@ func (s *BackendImplementation) RawRequest(method, path, key string, params Para
 		bodyBuffer = bytes.NewBuffer(json)
 		contentType = "application/json"
 	} else {
-		return nil, fmt.Errorf("Unknown encoding %s", commonParams.GetParams().GetEncoding())
+		return nil, fmt.Errorf("Unknown encoding %s", params.GetEncoding())
 	}
 
 	header, ctx, err := newRequestHeader(method, key, contentType, commonParams)

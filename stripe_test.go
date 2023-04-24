@@ -1274,12 +1274,14 @@ func TestBoolSlice(t *testing.T) {
 
 func TestRawRequest(t *testing.T) {
 	var body string
+	var path string
 	testServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		resp, _ := io.ReadAll(r.Body)
 		r.Body.Close()
 		body = string(resp)
+		path = r.URL.Path
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte(`{"hello": "world"}`))
+		w.Write([]byte(`{"object": "abc", "xyz": {"def": "jih"}}`))
 	}))
 
 	backend := GetBackendWithConfig(
@@ -1290,18 +1292,35 @@ func TestRawRequest(t *testing.T) {
 			URL:               String(testServer.URL),
 		},
 	).(*BackendImplementation)
+
 	type myBarParams struct {
 		Baz bool `json:"baz"`
 	}
 	type myParams struct {
 		Params `json:"-"`
+		RawParams `json:"-"`
 		Foo string      `json:"foo"`
 		Bar myBarParams `json:"bar"`
 	}
-	response, err := backend.RawRequest(http.MethodPost, "/v1/llamas", "sk_test_xyz", &myParams{Params{Encoding: JSONEncoding}, "hi", myBarParams{false}})
+
+	type MyXYZ struct {
+		DEF string `json:"def"`
+	}
+	type MyABC struct {
+		Object string `json:"object"`
+		XYZ MyXYZ `json:"xyz"`
+	}
+
+	response, err := backend.RawRequest(http.MethodPost, "/v1/abcs", "sk_test_xyz", &myParams{Params{}, RawParams{Encoding: JSONEncoding}, "myFoo", myBarParams{false}})
 	assert.NoError(t, err)
-	assert.Equal(t, string(response.RawJSON), "{\"hello\": \"world\"}")
-	assert.Equal(t, body, `{"foo":"hi","bar":{"baz":false}}`)
+	//assert.Equal(t, string(response.RawJSON), "{\"hello\": \"world\"}")
+	var myABC *MyABC = &MyABC{}
+	assert.Equal(t, body, `{"foo":"myFoo","bar":{"baz":false}}`)
+	assert.Equal(t, path, `{"foo":"myFoo","bar":{"baz":false}}`)
+	err = json.Unmarshal(response.RawJSON, myABC)
+	assert.NoError(t, err)
+	assert.Equal(t, myABC.XYZ.DEF, "jih")
+	assert.Equal(t, myABC.Object, "abc")
 	defer testServer.Close()
 }
 

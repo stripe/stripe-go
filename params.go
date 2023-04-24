@@ -196,8 +196,6 @@ type Params struct {
 	IdempotencyKey *string           `form:"-"` // Passed as header
 	Metadata       map[string]string `form:"metadata"`
 
-	Encoding Encoding `form:"-"`
-
 	// StripeAccount may contain the ID of a connected account. By including
 	// this field, the request is made as if it originated from the connected
 	// account instead of under the account of the owner of the configured
@@ -205,7 +203,11 @@ type Params struct {
 	StripeAccount *string `form:"-"` // Passed as header
 }
 
-func (p Params) GetEncoding() Encoding {
+type RawParams struct {
+	Encoding Encoding `form:"-"`
+}
+
+func (p RawParams) GetEncoding() Encoding {
 	if (p.Encoding == "") {
 		return FormEncoding
 	}
@@ -257,6 +259,11 @@ func (p *Params) SetStripeAccount(val string) {
 // its implementation of this interface.
 type ParamsContainer interface {
 	GetParams() *Params
+}
+
+type RawParamsContainer interface {
+	ParamsContainer
+	GetEncoding() Encoding
 }
 
 // RangeQueryParams are a set of generic request parameters that are used on

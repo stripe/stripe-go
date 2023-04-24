@@ -8,6 +8,8 @@
 package client
 
 import (
+	"fmt"
+
 	stripe "github.com/stripe/stripe-go/v74"
 	"github.com/stripe/stripe-go/v74/account"
 	"github.com/stripe/stripe-go/v74/accountlink"
@@ -132,7 +134,7 @@ import (
 
 // API is the Stripe client. It contains all the different resources available.
 type API struct {
-	rawRequest func(method, path, key string, params stripe.ParamsContainer) (*stripe.APIResponse, error)
+	rawRequestClient *rawRequestClient
 	// AccountLinks is the client used to invoke /account_links APIs.
 	AccountLinks *accountlink.Client
 	// Accounts is the client used to invoke /accounts APIs.
@@ -382,8 +384,12 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 			Uploads: stripe.GetBackend(stripe.UploadsBackend),
 		}
 	}
-	if bi, ok := backends.API.(*stripe.BackendImplementation); ok {
-		a.rawRequest = bi.RawRequest
+
+	if bi, ok := backends.API.(stripe.RawRequestBackend); ok {
+		a.rawRequestClient = &rawRequestClient{
+			B: bi,
+			Key: key,
+		}
 	}
 
 	a.AccountLinks = &accountlink.Client{B: backends.API, Key: key}
@@ -507,8 +513,20 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.WebhookEndpoints = &webhookendpoint.Client{B: backends.API, Key: key}
 }
 
+type rawRequestClient struct {
+	B stripe.RawRequestBackend
+	Key string
+}
+
 func (a *API) RawRequest(method, path, key string, params stripe.ParamsContainer) (*stripe.APIResponse, error) {
-	return a.RawRequest(method, path, key, params)
+	if a.rawRequestClient == nil {
+		return nil, fmt.Errorf("Error: cannot call RawRequest if API is initialized with a backend that doesn't implement RawRequestBackend")
+	}
+	return a.rawRequestClient.RawRequest(method, path, params)
+}
+
+func (c rawRequestClient) RawRequest (method, path string, params stripe.ParamsContainer) (*stripe.APIResponse, error) {
+	return c.B.RawRequest(method, path, c.Key, params)
 }
 
 // New creates a new Stripe client with the appropriate secret key
