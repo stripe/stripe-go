@@ -4,6 +4,7 @@
 
 @IsTest
 public with sharing class Rest_Service_HelperTest {
+    private static Test_Tools testTools = new Test_Tools();
     private static Rest_Service_Helper helper = new Rest_Service_Helper();
 
     @IsTest
@@ -51,23 +52,9 @@ public with sharing class Rest_Service_HelperTest {
 
     @IsTest
     private static void TestGetAccessibleFieldsWithInaccessibleObject() {
-        Profile p = [SELECT Id FROM Profile WHERE Name = 'Chatter Free User'];
+        String profile = Test_Tools.PROFILE_CHATTER_FREE_USER;
         String uniqueId = 'TestGetAccessibleFieldsWithInaccessibleObject';
-        String alias = uniqueId.substring(0, 8);
-        User u = new User(
-                FirstName = 'Test',
-                LastName = 'User',
-                Username = uniqueId + '@example.org',
-                Email = uniqueId + '@example.org',
-                Alias = alias,
-                CommunityNickname = alias,
-                TimeZoneSidKey = 'America/Los_Angeles',
-                LocaleSidKey = 'en_US',
-                EmailEncodingKey = 'UTF-8',
-                LanguageLocaleKey = 'en_US',
-                ProfileId = p.Id,
-                IsActive = true);
-        insert u;
+        User u = testTools.createUser(profile, uniqueId);
         Set<Object> errors = new Set<Object>();
         String objName = Opportunity.class.getName();
         Set<String> fields = new Set<String>();

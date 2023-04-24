@@ -39,6 +39,9 @@ global with sharing class restService {
     global static Set<String> listOfProductFields = new Set<String>();
     private static Rest_Service_Helper helper = new Rest_Service_Helper();
 
+    private static RelationshipMapper_QueryHelper rmQueryHelper = new RelationshipMapper_QueryHelper();
+
+    // Marked TestVisible so we can enable it in tests.
     @TestVisible
     private static Debug_Helper debugger = new Debug_Helper();
 
@@ -55,51 +58,27 @@ global with sharing class restService {
             Boolean isCpqInstalled = utilities.isCpqEnabled();
 
             //get body of request and cast to map
-            Map<String, Object> parsedReqBody = (Map<String, Object>) JSON.deserializeUntyped(restRequest.requestBody.toString());
+            PlatformPayload payload = (PlatformPayload) JSON.deserialize(restRequest.requestBody.toString(), PlatformPayload.class);
+            debugger.debug('payload', payload);
 
-            //initialize lists and check if order and product ids, order fields or product fields were sent 
-            List<Object> requestedListOfOrderIds = new List<Object>();
-            List<Object> requestListOfProduct2Ids = new List<Object>();
-            List<Object> requestListOfProductFields = new List<Object>();
-            List<Object> requestListOfOrderFields = new List<Object>();
-
-            if (parsedReqBody.get('order_ids') != null) {
-                requestedListOfOrderIds = (List<Object>) parsedReqBody.get('order_ids');
-                debugger.debug('restService.executeBatchApi(order_ids)', requestedListOfOrderIds);
-            }
-            if (parsedReqBody.get('product2_ids') != null) {
-                requestListOfProduct2Ids = (List<Object>) parsedReqBody.get('product2_ids');
-                debugger.debug('restService.executeBatchApi(productIds)', requestListOfProduct2Ids);
-            }
-            if (parsedReqBody.get('product2_fields') != null) {
-                requestListOfProductFields = (List<Object>) parsedReqBody.get('product2_fields');
-                debugger.debug('restService.executeBatchApi(product2_fields)', requestListOfProductFields);
-            }
-            if (parsedReqBody.get('order_fields') != null) {
-                requestListOfOrderFields = (List<Object>) parsedReqBody.get('order_fields');
-                debugger.debug('restService.executeBatchApi(order_fields)', requestListOfOrderFields);
-            }
-
-            if (requestedListOfOrderIds.isEmpty() && requestListOfProduct2Ids.isEmpty()) {
+            if ((payload.order_ids == null || payload.order_ids.isEmpty()) && (payload.product2_ids == null || payload.product2_ids.isEmpty())) {
                 throw new NoOrderIdsOrProductIdsFoundException('There were no order or product Ids sent with this request.');
             }
 
+            if (payload.field_mapping_data != null) {
+                rmQueryHelper.initializeRelationshipChains(payload.field_mapping_data);
+            }
+
             //converting object lists to sets to remove dupes if any exist and allow binding in dynamic soql query
-            Set<String> listOfOrderIds = new Set<String>();
-            Set<String> listOfProduct2Ids = new Set<String>();
-            for (Object requestedOrderId : requestedListOfOrderIds) {
-                listOfOrderIds.add(String.valueOf(requestedOrderId));
-            }
-            for (Object requestedProduct2Id : requestListOfProduct2Ids) {
-                listOfProduct2Ids.add(String.valueOf(requestedProduct2Id));
+            Set<String> listOfOrderIds = (payload.order_ids != null) ? payload.order_ids : new Set<String>();
+            Set<String> listOfProduct2Ids = (payload.product2_ids != null) ? payload.product2_ids : new Set<String>();
+
+            if (payload.order_fields != null) {
+                listOfOrderFields = payload.order_fields;
             }
 
-            for (Object requestedOrderField : requestListOfOrderFields) {
-                listOfOrderFields.add(String.valueOf(requestedOrderField));
-            }
-
-            for (Object requestedProductField : requestListOfProductFields) {
-                listOfProductFields.add(String.valueOf(requestedProductField));
+            if (payload.product2_fields != null) {
+                listOfProductFields = payload.product2_fields;
             }
 
             //if any of the field lists are empty get all fields 
@@ -188,6 +167,11 @@ global with sharing class restService {
             resBody.put('errors', responseJsonPayloadErrors);
             Map<String, List<Object>> orderDetails = new Map<String, List<Object>>();
             resBody.put('records', (Object) responseJsonPayloadRecords);
+
+            if (payload.field_mapping_data != null) {
+                resBody.put('data_field_mapping', rmQueryHelper.getFieldMappings());
+            }
+
             String respBody = JSON.serialize(resBody);
             debugger.debug('response(success)', respBody);
             response.responseBody = Blob.valueOf(respBody);
@@ -207,6 +191,19 @@ global with sharing class restService {
                     'error_message' => e.getMessage() + 'Line Number: ' + string.valueOf(e.getLineNumber())
             };
             responseJsonPayloadErrors.add((Object) SObjectExceptionMap);
+        } catch (RelationshipMapper_QueryHelper.QHException e) {
+            // Catches the relationship mapper exception for either inaccessible fields or unsupported relationships.
+            response.statusCode = 500;
+            Map<String, Object> resBody = new Map<String, Object>();
+            resBody.put('error_type', 'MAPPING_ERROR');
+            resBody.put('error_message', e.getLineNumber() + ': ' + e.getMessage());
+            if (e.getMessage() == RelationshipMapper_QueryHelper.EXCEPTION_FIELD_INACCESSIBLE) {
+                resBody.put('failed_fields', e.context.get('failed_fields'));
+            }
+            String respBody = JSON.serialize(resBody);
+            debugger.debug('response(exception)', respBody);
+            response.responseBody = Blob.valueOf(respBody);
+            return;
         } catch (Exception e) {
             /*Catches any other exception and ends operation. returning the error message 
             and line number as the message param of response*/
@@ -951,6 +948,8 @@ global with sharing class restService {
     }
 
     private static List<SObject> query(Set<String> fields, String objectName, String whereClause, Boolean withSecurity) {
+        Set<String> relatedFields = rmQueryHelper.getRelatedFields(objectName);
+        fields.addAll(relatedFields);
         String q = 'SELECT ' + helper.fieldsToQueryString(fields) + ' FROM ' + objectName + ' WHERE ' + whereClause;
         if (withSecurity) {
             q = q + ' WITH SECURITY_ENFORCED';
@@ -961,5 +960,13 @@ global with sharing class restService {
 
     private static List<SObject> query(Set<String> fields, String objectName, String whereClause) {
         return query(fields, objectName, whereClause, true);
+    }
+
+    class PlatformPayload {
+        public Set<String> order_ids = null;
+        public Set<String> product2_ids = null;
+        public Set<String> order_fields = null;
+        public Set<String> product2_fields = null;
+        public Map<String, Map<String, String>> field_mapping_data = null;
     }
 }

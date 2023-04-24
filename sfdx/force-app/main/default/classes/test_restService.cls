@@ -519,6 +519,99 @@ public with sharing class test_restService {
         }
     }
 
+    @isTest
+    public static void test_restServiceEventsInitialOrderWithFieldMappingData() {
+        Map<String,Object> testRecordsMap = makeData(false);
+        Product2 product = (Product2)testRecordsMap.get('product');
+        Order amendedOrder = (Order)testRecordsMap.get('amendedOrder');
+
+        Test.startTest();
+        //make mock request
+        List<String> listOfOrderIds = new List<String>{(String)amendedOrder.id};
+        List<String> listOfProductIds = new List<String>{(String)product.id};
+        Map<String,Object> requestOrderMap = new Map<String,Object> {
+                'order_ids' => (Object)listOfOrderIds,
+                'product2_ids' => (Object)listOfProductIds,
+                'field_mapping_data' => new Map<String, Map<String, String>> {
+                        'subscription' => new Map<String, String> {
+                                'owner_name' => 'Opportunity.OwnerId.Name'
+                        }
+                }
+        };
+        RestRequest request = new RestRequest();
+        request.requestBody = Blob.valueOf(JSON.serialize(requestOrderMap));
+        request.httpMethod = 'Post';
+        RestContext.request = request;
+        RestContext.response = new RestResponse();
+        RestResponse response = RestContext.response;
+
+        restService.executeBatchApi();
+        Map<String, Object> parsedReqBody = (Map<String, Object>)JSON.deserializeUntyped(response.responseBody.toString());
+        System.debug('InitialOrder ' +JSON.serialize(parsedReqBody));
+
+        Test.stopTest();
+
+        List<Object> records = (List<Object>)parsedReqBody.get('records');
+
+        Set<String> allObjectsToPullDataFrom = new Set<String>();
+
+        for(Object record : records) {
+            Map<String, Object> recordMap = (Map<String, Object>)record;
+            if(recordMap.get('attributes') != null) {
+                Map<String, Object> attributes = (Map<String, Object>)recordMap.get('attributes');
+                String objectType = (String)attributes.get('type');
+
+                switch on objectType {
+                    when 'Order' {
+                        System.assert(recordMap.containsKey('Opportunity'), 'Order includes Opportunity');
+                        Map<String, Object> opp = (Map<String, Object>) recordMap.get('Opportunity');
+                        System.assert(opp.containsKey('Owner'), 'Opportunity field includes Owner');
+                        Map<String, Object> owner = (Map<String, Object>) opp.get('Owner');
+                        System.assert(owner.containsKey('Name'), 'Owner field contains Name field');
+                    }
+                }
+            }
+        }
+    }
+
+    @IsTest
+    public static void test_restServiceEventsInitialOrderWithInaccessibleFieldMappingData() {
+        Map<String,Object> testRecordsMap = makeData(false);
+        Product2 product = (Product2)testRecordsMap.get('product');
+        Order amendedOrder = (Order)testRecordsMap.get('amendedOrder');
+
+        Test.startTest();
+        //make mock request
+        List<String> listOfOrderIds = new List<String>{(String)amendedOrder.id};
+        List<String> listOfProductIds = new List<String>{(String)product.id};
+        Map<String,Object> requestOrderMap = new Map<String,Object> {
+                'order_ids' => (Object)listOfOrderIds,
+                'product2_ids' => (Object)listOfProductIds,
+                'field_mapping_data' => new Map<String, Map<String, String>> {
+                        'subscription' => new Map<String, String> {
+                                'score' => 'Opportunity.IqScore'
+                        }
+                }
+        };
+        RestRequest request = new RestRequest();
+        request.requestBody = Blob.valueOf(JSON.serialize(requestOrderMap));
+        request.httpMethod = 'Post';
+        RestContext.request = request;
+        RestContext.response = new RestResponse();
+        RestResponse response = RestContext.response;
+
+        restService.executeBatchApi();
+
+        System.assertEquals(500, RestContext.response.statusCode, 'service should error');
+
+        Test.stopTest();
+
+        Map<String, Object> parsedReqBody = (Map<String, Object>)JSON.deserializeUntyped(response.responseBody.toString());
+        System.debug('InitialOrder ' +JSON.serialize(parsedReqBody));
+
+        System.assertEquals('MAPPING_ERROR', parsedReqBody.get('error_type'));
+    }
+
     private static Map<String,Object> makeData(Boolean isAmendedOrderTest) {
         Boolean isCpqInstalled = utilities.isCpqEnabled();
 
