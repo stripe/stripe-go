@@ -6,8 +6,6 @@
 
 package stripe
 
-import "encoding/json"
-
 type SubscriptionItemTrialType string
 
 // List of values that SubscriptionItemTrialType can take
@@ -198,23 +196,4 @@ type SubscriptionItemList struct {
 	APIResource
 	ListMeta
 	Data []*SubscriptionItem `json:"data"`
-}
-
-// UnmarshalJSON handles deserialization of a SubscriptionItem.
-// This custom unmarshaling is needed because the resulting
-// property may be an id or the full struct if it was expanded.
-func (s *SubscriptionItem) UnmarshalJSON(data []byte) error {
-	if id, ok := ParseID(data); ok {
-		s.ID = id
-		return nil
-	}
-
-	type subscriptionItem SubscriptionItem
-	var v subscriptionItem
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-
-	*s = SubscriptionItem(v)
-	return nil
 }
