@@ -407,6 +407,11 @@ func (s *BackendImplementation) RawRequest(method, path, key string, params RawP
 	}
 
 	header, ctx, err := newRequestHeader(method, key, contentType, commonParams)
+
+	if err != nil {
+		return nil, err
+	}
+
 	req, err := s.newRequest(ctx, method, path, header)
 	if err != nil {
 		return nil, err
@@ -420,7 +425,7 @@ func (s *BackendImplementation) RawRequest(method, path, key string, params RawP
 	if err != nil {
 		return nil, err
 	}
-	body, err := io.ReadAll(result.(io.ReadCloser))
+	body, err := ioutil.ReadAll(result.(io.ReadCloser))
 	if err != nil {
 		return nil, err
 	}
@@ -442,6 +447,11 @@ func (s *BackendImplementation) CallRaw(method, path, key string, form *form.Val
 	bodyBuffer := bytes.NewBufferString(body)
 
 	header, ctx, err := newRequestHeader(method, key, "application/x-www-form-urlencoded", params)
+
+	if err != nil {
+		return err
+	}
+
 	req, err := s.newRequest(ctx, method, path, header)
 	if err != nil {
 		return err

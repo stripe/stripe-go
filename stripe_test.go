@@ -6,7 +6,6 @@ import (
 	"crypto/x509"
 	"encoding/json"
 	"fmt"
-	"io"
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
@@ -1276,7 +1275,7 @@ func TestRawRequest(t *testing.T) {
 	var body string
 	var path string
 	testServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		resp, _ := io.ReadAll(r.Body)
+		resp, _ := ioutil.ReadAll(r.Body)
 		r.Body.Close()
 		body = string(resp)
 		path = r.URL.Path
@@ -1314,7 +1313,7 @@ func TestRawRequest(t *testing.T) {
 	response, err := backend.RawRequest(http.MethodPost, "/v1/abcs", "sk_test_xyz", &myParams{Params{}, RawParams{Encoding: JSONEncoding}, "myFoo", myBarParams{false}})
 	assert.NoError(t, err)
 	//assert.Equal(t, string(response.RawJSON), "{\"hello\": \"world\"}")
-	var myABC *MyABC = &MyABC{}
+	myABC := &MyABC{}
 	assert.Equal(t, body, `{"foo":"myFoo","bar":{"baz":false}}`)
 	assert.Equal(t, path, `{"foo":"myFoo","bar":{"baz":false}}`)
 	err = json.Unmarshal(response.RawJSON, myABC)
