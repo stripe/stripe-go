@@ -6,6 +6,8 @@
 
 package stripe
 
+import "github.com/stripe/stripe-go/v74/form"
+
 // Type of registration in `country`.
 type TaxRegistrationCountryOptionsAeType string
 
@@ -1231,14 +1233,27 @@ type TaxRegistrationCountryOptionsParams struct {
 type TaxRegistrationParams struct {
 	Params `form:"*"`
 	// Time at which the registration becomes active. Measured in seconds since the Unix epoch.
-	ActiveFrom *int64 `form:"active_from"`
+	ActiveFrom    *int64 `form:"active_from"`
+	ActiveFromNow *bool  `form:"-"` // See custom AppendTo
 	// Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)).
 	Country *string `form:"country"`
 	// Specific options for a registration in the specified `country`.
 	CountryOptions *TaxRegistrationCountryOptionsParams `form:"country_options"`
 	// If set, the registration stops being active at this time. If not set, the registration will be active indefinitely. Measured in seconds since the Unix epoch.
-	ExpiresAt *int64 `form:"expires_at"`
+	ExpiresAt    *int64 `form:"expires_at"`
+	ExpiresAtNow *bool  `form:"-"` // See custom AppendTo
 }
+
+// AppendTo implements custom encoding logic for TaxRegistrationParams.
+func (t *TaxRegistrationParams) AppendTo(body *form.Values, keyParts []string) {
+	if BoolValue(t.ActiveFromNow) {
+		body.Add(form.FormatKey(append(keyParts, "active_from")), "now")
+	}
+	if BoolValue(t.ExpiresAtNow) {
+		body.Add(form.FormatKey(append(keyParts, "expires_at")), "now")
+	}
+}
+
 type TaxRegistrationCountryOptionsAe struct {
 	// Type of registration in `country`.
 	Type TaxRegistrationCountryOptionsAeType `json:"type"`
