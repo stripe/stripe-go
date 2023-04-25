@@ -6,8 +6,6 @@
 
 package stripe
 
-import "encoding/json"
-
 // Returns a list of your invoice items. Invoice items are returned sorted by creation date, with the most recently created invoice items appearing first.
 type InvoiceItemListParams struct {
 	ListParams   `form:"*"`
@@ -156,23 +154,4 @@ type InvoiceItemList struct {
 	APIResource
 	ListMeta
 	Data []*InvoiceItem `json:"data"`
-}
-
-// UnmarshalJSON handles deserialization of an InvoiceItem.
-// This custom unmarshaling is needed because the resulting
-// property may be an id or the full struct if it was expanded.
-func (i *InvoiceItem) UnmarshalJSON(data []byte) error {
-	if id, ok := ParseID(data); ok {
-		i.ID = id
-		return nil
-	}
-
-	type invoiceItem InvoiceItem
-	var v invoiceItem
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-
-	*i = InvoiceItem(v)
-	return nil
 }
