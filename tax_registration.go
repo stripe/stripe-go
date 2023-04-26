@@ -1232,14 +1232,14 @@ type TaxRegistrationCountryOptionsParams struct {
 // Creates a new Tax Registration object.
 type TaxRegistrationParams struct {
 	Params `form:"*"`
-	// Time at which the registration becomes active. Measured in seconds since the Unix epoch.
+	// Time at which the registration becomes active. It can be either `now` to indicate the current time, or a timestamp measured in seconds since the Unix epoch.
 	ActiveFrom    *int64 `form:"active_from"`
 	ActiveFromNow *bool  `form:"-"` // See custom AppendTo
 	// Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)).
 	Country *string `form:"country"`
 	// Specific options for a registration in the specified `country`.
 	CountryOptions *TaxRegistrationCountryOptionsParams `form:"country_options"`
-	// If set, the registration stops being active at this time. If not set, the registration will be active indefinitely. Measured in seconds since the Unix epoch.
+	// If set, the registration stops being active at this time. If not set, the registration will be active indefinitely. It can be either `now` to indicate the current time, or a timestamp measured in seconds since the Unix epoch.
 	ExpiresAt    *int64 `form:"expires_at"`
 	ExpiresAtNow *bool  `form:"-"` // See custom AppendTo
 }
