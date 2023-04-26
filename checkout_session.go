@@ -1448,6 +1448,8 @@ type CheckoutSessionSubscriptionDataTrialSettingsParams struct {
 type CheckoutSessionSubscriptionDataParams struct {
 	// A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice subtotal that will be transferred to the application owner's Stripe account. To use an application fee percent, the request must be made on behalf of another account, using the `Stripe-Account` header or an OAuth key. For more information, see the application fees [documentation](https://stripe.com/docs/connect/subscriptions#collecting-fees-on-subscriptions).
 	ApplicationFeePercent *float64 `form:"application_fee_percent"`
+	// A future timestamp to anchor the subscription's billing cycle for new subscriptions.
+	BillingCycleAnchor *int64 `form:"billing_cycle_anchor"`
 	// The ID of the coupon to apply to this subscription. A coupon applied to a subscription will only affect invoices created for that particular subscription.
 	Coupon *string `form:"coupon"`
 	// The tax rates that will apply to any subscription item that does not have
@@ -1462,6 +1464,8 @@ type CheckoutSessionSubscriptionDataParams struct {
 	Metadata map[string]string `form:"metadata"`
 	// The account on behalf of which to charge, for each of the subscription's invoices.
 	OnBehalfOf *string `form:"on_behalf_of"`
+	// Determines how to handle prorations resulting from the `billing_cycle_anchor`. If no value is passed, the default is `create_prorations`.
+	ProrationBehavior *string `form:"proration_behavior"`
 	// If specified, the funds from the subscription's invoices will be transferred to the destination and the ID of the resulting transfers will be found on the resulting charges.
 	TransferData *CheckoutSessionSubscriptionDataTransferDataParams `form:"transfer_data"`
 	// Unix timestamp representing the end of the trial period the customer
