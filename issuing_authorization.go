@@ -138,6 +138,8 @@ type IssuingAuthorizationMerchantData struct {
 	PostalCode string `json:"postal_code"`
 	// State where the seller is located
 	State string `json:"state"`
+	// An ID assigned by the seller to the location of the sale.
+	TerminalID string `json:"terminal_id"`
 	// URL provided by the merchant on a 3DS request
 	URL string `json:"url"`
 }

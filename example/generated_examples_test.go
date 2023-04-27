@@ -111,8 +111,9 @@ func TestAppsSecretCreate(t *testing.T) {
 			Type: stripe.String(string(stripe.AppsSecretScopeTypeAccount)),
 		},
 	}
-	result, _ := apps_secret.New(params)
+	result, err := apps_secret.New(params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestAppsSecretDeleteWhere(t *testing.T) {
@@ -122,8 +123,9 @@ func TestAppsSecretDeleteWhere(t *testing.T) {
 			Type: stripe.String(string(stripe.AppsSecretScopeTypeAccount)),
 		},
 	}
-	result, _ := apps_secret.DeleteWhere(params)
+	result, err := apps_secret.DeleteWhere(params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestAppsSecretFind(t *testing.T) {
@@ -133,14 +135,16 @@ func TestAppsSecretFind(t *testing.T) {
 			Type: stripe.String(string(stripe.AppsSecretScopeTypeAccount)),
 		},
 	}
-	result, _ := apps_secret.Find(params)
+	result, err := apps_secret.Find(params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestCheckoutSessionExpire(t *testing.T) {
 	params := &stripe.CheckoutSessionExpireParams{}
-	result, _ := checkout_session.Expire("sess_xyz", params)
+	result, err := checkout_session.Expire("sess_xyz", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestCheckoutSessionListLineItems(t *testing.T) {
@@ -154,8 +158,9 @@ func TestCheckoutSessionListLineItems(t *testing.T) {
 
 func TestCashBalanceRetrieve(t *testing.T) {
 	params := &stripe.CashBalanceParams{Customer: stripe.String("cus_123")}
-	result, _ := cashbalance.Get(params)
+	result, err := cashbalance.Get(params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestCashBalanceUpdate(t *testing.T) {
@@ -165,8 +170,9 @@ func TestCashBalanceUpdate(t *testing.T) {
 		},
 		Customer: stripe.String("cus_123"),
 	}
-	result, _ := cashbalance.Update(params)
+	result, err := cashbalance.Update(params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestCustomerCreateFundingInstructions(t *testing.T) {
@@ -178,8 +184,9 @@ func TestCustomerCreateFundingInstructions(t *testing.T) {
 		Currency:    stripe.String(string(stripe.CurrencyUSD)),
 		FundingType: stripe.String("bank_transfer"),
 	}
-	result, _ := customer.CreateFundingInstructions("cus_123", params)
+	result, err := customer.CreateFundingInstructions("cus_123", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestCustomerListPaymentMethods(t *testing.T) {
@@ -201,14 +208,16 @@ func TestFinancialConnectionsAccountList(t *testing.T) {
 
 func TestFinancialConnectionsAccountRetrieve(t *testing.T) {
 	params := &stripe.FinancialConnectionsAccountParams{}
-	result, _ := financialconnections_account.GetByID("fca_xyz", params)
+	result, err := financialconnections_account.GetByID("fca_xyz", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestFinancialConnectionsAccountDisconnect(t *testing.T) {
 	params := &stripe.FinancialConnectionsAccountDisconnectParams{}
-	result, _ := financialconnections_account.Disconnect("fca_xyz", params)
+	result, err := financialconnections_account.Disconnect("fca_xyz", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestFinancialConnectionsAccountListOwners(t *testing.T) {
@@ -225,8 +234,9 @@ func TestFinancialConnectionsAccountRefresh(t *testing.T) {
 	params := &stripe.FinancialConnectionsAccountRefreshParams{
 		Features: []*string{stripe.String("balance")},
 	}
-	result, _ := financialconnections_account.Refresh("fca_xyz", params)
+	result, err := financialconnections_account.Refresh("fca_xyz", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestFinancialConnectionsSessionCreate(t *testing.T) {
@@ -239,14 +249,16 @@ func TestFinancialConnectionsSessionCreate(t *testing.T) {
 			stripe.String(string(stripe.FinancialConnectionsSessionPermissionBalances)),
 		},
 	}
-	result, _ := financialconnections_session.New(params)
+	result, err := financialconnections_session.New(params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestFinancialConnectionsSessionRetrieve(t *testing.T) {
 	params := &stripe.FinancialConnectionsSessionParams{}
-	result, _ := financialconnections_session.Get("fcsess_xyz", params)
+	result, err := financialconnections_session.Get("fcsess_xyz", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestPaymentIntentCreate(t *testing.T) {
@@ -257,14 +269,16 @@ func TestPaymentIntentCreate(t *testing.T) {
 			Enabled: stripe.Bool(true),
 		},
 	}
-	result, _ := paymentintent.New(params)
+	result, err := paymentintent.New(params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestPaymentIntentVerifyMicrodeposits(t *testing.T) {
 	params := &stripe.PaymentIntentVerifyMicrodepositsParams{}
-	result, _ := paymentintent.VerifyMicrodeposits("pi_xxxxxxxxxxxxx", params)
+	result, err := paymentintent.VerifyMicrodeposits("pi_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestPaymentLinkCreate(t *testing.T) {
@@ -276,14 +290,16 @@ func TestPaymentLinkCreate(t *testing.T) {
 			},
 		},
 	}
-	result, _ := paymentlink.New(params)
+	result, err := paymentlink.New(params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestPaymentLinkRetrieve(t *testing.T) {
 	params := &stripe.PaymentLinkParams{}
-	result, _ := paymentlink.Get("pl_xyz", params)
+	result, err := paymentlink.Get("pl_xyz", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestPaymentLinkListLineItems(t *testing.T) {
@@ -308,8 +324,9 @@ func TestPriceCreate(t *testing.T) {
 		},
 		Product: stripe.String("prod_xxxxxxxxxxxxx"),
 	}
-	result, _ := price.New(params)
+	result, err := price.New(params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestSetupAttemptList(t *testing.T) {
@@ -324,8 +341,9 @@ func TestSetupAttemptList(t *testing.T) {
 
 func TestSetupIntentVerifyMicrodeposits(t *testing.T) {
 	params := &stripe.SetupIntentVerifyMicrodepositsParams{}
-	result, _ := setupintent.VerifyMicrodeposits("seti_xxxxxxxxxxxxx", params)
+	result, err := setupintent.VerifyMicrodeposits("seti_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestShippingRateList(t *testing.T) {
@@ -344,8 +362,9 @@ func TestShippingRateCreate(t *testing.T) {
 		},
 		Type: stripe.String("fixed_amount"),
 	}
-	result, _ := shippingrate.New(params)
+	result, err := shippingrate.New(params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestTerminalConfigurationList(t *testing.T) {
@@ -357,20 +376,23 @@ func TestTerminalConfigurationList(t *testing.T) {
 
 func TestTerminalConfigurationCreate(t *testing.T) {
 	params := &stripe.TerminalConfigurationParams{}
-	result, _ := terminal_configuration.New(params)
+	result, err := terminal_configuration.New(params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestTerminalConfigurationDelete(t *testing.T) {
 	params := &stripe.TerminalConfigurationParams{}
-	result, _ := terminal_configuration.Del("uc_123", params)
+	result, err := terminal_configuration.Del("uc_123", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestTerminalConfigurationRetrieve(t *testing.T) {
 	params := &stripe.TerminalConfigurationParams{}
-	result, _ := terminal_configuration.Get("uc_123", params)
+	result, err := terminal_configuration.Get("uc_123", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestTerminalConfigurationUpdate(t *testing.T) {
@@ -381,8 +403,9 @@ func TestTerminalConfigurationUpdate(t *testing.T) {
 			},
 		},
 	}
-	result, _ := terminal_configuration.Update("uc_123", params)
+	result, err := terminal_configuration.Update("uc_123", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestTestHelpersCustomerFundCashBalance(t *testing.T) {
@@ -390,38 +413,44 @@ func TestTestHelpersCustomerFundCashBalance(t *testing.T) {
 		Amount:   stripe.Int64(30),
 		Currency: stripe.String(string(stripe.CurrencyEUR)),
 	}
-	result, _ := testhelpers_customer.FundCashBalance("cus_123", params)
+	result, err := testhelpers_customer.FundCashBalance("cus_123", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestTestHelpersIssuingCardDeliverCard(t *testing.T) {
 	params := &stripe.TestHelpersIssuingCardDeliverCardParams{}
-	result, _ := testhelpers_issuing_card.DeliverCard("card_123", params)
+	result, err := testhelpers_issuing_card.DeliverCard("card_123", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestTestHelpersIssuingCardFailCard(t *testing.T) {
 	params := &stripe.TestHelpersIssuingCardFailCardParams{}
-	result, _ := testhelpers_issuing_card.FailCard("card_123", params)
+	result, err := testhelpers_issuing_card.FailCard("card_123", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestTestHelpersIssuingCardReturnCard(t *testing.T) {
 	params := &stripe.TestHelpersIssuingCardReturnCardParams{}
-	result, _ := testhelpers_issuing_card.ReturnCard("card_123", params)
+	result, err := testhelpers_issuing_card.ReturnCard("card_123", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestTestHelpersIssuingCardShipCard(t *testing.T) {
 	params := &stripe.TestHelpersIssuingCardShipCardParams{}
-	result, _ := testhelpers_issuing_card.ShipCard("card_123", params)
+	result, err := testhelpers_issuing_card.ShipCard("card_123", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestTestHelpersRefundExpire(t *testing.T) {
 	params := &stripe.TestHelpersRefundExpireParams{}
-	result, _ := testhelpers_refund.Expire("re_123", params)
+	result, err := testhelpers_refund.Expire("re_123", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestTestHelpersTestClockList(t *testing.T) {
@@ -436,28 +465,32 @@ func TestTestHelpersTestClockCreate(t *testing.T) {
 		FrozenTime: stripe.Int64(123),
 		Name:       stripe.String("cogsworth"),
 	}
-	result, _ := testhelpers_testclock.New(params)
+	result, err := testhelpers_testclock.New(params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestTestHelpersTestClockDelete(t *testing.T) {
 	params := &stripe.TestHelpersTestClockParams{}
-	result, _ := testhelpers_testclock.Del("clock_xyz", params)
+	result, err := testhelpers_testclock.Del("clock_xyz", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestTestHelpersTestClockRetrieve(t *testing.T) {
 	params := &stripe.TestHelpersTestClockParams{}
-	result, _ := testhelpers_testclock.Get("clock_xyz", params)
+	result, err := testhelpers_testclock.Get("clock_xyz", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestTestHelpersTestClockAdvance(t *testing.T) {
 	params := &stripe.TestHelpersTestClockAdvanceParams{
 		FrozenTime: stripe.Int64(142),
 	}
-	result, _ := testhelpers_testclock.Advance("clock_xyz", params)
+	result, err := testhelpers_testclock.Advance("clock_xyz", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestTestHelpersTreasuryInboundTransferFail(t *testing.T) {
@@ -466,35 +499,43 @@ func TestTestHelpersTreasuryInboundTransferFail(t *testing.T) {
 			Code: stripe.String(string(stripe.TreasuryInboundTransferFailureDetailsCodeAccountClosed)),
 		},
 	}
-	result, _ := testhelpers_treasury_inboundtransfer.Fail("ibt_123", params)
+	result, err := testhelpers_treasury_inboundtransfer.Fail("ibt_123", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestTestHelpersTreasuryInboundTransferReturnInboundTransfer(t *testing.T) {
 	params := &stripe.TestHelpersTreasuryInboundTransferReturnInboundTransferParams{}
-	result, _ := testhelpers_treasury_inboundtransfer.ReturnInboundTransfer(
+	result, err := testhelpers_treasury_inboundtransfer.ReturnInboundTransfer(
 		"ibt_123",
 		params,
 	)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestTestHelpersTreasuryInboundTransferSucceed(t *testing.T) {
 	params := &stripe.TestHelpersTreasuryInboundTransferSucceedParams{}
-	result, _ := testhelpers_treasury_inboundtransfer.Succeed("ibt_123", params)
+	result, err := testhelpers_treasury_inboundtransfer.Succeed(
+		"ibt_123",
+		params,
+	)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestTestHelpersTreasuryOutboundTransferFail(t *testing.T) {
 	params := &stripe.TestHelpersTreasuryOutboundTransferFailParams{}
-	result, _ := testhelpers_treasury_outboundtransfer.Fail("obt_123", params)
+	result, err := testhelpers_treasury_outboundtransfer.Fail("obt_123", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestTestHelpersTreasuryOutboundTransferPost(t *testing.T) {
 	params := &stripe.TestHelpersTreasuryOutboundTransferPostParams{}
-	result, _ := testhelpers_treasury_outboundtransfer.Post("obt_123", params)
+	result, err := testhelpers_treasury_outboundtransfer.Post("obt_123", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestTestHelpersTreasuryOutboundTransferReturnOutboundTransfer(
@@ -505,11 +546,12 @@ func TestTestHelpersTreasuryOutboundTransferReturnOutboundTransfer(
 			Code: stripe.String(string(stripe.TreasuryOutboundTransferReturnedDetailsCodeAccountClosed)),
 		},
 	}
-	result, _ := testhelpers_treasury_outboundtransfer.ReturnOutboundTransfer(
+	result, err := testhelpers_treasury_outboundtransfer.ReturnOutboundTransfer(
 		"obt_123",
 		params,
 	)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestTestHelpersTreasuryReceivedCreditCreate(t *testing.T) {
@@ -519,8 +561,9 @@ func TestTestHelpersTreasuryReceivedCreditCreate(t *testing.T) {
 		Amount:           stripe.Int64(1234),
 		Currency:         stripe.String(string(stripe.CurrencyUSD)),
 	}
-	result, _ := testhelpers_treasury_receivedcredit.New(params)
+	result, err := testhelpers_treasury_receivedcredit.New(params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestTestHelpersTreasuryReceivedDebitCreate(t *testing.T) {
@@ -530,8 +573,9 @@ func TestTestHelpersTreasuryReceivedDebitCreate(t *testing.T) {
 		Amount:           stripe.Int64(1234),
 		Currency:         stripe.String(string(stripe.CurrencyUSD)),
 	}
-	result, _ := testhelpers_treasury_receiveddebit.New(params)
+	result, err := testhelpers_treasury_receiveddebit.New(params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestTokenCreate(t *testing.T) {
@@ -543,8 +587,9 @@ func TestTokenCreate(t *testing.T) {
 			CVC:      stripe.String("314"),
 		},
 	}
-	result, _ := token.New(params)
+	result, err := token.New(params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestAccountLinkCreate(t *testing.T) {
@@ -554,8 +599,9 @@ func TestAccountLinkCreate(t *testing.T) {
 		ReturnURL:  stripe.String("https://example.com/return"),
 		Type:       stripe.String("account_onboarding"),
 	}
-	result, _ := accountlink.New(params)
+	result, err := accountlink.New(params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestAccountList(t *testing.T) {
@@ -580,33 +626,38 @@ func TestAccountCreate(t *testing.T) {
 			},
 		},
 	}
-	result, _ := account.New(params)
+	result, err := account.New(params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestAccountDelete(t *testing.T) {
 	params := &stripe.AccountParams{}
-	result, _ := account.Del("acct_xxxxxxxxxxxxx", params)
+	result, err := account.Del("acct_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestAccountRetrieve(t *testing.T) {
 	params := &stripe.AccountParams{}
-	result, _ := account.GetByID("acct_xxxxxxxxxxxxx", params)
+	result, err := account.GetByID("acct_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestAccountUpdate(t *testing.T) {
 	params := &stripe.AccountParams{}
 	params.AddMetadata("order_id", "6735")
-	result, _ := account.Update("acct_xxxxxxxxxxxxx", params)
+	result, err := account.Update("acct_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestAccountReject(t *testing.T) {
 	params := &stripe.AccountRejectParams{Reason: stripe.String("fraud")}
-	result, _ := account.Reject("acct_xxxxxxxxxxxxx", params)
+	result, err := account.Reject("acct_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestCapabilityList(t *testing.T) {
@@ -622,8 +673,9 @@ func TestCapabilityRetrieve(t *testing.T) {
 	params := &stripe.CapabilityParams{
 		Account: stripe.String("acct_xxxxxxxxxxxxx"),
 	}
-	result, _ := capability.Get("card_payments", params)
+	result, err := capability.Get("card_payments", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestCapabilityUpdate(t *testing.T) {
@@ -631,8 +683,9 @@ func TestCapabilityUpdate(t *testing.T) {
 		Requested: stripe.Bool(true),
 		Account:   stripe.String("acct_xxxxxxxxxxxxx"),
 	}
-	result, _ := capability.Update("card_payments", params)
+	result, err := capability.Update("card_payments", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestPersonList(t *testing.T) {
@@ -649,16 +702,19 @@ func TestPersonCreate(t *testing.T) {
 	params := &stripe.PersonParams{
 		FirstName: stripe.String("Jane"),
 		LastName:  stripe.String("Diaz"),
+		Account:   stripe.String("acct_xxxxxxxxxxxxx"),
 	}
-	result, _ := person.New(params)
+	result, err := person.New(params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestPersonUpdate(t *testing.T) {
 	params := &stripe.PersonParams{Account: stripe.String("acct_xxxxxxxxxxxxx")}
 	params.AddMetadata("order_id", "6735")
-	result, _ := person.Update("person_xxxxxxxxxxxxx", params)
+	result, err := person.Update("person_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestAppsSecretList2(t *testing.T) {
@@ -681,8 +737,9 @@ func TestAppsSecretCreate2(t *testing.T) {
 			Type: stripe.String(string(stripe.AppsSecretScopeTypeAccount)),
 		},
 	}
-	result, _ := apps_secret.New(params)
+	result, err := apps_secret.New(params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestBalanceTransactionList(t *testing.T) {
@@ -695,8 +752,9 @@ func TestBalanceTransactionList(t *testing.T) {
 
 func TestBalanceTransactionRetrieve(t *testing.T) {
 	params := &stripe.BalanceTransactionParams{}
-	result, _ := balancetransaction.Get("txn_xxxxxxxxxxxxx", params)
+	result, err := balancetransaction.Get("txn_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestBillingPortalConfigurationList(t *testing.T) {
@@ -726,14 +784,16 @@ func TestBillingPortalConfigurationCreate(t *testing.T) {
 			TermsOfServiceURL: stripe.String("https://example.com/terms"),
 		},
 	}
-	result, _ := billingportal_configuration.New(params)
+	result, err := billingportal_configuration.New(params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestBillingPortalConfigurationRetrieve(t *testing.T) {
 	params := &stripe.BillingPortalConfigurationParams{}
-	result, _ := billingportal_configuration.Get("bpc_xxxxxxxxxxxxx", params)
+	result, err := billingportal_configuration.Get("bpc_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestBillingPortalConfigurationUpdate(t *testing.T) {
@@ -743,8 +803,12 @@ func TestBillingPortalConfigurationUpdate(t *testing.T) {
 			TermsOfServiceURL: stripe.String("https://example.com/terms"),
 		},
 	}
-	result, _ := billingportal_configuration.Update("bpc_xxxxxxxxxxxxx", params)
+	result, err := billingportal_configuration.Update(
+		"bpc_xxxxxxxxxxxxx",
+		params,
+	)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestBillingPortalSessionCreate(t *testing.T) {
@@ -752,8 +816,9 @@ func TestBillingPortalSessionCreate(t *testing.T) {
 		Customer:  stripe.String("cus_xxxxxxxxxxxxx"),
 		ReturnURL: stripe.String("https://example.com/account"),
 	}
-	result, _ := billingportal_session.New(params)
+	result, err := billingportal_session.New(params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestChargeList(t *testing.T) {
@@ -771,27 +836,31 @@ func TestChargeCreate(t *testing.T) {
 		Source:      &stripe.PaymentSourceSourceParams{Token: stripe.String("tok_xxxx")},
 		Description: stripe.String("My First Test Charge (created for API docs at https://www.stripe.com/docs/api)"),
 	}
-	result, _ := charge.New(params)
+	result, err := charge.New(params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestChargeRetrieve(t *testing.T) {
 	params := &stripe.ChargeParams{}
-	result, _ := charge.Get("ch_xxxxxxxxxxxxx", params)
+	result, err := charge.Get("ch_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestChargeUpdate(t *testing.T) {
 	params := &stripe.ChargeParams{}
 	params.AddMetadata("order_id", "6735")
-	result, _ := charge.Update("ch_xxxxxxxxxxxxx", params)
+	result, err := charge.Update("ch_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestChargeCapture(t *testing.T) {
 	params := &stripe.ChargeCaptureParams{}
-	result, _ := charge.Capture("ch_xxxxxxxxxxxxx", params)
+	result, err := charge.Capture("ch_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestChargeSearch(t *testing.T) {
@@ -815,14 +884,16 @@ func TestCheckoutSessionList(t *testing.T) {
 
 func TestCheckoutSessionRetrieve(t *testing.T) {
 	params := &stripe.CheckoutSessionParams{}
-	result, _ := checkout_session.Get("cs_test_xxxxxxxxxxxxx", params)
+	result, err := checkout_session.Get("cs_test_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestCheckoutSessionExpire2(t *testing.T) {
 	params := &stripe.CheckoutSessionExpireParams{}
-	result, _ := checkout_session.Expire("cs_test_xxxxxxxxxxxxx", params)
+	result, err := checkout_session.Expire("cs_test_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestCountrySpecList(t *testing.T) {
@@ -835,8 +906,9 @@ func TestCountrySpecList(t *testing.T) {
 
 func TestCountrySpecRetrieve(t *testing.T) {
 	params := &stripe.CountrySpecParams{}
-	result, _ := countryspec.Get("US", params)
+	result, err := countryspec.Get("US", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestCouponList(t *testing.T) {
@@ -853,27 +925,31 @@ func TestCouponCreate(t *testing.T) {
 		Duration:         stripe.String(string(stripe.CouponDurationRepeating)),
 		DurationInMonths: stripe.Int64(3),
 	}
-	result, _ := coupon.New(params)
+	result, err := coupon.New(params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestCouponDelete(t *testing.T) {
 	params := &stripe.CouponParams{}
-	result, _ := coupon.Del("Z4OV52SU", params)
+	result, err := coupon.Del("Z4OV52SU", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestCouponRetrieve(t *testing.T) {
 	params := &stripe.CouponParams{}
-	result, _ := coupon.Get("Z4OV52SU", params)
+	result, err := coupon.Get("Z4OV52SU", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestCouponUpdate(t *testing.T) {
 	params := &stripe.CouponParams{}
 	params.AddMetadata("order_id", "6735")
-	result, _ := coupon.Update("Z4OV52SU", params)
+	result, err := coupon.Update("Z4OV52SU", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestCustomerList(t *testing.T) {
@@ -896,27 +972,31 @@ func TestCustomerCreate(t *testing.T) {
 	params := &stripe.CustomerParams{
 		Description: stripe.String("My First Test Customer (created for API docs at https://www.stripe.com/docs/api)"),
 	}
-	result, _ := customer.New(params)
+	result, err := customer.New(params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestCustomerDelete(t *testing.T) {
 	params := &stripe.CustomerParams{}
-	result, _ := customer.Del("cus_xxxxxxxxxxxxx", params)
+	result, err := customer.Del("cus_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestCustomerRetrieve(t *testing.T) {
 	params := &stripe.CustomerParams{}
-	result, _ := customer.Get("cus_xxxxxxxxxxxxx", params)
+	result, err := customer.Get("cus_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestCustomerUpdate(t *testing.T) {
 	params := &stripe.CustomerParams{}
 	params.AddMetadata("order_id", "6735")
-	result, _ := customer.Update("cus_xxxxxxxxxxxxx", params)
+	result, err := customer.Update("cus_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestCustomerBalanceTransactionList(t *testing.T) {
@@ -933,17 +1013,20 @@ func TestCustomerBalanceTransactionCreate(t *testing.T) {
 	params := &stripe.CustomerBalanceTransactionParams{
 		Amount:   stripe.Int64(-500),
 		Currency: stripe.String(string(stripe.CurrencyUSD)),
+		Customer: stripe.String("cus_xxxxxxxxxxxxx"),
 	}
-	result, _ := customerbalancetransaction.New(params)
+	result, err := customerbalancetransaction.New(params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestCustomerBalanceTransactionRetrieve(t *testing.T) {
 	params := &stripe.CustomerBalanceTransactionParams{
 		Customer: stripe.String("cus_xxxxxxxxxxxxx"),
 	}
-	result, _ := customerbalancetransaction.Get("cbtxn_xxxxxxxxxxxxx", params)
+	result, err := customerbalancetransaction.Get("cbtxn_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestCustomerBalanceTransactionUpdate(t *testing.T) {
@@ -951,8 +1034,12 @@ func TestCustomerBalanceTransactionUpdate(t *testing.T) {
 		Customer: stripe.String("cus_xxxxxxxxxxxxx"),
 	}
 	params.AddMetadata("order_id", "6735")
-	result, _ := customerbalancetransaction.Update("cbtxn_xxxxxxxxxxxxx", params)
+	result, err := customerbalancetransaction.Update(
+		"cbtxn_xxxxxxxxxxxxx",
+		params,
+	)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestCustomerListPaymentMethods2(t *testing.T) {
@@ -977,23 +1064,27 @@ func TestTaxIDList(t *testing.T) {
 
 func TestTaxIDCreate(t *testing.T) {
 	params := &stripe.TaxIDParams{
-		Type:  stripe.String(string(stripe.TaxIDTypeEUVAT)),
-		Value: stripe.String("DE123456789"),
+		Type:     stripe.String(string(stripe.TaxIDTypeEUVAT)),
+		Value:    stripe.String("DE123456789"),
+		Customer: stripe.String("cus_xxxxxxxxxxxxx"),
 	}
-	result, _ := taxid.New(params)
+	result, err := taxid.New(params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestTaxIDDelete(t *testing.T) {
 	params := &stripe.TaxIDParams{Customer: stripe.String("cus_xxxxxxxxxxxxx")}
-	result, _ := taxid.Del("txi_xxxxxxxxxxxxx", params)
+	result, err := taxid.Del("txi_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestTaxIDRetrieve(t *testing.T) {
 	params := &stripe.TaxIDParams{Customer: stripe.String("cus_xxxxxxxxxxxxx")}
-	result, _ := taxid.Get("txi_xxxxxxxxxxxxx", params)
+	result, err := taxid.Get("txi_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestCustomerSearch(t *testing.T) {
@@ -1028,21 +1119,24 @@ func TestDisputeList(t *testing.T) {
 
 func TestDisputeRetrieve(t *testing.T) {
 	params := &stripe.DisputeParams{}
-	result, _ := dispute.Get("dp_xxxxxxxxxxxxx", params)
+	result, err := dispute.Get("dp_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestDisputeUpdate(t *testing.T) {
 	params := &stripe.DisputeParams{}
 	params.AddMetadata("order_id", "6735")
-	result, _ := dispute.Update("dp_xxxxxxxxxxxxx", params)
+	result, err := dispute.Update("dp_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestDisputeClose(t *testing.T) {
 	params := &stripe.DisputeParams{}
-	result, _ := dispute.Close("dp_xxxxxxxxxxxxx", params)
+	result, err := dispute.Close("dp_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestEventList(t *testing.T) {
@@ -1055,8 +1149,9 @@ func TestEventList(t *testing.T) {
 
 func TestEventRetrieve(t *testing.T) {
 	params := &stripe.EventParams{}
-	result, _ := event.Get("evt_xxxxxxxxxxxxx", params)
+	result, err := event.Get("evt_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestFinancialConnectionsAccountList2(t *testing.T) {
@@ -1072,20 +1167,22 @@ func TestFinancialConnectionsAccountList2(t *testing.T) {
 
 func TestFinancialConnectionsAccountRetrieve2(t *testing.T) {
 	params := &stripe.FinancialConnectionsAccountParams{}
-	result, _ := financialconnections_account.GetByID(
+	result, err := financialconnections_account.GetByID(
 		"fca_xxxxxxxxxxxxx",
 		params,
 	)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestFinancialConnectionsAccountDisconnect2(t *testing.T) {
 	params := &stripe.FinancialConnectionsAccountDisconnectParams{}
-	result, _ := financialconnections_account.Disconnect(
+	result, err := financialconnections_account.Disconnect(
 		"fca_xxxxxxxxxxxxx",
 		params,
 	)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestFinancialConnectionsAccountListOwners2(t *testing.T) {
@@ -1113,14 +1210,19 @@ func TestFinancialConnectionsSessionCreate2(t *testing.T) {
 			Countries: []*string{stripe.String("US")},
 		},
 	}
-	result, _ := financialconnections_session.New(params)
+	result, err := financialconnections_session.New(params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestFinancialConnectionsSessionRetrieve2(t *testing.T) {
 	params := &stripe.FinancialConnectionsSessionParams{}
-	result, _ := financialconnections_session.Get("fcsess_xxxxxxxxxxxxx", params)
+	result, err := financialconnections_session.Get(
+		"fcsess_xxxxxxxxxxxxx",
+		params,
+	)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestIdentityVerificationReportList(t *testing.T) {
@@ -1133,8 +1235,9 @@ func TestIdentityVerificationReportList(t *testing.T) {
 
 func TestIdentityVerificationReportRetrieve(t *testing.T) {
 	params := &stripe.IdentityVerificationReportParams{}
-	result, _ := identity_verificationreport.Get("vr_xxxxxxxxxxxxx", params)
+	result, err := identity_verificationreport.Get("vr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestIdentityVerificationSessionList(t *testing.T) {
@@ -1149,34 +1252,48 @@ func TestIdentityVerificationSessionCreate(t *testing.T) {
 	params := &stripe.IdentityVerificationSessionParams{
 		Type: stripe.String(string(stripe.IdentityVerificationSessionTypeDocument)),
 	}
-	result, _ := identity_verificationsession.New(params)
+	result, err := identity_verificationsession.New(params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestIdentityVerificationSessionRetrieve(t *testing.T) {
 	params := &stripe.IdentityVerificationSessionParams{}
-	result, _ := identity_verificationsession.Get("vs_xxxxxxxxxxxxx", params)
+	result, err := identity_verificationsession.Get("vs_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestIdentityVerificationSessionUpdate(t *testing.T) {
 	params := &stripe.IdentityVerificationSessionParams{
 		Type: stripe.String(string(stripe.IdentityVerificationSessionTypeIDNumber)),
 	}
-	result, _ := identity_verificationsession.Update("vs_xxxxxxxxxxxxx", params)
+	result, err := identity_verificationsession.Update(
+		"vs_xxxxxxxxxxxxx",
+		params,
+	)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestIdentityVerificationSessionCancel(t *testing.T) {
 	params := &stripe.IdentityVerificationSessionCancelParams{}
-	result, _ := identity_verificationsession.Cancel("vs_xxxxxxxxxxxxx", params)
+	result, err := identity_verificationsession.Cancel(
+		"vs_xxxxxxxxxxxxx",
+		params,
+	)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestIdentityVerificationSessionRedact(t *testing.T) {
 	params := &stripe.IdentityVerificationSessionRedactParams{}
-	result, _ := identity_verificationsession.Redact("vs_xxxxxxxxxxxxx", params)
+	result, err := identity_verificationsession.Redact(
+		"vs_xxxxxxxxxxxxx",
+		params,
+	)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestInvoiceItemList(t *testing.T) {
@@ -1192,27 +1309,31 @@ func TestInvoiceItemCreate(t *testing.T) {
 		Customer: stripe.String("cus_xxxxxxxxxxxxx"),
 		Price:    stripe.String("price_xxxxxxxxxxxxx"),
 	}
-	result, _ := invoiceitem.New(params)
+	result, err := invoiceitem.New(params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestInvoiceItemDelete(t *testing.T) {
 	params := &stripe.InvoiceItemParams{}
-	result, _ := invoiceitem.Del("ii_xxxxxxxxxxxxx", params)
+	result, err := invoiceitem.Del("ii_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestInvoiceItemRetrieve(t *testing.T) {
 	params := &stripe.InvoiceItemParams{}
-	result, _ := invoiceitem.Get("ii_xxxxxxxxxxxxx", params)
+	result, err := invoiceitem.Get("ii_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestInvoiceItemUpdate(t *testing.T) {
 	params := &stripe.InvoiceItemParams{}
 	params.AddMetadata("order_id", "6735")
-	result, _ := invoiceitem.Update("ii_xxxxxxxxxxxxx", params)
+	result, err := invoiceitem.Update("ii_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestInvoiceList(t *testing.T) {
@@ -1225,64 +1346,74 @@ func TestInvoiceList(t *testing.T) {
 
 func TestInvoiceCreate(t *testing.T) {
 	params := &stripe.InvoiceParams{Customer: stripe.String("cus_xxxxxxxxxxxxx")}
-	result, _ := invoice.New(params)
+	result, err := invoice.New(params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestInvoiceDelete(t *testing.T) {
 	params := &stripe.InvoiceParams{}
-	result, _ := invoice.Del("in_xxxxxxxxxxxxx", params)
+	result, err := invoice.Del("in_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestInvoiceRetrieve(t *testing.T) {
 	params := &stripe.InvoiceParams{}
-	result, _ := invoice.Get("in_xxxxxxxxxxxxx", params)
+	result, err := invoice.Get("in_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestInvoiceRetrieve2(t *testing.T) {
 	params := &stripe.InvoiceParams{}
 	params.AddExpand("customer")
-	result, _ := invoice.Get("in_xxxxxxxxxxxxx", params)
+	result, err := invoice.Get("in_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestInvoiceUpdate(t *testing.T) {
 	params := &stripe.InvoiceParams{}
 	params.AddMetadata("order_id", "6735")
-	result, _ := invoice.Update("in_xxxxxxxxxxxxx", params)
+	result, err := invoice.Update("in_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestInvoiceFinalizeInvoice(t *testing.T) {
 	params := &stripe.InvoiceFinalizeInvoiceParams{}
-	result, _ := invoice.FinalizeInvoice("in_xxxxxxxxxxxxx", params)
+	result, err := invoice.FinalizeInvoice("in_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestInvoiceMarkUncollectible(t *testing.T) {
 	params := &stripe.InvoiceMarkUncollectibleParams{}
-	result, _ := invoice.MarkUncollectible("in_xxxxxxxxxxxxx", params)
+	result, err := invoice.MarkUncollectible("in_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestInvoicePay(t *testing.T) {
 	params := &stripe.InvoicePayParams{}
-	result, _ := invoice.Pay("in_xxxxxxxxxxxxx", params)
+	result, err := invoice.Pay("in_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestInvoiceSendInvoice(t *testing.T) {
 	params := &stripe.InvoiceSendInvoiceParams{}
-	result, _ := invoice.SendInvoice("in_xxxxxxxxxxxxx", params)
+	result, err := invoice.SendInvoice("in_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestInvoiceVoidInvoice(t *testing.T) {
 	params := &stripe.InvoiceVoidInvoiceParams{}
-	result, _ := invoice.VoidInvoice("in_xxxxxxxxxxxxx", params)
+	result, err := invoice.VoidInvoice("in_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestInvoiceSearch(t *testing.T) {
@@ -1306,27 +1437,31 @@ func TestIssuingAuthorizationList(t *testing.T) {
 
 func TestIssuingAuthorizationRetrieve(t *testing.T) {
 	params := &stripe.IssuingAuthorizationParams{}
-	result, _ := issuing_authorization.Get("iauth_xxxxxxxxxxxxx", params)
+	result, err := issuing_authorization.Get("iauth_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestIssuingAuthorizationUpdate(t *testing.T) {
 	params := &stripe.IssuingAuthorizationParams{}
 	params.AddMetadata("order_id", "6735")
-	result, _ := issuing_authorization.Update("iauth_xxxxxxxxxxxxx", params)
+	result, err := issuing_authorization.Update("iauth_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestIssuingAuthorizationApprove(t *testing.T) {
 	params := &stripe.IssuingAuthorizationApproveParams{}
-	result, _ := issuing_authorization.Approve("iauth_xxxxxxxxxxxxx", params)
+	result, err := issuing_authorization.Approve("iauth_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestIssuingAuthorizationDecline(t *testing.T) {
 	params := &stripe.IssuingAuthorizationDeclineParams{}
-	result, _ := issuing_authorization.Decline("iauth_xxxxxxxxxxxxx", params)
+	result, err := issuing_authorization.Decline("iauth_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestIssuingCardholderList(t *testing.T) {
@@ -1353,21 +1488,24 @@ func TestIssuingCardholderCreate(t *testing.T) {
 			},
 		},
 	}
-	result, _ := issuing_cardholder.New(params)
+	result, err := issuing_cardholder.New(params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestIssuingCardholderRetrieve(t *testing.T) {
 	params := &stripe.IssuingCardholderParams{}
-	result, _ := issuing_cardholder.Get("ich_xxxxxxxxxxxxx", params)
+	result, err := issuing_cardholder.Get("ich_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestIssuingCardholderUpdate(t *testing.T) {
 	params := &stripe.IssuingCardholderParams{}
 	params.AddMetadata("order_id", "6735")
-	result, _ := issuing_cardholder.Update("ich_xxxxxxxxxxxxx", params)
+	result, err := issuing_cardholder.Update("ich_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestIssuingCardList(t *testing.T) {
@@ -1384,21 +1522,24 @@ func TestIssuingCardCreate(t *testing.T) {
 		Currency:   stripe.String(string(stripe.CurrencyUSD)),
 		Type:       stripe.String(string(stripe.IssuingCardTypeVirtual)),
 	}
-	result, _ := issuing_card.New(params)
+	result, err := issuing_card.New(params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestIssuingCardRetrieve(t *testing.T) {
 	params := &stripe.IssuingCardParams{}
-	result, _ := issuing_card.Get("ic_xxxxxxxxxxxxx", params)
+	result, err := issuing_card.Get("ic_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestIssuingCardUpdate(t *testing.T) {
 	params := &stripe.IssuingCardParams{}
 	params.AddMetadata("order_id", "6735")
-	result, _ := issuing_card.Update("ic_xxxxxxxxxxxxx", params)
+	result, err := issuing_card.Update("ic_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestIssuingDisputeList(t *testing.T) {
@@ -1419,20 +1560,23 @@ func TestIssuingDisputeCreate(t *testing.T) {
 			},
 		},
 	}
-	result, _ := issuing_dispute.New(params)
+	result, err := issuing_dispute.New(params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestIssuingDisputeRetrieve(t *testing.T) {
 	params := &stripe.IssuingDisputeParams{}
-	result, _ := issuing_dispute.Get("idp_xxxxxxxxxxxxx", params)
+	result, err := issuing_dispute.Get("idp_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestIssuingDisputeSubmit(t *testing.T) {
 	params := &stripe.IssuingDisputeSubmitParams{}
-	result, _ := issuing_dispute.Submit("idp_xxxxxxxxxxxxx", params)
+	result, err := issuing_dispute.Submit("idp_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestIssuingTransactionList(t *testing.T) {
@@ -1445,21 +1589,24 @@ func TestIssuingTransactionList(t *testing.T) {
 
 func TestIssuingTransactionRetrieve(t *testing.T) {
 	params := &stripe.IssuingTransactionParams{}
-	result, _ := issuing_transaction.Get("ipi_xxxxxxxxxxxxx", params)
+	result, err := issuing_transaction.Get("ipi_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestIssuingTransactionUpdate(t *testing.T) {
 	params := &stripe.IssuingTransactionParams{}
 	params.AddMetadata("order_id", "6735")
-	result, _ := issuing_transaction.Update("ipi_xxxxxxxxxxxxx", params)
+	result, err := issuing_transaction.Update("ipi_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestMandateRetrieve(t *testing.T) {
 	params := &stripe.MandateParams{}
-	result, _ := mandate.Get("mandate_xxxxxxxxxxxxx", params)
+	result, err := mandate.Get("mandate_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestPaymentIntentList(t *testing.T) {
@@ -1478,63 +1625,75 @@ func TestPaymentIntentCreate2(t *testing.T) {
 			Enabled: stripe.Bool(true),
 		},
 	}
-	result, _ := paymentintent.New(params)
+	result, err := paymentintent.New(params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestPaymentIntentRetrieve(t *testing.T) {
 	params := &stripe.PaymentIntentParams{}
-	result, _ := paymentintent.Get("pi_xxxxxxxxxxxxx", params)
+	result, err := paymentintent.Get("pi_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestPaymentIntentUpdate(t *testing.T) {
 	params := &stripe.PaymentIntentParams{}
 	params.AddMetadata("order_id", "6735")
-	result, _ := paymentintent.Update("pi_xxxxxxxxxxxxx", params)
+	result, err := paymentintent.Update("pi_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestPaymentIntentApplyCustomerBalance(t *testing.T) {
 	params := &stripe.PaymentIntentApplyCustomerBalanceParams{}
-	result, _ := paymentintent.ApplyCustomerBalance("pi_xxxxxxxxxxxxx", params)
+	result, err := paymentintent.ApplyCustomerBalance("pi_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestPaymentIntentCancel(t *testing.T) {
 	params := &stripe.PaymentIntentCancelParams{}
-	result, _ := paymentintent.Cancel("pi_xxxxxxxxxxxxx", params)
+	result, err := paymentintent.Cancel("pi_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestPaymentIntentCapture(t *testing.T) {
 	params := &stripe.PaymentIntentCaptureParams{}
-	result, _ := paymentintent.Capture("pi_xxxxxxxxxxxxx", params)
+	result, err := paymentintent.Capture("pi_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestPaymentIntentConfirm(t *testing.T) {
 	params := &stripe.PaymentIntentConfirmParams{
 		PaymentMethod: stripe.String("pm_card_visa"),
 	}
-	result, _ := paymentintent.Confirm("pi_xxxxxxxxxxxxx", params)
+	result, err := paymentintent.Confirm("pi_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestPaymentIntentIncrementAuthorization(t *testing.T) {
 	params := &stripe.PaymentIntentIncrementAuthorizationParams{
 		Amount: stripe.Int64(2099),
 	}
-	result, _ := paymentintent.IncrementAuthorization("pi_xxxxxxxxxxxxx", params)
+	result, err := paymentintent.IncrementAuthorization(
+		"pi_xxxxxxxxxxxxx",
+		params,
+	)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestPaymentIntentVerifyMicrodeposits2(t *testing.T) {
 	params := &stripe.PaymentIntentVerifyMicrodepositsParams{
 		Amounts: []*int64{stripe.Int64(32), stripe.Int64(45)},
 	}
-	result, _ := paymentintent.VerifyMicrodeposits("pi_xxxxxxxxxxxxx", params)
+	result, err := paymentintent.VerifyMicrodeposits("pi_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestPaymentIntentSearch(t *testing.T) {
@@ -1565,20 +1724,23 @@ func TestPaymentLinkCreate2(t *testing.T) {
 			},
 		},
 	}
-	result, _ := paymentlink.New(params)
+	result, err := paymentlink.New(params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestPaymentLinkRetrieve2(t *testing.T) {
 	params := &stripe.PaymentLinkParams{}
-	result, _ := paymentlink.Get("plink_xxxxxxxxxxxxx", params)
+	result, err := paymentlink.Get("plink_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestPaymentLinkUpdate(t *testing.T) {
 	params := &stripe.PaymentLinkParams{Active: stripe.Bool(false)}
-	result, _ := paymentlink.Update("plink_xxxxxxxxxxxxx", params)
+	result, err := paymentlink.Update("plink_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestPaymentMethodList(t *testing.T) {
@@ -1593,29 +1755,33 @@ func TestPaymentMethodList(t *testing.T) {
 
 func TestPaymentMethodRetrieve(t *testing.T) {
 	params := &stripe.PaymentMethodParams{}
-	result, _ := paymentmethod.Get("pm_xxxxxxxxxxxxx", params)
+	result, err := paymentmethod.Get("pm_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestPaymentMethodUpdate(t *testing.T) {
 	params := &stripe.PaymentMethodParams{}
 	params.AddMetadata("order_id", "6735")
-	result, _ := paymentmethod.Update("pm_xxxxxxxxxxxxx", params)
+	result, err := paymentmethod.Update("pm_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestPaymentMethodAttach(t *testing.T) {
 	params := &stripe.PaymentMethodAttachParams{
 		Customer: stripe.String("cus_xxxxxxxxxxxxx"),
 	}
-	result, _ := paymentmethod.Attach("pm_xxxxxxxxxxxxx", params)
+	result, err := paymentmethod.Attach("pm_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestPaymentMethodDetach(t *testing.T) {
 	params := &stripe.PaymentMethodDetachParams{}
-	result, _ := paymentmethod.Detach("pm_xxxxxxxxxxxxx", params)
+	result, err := paymentmethod.Detach("pm_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestPayoutList(t *testing.T) {
@@ -1631,33 +1797,38 @@ func TestPayoutCreate(t *testing.T) {
 		Amount:   stripe.Int64(1100),
 		Currency: stripe.String(string(stripe.CurrencyUSD)),
 	}
-	result, _ := payout.New(params)
+	result, err := payout.New(params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestPayoutRetrieve(t *testing.T) {
 	params := &stripe.PayoutParams{}
-	result, _ := payout.Get("po_xxxxxxxxxxxxx", params)
+	result, err := payout.Get("po_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestPayoutUpdate(t *testing.T) {
 	params := &stripe.PayoutParams{}
 	params.AddMetadata("order_id", "6735")
-	result, _ := payout.Update("po_xxxxxxxxxxxxx", params)
+	result, err := payout.Update("po_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestPayoutCancel(t *testing.T) {
 	params := &stripe.PayoutParams{}
-	result, _ := payout.Cancel("po_xxxxxxxxxxxxx", params)
+	result, err := payout.Cancel("po_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestPayoutReverse(t *testing.T) {
 	params := &stripe.PayoutReverseParams{}
-	result, _ := payout.Reverse("po_xxxxxxxxxxxxx", params)
+	result, err := payout.Reverse("po_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestPlanList(t *testing.T) {
@@ -1673,29 +1844,33 @@ func TestPlanCreate(t *testing.T) {
 		Amount:   stripe.Int64(2000),
 		Currency: stripe.String(string(stripe.CurrencyUSD)),
 		Interval: stripe.String(string(stripe.PlanIntervalMonth)),
-		Product:  &stripe.PlanProductParams{ID: stripe.String("prod_xxxxxxxxxxxxx")},
+		Product:  &stripe.PlanProductParams{Name: stripe.String("My product")},
 	}
-	result, _ := plan.New(params)
+	result, err := plan.New(params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestPlanDelete(t *testing.T) {
 	params := &stripe.PlanParams{}
-	result, _ := plan.Del("price_xxxxxxxxxxxxx", params)
+	result, err := plan.Del("price_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestPlanRetrieve(t *testing.T) {
 	params := &stripe.PlanParams{}
-	result, _ := plan.Get("price_xxxxxxxxxxxxx", params)
+	result, err := plan.Get("price_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestPlanUpdate(t *testing.T) {
 	params := &stripe.PlanParams{}
 	params.AddMetadata("order_id", "6735")
-	result, _ := plan.Update("price_xxxxxxxxxxxxx", params)
+	result, err := plan.Update("price_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestPriceList(t *testing.T) {
@@ -1715,21 +1890,24 @@ func TestPriceCreate2(t *testing.T) {
 		},
 		Product: stripe.String("prod_xxxxxxxxxxxxx"),
 	}
-	result, _ := price.New(params)
+	result, err := price.New(params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestPriceRetrieve(t *testing.T) {
 	params := &stripe.PriceParams{}
-	result, _ := price.Get("price_xxxxxxxxxxxxx", params)
+	result, err := price.Get("price_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestPriceUpdate(t *testing.T) {
 	params := &stripe.PriceParams{}
 	params.AddMetadata("order_id", "6735")
-	result, _ := price.Update("price_xxxxxxxxxxxxx", params)
+	result, err := price.Update("price_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestPriceSearch(t *testing.T) {
@@ -1753,27 +1931,31 @@ func TestProductList(t *testing.T) {
 
 func TestProductCreate(t *testing.T) {
 	params := &stripe.ProductParams{Name: stripe.String("Gold Special")}
-	result, _ := product.New(params)
+	result, err := product.New(params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestProductDelete(t *testing.T) {
 	params := &stripe.ProductParams{}
-	result, _ := product.Del("prod_xxxxxxxxxxxxx", params)
+	result, err := product.Del("prod_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestProductRetrieve(t *testing.T) {
 	params := &stripe.ProductParams{}
-	result, _ := product.Get("prod_xxxxxxxxxxxxx", params)
+	result, err := product.Get("prod_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestProductUpdate(t *testing.T) {
 	params := &stripe.ProductParams{}
 	params.AddMetadata("order_id", "6735")
-	result, _ := product.Update("prod_xxxxxxxxxxxxx", params)
+	result, err := product.Update("prod_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestProductSearch(t *testing.T) {
@@ -1797,21 +1979,24 @@ func TestPromotionCodeList(t *testing.T) {
 
 func TestPromotionCodeCreate(t *testing.T) {
 	params := &stripe.PromotionCodeParams{Coupon: stripe.String("Z4OV52SU")}
-	result, _ := promotioncode.New(params)
+	result, err := promotioncode.New(params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestPromotionCodeRetrieve(t *testing.T) {
 	params := &stripe.PromotionCodeParams{}
-	result, _ := promotioncode.Get("promo_xxxxxxxxxxxxx", params)
+	result, err := promotioncode.Get("promo_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestPromotionCodeUpdate(t *testing.T) {
 	params := &stripe.PromotionCodeParams{}
 	params.AddMetadata("order_id", "6735")
-	result, _ := promotioncode.Update("promo_xxxxxxxxxxxxx", params)
+	result, err := promotioncode.Update("promo_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestQuoteList(t *testing.T) {
@@ -1832,39 +2017,45 @@ func TestQuoteCreate(t *testing.T) {
 			},
 		},
 	}
-	result, _ := quote.New(params)
+	result, err := quote.New(params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestQuoteRetrieve(t *testing.T) {
 	params := &stripe.QuoteParams{}
-	result, _ := quote.Get("qt_xxxxxxxxxxxxx", params)
+	result, err := quote.Get("qt_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestQuoteUpdate(t *testing.T) {
 	params := &stripe.QuoteParams{}
 	params.AddMetadata("order_id", "6735")
-	result, _ := quote.Update("qt_xxxxxxxxxxxxx", params)
+	result, err := quote.Update("qt_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestQuoteAccept(t *testing.T) {
 	params := &stripe.QuoteAcceptParams{}
-	result, _ := quote.Accept("qt_xxxxxxxxxxxxx", params)
+	result, err := quote.Accept("qt_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestQuoteCancel(t *testing.T) {
 	params := &stripe.QuoteCancelParams{}
-	result, _ := quote.Cancel("qt_xxxxxxxxxxxxx", params)
+	result, err := quote.Cancel("qt_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestQuoteFinalizeQuote(t *testing.T) {
 	params := &stripe.QuoteFinalizeQuoteParams{}
-	result, _ := quote.FinalizeQuote("qt_xxxxxxxxxxxxx", params)
+	result, err := quote.FinalizeQuote("qt_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestRadarEarlyFraudWarningList(t *testing.T) {
@@ -1877,8 +2068,9 @@ func TestRadarEarlyFraudWarningList(t *testing.T) {
 
 func TestRadarEarlyFraudWarningRetrieve(t *testing.T) {
 	params := &stripe.RadarEarlyFraudWarningParams{}
-	result, _ := radar_earlyfraudwarning.Get("issfr_xxxxxxxxxxxxx", params)
+	result, err := radar_earlyfraudwarning.Get("issfr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestRefundList(t *testing.T) {
@@ -1891,27 +2083,31 @@ func TestRefundList(t *testing.T) {
 
 func TestRefundCreate(t *testing.T) {
 	params := &stripe.RefundParams{Charge: stripe.String("ch_xxxxxxxxxxxxx")}
-	result, _ := refund.New(params)
+	result, err := refund.New(params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestRefundRetrieve(t *testing.T) {
 	params := &stripe.RefundParams{}
-	result, _ := refund.Get("re_xxxxxxxxxxxxx", params)
+	result, err := refund.Get("re_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestRefundUpdate(t *testing.T) {
 	params := &stripe.RefundParams{}
 	params.AddMetadata("order_id", "6735")
-	result, _ := refund.Update("re_xxxxxxxxxxxxx", params)
+	result, err := refund.Update("re_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestRefundCancel(t *testing.T) {
 	params := &stripe.RefundCancelParams{}
-	result, _ := refund.Cancel("re_xxxxxxxxxxxxx", params)
+	result, err := refund.Cancel("re_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestReviewList(t *testing.T) {
@@ -1924,14 +2120,16 @@ func TestReviewList(t *testing.T) {
 
 func TestReviewRetrieve(t *testing.T) {
 	params := &stripe.ReviewParams{}
-	result, _ := review.Get("prv_xxxxxxxxxxxxx", params)
+	result, err := review.Get("prv_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestReviewApprove(t *testing.T) {
 	params := &stripe.ReviewApproveParams{}
-	result, _ := review.Approve("prv_xxxxxxxxxxxxx", params)
+	result, err := review.Approve("prv_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestSetupIntentList(t *testing.T) {
@@ -1946,43 +2144,49 @@ func TestSetupIntentCreate(t *testing.T) {
 	params := &stripe.SetupIntentParams{
 		PaymentMethodTypes: []*string{stripe.String("card")},
 	}
-	result, _ := setupintent.New(params)
+	result, err := setupintent.New(params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestSetupIntentRetrieve(t *testing.T) {
 	params := &stripe.SetupIntentParams{}
-	result, _ := setupintent.Get("seti_xxxxxxxxxxxxx", params)
+	result, err := setupintent.Get("seti_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestSetupIntentUpdate(t *testing.T) {
 	params := &stripe.SetupIntentParams{}
 	params.AddMetadata("user_id", "3435453")
-	result, _ := setupintent.Update("seti_xxxxxxxxxxxxx", params)
+	result, err := setupintent.Update("seti_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestSetupIntentCancel(t *testing.T) {
 	params := &stripe.SetupIntentCancelParams{}
-	result, _ := setupintent.Cancel("seti_xxxxxxxxxxxxx", params)
+	result, err := setupintent.Cancel("seti_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestSetupIntentConfirm(t *testing.T) {
 	params := &stripe.SetupIntentConfirmParams{
 		PaymentMethod: stripe.String("pm_card_visa"),
 	}
-	result, _ := setupintent.Confirm("seti_xxxxxxxxxxxxx", params)
+	result, err := setupintent.Confirm("seti_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestSetupIntentVerifyMicrodeposits2(t *testing.T) {
 	params := &stripe.SetupIntentVerifyMicrodepositsParams{
 		Amounts: []*int64{stripe.Int64(32), stripe.Int64(45)},
 	}
-	result, _ := setupintent.VerifyMicrodeposits("seti_xxxxxxxxxxxxx", params)
+	result, err := setupintent.VerifyMicrodeposits("seti_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestShippingRateList2(t *testing.T) {
@@ -2002,21 +2206,24 @@ func TestShippingRateCreate2(t *testing.T) {
 			Currency: stripe.String(string(stripe.CurrencyUSD)),
 		},
 	}
-	result, _ := shippingrate.New(params)
+	result, err := shippingrate.New(params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestShippingRateRetrieve(t *testing.T) {
 	params := &stripe.ShippingRateParams{}
-	result, _ := shippingrate.Get("shr_xxxxxxxxxxxxx", params)
+	result, err := shippingrate.Get("shr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestShippingRateUpdate(t *testing.T) {
 	params := &stripe.ShippingRateParams{}
 	params.AddMetadata("order_id", "6735")
-	result, _ := shippingrate.Update("shr_xxxxxxxxxxxxx", params)
+	result, err := shippingrate.Update("shr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestSigmaScheduledQueryRunList(t *testing.T) {
@@ -2029,27 +2236,31 @@ func TestSigmaScheduledQueryRunList(t *testing.T) {
 
 func TestSigmaScheduledQueryRunRetrieve(t *testing.T) {
 	params := &stripe.SigmaScheduledQueryRunParams{}
-	result, _ := sigma_scheduledqueryrun.Get("sqr_xxxxxxxxxxxxx", params)
+	result, err := sigma_scheduledqueryrun.Get("sqr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestSourceRetrieve(t *testing.T) {
 	params := &stripe.SourceParams{}
-	result, _ := source.Get("src_xxxxxxxxxxxxx", params)
+	result, err := source.Get("src_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestSourceRetrieve2(t *testing.T) {
 	params := &stripe.SourceParams{}
-	result, _ := source.Get("src_xxxxxxxxxxxxx", params)
+	result, err := source.Get("src_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestSourceUpdate(t *testing.T) {
 	params := &stripe.SourceParams{}
 	params.AddMetadata("order_id", "6735")
-	result, _ := source.Update("src_xxxxxxxxxxxxx", params)
+	result, err := source.Update("src_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestSubscriptionItemList(t *testing.T) {
@@ -2067,27 +2278,31 @@ func TestSubscriptionItemCreate(t *testing.T) {
 		Price:        stripe.String("price_xxxxxxxxxxxxx"),
 		Quantity:     stripe.Int64(2),
 	}
-	result, _ := subscriptionitem.New(params)
+	result, err := subscriptionitem.New(params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestSubscriptionItemDelete(t *testing.T) {
 	params := &stripe.SubscriptionItemParams{}
-	result, _ := subscriptionitem.Del("si_xxxxxxxxxxxxx", params)
+	result, err := subscriptionitem.Del("si_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestSubscriptionItemRetrieve(t *testing.T) {
 	params := &stripe.SubscriptionItemParams{}
-	result, _ := subscriptionitem.Get("si_xxxxxxxxxxxxx", params)
+	result, err := subscriptionitem.Get("si_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestSubscriptionItemUpdate(t *testing.T) {
 	params := &stripe.SubscriptionItemParams{}
 	params.AddMetadata("order_id", "6735")
-	result, _ := subscriptionitem.Update("si_xxxxxxxxxxxxx", params)
+	result, err := subscriptionitem.Update("si_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestSubscriptionItemUsageRecordSummaries(t *testing.T) {
@@ -2102,11 +2317,13 @@ func TestSubscriptionItemUsageRecordSummaries(t *testing.T) {
 
 func TestUsageRecordCreate(t *testing.T) {
 	params := &stripe.UsageRecordParams{
-		Quantity:  stripe.Int64(100),
-		Timestamp: stripe.Int64(1571252444),
+		Quantity:         stripe.Int64(100),
+		Timestamp:        stripe.Int64(1571252444),
+		SubscriptionItem: stripe.String("si_xxxxxxxxxxxxx"),
 	}
-	result, _ := usagerecord.New(params)
+	result, err := usagerecord.New(params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestSubscriptionScheduleList(t *testing.T) {
@@ -2134,34 +2351,42 @@ func TestSubscriptionScheduleCreate(t *testing.T) {
 			},
 		},
 	}
-	result, _ := subscriptionschedule.New(params)
+	result, err := subscriptionschedule.New(params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestSubscriptionScheduleRetrieve(t *testing.T) {
 	params := &stripe.SubscriptionScheduleParams{}
-	result, _ := subscriptionschedule.Get("sub_sched_xxxxxxxxxxxxx", params)
+	result, err := subscriptionschedule.Get("sub_sched_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestSubscriptionScheduleUpdate(t *testing.T) {
 	params := &stripe.SubscriptionScheduleParams{
 		EndBehavior: stripe.String(string(stripe.SubscriptionScheduleEndBehaviorRelease)),
 	}
-	result, _ := subscriptionschedule.Update("sub_sched_xxxxxxxxxxxxx", params)
+	result, err := subscriptionschedule.Update("sub_sched_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestSubscriptionScheduleCancel(t *testing.T) {
 	params := &stripe.SubscriptionScheduleCancelParams{}
-	result, _ := subscriptionschedule.Cancel("sub_sched_xxxxxxxxxxxxx", params)
+	result, err := subscriptionschedule.Cancel("sub_sched_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestSubscriptionScheduleRelease(t *testing.T) {
 	params := &stripe.SubscriptionScheduleReleaseParams{}
-	result, _ := subscriptionschedule.Release("sub_sched_xxxxxxxxxxxxx", params)
+	result, err := subscriptionschedule.Release(
+		"sub_sched_xxxxxxxxxxxxx",
+		params,
+	)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestSubscriptionList(t *testing.T) {
@@ -2181,27 +2406,31 @@ func TestSubscriptionCreate(t *testing.T) {
 			},
 		},
 	}
-	result, _ := subscription.New(params)
+	result, err := subscription.New(params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestSubscriptionCancel(t *testing.T) {
 	params := &stripe.SubscriptionCancelParams{}
-	result, _ := subscription.Cancel("sub_xxxxxxxxxxxxx", params)
+	result, err := subscription.Cancel("sub_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestSubscriptionRetrieve(t *testing.T) {
 	params := &stripe.SubscriptionParams{}
-	result, _ := subscription.Get("sub_xxxxxxxxxxxxx", params)
+	result, err := subscription.Get("sub_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestSubscriptionUpdate(t *testing.T) {
 	params := &stripe.SubscriptionParams{}
 	params.AddMetadata("order_id", "6735")
-	result, _ := subscription.Update("sub_xxxxxxxxxxxxx", params)
+	result, err := subscription.Update("sub_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestSubscriptionSearch(t *testing.T) {
@@ -2225,8 +2454,9 @@ func TestTaxCodeList(t *testing.T) {
 
 func TestTaxCodeRetrieve(t *testing.T) {
 	params := &stripe.TaxCodeParams{}
-	result, _ := taxcode.Get("txcd_xxxxxxxxxxxxx", params)
+	result, err := taxcode.Get("txcd_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestTaxRateList(t *testing.T) {
@@ -2245,20 +2475,23 @@ func TestTaxRateCreate(t *testing.T) {
 		Percentage:   stripe.Float64(16),
 		Inclusive:    stripe.Bool(false),
 	}
-	result, _ := taxrate.New(params)
+	result, err := taxrate.New(params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestTaxRateRetrieve(t *testing.T) {
 	params := &stripe.TaxRateParams{}
-	result, _ := taxrate.Get("txr_xxxxxxxxxxxxx", params)
+	result, err := taxrate.Get("txr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestTaxRateUpdate(t *testing.T) {
 	params := &stripe.TaxRateParams{Active: stripe.Bool(false)}
-	result, _ := taxrate.Update("txr_xxxxxxxxxxxxx", params)
+	result, err := taxrate.Update("txr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestTerminalConfigurationList2(t *testing.T) {
@@ -2275,20 +2508,23 @@ func TestTerminalConfigurationCreate2(t *testing.T) {
 			Splashscreen: stripe.String("file_xxxxxxxxxxxxx"),
 		},
 	}
-	result, _ := terminal_configuration.New(params)
+	result, err := terminal_configuration.New(params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestTerminalConfigurationDelete2(t *testing.T) {
 	params := &stripe.TerminalConfigurationParams{}
-	result, _ := terminal_configuration.Del("tmc_xxxxxxxxxxxxx", params)
+	result, err := terminal_configuration.Del("tmc_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestTerminalConfigurationRetrieve2(t *testing.T) {
 	params := &stripe.TerminalConfigurationParams{}
-	result, _ := terminal_configuration.Get("tmc_xxxxxxxxxxxxx", params)
+	result, err := terminal_configuration.Get("tmc_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestTerminalConfigurationUpdate2(t *testing.T) {
@@ -2297,14 +2533,16 @@ func TestTerminalConfigurationUpdate2(t *testing.T) {
 			Splashscreen: stripe.String("file_xxxxxxxxxxxxx"),
 		},
 	}
-	result, _ := terminal_configuration.Update("tmc_xxxxxxxxxxxxx", params)
+	result, err := terminal_configuration.Update("tmc_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestTerminalConnectionTokenCreate(t *testing.T) {
 	params := &stripe.TerminalConnectionTokenParams{}
-	result, _ := terminal_connectiontoken.New(params)
+	result, err := terminal_connectiontoken.New(params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestTerminalLocationList(t *testing.T) {
@@ -2326,28 +2564,32 @@ func TestTerminalLocationCreate(t *testing.T) {
 			Country:    stripe.String("US"),
 		},
 	}
-	result, _ := terminal_location.New(params)
+	result, err := terminal_location.New(params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestTerminalLocationDelete(t *testing.T) {
 	params := &stripe.TerminalLocationParams{}
-	result, _ := terminal_location.Del("tml_xxxxxxxxxxxxx", params)
+	result, err := terminal_location.Del("tml_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestTerminalLocationRetrieve(t *testing.T) {
 	params := &stripe.TerminalLocationParams{}
-	result, _ := terminal_location.Get("tml_xxxxxxxxxxxxx", params)
+	result, err := terminal_location.Get("tml_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestTerminalLocationUpdate(t *testing.T) {
 	params := &stripe.TerminalLocationParams{
 		DisplayName: stripe.String("My First Store"),
 	}
-	result, _ := terminal_location.Update("tml_xxxxxxxxxxxxx", params)
+	result, err := terminal_location.Update("tml_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestTerminalReaderList(t *testing.T) {
@@ -2364,37 +2606,42 @@ func TestTerminalReaderCreate(t *testing.T) {
 		Label:            stripe.String("Blue Rabbit"),
 		Location:         stripe.String("tml_1234"),
 	}
-	result, _ := terminal_reader.New(params)
+	result, err := terminal_reader.New(params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestTerminalReaderDelete(t *testing.T) {
 	params := &stripe.TerminalReaderParams{}
-	result, _ := terminal_reader.Del("tmr_xxxxxxxxxxxxx", params)
+	result, err := terminal_reader.Del("tmr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestTerminalReaderUpdate(t *testing.T) {
 	params := &stripe.TerminalReaderParams{Label: stripe.String("Blue Rabbit")}
-	result, _ := terminal_reader.Update("tmr_xxxxxxxxxxxxx", params)
+	result, err := terminal_reader.Update("tmr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestTerminalReaderCancelAction(t *testing.T) {
 	params := &stripe.TerminalReaderCancelActionParams{}
-	result, _ := terminal_reader.CancelAction("tmr_xxxxxxxxxxxxx", params)
+	result, err := terminal_reader.CancelAction("tmr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestTerminalReaderProcessPaymentIntent(t *testing.T) {
 	params := &stripe.TerminalReaderProcessPaymentIntentParams{
 		PaymentIntent: stripe.String("pi_xxxxxxxxxxxxx"),
 	}
-	result, _ := terminal_reader.ProcessPaymentIntent(
+	result, err := terminal_reader.ProcessPaymentIntent(
 		"tmr_xxxxxxxxxxxxx",
 		params,
 	)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestTerminalReaderProcessSetupIntent(t *testing.T) {
@@ -2402,8 +2649,12 @@ func TestTerminalReaderProcessSetupIntent(t *testing.T) {
 		SetupIntent:              stripe.String("seti_xxxxxxxxxxxxx"),
 		CustomerConsentCollected: stripe.Bool(true),
 	}
-	result, _ := terminal_reader.ProcessSetupIntent("tmr_xxxxxxxxxxxxx", params)
+	result, err := terminal_reader.ProcessSetupIntent(
+		"tmr_xxxxxxxxxxxxx",
+		params,
+	)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestTestHelpersTestClockList2(t *testing.T) {
@@ -2418,28 +2669,32 @@ func TestTestHelpersTestClockCreate2(t *testing.T) {
 	params := &stripe.TestHelpersTestClockParams{
 		FrozenTime: stripe.Int64(1577836800),
 	}
-	result, _ := testhelpers_testclock.New(params)
+	result, err := testhelpers_testclock.New(params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestTestHelpersTestClockDelete2(t *testing.T) {
 	params := &stripe.TestHelpersTestClockParams{}
-	result, _ := testhelpers_testclock.Del("clock_xxxxxxxxxxxxx", params)
+	result, err := testhelpers_testclock.Del("clock_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestTestHelpersTestClockRetrieve2(t *testing.T) {
 	params := &stripe.TestHelpersTestClockParams{}
-	result, _ := testhelpers_testclock.Get("clock_xxxxxxxxxxxxx", params)
+	result, err := testhelpers_testclock.Get("clock_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestTestHelpersTestClockAdvance2(t *testing.T) {
 	params := &stripe.TestHelpersTestClockAdvanceParams{
 		FrozenTime: stripe.Int64(1675552261),
 	}
-	result, _ := testhelpers_testclock.Advance("clock_xxxxxxxxxxxxx", params)
+	result, err := testhelpers_testclock.Advance("clock_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestTokenCreate2(t *testing.T) {
@@ -2453,16 +2708,18 @@ func TestTokenCreate2(t *testing.T) {
 			AccountNumber:     stripe.String("000123456789"),
 		},
 	}
-	result, _ := token.New(params)
+	result, err := token.New(params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestTokenCreate3(t *testing.T) {
 	params := &stripe.TokenParams{
 		PII: &stripe.TokenPIIParams{IDNumber: stripe.String("000000000")},
 	}
-	result, _ := token.New(params)
+	result, err := token.New(params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestTokenCreate4(t *testing.T) {
@@ -2475,8 +2732,9 @@ func TestTokenCreate4(t *testing.T) {
 			TOSShownAndAccepted: stripe.Bool(true),
 		},
 	}
-	result, _ := token.New(params)
+	result, err := token.New(params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestTokenCreate5(t *testing.T) {
@@ -2487,22 +2745,25 @@ func TestTokenCreate5(t *testing.T) {
 			Relationship: &stripe.PersonRelationshipParams{Owner: stripe.Bool(true)},
 		},
 	}
-	result, _ := token.New(params)
+	result, err := token.New(params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestTokenCreate6(t *testing.T) {
 	params := &stripe.TokenParams{
 		CVCUpdate: &stripe.TokenCVCUpdateParams{CVC: stripe.String("123")},
 	}
-	result, _ := token.New(params)
+	result, err := token.New(params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestTokenRetrieve(t *testing.T) {
 	params := &stripe.TokenParams{}
-	result, _ := token.Get("tok_xxxx", params)
+	result, err := token.Get("tok_xxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestTopupList(t *testing.T) {
@@ -2520,21 +2781,24 @@ func TestTopupCreate(t *testing.T) {
 		Description:         stripe.String("Top-up for Jenny Rosen"),
 		StatementDescriptor: stripe.String("Top-up"),
 	}
-	result, _ := topup.New(params)
+	result, err := topup.New(params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestTopupRetrieve(t *testing.T) {
 	params := &stripe.TopupParams{}
-	result, _ := topup.Get("tu_xxxxxxxxxxxxx", params)
+	result, err := topup.Get("tu_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestTopupUpdate(t *testing.T) {
 	params := &stripe.TopupParams{}
 	params.AddMetadata("order_id", "6735")
-	result, _ := topup.Update("tu_xxxxxxxxxxxxx", params)
+	result, err := topup.Update("tu_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestTransferList(t *testing.T) {
@@ -2552,21 +2816,24 @@ func TestTransferCreate(t *testing.T) {
 		Destination:   stripe.String("acct_xxxxxxxxxxxxx"),
 		TransferGroup: stripe.String("ORDER_95"),
 	}
-	result, _ := transfer.New(params)
+	result, err := transfer.New(params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestTransferRetrieve(t *testing.T) {
 	params := &stripe.TransferParams{}
-	result, _ := transfer.Get("tr_xxxxxxxxxxxxx", params)
+	result, err := transfer.Get("tr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestTransferUpdate(t *testing.T) {
 	params := &stripe.TransferParams{}
 	params.AddMetadata("order_id", "6735")
-	result, _ := transfer.Update("tr_xxxxxxxxxxxxx", params)
+	result, err := transfer.Update("tr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestTransferReversalList(t *testing.T) {
@@ -2580,9 +2847,13 @@ func TestTransferReversalList(t *testing.T) {
 }
 
 func TestTransferReversalCreate(t *testing.T) {
-	params := &stripe.TransferReversalParams{Amount: stripe.Int64(100)}
-	result, _ := transferreversal.New(params)
+	params := &stripe.TransferReversalParams{
+		Amount: stripe.Int64(100),
+		ID:     stripe.String("tr_xxxxxxxxxxxxx"),
+	}
+	result, err := transferreversal.New(params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestTransferReversalUpdate(t *testing.T) {
@@ -2590,8 +2861,9 @@ func TestTransferReversalUpdate(t *testing.T) {
 		ID: stripe.String("tr_xxxxxxxxxxxxx"),
 	}
 	params.AddMetadata("order_id", "6735")
-	result, _ := transferreversal.Update("trr_xxxxxxxxxxxxx", params)
+	result, err := transferreversal.Update("trr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestTreasuryCreditReversalList(t *testing.T) {
@@ -2608,14 +2880,16 @@ func TestTreasuryCreditReversalCreate(t *testing.T) {
 	params := &stripe.TreasuryCreditReversalParams{
 		ReceivedCredit: stripe.String("rc_xxxxxxxxxxxxx"),
 	}
-	result, _ := treasury_creditreversal.New(params)
+	result, err := treasury_creditreversal.New(params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestTreasuryCreditReversalRetrieve(t *testing.T) {
 	params := &stripe.TreasuryCreditReversalParams{}
-	result, _ := treasury_creditreversal.Get("credrev_xxxxxxxxxxxxx", params)
+	result, err := treasury_creditreversal.Get("credrev_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestTreasuryDebitReversalList(t *testing.T) {
@@ -2632,14 +2906,16 @@ func TestTreasuryDebitReversalCreate(t *testing.T) {
 	params := &stripe.TreasuryDebitReversalParams{
 		ReceivedDebit: stripe.String("rd_xxxxxxxxxxxxx"),
 	}
-	result, _ := treasury_debitreversal.New(params)
+	result, err := treasury_debitreversal.New(params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestTreasuryDebitReversalRetrieve(t *testing.T) {
 	params := &stripe.TreasuryDebitReversalParams{}
-	result, _ := treasury_debitreversal.Get("debrev_xxxxxxxxxxxxx", params)
+	result, err := treasury_debitreversal.Get("debrev_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestTreasuryFinancialAccountList(t *testing.T) {
@@ -2655,30 +2931,34 @@ func TestTreasuryFinancialAccountCreate(t *testing.T) {
 		SupportedCurrencies: []*string{stripe.String("usd")},
 		Features:            &stripe.TreasuryFinancialAccountFeaturesParams{},
 	}
-	result, _ := treasury_financialaccount.New(params)
+	result, err := treasury_financialaccount.New(params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestTreasuryFinancialAccountRetrieve(t *testing.T) {
 	params := &stripe.TreasuryFinancialAccountParams{}
-	result, _ := treasury_financialaccount.Get("fa_xxxxxxxxxxxxx", params)
+	result, err := treasury_financialaccount.Get("fa_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestTreasuryFinancialAccountUpdate(t *testing.T) {
 	params := &stripe.TreasuryFinancialAccountParams{}
 	params.AddMetadata("order_id", "6735")
-	result, _ := treasury_financialaccount.Update("fa_xxxxxxxxxxxxx", params)
+	result, err := treasury_financialaccount.Update("fa_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestTreasuryFinancialAccountRetrieveFeatures(t *testing.T) {
 	params := &stripe.TreasuryFinancialAccountRetrieveFeaturesParams{}
-	result, _ := treasury_financialaccount.RetrieveFeatures(
+	result, err := treasury_financialaccount.RetrieveFeatures(
 		"fa_xxxxxxxxxxxxx",
 		params,
 	)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestTreasuryInboundTransferList(t *testing.T) {
@@ -2699,20 +2979,23 @@ func TestTreasuryInboundTransferCreate(t *testing.T) {
 		OriginPaymentMethod: stripe.String("pm_xxxxxxxxxxxxx"),
 		Description:         stripe.String("InboundTransfer from my bank account"),
 	}
-	result, _ := treasury_inboundtransfer.New(params)
+	result, err := treasury_inboundtransfer.New(params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestTreasuryInboundTransferRetrieve(t *testing.T) {
 	params := &stripe.TreasuryInboundTransferParams{}
-	result, _ := treasury_inboundtransfer.Get("ibt_xxxxxxxxxxxxx", params)
+	result, err := treasury_inboundtransfer.Get("ibt_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestTreasuryInboundTransferCancel(t *testing.T) {
 	params := &stripe.TreasuryInboundTransferCancelParams{}
-	result, _ := treasury_inboundtransfer.Cancel("ibt_xxxxxxxxxxxxx", params)
+	result, err := treasury_inboundtransfer.Cancel("ibt_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestTreasuryOutboundPaymentList(t *testing.T) {
@@ -2734,20 +3017,23 @@ func TestTreasuryOutboundPaymentCreate(t *testing.T) {
 		DestinationPaymentMethod: stripe.String("pm_xxxxxxxxxxxxx"),
 		Description:              stripe.String("OutboundPayment to a 3rd party"),
 	}
-	result, _ := treasury_outboundpayment.New(params)
+	result, err := treasury_outboundpayment.New(params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestTreasuryOutboundPaymentRetrieve(t *testing.T) {
 	params := &stripe.TreasuryOutboundPaymentParams{}
-	result, _ := treasury_outboundpayment.Get("bot_xxxxxxxxxxxxx", params)
+	result, err := treasury_outboundpayment.Get("bot_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestTreasuryOutboundPaymentCancel(t *testing.T) {
 	params := &stripe.TreasuryOutboundPaymentCancelParams{}
-	result, _ := treasury_outboundpayment.Cancel("bot_xxxxxxxxxxxxx", params)
+	result, err := treasury_outboundpayment.Cancel("bot_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestTreasuryOutboundTransferList(t *testing.T) {
@@ -2768,20 +3054,23 @@ func TestTreasuryOutboundTransferCreate(t *testing.T) {
 		Currency:                 stripe.String(string(stripe.CurrencyUSD)),
 		Description:              stripe.String("OutboundTransfer to my external bank account"),
 	}
-	result, _ := treasury_outboundtransfer.New(params)
+	result, err := treasury_outboundtransfer.New(params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestTreasuryOutboundTransferRetrieve(t *testing.T) {
 	params := &stripe.TreasuryOutboundTransferParams{}
-	result, _ := treasury_outboundtransfer.Get("obt_xxxxxxxxxxxxx", params)
+	result, err := treasury_outboundtransfer.Get("obt_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestTreasuryOutboundTransferCancel(t *testing.T) {
 	params := &stripe.TreasuryOutboundTransferCancelParams{}
-	result, _ := treasury_outboundtransfer.Cancel("obt_xxxxxxxxxxxxx", params)
+	result, err := treasury_outboundtransfer.Cancel("obt_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestTreasuryReceivedCreditList(t *testing.T) {
@@ -2796,8 +3085,9 @@ func TestTreasuryReceivedCreditList(t *testing.T) {
 
 func TestTreasuryReceivedCreditRetrieve(t *testing.T) {
 	params := &stripe.TreasuryReceivedCreditParams{}
-	result, _ := treasury_receivedcredit.Get("rc_xxxxxxxxxxxxx", params)
+	result, err := treasury_receivedcredit.Get("rc_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestTreasuryReceivedDebitList(t *testing.T) {
@@ -2812,8 +3102,9 @@ func TestTreasuryReceivedDebitList(t *testing.T) {
 
 func TestTreasuryReceivedDebitRetrieve(t *testing.T) {
 	params := &stripe.TreasuryReceivedDebitParams{}
-	result, _ := treasury_receiveddebit.Get("rd_xxxxxxxxxxxxx", params)
+	result, err := treasury_receiveddebit.Get("rd_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestTreasuryTransactionEntryList(t *testing.T) {
@@ -2828,8 +3119,9 @@ func TestTreasuryTransactionEntryList(t *testing.T) {
 
 func TestTreasuryTransactionEntryRetrieve(t *testing.T) {
 	params := &stripe.TreasuryTransactionEntryParams{}
-	result, _ := treasury_transactionentry.Get("trxne_xxxxxxxxxxxxx", params)
+	result, err := treasury_transactionentry.Get("trxne_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestTreasuryTransactionList(t *testing.T) {
@@ -2844,8 +3136,9 @@ func TestTreasuryTransactionList(t *testing.T) {
 
 func TestTreasuryTransactionRetrieve(t *testing.T) {
 	params := &stripe.TreasuryTransactionParams{}
-	result, _ := treasury_transaction.Get("trxn_xxxxxxxxxxxxx", params)
+	result, err := treasury_transaction.Get("trxn_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestWebhookEndpointList(t *testing.T) {
@@ -2864,28 +3157,32 @@ func TestWebhookEndpointCreate(t *testing.T) {
 			stripe.String("charge.succeeded"),
 		},
 	}
-	result, _ := webhookendpoint.New(params)
+	result, err := webhookendpoint.New(params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestWebhookEndpointDelete(t *testing.T) {
 	params := &stripe.WebhookEndpointParams{}
-	result, _ := webhookendpoint.Del("we_xxxxxxxxxxxxx", params)
+	result, err := webhookendpoint.Del("we_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestWebhookEndpointRetrieve(t *testing.T) {
 	params := &stripe.WebhookEndpointParams{}
-	result, _ := webhookendpoint.Get("we_xxxxxxxxxxxxx", params)
+	result, err := webhookendpoint.Get("we_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestWebhookEndpointUpdate(t *testing.T) {
 	params := &stripe.WebhookEndpointParams{
 		URL: stripe.String("https://example.com/new_endpoint"),
 	}
-	result, _ := webhookendpoint.Update("we_xxxxxxxxxxxxx", params)
+	result, err := webhookendpoint.Update("we_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestTaxTransactionCreateFromCalculation(t *testing.T) {
@@ -2893,8 +3190,9 @@ func TestTaxTransactionCreateFromCalculation(t *testing.T) {
 		Calculation: stripe.String("xxx"),
 		Reference:   stripe.String("yyy"),
 	}
-	result, _ := tax_transaction.CreateFromCalculation(params)
+	result, err := tax_transaction.CreateFromCalculation(params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestTaxCalculationListLineItems(t *testing.T) {
@@ -2925,6 +3223,7 @@ func TestPaymentIntentCreate3(t *testing.T) {
 			P24:  &stripe.PaymentMethodP24Params{Bank: stripe.String("blik")},
 		},
 	}
-	result, _ := paymentintent.New(params)
+	result, err := paymentintent.New(params)
 	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }

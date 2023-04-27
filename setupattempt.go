@@ -128,6 +128,16 @@ type SetupAttemptPaymentMethodDetailsBancontact struct {
 type SetupAttemptPaymentMethodDetailsBLIK struct{}
 type SetupAttemptPaymentMethodDetailsBoleto struct{}
 
+// Check results by Card networks on Card address and CVC at time of payment.
+type SetupAttemptPaymentMethodDetailsCardChecks struct {
+	// If a address line1 was provided, results of the check, one of `pass`, `fail`, `unavailable`, or `unchecked`.
+	AddressLine1Check string `json:"address_line1_check"`
+	// If a address postal code was provided, results of the check, one of `pass`, `fail`, `unavailable`, or `unchecked`.
+	AddressPostalCodeCheck string `json:"address_postal_code_check"`
+	// If a CVC was provided, results of the check, one of `pass`, `fail`, `unavailable`, or `unchecked`.
+	CVCCheck string `json:"cvc_check"`
+}
+
 // Populated if this authorization used 3D Secure authentication.
 type SetupAttemptPaymentMethodDetailsCardThreeDSecure struct {
 	// For authenticated transactions: how the customer was authenticated by
@@ -142,6 +152,8 @@ type SetupAttemptPaymentMethodDetailsCardThreeDSecure struct {
 	Version string `json:"version"`
 }
 type SetupAttemptPaymentMethodDetailsCard struct {
+	// Check results by Card networks on Card address and CVC at time of payment.
+	Checks *SetupAttemptPaymentMethodDetailsCardChecks `json:"checks"`
 	// Populated if this authorization used 3D Secure authentication.
 	ThreeDSecure *SetupAttemptPaymentMethodDetailsCardThreeDSecure `json:"three_d_secure"`
 }
