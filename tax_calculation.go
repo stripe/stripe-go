@@ -93,6 +93,66 @@ const (
 	TaxCalculationShippingCostTaxBehaviorInclusive TaxCalculationShippingCostTaxBehavior = "inclusive"
 )
 
+// Indicates the level of the jurisdiction imposing the tax.
+type TaxCalculationShippingCostTaxBreakdownJurisdictionLevel string
+
+// List of values that TaxCalculationShippingCostTaxBreakdownJurisdictionLevel can take
+const (
+	TaxCalculationShippingCostTaxBreakdownJurisdictionLevelCity     TaxCalculationShippingCostTaxBreakdownJurisdictionLevel = "city"
+	TaxCalculationShippingCostTaxBreakdownJurisdictionLevelCountry  TaxCalculationShippingCostTaxBreakdownJurisdictionLevel = "country"
+	TaxCalculationShippingCostTaxBreakdownJurisdictionLevelCounty   TaxCalculationShippingCostTaxBreakdownJurisdictionLevel = "county"
+	TaxCalculationShippingCostTaxBreakdownJurisdictionLevelDistrict TaxCalculationShippingCostTaxBreakdownJurisdictionLevel = "district"
+	TaxCalculationShippingCostTaxBreakdownJurisdictionLevelState    TaxCalculationShippingCostTaxBreakdownJurisdictionLevel = "state"
+)
+
+// Indicates whether the jurisdiction was determined by the origin (merchant's address) or destination (customer's address).
+type TaxCalculationShippingCostTaxBreakdownSourcing string
+
+// List of values that TaxCalculationShippingCostTaxBreakdownSourcing can take
+const (
+	TaxCalculationShippingCostTaxBreakdownSourcingDestination TaxCalculationShippingCostTaxBreakdownSourcing = "destination"
+	TaxCalculationShippingCostTaxBreakdownSourcingOrigin      TaxCalculationShippingCostTaxBreakdownSourcing = "origin"
+)
+
+// The tax type, such as `vat` or `sales_tax`.
+type TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType string
+
+// List of values that TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType can take
+const (
+	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypeGST      TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "gst"
+	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypeHST      TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "hst"
+	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypeIGST     TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "igst"
+	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypeJCT      TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "jct"
+	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypeLeaseTax TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "lease_tax"
+	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypePST      TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "pst"
+	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypeQST      TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "qst"
+	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypeRST      TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "rst"
+	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypeSalesTax TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "sales_tax"
+	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypeVAT      TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "vat"
+)
+
+// The reasoning behind this tax, for example, if the product is tax exempt. The possible values for this field may be extended as new tax rules are supported.
+type TaxCalculationShippingCostTaxBreakdownTaxabilityReason string
+
+// List of values that TaxCalculationShippingCostTaxBreakdownTaxabilityReason can take
+const (
+	TaxCalculationShippingCostTaxBreakdownTaxabilityReasonCustomerExempt       TaxCalculationShippingCostTaxBreakdownTaxabilityReason = "customer_exempt"
+	TaxCalculationShippingCostTaxBreakdownTaxabilityReasonNotCollecting        TaxCalculationShippingCostTaxBreakdownTaxabilityReason = "not_collecting"
+	TaxCalculationShippingCostTaxBreakdownTaxabilityReasonNotSubjectToTax      TaxCalculationShippingCostTaxBreakdownTaxabilityReason = "not_subject_to_tax"
+	TaxCalculationShippingCostTaxBreakdownTaxabilityReasonNotSupported         TaxCalculationShippingCostTaxBreakdownTaxabilityReason = "not_supported"
+	TaxCalculationShippingCostTaxBreakdownTaxabilityReasonPortionProductExempt TaxCalculationShippingCostTaxBreakdownTaxabilityReason = "portion_product_exempt"
+	TaxCalculationShippingCostTaxBreakdownTaxabilityReasonPortionReducedRated  TaxCalculationShippingCostTaxBreakdownTaxabilityReason = "portion_reduced_rated"
+	TaxCalculationShippingCostTaxBreakdownTaxabilityReasonPortionStandardRated TaxCalculationShippingCostTaxBreakdownTaxabilityReason = "portion_standard_rated"
+	TaxCalculationShippingCostTaxBreakdownTaxabilityReasonProductExempt        TaxCalculationShippingCostTaxBreakdownTaxabilityReason = "product_exempt"
+	TaxCalculationShippingCostTaxBreakdownTaxabilityReasonProductExemptHoliday TaxCalculationShippingCostTaxBreakdownTaxabilityReason = "product_exempt_holiday"
+	TaxCalculationShippingCostTaxBreakdownTaxabilityReasonProportionallyRated  TaxCalculationShippingCostTaxBreakdownTaxabilityReason = "proportionally_rated"
+	TaxCalculationShippingCostTaxBreakdownTaxabilityReasonReducedRated         TaxCalculationShippingCostTaxBreakdownTaxabilityReason = "reduced_rated"
+	TaxCalculationShippingCostTaxBreakdownTaxabilityReasonReverseCharge        TaxCalculationShippingCostTaxBreakdownTaxabilityReason = "reverse_charge"
+	TaxCalculationShippingCostTaxBreakdownTaxabilityReasonStandardRated        TaxCalculationShippingCostTaxBreakdownTaxabilityReason = "standard_rated"
+	TaxCalculationShippingCostTaxBreakdownTaxabilityReasonTaxableBasisReduced  TaxCalculationShippingCostTaxBreakdownTaxabilityReason = "taxable_basis_reduced"
+	TaxCalculationShippingCostTaxBreakdownTaxabilityReasonZeroRated            TaxCalculationShippingCostTaxBreakdownTaxabilityReason = "zero_rated"
+)
+
 // The tax type, such as `vat` or `sales_tax`.
 type TaxCalculationTaxBreakdownTaxRateDetailsTaxType string
 
@@ -202,6 +262,41 @@ type TaxCalculationCustomerDetails struct {
 	// The customer's tax IDs (for example, EU VAT numbers).
 	TaxIDs []*TaxCalculationCustomerDetailsTaxID `json:"tax_ids"`
 }
+type TaxCalculationShippingCostTaxBreakdownJurisdiction struct {
+	// Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)).
+	Country string `json:"country"`
+	// A human-readable name for the jurisdiction imposing the tax.
+	DisplayName string `json:"display_name"`
+	// Indicates the level of the jurisdiction imposing the tax.
+	Level TaxCalculationShippingCostTaxBreakdownJurisdictionLevel `json:"level"`
+	// [ISO 3166-2 subdivision code](https://en.wikipedia.org/wiki/ISO_3166-2:US), without country prefix. For example, "NY" for New York, United States.
+	State string `json:"state"`
+}
+
+// Details regarding the rate for this tax. This field will be `null` when the tax is not imposed, for example if the product is exempt from tax.
+type TaxCalculationShippingCostTaxBreakdownTaxRateDetails struct {
+	// A localized display name for tax type, intended to be human-readable. For example, "Local Sales and Use Tax", "Value-added tax (VAT)", or "Umsatzsteuer (USt.)".
+	DisplayName string `json:"display_name"`
+	// The tax rate percentage as a string. For example, 8.5% is represented as "8.5".
+	PercentageDecimal string `json:"percentage_decimal"`
+	// The tax type, such as `vat` or `sales_tax`.
+	TaxType TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType `json:"tax_type"`
+}
+
+// Detailed account of taxes relevant to shipping cost.
+type TaxCalculationShippingCostTaxBreakdown struct {
+	// The amount of tax, in integer cents.
+	Amount       int64                                               `json:"amount"`
+	Jurisdiction *TaxCalculationShippingCostTaxBreakdownJurisdiction `json:"jurisdiction"`
+	// Indicates whether the jurisdiction was determined by the origin (merchant's address) or destination (customer's address).
+	Sourcing TaxCalculationShippingCostTaxBreakdownSourcing `json:"sourcing"`
+	// The reasoning behind this tax, for example, if the product is tax exempt. The possible values for this field may be extended as new tax rules are supported.
+	TaxabilityReason TaxCalculationShippingCostTaxBreakdownTaxabilityReason `json:"taxability_reason"`
+	// The amount on which tax is calculated, in integer cents.
+	TaxableAmount int64 `json:"taxable_amount"`
+	// Details regarding the rate for this tax. This field will be `null` when the tax is not imposed, for example if the product is exempt from tax.
+	TaxRateDetails *TaxCalculationShippingCostTaxBreakdownTaxRateDetails `json:"tax_rate_details"`
+}
 
 // The shipping cost details for the calculation.
 type TaxCalculationShippingCost struct {
@@ -213,6 +308,8 @@ type TaxCalculationShippingCost struct {
 	ShippingRate string `json:"shipping_rate"`
 	// Specifies whether the `amount` includes taxes. If `tax_behavior=inclusive`, then the amount includes taxes.
 	TaxBehavior TaxCalculationShippingCostTaxBehavior `json:"tax_behavior"`
+	// Detailed account of taxes relevant to shipping cost.
+	TaxBreakdown []*TaxCalculationShippingCostTaxBreakdown `json:"tax_breakdown"`
 	// The [tax code](https://stripe.com/docs/tax/tax-categories) ID used for shipping.
 	TaxCode string `json:"tax_code"`
 }
