@@ -1,5 +1,14 @@
 # Changelog
 
+## 74.17.0-beta.1 - 2023-04-27
+* [#1645](https://github.com/stripe/stripe-go/pull/1645) Update generated code for beta
+  * Add support for `BillingCycleAnchor` and `ProrationBehavior` on `CheckoutSessionSubscriptionDataParams`
+  * Add support for `TerminalID` on `IssuingAuthorizationMerchantData` and `IssuingTransactionMerchantData`
+  * Add support for `Metadata` on `PaymentIntentCaptureParams`
+  * Add support for `Checks` on `SetupAttemptPaymentMethodDetailsCard`
+  * Add support for `TaxBreakdown` on `TaxCalculationShippingCost` and `TaxTransactionShippingCost`
+  * Change type of `TaxRegistrationActiveFromParams` and `TaxRegistrationExpiresAtParams` from `longInteger` to `longInteger | literal('now')`
+
 ## 74.16.0 - 2023-04-27
 * [#1644](https://github.com/stripe/stripe-go/pull/1644) Update generated code
   * Add support for `BillingCycleAnchor` and `ProrationBehavior` on `CheckoutSessionSubscriptionDataParams`
