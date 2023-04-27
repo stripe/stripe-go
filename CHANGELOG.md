@@ -1,5 +1,17 @@
 # Changelog
 
+## 74.16.0 - 2023-04-27
+* [#1644](https://github.com/stripe/stripe-go/pull/1644) Update generated code
+  * Add support for `BillingCycleAnchor` and `ProrationBehavior` on `CheckoutSessionSubscriptionDataParams`
+  * Add support for `TerminalID` on `IssuingAuthorizationMerchantData` and `IssuingTransactionMerchantData`
+  * Add support for `Metadata` on `PaymentIntentCaptureParams`
+  * Add support for `Checks` on `SetupAttemptPaymentMethodDetailsCard`
+  * Add support for `TaxBreakdown` on `TaxCalculationShippingCost` and `TaxTransactionShippingCost`
+* [#1643](https://github.com/stripe/stripe-go/pull/1643) Update generated code
+
+* [#1640](https://github.com/stripe/stripe-go/pull/1640) Update generated code
+  * Release specs are identical.
+
 ## 74.15.0 - 2023-04-06
 * [#1638](https://github.com/stripe/stripe-go/pull/1638) Update generated code
   * Add support for new value `link` on enum `PaymentMethodCardWalletType`
