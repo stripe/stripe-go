@@ -57,6 +57,16 @@ const (
 	SetupAttemptPaymentMethodDetailsCardThreeDSecureResultReasonRejected            SetupAttemptPaymentMethodDetailsCardThreeDSecureResultReason = "rejected"
 )
 
+// The type of the card wallet, one of `apple_pay`, `google_pay`, or `link`. An additional hash is included on the Wallet subhash with a name matching this value. It contains additional information specific to the card wallet type.
+type SetupAttemptPaymentMethodDetailsCardWalletType string
+
+// List of values that SetupAttemptPaymentMethodDetailsCardWalletType can take
+const (
+	SetupAttemptPaymentMethodDetailsCardWalletTypeApplePay  SetupAttemptPaymentMethodDetailsCardWalletType = "apple_pay"
+	SetupAttemptPaymentMethodDetailsCardWalletTypeGooglePay SetupAttemptPaymentMethodDetailsCardWalletType = "google_pay"
+	SetupAttemptPaymentMethodDetailsCardWalletTypeLink      SetupAttemptPaymentMethodDetailsCardWalletType = "link"
+)
+
 // The type of the payment method used in the SetupIntent (e.g., `card`). An additional hash is included on `payment_method_details` with a name matching this value. It contains confirmation-specific information for the payment method.
 type SetupAttemptPaymentMethodDetailsType string
 
@@ -128,7 +138,7 @@ type SetupAttemptPaymentMethodDetailsBancontact struct {
 type SetupAttemptPaymentMethodDetailsBLIK struct{}
 type SetupAttemptPaymentMethodDetailsBoleto struct{}
 
-// Check results by Card networks on Card address and CVC at time of payment.
+// Check results by Card networks on Card address and CVC at the time of authorization
 type SetupAttemptPaymentMethodDetailsCardChecks struct {
 	// If a address line1 was provided, results of the check, one of `pass`, `fail`, `unavailable`, or `unchecked`.
 	AddressLine1Check string `json:"address_line1_check"`
@@ -151,11 +161,47 @@ type SetupAttemptPaymentMethodDetailsCardThreeDSecure struct {
 	// The version of 3D Secure that was used.
 	Version string `json:"version"`
 }
+type SetupAttemptPaymentMethodDetailsCardWalletApplePay struct{}
+type SetupAttemptPaymentMethodDetailsCardWalletGooglePay struct{}
+
+// If this Card is part of a card wallet, this contains the details of the card wallet.
+type SetupAttemptPaymentMethodDetailsCardWallet struct {
+	ApplePay  *SetupAttemptPaymentMethodDetailsCardWalletApplePay  `json:"apple_pay"`
+	GooglePay *SetupAttemptPaymentMethodDetailsCardWalletGooglePay `json:"google_pay"`
+	// The type of the card wallet, one of `apple_pay`, `google_pay`, or `link`. An additional hash is included on the Wallet subhash with a name matching this value. It contains additional information specific to the card wallet type.
+	Type SetupAttemptPaymentMethodDetailsCardWalletType `json:"type"`
+}
 type SetupAttemptPaymentMethodDetailsCard struct {
-	// Check results by Card networks on Card address and CVC at time of payment.
+	// Card brand. Can be `amex`, `diners`, `discover`, `eftpos_au`, `jcb`, `mastercard`, `unionpay`, `visa`, or `unknown`.
+	Brand string `json:"brand"`
+	// Check results by Card networks on Card address and CVC at the time of authorization
 	Checks *SetupAttemptPaymentMethodDetailsCardChecks `json:"checks"`
+	// Two-letter ISO code representing the country of the card. You could use this attribute to get a sense of the international breakdown of cards you've collected.
+	Country string `json:"country"`
+	// A high-level description of the type of cards issued in this range. (For internal use only and not typically available in standard API requests.)
+	Description string `json:"description"`
+	// Two-digit number representing the card's expiration month.
+	ExpMonth int64 `json:"exp_month"`
+	// Four-digit number representing the card's expiration year.
+	ExpYear int64 `json:"exp_year"`
+	// Uniquely identifies this particular card number. You can use this attribute to check whether two customers who've signed up with you are using the same card number, for example. For payment methods that tokenize card information (Apple Pay, Google Pay), the tokenized number might be provided instead of the underlying card number.
+	//
+	// *Starting May 1, 2021, card fingerprint in India for Connect will change to allow two fingerprints for the same card --- one for India and one for the rest of the world.*
+	Fingerprint string `json:"fingerprint"`
+	// Card funding type. Can be `credit`, `debit`, `prepaid`, or `unknown`.
+	Funding string `json:"funding"`
+	// Issuer identification number of the card. (For internal use only and not typically available in standard API requests.)
+	IIN string `json:"iin"`
+	// The name of the card's issuing bank. (For internal use only and not typically available in standard API requests.)
+	Issuer string `json:"issuer"`
+	// The last four digits of the card.
+	Last4 string `json:"last4"`
+	// Identifies which network this charge was processed on. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `interac`, `jcb`, `mastercard`, `unionpay`, `visa`, or `unknown`.
+	Network string `json:"network"`
 	// Populated if this authorization used 3D Secure authentication.
 	ThreeDSecure *SetupAttemptPaymentMethodDetailsCardThreeDSecure `json:"three_d_secure"`
+	// If this Card is part of a card wallet, this contains the details of the card wallet.
+	Wallet *SetupAttemptPaymentMethodDetailsCardWallet `json:"wallet"`
 }
 type SetupAttemptPaymentMethodDetailsCardPresent struct {
 	// The ID of the Card PaymentMethod which was generated by this SetupAttempt.
