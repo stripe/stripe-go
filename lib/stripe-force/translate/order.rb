@@ -529,6 +529,16 @@ class StripeForce::Translate
           end
           next_billing_timestamp = (Time.at(next_billing_timestamp).utc.beginning_of_day + billing_frequency.months).to_i
         end
+
+        # If a subscription is backdated by 3 months and began on January 30th, our next_billing_timestamp will be March 27th instead of March 30th.
+        # ie January 30th, + 1 billing cycle (1 month) will result in Febuary 27th, the second iteration will result in March 27th (instead of March 30th).
+
+        next_billing_datetime = Time.at(next_billing_timestamp).utc
+        sf_order_amendment_start_date_datetime = Time.at(sf_order_amendment_start_date_as_timestamp).utc
+
+        if next_billing_datetime.day != sf_order_amendment_start_date_datetime.day
+          next_billing_timestamp = StripeForce::Translate::OrderHelpers.anchor_time_to_day_of_month(base_time: next_billing_datetime, anchor_day_of_month: sf_order_amendment_start_date_datetime.day).to_i
+        end
       end
 
       invoice_items_for_prorations = []
