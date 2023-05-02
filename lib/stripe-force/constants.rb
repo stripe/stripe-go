@@ -217,6 +217,9 @@ module StripeForce
         BACKDATED_AMENDMENTS = new('backdated_amendments')
         FRONTEND_PRORATIONS = new('frontend_prorations')
         INVOICE_RENDERING_TEMPLATE = new('invoice_rendering_template')
+
+        # https://admin.corp.stripe.com/gates/billing_subscriptions_open_invoicing_interval
+        BILLING_GATE_OPEN_INVOICING_INTERVAL = new('billing_gate_open_invoicing_interval')
       end
     end
 

@@ -384,10 +384,17 @@ class StripeForce::Translate
         # since the amendment start date is in the past (different) compared to the current time
         proration_period_start = {type: 'phase_start'}
         proration_period_end = {type: 'subscription_period_end'}
-        if !next_billing_timestamp.nil?
+        unless next_billing_timestamp.nil?
           amendment_start_date = StripeForce::Utilities::SalesforceUtil.extract_subscription_start_date_from_order(mapper, sf_order_amendment)
           proration_period_start = {type: 'timestamp', timestamp: amendment_start_date.to_i}
           proration_period_end = {type: 'timestamp', timestamp: next_billing_timestamp}
+
+          # https://admin.corp.stripe.com/gates/billing_subscriptions_open_invoicing_interval
+          # https://jira.corp.stripe.com/browse/PLATINT-2450
+          if user.feature_enabled?(StripeForce::Constants::FeatureFlags::BILLING_GATE_OPEN_INVOICING_INTERVAL)
+            # https://livegrep.corp.stripe.com/view/stripe-internal/pay-server/lib/subscriptions/command/invoicing_period.rb#L26
+            proration_period_end[:timestamp] = proration_period_end[:timestamp] - 1 > proration_period_start[:timestamp] ? proration_period_end[:timestamp] - 1 : proration_period_end[:timestamp]
+          end
         end
 
         invoice_items_for_prorations << proration_stripe_item.to_hash.merge({
