@@ -202,7 +202,7 @@ type Backend interface {
 }
 
 type RawRequestBackend interface {
-	RawRequest(method, path, key string, params ParamsContainer) (*APIResponse, error)
+	RawRequest(method, path, key string, params RawParamsContainer) (*APIResponse, error)
 }
 
 // BackendConfig is used to configure a new Stripe backend.
@@ -374,7 +374,7 @@ func (s *BackendImplementation) CallMultipart(method, path, key, boundary string
 	return nil
 }
 
-// Call is the Backend.Call implementation for invoking Stripe APIs.
+// RawRequest is the Backend.RawRequest implementation for invoking Stripe APIs.
 func (s *BackendImplementation) RawRequest(method, path, key string, params RawParamsContainer) (*APIResponse, error) {
 	var bodyBuffer *bytes.Buffer
 	var commonParams *Params
@@ -470,7 +470,7 @@ func newRequestHeader(method, key, contentType string, params *Params) (http.Hea
 	authorization := "Bearer " + key
 
 	header.Add("Authorization", authorization)
-  header.Add("Content-Type", contentType)
+	header.Add("Content-Type", contentType)
 	header.Add("Stripe-Version", APIVersion)
 	header.Add("User-Agent", encodedUserAgent)
 	header.Add("X-Stripe-Client-User-Agent", encodedStripeUserAgent)
@@ -1504,4 +1504,11 @@ func normalizeURL(url string) string {
 	url = strings.TrimSuffix(url, "/v1")
 
 	return url
+}
+
+func RawRequest(method, path string, params RawParamsContainer) (*APIResponse, error) {
+	if bi, ok := GetBackend(APIBackend).(RawRequestBackend); ok {
+		return bi.RawRequest(method, path, Key, params)
+	}
+	return nil, fmt.Errorf("Error: cannot call RawRequest if backends.API is initialized with a backend that doesn't implement RawRequestBackend")
 }
