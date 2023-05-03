@@ -898,6 +898,11 @@ class Critic::ProratedAmendmentTranslation < Critic::OrderAmendmentFunctionalTes
     end
 
     it 'terminates one of an orders items without adding a new one' do
+      @user.field_defaults['price'] = {
+        'metadata.field_custom' => 'value_custom',
+      }
+      @user.save
+
       # ie, issues a prorated credit without a prorated debit
       @user.enable_feature FeatureFlags::TERMINATED_ORDER_ITEM_CREDIT, update: true
       @user.enable_feature FeatureFlags::TEST_CLOCKS, update: true
@@ -964,7 +969,6 @@ class Critic::ProratedAmendmentTranslation < Critic::OrderAmendmentFunctionalTes
       sf_order_amendment = create_order_from_quote_data(amendment_data)
 
       StripeForce::Translate.perform_inline(@user, sf_order_amendment.Id)
-
       sf_order.refresh
 
       # Get Customer
@@ -975,11 +979,9 @@ class Critic::ProratedAmendmentTranslation < Critic::OrderAmendmentFunctionalTes
 
       # Pay off initial invoice
       invoices = Stripe::Invoice.list({customer: stripe_customer.id}, @user.stripe_credentials).data
-
       assert_equal(1, invoices.length)
 
       initial_invoice = invoices.first
-
       assert_equal(3600_00, initial_invoice.amount_due)
       assert_equal(2, initial_invoice.lines.data.length)
 
@@ -1006,10 +1008,10 @@ class Critic::ProratedAmendmentTranslation < Critic::OrderAmendmentFunctionalTes
       assert_equal("true", proration_credit_invoice_event.data.object.metadata[StripeForce::Translate::Metadata.metadata_key(@user, MetadataKeys::PRORATION)])
 
       proration_invoice = T.must(StripeForce::ProrationAutoBill.create_invoice_from_invoice_item_event(@user, proration_credit_invoice_event))
-
       assert_equal(1, proration_invoice.lines.count)
       assert_equal(-1000_00, proration_invoice.total)
       assert_equal("true", proration_invoice.metadata[StripeForce::Translate::Metadata.metadata_key(@user, MetadataKeys::PRORATION_INVOICE)])
+      assert_equal("value_custom", proration_invoice.lines.first.price.metadata["field_custom"])
     end
 
     it 'supports credits on monthly billing cycles' do

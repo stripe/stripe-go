@@ -215,6 +215,7 @@ class StripeForce::Translate
         product: original_stripe_price.product,
         unit_amount_decimal: credit_amount.round(MAX_STRIPE_PRICE_PRECISION).to_s("F"),
         tax_behavior: original_stripe_price.tax_behavior,
+        metadata: original_stripe_price.metadata,
       }
 
       log.info 'parsed credit into price_data', price_data: price_data
