@@ -1,5 +1,10 @@
 # Changelog
 
+## 74.17.0 - 2023-05-04
+* [#1652](https://github.com/stripe/stripe-go/pull/1652) Update generated code
+  * Add support for `Link` on `CheckoutSessionPaymentMethodOptionsParams` and `CheckoutSessionPaymentMethodOptions`
+  * Add support for `Brand`, `Country`, `Description`, `ExpMonth`, `ExpYear`, `Fingerprint`, `Funding`, `IIN`, `Issuer`, `Last4`, `Network`, and `Wallet` on `SetupAttemptPaymentMethodDetailsCard`
+
 ## 74.16.0 - 2023-04-27
 * [#1644](https://github.com/stripe/stripe-go/pull/1644) Update generated code
   * Add support for `BillingCycleAnchor` and `ProrationBehavior` on `CheckoutSessionSubscriptionDataParams`
