@@ -267,7 +267,7 @@ type TaxTransactionShippingCostTaxBreakdownTaxRateDetails struct {
 	TaxType TaxTransactionShippingCostTaxBreakdownTaxRateDetailsTaxType `json:"tax_type"`
 }
 
-// Detailed account of taxes relevant to shipping cost.
+// Detailed account of taxes relevant to shipping cost. (It is not populated for the transaction resource object and will be removed in the next API version.)
 type TaxTransactionShippingCostTaxBreakdown struct {
 	// The amount of tax, in integer cents.
 	Amount       int64                                               `json:"amount"`
@@ -288,11 +288,11 @@ type TaxTransactionShippingCost struct {
 	Amount int64 `json:"amount"`
 	// The amount of tax calculated for shipping, in integer cents.
 	AmountTax int64 `json:"amount_tax"`
-	// The ID of an existing [ShippingRate](https://stripe.com/docs/api/shipping_rates/object)
+	// The ID of an existing [ShippingRate](https://stripe.com/docs/api/shipping_rates/object). (It is not populated for the transaction resource object and will be removed in the next API version.)
 	ShippingRate string `json:"shipping_rate"`
 	// Specifies whether the `amount` includes taxes. If `tax_behavior=inclusive`, then the amount includes taxes.
 	TaxBehavior TaxTransactionShippingCostTaxBehavior `json:"tax_behavior"`
-	// Detailed account of taxes relevant to shipping cost.
+	// Detailed account of taxes relevant to shipping cost. (It is not populated for the transaction resource object and will be removed in the next API version.)
 	TaxBreakdown []*TaxTransactionShippingCostTaxBreakdown `json:"tax_breakdown"`
 	// The [tax code](https://stripe.com/docs/tax/tax-categories) ID used for shipping.
 	TaxCode string `json:"tax_code"`
