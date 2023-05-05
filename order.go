@@ -845,6 +845,7 @@ type OrderPaymentSettingsPaymentMethodOptionsP24Params struct {
 type OrderPaymentSettingsPaymentMethodOptionsPaypalParams struct {
 	CaptureMethod   *string `form:"capture_method"`
 	PreferredLocale *string `form:"preferred_locale"`
+	Reference       *string `form:"reference"`
 	ReferenceID     *string `form:"reference_id"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
@@ -1309,6 +1310,8 @@ type OrderPaymentSettingsPaymentMethodOptionsPaypal struct {
 	CaptureMethod OrderPaymentSettingsPaymentMethodOptionsPaypalCaptureMethod `json:"capture_method"`
 	// Preferred locale of the PayPal checkout page that the customer is redirected to.
 	PreferredLocale string `json:"preferred_locale"`
+	// A reference of the PayPal transaction visible to customer which is mapped to PayPal's invoice ID. This must be a globally unique ID if you have configured in your PayPal settings to block multiple payments per invoice ID.
+	Reference string `json:"reference"`
 	// A unique reference ID of the PayPal transaction. This must be a globally unique ID across all PayPal transactions or the transaction will fail.
 	ReferenceID string `json:"reference_id"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.

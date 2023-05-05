@@ -709,7 +709,15 @@ type PaymentMethodP24 struct {
 	Bank string `json:"bank"`
 }
 type PaymentMethodPayNow struct{}
-type PaymentMethodPaypal struct{}
+type PaymentMethodPaypal struct {
+	// Uniquely identifies this particular PayPal account. You can use this attribute to check whether two PayPal accounts are the same.
+	Fingerprint string `json:"fingerprint"`
+	// PayPal account PayerID. This identifier uniquely identifies the PayPal customer.
+	PayerID string `json:"payer_id"`
+	// Owner's verified email. Values are verified or provided by PayPal directly
+	// (if supported) at the time of authorization or settlement. They cannot be set or mutated.
+	VerifiedEmail string `json:"verified_email"`
+}
 type PaymentMethodPix struct{}
 type PaymentMethodPromptPay struct{}
 

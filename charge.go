@@ -881,8 +881,14 @@ type ChargePaymentMethodDetailsPayNow struct {
 	Reference string `json:"reference"`
 }
 type ChargePaymentMethodDetailsPaypal struct {
+	// Owner's email. Values are provided by PayPal directly
+	// (if supported) at the time of authorization or settlement. They cannot be set or mutated.
+	PayerEmail string `json:"payer_email"`
 	// PayPal account PayerID. This identifier uniquely identifies the PayPal customer.
 	PayerID string `json:"payer_id"`
+	// Owner's full name. Values provided by PayPal directly
+	// (if supported) at the time of authorization or settlement. They cannot be set or mutated.
+	PayerName string `json:"payer_name"`
 	// The shipping address for the customer, as supplied by the merchant at the point of payment
 	// execution. This shipping address will not be updated if the merchant updates the shipping
 	// address on the PaymentIntent after the PaymentIntent was successfully confirmed.
