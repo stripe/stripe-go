@@ -1,5 +1,9 @@
 # Changelog
 
+## 74.18.0-beta.1 - 2023-05-04
+* [#1651](https://github.com/stripe/stripe-go/pull/1651) Update generated code for beta
+  * Updated stable APIs to the latest version
+
 ## 74.17.0 - 2023-05-04
 * [#1652](https://github.com/stripe/stripe-go/pull/1652) Update generated code
   * Add support for `Link` on `CheckoutSessionPaymentMethodOptionsParams` and `CheckoutSessionPaymentMethodOptions`
