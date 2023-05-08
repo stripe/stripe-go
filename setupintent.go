@@ -155,6 +155,7 @@ const (
 	SetupIntentPaymentMethodOptionsCardNetworkCartesBancaires SetupIntentPaymentMethodOptionsCardNetwork = "cartes_bancaires"
 	SetupIntentPaymentMethodOptionsCardNetworkDiners          SetupIntentPaymentMethodOptionsCardNetwork = "diners"
 	SetupIntentPaymentMethodOptionsCardNetworkDiscover        SetupIntentPaymentMethodOptionsCardNetwork = "discover"
+	SetupIntentPaymentMethodOptionsCardNetworkEftposAu        SetupIntentPaymentMethodOptionsCardNetwork = "eftpos_au"
 	SetupIntentPaymentMethodOptionsCardNetworkInterac         SetupIntentPaymentMethodOptionsCardNetwork = "interac"
 	SetupIntentPaymentMethodOptionsCardNetworkJCB             SetupIntentPaymentMethodOptionsCardNetwork = "jcb"
 	SetupIntentPaymentMethodOptionsCardNetworkMastercard      SetupIntentPaymentMethodOptionsCardNetwork = "mastercard"
