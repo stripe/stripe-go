@@ -309,6 +309,7 @@ const (
 	PaymentIntentPaymentMethodOptionsCardNetworkCartesBancaires PaymentIntentPaymentMethodOptionsCardNetwork = "cartes_bancaires"
 	PaymentIntentPaymentMethodOptionsCardNetworkDiners          PaymentIntentPaymentMethodOptionsCardNetwork = "diners"
 	PaymentIntentPaymentMethodOptionsCardNetworkDiscover        PaymentIntentPaymentMethodOptionsCardNetwork = "discover"
+	PaymentIntentPaymentMethodOptionsCardNetworkEftposAu        PaymentIntentPaymentMethodOptionsCardNetwork = "eftpos_au"
 	PaymentIntentPaymentMethodOptionsCardNetworkInterac         PaymentIntentPaymentMethodOptionsCardNetwork = "interac"
 	PaymentIntentPaymentMethodOptionsCardNetworkJCB             PaymentIntentPaymentMethodOptionsCardNetwork = "jcb"
 	PaymentIntentPaymentMethodOptionsCardNetworkMastercard      PaymentIntentPaymentMethodOptionsCardNetwork = "mastercard"
@@ -1715,7 +1716,7 @@ type PaymentIntentParams struct {
 	ErrorOnRequiresAction *bool `form:"error_on_requires_action"`
 	// Set to `true` to indicate that the customer is not in your checkout flow during this payment attempt, and therefore is unable to authenticate. This parameter is intended for scenarios where you collect card details and [charge them later](https://stripe.com/docs/payments/cards/charging-saved-cards). This parameter can only be used with [`confirm=true`](https://stripe.com/docs/api/payment_intents/create#create_payment_intent-confirm).
 	OffSession *bool `form:"off_session"`
-	// Set to `true` only when using manual confirmation and the iOS or Android SDKs to handle additional authentication steps.
+	// Set to `true` when confirming server-side and using Stripe.js, iOS, or Android client-side SDKs to handle the next actions.
 	UseStripeSDK *bool `form:"use_stripe_sdk"`
 }
 
@@ -1798,7 +1799,7 @@ type PaymentIntentConfirmParams struct {
 	SetupFutureUsage *string `form:"setup_future_usage"`
 	// Shipping information for this PaymentIntent.
 	Shipping *ShippingDetailsParams `form:"shipping"`
-	// Set to `true` only when using manual confirmation and the iOS or Android SDKs to handle additional authentication steps.
+	// Set to `true` when confirming server-side and using Stripe.js, iOS, or Android client-side SDKs to handle the next actions.
 	UseStripeSDK *bool `form:"use_stripe_sdk"`
 }
 
