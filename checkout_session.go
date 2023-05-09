@@ -1207,6 +1207,25 @@ type CheckoutSessionPaymentMethodOptionsPayNowParams struct {
 	SetupFutureUsage *string `form:"setup_future_usage"`
 }
 
+// contains details about the PayPal payment method options.
+type CheckoutSessionPaymentMethodOptionsPaypalParams struct {
+	// Controls when the funds will be captured from the customer's account.
+	CaptureMethod   *string `form:"capture_method"`
+	PreferredLocale *string `form:"preferred_locale"`
+	// A reference of the PayPal transaction visible to customer which is mapped to PayPal's invoice ID. This must be a globally unique ID if you have configured in your PayPal settings to block multiple payments per invoice ID.
+	Reference *string `form:"reference"`
+	// The risk correlation ID for an on-session payment using a saved PayPal payment method.
+	RiskCorrelationID *string `form:"risk_correlation_id"`
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// Providing this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.
+	//
+	// When processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).
+	//
+	// If `setup_future_usage` is already set and you are performing a request using a publishable key, you may only update the value from `on_session` to `off_session`.
+	SetupFutureUsage *string `form:"setup_future_usage"`
+}
+
 // contains details about the Pix payment method options.
 type CheckoutSessionPaymentMethodOptionsPixParams struct {
 	// The number of seconds (between 10 and 1209600) after which Pix payment will expire. Defaults to 86400 seconds.
@@ -1313,6 +1332,8 @@ type CheckoutSessionPaymentMethodOptionsParams struct {
 	P24 *CheckoutSessionPaymentMethodOptionsP24Params `form:"p24"`
 	// contains details about the PayNow payment method options.
 	PayNow *CheckoutSessionPaymentMethodOptionsPayNowParams `form:"paynow"`
+	// contains details about the PayPal payment method options.
+	Paypal *CheckoutSessionPaymentMethodOptionsPaypalParams `form:"paypal"`
 	// contains details about the Pix payment method options.
 	Pix *CheckoutSessionPaymentMethodOptionsPixParams `form:"pix"`
 	// contains details about the Sepa Debit payment method options.
