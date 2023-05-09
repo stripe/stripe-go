@@ -164,6 +164,25 @@ const (
 	ChargePaymentMethodDetailsKonbiniStoreChainSeicomart  ChargePaymentMethodDetailsKonbiniStoreChain = "seicomart"
 )
 
+// An array of conditions that are covered for the transaction, if applicable.
+type ChargePaymentMethodDetailsPaypalSellerProtectionDisputeCategory string
+
+// List of values that ChargePaymentMethodDetailsPaypalSellerProtectionDisputeCategory can take
+const (
+	ChargePaymentMethodDetailsPaypalSellerProtectionDisputeCategoryFraudulent         ChargePaymentMethodDetailsPaypalSellerProtectionDisputeCategory = "fraudulent"
+	ChargePaymentMethodDetailsPaypalSellerProtectionDisputeCategoryProductNotReceived ChargePaymentMethodDetailsPaypalSellerProtectionDisputeCategory = "product_not_received"
+)
+
+// Indicates whether the transaction is eligible for PayPal's seller protection.
+type ChargePaymentMethodDetailsPaypalSellerProtectionStatus string
+
+// List of values that ChargePaymentMethodDetailsPaypalSellerProtectionStatus can take
+const (
+	ChargePaymentMethodDetailsPaypalSellerProtectionStatusEligible          ChargePaymentMethodDetailsPaypalSellerProtectionStatus = "eligible"
+	ChargePaymentMethodDetailsPaypalSellerProtectionStatusNotEligible       ChargePaymentMethodDetailsPaypalSellerProtectionStatus = "not_eligible"
+	ChargePaymentMethodDetailsPaypalSellerProtectionStatusPartiallyEligible ChargePaymentMethodDetailsPaypalSellerProtectionStatus = "partially_eligible"
+)
+
 // The type of transaction-specific details of the payment method used in the payment, one of `ach_credit_transfer`, `ach_debit`, `acss_debit`, `alipay`, `au_becs_debit`, `bancontact`, `card`, `card_present`, `eps`, `giropay`, `ideal`, `klarna`, `multibanco`, `p24`, `sepa_debit`, `sofort`, `stripe_account`, or `wechat`.
 // An additional hash is included on `payment_method_details` with a name matching this value.
 // It contains information specific to the payment method.
@@ -880,6 +899,14 @@ type ChargePaymentMethodDetailsPayNow struct {
 	// Reference number associated with this PayNow payment
 	Reference string `json:"reference"`
 }
+
+// The level of protection offered as defined by PayPal Seller Protection for Merchants, for this transaction.
+type ChargePaymentMethodDetailsPaypalSellerProtection struct {
+	// An array of conditions that are covered for the transaction, if applicable.
+	DisputeCategories []ChargePaymentMethodDetailsPaypalSellerProtectionDisputeCategory `json:"dispute_categories"`
+	// Indicates whether the transaction is eligible for PayPal's seller protection.
+	Status ChargePaymentMethodDetailsPaypalSellerProtectionStatus `json:"status"`
+}
 type ChargePaymentMethodDetailsPaypal struct {
 	// Owner's email. Values are provided by PayPal directly
 	// (if supported) at the time of authorization or settlement. They cannot be set or mutated.
@@ -889,6 +916,8 @@ type ChargePaymentMethodDetailsPaypal struct {
 	// Owner's full name. Values provided by PayPal directly
 	// (if supported) at the time of authorization or settlement. They cannot be set or mutated.
 	PayerName string `json:"payer_name"`
+	// The level of protection offered as defined by PayPal Seller Protection for Merchants, for this transaction.
+	SellerProtection *ChargePaymentMethodDetailsPaypalSellerProtection `json:"seller_protection"`
 	// The shipping address for the customer, as supplied by the merchant at the point of payment
 	// execution. This shipping address will not be updated if the merchant updates the shipping
 	// address on the PaymentIntent after the PaymentIntent was successfully confirmed.
