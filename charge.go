@@ -580,6 +580,12 @@ type ChargePaymentMethodDetailsCardInstallments struct {
 	Plan *PaymentIntentPaymentMethodOptionsCardInstallmentsPlan `json:"plan"`
 }
 
+// If this card has network token credentials, this contains the details of the network token credentials.
+type ChargePaymentMethodDetailsCardNetworkToken struct {
+	// Indicates if Stripe used a network token, either user provided or Stripe managed when processing the transaction.
+	Used bool `json:"used"`
+}
+
 // Populated if this transaction used 3D Secure authentication.
 type ChargePaymentMethodDetailsCardThreeDSecure struct {
 	// For authenticated transactions: how the customer was authenticated by
@@ -660,6 +666,8 @@ type ChargePaymentMethodDetailsCard struct {
 	MOTO bool `json:"moto"`
 	// Identifies which network this charge was processed on. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `interac`, `jcb`, `mastercard`, `unionpay`, `visa`, or `unknown`.
 	Network ChargePaymentMethodDetailsCardNetwork `json:"network"`
+	// If this card has network token credentials, this contains the details of the network token credentials.
+	NetworkToken *ChargePaymentMethodDetailsCardNetworkToken `json:"network_token"`
 	// Populated if this transaction used 3D Secure authentication.
 	ThreeDSecure *ChargePaymentMethodDetailsCardThreeDSecure `json:"three_d_secure"`
 	// If this Card is part of a card wallet, this contains the details of the card wallet.
