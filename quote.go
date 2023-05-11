@@ -41,6 +41,56 @@ const (
 	QuoteComputedRecurringIntervalYear  QuoteComputedRecurringInterval = "year"
 )
 
+// The reasoning behind this tax, for example, if the product is tax exempt. The possible values for this field may be extended as new tax rules are supported.
+type QuoteComputedRecurringTotalDetailsBreakdownTaxTaxabilityReason string
+
+// List of values that QuoteComputedRecurringTotalDetailsBreakdownTaxTaxabilityReason can take
+const (
+	QuoteComputedRecurringTotalDetailsBreakdownTaxTaxabilityReasonCustomerExempt          QuoteComputedRecurringTotalDetailsBreakdownTaxTaxabilityReason = "customer_exempt"
+	QuoteComputedRecurringTotalDetailsBreakdownTaxTaxabilityReasonExcludedTerritory       QuoteComputedRecurringTotalDetailsBreakdownTaxTaxabilityReason = "excluded_territory"
+	QuoteComputedRecurringTotalDetailsBreakdownTaxTaxabilityReasonJurisdictionUnsupported QuoteComputedRecurringTotalDetailsBreakdownTaxTaxabilityReason = "jurisdiction_unsupported"
+	QuoteComputedRecurringTotalDetailsBreakdownTaxTaxabilityReasonNotCollecting           QuoteComputedRecurringTotalDetailsBreakdownTaxTaxabilityReason = "not_collecting"
+	QuoteComputedRecurringTotalDetailsBreakdownTaxTaxabilityReasonNotSubjectToTax         QuoteComputedRecurringTotalDetailsBreakdownTaxTaxabilityReason = "not_subject_to_tax"
+	QuoteComputedRecurringTotalDetailsBreakdownTaxTaxabilityReasonNotSupported            QuoteComputedRecurringTotalDetailsBreakdownTaxTaxabilityReason = "not_supported"
+	QuoteComputedRecurringTotalDetailsBreakdownTaxTaxabilityReasonPortionProductExempt    QuoteComputedRecurringTotalDetailsBreakdownTaxTaxabilityReason = "portion_product_exempt"
+	QuoteComputedRecurringTotalDetailsBreakdownTaxTaxabilityReasonPortionReducedRated     QuoteComputedRecurringTotalDetailsBreakdownTaxTaxabilityReason = "portion_reduced_rated"
+	QuoteComputedRecurringTotalDetailsBreakdownTaxTaxabilityReasonPortionStandardRated    QuoteComputedRecurringTotalDetailsBreakdownTaxTaxabilityReason = "portion_standard_rated"
+	QuoteComputedRecurringTotalDetailsBreakdownTaxTaxabilityReasonProductExempt           QuoteComputedRecurringTotalDetailsBreakdownTaxTaxabilityReason = "product_exempt"
+	QuoteComputedRecurringTotalDetailsBreakdownTaxTaxabilityReasonProductExemptHoliday    QuoteComputedRecurringTotalDetailsBreakdownTaxTaxabilityReason = "product_exempt_holiday"
+	QuoteComputedRecurringTotalDetailsBreakdownTaxTaxabilityReasonProportionallyRated     QuoteComputedRecurringTotalDetailsBreakdownTaxTaxabilityReason = "proportionally_rated"
+	QuoteComputedRecurringTotalDetailsBreakdownTaxTaxabilityReasonReducedRated            QuoteComputedRecurringTotalDetailsBreakdownTaxTaxabilityReason = "reduced_rated"
+	QuoteComputedRecurringTotalDetailsBreakdownTaxTaxabilityReasonReverseCharge           QuoteComputedRecurringTotalDetailsBreakdownTaxTaxabilityReason = "reverse_charge"
+	QuoteComputedRecurringTotalDetailsBreakdownTaxTaxabilityReasonStandardRated           QuoteComputedRecurringTotalDetailsBreakdownTaxTaxabilityReason = "standard_rated"
+	QuoteComputedRecurringTotalDetailsBreakdownTaxTaxabilityReasonTaxableBasisReduced     QuoteComputedRecurringTotalDetailsBreakdownTaxTaxabilityReason = "taxable_basis_reduced"
+	QuoteComputedRecurringTotalDetailsBreakdownTaxTaxabilityReasonVATExempt               QuoteComputedRecurringTotalDetailsBreakdownTaxTaxabilityReason = "vat_exempt"
+	QuoteComputedRecurringTotalDetailsBreakdownTaxTaxabilityReasonZeroRated               QuoteComputedRecurringTotalDetailsBreakdownTaxTaxabilityReason = "zero_rated"
+)
+
+// The reasoning behind this tax, for example, if the product is tax exempt. The possible values for this field may be extended as new tax rules are supported.
+type QuoteComputedUpfrontTotalDetailsBreakdownTaxTaxabilityReason string
+
+// List of values that QuoteComputedUpfrontTotalDetailsBreakdownTaxTaxabilityReason can take
+const (
+	QuoteComputedUpfrontTotalDetailsBreakdownTaxTaxabilityReasonCustomerExempt          QuoteComputedUpfrontTotalDetailsBreakdownTaxTaxabilityReason = "customer_exempt"
+	QuoteComputedUpfrontTotalDetailsBreakdownTaxTaxabilityReasonExcludedTerritory       QuoteComputedUpfrontTotalDetailsBreakdownTaxTaxabilityReason = "excluded_territory"
+	QuoteComputedUpfrontTotalDetailsBreakdownTaxTaxabilityReasonJurisdictionUnsupported QuoteComputedUpfrontTotalDetailsBreakdownTaxTaxabilityReason = "jurisdiction_unsupported"
+	QuoteComputedUpfrontTotalDetailsBreakdownTaxTaxabilityReasonNotCollecting           QuoteComputedUpfrontTotalDetailsBreakdownTaxTaxabilityReason = "not_collecting"
+	QuoteComputedUpfrontTotalDetailsBreakdownTaxTaxabilityReasonNotSubjectToTax         QuoteComputedUpfrontTotalDetailsBreakdownTaxTaxabilityReason = "not_subject_to_tax"
+	QuoteComputedUpfrontTotalDetailsBreakdownTaxTaxabilityReasonNotSupported            QuoteComputedUpfrontTotalDetailsBreakdownTaxTaxabilityReason = "not_supported"
+	QuoteComputedUpfrontTotalDetailsBreakdownTaxTaxabilityReasonPortionProductExempt    QuoteComputedUpfrontTotalDetailsBreakdownTaxTaxabilityReason = "portion_product_exempt"
+	QuoteComputedUpfrontTotalDetailsBreakdownTaxTaxabilityReasonPortionReducedRated     QuoteComputedUpfrontTotalDetailsBreakdownTaxTaxabilityReason = "portion_reduced_rated"
+	QuoteComputedUpfrontTotalDetailsBreakdownTaxTaxabilityReasonPortionStandardRated    QuoteComputedUpfrontTotalDetailsBreakdownTaxTaxabilityReason = "portion_standard_rated"
+	QuoteComputedUpfrontTotalDetailsBreakdownTaxTaxabilityReasonProductExempt           QuoteComputedUpfrontTotalDetailsBreakdownTaxTaxabilityReason = "product_exempt"
+	QuoteComputedUpfrontTotalDetailsBreakdownTaxTaxabilityReasonProductExemptHoliday    QuoteComputedUpfrontTotalDetailsBreakdownTaxTaxabilityReason = "product_exempt_holiday"
+	QuoteComputedUpfrontTotalDetailsBreakdownTaxTaxabilityReasonProportionallyRated     QuoteComputedUpfrontTotalDetailsBreakdownTaxTaxabilityReason = "proportionally_rated"
+	QuoteComputedUpfrontTotalDetailsBreakdownTaxTaxabilityReasonReducedRated            QuoteComputedUpfrontTotalDetailsBreakdownTaxTaxabilityReason = "reduced_rated"
+	QuoteComputedUpfrontTotalDetailsBreakdownTaxTaxabilityReasonReverseCharge           QuoteComputedUpfrontTotalDetailsBreakdownTaxTaxabilityReason = "reverse_charge"
+	QuoteComputedUpfrontTotalDetailsBreakdownTaxTaxabilityReasonStandardRated           QuoteComputedUpfrontTotalDetailsBreakdownTaxTaxabilityReason = "standard_rated"
+	QuoteComputedUpfrontTotalDetailsBreakdownTaxTaxabilityReasonTaxableBasisReduced     QuoteComputedUpfrontTotalDetailsBreakdownTaxTaxabilityReason = "taxable_basis_reduced"
+	QuoteComputedUpfrontTotalDetailsBreakdownTaxTaxabilityReasonVATExempt               QuoteComputedUpfrontTotalDetailsBreakdownTaxTaxabilityReason = "vat_exempt"
+	QuoteComputedUpfrontTotalDetailsBreakdownTaxTaxabilityReasonZeroRated               QuoteComputedUpfrontTotalDetailsBreakdownTaxTaxabilityReason = "zero_rated"
+)
+
 // The status of the quote.
 type QuoteStatus string
 
@@ -50,6 +100,31 @@ const (
 	QuoteStatusCanceled QuoteStatus = "canceled"
 	QuoteStatusDraft    QuoteStatus = "draft"
 	QuoteStatusOpen     QuoteStatus = "open"
+)
+
+// The reasoning behind this tax, for example, if the product is tax exempt. The possible values for this field may be extended as new tax rules are supported.
+type QuoteTotalDetailsBreakdownTaxTaxabilityReason string
+
+// List of values that QuoteTotalDetailsBreakdownTaxTaxabilityReason can take
+const (
+	QuoteTotalDetailsBreakdownTaxTaxabilityReasonCustomerExempt          QuoteTotalDetailsBreakdownTaxTaxabilityReason = "customer_exempt"
+	QuoteTotalDetailsBreakdownTaxTaxabilityReasonExcludedTerritory       QuoteTotalDetailsBreakdownTaxTaxabilityReason = "excluded_territory"
+	QuoteTotalDetailsBreakdownTaxTaxabilityReasonJurisdictionUnsupported QuoteTotalDetailsBreakdownTaxTaxabilityReason = "jurisdiction_unsupported"
+	QuoteTotalDetailsBreakdownTaxTaxabilityReasonNotCollecting           QuoteTotalDetailsBreakdownTaxTaxabilityReason = "not_collecting"
+	QuoteTotalDetailsBreakdownTaxTaxabilityReasonNotSubjectToTax         QuoteTotalDetailsBreakdownTaxTaxabilityReason = "not_subject_to_tax"
+	QuoteTotalDetailsBreakdownTaxTaxabilityReasonNotSupported            QuoteTotalDetailsBreakdownTaxTaxabilityReason = "not_supported"
+	QuoteTotalDetailsBreakdownTaxTaxabilityReasonPortionProductExempt    QuoteTotalDetailsBreakdownTaxTaxabilityReason = "portion_product_exempt"
+	QuoteTotalDetailsBreakdownTaxTaxabilityReasonPortionReducedRated     QuoteTotalDetailsBreakdownTaxTaxabilityReason = "portion_reduced_rated"
+	QuoteTotalDetailsBreakdownTaxTaxabilityReasonPortionStandardRated    QuoteTotalDetailsBreakdownTaxTaxabilityReason = "portion_standard_rated"
+	QuoteTotalDetailsBreakdownTaxTaxabilityReasonProductExempt           QuoteTotalDetailsBreakdownTaxTaxabilityReason = "product_exempt"
+	QuoteTotalDetailsBreakdownTaxTaxabilityReasonProductExemptHoliday    QuoteTotalDetailsBreakdownTaxTaxabilityReason = "product_exempt_holiday"
+	QuoteTotalDetailsBreakdownTaxTaxabilityReasonProportionallyRated     QuoteTotalDetailsBreakdownTaxTaxabilityReason = "proportionally_rated"
+	QuoteTotalDetailsBreakdownTaxTaxabilityReasonReducedRated            QuoteTotalDetailsBreakdownTaxTaxabilityReason = "reduced_rated"
+	QuoteTotalDetailsBreakdownTaxTaxabilityReasonReverseCharge           QuoteTotalDetailsBreakdownTaxTaxabilityReason = "reverse_charge"
+	QuoteTotalDetailsBreakdownTaxTaxabilityReasonStandardRated           QuoteTotalDetailsBreakdownTaxTaxabilityReason = "standard_rated"
+	QuoteTotalDetailsBreakdownTaxTaxabilityReasonTaxableBasisReduced     QuoteTotalDetailsBreakdownTaxTaxabilityReason = "taxable_basis_reduced"
+	QuoteTotalDetailsBreakdownTaxTaxabilityReasonVATExempt               QuoteTotalDetailsBreakdownTaxTaxabilityReason = "vat_exempt"
+	QuoteTotalDetailsBreakdownTaxTaxabilityReasonZeroRated               QuoteTotalDetailsBreakdownTaxTaxabilityReason = "zero_rated"
 )
 
 // Retrieves the quote with the given ID.
@@ -257,6 +332,10 @@ type QuoteComputedRecurringTotalDetailsBreakdownTax struct {
 	//
 	// Related guide: [Tax Rates](https://stripe.com/docs/billing/taxes/tax-rates).
 	Rate *TaxRate `json:"rate"`
+	// The reasoning behind this tax, for example, if the product is tax exempt. The possible values for this field may be extended as new tax rules are supported.
+	TaxabilityReason QuoteComputedRecurringTotalDetailsBreakdownTaxTaxabilityReason `json:"taxability_reason"`
+	// The amount on which tax is calculated, in %s.
+	TaxableAmount int64 `json:"taxable_amount"`
 }
 type QuoteComputedRecurringTotalDetailsBreakdown struct {
 	// The aggregated discounts.
@@ -306,6 +385,10 @@ type QuoteComputedUpfrontTotalDetailsBreakdownTax struct {
 	//
 	// Related guide: [Tax Rates](https://stripe.com/docs/billing/taxes/tax-rates).
 	Rate *TaxRate `json:"rate"`
+	// The reasoning behind this tax, for example, if the product is tax exempt. The possible values for this field may be extended as new tax rules are supported.
+	TaxabilityReason QuoteComputedUpfrontTotalDetailsBreakdownTaxTaxabilityReason `json:"taxability_reason"`
+	// The amount on which tax is calculated, in %s.
+	TaxableAmount int64 `json:"taxable_amount"`
 }
 type QuoteComputedUpfrontTotalDetailsBreakdown struct {
 	// The aggregated discounts.
@@ -386,6 +469,10 @@ type QuoteTotalDetailsBreakdownTax struct {
 	//
 	// Related guide: [Tax Rates](https://stripe.com/docs/billing/taxes/tax-rates).
 	Rate *TaxRate `json:"rate"`
+	// The reasoning behind this tax, for example, if the product is tax exempt. The possible values for this field may be extended as new tax rules are supported.
+	TaxabilityReason QuoteTotalDetailsBreakdownTaxTaxabilityReason `json:"taxability_reason"`
+	// The amount on which tax is calculated, in %s.
+	TaxableAmount int64 `json:"taxable_amount"`
 }
 type QuoteTotalDetailsBreakdown struct {
 	// The aggregated discounts.
