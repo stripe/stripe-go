@@ -1,5 +1,16 @@
 # Changelog
 
+## 74.19.0-beta.1 - 2023-05-11
+* [#1654](https://github.com/stripe/stripe-go/pull/1654) Update generated code for beta
+  * Add support for `PayerEmail`, `PayerName`, and `SellerProtection` on `ChargePaymentMethodDetailsPaypal`
+  * Add support for `CaptureMethod`, `PreferredLocale`, `ReferenceID`, and `SetupFutureUsage` on `CheckoutSessionPaymentMethodOptionsPaypalParams`
+  * Add support for `Reference` on `CheckoutSessionPaymentMethodOptionsPaypalParams`, `OrderPaymentSettingsPaymentMethodOptionsPaypalParams`, `OrderPaymentSettingsPaymentMethodOptionsPaypal`, `PaymentIntentConfirmPaymentMethodOptionsPaypalParams`, `PaymentIntentPaymentMethodOptionsPaypalParams`, and `PaymentIntentPaymentMethodOptionsPaypal`
+  * Add support for `RiskCorrelationID` on `CheckoutSessionPaymentMethodOptionsPaypalParams`, `OrderPaymentSettingsPaymentMethodOptionsPaypalParams`, `PaymentIntentConfirmPaymentMethodOptionsPaypalParams`, and `PaymentIntentPaymentMethodOptionsPaypalParams`
+  * Remove support for `BillingAgreementID` and `Currency` on `CheckoutSessionPaymentMethodOptionsPaypalParams`
+  * Add support for `Fingerprint`, `PayerID`, and `VerifiedEmail` on `MandatePaymentMethodDetailsPaypal` and `PaymentMethodPaypal`
+  * Add support for `TaxabilityReason` and `TaxableAmount` on `OrderShippingCostTaxes`, `OrderTotalDetailsBreakdownTaxes`, and `QuotePhaseTotalDetailsBreakdownTaxes`
+  * Add support for `HeadOffice` on `TaxSettingsParams` and `TaxSettings`
+
 ## 74.18.0 - 2023-05-11
 * [#1656](https://github.com/stripe/stripe-go/pull/1656) Update generated code
   Release specs are identical.
