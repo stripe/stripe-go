@@ -33,6 +33,31 @@ const (
 	QuotePhaseProrationBehaviorNone             QuotePhaseProrationBehavior = "none"
 )
 
+// The reasoning behind this tax, for example, if the product is tax exempt. The possible values for this field may be extended as new tax rules are supported.
+type QuotePhaseTotalDetailsBreakdownTaxTaxabilityReason string
+
+// List of values that QuotePhaseTotalDetailsBreakdownTaxTaxabilityReason can take
+const (
+	QuotePhaseTotalDetailsBreakdownTaxTaxabilityReasonCustomerExempt          QuotePhaseTotalDetailsBreakdownTaxTaxabilityReason = "customer_exempt"
+	QuotePhaseTotalDetailsBreakdownTaxTaxabilityReasonExcludedTerritory       QuotePhaseTotalDetailsBreakdownTaxTaxabilityReason = "excluded_territory"
+	QuotePhaseTotalDetailsBreakdownTaxTaxabilityReasonJurisdictionUnsupported QuotePhaseTotalDetailsBreakdownTaxTaxabilityReason = "jurisdiction_unsupported"
+	QuotePhaseTotalDetailsBreakdownTaxTaxabilityReasonNotCollecting           QuotePhaseTotalDetailsBreakdownTaxTaxabilityReason = "not_collecting"
+	QuotePhaseTotalDetailsBreakdownTaxTaxabilityReasonNotSubjectToTax         QuotePhaseTotalDetailsBreakdownTaxTaxabilityReason = "not_subject_to_tax"
+	QuotePhaseTotalDetailsBreakdownTaxTaxabilityReasonNotSupported            QuotePhaseTotalDetailsBreakdownTaxTaxabilityReason = "not_supported"
+	QuotePhaseTotalDetailsBreakdownTaxTaxabilityReasonPortionProductExempt    QuotePhaseTotalDetailsBreakdownTaxTaxabilityReason = "portion_product_exempt"
+	QuotePhaseTotalDetailsBreakdownTaxTaxabilityReasonPortionReducedRated     QuotePhaseTotalDetailsBreakdownTaxTaxabilityReason = "portion_reduced_rated"
+	QuotePhaseTotalDetailsBreakdownTaxTaxabilityReasonPortionStandardRated    QuotePhaseTotalDetailsBreakdownTaxTaxabilityReason = "portion_standard_rated"
+	QuotePhaseTotalDetailsBreakdownTaxTaxabilityReasonProductExempt           QuotePhaseTotalDetailsBreakdownTaxTaxabilityReason = "product_exempt"
+	QuotePhaseTotalDetailsBreakdownTaxTaxabilityReasonProductExemptHoliday    QuotePhaseTotalDetailsBreakdownTaxTaxabilityReason = "product_exempt_holiday"
+	QuotePhaseTotalDetailsBreakdownTaxTaxabilityReasonProportionallyRated     QuotePhaseTotalDetailsBreakdownTaxTaxabilityReason = "proportionally_rated"
+	QuotePhaseTotalDetailsBreakdownTaxTaxabilityReasonReducedRated            QuotePhaseTotalDetailsBreakdownTaxTaxabilityReason = "reduced_rated"
+	QuotePhaseTotalDetailsBreakdownTaxTaxabilityReasonReverseCharge           QuotePhaseTotalDetailsBreakdownTaxTaxabilityReason = "reverse_charge"
+	QuotePhaseTotalDetailsBreakdownTaxTaxabilityReasonStandardRated           QuotePhaseTotalDetailsBreakdownTaxTaxabilityReason = "standard_rated"
+	QuotePhaseTotalDetailsBreakdownTaxTaxabilityReasonTaxableBasisReduced     QuotePhaseTotalDetailsBreakdownTaxTaxabilityReason = "taxable_basis_reduced"
+	QuotePhaseTotalDetailsBreakdownTaxTaxabilityReasonVATExempt               QuotePhaseTotalDetailsBreakdownTaxTaxabilityReason = "vat_exempt"
+	QuotePhaseTotalDetailsBreakdownTaxTaxabilityReasonZeroRated               QuotePhaseTotalDetailsBreakdownTaxTaxabilityReason = "zero_rated"
+)
+
 // Returns a list of quote phases.
 type QuotePhaseListParams struct {
 	ListParams `form:"*"`
@@ -76,6 +101,10 @@ type QuotePhaseTotalDetailsBreakdownTax struct {
 	//
 	// Related guide: [Tax Rates](https://stripe.com/docs/billing/taxes/tax-rates).
 	Rate *TaxRate `json:"rate"`
+	// The reasoning behind this tax, for example, if the product is tax exempt. The possible values for this field may be extended as new tax rules are supported.
+	TaxabilityReason QuotePhaseTotalDetailsBreakdownTaxTaxabilityReason `json:"taxability_reason"`
+	// The amount on which tax is calculated, in %s.
+	TaxableAmount int64 `json:"taxable_amount"`
 }
 type QuotePhaseTotalDetailsBreakdown struct {
 	// The aggregated discounts.
