@@ -92,7 +92,7 @@ const (
 	SubscriptionPaymentSettingsPaymentMethodOptionsCardNetworkCartesBancaires SubscriptionPaymentSettingsPaymentMethodOptionsCardNetwork = "cartes_bancaires"
 	SubscriptionPaymentSettingsPaymentMethodOptionsCardNetworkDiners          SubscriptionPaymentSettingsPaymentMethodOptionsCardNetwork = "diners"
 	SubscriptionPaymentSettingsPaymentMethodOptionsCardNetworkDiscover        SubscriptionPaymentSettingsPaymentMethodOptionsCardNetwork = "discover"
-	SubscriptionPaymentSettingsPaymentMethodOptionsCardNetworkEftposAu        SubscriptionPaymentSettingsPaymentMethodOptionsCardNetwork = "eftpos_au"
+	SubscriptionPaymentSettingsPaymentMethodOptionsCardNetworkEFTPOSAU        SubscriptionPaymentSettingsPaymentMethodOptionsCardNetwork = "eftpos_au"
 	SubscriptionPaymentSettingsPaymentMethodOptionsCardNetworkInterac         SubscriptionPaymentSettingsPaymentMethodOptionsCardNetwork = "interac"
 	SubscriptionPaymentSettingsPaymentMethodOptionsCardNetworkJCB             SubscriptionPaymentSettingsPaymentMethodOptionsCardNetwork = "jcb"
 	SubscriptionPaymentSettingsPaymentMethodOptionsCardNetworkMastercard      SubscriptionPaymentSettingsPaymentMethodOptionsCardNetwork = "mastercard"
