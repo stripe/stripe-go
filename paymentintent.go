@@ -1356,7 +1356,8 @@ type PaymentIntentPaymentMethodOptionsPayNowParams struct {
 // If this is a `paypal` PaymentMethod, this sub-hash contains details about the PayPal payment method options.
 type PaymentIntentPaymentMethodOptionsPaypalParams struct {
 	// Controls when the funds will be captured from the customer's account.
-	CaptureMethod   *string `form:"capture_method"`
+	CaptureMethod *string `form:"capture_method"`
+	// [Preferred locale](https://stripe.com/docs/payments/paypal/supported-locales) of the PayPal checkout page that the customer is redirected to.
 	PreferredLocale *string `form:"preferred_locale"`
 	// A reference of the PayPal transaction visible to customer which is mapped to PayPal's invoice ID. This must be a globally unique ID if you have configured in your PayPal settings to block multiple payments per invoice ID.
 	Reference *string `form:"reference"`
