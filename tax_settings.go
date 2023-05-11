@@ -29,7 +29,9 @@ type TaxSettingsParams struct {
 	Params `form:"*"`
 	// Default configuration to be used on Stripe Tax calculations.
 	Defaults *TaxSettingsDefaultsParams `form:"defaults"`
-	// The places where your business is located.
+	// The place where your business is located.
+	HeadOffice *TaxSettingsHeadOfficeParams `form:"head_office"`
+	// The deprecated places where your business is located.
 	Locations []*TaxSettingsLocationParams `form:"locations"`
 }
 
@@ -41,7 +43,13 @@ type TaxSettingsDefaultsParams struct {
 	TaxCode *string `form:"tax_code"`
 }
 
-// The places where your business is located.
+// The place where your business is located.
+type TaxSettingsHeadOfficeParams struct {
+	// The location of the business for tax purposes.
+	Address *AddressParams `form:"address"`
+}
+
+// The deprecated places where your business is located.
 type TaxSettingsLocationParams struct {
 	// The location of the business for tax purposes.
 	Address *AddressParams `form:"address"`
@@ -55,7 +63,12 @@ type TaxSettingsDefaults struct {
 	TaxCode string `json:"tax_code"`
 }
 
-// The places where your business is located.
+// The place where your business is located.
+type TaxSettingsHeadOffice struct {
+	Address *Address `json:"address"`
+}
+
+// The deprecated places where your business is located.
 type TaxSettingsLocation struct {
 	Address *Address `json:"address"`
 	// The role of this location address.
@@ -68,9 +81,11 @@ type TaxSettingsLocation struct {
 type TaxSettings struct {
 	APIResource
 	Defaults *TaxSettingsDefaults `json:"defaults"`
+	// The place where your business is located.
+	HeadOffice *TaxSettingsHeadOffice `json:"head_office"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
-	// The places where your business is located.
+	// The deprecated places where your business is located.
 	Locations []*TaxSettingsLocation `json:"locations"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
