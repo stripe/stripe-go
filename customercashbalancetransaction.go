@@ -54,8 +54,26 @@ type CustomerCashBalanceTransactionFundedBankTransferEUBankTransfer struct {
 	// The full name of the sender, as supplied by the sending bank.
 	SenderName string `json:"sender_name"`
 }
+type CustomerCashBalanceTransactionFundedBankTransferGBBankTransfer struct {
+	// The last 4 digits of the account number of the sender of the funding.
+	AccountNumberLast4 string `json:"account_number_last4"`
+	// The full name of the sender, as supplied by the sending bank.
+	SenderName string `json:"sender_name"`
+	// The sort code of the bank of the sender of the funding
+	SortCode string `json:"sort_code"`
+}
+type CustomerCashBalanceTransactionFundedBankTransferJPBankTransfer struct {
+	// The name of the bank of the sender of the funding.
+	SenderBank string `json:"sender_bank"`
+	// The name of the bank branch of the sender of the funding.
+	SenderBranch string `json:"sender_branch"`
+	// The full name of the sender, as supplied by the sending bank.
+	SenderName string `json:"sender_name"`
+}
 type CustomerCashBalanceTransactionFundedBankTransfer struct {
 	EUBankTransfer *CustomerCashBalanceTransactionFundedBankTransferEUBankTransfer `json:"eu_bank_transfer"`
+	GBBankTransfer *CustomerCashBalanceTransactionFundedBankTransferGBBankTransfer `json:"gb_bank_transfer"`
+	JPBankTransfer *CustomerCashBalanceTransactionFundedBankTransferJPBankTransfer `json:"jp_bank_transfer"`
 	// The user-supplied reference field on the bank transfer.
 	Reference string `json:"reference"`
 	// The funding method type used to fund the customer balance. Permitted values include: `eu_bank_transfer`, `gb_bank_transfer`, `jp_bank_transfer`, or `mx_bank_transfer`.

@@ -125,6 +125,7 @@ const (
 	PaymentLinkPaymentMethodTypeOXXO             PaymentLinkPaymentMethodType = "oxxo"
 	PaymentLinkPaymentMethodTypeP24              PaymentLinkPaymentMethodType = "p24"
 	PaymentLinkPaymentMethodTypePayNow           PaymentLinkPaymentMethodType = "paynow"
+	PaymentLinkPaymentMethodTypePaypal           PaymentLinkPaymentMethodType = "paypal"
 	PaymentLinkPaymentMethodTypePix              PaymentLinkPaymentMethodType = "pix"
 	PaymentLinkPaymentMethodTypePromptPay        PaymentLinkPaymentMethodType = "promptpay"
 	PaymentLinkPaymentMethodTypeSEPADebit        PaymentLinkPaymentMethodType = "sepa_debit"

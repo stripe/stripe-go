@@ -124,12 +124,38 @@ const (
 	InvoicePaymentSettingsPaymentMethodTypeKonbini            InvoicePaymentSettingsPaymentMethodType = "konbini"
 	InvoicePaymentSettingsPaymentMethodTypeLink               InvoicePaymentSettingsPaymentMethodType = "link"
 	InvoicePaymentSettingsPaymentMethodTypePayNow             InvoicePaymentSettingsPaymentMethodType = "paynow"
+	InvoicePaymentSettingsPaymentMethodTypePaypal             InvoicePaymentSettingsPaymentMethodType = "paypal"
 	InvoicePaymentSettingsPaymentMethodTypePromptPay          InvoicePaymentSettingsPaymentMethodType = "promptpay"
 	InvoicePaymentSettingsPaymentMethodTypeSEPACreditTransfer InvoicePaymentSettingsPaymentMethodType = "sepa_credit_transfer"
 	InvoicePaymentSettingsPaymentMethodTypeSEPADebit          InvoicePaymentSettingsPaymentMethodType = "sepa_debit"
 	InvoicePaymentSettingsPaymentMethodTypeSofort             InvoicePaymentSettingsPaymentMethodType = "sofort"
 	InvoicePaymentSettingsPaymentMethodTypeUSBankAccount      InvoicePaymentSettingsPaymentMethodType = "us_bank_account"
 	InvoicePaymentSettingsPaymentMethodTypeWeChatPay          InvoicePaymentSettingsPaymentMethodType = "wechat_pay"
+)
+
+// The reasoning behind this tax, for example, if the product is tax exempt. The possible values for this field may be extended as new tax rules are supported.
+type InvoiceShippingCostTaxTaxabilityReason string
+
+// List of values that InvoiceShippingCostTaxTaxabilityReason can take
+const (
+	InvoiceShippingCostTaxTaxabilityReasonCustomerExempt          InvoiceShippingCostTaxTaxabilityReason = "customer_exempt"
+	InvoiceShippingCostTaxTaxabilityReasonExcludedTerritory       InvoiceShippingCostTaxTaxabilityReason = "excluded_territory"
+	InvoiceShippingCostTaxTaxabilityReasonJurisdictionUnsupported InvoiceShippingCostTaxTaxabilityReason = "jurisdiction_unsupported"
+	InvoiceShippingCostTaxTaxabilityReasonNotCollecting           InvoiceShippingCostTaxTaxabilityReason = "not_collecting"
+	InvoiceShippingCostTaxTaxabilityReasonNotSubjectToTax         InvoiceShippingCostTaxTaxabilityReason = "not_subject_to_tax"
+	InvoiceShippingCostTaxTaxabilityReasonNotSupported            InvoiceShippingCostTaxTaxabilityReason = "not_supported"
+	InvoiceShippingCostTaxTaxabilityReasonPortionProductExempt    InvoiceShippingCostTaxTaxabilityReason = "portion_product_exempt"
+	InvoiceShippingCostTaxTaxabilityReasonPortionReducedRated     InvoiceShippingCostTaxTaxabilityReason = "portion_reduced_rated"
+	InvoiceShippingCostTaxTaxabilityReasonPortionStandardRated    InvoiceShippingCostTaxTaxabilityReason = "portion_standard_rated"
+	InvoiceShippingCostTaxTaxabilityReasonProductExempt           InvoiceShippingCostTaxTaxabilityReason = "product_exempt"
+	InvoiceShippingCostTaxTaxabilityReasonProductExemptHoliday    InvoiceShippingCostTaxTaxabilityReason = "product_exempt_holiday"
+	InvoiceShippingCostTaxTaxabilityReasonProportionallyRated     InvoiceShippingCostTaxTaxabilityReason = "proportionally_rated"
+	InvoiceShippingCostTaxTaxabilityReasonReducedRated            InvoiceShippingCostTaxTaxabilityReason = "reduced_rated"
+	InvoiceShippingCostTaxTaxabilityReasonReverseCharge           InvoiceShippingCostTaxTaxabilityReason = "reverse_charge"
+	InvoiceShippingCostTaxTaxabilityReasonStandardRated           InvoiceShippingCostTaxTaxabilityReason = "standard_rated"
+	InvoiceShippingCostTaxTaxabilityReasonTaxableBasisReduced     InvoiceShippingCostTaxTaxabilityReason = "taxable_basis_reduced"
+	InvoiceShippingCostTaxTaxabilityReasonVATExempt               InvoiceShippingCostTaxTaxabilityReason = "vat_exempt"
+	InvoiceShippingCostTaxTaxabilityReasonZeroRated               InvoiceShippingCostTaxTaxabilityReason = "zero_rated"
 )
 
 // The status of the invoice, one of `draft`, `open`, `paid`, `uncollectible`, or `void`. [Learn more](https://stripe.com/docs/billing/invoices/workflow#workflow-overview)
@@ -142,6 +168,28 @@ const (
 	InvoiceStatusPaid          InvoiceStatus = "paid"
 	InvoiceStatusUncollectible InvoiceStatus = "uncollectible"
 	InvoiceStatusVoid          InvoiceStatus = "void"
+)
+
+// The reasoning behind this tax, for example, if the product is tax exempt. The possible values for this field may be extended as new tax rules are supported.
+type InvoiceTotalTaxAmountTaxabilityReason string
+
+// List of values that InvoiceTotalTaxAmountTaxabilityReason can take
+const (
+	InvoiceTotalTaxAmountTaxabilityReasonCustomerExempt       InvoiceTotalTaxAmountTaxabilityReason = "customer_exempt"
+	InvoiceTotalTaxAmountTaxabilityReasonNotCollecting        InvoiceTotalTaxAmountTaxabilityReason = "not_collecting"
+	InvoiceTotalTaxAmountTaxabilityReasonNotSubjectToTax      InvoiceTotalTaxAmountTaxabilityReason = "not_subject_to_tax"
+	InvoiceTotalTaxAmountTaxabilityReasonNotSupported         InvoiceTotalTaxAmountTaxabilityReason = "not_supported"
+	InvoiceTotalTaxAmountTaxabilityReasonPortionProductExempt InvoiceTotalTaxAmountTaxabilityReason = "portion_product_exempt"
+	InvoiceTotalTaxAmountTaxabilityReasonPortionReducedRated  InvoiceTotalTaxAmountTaxabilityReason = "portion_reduced_rated"
+	InvoiceTotalTaxAmountTaxabilityReasonPortionStandardRated InvoiceTotalTaxAmountTaxabilityReason = "portion_standard_rated"
+	InvoiceTotalTaxAmountTaxabilityReasonProductExempt        InvoiceTotalTaxAmountTaxabilityReason = "product_exempt"
+	InvoiceTotalTaxAmountTaxabilityReasonProductExemptHoliday InvoiceTotalTaxAmountTaxabilityReason = "product_exempt_holiday"
+	InvoiceTotalTaxAmountTaxabilityReasonProportionallyRated  InvoiceTotalTaxAmountTaxabilityReason = "proportionally_rated"
+	InvoiceTotalTaxAmountTaxabilityReasonReducedRated         InvoiceTotalTaxAmountTaxabilityReason = "reduced_rated"
+	InvoiceTotalTaxAmountTaxabilityReasonReverseCharge        InvoiceTotalTaxAmountTaxabilityReason = "reverse_charge"
+	InvoiceTotalTaxAmountTaxabilityReasonStandardRated        InvoiceTotalTaxAmountTaxabilityReason = "standard_rated"
+	InvoiceTotalTaxAmountTaxabilityReasonTaxableBasisReduced  InvoiceTotalTaxAmountTaxabilityReason = "taxable_basis_reduced"
+	InvoiceTotalTaxAmountTaxabilityReasonZeroRated            InvoiceTotalTaxAmountTaxabilityReason = "zero_rated"
 )
 
 // Search for invoices you've previously created using Stripe's [Search Query Language](https://stripe.com/docs/search#search-query-language).
@@ -1029,6 +1077,10 @@ type InvoiceShippingCostTax struct {
 	//
 	// Related guide: [Tax Rates](https://stripe.com/docs/billing/taxes/tax-rates).
 	Rate *TaxRate `json:"rate"`
+	// The reasoning behind this tax, for example, if the product is tax exempt. The possible values for this field may be extended as new tax rules are supported.
+	TaxabilityReason InvoiceShippingCostTaxTaxabilityReason `json:"taxability_reason"`
+	// The amount on which tax is calculated, in %s.
+	TaxableAmount int64 `json:"taxable_amount"`
 }
 
 // The details of the cost of shipping, including the ShippingRate applied on the invoice.
@@ -1083,6 +1135,10 @@ type InvoiceTotalTaxAmount struct {
 	Amount int64 `json:"amount"`
 	// Whether this tax amount is inclusive or exclusive.
 	Inclusive bool `json:"inclusive"`
+	// The reasoning behind this tax, for example, if the product is tax exempt. The possible values for this field may be extended as new tax rules are supported.
+	TaxabilityReason InvoiceTotalTaxAmountTaxabilityReason `json:"taxability_reason"`
+	// The amount on which tax is calculated, in %s.
+	TaxableAmount int64 `json:"taxable_amount"`
 	// The tax rate that was applied to get this tax amount.
 	TaxRate *TaxRate `json:"tax_rate"`
 }

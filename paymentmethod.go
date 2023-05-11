@@ -104,6 +104,18 @@ const (
 	PaymentMethodCardWalletTypeVisaCheckout        PaymentMethodCardWalletType = "visa_checkout"
 )
 
+// How card details were read in this transaction.
+type PaymentMethodCardPresentReadMethod string
+
+// List of values that PaymentMethodCardPresentReadMethod can take
+const (
+	PaymentMethodCardPresentReadMethodContactEmv               PaymentMethodCardPresentReadMethod = "contact_emv"
+	PaymentMethodCardPresentReadMethodContactlessEmv           PaymentMethodCardPresentReadMethod = "contactless_emv"
+	PaymentMethodCardPresentReadMethodContactlessMagstripeMode PaymentMethodCardPresentReadMethod = "contactless_magstripe_mode"
+	PaymentMethodCardPresentReadMethodMagneticStripeFallback   PaymentMethodCardPresentReadMethod = "magnetic_stripe_fallback"
+	PaymentMethodCardPresentReadMethodMagneticStripeTrack2     PaymentMethodCardPresentReadMethod = "magnetic_stripe_track2"
+)
+
 // Account holder type, if provided. Can be one of `individual` or `company`.
 type PaymentMethodFPXAccountHolderType string
 
@@ -111,6 +123,18 @@ type PaymentMethodFPXAccountHolderType string
 const (
 	PaymentMethodFPXAccountHolderTypeCompany    PaymentMethodFPXAccountHolderType = "company"
 	PaymentMethodFPXAccountHolderTypeIndividual PaymentMethodFPXAccountHolderType = "individual"
+)
+
+// How card details were read in this transaction.
+type PaymentMethodInteracPresentReadMethod string
+
+// List of values that PaymentMethodInteracPresentReadMethod can take
+const (
+	PaymentMethodInteracPresentReadMethodContactEmv               PaymentMethodInteracPresentReadMethod = "contact_emv"
+	PaymentMethodInteracPresentReadMethodContactlessEmv           PaymentMethodInteracPresentReadMethod = "contactless_emv"
+	PaymentMethodInteracPresentReadMethodContactlessMagstripeMode PaymentMethodInteracPresentReadMethod = "contactless_magstripe_mode"
+	PaymentMethodInteracPresentReadMethodMagneticStripeFallback   PaymentMethodInteracPresentReadMethod = "magnetic_stripe_fallback"
+	PaymentMethodInteracPresentReadMethodMagneticStripeTrack2     PaymentMethodInteracPresentReadMethod = "magnetic_stripe_track2"
 )
 
 // The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type.
@@ -143,6 +167,7 @@ const (
 	PaymentMethodTypeOXXO             PaymentMethodType = "oxxo"
 	PaymentMethodTypeP24              PaymentMethodType = "p24"
 	PaymentMethodTypePayNow           PaymentMethodType = "paynow"
+	PaymentMethodTypePaypal           PaymentMethodType = "paypal"
 	PaymentMethodTypePix              PaymentMethodType = "pix"
 	PaymentMethodTypePromptPay        PaymentMethodType = "promptpay"
 	PaymentMethodTypeSEPADebit        PaymentMethodType = "sepa_debit"
@@ -351,6 +376,9 @@ type PaymentMethodP24Params struct {
 // If this is a `paynow` PaymentMethod, this hash contains details about the PayNow payment method.
 type PaymentMethodPayNowParams struct{}
 
+// If this is a `paypal` PaymentMethod, this hash contains details about the PayPal payment method.
+type PaymentMethodPaypalParams struct{}
+
 // If this is a `pix` PaymentMethod, this hash contains details about the Pix payment method.
 type PaymentMethodPixParams struct{}
 
@@ -447,6 +475,8 @@ type PaymentMethodParams struct {
 	P24 *PaymentMethodP24Params `form:"p24"`
 	// If this is a `paynow` PaymentMethod, this hash contains details about the PayNow payment method.
 	PayNow *PaymentMethodPayNowParams `form:"paynow"`
+	// If this is a `paypal` PaymentMethod, this hash contains details about the PayPal payment method.
+	Paypal *PaymentMethodPaypalParams `form:"paypal"`
 	// If this is a `pix` PaymentMethod, this hash contains details about the Pix payment method.
 	Pix *PaymentMethodPixParams `form:"pix"`
 	// If this is a `promptpay` PaymentMethod, this hash contains details about the PromptPay payment method.
@@ -645,7 +675,38 @@ type PaymentMethodCard struct {
 	// The name of the card's issuing bank. (For internal use only and not typically available in standard API requests.)
 	Issuer string `json:"issuer"`
 }
-type PaymentMethodCardPresent struct{}
+
+// Contains information about card networks that can be used to process the payment.
+type PaymentMethodCardPresentNetworks struct {
+	// All available networks for the card.
+	Available []string `json:"available"`
+	// The preferred network for the card.
+	Preferred string `json:"preferred"`
+}
+type PaymentMethodCardPresent struct {
+	// Card brand. Can be `amex`, `diners`, `discover`, `eftpos_au`, `jcb`, `mastercard`, `unionpay`, `visa`, or `unknown`.
+	Brand string `json:"brand"`
+	// The cardholder name as read from the card, in [ISO 7813](https://en.wikipedia.org/wiki/ISO/IEC_7813) format. May include alphanumeric characters, special characters and first/last name separator (`/`). In some cases, the cardholder name may not be available depending on how the issuer has configured the card. Cardholder name is typically not available on swipe or contactless payments, such as those made with Apple Pay and Google Pay.
+	CardholderName string `json:"cardholder_name"`
+	// Two-letter ISO code representing the country of the card. You could use this attribute to get a sense of the international breakdown of cards you've collected.
+	Country string `json:"country"`
+	// Two-digit number representing the card's expiration month.
+	ExpMonth int64 `json:"exp_month"`
+	// Four-digit number representing the card's expiration year.
+	ExpYear int64 `json:"exp_year"`
+	// Uniquely identifies this particular card number. You can use this attribute to check whether two customers who've signed up with you are using the same card number, for example. For payment methods that tokenize card information (Apple Pay, Google Pay), the tokenized number might be provided instead of the underlying card number.
+	//
+	// *Starting May 1, 2021, card fingerprint in India for Connect will change to allow two fingerprints for the same card --- one for India and one for the rest of the world.*
+	Fingerprint string `json:"fingerprint"`
+	// Card funding type. Can be `credit`, `debit`, `prepaid`, or `unknown`.
+	Funding string `json:"funding"`
+	// The last four digits of the card.
+	Last4 string `json:"last4"`
+	// Contains information about card networks that can be used to process the payment.
+	Networks *PaymentMethodCardPresentNetworks `json:"networks"`
+	// How card details were read in this transaction.
+	ReadMethod PaymentMethodCardPresentReadMethod `json:"read_method"`
+}
 type PaymentMethodCashApp struct{}
 type PaymentMethodCustomerBalance struct{}
 type PaymentMethodEPS struct {
@@ -666,7 +727,40 @@ type PaymentMethodIDEAL struct {
 	// The Bank Identifier Code of the customer's bank, if the bank was provided.
 	BIC string `json:"bic"`
 }
-type PaymentMethodInteracPresent struct{}
+
+// Contains information about card networks that can be used to process the payment.
+type PaymentMethodInteracPresentNetworks struct {
+	// All available networks for the card.
+	Available []string `json:"available"`
+	// The preferred network for the card.
+	Preferred string `json:"preferred"`
+}
+type PaymentMethodInteracPresent struct {
+	// Card brand. Can be `interac`, `mastercard` or `visa`.
+	Brand string `json:"brand"`
+	// The cardholder name as read from the card, in [ISO 7813](https://en.wikipedia.org/wiki/ISO/IEC_7813) format. May include alphanumeric characters, special characters and first/last name separator (`/`). In some cases, the cardholder name may not be available depending on how the issuer has configured the card. Cardholder name is typically not available on swipe or contactless payments, such as those made with Apple Pay and Google Pay.
+	CardholderName string `json:"cardholder_name"`
+	// Two-letter ISO code representing the country of the card. You could use this attribute to get a sense of the international breakdown of cards you've collected.
+	Country string `json:"country"`
+	// Two-digit number representing the card's expiration month.
+	ExpMonth int64 `json:"exp_month"`
+	// Four-digit number representing the card's expiration year.
+	ExpYear int64 `json:"exp_year"`
+	// Uniquely identifies this particular card number. You can use this attribute to check whether two customers who've signed up with you are using the same card number, for example. For payment methods that tokenize card information (Apple Pay, Google Pay), the tokenized number might be provided instead of the underlying card number.
+	//
+	// *Starting May 1, 2021, card fingerprint in India for Connect will change to allow two fingerprints for the same card --- one for India and one for the rest of the world.*
+	Fingerprint string `json:"fingerprint"`
+	// Card funding type. Can be `credit`, `debit`, `prepaid`, or `unknown`.
+	Funding string `json:"funding"`
+	// The last four digits of the card.
+	Last4 string `json:"last4"`
+	// Contains information about card networks that can be used to process the payment.
+	Networks *PaymentMethodInteracPresentNetworks `json:"networks"`
+	// EMV tag 5F2D. Preferred languages specified by the integrated circuit chip.
+	PreferredLocales []string `json:"preferred_locales"`
+	// How card details were read in this transaction.
+	ReadMethod PaymentMethodInteracPresentReadMethod `json:"read_method"`
+}
 
 // The customer's date of birth, if provided.
 type PaymentMethodKlarnaDOB struct {
@@ -697,6 +791,10 @@ type PaymentMethodP24 struct {
 	Bank string `json:"bank"`
 }
 type PaymentMethodPayNow struct{}
+type PaymentMethodPaypal struct {
+	// PayPal account PayerID. This identifier uniquely identifies the PayPal customer.
+	PayerID string `json:"payer_id"`
+}
 type PaymentMethodPix struct{}
 type PaymentMethodPromptPay struct{}
 
@@ -817,6 +915,7 @@ type PaymentMethod struct {
 	OXXO      *PaymentMethodOXXO      `json:"oxxo"`
 	P24       *PaymentMethodP24       `json:"p24"`
 	PayNow    *PaymentMethodPayNow    `json:"paynow"`
+	Paypal    *PaymentMethodPaypal    `json:"paypal"`
 	Pix       *PaymentMethodPix       `json:"pix"`
 	PromptPay *PaymentMethodPromptPay `json:"promptpay"`
 	// Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
