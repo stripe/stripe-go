@@ -309,6 +309,7 @@ const (
 	PaymentIntentPaymentMethodOptionsCardNetworkCartesBancaires PaymentIntentPaymentMethodOptionsCardNetwork = "cartes_bancaires"
 	PaymentIntentPaymentMethodOptionsCardNetworkDiners          PaymentIntentPaymentMethodOptionsCardNetwork = "diners"
 	PaymentIntentPaymentMethodOptionsCardNetworkDiscover        PaymentIntentPaymentMethodOptionsCardNetwork = "discover"
+	PaymentIntentPaymentMethodOptionsCardNetworkEFTPOSAU        PaymentIntentPaymentMethodOptionsCardNetwork = "eftpos_au"
 	PaymentIntentPaymentMethodOptionsCardNetworkInterac         PaymentIntentPaymentMethodOptionsCardNetwork = "interac"
 	PaymentIntentPaymentMethodOptionsCardNetworkJCB             PaymentIntentPaymentMethodOptionsCardNetwork = "jcb"
 	PaymentIntentPaymentMethodOptionsCardNetworkMastercard      PaymentIntentPaymentMethodOptionsCardNetwork = "mastercard"
@@ -1400,9 +1401,16 @@ type PaymentIntentPaymentMethodOptionsPayNowParams struct {
 
 // If this is a `paypal` PaymentMethod, this sub-hash contains details about the PayPal payment method options.
 type PaymentIntentPaymentMethodOptionsPaypalParams struct {
-	CaptureMethod   *string `form:"capture_method"`
+	// Controls when the funds will be captured from the customer's account.
+	CaptureMethod *string `form:"capture_method"`
+	// [Preferred locale](https://stripe.com/docs/payments/paypal/supported-locales) of the PayPal checkout page that the customer is redirected to.
 	PreferredLocale *string `form:"preferred_locale"`
-	ReferenceID     *string `form:"reference_id"`
+	// A reference of the PayPal transaction visible to customer which is mapped to PayPal's invoice ID. This must be a globally unique ID if you have configured in your PayPal settings to block multiple payments per invoice ID.
+	Reference *string `form:"reference"`
+	// A reference of the PayPal transaction visible to customer which is mapped to PayPal's invoice ID. This must be a globally unique ID if you have configured in your PayPal settings to block multiple payments per invoice ID.
+	ReferenceID *string `form:"reference_id"`
+	// The risk correlation ID for an on-session payment using a saved PayPal payment method.
+	RiskCorrelationID *string `form:"risk_correlation_id"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// Providing this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.
@@ -1712,7 +1720,7 @@ type PaymentIntentParams struct {
 	ErrorOnRequiresAction *bool `form:"error_on_requires_action"`
 	// Set to `true` to indicate that the customer is not in your checkout flow during this payment attempt, and therefore is unable to authenticate. This parameter is intended for scenarios where you collect card details and [charge them later](https://stripe.com/docs/payments/cards/charging-saved-cards). This parameter can only be used with [`confirm=true`](https://stripe.com/docs/api/payment_intents/create#create_payment_intent-confirm).
 	OffSession *bool `form:"off_session"`
-	// Set to `true` only when using manual confirmation and the iOS or Android SDKs to handle additional authentication steps.
+	// Set to `true` when confirming server-side and using Stripe.js, iOS, or Android client-side SDKs to handle the next actions.
 	UseStripeSDK *bool `form:"use_stripe_sdk"`
 }
 
@@ -1795,7 +1803,7 @@ type PaymentIntentConfirmParams struct {
 	SetupFutureUsage *string `form:"setup_future_usage"`
 	// Shipping information for this PaymentIntent.
 	Shipping *ShippingDetailsParams `form:"shipping"`
-	// Set to `true` only when using manual confirmation and the iOS or Android SDKs to handle additional authentication steps.
+	// Set to `true` when confirming server-side and using Stripe.js, iOS, or Android client-side SDKs to handle the next actions.
 	UseStripeSDK *bool `form:"use_stripe_sdk"`
 }
 
@@ -2506,7 +2514,9 @@ type PaymentIntentPaymentMethodOptionsPaypal struct {
 	CaptureMethod PaymentIntentPaymentMethodOptionsPaypalCaptureMethod `json:"capture_method"`
 	// Preferred locale of the PayPal checkout page that the customer is redirected to.
 	PreferredLocale string `json:"preferred_locale"`
-	// A unique reference ID of the PayPal transaction. This must be a globally unique ID across all PayPal transactions or the transaction will fail.
+	// A reference of the PayPal transaction visible to customer which is mapped to PayPal's invoice ID. This must be a globally unique ID if you have configured in your PayPal settings to block multiple payments per invoice ID.
+	Reference string `json:"reference"`
+	// A reference of the PayPal transaction visible to customer which is mapped to PayPal's invoice ID. This must be a globally unique ID if you have configured in your PayPal settings to block multiple payments per invoice ID.
 	ReferenceID string `json:"reference_id"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//

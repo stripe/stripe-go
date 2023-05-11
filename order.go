@@ -417,6 +417,31 @@ const (
 	OrderPaymentStatusRequiresPaymentMethod OrderPaymentStatus = "requires_payment_method"
 )
 
+// The reasoning behind this tax, for example, if the product is tax exempt. The possible values for this field may be extended as new tax rules are supported.
+type OrderShippingCostTaxTaxabilityReason string
+
+// List of values that OrderShippingCostTaxTaxabilityReason can take
+const (
+	OrderShippingCostTaxTaxabilityReasonCustomerExempt          OrderShippingCostTaxTaxabilityReason = "customer_exempt"
+	OrderShippingCostTaxTaxabilityReasonExcludedTerritory       OrderShippingCostTaxTaxabilityReason = "excluded_territory"
+	OrderShippingCostTaxTaxabilityReasonJurisdictionUnsupported OrderShippingCostTaxTaxabilityReason = "jurisdiction_unsupported"
+	OrderShippingCostTaxTaxabilityReasonNotCollecting           OrderShippingCostTaxTaxabilityReason = "not_collecting"
+	OrderShippingCostTaxTaxabilityReasonNotSubjectToTax         OrderShippingCostTaxTaxabilityReason = "not_subject_to_tax"
+	OrderShippingCostTaxTaxabilityReasonNotSupported            OrderShippingCostTaxTaxabilityReason = "not_supported"
+	OrderShippingCostTaxTaxabilityReasonPortionProductExempt    OrderShippingCostTaxTaxabilityReason = "portion_product_exempt"
+	OrderShippingCostTaxTaxabilityReasonPortionReducedRated     OrderShippingCostTaxTaxabilityReason = "portion_reduced_rated"
+	OrderShippingCostTaxTaxabilityReasonPortionStandardRated    OrderShippingCostTaxTaxabilityReason = "portion_standard_rated"
+	OrderShippingCostTaxTaxabilityReasonProductExempt           OrderShippingCostTaxTaxabilityReason = "product_exempt"
+	OrderShippingCostTaxTaxabilityReasonProductExemptHoliday    OrderShippingCostTaxTaxabilityReason = "product_exempt_holiday"
+	OrderShippingCostTaxTaxabilityReasonProportionallyRated     OrderShippingCostTaxTaxabilityReason = "proportionally_rated"
+	OrderShippingCostTaxTaxabilityReasonReducedRated            OrderShippingCostTaxTaxabilityReason = "reduced_rated"
+	OrderShippingCostTaxTaxabilityReasonReverseCharge           OrderShippingCostTaxTaxabilityReason = "reverse_charge"
+	OrderShippingCostTaxTaxabilityReasonStandardRated           OrderShippingCostTaxTaxabilityReason = "standard_rated"
+	OrderShippingCostTaxTaxabilityReasonTaxableBasisReduced     OrderShippingCostTaxTaxabilityReason = "taxable_basis_reduced"
+	OrderShippingCostTaxTaxabilityReasonVATExempt               OrderShippingCostTaxTaxabilityReason = "vat_exempt"
+	OrderShippingCostTaxTaxabilityReasonZeroRated               OrderShippingCostTaxTaxabilityReason = "zero_rated"
+)
+
 // The overall status of the order.
 type OrderStatus string
 
@@ -496,6 +521,31 @@ const (
 	OrderTaxDetailsTaxIDTypeUnknown  OrderTaxDetailsTaxIDType = "unknown"
 	OrderTaxDetailsTaxIDTypeUSEIN    OrderTaxDetailsTaxIDType = "us_ein"
 	OrderTaxDetailsTaxIDTypeZAVAT    OrderTaxDetailsTaxIDType = "za_vat"
+)
+
+// The reasoning behind this tax, for example, if the product is tax exempt. The possible values for this field may be extended as new tax rules are supported.
+type OrderTotalDetailsBreakdownTaxTaxabilityReason string
+
+// List of values that OrderTotalDetailsBreakdownTaxTaxabilityReason can take
+const (
+	OrderTotalDetailsBreakdownTaxTaxabilityReasonCustomerExempt          OrderTotalDetailsBreakdownTaxTaxabilityReason = "customer_exempt"
+	OrderTotalDetailsBreakdownTaxTaxabilityReasonExcludedTerritory       OrderTotalDetailsBreakdownTaxTaxabilityReason = "excluded_territory"
+	OrderTotalDetailsBreakdownTaxTaxabilityReasonJurisdictionUnsupported OrderTotalDetailsBreakdownTaxTaxabilityReason = "jurisdiction_unsupported"
+	OrderTotalDetailsBreakdownTaxTaxabilityReasonNotCollecting           OrderTotalDetailsBreakdownTaxTaxabilityReason = "not_collecting"
+	OrderTotalDetailsBreakdownTaxTaxabilityReasonNotSubjectToTax         OrderTotalDetailsBreakdownTaxTaxabilityReason = "not_subject_to_tax"
+	OrderTotalDetailsBreakdownTaxTaxabilityReasonNotSupported            OrderTotalDetailsBreakdownTaxTaxabilityReason = "not_supported"
+	OrderTotalDetailsBreakdownTaxTaxabilityReasonPortionProductExempt    OrderTotalDetailsBreakdownTaxTaxabilityReason = "portion_product_exempt"
+	OrderTotalDetailsBreakdownTaxTaxabilityReasonPortionReducedRated     OrderTotalDetailsBreakdownTaxTaxabilityReason = "portion_reduced_rated"
+	OrderTotalDetailsBreakdownTaxTaxabilityReasonPortionStandardRated    OrderTotalDetailsBreakdownTaxTaxabilityReason = "portion_standard_rated"
+	OrderTotalDetailsBreakdownTaxTaxabilityReasonProductExempt           OrderTotalDetailsBreakdownTaxTaxabilityReason = "product_exempt"
+	OrderTotalDetailsBreakdownTaxTaxabilityReasonProductExemptHoliday    OrderTotalDetailsBreakdownTaxTaxabilityReason = "product_exempt_holiday"
+	OrderTotalDetailsBreakdownTaxTaxabilityReasonProportionallyRated     OrderTotalDetailsBreakdownTaxTaxabilityReason = "proportionally_rated"
+	OrderTotalDetailsBreakdownTaxTaxabilityReasonReducedRated            OrderTotalDetailsBreakdownTaxTaxabilityReason = "reduced_rated"
+	OrderTotalDetailsBreakdownTaxTaxabilityReasonReverseCharge           OrderTotalDetailsBreakdownTaxTaxabilityReason = "reverse_charge"
+	OrderTotalDetailsBreakdownTaxTaxabilityReasonStandardRated           OrderTotalDetailsBreakdownTaxTaxabilityReason = "standard_rated"
+	OrderTotalDetailsBreakdownTaxTaxabilityReasonTaxableBasisReduced     OrderTotalDetailsBreakdownTaxTaxabilityReason = "taxable_basis_reduced"
+	OrderTotalDetailsBreakdownTaxTaxabilityReasonVATExempt               OrderTotalDetailsBreakdownTaxTaxabilityReason = "vat_exempt"
+	OrderTotalDetailsBreakdownTaxTaxabilityReasonZeroRated               OrderTotalDetailsBreakdownTaxTaxabilityReason = "zero_rated"
 )
 
 // Settings for automatic tax calculation for this order.
@@ -843,9 +893,16 @@ type OrderPaymentSettingsPaymentMethodOptionsP24Params struct {
 
 // If paying by `paypal`, this sub-hash contains details about the PayPal payment method options to pass to the order's PaymentIntent.
 type OrderPaymentSettingsPaymentMethodOptionsPaypalParams struct {
-	CaptureMethod   *string `form:"capture_method"`
+	// Controls when the funds will be captured from the customer's account.
+	CaptureMethod *string `form:"capture_method"`
+	// [Preferred locale](https://stripe.com/docs/payments/paypal/supported-locales) of the PayPal checkout page that the customer is redirected to.
 	PreferredLocale *string `form:"preferred_locale"`
-	ReferenceID     *string `form:"reference_id"`
+	// A reference of the PayPal transaction visible to customer which is mapped to PayPal's invoice ID. This must be a globally unique ID if you have configured in your PayPal settings to block multiple payments per invoice ID.
+	Reference *string `form:"reference"`
+	// A reference of the PayPal transaction visible to customer which is mapped to PayPal's invoice ID. This must be a globally unique ID if you have configured in your PayPal settings to block multiple payments per invoice ID.
+	ReferenceID *string `form:"reference_id"`
+	// The risk correlation ID for an on-session payment using a saved PayPal payment method.
+	RiskCorrelationID *string `form:"risk_correlation_id"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// Providing this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.
@@ -1309,7 +1366,9 @@ type OrderPaymentSettingsPaymentMethodOptionsPaypal struct {
 	CaptureMethod OrderPaymentSettingsPaymentMethodOptionsPaypalCaptureMethod `json:"capture_method"`
 	// Preferred locale of the PayPal checkout page that the customer is redirected to.
 	PreferredLocale string `json:"preferred_locale"`
-	// A unique reference ID of the PayPal transaction. This must be a globally unique ID across all PayPal transactions or the transaction will fail.
+	// A reference of the PayPal transaction visible to customer which is mapped to PayPal's invoice ID. This must be a globally unique ID if you have configured in your PayPal settings to block multiple payments per invoice ID.
+	Reference string `json:"reference"`
+	// A reference of the PayPal transaction visible to customer which is mapped to PayPal's invoice ID. This must be a globally unique ID if you have configured in your PayPal settings to block multiple payments per invoice ID.
 	ReferenceID string `json:"reference_id"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
@@ -1414,6 +1473,10 @@ type OrderShippingCostTax struct {
 	//
 	// Related guide: [Tax Rates](https://stripe.com/docs/billing/taxes/tax-rates).
 	Rate *TaxRate `json:"rate"`
+	// The reasoning behind this tax, for example, if the product is tax exempt. The possible values for this field may be extended as new tax rules are supported.
+	TaxabilityReason OrderShippingCostTaxTaxabilityReason `json:"taxability_reason"`
+	// The amount on which tax is calculated, in %s.
+	TaxableAmount int64 `json:"taxable_amount"`
 }
 
 // The details of the customer cost of shipping, including the customer chosen ShippingRate.
@@ -1473,6 +1536,10 @@ type OrderTotalDetailsBreakdownTax struct {
 	//
 	// Related guide: [Tax Rates](https://stripe.com/docs/billing/taxes/tax-rates).
 	Rate *TaxRate `json:"rate"`
+	// The reasoning behind this tax, for example, if the product is tax exempt. The possible values for this field may be extended as new tax rules are supported.
+	TaxabilityReason OrderTotalDetailsBreakdownTaxTaxabilityReason `json:"taxability_reason"`
+	// The amount on which tax is calculated, in %s.
+	TaxableAmount int64 `json:"taxable_amount"`
 }
 type OrderTotalDetailsBreakdown struct {
 	// The aggregated discounts.

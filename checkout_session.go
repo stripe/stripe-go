@@ -615,6 +615,31 @@ const (
 	CheckoutSessionPaymentStatusUnpaid            CheckoutSessionPaymentStatus = "unpaid"
 )
 
+// The reasoning behind this tax, for example, if the product is tax exempt. The possible values for this field may be extended as new tax rules are supported.
+type CheckoutSessionShippingCostTaxTaxabilityReason string
+
+// List of values that CheckoutSessionShippingCostTaxTaxabilityReason can take
+const (
+	CheckoutSessionShippingCostTaxTaxabilityReasonCustomerExempt          CheckoutSessionShippingCostTaxTaxabilityReason = "customer_exempt"
+	CheckoutSessionShippingCostTaxTaxabilityReasonExcludedTerritory       CheckoutSessionShippingCostTaxTaxabilityReason = "excluded_territory"
+	CheckoutSessionShippingCostTaxTaxabilityReasonJurisdictionUnsupported CheckoutSessionShippingCostTaxTaxabilityReason = "jurisdiction_unsupported"
+	CheckoutSessionShippingCostTaxTaxabilityReasonNotCollecting           CheckoutSessionShippingCostTaxTaxabilityReason = "not_collecting"
+	CheckoutSessionShippingCostTaxTaxabilityReasonNotSubjectToTax         CheckoutSessionShippingCostTaxTaxabilityReason = "not_subject_to_tax"
+	CheckoutSessionShippingCostTaxTaxabilityReasonNotSupported            CheckoutSessionShippingCostTaxTaxabilityReason = "not_supported"
+	CheckoutSessionShippingCostTaxTaxabilityReasonPortionProductExempt    CheckoutSessionShippingCostTaxTaxabilityReason = "portion_product_exempt"
+	CheckoutSessionShippingCostTaxTaxabilityReasonPortionReducedRated     CheckoutSessionShippingCostTaxTaxabilityReason = "portion_reduced_rated"
+	CheckoutSessionShippingCostTaxTaxabilityReasonPortionStandardRated    CheckoutSessionShippingCostTaxTaxabilityReason = "portion_standard_rated"
+	CheckoutSessionShippingCostTaxTaxabilityReasonProductExempt           CheckoutSessionShippingCostTaxTaxabilityReason = "product_exempt"
+	CheckoutSessionShippingCostTaxTaxabilityReasonProductExemptHoliday    CheckoutSessionShippingCostTaxTaxabilityReason = "product_exempt_holiday"
+	CheckoutSessionShippingCostTaxTaxabilityReasonProportionallyRated     CheckoutSessionShippingCostTaxTaxabilityReason = "proportionally_rated"
+	CheckoutSessionShippingCostTaxTaxabilityReasonReducedRated            CheckoutSessionShippingCostTaxTaxabilityReason = "reduced_rated"
+	CheckoutSessionShippingCostTaxTaxabilityReasonReverseCharge           CheckoutSessionShippingCostTaxTaxabilityReason = "reverse_charge"
+	CheckoutSessionShippingCostTaxTaxabilityReasonStandardRated           CheckoutSessionShippingCostTaxTaxabilityReason = "standard_rated"
+	CheckoutSessionShippingCostTaxTaxabilityReasonTaxableBasisReduced     CheckoutSessionShippingCostTaxTaxabilityReason = "taxable_basis_reduced"
+	CheckoutSessionShippingCostTaxTaxabilityReasonVATExempt               CheckoutSessionShippingCostTaxTaxabilityReason = "vat_exempt"
+	CheckoutSessionShippingCostTaxTaxabilityReasonZeroRated               CheckoutSessionShippingCostTaxTaxabilityReason = "zero_rated"
+)
+
 // The status of the Checkout Session, one of `open`, `complete`, or `expired`.
 type CheckoutSessionStatus string
 
@@ -637,6 +662,31 @@ const (
 	CheckoutSessionSubmitTypeBook   CheckoutSessionSubmitType = "book"
 	CheckoutSessionSubmitTypeDonate CheckoutSessionSubmitType = "donate"
 	CheckoutSessionSubmitTypePay    CheckoutSessionSubmitType = "pay"
+)
+
+// The reasoning behind this tax, for example, if the product is tax exempt. The possible values for this field may be extended as new tax rules are supported.
+type CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReason string
+
+// List of values that CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReason can take
+const (
+	CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReasonCustomerExempt          CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReason = "customer_exempt"
+	CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReasonExcludedTerritory       CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReason = "excluded_territory"
+	CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReasonJurisdictionUnsupported CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReason = "jurisdiction_unsupported"
+	CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReasonNotCollecting           CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReason = "not_collecting"
+	CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReasonNotSubjectToTax         CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReason = "not_subject_to_tax"
+	CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReasonNotSupported            CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReason = "not_supported"
+	CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReasonPortionProductExempt    CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReason = "portion_product_exempt"
+	CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReasonPortionReducedRated     CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReason = "portion_reduced_rated"
+	CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReasonPortionStandardRated    CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReason = "portion_standard_rated"
+	CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReasonProductExempt           CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReason = "product_exempt"
+	CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReasonProductExemptHoliday    CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReason = "product_exempt_holiday"
+	CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReasonProportionallyRated     CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReason = "proportionally_rated"
+	CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReasonReducedRated            CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReason = "reduced_rated"
+	CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReasonReverseCharge           CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReason = "reverse_charge"
+	CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReasonStandardRated           CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReason = "standard_rated"
+	CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReasonTaxableBasisReduced     CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReason = "taxable_basis_reduced"
+	CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReasonVATExempt               CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReason = "vat_exempt"
+	CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReasonZeroRated               CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReason = "zero_rated"
 )
 
 // Only return the Checkout Sessions for the Customer details specified.
@@ -1229,8 +1279,24 @@ type CheckoutSessionPaymentMethodOptionsPayNowParams struct {
 
 // contains details about the PayPal payment method options.
 type CheckoutSessionPaymentMethodOptionsPaypalParams struct {
-	BillingAgreementID *string `form:"billing_agreement_id"`
-	Currency           *string `form:"currency"`
+	// Controls when the funds will be captured from the customer's account.
+	CaptureMethod *string `form:"capture_method"`
+	// [Preferred locale](https://stripe.com/docs/payments/paypal/supported-locales) of the PayPal checkout page that the customer is redirected to.
+	PreferredLocale *string `form:"preferred_locale"`
+	// A reference of the PayPal transaction visible to customer which is mapped to PayPal's invoice ID. This must be a globally unique ID if you have configured in your PayPal settings to block multiple payments per invoice ID.
+	Reference *string `form:"reference"`
+	// A reference of the PayPal transaction visible to customer which is mapped to PayPal's invoice ID. This must be a globally unique ID if you have configured in your PayPal settings to block multiple payments per invoice ID.
+	ReferenceID *string `form:"reference_id"`
+	// The risk correlation ID for an on-session payment using a saved PayPal payment method.
+	RiskCorrelationID *string `form:"risk_correlation_id"`
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// Providing this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.
+	//
+	// When processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).
+	//
+	// If `setup_future_usage` is already set and you are performing a request using a publishable key, you may only update the value from `on_session` to `off_session`.
+	SetupFutureUsage *string `form:"setup_future_usage"`
 }
 
 // contains details about the Pix payment method options.
@@ -2150,6 +2216,10 @@ type CheckoutSessionShippingCostTax struct {
 	//
 	// Related guide: [Tax Rates](https://stripe.com/docs/billing/taxes/tax-rates).
 	Rate *TaxRate `json:"rate"`
+	// The reasoning behind this tax, for example, if the product is tax exempt. The possible values for this field may be extended as new tax rules are supported.
+	TaxabilityReason CheckoutSessionShippingCostTaxTaxabilityReason `json:"taxability_reason"`
+	// The amount on which tax is calculated, in %s.
+	TaxableAmount int64 `json:"taxable_amount"`
 }
 
 // The details of the customer cost of shipping, including the customer chosen ShippingRate.
@@ -2197,6 +2267,10 @@ type CheckoutSessionTotalDetailsBreakdownTax struct {
 	//
 	// Related guide: [Tax Rates](https://stripe.com/docs/billing/taxes/tax-rates).
 	Rate *TaxRate `json:"rate"`
+	// The reasoning behind this tax, for example, if the product is tax exempt. The possible values for this field may be extended as new tax rules are supported.
+	TaxabilityReason CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReason `json:"taxability_reason"`
+	// The amount on which tax is calculated, in %s.
+	TaxableAmount int64 `json:"taxable_amount"`
 }
 type CheckoutSessionTotalDetailsBreakdown struct {
 	// The aggregated discounts.

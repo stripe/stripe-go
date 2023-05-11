@@ -3227,3 +3227,12 @@ func TestPaymentIntentCreate3(t *testing.T) {
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
+
+func TestQuoteListLineItems(t *testing.T) {
+	params := &stripe.QuoteListLineItemsParams{
+		Quote: stripe.String("qt_xxxxxxxxxxxxx"),
+	}
+	result := quote.ListLineItems(params)
+	assert.NotNil(t, result)
+	assert.Nil(t, result.Err())
+}
