@@ -308,14 +308,6 @@ module StripeForce
     def hidden_mapper_fields
       hidden_mapper_fields = []
 
-      if !feature_enabled?(FeatureFlags::COUPONS)
-        hidden_mapper_fields << "coupon"
-      end
-
-      if !feature_enabled?(FeatureFlags::PREBILLING)
-        hidden_mapper_fields << "subscription_schedule.prebilling.iterations"
-      end
-
       if !feature_enabled?(FeatureFlags::INVOICE_RENDERING_TEMPLATE)
         hidden_mapper_fields << "subscription_schedule.default_settings.invoice_settings.rendering.template"
         hidden_mapper_fields << "subscription_schedule.default_settings.invoice_settings.rendering.template_version"

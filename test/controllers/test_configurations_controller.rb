@@ -242,7 +242,7 @@ class Critic::ConfigurationsControllerTest < ApplicationIntegrationTest
         # initially the hidden mapper fields should contain values
         # if no feature flag is enabled for the user
         assert(2, result['hidden_mapper_fields'].count)
-        assert_equal(["coupon", "subscription_schedule.prebilling.iterations", "subscription_schedule.default_settings.invoice_settings.rendering.template", "subscription_schedule.default_settings.invoice_settings.rendering.template_version"], result['hidden_mapper_fields'])
+        assert_equal(["subscription_schedule.default_settings.invoice_settings.rendering.template", "subscription_schedule.default_settings.invoice_settings.rendering.template_version"], result['hidden_mapper_fields'])
 
         # enable features
         @user.enable_feature(FeatureFlags::COUPONS)
