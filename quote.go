@@ -718,7 +718,7 @@ type QuoteLineParams struct {
 	ID *string `form:"id"`
 	// Changes to how Stripe handles prorations during the quote line's time span. Affects if and how prorations are created when a future phase starts.
 	ProrationBehavior *string `form:"proration_behavior"`
-	// Timestsamp helper to end the underlying schedule early, based on the acompanying line's start or end date.
+	// Timestamp helper to end the underlying schedule early, based on the acompanying line's start or end date.
 	SetScheduleEnd *string `form:"set_schedule_end"`
 	// Details to identify the earliest timestamp where the proposed change should take effect.
 	StartsAt *QuoteLineStartsAtParams `form:"starts_at"`
