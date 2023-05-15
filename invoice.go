@@ -1075,7 +1075,7 @@ type InvoiceShippingCostTax struct {
 	Amount int64 `json:"amount"`
 	// Tax rates can be applied to [invoices](https://stripe.com/docs/billing/invoices/tax-rates), [subscriptions](https://stripe.com/docs/billing/subscriptions/taxes) and [Checkout Sessions](https://stripe.com/docs/payments/checkout/set-up-a-subscription#tax-rates) to collect tax.
 	//
-	// Related guide: [Tax Rates](https://stripe.com/docs/billing/taxes/tax-rates).
+	// Related guide: [Tax rates](https://stripe.com/docs/billing/taxes/tax-rates)
 	Rate *TaxRate `json:"rate"`
 	// The reasoning behind this tax, for example, if the product is tax exempt. The possible values for this field may be extended as new tax rules are supported.
 	TaxabilityReason InvoiceShippingCostTaxTaxabilityReason `json:"taxability_reason"`
@@ -1182,7 +1182,7 @@ type InvoiceTransferData struct {
 // More details on the customer's credit balance are
 // [here](https://stripe.com/docs/billing/customer/balance).
 //
-// Related guide: [Send Invoices to Customers](https://stripe.com/docs/billing/invoices/sending).
+// Related guide: [Send invoices to customers](https://stripe.com/docs/billing/invoices/sending)
 type Invoice struct {
 	APIResource
 	// The country of the business associated with this invoice, most often the business creating the invoice.

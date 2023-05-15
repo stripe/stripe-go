@@ -300,7 +300,7 @@ type TaxTransactionShippingCost struct {
 
 // A Tax Transaction records the tax collected from or refunded to your customer.
 //
-// Related guide: [Calculate tax in your custom payment flow](https://stripe.com/docs/tax/custom#tax-transaction).
+// Related guide: [Calculate tax in your custom payment flow](https://stripe.com/docs/tax/custom#tax-transaction)
 type TaxTransaction struct {
 	APIResource
 	// Time at which the object was created. Measured in seconds since the Unix epoch.

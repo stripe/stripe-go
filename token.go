@@ -81,7 +81,7 @@ type TokenPIIParams struct {
 // [Radar](https://stripe.com/docs/radar), our integrated solution for automatic fraud protection,
 // performs best with integrations that use client-side tokenization.
 //
-// Related guide: [Accept a payment](https://stripe.com/docs/payments/accept-a-payment-charges#web-create-token)
+// Related guide: [Accept a payment with Charges and Tokens](https://stripe.com/docs/payments/accept-a-payment-charges#web-create-token)
 type Token struct {
 	APIResource
 	// These bank accounts are payment methods on `Customer` objects.
@@ -90,13 +90,13 @@ type Token struct {
 	// destinations on `Account` objects for [Custom accounts](https://stripe.com/docs/connect/custom-accounts).
 	// They can be bank accounts or debit cards as well, and are documented in the links above.
 	//
-	// Related guide: [Bank Debits and Transfers](https://stripe.com/docs/payments/bank-debits-transfers).
+	// Related guide: [Bank debits and transfers](https://stripe.com/docs/payments/bank-debits-transfers)
 	BankAccount *BankAccount `json:"bank_account"`
 	// You can store multiple cards on a customer in order to charge the customer
 	// later. You can also store multiple debit cards on a recipient in order to
 	// transfer to those cards later.
 	//
-	// Related guide: [Card Payments with Sources](https://stripe.com/docs/sources/cards).
+	// Related guide: [Card payments with Sources](https://stripe.com/docs/sources/cards)
 	Card *Card `json:"card"`
 	// IP address of the client that generated the token.
 	ClientIP string `json:"client_ip"`

@@ -46,7 +46,7 @@ type BalanceIssuing struct {
 // The available and pending amounts for each currency are broken down further by
 // payment source types.
 //
-// Related guide: [Understanding Connect Account Balances](https://stripe.com/docs/connect/account-balances).
+// Related guide: [Understanding Connect account balances](https://stripe.com/docs/connect/account-balances)
 type Balance struct {
 	APIResource
 	// Funds that are available to be transferred or paid out, whether automatically by Stripe or explicitly via the [Transfers API](https://stripe.com/docs/api#transfers) or [Payouts API](https://stripe.com/docs/api#payouts). The available balance for each currency and payment type can be found in the `source_types` property.

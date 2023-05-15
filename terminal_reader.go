@@ -265,7 +265,7 @@ type TerminalReaderAction struct {
 
 // A Reader represents a physical device for accepting payment details.
 //
-// Related guide: [Connecting to a Reader](https://stripe.com/docs/terminal/payments/connect-reader).
+// Related guide: [Connecting to a reader](https://stripe.com/docs/terminal/payments/connect-reader)
 type TerminalReader struct {
 	APIResource
 	// The most recent action performed by the reader.
