@@ -43,12 +43,12 @@ type CustomerBalanceTransactionListParams struct {
 	Customer   *string `form:"-"` // Included in URL
 }
 
-// Each customer has a [`balance`](https://stripe.com/docs/api/customers/object#customer_object-balance) value,
+// Each customer has a [Balance](https://stripe.com/docs/api/customers/object#customer_object-balance) value,
 // which denotes a debit or credit that's automatically applied to their next invoice upon finalization.
 // You may modify the value directly by using the [update customer API](https://stripe.com/docs/api/customers/update),
 // or by creating a Customer Balance Transaction, which increments or decrements the customer's `balance` by the specified `amount`.
 //
-// Related guide: [Customer Balance](https://stripe.com/docs/billing/customer/balance) to learn more.
+// Related guide: [Customer balance](https://stripe.com/docs/billing/customer/balance)
 type CustomerBalanceTransaction struct {
 	APIResource
 	// The amount of the transaction. A negative value is a credit for the customer's balance, and a positive value is a debit to the customer's `balance`.

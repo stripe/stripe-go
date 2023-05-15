@@ -1027,7 +1027,7 @@ type SubscriptionSchedulePrebilling struct {
 
 // A subscription schedule allows you to create and manage the lifecycle of a subscription by predefining expected changes.
 //
-// Related guide: [Subscription Schedules](https://stripe.com/docs/billing/subscriptions/subscription-schedules).
+// Related guide: [Subscription schedules](https://stripe.com/docs/billing/subscriptions/subscription-schedules)
 type SubscriptionSchedule struct {
 	APIResource
 	// ID of the Connect Application that created the schedule.

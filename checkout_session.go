@@ -2214,7 +2214,7 @@ type CheckoutSessionShippingCostTax struct {
 	Amount int64 `json:"amount"`
 	// Tax rates can be applied to [invoices](https://stripe.com/docs/billing/invoices/tax-rates), [subscriptions](https://stripe.com/docs/billing/subscriptions/taxes) and [Checkout Sessions](https://stripe.com/docs/payments/checkout/set-up-a-subscription#tax-rates) to collect tax.
 	//
-	// Related guide: [Tax Rates](https://stripe.com/docs/billing/taxes/tax-rates).
+	// Related guide: [Tax rates](https://stripe.com/docs/billing/taxes/tax-rates)
 	Rate *TaxRate `json:"rate"`
 	// The reasoning behind this tax, for example, if the product is tax exempt. The possible values for this field may be extended as new tax rules are supported.
 	TaxabilityReason CheckoutSessionShippingCostTaxTaxabilityReason `json:"taxability_reason"`
@@ -2255,7 +2255,7 @@ type CheckoutSessionTotalDetailsBreakdownDiscount struct {
 	// A discount represents the actual application of a [coupon](https://stripe.com/docs/api#coupons) or [promotion code](https://stripe.com/docs/api#promotion_codes).
 	// It contains information about when the discount began, when it will end, and what it is applied to.
 	//
-	// Related guide: [Applying Discounts to Subscriptions](https://stripe.com/docs/billing/subscriptions/discounts).
+	// Related guide: [Applying discounts to subscriptions](https://stripe.com/docs/billing/subscriptions/discounts)
 	Discount *Discount `json:"discount"`
 }
 
@@ -2265,7 +2265,7 @@ type CheckoutSessionTotalDetailsBreakdownTax struct {
 	Amount int64 `json:"amount"`
 	// Tax rates can be applied to [invoices](https://stripe.com/docs/billing/invoices/tax-rates), [subscriptions](https://stripe.com/docs/billing/subscriptions/taxes) and [Checkout Sessions](https://stripe.com/docs/payments/checkout/set-up-a-subscription#tax-rates) to collect tax.
 	//
-	// Related guide: [Tax Rates](https://stripe.com/docs/billing/taxes/tax-rates).
+	// Related guide: [Tax rates](https://stripe.com/docs/billing/taxes/tax-rates)
 	Rate *TaxRate `json:"rate"`
 	// The reasoning behind this tax, for example, if the product is tax exempt. The possible values for this field may be extended as new tax rules are supported.
 	TaxabilityReason CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReason `json:"taxability_reason"`
@@ -2303,7 +2303,7 @@ type CheckoutSessionTotalDetails struct {
 // You can create a Checkout Session on your server and redirect to its URL
 // to begin Checkout.
 //
-// Related guide: [Checkout Quickstart](https://stripe.com/docs/checkout/quickstart).
+// Related guide: [Checkout quickstart](https://stripe.com/docs/checkout/quickstart)
 type CheckoutSession struct {
 	APIResource
 	// When set, provides configuration for actions to take if this Checkout Session expires.

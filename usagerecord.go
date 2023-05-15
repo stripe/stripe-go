@@ -43,7 +43,7 @@ func (u *UsageRecordParams) AppendTo(body *form.Values, keyParts []string) {
 // Usage records allow you to report customer usage and metrics to Stripe for
 // metered billing of subscription prices.
 //
-// Related guide: [Metered Billing](https://stripe.com/docs/billing/subscriptions/metered-billing).
+// Related guide: [Metered billing](https://stripe.com/docs/billing/subscriptions/metered-billing)
 type UsageRecord struct {
 	APIResource
 	// Unique identifier for the object.

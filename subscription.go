@@ -870,7 +870,7 @@ type SubscriptionTrialSettings struct {
 
 // Subscriptions allow you to charge a customer on a recurring basis.
 //
-// Related guide: [Creating Subscriptions](https://stripe.com/docs/billing/subscriptions/creating).
+// Related guide: [Creating subscriptions](https://stripe.com/docs/billing/subscriptions/creating)
 type Subscription struct {
 	APIResource
 	// ID of the Connect Application that created the subscription.

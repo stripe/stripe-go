@@ -63,7 +63,7 @@ type TaxRateParams struct {
 
 // Tax rates can be applied to [invoices](https://stripe.com/docs/billing/invoices/tax-rates), [subscriptions](https://stripe.com/docs/billing/subscriptions/taxes) and [Checkout Sessions](https://stripe.com/docs/payments/checkout/set-up-a-subscription#tax-rates) to collect tax.
 //
-// Related guide: [Tax Rates](https://stripe.com/docs/billing/taxes/tax-rates).
+// Related guide: [Tax rates](https://stripe.com/docs/billing/taxes/tax-rates)
 type TaxRate struct {
 	APIResource
 	// Defaults to `true`. When set to `false`, this tax rate cannot be used with new applications or Checkout Sessions, but will still work for subscriptions and invoices that already have it set.
