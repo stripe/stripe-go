@@ -602,6 +602,7 @@ type ChargePaymentMethodDetailsCardThreeDSecure struct {
 type ChargePaymentMethodDetailsCardWalletAmexExpressCheckout struct{}
 type ChargePaymentMethodDetailsCardWalletApplePay struct{}
 type ChargePaymentMethodDetailsCardWalletGooglePay struct{}
+type ChargePaymentMethodDetailsCardWalletLink struct{}
 type ChargePaymentMethodDetailsCardWalletMasterpass struct {
 	// Owner's verified billing address. Values are verified or provided by the wallet directly (if supported) at the time of authorization or settlement. They cannot be set or mutated.
 	BillingAddress *Address `json:"billing_address"`
@@ -631,6 +632,7 @@ type ChargePaymentMethodDetailsCardWallet struct {
 	// (For tokenized numbers only.) The last four digits of the device account number.
 	DynamicLast4 string                                          `json:"dynamic_last4"`
 	GooglePay    *ChargePaymentMethodDetailsCardWalletGooglePay  `json:"google_pay"`
+	Link         *ChargePaymentMethodDetailsCardWalletLink       `json:"link"`
 	Masterpass   *ChargePaymentMethodDetailsCardWalletMasterpass `json:"masterpass"`
 	SamsungPay   *ChargePaymentMethodDetailsCardWalletSamsungPay `json:"samsung_pay"`
 	// The type of the card wallet, one of `amex_express_checkout`, `apple_pay`, `google_pay`, `masterpass`, `samsung_pay`, `visa_checkout`, or `link`. An additional hash is included on the Wallet subhash with a name matching this value. It contains additional information specific to the card wallet type.
