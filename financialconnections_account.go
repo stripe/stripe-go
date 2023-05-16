@@ -182,6 +182,20 @@ type FinancialConnectionsAccountDisconnectParams struct {
 	Params `form:"*"`
 }
 
+// Subscribes to periodic refreshes of data associated with a Financial Connections Account.
+type FinancialConnectionsAccountSubscribeParams struct {
+	Params `form:"*"`
+	// The list of account features to which you would like to subscribe.`.
+	Features []*string `form:"features"`
+}
+
+// Unsubscribes from periodic refreshes of data associated with a Financial Connections Account.
+type FinancialConnectionsAccountUnsubscribeParams struct {
+	Params `form:"*"`
+	// The list of account features from which you would like to unsubscribe.
+	Features []*string `form:"features"`
+}
+
 // The account holder that this account belongs to.
 type FinancialConnectionsAccountAccountHolder struct {
 	// The ID of the Stripe account this account belongs to. Should only be present if `account_holder.type` is `account`.
