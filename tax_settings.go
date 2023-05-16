@@ -24,6 +24,15 @@ const (
 	TaxSettingsLocationRoleHeadOffice TaxSettingsLocationRole = "head_office"
 )
 
+// The `active` status indicates you have all required settings to calculate tax. A status can transition out of `active` when new required settings are introduced.
+type TaxSettingsStatus string
+
+// List of values that TaxSettingsStatus can take
+const (
+	TaxSettingsStatusActive  TaxSettingsStatus = "active"
+	TaxSettingsStatusPending TaxSettingsStatus = "pending"
+)
+
 // Retrieves Tax Settings for a merchant.
 type TaxSettingsParams struct {
 	Params `form:"*"`
@@ -74,6 +83,15 @@ type TaxSettingsLocation struct {
 	// The role of this location address.
 	Role TaxSettingsLocationRole `json:"role"`
 }
+type TaxSettingsStatusDetailsActive struct{}
+type TaxSettingsStatusDetailsPending struct {
+	// The list of missing fields that are required to perform calculations. It includes at least one entry when the status is `pending`. It is recommended to set the optional values even if they aren't listed as required for calculating taxes. Calculations can fail if missing fields aren't explicitly provided on every call.
+	MissingFields []string `json:"missing_fields"`
+}
+type TaxSettingsStatusDetails struct {
+	Active  *TaxSettingsStatusDetailsActive  `json:"active"`
+	Pending *TaxSettingsStatusDetailsPending `json:"pending"`
+}
 
 // You can use Tax `Settings` to manage configurations used by Stripe Tax calculations.
 //
@@ -89,4 +107,7 @@ type TaxSettings struct {
 	Locations []*TaxSettingsLocation `json:"locations"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
+	// The `active` status indicates you have all required settings to calculate tax. A status can transition out of `active` when new required settings are introduced.
+	Status        TaxSettingsStatus         `json:"status"`
+	StatusDetails *TaxSettingsStatusDetails `json:"status_details"`
 }
