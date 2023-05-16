@@ -13,16 +13,18 @@ type TaxRateTaxType string
 
 // List of values that TaxRateTaxType can take
 const (
-	TaxRateTaxTypeGST      TaxRateTaxType = "gst"
-	TaxRateTaxTypeHST      TaxRateTaxType = "hst"
-	TaxRateTaxTypeIGST     TaxRateTaxType = "igst"
-	TaxRateTaxTypeJCT      TaxRateTaxType = "jct"
-	TaxRateTaxTypeLeaseTax TaxRateTaxType = "lease_tax"
-	TaxRateTaxTypePST      TaxRateTaxType = "pst"
-	TaxRateTaxTypeQST      TaxRateTaxType = "qst"
-	TaxRateTaxTypeRST      TaxRateTaxType = "rst"
-	TaxRateTaxTypeSalesTax TaxRateTaxType = "sales_tax"
-	TaxRateTaxTypeVAT      TaxRateTaxType = "vat"
+	TaxRateTaxTypeAmusementTax      TaxRateTaxType = "amusement_tax"
+	TaxRateTaxTypeCommunicationsTax TaxRateTaxType = "communications_tax"
+	TaxRateTaxTypeGST               TaxRateTaxType = "gst"
+	TaxRateTaxTypeHST               TaxRateTaxType = "hst"
+	TaxRateTaxTypeIGST              TaxRateTaxType = "igst"
+	TaxRateTaxTypeJCT               TaxRateTaxType = "jct"
+	TaxRateTaxTypeLeaseTax          TaxRateTaxType = "lease_tax"
+	TaxRateTaxTypePST               TaxRateTaxType = "pst"
+	TaxRateTaxTypeQST               TaxRateTaxType = "qst"
+	TaxRateTaxTypeRST               TaxRateTaxType = "rst"
+	TaxRateTaxTypeSalesTax          TaxRateTaxType = "sales_tax"
+	TaxRateTaxTypeVAT               TaxRateTaxType = "vat"
 )
 
 // Returns a list of your tax rates. Tax rates are returned sorted by creation date, with the most recently created tax rates appearing first.
