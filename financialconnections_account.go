@@ -242,6 +242,8 @@ type FinancialConnectionsAccountBalance struct {
 type FinancialConnectionsAccountBalanceRefresh struct {
 	// The time at which the last refresh attempt was initiated. Measured in seconds since the Unix epoch.
 	LastAttemptedAt int64 `json:"last_attempted_at"`
+	// Time at which the next balance refresh can be initiated. This value will be `null` when when `status` is `pending`. Measured in seconds since the Unix epoch.
+	NextRefreshAvailableAt int64 `json:"next_refresh_available_at"`
 	// The status of the last refresh attempt.
 	Status FinancialConnectionsAccountBalanceRefreshStatus `json:"status"`
 }
@@ -250,6 +252,8 @@ type FinancialConnectionsAccountBalanceRefresh struct {
 type FinancialConnectionsAccountInferredBalancesRefresh struct {
 	// The time at which the last refresh attempt was initiated. Measured in seconds since the Unix epoch.
 	LastAttemptedAt int64 `json:"last_attempted_at"`
+	// Time at which the next inferred balance refresh can be initiated. This value will be `null` when when `status` is `pending`. Measured in seconds since the Unix epoch.
+	NextRefreshAvailableAt int64 `json:"next_refresh_available_at"`
 	// The status of the last refresh attempt.
 	Status FinancialConnectionsAccountInferredBalancesRefreshStatus `json:"status"`
 }
@@ -258,6 +262,8 @@ type FinancialConnectionsAccountInferredBalancesRefresh struct {
 type FinancialConnectionsAccountOwnershipRefresh struct {
 	// The time at which the last refresh attempt was initiated. Measured in seconds since the Unix epoch.
 	LastAttemptedAt int64 `json:"last_attempted_at"`
+	// Time at which the next ownership refresh can be initiated. This value will be `null` when when `status` is `pending`. Measured in seconds since the Unix epoch.
+	NextRefreshAvailableAt int64 `json:"next_refresh_available_at"`
 	// The status of the last refresh attempt.
 	Status FinancialConnectionsAccountOwnershipRefreshStatus `json:"status"`
 }
@@ -268,6 +274,8 @@ type FinancialConnectionsAccountTransactionRefresh struct {
 	ID string `json:"id"`
 	// The time at which the last refresh attempt was initiated. Measured in seconds since the Unix epoch.
 	LastAttemptedAt int64 `json:"last_attempted_at"`
+	// Time at which the next transaction refresh can be initiated. This value will be `null` when when `status` is `pending`. Measured in seconds since the Unix epoch.
+	NextRefreshAvailableAt int64 `json:"next_refresh_available_at"`
 	// The status of the last refresh attempt.
 	Status FinancialConnectionsAccountTransactionRefreshStatus `json:"status"`
 }
