@@ -18,6 +18,13 @@ module Api
       head :bad_request
     end
 
+    def connection_statuses
+      render json: {
+        salesforce: @user.valid_credentials_salesforce!,
+        stripe: @user.valid_credentials_stripe!,
+      }
+    end
+
     def translate_all
       sf_record_type = params.require(:object_type)
 

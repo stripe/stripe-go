@@ -140,37 +140,61 @@ module StripeForce
     # TODO: Make this more robust via a cron (caching status, sending emails etc)
     # https://jira.corp.stripe.com/browse/PLATINT-1450
     def valid_credentials?
+      valid_credentials_stripe? && valid_credentials_salesforce?
+    end
+
+    # Force a check w/o using cached status -- for the connection_statuses endpoint
+    def valid_credentials_stripe!
+      check_credentials_stripe
+    end
+
+    # Check connection status against the cache
+    def valid_credentials_stripe?
       # If our cached value has expired, these will return nil and they will be fetched again.
       stripe_credentials_valid = get_cached_connection_status(StripeForce::Constants::Platforms::STRIPE)
-      salesforce_credentials_valid = get_cached_connection_status(StripeForce::Constants::Platforms::SALESFORCE)
 
-      # Stripe
       if stripe_credentials_valid.nil?
-        stripe_credentials_valid = begin
-          Stripe::Account.retrieve(
-            self.stripe_account_id,
-            self.stripe_credentials
-          )
-          self.cache_connection_status(StripeForce::Constants::Platforms::STRIPE, true)
-        rescue Stripe::AuthenticationError, Stripe::PermissionError
-          log.info "invalid Stripe credentials"
-          self.cache_connection_status(StripeForce::Constants::Platforms::STRIPE, false)
-        end
+        check_credentials_stripe
+      else
+        stripe_credentials_valid
       end
+    end
+
+    def check_credentials_stripe
+      Stripe::Account.retrieve(
+        self.stripe_account_id,
+        self.stripe_credentials
+      )
+      self.cache_connection_status(StripeForce::Constants::Platforms::STRIPE, true)
+    rescue Stripe::AuthenticationError, Stripe::PermissionError
+      log.info "invalid Stripe credentials"
+      self.cache_connection_status(StripeForce::Constants::Platforms::STRIPE, false)
+    end
+
+    # Force a check w/o using cached status -- for the connection_statuses endpoint
+    def valid_credentials_salesforce!
+      check_credentials_salesforce
+    end
+
+    def valid_credentials_salesforce?
+      # If our cached value has expired, these will return nil and they will be fetched again.
+      salesforce_credentials_valid = get_cached_connection_status(StripeForce::Constants::Platforms::SALESFORCE)
 
       # Salesforce
       if salesforce_credentials_valid.nil?
-        salesforce_credentials_valid = begin
-          # just initializing the client is not enough, a call must be attempted
-          self.sf_client.user_info
-          self.cache_connection_status(StripeForce::Constants::Platforms::SALESFORCE, true)
-        rescue Restforce::UnauthorizedError, Restforce::AuthenticationError
-          log.info "invalid Salesforce credentials"
-          self.cache_connection_status(StripeForce::Constants::Platforms::SALESFORCE, false)
-        end
+        check_credentials_salesforce
+      else
+        salesforce_credentials_valid
       end
+    end
 
-      stripe_credentials_valid && salesforce_credentials_valid
+    def check_credentials_salesforce
+      # just initializing the client is not enough, a call must be attempted
+      self.sf_client.user_info
+      self.cache_connection_status(StripeForce::Constants::Platforms::SALESFORCE, true)
+    rescue Restforce::UnauthorizedError, Restforce::AuthenticationError
+      log.info "invalid Salesforce credentials"
+      self.cache_connection_status(StripeForce::Constants::Platforms::SALESFORCE, false)
     end
 
     def salesforce_namespace

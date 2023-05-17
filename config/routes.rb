@@ -23,6 +23,7 @@ Rails.application.routes.draw do
     post 'post-install' => 'configurations#post_install'
     post 'translate' => 'configurations#translate'
     post 'translate_all' => 'configurations#translate_all'
+    get 'connection_statuses' => 'configurations#connection_statuses'
   end
 
   scope :monitoring do

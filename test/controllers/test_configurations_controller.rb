@@ -4,6 +4,63 @@
 require_relative '../test_helper'
 
 class Critic::ConfigurationsControllerTest < ApplicationIntegrationTest
+  describe "#connection_statuses" do
+    before do
+      @user = make_user(save: true)
+    end
+
+    it 'reports everything working when it should without mocks' do
+      get api_connection_statuses_path, as: :json, headers: authentication_headers
+
+      assert(parsed_json['salesforce'], 'Salesforce status is true')
+      assert(parsed_json['stripe'], 'Stripe status is true')
+    end
+
+    it 'reports everything working when it should' do
+      StripeForce::User.stubs(:find).returns(@user)
+      @user.stubs(:check_credentials_salesforce).returns(true)
+      @user.stubs(:check_credentials_stripe).returns(true)
+
+      get api_connection_statuses_path, as: :json, headers: authentication_headers
+
+      assert(parsed_json['salesforce'], 'Salesforce status is true')
+      assert(parsed_json['stripe'], 'Stripe status is true')
+    end
+
+    it 'reports stripe not working' do
+      StripeForce::User.stubs(:find).returns(@user)
+      @user.stubs(:check_credentials_salesforce).returns(true)
+      @user.stubs(:check_credentials_stripe).returns(false)
+
+      get api_connection_statuses_path, as: :json, headers: authentication_headers
+
+      assert(parsed_json['salesforce'], 'Salesforce status is true')
+      refute(parsed_json['stripe'], 'Stripe status is false')
+    end
+
+    it 'reports salesforce not working' do
+      StripeForce::User.stubs(:find).returns(@user)
+      @user.stubs(:check_credentials_salesforce).returns(false)
+      @user.stubs(:check_credentials_stripe).returns(true)
+
+      get api_connection_statuses_path, as: :json, headers: authentication_headers
+
+      refute(parsed_json['salesforce'], 'Salesforce status is false')
+      assert(parsed_json['stripe'], 'Stripe status is true')
+    end
+
+    it 'reports when none work' do
+      StripeForce::User.stubs(:find).returns(@user)
+      @user.stubs(:check_credentials_salesforce).returns(false)
+      @user.stubs(:check_credentials_stripe).returns(false)
+
+      get api_connection_statuses_path, as: :json, headers: authentication_headers
+
+      refute(parsed_json['salesforce'], 'Salesforce status is false')
+      refute(parsed_json['stripe'], 'Stripe status is false')
+    end
+  end
+
   describe "#translate_all" do
     before do
       @user = make_user(save: true)

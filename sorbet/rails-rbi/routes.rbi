@@ -82,6 +82,13 @@ module GeneratedUrlHelpers
   sig { params(args: T.untyped, kwargs: T.untyped).returns(String) }
   def api_configuration_url(*args, **kwargs); end
 
+  # Sigs for route /v1/configuration/connection_statuses(.:format)
+  sig { params(args: T.untyped, kwargs: T.untyped).returns(String) }
+  def api_connection_statuses_path(*args, **kwargs); end
+
+  sig { params(args: T.untyped, kwargs: T.untyped).returns(String) }
+  def api_connection_statuses_url(*args, **kwargs); end
+
   # Sigs for route /v1/post-install(.:format)
   sig { params(args: T.untyped, kwargs: T.untyped).returns(String) }
   def api_post_install_path(*args, **kwargs); end
