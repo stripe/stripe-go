@@ -389,12 +389,12 @@ func (s *BackendImplementation) RawRequest(method, path, key string, params RawP
 		bodyBuffer = bytes.NewBufferString("")
 		queryString := form.Encode()
 		path += "?" + queryString
-	} else if params.GetEncoding() == FormEncoding {
+	} else if params.GetApiMode() == StandardApiMode {
 		var form *form.Values
 		form, commonParams = extractParamFormValues(params)
 		bodyBuffer = bytes.NewBufferString(form.Encode())
 		contentType = "application/x-www-form-urlencoded"
-	} else if params.GetEncoding() == JSONEncoding {
+	} else if params.GetApiMode() == PreviewApiMode {
 		var json []byte
 		json, commonParams, err = extractParamJSON(params)
 		if err != nil {
@@ -403,7 +403,7 @@ func (s *BackendImplementation) RawRequest(method, path, key string, params RawP
 		bodyBuffer = bytes.NewBuffer(json)
 		contentType = "application/json"
 	} else {
-		return nil, fmt.Errorf("Unknown encoding %s", params.GetEncoding())
+		return nil, fmt.Errorf("Unknown API mode %s", params.GetApiMode())
 	}
 
 	header, ctx, err := newRequestHeader(method, key, contentType, commonParams)

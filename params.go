@@ -170,9 +170,10 @@ type ListParamsContainer interface {
 	GetListParams() *ListParams
 }
 
-type Encoding string
-var JSONEncoding Encoding = "json"
-var FormEncoding Encoding = "form"
+type APIMode string
+
+var PreviewApiMode APIMode = "json"
+var StandardApiMode APIMode = "form"
 
 // Params is the structure that contains the common properties
 // of any *Params structure.
@@ -204,14 +205,14 @@ type Params struct {
 }
 
 type RawParams struct {
-	Encoding Encoding `form:"-"`
+	APIMode APIMode `form:"-"`
 }
 
-func (p RawParams) GetEncoding() Encoding {
-	if (p.Encoding == "") {
-		return FormEncoding
+func (p RawParams) GetApiMode() APIMode {
+	if p.APIMode == "" {
+		return StandardApiMode
 	}
-	return p.Encoding
+	return p.APIMode
 }
 
 // AddExpand appends a new field to expand.
@@ -263,7 +264,7 @@ type ParamsContainer interface {
 
 type RawParamsContainer interface {
 	ParamsContainer
-	GetEncoding() Encoding
+	GetApiMode() APIMode
 }
 
 // RangeQueryParams are a set of generic request parameters that are used on

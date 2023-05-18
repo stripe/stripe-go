@@ -1296,10 +1296,10 @@ func TestRawRequest(t *testing.T) {
 		Baz bool `json:"baz"`
 	}
 	type myParams struct {
-		Params `json:"-"`
+		Params    `json:"-"`
 		RawParams `json:"-"`
-		Foo string      `json:"foo"`
-		Bar myBarParams `json:"bar"`
+		Foo       string      `json:"foo"`
+		Bar       myBarParams `json:"bar"`
 	}
 
 	type MyXYZ struct {
@@ -1307,10 +1307,10 @@ func TestRawRequest(t *testing.T) {
 	}
 	type MyABC struct {
 		Object string `json:"object"`
-		XYZ MyXYZ `json:"xyz"`
+		XYZ    MyXYZ  `json:"xyz"`
 	}
 
-	response, err := backend.RawRequest(http.MethodPost, "/v1/abcs", "sk_test_xyz", &myParams{Params{}, RawParams{Encoding: JSONEncoding}, "myFoo", myBarParams{false}})
+	response, err := backend.RawRequest(http.MethodPost, "/v1/abcs", "sk_test_xyz", &myParams{Params{}, RawParams{APIMode: PreviewApiMode}, "myFoo", myBarParams{false}})
 	assert.NoError(t, err)
 	//assert.Equal(t, string(response.RawJSON), "{\"hello\": \"world\"}")
 	myABC := &MyABC{}
