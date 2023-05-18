@@ -550,32 +550,10 @@ type SetupIntentPaymentMethodOptionsACSSDebitParams struct {
 	VerificationMethod *string `form:"verification_method"`
 }
 
-// Details of off-session mandate.
-type SetupIntentPaymentMethodOptionsBLIKMandateOptionsOffSessionParams struct {
-	// Amount of the recurring payments
-	Amount *int64 `form:"amount"`
-	// Three letter ISO Currency-code. `PLN` only.
-	Currency *string `form:"currency"`
-	// Frequency interval of each recurring payment.
-	Interval *string `form:"interval"`
-	// Frequency indicator of each recurring payment.
-	IntervalCount *int64 `form:"interval_count"`
-}
-
-// Details of the BLIK mandate
-type SetupIntentPaymentMethodOptionsBLIKMandateOptionsParams struct {
-	// Expiry date of the mandate.
-	ExpiresAfter *int64 `form:"expires_after"`
-	// Details of off-session mandate.
-	OffSession *SetupIntentPaymentMethodOptionsBLIKMandateOptionsOffSessionParams `form:"off_session"`
-}
-
 // If this is a `blik` PaymentMethod, this hash contains details about the BLIK payment method.
 type SetupIntentPaymentMethodOptionsBLIKParams struct {
 	// The 6-digit BLIK code that a customer has generated using their banking application. Can only be set on confirmation.
 	Code *string `form:"code"`
-	// Details of the BLIK mandate
-	MandateOptions *SetupIntentPaymentMethodOptionsBLIKMandateOptionsParams `form:"mandate_options"`
 }
 
 // Configuration options for setting up an eMandate for cards issued in India.
