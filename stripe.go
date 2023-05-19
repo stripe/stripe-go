@@ -362,12 +362,13 @@ func (s *BackendImplementation) CallMultipart(method, path, key, boundary string
 	contentType := "multipart/form-data; boundary=" + boundary
 
 	header, ctx, err := newRequestHeader(method, key, contentType, params)
-	req, err := s.newRequest(ctx, method, path, header)
 	if err != nil {
 		return err
 	}
 
-	if err := s.Do(req, body, v); err != nil {
+	if req, err := s.newRequest(ctx, method, path, header); err != nil {
+		return err
+	} else if err := s.Do(req, body, v); err != nil {
 		return err
 	}
 
