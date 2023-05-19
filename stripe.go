@@ -386,23 +386,15 @@ func (s *BackendImplementation) RawRequest(method, path, key, content string, pa
 		return nil, fmt.Errorf("method must be POST, GET, or DELETE. Received %s", method)
 	}
 	if method != http.MethodPost {
-		// var form *form.Values
 		_, commonParams = extractParamFormValues(params)
-		// bodyBuffer = bytes.NewBufferString("")
-		// queryString := form.Encode()
-		// path += "?" + queryString
 	} else if params.GetAPIMode() == StandardAPIMode {
-		// var form *form.Values
 		_, commonParams = extractParamFormValues(params)
-		// bodyBuffer = bytes.NewBufferString(form.Encode())\
 		contentType = "application/x-www-form-urlencoded"
 	} else if params.GetAPIMode() == PreviewAPIMode {
-		// var json []byte
 		_, commonParams, err = extractParamJSON(params)
 		if err != nil {
 			return nil, err
 		}
-		// bodyBuffer = bytes.NewBuffer(json)
 		contentType = "application/json"
 	} else {
 		return nil, fmt.Errorf("Unknown API mode %s", params.GetAPIMode())
@@ -411,6 +403,9 @@ func (s *BackendImplementation) RawRequest(method, path, key, content string, pa
 	if params.GetStripeContext() != "" {
 		// add stripe-context header
 		commonParams.Headers.Add("Stripe-Context", params.GetStripeContext())
+	}
+	if params.GetAPIMode() == PreviewAPIMode {
+		commonParams.Headers.Add("Stripe-Version", previewVersion)
 	}
 
 	bodyBuffer.WriteString(content)

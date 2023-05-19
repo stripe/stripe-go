@@ -31,6 +31,7 @@ func TestPreviewRequestWithAdditionalHeaders(t *testing.T) {
 	var path string
 	var method string
 	var contentType string
+	var stripeVersion string
 	var fooHeader string
 	var stripeContext string
 	testServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -40,6 +41,7 @@ func TestPreviewRequestWithAdditionalHeaders(t *testing.T) {
 		path = r.URL.RequestURI()
 		method = r.Method
 		contentType = r.Header.Get("Content-Type")
+		stripeVersion = r.Header.Get("Stripe-Version")
 		fooHeader = r.Header.Get("foo")
 		stripeContext = r.Header.Get("Stripe-Context")
 		w.WriteHeader(http.StatusOK)
@@ -63,6 +65,7 @@ func TestPreviewRequestWithAdditionalHeaders(t *testing.T) {
 	assert.Equal(t, `/v1/abc`, path)
 	assert.Equal(t, `GET`, method)
 	assert.Equal(t, ``, contentType)
+	assert.NotEqual(t, stripe.APIVersion, stripeVersion)
 	assert.Equal(t, `bar`, fooHeader)
 	assert.Equal(t, `acct_123`, stripeContext)
 	assert.NoError(t, err)

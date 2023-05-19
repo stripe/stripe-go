@@ -1278,6 +1278,7 @@ func TestRawRequestPreviewPost(t *testing.T) {
 	var path string
 	var method string
 	var contentType string
+	var stripeVersion string
 	testServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		req, _ := ioutil.ReadAll(r.Body)
 		r.Body.Close()
@@ -1285,6 +1286,7 @@ func TestRawRequestPreviewPost(t *testing.T) {
 		path = r.URL.RequestURI()
 		method = r.Method
 		contentType = r.Header.Get("Content-Type")
+		stripeVersion = r.Header.Get("Stripe-Version")
 		w.WriteHeader(http.StatusOK)
 		w.Write([]byte(`{"object": "abc", "xyz": {"def": "jih"}}`))
 	}))
@@ -1323,6 +1325,7 @@ func TestRawRequestPreviewPost(t *testing.T) {
 	assert.Equal(t, `/v1/abcs`, path)
 	assert.Equal(t, `POST`, method)
 	assert.Equal(t, `application/json`, contentType)
+	assert.Equal(t, previewVersion, stripeVersion)
 	err = json.Unmarshal(response.RawJSON, myABC)
 	assert.NoError(t, err)
 	assert.Equal(t, "jih", myABC.XYZ.DEF)
@@ -1335,6 +1338,7 @@ func TestRawRequestPreviewGet(t *testing.T) {
 	var path string
 	var method string
 	var contentType string
+	var stripeVersion string
 	testServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		req, _ := ioutil.ReadAll(r.Body)
 		r.Body.Close()
@@ -1342,6 +1346,7 @@ func TestRawRequestPreviewGet(t *testing.T) {
 		path = r.URL.RequestURI()
 		method = r.Method
 		contentType = r.Header.Get("Content-Type")
+		stripeVersion = r.Header.Get("Stripe-Version")
 		w.WriteHeader(http.StatusOK)
 		w.Write([]byte(`{"object": "abc", "xyz": {"def": "jih"}}`))
 	}))
@@ -1366,6 +1371,7 @@ func TestRawRequestPreviewGet(t *testing.T) {
 	assert.Equal(t, `/v1/abc?foo=myFoo`, path)
 	assert.Equal(t, `GET`, method)
 	assert.Equal(t, ``, contentType)
+	assert.Equal(t, previewVersion, stripeVersion)
 	assert.NoError(t, err)
 	defer testServer.Close()
 }
@@ -1375,6 +1381,7 @@ func TestRawRequestWithAdditionalHeaders(t *testing.T) {
 	var path string
 	var method string
 	var contentType string
+	var stripeVersion string
 	var fooHeader string
 	var stripeContext string
 	testServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -1384,6 +1391,7 @@ func TestRawRequestWithAdditionalHeaders(t *testing.T) {
 		path = r.URL.RequestURI()
 		method = r.Method
 		contentType = r.Header.Get("Content-Type")
+		stripeVersion = r.Header.Get("Stripe-Version")
 		fooHeader = r.Header.Get("foo")
 		stripeContext = r.Header.Get("Stripe-Context")
 		w.WriteHeader(http.StatusOK)
@@ -1410,6 +1418,7 @@ func TestRawRequestWithAdditionalHeaders(t *testing.T) {
 	assert.Equal(t, `/v1/abc`, path)
 	assert.Equal(t, `POST`, method)
 	assert.Equal(t, `application/json`, contentType)
+	assert.Equal(t, previewVersion, stripeVersion)
 	assert.Equal(t, `bar`, fooHeader)
 	assert.Equal(t, `acct_123`, stripeContext)
 	assert.NoError(t, err)
