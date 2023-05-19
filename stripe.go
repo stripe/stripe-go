@@ -202,7 +202,7 @@ type Backend interface {
 }
 
 type RawRequestBackend interface {
-	RawRequest(method, path, key string, params RawParamsContainer) (*APIResponse, error)
+	RawRequest(method, path, key, content string, params RawParamsContainer) (*APIResponse, error)
 }
 
 // BackendConfig is used to configure a new Stripe backend.
@@ -375,8 +375,9 @@ func (s *BackendImplementation) CallMultipart(method, path, key, boundary string
 }
 
 // RawRequest is the Backend.RawRequest implementation for invoking Stripe APIs.
-func (s *BackendImplementation) RawRequest(method, path, key string, params RawParamsContainer) (*APIResponse, error) {
-	var bodyBuffer *bytes.Buffer
+func (s *BackendImplementation) RawRequest(method, path, key, content string, params RawParamsContainer) (*APIResponse, error) {
+
+	var bodyBuffer = bytes.NewBuffer(nil)
 	var commonParams *Params
 	var err error
 	var contentType string
@@ -384,27 +385,34 @@ func (s *BackendImplementation) RawRequest(method, path, key string, params RawP
 		return nil, fmt.Errorf("method must be POST, GET, or DELETE. Received %s", method)
 	}
 	if method != http.MethodPost {
-		var form *form.Values
-		form, commonParams = extractParamFormValues(params)
-		bodyBuffer = bytes.NewBufferString("")
-		queryString := form.Encode()
-		path += "?" + queryString
+		// var form *form.Values
+		_, commonParams = extractParamFormValues(params)
+		// bodyBuffer = bytes.NewBufferString("")
+		// queryString := form.Encode()
+		// path += "?" + queryString
 	} else if params.GetAPIMode() == StandardAPIMode {
-		var form *form.Values
-		form, commonParams = extractParamFormValues(params)
-		bodyBuffer = bytes.NewBufferString(form.Encode())
+		// var form *form.Values
+		_, commonParams = extractParamFormValues(params)
+		// bodyBuffer = bytes.NewBufferString(form.Encode())\
 		contentType = "application/x-www-form-urlencoded"
 	} else if params.GetAPIMode() == PreviewAPIMode {
-		var json []byte
-		json, commonParams, err = extractParamJSON(params)
+		// var json []byte
+		_, commonParams, err = extractParamJSON(params)
 		if err != nil {
 			return nil, err
 		}
-		bodyBuffer = bytes.NewBuffer(json)
+		// bodyBuffer = bytes.NewBuffer(json)
 		contentType = "application/json"
 	} else {
 		return nil, fmt.Errorf("Unknown API mode %s", params.GetAPIMode())
 	}
+
+	if params.GetStripeContext() != "" {
+		// add stripe-context header
+		commonParams.Headers.Add("Stripe-Context", params.GetStripeContext())
+	}
+
+	bodyBuffer.WriteString(content)
 
 	header, ctx, err := newRequestHeader(method, key, contentType, commonParams)
 
@@ -1506,9 +1514,9 @@ func normalizeURL(url string) string {
 	return url
 }
 
-func RawRequest(method, path string, params RawParamsContainer) (*APIResponse, error) {
+func RawRequest(method, path string, content string, params RawParamsContainer) (*APIResponse, error) {
 	if bi, ok := GetBackend(APIBackend).(RawRequestBackend); ok {
-		return bi.RawRequest(method, path, Key, params)
+		return bi.RawRequest(method, path, Key, content, params)
 	}
 	return nil, fmt.Errorf("Error: cannot call RawRequest if backends.API is initialized with a backend that doesn't implement RawRequestBackend")
 }
