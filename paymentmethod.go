@@ -606,6 +606,7 @@ type PaymentMethodCardThreeDSecureUsage struct {
 type PaymentMethodCardWalletAmexExpressCheckout struct{}
 type PaymentMethodCardWalletApplePay struct{}
 type PaymentMethodCardWalletGooglePay struct{}
+type PaymentMethodCardWalletLink struct{}
 type PaymentMethodCardWalletMasterpass struct {
 	// Owner's verified billing address. Values are verified or provided by the wallet directly (if supported) at the time of authorization or settlement. They cannot be set or mutated.
 	BillingAddress *Address `json:"billing_address"`
@@ -635,6 +636,7 @@ type PaymentMethodCardWallet struct {
 	// (For tokenized numbers only.) The last four digits of the device account number.
 	DynamicLast4 string                             `json:"dynamic_last4"`
 	GooglePay    *PaymentMethodCardWalletGooglePay  `json:"google_pay"`
+	Link         *PaymentMethodCardWalletLink       `json:"link"`
 	Masterpass   *PaymentMethodCardWalletMasterpass `json:"masterpass"`
 	SamsungPay   *PaymentMethodCardWalletSamsungPay `json:"samsung_pay"`
 	// The type of the card wallet, one of `amex_express_checkout`, `apple_pay`, `google_pay`, `masterpass`, `samsung_pay`, `visa_checkout`, or `link`. An additional hash is included on the Wallet subhash with a name matching this value. It contains additional information specific to the card wallet type.
@@ -707,7 +709,12 @@ type PaymentMethodCardPresent struct {
 	// How card details were read in this transaction.
 	ReadMethod PaymentMethodCardPresentReadMethod `json:"read_method"`
 }
-type PaymentMethodCashApp struct{}
+type PaymentMethodCashApp struct {
+	// A unique and immutable identifier assigned by Cash App to every buyer.
+	BuyerID string `json:"buyer_id"`
+	// A public identifier for buyers using Cash App.
+	Cashtag string `json:"cashtag"`
+}
 type PaymentMethodCustomerBalance struct{}
 type PaymentMethodEPS struct {
 	// The customer's bank. Should be one of `arzte_und_apotheker_bank`, `austrian_anadi_bank_ag`, `bank_austria`, `bankhaus_carl_spangler`, `bankhaus_schelhammer_und_schattera_ag`, `bawag_psk_ag`, `bks_bank_ag`, `brull_kallmus_bank_ag`, `btv_vier_lander_bank`, `capital_bank_grawe_gruppe_ag`, `deutsche_bank_ag`, `dolomitenbank`, `easybank_ag`, `erste_bank_und_sparkassen`, `hypo_alpeadriabank_international_ag`, `hypo_noe_lb_fur_niederosterreich_u_wien`, `hypo_oberosterreich_salzburg_steiermark`, `hypo_tirol_bank_ag`, `hypo_vorarlberg_bank_ag`, `hypo_bank_burgenland_aktiengesellschaft`, `marchfelder_bank`, `oberbank_ag`, `raiffeisen_bankengruppe_osterreich`, `schoellerbank_ag`, `sparda_bank_wien`, `volksbank_gruppe`, `volkskreditbank_ag`, or `vr_bank_braunau`.

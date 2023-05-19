@@ -1172,7 +1172,7 @@ type SetupIntentPaymentMethodOptions struct {
 // By using SetupIntents, you ensure that your customers experience the minimum set of required friction,
 // even as regulations change over time.
 //
-// Related guide: [Setup Intents API](https://stripe.com/docs/payments/setup-intents).
+// Related guide: [Setup Intents API](https://stripe.com/docs/payments/setup-intents)
 type SetupIntent struct {
 	APIResource
 	// ID of the Connect application that created the SetupIntent.

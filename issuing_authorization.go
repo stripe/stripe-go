@@ -199,7 +199,7 @@ type IssuingAuthorizationVerificationData struct {
 // object is created. [Authorizations](https://stripe.com/docs/issuing/purchases/authorizations) must be approved for the
 // purchase to be completed successfully.
 //
-// Related guide: [Issued Card Authorizations](https://stripe.com/docs/issuing/purchases/authorizations).
+// Related guide: [Issued card authorizations](https://stripe.com/docs/issuing/purchases/authorizations)
 type IssuingAuthorization struct {
 	APIResource
 	// The total amount that was authorized or rejected. This amount is in the card's currency and in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal).

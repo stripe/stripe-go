@@ -42,7 +42,7 @@ type AccountLinkParams struct {
 // Account Links are the means by which a Connect platform grants a connected account permission to access
 // Stripe-hosted applications, such as Connect Onboarding.
 //
-// Related guide: [Connect Onboarding](https://stripe.com/docs/connect/connect-onboarding).
+// Related guide: [Connect Onboarding](https://stripe.com/docs/connect/connect-onboarding)
 type AccountLink struct {
 	APIResource
 	// Time at which the object was created. Measured in seconds since the Unix epoch.

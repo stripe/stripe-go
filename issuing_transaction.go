@@ -162,7 +162,7 @@ type IssuingTransactionTreasury struct {
 // your Stripe account, such as a completed purchase or refund, is represented by an Issuing
 // `Transaction` object.
 //
-// Related guide: [Issued Card Transactions](https://stripe.com/docs/issuing/purchases/transactions).
+// Related guide: [Issued card transactions](https://stripe.com/docs/issuing/purchases/transactions)
 type IssuingTransaction struct {
 	APIResource
 	// The transaction amount, which will be reflected in your balance. This amount is in your currency and in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal).

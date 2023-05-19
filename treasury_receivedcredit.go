@@ -156,7 +156,7 @@ type TreasuryReceivedCreditLinkedFlowsSourceFlowDetails struct {
 	// schedules](https://stripe.com/docs/connect/manage-payout-schedule), depending on your country and
 	// industry.
 	//
-	// Related guide: [Receiving Payouts](https://stripe.com/docs/payouts).
+	// Related guide: [Receiving payouts](https://stripe.com/docs/payouts)
 	Payout *Payout `json:"payout"`
 	// The type of the source flow that originated the ReceivedCredit.
 	Type TreasuryReceivedCreditLinkedFlowsSourceFlowDetailsType `json:"type"`

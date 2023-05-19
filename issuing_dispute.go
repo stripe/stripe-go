@@ -351,7 +351,7 @@ type IssuingDisputeTreasury struct {
 
 // As a [card issuer](https://stripe.com/docs/issuing), you can dispute transactions that the cardholder does not recognize, suspects to be fraudulent, or has other issues with.
 //
-// Related guide: [Disputing Transactions](https://stripe.com/docs/issuing/purchases/disputes)
+// Related guide: [Issuing disputes](https://stripe.com/docs/issuing/purchases/disputes)
 type IssuingDispute struct {
 	APIResource
 	// Disputed amount in the card's currency and in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal). Usually the amount of the `transaction`, but can differ (usually because of currency fluctuation).
