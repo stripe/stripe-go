@@ -182,6 +182,20 @@ type FinancialConnectionsAccountDisconnectParams struct {
 	Params `form:"*"`
 }
 
+// Subscribes to periodic refreshes of data associated with a Financial Connections Account.
+type FinancialConnectionsAccountSubscribeParams struct {
+	Params `form:"*"`
+	// The list of account features to which you would like to subscribe.`.
+	Features []*string `form:"features"`
+}
+
+// Unsubscribes from periodic refreshes of data associated with a Financial Connections Account.
+type FinancialConnectionsAccountUnsubscribeParams struct {
+	Params `form:"*"`
+	// The list of account features from which you would like to unsubscribe.
+	Features []*string `form:"features"`
+}
+
 // The account holder that this account belongs to.
 type FinancialConnectionsAccountAccountHolder struct {
 	// The ID of the Stripe account this account belongs to. Should only be present if `account_holder.type` is `account`.
@@ -228,6 +242,8 @@ type FinancialConnectionsAccountBalance struct {
 type FinancialConnectionsAccountBalanceRefresh struct {
 	// The time at which the last refresh attempt was initiated. Measured in seconds since the Unix epoch.
 	LastAttemptedAt int64 `json:"last_attempted_at"`
+	// Time at which the next balance refresh can be initiated. This value will be `null` when when `status` is `pending`. Measured in seconds since the Unix epoch.
+	NextRefreshAvailableAt int64 `json:"next_refresh_available_at"`
 	// The status of the last refresh attempt.
 	Status FinancialConnectionsAccountBalanceRefreshStatus `json:"status"`
 }
@@ -236,6 +252,8 @@ type FinancialConnectionsAccountBalanceRefresh struct {
 type FinancialConnectionsAccountInferredBalancesRefresh struct {
 	// The time at which the last refresh attempt was initiated. Measured in seconds since the Unix epoch.
 	LastAttemptedAt int64 `json:"last_attempted_at"`
+	// Time at which the next inferred balance refresh can be initiated. This value will be `null` when when `status` is `pending`. Measured in seconds since the Unix epoch.
+	NextRefreshAvailableAt int64 `json:"next_refresh_available_at"`
 	// The status of the last refresh attempt.
 	Status FinancialConnectionsAccountInferredBalancesRefreshStatus `json:"status"`
 }
@@ -244,6 +262,8 @@ type FinancialConnectionsAccountInferredBalancesRefresh struct {
 type FinancialConnectionsAccountOwnershipRefresh struct {
 	// The time at which the last refresh attempt was initiated. Measured in seconds since the Unix epoch.
 	LastAttemptedAt int64 `json:"last_attempted_at"`
+	// Time at which the next ownership refresh can be initiated. This value will be `null` when when `status` is `pending`. Measured in seconds since the Unix epoch.
+	NextRefreshAvailableAt int64 `json:"next_refresh_available_at"`
 	// The status of the last refresh attempt.
 	Status FinancialConnectionsAccountOwnershipRefreshStatus `json:"status"`
 }
@@ -254,6 +274,8 @@ type FinancialConnectionsAccountTransactionRefresh struct {
 	ID string `json:"id"`
 	// The time at which the last refresh attempt was initiated. Measured in seconds since the Unix epoch.
 	LastAttemptedAt int64 `json:"last_attempted_at"`
+	// Time at which the next transaction refresh can be initiated. This value will be `null` when when `status` is `pending`. Measured in seconds since the Unix epoch.
+	NextRefreshAvailableAt int64 `json:"next_refresh_available_at"`
 	// The status of the last refresh attempt.
 	Status FinancialConnectionsAccountTransactionRefreshStatus `json:"status"`
 }

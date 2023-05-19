@@ -65,6 +65,38 @@ func (c Client) Refresh(id string, params *stripe.FinancialConnectionsAccountRef
 	return account, err
 }
 
+// Subscribe is the method for the `POST /v1/financial_connections/accounts/{account}/subscribe` API.
+func Subscribe(id string, params *stripe.FinancialConnectionsAccountSubscribeParams) (*stripe.FinancialConnectionsAccount, error) {
+	return getC().Subscribe(id, params)
+}
+
+// Subscribe is the method for the `POST /v1/financial_connections/accounts/{account}/subscribe` API.
+func (c Client) Subscribe(id string, params *stripe.FinancialConnectionsAccountSubscribeParams) (*stripe.FinancialConnectionsAccount, error) {
+	path := stripe.FormatURLPath(
+		"/v1/financial_connections/accounts/%s/subscribe",
+		id,
+	)
+	account := &stripe.FinancialConnectionsAccount{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, account)
+	return account, err
+}
+
+// Unsubscribe is the method for the `POST /v1/financial_connections/accounts/{account}/unsubscribe` API.
+func Unsubscribe(id string, params *stripe.FinancialConnectionsAccountUnsubscribeParams) (*stripe.FinancialConnectionsAccount, error) {
+	return getC().Unsubscribe(id, params)
+}
+
+// Unsubscribe is the method for the `POST /v1/financial_connections/accounts/{account}/unsubscribe` API.
+func (c Client) Unsubscribe(id string, params *stripe.FinancialConnectionsAccountUnsubscribeParams) (*stripe.FinancialConnectionsAccount, error) {
+	path := stripe.FormatURLPath(
+		"/v1/financial_connections/accounts/%s/unsubscribe",
+		id,
+	)
+	account := &stripe.FinancialConnectionsAccount{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, account)
+	return account, err
+}
+
 // List returns a list of financial connections accounts.
 func List(params *stripe.FinancialConnectionsAccountListParams) *Iter {
 	return getC().List(params)

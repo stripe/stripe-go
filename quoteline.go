@@ -132,7 +132,7 @@ const (
 	QuoteLineProrationBehaviorNone             QuoteLineProrationBehavior = "none"
 )
 
-// Timestsamp helper to end the underlying schedule early, based on the acompanying line's start or end date.
+// Timestamp helper to end the underlying schedule early, based on the acompanying line's start or end date.
 type QuoteLineSetScheduleEnd string
 
 // List of values that QuoteLineSetScheduleEnd can take
@@ -422,7 +422,7 @@ type QuoteLine struct {
 	Object string `json:"object"`
 	// Changes to how Stripe handles prorations during the quote line's time span. Affects if and how prorations are created when a future phase starts.
 	ProrationBehavior QuoteLineProrationBehavior `json:"proration_behavior"`
-	// Timestsamp helper to end the underlying schedule early, based on the acompanying line's start or end date.
+	// Timestamp helper to end the underlying schedule early, based on the acompanying line's start or end date.
 	SetScheduleEnd QuoteLineSetScheduleEnd `json:"set_schedule_end"`
 	// Details to identify the earliest timestamp where the proposed change should take effect.
 	StartsAt *QuoteLineStartsAt `json:"starts_at"`

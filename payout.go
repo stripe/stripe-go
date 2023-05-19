@@ -134,7 +134,7 @@ type PayoutReverseParams struct {
 // schedules](https://stripe.com/docs/connect/manage-payout-schedule), depending on your country and
 // industry.
 //
-// Related guide: [Receiving Payouts](https://stripe.com/docs/payouts).
+// Related guide: [Receiving payouts](https://stripe.com/docs/payouts)
 type Payout struct {
 	APIResource
 	// Amount (in %s) to be transferred to your bank account or debit card.

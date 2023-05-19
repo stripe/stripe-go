@@ -15,7 +15,7 @@ type TerminalConnectionTokenParams struct {
 
 // A Connection Token is used by the Stripe Terminal SDK to connect to a reader.
 //
-// Related guide: [Fleet Management](https://stripe.com/docs/terminal/fleet/locations).
+// Related guide: [Fleet management](https://stripe.com/docs/terminal/fleet/locations)
 type TerminalConnectionToken struct {
 	APIResource
 	// The id of the location that this connection token is scoped to. Note that location scoping only applies to internet-connected readers. For more details, see [the docs on scoping connection tokens](https://stripe.com/docs/terminal/fleet/locations#connection-tokens).

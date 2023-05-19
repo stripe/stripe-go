@@ -76,7 +76,7 @@ type FileParams struct {
 // been created by Stripe (for example, the results of a [Sigma scheduled
 // query](https://stripe.com/docs/api#scheduled_queries)).
 //
-// Related guide: [File Upload Guide](https://stripe.com/docs/file-upload).
+// Related guide: [File upload guide](https://stripe.com/docs/file-upload)
 type File struct {
 	APIResource
 	// Time at which the object was created. Measured in seconds since the Unix epoch.

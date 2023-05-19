@@ -100,7 +100,7 @@ type TreasuryTransactionFlowDetails struct {
 	// object is created. [Authorizations](https://stripe.com/docs/issuing/purchases/authorizations) must be approved for the
 	// purchase to be completed successfully.
 	//
-	// Related guide: [Issued Card Authorizations](https://stripe.com/docs/issuing/purchases/authorizations).
+	// Related guide: [Issued card authorizations](https://stripe.com/docs/issuing/purchases/authorizations)
 	IssuingAuthorization *IssuingAuthorization `json:"issuing_authorization"`
 	// Use OutboundPayments to send funds to another party's external bank account or [FinancialAccount](https://stripe.com/docs/api#financial_accounts). To send money to an account belonging to the same user, use an [OutboundTransfer](https://stripe.com/docs/api#outbound_transfers).
 	//
