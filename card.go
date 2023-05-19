@@ -269,7 +269,7 @@ func (p *CardListParams) AppendTo(body *form.Values, keyParts []string) {
 // later. You can also store multiple debit cards on a recipient in order to
 // transfer to those cards later.
 //
-// Related guide: [Card Payments with Sources](https://stripe.com/docs/sources/cards).
+// Related guide: [Card payments with Sources](https://stripe.com/docs/sources/cards)
 type Card struct {
 	APIResource
 	// The account this card belongs to. This attribute will not be in the card object if the card belongs to a customer or recipient instead.

@@ -194,7 +194,7 @@ type DisputeEvidenceDetails struct {
 // information about the dispute process in our [Disputes and
 // Fraud](https://stripe.com/docs/disputes) documentation.
 //
-// Related guide: [Disputes and Fraud](https://stripe.com/docs/disputes).
+// Related guide: [Disputes and fraud](https://stripe.com/docs/disputes)
 type Dispute struct {
 	APIResource
 	// Disputed amount. Usually the amount of the charge, but can differ (usually because of currency fluctuation or because only part of the order is disputed).

@@ -39,7 +39,7 @@ type RadarEarlyFraudWarningParams struct {
 // An early fraud warning indicates that the card issuer has notified us that a
 // charge may be fraudulent.
 //
-// Related guide: [Early Fraud Warnings](https://stripe.com/docs/disputes/measuring#early-fraud-warnings).
+// Related guide: [Early fraud warnings](https://stripe.com/docs/disputes/measuring#early-fraud-warnings)
 type RadarEarlyFraudWarning struct {
 	APIResource
 	// An EFW is actionable if it has not received a dispute and has not been fully refunded. You may wish to proactively refund a charge that receives an EFW, in order to avoid receiving a dispute later.

@@ -13,16 +13,18 @@ type TaxRateTaxType string
 
 // List of values that TaxRateTaxType can take
 const (
-	TaxRateTaxTypeGST      TaxRateTaxType = "gst"
-	TaxRateTaxTypeHST      TaxRateTaxType = "hst"
-	TaxRateTaxTypeIGST     TaxRateTaxType = "igst"
-	TaxRateTaxTypeJCT      TaxRateTaxType = "jct"
-	TaxRateTaxTypeLeaseTax TaxRateTaxType = "lease_tax"
-	TaxRateTaxTypePST      TaxRateTaxType = "pst"
-	TaxRateTaxTypeQST      TaxRateTaxType = "qst"
-	TaxRateTaxTypeRST      TaxRateTaxType = "rst"
-	TaxRateTaxTypeSalesTax TaxRateTaxType = "sales_tax"
-	TaxRateTaxTypeVAT      TaxRateTaxType = "vat"
+	TaxRateTaxTypeAmusementTax      TaxRateTaxType = "amusement_tax"
+	TaxRateTaxTypeCommunicationsTax TaxRateTaxType = "communications_tax"
+	TaxRateTaxTypeGST               TaxRateTaxType = "gst"
+	TaxRateTaxTypeHST               TaxRateTaxType = "hst"
+	TaxRateTaxTypeIGST              TaxRateTaxType = "igst"
+	TaxRateTaxTypeJCT               TaxRateTaxType = "jct"
+	TaxRateTaxTypeLeaseTax          TaxRateTaxType = "lease_tax"
+	TaxRateTaxTypePST               TaxRateTaxType = "pst"
+	TaxRateTaxTypeQST               TaxRateTaxType = "qst"
+	TaxRateTaxTypeRST               TaxRateTaxType = "rst"
+	TaxRateTaxTypeSalesTax          TaxRateTaxType = "sales_tax"
+	TaxRateTaxTypeVAT               TaxRateTaxType = "vat"
 )
 
 // Returns a list of your tax rates. Tax rates are returned sorted by creation date, with the most recently created tax rates appearing first.
@@ -63,7 +65,7 @@ type TaxRateParams struct {
 
 // Tax rates can be applied to [invoices](https://stripe.com/docs/billing/invoices/tax-rates), [subscriptions](https://stripe.com/docs/billing/subscriptions/taxes) and [Checkout Sessions](https://stripe.com/docs/payments/checkout/set-up-a-subscription#tax-rates) to collect tax.
 //
-// Related guide: [Tax Rates](https://stripe.com/docs/billing/taxes/tax-rates).
+// Related guide: [Tax rates](https://stripe.com/docs/billing/taxes/tax-rates)
 type TaxRate struct {
 	APIResource
 	// Defaults to `true`. When set to `false`, this tax rate cannot be used with new applications or Checkout Sessions, but will still work for subscriptions and invoices that already have it set.
