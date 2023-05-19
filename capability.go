@@ -121,7 +121,7 @@ type CapabilityRequirements struct {
 
 // This is an object representing a capability for a Stripe account.
 //
-// Related guide: [Account capabilities](https://stripe.com/docs/connect/account-capabilities).
+// Related guide: [Account capabilities](https://stripe.com/docs/connect/account-capabilities)
 type Capability struct {
 	APIResource
 	// The account for which the capability enables functionality.

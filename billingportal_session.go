@@ -21,8 +21,10 @@ type BillingPortalSessionFlowType string
 
 // List of values that BillingPortalSessionFlowType can take
 const (
-	BillingPortalSessionFlowTypePaymentMethodUpdate BillingPortalSessionFlowType = "payment_method_update"
-	BillingPortalSessionFlowTypeSubscriptionCancel  BillingPortalSessionFlowType = "subscription_cancel"
+	BillingPortalSessionFlowTypePaymentMethodUpdate       BillingPortalSessionFlowType = "payment_method_update"
+	BillingPortalSessionFlowTypeSubscriptionCancel        BillingPortalSessionFlowType = "subscription_cancel"
+	BillingPortalSessionFlowTypeSubscriptionUpdate        BillingPortalSessionFlowType = "subscription_update"
+	BillingPortalSessionFlowTypeSubscriptionUpdateConfirm BillingPortalSessionFlowType = "subscription_update_confirm"
 )
 
 // Configuration when `after_completion.type=hosted_confirmation`.
@@ -53,12 +55,50 @@ type BillingPortalSessionFlowDataSubscriptionCancelParams struct {
 	Subscription *string `form:"subscription"`
 }
 
+// Configuration when `flow_data.type=subscription_update`.
+type BillingPortalSessionFlowDataSubscriptionUpdateParams struct {
+	// The ID of the subscription to be updated.
+	Subscription *string `form:"subscription"`
+}
+
+// The coupon or promotion code to apply to this subscription update. Currently, only up to one may be specified.
+type BillingPortalSessionFlowDataSubscriptionUpdateConfirmDiscountParams struct {
+	// The ID of the coupon to apply to this subscription update.
+	Coupon *string `form:"coupon"`
+	// The ID of a promotion code to apply to this subscription update.
+	PromotionCode *string `form:"promotion_code"`
+}
+
+// The [subscription item](https://stripe.com/docs/api/subscription_items) to be updated through this flow. Currently, only up to one may be specified and subscriptions with multiple items are not updatable.
+type BillingPortalSessionFlowDataSubscriptionUpdateConfirmItemParams struct {
+	// The ID of the [subscription item](https://stripe.com/docs/api/subscriptions/object#subscription_object-items-data-id) to be updated.
+	ID *string `form:"id"`
+	// The price the customer should subscribe to through this flow. The price must also be included in the configuration's [`features.subscription_update.products`](https://stripe.com/docs/api/customer_portal/configuration#portal_configuration_object-features-subscription_update-products).
+	Price *string `form:"price"`
+	// [Quantity](https://stripe.com/docs/subscriptions/quantities) for this item that the customer should subscribe to through this flow.
+	Quantity *int64 `form:"quantity"`
+}
+
+// Configuration when `flow_data.type=subscription_update_confirm`.
+type BillingPortalSessionFlowDataSubscriptionUpdateConfirmParams struct {
+	// The coupon or promotion code to apply to this subscription update. Currently, only up to one may be specified.
+	Discounts []*BillingPortalSessionFlowDataSubscriptionUpdateConfirmDiscountParams `form:"discounts"`
+	// The [subscription item](https://stripe.com/docs/api/subscription_items) to be updated through this flow. Currently, only up to one may be specified and subscriptions with multiple items are not updatable.
+	Items []*BillingPortalSessionFlowDataSubscriptionUpdateConfirmItemParams `form:"items"`
+	// The ID of the subscription to be updated.
+	Subscription *string `form:"subscription"`
+}
+
 // Information about a specific flow for the customer to go through. See the [docs](https://stripe.com/docs/customer-management/portal-deep-links) to learn more about using customer portal deep links and flows.
 type BillingPortalSessionFlowDataParams struct {
 	// Behavior after the flow is completed.
 	AfterCompletion *BillingPortalSessionFlowDataAfterCompletionParams `form:"after_completion"`
 	// Configuration when `flow_data.type=subscription_cancel`.
 	SubscriptionCancel *BillingPortalSessionFlowDataSubscriptionCancelParams `form:"subscription_cancel"`
+	// Configuration when `flow_data.type=subscription_update`.
+	SubscriptionUpdate *BillingPortalSessionFlowDataSubscriptionUpdateParams `form:"subscription_update"`
+	// Configuration when `flow_data.type=subscription_update_confirm`.
+	SubscriptionUpdateConfirm *BillingPortalSessionFlowDataSubscriptionUpdateConfirmParams `form:"subscription_update_confirm"`
 	// Type of flow that the customer will go through.
 	Type *string `form:"type"`
 }
@@ -106,11 +146,49 @@ type BillingPortalSessionFlowSubscriptionCancel struct {
 	Subscription string `json:"subscription"`
 }
 
+// Configuration when `flow.type=subscription_update`.
+type BillingPortalSessionFlowSubscriptionUpdate struct {
+	// The ID of the subscription to be updated.
+	Subscription string `json:"subscription"`
+}
+
+// The coupon or promotion code to apply to this subscription update. Currently, only up to one may be specified.
+type BillingPortalSessionFlowSubscriptionUpdateConfirmDiscount struct {
+	// The ID of the coupon to apply to this subscription update.
+	Coupon string `json:"coupon"`
+	// The ID of a promotion code to apply to this subscription update.
+	PromotionCode string `json:"promotion_code"`
+}
+
+// The [subscription item](https://stripe.com/docs/api/subscription_items) to be updated through this flow. Currently, only up to one may be specified and subscriptions with multiple items are not updatable.
+type BillingPortalSessionFlowSubscriptionUpdateConfirmItem struct {
+	// The ID of the [subscription item](https://stripe.com/docs/api/subscriptions/object#subscription_object-items-data-id) to be updated.
+	ID string `json:"id"`
+	// The price the customer should subscribe to through this flow. The price must also be included in the configuration's [`features.subscription_update.products`](docs/api/customer_portal/configuration#portal_configuration_object-features-subscription_update-products).
+	Price string `json:"price"`
+	// [Quantity](https://stripe.com/docs/subscriptions/quantities) for this item that the customer should subscribe to through this flow.
+	Quantity int64 `json:"quantity"`
+}
+
+// Configuration when `flow.type=subscription_update_confirm`.
+type BillingPortalSessionFlowSubscriptionUpdateConfirm struct {
+	// The coupon or promotion code to apply to this subscription update. Currently, only up to one may be specified.
+	Discounts []*BillingPortalSessionFlowSubscriptionUpdateConfirmDiscount `json:"discounts"`
+	// The [subscription item](https://stripe.com/docs/api/subscription_items) to be updated through this flow. Currently, only up to one may be specified and subscriptions with multiple items are not updatable.
+	Items []*BillingPortalSessionFlowSubscriptionUpdateConfirmItem `json:"items"`
+	// The ID of the subscription to be updated.
+	Subscription string `json:"subscription"`
+}
+
 // Information about a specific flow for the customer to go through. See the [docs](https://stripe.com/docs/customer-management/portal-deep-links) to learn more about using customer portal deep links and flows.
 type BillingPortalSessionFlow struct {
 	AfterCompletion *BillingPortalSessionFlowAfterCompletion `json:"after_completion"`
 	// Configuration when `flow.type=subscription_cancel`.
 	SubscriptionCancel *BillingPortalSessionFlowSubscriptionCancel `json:"subscription_cancel"`
+	// Configuration when `flow.type=subscription_update`.
+	SubscriptionUpdate *BillingPortalSessionFlowSubscriptionUpdate `json:"subscription_update"`
+	// Configuration when `flow.type=subscription_update_confirm`.
+	SubscriptionUpdateConfirm *BillingPortalSessionFlowSubscriptionUpdateConfirm `json:"subscription_update_confirm"`
 	// Type of flow that the customer will go through.
 	Type BillingPortalSessionFlowType `json:"type"`
 }

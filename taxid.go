@@ -107,7 +107,7 @@ type TaxIDVerification struct {
 // You can add one or multiple tax IDs to a [customer](https://stripe.com/docs/api/customers).
 // A customer's tax IDs are displayed on invoices and credit notes issued for the customer.
 //
-// Related guide: [Customer Tax Identification Numbers](https://stripe.com/docs/billing/taxes/tax-ids).
+// Related guide: [Customer tax identification numbers](https://stripe.com/docs/billing/taxes/tax-ids)
 type TaxID struct {
 	APIResource
 	// Two-letter ISO code representing the country of the tax ID.
