@@ -1,5 +1,13 @@
 # Changelog
 
+## 74.19.0 - 2023-05-19
+* [#1657](https://github.com/stripe/stripe-go/pull/1657) Update generated code
+  * Add support for `SubscriptionUpdateConfirm` and `SubscriptionUpdate` on `BillingPortalSessionFlowDataParams` and `BillingPortalSessionFlow`
+  * Add support for new values `subscription_update_confirm` and `subscription_update` on enum `BillingPortalSessionFlowType`
+  * Add support for `Link` on `ChargePaymentMethodDetailsCardWallet` and `PaymentMethodCardWallet`
+  * Add support for `BuyerID` and `Cashtag` on `ChargePaymentMethodDetailsCashapp` and `PaymentMethodCashapp`
+  * Add support for new values `amusement_tax` and `communications_tax` on enum `TaxRateTaxType`
+
 ## 74.18.0 - 2023-05-11
 * [#1656](https://github.com/stripe/stripe-go/pull/1656) Update generated code
   Release specs are identical.
