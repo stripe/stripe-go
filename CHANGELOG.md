@@ -1,5 +1,11 @@
 # Changelog
 
+## 74.20.0-beta.1 - 2023-05-19
+* [#1658](https://github.com/stripe/stripe-go/pull/1658) Update generated code for beta
+  * Add support for `Subscribe` and `Unsubscribe` methods on resource `FinancialConnections.Account`
+  * Add support for `NextRefreshAvailableAt` on `FinancialConnectionsAccountBalanceRefresh`, `FinancialConnectionsAccountInferredBalancesRefresh`, `FinancialConnectionsAccountOwnershipRefresh`, and `FinancialConnectionsAccountTransactionRefresh`
+  * Add support for `StatusDetails` and `Status` on `TaxSettings`
+
 ## 74.19.0 - 2023-05-19
 * [#1657](https://github.com/stripe/stripe-go/pull/1657) Update generated code
   * Add support for `SubscriptionUpdateConfirm` and `SubscriptionUpdate` on `BillingPortalSessionFlowDataParams` and `BillingPortalSessionFlow`
