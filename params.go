@@ -172,8 +172,8 @@ type ListParamsContainer interface {
 
 type APIMode string
 
-var PreviewApiMode APIMode = "json"
-var StandardApiMode APIMode = "form"
+var PreviewAPIMode APIMode = "json"
+var StandardAPIMode APIMode = "form"
 
 // Params is the structure that contains the common properties
 // of any *Params structure.
@@ -208,9 +208,9 @@ type RawParams struct {
 	APIMode APIMode `form:"-"`
 }
 
-func (p RawParams) GetApiMode() APIMode {
+func (p RawParams) GetAPIMode() APIMode {
 	if p.APIMode == "" {
-		return StandardApiMode
+		return StandardAPIMode
 	}
 	return p.APIMode
 }
@@ -264,7 +264,7 @@ type ParamsContainer interface {
 
 type RawParamsContainer interface {
 	ParamsContainer
-	GetApiMode() APIMode
+	GetAPIMode() APIMode
 }
 
 // RangeQueryParams are a set of generic request parameters that are used on
