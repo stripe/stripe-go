@@ -1317,10 +1317,11 @@ func TestRawRequestPreviewPost(t *testing.T) {
 		Object string `json:"object"`
 		XYZ    MyXYZ  `json:"xyz"`
 	}
-
-	response, err := backend.RawRequest(http.MethodPost, "/v1/abcs", "sk_test_xyz", `{"foo":"myFoo","bar":{"baz":false}}`, &myParams{Params{}, RawParams{APIMode: PreviewAPIMode}, "myFoo", myBarParams{false}})
+	params := myParams{Params{}, RawParams{APIMode: PreviewAPIMode}, "myFoo", myBarParams{false}}
+	response, err := backend.RawRequest(http.MethodPost, "/v1/abcs", "sk_test_xyz", `{"foo":"myFoo","bar":{"baz":false}}`, &params)
 	assert.NoError(t, err)
 	myABC := &MyABC{}
+	assert.Nil(t, params.Headers)
 	assert.Equal(t, `{"foo":"myFoo","bar":{"baz":false}}`, body)
 	assert.Equal(t, `/v1/abcs`, path)
 	assert.Equal(t, `POST`, method)

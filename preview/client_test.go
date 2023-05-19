@@ -60,7 +60,7 @@ func TestPreviewRequestWithAdditionalHeaders(t *testing.T) {
 	_, err := Get("/v1/abc", &params)
 	assert.NoError(t, err)
 
-	assert.Equal(t, "", params.RawParams.APIMode)
+	assert.Equal(t, stripe.APIMode(""), params.RawParams.APIMode)
 	assert.Equal(t, ``, body)
 	assert.Equal(t, `/v1/abc`, path)
 	assert.Equal(t, `GET`, method)

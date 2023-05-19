@@ -400,17 +400,16 @@ func (s *BackendImplementation) RawRequest(method, path, key, content string, pa
 		return nil, fmt.Errorf("Unknown API mode %s", params.GetAPIMode())
 	}
 
-	if params.GetStripeContext() != "" {
-		// add stripe-context header
-		commonParams.Headers.Add("Stripe-Context", params.GetStripeContext())
-	}
-	if params.GetAPIMode() == PreviewAPIMode {
-		commonParams.Headers.Add("Stripe-Version", previewVersion)
-	}
-
 	bodyBuffer.WriteString(content)
 
 	header, ctx, err := newRequestHeader(method, key, contentType, commonParams)
+
+	if params.GetStripeContext() != "" {
+		header.Set("Stripe-Context", params.GetStripeContext())
+	}
+	if params.GetAPIMode() == PreviewAPIMode {
+		header.Set("Stripe-Version", previewVersion)
+	}
 
 	if err != nil {
 		return nil, err

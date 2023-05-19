@@ -216,10 +216,6 @@ func (p RawParams) GetAPIMode() APIMode {
 	return p.APIMode
 }
 
-func (p *RawParams) SetAPIMode(mode APIMode) {
-	p.APIMode = mode
-}
-
 func (p RawParams) GetStripeContext() string {
 	return p.StripeContext
 }
@@ -274,7 +270,6 @@ type ParamsContainer interface {
 type RawParamsContainer interface {
 	ParamsContainer
 	GetAPIMode() APIMode
-	SetAPIMode(APIMode)
 	GetStripeContext() string
 }
 
