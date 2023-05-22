@@ -231,14 +231,14 @@ class StripeForce::Translate
         terminated_phase_items: T::Array[ContractItemStructure],
         subscription_term: Integer,
         billing_frequency: Integer,
+        is_order_backdated: T::Boolean
       ).returns(T::Array[T::Hash[Symbol, T.untyped]])
     end
     # creating one-time invoice items for terminated lines for the unused prorated amount (which has already been billed)
-    def self.generate_proration_credits_from_terminated_phase_items(user:, mapper:, sf_order_amendment:, terminated_phase_items:, subscription_term:, billing_frequency:)
+    def self.generate_proration_credits_from_terminated_phase_items(user:, mapper:, sf_order_amendment:, terminated_phase_items:, subscription_term:, billing_frequency:, is_order_backdated:)
       negative_invoice_items_for_prorations = []
 
       terminated_phase_items.each do |phase_item|
-
         unless phase_item.fully_terminated?
           log.info 'non-terminated phase_item, not creating credit for unused time'
           next
@@ -291,6 +291,12 @@ class StripeForce::Translate
 
         mapper.apply_mapping(credit_stripe_item, phase_item.order_line)
 
+        proration_period_start = {type: 'phase_start'}
+        if is_order_backdated
+          amendment_start_date = StripeForce::Utilities::SalesforceUtil.extract_subscription_start_date_from_order(mapper, sf_order_amendment)
+          proration_period_start = {type: 'timestamp', timestamp: amendment_start_date.to_i}
+        end
+
         negative_invoice_items_for_prorations << credit_stripe_item.to_hash.merge({
           quantity: phase_item.reduced_by,
           price_data: price_data,
@@ -298,9 +304,7 @@ class StripeForce::Translate
             end: {
               type: 'subscription_period_end',
             },
-            start: {
-              type: 'phase_start',
-            },
+            start: proration_period_start,
           },
         })
       end

@@ -469,6 +469,11 @@ class StripeForce::Translate
 
       aggregate_phase_items, terminated_phase_items = OrderHelpers.remove_terminated_lines(aggregate_phase_items)
 
+      stripe_customer_id = T.cast(subscription_schedule.customer, String)
+      current_time = OrderAmendment.determine_current_time(@user, stripe_customer_id)
+      normalized_current_time = StripeForce::Utilities::SalesforceUtil.datetime_to_unix_timestamp(Time.at(current_time))
+      is_order_backdated = sf_order_amendment_start_date_as_timestamp < normalized_current_time && @user.feature_enabled?(StripeForce::Constants::FeatureFlags::BACKDATED_AMENDMENTS)
+
       negative_invoice_items = []
       if @user.feature_enabled?(FeatureFlags::TERMINATED_ORDER_ITEM_CREDIT)
         # https://jira.corp.stripe.com/browse/PLATINT-2092
@@ -483,6 +488,7 @@ class StripeForce::Translate
           terminated_phase_items: terminated_phase_items,
           subscription_term: subscription_term_from_salesforce,
           billing_frequency: billing_frequency,
+          is_order_backdated: is_order_backdated
         )
       end
 
@@ -509,15 +515,11 @@ class StripeForce::Translate
         )
       end
 
-      stripe_customer_id = T.cast(subscription_schedule.customer, String)
-      current_time = OrderAmendment.determine_current_time(@user, stripe_customer_id)
-      normalized_current_time = StripeForce::Utilities::SalesforceUtil.datetime_to_unix_timestamp(Time.at(current_time))
-      is_in_past = sf_order_amendment_start_date_as_timestamp < normalized_current_time
-
       # determine if this is a backdated order since this has implications on how we prorate
       backdated_billing_cycles = nil
       next_billing_timestamp = nil
-      if is_in_past && @user.feature_enabled?(StripeForce::Constants::FeatureFlags::BACKDATED_AMENDMENTS)
+      if is_order_backdated
+        log.info 'processing backdated amendment order'
         backdated_billing_cycles = 0
         subscription_schedule_start = T.must(subscription_schedule.phases.first).start_date
         next_billing_timestamp = StripeForce::Utilities::SalesforceUtil.datetime_to_unix_timestamp(Time.at(subscription_schedule_start))
@@ -621,7 +623,7 @@ class StripeForce::Translate
       if is_same_day
         log.info 'phase starts on the current day, using now'
         new_phase.start_date = 'now'
-      elsif @user.feature_enabled?(FeatureFlags::BACKDATED_AMENDMENTS) && is_in_past
+      elsif @user.feature_enabled?(FeatureFlags::BACKDATED_AMENDMENTS) && is_order_backdated
         # if this is a backdated amendment, then use the current time to update the subscription schedule
         log.info 'backdated amendment, using now'
         new_phase.start_date = 'now'
