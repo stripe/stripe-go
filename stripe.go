@@ -377,7 +377,6 @@ func (s *BackendImplementation) CallMultipart(method, path, key, boundary string
 
 // RawRequest is the Backend.RawRequest implementation for invoking Stripe APIs.
 func (s *BackendImplementation) RawRequest(method, path, key, content string, params RawParamsContainer) (*APIResponse, error) {
-
 	var bodyBuffer = bytes.NewBuffer(nil)
 	var commonParams *Params
 	var err error
@@ -385,30 +384,37 @@ func (s *BackendImplementation) RawRequest(method, path, key, content string, pa
 	if method != http.MethodPost && method != http.MethodGet && method != http.MethodDelete {
 		return nil, fmt.Errorf("method must be POST, GET, or DELETE. Received %s", method)
 	}
+
 	if method != http.MethodPost {
 		_, commonParams = extractParamFormValues(params)
-	} else if params.GetAPIMode() == StandardAPIMode {
-		_, commonParams = extractParamFormValues(params)
+	} else if params == nil {
 		contentType = "application/x-www-form-urlencoded"
-	} else if params.GetAPIMode() == PreviewAPIMode {
-		_, commonParams, err = extractParamJSON(params)
-		if err != nil {
-			return nil, err
-		}
-		contentType = "application/json"
 	} else {
-		return nil, fmt.Errorf("Unknown API mode %s", params.GetAPIMode())
+		if params.GetAPIMode() == StandardAPIMode {
+			_, commonParams = extractParamFormValues(params)
+			contentType = "application/x-www-form-urlencoded"
+		} else if params.GetAPIMode() == PreviewAPIMode {
+			_, commonParams, err = extractParamJSON(params)
+			if err != nil {
+				return nil, err
+			}
+			contentType = "application/json"
+		} else {
+			return nil, fmt.Errorf("Unknown API mode %s", params.GetAPIMode())
+		}
 	}
 
 	bodyBuffer.WriteString(content)
 
 	header, ctx, err := newRequestHeader(method, key, contentType, commonParams)
 
-	if params.GetStripeContext() != "" {
-		header.Set("Stripe-Context", params.GetStripeContext())
-	}
-	if params.GetAPIMode() == PreviewAPIMode {
-		header.Set("Stripe-Version", previewVersion)
+	if params != nil {
+		if params.GetStripeContext() != "" {
+			header.Set("Stripe-Context", params.GetStripeContext())
+		}
+		if params.GetAPIMode() == PreviewAPIMode {
+			header.Set("Stripe-Version", previewVersion)
+		}
 	}
 
 	if err != nil {

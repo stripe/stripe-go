@@ -204,22 +204,6 @@ type Params struct {
 	StripeAccount *string `form:"-"` // Passed as header
 }
 
-type RawParams struct {
-	APIMode       APIMode `form:"-"`
-	StripeContext string  `form:"-"`
-}
-
-func (p RawParams) GetAPIMode() APIMode {
-	if p.APIMode == "" {
-		return StandardAPIMode
-	}
-	return p.APIMode
-}
-
-func (p RawParams) GetStripeContext() string {
-	return p.StripeContext
-}
-
 // AddExpand appends a new field to expand.
 func (p *Params) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
@@ -265,6 +249,23 @@ func (p *Params) SetStripeAccount(val string) {
 // its implementation of this interface.
 type ParamsContainer interface {
 	GetParams() *Params
+}
+
+type RawParams struct {
+	Params        `form:"*"`
+	APIMode       APIMode `form:"-"`
+	StripeContext string  `form:"-"`
+}
+
+func (p *RawParams) GetAPIMode() APIMode {
+	if p.APIMode == "" {
+		return StandardAPIMode
+	}
+	return p.APIMode
+}
+
+func (p *RawParams) GetStripeContext() string {
+	return p.StripeContext
 }
 
 type RawParamsContainer interface {

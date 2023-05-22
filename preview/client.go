@@ -8,16 +8,12 @@ import (
 )
 
 func GetDefaultRequestOptions(params stripe.RawParamsContainer) stripe.RawParamsContainer {
-	type myParams struct {
-		stripe.Params    `form:"-"`
-		stripe.RawParams `form:"-"`
-	}
-
 	rawParams := stripe.RawParams{
+		Params:        *params.GetParams(),
 		APIMode:       stripe.PreviewAPIMode,
 		StripeContext: params.GetStripeContext(),
 	}
-	return &myParams{*params.GetParams(), rawParams}
+	return &rawParams
 }
 
 func Get(path string, params stripe.RawParamsContainer) (*stripe.APIResponse, error) {
