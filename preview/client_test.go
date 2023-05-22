@@ -64,7 +64,7 @@ func TestPreviewRequestWithAdditionalHeaders(t *testing.T) {
 	assert.Equal(t, ``, body)
 	assert.Equal(t, `/v1/abc`, path)
 	assert.Equal(t, `GET`, method)
-	assert.Equal(t, ``, contentType)
+	assert.Equal(t, `application/json`, contentType)
 	assert.NotEqual(t, stripe.APIVersion, stripeVersion)
 	assert.Equal(t, `bar`, fooHeader)
 	assert.Equal(t, `acct_123`, stripeContext)

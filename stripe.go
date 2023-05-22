@@ -385,9 +385,10 @@ func (s *BackendImplementation) RawRequest(method, path, key, content string, pa
 		return nil, fmt.Errorf("method must be POST, GET, or DELETE. Received %s", method)
 	}
 
-	if method != http.MethodPost {
+	paramsIsNil := params == nil || reflect.ValueOf(params).IsNil()
+
+	if paramsIsNil {
 		_, commonParams = extractParamFormValues(params)
-	} else if params == nil {
 		contentType = "application/x-www-form-urlencoded"
 	} else {
 		if params.GetAPIMode() == StandardAPIMode {
@@ -408,7 +409,7 @@ func (s *BackendImplementation) RawRequest(method, path, key, content string, pa
 
 	header, ctx, err := newRequestHeader(method, key, contentType, commonParams)
 
-	if params != nil {
+	if !paramsIsNil {
 		if params.GetStripeContext() != "" {
 			header.Set("Stripe-Context", params.GetStripeContext())
 		}

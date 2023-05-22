@@ -530,7 +530,20 @@ go get -u github.com/stripe/stripe-go/v74@v74.3.0-beta.1
 ```
 
 ### Custom SDKs
-TODO:
+If you would like to send a request to an undocumented API (for example you are in a private beta), or if you prefer to bypass the method definitions in the library and specify your request details directly, you can use the `RawRequest` method on the `stripe` backend.
+
+```go
+key := "sk_test_xyz" // set to "" to use stripe.Key
+content := `foo=myFoo&bar[]=true` // form-encoded POST body
+
+resp, err := stripe.RawRequest("POST", "/v1/beta_endpoint", content, nil)
+
+response, err := stripe.RawRequest(http.MethodPost, "/v1/beta_endpoint", key, content, params)
+
+// Optionally use json.Unmarshal to convert the response to a strongly-typed object.
+deserializedResponse := &MyResource{}
+err = json.Unmarshal(response.RawJSON, deserializedResponse)
+```
 
 > **Note**
 > There can be breaking changes between beta versions. 
