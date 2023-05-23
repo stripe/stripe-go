@@ -3226,3 +3226,28 @@ func TestQuoteListLineItems(t *testing.T) {
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
 }
+
+func TestTaxCalculationCreate(t *testing.T) {
+	params := &stripe.TaxCalculationParams{
+		Currency: stripe.String(string(stripe.CurrencyUSD)),
+		LineItems: []*stripe.TaxCalculationLineItemParams{
+			&stripe.TaxCalculationLineItemParams{
+				Amount:    stripe.Int64(1000),
+				Reference: stripe.String("L1"),
+			},
+		},
+		CustomerDetails: &stripe.TaxCalculationCustomerDetailsParams{
+			Address: &stripe.AddressParams{
+				Line1:      stripe.String("354 Oyster Point Blvd"),
+				City:       stripe.String("South San Francisco"),
+				State:      stripe.String("CA"),
+				PostalCode: stripe.String("94080"),
+				Country:    stripe.String("US"),
+			},
+			AddressSource: stripe.String(string(stripe.TaxCalculationCustomerDetailsAddressSourceShipping)),
+		},
+	}
+	result, err := tax_calculation.New(params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
