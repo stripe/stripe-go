@@ -426,6 +426,9 @@ type SetupIntentPaymentMethodDataUSBankAccountParams struct {
 // If this is an `wechat_pay` PaymentMethod, this hash contains details about the wechat_pay payment method.
 type SetupIntentPaymentMethodDataWeChatPayParams struct{}
 
+// If this is a `zip` PaymentMethod, this hash contains details about the Zip payment method.
+type SetupIntentPaymentMethodDataZipParams struct{}
+
 // When included, this hash creates a PaymentMethod that is set as the [`payment_method`](https://stripe.com/docs/api/setup_intents/object#setup_intent_object-payment_method)
 // value in the SetupIntent.
 type SetupIntentPaymentMethodDataParams struct {
@@ -497,6 +500,8 @@ type SetupIntentPaymentMethodDataParams struct {
 	USBankAccount *SetupIntentPaymentMethodDataUSBankAccountParams `form:"us_bank_account"`
 	// If this is an `wechat_pay` PaymentMethod, this hash contains details about the wechat_pay payment method.
 	WeChatPay *SetupIntentPaymentMethodDataWeChatPayParams `form:"wechat_pay"`
+	// If this is a `zip` PaymentMethod, this hash contains details about the Zip payment method.
+	Zip *SetupIntentPaymentMethodDataZipParams `form:"zip"`
 }
 
 // Additional fields for Mandate creation
@@ -876,6 +881,9 @@ type SetupIntentConfirmPaymentMethodDataUSBankAccountParams struct {
 // If this is an `wechat_pay` PaymentMethod, this hash contains details about the wechat_pay payment method.
 type SetupIntentConfirmPaymentMethodDataWeChatPayParams struct{}
 
+// If this is a `zip` PaymentMethod, this hash contains details about the Zip payment method.
+type SetupIntentConfirmPaymentMethodDataZipParams struct{}
+
 // When included, this hash creates a PaymentMethod that is set as the [`payment_method`](https://stripe.com/docs/api/setup_intents/object#setup_intent_object-payment_method)
 // value in the SetupIntent.
 type SetupIntentConfirmPaymentMethodDataParams struct {
@@ -947,6 +955,8 @@ type SetupIntentConfirmPaymentMethodDataParams struct {
 	USBankAccount *SetupIntentConfirmPaymentMethodDataUSBankAccountParams `form:"us_bank_account"`
 	// If this is an `wechat_pay` PaymentMethod, this hash contains details about the wechat_pay payment method.
 	WeChatPay *SetupIntentConfirmPaymentMethodDataWeChatPayParams `form:"wechat_pay"`
+	// If this is a `zip` PaymentMethod, this hash contains details about the Zip payment method.
+	Zip *SetupIntentConfirmPaymentMethodDataZipParams `form:"zip"`
 }
 
 // Confirm that your customer intends to set up the current or
