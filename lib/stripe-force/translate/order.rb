@@ -319,7 +319,6 @@ class StripeForce::Translate
     )
 
     is_recurring_order = !aggregate_phase_items.empty?
-
     if !is_recurring_order
       raise Integrations::Errors::UnhandledEdgeCase.new("order amendments representing all one-time invoices")
     end
@@ -380,7 +379,7 @@ class StripeForce::Translate
     # (b) recreate each phase data from the raw order line data.
 
     sf_initial_order_items = order_lines_from_order(contract_structure.initial)
-    _, aggregate_phase_items = phase_items_from_order_lines(sf_initial_order_items)
+    _, initial_order_phase_items = phase_items_from_order_lines(sf_initial_order_items)
 
     # another complexity here is 'backend' prorated order amendments (i.e. 18mo contract, billed yearly)
     # in this case, the initial order creates two phases. Effectively, there is an amendment without an order.
@@ -390,9 +389,9 @@ class StripeForce::Translate
     # to be billed for.
 
     is_initial_order_backend_prorated, _is_initial_order_frontend_prorated = OrderHelpers.prorated_initial_order?(
-      phase_items: aggregate_phase_items,
+      phase_items: initial_order_phase_items,
       subscription_term: StripeForce::Utilities::SalesforceUtil.extract_subscription_term_from_order!(@mapper, contract_structure.initial),
-      billing_frequency: OrderAmendment.calculate_billing_frequency_from_phase_items(@user, aggregate_phase_items)
+      billing_frequency: OrderAmendment.calculate_billing_frequency_from_phase_items(@user, initial_order_phase_items)
     )
 
     # TODO we generally make the assumption that the connector is the only system modifying phases, we should make
@@ -408,13 +407,20 @@ class StripeForce::Translate
     # that was updated in Salesforce changing phase data that the user does not expect to be changed.
 
     # TODO should break this out into a separate method and wrap in `catch_errors_with_salesforce_context`
+
+    # there is more than one amendment in this run
+    if contract_structure.amendments.count > 1
+      log.info 'processing stacked amendments'
+    end
+
+    previous_phase_items = initial_order_phase_items
     contract_structure.amendments.each_with_index do |sf_order_amendment, index|
       locker.lock_salesforce_record(sf_order_amendment)
 
-      log.info 'processing amendment', sf_amendment_id: sf_order_amendment.Id, index: index
+      log.info 'processing amendment', sf_order_amendment_id: sf_order_amendment.Id, index: index
 
       invoice_items_in_order, aggregate_phase_items = build_phase_items_from_order_amendment(
-        aggregate_phase_items,
+        previous_phase_items,
         sf_order_amendment
       )
 
@@ -424,10 +430,9 @@ class StripeForce::Translate
       end
 
       # this loop excludes the initial phase, which is why we are subtracting by 1
+      # note this can happen with backend initial order prorations or if the user has amendment the contract previously
       if subscription_phases.count - 1 > index
-        log.info 'phase already exists, checking for diff and skipping'
-        # TODO check for diff and log
-        next
+        log.info 'number of subscription phase count is greater than this amendment index', subscription_phase_count: subscription_phases.count, amendment_index: index
       end
 
       # it's possible for users to mutate the subscription schedule phases themselves
@@ -437,7 +442,7 @@ class StripeForce::Translate
       # TODO replace with local sync record call in the future
       order_amendment_subscription_id = sf_order_amendment[prefixed_stripe_field(GENERIC_STRIPE_ID)]
       if order_amendment_subscription_id.present?
-        Integrations::ErrorContext.report_edge_case("not enough phases, but order amendment already marked as processed")
+        Integrations::ErrorContext.report_edge_case("order amendment already marked as processed")
       end
 
       # TODO price ID dup check on the invoice items
@@ -545,6 +550,8 @@ class StripeForce::Translate
 
       invoice_items_for_prorations = []
       if !is_order_terminated && is_prorated
+        log.info 'amendment order is prorated', sf_order_amendment_id: sf_order_amendment.Id, index: index
+
         # the subscription term represents the number of whole months
         # the days prorating represents the partial month (or days) remaining
         subscription_term = subscription_term_from_salesforce
@@ -611,13 +618,6 @@ class StripeForce::Translate
         new_phase["discounts"] = stripe_discounts_for_sf_object(sf_object: sf_order_amendment)
       end
 
-      previous_phase = T.must(subscription_phases[index])
-
-      is_identical_to_previous_phase_time_range = previous_phase.end_date == new_phase.end_date &&
-        previous_phase.start_date == new_phase.start_date
-
-      # TODO dynamic metadata on the phase?
-
       # if the current day is the same day as the start day, then use 'now'
       is_same_day = normalized_current_time == new_phase.start_date
       if is_same_day
@@ -632,11 +632,16 @@ class StripeForce::Translate
       # if the time ranges are identical, then the previous phase should be removed
       # the previous phases subscription items should be overwritten by the latest phase calculation
       # but any one-off items would be lost without "merging" these items
-      if !is_same_day && is_identical_to_previous_phase_time_range && !previous_phase.add_invoice_items.empty?
-        log.info 'previous phase identical, merging invoice items'
+      previous_phase = T.must(subscription_phases.last)
+
+      is_identical_to_previous_phase_time_range = previous_phase.end_date == new_phase.end_date &&
+        previous_phase.start_date == new_phase.start_date
+
+      should_merge_phases = is_identical_to_previous_phase_time_range && !is_same_day && !is_order_backdated
+      if should_merge_phases && !previous_phase.add_invoice_items.empty?
+        log.info 'previous phase is identical, merging invoice items'
         new_phase.add_invoice_items += previous_phase.add_invoice_items
       end
-
 
       # align date boundaries of the schedules
       previous_phase.end_date = new_phase.start_date
@@ -650,10 +655,11 @@ class StripeForce::Translate
 
       # if the order is terminated, updating the last phase end date and NOT adding another phase is all that needs to be done
       if !is_order_terminated
-        if !is_same_day && is_identical_to_previous_phase_time_range
+        # !is_same_day is important since these items may have already been invoiced
+        if should_merge_phases
           # https://jira.corp.stripe.com/browse/PLATINT-1815
           log.info 'previous phase identical, removing previous phase'
-          subscription_phases.delete_at(index)
+          subscription_phases.delete_at(subscription_phases.count - 1)
         end
 
         # TODO: https://jira.corp.stripe.com/browse/PLATINT-2091
@@ -667,8 +673,6 @@ class StripeForce::Translate
 
       # https://jira.corp.stripe.com/browse/PLATINT-1832
       subscription_phases = OrderAmendment.delete_past_phases(@user, stripe_customer_id, subscription_phases)
-
-      # TODO add a "merge equal phases"
 
       # TODO we do not currently map to the subscription schedule (again) when there is an amendment order
       # we should consider remapping the subscription schedule when there is an amendment order but for now we will map specific fields
@@ -703,11 +707,17 @@ class StripeForce::Translate
           # `none` is really important to ensure that the user is not billed by stripe for any prorated amounts
           subscription_schedule.proration_behavior = 'none'
           subscription_schedule.phases = final_subscription_phases
-          subscription_schedule.save({}, @user.stripe_credentials)
+
+          # note: to support stacked amendments, we want to update the local sub_schedule and sub_phases
+          # because  Stripe converts 'now' to a timestamp
+          # and we want to use that timestamp when there is a stacked amendment
+          subscription_schedule = T.cast(subscription_schedule.save({}, @user.stripe_credentials), Stripe::SubscriptionSchedule)
         end
       end
 
       update_sf_stripe_id(sf_order_amendment, subscription_schedule)
+      subscription_phases = T.cast(subscription_schedule.phases, T::Array[Stripe::SubscriptionSchedulePhase])
+      previous_phase_items = aggregate_phase_items
     end
 
     PriceHelpers.auto_archive_prices_on_subscription_schedule(@user, subscription_schedule)
@@ -816,6 +826,7 @@ class StripeForce::Translate
         raise "quantity on termination lines should never be positive"
       end
 
+      log.info 'reducing quantity on line', reducing_line: termination_line.order_line_id, quantity: termination_line.quantity
       termination_line.quantity.abs.times do
         fifo_remaining_line = fifo_order_line_stack
           .reject(&:fully_terminated?)
@@ -823,10 +834,6 @@ class StripeForce::Translate
           .first
 
         if fifo_remaining_line
-          log.info 'reducing quantity on line',
-            reducing_line: fifo_remaining_line.order_line_id,
-            quantity: fifo_remaining_line.quantity
-
           fifo_remaining_line.reduce_quantity
         else
           # this should never happen
@@ -1040,13 +1047,11 @@ class StripeForce::Translate
     #   sf_contract_id
     # )
 
-    # TODO we are hardcoding the subscription start date here as the ordering key, we should pull this dynamically from the mapper
-    # important for results to be ordered with subscription date ascending'
     order_amendment_query = sf.query(
       <<~EOL
         SELECT Id FROM #{SF_ORDER}
         WHERE Opportunity.SBQQ__AmendedContract__c = '#{sf_contract_id}'
-        ORDER BY SBQQ__Quote__r.SBQQ__StartDate__c ASC
+        ORDER BY SBQQ__Quote__r.SBQQ__StartDate__c, LastModifiedDate  ASC
       EOL
     )
 

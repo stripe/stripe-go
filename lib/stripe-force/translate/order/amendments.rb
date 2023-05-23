@@ -563,7 +563,7 @@ class StripeForce::Translate
         end
 
         in_past = phase.end_date < current_timestamp
-        if in_past && !user.feature_enabled?(FeatureFlags::BACKDATED_AMENDMENTS)
+        if in_past
           log.info 'removing completed phase', end_date: phase.end_date
         end
 
@@ -584,7 +584,7 @@ class StripeForce::Translate
       test_clock = T.cast(stripe_customer.test_clock, Stripe::TestHelpers::TestClock)
 
       if test_clock.status != "ready"
-        raise StripeForce::Errors::RawUserError.new("Test clock still advancing, scheduling a retry")
+        raise StripeForce::Errors::RawUserError.new("Test clock still advancing, scheduling a retry.")
       end
 
       test_clock.frozen_time
