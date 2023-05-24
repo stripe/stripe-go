@@ -529,6 +529,34 @@ To install a beta version of stripe-go use the commit notation of the `go get` c
 go get -u github.com/stripe/stripe-go/v74@v74.3.0-beta.1
 ```
 
+### Custom requests
+If you would like to send a request to an undocumented API (for example you are in a private beta), or if you prefer to bypass the method definitions in the library and specify your request details directly, you can use the `RawRequest` method on the `stripe` backend.
+
+```go
+import (
+	"github.com/stripe/stripe-go/v74"
+	"github.com/stripe/stripe-go/v74/form"
+)
+
+// Form-encode request params
+params := map[string]interface{}{
+	"foo": "myFoo",
+	"bar": map[string]interface{}{
+		"baz": false,
+	},
+}
+
+formValues := &form.Values{}
+form.AppendTo(formValues, params)
+content := formValues.Encode()
+
+response, err := stripe.RawRequest("POST", "/v1/beta_endpoint", content, nil)
+
+// Use json.Unmarshal to convert the response to an untyped map.
+var deserializedResponse map[string]interface{}
+err = json.Unmarshal(resp.RawJSON, &deserializedResponse)
+```
+
 > **Note**
 > There can be breaking changes between beta versions. 
 
