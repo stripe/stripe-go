@@ -48,7 +48,50 @@ func TestGetDefaultRequestOptionsOverridesAPIMode(t *testing.T) {
 	assert.Equal(t, stripe.PreviewAPIMode, defaultRequestOptions.APIMode)
 }
 
-func TestPreviewRequestWithAdditionalHeaders(t *testing.T) {
+func TestGetDefaultRequestOptionsWithNilParams(t *testing.T) {
+	var params *stripe.RawParams
+	defaultRequestOptions := getDefaultRequestOptions(params)
+
+	assert.Nil(t, params) // original params should not be modified
+	assert.Equal(t, stripe.PreviewAPIMode, defaultRequestOptions.APIMode)
+}
+
+func TestPreviewPostRequest(t *testing.T) {
+	var body string
+	var path string
+	var method string
+	var contentType string
+	var stripeVersion string
+	testServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		req, _ := ioutil.ReadAll(r.Body)
+		r.Body.Close()
+		body = string(req)
+		path = r.URL.RequestURI()
+		method = r.Method
+		contentType = r.Header.Get("Content-Type")
+		stripeVersion = r.Header.Get("Stripe-Version")
+		w.WriteHeader(http.StatusOK)
+		w.Write([]byte(`{"object": "abc", "xyz": {"def": "jih"}}`))
+	}))
+
+	stubAPIBackend(testServer)
+
+	var params *stripe.RawParams
+
+	_, err := Post("/v1/abc", `{"xyz": {"def": "jih"}}`, params)
+	assert.NoError(t, err)
+
+	assert.Nil(t, params) // original params should not be modified
+	assert.Equal(t, `{"xyz": {"def": "jih"}}`, body)
+	assert.Equal(t, `/v1/abc`, path)
+	assert.Equal(t, `POST`, method)
+	assert.Equal(t, `application/json`, contentType)
+	assert.NotEqual(t, stripe.APIVersion, stripeVersion)
+	assert.NoError(t, err)
+	defer testServer.Close()
+}
+
+func TestPreviewGetRequestWithAdditionalHeaders(t *testing.T) {
 	var body string
 	var path string
 	var method string

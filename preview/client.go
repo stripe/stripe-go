@@ -8,11 +8,16 @@ import (
 )
 
 func getDefaultRequestOptions(params *stripe.RawParams) *stripe.RawParams {
+	if params == nil {
+		params = &stripe.RawParams{}
+	}
+
 	rawParams := stripe.RawParams{
 		Params:        params.Params,
 		APIMode:       stripe.PreviewAPIMode,
 		StripeContext: params.StripeContext,
 	}
+
 	return &rawParams
 }
 
