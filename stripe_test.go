@@ -41,7 +41,7 @@ func TestBearerAuth(t *testing.T) {
 	c := GetBackend(APIBackend).(*BackendImplementation)
 	key := "apiKey"
 
-	req, err := newRequest(c, "", "", key, "", nil)
+	req, err := c.NewRequest("", "", key, "", nil)
 	assert.NoError(t, err)
 
 	assert.Equal(t, "Bearer "+key, req.Header.Get("Authorization"))
@@ -51,8 +51,7 @@ func TestApiVersion(t *testing.T) {
 	c := GetBackend(APIBackend).(*BackendImplementation)
 	key := "apiKey"
 
-	header, ctx, _ := newRequestHeader("", key, "", nil)
-	req, err := c.newRequest(ctx, "", "", header)
+	req, err := c.NewRequest("", "", key, "", nil)
 	assert.NoError(t, err)
 
 	assert.Equal(t, APIVersion, req.Header.Get("Stripe-Version"))
@@ -65,8 +64,7 @@ func TestCanSetApiVersion(t *testing.T) {
 	c := GetBackend(APIBackend).(*BackendImplementation)
 	key := "apiKey"
 
-	header, ctx, _ := newRequestHeader("", key, "", nil)
-	req, err := c.newRequest(ctx, "", "", header)
+	req, err := c.NewRequest("", "", key, "", nil)
 	assert.NoError(t, err)
 
 	assert.Equal(t, "12-23-2022; feature_in_beta=v3", req.Header.Get("Stripe-Version"))
@@ -78,7 +76,7 @@ func TestContext(t *testing.T) {
 	c := GetBackend(APIBackend).(*BackendImplementation)
 	p := &Params{Context: context.Background()}
 
-	req, err := newRequest(c, "", "", "", "", p)
+	req, err := c.NewRequest("", "", "", "", p)
 	assert.NoError(t, err)
 
 	// We assume that contexts are sufficiently tested in the standard library
@@ -146,7 +144,7 @@ func TestDo_Retry(t *testing.T) {
 	// Disable sleeping duration our tests.
 	backend.SetNetworkRetriesSleep(false)
 
-	request, err := newRequest(backend,
+	request, err := backend.NewRequest(
 		http.MethodPost,
 		"/hello",
 		"sk_test_123",
@@ -388,7 +386,7 @@ func TestDo_RetryOnTimeout(t *testing.T) {
 
 	backend.SetNetworkRetriesSleep(false)
 
-	request, err := newRequest(backend,
+	request, err := backend.NewRequest(
 		http.MethodPost,
 		"/hello",
 		"sk_test_123",
@@ -438,7 +436,7 @@ func TestDo_LastResponsePopulated(t *testing.T) {
 		},
 	).(*BackendImplementation)
 
-	request, err := newRequest(backend,
+	request, err := backend.NewRequest(
 		http.MethodGet,
 		"/hello",
 		"sk_test_123",
@@ -501,7 +499,7 @@ func TestDo_TelemetryDisabled(t *testing.T) {
 	// _next_ request via the `X-Stripe-Client-Telemetry header`. To test that
 	// metrics aren't being sent, we need to fire off two requests in sequence.
 	for i := 0; i < 2; i++ {
-		request, err := newRequest(backend,
+		request, err := backend.NewRequest(
 			http.MethodGet,
 			"/hello",
 			"sk_test_123",
@@ -588,7 +586,7 @@ func TestDo_TelemetryEnabled(t *testing.T) {
 	).(*BackendImplementation)
 
 	for i := 0; i < 2; i++ {
-		request, err := newRequest(backend,
+		request, err := backend.NewRequest(
 			http.MethodGet,
 			"/hello",
 			"sk_test_123",
@@ -650,7 +648,7 @@ func TestDo_TelemetryEnabledNoDataRace(t *testing.T) {
 
 	for i := 0; i < times; i++ {
 		go func() {
-			request, err := newRequest(backend,
+			request, err := backend.NewRequest(
 				http.MethodGet,
 				"/hello",
 				"sk_test_123",
@@ -706,7 +704,7 @@ func TestDo_Redaction(t *testing.T) {
 		},
 	).(*BackendImplementation)
 
-	request, err := newRequest(backend,
+	request, err := backend.NewRequest(
 		http.MethodGet,
 		"/hello",
 		"sk_test_123",
@@ -958,7 +956,7 @@ func TestMultipleAPICalls(t *testing.T) {
 			c := GetBackend(APIBackend).(*BackendImplementation)
 			key := "apiKey"
 
-			req, err := newRequest(c, "", "", key, "", nil)
+			req, err := c.NewRequest("", "", key, "", nil)
 			assert.NoError(t, err)
 
 			assert.Equal(t, "Bearer "+key, req.Header.Get("Authorization"))
@@ -971,7 +969,7 @@ func TestIdempotencyKey(t *testing.T) {
 	c := GetBackend(APIBackend).(*BackendImplementation)
 	p := &Params{IdempotencyKey: String("idempotency-key")}
 
-	req, err := newRequest(c, "", "", "", "", p)
+	req, err := c.NewRequest("", "", "", "", p)
 	assert.NoError(t, err)
 
 	assert.Equal(t, "idempotency-key", req.Header.Get("Idempotency-Key"))
@@ -989,7 +987,7 @@ func TestStripeAccount(t *testing.T) {
 	p := &Params{}
 	p.SetStripeAccount("acct_123")
 
-	req, err := newRequest(c, "", "", "", "", p)
+	req, err := c.NewRequest("", "", "", "", p)
 	assert.NoError(t, err)
 
 	assert.Equal(t, "acct_123", req.Header.Get("Stripe-Account"))
@@ -1043,7 +1041,7 @@ func TestUnmarshalJSONVerbose(t *testing.T) {
 func TestUserAgent(t *testing.T) {
 	c := GetBackend(APIBackend).(*BackendImplementation)
 
-	req, err := newRequest(c, "", "", "", "", nil)
+	req, err := c.NewRequest("", "", "", "", nil)
 	assert.NoError(t, err)
 
 	// We keep out version constant private to the package, so use a regexp
@@ -1066,7 +1064,7 @@ func TestUserAgentWithAppInfo(t *testing.T) {
 
 	c := GetBackend(APIBackend).(*BackendImplementation)
 
-	req, err := newRequest(c, "", "", "", "", nil)
+	req, err := c.NewRequest("", "", "", "", nil)
 	assert.NoError(t, err)
 
 	//
@@ -1102,7 +1100,7 @@ func TestUserAgentWithAppInfo(t *testing.T) {
 func TestStripeClientUserAgent(t *testing.T) {
 	c := GetBackend(APIBackend).(*BackendImplementation)
 
-	req, err := newRequest(c, "", "", "", "", nil)
+	req, err := c.NewRequest("", "", "", "", nil)
 	assert.NoError(t, err)
 
 	encodedUserAgent := req.Header.Get("X-Stripe-Client-User-Agent")
@@ -1125,13 +1123,6 @@ func TestStripeClientUserAgent(t *testing.T) {
 	assert.NotEqual(t, UnknownPlatform, userAgent["lang_version"])
 }
 
-func newRequest(c *BackendImplementation, method, path, key, contentType string, params *Params) (*http.Request, error) {
-	header, ctx, err := newRequestHeader(method, key, contentType, params)
-	if err != nil {
-		return nil, err
-	}
-	return c.newRequest(ctx, method, path, header)
-}
 func TestStripeClientUserAgentWithAppInfo(t *testing.T) {
 	appInfo := &AppInfo{
 		Name:    "MyAwesomePlugin",
@@ -1143,7 +1134,7 @@ func TestStripeClientUserAgentWithAppInfo(t *testing.T) {
 
 	c := GetBackend(APIBackend).(*BackendImplementation)
 
-	req, err := newRequest(c, "", "", "", "", nil)
+	req, err := c.NewRequest("", "", "", "", nil)
 	assert.NoError(t, err)
 
 	encodedUserAgent := req.Header.Get("X-Stripe-Client-User-Agent")

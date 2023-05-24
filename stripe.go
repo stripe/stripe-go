@@ -326,11 +326,7 @@ func (s *BackendImplementation) CallStreaming(method, path, key string, params P
 	}
 	bodyBuffer := bytes.NewBufferString(body)
 
-	header, ctx, err := newRequestHeader(method, key, "application/x-www-form-urlencoded", commonParams)
-	if err != nil {
-		return err
-	}
-	req, err := s.newRequest(ctx, method, path, header)
+	req, err := s.NewRequest(method, path, key, "application/x-www-form-urlencoded", commonParams)
 	if err != nil {
 		return err
 	}
@@ -346,14 +342,12 @@ func (s *BackendImplementation) CallStreaming(method, path, key string, params P
 func (s *BackendImplementation) CallMultipart(method, path, key, boundary string, body *bytes.Buffer, params *Params, v LastResponseSetter) error {
 	contentType := "multipart/form-data; boundary=" + boundary
 
-	header, ctx, err := newRequestHeader(method, key, contentType, params)
+	req, err := s.NewRequest(method, path, key, contentType, params)
 	if err != nil {
 		return err
 	}
 
-	if req, err := s.newRequest(ctx, method, path, header); err != nil {
-		return err
-	} else if err := s.Do(req, body, v); err != nil {
+	if err := s.Do(req, body, v); err != nil {
 		return err
 	}
 
@@ -392,24 +386,19 @@ func (s *BackendImplementation) RawRequest(method, path, key, content string, pa
 
 	bodyBuffer.WriteString(content)
 
-	header, ctx, err := newRequestHeader(method, key, contentType, commonParams)
+	req, err := s.NewRequest(method, path, key, contentType, commonParams)
+
+	if err != nil {
+		return nil, err
+	}
 
 	if !paramsIsNil {
 		if params.StripeContext != "" {
-			header.Set("Stripe-Context", params.StripeContext)
+			req.Header.Set("Stripe-Context", params.StripeContext)
 		}
 		if params.APIMode == PreviewAPIMode {
-			header.Set("Stripe-Version", previewVersion)
+			req.Header.Set("Stripe-Version", previewVersion)
 		}
-	}
-
-	if err != nil {
-		return nil, err
-	}
-
-	req, err := s.newRequest(ctx, method, path, header)
-	if err != nil {
-		return nil, err
 	}
 
 	handleResponse := func(res *http.Response, err error) (interface{}, error) {
@@ -441,13 +430,7 @@ func (s *BackendImplementation) CallRaw(method, path, key string, form *form.Val
 	}
 	bodyBuffer := bytes.NewBufferString(body)
 
-	header, ctx, err := newRequestHeader(method, key, "application/x-www-form-urlencoded", params)
-
-	if err != nil {
-		return err
-	}
-
-	req, err := s.newRequest(ctx, method, path, header)
+	req, err := s.NewRequest(method, path, key, "application/x-www-form-urlencoded", params)
 	if err != nil {
 		return err
 	}
@@ -459,48 +442,74 @@ func (s *BackendImplementation) CallRaw(method, path, key string, form *form.Val
 	return nil
 }
 
-func newRequestHeader(method, key, contentType string, params *Params) (http.Header, context.Context, error) {
-	header := make(http.Header)
+// func newRequestHeader(method, key, contentType string, params *Params) (http.Header, context.Context, error) {
+// 	header := make(http.Header)
 
-	authorization := "Bearer " + key
+// 	authorization := "Bearer " + key
 
-	header.Add("Authorization", authorization)
-	header.Add("Content-Type", contentType)
-	header.Add("Stripe-Version", APIVersion)
-	header.Add("User-Agent", encodedUserAgent)
-	header.Add("X-Stripe-Client-User-Agent", encodedStripeUserAgent)
+// 	header.Add("Authorization", authorization)
+// 	header.Add("Content-Type", contentType)
+// 	header.Add("Stripe-Version", APIVersion)
+// 	header.Add("User-Agent", encodedUserAgent)
+// 	header.Add("X-Stripe-Client-User-Agent", encodedStripeUserAgent)
 
-	var ctx context.Context
-	if params != nil {
-		ctx = params.Context
-		if params.IdempotencyKey != nil {
-			idempotencyKey := strings.TrimSpace(*params.IdempotencyKey)
-			if len(idempotencyKey) > 255 {
-				return nil, nil, errors.New("cannot use an idempotency key longer than 255 characters")
-			}
+// 	var ctx context.Context
+// 	if params != nil {
+// 		ctx = params.Context
+// 		if params.IdempotencyKey != nil {
+// 			idempotencyKey := strings.TrimSpace(*params.IdempotencyKey)
+// 			if len(idempotencyKey) > 255 {
+// 				return nil, nil, errors.New("cannot use an idempotency key longer than 255 characters")
+// 			}
 
-			header.Add("Idempotency-Key", idempotencyKey)
-		} else if isHTTPWriteMethod(method) {
-			header.Add("Idempotency-Key", NewIdempotencyKey())
-		}
+// 			header.Add("Idempotency-Key", idempotencyKey)
+// 		} else if isHTTPWriteMethod(method) {
+// 			header.Add("Idempotency-Key", NewIdempotencyKey())
+// 		}
 
-		if params.StripeAccount != nil {
-			header.Add("Stripe-Account", strings.TrimSpace(*params.StripeAccount))
-		}
+// 		if params.StripeAccount != nil {
+// 			header.Add("Stripe-Account", strings.TrimSpace(*params.StripeAccount))
+// 		}
 
-		for k, v := range params.Headers {
-			for _, line := range v {
-				// Use Set to override the default value possibly set before
-				header.Set(k, line)
-			}
-		}
-	}
-	return header, ctx, nil
-}
+// 		for k, v := range params.Headers {
+// 			for _, line := range v {
+// 				// Use Set to override the default value possibly set before
+// 				header.Set(k, line)
+// 			}
+// 		}
+// 	}
+// 	return header, ctx, nil
+// }
 
 // newRequest is used by Call to generate an http.Request. It handles encoding
 // parameters and attaching the appropriate headers.
-func (s *BackendImplementation) newRequest(ctx context.Context, method, path string, header http.Header) (*http.Request, error) {
+// func (s *BackendImplementation) newRequest(ctx context.Context, method, path string, header http.Header) (*http.Request, error) {
+// 	if !strings.HasPrefix(path, "/") {
+// 		path = "/" + path
+// 	}
+
+// 	path = s.URL + path
+
+// 	// Body is set later by `Do`.
+// 	req, err := http.NewRequest(method, path, nil)
+// 	if ctx != nil {
+// 		req = req.WithContext(ctx)
+// 	}
+// 	if err != nil {
+// 		s.LeveledLogger.Errorf("Cannot create Stripe request: %v", err)
+// 		return nil, err
+// 	}
+// 	req.Header = header
+// 	if err != nil {
+// 		return nil, err
+// 	}
+
+// 	return req, nil
+// }
+
+// NewRequest is used by Call to generate an http.Request. It handles encoding
+// parameters and attaching the appropriate headers.
+func (s *BackendImplementation) NewRequest(method, path, key, contentType string, params *Params) (*http.Request, error) {
 	if !strings.HasPrefix(path, "/") {
 		path = "/" + path
 	}
@@ -509,16 +518,45 @@ func (s *BackendImplementation) newRequest(ctx context.Context, method, path str
 
 	// Body is set later by `Do`.
 	req, err := http.NewRequest(method, path, nil)
-	if ctx != nil {
-		req = req.WithContext(ctx)
-	}
 	if err != nil {
 		s.LeveledLogger.Errorf("Cannot create Stripe request: %v", err)
 		return nil, err
 	}
-	req.Header = header
-	if err != nil {
-		return nil, err
+
+	authorization := "Bearer " + key
+
+	req.Header.Add("Authorization", authorization)
+	req.Header.Add("Content-Type", contentType)
+	req.Header.Add("Stripe-Version", APIVersion)
+	req.Header.Add("User-Agent", encodedUserAgent)
+	req.Header.Add("X-Stripe-Client-User-Agent", encodedStripeUserAgent)
+
+	if params != nil {
+		if params.Context != nil {
+			req = req.WithContext(params.Context)
+		}
+
+		if params.IdempotencyKey != nil {
+			idempotencyKey := strings.TrimSpace(*params.IdempotencyKey)
+			if len(idempotencyKey) > 255 {
+				return nil, errors.New("cannot use an idempotency key longer than 255 characters")
+			}
+
+			req.Header.Add("Idempotency-Key", idempotencyKey)
+		} else if isHTTPWriteMethod(method) {
+			req.Header.Add("Idempotency-Key", NewIdempotencyKey())
+		}
+
+		if params.StripeAccount != nil {
+			req.Header.Add("Stripe-Account", strings.TrimSpace(*params.StripeAccount))
+		}
+
+		for k, v := range params.Headers {
+			for _, line := range v {
+				// Use Set to override the default value possibly set before
+				req.Header.Set(k, line)
+			}
+		}
 	}
 
 	return req, nil
