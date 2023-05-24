@@ -257,23 +257,6 @@ type RawParams struct {
 	StripeContext string  `form:"-"`
 }
 
-func (p *RawParams) GetAPIMode() APIMode {
-	if p.APIMode == "" {
-		return StandardAPIMode
-	}
-	return p.APIMode
-}
-
-func (p *RawParams) GetStripeContext() string {
-	return p.StripeContext
-}
-
-type RawParamsContainer interface {
-	ParamsContainer
-	GetAPIMode() APIMode
-	GetStripeContext() string
-}
-
 // RangeQueryParams are a set of generic request parameters that are used on
 // list endpoints to filter their results by some timestamp.
 type RangeQueryParams struct {

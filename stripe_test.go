@@ -1470,7 +1470,9 @@ func TestRawRequestWithAdditionalHeaders(t *testing.T) {
 		},
 	).(*BackendImplementation)
 
-	params := &RawParams{Params: Params{Headers: http.Header{"foo": []string{"bar"}}}, APIMode: PreviewAPIMode, StripeContext: "acct_123"}
+	headers := http.Header{}
+	headers.Set("foo", "bar")
+	params := &RawParams{Params: Params{Headers: headers}, APIMode: PreviewAPIMode, StripeContext: "acct_123"}
 
 	_, err := backend.RawRequest(http.MethodPost, "/v1/abc", "sk_test_xyz", `{"foo":"myFoo"}`, params)
 	assert.NoError(t, err)

@@ -7,21 +7,21 @@ import (
 	stripe "github.com/stripe/stripe-go/v74"
 )
 
-func GetDefaultRequestOptions(params stripe.RawParamsContainer) stripe.RawParamsContainer {
+func getDefaultRequestOptions(params *stripe.RawParams) *stripe.RawParams {
 	rawParams := stripe.RawParams{
-		Params:        *params.GetParams(),
+		Params:        params.Params,
 		APIMode:       stripe.PreviewAPIMode,
-		StripeContext: params.GetStripeContext(),
+		StripeContext: params.StripeContext,
 	}
 	return &rawParams
 }
 
-func Get(path string, params stripe.RawParamsContainer) (*stripe.APIResponse, error) {
-	return stripe.RawRequest(http.MethodGet, path, "", GetDefaultRequestOptions(params))
+func Get(path string, params *stripe.RawParams) (*stripe.APIResponse, error) {
+	return stripe.RawRequest(http.MethodGet, path, "", getDefaultRequestOptions(params))
 }
-func Post(path, content string, params stripe.RawParamsContainer) (*stripe.APIResponse, error) {
-	return stripe.RawRequest(http.MethodPost, path, content, params)
+func Post(path, content string, params *stripe.RawParams) (*stripe.APIResponse, error) {
+	return stripe.RawRequest(http.MethodPost, path, content, getDefaultRequestOptions(params))
 }
-func Delete(path string, params stripe.RawParamsContainer) (*stripe.APIResponse, error) {
-	return stripe.RawRequest(http.MethodDelete, path, "", params)
+func Delete(path string, params *stripe.RawParams) (*stripe.APIResponse, error) {
+	return stripe.RawRequest(http.MethodDelete, path, "", getDefaultRequestOptions(params))
 }

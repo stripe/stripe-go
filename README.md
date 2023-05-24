@@ -533,16 +533,35 @@ go get -u github.com/stripe/stripe-go/v74@v74.3.0-beta.1
 If you would like to send a request to an undocumented API (for example you are in a private beta), or if you prefer to bypass the method definitions in the library and specify your request details directly, you can use the `RawRequest` method on the `stripe` backend.
 
 ```go
-key := "sk_test_xyz" // set to "" to use stripe.Key
+import (
+	"github.com/stripe/stripe-go/v74"
+	"github.com/stripe/stripe-go/v74/form"
+)
+
+// Form encode content body using 
+type barParams struct {
+	Baz bool `json:"baz"`
+}
+
+type formParams struct {
+	stripe.Params `form:"*"`
+	Foo           string    `form:"foo"`
+	Bar           barParams `form:"bar"`
+}
+
+params := &formParams{Foo: "myFoo", Bar: barParams{Baz: true}}
+
+formValues := &form.Values{}
+form.AppendTo(formValues, params)
+content := formValues.Encode()
+
 content := `foo=myFoo&bar[]=true` // form-encoded POST body
 
 resp, err := stripe.RawRequest("POST", "/v1/beta_endpoint", content, nil)
 
-response, err := stripe.RawRequest(http.MethodPost, "/v1/beta_endpoint", key, content, params)
-
 // Optionally use json.Unmarshal to convert the response to a strongly-typed object.
 deserializedResponse := &MyResource{}
-err = json.Unmarshal(response.RawJSON, deserializedResponse)
+err = json.Unmarshal(resp.RawJSON, deserializedResponse)
 ```
 
 > **Note**

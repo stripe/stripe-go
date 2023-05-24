@@ -202,7 +202,7 @@ type Backend interface {
 }
 
 type RawRequestBackend interface {
-	RawRequest(method, path, key, content string, params RawParamsContainer) (*APIResponse, error)
+	RawRequest(method, path, key, content string, params *RawParams) (*APIResponse, error)
 }
 
 // BackendConfig is used to configure a new Stripe backend.
@@ -279,22 +279,7 @@ type BackendImplementation struct {
 	requestMetricsBuffer chan requestMetrics
 }
 
-func extractParamJSON(params ParamsContainer) ([]byte, *Params, error) {
-	var commonParams *Params
-	if params != nil {
-		reflectValue := reflect.ValueOf(params)
-
-		if reflectValue.Kind() == reflect.Ptr && !reflectValue.IsNil() {
-			commonParams = params.GetParams()
-		}
-	}
-	json, err := json.Marshal(params)
-	if err != nil {
-		return nil, nil, err
-	}
-	return json, commonParams, nil
-}
-func extractParamFormValues(params ParamsContainer) (*form.Values, *Params) {
+func extractParams(params ParamsContainer) (*form.Values, *Params) {
 	var formValues *form.Values
 	var commonParams *Params
 
@@ -320,14 +305,14 @@ func extractParamFormValues(params ParamsContainer) (*form.Values, *Params) {
 
 // Call is the Backend.Call implementation for invoking Stripe APIs.
 func (s *BackendImplementation) Call(method, path, key string, params ParamsContainer, v LastResponseSetter) error {
-	body, commonParams := extractParamFormValues(params)
+	body, commonParams := extractParams(params)
 	return s.CallRaw(method, path, key, body, commonParams, v)
 }
 
 // CallStreaming is the Backend.Call implementation for invoking Stripe APIs
 // without buffering the response into memory.
 func (s *BackendImplementation) CallStreaming(method, path, key string, params ParamsContainer, v StreamingLastResponseSetter) error {
-	formValues, commonParams := extractParamFormValues(params)
+	formValues, commonParams := extractParams(params)
 
 	var body string
 	if formValues != nil && !formValues.Empty() {
@@ -376,7 +361,7 @@ func (s *BackendImplementation) CallMultipart(method, path, key, boundary string
 }
 
 // RawRequest is the Backend.RawRequest implementation for invoking Stripe APIs.
-func (s *BackendImplementation) RawRequest(method, path, key, content string, params RawParamsContainer) (*APIResponse, error) {
+func (s *BackendImplementation) RawRequest(method, path, key, content string, params *RawParams) (*APIResponse, error) {
 	var bodyBuffer = bytes.NewBuffer(nil)
 	var commonParams *Params
 	var err error
@@ -388,20 +373,20 @@ func (s *BackendImplementation) RawRequest(method, path, key, content string, pa
 	paramsIsNil := params == nil || reflect.ValueOf(params).IsNil()
 
 	if paramsIsNil {
-		_, commonParams = extractParamFormValues(params)
+		_, commonParams = extractParams(params)
 		contentType = "application/x-www-form-urlencoded"
 	} else {
-		if params.GetAPIMode() == StandardAPIMode {
-			_, commonParams = extractParamFormValues(params)
+		if params.APIMode == StandardAPIMode {
+			_, commonParams = extractParams(params)
 			contentType = "application/x-www-form-urlencoded"
-		} else if params.GetAPIMode() == PreviewAPIMode {
-			_, commonParams, err = extractParamJSON(params)
+		} else if params.APIMode == PreviewAPIMode {
+			_, commonParams = extractParams(params)
 			if err != nil {
 				return nil, err
 			}
 			contentType = "application/json"
 		} else {
-			return nil, fmt.Errorf("Unknown API mode %s", params.GetAPIMode())
+			return nil, fmt.Errorf("Unknown API mode %s", params.APIMode)
 		}
 	}
 
@@ -410,10 +395,10 @@ func (s *BackendImplementation) RawRequest(method, path, key, content string, pa
 	header, ctx, err := newRequestHeader(method, key, contentType, commonParams)
 
 	if !paramsIsNil {
-		if params.GetStripeContext() != "" {
-			header.Set("Stripe-Context", params.GetStripeContext())
+		if params.StripeContext != "" {
+			header.Set("Stripe-Context", params.StripeContext)
 		}
-		if params.GetAPIMode() == PreviewAPIMode {
+		if params.APIMode == PreviewAPIMode {
 			header.Set("Stripe-Version", previewVersion)
 		}
 	}
@@ -1516,7 +1501,7 @@ func normalizeURL(url string) string {
 	return url
 }
 
-func RawRequest(method, path string, content string, params RawParamsContainer) (*APIResponse, error) {
+func RawRequest(method, path string, content string, params *RawParams) (*APIResponse, error) {
 	if bi, ok := GetBackend(APIBackend).(RawRequestBackend); ok {
 		return bi.RawRequest(method, path, Key, content, params)
 	}

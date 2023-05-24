@@ -26,6 +26,28 @@ func stubAPIBackend(testServer *httptest.Server) {
 	stripe.SetBackend(stripe.APIBackend, backend)
 }
 
+func TestGetDefaultRequestOptionsCopiesParams(t *testing.T) {
+	headers := http.Header{}
+	headers.Set("foo", "bar")
+
+	params := &stripe.RawParams{Params: stripe.Params{Headers: headers}, StripeContext: "acct_123"}
+
+	defaultRequestOptions := getDefaultRequestOptions(params)
+
+	assert.Equal(t, stripe.PreviewAPIMode, defaultRequestOptions.APIMode)
+	assert.Equal(t, "bar", defaultRequestOptions.Headers.Get("foo"))
+	assert.Equal(t, "acct_123", defaultRequestOptions.StripeContext)
+}
+
+func TestGetDefaultRequestOptionsOverridesAPIMode(t *testing.T) {
+	params := &stripe.RawParams{APIMode: stripe.StandardAPIMode}
+
+	defaultRequestOptions := getDefaultRequestOptions(params)
+
+	assert.Equal(t, stripe.StandardAPIMode, params.APIMode) // original params should not be modified
+	assert.Equal(t, stripe.PreviewAPIMode, defaultRequestOptions.APIMode)
+}
+
 func TestPreviewRequestWithAdditionalHeaders(t *testing.T) {
 	var body string
 	var path string
@@ -50,17 +72,14 @@ func TestPreviewRequestWithAdditionalHeaders(t *testing.T) {
 
 	stubAPIBackend(testServer)
 
-	type myParams struct {
-		stripe.Params    `form:"-"`
-		stripe.RawParams `form:"-"`
-	}
+	headers := http.Header{}
+	headers.Set("foo", "bar")
+	params := &stripe.RawParams{Params: stripe.Params{Headers: headers}, StripeContext: "acct_123"}
 
-	params := myParams{stripe.Params{Headers: http.Header{"foo": []string{"bar"}}}, stripe.RawParams{StripeContext: "acct_123"}}
-
-	_, err := Get("/v1/abc", &params)
+	_, err := Get("/v1/abc", params)
 	assert.NoError(t, err)
 
-	assert.Equal(t, stripe.APIMode(""), params.RawParams.APIMode)
+	assert.Equal(t, stripe.APIMode(""), params.APIMode) // original params should not be modified
 	assert.Equal(t, ``, body)
 	assert.Equal(t, `/v1/abc`, path)
 	assert.Equal(t, `GET`, method)
