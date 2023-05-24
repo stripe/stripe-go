@@ -42,6 +42,31 @@ func TestErrorResponse(t *testing.T) {
 	assert.True(t, errors.As(err, &invalidRequestErr))
 }
 
+func TestPreviewErrorResponse(t *testing.T) {
+	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Add("Request-Id", "req_123")
+		w.WriteHeader(http.StatusBadRequest)
+		fmt.Fprintln(w, `{"error":{"developer_message":"Unacceptable"}}`)
+	}))
+	defer ts.Close()
+
+	backend := GetBackendWithConfig(APIBackend, &BackendConfig{
+		// Suppress error log output to make a verbose run of this test less
+		// alarming (because we're testing specifically for an error).
+		LeveledLogger: &LeveledLogger{Level: LevelNull},
+
+		URL: String(ts.URL),
+	})
+
+	err := backend.Call(http.MethodGet, "/v1/charges/ch_123", "sk_test_123", nil, nil)
+	assert.Error(t, err)
+
+	stripeErr := err.(*Error)
+	assert.Equal(t, "req_123", stripeErr.RequestID)
+	assert.Equal(t, 400, stripeErr.HTTPStatusCode)
+	assert.Equal(t, "Unacceptable", stripeErr.DeveloperMsg)
+}
+
 func TestErrorRedact(t *testing.T) {
 	pi := &PaymentIntent{Amount: int64(400), ClientSecret: "foo"}
 	si := &SetupIntent{Description: "keepme", ClientSecret: "foo"}
