@@ -232,6 +232,7 @@ type Error struct {
 
 	HTTPStatusCode    int               `json:"status,omitempty"`
 	Msg               string            `json:"message"`
+	DeveloperMsg      string            `json:"developer_message,omitempty"`
 	Param             string            `json:"param,omitempty"`
 	PaymentIntent     *PaymentIntent    `json:"payment_intent,omitempty"`
 	PaymentMethod     *PaymentMethod    `json:"payment_method,omitempty"`
