@@ -109,7 +109,7 @@ class StripeForce::Translate
     stripe_transaction ||= retrieve_from_stripe(Stripe::Invoice, sf_order)
 
     if !stripe_transaction.nil?
-      log.info 'order already translated',
+      log.info 'initial order is already translated',
         stripe_transaction_id: stripe_transaction.id,
         salesforce_order_id: sf_order.Id
       return
@@ -417,6 +417,13 @@ class StripeForce::Translate
     contract_structure.amendments.each_with_index do |sf_order_amendment, index|
       locker.lock_salesforce_record(sf_order_amendment)
 
+      # TODO replace with local sync record call in the future
+      order_amendment_subscription_id = sf_order_amendment[prefixed_stripe_field(GENERIC_STRIPE_ID)]
+      if order_amendment_subscription_id.present?
+        log.info "order amendment already translated, skipping", sf_order_amendment_id: sf_order_amendment.Id, index: index
+        next
+      end
+
       log.info 'processing amendment', sf_order_amendment_id: sf_order_amendment.Id, index: index
 
       invoice_items_in_order, aggregate_phase_items = build_phase_items_from_order_amendment(
@@ -425,24 +432,18 @@ class StripeForce::Translate
       )
 
       is_order_terminated = aggregate_phase_items.all?(&:fully_terminated?)
-      if is_order_terminated && contract_structure.amendments.size - 1 != index
-        raise Integrations::Errors::UnhandledEdgeCase.new("order terminated, but there's more amendments")
+      if is_order_terminated
+        log.info 'amendment is termination order', sf_order_amendment_id: sf_order_amendment.Id
+
+        if contract_structure.amendments.count - 1 != index
+          raise StripeForce::Errors::RawUserError.new("Processing a termination order, but there's more amendments.")
+        end
       end
 
       # this loop excludes the initial phase, which is why we are subtracting by 1
       # note this can happen with backend initial order prorations or if the user has amendment the contract previously
       if subscription_phases.count - 1 > index
         log.info 'number of subscription phase count is greater than this amendment index', subscription_phase_count: subscription_phases.count, amendment_index: index
-      end
-
-      # it's possible for users to mutate the subscription schedule phases themselves
-      # if they do, we can't rely on the naive phase count logic above. This provides us another
-      # layer of protection, although this is not something we can fully trust right away, which is
-      # why we are only soft asserting at this point.
-      # TODO replace with local sync record call in the future
-      order_amendment_subscription_id = sf_order_amendment[prefixed_stripe_field(GENERIC_STRIPE_ID)]
-      if order_amendment_subscription_id.present?
-        Integrations::ErrorContext.report_edge_case("order amendment already marked as processed")
       end
 
       # TODO price ID dup check on the invoice items
@@ -474,10 +475,37 @@ class StripeForce::Translate
 
       aggregate_phase_items, terminated_phase_items = OrderHelpers.remove_terminated_lines(aggregate_phase_items)
 
+      # determine if this is a backdated order since this has implications on how we prorate
       stripe_customer_id = T.cast(subscription_schedule.customer, String)
       current_time = OrderAmendment.determine_current_time(@user, stripe_customer_id)
       normalized_current_time = StripeForce::Utilities::SalesforceUtil.datetime_to_unix_timestamp(Time.at(current_time))
       is_order_backdated = sf_order_amendment_start_date_as_timestamp < normalized_current_time && @user.feature_enabled?(StripeForce::Constants::FeatureFlags::BACKDATED_AMENDMENTS)
+
+      backdated_billing_cycles = nil
+      next_billing_timestamp = nil
+      if is_order_backdated
+        log.info 'processing a backdated amendment order'
+        backdated_billing_cycles = 0
+        subscription_schedule_start = T.must(subscription_schedule.phases.first).start_date
+        next_billing_timestamp = StripeForce::Utilities::SalesforceUtil.datetime_to_unix_timestamp(Time.at(subscription_schedule_start))
+
+        # determine if a billing cycle has passed between the amendment start date and current time
+        while next_billing_timestamp <= normalized_current_time
+          if next_billing_timestamp > sf_order_amendment_start_date_as_timestamp
+            backdated_billing_cycles += 1
+          end
+          next_billing_timestamp = (Time.at(next_billing_timestamp).utc.beginning_of_day + billing_frequency.months).to_i
+        end
+
+        # If a subscription is backdated by 3 months and began on January 30th, our next_billing_timestamp will be March 27th instead of March 30th.
+        # ie January 30th, + 1 billing cycle (1 month) will result in Febuary 27th, the second iteration will result in March 27th (instead of March 30th).
+        next_billing_datetime = Time.at(next_billing_timestamp).utc
+        sf_order_amendment_start_date_datetime = Time.at(sf_order_amendment_start_date_as_timestamp).utc
+
+        if next_billing_datetime.day != sf_order_amendment_start_date_datetime.day
+          next_billing_timestamp = StripeForce::Translate::OrderHelpers.anchor_time_to_day_of_month(base_time: next_billing_datetime, anchor_day_of_month: sf_order_amendment_start_date_datetime.day).to_i
+        end
+      end
 
       negative_invoice_items = []
       if @user.feature_enabled?(FeatureFlags::TERMINATED_ORDER_ITEM_CREDIT)
@@ -493,7 +521,8 @@ class StripeForce::Translate
           terminated_phase_items: terminated_phase_items,
           subscription_term: subscription_term_from_salesforce,
           billing_frequency: billing_frequency,
-          is_order_backdated: is_order_backdated
+          is_order_backdated: is_order_backdated,
+          next_billing_timestamp: next_billing_timestamp,
         )
       end
 
@@ -518,34 +547,6 @@ class StripeForce::Translate
           billing_frequency: billing_frequency,
           amendment_start_date: sf_order_amendment_start_date_as_timestamp,
         )
-      end
-
-      # determine if this is a backdated order since this has implications on how we prorate
-      backdated_billing_cycles = nil
-      next_billing_timestamp = nil
-      if is_order_backdated
-        log.info 'processing backdated amendment order'
-        backdated_billing_cycles = 0
-        subscription_schedule_start = T.must(subscription_schedule.phases.first).start_date
-        next_billing_timestamp = StripeForce::Utilities::SalesforceUtil.datetime_to_unix_timestamp(Time.at(subscription_schedule_start))
-
-        # determine if a billing cycle has passed between the amendment start date and current time
-        while next_billing_timestamp <= normalized_current_time
-          if next_billing_timestamp > sf_order_amendment_start_date_as_timestamp
-            backdated_billing_cycles += 1
-          end
-          next_billing_timestamp = (Time.at(next_billing_timestamp).utc.beginning_of_day + billing_frequency.months).to_i
-        end
-
-        # If a subscription is backdated by 3 months and began on January 30th, our next_billing_timestamp will be March 27th instead of March 30th.
-        # ie January 30th, + 1 billing cycle (1 month) will result in Febuary 27th, the second iteration will result in March 27th (instead of March 30th).
-
-        next_billing_datetime = Time.at(next_billing_timestamp).utc
-        sf_order_amendment_start_date_datetime = Time.at(sf_order_amendment_start_date_as_timestamp).utc
-
-        if next_billing_datetime.day != sf_order_amendment_start_date_datetime.day
-          next_billing_timestamp = StripeForce::Translate::OrderHelpers.anchor_time_to_day_of_month(base_time: next_billing_datetime, anchor_day_of_month: sf_order_amendment_start_date_datetime.day).to_i
-        end
       end
 
       invoice_items_for_prorations = []
@@ -618,24 +619,25 @@ class StripeForce::Translate
         new_phase["discounts"] = stripe_discounts_for_sf_object(sf_object: sf_order_amendment)
       end
 
+      # if the time ranges are identical, then the previous phase should be removed
+      # the previous phases subscription items should be overwritten by the latest phase calculation
+      # but any one-off items would be lost without "merging" these items
+      previous_phase = T.must(subscription_phases.last)
+
+      # it's important to check this before setting that start date to 'now' below
+      is_identical_to_previous_phase_time_range = previous_phase.start_date == new_phase.start_date &&
+        previous_phase.end_date == new_phase.end_date
+
       # if the current day is the same day as the start day, then use 'now'
       is_same_day = normalized_current_time == new_phase.start_date
       if is_same_day
-        log.info 'phase starts on the current day, using now'
+        log.info 'amendment starts on the current day, using now'
         new_phase.start_date = 'now'
       elsif @user.feature_enabled?(FeatureFlags::BACKDATED_AMENDMENTS) && is_order_backdated
         # if this is a backdated amendment, then use the current time to update the subscription schedule
         log.info 'backdated amendment, using now'
         new_phase.start_date = 'now'
       end
-
-      # if the time ranges are identical, then the previous phase should be removed
-      # the previous phases subscription items should be overwritten by the latest phase calculation
-      # but any one-off items would be lost without "merging" these items
-      previous_phase = T.must(subscription_phases.last)
-
-      is_identical_to_previous_phase_time_range = previous_phase.end_date == new_phase.end_date &&
-        previous_phase.start_date == new_phase.start_date
 
       should_merge_phases = is_identical_to_previous_phase_time_range && !is_same_day && !is_order_backdated
       if should_merge_phases && !previous_phase.add_invoice_items.empty?
@@ -648,10 +650,7 @@ class StripeForce::Translate
 
       # TODO I wonder if we can do something smarter here: if the invoice has not been paid/billed, do XYZ?
       # this is a special case: subscription is cancelled on the same day, the intention here is to not bill the user at all
-      is_subscription_schedule_cancelled = is_order_terminated &&
-        # use `start_date_as_timestamp` since `previous_phase.end_date` could be `now`
-        previous_phase.start_date == sf_order_amendment_start_date_as_timestamp &&
-        contract_structure.amendments.count == 1
+      is_subscription_schedule_cancelled = is_order_terminated && (is_same_day || is_order_backdated)
 
       # if the order is terminated, updating the last phase end date and NOT adding another phase is all that needs to be done
       if !is_order_terminated

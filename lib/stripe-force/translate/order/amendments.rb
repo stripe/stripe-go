@@ -231,11 +231,12 @@ class StripeForce::Translate
         terminated_phase_items: T::Array[ContractItemStructure],
         subscription_term: Integer,
         billing_frequency: Integer,
-        is_order_backdated: T::Boolean
+        is_order_backdated: T::Boolean,
+        next_billing_timestamp: T.nilable(Integer),
       ).returns(T::Array[T::Hash[Symbol, T.untyped]])
     end
     # creating one-time invoice items for terminated lines for the unused prorated amount (which has already been billed)
-    def self.generate_proration_credits_from_terminated_phase_items(user:, mapper:, sf_order_amendment:, terminated_phase_items:, subscription_term:, billing_frequency:, is_order_backdated:)
+    def self.generate_proration_credits_from_terminated_phase_items(user:, mapper:, sf_order_amendment:, terminated_phase_items:, subscription_term:, billing_frequency:, is_order_backdated:, next_billing_timestamp:)
       negative_invoice_items_for_prorations = []
 
       terminated_phase_items.each do |phase_item|
@@ -292,18 +293,25 @@ class StripeForce::Translate
         mapper.apply_mapping(credit_stripe_item, phase_item.order_line)
 
         proration_period_start = {type: 'phase_start'}
-        if is_order_backdated
+        proration_period_end = {type: 'subscription_period_end'}
+        if is_order_backdated && next_billing_timestamp.present?
           amendment_start_date = StripeForce::Utilities::SalesforceUtil.extract_subscription_start_date_from_order(mapper, sf_order_amendment)
           proration_period_start = {type: 'timestamp', timestamp: amendment_start_date.to_i}
+          proration_period_end = {type: 'timestamp', timestamp: next_billing_timestamp}
+
+          # https://admin.corp.stripe.com/gates/billing_subscriptions_open_invoicing_interval
+          # https://jira.corp.stripe.com/browse/PLATINT-2450
+          if user.feature_enabled?(StripeForce::Constants::FeatureFlags::BILLING_GATE_OPEN_INVOICING_INTERVAL)
+            # https://livegrep.corp.stripe.com/view/stripe-internal/pay-server/lib/subscriptions/command/invoicing_period.rb#L26
+            proration_period_end[:timestamp] = proration_period_end[:timestamp] - 1 > proration_period_start[:timestamp] ? proration_period_end[:timestamp] - 1 : proration_period_end[:timestamp]
+          end
         end
 
         negative_invoice_items_for_prorations << credit_stripe_item.to_hash.merge({
           quantity: phase_item.reduced_by,
           price_data: price_data,
           period: {
-            end: {
-              type: 'subscription_period_end',
-            },
+            end: proration_period_end,
             start: proration_period_start,
           },
         })

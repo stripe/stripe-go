@@ -113,13 +113,13 @@ class Critic::BackendProratedAmendmentTranslation < Critic::OrderAmendmentFuncti
       contract_term = 18
       amendment_term = 6
 
-      # 18 month contract, billed annually
-      # amendment starts 12 months in, same day as the proration phase
+      # initial order: 18 month contract, billed annually
+      # amendment order: starts 12 months in, same day as the proration phase
       initial_start_date = now_time
       amendment_start_date = initial_start_date + (contract_term - amendment_term).months
       amendment_end_date = amendment_start_date + amendment_term.months
 
-      sf_product_id, sf_pricebook_entry_id = salesforce_recurring_product_with_price(
+      sf_product_id, _sf_pricebook_entry_id = salesforce_recurring_product_with_price(
         additional_product_fields: {
           CPQ_QUOTE_BILLING_FREQUENCY => CPQBillingFrequencyOptions::ANNUAL.serialize,
         }
@@ -137,7 +137,7 @@ class Critic::BackendProratedAmendmentTranslation < Critic::OrderAmendmentFuncti
       # translate the initial order
       StripeForce::Translate.perform_inline(@user, sf_order.Id)
 
-      # create amendment order
+      # create amendment order increase quantity (+1)
       sf_contract = create_contract_from_order(sf_order)
       amendment_data = create_quote_data_from_contract_amendment(sf_contract)
       amendment_data["lineItems"].first["record"][CPQ_QUOTE_QUANTITY] = 2

@@ -56,6 +56,10 @@ def example_sf_order
   sf_get(@sf.query("SELECT Id FROM #{SF_ORDER} ORDER BY CreatedDate DESC LIMIT 1").first.Id)
 end
 
+def get_terminated_items_from_order(order_id)
+  @user.sf_client.query("SELECT Id FROM OrderItem WHERE OrderId = '#{order_id}' AND SBQQ__OrderedQuantity__c < 0")
+end
+
 def example_sf_customer
   sf_get(@sf.query("SELECT Id FROM #{SF_ACCOUNT} ORDER BY CreatedDate DESC LIMIT 1").first.Id)
 end
