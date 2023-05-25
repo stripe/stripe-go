@@ -1,5 +1,13 @@
 # Changelog
 
+## 74.20.0 - 2023-05-25
+* [#1662](https://github.com/stripe/stripe-go/pull/1662) Update generated code
+  * Add support for `ZipPayments` on `AccountCapabilitiesParams` and `AccountCapabilities`
+  * Add support for `Zip` on `ChargePaymentMethodDetails`, `PaymentIntentConfirmPaymentMethodDataParams`, `PaymentIntentConfirmPaymentMethodOptionsParams`, `PaymentIntentPaymentMethodDataParams`, `PaymentIntentPaymentMethodOptionsParams`, `PaymentIntentPaymentMethodOptions`, `PaymentMethodParams`, `PaymentMethod`, `SetupIntentConfirmPaymentMethodDataParams`, and `SetupIntentPaymentMethodDataParams`
+  * Add support for new value `zip` on enum `PaymentMethodType`
+* [#1661](https://github.com/stripe/stripe-go/pull/1661) Generate error codes
+* [#1660](https://github.com/stripe/stripe-go/pull/1660) Update generated code
+
 ## 74.19.0 - 2023-05-19
 * [#1657](https://github.com/stripe/stripe-go/pull/1657) Update generated code
   * Add support for `SubscriptionUpdateConfirm` and `SubscriptionUpdate` on `BillingPortalSessionFlowDataParams` and `BillingPortalSessionFlow`
