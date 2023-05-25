@@ -688,6 +688,18 @@ const (
 	PaymentIntentPaymentMethodOptionsWeChatPaySetupFutureUsageNone PaymentIntentPaymentMethodOptionsWeChatPaySetupFutureUsage = "none"
 )
 
+// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+//
+// Providing this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.
+//
+// When processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).
+type PaymentIntentPaymentMethodOptionsZipSetupFutureUsage string
+
+// List of values that PaymentIntentPaymentMethodOptionsZipSetupFutureUsage can take
+const (
+	PaymentIntentPaymentMethodOptionsZipSetupFutureUsageNone PaymentIntentPaymentMethodOptionsZipSetupFutureUsage = "none"
+)
+
 // Type of the payment method for which payment is in `processing` state, one of `card`.
 type PaymentIntentProcessingType string
 
@@ -830,6 +842,9 @@ type PaymentIntentPaymentMethodDataUSBankAccountParams struct {
 	RoutingNumber *string `form:"routing_number"`
 }
 
+// If this is a `zip` PaymentMethod, this hash contains details about the Zip payment method.
+type PaymentIntentPaymentMethodDataZipParams struct{}
+
 // If provided, this hash will be used to create a PaymentMethod. The new PaymentMethod will appear
 // in the [payment_method](https://stripe.com/docs/api/payment_intents/object#payment_intent_object-payment_method)
 // property on the PaymentIntent.
@@ -902,6 +917,8 @@ type PaymentIntentPaymentMethodDataParams struct {
 	USBankAccount *PaymentIntentPaymentMethodDataUSBankAccountParams `form:"us_bank_account"`
 	// If this is an `wechat_pay` PaymentMethod, this hash contains details about the wechat_pay payment method.
 	WeChatPay *PaymentMethodWeChatPayParams `form:"wechat_pay"`
+	// If this is a `zip` PaymentMethod, this hash contains details about the Zip payment method.
+	Zip *PaymentIntentPaymentMethodDataZipParams `form:"zip"`
 }
 
 // Additional fields for Mandate creation
@@ -1480,6 +1497,18 @@ type PaymentIntentPaymentMethodOptionsWeChatPayParams struct {
 	SetupFutureUsage *string `form:"setup_future_usage"`
 }
 
+// If this is a `zip` PaymentMethod, this sub-hash contains details about the Zip payment method options.
+type PaymentIntentPaymentMethodOptionsZipParams struct {
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// Providing this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.
+	//
+	// When processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).
+	//
+	// If `setup_future_usage` is already set and you are performing a request using a publishable key, you may only update the value from `on_session` to `off_session`.
+	SetupFutureUsage *string `form:"setup_future_usage"`
+}
+
 // Payment-method-specific configuration for this PaymentIntent.
 type PaymentIntentPaymentMethodOptionsParams struct {
 	// If this is a `acss_debit` PaymentMethod, this sub-hash contains details about the ACSS Debit payment method options.
@@ -1546,6 +1575,8 @@ type PaymentIntentPaymentMethodOptionsParams struct {
 	USBankAccount *PaymentIntentPaymentMethodOptionsUSBankAccountParams `form:"us_bank_account"`
 	// If this is a `wechat_pay` PaymentMethod, this sub-hash contains details about the WeChat Pay payment method options.
 	WeChatPay *PaymentIntentPaymentMethodOptionsWeChatPayParams `form:"wechat_pay"`
+	// If this is a `zip` PaymentMethod, this sub-hash contains details about the Zip payment method options.
+	Zip *PaymentIntentPaymentMethodOptionsZipParams `form:"zip"`
 }
 
 // Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
@@ -2516,6 +2547,14 @@ type PaymentIntentPaymentMethodOptionsWeChatPay struct {
 	// When processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).
 	SetupFutureUsage PaymentIntentPaymentMethodOptionsWeChatPaySetupFutureUsage `json:"setup_future_usage"`
 }
+type PaymentIntentPaymentMethodOptionsZip struct {
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// Providing this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.
+	//
+	// When processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).
+	SetupFutureUsage PaymentIntentPaymentMethodOptionsZipSetupFutureUsage `json:"setup_future_usage"`
+}
 
 // Payment-method-specific configuration for this PaymentIntent.
 type PaymentIntentPaymentMethodOptions struct {
@@ -2551,6 +2590,7 @@ type PaymentIntentPaymentMethodOptions struct {
 	Sofort           *PaymentIntentPaymentMethodOptionsSofort           `json:"sofort"`
 	USBankAccount    *PaymentIntentPaymentMethodOptionsUSBankAccount    `json:"us_bank_account"`
 	WeChatPay        *PaymentIntentPaymentMethodOptionsWeChatPay        `json:"wechat_pay"`
+	Zip              *PaymentIntentPaymentMethodOptionsZip              `json:"zip"`
 }
 type PaymentIntentProcessingCardCustomerNotification struct {
 	// Whether customer approval has been requested for this payment. For payments greater than INR 15000 or mandate amount, the customer must provide explicit approval of the payment with their bank.

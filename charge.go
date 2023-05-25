@@ -1010,6 +1010,7 @@ type ChargePaymentMethodDetailsWeChatPay struct {
 	// Transaction ID of this particular WeChat Pay transaction.
 	TransactionID string `json:"transaction_id"`
 }
+type ChargePaymentMethodDetailsZip struct{}
 
 // Details about the payment method at the time of the transaction.
 type ChargePaymentMethodDetails struct {
@@ -1055,6 +1056,7 @@ type ChargePaymentMethodDetails struct {
 	USBankAccount *ChargePaymentMethodDetailsUSBankAccount `json:"us_bank_account"`
 	WeChat        *ChargePaymentMethodDetailsWeChat        `json:"wechat"`
 	WeChatPay     *ChargePaymentMethodDetailsWeChatPay     `json:"wechat_pay"`
+	Zip           *ChargePaymentMethodDetailsZip           `json:"zip"`
 }
 
 // Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.

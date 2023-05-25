@@ -174,6 +174,7 @@ const (
 	PaymentMethodTypeSofort           PaymentMethodType = "sofort"
 	PaymentMethodTypeUSBankAccount    PaymentMethodType = "us_bank_account"
 	PaymentMethodTypeWeChatPay        PaymentMethodType = "wechat_pay"
+	PaymentMethodTypeZip              PaymentMethodType = "zip"
 )
 
 // Account holder type: individual or company.
@@ -420,6 +421,9 @@ type PaymentMethodUSBankAccountParams struct {
 // If this is an `wechat_pay` PaymentMethod, this hash contains details about the wechat_pay payment method.
 type PaymentMethodWeChatPayParams struct{}
 
+// If this is a `zip` PaymentMethod, this hash contains details about the Zip payment method.
+type PaymentMethodZipParams struct{}
+
 // Creates a PaymentMethod object. Read the [Stripe.js reference](https://stripe.com/docs/stripe-js/reference#stripe-create-payment-method) to learn how to create PaymentMethods via Stripe.js.
 //
 // Instead of creating a PaymentMethod directly, we recommend using the [PaymentIntents API to accept a payment immediately or the <a href="/docs/payments/save-and-reuse">SetupIntent](https://stripe.com/docs/payments/accept-a-payment) API to collect payment method details ahead of a future payment.
@@ -493,6 +497,8 @@ type PaymentMethodParams struct {
 	USBankAccount *PaymentMethodUSBankAccountParams `form:"us_bank_account"`
 	// If this is an `wechat_pay` PaymentMethod, this hash contains details about the wechat_pay payment method.
 	WeChatPay *PaymentMethodWeChatPayParams `form:"wechat_pay"`
+	// This is a legacy parameter that will be removed in the future. It is a hash that does not accept any keys.
+	Zip *PaymentMethodZipParams `form:"zip"`
 	// The following parameters are used when cloning a PaymentMethod to the connected account
 	// The `Customer` to whom the original PaymentMethod is attached.
 	Customer *string `form:"customer"`
@@ -876,6 +882,7 @@ type PaymentMethodUSBankAccount struct {
 	StatusDetails *PaymentMethodUSBankAccountStatusDetails `json:"status_details"`
 }
 type PaymentMethodWeChatPay struct{}
+type PaymentMethodZip struct{}
 
 // PaymentMethod objects represent your customer's payment instruments.
 // You can use them with [PaymentIntents](https://stripe.com/docs/payments/payment-intents) to collect payments or save them to
@@ -933,6 +940,7 @@ type PaymentMethod struct {
 	Type          PaymentMethodType           `json:"type"`
 	USBankAccount *PaymentMethodUSBankAccount `json:"us_bank_account"`
 	WeChatPay     *PaymentMethodWeChatPay     `json:"wechat_pay"`
+	Zip           *PaymentMethodZip           `json:"zip"`
 }
 
 // PaymentMethodList is a list of PaymentMethods as retrieved from a list endpoint.
