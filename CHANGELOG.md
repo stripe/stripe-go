@@ -1,5 +1,11 @@
 # Changelog
 
+## 74.21.0-beta.1 - 2023-05-25
+* [#1659](https://github.com/stripe/stripe-go/pull/1659) Update generated code for beta
+
+* [#1663](https://github.com/stripe/stripe-go/pull/1663) Handle developer message in preview error responses
+* [#1648](https://github.com/stripe/stripe-go/pull/1648) Introduce stripe.RawRequest as a canonical way to request APIs without definitions
+
 ## 74.20.0 - 2023-05-25
 * [#1662](https://github.com/stripe/stripe-go/pull/1662) Update generated code
   * Add support for `ZipPayments` on `AccountCapabilitiesParams` and `AccountCapabilities`
