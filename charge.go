@@ -302,7 +302,9 @@ type ChargeLevel3Params struct {
 	ShippingFromZip    *string                       `form:"shipping_from_zip"`
 }
 
-// To charge a credit card or other payment source, you create a Charge object. If your API key is in test mode, the supplied payment source (e.g., card) won't actually be charged, although everything else will occur as if in live mode. (Stripe assumes that the charge would have completed successfully).
+// Use the [Payment Intents API](https://stripe.com/docs/api/payment_intents) to initiate a new payment instead
+// of using this method. Confirmation of the PaymentIntent creates the Charge
+// object used to request payment, so this method is limited to legacy integrations.
 type ChargeParams struct {
 	Params `form:"*"`
 	// Amount intended to be collected by this payment. A positive integer representing how much to charge in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal) (e.g., 100 cents to charge $1.00 or 100 to charge ¥100, a zero-decimal currency). The minimum amount is $0.50 US or [equivalent in charge currency](https://stripe.com/docs/currencies#minimum-and-maximum-charge-amounts). The amount value supports up to eight digits (e.g., a value of 99999999 for a USD charge of $999,999.99).
@@ -362,9 +364,11 @@ type ChargeCaptureTransferDataParams struct {
 	Amount *int64 `form:"amount"`
 }
 
-// Capture the payment of an existing, uncaptured, charge. This is the second half of the two-step payment flow, where first you [created a charge](https://stripe.com/docs/api#create_charge) with the capture option set to false.
+// Capture the payment of an existing, uncaptured charge that was created with the capture option set to false.
 //
-// Uncaptured payments expire a set number of days after they are created ([7 by default](https://stripe.com/docs/charges/placing-a-hold)). If they are not captured by that point in time, they will be marked as refunded and will no longer be capturable.
+// Uncaptured payments expire a set number of days after they are created ([7 by default](https://stripe.com/docs/charges/placing-a-hold)), after which they are marked as refunded and capture attempts will fail.
+//
+// Don't use this method to capture a PaymentIntent-initiated charge. Use [Capture a PaymentIntent](https://stripe.com/docs/api/payment_intents/capture).
 type ChargeCaptureParams struct {
 	Params `form:"*"`
 	// The amount to capture, which must be less than or equal to the original amount. Any additional amount will be automatically refunded.
@@ -1087,11 +1091,10 @@ type ChargeTransferData struct {
 	Destination *Account `json:"destination"`
 }
 
-// To charge a credit or a debit card, you create a `Charge` object. You can
-// retrieve and refund individual charges as well as list all charges. Charges
-// are identified by a unique, random ID.
-//
-// Related guide: [Accept a payment with the Charges API](https://stripe.com/docs/payments/accept-a-payment-charges)
+// The `Charge` object represents a single attempt to move money into your Stripe account.
+// PaymentIntent confirmation is the most common way to create Charges, but transferring
+// money to a different Stripe account through Connect also creates Charges.
+// Some legacy payment flows create Charges directly, which is not recommended for new integrations.
 type Charge struct {
 	APIResource
 	// Amount intended to be collected by this payment. A positive integer representing how much to charge in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal) (e.g., 100 cents to charge $1.00 or 100 to charge ¥100, a zero-decimal currency). The minimum amount is $0.50 US or [equivalent in charge currency](https://stripe.com/docs/currencies#minimum-and-maximum-charge-amounts). The amount value supports up to eight digits (e.g., a value of 99999999 for a USD charge of $999,999.99).
