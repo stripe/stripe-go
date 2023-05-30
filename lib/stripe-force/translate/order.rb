@@ -325,7 +325,6 @@ class StripeForce::Translate
 
     # TODO this should be moved to a helper
     is_order_terminated = aggregate_phase_items.all?(&:fully_terminated?)
-
     if is_order_terminated && !invoice_items_in_order.empty?
       raise Integrations::Errors::UnhandledEdgeCase.new("one-time invoice items but terminated order")
     end
@@ -417,19 +416,23 @@ class StripeForce::Translate
     contract_structure.amendments.each_with_index do |sf_order_amendment, index|
       locker.lock_salesforce_record(sf_order_amendment)
 
-      # TODO replace with local sync record call in the future
-      order_amendment_subscription_id = sf_order_amendment[prefixed_stripe_field(GENERIC_STRIPE_ID)]
-      if order_amendment_subscription_id.present?
-        log.info "order amendment already translated, skipping", sf_order_amendment_id: sf_order_amendment.Id, index: index
-        next
-      end
-
       log.info 'processing amendment', sf_order_amendment_id: sf_order_amendment.Id, index: index
-
       invoice_items_in_order, aggregate_phase_items = build_phase_items_from_order_amendment(
         previous_phase_items,
         sf_order_amendment
       )
+
+      # TODO replace with local sync record call in the future
+      order_amendment_subscription_id = sf_order_amendment[prefixed_stripe_field(GENERIC_STRIPE_ID)]
+      if order_amendment_subscription_id.present?
+        log.info "order amendment already translated, skipping", sf_order_amendment_id: sf_order_amendment.Id, index: index
+
+        # it's important we update the previous phase items since the latest amendment depends on previous amendments
+        aggregate_phase_items, _terminated_phase_items = OrderHelpers.remove_terminated_lines(aggregate_phase_items)
+        previous_phase_items = aggregate_phase_items
+        next
+      end
+
 
       is_order_terminated = aggregate_phase_items.all?(&:fully_terminated?)
       if is_order_terminated
@@ -805,7 +808,7 @@ class StripeForce::Translate
         end
       end
 
-    log.debug "order amendment revision map",
+    log.info "order amendment revision map",
       revision_map: revision_map.transform_values {|ci| ci.map(&:order_line_id) }
 
     # now let's terminate the related line items

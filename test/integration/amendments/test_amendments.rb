@@ -25,7 +25,6 @@ class Critic::OrderAmendmentTranslation < Critic::OrderAmendmentFunctionalTest
     amendment_term = 3
     amendment_start_date = initial_start_date + (contract_term - amendment_term).months
     amendment_end_date = amendment_start_date + amendment_term.months
-
     # normalize the amendment_end_date so test doesn't fail EOM
     amendment_end_date = StripeForce::Translate::OrderHelpers.anchor_time_to_day_of_month(base_time: amendment_end_date, anchor_day_of_month: initial_order_end_date.day)
 
@@ -53,7 +52,6 @@ class Critic::OrderAmendmentTranslation < Critic::OrderAmendmentFunctionalTest
     amendment_data["lineItems"].first["record"][CPQ_QUOTE_QUANTITY] = 3
     amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_START_DATE] = format_date_for_salesforce(amendment_start_date)
     amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_TERM] = amendment_term
-
     sf_order_amendment = create_order_from_quote_data(amendment_data)
 
     # api preconditions: the contract ID on the amendment is STILL empty right after the contract is created
@@ -137,7 +135,6 @@ class Critic::OrderAmendmentTranslation < Critic::OrderAmendmentFunctionalTest
     initial_order_end_date = initial_order_start_date + TEST_DEFAULT_CONTRACT_TERM
     amendment_start_date = initial_order_start_date + 6.months
     amendment_end_date = amendment_start_date + amendment_term.months
-
     # normalize the amendment_end_date so tests don't fail EOM
     amendment_end_date = StripeForce::Translate::OrderHelpers.anchor_time_to_day_of_month(base_time: amendment_end_date, anchor_day_of_month: initial_order_end_date.day)
 
@@ -148,7 +145,6 @@ class Critic::OrderAmendmentTranslation < Critic::OrderAmendmentFunctionalTest
     sf_contract = create_contract_from_order(sf_order)
 
     amendment_data = create_quote_data_from_contract_amendment(sf_contract)
-
     # remove metered billing item completely
     amendment_data["lineItems"].first["record"][CPQ_QUOTE_QUANTITY] = 0
     amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_START_DATE] = format_date_for_salesforce(amendment_start_date)
@@ -284,7 +280,6 @@ class Critic::OrderAmendmentTranslation < Critic::OrderAmendmentFunctionalTest
     amendment_data["lineItems"].first["record"][CPQ_QUOTE_QUANTITY] = 3
     amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_START_DATE] = format_date_for_salesforce(start_date)
     amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_TERM] = amendment_term
-
     sf_order_amendment = create_order_from_quote_data(amendment_data)
 
     StripeForce::Translate.perform_inline(@user, sf_order_amendment.Id)
@@ -294,7 +289,6 @@ class Critic::OrderAmendmentTranslation < Critic::OrderAmendmentFunctionalTest
     subscription_schedule = Stripe::SubscriptionSchedule.retrieve(stripe_id, @user.stripe_credentials)
 
     assert_equal(2, subscription_schedule.phases.count)
-
     first_phase = T.must(subscription_schedule.phases.first)
     second_phase = T.must(subscription_schedule.phases[1])
 
@@ -332,11 +326,6 @@ class Critic::OrderAmendmentTranslation < Critic::OrderAmendmentFunctionalTest
     sf.destroy(SF_CONTRACT, sf_contract.Id)
 
     StripeForce::Translate.perform_inline(@user, sf_order.Id)
-  end
-
-  # TODO pretty sure this is tested in the price reuse tests, check if any additional cases need to be tested here
-  it 'customized prices on the line level' do
-
   end
 
   it 'supports adding one-time line items on a order amendment'
@@ -395,15 +384,12 @@ class Critic::OrderAmendmentTranslation < Critic::OrderAmendmentFunctionalTest
       amendment_data["lineItems"].first["record"][CPQ_QUOTE_QUANTITY] = 2
       amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_START_DATE] = format_date_for_salesforce(amendment_start_date)
       amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_TERM] = amendment_term
-
       sf_order_amendment = create_order_from_quote_data(amendment_data)
 
       StripeForce::Translate.perform_inline(@user, sf_order_amendment.Id)
-
       subscription_schedule.refresh
 
       assert_equal(2, subscription_schedule.phases.count)
-
       first_phase = T.must(subscription_schedule.phases.first)
       second_phase = T.must(subscription_schedule.phases[1])
 
@@ -2214,6 +2200,133 @@ class Critic::OrderAmendmentTranslation < Critic::OrderAmendmentFunctionalTest
       credit_stripe_price = Stripe::Price.retrieve(T.cast(credit_item.price, String), @user.stripe_credentials)
       assert_equal('one_time', credit_stripe_price.type)
       assert_equal(-1 * (BigDecimal(TEST_DEFAULT_PRICE) * BigDecimal(amendment_2_term) / BigDecimal(contract_term)).round(MAX_STRIPE_PRICE_PRECISION), BigDecimal(credit_stripe_price.unit_amount_decimal))
+    end
+
+    it 'syncs three stacked backdated amendments with quantity changes on different runs' do
+      # initial order: 1yr contract, billed annually, started 3 months ago
+      # amendment 1: started 2 months ago
+      # amendment 2: started 1 month ago
+      # amendment 3: started 3 days ago
+      contract_term = TEST_DEFAULT_CONTRACT_TERM
+      initial_order_start_date = now_time - 3.months - 3.days
+      initial_order_end_date = initial_order_start_date + contract_term.months
+
+      amendment_1_term = 11
+      amendment_1_start_date = initial_order_start_date + (contract_term - amendment_1_term).months
+
+      amendment_2_term = 10
+      amendment_2_start_date = initial_order_start_date + (contract_term - amendment_2_term).months
+
+      amendment_3_term = 9
+      amendment_3_start_date = initial_order_start_date + (contract_term - amendment_3_term).months
+
+      sf_product_id, _sf_pricebook_id = salesforce_recurring_product_with_price(
+        additional_product_fields: {
+          CPQ_QUOTE_BILLING_FREQUENCY => CPQBillingFrequencyOptions::ANNUAL.serialize,
+        }
+      )
+
+      # create the initial sf order
+      sf_order = create_subscription_order(
+        sf_product_id: sf_product_id,
+        additional_fields: {
+          CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(initial_order_start_date),
+          CPQ_QUOTE_BILLING_FREQUENCY => CPQBillingFrequencyOptions::ANNUAL.serialize,
+          CPQ_QUOTE_SUBSCRIPTION_TERM => contract_term,
+        }
+      )
+
+      # create the first amendment to increase quantity (+2)
+      sf_contract_1 = create_contract_from_order(sf_order)
+      amendment_quote = create_quote_data_from_contract_amendment(sf_contract_1)
+      amendment_quote["lineItems"].first["record"][CPQ_QUOTE_QUANTITY] = 3
+      amendment_quote["record"][CPQ_QUOTE_SUBSCRIPTION_START_DATE] = format_date_for_salesforce(amendment_1_start_date)
+      amendment_quote["record"][CPQ_QUOTE_SUBSCRIPTION_TERM] = amendment_1_term
+      sf_order_amendment_1 = create_order_from_quote_data(amendment_quote)
+
+      # translate the orders (initial order and first two amendments)
+      StripeForce::Translate.perform_inline(@user, sf_order.Id)
+      sf_order.refresh
+      stripe_id = sf_order[prefixed_stripe_field(GENERIC_STRIPE_ID)]
+
+      # create the second amendment to increase quantity (+3)
+      sf_contract_2 = create_contract_from_order(sf_order_amendment_1)
+      amendment_quote = create_quote_data_from_contract_amendment(sf_contract_2)
+      amendment_quote["lineItems"].first["record"][CPQ_QUOTE_QUANTITY] = 6
+      amendment_quote["record"][CPQ_QUOTE_SUBSCRIPTION_START_DATE] = format_date_for_salesforce(amendment_2_start_date)
+      amendment_quote["record"][CPQ_QUOTE_SUBSCRIPTION_TERM] = amendment_2_term
+      sf_order_amendment_2 = create_order_from_quote_data(amendment_quote)
+
+      StripeForce::Translate.perform_inline(@user, sf_order_amendment_2.Id)
+
+      # create the third amendment to decrease the quantity (-5)
+      sf_contract_3 = create_contract_from_order(sf_order_amendment_2)
+      amendment_quote = create_quote_data_from_contract_amendment(sf_contract_3)
+      amendment_quote["lineItems"].first["record"][CPQ_QUOTE_QUANTITY] = 1
+      amendment_quote["record"][CPQ_QUOTE_SUBSCRIPTION_START_DATE] = format_date_for_salesforce(amendment_3_start_date)
+      amendment_quote["record"][CPQ_QUOTE_SUBSCRIPTION_TERM] = amendment_3_term
+      sf_order_amendment_3 = create_order_from_quote_data(amendment_quote)
+
+      StripeForce::Translate.perform_inline(@user, sf_order_amendment_3.Id)
+
+      # fetch the subscription schedule
+      subscription_schedule = Stripe::SubscriptionSchedule.retrieve(stripe_id, @user.stripe_credentials)
+      assert_equal(4, subscription_schedule.phases.count)
+      first_phase = T.must(subscription_schedule.phases.first)
+      second_phase = T.must(subscription_schedule.phases.second)
+      third_phase = T.must(subscription_schedule.phases.third)
+      fourth_phase = T.must(subscription_schedule.phases.fourth)
+
+      # first phase should start at the backdated date
+      assert_equal(0, first_phase.start_date - initial_order_start_date.to_i)
+      assert_equal(0, first_phase.end_date - second_phase.start_date)
+      # first phase should have an item with a quantity of 1 and no invoice items
+      assert_equal(1, first_phase.items.count)
+      first_phase_item = T.must(first_phase.items.first)
+      assert_equal(1, first_phase_item.quantity)
+      assert_empty(first_phase.add_invoice_items)
+
+      # second phase should start 'now' (since it was a backdated amendment)
+      # and have two products with total quantity of 2
+      assert(second_phase.start_date.to_i - now_time.to_i < SECONDS_IN_DAY)
+      assert_equal(0, second_phase.end_date - third_phase.start_date.to_i)
+      # second phase should have an item with a quantity of 3
+      assert_equal(2, second_phase.items.count)
+      second_phase_item_1 = T.must(second_phase.items.first)
+      second_phase_item_2 = T.must(second_phase.items.second)
+      assert_equal(1, second_phase_item_1.quantity)
+      assert_equal(2, second_phase_item_2.quantity)
+
+      # prorate the added items added since the amendment was backdated and missed a billing cycle
+      assert_equal(1, second_phase.add_invoice_items.count)
+      prorated_item = T.unsafe(second_phase.add_invoice_items.first)
+      assert_equal(2, prorated_item.quantity)
+
+      prorated_price = Stripe::Price.retrieve(T.cast(prorated_item.price, String), @user.stripe_credentials)
+      assert_equal('one_time', prorated_price.type)
+      assert_equal((TEST_DEFAULT_PRICE / (contract_term / BigDecimal(amendment_1_term))).round(MAX_STRIPE_PRICE_PRECISION), BigDecimal(prorated_price.unit_amount_decimal))
+      assert_equal("true", prorated_price.metadata['salesforce_proration'])
+
+      # third phase should start 'now' (since it was a backdated amendment)
+      assert_equal(0, third_phase.start_date.to_i - second_phase.end_date.to_i)
+      assert_equal(0, third_phase.end_date.to_i - fourth_phase.start_date.to_i)
+      assert_equal(3, third_phase.items.count)
+      T.must(third_phase.items.detect {|i| i[:quantity] == 1 })
+      T.must(third_phase.items.detect {|i| i[:quantity] == 2 })
+      T.must(third_phase.items.detect {|i| i[:quantity] == 3 })
+
+      # fourth phase should start 'now' (since it was a backdated amendment)
+      assert_equal(0, fourth_phase.end_date.to_i - initial_order_end_date.to_i)
+      assert_equal(1, fourth_phase.items.count)
+      T.must(fourth_phase.items.detect {|i| i[:quantity] == 1 })
+
+      # there should be one invoice items - credit item for decrease quantity
+      assert_equal(2, fourth_phase.add_invoice_items.count)
+      credit_item_1 = T.must(fourth_phase.add_invoice_items.detect {|i| i[:quantity] == 2 })
+      credit_item_2 = T.must(fourth_phase.add_invoice_items.detect {|i| i[:quantity] == 3 })
+      credit_stripe_price = Stripe::Price.retrieve(T.cast(credit_item_1.price, String), @user.stripe_credentials)
+      assert_equal('one_time', credit_stripe_price.type)
+      assert_equal(-1 * (BigDecimal(TEST_DEFAULT_PRICE) * BigDecimal(amendment_3_term) / BigDecimal(contract_term)).round(MAX_STRIPE_PRICE_PRECISION), BigDecimal(credit_stripe_price.unit_amount_decimal))
     end
   end
 

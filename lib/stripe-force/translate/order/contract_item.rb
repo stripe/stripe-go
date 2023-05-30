@@ -32,10 +32,8 @@ class StripeForce::Translate
     def self.from_order_line_and_params(sf_order_line, stripe_params)
       self.new(
         stripe_params: stripe_params,
-
         order_line: sf_order_line,
         order_line_id: sf_order_line.Id,
-
         revised_order_line_id: sf_order_line[SF_ORDER_ITEM_REVISED_ORDER_PRODUCT],
         quantity: stripe_params[:quantity],
         reduced_by: 0
@@ -69,13 +67,13 @@ class StripeForce::Translate
 
     sig { returns(T::Boolean) }
     def fully_terminated?
-      quantity.zero?
+      self.quantity.zero?
     end
 
     # "new" meaning not-revised
     sig { returns(T::Boolean) }
     def new_order_line?
-      revised_order_line_id.blank?
+      self.revised_order_line_id.blank?
     end
 
     sig { params(sf_order: Restforce::SObject).returns(T::Boolean) }
