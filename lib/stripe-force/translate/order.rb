@@ -194,6 +194,10 @@ class StripeForce::Translate
 
     PriceHelpers.auto_archive_prices_on_subscription_schedule(@user, subscription_schedule)
 
+    if @user.feature_enabled?(FeatureFlags::STRIPE_REVENUE_CONTRACT)
+      create_revenue_contract_from_sub_schedule(subscription_schedule, sf_order, invoice_items, subscription_items)
+    end
+
     stripe_transaction
   end
 

@@ -120,5 +120,17 @@ module Critic
        # StripeForceDemo acct
        "inrtem_1Mk83SIsgf92XbAOfQinG8BA"
     end
+
+    sig { params(revenue_contract_id: String).returns(Stripe::RevenueContract) }
+    def get_revenue_contract(revenue_contract_id)
+      response = Stripe::APIResource.request(
+        :get,
+        "/v1/revenue_recognition/contracts/#{revenue_contract_id}",
+        nil,
+        @user.stripe_credentials
+      )
+      responseObj = T.let(response.first, Stripe::StripeResponse)
+      Stripe::RevenueContract.construct_from(responseObj.data)
+    end
   end
 end

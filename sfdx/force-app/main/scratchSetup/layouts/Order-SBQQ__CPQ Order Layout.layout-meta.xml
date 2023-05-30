@@ -52,6 +52,10 @@
                 <behavior>Edit</behavior>
                 <field>Stripe_ID__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Stripe_Revenue_Contract_ID__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>

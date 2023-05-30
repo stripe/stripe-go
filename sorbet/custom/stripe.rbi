@@ -338,3 +338,77 @@ class Stripe::Discounts
   sig { returns(String)}
   def discount; end
 end
+class Stripe::RevenueContract < Stripe::StripeObject
+  sig { returns(String)}
+  def id; end
+
+  sig { returns(String)}
+  def customer; end
+  
+  sig { returns(String)}
+  def currency; end
+  
+  sig { returns(Integer)}
+  def signed_at; end
+  
+  sig { returns(Integer)}
+  def version; end
+  
+  sig { returns(T::Array[Stripe::RevenueContractBillingModel])}
+  def billing_models; end
+  
+  sig { returns(Stripe::RevenueContractItemsListOjbect)}
+  def items; end
+end
+
+class Stripe::RevenueContractBillingModel
+  sig { returns(String)}
+  def type; end
+
+  sig { returns(String)}
+  def subscription_schedule; end
+end
+
+class Stripe::RevenueContractItemsListOjbect < Stripe::StripeObject
+  sig { returns(T::Array[Stripe::RevenueContractItem])}
+  def data; end
+  
+  sig { returns(T::Boolean)}
+  def has_more; end
+
+  sig { returns(String)}
+  def url; end
+end
+
+class Stripe::RevenueContractItem < Stripe::StripeObject
+  sig { returns(String)}
+  def id; end
+
+  sig { returns(Integer)}
+  def amount_subtotal; end
+  
+  sig { returns(String)}
+  def price; end
+  
+  sig { returns(Integer)}
+  def quantity; end
+  
+  sig { returns(T.nilable(Stripe::RevenueContractItemTerminationForConvenience))}
+  def termination_for_convenience; end
+  
+  sig { returns(Stripe::RevenueContractItemPeriod)}
+  def period; end
+end
+
+class Stripe::RevenueContractItemTerminationForConvenience
+  sig { returns(Integer)}
+  def expires_at; end
+end
+
+class Stripe::RevenueContractItemPeriod
+  sig { returns(Integer)}
+  def start; end
+
+  sig { returns(Integer)}
+  def end; end
+end

@@ -133,6 +133,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Order.Stripe_Revenue_Contract_ID__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <field>Order.SBQQ__Quote__c</field>
         <readable>true</readable>
     </fieldPermissions>

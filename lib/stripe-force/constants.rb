@@ -98,6 +98,7 @@ module StripeForce
 
     # custom fields added by our package
     GENERIC_STRIPE_ID = 'Stripe_ID__c'
+    GENERIC_STRIPE_REVENUE_CONTRACT_ID = 'Stripe_Revenue_Contract_ID__c'
     ORDER_LINE_SKIP = 'Skip_Line_Item__c'
     ORDER_INVOICE_PAYMENT_LINK = 'Stripe_Invoice_Payment_Link__c'
     ORDER_SUBSCRIPTION_PAYMENT_LINK = 'Stripe_Subscription_Payment_Link__c'
@@ -220,6 +221,8 @@ module StripeForce
 
         # https://admin.corp.stripe.com/gates/billing_subscriptions_open_invoicing_interval
         BILLING_GATE_OPEN_INVOICING_INTERVAL = new('billing_gate_open_invoicing_interval')
+
+        STRIPE_REVENUE_CONTRACT = new('stripe_revenue_contract')
       end
     end
 

@@ -10,3 +10,6 @@
 class Stripe::SubscriptionSchedulePhase < Stripe::StripeObject; end
 class Stripe::SubscriptionSchedulePhaseSubscriptionItem < Stripe::StripeObject; end
 class Stripe::SubscriptionSchedulePhaseInvoiceItem < Stripe::StripeObject; end
+class Stripe::RevenueContract < Stripe::StripeObject; end
+class Stripe::RevenueContractItemsListOjbect < Stripe::StripeObject; end
+class Stripe::RevenueContractItem < Stripe::StripeObject; end
