@@ -15,11 +15,11 @@ type IssuingCardholderPreferredLocale string
 
 // List of values that IssuingCardholderPreferredLocale can take
 const (
-	IssuingCardholderPreferredLocaleDe IssuingCardholderPreferredLocale = "de"
-	IssuingCardholderPreferredLocaleEn IssuingCardholderPreferredLocale = "en"
-	IssuingCardholderPreferredLocaleEs IssuingCardholderPreferredLocale = "es"
-	IssuingCardholderPreferredLocaleFr IssuingCardholderPreferredLocale = "fr"
-	IssuingCardholderPreferredLocaleIt IssuingCardholderPreferredLocale = "it"
+	IssuingCardholderPreferredLocaleDE IssuingCardholderPreferredLocale = "de"
+	IssuingCardholderPreferredLocaleEN IssuingCardholderPreferredLocale = "en"
+	IssuingCardholderPreferredLocaleES IssuingCardholderPreferredLocale = "es"
+	IssuingCardholderPreferredLocaleFR IssuingCardholderPreferredLocale = "fr"
+	IssuingCardholderPreferredLocaleIT IssuingCardholderPreferredLocale = "it"
 )
 
 // If `disabled_reason` is present, all cards will decline authorizations with `cardholder_verification_required` reason.
