@@ -817,6 +817,9 @@ type PaymentMethodP24 struct {
 }
 type PaymentMethodPayNow struct{}
 type PaymentMethodPaypal struct {
+	// Owner's email. Values are provided by PayPal directly
+	// (if supported) at the time of authorization or settlement. They cannot be set or mutated.
+	PayerEmail string `json:"payer_email"`
 	// PayPal account PayerID. This identifier uniquely identifies the PayPal customer.
 	PayerID string `json:"payer_id"`
 }
