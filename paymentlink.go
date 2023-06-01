@@ -213,6 +213,22 @@ type PaymentLinkCustomFieldLabelParams struct {
 	Type *string `form:"type"`
 }
 
+// Configuration for `type=numeric` fields.
+type PaymentLinkCustomFieldNumericParams struct {
+	// The maximum character length constraint for the customer's input.
+	MaximumLength *int64 `form:"maximum_length"`
+	// The minimum character length requirement for the customer's input.
+	MinimumLength *int64 `form:"minimum_length"`
+}
+
+// Configuration for `type=text` fields.
+type PaymentLinkCustomFieldTextParams struct {
+	// The maximum character length constraint for the customer's input.
+	MaximumLength *int64 `form:"maximum_length"`
+	// The minimum character length requirement for the customer's input.
+	MinimumLength *int64 `form:"minimum_length"`
+}
+
 // Collect additional information from your customer using custom fields. Up to 2 fields are supported.
 type PaymentLinkCustomFieldParams struct {
 	// Configuration for `type=dropdown` fields.
@@ -221,8 +237,12 @@ type PaymentLinkCustomFieldParams struct {
 	Key *string `form:"key"`
 	// The label for the field, displayed to the customer.
 	Label *PaymentLinkCustomFieldLabelParams `form:"label"`
+	// Configuration for `type=numeric` fields.
+	Numeric *PaymentLinkCustomFieldNumericParams `form:"numeric"`
 	// Whether the customer is required to complete the field before completing the Checkout Session. Defaults to `false`.
 	Optional *bool `form:"optional"`
+	// Configuration for `type=text` fields.
+	Text *PaymentLinkCustomFieldTextParams `form:"text"`
 	// The type of the field.
 	Type *string `form:"type"`
 }

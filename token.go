@@ -80,8 +80,6 @@ type TokenPIIParams struct {
 // objects or [Custom accounts](https://stripe.com/docs/api#external_accounts). Note that
 // [Radar](https://stripe.com/docs/radar), our integrated solution for automatic fraud protection,
 // performs best with integrations that use client-side tokenization.
-//
-// Related guide: [Accept a payment with Charges and Tokens](https://stripe.com/docs/payments/accept-a-payment-charges#web-create-token)
 type Token struct {
 	APIResource
 	// These bank accounts are payment methods on `Customer` objects.

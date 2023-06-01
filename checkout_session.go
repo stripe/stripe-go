@@ -351,14 +351,16 @@ type CheckoutSessionPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddr
 
 // List of values that CheckoutSessionPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressType can take
 const (
+	CheckoutSessionPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressTypeABA      CheckoutSessionPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressType = "aba"
 	CheckoutSessionPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressTypeIBAN     CheckoutSessionPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressType = "iban"
 	CheckoutSessionPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressTypeSEPA     CheckoutSessionPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressType = "sepa"
 	CheckoutSessionPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressTypeSortCode CheckoutSessionPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressType = "sort_code"
 	CheckoutSessionPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressTypeSpei     CheckoutSessionPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressType = "spei"
+	CheckoutSessionPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressTypeSwift    CheckoutSessionPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressType = "swift"
 	CheckoutSessionPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressTypeZengin   CheckoutSessionPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressType = "zengin"
 )
 
-// The bank transfer type that this PaymentIntent is allowed to use for funding Permitted values include: `eu_bank_transfer`, `gb_bank_transfer`, `jp_bank_transfer`, or `mx_bank_transfer`.
+// The bank transfer type that this PaymentIntent is allowed to use for funding Permitted values include: `eu_bank_transfer`, `gb_bank_transfer`, `jp_bank_transfer`, `mx_bank_transfer`, or `us_bank_transfer`.
 type CheckoutSessionPaymentMethodOptionsCustomerBalanceBankTransferType string
 
 // List of values that CheckoutSessionPaymentMethodOptionsCustomerBalanceBankTransferType can take
@@ -367,6 +369,7 @@ const (
 	CheckoutSessionPaymentMethodOptionsCustomerBalanceBankTransferTypeGBBankTransfer CheckoutSessionPaymentMethodOptionsCustomerBalanceBankTransferType = "gb_bank_transfer"
 	CheckoutSessionPaymentMethodOptionsCustomerBalanceBankTransferTypeJPBankTransfer CheckoutSessionPaymentMethodOptionsCustomerBalanceBankTransferType = "jp_bank_transfer"
 	CheckoutSessionPaymentMethodOptionsCustomerBalanceBankTransferTypeMXBankTransfer CheckoutSessionPaymentMethodOptionsCustomerBalanceBankTransferType = "mx_bank_transfer"
+	CheckoutSessionPaymentMethodOptionsCustomerBalanceBankTransferTypeUSBankTransfer CheckoutSessionPaymentMethodOptionsCustomerBalanceBankTransferType = "us_bank_transfer"
 )
 
 // The funding method type to be used when there are not enough funds in the customer balance. Permitted values include: `bank_transfer`.
@@ -745,6 +748,22 @@ type CheckoutSessionCustomFieldLabelParams struct {
 	Type *string `form:"type"`
 }
 
+// Configuration for `type=numeric` fields.
+type CheckoutSessionCustomFieldNumericParams struct {
+	// The maximum character length constraint for the customer's input.
+	MaximumLength *int64 `form:"maximum_length"`
+	// The minimum character length requirement for the customer's input.
+	MinimumLength *int64 `form:"minimum_length"`
+}
+
+// Configuration for `type=text` fields.
+type CheckoutSessionCustomFieldTextParams struct {
+	// The maximum character length constraint for the customer's input.
+	MaximumLength *int64 `form:"maximum_length"`
+	// The minimum character length requirement for the customer's input.
+	MinimumLength *int64 `form:"minimum_length"`
+}
+
 // Collect additional information from your customer using custom fields. Up to 2 fields are supported.
 type CheckoutSessionCustomFieldParams struct {
 	// Configuration for `type=dropdown` fields.
@@ -753,8 +772,12 @@ type CheckoutSessionCustomFieldParams struct {
 	Key *string `form:"key"`
 	// The label for the field, displayed to the customer.
 	Label *CheckoutSessionCustomFieldLabelParams `form:"label"`
+	// Configuration for `type=numeric` fields.
+	Numeric *CheckoutSessionCustomFieldNumericParams `form:"numeric"`
 	// Whether the customer is required to complete the field before completing the Checkout Session. Defaults to `false`.
 	Optional *bool `form:"optional"`
+	// Configuration for `type=text` fields.
+	Text *CheckoutSessionCustomFieldTextParams `form:"text"`
 	// The type of the field.
 	Type *string `form:"type"`
 }
@@ -1771,12 +1794,20 @@ type CheckoutSessionCustomFieldLabel struct {
 
 // Configuration for `type=numeric` fields.
 type CheckoutSessionCustomFieldNumeric struct {
+	// The maximum character length constraint for the customer's input.
+	MaximumLength int64 `json:"maximum_length"`
+	// The minimum character length requirement for the customer's input.
+	MinimumLength int64 `json:"minimum_length"`
 	// The value entered by the customer, containing only digits.
 	Value string `json:"value"`
 }
 
 // Configuration for `type=text` fields.
 type CheckoutSessionCustomFieldText struct {
+	// The maximum character length constraint for the customer's input.
+	MaximumLength int64 `json:"maximum_length"`
+	// The minimum character length requirement for the customer's input.
+	MinimumLength int64 `json:"minimum_length"`
 	// The value entered by the customer.
 	Value string `json:"value"`
 }
@@ -1992,7 +2023,7 @@ type CheckoutSessionPaymentMethodOptionsCustomerBalanceBankTransfer struct {
 	//
 	// Permitted values include: `sort_code`, `zengin`, `iban`, or `spei`.
 	RequestedAddressTypes []CheckoutSessionPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressType `json:"requested_address_types"`
-	// The bank transfer type that this PaymentIntent is allowed to use for funding Permitted values include: `eu_bank_transfer`, `gb_bank_transfer`, `jp_bank_transfer`, or `mx_bank_transfer`.
+	// The bank transfer type that this PaymentIntent is allowed to use for funding Permitted values include: `eu_bank_transfer`, `gb_bank_transfer`, `jp_bank_transfer`, `mx_bank_transfer`, or `us_bank_transfer`.
 	Type CheckoutSessionPaymentMethodOptionsCustomerBalanceBankTransferType `json:"type"`
 }
 type CheckoutSessionPaymentMethodOptionsCustomerBalance struct {

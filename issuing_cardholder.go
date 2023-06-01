@@ -8,6 +8,20 @@ package stripe
 
 import "encoding/json"
 
+// The cardholder's preferred locales (languages), ordered by preference. Locales can be `de`, `en`, `es`, `fr`, or `it`.
+//
+//	This changes the language of the [3D Secure flow](https://stripe.com/docs/issuing/3d-secure) and one-time password messages sent to the cardholder.
+type IssuingCardholderPreferredLocale string
+
+// List of values that IssuingCardholderPreferredLocale can take
+const (
+	IssuingCardholderPreferredLocaleDE IssuingCardholderPreferredLocale = "de"
+	IssuingCardholderPreferredLocaleEN IssuingCardholderPreferredLocale = "en"
+	IssuingCardholderPreferredLocaleES IssuingCardholderPreferredLocale = "es"
+	IssuingCardholderPreferredLocaleFR IssuingCardholderPreferredLocale = "fr"
+	IssuingCardholderPreferredLocaleIT IssuingCardholderPreferredLocale = "it"
+)
+
 // If `disabled_reason` is present, all cards will decline authorizations with `cardholder_verification_required` reason.
 type IssuingCardholderRequirementsDisabledReason string
 
@@ -171,6 +185,9 @@ type IssuingCardholderParams struct {
 	Name *string `form:"name"`
 	// The cardholder's phone number. This is required for all cardholders who will be creating EU cards. See the [3D Secure documentation](https://stripe.com/docs/issuing/3d-secure) for more details.
 	PhoneNumber *string `form:"phone_number"`
+	// The cardholder's preferred locales (languages), ordered by preference. Locales can be `de`, `en`, `es`, `fr`, or `it`.
+	//  This changes the language of the [3D Secure flow](https://stripe.com/docs/issuing/3d-secure) and one-time password messages sent to the cardholder.
+	PreferredLocales []*string `form:"preferred_locales"`
 	// Rules that control spending across this cardholder's cards. Refer to our [documentation](https://stripe.com/docs/issuing/controls/spending-controls) for more details.
 	SpendingControls *IssuingCardholderSpendingControlsParams `form:"spending_controls"`
 	// Specifies whether to permit authorizations on this cardholder's cards.
@@ -295,8 +312,11 @@ type IssuingCardholder struct {
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// The cardholder's phone number. This is required for all cardholders who will be creating EU cards. See the [3D Secure documentation](https://stripe.com/docs/issuing/3d-secure#when-is-3d-secure-applied) for more details.
-	PhoneNumber  string                         `json:"phone_number"`
-	Requirements *IssuingCardholderRequirements `json:"requirements"`
+	PhoneNumber string `json:"phone_number"`
+	// The cardholder's preferred locales (languages), ordered by preference. Locales can be `de`, `en`, `es`, `fr`, or `it`.
+	//  This changes the language of the [3D Secure flow](https://stripe.com/docs/issuing/3d-secure) and one-time password messages sent to the cardholder.
+	PreferredLocales []IssuingCardholderPreferredLocale `json:"preferred_locales"`
+	Requirements     *IssuingCardholderRequirements     `json:"requirements"`
 	// Rules that control spending across this cardholder's cards. Refer to our [documentation](https://stripe.com/docs/issuing/controls/spending-controls) for more details.
 	SpendingControls *IssuingCardholderSpendingControls `json:"spending_controls"`
 	// Specifies whether to permit authorizations on this cardholder's cards.
