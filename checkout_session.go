@@ -748,6 +748,22 @@ type CheckoutSessionCustomFieldLabelParams struct {
 	Type *string `form:"type"`
 }
 
+// Configuration for `type=numeric` fields.
+type CheckoutSessionCustomFieldNumericParams struct {
+	// The maximum character length constraint for the customer's input.
+	MaximumLength *int64 `form:"maximum_length"`
+	// The minimum character length requirement for the customer's input.
+	MinimumLength *int64 `form:"minimum_length"`
+}
+
+// Configuration for `type=text` fields.
+type CheckoutSessionCustomFieldTextParams struct {
+	// The maximum character length constraint for the customer's input.
+	MaximumLength *int64 `form:"maximum_length"`
+	// The minimum character length requirement for the customer's input.
+	MinimumLength *int64 `form:"minimum_length"`
+}
+
 // Collect additional information from your customer using custom fields. Up to 2 fields are supported.
 type CheckoutSessionCustomFieldParams struct {
 	// Configuration for `type=dropdown` fields.
@@ -756,8 +772,12 @@ type CheckoutSessionCustomFieldParams struct {
 	Key *string `form:"key"`
 	// The label for the field, displayed to the customer.
 	Label *CheckoutSessionCustomFieldLabelParams `form:"label"`
+	// Configuration for `type=numeric` fields.
+	Numeric *CheckoutSessionCustomFieldNumericParams `form:"numeric"`
 	// Whether the customer is required to complete the field before completing the Checkout Session. Defaults to `false`.
 	Optional *bool `form:"optional"`
+	// Configuration for `type=text` fields.
+	Text *CheckoutSessionCustomFieldTextParams `form:"text"`
 	// The type of the field.
 	Type *string `form:"type"`
 }
@@ -1774,12 +1794,20 @@ type CheckoutSessionCustomFieldLabel struct {
 
 // Configuration for `type=numeric` fields.
 type CheckoutSessionCustomFieldNumeric struct {
+	// The maximum character length constraint for the customer's input.
+	MaximumLength int64 `json:"maximum_length"`
+	// The minimum character length requirement for the customer's input.
+	MinimumLength int64 `json:"minimum_length"`
 	// The value entered by the customer, containing only digits.
 	Value string `json:"value"`
 }
 
 // Configuration for `type=text` fields.
 type CheckoutSessionCustomFieldText struct {
+	// The maximum character length constraint for the customer's input.
+	MaximumLength int64 `json:"maximum_length"`
+	// The minimum character length requirement for the customer's input.
+	MinimumLength int64 `json:"minimum_length"`
 	// The value entered by the customer.
 	Value string `json:"value"`
 }
