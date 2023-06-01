@@ -36,6 +36,8 @@ module StripeForce
     SF_CURRENCY_ISO_CODE = 'CurrencyIsoCode'
 
     SF_ORDER_ITEM_REVISED_ORDER_PRODUCT = 'SBQQ__RevisedOrderProduct__c'
+    SF_ORDER_ACTIVATED_DATE = 'ActivatedDate'
+    SF_ORDER_TYPE = 'Type'
 
     SF_CONTRACT_ORDER_ID = 'SBQQ__Order__c'
     SF_CONTRACT_QUOTE_ID = 'SBQQ__Quote__c'
@@ -218,6 +220,7 @@ module StripeForce
         BACKDATED_AMENDMENTS = new('backdated_amendments')
         FRONTEND_PRORATIONS = new('frontend_prorations')
         INVOICE_RENDERING_TEMPLATE = new('invoice_rendering_template')
+        OLD_ORDER_MIGRATIONS = new('old_order_migration')
 
         # https://admin.corp.stripe.com/gates/billing_subscriptions_open_invoicing_interval
         BILLING_GATE_OPEN_INVOICING_INTERVAL = new('billing_gate_open_invoicing_interval')
@@ -236,6 +239,7 @@ module StripeForce
         PRORATION_INVOICE = new('proration_invoice')
         BACKEND_PRORATION = new('backend_proration')
         FRONTEND_PRORATION = new('frontend_proration')
+        PRE_INTEGRATION_ORDER = new('pre_integration_order')
       end
     end
 

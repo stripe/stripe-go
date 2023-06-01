@@ -21,6 +21,10 @@ module StripeForce
       if stripe_record.is_a?(Stripe::SubscriptionSchedule)
         sanitize_subscription_schedule(stripe_record)
       end
+
+      if stripe_record.is_a?(Stripe::Subscription)
+        # Do something maybe? this is the case of old pre-integration orders
+      end
     end
 
     private_class_method def self.sanitize_subscription_schedule(stripe_subscription_schedule)

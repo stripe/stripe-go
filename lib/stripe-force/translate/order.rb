@@ -10,10 +10,23 @@ class StripeForce::Translate
     # get initial order and all amendments
     contract_structure = extract_contract_from_order(sf_object)
 
-    # in case the amendment order was synced but the initial order was not ready to be synced
+    # If the original order does not match their custom filters, do not translate
     if !orders_respect_custom_filters([contract_structure.initial])
       log.info 'initial order does not respect users custom order filters. not syncing: ', order_ids: contract_structure.initial
       raise StripeForce::Errors::RawUserError.new("Attempted to sync amendment order when initial order was skipped because it didn't match custom sync filters")
+    end
+
+    # Is the original order pre-integration start date? We migrate it to Stripe.
+    #   We know the original order matches the custom SOQL because of the above check.
+    is_pre_integration_order = is_pre_integration_order(contract_structure)
+    if is_pre_integration_order && @user.feature_enabled?(FeatureFlags::OLD_ORDER_MIGRATIONS)
+      migrate_pre_integration_order(contract_structure)
+      # Refresh the contract structure
+      contract_structure = extract_contract_from_order(sf_object)
+    elsif is_pre_integration_order
+      log.info 'skipping translation of pre-integration order, if merchant wants to sync this order please gate them into old order migration: ', order_ids: contract_structure.initial
+      # TODO: Create sync record alerting user to this? Maybe comes with Sync Notes?
+      return
     end
 
     # process the initial order
@@ -22,12 +35,25 @@ class StripeForce::Translate
     # if there are amendment orders for this initial order, ensure the order respects
     # the user's custom order filters before syncing
     if !orders_respect_custom_filters(contract_structure.amendments)
-      log.info 'not all amendment orders respect users custom order filters. not syncing orders: ', order_ids: contract_structure.amendments
+      log.info 'not all amendment orders respect users custom order filters. not syncing amendment orders: ', order_ids: contract_structure.amendments
       return
     end
 
     # after that is created, then process all amendments
     update_subscription_phases_from_order_amendments(contract_structure)
+  end
+
+  sig { params(contract_structure: ContractStructure).returns(T::Boolean) }
+  def is_pre_integration_order(contract_structure)
+    if @user.connector_settings[CONNECTOR_SETTING_SYNC_START_DATE].nil?
+      return false
+    end
+
+    initial_order_activated_at = Time.parse(contract_structure.initial[SF_ORDER_ACTIVATED_DATE]).to_i
+
+    pre_integration_order = initial_order_activated_at < @user.connector_settings[CONNECTOR_SETTING_SYNC_START_DATE]
+
+    pre_integration_order
   end
 
   # we need to ensure that both the initial order and the amendment order respect the user's custom order filters
@@ -45,6 +71,135 @@ class StripeForce::Translate
       end
     end
     true
+  end
+
+  sig do
+    params(
+      contract_structure: StripeForce::Translate::ContractStructure
+    )
+    .returns(T.nilable(Stripe::SubscriptionSchedule))
+  end
+  def migrate_pre_integration_order(contract_structure)
+    # We cannot set the billing_cycle_anchor on a subscription schedule so we must create a subscription then create a schedule
+
+    sf_order = contract_structure.initial
+
+    log.info 'migrating pre-integration order', salesforce_object: sf_order
+
+    # this check is rigorously enforced upstream
+    if sf_order[SF_ORDER_TYPE] != OrderTypeOptions::NEW.serialize
+      log.warn "order is not new, but is treated as such, type field could be customized"
+    end
+
+    # Ensure we have not already created a subscription schedule for this order
+    stripe_transaction = retrieve_from_stripe(Stripe::SubscriptionSchedule, sf_order)
+    stripe_transaction ||= retrieve_from_stripe(Stripe::Subscription, sf_order)
+    stripe_transaction ||= retrieve_from_stripe(Stripe::Invoice, sf_order)
+
+    # TODO: if the transaction exists but is a subscription, should we handle differently? (i.e. subscription schedule creation has failed)
+    if !stripe_transaction.nil?
+      log.info 'order already translated',
+        stripe_transaction_id: stripe_transaction.id,
+        stripe_transaction_type: stripe_transaction.class.to_s,
+        salesforce_order_id: sf_order.Id
+      return
+    end
+
+    sf_account = cache_service.get_record_from_cache(SF_ACCOUNT, sf_order[SF_ORDER_ACCOUNT])
+    stripe_customer = translate_account(sf_account)
+
+    sf_order_items = order_lines_from_order(sf_order)
+    invoice_items, subscription_items = phase_items_from_order_lines(sf_order_items)
+
+    log.info 'creating subscription for pre-integration order'
+
+    # We should re-use whatever subscription schedule mappings we can
+    subscription_params = StripeForce::Utilities::SalesforceUtil.extract_salesforce_params!(mapper, sf_order, Stripe::SubscriptionSchedule)
+
+    subscription = Stripe::Subscription.construct_from({
+      # TODO this should be specified in the defaults hash... we should create a defaults hash https://jira.corp.stripe.com/browse/PLATINT-1501
+      metadata: Metadata.stripe_metadata_for_sf_object(@user, sf_order).merge({StripeForce::Translate::Metadata.metadata_key(@user, MetadataKeys::PRE_INTEGRATION_ORDER) => true}),
+      items: subscription_items.map(&:stripe_params),
+      add_invoice_items: invoice_items.map(&:stripe_params),
+      proration_behavior: 'none',
+    })
+
+    mapper.assign_values_from_hash(subscription, subscription_params)
+    apply_mapping(subscription, sf_order)
+
+    subscription_start_date_as_timestamp = StripeForce::Utilities::SalesforceUtil.salesforce_date_to_unix_timestamp(subscription.start_date)
+    subscription.backdate_start_date = subscription_start_date_as_timestamp
+
+    # TODO make this smarter: Treating the start date of the order as the anchor day, add billing cycles (month, year, etc) until we have surpassed the merchant’s sync start date
+
+    current_time = OrderAmendment.determine_current_time(@user, stripe_customer.id)
+    normalized_current_time = StripeForce::Utilities::SalesforceUtil.datetime_to_unix_timestamp(Time.at(current_time))
+    next_billing_timestamp = Time.at(subscription_start_date_as_timestamp).utc.beginning_of_day.to_i
+    billing_frequency = OrderAmendment.calculate_billing_frequency_from_phase_items(@user, subscription_items)
+
+    # find the next billing cycle
+    # we use this to offset the effective start date for billing in Stripe, so the customer is not charged for what they already paid for on the merchant's old billing system.
+    while next_billing_timestamp <= normalized_current_time
+      next_billing_timestamp = (Time.at(next_billing_timestamp).utc.beginning_of_day + billing_frequency.months).to_i
+    end
+
+    if Time.at(next_billing_timestamp).day != Time.at(subscription_start_date_as_timestamp).day
+      next_billing_timestamp = StripeForce::Translate::OrderHelpers.anchor_time_to_day_of_month(base_time: Time.at(next_billing_timestamp), anchor_day_of_month: Time.at(subscription_start_date_as_timestamp).day).to_i
+    end
+
+    subscription[:billing_cycle_anchor] = next_billing_timestamp
+
+    subscription.customer = stripe_customer.id
+
+    # this should never happen, but we are still learning about CPQ
+    # if metered billing, quantity is not set, so we set to 1
+    if subscription.items.map {|l| l[:quantity] || 1 }.any?(&:zero?)
+      Integrations::ErrorContext.report_edge_case("quantity is zero on initial subscription")
+    end
+
+    # https://jira.corp.stripe.com/browse/PLATINT-1731
+    days_until_due = subscription.[](:default_settings)&.[](:invoice_settings)&.[](:days_until_due)
+    if days_until_due
+      subscription.default_settings.invoice_settings.days_until_due = OrderHelpers.transform_payment_terms_to_days_until_due(days_until_due)
+    end
+
+    sanitize(subscription)
+
+    # Not all of the subscription schedule mappings will work for subscriptions
+    # The below fields do not exist (or cannot be set) on subscriptions
+    # TODO: dynamically remove all params that don't exist on subscription?
+
+    Integrations::Utilities::StripeUtil.delete_field_from_stripe_object(
+      subscription,
+      [:start_date, :end_behavior, :iterations]
+    )
+
+    subscription = Stripe::Subscription.create(
+      subscription.to_hash,
+      @user.stripe_credentials
+    )
+
+    log.info 'stripe subscription for pre-integration order created', stripe_subscription_id: subscription.id
+
+    subscription_schedule = Stripe::SubscriptionSchedule.create({
+      from_subscription: subscription.id,
+    }, @user.stripe_credentials)
+
+    # Metadata doesn't come over with the sub -> sub schedule migration
+    subscription_schedule.metadata = subscription.metadata
+    # End behavior is not a subscription field, so we have to set it on the schedule
+    subscription_schedule.end_behavior = 'cancel'
+    subscription_schedule.save
+
+    update_sf_stripe_id(sf_order, subscription_schedule)
+
+    PriceHelpers.auto_archive_prices_on_subscription_schedule(@user, subscription_schedule)
+
+    stripe_transaction
+
+    cache_service.invalidate_cache_object(sf_order.Id)
+
+    nil
   end
 
   # give an order (amendment or initial order) determine the initial order and all amendments
@@ -408,6 +563,12 @@ class StripeForce::Translate
     # SF does not enforce mutation restrictions. It's possible to go in and modify anything you want in Salesforce
     # for this reason we should NOT mutate the existing phases of a subscription. This could result in updating quantity, metadata, etc
     # that was updated in Salesforce changing phase data that the user does not expect to be changed.
+
+    if subscription_schedule.metadata[StripeForce::Translate::Metadata.metadata_key(@user, MetadataKeys::PRE_INTEGRATION_ORDER)] == "true"
+      # Setting the billing_cycle_anchor on the creation of this Subscription creates a second phase that we need to remove and replace
+      # TODO: check to ensure there are only two phases and that this one should be removed
+      subscription_schedule.phases.delete_at(1)
+    end
 
     # TODO should break this out into a separate method and wrap in `catch_errors_with_salesforce_context`
 

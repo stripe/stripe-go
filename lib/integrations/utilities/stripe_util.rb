@@ -21,11 +21,17 @@ module Integrations::Utilities::StripeUtil
   # this causes issues for a host of API surfaces in Stripe. Additionally, there is no way to remove
   # a field from the StripeObject once it has been added, thus this incredibly terrible hack
   # TODO https://jira.corp.stripe.com/browse/PLATINT-1572
-  sig { params(stripe_object: Stripe::StripeObject, stripe_field_name: Symbol).void }
-  def self.delete_field_from_stripe_object(stripe_object, stripe_field_name)
-    stripe_object.instance_eval do
-      # the top-level keys of `@values` seem to be symbolized
-      @values.delete(stripe_field_name)
+  sig { params(stripe_object: Stripe::StripeObject, stripe_field_names: T.any(Symbol, T::Array[Symbol])).void }
+  def self.delete_field_from_stripe_object(stripe_object, stripe_field_names)
+    if stripe_field_names.is_a?(Symbol)
+      stripe_field_names = [stripe_field_names]
+    end
+
+    stripe_field_names.each do |name|
+      stripe_object.instance_eval do
+        # the top-level keys of `@values` seem to be symbolized
+        @values.delete(name)
+      end
     end
   end
 
