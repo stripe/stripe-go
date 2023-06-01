@@ -8,5 +8,5 @@ package stripe
 
 const (
 	apiVersion     string = "2022-11-15"
-	previewVersion string = "20230519T204128"
+	previewVersion string = "2023-05-26.preview-v2"
 )

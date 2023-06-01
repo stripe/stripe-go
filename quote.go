@@ -137,10 +137,11 @@ type QuoteSubscriptionDataBillOnAcceptanceBillFromType string
 
 // List of values that QuoteSubscriptionDataBillOnAcceptanceBillFromType can take
 const (
-	QuoteSubscriptionDataBillOnAcceptanceBillFromTypeLineStartsAt        QuoteSubscriptionDataBillOnAcceptanceBillFromType = "line_starts_at"
-	QuoteSubscriptionDataBillOnAcceptanceBillFromTypeNow                 QuoteSubscriptionDataBillOnAcceptanceBillFromType = "now"
-	QuoteSubscriptionDataBillOnAcceptanceBillFromTypeQuoteAcceptanceDate QuoteSubscriptionDataBillOnAcceptanceBillFromType = "quote_acceptance_date"
-	QuoteSubscriptionDataBillOnAcceptanceBillFromTypeTimestamp           QuoteSubscriptionDataBillOnAcceptanceBillFromType = "timestamp"
+	QuoteSubscriptionDataBillOnAcceptanceBillFromTypeLineStartsAt         QuoteSubscriptionDataBillOnAcceptanceBillFromType = "line_starts_at"
+	QuoteSubscriptionDataBillOnAcceptanceBillFromTypeNow                  QuoteSubscriptionDataBillOnAcceptanceBillFromType = "now"
+	QuoteSubscriptionDataBillOnAcceptanceBillFromTypePauseCollectionStart QuoteSubscriptionDataBillOnAcceptanceBillFromType = "pause_collection_start"
+	QuoteSubscriptionDataBillOnAcceptanceBillFromTypeQuoteAcceptanceDate  QuoteSubscriptionDataBillOnAcceptanceBillFromType = "quote_acceptance_date"
+	QuoteSubscriptionDataBillOnAcceptanceBillFromTypeTimestamp            QuoteSubscriptionDataBillOnAcceptanceBillFromType = "timestamp"
 )
 
 // Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
@@ -216,10 +217,11 @@ type QuoteSubscriptionDataOverrideBillOnAcceptanceBillFromType string
 
 // List of values that QuoteSubscriptionDataOverrideBillOnAcceptanceBillFromType can take
 const (
-	QuoteSubscriptionDataOverrideBillOnAcceptanceBillFromTypeLineStartsAt        QuoteSubscriptionDataOverrideBillOnAcceptanceBillFromType = "line_starts_at"
-	QuoteSubscriptionDataOverrideBillOnAcceptanceBillFromTypeNow                 QuoteSubscriptionDataOverrideBillOnAcceptanceBillFromType = "now"
-	QuoteSubscriptionDataOverrideBillOnAcceptanceBillFromTypeQuoteAcceptanceDate QuoteSubscriptionDataOverrideBillOnAcceptanceBillFromType = "quote_acceptance_date"
-	QuoteSubscriptionDataOverrideBillOnAcceptanceBillFromTypeTimestamp           QuoteSubscriptionDataOverrideBillOnAcceptanceBillFromType = "timestamp"
+	QuoteSubscriptionDataOverrideBillOnAcceptanceBillFromTypeLineStartsAt         QuoteSubscriptionDataOverrideBillOnAcceptanceBillFromType = "line_starts_at"
+	QuoteSubscriptionDataOverrideBillOnAcceptanceBillFromTypeNow                  QuoteSubscriptionDataOverrideBillOnAcceptanceBillFromType = "now"
+	QuoteSubscriptionDataOverrideBillOnAcceptanceBillFromTypePauseCollectionStart QuoteSubscriptionDataOverrideBillOnAcceptanceBillFromType = "pause_collection_start"
+	QuoteSubscriptionDataOverrideBillOnAcceptanceBillFromTypeQuoteAcceptanceDate  QuoteSubscriptionDataOverrideBillOnAcceptanceBillFromType = "quote_acceptance_date"
+	QuoteSubscriptionDataOverrideBillOnAcceptanceBillFromTypeTimestamp            QuoteSubscriptionDataOverrideBillOnAcceptanceBillFromType = "timestamp"
 )
 
 // Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
@@ -666,6 +668,20 @@ type QuoteLineEndsAtParams struct {
 	Type *string `form:"type"`
 }
 
+// Details of the pause_collection behavior to apply to the amendment.
+type QuoteLineSetPauseCollectionSetParams struct {
+	// The payment collection behavior for this subscription while paused. One of `keep_as_draft`, `mark_uncollectible`, or `void`.
+	Behavior *string `form:"behavior"`
+}
+
+// Defines how to pause collection for the underlying subscription throughout the duration of the amendment.
+type QuoteLineSetPauseCollectionParams struct {
+	// Details of the pause_collection behavior to apply to the amendment.
+	Set *QuoteLineSetPauseCollectionSetParams `form:"set"`
+	// Determines the type of the pause_collection amendment.
+	Type *string `form:"type"`
+}
+
 // Use the `end` time of a given discount.
 type QuoteLineStartsAtDiscountEndParams struct {
 	// The ID of a specific discount.
@@ -718,6 +734,8 @@ type QuoteLineParams struct {
 	ID *string `form:"id"`
 	// Changes to how Stripe handles prorations during the quote line's time span. Affects if and how prorations are created when a future phase starts.
 	ProrationBehavior *string `form:"proration_behavior"`
+	// Defines how to pause collection for the underlying subscription throughout the duration of the amendment.
+	SetPauseCollection *QuoteLineSetPauseCollectionParams `form:"set_pause_collection"`
 	// Timestamp helper to end the underlying schedule early, based on the acompanying line's start or end date.
 	SetScheduleEnd *string `form:"set_schedule_end"`
 	// Details to identify the earliest timestamp where the proposed change should take effect.
