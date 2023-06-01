@@ -90,6 +90,16 @@ const (
 	SubscriptionSchedulePhaseItemTrialTypePaid SubscriptionSchedulePhaseItemTrialType = "paid"
 )
 
+// The payment collection behavior for this subscription while paused. One of `keep_as_draft`, `mark_uncollectible`, or `void`.
+type SubscriptionSchedulePhasePauseCollectionBehavior string
+
+// List of values that SubscriptionSchedulePhasePauseCollectionBehavior can take
+const (
+	SubscriptionSchedulePhasePauseCollectionBehaviorKeepAsDraft       SubscriptionSchedulePhasePauseCollectionBehavior = "keep_as_draft"
+	SubscriptionSchedulePhasePauseCollectionBehaviorMarkUncollectible SubscriptionSchedulePhasePauseCollectionBehavior = "mark_uncollectible"
+	SubscriptionSchedulePhasePauseCollectionBehaviorVoid              SubscriptionSchedulePhasePauseCollectionBehavior = "void"
+)
+
 // If the subscription schedule will prorate when transitioning to this phase. Possible values are `create_prorations` and `none`.
 type SubscriptionSchedulePhaseProrationBehavior string
 
@@ -335,6 +345,12 @@ type SubscriptionSchedulePhaseItemParams struct {
 	Trial *SubscriptionSchedulePhaseItemTrialParams `form:"trial"`
 }
 
+// If specified, payment collection for this subscription will be paused.
+type SubscriptionSchedulePhasePauseCollectionParams struct {
+	// The payment collection behavior for this subscription while paused. One of `keep_as_draft`, `mark_uncollectible`, or `void`.
+	Behavior *string `form:"behavior"`
+}
+
 // Defines how the subscription should behave when a trial ends.
 type SubscriptionSchedulePhaseTrialSettingsEndBehaviorParams struct {
 	// Configure how an opt-in following a paid trial is billed when using `billing_behavior: prorate_up_front`.
@@ -386,6 +402,8 @@ type SubscriptionSchedulePhaseParams struct {
 	Metadata map[string]string `form:"metadata"`
 	// The account on behalf of which to charge, for each of the associated subscription's invoices.
 	OnBehalfOf *string `form:"on_behalf_of"`
+	// If specified, payment collection for this subscription will be paused.
+	PauseCollection *SubscriptionSchedulePhasePauseCollectionParams `form:"pause_collection"`
 	// Whether the subscription schedule will create [prorations](https://stripe.com/docs/billing/subscriptions/prorations) when transitioning to this phase. The default value is `create_prorations`. This setting controls prorations when a phase is started asynchronously and it is persisted as a field on the phase. It's different from the request-level [proration_behavior](https://stripe.com/docs/api/subscription_schedules/update#update_subscription_schedule-proration_behavior) parameter which controls what happens if the update request affects the billing configuration of the current phase.
 	ProrationBehavior *string `form:"proration_behavior"`
 	// The date at which this phase of the subscription schedule starts or `now`. Must be set on the first phase.
@@ -686,6 +704,20 @@ type SubscriptionScheduleAmendAmendmentMetadataActionParams struct {
 	Type *string `form:"type"`
 }
 
+// Details of the pause_collection behavior to apply to the amendment.
+type SubscriptionScheduleAmendAmendmentSetPauseCollectionSetParams struct {
+	// The payment collection behavior for this subscription while paused. One of `keep_as_draft`, `mark_uncollectible`, or `void`.
+	Behavior *string `form:"behavior"`
+}
+
+// Defines how to pause collection for the underlying subscription throughout the duration of the amendment.
+type SubscriptionScheduleAmendAmendmentSetPauseCollectionParams struct {
+	// Details of the pause_collection behavior to apply to the amendment.
+	Set *SubscriptionScheduleAmendAmendmentSetPauseCollectionSetParams `form:"set"`
+	// Determines the type of the pause_collection amendment.
+	Type *string `form:"type"`
+}
+
 // Defines how the subscription should behave when a trial ends.
 type SubscriptionScheduleAmendAmendmentTrialSettingsEndBehaviorParams struct {
 	// Configure how an opt-in following a paid trial is billed when using `billing_behavior: prorate_up_front`.
@@ -714,6 +746,8 @@ type SubscriptionScheduleAmendAmendmentParams struct {
 	MetadataActions []*SubscriptionScheduleAmendAmendmentMetadataActionParams `form:"metadata_actions"`
 	// Changes to how Stripe handles prorations during the amendment time span. Affects if and how prorations are created when a future phase starts. In cases where the amendment changes the currently active phase, it is used to determine whether or how to prorate now, at the time of the request. Also supported as a point-in-time operation when `amendment_end` is `null`.
 	ProrationBehavior *string `form:"proration_behavior"`
+	// Defines how to pause collection for the underlying subscription throughout the duration of the amendment.
+	SetPauseCollection *SubscriptionScheduleAmendAmendmentSetPauseCollectionParams `form:"set_pause_collection"`
 	// Ends the subscription schedule early as dictated by either the accompanying amendment's start or end.
 	SetScheduleEnd *string `form:"set_schedule_end"`
 	// Settings related to subscription trials.
@@ -952,6 +986,12 @@ type SubscriptionSchedulePhaseItem struct {
 	Trial *SubscriptionSchedulePhaseItemTrial `json:"trial"`
 }
 
+// If specified, payment collection for this subscription will be paused.
+type SubscriptionSchedulePhasePauseCollection struct {
+	// The payment collection behavior for this subscription while paused. One of `keep_as_draft`, `mark_uncollectible`, or `void`.
+	Behavior SubscriptionSchedulePhasePauseCollectionBehavior `json:"behavior"`
+}
+
 // Defines how the subscription should behaves when a trial ensd.
 type SubscriptionSchedulePhaseTrialSettingsEndBehavior struct {
 	// Configure how an opt-in following a paid trial is billed when using `billing_behavior: prorate_up_front`.
@@ -999,6 +1039,8 @@ type SubscriptionSchedulePhase struct {
 	Metadata map[string]string `json:"metadata"`
 	// The account (if any) the charge was made on behalf of for charges associated with the schedule's subscription. See the Connect documentation for details.
 	OnBehalfOf *Account `json:"on_behalf_of"`
+	// If specified, payment collection for this subscription will be paused.
+	PauseCollection *SubscriptionSchedulePhasePauseCollection `json:"pause_collection"`
 	// If the subscription schedule will prorate when transitioning to this phase. Possible values are `create_prorations` and `none`.
 	ProrationBehavior SubscriptionSchedulePhaseProrationBehavior `json:"proration_behavior"`
 	// The start of this phase of the subscription schedule.

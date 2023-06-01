@@ -109,10 +109,10 @@ type OrderPaymentSettingsPaymentMethodOptionsBancontactPreferredLanguage string
 
 // List of values that OrderPaymentSettingsPaymentMethodOptionsBancontactPreferredLanguage can take
 const (
-	OrderPaymentSettingsPaymentMethodOptionsBancontactPreferredLanguageDe OrderPaymentSettingsPaymentMethodOptionsBancontactPreferredLanguage = "de"
-	OrderPaymentSettingsPaymentMethodOptionsBancontactPreferredLanguageEn OrderPaymentSettingsPaymentMethodOptionsBancontactPreferredLanguage = "en"
-	OrderPaymentSettingsPaymentMethodOptionsBancontactPreferredLanguageFr OrderPaymentSettingsPaymentMethodOptionsBancontactPreferredLanguage = "fr"
-	OrderPaymentSettingsPaymentMethodOptionsBancontactPreferredLanguageNl OrderPaymentSettingsPaymentMethodOptionsBancontactPreferredLanguage = "nl"
+	OrderPaymentSettingsPaymentMethodOptionsBancontactPreferredLanguageDE OrderPaymentSettingsPaymentMethodOptionsBancontactPreferredLanguage = "de"
+	OrderPaymentSettingsPaymentMethodOptionsBancontactPreferredLanguageEN OrderPaymentSettingsPaymentMethodOptionsBancontactPreferredLanguage = "en"
+	OrderPaymentSettingsPaymentMethodOptionsBancontactPreferredLanguageFR OrderPaymentSettingsPaymentMethodOptionsBancontactPreferredLanguage = "fr"
+	OrderPaymentSettingsPaymentMethodOptionsBancontactPreferredLanguageNL OrderPaymentSettingsPaymentMethodOptionsBancontactPreferredLanguage = "nl"
 )
 
 // Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -174,14 +174,16 @@ type OrderPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferRequeste
 
 // List of values that OrderPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressType can take
 const (
+	OrderPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressTypeAba      OrderPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressType = "aba"
 	OrderPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressTypeIBAN     OrderPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressType = "iban"
 	OrderPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressTypeSEPA     OrderPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressType = "sepa"
 	OrderPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressTypeSortCode OrderPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressType = "sort_code"
 	OrderPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressTypeSpei     OrderPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressType = "spei"
+	OrderPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressTypeSwift    OrderPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressType = "swift"
 	OrderPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressTypeZengin   OrderPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressType = "zengin"
 )
 
-// The bank transfer type that this PaymentIntent is allowed to use for funding Permitted values include: `eu_bank_transfer`, `gb_bank_transfer`, `jp_bank_transfer`, or `mx_bank_transfer`.
+// The bank transfer type that this PaymentIntent is allowed to use for funding Permitted values include: `eu_bank_transfer`, `gb_bank_transfer`, `jp_bank_transfer`, `mx_bank_transfer`, or `us_bank_transfer`.
 type OrderPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferType string
 
 // List of values that OrderPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferType can take
@@ -190,6 +192,7 @@ const (
 	OrderPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferTypeGBBankTransfer OrderPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferType = "gb_bank_transfer"
 	OrderPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferTypeJPBankTransfer OrderPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferType = "jp_bank_transfer"
 	OrderPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferTypeMXBankTransfer OrderPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferType = "mx_bank_transfer"
+	OrderPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferTypeUSBankTransfer OrderPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferType = "us_bank_transfer"
 )
 
 // The funding method type to be used when there are not enough funds in the customer balance. Permitted values include: `bank_transfer`.
@@ -330,13 +333,13 @@ type OrderPaymentSettingsPaymentMethodOptionsSofortPreferredLanguage string
 
 // List of values that OrderPaymentSettingsPaymentMethodOptionsSofortPreferredLanguage can take
 const (
-	OrderPaymentSettingsPaymentMethodOptionsSofortPreferredLanguageDe OrderPaymentSettingsPaymentMethodOptionsSofortPreferredLanguage = "de"
-	OrderPaymentSettingsPaymentMethodOptionsSofortPreferredLanguageEn OrderPaymentSettingsPaymentMethodOptionsSofortPreferredLanguage = "en"
-	OrderPaymentSettingsPaymentMethodOptionsSofortPreferredLanguageEs OrderPaymentSettingsPaymentMethodOptionsSofortPreferredLanguage = "es"
-	OrderPaymentSettingsPaymentMethodOptionsSofortPreferredLanguageFr OrderPaymentSettingsPaymentMethodOptionsSofortPreferredLanguage = "fr"
-	OrderPaymentSettingsPaymentMethodOptionsSofortPreferredLanguageIt OrderPaymentSettingsPaymentMethodOptionsSofortPreferredLanguage = "it"
-	OrderPaymentSettingsPaymentMethodOptionsSofortPreferredLanguageNl OrderPaymentSettingsPaymentMethodOptionsSofortPreferredLanguage = "nl"
-	OrderPaymentSettingsPaymentMethodOptionsSofortPreferredLanguagePl OrderPaymentSettingsPaymentMethodOptionsSofortPreferredLanguage = "pl"
+	OrderPaymentSettingsPaymentMethodOptionsSofortPreferredLanguageDE OrderPaymentSettingsPaymentMethodOptionsSofortPreferredLanguage = "de"
+	OrderPaymentSettingsPaymentMethodOptionsSofortPreferredLanguageEN OrderPaymentSettingsPaymentMethodOptionsSofortPreferredLanguage = "en"
+	OrderPaymentSettingsPaymentMethodOptionsSofortPreferredLanguageES OrderPaymentSettingsPaymentMethodOptionsSofortPreferredLanguage = "es"
+	OrderPaymentSettingsPaymentMethodOptionsSofortPreferredLanguageFR OrderPaymentSettingsPaymentMethodOptionsSofortPreferredLanguage = "fr"
+	OrderPaymentSettingsPaymentMethodOptionsSofortPreferredLanguageIT OrderPaymentSettingsPaymentMethodOptionsSofortPreferredLanguage = "it"
+	OrderPaymentSettingsPaymentMethodOptionsSofortPreferredLanguageNL OrderPaymentSettingsPaymentMethodOptionsSofortPreferredLanguage = "nl"
+	OrderPaymentSettingsPaymentMethodOptionsSofortPreferredLanguagePL OrderPaymentSettingsPaymentMethodOptionsSofortPreferredLanguage = "pl"
 )
 
 // Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -791,7 +794,7 @@ type OrderPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferParams s
 	//
 	// Permitted values include: `sort_code`, `zengin`, `iban`, or `spei`.
 	RequestedAddressTypes []*string `form:"requested_address_types"`
-	// The list of bank transfer types that this PaymentIntent is allowed to use for funding Permitted values include: `eu_bank_transfer`, `gb_bank_transfer`, `jp_bank_transfer`, or `mx_bank_transfer`.
+	// The list of bank transfer types that this PaymentIntent is allowed to use for funding Permitted values include: `eu_bank_transfer`, `gb_bank_transfer`, `jp_bank_transfer`, `mx_bank_transfer`, or `us_bank_transfer`.
 	Type *string `form:"type"`
 }
 
@@ -1297,7 +1300,7 @@ type OrderPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransfer struct 
 	//
 	// Permitted values include: `sort_code`, `zengin`, `iban`, or `spei`.
 	RequestedAddressTypes []OrderPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressType `json:"requested_address_types"`
-	// The bank transfer type that this PaymentIntent is allowed to use for funding Permitted values include: `eu_bank_transfer`, `gb_bank_transfer`, `jp_bank_transfer`, or `mx_bank_transfer`.
+	// The bank transfer type that this PaymentIntent is allowed to use for funding Permitted values include: `eu_bank_transfer`, `gb_bank_transfer`, `jp_bank_transfer`, `mx_bank_transfer`, or `us_bank_transfer`.
 	Type OrderPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferType `json:"type"`
 }
 type OrderPaymentSettingsPaymentMethodOptionsCustomerBalance struct {

@@ -16,14 +16,6 @@ const (
 	TaxSettingsDefaultsTaxBehaviorInferredByCurrency TaxSettingsDefaultsTaxBehavior = "inferred_by_currency"
 )
 
-// The role of this location address.
-type TaxSettingsLocationRole string
-
-// List of values that TaxSettingsLocationRole can take
-const (
-	TaxSettingsLocationRoleHeadOffice TaxSettingsLocationRole = "head_office"
-)
-
 // The `active` status indicates you have all required settings to calculate tax. A status can transition out of `active` when new required settings are introduced.
 type TaxSettingsStatus string
 
@@ -40,8 +32,6 @@ type TaxSettingsParams struct {
 	Defaults *TaxSettingsDefaultsParams `form:"defaults"`
 	// The place where your business is located.
 	HeadOffice *TaxSettingsHeadOfficeParams `form:"head_office"`
-	// The deprecated places where your business is located.
-	Locations []*TaxSettingsLocationParams `form:"locations"`
 }
 
 // Default configuration to be used on Stripe Tax calculations.
@@ -57,14 +47,6 @@ type TaxSettingsHeadOfficeParams struct {
 	// The location of the business for tax purposes.
 	Address *AddressParams `form:"address"`
 }
-
-// The deprecated places where your business is located.
-type TaxSettingsLocationParams struct {
-	// The location of the business for tax purposes.
-	Address *AddressParams `form:"address"`
-	// The role of this location address.
-	Role *string `form:"role"`
-}
 type TaxSettingsDefaults struct {
 	// Default [tax behavior](https://stripe.com/docs/tax/products-prices-tax-categories-tax-behavior#tax-behavior) used to specify whether the price is considered inclusive of taxes or exclusive of taxes. If the item's price has a tax behavior set, it will take precedence over the default tax behavior.
 	TaxBehavior TaxSettingsDefaultsTaxBehavior `json:"tax_behavior"`
@@ -75,13 +57,6 @@ type TaxSettingsDefaults struct {
 // The place where your business is located.
 type TaxSettingsHeadOffice struct {
 	Address *Address `json:"address"`
-}
-
-// The deprecated places where your business is located.
-type TaxSettingsLocation struct {
-	Address *Address `json:"address"`
-	// The role of this location address.
-	Role TaxSettingsLocationRole `json:"role"`
 }
 type TaxSettingsStatusDetailsActive struct{}
 type TaxSettingsStatusDetailsPending struct {
@@ -103,8 +78,6 @@ type TaxSettings struct {
 	HeadOffice *TaxSettingsHeadOffice `json:"head_office"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
-	// The deprecated places where your business is located.
-	Locations []*TaxSettingsLocation `json:"locations"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// The `active` status indicates you have all required settings to calculate tax. A status can transition out of `active` when new required settings are introduced.

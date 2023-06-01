@@ -132,6 +132,25 @@ const (
 	QuoteLineProrationBehaviorNone             QuoteLineProrationBehavior = "none"
 )
 
+// The payment collection behavior for this subscription while paused. One of `keep_as_draft`, `mark_uncollectible`, or `void`.
+type QuoteLineSetPauseCollectionSetBehavior string
+
+// List of values that QuoteLineSetPauseCollectionSetBehavior can take
+const (
+	QuoteLineSetPauseCollectionSetBehaviorKeepAsDraft       QuoteLineSetPauseCollectionSetBehavior = "keep_as_draft"
+	QuoteLineSetPauseCollectionSetBehaviorMarkUncollectible QuoteLineSetPauseCollectionSetBehavior = "mark_uncollectible"
+	QuoteLineSetPauseCollectionSetBehaviorVoid              QuoteLineSetPauseCollectionSetBehavior = "void"
+)
+
+// Defines the type of the pause_collection behavior for the quote line.
+type QuoteLineSetPauseCollectionType string
+
+// List of values that QuoteLineSetPauseCollectionType can take
+const (
+	QuoteLineSetPauseCollectionTypeRemove QuoteLineSetPauseCollectionType = "remove"
+	QuoteLineSetPauseCollectionTypeSet    QuoteLineSetPauseCollectionType = "set"
+)
+
 // Timestamp helper to end the underlying schedule early, based on the acompanying line's start or end date.
 type QuoteLineSetScheduleEnd string
 
@@ -368,6 +387,20 @@ type QuoteLineEndsAt struct {
 	Type QuoteLineEndsAtType `json:"type"`
 }
 
+// If specified, payment collection for this subscription will be paused.
+type QuoteLineSetPauseCollectionSet struct {
+	// The payment collection behavior for this subscription while paused. One of `keep_as_draft`, `mark_uncollectible`, or `void`.
+	Behavior QuoteLineSetPauseCollectionSetBehavior `json:"behavior"`
+}
+
+// Details to modify the pause_collection behavior of the subscription schedule.
+type QuoteLineSetPauseCollection struct {
+	// If specified, payment collection for this subscription will be paused.
+	Set *QuoteLineSetPauseCollectionSet `json:"set"`
+	// Defines the type of the pause_collection behavior for the quote line.
+	Type QuoteLineSetPauseCollectionType `json:"type"`
+}
+
 // Use the `end` time of a given discount.
 type QuoteLineStartsAtDiscountEnd struct {
 	// The ID of a specific discount.
@@ -422,6 +455,8 @@ type QuoteLine struct {
 	Object string `json:"object"`
 	// Changes to how Stripe handles prorations during the quote line's time span. Affects if and how prorations are created when a future phase starts.
 	ProrationBehavior QuoteLineProrationBehavior `json:"proration_behavior"`
+	// Details to modify the pause_collection behavior of the subscription schedule.
+	SetPauseCollection *QuoteLineSetPauseCollection `json:"set_pause_collection"`
 	// Timestamp helper to end the underlying schedule early, based on the acompanying line's start or end date.
 	SetScheduleEnd QuoteLineSetScheduleEnd `json:"set_schedule_end"`
 	// Details to identify the earliest timestamp where the proposed change should take effect.
