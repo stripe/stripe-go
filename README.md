@@ -529,6 +529,20 @@ To install a beta version of stripe-go use the commit notation of the `go get` c
 go get -u github.com/stripe/stripe-go/v74@v74.3.0-beta.1
 ```
 
+> **Note**
+> There can be breaking changes between beta versions. 
+
+We highly recommend keeping an eye on when the beta feature you are interested in goes from beta to stable so that you can move from using a beta version of the SDK to the stable version.
+
+If your beta feature requires a `Stripe-Version` header to be sent, use the `stripe.APIVersion` field to set it:
+
+> **Note**
+> The `APIVersion` can only be set in beta versions of the library. 
+
+```go
+stripe.APIVersion += "; feature_beta=v3"
+```
+
 ### Custom requests
 If you would like to send a request to an undocumented API (for example you are in a private beta), or if you prefer to bypass the method definitions in the library and specify your request details directly, you can use the `RawRequest` method on the `stripe` backend.
 
@@ -555,20 +569,6 @@ response, err := stripe.RawRequest("POST", "/v1/beta_endpoint", content, nil)
 // Use json.Unmarshal to convert the response to an untyped map.
 var deserializedResponse map[string]interface{}
 err = json.Unmarshal(resp.RawJSON, &deserializedResponse)
-```
-
-> **Note**
-> There can be breaking changes between beta versions. 
-
-We highly recommend keeping an eye on when the beta feature you are interested in goes from beta to stable so that you can move from using a beta version of the SDK to the stable version.
-
-If your beta feature requires a `Stripe-Version` header to be sent, use the `stripe.APIVersion` field to set it:
-
-> **Note**
-> The `APIVersion` can only be set in beta versions of the library. 
-
-```go
-stripe.APIVersion += "; feature_beta=v3"
 ```
 
 ## Support
