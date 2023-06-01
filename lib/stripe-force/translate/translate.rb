@@ -509,15 +509,14 @@ class StripeForce::Translate
     end
   end
 
-  # TODO this should be dynamic and pulled from the mapper https://jira.corp.stripe.com/browse/PLATINT-1485
-  # according to the salesforce documentation, if this field is non-nil ("empty") than it's a subscription item
+  # according to the salesforce documentation, if this field is non-nil ("empty") then it's a subscription item
   def recurring_item?(sf_object)
     if ![SF_ORDER_ITEM, SF_PRODUCT].include?(sf_object.sobject_type)
       raise "recurring definition is specified on the order item or product level only"
     end
 
-    # TODO maybe pull this from the mapper in order to make this customizable?
-    !sf_object[CPQ_QUOTE_SUBSCRIPTION_PRICING].nil?
+    # pull field from the mapper. if field not nil, then is subscription item
+    !mapper.extract_salesforce_object_field(sf_object, CPQ_QUOTE_SUBSCRIPTION_PRICING).nil?
   end
 
   # TODO allow for multiple records to be linked?
