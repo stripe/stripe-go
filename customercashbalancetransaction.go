@@ -6,7 +6,7 @@
 
 package stripe
 
-// The funding method type used to fund the customer balance. Permitted values include: `eu_bank_transfer`, `gb_bank_transfer`, `jp_bank_transfer`, or `mx_bank_transfer`.
+// The funding method type used to fund the customer balance. Permitted values include: `eu_bank_transfer`, `gb_bank_transfer`, `jp_bank_transfer`, `mx_bank_transfer`, or `us_bank_transfer`.
 type CustomerCashBalanceTransactionFundedBankTransferType string
 
 // List of values that CustomerCashBalanceTransactionFundedBankTransferType can take
@@ -15,6 +15,17 @@ const (
 	CustomerCashBalanceTransactionFundedBankTransferTypeGBBankTransfer CustomerCashBalanceTransactionFundedBankTransferType = "gb_bank_transfer"
 	CustomerCashBalanceTransactionFundedBankTransferTypeJPBankTransfer CustomerCashBalanceTransactionFundedBankTransferType = "jp_bank_transfer"
 	CustomerCashBalanceTransactionFundedBankTransferTypeMXBankTransfer CustomerCashBalanceTransactionFundedBankTransferType = "mx_bank_transfer"
+	CustomerCashBalanceTransactionFundedBankTransferTypeUSBankTransfer CustomerCashBalanceTransactionFundedBankTransferType = "us_bank_transfer"
+)
+
+// The banking network used for this funding.
+type CustomerCashBalanceTransactionFundedBankTransferUSBankTransferNetwork string
+
+// List of values that CustomerCashBalanceTransactionFundedBankTransferUSBankTransferNetwork can take
+const (
+	CustomerCashBalanceTransactionFundedBankTransferUSBankTransferNetworkACH            CustomerCashBalanceTransactionFundedBankTransferUSBankTransferNetwork = "ach"
+	CustomerCashBalanceTransactionFundedBankTransferUSBankTransferNetworkDomesticWireUS CustomerCashBalanceTransactionFundedBankTransferUSBankTransferNetwork = "domestic_wire_us"
+	CustomerCashBalanceTransactionFundedBankTransferUSBankTransferNetworkSwift          CustomerCashBalanceTransactionFundedBankTransferUSBankTransferNetwork = "swift"
 )
 
 // The type of the cash balance transaction. One of `applied_to_payment`, `unapplied_from_payment`, `refunded_from_payment`, `funded`, `return_initiated`, or `return_canceled`. New types may be added in future. See [Customer Balance](https://stripe.com/docs/payments/customer-balance#types) to learn more about these types.
@@ -70,14 +81,21 @@ type CustomerCashBalanceTransactionFundedBankTransferJPBankTransfer struct {
 	// The full name of the sender, as supplied by the sending bank.
 	SenderName string `json:"sender_name"`
 }
+type CustomerCashBalanceTransactionFundedBankTransferUSBankTransfer struct {
+	// The banking network used for this funding.
+	Network CustomerCashBalanceTransactionFundedBankTransferUSBankTransferNetwork `json:"network"`
+	// The full name of the sender, as supplied by the sending bank.
+	SenderName string `json:"sender_name"`
+}
 type CustomerCashBalanceTransactionFundedBankTransfer struct {
 	EUBankTransfer *CustomerCashBalanceTransactionFundedBankTransferEUBankTransfer `json:"eu_bank_transfer"`
 	GBBankTransfer *CustomerCashBalanceTransactionFundedBankTransferGBBankTransfer `json:"gb_bank_transfer"`
 	JPBankTransfer *CustomerCashBalanceTransactionFundedBankTransferJPBankTransfer `json:"jp_bank_transfer"`
 	// The user-supplied reference field on the bank transfer.
 	Reference string `json:"reference"`
-	// The funding method type used to fund the customer balance. Permitted values include: `eu_bank_transfer`, `gb_bank_transfer`, `jp_bank_transfer`, or `mx_bank_transfer`.
-	Type CustomerCashBalanceTransactionFundedBankTransferType `json:"type"`
+	// The funding method type used to fund the customer balance. Permitted values include: `eu_bank_transfer`, `gb_bank_transfer`, `jp_bank_transfer`, `mx_bank_transfer`, or `us_bank_transfer`.
+	Type           CustomerCashBalanceTransactionFundedBankTransferType            `json:"type"`
+	USBankTransfer *CustomerCashBalanceTransactionFundedBankTransferUSBankTransfer `json:"us_bank_transfer"`
 }
 type CustomerCashBalanceTransactionFunded struct {
 	BankTransfer *CustomerCashBalanceTransactionFundedBankTransfer `json:"bank_transfer"`

@@ -72,6 +72,7 @@ const (
 	PaymentIntentNextActionDisplayBankTransferInstructionsTypeGBBankTransfer PaymentIntentNextActionDisplayBankTransferInstructionsType = "gb_bank_transfer"
 	PaymentIntentNextActionDisplayBankTransferInstructionsTypeJPBankTransfer PaymentIntentNextActionDisplayBankTransferInstructionsType = "jp_bank_transfer"
 	PaymentIntentNextActionDisplayBankTransferInstructionsTypeMXBankTransfer PaymentIntentNextActionDisplayBankTransferInstructionsType = "mx_bank_transfer"
+	PaymentIntentNextActionDisplayBankTransferInstructionsTypeUSBankTransfer PaymentIntentNextActionDisplayBankTransferInstructionsType = "us_bank_transfer"
 )
 
 // Type of the next action to perform, one of `redirect_to_url`, `use_stripe_sdk`, `alipay_handle_redirect`, `oxxo_display_details`, or `verify_with_microdeposits`.
@@ -371,14 +372,16 @@ type PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddres
 
 // List of values that PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressType can take
 const (
+	PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressTypeAba      PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressType = "aba"
 	PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressTypeIBAN     PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressType = "iban"
 	PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressTypeSEPA     PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressType = "sepa"
 	PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressTypeSortCode PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressType = "sort_code"
 	PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressTypeSpei     PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressType = "spei"
+	PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressTypeSwift    PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressType = "swift"
 	PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressTypeZengin   PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressType = "zengin"
 )
 
-// The bank transfer type that this PaymentIntent is allowed to use for funding Permitted values include: `eu_bank_transfer`, `gb_bank_transfer`, `jp_bank_transfer`, or `mx_bank_transfer`.
+// The bank transfer type that this PaymentIntent is allowed to use for funding Permitted values include: `eu_bank_transfer`, `gb_bank_transfer`, `jp_bank_transfer`, `mx_bank_transfer`, or `us_bank_transfer`.
 type PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferType string
 
 // List of values that PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferType can take
@@ -387,6 +390,7 @@ const (
 	PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferTypeGBBankTransfer PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferType = "gb_bank_transfer"
 	PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferTypeJPBankTransfer PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferType = "jp_bank_transfer"
 	PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferTypeMXBankTransfer PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferType = "mx_bank_transfer"
+	PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferTypeUSBankTransfer PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferType = "us_bank_transfer"
 )
 
 // The funding method type to be used when there are not enough funds in the customer balance. Permitted values include: `bank_transfer`.
@@ -1187,7 +1191,7 @@ type PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferParams struct {
 	//
 	// Permitted values include: `sort_code`, `zengin`, `iban`, or `spei`.
 	RequestedAddressTypes []*string `form:"requested_address_types"`
-	// The list of bank transfer types that this PaymentIntent is allowed to use for funding Permitted values include: `eu_bank_transfer`, `gb_bank_transfer`, `jp_bank_transfer`, or `mx_bank_transfer`.
+	// The list of bank transfer types that this PaymentIntent is allowed to use for funding Permitted values include: `eu_bank_transfer`, `gb_bank_transfer`, `jp_bank_transfer`, `mx_bank_transfer`, or `us_bank_transfer`.
 	Type *string `form:"type"`
 }
 
@@ -2343,7 +2347,7 @@ type PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransfer struct {
 	//
 	// Permitted values include: `sort_code`, `zengin`, `iban`, or `spei`.
 	RequestedAddressTypes []PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressType `json:"requested_address_types"`
-	// The bank transfer type that this PaymentIntent is allowed to use for funding Permitted values include: `eu_bank_transfer`, `gb_bank_transfer`, `jp_bank_transfer`, or `mx_bank_transfer`.
+	// The bank transfer type that this PaymentIntent is allowed to use for funding Permitted values include: `eu_bank_transfer`, `gb_bank_transfer`, `jp_bank_transfer`, `mx_bank_transfer`, or `us_bank_transfer`.
 	Type PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferType `json:"type"`
 }
 type PaymentIntentPaymentMethodOptionsCustomerBalance struct {
