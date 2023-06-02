@@ -15,6 +15,22 @@
 * [#1648](https://github.com/stripe/stripe-go/pull/1648) Introduce stripe.RawRequest as a canonical way to request APIs without definitions
   * Please refer to the [Custom Requests README section](https://github.com/stripe/stripe-go/tree/beta#custom-requests) for usage instructions.
 
+## 74.21.0 - 2023-06-01
+* [#1664](https://github.com/stripe/stripe-go/pull/1664) Update generated code
+  * Add support for `Numeric` and `Text` on `CheckoutSessionCustomFieldsParams` and `PaymentLinkCustomFieldsParams`
+  * Add support for `MaximumLength` and `MinimumLength` on `CheckoutSessionCustomFieldsNumeric` and `CheckoutSessionCustomFieldsText`
+  * Add support for new values `aba` and `swift` on enums `CheckoutSessionPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressTypes` and `PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressTypes`
+  * Add support for new value `us_bank_transfer` on enums `CheckoutSessionPaymentMethodOptionsCustomerBalanceBankTransferType`, `PaymentIntentNextActionDisplayBankTransferInstructionsType`, and `PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferType`
+  * Add support for `PreferredLocales` on `IssuingCardholderParams` and `IssuingCardholder`
+  * Add support for `Description`, `IIN`, and `Issuer` on `PaymentMethodCardPresent` and `PaymentMethodInteracPresent`
+  * Add support for `PayerEmail` on `PaymentMethodPaypal`
+* [#1662](https://github.com/stripe/stripe-go/pull/1662) Update generated code
+  * Add support for `ZipPayments` on `AccountCapabilitiesParams` and `AccountCapabilities`
+  * Add support for `Zip` on `ChargePaymentMethodDetails`, `PaymentIntentConfirmPaymentMethodDataParams`, `PaymentIntentConfirmPaymentMethodOptionsParams`, `PaymentIntentPaymentMethodDataParams`, `PaymentIntentPaymentMethodOptionsParams`, `PaymentIntentPaymentMethodOptions`, `PaymentMethodParams`, `PaymentMethod`, `SetupIntentConfirmPaymentMethodDataParams`, and `SetupIntentPaymentMethodDataParams`
+  * Add support for new value `zip` on enum `PaymentMethodType`
+* [#1661](https://github.com/stripe/stripe-go/pull/1661) Generate error codes
+* [#1660](https://github.com/stripe/stripe-go/pull/1660) Update generated code
+
 ## 74.21.0-beta.1 - 2023-05-25
 * [#1659](https://github.com/stripe/stripe-go/pull/1659) Update generated code for beta
 
