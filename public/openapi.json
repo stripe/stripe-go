@@ -1175,20 +1175,6 @@
           "sfValueType": ""
         },
         {
-          "name": "proration behavior",
-          "value": "proration_behavior",
-          "description": "<p>Whether to create prorations when canceling subscriptions. Possible values are <code>none</code> and <code>create_prorations</code>.</p>",
-          "type": "string",
-          "defaultValue": "",
-          "requiredValue": "",
-          "hasOverride": false,
-          "staticValue": false,
-          "hasSfValue": false,
-          "hasRequiredValue": false,
-          "sfValue": "",
-          "sfValueType": ""
-        },
-        {
           "name": "trial",
           "value": "trial",
           "description": "",

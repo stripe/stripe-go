@@ -42,7 +42,9 @@ const excludedFields = {
         'product_data'
     ],
 
-    subscription_schedule_phase: [],
+    subscription_schedule_phase: [
+        'proration_behavior'
+    ],
     coupon: [
         'id',
         'currency',

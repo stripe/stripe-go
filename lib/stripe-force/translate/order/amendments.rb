@@ -595,6 +595,7 @@ class StripeForce::Translate
         raise StripeForce::Errors::RawUserError.new("Test clock still advancing, scheduling a retry.")
       end
 
+      log.info 'Found test clock for customer, using frozen time', stripe_customer: stripe_customer_id, frozen_time: test_clock.frozen_time
       test_clock.frozen_time
     end
   end
