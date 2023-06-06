@@ -170,6 +170,28 @@ const (
 	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeVAT      TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "vat"
 )
 
+// The reasoning behind this tax, for example, if the product is tax exempt. We might extend the possible values for this field to support new tax rules.
+type TaxCalculationTaxBreakdownTaxabilityReason string
+
+// List of values that TaxCalculationTaxBreakdownTaxabilityReason can take
+const (
+	TaxCalculationTaxBreakdownTaxabilityReasonCustomerExempt       TaxCalculationTaxBreakdownTaxabilityReason = "customer_exempt"
+	TaxCalculationTaxBreakdownTaxabilityReasonNotCollecting        TaxCalculationTaxBreakdownTaxabilityReason = "not_collecting"
+	TaxCalculationTaxBreakdownTaxabilityReasonNotSubjectToTax      TaxCalculationTaxBreakdownTaxabilityReason = "not_subject_to_tax"
+	TaxCalculationTaxBreakdownTaxabilityReasonNotSupported         TaxCalculationTaxBreakdownTaxabilityReason = "not_supported"
+	TaxCalculationTaxBreakdownTaxabilityReasonPortionProductExempt TaxCalculationTaxBreakdownTaxabilityReason = "portion_product_exempt"
+	TaxCalculationTaxBreakdownTaxabilityReasonPortionReducedRated  TaxCalculationTaxBreakdownTaxabilityReason = "portion_reduced_rated"
+	TaxCalculationTaxBreakdownTaxabilityReasonPortionStandardRated TaxCalculationTaxBreakdownTaxabilityReason = "portion_standard_rated"
+	TaxCalculationTaxBreakdownTaxabilityReasonProductExempt        TaxCalculationTaxBreakdownTaxabilityReason = "product_exempt"
+	TaxCalculationTaxBreakdownTaxabilityReasonProductExemptHoliday TaxCalculationTaxBreakdownTaxabilityReason = "product_exempt_holiday"
+	TaxCalculationTaxBreakdownTaxabilityReasonProportionallyRated  TaxCalculationTaxBreakdownTaxabilityReason = "proportionally_rated"
+	TaxCalculationTaxBreakdownTaxabilityReasonReducedRated         TaxCalculationTaxBreakdownTaxabilityReason = "reduced_rated"
+	TaxCalculationTaxBreakdownTaxabilityReasonReverseCharge        TaxCalculationTaxBreakdownTaxabilityReason = "reverse_charge"
+	TaxCalculationTaxBreakdownTaxabilityReasonStandardRated        TaxCalculationTaxBreakdownTaxabilityReason = "standard_rated"
+	TaxCalculationTaxBreakdownTaxabilityReasonTaxableBasisReduced  TaxCalculationTaxBreakdownTaxabilityReason = "taxable_basis_reduced"
+	TaxCalculationTaxBreakdownTaxabilityReasonZeroRated            TaxCalculationTaxBreakdownTaxabilityReason = "zero_rated"
+)
+
 // The customer's tax IDs.
 type TaxCalculationCustomerDetailsTaxIDParams struct {
 	// Type of the tax ID, one of `ae_trn`, `au_abn`, `au_arn`, `bg_uic`, `br_cnpj`, `br_cpf`, `ca_bn`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `ca_qst`, `ch_vat`, `cl_tin`, `eg_tin`, `es_cif`, `eu_oss_vat`, `eu_vat`, `gb_vat`, `ge_vat`, `hk_br`, `hu_tin`, `id_npwp`, `il_vat`, `in_gst`, `is_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `ke_pin`, `kr_brn`, `li_uid`, `mx_rfc`, `my_frp`, `my_itn`, `my_sst`, `no_vat`, `nz_gst`, `ph_tin`, `ru_inn`, `ru_kpp`, `sa_vat`, `sg_gst`, `sg_uen`, `si_tin`, `th_vat`, `tr_tin`, `tw_vat`, `ua_vat`, `us_ein`, or `za_vat`
@@ -330,6 +352,8 @@ type TaxCalculationTaxBreakdown struct {
 	Amount int64 `json:"amount"`
 	// Specifies whether the tax amount is included in the line item amount.
 	Inclusive bool `json:"inclusive"`
+	// The reasoning behind this tax, for example, if the product is tax exempt. We might extend the possible values for this field to support new tax rules.
+	TaxabilityReason TaxCalculationTaxBreakdownTaxabilityReason `json:"taxability_reason"`
 	// The amount on which tax is calculated, in integer cents.
 	TaxableAmount  int64                                     `json:"taxable_amount"`
 	TaxRateDetails *TaxCalculationTaxBreakdownTaxRateDetails `json:"tax_rate_details"`
