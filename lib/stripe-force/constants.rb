@@ -80,6 +80,7 @@ module StripeForce
     class CPQProductSubscriptionTypeOptions < T::Enum
       enums do
         RENEWABLE = new("Renewable")
+        EVERGREEN = new("Evergreen")
         ONE_TIME = new("")
       end
     end

@@ -252,6 +252,23 @@ module Critic
       [product_id, pricebook_entry_id]
     end
 
+    def salesforce_evergreen_product_with_price(price: nil, currency_iso_code: nil, additional_product_fields: {})
+      # evergreen products all have subscription term set to 1
+      subscription_term = 1
+
+      product_id = create_salesforce_product(additional_fields: {
+        # anything non-nil indicates subscription/recurring pricing
+        CPQ_QUOTE_SUBSCRIPTION_PRICING => 'Fixed Price',
+
+        CPQ_PRODUCT_SUBSCRIPTION_TYPE => CPQProductSubscriptionTypeOptions::EVERGREEN,
+
+        CPQ_QUOTE_SUBSCRIPTION_TERM => subscription_term,
+      }.merge(additional_product_fields))
+
+      pricebook_entry_id = create_salesforce_price(sf_product_id: product_id, price: price, currency_iso_code: currency_iso_code)
+      [product_id, pricebook_entry_id]
+    end
+
     # returns the full object, not the ID
     def create_subscription_order(sf_product_id: nil, sf_account_id: nil, currency_iso_code: nil, additional_fields: {})
       create_salesforce_order(
@@ -379,9 +396,6 @@ module Critic
       calculate_and_save_cpq_quote(quote_with_product)
 
       create_order_from_cpq_quote(quote_id)
-
-      # contract_id = salesforce_client.create!('Contract', accountId: account_id)
-      # order_id = salesforce_client.create!('Order', {Status: "Draft", EffectiveDate: "2021-09-21", AccountId: account_id, ContractId: contract_id})
     end
 
     def create_recurring_per_unit_tiered_price
