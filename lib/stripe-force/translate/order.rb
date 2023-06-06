@@ -1071,7 +1071,6 @@ class StripeForce::Translate
       mapper.assign_values_from_hash(phase_item, phase_item_params)
       apply_mapping(phase_item, sf_order_item)
 
-      # TODO add test case for this
       unless Integrations::Utilities::StripeUtil.is_integer_value?(phase_item.quantity)
         throw_user_failure!(
           salesforce_object: sf_order_item,

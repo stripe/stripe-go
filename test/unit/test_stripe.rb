@@ -54,5 +54,11 @@ module Critic::Unit
 
       assert_nil(price[:recurring])
     end
+
+    it 'tests converting decimal quantity to integer' do
+      assert(Integrations::Utilities::StripeUtil.is_integer_value?(4))
+      assert(Integrations::Utilities::StripeUtil.is_integer_value?(4.0))
+      assert(Integrations::Utilities::StripeUtil.is_integer_value?("4.0"))
+    end
   end
 end

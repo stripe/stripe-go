@@ -82,15 +82,14 @@ class StripeForce::Translate
       # this should never happen if our identical check is correct, unless the data in Salesforce is mutated over time
       # leave this here as an extra safety check until this has backed in production and our test suite has expanded
       if !PriceHelpers.price_billing_amounts_equal?(existing_stripe_price, generated_stripe_price)
-        raise Integrations::Errors::UnhandledEdgeCase.new("expected generated prices to be equal, but they differed")
+        raise StripeForce::Errors::RawUserError.new("Found a corresponding Stripe price for this Salesforce price, but the price data has changed. Please unlink the Stripe Id from the Salesforce price and sync again.")
       end
 
-      log.info 'using existing stripe price', existing_price_id: existing_stripe_price.id
+      log.info 'reusing existing stripe price', existing_price_id: existing_stripe_price.id
       return existing_stripe_price
     end
 
-    log.info 'existing price not found, creating new',
-      sf_target_id: sf_target_for_stripe_price
+    log.info 'existing Stripe price not found, creating new', sf_target_id: sf_target_for_stripe_price
 
     stripe_price = create_price_from_sf_object(sf_target_for_stripe_price, sf_product, product, sf_order_item)
 
