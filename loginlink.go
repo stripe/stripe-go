@@ -13,6 +13,8 @@ type LoginLinkParams struct {
 	Params  `form:"*"`
 	Account *string `form:"-"` // Included in URL
 }
+
+// Login Links are single-use login link for an Express account to access their Stripe dashboard.
 type LoginLink struct {
 	APIResource
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
