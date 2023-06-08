@@ -1,5 +1,9 @@
 # Changelog
 
+## 74.23.0-beta.1 - 2023-06-08
+* [#1669](https://github.com/stripe/stripe-go/pull/1669) Update generated code for beta
+  * Updated stable APIs to the latest version
+
 ## 74.22.0-beta.1 - 2023-06-01
 * [#1665](https://github.com/stripe/stripe-go/pull/1665) Update generated code for beta
   * Add support for `SubscriptionDetails` on `Invoice`
