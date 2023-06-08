@@ -9,6 +9,7 @@ package client
 
 import (
 	stripe "github.com/stripe/stripe-go/v74"
+	"github.com/stripe/stripe-go/v74/acceptedfinancing"
 	"github.com/stripe/stripe-go/v74/account"
 	"github.com/stripe/stripe-go/v74/accountlink"
 	"github.com/stripe/stripe-go/v74/accountsession"
@@ -132,6 +133,8 @@ import (
 
 // API is the Stripe client. It contains all the different resources available.
 type API struct {
+	// AcceptedFinancing is the client used to invoke /capital/financing/accepted APIs.
+	AcceptedFinancing *acceptedfinancing.Client
 	// AccountLinks is the client used to invoke /account_links APIs.
 	AccountLinks *accountlink.Client
 	// Accounts is the client used to invoke /accounts APIs.
@@ -382,6 +385,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 		}
 	}
 
+	a.AcceptedFinancing = &acceptedfinancing.Client{B: backends.API, Key: key}
 	a.AccountLinks = &accountlink.Client{B: backends.API, Key: key}
 	a.Accounts = &account.Client{B: backends.API, Key: key}
 	a.AccountSessions = &accountsession.Client{B: backends.API, Key: key}
