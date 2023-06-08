@@ -252,6 +252,26 @@ class StripeForce::Translate
     )
   end
 
+  def is_salesforce_order_evergreen(sf_order, sf_order_items)
+    whether_order_items_evergreen = sf_order_items.map {|order_item| order_item[CPQ_PRODUCT_SUBSCRIPTION_TYPE] == CPQProductSubscriptionTypeOptions::EVERGREEN.serialize }
+
+    if whether_order_items_evergreen.include? true
+      if whether_order_items_evergreen.include? false
+        # if there are both evergreen and renewable order items, throw error
+        throw_user_failure!(
+          salesforce_object: sf_order,
+          message: "Salesforce orders with both Evergreen and Renewable items are not yet supported."
+        )
+      else
+        # if there are only evergreen items, the order is evergreen
+        return true
+      end
+    end
+
+    # if there are only renewable items, the order is not evergreen
+    false
+  end
+
   def create_stripe_transaction_from_sf_order(sf_order)
     log.info 'translating order', salesforce_object: sf_order
 
@@ -279,6 +299,13 @@ class StripeForce::Translate
     is_recurring_order = !subscription_items.empty?
     if !is_recurring_order
       return create_stripe_invoice_from_order(stripe_customer, invoice_items, sf_order)
+    end
+
+    if is_salesforce_order_evergreen(sf_order, sf_order_items)
+      throw_user_failure!(
+        salesforce_object: sf_order,
+        message: "Evergreen Salesforce Orders are not yet supported."
+      )
     end
 
     log.info 'recurring items found, creating subscription schedule'

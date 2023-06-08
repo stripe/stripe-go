@@ -396,6 +396,19 @@ module Critic
       calculate_and_save_cpq_quote(quote_with_product)
 
       create_order_from_cpq_quote(quote_id)
+
+      # contract_id = salesforce_client.create!('Contract', accountId: account_id)
+      # order_id = salesforce_client.create!('Order', {Status: "Draft", EffectiveDate: "2021-09-21", AccountId: account_id, ContractId: contract_id})
+    end
+
+    # for creating evergreen orders specifically. evergreen subscriptions do not have an end date.
+    def create_evergreen_salesforce_order(sf_product_id: nil, sf_account_id: nil, sf_pricebook_id: nil, currency_iso_code: nil, additional_quote_fields: {})
+      if !sf_product_id
+        sf_product_id, _ = salesforce_evergreen_product_with_price(currency_iso_code: currency_iso_code)
+      end
+
+      # sf_product_id should point to an evergreen product so will not be nil inside create sf order
+      create_salesforce_order(sf_product_id: sf_product_id, sf_account_id: sf_account_id, sf_pricebook_id: sf_pricebook_id, currency_iso_code: currency_iso_code, additional_quote_fields: additional_quote_fields)
     end
 
     def create_recurring_per_unit_tiered_price
