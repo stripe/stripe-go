@@ -252,7 +252,7 @@ type TerminalReaderCollectPaymentMethodParams struct {
 	PaymentIntent *string `form:"payment_intent"`
 }
 
-// Finializes a payment on a Reader.
+// Finalizes a payment on a Reader.
 type TerminalReaderConfirmPaymentIntentParams struct {
 	Params `form:"*"`
 	// PaymentIntent ID
