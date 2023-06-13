@@ -47,12 +47,15 @@ type FileListParams struct {
 	Purpose *string `form:"purpose"`
 }
 
-// FileFileLinkDataParams is the set of parameters allowed for the
-// file_link_data hash.
+// Optional parameters to automatically create a [file link](https://stripe.com/docs/api#file_links) for the newly created file.
 type FileFileLinkDataParams struct {
-	Params    `form:"*"`
-	Create    *bool  `form:"create"`
+	Params `form:"*"`
+	// Set this to `true` to create a file link for the newly created file. Creating a link is only possible when the file's `purpose` is one of the following: `business_icon`, `business_logo`, `customer_signature`, `dispute_evidence`, `pci_document`, `tax_document_user_upload`, or `terminal_reader_splashscreen`.
+	Create *bool `form:"create"`
+	// A future timestamp after which the link will no longer be usable.
 	ExpiresAt *int64 `form:"expires_at"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
 }
 
 // To upload a file to Stripe, you'll need to send a request of type multipart/form-data. The request should contain the file you would like to upload, as well as the parameters for creating a file.
@@ -60,14 +63,15 @@ type FileFileLinkDataParams struct {
 // All of Stripe's officially supported Client libraries should have support for sending multipart/form-data.
 type FileParams struct {
 	Params `form:"*"`
-
 	// FileReader is a reader with the contents of the file that should be uploaded.
 	FileReader io.Reader
 
 	// Filename is just the name of the file without path information.
-	Filename     *string
-	Purpose      *string
-	FileLinkData *FileFileLinkDataParams
+	Filename *string
+	// Optional parameters to automatically create a [file link](https://stripe.com/docs/api#file_links) for the newly created file.
+	FileLinkData *FileFileLinkDataParams `form:"file_link_data"`
+	// The [purpose](https://stripe.com/docs/file-upload#uploading-a-file) of the uploaded file.
+	Purpose *string `form:"purpose"`
 }
 
 // This is an object representing a file hosted on Stripe's servers. The
