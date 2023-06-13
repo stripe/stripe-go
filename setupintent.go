@@ -971,7 +971,8 @@ type SetupIntentConfirmPaymentMethodDataParams struct {
 // Otherwise, it will transition to the requires_action status and
 // suggest additional actions via next_action. If setup fails,
 // the SetupIntent will transition to the
-// requires_payment_method status.
+// requires_payment_method status or the canceled status if the
+// confirmation limit is reached.
 type SetupIntentConfirmParams struct {
 	Params `form:"*"`
 	// This hash contains details about the Mandate to create
