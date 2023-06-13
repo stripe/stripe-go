@@ -115,7 +115,7 @@ class Critic::EvergreenOrderTest < Critic::FunctionalTest
 
     stripe_id = sf_order[prefixed_stripe_field(GENERIC_STRIPE_ID)]
     subscription = Stripe::Subscription.retrieve(stripe_id, @user.stripe_credentials)
-    customer = Stripe::Customer.retrieve(T.cast(subscription['customer'], String), @user.stripe_credentials)
+    customer = Stripe::Customer.retrieve(T.cast(subscription.customer, String), @user.stripe_credentials)
 
     assert_match(sf_account_id, customer.metadata['salesforce_account_link'])
     assert_equal(customer.metadata['salesforce_account_id'], sf_account_id)
@@ -126,10 +126,11 @@ class Critic::EvergreenOrderTest < Critic::FunctionalTest
     assert_equal(subscription.metadata['example_field'], sf_order.OrderNumber)
 
     # Check subscription and invoice properties
-    stripe_invoice = Stripe::Invoice.retrieve(subscription['latest_invoice'], @user.stripe_credentials)
+    invoices = Stripe::Invoice.list({subscription: subscription, limit: 100}, @user.stripe_credentials)
+    stripe_invoice = Stripe::Invoice.retrieve(invoices.data.first['id'], @user.stripe_credentials)
 
     # Start date
-    assert_match(Time.at(subscription['current_period_start']).utc.strftime('%Y-%m-%d'), subscription_start_date)
+    assert_match(Time.at(subscription.current_period_start).utc.strftime('%Y-%m-%d'), subscription_start_date)
 
     # Amount due per invoice
     assert_equal(stripe_invoice['amount_due'] / 100.0, sf_order['TotalAmount'])
@@ -176,7 +177,7 @@ class Critic::EvergreenOrderTest < Critic::FunctionalTest
     assert_equal(1, invoices.data.length)
 
     # Fast forward to start of next pay period to see another invoice get created
-    test_clock = advance_test_clock(stripe_customer, (Time.at(subscription['current_period_end'])).to_i)
+    test_clock = advance_test_clock(stripe_customer, subscription.current_period_end)
 
     # another invoice should have been created for second pay period
     invoices = Stripe::Invoice.list({subscription: subscription, limit: 100}, @user.stripe_credentials)
@@ -188,7 +189,7 @@ class Critic::EvergreenOrderTest < Critic::FunctionalTest
     assert_equal(invoice_1['period_end'], invoice_2['period_start'])
 
     # Fast forward more to ensure more invoices are created
-    test_clock = advance_test_clock(stripe_customer, (Time.at(subscription['current_period_end']) + 2.month).to_i)
+    test_clock = advance_test_clock(stripe_customer, (Time.at(subscription.current_period_end) + 2.month).to_i)
     invoices = Stripe::Invoice.list({subscription: subscription, limit: 100}, @user.stripe_credentials)
     invoice_3 = Stripe::Invoice.retrieve(invoices.data.second['id'], @user.stripe_credentials)
     invoice_4 = Stripe::Invoice.retrieve(invoices.data.first['id'], @user.stripe_credentials)

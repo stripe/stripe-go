@@ -264,6 +264,26 @@ class Stripe::SubscriptionSchedule
   def self.retrieve(id, opts={}); end
 end
 
+class Stripe::Subscription
+  sig { returns(T::Boolean)}
+  def cancel_at_period_end; end
+
+  sig { returns(T.any(Stripe::Customer, String))}
+  def customer; end
+
+  sig { returns(String) }
+  def status; end
+
+  sig { returns(Integer) }
+  def current_period_start; end
+
+  sig { returns(Integer) }
+  def current_period_end; end
+
+  sig { returns(Stripe::Subscription).params(id: T.any(String, T::Hash[Symbol, T.untyped]), opts: T.nilable(T::Hash[Symbol, T.untyped])) }
+  def self.retrieve(id, opts={}); end
+end
+
 class Stripe::SubscriptionItem < Stripe::APIResource
   sig { params(arg:Hash).returns(Stripe::SubscriptionItem)}
   def self.construct_from(arg); end
