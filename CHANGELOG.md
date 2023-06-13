@@ -1,5 +1,10 @@
 # Changelog
 
+## 74.22.0 - 2023-06-08
+* [#1670](https://github.com/stripe/stripe-go/pull/1670) Update generated code
+  * Add support for `TaxabilityReason` on `TaxCalculationTaxBreakdown`
+* [#1668](https://github.com/stripe/stripe-go/pull/1668) Remove v71 migration guide, moved to wiki
+
 ## 74.21.0 - 2023-06-01
 * [#1664](https://github.com/stripe/stripe-go/pull/1664) Update generated code
   * Add support for `Numeric` and `Text` on `CheckoutSessionCustomFieldsParams` and `PaymentLinkCustomFieldsParams`
