@@ -254,15 +254,13 @@ module Critic
 
     def salesforce_evergreen_product_with_price(price: nil, currency_iso_code: nil, additional_product_fields: {})
       # evergreen products all have subscription term set to 1
-      subscription_term = 1
-
       product_id = create_salesforce_product(additional_fields: {
         # anything non-nil indicates subscription/recurring pricing
         CPQ_QUOTE_SUBSCRIPTION_PRICING => 'Fixed Price',
 
         CPQ_PRODUCT_SUBSCRIPTION_TYPE => CPQProductSubscriptionTypeOptions::EVERGREEN,
 
-        CPQ_QUOTE_SUBSCRIPTION_TERM => subscription_term,
+        CPQ_QUOTE_SUBSCRIPTION_TERM => SF_ORDER_DEFAULT_EVERGREEN_SUBSCRIPTION_TERM,
       }.merge(additional_product_fields))
 
       pricebook_entry_id = create_salesforce_price(sf_product_id: product_id, price: price, currency_iso_code: currency_iso_code)

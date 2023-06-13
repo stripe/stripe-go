@@ -38,6 +38,7 @@ module StripeForce
     SF_ORDER_ITEM_REVISED_ORDER_PRODUCT = 'SBQQ__RevisedOrderProduct__c'
     SF_ORDER_ACTIVATED_DATE = 'ActivatedDate'
     SF_ORDER_TYPE = 'Type'
+    SF_ORDER_DEFAULT_EVERGREEN_SUBSCRIPTION_TERM = 1
 
     SF_CONTRACT_ORDER_ID = 'SBQQ__Order__c'
     SF_CONTRACT_QUOTE_ID = 'SBQQ__Quote__c'

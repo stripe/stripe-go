@@ -23,7 +23,9 @@ module StripeForce
       end
 
       if stripe_record.is_a?(Stripe::Subscription)
-        # Do something maybe? this is the case of old pre-integration orders
+        # TODO: do something maybe? this is the case of old pre-integration orders
+        # also the case of evergreen orders
+        # https://jira.corp.stripe.com/browse/PLATINT-2538
       end
     end
 

@@ -272,6 +272,38 @@ class StripeForce::Translate
     false
   end
 
+  def create_stripe_subscription_from_sf_order(sf_order, subscription_items, stripe_customer)
+    subscription = Stripe::Subscription.construct_from({
+      cancel_at_period_end: false,
+      customer: stripe_customer.id,
+      metadata: Metadata.stripe_metadata_for_sf_object(@user, sf_order),
+      items: subscription_items.map(&:stripe_params),
+    })
+
+    subscription_params = StripeForce::Utilities::SalesforceUtil.extract_salesforce_params!(mapper, sf_order, Stripe::SubscriptionSchedule)
+
+    mapper.assign_values_from_hash(subscription, subscription_params)
+    apply_mapping(subscription, sf_order)
+
+    Integrations::Utilities::StripeUtil.delete_field_from_stripe_object(
+      subscription,
+      [:start_date, :end_behavior, :iterations]
+    )
+
+    sanitize(subscription)
+
+    subscription = Stripe::Subscription.create(
+      subscription.to_hash,
+      @user.stripe_credentials
+    )
+
+    update_sf_stripe_id(sf_order, subscription)
+
+    log.info 'created stripe subscription for evergreen order', stripe_subscription_id: subscription.id
+
+    subscription
+  end
+
   def create_stripe_transaction_from_sf_order(sf_order)
     log.info 'translating order', salesforce_object: sf_order
 
@@ -280,12 +312,14 @@ class StripeForce::Translate
       log.warn "order is not new, but is treated as such, type field could be customized"
     end
 
-    stripe_transaction = retrieve_from_stripe(Stripe::SubscriptionSchedule, sf_order)
+    stripe_transaction = retrieve_from_stripe(Stripe::Subscription, sf_order)
+    stripe_transaction ||= retrieve_from_stripe(Stripe::SubscriptionSchedule, sf_order)
     stripe_transaction ||= retrieve_from_stripe(Stripe::Invoice, sf_order)
 
     if !stripe_transaction.nil?
       log.info 'initial order is already translated',
         stripe_transaction_id: stripe_transaction.id,
+        stripe_transaction_type: stripe_transaction.class.to_s,
         salesforce_order_id: sf_order.Id
       return
     end
@@ -301,22 +335,23 @@ class StripeForce::Translate
       return create_stripe_invoice_from_order(stripe_customer, invoice_items, sf_order)
     end
 
-    if is_salesforce_order_evergreen(sf_order, sf_order_items)
-      throw_user_failure!(
-        salesforce_object: sf_order,
-        message: "Evergreen Salesforce Orders are not yet supported."
-      )
+    order_is_evergreen = is_salesforce_order_evergreen(sf_order, sf_order_items)
+
+    if order_is_evergreen
+      log.info 'recurring items found and order is evergreen, creating subscription'
+
+      return create_stripe_subscription_from_sf_order(sf_order, subscription_items, stripe_customer)
     end
 
     log.info 'recurring items found, creating subscription schedule'
-
-    subscription_params = StripeForce::Utilities::SalesforceUtil.extract_salesforce_params!(mapper, sf_order, Stripe::SubscriptionSchedule)
 
     subscription_schedule = Stripe::SubscriptionSchedule.construct_from({
       # TODO this should be specified in the defaults hash... we should create a defaults hash https://jira.corp.stripe.com/browse/PLATINT-1501
       end_behavior: 'cancel',
       metadata: Metadata.stripe_metadata_for_sf_object(@user, sf_order),
     })
+
+    subscription_params = StripeForce::Utilities::SalesforceUtil.extract_salesforce_params!(mapper, sf_order, Stripe::SubscriptionSchedule)
 
     mapper.assign_values_from_hash(subscription_schedule, subscription_params)
     apply_mapping(subscription_schedule, sf_order)
