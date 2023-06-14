@@ -26,52 +26,6 @@ class Critic::EvergreenOrderTest < Critic::FunctionalTest
     end
   end
 
-  describe 'failure cases' do
-    it 'raises user error when there are evergreen and renewable items on same order' do
-      @user.field_defaults = {
-        "customer" => {
-          "email" => create_random_email,
-        },
-        "subscription" => {
-          "days_until_due" => 30,
-          "collection_method" => "send_invoice",
-        },
-      }
-      @user.save
-
-      sf_account_id = create_salesforce_account
-
-      sf_product_id_1, _ = salesforce_evergreen_product_with_price
-      sf_product_id_2, _ = salesforce_recurring_product_with_price
-
-      quote_id = create_salesforce_quote(
-        sf_account_id: sf_account_id,
-
-        additional_quote_fields: {
-          CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(now_time),
-          CPQ_QUOTE_SUBSCRIPTION_TERM => SF_ORDER_DEFAULT_EVERGREEN_SUBSCRIPTION_TERM,
-        }
-      )
-
-      # add both products to the sf quote
-      quote_with_product = add_product_to_cpq_quote(quote_id, sf_product_id: sf_product_id_1)
-      calculate_and_save_cpq_quote(quote_with_product)
-
-      quote_with_product = add_product_to_cpq_quote(quote_id, sf_product_id: sf_product_id_2)
-      calculate_and_save_cpq_quote(quote_with_product)
-
-      sf_order = create_order_from_cpq_quote(quote_id)
-
-      order_items = sf_get_related(sf_order, SF_ORDER_ITEM)
-
-      exception = assert_raises(Integrations::Errors::UserError) do
-        SalesforceTranslateRecordJob.translate(@user, sf_order)
-      end
-
-      assert_match("Salesforce orders with both Evergreen and Renewable items are not yet supported.", exception.message)
-    end
-  end
-
   it 'translates evergreen salesforce order to a stripe subscription' do
     @user.field_defaults = {
       "customer" => {
@@ -90,15 +44,15 @@ class Critic::EvergreenOrderTest < Critic::FunctionalTest
     }
     @user.save
 
-    # creating these directly so we have the IDs
-    sf_product_id, sf_pricebook_entry_id = salesforce_evergreen_product_with_price
+    # create two products to add to the order
+    sf_product_id_1, _ = salesforce_evergreen_product_with_price
+    sf_product_id_2, _ = salesforce_evergreen_product_with_price
 
     sf_account_id = create_salesforce_account
 
     subscription_start_date = format_date_for_salesforce(now_time)
 
-    sf_order = create_evergreen_salesforce_order(
-      sf_product_id: sf_product_id,
+    quote_id = create_salesforce_quote(
       sf_account_id: sf_account_id,
 
       additional_quote_fields: {
@@ -107,8 +61,17 @@ class Critic::EvergreenOrderTest < Critic::FunctionalTest
       }
     )
 
+    # add both products to the sf quote
+    quote_with_product = add_product_to_cpq_quote(quote_id, sf_product_id: sf_product_id_1)
+    calculate_and_save_cpq_quote(quote_with_product)
+
+    quote_with_product = add_product_to_cpq_quote(quote_id, sf_product_id: sf_product_id_2)
+    calculate_and_save_cpq_quote(quote_with_product)
+
+    sf_order = create_order_from_cpq_quote(quote_id)
+
     # translate salesforce order to subscription and find
-    StripeForce::Translate.perform_inline(@user, sf_order.Id)
+    SalesforceTranslateRecordJob.translate(@user, sf_order)
     sf_order.refresh
 
     sf_order = sf.find(SF_ORDER, sf_order.Id)
@@ -124,6 +87,12 @@ class Critic::EvergreenOrderTest < Critic::FunctionalTest
     assert_match(sf_order.Id, subscription.metadata['salesforce_order_link'])
     assert_equal(subscription.metadata['salesforce_order_id'], sf_order.Id)
     assert_equal(subscription.metadata['example_field'], sf_order.OrderNumber)
+
+    # subscription products
+    order_items = sf_get_related(sf_order, SF_ORDER_ITEM)
+
+    assert_equal(sf_product_id_1, order_items.first['Product2Id'])
+    assert_equal(sf_product_id_2, order_items.second['Product2Id'])
 
     # Check subscription and invoice properties
     invoices = Stripe::Invoice.list({subscription: subscription, limit: 100}, @user.stripe_credentials)
@@ -198,5 +167,49 @@ class Critic::EvergreenOrderTest < Critic::FunctionalTest
     assert_equal(invoice_4['amount_due'] / 100.0, sf_order['TotalAmount'])
     assert_equal(invoice_2['period_end'], invoice_3['period_start'])
     assert_equal(invoice_3['period_end'], invoice_4['period_start'])
+  end
+
+  describe 'failure cases' do
+    it 'raises user error when there are evergreen and renewable items on same order' do
+      @user.field_defaults = {
+        "customer" => {
+          "email" => create_random_email,
+        },
+        "subscription" => {
+          "days_until_due" => 30,
+          "collection_method" => "send_invoice",
+        },
+      }
+      @user.save
+
+      sf_account_id = create_salesforce_account
+
+      sf_product_id_1, _ = salesforce_evergreen_product_with_price
+      sf_product_id_2, _ = salesforce_recurring_product_with_price
+
+      quote_id = create_salesforce_quote(
+        sf_account_id: sf_account_id,
+
+        additional_quote_fields: {
+          CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(now_time),
+          CPQ_QUOTE_SUBSCRIPTION_TERM => SF_ORDER_DEFAULT_EVERGREEN_SUBSCRIPTION_TERM,
+        }
+      )
+
+      # add both products to the sf quote
+      quote_with_product = add_product_to_cpq_quote(quote_id, sf_product_id: sf_product_id_1)
+      calculate_and_save_cpq_quote(quote_with_product)
+
+      quote_with_product = add_product_to_cpq_quote(quote_id, sf_product_id: sf_product_id_2)
+      calculate_and_save_cpq_quote(quote_with_product)
+
+      sf_order = create_order_from_cpq_quote(quote_id)
+
+      exception = assert_raises(Integrations::Errors::UserError) do
+        SalesforceTranslateRecordJob.translate(@user, sf_order)
+      end
+
+      assert_match("Salesforce orders with both Evergreen and Renewable items are not yet supported.", exception.message)
+    end
   end
 end
