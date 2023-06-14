@@ -32,7 +32,7 @@ type GiftCardsTransactionListParams struct {
 	ListParams `form:"*"`
 	// The gift card to list transactions for.
 	GiftCard *string `form:"gift_card"`
-	// A string that identifies this transaction as part of a group. See the [Connect documentation](https://stripe.com/docs/connect/charges-transfers) for details.
+	// A string that identifies this transaction as part of a group. See the [Connect documentation](https://stripe.com/docs/connect/separate-charges-and-transfers) for details.
 	TransferGroup *string `form:"transfer_group"`
 }
 
@@ -65,7 +65,7 @@ type GiftCardsTransactionParams struct {
 	Description *string `form:"description"`
 	// The gift card to create a new transaction on.
 	GiftCard *string `form:"gift_card"`
-	// A string that identifies this transaction as part of a group. See the [Connect documentation](https://stripe.com/docs/connect/charges-transfers) for details.
+	// A string that identifies this transaction as part of a group. See the [Connect documentation](https://stripe.com/docs/connect/separate-charges-and-transfers) for details.
 	TransferGroup *string `form:"transfer_group"`
 }
 
@@ -134,7 +134,7 @@ type GiftCardsTransaction struct {
 	Object string `json:"object"`
 	// Status of this transaction, one of `held`, `confirmed`, or `canceled`.
 	Status GiftCardsTransactionStatus `json:"status"`
-	// A string that identifies this transaction as part of a group. See the [Connect documentation](https://stripe.com/docs/connect/charges-transfers) for details.
+	// A string that identifies this transaction as part of a group. See the [Connect documentation](https://stripe.com/docs/connect/separate-charges-and-transfers) for details.
 	TransferGroup string `json:"transfer_group"`
 }
 

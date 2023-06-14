@@ -38,11 +38,11 @@ type TransferReversalListParams struct {
 // Reversing a transfer that was made for a [destination
 // charge](https://stripe.com/docs/connect/destination-charges) is allowed only up to the amount of
 // the charge. It is possible to reverse a
-// [transfer_group](https://stripe.com/docs/connect/charges-transfers#transfer-options)
+// [transfer_group](https://stripe.com/docs/connect/separate-charges-and-transfers#transfer-options)
 // transfer only if the destination account has enough balance to cover the
 // reversal.
 //
-// Related guide: [Reversing transfers](https://stripe.com/docs/connect/charges-transfers#reversing-transfers)
+// Related guide: [Reversing transfers](https://stripe.com/docs/connect/separate-charges-and-transfers#reversing-transfers)
 type TransferReversal struct {
 	APIResource
 	// Amount, in %s.
