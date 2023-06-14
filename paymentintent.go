@@ -96,6 +96,28 @@ const (
 	PaymentIntentNextActionVerifyWithMicrodepositsMicrodepositTypeDescriptorCode PaymentIntentNextActionVerifyWithMicrodepositsMicrodepositType = "descriptor_code"
 )
 
+// List of additional charges being billed.
+type PaymentIntentPaymentDetailsCarRentalExtraCharge string
+
+// List of values that PaymentIntentPaymentDetailsCarRentalExtraCharge can take
+const (
+	PaymentIntentPaymentDetailsCarRentalExtraChargeExtraMileage     PaymentIntentPaymentDetailsCarRentalExtraCharge = "extra_mileage"
+	PaymentIntentPaymentDetailsCarRentalExtraChargeGas              PaymentIntentPaymentDetailsCarRentalExtraCharge = "gas"
+	PaymentIntentPaymentDetailsCarRentalExtraChargeLateReturn       PaymentIntentPaymentDetailsCarRentalExtraCharge = "late_return"
+	PaymentIntentPaymentDetailsCarRentalExtraChargeOneWayService    PaymentIntentPaymentDetailsCarRentalExtraCharge = "one_way_service"
+	PaymentIntentPaymentDetailsCarRentalExtraChargeParkingViolation PaymentIntentPaymentDetailsCarRentalExtraCharge = "parking_violation"
+)
+
+// The frequency at which the rate amount is applied. One of `day`, `week` or `month`
+type PaymentIntentPaymentDetailsCarRentalRateInterval string
+
+// List of values that PaymentIntentPaymentDetailsCarRentalRateInterval can take
+const (
+	PaymentIntentPaymentDetailsCarRentalRateIntervalDay   PaymentIntentPaymentDetailsCarRentalRateInterval = "day"
+	PaymentIntentPaymentDetailsCarRentalRateIntervalMonth PaymentIntentPaymentDetailsCarRentalRateInterval = "month"
+	PaymentIntentPaymentDetailsCarRentalRateIntervalWeek  PaymentIntentPaymentDetailsCarRentalRateInterval = "week"
+)
+
 // Payment schedule for the mandate.
 type PaymentIntentPaymentMethodOptionsACSSDebitMandateOptionsPaymentSchedule string
 
@@ -813,6 +835,122 @@ type PaymentIntentMandateDataParams struct {
 	CustomerAcceptance *PaymentIntentMandateDataCustomerAcceptanceParams `form:"customer_acceptance"`
 }
 
+// Car rental details for this PaymentIntent.
+type PaymentIntentPaymentDetailsCarRentalParams struct {
+	// The booking number associated with the car rental.
+	BookingNumber *string `form:"booking_number"`
+	// Class code of the car.
+	CarClassCode *string `form:"car_class_code"`
+	// Make of the car.
+	CarMake *string `form:"car_make"`
+	// Model of the car.
+	CarModel *string `form:"car_model"`
+	// The name of the rental car company.
+	Company *string `form:"company"`
+	// The customer service phone number of the car rental company.
+	CustomerServicePhoneNumber *string `form:"customer_service_phone_number"`
+	// Number of days the car is being rented.
+	DaysRented *int64 `form:"days_rented"`
+	// List of additional charges being billed.
+	ExtraCharges []*string `form:"extra_charges"`
+	// Indicates if the customer did not keep nor cancel their booking.
+	NoShow *bool `form:"no_show"`
+	// Car pick-up address.
+	PickupAddress *AddressParams `form:"pickup_address"`
+	// Car pick-up time. Measured in seconds since the Unix epoch.
+	PickupAt *int64 `form:"pickup_at"`
+	// Rental rate.
+	RateAmount *int64 `form:"rate_amount"`
+	// The frequency at which the rate amount is applied. One of `day`, `week` or `month`
+	RateInterval *string `form:"rate_interval"`
+	// The name of the person or entity renting the car.
+	RenterName *string `form:"renter_name"`
+	// Car return address.
+	ReturnAddress *AddressParams `form:"return_address"`
+	// Car return time. Measured in seconds since the Unix epoch.
+	ReturnAt *int64 `form:"return_at"`
+	// Indicates whether the goods or services are tax-exempt or tax is not collected.
+	TaxExempt *bool `form:"tax_exempt"`
+}
+
+// The individual flight segments associated with the trip.
+type PaymentIntentPaymentDetailsFlightSegmentParams struct {
+	// The International Air Transport Association (IATA) airport code for the arrival airport.
+	ArrivalAirport *string `form:"arrival_airport"`
+	// The arrival time for the flight segment. Measured in seconds since the Unix epoch.
+	ArrivesAt *int64 `form:"arrives_at"`
+	// The International Air Transport Association (IATA) carrier code of the carrier operating the flight segment.
+	Carrier *string `form:"carrier"`
+	// The departure time for the flight segment. Measured in seconds since the Unix epoch.
+	DepartsAt *int64 `form:"departs_at"`
+	// The International Air Transport Association (IATA) airport code for the departure airport.
+	DepartureAirport *string `form:"departure_airport"`
+	// The flight number associated with the segment
+	FlightNumber *string `form:"flight_number"`
+	// The fare class for the segment.
+	ServiceClass *string `form:"service_class"`
+}
+
+// Flight reservation details for this PaymentIntent
+type PaymentIntentPaymentDetailsFlightParams struct {
+	// The agency number (i.e. International Air Transport Association (IATA) agency number) of the travel agency that made the booking.
+	AgencyNumber *string `form:"agency_number"`
+	// The International Air Transport Association (IATA) carrier code of the carrier that issued the ticket.
+	Carrier *string `form:"carrier"`
+	// The name of the person or entity on the reservation.
+	PassengerName *string `form:"passenger_name"`
+	// The individual flight segments associated with the trip.
+	Segments []*PaymentIntentPaymentDetailsFlightSegmentParams `form:"segments"`
+	// The ticket number associated with the travel reservation.
+	TicketNumber *string `form:"ticket_number"`
+}
+
+// Lodging reservation details for this PaymentIntent
+type PaymentIntentPaymentDetailsLodgingParams struct {
+	// The lodging location's address.
+	Address *AddressParams `form:"address"`
+	// The number of adults on the booking
+	Adults *int64 `form:"adults"`
+	// The booking number associated with the lodging reservation.
+	BookingNumber *string `form:"booking_number"`
+	// The lodging category
+	Category *string `form:"category"`
+	// Loding check-in time. Measured in seconds since the Unix epoch.
+	CheckinAt *int64 `form:"checkin_at"`
+	// Lodging check-out time. Measured in seconds since the Unix epoch.
+	CheckoutAt *int64 `form:"checkout_at"`
+	// The customer service phone number of the lodging company.
+	CustomerServicePhoneNumber *string `form:"customer_service_phone_number"`
+	// The daily lodging room rate.
+	DailyRoomRateAmount *int64 `form:"daily_room_rate_amount"`
+	// List of additional charges being billed.
+	ExtraCharges []*string `form:"extra_charges"`
+	// Indicates whether the lodging location is compliant with the Fire Safety Act.
+	FireSafetyActCompliance *bool `form:"fire_safety_act_compliance"`
+	// The name of the lodging location.
+	Name *string `form:"name"`
+	// Indicates if the customer did not keep their booking while failing to cancel the reservation.
+	NoShow *bool `form:"no_show"`
+	// The phone number of the lodging location.
+	PropertyPhoneNumber *string `form:"property_phone_number"`
+	// The number of room nights
+	RoomNights *int64 `form:"room_nights"`
+	// The total tax amount associating with the room reservation.
+	TotalRoomTaxAmount *int64 `form:"total_room_tax_amount"`
+	// The total tax amount
+	TotalTaxAmount *int64 `form:"total_tax_amount"`
+}
+
+// Provides industry-specific information about the charge.
+type PaymentIntentPaymentDetailsParams struct {
+	// Car rental details for this PaymentIntent.
+	CarRental *PaymentIntentPaymentDetailsCarRentalParams `form:"car_rental"`
+	// Flight reservation details for this PaymentIntent
+	Flight *PaymentIntentPaymentDetailsFlightParams `form:"flight"`
+	// Lodging reservation details for this PaymentIntent
+	Lodging *PaymentIntentPaymentDetailsLodgingParams `form:"lodging"`
+}
+
 // If this is an `affirm` PaymentMethod, this hash contains details about the Affirm payment method.
 type PaymentIntentPaymentMethodDataAffirmParams struct{}
 
@@ -1142,6 +1280,14 @@ type PaymentIntentPaymentMethodOptionsCardMandateOptionsParams struct {
 	SupportedTypes []*string `form:"supported_types"`
 }
 
+// Statement details for this payment intent. You can use this to override the merchant details shown on your customers' statements.
+type PaymentIntentPaymentMethodOptionsCardStatementDetailsParams struct {
+	// Please pass in an address that is within your Stripe user account country
+	Address *AddressParams `form:"address"`
+	// Phone number (e.g., a toll-free number that customers can call)
+	Phone *string `form:"phone"`
+}
+
 // Configuration for any card payments attempted on this PaymentIntent.
 type PaymentIntentPaymentMethodOptionsCardParams struct {
 	// Controls when the funds will be captured from the customer's account.
@@ -1178,6 +1324,8 @@ type PaymentIntentPaymentMethodOptionsCardParams struct {
 	StatementDescriptorSuffixKana *string `form:"statement_descriptor_suffix_kana"`
 	// Provides information about a card payment that customers see on their statements. Concatenated with the Kanji prefix (shortened Kanji descriptor) or Kanji statement descriptor that's set on the account to form the complete statement descriptor. Maximum 17 characters. On card statements, the *concatenation* of both prefix and suffix (including separators) will appear truncated to 17 characters.
 	StatementDescriptorSuffixKanji *string `form:"statement_descriptor_suffix_kanji"`
+	// Statement details for this payment intent. You can use this to override the merchant details shown on your customers' statements.
+	StatementDetails *PaymentIntentPaymentMethodOptionsCardStatementDetailsParams `form:"statement_details"`
 }
 
 // If this is a `card_present` PaymentMethod, this sub-hash contains details about the Card Present payment method options.
@@ -1683,6 +1831,8 @@ type PaymentIntentParams struct {
 	MandateData *PaymentIntentMandateDataParams `form:"mandate_data"`
 	// The Stripe account ID for which these funds are intended. For details, see the PaymentIntents [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
 	OnBehalfOf *string `form:"on_behalf_of"`
+	// Provides industry-specific information about the charge.
+	PaymentDetails *PaymentIntentPaymentDetailsParams `form:"payment_details"`
 	// ID of the payment method (a PaymentMethod, Card, or [compatible Source](https://stripe.com/docs/payments/payment-methods/transitioning#compatibility) object) to attach to this PaymentIntent.
 	PaymentMethod *string `form:"payment_method"`
 	// If provided, this hash will be used to create a PaymentMethod. The new PaymentMethod will appear
@@ -1739,6 +1889,122 @@ type PaymentIntentListParams struct {
 	Customer *string `form:"customer"`
 }
 
+// Car rental details for this PaymentIntent.
+type PaymentIntentConfirmPaymentDetailsCarRentalParams struct {
+	// The booking number associated with the car rental.
+	BookingNumber *string `form:"booking_number"`
+	// Class code of the car.
+	CarClassCode *string `form:"car_class_code"`
+	// Make of the car.
+	CarMake *string `form:"car_make"`
+	// Model of the car.
+	CarModel *string `form:"car_model"`
+	// The name of the rental car company.
+	Company *string `form:"company"`
+	// The customer service phone number of the car rental company.
+	CustomerServicePhoneNumber *string `form:"customer_service_phone_number"`
+	// Number of days the car is being rented.
+	DaysRented *int64 `form:"days_rented"`
+	// List of additional charges being billed.
+	ExtraCharges []*string `form:"extra_charges"`
+	// Indicates if the customer did not keep nor cancel their booking.
+	NoShow *bool `form:"no_show"`
+	// Car pick-up address.
+	PickupAddress *AddressParams `form:"pickup_address"`
+	// Car pick-up time. Measured in seconds since the Unix epoch.
+	PickupAt *int64 `form:"pickup_at"`
+	// Rental rate.
+	RateAmount *int64 `form:"rate_amount"`
+	// The frequency at which the rate amount is applied. One of `day`, `week` or `month`
+	RateInterval *string `form:"rate_interval"`
+	// The name of the person or entity renting the car.
+	RenterName *string `form:"renter_name"`
+	// Car return address.
+	ReturnAddress *AddressParams `form:"return_address"`
+	// Car return time. Measured in seconds since the Unix epoch.
+	ReturnAt *int64 `form:"return_at"`
+	// Indicates whether the goods or services are tax-exempt or tax is not collected.
+	TaxExempt *bool `form:"tax_exempt"`
+}
+
+// The individual flight segments associated with the trip.
+type PaymentIntentConfirmPaymentDetailsFlightSegmentParams struct {
+	// The International Air Transport Association (IATA) airport code for the arrival airport.
+	ArrivalAirport *string `form:"arrival_airport"`
+	// The arrival time for the flight segment. Measured in seconds since the Unix epoch.
+	ArrivesAt *int64 `form:"arrives_at"`
+	// The International Air Transport Association (IATA) carrier code of the carrier operating the flight segment.
+	Carrier *string `form:"carrier"`
+	// The departure time for the flight segment. Measured in seconds since the Unix epoch.
+	DepartsAt *int64 `form:"departs_at"`
+	// The International Air Transport Association (IATA) airport code for the departure airport.
+	DepartureAirport *string `form:"departure_airport"`
+	// The flight number associated with the segment
+	FlightNumber *string `form:"flight_number"`
+	// The fare class for the segment.
+	ServiceClass *string `form:"service_class"`
+}
+
+// Flight reservation details for this PaymentIntent
+type PaymentIntentConfirmPaymentDetailsFlightParams struct {
+	// The agency number (i.e. International Air Transport Association (IATA) agency number) of the travel agency that made the booking.
+	AgencyNumber *string `form:"agency_number"`
+	// The International Air Transport Association (IATA) carrier code of the carrier that issued the ticket.
+	Carrier *string `form:"carrier"`
+	// The name of the person or entity on the reservation.
+	PassengerName *string `form:"passenger_name"`
+	// The individual flight segments associated with the trip.
+	Segments []*PaymentIntentConfirmPaymentDetailsFlightSegmentParams `form:"segments"`
+	// The ticket number associated with the travel reservation.
+	TicketNumber *string `form:"ticket_number"`
+}
+
+// Lodging reservation details for this PaymentIntent
+type PaymentIntentConfirmPaymentDetailsLodgingParams struct {
+	// The lodging location's address.
+	Address *AddressParams `form:"address"`
+	// The number of adults on the booking
+	Adults *int64 `form:"adults"`
+	// The booking number associated with the lodging reservation.
+	BookingNumber *string `form:"booking_number"`
+	// The lodging category
+	Category *string `form:"category"`
+	// Loding check-in time. Measured in seconds since the Unix epoch.
+	CheckinAt *int64 `form:"checkin_at"`
+	// Lodging check-out time. Measured in seconds since the Unix epoch.
+	CheckoutAt *int64 `form:"checkout_at"`
+	// The customer service phone number of the lodging company.
+	CustomerServicePhoneNumber *string `form:"customer_service_phone_number"`
+	// The daily lodging room rate.
+	DailyRoomRateAmount *int64 `form:"daily_room_rate_amount"`
+	// List of additional charges being billed.
+	ExtraCharges []*string `form:"extra_charges"`
+	// Indicates whether the lodging location is compliant with the Fire Safety Act.
+	FireSafetyActCompliance *bool `form:"fire_safety_act_compliance"`
+	// The name of the lodging location.
+	Name *string `form:"name"`
+	// Indicates if the customer did not keep their booking while failing to cancel the reservation.
+	NoShow *bool `form:"no_show"`
+	// The phone number of the lodging location.
+	PropertyPhoneNumber *string `form:"property_phone_number"`
+	// The number of room nights
+	RoomNights *int64 `form:"room_nights"`
+	// The total tax amount associating with the room reservation.
+	TotalRoomTaxAmount *int64 `form:"total_room_tax_amount"`
+	// The total tax amount
+	TotalTaxAmount *int64 `form:"total_tax_amount"`
+}
+
+// Provides industry-specific information about the charge.
+type PaymentIntentConfirmPaymentDetailsParams struct {
+	// Car rental details for this PaymentIntent.
+	CarRental *PaymentIntentConfirmPaymentDetailsCarRentalParams `form:"car_rental"`
+	// Flight reservation details for this PaymentIntent
+	Flight *PaymentIntentConfirmPaymentDetailsFlightParams `form:"flight"`
+	// Lodging reservation details for this PaymentIntent
+	Lodging *PaymentIntentConfirmPaymentDetailsLodgingParams `form:"lodging"`
+}
+
 // Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
 type PaymentIntentConfirmRadarOptionsParams struct {
 	// A [Radar Session](https://stripe.com/docs/radar/radar-session) is a snapshot of the browser metadata and device details that help Radar make more accurate predictions on your payments.
@@ -1782,6 +2048,8 @@ type PaymentIntentConfirmParams struct {
 	MandateData *PaymentIntentMandateDataParams `form:"mandate_data"`
 	// Set to `true` to indicate that the customer is not in your checkout flow during this payment attempt, and therefore is unable to authenticate. This parameter is intended for scenarios where you collect card details and [charge them later](https://stripe.com/docs/payments/cards/charging-saved-cards).
 	OffSession *bool `form:"off_session"`
+	// Provides industry-specific information about the charge.
+	PaymentDetails *PaymentIntentConfirmPaymentDetailsParams `form:"payment_details"`
 	// ID of the payment method (a PaymentMethod, Card, or [compatible Source](https://stripe.com/docs/payments/payment-methods/transitioning#compatibility) object) to attach to this PaymentIntent.
 	PaymentMethod *string `form:"payment_method"`
 	// If provided, this hash will be used to create a PaymentMethod. The new PaymentMethod will appear
@@ -1823,6 +2091,122 @@ type PaymentIntentCancelParams struct {
 	CancellationReason *string `form:"cancellation_reason"`
 }
 
+// Car rental details for this PaymentIntent.
+type PaymentIntentCapturePaymentDetailsCarRentalParams struct {
+	// The booking number associated with the car rental.
+	BookingNumber *string `form:"booking_number"`
+	// Class code of the car.
+	CarClassCode *string `form:"car_class_code"`
+	// Make of the car.
+	CarMake *string `form:"car_make"`
+	// Model of the car.
+	CarModel *string `form:"car_model"`
+	// The name of the rental car company.
+	Company *string `form:"company"`
+	// The customer service phone number of the car rental company.
+	CustomerServicePhoneNumber *string `form:"customer_service_phone_number"`
+	// Number of days the car is being rented.
+	DaysRented *int64 `form:"days_rented"`
+	// List of additional charges being billed.
+	ExtraCharges []*string `form:"extra_charges"`
+	// Indicates if the customer did not keep nor cancel their booking.
+	NoShow *bool `form:"no_show"`
+	// Car pick-up address.
+	PickupAddress *AddressParams `form:"pickup_address"`
+	// Car pick-up time. Measured in seconds since the Unix epoch.
+	PickupAt *int64 `form:"pickup_at"`
+	// Rental rate.
+	RateAmount *int64 `form:"rate_amount"`
+	// The frequency at which the rate amount is applied. One of `day`, `week` or `month`
+	RateInterval *string `form:"rate_interval"`
+	// The name of the person or entity renting the car.
+	RenterName *string `form:"renter_name"`
+	// Car return address.
+	ReturnAddress *AddressParams `form:"return_address"`
+	// Car return time. Measured in seconds since the Unix epoch.
+	ReturnAt *int64 `form:"return_at"`
+	// Indicates whether the goods or services are tax-exempt or tax is not collected.
+	TaxExempt *bool `form:"tax_exempt"`
+}
+
+// The individual flight segments associated with the trip.
+type PaymentIntentCapturePaymentDetailsFlightSegmentParams struct {
+	// The International Air Transport Association (IATA) airport code for the arrival airport.
+	ArrivalAirport *string `form:"arrival_airport"`
+	// The arrival time for the flight segment. Measured in seconds since the Unix epoch.
+	ArrivesAt *int64 `form:"arrives_at"`
+	// The International Air Transport Association (IATA) carrier code of the carrier operating the flight segment.
+	Carrier *string `form:"carrier"`
+	// The departure time for the flight segment. Measured in seconds since the Unix epoch.
+	DepartsAt *int64 `form:"departs_at"`
+	// The International Air Transport Association (IATA) airport code for the departure airport.
+	DepartureAirport *string `form:"departure_airport"`
+	// The flight number associated with the segment
+	FlightNumber *string `form:"flight_number"`
+	// The fare class for the segment.
+	ServiceClass *string `form:"service_class"`
+}
+
+// Flight reservation details for this PaymentIntent
+type PaymentIntentCapturePaymentDetailsFlightParams struct {
+	// The agency number (i.e. International Air Transport Association (IATA) agency number) of the travel agency that made the booking.
+	AgencyNumber *string `form:"agency_number"`
+	// The International Air Transport Association (IATA) carrier code of the carrier that issued the ticket.
+	Carrier *string `form:"carrier"`
+	// The name of the person or entity on the reservation.
+	PassengerName *string `form:"passenger_name"`
+	// The individual flight segments associated with the trip.
+	Segments []*PaymentIntentCapturePaymentDetailsFlightSegmentParams `form:"segments"`
+	// The ticket number associated with the travel reservation.
+	TicketNumber *string `form:"ticket_number"`
+}
+
+// Lodging reservation details for this PaymentIntent
+type PaymentIntentCapturePaymentDetailsLodgingParams struct {
+	// The lodging location's address.
+	Address *AddressParams `form:"address"`
+	// The number of adults on the booking
+	Adults *int64 `form:"adults"`
+	// The booking number associated with the lodging reservation.
+	BookingNumber *string `form:"booking_number"`
+	// The lodging category
+	Category *string `form:"category"`
+	// Loding check-in time. Measured in seconds since the Unix epoch.
+	CheckinAt *int64 `form:"checkin_at"`
+	// Lodging check-out time. Measured in seconds since the Unix epoch.
+	CheckoutAt *int64 `form:"checkout_at"`
+	// The customer service phone number of the lodging company.
+	CustomerServicePhoneNumber *string `form:"customer_service_phone_number"`
+	// The daily lodging room rate.
+	DailyRoomRateAmount *int64 `form:"daily_room_rate_amount"`
+	// List of additional charges being billed.
+	ExtraCharges []*string `form:"extra_charges"`
+	// Indicates whether the lodging location is compliant with the Fire Safety Act.
+	FireSafetyActCompliance *bool `form:"fire_safety_act_compliance"`
+	// The name of the lodging location.
+	Name *string `form:"name"`
+	// Indicates if the customer did not keep their booking while failing to cancel the reservation.
+	NoShow *bool `form:"no_show"`
+	// The phone number of the lodging location.
+	PropertyPhoneNumber *string `form:"property_phone_number"`
+	// The number of room nights
+	RoomNights *int64 `form:"room_nights"`
+	// The total tax amount associating with the room reservation.
+	TotalRoomTaxAmount *int64 `form:"total_room_tax_amount"`
+	// The total tax amount
+	TotalTaxAmount *int64 `form:"total_tax_amount"`
+}
+
+// Provides industry-specific information about the charge.
+type PaymentIntentCapturePaymentDetailsParams struct {
+	// Car rental details for this PaymentIntent.
+	CarRental *PaymentIntentCapturePaymentDetailsCarRentalParams `form:"car_rental"`
+	// Flight reservation details for this PaymentIntent
+	Flight *PaymentIntentCapturePaymentDetailsFlightParams `form:"flight"`
+	// Lodging reservation details for this PaymentIntent
+	Lodging *PaymentIntentCapturePaymentDetailsLodgingParams `form:"lodging"`
+}
+
 // Capture the funds of an existing uncaptured PaymentIntent when its status is requires_capture.
 //
 // Uncaptured PaymentIntents will be canceled a set number of days after they are created (7 by default).
@@ -1834,6 +2218,8 @@ type PaymentIntentCaptureParams struct {
 	AmountToCapture *int64 `form:"amount_to_capture"`
 	// The amount of the application fee (if any) that will be requested to be applied to the payment and transferred to the application owner's Stripe account. The amount of the application fee collected will be capped at the total payment amount. For more information, see the PaymentIntents [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
 	ApplicationFeeAmount *int64 `form:"application_fee_amount"`
+	// Provides industry-specific information about the charge.
+	PaymentDetails *PaymentIntentCapturePaymentDetailsParams `form:"payment_details"`
 	// For non-card charges, you can use this value as the complete description that appears on your customers' statements. Must contain at least one letter, maximum 22 characters.
 	StatementDescriptor *string `form:"statement_descriptor"`
 	// Provides information about a card payment that customers see on their statements. Concatenated with the prefix (shortened descriptor) or statement descriptor that's set on the account to form the complete statement descriptor. Maximum 22 characters for the concatenated descriptor.
@@ -2207,6 +2593,43 @@ type PaymentIntentNextAction struct {
 	WeChatPayRedirectToAndroidApp *PaymentIntentNextActionWeChatPayRedirectToAndroidApp `json:"wechat_pay_redirect_to_android_app"`
 	WeChatPayRedirectToIOSApp     *PaymentIntentNextActionWeChatPayRedirectToIOSApp     `json:"wechat_pay_redirect_to_ios_app"`
 }
+type PaymentIntentPaymentDetailsCarRental struct {
+	// The booking number associated with the car rental.
+	BookingNumber string `json:"booking_number"`
+	// Class code of the car.
+	CarClassCode string `json:"car_class_code"`
+	// Make of the car.
+	CarMake string `json:"car_make"`
+	// Model of the car.
+	CarModel string `json:"car_model"`
+	// The name of the rental car company.
+	Company string `json:"company"`
+	// The customer service phone number of the car rental company.
+	CustomerServicePhoneNumber string `json:"customer_service_phone_number"`
+	// Number of days the car is being rented.
+	DaysRented int64 `json:"days_rented"`
+	// List of additional charges being billed.
+	ExtraCharges []PaymentIntentPaymentDetailsCarRentalExtraCharge `json:"extra_charges"`
+	// Indicates if the customer did not keep nor cancel their booking.
+	NoShow        bool     `json:"no_show"`
+	PickupAddress *Address `json:"pickup_address"`
+	// Car pick-up time. Measured in seconds since the Unix epoch.
+	PickupAt int64 `json:"pickup_at"`
+	// Rental rate.
+	RateAmount int64 `json:"rate_amount"`
+	// The frequency at which the rate amount is applied. One of `day`, `week` or `month`
+	RateInterval PaymentIntentPaymentDetailsCarRentalRateInterval `json:"rate_interval"`
+	// The full name of the person or entity renting the car.
+	RenterName    string   `json:"renter_name"`
+	ReturnAddress *Address `json:"return_address"`
+	// Car return time. Measured in seconds since the Unix epoch.
+	ReturnAt int64 `json:"return_at"`
+	// Indicates whether the goods or services are tax-exempt or tax is not collected.
+	TaxExempt bool `json:"tax_exempt"`
+}
+type PaymentIntentPaymentDetails struct {
+	CarRental *PaymentIntentPaymentDetailsCarRental `json:"car_rental"`
+}
 type PaymentIntentPaymentMethodOptionsACSSDebitMandateOptions struct {
 	// A URL for custom mandate text
 	CustomMandateURL string `json:"custom_mandate_url"`
@@ -2343,6 +2766,11 @@ type PaymentIntentPaymentMethodOptionsCardMandateOptions struct {
 	// Specifies the type of mandates supported. Possible values are `india`.
 	SupportedTypes []PaymentIntentPaymentMethodOptionsCardMandateOptionsSupportedType `json:"supported_types"`
 }
+type PaymentIntentPaymentMethodOptionsCardStatementDetails struct {
+	Address *Address `json:"address"`
+	// Phone number
+	Phone string `json:"phone"`
+}
 type PaymentIntentPaymentMethodOptionsCard struct {
 	// Controls when the funds will be captured from the customer's account.
 	CaptureMethod PaymentIntentPaymentMethodOptionsCardCaptureMethod `json:"capture_method"`
@@ -2365,7 +2793,8 @@ type PaymentIntentPaymentMethodOptionsCard struct {
 	// Provides information about a card payment that customers see on their statements. Concatenated with the Kana prefix (shortened Kana descriptor) or Kana statement descriptor that's set on the account to form the complete statement descriptor. Maximum 22 characters. On card statements, the *concatenation* of both prefix and suffix (including separators) will appear truncated to 22 characters.
 	StatementDescriptorSuffixKana string `json:"statement_descriptor_suffix_kana"`
 	// Provides information about a card payment that customers see on their statements. Concatenated with the Kanji prefix (shortened Kanji descriptor) or Kanji statement descriptor that's set on the account to form the complete statement descriptor. Maximum 17 characters. On card statements, the *concatenation* of both prefix and suffix (including separators) will appear truncated to 17 characters.
-	StatementDescriptorSuffixKanji string `json:"statement_descriptor_suffix_kanji"`
+	StatementDescriptorSuffixKanji string                                                 `json:"statement_descriptor_suffix_kanji"`
+	StatementDetails               *PaymentIntentPaymentMethodOptionsCardStatementDetails `json:"statement_details"`
 }
 type PaymentIntentPaymentMethodOptionsCardPresent struct {
 	// Request ability to capture this payment beyond the standard [authorization validity window](https://stripe.com/docs/terminal/features/extended-authorizations#authorization-validity)
@@ -2746,7 +3175,8 @@ type PaymentIntent struct {
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// The account (if any) for which the funds of the PaymentIntent are intended. See the PaymentIntents [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts) for details.
-	OnBehalfOf *Account `json:"on_behalf_of"`
+	OnBehalfOf     *Account                     `json:"on_behalf_of"`
+	PaymentDetails *PaymentIntentPaymentDetails `json:"payment_details"`
 	// ID of the payment method used in this PaymentIntent.
 	PaymentMethod *PaymentMethod `json:"payment_method"`
 	// Payment-method-specific configuration for this PaymentIntent.
