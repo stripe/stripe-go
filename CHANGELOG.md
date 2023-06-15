@@ -1,5 +1,24 @@
 # Changelog
 
+## 74.23.0-beta.2 - 2023-06-15
+* [#1675](https://github.com/stripe/stripe-go/pull/1675) Update generated code for beta
+  * Add support for `PaymentDetails` on `ChargeCaptureParams`, `ChargeParams`, `PaymentIntentCaptureParams`, `PaymentIntentConfirmParams`, `PaymentIntentParams`, and `PaymentIntent`
+  * Add support for `StatementDetails` on `PaymentIntentConfirmPaymentMethodOptionsCardParams`, `PaymentIntentPaymentMethodOptionsCardParams`, and `PaymentIntentPaymentMethodOptionsCard`
+* [#1673](https://github.com/stripe/stripe-go/pull/1673) Update generated code for beta
+
+* [#1669](https://github.com/stripe/stripe-go/pull/1669) Update generated code for beta
+
+* [#1666](https://github.com/stripe/stripe-go/pull/1666) Consolidate Beta SDKs section in README
+* [#1665](https://github.com/stripe/stripe-go/pull/1665) Update generated code for beta
+  * Add support for `SubscriptionDetails` on `Invoice`
+  * Add support for new values `aba` and `swift` on enum `OrderPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressTypes`
+  * Add support for new value `us_bank_transfer` on enum `OrderPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferType`
+  * Add support for `SetPauseCollection` on `QuoteLine`, `QuoteLinesParams`, and `SubscriptionScheduleAmendAmendmentsParams`
+  * Add support for new value `pause_collection_start` on enums `QuoteSubscriptionDataBillOnAcceptanceBillFromType` and `QuoteSubscriptionDataOverridesBillOnAcceptanceBillFromType`
+  * Add support for `PauseCollection` on `SubscriptionSchedulePhasesParams` and `SubscriptionSchedulePhases`
+  * Add support for `LocalAmusementTax` on `TaxRegistrationCountryOptionsUsParams` and `TaxRegistrationCountryOptionsUs`
+  * Remove support for `Locations` on `TaxSettingsParams` and `TaxSettings`
+
 ## 74.23.0-beta.1 - 2023-06-08
 * [#1669](https://github.com/stripe/stripe-go/pull/1669) Update generated code for beta
   * Updated stable APIs to the latest version
