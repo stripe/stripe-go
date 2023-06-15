@@ -25,6 +25,7 @@ export default class SyncPreferencesStep extends LightningElement {
     @track syncStartDate;
     @track apiPercentageLimit;
     @track cpqTermUnit;
+    @track cpqProratePrecision;
     @track isMultiCurrencyEnabled;
     @track isPreferencesUpdated = false;
     @track totalApiCalls; 
@@ -49,6 +50,16 @@ export default class SyncPreferencesStep extends LightningElement {
             label: 'Day',
             value: 'day'
         }
+    ];
+    @track prorateOptions = [
+        {
+            label: 'Month',
+            value: 'month'
+        },
+        {
+            label: 'Monthly + Daily',
+            value: 'month+day'
+        },
     ];
     accountFilterError = '';
     orderFilterError = '';
@@ -171,6 +182,7 @@ export default class SyncPreferencesStep extends LightningElement {
             }
             this.apiPercentageLimit = responseData.results.api_percentage_limit;
             this.cpqTermUnit = responseData.results.cpq_term_unit;
+            this.cpqProratePrecision = responseData.results.cpq_prorate_precision || 'month';
             this.isCpqInstalled = responseData.results.isCpqInstalled;
             this.isSandbox = responseData.results.isSandbox;
             this.pollingEnabled = responseData.results.polling_enabled;
@@ -240,6 +252,11 @@ export default class SyncPreferencesStep extends LightningElement {
     updateCpqTermInterval(event) {
         let updatedValue = this.valueChange(this.cpqTermUnit, event.detail.value)
         this.cpqTermUnit = updatedValue;
+    }
+
+    updateCpqProratePrecision(event) {
+        let updatedValue = this.valueChange(this.cpqProratePrecision, event.detail.value)
+        this.cpqProratePrecision = updatedValue;
     }
 
     updateAccountFilter(event) {
@@ -394,6 +411,7 @@ export default class SyncPreferencesStep extends LightningElement {
                 const updatedSyncPreferences = await saveSyncPreferences({
                     pollingEnabled: this.pollingEnabled,
                     cpqTermUnit: this.cpqTermUnit,
+                    cpqProratePrecision: this.cpqProratePrecision,
                     defaultCurrency: this.defaultCurrency,
                     syncRecordRetention: this.syncRecordRetention,
                     syncStartDate: (new Date(this.syncStartDate).getTime() / 1000),

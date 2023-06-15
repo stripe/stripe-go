@@ -356,6 +356,7 @@ public with sharing class test_setupAssistant {
         System.assertEquals('yesterday', (String)resultsMap.get('sync_start_date'));
         System.assertEquals('1000515', (String)resultsMap.get('api_percentage_limit'));
         System.assertEquals('monthly', (String)resultsMap.get('cpq_term_unit'));
+        System.assertEquals('month', (String)resultsMap.get('cpq_prorate_precision'));
         System.assertEquals(true, (Boolean)resultsMap.get('enabled'));
         System.assertEquals('1234', (String)resultsMap.get('configurationHash'));
     }
@@ -465,7 +466,7 @@ public with sharing class test_setupAssistant {
 
         Test.startTest();
         Test.setMock(HttpCalloutMock.class, new stripeConnectionSuccessMock());
-        String response = setupAssistant.saveSyncPreferences('TEST','10000', '1644854972', '95', 'monthly', true, '1234');
+        String response = setupAssistant.saveSyncPreferences('TEST','10000', '1644854972', '95', 'monthly', 'month', true, '1234');
         Map<String, Object> responseMap = (Map<String, Object>)JSON.deserializeUntyped(response);
         Test.stopTest();
 
@@ -653,6 +654,7 @@ public with sharing class test_setupAssistant {
                     'sync_start_date' => 'yesterday',
                     'api_percentage_limit' => 1000515,
                     'cpq_term_unit' => 'monthly',
+                    'cpq_prorate_precision' => 'month',
                     'filters' => new Map<String,Object> {
                         'Product2' => 'testProduct2Filter',
                         'Order' => 'testOrderFilter',

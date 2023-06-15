@@ -367,7 +367,8 @@ public with sharing class setupAssistant {
                     'sync_record_retention',
                     'sync_start_date',
                     'api_percentage_limit',
-                    'cpq_term_unit'
+                    'cpq_term_unit',
+                    'cpq_prorate_precision'
                 };
 
                 List<String> booleanFields = new List<String> {
@@ -488,7 +489,7 @@ public with sharing class setupAssistant {
 
     //sends updated sync preference data to the ruby service and saves the values
     @AuraEnabled
-    public static String saveSyncPreferences(String defaultCurrency, String syncRecordRetention, String syncStartDate, String apiPercentageLimit, String cpqTermUnit, Boolean pollingEnabled, String configurationHash) {
+    public static String saveSyncPreferences(String defaultCurrency, String syncRecordRetention, String syncStartDate, String apiPercentageLimit, String cpqTermUnit, String cpqProratePrecision, Boolean pollingEnabled, String configurationHash) {
         responseData rd = new responseData();
         try {
             Stripe_Connection__c stripeConnectRec = Stripe_Connection__c.getOrgDefaults();
@@ -502,7 +503,8 @@ public with sharing class setupAssistant {
                         'sync_record_retention' => syncRecordRetention,
                         'default_currency' => UserInfo.getDefaultCurrency(),
                         'multicurrency_enabled' => UserInfo.isMultiCurrencyOrganization(),
-                        'cpq_term_unit' => cpqTermUnit
+                        'cpq_term_unit' => cpqTermUnit,
+                        'cpq_prorate_precision' => cpqProratePrecision
                     }
                 };
 

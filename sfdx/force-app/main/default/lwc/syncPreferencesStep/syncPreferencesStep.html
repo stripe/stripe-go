@@ -135,6 +135,29 @@
                         </div>
                     </div>
                 </c-sync-preferences-item>
+                <c-sync-preferences-item if:true={isCpqInstalled} name="cpq_prorate_precision" toggle-field-visibility-list={hiddenSyncPrefsFields}>
+                    <div class="stripe-settings__item slds-grid">
+                        <div class="slds-col_bump-right">
+                            <h4 class="slds-text-heading_small slds-m-bottom_xx-small">
+                                CPQ Subscription Prorate Precision
+                            </h4>
+                            <p class="slds-m-bottom_xx-small">
+                                Controls how to <a class="slds-m-right_xx-small" href="https://help.salesforce.com/s/articleView?id=sf.cpq_subscriptions_prorate_precision_1.htm&type=5" target=_blank>
+                                calculate prorations<lightning-icon icon-name="utility:new_window" class="stripe-icon_inline slds-current-color slds-m-left_xx-small" size="xx-small"></lightning-icon></a>
+                                for a Salesforce order item in your org. This value should be identical to the Salesforce CPQ
+                                setting 'Subscription Prorate Precision'. By default, Salesforce CPQ uses 'Month'. Please note,
+                                changing this values impacts proration invoices the connector creates.
+
+                                You can find this field by navigating to <a class="slds-m-right_xx-small" href="/lightning/setup/ImportedPackage/home" target="_blank">Installed Packages
+                                <lightning-icon icon-name="utility:new_window" class="stripe-icon_inline slds-current-color slds-m-left_xx-small" size="xx-small"></lightning-icon></a>
+                                and selecting 'Configure' next to Salesforce CPQ package name.
+                            </p>
+                        </div>
+                        <div class="slds-col slds-p-left_xx-large slds-size_1-of-3">
+                            <c-picklist label="CPQ Subscription Prorate Precision" options={prorateOptions} variant="label-hidden" value={cpqProratePrecision} onselect={updateCpqProratePrecision} placeholder="Select Prorate Precision..." searchable></c-picklist>
+                        </div>
+                    </div>
+                </c-sync-preferences-item>
             </lightning-accordion-section>
             <lightning-accordion-section name="SyncFilters" label="Sync Filters">
                 <c-sync-preferences-item name="custom-order-sync-conditions" toggle-field-visibility-list={hiddenSyncPrefsFields} first>
