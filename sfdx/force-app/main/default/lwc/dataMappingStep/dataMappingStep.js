@@ -386,18 +386,16 @@ export default class DataMappingStep extends LightningElement {
     }
 
     updateStaticValueChoice(event) {
-        this[event.target.name] = event.target.value;
-        this.staticValue = this[event.target.name];
-        const targetSectionIndex = event.currentTarget.closest('lightning-accordion-section').dataset.index;
-        const targetFieldIndex = event.currentTarget.closest('tr').dataset.index;
-        if (targetSectionIndex && targetFieldIndex ) {
-            let updatedSelection = {
+        const targetSectionIndex = event.detail.sectionIndex;
+        const targetFieldIndex = event.detail.fieldIndex;
+        if (this.activeObjectFields[targetSectionIndex].fields[targetFieldIndex]) {
+            const updatedSelection = {
                 hasSfValue: true,
                 staticValue: true,
-                sfValue: this.staticValue,
+                sfValue: event.detail.value,
                 sfValueType: 'static'
             };
-            Object.assign(this.activeObjectFields[targetSectionIndex].fields[parseInt(targetFieldIndex)] , updatedSelection)
+            Object.assign(this.activeObjectFields[targetSectionIndex].fields[targetFieldIndex] , updatedSelection)
             this.valueChange();
         }
     }
@@ -899,6 +897,8 @@ export default class DataMappingStep extends LightningElement {
 
         const payload = JSON.parse(JSON.stringify(this.allMappingList));
         payload.configuration_hash = this.configurationHash;
+        delete payload.default_mappings;
+        delete payload.required_mappings;
 
         try {
             const saveMappingData = await saveMappingConfigurations({

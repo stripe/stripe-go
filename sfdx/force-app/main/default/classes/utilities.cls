@@ -204,10 +204,16 @@ public with sharing class utilities {
         return rd.getJsonString();
     }
 
+    public static Setup_Connection_Data__mdt getConnectionData() {
+        if (setupConfigMetadata != null && setupConfigMetadata.isEmpty() == false) {
+            return setupConfigMetadata[0];
+        }
+
+        return new Setup_Connection_Data__mdt();
+    }
+
     public static List<Setup_Connection_Data__mdt> getStripeConnectionKey() {
-        return [SELECT Global_Key__c
-                FROM Setup_Connection_Data__mdt
-                LIMIT 1];
+        return setupConfigMetadata;
     }
 
     // generates package level key and sends to ruby. Named `salesforce_organization_key` on the ruby side
@@ -408,8 +414,11 @@ public with sharing class utilities {
     //Creates a test metadata record in test context
     @testVisible static List<Setup_Connection_Data__mdt> setupConfigMetadata {
         get {
-            if (setupConfigMetadata == null)
-                setupConfigMetadata = getStripeConnectionKey();
+            if (setupConfigMetadata == null) {
+                setupConfigMetadata = [SELECT Global_Key__c, Use_Local_OpenAPI_Spec__c
+                                        FROM Setup_Connection_Data__mdt
+                                        LIMIT 1];
+            }
             return setupConfigMetadata;
         } set; }
 

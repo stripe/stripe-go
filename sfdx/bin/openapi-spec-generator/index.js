@@ -202,6 +202,10 @@ function formatStripeObjectsForMapper(stripeObjectToFormat, objectExcludedReadOn
                 fieldMap = getStripeFieldDescription(fieldMap, field);
             }
 
+            if (fieldData['enum']) {
+                fieldMap['enum'] = fieldData['enum'];
+            }
+
             // standard field section is always at the top of the array
             stripeObjectMappings[0].fields.push(fieldMap);
             continue;

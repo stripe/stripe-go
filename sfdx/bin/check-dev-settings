@@ -1,0 +1,59 @@
+#!/bin/bash
+# Usage: bin/check-dev-settings
+# Purpose: Make sure we didn't leave any developer settings enabled
+
+cd "$(dirname "$0")/.."
+
+HAS_ERROR=0
+
+echo "🔁 Making sure we don't have any developer settings enabled";
+
+# Check local openapi override
+CHECK_PATH="force-app/main/default/objects/Setup_Connection_Data__mdt/fields/Use_Local_OpenAPI_Spec__c.field-meta.xml"
+CHECK_DEFAULT_VALUE=`grep "defaultValue" $CHECK_PATH | sed "s/.*>\\(.*\\)<.*/\1/"`
+if [ "$CHECK_DEFAULT_VALUE" != "false" ]; then
+  echo "❌ Setup_Connection_Data__mdt.Use_Local_OpenAPI_Spec__c.defaultValue is not false."
+  HAS_ERROR=1
+else
+  echo "👍 Setup_Connection_Data__mdt.Use_Local_OpenAPI_Spec__c.defaultValue is false."
+fi
+
+# Check apex debug
+CHECK_PATH="force-app/main/default/classes"
+CHECK_ENABLE_DEBUG=`grep -R enableDebug $CHECK_PATH | grep true`
+
+if [ ! -z "$CHECK_ENABLE_DEBUG" ]; then
+  echo "❌ Debug_Helper is enabled globally."
+  HAS_ERROR=1
+else
+  echo "👍 Debug_Helper is disabled globally."
+fi
+
+OLD_IFS=$IFS
+IFS=$'\n'
+SEEN_FILES=""
+CHECK_DEBUG_HELPER=`grep -R Debug_Helper $CHECK_PATH`
+for line in $CHECK_DEBUG_HELPER; do
+  filepath=`echo $line | sed "s/\\(.*\\):.*/\1/"`
+  code=`echo $line | sed "s/.*:\\(.*\\)/\1/"`
+  filename=`echo $filepath | sed "s/.*\\///"`
+  # Skip
+  if [[ $SEEN_FILES == *$filename* ]]; then
+    continue
+  fi
+  if [[ $filename == *[Tt][Ee][Ss][Tt]* ]]; then
+    echo "👍 $filename is a test, skipping..."
+    SEEN_FILES="$SEEN_FILES $filename"
+  else
+    if [[ $code == *'Debug_Helper(true'* ]]; then
+      echo "❌ Debug_Helper is enabled in $filename."
+      HAS_ERROR=1
+    else
+      echo "👍 Reference in $filename has been cleared."
+    fi
+  fi
+done
+
+IFS=$OLD_IFS
+
+exit $HAS_ERROR

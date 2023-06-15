@@ -220,11 +220,26 @@ public with sharing class setupAssistant {
             };
 
             String route = constants.RUBY_SERVICE_BASE_URI + '/openapi.json';
-            HttpResponse response =  utilities.makeCallout(route,'GET', headers);
+            Map<String, Object> responseBody = null;
 
-            Map<String, Object> responseBody;
-            if(response.getStatusCode() == 200) {
-                responseBody = (Map<String, Object>)JSON.deserializeUntyped(response.getBody());
+            Setup_Connection_Data__mdt connectionData = utilities.getConnectionData();
+            if (connectionData.Use_Local_OpenAPI_Spec__c) {
+                String NS = constants.NAMESPACE == 'c' ? null : constants.NAMESPACE;
+                List<StaticResource> resources = [SELECT Body FROM StaticResource WHERE Name = 'OpenApiOverride' AND NamespacePrefix = :NS];
+                if (resources.size() > 0) {
+                    responseBody = (Map<String, Object>)JSON.deserializeUntyped(resources[0].Body.toString());
+                }
+            }
+
+            HttpResponse response;
+            if (responseBody == null) {
+                response = utilities.makeCallout(route,'GET', headers);
+                if (response.getStatusCode() == 200) {
+                    responseBody = (Map<String, Object>)JSON.deserializeUntyped(response.getBody());
+                }
+            }
+
+            if(responseBody != null) {
                 rd.put('formattedStripeCustomerFields', (List<Object>)responseBody.get('formattedStripeCustomerFields'));
                 rd.put('formattedStripeProductItemFields', (List<Object>)responseBody.get('formattedStripeProductItemFields'));
                 rd.put('formattedStripeSubscriptionFields', (List<Object>)responseBody.get('formattedStripeSubscriptionFields'));
@@ -234,7 +249,11 @@ public with sharing class setupAssistant {
                 rd.put('formattedStripePriceOrderItemFields', (List<Object>)responseBody.get('formattedStripePriceFields'));
                 rd.put('formattedStripeCouponFields', (List<Object>)responseBody.get('formattedStripeCouponFields'));
             } else {
-                errorLogger.create('getFormattedStripeObjectFields', String.valueOf(response.getStatusCode()), (String)response.getStatus(), 'Failed to get mapping configuration from ruby service.');
+                if (response != null) {
+                    errorLogger.create('getFormattedStripeObjectFields', String.valueOf(response.getStatusCode()), (String)response.getStatus(), 'Failed to get mapping configuration from ruby service.');
+                } else {
+                    errorLogger.create('getFormattedStripeObjectFields', 'An unknown error occurred', null, null);
+                }
             }
         } catch (Exception e) {
             rd.addError(e);

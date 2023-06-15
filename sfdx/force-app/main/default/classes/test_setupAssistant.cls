@@ -307,13 +307,24 @@ public with sharing class test_setupAssistant {
         Setup_Connection_Data__mdt testSetupData = getTestStripeConnectionKey();
         setTestGlobalKey(testSetupData);
         insertTestConnectedRecord();
+        stripeSuccessMock callMock = new stripeSuccessMock();
+        Test.setMock(HttpCalloutMock.class, callMock);
 
         Test.startTest();
-        Test.setMock(HttpCalloutMock.class, new stripeSuccessMock());
+        testSetupData.Use_Local_OpenAPI_Spec__c = true;
+        String staticResourceResponse = setupAssistant.getFormattedStripeObjectFields();
+        System.assertEquals(0, callMock.calls);
+
+        testSetupData.Use_Local_OpenAPI_Spec__c = false;
         String response = setupAssistant.getFormattedStripeObjectFields();
-        Map<String, Object> responseMap = (Map<String, Object>)JSON.deserializeUntyped(response);
+        System.assertEquals(1, callMock.calls);
+
         Test.stopTest();
 
+        // ensure we got semi-assured response for our static resource call...
+        System.assert(staticResourceResponse.length() > 200, 'Response for static resource call is non-trivial length');
+
+        Map<String, Object> responseMap = (Map<String, Object>)JSON.deserializeUntyped(response);
         System.assert((Boolean)responseMap.get('isSuccess'), responseMap.get('error'));
 
         Map<String, Object> resultsMap = (Map<String, Object>)responseMap.get('results');
@@ -578,16 +589,15 @@ public with sharing class test_setupAssistant {
     }
 
     public static void setTestGlobalKey(Setup_Connection_Data__mdt testSetupData) {
-        List<Setup_Connection_Data__mdt> setupConfigList = [
-            SELECT Global_Key__c
-            FROM Setup_Connection_Data__mdt
-        ];
-
-        if(!setupConfigList.isEmpty()) {
+        if (utilities.setupConfigMetadata.isEmpty() == false) {
             utilities.setupConfigMetadata[0] = testSetupData;
-            setupAssistant.setupConfigMetadata[0] = testSetupData;
         } else {
             utilities.setupConfigMetadata.add(testSetupData);
+        }
+
+        if (setupAssistant.setupConfigMetadata.isEmpty() == false) {
+            setupAssistant.setupConfigMetadata[0] = testSetupData;
+        } else {
             setupAssistant.setupConfigMetadata.add(testSetupData);
         }
     }
@@ -679,7 +689,10 @@ public with sharing class test_setupAssistant {
     }
 
         private class stripeSuccessMock implements HttpCalloutMock {
+            public Integer calls = 0;
             public HttpResponse respond(HttpRequest req) {
+                calls++;
+
                 HttpResponse res = new HttpResponse();
                 System.assertEquals(req.getHeader('Salesforce-Account-Id'), (String)constants.ORG_ID);
                 System.assertEquals(req.getHeader('Salesforce-Type'), String.valueOf(Sentry_Environment.getInstanceType()));
