@@ -1,5 +1,25 @@
 <template>
-    <div class="slds-p-around_large"> 
+    <div class="slds-p-around_large">
+        <h3 class="slds-text-heading_medium slds-m-bottom_small">
+            Add Stripe Fields to Page Layouts
+        </h3>
+        <div class="slds-m-bottom_small">
+            Access Page Layouts for
+            <template iterator:obj={targetedObjects}>
+                <template lwc:if={obj.first}></template>
+                <template lwc:else><span key={obj.value}>,</span></template>
+                <lightning-button
+                        key={obj.value}
+                        class="slds-m-left_xx-small"
+                        icon-name="utility:new_window"
+                        icon-position="right"
+                        variant="base"
+                        data-object={obj.value}
+                        label={obj.value}
+                        onclick={openPageLayouts}
+                        title="Open Page Layouts for this object in Setup"></lightning-button>
+            </template>
+        </div>
         <div class="stripe-settings__item slds-grid">
             <div class="slds-col_bump-right">
                 <h4 class="slds-text-heading_small slds-m-bottom_xx-small">
@@ -17,6 +37,36 @@
                 </h4>
                 <p>
                     The Stripe ID field is used for the integration to match Salesforce records to Stripe records. If you would like to see which records are actively synchronizing with Stripe, you can include it in your Order, Order Product, Account, Opportunity, Product, and Pricebook Entry page layouts. It is recommended that the field is marked as “Read Only” on the page layouts to prevent users from accidentally modifying the values.
+                </p>
+            </div>
+        </div>
+        <h3 class="slds-text-heading_medium slds-m-bottom_small slds-border_top slds-m-top_large slds-p-top_large">
+            Add Stripe Components to Lightning Record Pages
+        </h3>
+        <div class="slds-m-bottom_small">
+            Access Lightning Record Pages for
+            <template iterator:obj={targetedObjects}>
+                <template lwc:if={obj.first}></template>
+                <template lwc:else><span key={obj.value}>,</span></template>
+                <lightning-button
+                        key={obj.value}
+                        class="slds-m-left_xx-small"
+                        icon-name="utility:new_window"
+                        icon-position="right"
+                        variant="base"
+                        data-object={obj.value}
+                        label={obj.value}
+                        onclick={openLightningRecordPages}
+                        title="Open Lightning Record Pages for this object in Setup"></lightning-button>
+            </template>
+        </div>
+        <div class="stripe-settings__item slds-grid">
+            <div class="slds-col_bump-right">
+                <h4 class="slds-text-heading_small slds-m-bottom_xx-small">
+                    Related Stripe Sync Records
+                </h4>
+                <p>
+                    Add this component to your Lightning Record Pages to easily see the latest sync records for an object.
                 </p>
             </div>
         </div>

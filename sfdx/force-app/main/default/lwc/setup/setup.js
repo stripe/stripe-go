@@ -31,17 +31,9 @@ export default class FirstTimeSetup extends LightningElement {
     @track stepName;
     @track steps = [
         {
-            title: 'Update Page Layouts',
-            name: 'C-ORG-SETTINGS-STEP',
-            orderIndex: 1,
-            isComplete: false,
-            isActive: false,
-            component: 'c-org-settings-step',
-        },
-        {
             title: 'Connect Stripe and Salesforce',
             name: 'C-SYSTEM-CONNECTIONS-STEP',
-            orderIndex: 2,
+            orderIndex: 1,
             isComplete: false,
             isActive: false,
             component: 'c-system-connections-step',
@@ -49,7 +41,7 @@ export default class FirstTimeSetup extends LightningElement {
         {
             title: 'Define Data Mapping',
             name: 'C-DATA-MAPPING-STEP',
-            orderIndex: 3,
+            orderIndex: 2,
             isComplete: false,
             isActive: false,
             component: 'c-data-mapping-step',
@@ -57,7 +49,7 @@ export default class FirstTimeSetup extends LightningElement {
         {
             title: 'Manage Integration',
             name: 'C-SYNC-PREFERENCES-STEP',
-            orderIndex: 4,
+            orderIndex: 3,
             isComplete: false,
             isActive: false,
             component: 'c-sync-preferences-step',
@@ -65,19 +57,27 @@ export default class FirstTimeSetup extends LightningElement {
         {
             title: 'Activate Syncing',
             name: 'C-POLLING-STEP',
-            orderIndex: 5,
+            orderIndex: 4,
             isComplete: false,
             isActive: false,
             component: 'c-polling-step',
-        }
+        },
+        {
+            title: 'Update Salesforce Pages',
+            name: 'C-ORG-SETTINGS-STEP',
+            orderIndex: 5,
+            isComplete: false,
+            isActive: false,
+            component: 'c-org-settings-step',
+        },
     ];
 
     setupStepRefs = {
-        orgSettings: 0,
-        systemConnections: 1,
-        dataMapping: 2,
-        syncPreferences: 3,
-        polling: 4,
+        systemConnections: 0,
+        dataMapping: 1,
+        syncPreferences: 2,
+        polling: 3,
+        orgSettings: 4,
     };
 
     generalStepRefs = {

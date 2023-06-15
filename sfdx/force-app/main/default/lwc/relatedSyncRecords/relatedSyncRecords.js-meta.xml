@@ -2,9 +2,24 @@
 <LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
     <apiVersion>52.0</apiVersion>
     <isExposed>true</isExposed>
-    <masterLabel>Related Sync Records</masterLabel>
-   <description>Gets related sync records based on the current record Id.</description>
+    <masterLabel>Related Stripe Sync Records</masterLabel>
+    <description>Displays related Stripe Sync Records based on the current Record Id.</description>
     <targets>
         <target>lightning__RecordPage</target>
     </targets>
+    <targetConfigs>
+        <targetConfig targets="lightning__RecordPage">
+            <objects>
+                <object>Account</object>
+                <object>Order</object>
+                <object>PricebookEntry</object>
+                <object>Product2</object>
+            </objects>
+            <supportedFormFactors>
+                <supportedFormFactor type="Large"/>
+                <supportedFormFactor type="Small"/>
+            </supportedFormFactors>
+        </targetConfig>
+    </targetConfigs>
+    
 </LightningComponentBundle>

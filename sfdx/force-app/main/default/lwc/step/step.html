@@ -26,9 +26,9 @@
         <div class={stepContentClasslist}>
             <!-- Step Description -->
             <div class="stipe-settings__description slds-p-around_large slds-border_bottom">
-                <div if:false={setupComplete} class="slds-text-heading_small slds-m-bottom_small">
+                <h2 if:false={setupComplete} class="slds-text-heading_large slds-m-bottom_small">
                     {stepName}
-                </div>
+                </h2>
                 <slot name="description">
                 </slot>
             </div>

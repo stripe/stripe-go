@@ -308,14 +308,7 @@
                             <div class="slds-col">
                                 <!-- First Time Setup Steps -->
                                 <template if:false={setupComplete}>
-                                    <c-step step-name="Update Page Layouts" data-index="0" setup-complete={setupComplete} onnext={next} class="slds-hide" loading={contentLoading} illustration-url={} back-disabled>
-                                        <p slot="description">
-                                            A few custom fields have been included in the Stripe Billing for Salesforce managed package that can optionally be added to your existing object page layouts. It is recommended you do this now before proceeding to connect Stripe to Salesforce, but these fields can be added at any time.
-                                        </p>
-                                        <c-org-settings-step>
-                                        </c-org-settings-step>
-                                    </c-step>
-                                    <c-step step-name="Connect Stripe and Salesforce" data-index="1" setup-complete={setupComplete} onnext={next} onback={back} class="slds-hide" next-disabled={nextDisabled} loading={contentLoading} illustration-url={systemConnectionsIllustration} show-intro>
+                                    <c-step step-name="Connect Stripe and Salesforce" data-index="0" setup-complete={setupComplete} onnext={next} onback={back} class="slds-hide" next-disabled={nextDisabled} loading={contentLoading} illustration-url={systemConnectionsIllustration} show-intro back-disabled>
                                         <p slot="description">
                                             Allow your Salesforce org and Stripe to communicate. This step will collect the required information to allow your Salesforce org and Stripe to communicate. First, you will be granting Stripe the necessary access to your Salesforce org. Second, you will be asked to log into Stripe to allow Salesforce to access your Stripe instance. Click "Authorize" and follow the provided steps to establish these connections.
                                         </p>
@@ -330,7 +323,7 @@
                                             onshowtoast={showToast}>
                                         </c-system-connections-step>
                                     </c-step>
-                                    <c-step step-name="Define Data Mapping" data-index="2" setup-complete={setupComplete} onnext={next} onback={back} class="slds-hide" loading={contentLoading} illustration-url={dataMappingIllustration} show-intro>
+                                    <c-step step-name="Define Data Mapping" data-index="1" setup-complete={setupComplete} onnext={next} onback={back} class="slds-hide" loading={contentLoading} illustration-url={dataMappingIllustration} show-intro>
                                         <p slot="description">
                                             Determine how Stripe data is mapped to your Salesforce org. A set of default field mappings have been provided for each Stripe object. These default values can be overwritten to better represent the structure of your Salesforce org. Field mappings can either be a Salesforce field, which reads Salesforce data on a per-record basis, or a static value, which will apply the same value to all records.
                                         </p>
@@ -347,7 +340,7 @@
                                             onshowtoast={showToast}>
                                         </c-data-mapping-step>
                                     </c-step>
-                                    <c-step step-name="Manage Integration" data-index="3" setup-complete={setupComplete} onnext={next} onback={back} next-label="Next" class="slds-hide" loading={contentLoading} illustration-url={syncPreferencesIllustration} show-intro>
+                                    <c-step step-name="Manage Integration" data-index="2" setup-complete={setupComplete} onnext={next} onback={back} next-label="Next" class="slds-hide" loading={contentLoading} illustration-url={syncPreferencesIllustration} show-intro>
                                         <p slot="description">
                                             Determine how and when data is synced between Stripe and Salesforce. A set of default settings has been provided; review and make any adjustments to these settings to suit your org before proceeding.
                                         </p>
@@ -359,7 +352,7 @@
                                                 onshowtoast={showToast}>
                                         </c-sync-preferences-step>
                                     </c-step>
-                                    <c-step step-name="Activate Syncing" data-index="4" setup-complete={setupComplete} onnext={next} onback={back} next-label="Finish" class="slds-hide" loading={contentLoading} illustration-url={syncPreferencesIllustration} show-intro>
+                                    <c-step step-name="Activate Syncing" data-index="3" setup-complete={setupComplete} onnext={next} onback={back} next-label="Finish" class="slds-hide" loading={contentLoading} illustration-url={syncPreferencesIllustration} show-intro>
                                         <p slot="description">
                                             Activate your integration to begin bringing Salesforce orders over to Stripe in real time.
                                         </p>
@@ -382,6 +375,13 @@
                                                 </div>
                                             </div>
                                         </div>
+                                    </c-step>
+                                    <c-step step-name="Update Salesforce Pages" data-index="4" setup-complete={setupComplete} onback={back} onnext={next} next-label="Finish" class="slds-hide" loading={contentLoading} illustration-url={}>
+                                        <p slot="description">
+                                            A few custom fields and components have been included in the Stripe Billing for Salesforce managed package that can optionally be added to your existing Page Layouts and Lightning Record Pages. These fields and components will allow you to view Stripe data directly on your Salesforce records.
+                                        </p>
+                                        <c-org-settings-step>
+                                        </c-org-settings-step>
                                     </c-step>
                                 </template>
                                 <!-- /First Time Setup Steps -->
