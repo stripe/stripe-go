@@ -195,8 +195,6 @@ class StripeForce::Translate
 
     PriceHelpers.auto_archive_prices_on_subscription_schedule(@user, subscription_schedule)
 
-    stripe_transaction
-
     cache_service.invalidate_cache_object(sf_order.Id)
 
     nil
@@ -328,6 +326,7 @@ class StripeForce::Translate
     stripe_customer = translate_account(sf_account)
 
     sf_order_items = order_lines_from_order(sf_order)
+
     invoice_items, subscription_items = phase_items_from_order_lines(sf_order_items)
 
     is_recurring_order = !subscription_items.empty?
@@ -468,11 +467,16 @@ class StripeForce::Translate
     prorated_phase = nil
 
     # TODO this needs to be gated and synced with the specific flag that CF is using
-    if subscription_start_date_as_timestamp >= OrderAmendment.determine_current_time(@user, stripe_customer.id)
-      # when `sub_sched_backdating_anchors_on_backdate` is enabled prorating the initial phase
-      # does NOT actually prorate it, but instead bills the full amount of the subscription item
-      # and locks the billing anchor to the start date of the subscription. Without this flag the
-      # billing achor is disconnected from the start date of the invoice
+    # when `sub_sched_backdating_anchors_on_backdate` is enabled prorating the initial phase
+    # does NOT actually prorate it, but instead bills the full amount of the subscription item
+    # and locks the billing anchor to the start date of the subscription. Without this flag the
+    # billing achor is disconnected from the start date of the invoice
+    initial_order_starts_now_or_future = subscription_start_date_as_timestamp >= OrderAmendment.determine_current_time(@user, stripe_customer.id)
+
+    # if this initial order is backdated, Stripe will prorate the past period
+    # this field indicates that we should not bill the customer for this period
+    skip_initial_phase_proration = initial_order_starts_now_or_future || sf_order[SKIP_PAST_INITIAL_INVOICES] == true
+    if skip_initial_phase_proration
       initial_phase[:proration_behavior] = 'none'
     end
 

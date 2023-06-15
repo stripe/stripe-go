@@ -231,6 +231,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Order.Skip_Past_Initial_Invoices__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>OrderItem.Skip_Line_Item__c</field>
         <readable>true</readable>
     </fieldPermissions>

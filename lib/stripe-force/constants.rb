@@ -104,6 +104,7 @@ module StripeForce
     GENERIC_STRIPE_ID = 'Stripe_ID__c'
     GENERIC_STRIPE_REVENUE_CONTRACT_ID = 'Stripe_Revenue_Contract_ID__c'
     ORDER_LINE_SKIP = 'Skip_Line_Item__c'
+    SKIP_PAST_INITIAL_INVOICES = 'Skip_Past_Initial_Invoices__c'
     ORDER_INVOICE_PAYMENT_LINK = 'Stripe_Invoice_Payment_Link__c'
     ORDER_SUBSCRIPTION_PAYMENT_LINK = 'Stripe_Subscription_Payment_Link__c'
 
