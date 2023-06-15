@@ -314,6 +314,28 @@ class Critic::ConfigurationsControllerTest < ApplicationIntegrationTest
         # if mappings change, hash should be different
         assert_equal([], result['hidden_mapper_fields'])
       end
+
+      it 'hidden sync management fields are updated when features are enabled' do
+        get api_configuration_path, headers: authentication_headers
+        assert_response :success
+        result = parsed_json
+
+        # initially the hidden mapper fields should contain values
+        # if no feature flag is enabled for the user
+        assert(1, result['hidden_sync_pref_fields'].count)
+        assert_equal(["cpq_prorate_precision"], result['hidden_sync_pref_fields'])
+
+        # enable features
+        @user.enable_feature(FeatureFlags::NON_ANNIVERSARY_AMENDMENTS)
+        @user.save
+
+        get api_configuration_path, headers: authentication_headers
+        assert_response :success
+        result = parsed_json
+
+        # if mappings change, hash should be different
+        assert_equal([], result['hidden_sync_pref_fields'])
+      end
     end
 
     describe '#configuration' do

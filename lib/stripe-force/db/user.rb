@@ -340,6 +340,16 @@ module StripeForce
       hidden_mapper_fields
     end
 
+    def hidden_sync_pref_fields
+      hidden_sync_pref_fields = []
+
+      if !feature_enabled?(FeatureFlags::NON_ANNIVERSARY_AMENDMENTS)
+        hidden_sync_pref_fields << "cpq_prorate_precision"
+      end
+
+      hidden_sync_pref_fields
+    end
+
     sig { params(feature: FeatureFlags, update: T::Boolean).void }
     def enable_feature(feature, update: false)
       if !feature_flags.include?(feature.serialize.to_sym)

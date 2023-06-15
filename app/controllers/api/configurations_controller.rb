@@ -237,6 +237,7 @@ module Api
         enabled: @user.enabled,
         configuration_hash: @user.configuration_hash,
         hidden_mapper_fields: @user.hidden_mapper_fields,
+        hidden_sync_pref_fields: @user.hidden_sync_pref_fields,
       }
     end
 
