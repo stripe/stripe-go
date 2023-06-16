@@ -643,6 +643,7 @@ type TaxRegistrationCountryOptionsUSType string
 
 // List of values that TaxRegistrationCountryOptionsUSType can take
 const (
+	TaxRegistrationCountryOptionsUSTypeLocalLeaseTax TaxRegistrationCountryOptionsUSType = "local_lease_tax"
 	TaxRegistrationCountryOptionsUSTypeStateSalesTax TaxRegistrationCountryOptionsUSType = "state_sales_tax"
 )
 
