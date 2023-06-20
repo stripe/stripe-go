@@ -1,4 +1,3 @@
-// File generated from our OpenAPI spec
 package example
 
 import (
