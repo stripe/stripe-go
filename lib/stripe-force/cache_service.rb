@@ -75,15 +75,18 @@ class CacheService
   #   <<~EOL
   #     SELECT Id FROM #{SF_ORDER}
   #     WHERE Opportunity.SBQQ__AmendedContract__c = '#{sf_contract_id}'
+  #     ORDER BY ActivatedDate LIMIT 200
   #   EOL
   # )
   #
-  # search_cache_via_nested_field('Order', ['Opportunity', 'SBQQ__AmendedContract__c'], "800J0000001WZtpIAG")
-  def search_cache_via_nested_field(sf_object_type, nested_fields, search_value)
+  # search_cache_via_nested_field('Order', ['Opportunity', 'SBQQ__AmendedContract__c'], "800J0000001WZtpIAG", 'ActivatedDate')
+  sig { params(sf_object_type: String, nested_fields: T::Array[String], search_value: String, sort_clause: String).returns(T.untyped) }
+  def search_cache_via_nested_field(sf_object_type, nested_fields, search_value, sort_clause)
 
     matched_objects = []
 
     if enabled?
+      nested_fields_copy = nested_fields.dup
       @cache[sf_object_type].keys.each do |id|
         sf_object = @cache[sf_object_type][id]
         field_value = sf_object
@@ -94,10 +97,10 @@ class CacheService
           end
 
           # Go one level deeper
-          field_value = field_value[nested_fields.shift]
+          field_value = field_value[nested_fields_copy.shift]
 
           # If we are at the last field, this is the one to compare
-          if nested_fields.empty?
+          if nested_fields_copy.empty?
             break
           end
         end
@@ -106,21 +109,28 @@ class CacheService
           matched_objects.append(sf_object)
         end
       end
+
+      # TODO need to sort the matched objects to ensure they respect the sort_clause specified
     end
 
     if matched_objects.empty?
+      order_by_clause = sort_clause.present? ? "ORDER BY #{sort_clause}" : ""
+      # note: The SOQL FIELDS function must have a LIMIT of at most 200
       missed_objects = backoff do
         @user.sf_client.query(
           <<~EOL
-            SELECT Id FROM #{sf_object_type}
+            SELECT FIELDS(ALL) FROM #{sf_object_type}
             WHERE #{nested_fields.join('.')} = '#{search_value}'
+            #{order_by_clause} LIMIT 200
           EOL
         )
       end
 
-      cache_list_of_records(missed_objects)
-      matched_objects = missed_objects.map {|i| get_record_from_cache(sf_object_type, i[SF_ID]) }
-      # TODO: log if we caught missed objs
+      missed_objects.each do |missed_object|
+        matched_objects << missed_object
+      end
+
+      cache_list_of_records(matched_objects)
     end
 
     matched_objects
@@ -164,7 +174,7 @@ class CacheService
       return cached_record if cached_record
     end
 
-    # Log if we find but didnt have in cache
+    # Log if we find but didn't have in cache
     missed_object = backoff { @user.sf_client.find(sf_record_type, sf_record_id) }
 
     # TODO; Cache missed object even when cache is disabled

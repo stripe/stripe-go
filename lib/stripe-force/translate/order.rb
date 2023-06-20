@@ -1056,10 +1056,10 @@ class StripeForce::Translate
       end
 
       if termination_line.quantity > 0
-        raise "quantity on termination lines should never be positive"
+        raise Integrations::Errors::ImpossibleState.new("Order item quantity on termination lines should never be positive")
       end
 
-      log.info 'reducing quantity on line', reducing_line: termination_line.order_line_id, quantity: termination_line.quantity
+      log.info 'reducing quantity on line', termination_line: termination_line.order_line_id, reducing_quantity: termination_line.quantity
       termination_line.quantity.abs.times do
         fifo_remaining_line = fifo_order_line_stack
           .reject(&:fully_terminated?)
@@ -1070,7 +1070,7 @@ class StripeForce::Translate
           fifo_remaining_line.reduce_quantity
         else
           # this should never happen
-          raise StripeForce::Errors::RawUserError.new("termination quantity is greater than the aggregate quantity for the line item")
+          raise StripeForce::Errors::RawUserError.new("Termination quantity is greater than the aggregate quantity for the order item.")
         end
       end
     end
@@ -1272,25 +1272,29 @@ class StripeForce::Translate
   sig { params(sf_contract_id: String).returns(Array) }
   def order_amendments_for_contract(sf_contract_id)
 
-    # TODO: use this and add a sort func
+    # TODO: use this once we have added a sort func after objects are returned from the cache
     # order_amendments = cache_service.search_cache_via_nested_field(
     #   SF_ORDER,
     #   [SF_OPPORTUNITY, CPQ_AMENDED_CONTRACT],
     #   sf_contract_id
+    #   "SBQQ__Quote__r.SBQQ__StartDate__c, LastModifiedDate ASC"
     # )
 
-    order_amendment_query = sf.query(
-      <<~EOL
-        SELECT Id FROM #{SF_ORDER}
-        WHERE Opportunity.SBQQ__AmendedContract__c = '#{sf_contract_id}'
-        ORDER BY SBQQ__Quote__r.SBQQ__StartDate__c, LastModifiedDate  ASC
-      EOL
-    )
+    order_amendments = backoff do
+      @user.sf_client.query(
+        <<~EOL
+          SELECT FIELDS(ALL) FROM #{SF_ORDER}
+          WHERE Opportunity.SBQQ__AmendedContract__c = '#{sf_contract_id}'
+          ORDER BY SBQQ__Quote__r.SBQQ__StartDate__c, LastModifiedDate ASC LIMIT 200
+        EOL
+      )
+    end
 
-    log.info 'order amendments found',
-      count: order_amendment_query.count,
-      amendmend_ids: order_amendment_query.map(&:Id)
+    log.info 'order amendments found', count: order_amendments.count, order_amendments_ids: order_amendments.map(&:Id)
 
-    order_amendment_query.map {|i| cache_service.get_record_from_cache(SF_ORDER, i[SF_ID]) }
+    order_amendments.map do |oa|
+      cache_service.cache_for_object(oa)
+      oa
+    end
   end
 end

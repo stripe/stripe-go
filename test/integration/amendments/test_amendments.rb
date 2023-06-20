@@ -1420,9 +1420,9 @@ class Critic::OrderAmendmentTranslation < Critic::OrderAmendmentFunctionalTest
       sf_order.refresh
       stripe_id = sf_order[prefixed_stripe_field(GENERIC_STRIPE_ID)]
 
-      # let's attempt to resync these amendments
+      # let's attempt to resync these amendments but should skip syncing since they're already synced
       Stripe::SubscriptionSchedule.expects(:save).never
-      StripeForce::Translate.perform_inline(@user, sf_order_amendment_1.Id)
+      StripeForce::Translate.perform_inline(@user, sf_order.Id)
 
       # fetch the subscription schedule
       subscription_schedule = Stripe::SubscriptionSchedule.retrieve(stripe_id, @user.stripe_credentials)
@@ -1590,6 +1590,7 @@ class Critic::OrderAmendmentTranslation < Critic::OrderAmendmentFunctionalTest
     end
 
     it 'syncs three stacked backdated amendments with quantity changes on different runs' do
+      @user.disable_feature(FeatureFlags::SF_CACHING)
       # initial order: 1yr contract, billed annually, started 3 months ago
       # amendment 1: started 2 months ago
       # amendment 2: started 1 month ago
@@ -1631,10 +1632,8 @@ class Critic::OrderAmendmentTranslation < Critic::OrderAmendmentFunctionalTest
       amendment_quote["record"][CPQ_QUOTE_SUBSCRIPTION_TERM] = amendment_1_term
       sf_order_amendment_1 = create_order_from_quote_data(amendment_quote)
 
-      # translate the orders (initial order and first two amendments)
+      # translate the orders (initial order and first amendment)
       StripeForce::Translate.perform_inline(@user, sf_order.Id)
-      sf_order.refresh
-      stripe_id = sf_order[prefixed_stripe_field(GENERIC_STRIPE_ID)]
 
       # create the second amendment to increase quantity (+3)
       sf_contract_2 = create_contract_from_order(sf_order_amendment_1)
@@ -1657,6 +1656,9 @@ class Critic::OrderAmendmentTranslation < Critic::OrderAmendmentFunctionalTest
       StripeForce::Translate.perform_inline(@user, sf_order_amendment_3.Id)
 
       # fetch the subscription schedule
+      sf_order.refresh
+      stripe_id = sf_order[prefixed_stripe_field(GENERIC_STRIPE_ID)]
+
       subscription_schedule = Stripe::SubscriptionSchedule.retrieve(stripe_id, @user.stripe_credentials)
       assert_equal(4, subscription_schedule.phases.count)
       first_phase = T.must(subscription_schedule.phases.first)
@@ -1710,7 +1712,7 @@ class Critic::OrderAmendmentTranslation < Critic::OrderAmendmentFunctionalTest
       # there should be one invoice items - credit item for decrease quantity
       assert_equal(2, fourth_phase.add_invoice_items.count)
       credit_item_1 = T.must(fourth_phase.add_invoice_items.detect {|i| i[:quantity] == 2 })
-      credit_item_2 = T.must(fourth_phase.add_invoice_items.detect {|i| i[:quantity] == 3 })
+      _credit_item_2 = T.must(fourth_phase.add_invoice_items.detect {|i| i[:quantity] == 3 })
       credit_stripe_price = Stripe::Price.retrieve(T.cast(credit_item_1.price, String), @user.stripe_credentials)
       assert_equal('one_time', credit_stripe_price.type)
       assert_equal(-1 * (BigDecimal(TEST_DEFAULT_PRICE) * BigDecimal(amendment_3_term) / BigDecimal(contract_term)).round(MAX_STRIPE_PRICE_PRECISION), BigDecimal(credit_stripe_price.unit_amount_decimal))
