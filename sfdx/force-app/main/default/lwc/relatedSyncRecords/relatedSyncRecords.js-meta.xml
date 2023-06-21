@@ -7,19 +7,4 @@
     <targets>
         <target>lightning__RecordPage</target>
     </targets>
-    <targetConfigs>
-        <targetConfig targets="lightning__RecordPage">
-            <objects>
-                <object>Account</object>
-                <object>Order</object>
-                <object>PricebookEntry</object>
-                <object>Product2</object>
-            </objects>
-            <supportedFormFactors>
-                <supportedFormFactor type="Large"/>
-                <supportedFormFactor type="Small"/>
-            </supportedFormFactors>
-        </targetConfig>
-    </targetConfigs>
-    
 </LightningComponentBundle>
