@@ -213,6 +213,9 @@ module Api
     end
 
     private def user_configuration_json
+      # Refresh user model so return from POST and GET are the same
+      @user.refresh
+
       {
         salesforce_account_id: @user.salesforce_account_id,
 

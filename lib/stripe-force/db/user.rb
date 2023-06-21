@@ -304,12 +304,20 @@ module StripeForce
         "price" => {
           # default monthly fallback is used if this value is empty
           # note that `Id` is not added to the suffix of the Product2 component, this is added by the mapper
+
+          # We default the interval count to the billing frequency and map it to an integer in transform_salesforce_billing_frequency_to_recurring_interval
+          #   this is so we can support quarterly, semiannually etc. billing frequencies. This can be improved:
+          #   https://jira.corp.stripe.com/browse/PLATINT-2480
           "recurring.interval_count" => "Product2.#{CPQ_QUOTE_BILLING_FREQUENCY}",
           "recurring.usage_type" => "Product2.#{CPQ_PRODUCT_BILLING_TYPE}",
         },
 
         "price_order_item" => {
           # these fields have identical names on the product level, which is why we can use the same constants here
+
+          # We default the interval count to the billing frequency and map it to an integer in transform_salesforce_billing_frequency_to_recurring_interval
+          #   this is so we can support quarterly, semiannually etc. billing frequencies. This can be improved:
+          #   https://jira.corp.stripe.com/browse/PLATINT-2480
           "recurring.interval_count" => CPQ_QUOTE_BILLING_FREQUENCY,
           "recurring.usage_type" => CPQ_PRODUCT_BILLING_TYPE,
         },

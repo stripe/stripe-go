@@ -429,8 +429,8 @@ class StripeForce::Translate
       # frequency: monthly or daily, defined on the CPQ
       stripe_price.recurring[:interval] = sf_cpq_term_interval
     else
-      # TODO should we nil out any custom mapped recurring values? Let's wait and see if we get some errors
-      # stripe_price.recurring = {}
+      # Remove out any custom mapped recurring params if this is a one-time
+      stripe_price[:recurring] = {}
     end
 
     # prices are only transformed when they are tied to order lines, we trust pricebook prices as is
