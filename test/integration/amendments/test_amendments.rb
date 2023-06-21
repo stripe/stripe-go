@@ -1476,6 +1476,12 @@ class Critic::OrderAmendmentTranslation < Critic::OrderAmendmentFunctionalTest
     end
 
     it 'syncs three stacked backdated amendments with last being a termination order' do
+      @user.disable_feature(FeatureFlags::SF_CACHING)
+      @user.field_mappings['subscription_schedule'] = {
+        'metadata.OrderNumber' => 'OrderNumber',
+      }
+      @user.save
+
       # initial order: 1yr contract, billed annually, started 3 months ago
       # amendment 1: started 2 months ago
       # amendment 2: started 1 month ago
@@ -1525,18 +1531,21 @@ class Critic::OrderAmendmentTranslation < Critic::OrderAmendmentFunctionalTest
       amendment_quote["record"][CPQ_QUOTE_SUBSCRIPTION_TERM] = amendment_2_term
       sf_order_amendment_2 = create_order_from_quote_data(amendment_quote)
 
+      # translate the orders (initial order and two amendments)
+      StripeForce::Translate.perform_inline(@user, sf_order.Id)
+      sf_order.refresh
+      stripe_id = sf_order[prefixed_stripe_field(GENERIC_STRIPE_ID)]
+
       # create the third amendment to terminate the order
       sf_contract_3 = create_contract_from_order(sf_order_amendment_2)
       amendment_quote = create_quote_data_from_contract_amendment(sf_contract_3)
       amendment_quote["lineItems"].first["record"][CPQ_QUOTE_QUANTITY] = 0
       amendment_quote["record"][CPQ_QUOTE_SUBSCRIPTION_START_DATE] = format_date_for_salesforce(amendment_3_start_date)
       amendment_quote["record"][CPQ_QUOTE_SUBSCRIPTION_TERM] = amendment_3_term
-      _sf_order_amendment_3 = create_order_from_quote_data(amendment_quote)
+      sf_order_amendment_3 = create_order_from_quote_data(amendment_quote)
 
-      # translate all the orders (initial order and three amendments)
-      StripeForce::Translate.perform_inline(@user, sf_order.Id)
-      sf_order.refresh
-      stripe_id = sf_order[prefixed_stripe_field(GENERIC_STRIPE_ID)]
+      # translate the termination order
+      StripeForce::Translate.perform_inline(@user, sf_order_amendment_3.Id)
 
       # fetch the subscription schedule
       subscription_schedule = Stripe::SubscriptionSchedule.retrieve(stripe_id, @user.stripe_credentials)
@@ -1587,6 +1596,12 @@ class Critic::OrderAmendmentTranslation < Critic::OrderAmendmentFunctionalTest
       credit_stripe_price = Stripe::Price.retrieve(T.cast(credit_item.price, String), @user.stripe_credentials)
       assert_equal('one_time', credit_stripe_price.type)
       assert_equal(-1 * (BigDecimal(TEST_DEFAULT_PRICE) * BigDecimal(amendment_2_term) / BigDecimal(contract_term)).round(MAX_STRIPE_PRICE_PRECISION), BigDecimal(credit_stripe_price.unit_amount_decimal))
+
+      # ensure that metadata was remapped during termination
+      assert_equal(sf_order.OrderNumber, subscription_schedule.metadata['OrderNumber'])
+      # ensure that terminate metadata was added during termination
+      amendment_opportunity = sf_get(sf_order_amendment_3["OpportunityId"])
+      assert_equal(amendment_opportunity[SF_OPPORTUNITY_CLOSE_DATE], subscription_schedule.metadata[StripeForce::Translate::Metadata.metadata_key(@user, MetadataKeys::EFFECTIVE_TERMINATION_DATE)])
     end
 
     it 'syncs three stacked backdated amendments with quantity changes on different runs' do

@@ -87,8 +87,7 @@ module SalesforceDebugging
     # let's get that ID, then we can pull the order tied to that original quote
     sf_original_quote_id = initial_quote_query.first.dig(
       SF_OPPORTUNITY,
-      # TODO should pull into a constant
-      "SBQQ__AmendedContract__r",
+      CPQ_AMENDED_CONTRACT_LOOKUP,
       SF_CONTRACT_QUOTE_ID
     )
 

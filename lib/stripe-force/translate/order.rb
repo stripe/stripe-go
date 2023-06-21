@@ -873,6 +873,7 @@ class StripeForce::Translate
         new_phase.start_date = 'now'
       end
 
+      # Note: !is_same_day is important since these items may have already been invoiced
       should_merge_phases = is_identical_to_previous_phase_time_range && !is_same_day && !is_order_backdated
       if should_merge_phases && !previous_phase.add_invoice_items.empty?
         log.info 'previous phase is identical, merging invoice items'
@@ -888,7 +889,6 @@ class StripeForce::Translate
 
       # if the order is terminated, updating the last phase end date and NOT adding another phase is all that needs to be done
       if !is_order_terminated
-        # !is_same_day is important since these items may have already been invoiced
         if should_merge_phases
           # https://jira.corp.stripe.com/browse/PLATINT-1815
           log.info 'previous phase identical, removing previous phase'
@@ -914,6 +914,16 @@ class StripeForce::Translate
       # NOTE intentional decision here NOT to update any other subscription fields
       catch_errors_with_salesforce_context(secondary: sf_order_amendment) do
         if is_subscription_schedule_cancelled
+          # Notes:
+          # - Ideally there would be a way to pass metadata via the subscription_schedule.cancel call,
+          #   but in the meantime, we add metadata to the subscription_schedule before cancelling.
+          # - We don't want to remap metadata since this would replace any existing metadata keys.
+          if is_order_backdated
+            effective_termination_date = get_effective_termination_date(mapper, sf_order_amendment, string_start_date_from_salesforce)
+            subscription_schedule.metadata = subscription_schedule.metadata.to_h.merge({StripeForce::Translate::Metadata.metadata_key(@user, MetadataKeys::EFFECTIVE_TERMINATION_DATE) => effective_termination_date})
+            subscription_schedule.save({}, @user.stripe_credentials)
+          end
+
           log.info 'cancelling subscription immediately', sf_order_amendment_id: sf_order_amendment
 
           # NOTE the intention here is to void/reverse out the entire contract, this is the closest API call we have
@@ -956,6 +966,30 @@ class StripeForce::Translate
     PriceHelpers.auto_archive_prices_on_subscription_schedule(@user, subscription_schedule)
 
     subscription_schedule
+  end
+
+  sig do
+    params(mapper: StripeForce::Mapper, sf_order_amendment: Restforce::SObject, sf_order_amendment_start_date: String).returns(T.nilable(String))
+  end
+  def get_effective_termination_date(mapper, sf_order_amendment, sf_order_amendment_start_date)
+    # Salesforce CPQ generates an amendment opportunity with a close date equal to your contract’s start date which
+    # is the effective termination date.
+    sf_amendment_opportunity_id = sf_order_amendment["OpportunityId"]
+    if sf_amendment_opportunity_id.present?
+      sf_amendment_opportunity = sf.query(
+        <<~EOL
+          SELECT #{SF_OPPORTUNITY_CLOSE_DATE}
+          FROM #{SF_OPPORTUNITY}
+          WHERE Id = '#{sf_amendment_opportunity_id}'
+        EOL
+      )
+
+      if sf_amendment_opportunity.count > 0
+        return sf_amendment_opportunity.first[SF_OPPORTUNITY_CLOSE_DATE]
+      end
+    end
+
+    sf_order_amendment_start_date
   end
 
   sig do
@@ -1229,8 +1263,7 @@ class StripeForce::Translate
     # let's get that ID, then we can pull the order tied to that original quote
     sf_original_quote_id = initial_quote_query.first.dig(
       SF_OPPORTUNITY,
-      # TODO should pull into a constant
-      "SBQQ__AmendedContract__r",
+      CPQ_AMENDED_CONTRACT_LOOKUP,
       SF_CONTRACT_QUOTE_ID
     )
 
@@ -1239,7 +1272,7 @@ class StripeForce::Translate
         opportunity_id: initial_quote_query.first.dig("OpportunityId"),
         amended_contract: initial_quote_query.first.dig(SF_OPPORTUNITY, "SBQQ__AmendedContract__c")
 
-      raise StripeForce::Errors::RawUserError.new("Could not find initial quote associated with order amendment")
+      raise StripeForce::Errors::RawUserError.new("Could not find initial quote associated with order amendment.")
     end
 
     log.info 'quote tied to initial order found', quote_id: sf_original_quote_id

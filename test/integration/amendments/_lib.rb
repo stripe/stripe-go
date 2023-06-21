@@ -25,6 +25,7 @@ class Critic::OrderAmendmentFunctionalTest < Critic::FunctionalTest
     assert_equal(1, related_contracts.count)
 
     sf_contract = sf_get(related_contracts.first.Id)
+    sf_contract
   end
 
   # this API is tricky: requires empty JSON object and Content-Type set correctly

@@ -8,6 +8,7 @@ module StripeForce
     MAX_STRIPE_PRICE_PRECISION = 12
     MAX_SF_RETRY_ATTEMPTS = 8
 
+    # Salesforce objects
     SF_ORDER = 'Order'
     SF_ORDER_ITEM = 'OrderItem'
     SF_PRODUCT = 'Product2'
@@ -21,7 +22,7 @@ module StripeForce
     SF_CONSUMPTION_RATE = 'ConsumptionRate'
     SF_CONTRACT = 'Contract'
 
-    # custom coupon objects
+    # custom coupon objects added by our package
     QUOTE_SF_STRIPE_COUPON = 'Quote_Stripe_Coupon__c'
     QUOTE_SF_STRIPE_COUPON_ASSOCIATION = 'Quote_Stripe_Coupon_Association__c'
     QUOTE_LINE_SF_STRIPE_COUPON_ASSOCIATION = 'Quote_Line_Stripe_Coupon_Association__c'
@@ -32,6 +33,7 @@ module StripeForce
     SF_ORDER_ACCOUNT = 'AccountId'
     SF_ORDER_CONTRACTED = 'SBQQ__Contracted__c'
     SF_ORDER_QUOTE = 'SBQQ__Quote__c'
+    SF_OPPORTUNITY_CLOSE_DATE = 'CloseDate'
 
     SF_CURRENCY_ISO_CODE = 'CurrencyIsoCode'
 
@@ -50,9 +52,10 @@ module StripeForce
     CPQ_CONSUMPTION_SCHEDULE = 'SBQQ__OrderItemConsumptionSchedule__c'
     CPQ_CONSUMPTION_RATE = 'SBQQ__OrderItemConsumptionRate__c'
     CPQ_AMENDED_CONTRACT = 'SBQQ__AmendedContract__c'
+    CPQ_AMENDED_CONTRACT_LOOKUP = 'SBQQ__AmendedContract__r'
 
     CPQ_QUOTE_PRIMARY_CONTACT = 'SBQQ__PrimaryContact__c'
-    CPQ_QUOTE_PRICEBOOK = "SBQQ__PricebookId__c"
+    CPQ_QUOTE_PRICEBOOK = 'SBQQ__PricebookId__c'
     CPQ_QUOTE_OPPORTUNITY = 'SBQQ__Opportunity2__c'
     CPQ_QUOTE_ORDERED = 'SBQQ__Ordered__c'
     CPQ_QUOTE_PRIMARY = 'SBQQ__Primary__c'
@@ -243,6 +246,7 @@ module StripeForce
         BACKEND_PRORATION = new('backend_proration')
         FRONTEND_PRORATION = new('frontend_proration')
         PRE_INTEGRATION_ORDER = new('pre_integration_order')
+        EFFECTIVE_TERMINATION_DATE = new('effective_termination_date')
       end
     end
 

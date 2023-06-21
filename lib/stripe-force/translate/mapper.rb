@@ -101,22 +101,23 @@ module StripeForce
       target_object
     end
 
-    sig { params(record_to_map: Stripe::APIResource, source_record: T.nilable(Restforce::SObject), compound_key: T.nilable(T::Boolean)).void }
-    def apply_mapping(record_to_map, source_record=nil, compound_key: false)
+    # TODO compound_key is unsused here https://jira.corp.stripe.com/browse/PLATINT-2597
+    sig { params(record_to_map: Stripe::APIResource, source_record: T.nilable(Restforce::SObject), compound_key: T.nilable(T::Boolean), metadata_only: T.nilable(T::Boolean),).void }
+    def apply_mapping(record_to_map, source_record=nil, compound_key: false, metadata_only: false)
       record_to_map_key = self.class.mapping_key_for_record(record_to_map, source_record)
 
       field_defaults_for_record = @user.field_defaults[record_to_map_key]
 
       # field defaults
       if field_defaults_for_record
-        assign_values_from_hash(record_to_map, field_defaults_for_record)
+        assign_values_from_hash(record_to_map, field_defaults_for_record, metadata_only: metadata_only)
       end
 
       mapping_for_record = @user.field_mappings[record_to_map_key]
 
       if mapping_for_record && source_record
         mapping_values = build_dynamic_mapping_values(source_record, mapping_for_record)
-        assign_values_from_hash(record_to_map, mapping_values)
+        assign_values_from_hash(record_to_map, mapping_values, metadata_only: metadata_only)
       end
     end
 
@@ -150,8 +151,8 @@ module StripeForce
       end
     end
 
-    sig { params(record: Stripe::APIResource, field_assignments: Hash).void }
-    def assign_values_from_hash(record, field_assignments)
+    sig { params(record: Stripe::APIResource, field_assignments: Hash, metadata_only: T.nilable(T::Boolean)).void }
+    def assign_values_from_hash(record, field_assignments, metadata_only: false)
       field_assignments.each do |raw_field_path, v|
         # TODO need to handle nil values
         # TODO nofify when an existing field is being overwritten
@@ -165,6 +166,10 @@ module StripeForce
         #   field_path = raw_field_path
         # end
 
+        # in some cases, we only want to remap the custom metadata fields
+        if metadata_only && !raw_field_path.to_s.start_with?('metadata.')
+          next
+        end
         set_stripe_resource_field_path(record, raw_field_path, v)
       end
     end
