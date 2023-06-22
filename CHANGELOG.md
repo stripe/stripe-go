@@ -1,5 +1,11 @@
 # Changelog
 
+## 74.24.0-beta.1 - 2023-06-22
+* [#1677](https://github.com/stripe/stripe-go/pull/1677) Update generated code for beta
+  * Add support for new resource `CustomerSession`
+  * Add support for `New` method on resource `CustomerSession`
+  * Change type of `TaxRegistrationCountryOptionsUsTypeParams` and `TaxRegistrationCountryOptionsUsType` from `literal('state_sales_tax')` to `enum('local_lease_tax'|'state_sales_tax')`
+
 ## 74.23.0 - 2023-06-22
 * [#1678](https://github.com/stripe/stripe-go/pull/1678) Update generated code
   * Add support for `OnBehalfOf` on `Mandate`
