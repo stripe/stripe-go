@@ -461,7 +461,7 @@ type TreasuryFinancialAccountFeaturesFinancialAddressesAbaStatusDetail struct {
 	Restriction TreasuryFinancialAccountFeaturesFinancialAddressesAbaStatusDetailRestriction `json:"restriction"`
 }
 
-// Toggle settings for enabling/disabling a feature
+// Toggle settings for enabling/disabling the ABA address feature
 type TreasuryFinancialAccountFeaturesFinancialAddressesAba struct {
 	// Whether the FinancialAccount should have the Feature.
 	Requested bool `json:"requested"`
@@ -473,7 +473,7 @@ type TreasuryFinancialAccountFeaturesFinancialAddressesAba struct {
 
 // Settings related to Financial Addresses features on a Financial Account
 type TreasuryFinancialAccountFeaturesFinancialAddresses struct {
-	// Toggle settings for enabling/disabling a feature
+	// Toggle settings for enabling/disabling the ABA address feature
 	Aba *TreasuryFinancialAccountFeaturesFinancialAddressesAba `json:"aba"`
 }
 
