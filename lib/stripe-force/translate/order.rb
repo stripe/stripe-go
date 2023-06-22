@@ -51,7 +51,7 @@ class StripeForce::Translate
 
     initial_order_activated_at = Time.parse(contract_structure.initial[SF_ORDER_ACTIVATED_DATE]).to_i
 
-    pre_integration_order = initial_order_activated_at < @user.connector_settings[CONNECTOR_SETTING_SYNC_START_DATE]
+    pre_integration_order = initial_order_activated_at < @user.connector_settings[CONNECTOR_SETTING_SYNC_START_DATE].to_i
 
     pre_integration_order
   end
