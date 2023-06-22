@@ -217,6 +217,8 @@ type Mandate struct {
 	MultiUse *MandateMultiUse `json:"multi_use"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
+	// The account (if any) for which the mandate is intended.
+	OnBehalfOf string `json:"on_behalf_of"`
 	// ID of the payment method associated with this mandate.
 	PaymentMethod        *PaymentMethod               `json:"payment_method"`
 	PaymentMethodDetails *MandatePaymentMethodDetails `json:"payment_method_details"`
