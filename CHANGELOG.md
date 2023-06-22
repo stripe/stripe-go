@@ -1,5 +1,14 @@
 # Changelog
 
+## 74.23.0 - 2023-06-22
+* [#1678](https://github.com/stripe/stripe-go/pull/1678) Update generated code
+  * Add support for `OnBehalfOf` on `Mandate`
+* [#1680](https://github.com/stripe/stripe-go/pull/1680) Deserialization test
+* [#1676](https://github.com/stripe/stripe-go/pull/1676) Update generated code
+  * Release specs are identical.
+* [#1672](https://github.com/stripe/stripe-go/pull/1672) Update generated code
+  * Change type of `FileFileParams` from `string` to `file`
+
 ## 74.22.0 - 2023-06-08
 * [#1670](https://github.com/stripe/stripe-go/pull/1670) Update generated code
   * Add support for `TaxabilityReason` on `TaxCalculationTaxBreakdown`
