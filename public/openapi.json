@@ -171,7 +171,13 @@
           "hasSfValue": false,
           "hasRequiredValue": false,
           "sfValue": "",
-          "sfValueType": ""
+          "sfValueType": "",
+          "enum": [
+            "",
+            "exempt",
+            "none",
+            "reverse"
+          ]
         },
         {
           "name": "test clock",
@@ -791,7 +797,13 @@
           "hasSfValue": false,
           "hasRequiredValue": false,
           "sfValue": "",
-          "sfValueType": ""
+          "sfValueType": "",
+          "enum": [
+            "cancel",
+            "none",
+            "release",
+            "renew"
+          ]
         },
         {
           "name": "from subscription",
@@ -1102,7 +1114,11 @@
           "hasSfValue": false,
           "hasRequiredValue": false,
           "sfValue": "",
-          "sfValueType": ""
+          "sfValueType": "",
+          "enum": [
+            "automatic",
+            "phase_start"
+          ]
         },
         {
           "name": "collection method",
@@ -1116,7 +1132,11 @@
           "hasSfValue": false,
           "hasRequiredValue": false,
           "sfValue": "",
-          "sfValueType": ""
+          "sfValueType": "",
+          "enum": [
+            "charge_automatically",
+            "send_invoice"
+          ]
         },
         {
           "name": "coupon",
@@ -1335,7 +1355,11 @@
           "hasSfValue": false,
           "hasRequiredValue": false,
           "sfValue": "",
-          "sfValueType": ""
+          "sfValueType": "",
+          "enum": [
+            "per_unit",
+            "tiered"
+          ]
         },
         {
           "name": "currency",
@@ -1391,7 +1415,12 @@
           "hasSfValue": false,
           "hasRequiredValue": false,
           "sfValue": "",
-          "sfValueType": ""
+          "sfValueType": "",
+          "enum": [
+            "exclusive",
+            "inclusive",
+            "unspecified"
+          ]
         },
         {
           "name": "tiers mode",
@@ -1405,7 +1434,11 @@
           "hasSfValue": false,
           "hasRequiredValue": false,
           "sfValue": "",
-          "sfValueType": ""
+          "sfValueType": "",
+          "enum": [
+            "graduated",
+            "volume"
+          ]
         },
         {
           "name": "transfer lookup key",
@@ -1582,7 +1615,12 @@
           "hasSfValue": false,
           "hasRequiredValue": false,
           "sfValue": "",
-          "sfValueType": ""
+          "sfValueType": "",
+          "enum": [
+            "forever",
+            "once",
+            "repeating"
+          ]
         },
         {
           "name": "duration in months",
