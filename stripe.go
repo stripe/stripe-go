@@ -1171,7 +1171,7 @@ func SetHTTPClient(client *http.Client) {
 }
 
 // String returns a pointer to the string value passed in.
-func String(v string) *string {
+func String[T ~string](v T) *T {
 	return &v
 }
 

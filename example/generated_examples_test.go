@@ -106,7 +106,7 @@ func TestAppsSecretList(t *testing.T) {
 func TestAppsSecretCreate(t *testing.T) {
 	params := &stripe.AppsSecretParams{
 		Name:    stripe.String("sec_123"),
-		Payload: stripe.String("very secret string"),
+		Payload: stripe.String(stripe.AppsSecretScopeTypeAccount),
 		Scope: &stripe.AppsSecretScopeParams{
 			Type: stripe.String(string(stripe.AppsSecretScopeTypeAccount)),
 		},

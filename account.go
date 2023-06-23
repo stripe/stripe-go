@@ -16,7 +16,9 @@ type AccountBusinessType string
 
 // List of values that AccountBusinessType can take
 const (
-	AccountBusinessTypeCompany          AccountBusinessType = "company"
+	AccountBusinessTypeCompany      AccountBusinessType = "company"
+	AccountBusinessTypeCompanyValue string              = "company"
+
 	AccountBusinessTypeGovernmentEntity AccountBusinessType = "government_entity"
 	AccountBusinessTypeIndividual       AccountBusinessType = "individual"
 	AccountBusinessTypeNonProfit        AccountBusinessType = "non_profit"
@@ -150,7 +152,7 @@ type AccountParams struct {
 	// Business information about the account.
 	BusinessProfile *AccountBusinessProfileParams `form:"business_profile"`
 	// The business type.
-	BusinessType *string `form:"business_type"`
+	BusinessType *AccountBusinessType `form:"business_type"`
 	// Each key of the dictionary represents a capability, and each capability maps to its settings (e.g. whether it has been requested or not). Each capability will be inactive until you have provided its specific requirements and Stripe has verified them. An account may have some of its requested capabilities be active and some be inactive.
 	Capabilities *AccountCapabilitiesParams `form:"capabilities"`
 	// Information about the company or business. This field is available for any `business_type`.

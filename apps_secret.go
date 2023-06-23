@@ -48,7 +48,7 @@ type AppsSecretParams struct {
 	// A name for the secret that's unique within the scope.
 	Name *string `form:"name"`
 	// The plaintext secret value to be stored.
-	Payload *string `form:"payload"`
+	Payload *AppsSecretScopeType `form:"payload"`
 	// Specifies the scoping of the secret. Requests originating from UI extensions can only access account-scoped secrets or secrets scoped to their own user.
 	Scope *AppsSecretScopeParams `form:"scope"`
 }
