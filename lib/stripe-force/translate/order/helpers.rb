@@ -111,8 +111,8 @@ class StripeForce::Translate
       end
 
       unless [15, 30, 45, 60, 90].include?(raw_days.to_i)
-        Integrations::ErrorContext.report_edge_case(
-          "recieved unexpected days_until_due option",
+        raise StripeForce::Errors::RawUserError.new(
+          "Recieved unexpected days_until_due option",
            metadata: {
              raw_days_until_due: raw_days_until_due,
              raw_days: raw_days,

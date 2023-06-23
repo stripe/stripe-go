@@ -169,24 +169,22 @@ module Integrations::Utilities::StripeUtil
 
       # if we aren't at the last component in the key path, sniff for Stripe object references
       # object references are always string, so we can ignore any other object types
-
       if i != components.size - 1 && target_object.is_a?(String)
         target_class = case target_object
+        when /^sub_sched_/
+          ::Stripe::SubscriptionSchedule
         when /^sub_/
           ::Stripe::Subscription
         when /^cus_/
           ::Stripe::Customer
-        when /^in_/
-          ::Stripe::Invoice
-        when /^pi_/
-          ::Stripe::PaymentIntent
         when /^prod_/
           ::Stripe::Product
-        when /^(card_|src_)/
-          # UPGRADE_CHECK right now, the full `source` object is included in the charge response, this may not be true in the future
-          Integrations::ErrorContext.report_edge_case("card or source referenced in annotator")
+        when /^price_/
+          ::Stripe::Price
+        when /^in_/
+          ::Stripe::Invoice
         else
-          # TODO report on unsupported ID if it looks like a stripe ID
+          Integrations::ErrorContext.report_edge_case("Unsupported Stripe object referenced in the connector", stripe_resource: target_object)
           nil
         end
 

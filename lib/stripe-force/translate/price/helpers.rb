@@ -64,7 +64,7 @@ class StripeForce::Translate
         'graduated'
       else
         # should never happen
-        raise StripeForce::Errors::RawUserError.new("unexpected consumption schedule type #{raw_consumption_schedule_type}")
+        raise StripeForce::Errors::RawUserError.new("Unexpected consumption schedule type #{raw_consumption_schedule_type}.")
       end
     end
 

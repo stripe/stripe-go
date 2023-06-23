@@ -48,8 +48,8 @@ class SessionsController < ApplicationController
       log.info 'creating new user'
       user = StripeForce::User.new(salesforce_account_id: sf_account_id)
 
-      # TODO log name of user
-      Integrations::ErrorContext.report_feature_usage("new user #{sf_account_id}")
+      Integrations::Metrics::Writer.instance.track_counter('user.new', dimensions: {livemode: user.livemode, sf_account_id: sf_account_id})
+      Integrations::ErrorContext.report_feature_usage("New user. sf_account_id: #{sf_account_id}")
     end
 
     log.info 'updating existing user'

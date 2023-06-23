@@ -10,8 +10,6 @@ Sentry.init do |config|
   config.enabled_environments = %w{production staging}
   config.excluded_exceptions = []
 
-  # config.background_worker_threads = 0
-
   # `DYNO` is formatted as `worker.12`, `scheduler.1`, etc
   config.server_name = ENV.fetch('DYNO')[/[^.]+/, 0] if ENV['DYNO']
 end

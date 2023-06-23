@@ -190,7 +190,7 @@ class StripeForce::Translate
 
     # it does not look like this is programmatically enforced within CPQ, but should never happen
     if joining_records.count > 1
-      raise "should not be more than one consumption schedule linked to a pricebook"
+      raise StripeForce::Errors::RawUserError.new("We found more than one consumption schedule linked to a pricebook. There should only be one.")
     end
 
     consumption_schedule = cache_service.get_record_from_cache(SF_CONSUMPTION_SCHEDULE, joining_records.first.ConsumptionScheduleId)

@@ -16,7 +16,7 @@ class StripeForce::InitiatePollsJobs
         begin
           queue_polls_for_user(user)
         rescue => e
-          Sentry.capture_exception(e)
+          Sentry.capture_exception(e, level: 'error')
         end
       end
     end

@@ -577,7 +577,7 @@ class StripeForce::Translate
     subscription_schedule = T.cast(subscription_schedule, Stripe::SubscriptionSchedule)
 
     if subscription_schedule.status == "canceled"
-      Integrations::ErrorContext.report_edge_case('subscription is cancelled, it cannot be modified')
+      raise StripeForce::Errors::RawUserError.new('Subscription is cancelled, it cannot be modified.', stripe_resource: subscription_schedule)
     end
 
     # at this point, the initial order would have already been translated
@@ -585,7 +585,7 @@ class StripeForce::Translate
 
     # verify that all the amendment orders co-terminate with the initial order
     if !OrderAmendment.contract_co_terminated?(mapper, contract_structure)
-      raise StripeForce::Errors::RawUserError.new("Order amendments must coterminate with the initial order")
+      raise StripeForce::Errors::RawUserError.new("Order amendments must coterminate with the initial order.")
     end
 
     # Order amendments contain a negative item if they are adjusting a previous line item.
@@ -1124,7 +1124,7 @@ class StripeForce::Translate
     sf_order_items.select do |sf_order_item|
       # never expect this to occur
       if sf_order_item.IsDeleted || !sf_order_item.SBQQ__Activated__c
-        Integrations::ErrorContext.report_edge_case("order line is deleted or not activated")
+        raise StripeForce::Errors::RawUserError.new("Order line is deleted or not activated", sf_order_item)
       end
 
       should_keep = sf_order_item[prefixed_stripe_field(ORDER_LINE_SKIP)].nil? ||

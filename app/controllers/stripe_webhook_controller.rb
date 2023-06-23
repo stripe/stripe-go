@@ -18,14 +18,14 @@ class StripeWebhookController < ApplicationController
       render status: :bad_request, plain: "Invalid request"
       return
     rescue JSON::ParserError => e
-      Sentry.capture_exception(e)
+      Sentry.capture_exception(e, level: 'error')
 
       # this should not be possible as HTTP body is parsed based on content-type
       # and will fail upstream if in valid payload is send
       render status: :bad_request, plain: "Invalid JSON in payload"
       return
     rescue => e
-      Sentry.capture_exception(e)
+      Sentry.capture_exception(e, level: 'error')
 
       render status: :bad_request, plain: "Invalid payload"
       return

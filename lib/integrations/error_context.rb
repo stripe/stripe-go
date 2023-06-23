@@ -9,13 +9,7 @@ module Integrations
     include Kernel
 
     include Log
-
-    # TODO alright, this isn't working: we need to eliminate this `Integrations::` idea
     include StripeForce::Constants
-
-    def self.report_exception(exception)
-      Sentry.capture_exception(exception)
-    end
 
     def self.report_edge_case(message, stripe_resource: nil, integration_record: nil, metadata: nil)
       report_error(Integrations::Errors::UnhandledEdgeCase, message, stripe_resource: stripe_resource, integration_record: integration_record, metadata: metadata)
@@ -45,6 +39,10 @@ module Integrations
       # stacktrace needs to be set on the exception to appear in sentry
       # https://jira.corp.stripe.com/browse/REPROD-60
       exception.set_backtrace(caller)
+
+      if [Integrations::Errors::LockTimeout, Integrations::Errors::UnhandledEdgeCase, Integrations::Errors::FeatureUsage].include?(error_class)
+        sentry_options = sentry_options.merge(level: 'info')
+      end
 
       Sentry.capture_exception(exception, **sentry_options)
     end
