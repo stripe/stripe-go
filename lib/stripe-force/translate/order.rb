@@ -121,7 +121,7 @@ class StripeForce::Translate
       metadata: Metadata.stripe_metadata_for_sf_object(@user, sf_order).merge({StripeForce::Translate::Metadata.metadata_key(@user, MetadataKeys::PRE_INTEGRATION_ORDER) => true}),
       items: subscription_items.map(&:stripe_params),
       add_invoice_items: invoice_items.map(&:stripe_params),
-      proration_behavior: 'none',
+      proration_behavior: StripeProrationBehavior::NONE.serialize,
     })
 
     mapper.assign_values_from_hash(subscription, subscription_params)
@@ -188,7 +188,7 @@ class StripeForce::Translate
     # Metadata doesn't come over with the sub -> sub schedule migration
     subscription_schedule.metadata = subscription.metadata
     # End behavior is not a subscription field, so we have to set it on the schedule
-    subscription_schedule.end_behavior = 'cancel'
+    subscription_schedule.end_behavior = StripeEndBehavior::CANCEL.serialize
     subscription_schedule.save
 
     update_sf_stripe_id(sf_order, subscription_schedule)
@@ -346,7 +346,7 @@ class StripeForce::Translate
 
     subscription_schedule = Stripe::SubscriptionSchedule.construct_from({
       # TODO this should be specified in the defaults hash... we should create a defaults hash https://jira.corp.stripe.com/browse/PLATINT-1501
-      end_behavior: 'cancel',
+      end_behavior: StripeEndBehavior::CANCEL.serialize,
       metadata: Metadata.stripe_metadata_for_sf_object(@user, sf_order),
     })
 
@@ -477,7 +477,7 @@ class StripeForce::Translate
     # this field indicates that we should not bill the customer for this period
     skip_initial_phase_proration = initial_order_starts_now_or_future || sf_order[SKIP_PAST_INITIAL_INVOICES] == true
     if skip_initial_phase_proration
-      initial_phase[:proration_behavior] = 'none'
+      initial_phase[:proration_behavior] = StripeProrationBehavior::NONE.serialize
     end
 
     if is_initial_order_backend_prorated
@@ -509,7 +509,7 @@ class StripeForce::Translate
       prorated_phase = {
         # TODO https://jira.corp.stripe.com/browse/PLATINT-1501
         # we do not want to bill the user for a entire billing cycle, so we turn off prorations
-        proration_behavior: 'none',
+        proration_behavior: StripeProrationBehavior::NONE.serialize,
 
         # in the prorated phase, the item list will be exactly the same as the initial phase
         items: subscription_items.map(&:stripe_params),
@@ -948,7 +948,7 @@ class StripeForce::Translate
           end
 
           # `none` is really important to ensure that the user is not billed by stripe for any prorated amounts
-          subscription_schedule.proration_behavior = 'none'
+          subscription_schedule.proration_behavior = StripeProrationBehavior::NONE.serialize
           subscription_schedule.phases = final_subscription_phases
 
           # note: to support stacked amendments, we want to update the local sub_schedule and sub_phases

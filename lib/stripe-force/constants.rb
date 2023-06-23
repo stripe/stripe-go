@@ -250,6 +250,21 @@ module StripeForce
       end
     end
 
+    class StripeProrationBehavior < T::Enum
+      enums do
+        CREATE_PRORATIONS = new('create_prorations')
+        NONE = new('none')
+        ALWAYS_INVOICE = new('always_invoice')
+      end
+    end
+
+    class StripeEndBehavior < T::Enum
+      enums do
+        RELEASE = new('release')
+        CANCEL = new('cancel')
+      end
+    end
+
     # time related constants
     SECONDS_IN_DAY = 86400
     DAYS_IN_YEAR = 365
