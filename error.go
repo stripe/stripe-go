@@ -34,6 +34,7 @@ const (
 	ErrorCodeAlipayUpgradeRequired                                       ErrorCode = "alipay_upgrade_required"
 	ErrorCodeAmountTooLarge                                              ErrorCode = "amount_too_large"
 	ErrorCodeAmountTooSmall                                              ErrorCode = "amount_too_small"
+	ErrorCodeApplicationFeesNotAllowed                                   ErrorCode = "application_fees_not_allowed"
 	ErrorCodeAuthenticationRequired                                      ErrorCode = "authentication_required"
 	ErrorCodeBalanceInsufficient                                         ErrorCode = "balance_insufficient"
 	ErrorCodeBankAccountBadRoutingNumbers                                ErrorCode = "bank_account_bad_routing_numbers"
