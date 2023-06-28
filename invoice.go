@@ -739,13 +739,6 @@ type InvoicePayParams struct {
 	Source *string `form:"source"`
 }
 
-// Stripe automatically finalizes drafts before sending and attempting payment on invoices. However, if you'd like to finalize a draft invoice manually, you can do so using this method.
-type InvoiceFinalizeInvoiceParams struct {
-	Params `form:"*"`
-	// Controls whether Stripe performs [automatic collection](https://stripe.com/docs/invoicing/integration/automatic-advancement-collection) of the invoice. If `false`, the invoice's state doesn't automatically advance without an explicit action.
-	AutoAdvance *bool `form:"auto_advance"`
-}
-
 // Settings for automatic tax lookup for this invoice preview.
 type InvoiceUpcomingLinesAutomaticTaxParams struct {
 	// Whether Stripe automatically computes tax on this invoice. Note that incompatible invoice items (invoice items with manually specified [tax rates](https://stripe.com/docs/api/tax_rates), negative amounts, or `tax_behavior=unspecified`) cannot be added to automatic tax invoices.
@@ -1082,6 +1075,13 @@ type InvoiceListParams struct {
 	Status *string `form:"status"`
 	// Only return invoices for the subscription specified by this subscription ID.
 	Subscription *string `form:"subscription"`
+}
+
+// Stripe automatically finalizes drafts before sending and attempting payment on invoices. However, if you'd like to finalize a draft invoice manually, you can do so using this method.
+type InvoiceFinalizeInvoiceParams struct {
+	Params `form:"*"`
+	// Controls whether Stripe performs [automatic collection](https://stripe.com/docs/invoicing/integration/automatic-advancement-collection) of the invoice. If `false`, the invoice's state doesn't automatically advance without an explicit action.
+	AutoAdvance *bool `form:"auto_advance"`
 }
 
 // Stripe will automatically send invoices to customers according to your [subscriptions settings](https://dashboard.stripe.com/account/billing/automatic). However, if you'd like to manually send an invoice to your customer out of the normal schedule, you can do so. When sending invoices that have already been paid, there will be no reference to the payment in the email.
