@@ -694,7 +694,7 @@ type InvoiceParams struct {
 	Discounts []*InvoiceDiscountParams `form:"discounts"`
 	// The date on which payment for this invoice is due. Valid only for invoices where `collection_method=send_invoice`.
 	DueDate *int64 `form:"due_date"`
-	// The date when this invoice is in effect. Same as `finalized_at` unless overwritten by the user. When defined, this value replaces the system-generated 'Date of issue' printed on the invoice PDF and receipt.
+	// The date when this invoice is in effect. Same as `finalized_at` unless overwritten. When defined, this value replaces the system-generated 'Date of issue' printed on the invoice PDF and receipt.
 	EffectiveAt *int64 `form:"effective_at"`
 	// Footer to be displayed on the invoice.
 	Footer *string `form:"footer"`
@@ -1434,7 +1434,7 @@ type Invoice struct {
 	Discounts []*Discount `json:"discounts"`
 	// The date on which payment for this invoice is due. This value will be `null` for invoices where `collection_method=charge_automatically`.
 	DueDate int64 `json:"due_date"`
-	// The date when this invoice is in effect. Same as `finalized_at` unless overwritten by the user. When defined, this value replaces the system-generated 'Date of issue' printed on the invoice PDF and receipt.
+	// The date when this invoice is in effect. Same as `finalized_at` unless overwritten. When defined, this value replaces the system-generated 'Date of issue' printed on the invoice PDF and receipt.
 	EffectiveAt int64 `json:"effective_at"`
 	// Ending customer balance after the invoice is finalized. Invoices are finalized approximately an hour after successful webhook delivery or when payment collection is attempted for the invoice. If the invoice has not been finalized yet, this will be null.
 	EndingBalance int64 `json:"ending_balance"`
