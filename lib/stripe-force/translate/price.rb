@@ -105,7 +105,7 @@ class StripeForce::Translate
   sig { params(sf_object: Restforce::SObject, sf_product: Restforce::SObject, stripe_product: Stripe::Product, sf_order_item: T.nilable(Restforce::SObject)).returns(T.nilable(Stripe::Price)) }
   def create_price_from_sf_object(sf_object, sf_product, stripe_product, sf_order_item=nil)
     if ![SF_ORDER_ITEM, SF_PRICEBOOK_ENTRY].include?(sf_object.sobject_type)
-      raise ArgumentError.new("price can only be created from an order line or pricebook entry")
+      raise StripeForce::Errors::RawUserError.new("Stripe price can only be created from an order item or pricebook entry.", salesforce_object: sf_object.sobject_type)
     end
 
     log.info 'creating price', salesforce_object: sf_object
@@ -190,7 +190,7 @@ class StripeForce::Translate
 
     # it does not look like this is programmatically enforced within CPQ, but should never happen
     if joining_records.count > 1
-      raise StripeForce::Errors::RawUserError.new("We found more than one consumption schedule linked to a pricebook. There should only be one.")
+      raise StripeForce::Errors::RawUserError.new("More than one consumption schedule is linked to a pricebook. There should only be one.", salesforce_object: sf_pricebook_entry['Product2Id'])
     end
 
     consumption_schedule = cache_service.get_record_from_cache(SF_CONSUMPTION_SCHEDULE, joining_records.first.ConsumptionScheduleId)

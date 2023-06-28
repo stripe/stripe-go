@@ -1124,7 +1124,7 @@ class StripeForce::Translate
     sf_order_items.select do |sf_order_item|
       # never expect this to occur
       if sf_order_item.IsDeleted || !sf_order_item.SBQQ__Activated__c
-        raise StripeForce::Errors::RawUserError.new("Order line is deleted or not activated", sf_order_item)
+        raise StripeForce::Errors::RawUserError.new("Order line is deleted or not activated", salesforce_object: sf_order_item)
       end
 
       should_keep = sf_order_item[prefixed_stripe_field(ORDER_LINE_SKIP)].nil? ||

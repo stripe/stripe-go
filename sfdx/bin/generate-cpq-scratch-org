@@ -42,8 +42,8 @@ echo "Using alias '$salesforceAlias'..."
 echo "Creating scratch org..."
 sfdx force:org:create --loglevel=TRACE -f config/project-scratch-def.json -a $salesforceAlias -d 30 -w 15
 
-# install CPQ package, pull package ID from: https://steelbrick2.force.com/InstallPremium
-sfdx force:package:install -r --package 04t4N000000xBcTQAU -w 30 -u $salesforceAlias
+# install CPQ package, pull package ID from: https://steelbrick2.force.com/InstallPremium (Spring 23 v242.2)
+sfdx force:package:install -r --package 04t4N000000N6FFQA0 -w 30 -u $salesforceAlias
 
 sfdx force:user:password:generate -u $salesforceAlias
 sfdx force:user:display -u $salesforceAlias

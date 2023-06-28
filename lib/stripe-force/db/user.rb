@@ -91,9 +91,9 @@ module StripeForce
 
         # https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/dome_versions.htm
         # `http https://biancodevorg-dev-ed.my.salesforce.com/services/data`
-        api_version: '52.0',
-
+        api_version: '58.0',
         log: true,
+
         log_level: :debug,
       }.merge(optional_client_params))
 
