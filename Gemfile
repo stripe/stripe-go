@@ -18,7 +18,7 @@ gem 'reline', '~> 0.3.1'
 
 gem 'dotenv-rails', '2.8.1', groups: [:development, :test]
 gem 'foreman', groups: [:development, :test]
-gem 'rails', '~> 6.1.7.2'
+gem 'rails', '~> 6.1.7.4'
 gem 'lograge', '~> 0.12'
 
 group :production do

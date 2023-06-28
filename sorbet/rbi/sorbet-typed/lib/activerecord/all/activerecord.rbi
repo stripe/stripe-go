@@ -690,10 +690,10 @@ end
 module ActiveRecord::Persistence
   mixes_in_class_methods(ActiveRecord::Persistence::ClassMethods)
 
-  sig { params(klass: Class).returns(T.untyped) }
+  sig { params(klass: T::Class[T.anything]).returns(T.untyped) }
   def becomes!(klass); end
 
-  sig { params(klass: Class).returns(T.untyped) }
+  sig { params(klass: T::Class[T.anything]).returns(T.untyped) }
   def becomes(klass); end
 
   sig do
