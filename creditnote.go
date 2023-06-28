@@ -128,6 +128,8 @@ type CreditNoteParams struct {
 	Amount *int64 `form:"amount"`
 	// The integer amount in cents (or local equivalent) representing the amount to credit the customer's balance, which will be automatically applied to their next invoice.
 	CreditAmount *int64 `form:"credit_amount"`
+	// The date when this credit note is in effect. Same as `created` unless overwritten by the user. When defined, this value replaces the system-generated 'Date of issue' printed on the credit note PDF.
+	EffectiveAt *int64 `form:"effective_at"`
 	// ID of the invoice.
 	Invoice *string `form:"invoice"`
 	// Line items that make up the credit note.
@@ -188,6 +190,8 @@ type CreditNotePreviewParams struct {
 	Amount *int64 `form:"amount"`
 	// The integer amount in cents (or local equivalent) representing the amount to credit the customer's balance, which will be automatically applied to their next invoice.
 	CreditAmount *int64 `form:"credit_amount"`
+	// The date when this credit note is in effect. Same as `created` unless overwritten by the user. When defined, this value replaces the system-generated 'Date of issue' printed on the credit note PDF.
+	EffectiveAt *int64 `form:"effective_at"`
 	// ID of the invoice.
 	Invoice *string `form:"invoice"`
 	// Line items that make up the credit note.
@@ -244,6 +248,8 @@ type CreditNotePreviewLinesParams struct {
 	Amount *int64 `form:"amount"`
 	// The integer amount in cents (or local equivalent) representing the amount to credit the customer's balance, which will be automatically applied to their next invoice.
 	CreditAmount *int64 `form:"credit_amount"`
+	// The date when this credit note is in effect. Same as `created` unless overwritten by the user. When defined, this value replaces the system-generated 'Date of issue' printed on the credit note PDF.
+	EffectiveAt *int64 `form:"effective_at"`
 	// ID of the invoice.
 	Invoice *string `form:"invoice"`
 	// Line items that make up the credit note.
@@ -339,6 +345,8 @@ type CreditNote struct {
 	DiscountAmount int64 `json:"discount_amount"`
 	// The aggregate amounts calculated per discount for all line items.
 	DiscountAmounts []*CreditNoteDiscountAmount `json:"discount_amounts"`
+	// The date when this credit note is in effect. Same as `created` unless overwritten by the user. When defined, this value replaces the system-generated 'Date of issue' printed on the credit note PDF.
+	EffectiveAt int64 `json:"effective_at"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// ID of the invoice.
