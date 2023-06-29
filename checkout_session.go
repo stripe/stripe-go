@@ -100,15 +100,18 @@ const (
 	CheckoutSessionCustomerDetailsTaxExemptReverse CheckoutSessionCustomerDetailsTaxExempt = "reverse"
 )
 
-// The type of the tax ID, one of `eu_vat`, `br_cnpj`, `br_cpf`, `eu_oss_vat`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, or `unknown`
+// The type of the tax ID, one of `ad_nrt`, `ar_cuit`, `eu_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eu_oss_vat`, `pe_ruc`, `rs_pib`, `sv_nit`, `uy_ruc`, `ve_rif`, `vn_tin`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, or `unknown`
 type CheckoutSessionCustomerDetailsTaxIDType string
 
 // List of values that CheckoutSessionCustomerDetailsTaxIDType can take
 const (
+	CheckoutSessionCustomerDetailsTaxIDTypeADNRT    CheckoutSessionCustomerDetailsTaxIDType = "ad_nrt"
 	CheckoutSessionCustomerDetailsTaxIDTypeAETRN    CheckoutSessionCustomerDetailsTaxIDType = "ae_trn"
+	CheckoutSessionCustomerDetailsTaxIDTypeARCUIT   CheckoutSessionCustomerDetailsTaxIDType = "ar_cuit"
 	CheckoutSessionCustomerDetailsTaxIDTypeAUABN    CheckoutSessionCustomerDetailsTaxIDType = "au_abn"
 	CheckoutSessionCustomerDetailsTaxIDTypeAUARN    CheckoutSessionCustomerDetailsTaxIDType = "au_arn"
 	CheckoutSessionCustomerDetailsTaxIDTypeBGUIC    CheckoutSessionCustomerDetailsTaxIDType = "bg_uic"
+	CheckoutSessionCustomerDetailsTaxIDTypeBOTIN    CheckoutSessionCustomerDetailsTaxIDType = "bo_tin"
 	CheckoutSessionCustomerDetailsTaxIDTypeBRCNPJ   CheckoutSessionCustomerDetailsTaxIDType = "br_cnpj"
 	CheckoutSessionCustomerDetailsTaxIDTypeBRCPF    CheckoutSessionCustomerDetailsTaxIDType = "br_cpf"
 	CheckoutSessionCustomerDetailsTaxIDTypeCABN     CheckoutSessionCustomerDetailsTaxIDType = "ca_bn"
@@ -119,6 +122,11 @@ const (
 	CheckoutSessionCustomerDetailsTaxIDTypeCAQST    CheckoutSessionCustomerDetailsTaxIDType = "ca_qst"
 	CheckoutSessionCustomerDetailsTaxIDTypeCHVAT    CheckoutSessionCustomerDetailsTaxIDType = "ch_vat"
 	CheckoutSessionCustomerDetailsTaxIDTypeCLTIN    CheckoutSessionCustomerDetailsTaxIDType = "cl_tin"
+	CheckoutSessionCustomerDetailsTaxIDTypeCNTIN    CheckoutSessionCustomerDetailsTaxIDType = "cn_tin"
+	CheckoutSessionCustomerDetailsTaxIDTypeCONIT    CheckoutSessionCustomerDetailsTaxIDType = "co_nit"
+	CheckoutSessionCustomerDetailsTaxIDTypeCRTIN    CheckoutSessionCustomerDetailsTaxIDType = "cr_tin"
+	CheckoutSessionCustomerDetailsTaxIDTypeDORCN    CheckoutSessionCustomerDetailsTaxIDType = "do_rcn"
+	CheckoutSessionCustomerDetailsTaxIDTypeECRUC    CheckoutSessionCustomerDetailsTaxIDType = "ec_ruc"
 	CheckoutSessionCustomerDetailsTaxIDTypeEGTIN    CheckoutSessionCustomerDetailsTaxIDType = "eg_tin"
 	CheckoutSessionCustomerDetailsTaxIDTypeESCIF    CheckoutSessionCustomerDetailsTaxIDType = "es_cif"
 	CheckoutSessionCustomerDetailsTaxIDTypeEUOSSVAT CheckoutSessionCustomerDetailsTaxIDType = "eu_oss_vat"
@@ -143,19 +151,25 @@ const (
 	CheckoutSessionCustomerDetailsTaxIDTypeMYSST    CheckoutSessionCustomerDetailsTaxIDType = "my_sst"
 	CheckoutSessionCustomerDetailsTaxIDTypeNOVAT    CheckoutSessionCustomerDetailsTaxIDType = "no_vat"
 	CheckoutSessionCustomerDetailsTaxIDTypeNZGST    CheckoutSessionCustomerDetailsTaxIDType = "nz_gst"
+	CheckoutSessionCustomerDetailsTaxIDTypePERUC    CheckoutSessionCustomerDetailsTaxIDType = "pe_ruc"
 	CheckoutSessionCustomerDetailsTaxIDTypePHTIN    CheckoutSessionCustomerDetailsTaxIDType = "ph_tin"
+	CheckoutSessionCustomerDetailsTaxIDTypeRSPIB    CheckoutSessionCustomerDetailsTaxIDType = "rs_pib"
 	CheckoutSessionCustomerDetailsTaxIDTypeRUINN    CheckoutSessionCustomerDetailsTaxIDType = "ru_inn"
 	CheckoutSessionCustomerDetailsTaxIDTypeRUKPP    CheckoutSessionCustomerDetailsTaxIDType = "ru_kpp"
 	CheckoutSessionCustomerDetailsTaxIDTypeSAVAT    CheckoutSessionCustomerDetailsTaxIDType = "sa_vat"
 	CheckoutSessionCustomerDetailsTaxIDTypeSGGST    CheckoutSessionCustomerDetailsTaxIDType = "sg_gst"
 	CheckoutSessionCustomerDetailsTaxIDTypeSGUEN    CheckoutSessionCustomerDetailsTaxIDType = "sg_uen"
 	CheckoutSessionCustomerDetailsTaxIDTypeSITIN    CheckoutSessionCustomerDetailsTaxIDType = "si_tin"
+	CheckoutSessionCustomerDetailsTaxIDTypeSVNIT    CheckoutSessionCustomerDetailsTaxIDType = "sv_nit"
 	CheckoutSessionCustomerDetailsTaxIDTypeTHVAT    CheckoutSessionCustomerDetailsTaxIDType = "th_vat"
 	CheckoutSessionCustomerDetailsTaxIDTypeTRTIN    CheckoutSessionCustomerDetailsTaxIDType = "tr_tin"
 	CheckoutSessionCustomerDetailsTaxIDTypeTWVAT    CheckoutSessionCustomerDetailsTaxIDType = "tw_vat"
 	CheckoutSessionCustomerDetailsTaxIDTypeUAVAT    CheckoutSessionCustomerDetailsTaxIDType = "ua_vat"
 	CheckoutSessionCustomerDetailsTaxIDTypeUnknown  CheckoutSessionCustomerDetailsTaxIDType = "unknown"
 	CheckoutSessionCustomerDetailsTaxIDTypeUSEIN    CheckoutSessionCustomerDetailsTaxIDType = "us_ein"
+	CheckoutSessionCustomerDetailsTaxIDTypeUYRUC    CheckoutSessionCustomerDetailsTaxIDType = "uy_ruc"
+	CheckoutSessionCustomerDetailsTaxIDTypeVERIF    CheckoutSessionCustomerDetailsTaxIDType = "ve_rif"
+	CheckoutSessionCustomerDetailsTaxIDTypeVNTIN    CheckoutSessionCustomerDetailsTaxIDType = "vn_tin"
 	CheckoutSessionCustomerDetailsTaxIDTypeZAVAT    CheckoutSessionCustomerDetailsTaxIDType = "za_vat"
 )
 
@@ -1849,7 +1863,7 @@ type CheckoutSessionCustomText struct {
 
 // The customer's tax IDs after a completed Checkout Session.
 type CheckoutSessionCustomerDetailsTaxID struct {
-	// The type of the tax ID, one of `eu_vat`, `br_cnpj`, `br_cpf`, `eu_oss_vat`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, or `unknown`
+	// The type of the tax ID, one of `ad_nrt`, `ar_cuit`, `eu_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eu_oss_vat`, `pe_ruc`, `rs_pib`, `sv_nit`, `uy_ruc`, `ve_rif`, `vn_tin`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, or `unknown`
 	Type CheckoutSessionCustomerDetailsTaxIDType `json:"type"`
 	// The value of the tax ID.
 	Value string `json:"value"`
