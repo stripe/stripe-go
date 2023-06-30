@@ -619,7 +619,7 @@ class StripeForce::Translate
 
     if amendment_start_time == current_time
       # order is to be canceled right now
-      log.info "Canceling Stripe subscription", stripe_object: subscription, salesforce_object: first_amendment
+      log.info "Canceling Stripe subscription", stripe_object: subscription.id, salesforce_object: first_amendment
 
       subscription = subscription.cancel(
         {
@@ -630,7 +630,7 @@ class StripeForce::Translate
       )
     else
       # order is to be canceled in the future
-      log.info "Updating Stripe subscription", stripe_object: subscription, salesforce_object: first_amendment
+      log.info "Updating Stripe subscription", stripe_object: subscription.id, salesforce_object: first_amendment
 
       subscription = Stripe::Subscription.update(
         subscription.id,
@@ -642,8 +642,13 @@ class StripeForce::Translate
       )
     end
 
-    # Add check and test if there are multiple amendments
-    # TODO: https://jira.corp.stripe.com/browse/PLATINT-2644
+    # connector will not process amendments starting from the 2nd one
+    if amendments.count > 1
+      throw_user_failure!(
+        salesforce_object: sf_order,
+        message: "The first cancelation amendment to an evergreen order has been processed and the Stripe subscription canceled. Multiple amendments are not supported."
+      )
+    end
 
     subscription
   end

@@ -163,5 +163,69 @@ class Critic::EvergreenOrderTest < Critic::OrderAmendmentFunctionalTest
     it 'salesforce raises error when attempt to add product to evergreen order' do
       # TODO: https://jira.corp.stripe.com/browse/PLATINT-2643
     end
+
+    it 'processes the first amendment and throws user error beyond that' do
+      # creates evergreen order and cancels immediately
+
+      sf_order = create_evergreen_salesforce_order(
+        # need to set these fields explicitly to use translate
+        additional_quote_fields: {
+          CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(now_time),
+          CPQ_QUOTE_SUBSCRIPTION_TERM => SF_ORDER_DEFAULT_EVERGREEN_SUBSCRIPTION_TERM,
+        }
+      )
+
+      sf_contract = create_contract_from_order(sf_order)
+      # api precondition: initial orders have a nil contract ID
+      sf_order.refresh
+      assert_nil(sf_order.ContractId)
+
+      # the contract should reference the initial order that was created
+      assert_equal(sf_order[SF_ID], sf_contract[SF_CONTRACT_ORDER_ID])
+
+      amendment_quote = create_quote_data_from_contract_amendment(sf_contract)
+
+      # wipe out the product
+      amendment_quote["lineItems"].first["record"][CPQ_QUOTE_QUANTITY] = 0
+      amendment_quote["record"][CPQ_QUOTE_SUBSCRIPTION_START_DATE] = now_time_formatted_for_salesforce
+      amendment_quote["record"][CPQ_QUOTE_SUBSCRIPTION_TERM] = SF_ORDER_DEFAULT_EVERGREEN_SUBSCRIPTION_TERM
+
+      sf_order_amendment = create_order_from_quote_data(amendment_quote)
+      assert_equal(sf_order_amendment.Type, OrderTypeOptions::AMENDMENT.serialize)
+
+      amendment_quote_1 = create_quote_data_from_contract_amendment(sf_contract)
+
+      # wipe out the product
+      amendment_quote_1["lineItems"].first["record"][CPQ_QUOTE_QUANTITY] = 0
+      amendment_quote_1["record"][CPQ_QUOTE_SUBSCRIPTION_START_DATE] = format_date_for_salesforce(now_time + 20.day)
+      amendment_quote_1["record"][CPQ_QUOTE_SUBSCRIPTION_TERM] = SF_ORDER_DEFAULT_EVERGREEN_SUBSCRIPTION_TERM
+
+      sf_order_amendment_1 = create_order_from_quote_data(amendment_quote_1)
+      assert_equal(sf_order_amendment_1.Type, OrderTypeOptions::AMENDMENT.serialize)
+
+      amendment_quote_2 = create_quote_data_from_contract_amendment(sf_contract)
+
+      # wipe out the product
+      amendment_quote_2["lineItems"].first["record"][CPQ_QUOTE_QUANTITY] = 0
+      amendment_quote_2["record"][CPQ_QUOTE_SUBSCRIPTION_START_DATE] = format_date_for_salesforce(now_time + 10.day)
+      amendment_quote_2["record"][CPQ_QUOTE_SUBSCRIPTION_TERM] = SF_ORDER_DEFAULT_EVERGREEN_SUBSCRIPTION_TERM
+
+      sf_order_amendment_2 = create_order_from_quote_data(amendment_quote_2)
+      assert_equal(sf_order_amendment_2.Type, OrderTypeOptions::AMENDMENT.serialize)
+
+      exception = assert_raises(Integrations::Errors::UserError) do
+        StripeForce::Translate.perform_inline(@user, sf_order_amendment_2.Id)
+      end
+
+      assert_match("The first cancelation amendment to an evergreen order has been processed and the Stripe subscription canceled. Multiple amendments are not supported.", exception.message)
+
+      sf_order.refresh
+      stripe_id = sf_order[prefixed_stripe_field(GENERIC_STRIPE_ID)]
+
+      canceled_subscription = Stripe::Subscription.retrieve(stripe_id, @user.stripe_credentials)
+
+      assert_equal("canceled", canceled_subscription.status)
+      assert_equal(sf_order.Id, canceled_subscription.metadata['salesforce_order_id'])
+    end
   end
 end
