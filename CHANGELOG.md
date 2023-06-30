@@ -1,5 +1,10 @@
 # Changelog
 
+## 74.25.0-beta.1 - 2023-06-29
+* [#1683](https://github.com/stripe/stripe-go/pull/1683) Update generated code for beta
+  * Add support for `Metadata` on `InvoiceSubscriptionDetails`
+  * Add support for new values `ad_nrt`, `ar_cuit`, `bo_tin`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `pe_ruc`, `rs_pib`, `sv_nit`, `uy_ruc`, `ve_rif`, and `vn_tin` on enum `OrderTaxDetailsTaxIdsType`
+
 ## 74.24.0-beta.1 - 2023-06-22
 * [#1677](https://github.com/stripe/stripe-go/pull/1677) Update generated code for beta
   * Add support for new resource `CustomerSession`
