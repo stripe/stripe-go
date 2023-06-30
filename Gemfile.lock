@@ -74,7 +74,7 @@ GEM
     ast (2.4.2)
     aws-eventstream (1.2.0)
     aws-partitions (1.782.0)
-    aws-sdk-core (3.175.0)
+    aws-sdk-core (3.176.0)
       aws-eventstream (~> 1, >= 1.0.2)
       aws-partitions (~> 1, >= 1.651.0)
       aws-sigv4 (~> 1.5)
@@ -82,7 +82,7 @@ GEM
     aws-sdk-kms (1.42.0)
       aws-sdk-core (~> 3, >= 3.112.0)
       aws-sigv4 (~> 1.1)
-    aws-sigv4 (1.5.2)
+    aws-sigv4 (1.6.0)
       aws-eventstream (~> 1, >= 1.0.2)
     better_errors (2.9.1)
       coderay (>= 1.0.0)
@@ -387,8 +387,8 @@ GEM
       rack-protection (= 2.2.4)
       tilt (~> 2.0)
     slop (3.6.0)
-    sorbet (0.5.10888)
-      sorbet-static (= 0.5.10888)
+    sorbet (0.5.10891)
+      sorbet-static (= 0.5.10891)
     sorbet-coerce (0.7.0)
       polyfill (~> 1.8)
       safe_type (~> 1.1, >= 1.1.1)
@@ -399,9 +399,10 @@ GEM
       parser (>= 2.7)
       sorbet-coerce (>= 0.2.6)
       sorbet-runtime (>= 0.5.9892)
-    sorbet-runtime (0.5.10888)
-    sorbet-static (0.5.10888-universal-darwin-21)
-    sorbet-static (0.5.10888-x86_64-linux)
+    sorbet-runtime (0.5.10891)
+    sorbet-static (0.5.10891-universal-darwin-21)
+    sorbet-static (0.5.10891-universal-darwin-22)
+    sorbet-static (0.5.10891-x86_64-linux)
     spring (4.1.1)
     sprockets (4.2.0)
       concurrent-ruby (~> 1.0)
@@ -434,6 +435,7 @@ GEM
 
 PLATFORMS
   arm64-darwin-21
+  arm64-darwin-22
   x86_64-linux
 
 DEPENDENCIES

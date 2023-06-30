@@ -3,7 +3,7 @@
 
 require_relative '../test_helper'
 
-class Critic::EvergreenOrderTest < Critic::FunctionalTest
+class Critic::EvergreenOrders < Critic::FunctionalTest
   before do
     @user = make_user(save: true)
     @user.enable_feature FeatureFlags::TEST_CLOCKS, update: true

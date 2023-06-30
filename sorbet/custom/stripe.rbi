@@ -268,6 +268,9 @@ class Stripe::Subscription
   sig { returns(T::Boolean)}
   def cancel_at_period_end; end
 
+  sig { returns(T.nilable(Integer)) }
+  def cancel_at; end
+
   sig { returns(T.any(Stripe::Customer, String))}
   def customer; end
 
@@ -279,6 +282,9 @@ class Stripe::Subscription
 
   sig { returns(Integer) }
   def current_period_end; end
+
+  sig { returns(T::Hash[T.any(String, Symbol), T.untyped]) }
+  def metadata; end
 
   sig { returns(Stripe::Subscription).params(id: T.any(String, T::Hash[Symbol, T.untyped]), opts: T.nilable(T::Hash[Symbol, T.untyped])) }
   def self.retrieve(id, opts={}); end

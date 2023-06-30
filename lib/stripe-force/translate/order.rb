@@ -39,8 +39,19 @@ class StripeForce::Translate
       return
     end
 
-    # after that is created, then process all amendments
-    update_subscription_phases_from_order_amendments(contract_structure)
+    # after that is created, then process amendments
+    return if contract_structure.amendments.empty?
+
+    sf_order = contract_structure.initial
+    # refresh to include subscription reference on the Stripe ID field in SF if the order was just translated
+    sf_order.refresh
+
+    # process amendments based on whether order is evergreen (stripe sub) or not (stripe subsched)
+    if is_salesforce_order_evergreen(sf_order)
+      update_subscription_from_order_amendments(contract_structure)
+    else
+      update_subscription_phases_from_order_amendments(contract_structure)
+    end
   end
 
   sig { params(contract_structure: ContractStructure).returns(T::Boolean) }
@@ -250,7 +261,8 @@ class StripeForce::Translate
     )
   end
 
-  def is_salesforce_order_evergreen(sf_order, sf_order_items)
+  def is_salesforce_order_evergreen(sf_order)
+    sf_order_items = order_lines_from_order(sf_order)
     whether_order_items_evergreen = sf_order_items.map {|order_item| order_item[CPQ_PRODUCT_SUBSCRIPTION_TYPE] == CPQProductSubscriptionTypeOptions::EVERGREEN.serialize }
 
     if whether_order_items_evergreen.include? true
@@ -334,7 +346,7 @@ class StripeForce::Translate
       return create_stripe_invoice_from_order(stripe_customer, invoice_items, sf_order)
     end
 
-    order_is_evergreen = is_salesforce_order_evergreen(sf_order, sf_order_items)
+    order_is_evergreen = is_salesforce_order_evergreen(sf_order)
 
     if order_is_evergreen
       log.info 'recurring items found and order is evergreen, creating subscription'
@@ -557,14 +569,89 @@ class StripeForce::Translate
     [invoice_items_in_order, aggregate_phase_items]
   end
 
+  sig { params(contract_structure: ContractStructure).returns(T.nilable(Stripe::Subscription)) }
+  def update_subscription_from_order_amendments(contract_structure)
+    log.info "Processing Evergreen Salesforce order amendments"
+
+    sf_order = contract_structure.initial
+
+    subscription = retrieve_from_stripe(
+      Stripe::Subscription,
+      sf_order
+    )
+
+    if !subscription
+      raise Integrations::Errors::ImpossibleState.new("could not find corresponding Stripe subscription for initial evergreen Salesforce order")
+    end
+
+    subscription = T.cast(subscription, Stripe::Subscription)
+
+    if subscription.status == "canceled"
+      raise StripeForce::Errors::RawUserError.new("Stripe subscription for evergreen order has already been cancelled and cannot be modified", stripe_resource: subscription)
+    end
+
+    amendments = contract_structure.amendments
+
+    # only look at first amendment to check if is cancelation
+    first_amendment = T.must(amendments.first)
+
+    sf_initial_order_items = order_lines_from_order(sf_order)
+    _, initial_order_items = phase_items_from_order_lines(sf_initial_order_items)
+
+    _, recurring_items = build_phase_items_from_order_amendment(
+      initial_order_items,
+      first_amendment
+    )
+
+    is_order_terminated = recurring_items.all?(&:fully_terminated?)
+    if is_order_terminated
+      log.info 'amendment is termination order', amendment_id: first_amendment.Id
+    else
+      raise StripeForce::Errors::RawUserError.new("Non-cancelation amendment to evergreen order is not supported.")
+    end
+
+    # the first amendment must be for cancelation if code gets to this point
+    stripe_customer_id = T.cast(subscription.customer, String)
+
+    # check termination date using start date of amendment
+    amendment_start_time = StripeForce::Utilities::SalesforceUtil.extract_subscription_start_date_from_order(mapper, T.must(amendments.first)).strftime("%Y-%m-%d")
+    current_time = Time.at(OrderAmendment.determine_current_time(@user, stripe_customer_id)).utc.strftime("%Y-%m-%d")
+
+    if amendment_start_time == current_time
+      # order is to be canceled right now
+      log.info "Canceling Stripe subscription", stripe_object: subscription, salesforce_object: first_amendment
+
+      subscription = subscription.cancel(
+        {
+          invoice_now: false,
+          prorate: false,
+        },
+        @user.stripe_credentials
+      )
+    else
+      # order is to be canceled in the future
+      log.info "Updating Stripe subscription", stripe_object: subscription, salesforce_object: first_amendment
+
+      subscription = Stripe::Subscription.update(
+        subscription.id,
+        {
+          cancel_at: Time.parse(amendment_start_time).to_i,
+          proration_behavior: StripeProrationBehavior::NONE.serialize,
+        },
+        @user.stripe_credentials,
+      )
+    end
+
+    # Add check and test if there are multiple amendments
+    # TODO: https://jira.corp.stripe.com/browse/PLATINT-2644
+
+    subscription
+  end
+
   sig { params(contract_structure: ContractStructure).returns(T.nilable(Stripe::SubscriptionSchedule)) }
   def update_subscription_phases_from_order_amendments(contract_structure)
-    return if contract_structure.amendments.empty?
+    log.info "Processing Salesforce order amendment"
 
-    # refresh to include subscription reference on the Stripe ID field in SF if the order was just translated
-    contract_structure.initial.refresh
-
-    # TODO use application sync record
     subscription_schedule = retrieve_from_stripe(
       Stripe::SubscriptionSchedule,
       contract_structure.initial
@@ -577,7 +664,7 @@ class StripeForce::Translate
     subscription_schedule = T.cast(subscription_schedule, Stripe::SubscriptionSchedule)
 
     if subscription_schedule.status == "canceled"
-      raise StripeForce::Errors::RawUserError.new('Subscription is cancelled, it cannot be modified.', stripe_resource: subscription_schedule)
+      raise StripeForce::Errors::RawUserError.new("Stripe subscription schedule has already been cancelled and cannot be modified", stripe_resource: subscription_schedule)
     end
 
     # at this point, the initial order would have already been translated
@@ -663,7 +750,6 @@ class StripeForce::Translate
         previous_phase_items = aggregate_phase_items
         next
       end
-
 
       is_order_terminated = aggregate_phase_items.all?(&:fully_terminated?)
       if is_order_terminated
@@ -843,8 +929,7 @@ class StripeForce::Translate
         # single job run will use the same aggregate phase items
         items: Integrations::Utilities::StripeUtil.deep_copy(aggregate_phase_items).map(&:stripe_params),
 
-        # TODO move to global defaults https://jira.corp.stripe.com/browse/PLATINT-1501
-        proration_behavior: 'none',
+        proration_behavior: StripeProrationBehavior::NONE.serialize,
 
         metadata: Metadata.stripe_metadata_for_sf_object(@user, sf_order_amendment),
       }.merge(phase_params))
