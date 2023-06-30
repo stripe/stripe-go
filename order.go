@@ -467,15 +467,18 @@ const (
 	OrderTaxDetailsTaxExemptReverse OrderTaxDetailsTaxExempt = "reverse"
 )
 
-// The type of the tax ID, one of `eu_vat`, `br_cnpj`, `br_cpf`, `eu_oss_vat`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, or `unknown`
+// The type of the tax ID, one of `ad_nrt`, `ar_cuit`, `eu_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eu_oss_vat`, `pe_ruc`, `rs_pib`, `sv_nit`, `uy_ruc`, `ve_rif`, `vn_tin`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, or `unknown`
 type OrderTaxDetailsTaxIDType string
 
 // List of values that OrderTaxDetailsTaxIDType can take
 const (
+	OrderTaxDetailsTaxIDTypeAdNrt    OrderTaxDetailsTaxIDType = "ad_nrt"
 	OrderTaxDetailsTaxIDTypeAETRN    OrderTaxDetailsTaxIDType = "ae_trn"
+	OrderTaxDetailsTaxIDTypeARCuit   OrderTaxDetailsTaxIDType = "ar_cuit"
 	OrderTaxDetailsTaxIDTypeAUABN    OrderTaxDetailsTaxIDType = "au_abn"
 	OrderTaxDetailsTaxIDTypeAUARN    OrderTaxDetailsTaxIDType = "au_arn"
 	OrderTaxDetailsTaxIDTypeBGUIC    OrderTaxDetailsTaxIDType = "bg_uic"
+	OrderTaxDetailsTaxIDTypeBoTin    OrderTaxDetailsTaxIDType = "bo_tin"
 	OrderTaxDetailsTaxIDTypeBRCNPJ   OrderTaxDetailsTaxIDType = "br_cnpj"
 	OrderTaxDetailsTaxIDTypeBRCPF    OrderTaxDetailsTaxIDType = "br_cpf"
 	OrderTaxDetailsTaxIDTypeCABN     OrderTaxDetailsTaxIDType = "ca_bn"
@@ -486,6 +489,11 @@ const (
 	OrderTaxDetailsTaxIDTypeCAQST    OrderTaxDetailsTaxIDType = "ca_qst"
 	OrderTaxDetailsTaxIDTypeCHVAT    OrderTaxDetailsTaxIDType = "ch_vat"
 	OrderTaxDetailsTaxIDTypeCLTIN    OrderTaxDetailsTaxIDType = "cl_tin"
+	OrderTaxDetailsTaxIDTypeCnTin    OrderTaxDetailsTaxIDType = "cn_tin"
+	OrderTaxDetailsTaxIDTypeCoNit    OrderTaxDetailsTaxIDType = "co_nit"
+	OrderTaxDetailsTaxIDTypeCrTin    OrderTaxDetailsTaxIDType = "cr_tin"
+	OrderTaxDetailsTaxIDTypeDoRcn    OrderTaxDetailsTaxIDType = "do_rcn"
+	OrderTaxDetailsTaxIDTypeEcRuc    OrderTaxDetailsTaxIDType = "ec_ruc"
 	OrderTaxDetailsTaxIDTypeEGTIN    OrderTaxDetailsTaxIDType = "eg_tin"
 	OrderTaxDetailsTaxIDTypeESCIF    OrderTaxDetailsTaxIDType = "es_cif"
 	OrderTaxDetailsTaxIDTypeEUOSSVAT OrderTaxDetailsTaxIDType = "eu_oss_vat"
@@ -510,19 +518,25 @@ const (
 	OrderTaxDetailsTaxIDTypeMYSST    OrderTaxDetailsTaxIDType = "my_sst"
 	OrderTaxDetailsTaxIDTypeNOVAT    OrderTaxDetailsTaxIDType = "no_vat"
 	OrderTaxDetailsTaxIDTypeNZGST    OrderTaxDetailsTaxIDType = "nz_gst"
+	OrderTaxDetailsTaxIDTypePeRuc    OrderTaxDetailsTaxIDType = "pe_ruc"
 	OrderTaxDetailsTaxIDTypePHTIN    OrderTaxDetailsTaxIDType = "ph_tin"
+	OrderTaxDetailsTaxIDTypeRsPib    OrderTaxDetailsTaxIDType = "rs_pib"
 	OrderTaxDetailsTaxIDTypeRUINN    OrderTaxDetailsTaxIDType = "ru_inn"
 	OrderTaxDetailsTaxIDTypeRUKPP    OrderTaxDetailsTaxIDType = "ru_kpp"
 	OrderTaxDetailsTaxIDTypeSAVAT    OrderTaxDetailsTaxIDType = "sa_vat"
 	OrderTaxDetailsTaxIDTypeSGGST    OrderTaxDetailsTaxIDType = "sg_gst"
 	OrderTaxDetailsTaxIDTypeSGUEN    OrderTaxDetailsTaxIDType = "sg_uen"
 	OrderTaxDetailsTaxIDTypeSITIN    OrderTaxDetailsTaxIDType = "si_tin"
+	OrderTaxDetailsTaxIDTypeSVNit    OrderTaxDetailsTaxIDType = "sv_nit"
 	OrderTaxDetailsTaxIDTypeTHVAT    OrderTaxDetailsTaxIDType = "th_vat"
 	OrderTaxDetailsTaxIDTypeTRTIN    OrderTaxDetailsTaxIDType = "tr_tin"
 	OrderTaxDetailsTaxIDTypeTWVAT    OrderTaxDetailsTaxIDType = "tw_vat"
 	OrderTaxDetailsTaxIDTypeUAVAT    OrderTaxDetailsTaxIDType = "ua_vat"
 	OrderTaxDetailsTaxIDTypeUnknown  OrderTaxDetailsTaxIDType = "unknown"
 	OrderTaxDetailsTaxIDTypeUSEIN    OrderTaxDetailsTaxIDType = "us_ein"
+	OrderTaxDetailsTaxIDTypeUyRuc    OrderTaxDetailsTaxIDType = "uy_ruc"
+	OrderTaxDetailsTaxIDTypeVeRif    OrderTaxDetailsTaxIDType = "ve_rif"
+	OrderTaxDetailsTaxIDTypeVnTin    OrderTaxDetailsTaxIDType = "vn_tin"
 	OrderTaxDetailsTaxIDTypeZAVAT    OrderTaxDetailsTaxIDType = "za_vat"
 )
 
@@ -1109,7 +1123,7 @@ type OrderShippingDetailsParams struct {
 
 // The purchaser's tax IDs to be used for this order.
 type OrderTaxDetailsTaxIDParams struct {
-	// Type of the tax ID, one of `ae_trn`, `au_abn`, `au_arn`, `bg_uic`, `br_cnpj`, `br_cpf`, `ca_bn`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `ca_qst`, `ch_vat`, `cl_tin`, `eg_tin`, `es_cif`, `eu_oss_vat`, `eu_vat`, `gb_vat`, `ge_vat`, `hk_br`, `hu_tin`, `id_npwp`, `il_vat`, `in_gst`, `is_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `ke_pin`, `kr_brn`, `li_uid`, `mx_rfc`, `my_frp`, `my_itn`, `my_sst`, `no_vat`, `nz_gst`, `ph_tin`, `ru_inn`, `ru_kpp`, `sa_vat`, `sg_gst`, `sg_uen`, `si_tin`, `th_vat`, `tr_tin`, `tw_vat`, `ua_vat`, `us_ein`, or `za_vat`
+	// Type of the tax ID, one of `ad_nrt`, `ae_trn`, `ar_cuit`, `au_abn`, `au_arn`, `bg_uic`, `bo_tin`, `br_cnpj`, `br_cpf`, `ca_bn`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `ca_qst`, `ch_vat`, `cl_tin`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eg_tin`, `es_cif`, `eu_oss_vat`, `eu_vat`, `gb_vat`, `ge_vat`, `hk_br`, `hu_tin`, `id_npwp`, `il_vat`, `in_gst`, `is_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `ke_pin`, `kr_brn`, `li_uid`, `mx_rfc`, `my_frp`, `my_itn`, `my_sst`, `no_vat`, `nz_gst`, `pe_ruc`, `ph_tin`, `rs_pib`, `ru_inn`, `ru_kpp`, `sa_vat`, `sg_gst`, `sg_uen`, `si_tin`, `sv_nit`, `th_vat`, `tr_tin`, `tw_vat`, `ua_vat`, `us_ein`, `uy_ruc`, `ve_rif`, `vn_tin`, or `za_vat`
 	Type *string `form:"type"`
 	// Value of the tax ID.
 	Value *string `form:"value"`
@@ -1508,7 +1522,7 @@ type OrderShippingDetails struct {
 
 // The purchaser's tax IDs to be used in calculation of tax for this Order.
 type OrderTaxDetailsTaxID struct {
-	// The type of the tax ID, one of `eu_vat`, `br_cnpj`, `br_cpf`, `eu_oss_vat`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, or `unknown`
+	// The type of the tax ID, one of `ad_nrt`, `ar_cuit`, `eu_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eu_oss_vat`, `pe_ruc`, `rs_pib`, `sv_nit`, `uy_ruc`, `ve_rif`, `vn_tin`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, or `unknown`
 	Type OrderTaxDetailsTaxIDType `json:"type"`
 	// The value of the tax ID.
 	Value string `json:"value"`

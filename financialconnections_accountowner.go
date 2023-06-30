@@ -6,6 +6,7 @@
 
 package stripe
 
+// Describes an owner of an account.
 type FinancialConnectionsAccountOwner struct {
 	// The email address of the owner.
 	Email string `json:"email"`
