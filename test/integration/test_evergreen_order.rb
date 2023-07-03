@@ -212,4 +212,49 @@ class Critic::EvergreenOrders < Critic::FunctionalTest
       assert_match("Salesforce orders with both Evergreen and Renewable items are not yet supported.", exception.message)
     end
   end
+
+  it 'raises user error when evergreen order has default subscription term not 1' do
+    @user.field_defaults = {
+      "customer" => {
+        "email" => create_random_email,
+      },
+      "subscription" => {
+        "days_until_due" => 30,
+        "collection_method" => "send_invoice",
+      },
+    }
+    @user.save
+
+    sf_product_id = create_salesforce_product(additional_fields: {
+      # anything non-nil indicates subscription/recurring pricing
+      CPQ_QUOTE_SUBSCRIPTION_PRICING => 'Fixed Price',
+
+      CPQ_PRODUCT_SUBSCRIPTION_TYPE => CPQProductSubscriptionTypeOptions::EVERGREEN,
+
+      CPQ_QUOTE_SUBSCRIPTION_TERM => 2,
+    })
+    _ = create_salesforce_price(sf_product_id: sf_product_id)
+
+    sf_account_id = create_salesforce_account
+
+    quote_id = create_salesforce_quote(
+      sf_account_id: sf_account_id,
+
+      additional_quote_fields: {
+        CPQ_QUOTE_SUBSCRIPTION_START_DATE => now_time_formatted_for_salesforce,
+        CPQ_QUOTE_SUBSCRIPTION_TERM => 12,
+      }
+    )
+
+    # add both products to the sf quote
+    quote_with_product = add_product_to_cpq_quote(quote_id, sf_product_id: sf_product_id)
+    calculate_and_save_cpq_quote(quote_with_product)
+    sf_order = create_order_from_cpq_quote(quote_id)
+
+    exception = assert_raises(Integrations::Errors::UserError) do
+      SalesforceTranslateRecordJob.translate(@user, sf_order)
+    end
+
+    assert_match("Evergreen orders with default subscription term not equal to 1 are not supported.", exception.message)
+  end
 end

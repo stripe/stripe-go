@@ -261,6 +261,23 @@ class StripeForce::Translate
     )
   end
 
+  def validate_evergreen_order(sf_order, sf_order_items)
+    sf_order_items.each do |sf_order_item|
+      # subscription term field can only be 1
+      if sf_order_item[CPQ_QUOTE_SUBSCRIPTION_TERM] != 1
+        raise Integrations::Errors::ImpossibleState.new("an evergreen salesforce order will never have subscription term that is not 1")
+      end
+
+      # ensure default subscription term field of order items are 1
+      if sf_order_item[CPQ_DEFAULT_SUBSCRIPTION_TERM] != 1
+        throw_user_failure!(
+          salesforce_object: sf_order,
+          message: "Evergreen orders with default subscription term not equal to 1 are not supported."
+        )
+      end
+    end
+  end
+
   def is_salesforce_order_evergreen(sf_order)
     sf_order_items = order_lines_from_order(sf_order)
     whether_order_items_evergreen = sf_order_items.map {|order_item| order_item[CPQ_PRODUCT_SUBSCRIPTION_TYPE] == CPQProductSubscriptionTypeOptions::EVERGREEN.serialize }
@@ -351,6 +368,7 @@ class StripeForce::Translate
     if order_is_evergreen
       log.info 'recurring items found and order is evergreen, creating subscription'
 
+      validate_evergreen_order(sf_order, sf_order_items)
       return create_stripe_subscription_from_sf_order(sf_order, subscription_items, stripe_customer)
     end
 
