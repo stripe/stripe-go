@@ -160,10 +160,6 @@ class Critic::EvergreenOrderTest < Critic::OrderAmendmentFunctionalTest
       assert_equal("APEX_ERROR: SBQQ.ValidationException: [\"The quantity field must be set to 0 for evergreen subscriptions.\"]\n\n(System Code)", exception.message)
     end
 
-    it 'salesforce raises error when attempt to add product to evergreen order' do
-      # TODO: https://jira.corp.stripe.com/browse/PLATINT-2643
-    end
-
     it 'processes the first amendment and throws user error beyond that' do
       # creates evergreen order and cancels immediately
 
@@ -226,6 +222,39 @@ class Critic::EvergreenOrderTest < Critic::OrderAmendmentFunctionalTest
 
       assert_equal("canceled", canceled_subscription.status)
       assert_equal(sf_order.Id, canceled_subscription.metadata['salesforce_order_id'])
+    end
+
+    it 'not yet supported user error when try add product to evergreen order through amendment' do
+      sf_order = create_evergreen_salesforce_order(
+        # need to set these fields explicitly to use translate
+        additional_quote_fields: {
+          CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(now_time),
+          CPQ_QUOTE_SUBSCRIPTION_TERM => SF_ORDER_DEFAULT_EVERGREEN_SUBSCRIPTION_TERM,
+        }
+      )
+
+      # create contract for amendment
+      sf_contract = create_contract_from_order(sf_order)
+      sf_order.refresh
+
+      amendment_end_date = now_time
+      amendment_quote = create_quote_data_from_contract_amendment(sf_contract)
+
+      sf_product_id, _ = salesforce_evergreen_product_with_price
+      quote_with_product = add_product_to_cpq_quote(amendment_quote['record']['Id'], sf_product_id: sf_product_id)
+      calculate_and_save_cpq_quote(quote_with_product)
+
+      amendment_quote["record"][CPQ_QUOTE_SUBSCRIPTION_START_DATE] = format_date_for_salesforce(amendment_end_date)
+      amendment_quote["record"][CPQ_QUOTE_SUBSCRIPTION_TERM] = SF_ORDER_DEFAULT_EVERGREEN_SUBSCRIPTION_TERM
+
+      sf_order_amendment = create_order_from_quote_data(amendment_quote)
+      assert_equal(sf_order_amendment.Type, OrderTypeOptions::AMENDMENT.serialize)
+
+      exception = assert_raises(Integrations::Errors::UserError) do
+        StripeForce::Translate.perform_inline(@user, sf_order_amendment.Id)
+      end
+
+      assert_match("Non-cancelation amendment to evergreen order is not supported.", exception.message)
     end
   end
 end

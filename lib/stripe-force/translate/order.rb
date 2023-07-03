@@ -609,9 +609,8 @@ class StripeForce::Translate
     end
 
     amendments = contract_structure.amendments
-
     # only look at first amendment to check if is cancelation
-    first_amendment = T.must(amendments.first)
+    first_amendment = T.must(contract_structure.amendments.first)
 
     sf_initial_order_items = order_lines_from_order(sf_order)
     _, initial_order_items = phase_items_from_order_lines(sf_initial_order_items)
@@ -625,7 +624,10 @@ class StripeForce::Translate
     if is_order_terminated
       log.info 'amendment is termination order', amendment_id: first_amendment.Id
     else
-      raise StripeForce::Errors::RawUserError.new("Non-cancelation amendment to evergreen order is not supported.")
+      throw_user_failure!(
+        salesforce_object: first_amendment,
+        message: "Non-cancelation amendment to evergreen order is not supported."
+      )
     end
 
     # the first amendment must be for cancelation if code gets to this point
