@@ -296,14 +296,11 @@ class Critic::ConfigurationsControllerTest < ApplicationIntegrationTest
         assert_response :success
         result = parsed_json
 
-        # initially the hidden mapper fields should contain values
-        # if no feature flag is enabled for the user
+        # initially the hidden mapper fields should contain values since no feature flag is enabled for the user
         assert(2, result['hidden_mapper_fields'].count)
         assert_equal(["subscription_schedule.default_settings.invoice_settings.rendering.template", "subscription_schedule.default_settings.invoice_settings.rendering.template_version"], result['hidden_mapper_fields'])
 
         # enable features
-        @user.enable_feature(FeatureFlags::COUPONS)
-        @user.enable_feature(FeatureFlags::PREBILLING)
         @user.enable_feature(FeatureFlags::INVOICE_RENDERING_TEMPLATE)
         @user.save
 
@@ -311,7 +308,6 @@ class Critic::ConfigurationsControllerTest < ApplicationIntegrationTest
         assert_response :success
         result = parsed_json
 
-        # if mappings change, hash should be different
         assert_equal([], result['hidden_mapper_fields'])
       end
 
@@ -320,8 +316,7 @@ class Critic::ConfigurationsControllerTest < ApplicationIntegrationTest
         assert_response :success
         result = parsed_json
 
-        # initially the hidden mapper fields should contain values
-        # if no feature flag is enabled for the user
+        # initially the hidden mapper fields should contain values since no feature flag is enabled for the user
         assert(1, result['hidden_sync_pref_fields'].count)
         assert_equal(["cpq_prorate_precision"], result['hidden_sync_pref_fields'])
 
@@ -333,7 +328,6 @@ class Critic::ConfigurationsControllerTest < ApplicationIntegrationTest
         assert_response :success
         result = parsed_json
 
-        # if mappings change, hash should be different
         assert_equal([], result['hidden_sync_pref_fields'])
       end
     end

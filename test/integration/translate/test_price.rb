@@ -8,9 +8,6 @@ class Critic::PriceTranslation < Critic::FunctionalTest
     @user = make_user(save: true)
   end
 
-  # TODO complex price map testing from cloudflare
-  # https://jira.corp.stripe.com/browse/PLATINT-1762
-
   it 'translates a non-recurring pricebook entry to a stripe price' do
     price_in_cents = 100_00
 
@@ -39,7 +36,7 @@ class Critic::PriceTranslation < Critic::FunctionalTest
     assert_match(sf_product_id, stripe_product.metadata['salesforce_product2_link'])
   end
 
-  it 'handles a recurring pricebook entry to a stripe price' do
+  it 'translates a recurring pricebook entry to a stripe price' do
     price_in_cents = 120_00
 
     sf_product_id, sf_pricebook_entry_id = salesforce_recurring_product_with_price(price: price_in_cents)
@@ -70,7 +67,14 @@ class Critic::PriceTranslation < Critic::FunctionalTest
     assert_match(sf_product_id, stripe_product.metadata['salesforce_product2_link'])
   end
 
-  it 'handles a recurring metered pricebook entry to a stripe price' do
+  it 'translates a recurring metered pricebook entry to a stripe price' do
+    @user.field_defaults = {
+      "price" => {
+        "recurring.aggregate_usage" => "last_during_period",
+      },
+    }
+    @user.save
+
     sf_product_id, sf_pricebook_entry_id = salesforce_recurring_product_with_price
 
     sf.update!(SF_PRODUCT, {
@@ -92,6 +96,7 @@ class Critic::PriceTranslation < Critic::FunctionalTest
     assert_equal('month', stripe_price.recurring.interval)
     assert_equal(1, stripe_price.recurring.interval_count)
     assert_equal('metered', stripe_price.recurring.usage_type)
+    assert_equal('last_during_period', stripe_price.recurring.aggregate_usage)
   end
 
   it 'handles decimal prices' do
@@ -134,10 +139,6 @@ class Critic::PriceTranslation < Critic::FunctionalTest
       assert_equal('month', stripe_price.recurring.interval)
       assert_equal(3, stripe_price.recurring.interval_count)
       assert_equal('licensed', stripe_price.recurring.usage_type)
-    end
-
-    it 'handles daily CPQ terms' do
-      skip("daily cpq terms are not yet supported")
     end
   end
 end

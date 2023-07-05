@@ -75,12 +75,11 @@ module SalesforceDebugging
     )
 
     if initial_quote_query.count.zero?
-      raise Integrations::Errors::ImpossibleState.new("order amendments should always be associated with the initial quote")
+      raise StripeForce::Errors::RawUserError.new("Order amendments should always be associated with the initial quote.", salesforce_object: sf_order_amendment)
     end
 
-    # TODO this should never happen and should be removed
     if initial_quote_query.count > 1
-      raise Integrations::Errors::ImpossibleState.new("exact ID match yields two records")
+      raise StripeForce::Errors::RawUserError.new("More than one initial quote found for amendment order.", salesforce_object: sf_order_amendment)
     end
 
     # the contract tied to the amended order has the ID of the quote of the original order

@@ -267,7 +267,7 @@ class StripeForce::Translate
       'flat_amount_decimal'
     else
       # this should never happen unless CPQ changes
-      raise StripeForce::Errors::RawUserError.new("unexpected pricing method #{pricing_method}")
+      raise StripeForce::Errors::RawUserError.new("Unexpected pricing method: #{pricing_method}")
     end
 
     stripe_currency = Integrations::Utilities::Currency.currency_for_sf_object(@user, sf_consumption_rate)
@@ -418,6 +418,7 @@ class StripeForce::Translate
       # since you can only specify `aggregate_usage` for plans with `usage_type=metered`
       # https://jira.corp.stripe.com/browse/PLATINT-1956
       if stripe_price.recurring[:usage_type] == 'licensed'
+        log.info "wiping field aggregate_usage since usage usage type is licensed"
         stripe_price.recurring[:aggregate_usage] = nil
       end
 

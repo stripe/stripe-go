@@ -232,6 +232,7 @@ module StripeForce
         BILLING_GATE_OPEN_INVOICING_INTERVAL = new('billing_gate_open_invoicing_interval')
 
         STRIPE_REVENUE_CONTRACT = new('stripe_revenue_contract')
+        TERMINATION_METADATA = new('termination_metadata')
       end
     end
 

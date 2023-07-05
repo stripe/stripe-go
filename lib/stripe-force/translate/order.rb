@@ -13,7 +13,7 @@ class StripeForce::Translate
     # If the original order does not match their custom filters, do not translate
     if !orders_respect_custom_filters([contract_structure.initial])
       log.info 'initial order does not respect users custom order filters. not syncing: ', order_ids: contract_structure.initial
-      raise StripeForce::Errors::RawUserError.new("Attempted to sync amendment order when initial order was skipped because it didn't match custom sync filters")
+      raise StripeForce::Errors::RawUserError.new("Attempted to sync amendment order when initial order was skipped because it didn't match custom sync filters.")
     end
 
     # Is the original order pre-integration start date? We migrate it to Stripe.
@@ -781,14 +781,14 @@ class StripeForce::Translate
         log.info 'amendment is termination order', sf_order_amendment_id: sf_order_amendment.Id
 
         if contract_structure.amendments.count - 1 != index
-          raise StripeForce::Errors::RawUserError.new("Processing a termination order, but there's more amendments.")
+          raise StripeForce::Errors::RawUserError.new("Processing a termination order, but there's more amendments queued.")
         end
       end
 
       # this loop excludes the initial phase, which is why we are subtracting by 1
       # note this can happen with backend initial order prorations or if the user has amendment the contract previously
       if subscription_phases.count - 1 > index
-        log.info 'number of subscription phase count is greater than this amendment index', subscription_phase_count: subscription_phases.count, amendment_index: index
+        log.info 'number of subscription phases is greater than this amendment index', subscription_phase_count: subscription_phases.count, amendment_index: index
       end
 
       # TODO price ID dup check on the invoice items
@@ -871,6 +871,24 @@ class StripeForce::Translate
         )
       end
 
+      # Notes:
+      #   Ideally there would be a way for users to *add* metadata during partial/full terminations
+      #   We don't want to remap metadata since this would replace any existing metadata keys
+      #   so in the meantime, we add metadata to the terminated phase items on the previous phase
+      update_terminated_phase_items_metadata = @user.feature_enabled?(FeatureFlags::TERMINATION_METADATA) && terminated_phase_items.count > 0
+      if update_terminated_phase_items_metadata
+        log.info 'adding metadata to terminated phase items'
+        effective_termination_date = StripeForce::Utilities::SalesforceUtil.get_effective_termination_date(@user, sf_order_amendment)
+        if effective_termination_date.present?
+          previous_phase = T.must(subscription_schedule.phases.delete_at(subscription_schedule.phases.count - 1))
+          subscription_schedule.phases << add_termination_metadata_phase_items(effective_termination_date, terminated_phase_items, sf_order_amendment, previous_phase)
+          subscription_schedule.phases = OrderHelpers.sanitize_subscription_schedule_phase_params(subscription_schedule.phases)
+        else
+          # ideally this should never happen, but let's log for now
+          log.info 'no effective termination date found, skipping add phase item metadata'
+        end
+      end
+
       # TODO validate that all prices have the same recurrence? Stripe does this downstream,
       #      but at this point we assume that this check has already done, so it may make sense
       #      to do this check more explicitly.
@@ -878,7 +896,6 @@ class StripeForce::Translate
       # at this point, we have the finalized list of non-prorated order lines
       # this means all price data has been mapped and converted into Stripe line items
       # and we can calculate the finalized billing cycle of the order amendment
-
       if !is_order_terminated
         # if the amendment is prorated, then all line items will have prorated component
         is_prorated = OrderAmendment.prorated_amendment?(
@@ -963,9 +980,6 @@ class StripeForce::Translate
         new_phase["discounts"] = stripe_discounts_for_sf_object(sf_object: sf_order_amendment)
       end
 
-      # if the time ranges are identical, then the previous phase should be removed
-      # the previous phases subscription items should be overwritten by the latest phase calculation
-      # but any one-off items would be lost without "merging" these items
       previous_phase = T.must(subscription_phases.last)
 
       # it's important to check this before setting that start date to 'now' below
@@ -983,22 +997,18 @@ class StripeForce::Translate
         new_phase.start_date = 'now'
       end
 
-      # Note: !is_same_day is important since these items may have already been invoiced
-      should_merge_phases = is_identical_to_previous_phase_time_range && !is_same_day && !is_order_backdated
-      if should_merge_phases && !previous_phase.add_invoice_items.empty?
-        log.info 'previous phase is identical, merging invoice items'
-        new_phase.add_invoice_items += previous_phase.add_invoice_items
-      end
-
-      # align date boundaries of the schedules
-      previous_phase.end_date = new_phase.start_date
-
-      # TODO I wonder if we can do something smarter here: if the invoice has not been paid/billed, do XYZ?
-      # this is a special case: subscription is cancelled on the same day, the intention here is to not bill the user at all
-      is_subscription_schedule_cancelled = is_order_terminated && (is_same_day || is_order_backdated)
-
       # if the order is terminated, updating the last phase end date and NOT adding another phase is all that needs to be done
       if !is_order_terminated
+        # if the time ranges are identical, then the previous phase should be removed
+        # the previous phases subscription items should be overwritten by the latest phase calculation
+        # but any one-off items would be lost without "merging" these items
+        # Note: !is_same_day is important since these items may have already been invoiced
+        should_merge_phases = is_identical_to_previous_phase_time_range && !is_same_day && !is_order_backdated
+        if should_merge_phases && !previous_phase.add_invoice_items.empty?
+          log.info 'previous phase is identical, merging invoice items'
+          new_phase.add_invoice_items += previous_phase.add_invoice_items
+        end
+
         if should_merge_phases
           # https://jira.corp.stripe.com/browse/PLATINT-1815
           log.info 'previous phase identical, removing previous phase'
@@ -1012,25 +1022,12 @@ class StripeForce::Translate
         subscription_phases << new_phase
       end
 
-      subscription_phases = OrderHelpers.sanitize_subscription_schedule_phase_params(subscription_phases)
-
-      # https://jira.corp.stripe.com/browse/PLATINT-1832
-      subscription_phases = OrderAmendment.delete_past_phases(@user, stripe_customer_id, subscription_phases)
-
-      # TODO we do not currently map to the subscription schedule (again) when there is an amendment order
-      # we should consider remapping the subscription schedule when there is an amendment order but for now we will map specific fields
-      subscription_schedule = apply_amendment_order_mappings(mapper, subscription_schedule, sf_order_amendment)
-
       # NOTE intentional decision here NOT to update any other subscription fields
       catch_errors_with_salesforce_context(secondary: sf_order_amendment) do
+        # this is a special case: subscription is cancelled on the same day, the intention here is to not bill the user at all
+        is_subscription_schedule_cancelled = is_order_terminated && (is_same_day || is_order_backdated)
         if is_subscription_schedule_cancelled
-          # Notes:
-          # - Ideally there would be a way to pass metadata via the subscription_schedule.cancel call,
-          #   but in the meantime, we add metadata to the subscription_schedule before cancelling.
-          # - We don't want to remap metadata since this would replace any existing metadata keys.
-          if is_order_backdated
-            effective_termination_date = get_effective_termination_date(mapper, sf_order_amendment, string_start_date_from_salesforce)
-            subscription_schedule.metadata = subscription_schedule.metadata.to_h.merge({StripeForce::Translate::Metadata.metadata_key(@user, MetadataKeys::EFFECTIVE_TERMINATION_DATE) => effective_termination_date})
+          if update_terminated_phase_items_metadata
             subscription_schedule.save({}, @user.stripe_credentials)
           end
 
@@ -1049,6 +1046,17 @@ class StripeForce::Translate
             sf_order_amendment_id: sf_order_amendment.Id,
             start_date: new_phase.start_date,
             end_date: new_phase.end_date
+
+          # align date boundaries of the schedules
+          previous_phase.end_date = new_phase.start_date
+
+          subscription_phases = OrderHelpers.sanitize_subscription_schedule_phase_params(subscription_phases)
+          # https://jira.corp.stripe.com/browse/PLATINT-1832
+          subscription_phases = OrderAmendment.delete_past_phases(@user, stripe_customer_id, subscription_phases)
+
+          # TODO we do not currently map to the subscription schedule (again) when there is an amendment order
+          # we should consider remapping the subscription schedule when there is an amendment order but for now we will map specific fields
+          subscription_schedule = apply_amendment_order_mappings(mapper, subscription_schedule, sf_order_amendment)
 
           # we do NOT want the next amendment loop to use the version of subscription phases with the backend proration in place
           final_subscription_phases = if is_initial_order_backend_prorated
@@ -1076,30 +1084,6 @@ class StripeForce::Translate
     PriceHelpers.auto_archive_prices_on_subscription_schedule(@user, subscription_schedule)
 
     subscription_schedule
-  end
-
-  sig do
-    params(mapper: StripeForce::Mapper, sf_order_amendment: Restforce::SObject, sf_order_amendment_start_date: String).returns(T.nilable(String))
-  end
-  def get_effective_termination_date(mapper, sf_order_amendment, sf_order_amendment_start_date)
-    # Salesforce CPQ generates an amendment opportunity with a close date equal to your contract’s start date which
-    # is the effective termination date.
-    sf_amendment_opportunity_id = sf_order_amendment["OpportunityId"]
-    if sf_amendment_opportunity_id.present?
-      sf_amendment_opportunity = sf.query(
-        <<~EOL
-          SELECT #{SF_OPPORTUNITY_CLOSE_DATE}
-          FROM #{SF_OPPORTUNITY}
-          WHERE Id = '#{sf_amendment_opportunity_id}'
-        EOL
-      )
-
-      if sf_amendment_opportunity.count > 0
-        return sf_amendment_opportunity.first[SF_OPPORTUNITY_CLOSE_DATE]
-      end
-    end
-
-    sf_order_amendment_start_date
   end
 
   sig do
@@ -1326,7 +1310,7 @@ class StripeForce::Translate
   def extract_contract_id_from_initial_order(sf_initial_order)
     # if this occurs, the user's CPQ is not configured properly/as we assume
     if sf_initial_order[SF_ORDER_QUOTE].blank?
-      raise StripeForce::Errors::RawUserError.new("No quote associated with an order. Orders pushed to Stripe must have a related CPQ Quote.")
+      raise StripeForce::Errors::RawUserError.new("No quote associated with an order. Orders pushed to Stripe must have a related CPQ Quote.", salesforce_object: sf_initial_order)
     end
 
     contract = cache_service.get_related_record_from_cache(
@@ -1361,12 +1345,12 @@ class StripeForce::Translate
     )
 
     if initial_quote_query.count.zero?
-      raise Integrations::Errors::ImpossibleState.new("order amendments should always be associated with the initial quote")
+      raise Integrations::Errors::ImpossibleState.new("Order amendments should always be associated with the initial quote", salesforce_object: sf_order_amendment)
     end
 
     # TODO this should never happen and should be removed
     if initial_quote_query.count > 1
-      raise Integrations::Errors::ImpossibleState.new("exact ID match yields two records")
+      raise Integrations::Errors::ImpossibleState.new("More than one quote found for amendment order", salesforce_object: sf_order_amendment)
     end
 
     # the contract tied to the amended order has the ID of the quote of the original order
@@ -1439,5 +1423,18 @@ class StripeForce::Translate
       cache_service.cache_for_object(oa)
       oa
     end
+  end
+
+  def add_termination_metadata_phase_items(effective_termination_date, terminated_phase_items, sf_order_amendment, previous_phase)
+    terminated_order_line_ids = terminated_phase_items.keep_if {|phase_item| phase_item.fully_terminated? && !phase_item.from_order?(sf_order_amendment) }.map(&:order_line_id)
+
+    previous_phase[:items] = previous_phase.items.map do |previous_phase_item|
+      if terminated_order_line_ids.include?(previous_phase_item.metadata["salesforce_order_item_id"])
+        previous_phase_item[:metadata] = previous_phase_item.metadata.to_h.merge({StripeForce::Translate::Metadata.metadata_key(@user, MetadataKeys::EFFECTIVE_TERMINATION_DATE) => effective_termination_date})
+      end
+      previous_phase_item
+    end
+
+    previous_phase
   end
 end

@@ -203,7 +203,7 @@ module StripeForce::Utilities
       end
 
       if !Integrations::Utilities::StripeUtil.is_integer_value?(quote_subscription_term)
-        raise StripeForce::Errors::RawUserError.new("Subscription term is specified as a decimal value")
+        raise StripeForce::Errors::RawUserError.new("Cannot specify subscription term as a decimal value.")
       end
 
       quote_subscription_term.to_i
@@ -329,7 +329,7 @@ module StripeForce::Utilities
             log.error 'amendment order does not start on the same day of month as the initial order',
               initial_order_start_date: sf_initial_order_start_date,
               amendment_order_start_date: amendment_start_date
-            raise StripeForce::Errors::RawUserError.new("Amendment orders must start on the same day of month as the initial order")
+            raise StripeForce::Errors::RawUserError.new("Amendment orders must start on the same day of month as the initial order.")
           end
 
           amendment_end_date = get_non_anniversary_amendment_order_end_date(mapper, sf_order_amendment)
@@ -368,7 +368,7 @@ module StripeForce::Utilities
           amendment_order_start_date: amendment_start_date,
           amendment_order_end_date: amendment_end_date,
           amendment_subscription_term: amendment_subscription_term
-        raise StripeForce::Errors::RawUserError.new("Amendment order subscription term does not equal number of whole months between start and end date")
+        raise StripeForce::Errors::RawUserError.new("Amendment order subscription term does not equal number of whole months between start and end date.")
       end
       amendment_end_date
     end
@@ -389,6 +389,28 @@ module StripeForce::Utilities
     sig { params(whole_months: Integer, partial_month_days: Integer, product_subscription_term: Integer).returns(BigDecimal) }
     def self.calculate_month_plus_day_price_multiple(whole_months:, partial_month_days:, product_subscription_term:)
       (whole_months + (BigDecimal(partial_month_days) / (BigDecimal(DAYS_IN_YEAR) / BigDecimal(MONTHS_IN_YEAR)))) / BigDecimal(product_subscription_term)
+    end
+
+    sig { params(user: StripeForce::User, sf_order_amendment: Restforce::SObject).returns(T.nilable(String)) }
+    def self.get_effective_termination_date(user, sf_order_amendment)
+      # Salesforce CPQ generates an amendment opportunity with a close date equal to your contract’s start date which
+      # is the effective termination date.
+      sf_amendment_opportunity_id = sf_order_amendment["OpportunityId"]
+      if sf_amendment_opportunity_id.present?
+        sf_amendment_opportunity = user.sf_client.query(
+          <<~EOL
+            SELECT #{SF_OPPORTUNITY_CLOSE_DATE}
+            FROM #{SF_OPPORTUNITY}
+            WHERE Id = '#{sf_amendment_opportunity_id}'
+          EOL
+        )
+
+        if sf_amendment_opportunity.count > 0
+          return sf_amendment_opportunity.first[SF_OPPORTUNITY_CLOSE_DATE]
+        end
+      end
+
+      nil
     end
   end
 end

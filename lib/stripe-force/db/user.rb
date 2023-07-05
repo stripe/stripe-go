@@ -378,7 +378,7 @@ module StripeForce
 
     sig { params(feature: FeatureFlags).returns(T::Boolean) }
     def feature_enabled?(feature)
-      self.feature_flags.include?(feature.serialize.to_sym)
+      self.feature_flags.include?(feature.serialize.to_sym) || self.feature_flags.include?(feature.serialize)
     end
 
     def sf_subdomain
