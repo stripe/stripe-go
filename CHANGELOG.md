@@ -5,6 +5,12 @@
   * Add support for `Metadata` on `InvoiceSubscriptionDetails`
   * Add support for new values `ad_nrt`, `ar_cuit`, `bo_tin`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `pe_ruc`, `rs_pib`, `sv_nit`, `uy_ruc`, `ve_rif`, and `vn_tin` on enum `OrderTaxDetailsTaxIdsType`
 
+## 74.24.0 - 2023-06-29
+* [#1682](https://github.com/stripe/stripe-go/pull/1682) Update generated code
+  * Add support for new value `application_fees_not_allowed` on enums `InvoiceLastFinalizationErrorCode`, `PaymentIntentLastPaymentErrorCode`, `SetupAttemptSetupErrorCode`, `SetupIntentLastSetupErrorCode`, and `StripeErrorCode`
+  * Add support for new values `ad_nrt`, `ar_cuit`, `bo_tin`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `pe_ruc`, `rs_pib`, `sv_nit`, `uy_ruc`, `ve_rif`, and `vn_tin` on enums `CheckoutSessionCustomerDetailsTaxIdsType`, `InvoiceCustomerTaxIdsType`, `TaxCalculationCustomerDetailsTaxIdsType`, and `TaxTransactionCustomerDetailsTaxIdsType`
+  * Add support for `EffectiveAt` on `CreditNoteParams`, `CreditNotePreviewLinesParams`, `CreditNotePreviewParams`, `CreditNote`, `InvoiceParams`, and `Invoice`
+
 ## 74.24.0-beta.1 - 2023-06-22
 * [#1677](https://github.com/stripe/stripe-go/pull/1677) Update generated code for beta
   * Add support for new resource `CustomerSession`
@@ -15,10 +21,6 @@
 * [#1678](https://github.com/stripe/stripe-go/pull/1678) Update generated code
   * Add support for `OnBehalfOf` on `Mandate`
 * [#1680](https://github.com/stripe/stripe-go/pull/1680) Deserialization test
-* [#1676](https://github.com/stripe/stripe-go/pull/1676) Update generated code
-  * Release specs are identical.
-* [#1672](https://github.com/stripe/stripe-go/pull/1672) Update generated code
-  * Change type of `FileFileParams` from `string` to `file`
 
 ## 74.23.0-beta.2 - 2023-06-15
 * [#1675](https://github.com/stripe/stripe-go/pull/1675) Update generated code for beta
