@@ -1,5 +1,10 @@
 # Changelog
 
+## 74.25.0 - 2023-07-06
+* [#1684](https://github.com/stripe/stripe-go/pull/1684) Update generated code
+  * Add support for `Numeric` and `Text` on `PaymentLinkCustomFields`
+  * Add support for `AutomaticTax` on `SubscriptionListParams`
+
 ## 74.24.0 - 2023-06-29
 * [#1682](https://github.com/stripe/stripe-go/pull/1682) Update generated code
   * Add support for new value `application_fees_not_allowed` on enums `InvoiceLastFinalizationErrorCode`, `PaymentIntentLastPaymentErrorCode`, `SetupAttemptSetupErrorCode`, `SetupIntentLastSetupErrorCode`, and `StripeErrorCode`
