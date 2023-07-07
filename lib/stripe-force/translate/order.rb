@@ -882,7 +882,6 @@ class StripeForce::Translate
         if effective_termination_date.present?
           previous_phase = T.must(subscription_schedule.phases.delete_at(subscription_schedule.phases.count - 1))
           subscription_schedule.phases << add_termination_metadata_phase_items(effective_termination_date, terminated_phase_items, sf_order_amendment, previous_phase)
-          subscription_schedule.phases = OrderHelpers.sanitize_subscription_schedule_phase_params(subscription_schedule.phases)
         else
           # ideally this should never happen, but let's log for now
           log.info 'no effective termination date found, skipping add phase item metadata'
@@ -1028,19 +1027,15 @@ class StripeForce::Translate
         is_subscription_schedule_cancelled = is_order_terminated && (is_same_day || is_order_backdated)
         if is_subscription_schedule_cancelled
           if update_terminated_phase_items_metadata
-            subscription_schedule.save({}, @user.stripe_credentials)
+            log.info 'updating subscription schedule with termination metadata', sf_order_amendment_id: sf_order_amendment
+            subscription_phases = OrderAmendment.delete_past_phases(@user, stripe_customer_id, subscription_phases)
+            subscription_schedule.phases = OrderHelpers.sanitize_subscription_schedule_phase_params(subscription_phases)
+            subscription_schedule = T.cast(subscription_schedule.save({}, @user.stripe_credentials), Stripe::SubscriptionSchedule)
           end
 
-          log.info 'cancelling subscription immediately', sf_order_amendment_id: sf_order_amendment
-
           # NOTE the intention here is to void/reverse out the entire contract, this is the closest API call we have
-          subscription_schedule.cancel(
-            {
-              invoice_now: false,
-              prorate: false,
-            },
-            @user.stripe_credentials
-          )
+          log.info 'cancelling subscription schedule immediately', sf_order_amendment_id: sf_order_amendment
+          subscription_schedule = T.cast(subscription_schedule.cancel({invoice_now: false, prorate: false}, @user.stripe_credentials), Stripe::SubscriptionSchedule)
         else
           log.info 'adding phase',
             sf_order_amendment_id: sf_order_amendment.Id,
@@ -1054,10 +1049,6 @@ class StripeForce::Translate
           # https://jira.corp.stripe.com/browse/PLATINT-1832
           subscription_phases = OrderAmendment.delete_past_phases(@user, stripe_customer_id, subscription_phases)
 
-          # TODO we do not currently map to the subscription schedule (again) when there is an amendment order
-          # we should consider remapping the subscription schedule when there is an amendment order but for now we will map specific fields
-          subscription_schedule = apply_amendment_order_mappings(mapper, subscription_schedule, sf_order_amendment)
-
           # we do NOT want the next amendment loop to use the version of subscription phases with the backend proration in place
           final_subscription_phases = if is_initial_order_backend_prorated
             OrderAmendment.inject_backend_proration(subscription_phases, backend_proration)
@@ -1069,6 +1060,10 @@ class StripeForce::Translate
           subscription_schedule.proration_behavior = StripeProrationBehavior::NONE.serialize
           subscription_schedule.phases = final_subscription_phases
 
+          # TODO we do not currently map to the subscription schedule (again) when there is an amendment order
+          # we should consider remapping the subscription schedule when there is an amendment order but for now we will map specific fields
+          subscription_schedule = apply_amendment_order_mappings(mapper, subscription_schedule, sf_order_amendment)
+
           # note: to support stacked amendments, we want to update the local sub_schedule and sub_phases
           # because  Stripe converts 'now' to a timestamp
           # and we want to use that timestamp when there is a stacked amendment
@@ -1076,6 +1071,8 @@ class StripeForce::Translate
         end
       end
 
+      # this is important for supporting stacked amendments
+      # to ensure that the next amendment uses the latest subscription schedule phases and items
       update_sf_stripe_id(sf_order_amendment, subscription_schedule)
       subscription_phases = T.cast(subscription_schedule.phases, T::Array[Stripe::SubscriptionSchedulePhase])
       previous_phase_items = aggregate_phase_items

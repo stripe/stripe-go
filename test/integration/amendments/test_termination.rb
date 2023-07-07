@@ -6,6 +6,7 @@ require_relative './_lib'
 class Critic::OrderAmendmentTermination < Critic::OrderAmendmentFunctionalTest
   before do
     @user = make_user(save: true)
+    @user.enable_feature(FeatureFlags::TERMINATION_METADATA)
   end
 
   # assumes monthly subscription
@@ -91,8 +92,6 @@ class Critic::OrderAmendmentTermination < Critic::OrderAmendmentFunctionalTest
 
   # stripe allows for zero-quantity line items, we need to make sure they are removed
   it 'removes a line item that is partially terminated' do
-    @user.enable_feature(FeatureFlags::TERMINATION_METADATA)
-
     # initial order: two lines
     # amendment order: removes one of the lines
     # resulting last sub phase: should have a single item
@@ -159,8 +158,6 @@ class Critic::OrderAmendmentTermination < Critic::OrderAmendmentFunctionalTest
 
   # use case: user decides *right* after signing the contract they want to change their order competely
   it 'cancels a subscription on the same day it started' do
-    @user.enable_feature(FeatureFlags::TERMINATION_METADATA)
-
     sf_order = create_subscription_order
 
     StripeForce::Translate.perform_inline(@user, sf_order.Id)
@@ -261,7 +258,11 @@ class Critic::OrderAmendmentTermination < Critic::OrderAmendmentFunctionalTest
     subscription_schedule = Stripe::SubscriptionSchedule.retrieve({id: stripe_id, expand: %w{phases.items.price}}, @user.stripe_credentials)
 
     assert_equal(3, subscription_schedule.phases.count)
-    # TODO test end date
+    last_phase = T.must(subscription_schedule.phases.last)
+    assert((now_time + 3.months).to_i - last_phase.end_date < 1.hour)
+
+    amendment_opportunity_close_date = sf_get(amendment_3["OpportunityId"])[SF_OPPORTUNITY_CLOSE_DATE]
+    T.must(last_phase).items.each {|item| assert_equal(amendment_opportunity_close_date, item.metadata[StripeForce::Translate::Metadata.metadata_key(@user, MetadataKeys::EFFECTIVE_TERMINATION_DATE)]) }
 
     active_price = T.cast(subscription_schedule.phases.first&.items&.first&.price, Stripe::Price)
     assert(active_price.active)

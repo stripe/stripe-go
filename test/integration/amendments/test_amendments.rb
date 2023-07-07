@@ -12,6 +12,7 @@ class Critic::OrderAmendmentTranslation < Critic::OrderAmendmentFunctionalTest
     @user.enable_feature FeatureFlags::DAY_PRORATIONS, update: true
     @user.enable_feature FeatureFlags::BACKDATED_AMENDMENTS, update: true
     @user.enable_feature FeatureFlags::TERMINATED_ORDER_ITEM_CREDIT, update: true
+    @user.enable_feature FeatureFlags::TERMINATION_METADATA, update: true
   end
 
   it 'creates a new phase from an order amendment with monthly billed products' do
@@ -1602,8 +1603,8 @@ class Critic::OrderAmendmentTranslation < Critic::OrderAmendmentFunctionalTest
       assert_equal(sf_order.OrderNumber, subscription_schedule.metadata['OrderNumber'])
 
       # ensure that termination metadata was added to the last phase items
-      # amendment_opportunity_close_date = sf_get(sf_order_amendment_3["OpportunityId"])[SF_OPPORTUNITY_CLOSE_DATE]
-      # third_phase.items.each {|item| assert_equal(amendment_opportunity_close_date, item.metadata['salesforce_termination_date']) }
+      amendment_opportunity_close_date = sf_get(sf_order_amendment_3["OpportunityId"])[SF_OPPORTUNITY_CLOSE_DATE]
+      third_phase.items.each {|item| assert_equal(amendment_opportunity_close_date, item.metadata[StripeForce::Translate::Metadata.metadata_key(@user, MetadataKeys::EFFECTIVE_TERMINATION_DATE)]) }
     end
 
     it 'syncs three stacked backdated amendments with quantity changes on different runs' do
