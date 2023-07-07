@@ -1,5 +1,10 @@
 # Changelog
 
+## 74.25.0 - 2023-07-06
+* [#1684](https://github.com/stripe/stripe-go/pull/1684) Update generated code
+  * Add support for `Numeric` and `Text` on `PaymentLinkCustomFields`
+  * Add support for `AutomaticTax` on `SubscriptionListParams`
+
 ## 74.25.0-beta.1 - 2023-06-29
 * [#1683](https://github.com/stripe/stripe-go/pull/1683) Update generated code for beta
   * Add support for `Metadata` on `InvoiceSubscriptionDetails`
