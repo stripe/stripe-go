@@ -1,4 +1,7 @@
-import { LightningElement, api, track } from 'lwc';
+import { LightningElement, api, track, wire } from 'lwc';
+import getExportableConfigDownloadUrl from '@salesforce/apex/setupAssistant.getExportableConfigDownloadUrl';
+import LightningConfirm from 'lightning/confirm';
+import LightningAlert from "lightning/alert";
 
 export default class SetupStep extends LightningElement {
     @api stepName = '';
@@ -14,6 +17,31 @@ export default class SetupStep extends LightningElement {
     @api loading = false;
     @track _showIntro;
     @track useStandardFooter = true;
+    @track exportLabel = 'Export Config';
+    @wire(getExportableConfigDownloadUrl)
+    exportableConfigDownloadUrl
+
+    async exportAction() {
+        if (this.exportDisabled) {
+            const result = await LightningAlert.open({
+                message: 'There are unsaved changes on this page. Please save and then export, or refresh the page to discard changes.',
+                theme: 'texture',
+                label: 'Unsaved Changes', // this is the header text
+            });
+
+            return;
+        }
+        window.open(this.exportableConfigDownloadUrl.data, '"_blank"');
+    }
+
+    get exportTitle() {
+        return this.exportDisabled ? 'Download a copy of the previously saved config' : 'Download a copy of the current config';
+    }
+
+    // follow the opposite of next disabled, so we're clear what config is downloading.
+    get exportDisabled() {
+        return !this.saveDisabled || !this.exportableConfigDownloadUrl || !this.exportableConfigDownloadUrl.data;
+    }
     
     @api 
     get showIntro() {
@@ -37,6 +65,7 @@ export default class SetupStep extends LightningElement {
     }
 
     next() {
+        console.log('sending next event');
         this.dispatchEvent(new CustomEvent('next', {
             bubbles: true,
             composed: true

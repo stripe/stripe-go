@@ -102,7 +102,7 @@
                     </div>
                 </div>
 
-                <c-sync-preferences-item name="api-percentage-limit" toggle-field-visibility-list={hiddenSyncPrefsFields}>
+                <c-sync-preferences-item name="api_percentage_limit" toggle-field-visibility-list={hiddenSyncPrefsFields}>
                     <div class="stripe-settings__item slds-grid">
                         <div class="slds-col_bump-right">
                             <h4 class="slds-text-heading_small slds-m-bottom_xx-small">
@@ -120,7 +120,7 @@
                         </div>
                     </div>
                 </c-sync-preferences-item>
-                <c-sync-preferences-item if:true={isCpqInstalled} name="cpq-term-unit" toggle-field-visibility-list={hiddenSyncPrefsFields}>
+                <c-sync-preferences-item if:true={isCpqInstalled} name="cpq_term_unit" toggle-field-visibility-list={hiddenSyncPrefsFields}>
                     <div class="stripe-settings__item slds-grid">
                         <div class="slds-col_bump-right">
                             <h4 class="slds-text-heading_small slds-m-bottom_xx-small">
@@ -160,7 +160,7 @@
                 </c-sync-preferences-item>
             </lightning-accordion-section>
             <lightning-accordion-section name="SyncFilters" label="Sync Filters">
-                <c-sync-preferences-item name="custom-order-sync-conditions" toggle-field-visibility-list={hiddenSyncPrefsFields} first>
+                <c-sync-preferences-item name="order_filter" toggle-field-visibility-list={hiddenSyncPrefsFields} first>
                     <div class="stripe-settings__item slds-grid">
                         <div class="slds-col_bump-right">
                             <h4 class="slds-text-heading_small slds-m-bottom_xx-small">
@@ -179,7 +179,7 @@
                         </div>
                     </div>
                 </c-sync-preferences-item>
-                <c-sync-preferences-item name="custom-account-sync-conditions" toggle-field-visibility-list={hiddenSyncPrefsFields}>
+                <c-sync-preferences-item name="account_filter" toggle-field-visibility-list={hiddenSyncPrefsFields}>
                     <div class="stripe-settings__item slds-grid">
                         <div class="slds-col_bump-right">
                             <h4 class="slds-text-heading_small slds-m-bottom_xx-small">
@@ -198,7 +198,7 @@
                         </div>
                     </div>
                 </c-sync-preferences-item>
-                <c-sync-preferences-item name="custom-product-sync-conditions" toggle-field-visibility-list={hiddenSyncPrefsFields}>
+                <c-sync-preferences-item name="product_filter" toggle-field-visibility-list={hiddenSyncPrefsFields}>
                     <div class="stripe-settings__item slds-grid">
                         <div class="slds-col_bump-right">
                             <h4 class="slds-text-heading_small slds-m-bottom_xx-small">
@@ -218,7 +218,7 @@
                         </div>
                     </div>
                 </c-sync-preferences-item>
-                <c-sync-preferences-item name="custom-pricebookentry-sync-conditions" toggle-field-visibility-list={hiddenSyncPrefsFields}>
+                <c-sync-preferences-item name="pricebook_entry_filter" toggle-field-visibility-list={hiddenSyncPrefsFields}>
                     <div class="stripe-settings__item slds-grid">
                         <div class="slds-col_bump-right">
                             <h4 class="slds-text-heading_small slds-m-bottom_xx-small">

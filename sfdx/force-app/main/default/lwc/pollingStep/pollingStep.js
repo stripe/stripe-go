@@ -6,6 +6,7 @@ import activatePolling from '@salesforce/apex/setupAssistant.activatePolling';
 import getSyncPreferences from '@salesforce/apex/setupAssistant.getSyncPreferences';
 import { LightningElement, api, track } from 'lwc';
 import LightningConfirm from 'lightning/confirm';
+import { Debugger } from 'c/debugger';
 
 /** @typedef {Object} ResponseData
  * @property {boolean} polling_enabled
@@ -99,6 +100,7 @@ export default class PollingStep extends LightningElement {
         }
 
         // console.log(syncPrefs);
+        Debugger.log('pollingStep', 'initPageStateData', syncPrefs);
 
         this.pollingEnabled = syncPrefs.polling_enabled;
         this.lastSynced = syncPrefs.last_synced;

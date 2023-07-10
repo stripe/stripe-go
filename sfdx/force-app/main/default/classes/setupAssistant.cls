@@ -1,16 +1,27 @@
 public with sharing class setupAssistant {
+    @TestVisible
+    private static ConfigPayloadHelper payloadHelper = new ConfigPayloadHelper();
+
+    @TestVisible
+    private static Debug_Helper debugger = new Debug_Helper();
+
+    static Boolean isConnected() {
+        Stripe_Connection__c stripeConnectRec = Stripe_Connection__c.getOrgDefaults();
+
+        return utilities.isConnected(stripeConnectRec);
+    }
+
+    @AuraEnabled(Cacheable=true)
+    public static String getExportableConfigDownloadUrl() {
+        return Page.ConfigExportDownload.getUrl();
+    }
+
     // gets steps completed from setup data to manage/presist states
     @AuraEnabled
     public static String getSetupData() {
         responseData rd = new responseData();
-        Boolean isConnected = true;
+        Boolean isConnected = isConnected();
         try {
-            Stripe_Connection__c stripeConnectRec = Stripe_Connection__c.getOrgDefaults();
-
-            if(stripeConnectRec.Id == null || !stripeConnectRec.Salesforce_Connected__c || !stripeConnectRec.Stripe_Connected__c) {
-                isConnected = false;
-            }
-
             List<Setup_Data__c> setupDataQuery = [
                 SELECT Id, Steps_Completed__c, isSetupComplete__c
                 FROM Setup_Data__c
@@ -105,7 +116,7 @@ public with sharing class setupAssistant {
             }
 
             // make callout to ruby services configuration endpoint to see if the org is connected to Stripe and Salesforce
-            String route = constants.RUBY_SERVICE_BASE_URI + '/v1/configuration';
+            String route = utilities.getPlatformConfigEndpoint();
             HttpResponse response = utilities.makeCallout(route, 'GET');
 
             Map<String, Object> errorBody;
@@ -128,41 +139,26 @@ public with sharing class setupAssistant {
             */
             responseBody = (Map<String,Object>)JSON.deserializeUntyped(response.getBody());
 
-            //get connection status values from response
-            Map<String, Object> connectionStatus = (Map<String,Object>)responseBody.get('connection_status');
-            stripeConnectRec.Stripe_Connected__c = (Boolean)connectionStatus.get('stripe');
-            stripeConnectRec.Salesforce_Connected__c = (Boolean)connectionStatus.get('salesforce');
+            payloadHelper.extractConnectionStatus(responseBody, stripeConnectRec);
 
             // TODO why do we care if it's a connected callback? Why can't we just return the same data regardless?
             if(isConnectedCallback) {
-                // TODO why do we need distinct strings here for the status? Can't we just pass a boolean?
-                if(!(Boolean)connectionStatus.get('salesforce')) {
-                    rd.put('isSalesforceConnected','salesforceDisconnected');
-                } else {
-                    rd.put('isSalesforceConnected','salesforceConnected');
-                }
+                // why do we need distinct strings here for the status? Can't we just pass a boolean?
+                // because of the 'freshConnection' value in the condition below.
+                String status = stripeConnectRec.Salesforce_Connected__c ? 'salesforceConnected' : 'salesforceDisconnected';
+                rd.put('isSalesforceConnected', status);
 
-                // TODO same Q here: why can't we just use a boolean here?
-                if(!(Boolean)connectionStatus.get('stripe')) {
-                    rd.put('isStripeConnected','stripeDisconnected');
-                } else {
-                    rd.put('isStripeConnected','stripeConnected');
-                }
+                status = stripeConnectRec.Stripe_Connected__c ? 'stripeConnected' : 'stripeDisconnected';
+                rd.put('isStripeConnected', status);
             } else {
                 /*if the response shows they are connected we will udpate the Setup Connection custom setting record to signify they are connected
                 We return a connection status of freshConnection to determine if we should show a toast message of success or not*/
-                if(systemConnected == 'stripe') {
-                    if (!(Boolean)connectionStatus.get('stripe')) {
-                        rd.put('isStripeConnected','stripeDisconnected');
-                    } else {
-                        rd.put('isStripeConnected','freshConnection');
-                    }
-                } else if(systemConnected == 'salesforce') {
-                    if (!(Boolean)connectionStatus.get('salesforce')) {
-                        rd.put('isSalesforceConnected','salesforceDisconnected');
-                    } else {
-                        rd.put('isSalesforceConnected','freshConnection');
-                    }
+                if(systemConnected == constants.SYSTEM_STRIPE) {
+                    String status = stripeConnectRec.Stripe_Connected__c ? 'freshConnection' : 'stripeDisconnected';
+                    rd.put('isStripeConnected', status);
+                } else if(systemConnected == constants.SYSTEM_SALESFORCE) {
+                    String status = stripeConnectRec.Stripe_Connected__c ? 'freshConnection' : 'salesforceDisconnected';
+                    rd.put('isSalesforceConnected', status);
                 }
             }
 
@@ -181,11 +177,10 @@ public with sharing class setupAssistant {
         responseData rd = new responseData();
         Boolean isConnected = false;
         try {
-            Stripe_Connection__c stripeConnectRec = Stripe_Connection__c.getOrgDefaults();
+            isConnected = isConnected();
 
-            if(stripeConnectRec.Id != null && stripeConnectRec.Salesforce_Connected__c && stripeConnectRec.Stripe_Connected__c) {
-                isConnected = true;
-                if(isConnectedCallback == true) {   
+            if (isConnected) {
+                if (isConnectedCallback == true) {
                     //builds a map of fields lists by object
                     Map<String, Set<Object>> fieldListByObjectMap = new Map<String, Set<Object>>{
                         'OrderItem' => utilities.getListOfFieldsByObject('OrderItem'),
@@ -267,50 +262,24 @@ public with sharing class setupAssistant {
         responseData rd = new responseData();
         Boolean isConnected = false;
         try {
-            Stripe_Connection__c stripeConnectRec = Stripe_Connection__c.getOrgDefaults();
+            isConnected = isConnected();
 
-            if(stripeConnectRec.Id != null && stripeConnectRec.Salesforce_Connected__c && stripeConnectRec.Stripe_Connected__c) {
+            if (isConnected) {
                 //used to store configuration maps from response
                 Map<String, Object> allMappingConfigurations = new Map<String, Object>();
 
                 //construct call out to rubys configuration endpoint
-                isConnected = true;
-                String route = constants.RUBY_SERVICE_BASE_URI + '/v1/configuration';
+                String route = utilities.getPlatformConfigEndpoint();
                 HttpResponse response =  utilities.makeCallout(route,'GET');
 
                 //if the call out is successful pull out all mapping objects and add to list
                 Map<String, Object> responseBody;
-                if(response.getStatusCode() == 200) {
+                if (response.getStatusCode() == 200) {
                     responseBody = (Map<String,Object>)JSON.deserializeUntyped(response.getBody());
 
-                    rd.put('configurationHash', (String)responseBody.get('configuration_hash'));
-                    Map<String, Object> fieldMappingsMap = (Map<String,Object>)responseBody.get('field_mappings');
-                    if (fieldMappingsMap != null && !fieldMappingsMap.isEmpty()) {
-                        allMappingConfigurations.put('field_mappings', fieldMappingsMap);
-                    }
+                    payloadHelper.extractConfigHash(responseBody, rd);
 
-                    Map<String, Object> defaultMappingsMap = (Map<String,Object>)responseBody.get('default_mappings');
-                    if (defaultMappingsMap != null && !defaultMappingsMap.isEmpty()) {
-                        allMappingConfigurations.put('default_mappings', defaultMappingsMap);
-                    }
-
-                    Map<String, Object> requiredMappingsMap = (Map<String,Object>)responseBody.get('required_mappings');
-                    if (requiredMappingsMap != null && !requiredMappingsMap.isEmpty()) {
-                        allMappingConfigurations.put('required_mappings', requiredMappingsMap);
-                    }
-
-                    Map<String, Object> fieldDefaultsMappingsMap = (Map<String,Object>)responseBody.get('field_defaults');
-                    if (fieldDefaultsMappingsMap != null  && !fieldDefaultsMappingsMap.isEmpty()) {
-                        allMappingConfigurations.put('field_defaults', fieldDefaultsMappingsMap);
-                    }
-                    rd.put('allMappingConfigurations', allMappingConfigurations);
-
-                    List<String> hiddenMapperFields = getListFieldFromPayload('hidden_mapper_fields', responseBody, false);
-                    if (hiddenMapperFields == null) {
-                        rd.put('hiddenMapperFields', new List<String> { 'coupon', 'subscription_schedule.prebilling', 'customer.standard.coupon' });
-                    } else {
-                        rd.put('hiddenMapperFields', hiddenMapperFields);
-                    }
+                    payloadHelper.extractFieldMappingData(responseBody, rd, true);
                 } else {
                     errorLogger.create('getMappingConfigurations', String.valueOf(response.getStatusCode()), (String)response.getStatus(), 'Failed to get mapping configuration from ruby service.');
                 }
@@ -327,9 +296,8 @@ public with sharing class setupAssistant {
     public static String saveMappingConfigurations(String jsonMappingConfigurationsObject) {
         responseData rd = new responseData();
         try {
-            Stripe_Connection__c stripeConnectRec = Stripe_Connection__c.getOrgDefaults();
-            if(stripeConnectRec.Id != null && stripeConnectRec.Salesforce_Connected__c && stripeConnectRec.Stripe_Connected__c) {
-                String route = constants.RUBY_SERVICE_BASE_URI + '/v1/configuration';
+            if(isConnected()) {
+                String route = utilities.getPlatformConfigEndpoint();
                 HttpResponse response =  utilities.makeCallout(route, 'PUT', jsonMappingConfigurationsObject);
                 rd = utilities.validateCalloutResponse(response, 'saveMappingConfigurations');
             }
@@ -347,13 +315,13 @@ public with sharing class setupAssistant {
             rd.put('isSandbox', constants.IS_SANDBOX);
             Stripe_Connection__c stripeConnectRec = Stripe_Connection__c.getOrgDefaults();
 
-            if(stripeConnectRec.Id == null || !stripeConnectRec.Salesforce_Connected__c || !stripeConnectRec.Stripe_Connected__c) {
+            if(utilities.isConnected(stripeConnectRec) == false) {
                 rd.put('isConnected', false);
                 return rd.getJsonString();
             }
 
             //make callout to ruby services configuration endpoint to get stored stripe setting values
-            String route = constants.RUBY_SERVICE_BASE_URI + '/v1/configuration';
+            String route = utilities.getPlatformConfigEndpoint();
             HttpResponse response =  utilities.makeCallout(route, 'GET');
 
             Map<String, Object> errorBody;
@@ -361,111 +329,34 @@ public with sharing class setupAssistant {
 
             /*if we get a 200 response code from the ruby service we will check the connection status object
             in the payload to determine weather the user successfully connected to stripe or not*/
-            if(response.getStatusCode() == 200) {
+            if (response.getStatusCode() == 200) {
                 responseBody = (Map<String,Object>)JSON.deserializeUntyped(response.getBody());
 
-                //get connection status values from response
-                Map<String, Object> connectionStatus = (Map<String,Object>)responseBody.get('connection_status');
+                payloadHelper.extractConnectionStatus(responseBody, stripeConnectRec);
 
                 //ensure we are still connected
-                if(!(Boolean)connectionStatus.get('stripe') || !(Boolean)connectionStatus.get('salesforce')) {
+                Boolean isConnected = stripeConnectRec.Stripe_Connected__c && stripeConnectRec.Salesforce_Connected__c;
+                if (isConnected == false) {
                     rd.put('isConnected', false);
-                    stripeConnectRec.Stripe_Connected__c = (Boolean)connectionStatus.get('stripe');
-                    stripeConnectRec.Salesforce_Connected__c = (Boolean)connectionStatus.get('salesforce');
                     upsert stripeConnectRec;
                     return rd.getJsonString();
                 }
-                
-                rd.put('enabled', (Boolean)responseBody.get('enabled'));
-                rd.put('configurationHash', (String)responseBody.get('configuration_hash'));
-                rd.put('default_currency', UserInfo.getDefaultCurrency());
 
-                Map<String, Object> settings = (Map<String,Object>)responseBody.get('settings');
+                payloadHelper.extractConfigHash(responseBody, rd);
+                payloadHelper.extractSettingsData(responseBody, rd, true);
 
-                List<String> settingsFields = new List<String> {
-                    'sync_record_retention',
-                    'sync_start_date',
-                    'api_percentage_limit',
-                    'cpq_term_unit',
-                    'cpq_prorate_precision'
-                };
-
-                List<String> booleanFields = new List<String> {
-                    'polling_enabled'
-                };
-
-                List<String> connectionReadOnlyFields = new List<String> {
-                    'stripe_account_id',
-                    'last_synced'
-                };
-
-                //gets non read only settings fields from response for frontend
-                for(String settingsField : settingsFields) {
-                    rd.put(settingsField, String.valueOf(settings.get(settingsField)));
-                    if (settingsField == 'sync_record_retention') {
-                        rd.put(settingsField, String.valueOf(settings.get(settingsField)));
-                        stripeConnectRec.Sync_Record_Retention__c = String.valueOf(settings.get(settingsField));
-                        upsert stripeConnectRec;
-                    }
-                }
-
-                //gets boolean connection fields from response for frontend
-                for(String booleanField : booleanFields) {
-                    if (settings.get(booleanField) == null) {
-                        rd.put(booleanField, false);
-                    } else {
-                        rd.put(booleanField, Boolean.valueOf(settings.get(booleanField)));
-                    }
-                }
-
-                //gets read only connection fields from response for frontend
-                for(String readOnlyField : connectionReadOnlyFields) {
-                    rd.put(readOnlyField, String.valueOf(connectionStatus.get(readOnlyField)));
-                }
-
-                List<String> hiddenSyncPrefFields = getListFieldFromPayload('hidden_sync_pref_fields', responseBody, false);
-                if (hiddenSyncPrefFields == null) {
-                    rd.put('hiddenSyncPrefsFields', new List<String> { 'api-percentage-limit', 'cpq-term-unit' });
-                } else {
-                    rd.put('hiddenSyncPrefsFields', hiddenSyncPrefFields);
-
+                String recRetention = rd.getString(ConfigPayloadHelper.SYNC_RECORD_RETENTION);
+                if (stripeConnectRec.Sync_Record_Retention__c != recRetention) {
+                    stripeConnectRec.Sync_Record_Retention__c = recRetention;
+                    upsert stripeConnectRec;
                 }
             }
             rd.put('isConnected', true);
-            rd.put('isCpqInstalled', utilities.isCpqEnabled());
         } catch (Exception e) {
              rd.addError(e);
         }
 
         return rd.getJsonString();
-    }
-
-    @TestVisible
-    private static List<String> getListFieldFromPayload(String listKey, Map<String,Object> responseBody) {
-        return getListFieldFromPayload(listKey, responseBody, true);
-    }
-
-    @TestVisible
-    private static List<String> getListFieldFromPayload(String listKey, Map<String,Object> responseBody, Boolean ensureList) {
-        List<Object> respFields;
-        List<String> respList = new List<String>();
-
-        try {
-            respFields = (List<Object>) responseBody.get(listKey);
-
-            if (respFields == null) {
-                return ensureList ? new List<String>() : null;
-            }
-
-            for (Object obj : respFields) {
-                respList.add(String.valueOf(obj));
-            }
-        } catch (Exception e) {
-            // data is not in the format we expect...
-            return ensureList ? new List<String>() : null;
-        }
-
-        return respList;
     }
 
     //gets multi currency options if it is enablec in the org
@@ -511,31 +402,38 @@ public with sharing class setupAssistant {
     public static String saveSyncPreferences(String defaultCurrency, String syncRecordRetention, String syncStartDate, String apiPercentageLimit, String cpqTermUnit, String cpqProratePrecision, Boolean pollingEnabled, String configurationHash) {
         responseData rd = new responseData();
         try {
-            Stripe_Connection__c stripeConnectRec = Stripe_Connection__c.getOrgDefaults();
-            if(stripeConnectRec.Id != null) {
-                Map<String, Object> resquestBody = new Map<String, Object> {
-                    'configuration_hash' => configurationHash,
-                    'settings' => new Map<String, Object> {
-                        'polling_enabled' => pollingEnabled,
-                        'api_percentage_limit' => apiPercentageLimit,
-                        'sync_start_date' => syncStartDate,
-                        'sync_record_retention' => syncRecordRetention,
-                        'default_currency' => UserInfo.getDefaultCurrency(),
-                        'multicurrency_enabled' => UserInfo.isMultiCurrencyOrganization(),
-                        'cpq_term_unit' => cpqTermUnit,
-                        'cpq_prorate_precision' => cpqProratePrecision
-                    }
+            if (isConnected()) {
+                Map<String, Object> settings = new Map<String, Object> {
+                    'polling_enabled' => pollingEnabled,
+                    'sync_start_date' => syncStartDate,
+                    'sync_record_retention' => syncRecordRetention,
+                    'default_currency' => UserInfo.getDefaultCurrency(),
+                    'cpq_term_unit' => cpqTermUnit,
+                    'cpq_prorate_precision' => cpqProratePrecision
                 };
 
-                String route = constants.RUBY_SERVICE_BASE_URI + '/v1/configuration';
+                if (apiPercentageLimit != null) {
+                    settings.put('api_percentage_limit', apiPercentageLimit);
+                }
+
+                if (cpqTermUnit != null) {
+                    settings.put('cpq_term_unit', cpqTermUnit);
+                }
+
+                Map<String, Object> resquestBody = new Map<String, Object> {
+                    'configuration_hash' => configurationHash,
+                    'settings' => settings
+                };
+
+                String route = utilities.getPlatformConfigEndpoint();
                 HttpResponse response =  utilities.makeCallout(route, 'PUT', JSON.serialize(resquestBody));
                 rd = utilities.validateCalloutResponse(response, 'saveSyncPreferences');
 
             }
-       } catch (Exception e) {
+        } catch (Exception e) {
            rd.addError(e);
-       }
-       return rd.getJsonString();
+        }
+        return rd.getJsonString();
     }
 
     //activates polling in the ruby service
@@ -543,8 +441,7 @@ public with sharing class setupAssistant {
     public static String activatePolling(String syncStartDate, Boolean isConfigEnabled, String configurationHash) {
         responseData rd = new responseData();
         try {
-            Stripe_Connection__c stripeConnectRec = Stripe_Connection__c.getOrgDefaults();
-            if(stripeConnectRec.Id != null) {
+            if (isConnected()) {
                 Map<String, Object> resquestBody = new Map<String, Object> {
                         'enabled' => isConfigEnabled,
                         'configuration_hash' => configurationHash,
@@ -554,7 +451,7 @@ public with sharing class setupAssistant {
                         }
                 };
 
-                String route = constants.RUBY_SERVICE_BASE_URI + '/v1/configuration';
+                String route = utilities.getPlatformConfigEndpoint();
                 HttpResponse response =  utilities.makeCallout(route, 'PUT', JSON.serialize(resquestBody));
                 rd = utilities.validateCalloutResponse(response, 'activatePolling');
             }
@@ -570,9 +467,7 @@ public with sharing class setupAssistant {
         responseData rd = new responseData();
         Boolean isSyncRecordDispactched = false;
         try {
-            Stripe_Connection__c stripeConnectRec = Stripe_Connection__c.getOrgDefaults();
-
-            if(stripeConnectRec.Id != null && stripeConnectRec.Salesforce_Connected__c && stripeConnectRec.Stripe_Connected__c) {
+            if (isConnected()) {
                 //get sync record information for ruby service
                 List<Sync_Record__c> syncRecordList = [SELECT Id, Primary_Record_ID__c, Secondary_Record_ID__c, Resolution_Status__c, Secondary_Object_Type__c, Primary_Object_Type__c
                                                         FROM Sync_Record__c
@@ -588,7 +483,7 @@ public with sharing class setupAssistant {
 
                 Sync_Record__c recordToSync = syncRecordList[0];
                 
-                String route = constants.RUBY_SERVICE_BASE_URI + '/v1/translate';
+                String route = utilities.getPlatformTranslateEndpoint();
 
                 Map<String, Object> body = new Map<String, Object>{
                     'object_type' => (String)recordToSync.Primary_Object_Type__c,
@@ -599,7 +494,7 @@ public with sharing class setupAssistant {
 
                 HttpResponse response =  utilities.makeCallout(route, 'POST', JSON.serialize(body));
 
-                if(response.getStatusCode() == 200) {
+                if (response.getStatusCode() == 200) {
                     isSyncRecordDispactched = true;
                 } else {
                     rd.put('isSyncRecordDispactched', false);
@@ -615,59 +510,43 @@ public with sharing class setupAssistant {
 
      //gets all saved filter settings
      @AuraEnabled
-     public static String getFilterSettings() {
-         responseData rd = new responseData();
-         try {
+    public static String getFilterSettings() {
+        responseData rd = new responseData();
+        try {
             Stripe_Connection__c stripeConnectRec = Stripe_Connection__c.getOrgDefaults();
 
-            if (stripeConnectRec.Id == null || !stripeConnectRec.Salesforce_Connected__c || !stripeConnectRec.Stripe_Connected__c) {
+            if (utilities.isConnected(stripeConnectRec) == false) {
                 rd.put('isConnected', false);
                 return rd.getJsonString();
             }
 
-
             //make callout to ruby services configuration endpoint to get stored stripe setting values
-            String route = constants.RUBY_SERVICE_BASE_URI + '/v1/configuration';
+            String route = utilities.getPlatformConfigEndpoint();
             HttpResponse response =  utilities.makeCallout(route, 'GET');
 
-            if(response.getStatusCode() != 200) {
+            if (response.getStatusCode() != 200) {
                 errorLogger.create('getFilterSettings', String.valueOf(response.getStatusCode()), (String)response.getStatus(), '');
                 rd.put('isConnected', false);
                 return rd.getJsonString();
             }
+
             Map<String, Object> responseBody = (Map<String,Object>)JSON.deserializeUntyped(response.getBody());
 
             //get connection status values from response
-            Map<String, Object> connectionStatus = (Map<String,Object>)responseBody.get('connection_status');
+            Boolean isConnected = payloadHelper.extractConnectionStatus(responseBody, stripeConnectRec);
 
             //ensure we are still connected
-            if(!(Boolean)connectionStatus.get('stripe') || !(Boolean)connectionStatus.get('salesforce')) {
+            if (isConnected == false) {
                 rd.put('isConnected', false);
-                stripeConnectRec.Stripe_Connected__c = (Boolean)connectionStatus.get('stripe');
-                stripeConnectRec.Salesforce_Connected__c = (Boolean)connectionStatus.get('salesforce');
                 upsert stripeConnectRec;
                 return rd.getJsonString();
             }
 
-            Map<String, Object> settings = (Map<String,Object>)responseBody.get('settings');
-
-            Map<String, Object> filters = (Map<String,Object>)settings.get('filters');
-
-            List<String> filterFields = new List<String> {
-                'Product2',
-                'Order',
-                'Account',
-                'PricebookEntry'
-            };
-
-            //gets filter fields and values for front end
-            for(String filterField : filterFields) {
-                rd.put(filterField, String.valueOf(filters.get(filterField)));
-            }
-
+            payloadHelper.extractFilterSettingsData(responseBody, rd);
         } catch (Exception e) {
             rd.addError(e);
         }
+
         rd.put('isConnected', true);
         return rd.getJsonString();
     }
@@ -716,7 +595,7 @@ public with sharing class setupAssistant {
             }
 
             Stripe_Connection__c stripeConnectRec = Stripe_Connection__c.getOrgDefaults();
-            if (stripeConnectRec.Id == null || !stripeConnectRec.Salesforce_Connected__c || !stripeConnectRec.Stripe_Connected__c) {
+            if (utilities.isConnected(stripeConnectRec) == false) {
                 rd.put('isFiltersSaved', false);
                 rd.put('isConnected', false);
                 return rd.getJsonString();
@@ -727,7 +606,7 @@ public with sharing class setupAssistant {
                     'filters' => queryFilterMap
                 }
             };
-            String route = constants.RUBY_SERVICE_BASE_URI + '/v1/configuration';
+            String route = utilities.getPlatformConfigEndpoint();
             HttpResponse response =  utilities.makeCallout(route, 'PUT', JSON.serialize(resquestBody));
 
             if(response.getStatusCode() != 200) {
@@ -747,22 +626,29 @@ public with sharing class setupAssistant {
     //sends object name for all records syncing to the ruby service
     @AuraEnabled
     public static String syncAllRecords(String objectType) {
+        debugger.debug('setupAssistant.syncAllRecords', 'objectType: ' + objectType);
         responseData rd = new responseData();
         try {
             Stripe_Connection__c stripeConnectRec = Stripe_Connection__c.getOrgDefaults();
 
-            if (stripeConnectRec.Id == null || !stripeConnectRec.Salesforce_Connected__c || !stripeConnectRec.Stripe_Connected__c) {
+            if (utilities.isConnected(stripeConnectRec) == false) {
                 rd.put('isConnected', false);
                 return rd.getJsonString();
             }
 
-            String route = constants.RUBY_SERVICE_BASE_URI + '/v1/translate_all';
+            debugger.debug('setupAssistant.syncAllRecords', 'is connected');
+
+            String route = utilities.getPlatformTranslateAllEndpoint();
 
             Map<String, Object> body = new Map<String, Object>{
                 'object_type' => objectType
             };
 
-            HttpResponse response =  utilities.makeCallout(route, 'POST', JSON.serialize(body));
+            debugger.debug('setupAssistant.syncAllRecords', 'route: ' + route);
+            debugger.debug('setupAssistant.syncAllRecords', 'body: ' + JSON.serialize(body));
+            HttpResponse response = utilities.makeCallout(route, 'POST', JSON.serialize(body));
+
+            debugger.debug('setupAssistant.syncAllRecords', 'Got response status code: ' + response.getStatusCode());
 
             if (response.getStatusCode() != 200) {
                 rd.put('syncAllRecordsDispatched', false);
@@ -806,8 +692,15 @@ public with sharing class setupAssistant {
                 return rd.getJsonString();
             }
 
+            Stripe_Connection__c stripeConnectRec = Stripe_Connection__c.getOrgDefaults();
+
+            if (utilities.isConnected(stripeConnectRec) == false) {
+                rd.put('isConnected', false);
+                return rd.getJsonString();
+            }
+
             //here is where we need to validate if its record or not
-            String route = constants.RUBY_SERVICE_BASE_URI + '/v1/translate';
+            String route = utilities.getPlatformTranslateEndpoint();
 
             Map<String, Object> body = new Map<String, Object> {
                 'object_type' => objectName,

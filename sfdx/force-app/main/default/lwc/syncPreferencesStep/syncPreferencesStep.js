@@ -8,6 +8,7 @@ import syncAllRecords from '@salesforce/apex/setupAssistant.syncAllRecords';
 import { LightningElement, api, track} from 'lwc';
 import { getErrorMessage } from 'c/utils'
 import LightningConfirm from 'lightning/confirm';
+import { Debugger } from 'c/debugger';
 
 const POLLING_FIRST_ENABLE_ALERT_TITLE = 'Are you sure?';
 const POLLING_FIRST_ENABLE_ALERT_TEMPLATE = `You are activating live syncing for your integration, meaning we will begin creating Stripe subscriptions for all Salesforce orders activated on or after SYNC_START_DATE. You can pause this in the future in the 'Sync Preferences' menu.`
@@ -180,8 +181,8 @@ export default class SyncPreferencesStep extends LightningElement {
             if (responseData.results.sync_start_date && responseData.results.sync_start_date !== "0") {
                 this.syncStartDate = new Date(responseData.results.sync_start_date * 1000).toISOString();
             }
-            this.apiPercentageLimit = responseData.results.api_percentage_limit;
-            this.cpqTermUnit = responseData.results.cpq_term_unit;
+            this.apiPercentageLimit = responseData.results.api_percentage_limit || null;
+            this.cpqTermUnit = responseData.results.cpq_term_unit || null;
             this.cpqProratePrecision = responseData.results.cpq_prorate_precision || 'month';
             this.isCpqInstalled = responseData.results.isCpqInstalled;
             this.isSandbox = responseData.results.isSandbox;
@@ -204,14 +205,15 @@ export default class SyncPreferencesStep extends LightningElement {
 
             const filterSettings = await getFilterSettings();
             const filterSettingsResponseData = JSON.parse(filterSettings);
+
             if(!filterSettingsResponseData.isSuccess && filterSettingsResponseData.error) {
                 this.showToast(filterSettingsResponseData.error, 'error', 'sticky');
             }
-            this.orderFilter = filterSettingsResponseData.results.Order;
-            this.accountFilter = filterSettingsResponseData.results.Account;
-            this.productFilter = filterSettingsResponseData.results.Product2;
-            this.priceBookFilter = filterSettingsResponseData.results.PricebookEntry;
 
+            this.orderFilter = filterSettingsResponseData.results.order_filter || '';
+            this.accountFilter = filterSettingsResponseData.results.account_filter || '';
+            this.productFilter = filterSettingsResponseData.results.product_filter || '';
+            this.priceBookFilter = filterSettingsResponseData.results.pricebook_entry_filter || '';
         } catch (error) {
             let errorMessage = getErrorMessage(error);
             this.showToast(errorMessage, 'error', 'sticky');
@@ -355,6 +357,8 @@ export default class SyncPreferencesStep extends LightningElement {
     }
 
     @api async saveModifiedSyncPreferences() {
+        Debugger.log('saveModifiedSyncPreferences', 'enter', this.pollingEnabledChanged, this.hasSynced, this.pollingEnabled);
+
         let saveSuccess = false;
         try {
             // confirm they wish to pause polling
@@ -366,6 +370,7 @@ export default class SyncPreferencesStep extends LightningElement {
                 });
 
                 if (result === false) {
+                    Debugger.log('saveModifiedSyncPreferences', 'user cancelled disabling polling');
                     this.dispatchEvent(new CustomEvent('savecomplete', {
                         detail: {
                             saveSuccess: saveSuccess,
@@ -380,6 +385,7 @@ export default class SyncPreferencesStep extends LightningElement {
             if (this.pollingEnabledChanged && this.hasSynced === false && this.pollingEnabled) {
                 const startDateEle = this.template.querySelector('[data-id="syncStartDate"]');
                 if (startDateEle.checkValidity() === false) {
+                    Debugger.log('saveModifiedSyncPreferences', 'invalid sync start date');
                     startDateEle.reportValidity();
                     this.showToast("A Sync Start Date must be set.", 'error', 'sticky');
                     return;
@@ -394,6 +400,7 @@ export default class SyncPreferencesStep extends LightningElement {
                 });
 
                 if (result === false) {
+                    Debugger.log('saveModifiedSyncPreferences', 'user cancelled enabling polling');
                     this.dispatchEvent(new CustomEvent('savecomplete', {
                         detail: {
                             saveSuccess: saveSuccess,
@@ -407,19 +414,24 @@ export default class SyncPreferencesStep extends LightningElement {
                 this.lastSynced = 'Scheduled';
             }
 
-            if((this.apiPercentageLimit < 100 && this.apiPercentageLimit > 0) && (this.syncRecordRetention < 1000000 && this.syncRecordRetention > 100)) {
-                const updatedSyncPreferences = await saveSyncPreferences({
+            const validApiPercentageLimit = this.apiPercentageLimit === null || (this.apiPercentageLimit > 0 && this.apiPercentageLimit < 100);
+            const validSyncRecordRetention = this.syncRecordRetention < 1000000 && this.syncRecordRetention > 100;
+            Debugger.log('saveModifiedSyncPreferences', 'before call check', {validApiPercentageLimit, validSyncRecordRetention});
+            if (validApiPercentageLimit && validSyncRecordRetention) {
+                const toPersist = {
                     pollingEnabled: this.pollingEnabled,
-                    cpqTermUnit: this.cpqTermUnit,
-                    cpqProratePrecision: this.cpqProratePrecision,
                     defaultCurrency: this.defaultCurrency,
                     syncRecordRetention: this.syncRecordRetention,
                     syncStartDate: (new Date(this.syncStartDate).getTime() / 1000),
                     apiPercentageLimit: this.apiPercentageLimit,
-                    configurationHash: this.configurationHash
-                });
+                    cpqTermUnit: this.cpqTermUnit,
+                    cpqProratePrecision: this.cpqProratePrecision,
+                    configurationHash: this.configurationHash,
+                };
+                const updatedSyncPreferences = await saveSyncPreferences(toPersist);
                 const savedSyncPreferencesResponseData =  JSON.parse(updatedSyncPreferences);
                 if(savedSyncPreferencesResponseData.isSuccess) {
+                    Debugger.log('saveModifiedSyncPreferences', 'sync preferences saved')
                     this.configurationHash = savedSyncPreferencesResponseData.results.configurationHash;
                     this.pollingEnabledInitialValue = this.pollingEnabled;
                     // Reset object filter validation messages
@@ -436,11 +448,13 @@ export default class SyncPreferencesStep extends LightningElement {
                     const filterResponseData =  JSON.parse(updatedFilterSettings);
                     if (filterResponseData.isSuccess ) {
                         if (filterResponseData.results.isFiltersSaved) {
+                            Debugger.log('saveModifiedSyncPreferences', 'filters saved');
                             saveSuccess = true
                             this.showToast('Changes were successfully saved', 'success');
                         } else {
                             if(filterResponseData.results.isValidationError) {
                                 const listOfExceptions = filterResponseData.results.ValidationErrors;
+                                Debugger.log('saveModifiedSyncPreferences', 'filters validation error', listOfExceptions);
                                 for (let i = 0; i < listOfExceptions.length; i++) {
                                     let objectWithError = listOfExceptions[i].Object;
                                     let exceptionThrown = listOfExceptions[i].Error;
@@ -459,18 +473,22 @@ export default class SyncPreferencesStep extends LightningElement {
                                     }
                                 }
                             } else {
+                                Debugger.log('saveModifiedSyncPreferences', 'filters save error', filterResponseData.error);
                                 this.showToast(filterResponseData.error, 'error', 'sticky');
                             } 
                         }
                     } 
                 } else {
+                    Debugger.log('saveModifiedSyncPreferences', 'sync preferences save error', savedSyncPreferencesResponseData.error);
                     this.showToast(savedSyncPreferencesResponseData.error, 'error', 'sticky');
                 }
             }
         } catch (error) {
+            Debugger.log('saveModifiedSyncPreferences', 'error', error);
             let errorMessage = getErrorMessage(error);
             this.showToast(errorMessage, 'error', 'sticky');
         } finally {
+            Debugger.log('saveModifiedSyncPreferences', 'save complete');
             this.dispatchEvent(new CustomEvent('savecomplete', {
                 detail: {
                     saveSuccess: saveSuccess,

@@ -412,6 +412,7 @@ export default class DataMappingStep extends LightningElement {
                 sfValueType: 'default'
             };
             Object.assign(this.activeObjectFields[targetSectionIndex].fields[parseInt(targetFieldIndex)], updatedSelection);
+            this.valueChange();
         }
     }
 

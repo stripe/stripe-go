@@ -281,8 +281,10 @@ export default class FirstTimeSetup extends LightningElement {
     }
 
     next(e) {
+        console.log('got next', e);
         this.contentLoading = true;
         this.stepName = this.steps[this.activeStepIndex].name;
+        console.log('processing step', this.stepName);
         if(this.stepName === 'C-DATA-MAPPING-STEP') {
             return this.template.querySelector('c-data-mapping-step').saveDataMappings();
         } else if(this.stepName === 'C-SYNC-PREFERENCES-STEP') {

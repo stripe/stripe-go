@@ -1,32 +1,6 @@
 @isTest
 public with sharing class test_setupAssistant {
-    @IsTest
-    static void testGetListFieldFromPayload() {
-        Map<String,Object> responseBody = new Map<String, Object> {
-            'empty' => new List<Object>(),
-            'some' => new List<Object> { 'A', 'B' },
-            'broken' => 'foo'
-        };
-
-        List<String> nullRes = setupAssistant.getListFieldFromPayload('null', responseBody);
-        List<String> nullResRaw = setupAssistant.getListFieldFromPayload('null', responseBody, false);
-        List<String> someRes = setupAssistant.getListFieldFromPayload('some', responseBody);
-        List<String> emptyRes = setupAssistant.getListFieldFromPayload('empty', responseBody);
-        List<String> brokenRes = setupAssistant.getListFieldFromPayload('broken', responseBody, false);
-
-        System.assertNotEquals(null, nullRes, 'null ref with ensured list is not null');
-        System.assertEquals(0, nullRes.size(), 'null ref with ensure list is empty');
-
-        System.assertEquals(null, nullResRaw, 'null ref without ensure list is null');
-
-        System.assertNotEquals(null, emptyRes, 'empty ref is not null');
-        System.assertEquals(0, emptyRes.size(), 'empty ref is empty');
-
-        System.assertNotEquals(null, someRes, 'some ref is not null');
-        System.assertEquals(2, someRes.size(), 'some ref is not empty');
-
-        System.assertEquals(null, brokenRes, 'broken ref is null');
-    }
+    static Debug_Helper debugger = new Debug_Helper();
 
     @isTest
     static public void testSetupAssistant_getSetupData() {
@@ -257,7 +231,7 @@ public with sharing class test_setupAssistant {
         System.assertEquals((Boolean)responseMap.get('isSuccess'), false);
     }
 
-    @isTest
+    @IsTest
     static public void testSetupAssistant_getMappingConfigurations() {
         Setup_Connection_Data__mdt testSetupData = getTestStripeConnectionKey();
         setTestGlobalKey(testSetupData);
@@ -365,8 +339,6 @@ public with sharing class test_setupAssistant {
         System.assertEquals('USD', (String)resultsMap.get('default_currency'));
         System.assertEquals('2 days', (String)resultsMap.get('sync_record_retention'));
         System.assertEquals('yesterday', (String)resultsMap.get('sync_start_date'));
-        System.assertEquals('1000515', (String)resultsMap.get('api_percentage_limit'));
-        System.assertEquals('monthly', (String)resultsMap.get('cpq_term_unit'));
         System.assertEquals('month', (String)resultsMap.get('cpq_prorate_precision'));
         System.assertEquals(true, (Boolean)resultsMap.get('enabled'));
         System.assertEquals('1234', (String)resultsMap.get('configurationHash'));
@@ -515,9 +487,10 @@ public with sharing class test_setupAssistant {
 
         Map<String, Object> resultsMap = (Map<String, Object>)responseMap.get('results');
 
-        System.assertEquals('testOrderFilter', (String)resultsMap.get('Order'));
-        System.assertEquals('testAccountFilter', (String)resultsMap.get('Account'));
-        System.assertEquals('testProduct2Filter', (String)resultsMap.get('Product2'));
+        System.assertEquals('testOrderFilter', (String)resultsMap.get('order_filter'));
+        System.assertEquals('testAccountFilter', (String)resultsMap.get('account_filter'));
+        System.assertEquals('testProduct2Filter', (String)resultsMap.get('product_filter'));
+        System.assertEquals('testPricebookEntryFilter', (String)resultsMap.get('pricebook_entry_filter'));
     }
 
     @isTest
@@ -567,13 +540,19 @@ public with sharing class test_setupAssistant {
         Test.startTest();
         Test.setMock(HttpCalloutMock.class, new stripeSuccessMock());
         String response = setupAssistant.syncAllRecords('Product2');
-        Map<String, Object> responseMap = (Map<String, Object>)JSON.deserializeUntyped(response);
         Test.stopTest();
 
-        System.assert((Boolean)responseMap.get('isSuccess'), responseMap.get('error'));
+        debugger.debug('testSetupAssistant_syncAllRecords', 'got test response: ' + response);
+        Map<String, Object> responseMap = (Map<String, Object>)JSON.deserializeUntyped(response);
+
+        debugger.debug('testSetupAssistant_syncAllRecords', 'response map: ' + responseMap);
+        System.assert((Boolean)responseMap.get('isSuccess'), 'Is success');
+        System.assertEquals(null, responseMap.get('error'), 'No error provided');
 
         Map<String, Object> resultsMap = (Map<String, Object>)responseMap.get('results');
-        System.assertEquals(true, (Boolean)resultsMap.get('syncAllRecordsDispatched'));
+        debugger.debug('testSetupAssistant_syncAllRecords', 'results map: ' + resultsMap);
+        System.assert((Boolean)resultsMap.get('isConnected'), 'Is connected');
+        System.assertEquals(true, (Boolean)resultsMap.get('syncAllRecordsDispatched'), 'all records dispatched');
     }
 
     public static Setup_Connection_Data__mdt getTestStripeConnectionKey() {
@@ -668,8 +647,14 @@ public with sharing class test_setupAssistant {
                     'filters' => new Map<String,Object> {
                         'Product2' => 'testProduct2Filter',
                         'Order' => 'testOrderFilter',
-                        'Account' => 'testAccountFilter'
+                        'Account' => 'testAccountFilter',
+                        'PricebookEntry' => 'testPricebookEntryFilter'
                     }
+                });
+
+                responseBody.put('hidden_sync_pref_fields', new List<String> {
+                        'api_percentage_limit',
+                        'cpq_term_unit'
                 });
 
                 res.setBody(Json.serialize(responseBody));
@@ -688,127 +673,148 @@ public with sharing class test_setupAssistant {
         }
     }
 
-        private class stripeSuccessMock implements HttpCalloutMock {
-            public Integer calls = 0;
-            public HttpResponse respond(HttpRequest req) {
-                calls++;
+    private class stripeSuccessMock implements HttpCalloutMock {
+        public Integer calls = 0;
+        public HttpResponse respond(HttpRequest req) {
+            calls++;
 
-                HttpResponse res = new HttpResponse();
-                System.assertEquals(req.getHeader('Salesforce-Account-Id'), (String)constants.ORG_ID);
-                System.assertEquals(req.getHeader('Salesforce-Type'), String.valueOf(Sentry_Environment.getInstanceType()));
-                System.assertEquals(req.getHeader('Salesforce-Package-Namespace'), constants.NAMESPACE);
-                if(utilities.isPackagedEnvironment()) {
-                    System.assertEquals(req.getHeader('Salesforce-Package-Id'), (String)utilities.getPackageVersionString());
-                }
-                Stripe_Connection__c stripeConnectRec = Stripe_Connection__c.getOrgDefaults();
-
-
-                if (req.getEndpoint().endsWith('configuration')) {
-                    System.assertEquals(req.getHeader('Salesforce-Key'), (String)stripeConnectRec.API_Key__c);
-                    Map<String,Object> fieldMap = new Map<String,Object>();
-                    Map<String,Object> testFieldMap = new Map<String,Object>();
-                    testFieldMap.put('testFieldMapping', 'test');
-                    fieldMap.put('field_mappings', (Object)testFieldMap);
-
-                    Map<String,Object> defaultMap = new Map<String,Object>();
-                    Map<String,Object> testdefaultMap = new Map<String,Object>();
-                    testdefaultMap.put('testDefaultMap', 'test');
-                    defaultMap.put('default_mappings',(Object)testdefaultMap);
-
-                    Map<String,Object> requiredMapping = new Map<String,Object>();
-                    Map<String,Object> testRequiredMapping = new Map<String,Object>();
-                    testRequiredMapping.put('testRequiredMapping', 'test');
-                    requiredMapping.put('required_mappings', (Object)testRequiredMapping);
-
-                    Map<String,Object> fieldDefaultMap = new Map<String,Object>();
-                    Map<String,Object> testFieldDefaultMap = new Map<String,Object>();
-                    testFieldDefaultMap.put('testFieldDefaultMap', 'test');
-                    fieldDefaultMap.put('field_defaults', (Object)testFieldDefaultMap);
-
-                    Map<String,Object> responseBody = new Map<String,Object>();
-                    responseBody.put('configuration_hash', '1234');
-                    responseBody.put('field_mappings', (Object)fieldMap);
-                    responseBody.put('default_mappings', (Object)defaultMap);
-                    responseBody.put('required_mappings', (Object)requiredMapping);
-                    responseBody.put('field_defaults', (Object)fieldDefaultMap);
-
-                    res.setBody(Json.serialize(responseBody));
-                    res.setStatusCode(200);
-                } else if(req.getEndpoint().endsWith('translate')) {
-                    System.assertEquals(req.getHeader('Salesforce-Key'), (String)stripeConnectRec.API_Key__c);
-                    Map<String,Object> responseObject = new Map<String,Object>();
-
-                    Map<String,Object> responseBody = new Map<String,Object>();
-                    responseBody.put('retry_status', (Object)responseObject);
-
-                    res.setBody(Json.serialize(responseBody));
-                    res.setStatusCode(200);
-                } else if(req.getEndpoint().endsWith('openapi.json')) {
-                    System.assertEquals(req.getHeader('Salesforce-Key'), '');
-                    List<Object> testFormattedFieldsList = new List<Object> {
-                        'testField1',
-                        'testField2',
-                        'testField3',
-                        'testField4',
-                        'testField5'
-                    };
-                    Map<String,Object> responseBody = new Map<String,Object>();
-                    responseBody.put('formattedStripeCustomerFields', (Object)testFormattedFieldsList);
-                    responseBody.put('formattedStripeProductItemFields', (Object)testFormattedFieldsList);
-                    responseBody.put('formattedStripeSubscriptionFields', (Object)testFormattedFieldsList);
-                    responseBody.put('formattedStripeSubscriptionItemFields', (Object)testFormattedFieldsList);
-                    responseBody.put('formattedStripeSubscriptionSchedulePhaseFields', (Object)testFormattedFieldsList);
-                    responseBody.put('formattedStripePriceFields', (Object)testFormattedFieldsList);
-                    res.setBody(Json.serialize(responseBody));
-                    res.setStatusCode(200);
-                } else if(req.getEndpoint().endsWith('translate_all')) {
-                    res.setStatusCode(200);
-                }
-
-                return res;
+            HttpResponse res = new HttpResponse();
+            System.assertEquals(req.getHeader('Salesforce-Account-Id'), (String)constants.ORG_ID);
+            System.assertEquals(req.getHeader('Salesforce-Type'), String.valueOf(Sentry_Environment.getInstanceType()));
+            System.assertEquals(req.getHeader('Salesforce-Package-Namespace'), constants.NAMESPACE);
+            if (utilities.isPackagedEnvironment()) {
+                System.assertEquals(req.getHeader('Salesforce-Package-Id'), (String)utilities.getPackageVersionString());
             }
-        }
+            Stripe_Connection__c stripeConnectRec = Stripe_Connection__c.getOrgDefaults();
 
-        private class stripeNotConnectedMock implements HttpCalloutMock {
-            public HttpResponse respond(HttpRequest req) {
-                HttpResponse res = new HttpResponse();
-                if(req.getEndpoint().endsWith('configuration')) {
 
-                    Map<String,Object> responseBody = new Map<String,Object>();
-                    responseBody.put('connection_status', (Object)new Map<String,Object>{
-                        'salesforce' => false,
-                        'stripe' => false,
-                        'last_synced' => 'test',
-                        'stripe_account_id' => 1234
-                    });
-                    responseBody.put('settings', (Object)new Map<String,Object>{
-                        'default_currency' => 'USD',
-                        'sync_record_retention' => '2 days',
-                        'sync_start_date' => 'yesterday',
-                        'api_percentage_limit' => 1000515,
-                        'cpq_term_unit' => 'monthly',
-                        'filters' => new Map<String,Object> {
-                            'Product2' => 'testProduct2Filter',
-                            'Order' => 'testOrderFilter',
-                            'Account' => 'testAccountFilter'
-                        }
-                    });
+            if (req.getEndpoint().endsWith('configuration')) {
+                System.assertEquals(req.getHeader('Salesforce-Key'), (String)stripeConnectRec.API_Key__c);
+                Map<String,Object> fieldMap = new Map<String,Object>();
+                Map<String,Object> testFieldMap = new Map<String,Object>();
+                testFieldMap.put('testFieldMapping', 'test');
+                fieldMap.put('field_mappings', (Object)testFieldMap);
 
-                    res.setBody(Json.serialize(responseBody));
-                    res.setStatusCode(200);
-                }
-                return res;
-            }
-        }
+                Map<String,Object> defaultMap = new Map<String,Object>();
+                Map<String,Object> testdefaultMap = new Map<String,Object>();
+                testdefaultMap.put('testDefaultMap', 'test');
+                defaultMap.put('default_mappings',(Object)testdefaultMap);
 
-        private class stripeConnectFailMock implements HttpCalloutMock {
-            public HttpResponse respond(HttpRequest req) {
-                HttpResponse res = new HttpResponse();
+                Map<String,Object> requiredMapping = new Map<String,Object>();
+                Map<String,Object> testRequiredMapping = new Map<String,Object>();
+                testRequiredMapping.put('testRequiredMapping', 'test');
+                requiredMapping.put('required_mappings', (Object)testRequiredMapping);
+
+                Map<String,Object> fieldDefaultMap = new Map<String,Object>();
+                Map<String,Object> testFieldDefaultMap = new Map<String,Object>();
+                testFieldDefaultMap.put('testFieldDefaultMap', 'test');
+                fieldDefaultMap.put('field_defaults', (Object)testFieldDefaultMap);
 
                 Map<String,Object> responseBody = new Map<String,Object>();
-                res.setBody(Json.serialize(responseBody));
-                res.setStatusCode(500);
-                return res;
+                responseBody.put('configuration_hash', '1234');
+                responseBody.put('field_mappings', (Object)fieldMap);
+                responseBody.put('default_mappings', (Object)defaultMap);
+                responseBody.put('required_mappings', (Object)requiredMapping);
+                responseBody.put('field_defaults', (Object)fieldDefaultMap);
+
+                res.setBody(JSON.serialize(responseBody));
+                res.setStatusCode(200);
+            } else if(req.getEndpoint().endsWith('translate')) {
+                System.assertEquals(req.getHeader('Salesforce-Key'), (String)stripeConnectRec.API_Key__c);
+                Map<String,Object> responseObject = new Map<String,Object>();
+
+                Map<String,Object> responseBody = new Map<String,Object>();
+                responseBody.put('retry_status', (Object)responseObject);
+
+                res.setBody(JSON.serialize(responseBody));
+                res.setStatusCode(200);
+            } else if(req.getEndpoint().endsWith('openapi.json')) {
+                System.assertEquals(req.getHeader('Salesforce-Key'), '');
+                List<Object> testFormattedFieldsList = new List<Object> {
+                    'testField1',
+                    'testField2',
+                    'testField3',
+                    'testField4',
+                    'testField5'
+                };
+                Map<String,Object> responseBody = new Map<String,Object>();
+                responseBody.put('formattedStripeCustomerFields', (Object)testFormattedFieldsList);
+                responseBody.put('formattedStripeProductItemFields', (Object)testFormattedFieldsList);
+                responseBody.put('formattedStripeSubscriptionFields', (Object)testFormattedFieldsList);
+                responseBody.put('formattedStripeSubscriptionItemFields', (Object)testFormattedFieldsList);
+                responseBody.put('formattedStripeSubscriptionSchedulePhaseFields', (Object)testFormattedFieldsList);
+                responseBody.put('formattedStripePriceFields', (Object)testFormattedFieldsList);
+                res.setBody(JSON.serialize(responseBody));
+                res.setStatusCode(200);
+            } else if(req.getEndpoint().endsWith('translate_all')) {
+                res.setStatusCode(200);
             }
+
+            return res;
         }
+    }
+
+    private class stripeNotConnectedMock implements HttpCalloutMock {
+        public HttpResponse respond(HttpRequest req) {
+            HttpResponse res = new HttpResponse();
+            if(req.getEndpoint().endsWith('configuration')) {
+
+                Map<String,Object> responseBody = new Map<String,Object>();
+                responseBody.put('connection_status', (Object)new Map<String,Object>{
+                    'salesforce' => false,
+                    'stripe' => false,
+                    'last_synced' => 'test',
+                    'stripe_account_id' => 1234
+                });
+                responseBody.put('settings', (Object)new Map<String,Object>{
+                    'default_currency' => 'USD',
+                    'sync_record_retention' => '2 days',
+                    'sync_start_date' => 'yesterday',
+                    'api_percentage_limit' => 1000515,
+                    'cpq_term_unit' => 'monthly',
+                    'filters' => new Map<String,Object> {
+                        'Product2' => 'testProduct2Filter',
+                        'Order' => 'testOrderFilter',
+                        'Account' => 'testAccountFilter'
+                    }
+                });
+
+                res.setBody(Json.serialize(responseBody));
+                res.setStatusCode(200);
+            }
+            return res;
+        }
+    }
+
+    private class stripeConnectFailMock implements HttpCalloutMock {
+        public HttpResponse respond(HttpRequest req) {
+            HttpResponse res = new HttpResponse();
+
+            Map<String,Object> responseBody = new Map<String,Object>();
+            res.setBody(Json.serialize(responseBody));
+            res.setStatusCode(500);
+            return res;
+        }
+    }
+
+    public class UnifiedConfigMock implements HttpCalloutMock {
+        public HttpResponse respond(HttpRequest req) {
+            stripeConnectionSuccessMock mock1 = new stripeConnectionSuccessMock();
+            stripeSuccessMock mock2 = new stripeSuccessMock();
+
+            HttpResponse res1 = mock1.respond(req);
+            HttpResponse res2 = mock2.respond(req);
+
+            Map<String,Object> body1 = (Map<String,Object>) JSON.deserializeUntyped(res1.getBody());
+            Map<String,Object> body2 = (Map<String,Object>) JSON.deserializeUntyped(res2.getBody());
+
+            for (String key : body1.keySet()) {
+                body2.put(key, body1.get(key));
+            }
+
+            res2.setBody(JSON.serialize(body2));
+
+            return res2;
+        }
+    }
 }

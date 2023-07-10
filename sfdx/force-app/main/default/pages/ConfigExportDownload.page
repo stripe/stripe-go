@@ -1,0 +1,13 @@
+<!--
+ - Created by jmather-c on 4/27/23.
+ -->
+
+<apex:page
+        id="ConfigExportDownload"
+        controller="ConfigExportVFController"
+        contentType="text/json#stripe_billing_app_config.json"
+        showHeader="false"
+        showChat="false"
+        sideBar="false"
+        applyHtmlTag="false"
+        applyBodyTag="false">{!config}</apex:page>

@@ -59,6 +59,7 @@
                             <template if:true={setupComplete}>
                                 <div class="slds-grid slds-grid_align-end">
                                     <div class="slds-col">
+                                        <lightning-button label={exportLabel} class="slds-m-right_small" title={exportTitle} icon-name="utility:download" variant="neutral" onclick={exportAction}></lightning-button>
                                         <lightning-button label="Save" variant="brand" onclick={save} disabled={saveDisabled}></lightning-button>
                                     </div>
                                 </div>

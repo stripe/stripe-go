@@ -1,8 +1,31 @@
 public with sharing class utilities {
+    @TestVisible
+    static ConfigPayloadHelper configPayloadHelper = new ConfigPayloadHelper();
+
+    @TestVisible
+    static Debug_Helper debugger = new Debug_Helper();
+
     public class SetupIsNotCompleteException extends Exception {}
+
+    // used a method to prepare for an eventual future where the base uri is configurable.
+    public static String getPlatformConfigEndpoint() {
+        return constants.RUBY_SERVICE_BASE_URI + constants.RUBY_SERVICE_CONFIG_URI;
+    }
+
+    public static String getPlatformTranslateEndpoint() {
+        return constants.RUBY_SERVICE_BASE_URI + constants.RUBY_SERVICE_TRANSLATE_URI;
+    }
+
+    public static String getPlatformTranslateAllEndpoint() {
+        return constants.RUBY_SERVICE_BASE_URI + constants.RUBY_SERVICE_TRANSLATE_ALL_URI;
+    }
 
     public static Boolean isPackagedEnvironment() {
         return !String.isEmpty(constants.NAMESPACE_API);
+    }
+
+    public static Boolean isConnected(Stripe_Connection__c stripeConnectRec) {
+        return stripeConnectRec != null && stripeConnectRec.Id != null && stripeConnectRec.Salesforce_Connected__c && stripeConnectRec.Stripe_Connected__c;
     }
 
     @AuraEnabled
@@ -268,7 +291,12 @@ public with sharing class utilities {
         return makeCallout(endPoint, method, null, headers);
     }
 
-    public static HttpResponse makeCallout(String endPoint, String method, String body, Map<String, String> headers){
+    public static HttpResponse makeCallout(String endPoint, String method, String body, Map<String, String> headers) {
+        debugger.debug('utilities.makeCallout', 'endpoint: ' + endPoint);
+        debugger.debug('utilities.makeCallout', 'method: ' + method);
+        debugger.debug('utilities.makeCallout', 'body: ' + body);
+        debugger.debug('utilities.makeCallout', 'headers: ' + headers);
+
         Http httpMethod = new Http();
         HttpRequest request = new HttpRequest();
 
@@ -283,6 +311,7 @@ public with sharing class utilities {
             request.setHeader('Content-Type', 'application/json');
             request.setHeader('Accept', 'application/json');
             request.setBody(body);
+            debugger.debug('utilities.makeCallout', 'Set body with default body headers');
         }
 
         /* these standard headers will be add to the request if none are provided
@@ -299,19 +328,24 @@ public with sharing class utilities {
             request.setHeader('Salesforce-Package-Id', '0.0.0.0');
         }
 
+        debugger.debug('utilities.makeCallout', 'Set default headers');
+
         /*
          this only happens in the case the key is passed in after generating
          the package level api key, otherwise we will use the organization-specific api key
          */
         if(headers != null) {
+            debugger.debug('utilities.makeCallout', 'Set custom headers');
             request.setHeader('Salesforce-Key', headers.get('Salesforce-Key'));
+            debugger.debug('utilities.makeCallout', 'Calling endpoint');
             HttpResponse response = httpMethod.send(request);
             return response;
         }
 
         Stripe_Connection__c stripeConnectRec = Stripe_Connection__c.getOrgDefaults();
 
-        if(stripeConnectRec.Id == null || stripeConnectRec.API_Key__c == null) {
+        if (stripeConnectRec.Id == null || stripeConnectRec.API_Key__c == null) {
+            debugger.debug('utilities.makeCallout', 'Missing Stripe_Connection__c.Id or API_Key__c');
             /*
             This error should only be thrown in a scratch org when unmangaed key is deployed to
             an org and the custom metadata record containing the global key was not created
@@ -320,8 +354,9 @@ public with sharing class utilities {
             throw new SetupIsNotCompleteException('Connector is not setup correctly, missing metadata.');
         }
 
+        debugger.debug('utilities.makeCallout', 'Setting default API key header');
         request.setHeader('Salesforce-Key', (String)stripeConnectRec.API_Key__c);
-
+        debugger.debug('utilities.makeCallout', 'Calling endpoint');
         HttpResponse response = httpMethod.send(request);
         return response;
     }
@@ -334,7 +369,7 @@ public with sharing class utilities {
             rd.put('isConfigSaved', true);
             if (actionTaken == 'saveSyncPreferences' || actionTaken == 'saveMappingConfigurations' || actionTaken == 'activatePolling') {
                 Map<String, Object> responseBody = (Map<String, Object>) JSON.deserializeUntyped(response.getBody());
-                rd.put('configurationHash', (String)responseBody.get('configuration_hash'));
+                configPayloadHelper.extractConfigHash(responseBody, rd);
             }
             return rd;
         } 
