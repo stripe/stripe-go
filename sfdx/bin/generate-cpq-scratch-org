@@ -79,7 +79,7 @@ fi
 echo "# CPQ Setup"
 echo "Manual step: Installed Packages > Configure > Pricing & Calculation > Authorize"
 echo "Manual step: Installed Packages > Configure > Pricing & Calculation > Enable Usage Based Pricing"
-echo "Manual step: Installed Packages > Configure > Subscription & Renewals > Subscription Prorate Precision: Month"
+echo "Manual step: Installed Packages > Configure > Subscription & Renewals > Subscription Prorate Precision: Monthly + Daily"
 echo "Manual step: Installed Packages > Configure > Subscription & Renewals > Contract in Foreground"
 echo "Manual step: Installed Packages > Configure > Order > Default Order Start Date > Quote Start Date"
 echo $'\n\n'

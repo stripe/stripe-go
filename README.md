@@ -190,12 +190,12 @@ Note: The user can't assign the "Stripe Connector Coupon User" permission set wi
 Here's how to manually clear our test data. This may be fixed with `SBQQ.TriggerControl.disable()` in the delete script, can remove this later if this is the case!
 
 ```shell
-sfdx force:org:open -u platform-integrations-bots+cpqqapackage@stripe.com -p "/lightning/setup/ImportedPackage/home" > /dev/null
+sfdx force:org:open -u platform-integrations-bots+qapackage@stripe.com -p "/lightning/setup/ImportedPackage/home" > /dev/null
 sfdx force:org:open -u mbianco+standardcpq@stripe.com -p "/lightning/setup/ImportedPackage/home" > /dev/null
 
 # disable apex triggers
 
-sfdx/bin/sfdx-wipe-account platform-integrations-bots+cpqqapackage@stripe.com
+sfdx/bin/sfdx-wipe-account platform-integrations-bots+qapackage@stripe.com
 sfdx/bin/sfdx-wipe-account mbianco+standardcpq@stripe.com
 ```
 
@@ -296,18 +296,18 @@ Manual steps that need to be taken for the release to be verified by Salesforce:
 - We only wish to test the currently deployed production package. Therefore we do NOT run the salesforce tests like we do in QA, this is because those tests involve pushing a new source install.
 - If you accidentally run these tests against production, you must follow the below steps to clean up the prod test account:
 
-  - `sfdx force:source:delete -p force-app/main/default/ --apiversion=54.0 -u brennen+prodtest@stripe.com`
+  - `sfdx force:source:delete -p force-app/main/default/ --apiversion=54.0 -u platform-integrations-bots+prodpackage@stripe.com`
   - If you are running into issues, try deleting the conflicts via the salesforce UI or via SFDX but specify down the path to just the problematic files.
   - Some records may need to be manually altered:
     - Go to the [Lightning App Builder](https://productiontest2-dev-ed.lightning.force.com/lightning/setup/FlexiPageList/page?address=%2F_ui%2Fflexipage%2Fui%2FFlexiPageFilterListPage) and select the 'Sync Record Record Page' that lacks a Namespace Prefix and has an 'Edit' button. Click edit and then 'Activation' in the top right hand corner. Under 'Org Default' click 'Remove as Org Default' and select both Desktop and Phone. Then click Save.
 
 - If you are running into permission errors related to Orders, you are most likely missing the standard CPQ setup permissions that a real account would have. We have some permission sets created for us in the force-app/main/scratchSetup folder. If you are creating a new testing environment you will have to deploy this folder and assign the permissions to your test user.
 
-  - ie: `sfdx force:source:deploy -p force-app/main/scratchSetup -u brennen+prodtest@stripe.com` followed by `sfdx force:user:permset:assign -n "Order_Permissions" -u brennen`+prodtest@stripe.com
+  - ie: `sfdx force:source:deploy -p force-app/main/scratchSetup/permissionsets -u platform-integrations-bots+prodpackage@stripe.com` followed by `sfdx force:user:permset:assign -n "Order_Permissions" -u platform-integrations-bots+prodpackage@stripe.com`
   - Right now, OrderPermissions is the only permission set we have defined but there may be additional ones in the future.
 
 - If you are seeing Order upsert failures like "Can't save order products with negative quantities: Quantity"
-  - Check the following boxes on this page: `sfdx force:org:open -u brennen+prodtest@stripe.com -p "/lightning/setup/OrderSettings/home"`
+  - Check the following boxes on this page: `sfdx force:org:open -u platform-integrations-bots+prodpackage@stripe.com -p "/lightning/setup/OrderSettings/home"`
     - Enable Negative Quantity
     - Enable Zero Quantity
 

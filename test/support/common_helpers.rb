@@ -76,9 +76,12 @@ module Critic::CommonHelpers
       user.enable_feature(FeatureFlags::SF_CACHING)
     end
 
-    # mbianco+cpqpackage@stripe.com
-    if user.salesforce_account_id == "00D8c000006J9X9EAK"
+    if user.salesforce_account_id == "00DHo0000007HgXMAU"
+      # platform-integrations-eng+qapackage@stripe.com
       user.connector_settings[CONNECTOR_SETTING_SALESFORCE_NAMESPACE] = SalesforceNamespaceOptions::QA.serialize
+    elsif user.salesforce_account_id == "00D6e000000qb1uEAA"
+      # platform-integrations-eng+prodpackage@stripe.com
+      user.connector_settings[CONNECTOR_SETTING_SALESFORCE_NAMESPACE] = SalesforceNamespaceOptions::PRODUCTION.serialize
     else
       user.connector_settings[CONNECTOR_SETTING_SALESFORCE_NAMESPACE] = SalesforceNamespaceOptions::NONE.serialize
     end

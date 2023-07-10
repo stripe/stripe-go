@@ -28,9 +28,9 @@ workflows:
                 # unpackaged source test, we do not want a package installed here
                 - mbianco+standardcpq@stripe.com
                 # QA package test, all of the fields/rest endpoints/etc have a prefix
-                #- platform-integrations-bots+cpqqapackage@stripe.com
+                - platform-integrations-bots+qapackage@stripe.com
                 # production package test, has a different prefix from QA
-                # - brennen+prodtest@stripe.com
+                - platform-integrations-bots+prodpackage@stripe.com
                 # unpackaged source test, on an org with multi-currency enabled
                 - mbianco+cpqmulticurrency@stripe.com
 
@@ -259,24 +259,27 @@ jobs:
             # the current code should *always* be able to be deployed against the packaging org, if it can't be, this should block the build
             deploySource "$SF_QA_PACKAGING_EMAIL"
 
-      # - run:
-      #     name: "CPQ Prod Package Deployment Version"
-      #     command: |
-      #       if [ "$CIRCLE_BRANCH" != "main" ]; then
-      #         echo "Not on main, will not deploy produciton package."
-      #         exit 0
-      #       fi
+      - run:
+          name: "CPQ Prod Package Deployment Version"
+          command: |
+            source ./sfdx/bin/run-tests-helpers
+            cd sfdx
 
-      #       source ./sfdx/bin/run-tests-helpers
-      #       cd sfdx
+            # authorize before checking if on main so that the later steps have it auth'd
+            authorizeSalesforceAccount "$SF_PROD_PACKAGING_EMAIL"
 
-      #       authorizeSalesforceAccount "$SF_PROD_PACKAGING_EMAIL"
+            if [ "$CIRCLE_BRANCH" != "main" ]; then
+              echo "Not on main, will not deploy produciton package."
+              exit 0
+            fi
 
-      #       # make sure the same API version is used for local deployments, otherwise you'll run into weird errors
-      #       # for some reason, the `sfdx config:set apiVersion=52.0` doesn't work and gets overwritten
+            authorizeSalesforceAccount "$SF_PROD_PACKAGING_EMAIL"
 
-      #       # the current code should *always* be able to be deployed against the packaging org, if it can't be, this should block the build
-      #       deploySource $SF_PROD_PACKAGING_EMAIL
+            # make sure the same API version is used for local deployments, otherwise you'll run into weird errors
+            # for some reason, the `sfdx config:set apiVersion=52.0` doesn't work and gets overwritten
+
+            # the current code should *always* be able to be deployed against the packaging org, if it can't be, this should block the build
+            deploySource $SF_PROD_PACKAGING_EMAIL
 
       # https://jira.corp.stripe.com/browse/PLATINT-1499
       - run:
@@ -287,7 +290,7 @@ jobs:
               exit 0
             fi
 
-            SF_ACCOUNT_WITH_QA_PACKAGE_INSTALLED=mbianco+cpqpackage@stripe.com
+            SF_ACCOUNT_WITH_QA_PACKAGE_INSTALLED=platform-integrations-eng+qapackage@stripe.com
 
             if [ "$SF_USERNAME" != "$SF_ACCOUNT_WITH_QA_PACKAGE_INSTALLED" ]; then
               echo "Not the QA packaged org, exiting"
@@ -327,7 +330,7 @@ jobs:
               exit 0
             fi
 
-            SF_ACCOUNT_WITH_PROD_PACKAGE_INSTALLED=brennen+prodtest@stripe.com
+            SF_ACCOUNT_WITH_PROD_PACKAGE_INSTALLED=platform-integrations-bots+prodpackage@stripe.com
 
             if [ "$SF_USERNAME" != "$SF_ACCOUNT_WITH_PROD_PACKAGE_INSTALLED" ]; then
               echo "Not the production packaged org, exiting"
