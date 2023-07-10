@@ -892,11 +892,13 @@ export default class DataMappingStep extends LightningElement {
         this.loading = true;
         let saveSuccess = false;
 
+        let mappingData = JSON.parse(JSON.stringify(this.allMappingList));
+
         for (const mappingContainer of this.listOfStripeMappingObjects) {
-            this.allMappingList = this.saveObjectMappings(mappingContainer.mappingsObject, this.allMappingList, mappingContainer.metadataMappingsObject, mappingContainer.object);
+            mappingData = this.saveObjectMappings(mappingContainer.mappingsObject, mappingData, mappingContainer.metadataMappingsObject, mappingContainer.object);
         }
 
-        const payload = JSON.parse(JSON.stringify(this.allMappingList));
+        const payload = mappingData;
         payload.configuration_hash = this.configurationHash;
         delete payload.default_mappings;
         delete payload.required_mappings;
