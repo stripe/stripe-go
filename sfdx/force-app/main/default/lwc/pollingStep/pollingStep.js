@@ -87,7 +87,7 @@ export default class PollingStep extends LightningElement {
     @api showButton = false;
     @api showTitle = false;
 
-    async connectedCallback() {
+    @api async connectedCallback() {
         await this.initPageStateData();
     }
 
@@ -107,11 +107,10 @@ export default class PollingStep extends LightningElement {
         this.isConfigEnabled = syncPrefs.enabled;
 
         const syncStartDate = syncPrefs.sync_start_date;
-
-        if (syncStartDate === "0") {
-            this.syncStartDate = new Date().toISOString();
-        } else if (syncStartDate !== null || syncStartDate !== "" || syncStartDate !== undefined) {
+        if (syncStartDate && syncStartDate !== "0") {
             this.syncStartDate = new Date(syncStartDate * 1000).toISOString();
+        } else {
+            this.syncStartDate = new Date().toISOString();
         }
     }
 

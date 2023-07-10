@@ -170,6 +170,7 @@ export default class FirstTimeSetup extends LightningElement {
     getmappingconfigurations() {
         this.template.querySelector('c-data-mapping-step').getPicklistValuesForMapper(true, '');
         this.template.querySelector('c-sync-preferences-step').connectedCallback();
+        this.template.querySelector('c-polling-step').connectedCallback();
         this.nextDisabled = false;
     }
 

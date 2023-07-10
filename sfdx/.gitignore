@@ -1,3 +1,4 @@
 .sfdx/
 .sf/
 jwt-cert/private_key.pem
+sfdx.iml
