@@ -89,6 +89,7 @@ const (
 	ErrorCodeInvalidNumber                                               ErrorCode = "invalid_number"
 	ErrorCodeInvalidSourceUsage                                          ErrorCode = "invalid_source_usage"
 	ErrorCodeInvalidSwipeData                                            ErrorCode = "invalid_swipe_data"
+	ErrorCodeInvalidTaxLocation                                          ErrorCode = "invalid_tax_location"
 	ErrorCodeInvoiceNoCustomerLineItems                                  ErrorCode = "invoice_no_customer_line_items"
 	ErrorCodeInvoiceNoPaymentMethodTypes                                 ErrorCode = "invoice_no_payment_method_types"
 	ErrorCodeInvoiceNoSubscriptionLineItems                              ErrorCode = "invoice_no_subscription_line_items"
