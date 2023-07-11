@@ -121,7 +121,7 @@ type TaxCalculationLineItem struct {
 	Livemode bool `json:"livemode"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
-	// A Product ID.
+	// The ID of an existing [Product](https://stripe.com/docs/api/products/object).
 	Product string `json:"product"`
 	// The number of units of the item being purchased. For reversals, this is the quantity reversed.
 	Quantity int64 `json:"quantity"`
