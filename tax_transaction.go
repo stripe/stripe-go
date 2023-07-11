@@ -302,7 +302,7 @@ type TaxTransactionShippingCost struct {
 	Amount int64 `json:"amount"`
 	// The amount of tax calculated for shipping, in integer cents.
 	AmountTax int64 `json:"amount_tax"`
-	// The ID of an existing [ShippingRate](https://stripe.com/docs/api/shipping_rates/object). (It is not populated for the transaction resource object and will be removed in the next API version.)
+	// The ID of an existing [ShippingRate](https://stripe.com/docs/api/shipping_rates/object).
 	ShippingRate string `json:"shipping_rate"`
 	// Specifies whether the `amount` includes taxes. If `tax_behavior=inclusive`, then the amount includes taxes.
 	TaxBehavior TaxTransactionShippingCostTaxBehavior `json:"tax_behavior"`
