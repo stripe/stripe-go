@@ -1835,6 +1835,8 @@ type PaymentIntentParams struct {
 	PaymentDetails *PaymentIntentPaymentDetailsParams `form:"payment_details"`
 	// ID of the payment method (a PaymentMethod, Card, or [compatible Source](https://stripe.com/docs/payments/payment-methods/transitioning#compatibility) object) to attach to this PaymentIntent.
 	PaymentMethod *string `form:"payment_method"`
+	// The ID of the payment method configuration to use with this PaymentIntent.
+	PaymentMethodConfiguration *string `form:"payment_method_configuration"`
 	// If provided, this hash will be used to create a PaymentMethod. The new PaymentMethod will appear
 	// in the [payment_method](https://stripe.com/docs/api/payment_intents/object#payment_intent_object-payment_method)
 	// property on the PaymentIntent.
@@ -2630,6 +2632,14 @@ type PaymentIntentPaymentDetailsCarRental struct {
 type PaymentIntentPaymentDetails struct {
 	CarRental *PaymentIntentPaymentDetailsCarRental `json:"car_rental"`
 }
+
+// Information about the payment method configuration used for this PaymentIntent.
+type PaymentIntentPaymentMethodConfigurationDetails struct {
+	// ID of the payment method configuration used.
+	ID string `json:"id"`
+	// ID of the parent payment method configuration used.
+	Parent string `json:"parent"`
+}
 type PaymentIntentPaymentMethodOptionsACSSDebitMandateOptions struct {
 	// A URL for custom mandate text
 	CustomMandateURL string `json:"custom_mandate_url"`
@@ -3179,6 +3189,8 @@ type PaymentIntent struct {
 	PaymentDetails *PaymentIntentPaymentDetails `json:"payment_details"`
 	// ID of the payment method used in this PaymentIntent.
 	PaymentMethod *PaymentMethod `json:"payment_method"`
+	// Information about the payment method configuration used for this PaymentIntent.
+	PaymentMethodConfigurationDetails *PaymentIntentPaymentMethodConfigurationDetails `json:"payment_method_configuration_details"`
 	// Payment-method-specific configuration for this PaymentIntent.
 	PaymentMethodOptions *PaymentIntentPaymentMethodOptions `json:"payment_method_options"`
 	// The list of payment method types (e.g. card) that this PaymentIntent is allowed to use.
