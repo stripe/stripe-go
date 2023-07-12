@@ -8,6 +8,17 @@ package stripe
 
 import "encoding/json"
 
+// Controls whether this SetupIntent will accept redirect-based payment methods.
+//
+// Redirect-based payment methods may require your customer to be redirected to a payment method's app or site for authentication or additional steps. To [confirm](https://stripe.com/docs/api/setup_intents/confirm) this SetupIntent, you may be required to provide a `return_url` to redirect customers back to your site after they authenticate or complete the setup.
+type SetupIntentAutomaticPaymentMethodsAllowRedirects string
+
+// List of values that SetupIntentAutomaticPaymentMethodsAllowRedirects can take
+const (
+	SetupIntentAutomaticPaymentMethodsAllowRedirectsAlways SetupIntentAutomaticPaymentMethodsAllowRedirects = "always"
+	SetupIntentAutomaticPaymentMethodsAllowRedirectsNever  SetupIntentAutomaticPaymentMethodsAllowRedirects = "never"
+)
+
 // Reason for cancellation of this SetupIntent, one of `abandoned`, `requested_by_customer`, or `duplicate`.
 type SetupIntentCancellationReason string
 
@@ -221,6 +232,10 @@ const (
 
 // When enabled, this SetupIntent will accept payment methods that you have enabled in the Dashboard and are compatible with this SetupIntent's other parameters.
 type SetupIntentAutomaticPaymentMethodsParams struct {
+	// Controls whether this SetupIntent will accept redirect-based payment methods.
+	//
+	// Redirect-based payment methods may require your customer to be redirected to a payment method's app or site for authentication or additional steps. To [confirm](https://stripe.com/docs/api/setup_intents/confirm) this SetupIntent, you may be required to provide a `return_url` to redirect customers back to your site after they authenticate or complete the setup.
+	AllowRedirects *string `form:"allow_redirects"`
 	// Whether this feature is enabled.
 	Enabled *bool `form:"enabled"`
 }
@@ -1010,6 +1025,10 @@ type SetupIntentVerifyMicrodepositsParams struct {
 
 // Settings for automatic payment methods compatible with this Setup Intent
 type SetupIntentAutomaticPaymentMethods struct {
+	// Controls whether this SetupIntent will accept redirect-based payment methods.
+	//
+	// Redirect-based payment methods may require your customer to be redirected to a payment method's app or site for authentication or additional steps. To [confirm](https://stripe.com/docs/api/setup_intents/confirm) this SetupIntent, you may be required to provide a `return_url` to redirect customers back to your site after they authenticate or complete the setup.
+	AllowRedirects SetupIntentAutomaticPaymentMethodsAllowRedirects `json:"allow_redirects"`
 	// Automatically calculates compatible payment methods
 	Enabled bool `json:"enabled"`
 }
