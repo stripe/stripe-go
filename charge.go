@@ -509,6 +509,8 @@ type ChargePaymentMethodDetailsACSSDebit struct {
 }
 type ChargePaymentMethodDetailsAffirm struct{}
 type ChargePaymentMethodDetailsAfterpayClearpay struct {
+	// The Afterpay order ID associated with this payment intent.
+	OrderID string `json:"order_id"`
 	// Order identifier shown to the merchant in Afterpay's online portal.
 	Reference string `json:"reference"`
 }
