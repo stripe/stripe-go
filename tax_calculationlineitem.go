@@ -41,16 +41,18 @@ type TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType string
 
 // List of values that TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType can take
 const (
-	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeGST      TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "gst"
-	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeHST      TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "hst"
-	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeIGST     TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "igst"
-	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeJCT      TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "jct"
-	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeLeaseTax TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "lease_tax"
-	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypePST      TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "pst"
-	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeQST      TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "qst"
-	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeRST      TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "rst"
-	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeSalesTax TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "sales_tax"
-	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeVAT      TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "vat"
+	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeAmusementTax      TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "amusement_tax"
+	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeCommunicationsTax TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "communications_tax"
+	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeGST               TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "gst"
+	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeHST               TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "hst"
+	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeIGST              TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "igst"
+	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeJCT               TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "jct"
+	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeLeaseTax          TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "lease_tax"
+	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypePST               TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "pst"
+	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeQST               TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "qst"
+	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeRST               TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "rst"
+	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeSalesTax          TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "sales_tax"
+	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeVAT               TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "vat"
 )
 
 // The reasoning behind this tax, for example, if the product is tax exempt. The possible values for this field may be extended as new tax rules are supported.
