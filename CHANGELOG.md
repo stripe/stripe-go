@@ -1,5 +1,15 @@
 # Changelog
 
+## 74.26.0 - 2023-07-13
+* [#1688](https://github.com/stripe/stripe-go/pull/1688) Update generated code
+  * Add support for new resource `Tax.Settings`
+  * Add support for `Get` and `Update` methods on resource `Settings`
+  * Add support for new value `invalid_tax_location` on enums `InvoiceLastFinalizationErrorCode`, `PaymentIntentLastPaymentErrorCode`, `SetupAttemptSetupErrorCode`, `SetupIntentLastSetupErrorCode`, and `StripeErrorCode`
+  * Add support for `OrderID` on `ChargePaymentMethodDetailsAfterpayClearpay`
+  * Add support for `AllowRedirects` on `PaymentIntentAutomaticPaymentMethodsParams`, `PaymentIntentAutomaticPaymentMethods`, `SetupIntentAutomaticPaymentMethodsParams`, and `SetupIntentAutomaticPaymentMethods`
+  * Add support for new values `amusement_tax` and `communications_tax` on enums `TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType`, `TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType`, `TaxCalculationTaxBreakdownTaxRateDetailsTaxType`, and `TaxTransactionShippingCostTaxBreakdownTaxRateDetailsTaxType`
+  * Add support for `Product` on `TaxTransactionLineItem`
+
 ## 74.25.0 - 2023-07-06
 * [#1684](https://github.com/stripe/stripe-go/pull/1684) Update generated code
   * Add support for `Numeric` and `Text` on `PaymentLinkCustomFields`
