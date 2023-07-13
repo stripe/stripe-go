@@ -41,16 +41,18 @@ type TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType string
 
 // List of values that TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType can take
 const (
-	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeGST      TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "gst"
-	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeHST      TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "hst"
-	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeIGST     TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "igst"
-	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeJCT      TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "jct"
-	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeLeaseTax TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "lease_tax"
-	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypePST      TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "pst"
-	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeQST      TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "qst"
-	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeRST      TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "rst"
-	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeSalesTax TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "sales_tax"
-	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeVAT      TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "vat"
+	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeAmusementTax      TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "amusement_tax"
+	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeCommunicationsTax TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "communications_tax"
+	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeGST               TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "gst"
+	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeHST               TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "hst"
+	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeIGST              TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "igst"
+	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeJCT               TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "jct"
+	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeLeaseTax          TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "lease_tax"
+	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypePST               TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "pst"
+	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeQST               TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "qst"
+	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeRST               TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "rst"
+	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeSalesTax          TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "sales_tax"
+	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeVAT               TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "vat"
 )
 
 // The reasoning behind this tax, for example, if the product is tax exempt. The possible values for this field may be extended as new tax rules are supported.
@@ -121,7 +123,7 @@ type TaxCalculationLineItem struct {
 	Livemode bool `json:"livemode"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
-	// A Product ID.
+	// The ID of an existing [Product](https://stripe.com/docs/api/products/object).
 	Product string `json:"product"`
 	// The number of units of the item being purchased. For reversals, this is the quantity reversed.
 	Quantity int64 `json:"quantity"`

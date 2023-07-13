@@ -133,16 +133,18 @@ type TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType string
 
 // List of values that TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType can take
 const (
-	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypeGST      TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "gst"
-	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypeHST      TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "hst"
-	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypeIGST     TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "igst"
-	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypeJCT      TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "jct"
-	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypeLeaseTax TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "lease_tax"
-	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypePST      TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "pst"
-	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypeQST      TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "qst"
-	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypeRST      TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "rst"
-	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypeSalesTax TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "sales_tax"
-	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypeVAT      TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "vat"
+	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypeAmusementTax      TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "amusement_tax"
+	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypeCommunicationsTax TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "communications_tax"
+	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypeGST               TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "gst"
+	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypeHST               TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "hst"
+	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypeIGST              TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "igst"
+	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypeJCT               TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "jct"
+	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypeLeaseTax          TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "lease_tax"
+	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypePST               TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "pst"
+	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypeQST               TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "qst"
+	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypeRST               TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "rst"
+	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypeSalesTax          TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "sales_tax"
+	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypeVAT               TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "vat"
 )
 
 // The reasoning behind this tax, for example, if the product is tax exempt. The possible values for this field may be extended as new tax rules are supported.
@@ -172,16 +174,18 @@ type TaxCalculationTaxBreakdownTaxRateDetailsTaxType string
 
 // List of values that TaxCalculationTaxBreakdownTaxRateDetailsTaxType can take
 const (
-	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeGST      TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "gst"
-	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeHST      TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "hst"
-	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeIGST     TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "igst"
-	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeJCT      TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "jct"
-	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeLeaseTax TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "lease_tax"
-	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypePST      TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "pst"
-	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeQST      TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "qst"
-	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeRST      TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "rst"
-	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeSalesTax TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "sales_tax"
-	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeVAT      TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "vat"
+	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeAmusementTax      TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "amusement_tax"
+	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeCommunicationsTax TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "communications_tax"
+	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeGST               TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "gst"
+	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeHST               TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "hst"
+	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeIGST              TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "igst"
+	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeJCT               TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "jct"
+	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeLeaseTax          TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "lease_tax"
+	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypePST               TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "pst"
+	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeQST               TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "qst"
+	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeRST               TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "rst"
+	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeSalesTax          TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "sales_tax"
+	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeVAT               TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "vat"
 )
 
 // The reasoning behind this tax, for example, if the product is tax exempt. We might extend the possible values for this field to support new tax rules.
@@ -340,7 +344,7 @@ type TaxCalculationShippingCost struct {
 	Amount int64 `json:"amount"`
 	// The amount of tax calculated for shipping, in integer cents.
 	AmountTax int64 `json:"amount_tax"`
-	// The ID of an existing [ShippingRate](https://stripe.com/docs/api/shipping_rates/object)
+	// The ID of an existing [ShippingRate](https://stripe.com/docs/api/shipping_rates/object).
 	ShippingRate string `json:"shipping_rate"`
 	// Specifies whether the `amount` includes taxes. If `tax_behavior=inclusive`, then the amount includes taxes.
 	TaxBehavior TaxCalculationShippingCostTaxBehavior `json:"tax_behavior"`
