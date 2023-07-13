@@ -505,7 +505,7 @@ class StripeForce::Translate
 
     # if this initial order is backdated, Stripe will prorate the past period
     # this field indicates that we should not bill the customer for this period
-    skip_initial_phase_proration = initial_order_starts_now_or_future || sf_order[SKIP_PAST_INITIAL_INVOICES] == true
+    skip_initial_phase_proration = initial_order_starts_now_or_future || sf_order[prefixed_stripe_field(SKIP_PAST_INITIAL_INVOICES)] == true
     if skip_initial_phase_proration
       initial_phase[:proration_behavior] = StripeProrationBehavior::NONE.serialize
     end

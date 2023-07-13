@@ -655,7 +655,7 @@ class Critic::BackdatedOrders < Critic::OrderAmendmentFunctionalTest
       # set SKIP_PAST_INITIAL_INVOICES to true
       sf.update!(SF_ORDER,
         SF_ID => sf_order.Id,
-        SKIP_PAST_INITIAL_INVOICES => true
+        prefixed_stripe_field(SKIP_PAST_INITIAL_INVOICES) => true
       )
 
       StripeForce::Translate.perform_inline(@user, sf_order.Id)
@@ -779,7 +779,7 @@ class Critic::BackdatedOrders < Critic::OrderAmendmentFunctionalTest
       # set SKIP_PAST_INITIAL_INVOICES to true
       sf.update!(SF_ORDER,
         SF_ID => sf_order.Id,
-        SKIP_PAST_INITIAL_INVOICES => true
+        prefixed_stripe_field(SKIP_PAST_INITIAL_INVOICES) => true
       )
 
       StripeForce::Translate.perform_inline(@user, sf_order.Id)
