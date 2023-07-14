@@ -28,7 +28,7 @@ const (
 	CustomerCashBalanceTransactionFundedBankTransferUSBankTransferNetworkSwift          CustomerCashBalanceTransactionFundedBankTransferUSBankTransferNetwork = "swift"
 )
 
-// The type of the cash balance transaction. One of `applied_to_payment`, `unapplied_from_payment`, `refunded_from_payment`, `funded`, `return_initiated`, or `return_canceled`. New types may be added in future. See [Customer Balance](https://stripe.com/docs/payments/customer-balance#types) to learn more about these types.
+// The type of the cash balance transaction. New types may be added in future. See [Customer Balance](https://stripe.com/docs/payments/customer-balance#types) to learn more about these types.
 type CustomerCashBalanceTransactionType string
 
 // List of values that CustomerCashBalanceTransactionType can take
@@ -134,7 +134,7 @@ type CustomerCashBalanceTransaction struct {
 	// String representing the object's type. Objects of the same type share the same value.
 	Object              string                                             `json:"object"`
 	RefundedFromPayment *CustomerCashBalanceTransactionRefundedFromPayment `json:"refunded_from_payment"`
-	// The type of the cash balance transaction. One of `applied_to_payment`, `unapplied_from_payment`, `refunded_from_payment`, `funded`, `return_initiated`, or `return_canceled`. New types may be added in future. See [Customer Balance](https://stripe.com/docs/payments/customer-balance#types) to learn more about these types.
+	// The type of the cash balance transaction. New types may be added in future. See [Customer Balance](https://stripe.com/docs/payments/customer-balance#types) to learn more about these types.
 	Type                 CustomerCashBalanceTransactionType                  `json:"type"`
 	UnappliedFromPayment *CustomerCashBalanceTransactionUnappliedFromPayment `json:"unapplied_from_payment"`
 }
