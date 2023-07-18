@@ -135,7 +135,6 @@ class Critic::Prebilling < Critic::FunctionalTest
     SalesforceTranslateRecordJob.translate(@user, sf_order)
 
     sf_order.refresh
-    sf_product = sf.find(SF_PRODUCT, sf_product_id)
     sf_pricebook_entry = sf.find(SF_PRICEBOOK_ENTRY, sf_pricebook_entry_id)
 
     stripe_id = sf_order[prefixed_stripe_field(GENERIC_STRIPE_ID)]
@@ -311,5 +310,79 @@ class Critic::Prebilling < Critic::FunctionalTest
     stripe_id = sf_order[prefixed_stripe_field(GENERIC_STRIPE_ID)]
     subscription_schedule = Stripe::SubscriptionSchedule.retrieve(stripe_id, @user.stripe_credentials)
     assert_nil(subscription_schedule.prebilling)
+  end
+
+  it 'prebills six months of a year subscription with metered and licensed products' do
+    # prebill 6 months of a monthly billed year subscription
+    prebill_iterations = 6
+
+    @user.field_defaults = {
+      "subscription_schedule" => {
+        "prebilling.iterations" => prebill_iterations,
+      },
+    }
+    @user.save
+
+    price = 10_00
+    start_date = now_time + 3.months
+
+    sf_account_id = create_salesforce_account
+
+    # creating these directly so we have the IDs
+    sf_licensed_product_id, _sf_pricebook_id = salesforce_recurring_product_with_price(price: price)
+    sf_metered_product_id, _sf_metered_pricebook_id = salesforce_recurring_metered_produce_with_price
+
+    # create a CPQ quote
+    sf_quote_id = create_salesforce_quote(sf_account_id: sf_account_id, additional_quote_fields: {
+      CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(start_date),
+      CPQ_QUOTE_SUBSCRIPTION_TERM => TEST_DEFAULT_CONTRACT_TERM,
+    })
+
+    # add licensed product to the sf quote
+    quote_with_product = add_product_to_cpq_quote(sf_quote_id, sf_product_id: sf_licensed_product_id)
+    calculate_and_save_cpq_quote(quote_with_product)
+
+    # add metered product to the sf quote
+    quote_with_product = add_product_to_cpq_quote(sf_quote_id, sf_product_id: sf_metered_product_id)
+    calculate_and_save_cpq_quote(quote_with_product)
+
+    # create and translate the SF order
+    sf_order = create_order_from_cpq_quote(sf_quote_id)
+
+    SalesforceTranslateRecordJob.translate(@user, sf_order)
+    sf_order.refresh
+
+    stripe_id = sf_order[prefixed_stripe_field(GENERIC_STRIPE_ID)]
+    subscription_schedule = Stripe::SubscriptionSchedule.retrieve(stripe_id, @user.stripe_credentials)
+
+    # top level subscription fields
+    assert_match(sf_order.Id, subscription_schedule.metadata['salesforce_order_link'])
+    assert_equal(subscription_schedule.metadata['salesforce_order_id'], sf_order.Id)
+
+    # line-level subscription phase data
+    assert_equal(1, subscription_schedule.phases.count)
+    phase = T.must(subscription_schedule.phases.first)
+    assert_match(sf_order.Id, phase.metadata['salesforce_order_link'])
+    assert_equal(phase.metadata['salesforce_order_id'], sf_order.Id)
+
+    # Ensure a prebilling invoice has been created
+    refute_nil(subscription_schedule.prebilling)
+
+    assert_equal(start_date.to_i, subscription_schedule.prebilling.period_start)
+    assert_equal((start_date + prebill_iterations.months).to_i, subscription_schedule.prebilling.period_end)
+
+    invoice = Stripe::Invoice.retrieve(subscription_schedule.prebilling.invoice, @user.stripe_credentials)
+
+    # one line per pre-billed period
+    assert_equal(prebill_iterations, invoice.lines.data.length)
+    assert_equal(price * prebill_iterations, invoice.total)
+
+    line = invoice.lines.data.last
+    assert_equal(1, line.quantity)
+    assert_equal(price, line.amount)
+
+    # lets ensure a duplicate subscription schedule is not created
+    Stripe::SubscriptionSchedule.expects(:create).never
+    SalesforceTranslateRecordJob.translate(@user, sf_order)
   end
 end
