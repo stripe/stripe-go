@@ -301,13 +301,13 @@ func (i *LineIter) QuoteLineList() *stripe.QuoteLineList {
 	return i.List().(*stripe.QuoteLineList)
 }
 
-// PreviewInvoiceLines is the method for the `GET /v1/quotes/{quote}/preview_invoices/{preview_invoice}/lines` API.
-func PreviewInvoiceLines(params *stripe.QuotePreviewInvoiceLinesParams) *InvoiceLineItemIter {
-	return getC().PreviewInvoiceLines(params)
+// ListPreviewInvoiceLines is the method for the `GET /v1/quotes/{quote}/preview_invoices/{preview_invoice}/lines` API.
+func ListPreviewInvoiceLines(params *stripe.QuoteListPreviewInvoiceLinesParams) *InvoiceLineItemIter {
+	return getC().ListPreviewInvoiceLines(params)
 }
 
-// PreviewInvoiceLines is the method for the `GET /v1/quotes/{quote}/preview_invoices/{preview_invoice}/lines` API.
-func (c Client) PreviewInvoiceLines(listParams *stripe.QuotePreviewInvoiceLinesParams) *InvoiceLineItemIter {
+// ListPreviewInvoiceLines is the method for the `GET /v1/quotes/{quote}/preview_invoices/{preview_invoice}/lines` API.
+func (c Client) ListPreviewInvoiceLines(listParams *stripe.QuoteListPreviewInvoiceLinesParams) *InvoiceLineItemIter {
 	path := stripe.FormatURLPath(
 		"/v1/quotes/%s/preview_invoices/%s/lines",
 		stripe.StringValue(listParams.Quote),
@@ -345,13 +345,13 @@ func (i *InvoiceLineItemIter) InvoiceLineItemList() *stripe.InvoiceLineItemList 
 	return i.List().(*stripe.InvoiceLineItemList)
 }
 
-// PreviewInvoices is the method for the `GET /v1/quotes/{quote}/preview_invoices` API.
-func PreviewInvoices(params *stripe.QuotePreviewInvoicesParams) *InvoiceIter {
-	return getC().PreviewInvoices(params)
+// ListPreviewInvoices is the method for the `GET /v1/quotes/{quote}/preview_invoices` API.
+func ListPreviewInvoices(params *stripe.QuoteListPreviewInvoicesParams) *InvoiceIter {
+	return getC().ListPreviewInvoices(params)
 }
 
-// PreviewInvoices is the method for the `GET /v1/quotes/{quote}/preview_invoices` API.
-func (c Client) PreviewInvoices(listParams *stripe.QuotePreviewInvoicesParams) *InvoiceIter {
+// ListPreviewInvoices is the method for the `GET /v1/quotes/{quote}/preview_invoices` API.
+func (c Client) ListPreviewInvoices(listParams *stripe.QuoteListPreviewInvoicesParams) *InvoiceIter {
 	path := stripe.FormatURLPath(
 		"/v1/quotes/%s/preview_invoices",
 		stripe.StringValue(listParams.Quote),
@@ -388,13 +388,13 @@ func (i *InvoiceIter) InvoiceList() *stripe.InvoiceList {
 	return i.List().(*stripe.InvoiceList)
 }
 
-// PreviewSubscriptionSchedules is the method for the `GET /v1/quotes/{quote}/preview_subscription_schedules` API.
-func PreviewSubscriptionSchedules(params *stripe.QuotePreviewSubscriptionSchedulesParams) *SubscriptionScheduleIter {
-	return getC().PreviewSubscriptionSchedules(params)
+// ListPreviewSubscriptionSchedules is the method for the `GET /v1/quotes/{quote}/preview_subscription_schedules` API.
+func ListPreviewSubscriptionSchedules(params *stripe.QuoteListPreviewSubscriptionSchedulesParams) *SubscriptionScheduleIter {
+	return getC().ListPreviewSubscriptionSchedules(params)
 }
 
-// PreviewSubscriptionSchedules is the method for the `GET /v1/quotes/{quote}/preview_subscription_schedules` API.
-func (c Client) PreviewSubscriptionSchedules(listParams *stripe.QuotePreviewSubscriptionSchedulesParams) *SubscriptionScheduleIter {
+// ListPreviewSubscriptionSchedules is the method for the `GET /v1/quotes/{quote}/preview_subscription_schedules` API.
+func (c Client) ListPreviewSubscriptionSchedules(listParams *stripe.QuoteListPreviewSubscriptionSchedulesParams) *SubscriptionScheduleIter {
 	path := stripe.FormatURLPath(
 		"/v1/quotes/%s/preview_subscription_schedules",
 		stripe.StringValue(listParams.Quote),
