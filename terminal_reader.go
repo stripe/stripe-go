@@ -20,8 +20,12 @@ type TerminalReaderActionCollectInputsInputType string
 
 // List of values that TerminalReaderActionCollectInputsInputType can take
 const (
+	TerminalReaderActionCollectInputsInputTypeEmail     TerminalReaderActionCollectInputsInputType = "email"
+	TerminalReaderActionCollectInputsInputTypeNumeric   TerminalReaderActionCollectInputsInputType = "numeric"
+	TerminalReaderActionCollectInputsInputTypePhone     TerminalReaderActionCollectInputsInputType = "phone"
 	TerminalReaderActionCollectInputsInputTypeSelection TerminalReaderActionCollectInputsInputType = "selection"
 	TerminalReaderActionCollectInputsInputTypeSignature TerminalReaderActionCollectInputsInputType = "signature"
+	TerminalReaderActionCollectInputsInputTypeText      TerminalReaderActionCollectInputsInputType = "text"
 )
 
 // The reason for the refund.
