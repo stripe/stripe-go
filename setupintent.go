@@ -705,6 +705,8 @@ type SetupIntentParams struct {
 	SingleUse *SetupIntentSingleUseParams `form:"single_use"`
 	// Indicates how the payment method is intended to be used in the future. If not provided, this value defaults to `off_session`.
 	Usage *string `form:"usage"`
+	// Set to `true` when confirming server-side and using Stripe.js, iOS, or Android client-side SDKs to handle the next actions.
+	UseStripeSDK *bool `form:"use_stripe_sdk"`
 }
 
 // Returns a list of SetupIntents.
@@ -1003,6 +1005,8 @@ type SetupIntentConfirmParams struct {
 	// If you'd prefer to redirect to a mobile application, you can alternatively supply an application URI scheme.
 	// This parameter is only used for cards and other redirect-based payment methods.
 	ReturnURL *string `form:"return_url"`
+	// Set to `true` when confirming server-side and using Stripe.js, iOS, or Android client-side SDKs to handle the next actions.
+	UseStripeSDK *bool `form:"use_stripe_sdk"`
 }
 
 // A SetupIntent object can be canceled when it is in one of these statuses: requires_payment_method, requires_confirmation, or requires_action.
