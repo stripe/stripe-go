@@ -425,24 +425,21 @@ type OrderShippingCostTaxTaxabilityReason string
 
 // List of values that OrderShippingCostTaxTaxabilityReason can take
 const (
-	OrderShippingCostTaxTaxabilityReasonCustomerExempt          OrderShippingCostTaxTaxabilityReason = "customer_exempt"
-	OrderShippingCostTaxTaxabilityReasonExcludedTerritory       OrderShippingCostTaxTaxabilityReason = "excluded_territory"
-	OrderShippingCostTaxTaxabilityReasonJurisdictionUnsupported OrderShippingCostTaxTaxabilityReason = "jurisdiction_unsupported"
-	OrderShippingCostTaxTaxabilityReasonNotCollecting           OrderShippingCostTaxTaxabilityReason = "not_collecting"
-	OrderShippingCostTaxTaxabilityReasonNotSubjectToTax         OrderShippingCostTaxTaxabilityReason = "not_subject_to_tax"
-	OrderShippingCostTaxTaxabilityReasonNotSupported            OrderShippingCostTaxTaxabilityReason = "not_supported"
-	OrderShippingCostTaxTaxabilityReasonPortionProductExempt    OrderShippingCostTaxTaxabilityReason = "portion_product_exempt"
-	OrderShippingCostTaxTaxabilityReasonPortionReducedRated     OrderShippingCostTaxTaxabilityReason = "portion_reduced_rated"
-	OrderShippingCostTaxTaxabilityReasonPortionStandardRated    OrderShippingCostTaxTaxabilityReason = "portion_standard_rated"
-	OrderShippingCostTaxTaxabilityReasonProductExempt           OrderShippingCostTaxTaxabilityReason = "product_exempt"
-	OrderShippingCostTaxTaxabilityReasonProductExemptHoliday    OrderShippingCostTaxTaxabilityReason = "product_exempt_holiday"
-	OrderShippingCostTaxTaxabilityReasonProportionallyRated     OrderShippingCostTaxTaxabilityReason = "proportionally_rated"
-	OrderShippingCostTaxTaxabilityReasonReducedRated            OrderShippingCostTaxTaxabilityReason = "reduced_rated"
-	OrderShippingCostTaxTaxabilityReasonReverseCharge           OrderShippingCostTaxTaxabilityReason = "reverse_charge"
-	OrderShippingCostTaxTaxabilityReasonStandardRated           OrderShippingCostTaxTaxabilityReason = "standard_rated"
-	OrderShippingCostTaxTaxabilityReasonTaxableBasisReduced     OrderShippingCostTaxTaxabilityReason = "taxable_basis_reduced"
-	OrderShippingCostTaxTaxabilityReasonVATExempt               OrderShippingCostTaxTaxabilityReason = "vat_exempt"
-	OrderShippingCostTaxTaxabilityReasonZeroRated               OrderShippingCostTaxTaxabilityReason = "zero_rated"
+	OrderShippingCostTaxTaxabilityReasonCustomerExempt       OrderShippingCostTaxTaxabilityReason = "customer_exempt"
+	OrderShippingCostTaxTaxabilityReasonNotCollecting        OrderShippingCostTaxTaxabilityReason = "not_collecting"
+	OrderShippingCostTaxTaxabilityReasonNotSubjectToTax      OrderShippingCostTaxTaxabilityReason = "not_subject_to_tax"
+	OrderShippingCostTaxTaxabilityReasonNotSupported         OrderShippingCostTaxTaxabilityReason = "not_supported"
+	OrderShippingCostTaxTaxabilityReasonPortionProductExempt OrderShippingCostTaxTaxabilityReason = "portion_product_exempt"
+	OrderShippingCostTaxTaxabilityReasonPortionReducedRated  OrderShippingCostTaxTaxabilityReason = "portion_reduced_rated"
+	OrderShippingCostTaxTaxabilityReasonPortionStandardRated OrderShippingCostTaxTaxabilityReason = "portion_standard_rated"
+	OrderShippingCostTaxTaxabilityReasonProductExempt        OrderShippingCostTaxTaxabilityReason = "product_exempt"
+	OrderShippingCostTaxTaxabilityReasonProductExemptHoliday OrderShippingCostTaxTaxabilityReason = "product_exempt_holiday"
+	OrderShippingCostTaxTaxabilityReasonProportionallyRated  OrderShippingCostTaxTaxabilityReason = "proportionally_rated"
+	OrderShippingCostTaxTaxabilityReasonReducedRated         OrderShippingCostTaxTaxabilityReason = "reduced_rated"
+	OrderShippingCostTaxTaxabilityReasonReverseCharge        OrderShippingCostTaxTaxabilityReason = "reverse_charge"
+	OrderShippingCostTaxTaxabilityReasonStandardRated        OrderShippingCostTaxTaxabilityReason = "standard_rated"
+	OrderShippingCostTaxTaxabilityReasonTaxableBasisReduced  OrderShippingCostTaxTaxabilityReason = "taxable_basis_reduced"
+	OrderShippingCostTaxTaxabilityReasonZeroRated            OrderShippingCostTaxTaxabilityReason = "zero_rated"
 )
 
 // The overall status of the order.
@@ -467,7 +464,7 @@ const (
 	OrderTaxDetailsTaxExemptReverse OrderTaxDetailsTaxExempt = "reverse"
 )
 
-// The type of the tax ID, one of `ad_nrt`, `ar_cuit`, `eu_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eu_oss_vat`, `pe_ruc`, `rs_pib`, `sv_nit`, `uy_ruc`, `ve_rif`, `vn_tin`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, or `unknown`
+// The type of the tax ID, one of `ad_nrt`, `ar_cuit`, `eu_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eu_oss_vat`, `pe_ruc`, `ro_tin`, `rs_pib`, `sv_nit`, `uy_ruc`, `ve_rif`, `vn_tin`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, or `unknown`
 type OrderTaxDetailsTaxIDType string
 
 // List of values that OrderTaxDetailsTaxIDType can take
@@ -520,6 +517,7 @@ const (
 	OrderTaxDetailsTaxIDTypeNZGST    OrderTaxDetailsTaxIDType = "nz_gst"
 	OrderTaxDetailsTaxIDTypePERUC    OrderTaxDetailsTaxIDType = "pe_ruc"
 	OrderTaxDetailsTaxIDTypePHTIN    OrderTaxDetailsTaxIDType = "ph_tin"
+	OrderTaxDetailsTaxIDTypeROTIN    OrderTaxDetailsTaxIDType = "ro_tin"
 	OrderTaxDetailsTaxIDTypeRSPIB    OrderTaxDetailsTaxIDType = "rs_pib"
 	OrderTaxDetailsTaxIDTypeRUINN    OrderTaxDetailsTaxIDType = "ru_inn"
 	OrderTaxDetailsTaxIDTypeRUKPP    OrderTaxDetailsTaxIDType = "ru_kpp"
@@ -545,24 +543,21 @@ type OrderTotalDetailsBreakdownTaxTaxabilityReason string
 
 // List of values that OrderTotalDetailsBreakdownTaxTaxabilityReason can take
 const (
-	OrderTotalDetailsBreakdownTaxTaxabilityReasonCustomerExempt          OrderTotalDetailsBreakdownTaxTaxabilityReason = "customer_exempt"
-	OrderTotalDetailsBreakdownTaxTaxabilityReasonExcludedTerritory       OrderTotalDetailsBreakdownTaxTaxabilityReason = "excluded_territory"
-	OrderTotalDetailsBreakdownTaxTaxabilityReasonJurisdictionUnsupported OrderTotalDetailsBreakdownTaxTaxabilityReason = "jurisdiction_unsupported"
-	OrderTotalDetailsBreakdownTaxTaxabilityReasonNotCollecting           OrderTotalDetailsBreakdownTaxTaxabilityReason = "not_collecting"
-	OrderTotalDetailsBreakdownTaxTaxabilityReasonNotSubjectToTax         OrderTotalDetailsBreakdownTaxTaxabilityReason = "not_subject_to_tax"
-	OrderTotalDetailsBreakdownTaxTaxabilityReasonNotSupported            OrderTotalDetailsBreakdownTaxTaxabilityReason = "not_supported"
-	OrderTotalDetailsBreakdownTaxTaxabilityReasonPortionProductExempt    OrderTotalDetailsBreakdownTaxTaxabilityReason = "portion_product_exempt"
-	OrderTotalDetailsBreakdownTaxTaxabilityReasonPortionReducedRated     OrderTotalDetailsBreakdownTaxTaxabilityReason = "portion_reduced_rated"
-	OrderTotalDetailsBreakdownTaxTaxabilityReasonPortionStandardRated    OrderTotalDetailsBreakdownTaxTaxabilityReason = "portion_standard_rated"
-	OrderTotalDetailsBreakdownTaxTaxabilityReasonProductExempt           OrderTotalDetailsBreakdownTaxTaxabilityReason = "product_exempt"
-	OrderTotalDetailsBreakdownTaxTaxabilityReasonProductExemptHoliday    OrderTotalDetailsBreakdownTaxTaxabilityReason = "product_exempt_holiday"
-	OrderTotalDetailsBreakdownTaxTaxabilityReasonProportionallyRated     OrderTotalDetailsBreakdownTaxTaxabilityReason = "proportionally_rated"
-	OrderTotalDetailsBreakdownTaxTaxabilityReasonReducedRated            OrderTotalDetailsBreakdownTaxTaxabilityReason = "reduced_rated"
-	OrderTotalDetailsBreakdownTaxTaxabilityReasonReverseCharge           OrderTotalDetailsBreakdownTaxTaxabilityReason = "reverse_charge"
-	OrderTotalDetailsBreakdownTaxTaxabilityReasonStandardRated           OrderTotalDetailsBreakdownTaxTaxabilityReason = "standard_rated"
-	OrderTotalDetailsBreakdownTaxTaxabilityReasonTaxableBasisReduced     OrderTotalDetailsBreakdownTaxTaxabilityReason = "taxable_basis_reduced"
-	OrderTotalDetailsBreakdownTaxTaxabilityReasonVATExempt               OrderTotalDetailsBreakdownTaxTaxabilityReason = "vat_exempt"
-	OrderTotalDetailsBreakdownTaxTaxabilityReasonZeroRated               OrderTotalDetailsBreakdownTaxTaxabilityReason = "zero_rated"
+	OrderTotalDetailsBreakdownTaxTaxabilityReasonCustomerExempt       OrderTotalDetailsBreakdownTaxTaxabilityReason = "customer_exempt"
+	OrderTotalDetailsBreakdownTaxTaxabilityReasonNotCollecting        OrderTotalDetailsBreakdownTaxTaxabilityReason = "not_collecting"
+	OrderTotalDetailsBreakdownTaxTaxabilityReasonNotSubjectToTax      OrderTotalDetailsBreakdownTaxTaxabilityReason = "not_subject_to_tax"
+	OrderTotalDetailsBreakdownTaxTaxabilityReasonNotSupported         OrderTotalDetailsBreakdownTaxTaxabilityReason = "not_supported"
+	OrderTotalDetailsBreakdownTaxTaxabilityReasonPortionProductExempt OrderTotalDetailsBreakdownTaxTaxabilityReason = "portion_product_exempt"
+	OrderTotalDetailsBreakdownTaxTaxabilityReasonPortionReducedRated  OrderTotalDetailsBreakdownTaxTaxabilityReason = "portion_reduced_rated"
+	OrderTotalDetailsBreakdownTaxTaxabilityReasonPortionStandardRated OrderTotalDetailsBreakdownTaxTaxabilityReason = "portion_standard_rated"
+	OrderTotalDetailsBreakdownTaxTaxabilityReasonProductExempt        OrderTotalDetailsBreakdownTaxTaxabilityReason = "product_exempt"
+	OrderTotalDetailsBreakdownTaxTaxabilityReasonProductExemptHoliday OrderTotalDetailsBreakdownTaxTaxabilityReason = "product_exempt_holiday"
+	OrderTotalDetailsBreakdownTaxTaxabilityReasonProportionallyRated  OrderTotalDetailsBreakdownTaxTaxabilityReason = "proportionally_rated"
+	OrderTotalDetailsBreakdownTaxTaxabilityReasonReducedRated         OrderTotalDetailsBreakdownTaxTaxabilityReason = "reduced_rated"
+	OrderTotalDetailsBreakdownTaxTaxabilityReasonReverseCharge        OrderTotalDetailsBreakdownTaxTaxabilityReason = "reverse_charge"
+	OrderTotalDetailsBreakdownTaxTaxabilityReasonStandardRated        OrderTotalDetailsBreakdownTaxTaxabilityReason = "standard_rated"
+	OrderTotalDetailsBreakdownTaxTaxabilityReasonTaxableBasisReduced  OrderTotalDetailsBreakdownTaxTaxabilityReason = "taxable_basis_reduced"
+	OrderTotalDetailsBreakdownTaxTaxabilityReasonZeroRated            OrderTotalDetailsBreakdownTaxTaxabilityReason = "zero_rated"
 )
 
 // Settings for automatic tax calculation for this order.
@@ -1123,7 +1118,7 @@ type OrderShippingDetailsParams struct {
 
 // The purchaser's tax IDs to be used for this order.
 type OrderTaxDetailsTaxIDParams struct {
-	// Type of the tax ID, one of `ad_nrt`, `ae_trn`, `ar_cuit`, `au_abn`, `au_arn`, `bg_uic`, `bo_tin`, `br_cnpj`, `br_cpf`, `ca_bn`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `ca_qst`, `ch_vat`, `cl_tin`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eg_tin`, `es_cif`, `eu_oss_vat`, `eu_vat`, `gb_vat`, `ge_vat`, `hk_br`, `hu_tin`, `id_npwp`, `il_vat`, `in_gst`, `is_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `ke_pin`, `kr_brn`, `li_uid`, `mx_rfc`, `my_frp`, `my_itn`, `my_sst`, `no_vat`, `nz_gst`, `pe_ruc`, `ph_tin`, `rs_pib`, `ru_inn`, `ru_kpp`, `sa_vat`, `sg_gst`, `sg_uen`, `si_tin`, `sv_nit`, `th_vat`, `tr_tin`, `tw_vat`, `ua_vat`, `us_ein`, `uy_ruc`, `ve_rif`, `vn_tin`, or `za_vat`
+	// Type of the tax ID, one of `ad_nrt`, `ae_trn`, `ar_cuit`, `au_abn`, `au_arn`, `bg_uic`, `bo_tin`, `br_cnpj`, `br_cpf`, `ca_bn`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `ca_qst`, `ch_vat`, `cl_tin`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eg_tin`, `es_cif`, `eu_oss_vat`, `eu_vat`, `gb_vat`, `ge_vat`, `hk_br`, `hu_tin`, `id_npwp`, `il_vat`, `in_gst`, `is_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `ke_pin`, `kr_brn`, `li_uid`, `mx_rfc`, `my_frp`, `my_itn`, `my_sst`, `no_vat`, `nz_gst`, `pe_ruc`, `ph_tin`, `ro_tin`, `rs_pib`, `ru_inn`, `ru_kpp`, `sa_vat`, `sg_gst`, `sg_uen`, `si_tin`, `sv_nit`, `th_vat`, `tr_tin`, `tw_vat`, `ua_vat`, `us_ein`, `uy_ruc`, `ve_rif`, `vn_tin`, or `za_vat`
 	Type *string `form:"type"`
 	// Value of the tax ID.
 	Value *string `form:"value"`
@@ -1522,7 +1517,7 @@ type OrderShippingDetails struct {
 
 // The purchaser's tax IDs to be used in calculation of tax for this Order.
 type OrderTaxDetailsTaxID struct {
-	// The type of the tax ID, one of `ad_nrt`, `ar_cuit`, `eu_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eu_oss_vat`, `pe_ruc`, `rs_pib`, `sv_nit`, `uy_ruc`, `ve_rif`, `vn_tin`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, or `unknown`
+	// The type of the tax ID, one of `ad_nrt`, `ar_cuit`, `eu_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eu_oss_vat`, `pe_ruc`, `ro_tin`, `rs_pib`, `sv_nit`, `uy_ruc`, `ve_rif`, `vn_tin`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, or `unknown`
 	Type OrderTaxDetailsTaxIDType `json:"type"`
 	// The value of the tax ID.
 	Value string `json:"value"`

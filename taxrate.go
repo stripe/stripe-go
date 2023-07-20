@@ -24,6 +24,7 @@ const (
 	TaxRateTaxTypeQST               TaxRateTaxType = "qst"
 	TaxRateTaxTypeRST               TaxRateTaxType = "rst"
 	TaxRateTaxTypeSalesTax          TaxRateTaxType = "sales_tax"
+	TaxRateTaxTypeServiceTax        TaxRateTaxType = "service_tax"
 	TaxRateTaxTypeVAT               TaxRateTaxType = "vat"
 )
 

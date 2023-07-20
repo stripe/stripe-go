@@ -3204,12 +3204,12 @@ func TestTaxCalculationListLineItems(t *testing.T) {
 	assert.Nil(t, result.Err())
 }
 
-func TestQuotePreviewInvoiceLines(t *testing.T) {
-	params := &stripe.QuotePreviewInvoiceLinesParams{
+func TestQuoteListPreviewInvoiceLines(t *testing.T) {
+	params := &stripe.QuoteListPreviewInvoiceLinesParams{
 		Quote:          stripe.String("qt_xyz"),
 		PreviewInvoice: stripe.String("in_xyz"),
 	}
-	result := quote.PreviewInvoiceLines(params)
+	result := quote.ListPreviewInvoiceLines(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
 }
