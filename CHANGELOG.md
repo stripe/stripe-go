@@ -15,6 +15,16 @@
   * Add support for new values `amusement_tax` and `communications_tax` on enums `TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType`, `TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType`, `TaxCalculationTaxBreakdownTaxRateDetailsTaxType`, and `TaxTransactionShippingCostTaxBreakdownTaxRateDetailsTaxType`
   * Add support for `Product` on `TaxTransactionLineItem`
 
+## 74.27.0-beta.1 - 2023-07-13
+* [#1689](https://github.com/stripe/stripe-go/pull/1689) Update generated code for beta
+  Release specs are identical.
+* [#1687](https://github.com/stripe/stripe-go/pull/1687) Update generated code for beta
+  * Add support for new resource `PaymentMethodConfiguration`
+  * Add support for `Get`, `List`, `New`, and `Update` methods on resource `PaymentMethodConfiguration`
+  * Add support for `PaymentMethodConfiguration` on `PaymentIntentParams`
+  * Add support for `PaymentMethodConfigurationDetails` on `PaymentIntent`
+* [#1685](https://github.com/stripe/stripe-go/pull/1685) Update generated code for beta
+
 ## 74.26.0 - 2023-07-13
 * [#1688](https://github.com/stripe/stripe-go/pull/1688) Update generated code
   * Add support for new resource `Tax.Settings`
