@@ -61,7 +61,7 @@ const (
 	TaxIDTypeNZGST    TaxIDType = "nz_gst"
 	TaxIDTypePERUC    TaxIDType = "pe_ruc"
 	TaxIDTypePHTIN    TaxIDType = "ph_tin"
-	TaxIDTypeROTin    TaxIDType = "ro_tin"
+	TaxIDTypeROTIN    TaxIDType = "ro_tin"
 	TaxIDTypeRSPIB    TaxIDType = "rs_pib"
 	TaxIDTypeRUINN    TaxIDType = "ru_inn"
 	TaxIDTypeRUKPP    TaxIDType = "ru_kpp"

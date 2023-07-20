@@ -68,7 +68,7 @@ const (
 	TaxTransactionCustomerDetailsTaxIDTypeNZGST    TaxTransactionCustomerDetailsTaxIDType = "nz_gst"
 	TaxTransactionCustomerDetailsTaxIDTypePERUC    TaxTransactionCustomerDetailsTaxIDType = "pe_ruc"
 	TaxTransactionCustomerDetailsTaxIDTypePHTIN    TaxTransactionCustomerDetailsTaxIDType = "ph_tin"
-	TaxTransactionCustomerDetailsTaxIDTypeROTin    TaxTransactionCustomerDetailsTaxIDType = "ro_tin"
+	TaxTransactionCustomerDetailsTaxIDTypeROTIN    TaxTransactionCustomerDetailsTaxIDType = "ro_tin"
 	TaxTransactionCustomerDetailsTaxIDTypeRSPIB    TaxTransactionCustomerDetailsTaxIDType = "rs_pib"
 	TaxTransactionCustomerDetailsTaxIDTypeRUINN    TaxTransactionCustomerDetailsTaxIDType = "ru_inn"
 	TaxTransactionCustomerDetailsTaxIDTypeRUKPP    TaxTransactionCustomerDetailsTaxIDType = "ru_kpp"
