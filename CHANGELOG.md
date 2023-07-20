@@ -1,5 +1,20 @@
 # Changelog
 
+## 74.27.0 - 2023-07-20
+* [#1691](https://github.com/stripe/stripe-go/pull/1691) Update generated code
+  * Add support for new value `ro_tin` on enums `CheckoutSessionCustomerDetailsTaxIdsType`, `InvoiceCustomerTaxIdsType`, `TaxCalculationCustomerDetailsTaxIdsType`, and `TaxTransactionCustomerDetailsTaxIdsType`
+  * Remove support for values `excluded_territory`, `jurisdiction_unsupported`, and `vat_exempt` from enums `CheckoutSessionShippingCostTaxesTaxabilityReason`, `CheckoutSessionTotalDetailsBreakdownTaxesTaxabilityReason`, `CreditNoteShippingCostTaxesTaxabilityReason`, `InvoiceShippingCostTaxesTaxabilityReason`, `LineItemTaxesTaxabilityReason`, `QuoteComputedRecurringTotalDetailsBreakdownTaxesTaxabilityReason`, `QuoteComputedUpfrontTotalDetailsBreakdownTaxesTaxabilityReason`, and `QuoteTotalDetailsBreakdownTaxesTaxabilityReason`
+  * Add support for `UseStripeSDK` on `SetupIntentConfirmParams` and `SetupIntentParams`
+  * Add support for new value `service_tax` on enum `TaxRateTaxType`
+* [#1688](https://github.com/stripe/stripe-go/pull/1688) Update generated code
+  * Add support for new resource `Tax.Settings`
+  * Add support for `Get` and `Update` methods on resource `Settings`
+  * Add support for new value `invalid_tax_location` on enums `InvoiceLastFinalizationErrorCode`, `PaymentIntentLastPaymentErrorCode`, `SetupAttemptSetupErrorCode`, `SetupIntentLastSetupErrorCode`, and `StripeErrorCode`
+  * Add support for `OrderID` on `ChargePaymentMethodDetailsAfterpayClearpay`
+  * Add support for `AllowRedirects` on `PaymentIntentAutomaticPaymentMethodsParams`, `PaymentIntentAutomaticPaymentMethods`, `SetupIntentAutomaticPaymentMethodsParams`, and `SetupIntentAutomaticPaymentMethods`
+  * Add support for new values `amusement_tax` and `communications_tax` on enums `TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType`, `TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType`, `TaxCalculationTaxBreakdownTaxRateDetailsTaxType`, and `TaxTransactionShippingCostTaxBreakdownTaxRateDetailsTaxType`
+  * Add support for `Product` on `TaxTransactionLineItem`
+
 ## 74.26.0 - 2023-07-13
 * [#1688](https://github.com/stripe/stripe-go/pull/1688) Update generated code
   * Add support for new resource `Tax.Settings`
