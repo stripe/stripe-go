@@ -517,7 +517,7 @@ const (
 	OrderTaxDetailsTaxIDTypeNZGST    OrderTaxDetailsTaxIDType = "nz_gst"
 	OrderTaxDetailsTaxIDTypePERUC    OrderTaxDetailsTaxIDType = "pe_ruc"
 	OrderTaxDetailsTaxIDTypePHTIN    OrderTaxDetailsTaxIDType = "ph_tin"
-	OrderTaxDetailsTaxIDTypeROTin    OrderTaxDetailsTaxIDType = "ro_tin"
+	OrderTaxDetailsTaxIDTypeROTIN    OrderTaxDetailsTaxIDType = "ro_tin"
 	OrderTaxDetailsTaxIDTypeRSPIB    OrderTaxDetailsTaxIDType = "rs_pib"
 	OrderTaxDetailsTaxIDTypeRUINN    OrderTaxDetailsTaxIDType = "ru_inn"
 	OrderTaxDetailsTaxIDTypeRUKPP    OrderTaxDetailsTaxIDType = "ru_kpp"
