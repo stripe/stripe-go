@@ -3261,3 +3261,10 @@ func TestTaxCalculationCreate(t *testing.T) {
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
+
+func TestQuotePDF(t *testing.T) {
+	params := &stripe.QuotePDFParams{}
+	result, err := quote.PDF("qt_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
