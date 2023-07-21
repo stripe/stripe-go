@@ -1696,6 +1696,8 @@ type CheckoutSessionParams struct {
 	//
 	// If you'd like information on how to collect a payment method outside of Checkout, read the guide on configuring [subscriptions with a free trial](https://stripe.com/docs/payments/checkout/free-trials).
 	PaymentMethodCollection *string `form:"payment_method_collection"`
+	// The ID of the payment method configuration to use with this Checkout session.
+	PaymentMethodConfiguration *string `form:"payment_method_configuration"`
 	// Payment-method-specific configuration.
 	PaymentMethodOptions *CheckoutSessionPaymentMethodOptionsParams `form:"payment_method_options"`
 	// A list of the types of payment methods (e.g., `card`) this Checkout Session can accept.
@@ -1944,6 +1946,14 @@ type CheckoutSessionInvoiceCreation struct {
 	// Indicates whether invoice creation is enabled for the Checkout Session.
 	Enabled     bool                                       `json:"enabled"`
 	InvoiceData *CheckoutSessionInvoiceCreationInvoiceData `json:"invoice_data"`
+}
+
+// Information about the payment method configuration used for this Checkout session.
+type CheckoutSessionPaymentMethodConfigurationDetails struct {
+	// ID of the payment method configuration used.
+	ID string `json:"id"`
+	// ID of the parent payment method configuration used.
+	Parent string `json:"parent"`
 }
 type CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptions struct {
 	// A URL for custom mandate text
@@ -2424,6 +2434,8 @@ type CheckoutSession struct {
 	PaymentLink *PaymentLink `json:"payment_link"`
 	// Configure whether a Checkout Session should collect a payment method.
 	PaymentMethodCollection CheckoutSessionPaymentMethodCollection `json:"payment_method_collection"`
+	// Information about the payment method configuration used for this Checkout session.
+	PaymentMethodConfigurationDetails *CheckoutSessionPaymentMethodConfigurationDetails `json:"payment_method_configuration_details"`
 	// Payment-method-specific configuration for the PaymentIntent or SetupIntent of this CheckoutSession.
 	PaymentMethodOptions *CheckoutSessionPaymentMethodOptions `json:"payment_method_options"`
 	// A list of the types of payment methods (e.g. card) this Checkout
