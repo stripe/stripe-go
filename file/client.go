@@ -17,8 +17,9 @@ import (
 
 // Client is used to invoke /files APIs.
 type Client struct {
-	B   stripe.Backend
-	Key string
+	B        stripe.Backend
+	BUploads stripe.Backend
+	Key      string
 }
 
 // New creates a new file.
@@ -40,7 +41,7 @@ func (c Client) New(params *stripe.FileParams) (*stripe.File, error) {
 	}
 
 	file := &stripe.File{}
-	err = c.B.CallMultipart(http.MethodPost, "/v1/files", c.Key, boundary, bodyBuffer, &params.Params, file)
+	err = c.BUploads.CallMultipart(http.MethodPost, "/v1/files", c.Key, boundary, bodyBuffer, &params.Params, file)
 
 	return file, err
 }
@@ -98,5 +99,5 @@ func (i *Iter) FileList() *stripe.FileList {
 }
 
 func getC() Client {
-	return Client{stripe.GetBackend(stripe.UploadsBackend), stripe.Key}
+	return Client{stripe.GetBackend(stripe.APIBackend), stripe.GetBackend(stripe.UploadsBackend), stripe.Key}
 }
