@@ -6,6 +6,7 @@ require_relative '../../test_helper'
 class Critic::PriceTranslation < Critic::FunctionalTest
   before do
     @user = make_user(save: true)
+    @user.enable_feature(StripeForce::Constants::FeatureFlags::UPDATE_PRODUCT_ON_SYNC, update: true)
   end
 
   it 'translates a non-recurring pricebook entry to a stripe price' do

@@ -282,6 +282,9 @@ module Stripe
     sig { returns(Stripe::Product).params(id: T.any(String, T::Hash[Symbol, T.untyped]), opts: T.nilable(T::Hash[Symbol, T.untyped])) }
     def self.retrieve(id, opts={}); end
 
+    sig { returns(T::Boolean) }
+    def active; end
+
     sig { returns(String) }
     def name; end
 
@@ -290,6 +293,12 @@ module Stripe
 
     sig { returns(T::Boolean) }
     def shippable; end
+
+    sig { returns(String) }
+    def statement_descriptor; end
+
+    sig { returns(String) }
+    def tax_code; end
   end
 
   class TaxRate < APIResource
