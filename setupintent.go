@@ -723,6 +723,8 @@ type SetupIntentParams struct {
 	OnBehalfOf *string `form:"on_behalf_of"`
 	// ID of the payment method (a PaymentMethod, Card, or saved Source object) to attach to this SetupIntent.
 	PaymentMethod *string `form:"payment_method"`
+	// The ID of the payment method configuration to use with this SetupIntent.
+	PaymentMethodConfiguration *string `form:"payment_method_configuration"`
 	// When included, this hash creates a PaymentMethod that is set as the [`payment_method`](https://stripe.com/docs/api/setup_intents/object#setup_intent_object-payment_method)
 	// value in the SetupIntent.
 	PaymentMethodData *SetupIntentPaymentMethodDataParams `form:"payment_method_data"`
@@ -1110,6 +1112,14 @@ type SetupIntentNextAction struct {
 	UseStripeSDK            *SetupIntentNextActionUseStripeSDK            `json:"use_stripe_sdk"`
 	VerifyWithMicrodeposits *SetupIntentNextActionVerifyWithMicrodeposits `json:"verify_with_microdeposits"`
 }
+
+// Information about the payment method configuration used for this Setup Intent.
+type SetupIntentPaymentMethodConfigurationDetails struct {
+	// ID of the payment method configuration used.
+	ID string `json:"id"`
+	// ID of the parent payment method configuration used.
+	Parent string `json:"parent"`
+}
 type SetupIntentPaymentMethodOptionsACSSDebitMandateOptions struct {
 	// A URL for custom mandate text
 	CustomMandateURL string `json:"custom_mandate_url"`
@@ -1295,6 +1305,8 @@ type SetupIntent struct {
 	OnBehalfOf *Account `json:"on_behalf_of"`
 	// ID of the payment method used with this SetupIntent.
 	PaymentMethod *PaymentMethod `json:"payment_method"`
+	// Information about the payment method configuration used for this Setup Intent.
+	PaymentMethodConfigurationDetails *SetupIntentPaymentMethodConfigurationDetails `json:"payment_method_configuration_details"`
 	// Payment-method-specific configuration for this SetupIntent.
 	PaymentMethodOptions *SetupIntentPaymentMethodOptions `json:"payment_method_options"`
 	// The list of payment method types (e.g. card) that this SetupIntent is allowed to set up.
