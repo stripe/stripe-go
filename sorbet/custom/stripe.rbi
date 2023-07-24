@@ -274,6 +274,9 @@ class Stripe::Subscription
   sig { returns(T.any(Stripe::Customer, String))}
   def customer; end
 
+  sig { returns(T::Hash[T.any(String, Symbol), T.untyped])}
+  def items; end
+
   sig { returns(String) }
   def status; end
 

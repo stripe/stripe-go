@@ -3,7 +3,7 @@
 
 require_relative './_lib'
 
-class Critic::EvergreenOrderTest < Critic::OrderAmendmentFunctionalTest
+class Critic::EvergreenAmendmentTest < Critic::OrderAmendmentFunctionalTest
   before do
     @user = make_user(save: true)
     @user.enable_feature FeatureFlags::TEST_CLOCKS, update: true
@@ -127,6 +127,64 @@ class Critic::EvergreenOrderTest < Critic::OrderAmendmentFunctionalTest
     assert_equal(sf_order.Id, canceled_subscription.metadata['salesforce_order_id'])
   end
 
+  it 'adds products to evergreen order through amendment in the present' do
+    sf_order = create_evergreen_salesforce_order(
+      # need to set these fields explicitly to use translate
+      additional_quote_fields: {
+        CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(now_time),
+        CPQ_QUOTE_SUBSCRIPTION_TERM => SF_ORDER_DEFAULT_EVERGREEN_SUBSCRIPTION_TERM,
+      }
+    )
+
+    # create contract for amendment
+    sf_contract = create_contract_from_order(sf_order)
+    sf_order.refresh
+
+    amendment_end_date = now_time
+
+    # create first amendment with one product to add
+    amendment_quote = create_quote_data_from_contract_amendment(sf_contract)
+
+    sf_product_id_1, _ = salesforce_evergreen_product_with_price
+    quote_with_product = add_product_to_cpq_quote(amendment_quote['record']['Id'], sf_product_id: sf_product_id_1)
+    calculate_and_save_cpq_quote(quote_with_product)
+
+    amendment_quote["record"][CPQ_QUOTE_SUBSCRIPTION_START_DATE] = format_date_for_salesforce(amendment_end_date)
+    amendment_quote["record"][CPQ_QUOTE_SUBSCRIPTION_TERM] = SF_ORDER_DEFAULT_EVERGREEN_SUBSCRIPTION_TERM
+
+    sf_order_amendment = create_order_from_quote_data(amendment_quote)
+    assert_equal(sf_order_amendment.Type, OrderTypeOptions::AMENDMENT.serialize)
+
+    # create second amendment with another product to add
+    amendment_quote_2 = create_quote_data_from_contract_amendment(sf_contract)
+
+    sf_product_id_2, _ = salesforce_evergreen_product_with_price
+    quote_with_product = add_product_to_cpq_quote(amendment_quote_2['record']['Id'], sf_product_id: sf_product_id_2)
+    calculate_and_save_cpq_quote(quote_with_product)
+
+    amendment_quote_2["record"][CPQ_QUOTE_SUBSCRIPTION_START_DATE] = format_date_for_salesforce(amendment_end_date)
+    amendment_quote_2["record"][CPQ_QUOTE_SUBSCRIPTION_TERM] = SF_ORDER_DEFAULT_EVERGREEN_SUBSCRIPTION_TERM
+
+    sf_order_amendment_2 = create_order_from_quote_data(amendment_quote_2)
+    assert_equal(sf_order_amendment_2.Type, OrderTypeOptions::AMENDMENT.serialize)
+
+    StripeForce::Translate.perform_inline(@user, sf_order_amendment_2.Id)
+    sf_order.refresh
+    stripe_id = sf_order[prefixed_stripe_field(GENERIC_STRIPE_ID)]
+    amended_subscription = Stripe::Subscription.retrieve(stripe_id, @user.stripe_credentials)
+
+    assert_equal(3, amended_subscription.items.count)
+
+    # ensure all salesforce order items correspond to subscription items in the amended/updated subscription
+    sf_order_items = sf_get_related(sf_order, SF_ORDER_ITEM)
+    sf_order_amendment_items = sf_get_related(sf_order_amendment, SF_ORDER_ITEM)
+    sf_order_amendment_2_items = sf_get_related(sf_order_amendment_2, SF_ORDER_ITEM)
+
+    assert_equal(sf_order_items.first.Id, amended_subscription.items['data'].first['metadata']['salesforce_order_item_id'])
+    assert_equal(sf_order_amendment_items.first.Id, amended_subscription.items['data'].second['metadata']['salesforce_order_item_id'])
+    assert_equal(sf_order_amendment_2_items.first.Id, amended_subscription.items['data'].third['metadata']['salesforce_order_item_id'])
+  end
+
   describe 'failure cases' do
     it 'salesforce raises error when attempt to amend evergreen order with non zero quantity' do
       sf_order = create_evergreen_salesforce_order(
@@ -160,7 +218,7 @@ class Critic::EvergreenOrderTest < Critic::OrderAmendmentFunctionalTest
       assert_equal("APEX_ERROR: SBQQ.ValidationException: [\"The quantity field must be set to 0 for evergreen subscriptions.\"]\n\n(System Code)", exception.message)
     end
 
-    it 'processes the first amendment and throws user error beyond that' do
+    it 'processes the cancelation amendment and throws user error beyond that' do
       # creates evergreen order and cancels immediately
 
       sf_order = create_evergreen_salesforce_order(
@@ -213,7 +271,7 @@ class Critic::EvergreenOrderTest < Critic::OrderAmendmentFunctionalTest
         StripeForce::Translate.perform_inline(@user, sf_order_amendment_2.Id)
       end
 
-      assert_match("The first cancelation amendment to an evergreen order has been processed and the Stripe subscription canceled. Multiple amendments are not supported.", exception.message)
+      assert_match("Stripe subscription for evergreen order has already been cancelled and cannot be modified.", exception.message)
 
       sf_order.refresh
       stripe_id = sf_order[prefixed_stripe_field(GENERIC_STRIPE_ID)]
@@ -224,7 +282,7 @@ class Critic::EvergreenOrderTest < Critic::OrderAmendmentFunctionalTest
       assert_equal(sf_order.Id, canceled_subscription.metadata['salesforce_order_id'])
     end
 
-    it 'not yet supported user error when try add product to evergreen order through amendment' do
+    it 'does not allow renewable product to be added to evergreen order' do
       sf_order = create_evergreen_salesforce_order(
         # need to set these fields explicitly to use translate
         additional_quote_fields: {
@@ -238,14 +296,16 @@ class Critic::EvergreenOrderTest < Critic::OrderAmendmentFunctionalTest
       sf_order.refresh
 
       amendment_end_date = now_time
+
+      # create first amendment with one product to add
       amendment_quote = create_quote_data_from_contract_amendment(sf_contract)
 
-      sf_product_id, _ = salesforce_evergreen_product_with_price
+      sf_product_id, _ = salesforce_recurring_product_with_price
       quote_with_product = add_product_to_cpq_quote(amendment_quote['record']['Id'], sf_product_id: sf_product_id)
       calculate_and_save_cpq_quote(quote_with_product)
 
       amendment_quote["record"][CPQ_QUOTE_SUBSCRIPTION_START_DATE] = format_date_for_salesforce(amendment_end_date)
-      amendment_quote["record"][CPQ_QUOTE_SUBSCRIPTION_TERM] = SF_ORDER_DEFAULT_EVERGREEN_SUBSCRIPTION_TERM
+      amendment_quote["record"][CPQ_QUOTE_SUBSCRIPTION_TERM] = 12
 
       sf_order_amendment = create_order_from_quote_data(amendment_quote)
       assert_equal(sf_order_amendment.Type, OrderTypeOptions::AMENDMENT.serialize)
@@ -254,7 +314,7 @@ class Critic::EvergreenOrderTest < Critic::OrderAmendmentFunctionalTest
         StripeForce::Translate.perform_inline(@user, sf_order_amendment.Id)
       end
 
-      assert_match("Non-cancelation amendment to evergreen order is not supported.", exception.message)
+      assert_match("Adding Salesforce products with type 'Renewable' to orders of type 'Evergreen' is not supported.", exception.message)
     end
   end
 end
