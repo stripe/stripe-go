@@ -113,9 +113,14 @@ class StripeForce::Translate
       }
     end
 
+    # Cloudflare has confirmed that the item_contract_value will always be populated on all order lines. The source is:log
+    # "This is a formula field calculated by getting various information from Quote line. Usually this is calculated as MRR * Prorate multiplier"
+    amount_subtotal = phase_item.stripe_params[:metadata][:item_contract_value]
+    amount_subtotal ||= normalize_float_amount_in_currency_for_stripe(price.currency, sf_order_item.TotalPrice.to_s, as_decimal: false)
+
     {
       price: price.id,
-      amount_subtotal: normalize_float_amount_in_currency_for_stripe(price.currency, sf_order_item.TotalPrice.to_s, as_decimal: false),
+      amount_subtotal: amount_subtotal,
       quantity: phase_item.quantity,
       period: {
         start: start_date,
