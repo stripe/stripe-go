@@ -56,6 +56,7 @@ import (
 	subscriptionitem "github.com/stripe/stripe-go/v74/subscriptionitem"
 	subscriptionschedule "github.com/stripe/stripe-go/v74/subscriptionschedule"
 	tax_calculation "github.com/stripe/stripe-go/v74/tax/calculation"
+	tax_form "github.com/stripe/stripe-go/v74/tax/form"
 	tax_transaction "github.com/stripe/stripe-go/v74/tax/transaction"
 	taxcode "github.com/stripe/stripe-go/v74/taxcode"
 	taxid "github.com/stripe/stripe-go/v74/taxid"
@@ -3265,6 +3266,13 @@ func TestTaxCalculationCreate(t *testing.T) {
 func TestQuotePDF(t *testing.T) {
 	params := &stripe.QuotePDFParams{}
 	result, err := quote.PDF("qt_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestTaxFormPDF(t *testing.T) {
+	params := &stripe.TaxFormPDFParams{}
+	result, err := tax_form.PDF("form_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
