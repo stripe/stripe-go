@@ -177,10 +177,20 @@ type AccountParams struct {
 	Type *string `form:"type"`
 }
 
+// An estimate of the monthly revenue of the business. Only accepted for accounts in Brazil and India.
+type AccountBusinessProfileMonthlyEstimatedRevenueParams struct {
+	// A non-negative integer representing how much to charge in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal).
+	Amount *int64 `form:"amount"`
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency *string `form:"currency"`
+}
+
 // Business information about the account.
 type AccountBusinessProfileParams struct {
 	// [The merchant category code for the account](https://stripe.com/docs/connect/setting-mcc). MCCs are used to classify businesses based on the goods or services they provide.
 	MCC *string `form:"mcc"`
+	// An estimate of the monthly revenue of the business. Only accepted for accounts in Brazil and India.
+	MonthlyEstimatedRevenue *AccountBusinessProfileMonthlyEstimatedRevenueParams `form:"monthly_estimated_revenue"`
 	// The customer-facing business name.
 	Name *string `form:"name"`
 	// Internal-only description of the product sold by, or service provided by, the business. Used by Stripe for risk and underwriting purposes.
@@ -830,10 +840,18 @@ func (p *AccountExternalAccountParams) AppendTo(body *form.Values, keyParts []st
 	}
 }
 
+type AccountBusinessProfileMonthlyEstimatedRevenue struct {
+	// A non-negative integer representing how much to charge in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal).
+	Amount int64 `json:"amount"`
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency Currency `json:"currency"`
+}
+
 // Business information about the account.
 type AccountBusinessProfile struct {
 	// [The merchant category code for the account](https://stripe.com/docs/connect/setting-mcc). MCCs are used to classify businesses based on the goods or services they provide.
-	MCC string `json:"mcc"`
+	MCC                     string                                         `json:"mcc"`
+	MonthlyEstimatedRevenue *AccountBusinessProfileMonthlyEstimatedRevenue `json:"monthly_estimated_revenue"`
 	// The customer-facing business name.
 	Name string `json:"name"`
 	// Internal-only description of the product sold or service provided by the business. It's used by Stripe for risk and underwriting purposes.
