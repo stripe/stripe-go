@@ -902,17 +902,11 @@ class StripeForce::Translate
       #   Ideally there would be a way for users to *add* metadata during partial/full terminations
       #   We don't want to remap metadata since this would replace any existing metadata keys
       #   so in the meantime, we add metadata to the terminated phase items on the previous phase
-      update_terminated_phase_items_metadata = @user.feature_enabled?(FeatureFlags::TERMINATION_METADATA) && terminated_phase_items.count > 0
-      if update_terminated_phase_items_metadata
+      add_termination_metadata = @user.feature_enabled?(FeatureFlags::TERMINATION_METADATA) && terminated_phase_items.count > 0
+      if add_termination_metadata
         log.info 'adding metadata to terminated phase items'
-        effective_termination_date = StripeForce::Utilities::SalesforceUtil.get_effective_termination_date(@user, sf_order_amendment)
-        if effective_termination_date.present?
-          previous_phase = T.must(subscription_schedule.phases.delete_at(subscription_schedule.phases.count - 1))
-          subscription_schedule.phases << add_termination_metadata_phase_items(effective_termination_date, terminated_phase_items, sf_order_amendment, previous_phase)
-        else
-          # ideally this should never happen, but let's log for now
-          log.info 'no effective termination date found, skipping add phase item metadata'
-        end
+        previous_phase = T.must(subscription_schedule.phases.delete_at(subscription_schedule.phases.count - 1))
+        subscription_schedule.phases << add_termination_metadata_to_phase_items(mapper, sf_order_amendment, previous_phase, terminated_phase_items)
       end
 
       # TODO validate that all prices have the same recurrence? Stripe does this downstream,
@@ -1053,9 +1047,11 @@ class StripeForce::Translate
         # this is a special case: subscription is cancelled on the same day, the intention here is to not bill the user at all
         is_subscription_schedule_cancelled = is_order_terminated && (is_same_day || is_order_backdated)
         if is_subscription_schedule_cancelled
-          if update_terminated_phase_items_metadata
+          if add_termination_metadata
+            # add termination metadata to the last sub phase before terminating
             log.info 'updating subscription schedule with termination metadata', sf_order_amendment_id: sf_order_amendment
             subscription_phases = OrderAmendment.delete_past_phases(@user, stripe_customer_id, subscription_phases)
+            mapper.add_termination_metadata(T.must(subscription_phases.last), sf_order_amendment)
             subscription_schedule.phases = OrderHelpers.sanitize_subscription_schedule_phase_params(subscription_phases)
             subscription_schedule = T.cast(subscription_schedule.save({}, @user.stripe_credentials), Stripe::SubscriptionSchedule)
           end
@@ -1449,16 +1445,29 @@ class StripeForce::Translate
     end
   end
 
-  def add_termination_metadata_phase_items(effective_termination_date, terminated_phase_items, sf_order_amendment, previous_phase)
+  sig { params(mapper: StripeForce::Mapper, sf_order_amendment: Restforce::SObject, previous_phase: T.untyped, terminated_phase_items: T::Array[StripeForce::Translate::ContractItemStructure],).returns(T.untyped) }
+  def add_termination_metadata_to_phase_items(mapper, sf_order_amendment, previous_phase, terminated_phase_items)
+    effective_termination_date = @user.feature_enabled?(FeatureFlags::TERMINATION_METADATA) ? StripeForce::Utilities::SalesforceUtil.get_effective_termination_date(@user, sf_order_amendment) : nil
+
+    previous_phase_dup = Integrations::Utilities::StripeUtil.deep_copy(previous_phase)
     terminated_order_line_ids = terminated_phase_items.keep_if {|phase_item| phase_item.fully_terminated? && !phase_item.from_order?(sf_order_amendment) }.map(&:order_line_id)
 
-    previous_phase[:items] = previous_phase.items.map do |previous_phase_item|
+    # add the termination metadata for any terminated line items
+    previous_phase_dup[:items] = previous_phase_dup.items.map do |previous_phase_item|
       if terminated_order_line_ids.include?(previous_phase_item.metadata["salesforce_order_item_id"])
-        previous_phase_item[:metadata] = previous_phase_item.metadata.to_h.merge({StripeForce::Translate::Metadata.metadata_key(@user, MetadataKeys::EFFECTIVE_TERMINATION_DATE) => effective_termination_date})
+        termination_salesforce_order_item = sf.find(SF_ORDER_ITEM, previous_phase_item.metadata["salesforce_order_item_id"])
+        # add the phase item termination metadata
+        mapper.add_termination_metadata(previous_phase_item, termination_salesforce_order_item)
+
+        # this should be removed after CF updates their termination metadata mappings
+        if effective_termination_date.present?
+          previous_phase_item[:metadata] = previous_phase_item.metadata.to_h.merge({StripeForce::Translate::Metadata.metadata_key(@user, MetadataKeys::EFFECTIVE_TERMINATION_DATE) => effective_termination_date})
+        end
       end
+
       previous_phase_item
     end
 
-    previous_phase
+    previous_phase_dup
   end
 end

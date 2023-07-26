@@ -168,9 +168,12 @@ class Stripe::SubscriptionSchedulePhaseSubscriptionItem < Stripe::StripeObject
   def discounts; end
 end
 
-class Stripe::SubscriptionSchedulePhase < Stripe::StripeObject
+class Stripe::SubscriptionSchedulePhase
   sig { returns(T::Array[Stripe::SubscriptionSchedulePhaseSubscriptionItem])}
   def items; end
+
+  sig { params(arg: T::Array[Stripe::SubscriptionSchedulePhaseSubscriptionItem]).void}
+  def items=(arg); end
 
   sig { returns(T::Array[Stripe::SubscriptionSchedulePhaseSubscriptionItem])}
   def add_invoice_items; end

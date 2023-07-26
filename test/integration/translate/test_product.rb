@@ -59,7 +59,7 @@ class Critic::ProductTranslation < Critic::FunctionalTest
       # update the related mappings and Salesforce product
       @user.field_defaults = {
         "product" => {
-          "statement_descriptor" => "Gold Sub", 
+          "statement_descriptor" => "Gold Sub",
           "metadata.metadata_key_1" => "metadata_value_1",
         },
       }

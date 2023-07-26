@@ -180,6 +180,8 @@ module StripeForce
     CONNECTOR_SETTING_POLLING_ENABLED = 'polling_enabled'
     CONNECTOR_SETTING_SYNC_START_DATE = 'sync_start_date'
 
+    TERMINATION_METADATA_PREFIX = 'sbc_termination.'
+
     class Platforms < T::Enum
       enums do
         STRIPE = new("Stripe")

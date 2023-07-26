@@ -102,22 +102,21 @@ module StripeForce
     end
 
     # TODO compound_key is unsused here https://jira.corp.stripe.com/browse/PLATINT-2597
-    sig { params(record_to_map: Stripe::APIResource, source_record: T.nilable(Restforce::SObject), compound_key: T.nilable(T::Boolean), metadata_only: T.nilable(T::Boolean),).void }
-    def apply_mapping(record_to_map, source_record=nil, compound_key: false, metadata_only: false)
+    sig { params(record_to_map: Stripe::APIResource, source_record: T.nilable(Restforce::SObject), compound_key: T.nilable(T::Boolean)).void }
+    def apply_mapping(record_to_map, source_record=nil, compound_key: false)
       record_to_map_key = self.class.mapping_key_for_record(record_to_map, source_record)
 
+      # field defaults (static values)
       field_defaults_for_record = @user.field_defaults[record_to_map_key]
-
-      # field defaults
       if field_defaults_for_record
-        assign_values_from_hash(record_to_map, field_defaults_for_record, metadata_only: metadata_only)
+        assign_values_from_hash(record_to_map, field_defaults_for_record)
       end
 
+      # field mappings (dynamic values)
       mapping_for_record = @user.field_mappings[record_to_map_key]
-
       if mapping_for_record && source_record
         mapping_values = build_dynamic_mapping_values(source_record, mapping_for_record)
-        assign_values_from_hash(record_to_map, mapping_values, metadata_only: metadata_only)
+        assign_values_from_hash(record_to_map, mapping_values)
       end
     end
 
@@ -151,8 +150,31 @@ module StripeForce
       end
     end
 
-    sig { params(record: Stripe::APIResource, field_assignments: Hash, metadata_only: T.nilable(T::Boolean)).void }
-    def assign_values_from_hash(record, field_assignments, metadata_only: false)
+    sig { params(stripe_object: Stripe::StripeObject, sf_record: Restforce::SObject).returns(Stripe::StripeObject) }
+    def add_termination_metadata(stripe_object, sf_record)
+      sf_record_type = sf_record.sobject_type
+      if sf_record_type == SF_ORDER
+        key = "subscription_schedule"
+      elsif sf_record_type == SF_ORDER_ITEM
+        key = "subscription_item"
+      else
+        raise Integrations::Errors::ImpossibleState.new("Termination metadata is not supported for this sf object type: #{sf_record_type}")
+      end
+
+      if self.user.field_defaults[key]
+        assign_values_from_hash(stripe_object, self.user.field_defaults[key], only_termination_metadata: true)
+      end
+
+      if self.user.field_mappings[key]
+        mapping_values = build_dynamic_mapping_values(sf_record, self.user.field_mappings[key])
+        assign_values_from_hash(stripe_object, mapping_values, only_termination_metadata: true)
+      end
+
+      stripe_object
+    end
+
+    sig { params(record: Stripe::StripeObject, field_assignments: Hash, only_termination_metadata: T.nilable(T::Boolean),).void }
+    def assign_values_from_hash(record, field_assignments, only_termination_metadata: false)
       field_assignments.each do |raw_field_path, v|
         # TODO need to handle nil values
         # TODO nofify when an existing field is being overwritten
@@ -166,13 +188,21 @@ module StripeForce
         #   field_path = raw_field_path
         # end
 
-        # in some cases, we only want to remap the custom metadata fields
-        if metadata_only && !raw_field_path.to_s.start_with?('metadata.')
+        # if only_termination_metadata is true, we are only mapping termination metadata
+        if only_termination_metadata
+          if raw_field_path.to_s.start_with?(TERMINATION_METADATA_PREFIX)
+            set_stripe_resource_field_path(record, raw_field_path.to_s.delete_prefix(TERMINATION_METADATA_PREFIX), v)
+          end
+
           next
         end
+
+        if raw_field_path.to_s.start_with?(TERMINATION_METADATA_PREFIX)
+          next
+        end
+
         set_stripe_resource_field_path(record, raw_field_path, v)
       end
     end
-
   end
 end

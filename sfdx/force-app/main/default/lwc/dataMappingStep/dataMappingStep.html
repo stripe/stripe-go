@@ -164,6 +164,11 @@
                                 <th class="" scope="col">
                                     <div class="slds-truncate" title="">Salesforce</div>
                                 </th>
+                                <template lwc:if={allowTerminationMetadata}>
+                                    <th class="slds-truncate" width="10%" scope="col">
+                                        <div class="slds-truncate">On Termination</div>
+                                    </th>
+                                </template>
                                 <th class="" scope="col">
                                     <!-- Actions -->
                                 </th>
@@ -175,7 +180,7 @@
                                     <tr key={field.description} data-index={index}>
                                         <td>
                                             <div class="slds-truncate">
-                                                <lightning-input type="text" label="Stripe Billing Field" value={field.name} onchange={updateStripeMetadataName} variant="label-hidden"></lightning-input>
+                                                <lightning-input type="text" value={field.name} onchange={updateStripeMetadataName} variant="label-hidden"></lightning-input>
                                             </div>
                                         </td>
                                         <td class="slds-text-align_center">
@@ -203,6 +208,11 @@
                                                 <c-field-picker label="Record Type" root-object={defaultSfObject} options={sfFieldOptions} hash={field.sfValue} variant="label-hidden" onselect={updateMetaPicklist} onobjectchange={updateMetadataFieldList}  searchable placeholder="Select Salesforce Field..."></c-field-picker>
                                             </template>
                                         </td>
+                                        <template lwc:if={allowTerminationMetadata}>
+                                            <td>
+                                                <lightning-input type="checkbox" variant="label-hidden" checked={field.onTermination} onchange={toggleMetaOnTermination} field-level-help="Metadata that is added when this Salesforce object is terminated."></lightning-input>
+                                            </td>
+                                        </template>
                                         <td class="slds-text-align_center">
                                             <lightning-button-icon icon-name="utility:delete" size="small" variant="bare" onclick={removeMetaRow}></lightning-button-icon>
                                         </td>

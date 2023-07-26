@@ -95,6 +95,17 @@ class Critic::OrderAmendmentTermination < Critic::OrderAmendmentFunctionalTest
     # initial order: two lines
     # amendment order: removes one of the lines
     # resulting last sub phase: should have a single item
+    @user.field_mappings = {
+      "subscription_item" => {
+        "sbc_termination.metadata.salesforce_effective_termination_date" => "OrderId.OpportunityId.CloseDate",
+      },
+    }
+    @user.field_defaults = {
+      "subscription_item" => {
+        "sbc_termination.metadata.custom_metadata_field" => "custom_metadata_field_value",
+      },
+    }
+    @user.save
 
     initial_start_date = now_time
     amendment_start_date = initial_start_date + 1.month
@@ -130,10 +141,9 @@ class Critic::OrderAmendmentTermination < Critic::OrderAmendmentFunctionalTest
     sf_order_partial_termination = create_order_from_quote_data(amendment_data)
 
     StripeForce::Translate.perform_inline(@user, sf_order_partial_termination.Id)
-
     sf_order.refresh
-    stripe_id = sf_order[prefixed_stripe_field(GENERIC_STRIPE_ID)]
 
+    stripe_id = sf_order[prefixed_stripe_field(GENERIC_STRIPE_ID)]
     subscription_schedule = Stripe::SubscriptionSchedule.retrieve(stripe_id, @user.stripe_credentials)
 
     assert_equal(2, subscription_schedule.phases.count)
@@ -152,12 +162,28 @@ class Critic::OrderAmendmentTermination < Critic::OrderAmendmentFunctionalTest
 
     # confirm first phase item terminate metadata was added
     terminated_item = first_phase.items.detect {|i| i.price != second_phase_item.price }
+    assert_equal("custom_metadata_field_value", T.must(terminated_item).metadata["custom_metadata_field"])
     assert_equal(StripeForce::Utilities::SalesforceUtil.get_effective_termination_date(@user, sf_order_partial_termination),
       T.must(terminated_item).metadata[StripeForce::Translate::Metadata.metadata_key(@user, MetadataKeys::EFFECTIVE_TERMINATION_DATE)])
   end
 
   # use case: user decides *right* after signing the contract they want to change their order competely
   it 'cancels a subscription on the same day it started' do
+    @user.field_mappings = {
+      "subscription_item" => {
+        "sbc_termination.metadata.salesforce_effective_termination_date" => "OrderId.OpportunityId.CloseDate",
+      },
+      "subscription_schedule" => {
+        "sbc_termination.metadata.salesforce_effective_termination_date" => "OpportunityId.CloseDate",
+      },
+    }
+    @user.field_defaults = {
+      "subscription_schedule" => {
+        "sbc_termination.metadata.custom_metadata_field" => "custom_metadata_field_value",
+      },
+    }
+    @user.save
+
     sf_order = create_subscription_order
 
     StripeForce::Translate.perform_inline(@user, sf_order.Id)
@@ -178,20 +204,21 @@ class Critic::OrderAmendmentTermination < Critic::OrderAmendmentFunctionalTest
     assert_equal(sf_order_amendment.Type, OrderTypeOptions::AMENDMENT.serialize)
 
     StripeForce::Translate.perform_inline(@user, sf_order_amendment.Id)
-
     sf_order.refresh
     stripe_id = sf_order[prefixed_stripe_field(GENERIC_STRIPE_ID)]
     subscription_schedule = Stripe::SubscriptionSchedule.retrieve(stripe_id, @user.stripe_credentials)
 
     assert_equal(1, subscription_schedule.phases.count)
-
-    # confirm first phase item terminate metadata was added
-    terminated_item = T.must(subscription_schedule.phases.first).items.first
-    assert_equal(StripeForce::Utilities::SalesforceUtil.get_effective_termination_date(@user, sf_order_amendment),
-      T.must(terminated_item).metadata[StripeForce::Translate::Metadata.metadata_key(@user, MetadataKeys::EFFECTIVE_TERMINATION_DATE)])
-
-    # TODO is there anything else we need to do when we cancel a subscription schedule? Something with the invoices or subscription?
     assert_equal('canceled', subscription_schedule.status)
+
+    # confirm termination metadata was added to the terminated phase item
+    terminated_item = T.must(subscription_schedule.phases.first).items.first
+    effective_termination_date = StripeForce::Utilities::SalesforceUtil.get_effective_termination_date(@user, sf_order_amendment)
+    assert_equal(effective_termination_date, T.must(terminated_item).metadata[StripeForce::Translate::Metadata.metadata_key(@user, MetadataKeys::EFFECTIVE_TERMINATION_DATE)])
+
+    # confirm the termination metadata was added to the subscription schedule
+    assert_equal("custom_metadata_field_value", T.must(subscription_schedule.phases.last).metadata["custom_metadata_field"])
+    assert_equal(effective_termination_date, T.must(subscription_schedule.phases.last).metadata["salesforce_effective_termination_date"])
   end
 
   it 'fully terminates an order after multiple amendments, processed separately' do

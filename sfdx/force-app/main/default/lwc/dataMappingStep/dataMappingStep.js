@@ -6,6 +6,8 @@ import saveMappingConfigurations from '@salesforce/apex/setupAssistant.saveMappi
 import { getErrorMessage } from 'c/utils';
 import Alert from 'c/alert';
 
+const TERMINATION_METADATA_PREFIX = 'sbc_termination.';
+
 const blankMetadataMapping = () => {
     return {
         metadataMapping: {
@@ -263,7 +265,9 @@ export default class DataMappingStep extends LightningElement {
         if(metadataFieldList.length) {
             for(let i = 0; i < metadataFieldList.length; i++) {
                 const fieldData = metadataFieldList[i];
-                const metadataKey = 'metadata.' + fieldData.value;
+                // console.log({ fieldData: JSON.parse(JSON.stringify(fieldData)) });
+                const keyPrefix = fieldData.onTermination ? TERMINATION_METADATA_PREFIX : '';
+                const metadataKey = keyPrefix + 'metadata.' + fieldData.value;
 
                 if(!fieldData.sfValue) {
                     continue
@@ -374,11 +378,25 @@ export default class DataMappingStep extends LightningElement {
     updateMetaStaticValueChoice(event) {
         this.staticValue = event.target.value;
         const targetFieldIndex = event.currentTarget.closest('tr').dataset.index;
-        if (targetFieldIndex ) {
+        if (targetFieldIndex) {
             const updatedSelection = {
                 staticValue: true,
                 sfValue: this.staticValue,
                 sfValueType: 'staticMetadata'
+            };
+            Object.assign(this.activeMetadataObjectFields.metadataMapping.fields[parseInt(targetFieldIndex)] , updatedSelection);
+            this.valueChange();
+        }
+    }
+
+    toggleMetaOnTermination(event) {
+        const checked = event.target.value;
+        const targetFieldIndex = event.currentTarget.closest('tr').dataset.index;
+        if (targetFieldIndex) {
+            const currentVal = this.activeMetadataObjectFields.metadataMapping.fields[parseInt(targetFieldIndex)].onTermination;
+            // console.log({ checked, currentVal, nextVal: !currentVal })
+            const updatedSelection = {
+                onTermination: !currentVal,
             };
             Object.assign(this.activeMetadataObjectFields.metadataMapping.fields[parseInt(targetFieldIndex)] , updatedSelection);
             this.valueChange();
@@ -521,6 +539,7 @@ export default class DataMappingStep extends LightningElement {
             defaultValue: '',
             hasOverride: false,
             staticValue: false,
+            onTermination: false,
             sfValue: '',
             sfValueType: 'metadata'
         };
@@ -838,6 +857,17 @@ export default class DataMappingStep extends LightningElement {
                             } else {
                                 metadataFieldList.push(metadataFieldObj);
                             }
+                        } else if (value.startsWith(TERMINATION_METADATA_PREFIX + 'metadata.')) {
+                            let realfieldMapValue = value.replace(TERMINATION_METADATA_PREFIX + 'metadata.','')
+
+                            let metadataFieldObj = this.getFieldObject(realfieldMapValue, realfieldMapValue, 'metadata', '', false, true, this.allMappingConfigurations.field_defaults[stripeObject][value], 'metadata');
+                            metadataFieldObj.onTermination = true;
+
+                            if (metadataFieldList.length && metadataFieldList.filter(field =>  field.name === realfieldMapValue ).length > 0) {
+                                //do nothing
+                            } else {
+                                metadataFieldList.push(metadataFieldObj);
+                            }
                         }
                     }
                 }
@@ -852,6 +882,15 @@ export default class DataMappingStep extends LightningElement {
                         } else if (value.startsWith('metadata.') ) {
                             let realValue = value.replace('metadata.','')
                             let metadataFieldObj = this.getFieldObject(realValue, realValue, 'metadata', '', false, false, this.allMappingConfigurations.field_mappings[stripeObject][value], 'metadata');
+                            if (metadataFieldList.length && metadataFieldList.filter(field => field.name === realValue).length > 0) {
+                                //do nothing
+                            } else {
+                                metadataFieldList.push(metadataFieldObj);
+                            }
+                        } else if (value.startsWith(TERMINATION_METADATA_PREFIX + 'metadata.') ) {
+                            let realValue = value.replace(TERMINATION_METADATA_PREFIX + 'metadata.','')
+                            let metadataFieldObj = this.getFieldObject(realValue, realValue, 'metadata', '', false, false, this.allMappingConfigurations.field_mappings[stripeObject][value], 'metadata');
+                            metadataFieldObj.onTermination = true;
                             if (metadataFieldList.length && metadataFieldList.filter(field => field.name === realValue).length > 0) {
                                 //do nothing
                             } else {
@@ -882,6 +921,7 @@ export default class DataMappingStep extends LightningElement {
             defaultValue: defaultValue,
             hasOverride: hasOverride,
             staticValue: staticValue,
+            onTermination: false,
             sfValue: sfValue,
             sfValueType: sfValueType
         };
@@ -939,6 +979,10 @@ export default class DataMappingStep extends LightningElement {
                 }
             }));
         }
+    }
+
+    get allowTerminationMetadata() {
+        return this.defaultSfObject === 'Order' || this.defaultSfObject === 'OrderItem';
     }
 
     @api updateConfigHash(configHash) {
