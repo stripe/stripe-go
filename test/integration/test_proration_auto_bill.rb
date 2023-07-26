@@ -143,5 +143,69 @@ class Critic::ProrationAutoBillTranslation < Critic::FunctionalTest
 
       assert_nil(invoice)
     end
+
+    it 'is duplicate invoice item' do
+      # @user.enable_feature FeatureFlags::AUTO_ADVANCE_PRORATION_INVOICE, update: true
+      @user.enable_feature FeatureFlags::TEST_CLOCKS, update: true
+
+      subscription = create_customer_with_subscription
+      _, ad_hoc_price = create_price(additional_price_fields: {recurring: {}})
+
+      # create an invoice item that looks similar to what we'll get from add_invoice_items
+      start_timestamp = Time.now.to_i
+      end_timestamp = Time.now.to_i + 1.day.to_i
+      invoice_item_data = {
+        customer: subscription.customer,
+        subscription: subscription.id,
+        price: ad_hoc_price.id,
+        quantity: 1,
+        period: {
+          start: start_timestamp,
+          end: end_timestamp,
+        },
+        metadata: {
+          StripeForce::Translate::Metadata.metadata_key(@user, MetadataKeys::PRORATION) => "true",
+          "salesforce_order_item_id" => "8025c00000DcVBNAAV",
+        },
+      }
+
+      # create the invoice_item and invoice_item event
+      invoice_item = Stripe::InvoiceItem.create(invoice_item_data, @user.stripe_credentials)
+      invoice_item_event = get_invoice_item_event(invoice_item.id)
+
+      # create the invoice
+      invoice = StripeForce::ProrationAutoBill.create_invoice_from_invoice_item_event(@user, invoice_item_event)
+      invoice = T.must(invoice)
+      assert_equal(1, invoice.lines.count)
+      assert_equal("true", invoice.metadata[StripeForce::Translate::Metadata.metadata_key(@user, MetadataKeys::PRORATION_INVOICE)])
+      assert_equal('draft', invoice.status)
+
+      # now let's pretend a duplicate invoice_item event is triggered from the same data
+      duplicate_invoice_item = Stripe::InvoiceItem.create(invoice_item_data, @user.stripe_credentials)
+      duplicate_invoice_item_event = get_invoice_item_event(duplicate_invoice_item.id)
+      invoice = StripeForce::ProrationAutoBill.create_invoice_from_invoice_item_event(@user, duplicate_invoice_item_event)
+      assert_nil(invoice)
+
+      # change the metadata and ensure an invoice is created
+      invoice_item_data_2 = {
+        customer: subscription.customer,
+        subscription: subscription.id,
+        price: ad_hoc_price.id,
+        quantity: 1,
+        period: {
+          start: start_timestamp,
+          end: end_timestamp,
+        },
+        metadata: {
+          StripeForce::Translate::Metadata.metadata_key(@user, MetadataKeys::PRORATION) => "true",
+          "salesforce_order_item_id" => "8025c00000DcVBNAAY", # this is a different ID than above
+        },
+      }
+      invoice_item_2 = Stripe::InvoiceItem.create(invoice_item_data_2, @user.stripe_credentials)
+      invoice_event_2 = get_invoice_item_event(invoice_item_2.id)
+
+      invoice_2 = StripeForce::ProrationAutoBill.create_invoice_from_invoice_item_event(@user, invoice_event_2)
+      assert_not_nil(invoice_2)
+    end
   end
 end

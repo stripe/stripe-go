@@ -289,6 +289,9 @@ class Stripe::Subscription
   sig { returns(Integer) }
   def current_period_end; end
 
+  sig { returns(Integer) }
+  def start_date; end
+
   sig { returns(T::Hash[T.any(String, Symbol), T.untyped]) }
   def metadata; end
 

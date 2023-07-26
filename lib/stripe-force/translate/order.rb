@@ -702,7 +702,7 @@ class StripeForce::Translate
 
   sig { params(contract_structure: ContractStructure).returns(T.nilable(Stripe::SubscriptionSchedule)) }
   def update_subscription_phases_from_order_amendments(contract_structure)
-    log.info "Processing Salesforce order amendment"
+    log.info "processing amendment orders"
 
     subscription_schedule = retrieve_from_stripe(
       Stripe::SubscriptionSchedule,
@@ -713,14 +713,12 @@ class StripeForce::Translate
       raise Integrations::Errors::ImpossibleState.new("initial order should always be present")
     end
 
+    # at this point, the initial order would have already been translated
+    # and a corresponding subscription schedule created
     subscription_schedule = T.cast(subscription_schedule, Stripe::SubscriptionSchedule)
-
     if subscription_schedule.status == "canceled"
       raise StripeForce::Errors::RawUserError.new("Stripe subscription schedule has already been cancelled and cannot be modified", stripe_resource: subscription_schedule)
     end
-
-    # at this point, the initial order would have already been translated
-    # and a corresponding subscription schedule created
 
     # verify that all the amendment orders co-terminate with the initial order
     if !OrderAmendment.contract_co_terminated?(mapper, contract_structure)
@@ -729,8 +727,7 @@ class StripeForce::Translate
 
     # Order amendments contain a negative item if they are adjusting a previous line item.
 
-    # How we will know if the line items are the same? Price references won't work.
-    # The price of a line item can change across amendments. There's a special field
+    # How we will know if the line items are the same? There's a special field
     # on an amendmended line item that we can leverage: `SBQQ__RevisedOrderProduct__c`.
     # However, this field always references the *first* order line, not the last revised
     # order line.
@@ -738,7 +735,8 @@ class StripeForce::Translate
     # Do NOT use the current state of the subscription schedule at all. This could cause some issues:
     # if the old SF data was mutated in some way (even metadata!) that data will be used, which could
     # cause weird unintended side effects. However, the state of the Stripe side would be too hard to infer.
-    # the user could mutate the phase data out-of-band, so we need to (a) limit the phase we are editing
+    # the user could mutate the phase data out-of-band, so we need to:
+    # (a) limit the phase we are editing
     # (b) recreate each phase data from the raw order line data.
 
     sf_initial_order_items = order_lines_from_order(contract_structure.initial)
@@ -757,8 +755,6 @@ class StripeForce::Translate
       billing_frequency: OrderAmendment.calculate_billing_frequency_from_phase_items(@user, initial_order_phase_items)
     )
 
-    # TODO we generally make the assumption that the connector is the only system modifying phases, we should make
-    #      this assumption explicit and error when we notice this is not the case
     subscription_phases = subscription_schedule.phases
 
     if is_initial_order_backend_prorated
@@ -787,6 +783,7 @@ class StripeForce::Translate
       locker.lock_salesforce_record(sf_order_amendment)
 
       log.info 'processing amendment', sf_order_amendment_id: sf_order_amendment.Id, index: index
+
       invoice_items_in_order, aggregate_phase_items = build_phase_items_from_order_amendment(
         previous_phase_items,
         sf_order_amendment
@@ -1060,10 +1057,7 @@ class StripeForce::Translate
           log.info 'cancelling subscription schedule immediately', sf_order_amendment_id: sf_order_amendment
           subscription_schedule = T.cast(subscription_schedule.cancel({invoice_now: false, prorate: false}, @user.stripe_credentials), Stripe::SubscriptionSchedule)
         else
-          log.info 'adding phase',
-            sf_order_amendment_id: sf_order_amendment.Id,
-            start_date: new_phase.start_date,
-            end_date: new_phase.end_date
+          log.info 'adding phase', sf_order_amendment_id: sf_order_amendment.Id, start_date: new_phase.start_date, end_date: new_phase.end_date
 
           # align date boundaries of the schedules
           previous_phase.end_date = new_phase.start_date

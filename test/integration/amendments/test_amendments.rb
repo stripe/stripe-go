@@ -1735,6 +1735,7 @@ class Critic::OrderAmendmentTranslation < Critic::OrderAmendmentFunctionalTest
       assert_equal('one_time', credit_stripe_price.type)
       assert_equal(-1 * (BigDecimal(TEST_DEFAULT_PRICE) * BigDecimal(amendment_3_term) / BigDecimal(contract_term)).round(MAX_STRIPE_PRICE_PRECISION), BigDecimal(credit_stripe_price.unit_amount_decimal))
     end
+
   end
 
   describe 'metadata' do
