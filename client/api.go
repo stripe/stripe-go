@@ -475,7 +475,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.SubscriptionSchedules = &subscriptionschedule.Client{B: backends.API, Key: key}
 	a.TaxCalculations = &taxcalculation.Client{B: backends.API, Key: key}
 	a.TaxCodes = &taxcode.Client{B: backends.API, Key: key}
-	a.TaxForms = &taxform.Client{B: backends.API, Key: key}
+	a.TaxForms = &taxform.Client{B: backends.API, BUploads: backends.Uploads, Key: key}
 	a.TaxIDs = &taxid.Client{B: backends.API, Key: key}
 	a.TaxRates = &taxrate.Client{B: backends.API, Key: key}
 	a.TaxRegistrations = &taxregistration.Client{B: backends.API, Key: key}

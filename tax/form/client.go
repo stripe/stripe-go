@@ -16,8 +16,9 @@ import (
 
 // Client is used to invoke /tax/forms APIs.
 type Client struct {
-	B   stripe.Backend
-	Key string
+	B        stripe.Backend
+	BUploads stripe.Backend
+	Key      string
 }
 
 // Get returns the details of a tax form.
@@ -42,7 +43,7 @@ func PDF(id string, params *stripe.TaxFormPDFParams) (*stripe.APIStream, error) 
 func (c Client) PDF(id string, params *stripe.TaxFormPDFParams) (*stripe.APIStream, error) {
 	path := stripe.FormatURLPath("/v1/tax/forms/%s/pdf", id)
 	stream := &stripe.APIStream{}
-	err := c.B.CallStreaming(http.MethodGet, path, c.Key, params, stream)
+	err := c.BUploads.CallStreaming(http.MethodGet, path, c.Key, params, stream)
 	return stream, err
 }
 
@@ -86,5 +87,5 @@ func (i *Iter) TaxFormList() *stripe.TaxFormList {
 }
 
 func getC() Client {
-	return Client{stripe.GetBackend(stripe.APIBackend), stripe.Key}
+	return Client{stripe.GetBackend(stripe.APIBackend), stripe.GetBackend(stripe.UploadsBackend), stripe.Key}
 }
