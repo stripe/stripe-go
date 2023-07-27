@@ -87,6 +87,7 @@ class StripeForce::Translate
         subscription_schedule: subscription_schedule.id,
       }],
       items: contract_items,
+      metadata: subscription_schedule[:metadata].to_h,
     }
   end
 
@@ -127,6 +128,7 @@ class StripeForce::Translate
         end: end_date,
       },
       termination_for_convenience: tfc_object,
+      metadata: phase_item.stripe_params[:metadata].to_h,
     }
   end
 

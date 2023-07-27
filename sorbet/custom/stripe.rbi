@@ -394,6 +394,9 @@ class Stripe::RevenueContract < Stripe::StripeObject
   
   sig { returns(Stripe::RevenueContractItemsListOjbect)}
   def items; end
+  
+  sig { returns(T::Hash[T.any(String, Symbol), T.untyped]) }
+  def metadata; end
 end
 
 class Stripe::RevenueContractBillingModel
@@ -433,6 +436,9 @@ class Stripe::RevenueContractItem < Stripe::StripeObject
   
   sig { returns(Stripe::RevenueContractItemPeriod)}
   def period; end
+  
+  sig { returns(T::Hash[T.any(String, Symbol), T.untyped]) }
+  def metadata; end
 end
 
 class Stripe::RevenueContractItemTerminationForConvenience

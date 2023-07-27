@@ -31,6 +31,10 @@ class Critic::RevenueContractValidationHelper < Critic::FunctionalTest
     assert_equal("signed", revenue_contract.status)
     assert_equal(DateTime.parse(signed_date).to_i, revenue_contract.status_transitions.signed_at)
     assert_equal(1, revenue_contract.version)
+    assert_equal(subscription_schedule.metadata['salesforce_order_link'], revenue_contract.metadata['salesforce_order_link'])
+    assert_equal(subscription_schedule.metadata['salesforce_order_id'], revenue_contract.metadata['salesforce_order_id'])
+    assert_equal(subscription_schedule.metadata['contract_cf_signed_date'], revenue_contract.metadata['contract_cf_signed_date'])
+    assert_equal(subscription_schedule.metadata.count, revenue_contract.metadata.count)
   end
 
   def revenue_contract_validate_item(
@@ -50,10 +54,16 @@ class Critic::RevenueContractValidationHelper < Critic::FunctionalTest
     assert_equal(amount, contract_item.amount_subtotal)
     if !tfc.nil?
       assert_equal(tfc.to_s, phase_item.metadata['contract_tfc_duration'])
+      assert_equal(tfc.to_s, contract_item.metadata['contract_tfc_duration'])
       assert_equal(contract_item.period.start + (tfc + 1).days, contract_item.termination_for_convenience.expires_at)
     else
       assert_nil(contract_item.termination_for_convenience)
+    end
 
+    assert_equal(phase_item.metadata.count, contract_item.metadata.count)
+    if !phase_item.metadata['item_contract_value'].nil?
+      assert_equal(amount.to_s, phase_item.metadata['item_contract_value'])
+      assert_equal(amount.to_s, contract_item.metadata['item_contract_value'])
     end
   end
 end
