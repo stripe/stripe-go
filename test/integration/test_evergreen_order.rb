@@ -2,31 +2,12 @@
 # typed: true
 
 require_relative '../test_helper'
+require_relative './amendments/_lib'
 
-class Critic::EvergreenOrders < Critic::FunctionalTest
+class Critic::EvergreenOrders < Critic::OrderAmendmentFunctionalTest
   before do
     @user = make_user(save: true)
     @user.enable_feature FeatureFlags::TEST_CLOCKS, update: true
-  end
-
-  it 'creates an evergreen order object' do
-    @user.field_defaults['customer'] = {
-      'email' => create_random_email,
-    }
-
-    sf_order = create_evergreen_salesforce_order
-
-    # get the order items to check the subscription data inside
-    order_items = sf_get_related(sf_order, SF_ORDER_ITEM)
-
-    order_items.each do |order_item|
-      assert_equal(1, order_item[CPQ_QUOTE_SUBSCRIPTION_TERM])
-      assert_equal(CPQProductSubscriptionTypeOptions::EVERGREEN.serialize, order_item[CPQ_PRODUCT_SUBSCRIPTION_TYPE])
-      assert_equal('Fixed Price', order_item[CPQ_QUOTE_SUBSCRIPTION_PRICING])
-    end
-  end
-
-  it 'translates evergreen salesforce order to a stripe subscription' do
     @user.field_defaults = {
       "customer" => {
         "email" => create_random_email,
@@ -43,7 +24,22 @@ class Critic::EvergreenOrders < Critic::FunctionalTest
       },
     }
     @user.save
+  end
 
+  it 'creates an evergreen order object' do
+    sf_order = create_evergreen_salesforce_order
+
+    # get the order items to check the subscription data inside
+    order_items = sf_get_related(sf_order, SF_ORDER_ITEM)
+
+    order_items.each do |order_item|
+      assert_equal(1, order_item[CPQ_QUOTE_SUBSCRIPTION_TERM])
+      assert_equal(CPQProductSubscriptionTypeOptions::EVERGREEN.serialize, order_item[CPQ_PRODUCT_SUBSCRIPTION_TYPE])
+      assert_equal('Fixed Price', order_item[CPQ_QUOTE_SUBSCRIPTION_PRICING])
+    end
+  end
+
+  it 'translates evergreen salesforce order to a stripe subscription' do
     # create two products to add to the order
     sf_product_id_1, _ = salesforce_evergreen_product_with_price
     sf_product_id_2, _ = salesforce_evergreen_product_with_price
@@ -106,18 +102,7 @@ class Critic::EvergreenOrders < Critic::FunctionalTest
   end
 
   it 'creates an invoice every pay period on the stripe subscription' do
-    @user.field_defaults = {
-      "customer" => {
-        "email" => create_random_email,
-      },
-      "subscription" => {
-        "days_until_due" => 30,
-        "collection_method" => "send_invoice",
-      },
-    }
-    @user.save
-
-    sf_order = create_evergreen_salesforce_order(
+    sf_order = create_salesforce_order(
       # need to set these fields explicitly to use translate
       additional_quote_fields: {
         CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(now_time),
@@ -169,19 +154,56 @@ class Critic::EvergreenOrders < Critic::FunctionalTest
     assert_equal(invoice_3['period_end'], invoice_4['period_start'])
   end
 
+  it 'ignores attempt to resync evergreen order amendment' do
+    sf_order = create_evergreen_salesforce_order(
+      # need to set these fields explicitly to use translate
+      additional_quote_fields: {
+        CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(now_time),
+        CPQ_QUOTE_SUBSCRIPTION_TERM => SF_ORDER_DEFAULT_EVERGREEN_SUBSCRIPTION_TERM,
+      }
+    )
+
+    # translate salesforce order to subscription and find
+    SalesforceTranslateRecordJob.translate(@user, sf_order)
+    sf_order.refresh
+
+    sf_contract = create_contract_from_order(sf_order)
+    # api precondition: initial orders have a nil contract ID
+    sf_order.refresh
+    assert_nil(sf_order.ContractId)
+
+    # the contract should reference the initial order that was created
+    assert_equal(sf_order[SF_ID], sf_contract[SF_CONTRACT_ORDER_ID])
+
+    amendment_quote = create_quote_data_from_contract_amendment(sf_contract)
+
+    # wipe out the product
+    amendment_quote["lineItems"].first["record"][CPQ_QUOTE_QUANTITY] = 0
+    amendment_quote["record"][CPQ_QUOTE_SUBSCRIPTION_START_DATE] = now_time_formatted_for_salesforce
+    amendment_quote["record"][CPQ_QUOTE_SUBSCRIPTION_TERM] = SF_ORDER_DEFAULT_EVERGREEN_SUBSCRIPTION_TERM
+
+    sf_order_amendment = create_order_from_quote_data(amendment_quote)
+    assert_equal(sf_order_amendment.Type, OrderTypeOptions::AMENDMENT.serialize)
+
+    assert_nil(sf_order_amendment.Stripe_ID__c)
+    # translate order amendment
+    SalesforceTranslateRecordJob.translate(@user, sf_order_amendment)
+    sf_order_amendment.refresh
+
+    sf_order.refresh
+    sf_order = sf.find(SF_ORDER, sf_order.Id)
+    stripe_id = sf_order[prefixed_stripe_field(GENERIC_STRIPE_ID)]
+    subscription = Stripe::Subscription.retrieve(stripe_id, @user.stripe_credentials)
+
+    assert_not_nil(sf_order_amendment.Stripe_ID__c)
+    assert_equal('canceled', subscription.status)
+
+    # sync it again
+    SalesforceTranslateRecordJob.translate(@user, sf_order_amendment)
+  end
+
   describe 'failure cases' do
     it 'raises user error when there are evergreen and renewable items on same order' do
-      @user.field_defaults = {
-        "customer" => {
-          "email" => create_random_email,
-        },
-        "subscription" => {
-          "days_until_due" => 30,
-          "collection_method" => "send_invoice",
-        },
-      }
-      @user.save
-
       sf_account_id = create_salesforce_account
 
       sf_product_id_1, _ = salesforce_evergreen_product_with_price
@@ -211,50 +233,39 @@ class Critic::EvergreenOrders < Critic::FunctionalTest
 
       assert_match("Salesforce orders with both Evergreen and Renewable items are not yet supported.", exception.message)
     end
-  end
 
-  it 'raises user error when evergreen order has default subscription term not 1' do
-    @user.field_defaults = {
-      "customer" => {
-        "email" => create_random_email,
-      },
-      "subscription" => {
-        "days_until_due" => 30,
-        "collection_method" => "send_invoice",
-      },
-    }
-    @user.save
+    it 'raises user error when evergreen order has default subscription term not 1' do
+      sf_product_id = create_salesforce_product(additional_fields: {
+        # anything non-nil indicates subscription/recurring pricing
+        CPQ_QUOTE_SUBSCRIPTION_PRICING => 'Fixed Price',
 
-    sf_product_id = create_salesforce_product(additional_fields: {
-      # anything non-nil indicates subscription/recurring pricing
-      CPQ_QUOTE_SUBSCRIPTION_PRICING => 'Fixed Price',
+        CPQ_PRODUCT_SUBSCRIPTION_TYPE => CPQProductSubscriptionTypeOptions::EVERGREEN,
 
-      CPQ_PRODUCT_SUBSCRIPTION_TYPE => CPQProductSubscriptionTypeOptions::EVERGREEN,
+        CPQ_QUOTE_SUBSCRIPTION_TERM => 2,
+      })
+      _ = create_salesforce_price(sf_product_id: sf_product_id)
 
-      CPQ_QUOTE_SUBSCRIPTION_TERM => 2,
-    })
-    _ = create_salesforce_price(sf_product_id: sf_product_id)
+      sf_account_id = create_salesforce_account
 
-    sf_account_id = create_salesforce_account
+      quote_id = create_salesforce_quote(
+        sf_account_id: sf_account_id,
 
-    quote_id = create_salesforce_quote(
-      sf_account_id: sf_account_id,
+        additional_quote_fields: {
+          CPQ_QUOTE_SUBSCRIPTION_START_DATE => now_time_formatted_for_salesforce,
+          CPQ_QUOTE_SUBSCRIPTION_TERM => 12,
+        }
+      )
 
-      additional_quote_fields: {
-        CPQ_QUOTE_SUBSCRIPTION_START_DATE => now_time_formatted_for_salesforce,
-        CPQ_QUOTE_SUBSCRIPTION_TERM => 12,
-      }
-    )
+      # add both products to the sf quote
+      quote_with_product = add_product_to_cpq_quote(quote_id, sf_product_id: sf_product_id)
+      calculate_and_save_cpq_quote(quote_with_product)
+      sf_order = create_order_from_cpq_quote(quote_id)
 
-    # add both products to the sf quote
-    quote_with_product = add_product_to_cpq_quote(quote_id, sf_product_id: sf_product_id)
-    calculate_and_save_cpq_quote(quote_with_product)
-    sf_order = create_order_from_cpq_quote(quote_id)
+      exception = assert_raises(Integrations::Errors::UserError) do
+        SalesforceTranslateRecordJob.translate(@user, sf_order)
+      end
 
-    exception = assert_raises(Integrations::Errors::UserError) do
-      SalesforceTranslateRecordJob.translate(@user, sf_order)
+      assert_match("Evergreen orders with default subscription term not equal to 1 are not supported.", exception.message)
     end
-
-    assert_match("Evergreen orders with default subscription term not equal to 1 are not supported.", exception.message)
   end
 end

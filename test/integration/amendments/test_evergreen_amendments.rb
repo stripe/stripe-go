@@ -60,7 +60,7 @@ class Critic::EvergreenAmendmentTest < Critic::OrderAmendmentFunctionalTest
   end
 
   it 'cancels an evergreen subscription in the future' do
-    # set cancel time for future and amend, then move test clock to after that and ensure termination
+    # set cancel time for future and amend, then move test clock to after that and check termination
     current_time = now_time
 
     sf_order = create_evergreen_salesforce_order(
@@ -220,7 +220,6 @@ class Critic::EvergreenAmendmentTest < Critic::OrderAmendmentFunctionalTest
 
     it 'processes the cancelation amendment and throws user error beyond that' do
       # creates evergreen order and cancels immediately
-
       sf_order = create_evergreen_salesforce_order(
         # need to set these fields explicitly to use translate
         additional_quote_fields: {
@@ -268,7 +267,7 @@ class Critic::EvergreenAmendmentTest < Critic::OrderAmendmentFunctionalTest
       assert_equal(sf_order_amendment_2.Type, OrderTypeOptions::AMENDMENT.serialize)
 
       exception = assert_raises(Integrations::Errors::UserError) do
-        StripeForce::Translate.perform_inline(@user, sf_order_amendment_2.Id)
+        StripeForce::Translate.perform_inline(@user, sf_order_amendment.Id)
       end
 
       assert_match("Stripe subscription for evergreen order has already been cancelled and cannot be modified.", exception.message)

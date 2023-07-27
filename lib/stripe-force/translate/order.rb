@@ -604,10 +604,6 @@ class StripeForce::Translate
 
     subscription = T.cast(subscription, Stripe::Subscription)
 
-    if subscription.status == "canceled"
-      raise StripeForce::Errors::RawUserError.new("Stripe subscription for evergreen order has already been cancelled and cannot be modified", stripe_resource: subscription)
-    end
-
     amendments = contract_structure.amendments
 
     stripe_customer_id = T.cast(subscription.customer, String)
@@ -618,82 +614,105 @@ class StripeForce::Translate
 
     previous_phase_items = initial_order_phase_items
     amendments.each do |sf_order_amendment|
+      # do not support adding renewable products to evergreen order
       if !is_salesforce_order_evergreen(sf_order_amendment)
         throw_user_failure!(
           salesforce_object: sf_order_amendment,
           message: "Adding Salesforce products with type 'Renewable' to orders of type 'Evergreen' is not supported."
         )
-      else
+      end
+
+      # ignore amendment if already synced before (aka has stripe id)
+      order_amendment_subscription_id = sf_order_amendment[prefixed_stripe_field(GENERIC_STRIPE_ID)]
+      if order_amendment_subscription_id.present?
+        log.info "order amendment already translated, skipping", sf_order_amendment_id: sf_order_amendment.Id
+
         _, subscription_items = build_phase_items_from_order_amendment(
           previous_phase_items,
           sf_order_amendment
         )
 
-        sf_order_items = order_lines_from_order(sf_order_amendment)
-        _, amendment_subscription_items = phase_items_from_order_lines(sf_order_items)
+        previous_phase_items = subscription_items
 
-        is_order_terminated = subscription_items.all?(&:fully_terminated?)
-        if !is_order_terminated
-          amendment_start_time = StripeForce::Utilities::SalesforceUtil.extract_subscription_start_date_from_order(mapper, T.must(sf_order_amendment)).strftime("%Y-%m-%d")
-          current_time = Time.at(OrderAmendment.determine_current_time(@user, stripe_customer_id)).utc.strftime("%Y-%m-%d")
+        next
+      end
 
-          if amendment_start_time == current_time
-            Stripe::Subscription.update(
-              subscription_id,
-              {items: Integrations::Utilities::StripeUtil.deep_copy(amendment_subscription_items).map(&:stripe_params)},
-              @user.stripe_credentials
-            )
+      # cannot make new amendment to canceled subscription
+      if subscription.status == 'canceled'
+        # if attempting to make a new amendment to a canceled subscription schedule, raise error
+        throw_user_failure!(
+          salesforce_object: sf_order_amendment,
+          message: "Stripe subscription for evergreen order has already been cancelled and cannot be modified."
+        )
+      end
 
-            log.info 'added subscription items to stripe subscription for evergreen order', stripe_subscription_id: subscription.id
-          else
-            throw_user_failure!(
-              salesforce_object: sf_order,
-              message: "Amendment(s) with start dates in the future was not processed by the connector."
-            )
-          end
+      # logic to process new amendment to evergreen order
+      _, subscription_items = build_phase_items_from_order_amendment(
+        previous_phase_items,
+        sf_order_amendment
+      )
 
-          previous_phase_items = subscription_items
+      sf_order_items = order_lines_from_order(sf_order_amendment)
+      _, amendment_subscription_items = phase_items_from_order_lines(sf_order_items)
+
+      is_order_terminated = subscription_items.all?(&:fully_terminated?)
+      if !is_order_terminated
+        # amendment is not a full termination
+        amendment_start_time = StripeForce::Utilities::SalesforceUtil.extract_subscription_start_date_from_order(mapper, T.must(sf_order_amendment)).strftime("%Y-%m-%d")
+        current_time = Time.at(OrderAmendment.determine_current_time(@user, stripe_customer_id)).utc.strftime("%Y-%m-%d")
+
+        if amendment_start_time == current_time
+          Stripe::Subscription.update(
+            subscription_id,
+            {items: Integrations::Utilities::StripeUtil.deep_copy(amendment_subscription_items).map(&:stripe_params)},
+            @user.stripe_credentials
+          )
+
+          log.info 'added subscription items to stripe subscription for evergreen order', stripe_subscription_id: subscription.id
         else
-          log.info 'amendment is for termination', amendment_id: sf_order_amendment.Id
-
-          # the first amendment must be for cancelation if code gets to this point
-          # check termination date using start date of amendment
-          amendment_start_time = StripeForce::Utilities::SalesforceUtil.extract_subscription_start_date_from_order(mapper, T.must(amendments.first)).strftime("%Y-%m-%d")
-          current_time = Time.at(OrderAmendment.determine_current_time(@user, stripe_customer_id)).utc.strftime("%Y-%m-%d")
-
-          if amendment_start_time == current_time
-            # order is to be canceled right now
-            log.info "Canceling Stripe subscription", stripe_object: subscription.id, salesforce_object: sf_order_amendment
-
-            subscription.cancel(
-              {
-                invoice_now: false,
-                prorate: false,
-              },
-              @user.stripe_credentials
-            )
-          else
-            # order is to be canceled in the future
-            log.info "Updating Stripe subscription", stripe_object: subscription.id, salesforce_object: sf_order_amendment
-
-            Stripe::Subscription.update(
-              subscription.id,
-              {
-                cancel_at: Time.parse(amendment_start_time).to_i,
-                proration_behavior: StripeProrationBehavior::NONE.serialize,
-              },
-              @user.stripe_credentials,
-            )
-          end
-
-          # connector will not process amendments starting from the 2nd one
-          if amendments.count > 1
-            throw_user_failure!(
-              salesforce_object: sf_order,
-              message: "Stripe subscription for evergreen order has already been cancelled and cannot be modified."
-            )
-          end
+          throw_user_failure!(
+            salesforce_object: sf_order,
+            message: "Amendment(s) with start dates in the future was not processed by the connector."
+          )
         end
+
+        previous_phase_items = subscription_items
+      else
+        # amendment is for cancelation
+        log.info 'amendment is for termination', amendment_id: sf_order_amendment.Id
+
+        # the first amendment must be for cancelation if code gets to this point
+        # check termination date using start date of amendment
+        amendment_start_time = StripeForce::Utilities::SalesforceUtil.extract_subscription_start_date_from_order(mapper, T.must(amendments.first)).strftime("%Y-%m-%d")
+        current_time = Time.at(OrderAmendment.determine_current_time(@user, stripe_customer_id)).utc.strftime("%Y-%m-%d")
+
+        if amendment_start_time == current_time
+          # order is to be canceled right now
+          log.info "Canceling Stripe subscription", stripe_object: subscription.id, salesforce_object: sf_order_amendment
+
+          subscription.cancel(
+            {
+              invoice_now: false,
+              prorate: false,
+            },
+            @user.stripe_credentials
+          )
+        else
+          # order is to be canceled in the future
+          log.info "Updating Stripe subscription", stripe_object: subscription.id, salesforce_object: sf_order_amendment
+
+          Stripe::Subscription.update(
+            subscription.id,
+            {
+              cancel_at: Time.parse(amendment_start_time).to_i,
+              proration_behavior: StripeProrationBehavior::NONE.serialize,
+            },
+            @user.stripe_credentials,
+          )
+        end
+
+        # serves as a marker that the amendment has been synced
+        update_sf_stripe_id(sf_order_amendment, subscription)
       end
     end
 
@@ -716,9 +735,9 @@ class StripeForce::Translate
     # at this point, the initial order would have already been translated
     # and a corresponding subscription schedule created
     subscription_schedule = T.cast(subscription_schedule, Stripe::SubscriptionSchedule)
-    if subscription_schedule.status == "canceled"
-      raise StripeForce::Errors::RawUserError.new("Stripe subscription schedule has already been cancelled and cannot be modified", stripe_resource: subscription_schedule)
-    end
+
+    # at this point, the initial order would have already been translated
+    # and a corresponding subscription schedule created
 
     # verify that all the amendment orders co-terminate with the initial order
     if !OrderAmendment.contract_co_terminated?(mapper, contract_structure)
@@ -798,6 +817,14 @@ class StripeForce::Translate
         aggregate_phase_items, _terminated_phase_items = OrderHelpers.remove_terminated_lines(aggregate_phase_items)
         previous_phase_items = aggregate_phase_items
         next
+      end
+
+      if subscription_schedule.status == 'canceled'
+        # if attempting to make a new amendment to a canceled subscription schedule, raise error
+        throw_user_failure!(
+          salesforce_object: sf_order_amendment,
+          message: "Stripe subscription schedule has already been cancelled and cannot be modified."
+        )
       end
 
       is_order_terminated = aggregate_phase_items.all?(&:fully_terminated?)
