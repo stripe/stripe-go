@@ -1,5 +1,18 @@
 # Changelog
 
+## 74.29.0-beta.1 - 2023-07-28
+* [#1694](https://github.com/stripe/stripe-go/pull/1694) Update generated code for beta
+  * Release specs are identical.
+* [#1692](https://github.com/stripe/stripe-go/pull/1692) Update generated code for beta
+  * Add support for new resource `Tax.Form`
+  * Add support for `Get`, `List`, and `PDF` methods on resource `Form`
+  * Add support for `PaymentMethodConfiguration` on `CheckoutSessionParams` and `SetupIntentParams`
+  * Add support for `PaymentMethodConfigurationDetails` on `CheckoutSession` and `SetupIntent`
+* [#1690](https://github.com/stripe/stripe-go/pull/1690) Update generated code for beta
+  * Remove support for values `excluded_territory`, `jurisdiction_unsupported`, and `vat_exempt` from enums `OrderShippingCostTaxesTaxabilityReason`, `OrderTotalDetailsBreakdownTaxesTaxabilityReason`, and `QuotePhaseTotalDetailsBreakdownTaxesTaxabilityReason`
+  * Add support for new value `ro_tin` on enum `OrderTaxDetailsTaxIdsType`
+  * Add support for new values `email`, `numeric`, `phone`, and `text` on enum `TerminalReaderActionCollectInputsInputsType`
+
 ## 74.27.0 - 2023-07-20
 * [#1691](https://github.com/stripe/stripe-go/pull/1691) Update generated code
   * Add support for new value `ro_tin` on enums `CheckoutSessionCustomerDetailsTaxIdsType`, `InvoiceCustomerTaxIdsType`, `TaxCalculationCustomerDetailsTaxIdsType`, and `TaxTransactionCustomerDetailsTaxIdsType`
