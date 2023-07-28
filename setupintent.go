@@ -611,7 +611,7 @@ type SetupIntentPaymentMethodOptionsCardParams struct {
 
 // If this is a `link` PaymentMethod, this sub-hash contains details about the Link payment method options.
 type SetupIntentPaymentMethodOptionsLinkParams struct {
-	// Token used for persistent Link logins.
+	// [Deprecated] This is a legacy parameter that no longer has any function.
 	PersistentToken *string `form:"persistent_token"`
 }
 
@@ -1192,7 +1192,7 @@ type SetupIntentPaymentMethodOptionsCard struct {
 	RequestThreeDSecure SetupIntentPaymentMethodOptionsCardRequestThreeDSecure `json:"request_three_d_secure"`
 }
 type SetupIntentPaymentMethodOptionsLink struct {
-	// Token used for persistent Link logins.
+	// [Deprecated] This is a legacy parameter that no longer has any function.
 	PersistentToken string `json:"persistent_token"`
 }
 type SetupIntentPaymentMethodOptionsPaypal struct {

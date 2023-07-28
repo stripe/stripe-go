@@ -863,7 +863,7 @@ type OrderPaymentSettingsPaymentMethodOptionsLinkParams struct {
 	//
 	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter will unset the stored value for this payment method type.
 	CaptureMethod *string `form:"capture_method"`
-	// Token used for persistent Link logins.
+	// [Deprecated] This is a legacy parameter that no longer has any function.
 	PersistentToken *string `form:"persistent_token"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
@@ -1346,7 +1346,7 @@ type OrderPaymentSettingsPaymentMethodOptionsKlarna struct {
 type OrderPaymentSettingsPaymentMethodOptionsLink struct {
 	// Controls when the funds will be captured from the customer's account.
 	CaptureMethod OrderPaymentSettingsPaymentMethodOptionsLinkCaptureMethod `json:"capture_method"`
-	// Token used for persistent Link logins.
+	// [Deprecated] This is a legacy parameter that no longer has any function.
 	PersistentToken string `json:"persistent_token"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
