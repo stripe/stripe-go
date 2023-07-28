@@ -18,6 +18,7 @@ import (
 type Client struct {
 	B          stripe.Backend
 	PDFBackend stripe.Backend
+	BUploads   stripe.Backend
 	Key        string
 }
 
@@ -107,7 +108,11 @@ func PDF(id string, params *stripe.QuotePDFParams) (*stripe.APIStream, error) {
 func (c Client) PDF(id string, params *stripe.QuotePDFParams) (*stripe.APIStream, error) {
 	path := stripe.FormatURLPath("/v1/quotes/%s/pdf", id)
 	stream := &stripe.APIStream{}
-	err := c.PDFBackend.CallStreaming(http.MethodGet, path, c.Key, params, stream)
+	backend := c.PDFBackend
+	if backend == nil {
+		backend = c.BUploads
+	}
+	err := backend.CallStreaming(http.MethodGet, path, c.Key, params, stream)
 	return stream, err
 }
 
@@ -220,5 +225,10 @@ func (i *LineItemIter) LineItemList() *stripe.LineItemList {
 }
 
 func getC() Client {
-	return Client{stripe.GetBackend(stripe.APIBackend), stripe.GetBackend(stripe.UploadsBackend), stripe.Key}
+	return Client{
+		stripe.GetBackend(stripe.APIBackend),
+		stripe.GetBackend(stripe.UploadsBackend),
+		stripe.GetBackend(stripe.UploadsBackend),
+		stripe.Key,
+	}
 }

@@ -366,7 +366,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.Events = &event.Client{B: backends.API, Key: key}
 	a.FeeRefunds = &feerefund.Client{B: backends.API, Key: key}
 	a.FileLinks = &filelink.Client{B: backends.API, Key: key}
-	a.Files = &file.Client{B: backends.Uploads, Key: key}
+	a.Files = &file.Client{B: backends.Uploads, BUploads: backends.Uploads, Key: key}
 	a.FinancialConnectionsAccounts = &financialconnectionsaccount.Client{B: backends.API, Key: key}
 	a.FinancialConnectionsSessions = &financialconnectionssession.Client{B: backends.API, Key: key}
 	a.IdentityVerificationReports = &identityverificationreport.Client{B: backends.API, Key: key}
@@ -391,7 +391,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.Prices = &price.Client{B: backends.API, Key: key}
 	a.Products = &product.Client{B: backends.API, Key: key}
 	a.PromotionCodes = &promotioncode.Client{B: backends.API, Key: key}
-	a.Quotes = &quote.Client{B: backends.API, PDFBackend: backends.Uploads, Key: key}
+	a.Quotes = &quote.Client{B: backends.API, BUploads: backends.Uploads, Key: key}
 	a.RadarEarlyFraudWarnings = &radarearlyfraudwarning.Client{B: backends.API, Key: key}
 	a.RadarValueListItems = &radarvaluelistitem.Client{B: backends.API, Key: key}
 	a.RadarValueLists = &radarvaluelist.Client{B: backends.API, Key: key}

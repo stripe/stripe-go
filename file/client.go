@@ -17,8 +17,9 @@ import (
 
 // Client is used to invoke /files APIs.
 type Client struct {
-	B   stripe.Backend
-	Key string
+	B        stripe.Backend
+	BUploads stripe.Backend
+	Key      string
 }
 
 // New creates a new file.
@@ -98,5 +99,9 @@ func (i *Iter) FileList() *stripe.FileList {
 }
 
 func getC() Client {
-	return Client{stripe.GetBackend(stripe.UploadsBackend), stripe.Key}
+	return Client{
+		stripe.GetBackend(stripe.UploadsBackend),
+		stripe.GetBackend(stripe.UploadsBackend),
+		stripe.Key,
+	}
 }

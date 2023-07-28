@@ -807,7 +807,7 @@ type PaymentMethodLink struct {
 	Country string `json:"country"`
 	// Account owner's email address.
 	Email string `json:"email"`
-	// Token used for persistent Link logins.
+	// [Deprecated] This is a legacy parameter that no longer has any function.
 	PersistentToken string `json:"persistent_token"`
 }
 type PaymentMethodOXXO struct{}
