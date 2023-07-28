@@ -41,7 +41,7 @@ func (c Client) New(params *stripe.FileParams) (*stripe.File, error) {
 	}
 
 	file := &stripe.File{}
-	err = c.BUploads.CallMultipart(http.MethodPost, "/v1/files", c.Key, boundary, bodyBuffer, &params.Params, file)
+	err = c.B.CallMultipart(http.MethodPost, "/v1/files", c.Key, boundary, bodyBuffer, &params.Params, file)
 
 	return file, err
 }
@@ -99,5 +99,9 @@ func (i *Iter) FileList() *stripe.FileList {
 }
 
 func getC() Client {
-	return Client{stripe.GetBackend(stripe.APIBackend), stripe.GetBackend(stripe.UploadsBackend), stripe.Key}
+	return Client{
+		stripe.GetBackend(stripe.UploadsBackend),
+		stripe.GetBackend(stripe.UploadsBackend),
+		stripe.Key,
+	}
 }
