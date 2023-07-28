@@ -1114,6 +1114,12 @@ type InvoiceStatusTransitions struct {
 	VoidedAt int64 `json:"voided_at"`
 }
 
+// Details about the subscription that created this invoice.
+type InvoiceSubscriptionDetails struct {
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that will reflect the metadata of the subscription at the time of invoice creation. *Note: This attribute is populated only for invoices created on or after June 29, 2023.*
+	Metadata map[string]string `json:"metadata"`
+}
+
 // Indicates which line items triggered a threshold invoice.
 type InvoiceThresholdReasonItemReason struct {
 	// The IDs of the line items that triggered the threshold invoice.
@@ -1326,6 +1332,8 @@ type Invoice struct {
 	StatusTransitions *InvoiceStatusTransitions `json:"status_transitions"`
 	// The subscription that this invoice was prepared for, if any.
 	Subscription *Subscription `json:"subscription"`
+	// Details about the subscription that created this invoice.
+	SubscriptionDetails *InvoiceSubscriptionDetails `json:"subscription_details"`
 	// Only set for upcoming invoices that preview prorations. The time used to calculate prorations.
 	SubscriptionProrationDate int64 `json:"subscription_proration_date"`
 	// Total of all subscriptions, invoice items, and prorations on the invoice before any invoice level discount or exclusive tax is applied. Item discounts are already incorporated
