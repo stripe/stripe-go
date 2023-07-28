@@ -127,7 +127,8 @@ class StripeForce::Translate
     stripe_price.metadata = (stripe_price['metadata'].to_h || {}).merge(Metadata.stripe_metadata_for_sf_object(@user, sf_object))
 
     # Is this a subscription price? We only care about frontend proration for recurring prices
-    if sf_order_item && !stripe_price["recurring"].to_h.empty?
+    is_evergreen_order_item = sf_order_item && sf_order_item[CPQ_PRODUCT_SUBSCRIPTION_TYPE] == CPQProductSubscriptionTypeOptions::EVERGREEN.serialize
+    if sf_order_item && !stripe_price["recurring"].to_h.empty? && !is_evergreen_order_item
       sf_order = cache_service.get_record_from_cache(SF_ORDER, sf_order_item["OrderId"])
 
       # Get the term and billing frequency to calculate proration
@@ -142,12 +143,12 @@ class StripeForce::Translate
       if is_order_frontend_prorated && @user.feature_enabled?(FeatureFlags::FRONTEND_PRORATIONS)
         log.info 'prorating price due to frontend prorated order', subscription_term: subscription_term, billing_frequency: billing_frequency, sf_order: sf_order.Id
 
-        # Frontend Prorated Order (ie 9 month subscription on an annually billed item)
-        product_subscription_term = StripeForce::Utilities::SalesforceUtil.determine_quote_line_subscription_term(mapper, sf_order_item, sf_order)
+        # frontend prorated Order (ie 9 month subscription on an annually billed item)
+        effective_subscription_term = StripeForce::Utilities::SalesforceUtil.determine_quote_line_subscription_term(mapper, sf_order_item, sf_order)
         prorated_billing_amount = OrderAmendment.calculate_prorated_billing_amount(
           stripe_price: stripe_price,
           subscription_term: subscription_term,
-          product_subscription_term: product_subscription_term,
+          product_subscription_term: effective_subscription_term,
           billing_frequency: billing_frequency,
           days_prorating: 0
         )
@@ -440,7 +441,8 @@ class StripeForce::Translate
       !is_tiered_price &&
       sf_object.sobject_type == SF_ORDER_ITEM
 
-    if is_recurring_licensed_price_from_order_line && !PriceHelpers.using_custom_order_line_price_field?(@user)
+    is_evergreen_item = is_recurring_licensed_price_from_order_line && sf_object[CPQ_PRODUCT_SUBSCRIPTION_TYPE] == CPQProductSubscriptionTypeOptions::EVERGREEN.serialize
+    if is_recurring_licensed_price_from_order_line && !PriceHelpers.using_custom_order_line_price_field?(@user) && !is_evergreen_item
       # the formula for calculating the adjusted price is:
       #   billing price = order line unit price / quantity / (subscription term / billing frequency)
 
@@ -458,31 +460,34 @@ class StripeForce::Translate
 
   sig { params(mapper: StripeForce::Mapper, sf_order: Restforce::SObject, sf_order_item: Restforce::SObject, billing_frequency: Integer).returns(BigDecimal) }
   def calculate_price_multiplier(mapper, sf_order, sf_order_item, billing_frequency)
-    sf_subscription_term = StripeForce::Utilities::SalesforceUtil.extract_subscription_term_from_order!(mapper, sf_order)
+    quote_subscription_term = StripeForce::Utilities::SalesforceUtil.extract_subscription_term_from_order!(mapper, sf_order)
+    effective_subscription_term = StripeForce::Utilities::SalesforceUtil.determine_quote_line_subscription_term(mapper, sf_order_item, sf_order)
     cpq_price_multiplier = sf_order_item[CPQ_PRORATE_MULTIPLIER]
 
     sf_order_end_date = StripeForce::Utilities::SalesforceUtil.extract_subscription_end_date_from_order(mapper, sf_order)
-    if @user.feature_enabled?(FeatureFlags::NON_ANNIVERSARY_AMENDMENTS) && !sf_order_end_date.nil?
+    is_evergreen_order_item = sf_order_item[CPQ_PRODUCT_SUBSCRIPTION_TYPE] == CPQProductSubscriptionTypeOptions::EVERGREEN.serialize
+    if @user.feature_enabled?(FeatureFlags::NON_ANNIVERSARY_AMENDMENTS) && !sf_order_end_date.nil? && !is_evergreen_order_item
       sf_order_start_date = StripeForce::Utilities::SalesforceUtil.extract_subscription_start_date_from_order(mapper, sf_order)
 
       # calculate the number of days to prorate
       days = StripeForce::Utilities::SalesforceUtil.calculate_days_to_prorate(
         sf_order_start_date: sf_order_start_date,
         sf_order_end_date: T.must(sf_order_end_date),
-        sf_order_subscription_term: sf_subscription_term)
+        sf_order_subscription_term: quote_subscription_term)
 
       # if there is a partial month due to a non-anniversary amendment
       # we calculate the price multiplier differently depending on the CPQ Subscription Prorate Precision setting
       if days > 0
         if @user.feature_enabled?(FeatureFlags::DAY_PRORATIONS)
           # calculate the price multiplier for when CPQ Subscription Prorate Precision = 'Month + Day'
-          product_subscription_term = StripeForce::Utilities::SalesforceUtil.determine_quote_line_subscription_term(mapper, sf_order_item, sf_order)
-          calculated_price_multiplier = StripeForce::Utilities::SalesforceUtil.calculate_month_plus_day_price_multiple(whole_months: sf_subscription_term, partial_month_days: days, product_subscription_term: product_subscription_term)
+          log.info 'using \'monthly + daily\' price multiplier calculations', sf_order_id: sf_order.Id, sf_order_item_id: sf_order_item.Id, days: days
+          calculated_price_multiplier = StripeForce::Utilities::SalesforceUtil.calculate_month_plus_day_price_multiplier(whole_months: quote_subscription_term, partial_month_days: days, product_subscription_term: effective_subscription_term)
         else
           # calculate the price multiplier for when CPQ Subscription Prorate Precision = 'Month'
           # therefore cpq treats the partial month as a whole month so we add one to the provided subscription term
-          sf_subscription_term += 1
-          calculated_price_multiplier = BigDecimal(T.must(sf_subscription_term)) / BigDecimal(billing_frequency)
+          log.info 'using \'monthly\' price multiplier calculations', sf_order_id: sf_order.Id, sf_order_item_id: sf_order_item.Id
+          quote_subscription_term += 1
+          calculated_price_multiplier = BigDecimal(T.must(quote_subscription_term)) / BigDecimal(billing_frequency)
         end
 
         validate_price_multipliers(calculated_price_multiplier, cpq_price_multiplier, true)
@@ -491,7 +496,7 @@ class StripeForce::Translate
     end
 
     # TODO should we adjust based on the quantity? Most likely, let's wait until tests fail
-    price_multiplier = BigDecimal(T.must(sf_subscription_term)) / BigDecimal(billing_frequency)
+    price_multiplier = BigDecimal(T.must(quote_subscription_term)) / BigDecimal(billing_frequency)
     validate_price_multipliers(price_multiplier, cpq_price_multiplier, false)
     price_multiplier
   end

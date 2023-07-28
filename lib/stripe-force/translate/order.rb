@@ -261,18 +261,18 @@ class StripeForce::Translate
     )
   end
 
-  def validate_evergreen_order(sf_order, sf_order_items)
+  def validate_evergreen_order(sf_order_items)
     sf_order_items.each do |sf_order_item|
       # subscription term field can only be 1
       if sf_order_item[CPQ_QUOTE_SUBSCRIPTION_TERM] != 1
-        raise Integrations::Errors::ImpossibleState.new("an evergreen salesforce order will never have subscription term that is not 1")
+        raise Integrations::Errors::ImpossibleState.new("Evergreen Salesforce orders should never have subscription term that is not 1.")
       end
 
       # ensure default subscription term field of order items are 1
       if sf_order_item[CPQ_DEFAULT_SUBSCRIPTION_TERM] != 1
         throw_user_failure!(
-          salesforce_object: sf_order,
-          message: "Evergreen orders with default subscription term not equal to 1 are not supported."
+          salesforce_object: sf_order_item,
+          message: "Evergreen Salesforce orders should have default subscription term equal to 1."
         )
       end
     end
@@ -368,7 +368,7 @@ class StripeForce::Translate
     if order_is_evergreen
       log.info 'recurring items found and order is evergreen, creating subscription'
 
-      validate_evergreen_order(sf_order, sf_order_items)
+      validate_evergreen_order(sf_order_items)
       return create_stripe_subscription_from_sf_order(sf_order, subscription_items, stripe_customer)
     end
 
@@ -729,7 +729,7 @@ class StripeForce::Translate
     )
 
     if !subscription_schedule
-      raise Integrations::Errors::ImpossibleState.new("initial order should always be present")
+      raise Integrations::Errors::ImpossibleState.new("No subscription schedule found when trying to process amendment order.")
     end
 
     # at this point, the initial order would have already been translated
@@ -794,15 +794,14 @@ class StripeForce::Translate
 
     # there is more than one amendment in this run
     if contract_structure.amendments.count > 1
-      log.info 'processing stacked amendments'
+      log.info 'processing stacked amendment orders', count: contract_structure.amendments.count
     end
 
     previous_phase_items = initial_order_phase_items
     contract_structure.amendments.each_with_index do |sf_order_amendment, index|
       locker.lock_salesforce_record(sf_order_amendment)
 
-      log.info 'processing amendment', sf_order_amendment_id: sf_order_amendment.Id, index: index
-
+      log.info 'processing amendment order', sf_order_amendment_id: sf_order_amendment.Id, index: index
       invoice_items_in_order, aggregate_phase_items = build_phase_items_from_order_amendment(
         previous_phase_items,
         sf_order_amendment
@@ -1005,7 +1004,7 @@ class StripeForce::Translate
 
       # for debugging
       aggregate_phase_items.each do |phase_item|
-        log.info 'including item on order', order_line_id: phase_item.order_line_id
+        log.debug 'including order item on phase', order_line_id: phase_item.order_line_id
       end
 
       new_phase = Stripe::StripeObject.construct_from({

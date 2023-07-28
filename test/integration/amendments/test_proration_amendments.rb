@@ -552,7 +552,7 @@ class Critic::ProratedAmendmentTranslation < Critic::OrderAmendmentFunctionalTes
 
       amendment_data = add_product_to_cpq_quote(sf_quote_id, sf_product_id: sf_gold_tier_product_id)
       sf_order_amendment = create_order_from_quote_data(amendment_data)
-      sf_order_amendment_contract = create_contract_from_order(sf_order_amendment)
+      create_contract_from_order(sf_order_amendment)
 
       StripeForce::Translate.perform_inline(@user, sf_order_amendment.Id)
 
@@ -1615,7 +1615,7 @@ class Critic::ProratedAmendmentTranslation < Critic::OrderAmendmentFunctionalTes
         sf_order_end_date: initial_order_end_date,
         sf_order_subscription_term: amendment_term)
       billing_frequency = StripeForce::Translate::PriceHelpers.transform_salesforce_billing_frequency_to_recurring_interval(billing_frequency_serialized)
-      proration_percentage = StripeForce::Utilities::SalesforceUtil.calculate_month_plus_day_price_multiple(whole_months: (amendment_term % billing_frequency), partial_month_days: days_prorating, product_subscription_term: 1)
+      proration_percentage = StripeForce::Utilities::SalesforceUtil.calculate_month_plus_day_price_multiplier(whole_months: (amendment_term % billing_frequency), partial_month_days: days_prorating, product_subscription_term: 1)
       prorated_amount = TEST_DEFAULT_PRICE * proration_percentage
       prorated_invoice_amount = invoice_events[0].data.object.amount
       assert_equal(prorated_amount.round, prorated_invoice_amount)
@@ -1727,7 +1727,7 @@ class Critic::ProratedAmendmentTranslation < Critic::OrderAmendmentFunctionalTes
         sf_order_end_date: initial_order_end_date,
         sf_order_subscription_term: amendment_term)
       billing_frequency = StripeForce::Translate::PriceHelpers.transform_salesforce_billing_frequency_to_recurring_interval(billing_frequency_serialized)
-      proration_percentage = StripeForce::Utilities::SalesforceUtil.calculate_month_plus_day_price_multiple(whole_months: (amendment_term % billing_frequency), partial_month_days: days_prorating, product_subscription_term: CPQ_QUOTE_LINE_DEFAULT_SUBSCRIPTION_TERM)
+      proration_percentage = StripeForce::Utilities::SalesforceUtil.calculate_month_plus_day_price_multiplier(whole_months: (amendment_term % billing_frequency), partial_month_days: days_prorating, product_subscription_term: CPQ_QUOTE_LINE_DEFAULT_SUBSCRIPTION_TERM)
       prorated_amount = TEST_DEFAULT_PRICE * proration_percentage
       prorated_invoice_amount = invoice_events[0].data.object.amount
       assert_equal(prorated_amount.round, prorated_invoice_amount)
@@ -1821,7 +1821,7 @@ class Critic::ProratedAmendmentTranslation < Critic::OrderAmendmentFunctionalTes
         sf_order_end_date: initial_order_end_date,
         sf_order_subscription_term: amendment_term)
       billing_frequency = StripeForce::Translate::PriceHelpers.transform_salesforce_billing_frequency_to_recurring_interval(billing_frequency_serialized)
-      proration_percentage = StripeForce::Utilities::SalesforceUtil.calculate_month_plus_day_price_multiple(whole_months: (amendment_term % billing_frequency), partial_month_days: days_prorating, product_subscription_term: CPQ_QUOTE_LINE_DEFAULT_SUBSCRIPTION_TERM)
+      proration_percentage = StripeForce::Utilities::SalesforceUtil.calculate_month_plus_day_price_multiplier(whole_months: (amendment_term % billing_frequency), partial_month_days: days_prorating, product_subscription_term: CPQ_QUOTE_LINE_DEFAULT_SUBSCRIPTION_TERM)
       prorated_amount = annual_price * proration_percentage
       prorated_invoice_amount = invoice_events[0].data.object.amount
       assert_equal(prorated_amount.round, prorated_invoice_amount)
@@ -1953,7 +1953,7 @@ class Critic::ProratedAmendmentTranslation < Critic::OrderAmendmentFunctionalTes
         sf_order_end_date: initial_order_end_date,
         sf_order_subscription_term: amendment_term)
       billing_frequency = StripeForce::Translate::PriceHelpers.transform_salesforce_billing_frequency_to_recurring_interval(billing_frequency_serialized)
-      proration_percentage = StripeForce::Utilities::SalesforceUtil.calculate_month_plus_day_price_multiple(whole_months: (amendment_term % billing_frequency), partial_month_days: days_prorating, product_subscription_term: CPQ_QUOTE_LINE_DEFAULT_SUBSCRIPTION_TERM)
+      proration_percentage = StripeForce::Utilities::SalesforceUtil.calculate_month_plus_day_price_multiplier(whole_months: (amendment_term % billing_frequency), partial_month_days: days_prorating, product_subscription_term: CPQ_QUOTE_LINE_DEFAULT_SUBSCRIPTION_TERM)
       prorated_amount = TEST_DEFAULT_PRICE * proration_percentage
       prorated_invoice_amount = invoice_events[0].data.object.amount
       assert_equal(prorated_amount.round, prorated_invoice_amount)

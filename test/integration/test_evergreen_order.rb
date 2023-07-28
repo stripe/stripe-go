@@ -106,7 +106,9 @@ class Critic::EvergreenOrders < Critic::OrderAmendmentFunctionalTest
       # need to set these fields explicitly to use translate
       additional_quote_fields: {
         CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(now_time),
-        CPQ_QUOTE_SUBSCRIPTION_TERM => SF_ORDER_DEFAULT_EVERGREEN_SUBSCRIPTION_TERM,
+        # even though evegreeen Salesforce orders do not have an end date, we specify a quote term here to test that the price multiplier is correct
+        # by ensuring that we use the product subscrition term
+        CPQ_QUOTE_SUBSCRIPTION_TERM => TEST_DEFAULT_CONTRACT_TERM,
       }
     )
 
@@ -238,9 +240,7 @@ class Critic::EvergreenOrders < Critic::OrderAmendmentFunctionalTest
       sf_product_id = create_salesforce_product(additional_fields: {
         # anything non-nil indicates subscription/recurring pricing
         CPQ_QUOTE_SUBSCRIPTION_PRICING => 'Fixed Price',
-
         CPQ_PRODUCT_SUBSCRIPTION_TYPE => CPQProductSubscriptionTypeOptions::EVERGREEN,
-
         CPQ_QUOTE_SUBSCRIPTION_TERM => 2,
       })
       _ = create_salesforce_price(sf_product_id: sf_product_id)
@@ -265,7 +265,7 @@ class Critic::EvergreenOrders < Critic::OrderAmendmentFunctionalTest
         SalesforceTranslateRecordJob.translate(@user, sf_order)
       end
 
-      assert_match("Evergreen orders with default subscription term not equal to 1 are not supported.", exception.message)
+      assert_match("Evergreen Salesforce orders should have default subscription term equal to 1.", exception.message)
     end
   end
 end

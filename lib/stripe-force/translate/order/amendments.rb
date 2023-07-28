@@ -117,7 +117,7 @@ class StripeForce::Translate
         # at this point, we know feature DAY_PRORATIONS is enabled since days_prorating is non-zero
         # and we calculate the partial month value in our prorate multiplier like CPQ-based calculations
         # https://help.salesforce.com/s/articleView?id=sf.cpq_subscriptions_prorate_precision_1.htm&type=5
-        proration_percentage = StripeForce::Utilities::SalesforceUtil.calculate_month_plus_day_price_multiple(whole_months: (subscription_term % billing_frequency), partial_month_days: days_prorating, product_subscription_term: product_subscription_term)
+        proration_percentage = StripeForce::Utilities::SalesforceUtil.calculate_month_plus_day_price_multiplier(whole_months: (subscription_term % billing_frequency), partial_month_days: days_prorating, product_subscription_term: product_subscription_term)
       end
 
       # https://jira.corp.stripe.com/browse/PLATINT-1808

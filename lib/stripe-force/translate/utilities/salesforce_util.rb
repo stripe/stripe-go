@@ -187,17 +187,11 @@ module StripeForce::Utilities
         user.required_mappings.dig(*subscription_term_stripe_path)
 
       quote_subscription_term = T.cast(mapper.extract_key_path_for_record(sf_order, subscription_term_order_path), T.nilable(T.any(String, Float, Integer)))
-
       if quote_subscription_term.nil?
         raise Integrations::Errors::MissingRequiredFields.new(
           salesforce_object: sf_order,
           missing_salesforce_fields: [subscription_term_order_path]
         )
-      end
-
-      # it's looking like these values are never really aligned and we should ignore the line item
-      if sf_order[CPQ_QUOTE_SUBSCRIPTION_TERM] == quote_subscription_term
-        Integrations::ErrorContext.report_edge_case("subscription term on quote matches line item")
       end
 
       if !Integrations::Utilities::StripeUtil.is_integer_value?(quote_subscription_term)
@@ -264,19 +258,26 @@ module StripeForce::Utilities
     # https://help.salesforce.com/s/articleView?id=sf.cpq_subscription_terms.htm&type=5
     sig { params(mapper: StripeForce::Mapper, sf_order_item: Restforce::SObject, sf_order: Restforce::SObject).returns(Integer) }
     def self.determine_quote_line_subscription_term(mapper, sf_order_item, sf_order)
-      # check if the quote line subscription term exists
+      # (1) if the quote line has a Subscription Term value, the effective subscription term inherits it
       quote_line_subscription_term = sf_order_item[CPQ_QUOTE_SUBSCRIPTION_TERM]
-      if !quote_line_subscription_term.nil?
+      if quote_line_subscription_term.present?
         return quote_line_subscription_term.to_i
       end
 
-      # if no quote line or quote subscription term exists,  the quote line inherits from the default subscription term
+      # (2) if the quote line’s subscription term is null and the quote line is part of a quote line group, the effective subscription term inherits the group’s subscription term.
+      # since we don't support QLGs, we can skip this case
+
+      # (3) if no quote line or quote subscription term exists, the quote line inherits from the default subscription term
       default_quote_line_subscription_term = sf_order_item[CPQ_DEFAULT_SUBSCRIPTION_TERM]
-      if !default_quote_line_subscription_term.nil?
+      if default_quote_line_subscription_term.present?
         return default_quote_line_subscription_term.to_i
       end
 
-      # if no subscription term is specified, the default is annual
+      # (4) if the quote line’s subscription term is null and the quote line isn’t part of a quote line group, the effective subscription term inherits the quote’s subscription term
+      # self.extract_subscription_term_from_order!(mapper, sf_order)
+
+      # (5) if the quote subscription term is null, the effective subscription term inherits the default subscription term
+      # but we require quote subscription term so it should never reach here
       CPQ_QUOTE_LINE_DEFAULT_SUBSCRIPTION_TERM
     end
 
@@ -385,7 +386,7 @@ module StripeForce::Utilities
     # Prorate multiplier formula for CPQ Subscription Prorate Precision = 'Month + Day'
     # https://help.salesforce.com/s/articleView?id=sf.cpq_subscriptions_prorate_precision_1.htm&type=5
     sig { params(whole_months: Integer, partial_month_days: Integer, product_subscription_term: Integer).returns(BigDecimal) }
-    def self.calculate_month_plus_day_price_multiple(whole_months:, partial_month_days:, product_subscription_term:)
+    def self.calculate_month_plus_day_price_multiplier(whole_months:, partial_month_days:, product_subscription_term:)
       (whole_months + (BigDecimal(partial_month_days) / (BigDecimal(DAYS_IN_YEAR) / BigDecimal(MONTHS_IN_YEAR)))) / BigDecimal(product_subscription_term)
     end
 
