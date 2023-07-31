@@ -13,6 +13,11 @@
   * Add support for new value `ro_tin` on enum `OrderTaxDetailsTaxIdsType`
   * Add support for new values `email`, `numeric`, `phone`, and `text` on enum `TerminalReaderActionCollectInputsInputsType`
 
+## 74.28.0 - 2023-07-28
+* [#1693](https://github.com/stripe/stripe-go/pull/1693) Update generated code
+  * Add support for `MonthlyEstimatedRevenue` on `AccountBusinessProfileParams` and `AccountBusinessProfile`
+  * Add support for `SubscriptionDetails` on `Invoice`
+
 ## 74.27.0 - 2023-07-20
 * [#1691](https://github.com/stripe/stripe-go/pull/1691) Update generated code
   * Add support for new value `ro_tin` on enums `CheckoutSessionCustomerDetailsTaxIdsType`, `InvoiceCustomerTaxIdsType`, `TaxCalculationCustomerDetailsTaxIdsType`, and `TaxTransactionCustomerDetailsTaxIdsType`

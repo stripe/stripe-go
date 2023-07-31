@@ -183,7 +183,7 @@ type SubscriptionScheduleDefaultSettingsInvoiceSettingsParams struct {
 // Object representing the subscription schedule's default settings.
 type SubscriptionScheduleDefaultSettingsParams struct {
 	Params `form:"*"`
-	// A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice subtotal that will be transferred to the application owner's Stripe account. The request must be made by a platform account on a connected account in order to set an application fee percentage. For more information, see the application fees [documentation](https://stripe.com/docs/connect/subscriptions#collecting-fees-on-subscriptions).
+	// A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice total that will be transferred to the application owner's Stripe account. The request must be made by a platform account on a connected account in order to set an application fee percentage. For more information, see the application fees [documentation](https://stripe.com/docs/connect/subscriptions#collecting-fees-on-subscriptions).
 	ApplicationFeePercent *float64 `form:"application_fee_percent,high_precision"`
 	// Default settings for automatic tax computation.
 	AutomaticTax *SubscriptionAutomaticTaxParams `form:"automatic_tax"`
@@ -367,7 +367,7 @@ type SubscriptionSchedulePhaseTrialSettingsParams struct {
 type SubscriptionSchedulePhaseParams struct {
 	// A list of prices and quantities that will generate invoice items appended to the next invoice for this phase. You may pass up to 20 items.
 	AddInvoiceItems []*SubscriptionSchedulePhaseAddInvoiceItemParams `form:"add_invoice_items"`
-	// A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice subtotal that will be transferred to the application owner's Stripe account. The request must be made by a platform account on a connected account in order to set an application fee percentage. For more information, see the application fees [documentation](https://stripe.com/docs/connect/subscriptions#collecting-fees-on-subscriptions).
+	// A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice total that will be transferred to the application owner's Stripe account. The request must be made by a platform account on a connected account in order to set an application fee percentage. For more information, see the application fees [documentation](https://stripe.com/docs/connect/subscriptions#collecting-fees-on-subscriptions).
 	ApplicationFeePercent *float64 `form:"application_fee_percent"`
 	// Automatic tax settings for this phase.
 	AutomaticTax *SubscriptionSchedulePhaseAutomaticTaxParams `form:"automatic_tax"`
@@ -866,7 +866,7 @@ type SubscriptionScheduleDefaultSettingsInvoiceSettings struct {
 	DaysUntilDue int64 `json:"days_until_due"`
 }
 type SubscriptionScheduleDefaultSettings struct {
-	// A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice subtotal that will be transferred to the application owner's Stripe account during this phase of the schedule.
+	// A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice total that will be transferred to the application owner's Stripe account during this phase of the schedule.
 	ApplicationFeePercent float64                   `json:"application_fee_percent"`
 	AutomaticTax          *SubscriptionAutomaticTax `json:"automatic_tax"`
 	// Possible values are `phase_start` or `automatic`. If `phase_start` then billing cycle anchor of the subscription is set to the start of the phase when entering the phase. If `automatic` then the billing cycle anchor is automatically modified as needed when entering the phase. For more information, see the billing cycle [documentation](https://stripe.com/docs/billing/subscriptions/billing-cycle).
@@ -1008,7 +1008,7 @@ type SubscriptionSchedulePhaseTrialSettings struct {
 type SubscriptionSchedulePhase struct {
 	// A list of prices and quantities that will generate invoice items appended to the next invoice for this phase.
 	AddInvoiceItems []*SubscriptionSchedulePhaseAddInvoiceItem `json:"add_invoice_items"`
-	// A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice subtotal that will be transferred to the application owner's Stripe account during this phase of the schedule.
+	// A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice total that will be transferred to the application owner's Stripe account during this phase of the schedule.
 	ApplicationFeePercent float64                   `json:"application_fee_percent"`
 	AutomaticTax          *SubscriptionAutomaticTax `json:"automatic_tax"`
 	// Possible values are `phase_start` or `automatic`. If `phase_start` then billing cycle anchor of the subscription is set to the start of the phase when entering the phase. If `automatic` then the billing cycle anchor is automatically modified as needed when entering the phase. For more information, see the billing cycle [documentation](https://stripe.com/docs/billing/subscriptions/billing-cycle).
