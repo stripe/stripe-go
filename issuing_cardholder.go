@@ -110,7 +110,7 @@ type IssuingCardholderIndividualCardIssuingParams struct {
 	UserTermsAcceptance *IssuingCardholderIndividualCardIssuingUserTermsAcceptanceParams `form:"user_terms_acceptance"`
 }
 
-// The date of birth of this cardholder.
+// The date of birth of this cardholder. Cardholders must be older than 13 years old.
 type IssuingCardholderIndividualDOBParams struct {
 	// The day of birth, between 1 and 31.
 	Day *int64 `form:"day"`
@@ -138,7 +138,7 @@ type IssuingCardholderIndividualVerificationParams struct {
 type IssuingCardholderIndividualParams struct {
 	// Information related to the card_issuing program for this cardholder.
 	CardIssuing *IssuingCardholderIndividualCardIssuingParams `form:"card_issuing"`
-	// The date of birth of this cardholder.
+	// The date of birth of this cardholder. Cardholders must be older than 13 years old.
 	DOB *IssuingCardholderIndividualDOBParams `form:"dob"`
 	// The first name of this cardholder. Required before activating Cards. This field cannot contain any numbers, special characters (except periods, commas, hyphens, spaces and apostrophes) or non-latin letters.
 	FirstName *string `form:"first_name"`
