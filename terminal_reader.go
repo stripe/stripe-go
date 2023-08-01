@@ -61,7 +61,7 @@ const (
 // Updates a Reader object by setting the values of the parameters passed. Any parameters not provided will be left unchanged.
 type TerminalReaderParams struct {
 	Params `form:"*"`
-	// Custom label given to the reader for easier identification. If no label is specified, the registration code will be used.
+	// The new label of the reader.
 	Label *string `form:"label"`
 	// The location to assign the reader to.
 	Location *string `form:"location"`
