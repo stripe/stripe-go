@@ -141,6 +141,16 @@ module Critic::CommonHelpers
     random_id
   end
 
+  def sf_static_id
+    static_id = "EfxBsBKAsjaF0caCUQPWQYJ8h61G"
+
+    if ENV['CIRCLE_NODE_INDEX']
+      static_id = "#{static_id}#{ENV['CIRCLE_NODE_INDEX']}"
+    end
+
+    static_id
+  end
+
   sig { returns(String) }
   def create_random_email
     "#{sf_randomized_id}@example.com"
@@ -148,7 +158,7 @@ module Critic::CommonHelpers
 
   def sf_randomized_name(sf_object_name)
     node_identifier = ENV['CIRCLE_NODE_INDEX'] || ""
-    "REST #{sf_object_name} #{node_identifier} #{DateTime.now}"
+    "REST #{sf_object_name} #{node_identifier} #{DateTime.new(2023, 7, 1)}"
   end
 
   # Helper to poll for an expected result

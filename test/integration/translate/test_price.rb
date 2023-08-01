@@ -3,8 +3,10 @@
 
 require_relative '../../test_helper'
 
-class Critic::PriceTranslation < Critic::FunctionalTest
+class Critic::PriceTranslation < Critic::VCRTest
   before do
+    set_cassette_dir(__FILE__)
+
     @user = make_user(save: true)
     @user.enable_feature(StripeForce::Constants::FeatureFlags::UPDATE_PRODUCT_ON_SYNC, update: true)
   end
@@ -12,7 +14,7 @@ class Critic::PriceTranslation < Critic::FunctionalTest
   it 'translates a non-recurring pricebook entry to a stripe price' do
     price_in_cents = 100_00
 
-    sf_product_id = create_salesforce_product
+    sf_product_id = create_salesforce_product(static_id: true)
     sf_pricebook_entry_id = create_salesforce_price(sf_product_id: sf_product_id, price: price_in_cents)
 
     StripeForce::Translate.perform_inline(@user, sf_pricebook_entry_id)
@@ -40,7 +42,7 @@ class Critic::PriceTranslation < Critic::FunctionalTest
   it 'translates a recurring pricebook entry to a stripe price' do
     price_in_cents = 120_00
 
-    sf_product_id, sf_pricebook_entry_id = salesforce_recurring_product_with_price(price: price_in_cents)
+    sf_product_id, sf_pricebook_entry_id = salesforce_recurring_product_with_price(price: price_in_cents, static_id: true)
 
     StripeForce::Translate.perform_inline(@user, sf_pricebook_entry_id)
 
@@ -76,7 +78,7 @@ class Critic::PriceTranslation < Critic::FunctionalTest
     }
     @user.save
 
-    sf_product_id, sf_pricebook_entry_id = salesforce_recurring_product_with_price
+    sf_product_id, sf_pricebook_entry_id = salesforce_recurring_product_with_price(static_id: true)
 
     sf.update!(SF_PRODUCT, {
       SF_ID => sf_product_id,
@@ -104,7 +106,7 @@ class Critic::PriceTranslation < Critic::FunctionalTest
     # subcent decimal prices
     price_in_cents = 100_25.55
 
-    sf_product_id = create_salesforce_product
+    sf_product_id = create_salesforce_product(static_id: true)
     sf_pricebook_entry_id = create_salesforce_price(sf_product_id: sf_product_id, price: price_in_cents)
 
     StripeForce::Translate.perform_inline(@user, sf_pricebook_entry_id)
@@ -120,7 +122,7 @@ class Critic::PriceTranslation < Critic::FunctionalTest
 
   describe 'cpq details' do
     it 'sets the interval_count based on the billing frequency selected' do
-      sf_product_id, sf_pricebook_entry_id = salesforce_recurring_product_with_price
+      sf_product_id, sf_pricebook_entry_id = salesforce_recurring_product_with_price(static_id: true)
 
       sf.update!(SF_PRODUCT, {
         SF_ID => sf_product_id,

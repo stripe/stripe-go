@@ -88,6 +88,9 @@ group :test do
   gem 'rack-test', '~> 2.0.2'
   gem 'database_cleaner', '~> 1.7.0'
   gem 'simplecov', '~> 0.21.2'
+
+  gem 'vcr', '~> 6.2'
+  gem 'webmock', '~> 3.6.0'
 end
 
 group :test, :development do

@@ -91,3 +91,15 @@ class Date
   sig {params(arg0: T.any(Integer, Float, Rational, ActiveSupport::Duration)).returns(T.self_type)}
   def +(arg0); end
 end
+
+# sorbet is having trouble dealing with the Anonymous_Delegators which are in the vcr.rbi file
+class VCR
+  def self.configuration; end
+  def self.configure; end
+  def self.current_cassette; end
+  def self.eject_cassette(options={}); end
+  def self.insert_cassette(str, options={}); end
+  def self.turn_off!; end
+  def self.turn_on!; end
+  def self.turned_on?; end
+end

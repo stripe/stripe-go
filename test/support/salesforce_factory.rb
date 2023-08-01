@@ -126,12 +126,12 @@ module Critic
       standard_pricebook.Id
     end
 
-    def create_salesforce_product(additional_fields: {})
+    def create_salesforce_product(static_id: false, additional_fields: {})
       sf.create!(SF_PRODUCT, {
         "Name" => sf_randomized_name(SF_PRODUCT),
         'IsActive' => true,
         "Description" => "A great description",
-        'ProductCode' => sf_randomized_id,
+        'ProductCode' => static_id ? sf_static_id : sf_randomized_id,
       }.merge(additional_fields))
     end
 
@@ -213,7 +213,7 @@ module Critic
     end
 
     # TODO `price` should be `price_in_cents`
-    def salesforce_recurring_product_with_price(price: nil, currency_iso_code: nil, additional_product_fields: {})
+    def salesforce_recurring_product_with_price(price: nil, currency_iso_code: nil, static_id: false, additional_product_fields: {})
       # I don't fully understand how the subscription term on the price iteracts with the billing frequency,
       # but if the term is set to a value which is different than the billing frequency it seems to use the
       # subscription term value. i.e. a yearly billed product
@@ -225,7 +225,7 @@ module Critic
       end
 
       # blanking out the subscription type ensures it is a one-time product
-      product_id = create_salesforce_product(additional_fields: {
+      product_id = create_salesforce_product(static_id: static_id, additional_fields: {
         # anything non-nil indicates subscription/recurring pricing
         CPQ_QUOTE_SUBSCRIPTION_PRICING => 'Fixed Price',
 
