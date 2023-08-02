@@ -27,6 +27,9 @@ public with sharing class ConfigPayloadHelper_Test {
         System.assert(false == customer.containsKey('address.country'), 'customer.address.country key does not exists');
         System.assert(data.containsKey('foo'), 'foo key exists');
         System.assert(false == foo.containsKey('bar.baz'), 'foo.bar.baz key does not exists');
+
+        // also making sure this does not error...
+        helper.stripHiddenMapperFields(analysis, null);
     }
 
     @IsTest
@@ -43,6 +46,7 @@ public with sharing class ConfigPayloadHelper_Test {
 
         helper.stripPartialMapFields(data, null);
         helper.stripPartialMapFields(data, partialFields);
+        helper.stripPartialMapFields(null, partialFields);
 
         System.assert(false == data.containsKey('a.a'), 'a.a key does not exists');
         System.assert(false == data.containsKey('a.b'), 'a.b key does not exists');
@@ -61,6 +65,7 @@ public with sharing class ConfigPayloadHelper_Test {
 
         helper.stripMapFields(data, null);
         helper.stripMapFields(data, fullFields);
+        helper.stripMapFields(null, fullFields);
 
         System.assert(false == data.containsKey('b.a'), 'b.a key does not exists');
         System.assert(data.containsKey('b.b'), 'b.b key exists');

@@ -169,6 +169,10 @@ public with sharing class ConfigPayloadHelper {
      */
     @TestVisible
     private void stripHiddenMapperFields(HiddenMapperFieldAnalysis analysis, Map<String, Object> data) {
+        if (data == null) {
+            return;
+        }
+
         stripMapFields(data, analysis.topLevelRemovals);
         Set<String> allKeys = new Set<String>(analysis.subLevelRemovals.keySet());
         allKeys.addAll(analysis.partialLevelRemovals.keySet());
@@ -192,6 +196,10 @@ public with sharing class ConfigPayloadHelper {
      */
     @TestVisible
     private void stripAllMapFields(Map<String, Object> data, List<String> fields, List<String> partials) {
+        if (data == null) {
+            return;
+        }
+
         stripMapFields(data, fields);
         stripPartialMapFields(data, partials);
     }
@@ -204,7 +212,7 @@ public with sharing class ConfigPayloadHelper {
      */
     @TestVisible
     private void stripMapFields(Map<String, Object> data, List<String> fields) {
-        if (fields == null || fields.isEmpty()) {
+        if (fields == null || fields.isEmpty() || data == null) {
             return;
         }
 
@@ -223,7 +231,7 @@ public with sharing class ConfigPayloadHelper {
      */
     @TestVisible
     private void stripPartialMapFields(Map<String, Object> data, List<String> partials) {
-        if (partials == null || partials.isEmpty()) {
+        if (partials == null || partials.isEmpty() || data == null) {
             return;
         }
 
