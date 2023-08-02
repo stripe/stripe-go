@@ -25,3 +25,8 @@ type TestHelpersIssuingCardReturnCardParams struct {
 type TestHelpersIssuingCardFailCardParams struct {
 	Params `form:"*"`
 }
+
+// Updates the shipping status of the specified Issuing Card object to submitted.
+type TestHelpersIssuingCardSubmitCardParams struct {
+	Params `form:"*"`
+}
