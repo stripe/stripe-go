@@ -1093,6 +1093,8 @@ type QuoteDraftQuoteParams struct {
 // Converts a draft or open quote to stale.
 type QuoteMarkStaleQuoteParams struct {
 	Params `form:"*"`
+	// Reason the Quote is being marked stale.
+	Reason *string `form:"reason"`
 }
 
 // When retrieving a quote, there is an includable line_items property containing the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of line items.
@@ -1284,10 +1286,12 @@ type QuoteStatusDetailsStaleLastReasonSubscriptionScheduleChanged struct {
 type QuoteStatusDetailsStaleLastReason struct {
 	// The ID of the line that is invalid if the stale reason type is `line_invalid`.
 	LineInvalid string `json:"line_invalid"`
+	// The user supplied mark stale reason.
+	MarkedStale string `json:"marked_stale"`
 	// The ID of the subscription that was canceled.
 	SubscriptionCanceled string                                                `json:"subscription_canceled"`
 	SubscriptionChanged  *QuoteStatusDetailsStaleLastReasonSubscriptionChanged `json:"subscription_changed"`
-	// The ID of the subscription that was expired
+	// The ID of the subscription that was expired.
 	SubscriptionExpired string `json:"subscription_expired"`
 	// The ID of the subscription schedule that was canceled.
 	SubscriptionScheduleCanceled string                                                        `json:"subscription_schedule_canceled"`
