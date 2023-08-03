@@ -657,6 +657,15 @@ const (
 	PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsPermissionTransactions  PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsPermission = "transactions"
 )
 
+// Preferred transaction settlement speed
+type PaymentIntentPaymentMethodOptionsUSBankAccountPreferredSettlementSpeed string
+
+// List of values that PaymentIntentPaymentMethodOptionsUSBankAccountPreferredSettlementSpeed can take
+const (
+	PaymentIntentPaymentMethodOptionsUSBankAccountPreferredSettlementSpeedFastest  PaymentIntentPaymentMethodOptionsUSBankAccountPreferredSettlementSpeed = "fastest"
+	PaymentIntentPaymentMethodOptionsUSBankAccountPreferredSettlementSpeedStandard PaymentIntentPaymentMethodOptionsUSBankAccountPreferredSettlementSpeed = "standard"
+)
+
 // Indicates that you intend to make future payments with this PaymentIntent's payment method.
 //
 // Providing this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.
@@ -1488,6 +1497,8 @@ type PaymentIntentPaymentMethodOptionsUSBankAccountParams struct {
 	FinancialConnections *PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsParams `form:"financial_connections"`
 	// Additional fields for network related functions
 	Networks *PaymentIntentPaymentMethodOptionsUSBankAccountNetworksParams `form:"networks"`
+	// Preferred transaction settlement speed
+	PreferredSettlementSpeed *string `form:"preferred_settlement_speed"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// Providing this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.
@@ -2550,6 +2561,8 @@ type PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnections struct {
 }
 type PaymentIntentPaymentMethodOptionsUSBankAccount struct {
 	FinancialConnections *PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnections `json:"financial_connections"`
+	// Preferred transaction settlement speed
+	PreferredSettlementSpeed PaymentIntentPaymentMethodOptionsUSBankAccountPreferredSettlementSpeed `json:"preferred_settlement_speed"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// Providing this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.
