@@ -137,7 +137,7 @@ type PayoutReverseParams struct {
 // Related guide: [Receiving payouts](https://stripe.com/docs/payouts)
 type Payout struct {
 	APIResource
-	// Amount (in %s) to be transferred to your bank account or debit card.
+	// Amount (in cents (or local equivalent)) to be transferred to your bank account or debit card.
 	Amount int64 `json:"amount"`
 	// Date the payout is expected to arrive in the bank. This factors in delays like weekends or bank holidays.
 	ArrivalDate int64 `json:"arrival_date"`

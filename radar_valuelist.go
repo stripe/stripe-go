@@ -6,19 +6,21 @@
 
 package stripe
 
-// The type of items in the value list. One of `card_fingerprint`, `card_bin`, `email`, `ip_address`, `country`, `string`, `case_sensitive_string`, or `customer_id`.
+// The type of items in the value list. One of `card_fingerprint`, `us_bank_account_fingerprint`, `sepa_debit_fingerprint`, `card_bin`, `email`, `ip_address`, `country`, `string`, `case_sensitive_string`, or `customer_id`.
 type RadarValueListItemType string
 
 // List of values that RadarValueListItemType can take
 const (
-	RadarValueListItemTypeCardBin             RadarValueListItemType = "card_bin"
-	RadarValueListItemTypeCardFingerprint     RadarValueListItemType = "card_fingerprint"
-	RadarValueListItemTypeCaseSensitiveString RadarValueListItemType = "case_sensitive_string"
-	RadarValueListItemTypeCountry             RadarValueListItemType = "country"
-	RadarValueListItemTypeCustomerID          RadarValueListItemType = "customer_id"
-	RadarValueListItemTypeEmail               RadarValueListItemType = "email"
-	RadarValueListItemTypeIPAddress           RadarValueListItemType = "ip_address"
-	RadarValueListItemTypeString              RadarValueListItemType = "string"
+	RadarValueListItemTypeCardBin                  RadarValueListItemType = "card_bin"
+	RadarValueListItemTypeCardFingerprint          RadarValueListItemType = "card_fingerprint"
+	RadarValueListItemTypeCaseSensitiveString      RadarValueListItemType = "case_sensitive_string"
+	RadarValueListItemTypeCountry                  RadarValueListItemType = "country"
+	RadarValueListItemTypeCustomerID               RadarValueListItemType = "customer_id"
+	RadarValueListItemTypeEmail                    RadarValueListItemType = "email"
+	RadarValueListItemTypeIPAddress                RadarValueListItemType = "ip_address"
+	RadarValueListItemTypeSEPADebitFingerprint     RadarValueListItemType = "sepa_debit_fingerprint"
+	RadarValueListItemTypeString                   RadarValueListItemType = "string"
+	RadarValueListItemTypeUSBankAccountFingerprint RadarValueListItemType = "us_bank_account_fingerprint"
 )
 
 // Returns a list of ValueList objects. The objects are sorted in descending order by creation date, with the most recently created object appearing first.
@@ -37,7 +39,7 @@ type RadarValueListParams struct {
 	Params `form:"*"`
 	// The name of the value list for use in rules.
 	Alias *string `form:"alias"`
-	// Type of the items in the value list. One of `card_fingerprint`, `card_bin`, `email`, `ip_address`, `country`, `string`, `case_sensitive_string`, or `customer_id`. Use `string` if the item type is unknown or mixed.
+	// Type of the items in the value list. One of `card_fingerprint`, `us_bank_account_fingerprint`, `sepa_debit_fingerprint`, `card_bin`, `email`, `ip_address`, `country`, `string`, `case_sensitive_string`, or `customer_id`. Use `string` if the item type is unknown or mixed.
 	ItemType *string `form:"item_type"`
 	// The human-readable name of the value list.
 	Name *string `form:"name"`
@@ -57,7 +59,7 @@ type RadarValueList struct {
 	Deleted   bool   `json:"deleted"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
-	// The type of items in the value list. One of `card_fingerprint`, `card_bin`, `email`, `ip_address`, `country`, `string`, `case_sensitive_string`, or `customer_id`.
+	// The type of items in the value list. One of `card_fingerprint`, `us_bank_account_fingerprint`, `sepa_debit_fingerprint`, `card_bin`, `email`, `ip_address`, `country`, `string`, `case_sensitive_string`, or `customer_id`.
 	ItemType RadarValueListItemType `json:"item_type"`
 	// List of items contained within this value list.
 	ListItems *RadarValueListItemList `json:"list_items"`

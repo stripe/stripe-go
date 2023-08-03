@@ -402,7 +402,7 @@ type PaymentLinkParams struct {
 	AllowPromotionCodes *bool `form:"allow_promotion_codes"`
 	// The amount of the application fee (if any) that will be requested to be applied to the payment and transferred to the application owner's Stripe account. Can only be applied when there are no line items with recurring prices.
 	ApplicationFeeAmount *int64 `form:"application_fee_amount"`
-	// A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice subtotal that will be transferred to the application owner's Stripe account. There must be at least 1 line item with a recurring price to use this field.
+	// A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice total that will be transferred to the application owner's Stripe account. There must be at least 1 line item with a recurring price to use this field.
 	ApplicationFeePercent *float64 `form:"application_fee_percent"`
 	// Configuration for automatic tax collection.
 	AutomaticTax *PaymentLinkAutomaticTaxParams `form:"automatic_tax"`
@@ -633,7 +633,7 @@ type PaymentLinkTaxIDCollection struct {
 
 // The account (if any) the payments will be attributed to for tax reporting, and where funds from each payment will be transferred to.
 type PaymentLinkTransferData struct {
-	// The amount in %s that will be transferred to the destination account. By default, the entire amount is transferred to the destination.
+	// The amount in cents (or local equivalent) that will be transferred to the destination account. By default, the entire amount is transferred to the destination.
 	Amount int64 `json:"amount"`
 	// The connected account receiving the transfer.
 	Destination *Account `json:"destination"`
@@ -653,7 +653,7 @@ type PaymentLink struct {
 	AllowPromotionCodes bool `json:"allow_promotion_codes"`
 	// The amount of the application fee (if any) that will be requested to be applied to the payment and transferred to the application owner's Stripe account.
 	ApplicationFeeAmount int64 `json:"application_fee_amount"`
-	// This represents the percentage of the subscription invoice subtotal that will be transferred to the application owner's Stripe account.
+	// This represents the percentage of the subscription invoice total that will be transferred to the application owner's Stripe account.
 	ApplicationFeePercent float64                  `json:"application_fee_percent"`
 	AutomaticTax          *PaymentLinkAutomaticTax `json:"automatic_tax"`
 	// Configuration for collecting the customer's billing address.

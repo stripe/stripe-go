@@ -17,7 +17,7 @@ const (
 
 // The amount of discount calculated per discount for this line item.
 type InvoiceLineItemDiscountAmount struct {
-	// The amount, in %s, of the discount.
+	// The amount, in cents (or local equivalent), of the discount.
 	Amount int64 `json:"amount"`
 	// The discount that was applied to get this discount amount.
 	Discount *Discount `json:"discount"`
@@ -37,9 +37,9 @@ type InvoiceLineItemProrationDetails struct {
 	CreditedItems *InvoiceLineItemProrationDetailsCreditedItems `json:"credited_items"`
 }
 type InvoiceLineItem struct {
-	// The amount, in %s.
+	// The amount, in cents (or local equivalent).
 	Amount int64 `json:"amount"`
-	// The integer amount in %s representing the amount for this line item, excluding all tax and discounts.
+	// The integer amount in cents (or local equivalent) representing the amount for this line item, excluding all tax and discounts.
 	AmountExcludingTax int64 `json:"amount_excluding_tax"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency Currency `json:"currency"`
@@ -82,7 +82,7 @@ type InvoiceLineItem struct {
 	TaxRates []*TaxRate `json:"tax_rates"`
 	// A string identifying the type of the source of this line item, either an `invoiceitem` or a `subscription`.
 	Type InvoiceLineItemType `json:"type"`
-	// The amount in %s representing the unit amount for this line item, excluding all tax and discounts.
+	// The amount in cents (or local equivalent) representing the unit amount for this line item, excluding all tax and discounts.
 	UnitAmountExcludingTax float64 `json:"unit_amount_excluding_tax,string"`
 }
 

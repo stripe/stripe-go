@@ -1555,7 +1555,7 @@ type CheckoutSessionShippingOptionParams struct {
 
 // If specified, the funds from the subscription's invoices will be transferred to the destination and the ID of the resulting transfers will be found on the resulting charges.
 type CheckoutSessionSubscriptionDataTransferDataParams struct {
-	// A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice subtotal that will be transferred to the destination account. By default, the entire amount is transferred to the destination.
+	// A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice total that will be transferred to the destination account. By default, the entire amount is transferred to the destination.
 	AmountPercent *float64 `form:"amount_percent"`
 	// ID of an existing, connected Stripe account.
 	Destination *string `form:"destination"`
@@ -1575,7 +1575,7 @@ type CheckoutSessionSubscriptionDataTrialSettingsParams struct {
 
 // A subset of parameters to be passed to subscription creation for Checkout Sessions in `subscription` mode.
 type CheckoutSessionSubscriptionDataParams struct {
-	// A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice subtotal that will be transferred to the application owner's Stripe account. To use an application fee percent, the request must be made on behalf of another account, using the `Stripe-Account` header or an OAuth key. For more information, see the application fees [documentation](https://stripe.com/docs/connect/subscriptions#collecting-fees-on-subscriptions).
+	// A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice total that will be transferred to the application owner's Stripe account. To use an application fee percent, the request must be made on behalf of another account, using the `Stripe-Account` header or an OAuth key. For more information, see the application fees [documentation](https://stripe.com/docs/connect/subscriptions#collecting-fees-on-subscriptions).
 	ApplicationFeePercent *float64 `form:"application_fee_percent"`
 	// A future timestamp to anchor the subscription's billing cycle for new subscriptions.
 	BillingCycleAnchor *int64 `form:"billing_cycle_anchor"`
@@ -1587,7 +1587,7 @@ type CheckoutSessionSubscriptionDataParams struct {
 	DefaultTaxRates []*string `form:"default_tax_rates"`
 	// The subscription's description, meant to be displayable to the customer.
 	// Use this field to optionally store an explanation of the subscription
-	// for rendering in Stripe hosted surfaces.
+	// for rendering in the [customer portal](https://stripe.com/docs/customer-management).
 	Description *string `form:"description"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
@@ -2274,7 +2274,7 @@ type CheckoutSessionShippingCostTax struct {
 	Rate *TaxRate `json:"rate"`
 	// The reasoning behind this tax, for example, if the product is tax exempt. The possible values for this field may be extended as new tax rules are supported.
 	TaxabilityReason CheckoutSessionShippingCostTaxTaxabilityReason `json:"taxability_reason"`
-	// The amount on which tax is calculated, in %s.
+	// The amount on which tax is calculated, in cents (or local equivalent).
 	TaxableAmount int64 `json:"taxable_amount"`
 }
 
@@ -2325,7 +2325,7 @@ type CheckoutSessionTotalDetailsBreakdownTax struct {
 	Rate *TaxRate `json:"rate"`
 	// The reasoning behind this tax, for example, if the product is tax exempt. The possible values for this field may be extended as new tax rules are supported.
 	TaxabilityReason CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReason `json:"taxability_reason"`
-	// The amount on which tax is calculated, in %s.
+	// The amount on which tax is calculated, in cents (or local equivalent).
 	TaxableAmount int64 `json:"taxable_amount"`
 }
 type CheckoutSessionTotalDetailsBreakdown struct {

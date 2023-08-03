@@ -25,9 +25,9 @@ type ApplicationFee struct {
 	APIResource
 	// ID of the Stripe account this fee was taken from.
 	Account *Account `json:"account"`
-	// Amount earned, in %s.
+	// Amount earned, in cents (or local equivalent).
 	Amount int64 `json:"amount"`
-	// Amount in %s refunded (can be less than the amount attribute on the fee if a partial refund was issued)
+	// Amount in cents (or local equivalent) refunded (can be less than the amount attribute on the fee if a partial refund was issued)
 	AmountRefunded int64 `json:"amount_refunded"`
 	// ID of the Connect application that earned the fee.
 	Application *Application `json:"application"`

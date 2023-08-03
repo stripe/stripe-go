@@ -943,7 +943,7 @@ type PaymentMethodConfigurationJCBDisplayPreferenceParams struct {
 	Preference *string `form:"preference"`
 }
 
-// JCB is a credit card company based in Japan. JCB is currently available in Japan to businesses approved by JCB, and available to all businesses in the US, Canada, Australia, and New Zealand, and available in private beta to businesses in the UK and IE. Check this [page](https://support.stripe.com/questions/accepting-japan-credit-bureau-%28jcb%29-payments) for more details.
+// JCB is a credit card company based in Japan. JCB is currently available in Japan to businesses approved by JCB, and available to all businesses in the US, Canada, Australia, New Zealand, UK, and Ireland. Check this [page](https://support.stripe.com/questions/accepting-japan-credit-bureau-%28jcb%29-payments) for more details.
 type PaymentMethodConfigurationJCBParams struct {
 	// Whether or not the payment method should be displayed.
 	DisplayPreference *PaymentMethodConfigurationJCBDisplayPreferenceParams `form:"display_preference"`
@@ -1126,7 +1126,7 @@ type PaymentMethodConfigurationParams struct {
 	Grabpay *PaymentMethodConfigurationGrabpayParams `form:"grabpay"`
 	// iDEAL is a Netherlands-based payment method that allows customers to complete transactions online using their bank credentials. All major Dutch banks are members of Currence, the scheme that operates iDEAL, making it the most popular online payment method in the Netherlands with a share of online transactions close to 55%. Check this [page](https://stripe.com/docs/payments/ideal) for more details.
 	IDEAL *PaymentMethodConfigurationIDEALParams `form:"ideal"`
-	// JCB is a credit card company based in Japan. JCB is currently available in Japan to businesses approved by JCB, and available to all businesses in the US, Canada, Australia, and New Zealand, and available in private beta to businesses in the UK and IE. Check this [page](https://support.stripe.com/questions/accepting-japan-credit-bureau-%28jcb%29-payments) for more details.
+	// JCB is a credit card company based in Japan. JCB is currently available in Japan to businesses approved by JCB, and available to all businesses in the US, Canada, Australia, New Zealand, UK, and Ireland. Check this [page](https://support.stripe.com/questions/accepting-japan-credit-bureau-%28jcb%29-payments) for more details.
 	JCB *PaymentMethodConfigurationJCBParams `form:"jcb"`
 	// Klarna gives customers a range of [payment options](https://stripe.com/docs/payments/klarna#payment-options) during checkout. Available payment options vary depending on the customer's billing address and the transaction amount. These payment options make it convenient for customers to purchase items in all price ranges. Check this [page](https://stripe.com/docs/payments/klarna) for more details.
 	Klarna *PaymentMethodConfigurationKlarnaParams `form:"klarna"`

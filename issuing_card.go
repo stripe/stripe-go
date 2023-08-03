@@ -29,6 +29,26 @@ const (
 	IssuingCardReplacementReasonStolen  IssuingCardReplacementReason = "stolen"
 )
 
+// The address validation capabilities to use.
+type IssuingCardShippingAddressValidationMode string
+
+// List of values that IssuingCardShippingAddressValidationMode can take
+const (
+	IssuingCardShippingAddressValidationModeDisabled                   IssuingCardShippingAddressValidationMode = "disabled"
+	IssuingCardShippingAddressValidationModeNormalizationOnly          IssuingCardShippingAddressValidationMode = "normalization_only"
+	IssuingCardShippingAddressValidationModeValidationAndNormalization IssuingCardShippingAddressValidationMode = "validation_and_normalization"
+)
+
+// The validation result for the shipping address.
+type IssuingCardShippingAddressValidationResult string
+
+// List of values that IssuingCardShippingAddressValidationResult can take
+const (
+	IssuingCardShippingAddressValidationResultIndeterminate       IssuingCardShippingAddressValidationResult = "indeterminate"
+	IssuingCardShippingAddressValidationResultLikelyDeliverable   IssuingCardShippingAddressValidationResult = "likely_deliverable"
+	IssuingCardShippingAddressValidationResultLikelyUndeliverable IssuingCardShippingAddressValidationResult = "likely_undeliverable"
+)
+
 // The delivery company that shipped a card.
 type IssuingCardShippingCarrier string
 
@@ -61,6 +81,7 @@ const (
 	IssuingCardShippingStatusPending   IssuingCardShippingStatus = "pending"
 	IssuingCardShippingStatusReturned  IssuingCardShippingStatus = "returned"
 	IssuingCardShippingStatusShipped   IssuingCardShippingStatus = "shipped"
+	IssuingCardShippingStatusSubmitted IssuingCardShippingStatus = "submitted"
 )
 
 // Packaging options.
@@ -145,6 +166,12 @@ type IssuingCardListParams struct {
 	Type *string `form:"type"`
 }
 
+// Address validation settings.
+type IssuingCardShippingAddressValidationParams struct {
+	// The address validation capabilities to use.
+	Mode *string `form:"mode"`
+}
+
 // Customs information for the shipment.
 type IssuingCardShippingCustomsParams struct {
 	// The Economic Operators Registration and Identification (EORI) number to use for Customs. Required for bulk shipments to Europe.
@@ -155,6 +182,8 @@ type IssuingCardShippingCustomsParams struct {
 type IssuingCardShippingParams struct {
 	// The address that the card is shipped to.
 	Address *AddressParams `form:"address"`
+	// Address validation settings.
+	AddressValidation *IssuingCardShippingAddressValidationParams `form:"address_validation"`
 	// Customs information for the shipment.
 	Customs *IssuingCardShippingCustomsParams `form:"customs"`
 	// The name printed on the shipping label when shipping the card.
@@ -205,7 +234,7 @@ type IssuingCardParams struct {
 	ReplacementFor *string `form:"replacement_for"`
 	// If `replacement_for` is specified, this should indicate why that card is being replaced.
 	ReplacementReason *string `form:"replacement_reason"`
-	// The address where the card will be shipped.
+	// Updated shipping information for the card.
 	Shipping *IssuingCardShippingParams `form:"shipping"`
 	// Rules that control spending for this card. Refer to our [documentation](https://stripe.com/docs/issuing/controls/spending-controls) for more details.
 	SpendingControls *IssuingCardSpendingControlsParams `form:"spending_controls"`
@@ -224,6 +253,16 @@ type IssuingCardPINParams struct {
 	EncryptedNumber *string `form:"encrypted_number"`
 }
 
+// Address validation details for the shipment.
+type IssuingCardShippingAddressValidation struct {
+	// The address validation capabilities to use.
+	Mode IssuingCardShippingAddressValidationMode `json:"mode"`
+	// The normalized shipping address.
+	NormalizedAddress *Address `json:"normalized_address"`
+	// The validation result for the shipping address.
+	Result IssuingCardShippingAddressValidationResult `json:"result"`
+}
+
 // Additional information that may be required for clearing customs.
 type IssuingCardShippingCustoms struct {
 	// A registration number used for customs in Europe. See [https://www.gov.uk/eori](https://www.gov.uk/eori) for the UK and [https://ec.europa.eu/taxation_customs/business/customs-procedures-import-and-export/customs-procedures/economic-operators-registration-and-identification-number-eori_en](https://ec.europa.eu/taxation_customs/business/customs-procedures-import-and-export/customs-procedures/economic-operators-registration-and-identification-number-eori_en) for the EU.
@@ -233,6 +272,8 @@ type IssuingCardShippingCustoms struct {
 // Where and how the card will be shipped.
 type IssuingCardShipping struct {
 	Address *Address `json:"address"`
+	// Address validation details for the shipment.
+	AddressValidation *IssuingCardShippingAddressValidation `json:"address_validation"`
 	// The delivery company that shipped a card.
 	Carrier IssuingCardShippingCarrier `json:"carrier"`
 	// Additional information that may be required for clearing customs.

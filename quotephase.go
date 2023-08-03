@@ -100,7 +100,7 @@ type QuotePhaseTotalDetailsBreakdownTax struct {
 	Rate *TaxRate `json:"rate"`
 	// The reasoning behind this tax, for example, if the product is tax exempt. The possible values for this field may be extended as new tax rules are supported.
 	TaxabilityReason QuotePhaseTotalDetailsBreakdownTaxTaxabilityReason `json:"taxability_reason"`
-	// The amount on which tax is calculated, in %s.
+	// The amount on which tax is calculated, in cents (or local equivalent).
 	TaxableAmount int64 `json:"taxable_amount"`
 }
 type QuotePhaseTotalDetailsBreakdown struct {

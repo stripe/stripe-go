@@ -45,7 +45,7 @@ type FinancialConnectionsTransactionStatusTransitions struct {
 type FinancialConnectionsTransaction struct {
 	// The ID of the Financial Connections Account this transaction belongs to.
 	Account string `json:"account"`
-	// The amount of this transaction, in %s.
+	// The amount of this transaction, in cents (or local equivalent).
 	Amount int64 `json:"amount"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency Currency `json:"currency"`

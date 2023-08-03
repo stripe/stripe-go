@@ -83,6 +83,22 @@ func (c Client) ShipCard(id string, params *stripe.TestHelpersIssuingCardShipCar
 	return card, err
 }
 
+// SubmitCard is the method for the `POST /v1/test_helpers/issuing/cards/{card}/shipping/submit` API.
+func SubmitCard(id string, params *stripe.TestHelpersIssuingCardSubmitCardParams) (*stripe.IssuingCard, error) {
+	return getC().SubmitCard(id, params)
+}
+
+// SubmitCard is the method for the `POST /v1/test_helpers/issuing/cards/{card}/shipping/submit` API.
+func (c Client) SubmitCard(id string, params *stripe.TestHelpersIssuingCardSubmitCardParams) (*stripe.IssuingCard, error) {
+	path := stripe.FormatURLPath(
+		"/v1/test_helpers/issuing/cards/%s/shipping/submit",
+		id,
+	)
+	card := &stripe.IssuingCard{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, card)
+	return card, err
+}
+
 func getC() Client {
 	return Client{stripe.GetBackend(stripe.APIBackend), stripe.Key}
 }
