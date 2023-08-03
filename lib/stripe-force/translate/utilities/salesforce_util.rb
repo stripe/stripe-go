@@ -154,7 +154,7 @@ module StripeForce::Utilities
 
       required_mappings = user.required_mappings[stripe_mapping_key]
       if required_mappings.nil?
-        raise StripeForce::Errors::RawUserError.new("Expected mappings for #{stripe_mapping_key} but they were nil.")
+        raise StripeForce::Errors::RawUserError.new("Required mappings were nil for Stripe object: #{stripe_mapping_key}")
       end
 
       # first, let's pull required mappings and check if there's anything missing
@@ -195,7 +195,7 @@ module StripeForce::Utilities
       end
 
       if !Integrations::Utilities::StripeUtil.is_integer_value?(quote_subscription_term)
-        raise StripeForce::Errors::RawUserError.new("Cannot specify subscription term as a decimal value.")
+        raise StripeForce::Errors::RawUserError.new("Cannot specify subscription term as a decimal value.", salesforce_object: sf_order)
       end
 
       quote_subscription_term.to_i

@@ -61,7 +61,7 @@ class StripeForce::BaseJob
     )
 
     if user.nil?
-      raise StripeForce::Errors::UserError.new("#{stripe_account_id} not available for specified mode. livemode=#{livemode}")
+      raise StripeForce::Errors::UserError.new("Could not find user reference with specified mode.", stripe_resource: stripe_account_id)
     end
 
     user

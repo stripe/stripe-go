@@ -589,7 +589,7 @@ class StripeForce::Translate
 
   sig { params(contract_structure: ContractStructure).returns(T.nilable(Stripe::Subscription)) }
   def update_subscription_from_order_amendments(contract_structure)
-    log.info "Processing Evergreen Salesforce order amendments"
+    log.info "processing evergreen Salesforce order amendments"
 
     sf_order = contract_structure.initial
 
@@ -599,7 +599,7 @@ class StripeForce::Translate
     )
 
     if !subscription
-      raise Integrations::Errors::ImpossibleState.new("could not find corresponding Stripe subscription for initial evergreen Salesforce order")
+      raise StripeForce::Errors::RawUserError.new("Could not find corresponding Stripe subscription for initial evergreen Salesforce order.")
     end
 
     subscription = T.cast(subscription, Stripe::Subscription)
@@ -729,7 +729,7 @@ class StripeForce::Translate
     )
 
     if !subscription_schedule
-      raise Integrations::Errors::ImpossibleState.new("No subscription schedule found when trying to process amendment order.")
+      raise Integrations::Errors::UserError.new("Could not find the corresponding Stripe subscription schedule for this amendment order.", salesforce_object: contract_structure.initial)
     end
 
     # at this point, the initial order would have already been translated
@@ -1238,7 +1238,7 @@ class StripeForce::Translate
           fifo_remaining_line.reduce_quantity
         else
           # this should never happen
-          raise StripeForce::Errors::RawUserError.new("Termination quantity is greater than the aggregate quantity for the order item.")
+          raise StripeForce::Errors::RawUserError.new("Termination quantity is greater than the aggregate quantity for the order item.", salesforce_object: termination_line.order_line_id)
         end
       end
     end
@@ -1258,7 +1258,7 @@ class StripeForce::Translate
     sf_order_items.select do |sf_order_item|
       # never expect this to occur
       if sf_order_item.IsDeleted || !sf_order_item.SBQQ__Activated__c
-        raise StripeForce::Errors::RawUserError.new("Order line is deleted or not activated", salesforce_object: sf_order_item)
+        raise StripeForce::Errors::RawUserError.new("Order line is deleted or not activated.", salesforce_object: sf_order_item)
       end
 
       should_keep = sf_order_item[prefixed_stripe_field(ORDER_LINE_SKIP)].nil? ||
@@ -1350,7 +1350,7 @@ class StripeForce::Translate
   def extract_contract_id_from_initial_order(sf_initial_order)
     # if this occurs, the user's CPQ is not configured properly/as we assume
     if sf_initial_order[SF_ORDER_QUOTE].blank?
-      raise StripeForce::Errors::RawUserError.new("No quote associated with an order. Orders pushed to Stripe must have a related CPQ Quote.", salesforce_object: sf_initial_order)
+      raise StripeForce::Errors::RawUserError.new("No CPQ quote associated with the Salesforce order. Orders pushed to Stripe must have a related CPQ Quote.", salesforce_object: sf_initial_order)
     end
 
     contract = cache_service.get_related_record_from_cache(
@@ -1406,7 +1406,7 @@ class StripeForce::Translate
         opportunity_id: initial_quote_query.first.dig("OpportunityId"),
         amended_contract: initial_quote_query.first.dig(SF_OPPORTUNITY, "SBQQ__AmendedContract__c")
 
-      raise StripeForce::Errors::RawUserError.new("Could not find initial quote associated with order amendment.")
+      raise StripeForce::Errors::RawUserError.new("Could not find initial CPQ quote associated with order amendment.", salesforce_object: sf_order_amendment)
     end
 
     log.info 'quote tied to initial order found', quote_id: sf_original_quote_id

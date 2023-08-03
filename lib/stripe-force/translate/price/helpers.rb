@@ -51,7 +51,7 @@ class StripeForce::Translate
       when CPQBillingFrequencyOptions::ANNUAL
         12
       else
-        raise StripeForce::Errors::RawUserError.new("Unexpected billing frequency #{raw_billing_frequency}. Must use default CPQ billing frequencies.")
+        raise StripeForce::Errors::RawUserError.new("Billing frequency is not a supported CPQ Billing Frequency option: #{raw_billing_frequency}")
       end
     end
 
@@ -207,7 +207,7 @@ class StripeForce::Translate
       when CPQProductBillingTypeOptions::ARREARS
         'metered'
       else
-        raise StripeForce::Errors::RawUserError.new("Unexpected product billing type: #{raw_usage_type}")
+        raise StripeForce::Errors::RawUserError.new("Product billing type is not a support CPQ product billing type option: #{raw_usage_type}")
       end
     end
 
@@ -281,7 +281,7 @@ class StripeForce::Translate
       is_price_equal = if price_1_billing_scheme == 'per_unit'
         # TODO we do not expect this occur, if it does we'll need to improve the error message here
         if price_1.unit_amount_decimal.nil? || price_2.unit_amount_decimal.nil?
-          raise StripeForce::Errors::RawUserError.new("Field unit_amount_decimal is nil on price objects.")
+          raise StripeForce::Errors::RawUserError.new("Field unit_amount_decimal cannot be nil on Stripe price objects.", stripe_resource: price_1)
         end
 
         price_1_decimal = normalize_unit_amount_decimal_for_comparison(price_1.unit_amount_decimal)
@@ -293,7 +293,7 @@ class StripeForce::Translate
         price_1[:tiers_mode] == price_2[:tiers_mode] && PriceHelpers.pricing_tiers_equal?(price_1, price_2)
       else
         # stripe currently (10/22) only allows for two values here (tiered, per_unit), throw an error in case the API shape changes in the future
-        raise StripeForce::Errors::RawUserError.new("Unexpected billing_scheme on price encountered: #{price_1.billing_scheme}")
+        raise StripeForce::Errors::RawUserError.new("Unexpected billing_scheme value on Stripe price: #{price_1.billing_scheme}", stripe_resource: price_1)
       end
 
       if !is_price_equal

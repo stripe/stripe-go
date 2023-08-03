@@ -107,12 +107,12 @@ class StripeForce::Translate
       raw_days = raw_days_until_due[/(?<=Net[- ]).*/, 0]
 
       unless raw_days
-        raise StripeForce::Errors::RawUserError.new("Unexpected days_until_due option: #{raw_days_until_due}")
+        raise StripeForce::Errors::RawUserError.new("Recieved unexpected days_until_due option: #{raw_days_until_due}")
       end
 
       unless [15, 30, 45, 60, 90].include?(raw_days.to_i)
         raise StripeForce::Errors::RawUserError.new(
-          "Recieved unexpected days_until_due option",
+          "Recieved unexpected days_until_due option: #{raw_days_until_due}",
            metadata: {
              raw_days_until_due: raw_days_until_due,
              raw_days: raw_days,

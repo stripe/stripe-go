@@ -24,7 +24,8 @@ fi
 
 sfdx config:set defaultdevhubusername=pbo+billing@stripe.com
 
-# TODO should check if billing pbo is authorized
+# TODO should check if billing pbo is authorized. Run this if not:
+# sfdx force:auth:web:login -a pbo+billing@stripe.com
 
 # TODO consider adding additional features to the scratch def
 # https://cs.github.com/SFDC-Assets/platform-events-demo/blob/a33c18a32dd8135060ccf69f2d84f003bac7a98e/config/project-scratch-def.json?q=path%3A*scratch-def.json+day#L5
@@ -77,10 +78,13 @@ else
 fi
 
 echo "# CPQ Setup"
-echo "Manual step: Installed Packages > Configure > Pricing & Calculation > Authorize"
+# echo "Manual step: Installed Packages > Configure > Pricing & Calculation > Authorize"
+echo "Manual step: Installed Packages > Configure > Pricing & Calculation > Enable Use Legacy Calculator"
 echo "Manual step: Installed Packages > Configure > Pricing & Calculation > Enable Usage Based Pricing"
+echo "Manual step: Installed Packages > Configure > Subscription & Renewals > Enable Legacy Amend/Renew Service"
 echo "Manual step: Installed Packages > Configure > Subscription & Renewals > Subscription Prorate Precision: Monthly + Daily"
 echo "Manual step: Installed Packages > Configure > Subscription & Renewals > Contract in Foreground"
+echo "Manual step: Installed Packages > Configure > Subscription & Renewals > Enable Evergreen Subscriptions"
 echo "Manual step: Installed Packages > Configure > Order > Default Order Start Date > Quote Start Date"
 echo $'\n\n'
 sfdx force:org:open -u $salesforceAlias -p "/lightning/setup/ImportedPackage/home" > /dev/null

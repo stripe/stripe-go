@@ -268,7 +268,7 @@ class StripeForce::Translate
       'flat_amount_decimal'
     else
       # this should never happen unless CPQ changes
-      raise StripeForce::Errors::RawUserError.new("Unexpected pricing method: #{pricing_method}")
+      raise StripeForce::Errors::RawUserError.new("Unexpected pricing method found on consumption rate: #{pricing_method}", salesforce_object: sf_consumption_rate)
     end
 
     stripe_currency = Integrations::Utilities::Currency.currency_for_sf_object(@user, sf_consumption_rate)
