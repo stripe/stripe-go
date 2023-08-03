@@ -1,5 +1,11 @@
 # Changelog
 
+## 74.29.0 - 2023-08-03
+* [#1700](https://github.com/stripe/stripe-go/pull/1700) Update generated code
+  * Add support for `PreferredSettlementSpeed` on `PaymentIntentConfirmPaymentMethodOptionsUsBankAccountParams`, `PaymentIntentPaymentMethodOptionsUsBankAccountParams`, and `PaymentIntentPaymentMethodOptionsUsBankAccount`
+* [#1696](https://github.com/stripe/stripe-go/pull/1696) Update generated code
+  * Add support for new values `sepa_debit_fingerprint` and `us_bank_account_fingerprint` on enum `RadarValueListItemType`
+
 ## 74.28.0 - 2023-07-28
 * [#1693](https://github.com/stripe/stripe-go/pull/1693) Update generated code
   * Add support for `MonthlyEstimatedRevenue` on `AccountBusinessProfileParams` and `AccountBusinessProfile`
