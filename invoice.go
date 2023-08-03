@@ -1245,7 +1245,7 @@ type InvoiceShippingCostTax struct {
 	Rate *TaxRate `json:"rate"`
 	// The reasoning behind this tax, for example, if the product is tax exempt. The possible values for this field may be extended as new tax rules are supported.
 	TaxabilityReason InvoiceShippingCostTaxTaxabilityReason `json:"taxability_reason"`
-	// The amount on which tax is calculated, in %s.
+	// The amount on which tax is calculated, in cents (or local equivalent).
 	TaxableAmount int64 `json:"taxable_amount"`
 }
 
@@ -1305,7 +1305,7 @@ type InvoiceThresholdReason struct {
 
 // The aggregate amounts calculated per discount across all line items.
 type InvoiceTotalDiscountAmount struct {
-	// The amount, in %s, of the discount.
+	// The amount, in cents (or local equivalent), of the discount.
 	Amount int64 `json:"amount"`
 	// The discount that was applied to get this discount amount.
 	Discount *Discount `json:"discount"`
@@ -1313,13 +1313,13 @@ type InvoiceTotalDiscountAmount struct {
 
 // The aggregate amounts calculated per tax rate for all line items.
 type InvoiceTotalTaxAmount struct {
-	// The amount, in %s, of the tax.
+	// The amount, in cents (or local equivalent), of the tax.
 	Amount int64 `json:"amount"`
 	// Whether this tax amount is inclusive or exclusive.
 	Inclusive bool `json:"inclusive"`
 	// The reasoning behind this tax, for example, if the product is tax exempt. The possible values for this field may be extended as new tax rules are supported.
 	TaxabilityReason InvoiceTotalTaxAmountTaxabilityReason `json:"taxability_reason"`
-	// The amount on which tax is calculated, in %s.
+	// The amount on which tax is calculated, in cents (or local equivalent).
 	TaxableAmount int64 `json:"taxable_amount"`
 	// The tax rate that was applied to get this tax amount.
 	TaxRate *TaxRate `json:"tax_rate"`
@@ -1327,7 +1327,7 @@ type InvoiceTotalTaxAmount struct {
 
 // The account (if any) the payment will be attributed to for tax reporting, and where funds from the payment will be transferred to for the invoice.
 type InvoiceTransferData struct {
-	// The amount in %s that will be transferred to the destination account when the invoice is paid. By default, the entire amount is transferred to the destination.
+	// The amount in cents (or local equivalent) that will be transferred to the destination account when the invoice is paid. By default, the entire amount is transferred to the destination.
 	Amount int64 `json:"amount"`
 	// The account where funds from the payment will be transferred to upon payment success.
 	Destination *Account `json:"destination"`
@@ -1375,15 +1375,15 @@ type Invoice struct {
 	AccountTaxIDs []*TaxID `json:"account_tax_ids"`
 	// Final amount due at this time for this invoice. If the invoice's total is smaller than the minimum charge amount, for example, or if there is account credit that can be applied to the invoice, the `amount_due` may be 0. If there is a positive `starting_balance` for the invoice (the customer owes money), the `amount_due` will also take that into account. The charge that gets generated for the invoice will be for the amount specified in `amount_due`.
 	AmountDue int64 `json:"amount_due"`
-	// The amount, in %s, that was paid.
+	// The amount, in cents (or local equivalent), that was paid.
 	AmountPaid int64 `json:"amount_paid"`
-	// The difference between amount_due and amount_paid, in %s.
+	// The difference between amount_due and amount_paid, in cents (or local equivalent).
 	AmountRemaining int64 `json:"amount_remaining"`
 	// This is the sum of all the shipping amounts.
 	AmountShipping int64 `json:"amount_shipping"`
 	// ID of the Connect Application that created the invoice.
 	Application *Application `json:"application"`
-	// The fee in %s that will be applied to the invoice and transferred to the application owner's Stripe account when the invoice is paid.
+	// The fee in cents (or local equivalent) that will be applied to the invoice and transferred to the application owner's Stripe account when the invoice is paid.
 	ApplicationFeeAmount int64             `json:"application_fee_amount"`
 	AppliesTo            *InvoiceAppliesTo `json:"applies_to"`
 	// Number of payment attempts made for this invoice, from the perspective of the payment retry schedule. Any payment attempt counts as the first attempt, and subsequently only automatic retries increment the attempt count. In other words, manual payment attempts after the first attempt do not affect the retry schedule.
@@ -1508,7 +1508,7 @@ type Invoice struct {
 	SubscriptionProrationDate int64 `json:"subscription_proration_date"`
 	// Total of all subscriptions, invoice items, and prorations on the invoice before any invoice level discount or exclusive tax is applied. Item discounts are already incorporated
 	Subtotal int64 `json:"subtotal"`
-	// The integer amount in %s representing the subtotal of the invoice before any invoice level discount or tax is applied. Item discounts are already incorporated
+	// The integer amount in cents (or local equivalent) representing the subtotal of the invoice before any invoice level discount or tax is applied. Item discounts are already incorporated
 	SubtotalExcludingTax int64 `json:"subtotal_excluding_tax"`
 	// The amount of tax on this invoice. This is the sum of all the tax amounts on this invoice.
 	Tax int64 `json:"tax"`
@@ -1519,7 +1519,7 @@ type Invoice struct {
 	Total int64 `json:"total"`
 	// The aggregate amounts calculated per discount across all line items.
 	TotalDiscountAmounts []*InvoiceTotalDiscountAmount `json:"total_discount_amounts"`
-	// The integer amount in %s representing the total amount of the invoice including all discounts but excluding all tax.
+	// The integer amount in cents (or local equivalent) representing the total amount of the invoice including all discounts but excluding all tax.
 	TotalExcludingTax int64 `json:"total_excluding_tax"`
 	// The aggregate amounts calculated per tax rate for all line items.
 	TotalTaxAmounts []*InvoiceTotalTaxAmount `json:"total_tax_amounts"`

@@ -633,7 +633,7 @@ type PaymentLinkTaxIDCollection struct {
 
 // The account (if any) the payments will be attributed to for tax reporting, and where funds from each payment will be transferred to.
 type PaymentLinkTransferData struct {
-	// The amount in %s that will be transferred to the destination account. By default, the entire amount is transferred to the destination.
+	// The amount in cents (or local equivalent) that will be transferred to the destination account. By default, the entire amount is transferred to the destination.
 	Amount int64 `json:"amount"`
 	// The connected account receiving the transfer.
 	Destination *Account `json:"destination"`

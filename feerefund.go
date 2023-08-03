@@ -38,7 +38,7 @@ type FeeRefundListParams struct {
 // Related guide: [Refunding application fees](https://stripe.com/docs/connect/destination-charges#refunding-app-fee)
 type FeeRefund struct {
 	APIResource
-	// Amount, in %s.
+	// Amount, in cents (or local equivalent).
 	Amount int64 `json:"amount"`
 	// Balance transaction that describes the impact on your account balance.
 	BalanceTransaction *BalanceTransaction `json:"balance_transaction"`

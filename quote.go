@@ -1166,7 +1166,7 @@ type QuoteComputedRecurringTotalDetailsBreakdownTax struct {
 	Rate *TaxRate `json:"rate"`
 	// The reasoning behind this tax, for example, if the product is tax exempt. The possible values for this field may be extended as new tax rules are supported.
 	TaxabilityReason QuoteComputedRecurringTotalDetailsBreakdownTaxTaxabilityReason `json:"taxability_reason"`
-	// The amount on which tax is calculated, in %s.
+	// The amount on which tax is calculated, in cents (or local equivalent).
 	TaxableAmount int64 `json:"taxable_amount"`
 }
 type QuoteComputedRecurringTotalDetailsBreakdown struct {
@@ -1219,7 +1219,7 @@ type QuoteComputedUpfrontTotalDetailsBreakdownTax struct {
 	Rate *TaxRate `json:"rate"`
 	// The reasoning behind this tax, for example, if the product is tax exempt. The possible values for this field may be extended as new tax rules are supported.
 	TaxabilityReason QuoteComputedUpfrontTotalDetailsBreakdownTaxTaxabilityReason `json:"taxability_reason"`
-	// The amount on which tax is calculated, in %s.
+	// The amount on which tax is calculated, in cents (or local equivalent).
 	TaxableAmount int64 `json:"taxable_amount"`
 }
 type QuoteComputedUpfrontTotalDetailsBreakdown struct {
@@ -1522,7 +1522,7 @@ type QuoteTotalDetailsBreakdownTax struct {
 	Rate *TaxRate `json:"rate"`
 	// The reasoning behind this tax, for example, if the product is tax exempt. The possible values for this field may be extended as new tax rules are supported.
 	TaxabilityReason QuoteTotalDetailsBreakdownTaxTaxabilityReason `json:"taxability_reason"`
-	// The amount on which tax is calculated, in %s.
+	// The amount on which tax is calculated, in cents (or local equivalent).
 	TaxableAmount int64 `json:"taxable_amount"`
 }
 type QuoteTotalDetailsBreakdown struct {
@@ -1543,7 +1543,7 @@ type QuoteTotalDetails struct {
 
 // The account (if any) the payments will be attributed to for tax reporting, and where funds from each payment will be transferred to for each of the invoices.
 type QuoteTransferData struct {
-	// The amount in %s that will be transferred to the destination account when the invoice is paid. By default, the entire amount is transferred to the destination.
+	// The amount in cents (or local equivalent) that will be transferred to the destination account when the invoice is paid. By default, the entire amount is transferred to the destination.
 	Amount int64 `json:"amount"`
 	// A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice total that will be transferred to the destination account. By default, the entire amount will be transferred to the destination.
 	AmountPercent float64 `json:"amount_percent"`
