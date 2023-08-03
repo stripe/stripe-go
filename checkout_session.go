@@ -1587,7 +1587,7 @@ type CheckoutSessionSubscriptionDataParams struct {
 	DefaultTaxRates []*string `form:"default_tax_rates"`
 	// The subscription's description, meant to be displayable to the customer.
 	// Use this field to optionally store an explanation of the subscription
-	// for rendering in Stripe hosted surfaces.
+	// for rendering in the [customer portal](https://stripe.com/docs/customer-management).
 	Description *string `form:"description"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
