@@ -274,9 +274,9 @@ type CreditNoteListLinesParams struct {
 	CreditNote *string `form:"-"` // Included in URL
 }
 
-// The integer amount in %s representing the total amount of discount that was credited.
+// The integer amount in cents (or local equivalent) representing the total amount of discount that was credited.
 type CreditNoteDiscountAmount struct {
-	// The amount, in %s, of the discount.
+	// The amount, in cents (or local equivalent), of the discount.
 	Amount int64 `json:"amount"`
 	// The discount that was applied to get this discount amount.
 	Discount *Discount `json:"discount"`
@@ -292,7 +292,7 @@ type CreditNoteShippingCostTax struct {
 	Rate *TaxRate `json:"rate"`
 	// The reasoning behind this tax, for example, if the product is tax exempt. The possible values for this field may be extended as new tax rules are supported.
 	TaxabilityReason CreditNoteShippingCostTaxTaxabilityReason `json:"taxability_reason"`
-	// The amount on which tax is calculated, in %s.
+	// The amount on which tax is calculated, in cents (or local equivalent).
 	TaxableAmount int64 `json:"taxable_amount"`
 }
 
@@ -312,13 +312,13 @@ type CreditNoteShippingCost struct {
 
 // The aggregate amounts calculated per tax rate for all line items.
 type CreditNoteTaxAmount struct {
-	// The amount, in %s, of the tax.
+	// The amount, in cents (or local equivalent), of the tax.
 	Amount int64 `json:"amount"`
 	// Whether this tax amount is inclusive or exclusive.
 	Inclusive bool `json:"inclusive"`
 	// The reasoning behind this tax, for example, if the product is tax exempt. The possible values for this field may be extended as new tax rules are supported.
 	TaxabilityReason CreditNoteTaxAmountTaxabilityReason `json:"taxability_reason"`
-	// The amount on which tax is calculated, in %s.
+	// The amount on which tax is calculated, in cents (or local equivalent).
 	TaxableAmount int64 `json:"taxable_amount"`
 	// The tax rate that was applied to get this tax amount.
 	TaxRate *TaxRate `json:"tax_rate"`
@@ -329,7 +329,7 @@ type CreditNoteTaxAmount struct {
 // Related guide: [Credit notes](https://stripe.com/docs/billing/invoices/credit-notes)
 type CreditNote struct {
 	APIResource
-	// The integer amount in %s representing the total amount of the credit note, including tax.
+	// The integer amount in cents (or local equivalent) representing the total amount of the credit note, including tax.
 	Amount int64 `json:"amount"`
 	// This is the sum of all the shipping amounts.
 	AmountShipping int64 `json:"amount_shipping"`
@@ -341,7 +341,7 @@ type CreditNote struct {
 	Customer *Customer `json:"customer"`
 	// Customer balance transaction related to this credit note.
 	CustomerBalanceTransaction *CustomerBalanceTransaction `json:"customer_balance_transaction"`
-	// The integer amount in %s representing the total amount of discount that was credited.
+	// The integer amount in cents (or local equivalent) representing the total amount of discount that was credited.
 	DiscountAmount int64 `json:"discount_amount"`
 	// The aggregate amounts calculated per discount for all line items.
 	DiscountAmounts []*CreditNoteDiscountAmount `json:"discount_amounts"`
@@ -375,15 +375,15 @@ type CreditNote struct {
 	ShippingCost *CreditNoteShippingCost `json:"shipping_cost"`
 	// Status of this credit note, one of `issued` or `void`. Learn more about [voiding credit notes](https://stripe.com/docs/billing/invoices/credit-notes#voiding).
 	Status CreditNoteStatus `json:"status"`
-	// The integer amount in %s representing the amount of the credit note, excluding exclusive tax and invoice level discounts.
+	// The integer amount in cents (or local equivalent) representing the amount of the credit note, excluding exclusive tax and invoice level discounts.
 	Subtotal int64 `json:"subtotal"`
-	// The integer amount in %s representing the amount of the credit note, excluding all tax and invoice level discounts.
+	// The integer amount in cents (or local equivalent) representing the amount of the credit note, excluding all tax and invoice level discounts.
 	SubtotalExcludingTax int64 `json:"subtotal_excluding_tax"`
 	// The aggregate amounts calculated per tax rate for all line items.
 	TaxAmounts []*CreditNoteTaxAmount `json:"tax_amounts"`
-	// The integer amount in %s representing the total amount of the credit note, including tax and all discount.
+	// The integer amount in cents (or local equivalent) representing the total amount of the credit note, including tax and all discount.
 	Total int64 `json:"total"`
-	// The integer amount in %s representing the total amount of the credit note, excluding tax, but including discounts.
+	// The integer amount in cents (or local equivalent) representing the total amount of the credit note, excluding tax, but including discounts.
 	TotalExcludingTax int64 `json:"total_excluding_tax"`
 	// Type of this credit note, one of `pre_payment` or `post_payment`. A `pre_payment` credit note means it was issued when the invoice was open. A `post_payment` credit note means it was issued when the invoice was paid.
 	Type CreditNoteType `json:"type"`

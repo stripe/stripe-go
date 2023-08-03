@@ -9,7 +9,7 @@ package stripe
 import "encoding/json"
 
 type ConnectCollectionTransfer struct {
-	// Amount transferred, in %s.
+	// Amount transferred, in cents (or local equivalent).
 	Amount int64 `json:"amount"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency Currency `json:"currency"`
