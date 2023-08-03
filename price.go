@@ -332,9 +332,9 @@ type PriceCurrencyOptions struct {
 	TaxBehavior PriceCurrencyOptionsTaxBehavior `json:"tax_behavior"`
 	// Each element represents a pricing tier. This parameter requires `billing_scheme` to be set to `tiered`. See also the documentation for `billing_scheme`.
 	Tiers []*PriceCurrencyOptionsTier `json:"tiers"`
-	// The unit amount in %s to be charged, represented as a whole integer if possible. Only set if `billing_scheme=per_unit`.
+	// The unit amount in cents (or local equivalent) to be charged, represented as a whole integer if possible. Only set if `billing_scheme=per_unit`.
 	UnitAmount int64 `json:"unit_amount"`
-	// The unit amount in %s to be charged, represented as a decimal string with at most 12 decimal places. Only set if `billing_scheme=per_unit`.
+	// The unit amount in cents (or local equivalent) to be charged, represented as a decimal string with at most 12 decimal places. Only set if `billing_scheme=per_unit`.
 	UnitAmountDecimal float64 `json:"unit_amount_decimal,string"`
 }
 
@@ -431,9 +431,9 @@ type Price struct {
 	TransformQuantity *PriceTransformQuantity `json:"transform_quantity"`
 	// One of `one_time` or `recurring` depending on whether the price is for a one-time purchase or a recurring (subscription) purchase.
 	Type PriceType `json:"type"`
-	// The unit amount in %s to be charged, represented as a whole integer if possible. Only set if `billing_scheme=per_unit`.
+	// The unit amount in cents (or local equivalent) to be charged, represented as a whole integer if possible. Only set if `billing_scheme=per_unit`.
 	UnitAmount int64 `json:"unit_amount"`
-	// The unit amount in %s to be charged, represented as a decimal string with at most 12 decimal places. Only set if `billing_scheme=per_unit`.
+	// The unit amount in cents (or local equivalent) to be charged, represented as a decimal string with at most 12 decimal places. Only set if `billing_scheme=per_unit`.
 	UnitAmountDecimal float64 `json:"unit_amount_decimal,string"`
 }
 

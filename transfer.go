@@ -60,9 +60,9 @@ type TransferListParams struct {
 // Related guide: [Creating separate charges and transfers](https://stripe.com/docs/connect/separate-charges-and-transfers)
 type Transfer struct {
 	APIResource
-	// Amount in %s to be transferred.
+	// Amount in cents (or local equivalent) to be transferred.
 	Amount int64 `json:"amount"`
-	// Amount in %s reversed (can be less than the amount attribute on the transfer if a partial reversal was issued).
+	// Amount in cents (or local equivalent) reversed (can be less than the amount attribute on the transfer if a partial reversal was issued).
 	AmountReversed int64 `json:"amount_reversed"`
 	// Balance transaction that describes the impact of this transfer on your account balance.
 	BalanceTransaction *BalanceTransaction `json:"balance_transaction"`

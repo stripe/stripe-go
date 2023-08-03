@@ -1087,9 +1087,9 @@ type Charge struct {
 	APIResource
 	// Amount intended to be collected by this payment. A positive integer representing how much to charge in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal) (e.g., 100 cents to charge $1.00 or 100 to charge ¥100, a zero-decimal currency). The minimum amount is $0.50 US or [equivalent in charge currency](https://stripe.com/docs/currencies#minimum-and-maximum-charge-amounts). The amount value supports up to eight digits (e.g., a value of 99999999 for a USD charge of $999,999.99).
 	Amount int64 `json:"amount"`
-	// Amount in %s captured (can be less than the amount attribute on the charge if a partial capture was made).
+	// Amount in cents (or local equivalent) captured (can be less than the amount attribute on the charge if a partial capture was made).
 	AmountCaptured int64 `json:"amount_captured"`
-	// Amount in %s refunded (can be less than the amount attribute on the charge if a partial refund was issued).
+	// Amount in cents (or local equivalent) refunded (can be less than the amount attribute on the charge if a partial refund was issued).
 	AmountRefunded int64 `json:"amount_refunded"`
 	// ID of the Connect application that created the charge.
 	Application *Application `json:"application"`

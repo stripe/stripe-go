@@ -15,9 +15,9 @@ const (
 	CreditNoteLineItemTypeInvoiceLineItem CreditNoteLineItemType = "invoice_line_item"
 )
 
-// The integer amount in %s representing the discount being credited for this line item.
+// The integer amount in cents (or local equivalent) representing the discount being credited for this line item.
 type CreditNoteLineItemDiscountAmount struct {
-	// The amount, in %s, of the discount.
+	// The amount, in cents (or local equivalent), of the discount.
 	Amount int64 `json:"amount"`
 	// The discount that was applied to get this discount amount.
 	Discount *Discount `json:"discount"`
@@ -26,13 +26,13 @@ type CreditNoteLineItemDiscountAmount struct {
 // CreditNoteLineItem is the resource representing a Stripe credit note line item.
 // For more details see https://stripe.com/docs/api/credit_notes/line_item
 type CreditNoteLineItem struct {
-	// The integer amount in %s representing the gross amount being credited for this line item, excluding (exclusive) tax and discounts.
+	// The integer amount in cents (or local equivalent) representing the gross amount being credited for this line item, excluding (exclusive) tax and discounts.
 	Amount int64 `json:"amount"`
-	// The integer amount in %s representing the amount being credited for this line item, excluding all tax and discounts.
+	// The integer amount in cents (or local equivalent) representing the amount being credited for this line item, excluding all tax and discounts.
 	AmountExcludingTax int64 `json:"amount_excluding_tax"`
 	// Description of the item being credited.
 	Description string `json:"description"`
-	// The integer amount in %s representing the discount being credited for this line item.
+	// The integer amount in cents (or local equivalent) representing the discount being credited for this line item.
 	DiscountAmount int64 `json:"discount_amount"`
 	// The amount of discount calculated per discount for this line item
 	DiscountAmounts []*CreditNoteLineItemDiscountAmount `json:"discount_amounts"`
@@ -56,7 +56,7 @@ type CreditNoteLineItem struct {
 	UnitAmount int64 `json:"unit_amount"`
 	// Same as `unit_amount`, but contains a decimal value with at most 12 decimal places.
 	UnitAmountDecimal float64 `json:"unit_amount_decimal,string"`
-	// The amount in %s representing the unit amount being credited for this line item, excluding all tax and discounts.
+	// The amount in cents (or local equivalent) representing the unit amount being credited for this line item, excluding all tax and discounts.
 	UnitAmountExcludingTax float64 `json:"unit_amount_excluding_tax,string"`
 }
 
