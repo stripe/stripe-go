@@ -64,12 +64,23 @@ type RefundParams struct {
 	Customer *string `form:"customer"`
 	// For payment methods without native refund support (e.g., Konbini, PromptPay), use this email from the customer to receive refund instructions.
 	InstructionsEmail *string `form:"instructions_email"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
 	// Origin of the refund
 	Origin               *string `form:"origin"`
 	PaymentIntent        *string `form:"payment_intent"`
 	Reason               *string `form:"reason"`
 	RefundApplicationFee *bool   `form:"refund_application_fee"`
 	ReverseTransfer      *bool   `form:"reverse_transfer"`
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *RefundParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
 }
 
 // Cancels a refund with a status of requires_action.

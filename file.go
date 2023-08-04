@@ -58,6 +58,15 @@ type FileFileLinkDataParams struct {
 	Metadata map[string]string `form:"metadata"`
 }
 
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *FileFileLinkDataParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
 // To upload a file to Stripe, you'll need to send a request of type multipart/form-data. The request should contain the file you would like to upload, as well as the parameters for creating a file.
 //
 // All of Stripe's officially supported Client libraries should have support for sending multipart/form-data.
@@ -116,36 +125,36 @@ type FileList struct {
 
 // GetBody gets an appropriate multipart form payload to use in a request body
 // to create a new file.
-func (f *FileParams) GetBody() (*bytes.Buffer, string, error) {
+func (p *FileParams) GetBody() (*bytes.Buffer, string, error) {
 	body := &bytes.Buffer{}
 	writer := multipart.NewWriter(body)
 
-	if f.Purpose != nil {
-		err := writer.WriteField("purpose", StringValue(f.Purpose))
+	if p.Purpose != nil {
+		err := writer.WriteField("purpose", StringValue(p.Purpose))
 		if err != nil {
 			return nil, "", err
 		}
 	}
 
-	if f.FileReader != nil && f.Filename != nil {
+	if p.FileReader != nil && p.Filename != nil {
 		part, err := writer.CreateFormFile(
 			"file",
-			filepath.Base(StringValue(f.Filename)),
+			filepath.Base(StringValue(p.Filename)),
 		)
 
 		if err != nil {
 			return nil, "", err
 		}
 
-		_, err = io.Copy(part, f.FileReader)
+		_, err = io.Copy(part, p.FileReader)
 		if err != nil {
 			return nil, "", err
 		}
 	}
 
-	if f.FileLinkData != nil {
+	if p.FileLinkData != nil {
 		values := &form.Values{}
-		form.AppendToPrefixed(values, f.FileLinkData, []string{"file_link_data"})
+		form.AppendToPrefixed(values, p.FileLinkData, []string{"file_link_data"})
 
 		params, err := url.ParseQuery(values.Encode())
 		if err != nil {

@@ -229,16 +229,39 @@ type IssuingDisputeParams struct {
 	Amount *int64 `form:"amount"`
 	// Evidence provided for the dispute.
 	Evidence *IssuingDisputeEvidenceParams `form:"evidence"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
 	// The ID of the issuing transaction to create a dispute for. For transaction on Treasury FinancialAccounts, use `treasury.received_debit`.
 	Transaction *string `form:"transaction"`
 	// Params for disputes related to Treasury FinancialAccounts
 	Treasury *IssuingDisputeTreasuryParams `form:"treasury"`
 }
 
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *IssuingDisputeParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
 // Submits an Issuing Dispute to the card network. Stripe validates that all evidence fields required for the dispute's reason are present. For more details, see [Dispute reasons and evidence](https://stripe.com/docs/issuing/purchases/disputes#dispute-reasons-and-evidence).
 type IssuingDisputeSubmitParams struct {
 	Params `form:"*"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
 }
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *IssuingDisputeSubmitParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
 type IssuingDisputeEvidenceCanceled struct {
 	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Additional documentation supporting the dispute.
 	AdditionalDocumentation *File `json:"additional_documentation"`

@@ -197,7 +197,19 @@ type BillingPortalConfigurationParams struct {
 	Features *BillingPortalConfigurationFeaturesParams `form:"features"`
 	// The hosted login page for this configuration. Learn more about the portal login page in our [integration docs](https://stripe.com/docs/billing/subscriptions/integrating-customer-portal#share).
 	LoginPage *BillingPortalConfigurationLoginPageParams `form:"login_page"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
 }
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *BillingPortalConfigurationParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
 type BillingPortalConfigurationBusinessProfile struct {
 	// The messaging shown to customers in the portal.
 	Headline string `json:"headline"`

@@ -519,6 +519,15 @@ type SetupIntentPaymentMethodDataParams struct {
 	Zip *SetupIntentPaymentMethodDataZipParams `form:"zip"`
 }
 
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *SetupIntentPaymentMethodDataParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
 // Additional fields for Mandate creation
 type SetupIntentPaymentMethodOptionsACSSDebitMandateOptionsParams struct {
 	// A URL for custom mandate text to render during confirmation step.
@@ -688,6 +697,8 @@ type SetupIntentParams struct {
 	FlowDirections []*string `form:"flow_directions"`
 	// This hash contains details about the Mandate to create. This parameter can only be used with [`confirm=true`](https://stripe.com/docs/api/setup_intents/create#create_setup_intent-confirm).
 	MandateData *SetupIntentMandateDataParams `form:"mandate_data"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
 	// The Stripe account ID for which this SetupIntent is created.
 	OnBehalfOf *string `form:"on_behalf_of"`
 	// ID of the payment method (a PaymentMethod, Card, or saved Source object) to attach to this SetupIntent.
@@ -707,6 +718,15 @@ type SetupIntentParams struct {
 	Usage *string `form:"usage"`
 	// Set to `true` when confirming server-side and using Stripe.js, iOS, or Android client-side SDKs to handle the next actions.
 	UseStripeSDK *bool `form:"use_stripe_sdk"`
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *SetupIntentParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
 }
 
 // Returns a list of SetupIntents.
@@ -974,6 +994,15 @@ type SetupIntentConfirmPaymentMethodDataParams struct {
 	WeChatPay *SetupIntentConfirmPaymentMethodDataWeChatPayParams `form:"wechat_pay"`
 	// If this is a `zip` PaymentMethod, this hash contains details about the Zip payment method.
 	Zip *SetupIntentConfirmPaymentMethodDataZipParams `form:"zip"`
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *SetupIntentConfirmPaymentMethodDataParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
 }
 
 // Confirm that your customer intends to set up the current or

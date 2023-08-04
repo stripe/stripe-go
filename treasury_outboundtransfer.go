@@ -97,8 +97,19 @@ type TreasuryOutboundTransferParams struct {
 	DestinationPaymentMethodOptions *TreasuryOutboundTransferDestinationPaymentMethodOptionsParams `form:"destination_payment_method_options"`
 	// The FinancialAccount to pull funds from.
 	FinancialAccount *string `form:"financial_account"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
 	// Statement descriptor to be shown on the receiving end of an OutboundTransfer. Maximum 10 characters for `ach` transfers or 140 characters for `wire` transfers. The default value is `transfer`.
 	StatementDescriptor *string `form:"statement_descriptor"`
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *TreasuryOutboundTransferParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
 }
 
 // Returns a list of OutboundTransfers sent from the specified FinancialAccount.

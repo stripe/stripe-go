@@ -104,12 +104,23 @@ type IdentityVerificationSessionOptionsParams struct {
 // Related guide: [Verify your users' identity documents](https://stripe.com/docs/identity/verify-identity-documents)
 type IdentityVerificationSessionParams struct {
 	Params `form:"*"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
 	// A set of options for the session's verification checks.
 	Options *IdentityVerificationSessionOptionsParams `form:"options"`
 	// The URL that the user will be redirected to upon completing the verification flow.
 	ReturnURL *string `form:"return_url"`
 	// The type of [verification check](https://stripe.com/docs/identity/verification-checks) to be performed.
 	Type *string `form:"type"`
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *IdentityVerificationSessionParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
 }
 
 // Returns a list of VerificationSessions

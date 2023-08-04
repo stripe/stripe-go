@@ -22,12 +22,23 @@ type WebhookEndpointParams struct {
 	Disabled *bool `form:"disabled"`
 	// The list of events to enable for this endpoint. You may specify `['*']` to enable all events, except those that require explicit selection.
 	EnabledEvents []*string `form:"enabled_events"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
 	// The URL of the webhook endpoint.
 	URL *string `form:"url"`
 	// This parameter is only available on creation.
 	// We recommend setting the API version that the library is pinned to. See apiversion in stripe.go
 	// Events sent to this endpoint will be generated with this Stripe Version instead of your account's default Stripe Version.
 	APIVersion *string `form:"api_version"`
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *WebhookEndpointParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
 }
 
 // You can configure [webhook endpoints](https://stripe.com/docs/webhooks/) via the API to be

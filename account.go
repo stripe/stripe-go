@@ -169,12 +169,23 @@ type AccountParams struct {
 	ExternalAccount *AccountExternalAccountParams `form:"external_account"`
 	// Information about the person represented by the account. This field is null unless `business_type` is set to `individual`.
 	Individual *PersonParams `form:"individual"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
 	// Options for customizing how the account functions within Stripe.
 	Settings *AccountSettingsParams `form:"settings"`
 	// Details on the account's acceptance of the [Stripe Services Agreement](https://stripe.com/docs/connect/updating-accounts#tos-acceptance).
 	TOSAcceptance *AccountTOSAcceptanceParams `form:"tos_acceptance"`
 	// The type of Stripe account to create. May be one of `custom`, `express` or `standard`.
 	Type *string `form:"type"`
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *AccountParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
 }
 
 // An estimate of the monthly revenue of the business. Only accepted for accounts in Brazil and India.
@@ -735,8 +746,8 @@ type AccountSettingsPayoutsScheduleParams struct {
 }
 
 // AppendTo implements custom encoding logic for AccountSettingsPayoutsScheduleParams.
-func (a *AccountSettingsPayoutsScheduleParams) AppendTo(body *form.Values, keyParts []string) {
-	if BoolValue(a.DelayDaysMinimum) {
+func (p *AccountSettingsPayoutsScheduleParams) AppendTo(body *form.Values, keyParts []string) {
+	if BoolValue(p.DelayDaysMinimum) {
 		body.Add(form.FormatKey(append(keyParts, "delay_days")), "minimum")
 	}
 }

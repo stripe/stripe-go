@@ -34,8 +34,8 @@ type UsageRecordParams struct {
 }
 
 // AppendTo implements custom encoding logic for UsageRecordParams.
-func (u *UsageRecordParams) AppendTo(body *form.Values, keyParts []string) {
-	if BoolValue(u.TimestampNow) {
+func (p *UsageRecordParams) AppendTo(body *form.Values, keyParts []string) {
+	if BoolValue(p.TimestampNow) {
 		body.Add(form.FormatKey(append(keyParts, "timestamp")), "now")
 	}
 }

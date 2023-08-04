@@ -189,8 +189,10 @@ type Params struct {
 	// Headers may be used to provide extra header lines on the HTTP request.
 	Headers http.Header `form:"-"`
 
-	IdempotencyKey *string           `form:"-"` // Passed as header
-	Metadata       map[string]string `form:"metadata"`
+	IdempotencyKey *string `form:"-"` // Passed as header
+
+	// Deprecated: Please use Metadata in the containing struct instead.
+	Metadata map[string]string `form:"metadata"`
 
 	// StripeAccount may contain the ID of a connected account. By including
 	// this field, the request is made as if it originated from the connected
@@ -213,7 +215,8 @@ func (p *Params) AddExtra(key, value string) {
 	p.Extra.Add(key, value)
 }
 
-// AddMetadata adds a new key-value pair to the Metadata.
+// AddMetadata is deprecated.
+// Deprecated: please use .AddMetadata of the containing Params struct.
 func (p *Params) AddMetadata(key, value string) {
 	if p.Metadata == nil {
 		p.Metadata = make(map[string]string)

@@ -135,6 +135,8 @@ type ProductParams struct {
 	ID *string `form:"id"`
 	// A list of up to 8 URLs of images for this product, meant to be displayable to the customer.
 	Images []*string `form:"images"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
 	// The product's name, meant to be displayable to the customer.
 	Name *string `form:"name"`
 	// The dimensions of this product for shipping purposes.
@@ -154,6 +156,15 @@ type ProductParams struct {
 	UnitLabel *string `form:"unit_label"`
 	// A URL of a publicly-accessible webpage for this product.
 	URL *string `form:"url"`
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *ProductParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
 }
 
 // Returns a list of your products. The products are returned sorted by creation date, with the most recently created products appearing first.
