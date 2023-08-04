@@ -16,6 +16,10 @@ class Critic::EvergreenOrders < Critic::OrderAmendmentFunctionalTest
         "days_until_due" => 30,
         "collection_method" => "send_invoice",
       },
+      "subscription_schedule" => {
+        "default_settings.invoice_settings.days_until_due" => 30,
+        "default_settings.collection_method" => "send_invoice",
+      },
     }
 
     @user.field_mappings = {
@@ -46,13 +50,13 @@ class Critic::EvergreenOrders < Critic::OrderAmendmentFunctionalTest
 
     sf_account_id = create_salesforce_account
 
-    subscription_start_date = format_date_for_salesforce(now_time)
+    subscription_start_date = now_time + 5.day
 
     quote_id = create_salesforce_quote(
       sf_account_id: sf_account_id,
 
       additional_quote_fields: {
-        CPQ_QUOTE_SUBSCRIPTION_START_DATE => subscription_start_date,
+        CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(subscription_start_date),
         CPQ_QUOTE_SUBSCRIPTION_TERM => SF_ORDER_DEFAULT_EVERGREEN_SUBSCRIPTION_TERM,
       }
     )
@@ -71,18 +75,27 @@ class Critic::EvergreenOrders < Critic::OrderAmendmentFunctionalTest
     sf_order.refresh
 
     sf_order = sf.find(SF_ORDER, sf_order.Id)
-
     stripe_id = sf_order[prefixed_stripe_field(GENERIC_STRIPE_ID)]
-    subscription = Stripe::Subscription.retrieve(stripe_id, @user.stripe_credentials)
-    customer = Stripe::Customer.retrieve(T.cast(subscription.customer, String), @user.stripe_credentials)
+    subscription_schedule = Stripe::SubscriptionSchedule.retrieve(stripe_id, @user.stripe_credentials)
 
-    assert_match(sf_account_id, customer.metadata['salesforce_account_link'])
-    assert_equal(customer.metadata['salesforce_account_id'], sf_account_id)
+    stripe_customer = stripe_get(subscription_schedule.customer)
+    refute_nil(stripe_customer.test_clock)
+
+    # there is no subscription attached to the schedule yet
+    assert_nil(subscription_schedule.subscription)
+
+    # advance clock to after Stripe subscription is created and released by schedule
+    test_clock = advance_test_clock(stripe_customer, (subscription_start_date + 1.days).to_i)
+
+    subscription_schedule = Stripe::SubscriptionSchedule.retrieve(stripe_id, @user.stripe_credentials)
+    subscription = Stripe::Subscription.retrieve(subscription_schedule.released_subscription, @user.stripe_credentials)
 
     # top level subscription fields
     assert_match(sf_order.Id, subscription.metadata['salesforce_order_link'])
     assert_equal(subscription.metadata['salesforce_order_id'], sf_order.Id)
-    assert_equal(subscription.metadata['example_field'], sf_order.OrderNumber)
+
+    assert_equal(subscription_schedule.default_settings.collection_method, subscription.collection_method)
+    assert_equal(subscription_schedule.default_settings.invoice_settings.days_until_due, subscription.days_until_due)
 
     # subscription products
     order_items = sf_get_related(sf_order, SF_ORDER_ITEM)
@@ -95,10 +108,74 @@ class Critic::EvergreenOrders < Critic::OrderAmendmentFunctionalTest
     stripe_invoice = Stripe::Invoice.retrieve(invoices.data.first['id'], @user.stripe_credentials)
 
     # Start date
-    assert_match(Time.at(subscription.current_period_start).utc.strftime('%Y-%m-%d'), subscription_start_date)
+    assert_equal(Time.at(subscription.current_period_start).utc, subscription_start_date)
+    assert_equal('active', subscription.status)
+  end
 
-    # Amount due per invoice
-    assert_equal(stripe_invoice['amount_due'] / 100.0, sf_order['TotalAmount'])
+  it 'amendment to scheduled evergreen stripe subscription changes stripe id on sf order' do
+    subscription_start_date = now_time + 5.days
+
+    sf_order = create_evergreen_salesforce_order(
+      # need to set these fields explicitly to use translate
+      additional_quote_fields: {
+        CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(subscription_start_date),
+        CPQ_QUOTE_SUBSCRIPTION_TERM => SF_ORDER_DEFAULT_EVERGREEN_SUBSCRIPTION_TERM,
+      }
+    )
+
+    # translate salesforce order to subscription and find
+    SalesforceTranslateRecordJob.translate(@user, sf_order)
+    sf_order.refresh
+
+    sf_order = sf.find(SF_ORDER, sf_order.Id)
+    stripe_id = sf_order[prefixed_stripe_field(GENERIC_STRIPE_ID)]
+    subscription_schedule = Stripe::SubscriptionSchedule.retrieve(stripe_id, @user.stripe_credentials)
+
+    # there is no subscription attached to the schedule yet
+    assert_nil(subscription_schedule.subscription)
+
+    stripe_customer = stripe_get(subscription_schedule.customer)
+    refute_nil(stripe_customer.test_clock)
+
+    test_clock = advance_test_clock(stripe_customer, (subscription_start_date + 1.days).to_i)
+
+    stripe_id = sf_order[prefixed_stripe_field(GENERIC_STRIPE_ID)]
+    subscription_schedule = Stripe::SubscriptionSchedule.retrieve(stripe_id, @user.stripe_credentials)
+
+    assert_not_nil(subscription_schedule.released_subscription)
+
+    subscription = Stripe::Subscription.retrieve(T.must(subscription_schedule.released_subscription), @user.stripe_credentials)
+
+    # start date
+    assert_equal(Time.at(subscription.current_period_start).utc, subscription_start_date)
+
+    amendment_start_date = subscription_start_date + 3.days
+
+    sf_contract = create_contract_from_order(sf_order)
+    sf_order.refresh
+
+    amendment_quote = create_quote_data_from_contract_amendment(sf_contract)
+
+    # wipe out the product
+    amendment_quote["lineItems"].first["record"][CPQ_QUOTE_QUANTITY] = 0
+    amendment_quote["record"][CPQ_QUOTE_SUBSCRIPTION_START_DATE] = format_date_for_salesforce(amendment_start_date)
+    amendment_quote["record"][CPQ_QUOTE_SUBSCRIPTION_TERM] = SF_ORDER_DEFAULT_EVERGREEN_SUBSCRIPTION_TERM
+
+    sf_order_amendment = create_order_from_quote_data(amendment_quote)
+    assert_equal(sf_order_amendment.Type, OrderTypeOptions::AMENDMENT.serialize)
+
+    # translate salesforce amendment
+    SalesforceTranslateRecordJob.translate(@user, sf_order)
+    sf_order.refresh
+
+    # stripe id on sf order should have been updated to the subscription's
+    stripe_id = sf_order[prefixed_stripe_field(GENERIC_STRIPE_ID)]
+
+    assert_equal(stripe_id, subscription.id)
+
+    test_clock = advance_test_clock(stripe_customer, (amendment_start_date + 1.days).to_i)
+    subscription = Stripe::Subscription.retrieve(subscription.id, @user.stripe_credentials)
+    assert_equal('canceled', subscription.status)
   end
 
   it 'creates an invoice every pay period on the stripe subscription' do
@@ -266,6 +343,41 @@ class Critic::EvergreenOrders < Critic::OrderAmendmentFunctionalTest
       end
 
       assert_match("Evergreen Salesforce orders should have default subscription term equal to 1.", exception.message)
+    end
+
+    it 'raises error when attempt to amend subscription that has not started' do
+      subscription_start_date = now_time + 5.day
+
+      sf_order = create_evergreen_salesforce_order(
+        # need to set these fields explicitly to use translate
+        additional_quote_fields: {
+          CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(subscription_start_date),
+          CPQ_QUOTE_SUBSCRIPTION_TERM => SF_ORDER_DEFAULT_EVERGREEN_SUBSCRIPTION_TERM,
+        }
+      )
+
+      amendment_start_date = subscription_start_date + 1.days
+
+      # create amendment with one product to add
+      sf_contract = create_contract_from_order(sf_order)
+      amendment_quote = create_quote_data_from_contract_amendment(sf_contract)
+
+      sf_product_id, _ = salesforce_evergreen_product_with_price
+      quote_with_product = add_product_to_cpq_quote(amendment_quote['record']['Id'], sf_product_id: sf_product_id)
+      calculate_and_save_cpq_quote(quote_with_product)
+
+      amendment_quote["record"][CPQ_QUOTE_SUBSCRIPTION_START_DATE] = format_date_for_salesforce(amendment_start_date)
+      amendment_quote["record"][CPQ_QUOTE_SUBSCRIPTION_TERM] = SF_ORDER_DEFAULT_EVERGREEN_SUBSCRIPTION_TERM
+
+      sf_order_amendment = create_order_from_quote_data(amendment_quote)
+      assert_equal(sf_order_amendment.Type, OrderTypeOptions::AMENDMENT.serialize)
+
+      # translate salesforce amendment
+      exception = assert_raises(Integrations::Errors::UserError) do
+        SalesforceTranslateRecordJob.translate(@user, sf_order)
+      end
+
+      assert_match("Amending a Salesforce evergreen order that has not started is not yet supported.", exception.message)
     end
   end
 end

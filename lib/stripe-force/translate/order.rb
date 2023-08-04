@@ -314,19 +314,89 @@ class StripeForce::Translate
 
     Integrations::Utilities::StripeUtil.delete_field_from_stripe_object(
       subscription,
-      [:start_date, :end_behavior, :iterations]
+      [:end_behavior, :iterations]
     )
 
-    sanitize(subscription)
+    stripe_customer_id = T.cast(subscription.customer, String)
+    subscription_start_time = StripeForce::Utilities::SalesforceUtil.extract_subscription_start_date_from_order(mapper, T.must(sf_order))
+    current_time = Time.at(OrderAmendment.determine_current_time(@user, stripe_customer_id)).utc.strftime("%Y-%m-%d")
 
-    subscription = Stripe::Subscription.create(
-      subscription.to_hash,
-      @user.stripe_credentials
-    )
+    if subscription_start_time.strftime("%Y-%m-%d") < current_time
+      throw_user_failure!(
+        salesforce_object: sf_order,
+        message: "Backdated evergreen Salesforce order are not yet supported."
+      )
+    end
 
-    update_sf_stripe_id(sf_order, subscription)
+    if subscription_start_time.strftime("%Y-%m-%d") == current_time
+      Integrations::Utilities::StripeUtil.delete_field_from_stripe_object(
+        subscription,
+        [:start_date]
+      )
 
-    log.info 'created stripe subscription for evergreen order', stripe_subscription_id: subscription.id
+      subscription = Stripe::Subscription.create(
+        subscription.to_hash,
+        @user.stripe_credentials
+      )
+
+      update_sf_stripe_id(sf_order, subscription)
+      log.info 'created stripe subscription for evergreen order', stripe_subscription_id: subscription.id
+    else
+      sf_order_items = order_lines_from_order(sf_order)
+      invoice_items, subscription_items = phase_items_from_order_lines(sf_order_items)
+
+      subscription_schedule = Stripe::SubscriptionSchedule.construct_from({
+        end_behavior: StripeEndBehavior::RELEASE.serialize,
+        metadata: Metadata.stripe_metadata_for_sf_object(@user, sf_order),
+      })
+
+      subscription_params = StripeForce::Utilities::SalesforceUtil.extract_salesforce_params!(mapper, sf_order, Stripe::SubscriptionSchedule)
+
+      mapper.assign_values_from_hash(subscription_schedule, subscription_params)
+      apply_mapping(subscription_schedule, sf_order)
+
+      subscription_schedule_phases = generate_phases_for_initial_order(
+        sf_order: sf_order,
+        invoice_items: invoice_items,
+        subscription_items: subscription_items,
+        subscription_schedule: subscription_schedule,
+        stripe_customer: stripe_customer
+      )
+
+      if subscription_schedule_phases.is_a?(Stripe::Invoice)
+        return subscription_schedule_phases
+      end
+
+      subscription_start_date_as_timestamp = StripeForce::Utilities::SalesforceUtil.salesforce_date_to_unix_timestamp(subscription_schedule.start_date)
+      subscription_schedule.start_date = subscription_start_date_as_timestamp
+
+      Integrations::Utilities::StripeUtil.delete_field_from_stripe_object(
+        subscription_schedule,
+        :iterations
+      )
+
+      subscription_schedule.customer = stripe_customer.id
+      subscription_schedule.phases = subscription_schedule_phases.compact
+
+      # there should only be one subscription schedule phase
+      if subscription_schedule.phases.count != 1
+        raise Integrations::Errors::ImpossibleState.new("Evergreen order generated subscription schedule with more than one phase.")
+      end
+
+      # set cancelation date to be immediately after phases get created
+      # so subscription schedule gets released asap
+      subscription_schedule.phases.first[:end_date] = (subscription_start_time + 1.seconds).to_i
+
+      sanitize(subscription_schedule)
+
+      subscription_schedule = Stripe::SubscriptionSchedule.create(
+        subscription_schedule.to_hash,
+        @user.stripe_credentials
+      )
+
+      update_sf_stripe_id(sf_order, subscription_schedule)
+      log.info 'created stripe subscription schedule for evergreen order', stripe_subscription_id: subscription_schedule.id
+    end
 
     subscription
   end
@@ -592,6 +662,41 @@ class StripeForce::Translate
     log.info "processing evergreen Salesforce order amendments"
 
     sf_order = contract_structure.initial
+
+    stripe_id = sf_order[prefixed_stripe_field(GENERIC_STRIPE_ID)]
+
+    if stripe_id.nil?
+      raise Integrations::Errors::UserError.new("Could not find corresponding Stripe subscription for initial evergreen Salesforce order.")
+    end
+
+    # if amendment is for an evergreen order whose stripe id is a subscription schedule
+    # need to check if subscription has been released and change the stripe id to the subscription
+    if stripe_id.start_with?('sub_sched')
+      subscription_schedule = retrieve_from_stripe(
+        Stripe::SubscriptionSchedule,
+        sf_order
+      )
+
+      if !subscription_schedule
+        raise Integrations::Errors::ImpossibleState.new("could not find corresponding Stripe subscription subscription for a scheduled evergreen Salesforce order")
+      end
+
+      subscription_schedule = T.cast(subscription_schedule, Stripe::SubscriptionSchedule)
+
+      if subscription_schedule.released_subscription.nil?
+        throw_user_failure!(
+          salesforce_object: sf_order,
+          message: 'Amending a Salesforce evergreen order that has not started is not yet supported.'
+        )
+      end
+
+      subscription_id = T.must(subscription_schedule.released_subscription)
+      subscription = Stripe::Subscription.retrieve(subscription_id, @user.stripe_credentials)
+      update_sf_stripe_id(sf_order, subscription)
+
+      # refresh to include updated subscription id instead of subscription schedule id
+      sf_order.refresh
+    end
 
     subscription = retrieve_from_stripe(
       Stripe::Subscription,

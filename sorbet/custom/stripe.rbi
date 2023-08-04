@@ -242,8 +242,13 @@ class Stripe::SubscriptionSchedule
   sig { returns(Stripe::SubscriptionSchedulePrebilling)}
   def prebilling; end
 
-  sig { returns(T.nilable(T.any(Stripe::Subscription, String)))}
+  # sig { returns(T.nilable(T.any(T::Hash[Symbol, T.untyped], String)))}
+  sig { returns(String)}
   def subscription; end
+
+  # sig { returns(T.nilable(T.any(T::Hash[Symbol, T.untyped], String)))}
+  sig { returns(String)}
+  def released_subscription; end
 
   sig { returns(T.any(Stripe::Customer, String))}
   def customer; end
@@ -282,6 +287,12 @@ class Stripe::Subscription
 
   sig { returns(String) }
   def status; end
+
+  sig { returns(String) }
+  def collection_method; end
+
+  sig { returns(Integer) }
+  def days_until_due; end
 
   sig { returns(Integer) }
   def current_period_start; end
