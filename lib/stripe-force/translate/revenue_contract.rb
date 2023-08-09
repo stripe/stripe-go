@@ -75,7 +75,7 @@ class StripeForce::Translate
     # TODO: This date is specific to Cloudflare right now, we default to ActivationDate, but not sure if this
     # is the correct one for future merchants. Will need to revisit.
     signed_date = subscription_schedule.metadata["contract_cf_signed_date"]
-    signed_date ||= sf_order.ActivatedDate
+    signed_date ||= sf_order[SF_ORDER_ACTIVATED_DATE].to_s
 
     currency = T.must(combined_items.first).price(@user).currency # this should be the same across all item
     {
@@ -117,11 +117,11 @@ class StripeForce::Translate
     # Cloudflare has confirmed that the item_contract_value will always be populated on all order lines. The source is:log
     # "This is a formula field calculated by getting various information from Quote line. Usually this is calculated as MRR * Prorate multiplier"
     amount_subtotal = phase_item.stripe_params[:metadata][:item_contract_value]
-    amount_subtotal ||= normalize_float_amount_in_currency_for_stripe(price.currency, sf_order_item.TotalPrice.to_s, as_decimal: false)
+    amount_subtotal ||= sf_order_item[SF_ORDER_ITEM_TOTAL_PRICE]
 
     {
       price: price.id,
-      amount_subtotal: amount_subtotal,
+      amount_subtotal: normalize_float_amount_in_currency_for_stripe(price.currency, amount_subtotal.to_s, as_decimal: false),
       quantity: phase_item.quantity,
       period: {
         start: start_date,

@@ -51,7 +51,6 @@ class Critic::RevenueContractValidationHelper < Critic::FunctionalTest
     assert_equal(quantity, phase_item.quantity)
     assert_equal(quantity, contract_item.quantity)
 
-    assert_equal(amount, contract_item.amount_subtotal)
     if !tfc.nil?
       assert_equal(tfc.to_s, phase_item.metadata['contract_tfc_duration'])
       assert_equal(tfc.to_s, contract_item.metadata['contract_tfc_duration'])
@@ -60,10 +59,14 @@ class Critic::RevenueContractValidationHelper < Critic::FunctionalTest
       assert_nil(contract_item.termination_for_convenience)
     end
 
+    amount_subtotal = amount
     assert_equal(phase_item.metadata.count, contract_item.metadata.count)
     if !phase_item.metadata['item_contract_value'].nil?
       assert_equal(amount.to_s, phase_item.metadata['item_contract_value'])
       assert_equal(amount.to_s, contract_item.metadata['item_contract_value'])
+      amount_subtotal = amount * 100
     end
+
+    assert_equal(amount_subtotal, contract_item.amount_subtotal)
   end
 end

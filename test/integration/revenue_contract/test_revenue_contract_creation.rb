@@ -71,7 +71,7 @@ class Critic::RevRecContractCreation < Critic::RevenueContractValidationHelper
   it 'Create contract from a standard subscription order with override contract value' do
     @user.field_defaults = {
       "subscription_item" => {
-        "metadata.item_contract_value" => 20000,
+        "metadata.item_contract_value" => "20000.52",
       },
       "subscription_schedule" => {
         "metadata.contract_cf_signed_date" => @defaultSignedDate,
@@ -117,7 +117,7 @@ class Critic::RevRecContractCreation < Critic::RevenueContractValidationHelper
 
     assert_equal(1, revenue_contract.items.data.count)
     contract_item = T.must(revenue_contract.items.data.first)
-    revenue_contract_validate_item(phase_item, contract_item, sf_pricebook_entry, 1, 20000, nil)
+    revenue_contract_validate_item(phase_item, contract_item, sf_pricebook_entry, 1, 20000.52, nil)
     assert_equal(start_date.to_i, contract_item.period.start)
 
     end_date = StripeForce::Utilities::SalesforceUtil.datetime_to_unix_timestamp(

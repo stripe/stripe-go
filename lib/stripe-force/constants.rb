@@ -38,6 +38,7 @@ module StripeForce
     SF_CURRENCY_ISO_CODE = 'CurrencyIsoCode'
 
     SF_ORDER_ITEM_REVISED_ORDER_PRODUCT = 'SBQQ__RevisedOrderProduct__c'
+    SF_ORDER_ITEM_TOTAL_PRICE = 'TotalPrice'
     SF_ORDER_ACTIVATED_DATE = 'ActivatedDate'
     SF_ORDER_TYPE = 'Type'
     SF_ORDER_DEFAULT_EVERGREEN_SUBSCRIPTION_TERM = 1
