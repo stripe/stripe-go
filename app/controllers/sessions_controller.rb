@@ -33,6 +33,98 @@ class SessionsController < ApplicationController
   end
 
   def salesforce_callback
+    salesforce_callback_handler
+
+    user = T.must(StripeForce::User.find(id: session[:user_id]))
+
+    # TODO before redirecting to Stripe, check if there's a valid Stripe connection
+
+    postmessage_domain = build_postmessage_domain(user, session[:salesforce_namespace])
+
+    is_production_org = session[:salesforce_instance_type] == SFInstanceTypes::PRODUCTION.serialize
+
+    omniauth_path_name = is_production_org ? 'stripelivemode' : 'stripetestmode'
+
+    render inline: <<-EOL
+    <%= form_tag(omniauth_path('#{omniauth_path_name}'), method: 'post', id: 'js-submission') %>
+
+    <script>
+    window.opener.postMessage("stripeConnectionSuccessful", "#{postmessage_domain}")
+    document.getElementById('js-submission').submit()
+    </script>
+    EOL
+  end
+
+  def salesforce_callback_v2
+    salesforce_callback_handler
+
+    user = T.must(StripeForce::User.find(id: session[:user_id]))
+    postmessage_domain = build_postmessage_domain(user, session[:salesforce_namespace])
+
+    render inline: <<-EOL
+    <div style="text-align:center; font-family:'Helvetica Neue', Arial, sans-serif;">
+      <h1 style="margin-top: 30%;">Great, you're connected!</h1>
+      <p>Your Salesforce account is connected. You can safely close this window.</p>
+      <p>Navigate to Salesforce to authenticate with Stripe.</p>
+    </div>
+
+    <script type="application/javascript">
+    window.opener.postMessage("connection-successful-salesforce-#{user.salesforce_account_id}", "#{postmessage_domain}")
+    </script>
+    EOL
+  end
+
+  private def salesforce_instance_type_from_headers(raw_header)
+    SFInstanceTypes.try_deserialize(raw_header)&.serialize
+  end
+
+  def stripe_callback
+    stripe_account_id = stripe_callback_handler
+    user = T.must(StripeForce::User.find(id: session[:user_id]))
+
+    user.cache_connection_status(StripeForce::Constants::Platforms::STRIPE, true)
+    user.update(stripe_account_id: stripe_account_id,)
+
+    postmessage_domain = build_postmessage_domain(user, session[:salesforce_namespace])
+
+    render inline: <<-EOL
+    <div style="text-align:center; font-family:'Helvetica Neue', Arial, sans-serif;">
+      <h1 style="margin-top: 30%;">Great, you're connected!</h1>
+      <p>Your Stripe & Salesforce accounts are connected. You can safely close this window.</p>
+      <p>Navigate to Salesforce to configure this connector.</p>
+    </div>
+
+    <script type="application/javascript">
+    window.opener.postMessage("salesforceConnectionSuccessful", "#{postmessage_domain}")
+    </script>
+    EOL
+  end
+
+  def stripe_callback_v2_livemode
+    stripe_account_id = stripe_callback_handler
+    user = T.must(StripeForce::User.find(id: session[:user_id]))
+
+    user.cache_stripe_v2_connection_status(connected: true, livemode: true)
+    user.update(stripe_account_id: stripe_account_id,)
+
+    postmessage_domain = build_postmessage_domain(user, session[:salesforce_namespace])
+
+    render inline: get_stripe_callback_v2_render(stripe_account_id, postmessage_domain)
+  end
+
+  def stripe_callback_v2_testmode
+    stripe_account_id = stripe_callback_handler
+    user = T.must(StripeForce::User.find(id: session[:user_id]))
+
+    user.cache_stripe_v2_connection_status(connected: true, livemode: false)
+    user.update(stripe_account_id: stripe_account_id,)
+
+    postmessage_domain = build_postmessage_domain(user, session[:salesforce_namespace])
+
+    render inline: get_stripe_callback_v2_render(stripe_account_id, postmessage_domain)
+  end
+
+  private def salesforce_callback_handler
     sf_auth = auth_hash
     raw_sf_account_url = sf_auth["uid"]
 
@@ -63,7 +155,6 @@ class SessionsController < ApplicationController
     if !user.new? && user.salesforce_account_id != sf_account_id
       raise "user already exists and account ID is not equal, this should never happen"
     end
-
     user.salesforce_account_id = sf_account_id
     user.salesforce_refresh_token = sf_refresh_token
     user.salesforce_instance_url = sf_instance_url
@@ -77,30 +168,9 @@ class SessionsController < ApplicationController
     user.cache_connection_status(StripeForce::Constants::Platforms::SALESFORCE, true)
 
     session[:user_id] = user.id
-
-    # TODO before redirecting to Stripe, check if there's a valid Stripe connection
-
-    postmessage_domain = build_postmessage_domain(user, session[:salesforce_namespace])
-
-    is_production_org = session[:salesforce_instance_type] == SFInstanceTypes::PRODUCTION.serialize
-
-    omniauth_path_name = is_production_org ? 'stripelivemode' : 'stripetestmode'
-
-    render inline: <<-EOL
-    <%= form_tag(omniauth_path('#{omniauth_path_name}'), method: 'post', id: 'js-submission') %>
-
-    <script>
-    window.opener.postMessage("stripeConnectionSuccessful", "#{postmessage_domain}")
-    document.getElementById('js-submission').submit()
-    </script>
-    EOL
   end
 
-  private def salesforce_instance_type_from_headers(raw_header)
-    SFInstanceTypes.try_deserialize(raw_header)&.serialize
-  end
-
-  def stripe_callback
+  private def stripe_callback_handler
     user_id = session[:user_id]
 
     if user_id.blank?
@@ -119,29 +189,27 @@ class SessionsController < ApplicationController
     end
 
     stripe_auth = auth_hash
-    stripe_user_id = stripe_auth["uid"]
+    stripe_account_id = stripe_auth["uid"]
 
-    log.info 'updating stripe account ID', user_id: user.id, stripe_account_id: stripe_user_id
+    log.info 'updating stripe account ID', user_id: user.id, stripe_account_id: stripe_account_id
 
-    if user.stripe_account_id && user.stripe_account_id != stripe_user_id
+    if user.stripe_account_id && user.stripe_account_id != stripe_account_id
       Integrations::ErrorContext.report_edge_case("stripe account ID already set, overwriting")
     end
 
-    user.cache_connection_status(StripeForce::Constants::Platforms::STRIPE, true)
+    stripe_account_id
+  end
 
-    user.update(stripe_account_id: stripe_user_id,)
-
-    postmessage_domain = build_postmessage_domain(user, session[:salesforce_namespace])
-
-    render inline: <<-EOL
+  def get_stripe_callback_v2_render(stripe_account_id, postmessage_domain)
+    <<-EOL
     <div style="text-align:center; font-family:'Helvetica Neue', Arial, sans-serif;">
       <h1 style="margin-top: 30%;">Great, you're connected!</h1>
-      <p>Your Stripe & Salesforce accounts are connected. You can safely close this window.</p>
+      <p>Your Stripe is connected. You can safely close this window.</p>
       <p>Navigate to Salesforce to configure this connector.</p>
     </div>
 
     <script type="application/javascript">
-    window.opener.postMessage("salesforceConnectionSuccessful", "#{postmessage_domain}")
+    window.opener.postMessage("connection-successful-stripe-#{stripe_account_id}", "#{postmessage_domain}")
     </script>
     EOL
   end

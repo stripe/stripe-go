@@ -68,6 +68,34 @@ module GeneratedUrlHelpers
   sig { params(args: T.untyped, kwargs: T.untyped).returns(String) }
   def auth_stripetestmode_callback_url(*args, **kwargs); end
 
+  # Sigs for route /auth/v2/salesforcesandbox/callback(.:format)
+  sig { params(args: T.untyped, kwargs: T.untyped).returns(String) }
+  def auth_v2_salesforcesandbox_callback_path(*args, **kwargs); end
+
+  sig { params(args: T.untyped, kwargs: T.untyped).returns(String) }
+  def auth_v2_salesforcesandbox_callback_url(*args, **kwargs); end
+
+  # Sigs for route /auth/v2/salesforce/callback(.:format)
+  sig { params(args: T.untyped, kwargs: T.untyped).returns(String) }
+  def auth_v2_salesforce_callback_path(*args, **kwargs); end
+
+  sig { params(args: T.untyped, kwargs: T.untyped).returns(String) }
+  def auth_v2_salesforce_callback_url(*args, **kwargs); end
+
+  # Sigs for route /auth/v2/stripelivemode/callback(.:format)
+  sig { params(args: T.untyped, kwargs: T.untyped).returns(String) }
+  def auth_v2_stripelivemode_callback_path(*args, **kwargs); end
+
+  sig { params(args: T.untyped, kwargs: T.untyped).returns(String) }
+  def auth_v2_stripelivemode_callback_url(*args, **kwargs); end
+
+  # Sigs for route /auth/v2/stripetestmode/callback(.:format)
+  sig { params(args: T.untyped, kwargs: T.untyped).returns(String) }
+  def auth_v2_stripetestmode_callback_path(*args, **kwargs); end
+
+  sig { params(args: T.untyped, kwargs: T.untyped).returns(String) }
+  def auth_v2_stripetestmode_callback_url(*args, **kwargs); end
+
   # Sigs for route /stripe-webhooks(.:format)
   sig { params(args: T.untyped, kwargs: T.untyped).returns(String) }
   def stripe_webhooks_path(*args, **kwargs); end
@@ -81,13 +109,6 @@ module GeneratedUrlHelpers
 
   sig { params(args: T.untyped, kwargs: T.untyped).returns(String) }
   def api_configuration_url(*args, **kwargs); end
-
-  # Sigs for route /v1/configuration/connection_statuses(.:format)
-  sig { params(args: T.untyped, kwargs: T.untyped).returns(String) }
-  def api_connection_statuses_path(*args, **kwargs); end
-
-  sig { params(args: T.untyped, kwargs: T.untyped).returns(String) }
-  def api_connection_statuses_url(*args, **kwargs); end
 
   # Sigs for route /v1/post-install(.:format)
   sig { params(args: T.untyped, kwargs: T.untyped).returns(String) }
@@ -109,6 +130,13 @@ module GeneratedUrlHelpers
 
   sig { params(args: T.untyped, kwargs: T.untyped).returns(String) }
   def api_translate_all_url(*args, **kwargs); end
+
+  # Sigs for route /v1/connection_statuses(.:format)
+  sig { params(args: T.untyped, kwargs: T.untyped).returns(String) }
+  def api_connection_statuses_path(*args, **kwargs); end
+
+  sig { params(args: T.untyped, kwargs: T.untyped).returns(String) }
+  def api_connection_statuses_url(*args, **kwargs); end
 
   # Sigs for route /monitoring/resque-monitor
   sig { params(args: T.untyped, kwargs: T.untyped).returns(String) }

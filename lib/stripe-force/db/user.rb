@@ -121,14 +121,35 @@ module StripeForce
       "cached-#{platform}-connection-status-#{self.stripe_account_id}-#{self.salesforce_account_id}-#{self.livemode}"
     end
 
+    sig { params(livemode: T::Boolean).returns(String) }
+    def cached_stripe_v2_valid_credential_key(livemode)
+      "cached-#{StripeForce::Constants::Platforms::STRIPE}-connection-status-#{self.stripe_account_id}-#{self.salesforce_account_id}-#{livemode}"
+    end
+
     sig { params(platform: StripeForce::Constants::Platforms, connected: T::Boolean).returns(T::Boolean) }
     def cache_connection_status(platform, connected)
       redis.set(self.cached_valid_credential_key(platform), connected, ex: StripeForce::Constants::CACHED_CREDENTIAL_STATUS_TTL)
       connected
     end
 
+    sig { params(connected: T::Boolean, livemode: T::Boolean).returns(T::Boolean) }
+    def cache_stripe_v2_connection_status(connected:, livemode:)
+      redis.set(self.cached_stripe_v2_valid_credential_key(livemode), connected, ex: StripeForce::Constants::CACHED_CREDENTIAL_STATUS_TTL)
+      connected
+    end
+
     def get_cached_connection_status(platform)
       cached_value = redis.get(self.cached_valid_credential_key(platform))
+      # Redis only stores strings, so we have to do this awkward workaround
+      unless cached_value.nil?
+        return cached_value == 'true'
+      end
+
+      nil
+    end
+
+    def get_cached_stripe_v2_connection_status(livemode)
+      cached_value = redis.get(self.cached_stripe_v2_valid_credential_key(livemode))
       # Redis only stores strings, so we have to do this awkward workaround
       unless cached_value.nil?
         return cached_value == 'true'

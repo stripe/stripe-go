@@ -16,6 +16,11 @@ Rails.application.routes.draw do
   get '/auth/stripelivemode/callback', to: 'sessions#stripe_callback'
   get '/auth/stripetestmode/callback', to: 'sessions#stripe_callback'
 
+  get '/auth/v2/salesforcesandbox/callback', to: 'sessions#salesforce_callback_v2'
+  get '/auth/v2/salesforce/callback', to: 'sessions#salesforce_callback_v2'
+  get '/auth/v2/stripelivemode/callback', to: 'sessions#stripe_callback_v2_livemode'
+  get '/auth/v2/stripetestmode/callback', to: 'sessions#stripe_callback_v2_testmode'
+
   post '/stripe-webhooks' => 'stripe_webhook#stripe_webhook'
 
   namespace :v1, module: 'api', as: 'api', constraints: {format: 'json'} do
