@@ -222,6 +222,8 @@ type TreasuryFinancialAccountPlatformRestrictionsParams struct {
 // Creates a new FinancialAccount. For now, each connected account can only have one FinancialAccount.
 type TreasuryFinancialAccountParams struct {
 	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// Encodes whether a FinancialAccount has access to a particular feature, with a status enum and associated `status_details`. Stripe or the platform may control features via the requested field.
 	Features *TreasuryFinancialAccountFeaturesParams `form:"features"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
@@ -246,6 +248,8 @@ type TreasuryFinancialAccountListParams struct {
 	ListParams   `form:"*"`
 	Created      *int64            `form:"created"`
 	CreatedRange *RangeQueryParams `form:"created"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 }
 
 // Encodes the FinancialAccount's ability to be used with the Issuing product, including attaching cards to and drawing funds from the FinancialAccount.
@@ -337,6 +341,8 @@ type TreasuryFinancialAccountUpdateFeaturesParams struct {
 	CardIssuing *TreasuryFinancialAccountUpdateFeaturesCardIssuingParams `form:"card_issuing"`
 	// Represents whether this FinancialAccount is eligible for deposit insurance. Various factors determine the insurance amount.
 	DepositInsurance *TreasuryFinancialAccountUpdateFeaturesDepositInsuranceParams `form:"deposit_insurance"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// Contains Features that add FinancialAddresses to the FinancialAccount.
 	FinancialAddresses *TreasuryFinancialAccountUpdateFeaturesFinancialAddressesParams `form:"financial_addresses"`
 	// Contains settings related to adding funds to a FinancialAccount from another Account with the same owner.
@@ -352,6 +358,8 @@ type TreasuryFinancialAccountUpdateFeaturesParams struct {
 // Retrieves Features information associated with the FinancialAccount.
 type TreasuryFinancialAccountRetrieveFeaturesParams struct {
 	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 }
 
 // Balance information for the FinancialAccount

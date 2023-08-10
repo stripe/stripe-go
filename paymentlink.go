@@ -150,6 +150,8 @@ type PaymentLinkListParams struct {
 	ListParams `form:"*"`
 	// Only return payment links that are active or inactive (e.g., pass `false` to list all inactive payment links).
 	Active *bool `form:"active"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 }
 
 // Configuration when `type=hosted_confirmation`.
@@ -427,6 +429,8 @@ type PaymentLinkParams struct {
 	CustomFields []*PaymentLinkCustomFieldParams `form:"custom_fields"`
 	// Display additional text for your customers using custom text.
 	CustomText *PaymentLinkCustomTextParams `form:"custom_text"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// Generate a post-purchase Invoice for one-time payments.
 	InvoiceCreation *PaymentLinkInvoiceCreationParams `form:"invoice_creation"`
 	// The line items representing what is being sold. Each line item represents an item being sold. Up to 20 line items are supported.
@@ -443,7 +447,7 @@ type PaymentLinkParams struct {
 	//
 	// If you'd like information on how to collect a payment method outside of Checkout, read the guide on [configuring subscriptions with a free trial](https://stripe.com/docs/payments/checkout/free-trials).
 	PaymentMethodCollection *string `form:"payment_method_collection"`
-	// The list of payment method types that customers can use. Pass an empty string to enable automatic payment methods that use your [payment method settings](https://dashboard.stripe.com/settings/payment_methods).
+	// The list of payment method types that customers can use. If no value is passed, Stripe will dynamically show relevant payment methods from your [payment method settings](https://dashboard.stripe.com/settings/payment_methods) (20+ payment methods [supported](https://stripe.com/docs/payments/payment-methods/integration-options#payment-method-product-support)).
 	PaymentMethodTypes []*string `form:"payment_method_types"`
 	// Controls phone number collection settings during checkout.
 	//
@@ -476,6 +480,8 @@ func (p *PaymentLinkParams) AddMetadata(key string, value string) {
 type PaymentLinkListLineItemsParams struct {
 	ListParams  `form:"*"`
 	PaymentLink *string `form:"-"` // Included in URL
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 }
 type PaymentLinkAfterCompletionHostedConfirmation struct {
 	// The custom message that is displayed to the customer after the purchase is complete.

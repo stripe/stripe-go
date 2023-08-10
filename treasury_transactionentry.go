@@ -68,6 +68,8 @@ const (
 // Retrieves a TransactionEntry object.
 type TreasuryTransactionEntryParams struct {
 	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 }
 
 // Retrieves a list of TransactionEntry objects.
@@ -77,6 +79,8 @@ type TreasuryTransactionEntryListParams struct {
 	CreatedRange     *RangeQueryParams `form:"created"`
 	EffectiveAt      *int64            `form:"effective_at"`
 	EffectiveAtRange *RangeQueryParams `form:"effective_at"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// Returns objects associated with this FinancialAccount.
 	FinancialAccount *string `form:"financial_account"`
 	// The results are in reverse chronological order by `created` or `effective_at`. The default is `created`.

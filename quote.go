@@ -146,6 +146,8 @@ type QuoteParams struct {
 	Description *string `form:"description"`
 	// The discounts applied to the quote. You can only set up to one discount.
 	Discounts []*QuoteDiscountParams `form:"discounts"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// A future timestamp on which the quote will be canceled if in `open` or `draft` status. Measured in seconds since the Unix epoch. If no value is passed, the default expiration date configured in your [quote template settings](https://dashboard.stripe.com/settings/billing/quote) will be used.
 	ExpiresAt *int64 `form:"expires_at"`
 	// A footer that will be displayed on the quote PDF. If no value is passed, the default footer configured in your [quote template settings](https://dashboard.stripe.com/settings/billing/quote) will be used.
@@ -278,6 +280,8 @@ type QuoteListParams struct {
 	ListParams `form:"*"`
 	// The ID of the customer whose quotes will be retrieved.
 	Customer *string `form:"customer"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// The status of the quote.
 	Status *string `form:"status"`
 	// Provides a list of quotes that are associated with the specified test clock. The response will not include quotes with test clocks if this and the customer parameter is not set.
@@ -287,11 +291,15 @@ type QuoteListParams struct {
 // Cancels the quote.
 type QuoteCancelParams struct {
 	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 }
 
 // Finalizes the quote.
 type QuoteFinalizeQuoteParams struct {
 	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// A future timestamp on which the quote will be canceled if in `open` or `draft` status. Measured in seconds since the Unix epoch.
 	ExpiresAt *int64 `form:"expires_at"`
 }
@@ -299,23 +307,31 @@ type QuoteFinalizeQuoteParams struct {
 // Accepts the specified quote.
 type QuoteAcceptParams struct {
 	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 }
 
 // When retrieving a quote, there is an includable line_items property containing the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of line items.
 type QuoteListLineItemsParams struct {
 	ListParams `form:"*"`
 	Quote      *string `form:"-"` // Included in URL
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 }
 
 // When retrieving a quote, there is an includable [computed.upfront.line_items](https://stripe.com/docs/api/quotes/object#quote_object-computed-upfront-line_items) property containing the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of upfront line items.
 type QuoteListComputedUpfrontLineItemsParams struct {
 	ListParams `form:"*"`
 	Quote      *string `form:"-"` // Included in URL
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 }
 
 // Download the PDF for a finalized quote
 type QuotePDFParams struct {
 	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 }
 type QuoteAutomaticTax struct {
 	// Automatically calculate taxes

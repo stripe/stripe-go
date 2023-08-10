@@ -21,6 +21,8 @@ const (
 // Retrieves a test clock.
 type TestHelpersTestClockParams struct {
 	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// The initial frozen time for this test clock.
 	FrozenTime *int64 `form:"frozen_time"`
 	// The name for this test clock.
@@ -30,11 +32,15 @@ type TestHelpersTestClockParams struct {
 // Returns a list of your test clocks.
 type TestHelpersTestClockListParams struct {
 	ListParams `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 }
 
 // Starts advancing a test clock to a specified time in the future. Advancement is done when status changes to Ready.
 type TestHelpersTestClockAdvanceParams struct {
 	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// The time to advance the test clock. Must be after the test clock's current frozen time. Cannot be more than two intervals in the future from the shortest subscription in this test clock. If there are no subscriptions in this test clock, it cannot be more than two years in the future.
 	FrozenTime *int64 `form:"frozen_time"`
 }

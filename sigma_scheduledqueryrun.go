@@ -20,11 +20,15 @@ const (
 // Returns a list of scheduled query runs.
 type SigmaScheduledQueryRunListParams struct {
 	ListParams `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 }
 
 // Retrieves the details of an scheduled query run.
 type SigmaScheduledQueryRunParams struct {
 	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 }
 type SigmaScheduledQueryRunError struct {
 	// Information about the run failure.

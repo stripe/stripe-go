@@ -74,6 +74,8 @@ const (
 // Cancels an InboundTransfer.
 type TreasuryInboundTransferCancelParams struct {
 	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 }
 
 // Creates an InboundTransfer.
@@ -85,6 +87,8 @@ type TreasuryInboundTransferParams struct {
 	Currency *string `form:"currency"`
 	// An arbitrary string attached to the object. Often useful for displaying to users.
 	Description *string `form:"description"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// The FinancialAccount to send funds to.
 	FinancialAccount *string `form:"financial_account"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
@@ -107,6 +111,8 @@ func (p *TreasuryInboundTransferParams) AddMetadata(key string, value string) {
 // Returns a list of InboundTransfers sent from the specified FinancialAccount.
 type TreasuryInboundTransferListParams struct {
 	ListParams `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// Returns objects associated with this FinancialAccount.
 	FinancialAccount *string `form:"financial_account"`
 	// Only return InboundTransfers that have the given status: `processing`, `succeeded`, `failed` or `canceled`.

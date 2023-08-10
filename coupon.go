@@ -25,6 +25,8 @@ type CouponListParams struct {
 	Created *int64 `form:"created"`
 	// A filter on the list, based on the object `created` field. The value can be a string with an integer Unix timestamp, or it can be a dictionary with a number of different query options.
 	CreatedRange *RangeQueryParams `form:"created"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 }
 
 // A hash containing directions for what this Coupon will apply discounts to.
@@ -56,6 +58,8 @@ type CouponParams struct {
 	Duration *string `form:"duration"`
 	// Required only if `duration` is `repeating`, in which case it must be a positive integer that specifies the number of months the discount will be in effect.
 	DurationInMonths *int64 `form:"duration_in_months"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// Unique string of your choice that will be used to identify this coupon when applying it to a customer. If you don't want to specify a particular code, you can leave the ID blank and we'll generate a random code for you.
 	ID *string `form:"id"`
 	// A positive integer specifying the number of times the coupon can be redeemed before it's no longer valid. For example, you might have a 50% off coupon that the first 20 readers of your blog can use.

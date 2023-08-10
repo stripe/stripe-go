@@ -48,6 +48,8 @@ type RefundListParams struct {
 	Charge       *string           `form:"charge"`
 	Created      *int64            `form:"created"`
 	CreatedRange *RangeQueryParams `form:"created"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// Only return refunds for the PaymentIntent specified by this ID.
 	PaymentIntent *string `form:"payment_intent"`
 }
@@ -62,6 +64,8 @@ type RefundParams struct {
 	Currency *string `form:"currency"`
 	// Customer whose customer balance to refund from.
 	Customer *string `form:"customer"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// For payment methods without native refund support (e.g., Konbini, PromptPay), use this email from the customer to receive refund instructions.
 	InstructionsEmail *string `form:"instructions_email"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
@@ -88,6 +92,8 @@ func (p *RefundParams) AddMetadata(key string, value string) {
 // Refunds in other states cannot be canceled, and only refunds for payment methods that require customer action will enter the requires_action state.
 type RefundCancelParams struct {
 	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 }
 type RefundNextActionDisplayDetailsEmailSent struct {
 	// The timestamp when the email was sent.

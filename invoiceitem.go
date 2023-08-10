@@ -6,6 +6,8 @@
 
 package stripe
 
+import "encoding/json"
+
 // Returns a list of your invoice items. Invoice items are returned sorted by creation date, with the most recently created invoice items appearing first.
 type InvoiceItemListParams struct {
 	ListParams   `form:"*"`
@@ -13,6 +15,8 @@ type InvoiceItemListParams struct {
 	CreatedRange *RangeQueryParams `form:"created"`
 	// The identifier of the customer whose invoice items to return. If none is provided, all invoice items will be returned.
 	Customer *string `form:"customer"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// Only return invoice items belonging to this invoice. If none is provided, all invoice items will be returned. If specifying an invoice, no customer identifier is needed.
 	Invoice *string `form:"invoice"`
 	// Set to `true` to only show pending invoice items, which are not yet attached to any invoices. Set to `false` to only show invoice items already attached to invoices. If unspecified, no filter is applied.
@@ -64,6 +68,8 @@ type InvoiceItemParams struct {
 	Discountable *bool `form:"discountable"`
 	// The coupons & existing discounts which apply to the invoice item or invoice line item. Item discounts are applied before invoice discounts. Pass an empty string to remove previously-defined discounts.
 	Discounts []*InvoiceItemDiscountParams `form:"discounts"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// The ID of an existing invoice to add this invoice item to. When left blank, the invoice item will be added to the next upcoming scheduled invoice. This is useful when adding invoice items in response to an invoice.created webhook. You can only add invoice items to draft invoices and there is a maximum of 250 items per invoice.
 	Invoice *string `form:"invoice"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
@@ -165,4 +171,23 @@ type InvoiceItemList struct {
 	APIResource
 	ListMeta
 	Data []*InvoiceItem `json:"data"`
+}
+
+// UnmarshalJSON handles deserialization of an InvoiceItem.
+// This custom unmarshaling is needed because the resulting
+// property may be an id or the full struct if it was expanded.
+func (i *InvoiceItem) UnmarshalJSON(data []byte) error {
+	if id, ok := ParseID(data); ok {
+		i.ID = id
+		return nil
+	}
+
+	type invoiceItem InvoiceItem
+	var v invoiceItem
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	*i = InvoiceItem(v)
+	return nil
 }

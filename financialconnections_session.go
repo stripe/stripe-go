@@ -47,6 +47,8 @@ type FinancialConnectionsSessionParams struct {
 	Params `form:"*"`
 	// The account holder to link accounts for.
 	AccountHolder *FinancialConnectionsSessionAccountHolderParams `form:"account_holder"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// Filters to restrict the kinds of accounts to collect.
 	Filters *FinancialConnectionsSessionFiltersParams `form:"filters"`
 	// List of data features that you would like to request access to.
