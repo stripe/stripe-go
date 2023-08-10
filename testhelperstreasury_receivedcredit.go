@@ -42,3 +42,8 @@ type TestHelpersTreasuryReceivedCreditParams struct {
 	// The rails used for the object.
 	Network *string `form:"network"`
 }
+
+// AddExpand appends a new field to expand.
+func (p *TestHelpersTreasuryReceivedCreditParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}

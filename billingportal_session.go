@@ -122,6 +122,11 @@ type BillingPortalSessionParams struct {
 	ReturnURL *string `form:"return_url"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *BillingPortalSessionParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // Configuration when `after_completion.type=hosted_confirmation`.
 type BillingPortalSessionFlowAfterCompletionHostedConfirmation struct {
 	// A custom message to display to the customer after the flow is completed.

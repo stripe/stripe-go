@@ -36,6 +36,11 @@ type RadarValueListListParams struct {
 	Expand []*string `form:"expand"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *RadarValueListListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // Creates a new ValueList object, which can then be referenced in rules.
 type RadarValueListParams struct {
 	Params `form:"*"`
@@ -49,6 +54,11 @@ type RadarValueListParams struct {
 	Metadata map[string]string `form:"metadata"`
 	// The human-readable name of the value list.
 	Name *string `form:"name"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *RadarValueListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.

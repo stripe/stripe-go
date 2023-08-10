@@ -35,6 +35,11 @@ type UsageRecordParams struct {
 	TimestampNow *bool  `form:"-"` // See custom AppendTo
 }
 
+// AddExpand appends a new field to expand.
+func (p *UsageRecordParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // AppendTo implements custom encoding logic for UsageRecordParams.
 func (p *UsageRecordParams) AppendTo(body *form.Values, keyParts []string) {
 	if BoolValue(p.TimestampNow) {

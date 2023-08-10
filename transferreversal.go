@@ -28,6 +28,11 @@ type TransferReversalParams struct {
 	RefundApplicationFee *bool `form:"refund_application_fee"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *TransferReversalParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // AddMetadata adds a new key-value pair to the Metadata.
 func (p *TransferReversalParams) AddMetadata(key string, value string) {
 	if p.Metadata == nil {
@@ -43,6 +48,11 @@ type TransferReversalListParams struct {
 	ID         *string `form:"-"` // Included in URL
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *TransferReversalListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // [Stripe Connect](https://stripe.com/docs/connect) platforms can reverse transfers made to a

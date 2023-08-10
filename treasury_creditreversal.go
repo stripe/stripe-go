@@ -38,6 +38,11 @@ type TreasuryCreditReversalListParams struct {
 	Status *string `form:"status"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *TreasuryCreditReversalListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // Reverses a ReceivedCredit and creates a CreditReversal object.
 type TreasuryCreditReversalParams struct {
 	Params `form:"*"`
@@ -47,6 +52,11 @@ type TreasuryCreditReversalParams struct {
 	Metadata map[string]string `form:"metadata"`
 	// The ReceivedCredit to reverse.
 	ReceivedCredit *string `form:"received_credit"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *TreasuryCreditReversalParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.

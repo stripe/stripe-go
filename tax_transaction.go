@@ -186,6 +186,11 @@ type TaxTransactionParams struct {
 	Expand []*string `form:"expand"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *TaxTransactionParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // The line item amounts to reverse.
 type TaxTransactionCreateReversalLineItemParams struct {
 	// The amount to reverse, in negative integer cents.
@@ -238,6 +243,11 @@ type TaxTransactionCreateReversalParams struct {
 	ShippingCost *TaxTransactionCreateReversalShippingCostParams `form:"shipping_cost"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *TaxTransactionCreateReversalParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // AddMetadata adds a new key-value pair to the Metadata.
 func (p *TaxTransactionCreateReversalParams) AddMetadata(key string, value string) {
 	if p.Metadata == nil {
@@ -260,6 +270,11 @@ type TaxTransactionCreateFromCalculationParams struct {
 	Reference *string `form:"reference"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *TaxTransactionCreateFromCalculationParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // AddMetadata adds a new key-value pair to the Metadata.
 func (p *TaxTransactionCreateFromCalculationParams) AddMetadata(key string, value string) {
 	if p.Metadata == nil {
@@ -275,6 +290,11 @@ type TaxTransactionListLineItemsParams struct {
 	Transaction *string `form:"-"` // Included in URL
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *TaxTransactionListLineItemsParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // The customer's tax IDs (for example, EU VAT numbers).

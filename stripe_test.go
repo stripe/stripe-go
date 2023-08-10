@@ -1018,7 +1018,7 @@ func TestErrorOnDuplicateExpand(t *testing.T) {
 	err =
 		c.Call("POST", "/v1/customers", "sk_test_xyz", &myParams{
 			Expand: expand, Params: Params{Expand: expand}}, &resource)
-	
+
 	assert.Errorf(t, err, "You cannot specify both the (deprecated) .Params.Expand and .Expand in myParams")
 }
 

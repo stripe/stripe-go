@@ -172,6 +172,11 @@ type QuoteParams struct {
 	TransferData *QuoteTransferDataParams `form:"transfer_data"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *QuoteParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // AddMetadata adds a new key-value pair to the Metadata.
 func (p *QuoteParams) AddMetadata(key string, value string) {
 	if p.Metadata == nil {
@@ -288,11 +293,21 @@ type QuoteListParams struct {
 	TestClock *string `form:"test_clock"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *QuoteListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // Cancels the quote.
 type QuoteCancelParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *QuoteCancelParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // Finalizes the quote.
@@ -304,11 +319,21 @@ type QuoteFinalizeQuoteParams struct {
 	ExpiresAt *int64 `form:"expires_at"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *QuoteFinalizeQuoteParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // Accepts the specified quote.
 type QuoteAcceptParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *QuoteAcceptParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // When retrieving a quote, there is an includable line_items property containing the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of line items.
@@ -319,6 +344,11 @@ type QuoteListLineItemsParams struct {
 	Expand []*string `form:"expand"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *QuoteListLineItemsParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // When retrieving a quote, there is an includable [computed.upfront.line_items](https://stripe.com/docs/api/quotes/object#quote_object-computed-upfront-line_items) property containing the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of upfront line items.
 type QuoteListComputedUpfrontLineItemsParams struct {
 	ListParams `form:"*"`
@@ -327,12 +357,23 @@ type QuoteListComputedUpfrontLineItemsParams struct {
 	Expand []*string `form:"expand"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *QuoteListComputedUpfrontLineItemsParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // Download the PDF for a finalized quote
 type QuotePDFParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 }
+
+// AddExpand appends a new field to expand.
+func (p *QuotePDFParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 type QuoteAutomaticTax struct {
 	// Automatically calculate taxes
 	Enabled bool `json:"enabled"`

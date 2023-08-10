@@ -110,6 +110,11 @@ type PriceSearchParams struct {
 	Page *string `form:"page"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *PriceSearchParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // Only return prices with these recurring fields.
 type PriceListRecurringParams struct {
 	// Filter by billing frequency. Either `day`, `week`, `month` or `year`.
@@ -139,6 +144,11 @@ type PriceListParams struct {
 	Recurring *PriceListRecurringParams `form:"recurring"`
 	// Only return prices of type `recurring` or `one_time`.
 	Type *string `form:"type"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *PriceListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // When set, provides configuration for the amount to be adjusted by the customer during Checkout Sessions and Payment Links.
@@ -315,6 +325,11 @@ type PriceParams struct {
 	UnitAmount *int64 `form:"unit_amount"`
 	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
 	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *PriceParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.

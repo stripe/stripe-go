@@ -90,6 +90,11 @@ type PersonListParams struct {
 	Relationship *PersonListRelationshipParams `form:"relationship"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *PersonListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // The Kana variation of the person's address (Japan only).
 type PersonAddressKanaParams struct {
 	// City or ward.
@@ -254,6 +259,11 @@ type PersonParams struct {
 	SSNLast4 *string `form:"ssn_last_4"`
 	// The person's verification status.
 	Verification *PersonVerificationParams `form:"verification"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *PersonParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.

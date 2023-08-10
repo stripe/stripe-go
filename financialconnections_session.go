@@ -59,6 +59,11 @@ type FinancialConnectionsSessionParams struct {
 	ReturnURL *string `form:"return_url"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *FinancialConnectionsSessionParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // The account holder for whom accounts are collected in this session.
 type FinancialConnectionsSessionAccountHolder struct {
 	// The ID of the Stripe account this account belongs to. Should only be present if `account_holder.type` is `account`.

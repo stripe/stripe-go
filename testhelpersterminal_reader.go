@@ -32,3 +32,8 @@ type TestHelpersTerminalReaderPresentPaymentMethodParams struct {
 	// Simulated payment type.
 	Type *string `form:"type"`
 }
+
+// AddExpand appends a new field to expand.
+func (p *TestHelpersTerminalReaderPresentPaymentMethodParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}

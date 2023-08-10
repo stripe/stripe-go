@@ -510,6 +510,11 @@ type PaymentMethodParams struct {
 	PaymentMethod *string `form:"payment_method"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *PaymentMethodParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // AddMetadata adds a new key-value pair to the Metadata.
 func (p *PaymentMethodParams) AddMetadata(key string, value string) {
 	if p.Metadata == nil {
@@ -528,6 +533,11 @@ type PaymentMethodListParams struct {
 	Expand []*string `form:"expand"`
 	// An optional filter on the list, based on the object `type` field. Without the filter, the list includes all current and future payment method types. If your integration expects only one type of payment method in the response, make sure to provide a type value in the request.
 	Type *string `form:"type"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *PaymentMethodListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // Attaches a PaymentMethod object to a Customer.
@@ -551,12 +561,23 @@ type PaymentMethodAttachParams struct {
 	Expand []*string `form:"expand"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *PaymentMethodAttachParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // Detaches a PaymentMethod object from a Customer. After a PaymentMethod is detached, it can no longer be used for a payment or re-attached to a Customer.
 type PaymentMethodDetachParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 }
+
+// AddExpand appends a new field to expand.
+func (p *PaymentMethodDetachParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 type PaymentMethodACSSDebit struct {
 	// Name of the bank associated with the bank account.
 	BankName string `json:"bank_name"`

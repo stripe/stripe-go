@@ -19,6 +19,11 @@ type RadarValueListItemListParams struct {
 	ValueList *string `form:"value_list"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *RadarValueListItemListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // Creates a new ValueListItem object, which is added to the specified parent value list.
 type RadarValueListItemParams struct {
 	Params `form:"*"`
@@ -28,6 +33,11 @@ type RadarValueListItemParams struct {
 	Value *string `form:"value"`
 	// The identifier of the value list which the created item will be added to.
 	ValueList *string `form:"value_list"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *RadarValueListItemParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // Value list items allow you to add specific values to a given Radar value list, which can then be used in rules.

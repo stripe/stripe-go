@@ -177,6 +177,11 @@ type TreasuryOutboundPaymentParams struct {
 	StatementDescriptor *string `form:"statement_descriptor"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *TreasuryOutboundPaymentParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // AddMetadata adds a new key-value pair to the Metadata.
 func (p *TreasuryOutboundPaymentParams) AddMetadata(key string, value string) {
 	if p.Metadata == nil {
@@ -199,12 +204,23 @@ type TreasuryOutboundPaymentListParams struct {
 	Status *string `form:"status"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *TreasuryOutboundPaymentListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // Cancel an OutboundPayment.
 type TreasuryOutboundPaymentCancelParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 }
+
+// AddExpand appends a new field to expand.
+func (p *TreasuryOutboundPaymentCancelParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 type TreasuryOutboundPaymentDestinationPaymentMethodDetailsBillingDetails struct {
 	Address *Address `json:"address"`
 	// Email address.

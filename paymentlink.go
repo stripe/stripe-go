@@ -154,6 +154,11 @@ type PaymentLinkListParams struct {
 	Expand []*string `form:"expand"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *PaymentLinkListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // Configuration when `type=hosted_confirmation`.
 type PaymentLinkAfterCompletionHostedConfirmationParams struct {
 	// A custom message to display to the customer after the purchase is complete.
@@ -467,6 +472,11 @@ type PaymentLinkParams struct {
 	TransferData *PaymentLinkTransferDataParams `form:"transfer_data"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *PaymentLinkParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // AddMetadata adds a new key-value pair to the Metadata.
 func (p *PaymentLinkParams) AddMetadata(key string, value string) {
 	if p.Metadata == nil {
@@ -483,6 +493,12 @@ type PaymentLinkListLineItemsParams struct {
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 }
+
+// AddExpand appends a new field to expand.
+func (p *PaymentLinkListLineItemsParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 type PaymentLinkAfterCompletionHostedConfirmation struct {
 	// The custom message that is displayed to the customer after the purchase is complete.
 	CustomMessage string `json:"custom_message"`

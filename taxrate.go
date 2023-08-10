@@ -43,6 +43,11 @@ type TaxRateListParams struct {
 	Inclusive *bool `form:"inclusive"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *TaxRateListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // Creates a new tax rate.
 type TaxRateParams struct {
 	Params `form:"*"`
@@ -68,6 +73,11 @@ type TaxRateParams struct {
 	State *string `form:"state"`
 	// The high-level tax type, such as `vat` or `sales_tax`.
 	TaxType *string `form:"tax_type"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *TaxRateParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.

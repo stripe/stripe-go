@@ -23,6 +23,11 @@ type TerminalLocationParams struct {
 	Metadata map[string]string `form:"metadata"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *TerminalLocationParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // AddMetadata adds a new key-value pair to the Metadata.
 func (p *TerminalLocationParams) AddMetadata(key string, value string) {
 	if p.Metadata == nil {
@@ -37,6 +42,11 @@ type TerminalLocationListParams struct {
 	ListParams `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *TerminalLocationListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // A Location represents a grouping of readers.

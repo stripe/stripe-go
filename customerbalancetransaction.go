@@ -41,6 +41,11 @@ type CustomerBalanceTransactionParams struct {
 	Metadata map[string]string `form:"metadata"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *CustomerBalanceTransactionParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // AddMetadata adds a new key-value pair to the Metadata.
 func (p *CustomerBalanceTransactionParams) AddMetadata(key string, value string) {
 	if p.Metadata == nil {
@@ -56,6 +61,11 @@ type CustomerBalanceTransactionListParams struct {
 	Customer   *string `form:"-"` // Included in URL
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *CustomerBalanceTransactionListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // Each customer has a [Balance](https://stripe.com/docs/api/customers/object#customer_object-balance) value,

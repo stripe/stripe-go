@@ -17,6 +17,11 @@ type SubscriptionItemListParams struct {
 	Subscription *string `form:"subscription"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *SubscriptionItemListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. When updating, pass an empty string to remove previously-defined thresholds.
 type SubscriptionItemBillingThresholdsParams struct {
 	// Number of units that meets the billing threshold to advance the subscription to a new billing period (e.g., it takes 10 $5 units to meet a $50 [monetary threshold](https://stripe.com/docs/api/subscriptions/update#update_subscription-billing_thresholds-amount_gte))
@@ -87,6 +92,11 @@ type SubscriptionItemParams struct {
 	TaxRates []*string `form:"tax_rates"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *SubscriptionItemParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // AddMetadata adds a new key-value pair to the Metadata.
 func (p *SubscriptionItemParams) AddMetadata(key string, value string) {
 	if p.Metadata == nil {
@@ -104,6 +114,11 @@ type SubscriptionItemUsageRecordSummariesParams struct {
 	SubscriptionItem *string `form:"-"` // Included in URL
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *SubscriptionItemUsageRecordSummariesParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // Define thresholds at which an invoice will be sent, and the related subscription advanced to a new billing period

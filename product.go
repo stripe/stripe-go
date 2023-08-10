@@ -32,6 +32,11 @@ type ProductSearchParams struct {
 	Page *string `form:"page"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *ProductSearchParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // When set, provides configuration for the amount to be adjusted by the customer during Checkout Sessions and Payment Links.
 type ProductDefaultPriceDataCurrencyOptionsCustomUnitAmountParams struct {
 	// Pass in `true` to enable `custom_unit_amount`, otherwise omit `custom_unit_amount`.
@@ -162,6 +167,11 @@ type ProductParams struct {
 	URL *string `form:"url"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *ProductParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // AddMetadata adds a new key-value pair to the Metadata.
 func (p *ProductParams) AddMetadata(key string, value string) {
 	if p.Metadata == nil {
@@ -190,6 +200,11 @@ type ProductListParams struct {
 	Type *string `form:"type"`
 	// Only return products with the given url.
 	URL *string `form:"url"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *ProductListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // The dimensions of this product for shipping purposes.

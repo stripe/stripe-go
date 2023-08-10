@@ -288,6 +288,11 @@ func (p *BankAccountParams) AppendToAsSourceOrExternalAccount(body *form.Values)
 	}
 }
 
+// AddExpand appends a new field to expand.
+func (p *BankAccountParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // AddMetadata adds a new key-value pair to the Metadata.
 func (p *BankAccountParams) AddMetadata(key string, value string) {
 	if p.Metadata == nil {

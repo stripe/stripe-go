@@ -31,6 +31,11 @@ type PromotionCodeParams struct {
 	Restrictions *PromotionCodeRestrictionsParams `form:"restrictions"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *PromotionCodeParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // AddMetadata adds a new key-value pair to the Metadata.
 func (p *PromotionCodeParams) AddMetadata(key string, value string) {
 	if p.Metadata == nil {
@@ -75,6 +80,11 @@ type PromotionCodeListParams struct {
 	Customer *string `form:"customer"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *PromotionCodeListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // Promotion code restrictions defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).

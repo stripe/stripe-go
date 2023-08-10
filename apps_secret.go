@@ -34,6 +34,11 @@ type AppsSecretFindParams struct {
 	Scope *AppsSecretFindScopeParams `form:"scope"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *AppsSecretFindParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // Specifies the scoping of the secret. Requests originating from UI extensions can only access account-scoped secrets or secrets scoped to their own user.
 type AppsSecretScopeParams struct {
 	// The secret scope type.
@@ -57,6 +62,11 @@ type AppsSecretParams struct {
 	Scope *AppsSecretScopeParams `form:"scope"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *AppsSecretParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // Specifies the scoping of the secret. Requests originating from UI extensions can only access account-scoped secrets or secrets scoped to their own user.
 type AppsSecretListScopeParams struct {
 	// The secret scope type.
@@ -72,6 +82,11 @@ type AppsSecretListParams struct {
 	Expand []*string `form:"expand"`
 	// Specifies the scoping of the secret. Requests originating from UI extensions can only access account-scoped secrets or secrets scoped to their own user.
 	Scope *AppsSecretListScopeParams `form:"scope"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *AppsSecretListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // Specifies the scoping of the secret. Requests originating from UI extensions can only access account-scoped secrets or secrets scoped to their own user.
@@ -92,6 +107,12 @@ type AppsSecretDeleteWhereParams struct {
 	// Specifies the scoping of the secret. Requests originating from UI extensions can only access account-scoped secrets or secrets scoped to their own user.
 	Scope *AppsSecretDeleteWhereScopeParams `form:"scope"`
 }
+
+// AddExpand appends a new field to expand.
+func (p *AppsSecretDeleteWhereParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 type AppsSecretScope struct {
 	// The secret scope type.
 	Type AppsSecretScopeType `json:"type"`

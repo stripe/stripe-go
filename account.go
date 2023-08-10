@@ -181,6 +181,11 @@ type AccountParams struct {
 	Type *string `form:"type"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *AccountParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // AddMetadata adds a new key-value pair to the Metadata.
 func (p *AccountParams) AddMetadata(key string, value string) {
 	if p.Metadata == nil {
@@ -821,6 +826,11 @@ type AccountListParams struct {
 	Expand []*string `form:"expand"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *AccountListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // With [Connect](https://stripe.com/docs/connect), you may flag accounts as suspicious.
 //
 // Test-mode Custom and Express accounts can be rejected at any time. Accounts created using live-mode keys may only be rejected once all balances are zero.
@@ -855,6 +865,11 @@ func (p *AccountExternalAccountParams) AppendTo(body *form.Values, keyParts []st
 	} else {
 		body.Add(form.FormatKey(append(keyParts, "object")), "bank_account")
 	}
+}
+
+// AddExpand appends a new field to expand.
+func (p *AccountRejectParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 type AccountBusinessProfileMonthlyEstimatedRevenue struct {

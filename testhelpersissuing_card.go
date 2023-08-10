@@ -13,11 +13,21 @@ type TestHelpersIssuingCardDeliverCardParams struct {
 	Expand []*string `form:"expand"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *TestHelpersIssuingCardDeliverCardParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // Updates the shipping status of the specified Issuing Card object to shipped.
 type TestHelpersIssuingCardShipCardParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *TestHelpersIssuingCardShipCardParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // Updates the shipping status of the specified Issuing Card object to returned.
@@ -27,9 +37,19 @@ type TestHelpersIssuingCardReturnCardParams struct {
 	Expand []*string `form:"expand"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *TestHelpersIssuingCardReturnCardParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // Updates the shipping status of the specified Issuing Card object to failure.
 type TestHelpersIssuingCardFailCardParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *TestHelpersIssuingCardFailCardParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }

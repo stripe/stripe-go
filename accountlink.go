@@ -41,6 +41,11 @@ type AccountLinkParams struct {
 	Type *string `form:"type"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *AccountLinkParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // Account Links are the means by which a Connect platform grants a connected account permission to access
 // Stripe-hosted applications, such as Connect Onboarding.
 //
