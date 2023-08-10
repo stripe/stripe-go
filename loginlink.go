@@ -16,11 +16,6 @@ type LoginLinkParams struct {
 	Expand []*string `form:"expand"`
 }
 
-// AddExpand appends a new field to expand.
-func (p *LoginLinkParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
-}
-
 // Login Links are single-use login link for an Express account to access their Stripe dashboard.
 type LoginLink struct {
 	APIResource

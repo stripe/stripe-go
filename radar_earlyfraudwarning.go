@@ -23,18 +23,12 @@ const (
 // Returns a list of early fraud warnings.
 type RadarEarlyFraudWarningListParams struct {
 	ListParams `form:"*"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
-
 	// Only return early fraud warnings for the charge specified by this charge ID.
 	Charge *string `form:"charge"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// Only return early fraud warnings for charges that were created by the PaymentIntent specified by this PaymentIntent ID.
 	PaymentIntent *string `form:"payment_intent"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *RadarEarlyFraudWarningListParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
 }
 
 // Retrieves the details of an early fraud warning that has previously been created.
@@ -44,11 +38,6 @@ type RadarEarlyFraudWarningParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *RadarEarlyFraudWarningParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
 }
 
 // An early fraud warning indicates that the card issuer has notified us that a

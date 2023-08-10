@@ -74,9 +74,6 @@ const (
 // Returns a list of Issuing Authorization objects. The objects are sorted in descending order by creation date, with the most recently created object appearing first.
 type IssuingAuthorizationListParams struct {
 	ListParams `form:"*"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
-
 	// Only return authorizations that belong to the given card.
 	Card *string `form:"card"`
 	// Only return authorizations that belong to the given cardholder.
@@ -85,13 +82,10 @@ type IssuingAuthorizationListParams struct {
 	Created *int64 `form:"created"`
 	// Only return authorizations that were created during the given date interval.
 	CreatedRange *RangeQueryParams `form:"created"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// Only return authorizations with the given status. One of `pending`, `closed`, or `reversed`.
 	Status *string `form:"status"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *IssuingAuthorizationListParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
 }
 
 // Retrieves an Issuing Authorization object.
@@ -101,11 +95,6 @@ type IssuingAuthorizationParams struct {
 	Expand []*string `form:"expand"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *IssuingAuthorizationParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
@@ -121,18 +110,12 @@ func (p *IssuingAuthorizationParams) AddMetadata(key string, value string) {
 // You can also respond directly to the webhook request to approve an authorization (preferred). More details can be found [here](https://stripe.com/docs/issuing/controls/real-time-authorizations#authorization-handling).
 type IssuingAuthorizationApproveParams struct {
 	Params `form:"*"`
+	// If the authorization's `pending_request.is_amount_controllable` property is `true`, you may provide this value to control how much to hold for the authorization. Must be positive (use [`decline`](https://stripe.com/docs/api/issuing/authorizations/decline) to decline an authorization request).
+	Amount *int64 `form:"amount"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
-
-	// If the authorization's `pending_request.is_amount_controllable` property is `true`, you may provide this value to control how much to hold for the authorization. Must be positive (use [`decline`](https://stripe.com/docs/api/issuing/authorizations/decline) to decline an authorization request).
-	Amount *int64 `form:"amount"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *IssuingAuthorizationApproveParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
@@ -152,11 +135,6 @@ type IssuingAuthorizationDeclineParams struct {
 	Expand []*string `form:"expand"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *IssuingAuthorizationDeclineParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
@@ -265,9 +243,6 @@ type IssuingAuthorizationVerificationData struct {
 // Related guide: [Issued card authorizations](https://stripe.com/docs/issuing/purchases/authorizations)
 type IssuingAuthorization struct {
 	APIResource
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-	Metadata map[string]string `json:"metadata"`
-
 	// The total amount that was authorized or rejected. This amount is in the card's currency and in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal).
 	Amount int64 `json:"amount"`
 	// Detailed breakdown of amount components. These amounts are denominated in `currency` and in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal).
@@ -295,6 +270,8 @@ type IssuingAuthorization struct {
 	// The currency that was presented to the cardholder for the authorization. Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	MerchantCurrency Currency                          `json:"merchant_currency"`
 	MerchantData     *IssuingAuthorizationMerchantData `json:"merchant_data"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	Metadata map[string]string `json:"metadata"`
 	// Details about the authorization, such as identifiers, set by the card network.
 	NetworkData *IssuingAuthorizationNetworkData `json:"network_data"`
 	// String representing the object's type. Objects of the same type share the same value.

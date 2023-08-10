@@ -40,31 +40,24 @@ const (
 
 // Returns a list of the files that your account has access to. The files are returned sorted by creation date, with the most recently created files appearing first.
 type FileListParams struct {
-	ListParams `form:"*"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
-
+	ListParams   `form:"*"`
 	Created      *int64            `form:"created"`
 	CreatedRange *RangeQueryParams `form:"created"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// The file purpose to filter queries by. If none is provided, files will not be filtered by purpose.
 	Purpose *string `form:"purpose"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *FileListParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
 }
 
 // Optional parameters to automatically create a [file link](https://stripe.com/docs/api#file_links) for the newly created file.
 type FileFileLinkDataParams struct {
 	Params `form:"*"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
-
 	// Set this to `true` to create a file link for the newly created file. Creating a link is only possible when the file's `purpose` is one of the following: `business_icon`, `business_logo`, `customer_signature`, `dispute_evidence`, `pci_document`, `tax_document_user_upload`, or `terminal_reader_splashscreen`.
 	Create *bool `form:"create"`
 	// A future timestamp after which the link will no longer be usable.
 	ExpiresAt *int64 `form:"expires_at"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
@@ -83,7 +76,6 @@ type FileParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-
 	// FileReader is a reader with the contents of the file that should be uploaded.
 	FileReader io.Reader
 
@@ -93,11 +85,6 @@ type FileParams struct {
 	FileLinkData *FileFileLinkDataParams `form:"file_link_data"`
 	// The [purpose](https://stripe.com/docs/file-upload#uploading-a-file) of the uploaded file.
 	Purpose *string `form:"purpose"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *FileParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
 }
 
 // This is an object representing a file hosted on Stripe's servers. The

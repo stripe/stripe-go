@@ -78,18 +78,12 @@ const (
 // Returns a list of configurations that describe the functionality of the customer portal.
 type BillingPortalConfigurationListParams struct {
 	ListParams `form:"*"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
-
 	// Only return configurations that are active or inactive (e.g., pass `true` to only list active configurations).
 	Active *bool `form:"active"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// Only return the default or non-default configurations (e.g., pass `true` to only list the default configuration).
 	IsDefault *bool `form:"is_default"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *BillingPortalConfigurationListParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
 }
 
 // The business information shown to customers in the portal.
@@ -195,26 +189,20 @@ type BillingPortalConfigurationLoginPageParams struct {
 // Creates a configuration that describes the functionality and behavior of a PortalSession
 type BillingPortalConfigurationParams struct {
 	Params `form:"*"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
-
 	// Whether the configuration is active and can be used to create portal sessions.
 	Active *bool `form:"active"`
 	// The business information shown to customers in the portal.
 	BusinessProfile *BillingPortalConfigurationBusinessProfileParams `form:"business_profile"`
 	// The default URL to redirect customers to when they click on the portal's link to return to your website. This can be [overriden](https://stripe.com/docs/api/customer_portal/sessions/create#create_portal_session-return_url) when creating the session.
 	DefaultReturnURL *string `form:"default_return_url"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// Information about the features available in the portal.
 	Features *BillingPortalConfigurationFeaturesParams `form:"features"`
 	// The hosted login page for this configuration. Learn more about the portal login page in our [integration docs](https://stripe.com/docs/billing/subscriptions/integrating-customer-portal#share).
 	LoginPage *BillingPortalConfigurationLoginPageParams `form:"login_page"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *BillingPortalConfigurationParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
@@ -305,9 +293,6 @@ type BillingPortalConfigurationLoginPage struct {
 // A portal configuration describes the functionality and behavior of a portal session.
 type BillingPortalConfiguration struct {
 	APIResource
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-	Metadata map[string]string `json:"metadata"`
-
 	// Whether the configuration is active and can be used to create portal sessions.
 	Active bool `json:"active"`
 	// ID of the Connect Application that created the configuration.
@@ -325,6 +310,8 @@ type BillingPortalConfiguration struct {
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode  bool                                 `json:"livemode"`
 	LoginPage *BillingPortalConfigurationLoginPage `json:"login_page"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	Metadata map[string]string `json:"metadata"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// Time at which the object was last updated. Measured in seconds since the Unix epoch.

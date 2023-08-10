@@ -28,16 +28,10 @@ type AppsSecretFindParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-
 	// A name for the secret that's unique within the scope.
 	Name *string `form:"name"`
 	// Specifies the scoping of the secret. Requests originating from UI extensions can only access account-scoped secrets or secrets scoped to their own user.
 	Scope *AppsSecretFindScopeParams `form:"scope"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *AppsSecretFindParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
 }
 
 // Specifies the scoping of the secret. Requests originating from UI extensions can only access account-scoped secrets or secrets scoped to their own user.
@@ -53,7 +47,6 @@ type AppsSecretParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-
 	// The Unix timestamp for the expiry time of the secret, after which the secret deletes.
 	ExpiresAt *int64 `form:"expires_at"`
 	// A name for the secret that's unique within the scope.
@@ -62,11 +55,6 @@ type AppsSecretParams struct {
 	Payload *string `form:"payload"`
 	// Specifies the scoping of the secret. Requests originating from UI extensions can only access account-scoped secrets or secrets scoped to their own user.
 	Scope *AppsSecretScopeParams `form:"scope"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *AppsSecretParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
 }
 
 // Specifies the scoping of the secret. Requests originating from UI extensions can only access account-scoped secrets or secrets scoped to their own user.
@@ -82,14 +70,8 @@ type AppsSecretListParams struct {
 	ListParams `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-
 	// Specifies the scoping of the secret. Requests originating from UI extensions can only access account-scoped secrets or secrets scoped to their own user.
 	Scope *AppsSecretListScopeParams `form:"scope"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *AppsSecretListParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
 }
 
 // Specifies the scoping of the secret. Requests originating from UI extensions can only access account-scoped secrets or secrets scoped to their own user.
@@ -105,18 +87,11 @@ type AppsSecretDeleteWhereParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-
 	// A name for the secret that's unique within the scope.
 	Name *string `form:"name"`
 	// Specifies the scoping of the secret. Requests originating from UI extensions can only access account-scoped secrets or secrets scoped to their own user.
 	Scope *AppsSecretDeleteWhereScopeParams `form:"scope"`
 }
-
-// AddExpand appends a new field to expand.
-func (p *AppsSecretDeleteWhereParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
-}
-
 type AppsSecretScope struct {
 	// The secret scope type.
 	Type AppsSecretScopeType `json:"type"`

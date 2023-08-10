@@ -106,13 +106,12 @@ type BillingPortalSessionFlowDataParams struct {
 // Creates a session of the customer portal.
 type BillingPortalSessionParams struct {
 	Params `form:"*"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
-
 	// The ID of an existing [configuration](https://stripe.com/docs/api/customer_portal/configuration) to use for this session, describing its functionality and features. If not specified, the session uses the default configuration.
 	Configuration *string `form:"configuration"`
 	// The ID of an existing customer.
 	Customer *string `form:"customer"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// Information about a specific flow for the customer to go through. See the [docs](https://stripe.com/docs/customer-management/portal-deep-links) to learn more about using customer portal deep links and flows.
 	FlowData *BillingPortalSessionFlowDataParams `form:"flow_data"`
 	// The IETF language tag of the locale Customer Portal is displayed in. If blank or auto, the customer's `preferred_locales` or browser's locale is used.
@@ -121,11 +120,6 @@ type BillingPortalSessionParams struct {
 	OnBehalfOf *string `form:"on_behalf_of"`
 	// The default URL to redirect customers to when they click on the portal's link to return to your website.
 	ReturnURL *string `form:"return_url"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *BillingPortalSessionParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
 }
 
 // Configuration when `after_completion.type=hosted_confirmation`.

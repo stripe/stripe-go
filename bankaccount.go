@@ -180,11 +180,6 @@ type BankAccountParams struct {
 	// Account is the identifier of the parent account under which bank
 	// accounts are nested.
 	Account *string `form:"-"` // Included in URL
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
-
 	// The name of the person or business that owns the bank account.
 	AccountHolderName *string `form:"account_holder_name"`
 	// The type of entity that holds the account. This can be either `individual` or `company`.
@@ -213,10 +208,14 @@ type BankAccountParams struct {
 	DefaultForCurrency *bool `form:"default_for_currency"`
 	// Documents that may be submitted to satisfy various informational requests.
 	Documents *BankAccountDocumentsParams `form:"documents"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// Two digit number representing the card's expiration month.
 	ExpMonth *string `form:"exp_month"`
 	// Four digit number representing the card's expiration year.
 	ExpYear *string `form:"exp_year"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
 	// Cardholder name.
 	Name *string `form:"name"`
 	// The routing number, sort code, or other country-appropriate institution number for the bank account. For US bank accounts, this is required and should be the ACH routing number, not the wire routing number. If you are providing an IBAN for `account_number`, this field is not required.
@@ -287,11 +286,6 @@ func (p *BankAccountParams) AppendToAsSourceOrExternalAccount(body *form.Values)
 			body.Add(sourceType+"[default_for_currency]", strconv.FormatBool(BoolValue(p.DefaultForCurrency)))
 		}
 	}
-}
-
-// AddExpand appends a new field to expand.
-func (p *BankAccountParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
@@ -373,9 +367,6 @@ type BankAccountRequirements struct {
 // Related guide: [Bank debits and transfers](https://stripe.com/docs/payments/bank-debits-transfers)
 type BankAccount struct {
 	APIResource
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-	Metadata map[string]string `json:"metadata"`
-
 	// The ID of the account that the bank account is associated with.
 	Account *Account `json:"account"`
 	// The name of the person or business that owns the bank account.
@@ -405,6 +396,8 @@ type BankAccount struct {
 	ID string `json:"id"`
 	// The last four digits of the bank account number.
 	Last4 string `json:"last4"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	Metadata map[string]string `json:"metadata"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// Information about the requirements for the bank account, including what information needs to be collected.

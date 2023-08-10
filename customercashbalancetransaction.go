@@ -50,11 +50,6 @@ type CustomerCashBalanceTransactionParams struct {
 	Expand []*string `form:"expand"`
 }
 
-// AddExpand appends a new field to expand.
-func (p *CustomerCashBalanceTransactionParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
-}
-
 // Returns a list of transactions that modified the customer's [cash balance](https://stripe.com/docs/payments/customer-balance).
 type CustomerCashBalanceTransactionListParams struct {
 	ListParams `form:"*"`
@@ -62,12 +57,6 @@ type CustomerCashBalanceTransactionListParams struct {
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 }
-
-// AddExpand appends a new field to expand.
-func (p *CustomerCashBalanceTransactionListParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
-}
-
 type CustomerCashBalanceTransactionAppliedToPayment struct {
 	// The [Payment Intent](https://stripe.com/docs/api/payment_intents/object) that funds were applied to.
 	PaymentIntent *PaymentIntent `json:"payment_intent"`

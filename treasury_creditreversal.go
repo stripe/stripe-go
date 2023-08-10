@@ -30,18 +30,12 @@ type TreasuryCreditReversalListParams struct {
 	ListParams `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-
 	// Returns objects associated with this FinancialAccount.
 	FinancialAccount *string `form:"financial_account"`
 	// Only return CreditReversals for the ReceivedCredit ID.
 	ReceivedCredit *string `form:"received_credit"`
 	// Only return CreditReversals for a given status.
 	Status *string `form:"status"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *TreasuryCreditReversalListParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
 }
 
 // Reverses a ReceivedCredit and creates a CreditReversal object.
@@ -51,14 +45,8 @@ type TreasuryCreditReversalParams struct {
 	Expand []*string `form:"expand"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
-
 	// The ReceivedCredit to reverse.
 	ReceivedCredit *string `form:"received_credit"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *TreasuryCreditReversalParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
@@ -78,9 +66,6 @@ type TreasuryCreditReversalStatusTransitions struct {
 // You can reverse some [ReceivedCredits](https://stripe.com/docs/api#received_credits) depending on their network and source flow. Reversing a ReceivedCredit leads to the creation of a new object known as a CreditReversal.
 type TreasuryCreditReversal struct {
 	APIResource
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-	Metadata map[string]string `json:"metadata"`
-
 	// Amount (in cents) transferred.
 	Amount int64 `json:"amount"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
@@ -95,6 +80,8 @@ type TreasuryCreditReversal struct {
 	ID string `json:"id"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	Metadata map[string]string `json:"metadata"`
 	// The rails used to reverse the funds.
 	Network TreasuryCreditReversalNetwork `json:"network"`
 	// String representing the object's type. Objects of the same type share the same value.

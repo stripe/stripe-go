@@ -106,14 +106,8 @@ type PriceSearchParams struct {
 	SearchParams `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-
 	// A cursor for pagination across multiple pages of results. Don't include this parameter on the first call. Use the next_page value returned in a previous response to request subsequent results.
 	Page *string `form:"page"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *PriceSearchParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
 }
 
 // Only return prices with these recurring fields.
@@ -127,9 +121,6 @@ type PriceListRecurringParams struct {
 // Returns a list of your prices.
 type PriceListParams struct {
 	ListParams `form:"*"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
-
 	// Only return prices that are active or inactive (e.g., pass `false` to list all inactive prices).
 	Active *bool `form:"active"`
 	// A filter on the list, based on the object `created` field. The value can be a string with an integer Unix timestamp, or it can be a dictionary with a number of different query options.
@@ -138,6 +129,8 @@ type PriceListParams struct {
 	CreatedRange *RangeQueryParams `form:"created"`
 	// Only return prices for the given currency.
 	Currency *string `form:"currency"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// Only return the price with these lookup_keys, if any exist.
 	LookupKeys []*string `form:"lookup_keys"`
 	// Only return prices for the given product.
@@ -146,11 +139,6 @@ type PriceListParams struct {
 	Recurring *PriceListRecurringParams `form:"recurring"`
 	// Only return prices of type `recurring` or `one_time`.
 	Type *string `form:"type"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *PriceListParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
 }
 
 // When set, provides configuration for the amount to be adjusted by the customer during Checkout Sessions and Payment Links.
@@ -215,13 +203,12 @@ type PriceCustomUnitAmountParams struct {
 
 // These fields can be used to create a new product that this price will belong to.
 type PriceProductDataParams struct {
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
-
 	// Whether the product is currently available for purchase. Defaults to `true`.
 	Active *bool `form:"active"`
 	// The identifier for the product. Must be unique. If not provided, an identifier will be randomly generated.
 	ID *string `form:"id"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
 	// The product's name, meant to be displayable to the customer.
 	Name *string `form:"name"`
 	// An arbitrary string to be displayed on your customer's credit card or bank statement. While most banks display this information consistently, some may display it incorrectly or not at all.
@@ -290,11 +277,6 @@ type PriceTransformQuantityParams struct {
 // Creates a new price for an existing product. The price can be recurring or one-time.
 type PriceParams struct {
 	Params `form:"*"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
-
 	// Whether the price can be used for new purchases. Defaults to `true`.
 	Active *bool `form:"active"`
 	// Describes how to compute the price per period. Either `per_unit` or `tiered`. `per_unit` indicates that the fixed amount (specified in `unit_amount` or `unit_amount_decimal`) will be charged per unit in `quantity` (for prices with `usage_type=licensed`), or per unit of total usage (for prices with `usage_type=metered`). `tiered` indicates that the unit pricing will be computed using a tiering strategy as defined using the `tiers` and `tiers_mode` attributes.
@@ -305,8 +287,12 @@ type PriceParams struct {
 	CurrencyOptions map[string]*PriceCurrencyOptionsParams `form:"currency_options"`
 	// When set, provides configuration for the amount to be adjusted by the customer during Checkout Sessions and Payment Links.
 	CustomUnitAmount *PriceCustomUnitAmountParams `form:"custom_unit_amount"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// A lookup key used to retrieve prices dynamically from a static string. This may be up to 200 characters.
 	LookupKey *string `form:"lookup_key"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
 	// A brief description of the price, hidden from customers.
 	Nickname *string `form:"nickname"`
 	// The ID of the product that this price will belong to.
@@ -329,11 +315,6 @@ type PriceParams struct {
 	UnitAmount *int64 `form:"unit_amount"`
 	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
 	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *PriceParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
@@ -437,9 +418,6 @@ type PriceTransformQuantity struct {
 // Related guides: [Set up a subscription](https://stripe.com/docs/billing/subscriptions/set-up-subscription), [create an invoice](https://stripe.com/docs/billing/invoices/create), and more about [products and prices](https://stripe.com/docs/products-prices/overview).
 type Price struct {
 	APIResource
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-	Metadata map[string]string `json:"metadata"`
-
 	// Whether the price can be used for new purchases.
 	Active bool `json:"active"`
 	// Describes how to compute the price per period. Either `per_unit` or `tiered`. `per_unit` indicates that the fixed amount (specified in `unit_amount` or `unit_amount_decimal`) will be charged per unit in `quantity` (for prices with `usage_type=licensed`), or per unit of total usage (for prices with `usage_type=metered`). `tiered` indicates that the unit pricing will be computed using a tiering strategy as defined using the `tiers` and `tiers_mode` attributes.
@@ -459,6 +437,8 @@ type Price struct {
 	Livemode bool `json:"livemode"`
 	// A lookup key used to retrieve prices dynamically from a static string. This may be up to 200 characters.
 	LookupKey string `json:"lookup_key"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	Metadata map[string]string `json:"metadata"`
 	// A brief description of the price, hidden from customers.
 	Nickname string `json:"nickname"`
 	// String representing the object's type. Objects of the same type share the same value.

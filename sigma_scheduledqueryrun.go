@@ -24,23 +24,12 @@ type SigmaScheduledQueryRunListParams struct {
 	Expand []*string `form:"expand"`
 }
 
-// AddExpand appends a new field to expand.
-func (p *SigmaScheduledQueryRunListParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
-}
-
 // Retrieves the details of an scheduled query run.
 type SigmaScheduledQueryRunParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 }
-
-// AddExpand appends a new field to expand.
-func (p *SigmaScheduledQueryRunParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
-}
-
 type SigmaScheduledQueryRunError struct {
 	// Information about the run failure.
 	Message string `json:"message"`

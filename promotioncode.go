@@ -11,11 +11,6 @@ import "encoding/json"
 // Retrieves the promotion code with the given ID. In order to retrieve a promotion code by the customer-facing code use [list](https://stripe.com/docs/api/promotion_codes/list) with the desired code.
 type PromotionCodeParams struct {
 	Params `form:"*"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
-
 	// Whether the promotion code is currently active. A promotion code can only be reactivated when the coupon is still valid and the promotion code is otherwise redeemable.
 	Active *bool `form:"active"`
 	// The customer-facing code. Regardless of case, this code must be unique across all active promotion codes for a specific customer. If left blank, we will generate one automatically.
@@ -24,17 +19,16 @@ type PromotionCodeParams struct {
 	Coupon *string `form:"coupon"`
 	// The customer that this promotion code can be used by. If not set, the promotion code can be used by all customers.
 	Customer *string `form:"customer"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// The timestamp at which this promotion code will expire. If the coupon has specified a `redeems_by`, then this value cannot be after the coupon's `redeems_by`.
 	ExpiresAt *int64 `form:"expires_at"`
 	// A positive integer specifying the number of times the promotion code can be redeemed. If the coupon has specified a `max_redemptions`, then this value cannot be greater than the coupon's `max_redemptions`.
 	MaxRedemptions *int64 `form:"max_redemptions"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
 	// Settings that restrict the redemption of the promotion code.
 	Restrictions *PromotionCodeRestrictionsParams `form:"restrictions"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *PromotionCodeParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
@@ -67,9 +61,6 @@ type PromotionCodeRestrictionsParams struct {
 // Returns a list of your promotion codes.
 type PromotionCodeListParams struct {
 	ListParams `form:"*"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
-
 	// Filter promotion codes by whether they are active.
 	Active *bool `form:"active"`
 	// Only return promotion codes that have this case-insensitive code.
@@ -82,11 +73,8 @@ type PromotionCodeListParams struct {
 	CreatedRange *RangeQueryParams `form:"created"`
 	// Only return promotion codes that are restricted to this customer.
 	Customer *string `form:"customer"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *PromotionCodeListParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 }
 
 // Promotion code restrictions defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
@@ -109,9 +97,6 @@ type PromotionCodeRestrictions struct {
 // create multiple codes for a single coupon.
 type PromotionCode struct {
 	APIResource
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-	Metadata map[string]string `json:"metadata"`
-
 	// Whether the promotion code is currently active. A promotion code is only active if the coupon is also valid.
 	Active bool `json:"active"`
 	// The customer-facing code. Regardless of case, this code must be unique across all active promotion codes for each customer.
@@ -132,6 +117,8 @@ type PromotionCode struct {
 	Livemode bool `json:"livemode"`
 	// Maximum number of times this promotion code can be redeemed.
 	MaxRedemptions int64 `json:"max_redemptions"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	Metadata map[string]string `json:"metadata"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object       string                     `json:"object"`
 	Restrictions *PromotionCodeRestrictions `json:"restrictions"`

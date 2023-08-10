@@ -28,18 +28,12 @@ const (
 // Retrieves Tax Settings for a merchant.
 type TaxSettingsParams struct {
 	Params `form:"*"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
-
 	// Default configuration to be used on Stripe Tax calculations.
 	Defaults *TaxSettingsDefaultsParams `form:"defaults"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// The place where your business is located.
 	HeadOffice *TaxSettingsHeadOfficeParams `form:"head_office"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *TaxSettingsParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
 }
 
 // Default configuration to be used on Stripe Tax calculations.

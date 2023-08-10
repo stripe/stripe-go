@@ -57,11 +57,6 @@ type TreasuryTransactionParams struct {
 	Expand []*string `form:"expand"`
 }
 
-// AddExpand appends a new field to expand.
-func (p *TreasuryTransactionParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
-}
-
 // A filter for the `status_transitions.posted_at` timestamp. When using this filter, `status=posted` and `order_by=posted_at` must also be specified.
 type TreasuryTransactionListStatusTransitionsParams struct {
 	// Returns Transactions with `posted_at` within the specified range.
@@ -72,12 +67,11 @@ type TreasuryTransactionListStatusTransitionsParams struct {
 
 // Retrieves a list of Transaction objects.
 type TreasuryTransactionListParams struct {
-	ListParams `form:"*"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
-
+	ListParams   `form:"*"`
 	Created      *int64            `form:"created"`
 	CreatedRange *RangeQueryParams `form:"created"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// Returns objects associated with this FinancialAccount.
 	FinancialAccount *string `form:"financial_account"`
 	// The results are in reverse chronological order by `created` or `posted_at`. The default is `created`.
@@ -86,11 +80,6 @@ type TreasuryTransactionListParams struct {
 	Status *string `form:"status"`
 	// A filter for the `status_transitions.posted_at` timestamp. When using this filter, `status=posted` and `order_by=posted_at` must also be specified.
 	StatusTransitions *TreasuryTransactionListStatusTransitionsParams `form:"status_transitions"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *TreasuryTransactionListParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
 }
 
 // Change to a FinancialAccount's balance

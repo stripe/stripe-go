@@ -13,21 +13,11 @@ type ReportingReportTypeParams struct {
 	Expand []*string `form:"expand"`
 }
 
-// AddExpand appends a new field to expand.
-func (p *ReportingReportTypeParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
-}
-
 // Returns a full list of Report Types.
 type ReportingReportTypeListParams struct {
 	ListParams `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *ReportingReportTypeListParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
 }
 
 // The Report Type resource corresponds to a particular type of report, such as

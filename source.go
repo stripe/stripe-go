@@ -110,19 +110,9 @@ type SourceDetachParams struct {
 	Expand []*string `form:"expand"`
 }
 
-// AddExpand appends a new field to expand.
-func (p *SourceDetachParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
-}
-
 // Retrieves an existing source object. Supply the unique source ID from a source creation request and Stripe will return the corresponding up-to-date source object information.
 type SourceParams struct {
 	Params `form:"*"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
-
 	// Amount associated with the source. This is the amount for which the source will be chargeable once ready. Required for `single_use` sources. Not supported for `receiver` type sources, where charge amount may not be specified until funds land.
 	Amount *int64 `form:"amount"`
 	// The client secret of the source. Required if a publishable key is used to retrieve the source.
@@ -131,10 +121,14 @@ type SourceParams struct {
 	Currency *string `form:"currency"`
 	// The `Customer` to whom the original source is attached to. Must be set when the original source is not a `Source` (e.g., `Card`).
 	Customer *string `form:"customer"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// The authentication `flow` of the source to create. `flow` is one of `redirect`, `receiver`, `code_verification`, `none`. It is generally inferred unless a type supports multiple flows.
 	Flow *string `form:"flow"`
 	// Information about a mandate possibility attached to a source object (generally for bank debits) as well as its acceptance status.
 	Mandate *SourceMandateParams `form:"mandate"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
 	// The source to share.
 	OriginalSource *string `form:"original_source"`
 	// Information about the owner of the payment instrument that may be used or required by particular source types.
@@ -152,11 +146,6 @@ type SourceParams struct {
 	// The `type` of the source to create. Required unless `customer` and `original_source` are specified (see the [Cloning card Sources](https://stripe.com/docs/sources/connect#cloning-card-sources) guide)
 	Type  *string `form:"type"`
 	Usage *string `form:"usage"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *SourceParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
@@ -561,9 +550,6 @@ type SourceWeChat struct {
 // Related guides: [Sources API](https://stripe.com/docs/sources) and [Sources & Customers](https://stripe.com/docs/sources/customers).
 type Source struct {
 	APIResource
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-	Metadata map[string]string `json:"metadata"`
-
 	ACHCreditTransfer *SourceACHCreditTransfer `json:"ach_credit_transfer"`
 	ACHDebit          *SourceACHDebit          `json:"ach_debit"`
 	ACSSDebit         *SourceACSSDebit         `json:"acss_debit"`
@@ -592,7 +578,9 @@ type Source struct {
 	IDEAL  *SourceIDEAL  `json:"ideal"`
 	Klarna *SourceKlarna `json:"klarna"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
-	Livemode   bool              `json:"livemode"`
+	Livemode bool `json:"livemode"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	Metadata   map[string]string `json:"metadata"`
 	Multibanco *SourceMultibanco `json:"multibanco"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`

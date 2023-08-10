@@ -107,13 +107,12 @@ type TreasuryOutboundPaymentDestinationPaymentMethodDataUSBankAccountParams stru
 
 // Hash used to generate the PaymentMethod to be used for this OutboundPayment. Exclusive with `destination_payment_method`.
 type TreasuryOutboundPaymentDestinationPaymentMethodDataParams struct {
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
-
 	// Billing information associated with the PaymentMethod that may be used or required by particular types of payment methods.
 	BillingDetails *TreasuryOutboundPaymentDestinationPaymentMethodDataBillingDetailsParams `form:"billing_details"`
 	// Required if type is set to `financial_account`. The FinancialAccount ID to send funds to.
 	FinancialAccount *string `form:"financial_account"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
 	// The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type.
 	Type *string `form:"type"`
 	// Required hash if type is set to `us_bank_account`.
@@ -152,11 +151,6 @@ type TreasuryOutboundPaymentEndUserDetailsParams struct {
 // Creates an OutboundPayment.
 type TreasuryOutboundPaymentParams struct {
 	Params `form:"*"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
-
 	// Amount (in cents) to be transferred.
 	Amount *int64 `form:"amount"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
@@ -173,15 +167,14 @@ type TreasuryOutboundPaymentParams struct {
 	DestinationPaymentMethodOptions *TreasuryOutboundPaymentDestinationPaymentMethodOptionsParams `form:"destination_payment_method_options"`
 	// End user details.
 	EndUserDetails *TreasuryOutboundPaymentEndUserDetailsParams `form:"end_user_details"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// The FinancialAccount to pull funds from.
 	FinancialAccount *string `form:"financial_account"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
 	// The description that appears on the receiving end for this OutboundPayment (for example, bank statement for external bank transfer). Maximum 10 characters for `ach` payments, 140 characters for `wire` payments, or 500 characters for `stripe` network transfers. The default value is `payment`.
 	StatementDescriptor *string `form:"statement_descriptor"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *TreasuryOutboundPaymentParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
@@ -196,20 +189,14 @@ func (p *TreasuryOutboundPaymentParams) AddMetadata(key string, value string) {
 // Returns a list of OutboundPayments sent from the specified FinancialAccount.
 type TreasuryOutboundPaymentListParams struct {
 	ListParams `form:"*"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
-
 	// Only return OutboundPayments sent to this customer.
 	Customer *string `form:"customer"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// Returns objects associated with this FinancialAccount.
 	FinancialAccount *string `form:"financial_account"`
 	// Only return OutboundPayments that have the given status: `processing`, `failed`, `posted`, `returned`, or `canceled`.
 	Status *string `form:"status"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *TreasuryOutboundPaymentListParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
 }
 
 // Cancel an OutboundPayment.
@@ -218,12 +205,6 @@ type TreasuryOutboundPaymentCancelParams struct {
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 }
-
-// AddExpand appends a new field to expand.
-func (p *TreasuryOutboundPaymentCancelParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
-}
-
 type TreasuryOutboundPaymentDestinationPaymentMethodDetailsBillingDetails struct {
 	Address *Address `json:"address"`
 	// Email address.
@@ -294,9 +275,6 @@ type TreasuryOutboundPaymentStatusTransitions struct {
 // Simulate OutboundPayment state changes with the `/v1/test_helpers/treasury/outbound_payments` endpoints. These methods can only be called on test mode objects.
 type TreasuryOutboundPayment struct {
 	APIResource
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-	Metadata map[string]string `json:"metadata"`
-
 	// Amount (in cents) transferred.
 	Amount int64 `json:"amount"`
 	// Returns `true` if the object can be canceled, and `false` otherwise.
@@ -325,6 +303,8 @@ type TreasuryOutboundPayment struct {
 	ID string `json:"id"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	Metadata map[string]string `json:"metadata"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// Details about a returned OutboundPayment. Only set when the status is `returned`.

@@ -45,17 +45,11 @@ const (
 
 // Returns a list of Review objects that have open set to true. The objects are sorted in descending order by creation date, with the most recently created object appearing first.
 type ReviewListParams struct {
-	ListParams `form:"*"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
-
+	ListParams   `form:"*"`
 	Created      *int64            `form:"created"`
 	CreatedRange *RangeQueryParams `form:"created"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *ReviewListParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 }
 
 // Retrieves a Review object.
@@ -65,21 +59,11 @@ type ReviewParams struct {
 	Expand []*string `form:"expand"`
 }
 
-// AddExpand appends a new field to expand.
-func (p *ReviewParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
-}
-
 // Approves a Review object, closing it and removing it from the list of reviews.
 type ReviewApproveParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *ReviewApproveParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
 }
 
 // Information related to the location of the payment. Note that this information is an approximation and attempts to locate the nearest population center - it should not be used to determine a specific address.

@@ -11,18 +11,12 @@ import "encoding/json"
 // Returns a list of application fees you've previously collected. The application fees are returned in sorted order, with the most recent fees appearing first.
 type ApplicationFeeListParams struct {
 	ListParams `form:"*"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
-
 	// Only return application fees for the charge specified by this charge ID.
 	Charge       *string           `form:"charge"`
 	Created      *int64            `form:"created"`
 	CreatedRange *RangeQueryParams `form:"created"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *ApplicationFeeListParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 }
 
 // Retrieves the details of an application fee that your account has collected. The same information is returned when refunding the application fee.
@@ -31,12 +25,6 @@ type ApplicationFeeParams struct {
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 }
-
-// AddExpand appends a new field to expand.
-func (p *ApplicationFeeParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
-}
-
 type ApplicationFee struct {
 	APIResource
 	// ID of the Stripe account this fee was taken from.

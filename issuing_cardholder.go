@@ -68,26 +68,20 @@ const (
 // Returns a list of Issuing Cardholder objects. The objects are sorted in descending order by creation date, with the most recently created object appearing first.
 type IssuingCardholderListParams struct {
 	ListParams `form:"*"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
-
 	// Only return cardholders that were created during the given date interval.
 	Created *int64 `form:"created"`
 	// Only return cardholders that were created during the given date interval.
 	CreatedRange *RangeQueryParams `form:"created"`
 	// Only return cardholders that have the given email address.
 	Email *string `form:"email"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// Only return cardholders that have the given phone number.
 	PhoneNumber *string `form:"phone_number"`
 	// Only return cardholders that have the given status. One of `active`, `inactive`, or `blocked`.
 	Status *string `form:"status"`
 	// Only return cardholders that have the given type. One of `individual` or `company`.
 	Type *string `form:"type"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *IssuingCardholderListParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
 }
 
 // The cardholder's billing address.
@@ -181,19 +175,18 @@ type IssuingCardholderSpendingControlsParams struct {
 // Creates a new Issuing Cardholder object that can be issued cards.
 type IssuingCardholderParams struct {
 	Params `form:"*"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
-
 	// The cardholder's billing address.
 	Billing *IssuingCardholderBillingParams `form:"billing"`
 	// Additional information about a `company` cardholder.
 	Company *IssuingCardholderCompanyParams `form:"company"`
 	// The cardholder's email address.
 	Email *string `form:"email"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// Additional information about an `individual` cardholder.
 	Individual *IssuingCardholderIndividualParams `form:"individual"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
 	// The cardholder's name. This will be printed on cards issued to them. The maximum length of this field is 24 characters. This field cannot contain any special characters or numbers.
 	Name *string `form:"name"`
 	// The cardholder's phone number. This will be transformed to [E.164](https://en.wikipedia.org/wiki/E.164) if it is not provided in that format already. This is required for all cardholders who will be creating EU cards. See the [3D Secure documentation](https://stripe.com/docs/issuing/3d-secure#when-is-3d-secure-applied) for more details.
@@ -207,11 +200,6 @@ type IssuingCardholderParams struct {
 	Status *string `form:"status"`
 	// One of `individual` or `company`. See [Choose a cardholder type](https://stripe.com/docs/issuing/other/choose-cardholder) for more details.
 	Type *string `form:"type"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *IssuingCardholderParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
@@ -320,9 +308,6 @@ type IssuingCardholderSpendingControls struct {
 // Related guide: [How to create a cardholder](https://stripe.com/docs/issuing/cards#create-cardholder)
 type IssuingCardholder struct {
 	APIResource
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-	Metadata map[string]string `json:"metadata"`
-
 	Billing *IssuingCardholderBilling `json:"billing"`
 	// Additional information about a `company` cardholder.
 	Company *IssuingCardholderCompany `json:"company"`
@@ -336,6 +321,8 @@ type IssuingCardholder struct {
 	Individual *IssuingCardholderIndividual `json:"individual"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	Metadata map[string]string `json:"metadata"`
 	// The cardholder's name. This will be printed on cards issued to them.
 	Name string `json:"name"`
 	// String representing the object's type. Objects of the same type share the same value.

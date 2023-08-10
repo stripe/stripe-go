@@ -81,16 +81,10 @@ type TreasuryReceivedDebitListParams struct {
 	ListParams `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-
 	// The FinancialAccount that funds were pulled from.
 	FinancialAccount *string `form:"financial_account"`
 	// Only return ReceivedDebits that have the given status: `succeeded` or `failed`.
 	Status *string `form:"status"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *TreasuryReceivedDebitListParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
 }
 
 // Retrieves the details of an existing ReceivedDebit by passing the unique ReceivedDebit ID from the ReceivedDebit list
@@ -99,12 +93,6 @@ type TreasuryReceivedDebitParams struct {
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 }
-
-// AddExpand appends a new field to expand.
-func (p *TreasuryReceivedDebitParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
-}
-
 type TreasuryReceivedDebitInitiatingPaymentMethodDetailsBillingDetails struct {
 	Address *Address `json:"address"`
 	// Email address.

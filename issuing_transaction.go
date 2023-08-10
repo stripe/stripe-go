@@ -51,9 +51,6 @@ const (
 // Returns a list of Issuing Transaction objects. The objects are sorted in descending order by creation date, with the most recently created object appearing first.
 type IssuingTransactionListParams struct {
 	ListParams `form:"*"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
-
 	// Only return transactions that belong to the given card.
 	Card *string `form:"card"`
 	// Only return transactions that belong to the given cardholder.
@@ -62,13 +59,10 @@ type IssuingTransactionListParams struct {
 	Created *int64 `form:"created"`
 	// Only return transactions that were created during the given date interval.
 	CreatedRange *RangeQueryParams `form:"created"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// Only return transactions that have the given type. One of `capture` or `refund`.
 	Type *string `form:"type"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *IssuingTransactionListParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
 }
 
 // Retrieves an Issuing Transaction object.
@@ -78,11 +72,6 @@ type IssuingTransactionParams struct {
 	Expand []*string `form:"expand"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *IssuingTransactionParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
@@ -191,9 +180,6 @@ type IssuingTransactionTreasury struct {
 // Related guide: [Issued card transactions](https://stripe.com/docs/issuing/purchases/transactions)
 type IssuingTransaction struct {
 	APIResource
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-	Metadata map[string]string `json:"metadata"`
-
 	// The transaction amount, which will be reflected in your balance. This amount is in your currency and in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal).
 	Amount int64 `json:"amount"`
 	// Detailed breakdown of amount components. These amounts are denominated in `currency` and in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal).
@@ -221,6 +207,8 @@ type IssuingTransaction struct {
 	// The currency with which the merchant is taking payment.
 	MerchantCurrency Currency                          `json:"merchant_currency"`
 	MerchantData     *IssuingAuthorizationMerchantData `json:"merchant_data"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	Metadata map[string]string `json:"metadata"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// Additional purchase information that is optionally provided by the merchant.

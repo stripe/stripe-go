@@ -148,16 +148,10 @@ const (
 // Returns a list of your payment links.
 type PaymentLinkListParams struct {
 	ListParams `form:"*"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
-
 	// Only return payment links that are active or inactive (e.g., pass `false` to list all inactive payment links).
 	Active *bool `form:"active"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *PaymentLinkListParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 }
 
 // Configuration when `type=hosted_confirmation`.
@@ -291,9 +285,6 @@ type PaymentLinkInvoiceCreationInvoiceDataRenderingOptionsParams struct {
 
 // Invoice PDF configuration.
 type PaymentLinkInvoiceCreationInvoiceDataParams struct {
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
-
 	// The account tax IDs associated with the invoice.
 	AccountTaxIDs []*string `form:"account_tax_ids"`
 	// Default custom fields to be displayed on invoices for this customer.
@@ -302,6 +293,8 @@ type PaymentLinkInvoiceCreationInvoiceDataParams struct {
 	Description *string `form:"description"`
 	// Default footer to be displayed on invoices for this customer.
 	Footer *string `form:"footer"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
 	// Default options for invoice PDF rendering for this customer.
 	RenderingOptions *PaymentLinkInvoiceCreationInvoiceDataRenderingOptionsParams `form:"rendering_options"`
 }
@@ -412,11 +405,6 @@ type PaymentLinkTransferDataParams struct {
 // Creates a payment link.
 type PaymentLinkParams struct {
 	Params `form:"*"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`. Metadata associated with this Payment Link will automatically be copied to [checkout sessions](https://stripe.com/docs/api/checkout/sessions) created by this payment link.
-	Metadata map[string]string `form:"metadata"`
-
 	// Whether the payment link's `url` is active. If `false`, customers visiting the URL will be shown a page saying that the link has been deactivated.
 	Active *bool `form:"active"`
 	// Behavior after the purchase is complete.
@@ -441,10 +429,14 @@ type PaymentLinkParams struct {
 	CustomFields []*PaymentLinkCustomFieldParams `form:"custom_fields"`
 	// Display additional text for your customers using custom text.
 	CustomText *PaymentLinkCustomTextParams `form:"custom_text"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// Generate a post-purchase Invoice for one-time payments.
 	InvoiceCreation *PaymentLinkInvoiceCreationParams `form:"invoice_creation"`
 	// The line items representing what is being sold. Each line item represents an item being sold. Up to 20 line items are supported.
 	LineItems []*PaymentLinkLineItemParams `form:"line_items"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`. Metadata associated with this Payment Link will automatically be copied to [checkout sessions](https://stripe.com/docs/api/checkout/sessions) created by this payment link.
+	Metadata map[string]string `form:"metadata"`
 	// The account on behalf of which to charge.
 	OnBehalfOf *string `form:"on_behalf_of"`
 	// A subset of parameters to be passed to PaymentIntent creation for Checkout Sessions in `payment` mode.
@@ -475,11 +467,6 @@ type PaymentLinkParams struct {
 	TransferData *PaymentLinkTransferDataParams `form:"transfer_data"`
 }
 
-// AddExpand appends a new field to expand.
-func (p *PaymentLinkParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
-}
-
 // AddMetadata adds a new key-value pair to the Metadata.
 func (p *PaymentLinkParams) AddMetadata(key string, value string) {
 	if p.Metadata == nil {
@@ -496,12 +483,6 @@ type PaymentLinkListLineItemsParams struct {
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 }
-
-// AddExpand appends a new field to expand.
-func (p *PaymentLinkListLineItemsParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
-}
-
 type PaymentLinkAfterCompletionHostedConfirmation struct {
 	// The custom message that is displayed to the customer after the purchase is complete.
 	CustomMessage string `json:"custom_message"`
@@ -616,9 +597,6 @@ type PaymentLinkInvoiceCreationInvoiceDataRenderingOptions struct {
 
 // Configuration for the invoice. Default invoice values will be used if unspecified.
 type PaymentLinkInvoiceCreationInvoiceData struct {
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-	Metadata map[string]string `json:"metadata"`
-
 	// The account tax IDs associated with the invoice.
 	AccountTaxIDs []*TaxID `json:"account_tax_ids"`
 	// A list of up to 4 custom fields to be displayed on the invoice.
@@ -627,6 +605,8 @@ type PaymentLinkInvoiceCreationInvoiceData struct {
 	Description string `json:"description"`
 	// Footer to be displayed on the invoice.
 	Footer string `json:"footer"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	Metadata map[string]string `json:"metadata"`
 	// Options for invoice PDF rendering.
 	RenderingOptions *PaymentLinkInvoiceCreationInvoiceDataRenderingOptions `json:"rendering_options"`
 }
@@ -692,9 +672,6 @@ type PaymentLinkTransferData struct {
 // Related guide: [Payment Links API](https://stripe.com/docs/payment-links)
 type PaymentLink struct {
 	APIResource
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-	Metadata map[string]string `json:"metadata"`
-
 	// Whether the payment link's `url` is active. If `false`, customers visiting the URL will be shown a page saying that the link has been deactivated.
 	Active          bool                        `json:"active"`
 	AfterCompletion *PaymentLinkAfterCompletion `json:"after_completion"`
@@ -724,6 +701,8 @@ type PaymentLink struct {
 	LineItems *LineItemList `json:"line_items"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	Metadata map[string]string `json:"metadata"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// The account on behalf of which to charge. See the [Connect documentation](https://support.stripe.com/questions/sending-invoices-on-behalf-of-connected-accounts) for details.

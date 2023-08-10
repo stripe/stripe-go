@@ -47,39 +47,27 @@ const (
 // Returns a list of your disputes.
 type DisputeListParams struct {
 	ListParams `form:"*"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
-
 	// Only return disputes associated to the charge specified by this charge ID.
 	Charge       *string           `form:"charge"`
 	Created      *int64            `form:"created"`
 	CreatedRange *RangeQueryParams `form:"created"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// Only return disputes associated to the PaymentIntent specified by this PaymentIntent ID.
 	PaymentIntent *string `form:"payment_intent"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *DisputeListParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
 }
 
 // Retrieves the dispute with the given ID.
 type DisputeParams struct {
 	Params `form:"*"`
+	// Evidence to upload, to respond to a dispute. Updating any field in the hash will submit all fields in the hash for review. The combined character count of all fields is limited to 150,000.
+	Evidence *DisputeEvidenceParams `form:"evidence"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
-
-	// Evidence to upload, to respond to a dispute. Updating any field in the hash will submit all fields in the hash for review. The combined character count of all fields is limited to 150,000.
-	Evidence *DisputeEvidenceParams `form:"evidence"`
 	// Whether to immediately submit evidence to the bank. If `false`, evidence is staged on the dispute. Staged evidence is visible in the API and Dashboard, and can be submitted to the bank by making another request with this attribute set to `true` (the default).
 	Submit *bool `form:"submit"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *DisputeParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
@@ -224,9 +212,6 @@ type DisputeEvidenceDetails struct {
 // Related guide: [Disputes and fraud](https://stripe.com/docs/disputes)
 type Dispute struct {
 	APIResource
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-	Metadata map[string]string `json:"metadata"`
-
 	// Disputed amount. Usually the amount of the charge, but can differ (usually because of currency fluctuation or because only part of the order is disputed).
 	Amount int64 `json:"amount"`
 	// List of zero, one, or two balance transactions that show funds withdrawn and reinstated to your Stripe account as a result of this dispute.
@@ -245,6 +230,8 @@ type Dispute struct {
 	IsChargeRefundable bool `json:"is_charge_refundable"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	Metadata map[string]string `json:"metadata"`
 	// Network-dependent reason code for the dispute.
 	NetworkReasonCode string `json:"network_reason_code"`
 	// String representing the object's type. Objects of the same type share the same value.

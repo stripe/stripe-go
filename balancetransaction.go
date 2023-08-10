@@ -113,9 +113,6 @@ const (
 // Note that this endpoint was previously called “Balance history” and used the path /v1/balance/history.
 type BalanceTransactionListParams struct {
 	ListParams `form:"*"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
-
 	// This parameter is deprecated and we recommend listing by created and filtering in memory instead.
 	AvailableOn *int64 `form:"available_on"`
 	// This parameter is deprecated and we recommend listing by created and filtering in memory instead.
@@ -124,17 +121,14 @@ type BalanceTransactionListParams struct {
 	CreatedRange     *RangeQueryParams `form:"created"`
 	// Only return transactions in a certain currency. Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency *string `form:"currency"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// For automatic Stripe payouts only, only returns transactions that were paid out on the specified payout ID.
 	Payout *string `form:"payout"`
 	// Only returns the original transaction.
 	Source *string `form:"source"`
 	// Only returns transactions of the given type. One of: `adjustment`, `advance`, `advance_funding`, `anticipation_repayment`, `application_fee`, `application_fee_refund`, `charge`, `connect_collection_transfer`, `contribution`, `issuing_authorization_hold`, `issuing_authorization_release`, `issuing_dispute`, `issuing_transaction`, `payment`, `payment_failure_refund`, `payment_refund`, `payout`, `payout_cancel`, `payout_failure`, `refund`, `refund_failure`, `reserve_transaction`, `reserved_funds`, `stripe_fee`, `stripe_fx_fee`, `tax_fee`, `topup`, `topup_reversal`, `transfer`, `transfer_cancel`, `transfer_failure`, or `transfer_refund`.
 	Type *string `form:"type"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *BalanceTransactionListParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
 }
 
 // Retrieves the balance transaction with the given ID.
@@ -144,11 +138,6 @@ type BalanceTransactionParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *BalanceTransactionParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
 }
 
 // Detailed breakdown of fees (in cents (or local equivalent)) paid for this transaction.
