@@ -5,6 +5,11 @@ require_relative './_lib'
 
 class Critic::BackendProratedAmendmentTranslation < Critic::OrderAmendmentFunctionalTest
   before do
+    set_cassette_dir(__FILE__)
+    if !VCR.current_cassette.originally_recorded_at.nil?
+      Timecop.freeze(VCR.current_cassette.originally_recorded_at)
+    end
+
     @user = make_user(save: true)
   end
 
@@ -25,6 +30,7 @@ class Critic::BackendProratedAmendmentTranslation < Critic::OrderAmendmentFuncti
 
     sf_order = create_salesforce_order(
       sf_product_id: sf_product_id,
+      contact_email: "initial_backend_proration",
       additional_quote_fields: {
         CPQ_QUOTE_SUBSCRIPTION_TERM => contract_term,
         CPQ_QUOTE_SUBSCRIPTION_START_DATE => now_time_formatted_for_salesforce,
@@ -128,6 +134,7 @@ class Critic::BackendProratedAmendmentTranslation < Critic::OrderAmendmentFuncti
       # create initial order
       sf_order = create_salesforce_order(
         sf_product_id: sf_product_id,
+        contact_email: "backend_proration_same_day",
         additional_quote_fields: {
           CPQ_QUOTE_SUBSCRIPTION_TERM => contract_term,
           CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(initial_start_date),
@@ -213,11 +220,11 @@ class Critic::BackendProratedAmendmentTranslation < Critic::OrderAmendmentFuncti
       assert_equal("true", backend_proration_price.metadata[StripeForce::Translate::Metadata.metadata_key(@user, MetadataKeys::PRORATION)])
     end
 
-    it 'backend prorated order amendment which starts after the proration phase start date'
-    it 'backend prorated order amendment which starts before the proration phase start date'
-    it 'multiple backend prorated order amendments'
-    it 'multiple backend prorated order amendments which start after the proration phase start date'
-    it 'multiple backend prorated order amendments which are then partially terminated'
-    it 'multiple backend prorated order amendments which are then fully terminated'
+    # it 'backend prorated order amendment which starts after the proration phase start date'
+    # it 'backend prorated order amendment which starts before the proration phase start date'
+    # it 'multiple backend prorated order amendments'
+    # it 'multiple backend prorated order amendments which start after the proration phase start date'
+    # it 'multiple backend prorated order amendments which are then partially terminated'
+    # it 'multiple backend prorated order amendments which are then fully terminated'
   end
 end

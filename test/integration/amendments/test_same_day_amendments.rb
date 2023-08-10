@@ -5,6 +5,11 @@ require_relative './_lib'
 
 class Critic::SameDayAmendments < Critic::OrderAmendmentFunctionalTest
   before do
+    set_cassette_dir(__FILE__)
+    if !VCR.current_cassette.originally_recorded_at.nil?
+      Timecop.freeze(VCR.current_cassette.originally_recorded_at)
+    end
+
     @user = make_user(save: true)
     @user.enable_feature FeatureFlags::BACKDATED_AMENDMENTS, update: true
   end
@@ -44,6 +49,7 @@ class Critic::SameDayAmendments < Critic::OrderAmendmentFunctionalTest
 
     sf_order = create_salesforce_order(
       sf_product_id: sf_product_id,
+      contact_email: "yearly_amend_same_day",
       additional_quote_fields: {
         CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(initial_start_date),
         CPQ_QUOTE_SUBSCRIPTION_TERM => TEST_DEFAULT_CONTRACT_TERM,
@@ -137,6 +143,7 @@ class Critic::SameDayAmendments < Critic::OrderAmendmentFunctionalTest
     amendment_end_date = amendment_start_date + amendment_term.months
 
     sf_order = create_salesforce_order(
+      contact_email: "monthly_amend_same_day",
       additional_quote_fields: {
         CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(initial_start_date),
         CPQ_QUOTE_SUBSCRIPTION_TERM => TEST_DEFAULT_CONTRACT_TERM,
@@ -253,6 +260,7 @@ class Critic::SameDayAmendments < Critic::OrderAmendmentFunctionalTest
 
     sf_account_id = create_salesforce_account
     quote_id = create_salesforce_quote(
+      contact_email: "yearly_amend_same_day_no_start",
       sf_account_id: sf_account_id,
       additional_quote_fields: {
         CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(initial_start_date),
@@ -336,6 +344,7 @@ class Critic::SameDayAmendments < Critic::OrderAmendmentFunctionalTest
     sf_account_id = create_salesforce_account
     quote_id = create_salesforce_quote(
       sf_account_id: sf_account_id,
+      contact_email: "monthly_amend_same_day_no_start",
       additional_quote_fields: {
         CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(initial_start_date),
         CPQ_QUOTE_SUBSCRIPTION_TERM => TEST_DEFAULT_CONTRACT_TERM,
@@ -423,6 +432,7 @@ class Critic::SameDayAmendments < Critic::OrderAmendmentFunctionalTest
       sf_account_id = create_salesforce_account
       quote_id = create_salesforce_quote(
         sf_account_id: sf_account_id,
+        contact_email: "det_ordering",
         additional_quote_fields: {
           CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(initial_start_date),
           CPQ_QUOTE_SUBSCRIPTION_TERM => TEST_DEFAULT_CONTRACT_TERM,
@@ -517,9 +527,11 @@ class Critic::SameDayAmendments < Critic::OrderAmendmentFunctionalTest
       amendment_end_date = StripeForce::Translate::OrderHelpers.anchor_time_to_day_of_month(base_time: amendment_end_date, anchor_day_of_month: initial_order_end_date.day)
 
       sf_product_id, _sf_pricebook_id = salesforce_recurring_product_with_price(price: monthly_price)
-      sf_order = create_subscription_order(sf_product_id: sf_product_id, additional_fields: {
-        CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(initial_start_date),
-      })
+      sf_order = create_subscription_order(sf_product_id: sf_product_id,
+                                           contact_email: "det_ordering_same_day",
+                                           additional_fields: {
+                                             CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(initial_start_date),
+                                           })
       sf_contract = create_contract_from_order(sf_order)
 
       # create the first amendment

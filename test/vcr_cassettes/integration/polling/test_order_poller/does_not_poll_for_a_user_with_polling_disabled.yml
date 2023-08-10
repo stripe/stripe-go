@@ -1,0 +1,241 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.stripe.com/v1/accounts/STRIPE_MERCHANT_ID
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Stripe/v1 RubyBindings/7.1.0
+      Authorization:
+      - Bearer <STRIPE_API_KEY>
+      Content-Type:
+      - application/x-www-form-urlencoded
+      Stripe-Version:
+      - '2020-08-27'
+      X-Stripe-Client-User-Agent:
+      - '{"bindings_version":"7.1.0","lang":"ruby","lang_version":"2.7.6 p219 (2022-04-12)","platform":"arm64-darwin22","engine":"ruby","publisher":"stripe","uname":"Darwin
+        st-rish2 22.5.0 Darwin Kernel Version 22.5.0: Thu Jun  8 22:22:20 PDT 2023;
+        root:xnu-8796.121.3~7/RELEASE_ARM64_T6000 arm64","hostname":"st-rish2"}'
+      Stripe-Account:
+      - STRIPE_MERCHANT_ID
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Mon, 07 Aug 2023 21:41:05 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '1992'
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Methods:
+      - GET, POST, HEAD, OPTIONS, DELETE
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Request-Id, Stripe-Manage-Version, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required
+      Access-Control-Max-Age:
+      - '300'
+      Cache-Control:
+      - no-cache, no-store
+      Request-Id:
+      - req_lHdun8itbejXMD
+      Stripe-Account:
+      - acct_15uapDIsgf92XbAO
+      Stripe-Version:
+      - '2020-08-27'
+      X-Stripe-Routing-Context-Priority-Tier:
+      - api-testmode
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains; preload
+    body:
+      encoding: UTF-8
+      string: |-
+        {
+          "id": "acct_15uapDIsgf92XbAO",
+          "object": "account",
+          "capabilities": {
+            "acss_debit_payments": "active",
+            "affirm_payments": "active",
+            "afterpay_clearpay_payments": "active",
+            "bancontact_payments": "active",
+            "card_payments": "active",
+            "cashapp_payments": "active",
+            "eps_payments": "active",
+            "giropay_payments": "active",
+            "ideal_payments": "active",
+            "klarna_payments": "active",
+            "link_payments": "active",
+            "p24_payments": "active",
+            "sepa_debit_payments": "active",
+            "sofort_payments": "active",
+            "transfers": "active",
+            "us_bank_account_ach_payments": "active"
+          },
+          "charges_enabled": true,
+          "country": "US",
+          "default_currency": "usd",
+          "details_submitted": true,
+          "future_requirements": {
+            "alternatives": [],
+            "current_deadline": null,
+            "currently_due": [],
+            "disabled_reason": null,
+            "errors": [],
+            "eventually_due": [],
+            "past_due": [],
+            "pending_verification": []
+          },
+          "payouts_enabled": true,
+          "requirements": {
+            "alternatives": [],
+            "current_deadline": null,
+            "currently_due": [],
+            "disabled_reason": null,
+            "errors": [],
+            "eventually_due": [],
+            "past_due": [],
+            "pending_verification": []
+          },
+          "settings": {
+            "bacs_debit_payments": {},
+            "branding": {
+              "icon": null,
+              "logo": null,
+              "primary_color": null,
+              "secondary_color": null
+            },
+            "card_issuing": {
+              "tos_acceptance": {
+                "date": null,
+                "ip": null
+              }
+            },
+            "card_payments": {
+              "statement_descriptor_prefix": "STRIPE INT",
+              "statement_descriptor_prefix_kana": null,
+              "statement_descriptor_prefix_kanji": null
+            },
+            "dashboard": {
+              "display_name": "StripeForce Demo Account ",
+              "timezone": "Etc/UTC"
+            },
+            "payments": {
+              "statement_descriptor": "SUITESYNC.IO",
+              "statement_descriptor_kana": null,
+              "statement_descriptor_kanji": null
+            },
+            "sepa_debit_payments": {}
+          },
+          "type": "standard"
+        }
+  recorded_at: Mon, 07 Aug 2023 21:41:04 GMT
+- request:
+    method: get
+    uri: https://ability-innovation-7335-dev-ed.scratch.my.salesforce.com/services/data/v58.0/
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v2.4.0
+      Authorization:
+      - OAuth <SALESFORCE_ACCESS_TOKEN>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Mon, 07 Aug 2023 21:41:05 GMT
+      Set-Cookie:
+      - BrowserId=HNvl9zVrEe6eiAlpEekZ4A; domain=.salesforce.com; path=/; expires=Tue,
+        06-Aug-2024 21:41:05 GMT; Max-Age=31536000
+      - CookieConsentPolicy=0:1; path=/; expires=Tue, 06-Aug-2024 21:41:05 GMT; Max-Age=31536000
+      - LSKey-c$CookieConsentPolicy=0:1; path=/; expires=Tue, 06-Aug-2024 21:41:05
+        GMT; Max-Age=31536000
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Robots-Tag:
+      - none
+      Cache-Control:
+      - no-cache,must-revalidate,max-age=0,no-store,private
+      Sforce-Limit-Info:
+      - api-usage=1552/5000000
+      Content-Type:
+      - application/json;charset=UTF-8
+      Vary:
+      - Accept-Encoding
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: ASCII-8BIT
+      string: '{"metadata":"/services/data/v58.0/metadata","eclair":"/services/data/v58.0/eclair","folders":"/services/data/v58.0/folders","jsonxform":"/services/data/v58.0/jsonxform","appMenu":"/services/data/v58.0/appMenu","iot":"/services/data/v58.0/iot","analytics":"/services/data/v58.0/analytics","smartdatadiscovery":"/services/data/v58.0/smartdatadiscovery","composite":"/services/data/v58.0/composite","parameterizedSearch":"/services/data/v58.0/parameterizedSearch","fingerprint":"/services/data/v58.0/fingerprint","domino":"/services/data/v58.0/domino","serviceTemplates":"/services/data/v58.0/serviceTemplates","recent":"/services/data/v58.0/recent","dedupe":"/services/data/v58.0/dedupe","async-queries":"/services/data/v58.0/async-queries","query":"/services/data/v58.0/query","ai":"/services/data/v58.0/ai","consent":"/services/data/v58.0/consent","compactLayouts":"/services/data/v58.0/compactLayouts","knowledgeManagement":"/services/data/v58.0/knowledgeManagement","actions":"/services/data/v58.0/actions","support":"/services/data/v58.0/support","tooling":"/services/data/v58.0/tooling","prechatForms":"/services/data/v58.0/prechatForms","contact-tracing":"/services/data/v58.0/contact-tracing","chatter":"/services/data/v58.0/chatter","payments":"/services/data/v58.0/payments","tabs":"/services/data/v58.0/tabs","quickActions":"/services/data/v58.0/quickActions","queryAll":"/services/data/v58.0/queryAll","commerce":"/services/data/v58.0/commerce","wave":"/services/data/v58.0/wave","search":"/services/data/v58.0/search","identity":"https://test.salesforce.com/id/00D7e00000JoBfyEAF/0057e00000VZBcyAAH","theme":"/services/data/v58.0/theme","nouns":"/services/data/v58.0/nouns","event":"/services/data/v58.0/event","connect":"/services/data/v58.0/connect","licensing":"/services/data/v58.0/licensing","limits":"/services/data/v58.0/limits","process":"/services/data/v58.0/process","jobs":"/services/data/v58.0/jobs","match":"/services/data/v58.0/match","localizedvalue":"/services/data/v58.0/localizedvalue","mobile":"/services/data/v58.0/mobile","emailConnect":"/services/data/v58.0/emailConnect","tokenizer":"/services/data/v58.0/tokenizer","sobjects":"/services/data/v58.0/sobjects"}'
+  recorded_at: Mon, 07 Aug 2023 21:41:04 GMT
+- request:
+    method: get
+    uri: https://test.salesforce.com/id/00D7e00000JoBfyEAF/0057e00000VZBcyAAH
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v2.4.0
+      Authorization:
+      - OAuth <SALESFORCE_ACCESS_TOKEN>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Mon, 07 Aug 2023 21:41:06 GMT
+      Set-Cookie:
+      - BrowserId=HSwBpDVrEe6JNVslIEQubA; domain=.salesforce.com; path=/; expires=Tue,
+        06-Aug-2024 21:41:06 GMT; Max-Age=31536000
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+      Cache-Control:
+      - no-cache,must-revalidate,max-age=0,no-store,private
+      Content-Type:
+      - application/json;charset=UTF-8
+      Vary:
+      - Accept-Encoding
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: ASCII-8BIT
+      string: '{"id":"https://test.salesforce.com/id/00D7e00000JoBfyEAF/0057e00000VZBcyAAH","asserted_user":true,"user_id":"0057e00000VZBcyAAH","organization_id":"00D7e00000JoBfyEAF","username":"test-ncpqnv93b8nk@example.com","nick_name":"test-ncpqnv93b8nk","display_name":"User
+        User","email":"pbo+billing-scratch-admin@stripe.com","email_verified":false,"first_name":"User","last_name":"User","timezone":"America/Los_Angeles","photos":{"picture":"https://ability-innovation-7335-dev-ed.scratch.file.force.com/profilephoto/005/F","thumbnail":"https://ability-innovation-7335-dev-ed.scratch.file.force.com/profilephoto/005/T"},"addr_street":null,"addr_city":null,"addr_state":null,"addr_country":"US","addr_zip":null,"mobile_phone":null,"mobile_phone_verified":false,"is_lightning_login_user":false,"status":{"created_date":null,"body":null},"urls":{"enterprise":"https://ability-innovation-7335-dev-ed.scratch.my.salesforce.com/services/Soap/c/{version}/00D7e00000JoBfy","metadata":"https://ability-innovation-7335-dev-ed.scratch.my.salesforce.com/services/Soap/m/{version}/00D7e00000JoBfy","partner":"https://ability-innovation-7335-dev-ed.scratch.my.salesforce.com/services/Soap/u/{version}/00D7e00000JoBfy","rest":"https://ability-innovation-7335-dev-ed.scratch.my.salesforce.com/services/data/v{version}/","sobjects":"https://ability-innovation-7335-dev-ed.scratch.my.salesforce.com/services/data/v{version}/sobjects/","search":"https://ability-innovation-7335-dev-ed.scratch.my.salesforce.com/services/data/v{version}/search/","query":"https://ability-innovation-7335-dev-ed.scratch.my.salesforce.com/services/data/v{version}/query/","recent":"https://ability-innovation-7335-dev-ed.scratch.my.salesforce.com/services/data/v{version}/recent/","tooling_soap":"https://ability-innovation-7335-dev-ed.scratch.my.salesforce.com/services/Soap/T/{version}/00D7e00000JoBfy","tooling_rest":"https://ability-innovation-7335-dev-ed.scratch.my.salesforce.com/services/data/v{version}/tooling/","profile":"https://ability-innovation-7335-dev-ed.scratch.my.salesforce.com/0057e00000VZBcyAAH","feeds":"https://ability-innovation-7335-dev-ed.scratch.my.salesforce.com/services/data/v{version}/chatter/feeds","groups":"https://ability-innovation-7335-dev-ed.scratch.my.salesforce.com/services/data/v{version}/chatter/groups","users":"https://ability-innovation-7335-dev-ed.scratch.my.salesforce.com/services/data/v{version}/chatter/users","feed_items":"https://ability-innovation-7335-dev-ed.scratch.my.salesforce.com/services/data/v{version}/chatter/feed-items","feed_elements":"https://ability-innovation-7335-dev-ed.scratch.my.salesforce.com/services/data/v{version}/chatter/feed-elements","custom_domain":"https://ability-innovation-7335-dev-ed.scratch.my.salesforce.com"},"active":true,"user_type":"STANDARD","language":"en_US","locale":"en_US","utcOffset":-28800000,"last_modified_date":"2023-07-21T22:28:58Z"}'
+  recorded_at: Mon, 07 Aug 2023 21:41:04 GMT
+recorded_with: VCR 6.2.0

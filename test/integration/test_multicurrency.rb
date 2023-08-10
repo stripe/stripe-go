@@ -3,15 +3,20 @@
 
 require_relative '../test_helper'
 
-class Critic::OrderTranslation < Critic::FunctionalTest
+class Critic::OrderTranslation < Critic::VCRTest
   before do
+    set_cassette_dir(__FILE__)
+    if !VCR.current_cassette.originally_recorded_at.nil?
+      Timecop.freeze(VCR.current_cassette.originally_recorded_at)
+    end
+
     @user = make_user(save: true)
     # Only run on Multi-Currency Enabled CI Accounts
     # If you are running this locally on a multi-currency scratch org, please go into make_user
     #   and add your scratch org ID similar to brennen's
     log.info "Multi-currency test user details", is_multicurrency_org: @user.is_multicurrency_org?, sf_account_id: @user.salesforce_account_id
     unless @user.is_multicurrency_org?
-      skip("Skipping multicurrency test on non-multicurrency org")
+      # skip("Skipping multicurrency test on non-multicurrency org")
     end
   end
 
@@ -19,8 +24,9 @@ class Critic::OrderTranslation < Critic::FunctionalTest
     it 'translates a standard order in GBP' do
       currency_iso_code = 'GBP'
 
-      sf_order = create_subscription_order(currency_iso_code: 'GBP')
+      sf_order = create_subscription_order(currency_iso_code: 'GBP', contact_email: "translate_gbp")
 
+      Timecop.freeze(Time.now + 1.minute)
       SalesforceTranslateRecordJob.translate(@user, sf_order)
 
       sf_order.refresh
@@ -49,7 +55,7 @@ class Critic::OrderTranslation < Critic::FunctionalTest
     it 'translates a standard order in GBP, and then one in USD, for different customers but the same merchant' do
       currency_iso_code = 'GBP'
 
-      sf_order = create_subscription_order(currency_iso_code: currency_iso_code)
+      sf_order = create_subscription_order(currency_iso_code: currency_iso_code, contact_email: "gbo_and_usd_diff_customers_same_merchant")
 
       SalesforceTranslateRecordJob.translate(@user, sf_order)
 
@@ -78,7 +84,7 @@ class Critic::OrderTranslation < Critic::FunctionalTest
 
       currency_iso_code = 'USD'
 
-      sf_order = create_subscription_order(currency_iso_code: currency_iso_code)
+      sf_order = create_subscription_order(currency_iso_code: currency_iso_code, contact_email: "gbo_and_usd_diff_customers_same_merchant_2")
 
       SalesforceTranslateRecordJob.translate(@user, sf_order)
 
@@ -112,7 +118,7 @@ class Critic::OrderTranslation < Critic::FunctionalTest
       # Create Customer
       sf_account = create_salesforce_account
 
-      order_one_start_date = DateTime.now
+      order_one_start_date = now_time
       contract_term = 12
 
       order_two_start_date = order_one_start_date + contract_term.months
@@ -127,11 +133,14 @@ class Critic::OrderTranslation < Critic::FunctionalTest
         }
       )
 
-      sf_order_one = create_subscription_order(sf_account_id: sf_account, sf_product_id: sf_gbp_product_id, currency_iso_code: currency_iso_code, additional_fields: {
-        CPQ_QUOTE_SUBSCRIPTION_START_DATE => order_one_start_date,
-        CPQ_QUOTE_SUBSCRIPTION_TERM => contract_term,
-      })
+      sf_order_one = create_subscription_order(sf_account_id: sf_account, sf_product_id: sf_gbp_product_id, currency_iso_code: currency_iso_code,
+                                               contact_email: "create_subs_in_diff_currencies",
+                                               additional_fields: {
+                                                 CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(order_one_start_date),
+                                                 CPQ_QUOTE_SUBSCRIPTION_TERM => contract_term,
+                                               })
 
+      Timecop.freeze(Time.now + 1.minute)
       SalesforceTranslateRecordJob.translate(@user, sf_order_one)
 
       sf_order_one.refresh
@@ -173,11 +182,14 @@ class Critic::OrderTranslation < Critic::FunctionalTest
         }
       )
 
-      sf_order_two = create_subscription_order(sf_account_id: sf_account, sf_product_id: sf_usd_product_id, currency_iso_code: currency_iso_code, additional_fields: {
-        CPQ_QUOTE_SUBSCRIPTION_START_DATE => order_two_start_date,
-        CPQ_QUOTE_SUBSCRIPTION_TERM => contract_term,
-      })
+      sf_order_two = create_subscription_order(sf_account_id: sf_account, sf_product_id: sf_usd_product_id, currency_iso_code: currency_iso_code,
+                                               contact_email: "create_subs_in_diff_currencies_2",
+                                               additional_fields: {
+                                                 CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(order_two_start_date),
+                                                 CPQ_QUOTE_SUBSCRIPTION_TERM => contract_term,
+                                               })
 
+      Timecop.freeze(Time.now + 1.minute)
       SalesforceTranslateRecordJob.translate(@user, sf_order_two)
 
       sf_order_two.refresh
@@ -221,10 +233,12 @@ class Critic::OrderTranslation < Critic::FunctionalTest
       sf_product_id, _sf_pricebook_id = salesforce_recurring_product_with_price(currency_iso_code: currency_iso_code)
 
       # create a CPQ quote
-      sf_quote_id = create_salesforce_quote(sf_account_id: sf_account_id, currency_iso_code: currency_iso_code, additional_quote_fields: {
-        CPQ_QUOTE_SUBSCRIPTION_START_DATE => now_time_formatted_for_salesforce,
-        CPQ_QUOTE_SUBSCRIPTION_TERM => TEST_DEFAULT_CONTRACT_TERM,
-      })
+      sf_quote_id = create_salesforce_quote(sf_account_id: sf_account_id, currency_iso_code: currency_iso_code,
+                                            contact_email: "translates_order_with_coupon_diff_currency",
+                                            additional_quote_fields: {
+                                              CPQ_QUOTE_SUBSCRIPTION_START_DATE => now_time_formatted_for_salesforce,
+                                              CPQ_QUOTE_SUBSCRIPTION_TERM => TEST_DEFAULT_CONTRACT_TERM,
+                                            })
 
       # create a quote with a product
       quote_with_product = add_product_to_cpq_quote(sf_quote_id, sf_product_id: sf_product_id)
@@ -299,10 +313,12 @@ class Critic::OrderTranslation < Critic::FunctionalTest
       sf_product_id, _sf_pricebook_id = salesforce_recurring_product_with_price(currency_iso_code: quote_currency_iso_code)
 
       # create a CPQ quote
-      sf_quote_id = create_salesforce_quote(sf_account_id: sf_account_id, currency_iso_code: quote_currency_iso_code, additional_quote_fields: {
-        CPQ_QUOTE_SUBSCRIPTION_START_DATE => now_time_formatted_for_salesforce,
-        CPQ_QUOTE_SUBSCRIPTION_TERM => TEST_DEFAULT_CONTRACT_TERM,
-      })
+      sf_quote_id = create_salesforce_quote(sf_account_id: sf_account_id, currency_iso_code: quote_currency_iso_code,
+                                            contact_email: "percent_off_coupon_diff_currency",
+                                            additional_quote_fields: {
+                                              CPQ_QUOTE_SUBSCRIPTION_START_DATE => now_time_formatted_for_salesforce,
+                                              CPQ_QUOTE_SUBSCRIPTION_TERM => TEST_DEFAULT_CONTRACT_TERM,
+                                            })
 
       # create a quote with a product
       quote_with_product = add_product_to_cpq_quote(sf_quote_id, sf_product_id: sf_product_id)
@@ -365,7 +381,7 @@ class Critic::OrderTranslation < Critic::FunctionalTest
       # Make a subscription in GBP
       currency_iso_code = 'GBP'
 
-      sf_order = create_subscription_order(sf_account_id: sf_account, currency_iso_code: currency_iso_code)
+      sf_order = create_subscription_order(sf_account_id: sf_account, currency_iso_code: currency_iso_code, contact_email: "fail_concurrent_multi_currency")
 
       SalesforceTranslateRecordJob.translate(@user, sf_order)
 
@@ -396,7 +412,7 @@ class Critic::OrderTranslation < Critic::FunctionalTest
       # Now for the failure, attempt to create another concurrent subscription but in USD
       currency_iso_code = 'USD'
 
-      sf_order = create_subscription_order(sf_account_id: sf_account, currency_iso_code: currency_iso_code)
+      sf_order = create_subscription_order(sf_account_id: sf_account, currency_iso_code: currency_iso_code, contact_email: "fail_concurrent_multi_currency_2")
 
       begin
         SalesforceTranslateRecordJob.translate(@user, sf_order)
@@ -430,10 +446,12 @@ class Critic::OrderTranslation < Critic::FunctionalTest
       sf_product_id, _sf_pricebook_id = salesforce_recurring_product_with_price(currency_iso_code: quote_currency_iso_code)
 
       # create a CPQ quote
-      sf_quote_id = create_salesforce_quote(sf_account_id: sf_account_id, currency_iso_code: quote_currency_iso_code, additional_quote_fields: {
-        CPQ_QUOTE_SUBSCRIPTION_START_DATE => now_time_formatted_for_salesforce,
-        CPQ_QUOTE_SUBSCRIPTION_TERM => TEST_DEFAULT_CONTRACT_TERM,
-      })
+      sf_quote_id = create_salesforce_quote(sf_account_id: sf_account_id, currency_iso_code: quote_currency_iso_code,
+                                            contact_email: "fails_associate_coupon_diff_currency",
+                                            additional_quote_fields: {
+                                              CPQ_QUOTE_SUBSCRIPTION_START_DATE => now_time_formatted_for_salesforce,
+                                              CPQ_QUOTE_SUBSCRIPTION_TERM => TEST_DEFAULT_CONTRACT_TERM,
+                                            })
 
       # create a quote with a product
       quote_with_product = add_product_to_cpq_quote(sf_quote_id, sf_product_id: sf_product_id)

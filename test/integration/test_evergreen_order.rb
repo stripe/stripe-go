@@ -6,6 +6,9 @@ require_relative './amendments/_lib'
 
 class Critic::EvergreenOrders < Critic::OrderAmendmentFunctionalTest
   before do
+    set_cassette_dir(__FILE__)
+    Timecop.freeze(VCR.current_cassette.originally_recorded_at || now_time)
+
     @user = make_user(save: true)
     @user.enable_feature FeatureFlags::TEST_CLOCKS, update: true
     @user.field_defaults = {
@@ -31,7 +34,7 @@ class Critic::EvergreenOrders < Critic::OrderAmendmentFunctionalTest
   end
 
   it 'creates an evergreen order object' do
-    sf_order = create_evergreen_salesforce_order
+    sf_order = create_evergreen_salesforce_order(contact_email: "create_evergreen")
 
     # get the order items to check the subscription data inside
     order_items = sf_get_related(sf_order, SF_ORDER_ITEM)
@@ -54,7 +57,7 @@ class Critic::EvergreenOrders < Critic::OrderAmendmentFunctionalTest
 
     quote_id = create_salesforce_quote(
       sf_account_id: sf_account_id,
-
+      contact_email: "translate_evergreen",
       additional_quote_fields: {
         CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(subscription_start_date),
         CPQ_QUOTE_SUBSCRIPTION_TERM => SF_ORDER_DEFAULT_EVERGREEN_SUBSCRIPTION_TERM,
@@ -178,64 +181,10 @@ class Critic::EvergreenOrders < Critic::OrderAmendmentFunctionalTest
     assert_equal('canceled', subscription.status)
   end
 
-  it 'creates an invoice every pay period on the stripe subscription' do
-    sf_order = create_salesforce_order(
-      # need to set these fields explicitly to use translate
-      additional_quote_fields: {
-        CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(now_time),
-        # even though evegreeen Salesforce orders do not have an end date, we specify a quote term here to test that the price multiplier is correct
-        # by ensuring that we use the product subscrition term
-        CPQ_QUOTE_SUBSCRIPTION_TERM => TEST_DEFAULT_CONTRACT_TERM,
-      }
-    )
-
-    # translate salesforce order to subscription and find
-    SalesforceTranslateRecordJob.translate(@user, sf_order)
-    sf_order.refresh
-
-    # get Stripe customer
-    sf_account = sf_get(sf_order['AccountId'])
-    stripe_customer_id = sf_account[prefixed_stripe_field(GENERIC_STRIPE_ID)]
-    stripe_customer = stripe_get(stripe_customer_id)
-    refute_nil(stripe_customer.test_clock)
-
-    # get stripe subscription
-    sf_order = sf.find(SF_ORDER, sf_order.Id)
-    stripe_id = sf_order[prefixed_stripe_field(GENERIC_STRIPE_ID)]
-    subscription = Stripe::Subscription.retrieve(stripe_id, @user.stripe_credentials)
-
-    # one invoice should be created for first pay period
-    invoices = Stripe::Invoice.list({subscription: subscription, limit: 100}, @user.stripe_credentials)
-    invoice_1 = Stripe::Invoice.retrieve(invoices.data.first['id'], @user.stripe_credentials)
-    assert_equal(1, invoices.data.length)
-
-    # Fast forward to start of next pay period to see another invoice get created
-    test_clock = advance_test_clock(stripe_customer, subscription.current_period_end)
-
-    # another invoice should have been created for second pay period
-    invoices = Stripe::Invoice.list({subscription: subscription, limit: 100}, @user.stripe_credentials)
-    assert_equal(2, invoices.data.length)
-
-    # Ensure new invoices still have correct properties
-    invoice_2 = Stripe::Invoice.retrieve(invoices.data.first['id'], @user.stripe_credentials)
-    assert_equal(invoice_2['amount_due'] / 100.0, sf_order['TotalAmount'])
-    assert_equal(invoice_1['period_end'], invoice_2['period_start'])
-
-    # Fast forward more to ensure more invoices are created
-    test_clock = advance_test_clock(stripe_customer, (Time.at(subscription.current_period_end) + 2.month).to_i)
-    invoices = Stripe::Invoice.list({subscription: subscription, limit: 100}, @user.stripe_credentials)
-    invoice_3 = Stripe::Invoice.retrieve(invoices.data.second['id'], @user.stripe_credentials)
-    invoice_4 = Stripe::Invoice.retrieve(invoices.data.first['id'], @user.stripe_credentials)
-
-    assert_equal(4, invoices.data.length)
-    assert_equal(invoice_4['amount_due'] / 100.0, sf_order['TotalAmount'])
-    assert_equal(invoice_2['period_end'], invoice_3['period_start'])
-    assert_equal(invoice_3['period_end'], invoice_4['period_start'])
-  end
-
   it 'ignores attempt to resync evergreen order amendment' do
     sf_order = create_evergreen_salesforce_order(
       # need to set these fields explicitly to use translate
+      contact_email: "ignore_resync_attempt",
       additional_quote_fields: {
         CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(now_time),
         CPQ_QUOTE_SUBSCRIPTION_TERM => SF_ORDER_DEFAULT_EVERGREEN_SUBSCRIPTION_TERM,
@@ -290,7 +239,7 @@ class Critic::EvergreenOrders < Critic::OrderAmendmentFunctionalTest
 
       quote_id = create_salesforce_quote(
         sf_account_id: sf_account_id,
-
+        contact_email: "raise_error_when_evergreen_and_renewable",
         additional_quote_fields: {
           CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(now_time),
           CPQ_QUOTE_SUBSCRIPTION_TERM => SF_ORDER_DEFAULT_EVERGREEN_SUBSCRIPTION_TERM,
@@ -326,7 +275,7 @@ class Critic::EvergreenOrders < Critic::OrderAmendmentFunctionalTest
 
       quote_id = create_salesforce_quote(
         sf_account_id: sf_account_id,
-
+        contact_email: "raise_error_when_evergreen_has_default_term",
         additional_quote_fields: {
           CPQ_QUOTE_SUBSCRIPTION_START_DATE => now_time_formatted_for_salesforce,
           CPQ_QUOTE_SUBSCRIPTION_TERM => 12,

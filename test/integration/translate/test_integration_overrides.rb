@@ -3,18 +3,21 @@
 
 require_relative '../../test_helper'
 
-class Critic::IntegrationOverrides < Critic::FunctionalTest
+class Critic::IntegrationOverrides < Critic::VCRTest
   before do
+    set_cassette_dir(__FILE__)
+    Timecop.freeze(VCR.current_cassette.originally_recorded_at || now_time)
+
     @user = make_user(save: true)
   end
 
   it 'integrates a subscription order when an invalid ID is entered in the stripe ID field' do
-    sf_order = create_subscription_order
+    sf_order = create_subscription_order(contact_email: "subscription_with_invalid_id")
 
     sf.update!(sf_order.sobject_type, {
       SF_ID => sf_order.Id,
       # insert a random ID that does not represent a stripe object
-      prefixed_stripe_field(GENERIC_STRIPE_ID) => SecureRandom.alphanumeric(16),
+      prefixed_stripe_field(GENERIC_STRIPE_ID) => "G7Kdgv7XfMirVlLR",
     })
 
     SalesforceTranslateRecordJob.translate(@user, sf_order)
@@ -28,7 +31,7 @@ class Critic::IntegrationOverrides < Critic::FunctionalTest
   it 'ignores a valid stripe ID of the wrong object type' do
     stripe_customer = Stripe::Customer.create({}, @user.stripe_credentials)
 
-    sf_order = create_salesforce_order(additional_quote_fields: {
+    sf_order = create_salesforce_order(contact_email: "ignores_valid_stripe_id", additional_quote_fields: {
       CPQ_QUOTE_SUBSCRIPTION_START_DATE => now_time_formatted_for_salesforce,
       CPQ_QUOTE_SUBSCRIPTION_TERM => 12.0,
     })

@@ -3,8 +3,11 @@
 
 require_relative '../test_helper'
 
-class Critic::InvoiceRendering < Critic::FunctionalTest
+class Critic::InvoiceRendering < Critic::VCRTest
   before do
+    set_cassette_dir(__FILE__)
+    Timecop.freeze(VCR.current_cassette.originally_recorded_at || DateTime.now.utc)
+
     @user = make_user(save: true)
     @user.enable_feature(StripeForce::Constants::FeatureFlags::INVOICE_RENDERING_TEMPLATE)
   end
@@ -24,7 +27,7 @@ class Critic::InvoiceRendering < Critic::FunctionalTest
     sf_order = create_salesforce_order(
       sf_product_id: sf_product_id,
       sf_account_id: sf_account_id,
-
+      contact_email: "translate_template",
       additional_quote_fields: {
         CPQ_QUOTE_SUBSCRIPTION_START_DATE => now_time_formatted_for_salesforce,
         CPQ_QUOTE_SUBSCRIPTION_TERM => TEST_DEFAULT_CONTRACT_TERM,
@@ -63,7 +66,7 @@ class Critic::InvoiceRendering < Critic::FunctionalTest
     sf_order = create_salesforce_order(
       sf_product_id: sf_product_id,
       sf_account_id: sf_account_id,
-
+      contact_email: "translate_template_specific_version",
       additional_quote_fields: {
         CPQ_QUOTE_SUBSCRIPTION_START_DATE => now_time_formatted_for_salesforce,
         CPQ_QUOTE_SUBSCRIPTION_TERM => TEST_DEFAULT_CONTRACT_TERM,
@@ -102,7 +105,7 @@ class Critic::InvoiceRendering < Critic::FunctionalTest
     sf_order = create_salesforce_order(
       sf_product_id: sf_product_id,
       sf_account_id: sf_account_id,
-
+      contact_email: "translate_template_invalid",
       additional_quote_fields: {
         CPQ_QUOTE_SUBSCRIPTION_START_DATE => now_time_formatted_for_salesforce,
         CPQ_QUOTE_SUBSCRIPTION_TERM => TEST_DEFAULT_CONTRACT_TERM,

@@ -1,0 +1,1064 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://ability-innovation-7335-dev-ed.scratch.my.salesforce.com/services/data/v58.0/sobjects/Product2
+    body:
+      encoding: UTF-8
+      string: '{"Name":"REST Product2  2023-08-01 00:00:00 UTC","IsActive":true,"Description":"A
+        great description","ProductCode":"EfxBsBKAsjaF0caCUQPWQYJ8h61G","SBQQ__SubscriptionType__c":""}'
+    headers:
+      User-Agent:
+      - Faraday v2.4.0
+      Content-Type:
+      - application/json
+      Authorization:
+      - OAuth <SALESFORCE_ACCESS_TOKEN>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 201
+      message: Created
+    headers:
+      Date:
+      - Tue, 01 Aug 2023 17:57:39 GMT
+      Set-Cookie:
+      - BrowserId=59jrPjCUEe6ZADeBgbAOng; domain=.salesforce.com; path=/; expires=Wed,
+        31-Jul-2024 17:57:39 GMT; Max-Age=31536000
+      - CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 17:57:39 GMT; Max-Age=31536000
+      - LSKey-c$CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 17:57:39
+        GMT; Max-Age=31536000
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Robots-Tag:
+      - none
+      Cache-Control:
+      - no-cache,must-revalidate,max-age=0,no-store,private
+      Sforce-Limit-Info:
+      - api-usage=8001/5000000
+      Location:
+      - "/services/data/v58.0/sobjects/Product2/01t7e000009An9bAAC"
+      Content-Type:
+      - application/json;charset=UTF-8
+      Vary:
+      - Accept-Encoding
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: ASCII-8BIT
+      string: '{"id":"01t7e000009An9bAAC","success":true,"errors":[]}'
+  recorded_at: Tue, 01 Aug 2023 00:00:00 GMT
+- request:
+    method: get
+    uri: https://ability-innovation-7335-dev-ed.scratch.my.salesforce.com/services/data/v58.0/query?q=Select%20Id%20from%20Pricebook2%20where%20IsStandard%20=%20true
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v2.4.0
+      Authorization:
+      - OAuth <SALESFORCE_ACCESS_TOKEN>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Tue, 01 Aug 2023 17:57:40 GMT
+      Set-Cookie:
+      - BrowserId=6CaWHDCUEe6ZADeBgbAOng; domain=.salesforce.com; path=/; expires=Wed,
+        31-Jul-2024 17:57:40 GMT; Max-Age=31536000
+      - CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 17:57:40 GMT; Max-Age=31536000
+      - LSKey-c$CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 17:57:40
+        GMT; Max-Age=31536000
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Robots-Tag:
+      - none
+      Cache-Control:
+      - no-cache,must-revalidate,max-age=0,no-store,private
+      Sforce-Limit-Info:
+      - api-usage=8002/5000000
+      Content-Type:
+      - application/json;charset=UTF-8
+      Vary:
+      - Accept-Encoding
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: ASCII-8BIT
+      string: '{"totalSize":1,"done":true,"records":[{"attributes":{"type":"Pricebook2","url":"/services/data/v58.0/sobjects/Pricebook2/01s7e000002eLFEAA2"},"Id":"01s7e000002eLFEAA2"}]}'
+  recorded_at: Tue, 01 Aug 2023 00:00:00 GMT
+- request:
+    method: post
+    uri: https://ability-innovation-7335-dev-ed.scratch.my.salesforce.com/services/data/v58.0/sobjects/PricebookEntry
+    body:
+      encoding: UTF-8
+      string: '{"Pricebook2Id":"01s7e000002eLFEAA2","Product2Id":"01t7e000009An9bAAC","IsActive":true,"UnitPrice":100.0,"UseStandardPrice":false}'
+    headers:
+      User-Agent:
+      - Faraday v2.4.0
+      Content-Type:
+      - application/json
+      Authorization:
+      - OAuth <SALESFORCE_ACCESS_TOKEN>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 201
+      message: Created
+    headers:
+      Date:
+      - Tue, 01 Aug 2023 17:57:40 GMT
+      Set-Cookie:
+      - BrowserId=6FvXXDCUEe6tYEOIfUf4IA; domain=.salesforce.com; path=/; expires=Wed,
+        31-Jul-2024 17:57:40 GMT; Max-Age=31536000
+      - CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 17:57:40 GMT; Max-Age=31536000
+      - LSKey-c$CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 17:57:40
+        GMT; Max-Age=31536000
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Robots-Tag:
+      - none
+      Cache-Control:
+      - no-cache,must-revalidate,max-age=0,no-store,private
+      Sforce-Limit-Info:
+      - api-usage=7993/5000000
+      Location:
+      - "/services/data/v58.0/sobjects/PricebookEntry/01u7e00000Isi2UAAR"
+      Content-Type:
+      - application/json;charset=UTF-8
+      Vary:
+      - Accept-Encoding
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: ASCII-8BIT
+      string: '{"id":"01u7e00000Isi2UAAR","success":true,"errors":[]}'
+  recorded_at: Tue, 01 Aug 2023 00:00:00 GMT
+- request:
+    method: get
+    uri: https://ability-innovation-7335-dev-ed.scratch.my.salesforce.com/services/data/v58.0/sobjects/PricebookEntry/01u7e00000Isi2UAAR
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v2.4.0
+      Authorization:
+      - OAuth <SALESFORCE_ACCESS_TOKEN>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Tue, 01 Aug 2023 17:57:41 GMT
+      Set-Cookie:
+      - BrowserId=6M_18zCUEe6aP6F4JRfW4Q; domain=.salesforce.com; path=/; expires=Wed,
+        31-Jul-2024 17:57:41 GMT; Max-Age=31536000
+      - CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 17:57:41 GMT; Max-Age=31536000
+      - LSKey-c$CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 17:57:41
+        GMT; Max-Age=31536000
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Robots-Tag:
+      - none
+      Cache-Control:
+      - no-cache,must-revalidate,max-age=0,no-store,private
+      Sforce-Limit-Info:
+      - api-usage=7989/5000000
+      Last-Modified:
+      - Tue, 01 Aug 2023 17:57:40 GMT
+      Content-Type:
+      - application/json;charset=UTF-8
+      Vary:
+      - Accept-Encoding
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: ASCII-8BIT
+      string: '{"attributes":{"type":"PricebookEntry","url":"/services/data/v58.0/sobjects/PricebookEntry/01u7e00000Isi2UAAR"},"Id":"01u7e00000Isi2UAAR","Name":"REST
+        Product2  2023-08-01 00:00:00 UTC","Pricebook2Id":"01s7e000002eLFEAA2","Product2Id":"01t7e000009An9bAAC","UnitPrice":100.0,"IsActive":true,"UseStandardPrice":false,"CreatedDate":"2023-08-01T17:57:40.000+0000","CreatedById":"0057e00000VZBcyAAH","LastModifiedDate":"2023-08-01T17:57:40.000+0000","LastModifiedById":"0057e00000VZBcyAAH","SystemModstamp":"2023-08-01T17:57:40.000+0000","ProductCode":"EfxBsBKAsjaF0caCUQPWQYJ8h61G","IsDeleted":false,"IsArchived":false,"Stripe_ID__c":null,"Test_Decimal_Field__c":null,"Test_String_Field__c":null,"Stripe_Dashboard_Link__c":"https://dashboard.stripe.com/test/id/"}'
+  recorded_at: Tue, 01 Aug 2023 00:00:00 GMT
+- request:
+    method: post
+    uri: https://ability-innovation-7335-dev-ed.scratch.my.salesforce.com/services/apexrest/batchApi
+    body:
+      encoding: UTF-8
+      string: '{"product2_ids":["01t7e000009An9bAAC"]}'
+    headers:
+      User-Agent:
+      - Faraday v2.4.0
+      Content-Type:
+      - application/json
+      Authorization:
+      - OAuth <SALESFORCE_ACCESS_TOKEN>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Tue, 01 Aug 2023 17:57:41 GMT
+      Set-Cookie:
+      - BrowserId=6QtRNzCUEe6FfkeBuaLXIQ; domain=.salesforce.com; path=/; expires=Wed,
+        31-Jul-2024 17:57:41 GMT; Max-Age=31536000
+      - CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 17:57:41 GMT; Max-Age=31536000
+      - LSKey-c$CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 17:57:41
+        GMT; Max-Age=31536000
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Robots-Tag:
+      - none
+      Cache-Control:
+      - no-cache,must-revalidate,max-age=0,no-store,private
+      Content-Type:
+      - application/json
+      Vary:
+      - Accept-Encoding
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: ASCII-8BIT
+      string: '{"records":[{"PricebookEntries":["01t7e000009An9bAAC"],"Stripe_Dashboard_Link__c":"https://dashboard.stripe.com/test/id/","SBQQ__Taxable__c":false,"SBQQ__SubscriptionBase__c":"List","SBQQ__ReconfigurationDisabled__c":false,"SBQQ__QuantityEditable__c":true,"SBQQ__PricingMethod__c":"List","SBQQ__PricingMethodEditable__c":false,"SBQQ__PriceEditable__c":false,"SBQQ__Optional__c":false,"SBQQ__OptionSelectionMethod__c":"Click","SBQQ__NonPartnerDiscountable__c":false,"SBQQ__NonDiscountable__c":false,"SBQQ__NewQuoteGroup__c":false,"SBQQ__IncludeInMaintenance__c":false,"SBQQ__HidePriceInSearchResults__c":false,"SBQQ__Hidden__c":false,"SBQQ__HasConsumptionSchedule__c":false,"SBQQ__HasConfigurationAttributes__c":false,"SBQQ__ExternallyConfigurable__c":false,"SBQQ__ExcludeFromOpportunity__c":false,"SBQQ__ExcludeFromMaintenance__c":false,"SBQQ__EnableLargeConfiguration__c":false,"SBQQ__DescriptionLocked__c":false,"SBQQ__DefaultQuantity__c":1.00000,"SBQQ__CustomConfigurationRequired__c":false,"SBQQ__CostEditable__c":false,"SBQQ__Component__c":false,"SBQQ__BlockPricingField__c":"Quantity","SBQQ__AssetConversion__c":"One
+        per quote line","SBQQ__AssetAmendmentBehavior__c":"Default","IsArchived":false,"IsDeleted":false,"SystemModstamp":"2023-08-01T17:57:40.000+0000","LastModifiedById":"0057e00000VZBcyAAH","LastModifiedDate":"2023-08-01T17:57:39.000+0000","CreatedById":"0057e00000VZBcyAAH","CreatedDate":"2023-08-01T17:57:39.000+0000","IsActive":true,"Description":"A
+        great description","ProductCode":"EfxBsBKAsjaF0caCUQPWQYJ8h61G","Name":"REST
+        Product2  2023-08-01 00:00:00 UTC","Id":"01t7e000009An9bAAC","attributes":{"url":"/services/data/v58.0/sobjects/Product2/01t7e000009An9bAAC","type":"Product2"}},{"Stripe_Dashboard_Link__c":"https://dashboard.stripe.com/test/id/","IsArchived":false,"IsDeleted":false,"ProductCode":"EfxBsBKAsjaF0caCUQPWQYJ8h61G","SystemModstamp":"2023-08-01T17:57:40.000+0000","LastModifiedById":"0057e00000VZBcyAAH","LastModifiedDate":"2023-08-01T17:57:40.000+0000","CreatedById":"0057e00000VZBcyAAH","CreatedDate":"2023-08-01T17:57:40.000+0000","UseStandardPrice":false,"IsActive":true,"UnitPrice":100.00,"Product2Id":"01t7e000009An9bAAC","Pricebook2Id":"01s7e000002eLFEAA2","Name":"REST
+        Product2  2023-08-01 00:00:00 UTC","Id":"01u7e00000Isi2UAAR","attributes":{"url":"/services/data/v58.0/sobjects/PricebookEntry/01u7e00000Isi2UAAR","type":"PricebookEntry"}}],"errors":[]}'
+  recorded_at: Tue, 01 Aug 2023 00:00:00 GMT
+- request:
+    method: post
+    uri: https://api.stripe.com/v1/products
+    body:
+      encoding: UTF-8
+      string: name=REST+Product2++2023-08-01+00%3A00%3A00+UTC&description=A+great+description&metadata[salesforce_product2_id]=01t7e000009An9bAAC&metadata[salesforce_product2_link]=https%3A%2F%2Fability-innovation-7335-dev-ed.scratch.my.salesforce.com%2F01t7e000009An9bAAC
+    headers:
+      User-Agent:
+      - Stripe/v1 RubyBindings/7.1.0
+      Authorization:
+      - Bearer <STRIPE_API_KEY>
+      Content-Type:
+      - application/x-www-form-urlencoded
+      Idempotency-Key:
+      - 9ac9194f-598b-4f26-b519-bab1093257f7
+      Stripe-Version:
+      - '2020-08-27'
+      X-Stripe-Client-User-Agent:
+      - '{"bindings_version":"7.1.0","lang":"ruby","lang_version":"2.7.6 p219 (2022-04-12)","platform":"arm64-darwin22","engine":"ruby","publisher":"stripe","uname":"Darwin
+        st-rish2 22.5.0 Darwin Kernel Version 22.5.0: Thu Jun  8 22:22:20 PDT 2023;
+        root:xnu-8796.121.3~7/RELEASE_ARM64_T6000 arm64","hostname":"st-rish2"}'
+      Stripe-Account:
+      - STRIPE_MERCHANT_ID
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Tue, 01 Aug 2023 17:57:42 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '748'
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Methods:
+      - GET, POST, HEAD, OPTIONS, DELETE
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Request-Id, Stripe-Manage-Version, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required
+      Access-Control-Max-Age:
+      - '300'
+      Cache-Control:
+      - no-cache, no-store
+      Idempotency-Key:
+      - 9ac9194f-598b-4f26-b519-bab1093257f7
+      Original-Request:
+      - req_dISXmBdxW4tlCN
+      Request-Id:
+      - req_dISXmBdxW4tlCN
+      Stripe-Account:
+      - acct_15uapDIsgf92XbAO
+      Stripe-Should-Retry:
+      - 'false'
+      Stripe-Version:
+      - '2020-08-27'
+      X-Stripe-Routing-Context-Priority-Tier:
+      - api-testmode
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains; preload
+    body:
+      encoding: UTF-8
+      string: |-
+        {
+          "id": "prod_ON73ZWNvG7XqY4",
+          "object": "product",
+          "active": true,
+          "attributes": [],
+          "created": 1690912662,
+          "default_price": null,
+          "description": "A great description",
+          "identifiers": {},
+          "images": [],
+          "livemode": false,
+          "metadata": {
+            "salesforce_product2_id": "01t7e000009An9bAAC",
+            "salesforce_product2_link": "https://ability-innovation-7335-dev-ed.scratch.my.salesforce.com/01t7e000009An9bAAC"
+          },
+          "name": "REST Product2  2023-08-01 00:00:00 UTC",
+          "package_dimensions": null,
+          "product_class": null,
+          "shippable": null,
+          "sku": "rest-product2--2023-08-01-000000-utc-60",
+          "statement_descriptor": null,
+          "tax_code": null,
+          "type": "service",
+          "unit_label": null,
+          "updated": 1690912662,
+          "url": null
+        }
+  recorded_at: Tue, 01 Aug 2023 00:00:00 GMT
+- request:
+    method: patch
+    uri: https://ability-innovation-7335-dev-ed.scratch.my.salesforce.com/services/data/v58.0/sobjects/Product2/01t7e000009An9bAAC
+    body:
+      encoding: UTF-8
+      string: '{"Stripe_ID__c":"prod_ON73ZWNvG7XqY4"}'
+    headers:
+      User-Agent:
+      - Faraday v2.4.0
+      Content-Type:
+      - application/json
+      Authorization:
+      - OAuth <SALESFORCE_ACCESS_TOKEN>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 204
+      message: No Content
+    headers:
+      Date:
+      - Tue, 01 Aug 2023 17:57:42 GMT
+      Set-Cookie:
+      - BrowserId=6aVuizCUEe6aP6F4JRfW4Q; domain=.salesforce.com; path=/; expires=Wed,
+        31-Jul-2024 17:57:42 GMT; Max-Age=31536000
+      - CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 17:57:42 GMT; Max-Age=31536000
+      - LSKey-c$CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 17:57:42
+        GMT; Max-Age=31536000
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+      Content-Security-Policy:
+      - upgrade-insecure-requests
+      X-Robots-Tag:
+      - none
+      Cache-Control:
+      - no-cache,must-revalidate,max-age=0,no-store,private
+      Sforce-Limit-Info:
+      - api-usage=7990/5000000
+    body:
+      encoding: UTF-8
+      string: ''
+  recorded_at: Tue, 01 Aug 2023 00:00:00 GMT
+- request:
+    method: get
+    uri: https://ability-innovation-7335-dev-ed.scratch.my.salesforce.com/services/data/v58.0/query?q=SELECT%20Id%0AFROM%20ProductConsumptionSchedule%0AWHERE%20ProductId%20=%20%2701t7e000009An9bAAC%27%0A
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v2.4.0
+      Authorization:
+      - OAuth <SALESFORCE_ACCESS_TOKEN>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Tue, 01 Aug 2023 17:57:43 GMT
+      Set-Cookie:
+      - BrowserId=6f6K9zCUEe6FfkeBuaLXIQ; domain=.salesforce.com; path=/; expires=Wed,
+        31-Jul-2024 17:57:43 GMT; Max-Age=31536000
+      - CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 17:57:43 GMT; Max-Age=31536000
+      - LSKey-c$CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 17:57:43
+        GMT; Max-Age=31536000
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Robots-Tag:
+      - none
+      Cache-Control:
+      - no-cache,must-revalidate,max-age=0,no-store,private
+      Sforce-Limit-Info:
+      - api-usage=7998/5000000
+      Content-Type:
+      - application/json;charset=UTF-8
+      Vary:
+      - Accept-Encoding
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: ASCII-8BIT
+      string: '{"totalSize":0,"done":true,"records":[]}'
+  recorded_at: Tue, 01 Aug 2023 00:00:00 GMT
+- request:
+    method: get
+    uri: https://ability-innovation-7335-dev-ed.scratch.my.salesforce.com/services/data/v58.0/query?q=SELECT%20Id%0AFROM%20ProductConsumptionSchedule%0AWHERE%20ProductId%20=%20%2701t7e000009An9bAAC%27%0A
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v2.4.0
+      Authorization:
+      - OAuth <SALESFORCE_ACCESS_TOKEN>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Tue, 01 Aug 2023 17:57:43 GMT
+      Set-Cookie:
+      - BrowserId=6jYVSDCUEe6dibfjHAp7ZA; domain=.salesforce.com; path=/; expires=Wed,
+        31-Jul-2024 17:57:43 GMT; Max-Age=31536000
+      - CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 17:57:43 GMT; Max-Age=31536000
+      - LSKey-c$CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 17:57:43
+        GMT; Max-Age=31536000
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Robots-Tag:
+      - none
+      Cache-Control:
+      - no-cache,must-revalidate,max-age=0,no-store,private
+      Sforce-Limit-Info:
+      - api-usage=8001/5000000
+      Content-Type:
+      - application/json;charset=UTF-8
+      Vary:
+      - Accept-Encoding
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: ASCII-8BIT
+      string: '{"totalSize":0,"done":true,"records":[]}'
+  recorded_at: Tue, 01 Aug 2023 00:00:00 GMT
+- request:
+    method: get
+    uri: https://ability-innovation-7335-dev-ed.scratch.my.salesforce.com/services/data/v58.0/sobjects/Product2/01t7e000009An9bAAC
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v2.4.0
+      Authorization:
+      - OAuth <SALESFORCE_ACCESS_TOKEN>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Tue, 01 Aug 2023 17:57:44 GMT
+      Set-Cookie:
+      - BrowserId=6mzclTCUEe6NISPaolPCcw; domain=.salesforce.com; path=/; expires=Wed,
+        31-Jul-2024 17:57:44 GMT; Max-Age=31536000
+      - CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 17:57:44 GMT; Max-Age=31536000
+      - LSKey-c$CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 17:57:44
+        GMT; Max-Age=31536000
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Robots-Tag:
+      - none
+      Cache-Control:
+      - no-cache,must-revalidate,max-age=0,no-store,private
+      Sforce-Limit-Info:
+      - api-usage=7999/5000000
+      Last-Modified:
+      - Tue, 01 Aug 2023 17:57:43 GMT
+      Content-Type:
+      - application/json;charset=UTF-8
+      Vary:
+      - Accept-Encoding
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: ASCII-8BIT
+      string: '{"attributes":{"type":"Product2","url":"/services/data/v58.0/sobjects/Product2/01t7e000009An9bAAC"},"Id":"01t7e000009An9bAAC","Name":"REST
+        Product2  2023-08-01 00:00:00 UTC","ProductCode":"EfxBsBKAsjaF0caCUQPWQYJ8h61G","Description":"A
+        great description","IsActive":true,"CreatedDate":"2023-08-01T17:57:39.000+0000","CreatedById":"0057e00000VZBcyAAH","LastModifiedDate":"2023-08-01T17:57:43.000+0000","LastModifiedById":"0057e00000VZBcyAAH","SystemModstamp":"2023-08-01T17:57:43.000+0000","Family":null,"IsSerialized":false,"ExternalDataSourceId":null,"ExternalId":null,"DisplayUrl":null,"QuantityUnitOfMeasure":null,"IsDeleted":false,"IsArchived":false,"LastViewedDate":null,"LastReferencedDate":null,"StockKeepingUnit":null,"SBQQ__AssetAmendmentBehavior__c":"Default","SBQQ__AssetConversion__c":"One
+        per quote line","SBQQ__BatchQuantity__c":null,"SBQQ__BillingFrequency__c":null,"SBQQ__BillingType__c":null,"SBQQ__BlockPricingField__c":"Quantity","SBQQ__ChargeType__c":null,"SBQQ__Component__c":false,"SBQQ__CompoundDiscountRate__c":null,"SBQQ__ConfigurationFieldSet__c":null,"SBQQ__ConfigurationFields__c":null,"SBQQ__ConfigurationFormTitle__c":null,"SBQQ__ConfigurationType__c":null,"SBQQ__ConfigurationValidator__c":null,"SBQQ__ConfiguredCodePattern__c":null,"SBQQ__ConfiguredDescriptionPattern__c":null,"SBQQ__CostEditable__c":false,"SBQQ__CostSchedule__c":null,"SBQQ__CustomConfigurationPage__c":null,"SBQQ__CustomConfigurationRequired__c":false,"SBQQ__CustomerCommunityAvailability__c":null,"SBQQ__DefaultPricingTable__c":null,"SBQQ__DefaultQuantity__c":1.0,"SBQQ__DescriptionLocked__c":false,"SBQQ__DiscountCategory__c":null,"SBQQ__DiscountSchedule__c":null,"SBQQ__DynamicPricingConstraint__c":null,"SBQQ__EnableLargeConfiguration__c":false,"SBQQ__ExcludeFromMaintenance__c":false,"SBQQ__ExcludeFromOpportunity__c":false,"SBQQ__ExternallyConfigurable__c":false,"SBQQ__GenerateContractedPrice__c":null,"SBQQ__HasConfigurationAttributes__c":false,"SBQQ__HasConsumptionSchedule__c":false,"SBQQ__Hidden__c":false,"SBQQ__HidePriceInSearchResults__c":false,"SBQQ__IncludeInMaintenance__c":false,"SBQQ__NewQuoteGroup__c":false,"SBQQ__NonDiscountable__c":false,"SBQQ__NonPartnerDiscountable__c":false,"SBQQ__OptionLayout__c":null,"SBQQ__OptionSelectionMethod__c":"Click","SBQQ__Optional__c":false,"SBQQ__PriceEditable__c":false,"SBQQ__PricingGuidance__c":null,"SBQQ__PricingMethodEditable__c":false,"SBQQ__PricingMethod__c":"List","SBQQ__ProductPictureID__c":null,"SBQQ__QuantityEditable__c":true,"SBQQ__QuantityScale__c":null,"SBQQ__ReconfigurationDisabled__c":false,"SBQQ__RenewalProduct__c":null,"SBQQ__SortOrder__c":null,"SBQQ__Specifications__c":null,"SBQQ__SubscriptionBase__c":"List","SBQQ__SubscriptionCategory__c":null,"SBQQ__SubscriptionPercent__c":null,"SBQQ__SubscriptionPricing__c":null,"SBQQ__SubscriptionTarget__c":null,"SBQQ__SubscriptionTerm__c":null,"SBQQ__SubscriptionType__c":null,"SBQQ__TaxCode__c":null,"SBQQ__Taxable__c":false,"SBQQ__TermDiscountLevel__c":null,"SBQQ__TermDiscountSchedule__c":null,"SBQQ__UpgradeCredit__c":null,"SBQQ__UpgradeRatio__c":null,"SBQQ__UpgradeSource__c":null,"SBQQ__UpgradeTarget__c":null,"SBQQ__ConfigurationEvent__c":null,"Stripe_ID__c":"prod_ON73ZWNvG7XqY4","Stripe_Dashboard_Link__c":"https://dashboard.stripe.com/test/id/prod_ON73ZWNvG7XqY4"}'
+  recorded_at: Tue, 01 Aug 2023 00:00:00 GMT
+- request:
+    method: post
+    uri: https://api.stripe.com/v1/prices
+    body:
+      encoding: UTF-8
+      string: currency=usd&unit_amount_decimal=10000.0&product=prod_ON73ZWNvG7XqY4&metadata[salesforce_pricebook_entry_id]=01u7e00000Isi2UAAR&metadata[salesforce_pricebook_entry_link]=https%3A%2F%2Fability-innovation-7335-dev-ed.scratch.my.salesforce.com%2F01u7e00000Isi2UAAR
+    headers:
+      User-Agent:
+      - Stripe/v1 RubyBindings/7.1.0
+      Authorization:
+      - Bearer <STRIPE_API_KEY>
+      Content-Type:
+      - application/x-www-form-urlencoded
+      X-Stripe-Client-Telemetry:
+      - '{"last_request_metrics":{"request_id":"req_dISXmBdxW4tlCN","request_duration_ms":279}}'
+      Idempotency-Key:
+      - acac3644-6a77-40f8-8c60-39d9ee7d8fcb
+      Stripe-Version:
+      - '2020-08-27'
+      X-Stripe-Client-User-Agent:
+      - '{"bindings_version":"7.1.0","lang":"ruby","lang_version":"2.7.6 p219 (2022-04-12)","platform":"arm64-darwin22","engine":"ruby","publisher":"stripe","uname":"Darwin
+        st-rish2 22.5.0 Darwin Kernel Version 22.5.0: Thu Jun  8 22:22:20 PDT 2023;
+        root:xnu-8796.121.3~7/RELEASE_ARM64_T6000 arm64","hostname":"st-rish2"}'
+      Stripe-Account:
+      - STRIPE_MERCHANT_ID
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Tue, 01 Aug 2023 17:57:44 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '681'
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Methods:
+      - GET, POST, HEAD, OPTIONS, DELETE
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Request-Id, Stripe-Manage-Version, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required
+      Access-Control-Max-Age:
+      - '300'
+      Cache-Control:
+      - no-cache, no-store
+      Idempotency-Key:
+      - acac3644-6a77-40f8-8c60-39d9ee7d8fcb
+      Original-Request:
+      - req_zn5P6CFlp4fvf6
+      Request-Id:
+      - req_zn5P6CFlp4fvf6
+      Stripe-Account:
+      - acct_15uapDIsgf92XbAO
+      Stripe-Should-Retry:
+      - 'false'
+      Stripe-Version:
+      - '2020-08-27'
+      X-Stripe-Routing-Context-Priority-Tier:
+      - api-testmode
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains; preload
+    body:
+      encoding: UTF-8
+      string: |-
+        {
+          "id": "price_1NaMpIIsgf92XbAOfDU3Nmlk",
+          "object": "price",
+          "active": true,
+          "billing_scheme": "per_unit",
+          "created": 1690912664,
+          "currency": "usd",
+          "custom_unit_amount": null,
+          "livemode": false,
+          "lookup_key": null,
+          "metadata": {
+            "salesforce_pricebook_entry_id": "01u7e00000Isi2UAAR",
+            "salesforce_pricebook_entry_link": "https://ability-innovation-7335-dev-ed.scratch.my.salesforce.com/01u7e00000Isi2UAAR"
+          },
+          "nickname": null,
+          "product": "prod_ON73ZWNvG7XqY4",
+          "recurring": null,
+          "tax_behavior": "unspecified",
+          "tiers_mode": null,
+          "transform_quantity": null,
+          "type": "one_time",
+          "unit_amount": 10000,
+          "unit_amount_decimal": "10000"
+        }
+  recorded_at: Tue, 01 Aug 2023 00:00:00 GMT
+- request:
+    method: patch
+    uri: https://ability-innovation-7335-dev-ed.scratch.my.salesforce.com/services/data/v58.0/sobjects/PricebookEntry/01u7e00000Isi2UAAR
+    body:
+      encoding: UTF-8
+      string: '{"Stripe_ID__c":"price_1NaMpIIsgf92XbAOfDU3Nmlk"}'
+    headers:
+      User-Agent:
+      - Faraday v2.4.0
+      Content-Type:
+      - application/json
+      Authorization:
+      - OAuth <SALESFORCE_ACCESS_TOKEN>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 204
+      message: No Content
+    headers:
+      Date:
+      - Tue, 01 Aug 2023 17:57:44 GMT
+      Set-Cookie:
+      - BrowserId=6tCBGjCUEe6FfkeBuaLXIQ; domain=.salesforce.com; path=/; expires=Wed,
+        31-Jul-2024 17:57:44 GMT; Max-Age=31536000
+      - CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 17:57:44 GMT; Max-Age=31536000
+      - LSKey-c$CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 17:57:44
+        GMT; Max-Age=31536000
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+      Content-Security-Policy:
+      - upgrade-insecure-requests
+      X-Robots-Tag:
+      - none
+      Cache-Control:
+      - no-cache,must-revalidate,max-age=0,no-store,private
+      Sforce-Limit-Info:
+      - api-usage=7999/5000000
+    body:
+      encoding: UTF-8
+      string: ''
+  recorded_at: Tue, 01 Aug 2023 00:00:00 GMT
+- request:
+    method: patch
+    uri: https://ability-innovation-7335-dev-ed.scratch.my.salesforce.com/services/data/v58.0/sobjects/Sync_Record__c/Compound_ID__c/01u7e00000Isi2UAAR-01u7e00000Isi2UAAR
+    body:
+      encoding: UTF-8
+      string: '{"Primary_Record_ID__c":"01u7e00000Isi2UAAR","Primary_Object_Type__c":"PricebookEntry","Secondary_Record_ID__c":"01u7e00000Isi2UAAR","Secondary_Object_Type__c":"PricebookEntry","Resolution_Message__c":"Sync
+        Successful, created Stripe Price Object with ID: price_1NaMpIIsgf92XbAOfDU3Nmlk","Resolution_Status__c":"Success"}'
+    headers:
+      User-Agent:
+      - Faraday v2.4.0
+      Content-Type:
+      - application/json
+      Authorization:
+      - OAuth <SALESFORCE_ACCESS_TOKEN>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 201
+      message: Created
+    headers:
+      Date:
+      - Tue, 01 Aug 2023 17:57:45 GMT
+      Set-Cookie:
+      - BrowserId=6w07_DCUEe6BD7nYZTiwdQ; domain=.salesforce.com; path=/; expires=Wed,
+        31-Jul-2024 17:57:45 GMT; Max-Age=31536000
+      - CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 17:57:45 GMT; Max-Age=31536000
+      - LSKey-c$CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 17:57:45
+        GMT; Max-Age=31536000
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Robots-Tag:
+      - none
+      Cache-Control:
+      - no-cache,must-revalidate,max-age=0,no-store,private
+      Sforce-Limit-Info:
+      - api-usage=7980/5000000
+      Location:
+      - "/services/data/v58.0/sobjects/Sync_Record__c/a1W7e000002GrJ0EAK"
+      Content-Type:
+      - application/json;charset=UTF-8
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: '{"id":"a1W7e000002GrJ0EAK","success":true,"errors":[],"created":true}'
+  recorded_at: Tue, 01 Aug 2023 00:00:00 GMT
+- request:
+    method: get
+    uri: https://api.stripe.com/v1/prices/price_1NaMpIIsgf92XbAOfDU3Nmlk?expand%5B%5D=tiers
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Stripe/v1 RubyBindings/7.1.0
+      Authorization:
+      - Bearer <STRIPE_API_KEY>
+      Content-Type:
+      - application/x-www-form-urlencoded
+      X-Stripe-Client-Telemetry:
+      - '{"last_request_metrics":{"request_id":"req_zn5P6CFlp4fvf6","request_duration_ms":250}}'
+      Stripe-Version:
+      - '2020-08-27'
+      X-Stripe-Client-User-Agent:
+      - '{"bindings_version":"7.1.0","lang":"ruby","lang_version":"2.7.6 p219 (2022-04-12)","platform":"arm64-darwin22","engine":"ruby","publisher":"stripe","uname":"Darwin
+        st-rish2 22.5.0 Darwin Kernel Version 22.5.0: Thu Jun  8 22:22:20 PDT 2023;
+        root:xnu-8796.121.3~7/RELEASE_ARM64_T6000 arm64","hostname":"st-rish2"}'
+      Stripe-Account:
+      - STRIPE_MERCHANT_ID
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Tue, 01 Aug 2023 17:57:45 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '681'
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Methods:
+      - GET, POST, HEAD, OPTIONS, DELETE
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Request-Id, Stripe-Manage-Version, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required
+      Access-Control-Max-Age:
+      - '300'
+      Cache-Control:
+      - no-cache, no-store
+      Request-Id:
+      - req_9z47WsmXcYjiZh
+      Stripe-Account:
+      - acct_15uapDIsgf92XbAO
+      Stripe-Version:
+      - '2020-08-27'
+      X-Stripe-Routing-Context-Priority-Tier:
+      - api-testmode
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains; preload
+    body:
+      encoding: UTF-8
+      string: |-
+        {
+          "id": "price_1NaMpIIsgf92XbAOfDU3Nmlk",
+          "object": "price",
+          "active": true,
+          "billing_scheme": "per_unit",
+          "created": 1690912664,
+          "currency": "usd",
+          "custom_unit_amount": null,
+          "livemode": false,
+          "lookup_key": null,
+          "metadata": {
+            "salesforce_pricebook_entry_id": "01u7e00000Isi2UAAR",
+            "salesforce_pricebook_entry_link": "https://ability-innovation-7335-dev-ed.scratch.my.salesforce.com/01u7e00000Isi2UAAR"
+          },
+          "nickname": null,
+          "product": "prod_ON73ZWNvG7XqY4",
+          "recurring": null,
+          "tax_behavior": "unspecified",
+          "tiers_mode": null,
+          "transform_quantity": null,
+          "type": "one_time",
+          "unit_amount": 10000,
+          "unit_amount_decimal": "10000"
+        }
+  recorded_at: Tue, 01 Aug 2023 00:00:00 GMT
+- request:
+    method: post
+    uri: https://api.stripe.com/v1/prices
+    body:
+      encoding: UTF-8
+      string: billing_scheme=per_unit&currency=usd&metadata[salesforce_pricebook_entry_id]=01u7e00000Isi2UAAR&metadata[salesforce_pricebook_entry_link]=https%3A%2F%2Fability-innovation-7335-dev-ed.scratch.my.salesforce.com%2F01u7e00000Isi2UAAR&metadata[salesforce_duplicate]=true&metadata[salesforce_auto_archive]=true&metadata[salesforce_original_stripe_price_id]=price_1NaMpIIsgf92XbAOfDU3Nmlk&product=prod_ON73ZWNvG7XqY4&tax_behavior=unspecified&unit_amount_decimal=10000
+    headers:
+      User-Agent:
+      - Stripe/v1 RubyBindings/7.1.0
+      Authorization:
+      - Bearer <STRIPE_API_KEY>
+      Content-Type:
+      - application/x-www-form-urlencoded
+      X-Stripe-Client-Telemetry:
+      - '{"last_request_metrics":{"request_id":"req_9z47WsmXcYjiZh","request_duration_ms":168}}'
+      Idempotency-Key:
+      - ece11e74-d884-47bc-9e2e-ac3b479a862c
+      Stripe-Version:
+      - '2020-08-27'
+      X-Stripe-Client-User-Agent:
+      - '{"bindings_version":"7.1.0","lang":"ruby","lang_version":"2.7.6 p219 (2022-04-12)","platform":"arm64-darwin22","engine":"ruby","publisher":"stripe","uname":"Darwin
+        st-rish2 22.5.0 Darwin Kernel Version 22.5.0: Thu Jun  8 22:22:20 PDT 2023;
+        root:xnu-8796.121.3~7/RELEASE_ARM64_T6000 arm64","hostname":"st-rish2"}'
+      Stripe-Account:
+      - STRIPE_MERCHANT_ID
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Tue, 01 Aug 2023 17:57:45 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '833'
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Methods:
+      - GET, POST, HEAD, OPTIONS, DELETE
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Request-Id, Stripe-Manage-Version, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required
+      Access-Control-Max-Age:
+      - '300'
+      Cache-Control:
+      - no-cache, no-store
+      Idempotency-Key:
+      - ece11e74-d884-47bc-9e2e-ac3b479a862c
+      Original-Request:
+      - req_fa4S8ctyIliYnI
+      Request-Id:
+      - req_fa4S8ctyIliYnI
+      Stripe-Account:
+      - acct_15uapDIsgf92XbAO
+      Stripe-Should-Retry:
+      - 'false'
+      Stripe-Version:
+      - '2020-08-27'
+      X-Stripe-Routing-Context-Priority-Tier:
+      - api-testmode
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains; preload
+    body:
+      encoding: UTF-8
+      string: |-
+        {
+          "id": "price_1NaMpJIsgf92XbAOi3YoQlaW",
+          "object": "price",
+          "active": true,
+          "billing_scheme": "per_unit",
+          "created": 1690912665,
+          "currency": "usd",
+          "custom_unit_amount": null,
+          "livemode": false,
+          "lookup_key": null,
+          "metadata": {
+            "salesforce_auto_archive": "true",
+            "salesforce_duplicate": "true",
+            "salesforce_original_stripe_price_id": "price_1NaMpIIsgf92XbAOfDU3Nmlk",
+            "salesforce_pricebook_entry_id": "01u7e00000Isi2UAAR",
+            "salesforce_pricebook_entry_link": "https://ability-innovation-7335-dev-ed.scratch.my.salesforce.com/01u7e00000Isi2UAAR"
+          },
+          "nickname": null,
+          "product": "prod_ON73ZWNvG7XqY4",
+          "recurring": null,
+          "tax_behavior": "unspecified",
+          "tiers_mode": null,
+          "transform_quantity": null,
+          "type": "one_time",
+          "unit_amount": 10000,
+          "unit_amount_decimal": "10000"
+        }
+  recorded_at: Tue, 01 Aug 2023 00:00:00 GMT
+- request:
+    method: get
+    uri: https://api.stripe.com/v1/prices/price_1NaMpJIsgf92XbAOi3YoQlaW
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Stripe/v1 RubyBindings/7.1.0
+      Authorization:
+      - Bearer <STRIPE_API_KEY>
+      Content-Type:
+      - application/x-www-form-urlencoded
+      X-Stripe-Client-Telemetry:
+      - '{"last_request_metrics":{"request_id":"req_fa4S8ctyIliYnI","request_duration_ms":274}}'
+      Stripe-Version:
+      - '2020-08-27'
+      X-Stripe-Client-User-Agent:
+      - '{"bindings_version":"7.1.0","lang":"ruby","lang_version":"2.7.6 p219 (2022-04-12)","platform":"arm64-darwin22","engine":"ruby","publisher":"stripe","uname":"Darwin
+        st-rish2 22.5.0 Darwin Kernel Version 22.5.0: Thu Jun  8 22:22:20 PDT 2023;
+        root:xnu-8796.121.3~7/RELEASE_ARM64_T6000 arm64","hostname":"st-rish2"}'
+      Stripe-Account:
+      - STRIPE_MERCHANT_ID
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Tue, 01 Aug 2023 17:57:45 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '833'
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Methods:
+      - GET, POST, HEAD, OPTIONS, DELETE
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Request-Id, Stripe-Manage-Version, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required
+      Access-Control-Max-Age:
+      - '300'
+      Cache-Control:
+      - no-cache, no-store
+      Request-Id:
+      - req_Vf6tF7rVg7ymBe
+      Stripe-Account:
+      - acct_15uapDIsgf92XbAO
+      Stripe-Version:
+      - '2020-08-27'
+      X-Stripe-Routing-Context-Priority-Tier:
+      - api-testmode
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains; preload
+    body:
+      encoding: UTF-8
+      string: |-
+        {
+          "id": "price_1NaMpJIsgf92XbAOi3YoQlaW",
+          "object": "price",
+          "active": true,
+          "billing_scheme": "per_unit",
+          "created": 1690912665,
+          "currency": "usd",
+          "custom_unit_amount": null,
+          "livemode": false,
+          "lookup_key": null,
+          "metadata": {
+            "salesforce_auto_archive": "true",
+            "salesforce_duplicate": "true",
+            "salesforce_original_stripe_price_id": "price_1NaMpIIsgf92XbAOfDU3Nmlk",
+            "salesforce_pricebook_entry_id": "01u7e00000Isi2UAAR",
+            "salesforce_pricebook_entry_link": "https://ability-innovation-7335-dev-ed.scratch.my.salesforce.com/01u7e00000Isi2UAAR"
+          },
+          "nickname": null,
+          "product": "prod_ON73ZWNvG7XqY4",
+          "recurring": null,
+          "tax_behavior": "unspecified",
+          "tiers_mode": null,
+          "transform_quantity": null,
+          "type": "one_time",
+          "unit_amount": 10000,
+          "unit_amount_decimal": "10000"
+        }
+  recorded_at: Tue, 01 Aug 2023 00:00:00 GMT
+recorded_with: VCR 6.2.0

@@ -3,8 +3,11 @@
 
 require_relative '../../test_helper'
 
-class Critic::AccountPollerTest < Critic::FunctionalTest
+class Critic::AccountPollerTest < Critic::VCRTest
   before do
+    set_cassette_dir(__FILE__)
+    Timecop.freeze(VCR.current_cassette.originally_recorded_at || DateTime.now.utc)
+
     @user = make_user(save: true)
     inline_job_processing!
   end
@@ -27,13 +30,16 @@ class Critic::AccountPollerTest < Critic::FunctionalTest
     @user.save
 
     # set up the intiial poll timestamp to enable account polling
-    initial_poll_timestamp = set_initial_poll_timestamp(SF_ACCOUNT).last_polled_at
+    initial_poll_timestamp = set_initial_poll_timestamp(SF_ACCOUNT).last_polled_at.utc
 
     # create an sf account and translate
     sf_account_id = create_salesforce_account
     StripeForce::Translate.perform_inline(@user, sf_account_id)
 
     locker = Integrations::Locker.new(@user)
+
+    one_min_in_future = VCR.current_cassette.originally_recorded_at ? VCR.current_cassette.originally_recorded_at + 60.seconds : DateTime.now.utc + 60.seconds
+    Timecop.freeze(one_min_in_future)
 
     # kick off account poll job for this user
     StripeForce::AccountPoller.perform(user: @user, locker: locker)

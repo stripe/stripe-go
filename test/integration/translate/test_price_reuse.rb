@@ -3,8 +3,11 @@
 
 require_relative '../../test_helper'
 
-class Critic::PriceReuse < Critic::FunctionalTest
+class Critic::PriceReuse < Critic::VCRTest
   before do
+    set_cassette_dir(__FILE__)
+    Timecop.freeze(VCR.current_cassette.originally_recorded_at || now_time)
+
     @user = make_user(save: true)
     @user.enable_feature(StripeForce::Constants::FeatureFlags::UPDATE_PRODUCT_ON_SYNC, update: true)
   end
@@ -29,7 +32,7 @@ class Critic::PriceReuse < Critic::FunctionalTest
       sf_pricebook_entry.refresh
       assert_equal(stripe_price.id, sf_pricebook_entry[prefixed_stripe_field(GENERIC_STRIPE_ID)])
 
-      sf_order = create_subscription_order(sf_product_id: sf_product_id)
+      sf_order = create_subscription_order(sf_product_id: sf_product_id, contact_email: "same_tired_pricebook_no_customizations")
 
       StripeForce::Translate.perform_inline(@user, sf_order.Id)
 
@@ -79,6 +82,7 @@ class Critic::PriceReuse < Critic::FunctionalTest
       sf_account_id = create_salesforce_account
       quote_id = create_salesforce_quote(
         sf_account_id: sf_account_id,
+        contact_email: "uses_the_same_pricebook_price_object",
         additional_quote_fields: {
           CPQ_QUOTE_SUBSCRIPTION_START_DATE => now_time_formatted_for_salesforce,
           CPQ_QUOTE_SUBSCRIPTION_TERM => 12.0,
@@ -125,6 +129,7 @@ class Critic::PriceReuse < Critic::FunctionalTest
 
       quote_id = create_salesforce_quote(
         sf_account_id: sf_account_id,
+        contact_email: "not_use_same_pricebook_object",
         additional_quote_fields: {
           CPQ_QUOTE_SUBSCRIPTION_START_DATE => now_time_formatted_for_salesforce,
           CPQ_QUOTE_SUBSCRIPTION_TERM => 12.0,
@@ -207,6 +212,7 @@ class Critic::PriceReuse < Critic::FunctionalTest
       sf_account_id = create_salesforce_account
       quote_id = create_salesforce_quote(
         sf_account_id: sf_account_id,
+        contact_email: "use_same_order_line_price",
         additional_quote_fields: {
           CPQ_QUOTE_SUBSCRIPTION_START_DATE => now_time_formatted_for_salesforce,
           CPQ_QUOTE_SUBSCRIPTION_TERM => 12.0,

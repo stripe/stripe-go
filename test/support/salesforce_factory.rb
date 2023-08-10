@@ -22,8 +22,17 @@ module Critic
       format_date_for_salesforce(now_time)
     end
 
+    sig { returns(String) }
+    def now_time_in_future_formatted_for_salesforce
+      format_date_for_salesforce(now_time_in_future)
+    end
+
     def now_time
       DateTime.now.utc.beginning_of_day
+    end
+
+    def now_time_in_future
+      DateTime.new(2033, 7, 1)
     end
 
     def format_date_for_salesforce(date)
@@ -71,10 +80,10 @@ module Critic
       }.merge(additional_fields))
     end
 
-    def create_salesforce_contact
+    def create_salesforce_contact(contact_email: "", static_id: true)
       contact_id = sf.create!(SF_CONTACT, {
         LastName: 'Bianco',
-        Email: create_random_email,
+        Email: static_id ? create_static_email(email: contact_email) : create_random_email,
       })
     end
 
@@ -126,7 +135,7 @@ module Critic
       standard_pricebook.Id
     end
 
-    def create_salesforce_product(static_id: false, additional_fields: {})
+    def create_salesforce_product(static_id: true, additional_fields: {})
       sf.create!(SF_PRODUCT, {
         "Name" => sf_randomized_name(SF_PRODUCT),
         'IsActive' => true,
@@ -213,7 +222,7 @@ module Critic
     end
 
     # TODO `price` should be `price_in_cents`
-    def salesforce_recurring_product_with_price(price: nil, currency_iso_code: nil, static_id: false, additional_product_fields: {})
+    def salesforce_recurring_product_with_price(price: nil, currency_iso_code: nil, static_id: true, additional_product_fields: {})
       # I don't fully understand how the subscription term on the price iteracts with the billing frequency,
       # but if the term is set to a value which is different than the billing frequency it seems to use the
       # subscription term value. i.e. a yearly billed product
@@ -268,11 +277,12 @@ module Critic
     end
 
     # returns the full object, not the ID
-    def create_subscription_order(sf_product_id: nil, sf_account_id: nil, currency_iso_code: nil, additional_fields: {})
+    def create_subscription_order(sf_product_id: nil, sf_account_id: nil, currency_iso_code: nil, contact_email: "", additional_fields: {})
       create_salesforce_order(
         sf_product_id: sf_product_id,
         sf_account_id: sf_account_id,
         currency_iso_code: currency_iso_code,
+        contact_email: contact_email,
         additional_quote_fields: {
           CPQ_QUOTE_SUBSCRIPTION_START_DATE => now_time_formatted_for_salesforce,
           # one year / 12 months
@@ -364,10 +374,10 @@ module Critic
       sf_order
     end
 
-    def create_salesforce_quote(sf_pricebook_id: nil, sf_account_id:, currency_iso_code: nil, additional_quote_fields: {})
+    def create_salesforce_quote(sf_pricebook_id: nil, sf_account_id:, currency_iso_code: nil, contact_email: "", additional_quote_fields: {})
       sf_pricebook_id ||= default_pricebook_id
       opportunity_id = create_salesforce_opportunity(sf_account_id: sf_account_id, currency_iso_code: currency_iso_code)
-      contact_id = create_salesforce_contact
+      contact_id = create_salesforce_contact(contact_email: contact_email)
 
       # you can create a quote without *any* fields, which seems completely silly
       quote_id = sf.create!(CPQ_QUOTE, {
@@ -379,7 +389,7 @@ module Critic
     end
 
     # https://github.com/sseixas/CPQ-JS
-    def create_salesforce_order(sf_product_id: nil, sf_account_id: nil, sf_pricebook_id: nil, currency_iso_code: nil, additional_quote_fields: {})
+    def create_salesforce_order(sf_product_id: nil, sf_account_id: nil, sf_pricebook_id: nil, currency_iso_code: nil, contact_email: "", additional_quote_fields: {})
       if !sf_product_id
         sf_product_id, _ = salesforce_recurring_product_with_price(currency_iso_code: currency_iso_code)
       end
@@ -387,7 +397,7 @@ module Critic
       sf_pricebook_id ||= default_pricebook_id
       sf_account_id ||= create_salesforce_account
 
-      quote_id = create_salesforce_quote(sf_account_id: sf_account_id, currency_iso_code: currency_iso_code, additional_quote_fields: additional_quote_fields)
+      quote_id = create_salesforce_quote(sf_account_id: sf_account_id, currency_iso_code: currency_iso_code, contact_email: contact_email, additional_quote_fields: additional_quote_fields)
 
       quote_with_product = add_product_to_cpq_quote(quote_id, sf_product_id: sf_product_id)
 
@@ -400,13 +410,13 @@ module Critic
     end
 
     # for creating evergreen orders specifically. evergreen subscriptions do not have an end date.
-    def create_evergreen_salesforce_order(sf_product_id: nil, sf_account_id: nil, sf_pricebook_id: nil, currency_iso_code: nil, additional_quote_fields: {})
+    def create_evergreen_salesforce_order(sf_product_id: nil, sf_account_id: nil, sf_pricebook_id: nil, currency_iso_code: nil, contact_email: "", additional_quote_fields: {})
       if !sf_product_id
         sf_product_id, _ = salesforce_evergreen_product_with_price(currency_iso_code: currency_iso_code)
       end
 
       # sf_product_id should point to an evergreen product so will not be nil inside create sf order
-      create_salesforce_order(sf_product_id: sf_product_id, sf_account_id: sf_account_id, sf_pricebook_id: sf_pricebook_id, currency_iso_code: currency_iso_code, additional_quote_fields: additional_quote_fields)
+      create_salesforce_order(sf_product_id: sf_product_id, sf_account_id: sf_account_id, sf_pricebook_id: sf_pricebook_id, currency_iso_code: currency_iso_code, contact_email: contact_email, additional_quote_fields: additional_quote_fields)
     end
 
     def create_recurring_per_unit_tiered_price

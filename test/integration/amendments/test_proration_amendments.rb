@@ -5,6 +5,11 @@ require_relative './_lib'
 
 class Critic::ProratedAmendmentTranslation < Critic::OrderAmendmentFunctionalTest
   before do
+    set_cassette_dir(__FILE__)
+    if !VCR.current_cassette.originally_recorded_at.nil?
+      Timecop.freeze(VCR.current_cassette.originally_recorded_at)
+    end
+
     @user = make_user(save: true)
     @user.enable_feature FeatureFlags::BACKDATED_AMENDMENTS, update: true
   end
@@ -37,6 +42,7 @@ class Critic::ProratedAmendmentTranslation < Critic::OrderAmendmentFunctionalTes
 
     sf_order = create_salesforce_order(
       sf_product_id: sf_product_id,
+      contact_email: "new_phase_duration_longer_freq",
       additional_quote_fields: {
         CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(initial_order_start_date),
         CPQ_QUOTE_SUBSCRIPTION_TERM => contract_term,
@@ -191,6 +197,7 @@ class Critic::ProratedAmendmentTranslation < Critic::OrderAmendmentFunctionalTes
 
     sf_order = create_salesforce_order(
       sf_product_id: sf_product_id,
+      contact_email: "new_phase_duration_shorter_freq",
       additional_quote_fields: {
         CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(initial_order_start_date),
         CPQ_QUOTE_SUBSCRIPTION_TERM => contract_term,
@@ -338,7 +345,7 @@ class Critic::ProratedAmendmentTranslation < Critic::OrderAmendmentFunctionalTes
       amendment_end_date = StripeForce::Translate::OrderHelpers.anchor_time_to_day_of_month(base_time: amendment_end_date, anchor_day_of_month: initial_order_end_date.day)
 
       sf_metered_silver_product_id, _sf_metered_silver_pricebook_id = salesforce_recurring_metered_produce_with_price(price_in_cents: silver_tier_price)
-      sf_order = create_subscription_order(sf_product_id: sf_metered_silver_product_id)
+      sf_order = create_subscription_order(sf_product_id: sf_metered_silver_product_id, contact_email: "exclude_metered_billing")
 
       # translate the initial order
       StripeForce::Translate.perform_inline(@user, sf_order.Id)
@@ -420,6 +427,7 @@ class Critic::ProratedAmendmentTranslation < Critic::OrderAmendmentFunctionalTes
 
     sf_order = create_salesforce_order(
       sf_product_id: sf_product_id,
+      contact_email: "all_items_new_prorations",
       additional_quote_fields: {
         CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(initial_start_date),
         CPQ_QUOTE_SUBSCRIPTION_TERM => contract_term,
@@ -535,6 +543,7 @@ class Critic::ProratedAmendmentTranslation < Critic::OrderAmendmentFunctionalTes
 
       sf_order = create_salesforce_order(
         sf_product_id: sf_silver_tier_product_id,
+        contact_email: "supports_upsell",
         additional_quote_fields: {
           CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(initial_order_start_date),
           CPQ_QUOTE_SUBSCRIPTION_TERM => contract_term,
@@ -639,6 +648,7 @@ class Critic::ProratedAmendmentTranslation < Critic::OrderAmendmentFunctionalTes
 
       sf_order = create_salesforce_order(
         sf_product_id: sf_silver_tier_product_id,
+        contact_email: "supports_upsell_year",
         additional_quote_fields: {
           CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(initial_order_start_date),
           CPQ_QUOTE_SUBSCRIPTION_TERM => contract_term,
@@ -748,6 +758,7 @@ class Critic::ProratedAmendmentTranslation < Critic::OrderAmendmentFunctionalTes
 
       sf_order = create_salesforce_order(
         sf_product_id: sf_silver_tier_product_id,
+        contact_email: "supports_upsell_two_year",
         additional_quote_fields: {
           CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(initial_order_start_date),
           CPQ_QUOTE_SUBSCRIPTION_TERM => contract_term,
@@ -767,6 +778,7 @@ class Critic::ProratedAmendmentTranslation < Critic::OrderAmendmentFunctionalTes
       amendment_data = add_product_to_cpq_quote(sf_quote_id, sf_product_id: sf_platinum_tier_product_id)
       sf_order_amendment = create_order_from_quote_data(amendment_data)
 
+      Timecop.freeze(Time.now + 1.minute)
       StripeForce::Translate.perform_inline(@user, sf_order_amendment.Id)
       sf_order.refresh
 
@@ -844,6 +856,7 @@ class Critic::ProratedAmendmentTranslation < Critic::OrderAmendmentFunctionalTes
 
       sf_order = create_salesforce_order(
         sf_product_id: sf_silver_tier_product_id,
+        contact_email: "full_terminate",
         additional_quote_fields: {
           CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(initial_order_start_date),
           CPQ_QUOTE_SUBSCRIPTION_TERM => contract_term,
@@ -860,6 +873,7 @@ class Critic::ProratedAmendmentTranslation < Critic::OrderAmendmentFunctionalTes
       amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_TERM] = amendment_term
 
       sf_order_amendment = create_order_from_quote_data(amendment_data)
+      Timecop.freeze(Time.now + 1.minute)
       StripeForce::Translate.perform_inline(@user, sf_order_amendment.Id)
       sf_order.refresh
 
@@ -943,6 +957,7 @@ class Critic::ProratedAmendmentTranslation < Critic::OrderAmendmentFunctionalTes
 
       quote_id = create_salesforce_quote(
         sf_account_id: sf_account_id,
+        contact_email: "terminate_item",
         additional_quote_fields: {
           CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(initial_order_start_date),
           CPQ_QUOTE_SUBSCRIPTION_TERM => contract_term,
@@ -1057,6 +1072,7 @@ class Critic::ProratedAmendmentTranslation < Critic::OrderAmendmentFunctionalTes
 
       sf_order = create_salesforce_order(
         sf_product_id: sf_silver_tier_product_id,
+        contact_email: "no_issue_credit",
         additional_quote_fields: {
           CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(initial_order_start_date),
           CPQ_QUOTE_SUBSCRIPTION_TERM => contract_term,
@@ -1174,6 +1190,7 @@ class Critic::ProratedAmendmentTranslation < Critic::OrderAmendmentFunctionalTes
 
       quote_id = create_salesforce_quote(
         sf_account_id: sf_account_id,
+        contact_email: "term_item",
         additional_quote_fields: {
           CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(initial_order_start_date),
           CPQ_QUOTE_SUBSCRIPTION_TERM => contract_term,
@@ -1288,6 +1305,7 @@ class Critic::ProratedAmendmentTranslation < Critic::OrderAmendmentFunctionalTes
 
       sf_order = create_subscription_order(
         sf_product_id: sf_product_id,
+        contact_email: "non_anniversary_monthly",
         additional_fields: {
           CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(initial_order_start_date),
           CPQ_QUOTE_SUBSCRIPTION_TERM => contract_term,
@@ -1423,6 +1441,7 @@ class Critic::ProratedAmendmentTranslation < Critic::OrderAmendmentFunctionalTes
 
       sf_order = create_subscription_order(
         sf_product_id: sf_product_id,
+        contact_email: "non_anniversary_annually",
         additional_fields: {
           CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(initial_order_start_date),
           CPQ_QUOTE_SUBSCRIPTION_TERM => contract_term,
@@ -1538,6 +1557,7 @@ class Critic::ProratedAmendmentTranslation < Critic::OrderAmendmentFunctionalTes
 
       sf_order = create_subscription_order(
         sf_product_id: sf_product_id,
+        contact_email: "non_anniversary_day_proration",
         additional_fields: {
           CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(initial_order_start_date),
           CPQ_QUOTE_SUBSCRIPTION_TERM => contract_term,
@@ -1659,6 +1679,7 @@ class Critic::ProratedAmendmentTranslation < Critic::OrderAmendmentFunctionalTes
 
       sf_order = create_subscription_order(
         sf_product_id: sf_product_id,
+        contact_email: "non_anniversary_annually_day_proration",
         additional_fields: {
           CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(initial_order_start_date),
           CPQ_QUOTE_SUBSCRIPTION_TERM => contract_term,
@@ -1772,6 +1793,7 @@ class Critic::ProratedAmendmentTranslation < Critic::OrderAmendmentFunctionalTes
 
       sf_order = create_subscription_order(
         sf_product_id: sf_product_id,
+        contact_email: "semi_annual_day_proration",
         additional_fields: {
           CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(initial_order_start_date),
           CPQ_QUOTE_SUBSCRIPTION_TERM => contract_term,
@@ -1865,6 +1887,7 @@ class Critic::ProratedAmendmentTranslation < Critic::OrderAmendmentFunctionalTes
 
       sf_order = create_subscription_order(
         sf_product_id: sf_product_id,
+        contact_email: "quarterly_day_proration",
         additional_fields: {
           CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(initial_order_start_date),
           CPQ_QUOTE_SUBSCRIPTION_TERM => contract_term,

@@ -3,8 +3,11 @@
 
 require_relative '../test_helper'
 
-class Critic::ProrationAutoBillTranslation < Critic::FunctionalTest
+class Critic::ProrationAutoBillTranslation < Critic::VCRTest
   before do
+    set_cassette_dir(__FILE__)
+    Timecop.freeze(VCR.current_cassette.originally_recorded_at || now_time)
+
     @user = make_user(save: true)
   end
 

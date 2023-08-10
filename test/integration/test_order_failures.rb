@@ -3,8 +3,11 @@
 
 require_relative '../test_helper'
 
-class Critic::OrderFailureTest < Critic::FunctionalTest
+class Critic::OrderFailureTest < Critic::VCRTest
   before do
+    set_cassette_dir(__FILE__)
+    Timecop.freeze(VCR.current_cassette.originally_recorded_at || now_time)
+
     @user = make_user(save: true)
   end
 
@@ -13,6 +16,7 @@ class Critic::OrderFailureTest < Critic::FunctionalTest
     sf_account_id ||= create_salesforce_account
     quote_id = create_salesforce_quote(
       sf_account_id: sf_account_id,
+      contact_email: "no_quantity_greater_than_1",
       additional_quote_fields: {
         CPQ_QUOTE_SUBSCRIPTION_START_DATE => now_time_formatted_for_salesforce,
         # one year / 12 months
@@ -40,6 +44,7 @@ class Critic::OrderFailureTest < Critic::FunctionalTest
     sf_product_id, sf_pricebook_entry_id = salesforce_recurring_product_with_price
     sf_order = create_salesforce_order(
       sf_product_id: sf_product_id,
+      contact_email: "start_date_no_exist_sync_failure",
       additional_quote_fields: {
         CPQ_QUOTE_SUBSCRIPTION_TERM => 12.0,
         # intentional ommission of the start date
@@ -57,7 +62,7 @@ class Critic::OrderFailureTest < Critic::FunctionalTest
 
   # it looks like there are field validations in place to protect against the term being nil'd out on the order line
   it 'creates a user error when the subscription term does not exist' do
-    sf_order = create_salesforce_order(additional_quote_fields: {
+    sf_order = create_salesforce_order(contact_email: "sub_term_not_exist", additional_quote_fields: {
       CPQ_QUOTE_SUBSCRIPTION_START_DATE => now_time_formatted_for_salesforce,
       # omit subscription term
     })
@@ -86,6 +91,7 @@ class Critic::OrderFailureTest < Critic::FunctionalTest
 
     quote_id = create_salesforce_quote(
       sf_account_id: sf_account_id,
+      contact_email: "float_quantity",
       additional_quote_fields: {
         CPQ_QUOTE_SUBSCRIPTION_START_DATE => now_time_formatted_for_salesforce,
         # one year / 12 months
@@ -111,7 +117,7 @@ class Critic::OrderFailureTest < Critic::FunctionalTest
   it 'it creates an error sync record when the customer has been deleted' do
     sf_account_id = create_salesforce_account
 
-    sf_order = create_subscription_order(sf_account_id: sf_account_id)
+    sf_order = create_subscription_order(sf_account_id: sf_account_id, contact_email: "error_sync_record")
     sf_account = @user.sf_client.find(SF_ACCOUNT, sf_account_id)
 
     SalesforceTranslateRecordJob.translate(@user, sf_account)
@@ -148,7 +154,7 @@ class Critic::OrderFailureTest < Critic::FunctionalTest
     sf_account_id = create_salesforce_account
     sf_product_id, _ = salesforce_recurring_product_with_price
     sf_product = @user.sf_client.find(SF_PRODUCT, sf_product_id)
-    sf_order = create_subscription_order(sf_product_id: sf_product_id, sf_account_id: sf_account_id)
+    sf_order = create_subscription_order(sf_product_id: sf_product_id, sf_account_id: sf_account_id, contact_email: "already_locked")
 
     locker = Integrations::Locker.new(@user)
     locker.lock_on_user do

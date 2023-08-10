@@ -9,7 +9,6 @@ class Critic::VCRTest < Critic::FunctionalTest
 
   def setup
     super
-
     setup_vcr(name)
   end
 

@@ -43,7 +43,6 @@ class StripeForce::PollerBase
       )
       poll_record.save
     end
-
     should_poll = execution_time.to_i - poll_record.last_polled_at.to_i > POLL_FREQUENCY
 
     if !should_poll

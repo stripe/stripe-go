@@ -312,6 +312,7 @@ class StripeForce::Translate
     mapper.assign_values_from_hash(subscription, subscription_params)
     apply_mapping(subscription, sf_order)
 
+    # Subscriptions can only start now or in future => https://jira.corp.stripe.com/browse/PLATINT-2862
     Integrations::Utilities::StripeUtil.delete_field_from_stripe_object(
       subscription,
       [:end_behavior, :iterations]

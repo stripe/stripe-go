@@ -4,8 +4,11 @@
 require_relative '../../test_helper'
 
 # there are some 'special' fields within the subscription schedule mapping
-class Critic::SubscriptionScheduleMappingTest < Critic::FunctionalTest
+class Critic::SubscriptionScheduleMappingTest < Critic::VCRTest
   before do
+    set_cassette_dir(__FILE__)
+    Timecop.freeze(VCR.current_cassette.originally_recorded_at || now_time)
+
     @user = make_user(save: true)
   end
 
@@ -29,8 +32,8 @@ class Critic::SubscriptionScheduleMappingTest < Critic::FunctionalTest
       }
       @user.save
 
-      sf_account_id = create_salesforce_account(additional_fields: {'Description' => create_random_email})
-      sf_order = create_subscription_order(sf_account_id: sf_account_id)
+      sf_account_id = create_salesforce_account(additional_fields: {'Description' => create_static_email(email: "test")})
+      sf_order = create_subscription_order(contact_email: "days_until_due", sf_account_id: sf_account_id)
       assert_equal('Net 30', sf_order.SBQQ__PaymentTerm__c)
 
       StripeForce::Translate.perform_inline(@user, sf_order.Id)

@@ -3,8 +3,12 @@
 
 require_relative '../../test_helper'
 
-class Critic::OrderPollerTest < Critic::FunctionalTest
+class Critic::OrderPollerTest < Critic::VCRTest
   before do
+    set_cassette_dir(__FILE__)
+    Timecop.freeze(VCR.current_cassette.originally_recorded_at || DateTime.now.utc)
+    @one_min_in_future = VCR.current_cassette.originally_recorded_at ? VCR.current_cassette.originally_recorded_at + 60.seconds : DateTime.now.utc + 60.seconds
+
     @user = make_user
     # Default to enable polling and individual tests can disable if needed
     @user.connector_settings[CONNECTOR_SETTING_POLLING_ENABLED] = true
@@ -14,12 +18,12 @@ class Critic::OrderPollerTest < Critic::FunctionalTest
 
   it 'polls orders and does not allow two polls to run at once' do
     initial_poll = set_initial_poll_timestamp(SF_ORDER)
-    initial_poll.update(last_polled_at: DateTime.now - POLL_FREQUENCY - 1.minutes)
+    initial_poll.update(last_polled_at: now_time - POLL_FREQUENCY - 1.minutes)
 
     # although it's slow, we want to actually hit the live salesforce API
     # to test our query generation logic
 
-    sf_order = create_salesforce_order
+    sf_order = create_salesforce_order(contact_email: "one_poll_only")
     contains_order = false
 
     StripeForce::Translate.expects(:perform).at_least_once.with do |kwargs|
@@ -33,7 +37,7 @@ class Critic::OrderPollerTest < Critic::FunctionalTest
 
       # lock error should be raised if we try lock on another instance of the job
       exception = assert_raises(Integrations::Errors::LockTimeout) do
-        initial_poll.update(last_polled_at: DateTime.now - POLL_FREQUENCY - 1.minute)
+        initial_poll.update(last_polled_at: now_time - POLL_FREQUENCY - 1.minute)
         StripeForce::SalesforcePollJob.perform(@user.salesforce_account_id, @user.stripe_account_id, @user.livemode, "StripeForce::OrderPoller")
       end
 
@@ -47,8 +51,10 @@ class Critic::OrderPollerTest < Critic::FunctionalTest
     # ensures there are no weird propogation issues in SOQL, we've seen some strange timeouts here
     sleep(5)
 
-    # TODO right now, this works since we only have a single order poll, this will need to be specific to orders in the future
-    StripeForce::InitiatePollsJobs.perform
+    # There is some latency to create the order in salesforce, so we need to forward time a few seconds to ensure this order is caught in our poll during recording
+    Timecop.freeze(@one_min_in_future)
+
+    StripeForce::SalesforcePollJob.work(@user, StripeForce::OrderPoller)
 
     assert(contains_order)
   end
@@ -76,7 +82,7 @@ class Critic::OrderPollerTest < Critic::FunctionalTest
     assert_nil(@user.last_polled_timestamp_record)
     assert_nil(@user.last_synced)
 
-    sf_order = create_salesforce_order
+    sf_order = create_salesforce_order(contact_email: "creates_a_poll_timestamp")
 
     SalesforceTranslateRecordJob.expects(:work).at_least_once
     StripeForce::SalesforcePollJob.work(@user, StripeForce::OrderPoller)
@@ -93,7 +99,7 @@ class Critic::OrderPollerTest < Critic::FunctionalTest
     assert_nil(@user.last_polled_timestamp_record)
     assert_nil(@user.last_synced)
 
-    sf_order = create_salesforce_order
+    sf_order = create_salesforce_order(contact_email: "creates_a_poll_timestamp_sync")
 
     SalesforceTranslateRecordJob.expects(:work).at_least_once
     StripeForce::SalesforcePollJob.work(@user, StripeForce::OrderPoller)
@@ -122,7 +128,7 @@ class Critic::OrderPollerTest < Critic::FunctionalTest
   end
 
   it 'allows for query customizations' do
-    random_address = SecureRandom.alphanumeric(16)
+    random_address = VCR.current_cassette.originally_recorded_at ? VCR.current_cassette.originally_recorded_at.to_s : DateTime.now.utc.to_s
 
     @user.connector_settings['filters'][SF_ORDER] = "Account.BillingStreet = '#{random_address}'"
 
@@ -130,7 +136,7 @@ class Critic::OrderPollerTest < Critic::FunctionalTest
     @user.save
 
     initial_poll = set_initial_poll_timestamp(SF_ORDER)
-    initial_poll.update(last_polled_at: DateTime.now - 5.minutes)
+    initial_poll.update(last_polled_at: now_time - 5.minutes)
 
     sf_account_id = create_salesforce_account(additional_fields: {
       "BillingStreet" => random_address,
@@ -140,8 +146,8 @@ class Critic::OrderPollerTest < Critic::FunctionalTest
       "BillingStreet" => "bad",
     })
 
-    sf_order_1 = create_salesforce_order(sf_account_id: sf_account_id)
-    sf_order_2 = create_salesforce_order(sf_account_id: sf_account_bad_id)
+    sf_order_1 = create_salesforce_order(sf_account_id: sf_account_id, contact_email: "query_customizations")
+    sf_order_2 = create_salesforce_order(sf_account_id: sf_account_bad_id, contact_email: "query_customizations_2")
 
     contains_order = false
     excludes_condition = true
@@ -154,11 +160,14 @@ class Critic::OrderPollerTest < Critic::FunctionalTest
 
     # ensure the ending time is not in the same second
     sleep(1)
+    one_min_in_future = VCR.current_cassette.originally_recorded_at ? VCR.current_cassette.originally_recorded_at + 60.seconds : DateTime.now.utc + 60.seconds
+    Timecop.freeze(one_min_in_future)
 
     StripeForce::SalesforcePollJob.perform(@user.salesforce_account_id, @user.stripe_account_id, @user.livemode, "StripeForce::OrderPoller")
   end
 
   it 'refreshes the poll lock if there are locks of records to process' do
+    Timecop.return
 
     inline_job_processing!
 
@@ -266,6 +275,7 @@ class Critic::OrderPollerTest < Critic::FunctionalTest
       stub_salesforce_query_result
 
       locker = Integrations::Locker.new(@user)
+      Timecop.freeze(@one_min_in_future)
       StripeForce::OrderPoller.perform(user: @user, locker: locker)
 
       assert_equal(1, StripeForce::PollTimestamp.count)

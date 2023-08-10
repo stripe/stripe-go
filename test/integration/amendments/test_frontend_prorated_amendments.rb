@@ -5,6 +5,11 @@ require_relative './_lib'
 
 class Critic::BackendProratedAmendmentTranslation < Critic::OrderAmendmentFunctionalTest
   before do
+    set_cassette_dir(__FILE__)
+    if !VCR.current_cassette.originally_recorded_at.nil?
+      Timecop.freeze(VCR.current_cassette.originally_recorded_at)
+    end
+
     @user = make_user(save: true)
     @user.enable_feature(StripeForce::Constants::FeatureFlags::FRONTEND_PRORATIONS, update: true)
   end
@@ -27,6 +32,7 @@ class Critic::BackendProratedAmendmentTranslation < Critic::OrderAmendmentFuncti
     )
 
     sf_order = create_salesforce_order(
+      contact_email: "frontend_prorated",
       sf_product_id: sf_product_id,
       additional_quote_fields: {
         CPQ_QUOTE_SUBSCRIPTION_TERM => contract_term,
@@ -78,6 +84,7 @@ class Critic::BackendProratedAmendmentTranslation < Critic::OrderAmendmentFuncti
     )
 
     sf_order = create_salesforce_order(
+      contact_email: "no_translate_prorated_item",
       sf_product_id: sf_product_id,
       additional_quote_fields: {
         CPQ_QUOTE_SUBSCRIPTION_TERM => contract_term,
@@ -130,6 +137,7 @@ class Critic::BackendProratedAmendmentTranslation < Critic::OrderAmendmentFuncti
     one_off_product_id, one_off_pricebook_entry_id = salesforce_standalone_product_with_price(price: one_off_price)
 
     sf_order = create_salesforce_order(
+      contact_email: "proration_with_one_off",
       sf_product_id: subscription_product_id,
 
     )
@@ -137,10 +145,12 @@ class Critic::BackendProratedAmendmentTranslation < Critic::OrderAmendmentFuncti
     sf_pricebook_id = default_pricebook_id
     sf_account_id = create_salesforce_account
 
-    quote_id = create_salesforce_quote(sf_account_id: sf_account_id, additional_quote_fields: {
-      CPQ_QUOTE_SUBSCRIPTION_TERM => contract_term,
-      CPQ_QUOTE_SUBSCRIPTION_START_DATE => now_time_formatted_for_salesforce,
-    })
+    quote_id = create_salesforce_quote(sf_account_id: sf_account_id,
+                                       contact_email: "proration_one_off_quote",
+                                       additional_quote_fields: {
+                                         CPQ_QUOTE_SUBSCRIPTION_TERM => contract_term,
+                                         CPQ_QUOTE_SUBSCRIPTION_START_DATE => now_time_formatted_for_salesforce,
+                                       })
 
     quote_with_product = add_product_to_cpq_quote(quote_id, sf_product_id: subscription_product_id)
     calculate_and_save_cpq_quote(quote_with_product)

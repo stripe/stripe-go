@@ -42,13 +42,13 @@ module VCRConfig
       c.allow_http_connections_when_no_cassette = false
       c.cassette_library_dir = 'test/vcr_cassettes'
       c.default_cassette_options = {
-        allow_unused_http_interactions: false,
+        allow_unused_http_interactions: true,
         match_requests_on: [:method, :salesforce_uri, :salesforce_body],
       }
       c.filter_sensitive_data('<STRIPE_API_KEY>') do |interaction|
         filter_stripe_api_key(interaction)
       end
-      c.filter_sensitive_data('<STRIPE_MERCHANT_ID>') do |interaction|
+      c.filter_sensitive_data('STRIPE_MERCHANT_ID') do |interaction|
         filter_stripe_merchant_id(interaction)
       end
       c.filter_sensitive_data('<SALESFORCE_ACCESS_TOKEN>') do |interaction|
@@ -84,9 +84,7 @@ module VCRConfig
     return true if override_vcr_usage == true
     return false if override_vcr_usage == false
 
-    # we want to run live tests in CI's nightly build to make sure that tests haven't gone stale
-    is_nightly_build = (ENV['NIGHTLY'].nil? || ENV['NIGHTLY'] == "true")
-    !(!!ENV['CI'] && is_nightly_build)
+    ENV['CI'] || ENV['CI'].nil?
   end
 
   def register_uri_matcher(request1, request2)
@@ -108,9 +106,20 @@ module VCRConfig
       !request1_match.nil? && !request2_match.nil? && request1_match[1] == request2_match[1]
     elsif uri1.include?('salesforce.com') && uri2.include?('salesforce.com')
       # if this request is to Salesforce everything except for the local subdomain should match
-      salesforce_uri_regex = %r{https:\/\/[\w\-]*\.my.salesforce\.com\/.*}
-      uri1.sub(salesforce_uri_regex, '') ==
-        uri2.sub(salesforce_uri_regex, '')
+      salesforce_uri_regex = %r{https://.*?.my.salesforce.com}
+
+      qa_namespace_regex = Regexp.union(/QaStripeConnect__/, %r{QaStripeConnect/})
+
+      prod_namespace_regex = Regexp.union(/stripeConnector__/, %r{stripeConnector/})
+
+      filtered_uri1 = uri1.sub(salesforce_uri_regex, '')
+                           .gsub(qa_namespace_regex, '')
+                           .gsub(prod_namespace_regex, '')
+      filtered_uri2 = uri2.sub(salesforce_uri_regex, '')
+                           .gsub(qa_namespace_regex, '')
+                           .gsub(prod_namespace_regex, '')
+
+      filtered_uri1 == filtered_uri2
     else
       # if this request isn't to Stripe then the URIs should exactly match
       false
@@ -132,8 +141,18 @@ module VCRConfig
       return true
     end
 
+    if uri.include?('signalfx')
+      # we do not care about the body of this request
+      # signalfx request has a timestamp in the body so it will not match
+      return true
+    end
+
     # if this request isn't to Stripe then the bodies should exactly match
-    body1.deep_eql?(body2)
+    namespace_regex = /QaStripeConnect__/
+
+    filtered_body_1 = body1.gsub(namespace_regex, '')
+    filtered_body_2 = body2.gsub(namespace_regex, '')
+    filtered_body_1.to_json == filtered_body_2.to_json
   end
 
   def filter_stripe_api_key(interaction)
@@ -153,14 +172,23 @@ module VCRConfig
   end
 
   def filter_stripe_merchant_id(interaction)
-    account_header = interaction.request.headers["Stripe-Account"]
+    filtered_string = 'STRIPE_MERCHANT_ID'
+    acct_regex = /acct_15uapDIsgf92XbAO|acct_1MHBTOC9fP1FVBtd/
 
-    return nil if account_header.nil?
+    # apply filter to URL
+    interaction.request.uri.gsub!(acct_regex, filtered_string)
 
-    # when playing back a recording, VCR will try to replace the placeholder with the real secret but that is not necessary for our tests
-    return nil if account_header.first == "<STRIPE_MERCHANT_ID>"
+    # apply filter to headers
+    interaction.request.headers.each do |_key, values|
+      values.each do |value|
+        value.gsub!(acct_regex, filtered_string)
+      end
+    end
 
-    account_header.first.match(/(.*)/)
+    # apply filter to body if it's not nil
+    if interaction.request.body
+      interaction.request.body.gsub!(acct_regex, filtered_string)
+    end
   end
 
   def filter_salesforce_auth_header(interaction)

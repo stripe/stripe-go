@@ -3,8 +3,11 @@
 
 require_relative '../../test_helper'
 
-class Critic::CouponTranslation < Critic::FunctionalTest
+class Critic::CouponTranslation < Critic::VCRTest
   before do
+    set_cassette_dir(__FILE__)
+    Timecop.freeze(VCR.current_cassette.originally_recorded_at || DateTime.now.utc)
+
     @user = make_user(save: true)
     @user.enable_feature(FeatureFlags::COUPONS)
   end
@@ -27,7 +30,7 @@ class Critic::CouponTranslation < Critic::FunctionalTest
       sf_product_id, _sf_pricebook_id = salesforce_recurring_product_with_price
 
       # create a CPQ quote
-      sf_quote_id = create_salesforce_quote(sf_account_id: sf_account_id, additional_quote_fields: {
+      sf_quote_id = create_salesforce_quote(sf_account_id: sf_account_id, contact_email: "order_and_order_line_when_quote_ordered", additional_quote_fields: {
         CPQ_QUOTE_SUBSCRIPTION_START_DATE => now_time_formatted_for_salesforce,
         CPQ_QUOTE_SUBSCRIPTION_TERM => TEST_DEFAULT_CONTRACT_TERM,
       })
@@ -92,7 +95,7 @@ class Critic::CouponTranslation < Critic::FunctionalTest
       sf_product_id, _sf_pricebook_id = salesforce_recurring_product_with_price
 
       # create a CPQ quote
-      sf_quote_id = create_salesforce_quote(sf_account_id: sf_account_id, additional_quote_fields: {
+      sf_quote_id = create_salesforce_quote(sf_account_id: sf_account_id, contact_email: "translate_multiple_coupons_order_line", additional_quote_fields: {
         CPQ_QUOTE_SUBSCRIPTION_START_DATE => now_time_formatted_for_salesforce,
         CPQ_QUOTE_SUBSCRIPTION_TERM => TEST_DEFAULT_CONTRACT_TERM,
       })
@@ -177,7 +180,7 @@ class Critic::CouponTranslation < Critic::FunctionalTest
       sf_product_id, _sf_pricebook_id = salesforce_recurring_product_with_price
 
       # create a CPQ quote
-      sf_quote_id = create_salesforce_quote(sf_account_id: sf_account_id, additional_quote_fields: {
+      sf_quote_id = create_salesforce_quote(sf_account_id: sf_account_id, contact_email: "translate_coupons_on_order_and_items", additional_quote_fields: {
         CPQ_QUOTE_SUBSCRIPTION_START_DATE => now_time_formatted_for_salesforce,
         CPQ_QUOTE_SUBSCRIPTION_TERM => TEST_DEFAULT_CONTRACT_TERM,
       })
@@ -258,7 +261,7 @@ class Critic::CouponTranslation < Critic::FunctionalTest
       sf_product_id, _sf_pricebook_id = salesforce_recurring_product_with_price
 
       # create a CPQ quote
-      sf_quote_id = create_salesforce_quote(sf_account_id: sf_account_id, additional_quote_fields: {
+      sf_quote_id = create_salesforce_quote(sf_account_id: sf_account_id, contact_email: "translate_order_with_duration", additional_quote_fields: {
         CPQ_QUOTE_SUBSCRIPTION_START_DATE => now_time_formatted_for_salesforce,
         CPQ_QUOTE_SUBSCRIPTION_TERM => TEST_DEFAULT_CONTRACT_TERM,
       })
@@ -328,7 +331,7 @@ class Critic::CouponTranslation < Critic::FunctionalTest
       sf_product_id_2, _sf_pricebook_id = salesforce_recurring_product_with_price
 
       # create a CPQ quote
-      sf_quote_id = create_salesforce_quote(sf_account_id: sf_account_id, additional_quote_fields: {
+      sf_quote_id = create_salesforce_quote(sf_account_id: sf_account_id, contact_email: "uses_same_quote_coupon", additional_quote_fields: {
         CPQ_QUOTE_SUBSCRIPTION_START_DATE => now_time_formatted_for_salesforce,
         CPQ_QUOTE_SUBSCRIPTION_TERM => TEST_DEFAULT_CONTRACT_TERM,
       })
@@ -387,7 +390,7 @@ class Critic::CouponTranslation < Critic::FunctionalTest
       sf_product_id_1, _sf_pricebook_id = salesforce_recurring_product_with_price
 
       # create a CPQ quote
-      sf_quote_id = create_salesforce_quote(sf_account_id: sf_account_id, additional_quote_fields: {
+      sf_quote_id = create_salesforce_quote(sf_account_id: sf_account_id, contact_email: "create_new_stripe_coupon", additional_quote_fields: {
         CPQ_QUOTE_SUBSCRIPTION_START_DATE => now_time_formatted_for_salesforce,
         CPQ_QUOTE_SUBSCRIPTION_TERM => 12.0,
       })
@@ -418,7 +421,7 @@ class Critic::CouponTranslation < Critic::FunctionalTest
       })
 
       # create another sf quote
-      sf_quote_id_2 = create_salesforce_quote(sf_account_id: sf_account_id, additional_quote_fields: {
+      sf_quote_id_2 = create_salesforce_quote(sf_account_id: sf_account_id, contact_email: "create_new_stripe_coupon_2", additional_quote_fields: {
         CPQ_QUOTE_SUBSCRIPTION_START_DATE => now_time_formatted_for_salesforce,
         CPQ_QUOTE_SUBSCRIPTION_TERM => TEST_DEFAULT_CONTRACT_TERM,
       })
@@ -460,7 +463,7 @@ class Critic::CouponTranslation < Critic::FunctionalTest
     sf_product_id, _sf_pricebook_id = salesforce_recurring_product_with_price
 
     # create a CPQ quote
-    sf_quote_id = create_salesforce_quote(sf_account_id: sf_account_id, additional_quote_fields: {
+    sf_quote_id = create_salesforce_quote(sf_account_id: sf_account_id, contact_email: "stripe_invoice_final_due_amount", additional_quote_fields: {
       CPQ_QUOTE_SUBSCRIPTION_START_DATE => now_time_formatted_for_salesforce,
       CPQ_QUOTE_SUBSCRIPTION_TERM => TEST_DEFAULT_CONTRACT_TERM,
     })

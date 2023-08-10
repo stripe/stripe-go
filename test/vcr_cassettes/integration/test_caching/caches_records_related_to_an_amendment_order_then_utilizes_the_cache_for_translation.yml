@@ -1,0 +1,2009 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://ability-innovation-7335-dev-ed.scratch.my.salesforce.com/services/data/v58.0/sobjects/Product2
+    body:
+      encoding: UTF-8
+      string: '{"Name":"REST Product2  2023-08-01 00:00:00 UTC","IsActive":true,"Description":"A
+        great description","ProductCode":"EfxBsBKAsjaF0caCUQPWQYJ8h61G","SBQQ__SubscriptionPricing__c":"Fixed
+        Price","SBQQ__SubscriptionType__c":"Renewable","SBQQ__SubscriptionTerm__c":1,"SBQQ__BillingFrequency__c":"Monthly"}'
+    headers:
+      User-Agent:
+      - Faraday v2.4.0
+      Content-Type:
+      - application/json
+      Authorization:
+      - OAuth <SALESFORCE_ACCESS_TOKEN>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 201
+      message: Created
+    headers:
+      Date:
+      - Tue, 01 Aug 2023 21:05:19 GMT
+      Set-Cookie:
+      - BrowserId=Hv1xfjCvEe6dibfjHAp7ZA; domain=.salesforce.com; path=/; expires=Wed,
+        31-Jul-2024 21:05:19 GMT; Max-Age=31536000
+      - CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 21:05:19 GMT; Max-Age=31536000
+      - LSKey-c$CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 21:05:19
+        GMT; Max-Age=31536000
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Robots-Tag:
+      - none
+      Cache-Control:
+      - no-cache,must-revalidate,max-age=0,no-store,private
+      Sforce-Limit-Info:
+      - api-usage=8688/5000000
+      Location:
+      - "/services/data/v58.0/sobjects/Product2/01t7e000009AnukAAC"
+      Content-Type:
+      - application/json;charset=UTF-8
+      Vary:
+      - Accept-Encoding
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: ASCII-8BIT
+      string: '{"id":"01t7e000009AnukAAC","success":true,"errors":[]}'
+  recorded_at: Tue, 01 Aug 2023 21:05:19 GMT
+- request:
+    method: get
+    uri: https://ability-innovation-7335-dev-ed.scratch.my.salesforce.com/services/data/v58.0/query?q=Select%20Id%20from%20Pricebook2%20where%20IsStandard%20=%20true
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v2.4.0
+      Authorization:
+      - OAuth <SALESFORCE_ACCESS_TOKEN>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Tue, 01 Aug 2023 21:05:19 GMT
+      Set-Cookie:
+      - BrowserId=H1hh6zCvEe6FfkeBuaLXIQ; domain=.salesforce.com; path=/; expires=Wed,
+        31-Jul-2024 21:05:19 GMT; Max-Age=31536000
+      - CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 21:05:19 GMT; Max-Age=31536000
+      - LSKey-c$CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 21:05:19
+        GMT; Max-Age=31536000
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Robots-Tag:
+      - none
+      Cache-Control:
+      - no-cache,must-revalidate,max-age=0,no-store,private
+      Sforce-Limit-Info:
+      - api-usage=8688/5000000
+      Content-Type:
+      - application/json;charset=UTF-8
+      Vary:
+      - Accept-Encoding
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: ASCII-8BIT
+      string: '{"totalSize":1,"done":true,"records":[{"attributes":{"type":"Pricebook2","url":"/services/data/v58.0/sobjects/Pricebook2/01s7e000002eLFEAA2"},"Id":"01s7e000002eLFEAA2"}]}'
+  recorded_at: Tue, 01 Aug 2023 21:05:19 GMT
+- request:
+    method: post
+    uri: https://ability-innovation-7335-dev-ed.scratch.my.salesforce.com/services/data/v58.0/sobjects/PricebookEntry
+    body:
+      encoding: UTF-8
+      string: '{"Pricebook2Id":"01s7e000002eLFEAA2","Product2Id":"01t7e000009AnukAAC","IsActive":true,"UnitPrice":10.0,"UseStandardPrice":false}'
+    headers:
+      User-Agent:
+      - Faraday v2.4.0
+      Content-Type:
+      - application/json
+      Authorization:
+      - OAuth <SALESFORCE_ACCESS_TOKEN>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 201
+      message: Created
+    headers:
+      Date:
+      - Tue, 01 Aug 2023 21:05:20 GMT
+      Set-Cookie:
+      - BrowserId=H5KrqzCvEe6aP6F4JRfW4Q; domain=.salesforce.com; path=/; expires=Wed,
+        31-Jul-2024 21:05:20 GMT; Max-Age=31536000
+      - CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 21:05:20 GMT; Max-Age=31536000
+      - LSKey-c$CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 21:05:20
+        GMT; Max-Age=31536000
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Robots-Tag:
+      - none
+      Cache-Control:
+      - no-cache,must-revalidate,max-age=0,no-store,private
+      Sforce-Limit-Info:
+      - api-usage=8688/5000000
+      Location:
+      - "/services/data/v58.0/sobjects/PricebookEntry/01u7e00000IsiXkAAJ"
+      Content-Type:
+      - application/json;charset=UTF-8
+      Vary:
+      - Accept-Encoding
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: ASCII-8BIT
+      string: '{"id":"01u7e00000IsiXkAAJ","success":true,"errors":[]}'
+  recorded_at: Tue, 01 Aug 2023 21:05:20 GMT
+- request:
+    method: get
+    uri: https://ability-innovation-7335-dev-ed.scratch.my.salesforce.com/services/data/v58.0/query?q=Select%20Id%20from%20Pricebook2%20where%20IsStandard%20=%20true
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v2.4.0
+      Authorization:
+      - OAuth <SALESFORCE_ACCESS_TOKEN>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Tue, 01 Aug 2023 21:05:20 GMT
+      Set-Cookie:
+      - BrowserId=H-1PlTCvEe64OnvvtTY2PA; domain=.salesforce.com; path=/; expires=Wed,
+        31-Jul-2024 21:05:20 GMT; Max-Age=31536000
+      - CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 21:05:20 GMT; Max-Age=31536000
+      - LSKey-c$CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 21:05:20
+        GMT; Max-Age=31536000
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Robots-Tag:
+      - none
+      Cache-Control:
+      - no-cache,must-revalidate,max-age=0,no-store,private
+      Sforce-Limit-Info:
+      - api-usage=8688/5000000
+      Content-Type:
+      - application/json;charset=UTF-8
+      Vary:
+      - Accept-Encoding
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: ASCII-8BIT
+      string: '{"totalSize":1,"done":true,"records":[{"attributes":{"type":"Pricebook2","url":"/services/data/v58.0/sobjects/Pricebook2/01s7e000002eLFEAA2"},"Id":"01s7e000002eLFEAA2"}]}'
+  recorded_at: Tue, 01 Aug 2023 21:05:20 GMT
+- request:
+    method: post
+    uri: https://ability-innovation-7335-dev-ed.scratch.my.salesforce.com/services/data/v58.0/sobjects/Account
+    body:
+      encoding: UTF-8
+      string: '{"Name":"REST Account  2023-08-01 00:00:00 UTC"}'
+    headers:
+      User-Agent:
+      - Faraday v2.4.0
+      Content-Type:
+      - application/json
+      Authorization:
+      - OAuth <SALESFORCE_ACCESS_TOKEN>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 201
+      message: Created
+    headers:
+      Date:
+      - Tue, 01 Aug 2023 21:05:21 GMT
+      Set-Cookie:
+      - BrowserId=ICx7gjCvEe64OnvvtTY2PA; domain=.salesforce.com; path=/; expires=Wed,
+        31-Jul-2024 21:05:21 GMT; Max-Age=31536000
+      - CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 21:05:21 GMT; Max-Age=31536000
+      - LSKey-c$CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 21:05:21
+        GMT; Max-Age=31536000
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Robots-Tag:
+      - none
+      Cache-Control:
+      - no-cache,must-revalidate,max-age=0,no-store,private
+      Sforce-Limit-Info:
+      - api-usage=8689/5000000
+      Location:
+      - "/services/data/v58.0/sobjects/Account/0017e00001iZykCAAS"
+      Content-Type:
+      - application/json;charset=UTF-8
+      Vary:
+      - Accept-Encoding
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: ASCII-8BIT
+      string: '{"id":"0017e00001iZykCAAS","success":true,"errors":[]}'
+  recorded_at: Tue, 01 Aug 2023 21:05:21 GMT
+- request:
+    method: get
+    uri: https://ability-innovation-7335-dev-ed.scratch.my.salesforce.com/services/data/v58.0/query?q=Select%20Id%20from%20Pricebook2%20where%20IsStandard%20=%20true
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v2.4.0
+      Authorization:
+      - OAuth <SALESFORCE_ACCESS_TOKEN>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Tue, 01 Aug 2023 21:05:21 GMT
+      Set-Cookie:
+      - BrowserId=IJm7oDCvEe6ZADeBgbAOng; domain=.salesforce.com; path=/; expires=Wed,
+        31-Jul-2024 21:05:21 GMT; Max-Age=31536000
+      - CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 21:05:21 GMT; Max-Age=31536000
+      - LSKey-c$CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 21:05:21
+        GMT; Max-Age=31536000
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Robots-Tag:
+      - none
+      Cache-Control:
+      - no-cache,must-revalidate,max-age=0,no-store,private
+      Sforce-Limit-Info:
+      - api-usage=8688/5000000
+      Content-Type:
+      - application/json;charset=UTF-8
+      Vary:
+      - Accept-Encoding
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: ASCII-8BIT
+      string: '{"totalSize":1,"done":true,"records":[{"attributes":{"type":"Pricebook2","url":"/services/data/v58.0/sobjects/Pricebook2/01s7e000002eLFEAA2"},"Id":"01s7e000002eLFEAA2"}]}'
+  recorded_at: Tue, 01 Aug 2023 21:05:22 GMT
+- request:
+    method: post
+    uri: https://ability-innovation-7335-dev-ed.scratch.my.salesforce.com/services/data/v58.0/sobjects/Opportunity
+    body:
+      encoding: UTF-8
+      string: '{"Name":"REST Opportunity  2023-08-01 00:00:00 UTC","CloseDate":"2023-08-01","StageName":"Closed/Won","AccountId":"0017e00001iZykCAAS"}'
+    headers:
+      User-Agent:
+      - Faraday v2.4.0
+      Content-Type:
+      - application/json
+      Authorization:
+      - OAuth <SALESFORCE_ACCESS_TOKEN>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 201
+      message: Created
+    headers:
+      Date:
+      - Tue, 01 Aug 2023 21:05:22 GMT
+      Set-Cookie:
+      - BrowserId=IN5l3DCvEe6FfkeBuaLXIQ; domain=.salesforce.com; path=/; expires=Wed,
+        31-Jul-2024 21:05:22 GMT; Max-Age=31536000
+      - CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 21:05:22 GMT; Max-Age=31536000
+      - LSKey-c$CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 21:05:22
+        GMT; Max-Age=31536000
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Robots-Tag:
+      - none
+      Cache-Control:
+      - no-cache,must-revalidate,max-age=0,no-store,private
+      Sforce-Limit-Info:
+      - api-usage=8689/5000000
+      Location:
+      - "/services/data/v58.0/sobjects/Opportunity/0067e00000Nf0AwAAJ"
+      Content-Type:
+      - application/json;charset=UTF-8
+      Vary:
+      - Accept-Encoding
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: ASCII-8BIT
+      string: '{"id":"0067e00000Nf0AwAAJ","success":true,"errors":[]}'
+  recorded_at: Tue, 01 Aug 2023 21:05:22 GMT
+- request:
+    method: post
+    uri: https://ability-innovation-7335-dev-ed.scratch.my.salesforce.com/services/data/v58.0/sobjects/Contact
+    body:
+      encoding: UTF-8
+      string: '{"LastName":"Bianco","Email":"cache_amendment@example.com"}'
+    headers:
+      User-Agent:
+      - Faraday v2.4.0
+      Content-Type:
+      - application/json
+      Authorization:
+      - OAuth <SALESFORCE_ACCESS_TOKEN>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 201
+      message: Created
+    headers:
+      Date:
+      - Tue, 01 Aug 2023 21:05:22 GMT
+      Set-Cookie:
+      - BrowserId=IS6BVjCvEe64OnvvtTY2PA; domain=.salesforce.com; path=/; expires=Wed,
+        31-Jul-2024 21:05:22 GMT; Max-Age=31536000
+      - CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 21:05:22 GMT; Max-Age=31536000
+      - LSKey-c$CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 21:05:22
+        GMT; Max-Age=31536000
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Robots-Tag:
+      - none
+      Cache-Control:
+      - no-cache,must-revalidate,max-age=0,no-store,private
+      Sforce-Limit-Info:
+      - api-usage=8690/5000000
+      Location:
+      - "/services/data/v58.0/sobjects/Contact/0037e00001jHqQdAAK"
+      Content-Type:
+      - application/json;charset=UTF-8
+      Vary:
+      - Accept-Encoding
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: ASCII-8BIT
+      string: '{"id":"0037e00001jHqQdAAK","success":true,"errors":[]}'
+  recorded_at: Tue, 01 Aug 2023 21:05:23 GMT
+- request:
+    method: post
+    uri: https://ability-innovation-7335-dev-ed.scratch.my.salesforce.com/services/data/v58.0/sobjects/SBQQ__Quote__c
+    body:
+      encoding: UTF-8
+      string: '{"SBQQ__Primary__c":true,"SBQQ__Opportunity2__c":"0067e00000Nf0AwAAJ","SBQQ__PrimaryContact__c":"0037e00001jHqQdAAK","SBQQ__PricebookId__c":"01s7e000002eLFEAA2","SBQQ__StartDate__c":"2023-08-01","SBQQ__SubscriptionTerm__c":12}'
+    headers:
+      User-Agent:
+      - Faraday v2.4.0
+      Content-Type:
+      - application/json
+      Authorization:
+      - OAuth <SALESFORCE_ACCESS_TOKEN>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 201
+      message: Created
+    headers:
+      Date:
+      - Tue, 01 Aug 2023 21:05:23 GMT
+      Set-Cookie:
+      - BrowserId=IaUQ7DCvEe6BD7nYZTiwdQ; domain=.salesforce.com; path=/; expires=Wed,
+        31-Jul-2024 21:05:23 GMT; Max-Age=31536000
+      - CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 21:05:23 GMT; Max-Age=31536000
+      - LSKey-c$CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 21:05:23
+        GMT; Max-Age=31536000
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Robots-Tag:
+      - none
+      Cache-Control:
+      - no-cache,must-revalidate,max-age=0,no-store,private
+      Sforce-Limit-Info:
+      - api-usage=8688/5000000
+      Location:
+      - "/services/data/v58.0/sobjects/SBQQ__Quote__c/a0z7e00000BDJvIAAX"
+      Content-Type:
+      - application/json;charset=UTF-8
+      Vary:
+      - Accept-Encoding
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: ASCII-8BIT
+      string: '{"id":"a0z7e00000BDJvIAAX","success":true,"errors":[]}'
+  recorded_at: Tue, 01 Aug 2023 21:05:24 GMT
+- request:
+    method: get
+    uri: https://ability-innovation-7335-dev-ed.scratch.my.salesforce.com/services/data/v58.0/query?q=Select%20Id%20from%20Pricebook2%20where%20IsStandard%20=%20true
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v2.4.0
+      Authorization:
+      - OAuth <SALESFORCE_ACCESS_TOKEN>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Tue, 01 Aug 2023 21:05:24 GMT
+      Set-Cookie:
+      - BrowserId=ImsgLjCvEe64OnvvtTY2PA; domain=.salesforce.com; path=/; expires=Wed,
+        31-Jul-2024 21:05:24 GMT; Max-Age=31536000
+      - CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 21:05:24 GMT; Max-Age=31536000
+      - LSKey-c$CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 21:05:24
+        GMT; Max-Age=31536000
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Robots-Tag:
+      - none
+      Cache-Control:
+      - no-cache,must-revalidate,max-age=0,no-store,private
+      Sforce-Limit-Info:
+      - api-usage=8691/5000000
+      Content-Type:
+      - application/json;charset=UTF-8
+      Vary:
+      - Accept-Encoding
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: ASCII-8BIT
+      string: '{"totalSize":1,"done":true,"records":[{"attributes":{"type":"Pricebook2","url":"/services/data/v58.0/sobjects/Pricebook2/01s7e000002eLFEAA2"},"Id":"01s7e000002eLFEAA2"}]}'
+  recorded_at: Tue, 01 Aug 2023 21:05:24 GMT
+- request:
+    method: get
+    uri: https://ability-innovation-7335-dev-ed.scratch.my.salesforce.com/services/apexrest/SBQQ/ServiceRouter?reader=SBQQ.QuoteAPI.QuoteReader&uid=a0z7e00000BDJvIAAX
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v2.4.0
+      Authorization:
+      - OAuth <SALESFORCE_ACCESS_TOKEN>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Tue, 01 Aug 2023 21:05:25 GMT
+      Set-Cookie:
+      - BrowserId=IqGZijCvEe6BD7nYZTiwdQ; domain=.salesforce.com; path=/; expires=Wed,
+        31-Jul-2024 21:05:25 GMT; Max-Age=31536000
+      - CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 21:05:25 GMT; Max-Age=31536000
+      - LSKey-c$CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 21:05:25
+        GMT; Max-Age=31536000
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Robots-Tag:
+      - none
+      Cache-Control:
+      - no-cache,must-revalidate,max-age=0,no-store,private
+      Content-Type:
+      - application/json;charset=UTF-8
+      Vary:
+      - Accept-Encoding
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: ASCII-8BIT
+      string: '"{\"ui_original_record\":{\"cloneRecordIfNoCache\":true,\"cacheName\":\"LineEditor\",\"cacheId\":\"a0z7e00000BDJvIAAX\",\"cachedOriginalRecordPath\":[\"quote\",\"ui_original_record\"]},\"record\":{\"attributes\":{\"type\":\"SBQQ__Quote__c\",\"url\":\"/services/data/v58.0/sobjects/SBQQ__Quote__c/a0z7e00000BDJvIAAX\"},\"Id\":\"a0z7e00000BDJvIAAX\",\"Name\":\"Q-00924\",\"SBQQ__Type__c\":\"Quote\",\"SBQQ__Account__c\":\"0017e00001iZykCAAS\",\"SBQQ__SubscriptionTerm__c\":12,\"SBQQ__ExpirationDate__c\":\"2023-08-31\",\"SBQQ__StartDate__c\":\"2023-08-01\",\"SBQQ__NetAmount__c\":0.00,\"SBQQ__CustomerAmount__c\":0.00,\"SBQQ__PricebookId__c\":\"01s7e000002eLFEAA2\",\"SBQQ__ContractingMethod__c\":\"By
+        Subscription End Date\",\"SBQQ__Unopened__c\":true,\"SBQQ__LineItemCount__c\":0,\"SBQQ__PaymentTerms__c\":\"Net
+        30\",\"SBQQ__WatermarkShown__c\":false,\"SBQQ__Status__c\":\"Draft\",\"SBQQ__Primary__c\":true,\"SBQQ__LineItemsGrouped__c\":false,\"SBQQ__Opportunity2__c\":\"0067e00000Nf0AwAAJ\",\"SBQQ__Account__r\":{\"attributes\":{\"type\":\"Account\",\"url\":\"/services/data/v58.0/sobjects/Account/0017e00001iZykCAAS\"},\"Id\":\"0017e00001iZykCAAS\",\"Name\":\"REST
+        Account  2023-08-01 00:00:00 UTC\",\"SBQQ__RenewalModel__c\":\"Contract Based\",\"SBQQ__RenewalPricingMethod__c\":\"Same\"},\"SBQQ__Opportunity2__r\":{\"attributes\":{\"type\":\"Opportunity\",\"url\":\"/services/data/v58.0/sobjects/Opportunity/0067e00000Nf0AwAAJ\"},\"Id\":\"0067e00000Nf0AwAAJ\",\"SBQQ__PrimaryQuote__c\":\"a0z7e00000BDJvIAAX\",\"AccountId\":\"0017e00001iZykCAAS\"},\"SBQQ__CustomerDiscount__c\":null,\"SBQQ__MarkupRate__c\":null,\"SBQQ__PartnerDiscount__c\":null,\"SBQQ__EndDate__c\":null,\"SBQQ__MasterContract__c\":null,\"SBQQ__MasterEvergreenContract__c\":null,\"SBQQ__QuoteProcessId__c\":null,\"SBQQ__DistributorDiscount__c\":null,\"SBQQ__FirstSegmentTermEndDate__c\":null,\"SBQQ__GenerateContractedPrice__c\":null,\"SBQQ__BillingFrequency__c\":null,\"SBQQ__RenewalTerm__c\":null,\"SBQQ__RenewalUpliftRate__c\":null,\"SBQQ__OrderGroupID__c\":null,\"SBQQ__TargetCustomerAmount__c\":null,\"SBQQ__OrderBy__c\":null,\"SBQQ__ProrationDayOfMonth__c\":null},\"nextKey\":1,\"netTotal\":0.00,\"lineItems\":[],\"lineItemGroups\":[],\"isPartial\":false,\"hasMultiSegmentLines\":false,\"customerTotal\":0.00,\"channelDiscountsOffList\":false,\"calculationRequired\":false,\"applyPartnerDiscountFirst\":false,\"applyAdditionalDiscountLast\":false}"'
+  recorded_at: Tue, 01 Aug 2023 21:05:25 GMT
+- request:
+    method: patch
+    uri: https://ability-innovation-7335-dev-ed.scratch.my.salesforce.com/services/apexrest/SBQQ/ServiceRouter?loader=SBQQ.ProductAPI.ProductLoader&uid=01t7e000009AnukAAC
+    body:
+      encoding: UTF-8
+      string: '{"context":"{\"pricebookId\":\"01s7e000002eLFEAA2\"}"}'
+    headers:
+      User-Agent:
+      - Faraday v2.4.0
+      Content-Type:
+      - application/json
+      Authorization:
+      - OAuth <SALESFORCE_ACCESS_TOKEN>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Tue, 01 Aug 2023 21:05:26 GMT
+      Set-Cookie:
+      - BrowserId=IzKPATCvEe64OnvvtTY2PA; domain=.salesforce.com; path=/; expires=Wed,
+        31-Jul-2024 21:05:26 GMT; Max-Age=31536000
+      - CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 21:05:26 GMT; Max-Age=31536000
+      - LSKey-c$CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 21:05:26
+        GMT; Max-Age=31536000
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Robots-Tag:
+      - none
+      Cache-Control:
+      - no-cache,must-revalidate,max-age=0,no-store,private
+      Content-Type:
+      - application/json;charset=UTF-8
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: '"{\"record\":{\"attributes\":{\"type\":\"Product2\",\"url\":\"/services/data/v58.0/sobjects/Product2/01t7e000009AnukAAC\"},\"Id\":\"01t7e000009AnukAAC\",\"Name\":\"REST
+        Product2  2023-08-01 00:00:00 UTC\",\"ProductCode\":\"EfxBsBKAsjaF0caCUQPWQYJ8h61G\",\"Description\":\"A
+        great description\",\"SBQQ__SubscriptionPricing__c\":\"Fixed Price\",\"SBQQ__PriceEditable__c\":false,\"SBQQ__DefaultQuantity__c\":1.00000,\"SBQQ__QuantityEditable__c\":true,\"SBQQ__CostEditable__c\":false,\"SBQQ__NonDiscountable__c\":false,\"SBQQ__NonPartnerDiscountable__c\":false,\"SBQQ__SubscriptionTerm__c\":1,\"SBQQ__SubscriptionBase__c\":\"List\",\"SBQQ__PricingMethod__c\":\"List\",\"SBQQ__PricingMethodEditable__c\":false,\"SBQQ__OptionSelectionMethod__c\":\"Click\",\"SBQQ__Optional__c\":false,\"SBQQ__Taxable__c\":false,\"SBQQ__CustomConfigurationRequired__c\":false,\"SBQQ__Hidden__c\":false,\"SBQQ__ReconfigurationDisabled__c\":false,\"SBQQ__ExcludeFromOpportunity__c\":false,\"SBQQ__DescriptionLocked__c\":false,\"SBQQ__ExcludeFromMaintenance__c\":false,\"SBQQ__IncludeInMaintenance__c\":false,\"SBQQ__NewQuoteGroup__c\":false,\"SBQQ__SubscriptionType__c\":\"Renewable\",\"SBQQ__AssetConversion__c\":\"One
+        per quote line\",\"SBQQ__BlockPricingField__c\":\"Quantity\",\"SBQQ__HasConfigurationAttributes__c\":false,\"SBQQ__HasConsumptionSchedule__c\":false,\"SBQQ__ExternallyConfigurable__c\":false,\"SBQQ__AssetAmendmentBehavior__c\":\"Default\",\"SBQQ__BillingFrequency__c\":\"Monthly\",\"PricebookEntries\":{\"totalSize\":1,\"done\":true,\"records\":[{\"attributes\":{\"type\":\"PricebookEntry\",\"url\":\"/services/data/v58.0/sobjects/PricebookEntry/01u7e00000IsiXkAAJ\"},\"Product2Id\":\"01t7e000009AnukAAC\",\"Id\":\"01u7e00000IsiXkAAJ\",\"Pricebook2Id\":\"01s7e000002eLFEAA2\",\"UnitPrice\":10.00,\"IsActive\":true}]}},\"options\":[],\"features\":[],\"featureCategoryLabels\":{\"Software\":\"Software\",\"Hardware\":\"Hardware\"},\"featureCategories\":[],\"currencySymbol\":\"$\",\"constraints\":[],\"configurationAttributes\":[]}"'
+  recorded_at: Tue, 01 Aug 2023 21:05:26 GMT
+- request:
+    method: patch
+    uri: https://ability-innovation-7335-dev-ed.scratch.my.salesforce.com/services/apexrest/SBQQ/ServiceRouter?loader=SBQQ.QuoteAPI.QuoteProductAdder
+    body:
+      encoding: UTF-8
+      string: '{"context":"{\"quote\":{\"ui_original_record\":{\"cloneRecordIfNoCache\":true,\"cacheName\":\"LineEditor\",\"cacheId\":\"a0z7e00000BDJvIAAX\",\"cachedOriginalRecordPath\":[\"quote\",\"ui_original_record\"]},\"record\":{\"attributes\":{\"type\":\"SBQQ__Quote__c\",\"url\":\"/services/data/v58.0/sobjects/SBQQ__Quote__c/a0z7e00000BDJvIAAX\"},\"Id\":\"a0z7e00000BDJvIAAX\",\"Name\":\"Q-00924\",\"SBQQ__Type__c\":\"Quote\",\"SBQQ__Account__c\":\"0017e00001iZykCAAS\",\"SBQQ__SubscriptionTerm__c\":12,\"SBQQ__ExpirationDate__c\":\"2023-08-31\",\"SBQQ__StartDate__c\":\"2023-08-01\",\"SBQQ__NetAmount__c\":0.0,\"SBQQ__CustomerAmount__c\":0.0,\"SBQQ__PricebookId__c\":\"01s7e000002eLFEAA2\",\"SBQQ__ContractingMethod__c\":\"By
+        Subscription End Date\",\"SBQQ__Unopened__c\":true,\"SBQQ__LineItemCount__c\":0,\"SBQQ__PaymentTerms__c\":\"Net
+        30\",\"SBQQ__WatermarkShown__c\":false,\"SBQQ__Status__c\":\"Draft\",\"SBQQ__Primary__c\":true,\"SBQQ__LineItemsGrouped__c\":false,\"SBQQ__Opportunity2__c\":\"0067e00000Nf0AwAAJ\",\"SBQQ__Account__r\":{\"attributes\":{\"type\":\"Account\",\"url\":\"/services/data/v58.0/sobjects/Account/0017e00001iZykCAAS\"},\"Id\":\"0017e00001iZykCAAS\",\"Name\":\"REST
+        Account  2023-08-01 00:00:00 UTC\",\"SBQQ__RenewalModel__c\":\"Contract Based\",\"SBQQ__RenewalPricingMethod__c\":\"Same\"},\"SBQQ__Opportunity2__r\":{\"attributes\":{\"type\":\"Opportunity\",\"url\":\"/services/data/v58.0/sobjects/Opportunity/0067e00000Nf0AwAAJ\"},\"Id\":\"0067e00000Nf0AwAAJ\",\"SBQQ__PrimaryQuote__c\":\"a0z7e00000BDJvIAAX\",\"AccountId\":\"0017e00001iZykCAAS\"},\"SBQQ__CustomerDiscount__c\":null,\"SBQQ__MarkupRate__c\":null,\"SBQQ__PartnerDiscount__c\":null,\"SBQQ__EndDate__c\":null,\"SBQQ__MasterContract__c\":null,\"SBQQ__MasterEvergreenContract__c\":null,\"SBQQ__QuoteProcessId__c\":null,\"SBQQ__DistributorDiscount__c\":null,\"SBQQ__FirstSegmentTermEndDate__c\":null,\"SBQQ__GenerateContractedPrice__c\":null,\"SBQQ__BillingFrequency__c\":null,\"SBQQ__RenewalTerm__c\":null,\"SBQQ__RenewalUpliftRate__c\":null,\"SBQQ__OrderGroupID__c\":null,\"SBQQ__TargetCustomerAmount__c\":null,\"SBQQ__OrderBy__c\":null,\"SBQQ__ProrationDayOfMonth__c\":null},\"nextKey\":1,\"netTotal\":0.0,\"lineItems\":[],\"lineItemGroups\":[],\"isPartial\":false,\"hasMultiSegmentLines\":false,\"customerTotal\":0.0,\"channelDiscountsOffList\":false,\"calculationRequired\":false,\"applyPartnerDiscountFirst\":false,\"applyAdditionalDiscountLast\":false},\"products\":[{\"record\":{\"attributes\":{\"type\":\"Product2\",\"url\":\"/services/data/v58.0/sobjects/Product2/01t7e000009AnukAAC\"},\"Id\":\"01t7e000009AnukAAC\",\"Name\":\"REST
+        Product2  2023-08-01 00:00:00 UTC\",\"ProductCode\":\"EfxBsBKAsjaF0caCUQPWQYJ8h61G\",\"Description\":\"A
+        great description\",\"SBQQ__SubscriptionPricing__c\":\"Fixed Price\",\"SBQQ__PriceEditable__c\":false,\"SBQQ__DefaultQuantity__c\":1.0,\"SBQQ__QuantityEditable__c\":true,\"SBQQ__CostEditable__c\":false,\"SBQQ__NonDiscountable__c\":false,\"SBQQ__NonPartnerDiscountable__c\":false,\"SBQQ__SubscriptionTerm__c\":1,\"SBQQ__SubscriptionBase__c\":\"List\",\"SBQQ__PricingMethod__c\":\"List\",\"SBQQ__PricingMethodEditable__c\":false,\"SBQQ__OptionSelectionMethod__c\":\"Click\",\"SBQQ__Optional__c\":false,\"SBQQ__Taxable__c\":false,\"SBQQ__CustomConfigurationRequired__c\":false,\"SBQQ__Hidden__c\":false,\"SBQQ__ReconfigurationDisabled__c\":false,\"SBQQ__ExcludeFromOpportunity__c\":false,\"SBQQ__DescriptionLocked__c\":false,\"SBQQ__ExcludeFromMaintenance__c\":false,\"SBQQ__IncludeInMaintenance__c\":false,\"SBQQ__NewQuoteGroup__c\":false,\"SBQQ__SubscriptionType__c\":\"Renewable\",\"SBQQ__AssetConversion__c\":\"One
+        per quote line\",\"SBQQ__BlockPricingField__c\":\"Quantity\",\"SBQQ__HasConfigurationAttributes__c\":false,\"SBQQ__HasConsumptionSchedule__c\":false,\"SBQQ__ExternallyConfigurable__c\":false,\"SBQQ__AssetAmendmentBehavior__c\":\"Default\",\"SBQQ__BillingFrequency__c\":\"Monthly\",\"PricebookEntries\":{\"totalSize\":1,\"done\":true,\"records\":[{\"attributes\":{\"type\":\"PricebookEntry\",\"url\":\"/services/data/v58.0/sobjects/PricebookEntry/01u7e00000IsiXkAAJ\"},\"Product2Id\":\"01t7e000009AnukAAC\",\"Id\":\"01u7e00000IsiXkAAJ\",\"Pricebook2Id\":\"01s7e000002eLFEAA2\",\"UnitPrice\":10.0,\"IsActive\":true}]}},\"options\":[],\"features\":[],\"featureCategoryLabels\":{\"Software\":\"Software\",\"Hardware\":\"Hardware\"},\"featureCategories\":[],\"currencySymbol\":\"$\",\"constraints\":[],\"configurationAttributes\":[]}],\"groupKey\":0,\"ignoreCalculate\":false}"}'
+    headers:
+      User-Agent:
+      - Faraday v2.4.0
+      Content-Type:
+      - application/json
+      Authorization:
+      - OAuth <SALESFORCE_ACCESS_TOKEN>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Tue, 01 Aug 2023 21:05:27 GMT
+      Set-Cookie:
+      - BrowserId=I6-HvzCvEe6NISPaolPCcw; domain=.salesforce.com; path=/; expires=Wed,
+        31-Jul-2024 21:05:27 GMT; Max-Age=31536000
+      - CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 21:05:27 GMT; Max-Age=31536000
+      - LSKey-c$CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 21:05:27
+        GMT; Max-Age=31536000
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Robots-Tag:
+      - none
+      Cache-Control:
+      - no-cache,must-revalidate,max-age=0,no-store,private
+      Content-Type:
+      - application/json;charset=UTF-8
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: '"{\"ui_original_record\":{\"cloneRecordIfNoCache\":true,\"cacheName\":\"LineEditor\",\"cacheId\":\"a0z7e00000BDJvIAAX\",\"cachedOriginalRecordPath\":[\"quote\",\"ui_original_record\"]},\"record\":{\"attributes\":{\"type\":\"SBQQ__Quote__c\",\"url\":\"/services/data/v58.0/sobjects/SBQQ__Quote__c/a0z7e00000BDJvIAAX\"},\"Id\":\"a0z7e00000BDJvIAAX\",\"Name\":\"Q-00924\",\"SBQQ__Type__c\":\"Quote\",\"SBQQ__Account__c\":\"0017e00001iZykCAAS\",\"SBQQ__SubscriptionTerm__c\":12,\"SBQQ__ExpirationDate__c\":\"2023-08-31\",\"SBQQ__StartDate__c\":\"2023-08-01\",\"SBQQ__NetAmount__c\":0.00,\"SBQQ__CustomerAmount__c\":0.00,\"SBQQ__PricebookId__c\":\"01s7e000002eLFEAA2\",\"SBQQ__ContractingMethod__c\":\"By
+        Subscription End Date\",\"SBQQ__Unopened__c\":true,\"SBQQ__LineItemCount__c\":1,\"SBQQ__PaymentTerms__c\":\"Net
+        30\",\"SBQQ__WatermarkShown__c\":false,\"SBQQ__Status__c\":\"Draft\",\"SBQQ__Primary__c\":true,\"SBQQ__LineItemsGrouped__c\":false,\"SBQQ__Opportunity2__c\":\"0067e00000Nf0AwAAJ\",\"SBQQ__Account__r\":{\"attributes\":{\"type\":\"Account\",\"url\":\"/services/data/v58.0/sobjects/Account/0017e00001iZykCAAS\"},\"Id\":\"0017e00001iZykCAAS\",\"Name\":\"REST
+        Account  2023-08-01 00:00:00 UTC\",\"SBQQ__RenewalModel__c\":\"Contract Based\",\"SBQQ__RenewalPricingMethod__c\":\"Same\"},\"SBQQ__Opportunity2__r\":{\"attributes\":{\"type\":\"Opportunity\",\"url\":\"/services/data/v58.0/sobjects/Opportunity/0067e00000Nf0AwAAJ\"},\"Id\":\"0067e00000Nf0AwAAJ\",\"SBQQ__PrimaryQuote__c\":\"a0z7e00000BDJvIAAX\",\"AccountId\":\"0017e00001iZykCAAS\"},\"SBQQ__CustomerDiscount__c\":null,\"SBQQ__MarkupRate__c\":null,\"SBQQ__PartnerDiscount__c\":null,\"SBQQ__EndDate__c\":null,\"SBQQ__MasterContract__c\":null,\"SBQQ__MasterEvergreenContract__c\":null,\"SBQQ__QuoteProcessId__c\":null,\"SBQQ__DistributorDiscount__c\":null,\"SBQQ__FirstSegmentTermEndDate__c\":null,\"SBQQ__GenerateContractedPrice__c\":null,\"SBQQ__BillingFrequency__c\":null,\"SBQQ__RenewalTerm__c\":null,\"SBQQ__RenewalUpliftRate__c\":null,\"SBQQ__OrderGroupID__c\":null,\"SBQQ__TargetCustomerAmount__c\":null,\"SBQQ__OrderBy__c\":null,\"SBQQ__ProrationDayOfMonth__c\":null},\"nextKey\":2,\"netTotal\":120.00,\"netNonSegmentTotal\":120.0000,\"lineItems\":[{\"upliftable\":false,\"upgradeSourcesBySourceProductId\":{},\"ui_original_record\":{\"cloneRecordIfNoCache\":false,\"cacheName\":\"LineEditor\",\"cacheId\":\"a0z7e00000BDJvIAAX\",\"cachedOriginalRecordPath\":[\"quote\",\"lineItems\",\"0\",\"ui_original_record\"]},\"subscriptionTerm\":12,\"record\":{\"attributes\":{\"type\":\"SBQQ__QuoteLine__c\"},\"Id\":null,\"SBQQ__Quote__c\":\"a0z7e00000BDJvIAAX\",\"SBQQ__Description__c\":\"A
+        great description\",\"SBQQ__Product__c\":\"01t7e000009AnukAAC\",\"SBQQ__Number__c\":1,\"SBQQ__PricebookEntryId__c\":\"01u7e00000IsiXkAAJ\",\"SBQQ__HasConsumptionSchedule__c\":false,\"SBQQ__Hidden__c\":false,\"SBQQ__Taxable__c\":false,\"SBQQ__SubscriptionPricing__c\":\"Fixed
+        Price\",\"SBQQ__DefaultSubscriptionTerm__c\":1,\"SBQQ__SubscriptionBase__c\":\"List\",\"SBQQ__SubscriptionScope__c\":\"Quote\",\"SBQQ__ProductSubscriptionType__c\":\"Renewable\",\"SBQQ__SubscriptionType__c\":\"Renewable\",\"SBQQ__BillingFrequency__c\":\"Monthly\",\"Name\":\"QL-0001794\",\"SBQQ__AdditionalDiscount__c\":0.00,\"SBQQ__Bundled__c\":false,\"SBQQ__ComponentDiscountedByPackage__c\":false,\"SBQQ__CostEditable__c\":false,\"SBQQ__CustomerPrice__c\":120.00,\"SBQQ__EffectiveSubscriptionTerm__c\":12,\"SBQQ__ListPrice__c\":10.00,\"SBQQ__OriginalPrice__c\":10.00,\"SBQQ__NetPrice__c\":120.00,\"SBQQ__NetTotal__c\":120.00,\"SBQQ__NonDiscountable__c\":false,\"SBQQ__NonPartnerDiscountable__c\":false,\"SBQQ__Optional__c\":false,\"SBQQ__Bundle__c\":false,\"SBQQ__PartnerPrice__c\":120.00,\"SBQQ__PriceEditable__c\":false,\"SBQQ__ProratedListPrice__c\":120.00,\"SBQQ__PricingMethod__c\":\"List\",\"SBQQ__PricingMethodEditable__c\":false,\"SBQQ__ProrateMultiplier__c\":12.0000,\"SBQQ__Quantity__c\":1.00,\"SBQQ__SpecialPrice__c\":10.00,\"SBQQ__Renewal__c\":false,\"SBQQ__ProratedPrice__c\":120.00,\"SBQQ__Uplift__c\":0.00,\"SBQQ__UpliftAmount__c\":0.00,\"SBQQ__ComponentUpliftedByPackage__c\":false,\"SBQQ__ProductName__c\":\"REST
+        Product2  2023-08-01 00:00:00 UTC\",\"SBQQ__Existing__c\":false,\"SBQQ__CarryoverLine__c\":false,\"SBQQ__AllowAssetRefund__c\":false,\"SBQQ__RegularPrice__c\":120.00,\"SBQQ__ProductCode__c\":\"EfxBsBKAsjaF0caCUQPWQYJ8h61G\",\"SBQQ__Product__r\":{\"attributes\":{\"type\":\"Product2\",\"url\":\"/services/data/v58.0/sobjects/Product2/01t7e000009AnukAAC\"},\"Id\":\"01t7e000009AnukAAC\",\"SBQQ__HasConfigurationAttributes__c\":false,\"ProductCode\":\"EfxBsBKAsjaF0caCUQPWQYJ8h61G\",\"Name\":\"REST
+        Product2  2023-08-01 00:00:00 UTC\",\"SBQQ__SubscriptionTerm__c\":1,\"SBQQ__PricingMethod__c\":\"List\"},\"SBQQ__Source__c\":null,\"SBQQ__RequiredBy__c\":null,\"SBQQ__ProductOption__c\":null,\"SBQQ__SegmentIndex__c\":null,\"SBQQ__SegmentLabel__c\":null,\"SBQQ__SegmentKey__c\":null,\"SBQQ__Dimension__c\":null,\"SBQQ__DynamicOptionId__c\":null,\"SBQQ__GenerateContractedPrice__c\":null,\"SBQQ__Favorite__c\":null,\"SBQQ__SubscriptionPercent__c\":null,\"SBQQ__SubscriptionCategory__c\":null,\"SBQQ__SubscriptionTerm__c\":null,\"SBQQ__EndDate__c\":null,\"SBQQ__MinimumPrice__c\":null,\"SBQQ__MaximumPrice__c\":null,\"SBQQ__ChargeType__c\":null,\"SBQQ__BillingType__c\":null,\"SBQQ__TaxCode__c\":null,\"SBQQ__Discount__c\":null,\"SBQQ__AdditionalDiscountAmount__c\":null,\"SBQQ__AdditionalQuantity__c\":null,\"SBQQ__BatchQuantity__c\":null,\"SBQQ__ComponentSubscriptionScope__c\":null,\"SBQQ__CompoundDiscountRate__c\":null,\"SBQQ__ContractedPrice__c\":null,\"SBQQ__Cost__c\":null,\"SBQQ__DiscountSchedule__c\":null,\"SBQQ__DistributorDiscount__c\":null,\"SBQQ__MarkupRate__c\":null,\"SBQQ__MarkupAmount__c\":null,\"SBQQ__OptionDiscount__c\":null,\"SBQQ__OptionDiscountAmount__c\":null,\"SBQQ__OptionType__c\":null,\"SBQQ__BundledQuantity__c\":null,\"SBQQ__PartnerDiscount__c\":null,\"SBQQ__RenewedAsset__c\":null,\"SBQQ__RenewedSubscription__c\":null,\"SBQQ__SpecialPriceType__c\":null,\"SBQQ__StartDate__c\":null,\"SBQQ__OriginalUnitCost__c\":null,\"SBQQ__SubscribedAssetIds__c\":null,\"SBQQ__SubscriptionTargetPrice__c\":null,\"SBQQ__TermDiscountSchedule__c\":null,\"SBQQ__UnitCost__c\":null,\"SBQQ__ComponentTotal__c\":null,\"SBQQ__ComponentCost__c\":null,\"SBQQ__ComponentListTotal__c\":null,\"SBQQ__DiscountScheduleType__c\":null,\"SBQQ__PackageProductCode__c\":null,\"SBQQ__DiscountTier__c\":null,\"SBQQ__VolumeDiscount__c\":null,\"SBQQ__BlockPrice__c\":null,\"SBQQ__TermDiscountTier__c\":null,\"SBQQ__TermDiscount__c\":null,\"SBQQ__PriorQuantity__c\":null,\"SBQQ__PreviousSegmentPrice__c\":null,\"SBQQ__PreviousSegmentUplift__c\":null,\"SBQQ__GrossProfit__c\":null,\"SBQQ__PackageProductDescription__c\":null,\"SBQQ__OptionLevel__c\":null,\"SBQQ__UpgradedQuantity__c\":null,\"SBQQ__OriginalQuoteLineId__c\":null,\"SBQQ__UpgradedAsset__c\":null,\"SBQQ__UpgradedSubscription__c\":null},\"reconfigurationDisabled\":false,\"productQuantityEditable\":true,\"productHasDimensions\":false,\"key\":2,\"hasConsumptionSchedules\":false,\"effectiveStartDate\":\"2023-08-01\",\"descriptionLocked\":false}],\"lineItemGroups\":[],\"isPartial\":false,\"hasMultiSegmentLines\":false,\"customerTotal\":120.00,\"channelDiscountsOffList\":false,\"calculationRequired\":false,\"applyPartnerDiscountFirst\":false,\"applyAdditionalDiscountLast\":false}"'
+  recorded_at: Tue, 01 Aug 2023 21:05:28 GMT
+- request:
+    method: patch
+    uri: https://ability-innovation-7335-dev-ed.scratch.my.salesforce.com/services/apexrest/SBQQ/ServiceRouter?loader=SBQQ.QuoteAPI.QuoteCalculator
+    body:
+      encoding: UTF-8
+      string: '{"context":"{\"quote\":{\"ui_original_record\":{\"cloneRecordIfNoCache\":true,\"cacheName\":\"LineEditor\",\"cacheId\":\"a0z7e00000BDJvIAAX\",\"cachedOriginalRecordPath\":[\"quote\",\"ui_original_record\"]},\"record\":{\"attributes\":{\"type\":\"SBQQ__Quote__c\",\"url\":\"/services/data/v58.0/sobjects/SBQQ__Quote__c/a0z7e00000BDJvIAAX\"},\"Id\":\"a0z7e00000BDJvIAAX\",\"Name\":\"Q-00924\",\"SBQQ__Type__c\":\"Quote\",\"SBQQ__Account__c\":\"0017e00001iZykCAAS\",\"SBQQ__SubscriptionTerm__c\":12,\"SBQQ__ExpirationDate__c\":\"2023-08-31\",\"SBQQ__StartDate__c\":\"2023-08-01\",\"SBQQ__NetAmount__c\":0.0,\"SBQQ__CustomerAmount__c\":0.0,\"SBQQ__PricebookId__c\":\"01s7e000002eLFEAA2\",\"SBQQ__ContractingMethod__c\":\"By
+        Subscription End Date\",\"SBQQ__Unopened__c\":true,\"SBQQ__LineItemCount__c\":1,\"SBQQ__PaymentTerms__c\":\"Net
+        30\",\"SBQQ__WatermarkShown__c\":false,\"SBQQ__Status__c\":\"Draft\",\"SBQQ__Primary__c\":true,\"SBQQ__LineItemsGrouped__c\":false,\"SBQQ__Opportunity2__c\":\"0067e00000Nf0AwAAJ\",\"SBQQ__Account__r\":{\"attributes\":{\"type\":\"Account\",\"url\":\"/services/data/v58.0/sobjects/Account/0017e00001iZykCAAS\"},\"Id\":\"0017e00001iZykCAAS\",\"Name\":\"REST
+        Account  2023-08-01 00:00:00 UTC\",\"SBQQ__RenewalModel__c\":\"Contract Based\",\"SBQQ__RenewalPricingMethod__c\":\"Same\"},\"SBQQ__Opportunity2__r\":{\"attributes\":{\"type\":\"Opportunity\",\"url\":\"/services/data/v58.0/sobjects/Opportunity/0067e00000Nf0AwAAJ\"},\"Id\":\"0067e00000Nf0AwAAJ\",\"SBQQ__PrimaryQuote__c\":\"a0z7e00000BDJvIAAX\",\"AccountId\":\"0017e00001iZykCAAS\"},\"SBQQ__CustomerDiscount__c\":null,\"SBQQ__MarkupRate__c\":null,\"SBQQ__PartnerDiscount__c\":null,\"SBQQ__EndDate__c\":null,\"SBQQ__MasterContract__c\":null,\"SBQQ__MasterEvergreenContract__c\":null,\"SBQQ__QuoteProcessId__c\":null,\"SBQQ__DistributorDiscount__c\":null,\"SBQQ__FirstSegmentTermEndDate__c\":null,\"SBQQ__GenerateContractedPrice__c\":null,\"SBQQ__BillingFrequency__c\":null,\"SBQQ__RenewalTerm__c\":null,\"SBQQ__RenewalUpliftRate__c\":null,\"SBQQ__OrderGroupID__c\":null,\"SBQQ__TargetCustomerAmount__c\":null,\"SBQQ__OrderBy__c\":null,\"SBQQ__ProrationDayOfMonth__c\":null},\"nextKey\":2,\"netTotal\":120.0,\"netNonSegmentTotal\":120.0,\"lineItems\":[{\"upliftable\":false,\"upgradeSourcesBySourceProductId\":{},\"ui_original_record\":{\"cloneRecordIfNoCache\":false,\"cacheName\":\"LineEditor\",\"cacheId\":\"a0z7e00000BDJvIAAX\",\"cachedOriginalRecordPath\":[\"quote\",\"lineItems\",\"0\",\"ui_original_record\"]},\"subscriptionTerm\":12,\"record\":{\"attributes\":{\"type\":\"SBQQ__QuoteLine__c\"},\"Id\":null,\"SBQQ__Quote__c\":\"a0z7e00000BDJvIAAX\",\"SBQQ__Description__c\":\"A
+        great description\",\"SBQQ__Product__c\":\"01t7e000009AnukAAC\",\"SBQQ__Number__c\":1,\"SBQQ__PricebookEntryId__c\":\"01u7e00000IsiXkAAJ\",\"SBQQ__HasConsumptionSchedule__c\":false,\"SBQQ__Hidden__c\":false,\"SBQQ__Taxable__c\":false,\"SBQQ__SubscriptionPricing__c\":\"Fixed
+        Price\",\"SBQQ__DefaultSubscriptionTerm__c\":1,\"SBQQ__SubscriptionBase__c\":\"List\",\"SBQQ__SubscriptionScope__c\":\"Quote\",\"SBQQ__ProductSubscriptionType__c\":\"Renewable\",\"SBQQ__SubscriptionType__c\":\"Renewable\",\"SBQQ__BillingFrequency__c\":\"Monthly\",\"Name\":\"QL-0001794\",\"SBQQ__AdditionalDiscount__c\":0.0,\"SBQQ__Bundled__c\":false,\"SBQQ__ComponentDiscountedByPackage__c\":false,\"SBQQ__CostEditable__c\":false,\"SBQQ__CustomerPrice__c\":120.0,\"SBQQ__EffectiveSubscriptionTerm__c\":12,\"SBQQ__ListPrice__c\":10.0,\"SBQQ__OriginalPrice__c\":10.0,\"SBQQ__NetPrice__c\":120.0,\"SBQQ__NetTotal__c\":120.0,\"SBQQ__NonDiscountable__c\":false,\"SBQQ__NonPartnerDiscountable__c\":false,\"SBQQ__Optional__c\":false,\"SBQQ__Bundle__c\":false,\"SBQQ__PartnerPrice__c\":120.0,\"SBQQ__PriceEditable__c\":false,\"SBQQ__ProratedListPrice__c\":120.0,\"SBQQ__PricingMethod__c\":\"List\",\"SBQQ__PricingMethodEditable__c\":false,\"SBQQ__ProrateMultiplier__c\":12.0,\"SBQQ__Quantity__c\":1.0,\"SBQQ__SpecialPrice__c\":10.0,\"SBQQ__Renewal__c\":false,\"SBQQ__ProratedPrice__c\":120.0,\"SBQQ__Uplift__c\":0.0,\"SBQQ__UpliftAmount__c\":0.0,\"SBQQ__ComponentUpliftedByPackage__c\":false,\"SBQQ__ProductName__c\":\"REST
+        Product2  2023-08-01 00:00:00 UTC\",\"SBQQ__Existing__c\":false,\"SBQQ__CarryoverLine__c\":false,\"SBQQ__AllowAssetRefund__c\":false,\"SBQQ__RegularPrice__c\":120.0,\"SBQQ__ProductCode__c\":\"EfxBsBKAsjaF0caCUQPWQYJ8h61G\",\"SBQQ__Product__r\":{\"attributes\":{\"type\":\"Product2\",\"url\":\"/services/data/v58.0/sobjects/Product2/01t7e000009AnukAAC\"},\"Id\":\"01t7e000009AnukAAC\",\"SBQQ__HasConfigurationAttributes__c\":false,\"ProductCode\":\"EfxBsBKAsjaF0caCUQPWQYJ8h61G\",\"Name\":\"REST
+        Product2  2023-08-01 00:00:00 UTC\",\"SBQQ__SubscriptionTerm__c\":1,\"SBQQ__PricingMethod__c\":\"List\"},\"SBQQ__Source__c\":null,\"SBQQ__RequiredBy__c\":null,\"SBQQ__ProductOption__c\":null,\"SBQQ__SegmentIndex__c\":null,\"SBQQ__SegmentLabel__c\":null,\"SBQQ__SegmentKey__c\":null,\"SBQQ__Dimension__c\":null,\"SBQQ__DynamicOptionId__c\":null,\"SBQQ__GenerateContractedPrice__c\":null,\"SBQQ__Favorite__c\":null,\"SBQQ__SubscriptionPercent__c\":null,\"SBQQ__SubscriptionCategory__c\":null,\"SBQQ__SubscriptionTerm__c\":null,\"SBQQ__EndDate__c\":null,\"SBQQ__MinimumPrice__c\":null,\"SBQQ__MaximumPrice__c\":null,\"SBQQ__ChargeType__c\":null,\"SBQQ__BillingType__c\":null,\"SBQQ__TaxCode__c\":null,\"SBQQ__Discount__c\":null,\"SBQQ__AdditionalDiscountAmount__c\":null,\"SBQQ__AdditionalQuantity__c\":null,\"SBQQ__BatchQuantity__c\":null,\"SBQQ__ComponentSubscriptionScope__c\":null,\"SBQQ__CompoundDiscountRate__c\":null,\"SBQQ__ContractedPrice__c\":null,\"SBQQ__Cost__c\":null,\"SBQQ__DiscountSchedule__c\":null,\"SBQQ__DistributorDiscount__c\":null,\"SBQQ__MarkupRate__c\":null,\"SBQQ__MarkupAmount__c\":null,\"SBQQ__OptionDiscount__c\":null,\"SBQQ__OptionDiscountAmount__c\":null,\"SBQQ__OptionType__c\":null,\"SBQQ__BundledQuantity__c\":null,\"SBQQ__PartnerDiscount__c\":null,\"SBQQ__RenewedAsset__c\":null,\"SBQQ__RenewedSubscription__c\":null,\"SBQQ__SpecialPriceType__c\":null,\"SBQQ__StartDate__c\":null,\"SBQQ__OriginalUnitCost__c\":null,\"SBQQ__SubscribedAssetIds__c\":null,\"SBQQ__SubscriptionTargetPrice__c\":null,\"SBQQ__TermDiscountSchedule__c\":null,\"SBQQ__UnitCost__c\":null,\"SBQQ__ComponentTotal__c\":null,\"SBQQ__ComponentCost__c\":null,\"SBQQ__ComponentListTotal__c\":null,\"SBQQ__DiscountScheduleType__c\":null,\"SBQQ__PackageProductCode__c\":null,\"SBQQ__DiscountTier__c\":null,\"SBQQ__VolumeDiscount__c\":null,\"SBQQ__BlockPrice__c\":null,\"SBQQ__TermDiscountTier__c\":null,\"SBQQ__TermDiscount__c\":null,\"SBQQ__PriorQuantity__c\":null,\"SBQQ__PreviousSegmentPrice__c\":null,\"SBQQ__PreviousSegmentUplift__c\":null,\"SBQQ__GrossProfit__c\":null,\"SBQQ__PackageProductDescription__c\":null,\"SBQQ__OptionLevel__c\":null,\"SBQQ__UpgradedQuantity__c\":null,\"SBQQ__OriginalQuoteLineId__c\":null,\"SBQQ__UpgradedAsset__c\":null,\"SBQQ__UpgradedSubscription__c\":null},\"reconfigurationDisabled\":false,\"productQuantityEditable\":true,\"productHasDimensions\":false,\"key\":2,\"hasConsumptionSchedules\":false,\"effectiveStartDate\":\"2023-08-01\",\"descriptionLocked\":false}],\"lineItemGroups\":[],\"isPartial\":false,\"hasMultiSegmentLines\":false,\"customerTotal\":120.0,\"channelDiscountsOffList\":false,\"calculationRequired\":false,\"applyPartnerDiscountFirst\":false,\"applyAdditionalDiscountLast\":false}}"}'
+    headers:
+      User-Agent:
+      - Faraday v2.4.0
+      Content-Type:
+      - application/json
+      Authorization:
+      - OAuth <SALESFORCE_ACCESS_TOKEN>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Tue, 01 Aug 2023 21:05:28 GMT
+      Set-Cookie:
+      - BrowserId=JJu8KzCvEe64OnvvtTY2PA; domain=.salesforce.com; path=/; expires=Wed,
+        31-Jul-2024 21:05:28 GMT; Max-Age=31536000
+      - CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 21:05:28 GMT; Max-Age=31536000
+      - LSKey-c$CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 21:05:28
+        GMT; Max-Age=31536000
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Robots-Tag:
+      - none
+      Cache-Control:
+      - no-cache,must-revalidate,max-age=0,no-store,private
+      Content-Type:
+      - application/json;charset=UTF-8
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: '"{\"ui_original_record\":{\"cloneRecordIfNoCache\":true,\"cacheName\":\"LineEditor\",\"cacheId\":\"a0z7e00000BDJvIAAX\",\"cachedOriginalRecordPath\":[\"quote\",\"ui_original_record\"]},\"record\":{\"attributes\":{\"type\":\"SBQQ__Quote__c\",\"url\":\"/services/data/v58.0/sobjects/SBQQ__Quote__c/a0z7e00000BDJvIAAX\"},\"Id\":\"a0z7e00000BDJvIAAX\",\"Name\":\"Q-00924\",\"SBQQ__Type__c\":\"Quote\",\"SBQQ__Account__c\":\"0017e00001iZykCAAS\",\"SBQQ__SubscriptionTerm__c\":12,\"SBQQ__ExpirationDate__c\":\"2023-08-31\",\"SBQQ__StartDate__c\":\"2023-08-01\",\"SBQQ__NetAmount__c\":120.00,\"SBQQ__CustomerAmount__c\":120.00,\"SBQQ__PricebookId__c\":\"01s7e000002eLFEAA2\",\"SBQQ__ContractingMethod__c\":\"By
+        Subscription End Date\",\"SBQQ__Unopened__c\":true,\"SBQQ__LineItemCount__c\":1,\"SBQQ__PaymentTerms__c\":\"Net
+        30\",\"SBQQ__WatermarkShown__c\":false,\"SBQQ__Status__c\":\"Draft\",\"SBQQ__Primary__c\":true,\"SBQQ__LineItemsGrouped__c\":false,\"SBQQ__Opportunity2__c\":\"0067e00000Nf0AwAAJ\",\"SBQQ__Account__r\":{\"attributes\":{\"type\":\"Account\",\"url\":\"/services/data/v58.0/sobjects/Account/0017e00001iZykCAAS\"},\"Id\":\"0017e00001iZykCAAS\",\"Name\":\"REST
+        Account  2023-08-01 00:00:00 UTC\",\"SBQQ__RenewalModel__c\":\"Contract Based\",\"SBQQ__RenewalPricingMethod__c\":\"Same\"},\"SBQQ__Opportunity2__r\":{\"attributes\":{\"type\":\"Opportunity\",\"url\":\"/services/data/v58.0/sobjects/Opportunity/0067e00000Nf0AwAAJ\"},\"Id\":\"0067e00000Nf0AwAAJ\",\"SBQQ__PrimaryQuote__c\":\"a0z7e00000BDJvIAAX\",\"AccountId\":\"0017e00001iZykCAAS\"},\"SBQQ__CustomerDiscount__c\":null,\"SBQQ__MarkupRate__c\":null,\"SBQQ__PartnerDiscount__c\":null,\"SBQQ__EndDate__c\":null,\"SBQQ__MasterContract__c\":null,\"SBQQ__MasterEvergreenContract__c\":null,\"SBQQ__QuoteProcessId__c\":null,\"SBQQ__DistributorDiscount__c\":null,\"SBQQ__FirstSegmentTermEndDate__c\":null,\"SBQQ__GenerateContractedPrice__c\":null,\"SBQQ__BillingFrequency__c\":null,\"SBQQ__RenewalTerm__c\":null,\"SBQQ__RenewalUpliftRate__c\":null,\"SBQQ__OrderGroupID__c\":null,\"SBQQ__TargetCustomerAmount__c\":null,\"SBQQ__OrderBy__c\":null,\"SBQQ__ProrationDayOfMonth__c\":null},\"nextKey\":2,\"netTotal\":120.00,\"netNonSegmentTotal\":120.0000,\"lineItems\":[{\"upliftable\":false,\"upgradeSourcesBySourceProductId\":{},\"ui_original_record\":{\"cloneRecordIfNoCache\":false,\"cacheName\":\"LineEditor\",\"cacheId\":\"a0z7e00000BDJvIAAX\",\"cachedOriginalRecordPath\":[\"quote\",\"lineItems\",\"0\",\"ui_original_record\"]},\"subscriptionTerm\":12,\"record\":{\"attributes\":{\"type\":\"SBQQ__QuoteLine__c\"},\"Id\":null,\"SBQQ__Quote__c\":\"a0z7e00000BDJvIAAX\",\"SBQQ__Description__c\":\"A
+        great description\",\"SBQQ__Product__c\":\"01t7e000009AnukAAC\",\"SBQQ__Number__c\":1,\"SBQQ__PricebookEntryId__c\":\"01u7e00000IsiXkAAJ\",\"SBQQ__HasConsumptionSchedule__c\":false,\"SBQQ__Hidden__c\":false,\"SBQQ__Taxable__c\":false,\"SBQQ__SubscriptionPricing__c\":\"Fixed
+        Price\",\"SBQQ__DefaultSubscriptionTerm__c\":1,\"SBQQ__SubscriptionBase__c\":\"List\",\"SBQQ__SubscriptionScope__c\":\"Quote\",\"SBQQ__ProductSubscriptionType__c\":\"Renewable\",\"SBQQ__SubscriptionType__c\":\"Renewable\",\"SBQQ__BillingFrequency__c\":\"Monthly\",\"Name\":\"QL-0001795\",\"SBQQ__AdditionalDiscount__c\":0.00,\"SBQQ__Bundled__c\":false,\"SBQQ__ComponentDiscountedByPackage__c\":false,\"SBQQ__CostEditable__c\":false,\"SBQQ__CustomerPrice__c\":120.00,\"SBQQ__EffectiveSubscriptionTerm__c\":12,\"SBQQ__ListPrice__c\":10.00,\"SBQQ__OriginalPrice__c\":10.00,\"SBQQ__NetPrice__c\":120.00,\"SBQQ__NetTotal__c\":120.00,\"SBQQ__NonDiscountable__c\":false,\"SBQQ__NonPartnerDiscountable__c\":false,\"SBQQ__Optional__c\":false,\"SBQQ__Bundle__c\":false,\"SBQQ__PartnerPrice__c\":120.00,\"SBQQ__PriceEditable__c\":false,\"SBQQ__ProratedListPrice__c\":120.00,\"SBQQ__PricingMethod__c\":\"List\",\"SBQQ__PricingMethodEditable__c\":false,\"SBQQ__ProrateMultiplier__c\":12.0000,\"SBQQ__Quantity__c\":1.00,\"SBQQ__SpecialPrice__c\":10.00,\"SBQQ__Renewal__c\":false,\"SBQQ__ProratedPrice__c\":120.00,\"SBQQ__Uplift__c\":0.00,\"SBQQ__UpliftAmount__c\":0.00,\"SBQQ__ComponentUpliftedByPackage__c\":false,\"SBQQ__ProductName__c\":\"REST
+        Product2  2023-08-01 00:00:00 UTC\",\"SBQQ__Existing__c\":false,\"SBQQ__CarryoverLine__c\":false,\"SBQQ__AllowAssetRefund__c\":false,\"SBQQ__RegularPrice__c\":120.00,\"SBQQ__ProductCode__c\":\"EfxBsBKAsjaF0caCUQPWQYJ8h61G\",\"SBQQ__Product__r\":{\"attributes\":{\"type\":\"Product2\",\"url\":\"/services/data/v58.0/sobjects/Product2/01t7e000009AnukAAC\"},\"Id\":\"01t7e000009AnukAAC\",\"SBQQ__HasConfigurationAttributes__c\":false,\"ProductCode\":\"EfxBsBKAsjaF0caCUQPWQYJ8h61G\",\"Name\":\"REST
+        Product2  2023-08-01 00:00:00 UTC\",\"SBQQ__SubscriptionTerm__c\":1,\"SBQQ__PricingMethod__c\":\"List\"},\"SBQQ__Source__c\":null,\"SBQQ__RequiredBy__c\":null,\"SBQQ__ProductOption__c\":null,\"SBQQ__SegmentIndex__c\":null,\"SBQQ__SegmentLabel__c\":null,\"SBQQ__SegmentKey__c\":null,\"SBQQ__Dimension__c\":null,\"SBQQ__DynamicOptionId__c\":null,\"SBQQ__GenerateContractedPrice__c\":null,\"SBQQ__Favorite__c\":null,\"SBQQ__SubscriptionPercent__c\":null,\"SBQQ__SubscriptionCategory__c\":null,\"SBQQ__SubscriptionTerm__c\":null,\"SBQQ__EndDate__c\":null,\"SBQQ__MinimumPrice__c\":null,\"SBQQ__MaximumPrice__c\":null,\"SBQQ__ChargeType__c\":null,\"SBQQ__BillingType__c\":null,\"SBQQ__TaxCode__c\":null,\"SBQQ__Discount__c\":null,\"SBQQ__AdditionalDiscountAmount__c\":null,\"SBQQ__AdditionalQuantity__c\":null,\"SBQQ__BatchQuantity__c\":null,\"SBQQ__ComponentSubscriptionScope__c\":null,\"SBQQ__CompoundDiscountRate__c\":null,\"SBQQ__ContractedPrice__c\":null,\"SBQQ__Cost__c\":null,\"SBQQ__DiscountSchedule__c\":null,\"SBQQ__DistributorDiscount__c\":null,\"SBQQ__MarkupRate__c\":null,\"SBQQ__MarkupAmount__c\":null,\"SBQQ__OptionDiscount__c\":null,\"SBQQ__OptionDiscountAmount__c\":null,\"SBQQ__OptionType__c\":null,\"SBQQ__BundledQuantity__c\":null,\"SBQQ__PartnerDiscount__c\":null,\"SBQQ__RenewedAsset__c\":null,\"SBQQ__RenewedSubscription__c\":null,\"SBQQ__SpecialPriceType__c\":null,\"SBQQ__StartDate__c\":null,\"SBQQ__OriginalUnitCost__c\":null,\"SBQQ__SubscribedAssetIds__c\":null,\"SBQQ__SubscriptionTargetPrice__c\":null,\"SBQQ__TermDiscountSchedule__c\":null,\"SBQQ__UnitCost__c\":null,\"SBQQ__ComponentTotal__c\":null,\"SBQQ__ComponentCost__c\":null,\"SBQQ__ComponentListTotal__c\":null,\"SBQQ__DiscountScheduleType__c\":null,\"SBQQ__PackageProductCode__c\":null,\"SBQQ__DiscountTier__c\":null,\"SBQQ__VolumeDiscount__c\":null,\"SBQQ__BlockPrice__c\":null,\"SBQQ__TermDiscountTier__c\":null,\"SBQQ__TermDiscount__c\":null,\"SBQQ__PriorQuantity__c\":null,\"SBQQ__PreviousSegmentPrice__c\":null,\"SBQQ__PreviousSegmentUplift__c\":null,\"SBQQ__GrossProfit__c\":null,\"SBQQ__PackageProductDescription__c\":null,\"SBQQ__OptionLevel__c\":null,\"SBQQ__UpgradedQuantity__c\":null,\"SBQQ__OriginalQuoteLineId__c\":null,\"SBQQ__UpgradedAsset__c\":null,\"SBQQ__UpgradedSubscription__c\":null},\"reconfigurationDisabled\":false,\"productQuantityEditable\":true,\"productHasDimensions\":false,\"key\":2,\"hasConsumptionSchedules\":false,\"effectiveStartDate\":\"2023-08-01\",\"descriptionLocked\":false}],\"lineItemGroups\":[],\"isPartial\":false,\"hasMultiSegmentLines\":false,\"customerTotal\":120.00,\"channelDiscountsOffList\":false,\"calculationRequired\":false,\"applyPartnerDiscountFirst\":false,\"applyAdditionalDiscountLast\":false}"'
+  recorded_at: Tue, 01 Aug 2023 21:05:29 GMT
+- request:
+    method: post
+    uri: https://ability-innovation-7335-dev-ed.scratch.my.salesforce.com/services/apexrest/SBQQ/ServiceRouter
+    body:
+      encoding: UTF-8
+      string: '{"saver":"SBQQ.QuoteAPI.QuoteSaver","model":"{\"ui_original_record\":{\"cloneRecordIfNoCache\":true,\"cacheName\":\"LineEditor\",\"cacheId\":\"a0z7e00000BDJvIAAX\",\"cachedOriginalRecordPath\":[\"quote\",\"ui_original_record\"]},\"record\":{\"attributes\":{\"type\":\"SBQQ__Quote__c\",\"url\":\"/services/data/v58.0/sobjects/SBQQ__Quote__c/a0z7e00000BDJvIAAX\"},\"Id\":\"a0z7e00000BDJvIAAX\",\"Name\":\"Q-00924\",\"SBQQ__Type__c\":\"Quote\",\"SBQQ__Account__c\":\"0017e00001iZykCAAS\",\"SBQQ__SubscriptionTerm__c\":12,\"SBQQ__ExpirationDate__c\":\"2023-08-31\",\"SBQQ__StartDate__c\":\"2023-08-01\",\"SBQQ__NetAmount__c\":120.0,\"SBQQ__CustomerAmount__c\":120.0,\"SBQQ__PricebookId__c\":\"01s7e000002eLFEAA2\",\"SBQQ__ContractingMethod__c\":\"By
+        Subscription End Date\",\"SBQQ__Unopened__c\":true,\"SBQQ__LineItemCount__c\":1,\"SBQQ__PaymentTerms__c\":\"Net
+        30\",\"SBQQ__WatermarkShown__c\":false,\"SBQQ__Status__c\":\"Draft\",\"SBQQ__Primary__c\":true,\"SBQQ__LineItemsGrouped__c\":false,\"SBQQ__Opportunity2__c\":\"0067e00000Nf0AwAAJ\",\"SBQQ__Account__r\":{\"attributes\":{\"type\":\"Account\",\"url\":\"/services/data/v58.0/sobjects/Account/0017e00001iZykCAAS\"},\"Id\":\"0017e00001iZykCAAS\",\"Name\":\"REST
+        Account  2023-08-01 00:00:00 UTC\",\"SBQQ__RenewalModel__c\":\"Contract Based\",\"SBQQ__RenewalPricingMethod__c\":\"Same\"},\"SBQQ__Opportunity2__r\":{\"attributes\":{\"type\":\"Opportunity\",\"url\":\"/services/data/v58.0/sobjects/Opportunity/0067e00000Nf0AwAAJ\"},\"Id\":\"0067e00000Nf0AwAAJ\",\"SBQQ__PrimaryQuote__c\":\"a0z7e00000BDJvIAAX\",\"AccountId\":\"0017e00001iZykCAAS\"},\"SBQQ__CustomerDiscount__c\":null,\"SBQQ__MarkupRate__c\":null,\"SBQQ__PartnerDiscount__c\":null,\"SBQQ__EndDate__c\":null,\"SBQQ__MasterContract__c\":null,\"SBQQ__MasterEvergreenContract__c\":null,\"SBQQ__QuoteProcessId__c\":null,\"SBQQ__DistributorDiscount__c\":null,\"SBQQ__FirstSegmentTermEndDate__c\":null,\"SBQQ__GenerateContractedPrice__c\":null,\"SBQQ__BillingFrequency__c\":null,\"SBQQ__RenewalTerm__c\":null,\"SBQQ__RenewalUpliftRate__c\":null,\"SBQQ__OrderGroupID__c\":null,\"SBQQ__TargetCustomerAmount__c\":null,\"SBQQ__OrderBy__c\":null,\"SBQQ__ProrationDayOfMonth__c\":null},\"nextKey\":2,\"netTotal\":120.0,\"netNonSegmentTotal\":120.0,\"lineItems\":[{\"upliftable\":false,\"upgradeSourcesBySourceProductId\":{},\"ui_original_record\":{\"cloneRecordIfNoCache\":false,\"cacheName\":\"LineEditor\",\"cacheId\":\"a0z7e00000BDJvIAAX\",\"cachedOriginalRecordPath\":[\"quote\",\"lineItems\",\"0\",\"ui_original_record\"]},\"subscriptionTerm\":12,\"record\":{\"attributes\":{\"type\":\"SBQQ__QuoteLine__c\"},\"Id\":null,\"SBQQ__Quote__c\":\"a0z7e00000BDJvIAAX\",\"SBQQ__Description__c\":\"A
+        great description\",\"SBQQ__Product__c\":\"01t7e000009AnukAAC\",\"SBQQ__Number__c\":1,\"SBQQ__PricebookEntryId__c\":\"01u7e00000IsiXkAAJ\",\"SBQQ__HasConsumptionSchedule__c\":false,\"SBQQ__Hidden__c\":false,\"SBQQ__Taxable__c\":false,\"SBQQ__SubscriptionPricing__c\":\"Fixed
+        Price\",\"SBQQ__DefaultSubscriptionTerm__c\":1,\"SBQQ__SubscriptionBase__c\":\"List\",\"SBQQ__SubscriptionScope__c\":\"Quote\",\"SBQQ__ProductSubscriptionType__c\":\"Renewable\",\"SBQQ__SubscriptionType__c\":\"Renewable\",\"SBQQ__BillingFrequency__c\":\"Monthly\",\"Name\":\"QL-0001795\",\"SBQQ__AdditionalDiscount__c\":0.0,\"SBQQ__Bundled__c\":false,\"SBQQ__ComponentDiscountedByPackage__c\":false,\"SBQQ__CostEditable__c\":false,\"SBQQ__CustomerPrice__c\":120.0,\"SBQQ__EffectiveSubscriptionTerm__c\":12,\"SBQQ__ListPrice__c\":10.0,\"SBQQ__OriginalPrice__c\":10.0,\"SBQQ__NetPrice__c\":120.0,\"SBQQ__NetTotal__c\":120.0,\"SBQQ__NonDiscountable__c\":false,\"SBQQ__NonPartnerDiscountable__c\":false,\"SBQQ__Optional__c\":false,\"SBQQ__Bundle__c\":false,\"SBQQ__PartnerPrice__c\":120.0,\"SBQQ__PriceEditable__c\":false,\"SBQQ__ProratedListPrice__c\":120.0,\"SBQQ__PricingMethod__c\":\"List\",\"SBQQ__PricingMethodEditable__c\":false,\"SBQQ__ProrateMultiplier__c\":12.0,\"SBQQ__Quantity__c\":1.0,\"SBQQ__SpecialPrice__c\":10.0,\"SBQQ__Renewal__c\":false,\"SBQQ__ProratedPrice__c\":120.0,\"SBQQ__Uplift__c\":0.0,\"SBQQ__UpliftAmount__c\":0.0,\"SBQQ__ComponentUpliftedByPackage__c\":false,\"SBQQ__ProductName__c\":\"REST
+        Product2  2023-08-01 00:00:00 UTC\",\"SBQQ__Existing__c\":false,\"SBQQ__CarryoverLine__c\":false,\"SBQQ__AllowAssetRefund__c\":false,\"SBQQ__RegularPrice__c\":120.0,\"SBQQ__ProductCode__c\":\"EfxBsBKAsjaF0caCUQPWQYJ8h61G\",\"SBQQ__Product__r\":{\"attributes\":{\"type\":\"Product2\",\"url\":\"/services/data/v58.0/sobjects/Product2/01t7e000009AnukAAC\"},\"Id\":\"01t7e000009AnukAAC\",\"SBQQ__HasConfigurationAttributes__c\":false,\"ProductCode\":\"EfxBsBKAsjaF0caCUQPWQYJ8h61G\",\"Name\":\"REST
+        Product2  2023-08-01 00:00:00 UTC\",\"SBQQ__SubscriptionTerm__c\":1,\"SBQQ__PricingMethod__c\":\"List\"},\"SBQQ__Source__c\":null,\"SBQQ__RequiredBy__c\":null,\"SBQQ__ProductOption__c\":null,\"SBQQ__SegmentIndex__c\":null,\"SBQQ__SegmentLabel__c\":null,\"SBQQ__SegmentKey__c\":null,\"SBQQ__Dimension__c\":null,\"SBQQ__DynamicOptionId__c\":null,\"SBQQ__GenerateContractedPrice__c\":null,\"SBQQ__Favorite__c\":null,\"SBQQ__SubscriptionPercent__c\":null,\"SBQQ__SubscriptionCategory__c\":null,\"SBQQ__SubscriptionTerm__c\":null,\"SBQQ__EndDate__c\":null,\"SBQQ__MinimumPrice__c\":null,\"SBQQ__MaximumPrice__c\":null,\"SBQQ__ChargeType__c\":null,\"SBQQ__BillingType__c\":null,\"SBQQ__TaxCode__c\":null,\"SBQQ__Discount__c\":null,\"SBQQ__AdditionalDiscountAmount__c\":null,\"SBQQ__AdditionalQuantity__c\":null,\"SBQQ__BatchQuantity__c\":null,\"SBQQ__ComponentSubscriptionScope__c\":null,\"SBQQ__CompoundDiscountRate__c\":null,\"SBQQ__ContractedPrice__c\":null,\"SBQQ__Cost__c\":null,\"SBQQ__DiscountSchedule__c\":null,\"SBQQ__DistributorDiscount__c\":null,\"SBQQ__MarkupRate__c\":null,\"SBQQ__MarkupAmount__c\":null,\"SBQQ__OptionDiscount__c\":null,\"SBQQ__OptionDiscountAmount__c\":null,\"SBQQ__OptionType__c\":null,\"SBQQ__BundledQuantity__c\":null,\"SBQQ__PartnerDiscount__c\":null,\"SBQQ__RenewedAsset__c\":null,\"SBQQ__RenewedSubscription__c\":null,\"SBQQ__SpecialPriceType__c\":null,\"SBQQ__StartDate__c\":null,\"SBQQ__OriginalUnitCost__c\":null,\"SBQQ__SubscribedAssetIds__c\":null,\"SBQQ__SubscriptionTargetPrice__c\":null,\"SBQQ__TermDiscountSchedule__c\":null,\"SBQQ__UnitCost__c\":null,\"SBQQ__ComponentTotal__c\":null,\"SBQQ__ComponentCost__c\":null,\"SBQQ__ComponentListTotal__c\":null,\"SBQQ__DiscountScheduleType__c\":null,\"SBQQ__PackageProductCode__c\":null,\"SBQQ__DiscountTier__c\":null,\"SBQQ__VolumeDiscount__c\":null,\"SBQQ__BlockPrice__c\":null,\"SBQQ__TermDiscountTier__c\":null,\"SBQQ__TermDiscount__c\":null,\"SBQQ__PriorQuantity__c\":null,\"SBQQ__PreviousSegmentPrice__c\":null,\"SBQQ__PreviousSegmentUplift__c\":null,\"SBQQ__GrossProfit__c\":null,\"SBQQ__PackageProductDescription__c\":null,\"SBQQ__OptionLevel__c\":null,\"SBQQ__UpgradedQuantity__c\":null,\"SBQQ__OriginalQuoteLineId__c\":null,\"SBQQ__UpgradedAsset__c\":null,\"SBQQ__UpgradedSubscription__c\":null},\"reconfigurationDisabled\":false,\"productQuantityEditable\":true,\"productHasDimensions\":false,\"key\":2,\"hasConsumptionSchedules\":false,\"effectiveStartDate\":\"2023-08-01\",\"descriptionLocked\":false}],\"lineItemGroups\":[],\"isPartial\":false,\"hasMultiSegmentLines\":false,\"customerTotal\":120.0,\"channelDiscountsOffList\":false,\"calculationRequired\":false,\"applyPartnerDiscountFirst\":false,\"applyAdditionalDiscountLast\":false}"}'
+    headers:
+      User-Agent:
+      - Faraday v2.4.0
+      Content-Type:
+      - application/json
+      Authorization:
+      - OAuth <SALESFORCE_ACCESS_TOKEN>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Tue, 01 Aug 2023 21:05:30 GMT
+      Set-Cookie:
+      - BrowserId=JYw2RjCvEe6NISPaolPCcw; domain=.salesforce.com; path=/; expires=Wed,
+        31-Jul-2024 21:05:30 GMT; Max-Age=31536000
+      - CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 21:05:30 GMT; Max-Age=31536000
+      - LSKey-c$CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 21:05:30
+        GMT; Max-Age=31536000
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Robots-Tag:
+      - none
+      Cache-Control:
+      - no-cache,must-revalidate,max-age=0,no-store,private
+      Content-Type:
+      - application/json;charset=UTF-8
+      Vary:
+      - Accept-Encoding
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: ASCII-8BIT
+      string: '"{\"ui_original_record\":{\"cloneRecordIfNoCache\":true,\"cacheName\":\"LineEditor\",\"cacheId\":\"a0z7e00000BDJvIAAX\",\"cachedOriginalRecordPath\":[\"quote\",\"ui_original_record\"]},\"record\":{\"attributes\":{\"type\":\"SBQQ__Quote__c\",\"url\":\"/services/data/v58.0/sobjects/SBQQ__Quote__c/a0z7e00000BDJvIAAX\"},\"SBQQ__PartnerDiscount__c\":null,\"SBQQ__GenerateContractedPrice__c\":null,\"SBQQ__QuoteProcessId__c\":null,\"SBQQ__NetAmount__c\":120.0,\"SBQQ__CustomerDiscount__c\":null,\"SBQQ__TargetCustomerAmount__c\":null,\"SBQQ__CustomerAmount__c\":120.0,\"SBQQ__PaymentTerms__c\":\"Net
+        30\",\"SBQQ__Opportunity2__r\":{\"attributes\":{\"type\":\"Opportunity\",\"url\":\"/services/data/v58.0/sobjects/Opportunity/0067e00000Nf0AwAAJ\"},\"SBQQ__PrimaryQuote__c\":\"a0z7e00000BDJvIAAX\",\"AccountId\":\"0017e00001iZykCAAS\",\"Id\":\"0067e00000Nf0AwAAJ\"},\"SBQQ__Account__r\":{\"attributes\":{\"type\":\"Account\",\"url\":\"/services/data/v58.0/sobjects/Account/0017e00001iZykCAAS\"},\"SBQQ__RenewalPricingMethod__c\":\"Same\",\"Id\":\"0017e00001iZykCAAS\",\"SBQQ__RenewalModel__c\":\"Contract
+        Based\",\"Name\":\"REST Account  2023-08-01 00:00:00 UTC\"},\"SBQQ__ContractingMethod__c\":\"By
+        Subscription End Date\",\"SBQQ__RenewalUpliftRate__c\":null,\"Name\":\"Q-00924\",\"SBQQ__Type__c\":\"Quote\",\"SBQQ__SubscriptionTerm__c\":12.0,\"SBQQ__MarkupRate__c\":null,\"SBQQ__OrderGroupID__c\":null,\"SBQQ__DistributorDiscount__c\":null,\"SBQQ__OrderBy__c\":null,\"SBQQ__PricebookId__c\":\"01s7e000002eLFEAA2\",\"SBQQ__EndDate__c\":null,\"SBQQ__Account__c\":\"0017e00001iZykCAAS\",\"SBQQ__WatermarkShown__c\":false,\"SBQQ__StartDate__c\":\"2023-08-01\",\"SBQQ__FirstSegmentTermEndDate__c\":null,\"SBQQ__BillingFrequency__c\":null,\"SBQQ__Status__c\":\"Draft\",\"SBQQ__LineItemsGrouped__c\":false,\"SBQQ__ExpirationDate__c\":\"2023-08-31\",\"SBQQ__Primary__c\":true,\"SBQQ__MasterEvergreenContract__c\":null,\"SBQQ__ProrationDayOfMonth__c\":null,\"SBQQ__Opportunity2__c\":\"0067e00000Nf0AwAAJ\",\"SBQQ__LineItemCount__c\":1.0,\"SBQQ__MasterContract__c\":null,\"Id\":\"a0z7e00000BDJvIAAX\",\"SBQQ__Unopened__c\":true,\"SBQQ__RenewalTerm__c\":null},\"nextKey\":2,\"netTotal\":120.0,\"netNonSegmentTotal\":120.0,\"lineItems\":[{\"upliftable\":false,\"upgradeSourcesBySourceProductId\":{},\"ui_original_record\":{\"cloneRecordIfNoCache\":false,\"cacheName\":\"LineEditor\",\"cacheId\":\"a0z7e00000BDJvIAAX\",\"cachedOriginalRecordPath\":[\"quote\",\"lineItems\",\"0\",\"ui_original_record\"]},\"subscriptionTerm\":12,\"record\":{\"attributes\":{\"type\":\"SBQQ__QuoteLine__c\",\"url\":\"/services/data/v58.0/sobjects/SBQQ__QuoteLine__c/a0v7e000008xWvxAAE\"},\"SBQQ__CarryoverLine__c\":false,\"SBQQ__TermDiscountTier__c\":null,\"SBQQ__VolumeDiscount__c\":null,\"SBQQ__BillingType__c\":null,\"SBQQ__Discount__c\":null,\"SBQQ__ListPrice__c\":10.0,\"SBQQ__Existing__c\":false,\"SBQQ__ProductName__c\":\"REST
+        Product2  2023-08-01 00:00:00 UTC\",\"SBQQ__SegmentIndex__c\":null,\"SBQQ__DiscountTier__c\":null,\"SBQQ__ComponentTotal__c\":null,\"SBQQ__RenewedSubscription__c\":null,\"SBQQ__SubscriptionTargetPrice__c\":null,\"SBQQ__AllowAssetRefund__c\":false,\"SBQQ__HasConsumptionSchedule__c\":false,\"SBQQ__Optional__c\":false,\"SBQQ__SubscriptionType__c\":\"Renewable\",\"SBQQ__PriorQuantity__c\":null,\"SBQQ__Source__c\":null,\"SBQQ__Quote__c\":\"a0z7e00000BDJvIAAX\",\"SBQQ__ProratedListPrice__c\":120.0,\"SBQQ__ChargeType__c\":null,\"SBQQ__UpliftAmount__c\":0.0,\"SBQQ__ComponentSubscriptionScope__c\":null,\"SBQQ__OptionLevel__c\":null,\"SBQQ__NetPrice__c\":120.0,\"Id\":\"a0v7e000008xWvxAAE\",\"SBQQ__EffectiveSubscriptionTerm__c\":12.0,\"SBQQ__OriginalQuoteLineId__c\":null,\"SBQQ__RegularPrice__c\":120.0,\"SBQQ__Quantity__c\":1.0,\"SBQQ__TaxCode__c\":null,\"SBQQ__ContractedPrice__c\":null,\"SBQQ__CostEditable__c\":false,\"SBQQ__Dimension__c\":null,\"SBQQ__DynamicOptionId__c\":null,\"SBQQ__PreviousSegmentUplift__c\":null,\"SBQQ__RequiredBy__r\":null,\"SBQQ__EndDate__c\":null,\"SBQQ__PreviousSegmentPrice__c\":null,\"SBQQ__UpgradedSubscription__c\":null,\"SBQQ__SpecialPriceType__c\":null,\"SBQQ__SegmentKey__c\":null,\"SBQQ__OptionDiscount__c\":null,\"SBQQ__RequiredBy__c\":null,\"SBQQ__UpgradedAsset__c\":null,\"SBQQ__Bundled__c\":false,\"SBQQ__OptionType__c\":null,\"SBQQ__Number__c\":1.0,\"SBQQ__SubscriptionPercent__c\":null,\"SBQQ__ComponentListTotal__c\":null,\"SBQQ__TermDiscountSchedule__c\":null,\"SBQQ__Taxable__c\":false,\"SBQQ__Description__c\":\"A
+        great description\",\"SBQQ__ProductCode__c\":\"EfxBsBKAsjaF0caCUQPWQYJ8h61G\",\"SBQQ__OriginalPrice__c\":10.0,\"SBQQ__GenerateContractedPrice__c\":null,\"SBQQ__NetTotal__c\":120.0,\"SBQQ__UnitCost__c\":null,\"SBQQ__SubscriptionCategory__c\":null,\"SBQQ__Hidden__c\":false,\"SBQQ__NonDiscountable__c\":false,\"SBQQ__RenewedAsset__c\":null,\"SBQQ__ProductSubscriptionType__c\":\"Renewable\",\"SBQQ__GrossProfit__c\":null,\"SBQQ__MinimumPrice__c\":null,\"SBQQ__BundledQuantity__c\":null,\"SBQQ__BatchQuantity__c\":null,\"SBQQ__ProrateMultiplier__c\":12.0,\"Name\":\"QL-0001795\",\"SBQQ__CustomerPrice__c\":120.0,\"SBQQ__SubscriptionTerm__c\":null,\"SBQQ__MarkupRate__c\":null,\"SBQQ__DistributorDiscount__c\":null,\"SBQQ__DefaultSubscriptionTerm__c\":1.0,\"SBQQ__PriceEditable__c\":false,\"SBQQ__ProratedPrice__c\":120.0,\"SBQQ__ComponentUpliftedByPackage__c\":false,\"SBQQ__StartDate__c\":null,\"SBQQ__NonPartnerDiscountable__c\":false,\"SBQQ__BlockPrice__c\":null,\"SBQQ__MaximumPrice__c\":null,\"SBQQ__SubscriptionPricing__c\":\"Fixed
+        Price\",\"SBQQ__AdditionalDiscount__c\":0.0,\"SBQQ__Favorite__c\":null,\"SBQQ__PricebookEntryId__c\":\"01u7e00000IsiXkAAJ\",\"SBQQ__ProductOption__c\":null,\"SBQQ__OptionDiscountAmount__c\":null,\"SBQQ__TermDiscount__c\":null,\"SBQQ__MarkupAmount__c\":null,\"SBQQ__PartnerDiscount__c\":null,\"SBQQ__ComponentDiscountedByPackage__c\":false,\"SBQQ__Renewal__c\":false,\"SBQQ__CompoundDiscountRate__c\":null,\"SBQQ__UpgradedQuantity__c\":null,\"SBQQ__AdditionalDiscountAmount__c\":null,\"SBQQ__Cost__c\":null,\"SBQQ__PackageProductDescription__c\":null,\"SBQQ__PartnerPrice__c\":120.0,\"SBQQ__DiscountSchedule__c\":null,\"SBQQ__ComponentCost__c\":null,\"SBQQ__SubscribedAssetIds__c\":null,\"SBQQ__SubscriptionScope__c\":\"Quote\",\"SBQQ__Product__r\":{\"attributes\":{\"type\":\"Product2\",\"url\":\"/services/data/v58.0/sobjects/Product2/01t7e000009AnukAAC\"},\"SBQQ__SubscriptionTerm__c\":1.0,\"ProductCode\":\"EfxBsBKAsjaF0caCUQPWQYJ8h61G\",\"SBQQ__HasConfigurationAttributes__c\":false,\"SBQQ__PricingMethod__c\":\"List\",\"Id\":\"01t7e000009AnukAAC\",\"Name\":\"REST
+        Product2  2023-08-01 00:00:00 UTC\"},\"SBQQ__SubscriptionBase__c\":\"List\",\"SBQQ__BillingFrequency__c\":\"Monthly\",\"SBQQ__OriginalUnitCost__c\":null,\"SBQQ__Bundle__c\":false,\"SBQQ__Product__c\":\"01t7e000009AnukAAC\",\"SBQQ__SpecialPrice__c\":10.0,\"SBQQ__PricingMethodEditable__c\":false,\"SBQQ__Uplift__c\":0.0,\"SBQQ__PackageProductCode__c\":null,\"SBQQ__PricingMethod__c\":\"List\",\"SBQQ__SegmentLabel__c\":null,\"SBQQ__AdditionalQuantity__c\":null,\"SBQQ__DiscountScheduleType__c\":null,\"SBQQ__Incomplete__c\":false},\"reconfigurationDisabled\":false,\"productQuantityEditable\":true,\"productHasDimensions\":false,\"key\":2,\"hasConsumptionSchedules\":false,\"effectiveStartDate\":\"2023-08-01\",\"descriptionLocked\":false}],\"lineItemGroups\":[],\"isPartial\":false,\"hasMultiSegmentLines\":false,\"customerTotal\":120.0,\"channelDiscountsOffList\":false,\"calculationRequired\":false,\"applyPartnerDiscountFirst\":false,\"applyAdditionalDiscountLast\":false}"'
+  recorded_at: Tue, 01 Aug 2023 21:05:30 GMT
+- request:
+    method: patch
+    uri: https://ability-innovation-7335-dev-ed.scratch.my.salesforce.com/services/data/v58.0/sobjects/SBQQ__Quote__c/a0z7e00000BDJvIAAX
+    body:
+      encoding: UTF-8
+      string: '{"SBQQ__Ordered__c":true}'
+    headers:
+      User-Agent:
+      - Faraday v2.4.0
+      Content-Type:
+      - application/json
+      Authorization:
+      - OAuth <SALESFORCE_ACCESS_TOKEN>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 204
+      message: No Content
+    headers:
+      Date:
+      - Tue, 01 Aug 2023 21:05:30 GMT
+      Set-Cookie:
+      - BrowserId=JfRG3jCvEe6FfkeBuaLXIQ; domain=.salesforce.com; path=/; expires=Wed,
+        31-Jul-2024 21:05:30 GMT; Max-Age=31536000
+      - CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 21:05:30 GMT; Max-Age=31536000
+      - LSKey-c$CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 21:05:30
+        GMT; Max-Age=31536000
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+      Content-Security-Policy:
+      - upgrade-insecure-requests
+      X-Robots-Tag:
+      - none
+      Cache-Control:
+      - no-cache,must-revalidate,max-age=0,no-store,private
+      Sforce-Limit-Info:
+      - api-usage=8690/5000000
+    body:
+      encoding: UTF-8
+      string: ''
+  recorded_at: Tue, 01 Aug 2023 21:05:32 GMT
+- request:
+    method: get
+    uri: https://ability-innovation-7335-dev-ed.scratch.my.salesforce.com/services/data/v52.0/sobjects/SBQQ__Quote__c/a0z7e00000BDJvIAAX/SBQQ__Orders__r
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v2.4.0
+      Authorization:
+      - OAuth <SALESFORCE_ACCESS_TOKEN>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Tue, 01 Aug 2023 21:05:32 GMT
+      Set-Cookie:
+      - BrowserId=JuRzjTCvEe6NISPaolPCcw; domain=.salesforce.com; path=/; expires=Wed,
+        31-Jul-2024 21:05:32 GMT; Max-Age=31536000
+      - CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 21:05:32 GMT; Max-Age=31536000
+      - LSKey-c$CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 21:05:32
+        GMT; Max-Age=31536000
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Robots-Tag:
+      - none
+      Cache-Control:
+      - no-cache,must-revalidate,max-age=0,no-store,private
+      Sforce-Limit-Info:
+      - api-usage=8690/5000000
+      Content-Type:
+      - application/json;charset=UTF-8
+      Vary:
+      - Accept-Encoding
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: ASCII-8BIT
+      string: '{"totalSize":1,"done":true,"records":[{"attributes":{"type":"Order","url":"/services/data/v52.0/sobjects/Order/8017e000000nQAzAAM"},"Id":"8017e000000nQAzAAM","OwnerId":"0057e00000VZBcyAAH","ContractId":null,"AccountId":"0017e00001iZykCAAS","Pricebook2Id":"01s7e000002eLFEAA2","OriginalOrderId":null,"OpportunityId":"0067e00000Nf0AwAAJ","EffectiveDate":"2023-08-01","EndDate":null,"IsReductionOrder":false,"Status":"Draft","Description":null,"CustomerAuthorizedById":null,"CustomerAuthorizedDate":null,"CompanyAuthorizedById":null,"CompanyAuthorizedDate":null,"Type":"New","BillingStreet":null,"BillingCity":null,"BillingState":null,"BillingPostalCode":null,"BillingCountry":null,"BillingLatitude":null,"BillingLongitude":null,"BillingGeocodeAccuracy":null,"BillingAddress":null,"ShippingStreet":null,"ShippingCity":null,"ShippingState":null,"ShippingPostalCode":null,"ShippingCountry":null,"ShippingLatitude":null,"ShippingLongitude":null,"ShippingGeocodeAccuracy":null,"ShippingAddress":null,"Name":null,"PoDate":null,"PoNumber":null,"OrderReferenceNumber":null,"BillToContactId":null,"ShipToContactId":null,"ActivatedDate":null,"ActivatedById":null,"StatusCode":"Draft","OrderNumber":"00001009","TotalAmount":120.0,"CreatedDate":"2023-08-01T21:05:31.000+0000","CreatedById":"0057e00000VZBcyAAH","LastModifiedDate":"2023-08-01T21:05:32.000+0000","LastModifiedById":"0057e00000VZBcyAAH","IsDeleted":false,"SystemModstamp":"2023-08-01T21:05:32.000+0000","LastViewedDate":null,"LastReferencedDate":null,"SBQQ__Contracted__c":false,"SBQQ__ContractingMethod__c":"By
+        Subscription End Date","SBQQ__PaymentTerm__c":"Net 30","SBQQ__PriceCalcStatusMessage__c":null,"SBQQ__PriceCalcStatus__c":"Queued","SBQQ__Quote__c":"a0z7e00000BDJvIAAX","SBQQ__RenewalTerm__c":null,"SBQQ__RenewalUpliftRate__c":null,"SBQQ__TaxAmount__c":0.0,"SBQQ__OrderBookings__c":120.0,"Skip_Past_Initial_Invoices__c":false,"Stripe_ID__c":null,"Stripe_Invoice_Payment_Link__c":null,"Stripe_Revenue_Contract_ID__c":null,"Stripe_Dashboard_Link__c":"https://dashboard.stripe.com/test/id/"}]}'
+  recorded_at: Tue, 01 Aug 2023 21:05:32 GMT
+- request:
+    method: patch
+    uri: https://ability-innovation-7335-dev-ed.scratch.my.salesforce.com/services/data/v58.0/sobjects/Order/8017e000000nQAzAAM
+    body:
+      encoding: UTF-8
+      string: '{"Status":"Activated"}'
+    headers:
+      User-Agent:
+      - Faraday v2.4.0
+      Content-Type:
+      - application/json
+      Authorization:
+      - OAuth <SALESFORCE_ACCESS_TOKEN>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 204
+      message: No Content
+    headers:
+      Date:
+      - Tue, 01 Aug 2023 21:05:32 GMT
+      Set-Cookie:
+      - BrowserId=Jx2rvzCvEe6aP6F4JRfW4Q; domain=.salesforce.com; path=/; expires=Wed,
+        31-Jul-2024 21:05:32 GMT; Max-Age=31536000
+      - CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 21:05:32 GMT; Max-Age=31536000
+      - LSKey-c$CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 21:05:32
+        GMT; Max-Age=31536000
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+      Content-Security-Policy:
+      - upgrade-insecure-requests
+      X-Robots-Tag:
+      - none
+      Cache-Control:
+      - no-cache,must-revalidate,max-age=0,no-store,private
+      Sforce-Limit-Info:
+      - api-usage=8689/5000000
+    body:
+      encoding: UTF-8
+      string: ''
+  recorded_at: Tue, 01 Aug 2023 21:05:33 GMT
+- request:
+    method: get
+    uri: https://ability-innovation-7335-dev-ed.scratch.my.salesforce.com/services/data/v58.0/sobjects/Order/8017e000000nQAzAAM
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v2.4.0
+      Authorization:
+      - OAuth <SALESFORCE_ACCESS_TOKEN>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Tue, 01 Aug 2023 21:05:33 GMT
+      Set-Cookie:
+      - BrowserId=J6Tc8DCvEe6BD7nYZTiwdQ; domain=.salesforce.com; path=/; expires=Wed,
+        31-Jul-2024 21:05:33 GMT; Max-Age=31536000
+      - CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 21:05:33 GMT; Max-Age=31536000
+      - LSKey-c$CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 21:05:33
+        GMT; Max-Age=31536000
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Robots-Tag:
+      - none
+      Cache-Control:
+      - no-cache,must-revalidate,max-age=0,no-store,private
+      Sforce-Limit-Info:
+      - api-usage=8690/5000000
+      Last-Modified:
+      - Tue, 01 Aug 2023 21:05:33 GMT
+      Content-Type:
+      - application/json;charset=UTF-8
+      Vary:
+      - Accept-Encoding
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: ASCII-8BIT
+      string: '{"attributes":{"type":"Order","url":"/services/data/v58.0/sobjects/Order/8017e000000nQAzAAM"},"Id":"8017e000000nQAzAAM","OwnerId":"0057e00000VZBcyAAH","ContractId":null,"AccountId":"0017e00001iZykCAAS","Pricebook2Id":"01s7e000002eLFEAA2","OriginalOrderId":null,"OpportunityId":"0067e00000Nf0AwAAJ","EffectiveDate":"2023-08-01","EndDate":null,"IsReductionOrder":false,"Status":"Activated","Description":null,"CustomerAuthorizedById":null,"CustomerAuthorizedDate":null,"CompanyAuthorizedById":null,"CompanyAuthorizedDate":null,"Type":"New","BillingStreet":null,"BillingCity":null,"BillingState":null,"BillingPostalCode":null,"BillingCountry":null,"BillingLatitude":null,"BillingLongitude":null,"BillingGeocodeAccuracy":null,"BillingAddress":null,"ShippingStreet":null,"ShippingCity":null,"ShippingState":null,"ShippingPostalCode":null,"ShippingCountry":null,"ShippingLatitude":null,"ShippingLongitude":null,"ShippingGeocodeAccuracy":null,"ShippingAddress":null,"Name":null,"PoDate":null,"PoNumber":null,"OrderReferenceNumber":null,"BillToContactId":null,"ShipToContactId":null,"ActivatedDate":"2023-08-01T21:05:33.000+0000","ActivatedById":"0057e00000VZBcyAAH","StatusCode":"Activated","OrderNumber":"00001009","TotalAmount":120.0,"CreatedDate":"2023-08-01T21:05:31.000+0000","CreatedById":"0057e00000VZBcyAAH","LastModifiedDate":"2023-08-01T21:05:33.000+0000","LastModifiedById":"0057e00000VZBcyAAH","IsDeleted":false,"SystemModstamp":"2023-08-01T21:05:33.000+0000","LastViewedDate":"2023-08-01T21:05:32.000+0000","LastReferencedDate":"2023-08-01T21:05:32.000+0000","SBQQ__Contracted__c":false,"SBQQ__ContractingMethod__c":"By
+        Subscription End Date","SBQQ__PaymentTerm__c":"Net 30","SBQQ__PriceCalcStatusMessage__c":null,"SBQQ__PriceCalcStatus__c":"Not
+        Needed","SBQQ__Quote__c":"a0z7e00000BDJvIAAX","SBQQ__RenewalTerm__c":null,"SBQQ__RenewalUpliftRate__c":null,"SBQQ__TaxAmount__c":0.0,"SBQQ__OrderBookings__c":120.0,"Skip_Past_Initial_Invoices__c":false,"Stripe_ID__c":null,"Stripe_Invoice_Payment_Link__c":null,"Stripe_Revenue_Contract_ID__c":null,"Stripe_Dashboard_Link__c":"https://dashboard.stripe.com/test/id/"}'
+  recorded_at: Tue, 01 Aug 2023 21:05:33 GMT
+- request:
+    method: patch
+    uri: https://ability-innovation-7335-dev-ed.scratch.my.salesforce.com/services/data/v58.0/sobjects/Order/8017e000000nQAzAAM
+    body:
+      encoding: UTF-8
+      string: '{"SBQQ__Contracted__c":true}'
+    headers:
+      User-Agent:
+      - Faraday v2.4.0
+      Content-Type:
+      - application/json
+      Authorization:
+      - OAuth <SALESFORCE_ACCESS_TOKEN>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 204
+      message: No Content
+    headers:
+      Date:
+      - Tue, 01 Aug 2023 21:05:34 GMT
+      Set-Cookie:
+      - BrowserId=J-MegzCvEe64OnvvtTY2PA; domain=.salesforce.com; path=/; expires=Wed,
+        31-Jul-2024 21:05:34 GMT; Max-Age=31536000
+      - CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 21:05:34 GMT; Max-Age=31536000
+      - LSKey-c$CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 21:05:34
+        GMT; Max-Age=31536000
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+      Content-Security-Policy:
+      - upgrade-insecure-requests
+      X-Robots-Tag:
+      - none
+      Cache-Control:
+      - no-cache,must-revalidate,max-age=0,no-store,private
+      Sforce-Limit-Info:
+      - api-usage=8694/5000000
+    body:
+      encoding: UTF-8
+      string: ''
+  recorded_at: Tue, 01 Aug 2023 21:05:35 GMT
+- request:
+    method: get
+    uri: https://ability-innovation-7335-dev-ed.scratch.my.salesforce.com/services/data/v58.0/query?q=SELECT%20Id%20FROM%20Contract%20WHERE%20SBQQ__Order__c%20=%20%278017e000000nQAzAAM%27
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v2.4.0
+      Authorization:
+      - OAuth <SALESFORCE_ACCESS_TOKEN>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Tue, 01 Aug 2023 21:05:36 GMT
+      Set-Cookie:
+      - BrowserId=KP0abjCvEe6ZADeBgbAOng; domain=.salesforce.com; path=/; expires=Wed,
+        31-Jul-2024 21:05:36 GMT; Max-Age=31536000
+      - CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 21:05:36 GMT; Max-Age=31536000
+      - LSKey-c$CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 21:05:36
+        GMT; Max-Age=31536000
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Robots-Tag:
+      - none
+      Cache-Control:
+      - no-cache,must-revalidate,max-age=0,no-store,private
+      Sforce-Limit-Info:
+      - api-usage=8689/5000000
+      Content-Type:
+      - application/json;charset=UTF-8
+      Vary:
+      - Accept-Encoding
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: ASCII-8BIT
+      string: '{"totalSize":1,"done":true,"records":[{"attributes":{"type":"Contract","url":"/services/data/v58.0/sobjects/Contract/8007e000001iBtyAAE"},"Id":"8007e000001iBtyAAE"}]}'
+  recorded_at: Tue, 01 Aug 2023 21:05:36 GMT
+- request:
+    method: get
+    uri: https://ability-innovation-7335-dev-ed.scratch.my.salesforce.com/services/data/v58.0/sobjects/Contract/8007e000001iBtyAAE
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v2.4.0
+      Authorization:
+      - OAuth <SALESFORCE_ACCESS_TOKEN>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Tue, 01 Aug 2023 21:05:36 GMT
+      Set-Cookie:
+      - BrowserId=KTjqpTCvEe6tYEOIfUf4IA; domain=.salesforce.com; path=/; expires=Wed,
+        31-Jul-2024 21:05:36 GMT; Max-Age=31536000
+      - CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 21:05:36 GMT; Max-Age=31536000
+      - LSKey-c$CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 21:05:36
+        GMT; Max-Age=31536000
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Robots-Tag:
+      - none
+      Cache-Control:
+      - no-cache,must-revalidate,max-age=0,no-store,private
+      Sforce-Limit-Info:
+      - api-usage=8688/5000000
+      Last-Modified:
+      - Tue, 01 Aug 2023 21:05:35 GMT
+      Content-Type:
+      - application/json;charset=UTF-8
+      Vary:
+      - Accept-Encoding
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: ASCII-8BIT
+      string: '{"attributes":{"type":"Contract","url":"/services/data/v58.0/sobjects/Contract/8007e000001iBtyAAE"},"Id":"8007e000001iBtyAAE","AccountId":"0017e00001iZykCAAS","Pricebook2Id":null,"OwnerExpirationNotice":null,"StartDate":"2023-08-01","EndDate":"2024-07-31","BillingStreet":null,"BillingCity":null,"BillingState":null,"BillingPostalCode":null,"BillingCountry":null,"BillingLatitude":null,"BillingLongitude":null,"BillingGeocodeAccuracy":null,"BillingAddress":null,"ContractTerm":12,"OwnerId":"0057e00000VZBcyAAH","Status":"Draft","CompanySignedId":null,"CompanySignedDate":null,"CustomerSignedId":null,"CustomerSignedTitle":null,"CustomerSignedDate":null,"SpecialTerms":null,"ActivatedById":null,"ActivatedDate":null,"StatusCode":"Draft","Description":null,"IsDeleted":false,"ContractNumber":"00000214","LastApprovedDate":null,"CreatedDate":"2023-08-01T21:05:35.000+0000","CreatedById":"0057e00000VZBcyAAH","LastModifiedDate":"2023-08-01T21:05:35.000+0000","LastModifiedById":"0057e00000VZBcyAAH","SystemModstamp":"2023-08-01T21:05:35.000+0000","LastActivityDate":null,"LastViewedDate":null,"LastReferencedDate":null,"SBQQ__AmendmentOpportunityRecordTypeId__c":null,"SBQQ__AmendmentOpportunityStage__c":null,"SBQQ__AmendmentOwner__c":null,"SBQQ__AmendmentPricebookId__c":null,"SBQQ__AmendmentRenewalBehavior__c":"Latest
+        End Date","SBQQ__AmendmentStartDate__c":null,"SBQQ__DefaultRenewalContactRoles__c":true,"SBQQ__DefaultRenewalPartners__c":true,"SBQQ__DisableAmendmentCoTerm__c":false,"SBQQ__Evergreen__c":false,"SBQQ__ExpirationDate__c":"2024-07-31","SBQQ__MDQRenewalBehavior__c":null,"SBQQ__MasterContract__c":false,"SBQQ__Opportunity__c":"0067e00000Nf0AwAAJ","SBQQ__Order__c":"8017e000000nQAzAAM","SBQQ__PreserveBundleStructureUponRenewals__c":true,"SBQQ__Quote__c":"a0z7e00000BDJvIAAX","SBQQ__RenewalForecast__c":false,"SBQQ__RenewalOpportunityRecordTypeId__c":null,"SBQQ__RenewalOpportunityStage__c":null,"SBQQ__RenewalOpportunity__c":null,"SBQQ__RenewalOwner__c":null,"SBQQ__RenewalPricebookId__c":null,"SBQQ__RenewalQuoted__c":false,"SBQQ__RenewalTerm__c":12.0,"SBQQ__RenewalUpliftRate__c":null,"SBQQ__SubscriptionQuantitiesCombined__c":false,"SBQQ__ActiveContract__c":0.0,"SBQQ__OpportunityPricebookId__c":null}'
+  recorded_at: Tue, 01 Aug 2023 21:05:36 GMT
+- request:
+    method: get
+    uri: https://ability-innovation-7335-dev-ed.scratch.my.salesforce.com/services/data/v58.0/sobjects/Order/8017e000000nQAzAAM
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v2.4.0
+      Authorization:
+      - OAuth <SALESFORCE_ACCESS_TOKEN>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Tue, 01 Aug 2023 21:05:36 GMT
+      Set-Cookie:
+      - BrowserId=KXP35jCvEe64OnvvtTY2PA; domain=.salesforce.com; path=/; expires=Wed,
+        31-Jul-2024 21:05:36 GMT; Max-Age=31536000
+      - CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 21:05:36 GMT; Max-Age=31536000
+      - LSKey-c$CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 21:05:36
+        GMT; Max-Age=31536000
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Robots-Tag:
+      - none
+      Cache-Control:
+      - no-cache,must-revalidate,max-age=0,no-store,private
+      Sforce-Limit-Info:
+      - api-usage=8695/5000000
+      Last-Modified:
+      - Tue, 01 Aug 2023 21:05:34 GMT
+      Content-Type:
+      - application/json;charset=UTF-8
+      Vary:
+      - Accept-Encoding
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: ASCII-8BIT
+      string: '{"attributes":{"type":"Order","url":"/services/data/v58.0/sobjects/Order/8017e000000nQAzAAM"},"Id":"8017e000000nQAzAAM","OwnerId":"0057e00000VZBcyAAH","ContractId":null,"AccountId":"0017e00001iZykCAAS","Pricebook2Id":"01s7e000002eLFEAA2","OriginalOrderId":null,"OpportunityId":"0067e00000Nf0AwAAJ","EffectiveDate":"2023-08-01","EndDate":null,"IsReductionOrder":false,"Status":"Activated","Description":null,"CustomerAuthorizedById":null,"CustomerAuthorizedDate":null,"CompanyAuthorizedById":null,"CompanyAuthorizedDate":null,"Type":"New","BillingStreet":null,"BillingCity":null,"BillingState":null,"BillingPostalCode":null,"BillingCountry":null,"BillingLatitude":null,"BillingLongitude":null,"BillingGeocodeAccuracy":null,"BillingAddress":null,"ShippingStreet":null,"ShippingCity":null,"ShippingState":null,"ShippingPostalCode":null,"ShippingCountry":null,"ShippingLatitude":null,"ShippingLongitude":null,"ShippingGeocodeAccuracy":null,"ShippingAddress":null,"Name":null,"PoDate":null,"PoNumber":null,"OrderReferenceNumber":null,"BillToContactId":null,"ShipToContactId":null,"ActivatedDate":"2023-08-01T21:05:33.000+0000","ActivatedById":"0057e00000VZBcyAAH","StatusCode":"Activated","OrderNumber":"00001009","TotalAmount":120.0,"CreatedDate":"2023-08-01T21:05:31.000+0000","CreatedById":"0057e00000VZBcyAAH","LastModifiedDate":"2023-08-01T21:05:34.000+0000","LastModifiedById":"0057e00000VZBcyAAH","IsDeleted":false,"SystemModstamp":"2023-08-01T21:05:34.000+0000","LastViewedDate":"2023-08-01T21:05:34.000+0000","LastReferencedDate":"2023-08-01T21:05:34.000+0000","SBQQ__Contracted__c":true,"SBQQ__ContractingMethod__c":"By
+        Subscription End Date","SBQQ__PaymentTerm__c":"Net 30","SBQQ__PriceCalcStatusMessage__c":null,"SBQQ__PriceCalcStatus__c":"Not
+        Needed","SBQQ__Quote__c":"a0z7e00000BDJvIAAX","SBQQ__RenewalTerm__c":null,"SBQQ__RenewalUpliftRate__c":null,"SBQQ__TaxAmount__c":0.0,"SBQQ__OrderBookings__c":120.0,"Skip_Past_Initial_Invoices__c":false,"Stripe_ID__c":null,"Stripe_Invoice_Payment_Link__c":null,"Stripe_Revenue_Contract_ID__c":null,"Stripe_Dashboard_Link__c":"https://dashboard.stripe.com/test/id/"}'
+  recorded_at: Tue, 01 Aug 2023 21:05:36 GMT
+- request:
+    method: patch
+    uri: https://ability-innovation-7335-dev-ed.scratch.my.salesforce.com/services/apexrest/SBQQ/ServiceRouter?loader=SBQQ.ContractManipulationAPI.ContractAmender&uid=8007e000001iBtyAAE
+    body:
+      encoding: UTF-8
+      string: "{}"
+    headers:
+      User-Agent:
+      - Faraday v2.4.0
+      Content-Type:
+      - application/json
+      Authorization:
+      - OAuth <SALESFORCE_ACCESS_TOKEN>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Tue, 01 Aug 2023 21:05:37 GMT
+      Set-Cookie:
+      - BrowserId=Ka5pPjCvEe6FfkeBuaLXIQ; domain=.salesforce.com; path=/; expires=Wed,
+        31-Jul-2024 21:05:37 GMT; Max-Age=31536000
+      - CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 21:05:37 GMT; Max-Age=31536000
+      - LSKey-c$CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 21:05:37
+        GMT; Max-Age=31536000
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Robots-Tag:
+      - none
+      Cache-Control:
+      - no-cache,must-revalidate,max-age=0,no-store,private
+      Content-Type:
+      - application/json;charset=UTF-8
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: '"{\"ui_original_record\":{\"cloneRecordIfNoCache\":true,\"cacheName\":\"LineEditor\",\"cacheId\":\"a0z7e00000BDJvNAAX\",\"cachedOriginalRecordPath\":[\"quote\",\"ui_original_record\"]},\"record\":{\"attributes\":{\"type\":\"SBQQ__Quote__c\",\"url\":\"/services/data/v58.0/sobjects/SBQQ__Quote__c/a0z7e00000BDJvNAAX\"},\"Id\":\"a0z7e00000BDJvNAAX\",\"Name\":\"Q-00925\",\"SBQQ__Type__c\":\"Amendment\",\"SBQQ__Account__c\":\"0017e00001iZykCAAS\",\"SBQQ__ExpirationDate__c\":\"2023-08-31\",\"SBQQ__StartDate__c\":\"2023-08-01\",\"SBQQ__EndDate__c\":\"2024-07-31\",\"SBQQ__MasterContract__c\":\"8007e000001iBtyAAE\",\"SBQQ__NetAmount__c\":0.00,\"SBQQ__CustomerAmount__c\":0.00,\"SBQQ__ContractingMethod__c\":\"By
+        Subscription End Date\",\"SBQQ__Unopened__c\":false,\"SBQQ__RenewalTerm__c\":12,\"SBQQ__LineItemCount__c\":1,\"SBQQ__PaymentTerms__c\":\"Net
+        30\",\"SBQQ__WatermarkShown__c\":false,\"SBQQ__Status__c\":\"Draft\",\"SBQQ__Primary__c\":true,\"SBQQ__LineItemsGrouped__c\":false,\"SBQQ__Opportunity2__c\":\"0067e00000NezIJAAZ\",\"SBQQ__Account__r\":{\"attributes\":{\"type\":\"Account\",\"url\":\"/services/data/v58.0/sobjects/Account/0017e00001iZykCAAS\"},\"Id\":\"0017e00001iZykCAAS\",\"Name\":\"REST
+        Account  2023-08-01 00:00:00 UTC\",\"SBQQ__RenewalModel__c\":\"Contract Based\",\"SBQQ__RenewalPricingMethod__c\":\"Same\"},\"SBQQ__MasterContract__r\":{\"attributes\":{\"type\":\"Contract\",\"url\":\"/services/data/v58.0/sobjects/Contract/8007e000001iBtyAAE\"},\"Id\":\"8007e000001iBtyAAE\",\"ContractNumber\":\"00000214\"},\"SBQQ__Opportunity2__r\":{\"attributes\":{\"type\":\"Opportunity\",\"url\":\"/services/data/v58.0/sobjects/Opportunity/0067e00000NezIJAAZ\"},\"Id\":\"0067e00000NezIJAAZ\",\"SBQQ__PrimaryQuote__c\":\"a0z7e00000BDJvNAAX\",\"AccountId\":\"0017e00001iZykCAAS\"},\"SBQQ__CustomerDiscount__c\":null,\"SBQQ__MarkupRate__c\":null,\"SBQQ__PartnerDiscount__c\":null,\"SBQQ__SubscriptionTerm__c\":null,\"SBQQ__MasterEvergreenContract__c\":null,\"SBQQ__QuoteProcessId__c\":null,\"SBQQ__DistributorDiscount__c\":null,\"SBQQ__PricebookId__c\":null,\"SBQQ__FirstSegmentTermEndDate__c\":null,\"SBQQ__GenerateContractedPrice__c\":null,\"SBQQ__BillingFrequency__c\":null,\"SBQQ__RenewalUpliftRate__c\":null,\"SBQQ__OrderGroupID__c\":null,\"SBQQ__TargetCustomerAmount__c\":null,\"SBQQ__OrderBy__c\":null,\"SBQQ__ProrationDayOfMonth__c\":null},\"nextKey\":2,\"netTotal\":0.00,\"netNonSegmentTotal\":0.0000,\"lineItems\":[{\"upliftable\":false,\"upgradeSourcesBySourceProductId\":{},\"ui_original_record\":{\"cloneRecordIfNoCache\":false,\"cacheName\":\"LineEditor\",\"cacheId\":\"a0z7e00000BDJvNAAX\",\"cachedOriginalRecordPath\":[\"quote\",\"lineItems\",\"0\",\"ui_original_record\"]},\"record\":{\"attributes\":{\"type\":\"SBQQ__QuoteLine__c\",\"url\":\"/services/data/v58.0/sobjects/SBQQ__QuoteLine__c/a0v7e000008xWw3AAE\"},\"Id\":\"a0v7e000008xWw3AAE\",\"SBQQ__Quote__c\":\"a0z7e00000BDJvNAAX\",\"SBQQ__Description__c\":\"A
+        great description\",\"SBQQ__Product__c\":\"01t7e000009AnukAAC\",\"SBQQ__Number__c\":1,\"SBQQ__HasConsumptionSchedule__c\":false,\"SBQQ__Hidden__c\":false,\"SBQQ__Taxable__c\":false,\"SBQQ__SubscriptionPricing__c\":\"Fixed
+        Price\",\"SBQQ__DefaultSubscriptionTerm__c\":1,\"SBQQ__SubscriptionBase__c\":\"List\",\"SBQQ__SubscriptionScope__c\":\"Quote\",\"SBQQ__ProductSubscriptionType__c\":\"Renewable\",\"SBQQ__SubscriptionType__c\":\"Renewable\",\"SBQQ__BillingFrequency__c\":\"Monthly\",\"Name\":\"QL-0001797\",\"SBQQ__AdditionalDiscount__c\":0.00,\"SBQQ__Bundled__c\":false,\"SBQQ__ComponentDiscountedByPackage__c\":false,\"SBQQ__CostEditable__c\":false,\"SBQQ__CustomerPrice__c\":120.00,\"SBQQ__ListPrice__c\":10.00,\"SBQQ__OriginalPrice__c\":10.00,\"SBQQ__NetPrice__c\":120.00,\"SBQQ__NetTotal__c\":0.00,\"SBQQ__NonDiscountable__c\":false,\"SBQQ__NonPartnerDiscountable__c\":false,\"SBQQ__Optional__c\":false,\"SBQQ__Bundle__c\":false,\"SBQQ__PartnerPrice__c\":120.00,\"SBQQ__PriceEditable__c\":false,\"SBQQ__ProratedListPrice__c\":120.00,\"SBQQ__PricingMethod__c\":\"List\",\"SBQQ__PricingMethodEditable__c\":false,\"SBQQ__ProrateMultiplier__c\":12.0000,\"SBQQ__Quantity__c\":1.00,\"SBQQ__SpecialPrice__c\":10.00,\"SBQQ__Renewal__c\":false,\"SBQQ__ProratedPrice__c\":120.00,\"SBQQ__Uplift__c\":0.00,\"SBQQ__UpliftAmount__c\":0.00,\"SBQQ__ComponentUpliftedByPackage__c\":false,\"SBQQ__ProductName__c\":\"REST
+        Product2  2023-08-01 00:00:00 UTC\",\"SBQQ__Existing__c\":true,\"SBQQ__PriorQuantity__c\":1.00,\"SBQQ__CarryoverLine__c\":false,\"SBQQ__AllowAssetRefund__c\":false,\"SBQQ__RegularPrice__c\":120.00,\"SBQQ__UpgradedSubscription__c\":\"a1B7e00000EX4bgEAD\",\"SBQQ__ProductCode__c\":\"EfxBsBKAsjaF0caCUQPWQYJ8h61G\",\"SBQQ__Product__r\":{\"attributes\":{\"type\":\"Product2\",\"url\":\"/services/data/v58.0/sobjects/Product2/01t7e000009AnukAAC\"},\"Id\":\"01t7e000009AnukAAC\",\"SBQQ__HasConfigurationAttributes__c\":false,\"ProductCode\":\"EfxBsBKAsjaF0caCUQPWQYJ8h61G\",\"Name\":\"REST
+        Product2  2023-08-01 00:00:00 UTC\",\"SBQQ__SubscriptionTerm__c\":1,\"SBQQ__PricingMethod__c\":\"List\"},\"SBQQ__UpgradedSubscription__r\":{\"attributes\":{\"type\":\"SBQQ__Subscription__c\",\"url\":\"/services/data/v58.0/sobjects/SBQQ__Subscription__c/a1B7e00000EX4bgEAD\"},\"Id\":\"a1B7e00000EX4bgEAD\",\"SBQQ__QuoteLine__c\":\"a0v7e000008xWvxAAE\",\"SBQQ__OriginalQuoteLine__c\":\"a0v7e000008xWvxAAE\",\"SBQQ__Contract__c\":\"8007e000001iBtyAAE\"},\"SBQQ__Source__c\":null,\"SBQQ__RequiredBy__c\":null,\"SBQQ__ProductOption__c\":null,\"SBQQ__SegmentIndex__c\":null,\"SBQQ__SegmentLabel__c\":null,\"SBQQ__SegmentKey__c\":null,\"SBQQ__Dimension__c\":null,\"SBQQ__DynamicOptionId__c\":null,\"SBQQ__GenerateContractedPrice__c\":null,\"SBQQ__PricebookEntryId__c\":null,\"SBQQ__Favorite__c\":null,\"SBQQ__SubscriptionPercent__c\":null,\"SBQQ__SubscriptionCategory__c\":null,\"SBQQ__SubscriptionTerm__c\":null,\"SBQQ__EndDate__c\":null,\"SBQQ__MinimumPrice__c\":null,\"SBQQ__MaximumPrice__c\":null,\"SBQQ__ChargeType__c\":null,\"SBQQ__BillingType__c\":null,\"SBQQ__TaxCode__c\":null,\"SBQQ__Discount__c\":null,\"SBQQ__AdditionalDiscountAmount__c\":null,\"SBQQ__AdditionalQuantity__c\":null,\"SBQQ__BatchQuantity__c\":null,\"SBQQ__ComponentSubscriptionScope__c\":null,\"SBQQ__CompoundDiscountRate__c\":null,\"SBQQ__ContractedPrice__c\":null,\"SBQQ__Cost__c\":null,\"SBQQ__DiscountSchedule__c\":null,\"SBQQ__DistributorDiscount__c\":null,\"SBQQ__MarkupRate__c\":null,\"SBQQ__MarkupAmount__c\":null,\"SBQQ__OptionDiscount__c\":null,\"SBQQ__OptionDiscountAmount__c\":null,\"SBQQ__OptionType__c\":null,\"SBQQ__BundledQuantity__c\":null,\"SBQQ__PartnerDiscount__c\":null,\"SBQQ__RenewedAsset__c\":null,\"SBQQ__RenewedSubscription__c\":null,\"SBQQ__SpecialPriceType__c\":null,\"SBQQ__StartDate__c\":null,\"SBQQ__OriginalUnitCost__c\":null,\"SBQQ__SubscribedAssetIds__c\":null,\"SBQQ__SubscriptionTargetPrice__c\":null,\"SBQQ__TermDiscountSchedule__c\":null,\"SBQQ__UnitCost__c\":null,\"SBQQ__ComponentTotal__c\":null,\"SBQQ__ComponentCost__c\":null,\"SBQQ__ComponentListTotal__c\":null,\"SBQQ__DiscountScheduleType__c\":null,\"SBQQ__PackageProductCode__c\":null,\"SBQQ__DiscountTier__c\":null,\"SBQQ__VolumeDiscount__c\":null,\"SBQQ__BlockPrice__c\":null,\"SBQQ__TermDiscountTier__c\":null,\"SBQQ__TermDiscount__c\":null,\"SBQQ__PreviousSegmentPrice__c\":null,\"SBQQ__PreviousSegmentUplift__c\":null,\"SBQQ__GrossProfit__c\":null,\"SBQQ__PackageProductDescription__c\":null,\"SBQQ__OptionLevel__c\":null,\"SBQQ__UpgradedQuantity__c\":null,\"SBQQ__OriginalQuoteLineId__c\":null,\"SBQQ__UpgradedAsset__c\":null,\"SBQQ__Incomplete__c\":false,\"SBQQ__RequiredBy__r\":null},\"reconfigurationDisabled\":false,\"productQuantityEditable\":true,\"productHasDimensions\":false,\"key\":2,\"hasConsumptionSchedules\":false,\"effectiveStartDate\":\"2023-08-01\",\"effectiveEndDate\":\"2024-07-31\",\"descriptionLocked\":false}],\"lineItemGroups\":[],\"isPartial\":false,\"hasMultiSegmentLines\":false,\"customerTotal\":0.00,\"channelDiscountsOffList\":false,\"calculationRequired\":false,\"applyPartnerDiscountFirst\":false,\"applyAdditionalDiscountLast\":false}"'
+  recorded_at: Tue, 01 Aug 2023 21:05:39 GMT
+- request:
+    method: patch
+    uri: https://ability-innovation-7335-dev-ed.scratch.my.salesforce.com/services/apexrest/SBQQ/ServiceRouter?loader=SBQQ.QuoteAPI.QuoteCalculator
+    body:
+      encoding: UTF-8
+      string: '{"context":"{\"quote\":{\"ui_original_record\":{\"cloneRecordIfNoCache\":true,\"cacheName\":\"LineEditor\",\"cacheId\":\"a0z7e00000BDJvNAAX\",\"cachedOriginalRecordPath\":[\"quote\",\"ui_original_record\"]},\"record\":{\"attributes\":{\"type\":\"SBQQ__Quote__c\",\"url\":\"/services/data/v58.0/sobjects/SBQQ__Quote__c/a0z7e00000BDJvNAAX\"},\"Id\":\"a0z7e00000BDJvNAAX\",\"Name\":\"Q-00925\",\"SBQQ__Type__c\":\"Amendment\",\"SBQQ__Account__c\":\"0017e00001iZykCAAS\",\"SBQQ__ExpirationDate__c\":\"2023-08-31\",\"SBQQ__StartDate__c\":\"2024-05-01\",\"SBQQ__EndDate__c\":\"2024-07-31\",\"SBQQ__MasterContract__c\":\"8007e000001iBtyAAE\",\"SBQQ__NetAmount__c\":0.0,\"SBQQ__CustomerAmount__c\":0.0,\"SBQQ__ContractingMethod__c\":\"By
+        Subscription End Date\",\"SBQQ__Unopened__c\":false,\"SBQQ__RenewalTerm__c\":12,\"SBQQ__LineItemCount__c\":1,\"SBQQ__PaymentTerms__c\":\"Net
+        30\",\"SBQQ__WatermarkShown__c\":false,\"SBQQ__Status__c\":\"Draft\",\"SBQQ__Primary__c\":true,\"SBQQ__LineItemsGrouped__c\":false,\"SBQQ__Opportunity2__c\":\"0067e00000NezIJAAZ\",\"SBQQ__Account__r\":{\"attributes\":{\"type\":\"Account\",\"url\":\"/services/data/v58.0/sobjects/Account/0017e00001iZykCAAS\"},\"Id\":\"0017e00001iZykCAAS\",\"Name\":\"REST
+        Account  2023-08-01 00:00:00 UTC\",\"SBQQ__RenewalModel__c\":\"Contract Based\",\"SBQQ__RenewalPricingMethod__c\":\"Same\"},\"SBQQ__MasterContract__r\":{\"attributes\":{\"type\":\"Contract\",\"url\":\"/services/data/v58.0/sobjects/Contract/8007e000001iBtyAAE\"},\"Id\":\"8007e000001iBtyAAE\",\"ContractNumber\":\"00000214\"},\"SBQQ__Opportunity2__r\":{\"attributes\":{\"type\":\"Opportunity\",\"url\":\"/services/data/v58.0/sobjects/Opportunity/0067e00000NezIJAAZ\"},\"Id\":\"0067e00000NezIJAAZ\",\"SBQQ__PrimaryQuote__c\":\"a0z7e00000BDJvNAAX\",\"AccountId\":\"0017e00001iZykCAAS\"},\"SBQQ__CustomerDiscount__c\":null,\"SBQQ__MarkupRate__c\":null,\"SBQQ__PartnerDiscount__c\":null,\"SBQQ__SubscriptionTerm__c\":3,\"SBQQ__MasterEvergreenContract__c\":null,\"SBQQ__QuoteProcessId__c\":null,\"SBQQ__DistributorDiscount__c\":null,\"SBQQ__PricebookId__c\":null,\"SBQQ__FirstSegmentTermEndDate__c\":null,\"SBQQ__GenerateContractedPrice__c\":null,\"SBQQ__BillingFrequency__c\":null,\"SBQQ__RenewalUpliftRate__c\":null,\"SBQQ__OrderGroupID__c\":null,\"SBQQ__TargetCustomerAmount__c\":null,\"SBQQ__OrderBy__c\":null,\"SBQQ__ProrationDayOfMonth__c\":null},\"nextKey\":2,\"netTotal\":0.0,\"netNonSegmentTotal\":0.0,\"lineItems\":[{\"upliftable\":false,\"upgradeSourcesBySourceProductId\":{},\"ui_original_record\":{\"cloneRecordIfNoCache\":false,\"cacheName\":\"LineEditor\",\"cacheId\":\"a0z7e00000BDJvNAAX\",\"cachedOriginalRecordPath\":[\"quote\",\"lineItems\",\"0\",\"ui_original_record\"]},\"record\":{\"attributes\":{\"type\":\"SBQQ__QuoteLine__c\",\"url\":\"/services/data/v58.0/sobjects/SBQQ__QuoteLine__c/a0v7e000008xWw3AAE\"},\"Id\":\"a0v7e000008xWw3AAE\",\"SBQQ__Quote__c\":\"a0z7e00000BDJvNAAX\",\"SBQQ__Description__c\":\"A
+        great description\",\"SBQQ__Product__c\":\"01t7e000009AnukAAC\",\"SBQQ__Number__c\":1,\"SBQQ__HasConsumptionSchedule__c\":false,\"SBQQ__Hidden__c\":false,\"SBQQ__Taxable__c\":false,\"SBQQ__SubscriptionPricing__c\":\"Fixed
+        Price\",\"SBQQ__DefaultSubscriptionTerm__c\":1,\"SBQQ__SubscriptionBase__c\":\"List\",\"SBQQ__SubscriptionScope__c\":\"Quote\",\"SBQQ__ProductSubscriptionType__c\":\"Renewable\",\"SBQQ__SubscriptionType__c\":\"Renewable\",\"SBQQ__BillingFrequency__c\":\"Monthly\",\"Name\":\"QL-0001797\",\"SBQQ__AdditionalDiscount__c\":0.0,\"SBQQ__Bundled__c\":false,\"SBQQ__ComponentDiscountedByPackage__c\":false,\"SBQQ__CostEditable__c\":false,\"SBQQ__CustomerPrice__c\":120.0,\"SBQQ__ListPrice__c\":10.0,\"SBQQ__OriginalPrice__c\":10.0,\"SBQQ__NetPrice__c\":120.0,\"SBQQ__NetTotal__c\":0.0,\"SBQQ__NonDiscountable__c\":false,\"SBQQ__NonPartnerDiscountable__c\":false,\"SBQQ__Optional__c\":false,\"SBQQ__Bundle__c\":false,\"SBQQ__PartnerPrice__c\":120.0,\"SBQQ__PriceEditable__c\":false,\"SBQQ__ProratedListPrice__c\":120.0,\"SBQQ__PricingMethod__c\":\"List\",\"SBQQ__PricingMethodEditable__c\":false,\"SBQQ__ProrateMultiplier__c\":12.0,\"SBQQ__Quantity__c\":3,\"SBQQ__SpecialPrice__c\":10.0,\"SBQQ__Renewal__c\":false,\"SBQQ__ProratedPrice__c\":120.0,\"SBQQ__Uplift__c\":0.0,\"SBQQ__UpliftAmount__c\":0.0,\"SBQQ__ComponentUpliftedByPackage__c\":false,\"SBQQ__ProductName__c\":\"REST
+        Product2  2023-08-01 00:00:00 UTC\",\"SBQQ__Existing__c\":true,\"SBQQ__PriorQuantity__c\":1.0,\"SBQQ__CarryoverLine__c\":false,\"SBQQ__AllowAssetRefund__c\":false,\"SBQQ__RegularPrice__c\":120.0,\"SBQQ__UpgradedSubscription__c\":\"a1B7e00000EX4bgEAD\",\"SBQQ__ProductCode__c\":\"EfxBsBKAsjaF0caCUQPWQYJ8h61G\",\"SBQQ__Product__r\":{\"attributes\":{\"type\":\"Product2\",\"url\":\"/services/data/v58.0/sobjects/Product2/01t7e000009AnukAAC\"},\"Id\":\"01t7e000009AnukAAC\",\"SBQQ__HasConfigurationAttributes__c\":false,\"ProductCode\":\"EfxBsBKAsjaF0caCUQPWQYJ8h61G\",\"Name\":\"REST
+        Product2  2023-08-01 00:00:00 UTC\",\"SBQQ__SubscriptionTerm__c\":1,\"SBQQ__PricingMethod__c\":\"List\"},\"SBQQ__UpgradedSubscription__r\":{\"attributes\":{\"type\":\"SBQQ__Subscription__c\",\"url\":\"/services/data/v58.0/sobjects/SBQQ__Subscription__c/a1B7e00000EX4bgEAD\"},\"Id\":\"a1B7e00000EX4bgEAD\",\"SBQQ__QuoteLine__c\":\"a0v7e000008xWvxAAE\",\"SBQQ__OriginalQuoteLine__c\":\"a0v7e000008xWvxAAE\",\"SBQQ__Contract__c\":\"8007e000001iBtyAAE\"},\"SBQQ__Source__c\":null,\"SBQQ__RequiredBy__c\":null,\"SBQQ__ProductOption__c\":null,\"SBQQ__SegmentIndex__c\":null,\"SBQQ__SegmentLabel__c\":null,\"SBQQ__SegmentKey__c\":null,\"SBQQ__Dimension__c\":null,\"SBQQ__DynamicOptionId__c\":null,\"SBQQ__GenerateContractedPrice__c\":null,\"SBQQ__PricebookEntryId__c\":null,\"SBQQ__Favorite__c\":null,\"SBQQ__SubscriptionPercent__c\":null,\"SBQQ__SubscriptionCategory__c\":null,\"SBQQ__SubscriptionTerm__c\":null,\"SBQQ__EndDate__c\":null,\"SBQQ__MinimumPrice__c\":null,\"SBQQ__MaximumPrice__c\":null,\"SBQQ__ChargeType__c\":null,\"SBQQ__BillingType__c\":null,\"SBQQ__TaxCode__c\":null,\"SBQQ__Discount__c\":null,\"SBQQ__AdditionalDiscountAmount__c\":null,\"SBQQ__AdditionalQuantity__c\":null,\"SBQQ__BatchQuantity__c\":null,\"SBQQ__ComponentSubscriptionScope__c\":null,\"SBQQ__CompoundDiscountRate__c\":null,\"SBQQ__ContractedPrice__c\":null,\"SBQQ__Cost__c\":null,\"SBQQ__DiscountSchedule__c\":null,\"SBQQ__DistributorDiscount__c\":null,\"SBQQ__MarkupRate__c\":null,\"SBQQ__MarkupAmount__c\":null,\"SBQQ__OptionDiscount__c\":null,\"SBQQ__OptionDiscountAmount__c\":null,\"SBQQ__OptionType__c\":null,\"SBQQ__BundledQuantity__c\":null,\"SBQQ__PartnerDiscount__c\":null,\"SBQQ__RenewedAsset__c\":null,\"SBQQ__RenewedSubscription__c\":null,\"SBQQ__SpecialPriceType__c\":null,\"SBQQ__StartDate__c\":null,\"SBQQ__OriginalUnitCost__c\":null,\"SBQQ__SubscribedAssetIds__c\":null,\"SBQQ__SubscriptionTargetPrice__c\":null,\"SBQQ__TermDiscountSchedule__c\":null,\"SBQQ__UnitCost__c\":null,\"SBQQ__ComponentTotal__c\":null,\"SBQQ__ComponentCost__c\":null,\"SBQQ__ComponentListTotal__c\":null,\"SBQQ__DiscountScheduleType__c\":null,\"SBQQ__PackageProductCode__c\":null,\"SBQQ__DiscountTier__c\":null,\"SBQQ__VolumeDiscount__c\":null,\"SBQQ__BlockPrice__c\":null,\"SBQQ__TermDiscountTier__c\":null,\"SBQQ__TermDiscount__c\":null,\"SBQQ__PreviousSegmentPrice__c\":null,\"SBQQ__PreviousSegmentUplift__c\":null,\"SBQQ__GrossProfit__c\":null,\"SBQQ__PackageProductDescription__c\":null,\"SBQQ__OptionLevel__c\":null,\"SBQQ__UpgradedQuantity__c\":null,\"SBQQ__OriginalQuoteLineId__c\":null,\"SBQQ__UpgradedAsset__c\":null,\"SBQQ__Incomplete__c\":false,\"SBQQ__RequiredBy__r\":null},\"reconfigurationDisabled\":false,\"productQuantityEditable\":true,\"productHasDimensions\":false,\"key\":2,\"hasConsumptionSchedules\":false,\"effectiveStartDate\":\"2023-08-01\",\"effectiveEndDate\":\"2024-07-31\",\"descriptionLocked\":false}],\"lineItemGroups\":[],\"isPartial\":false,\"hasMultiSegmentLines\":false,\"customerTotal\":0.0,\"channelDiscountsOffList\":false,\"calculationRequired\":false,\"applyPartnerDiscountFirst\":false,\"applyAdditionalDiscountLast\":false}}"}'
+    headers:
+      User-Agent:
+      - Faraday v2.4.0
+      Content-Type:
+      - application/json
+      Authorization:
+      - OAuth <SALESFORCE_ACCESS_TOKEN>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Tue, 01 Aug 2023 21:05:40 GMT
+      Set-Cookie:
+      - BrowserId=K46bHjCvEe6dibfjHAp7ZA; domain=.salesforce.com; path=/; expires=Wed,
+        31-Jul-2024 21:05:40 GMT; Max-Age=31536000
+      - CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 21:05:40 GMT; Max-Age=31536000
+      - LSKey-c$CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 21:05:40
+        GMT; Max-Age=31536000
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Robots-Tag:
+      - none
+      Cache-Control:
+      - no-cache,must-revalidate,max-age=0,no-store,private
+      Content-Type:
+      - application/json;charset=UTF-8
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: '"{\"ui_original_record\":{\"cloneRecordIfNoCache\":true,\"cacheName\":\"LineEditor\",\"cacheId\":\"a0z7e00000BDJvNAAX\",\"cachedOriginalRecordPath\":[\"quote\",\"ui_original_record\"]},\"record\":{\"attributes\":{\"type\":\"SBQQ__Quote__c\",\"url\":\"/services/data/v58.0/sobjects/SBQQ__Quote__c/a0z7e00000BDJvNAAX\"},\"Id\":\"a0z7e00000BDJvNAAX\",\"Name\":\"Q-00925\",\"SBQQ__Type__c\":\"Amendment\",\"SBQQ__Account__c\":\"0017e00001iZykCAAS\",\"SBQQ__SubscriptionTerm__c\":3,\"SBQQ__ExpirationDate__c\":\"2023-08-31\",\"SBQQ__StartDate__c\":\"2024-05-01\",\"SBQQ__EndDate__c\":\"2024-07-31\",\"SBQQ__MasterContract__c\":\"8007e000001iBtyAAE\",\"SBQQ__NetAmount__c\":240.00,\"SBQQ__CustomerAmount__c\":240.00,\"SBQQ__ContractingMethod__c\":\"By
+        Subscription End Date\",\"SBQQ__Unopened__c\":false,\"SBQQ__RenewalTerm__c\":12,\"SBQQ__LineItemCount__c\":1,\"SBQQ__PaymentTerms__c\":\"Net
+        30\",\"SBQQ__WatermarkShown__c\":false,\"SBQQ__Status__c\":\"Draft\",\"SBQQ__Primary__c\":true,\"SBQQ__LineItemsGrouped__c\":false,\"SBQQ__Opportunity2__c\":\"0067e00000NezIJAAZ\",\"SBQQ__Account__r\":{\"attributes\":{\"type\":\"Account\",\"url\":\"/services/data/v58.0/sobjects/Account/0017e00001iZykCAAS\"},\"Id\":\"0017e00001iZykCAAS\",\"Name\":\"REST
+        Account  2023-08-01 00:00:00 UTC\",\"SBQQ__RenewalModel__c\":\"Contract Based\",\"SBQQ__RenewalPricingMethod__c\":\"Same\"},\"SBQQ__MasterContract__r\":{\"attributes\":{\"type\":\"Contract\",\"url\":\"/services/data/v58.0/sobjects/Contract/8007e000001iBtyAAE\"},\"Id\":\"8007e000001iBtyAAE\",\"ContractNumber\":\"00000214\"},\"SBQQ__Opportunity2__r\":{\"attributes\":{\"type\":\"Opportunity\",\"url\":\"/services/data/v58.0/sobjects/Opportunity/0067e00000NezIJAAZ\"},\"Id\":\"0067e00000NezIJAAZ\",\"SBQQ__PrimaryQuote__c\":\"a0z7e00000BDJvNAAX\",\"AccountId\":\"0017e00001iZykCAAS\"},\"SBQQ__CustomerDiscount__c\":null,\"SBQQ__MarkupRate__c\":null,\"SBQQ__PartnerDiscount__c\":null,\"SBQQ__MasterEvergreenContract__c\":null,\"SBQQ__QuoteProcessId__c\":null,\"SBQQ__DistributorDiscount__c\":null,\"SBQQ__PricebookId__c\":null,\"SBQQ__FirstSegmentTermEndDate__c\":null,\"SBQQ__GenerateContractedPrice__c\":null,\"SBQQ__BillingFrequency__c\":null,\"SBQQ__RenewalUpliftRate__c\":null,\"SBQQ__OrderGroupID__c\":null,\"SBQQ__TargetCustomerAmount__c\":null,\"SBQQ__OrderBy__c\":null,\"SBQQ__ProrationDayOfMonth__c\":null},\"nextKey\":2,\"netTotal\":60.00,\"netNonSegmentTotal\":60.0000,\"lineItems\":[{\"upliftable\":false,\"upgradeSourcesBySourceProductId\":{},\"ui_original_record\":{\"cloneRecordIfNoCache\":false,\"cacheName\":\"LineEditor\",\"cacheId\":\"a0z7e00000BDJvNAAX\",\"cachedOriginalRecordPath\":[\"quote\",\"lineItems\",\"0\",\"ui_original_record\"]},\"record\":{\"attributes\":{\"type\":\"SBQQ__QuoteLine__c\",\"url\":\"/services/data/v58.0/sobjects/SBQQ__QuoteLine__c/a0v7e000008xWw3AAE\"},\"Id\":\"a0v7e000008xWw3AAE\",\"SBQQ__Quote__c\":\"a0z7e00000BDJvNAAX\",\"SBQQ__Description__c\":\"A
+        great description\",\"SBQQ__Product__c\":\"01t7e000009AnukAAC\",\"SBQQ__Number__c\":1,\"SBQQ__HasConsumptionSchedule__c\":false,\"SBQQ__Hidden__c\":false,\"SBQQ__Taxable__c\":false,\"SBQQ__SubscriptionPricing__c\":\"Fixed
+        Price\",\"SBQQ__DefaultSubscriptionTerm__c\":1,\"SBQQ__SubscriptionBase__c\":\"List\",\"SBQQ__SubscriptionScope__c\":\"Quote\",\"SBQQ__ProductSubscriptionType__c\":\"Renewable\",\"SBQQ__SubscriptionType__c\":\"Renewable\",\"SBQQ__BillingFrequency__c\":\"Monthly\",\"Name\":\"QL-0001798\",\"SBQQ__AdditionalDiscount__c\":0.00,\"SBQQ__Bundled__c\":false,\"SBQQ__ComponentDiscountedByPackage__c\":false,\"SBQQ__CostEditable__c\":false,\"SBQQ__CustomerPrice__c\":30.00,\"SBQQ__EffectiveSubscriptionTerm__c\":3,\"SBQQ__ListPrice__c\":10.00,\"SBQQ__OriginalPrice__c\":10.00,\"SBQQ__NetPrice__c\":30.00,\"SBQQ__NetTotal__c\":60.00,\"SBQQ__NonDiscountable__c\":false,\"SBQQ__NonPartnerDiscountable__c\":false,\"SBQQ__Optional__c\":false,\"SBQQ__Bundle__c\":false,\"SBQQ__PartnerPrice__c\":30.00,\"SBQQ__PriceEditable__c\":false,\"SBQQ__ProratedListPrice__c\":30.00,\"SBQQ__PricingMethod__c\":\"List\",\"SBQQ__PricingMethodEditable__c\":false,\"SBQQ__ProrateMultiplier__c\":3.0000,\"SBQQ__Quantity__c\":3.00,\"SBQQ__SpecialPrice__c\":10.00,\"SBQQ__Renewal__c\":false,\"SBQQ__ProratedPrice__c\":30.00,\"SBQQ__Uplift__c\":0.00,\"SBQQ__UpliftAmount__c\":0.00,\"SBQQ__ComponentUpliftedByPackage__c\":false,\"SBQQ__ProductName__c\":\"REST
+        Product2  2023-08-01 00:00:00 UTC\",\"SBQQ__Existing__c\":true,\"SBQQ__PriorQuantity__c\":1.00,\"SBQQ__CarryoverLine__c\":false,\"SBQQ__AllowAssetRefund__c\":false,\"SBQQ__RegularPrice__c\":30.00,\"SBQQ__UpgradedSubscription__c\":\"a1B7e00000EX4bgEAD\",\"SBQQ__ProductCode__c\":\"EfxBsBKAsjaF0caCUQPWQYJ8h61G\",\"SBQQ__Product__r\":{\"attributes\":{\"type\":\"Product2\",\"url\":\"/services/data/v58.0/sobjects/Product2/01t7e000009AnukAAC\"},\"Id\":\"01t7e000009AnukAAC\",\"SBQQ__HasConfigurationAttributes__c\":false,\"ProductCode\":\"EfxBsBKAsjaF0caCUQPWQYJ8h61G\",\"Name\":\"REST
+        Product2  2023-08-01 00:00:00 UTC\",\"SBQQ__SubscriptionTerm__c\":1,\"SBQQ__PricingMethod__c\":\"List\"},\"SBQQ__UpgradedSubscription__r\":{\"attributes\":{\"type\":\"SBQQ__Subscription__c\",\"url\":\"/services/data/v58.0/sobjects/SBQQ__Subscription__c/a1B7e00000EX4bgEAD\"},\"Id\":\"a1B7e00000EX4bgEAD\",\"SBQQ__QuoteLine__c\":\"a0v7e000008xWvxAAE\",\"SBQQ__OriginalQuoteLine__c\":\"a0v7e000008xWvxAAE\",\"SBQQ__Contract__c\":\"8007e000001iBtyAAE\"},\"SBQQ__Source__c\":null,\"SBQQ__RequiredBy__c\":null,\"SBQQ__ProductOption__c\":null,\"SBQQ__SegmentIndex__c\":null,\"SBQQ__SegmentLabel__c\":null,\"SBQQ__SegmentKey__c\":null,\"SBQQ__Dimension__c\":null,\"SBQQ__DynamicOptionId__c\":null,\"SBQQ__GenerateContractedPrice__c\":null,\"SBQQ__PricebookEntryId__c\":null,\"SBQQ__Favorite__c\":null,\"SBQQ__SubscriptionPercent__c\":null,\"SBQQ__SubscriptionCategory__c\":null,\"SBQQ__SubscriptionTerm__c\":null,\"SBQQ__EndDate__c\":null,\"SBQQ__MinimumPrice__c\":null,\"SBQQ__MaximumPrice__c\":null,\"SBQQ__ChargeType__c\":null,\"SBQQ__BillingType__c\":null,\"SBQQ__TaxCode__c\":null,\"SBQQ__Discount__c\":null,\"SBQQ__AdditionalDiscountAmount__c\":null,\"SBQQ__AdditionalQuantity__c\":null,\"SBQQ__BatchQuantity__c\":null,\"SBQQ__ComponentSubscriptionScope__c\":null,\"SBQQ__CompoundDiscountRate__c\":null,\"SBQQ__ContractedPrice__c\":null,\"SBQQ__Cost__c\":null,\"SBQQ__DiscountSchedule__c\":null,\"SBQQ__DistributorDiscount__c\":null,\"SBQQ__MarkupRate__c\":null,\"SBQQ__MarkupAmount__c\":null,\"SBQQ__OptionDiscount__c\":null,\"SBQQ__OptionDiscountAmount__c\":null,\"SBQQ__OptionType__c\":null,\"SBQQ__BundledQuantity__c\":null,\"SBQQ__PartnerDiscount__c\":null,\"SBQQ__RenewedAsset__c\":null,\"SBQQ__RenewedSubscription__c\":null,\"SBQQ__SpecialPriceType__c\":null,\"SBQQ__StartDate__c\":null,\"SBQQ__OriginalUnitCost__c\":null,\"SBQQ__SubscribedAssetIds__c\":null,\"SBQQ__SubscriptionTargetPrice__c\":null,\"SBQQ__TermDiscountSchedule__c\":null,\"SBQQ__UnitCost__c\":null,\"SBQQ__ComponentTotal__c\":null,\"SBQQ__ComponentCost__c\":null,\"SBQQ__ComponentListTotal__c\":null,\"SBQQ__DiscountScheduleType__c\":null,\"SBQQ__PackageProductCode__c\":null,\"SBQQ__DiscountTier__c\":null,\"SBQQ__VolumeDiscount__c\":null,\"SBQQ__BlockPrice__c\":null,\"SBQQ__TermDiscountTier__c\":null,\"SBQQ__TermDiscount__c\":null,\"SBQQ__PreviousSegmentPrice__c\":null,\"SBQQ__PreviousSegmentUplift__c\":null,\"SBQQ__GrossProfit__c\":null,\"SBQQ__PackageProductDescription__c\":null,\"SBQQ__OptionLevel__c\":null,\"SBQQ__UpgradedQuantity__c\":null,\"SBQQ__OriginalQuoteLineId__c\":null,\"SBQQ__UpgradedAsset__c\":null},\"reconfigurationDisabled\":false,\"productQuantityEditable\":true,\"productHasDimensions\":false,\"key\":2,\"hasConsumptionSchedules\":false,\"effectiveStartDate\":\"2024-05-01\",\"effectiveEndDate\":\"2024-07-31\",\"descriptionLocked\":false}],\"lineItemGroups\":[],\"isPartial\":false,\"hasMultiSegmentLines\":false,\"customerTotal\":60.00,\"channelDiscountsOffList\":false,\"calculationRequired\":false,\"applyPartnerDiscountFirst\":false,\"applyAdditionalDiscountLast\":false}"'
+  recorded_at: Tue, 01 Aug 2023 21:05:41 GMT
+- request:
+    method: post
+    uri: https://ability-innovation-7335-dev-ed.scratch.my.salesforce.com/services/apexrest/SBQQ/ServiceRouter
+    body:
+      encoding: UTF-8
+      string: '{"saver":"SBQQ.QuoteAPI.QuoteSaver","model":"{\"ui_original_record\":{\"cloneRecordIfNoCache\":true,\"cacheName\":\"LineEditor\",\"cacheId\":\"a0z7e00000BDJvNAAX\",\"cachedOriginalRecordPath\":[\"quote\",\"ui_original_record\"]},\"record\":{\"attributes\":{\"type\":\"SBQQ__Quote__c\",\"url\":\"/services/data/v58.0/sobjects/SBQQ__Quote__c/a0z7e00000BDJvNAAX\"},\"Id\":\"a0z7e00000BDJvNAAX\",\"Name\":\"Q-00925\",\"SBQQ__Type__c\":\"Amendment\",\"SBQQ__Account__c\":\"0017e00001iZykCAAS\",\"SBQQ__SubscriptionTerm__c\":3,\"SBQQ__ExpirationDate__c\":\"2023-08-31\",\"SBQQ__StartDate__c\":\"2024-05-01\",\"SBQQ__EndDate__c\":\"2024-07-31\",\"SBQQ__MasterContract__c\":\"8007e000001iBtyAAE\",\"SBQQ__NetAmount__c\":240.0,\"SBQQ__CustomerAmount__c\":240.0,\"SBQQ__ContractingMethod__c\":\"By
+        Subscription End Date\",\"SBQQ__Unopened__c\":false,\"SBQQ__RenewalTerm__c\":12,\"SBQQ__LineItemCount__c\":1,\"SBQQ__PaymentTerms__c\":\"Net
+        30\",\"SBQQ__WatermarkShown__c\":false,\"SBQQ__Status__c\":\"Draft\",\"SBQQ__Primary__c\":true,\"SBQQ__LineItemsGrouped__c\":false,\"SBQQ__Opportunity2__c\":\"0067e00000NezIJAAZ\",\"SBQQ__Account__r\":{\"attributes\":{\"type\":\"Account\",\"url\":\"/services/data/v58.0/sobjects/Account/0017e00001iZykCAAS\"},\"Id\":\"0017e00001iZykCAAS\",\"Name\":\"REST
+        Account  2023-08-01 00:00:00 UTC\",\"SBQQ__RenewalModel__c\":\"Contract Based\",\"SBQQ__RenewalPricingMethod__c\":\"Same\"},\"SBQQ__MasterContract__r\":{\"attributes\":{\"type\":\"Contract\",\"url\":\"/services/data/v58.0/sobjects/Contract/8007e000001iBtyAAE\"},\"Id\":\"8007e000001iBtyAAE\",\"ContractNumber\":\"00000214\"},\"SBQQ__Opportunity2__r\":{\"attributes\":{\"type\":\"Opportunity\",\"url\":\"/services/data/v58.0/sobjects/Opportunity/0067e00000NezIJAAZ\"},\"Id\":\"0067e00000NezIJAAZ\",\"SBQQ__PrimaryQuote__c\":\"a0z7e00000BDJvNAAX\",\"AccountId\":\"0017e00001iZykCAAS\"},\"SBQQ__CustomerDiscount__c\":null,\"SBQQ__MarkupRate__c\":null,\"SBQQ__PartnerDiscount__c\":null,\"SBQQ__MasterEvergreenContract__c\":null,\"SBQQ__QuoteProcessId__c\":null,\"SBQQ__DistributorDiscount__c\":null,\"SBQQ__PricebookId__c\":null,\"SBQQ__FirstSegmentTermEndDate__c\":null,\"SBQQ__GenerateContractedPrice__c\":null,\"SBQQ__BillingFrequency__c\":null,\"SBQQ__RenewalUpliftRate__c\":null,\"SBQQ__OrderGroupID__c\":null,\"SBQQ__TargetCustomerAmount__c\":null,\"SBQQ__OrderBy__c\":null,\"SBQQ__ProrationDayOfMonth__c\":null},\"nextKey\":2,\"netTotal\":60.0,\"netNonSegmentTotal\":60.0,\"lineItems\":[{\"upliftable\":false,\"upgradeSourcesBySourceProductId\":{},\"ui_original_record\":{\"cloneRecordIfNoCache\":false,\"cacheName\":\"LineEditor\",\"cacheId\":\"a0z7e00000BDJvNAAX\",\"cachedOriginalRecordPath\":[\"quote\",\"lineItems\",\"0\",\"ui_original_record\"]},\"record\":{\"attributes\":{\"type\":\"SBQQ__QuoteLine__c\",\"url\":\"/services/data/v58.0/sobjects/SBQQ__QuoteLine__c/a0v7e000008xWw3AAE\"},\"Id\":\"a0v7e000008xWw3AAE\",\"SBQQ__Quote__c\":\"a0z7e00000BDJvNAAX\",\"SBQQ__Description__c\":\"A
+        great description\",\"SBQQ__Product__c\":\"01t7e000009AnukAAC\",\"SBQQ__Number__c\":1,\"SBQQ__HasConsumptionSchedule__c\":false,\"SBQQ__Hidden__c\":false,\"SBQQ__Taxable__c\":false,\"SBQQ__SubscriptionPricing__c\":\"Fixed
+        Price\",\"SBQQ__DefaultSubscriptionTerm__c\":1,\"SBQQ__SubscriptionBase__c\":\"List\",\"SBQQ__SubscriptionScope__c\":\"Quote\",\"SBQQ__ProductSubscriptionType__c\":\"Renewable\",\"SBQQ__SubscriptionType__c\":\"Renewable\",\"SBQQ__BillingFrequency__c\":\"Monthly\",\"Name\":\"QL-0001798\",\"SBQQ__AdditionalDiscount__c\":0.0,\"SBQQ__Bundled__c\":false,\"SBQQ__ComponentDiscountedByPackage__c\":false,\"SBQQ__CostEditable__c\":false,\"SBQQ__CustomerPrice__c\":30.0,\"SBQQ__EffectiveSubscriptionTerm__c\":3,\"SBQQ__ListPrice__c\":10.0,\"SBQQ__OriginalPrice__c\":10.0,\"SBQQ__NetPrice__c\":30.0,\"SBQQ__NetTotal__c\":60.0,\"SBQQ__NonDiscountable__c\":false,\"SBQQ__NonPartnerDiscountable__c\":false,\"SBQQ__Optional__c\":false,\"SBQQ__Bundle__c\":false,\"SBQQ__PartnerPrice__c\":30.0,\"SBQQ__PriceEditable__c\":false,\"SBQQ__ProratedListPrice__c\":30.0,\"SBQQ__PricingMethod__c\":\"List\",\"SBQQ__PricingMethodEditable__c\":false,\"SBQQ__ProrateMultiplier__c\":3.0,\"SBQQ__Quantity__c\":3.0,\"SBQQ__SpecialPrice__c\":10.0,\"SBQQ__Renewal__c\":false,\"SBQQ__ProratedPrice__c\":30.0,\"SBQQ__Uplift__c\":0.0,\"SBQQ__UpliftAmount__c\":0.0,\"SBQQ__ComponentUpliftedByPackage__c\":false,\"SBQQ__ProductName__c\":\"REST
+        Product2  2023-08-01 00:00:00 UTC\",\"SBQQ__Existing__c\":true,\"SBQQ__PriorQuantity__c\":1.0,\"SBQQ__CarryoverLine__c\":false,\"SBQQ__AllowAssetRefund__c\":false,\"SBQQ__RegularPrice__c\":30.0,\"SBQQ__UpgradedSubscription__c\":\"a1B7e00000EX4bgEAD\",\"SBQQ__ProductCode__c\":\"EfxBsBKAsjaF0caCUQPWQYJ8h61G\",\"SBQQ__Product__r\":{\"attributes\":{\"type\":\"Product2\",\"url\":\"/services/data/v58.0/sobjects/Product2/01t7e000009AnukAAC\"},\"Id\":\"01t7e000009AnukAAC\",\"SBQQ__HasConfigurationAttributes__c\":false,\"ProductCode\":\"EfxBsBKAsjaF0caCUQPWQYJ8h61G\",\"Name\":\"REST
+        Product2  2023-08-01 00:00:00 UTC\",\"SBQQ__SubscriptionTerm__c\":1,\"SBQQ__PricingMethod__c\":\"List\"},\"SBQQ__UpgradedSubscription__r\":{\"attributes\":{\"type\":\"SBQQ__Subscription__c\",\"url\":\"/services/data/v58.0/sobjects/SBQQ__Subscription__c/a1B7e00000EX4bgEAD\"},\"Id\":\"a1B7e00000EX4bgEAD\",\"SBQQ__QuoteLine__c\":\"a0v7e000008xWvxAAE\",\"SBQQ__OriginalQuoteLine__c\":\"a0v7e000008xWvxAAE\",\"SBQQ__Contract__c\":\"8007e000001iBtyAAE\"},\"SBQQ__Source__c\":null,\"SBQQ__RequiredBy__c\":null,\"SBQQ__ProductOption__c\":null,\"SBQQ__SegmentIndex__c\":null,\"SBQQ__SegmentLabel__c\":null,\"SBQQ__SegmentKey__c\":null,\"SBQQ__Dimension__c\":null,\"SBQQ__DynamicOptionId__c\":null,\"SBQQ__GenerateContractedPrice__c\":null,\"SBQQ__PricebookEntryId__c\":null,\"SBQQ__Favorite__c\":null,\"SBQQ__SubscriptionPercent__c\":null,\"SBQQ__SubscriptionCategory__c\":null,\"SBQQ__SubscriptionTerm__c\":null,\"SBQQ__EndDate__c\":null,\"SBQQ__MinimumPrice__c\":null,\"SBQQ__MaximumPrice__c\":null,\"SBQQ__ChargeType__c\":null,\"SBQQ__BillingType__c\":null,\"SBQQ__TaxCode__c\":null,\"SBQQ__Discount__c\":null,\"SBQQ__AdditionalDiscountAmount__c\":null,\"SBQQ__AdditionalQuantity__c\":null,\"SBQQ__BatchQuantity__c\":null,\"SBQQ__ComponentSubscriptionScope__c\":null,\"SBQQ__CompoundDiscountRate__c\":null,\"SBQQ__ContractedPrice__c\":null,\"SBQQ__Cost__c\":null,\"SBQQ__DiscountSchedule__c\":null,\"SBQQ__DistributorDiscount__c\":null,\"SBQQ__MarkupRate__c\":null,\"SBQQ__MarkupAmount__c\":null,\"SBQQ__OptionDiscount__c\":null,\"SBQQ__OptionDiscountAmount__c\":null,\"SBQQ__OptionType__c\":null,\"SBQQ__BundledQuantity__c\":null,\"SBQQ__PartnerDiscount__c\":null,\"SBQQ__RenewedAsset__c\":null,\"SBQQ__RenewedSubscription__c\":null,\"SBQQ__SpecialPriceType__c\":null,\"SBQQ__StartDate__c\":null,\"SBQQ__OriginalUnitCost__c\":null,\"SBQQ__SubscribedAssetIds__c\":null,\"SBQQ__SubscriptionTargetPrice__c\":null,\"SBQQ__TermDiscountSchedule__c\":null,\"SBQQ__UnitCost__c\":null,\"SBQQ__ComponentTotal__c\":null,\"SBQQ__ComponentCost__c\":null,\"SBQQ__ComponentListTotal__c\":null,\"SBQQ__DiscountScheduleType__c\":null,\"SBQQ__PackageProductCode__c\":null,\"SBQQ__DiscountTier__c\":null,\"SBQQ__VolumeDiscount__c\":null,\"SBQQ__BlockPrice__c\":null,\"SBQQ__TermDiscountTier__c\":null,\"SBQQ__TermDiscount__c\":null,\"SBQQ__PreviousSegmentPrice__c\":null,\"SBQQ__PreviousSegmentUplift__c\":null,\"SBQQ__GrossProfit__c\":null,\"SBQQ__PackageProductDescription__c\":null,\"SBQQ__OptionLevel__c\":null,\"SBQQ__UpgradedQuantity__c\":null,\"SBQQ__OriginalQuoteLineId__c\":null,\"SBQQ__UpgradedAsset__c\":null},\"reconfigurationDisabled\":false,\"productQuantityEditable\":true,\"productHasDimensions\":false,\"key\":2,\"hasConsumptionSchedules\":false,\"effectiveStartDate\":\"2024-05-01\",\"effectiveEndDate\":\"2024-07-31\",\"descriptionLocked\":false}],\"lineItemGroups\":[],\"isPartial\":false,\"hasMultiSegmentLines\":false,\"customerTotal\":60.0,\"channelDiscountsOffList\":false,\"calculationRequired\":false,\"applyPartnerDiscountFirst\":false,\"applyAdditionalDiscountLast\":false}"}'
+    headers:
+      User-Agent:
+      - Faraday v2.4.0
+      Content-Type:
+      - application/json
+      Authorization:
+      - OAuth <SALESFORCE_ACCESS_TOKEN>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Tue, 01 Aug 2023 21:05:41 GMT
+      Set-Cookie:
+      - BrowserId=LHNV6TCvEe6ZADeBgbAOng; domain=.salesforce.com; path=/; expires=Wed,
+        31-Jul-2024 21:05:41 GMT; Max-Age=31536000
+      - CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 21:05:41 GMT; Max-Age=31536000
+      - LSKey-c$CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 21:05:41
+        GMT; Max-Age=31536000
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Robots-Tag:
+      - none
+      Cache-Control:
+      - no-cache,must-revalidate,max-age=0,no-store,private
+      Content-Type:
+      - application/json;charset=UTF-8
+      Vary:
+      - Accept-Encoding
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: ASCII-8BIT
+      string: '"{\"ui_original_record\":{\"cloneRecordIfNoCache\":true,\"cacheName\":\"LineEditor\",\"cacheId\":\"a0z7e00000BDJvNAAX\",\"cachedOriginalRecordPath\":[\"quote\",\"ui_original_record\"]},\"record\":{\"attributes\":{\"type\":\"SBQQ__Quote__c\",\"url\":\"/services/data/v58.0/sobjects/SBQQ__Quote__c/a0z7e00000BDJvNAAX\"},\"SBQQ__PartnerDiscount__c\":null,\"SBQQ__GenerateContractedPrice__c\":null,\"SBQQ__QuoteProcessId__c\":null,\"SBQQ__NetAmount__c\":240.0,\"SBQQ__CustomerDiscount__c\":null,\"SBQQ__TargetCustomerAmount__c\":null,\"SBQQ__CustomerAmount__c\":240.0,\"SBQQ__PaymentTerms__c\":\"Net
+        30\",\"SBQQ__Opportunity2__r\":{\"attributes\":{\"type\":\"Opportunity\",\"url\":\"/services/data/v58.0/sobjects/Opportunity/0067e00000NezIJAAZ\"},\"SBQQ__PrimaryQuote__c\":\"a0z7e00000BDJvNAAX\",\"AccountId\":\"0017e00001iZykCAAS\",\"Id\":\"0067e00000NezIJAAZ\"},\"SBQQ__Account__r\":{\"attributes\":{\"type\":\"Account\",\"url\":\"/services/data/v58.0/sobjects/Account/0017e00001iZykCAAS\"},\"SBQQ__RenewalPricingMethod__c\":\"Same\",\"Id\":\"0017e00001iZykCAAS\",\"SBQQ__RenewalModel__c\":\"Contract
+        Based\",\"Name\":\"REST Account  2023-08-01 00:00:00 UTC\"},\"SBQQ__ContractingMethod__c\":\"By
+        Subscription End Date\",\"SBQQ__RenewalUpliftRate__c\":null,\"Name\":\"Q-00925\",\"SBQQ__Type__c\":\"Amendment\",\"SBQQ__SubscriptionTerm__c\":3.0,\"SBQQ__MarkupRate__c\":null,\"SBQQ__OrderGroupID__c\":null,\"SBQQ__DistributorDiscount__c\":null,\"SBQQ__OrderBy__c\":null,\"SBQQ__EndDate__c\":\"2024-07-31\",\"SBQQ__PricebookId__c\":null,\"SBQQ__Account__c\":\"0017e00001iZykCAAS\",\"SBQQ__WatermarkShown__c\":false,\"SBQQ__StartDate__c\":\"2024-05-01\",\"SBQQ__FirstSegmentTermEndDate__c\":null,\"SBQQ__BillingFrequency__c\":null,\"SBQQ__Status__c\":\"Draft\",\"SBQQ__LineItemsGrouped__c\":false,\"SBQQ__ExpirationDate__c\":\"2023-08-31\",\"SBQQ__Primary__c\":true,\"SBQQ__MasterEvergreenContract__c\":null,\"SBQQ__ProrationDayOfMonth__c\":null,\"SBQQ__MasterContract__r\":{\"attributes\":{\"type\":\"Contract\",\"url\":\"/services/data/v58.0/sobjects/Contract/8007e000001iBtyAAE\"},\"ContractNumber\":\"00000214\",\"Id\":\"8007e000001iBtyAAE\"},\"SBQQ__Opportunity2__c\":\"0067e00000NezIJAAZ\",\"SBQQ__MasterContract__c\":\"8007e000001iBtyAAE\",\"SBQQ__LineItemCount__c\":1.0,\"Id\":\"a0z7e00000BDJvNAAX\",\"SBQQ__Unopened__c\":false,\"SBQQ__RenewalTerm__c\":12.0},\"nextKey\":2,\"netTotal\":60.0,\"netNonSegmentTotal\":60.0,\"lineItems\":[{\"upliftable\":false,\"upgradeSourcesBySourceProductId\":{},\"ui_original_record\":{\"cloneRecordIfNoCache\":false,\"cacheName\":\"LineEditor\",\"cacheId\":\"a0z7e00000BDJvNAAX\",\"cachedOriginalRecordPath\":[\"quote\",\"lineItems\",\"0\",\"ui_original_record\"]},\"record\":{\"attributes\":{\"type\":\"SBQQ__QuoteLine__c\",\"url\":\"/services/data/v58.0/sobjects/SBQQ__QuoteLine__c/a0v7e000008xWw3AAE\"},\"SBQQ__CarryoverLine__c\":false,\"SBQQ__TermDiscountTier__c\":null,\"SBQQ__VolumeDiscount__c\":null,\"SBQQ__BillingType__c\":null,\"SBQQ__Discount__c\":null,\"SBQQ__ListPrice__c\":10.0,\"SBQQ__Existing__c\":true,\"SBQQ__ProductName__c\":\"REST
+        Product2  2023-08-01 00:00:00 UTC\",\"SBQQ__SegmentIndex__c\":null,\"SBQQ__DiscountTier__c\":null,\"SBQQ__ComponentTotal__c\":null,\"SBQQ__RenewedSubscription__c\":null,\"SBQQ__SubscriptionTargetPrice__c\":null,\"SBQQ__AllowAssetRefund__c\":false,\"SBQQ__HasConsumptionSchedule__c\":false,\"SBQQ__Optional__c\":false,\"SBQQ__SubscriptionType__c\":\"Renewable\",\"SBQQ__PriorQuantity__c\":1.0,\"SBQQ__Source__c\":null,\"SBQQ__Quote__c\":\"a0z7e00000BDJvNAAX\",\"SBQQ__ProratedListPrice__c\":30.0,\"SBQQ__ChargeType__c\":null,\"SBQQ__UpliftAmount__c\":0.0,\"SBQQ__ComponentSubscriptionScope__c\":null,\"SBQQ__OptionLevel__c\":null,\"SBQQ__NetPrice__c\":30.0,\"Id\":\"a0v7e000008xWw3AAE\",\"SBQQ__EffectiveSubscriptionTerm__c\":3.0,\"SBQQ__OriginalQuoteLineId__c\":null,\"SBQQ__RegularPrice__c\":30.0,\"SBQQ__Quantity__c\":3.0,\"SBQQ__TaxCode__c\":null,\"SBQQ__ContractedPrice__c\":null,\"SBQQ__CostEditable__c\":false,\"SBQQ__Dimension__c\":null,\"SBQQ__UpgradedSubscription__r\":{\"attributes\":{\"type\":\"SBQQ__Subscription__c\",\"url\":\"/services/data/v58.0/sobjects/SBQQ__Subscription__c/a1B7e00000EX4bgEAD\"},\"SBQQ__OriginalQuoteLine__c\":\"a0v7e000008xWvxAAE\",\"SBQQ__Contract__c\":\"8007e000001iBtyAAE\",\"SBQQ__QuoteLine__c\":\"a0v7e000008xWvxAAE\",\"Id\":\"a1B7e00000EX4bgEAD\"},\"SBQQ__DynamicOptionId__c\":null,\"SBQQ__PreviousSegmentUplift__c\":null,\"SBQQ__RequiredBy__r\":null,\"SBQQ__EndDate__c\":null,\"SBQQ__PreviousSegmentPrice__c\":null,\"SBQQ__UpgradedSubscription__c\":\"a1B7e00000EX4bgEAD\",\"SBQQ__SpecialPriceType__c\":null,\"SBQQ__SegmentKey__c\":null,\"SBQQ__OptionDiscount__c\":null,\"SBQQ__RequiredBy__c\":null,\"SBQQ__UpgradedAsset__c\":null,\"SBQQ__Bundled__c\":false,\"SBQQ__OptionType__c\":null,\"SBQQ__Number__c\":1.0,\"SBQQ__SubscriptionPercent__c\":null,\"SBQQ__ComponentListTotal__c\":null,\"SBQQ__TermDiscountSchedule__c\":null,\"SBQQ__Taxable__c\":false,\"SBQQ__Description__c\":\"A
+        great description\",\"SBQQ__ProductCode__c\":\"EfxBsBKAsjaF0caCUQPWQYJ8h61G\",\"SBQQ__OriginalPrice__c\":10.0,\"SBQQ__GenerateContractedPrice__c\":null,\"SBQQ__NetTotal__c\":60.0,\"SBQQ__UnitCost__c\":null,\"SBQQ__SubscriptionCategory__c\":null,\"SBQQ__Hidden__c\":false,\"SBQQ__NonDiscountable__c\":false,\"SBQQ__RenewedAsset__c\":null,\"SBQQ__ProductSubscriptionType__c\":\"Renewable\",\"SBQQ__GrossProfit__c\":null,\"SBQQ__MinimumPrice__c\":null,\"SBQQ__BundledQuantity__c\":null,\"SBQQ__BatchQuantity__c\":null,\"SBQQ__ProrateMultiplier__c\":3.0,\"Name\":\"QL-0001798\",\"SBQQ__CustomerPrice__c\":30.0,\"SBQQ__SubscriptionTerm__c\":null,\"SBQQ__MarkupRate__c\":null,\"SBQQ__DistributorDiscount__c\":null,\"SBQQ__DefaultSubscriptionTerm__c\":1.0,\"SBQQ__PriceEditable__c\":false,\"SBQQ__ProratedPrice__c\":30.0,\"SBQQ__ComponentUpliftedByPackage__c\":false,\"SBQQ__StartDate__c\":null,\"SBQQ__NonPartnerDiscountable__c\":false,\"SBQQ__BlockPrice__c\":null,\"SBQQ__MaximumPrice__c\":null,\"SBQQ__SubscriptionPricing__c\":\"Fixed
+        Price\",\"SBQQ__AdditionalDiscount__c\":0.0,\"SBQQ__Favorite__c\":null,\"SBQQ__PricebookEntryId__c\":null,\"SBQQ__ProductOption__c\":null,\"SBQQ__OptionDiscountAmount__c\":null,\"SBQQ__TermDiscount__c\":null,\"SBQQ__MarkupAmount__c\":null,\"SBQQ__PartnerDiscount__c\":null,\"SBQQ__ComponentDiscountedByPackage__c\":false,\"SBQQ__Renewal__c\":false,\"SBQQ__CompoundDiscountRate__c\":null,\"SBQQ__UpgradedQuantity__c\":null,\"SBQQ__AdditionalDiscountAmount__c\":null,\"SBQQ__Cost__c\":null,\"SBQQ__PackageProductDescription__c\":null,\"SBQQ__PartnerPrice__c\":30.0,\"SBQQ__DiscountSchedule__c\":null,\"SBQQ__ComponentCost__c\":null,\"SBQQ__SubscribedAssetIds__c\":null,\"SBQQ__SubscriptionScope__c\":\"Quote\",\"SBQQ__Product__r\":{\"attributes\":{\"type\":\"Product2\",\"url\":\"/services/data/v58.0/sobjects/Product2/01t7e000009AnukAAC\"},\"SBQQ__SubscriptionTerm__c\":1.0,\"ProductCode\":\"EfxBsBKAsjaF0caCUQPWQYJ8h61G\",\"SBQQ__HasConfigurationAttributes__c\":false,\"SBQQ__PricingMethod__c\":\"List\",\"Id\":\"01t7e000009AnukAAC\",\"Name\":\"REST
+        Product2  2023-08-01 00:00:00 UTC\"},\"SBQQ__SubscriptionBase__c\":\"List\",\"SBQQ__BillingFrequency__c\":\"Monthly\",\"SBQQ__OriginalUnitCost__c\":null,\"SBQQ__Bundle__c\":false,\"SBQQ__Product__c\":\"01t7e000009AnukAAC\",\"SBQQ__SpecialPrice__c\":10.0,\"SBQQ__PricingMethodEditable__c\":false,\"SBQQ__Uplift__c\":0.0,\"SBQQ__PackageProductCode__c\":null,\"SBQQ__PricingMethod__c\":\"List\",\"SBQQ__SegmentLabel__c\":null,\"SBQQ__AdditionalQuantity__c\":null,\"SBQQ__DiscountScheduleType__c\":null,\"SBQQ__Incomplete__c\":false},\"reconfigurationDisabled\":false,\"productQuantityEditable\":true,\"productHasDimensions\":false,\"key\":2,\"hasConsumptionSchedules\":false,\"effectiveStartDate\":\"2024-05-01\",\"effectiveEndDate\":\"2024-07-31\",\"descriptionLocked\":false}],\"lineItemGroups\":[],\"isPartial\":false,\"hasMultiSegmentLines\":false,\"customerTotal\":60.0,\"channelDiscountsOffList\":false,\"calculationRequired\":false,\"applyPartnerDiscountFirst\":false,\"applyAdditionalDiscountLast\":false}"'
+  recorded_at: Tue, 01 Aug 2023 21:05:42 GMT
+- request:
+    method: get
+    uri: https://ability-innovation-7335-dev-ed.scratch.my.salesforce.com/services/data/v58.0/query?q=Select%20Id%20from%20Pricebook2%20where%20IsStandard%20=%20true
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v2.4.0
+      Authorization:
+      - OAuth <SALESFORCE_ACCESS_TOKEN>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Tue, 01 Aug 2023 21:05:42 GMT
+      Set-Cookie:
+      - BrowserId=LNN3CTCvEe64OnvvtTY2PA; domain=.salesforce.com; path=/; expires=Wed,
+        31-Jul-2024 21:05:42 GMT; Max-Age=31536000
+      - CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 21:05:42 GMT; Max-Age=31536000
+      - LSKey-c$CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 21:05:42
+        GMT; Max-Age=31536000
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Robots-Tag:
+      - none
+      Cache-Control:
+      - no-cache,must-revalidate,max-age=0,no-store,private
+      Sforce-Limit-Info:
+      - api-usage=8697/5000000
+      Content-Type:
+      - application/json;charset=UTF-8
+      Vary:
+      - Accept-Encoding
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: ASCII-8BIT
+      string: '{"totalSize":1,"done":true,"records":[{"attributes":{"type":"Pricebook2","url":"/services/data/v58.0/sobjects/Pricebook2/01s7e000002eLFEAA2"},"Id":"01s7e000002eLFEAA2"}]}'
+  recorded_at: Tue, 01 Aug 2023 21:05:42 GMT
+- request:
+    method: patch
+    uri: https://ability-innovation-7335-dev-ed.scratch.my.salesforce.com/services/data/v58.0/sobjects/SBQQ__Quote__c/a0z7e00000BDJvNAAX
+    body:
+      encoding: UTF-8
+      string: '{"SBQQ__PricebookId__c":"01s7e000002eLFEAA2"}'
+    headers:
+      User-Agent:
+      - Faraday v2.4.0
+      Content-Type:
+      - application/json
+      Authorization:
+      - OAuth <SALESFORCE_ACCESS_TOKEN>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 204
+      message: No Content
+    headers:
+      Date:
+      - Tue, 01 Aug 2023 21:05:42 GMT
+      Set-Cookie:
+      - BrowserId=LQlTejCvEe6dibfjHAp7ZA; domain=.salesforce.com; path=/; expires=Wed,
+        31-Jul-2024 21:05:42 GMT; Max-Age=31536000
+      - CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 21:05:42 GMT; Max-Age=31536000
+      - LSKey-c$CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 21:05:42
+        GMT; Max-Age=31536000
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+      Content-Security-Policy:
+      - upgrade-insecure-requests
+      X-Robots-Tag:
+      - none
+      Cache-Control:
+      - no-cache,must-revalidate,max-age=0,no-store,private
+      Sforce-Limit-Info:
+      - api-usage=8698/5000000
+    body:
+      encoding: UTF-8
+      string: ''
+  recorded_at: Tue, 01 Aug 2023 21:05:44 GMT
+- request:
+    method: patch
+    uri: https://ability-innovation-7335-dev-ed.scratch.my.salesforce.com/services/data/v58.0/sobjects/SBQQ__Quote__c/a0z7e00000BDJvNAAX
+    body:
+      encoding: UTF-8
+      string: '{"SBQQ__Ordered__c":true}'
+    headers:
+      User-Agent:
+      - Faraday v2.4.0
+      Content-Type:
+      - application/json
+      Authorization:
+      - OAuth <SALESFORCE_ACCESS_TOKEN>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 204
+      message: No Content
+    headers:
+      Date:
+      - Tue, 01 Aug 2023 21:05:44 GMT
+      Set-Cookie:
+      - BrowserId=Lg8EeDCvEe6tYEOIfUf4IA; domain=.salesforce.com; path=/; expires=Wed,
+        31-Jul-2024 21:05:44 GMT; Max-Age=31536000
+      - CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 21:05:44 GMT; Max-Age=31536000
+      - LSKey-c$CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 21:05:44
+        GMT; Max-Age=31536000
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+      Content-Security-Policy:
+      - upgrade-insecure-requests
+      X-Robots-Tag:
+      - none
+      Cache-Control:
+      - no-cache,must-revalidate,max-age=0,no-store,private
+      Sforce-Limit-Info:
+      - api-usage=8700/5000000
+    body:
+      encoding: UTF-8
+      string: ''
+  recorded_at: Tue, 01 Aug 2023 21:05:46 GMT
+- request:
+    method: get
+    uri: https://ability-innovation-7335-dev-ed.scratch.my.salesforce.com/services/data/v52.0/sobjects/SBQQ__Quote__c/a0z7e00000BDJvNAAX/SBQQ__Orders__r
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v2.4.0
+      Authorization:
+      - OAuth <SALESFORCE_ACCESS_TOKEN>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Tue, 01 Aug 2023 21:05:46 GMT
+      Set-Cookie:
+      - BrowserId=LzsnlzCvEe64OnvvtTY2PA; domain=.salesforce.com; path=/; expires=Wed,
+        31-Jul-2024 21:05:46 GMT; Max-Age=31536000
+      - CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 21:05:46 GMT; Max-Age=31536000
+      - LSKey-c$CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 21:05:46
+        GMT; Max-Age=31536000
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Robots-Tag:
+      - none
+      Cache-Control:
+      - no-cache,must-revalidate,max-age=0,no-store,private
+      Sforce-Limit-Info:
+      - api-usage=8699/5000000
+      Content-Type:
+      - application/json;charset=UTF-8
+      Vary:
+      - Accept-Encoding
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: ASCII-8BIT
+      string: '{"totalSize":1,"done":true,"records":[{"attributes":{"type":"Order","url":"/services/data/v52.0/sobjects/Order/8017e000000nQB4AAM"},"Id":"8017e000000nQB4AAM","OwnerId":"0057e00000VZBcyAAH","ContractId":null,"AccountId":"0017e00001iZykCAAS","Pricebook2Id":"01s7e000002eLFEAA2","OriginalOrderId":null,"OpportunityId":"0067e00000NezIJAAZ","EffectiveDate":"2024-05-01","EndDate":null,"IsReductionOrder":false,"Status":"Draft","Description":null,"CustomerAuthorizedById":null,"CustomerAuthorizedDate":null,"CompanyAuthorizedById":null,"CompanyAuthorizedDate":null,"Type":"Amendment","BillingStreet":null,"BillingCity":null,"BillingState":null,"BillingPostalCode":null,"BillingCountry":null,"BillingLatitude":null,"BillingLongitude":null,"BillingGeocodeAccuracy":null,"BillingAddress":null,"ShippingStreet":null,"ShippingCity":null,"ShippingState":null,"ShippingPostalCode":null,"ShippingCountry":null,"ShippingLatitude":null,"ShippingLongitude":null,"ShippingGeocodeAccuracy":null,"ShippingAddress":null,"Name":null,"PoDate":null,"PoNumber":null,"OrderReferenceNumber":null,"BillToContactId":null,"ShipToContactId":null,"ActivatedDate":null,"ActivatedById":null,"StatusCode":"Draft","OrderNumber":"00001010","TotalAmount":60.0,"CreatedDate":"2023-08-01T21:05:45.000+0000","CreatedById":"0057e00000VZBcyAAH","LastModifiedDate":"2023-08-01T21:05:45.000+0000","LastModifiedById":"0057e00000VZBcyAAH","IsDeleted":false,"SystemModstamp":"2023-08-01T21:05:45.000+0000","LastViewedDate":null,"LastReferencedDate":null,"SBQQ__Contracted__c":false,"SBQQ__ContractingMethod__c":"By
+        Subscription End Date","SBQQ__PaymentTerm__c":"Net 30","SBQQ__PriceCalcStatusMessage__c":null,"SBQQ__PriceCalcStatus__c":"Queued","SBQQ__Quote__c":"a0z7e00000BDJvNAAX","SBQQ__RenewalTerm__c":12.0,"SBQQ__RenewalUpliftRate__c":null,"SBQQ__TaxAmount__c":0.0,"SBQQ__OrderBookings__c":60.0,"Skip_Past_Initial_Invoices__c":false,"Stripe_ID__c":null,"Stripe_Invoice_Payment_Link__c":null,"Stripe_Revenue_Contract_ID__c":null,"Stripe_Dashboard_Link__c":"https://dashboard.stripe.com/test/id/"}]}'
+  recorded_at: Tue, 01 Aug 2023 21:05:46 GMT
+- request:
+    method: patch
+    uri: https://ability-innovation-7335-dev-ed.scratch.my.salesforce.com/services/data/v58.0/sobjects/Order/8017e000000nQB4AAM
+    body:
+      encoding: UTF-8
+      string: '{"Status":"Activated"}'
+    headers:
+      User-Agent:
+      - Faraday v2.4.0
+      Content-Type:
+      - application/json
+      Authorization:
+      - OAuth <SALESFORCE_ACCESS_TOKEN>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 204
+      message: No Content
+    headers:
+      Date:
+      - Tue, 01 Aug 2023 21:05:46 GMT
+      Set-Cookie:
+      - BrowserId=L3UjXDCvEe64OnvvtTY2PA; domain=.salesforce.com; path=/; expires=Wed,
+        31-Jul-2024 21:05:46 GMT; Max-Age=31536000
+      - CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 21:05:46 GMT; Max-Age=31536000
+      - LSKey-c$CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 21:05:46
+        GMT; Max-Age=31536000
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+      Content-Security-Policy:
+      - upgrade-insecure-requests
+      X-Robots-Tag:
+      - none
+      Cache-Control:
+      - no-cache,must-revalidate,max-age=0,no-store,private
+      Sforce-Limit-Info:
+      - api-usage=8700/5000000
+    body:
+      encoding: UTF-8
+      string: ''
+  recorded_at: Tue, 01 Aug 2023 21:05:47 GMT
+- request:
+    method: get
+    uri: https://ability-innovation-7335-dev-ed.scratch.my.salesforce.com/services/data/v58.0/sobjects/Order/8017e000000nQB4AAM
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v2.4.0
+      Authorization:
+      - OAuth <SALESFORCE_ACCESS_TOKEN>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Tue, 01 Aug 2023 21:05:47 GMT
+      Set-Cookie:
+      - BrowserId=L_m9FTCvEe6dibfjHAp7ZA; domain=.salesforce.com; path=/; expires=Wed,
+        31-Jul-2024 21:05:47 GMT; Max-Age=31536000
+      - CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 21:05:47 GMT; Max-Age=31536000
+      - LSKey-c$CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 21:05:47
+        GMT; Max-Age=31536000
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Robots-Tag:
+      - none
+      Cache-Control:
+      - no-cache,must-revalidate,max-age=0,no-store,private
+      Sforce-Limit-Info:
+      - api-usage=8702/5000000
+      Last-Modified:
+      - Tue, 01 Aug 2023 21:05:47 GMT
+      Content-Type:
+      - application/json;charset=UTF-8
+      Vary:
+      - Accept-Encoding
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: ASCII-8BIT
+      string: '{"attributes":{"type":"Order","url":"/services/data/v58.0/sobjects/Order/8017e000000nQB4AAM"},"Id":"8017e000000nQB4AAM","OwnerId":"0057e00000VZBcyAAH","ContractId":null,"AccountId":"0017e00001iZykCAAS","Pricebook2Id":"01s7e000002eLFEAA2","OriginalOrderId":null,"OpportunityId":"0067e00000NezIJAAZ","EffectiveDate":"2024-05-01","EndDate":null,"IsReductionOrder":false,"Status":"Activated","Description":null,"CustomerAuthorizedById":null,"CustomerAuthorizedDate":null,"CompanyAuthorizedById":null,"CompanyAuthorizedDate":null,"Type":"Amendment","BillingStreet":null,"BillingCity":null,"BillingState":null,"BillingPostalCode":null,"BillingCountry":null,"BillingLatitude":null,"BillingLongitude":null,"BillingGeocodeAccuracy":null,"BillingAddress":null,"ShippingStreet":null,"ShippingCity":null,"ShippingState":null,"ShippingPostalCode":null,"ShippingCountry":null,"ShippingLatitude":null,"ShippingLongitude":null,"ShippingGeocodeAccuracy":null,"ShippingAddress":null,"Name":null,"PoDate":null,"PoNumber":null,"OrderReferenceNumber":null,"BillToContactId":null,"ShipToContactId":null,"ActivatedDate":"2023-08-01T21:05:47.000+0000","ActivatedById":"0057e00000VZBcyAAH","StatusCode":"Activated","OrderNumber":"00001010","TotalAmount":60.0,"CreatedDate":"2023-08-01T21:05:45.000+0000","CreatedById":"0057e00000VZBcyAAH","LastModifiedDate":"2023-08-01T21:05:47.000+0000","LastModifiedById":"0057e00000VZBcyAAH","IsDeleted":false,"SystemModstamp":"2023-08-01T21:05:47.000+0000","LastViewedDate":"2023-08-01T21:05:46.000+0000","LastReferencedDate":"2023-08-01T21:05:46.000+0000","SBQQ__Contracted__c":false,"SBQQ__ContractingMethod__c":"By
+        Subscription End Date","SBQQ__PaymentTerm__c":"Net 30","SBQQ__PriceCalcStatusMessage__c":null,"SBQQ__PriceCalcStatus__c":"Not
+        Needed","SBQQ__Quote__c":"a0z7e00000BDJvNAAX","SBQQ__RenewalTerm__c":12.0,"SBQQ__RenewalUpliftRate__c":null,"SBQQ__TaxAmount__c":0.0,"SBQQ__OrderBookings__c":60.0,"Skip_Past_Initial_Invoices__c":false,"Stripe_ID__c":null,"Stripe_Invoice_Payment_Link__c":null,"Stripe_Revenue_Contract_ID__c":null,"Stripe_Dashboard_Link__c":"https://dashboard.stripe.com/test/id/"}'
+  recorded_at: Tue, 01 Aug 2023 21:05:47 GMT
+- request:
+    method: patch
+    uri: https://ability-innovation-7335-dev-ed.scratch.my.salesforce.com/services/data/v58.0/sobjects/Order/8017e000000nQB4AAM
+    body:
+      encoding: UTF-8
+      string: '{"SBQQ__Contracted__c":true}'
+    headers:
+      User-Agent:
+      - Faraday v2.4.0
+      Content-Type:
+      - application/json
+      Authorization:
+      - OAuth <SALESFORCE_ACCESS_TOKEN>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 204
+      message: No Content
+    headers:
+      Date:
+      - Tue, 01 Aug 2023 21:05:48 GMT
+      Set-Cookie:
+      - BrowserId=MGEKYjCvEe6aP6F4JRfW4Q; domain=.salesforce.com; path=/; expires=Wed,
+        31-Jul-2024 21:05:48 GMT; Max-Age=31536000
+      - CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 21:05:48 GMT; Max-Age=31536000
+      - LSKey-c$CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 21:05:48
+        GMT; Max-Age=31536000
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+      Content-Security-Policy:
+      - upgrade-insecure-requests
+      X-Robots-Tag:
+      - none
+      Cache-Control:
+      - no-cache,must-revalidate,max-age=0,no-store,private
+      Sforce-Limit-Info:
+      - api-usage=8704/5000000
+    body:
+      encoding: UTF-8
+      string: ''
+  recorded_at: Tue, 01 Aug 2023 21:05:49 GMT
+- request:
+    method: get
+    uri: https://ability-innovation-7335-dev-ed.scratch.my.salesforce.com/services/data/v58.0/query?q=SELECT%20Id%20FROM%20Contract%20WHERE%20SBQQ__Order__c%20=%20%278017e000000nQB4AAM%27
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v2.4.0
+      Authorization:
+      - OAuth <SALESFORCE_ACCESS_TOKEN>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Tue, 01 Aug 2023 21:05:50 GMT
+      Set-Cookie:
+      - BrowserId=MWzVQTCvEe6aP6F4JRfW4Q; domain=.salesforce.com; path=/; expires=Wed,
+        31-Jul-2024 21:05:50 GMT; Max-Age=31536000
+      - CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 21:05:50 GMT; Max-Age=31536000
+      - LSKey-c$CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 21:05:50
+        GMT; Max-Age=31536000
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Robots-Tag:
+      - none
+      Cache-Control:
+      - no-cache,must-revalidate,max-age=0,no-store,private
+      Sforce-Limit-Info:
+      - api-usage=8705/5000000
+      Content-Type:
+      - application/json;charset=UTF-8
+      Vary:
+      - Accept-Encoding
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: ASCII-8BIT
+      string: '{"totalSize":1,"done":true,"records":[{"attributes":{"type":"Contract","url":"/services/data/v58.0/sobjects/Contract/8007e000001iBtyAAE"},"Id":"8007e000001iBtyAAE"}]}'
+  recorded_at: Tue, 01 Aug 2023 21:05:50 GMT
+- request:
+    method: get
+    uri: https://ability-innovation-7335-dev-ed.scratch.my.salesforce.com/services/data/v58.0/sobjects/Contract/8007e000001iBtyAAE
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v2.4.0
+      Authorization:
+      - OAuth <SALESFORCE_ACCESS_TOKEN>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Tue, 01 Aug 2023 21:05:50 GMT
+      Set-Cookie:
+      - BrowserId=MaFSyjCvEe6ZADeBgbAOng; domain=.salesforce.com; path=/; expires=Wed,
+        31-Jul-2024 21:05:50 GMT; Max-Age=31536000
+      - CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 21:05:50 GMT; Max-Age=31536000
+      - LSKey-c$CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 21:05:50
+        GMT; Max-Age=31536000
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Robots-Tag:
+      - none
+      Cache-Control:
+      - no-cache,must-revalidate,max-age=0,no-store,private
+      Sforce-Limit-Info:
+      - api-usage=8707/5000000
+      Last-Modified:
+      - Tue, 01 Aug 2023 21:05:49 GMT
+      Content-Type:
+      - application/json;charset=UTF-8
+      Vary:
+      - Accept-Encoding
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: ASCII-8BIT
+      string: '{"attributes":{"type":"Contract","url":"/services/data/v58.0/sobjects/Contract/8007e000001iBtyAAE"},"Id":"8007e000001iBtyAAE","AccountId":"0017e00001iZykCAAS","Pricebook2Id":null,"OwnerExpirationNotice":null,"StartDate":"2023-08-01","EndDate":"2024-07-31","BillingStreet":null,"BillingCity":null,"BillingState":null,"BillingPostalCode":null,"BillingCountry":null,"BillingLatitude":null,"BillingLongitude":null,"BillingGeocodeAccuracy":null,"BillingAddress":null,"ContractTerm":12,"OwnerId":"0057e00000VZBcyAAH","Status":"Draft","CompanySignedId":null,"CompanySignedDate":null,"CustomerSignedId":null,"CustomerSignedTitle":null,"CustomerSignedDate":null,"SpecialTerms":null,"ActivatedById":null,"ActivatedDate":null,"StatusCode":"Draft","Description":null,"IsDeleted":false,"ContractNumber":"00000214","LastApprovedDate":null,"CreatedDate":"2023-08-01T21:05:35.000+0000","CreatedById":"0057e00000VZBcyAAH","LastModifiedDate":"2023-08-01T21:05:49.000+0000","LastModifiedById":"0057e00000VZBcyAAH","SystemModstamp":"2023-08-01T21:05:49.000+0000","LastActivityDate":null,"LastViewedDate":"2023-08-01T21:05:36.000+0000","LastReferencedDate":"2023-08-01T21:05:36.000+0000","SBQQ__AmendmentOpportunityRecordTypeId__c":null,"SBQQ__AmendmentOpportunityStage__c":null,"SBQQ__AmendmentOwner__c":null,"SBQQ__AmendmentPricebookId__c":null,"SBQQ__AmendmentRenewalBehavior__c":"Latest
+        End Date","SBQQ__AmendmentStartDate__c":null,"SBQQ__DefaultRenewalContactRoles__c":true,"SBQQ__DefaultRenewalPartners__c":true,"SBQQ__DisableAmendmentCoTerm__c":false,"SBQQ__Evergreen__c":false,"SBQQ__ExpirationDate__c":"2024-07-31","SBQQ__MDQRenewalBehavior__c":null,"SBQQ__MasterContract__c":false,"SBQQ__Opportunity__c":"0067e00000Nf0AwAAJ","SBQQ__Order__c":"8017e000000nQB4AAM","SBQQ__PreserveBundleStructureUponRenewals__c":true,"SBQQ__Quote__c":"a0z7e00000BDJvIAAX","SBQQ__RenewalForecast__c":false,"SBQQ__RenewalOpportunityRecordTypeId__c":null,"SBQQ__RenewalOpportunityStage__c":null,"SBQQ__RenewalOpportunity__c":null,"SBQQ__RenewalOwner__c":null,"SBQQ__RenewalPricebookId__c":null,"SBQQ__RenewalQuoted__c":false,"SBQQ__RenewalTerm__c":12.0,"SBQQ__RenewalUpliftRate__c":null,"SBQQ__SubscriptionQuantitiesCombined__c":false,"SBQQ__ActiveContract__c":0.0,"SBQQ__OpportunityPricebookId__c":null}'
+  recorded_at: Tue, 01 Aug 2023 21:05:50 GMT
+- request:
+    method: get
+    uri: https://ability-innovation-7335-dev-ed.scratch.my.salesforce.com/services/data/v58.0/sobjects/Order/8017e000000nQB4AAM
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v2.4.0
+      Authorization:
+      - OAuth <SALESFORCE_ACCESS_TOKEN>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Tue, 01 Aug 2023 21:05:50 GMT
+      Set-Cookie:
+      - BrowserId=Mdl54DCvEe6FfkeBuaLXIQ; domain=.salesforce.com; path=/; expires=Wed,
+        31-Jul-2024 21:05:50 GMT; Max-Age=31536000
+      - CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 21:05:50 GMT; Max-Age=31536000
+      - LSKey-c$CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 21:05:50
+        GMT; Max-Age=31536000
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Robots-Tag:
+      - none
+      Cache-Control:
+      - no-cache,must-revalidate,max-age=0,no-store,private
+      Sforce-Limit-Info:
+      - api-usage=8705/5000000
+      Last-Modified:
+      - Tue, 01 Aug 2023 21:05:48 GMT
+      Content-Type:
+      - application/json;charset=UTF-8
+      Vary:
+      - Accept-Encoding
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: ASCII-8BIT
+      string: '{"attributes":{"type":"Order","url":"/services/data/v58.0/sobjects/Order/8017e000000nQB4AAM"},"Id":"8017e000000nQB4AAM","OwnerId":"0057e00000VZBcyAAH","ContractId":null,"AccountId":"0017e00001iZykCAAS","Pricebook2Id":"01s7e000002eLFEAA2","OriginalOrderId":null,"OpportunityId":"0067e00000NezIJAAZ","EffectiveDate":"2024-05-01","EndDate":null,"IsReductionOrder":false,"Status":"Activated","Description":null,"CustomerAuthorizedById":null,"CustomerAuthorizedDate":null,"CompanyAuthorizedById":null,"CompanyAuthorizedDate":null,"Type":"Amendment","BillingStreet":null,"BillingCity":null,"BillingState":null,"BillingPostalCode":null,"BillingCountry":null,"BillingLatitude":null,"BillingLongitude":null,"BillingGeocodeAccuracy":null,"BillingAddress":null,"ShippingStreet":null,"ShippingCity":null,"ShippingState":null,"ShippingPostalCode":null,"ShippingCountry":null,"ShippingLatitude":null,"ShippingLongitude":null,"ShippingGeocodeAccuracy":null,"ShippingAddress":null,"Name":null,"PoDate":null,"PoNumber":null,"OrderReferenceNumber":null,"BillToContactId":null,"ShipToContactId":null,"ActivatedDate":"2023-08-01T21:05:47.000+0000","ActivatedById":"0057e00000VZBcyAAH","StatusCode":"Activated","OrderNumber":"00001010","TotalAmount":60.0,"CreatedDate":"2023-08-01T21:05:45.000+0000","CreatedById":"0057e00000VZBcyAAH","LastModifiedDate":"2023-08-01T21:05:48.000+0000","LastModifiedById":"0057e00000VZBcyAAH","IsDeleted":false,"SystemModstamp":"2023-08-01T21:05:48.000+0000","LastViewedDate":"2023-08-01T21:05:48.000+0000","LastReferencedDate":"2023-08-01T21:05:48.000+0000","SBQQ__Contracted__c":true,"SBQQ__ContractingMethod__c":"By
+        Subscription End Date","SBQQ__PaymentTerm__c":"Net 30","SBQQ__PriceCalcStatusMessage__c":null,"SBQQ__PriceCalcStatus__c":"Not
+        Needed","SBQQ__Quote__c":"a0z7e00000BDJvNAAX","SBQQ__RenewalTerm__c":12.0,"SBQQ__RenewalUpliftRate__c":null,"SBQQ__TaxAmount__c":0.0,"SBQQ__OrderBookings__c":60.0,"Skip_Past_Initial_Invoices__c":false,"Stripe_ID__c":null,"Stripe_Invoice_Payment_Link__c":null,"Stripe_Revenue_Contract_ID__c":null,"Stripe_Dashboard_Link__c":"https://dashboard.stripe.com/test/id/"}'
+  recorded_at: Tue, 01 Aug 2023 21:05:50 GMT
+- request:
+    method: post
+    uri: https://ability-innovation-7335-dev-ed.scratch.my.salesforce.com/services/apexrest/batchApi
+    body:
+      encoding: UTF-8
+      string: '{"order_ids":["8017e000000nQB4AAM"]}'
+    headers:
+      User-Agent:
+      - Faraday v2.4.0
+      Content-Type:
+      - application/json
+      Authorization:
+      - OAuth <SALESFORCE_ACCESS_TOKEN>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Tue, 01 Aug 2023 21:05:51 GMT
+      Set-Cookie:
+      - BrowserId=MhMnKjCvEe6tYEOIfUf4IA; domain=.salesforce.com; path=/; expires=Wed,
+        31-Jul-2024 21:05:51 GMT; Max-Age=31536000
+      - CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 21:05:51 GMT; Max-Age=31536000
+      - LSKey-c$CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 21:05:51
+        GMT; Max-Age=31536000
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Robots-Tag:
+      - none
+      Cache-Control:
+      - no-cache,must-revalidate,max-age=0,no-store,private
+      Content-Type:
+      - application/json
+      Vary:
+      - Accept-Encoding
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: ASCII-8BIT
+      string: '{"records":[{"attributes":{"type":"Opportunity","url":"/services/data/v58.0/sobjects/Opportunity/0067e00000NezIJAAZ"},"Id":"0067e00000NezIJAAZ","IsDeleted":false,"AccountId":"0017e00001iZykCAAS","IsPrivate":false,"Name":"Amendment
+        for contract #00000214","StageName":"Prospecting","Probability":10,"CloseDate":"2023-08-01","IsClosed":false,"IsWon":false,"ForecastCategory":"Pipeline","ForecastCategoryName":"Pipeline","HasOpportunityLineItem":false,"OwnerId":"0057e00000VZBcyAAH","CreatedDate":"2023-08-01T21:05:37.000+0000","CreatedById":"0057e00000VZBcyAAH","LastModifiedDate":"2023-08-01T21:05:38.000+0000","LastModifiedById":"0057e00000VZBcyAAH","SystemModstamp":"2023-08-01T21:05:38.000+0000","FiscalQuarter":3,"FiscalYear":2023,"Fiscal":"2023
+        3","LastViewedDate":"2023-08-01T21:05:37.000+0000","LastReferencedDate":"2023-08-01T21:05:37.000+0000","HasOpenActivity":false,"HasOverdueTask":false,"SBQQ__AmendedContract__c":"8007e000001iBtyAAE","SBQQ__Contracted__c":false,"SBQQ__CreateContractedPrices__c":false,"SBQQ__Ordered__c":false,"SBQQ__PrimaryQuote__c":"a0z7e00000BDJvNAAX","SBQQ__Renewal__c":false,"Stripe_Dashboard_Link__c":"https://dashboard.stripe.com/test/id/"},{"attributes":{"type":"Account","url":"/services/data/v58.0/sobjects/Account/0017e00001iZykCAAS"},"Id":"0017e00001iZykCAAS","IsDeleted":false,"Name":"REST
+        Account  2023-08-01 00:00:00 UTC","BillingAddress":null,"ShippingAddress":null,"PhotoUrl":"/services/images/photo/0017e00001iZykCAAS","OwnerId":"0057e00000VZBcyAAH","CreatedDate":"2023-08-01T21:05:21.000+0000","CreatedById":"0057e00000VZBcyAAH","LastModifiedDate":"2023-08-01T21:05:43.000+0000","LastModifiedById":"0057e00000VZBcyAAH","SystemModstamp":"2023-08-01T21:05:43.000+0000","LastViewedDate":"2023-08-01T21:05:43.000+0000","LastReferencedDate":"2023-08-01T21:05:43.000+0000","CleanStatus":"Pending","SBQQ__AssetQuantitiesCombined__c":false,"SBQQ__CoTermedContractsCombined__c":false,"SBQQ__ContractCoTermination__c":"Never","SBQQ__IgnoreParentContractedPrices__c":false,"SBQQ__PreserveBundle__c":true,"SBQQ__RenewalModel__c":"Contract
+        Based","SBQQ__RenewalPricingMethod__c":"Same","SBQQ__TaxExempt__c":"No","Stripe_ID__c":"cus_ONA5EuwkEHuJGi","Stripe_Dashboard_Link__c":"https://dashboard.stripe.com/test/id/cus_ONA5EuwkEHuJGi"},{"Accounts":["0017e00001iZykCAAS"],"Opportunities":["0067e00000NezIJAAZ"],"SBQQ__RegularAmount__c":60.00,"SBQQ__NetAmount__c":60.00,"SBQQ__ListAmount__c":60.00,"SBQQ__CustomerAmount__c":60.00,"SBQQ__Uncalculated__c":true,"SBQQ__TotalCustomerDiscountAmount__c":0.00,"SBQQ__ExpirationDate__c":"2023-08-31","SBQQ__DaysQuoteOpen__c":0,"SBQQ__AveragePartnerDiscount__c":0.0,"SBQQ__AverageCustomerDiscount__c":0.0,"SBQQ__AdditionalDiscountAmount__c":0.00,"SBQQ__LineItemCount__c":1,"SBQQ__WatermarkShown__c":false,"SBQQ__Unopened__c":false,"SBQQ__Type__c":"Amendment","SBQQ__SubscriptionTerm__c":3,"SBQQ__Status__c":"Draft","SBQQ__StartDate__c":"2024-05-01","SBQQ__ShippingName__c":"REST
+        Account  2023-08-01 00:00:00 UTC","SBQQ__SalesRep__c":"0057e00000VZBcyAAH","SBQQ__RenewalTerm__c":12,"SBQQ__Primary__c":true,"SBQQ__PricebookId__c":"01s7e000002eLFEAA2","SBQQ__PriceBook__c":"01s7e000002eLFEAA2","SBQQ__PaymentTerms__c":"Net
+        30","SBQQ__PaperSize__c":"Default","SBQQ__Ordered__c":true,"SBQQ__OrderByQuoteLineGroup__c":false,"SBQQ__Opportunity2__c":"0067e00000NezIJAAZ","SBQQ__MasterContract__c":"8007e000001iBtyAAE","SBQQ__LineItemsPrinted__c":true,"SBQQ__LineItemsGrouped__c":false,"SBQQ__LastSavedOn__c":"2023-08-01T21:05:44.000+0000","SBQQ__LastCalculatedOn__c":"2023-08-01T21:05:39.000+0000","SBQQ__EndDate__c":"2024-07-31","SBQQ__ContractingMethod__c":"By
+        Subscription End Date","SBQQ__ConsumptionRateOverride__c":false,"SBQQ__BillingName__c":"REST
+        Account  2023-08-01 00:00:00 UTC","SBQQ__Account__c":"0017e00001iZykCAAS","LastReferencedDate":"2023-08-01T21:05:44.000+0000","LastViewedDate":"2023-08-01T21:05:44.000+0000","SystemModstamp":"2023-08-01T21:05:44.000+0000","LastModifiedById":"0057e00000VZBcyAAH","LastModifiedDate":"2023-08-01T21:05:44.000+0000","CreatedById":"0057e00000VZBcyAAH","CreatedDate":"2023-08-01T21:05:38.000+0000","Name":"Q-00925","IsDeleted":false,"OwnerId":"0057e00000VZBcyAAH","Id":"a0z7e00000BDJvNAAX","attributes":{"url":"/services/data/v58.0/sobjects/SBQQ__Quote__c/a0z7e00000BDJvNAAX","type":"SBQQ__Quote__c"}},{"attributes":{"type":"Product2","url":"/services/data/v58.0/sobjects/Product2/01t7e000009AnukAAC"},"Id":"01t7e000009AnukAAC","Name":"REST
+        Product2  2023-08-01 00:00:00 UTC","ProductCode":"EfxBsBKAsjaF0caCUQPWQYJ8h61G","Description":"A
+        great description","IsActive":true,"CreatedDate":"2023-08-01T21:05:19.000+0000","CreatedById":"0057e00000VZBcyAAH","LastModifiedDate":"2023-08-01T21:05:44.000+0000","LastModifiedById":"0057e00000VZBcyAAH","SystemModstamp":"2023-08-01T21:05:47.000+0000","IsDeleted":false,"IsArchived":false,"LastViewedDate":"2023-08-01T21:05:45.000+0000","LastReferencedDate":"2023-08-01T21:05:45.000+0000","SBQQ__AssetAmendmentBehavior__c":"Default","SBQQ__AssetConversion__c":"One
+        per quote line","SBQQ__BillingFrequency__c":"Monthly","SBQQ__BlockPricingField__c":"Quantity","SBQQ__Component__c":false,"SBQQ__CostEditable__c":false,"SBQQ__CustomConfigurationRequired__c":false,"SBQQ__DefaultQuantity__c":1.00000,"SBQQ__DescriptionLocked__c":false,"SBQQ__EnableLargeConfiguration__c":false,"SBQQ__ExcludeFromMaintenance__c":false,"SBQQ__ExcludeFromOpportunity__c":false,"SBQQ__ExternallyConfigurable__c":false,"SBQQ__HasConfigurationAttributes__c":false,"SBQQ__HasConsumptionSchedule__c":false,"SBQQ__Hidden__c":false,"SBQQ__HidePriceInSearchResults__c":false,"SBQQ__IncludeInMaintenance__c":false,"SBQQ__NewQuoteGroup__c":false,"SBQQ__NonDiscountable__c":false,"SBQQ__NonPartnerDiscountable__c":false,"SBQQ__OptionSelectionMethod__c":"Click","SBQQ__Optional__c":false,"SBQQ__PriceEditable__c":false,"SBQQ__PricingMethodEditable__c":false,"SBQQ__PricingMethod__c":"List","SBQQ__QuantityEditable__c":true,"SBQQ__ReconfigurationDisabled__c":false,"SBQQ__SubscriptionBase__c":"List","SBQQ__SubscriptionPricing__c":"Fixed
+        Price","SBQQ__SubscriptionTerm__c":1,"SBQQ__SubscriptionType__c":"Renewable","SBQQ__Taxable__c":false,"Stripe_ID__c":"prod_ONA5R3eJbxDhPB","Stripe_Dashboard_Link__c":"https://dashboard.stripe.com/test/id/prod_ONA5R3eJbxDhPB"},{"attributes":{"type":"PricebookEntry","url":"/services/data/v58.0/sobjects/PricebookEntry/01u7e00000IsiXkAAJ"},"Id":"01u7e00000IsiXkAAJ","Name":"REST
+        Product2  2023-08-01 00:00:00 UTC","Pricebook2Id":"01s7e000002eLFEAA2","Product2Id":"01t7e000009AnukAAC","UnitPrice":10.00,"IsActive":true,"UseStandardPrice":false,"CreatedDate":"2023-08-01T21:05:20.000+0000","CreatedById":"0057e00000VZBcyAAH","LastModifiedDate":"2023-08-01T21:05:47.000+0000","LastModifiedById":"0057e00000VZBcyAAH","SystemModstamp":"2023-08-01T21:05:47.000+0000","ProductCode":"EfxBsBKAsjaF0caCUQPWQYJ8h61G","IsDeleted":false,"IsArchived":false,"Stripe_ID__c":"price_1NaPlGIsgf92XbAOuFkRhCML","Stripe_Dashboard_Link__c":"https://dashboard.stripe.com/test/id/price_1NaPlGIsgf92XbAOuFkRhCML"},{"attributes":{"type":"Contract","url":"/services/data/v58.0/sobjects/Contract/8007e000001iBtyAAE"},"Id":"8007e000001iBtyAAE","AccountId":"0017e00001iZykCAAS","StartDate":"2023-08-01","EndDate":"2024-07-31","BillingAddress":null,"ContractTerm":12,"OwnerId":"0057e00000VZBcyAAH","Status":"Draft","StatusCode":"Draft","IsDeleted":false,"ContractNumber":"00000214","CreatedDate":"2023-08-01T21:05:35.000+0000","CreatedById":"0057e00000VZBcyAAH","LastModifiedDate":"2023-08-01T21:05:49.000+0000","LastModifiedById":"0057e00000VZBcyAAH","SystemModstamp":"2023-08-01T21:05:49.000+0000","LastViewedDate":"2023-08-01T21:05:50.000+0000","LastReferencedDate":"2023-08-01T21:05:50.000+0000","SBQQ__AmendmentRenewalBehavior__c":"Latest
+        End Date","SBQQ__DefaultRenewalContactRoles__c":true,"SBQQ__DefaultRenewalPartners__c":true,"SBQQ__DisableAmendmentCoTerm__c":false,"SBQQ__Evergreen__c":false,"SBQQ__ExpirationDate__c":"2024-07-31","SBQQ__MasterContract__c":false,"SBQQ__Opportunity__c":"0067e00000Nf0AwAAJ","SBQQ__Order__c":"8017e000000nQB4AAM","SBQQ__PreserveBundleStructureUponRenewals__c":true,"SBQQ__Quote__c":"a0z7e00000BDJvIAAX","SBQQ__RenewalForecast__c":false,"SBQQ__RenewalQuoted__c":false,"SBQQ__RenewalTerm__c":12,"SBQQ__SubscriptionQuantitiesCombined__c":false,"SBQQ__ActiveContract__c":0},{"attributes":{"type":"SBQQ__QuoteLine__c","url":"/services/data/v58.0/sobjects/SBQQ__QuoteLine__c/a0v7e000008xWw3AAE"},"Id":"a0v7e000008xWw3AAE","IsDeleted":false,"Name":"QL-0001798","CreatedDate":"2023-08-01T21:05:39.000+0000","CreatedById":"0057e00000VZBcyAAH","LastModifiedDate":"2023-08-01T21:05:44.000+0000","LastModifiedById":"0057e00000VZBcyAAH","SystemModstamp":"2023-08-01T21:05:44.000+0000","SBQQ__Quote__c":"a0z7e00000BDJvNAAX","SBQQ__AllowAssetRefund__c":false,"SBQQ__BillingFrequency__c":"Monthly","SBQQ__Bundle__c":false,"SBQQ__Bundled__c":false,"SBQQ__CarryoverLine__c":false,"SBQQ__ComponentDiscountedByPackage__c":false,"SBQQ__ComponentUpliftedByPackage__c":false,"SBQQ__ConfigurationRequired__c":false,"SBQQ__CostEditable__c":false,"SBQQ__CustomerPrice__c":30.00,"SBQQ__DefaultSubscriptionTerm__c":1,"SBQQ__Description__c":"A
+        great description","SBQQ__Existing__c":true,"SBQQ__HasConsumptionSchedule__c":false,"SBQQ__Hidden__c":false,"SBQQ__Incomplete__c":false,"SBQQ__ListPrice__c":10.00,"SBQQ__NetPrice__c":30.00,"SBQQ__NonDiscountable__c":false,"SBQQ__NonPartnerDiscountable__c":false,"SBQQ__Number__c":1,"SBQQ__Optional__c":false,"SBQQ__OriginalPrice__c":10.00,"SBQQ__PartnerPrice__c":30.00,"SBQQ__PriceEditable__c":false,"SBQQ__PricebookEntryId__c":"01u7e00000IsiXkAAJ","SBQQ__PricingMethodEditable__c":false,"SBQQ__PricingMethod__c":"List","SBQQ__PriorQuantity__c":1.00,"SBQQ__ProductSubscriptionType__c":"Renewable","SBQQ__Product__c":"01t7e000009AnukAAC","SBQQ__ProrateMultiplier__c":3.0000,"SBQQ__ProratedListPrice__c":30.00,"SBQQ__ProratedPrice__c":30.00,"SBQQ__Quantity__c":3.00,"SBQQ__RegularPrice__c":30.00,"SBQQ__Renewal__c":false,"SBQQ__SpecialPrice__c":10.00,"SBQQ__SubscriptionBase__c":"List","SBQQ__SubscriptionPricing__c":"Fixed
+        Price","SBQQ__SubscriptionScope__c":"Quote","SBQQ__Taxable__c":false,"SBQQ__UpgradedSubscription__c":"a1B7e00000EX4bgEAD","SBQQ__UpliftAmount__c":0.00,"SBQQ__Uplift__c":0.00,"SBQQ__AdditionalDiscount__c":0.00,"SBQQ__CustomerTotal__c":60.00,"SBQQ__EffectiveEndDate__c":"2024-07-31","SBQQ__EffectiveQuantity__c":2.00,"SBQQ__EffectiveStartDate__c":"2024-05-01","SBQQ__EffectiveSubscriptionTerm__c":3,"SBQQ__ListTotal__c":60.00,"SBQQ__Markup__c":0.00,"SBQQ__NetTotal__c":60.00,"SBQQ__PackageCost__c":0.00,"SBQQ__PackageListTotal__c":60.00,"SBQQ__PackageTotal__c":60.00,"SBQQ__PartnerTotal__c":60.00,"SBQQ__ProductCode__c":"EfxBsBKAsjaF0caCUQPWQYJ8h61G","SBQQ__ProductName__c":"REST
+        Product2  2023-08-01 00:00:00 UTC","SBQQ__RegularTotal__c":60.00,"SBQQ__SubscriptionType__c":"Renewable","SBQQ__TotalDiscountAmount__c":0.00,"SBQQ__TotalDiscountRate__c":0.000},{"attributes":{"type":"SBQQ__QuoteLine__c","url":"/services/data/v58.0/sobjects/SBQQ__QuoteLine__c/a0v7e000008xWvxAAE"},"Id":"a0v7e000008xWvxAAE","IsDeleted":false,"Name":"QL-0001796","CreatedDate":"2023-08-01T21:05:30.000+0000","CreatedById":"0057e00000VZBcyAAH","LastModifiedDate":"2023-08-01T21:05:30.000+0000","LastModifiedById":"0057e00000VZBcyAAH","SystemModstamp":"2023-08-01T21:05:30.000+0000","SBQQ__Quote__c":"a0z7e00000BDJvIAAX","SBQQ__AllowAssetRefund__c":false,"SBQQ__BillingFrequency__c":"Monthly","SBQQ__Bundle__c":false,"SBQQ__Bundled__c":false,"SBQQ__CarryoverLine__c":false,"SBQQ__ComponentDiscountedByPackage__c":false,"SBQQ__ComponentUpliftedByPackage__c":false,"SBQQ__ConfigurationRequired__c":false,"SBQQ__CostEditable__c":false,"SBQQ__CustomerPrice__c":120.00,"SBQQ__DefaultSubscriptionTerm__c":1,"SBQQ__Description__c":"A
+        great description","SBQQ__Existing__c":false,"SBQQ__HasConsumptionSchedule__c":false,"SBQQ__Hidden__c":false,"SBQQ__Incomplete__c":false,"SBQQ__ListPrice__c":10.00,"SBQQ__NetPrice__c":120.00,"SBQQ__NonDiscountable__c":false,"SBQQ__NonPartnerDiscountable__c":false,"SBQQ__Number__c":1,"SBQQ__Optional__c":false,"SBQQ__OriginalPrice__c":10.00,"SBQQ__PartnerPrice__c":120.00,"SBQQ__PriceEditable__c":false,"SBQQ__PricebookEntryId__c":"01u7e00000IsiXkAAJ","SBQQ__PricingMethodEditable__c":false,"SBQQ__PricingMethod__c":"List","SBQQ__ProductSubscriptionType__c":"Renewable","SBQQ__Product__c":"01t7e000009AnukAAC","SBQQ__ProrateMultiplier__c":12.0000,"SBQQ__ProratedListPrice__c":120.00,"SBQQ__ProratedPrice__c":120.00,"SBQQ__Quantity__c":1.00,"SBQQ__RegularPrice__c":120.00,"SBQQ__Renewal__c":false,"SBQQ__SpecialPrice__c":10.00,"SBQQ__SubscriptionBase__c":"List","SBQQ__SubscriptionPricing__c":"Fixed
+        Price","SBQQ__SubscriptionScope__c":"Quote","SBQQ__Taxable__c":false,"SBQQ__UpliftAmount__c":0.00,"SBQQ__Uplift__c":0.00,"SBQQ__AdditionalDiscount__c":0.00,"SBQQ__CustomerTotal__c":120.00,"SBQQ__EffectiveQuantity__c":1.00,"SBQQ__EffectiveStartDate__c":"2023-08-01","SBQQ__EffectiveSubscriptionTerm__c":12,"SBQQ__ListTotal__c":120.00,"SBQQ__Markup__c":0.00,"SBQQ__NetTotal__c":120.00,"SBQQ__PackageCost__c":0.00,"SBQQ__PackageListTotal__c":120.00,"SBQQ__PackageTotal__c":120.00,"SBQQ__PartnerTotal__c":120.00,"SBQQ__ProductCode__c":"EfxBsBKAsjaF0caCUQPWQYJ8h61G","SBQQ__ProductName__c":"REST
+        Product2  2023-08-01 00:00:00 UTC","SBQQ__RegularTotal__c":120.00,"SBQQ__SubscriptionType__c":"Renewable","SBQQ__TotalDiscountAmount__c":0.00,"SBQQ__TotalDiscountRate__c":0.000},{"attributes":{"type":"SBQQ__Subscription__c","url":"/services/data/v58.0/sobjects/SBQQ__Subscription__c/a1B7e00000EX4bcEAD"},"Id":"a1B7e00000EX4bcEAD","OwnerId":"0057e00000VZBcyAAH","IsDeleted":false,"Name":"SUB-0000127","CreatedDate":"2023-08-01T21:05:49.000+0000","CreatedById":"0057e00000VZBcyAAH","LastModifiedDate":"2023-08-01T21:05:49.000+0000","LastModifiedById":"0057e00000VZBcyAAH","SystemModstamp":"2023-08-01T21:05:49.000+0000","SBQQ__Account__c":"0017e00001iZykCAAS","SBQQ__BillingFrequency__c":"Monthly","SBQQ__Bundle__c":false,"SBQQ__Bundled__c":false,"SBQQ__ComponentDiscountedByPackage__c":false,"SBQQ__Contract__c":"8007e000001iBtyAAE","SBQQ__CustomerPrice__c":30.00,"SBQQ__HasConsumptionSchedule__c":false,"SBQQ__ListPrice__c":30.00,"SBQQ__NetPrice__c":30.00,"SBQQ__Number__c":1,"SBQQ__OrderProduct__c":"8027e000001bPlSAAU","SBQQ__OriginalQuoteLine__c":"a0v7e000008xWvxAAE","SBQQ__PricingMethod__c":"List","SBQQ__ProductSubscriptionType__c":"Renewable","SBQQ__Product__c":"01t7e000009AnukAAC","SBQQ__ProrateMultiplier__c":3.0000,"SBQQ__Quantity__c":2.00,"SBQQ__QuoteLine__c":"a0v7e000008xWw3AAE","SBQQ__RegularPrice__c":30.00,"SBQQ__RenewalPrice__c":10.00,"SBQQ__RenewalQuantity__c":2.00,"SBQQ__RevisedSubscription__c":"a1B7e00000EX4bgEAD","SBQQ__SpecialPrice__c":10.00,"SBQQ__SubscriptionEndDate__c":"2024-07-31","SBQQ__SubscriptionPricing__c":"Fixed
+        Price","SBQQ__SubscriptionStartDate__c":"2024-05-01","SBQQ__ContractNumber__c":"00000214","SBQQ__EndDate__c":"2024-07-31","SBQQ__ProductId__c":"01t7e000009Anuk","SBQQ__ProductName__c":"REST
+        Product2  2023-08-01 00:00:00 UTC","SBQQ__RenewalProductId__c":"01t7e000009Anuk","SBQQ__StartDate__c":"2024-05-01","SBQQ__SubscriptionType__c":"Renewable"},{"attributes":{"type":"SBQQ__Subscription__c","url":"/services/data/v58.0/sobjects/SBQQ__Subscription__c/a1B7e00000EX4bgEAD"},"Id":"a1B7e00000EX4bgEAD","OwnerId":"0057e00000VZBcyAAH","IsDeleted":false,"Name":"SUB-0000126","CreatedDate":"2023-08-01T21:05:35.000+0000","CreatedById":"0057e00000VZBcyAAH","LastModifiedDate":"2023-08-01T21:05:35.000+0000","LastModifiedById":"0057e00000VZBcyAAH","SystemModstamp":"2023-08-01T21:05:35.000+0000","SBQQ__Account__c":"0017e00001iZykCAAS","SBQQ__BillingFrequency__c":"Monthly","SBQQ__Bundle__c":false,"SBQQ__Bundled__c":false,"SBQQ__ComponentDiscountedByPackage__c":false,"SBQQ__Contract__c":"8007e000001iBtyAAE","SBQQ__CustomerPrice__c":120.00,"SBQQ__HasConsumptionSchedule__c":false,"SBQQ__ListPrice__c":120.00,"SBQQ__NetPrice__c":120.00,"SBQQ__Number__c":1,"SBQQ__OrderProduct__c":"8027e000001bPlNAAU","SBQQ__OriginalQuoteLine__c":"a0v7e000008xWvxAAE","SBQQ__PricingMethod__c":"List","SBQQ__ProductSubscriptionType__c":"Renewable","SBQQ__Product__c":"01t7e000009AnukAAC","SBQQ__ProrateMultiplier__c":12.0000,"SBQQ__Quantity__c":1.00,"SBQQ__QuoteLine__c":"a0v7e000008xWvxAAE","SBQQ__RegularPrice__c":120.00,"SBQQ__RenewalPrice__c":10.00,"SBQQ__RenewalQuantity__c":1.00,"SBQQ__RootId__c":"a1B7e00000EX4bgEAD","SBQQ__SpecialPrice__c":10.00,"SBQQ__SubscriptionPricing__c":"Fixed
+        Price","SBQQ__SubscriptionStartDate__c":"2023-08-01","SBQQ__ContractNumber__c":"00000214","SBQQ__EndDate__c":"2024-07-31","SBQQ__ProductId__c":"01t7e000009Anuk","SBQQ__ProductName__c":"REST
+        Product2  2023-08-01 00:00:00 UTC","SBQQ__RenewalProductId__c":"01t7e000009Anuk","SBQQ__StartDate__c":"2023-08-01","SBQQ__SubscriptionType__c":"Renewable"},{"Contracts":["8007e000001iBtyAAE"],"PricebookEntries":[],"Products":["01t7e000009AnukAAC"],"Stripe_Dashboard_Link__c":"https://dashboard.stripe.com/test/id/","Skip_Line_Item__c":false,"SBQQ__SubscriptionType__c":"Renewable","SBQQ__OrderProductBookings__c":60.00,"SBQQ__Subscription__c":"a1B7e00000EX4bcEAD","SBQQ__SubscriptionPricing__c":"Fixed
+        Price","SBQQ__Status__c":"Activated","SBQQ__RevisedOrderProduct__c":"8027e000001bPlNAAU","SBQQ__QuotedQuantity__c":2.00,"SBQQ__QuotedListPrice__c":10.00,"SBQQ__QuoteLine__c":"a0v7e000008xWw3AAE","SBQQ__ProrateMultiplier__c":3.0000,"SBQQ__ProductSubscriptionType__c":"Renewable","SBQQ__PricingMethod__c":"List","SBQQ__OrderedQuantity__c":2.00,"SBQQ__DefaultSubscriptionTerm__c":1,"SBQQ__ContractingMethod__c":"Inherit","SBQQ__Contracted__c":true,"SBQQ__Contract__c":"8007e000001iBtyAAE","SBQQ__ContractAction__c":"Quantity
+        Increase","SBQQ__BookingsIndicator__c":"Include","SBQQ__BillingFrequency__c":"Monthly","SBQQ__Activated__c":true,"OrderItemNumber":"0000001009","SystemModstamp":"2023-08-01T21:05:49.000+0000","LastModifiedById":"0057e00000VZBcyAAH","LastModifiedDate":"2023-08-01T21:05:49.000+0000","CreatedById":"0057e00000VZBcyAAH","CreatedDate":"2023-08-01T21:05:45.000+0000","EndDate":"2024-07-31","ServiceDate":"2024-05-01","TotalPrice":60.00,"ListPrice":10.00,"UnitPrice":30.00,"Quantity":2.00,"AvailableQuantity":2.00,"PricebookEntryId":"01u7e00000IsiXkAAJ","OrderId":"8017e000000nQB4AAM","IsDeleted":false,"Product2Id":"01t7e000009AnukAAC","Id":"8027e000001bPlSAAU","attributes":{"url":"/services/data/v58.0/sobjects/OrderItem/8027e000001bPlSAAU","type":"OrderItem"}},{"Contracts":["8007e000001iBtyAAE"],"PricebookEntries":[],"Products":["01t7e000009AnukAAC"],"Stripe_Dashboard_Link__c":"https://dashboard.stripe.com/test/id/","Skip_Line_Item__c":false,"SBQQ__SubscriptionType__c":"Renewable","SBQQ__OrderProductBookings__c":120.00,"SBQQ__Subscription__c":"a1B7e00000EX4bgEAD","SBQQ__SubscriptionTerm__c":12,"SBQQ__SubscriptionPricing__c":"Fixed
+        Price","SBQQ__Status__c":"Activated","SBQQ__QuotedQuantity__c":1.00,"SBQQ__QuotedListPrice__c":10.00,"SBQQ__QuoteLine__c":"a0v7e000008xWvxAAE","SBQQ__ProrateMultiplier__c":12.0000,"SBQQ__ProductSubscriptionType__c":"Renewable","SBQQ__PricingMethod__c":"List","SBQQ__OrderedQuantity__c":1.00,"SBQQ__DefaultSubscriptionTerm__c":1,"SBQQ__ContractingMethod__c":"Inherit","SBQQ__Contracted__c":true,"SBQQ__Contract__c":"8007e000001iBtyAAE","SBQQ__ContractAction__c":"New","SBQQ__BookingsIndicator__c":"Include","SBQQ__BillingFrequency__c":"Monthly","SBQQ__Activated__c":true,"OrderItemNumber":"0000001008","SystemModstamp":"2023-08-01T21:05:35.000+0000","LastModifiedById":"0057e00000VZBcyAAH","LastModifiedDate":"2023-08-01T21:05:35.000+0000","CreatedById":"0057e00000VZBcyAAH","CreatedDate":"2023-08-01T21:05:31.000+0000","EndDate":"2024-07-31","ServiceDate":"2023-08-01","TotalPrice":120.00,"ListPrice":10.00,"UnitPrice":120.00,"Quantity":1.00,"AvailableQuantity":1.00,"PricebookEntryId":"01u7e00000IsiXkAAJ","OrderId":"8017e000000nQAzAAM","IsDeleted":false,"Product2Id":"01t7e000009AnukAAC","Id":"8027e000001bPlNAAU","attributes":{"url":"/services/data/v58.0/sobjects/OrderItem/8027e000001bPlNAAU","type":"OrderItem"}},{"attributes":{"type":"Opportunity","url":"/services/data/v58.0/sobjects/Opportunity/0067e00000Nf0AwAAJ"},"Id":"0067e00000Nf0AwAAJ","IsDeleted":false,"AccountId":"0017e00001iZykCAAS","IsPrivate":false,"Name":"REST
+        Opportunity  2023-08-01 00:00:00 UTC","StageName":"Closed/Won","Probability":0,"CloseDate":"2023-08-01","IsClosed":false,"IsWon":false,"ForecastCategory":"Omitted","ForecastCategoryName":"Omitted","HasOpportunityLineItem":false,"OwnerId":"0057e00000VZBcyAAH","CreatedDate":"2023-08-01T21:05:22.000+0000","CreatedById":"0057e00000VZBcyAAH","LastModifiedDate":"2023-08-01T21:05:24.000+0000","LastModifiedById":"0057e00000VZBcyAAH","SystemModstamp":"2023-08-01T21:05:24.000+0000","FiscalQuarter":3,"FiscalYear":2023,"Fiscal":"2023
+        3","LastViewedDate":"2023-08-01T21:05:22.000+0000","LastReferencedDate":"2023-08-01T21:05:22.000+0000","HasOpenActivity":false,"HasOverdueTask":false,"SBQQ__Contracted__c":false,"SBQQ__CreateContractedPrices__c":false,"SBQQ__Ordered__c":false,"SBQQ__PrimaryQuote__c":"a0z7e00000BDJvIAAX","SBQQ__Renewal__c":false,"Stripe_Dashboard_Link__c":"https://dashboard.stripe.com/test/id/"},{"attributes":{"type":"Pricebook2","url":"/services/data/v58.0/sobjects/Pricebook2/01s7e000002eLFEAA2"},"Id":"01s7e000002eLFEAA2","IsDeleted":false,"Name":"Standard
+        Price Book","CreatedDate":"2023-07-21T18:54:30.000+0000","CreatedById":"0057e00000VZBcyAAH","LastModifiedDate":"2023-07-21T18:54:30.000+0000","LastModifiedById":"0057e00000VZBcyAAH","SystemModstamp":"2023-07-21T18:54:30.000+0000","IsActive":false,"IsArchived":false,"IsStandard":true},{"PriceBooks":["01s7e000002eLFEAA2"],"Opportunities":["0067e00000NezIJAAZ"],"Accounts":["0017e00001iZykCAAS"],"OrderItems":["8027e000001bPlSAAU"],"Quotes":["a0z7e00000BDJvNAAX"],"InitialOrderQuotes":["a0z7e00000BDJvIAAX"],"InitialOrderId":["8017e000000nQAzAAM"],"Opportunity":{"SBQQ__AmendedContract__r":{"SBQQ__Quote__c":"a0z7e00000BDJvIAAX","Id":"8007e000001iBtyAAE","attributes":{"url":"/services/data/v58.0/sobjects/Contract/8007e000001iBtyAAE","type":"Contract"}},"SBQQ__AmendedContract__c":"8007e000001iBtyAAE","Id":"0067e00000NezIJAAZ","attributes":{"url":"/services/data/v58.0/sobjects/Opportunity/0067e00000NezIJAAZ","type":"Opportunity"}},"Stripe_Dashboard_Link__c":"https://dashboard.stripe.com/test/id/","Skip_Past_Initial_Invoices__c":false,"SBQQ__OrderBookings__c":60.00,"SBQQ__TaxAmount__c":0.00,"SBQQ__RenewalTerm__c":12,"SBQQ__Quote__c":"a0z7e00000BDJvNAAX","SBQQ__PriceCalcStatus__c":"Not
+        Needed","SBQQ__PaymentTerm__c":"Net 30","SBQQ__ContractingMethod__c":"By Subscription
+        End Date","SBQQ__Contracted__c":true,"LastReferencedDate":"2023-08-01T21:05:50.000+0000","LastViewedDate":"2023-08-01T21:05:50.000+0000","SystemModstamp":"2023-08-01T21:05:48.000+0000","IsDeleted":false,"LastModifiedById":"0057e00000VZBcyAAH","LastModifiedDate":"2023-08-01T21:05:48.000+0000","CreatedById":"0057e00000VZBcyAAH","CreatedDate":"2023-08-01T21:05:45.000+0000","TotalAmount":60.00,"OrderNumber":"00001010","StatusCode":"Activated","ActivatedById":"0057e00000VZBcyAAH","ActivatedDate":"2023-08-01T21:05:47.000+0000","ShippingAddress":null,"BillingAddress":null,"Type":"Amendment","Status":"Activated","IsReductionOrder":false,"EffectiveDate":"2024-05-01","OpportunityId":"0067e00000NezIJAAZ","Pricebook2Id":"01s7e000002eLFEAA2","AccountId":"0017e00001iZykCAAS","OwnerId":"0057e00000VZBcyAAH","Id":"8017e000000nQB4AAM","attributes":{"url":"/services/data/v58.0/sobjects/Order/8017e000000nQB4AAM","type":"Order"}},{"PriceBooks":["01s7e000002eLFEAA2"],"Opportunities":["0067e00000Nf0AwAAJ"],"Accounts":["0017e00001iZykCAAS"],"OrderItems":["8027e000001bPlNAAU"],"Stripe_Dashboard_Link__c":"https://dashboard.stripe.com/test/id/sub_sched_1NaPlHIsgf92XbAOXIGjK086","Stripe_ID__c":"sub_sched_1NaPlHIsgf92XbAOXIGjK086","Skip_Past_Initial_Invoices__c":false,"SBQQ__OrderBookings__c":120.00,"SBQQ__TaxAmount__c":0.00,"SBQQ__Quote__c":"a0z7e00000BDJvIAAX","SBQQ__PriceCalcStatus__c":"Not
+        Needed","SBQQ__PaymentTerm__c":"Net 30","SBQQ__ContractingMethod__c":"By Subscription
+        End Date","SBQQ__Contracted__c":true,"LastReferencedDate":"2023-08-01T21:05:49.000+0000","LastViewedDate":"2023-08-01T21:05:49.000+0000","SystemModstamp":"2023-08-01T21:05:49.000+0000","IsDeleted":false,"LastModifiedById":"0057e00000VZBcyAAH","LastModifiedDate":"2023-08-01T21:05:49.000+0000","CreatedById":"0057e00000VZBcyAAH","CreatedDate":"2023-08-01T21:05:31.000+0000","TotalAmount":120.00,"OrderNumber":"00001009","StatusCode":"Activated","ActivatedById":"0057e00000VZBcyAAH","ActivatedDate":"2023-08-01T21:05:33.000+0000","ShippingAddress":null,"BillingAddress":null,"Type":"New","Status":"Activated","IsReductionOrder":false,"EffectiveDate":"2023-08-01","OpportunityId":"0067e00000Nf0AwAAJ","Pricebook2Id":"01s7e000002eLFEAA2","AccountId":"0017e00001iZykCAAS","OwnerId":"0057e00000VZBcyAAH","Id":"8017e000000nQAzAAM","attributes":{"url":"/services/data/v58.0/sobjects/Order/8017e000000nQAzAAM","type":"Order"}}],"errors":[{"sobject_field":"HasOptedOutOfEmail","sobject_type":"Contact","error_message":"Field
+        Not Accessible","error_type":"FieldNotAccessible"},{"sobject_field":"HasOptedOutOfFax","sobject_type":"Contact","error_message":"Field
+        Not Accessible","error_type":"FieldNotAccessible"},{"sobject_field":"DoNotCall","sobject_type":"Contact","error_message":"Field
+        Not Accessible","error_type":"FieldNotAccessible"},{"sobject_field":"ContractId","sobject_type":"Opportunity","error_message":"Field
+        Not Accessible","error_type":"FieldNotAccessible"},{"sobject_field":"IqScore","sobject_type":"Opportunity","error_message":"Field
+        Not Accessible","error_type":"FieldNotAccessible"},{"sobject_field":"Primary_Contact__c","sobject_type":"Account","error_message":"Field
+        Not Accessible","error_type":"FieldNotAccessible"},{"sobject_field":"ShippingStreet","sobject_type":"Contract","error_message":"Field
+        Not Accessible","error_type":"FieldNotAccessible"},{"sobject_field":"ShippingCity","sobject_type":"Contract","error_message":"Field
+        Not Accessible","error_type":"FieldNotAccessible"},{"sobject_field":"ShippingState","sobject_type":"Contract","error_message":"Field
+        Not Accessible","error_type":"FieldNotAccessible"},{"sobject_field":"ShippingPostalCode","sobject_type":"Contract","error_message":"Field
+        Not Accessible","error_type":"FieldNotAccessible"},{"sobject_field":"ShippingCountry","sobject_type":"Contract","error_message":"Field
+        Not Accessible","error_type":"FieldNotAccessible"},{"sobject_field":"ShippingLatitude","sobject_type":"Contract","error_message":"Field
+        Not Accessible","error_type":"FieldNotAccessible"},{"sobject_field":"ShippingLongitude","sobject_type":"Contract","error_message":"Field
+        Not Accessible","error_type":"FieldNotAccessible"},{"sobject_field":"ShippingGeocodeAccuracy","sobject_type":"Contract","error_message":"Field
+        Not Accessible","error_type":"FieldNotAccessible"},{"sobject_field":"ShippingAddress","sobject_type":"Contract","error_message":"Field
+        Not Accessible","error_type":"FieldNotAccessible"},{"sobject_field":"Name","sobject_type":"Contract","error_message":"Field
+        Not Accessible","error_type":"FieldNotAccessible"}]}'
+  recorded_at: Tue, 01 Aug 2023 21:05:52 GMT
+recorded_with: VCR 6.2.0

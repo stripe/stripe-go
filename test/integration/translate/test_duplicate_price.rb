@@ -4,8 +4,11 @@
 require_relative '../../test_helper'
 
 # the same price id cannot be used more than once on a subscription, we have specific logic to work around this
-class Critic::DuplicatePriceTranslation < Critic::FunctionalTest
+class Critic::DuplicatePriceTranslation < Critic::VCRTest
   before do
+    set_cassette_dir(__FILE__)
+    Timecop.freeze(VCR.current_cassette.originally_recorded_at || now_time)
+
     @user = make_user(save: true)
   end
 

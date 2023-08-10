@@ -3,8 +3,13 @@
 
 require_relative '../test_helper'
 
-class Critic::OneTimeOrderTranslation < Critic::FunctionalTest
+class Critic::OneTimeOrderTranslation < Critic::VCRTest
   before do
+    set_cassette_dir(__FILE__)
+    if !VCR.current_cassette.originally_recorded_at.nil?
+      Timecop.freeze(VCR.current_cassette.originally_recorded_at)
+    end
+
     @user = make_user(save: true)
   end
 
@@ -18,16 +23,28 @@ class Critic::OneTimeOrderTranslation < Critic::FunctionalTest
 
     sf_account_id = create_salesforce_account(additional_fields: {
       # an email is required for creating an invoice without a payment method
-      "Description" => create_random_email,
+      "Description" => create_static_email(email: "test"),
     })
 
     sf_product_id, _ = salesforce_standalone_product_with_price
 
-    sf_order = create_salesforce_order(
-      sf_account_id: sf_account_id,
-      sf_product_id: sf_product_id
-    )
+    # sf_order = create_salesforce_order(
+    #   sf_account_id: sf_account_id,
+    #   sf_product_id: sf_product_id,
+    #   contact_email: "integrates_invoice_order"
+    # )
 
+    quote_id = create_salesforce_quote(sf_account_id: sf_account_id,
+                                       contact_email: "integrates_invoice_order"
+                                      )
+
+    quote_with_product = add_product_to_cpq_quote(quote_id, sf_product_id: sf_product_id)
+    calculate_and_save_cpq_quote(quote_with_product)
+
+
+    sf_order = create_order_from_cpq_quote(quote_id)
+
+    # Timecop.freeze(Time.now + 1.minute)
     SalesforceTranslateRecordJob.translate(@user, sf_order)
 
     sf_order.refresh
@@ -44,5 +61,7 @@ class Critic::OneTimeOrderTranslation < Critic::FunctionalTest
     assert_equal("one_time", line.price.type)
   end
 
-  it 'allows the same pricebook entry to be used multiple times on one-time invoices'
+  it 'allows the same pricebook entry to be used multiple times on one-time invoices' do
+
+  end
 end

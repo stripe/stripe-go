@@ -5,6 +5,9 @@ require_relative './amendments/_lib'
 
 class Critic::CachingTest < Critic::OrderAmendmentFunctionalTest
   before do
+    set_cassette_dir(__FILE__)
+    Timecop.freeze(VCR.current_cassette.originally_recorded_at || now_time)
+
     @user = make_user
   end
 
@@ -21,7 +24,7 @@ class Critic::CachingTest < Critic::OrderAmendmentFunctionalTest
 
   it 'invalidates an object in the cache' do
     @user.enable_feature(FeatureFlags::SF_CACHING)
-    sf_order = create_salesforce_order
+    sf_order = create_salesforce_order(contact_email: "invalidate_obj_cache")
 
     cache_service = CacheService.new(@user)
     cache_service.cache_for_object(sf_order)
@@ -37,10 +40,10 @@ class Critic::CachingTest < Critic::OrderAmendmentFunctionalTest
 
   it 'triggers a cache miss' do
     # TODO: Remove the skip line below once the batch service is updated to support tiered pricing
-    skip("cache is incomplete")
+    # skip("cache is incomplete")
 
     @user.enable_feature(FeatureFlags::SF_CACHING)
-    sf_order = create_salesforce_order
+    sf_order = create_salesforce_order(contact_email: "cache_miss")
 
     cache_service = CacheService.new(@user)
 
@@ -52,8 +55,7 @@ class Critic::CachingTest < Critic::OrderAmendmentFunctionalTest
   end
 
   it 'caches records related to an amendment order, then utilizes the cache for translation' do
-    skip("cache is disabled") if sf_caching_global_disabled
-
+    # skip("cache is disabled") if sf_caching_global_disabled
     @user.enable_feature(FeatureFlags::SF_CACHING)
 
     # initial order: 1yr contract, monthly billed
@@ -67,7 +69,7 @@ class Critic::CachingTest < Critic::OrderAmendmentFunctionalTest
     initial_start_date = now_time
 
     sf_product_id, sf_pricebook_id = salesforce_recurring_product_with_price(price: monthly_price)
-    sf_order = create_subscription_order(sf_product_id: sf_product_id)
+    sf_order = create_subscription_order(sf_product_id: sf_product_id, contact_email: "cache_amendment")
     sf_contract = create_contract_from_order(sf_order)
 
     sf_order.refresh

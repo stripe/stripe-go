@@ -1,0 +1,693 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.stripe.com/v1/customers
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Stripe/v1 RubyBindings/7.1.0
+      Authorization:
+      - Bearer <STRIPE_API_KEY>
+      Content-Type:
+      - application/x-www-form-urlencoded
+      Idempotency-Key:
+      - 9aa69bc5-2b0f-47d4-bff1-0463a828f7aa
+      Stripe-Version:
+      - '2020-08-27'
+      X-Stripe-Client-User-Agent:
+      - '{"bindings_version":"7.1.0","lang":"ruby","lang_version":"2.7.6 p219 (2022-04-12)","platform":"arm64-darwin22","engine":"ruby","publisher":"stripe","uname":"Darwin
+        st-rish2 22.5.0 Darwin Kernel Version 22.5.0: Thu Jun  8 22:22:20 PDT 2023;
+        root:xnu-8796.121.3~7/RELEASE_ARM64_T6000 arm64","hostname":"st-rish2"}'
+      Stripe-Account:
+      - STRIPE_MERCHANT_ID
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Tue, 01 Aug 2023 20:07:42 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '642'
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Methods:
+      - GET, POST, HEAD, OPTIONS, DELETE
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Request-Id, Stripe-Manage-Version, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required
+      Access-Control-Max-Age:
+      - '300'
+      Cache-Control:
+      - no-cache, no-store
+      Idempotency-Key:
+      - 9aa69bc5-2b0f-47d4-bff1-0463a828f7aa
+      Original-Request:
+      - req_nZueFRXh3RDx8W
+      Request-Id:
+      - req_nZueFRXh3RDx8W
+      Stripe-Account:
+      - acct_15uapDIsgf92XbAO
+      Stripe-Should-Retry:
+      - 'false'
+      Stripe-Version:
+      - '2020-08-27'
+      X-Stripe-Routing-Context-Priority-Tier:
+      - api-testmode
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains; preload
+    body:
+      encoding: UTF-8
+      string: |-
+        {
+          "id": "cus_ON99RcKgggf6Hl",
+          "object": "customer",
+          "address": null,
+          "balance": 0,
+          "created": 1690920462,
+          "currency": null,
+          "default_currency": null,
+          "default_source": null,
+          "delinquent": false,
+          "description": null,
+          "discount": null,
+          "email": null,
+          "invoice_prefix": "949D2DB6",
+          "invoice_settings": {
+            "custom_fields": null,
+            "default_payment_method": null,
+            "footer": null,
+            "rendering_options": null
+          },
+          "livemode": false,
+          "metadata": {},
+          "name": null,
+          "next_invoice_sequence": 1,
+          "phone": null,
+          "preferred_locales": [],
+          "shipping": null,
+          "tax_exempt": "none",
+          "test_clock": null
+        }
+  recorded_at: Tue, 01 Aug 2023 00:00:00 GMT
+- request:
+    method: post
+    uri: https://api.stripe.com/v1/customers/cus_ON99RcKgggf6Hl
+    body:
+      encoding: UTF-8
+      string: metadata[custom]=metadata
+    headers:
+      User-Agent:
+      - Stripe/v1 RubyBindings/7.1.0
+      Authorization:
+      - Bearer <STRIPE_API_KEY>
+      Content-Type:
+      - application/x-www-form-urlencoded
+      X-Stripe-Client-Telemetry:
+      - '{"last_request_metrics":{"request_id":"req_nZueFRXh3RDx8W","request_duration_ms":419}}'
+      Idempotency-Key:
+      - 05f7e3ef-31c2-4156-8539-b0079bad2859
+      Stripe-Version:
+      - '2020-08-27'
+      X-Stripe-Client-User-Agent:
+      - '{"bindings_version":"7.1.0","lang":"ruby","lang_version":"2.7.6 p219 (2022-04-12)","platform":"arm64-darwin22","engine":"ruby","publisher":"stripe","uname":"Darwin
+        st-rish2 22.5.0 Darwin Kernel Version 22.5.0: Thu Jun  8 22:22:20 PDT 2023;
+        root:xnu-8796.121.3~7/RELEASE_ARM64_T6000 arm64","hostname":"st-rish2"}'
+      Stripe-Account:
+      - STRIPE_MERCHANT_ID
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Tue, 01 Aug 2023 20:07:42 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '670'
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Methods:
+      - GET, POST, HEAD, OPTIONS, DELETE
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Request-Id, Stripe-Manage-Version, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required
+      Access-Control-Max-Age:
+      - '300'
+      Cache-Control:
+      - no-cache, no-store
+      Idempotency-Key:
+      - 05f7e3ef-31c2-4156-8539-b0079bad2859
+      Original-Request:
+      - req_N5rm7K4nUzC6B9
+      Request-Id:
+      - req_N5rm7K4nUzC6B9
+      Stripe-Account:
+      - acct_15uapDIsgf92XbAO
+      Stripe-Should-Retry:
+      - 'false'
+      Stripe-Version:
+      - '2020-08-27'
+      X-Stripe-Routing-Context-Priority-Tier:
+      - api-testmode
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains; preload
+    body:
+      encoding: UTF-8
+      string: |-
+        {
+          "id": "cus_ON99RcKgggf6Hl",
+          "object": "customer",
+          "address": null,
+          "balance": 0,
+          "created": 1690920462,
+          "currency": null,
+          "default_currency": null,
+          "default_source": null,
+          "delinquent": false,
+          "description": null,
+          "discount": null,
+          "email": null,
+          "invoice_prefix": "949D2DB6",
+          "invoice_settings": {
+            "custom_fields": null,
+            "default_payment_method": null,
+            "footer": null,
+            "rendering_options": null
+          },
+          "livemode": false,
+          "metadata": {
+            "custom": "metadata"
+          },
+          "name": null,
+          "next_invoice_sequence": 1,
+          "phone": null,
+          "preferred_locales": [],
+          "shipping": null,
+          "tax_exempt": "none",
+          "test_clock": null
+        }
+  recorded_at: Tue, 01 Aug 2023 00:00:00 GMT
+- request:
+    method: post
+    uri: https://ability-innovation-7335-dev-ed.scratch.my.salesforce.com/services/data/v58.0/sobjects/Account
+    body:
+      encoding: UTF-8
+      string: '{"Name":"REST Account  2023-08-01 00:00:00 UTC","Stripe_ID__c":"cus_ON99RcKgggf6Hl"}'
+    headers:
+      User-Agent:
+      - Faraday v2.4.0
+      Content-Type:
+      - application/json
+      Authorization:
+      - OAuth <SALESFORCE_ACCESS_TOKEN>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 201
+      message: Created
+    headers:
+      Date:
+      - Tue, 01 Aug 2023 20:07:42 GMT
+      Set-Cookie:
+      - BrowserId=EudkPzCnEe6dibfjHAp7ZA; domain=.salesforce.com; path=/; expires=Wed,
+        31-Jul-2024 20:07:42 GMT; Max-Age=31536000
+      - CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 20:07:42 GMT; Max-Age=31536000
+      - LSKey-c$CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 20:07:42
+        GMT; Max-Age=31536000
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Robots-Tag:
+      - none
+      Cache-Control:
+      - no-cache,must-revalidate,max-age=0,no-store,private
+      Sforce-Limit-Info:
+      - api-usage=7272/5000000
+      Location:
+      - "/services/data/v58.0/sobjects/Account/0017e00001iZy6VAAS"
+      Content-Type:
+      - application/json;charset=UTF-8
+      Vary:
+      - Accept-Encoding
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: ASCII-8BIT
+      string: '{"id":"0017e00001iZy6VAAS","success":true,"errors":[]}'
+  recorded_at: Tue, 01 Aug 2023 00:00:00 GMT
+- request:
+    method: get
+    uri: https://ability-innovation-7335-dev-ed.scratch.my.salesforce.com/services/data/v58.0/sobjects/Account/0017e00001iZy6VAAS
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v2.4.0
+      Authorization:
+      - OAuth <SALESFORCE_ACCESS_TOKEN>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Tue, 01 Aug 2023 20:07:43 GMT
+      Set-Cookie:
+      - BrowserId=E0VjOTCnEe6NISPaolPCcw; domain=.salesforce.com; path=/; expires=Wed,
+        31-Jul-2024 20:07:43 GMT; Max-Age=31536000
+      - CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 20:07:43 GMT; Max-Age=31536000
+      - LSKey-c$CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 20:07:43
+        GMT; Max-Age=31536000
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Robots-Tag:
+      - none
+      Cache-Control:
+      - no-cache,must-revalidate,max-age=0,no-store,private
+      Sforce-Limit-Info:
+      - api-usage=7271/5000000
+      Etag:
+      - '"gTI7lF2oYMlDxM+gTW1a62nzqxfxxihRqAygUNh9DPs=--gzip"'
+      Last-Modified:
+      - Tue, 01 Aug 2023 20:07:43 GMT
+      Content-Type:
+      - application/json;charset=UTF-8
+      Vary:
+      - Accept-Encoding
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: ASCII-8BIT
+      string: '{"attributes":{"type":"Account","url":"/services/data/v58.0/sobjects/Account/0017e00001iZy6VAAS"},"Id":"0017e00001iZy6VAAS","IsDeleted":false,"MasterRecordId":null,"Name":"REST
+        Account  2023-08-01 00:00:00 UTC","Type":null,"ParentId":null,"BillingStreet":null,"BillingCity":null,"BillingState":null,"BillingPostalCode":null,"BillingCountry":null,"BillingLatitude":null,"BillingLongitude":null,"BillingGeocodeAccuracy":null,"BillingAddress":null,"ShippingStreet":null,"ShippingCity":null,"ShippingState":null,"ShippingPostalCode":null,"ShippingCountry":null,"ShippingLatitude":null,"ShippingLongitude":null,"ShippingGeocodeAccuracy":null,"ShippingAddress":null,"Phone":null,"Fax":null,"AccountNumber":null,"Website":null,"PhotoUrl":"/services/images/photo/0017e00001iZy6VAAS","Sic":null,"Industry":null,"AnnualRevenue":null,"NumberOfEmployees":null,"Ownership":null,"TickerSymbol":null,"Description":null,"Rating":null,"Site":null,"OwnerId":"0057e00000VZBcyAAH","CreatedDate":"2023-08-01T20:07:43.000+0000","CreatedById":"0057e00000VZBcyAAH","LastModifiedDate":"2023-08-01T20:07:43.000+0000","LastModifiedById":"0057e00000VZBcyAAH","SystemModstamp":"2023-08-01T20:07:43.000+0000","LastActivityDate":null,"LastViewedDate":"2023-08-01T20:07:43.000+0000","LastReferencedDate":"2023-08-01T20:07:43.000+0000","Jigsaw":null,"JigsawCompanyId":null,"CleanStatus":"Pending","AccountSource":null,"DunsNumber":null,"Tradestyle":null,"NaicsCode":null,"NaicsDesc":null,"YearStarted":null,"SicDesc":null,"DandbCompanyId":null,"OperatingHoursId":null,"CustomerPriority__c":null,"SLA__c":null,"Active__c":null,"NumberofLocations__c":null,"UpsellOpportunity__c":null,"SLASerialNumber__c":null,"SLAExpirationDate__c":null,"SBQQ__AssetQuantitiesCombined__c":false,"SBQQ__CoTermedContractsCombined__c":false,"SBQQ__ContractCoTermination__c":"Never","SBQQ__DefaultOpportunity__c":null,"SBQQ__IgnoreParentContractedPrices__c":false,"SBQQ__PreserveBundle__c":true,"SBQQ__PriceHoldEnd__c":null,"SBQQ__RenewalModel__c":"Contract
+        Based","SBQQ__RenewalPricingMethod__c":"Same","SBQQ__TaxExempt__c":"No","SBQQ__CoTerminationEvent__c":null,"Stripe_ID__c":"cus_ON99RcKgggf6Hl","Stripe_Dashboard_Link__c":"https://dashboard.stripe.com/test/id/cus_ON99RcKgggf6Hl"}'
+  recorded_at: Tue, 01 Aug 2023 00:00:00 GMT
+- request:
+    method: get
+    uri: https://api.stripe.com/v1/customers/cus_ON99RcKgggf6Hl
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Stripe/v1 RubyBindings/7.1.0
+      Authorization:
+      - Bearer <STRIPE_API_KEY>
+      Content-Type:
+      - application/x-www-form-urlencoded
+      X-Stripe-Client-Telemetry:
+      - '{"last_request_metrics":{"request_id":"req_N5rm7K4nUzC6B9","request_duration_ms":367}}'
+      Stripe-Version:
+      - '2020-08-27'
+      X-Stripe-Client-User-Agent:
+      - '{"bindings_version":"7.1.0","lang":"ruby","lang_version":"2.7.6 p219 (2022-04-12)","platform":"arm64-darwin22","engine":"ruby","publisher":"stripe","uname":"Darwin
+        st-rish2 22.5.0 Darwin Kernel Version 22.5.0: Thu Jun  8 22:22:20 PDT 2023;
+        root:xnu-8796.121.3~7/RELEASE_ARM64_T6000 arm64","hostname":"st-rish2"}'
+      Stripe-Account:
+      - STRIPE_MERCHANT_ID
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Tue, 01 Aug 2023 20:07:43 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '670'
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Methods:
+      - GET, POST, HEAD, OPTIONS, DELETE
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Request-Id, Stripe-Manage-Version, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required
+      Access-Control-Max-Age:
+      - '300'
+      Cache-Control:
+      - no-cache, no-store
+      Request-Id:
+      - req_2a9TNB8FN29ac2
+      Stripe-Account:
+      - acct_15uapDIsgf92XbAO
+      Stripe-Version:
+      - '2020-08-27'
+      X-Stripe-Routing-Context-Priority-Tier:
+      - api-testmode
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains; preload
+    body:
+      encoding: UTF-8
+      string: |-
+        {
+          "id": "cus_ON99RcKgggf6Hl",
+          "object": "customer",
+          "address": null,
+          "balance": 0,
+          "created": 1690920462,
+          "currency": null,
+          "default_currency": null,
+          "default_source": null,
+          "delinquent": false,
+          "description": null,
+          "discount": null,
+          "email": null,
+          "invoice_prefix": "949D2DB6",
+          "invoice_settings": {
+            "custom_fields": null,
+            "default_payment_method": null,
+            "footer": null,
+            "rendering_options": null
+          },
+          "livemode": false,
+          "metadata": {
+            "custom": "metadata"
+          },
+          "name": null,
+          "next_invoice_sequence": 1,
+          "phone": null,
+          "preferred_locales": [],
+          "shipping": null,
+          "tax_exempt": "none",
+          "test_clock": null
+        }
+  recorded_at: Tue, 01 Aug 2023 00:00:00 GMT
+- request:
+    method: post
+    uri: https://api.stripe.com/v1/customers/cus_ON99RcKgggf6Hl
+    body:
+      encoding: UTF-8
+      string: metadata[salesforce_account_id]=0017e00001iZy6VAAS&metadata[salesforce_account_link]=https%3A%2F%2Fability-innovation-7335-dev-ed.scratch.my.salesforce.com%2F0017e00001iZy6VAAS
+    headers:
+      User-Agent:
+      - Stripe/v1 RubyBindings/7.1.0
+      Authorization:
+      - Bearer <STRIPE_API_KEY>
+      Content-Type:
+      - application/x-www-form-urlencoded
+      X-Stripe-Client-Telemetry:
+      - '{"last_request_metrics":{"request_id":"req_2a9TNB8FN29ac2","request_duration_ms":179}}'
+      Idempotency-Key:
+      - '08b9c9cb-2851-4c1e-bd07-e9ffd0cb3116'
+      Stripe-Version:
+      - '2020-08-27'
+      X-Stripe-Client-User-Agent:
+      - '{"bindings_version":"7.1.0","lang":"ruby","lang_version":"2.7.6 p219 (2022-04-12)","platform":"arm64-darwin22","engine":"ruby","publisher":"stripe","uname":"Darwin
+        st-rish2 22.5.0 Darwin Kernel Version 22.5.0: Thu Jun  8 22:22:20 PDT 2023;
+        root:xnu-8796.121.3~7/RELEASE_ARM64_T6000 arm64","hostname":"st-rish2"}'
+      Stripe-Account:
+      - STRIPE_MERCHANT_ID
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Tue, 01 Aug 2023 20:07:44 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '839'
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Methods:
+      - GET, POST, HEAD, OPTIONS, DELETE
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Request-Id, Stripe-Manage-Version, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required
+      Access-Control-Max-Age:
+      - '300'
+      Cache-Control:
+      - no-cache, no-store
+      Idempotency-Key:
+      - '08b9c9cb-2851-4c1e-bd07-e9ffd0cb3116'
+      Original-Request:
+      - req_Oqv6BSq9mQTwCK
+      Request-Id:
+      - req_Oqv6BSq9mQTwCK
+      Stripe-Account:
+      - acct_15uapDIsgf92XbAO
+      Stripe-Should-Retry:
+      - 'false'
+      Stripe-Version:
+      - '2020-08-27'
+      X-Stripe-Routing-Context-Priority-Tier:
+      - api-testmode
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains; preload
+    body:
+      encoding: UTF-8
+      string: |-
+        {
+          "id": "cus_ON99RcKgggf6Hl",
+          "object": "customer",
+          "address": null,
+          "balance": 0,
+          "created": 1690920462,
+          "currency": null,
+          "default_currency": null,
+          "default_source": null,
+          "delinquent": false,
+          "description": null,
+          "discount": null,
+          "email": null,
+          "invoice_prefix": "949D2DB6",
+          "invoice_settings": {
+            "custom_fields": null,
+            "default_payment_method": null,
+            "footer": null,
+            "rendering_options": null
+          },
+          "livemode": false,
+          "metadata": {
+            "custom": "metadata",
+            "salesforce_account_id": "0017e00001iZy6VAAS",
+            "salesforce_account_link": "https://ability-innovation-7335-dev-ed.scratch.my.salesforce.com/0017e00001iZy6VAAS"
+          },
+          "name": null,
+          "next_invoice_sequence": 1,
+          "phone": null,
+          "preferred_locales": [],
+          "shipping": null,
+          "tax_exempt": "none",
+          "test_clock": null
+        }
+  recorded_at: Tue, 01 Aug 2023 00:00:00 GMT
+- request:
+    method: get
+    uri: https://ability-innovation-7335-dev-ed.scratch.my.salesforce.com/services/data/v58.0/sobjects/Account/0017e00001iZy6VAAS
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v2.4.0
+      Authorization:
+      - OAuth <SALESFORCE_ACCESS_TOKEN>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Tue, 01 Aug 2023 20:07:44 GMT
+      Set-Cookie:
+      - BrowserId=E8icNTCnEe6BD7nYZTiwdQ; domain=.salesforce.com; path=/; expires=Wed,
+        31-Jul-2024 20:07:44 GMT; Max-Age=31536000
+      - CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 20:07:44 GMT; Max-Age=31536000
+      - LSKey-c$CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 20:07:44
+        GMT; Max-Age=31536000
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Robots-Tag:
+      - none
+      Cache-Control:
+      - no-cache,must-revalidate,max-age=0,no-store,private
+      Sforce-Limit-Info:
+      - api-usage=7278/5000000
+      Etag:
+      - '"gTI7lF2oYMlDxM+gTW1a62nzqxfxxihRqAygUNh9DPs=--gzip"'
+      Last-Modified:
+      - Tue, 01 Aug 2023 20:07:43 GMT
+      Content-Type:
+      - application/json;charset=UTF-8
+      Vary:
+      - Accept-Encoding
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: ASCII-8BIT
+      string: '{"attributes":{"type":"Account","url":"/services/data/v58.0/sobjects/Account/0017e00001iZy6VAAS"},"Id":"0017e00001iZy6VAAS","IsDeleted":false,"MasterRecordId":null,"Name":"REST
+        Account  2023-08-01 00:00:00 UTC","Type":null,"ParentId":null,"BillingStreet":null,"BillingCity":null,"BillingState":null,"BillingPostalCode":null,"BillingCountry":null,"BillingLatitude":null,"BillingLongitude":null,"BillingGeocodeAccuracy":null,"BillingAddress":null,"ShippingStreet":null,"ShippingCity":null,"ShippingState":null,"ShippingPostalCode":null,"ShippingCountry":null,"ShippingLatitude":null,"ShippingLongitude":null,"ShippingGeocodeAccuracy":null,"ShippingAddress":null,"Phone":null,"Fax":null,"AccountNumber":null,"Website":null,"PhotoUrl":"/services/images/photo/0017e00001iZy6VAAS","Sic":null,"Industry":null,"AnnualRevenue":null,"NumberOfEmployees":null,"Ownership":null,"TickerSymbol":null,"Description":null,"Rating":null,"Site":null,"OwnerId":"0057e00000VZBcyAAH","CreatedDate":"2023-08-01T20:07:43.000+0000","CreatedById":"0057e00000VZBcyAAH","LastModifiedDate":"2023-08-01T20:07:43.000+0000","LastModifiedById":"0057e00000VZBcyAAH","SystemModstamp":"2023-08-01T20:07:43.000+0000","LastActivityDate":null,"LastViewedDate":"2023-08-01T20:07:43.000+0000","LastReferencedDate":"2023-08-01T20:07:43.000+0000","Jigsaw":null,"JigsawCompanyId":null,"CleanStatus":"Pending","AccountSource":null,"DunsNumber":null,"Tradestyle":null,"NaicsCode":null,"NaicsDesc":null,"YearStarted":null,"SicDesc":null,"DandbCompanyId":null,"OperatingHoursId":null,"CustomerPriority__c":null,"SLA__c":null,"Active__c":null,"NumberofLocations__c":null,"UpsellOpportunity__c":null,"SLASerialNumber__c":null,"SLAExpirationDate__c":null,"SBQQ__AssetQuantitiesCombined__c":false,"SBQQ__CoTermedContractsCombined__c":false,"SBQQ__ContractCoTermination__c":"Never","SBQQ__DefaultOpportunity__c":null,"SBQQ__IgnoreParentContractedPrices__c":false,"SBQQ__PreserveBundle__c":true,"SBQQ__PriceHoldEnd__c":null,"SBQQ__RenewalModel__c":"Contract
+        Based","SBQQ__RenewalPricingMethod__c":"Same","SBQQ__TaxExempt__c":"No","SBQQ__CoTerminationEvent__c":null,"Stripe_ID__c":"cus_ON99RcKgggf6Hl","Stripe_Dashboard_Link__c":"https://dashboard.stripe.com/test/id/cus_ON99RcKgggf6Hl"}'
+  recorded_at: Tue, 01 Aug 2023 00:00:00 GMT
+- request:
+    method: get
+    uri: https://api.stripe.com/v1/customers/cus_ON99RcKgggf6Hl
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Stripe/v1 RubyBindings/7.1.0
+      Authorization:
+      - Bearer <STRIPE_API_KEY>
+      Content-Type:
+      - application/x-www-form-urlencoded
+      X-Stripe-Client-Telemetry:
+      - '{"last_request_metrics":{"request_id":"req_Oqv6BSq9mQTwCK","request_duration_ms":297}}'
+      Stripe-Version:
+      - '2020-08-27'
+      X-Stripe-Client-User-Agent:
+      - '{"bindings_version":"7.1.0","lang":"ruby","lang_version":"2.7.6 p219 (2022-04-12)","platform":"arm64-darwin22","engine":"ruby","publisher":"stripe","uname":"Darwin
+        st-rish2 22.5.0 Darwin Kernel Version 22.5.0: Thu Jun  8 22:22:20 PDT 2023;
+        root:xnu-8796.121.3~7/RELEASE_ARM64_T6000 arm64","hostname":"st-rish2"}'
+      Stripe-Account:
+      - STRIPE_MERCHANT_ID
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Tue, 01 Aug 2023 20:07:44 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '839'
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Methods:
+      - GET, POST, HEAD, OPTIONS, DELETE
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Request-Id, Stripe-Manage-Version, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required
+      Access-Control-Max-Age:
+      - '300'
+      Cache-Control:
+      - no-cache, no-store
+      Request-Id:
+      - req_aHvwfThojp668d
+      Stripe-Account:
+      - acct_15uapDIsgf92XbAO
+      Stripe-Version:
+      - '2020-08-27'
+      X-Stripe-Routing-Context-Priority-Tier:
+      - api-testmode
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains; preload
+    body:
+      encoding: UTF-8
+      string: |-
+        {
+          "id": "cus_ON99RcKgggf6Hl",
+          "object": "customer",
+          "address": null,
+          "balance": 0,
+          "created": 1690920462,
+          "currency": null,
+          "default_currency": null,
+          "default_source": null,
+          "delinquent": false,
+          "description": null,
+          "discount": null,
+          "email": null,
+          "invoice_prefix": "949D2DB6",
+          "invoice_settings": {
+            "custom_fields": null,
+            "default_payment_method": null,
+            "footer": null,
+            "rendering_options": null
+          },
+          "livemode": false,
+          "metadata": {
+            "custom": "metadata",
+            "salesforce_account_id": "0017e00001iZy6VAAS",
+            "salesforce_account_link": "https://ability-innovation-7335-dev-ed.scratch.my.salesforce.com/0017e00001iZy6VAAS"
+          },
+          "name": null,
+          "next_invoice_sequence": 1,
+          "phone": null,
+          "preferred_locales": [],
+          "shipping": null,
+          "tax_exempt": "none",
+          "test_clock": null
+        }
+  recorded_at: Tue, 01 Aug 2023 00:00:00 GMT
+recorded_with: VCR 6.2.0

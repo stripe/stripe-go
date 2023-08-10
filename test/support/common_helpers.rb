@@ -14,6 +14,10 @@ module Critic::CommonHelpers
   # NOTE this is a little dangerous: we are only doing this for `prefixed_stripe_field` right now
   include StripeForce::Utilities::SalesforceUtil
 
+  def now_time
+    DateTime.now.utc.beginning_of_day
+  end
+
   def sf_instance_account_id
     ENV.fetch('SF_INSTANCE_ID')
   end
@@ -100,6 +104,9 @@ module Critic::CommonHelpers
     if user.salesforce_account_id == "00D52000000YKbHEAW"
       user.connector_settings[CONNECTOR_SETTING_MULTICURRENCY_ENABLED] = true
     end
+    if user.salesforce_account_id == "00D7e00000JoBfyEAF"
+      user.connector_settings[CONNECTOR_SETTING_MULTICURRENCY_ENABLED] = false
+    end
     # ------------------------------------------------------------------------------------------------------
 
     # clocks won't be enabled in prod, so we want to mimic this
@@ -144,9 +151,9 @@ module Critic::CommonHelpers
   def sf_static_id
     static_id = "EfxBsBKAsjaF0caCUQPWQYJ8h61G"
 
-    if ENV['CIRCLE_NODE_INDEX']
-      static_id = "#{static_id}#{ENV['CIRCLE_NODE_INDEX']}"
-    end
+    # if ENV['CIRCLE_NODE_INDEX']
+    #   static_id = "#{static_id}#{ENV['CIRCLE_NODE_INDEX']}"
+    # end
 
     static_id
   end
@@ -156,9 +163,15 @@ module Critic::CommonHelpers
     "#{sf_randomized_id}@example.com"
   end
 
+  sig { params(email: String).returns(String) }
+  def create_static_email(email: "")
+    "#{email}@example.com"
+  end
+
   def sf_randomized_name(sf_object_name)
-    node_identifier = ENV['CIRCLE_NODE_INDEX'] || ""
-    "REST #{sf_object_name} #{node_identifier} #{DateTime.new(2023, 7, 1)}"
+    # node_identifier = ENV['CIRCLE_NODE_INDEX'] || ""
+    node_identifier = ""
+    "REST #{sf_object_name} #{node_identifier} #{now_time}"
   end
 
   # Helper to poll for an expected result
@@ -240,7 +253,7 @@ module Critic::CommonHelpers
   def initial_poll_delta; 60 * 60 * 24 end
 
   def set_initial_poll_timestamp(sf_class)
-    initial_poll = DateTime.now - initial_poll_delta
+    initial_poll = DateTime.now.utc - initial_poll_delta
 
     poll_timestamp = StripeForce::PollTimestamp.build_with_user_and_record(
       @user,

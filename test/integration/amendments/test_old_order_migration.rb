@@ -5,6 +5,11 @@ require_relative './_lib'
 
 class Critic::OldOrderMigration < Critic::OrderAmendmentFunctionalTest
   before do
+    set_cassette_dir(__FILE__)
+    if !VCR.current_cassette.originally_recorded_at.nil?
+      Timecop.freeze(VCR.current_cassette.originally_recorded_at)
+    end
+
     @user = make_user(save: true)
     # note: enabling non_anniversary amendments should not affect anniversary amendments
     # therefore enable for this for the entire test suite
@@ -41,12 +46,17 @@ class Critic::OldOrderMigration < Critic::OrderAmendmentFunctionalTest
       }
     )
 
-    sf_order = create_subscription_order(sf_product_id: sf_product_id, additional_fields: {
-      CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(initial_start_date),
-      CPQ_QUOTE_SUBSCRIPTION_TERM => contract_term,
-    })
+    sf_order = create_subscription_order(sf_product_id: sf_product_id,
+                                         contact_email: "migrate_out_of_stripe",
+                                         additional_fields: {
+                                           CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(initial_start_date),
+                                           CPQ_QUOTE_SUBSCRIPTION_TERM => contract_term,
+                                         })
     sf_contract = create_contract_from_order(sf_order)
 
+    if !VCR.current_cassette.originally_recorded_at.nil?
+      Timecop.freeze(VCR.current_cassette.originally_recorded_at + 1.minute)
+    end
     # Important that this is set after the order is activated, to simulate the real scenario (even if its only by a few seconds instead of months)
     @user.connector_settings[CONNECTOR_SETTING_SYNC_START_DATE] = Time.now.to_i
 
@@ -130,12 +140,18 @@ class Critic::OldOrderMigration < Critic::OrderAmendmentFunctionalTest
       }
     )
 
-    sf_order = create_subscription_order(sf_product_id: sf_product_id, additional_fields: {
-      CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(initial_start_date),
-      CPQ_QUOTE_SUBSCRIPTION_TERM => contract_term,
-    })
+    sf_order = create_subscription_order(sf_product_id: sf_product_id,
+                                         contact_email: "migrate_out_of_stripe_monthly",
+                                         additional_fields: {
+                                           CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(initial_start_date),
+                                           CPQ_QUOTE_SUBSCRIPTION_TERM => contract_term,
+                                         })
     sf_contract = create_contract_from_order(sf_order)
 
+    if !VCR.current_cassette.originally_recorded_at.nil?
+      Timecop.freeze(VCR.current_cassette.originally_recorded_at + 2.minute)
+    end
+    sleep(5)
     # Important that this is set after the order is activated, to simulate the real scenario (even if its only by a few seconds instead of months)
     @user.connector_settings[CONNECTOR_SETTING_SYNC_START_DATE] = Time.now.to_i
 
@@ -222,12 +238,17 @@ class Critic::OldOrderMigration < Critic::OrderAmendmentFunctionalTest
       }
     )
 
-    sf_order = create_subscription_order(sf_product_id: sf_product_id, additional_fields: {
-      CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(initial_start_date),
-      CPQ_QUOTE_SUBSCRIPTION_TERM => contract_term,
-    })
+    sf_order = create_subscription_order(sf_product_id: sf_product_id,
+                                         contact_email: "no_create_sub",
+                                         additional_fields: {
+                                           CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(initial_start_date),
+                                           CPQ_QUOTE_SUBSCRIPTION_TERM => contract_term,
+                                         })
     sf_contract = create_contract_from_order(sf_order)
 
+    if !VCR.current_cassette.originally_recorded_at.nil?
+      Timecop.freeze(VCR.current_cassette.originally_recorded_at + 1.minute)
+    end
     # Important that this is set after the order is activated, to simulate the real scenario (even if its only by a few seconds instead of months)
     @user.connector_settings[CONNECTOR_SETTING_SYNC_START_DATE] = Time.now.to_i
 
@@ -280,12 +301,17 @@ class Critic::OldOrderMigration < Critic::OrderAmendmentFunctionalTest
       }
     )
 
-    sf_order = create_subscription_order(sf_product_id: sf_product_id, additional_fields: {
-      CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(initial_start_date),
-      CPQ_QUOTE_SUBSCRIPTION_TERM => contract_term,
-    })
+    sf_order = create_subscription_order(sf_product_id: sf_product_id,
+                                         contact_email: "no_translate_sub",
+                                         additional_fields: {
+                                           CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(initial_start_date),
+                                           CPQ_QUOTE_SUBSCRIPTION_TERM => contract_term,
+                                         })
     sf_contract = create_contract_from_order(sf_order)
 
+    if !VCR.current_cassette.originally_recorded_at.nil?
+      Timecop.freeze(VCR.current_cassette.originally_recorded_at + 1.minute)
+    end
     # Important that this is set after the order is activated, to simulate the real scenario (even if its only by a few seconds instead of months)
     @user.connector_settings[CONNECTOR_SETTING_SYNC_START_DATE] = Time.now.to_i
 

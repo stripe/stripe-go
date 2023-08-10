@@ -3,7 +3,7 @@
 
 require_relative '../../test_helper'
 
-class Critic::OrderAmendmentFunctionalTest < Critic::FunctionalTest
+class Critic::OrderAmendmentFunctionalTest < Critic::VCRTest
   def create_contract_from_order(sf_order)
     log.info 'creating contract'
 

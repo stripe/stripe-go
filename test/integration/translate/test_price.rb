@@ -6,6 +6,7 @@ require_relative '../../test_helper'
 class Critic::PriceTranslation < Critic::VCRTest
   before do
     set_cassette_dir(__FILE__)
+    Timecop.freeze(VCR.current_cassette.originally_recorded_at || now_time)
 
     @user = make_user(save: true)
     @user.enable_feature(StripeForce::Constants::FeatureFlags::UPDATE_PRODUCT_ON_SYNC, update: true)

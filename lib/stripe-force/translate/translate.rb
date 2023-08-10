@@ -342,7 +342,6 @@ class StripeForce::Translate
   def update_sf_stripe_id(sf_object, stripe_object, additional_salesforce_updates: {})
     stripe_id_field = prefixed_stripe_field(GENERIC_STRIPE_ID)
     stripe_object_id = stripe_object.id
-
     if sf_object[stripe_id_field]
       if sf_object[stripe_id_field] == stripe_object_id
         log.info 'stripe id already exists in salesforce, no update',
@@ -480,9 +479,21 @@ class StripeForce::Translate
       # if this ID was provided to us by the user, the metadata does not exist in Stripe
       stripe_record_metadata = Metadata.stripe_metadata_for_sf_object(@user, sf_object)
 
+      salesforce_regex = %r{https://.*?.my.salesforce.com}
+
+      stripe_record_metadata_copy = stripe_record_metadata.deep_dup
+      stripe_record_metadata_copy.each do |key, value|
+        stripe_record_metadata_copy[key] = value.gsub(salesforce_regex, '')
+      end
+
+      metadata_from_stripe = stripe_record.metadata.to_h.deep_dup
+      metadata_from_stripe.each do |key, value|
+        metadata_from_stripe[key] = value.gsub(salesforce_regex, '')
+      end
+
       # `to_h` on the StripeObject symbolizes all of the keys
       # <= is a special `includes` operator https://stackoverflow.com/questions/7584801/how-to-check-if-an-hash-is-completely-included-in-another-hash
-      unless stripe_record_metadata.symbolize_keys <= stripe_record.metadata.to_h
+      unless stripe_record_metadata_copy.symbolize_keys <= metadata_from_stripe
         stripe_record_metadata.each do |k, v|
           if stripe_record.metadata[k] != v
             log.warn 'overwriting metadata value',

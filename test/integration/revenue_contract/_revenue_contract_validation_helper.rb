@@ -3,7 +3,7 @@
 
 require_relative '../../test_helper'
 
-class Critic::RevenueContractValidationHelper < Critic::FunctionalTest
+class Critic::RevenueContractValidationHelper < Critic::VCRTest
   def revenue_contract_validate_basics(
     sf_order,
     subscription_schedule,

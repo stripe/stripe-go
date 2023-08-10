@@ -1,0 +1,3908 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.stripe.com/v1/test_helpers/test_clocks
+    body:
+      encoding: UTF-8
+      string: frozen_time=1690848000
+    headers:
+      User-Agent:
+      - Stripe/v1 RubyBindings/7.1.0
+      Authorization:
+      - Bearer <STRIPE_API_KEY>
+      Content-Type:
+      - application/x-www-form-urlencoded
+      Idempotency-Key:
+      - f2785b6d-f6d5-41d7-95a2-f32ad7ee737a
+      Stripe-Version:
+      - '2020-08-27'
+      X-Stripe-Client-User-Agent:
+      - '{"bindings_version":"7.1.0","lang":"ruby","lang_version":"2.7.6 p219 (2022-04-12)","platform":"arm64-darwin22","engine":"ruby","publisher":"stripe","uname":"Darwin
+        st-rish2 22.5.0 Darwin Kernel Version 22.5.0: Thu Jun  8 22:22:20 PDT 2023;
+        root:xnu-8796.121.3~7/RELEASE_ARM64_T6000 arm64","hostname":"st-rish2"}'
+      Stripe-Account:
+      - STRIPE_MERCHANT_ID
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Tue, 01 Aug 2023 20:39:51 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '226'
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Methods:
+      - GET, POST, HEAD, OPTIONS, DELETE
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Request-Id, Stripe-Manage-Version, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required
+      Access-Control-Max-Age:
+      - '300'
+      Cache-Control:
+      - no-cache, no-store
+      Idempotency-Key:
+      - f2785b6d-f6d5-41d7-95a2-f32ad7ee737a
+      Original-Request:
+      - req_1DmMG6AnY20TOS
+      Request-Id:
+      - req_1DmMG6AnY20TOS
+      Stripe-Account:
+      - acct_15uapDIsgf92XbAO
+      Stripe-Should-Retry:
+      - 'false'
+      Stripe-Version:
+      - '2020-08-27'
+      X-Stripe-Routing-Context-Priority-Tier:
+      - api-testmode
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains; preload
+    body:
+      encoding: UTF-8
+      string: |-
+        {
+          "id": "clock_1NaPMBIsgf92XbAOZPBsWiyc",
+          "object": "test_helpers.test_clock",
+          "created": 1690922391,
+          "deletes_after": 1693514391,
+          "frozen_time": 1690848000,
+          "livemode": false,
+          "name": null,
+          "status": "ready"
+        }
+  recorded_at: Tue, 01 Aug 2023 00:00:00 GMT
+- request:
+    method: post
+    uri: https://api.stripe.com/v1/customers
+    body:
+      encoding: UTF-8
+      string: description=Sample+customer+for+Salesforce&email=4W0OLPXj9IZh9AaBe4RAcqqLkfdwW%40example.com&test_clock=clock_1NaPMBIsgf92XbAOZPBsWiyc
+    headers:
+      User-Agent:
+      - Stripe/v1 RubyBindings/7.1.0
+      Authorization:
+      - Bearer <STRIPE_API_KEY>
+      Content-Type:
+      - application/x-www-form-urlencoded
+      X-Stripe-Client-Telemetry:
+      - '{"last_request_metrics":{"request_id":"req_1DmMG6AnY20TOS","request_duration_ms":214}}'
+      Idempotency-Key:
+      - 28b69121-b42b-482c-bfab-cc16ed222817
+      Stripe-Version:
+      - '2020-08-27'
+      X-Stripe-Client-User-Agent:
+      - '{"bindings_version":"7.1.0","lang":"ruby","lang_version":"2.7.6 p219 (2022-04-12)","platform":"arm64-darwin22","engine":"ruby","publisher":"stripe","uname":"Darwin
+        st-rish2 22.5.0 Darwin Kernel Version 22.5.0: Thu Jun  8 22:22:20 PDT 2023;
+        root:xnu-8796.121.3~7/RELEASE_ARM64_T6000 arm64","hostname":"st-rish2"}'
+      Stripe-Account:
+      - STRIPE_MERCHANT_ID
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Tue, 01 Aug 2023 20:39:51 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '737'
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Methods:
+      - GET, POST, HEAD, OPTIONS, DELETE
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Request-Id, Stripe-Manage-Version, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required
+      Access-Control-Max-Age:
+      - '300'
+      Cache-Control:
+      - no-cache, no-store
+      Idempotency-Key:
+      - 28b69121-b42b-482c-bfab-cc16ed222817
+      Original-Request:
+      - req_4knGj6FP5hdN57
+      Request-Id:
+      - req_4knGj6FP5hdN57
+      Stripe-Account:
+      - acct_15uapDIsgf92XbAO
+      Stripe-Should-Retry:
+      - 'false'
+      Stripe-Version:
+      - '2020-08-27'
+      X-Stripe-Routing-Context-Priority-Tier:
+      - api-testmode
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains; preload
+    body:
+      encoding: UTF-8
+      string: |-
+        {
+          "id": "cus_ON9fSDqkFE33Ge",
+          "object": "customer",
+          "address": null,
+          "balance": 0,
+          "created": 1690848000,
+          "currency": null,
+          "default_currency": null,
+          "default_source": null,
+          "delinquent": false,
+          "description": "Sample customer for Salesforce",
+          "discount": null,
+          "email": "4W0OLPXj9IZh9AaBe4RAcqqLkfdwW@example.com",
+          "invoice_prefix": "6C2C8447",
+          "invoice_settings": {
+            "custom_fields": null,
+            "default_payment_method": null,
+            "footer": null,
+            "rendering_options": null
+          },
+          "livemode": false,
+          "metadata": {},
+          "name": null,
+          "next_invoice_sequence": 1,
+          "phone": null,
+          "preferred_locales": [],
+          "shipping": null,
+          "tax_exempt": "none",
+          "test_clock": "clock_1NaPMBIsgf92XbAOZPBsWiyc"
+        }
+  recorded_at: Tue, 01 Aug 2023 00:00:00 GMT
+- request:
+    method: post
+    uri: https://api.stripe.com/v1/payment_methods/pm_card_visa/attach
+    body:
+      encoding: UTF-8
+      string: customer=cus_ON9fSDqkFE33Ge
+    headers:
+      User-Agent:
+      - Stripe/v1 RubyBindings/7.1.0
+      Authorization:
+      - Bearer <STRIPE_API_KEY>
+      Content-Type:
+      - application/x-www-form-urlencoded
+      X-Stripe-Client-Telemetry:
+      - '{"last_request_metrics":{"request_id":"req_4knGj6FP5hdN57","request_duration_ms":304}}'
+      Idempotency-Key:
+      - 2b4041ad-5178-442d-b455-cc328b7609c6
+      Stripe-Version:
+      - '2020-08-27'
+      X-Stripe-Client-User-Agent:
+      - '{"bindings_version":"7.1.0","lang":"ruby","lang_version":"2.7.6 p219 (2022-04-12)","platform":"arm64-darwin22","engine":"ruby","publisher":"stripe","uname":"Darwin
+        st-rish2 22.5.0 Darwin Kernel Version 22.5.0: Thu Jun  8 22:22:20 PDT 2023;
+        root:xnu-8796.121.3~7/RELEASE_ARM64_T6000 arm64","hostname":"st-rish2"}'
+      Stripe-Account:
+      - STRIPE_MERCHANT_ID
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Tue, 01 Aug 2023 20:39:52 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '939'
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Methods:
+      - GET, POST, HEAD, OPTIONS, DELETE
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Request-Id, Stripe-Manage-Version, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required
+      Access-Control-Max-Age:
+      - '300'
+      Cache-Control:
+      - no-cache, no-store
+      Idempotency-Key:
+      - 2b4041ad-5178-442d-b455-cc328b7609c6
+      Original-Request:
+      - req_lWHRGlf9IiTGRs
+      Request-Id:
+      - req_lWHRGlf9IiTGRs
+      Stripe-Account:
+      - acct_15uapDIsgf92XbAO
+      Stripe-Should-Retry:
+      - 'false'
+      Stripe-Version:
+      - '2020-08-27'
+      X-Stripe-Routing-Context-Priority-Tier:
+      - api-testmode
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains; preload
+    body:
+      encoding: UTF-8
+      string: |-
+        {
+          "id": "pm_1NaPMBIsgf92XbAOKly0hBuW",
+          "object": "payment_method",
+          "billing_details": {
+            "address": {
+              "city": null,
+              "country": null,
+              "line1": null,
+              "line2": null,
+              "postal_code": null,
+              "state": null
+            },
+            "email": null,
+            "name": null,
+            "phone": null
+          },
+          "card": {
+            "brand": "visa",
+            "checks": {
+              "address_line1_check": null,
+              "address_postal_code_check": null,
+              "cvc_check": null
+            },
+            "country": "US",
+            "exp_month": 8,
+            "exp_year": 2024,
+            "fingerprint": "fSHFVkefTWHUR92h",
+            "funding": "credit",
+            "generated_from": null,
+            "last4": "4242",
+            "networks": {
+              "available": [
+                "visa"
+              ],
+              "preferred": null
+            },
+            "three_d_secure_usage": {
+              "supported": true
+            },
+            "wallet": null
+          },
+          "created": 1690922391,
+          "customer": "cus_ON9fSDqkFE33Ge",
+          "livemode": false,
+          "metadata": {},
+          "type": "card"
+        }
+  recorded_at: Tue, 01 Aug 2023 00:00:00 GMT
+- request:
+    method: post
+    uri: https://api.stripe.com/v1/customers/cus_ON9fSDqkFE33Ge
+    body:
+      encoding: UTF-8
+      string: invoice_settings[default_payment_method]=pm_1NaPMBIsgf92XbAOKly0hBuW
+    headers:
+      User-Agent:
+      - Stripe/v1 RubyBindings/7.1.0
+      Authorization:
+      - Bearer <STRIPE_API_KEY>
+      Content-Type:
+      - application/x-www-form-urlencoded
+      X-Stripe-Client-Telemetry:
+      - '{"last_request_metrics":{"request_id":"req_lWHRGlf9IiTGRs","request_duration_ms":579}}'
+      Idempotency-Key:
+      - 16755e53-aee9-4658-986b-bc680c1998f5
+      Stripe-Version:
+      - '2020-08-27'
+      X-Stripe-Client-User-Agent:
+      - '{"bindings_version":"7.1.0","lang":"ruby","lang_version":"2.7.6 p219 (2022-04-12)","platform":"arm64-darwin22","engine":"ruby","publisher":"stripe","uname":"Darwin
+        st-rish2 22.5.0 Darwin Kernel Version 22.5.0: Thu Jun  8 22:22:20 PDT 2023;
+        root:xnu-8796.121.3~7/RELEASE_ARM64_T6000 arm64","hostname":"st-rish2"}'
+      Stripe-Account:
+      - STRIPE_MERCHANT_ID
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Tue, 01 Aug 2023 20:39:52 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '762'
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Methods:
+      - GET, POST, HEAD, OPTIONS, DELETE
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Request-Id, Stripe-Manage-Version, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required
+      Access-Control-Max-Age:
+      - '300'
+      Cache-Control:
+      - no-cache, no-store
+      Idempotency-Key:
+      - 16755e53-aee9-4658-986b-bc680c1998f5
+      Original-Request:
+      - req_ZXC2fVSIbgnKfv
+      Request-Id:
+      - req_ZXC2fVSIbgnKfv
+      Stripe-Account:
+      - acct_15uapDIsgf92XbAO
+      Stripe-Should-Retry:
+      - 'false'
+      Stripe-Version:
+      - '2020-08-27'
+      X-Stripe-Routing-Context-Priority-Tier:
+      - api-testmode
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains; preload
+    body:
+      encoding: UTF-8
+      string: |-
+        {
+          "id": "cus_ON9fSDqkFE33Ge",
+          "object": "customer",
+          "address": null,
+          "balance": 0,
+          "created": 1690848000,
+          "currency": null,
+          "default_currency": null,
+          "default_source": null,
+          "delinquent": false,
+          "description": "Sample customer for Salesforce",
+          "discount": null,
+          "email": "4W0OLPXj9IZh9AaBe4RAcqqLkfdwW@example.com",
+          "invoice_prefix": "6C2C8447",
+          "invoice_settings": {
+            "custom_fields": null,
+            "default_payment_method": "pm_1NaPMBIsgf92XbAOKly0hBuW",
+            "footer": null,
+            "rendering_options": null
+          },
+          "livemode": false,
+          "metadata": {},
+          "name": null,
+          "next_invoice_sequence": 1,
+          "phone": null,
+          "preferred_locales": [],
+          "shipping": null,
+          "tax_exempt": "none",
+          "test_clock": "clock_1NaPMBIsgf92XbAOZPBsWiyc"
+        }
+  recorded_at: Tue, 01 Aug 2023 00:00:00 GMT
+- request:
+    method: post
+    uri: https://api.stripe.com/v1/products
+    body:
+      encoding: UTF-8
+      string: name=REST+Product++2023-08-01+00%3A00%3A00+UTC
+    headers:
+      User-Agent:
+      - Stripe/v1 RubyBindings/7.1.0
+      Authorization:
+      - Bearer <STRIPE_API_KEY>
+      Content-Type:
+      - application/x-www-form-urlencoded
+      X-Stripe-Client-Telemetry:
+      - '{"last_request_metrics":{"request_id":"req_ZXC2fVSIbgnKfv","request_duration_ms":372}}'
+      Idempotency-Key:
+      - 754e9d75-b046-4f95-a057-ee853fb2f0d1
+      Stripe-Version:
+      - '2020-08-27'
+      X-Stripe-Client-User-Agent:
+      - '{"bindings_version":"7.1.0","lang":"ruby","lang_version":"2.7.6 p219 (2022-04-12)","platform":"arm64-darwin22","engine":"ruby","publisher":"stripe","uname":"Darwin
+        st-rish2 22.5.0 Darwin Kernel Version 22.5.0: Thu Jun  8 22:22:20 PDT 2023;
+        root:xnu-8796.121.3~7/RELEASE_ARM64_T6000 arm64","hostname":"st-rish2"}'
+      Stripe-Account:
+      - STRIPE_MERCHANT_ID
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Tue, 01 Aug 2023 20:39:52 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '555'
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Methods:
+      - GET, POST, HEAD, OPTIONS, DELETE
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Request-Id, Stripe-Manage-Version, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required
+      Access-Control-Max-Age:
+      - '300'
+      Cache-Control:
+      - no-cache, no-store
+      Idempotency-Key:
+      - 754e9d75-b046-4f95-a057-ee853fb2f0d1
+      Original-Request:
+      - req_5TmN6axmUcnv2f
+      Request-Id:
+      - req_5TmN6axmUcnv2f
+      Stripe-Account:
+      - acct_15uapDIsgf92XbAO
+      Stripe-Should-Retry:
+      - 'false'
+      Stripe-Version:
+      - '2020-08-27'
+      X-Stripe-Routing-Context-Priority-Tier:
+      - api-testmode
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains; preload
+    body:
+      encoding: UTF-8
+      string: |-
+        {
+          "id": "prod_ON9fMfax3cNNTz",
+          "object": "product",
+          "active": true,
+          "attributes": [],
+          "created": 1690922392,
+          "default_price": null,
+          "description": null,
+          "identifiers": {},
+          "images": [],
+          "livemode": false,
+          "metadata": {},
+          "name": "REST Product  2023-08-01 00:00:00 UTC",
+          "package_dimensions": null,
+          "product_class": null,
+          "shippable": null,
+          "sku": "rest-product--2023-08-01-000000-utc-3",
+          "statement_descriptor": null,
+          "tax_code": null,
+          "type": "service",
+          "unit_label": null,
+          "updated": 1690922392,
+          "url": null
+        }
+  recorded_at: Tue, 01 Aug 2023 00:00:00 GMT
+- request:
+    method: post
+    uri: https://api.stripe.com/v1/prices
+    body:
+      encoding: UTF-8
+      string: product=prod_ON9fMfax3cNNTz&currency=usd&unit_amount=1000&recurring[interval]=month
+    headers:
+      User-Agent:
+      - Stripe/v1 RubyBindings/7.1.0
+      Authorization:
+      - Bearer <STRIPE_API_KEY>
+      Content-Type:
+      - application/x-www-form-urlencoded
+      X-Stripe-Client-Telemetry:
+      - '{"last_request_metrics":{"request_id":"req_5TmN6axmUcnv2f","request_duration_ms":253}}'
+      Idempotency-Key:
+      - dadd17ca-e19a-452e-b181-cd05023a081f
+      Stripe-Version:
+      - '2020-08-27'
+      X-Stripe-Client-User-Agent:
+      - '{"bindings_version":"7.1.0","lang":"ruby","lang_version":"2.7.6 p219 (2022-04-12)","platform":"arm64-darwin22","engine":"ruby","publisher":"stripe","uname":"Darwin
+        st-rish2 22.5.0 Darwin Kernel Version 22.5.0: Thu Jun  8 22:22:20 PDT 2023;
+        root:xnu-8796.121.3~7/RELEASE_ARM64_T6000 arm64","hostname":"st-rish2"}'
+      Stripe-Account:
+      - STRIPE_MERCHANT_ID
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Tue, 01 Aug 2023 20:39:53 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '633'
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Methods:
+      - GET, POST, HEAD, OPTIONS, DELETE
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Request-Id, Stripe-Manage-Version, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required
+      Access-Control-Max-Age:
+      - '300'
+      Cache-Control:
+      - no-cache, no-store
+      Idempotency-Key:
+      - dadd17ca-e19a-452e-b181-cd05023a081f
+      Original-Request:
+      - req_Ulhem2Q3KfSeMX
+      Request-Id:
+      - req_Ulhem2Q3KfSeMX
+      Stripe-Account:
+      - acct_15uapDIsgf92XbAO
+      Stripe-Should-Retry:
+      - 'false'
+      Stripe-Version:
+      - '2020-08-27'
+      X-Stripe-Routing-Context-Priority-Tier:
+      - api-testmode
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains; preload
+    body:
+      encoding: UTF-8
+      string: |-
+        {
+          "id": "price_1NaPMCIsgf92XbAO7PbRPRks",
+          "object": "price",
+          "active": true,
+          "billing_scheme": "per_unit",
+          "created": 1690922392,
+          "currency": "usd",
+          "custom_unit_amount": null,
+          "livemode": false,
+          "lookup_key": null,
+          "metadata": {},
+          "nickname": null,
+          "product": "prod_ON9fMfax3cNNTz",
+          "recurring": {
+            "aggregate_usage": null,
+            "interval": "month",
+            "interval_count": 1,
+            "trial_period_days": null,
+            "usage_type": "licensed"
+          },
+          "tax_behavior": "unspecified",
+          "tiers_mode": null,
+          "transform_quantity": null,
+          "type": "recurring",
+          "unit_amount": 1000,
+          "unit_amount_decimal": "1000"
+        }
+  recorded_at: Tue, 01 Aug 2023 00:00:00 GMT
+- request:
+    method: post
+    uri: https://api.stripe.com/v1/subscriptions
+    body:
+      encoding: UTF-8
+      string: customer=cus_ON9fSDqkFE33Ge&items[0][price]=price_1NaPMCIsgf92XbAO7PbRPRks
+    headers:
+      User-Agent:
+      - Stripe/v1 RubyBindings/7.1.0
+      Authorization:
+      - Bearer <STRIPE_API_KEY>
+      Content-Type:
+      - application/x-www-form-urlencoded
+      X-Stripe-Client-Telemetry:
+      - '{"last_request_metrics":{"request_id":"req_Ulhem2Q3KfSeMX","request_duration_ms":267}}'
+      Idempotency-Key:
+      - 189d984b-5718-4a80-8474-1788d062c3a8
+      Stripe-Version:
+      - '2020-08-27'
+      X-Stripe-Client-User-Agent:
+      - '{"bindings_version":"7.1.0","lang":"ruby","lang_version":"2.7.6 p219 (2022-04-12)","platform":"arm64-darwin22","engine":"ruby","publisher":"stripe","uname":"Darwin
+        st-rish2 22.5.0 Darwin Kernel Version 22.5.0: Thu Jun  8 22:22:20 PDT 2023;
+        root:xnu-8796.121.3~7/RELEASE_ARM64_T6000 arm64","hostname":"st-rish2"}'
+      Stripe-Account:
+      - STRIPE_MERCHANT_ID
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Tue, 01 Aug 2023 20:39:55 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '4198'
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Methods:
+      - GET, POST, HEAD, OPTIONS, DELETE
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Request-Id, Stripe-Manage-Version, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required
+      Access-Control-Max-Age:
+      - '300'
+      Cache-Control:
+      - no-cache, no-store
+      Idempotency-Key:
+      - 189d984b-5718-4a80-8474-1788d062c3a8
+      Original-Request:
+      - req_no6kbvkmoOV0mL
+      Request-Id:
+      - req_no6kbvkmoOV0mL
+      Stripe-Account:
+      - acct_15uapDIsgf92XbAO
+      Stripe-Should-Retry:
+      - 'false'
+      Stripe-Version:
+      - '2020-08-27'
+      X-Stripe-Routing-Context-Priority-Tier:
+      - api-testmode
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains; preload
+    body:
+      encoding: UTF-8
+      string: |-
+        {
+          "id": "sub_1NaPMDIsgf92XbAObWRbqCBB",
+          "object": "subscription",
+          "application": "ca_KHoLJGritkQy9Bisc1D5O5YglqfWs5bi",
+          "application_fee_percent": null,
+          "automatic_tax": {
+            "enabled": false
+          },
+          "billing_cycle_anchor": 1690848000,
+          "billing_thresholds": null,
+          "cancel_at": null,
+          "cancel_at_period_end": false,
+          "canceled_at": null,
+          "cancellation_details": {
+            "comment": null,
+            "feedback": null,
+            "reason": null
+          },
+          "collection_method": "charge_automatically",
+          "created": 1690848000,
+          "currency": "usd",
+          "current_period_end": 1693526400,
+          "current_period_start": 1690848000,
+          "customer": "cus_ON9fSDqkFE33Ge",
+          "days_until_due": null,
+          "default_payment_method": null,
+          "default_source": null,
+          "default_tax_rates": [],
+          "description": null,
+          "discount": null,
+          "discounts": [],
+          "ended_at": null,
+          "invoice_settings": {
+            "rendering": null
+          },
+          "items": {
+            "object": "list",
+            "data": [
+              {
+                "id": "si_ON9fDCD4miDUCU",
+                "object": "subscription_item",
+                "billing_thresholds": null,
+                "created": 1690848000,
+                "discounts": [],
+                "metadata": {},
+                "plan": {
+                  "id": "price_1NaPMCIsgf92XbAO7PbRPRks",
+                  "object": "plan",
+                  "active": true,
+                  "aggregate_usage": null,
+                  "amount": 1000,
+                  "amount_decimal": "1000",
+                  "billing_scheme": "per_unit",
+                  "created": 1690922392,
+                  "currency": "usd",
+                  "interval": "month",
+                  "interval_count": 1,
+                  "livemode": false,
+                  "metadata": {},
+                  "nickname": null,
+                  "product": "prod_ON9fMfax3cNNTz",
+                  "tiers_mode": null,
+                  "transform_usage": null,
+                  "trial_period_days": null,
+                  "usage_type": "licensed"
+                },
+                "price": {
+                  "id": "price_1NaPMCIsgf92XbAO7PbRPRks",
+                  "object": "price",
+                  "active": true,
+                  "billing_scheme": "per_unit",
+                  "created": 1690922392,
+                  "currency": "usd",
+                  "custom_unit_amount": null,
+                  "livemode": false,
+                  "lookup_key": null,
+                  "metadata": {},
+                  "nickname": null,
+                  "product": "prod_ON9fMfax3cNNTz",
+                  "recurring": {
+                    "aggregate_usage": null,
+                    "interval": "month",
+                    "interval_count": 1,
+                    "trial_period_days": null,
+                    "usage_type": "licensed"
+                  },
+                  "tax_behavior": "unspecified",
+                  "tiers_mode": null,
+                  "transform_quantity": null,
+                  "type": "recurring",
+                  "unit_amount": 1000,
+                  "unit_amount_decimal": "1000"
+                },
+                "quantity": 1,
+                "subscription": "sub_1NaPMDIsgf92XbAObWRbqCBB",
+                "tax_rates": []
+              }
+            ],
+            "has_more": false,
+            "total_count": 1,
+            "url": "/v1/subscription_items?subscription=sub_1NaPMDIsgf92XbAObWRbqCBB"
+          },
+          "latest_invoice": "in_1NaPMDIsgf92XbAOWSYrQP4i",
+          "livemode": false,
+          "metadata": {},
+          "next_pending_invoice_item_invoice": null,
+          "on_behalf_of": null,
+          "pause_collection": null,
+          "payment_settings": {
+            "payment_method_options": null,
+            "payment_method_types": null,
+            "save_default_payment_method": "off"
+          },
+          "pending_invoice_item_interval": null,
+          "pending_setup_intent": null,
+          "pending_update": null,
+          "plan": {
+            "id": "price_1NaPMCIsgf92XbAO7PbRPRks",
+            "object": "plan",
+            "active": true,
+            "aggregate_usage": null,
+            "amount": 1000,
+            "amount_decimal": "1000",
+            "billing_scheme": "per_unit",
+            "created": 1690922392,
+            "currency": "usd",
+            "interval": "month",
+            "interval_count": 1,
+            "livemode": false,
+            "metadata": {},
+            "nickname": null,
+            "product": "prod_ON9fMfax3cNNTz",
+            "tiers_mode": null,
+            "transform_usage": null,
+            "trial_period_days": null,
+            "usage_type": "licensed"
+          },
+          "prebilling": null,
+          "quantity": 1,
+          "schedule": null,
+          "start_date": 1690848000,
+          "status": "active",
+          "test_clock": "clock_1NaPMBIsgf92XbAOZPBsWiyc",
+          "transfer_data": null,
+          "trial_end": null,
+          "trial_settings": {
+            "end_behavior": {
+              "missing_payment_method": "create_invoice"
+            }
+          },
+          "trial_start": null
+        }
+  recorded_at: Tue, 01 Aug 2023 00:00:00 GMT
+- request:
+    method: post
+    uri: https://api.stripe.com/v1/products
+    body:
+      encoding: UTF-8
+      string: name=REST+Product++2023-08-01+00%3A00%3A00+UTC
+    headers:
+      User-Agent:
+      - Stripe/v1 RubyBindings/7.1.0
+      Authorization:
+      - Bearer <STRIPE_API_KEY>
+      Content-Type:
+      - application/x-www-form-urlencoded
+      X-Stripe-Client-Telemetry:
+      - '{"last_request_metrics":{"request_id":"req_no6kbvkmoOV0mL","request_duration_ms":1975}}'
+      Idempotency-Key:
+      - e0ad0643-dad3-42c3-82e7-c2ff743d500b
+      Stripe-Version:
+      - '2020-08-27'
+      X-Stripe-Client-User-Agent:
+      - '{"bindings_version":"7.1.0","lang":"ruby","lang_version":"2.7.6 p219 (2022-04-12)","platform":"arm64-darwin22","engine":"ruby","publisher":"stripe","uname":"Darwin
+        st-rish2 22.5.0 Darwin Kernel Version 22.5.0: Thu Jun  8 22:22:20 PDT 2023;
+        root:xnu-8796.121.3~7/RELEASE_ARM64_T6000 arm64","hostname":"st-rish2"}'
+      Stripe-Account:
+      - STRIPE_MERCHANT_ID
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Tue, 01 Aug 2023 20:39:55 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '555'
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Methods:
+      - GET, POST, HEAD, OPTIONS, DELETE
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Request-Id, Stripe-Manage-Version, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required
+      Access-Control-Max-Age:
+      - '300'
+      Cache-Control:
+      - no-cache, no-store
+      Idempotency-Key:
+      - e0ad0643-dad3-42c3-82e7-c2ff743d500b
+      Original-Request:
+      - req_xzsDihAWbRgvI1
+      Request-Id:
+      - req_xzsDihAWbRgvI1
+      Stripe-Account:
+      - acct_15uapDIsgf92XbAO
+      Stripe-Should-Retry:
+      - 'false'
+      Stripe-Version:
+      - '2020-08-27'
+      X-Stripe-Routing-Context-Priority-Tier:
+      - api-testmode
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains; preload
+    body:
+      encoding: UTF-8
+      string: |-
+        {
+          "id": "prod_ON9fyynWCC3YaC",
+          "object": "product",
+          "active": true,
+          "attributes": [],
+          "created": 1690922395,
+          "default_price": null,
+          "description": null,
+          "identifiers": {},
+          "images": [],
+          "livemode": false,
+          "metadata": {},
+          "name": "REST Product  2023-08-01 00:00:00 UTC",
+          "package_dimensions": null,
+          "product_class": null,
+          "shippable": null,
+          "sku": "rest-product--2023-08-01-000000-utc-4",
+          "statement_descriptor": null,
+          "tax_code": null,
+          "type": "service",
+          "unit_label": null,
+          "updated": 1690922395,
+          "url": null
+        }
+  recorded_at: Tue, 01 Aug 2023 00:00:00 GMT
+- request:
+    method: post
+    uri: https://api.stripe.com/v1/prices
+    body:
+      encoding: UTF-8
+      string: product=prod_ON9fyynWCC3YaC&currency=usd&unit_amount=1000
+    headers:
+      User-Agent:
+      - Stripe/v1 RubyBindings/7.1.0
+      Authorization:
+      - Bearer <STRIPE_API_KEY>
+      Content-Type:
+      - application/x-www-form-urlencoded
+      X-Stripe-Client-Telemetry:
+      - '{"last_request_metrics":{"request_id":"req_xzsDihAWbRgvI1","request_duration_ms":282}}'
+      Idempotency-Key:
+      - 67340bc7-a7e4-40c4-aaf8-8be10182bd97
+      Stripe-Version:
+      - '2020-08-27'
+      X-Stripe-Client-User-Agent:
+      - '{"bindings_version":"7.1.0","lang":"ruby","lang_version":"2.7.6 p219 (2022-04-12)","platform":"arm64-darwin22","engine":"ruby","publisher":"stripe","uname":"Darwin
+        st-rish2 22.5.0 Darwin Kernel Version 22.5.0: Thu Jun  8 22:22:20 PDT 2023;
+        root:xnu-8796.121.3~7/RELEASE_ARM64_T6000 arm64","hostname":"st-rish2"}'
+      Stripe-Account:
+      - STRIPE_MERCHANT_ID
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Tue, 01 Aug 2023 20:39:55 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '492'
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Methods:
+      - GET, POST, HEAD, OPTIONS, DELETE
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Request-Id, Stripe-Manage-Version, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required
+      Access-Control-Max-Age:
+      - '300'
+      Cache-Control:
+      - no-cache, no-store
+      Idempotency-Key:
+      - 67340bc7-a7e4-40c4-aaf8-8be10182bd97
+      Original-Request:
+      - req_zfhf7Y1NVbjuQI
+      Request-Id:
+      - req_zfhf7Y1NVbjuQI
+      Stripe-Account:
+      - acct_15uapDIsgf92XbAO
+      Stripe-Should-Retry:
+      - 'false'
+      Stripe-Version:
+      - '2020-08-27'
+      X-Stripe-Routing-Context-Priority-Tier:
+      - api-testmode
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains; preload
+    body:
+      encoding: UTF-8
+      string: |-
+        {
+          "id": "price_1NaPMFIsgf92XbAOSNL2wwXd",
+          "object": "price",
+          "active": true,
+          "billing_scheme": "per_unit",
+          "created": 1690922395,
+          "currency": "usd",
+          "custom_unit_amount": null,
+          "livemode": false,
+          "lookup_key": null,
+          "metadata": {},
+          "nickname": null,
+          "product": "prod_ON9fyynWCC3YaC",
+          "recurring": null,
+          "tax_behavior": "unspecified",
+          "tiers_mode": null,
+          "transform_quantity": null,
+          "type": "one_time",
+          "unit_amount": 1000,
+          "unit_amount_decimal": "1000"
+        }
+  recorded_at: Tue, 01 Aug 2023 00:00:00 GMT
+- request:
+    method: post
+    uri: https://api.stripe.com/v1/invoiceitems
+    body:
+      encoding: UTF-8
+      string: customer=cus_ON9fSDqkFE33Ge&subscription=sub_1NaPMDIsgf92XbAObWRbqCBB&price=price_1NaPMFIsgf92XbAOSNL2wwXd&quantity=1&period[start]=1690848000&period[end]=1690934400&metadata[salesforce_proration]=true&metadata[salesforce_order_item_id]=8025c00000DcVBNAAV
+    headers:
+      User-Agent:
+      - Stripe/v1 RubyBindings/7.1.0
+      Authorization:
+      - Bearer <STRIPE_API_KEY>
+      Content-Type:
+      - application/x-www-form-urlencoded
+      X-Stripe-Client-Telemetry:
+      - '{"last_request_metrics":{"request_id":"req_zfhf7Y1NVbjuQI","request_duration_ms":229}}'
+      Idempotency-Key:
+      - 65736002-27a0-476c-9d13-4eadf14e706f
+      Stripe-Version:
+      - '2020-08-27'
+      X-Stripe-Client-User-Agent:
+      - '{"bindings_version":"7.1.0","lang":"ruby","lang_version":"2.7.6 p219 (2022-04-12)","platform":"arm64-darwin22","engine":"ruby","publisher":"stripe","uname":"Darwin
+        st-rish2 22.5.0 Darwin Kernel Version 22.5.0: Thu Jun  8 22:22:20 PDT 2023;
+        root:xnu-8796.121.3~7/RELEASE_ARM64_T6000 arm64","hostname":"st-rish2"}'
+      Stripe-Account:
+      - STRIPE_MERCHANT_ID
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Tue, 01 Aug 2023 20:39:56 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '1257'
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Methods:
+      - GET, POST, HEAD, OPTIONS, DELETE
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Request-Id, Stripe-Manage-Version, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required
+      Access-Control-Max-Age:
+      - '300'
+      Cache-Control:
+      - no-cache, no-store
+      Idempotency-Key:
+      - 65736002-27a0-476c-9d13-4eadf14e706f
+      Original-Request:
+      - req_KQKfBpV0bJoVEs
+      Request-Id:
+      - req_KQKfBpV0bJoVEs
+      Stripe-Account:
+      - acct_15uapDIsgf92XbAO
+      Stripe-Should-Retry:
+      - 'false'
+      Stripe-Version:
+      - '2020-08-27'
+      X-Stripe-Routing-Context-Priority-Tier:
+      - api-testmode
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains; preload
+    body:
+      encoding: UTF-8
+      string: |-
+        {
+          "id": "ii_1NaPMGIsgf92XbAOoCMxccUy",
+          "object": "invoiceitem",
+          "amount": 1000,
+          "currency": "usd",
+          "customer": "cus_ON9fSDqkFE33Ge",
+          "date": 1690848000,
+          "description": "REST Product  2023-08-01 00:00:00 UTC",
+          "discountable": true,
+          "discounts": [],
+          "invoice": null,
+          "livemode": false,
+          "metadata": {
+            "salesforce_order_item_id": "8025c00000DcVBNAAV",
+            "salesforce_proration": "true"
+          },
+          "period": {
+            "end": 1690934400,
+            "start": 1690848000
+          },
+          "plan": null,
+          "price": {
+            "id": "price_1NaPMFIsgf92XbAOSNL2wwXd",
+            "object": "price",
+            "active": true,
+            "billing_scheme": "per_unit",
+            "created": 1690922395,
+            "currency": "usd",
+            "custom_unit_amount": null,
+            "livemode": false,
+            "lookup_key": null,
+            "metadata": {},
+            "nickname": null,
+            "product": "prod_ON9fyynWCC3YaC",
+            "recurring": null,
+            "tax_behavior": "unspecified",
+            "tiers_mode": null,
+            "transform_quantity": null,
+            "type": "one_time",
+            "unit_amount": 1000,
+            "unit_amount_decimal": "1000"
+          },
+          "proration": false,
+          "quantity": 1,
+          "subscription": "sub_1NaPMDIsgf92XbAObWRbqCBB",
+          "tax_rates": [],
+          "test_clock": "clock_1NaPMBIsgf92XbAOZPBsWiyc",
+          "unit_amount": 1000,
+          "unit_amount_decimal": "1000"
+        }
+  recorded_at: Tue, 01 Aug 2023 00:00:00 GMT
+- request:
+    method: get
+    uri: https://api.stripe.com/v1/events?object_id=ii_1NaPMGIsgf92XbAOoCMxccUy&type=invoiceitem.created
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Stripe/v1 RubyBindings/7.1.0
+      Authorization:
+      - Bearer <STRIPE_API_KEY>
+      Content-Type:
+      - application/x-www-form-urlencoded
+      X-Stripe-Client-Telemetry:
+      - '{"last_request_metrics":{"request_id":"req_KQKfBpV0bJoVEs","request_duration_ms":1086}}'
+      Stripe-Version:
+      - '2020-08-27'
+      X-Stripe-Client-User-Agent:
+      - '{"bindings_version":"7.1.0","lang":"ruby","lang_version":"2.7.6 p219 (2022-04-12)","platform":"arm64-darwin22","engine":"ruby","publisher":"stripe","uname":"Darwin
+        st-rish2 22.5.0 Darwin Kernel Version 22.5.0: Thu Jun  8 22:22:20 PDT 2023;
+        root:xnu-8796.121.3~7/RELEASE_ARM64_T6000 arm64","hostname":"st-rish2"}'
+      Stripe-Account:
+      - STRIPE_MERCHANT_ID
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Tue, 01 Aug 2023 20:39:56 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '2183'
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Methods:
+      - GET, POST, HEAD, OPTIONS, DELETE
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Request-Id, Stripe-Manage-Version, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required
+      Access-Control-Max-Age:
+      - '300'
+      Cache-Control:
+      - no-cache, no-store
+      Request-Id:
+      - req_hCa5SDUi788Sbl
+      Stripe-Account:
+      - acct_15uapDIsgf92XbAO
+      Stripe-Version:
+      - '2020-08-27'
+      X-Stripe-Routing-Context-Priority-Tier:
+      - api-testmode
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains; preload
+    body:
+      encoding: UTF-8
+      string: |-
+        {
+          "object": "list",
+          "data": [
+            {
+              "id": "evt_1NaPMGIsgf92XbAOhQsnUcZu",
+              "object": "event",
+              "account": "acct_15uapDIsgf92XbAO",
+              "api_version": "2020-08-27",
+              "created": 1690922396,
+              "data": {
+                "object": {
+                  "id": "ii_1NaPMGIsgf92XbAOoCMxccUy",
+                  "object": "invoiceitem",
+                  "amount": 1000,
+                  "currency": "usd",
+                  "customer": "cus_ON9fSDqkFE33Ge",
+                  "date": 1690848000,
+                  "description": "REST Product  2023-08-01 00:00:00 UTC",
+                  "discountable": true,
+                  "discounts": [],
+                  "invoice": null,
+                  "livemode": false,
+                  "metadata": {
+                    "salesforce_order_item_id": "8025c00000DcVBNAAV",
+                    "salesforce_proration": "true"
+                  },
+                  "period": {
+                    "end": 1690934400,
+                    "start": 1690848000
+                  },
+                  "plan": null,
+                  "price": {
+                    "id": "price_1NaPMFIsgf92XbAOSNL2wwXd",
+                    "object": "price",
+                    "active": true,
+                    "billing_scheme": "per_unit",
+                    "created": 1690922395,
+                    "currency": "usd",
+                    "custom_unit_amount": null,
+                    "livemode": false,
+                    "lookup_key": null,
+                    "metadata": {},
+                    "nickname": null,
+                    "product": "prod_ON9fyynWCC3YaC",
+                    "recurring": null,
+                    "tax_behavior": "unspecified",
+                    "tiers_mode": null,
+                    "transform_quantity": null,
+                    "type": "one_time",
+                    "unit_amount": 1000,
+                    "unit_amount_decimal": "1000"
+                  },
+                  "proration": false,
+                  "quantity": 1,
+                  "subscription": "sub_1NaPMDIsgf92XbAObWRbqCBB",
+                  "tax_rates": [],
+                  "test_clock": "clock_1NaPMBIsgf92XbAOZPBsWiyc",
+                  "unit_amount": 1000,
+                  "unit_amount_decimal": "1000"
+                }
+              },
+              "livemode": false,
+              "pending_webhooks": 1,
+              "request": {
+                "id": "req_KQKfBpV0bJoVEs",
+                "idempotency_key": "65736002-27a0-476c-9d13-4eadf14e706f"
+              },
+              "type": "invoiceitem.created"
+            }
+          ],
+          "has_more": false,
+          "url": "/v1/events"
+        }
+  recorded_at: Tue, 01 Aug 2023 00:00:00 GMT
+- request:
+    method: get
+    uri: https://api.stripe.com/v1/invoiceitems/ii_1NaPMGIsgf92XbAOoCMxccUy
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Stripe/v1 RubyBindings/7.1.0
+      Authorization:
+      - Bearer <STRIPE_API_KEY>
+      Content-Type:
+      - application/x-www-form-urlencoded
+      X-Stripe-Client-Telemetry:
+      - '{"last_request_metrics":{"request_id":"req_hCa5SDUi788Sbl","request_duration_ms":199}}'
+      Stripe-Version:
+      - '2020-08-27'
+      X-Stripe-Client-User-Agent:
+      - '{"bindings_version":"7.1.0","lang":"ruby","lang_version":"2.7.6 p219 (2022-04-12)","platform":"arm64-darwin22","engine":"ruby","publisher":"stripe","uname":"Darwin
+        st-rish2 22.5.0 Darwin Kernel Version 22.5.0: Thu Jun  8 22:22:20 PDT 2023;
+        root:xnu-8796.121.3~7/RELEASE_ARM64_T6000 arm64","hostname":"st-rish2"}'
+      Stripe-Account:
+      - STRIPE_MERCHANT_ID
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Tue, 01 Aug 2023 20:39:57 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '1257'
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Methods:
+      - GET, POST, HEAD, OPTIONS, DELETE
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Request-Id, Stripe-Manage-Version, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required
+      Access-Control-Max-Age:
+      - '300'
+      Cache-Control:
+      - no-cache, no-store
+      Request-Id:
+      - req_ZScwBdAAvVs8v3
+      Stripe-Account:
+      - acct_15uapDIsgf92XbAO
+      Stripe-Version:
+      - '2020-08-27'
+      X-Stripe-Routing-Context-Priority-Tier:
+      - api-testmode
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains; preload
+    body:
+      encoding: UTF-8
+      string: |-
+        {
+          "id": "ii_1NaPMGIsgf92XbAOoCMxccUy",
+          "object": "invoiceitem",
+          "amount": 1000,
+          "currency": "usd",
+          "customer": "cus_ON9fSDqkFE33Ge",
+          "date": 1690848000,
+          "description": "REST Product  2023-08-01 00:00:00 UTC",
+          "discountable": true,
+          "discounts": [],
+          "invoice": null,
+          "livemode": false,
+          "metadata": {
+            "salesforce_order_item_id": "8025c00000DcVBNAAV",
+            "salesforce_proration": "true"
+          },
+          "period": {
+            "end": 1690934400,
+            "start": 1690848000
+          },
+          "plan": null,
+          "price": {
+            "id": "price_1NaPMFIsgf92XbAOSNL2wwXd",
+            "object": "price",
+            "active": true,
+            "billing_scheme": "per_unit",
+            "created": 1690922395,
+            "currency": "usd",
+            "custom_unit_amount": null,
+            "livemode": false,
+            "lookup_key": null,
+            "metadata": {},
+            "nickname": null,
+            "product": "prod_ON9fyynWCC3YaC",
+            "recurring": null,
+            "tax_behavior": "unspecified",
+            "tiers_mode": null,
+            "transform_quantity": null,
+            "type": "one_time",
+            "unit_amount": 1000,
+            "unit_amount_decimal": "1000"
+          },
+          "proration": false,
+          "quantity": 1,
+          "subscription": "sub_1NaPMDIsgf92XbAObWRbqCBB",
+          "tax_rates": [],
+          "test_clock": "clock_1NaPMBIsgf92XbAOZPBsWiyc",
+          "unit_amount": 1000,
+          "unit_amount_decimal": "1000"
+        }
+  recorded_at: Tue, 01 Aug 2023 00:00:00 GMT
+- request:
+    method: get
+    uri: https://api.stripe.com/v1/subscriptions/sub_1NaPMDIsgf92XbAObWRbqCBB
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Stripe/v1 RubyBindings/7.1.0
+      Authorization:
+      - Bearer <STRIPE_API_KEY>
+      Content-Type:
+      - application/x-www-form-urlencoded
+      X-Stripe-Client-Telemetry:
+      - '{"last_request_metrics":{"request_id":"req_ZScwBdAAvVs8v3","request_duration_ms":200}}'
+      Stripe-Version:
+      - '2020-08-27'
+      X-Stripe-Client-User-Agent:
+      - '{"bindings_version":"7.1.0","lang":"ruby","lang_version":"2.7.6 p219 (2022-04-12)","platform":"arm64-darwin22","engine":"ruby","publisher":"stripe","uname":"Darwin
+        st-rish2 22.5.0 Darwin Kernel Version 22.5.0: Thu Jun  8 22:22:20 PDT 2023;
+        root:xnu-8796.121.3~7/RELEASE_ARM64_T6000 arm64","hostname":"st-rish2"}'
+      Stripe-Account:
+      - STRIPE_MERCHANT_ID
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Tue, 01 Aug 2023 20:39:57 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '4198'
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Methods:
+      - GET, POST, HEAD, OPTIONS, DELETE
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Request-Id, Stripe-Manage-Version, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required
+      Access-Control-Max-Age:
+      - '300'
+      Cache-Control:
+      - no-cache, no-store
+      Request-Id:
+      - req_cjqhHYTzwzOruu
+      Stripe-Account:
+      - acct_15uapDIsgf92XbAO
+      Stripe-Version:
+      - '2020-08-27'
+      X-Stripe-Routing-Context-Priority-Tier:
+      - api-testmode
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains; preload
+    body:
+      encoding: UTF-8
+      string: |-
+        {
+          "id": "sub_1NaPMDIsgf92XbAObWRbqCBB",
+          "object": "subscription",
+          "application": "ca_KHoLJGritkQy9Bisc1D5O5YglqfWs5bi",
+          "application_fee_percent": null,
+          "automatic_tax": {
+            "enabled": false
+          },
+          "billing_cycle_anchor": 1690848000,
+          "billing_thresholds": null,
+          "cancel_at": null,
+          "cancel_at_period_end": false,
+          "canceled_at": null,
+          "cancellation_details": {
+            "comment": null,
+            "feedback": null,
+            "reason": null
+          },
+          "collection_method": "charge_automatically",
+          "created": 1690848000,
+          "currency": "usd",
+          "current_period_end": 1693526400,
+          "current_period_start": 1690848000,
+          "customer": "cus_ON9fSDqkFE33Ge",
+          "days_until_due": null,
+          "default_payment_method": null,
+          "default_source": null,
+          "default_tax_rates": [],
+          "description": null,
+          "discount": null,
+          "discounts": [],
+          "ended_at": null,
+          "invoice_settings": {
+            "rendering": null
+          },
+          "items": {
+            "object": "list",
+            "data": [
+              {
+                "id": "si_ON9fDCD4miDUCU",
+                "object": "subscription_item",
+                "billing_thresholds": null,
+                "created": 1690848000,
+                "discounts": [],
+                "metadata": {},
+                "plan": {
+                  "id": "price_1NaPMCIsgf92XbAO7PbRPRks",
+                  "object": "plan",
+                  "active": true,
+                  "aggregate_usage": null,
+                  "amount": 1000,
+                  "amount_decimal": "1000",
+                  "billing_scheme": "per_unit",
+                  "created": 1690922392,
+                  "currency": "usd",
+                  "interval": "month",
+                  "interval_count": 1,
+                  "livemode": false,
+                  "metadata": {},
+                  "nickname": null,
+                  "product": "prod_ON9fMfax3cNNTz",
+                  "tiers_mode": null,
+                  "transform_usage": null,
+                  "trial_period_days": null,
+                  "usage_type": "licensed"
+                },
+                "price": {
+                  "id": "price_1NaPMCIsgf92XbAO7PbRPRks",
+                  "object": "price",
+                  "active": true,
+                  "billing_scheme": "per_unit",
+                  "created": 1690922392,
+                  "currency": "usd",
+                  "custom_unit_amount": null,
+                  "livemode": false,
+                  "lookup_key": null,
+                  "metadata": {},
+                  "nickname": null,
+                  "product": "prod_ON9fMfax3cNNTz",
+                  "recurring": {
+                    "aggregate_usage": null,
+                    "interval": "month",
+                    "interval_count": 1,
+                    "trial_period_days": null,
+                    "usage_type": "licensed"
+                  },
+                  "tax_behavior": "unspecified",
+                  "tiers_mode": null,
+                  "transform_quantity": null,
+                  "type": "recurring",
+                  "unit_amount": 1000,
+                  "unit_amount_decimal": "1000"
+                },
+                "quantity": 1,
+                "subscription": "sub_1NaPMDIsgf92XbAObWRbqCBB",
+                "tax_rates": []
+              }
+            ],
+            "has_more": false,
+            "total_count": 1,
+            "url": "/v1/subscription_items?subscription=sub_1NaPMDIsgf92XbAObWRbqCBB"
+          },
+          "latest_invoice": "in_1NaPMDIsgf92XbAOWSYrQP4i",
+          "livemode": false,
+          "metadata": {},
+          "next_pending_invoice_item_invoice": null,
+          "on_behalf_of": null,
+          "pause_collection": null,
+          "payment_settings": {
+            "payment_method_options": null,
+            "payment_method_types": null,
+            "save_default_payment_method": "off"
+          },
+          "pending_invoice_item_interval": null,
+          "pending_setup_intent": null,
+          "pending_update": null,
+          "plan": {
+            "id": "price_1NaPMCIsgf92XbAO7PbRPRks",
+            "object": "plan",
+            "active": true,
+            "aggregate_usage": null,
+            "amount": 1000,
+            "amount_decimal": "1000",
+            "billing_scheme": "per_unit",
+            "created": 1690922392,
+            "currency": "usd",
+            "interval": "month",
+            "interval_count": 1,
+            "livemode": false,
+            "metadata": {},
+            "nickname": null,
+            "product": "prod_ON9fMfax3cNNTz",
+            "tiers_mode": null,
+            "transform_usage": null,
+            "trial_period_days": null,
+            "usage_type": "licensed"
+          },
+          "prebilling": null,
+          "quantity": 1,
+          "schedule": null,
+          "start_date": 1690848000,
+          "status": "active",
+          "test_clock": "clock_1NaPMBIsgf92XbAOZPBsWiyc",
+          "transfer_data": null,
+          "trial_end": null,
+          "trial_settings": {
+            "end_behavior": {
+              "missing_payment_method": "create_invoice"
+            }
+          },
+          "trial_start": null
+        }
+  recorded_at: Tue, 01 Aug 2023 00:00:00 GMT
+- request:
+    method: get
+    uri: https://api.stripe.com/v1/invoiceitems?created%5Bgt%5D=1690848000&customer=cus_ON9fSDqkFE33Ge
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Stripe/v1 RubyBindings/7.1.0
+      Authorization:
+      - Bearer <STRIPE_API_KEY>
+      Content-Type:
+      - application/x-www-form-urlencoded
+      X-Stripe-Client-Telemetry:
+      - '{"last_request_metrics":{"request_id":"req_cjqhHYTzwzOruu","request_duration_ms":236}}'
+      Stripe-Version:
+      - '2020-08-27'
+      X-Stripe-Client-User-Agent:
+      - '{"bindings_version":"7.1.0","lang":"ruby","lang_version":"2.7.6 p219 (2022-04-12)","platform":"arm64-darwin22","engine":"ruby","publisher":"stripe","uname":"Darwin
+        st-rish2 22.5.0 Darwin Kernel Version 22.5.0: Thu Jun  8 22:22:20 PDT 2023;
+        root:xnu-8796.121.3~7/RELEASE_ARM64_T6000 arm64","hostname":"st-rish2"}'
+      Stripe-Account:
+      - STRIPE_MERCHANT_ID
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Tue, 01 Aug 2023 20:39:57 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '1547'
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Methods:
+      - GET, POST, HEAD, OPTIONS, DELETE
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Request-Id, Stripe-Manage-Version, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required
+      Access-Control-Max-Age:
+      - '300'
+      Cache-Control:
+      - no-cache, no-store
+      Request-Id:
+      - req_zKgjzdvxLiNLJH
+      Stripe-Account:
+      - acct_15uapDIsgf92XbAO
+      Stripe-Version:
+      - '2020-08-27'
+      X-Stripe-Routing-Context-Priority-Tier:
+      - api-testmode
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains; preload
+    body:
+      encoding: UTF-8
+      string: |-
+        {
+          "object": "list",
+          "data": [
+            {
+              "id": "ii_1NaPMGIsgf92XbAOoCMxccUy",
+              "object": "invoiceitem",
+              "amount": 1000,
+              "currency": "usd",
+              "customer": "cus_ON9fSDqkFE33Ge",
+              "date": 1690848000,
+              "description": "REST Product  2023-08-01 00:00:00 UTC",
+              "discountable": true,
+              "discounts": [],
+              "invoice": null,
+              "livemode": false,
+              "metadata": {
+                "salesforce_order_item_id": "8025c00000DcVBNAAV",
+                "salesforce_proration": "true"
+              },
+              "period": {
+                "end": 1690934400,
+                "start": 1690848000
+              },
+              "plan": null,
+              "price": {
+                "id": "price_1NaPMFIsgf92XbAOSNL2wwXd",
+                "object": "price",
+                "active": true,
+                "billing_scheme": "per_unit",
+                "created": 1690922395,
+                "currency": "usd",
+                "custom_unit_amount": null,
+                "livemode": false,
+                "lookup_key": null,
+                "metadata": {},
+                "nickname": null,
+                "product": "prod_ON9fyynWCC3YaC",
+                "recurring": null,
+                "tax_behavior": "unspecified",
+                "tiers_mode": null,
+                "transform_quantity": null,
+                "type": "one_time",
+                "unit_amount": 1000,
+                "unit_amount_decimal": "1000"
+              },
+              "proration": false,
+              "quantity": 1,
+              "subscription": "sub_1NaPMDIsgf92XbAObWRbqCBB",
+              "tax_rates": [],
+              "test_clock": "clock_1NaPMBIsgf92XbAOZPBsWiyc",
+              "unit_amount": 1000,
+              "unit_amount_decimal": "1000"
+            }
+          ],
+          "has_more": false,
+          "url": "/v1/invoiceitems"
+        }
+  recorded_at: Tue, 01 Aug 2023 00:00:00 GMT
+- request:
+    method: post
+    uri: https://api.stripe.com/v1/invoices
+    body:
+      encoding: UTF-8
+      string: customer=cus_ON9fSDqkFE33Ge&subscription=sub_1NaPMDIsgf92XbAObWRbqCBB&metadata[salesforce_proration_invoice]=true&auto_advance=false
+    headers:
+      User-Agent:
+      - Stripe/v1 RubyBindings/7.1.0
+      Authorization:
+      - Bearer <STRIPE_API_KEY>
+      Content-Type:
+      - application/x-www-form-urlencoded
+      X-Stripe-Client-Telemetry:
+      - '{"last_request_metrics":{"request_id":"req_zKgjzdvxLiNLJH","request_duration_ms":204}}'
+      Idempotency-Key:
+      - 6a4ab2a9-710b-435b-ae1c-764aedef5d3c
+      Stripe-Version:
+      - '2020-08-27'
+      X-Stripe-Client-User-Agent:
+      - '{"bindings_version":"7.1.0","lang":"ruby","lang_version":"2.7.6 p219 (2022-04-12)","platform":"arm64-darwin22","engine":"ruby","publisher":"stripe","uname":"Darwin
+        st-rish2 22.5.0 Darwin Kernel Version 22.5.0: Thu Jun  8 22:22:20 PDT 2023;
+        root:xnu-8796.121.3~7/RELEASE_ARM64_T6000 arm64","hostname":"st-rish2"}'
+      Stripe-Account:
+      - STRIPE_MERCHANT_ID
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Tue, 01 Aug 2023 20:39:58 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '4326'
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Methods:
+      - GET, POST, HEAD, OPTIONS, DELETE
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Request-Id, Stripe-Manage-Version, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required
+      Access-Control-Max-Age:
+      - '300'
+      Cache-Control:
+      - no-cache, no-store
+      Idempotency-Key:
+      - 6a4ab2a9-710b-435b-ae1c-764aedef5d3c
+      Original-Request:
+      - req_PYnpjk59P4ZmOL
+      Request-Id:
+      - req_PYnpjk59P4ZmOL
+      Stripe-Account:
+      - acct_15uapDIsgf92XbAO
+      Stripe-Should-Retry:
+      - 'false'
+      Stripe-Version:
+      - '2020-08-27'
+      X-Stripe-Routing-Context-Priority-Tier:
+      - api-testmode
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains; preload
+    body:
+      encoding: UTF-8
+      string: |-
+        {
+          "id": "in_1NaPMHIsgf92XbAOa85thV5L",
+          "object": "invoice",
+          "account_country": "US",
+          "account_name": "StripeForce Demo Account ",
+          "account_tax_ids": null,
+          "amount_due": 1000,
+          "amount_paid": 0,
+          "amount_remaining": 1000,
+          "amount_shipping": 0,
+          "application": "ca_KHoLJGritkQy9Bisc1D5O5YglqfWs5bi",
+          "application_fee_amount": null,
+          "attempt_count": 0,
+          "attempted": false,
+          "auto_advance": false,
+          "automatic_tax": {
+            "enabled": false,
+            "status": null
+          },
+          "billing_reason": "manual",
+          "charge": null,
+          "collection_method": "charge_automatically",
+          "created": 1690848000,
+          "currency": "usd",
+          "custom_fields": null,
+          "customer": "cus_ON9fSDqkFE33Ge",
+          "customer_address": null,
+          "customer_email": "4W0OLPXj9IZh9AaBe4RAcqqLkfdwW@example.com",
+          "customer_name": null,
+          "customer_phone": null,
+          "customer_shipping": null,
+          "customer_tax_exempt": "none",
+          "customer_tax_ids": [],
+          "default_payment_method": null,
+          "default_source": null,
+          "default_tax_rates": [],
+          "description": null,
+          "discount": null,
+          "discounts": [],
+          "due_date": null,
+          "effective_at": null,
+          "ending_balance": null,
+          "footer": null,
+          "from_invoice": null,
+          "hosted_invoice_url": null,
+          "invoice_pdf": null,
+          "last_finalization_error": null,
+          "latest_revision": null,
+          "lines": {
+            "object": "list",
+            "data": [
+              {
+                "id": "il_1Na60KIsgf92XbAOPRYbE44e",
+                "object": "line_item",
+                "amount": 1000,
+                "amount_excluding_tax": 1000,
+                "currency": "usd",
+                "description": "REST Product  2023-08-01 00:00:00 UTC",
+                "discount_amounts": [],
+                "discountable": true,
+                "discounts": [],
+                "invoice_item": "ii_1NaPMGIsgf92XbAOoCMxccUy",
+                "livemode": false,
+                "metadata": {
+                  "salesforce_order_item_id": "8025c00000DcVBNAAV",
+                  "salesforce_proration": "true"
+                },
+                "period": {
+                  "end": 1690934400,
+                  "start": 1690848000
+                },
+                "plan": null,
+                "price": {
+                  "id": "price_1NaPMFIsgf92XbAOSNL2wwXd",
+                  "object": "price",
+                  "active": true,
+                  "billing_scheme": "per_unit",
+                  "created": 1690922395,
+                  "currency": "usd",
+                  "custom_unit_amount": null,
+                  "livemode": false,
+                  "lookup_key": null,
+                  "metadata": {},
+                  "nickname": null,
+                  "product": "prod_ON9fyynWCC3YaC",
+                  "recurring": null,
+                  "tax_behavior": "unspecified",
+                  "tiers_mode": null,
+                  "transform_quantity": null,
+                  "type": "one_time",
+                  "unit_amount": 1000,
+                  "unit_amount_decimal": "1000"
+                },
+                "proration": false,
+                "proration_details": {
+                  "credited_items": null
+                },
+                "quantity": 1,
+                "rendering": null,
+                "subscription": "sub_1NaPMDIsgf92XbAObWRbqCBB",
+                "tax_amounts": [],
+                "tax_rates": [],
+                "type": "invoiceitem",
+                "unit_amount_excluding_tax": "1000"
+              }
+            ],
+            "has_more": false,
+            "total_count": 1,
+            "url": "/v1/invoices/in_1NaPMHIsgf92XbAOa85thV5L/lines"
+          },
+          "livemode": false,
+          "metadata": {
+            "salesforce_proration_invoice": "true"
+          },
+          "next_payment_attempt": null,
+          "number": null,
+          "on_behalf_of": null,
+          "paid": false,
+          "paid_out_of_band": false,
+          "payment_intent": null,
+          "payment_settings": {
+            "default_mandate": null,
+            "payment_method_options": null,
+            "payment_method_types": null
+          },
+          "period_end": 1690848000,
+          "period_start": 1690848000,
+          "post_payment_credit_notes_amount": 0,
+          "pre_payment_credit_notes_amount": 0,
+          "quote": null,
+          "receipt_number": null,
+          "rendering": null,
+          "rendering_options": null,
+          "shipping_cost": null,
+          "shipping_details": null,
+          "starting_balance": 0,
+          "statement_descriptor": null,
+          "status": "draft",
+          "status_transitions": {
+            "finalized_at": null,
+            "marked_uncollectible_at": null,
+            "paid_at": null,
+            "voided_at": null
+          },
+          "subscription": "sub_1NaPMDIsgf92XbAObWRbqCBB",
+          "subtotal": 1000,
+          "subtotal_excluding_tax": 1000,
+          "tax": null,
+          "test_clock": "clock_1NaPMBIsgf92XbAOZPBsWiyc",
+          "total": 1000,
+          "total_discount_amounts": [],
+          "total_excluding_tax": 1000,
+          "total_tax_amounts": [],
+          "transfer_data": null,
+          "webhooks_delivered_at": 1690848000
+        }
+  recorded_at: Tue, 01 Aug 2023 00:00:00 GMT
+- request:
+    method: post
+    uri: https://api.stripe.com/v1/invoiceitems
+    body:
+      encoding: UTF-8
+      string: customer=cus_ON9fSDqkFE33Ge&subscription=sub_1NaPMDIsgf92XbAObWRbqCBB&price=price_1NaPMFIsgf92XbAOSNL2wwXd&quantity=1&period[start]=1690848000&period[end]=1690934400&metadata[salesforce_proration]=true&metadata[salesforce_order_item_id]=8025c00000DcVBNAAV
+    headers:
+      User-Agent:
+      - Stripe/v1 RubyBindings/7.1.0
+      Authorization:
+      - Bearer <STRIPE_API_KEY>
+      Content-Type:
+      - application/x-www-form-urlencoded
+      X-Stripe-Client-Telemetry:
+      - '{"last_request_metrics":{"request_id":"req_PYnpjk59P4ZmOL","request_duration_ms":604}}'
+      Idempotency-Key:
+      - a2c0e5f1-6cee-42d4-8ebb-416652c4ec72
+      Stripe-Version:
+      - '2020-08-27'
+      X-Stripe-Client-User-Agent:
+      - '{"bindings_version":"7.1.0","lang":"ruby","lang_version":"2.7.6 p219 (2022-04-12)","platform":"arm64-darwin22","engine":"ruby","publisher":"stripe","uname":"Darwin
+        st-rish2 22.5.0 Darwin Kernel Version 22.5.0: Thu Jun  8 22:22:20 PDT 2023;
+        root:xnu-8796.121.3~7/RELEASE_ARM64_T6000 arm64","hostname":"st-rish2"}'
+      Stripe-Account:
+      - STRIPE_MERCHANT_ID
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Tue, 01 Aug 2023 20:39:58 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '1257'
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Methods:
+      - GET, POST, HEAD, OPTIONS, DELETE
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Request-Id, Stripe-Manage-Version, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required
+      Access-Control-Max-Age:
+      - '300'
+      Cache-Control:
+      - no-cache, no-store
+      Idempotency-Key:
+      - a2c0e5f1-6cee-42d4-8ebb-416652c4ec72
+      Original-Request:
+      - req_uLyrE2t34Wxwwj
+      Request-Id:
+      - req_uLyrE2t34Wxwwj
+      Stripe-Account:
+      - acct_15uapDIsgf92XbAO
+      Stripe-Should-Retry:
+      - 'false'
+      Stripe-Version:
+      - '2020-08-27'
+      X-Stripe-Routing-Context-Priority-Tier:
+      - api-testmode
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains; preload
+    body:
+      encoding: UTF-8
+      string: |-
+        {
+          "id": "ii_1NaPMIIsgf92XbAO46rhgLxZ",
+          "object": "invoiceitem",
+          "amount": 1000,
+          "currency": "usd",
+          "customer": "cus_ON9fSDqkFE33Ge",
+          "date": 1690848000,
+          "description": "REST Product  2023-08-01 00:00:00 UTC",
+          "discountable": true,
+          "discounts": [],
+          "invoice": null,
+          "livemode": false,
+          "metadata": {
+            "salesforce_order_item_id": "8025c00000DcVBNAAV",
+            "salesforce_proration": "true"
+          },
+          "period": {
+            "end": 1690934400,
+            "start": 1690848000
+          },
+          "plan": null,
+          "price": {
+            "id": "price_1NaPMFIsgf92XbAOSNL2wwXd",
+            "object": "price",
+            "active": true,
+            "billing_scheme": "per_unit",
+            "created": 1690922395,
+            "currency": "usd",
+            "custom_unit_amount": null,
+            "livemode": false,
+            "lookup_key": null,
+            "metadata": {},
+            "nickname": null,
+            "product": "prod_ON9fyynWCC3YaC",
+            "recurring": null,
+            "tax_behavior": "unspecified",
+            "tiers_mode": null,
+            "transform_quantity": null,
+            "type": "one_time",
+            "unit_amount": 1000,
+            "unit_amount_decimal": "1000"
+          },
+          "proration": false,
+          "quantity": 1,
+          "subscription": "sub_1NaPMDIsgf92XbAObWRbqCBB",
+          "tax_rates": [],
+          "test_clock": "clock_1NaPMBIsgf92XbAOZPBsWiyc",
+          "unit_amount": 1000,
+          "unit_amount_decimal": "1000"
+        }
+  recorded_at: Tue, 01 Aug 2023 00:00:00 GMT
+- request:
+    method: get
+    uri: https://api.stripe.com/v1/events?object_id=ii_1NaPMIIsgf92XbAO46rhgLxZ&type=invoiceitem.created
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Stripe/v1 RubyBindings/7.1.0
+      Authorization:
+      - Bearer <STRIPE_API_KEY>
+      Content-Type:
+      - application/x-www-form-urlencoded
+      X-Stripe-Client-Telemetry:
+      - '{"last_request_metrics":{"request_id":"req_uLyrE2t34Wxwwj","request_duration_ms":414}}'
+      Stripe-Version:
+      - '2020-08-27'
+      X-Stripe-Client-User-Agent:
+      - '{"bindings_version":"7.1.0","lang":"ruby","lang_version":"2.7.6 p219 (2022-04-12)","platform":"arm64-darwin22","engine":"ruby","publisher":"stripe","uname":"Darwin
+        st-rish2 22.5.0 Darwin Kernel Version 22.5.0: Thu Jun  8 22:22:20 PDT 2023;
+        root:xnu-8796.121.3~7/RELEASE_ARM64_T6000 arm64","hostname":"st-rish2"}'
+      Stripe-Account:
+      - STRIPE_MERCHANT_ID
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Tue, 01 Aug 2023 20:39:58 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '2183'
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Methods:
+      - GET, POST, HEAD, OPTIONS, DELETE
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Request-Id, Stripe-Manage-Version, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required
+      Access-Control-Max-Age:
+      - '300'
+      Cache-Control:
+      - no-cache, no-store
+      Request-Id:
+      - req_laEE2TtLBxMUHk
+      Stripe-Account:
+      - acct_15uapDIsgf92XbAO
+      Stripe-Version:
+      - '2020-08-27'
+      X-Stripe-Routing-Context-Priority-Tier:
+      - api-testmode
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains; preload
+    body:
+      encoding: UTF-8
+      string: |-
+        {
+          "object": "list",
+          "data": [
+            {
+              "id": "evt_1NaPMIIsgf92XbAOiP3YBouU",
+              "object": "event",
+              "account": "acct_15uapDIsgf92XbAO",
+              "api_version": "2020-08-27",
+              "created": 1690922398,
+              "data": {
+                "object": {
+                  "id": "ii_1NaPMIIsgf92XbAO46rhgLxZ",
+                  "object": "invoiceitem",
+                  "amount": 1000,
+                  "currency": "usd",
+                  "customer": "cus_ON9fSDqkFE33Ge",
+                  "date": 1690848000,
+                  "description": "REST Product  2023-08-01 00:00:00 UTC",
+                  "discountable": true,
+                  "discounts": [],
+                  "invoice": null,
+                  "livemode": false,
+                  "metadata": {
+                    "salesforce_order_item_id": "8025c00000DcVBNAAV",
+                    "salesforce_proration": "true"
+                  },
+                  "period": {
+                    "end": 1690934400,
+                    "start": 1690848000
+                  },
+                  "plan": null,
+                  "price": {
+                    "id": "price_1NaPMFIsgf92XbAOSNL2wwXd",
+                    "object": "price",
+                    "active": true,
+                    "billing_scheme": "per_unit",
+                    "created": 1690922395,
+                    "currency": "usd",
+                    "custom_unit_amount": null,
+                    "livemode": false,
+                    "lookup_key": null,
+                    "metadata": {},
+                    "nickname": null,
+                    "product": "prod_ON9fyynWCC3YaC",
+                    "recurring": null,
+                    "tax_behavior": "unspecified",
+                    "tiers_mode": null,
+                    "transform_quantity": null,
+                    "type": "one_time",
+                    "unit_amount": 1000,
+                    "unit_amount_decimal": "1000"
+                  },
+                  "proration": false,
+                  "quantity": 1,
+                  "subscription": "sub_1NaPMDIsgf92XbAObWRbqCBB",
+                  "tax_rates": [],
+                  "test_clock": "clock_1NaPMBIsgf92XbAOZPBsWiyc",
+                  "unit_amount": 1000,
+                  "unit_amount_decimal": "1000"
+                }
+              },
+              "livemode": false,
+              "pending_webhooks": 1,
+              "request": {
+                "id": "req_uLyrE2t34Wxwwj",
+                "idempotency_key": "a2c0e5f1-6cee-42d4-8ebb-416652c4ec72"
+              },
+              "type": "invoiceitem.created"
+            }
+          ],
+          "has_more": false,
+          "url": "/v1/events"
+        }
+  recorded_at: Tue, 01 Aug 2023 00:00:00 GMT
+- request:
+    method: get
+    uri: https://api.stripe.com/v1/invoiceitems/ii_1NaPMIIsgf92XbAO46rhgLxZ
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Stripe/v1 RubyBindings/7.1.0
+      Authorization:
+      - Bearer <STRIPE_API_KEY>
+      Content-Type:
+      - application/x-www-form-urlencoded
+      X-Stripe-Client-Telemetry:
+      - '{"last_request_metrics":{"request_id":"req_laEE2TtLBxMUHk","request_duration_ms":220}}'
+      Stripe-Version:
+      - '2020-08-27'
+      X-Stripe-Client-User-Agent:
+      - '{"bindings_version":"7.1.0","lang":"ruby","lang_version":"2.7.6 p219 (2022-04-12)","platform":"arm64-darwin22","engine":"ruby","publisher":"stripe","uname":"Darwin
+        st-rish2 22.5.0 Darwin Kernel Version 22.5.0: Thu Jun  8 22:22:20 PDT 2023;
+        root:xnu-8796.121.3~7/RELEASE_ARM64_T6000 arm64","hostname":"st-rish2"}'
+      Stripe-Account:
+      - STRIPE_MERCHANT_ID
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Tue, 01 Aug 2023 20:39:58 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '1257'
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Methods:
+      - GET, POST, HEAD, OPTIONS, DELETE
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Request-Id, Stripe-Manage-Version, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required
+      Access-Control-Max-Age:
+      - '300'
+      Cache-Control:
+      - no-cache, no-store
+      Request-Id:
+      - req_ctG8qFsoVfRMUD
+      Stripe-Account:
+      - acct_15uapDIsgf92XbAO
+      Stripe-Version:
+      - '2020-08-27'
+      X-Stripe-Routing-Context-Priority-Tier:
+      - api-testmode
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains; preload
+    body:
+      encoding: UTF-8
+      string: |-
+        {
+          "id": "ii_1NaPMIIsgf92XbAO46rhgLxZ",
+          "object": "invoiceitem",
+          "amount": 1000,
+          "currency": "usd",
+          "customer": "cus_ON9fSDqkFE33Ge",
+          "date": 1690848000,
+          "description": "REST Product  2023-08-01 00:00:00 UTC",
+          "discountable": true,
+          "discounts": [],
+          "invoice": null,
+          "livemode": false,
+          "metadata": {
+            "salesforce_order_item_id": "8025c00000DcVBNAAV",
+            "salesforce_proration": "true"
+          },
+          "period": {
+            "end": 1690934400,
+            "start": 1690848000
+          },
+          "plan": null,
+          "price": {
+            "id": "price_1NaPMFIsgf92XbAOSNL2wwXd",
+            "object": "price",
+            "active": true,
+            "billing_scheme": "per_unit",
+            "created": 1690922395,
+            "currency": "usd",
+            "custom_unit_amount": null,
+            "livemode": false,
+            "lookup_key": null,
+            "metadata": {},
+            "nickname": null,
+            "product": "prod_ON9fyynWCC3YaC",
+            "recurring": null,
+            "tax_behavior": "unspecified",
+            "tiers_mode": null,
+            "transform_quantity": null,
+            "type": "one_time",
+            "unit_amount": 1000,
+            "unit_amount_decimal": "1000"
+          },
+          "proration": false,
+          "quantity": 1,
+          "subscription": "sub_1NaPMDIsgf92XbAObWRbqCBB",
+          "tax_rates": [],
+          "test_clock": "clock_1NaPMBIsgf92XbAOZPBsWiyc",
+          "unit_amount": 1000,
+          "unit_amount_decimal": "1000"
+        }
+  recorded_at: Tue, 01 Aug 2023 00:00:00 GMT
+- request:
+    method: get
+    uri: https://api.stripe.com/v1/subscriptions/sub_1NaPMDIsgf92XbAObWRbqCBB
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Stripe/v1 RubyBindings/7.1.0
+      Authorization:
+      - Bearer <STRIPE_API_KEY>
+      Content-Type:
+      - application/x-www-form-urlencoded
+      X-Stripe-Client-Telemetry:
+      - '{"last_request_metrics":{"request_id":"req_ctG8qFsoVfRMUD","request_duration_ms":192}}'
+      Stripe-Version:
+      - '2020-08-27'
+      X-Stripe-Client-User-Agent:
+      - '{"bindings_version":"7.1.0","lang":"ruby","lang_version":"2.7.6 p219 (2022-04-12)","platform":"arm64-darwin22","engine":"ruby","publisher":"stripe","uname":"Darwin
+        st-rish2 22.5.0 Darwin Kernel Version 22.5.0: Thu Jun  8 22:22:20 PDT 2023;
+        root:xnu-8796.121.3~7/RELEASE_ARM64_T6000 arm64","hostname":"st-rish2"}'
+      Stripe-Account:
+      - STRIPE_MERCHANT_ID
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Tue, 01 Aug 2023 20:39:59 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '4198'
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Methods:
+      - GET, POST, HEAD, OPTIONS, DELETE
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Request-Id, Stripe-Manage-Version, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required
+      Access-Control-Max-Age:
+      - '300'
+      Cache-Control:
+      - no-cache, no-store
+      Request-Id:
+      - req_fRxQgDTCH2ttFH
+      Stripe-Account:
+      - acct_15uapDIsgf92XbAO
+      Stripe-Version:
+      - '2020-08-27'
+      X-Stripe-Routing-Context-Priority-Tier:
+      - api-testmode
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains; preload
+    body:
+      encoding: UTF-8
+      string: |-
+        {
+          "id": "sub_1NaPMDIsgf92XbAObWRbqCBB",
+          "object": "subscription",
+          "application": "ca_KHoLJGritkQy9Bisc1D5O5YglqfWs5bi",
+          "application_fee_percent": null,
+          "automatic_tax": {
+            "enabled": false
+          },
+          "billing_cycle_anchor": 1690848000,
+          "billing_thresholds": null,
+          "cancel_at": null,
+          "cancel_at_period_end": false,
+          "canceled_at": null,
+          "cancellation_details": {
+            "comment": null,
+            "feedback": null,
+            "reason": null
+          },
+          "collection_method": "charge_automatically",
+          "created": 1690848000,
+          "currency": "usd",
+          "current_period_end": 1693526400,
+          "current_period_start": 1690848000,
+          "customer": "cus_ON9fSDqkFE33Ge",
+          "days_until_due": null,
+          "default_payment_method": null,
+          "default_source": null,
+          "default_tax_rates": [],
+          "description": null,
+          "discount": null,
+          "discounts": [],
+          "ended_at": null,
+          "invoice_settings": {
+            "rendering": null
+          },
+          "items": {
+            "object": "list",
+            "data": [
+              {
+                "id": "si_ON9fDCD4miDUCU",
+                "object": "subscription_item",
+                "billing_thresholds": null,
+                "created": 1690848000,
+                "discounts": [],
+                "metadata": {},
+                "plan": {
+                  "id": "price_1NaPMCIsgf92XbAO7PbRPRks",
+                  "object": "plan",
+                  "active": true,
+                  "aggregate_usage": null,
+                  "amount": 1000,
+                  "amount_decimal": "1000",
+                  "billing_scheme": "per_unit",
+                  "created": 1690922392,
+                  "currency": "usd",
+                  "interval": "month",
+                  "interval_count": 1,
+                  "livemode": false,
+                  "metadata": {},
+                  "nickname": null,
+                  "product": "prod_ON9fMfax3cNNTz",
+                  "tiers_mode": null,
+                  "transform_usage": null,
+                  "trial_period_days": null,
+                  "usage_type": "licensed"
+                },
+                "price": {
+                  "id": "price_1NaPMCIsgf92XbAO7PbRPRks",
+                  "object": "price",
+                  "active": true,
+                  "billing_scheme": "per_unit",
+                  "created": 1690922392,
+                  "currency": "usd",
+                  "custom_unit_amount": null,
+                  "livemode": false,
+                  "lookup_key": null,
+                  "metadata": {},
+                  "nickname": null,
+                  "product": "prod_ON9fMfax3cNNTz",
+                  "recurring": {
+                    "aggregate_usage": null,
+                    "interval": "month",
+                    "interval_count": 1,
+                    "trial_period_days": null,
+                    "usage_type": "licensed"
+                  },
+                  "tax_behavior": "unspecified",
+                  "tiers_mode": null,
+                  "transform_quantity": null,
+                  "type": "recurring",
+                  "unit_amount": 1000,
+                  "unit_amount_decimal": "1000"
+                },
+                "quantity": 1,
+                "subscription": "sub_1NaPMDIsgf92XbAObWRbqCBB",
+                "tax_rates": []
+              }
+            ],
+            "has_more": false,
+            "total_count": 1,
+            "url": "/v1/subscription_items?subscription=sub_1NaPMDIsgf92XbAObWRbqCBB"
+          },
+          "latest_invoice": "in_1NaPMHIsgf92XbAOa85thV5L",
+          "livemode": false,
+          "metadata": {},
+          "next_pending_invoice_item_invoice": null,
+          "on_behalf_of": null,
+          "pause_collection": null,
+          "payment_settings": {
+            "payment_method_options": null,
+            "payment_method_types": null,
+            "save_default_payment_method": "off"
+          },
+          "pending_invoice_item_interval": null,
+          "pending_setup_intent": null,
+          "pending_update": null,
+          "plan": {
+            "id": "price_1NaPMCIsgf92XbAO7PbRPRks",
+            "object": "plan",
+            "active": true,
+            "aggregate_usage": null,
+            "amount": 1000,
+            "amount_decimal": "1000",
+            "billing_scheme": "per_unit",
+            "created": 1690922392,
+            "currency": "usd",
+            "interval": "month",
+            "interval_count": 1,
+            "livemode": false,
+            "metadata": {},
+            "nickname": null,
+            "product": "prod_ON9fMfax3cNNTz",
+            "tiers_mode": null,
+            "transform_usage": null,
+            "trial_period_days": null,
+            "usage_type": "licensed"
+          },
+          "prebilling": null,
+          "quantity": 1,
+          "schedule": null,
+          "start_date": 1690848000,
+          "status": "active",
+          "test_clock": "clock_1NaPMBIsgf92XbAOZPBsWiyc",
+          "transfer_data": null,
+          "trial_end": null,
+          "trial_settings": {
+            "end_behavior": {
+              "missing_payment_method": "create_invoice"
+            }
+          },
+          "trial_start": null
+        }
+  recorded_at: Tue, 01 Aug 2023 00:00:00 GMT
+- request:
+    method: get
+    uri: https://api.stripe.com/v1/invoiceitems?created%5Bgt%5D=1690848000&customer=cus_ON9fSDqkFE33Ge
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Stripe/v1 RubyBindings/7.1.0
+      Authorization:
+      - Bearer <STRIPE_API_KEY>
+      Content-Type:
+      - application/x-www-form-urlencoded
+      X-Stripe-Client-Telemetry:
+      - '{"last_request_metrics":{"request_id":"req_fRxQgDTCH2ttFH","request_duration_ms":191}}'
+      Stripe-Version:
+      - '2020-08-27'
+      X-Stripe-Client-User-Agent:
+      - '{"bindings_version":"7.1.0","lang":"ruby","lang_version":"2.7.6 p219 (2022-04-12)","platform":"arm64-darwin22","engine":"ruby","publisher":"stripe","uname":"Darwin
+        st-rish2 22.5.0 Darwin Kernel Version 22.5.0: Thu Jun  8 22:22:20 PDT 2023;
+        root:xnu-8796.121.3~7/RELEASE_ARM64_T6000 arm64","hostname":"st-rish2"}'
+      Stripe-Account:
+      - STRIPE_MERCHANT_ID
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Tue, 01 Aug 2023 20:39:59 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '3031'
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Methods:
+      - GET, POST, HEAD, OPTIONS, DELETE
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Request-Id, Stripe-Manage-Version, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required
+      Access-Control-Max-Age:
+      - '300'
+      Cache-Control:
+      - no-cache, no-store
+      Request-Id:
+      - req_vjrARKDt5vHt3W
+      Stripe-Account:
+      - acct_15uapDIsgf92XbAO
+      Stripe-Version:
+      - '2020-08-27'
+      X-Stripe-Routing-Context-Priority-Tier:
+      - api-testmode
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains; preload
+    body:
+      encoding: UTF-8
+      string: |-
+        {
+          "object": "list",
+          "data": [
+            {
+              "id": "ii_1NaPMIIsgf92XbAO46rhgLxZ",
+              "object": "invoiceitem",
+              "amount": 1000,
+              "currency": "usd",
+              "customer": "cus_ON9fSDqkFE33Ge",
+              "date": 1690848000,
+              "description": "REST Product  2023-08-01 00:00:00 UTC",
+              "discountable": true,
+              "discounts": [],
+              "invoice": null,
+              "livemode": false,
+              "metadata": {
+                "salesforce_order_item_id": "8025c00000DcVBNAAV",
+                "salesforce_proration": "true"
+              },
+              "period": {
+                "end": 1690934400,
+                "start": 1690848000
+              },
+              "plan": null,
+              "price": {
+                "id": "price_1NaPMFIsgf92XbAOSNL2wwXd",
+                "object": "price",
+                "active": true,
+                "billing_scheme": "per_unit",
+                "created": 1690922395,
+                "currency": "usd",
+                "custom_unit_amount": null,
+                "livemode": false,
+                "lookup_key": null,
+                "metadata": {},
+                "nickname": null,
+                "product": "prod_ON9fyynWCC3YaC",
+                "recurring": null,
+                "tax_behavior": "unspecified",
+                "tiers_mode": null,
+                "transform_quantity": null,
+                "type": "one_time",
+                "unit_amount": 1000,
+                "unit_amount_decimal": "1000"
+              },
+              "proration": false,
+              "quantity": 1,
+              "subscription": "sub_1NaPMDIsgf92XbAObWRbqCBB",
+              "tax_rates": [],
+              "test_clock": "clock_1NaPMBIsgf92XbAOZPBsWiyc",
+              "unit_amount": 1000,
+              "unit_amount_decimal": "1000"
+            },
+            {
+              "id": "ii_1NaPMGIsgf92XbAOoCMxccUy",
+              "object": "invoiceitem",
+              "amount": 1000,
+              "currency": "usd",
+              "customer": "cus_ON9fSDqkFE33Ge",
+              "date": 1690848000,
+              "description": "REST Product  2023-08-01 00:00:00 UTC",
+              "discountable": true,
+              "discounts": [],
+              "invoice": "in_1NaPMHIsgf92XbAOa85thV5L",
+              "livemode": false,
+              "metadata": {
+                "salesforce_order_item_id": "8025c00000DcVBNAAV",
+                "salesforce_proration": "true"
+              },
+              "period": {
+                "end": 1690934400,
+                "start": 1690848000
+              },
+              "plan": null,
+              "price": {
+                "id": "price_1NaPMFIsgf92XbAOSNL2wwXd",
+                "object": "price",
+                "active": true,
+                "billing_scheme": "per_unit",
+                "created": 1690922395,
+                "currency": "usd",
+                "custom_unit_amount": null,
+                "livemode": false,
+                "lookup_key": null,
+                "metadata": {},
+                "nickname": null,
+                "product": "prod_ON9fyynWCC3YaC",
+                "recurring": null,
+                "tax_behavior": "unspecified",
+                "tiers_mode": null,
+                "transform_quantity": null,
+                "type": "one_time",
+                "unit_amount": 1000,
+                "unit_amount_decimal": "1000"
+              },
+              "proration": false,
+              "quantity": 1,
+              "subscription": "sub_1NaPMDIsgf92XbAObWRbqCBB",
+              "tax_rates": [],
+              "test_clock": "clock_1NaPMBIsgf92XbAOZPBsWiyc",
+              "unit_amount": 1000,
+              "unit_amount_decimal": "1000"
+            }
+          ],
+          "has_more": false,
+          "url": "/v1/invoiceitems"
+        }
+  recorded_at: Tue, 01 Aug 2023 00:00:00 GMT
+- request:
+    method: post
+    uri: https://api.stripe.com/v1/invoiceitems
+    body:
+      encoding: UTF-8
+      string: customer=cus_ON9fSDqkFE33Ge&subscription=sub_1NaPMDIsgf92XbAObWRbqCBB&price=price_1NaPMFIsgf92XbAOSNL2wwXd&quantity=1&period[start]=1690848000&period[end]=1690934400&metadata[salesforce_proration]=true&metadata[salesforce_order_item_id]=8025c00000DcVBNAAY
+    headers:
+      User-Agent:
+      - Stripe/v1 RubyBindings/7.1.0
+      Authorization:
+      - Bearer <STRIPE_API_KEY>
+      Content-Type:
+      - application/x-www-form-urlencoded
+      X-Stripe-Client-Telemetry:
+      - '{"last_request_metrics":{"request_id":"req_vjrARKDt5vHt3W","request_duration_ms":280}}'
+      Idempotency-Key:
+      - 8f16d6d0-32dd-4a51-8430-4cc7eb29d4f5
+      Stripe-Version:
+      - '2020-08-27'
+      X-Stripe-Client-User-Agent:
+      - '{"bindings_version":"7.1.0","lang":"ruby","lang_version":"2.7.6 p219 (2022-04-12)","platform":"arm64-darwin22","engine":"ruby","publisher":"stripe","uname":"Darwin
+        st-rish2 22.5.0 Darwin Kernel Version 22.5.0: Thu Jun  8 22:22:20 PDT 2023;
+        root:xnu-8796.121.3~7/RELEASE_ARM64_T6000 arm64","hostname":"st-rish2"}'
+      Stripe-Account:
+      - STRIPE_MERCHANT_ID
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Tue, 01 Aug 2023 20:39:59 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '1257'
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Methods:
+      - GET, POST, HEAD, OPTIONS, DELETE
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Request-Id, Stripe-Manage-Version, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required
+      Access-Control-Max-Age:
+      - '300'
+      Cache-Control:
+      - no-cache, no-store
+      Idempotency-Key:
+      - 8f16d6d0-32dd-4a51-8430-4cc7eb29d4f5
+      Original-Request:
+      - req_PP3Qz0gCqMwt8e
+      Request-Id:
+      - req_PP3Qz0gCqMwt8e
+      Stripe-Account:
+      - acct_15uapDIsgf92XbAO
+      Stripe-Should-Retry:
+      - 'false'
+      Stripe-Version:
+      - '2020-08-27'
+      X-Stripe-Routing-Context-Priority-Tier:
+      - api-testmode
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains; preload
+    body:
+      encoding: UTF-8
+      string: |-
+        {
+          "id": "ii_1NaPMJIsgf92XbAOhlzrCq2m",
+          "object": "invoiceitem",
+          "amount": 1000,
+          "currency": "usd",
+          "customer": "cus_ON9fSDqkFE33Ge",
+          "date": 1690848000,
+          "description": "REST Product  2023-08-01 00:00:00 UTC",
+          "discountable": true,
+          "discounts": [],
+          "invoice": null,
+          "livemode": false,
+          "metadata": {
+            "salesforce_order_item_id": "8025c00000DcVBNAAY",
+            "salesforce_proration": "true"
+          },
+          "period": {
+            "end": 1690934400,
+            "start": 1690848000
+          },
+          "plan": null,
+          "price": {
+            "id": "price_1NaPMFIsgf92XbAOSNL2wwXd",
+            "object": "price",
+            "active": true,
+            "billing_scheme": "per_unit",
+            "created": 1690922395,
+            "currency": "usd",
+            "custom_unit_amount": null,
+            "livemode": false,
+            "lookup_key": null,
+            "metadata": {},
+            "nickname": null,
+            "product": "prod_ON9fyynWCC3YaC",
+            "recurring": null,
+            "tax_behavior": "unspecified",
+            "tiers_mode": null,
+            "transform_quantity": null,
+            "type": "one_time",
+            "unit_amount": 1000,
+            "unit_amount_decimal": "1000"
+          },
+          "proration": false,
+          "quantity": 1,
+          "subscription": "sub_1NaPMDIsgf92XbAObWRbqCBB",
+          "tax_rates": [],
+          "test_clock": "clock_1NaPMBIsgf92XbAOZPBsWiyc",
+          "unit_amount": 1000,
+          "unit_amount_decimal": "1000"
+        }
+  recorded_at: Tue, 01 Aug 2023 00:00:00 GMT
+- request:
+    method: get
+    uri: https://api.stripe.com/v1/events?object_id=ii_1NaPMJIsgf92XbAOhlzrCq2m&type=invoiceitem.created
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Stripe/v1 RubyBindings/7.1.0
+      Authorization:
+      - Bearer <STRIPE_API_KEY>
+      Content-Type:
+      - application/x-www-form-urlencoded
+      X-Stripe-Client-Telemetry:
+      - '{"last_request_metrics":{"request_id":"req_PP3Qz0gCqMwt8e","request_duration_ms":276}}'
+      Stripe-Version:
+      - '2020-08-27'
+      X-Stripe-Client-User-Agent:
+      - '{"bindings_version":"7.1.0","lang":"ruby","lang_version":"2.7.6 p219 (2022-04-12)","platform":"arm64-darwin22","engine":"ruby","publisher":"stripe","uname":"Darwin
+        st-rish2 22.5.0 Darwin Kernel Version 22.5.0: Thu Jun  8 22:22:20 PDT 2023;
+        root:xnu-8796.121.3~7/RELEASE_ARM64_T6000 arm64","hostname":"st-rish2"}'
+      Stripe-Account:
+      - STRIPE_MERCHANT_ID
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Tue, 01 Aug 2023 20:39:59 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '2183'
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Methods:
+      - GET, POST, HEAD, OPTIONS, DELETE
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Request-Id, Stripe-Manage-Version, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required
+      Access-Control-Max-Age:
+      - '300'
+      Cache-Control:
+      - no-cache, no-store
+      Request-Id:
+      - req_5NzpNnnIxktn0y
+      Stripe-Account:
+      - acct_15uapDIsgf92XbAO
+      Stripe-Version:
+      - '2020-08-27'
+      X-Stripe-Routing-Context-Priority-Tier:
+      - api-testmode
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains; preload
+    body:
+      encoding: UTF-8
+      string: |-
+        {
+          "object": "list",
+          "data": [
+            {
+              "id": "evt_1NaPMJIsgf92XbAOkPeII0sF",
+              "object": "event",
+              "account": "acct_15uapDIsgf92XbAO",
+              "api_version": "2020-08-27",
+              "created": 1690922399,
+              "data": {
+                "object": {
+                  "id": "ii_1NaPMJIsgf92XbAOhlzrCq2m",
+                  "object": "invoiceitem",
+                  "amount": 1000,
+                  "currency": "usd",
+                  "customer": "cus_ON9fSDqkFE33Ge",
+                  "date": 1690848000,
+                  "description": "REST Product  2023-08-01 00:00:00 UTC",
+                  "discountable": true,
+                  "discounts": [],
+                  "invoice": null,
+                  "livemode": false,
+                  "metadata": {
+                    "salesforce_order_item_id": "8025c00000DcVBNAAY",
+                    "salesforce_proration": "true"
+                  },
+                  "period": {
+                    "end": 1690934400,
+                    "start": 1690848000
+                  },
+                  "plan": null,
+                  "price": {
+                    "id": "price_1NaPMFIsgf92XbAOSNL2wwXd",
+                    "object": "price",
+                    "active": true,
+                    "billing_scheme": "per_unit",
+                    "created": 1690922395,
+                    "currency": "usd",
+                    "custom_unit_amount": null,
+                    "livemode": false,
+                    "lookup_key": null,
+                    "metadata": {},
+                    "nickname": null,
+                    "product": "prod_ON9fyynWCC3YaC",
+                    "recurring": null,
+                    "tax_behavior": "unspecified",
+                    "tiers_mode": null,
+                    "transform_quantity": null,
+                    "type": "one_time",
+                    "unit_amount": 1000,
+                    "unit_amount_decimal": "1000"
+                  },
+                  "proration": false,
+                  "quantity": 1,
+                  "subscription": "sub_1NaPMDIsgf92XbAObWRbqCBB",
+                  "tax_rates": [],
+                  "test_clock": "clock_1NaPMBIsgf92XbAOZPBsWiyc",
+                  "unit_amount": 1000,
+                  "unit_amount_decimal": "1000"
+                }
+              },
+              "livemode": false,
+              "pending_webhooks": 1,
+              "request": {
+                "id": "req_PP3Qz0gCqMwt8e",
+                "idempotency_key": "8f16d6d0-32dd-4a51-8430-4cc7eb29d4f5"
+              },
+              "type": "invoiceitem.created"
+            }
+          ],
+          "has_more": false,
+          "url": "/v1/events"
+        }
+  recorded_at: Tue, 01 Aug 2023 00:00:00 GMT
+- request:
+    method: get
+    uri: https://api.stripe.com/v1/invoiceitems/ii_1NaPMJIsgf92XbAOhlzrCq2m
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Stripe/v1 RubyBindings/7.1.0
+      Authorization:
+      - Bearer <STRIPE_API_KEY>
+      Content-Type:
+      - application/x-www-form-urlencoded
+      X-Stripe-Client-Telemetry:
+      - '{"last_request_metrics":{"request_id":"req_5NzpNnnIxktn0y","request_duration_ms":196}}'
+      Stripe-Version:
+      - '2020-08-27'
+      X-Stripe-Client-User-Agent:
+      - '{"bindings_version":"7.1.0","lang":"ruby","lang_version":"2.7.6 p219 (2022-04-12)","platform":"arm64-darwin22","engine":"ruby","publisher":"stripe","uname":"Darwin
+        st-rish2 22.5.0 Darwin Kernel Version 22.5.0: Thu Jun  8 22:22:20 PDT 2023;
+        root:xnu-8796.121.3~7/RELEASE_ARM64_T6000 arm64","hostname":"st-rish2"}'
+      Stripe-Account:
+      - STRIPE_MERCHANT_ID
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Tue, 01 Aug 2023 20:40:00 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '1257'
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Methods:
+      - GET, POST, HEAD, OPTIONS, DELETE
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Request-Id, Stripe-Manage-Version, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required
+      Access-Control-Max-Age:
+      - '300'
+      Cache-Control:
+      - no-cache, no-store
+      Request-Id:
+      - req_5PMHXGCXCUhRZF
+      Stripe-Account:
+      - acct_15uapDIsgf92XbAO
+      Stripe-Version:
+      - '2020-08-27'
+      X-Stripe-Routing-Context-Priority-Tier:
+      - api-testmode
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains; preload
+    body:
+      encoding: UTF-8
+      string: |-
+        {
+          "id": "ii_1NaPMJIsgf92XbAOhlzrCq2m",
+          "object": "invoiceitem",
+          "amount": 1000,
+          "currency": "usd",
+          "customer": "cus_ON9fSDqkFE33Ge",
+          "date": 1690848000,
+          "description": "REST Product  2023-08-01 00:00:00 UTC",
+          "discountable": true,
+          "discounts": [],
+          "invoice": null,
+          "livemode": false,
+          "metadata": {
+            "salesforce_order_item_id": "8025c00000DcVBNAAY",
+            "salesforce_proration": "true"
+          },
+          "period": {
+            "end": 1690934400,
+            "start": 1690848000
+          },
+          "plan": null,
+          "price": {
+            "id": "price_1NaPMFIsgf92XbAOSNL2wwXd",
+            "object": "price",
+            "active": true,
+            "billing_scheme": "per_unit",
+            "created": 1690922395,
+            "currency": "usd",
+            "custom_unit_amount": null,
+            "livemode": false,
+            "lookup_key": null,
+            "metadata": {},
+            "nickname": null,
+            "product": "prod_ON9fyynWCC3YaC",
+            "recurring": null,
+            "tax_behavior": "unspecified",
+            "tiers_mode": null,
+            "transform_quantity": null,
+            "type": "one_time",
+            "unit_amount": 1000,
+            "unit_amount_decimal": "1000"
+          },
+          "proration": false,
+          "quantity": 1,
+          "subscription": "sub_1NaPMDIsgf92XbAObWRbqCBB",
+          "tax_rates": [],
+          "test_clock": "clock_1NaPMBIsgf92XbAOZPBsWiyc",
+          "unit_amount": 1000,
+          "unit_amount_decimal": "1000"
+        }
+  recorded_at: Tue, 01 Aug 2023 00:00:00 GMT
+- request:
+    method: get
+    uri: https://api.stripe.com/v1/subscriptions/sub_1NaPMDIsgf92XbAObWRbqCBB
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Stripe/v1 RubyBindings/7.1.0
+      Authorization:
+      - Bearer <STRIPE_API_KEY>
+      Content-Type:
+      - application/x-www-form-urlencoded
+      X-Stripe-Client-Telemetry:
+      - '{"last_request_metrics":{"request_id":"req_5PMHXGCXCUhRZF","request_duration_ms":200}}'
+      Stripe-Version:
+      - '2020-08-27'
+      X-Stripe-Client-User-Agent:
+      - '{"bindings_version":"7.1.0","lang":"ruby","lang_version":"2.7.6 p219 (2022-04-12)","platform":"arm64-darwin22","engine":"ruby","publisher":"stripe","uname":"Darwin
+        st-rish2 22.5.0 Darwin Kernel Version 22.5.0: Thu Jun  8 22:22:20 PDT 2023;
+        root:xnu-8796.121.3~7/RELEASE_ARM64_T6000 arm64","hostname":"st-rish2"}'
+      Stripe-Account:
+      - STRIPE_MERCHANT_ID
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Tue, 01 Aug 2023 20:40:00 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '4198'
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Methods:
+      - GET, POST, HEAD, OPTIONS, DELETE
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Request-Id, Stripe-Manage-Version, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required
+      Access-Control-Max-Age:
+      - '300'
+      Cache-Control:
+      - no-cache, no-store
+      Request-Id:
+      - req_NlEPeX0MVFilcF
+      Stripe-Account:
+      - acct_15uapDIsgf92XbAO
+      Stripe-Version:
+      - '2020-08-27'
+      X-Stripe-Routing-Context-Priority-Tier:
+      - api-testmode
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains; preload
+    body:
+      encoding: UTF-8
+      string: |-
+        {
+          "id": "sub_1NaPMDIsgf92XbAObWRbqCBB",
+          "object": "subscription",
+          "application": "ca_KHoLJGritkQy9Bisc1D5O5YglqfWs5bi",
+          "application_fee_percent": null,
+          "automatic_tax": {
+            "enabled": false
+          },
+          "billing_cycle_anchor": 1690848000,
+          "billing_thresholds": null,
+          "cancel_at": null,
+          "cancel_at_period_end": false,
+          "canceled_at": null,
+          "cancellation_details": {
+            "comment": null,
+            "feedback": null,
+            "reason": null
+          },
+          "collection_method": "charge_automatically",
+          "created": 1690848000,
+          "currency": "usd",
+          "current_period_end": 1693526400,
+          "current_period_start": 1690848000,
+          "customer": "cus_ON9fSDqkFE33Ge",
+          "days_until_due": null,
+          "default_payment_method": null,
+          "default_source": null,
+          "default_tax_rates": [],
+          "description": null,
+          "discount": null,
+          "discounts": [],
+          "ended_at": null,
+          "invoice_settings": {
+            "rendering": null
+          },
+          "items": {
+            "object": "list",
+            "data": [
+              {
+                "id": "si_ON9fDCD4miDUCU",
+                "object": "subscription_item",
+                "billing_thresholds": null,
+                "created": 1690848000,
+                "discounts": [],
+                "metadata": {},
+                "plan": {
+                  "id": "price_1NaPMCIsgf92XbAO7PbRPRks",
+                  "object": "plan",
+                  "active": true,
+                  "aggregate_usage": null,
+                  "amount": 1000,
+                  "amount_decimal": "1000",
+                  "billing_scheme": "per_unit",
+                  "created": 1690922392,
+                  "currency": "usd",
+                  "interval": "month",
+                  "interval_count": 1,
+                  "livemode": false,
+                  "metadata": {},
+                  "nickname": null,
+                  "product": "prod_ON9fMfax3cNNTz",
+                  "tiers_mode": null,
+                  "transform_usage": null,
+                  "trial_period_days": null,
+                  "usage_type": "licensed"
+                },
+                "price": {
+                  "id": "price_1NaPMCIsgf92XbAO7PbRPRks",
+                  "object": "price",
+                  "active": true,
+                  "billing_scheme": "per_unit",
+                  "created": 1690922392,
+                  "currency": "usd",
+                  "custom_unit_amount": null,
+                  "livemode": false,
+                  "lookup_key": null,
+                  "metadata": {},
+                  "nickname": null,
+                  "product": "prod_ON9fMfax3cNNTz",
+                  "recurring": {
+                    "aggregate_usage": null,
+                    "interval": "month",
+                    "interval_count": 1,
+                    "trial_period_days": null,
+                    "usage_type": "licensed"
+                  },
+                  "tax_behavior": "unspecified",
+                  "tiers_mode": null,
+                  "transform_quantity": null,
+                  "type": "recurring",
+                  "unit_amount": 1000,
+                  "unit_amount_decimal": "1000"
+                },
+                "quantity": 1,
+                "subscription": "sub_1NaPMDIsgf92XbAObWRbqCBB",
+                "tax_rates": []
+              }
+            ],
+            "has_more": false,
+            "total_count": 1,
+            "url": "/v1/subscription_items?subscription=sub_1NaPMDIsgf92XbAObWRbqCBB"
+          },
+          "latest_invoice": "in_1NaPMHIsgf92XbAOa85thV5L",
+          "livemode": false,
+          "metadata": {},
+          "next_pending_invoice_item_invoice": null,
+          "on_behalf_of": null,
+          "pause_collection": null,
+          "payment_settings": {
+            "payment_method_options": null,
+            "payment_method_types": null,
+            "save_default_payment_method": "off"
+          },
+          "pending_invoice_item_interval": null,
+          "pending_setup_intent": null,
+          "pending_update": null,
+          "plan": {
+            "id": "price_1NaPMCIsgf92XbAO7PbRPRks",
+            "object": "plan",
+            "active": true,
+            "aggregate_usage": null,
+            "amount": 1000,
+            "amount_decimal": "1000",
+            "billing_scheme": "per_unit",
+            "created": 1690922392,
+            "currency": "usd",
+            "interval": "month",
+            "interval_count": 1,
+            "livemode": false,
+            "metadata": {},
+            "nickname": null,
+            "product": "prod_ON9fMfax3cNNTz",
+            "tiers_mode": null,
+            "transform_usage": null,
+            "trial_period_days": null,
+            "usage_type": "licensed"
+          },
+          "prebilling": null,
+          "quantity": 1,
+          "schedule": null,
+          "start_date": 1690848000,
+          "status": "active",
+          "test_clock": "clock_1NaPMBIsgf92XbAOZPBsWiyc",
+          "transfer_data": null,
+          "trial_end": null,
+          "trial_settings": {
+            "end_behavior": {
+              "missing_payment_method": "create_invoice"
+            }
+          },
+          "trial_start": null
+        }
+  recorded_at: Tue, 01 Aug 2023 00:00:00 GMT
+- request:
+    method: get
+    uri: https://api.stripe.com/v1/invoiceitems?created%5Bgt%5D=1690848000&customer=cus_ON9fSDqkFE33Ge
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Stripe/v1 RubyBindings/7.1.0
+      Authorization:
+      - Bearer <STRIPE_API_KEY>
+      Content-Type:
+      - application/x-www-form-urlencoded
+      X-Stripe-Client-Telemetry:
+      - '{"last_request_metrics":{"request_id":"req_NlEPeX0MVFilcF","request_duration_ms":212}}'
+      Stripe-Version:
+      - '2020-08-27'
+      X-Stripe-Client-User-Agent:
+      - '{"bindings_version":"7.1.0","lang":"ruby","lang_version":"2.7.6 p219 (2022-04-12)","platform":"arm64-darwin22","engine":"ruby","publisher":"stripe","uname":"Darwin
+        st-rish2 22.5.0 Darwin Kernel Version 22.5.0: Thu Jun  8 22:22:20 PDT 2023;
+        root:xnu-8796.121.3~7/RELEASE_ARM64_T6000 arm64","hostname":"st-rish2"}'
+      Stripe-Account:
+      - STRIPE_MERCHANT_ID
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Tue, 01 Aug 2023 20:40:00 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '4490'
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Methods:
+      - GET, POST, HEAD, OPTIONS, DELETE
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Request-Id, Stripe-Manage-Version, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required
+      Access-Control-Max-Age:
+      - '300'
+      Cache-Control:
+      - no-cache, no-store
+      Request-Id:
+      - req_5OUYkrrnV67LYN
+      Stripe-Account:
+      - acct_15uapDIsgf92XbAO
+      Stripe-Version:
+      - '2020-08-27'
+      X-Stripe-Routing-Context-Priority-Tier:
+      - api-testmode
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains; preload
+    body:
+      encoding: UTF-8
+      string: |-
+        {
+          "object": "list",
+          "data": [
+            {
+              "id": "ii_1NaPMJIsgf92XbAOhlzrCq2m",
+              "object": "invoiceitem",
+              "amount": 1000,
+              "currency": "usd",
+              "customer": "cus_ON9fSDqkFE33Ge",
+              "date": 1690848000,
+              "description": "REST Product  2023-08-01 00:00:00 UTC",
+              "discountable": true,
+              "discounts": [],
+              "invoice": null,
+              "livemode": false,
+              "metadata": {
+                "salesforce_order_item_id": "8025c00000DcVBNAAY",
+                "salesforce_proration": "true"
+              },
+              "period": {
+                "end": 1690934400,
+                "start": 1690848000
+              },
+              "plan": null,
+              "price": {
+                "id": "price_1NaPMFIsgf92XbAOSNL2wwXd",
+                "object": "price",
+                "active": true,
+                "billing_scheme": "per_unit",
+                "created": 1690922395,
+                "currency": "usd",
+                "custom_unit_amount": null,
+                "livemode": false,
+                "lookup_key": null,
+                "metadata": {},
+                "nickname": null,
+                "product": "prod_ON9fyynWCC3YaC",
+                "recurring": null,
+                "tax_behavior": "unspecified",
+                "tiers_mode": null,
+                "transform_quantity": null,
+                "type": "one_time",
+                "unit_amount": 1000,
+                "unit_amount_decimal": "1000"
+              },
+              "proration": false,
+              "quantity": 1,
+              "subscription": "sub_1NaPMDIsgf92XbAObWRbqCBB",
+              "tax_rates": [],
+              "test_clock": "clock_1NaPMBIsgf92XbAOZPBsWiyc",
+              "unit_amount": 1000,
+              "unit_amount_decimal": "1000"
+            },
+            {
+              "id": "ii_1NaPMIIsgf92XbAO46rhgLxZ",
+              "object": "invoiceitem",
+              "amount": 1000,
+              "currency": "usd",
+              "customer": "cus_ON9fSDqkFE33Ge",
+              "date": 1690848000,
+              "description": "REST Product  2023-08-01 00:00:00 UTC",
+              "discountable": true,
+              "discounts": [],
+              "invoice": null,
+              "livemode": false,
+              "metadata": {
+                "salesforce_order_item_id": "8025c00000DcVBNAAV",
+                "salesforce_proration": "true"
+              },
+              "period": {
+                "end": 1690934400,
+                "start": 1690848000
+              },
+              "plan": null,
+              "price": {
+                "id": "price_1NaPMFIsgf92XbAOSNL2wwXd",
+                "object": "price",
+                "active": true,
+                "billing_scheme": "per_unit",
+                "created": 1690922395,
+                "currency": "usd",
+                "custom_unit_amount": null,
+                "livemode": false,
+                "lookup_key": null,
+                "metadata": {},
+                "nickname": null,
+                "product": "prod_ON9fyynWCC3YaC",
+                "recurring": null,
+                "tax_behavior": "unspecified",
+                "tiers_mode": null,
+                "transform_quantity": null,
+                "type": "one_time",
+                "unit_amount": 1000,
+                "unit_amount_decimal": "1000"
+              },
+              "proration": false,
+              "quantity": 1,
+              "subscription": "sub_1NaPMDIsgf92XbAObWRbqCBB",
+              "tax_rates": [],
+              "test_clock": "clock_1NaPMBIsgf92XbAOZPBsWiyc",
+              "unit_amount": 1000,
+              "unit_amount_decimal": "1000"
+            },
+            {
+              "id": "ii_1NaPMGIsgf92XbAOoCMxccUy",
+              "object": "invoiceitem",
+              "amount": 1000,
+              "currency": "usd",
+              "customer": "cus_ON9fSDqkFE33Ge",
+              "date": 1690848000,
+              "description": "REST Product  2023-08-01 00:00:00 UTC",
+              "discountable": true,
+              "discounts": [],
+              "invoice": "in_1NaPMHIsgf92XbAOa85thV5L",
+              "livemode": false,
+              "metadata": {
+                "salesforce_order_item_id": "8025c00000DcVBNAAV",
+                "salesforce_proration": "true"
+              },
+              "period": {
+                "end": 1690934400,
+                "start": 1690848000
+              },
+              "plan": null,
+              "price": {
+                "id": "price_1NaPMFIsgf92XbAOSNL2wwXd",
+                "object": "price",
+                "active": true,
+                "billing_scheme": "per_unit",
+                "created": 1690922395,
+                "currency": "usd",
+                "custom_unit_amount": null,
+                "livemode": false,
+                "lookup_key": null,
+                "metadata": {},
+                "nickname": null,
+                "product": "prod_ON9fyynWCC3YaC",
+                "recurring": null,
+                "tax_behavior": "unspecified",
+                "tiers_mode": null,
+                "transform_quantity": null,
+                "type": "one_time",
+                "unit_amount": 1000,
+                "unit_amount_decimal": "1000"
+              },
+              "proration": false,
+              "quantity": 1,
+              "subscription": "sub_1NaPMDIsgf92XbAObWRbqCBB",
+              "tax_rates": [],
+              "test_clock": "clock_1NaPMBIsgf92XbAOZPBsWiyc",
+              "unit_amount": 1000,
+              "unit_amount_decimal": "1000"
+            }
+          ],
+          "has_more": false,
+          "url": "/v1/invoiceitems"
+        }
+  recorded_at: Tue, 01 Aug 2023 00:00:00 GMT
+- request:
+    method: post
+    uri: https://api.stripe.com/v1/invoices
+    body:
+      encoding: UTF-8
+      string: customer=cus_ON9fSDqkFE33Ge&subscription=sub_1NaPMDIsgf92XbAObWRbqCBB&metadata[salesforce_proration_invoice]=true&auto_advance=false
+    headers:
+      User-Agent:
+      - Stripe/v1 RubyBindings/7.1.0
+      Authorization:
+      - Bearer <STRIPE_API_KEY>
+      Content-Type:
+      - application/x-www-form-urlencoded
+      X-Stripe-Client-Telemetry:
+      - '{"last_request_metrics":{"request_id":"req_5OUYkrrnV67LYN","request_duration_ms":306}}'
+      Idempotency-Key:
+      - 2e91a870-ee92-46eb-804a-29e8bebe0dfe
+      Stripe-Version:
+      - '2020-08-27'
+      X-Stripe-Client-User-Agent:
+      - '{"bindings_version":"7.1.0","lang":"ruby","lang_version":"2.7.6 p219 (2022-04-12)","platform":"arm64-darwin22","engine":"ruby","publisher":"stripe","uname":"Darwin
+        st-rish2 22.5.0 Darwin Kernel Version 22.5.0: Thu Jun  8 22:22:20 PDT 2023;
+        root:xnu-8796.121.3~7/RELEASE_ARM64_T6000 arm64","hostname":"st-rish2"}'
+      Stripe-Account:
+      - STRIPE_MERCHANT_ID
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Tue, 01 Aug 2023 20:40:01 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '5994'
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Methods:
+      - GET, POST, HEAD, OPTIONS, DELETE
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Request-Id, Stripe-Manage-Version, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required
+      Access-Control-Max-Age:
+      - '300'
+      Cache-Control:
+      - no-cache, no-store
+      Idempotency-Key:
+      - 2e91a870-ee92-46eb-804a-29e8bebe0dfe
+      Original-Request:
+      - req_Qop7LOGqHlAvDq
+      Request-Id:
+      - req_Qop7LOGqHlAvDq
+      Stripe-Account:
+      - acct_15uapDIsgf92XbAO
+      Stripe-Should-Retry:
+      - 'false'
+      Stripe-Version:
+      - '2020-08-27'
+      X-Stripe-Routing-Context-Priority-Tier:
+      - api-testmode
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains; preload
+    body:
+      encoding: UTF-8
+      string: |-
+        {
+          "id": "in_1NaPMLIsgf92XbAONYQ6r96p",
+          "object": "invoice",
+          "account_country": "US",
+          "account_name": "StripeForce Demo Account ",
+          "account_tax_ids": null,
+          "amount_due": 2000,
+          "amount_paid": 0,
+          "amount_remaining": 2000,
+          "amount_shipping": 0,
+          "application": "ca_KHoLJGritkQy9Bisc1D5O5YglqfWs5bi",
+          "application_fee_amount": null,
+          "attempt_count": 0,
+          "attempted": false,
+          "auto_advance": false,
+          "automatic_tax": {
+            "enabled": false,
+            "status": null
+          },
+          "billing_reason": "manual",
+          "charge": null,
+          "collection_method": "charge_automatically",
+          "created": 1690848000,
+          "currency": "usd",
+          "custom_fields": null,
+          "customer": "cus_ON9fSDqkFE33Ge",
+          "customer_address": null,
+          "customer_email": "4W0OLPXj9IZh9AaBe4RAcqqLkfdwW@example.com",
+          "customer_name": null,
+          "customer_phone": null,
+          "customer_shipping": null,
+          "customer_tax_exempt": "none",
+          "customer_tax_ids": [],
+          "default_payment_method": null,
+          "default_source": null,
+          "default_tax_rates": [],
+          "description": null,
+          "discount": null,
+          "discounts": [],
+          "due_date": null,
+          "effective_at": null,
+          "ending_balance": null,
+          "footer": null,
+          "from_invoice": null,
+          "hosted_invoice_url": null,
+          "invoice_pdf": null,
+          "last_finalization_error": null,
+          "latest_revision": null,
+          "lines": {
+            "object": "list",
+            "data": [
+              {
+                "id": "il_1Na60KIsgf92XbAOVeekN2kU",
+                "object": "line_item",
+                "amount": 1000,
+                "amount_excluding_tax": 1000,
+                "currency": "usd",
+                "description": "REST Product  2023-08-01 00:00:00 UTC",
+                "discount_amounts": [],
+                "discountable": true,
+                "discounts": [],
+                "invoice_item": "ii_1NaPMJIsgf92XbAOhlzrCq2m",
+                "livemode": false,
+                "metadata": {
+                  "salesforce_order_item_id": "8025c00000DcVBNAAY",
+                  "salesforce_proration": "true"
+                },
+                "period": {
+                  "end": 1690934400,
+                  "start": 1690848000
+                },
+                "plan": null,
+                "price": {
+                  "id": "price_1NaPMFIsgf92XbAOSNL2wwXd",
+                  "object": "price",
+                  "active": true,
+                  "billing_scheme": "per_unit",
+                  "created": 1690922395,
+                  "currency": "usd",
+                  "custom_unit_amount": null,
+                  "livemode": false,
+                  "lookup_key": null,
+                  "metadata": {},
+                  "nickname": null,
+                  "product": "prod_ON9fyynWCC3YaC",
+                  "recurring": null,
+                  "tax_behavior": "unspecified",
+                  "tiers_mode": null,
+                  "transform_quantity": null,
+                  "type": "one_time",
+                  "unit_amount": 1000,
+                  "unit_amount_decimal": "1000"
+                },
+                "proration": false,
+                "proration_details": {
+                  "credited_items": null
+                },
+                "quantity": 1,
+                "rendering": null,
+                "subscription": "sub_1NaPMDIsgf92XbAObWRbqCBB",
+                "tax_amounts": [],
+                "tax_rates": [],
+                "type": "invoiceitem",
+                "unit_amount_excluding_tax": "1000"
+              },
+              {
+                "id": "il_1Na60LIsgf92XbAOrTJjPbrM",
+                "object": "line_item",
+                "amount": 1000,
+                "amount_excluding_tax": 1000,
+                "currency": "usd",
+                "description": "REST Product  2023-08-01 00:00:00 UTC",
+                "discount_amounts": [],
+                "discountable": true,
+                "discounts": [],
+                "invoice_item": "ii_1NaPMIIsgf92XbAO46rhgLxZ",
+                "livemode": false,
+                "metadata": {
+                  "salesforce_order_item_id": "8025c00000DcVBNAAV",
+                  "salesforce_proration": "true"
+                },
+                "period": {
+                  "end": 1690934400,
+                  "start": 1690848000
+                },
+                "plan": null,
+                "price": {
+                  "id": "price_1NaPMFIsgf92XbAOSNL2wwXd",
+                  "object": "price",
+                  "active": true,
+                  "billing_scheme": "per_unit",
+                  "created": 1690922395,
+                  "currency": "usd",
+                  "custom_unit_amount": null,
+                  "livemode": false,
+                  "lookup_key": null,
+                  "metadata": {},
+                  "nickname": null,
+                  "product": "prod_ON9fyynWCC3YaC",
+                  "recurring": null,
+                  "tax_behavior": "unspecified",
+                  "tiers_mode": null,
+                  "transform_quantity": null,
+                  "type": "one_time",
+                  "unit_amount": 1000,
+                  "unit_amount_decimal": "1000"
+                },
+                "proration": false,
+                "proration_details": {
+                  "credited_items": null
+                },
+                "quantity": 1,
+                "rendering": null,
+                "subscription": "sub_1NaPMDIsgf92XbAObWRbqCBB",
+                "tax_amounts": [],
+                "tax_rates": [],
+                "type": "invoiceitem",
+                "unit_amount_excluding_tax": "1000"
+              }
+            ],
+            "has_more": false,
+            "total_count": 2,
+            "url": "/v1/invoices/in_1NaPMLIsgf92XbAONYQ6r96p/lines"
+          },
+          "livemode": false,
+          "metadata": {
+            "salesforce_proration_invoice": "true"
+          },
+          "next_payment_attempt": null,
+          "number": null,
+          "on_behalf_of": null,
+          "paid": false,
+          "paid_out_of_band": false,
+          "payment_intent": null,
+          "payment_settings": {
+            "default_mandate": null,
+            "payment_method_options": null,
+            "payment_method_types": null
+          },
+          "period_end": 1690848000,
+          "period_start": 1690848000,
+          "post_payment_credit_notes_amount": 0,
+          "pre_payment_credit_notes_amount": 0,
+          "quote": null,
+          "receipt_number": null,
+          "rendering": null,
+          "rendering_options": null,
+          "shipping_cost": null,
+          "shipping_details": null,
+          "starting_balance": 0,
+          "statement_descriptor": null,
+          "status": "draft",
+          "status_transitions": {
+            "finalized_at": null,
+            "marked_uncollectible_at": null,
+            "paid_at": null,
+            "voided_at": null
+          },
+          "subscription": "sub_1NaPMDIsgf92XbAObWRbqCBB",
+          "subtotal": 2000,
+          "subtotal_excluding_tax": 2000,
+          "tax": null,
+          "test_clock": "clock_1NaPMBIsgf92XbAOZPBsWiyc",
+          "total": 2000,
+          "total_discount_amounts": [],
+          "total_excluding_tax": 2000,
+          "total_tax_amounts": [],
+          "transfer_data": null,
+          "webhooks_delivered_at": 1690848000
+        }
+  recorded_at: Tue, 01 Aug 2023 00:00:00 GMT
+recorded_with: VCR 6.2.0

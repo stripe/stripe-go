@@ -3,8 +3,11 @@
 
 require_relative '../test_helper'
 
-class Critic::SyncRecords < Critic::FunctionalTest
+class Critic::SyncRecords < Critic::VCRTest
   before do
+    set_cassette_dir(__FILE__)
+    Timecop.freeze(VCR.current_cassette.originally_recorded_at || now_time)
+
     @user = make_user(save: true)
   end
 
@@ -13,6 +16,7 @@ class Critic::SyncRecords < Critic::FunctionalTest
     start_date = now_time
 
     sf_order = create_salesforce_order(
+      contact_email: "sync_record_after_fail",
       additional_quote_fields: {
         CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(start_date),
         # omit subscription term
@@ -65,7 +69,7 @@ class Critic::SyncRecords < Critic::FunctionalTest
     @user.save
 
     sf_product_id, sf_pricebook_id = salesforce_recurring_product_with_price
-    sf_order = create_subscription_order
+    sf_order = create_subscription_order(contact_email: "secondary_id_fail")
 
     exception = assert_raises(Stripe::InvalidRequestError) do
       SalesforceTranslateRecordJob.translate(@user, sf_order)

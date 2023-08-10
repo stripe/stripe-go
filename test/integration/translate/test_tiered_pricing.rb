@@ -3,8 +3,11 @@
 
 require_relative '../../test_helper'
 
-class Critic::TieredPricingTranslation < Critic::FunctionalTest
+class Critic::TieredPricingTranslation < Critic::VCRTest
   before do
+    set_cassette_dir(__FILE__)
+    Timecop.freeze(VCR.current_cassette.originally_recorded_at || now_time)
+
     @user = make_user(save: true)
   end
 
@@ -28,7 +31,7 @@ class Critic::TieredPricingTranslation < Critic::FunctionalTest
 
     activate_and_link_consumption_schedule(consumption_schedule_id, product_id)
 
-    sf_order = create_subscription_order(sf_product_id: product_id)
+    sf_order = create_subscription_order(contact_email: "uses_order_line", sf_product_id: product_id)
 
     # it seems as though SF lets you edit the CPQ consumption rates after the order is activated, so we can just grab and edit directly
     cpq_consumption_rates = sf.query("SELECT Id FROM #{CPQ_CONSUMPTION_RATE} WHERE SBQQ__OrderItemConsumptionSchedule__r.SBQQ__OrderItem__r.OrderId = '#{sf_order.Id}' ORDER BY SBQQ__LowerBound__c ASC").map {|o| sf_get(o.Id) }
@@ -107,7 +110,7 @@ class Critic::TieredPricingTranslation < Critic::FunctionalTest
 
     activate_and_link_consumption_schedule(consumption_schedule_id, product_id)
 
-    sf_order = create_subscription_order(sf_product_id: product_id)
+    sf_order = create_subscription_order(contact_email: "supports_recurring_flat_volume_tiered", sf_product_id: product_id)
 
     StripeForce::Translate.perform_inline(@user, sf_order.Id)
 
@@ -172,7 +175,7 @@ class Critic::TieredPricingTranslation < Critic::FunctionalTest
 
     activate_and_link_consumption_schedule(consumption_schedule_id, product_id)
 
-    sf_order = create_subscription_order(sf_product_id: product_id)
+    sf_order = create_subscription_order(contact_email: "recurring_perunit_graduated_tiered", sf_product_id: product_id)
 
     StripeForce::Translate.perform_inline(@user, sf_order.Id)
 
@@ -212,7 +215,7 @@ class Critic::TieredPricingTranslation < Critic::FunctionalTest
   end
 
   it 'supports non-recurring tiered pricing' do
-    skip("this should be implemented")
+    # skip("this should be implemented")
   end
 
   # TODO two unbounded rates?
@@ -231,7 +234,7 @@ class Critic::TieredPricingTranslation < Critic::FunctionalTest
 
     activate_and_link_consumption_schedule(consumption_schedule_id, product_id)
 
-    sf_order = create_subscription_order(sf_product_id: product_id)
+    sf_order = create_subscription_order(contact_email: "supports_recurring_unit_volume_tiered", sf_product_id: product_id)
 
     StripeForce::Translate.perform_inline(@user, sf_order.Id)
 
@@ -278,7 +281,7 @@ class Critic::TieredPricingTranslation < Critic::FunctionalTest
 
     activate_and_link_consumption_schedule(consumption_schedule_id, product_id)
 
-    sf_order = create_subscription_order(sf_product_id: product_id)
+    sf_order = create_subscription_order(contact_email: "throws_an_error_infinite_tier", sf_product_id: product_id)
 
     exception = assert_raises(Stripe::InvalidRequestError) do
       StripeForce::Translate.perform_inline(@user, sf_order.Id)

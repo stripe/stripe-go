@@ -1,0 +1,54 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://ability-innovation-7335-dev-ed.scratch.my.salesforce.com/services/data/v58.0/sobjects/Quote_Stripe_Coupon__c
+    body:
+      encoding: UTF-8
+      string: '{"Name__c":"Invalid coupon","Amount_Off__c":10,"Duration__c":"once","Percent_Off__c":25}'
+    headers:
+      User-Agent:
+      - Faraday v2.4.0
+      Content-Type:
+      - application/json
+      Authorization:
+      - OAuth <SALESFORCE_ACCESS_TOKEN>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 400
+      message: Bad Request
+    headers:
+      Date:
+      - Tue, 01 Aug 2023 18:59:25 GMT
+      Set-Cookie:
+      - BrowserId=iLnxiDCdEe6BD7nYZTiwdQ; domain=.salesforce.com; path=/; expires=Wed,
+        31-Jul-2024 18:59:25 GMT; Max-Age=31536000
+      - CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 18:59:25 GMT; Max-Age=31536000
+      - LSKey-c$CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 18:59:25
+        GMT; Max-Age=31536000
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Robots-Tag:
+      - none
+      Cache-Control:
+      - no-cache,must-revalidate,max-age=0,no-store,private
+      Sforce-Limit-Info:
+      - api-usage=7109/5000000
+      Content-Type:
+      - application/json;charset=UTF-8
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: '[{"message":"Received both Percent_Off__c and Amount_Off__c parameters.
+        Please pass in only one.","errorCode":"FIELD_CUSTOM_VALIDATION_EXCEPTION","fields":[]}]'
+  recorded_at: Tue, 01 Aug 2023 18:57:33 GMT
+recorded_with: VCR 6.2.0

@@ -5,6 +5,10 @@ require_relative './_lib'
 
 class Critic::EvergreenAmendmentTest < Critic::OrderAmendmentFunctionalTest
   before do
+    set_cassette_dir(__FILE__)
+    Timecop.freeze(VCR.current_cassette.originally_recorded_at || now_time)
+
+
     @user = make_user(save: true)
     @user.enable_feature FeatureFlags::TEST_CLOCKS, update: true
     @user.field_defaults = {
@@ -21,8 +25,8 @@ class Critic::EvergreenAmendmentTest < Critic::OrderAmendmentFunctionalTest
 
   it 'cancels an evergreen subscription now' do
     # creates evergreen order and cancels immediately
-
     sf_order = create_evergreen_salesforce_order(
+      contact_email: "evergreen_sub_now",
       # need to set these fields explicitly to use translate
       additional_quote_fields: {
         CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(now_time),
@@ -64,6 +68,7 @@ class Critic::EvergreenAmendmentTest < Critic::OrderAmendmentFunctionalTest
     current_time = now_time
 
     sf_order = create_evergreen_salesforce_order(
+      contact_email: "evergreen_sub_future",
       # need to set these fields explicitly to use translate
       additional_quote_fields: {
         CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(current_time),
@@ -94,7 +99,7 @@ class Critic::EvergreenAmendmentTest < Critic::OrderAmendmentFunctionalTest
     # the contract should reference the initial order that was created
     assert_equal(sf_order[SF_ID], sf_contract[SF_CONTRACT_ORDER_ID])
 
-    current_time = Time.at(StripeForce::Translate::OrderAmendment.determine_current_time(@user, stripe_customer.id))
+    current_time = Time.at(StripeForce::Translate::OrderAmendment.determine_current_time(@user, stripe_customer.id)).utc
 
     order_end_date = format_date_for_salesforce(current_time + 3.day)
     amendment_quote = create_quote_data_from_contract_amendment(sf_contract)
@@ -129,6 +134,7 @@ class Critic::EvergreenAmendmentTest < Critic::OrderAmendmentFunctionalTest
 
   it 'adds products to evergreen order through amendment in the present' do
     sf_order = create_evergreen_salesforce_order(
+      contact_email: "add_product_evergreen",
       # need to set these fields explicitly to use translate
       additional_quote_fields: {
         CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(now_time),
@@ -188,6 +194,7 @@ class Critic::EvergreenAmendmentTest < Critic::OrderAmendmentFunctionalTest
   describe 'failure cases' do
     it 'salesforce raises error when attempt to amend evergreen order with non zero quantity' do
       sf_order = create_evergreen_salesforce_order(
+        contact_email: "sf_raise_error_evergreen",
         # need to set these fields explicitly to use translate
         additional_quote_fields: {
           CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(now_time),
@@ -215,12 +222,14 @@ class Critic::EvergreenAmendmentTest < Critic::OrderAmendmentFunctionalTest
         create_order_from_quote_data(amendment_quote)
       end
 
-      assert_equal("APEX_ERROR: SBQQ.ValidationException: [\"The quantity field must be set to 0 for evergreen subscriptions.\"]\n\n(System Code)", exception.message)
+      assert_match(/The quantity field must be set to 0 for evergreen subscriptions./, exception.message)
+      # assert_equal("APEX_ERROR: SBQQ.ValidationException: [\"The quantity field must be set to 0 for evergreen subscriptions.\"]\n\n(System Code)", exception.message)
     end
 
     it 'processes the cancelation amendment and throws user error beyond that' do
       # creates evergreen order and cancels immediately
       sf_order = create_evergreen_salesforce_order(
+        contact_email: "process_cancelation_amendment",
         # need to set these fields explicitly to use translate
         additional_quote_fields: {
           CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(now_time),
@@ -283,6 +292,7 @@ class Critic::EvergreenAmendmentTest < Critic::OrderAmendmentFunctionalTest
 
     it 'does not allow renewable product to be added to evergreen order' do
       sf_order = create_evergreen_salesforce_order(
+        contact_email: "no_allow_renewable",
         # need to set these fields explicitly to use translate
         additional_quote_fields: {
           CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(now_time),

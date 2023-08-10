@@ -3,8 +3,11 @@
 
 require_relative '../test_helper'
 
-class Critic::Prebilling < Critic::FunctionalTest
+class Critic::Prebilling < Critic::VCRTest
   before do
+    set_cassette_dir(__FILE__)
+    Timecop.freeze(VCR.current_cassette.originally_recorded_at || now_time)
+
     @user = make_user(save: true)
   end
 
@@ -35,7 +38,7 @@ class Critic::Prebilling < Critic::FunctionalTest
     sf_order = create_salesforce_order(
       sf_product_id: sf_product_id,
       sf_account_id: sf_account_id,
-
+      contact_email: "one_year_of_two_year_sub",
       additional_quote_fields: {
         CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(start_date),
         CPQ_QUOTE_SUBSCRIPTION_TERM => subscription_term,
@@ -125,7 +128,7 @@ class Critic::Prebilling < Critic::FunctionalTest
     sf_order = create_salesforce_order(
       sf_product_id: sf_product_id,
       sf_account_id: sf_account_id,
-
+      contact_email: "six_months_of_year_sub",
       additional_quote_fields: {
         CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(start_date),
         CPQ_QUOTE_SUBSCRIPTION_TERM => subscription_term,
@@ -218,7 +221,7 @@ class Critic::Prebilling < Critic::FunctionalTest
      sf_order = create_salesforce_order(
        sf_product_id: sf_product_id,
        sf_account_id: sf_account_id,
-
+       contact_email: "float_iteration_value",
        additional_quote_fields: {
          CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(start_date),
          CPQ_QUOTE_SUBSCRIPTION_TERM => subscription_term,
@@ -298,6 +301,7 @@ class Critic::Prebilling < Critic::FunctionalTest
 
     # translate the Salesforce order
     sf_order = create_salesforce_order(
+      contact_email: "prebilling_iterations",
       additional_quote_fields: {
         CPQ_QUOTE_SUBSCRIPTION_START_DATE => now_time_formatted_for_salesforce,
         CPQ_QUOTE_SUBSCRIPTION_TERM => TEST_DEFAULT_CONTRACT_TERM,
@@ -333,10 +337,12 @@ class Critic::Prebilling < Critic::FunctionalTest
     sf_metered_product_id, _sf_metered_pricebook_id = salesforce_recurring_metered_produce_with_price
 
     # create a CPQ quote
-    sf_quote_id = create_salesforce_quote(sf_account_id: sf_account_id, additional_quote_fields: {
-      CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(start_date),
-      CPQ_QUOTE_SUBSCRIPTION_TERM => TEST_DEFAULT_CONTRACT_TERM,
-    })
+    sf_quote_id = create_salesforce_quote(sf_account_id: sf_account_id,
+                                          contact_email: "prebills_six_metered_licensed",
+                                          additional_quote_fields: {
+                                            CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(start_date),
+                                            CPQ_QUOTE_SUBSCRIPTION_TERM => TEST_DEFAULT_CONTRACT_TERM,
+                                          })
 
     # add licensed product to the sf quote
     quote_with_product = add_product_to_cpq_quote(sf_quote_id, sf_product_id: sf_licensed_product_id)

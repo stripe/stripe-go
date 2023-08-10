@@ -5,6 +5,11 @@ require_relative './_lib'
 
 class Critic::OrderAmendmentTermination < Critic::OrderAmendmentFunctionalTest
   before do
+    set_cassette_dir(__FILE__)
+    if !VCR.current_cassette.originally_recorded_at.nil?
+      Timecop.freeze(VCR.current_cassette.originally_recorded_at)
+    end
+
     @user = make_user(save: true)
     @user.enable_feature(FeatureFlags::TERMINATION_METADATA)
   end
@@ -41,7 +46,7 @@ class Critic::OrderAmendmentTermination < Critic::OrderAmendmentFunctionalTest
     # order amendment: quantity 0
     # one phase with a shortened end date
 
-    sf_order = create_subscription_order
+    sf_order = create_subscription_order(contact_email: "cancel_sub_future")
     StripeForce::Translate.perform_inline(@user, sf_order.Id)
 
     sf_contract = create_contract_from_order(sf_order)
@@ -117,6 +122,7 @@ class Critic::OrderAmendmentTermination < Critic::OrderAmendmentFunctionalTest
 
     quote_id = create_salesforce_quote(
       sf_account_id: sf_account_id,
+      contact_email: "remove_line_item_part_term",
       additional_quote_fields: {
         CPQ_QUOTE_SUBSCRIPTION_START_DATE => now_time_formatted_for_salesforce,
         CPQ_QUOTE_SUBSCRIPTION_TERM => 12.0,
@@ -184,7 +190,7 @@ class Critic::OrderAmendmentTermination < Critic::OrderAmendmentFunctionalTest
     }
     @user.save
 
-    sf_order = create_subscription_order
+    sf_order = create_subscription_order(contact_email: "cancel_sub_same_day")
 
     StripeForce::Translate.perform_inline(@user, sf_order.Id)
 
@@ -231,7 +237,7 @@ class Critic::OrderAmendmentTermination < Critic::OrderAmendmentFunctionalTest
     # third order: +1 quantity
     # fourth order: -3 quantity
 
-    sf_order = create_subscription_order
+    sf_order = create_subscription_order(contact_email: "full_term_multiple_amendments")
     sf_contract = create_contract_from_order(sf_order)
 
     amendment_1 = create_amendment_and_adjust_quantity(sf_contract: sf_contract, quantity: 1)

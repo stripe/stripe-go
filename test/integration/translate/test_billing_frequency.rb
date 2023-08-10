@@ -3,8 +3,11 @@
 
 require_relative '../../test_helper'
 
-class Critic::BillingFrequencyTranslation < Critic::FunctionalTest
+class Critic::BillingFrequencyTranslation < Critic::VCRTest
   before do
+    set_cassette_dir(__FILE__)
+    Timecop.freeze(VCR.current_cassette.originally_recorded_at || now_time)
+
     @user = make_user(save: true)
   end
 
@@ -20,7 +23,7 @@ class Critic::BillingFrequencyTranslation < Critic::FunctionalTest
       )
       sf_account_id = create_salesforce_account
 
-      quote_id = create_salesforce_quote(sf_account_id: sf_account_id, additional_quote_fields: {
+      quote_id = create_salesforce_quote(sf_account_id: sf_account_id, contact_email: "throws_an_error", additional_quote_fields: {
         CPQ_QUOTE_SUBSCRIPTION_START_DATE => now_time_formatted_for_salesforce,
         CPQ_QUOTE_SUBSCRIPTION_TERM => TEST_DEFAULT_CONTRACT_TERM,
       })

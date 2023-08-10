@@ -1,0 +1,959 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://ability-innovation-7335-dev-ed.scratch.my.salesforce.com/services/data/v58.0/sobjects/Account
+    body:
+      encoding: UTF-8
+      string: '{"Name":"REST Account  2023-08-01 00:00:00 UTC","Name":"Test Account
+        Name","Phone":"1231231234","Description":"A CRM company","ShippingStreet":"500
+        Briar Forest Drive","ShippingCity":"Houston","ShippingState":"Texas","ShippingPostalCode":"77077","ShippingCountry":"US"}'
+    headers:
+      User-Agent:
+      - Faraday v2.4.0
+      Content-Type:
+      - application/json
+      Authorization:
+      - OAuth <SALESFORCE_ACCESS_TOKEN>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 201
+      message: Created
+    headers:
+      Date:
+      - Tue, 01 Aug 2023 18:51:17 GMT
+      Set-Cookie:
+      - BrowserId=ZZm-pDCcEe6NISPaolPCcw; domain=.salesforce.com; path=/; expires=Wed,
+        31-Jul-2024 18:51:17 GMT; Max-Age=31536000
+      - CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 18:51:17 GMT; Max-Age=31536000
+      - LSKey-c$CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 18:51:17
+        GMT; Max-Age=31536000
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Robots-Tag:
+      - none
+      Cache-Control:
+      - no-cache,must-revalidate,max-age=0,no-store,private
+      Sforce-Limit-Info:
+      - api-usage=6931/5000000
+      Location:
+      - "/services/data/v58.0/sobjects/Account/0017e00001iZwJ6AAK"
+      Content-Type:
+      - application/json;charset=UTF-8
+      Vary:
+      - Accept-Encoding
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: ASCII-8BIT
+      string: '{"id":"0017e00001iZwJ6AAK","success":true,"errors":[]}'
+  recorded_at: Tue, 01 Aug 2023 00:00:00 GMT
+- request:
+    method: get
+    uri: https://ability-innovation-7335-dev-ed.scratch.my.salesforce.com/services/data/v58.0/sobjects/Account/0017e00001iZwJ6AAK
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v2.4.0
+      Authorization:
+      - OAuth <SALESFORCE_ACCESS_TOKEN>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Tue, 01 Aug 2023 18:51:17 GMT
+      Set-Cookie:
+      - BrowserId=ZfxRbjCcEe6FfkeBuaLXIQ; domain=.salesforce.com; path=/; expires=Wed,
+        31-Jul-2024 18:51:17 GMT; Max-Age=31536000
+      - CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 18:51:17 GMT; Max-Age=31536000
+      - LSKey-c$CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 18:51:17
+        GMT; Max-Age=31536000
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Robots-Tag:
+      - none
+      Cache-Control:
+      - no-cache,must-revalidate,max-age=0,no-store,private
+      Sforce-Limit-Info:
+      - api-usage=6932/5000000
+      Etag:
+      - '"gTI7lF2oYMlDxM+gTW1a62nzqxfxxihRqAygUNh9DPs=--gzip"'
+      Last-Modified:
+      - Tue, 01 Aug 2023 18:51:17 GMT
+      Content-Type:
+      - application/json;charset=UTF-8
+      Vary:
+      - Accept-Encoding
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: ASCII-8BIT
+      string: '{"attributes":{"type":"Account","url":"/services/data/v58.0/sobjects/Account/0017e00001iZwJ6AAK"},"Id":"0017e00001iZwJ6AAK","IsDeleted":false,"MasterRecordId":null,"Name":"Test
+        Account Name","Type":null,"ParentId":null,"BillingStreet":null,"BillingCity":null,"BillingState":null,"BillingPostalCode":null,"BillingCountry":null,"BillingLatitude":null,"BillingLongitude":null,"BillingGeocodeAccuracy":null,"BillingAddress":null,"ShippingStreet":"500
+        Briar Forest Drive","ShippingCity":"Houston","ShippingState":"Texas","ShippingPostalCode":"77077","ShippingCountry":"US","ShippingLatitude":null,"ShippingLongitude":null,"ShippingGeocodeAccuracy":null,"ShippingAddress":{"city":"Houston","country":"US","geocodeAccuracy":null,"latitude":null,"longitude":null,"postalCode":"77077","state":"Texas","street":"500
+        Briar Forest Drive"},"Phone":"1231231234","Fax":null,"AccountNumber":null,"Website":null,"PhotoUrl":"/services/images/photo/0017e00001iZwJ6AAK","Sic":null,"Industry":null,"AnnualRevenue":null,"NumberOfEmployees":null,"Ownership":null,"TickerSymbol":null,"Description":"A
+        CRM company","Rating":null,"Site":null,"OwnerId":"0057e00000VZBcyAAH","CreatedDate":"2023-08-01T18:51:17.000+0000","CreatedById":"0057e00000VZBcyAAH","LastModifiedDate":"2023-08-01T18:51:17.000+0000","LastModifiedById":"0057e00000VZBcyAAH","SystemModstamp":"2023-08-01T18:51:17.000+0000","LastActivityDate":null,"LastViewedDate":"2023-08-01T18:51:17.000+0000","LastReferencedDate":"2023-08-01T18:51:17.000+0000","Jigsaw":null,"JigsawCompanyId":null,"CleanStatus":"Pending","AccountSource":null,"DunsNumber":null,"Tradestyle":null,"NaicsCode":null,"NaicsDesc":null,"YearStarted":null,"SicDesc":null,"DandbCompanyId":null,"OperatingHoursId":null,"CustomerPriority__c":null,"SLA__c":null,"Active__c":null,"NumberofLocations__c":null,"UpsellOpportunity__c":null,"SLASerialNumber__c":null,"SLAExpirationDate__c":null,"SBQQ__AssetQuantitiesCombined__c":false,"SBQQ__CoTermedContractsCombined__c":false,"SBQQ__ContractCoTermination__c":"Never","SBQQ__DefaultOpportunity__c":null,"SBQQ__IgnoreParentContractedPrices__c":false,"SBQQ__PreserveBundle__c":true,"SBQQ__PriceHoldEnd__c":null,"SBQQ__RenewalModel__c":"Contract
+        Based","SBQQ__RenewalPricingMethod__c":"Same","SBQQ__TaxExempt__c":"No","SBQQ__CoTerminationEvent__c":null,"Stripe_ID__c":null,"Stripe_Dashboard_Link__c":"https://dashboard.stripe.com/test/id/"}'
+  recorded_at: Tue, 01 Aug 2023 00:00:00 GMT
+- request:
+    method: post
+    uri: https://api.stripe.com/v1/customers
+    body:
+      encoding: UTF-8
+      string: name=Test+Account+Name&phone=1231231234&description=A+CRM+company&shipping[name]=Test+Account+Name&shipping[phone]=1231231234&shipping[address][line1]=500+Briar+Forest+Drive&shipping[address][city]=Houston&shipping[address][state]=Texas&shipping[address][postal_code]=77077&shipping[address][country]=US&metadata[salesforce_account_id]=0017e00001iZwJ6AAK&metadata[salesforce_account_link]=https%3A%2F%2Fability-innovation-7335-dev-ed.scratch.my.salesforce.com%2F0017e00001iZwJ6AAK
+    headers:
+      User-Agent:
+      - Stripe/v1 RubyBindings/7.1.0
+      Authorization:
+      - Bearer <STRIPE_API_KEY>
+      Content-Type:
+      - application/x-www-form-urlencoded
+      Idempotency-Key:
+      - 66ee6ebe-c71b-4973-b2b8-e066ce83a0d9
+      Stripe-Version:
+      - '2020-08-27'
+      X-Stripe-Client-User-Agent:
+      - '{"bindings_version":"7.1.0","lang":"ruby","lang_version":"2.7.6 p219 (2022-04-12)","platform":"arm64-darwin22","engine":"ruby","publisher":"stripe","uname":"Darwin
+        st-rish2 22.5.0 Darwin Kernel Version 22.5.0: Thu Jun  8 22:22:20 PDT 2023;
+        root:xnu-8796.121.3~7/RELEASE_ARM64_T6000 arm64","hostname":"st-rish2"}'
+      Stripe-Account:
+      - STRIPE_MERCHANT_ID
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Tue, 01 Aug 2023 18:51:18 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '1094'
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Methods:
+      - GET, POST, HEAD, OPTIONS, DELETE
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Request-Id, Stripe-Manage-Version, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required
+      Access-Control-Max-Age:
+      - '300'
+      Cache-Control:
+      - no-cache, no-store
+      Idempotency-Key:
+      - 66ee6ebe-c71b-4973-b2b8-e066ce83a0d9
+      Original-Request:
+      - req_582zrUd3wQ5RrO
+      Request-Id:
+      - req_582zrUd3wQ5RrO
+      Stripe-Account:
+      - acct_15uapDIsgf92XbAO
+      Stripe-Should-Retry:
+      - 'false'
+      Stripe-Version:
+      - '2020-08-27'
+      X-Stripe-Routing-Context-Priority-Tier:
+      - api-testmode
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains; preload
+    body:
+      encoding: UTF-8
+      string: |-
+        {
+          "id": "cus_ON7uI3PlUf1LHk",
+          "object": "customer",
+          "address": null,
+          "balance": 0,
+          "created": 1690915878,
+          "currency": null,
+          "default_currency": null,
+          "default_source": null,
+          "delinquent": false,
+          "description": "A CRM company",
+          "discount": null,
+          "email": null,
+          "invoice_prefix": "131C5818",
+          "invoice_settings": {
+            "custom_fields": null,
+            "default_payment_method": null,
+            "footer": null,
+            "rendering_options": null
+          },
+          "livemode": false,
+          "metadata": {
+            "salesforce_account_id": "0017e00001iZwJ6AAK",
+            "salesforce_account_link": "https://ability-innovation-7335-dev-ed.scratch.my.salesforce.com/0017e00001iZwJ6AAK"
+          },
+          "name": "Test Account Name",
+          "next_invoice_sequence": 1,
+          "phone": "1231231234",
+          "preferred_locales": [],
+          "shipping": {
+            "address": {
+              "city": "Houston",
+              "country": "US",
+              "line1": "500 Briar Forest Drive",
+              "line2": null,
+              "postal_code": "77077",
+              "state": "Texas"
+            },
+            "name": "Test Account Name",
+            "phone": "1231231234"
+          },
+          "tax_exempt": "none",
+          "test_clock": null
+        }
+  recorded_at: Tue, 01 Aug 2023 00:00:00 GMT
+- request:
+    method: patch
+    uri: https://ability-innovation-7335-dev-ed.scratch.my.salesforce.com/services/data/v58.0/sobjects/Account/0017e00001iZwJ6AAK
+    body:
+      encoding: UTF-8
+      string: '{"Stripe_ID__c":"cus_ON7uI3PlUf1LHk"}'
+    headers:
+      User-Agent:
+      - Faraday v2.4.0
+      Content-Type:
+      - application/json
+      Authorization:
+      - OAuth <SALESFORCE_ACCESS_TOKEN>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 204
+      message: No Content
+    headers:
+      Date:
+      - Tue, 01 Aug 2023 18:51:18 GMT
+      Set-Cookie:
+      - BrowserId=Zm3XpjCcEe6ZADeBgbAOng; domain=.salesforce.com; path=/; expires=Wed,
+        31-Jul-2024 18:51:18 GMT; Max-Age=31536000
+      - CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 18:51:18 GMT; Max-Age=31536000
+      - LSKey-c$CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 18:51:18
+        GMT; Max-Age=31536000
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+      Content-Security-Policy:
+      - upgrade-insecure-requests
+      X-Robots-Tag:
+      - none
+      Cache-Control:
+      - no-cache,must-revalidate,max-age=0,no-store,private
+      Sforce-Limit-Info:
+      - api-usage=6931/5000000
+    body:
+      encoding: UTF-8
+      string: ''
+  recorded_at: Tue, 01 Aug 2023 00:00:00 GMT
+- request:
+    method: patch
+    uri: https://ability-innovation-7335-dev-ed.scratch.my.salesforce.com/services/data/v58.0/sobjects/Sync_Record__c/Compound_ID__c/0017e00001iZwJ6AAK-0017e00001iZwJ6AAK
+    body:
+      encoding: UTF-8
+      string: '{"Primary_Record_ID__c":"0017e00001iZwJ6AAK","Primary_Object_Type__c":"Account","Secondary_Record_ID__c":"0017e00001iZwJ6AAK","Secondary_Object_Type__c":"Account","Resolution_Message__c":"Sync
+        Successful, created Stripe Customer Object with ID: cus_ON7uI3PlUf1LHk","Resolution_Status__c":"Success"}'
+    headers:
+      User-Agent:
+      - Faraday v2.4.0
+      Content-Type:
+      - application/json
+      Authorization:
+      - OAuth <SALESFORCE_ACCESS_TOKEN>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 201
+      message: Created
+    headers:
+      Date:
+      - Tue, 01 Aug 2023 18:51:19 GMT
+      Set-Cookie:
+      - BrowserId=ZrxtPzCcEe6FfkeBuaLXIQ; domain=.salesforce.com; path=/; expires=Wed,
+        31-Jul-2024 18:51:19 GMT; Max-Age=31536000
+      - CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 18:51:19 GMT; Max-Age=31536000
+      - LSKey-c$CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 18:51:19
+        GMT; Max-Age=31536000
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Robots-Tag:
+      - none
+      Cache-Control:
+      - no-cache,must-revalidate,max-age=0,no-store,private
+      Sforce-Limit-Info:
+      - api-usage=6933/5000000
+      Location:
+      - "/services/data/v58.0/sobjects/Sync_Record__c/a1W7e000002GrL6EAK"
+      Content-Type:
+      - application/json;charset=UTF-8
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: '{"id":"a1W7e000002GrL6EAK","success":true,"errors":[],"created":true}'
+  recorded_at: Tue, 01 Aug 2023 00:00:00 GMT
+- request:
+    method: get
+    uri: https://ability-innovation-7335-dev-ed.scratch.my.salesforce.com/services/data/v58.0/sobjects/Account/0017e00001iZwJ6AAK
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v2.4.0
+      Authorization:
+      - OAuth <SALESFORCE_ACCESS_TOKEN>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Tue, 01 Aug 2023 18:51:19 GMT
+      Set-Cookie:
+      - BrowserId=ZwIn3zCcEe6FfkeBuaLXIQ; domain=.salesforce.com; path=/; expires=Wed,
+        31-Jul-2024 18:51:19 GMT; Max-Age=31536000
+      - CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 18:51:19 GMT; Max-Age=31536000
+      - LSKey-c$CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 18:51:19
+        GMT; Max-Age=31536000
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Robots-Tag:
+      - none
+      Cache-Control:
+      - no-cache,must-revalidate,max-age=0,no-store,private
+      Sforce-Limit-Info:
+      - api-usage=6934/5000000
+      Etag:
+      - '"G1Nv+Sb4ET8yi4FNWG9QT/ZcEmJXKJ6PxWEsxnJOmzw=--gzip"'
+      Last-Modified:
+      - Tue, 01 Aug 2023 18:51:18 GMT
+      Content-Type:
+      - application/json;charset=UTF-8
+      Vary:
+      - Accept-Encoding
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: ASCII-8BIT
+      string: '{"attributes":{"type":"Account","url":"/services/data/v58.0/sobjects/Account/0017e00001iZwJ6AAK"},"Id":"0017e00001iZwJ6AAK","IsDeleted":false,"MasterRecordId":null,"Name":"Test
+        Account Name","Type":null,"ParentId":null,"BillingStreet":null,"BillingCity":null,"BillingState":null,"BillingPostalCode":null,"BillingCountry":null,"BillingLatitude":null,"BillingLongitude":null,"BillingGeocodeAccuracy":null,"BillingAddress":null,"ShippingStreet":"500
+        Briar Forest Drive","ShippingCity":"Houston","ShippingState":"Texas","ShippingPostalCode":"77077","ShippingCountry":"US","ShippingLatitude":null,"ShippingLongitude":null,"ShippingGeocodeAccuracy":null,"ShippingAddress":{"city":"Houston","country":"US","geocodeAccuracy":null,"latitude":null,"longitude":null,"postalCode":"77077","state":"Texas","street":"500
+        Briar Forest Drive"},"Phone":"1231231234","Fax":null,"AccountNumber":null,"Website":null,"PhotoUrl":"/services/images/photo/0017e00001iZwJ6AAK","Sic":null,"Industry":null,"AnnualRevenue":null,"NumberOfEmployees":null,"Ownership":null,"TickerSymbol":null,"Description":"A
+        CRM company","Rating":null,"Site":null,"OwnerId":"0057e00000VZBcyAAH","CreatedDate":"2023-08-01T18:51:17.000+0000","CreatedById":"0057e00000VZBcyAAH","LastModifiedDate":"2023-08-01T18:51:18.000+0000","LastModifiedById":"0057e00000VZBcyAAH","SystemModstamp":"2023-08-01T18:51:18.000+0000","LastActivityDate":null,"LastViewedDate":"2023-08-01T18:51:18.000+0000","LastReferencedDate":"2023-08-01T18:51:18.000+0000","Jigsaw":null,"JigsawCompanyId":null,"CleanStatus":"Pending","AccountSource":null,"DunsNumber":null,"Tradestyle":null,"NaicsCode":null,"NaicsDesc":null,"YearStarted":null,"SicDesc":null,"DandbCompanyId":null,"OperatingHoursId":null,"CustomerPriority__c":null,"SLA__c":null,"Active__c":null,"NumberofLocations__c":null,"UpsellOpportunity__c":null,"SLASerialNumber__c":null,"SLAExpirationDate__c":null,"SBQQ__AssetQuantitiesCombined__c":false,"SBQQ__CoTermedContractsCombined__c":false,"SBQQ__ContractCoTermination__c":"Never","SBQQ__DefaultOpportunity__c":null,"SBQQ__IgnoreParentContractedPrices__c":false,"SBQQ__PreserveBundle__c":true,"SBQQ__PriceHoldEnd__c":null,"SBQQ__RenewalModel__c":"Contract
+        Based","SBQQ__RenewalPricingMethod__c":"Same","SBQQ__TaxExempt__c":"No","SBQQ__CoTerminationEvent__c":null,"Stripe_ID__c":"cus_ON7uI3PlUf1LHk","Stripe_Dashboard_Link__c":"https://dashboard.stripe.com/test/id/cus_ON7uI3PlUf1LHk"}'
+  recorded_at: Tue, 01 Aug 2023 00:00:00 GMT
+- request:
+    method: get
+    uri: https://api.stripe.com/v1/customers/cus_ON7uI3PlUf1LHk
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Stripe/v1 RubyBindings/7.1.0
+      Authorization:
+      - Bearer <STRIPE_API_KEY>
+      Content-Type:
+      - application/x-www-form-urlencoded
+      X-Stripe-Client-Telemetry:
+      - '{"last_request_metrics":{"request_id":"req_582zrUd3wQ5RrO","request_duration_ms":320}}'
+      Stripe-Version:
+      - '2020-08-27'
+      X-Stripe-Client-User-Agent:
+      - '{"bindings_version":"7.1.0","lang":"ruby","lang_version":"2.7.6 p219 (2022-04-12)","platform":"arm64-darwin22","engine":"ruby","publisher":"stripe","uname":"Darwin
+        st-rish2 22.5.0 Darwin Kernel Version 22.5.0: Thu Jun  8 22:22:20 PDT 2023;
+        root:xnu-8796.121.3~7/RELEASE_ARM64_T6000 arm64","hostname":"st-rish2"}'
+      Stripe-Account:
+      - STRIPE_MERCHANT_ID
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Tue, 01 Aug 2023 18:51:19 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '1094'
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Methods:
+      - GET, POST, HEAD, OPTIONS, DELETE
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Request-Id, Stripe-Manage-Version, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required
+      Access-Control-Max-Age:
+      - '300'
+      Cache-Control:
+      - no-cache, no-store
+      Request-Id:
+      - req_4D1mGL6HjWYSsR
+      Stripe-Account:
+      - acct_15uapDIsgf92XbAO
+      Stripe-Version:
+      - '2020-08-27'
+      X-Stripe-Routing-Context-Priority-Tier:
+      - api-testmode
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains; preload
+    body:
+      encoding: UTF-8
+      string: |-
+        {
+          "id": "cus_ON7uI3PlUf1LHk",
+          "object": "customer",
+          "address": null,
+          "balance": 0,
+          "created": 1690915878,
+          "currency": null,
+          "default_currency": null,
+          "default_source": null,
+          "delinquent": false,
+          "description": "A CRM company",
+          "discount": null,
+          "email": null,
+          "invoice_prefix": "131C5818",
+          "invoice_settings": {
+            "custom_fields": null,
+            "default_payment_method": null,
+            "footer": null,
+            "rendering_options": null
+          },
+          "livemode": false,
+          "metadata": {
+            "salesforce_account_id": "0017e00001iZwJ6AAK",
+            "salesforce_account_link": "https://ability-innovation-7335-dev-ed.scratch.my.salesforce.com/0017e00001iZwJ6AAK"
+          },
+          "name": "Test Account Name",
+          "next_invoice_sequence": 1,
+          "phone": "1231231234",
+          "preferred_locales": [],
+          "shipping": {
+            "address": {
+              "city": "Houston",
+              "country": "US",
+              "line1": "500 Briar Forest Drive",
+              "line2": null,
+              "postal_code": "77077",
+              "state": "Texas"
+            },
+            "name": "Test Account Name",
+            "phone": "1231231234"
+          },
+          "tax_exempt": "none",
+          "test_clock": null
+        }
+  recorded_at: Tue, 01 Aug 2023 00:00:00 GMT
+- request:
+    method: patch
+    uri: https://ability-innovation-7335-dev-ed.scratch.my.salesforce.com/services/data/v58.0/sobjects/Account/0017e00001iZwJ6AAK
+    body:
+      encoding: UTF-8
+      string: '{"Name":"Test Account Name 2","Description":"A CRM company 2"}'
+    headers:
+      User-Agent:
+      - Faraday v2.4.0
+      Content-Type:
+      - application/json
+      Authorization:
+      - OAuth <SALESFORCE_ACCESS_TOKEN>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 204
+      message: No Content
+    headers:
+      Date:
+      - Tue, 01 Aug 2023 18:51:20 GMT
+      Set-Cookie:
+      - BrowserId=Z1tFOjCcEe6BD7nYZTiwdQ; domain=.salesforce.com; path=/; expires=Wed,
+        31-Jul-2024 18:51:20 GMT; Max-Age=31536000
+      - CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 18:51:20 GMT; Max-Age=31536000
+      - LSKey-c$CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 18:51:20
+        GMT; Max-Age=31536000
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+      Content-Security-Policy:
+      - upgrade-insecure-requests
+      X-Robots-Tag:
+      - none
+      Cache-Control:
+      - no-cache,must-revalidate,max-age=0,no-store,private
+      Sforce-Limit-Info:
+      - api-usage=6933/5000000
+    body:
+      encoding: UTF-8
+      string: ''
+  recorded_at: Tue, 01 Aug 2023 00:00:00 GMT
+- request:
+    method: get
+    uri: https://ability-innovation-7335-dev-ed.scratch.my.salesforce.com/services/data/v58.0/sobjects/Account/0017e00001iZwJ6AAK
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v2.4.0
+      Authorization:
+      - OAuth <SALESFORCE_ACCESS_TOKEN>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Tue, 01 Aug 2023 18:51:20 GMT
+      Set-Cookie:
+      - BrowserId=Z7MpFTCcEe6NISPaolPCcw; domain=.salesforce.com; path=/; expires=Wed,
+        31-Jul-2024 18:51:20 GMT; Max-Age=31536000
+      - CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 18:51:20 GMT; Max-Age=31536000
+      - LSKey-c$CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 18:51:20
+        GMT; Max-Age=31536000
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Robots-Tag:
+      - none
+      Cache-Control:
+      - no-cache,must-revalidate,max-age=0,no-store,private
+      Sforce-Limit-Info:
+      - api-usage=6932/5000000
+      Etag:
+      - '"r+xrsdJ/hKZqeBdLmf9cM6XpLq0fV5VuRhpoyNanCKs=--gzip"'
+      Last-Modified:
+      - Tue, 01 Aug 2023 18:51:20 GMT
+      Content-Type:
+      - application/json;charset=UTF-8
+      Vary:
+      - Accept-Encoding
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: ASCII-8BIT
+      string: '{"attributes":{"type":"Account","url":"/services/data/v58.0/sobjects/Account/0017e00001iZwJ6AAK"},"Id":"0017e00001iZwJ6AAK","IsDeleted":false,"MasterRecordId":null,"Name":"Test
+        Account Name 2","Type":null,"ParentId":null,"BillingStreet":null,"BillingCity":null,"BillingState":null,"BillingPostalCode":null,"BillingCountry":null,"BillingLatitude":null,"BillingLongitude":null,"BillingGeocodeAccuracy":null,"BillingAddress":null,"ShippingStreet":"500
+        Briar Forest Drive","ShippingCity":"Houston","ShippingState":"Texas","ShippingPostalCode":"77077","ShippingCountry":"US","ShippingLatitude":null,"ShippingLongitude":null,"ShippingGeocodeAccuracy":null,"ShippingAddress":{"city":"Houston","country":"US","geocodeAccuracy":null,"latitude":null,"longitude":null,"postalCode":"77077","state":"Texas","street":"500
+        Briar Forest Drive"},"Phone":"1231231234","Fax":null,"AccountNumber":null,"Website":null,"PhotoUrl":"/services/images/photo/0017e00001iZwJ6AAK","Sic":null,"Industry":null,"AnnualRevenue":null,"NumberOfEmployees":null,"Ownership":null,"TickerSymbol":null,"Description":"A
+        CRM company 2","Rating":null,"Site":null,"OwnerId":"0057e00000VZBcyAAH","CreatedDate":"2023-08-01T18:51:17.000+0000","CreatedById":"0057e00000VZBcyAAH","LastModifiedDate":"2023-08-01T18:51:20.000+0000","LastModifiedById":"0057e00000VZBcyAAH","SystemModstamp":"2023-08-01T18:51:20.000+0000","LastActivityDate":null,"LastViewedDate":"2023-08-01T18:51:20.000+0000","LastReferencedDate":"2023-08-01T18:51:20.000+0000","Jigsaw":null,"JigsawCompanyId":null,"CleanStatus":"Pending","AccountSource":null,"DunsNumber":null,"Tradestyle":null,"NaicsCode":null,"NaicsDesc":null,"YearStarted":null,"SicDesc":null,"DandbCompanyId":null,"OperatingHoursId":null,"CustomerPriority__c":null,"SLA__c":null,"Active__c":null,"NumberofLocations__c":null,"UpsellOpportunity__c":null,"SLASerialNumber__c":null,"SLAExpirationDate__c":null,"SBQQ__AssetQuantitiesCombined__c":false,"SBQQ__CoTermedContractsCombined__c":false,"SBQQ__ContractCoTermination__c":"Never","SBQQ__DefaultOpportunity__c":null,"SBQQ__IgnoreParentContractedPrices__c":false,"SBQQ__PreserveBundle__c":true,"SBQQ__PriceHoldEnd__c":null,"SBQQ__RenewalModel__c":"Contract
+        Based","SBQQ__RenewalPricingMethod__c":"Same","SBQQ__TaxExempt__c":"No","SBQQ__CoTerminationEvent__c":null,"Stripe_ID__c":"cus_ON7uI3PlUf1LHk","Stripe_Dashboard_Link__c":"https://dashboard.stripe.com/test/id/cus_ON7uI3PlUf1LHk"}'
+  recorded_at: Tue, 01 Aug 2023 00:00:00 GMT
+- request:
+    method: get
+    uri: https://api.stripe.com/v1/customers/cus_ON7uI3PlUf1LHk
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Stripe/v1 RubyBindings/7.1.0
+      Authorization:
+      - Bearer <STRIPE_API_KEY>
+      Content-Type:
+      - application/x-www-form-urlencoded
+      X-Stripe-Client-Telemetry:
+      - '{"last_request_metrics":{"request_id":"req_4D1mGL6HjWYSsR","request_duration_ms":194}}'
+      Stripe-Version:
+      - '2020-08-27'
+      X-Stripe-Client-User-Agent:
+      - '{"bindings_version":"7.1.0","lang":"ruby","lang_version":"2.7.6 p219 (2022-04-12)","platform":"arm64-darwin22","engine":"ruby","publisher":"stripe","uname":"Darwin
+        st-rish2 22.5.0 Darwin Kernel Version 22.5.0: Thu Jun  8 22:22:20 PDT 2023;
+        root:xnu-8796.121.3~7/RELEASE_ARM64_T6000 arm64","hostname":"st-rish2"}'
+      Stripe-Account:
+      - STRIPE_MERCHANT_ID
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Tue, 01 Aug 2023 18:51:21 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '1094'
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Methods:
+      - GET, POST, HEAD, OPTIONS, DELETE
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Request-Id, Stripe-Manage-Version, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required
+      Access-Control-Max-Age:
+      - '300'
+      Cache-Control:
+      - no-cache, no-store
+      Request-Id:
+      - req_Gq0w2eVw7Tv0Sw
+      Stripe-Account:
+      - acct_15uapDIsgf92XbAO
+      Stripe-Version:
+      - '2020-08-27'
+      X-Stripe-Routing-Context-Priority-Tier:
+      - api-testmode
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains; preload
+    body:
+      encoding: UTF-8
+      string: |-
+        {
+          "id": "cus_ON7uI3PlUf1LHk",
+          "object": "customer",
+          "address": null,
+          "balance": 0,
+          "created": 1690915878,
+          "currency": null,
+          "default_currency": null,
+          "default_source": null,
+          "delinquent": false,
+          "description": "A CRM company",
+          "discount": null,
+          "email": null,
+          "invoice_prefix": "131C5818",
+          "invoice_settings": {
+            "custom_fields": null,
+            "default_payment_method": null,
+            "footer": null,
+            "rendering_options": null
+          },
+          "livemode": false,
+          "metadata": {
+            "salesforce_account_id": "0017e00001iZwJ6AAK",
+            "salesforce_account_link": "https://ability-innovation-7335-dev-ed.scratch.my.salesforce.com/0017e00001iZwJ6AAK"
+          },
+          "name": "Test Account Name",
+          "next_invoice_sequence": 1,
+          "phone": "1231231234",
+          "preferred_locales": [],
+          "shipping": {
+            "address": {
+              "city": "Houston",
+              "country": "US",
+              "line1": "500 Briar Forest Drive",
+              "line2": null,
+              "postal_code": "77077",
+              "state": "Texas"
+            },
+            "name": "Test Account Name",
+            "phone": "1231231234"
+          },
+          "tax_exempt": "none",
+          "test_clock": null
+        }
+  recorded_at: Tue, 01 Aug 2023 00:00:00 GMT
+- request:
+    method: post
+    uri: https://api.stripe.com/v1/customers/cus_ON7uI3PlUf1LHk
+    body:
+      encoding: UTF-8
+      string: name=Test+Account+Name+2&phone=1231231234&description=A+CRM+company+2&shipping[name]=Test+Account+Name+2&shipping[phone]=1231231234&shipping[address][line1]=500+Briar+Forest+Drive&shipping[address][city]=Houston&shipping[address][state]=Texas&shipping[address][postal_code]=77077&shipping[address][country]=US&metadata[salesforce_account_id]=0017e00001iZwJ6AAK&metadata[salesforce_account_link]=https%3A%2F%2Fability-innovation-7335-dev-ed.scratch.my.salesforce.com%2F0017e00001iZwJ6AAK
+    headers:
+      User-Agent:
+      - Stripe/v1 RubyBindings/7.1.0
+      Authorization:
+      - Bearer <STRIPE_API_KEY>
+      Content-Type:
+      - application/x-www-form-urlencoded
+      X-Stripe-Client-Telemetry:
+      - '{"last_request_metrics":{"request_id":"req_Gq0w2eVw7Tv0Sw","request_duration_ms":208}}'
+      Idempotency-Key:
+      - eda1e68e-08e2-4229-b3a4-52398d555e6c
+      Stripe-Version:
+      - '2020-08-27'
+      X-Stripe-Client-User-Agent:
+      - '{"bindings_version":"7.1.0","lang":"ruby","lang_version":"2.7.6 p219 (2022-04-12)","platform":"arm64-darwin22","engine":"ruby","publisher":"stripe","uname":"Darwin
+        st-rish2 22.5.0 Darwin Kernel Version 22.5.0: Thu Jun  8 22:22:20 PDT 2023;
+        root:xnu-8796.121.3~7/RELEASE_ARM64_T6000 arm64","hostname":"st-rish2"}'
+      Stripe-Account:
+      - STRIPE_MERCHANT_ID
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Tue, 01 Aug 2023 18:51:21 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '1100'
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Methods:
+      - GET, POST, HEAD, OPTIONS, DELETE
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Request-Id, Stripe-Manage-Version, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required
+      Access-Control-Max-Age:
+      - '300'
+      Cache-Control:
+      - no-cache, no-store
+      Idempotency-Key:
+      - eda1e68e-08e2-4229-b3a4-52398d555e6c
+      Original-Request:
+      - req_0ciqp7PxTGatCH
+      Request-Id:
+      - req_0ciqp7PxTGatCH
+      Stripe-Account:
+      - acct_15uapDIsgf92XbAO
+      Stripe-Should-Retry:
+      - 'false'
+      Stripe-Version:
+      - '2020-08-27'
+      X-Stripe-Routing-Context-Priority-Tier:
+      - api-testmode
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains; preload
+    body:
+      encoding: UTF-8
+      string: |-
+        {
+          "id": "cus_ON7uI3PlUf1LHk",
+          "object": "customer",
+          "address": null,
+          "balance": 0,
+          "created": 1690915878,
+          "currency": null,
+          "default_currency": null,
+          "default_source": null,
+          "delinquent": false,
+          "description": "A CRM company 2",
+          "discount": null,
+          "email": null,
+          "invoice_prefix": "131C5818",
+          "invoice_settings": {
+            "custom_fields": null,
+            "default_payment_method": null,
+            "footer": null,
+            "rendering_options": null
+          },
+          "livemode": false,
+          "metadata": {
+            "salesforce_account_id": "0017e00001iZwJ6AAK",
+            "salesforce_account_link": "https://ability-innovation-7335-dev-ed.scratch.my.salesforce.com/0017e00001iZwJ6AAK"
+          },
+          "name": "Test Account Name 2",
+          "next_invoice_sequence": 1,
+          "phone": "1231231234",
+          "preferred_locales": [],
+          "shipping": {
+            "address": {
+              "city": "Houston",
+              "country": "US",
+              "line1": "500 Briar Forest Drive",
+              "line2": null,
+              "postal_code": "77077",
+              "state": "Texas"
+            },
+            "name": "Test Account Name 2",
+            "phone": "1231231234"
+          },
+          "tax_exempt": "none",
+          "test_clock": null
+        }
+  recorded_at: Tue, 01 Aug 2023 00:00:00 GMT
+- request:
+    method: get
+    uri: https://api.stripe.com/v1/customers/cus_ON7uI3PlUf1LHk
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Stripe/v1 RubyBindings/7.1.0
+      Authorization:
+      - Bearer <STRIPE_API_KEY>
+      Content-Type:
+      - application/x-www-form-urlencoded
+      X-Stripe-Client-Telemetry:
+      - '{"last_request_metrics":{"request_id":"req_0ciqp7PxTGatCH","request_duration_ms":328}}'
+      Stripe-Version:
+      - '2020-08-27'
+      X-Stripe-Client-User-Agent:
+      - '{"bindings_version":"7.1.0","lang":"ruby","lang_version":"2.7.6 p219 (2022-04-12)","platform":"arm64-darwin22","engine":"ruby","publisher":"stripe","uname":"Darwin
+        st-rish2 22.5.0 Darwin Kernel Version 22.5.0: Thu Jun  8 22:22:20 PDT 2023;
+        root:xnu-8796.121.3~7/RELEASE_ARM64_T6000 arm64","hostname":"st-rish2"}'
+      Stripe-Account:
+      - STRIPE_MERCHANT_ID
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Tue, 01 Aug 2023 18:51:21 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '1100'
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Methods:
+      - GET, POST, HEAD, OPTIONS, DELETE
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Request-Id, Stripe-Manage-Version, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required
+      Access-Control-Max-Age:
+      - '300'
+      Cache-Control:
+      - no-cache, no-store
+      Request-Id:
+      - req_vlZ3HYstH6Dmha
+      Stripe-Account:
+      - acct_15uapDIsgf92XbAO
+      Stripe-Version:
+      - '2020-08-27'
+      X-Stripe-Routing-Context-Priority-Tier:
+      - api-testmode
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains; preload
+    body:
+      encoding: UTF-8
+      string: |-
+        {
+          "id": "cus_ON7uI3PlUf1LHk",
+          "object": "customer",
+          "address": null,
+          "balance": 0,
+          "created": 1690915878,
+          "currency": null,
+          "default_currency": null,
+          "default_source": null,
+          "delinquent": false,
+          "description": "A CRM company 2",
+          "discount": null,
+          "email": null,
+          "invoice_prefix": "131C5818",
+          "invoice_settings": {
+            "custom_fields": null,
+            "default_payment_method": null,
+            "footer": null,
+            "rendering_options": null
+          },
+          "livemode": false,
+          "metadata": {
+            "salesforce_account_id": "0017e00001iZwJ6AAK",
+            "salesforce_account_link": "https://ability-innovation-7335-dev-ed.scratch.my.salesforce.com/0017e00001iZwJ6AAK"
+          },
+          "name": "Test Account Name 2",
+          "next_invoice_sequence": 1,
+          "phone": "1231231234",
+          "preferred_locales": [],
+          "shipping": {
+            "address": {
+              "city": "Houston",
+              "country": "US",
+              "line1": "500 Briar Forest Drive",
+              "line2": null,
+              "postal_code": "77077",
+              "state": "Texas"
+            },
+            "name": "Test Account Name 2",
+            "phone": "1231231234"
+          },
+          "tax_exempt": "none",
+          "test_clock": null
+        }
+  recorded_at: Tue, 01 Aug 2023 00:00:00 GMT
+recorded_with: VCR 6.2.0

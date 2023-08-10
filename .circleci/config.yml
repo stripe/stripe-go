@@ -143,6 +143,7 @@ jobs:
   clean_salesforce_2: *clean_salesforce
 
   build:
+    working_directory: ~/stripe-salesforce
     parallelism: 10
     parameters:
       cache_disabled:
@@ -390,6 +391,13 @@ jobs:
               echo "Skipping live API calls on non-nightly run build."
               exit 0
             fi
+
+            SF_ACCOUNT_WITH_MULTI_CURRENCY=mbianco+cpqmulticurrency@stripe.com
+            if [ "$SF_USERNAME" == "$SF_ACCOUNT_WITH_MULTI_CURRENCY" ]; then
+              echo "Multi currency org, only running multi currency test"
+              bundle exec rails test test/integration/test_multicurrency.rb
+              exit 0
+            fi
             
             echo "Instance Domain: $SF_INSTANCE_DOMAIN"
             echo "Instance Id: $SF_INSTANCE_ID"
@@ -397,7 +405,7 @@ jobs:
 
             # https://discuss.circleci.com/t/test-timings-are-still-missing-with-2-0-and-workflows/21247/14
             # https://github.com/CircleCI-Public/circleci-cli/blob/master/cmd/tests.go#L54
-            SPLIT_TEST_FILES=$(circleci tests glob "test/**/test*.rb" | circleci tests split --split-by=timings --timings-type=filename)
+            SPLIT_TEST_FILES=$(circleci tests glob "test/**/test*.rb" | grep -v "test/integration/test_multicurrency.rb")  
             echo "Files included in this node:\n$SPLIT_TEST_FILES\n"
             bundle exec rails test --ci-dir $CIRCLE_TEST_REPORTS --profile $SPLIT_TEST_FILES
 

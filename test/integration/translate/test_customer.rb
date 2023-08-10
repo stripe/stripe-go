@@ -3,8 +3,11 @@
 
 require_relative '../../test_helper'
 
-class Critic::CustomerTranslation < Critic::FunctionalTest
+class Critic::CustomerTranslation < Critic::VCRTest
   before do
+    set_cassette_dir(__FILE__)
+    Timecop.freeze(VCR.current_cassette.originally_recorded_at || now_time)
+
     @user = make_user(save: true)
   end
 
@@ -184,6 +187,7 @@ class Critic::CustomerTranslation < Critic::FunctionalTest
       # create an sf order and translate the order
       sf_order_1 = create_salesforce_order(
         sf_account_id: sf_account_id,
+        contact_email: "updates_stripe_customer_1",
         additional_quote_fields: {
           CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(now_time),
           CPQ_QUOTE_SUBSCRIPTION_TERM => TEST_DEFAULT_CONTRACT_TERM,
@@ -204,6 +208,7 @@ class Critic::CustomerTranslation < Critic::FunctionalTest
       # create another sf order and translate the order
       sf_order_2 = create_salesforce_order(
         sf_account_id: sf_account_id,
+        contact_email: "updates_stripe_customer_2",
         additional_quote_fields: {
           CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(now_time),
           CPQ_QUOTE_SUBSCRIPTION_TERM => TEST_DEFAULT_CONTRACT_TERM,

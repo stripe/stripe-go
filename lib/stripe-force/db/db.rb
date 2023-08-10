@@ -36,4 +36,7 @@ else
   ENV.fetch('DATABASE_URL')
 end
 
+Sequel.application_timezone = :utc
+Sequel.database_timezone = :utc
+
 DB = Sequel.connect(url)

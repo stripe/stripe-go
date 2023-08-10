@@ -4,8 +4,11 @@
 require_relative '../../test_helper'
 
 # there are some metadata special cases that require some specific tests
-class Critic::MapperIntegrationTests < Critic::FunctionalTest
+class Critic::MapperIntegrationTests < Critic::VCRTest
   before do
+    set_cassette_dir(__FILE__)
+    Timecop.freeze(VCR.current_cassette.originally_recorded_at || now_time)
+
     @user = make_user(save: true)
   end
 
@@ -14,7 +17,7 @@ class Critic::MapperIntegrationTests < Critic::FunctionalTest
       'quantity' => 'Description',
     }
 
-    sf_order = create_subscription_order
+    sf_order = create_subscription_order(contact_email: "quantity_customized")
 
     order_items = sf_get_related(sf_order, SF_ORDER_ITEM)
     assert_equal(1, order_items.size)
@@ -40,7 +43,7 @@ class Critic::MapperIntegrationTests < Critic::FunctionalTest
       'unit_amount_decimal' => 'Description',
     }
 
-    sf_order = create_subscription_order
+    sf_order = create_subscription_order(contact_email: "customized_price_field")
 
     order_items = sf_get_related(sf_order, SF_ORDER_ITEM)
     assert_equal(1, order_items.size)
@@ -78,7 +81,7 @@ class Critic::MapperIntegrationTests < Critic::FunctionalTest
       'unit_amount_decimal' => 'Description',
     }
 
-    sf_order = create_subscription_order
+    sf_order = create_subscription_order(contact_email: "customized_price_field_mapped")
 
     order_items = sf_get_related(sf_order, SF_ORDER_ITEM)
     assert_equal(1, order_items.size)
@@ -116,7 +119,7 @@ class Critic::MapperIntegrationTests < Critic::FunctionalTest
       'metadata.special_description' => 'Description',
     }
 
-    sf_order = create_subscription_order
+    sf_order = create_subscription_order(contact_email: "metadata_on_subscription_phase_item")
 
     order_items = sf_get_related(sf_order, SF_ORDER_ITEM)
     assert_equal(1, order_items.size)
