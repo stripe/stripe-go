@@ -299,6 +299,12 @@ func extractParams(params ParamsContainer) (*form.Values, *Params, error) {
 				}
 			}
 
+			if !reflectValue.Elem().FieldByName("Expand").IsZero() {
+				if commonParams.Expand != nil {
+					return nil, nil, fmt.Errorf("You cannot specify both the (deprecated) .Params.Expand and .Expand in %s", reflectValue.Elem().Type().Name())
+				}
+			}
+
 			formValues = &form.Values{}
 			form.AppendTo(formValues, params)
 		}

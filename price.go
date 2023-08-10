@@ -104,6 +104,8 @@ const (
 // to an hour behind during outages. Search functionality is not available to merchants in India.
 type PriceSearchParams struct {
 	SearchParams `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// A cursor for pagination across multiple pages of results. Don't include this parameter on the first call. Use the next_page value returned in a previous response to request subsequent results.
 	Page *string `form:"page"`
 }
@@ -127,6 +129,8 @@ type PriceListParams struct {
 	CreatedRange *RangeQueryParams `form:"created"`
 	// Only return prices for the given currency.
 	Currency *string `form:"currency"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// Only return the price with these lookup_keys, if any exist.
 	LookupKeys []*string `form:"lookup_keys"`
 	// Only return prices for the given product.
@@ -234,7 +238,7 @@ type PriceRecurringParams struct {
 	Interval *string `form:"interval"`
 	// The number of intervals between subscription billings. For example, `interval=month` and `interval_count=3` bills every 3 months. Maximum of one year interval allowed (1 year, 12 months, or 52 weeks).
 	IntervalCount *int64 `form:"interval_count"`
-	// Default number of trial days when subscribing a customer to this plan using [`trial_from_plan=true`](https://stripe.com/docs/api#create_subscription-trial_from_plan).
+	// Default number of trial days when subscribing a customer to this price using [`trial_from_plan=true`](https://stripe.com/docs/api#create_subscription-trial_from_plan).
 	TrialPeriodDays *int64 `form:"trial_period_days"`
 	// Configures how the quantity per period should be determined. Can be either `metered` or `licensed`. `licensed` automatically bills the `quantity` set when adding it to a subscription. `metered` aggregates the total usage based on usage records. Defaults to `licensed`.
 	UsageType *string `form:"usage_type"`
@@ -283,6 +287,8 @@ type PriceParams struct {
 	CurrencyOptions map[string]*PriceCurrencyOptionsParams `form:"currency_options"`
 	// When set, provides configuration for the amount to be adjusted by the customer during Checkout Sessions and Payment Links.
 	CustomUnitAmount *PriceCustomUnitAmountParams `form:"custom_unit_amount"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// A lookup key used to retrieve prices dynamically from a static string. This may be up to 200 characters.
 	LookupKey *string `form:"lookup_key"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.

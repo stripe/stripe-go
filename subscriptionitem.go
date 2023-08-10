@@ -6,9 +6,13 @@
 
 package stripe
 
+import "encoding/json"
+
 // Returns a list of your subscription items for a given subscription.
 type SubscriptionItemListParams struct {
 	ListParams `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// The ID of the subscription whose items will be retrieved.
 	Subscription *string `form:"subscription"`
 }
@@ -50,6 +54,8 @@ type SubscriptionItemParams struct {
 	BillingThresholds *SubscriptionItemBillingThresholdsParams `form:"billing_thresholds"`
 	// Delete all usage for the given subscription item. Allowed only when the current plan's `usage_type` is `metered`.
 	ClearUsage *bool `form:"clear_usage"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// Only supported on update
@@ -96,6 +102,8 @@ func (p *SubscriptionItemParams) AddMetadata(key string, value string) {
 type SubscriptionItemUsageRecordSummariesParams struct {
 	ListParams       `form:"*"`
 	SubscriptionItem *string `form:"-"` // Included in URL
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 }
 
 // Define thresholds at which an invoice will be sent, and the related subscription advanced to a new billing period
@@ -148,4 +156,23 @@ type SubscriptionItemList struct {
 	APIResource
 	ListMeta
 	Data []*SubscriptionItem `json:"data"`
+}
+
+// UnmarshalJSON handles deserialization of a SubscriptionItem.
+// This custom unmarshaling is needed because the resulting
+// property may be an id or the full struct if it was expanded.
+func (s *SubscriptionItem) UnmarshalJSON(data []byte) error {
+	if id, ok := ParseID(data); ok {
+		s.ID = id
+		return nil
+	}
+
+	type subscriptionItem SubscriptionItem
+	var v subscriptionItem
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	*s = SubscriptionItem(v)
+	return nil
 }

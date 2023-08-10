@@ -37,6 +37,8 @@ type TaxRateListParams struct {
 	Created *int64 `form:"created"`
 	// Optional range for filtering created date.
 	CreatedRange *RangeQueryParams `form:"created"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// Optional flag to filter by tax rates that are inclusive (or those that are not inclusive).
 	Inclusive *bool `form:"inclusive"`
 }
@@ -52,6 +54,8 @@ type TaxRateParams struct {
 	Description *string `form:"description"`
 	// The display name of the tax rate, which will be shown to users.
 	DisplayName *string `form:"display_name"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// This specifies if the tax rate is inclusive or exclusive.
 	Inclusive *bool `form:"inclusive"`
 	// The jurisdiction for the tax rate. You can use this label field for tax reporting purposes. It also appears on your customer's invoice.

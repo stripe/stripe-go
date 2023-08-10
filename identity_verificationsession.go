@@ -104,6 +104,8 @@ type IdentityVerificationSessionOptionsParams struct {
 // Related guide: [Verify your users' identity documents](https://stripe.com/docs/identity/verify-identity-documents)
 type IdentityVerificationSessionParams struct {
 	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// A set of options for the session's verification checks.
@@ -128,6 +130,8 @@ type IdentityVerificationSessionListParams struct {
 	ListParams   `form:"*"`
 	Created      *int64            `form:"created"`
 	CreatedRange *RangeQueryParams `form:"created"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// Only return VerificationSessions with this status. [Learn more about the lifecycle of sessions](https://stripe.com/docs/identity/how-sessions-work).
 	Status *string `form:"status"`
 }
@@ -137,6 +141,8 @@ type IdentityVerificationSessionListParams struct {
 // Once canceled, future submission attempts are disabled. This cannot be undone. [Learn more](https://stripe.com/docs/identity/verification-sessions#cancel).
 type IdentityVerificationSessionCancelParams struct {
 	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 }
 
 // Redact a VerificationSession to remove all collected information from Stripe. This will redact
@@ -160,6 +166,8 @@ type IdentityVerificationSessionCancelParams struct {
 // [Learn more](https://stripe.com/docs/identity/verification-sessions#redact).
 type IdentityVerificationSessionRedactParams struct {
 	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 }
 
 // If present, this property tells you the last error encountered when processing the verification.

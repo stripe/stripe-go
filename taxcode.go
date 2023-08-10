@@ -11,11 +11,15 @@ import "encoding/json"
 // A list of [all tax codes available](https://stripe.com/docs/tax/tax-categories) to add to Products in order to allow specific tax calculations.
 type TaxCodeListParams struct {
 	ListParams `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 }
 
 // Retrieves the details of an existing tax code. Supply the unique tax code ID and Stripe will return the corresponding tax code information.
 type TaxCodeParams struct {
 	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 }
 
 // [Tax codes](https://stripe.com/docs/tax/tax-categories) classify goods and services for tax purposes.

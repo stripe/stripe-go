@@ -208,6 +208,8 @@ type BankAccountParams struct {
 	DefaultForCurrency *bool `form:"default_for_currency"`
 	// Documents that may be submitted to satisfy various informational requests.
 	Documents *BankAccountDocumentsParams `form:"documents"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// Two digit number representing the card's expiration month.
 	ExpMonth *string `form:"exp_month"`
 	// Four digit number representing the card's expiration year.

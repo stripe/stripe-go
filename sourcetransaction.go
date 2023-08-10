@@ -10,6 +10,8 @@ package stripe
 type SourceTransactionListParams struct {
 	ListParams `form:"*"`
 	Source     *string `form:"-"` // Included in URL
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 }
 type SourceTransactionACHCreditTransfer struct {
 	// Customer data associated with the transfer.

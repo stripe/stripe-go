@@ -167,6 +167,8 @@ type TreasuryOutboundPaymentParams struct {
 	DestinationPaymentMethodOptions *TreasuryOutboundPaymentDestinationPaymentMethodOptionsParams `form:"destination_payment_method_options"`
 	// End user details.
 	EndUserDetails *TreasuryOutboundPaymentEndUserDetailsParams `form:"end_user_details"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// The FinancialAccount to pull funds from.
 	FinancialAccount *string `form:"financial_account"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
@@ -189,6 +191,8 @@ type TreasuryOutboundPaymentListParams struct {
 	ListParams `form:"*"`
 	// Only return OutboundPayments sent to this customer.
 	Customer *string `form:"customer"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// Returns objects associated with this FinancialAccount.
 	FinancialAccount *string `form:"financial_account"`
 	// Only return OutboundPayments that have the given status: `processing`, `failed`, `posted`, `returned`, or `canceled`.
@@ -198,6 +202,8 @@ type TreasuryOutboundPaymentListParams struct {
 // Cancel an OutboundPayment.
 type TreasuryOutboundPaymentCancelParams struct {
 	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 }
 type TreasuryOutboundPaymentDestinationPaymentMethodDetailsBillingDetails struct {
 	Address *Address `json:"address"`

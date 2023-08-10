@@ -51,6 +51,8 @@ type DisputeListParams struct {
 	Charge       *string           `form:"charge"`
 	Created      *int64            `form:"created"`
 	CreatedRange *RangeQueryParams `form:"created"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// Only return disputes associated to the PaymentIntent specified by this PaymentIntent ID.
 	PaymentIntent *string `form:"payment_intent"`
 }
@@ -60,6 +62,8 @@ type DisputeParams struct {
 	Params `form:"*"`
 	// Evidence to upload, to respond to a dispute. Updating any field in the hash will submit all fields in the hash for review. The combined character count of all fields is limited to 150,000.
 	Evidence *DisputeEvidenceParams `form:"evidence"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// Whether to immediately submit evidence to the bank. If `false`, evidence is staged on the dispute. Staged evidence is visible in the API and Dashboard, and can be submitted to the bank by making another request with this attribute set to `true` (the default).

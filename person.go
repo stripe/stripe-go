@@ -84,6 +84,8 @@ type PersonListRelationshipParams struct {
 type PersonListParams struct {
 	ListParams `form:"*"`
 	Account    *string `form:"-"` // Included in URL
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// Filters on the list of people returned based on the person's relationship to the account's company.
 	Relationship *PersonListRelationshipParams `form:"relationship"`
 }
@@ -210,6 +212,8 @@ type PersonParams struct {
 	Documents *PersonDocumentsParams `form:"documents"`
 	// The person's email address.
 	Email *string `form:"email"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// The person's first name.
 	FirstName *string `form:"first_name"`
 	// The Kana variation of the person's first name (Japan only).

@@ -12,6 +12,8 @@ package stripe
 type UsageRecordSummaryListParams struct {
 	ListParams       `form:"*"`
 	SubscriptionItem *string `form:"-"` // Included in URL
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 }
 type UsageRecordSummary struct {
 	// Unique identifier for the object.

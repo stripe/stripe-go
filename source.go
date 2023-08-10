@@ -106,6 +106,8 @@ const (
 type SourceDetachParams struct {
 	Params   `form:"*"`
 	Customer *string `form:"-"` // Included in URL
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 }
 
 // Retrieves an existing source object. Supply the unique source ID from a source creation request and Stripe will return the corresponding up-to-date source object information.
@@ -119,6 +121,8 @@ type SourceParams struct {
 	Currency *string `form:"currency"`
 	// The `Customer` to whom the original source is attached to. Must be set when the original source is not a `Source` (e.g., `Card`).
 	Customer *string `form:"customer"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// The authentication `flow` of the source to create. `flow` is one of `redirect`, `receiver`, `code_verification`, `none`. It is generally inferred unless a type supports multiple flows.
 	Flow *string `form:"flow"`
 	// Information about a mandate possibility attached to a source object (generally for bank debits) as well as its acceptance status.

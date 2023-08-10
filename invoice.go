@@ -198,6 +198,8 @@ const (
 // to an hour behind during outages. Search functionality is not available to merchants in India.
 type InvoiceSearchParams struct {
 	SearchParams `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// A cursor for pagination across multiple pages of results. Don't include this parameter on the first call. Use the next_page value returned in a previous response to request subsequent results.
 	Page *string `form:"page"`
 }
@@ -329,6 +331,8 @@ type InvoiceUpcomingParams struct {
 	CustomerDetails *InvoiceUpcomingCustomerDetailsParams `form:"customer_details"`
 	// The coupons to redeem into discounts for the invoice preview. If not specified, inherits the discount from the customer or subscription. This only works for coupons directly applied to the invoice. To apply a coupon to a subscription, you must use the `coupon` parameter instead. Pass an empty string to avoid inheriting any discounts. To preview the upcoming invoice for a subscription that hasn't been created, use `coupon` instead.
 	Discounts []*InvoiceDiscountParams `form:"discounts"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// List of invoice items to add or update in the upcoming invoice preview.
 	InvoiceItems []*InvoiceUpcomingInvoiceItemParams `form:"invoice_items"`
 	// The identifier of the unstarted schedule whose upcoming invoice you'd like to retrieve. Cannot be used with subscription or subscription fields.
@@ -625,9 +629,9 @@ type InvoiceParams struct {
 	Currency *string `form:"currency"`
 	// The ID of the customer who will be billed.
 	Customer *string `form:"customer"`
-	// A list of up to 4 custom fields to be displayed on the invoice.
+	// A list of up to 4 custom fields to be displayed on the invoice. If a value for `custom_fields` is specified, the list specified will replace the existing custom field list on this invoice. Pass an empty string to remove previously-defined fields.
 	CustomFields []*InvoiceCustomFieldParams `form:"custom_fields"`
-	// The number of days from when the invoice is created until it is due. Valid only for invoices where `collection_method=send_invoice`.
+	// The number of days from which the invoice is created until it is due. Only valid for invoices where `collection_method=send_invoice`. This field can only be updated on `draft` invoices.
 	DaysUntilDue *int64 `form:"days_until_due"`
 	// ID of the default payment method for the invoice. It must belong to the customer associated with the invoice. If not set, defaults to the subscription's default payment method, if any, or to the default payment method in the customer's invoice settings.
 	DefaultPaymentMethod *string `form:"default_payment_method"`
@@ -639,10 +643,12 @@ type InvoiceParams struct {
 	Description *string `form:"description"`
 	// The coupons to redeem into discounts for the invoice. If not specified, inherits the discount from the invoice's customer. Pass an empty string to avoid inheriting any discounts.
 	Discounts []*InvoiceDiscountParams `form:"discounts"`
-	// The date on which payment for this invoice is due. Valid only for invoices where `collection_method=send_invoice`.
+	// The date on which payment for this invoice is due. Only valid for invoices where `collection_method=send_invoice`. This field can only be updated on `draft` invoices.
 	DueDate *int64 `form:"due_date"`
 	// The date when this invoice is in effect. Same as `finalized_at` unless overwritten. When defined, this value replaces the system-generated 'Date of issue' printed on the invoice PDF and receipt.
 	EffectiveAt *int64 `form:"effective_at"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// Footer to be displayed on the invoice.
 	Footer *string `form:"footer"`
 	// Revise an existing invoice. The new invoice will be created in `status=draft`. See the [revision documentation](https://stripe.com/docs/invoicing/invoice-revisions) for more details.
@@ -681,6 +687,8 @@ func (p *InvoiceParams) AddMetadata(key string, value string) {
 // Stripe automatically creates and then attempts to collect payment on invoices for customers on subscriptions according to your [subscriptions settings](https://dashboard.stripe.com/account/billing/automatic). However, if you'd like to attempt payment on an invoice out of the normal collection schedule or for some other reason, you can do so.
 type InvoicePayParams struct {
 	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// In cases where the source used to pay the invoice has insufficient funds, passing `forgive=true` controls whether a charge should be attempted for the full amount available on the source, up to the amount to fully pay the invoice. This effectively forgives the difference between the amount available on the source and the amount due.
 	//
 	// Passing `forgive=false` will fail the charge if the source hasn't been pre-funded with the right amount. An example for this case is with ACH Credit Transfers and wires: if the amount wired is less than the amount due by a small amount, you might want to forgive the difference. Defaults to `false`.
@@ -902,6 +910,8 @@ type InvoiceUpcomingLinesParams struct {
 	CustomerDetails *InvoiceUpcomingLinesCustomerDetailsParams `form:"customer_details"`
 	// The coupons to redeem into discounts for the invoice preview. If not specified, inherits the discount from the customer or subscription. This only works for coupons directly applied to the invoice. To apply a coupon to a subscription, you must use the `coupon` parameter instead. Pass an empty string to avoid inheriting any discounts. To preview the upcoming invoice for a subscription that hasn't been created, use `coupon` instead.
 	Discounts []*InvoiceUpcomingLinesDiscountParams `form:"discounts"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// List of invoice items to add or update in the upcoming invoice preview.
 	InvoiceItems []*InvoiceUpcomingLinesInvoiceItemParams `form:"invoice_items"`
 	// The identifier of the unstarted schedule whose upcoming invoice you'd like to retrieve. Cannot be used with subscription or subscription fields.
@@ -969,6 +979,8 @@ type InvoiceListParams struct {
 	Customer     *string           `form:"customer"`
 	DueDate      *int64            `form:"due_date"`
 	DueDateRange *RangeQueryParams `form:"due_date"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// The status of the invoice, one of `draft`, `open`, `paid`, `uncollectible`, or `void`. [Learn more](https://stripe.com/docs/billing/invoices/workflow#workflow-overview)
 	Status *string `form:"status"`
 	// Only return invoices for the subscription specified by this subscription ID.
@@ -980,6 +992,8 @@ type InvoiceFinalizeInvoiceParams struct {
 	Params `form:"*"`
 	// Controls whether Stripe performs [automatic collection](https://stripe.com/docs/invoicing/integration/automatic-advancement-collection) of the invoice. If `false`, the invoice's state doesn't automatically advance without an explicit action.
 	AutoAdvance *bool `form:"auto_advance"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 }
 
 // Stripe will automatically send invoices to customers according to your [subscriptions settings](https://dashboard.stripe.com/account/billing/automatic). However, if you'd like to manually send an invoice to your customer out of the normal schedule, you can do so. When sending invoices that have already been paid, there will be no reference to the payment in the email.
@@ -987,22 +1001,30 @@ type InvoiceFinalizeInvoiceParams struct {
 // Requests made in test-mode result in no emails being sent, despite sending an invoice.sent event.
 type InvoiceSendInvoiceParams struct {
 	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 }
 
 // Marking an invoice as uncollectible is useful for keeping track of bad debts that can be written off for accounting purposes.
 type InvoiceMarkUncollectibleParams struct {
 	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 }
 
 // Mark a finalized invoice as void. This cannot be undone. Voiding an invoice is similar to [deletion](https://stripe.com/docs/api#delete_invoice), however it only applies to finalized invoices and maintains a papertrail where the invoice can still be found.
 type InvoiceVoidInvoiceParams struct {
 	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 }
 
 // When retrieving an invoice, you'll get a lines property containing the total count of line items and the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of line items.
 type InvoiceListLinesParams struct {
 	ListParams `form:"*"`
 	Invoice    *string `form:"-"` // Included in URL
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 }
 type InvoiceAutomaticTax struct {
 	// Whether Stripe automatically computes tax on this invoice. Note that incompatible invoice items (invoice items with manually specified [tax rates](https://stripe.com/docs/api/tax_rates), negative amounts, or `tax_behavior=unspecified`) cannot be added to automatic tax invoices.

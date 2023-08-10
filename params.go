@@ -129,6 +129,8 @@ type ListParams struct {
 }
 
 // AddExpand appends a new field to expand.
+//
+// Deprecated: please do p.Expand = append(p.Expand, &f) instead.
 func (p *ListParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
@@ -216,6 +218,7 @@ func (p *Params) AddExtra(key, value string) {
 }
 
 // AddMetadata is deprecated.
+//
 // Deprecated: please use .AddMetadata of the containing Params struct.
 func (p *Params) AddMetadata(key, value string) {
 	if p.Metadata == nil {

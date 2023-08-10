@@ -9,11 +9,15 @@ package stripe
 // Transitions a test mode created OutboundPayment to the failed status. The OutboundPayment must already be in the processing state.
 type TestHelpersTreasuryOutboundPaymentFailParams struct {
 	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 }
 
 // Transitions a test mode created OutboundPayment to the posted status. The OutboundPayment must already be in the processing state.
 type TestHelpersTreasuryOutboundPaymentPostParams struct {
 	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 }
 
 // Optional hash to set the the return code.
@@ -25,6 +29,8 @@ type TestHelpersTreasuryOutboundPaymentReturnOutboundPaymentReturnedDetailsParam
 // Transitions a test mode created OutboundPayment to the returned status. The OutboundPayment must already be in the processing state.
 type TestHelpersTreasuryOutboundPaymentReturnOutboundPaymentParams struct {
 	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// Optional hash to set the the return code.
 	ReturnedDetails *TestHelpersTreasuryOutboundPaymentReturnOutboundPaymentReturnedDetailsParams `form:"returned_details"`
 }

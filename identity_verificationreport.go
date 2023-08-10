@@ -108,6 +108,8 @@ const (
 // Retrieves an existing VerificationReport
 type IdentityVerificationReportParams struct {
 	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 }
 
 // List all verification reports.
@@ -115,6 +117,8 @@ type IdentityVerificationReportListParams struct {
 	ListParams   `form:"*"`
 	Created      *int64            `form:"created"`
 	CreatedRange *RangeQueryParams `form:"created"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// Only return VerificationReports of this type
 	Type *string `form:"type"`
 	// Only return VerificationReports created by this VerificationSession ID. It is allowed to provide a VerificationIntent ID.

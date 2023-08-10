@@ -10,12 +10,16 @@ package stripe
 type ApplePayDomainListParams struct {
 	ListParams `form:"*"`
 	DomainName *string `form:"domain_name"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 }
 
 // Create an apple pay domain.
 type ApplePayDomainParams struct {
 	Params     `form:"*"`
 	DomainName *string `form:"domain_name"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 }
 type ApplePayDomain struct {
 	APIResource

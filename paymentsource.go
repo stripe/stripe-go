@@ -26,6 +26,8 @@ const (
 type PaymentSourceListParams struct {
 	ListParams `form:"*"`
 	Customer   *string `form:"-"` // Included in URL
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// Filter sources according to a particular object type.
 	Object *string `form:"object"`
 }
@@ -92,6 +94,8 @@ type PaymentSourceParams struct {
 	AddressState *string `form:"address_state"`
 	// ZIP or postal code.
 	AddressZip *string `form:"address_zip"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// Two digit number representing the card's expiration month.
 	ExpMonth *string `form:"exp_month"`
 	// Four digit number representing the card's expiration year.
@@ -131,8 +135,10 @@ type PaymentSourceVerifyParams struct {
 	Params   `form:"*"`
 	Customer *string `form:"-"` // Included in URL
 	// Two positive integers, in *cents*, equal to the values of the microdeposits sent to the bank account.
-	Amounts [2]int64  `form:"amounts"` // Amounts is used when verifying bank accounts
-	Values  []*string `form:"values"`  // Values is used when verifying sources
+	Amounts [2]int64 `form:"amounts"` // Amounts is used when verifying bank accounts
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	Values []*string `form:"values"` // Values is used when verifying sources
 }
 type PaymentSource struct {
 	APIResource
