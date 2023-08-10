@@ -200,6 +200,7 @@ type InvoiceSearchParams struct {
 	SearchParams `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+
 	// A cursor for pagination across multiple pages of results. Don't include this parameter on the first call. Use the next_page value returned in a previous response to request subsequent results.
 	Page *string `form:"page"`
 }
@@ -274,6 +275,9 @@ type InvoiceUpcomingInvoiceItemPeriodParams struct {
 
 // List of invoice items to add or update in the upcoming invoice preview.
 type InvoiceUpcomingInvoiceItemParams struct {
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+
 	// The integer amount in cents (or local equivalent) of previewed invoice item.
 	Amount *int64 `form:"amount"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Only applicable to new invoice items.
@@ -286,8 +290,6 @@ type InvoiceUpcomingInvoiceItemParams struct {
 	Discounts []*InvoiceItemDiscountParams `form:"discounts"`
 	// The ID of the invoice item to update in preview. If not specified, a new invoice item will be added to the preview of the upcoming invoice.
 	InvoiceItem *string `form:"invoiceitem"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
 	// The period associated with this invoice item. When set to different values, the period will be rendered on the invoice. If you have [Stripe Revenue Recognition](https://stripe.com/docs/revenue-recognition) enabled, the period will be used to recognize and defer revenue. See the [Revenue Recognition documentation](https://stripe.com/docs/revenue-recognition/methodology/subscriptions-and-invoicing) for details.
 	Period *InvoiceUpcomingInvoiceItemPeriodParams `form:"period"`
 	// The ID of the price object.
@@ -324,6 +326,9 @@ func (p *InvoiceUpcomingInvoiceItemParams) AddMetadata(key string, value string)
 // You can preview the effects of updating a subscription, including a preview of what proration will take place. To ensure that the actual proration is calculated exactly the same as the previewed proration, you should pass a proration_date parameter when doing the actual subscription update. The value passed in should be the same as the subscription_proration_date returned on the upcoming invoice resource. The recommended way to get only the prorations being previewed is to consider only proration line items where period[start] is equal to the subscription_proration_date on the upcoming invoice resource.
 type InvoiceUpcomingParams struct {
 	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+
 	// Settings for automatic tax lookup for this invoice preview.
 	AutomaticTax *InvoiceAutomaticTaxParams `form:"automatic_tax"`
 	// The code of the coupon to apply. If `subscription` or `subscription_items` is provided, the invoice returned will preview updating or creating a subscription with that coupon. Otherwise, it will preview applying that coupon to the customer for the next upcoming invoice from among the customer's subscriptions. The invoice can be previewed without a coupon by passing this value as an empty string.
@@ -336,8 +341,6 @@ type InvoiceUpcomingParams struct {
 	CustomerDetails *InvoiceUpcomingCustomerDetailsParams `form:"customer_details"`
 	// The coupons to redeem into discounts for the invoice preview. If not specified, inherits the discount from the customer or subscription. This only works for coupons directly applied to the invoice. To apply a coupon to a subscription, you must use the `coupon` parameter instead. Pass an empty string to avoid inheriting any discounts. To preview the upcoming invoice for a subscription that hasn't been created, use `coupon` instead.
 	Discounts []*InvoiceDiscountParams `form:"discounts"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
 	// List of invoice items to add or update in the upcoming invoice preview.
 	InvoiceItems []*InvoiceUpcomingInvoiceItemParams `form:"invoice_items"`
 	// The identifier of the unstarted schedule whose upcoming invoice you'd like to retrieve. Cannot be used with subscription or subscription fields.
@@ -566,14 +569,15 @@ type InvoiceShippingCostShippingRateDataFixedAmountParams struct {
 
 // Parameters to create a new ad-hoc shipping rate for this order.
 type InvoiceShippingCostShippingRateDataParams struct {
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+
 	// The estimated range for how long shipping will take, meant to be displayable to the customer. This will appear on CheckoutSessions.
 	DeliveryEstimate *InvoiceShippingCostShippingRateDataDeliveryEstimateParams `form:"delivery_estimate"`
 	// The name of the shipping rate, meant to be displayable to the customer. This will appear on CheckoutSessions.
 	DisplayName *string `form:"display_name"`
 	// Describes a fixed amount to charge for shipping. Must be present if type is `fixed_amount`.
 	FixedAmount *InvoiceShippingCostShippingRateDataFixedAmountParams `form:"fixed_amount"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
 	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
 	TaxBehavior *string `form:"tax_behavior"`
 	// A [tax code](https://stripe.com/docs/tax/tax-categories) ID. The Shipping tax code is `txcd_92010001`.
@@ -625,6 +629,11 @@ type InvoiceTransferDataParams struct {
 // auto_advance=false.
 type InvoiceParams struct {
 	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+
 	// The account tax IDs associated with the invoice. Only editable when the invoice is a draft.
 	AccountTaxIDs []*string `form:"account_tax_ids"`
 	// A fee in cents (or local equivalent) that will be applied to the invoice and transferred to the application owner's Stripe account. The request must be made with an OAuth key or the Stripe-Account header in order to take an application fee. For more information, see the application fees [documentation](https://stripe.com/docs/billing/invoices/connect#collecting-fees).
@@ -657,14 +666,10 @@ type InvoiceParams struct {
 	DueDate *int64 `form:"due_date"`
 	// The date when this invoice is in effect. Same as `finalized_at` unless overwritten. When defined, this value replaces the system-generated 'Date of issue' printed on the invoice PDF and receipt.
 	EffectiveAt *int64 `form:"effective_at"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
 	// Footer to be displayed on the invoice.
 	Footer *string `form:"footer"`
 	// Revise an existing invoice. The new invoice will be created in `status=draft`. See the [revision documentation](https://stripe.com/docs/invoicing/invoice-revisions) for more details.
 	FromInvoice *InvoiceFromInvoiceParams `form:"from_invoice"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
 	// The account (if any) for which the funds of the invoice payment are intended. If set, the invoice will be presented with the branding and support information of the specified account. See the [Invoices with Connect](https://stripe.com/docs/billing/invoices/connect) documentation for details.
 	OnBehalfOf *string `form:"on_behalf_of"`
 	// Configuration settings for the PaymentIntent that is generated when the invoice is finalized.
@@ -704,6 +709,7 @@ type InvoicePayParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+
 	// In cases where the source used to pay the invoice has insufficient funds, passing `forgive=true` controls whether a charge should be attempted for the full amount available on the source, up to the amount to fully pay the invoice. This effectively forgives the difference between the amount available on the source and the amount due.
 	//
 	// Passing `forgive=false` will fail the charge if the source hasn't been pre-funded with the right amount. An example for this case is with ACH Credit Transfers and wires: if the amount wired is less than the amount due by a small amount, you might want to forgive the difference. Defaults to `false`.
@@ -809,6 +815,9 @@ type InvoiceUpcomingLinesInvoiceItemPriceDataParams struct {
 
 // List of invoice items to add or update in the upcoming invoice preview.
 type InvoiceUpcomingLinesInvoiceItemParams struct {
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+
 	// The integer amount in cents (or local equivalent) of previewed invoice item.
 	Amount *int64 `form:"amount"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Only applicable to new invoice items.
@@ -821,8 +830,6 @@ type InvoiceUpcomingLinesInvoiceItemParams struct {
 	Discounts []*InvoiceUpcomingLinesInvoiceItemDiscountParams `form:"discounts"`
 	// The ID of the invoice item to update in preview. If not specified, a new invoice item will be added to the preview of the upcoming invoice.
 	InvoiceItem *string `form:"invoiceitem"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
 	// The period associated with this invoice item. When set to different values, the period will be rendered on the invoice. If you have [Stripe Revenue Recognition](https://stripe.com/docs/revenue-recognition) enabled, the period will be used to recognize and defer revenue. See the [Revenue Recognition documentation](https://stripe.com/docs/revenue-recognition/methodology/subscriptions-and-invoicing) for details.
 	Period *InvoiceUpcomingLinesInvoiceItemPeriodParams `form:"period"`
 	// The ID of the price object.
@@ -884,6 +891,9 @@ type InvoiceUpcomingLinesSubscriptionItemPriceDataParams struct {
 
 // A list of up to 20 subscription items, each with an attached price.
 type InvoiceUpcomingLinesSubscriptionItemParams struct {
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+
 	// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. When updating, pass an empty string to remove previously-defined thresholds.
 	BillingThresholds *InvoiceUpcomingLinesSubscriptionItemBillingThresholdsParams `form:"billing_thresholds"`
 	// Delete all usage for a given subscription item. Allowed only when `deleted` is set to `true` and the current plan's `usage_type` is `metered`.
@@ -892,8 +902,6 @@ type InvoiceUpcomingLinesSubscriptionItemParams struct {
 	Deleted *bool `form:"deleted"`
 	// Subscription item to update.
 	ID *string `form:"id"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
 	// Plan ID for this item, as a string.
 	Plan *string `form:"plan"`
 	// The ID of the price object. When changing a subscription item's price, `quantity` is set to 1 unless a `quantity` parameter is provided.
@@ -918,6 +926,9 @@ func (p *InvoiceUpcomingLinesSubscriptionItemParams) AddMetadata(key string, val
 // When retrieving an upcoming invoice, you'll get a lines property containing the total count of line items and the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of line items.
 type InvoiceUpcomingLinesParams struct {
 	ListParams `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+
 	// Settings for automatic tax lookup for this invoice preview.
 	AutomaticTax *InvoiceUpcomingLinesAutomaticTaxParams `form:"automatic_tax"`
 	// The code of the coupon to apply. If `subscription` or `subscription_items` is provided, the invoice returned will preview updating or creating a subscription with that coupon. Otherwise, it will preview applying that coupon to the customer for the next upcoming invoice from among the customer's subscriptions. The invoice can be previewed without a coupon by passing this value as an empty string.
@@ -930,8 +941,6 @@ type InvoiceUpcomingLinesParams struct {
 	CustomerDetails *InvoiceUpcomingLinesCustomerDetailsParams `form:"customer_details"`
 	// The coupons to redeem into discounts for the invoice preview. If not specified, inherits the discount from the customer or subscription. This only works for coupons directly applied to the invoice. To apply a coupon to a subscription, you must use the `coupon` parameter instead. Pass an empty string to avoid inheriting any discounts. To preview the upcoming invoice for a subscription that hasn't been created, use `coupon` instead.
 	Discounts []*InvoiceUpcomingLinesDiscountParams `form:"discounts"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
 	// List of invoice items to add or update in the upcoming invoice preview.
 	InvoiceItems []*InvoiceUpcomingLinesInvoiceItemParams `form:"invoice_items"`
 	// The identifier of the unstarted schedule whose upcoming invoice you'd like to retrieve. Cannot be used with subscription or subscription fields.
@@ -996,6 +1005,9 @@ type InvoiceFromInvoiceParams struct {
 // You can list all invoices, or list the invoices for a specific customer. The invoices are returned sorted by creation date, with the most recently created invoices appearing first.
 type InvoiceListParams struct {
 	ListParams `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+
 	// The collection method of the invoice to retrieve. Either `charge_automatically` or `send_invoice`.
 	CollectionMethod *string           `form:"collection_method"`
 	Created          *int64            `form:"created"`
@@ -1004,8 +1016,6 @@ type InvoiceListParams struct {
 	Customer     *string           `form:"customer"`
 	DueDate      *int64            `form:"due_date"`
 	DueDateRange *RangeQueryParams `form:"due_date"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
 	// The status of the invoice, one of `draft`, `open`, `paid`, `uncollectible`, or `void`. [Learn more](https://stripe.com/docs/billing/invoices/workflow#workflow-overview)
 	Status *string `form:"status"`
 	// Only return invoices for the subscription specified by this subscription ID.
@@ -1020,10 +1030,11 @@ func (p *InvoiceListParams) AddExpand(f string) {
 // Stripe automatically finalizes drafts before sending and attempting payment on invoices. However, if you'd like to finalize a draft invoice manually, you can do so using this method.
 type InvoiceFinalizeInvoiceParams struct {
 	Params `form:"*"`
-	// Controls whether Stripe performs [automatic collection](https://stripe.com/docs/invoicing/integration/automatic-advancement-collection) of the invoice. If `false`, the invoice's state doesn't automatically advance without an explicit action.
-	AutoAdvance *bool `form:"auto_advance"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+
+	// Controls whether Stripe performs [automatic collection](https://stripe.com/docs/invoicing/integration/automatic-advancement-collection) of the invoice. If `false`, the invoice's state doesn't automatically advance without an explicit action.
+	AutoAdvance *bool `form:"auto_advance"`
 }
 
 // AddExpand appends a new field to expand.
@@ -1323,6 +1334,9 @@ type InvoiceTransferData struct {
 // Related guide: [Send invoices to customers](https://stripe.com/docs/billing/invoices/sending)
 type Invoice struct {
 	APIResource
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	Metadata map[string]string `json:"metadata"`
+
 	// The country of the business associated with this invoice, most often the business creating the invoice.
 	AccountCountry string `json:"account_country"`
 	// The public name of the business associated with this invoice, most often the business creating the invoice.
@@ -1413,8 +1427,6 @@ type Invoice struct {
 	Lines *InvoiceLineItemList `json:"lines"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-	Metadata map[string]string `json:"metadata"`
 	// The time at which payment will next be attempted. This value will be `null` for invoices where `collection_method=send_invoice`.
 	NextPaymentAttempt int64 `json:"next_payment_attempt"`
 	// A unique, identifying string that appears on emails sent to the customer for this invoice. This starts with the customer's unique invoice_prefix if it is specified.

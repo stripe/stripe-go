@@ -230,6 +230,7 @@ type SubscriptionSearchParams struct {
 	SearchParams `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+
 	// A cursor for pagination across multiple pages of results. Don't include this parameter on the first call. Use the next_page value returned in a previous response to request subsequent results.
 	Page *string `form:"page"`
 }
@@ -248,6 +249,9 @@ type SubscriptionListAutomaticTaxParams struct {
 // By default, returns a list of subscriptions that have not been canceled. In order to list canceled subscriptions, specify status=canceled.
 type SubscriptionListParams struct {
 	ListParams `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+
 	// Filter subscriptions by their automatic tax settings.
 	AutomaticTax *SubscriptionListAutomaticTaxParams `form:"automatic_tax"`
 	// The collection method of the subscriptions to retrieve. Either `charge_automatically` or `send_invoice`.
@@ -260,8 +264,6 @@ type SubscriptionListParams struct {
 	CurrentPeriodStartRange *RangeQueryParams `form:"current_period_start"`
 	// The ID of the customer whose subscriptions will be retrieved.
 	Customer *string `form:"customer"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
 	// The ID of the plan whose subscriptions will be retrieved.
 	Plan *string `form:"plan"`
 	// Filter for subscriptions that contain this recurring price ID.
@@ -306,6 +308,9 @@ type SubscriptionBillingThresholdsParams struct {
 // A list of up to 20 subscription items, each with an attached price.
 type SubscriptionItemsParams struct {
 	Params `form:"*"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+
 	// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. When updating, pass an empty string to remove previously-defined thresholds.
 	BillingThresholds *SubscriptionItemBillingThresholdsParams `form:"billing_thresholds"`
 	// Delete all usage for a given subscription item. Allowed only when `deleted` is set to `true` and the current plan's `usage_type` is `metered`.
@@ -314,8 +319,6 @@ type SubscriptionItemsParams struct {
 	Deleted *bool `form:"deleted"`
 	// Subscription item to update.
 	ID *string `form:"id"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
 	// Plan ID for this item, as a string.
 	Plan *string `form:"plan"`
 	// The ID of the price object. When changing a subscription item's price, `quantity` is set to 1 unless a `quantity` parameter is provided.
@@ -479,6 +482,11 @@ type SubscriptionTrialSettingsParams struct {
 // Schedules provide the flexibility to model more complex billing configurations that change over time.
 type SubscriptionParams struct {
 	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+
 	// A list of prices and quantities that will generate invoice items appended to the next invoice for this subscription. You may pass up to 20 items.
 	AddInvoiceItems []*SubscriptionAddInvoiceItemParams `form:"add_invoice_items"`
 	// A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice total that will be transferred to the application owner's Stripe account. The request must be made by a platform account on a connected account in order to set an application fee percentage. For more information, see the application fees [documentation](https://stripe.com/docs/connect/subscriptions#collecting-fees-on-subscriptions).
@@ -517,12 +525,8 @@ type SubscriptionParams struct {
 	DefaultTaxRates []*string `form:"default_tax_rates"`
 	// The subscription's description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription for rendering in Stripe surfaces.
 	Description *string `form:"description"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
 	// A list of up to 20 subscription items, each with an attached price.
 	Items []*SubscriptionItemsParams `form:"items"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
 	// Indicates if a customer is on or off-session while an invoice payment is attempted.
 	OffSession *bool `form:"off_session"`
 	// The account on behalf of which to charge, for each of the subscription's invoices.
@@ -622,10 +626,11 @@ type SubscriptionCancelCancellationDetailsParams struct {
 // By default, upon subscription cancellation, Stripe will stop automatic collection of all finalized invoices for the customer. This is intended to prevent unexpected payment attempts after the customer has canceled a subscription. However, you can resume automatic collection of the invoices manually after subscription cancellation to have us proceed. Or, you could check for unpaid invoices before allowing the customer to cancel the subscription at all.
 type SubscriptionCancelParams struct {
 	Params `form:"*"`
-	// Details about why this subscription was cancelled
-	CancellationDetails *SubscriptionCancelCancellationDetailsParams `form:"cancellation_details"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+
+	// Details about why this subscription was cancelled
+	CancellationDetails *SubscriptionCancelCancellationDetailsParams `form:"cancellation_details"`
 	// Will generate a final invoice that invoices for any un-invoiced metered usage and new/pending proration invoice items.
 	InvoiceNow *bool `form:"invoice_now"`
 	// Will generate a proration invoice item that credits remaining unused time until the subscription period end.
@@ -640,10 +645,11 @@ func (p *SubscriptionCancelParams) AddExpand(f string) {
 // Initiates resumption of a paused subscription, optionally resetting the billing cycle anchor and creating prorations. If a resumption invoice is generated, it must be paid or marked uncollectible before the subscription will be unpaused. If payment succeeds the subscription will become active, and if payment fails the subscription will be past_due. The resumption invoice will void automatically if not paid by the expiration date.
 type SubscriptionResumeParams struct {
 	Params `form:"*"`
-	// Either `now` or `unchanged`. Setting the value to `now` resets the subscription's billing cycle anchor to the current time (in UTC). Setting the value to `unchanged` advances the subscription's billing cycle anchor to the period that surrounds the current time. For more information, see the billing cycle [documentation](https://stripe.com/docs/billing/subscriptions/billing-cycle).
-	BillingCycleAnchor *string `form:"billing_cycle_anchor"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+
+	// Either `now` or `unchanged`. Setting the value to `now` resets the subscription's billing cycle anchor to the current time (in UTC). Setting the value to `unchanged` advances the subscription's billing cycle anchor to the period that surrounds the current time. For more information, see the billing cycle [documentation](https://stripe.com/docs/billing/subscriptions/billing-cycle).
+	BillingCycleAnchor *string `form:"billing_cycle_anchor"`
 	// Determines how to handle [prorations](https://stripe.com/docs/subscriptions/billing-cycle#prorations) when the billing cycle changes (e.g., when switching plans, resetting `billing_cycle_anchor=now`, or starting a trial), or if an item's `quantity` changes. The default value is `create_prorations`.
 	ProrationBehavior *string `form:"proration_behavior"`
 	// If set, the proration will be calculated as though the subscription was resumed at the given time. This can be used to apply exactly the same proration that was previewed with [upcoming invoice](https://stripe.com/docs/api#retrieve_customer_invoice) endpoint.
@@ -827,6 +833,9 @@ type SubscriptionTrialSettings struct {
 // Related guide: [Creating subscriptions](https://stripe.com/docs/billing/subscriptions/creating)
 type Subscription struct {
 	APIResource
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	Metadata map[string]string `json:"metadata"`
+
 	// ID of the Connect Application that created the subscription.
 	Application *Application `json:"application"`
 	// A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice total that will be transferred to the application owner's Stripe account.
@@ -878,8 +887,6 @@ type Subscription struct {
 	LatestInvoice *Invoice `json:"latest_invoice"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-	Metadata map[string]string `json:"metadata"`
 	// Specifies the approximate timestamp on which any pending invoice items will be billed according to the schedule provided at `pending_invoice_item_interval`.
 	NextPendingInvoiceItemInvoice int64 `json:"next_pending_invoice_item_invoice"`
 	// String representing the object's type. Objects of the same type share the same value.

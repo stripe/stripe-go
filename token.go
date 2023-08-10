@@ -21,6 +21,9 @@ const (
 // Retrieves the token with the given ID.
 type TokenParams struct {
 	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+
 	// Information for the account this token will represent.
 	Account *TokenAccountParams `form:"account"`
 	// The bank account this token will represent.
@@ -30,8 +33,6 @@ type TokenParams struct {
 	Customer *string `form:"customer"`
 	// The updated CVC value this token will represent.
 	CVCUpdate *TokenCVCUpdateParams `form:"cvc_update"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
 	// Information for the person this token will represent.
 	Person *PersonParams `form:"person"`
 	// The PII this token will represent.

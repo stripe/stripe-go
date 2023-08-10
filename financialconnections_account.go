@@ -122,10 +122,11 @@ type FinancialConnectionsAccountListAccountHolderParams struct {
 // Returns a list of Financial Connections Account objects.
 type FinancialConnectionsAccountListParams struct {
 	ListParams `form:"*"`
-	// If present, only return accounts that belong to the specified account holder. `account_holder[customer]` and `account_holder[account]` are mutually exclusive.
-	AccountHolder *FinancialConnectionsAccountListAccountHolderParams `form:"account_holder"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+
+	// If present, only return accounts that belong to the specified account holder. `account_holder[customer]` and `account_holder[account]` are mutually exclusive.
+	AccountHolder *FinancialConnectionsAccountListAccountHolderParams `form:"account_holder"`
 	// If present, only return accounts that were collected as part of the given session.
 	Session *string `form:"session"`
 }
@@ -153,6 +154,7 @@ type FinancialConnectionsAccountListOwnersParams struct {
 	Account    *string `form:"-"` // Included in URL
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+
 	// The ID of the ownership object to fetch owners from.
 	Ownership *string `form:"ownership"`
 }
@@ -167,6 +169,7 @@ type FinancialConnectionsAccountRefreshParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+
 	// The list of account features that you would like to refresh.
 	Features []*string `form:"features"`
 }

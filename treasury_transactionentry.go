@@ -79,13 +79,14 @@ func (p *TreasuryTransactionEntryParams) AddExpand(f string) {
 
 // Retrieves a list of TransactionEntry objects.
 type TreasuryTransactionEntryListParams struct {
-	ListParams       `form:"*"`
+	ListParams `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+
 	Created          *int64            `form:"created"`
 	CreatedRange     *RangeQueryParams `form:"created"`
 	EffectiveAt      *int64            `form:"effective_at"`
 	EffectiveAtRange *RangeQueryParams `form:"effective_at"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
 	// Returns objects associated with this FinancialAccount.
 	FinancialAccount *string `form:"financial_account"`
 	// The results are in reverse chronological order by `created` or `effective_at`. The default is `created`.

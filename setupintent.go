@@ -447,6 +447,9 @@ type SetupIntentPaymentMethodDataZipParams struct{}
 // When included, this hash creates a PaymentMethod that is set as the [`payment_method`](https://stripe.com/docs/api/setup_intents/object#setup_intent_object-payment_method)
 // value in the SetupIntent.
 type SetupIntentPaymentMethodDataParams struct {
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+
 	// If this is an `acss_debit` PaymentMethod, this hash contains details about the ACSS Debit payment method.
 	ACSSDebit *SetupIntentPaymentMethodDataACSSDebitParams `form:"acss_debit"`
 	// If this is an `affirm` PaymentMethod, this hash contains details about the Affirm payment method.
@@ -489,8 +492,6 @@ type SetupIntentPaymentMethodDataParams struct {
 	Konbini *SetupIntentPaymentMethodDataKonbiniParams `form:"konbini"`
 	// If this is an `Link` PaymentMethod, this hash contains details about the Link payment method.
 	Link *SetupIntentPaymentMethodDataLinkParams `form:"link"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
 	// If this is an `oxxo` PaymentMethod, this hash contains details about the OXXO payment method.
 	OXXO *SetupIntentPaymentMethodDataOXXOParams `form:"oxxo"`
 	// If this is a `p24` PaymentMethod, this hash contains details about the P24 payment method.
@@ -675,6 +676,11 @@ type SetupIntentSingleUseParams struct {
 // to collect any required permissions to charge the payment method later.
 type SetupIntentParams struct {
 	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+
 	// If present, the SetupIntent's payment method will be attached to the in-context Stripe Account.
 	//
 	// It can only be used for this Stripe Account's own money movement flows like InboundTransfer and OutboundTransfers. It cannot be set to true when setting up a PaymentMethod for a Customer, and defaults to false when attaching a PaymentMethod to a Customer.
@@ -691,16 +697,12 @@ type SetupIntentParams struct {
 	Customer *string `form:"customer"`
 	// An arbitrary string attached to the object. Often useful for displaying to users.
 	Description *string `form:"description"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
 	// Indicates the directions of money movement for which this payment method is intended to be used.
 	//
 	// Include `inbound` if you intend to use the payment method as the origin to pull funds from. Include `outbound` if you intend to use the payment method as the destination to send funds to. You can include both if you intend to use the payment method for both purposes.
 	FlowDirections []*string `form:"flow_directions"`
 	// This hash contains details about the Mandate to create. This parameter can only be used with [`confirm=true`](https://stripe.com/docs/api/setup_intents/create#create_setup_intent-confirm).
 	MandateData *SetupIntentMandateDataParams `form:"mandate_data"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
 	// The Stripe account ID for which this SetupIntent is created.
 	OnBehalfOf *string `form:"on_behalf_of"`
 	// ID of the payment method (a PaymentMethod, Card, or saved Source object) to attach to this SetupIntent.
@@ -739,6 +741,9 @@ func (p *SetupIntentParams) AddMetadata(key string, value string) {
 // Returns a list of SetupIntents.
 type SetupIntentListParams struct {
 	ListParams `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+
 	// If present, the SetupIntent's payment method will be attached to the in-context Stripe Account.
 	//
 	// It can only be used for this Stripe Account's own money movement flows like InboundTransfer and OutboundTransfers. It cannot be set to true when setting up a PaymentMethod for a Customer, and defaults to false when attaching a PaymentMethod to a Customer.
@@ -749,8 +754,6 @@ type SetupIntentListParams struct {
 	CreatedRange *RangeQueryParams `form:"created"`
 	// Only return SetupIntents for the customer specified by this customer ID.
 	Customer *string `form:"customer"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
 	// Only return SetupIntents associated with the specified payment method.
 	PaymentMethod *string `form:"payment_method"`
 }
@@ -938,6 +941,9 @@ type SetupIntentConfirmPaymentMethodDataZipParams struct{}
 // When included, this hash creates a PaymentMethod that is set as the [`payment_method`](https://stripe.com/docs/api/setup_intents/object#setup_intent_object-payment_method)
 // value in the SetupIntent.
 type SetupIntentConfirmPaymentMethodDataParams struct {
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+
 	// If this is an `acss_debit` PaymentMethod, this hash contains details about the ACSS Debit payment method.
 	ACSSDebit *SetupIntentConfirmPaymentMethodDataACSSDebitParams `form:"acss_debit"`
 	// If this is an `affirm` PaymentMethod, this hash contains details about the Affirm payment method.
@@ -980,8 +986,6 @@ type SetupIntentConfirmPaymentMethodDataParams struct {
 	Konbini *SetupIntentConfirmPaymentMethodDataKonbiniParams `form:"konbini"`
 	// If this is an `Link` PaymentMethod, this hash contains details about the Link payment method.
 	Link *SetupIntentConfirmPaymentMethodDataLinkParams `form:"link"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
 	// If this is an `oxxo` PaymentMethod, this hash contains details about the OXXO payment method.
 	OXXO *SetupIntentConfirmPaymentMethodDataOXXOParams `form:"oxxo"`
 	// If this is a `p24` PaymentMethod, this hash contains details about the P24 payment method.
@@ -1037,6 +1041,7 @@ type SetupIntentConfirmParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+
 	// This hash contains details about the Mandate to create
 	MandateData *SetupIntentMandateDataParams `form:"mandate_data"`
 	// ID of the payment method (a PaymentMethod, Card, or saved Source object) to attach to this SetupIntent.
@@ -1064,10 +1069,11 @@ func (p *SetupIntentConfirmParams) AddExpand(f string) {
 // Once canceled, setup is abandoned and any operations on the SetupIntent will fail with an error.
 type SetupIntentCancelParams struct {
 	Params `form:"*"`
-	// Reason for canceling this SetupIntent. Possible values are `abandoned`, `requested_by_customer`, or `duplicate`
-	CancellationReason *string `form:"cancellation_reason"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+
+	// Reason for canceling this SetupIntent. Possible values are `abandoned`, `requested_by_customer`, or `duplicate`
+	CancellationReason *string `form:"cancellation_reason"`
 }
 
 // AddExpand appends a new field to expand.
@@ -1078,12 +1084,13 @@ func (p *SetupIntentCancelParams) AddExpand(f string) {
 // Verifies microdeposits on a SetupIntent object.
 type SetupIntentVerifyMicrodepositsParams struct {
 	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+
 	// Two positive integers, in *cents*, equal to the values of the microdeposits sent to the bank account.
 	Amounts []*int64 `form:"amounts"`
 	// A six-character code starting with SM present in the microdeposit sent to the bank account.
 	DescriptorCode *string `form:"descriptor_code"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
 }
 
 // AddExpand appends a new field to expand.
@@ -1273,6 +1280,9 @@ type SetupIntentPaymentMethodOptions struct {
 // Related guide: [Setup Intents API](https://stripe.com/docs/payments/setup-intents)
 type SetupIntent struct {
 	APIResource
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	Metadata map[string]string `json:"metadata"`
+
 	// ID of the Connect application that created the SetupIntent.
 	Application *Application `json:"application"`
 	// If present, the SetupIntent's payment method will be attached to the in-context Stripe Account.
@@ -1309,8 +1319,6 @@ type SetupIntent struct {
 	Livemode bool `json:"livemode"`
 	// ID of the multi use Mandate generated by the SetupIntent.
 	Mandate *Mandate `json:"mandate"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-	Metadata map[string]string `json:"metadata"`
 	// If present, this property tells you what actions you need to take in order for your customer to continue payment setup.
 	NextAction *SetupIntentNextAction `json:"next_action"`
 	// String representing the object's type. Objects of the same type share the same value.

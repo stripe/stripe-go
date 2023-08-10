@@ -44,12 +44,13 @@ const (
 // Returns a list of all refunds you've previously created. The refunds are returned in sorted order, with the most recent refunds appearing first. For convenience, the 10 most recent refunds are always available by default on the charge object.
 type RefundListParams struct {
 	ListParams `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+
 	// Only return refunds for the charge specified by this charge ID.
 	Charge       *string           `form:"charge"`
 	Created      *int64            `form:"created"`
 	CreatedRange *RangeQueryParams `form:"created"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
 	// Only return refunds for the PaymentIntent specified by this ID.
 	PaymentIntent *string `form:"payment_intent"`
 }
@@ -62,6 +63,11 @@ func (p *RefundListParams) AddExpand(f string) {
 // Create a refund.
 type RefundParams struct {
 	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+
 	// A positive integer representing how much to refund.
 	Amount *int64  `form:"amount"`
 	Charge *string `form:"charge"`
@@ -69,12 +75,8 @@ type RefundParams struct {
 	Currency *string `form:"currency"`
 	// Customer whose customer balance to refund from.
 	Customer *string `form:"customer"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
 	// For payment methods without native refund support (e.g., Konbini, PromptPay), use this email from the customer to receive refund instructions.
 	InstructionsEmail *string `form:"instructions_email"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
 	// Origin of the refund
 	Origin               *string `form:"origin"`
 	PaymentIntent        *string `form:"payment_intent"`
@@ -138,6 +140,9 @@ type RefundNextAction struct {
 // Related guide: [Refunds](https://stripe.com/docs/refunds)
 type Refund struct {
 	APIResource
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	Metadata map[string]string `json:"metadata"`
+
 	// Amount, in cents (or local equivalent).
 	Amount int64 `json:"amount"`
 	// Balance transaction that describes the impact on your account balance.
@@ -157,10 +162,8 @@ type Refund struct {
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// For payment methods without native refund support (e.g., Konbini, PromptPay), email for the customer to receive refund instructions.
-	InstructionsEmail string `json:"instructions_email"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-	Metadata   map[string]string `json:"metadata"`
-	NextAction *RefundNextAction `json:"next_action"`
+	InstructionsEmail string            `json:"instructions_email"`
+	NextAction        *RefundNextAction `json:"next_action"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// ID of the PaymentIntent that was refunded.

@@ -26,14 +26,15 @@ const (
 // Returns a list of ValueList objects. The objects are sorted in descending order by creation date, with the most recently created object appearing first.
 type RadarValueListListParams struct {
 	ListParams `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+
 	// The alias used to reference the value list when writing rules.
 	Alias *string `form:"alias"`
 	// A value contained within a value list - returns all value lists containing this value.
 	Contains     *string           `form:"contains"`
 	Created      *int64            `form:"created"`
 	CreatedRange *RangeQueryParams `form:"created"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
 }
 
 // AddExpand appends a new field to expand.
@@ -44,14 +45,15 @@ func (p *RadarValueListListParams) AddExpand(f string) {
 // Creates a new ValueList object, which can then be referenced in rules.
 type RadarValueListParams struct {
 	Params `form:"*"`
-	// The name of the value list for use in rules.
-	Alias *string `form:"alias"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-	// Type of the items in the value list. One of `card_fingerprint`, `us_bank_account_fingerprint`, `sepa_debit_fingerprint`, `card_bin`, `email`, `ip_address`, `country`, `string`, `case_sensitive_string`, or `customer_id`. Use `string` if the item type is unknown or mixed.
-	ItemType *string `form:"item_type"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
+
+	// The name of the value list for use in rules.
+	Alias *string `form:"alias"`
+	// Type of the items in the value list. One of `card_fingerprint`, `us_bank_account_fingerprint`, `sepa_debit_fingerprint`, `card_bin`, `email`, `ip_address`, `country`, `string`, `case_sensitive_string`, or `customer_id`. Use `string` if the item type is unknown or mixed.
+	ItemType *string `form:"item_type"`
 	// The human-readable name of the value list.
 	Name *string `form:"name"`
 }
@@ -75,6 +77,9 @@ func (p *RadarValueListParams) AddMetadata(key string, value string) {
 // Related guide: [Default Stripe lists](https://stripe.com/docs/radar/lists#managing-list-items)
 type RadarValueList struct {
 	APIResource
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	Metadata map[string]string `json:"metadata"`
+
 	// The name of the value list for use in rules.
 	Alias string `json:"alias"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
@@ -90,8 +95,6 @@ type RadarValueList struct {
 	ListItems *RadarValueListItemList `json:"list_items"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-	Metadata map[string]string `json:"metadata"`
 	// The name of the value list.
 	Name string `json:"name"`
 	// String representing the object's type. Objects of the same type share the same value.

@@ -72,11 +72,12 @@ type TreasuryTransactionListStatusTransitionsParams struct {
 
 // Retrieves a list of Transaction objects.
 type TreasuryTransactionListParams struct {
-	ListParams   `form:"*"`
-	Created      *int64            `form:"created"`
-	CreatedRange *RangeQueryParams `form:"created"`
+	ListParams `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+
+	Created      *int64            `form:"created"`
+	CreatedRange *RangeQueryParams `form:"created"`
 	// Returns objects associated with this FinancialAccount.
 	FinancialAccount *string `form:"financial_account"`
 	// The results are in reverse chronological order by `created` or `posted_at`. The default is `created`.

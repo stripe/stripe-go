@@ -8,11 +8,12 @@ package stripe
 
 // Returns a list of ValueListItem objects. The objects are sorted in descending order by creation date, with the most recently created object appearing first.
 type RadarValueListItemListParams struct {
-	ListParams   `form:"*"`
-	Created      *int64            `form:"created"`
-	CreatedRange *RangeQueryParams `form:"created"`
+	ListParams `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+
+	Created      *int64            `form:"created"`
+	CreatedRange *RangeQueryParams `form:"created"`
 	// Return items belonging to the parent list whose value matches the specified value (using an "is like" match).
 	Value *string `form:"value"`
 	// Identifier for the parent value list this item belongs to.
@@ -29,6 +30,7 @@ type RadarValueListItemParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+
 	// The value of the item (whose type must match the type of the parent value list).
 	Value *string `form:"value"`
 	// The identifier of the value list which the created item will be added to.

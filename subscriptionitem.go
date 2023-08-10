@@ -13,6 +13,7 @@ type SubscriptionItemListParams struct {
 	ListParams `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+
 	// The ID of the subscription whose items will be retrieved.
 	Subscription *string `form:"subscription"`
 }
@@ -55,14 +56,15 @@ type SubscriptionItemPriceDataParams struct {
 // Adds a new item to an existing subscription. No existing items will be changed or replaced.
 type SubscriptionItemParams struct {
 	Params `form:"*"`
-	// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. When updating, pass an empty string to remove previously-defined thresholds.
-	BillingThresholds *SubscriptionItemBillingThresholdsParams `form:"billing_thresholds"`
-	// Delete all usage for the given subscription item. Allowed only when the current plan's `usage_type` is `metered`.
-	ClearUsage *bool `form:"clear_usage"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
+
+	// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. When updating, pass an empty string to remove previously-defined thresholds.
+	BillingThresholds *SubscriptionItemBillingThresholdsParams `form:"billing_thresholds"`
+	// Delete all usage for the given subscription item. Allowed only when the current plan's `usage_type` is `metered`.
+	ClearUsage *bool `form:"clear_usage"`
 	// Only supported on update
 	// Indicates if a customer is on or off-session while an invoice payment is attempted.
 	OffSession *bool `form:"off_session"`
@@ -131,6 +133,9 @@ type SubscriptionItemBillingThresholds struct {
 // one plan, making it easy to represent complex billing relationships.
 type SubscriptionItem struct {
 	APIResource
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	Metadata map[string]string `json:"metadata"`
+
 	// Define thresholds at which an invoice will be sent, and the related subscription advanced to a new billing period
 	BillingThresholds *SubscriptionItemBillingThresholds `json:"billing_thresholds"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
@@ -138,8 +143,6 @@ type SubscriptionItem struct {
 	Deleted bool  `json:"deleted"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-	Metadata map[string]string `json:"metadata"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// You can now model subscriptions more flexibly using the [Prices API](https://stripe.com/docs/api#prices). It replaces the Plans API and is backwards compatible to simplify your migration.

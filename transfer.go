@@ -21,6 +21,11 @@ const (
 // To send funds from your Stripe account to a connected account, you create a new transfer object. Your [Stripe balance](https://stripe.com/docs/api#balance) must be able to cover the transfer amount, or you'll receive an “Insufficient Funds” error.
 type TransferParams struct {
 	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+
 	// A positive integer in cents (or local equivalent) representing how much to transfer.
 	Amount *int64 `form:"amount"`
 	// 3-letter [ISO code for currency](https://stripe.com/docs/payouts).
@@ -29,10 +34,6 @@ type TransferParams struct {
 	Description *string `form:"description"`
 	// The ID of a connected Stripe account. [See the Connect documentation](https://stripe.com/docs/connect/separate-charges-and-transfers) for details.
 	Destination *string `form:"destination"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
 	// You can use this parameter to transfer funds from a charge before they are added to your available balance. A pending balance will transfer immediately but the funds will not become available until the original charge becomes available. [See the Connect documentation](https://stripe.com/docs/connect/separate-charges-and-transfers#transfer-availability) for details.
 	SourceTransaction *string `form:"source_transaction"`
 	// The source balance to use for this transfer. One of `bank_account`, `card`, or `fpx`. For most users, this will default to `card`.
@@ -57,13 +58,14 @@ func (p *TransferParams) AddMetadata(key string, value string) {
 
 // Returns a list of existing transfers sent to connected accounts. The transfers are returned in sorted order, with the most recently created transfers appearing first.
 type TransferListParams struct {
-	ListParams   `form:"*"`
+	ListParams `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+
 	Created      *int64            `form:"created"`
 	CreatedRange *RangeQueryParams `form:"created"`
 	// Only return transfers for the destination specified by this account ID.
 	Destination *string `form:"destination"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
 	// Only return transfers with the specified transfer group.
 	TransferGroup *string `form:"transfer_group"`
 }
@@ -85,6 +87,9 @@ func (p *TransferListParams) AddExpand(f string) {
 // Related guide: [Creating separate charges and transfers](https://stripe.com/docs/connect/separate-charges-and-transfers)
 type Transfer struct {
 	APIResource
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	Metadata map[string]string `json:"metadata"`
+
 	// Amount in cents (or local equivalent) to be transferred.
 	Amount int64 `json:"amount"`
 	// Amount in cents (or local equivalent) reversed (can be less than the amount attribute on the transfer if a partial reversal was issued).
@@ -105,8 +110,6 @@ type Transfer struct {
 	ID string `json:"id"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-	Metadata map[string]string `json:"metadata"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// A list of reversals that have been applied to the transfer.

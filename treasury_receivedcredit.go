@@ -98,6 +98,7 @@ type TreasuryReceivedCreditListParams struct {
 	ListParams `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+
 	// The FinancialAccount that received the funds.
 	FinancialAccount *string `form:"financial_account"`
 	// Only return ReceivedCredits described by the flow.

@@ -9,9 +9,10 @@ package stripe
 // List apple pay domains.
 type ApplePayDomainListParams struct {
 	ListParams `form:"*"`
-	DomainName *string `form:"domain_name"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+
+	DomainName *string `form:"domain_name"`
 }
 
 // AddExpand appends a new field to expand.
@@ -21,10 +22,11 @@ func (p *ApplePayDomainListParams) AddExpand(f string) {
 
 // Create an apple pay domain.
 type ApplePayDomainParams struct {
-	Params     `form:"*"`
-	DomainName *string `form:"domain_name"`
+	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+
+	DomainName *string `form:"domain_name"`
 }
 
 // AddExpand appends a new field to expand.

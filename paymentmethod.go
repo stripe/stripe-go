@@ -429,6 +429,11 @@ type PaymentMethodZipParams struct{}
 // Instead of creating a PaymentMethod directly, we recommend using the [PaymentIntents API to accept a payment immediately or the <a href="/docs/payments/save-and-reuse">SetupIntent](https://stripe.com/docs/payments/accept-a-payment) API to collect payment method details ahead of a future payment.
 type PaymentMethodParams struct {
 	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+
 	// This is a legacy parameter that will be removed in the future. It is a hash that does not accept any keys.
 	ACSSDebit *PaymentMethodACSSDebitParams `form:"acss_debit"`
 	// This is a legacy parameter that will be removed in the future. It is a hash that does not accept any keys.
@@ -457,8 +462,6 @@ type PaymentMethodParams struct {
 	CustomerBalance *PaymentMethodCustomerBalanceParams `form:"customer_balance"`
 	// If this is an `eps` PaymentMethod, this hash contains details about the EPS payment method.
 	EPS *PaymentMethodEPSParams `form:"eps"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
 	// If this is an `fpx` PaymentMethod, this hash contains details about the FPX payment method.
 	FPX *PaymentMethodFPXParams `form:"fpx"`
 	// If this is a `giropay` PaymentMethod, this hash contains details about the Giropay payment method.
@@ -475,8 +478,6 @@ type PaymentMethodParams struct {
 	Konbini *PaymentMethodKonbiniParams `form:"konbini"`
 	// If this is an `Link` PaymentMethod, this hash contains details about the Link payment method.
 	Link *PaymentMethodLinkParams `form:"link"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
 	// If this is an `oxxo` PaymentMethod, this hash contains details about the OXXO payment method.
 	OXXO *PaymentMethodOXXOParams `form:"oxxo"`
 	// If this is a `p24` PaymentMethod, this hash contains details about the P24 payment method.
@@ -527,10 +528,11 @@ func (p *PaymentMethodParams) AddMetadata(key string, value string) {
 // Returns a list of PaymentMethods for Treasury flows. If you want to list the PaymentMethods attached to a Customer for payments, you should use the [List a Customer's PaymentMethods](https://stripe.com/docs/api/payment_methods/customer_list) API instead.
 type PaymentMethodListParams struct {
 	ListParams `form:"*"`
-	// The ID of the customer whose PaymentMethods will be retrieved.
-	Customer *string `form:"customer"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+
+	// The ID of the customer whose PaymentMethods will be retrieved.
+	Customer *string `form:"customer"`
 	// An optional filter on the list, based on the object `type` field. Without the filter, the list includes all current and future payment method types. If your integration expects only one type of payment method in the response, make sure to provide a type value in the request.
 	Type *string `form:"type"`
 }
@@ -555,10 +557,11 @@ func (p *PaymentMethodListParams) AddExpand(f string) {
 // on the Customer to the PaymentMethod's ID.
 type PaymentMethodAttachParams struct {
 	Params `form:"*"`
-	// The ID of the customer to which to attach the PaymentMethod.
-	Customer *string `form:"customer"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+
+	// The ID of the customer to which to attach the PaymentMethod.
+	Customer *string `form:"customer"`
 }
 
 // AddExpand appends a new field to expand.
@@ -946,6 +949,9 @@ type PaymentMethodZip struct{}
 // Related guides: [Payment Methods](https://stripe.com/docs/payments/payment-methods) and [More Payment Scenarios](https://stripe.com/docs/payments/more-payment-scenarios).
 type PaymentMethod struct {
 	APIResource
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	Metadata map[string]string `json:"metadata"`
+
 	ACSSDebit        *PaymentMethodACSSDebit        `json:"acss_debit"`
 	Affirm           *PaymentMethodAffirm           `json:"affirm"`
 	AfterpayClearpay *PaymentMethodAfterpayClearpay `json:"afterpay_clearpay"`
@@ -977,8 +983,6 @@ type PaymentMethod struct {
 	Link           *PaymentMethodLink           `json:"link"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-	Metadata map[string]string `json:"metadata"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object    string                  `json:"object"`
 	OXXO      *PaymentMethodOXXO      `json:"oxxo"`

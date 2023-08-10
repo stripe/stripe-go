@@ -11,12 +11,13 @@ import "encoding/json"
 // Returns a list of application fees you've previously collected. The application fees are returned in sorted order, with the most recent fees appearing first.
 type ApplicationFeeListParams struct {
 	ListParams `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+
 	// Only return application fees for the charge specified by this charge ID.
 	Charge       *string           `form:"charge"`
 	Created      *int64            `form:"created"`
 	CreatedRange *RangeQueryParams `form:"created"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
 }
 
 // AddExpand appends a new field to expand.

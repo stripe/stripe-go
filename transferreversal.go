@@ -16,14 +16,15 @@ import "encoding/json"
 type TransferReversalParams struct {
 	Params `form:"*"`
 	ID     *string `form:"-"` // Included in URL
-	// A positive integer in cents (or local equivalent) representing how much of this transfer to reverse. Can only reverse up to the unreversed amount remaining of the transfer. Partial transfer reversals are only allowed for transfers to Stripe Accounts. Defaults to the entire transfer amount.
-	Amount *int64 `form:"amount"`
-	// An arbitrary string which you can attach to a reversal object. It is displayed alongside the reversal in the Dashboard. This will be unset if you POST an empty value.
-	Description *string `form:"description"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
+
+	// A positive integer in cents (or local equivalent) representing how much of this transfer to reverse. Can only reverse up to the unreversed amount remaining of the transfer. Partial transfer reversals are only allowed for transfers to Stripe Accounts. Defaults to the entire transfer amount.
+	Amount *int64 `form:"amount"`
+	// An arbitrary string which you can attach to a reversal object. It is displayed alongside the reversal in the Dashboard. This will be unset if you POST an empty value.
+	Description *string `form:"description"`
 	// Boolean indicating whether the application fee should be refunded when reversing this transfer. If a full transfer reversal is given, the full application fee will be refunded. Otherwise, the application fee will be refunded with an amount proportional to the amount of the transfer reversed.
 	RefundApplicationFee *bool `form:"refund_application_fee"`
 }
@@ -70,6 +71,9 @@ func (p *TransferReversalListParams) AddExpand(f string) {
 // Related guide: [Reversing transfers](https://stripe.com/docs/connect/separate-charges-and-transfers#reversing-transfers)
 type TransferReversal struct {
 	APIResource
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	Metadata map[string]string `json:"metadata"`
+
 	// Amount, in cents (or local equivalent).
 	Amount int64 `json:"amount"`
 	// Balance transaction that describes the impact on your account balance.
@@ -82,8 +86,6 @@ type TransferReversal struct {
 	DestinationPaymentRefund *Refund `json:"destination_payment_refund"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-	Metadata map[string]string `json:"metadata"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// ID of the refund responsible for the transfer reversal.

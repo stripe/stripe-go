@@ -81,6 +81,7 @@ type TreasuryReceivedDebitListParams struct {
 	ListParams `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+
 	// The FinancialAccount that funds were pulled from.
 	FinancialAccount *string `form:"financial_account"`
 	// Only return ReceivedDebits that have the given status: `succeeded` or `failed`.

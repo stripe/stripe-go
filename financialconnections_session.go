@@ -45,10 +45,11 @@ type FinancialConnectionsSessionFiltersParams struct {
 // To launch the Financial Connections authorization flow, create a Session. The session's client_secret can be used to launch the flow using Stripe.js.
 type FinancialConnectionsSessionParams struct {
 	Params `form:"*"`
-	// The account holder to link accounts for.
-	AccountHolder *FinancialConnectionsSessionAccountHolderParams `form:"account_holder"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+
+	// The account holder to link accounts for.
+	AccountHolder *FinancialConnectionsSessionAccountHolderParams `form:"account_holder"`
 	// Filters to restrict the kinds of accounts to collect.
 	Filters *FinancialConnectionsSessionFiltersParams `form:"filters"`
 	// List of data features that you would like to request access to.

@@ -41,6 +41,7 @@ type TestHelpersTreasuryOutboundTransferReturnOutboundTransferParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+
 	// Details about a returned OutboundTransfer.
 	ReturnedDetails *TestHelpersTreasuryOutboundTransferReturnOutboundTransferReturnedDetailsParams `form:"returned_details"`
 }

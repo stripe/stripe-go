@@ -91,6 +91,11 @@ const (
 // Retrieves the details of an existing payout. Supply the unique payout ID from either a payout creation request or the payout list, and Stripe will return the corresponding payout information.
 type PayoutParams struct {
 	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+
 	// A positive integer in cents representing how much to payout.
 	Amount *int64 `form:"amount"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
@@ -99,10 +104,6 @@ type PayoutParams struct {
 	Description *string `form:"description"`
 	// The ID of a bank account or a card to send the payout to. If no destination is supplied, the default external account for the specified currency will be used.
 	Destination *string `form:"destination"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
 	// The method used to send this payout, which can be `standard` or `instant`. `instant` is only supported for payouts to debit cards. (See [Instant payouts for marketplaces for more information](https://stripe.com/blog/instant-payouts-for-marketplaces).)
 	Method *string `form:"method"`
 	// The balance type of your Stripe balance to draw this payout from. Balances for different payment sources are kept separately. You can find the amounts with the balances API. One of `bank_account`, `card`, or `fpx`.
@@ -127,15 +128,16 @@ func (p *PayoutParams) AddMetadata(key string, value string) {
 
 // Returns a list of existing payouts sent to third-party bank accounts or that Stripe has sent you. The payouts are returned in sorted order, with the most recently created payouts appearing first.
 type PayoutListParams struct {
-	ListParams       `form:"*"`
+	ListParams `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+
 	ArrivalDate      *int64            `form:"arrival_date"`
 	ArrivalDateRange *RangeQueryParams `form:"arrival_date"`
 	Created          *int64            `form:"created"`
 	CreatedRange     *RangeQueryParams `form:"created"`
 	// The ID of an external account - only return payouts sent to this external account.
 	Destination *string `form:"destination"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
 	// Only return payouts that have the given status: `pending`, `paid`, `failed`, or `canceled`.
 	Status *string `form:"status"`
 }
@@ -180,6 +182,9 @@ func (p *PayoutReverseParams) AddMetadata(key string, value string) {
 // Related guide: [Receiving payouts](https://stripe.com/docs/payouts)
 type Payout struct {
 	APIResource
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	Metadata map[string]string `json:"metadata"`
+
 	// Amount (in cents (or local equivalent)) to be transferred to your bank account or debit card.
 	Amount int64 `json:"amount"`
 	// Date the payout is expected to arrive in the bank. This factors in delays like weekends or bank holidays.
@@ -206,8 +211,6 @@ type Payout struct {
 	ID string `json:"id"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-	Metadata map[string]string `json:"metadata"`
 	// The method used to send this payout, which can be `standard` or `instant`. `instant` is only supported for payouts to debit cards. (See [Instant payouts for marketplaces](https://stripe.com/blog/instant-payouts-for-marketplaces) for more information.)
 	Method PayoutMethodType `json:"method"`
 	// String representing the object's type. Objects of the same type share the same value.

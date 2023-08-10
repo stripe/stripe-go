@@ -45,11 +45,12 @@ const (
 
 // Returns a list of Review objects that have open set to true. The objects are sorted in descending order by creation date, with the most recently created object appearing first.
 type ReviewListParams struct {
-	ListParams   `form:"*"`
-	Created      *int64            `form:"created"`
-	CreatedRange *RangeQueryParams `form:"created"`
+	ListParams `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+
+	Created      *int64            `form:"created"`
+	CreatedRange *RangeQueryParams `form:"created"`
 }
 
 // AddExpand appends a new field to expand.

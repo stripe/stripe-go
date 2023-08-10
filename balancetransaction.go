@@ -113,6 +113,9 @@ const (
 // Note that this endpoint was previously called “Balance history” and used the path /v1/balance/history.
 type BalanceTransactionListParams struct {
 	ListParams `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+
 	// This parameter is deprecated and we recommend listing by created and filtering in memory instead.
 	AvailableOn *int64 `form:"available_on"`
 	// This parameter is deprecated and we recommend listing by created and filtering in memory instead.
@@ -121,8 +124,6 @@ type BalanceTransactionListParams struct {
 	CreatedRange     *RangeQueryParams `form:"created"`
 	// Only return transactions in a certain currency. Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency *string `form:"currency"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
 	// For automatic Stripe payouts only, only returns transactions that were paid out on the specified payout ID.
 	Payout *string `form:"payout"`
 	// Only returns the original transaction.

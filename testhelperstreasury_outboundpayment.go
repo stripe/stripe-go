@@ -41,6 +41,7 @@ type TestHelpersTreasuryOutboundPaymentReturnOutboundPaymentParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+
 	// Optional hash to set the the return code.
 	ReturnedDetails *TestHelpersTreasuryOutboundPaymentReturnOutboundPaymentReturnedDetailsParams `form:"returned_details"`
 }

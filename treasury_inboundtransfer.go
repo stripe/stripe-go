@@ -86,18 +86,19 @@ func (p *TreasuryInboundTransferCancelParams) AddExpand(f string) {
 // Creates an InboundTransfer.
 type TreasuryInboundTransferParams struct {
 	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+
 	// Amount (in cents) to be transferred.
 	Amount *int64 `form:"amount"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency *string `form:"currency"`
 	// An arbitrary string attached to the object. Often useful for displaying to users.
 	Description *string `form:"description"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
 	// The FinancialAccount to send funds to.
 	FinancialAccount *string `form:"financial_account"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
 	// The origin payment method to be debited for the InboundTransfer.
 	OriginPaymentMethod *string `form:"origin_payment_method"`
 	// The complete description that appears on your customers' statements. Maximum 10 characters.
@@ -123,6 +124,7 @@ type TreasuryInboundTransferListParams struct {
 	ListParams `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+
 	// Returns objects associated with this FinancialAccount.
 	FinancialAccount *string `form:"financial_account"`
 	// Only return InboundTransfers that have the given status: `processing`, `succeeded`, `failed` or `canceled`.
@@ -186,6 +188,9 @@ type TreasuryInboundTransferStatusTransitions struct {
 // Use [InboundTransfers](https://stripe.com/docs/treasury/moving-money/financial-accounts/into/inbound-transfers) to add funds to your [FinancialAccount](https://stripe.com/docs/api#financial_accounts) via a PaymentMethod that is owned by you. The funds will be transferred via an ACH debit.
 type TreasuryInboundTransfer struct {
 	APIResource
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	Metadata map[string]string `json:"metadata"`
+
 	// Amount (in cents) transferred.
 	Amount int64 `json:"amount"`
 	// Returns `true` if the InboundTransfer is able to be canceled.
@@ -207,8 +212,6 @@ type TreasuryInboundTransfer struct {
 	LinkedFlows *TreasuryInboundTransferLinkedFlows `json:"linked_flows"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-	Metadata map[string]string `json:"metadata"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// The origin payment method to be debited for an InboundTransfer.

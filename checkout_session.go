@@ -696,12 +696,13 @@ type CheckoutSessionListCustomerDetailsParams struct {
 // Returns a list of Checkout Sessions.
 type CheckoutSessionListParams struct {
 	ListParams `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+
 	// Only return the Checkout Sessions for the Customer specified.
 	Customer *string `form:"customer"`
 	// Only return the Checkout Sessions for the Customer details specified.
 	CustomerDetails *CheckoutSessionListCustomerDetailsParams `form:"customer_details"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
 	// Only return the Checkout Session for the PaymentIntent specified.
 	PaymentIntent *string `form:"payment_intent"`
 	// Only return the Checkout Sessions for the Payment Link specified.
@@ -860,6 +861,9 @@ type CheckoutSessionInvoiceCreationInvoiceDataRenderingOptionsParams struct {
 
 // Parameters passed when creating invoices for payment-mode Checkout Sessions.
 type CheckoutSessionInvoiceCreationInvoiceDataParams struct {
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+
 	// The account tax IDs associated with the invoice.
 	AccountTaxIDs []*string `form:"account_tax_ids"`
 	// Default custom fields to be displayed on invoices for this customer.
@@ -868,8 +872,6 @@ type CheckoutSessionInvoiceCreationInvoiceDataParams struct {
 	Description *string `form:"description"`
 	// Default footer to be displayed on invoices for this customer.
 	Footer *string `form:"footer"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
 	// Default options for invoice PDF rendering for this customer.
 	RenderingOptions *CheckoutSessionInvoiceCreationInvoiceDataRenderingOptionsParams `form:"rendering_options"`
 }
@@ -903,12 +905,13 @@ type CheckoutSessionLineItemAdjustableQuantityParams struct {
 
 // Data used to generate a new product object inline. One of `product` or `product_data` is required.
 type CheckoutSessionLineItemPriceDataProductDataParams struct {
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+
 	// The product's description, meant to be displayable to the customer. Use this field to optionally store a long form explanation of the product being sold for your own rendering purposes.
 	Description *string `form:"description"`
 	// A list of up to 8 URLs of images for this product, meant to be displayable to the customer.
 	Images []*string `form:"images"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
 	// The product's name, meant to be displayable to the customer.
 	Name *string `form:"name"`
 	// A [tax code](https://stripe.com/docs/tax/tax-categories) ID.
@@ -984,14 +987,15 @@ type CheckoutSessionPaymentIntentDataTransferDataParams struct {
 
 // A subset of parameters to be passed to PaymentIntent creation for Checkout Sessions in `payment` mode.
 type CheckoutSessionPaymentIntentDataParams struct {
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+
 	// The amount of the application fee (if any) that will be requested to be applied to the payment and transferred to the application owner's Stripe account. The amount of the application fee collected will be capped at the total payment amount. For more information, see the PaymentIntents [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
 	ApplicationFeeAmount *int64 `form:"application_fee_amount"`
 	// Controls when the funds will be captured from the customer's account.
 	CaptureMethod *string `form:"capture_method"`
 	// An arbitrary string attached to the object. Often useful for displaying to users.
 	Description *string `form:"description"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
 	// The Stripe account ID for which these funds are intended. For details,
 	// see the PaymentIntents [use case for connected
 	// accounts](https://stripe.com/docs/payments/connected-accounts).
@@ -1480,10 +1484,11 @@ type CheckoutSessionPhoneNumberCollectionParams struct {
 
 // A subset of parameters to be passed to SetupIntent creation for Checkout Sessions in `setup` mode.
 type CheckoutSessionSetupIntentDataParams struct {
-	// An arbitrary string attached to the object. Often useful for displaying to users.
-	Description *string `form:"description"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
+
+	// An arbitrary string attached to the object. Often useful for displaying to users.
+	Description *string `form:"description"`
 	// The Stripe account for which the setup is intended.
 	OnBehalfOf *string `form:"on_behalf_of"`
 }
@@ -1548,14 +1553,15 @@ type CheckoutSessionShippingOptionShippingRateDataFixedAmountParams struct {
 
 // Parameters to be passed to Shipping Rate creation for this shipping option
 type CheckoutSessionShippingOptionShippingRateDataParams struct {
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+
 	// The estimated range for how long shipping will take, meant to be displayable to the customer. This will appear on CheckoutSessions.
 	DeliveryEstimate *CheckoutSessionShippingOptionShippingRateDataDeliveryEstimateParams `form:"delivery_estimate"`
 	// The name of the shipping rate, meant to be displayable to the customer. This will appear on CheckoutSessions.
 	DisplayName *string `form:"display_name"`
 	// Describes a fixed amount to charge for shipping. Must be present if type is `fixed_amount`.
 	FixedAmount *CheckoutSessionShippingOptionShippingRateDataFixedAmountParams `form:"fixed_amount"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
 	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
 	TaxBehavior *string `form:"tax_behavior"`
 	// A [tax code](https://stripe.com/docs/tax/tax-categories) ID. The Shipping tax code is `txcd_92010001`.
@@ -1603,6 +1609,9 @@ type CheckoutSessionSubscriptionDataTrialSettingsParams struct {
 
 // A subset of parameters to be passed to subscription creation for Checkout Sessions in `subscription` mode.
 type CheckoutSessionSubscriptionDataParams struct {
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+
 	// A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice total that will be transferred to the application owner's Stripe account. To use an application fee percent, the request must be made on behalf of another account, using the `Stripe-Account` header or an OAuth key. For more information, see the application fees [documentation](https://stripe.com/docs/connect/subscriptions#collecting-fees-on-subscriptions).
 	ApplicationFeePercent *float64 `form:"application_fee_percent"`
 	// A future timestamp to anchor the subscription's billing cycle for new subscriptions.
@@ -1617,8 +1626,6 @@ type CheckoutSessionSubscriptionDataParams struct {
 	// Use this field to optionally store an explanation of the subscription
 	// for rendering in the [customer portal](https://stripe.com/docs/customer-management).
 	Description *string `form:"description"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
 	// The account on behalf of which to charge, for each of the subscription's invoices.
 	OnBehalfOf *string `form:"on_behalf_of"`
 	// Determines how to handle prorations resulting from the `billing_cycle_anchor`. If no value is passed, the default is `create_prorations`.
@@ -1656,6 +1663,11 @@ type CheckoutSessionTaxIDCollectionParams struct {
 // Creates a Session object.
 type CheckoutSessionParams struct {
 	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+
 	// Configure actions after a Checkout Session has expired.
 	AfterExpiration *CheckoutSessionAfterExpirationParams `form:"after_expiration"`
 	// Enables user redeemable promotion codes.
@@ -1710,8 +1722,6 @@ type CheckoutSessionParams struct {
 	CustomText *CheckoutSessionCustomTextParams `form:"custom_text"`
 	// The coupon or promotion code to apply to this Session. Currently, only up to one may be specified.
 	Discounts []*CheckoutSessionDiscountParams `form:"discounts"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
 	// The Epoch time in seconds at which the Checkout Session will expire. It can be anywhere from 30 minutes to 24 hours after Checkout Session creation. By default, this value is 24 hours from creation.
 	ExpiresAt *int64 `form:"expires_at"`
 	// Generate a post-purchase Invoice for one-time payments.
@@ -1724,8 +1734,6 @@ type CheckoutSessionParams struct {
 	LineItems []*CheckoutSessionLineItemParams `form:"line_items"`
 	// The IETF language tag of the locale Checkout is displayed in. If blank or `auto`, the browser's locale is used.
 	Locale *string `form:"locale"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
 	// The mode of the Checkout Session. Pass `subscription` if the Checkout Session includes at least one recurring item.
 	Mode *string `form:"mode"`
 	// A subset of parameters to be passed to PaymentIntent creation for Checkout Sessions in `payment` mode.
@@ -1994,6 +2002,9 @@ type CheckoutSessionInvoiceCreationInvoiceDataRenderingOptions struct {
 	AmountTaxDisplay string `json:"amount_tax_display"`
 }
 type CheckoutSessionInvoiceCreationInvoiceData struct {
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	Metadata map[string]string `json:"metadata"`
+
 	// The account tax IDs associated with the invoice.
 	AccountTaxIDs []*TaxID `json:"account_tax_ids"`
 	// Custom fields displayed on the invoice.
@@ -2002,8 +2013,6 @@ type CheckoutSessionInvoiceCreationInvoiceData struct {
 	Description string `json:"description"`
 	// Footer displayed on the invoice.
 	Footer string `json:"footer"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-	Metadata map[string]string `json:"metadata"`
 	// Options for invoice PDF rendering.
 	RenderingOptions *CheckoutSessionInvoiceCreationInvoiceDataRenderingOptions `json:"rendering_options"`
 }
@@ -2414,6 +2423,9 @@ type CheckoutSessionTotalDetails struct {
 // Related guide: [Checkout quickstart](https://stripe.com/docs/checkout/quickstart)
 type CheckoutSession struct {
 	APIResource
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	Metadata map[string]string `json:"metadata"`
+
 	// When set, provides configuration for actions to take if this Checkout Session expires.
 	AfterExpiration *CheckoutSessionAfterExpiration `json:"after_expiration"`
 	// Enables user redeemable promotion codes.
@@ -2474,8 +2486,6 @@ type CheckoutSession struct {
 	Livemode bool `json:"livemode"`
 	// The IETF language tag of the locale Checkout is displayed in. If blank or `auto`, the browser's locale is used.
 	Locale string `json:"locale"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-	Metadata map[string]string `json:"metadata"`
 	// The mode of the Checkout Session.
 	Mode CheckoutSessionMode `json:"mode"`
 	// String representing the object's type. Objects of the same type share the same value.

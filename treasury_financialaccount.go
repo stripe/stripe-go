@@ -224,10 +224,11 @@ type TreasuryFinancialAccountParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-	// Encodes whether a FinancialAccount has access to a particular feature, with a status enum and associated `status_details`. Stripe or the platform may control features via the requested field.
-	Features *TreasuryFinancialAccountFeaturesParams `form:"features"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
+
+	// Encodes whether a FinancialAccount has access to a particular feature, with a status enum and associated `status_details`. Stripe or the platform may control features via the requested field.
+	Features *TreasuryFinancialAccountFeaturesParams `form:"features"`
 	// The set of functionalities that the platform can restrict on the FinancialAccount.
 	PlatformRestrictions *TreasuryFinancialAccountPlatformRestrictionsParams `form:"platform_restrictions"`
 	// The currencies the FinancialAccount can hold a balance in.
@@ -250,11 +251,12 @@ func (p *TreasuryFinancialAccountParams) AddMetadata(key string, value string) {
 
 // Returns a list of FinancialAccounts.
 type TreasuryFinancialAccountListParams struct {
-	ListParams   `form:"*"`
-	Created      *int64            `form:"created"`
-	CreatedRange *RangeQueryParams `form:"created"`
+	ListParams `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+
+	Created      *int64            `form:"created"`
+	CreatedRange *RangeQueryParams `form:"created"`
 }
 
 // AddExpand appends a new field to expand.
@@ -347,12 +349,13 @@ type TreasuryFinancialAccountUpdateFeaturesOutboundTransfersParams struct {
 // Updates the Features associated with a FinancialAccount.
 type TreasuryFinancialAccountUpdateFeaturesParams struct {
 	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+
 	// Encodes the FinancialAccount's ability to be used with the Issuing product, including attaching cards to and drawing funds from the FinancialAccount.
 	CardIssuing *TreasuryFinancialAccountUpdateFeaturesCardIssuingParams `form:"card_issuing"`
 	// Represents whether this FinancialAccount is eligible for deposit insurance. Various factors determine the insurance amount.
 	DepositInsurance *TreasuryFinancialAccountUpdateFeaturesDepositInsuranceParams `form:"deposit_insurance"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
 	// Contains Features that add FinancialAddresses to the FinancialAccount.
 	FinancialAddresses *TreasuryFinancialAccountUpdateFeaturesFinancialAddressesParams `form:"financial_addresses"`
 	// Contains settings related to adding funds to a FinancialAccount from another Account with the same owner.
@@ -438,6 +441,9 @@ type TreasuryFinancialAccountStatusDetails struct {
 // FinancialAccounts serve as the source and destination of Treasury's money movement APIs.
 type TreasuryFinancialAccount struct {
 	APIResource
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	Metadata map[string]string `json:"metadata"`
+
 	// The array of paths to active Features in the Features hash.
 	ActiveFeatures []TreasuryFinancialAccountActiveFeature `json:"active_features"`
 	// Balance information for the FinancialAccount
@@ -455,8 +461,6 @@ type TreasuryFinancialAccount struct {
 	ID string `json:"id"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-	Metadata map[string]string `json:"metadata"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// The array of paths to pending Features in the Features hash.

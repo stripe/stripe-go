@@ -193,12 +193,13 @@ func (p *TaxTransactionParams) AddExpand(f string) {
 
 // The line item amounts to reverse.
 type TaxTransactionCreateReversalLineItemParams struct {
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	Metadata map[string]string `form:"metadata"`
+
 	// The amount to reverse, in negative integer cents.
 	Amount *int64 `form:"amount"`
 	// The amount of tax to reverse, in negative integer cents.
 	AmountTax *int64 `form:"amount_tax"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-	Metadata map[string]string `form:"metadata"`
 	// The `id` of the line item to reverse in the original transaction.
 	OriginalLineItem *string `form:"original_line_item"`
 	// The quantity reversed. Appears in [tax exports](https://stripe.com/docs/tax/reports), but does not affect the amount of tax reversed.
@@ -229,10 +230,11 @@ type TaxTransactionCreateReversalParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-	// The line item amounts to reverse.
-	LineItems []*TaxTransactionCreateReversalLineItemParams `form:"line_items"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
+
+	// The line item amounts to reverse.
+	LineItems []*TaxTransactionCreateReversalLineItemParams `form:"line_items"`
 	// If `partial`, the provided line item or shipping cost amounts are reversed. If `full`, the original transaction is fully reversed.
 	Mode *string `form:"mode"`
 	// The ID of the Transaction to partially or fully reverse.
@@ -260,12 +262,13 @@ func (p *TaxTransactionCreateReversalParams) AddMetadata(key string, value strin
 // Creates a Tax Transaction from a calculation.
 type TaxTransactionCreateFromCalculationParams struct {
 	Params `form:"*"`
-	// Tax Calculation ID to be used as input when creating the transaction.
-	Calculation *string `form:"calculation"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
+
+	// Tax Calculation ID to be used as input when creating the transaction.
+	Calculation *string `form:"calculation"`
 	// A custom order or sale identifier, such as 'myOrder_123'. Must be unique across all transactions, including reversals.
 	Reference *string `form:"reference"`
 }
@@ -379,6 +382,9 @@ type TaxTransactionShippingCost struct {
 // Related guide: [Calculate tax in your custom payment flow](https://stripe.com/docs/tax/custom#tax-transaction)
 type TaxTransaction struct {
 	APIResource
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	Metadata map[string]string `json:"metadata"`
+
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
 	Created int64 `json:"created"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
@@ -392,8 +398,6 @@ type TaxTransaction struct {
 	LineItems *TaxTransactionLineItemList `json:"line_items"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-	Metadata map[string]string `json:"metadata"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// A custom unique identifier, such as 'myOrder_123'.

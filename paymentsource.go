@@ -28,6 +28,7 @@ type PaymentSourceListParams struct {
 	Customer   *string `form:"-"` // Included in URL
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+
 	// Filter sources according to a particular object type.
 	Object *string `form:"object"`
 }
@@ -83,6 +84,11 @@ func SourceParamsFor(obj interface{}) (*PaymentSourceSourceParams, error) {
 type PaymentSourceParams struct {
 	Params   `form:"*"`
 	Customer *string `form:"-"` // Included in URL
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+
 	// The name of the person or business that owns the bank account.
 	AccountHolderName *string `form:"account_holder_name"`
 	// The type of entity that holds the account. This can be either `individual` or `company`.
@@ -99,14 +105,10 @@ type PaymentSourceParams struct {
 	AddressState *string `form:"address_state"`
 	// ZIP or postal code.
 	AddressZip *string `form:"address_zip"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
 	// Two digit number representing the card's expiration month.
 	ExpMonth *string `form:"exp_month"`
 	// Four digit number representing the card's expiration year.
 	ExpYear *string `form:"exp_year"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
 	// Cardholder name.
 	Name  *string                   `form:"name"`
 	Owner *PaymentSourceOwnerParams `form:"owner"`
@@ -144,11 +146,12 @@ type PaymentSourceOwnerParams struct {
 type PaymentSourceVerifyParams struct {
 	Params   `form:"*"`
 	Customer *string `form:"-"` // Included in URL
-	// Two positive integers, in *cents*, equal to the values of the microdeposits sent to the bank account.
-	Amounts [2]int64 `form:"amounts"` // Amounts is used when verifying bank accounts
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-	Values []*string `form:"values"` // Values is used when verifying sources
+
+	// Two positive integers, in *cents*, equal to the values of the microdeposits sent to the bank account.
+	Amounts [2]int64  `form:"amounts"` // Amounts is used when verifying bank accounts
+	Values  []*string `form:"values"`  // Values is used when verifying sources
 }
 
 // AddExpand appends a new field to expand.

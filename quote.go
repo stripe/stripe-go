@@ -130,6 +130,11 @@ const (
 // Retrieves the quote with the given ID.
 type QuoteParams struct {
 	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+
 	// The amount of the application fee (if any) that will be requested to be applied to the payment and transferred to the application owner's Stripe account. There cannot be any line items with recurring prices when using this field.
 	ApplicationFeeAmount *int64 `form:"application_fee_amount"`
 	// A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice total that will be transferred to the application owner's Stripe account. There must be at least 1 line item with a recurring price to use this field.
@@ -146,8 +151,6 @@ type QuoteParams struct {
 	Description *string `form:"description"`
 	// The discounts applied to the quote. You can only set up to one discount.
 	Discounts []*QuoteDiscountParams `form:"discounts"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
 	// A future timestamp on which the quote will be canceled if in `open` or `draft` status. Measured in seconds since the Unix epoch. If no value is passed, the default expiration date configured in your [quote template settings](https://dashboard.stripe.com/settings/billing/quote) will be used.
 	ExpiresAt *int64 `form:"expires_at"`
 	// A footer that will be displayed on the quote PDF. If no value is passed, the default footer configured in your [quote template settings](https://dashboard.stripe.com/settings/billing/quote) will be used.
@@ -160,8 +163,6 @@ type QuoteParams struct {
 	InvoiceSettings *QuoteInvoiceSettingsParams `form:"invoice_settings"`
 	// A list of line items the customer is being quoted for. Each line item includes information about the product, the quantity, and the resulting cost.
 	LineItems []*QuoteLineItemParams `form:"line_items"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
 	// The account on behalf of which to charge.
 	OnBehalfOf *string `form:"on_behalf_of"`
 	// When creating a subscription or subscription schedule, the specified configuration data will be used. There must be at least one line item with a recurring price for a subscription or subscription schedule to be created. A subscription schedule is created if `subscription_data[effective_date]` is present and in the future, otherwise a subscription is created.
@@ -283,10 +284,11 @@ type QuoteFromQuoteParams struct {
 // Returns a list of your quotes.
 type QuoteListParams struct {
 	ListParams `form:"*"`
-	// The ID of the customer whose quotes will be retrieved.
-	Customer *string `form:"customer"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+
+	// The ID of the customer whose quotes will be retrieved.
+	Customer *string `form:"customer"`
 	// The status of the quote.
 	Status *string `form:"status"`
 	// Provides a list of quotes that are associated with the specified test clock. The response will not include quotes with test clocks if this and the customer parameter is not set.
@@ -315,6 +317,7 @@ type QuoteFinalizeQuoteParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+
 	// A future timestamp on which the quote will be canceled if in `open` or `draft` status. Measured in seconds since the Unix epoch.
 	ExpiresAt *int64 `form:"expires_at"`
 }
@@ -572,6 +575,9 @@ type QuoteTransferData struct {
 // Once accepted, it will automatically create an invoice, subscription or subscription schedule.
 type Quote struct {
 	APIResource
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	Metadata map[string]string `json:"metadata"`
+
 	// Total before any discounts or taxes are applied.
 	AmountSubtotal int64 `json:"amount_subtotal"`
 	// Total after discounts and taxes are applied.
@@ -616,8 +622,6 @@ type Quote struct {
 	LineItems *LineItemList `json:"line_items"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-	Metadata map[string]string `json:"metadata"`
 	// A unique number that identifies this particular quote. This number is assigned once the quote is [finalized](https://stripe.com/docs/quotes/overview#finalize).
 	Number string `json:"number"`
 	// String representing the object's type. Objects of the same type share the same value.

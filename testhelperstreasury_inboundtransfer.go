@@ -29,6 +29,7 @@ type TestHelpersTreasuryInboundTransferFailParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+
 	// Details about a failed InboundTransfer.
 	FailureDetails *TestHelpersTreasuryInboundTransferFailFailureDetailsParams `form:"failure_details"`
 }

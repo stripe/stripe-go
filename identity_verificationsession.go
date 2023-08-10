@@ -108,6 +108,7 @@ type IdentityVerificationSessionParams struct {
 	Expand []*string `form:"expand"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
+
 	// A set of options for the session's verification checks.
 	Options *IdentityVerificationSessionOptionsParams `form:"options"`
 	// The URL that the user will be redirected to upon completing the verification flow.
@@ -132,11 +133,12 @@ func (p *IdentityVerificationSessionParams) AddMetadata(key string, value string
 
 // Returns a list of VerificationSessions
 type IdentityVerificationSessionListParams struct {
-	ListParams   `form:"*"`
-	Created      *int64            `form:"created"`
-	CreatedRange *RangeQueryParams `form:"created"`
+	ListParams `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+
+	Created      *int64            `form:"created"`
+	CreatedRange *RangeQueryParams `form:"created"`
 	// Only return VerificationSessions with this status. [Learn more about the lifecycle of sessions](https://stripe.com/docs/identity/how-sessions-work).
 	Status *string `form:"status"`
 }
@@ -260,6 +262,9 @@ type IdentityVerificationSessionVerifiedOutputs struct {
 // Related guide: [The Verification Sessions API](https://stripe.com/docs/identity/verification-sessions)
 type IdentityVerificationSession struct {
 	APIResource
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	Metadata map[string]string `json:"metadata"`
+
 	// The short-lived client secret used by Stripe.js to [show a verification modal](https://stripe.com/docs/js/identity/modal) inside your app. This client secret expires after 24 hours and can only be used once. Don't store it, log it, embed it in a URL, or expose it to anyone other than the user. Make sure that you have TLS enabled on any page that includes the client secret. Refer to our docs on [passing the client secret to the frontend](https://stripe.com/docs/identity/verification-sessions#client-secret) to learn more.
 	ClientSecret string `json:"client_secret"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
@@ -272,8 +277,6 @@ type IdentityVerificationSession struct {
 	LastVerificationReport *IdentityVerificationReport `json:"last_verification_report"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-	Metadata map[string]string `json:"metadata"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// A set of options for the session's verification checks.

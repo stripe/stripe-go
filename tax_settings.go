@@ -28,10 +28,11 @@ const (
 // Retrieves Tax Settings for a merchant.
 type TaxSettingsParams struct {
 	Params `form:"*"`
-	// Default configuration to be used on Stripe Tax calculations.
-	Defaults *TaxSettingsDefaultsParams `form:"defaults"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+
+	// Default configuration to be used on Stripe Tax calculations.
+	Defaults *TaxSettingsDefaultsParams `form:"defaults"`
 	// The place where your business is located.
 	HeadOffice *TaxSettingsHeadOfficeParams `form:"head_office"`
 }

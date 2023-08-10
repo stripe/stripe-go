@@ -14,13 +14,14 @@ import (
 
 // List events, going back up to 30 days. Each event data is rendered according to Stripe API version at its creation time, specified in [event object](https://stripe.com/docs/api/events/object) api_version attribute (not according to your current Stripe API version or Stripe-Version header).
 type EventListParams struct {
-	ListParams   `form:"*"`
+	ListParams `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+
 	Created      *int64            `form:"created"`
 	CreatedRange *RangeQueryParams `form:"created"`
 	// Filter events by whether all webhooks were successfully delivered. If false, events which are still pending or have failed all delivery attempts to a webhook endpoint will be returned.
 	DeliverySuccess *bool `form:"delivery_success"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
 	// A string containing a specific event name, or group of events using * as a wildcard. The list will be filtered to include only events with a matching event property.
 	Type *string `form:"type"`
 	// An array of up to 20 strings containing specific event names. The list will be filtered to include only events with a matching event property. You may pass either `type` or `types`, but not both.
