@@ -1,5 +1,10 @@
 # Changelog
 
+## 74.30.0 - 2023-08-10
+* [#1702](https://github.com/stripe/stripe-go/pull/1702) Update generated code
+  * Add support for new values `incorporated_partnership` and `unincorporated_partnership` on enum `AccountCompanyStructure`
+  * Add support for new value `payment_reversal` on enum `BalanceTransactionType`
+
 ## 74.29.0 - 2023-08-03
 * [#1700](https://github.com/stripe/stripe-go/pull/1700) Update generated code
   * Add support for `PreferredSettlementSpeed` on `PaymentIntentConfirmPaymentMethodOptionsUsBankAccountParams`, `PaymentIntentPaymentMethodOptionsUsBankAccountParams`, and `PaymentIntentPaymentMethodOptionsUsBankAccount`
