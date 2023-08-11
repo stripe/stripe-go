@@ -13,7 +13,7 @@ type TreasuryFinancialAccountActiveFeature string
 const (
 	TreasuryFinancialAccountActiveFeatureCardIssuing                     TreasuryFinancialAccountActiveFeature = "card_issuing"
 	TreasuryFinancialAccountActiveFeatureDepositInsurance                TreasuryFinancialAccountActiveFeature = "deposit_insurance"
-	TreasuryFinancialAccountActiveFeatureFinancialAddressesAba           TreasuryFinancialAccountActiveFeature = "financial_addresses.aba"
+	TreasuryFinancialAccountActiveFeatureFinancialAddressesABA           TreasuryFinancialAccountActiveFeature = "financial_addresses.aba"
 	TreasuryFinancialAccountActiveFeatureInboundTransfersACH             TreasuryFinancialAccountActiveFeature = "inbound_transfers.ach"
 	TreasuryFinancialAccountActiveFeatureIntraStripeFlows                TreasuryFinancialAccountActiveFeature = "intra_stripe_flows"
 	TreasuryFinancialAccountActiveFeatureOutboundPaymentsACH             TreasuryFinancialAccountActiveFeature = "outbound_payments.ach"
@@ -37,7 +37,7 @@ type TreasuryFinancialAccountFinancialAddressType string
 
 // List of values that TreasuryFinancialAccountFinancialAddressType can take
 const (
-	TreasuryFinancialAccountFinancialAddressTypeAba TreasuryFinancialAccountFinancialAddressType = "aba"
+	TreasuryFinancialAccountFinancialAddressTypeABA TreasuryFinancialAccountFinancialAddressType = "aba"
 )
 
 // The array of paths to pending Features in the Features hash.
@@ -47,7 +47,7 @@ type TreasuryFinancialAccountPendingFeature string
 const (
 	TreasuryFinancialAccountPendingFeatureCardIssuing                     TreasuryFinancialAccountPendingFeature = "card_issuing"
 	TreasuryFinancialAccountPendingFeatureDepositInsurance                TreasuryFinancialAccountPendingFeature = "deposit_insurance"
-	TreasuryFinancialAccountPendingFeatureFinancialAddressesAba           TreasuryFinancialAccountPendingFeature = "financial_addresses.aba"
+	TreasuryFinancialAccountPendingFeatureFinancialAddressesABA           TreasuryFinancialAccountPendingFeature = "financial_addresses.aba"
 	TreasuryFinancialAccountPendingFeatureInboundTransfersACH             TreasuryFinancialAccountPendingFeature = "inbound_transfers.ach"
 	TreasuryFinancialAccountPendingFeatureIntraStripeFlows                TreasuryFinancialAccountPendingFeature = "intra_stripe_flows"
 	TreasuryFinancialAccountPendingFeatureOutboundPaymentsACH             TreasuryFinancialAccountPendingFeature = "outbound_payments.ach"
@@ -82,7 +82,7 @@ type TreasuryFinancialAccountRestrictedFeature string
 const (
 	TreasuryFinancialAccountRestrictedFeatureCardIssuing                     TreasuryFinancialAccountRestrictedFeature = "card_issuing"
 	TreasuryFinancialAccountRestrictedFeatureDepositInsurance                TreasuryFinancialAccountRestrictedFeature = "deposit_insurance"
-	TreasuryFinancialAccountRestrictedFeatureFinancialAddressesAba           TreasuryFinancialAccountRestrictedFeature = "financial_addresses.aba"
+	TreasuryFinancialAccountRestrictedFeatureFinancialAddressesABA           TreasuryFinancialAccountRestrictedFeature = "financial_addresses.aba"
 	TreasuryFinancialAccountRestrictedFeatureInboundTransfersACH             TreasuryFinancialAccountRestrictedFeature = "inbound_transfers.ach"
 	TreasuryFinancialAccountRestrictedFeatureIntraStripeFlows                TreasuryFinancialAccountRestrictedFeature = "intra_stripe_flows"
 	TreasuryFinancialAccountRestrictedFeatureOutboundPaymentsACH             TreasuryFinancialAccountRestrictedFeature = "outbound_payments.ach"
@@ -124,7 +124,7 @@ type TreasuryFinancialAccountFeaturesDepositInsuranceParams struct {
 }
 
 // Adds an ABA FinancialAddress to the FinancialAccount.
-type TreasuryFinancialAccountFeaturesFinancialAddressesAbaParams struct {
+type TreasuryFinancialAccountFeaturesFinancialAddressesABAParams struct {
 	// Whether the FinancialAccount should have the Feature.
 	Requested *bool `form:"requested"`
 }
@@ -132,7 +132,7 @@ type TreasuryFinancialAccountFeaturesFinancialAddressesAbaParams struct {
 // Contains Features that add FinancialAddresses to the FinancialAccount.
 type TreasuryFinancialAccountFeaturesFinancialAddressesParams struct {
 	// Adds an ABA FinancialAddress to the FinancialAccount.
-	Aba *TreasuryFinancialAccountFeaturesFinancialAddressesAbaParams `form:"aba"`
+	ABA *TreasuryFinancialAccountFeaturesFinancialAddressesABAParams `form:"aba"`
 }
 
 // Enables ACH Debits via the InboundTransfers API.
@@ -265,7 +265,7 @@ type TreasuryFinancialAccountUpdateFeaturesDepositInsuranceParams struct {
 }
 
 // Adds an ABA FinancialAddress to the FinancialAccount.
-type TreasuryFinancialAccountUpdateFeaturesFinancialAddressesAbaParams struct {
+type TreasuryFinancialAccountUpdateFeaturesFinancialAddressesABAParams struct {
 	// Whether the FinancialAccount should have the Feature.
 	Requested *bool `form:"requested"`
 }
@@ -273,7 +273,7 @@ type TreasuryFinancialAccountUpdateFeaturesFinancialAddressesAbaParams struct {
 // Contains Features that add FinancialAddresses to the FinancialAccount.
 type TreasuryFinancialAccountUpdateFeaturesFinancialAddressesParams struct {
 	// Adds an ABA FinancialAddress to the FinancialAccount.
-	Aba *TreasuryFinancialAccountUpdateFeaturesFinancialAddressesAbaParams `form:"aba"`
+	ABA *TreasuryFinancialAccountUpdateFeaturesFinancialAddressesABAParams `form:"aba"`
 }
 
 // Enables ACH Debits via the InboundTransfers API.
@@ -373,7 +373,7 @@ type TreasuryFinancialAccountBalance struct {
 }
 
 // ABA Records contain U.S. bank account details per the ABA format.
-type TreasuryFinancialAccountFinancialAddressAba struct {
+type TreasuryFinancialAccountFinancialAddressABA struct {
 	// The name of the person or business that owns the bank account.
 	AccountHolderName string `json:"account_holder_name"`
 	// The account number.
@@ -389,7 +389,7 @@ type TreasuryFinancialAccountFinancialAddressAba struct {
 // The set of credentials that resolve to a FinancialAccount.
 type TreasuryFinancialAccountFinancialAddress struct {
 	// ABA Records contain U.S. bank account details per the ABA format.
-	Aba *TreasuryFinancialAccountFinancialAddressAba `json:"aba"`
+	ABA *TreasuryFinancialAccountFinancialAddressABA `json:"aba"`
 	// The list of networks that the address supports
 	SupportedNetworks []TreasuryFinancialAccountFinancialAddressSupportedNetwork `json:"supported_networks"`
 	// The type of financial address
