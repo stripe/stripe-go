@@ -9,6 +9,12 @@
   * Add support for `Reason` on `QuoteMarkStaleQuoteParams`
   * Add support for `MarkedStale` on `QuoteStatusDetailsStaleLastReason`
 
+## 74.29.0 - 2023-08-03
+* [#1700](https://github.com/stripe/stripe-go/pull/1700) Update generated code
+  * Add support for `PreferredSettlementSpeed` on `PaymentIntentConfirmPaymentMethodOptionsUsBankAccountParams`, `PaymentIntentPaymentMethodOptionsUsBankAccountParams`, and `PaymentIntentPaymentMethodOptionsUsBankAccount`
+* [#1696](https://github.com/stripe/stripe-go/pull/1696) Update generated code
+  * Add support for new values `sepa_debit_fingerprint` and `us_bank_account_fingerprint` on enum `RadarValueListItemType`
+
 ## 74.29.0-beta.1 - 2023-07-28
 * [#1694](https://github.com/stripe/stripe-go/pull/1694) Update generated code for beta
   * Release specs are identical.

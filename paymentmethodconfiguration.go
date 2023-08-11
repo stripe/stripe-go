@@ -577,6 +577,25 @@ const (
 )
 
 // The account's display preference.
+type PaymentMethodConfigurationPaypalDisplayPreferencePreference string
+
+// List of values that PaymentMethodConfigurationPaypalDisplayPreferencePreference can take
+const (
+	PaymentMethodConfigurationPaypalDisplayPreferencePreferenceNone PaymentMethodConfigurationPaypalDisplayPreferencePreference = "none"
+	PaymentMethodConfigurationPaypalDisplayPreferencePreferenceOff  PaymentMethodConfigurationPaypalDisplayPreferencePreference = "off"
+	PaymentMethodConfigurationPaypalDisplayPreferencePreferenceOn   PaymentMethodConfigurationPaypalDisplayPreferencePreference = "on"
+)
+
+// The effective display preference value.
+type PaymentMethodConfigurationPaypalDisplayPreferenceValue string
+
+// List of values that PaymentMethodConfigurationPaypalDisplayPreferenceValue can take
+const (
+	PaymentMethodConfigurationPaypalDisplayPreferenceValueOff PaymentMethodConfigurationPaypalDisplayPreferenceValue = "off"
+	PaymentMethodConfigurationPaypalDisplayPreferenceValueOn  PaymentMethodConfigurationPaypalDisplayPreferenceValue = "on"
+)
+
+// The account's display preference.
 type PaymentMethodConfigurationPromptPayDisplayPreferencePreference string
 
 // List of values that PaymentMethodConfigurationPromptPayDisplayPreferencePreference can take
@@ -1022,6 +1041,18 @@ type PaymentMethodConfigurationPayNowParams struct {
 }
 
 // Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationPaypalDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference"`
+}
+
+// PayPal, a digital wallet popular with customers in Europe, allows your customers worldwide to pay using their PayPal account. Check this [page](https://stripe.com/docs/payments/paypal) for more details.
+type PaymentMethodConfigurationPaypalParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationPaypalDisplayPreferenceParams `form:"display_preference"`
+}
+
+// Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationPromptPayDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
 	Preference *string `form:"preference"`
@@ -1144,6 +1175,8 @@ type PaymentMethodConfigurationParams struct {
 	Parent *string `form:"parent"`
 	// PayNow is a Singapore-based payment method that allows customers to make a payment using their preferred app from participating banks and participating non-bank financial institutions. Check this [page](https://stripe.com/docs/payments/paynow) for more details.
 	PayNow *PaymentMethodConfigurationPayNowParams `form:"paynow"`
+	// PayPal, a digital wallet popular with customers in Europe, allows your customers worldwide to pay using their PayPal account. Check this [page](https://stripe.com/docs/payments/paypal) for more details.
+	Paypal *PaymentMethodConfigurationPaypalParams `form:"paypal"`
 	// PromptPay is a Thailand-based payment method that allows customers to make a payment using their preferred app from participating banks. Check this [page](https://stripe.com/docs/payments/promptpay) for more details.
 	PromptPay *PaymentMethodConfigurationPromptPayParams `form:"promptpay"`
 	// The [Single Euro Payments Area (SEPA)](https://en.wikipedia.org/wiki/Single_Euro_Payments_Area) is an initiative of the European Union to simplify payments within and across member countries. SEPA established and enforced banking standards to allow for the direct debiting of every EUR-denominated bank account within the SEPA region, check this [page](https://stripe.com/docs/payments/sepa-debit) for more details.
@@ -1545,6 +1578,19 @@ type PaymentMethodConfigurationPayNow struct {
 	Available         bool                                               `json:"available"`
 	DisplayPreference *PaymentMethodConfigurationPayNowDisplayPreference `json:"display_preference"`
 }
+type PaymentMethodConfigurationPaypalDisplayPreference struct {
+	// For child configurations, whether or not the account's preference will be observed. If `false`, the parent configuration's preference is used.
+	Overridable bool `json:"overridable"`
+	// The account's display preference.
+	Preference PaymentMethodConfigurationPaypalDisplayPreferencePreference `json:"preference"`
+	// The effective display preference value.
+	Value PaymentMethodConfigurationPaypalDisplayPreferenceValue `json:"value"`
+}
+type PaymentMethodConfigurationPaypal struct {
+	// Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
+	Available         bool                                               `json:"available"`
+	DisplayPreference *PaymentMethodConfigurationPaypalDisplayPreference `json:"display_preference"`
+}
 type PaymentMethodConfigurationPromptPayDisplayPreference struct {
 	// For child configurations, whether or not the account's preference will be observed. If `false`, the parent configuration's preference is used.
 	Overridable bool `json:"overridable"`
@@ -1673,6 +1719,7 @@ type PaymentMethodConfiguration struct {
 	Parent        string                                   `json:"parent"`
 	PayByBank     *PaymentMethodConfigurationPayByBank     `json:"pay_by_bank"`
 	PayNow        *PaymentMethodConfigurationPayNow        `json:"paynow"`
+	Paypal        *PaymentMethodConfigurationPaypal        `json:"paypal"`
 	PromptPay     *PaymentMethodConfigurationPromptPay     `json:"promptpay"`
 	SEPADebit     *PaymentMethodConfigurationSEPADebit     `json:"sepa_debit"`
 	Sofort        *PaymentMethodConfigurationSofort        `json:"sofort"`

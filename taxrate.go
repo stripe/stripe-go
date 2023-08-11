@@ -79,7 +79,9 @@ type TaxRate struct {
 	Description string `json:"description"`
 	// The display name of the tax rates as it will appear to your customer on their receipt email, PDF, and the hosted invoice page.
 	DisplayName string `json:"display_name"`
-	// Actual/effective tax rate percentage out of 100. For tax calculations with automatic_tax[enabled]=true, this percentage does not include the statutory tax rate of non-taxable jurisdictions.
+	// Actual/effective tax rate percentage out of 100. For tax calculations with automatic_tax[enabled]=true,
+	// this percentage reflects the rate actually used to calculate tax based on the product's taxability
+	// and whether the user is registered to collect taxes in the corresponding jurisdiction.
 	EffectivePercentage float64 `json:"effective_percentage"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
