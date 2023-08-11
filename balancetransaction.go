@@ -54,7 +54,10 @@ const (
 	BalanceTransactionSourceTypeIssuingDispute            BalanceTransactionSourceType = "issuing.dispute"
 	BalanceTransactionSourceTypeIssuingTransaction        BalanceTransactionSourceType = "issuing.transaction"
 	BalanceTransactionSourceTypePayout                    BalanceTransactionSourceType = "payout"
+	BalanceTransactionSourceTypePlatformTaxFee            BalanceTransactionSourceType = "platform_tax_fee"
 	BalanceTransactionSourceTypeRefund                    BalanceTransactionSourceType = "refund"
+	BalanceTransactionSourceTypeReserveTransaction        BalanceTransactionSourceType = "reserve_transaction"
+	BalanceTransactionSourceTypeTaxDeductedAtSource       BalanceTransactionSourceType = "tax_deducted_at_source"
 	BalanceTransactionSourceTypeTopup                     BalanceTransactionSourceType = "topup"
 	BalanceTransactionSourceTypeTransfer                  BalanceTransactionSourceType = "transfer"
 	BalanceTransactionSourceTypeTransferReversal          BalanceTransactionSourceType = "transfer_reversal"
@@ -201,7 +204,10 @@ type BalanceTransactionSource struct {
 	IssuingDispute            *IssuingDispute            `json:"-"`
 	IssuingTransaction        *IssuingTransaction        `json:"-"`
 	Payout                    *Payout                    `json:"-"`
+	PlatformTaxFee            *PlatformTaxFee            `json:"-"`
 	Refund                    *Refund                    `json:"-"`
+	ReserveTransaction        *ReserveTransaction        `json:"-"`
+	TaxDeductedAtSource       *TaxDeductedAtSource       `json:"-"`
 	Topup                     *Topup                     `json:"-"`
 	Transfer                  *Transfer                  `json:"-"`
 	TransferReversal          *TransferReversal          `json:"-"`
@@ -270,8 +276,14 @@ func (b *BalanceTransactionSource) UnmarshalJSON(data []byte) error {
 		err = json.Unmarshal(data, &b.IssuingTransaction)
 	case BalanceTransactionSourceTypePayout:
 		err = json.Unmarshal(data, &b.Payout)
+	case BalanceTransactionSourceTypePlatformTaxFee:
+		err = json.Unmarshal(data, &b.PlatformTaxFee)
 	case BalanceTransactionSourceTypeRefund:
 		err = json.Unmarshal(data, &b.Refund)
+	case BalanceTransactionSourceTypeReserveTransaction:
+		err = json.Unmarshal(data, &b.ReserveTransaction)
+	case BalanceTransactionSourceTypeTaxDeductedAtSource:
+		err = json.Unmarshal(data, &b.TaxDeductedAtSource)
 	case BalanceTransactionSourceTypeTopup:
 		err = json.Unmarshal(data, &b.Topup)
 	case BalanceTransactionSourceTypeTransfer:
