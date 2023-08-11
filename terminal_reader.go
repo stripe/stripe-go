@@ -128,11 +128,16 @@ type TerminalReaderProcessPaymentIntentParams struct {
 	ProcessConfig *TerminalReaderProcessPaymentIntentProcessConfigParams `form:"process_config"`
 }
 
+// Configuration overrides
+type TerminalReaderProcessSetupIntentProcessConfigParams struct{}
+
 // Initiates a setup intent flow on a Reader.
 type TerminalReaderProcessSetupIntentParams struct {
 	Params `form:"*"`
 	// Customer Consent Collected
 	CustomerConsentCollected *bool `form:"customer_consent_collected"`
+	// Configuration overrides
+	ProcessConfig *TerminalReaderProcessSetupIntentProcessConfigParams `form:"process_config"`
 	// SetupIntent ID
 	SetupIntent *string `form:"setup_intent"`
 }
@@ -375,10 +380,15 @@ type TerminalReaderActionProcessPaymentIntent struct {
 	StripeAccount string                                                 `json:"stripe_account"`
 }
 
+// Represents a per-setup override of a reader configuration
+type TerminalReaderActionProcessSetupIntentProcessConfig struct{}
+
 // Represents a reader action to process a setup intent
 type TerminalReaderActionProcessSetupIntent struct {
 	// ID of a card PaymentMethod generated from the card_present PaymentMethod that may be attached to a Customer for future transactions. Only present if it was possible to generate a card PaymentMethod.
 	GeneratedCard string `json:"generated_card"`
+	// Represents a per-setup override of a reader configuration
+	ProcessConfig *TerminalReaderActionProcessSetupIntentProcessConfig `json:"process_config"`
 	// Most recent SetupIntent processed by the reader.
 	SetupIntent *SetupIntent `json:"setup_intent"`
 }

@@ -4,6 +4,11 @@
 * [#1701](https://github.com/stripe/stripe-go/pull/1701) Update generated code for beta
   * Add support for `Paypal` on `PaymentMethodConfigurationParams` and `PaymentMethodConfiguration`
 
+## 74.30.0 - 2023-08-10
+* [#1702](https://github.com/stripe/stripe-go/pull/1702) Update generated code
+  * Add support for new values `incorporated_partnership` and `unincorporated_partnership` on enum `AccountCompanyStructure`
+  * Add support for new value `payment_reversal` on enum `BalanceTransactionType`
+
 ## 74.30.0-beta.1 - 2023-08-03
 * [#1697](https://github.com/stripe/stripe-go/pull/1697) Update generated code for beta
   * Add support for `SubmitCard` test helper method on resource `Issuing.Card`
