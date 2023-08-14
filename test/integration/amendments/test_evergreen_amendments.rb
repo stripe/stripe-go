@@ -4,6 +4,7 @@
 require_relative './_lib'
 
 class Critic::EvergreenAmendmentTest < Critic::OrderAmendmentFunctionalTest
+  include StripeForce::Utilities::DemoUtil
   before do
     set_cassette_dir(__FILE__)
     Timecop.freeze(VCR.current_cassette.originally_recorded_at || now_time)
@@ -324,6 +325,62 @@ class Critic::EvergreenAmendmentTest < Critic::OrderAmendmentFunctionalTest
       end
 
       assert_match("Adding Salesforce products with type 'Renewable' to orders of type 'Evergreen' is not supported.", exception.message)
+    end
+  end
+  describe 'demo tests' do
+    it 'amends the demo evergreen order, and uses the created user to create a new non evergreen order' do
+      # Due to the user switch, create demo evergreen order returns a user at the end instead of the order
+      StripeForce::Utilities::DemoUtil.user = @user
+      create_demo_evergreen_order(user: @user, additional_quote_fields: {
+        CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(now_time),
+        CPQ_QUOTE_SUBSCRIPTION_TERM => SF_ORDER_DEFAULT_EVERGREEN_SUBSCRIPTION_TERM,
+      })
+      sf_evergreen_order = sf_get_recent(SF_ORDER)
+
+      sf_contract = create_contract_from_order(sf_evergreen_order)
+      # api precondition: initial orders have a nil contract ID
+      sf_evergreen_order.refresh
+      assert_nil(sf_evergreen_order.ContractId)
+
+      # the contract should reference the initial order that was created
+      assert_equal(sf_evergreen_order[SF_ID], sf_contract[SF_CONTRACT_ORDER_ID])
+
+      amendment_quote = create_quote_data_from_contract_amendment(sf_contract)
+
+      # wipe out the product
+      amendment_quote["lineItems"].first["record"][CPQ_QUOTE_QUANTITY] = 0
+      amendment_quote["record"][CPQ_QUOTE_SUBSCRIPTION_START_DATE] = now_time_formatted_for_salesforce
+      amendment_quote["record"][CPQ_QUOTE_SUBSCRIPTION_TERM] = SF_ORDER_DEFAULT_EVERGREEN_SUBSCRIPTION_TERM
+
+      sf_order_amendment = create_order_from_quote_data(amendment_quote)
+      assert_equal(sf_order_amendment.Type, OrderTypeOptions::AMENDMENT.serialize)
+
+      StripeForce::Translate.perform_inline(@user, sf_order_amendment.Id)
+
+      sf_evergreen_order.refresh
+      stripe_id = sf_evergreen_order[prefixed_stripe_field(GENERIC_STRIPE_ID)]
+
+      canceled_subscription = Stripe::Subscription.retrieve(stripe_id, @user.stripe_credentials)
+
+      assert_equal("canceled", canceled_subscription.status)
+      assert_equal(sf_evergreen_order.Id, canceled_subscription.metadata['salesforce_order_id'])
+
+      create_salesforce_order(sf_account_id: sf_evergreen_order['AccountId'], additional_quote_fields: {
+        CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(now_time),
+        CPQ_QUOTE_SUBSCRIPTION_TERM => SF_ORDER_DEFAULT_EVERGREEN_SUBSCRIPTION_TERM,
+      })
+      new_order = sf_get_recent(SF_ORDER)
+      assert_not_equal(sf_evergreen_order.Id, new_order.Id)
+
+      new_order_items = sf_get_related(new_order, SF_ORDER_ITEM)
+
+      new_order_items.each do |order_item|
+          # ensure that the new order is valid, but is not evergreen
+          assert_equal(1, order_item[CPQ_QUOTE_SUBSCRIPTION_TERM])
+          assert_equal(CPQProductSubscriptionTypeOptions::RENEWABLE.serialize, order_item[CPQ_PRODUCT_SUBSCRIPTION_TYPE])
+          assert_equal('Fixed Price', order_item[CPQ_QUOTE_SUBSCRIPTION_PRICING])
+      end
+      StripeForce::Translate.perform_inline(@user, new_order.Id)
     end
   end
 end

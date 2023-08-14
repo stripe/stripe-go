@@ -2,6 +2,7 @@
 # typed: true
 class StripeWebhookController < ApplicationController
   skip_forgery_protection
+  include StripeForce::Utilities::DemoUtil
 
   WEBHOOK_SECRET = ENV.fetch("STRIPE_WEBHOOK_SECRET")
   STRIPEFORCE_CI_ACCOUNT = "acct_1MHBTOC9fP1FVBtd"
@@ -75,6 +76,16 @@ class StripeWebhookController < ApplicationController
       log.info 'rejecting webhook'
       render status: :service_unavailable, plain: "user exists, but webhook rejected"
       return
+    end
+
+    if event_type == 'customer.subscription.created' && user.feature_enabled?(FeatureFlags::BIDIRECTIONAL_SYNC_DEMO)
+      StripeForce::Utilities::DemoUtil.user = user
+      subscription_start_date = event.data.object['current_period_start'] ? Time.at(event.data.object['current_period_start']) : now_time
+      # TODO: check to make sure that there isn't a SF order ID already in item metadata
+      create_demo_evergreen_order(user: user, additional_quote_fields: {
+        CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(subscription_start_date),
+        CPQ_QUOTE_SUBSCRIPTION_TERM => SF_ORDER_DEFAULT_EVERGREEN_SUBSCRIPTION_TERM,
+      }, additional_order_fields: {GENERIC_STRIPE_ID => event.data.object['id']})
     end
 
     if event_type != 'invoiceitem.created'

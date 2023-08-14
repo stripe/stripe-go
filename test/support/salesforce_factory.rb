@@ -80,7 +80,7 @@ module Critic
       }.merge(additional_fields))
     end
 
-    def create_salesforce_contact(contact_email: "", static_id: true)
+    def create_salesforce_contact(contact_email: sf_randomized_id, static_id: true)
       contact_id = sf.create!(SF_CONTACT, {
         LastName: 'Bianco',
         Email: static_id ? create_static_email(email: contact_email) : create_random_email,
@@ -277,7 +277,7 @@ module Critic
     end
 
     # returns the full object, not the ID
-    def create_subscription_order(sf_product_id: nil, sf_account_id: nil, currency_iso_code: nil, contact_email: "", additional_fields: {})
+    def create_subscription_order(sf_product_id: nil, sf_account_id: nil, currency_iso_code: nil, contact_email: sf_randomized_id, additional_fields: {})
       create_salesforce_order(
         sf_product_id: sf_product_id,
         sf_account_id: sf_account_id,
@@ -374,7 +374,7 @@ module Critic
       sf_order
     end
 
-    def create_salesforce_quote(sf_pricebook_id: nil, sf_account_id:, currency_iso_code: nil, contact_email: "", additional_quote_fields: {})
+    def create_salesforce_quote(sf_pricebook_id: nil, sf_account_id:, currency_iso_code: nil, contact_email: sf_randomized_id, additional_quote_fields: {})
       sf_pricebook_id ||= default_pricebook_id
       opportunity_id = create_salesforce_opportunity(sf_account_id: sf_account_id, currency_iso_code: currency_iso_code)
       contact_id = create_salesforce_contact(contact_email: contact_email)
@@ -389,7 +389,7 @@ module Critic
     end
 
     # https://github.com/sseixas/CPQ-JS
-    def create_salesforce_order(sf_product_id: nil, sf_account_id: nil, sf_pricebook_id: nil, currency_iso_code: nil, contact_email: "", additional_quote_fields: {})
+    def create_salesforce_order(sf_product_id: nil, sf_account_id: nil, sf_pricebook_id: nil, currency_iso_code: nil, contact_email: sf_randomized_id, additional_quote_fields: {})
       if !sf_product_id
         sf_product_id, _ = salesforce_recurring_product_with_price(currency_iso_code: currency_iso_code)
       end
@@ -410,7 +410,7 @@ module Critic
     end
 
     # for creating evergreen orders specifically. evergreen subscriptions do not have an end date.
-    def create_evergreen_salesforce_order(sf_product_id: nil, sf_account_id: nil, sf_pricebook_id: nil, currency_iso_code: nil, contact_email: "", additional_quote_fields: {})
+    def create_evergreen_salesforce_order(sf_product_id: nil, sf_account_id: nil, sf_pricebook_id: nil, currency_iso_code: nil, contact_email: sf_randomized_id, additional_quote_fields: {})
       if !sf_product_id
         sf_product_id, _ = salesforce_evergreen_product_with_price(currency_iso_code: currency_iso_code)
       end
