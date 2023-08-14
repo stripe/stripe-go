@@ -282,6 +282,7 @@ module StripeForce
           "start_date" => "#{CPQ_QUOTE}.#{CPQ_QUOTE_SUBSCRIPTION_START_DATE}",
           "iterations" => "#{CPQ_QUOTE}.#{CPQ_QUOTE_SUBSCRIPTION_TERM}",
         },
+        "subscription_phase" => {},
         "subscription_item" => {
           "quantity" => "Quantity",
         },
@@ -320,7 +321,6 @@ module StripeForce
           "name" => 'Name',
           "description" => 'Description',
         },
-
         # price => pricebookentry mapping
         "price" => {
           # default monthly fallback is used if this value is empty
@@ -342,7 +342,9 @@ module StripeForce
           "recurring.interval_count" => CPQ_QUOTE_BILLING_FREQUENCY,
           "recurring.usage_type" => CPQ_PRODUCT_BILLING_TYPE,
         },
-
+        "subscription_schedule" => {},
+        "subscription_phase" => {},
+        "subscription_item" => {},
         "invoice" => {},
 
         "coupon" => {

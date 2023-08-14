@@ -186,9 +186,20 @@ module StripeForce::Utilities
     def self.extract_subscription_term_from_order!(mapper, sf_order)
       user = mapper.user
 
+      # users can map to this path if they want to override the default subscription term
+      subscription_phase_term_stripe_path = ['subscription_phase', 'iterations']
+      mapped_subscription_phase_term = user.field_mappings.dig(*subscription_phase_term_stripe_path) || user.field_defaults.dig(*subscription_phase_term_stripe_path)
+      if mapped_subscription_phase_term.present?
+        if !Integrations::Utilities::StripeUtil.is_integer_value?(mapped_subscription_phase_term)
+          raise StripeForce::Errors::RawUserError.new("Cannot specify subscription term as a decimal value.", salesforce_object: sf_order)
+        end
+
+        return mapped_subscription_phase_term.to_i
+      end
+
+      # we hard code this path to the Quote's subscription term with no opportunity for users to change it
       subscription_term_stripe_path = ['subscription_schedule', 'iterations']
-      subscription_term_order_path = user.field_mappings.dig(*subscription_term_stripe_path) ||
-        user.required_mappings.dig(*subscription_term_stripe_path)
+      subscription_term_order_path = user.field_mappings.dig(*subscription_term_stripe_path) || user.required_mappings.dig(*subscription_term_stripe_path)
 
       quote_subscription_term = T.cast(mapper.extract_key_path_for_record(sf_order, subscription_term_order_path), T.nilable(T.any(String, Float, Integer)))
       if quote_subscription_term.nil?

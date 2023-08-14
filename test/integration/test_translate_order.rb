@@ -178,9 +178,9 @@ class Critic::OrderTranslation < Critic::VCRTest
   end
 
   it 'skips line items when the skip line item custom field is checked' do
-    sf_product_id_1, sf_pricebook_id_1 = salesforce_recurring_product_with_price
-    sf_product_id_2, sf_pricebook_id_2 = salesforce_recurring_product_with_price
-    sf_product_id_3, sf_pricebook_id_3 = salesforce_recurring_product_with_price
+    sf_product_id_1, _sf_pricebook_id_1 = salesforce_recurring_product_with_price
+    sf_product_id_2, _sf_pricebook_id_2 = salesforce_recurring_product_with_price
+    sf_product_id_3, _sf_pricebook_id_3 = salesforce_recurring_product_with_price
 
     sf_account_id = create_salesforce_account
 
@@ -304,12 +304,55 @@ class Critic::OrderTranslation < Critic::VCRTest
     assert_equal(SyncRecordResolutionStatuses::SUCCESS.serialize, sync_records.first[prefixed_stripe_field(SyncRecordFields::RESOLUTION_STATUS.serialize)])
   end
 
+  it 'integrates a subscription order with mapped start date and subscription term' do
+    @user.field_defaults = {
+      "subscription_schedule" => {
+        "start_date" => "2023-01-01",
+      },
+      "subscription_phase" => {
+        "iterations" => 24,
+      },
+    }
+    @user.save
+
+    start_date = DateTime.new(2023, 1, 1)
+    end_date = start_date + 24.months
+
+    sf_product_id, _sf_pricebook_entry_id = salesforce_recurring_product_with_price
+    sf_account_id = create_salesforce_account
+    sf_order = create_salesforce_order(
+      sf_product_id: sf_product_id,
+      sf_account_id: sf_account_id,
+      contact_email: "standard_sub_order",
+      additional_quote_fields: {
+        CPQ_QUOTE_SUBSCRIPTION_START_DATE => now_time_formatted_for_salesforce,
+        CPQ_QUOTE_SUBSCRIPTION_TERM => TEST_DEFAULT_CONTRACT_TERM,
+      }
+    )
+
+    sf.update!(SF_ORDER,
+      SF_ID => sf_order.Id,
+      prefixed_stripe_field(SKIP_PAST_INITIAL_INVOICES) => true
+    )
+
+    SalesforceTranslateRecordJob.translate(@user, sf_order)
+    sf_order.refresh
+
+    sf_order = sf.find(SF_ORDER, sf_order.Id)
+    stripe_id = sf_order[prefixed_stripe_field(GENERIC_STRIPE_ID)]
+    subscription_schedule = Stripe::SubscriptionSchedule.retrieve(stripe_id, @user.stripe_credentials)
+
+    first_phase = T.must(subscription_schedule.phases.first)
+    assert_equal(start_date.to_i, first_phase.start_date)
+    assert_equal(end_date.to_i, first_phase.end_date)
+    assert_equal('none', first_phase.proration_behavior)
+  end
+
+  it 'supports adding multiple one-time items of the pricebook id to an initial order'
   it 'supports adding multiple one-time items of the pricebook id to an initial order' do
   end
 
   # TODO reuses order line price mapping if the execution halts part way through
   # TODO multiple quantity
-  # TODO start date in the future
-  # TODO missing fields / failure
   # TODO subscription term specified
 end
