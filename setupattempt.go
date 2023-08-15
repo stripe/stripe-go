@@ -108,6 +108,8 @@ type SetupAttemptListParams struct {
 	// can be a string with an integer Unix timestamp, or it can be a
 	// dictionary with a number of different query options.
 	CreatedRange *RangeQueryParams `form:"created"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// Only return SetupAttempts created by the SetupIntent specified by
 	// this ID.
 	SetupIntent *string `form:"setup_intent"`

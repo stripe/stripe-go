@@ -99,9 +99,5 @@ func (i *Iter) FileList() *stripe.FileList {
 }
 
 func getC() Client {
-	return Client{
-		stripe.GetBackend(stripe.UploadsBackend),
-		stripe.GetBackend(stripe.UploadsBackend),
-		stripe.Key,
-	}
+	return Client{stripe.GetBackend(stripe.APIBackend), stripe.GetBackend(stripe.UploadsBackend), stripe.Key}
 }

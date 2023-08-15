@@ -96,6 +96,8 @@ type TreasuryReceivedCreditListLinkedFlowsParams struct {
 // Returns a list of ReceivedCredits.
 type TreasuryReceivedCreditListParams struct {
 	ListParams `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// The FinancialAccount that received the funds.
 	FinancialAccount *string `form:"financial_account"`
 	// Only return ReceivedCredits described by the flow.
@@ -107,6 +109,8 @@ type TreasuryReceivedCreditListParams struct {
 // Retrieves the details of an existing ReceivedCredit by passing the unique ReceivedCredit ID from the ReceivedCredit list.
 type TreasuryReceivedCreditParams struct {
 	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 }
 type TreasuryReceivedCreditInitiatingPaymentMethodDetailsBillingDetails struct {
 	Address *Address `json:"address"`

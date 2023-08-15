@@ -29,6 +29,8 @@ type TransferParams struct {
 	Description *string `form:"description"`
 	// The ID of a connected Stripe account. [See the Connect documentation](https://stripe.com/docs/connect/separate-charges-and-transfers) for details.
 	Destination *string `form:"destination"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// You can use this parameter to transfer funds from a charge before they are added to your available balance. A pending balance will transfer immediately but the funds will not become available until the original charge becomes available. [See the Connect documentation](https://stripe.com/docs/connect/separate-charges-and-transfers#transfer-availability) for details.
@@ -55,6 +57,8 @@ type TransferListParams struct {
 	CreatedRange *RangeQueryParams `form:"created"`
 	// Only return transfers for the destination specified by this account ID.
 	Destination *string `form:"destination"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// Only return transfers with the specified transfer group.
 	TransferGroup *string `form:"transfer_group"`
 }

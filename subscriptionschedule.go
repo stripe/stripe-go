@@ -79,6 +79,8 @@ type SubscriptionScheduleListParams struct {
 	CreatedRange *RangeQueryParams `form:"created"`
 	// Only return subscription schedules for the given customer.
 	Customer *string `form:"customer"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// Only return subscription schedules that were released during the given date interval.
 	ReleasedAt *int64 `form:"released_at"`
 	// Only return subscription schedules that were released during the given date interval.
@@ -251,6 +253,8 @@ type SubscriptionScheduleParams struct {
 	DefaultSettings *SubscriptionScheduleDefaultSettingsParams `form:"default_settings"`
 	// Behavior of the subscription schedule and underlying subscription when it ends. Possible values are `release` or `cancel` with the default being `release`. `release` will end the subscription schedule and keep the underlying subscription running.`cancel` will end the subscription schedule and cancel the underlying subscription.
 	EndBehavior *string `form:"end_behavior"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// Migrate an existing subscription to be managed by a subscription schedule. If this parameter is set, a subscription schedule will be created using the subscription's item(s), set to auto-renew using the subscription's interval. When using this parameter, other parameters (such as phase values) cannot be set. To create a subscription schedule with other modifications, we recommend making two separate API calls.
 	FromSubscription *string `form:"from_subscription"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
@@ -283,6 +287,8 @@ func (p *SubscriptionScheduleParams) AppendTo(body *form.Values, keyParts []stri
 // Cancels a subscription schedule and its associated subscription immediately (if the subscription schedule has an active subscription). A subscription schedule can only be canceled if its status is not_started or active.
 type SubscriptionScheduleCancelParams struct {
 	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// If the subscription schedule is `active`, indicates if a final invoice will be generated that contains any un-invoiced metered usage and new/pending proration invoice items. Defaults to `true`.
 	InvoiceNow *bool `form:"invoice_now"`
 	// If the subscription schedule is `active`, indicates if the cancellation should be prorated. Defaults to `true`.
@@ -292,6 +298,8 @@ type SubscriptionScheduleCancelParams struct {
 // Releases the subscription schedule immediately, which will stop scheduling of its phases, but leave any existing subscription in place. A schedule can only be released if its status is not_started or active. If the subscription schedule is currently associated with a subscription, releasing it will remove its subscription property and set the subscription's ID to the released_subscription property.
 type SubscriptionScheduleReleaseParams struct {
 	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// Keep any cancellation on the subscription that the schedule has set
 	PreserveCancelDate *bool `form:"preserve_cancel_date"`
 }

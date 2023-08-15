@@ -79,6 +79,8 @@ const (
 // Returns a list of ReceivedDebits.
 type TreasuryReceivedDebitListParams struct {
 	ListParams `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// The FinancialAccount that funds were pulled from.
 	FinancialAccount *string `form:"financial_account"`
 	// Only return ReceivedDebits that have the given status: `succeeded` or `failed`.
@@ -88,6 +90,8 @@ type TreasuryReceivedDebitListParams struct {
 // Retrieves the details of an existing ReceivedDebit by passing the unique ReceivedDebit ID from the ReceivedDebit list
 type TreasuryReceivedDebitParams struct {
 	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 }
 type TreasuryReceivedDebitInitiatingPaymentMethodDetailsBillingDetails struct {
 	Address *Address `json:"address"`

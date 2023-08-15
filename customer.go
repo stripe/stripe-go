@@ -46,6 +46,8 @@ const (
 // to an hour behind during outages. Search functionality is not available to merchants in India.
 type CustomerSearchParams struct {
 	SearchParams `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// A cursor for pagination across multiple pages of results. Don't include this parameter on the first call. Use the next_page value returned in a previous response to request subsequent results.
 	Page *string `form:"page"`
 }
@@ -57,6 +59,8 @@ type CustomerListParams struct {
 	CreatedRange *RangeQueryParams `form:"created"`
 	// A case-sensitive filter on the list based on the customer's `email` field. The value must be a string.
 	Email *string `form:"email"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// Provides a list of customers that are associated with the specified test clock. The response will not include customers with test clocks if this parameter is not set.
 	TestClock *string `form:"test_clock"`
 }
@@ -145,6 +149,8 @@ type CustomerParams struct {
 	Description *string `form:"description"`
 	// Customer's email address. It's displayed alongside the customer in your dashboard and can be useful for searching and tracking. This may be up to *512 characters*.
 	Email *string `form:"email"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// The prefix for the customer used to generate unique invoice numbers. Must be 3–12 uppercase letters or numbers.
 	InvoicePrefix *string `form:"invoice_prefix"`
 	// Default invoice settings for this customer.
@@ -189,6 +195,8 @@ func (p *CustomerParams) AddMetadata(key string, value string) {
 type CustomerListPaymentMethodsParams struct {
 	ListParams `form:"*"`
 	Customer   *string `form:"-"` // Included in URL
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// An optional filter on the list, based on the object `type` field. Without the filter, the list includes all current and future payment method types. If your integration expects only one type of payment method in the response, make sure to provide a type value in the request.
 	Type *string `form:"type"`
 }
@@ -197,6 +205,8 @@ type CustomerListPaymentMethodsParams struct {
 type CustomerRetrievePaymentMethodParams struct {
 	Params   `form:"*"`
 	Customer *string `form:"-"` // Included in URL
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 }
 
 // Configuration for eu_bank_transfer funding type.
@@ -226,6 +236,8 @@ type CustomerCreateFundingInstructionsParams struct {
 	BankTransfer *CustomerCreateFundingInstructionsBankTransferParams `form:"bank_transfer"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency *string `form:"currency"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// The `funding_type` to get the instructions for.
 	FundingType *string `form:"funding_type"`
 }

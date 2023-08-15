@@ -54,7 +54,7 @@ type InvoiceLineItem struct {
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// The ID of the [invoice item](https://stripe.com/docs/api/invoiceitems) associated with this line item if any.
-	InvoiceItem string `json:"invoice_item"`
+	InvoiceItem *InvoiceItem `json:"invoice_item"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Note that for line items with `type=subscription` this will reflect the metadata of the subscription that caused the line item to be created.
@@ -73,9 +73,9 @@ type InvoiceLineItem struct {
 	// The quantity of the subscription, if the line item is a subscription or a proration.
 	Quantity int64 `json:"quantity"`
 	// The subscription that the invoice item pertains to, if any.
-	Subscription string `json:"subscription"`
+	Subscription *Subscription `json:"subscription"`
 	// The subscription item that generated this line item. Left empty if the line item is not an explicit result of a subscription.
-	SubscriptionItem string `json:"subscription_item"`
+	SubscriptionItem *SubscriptionItem `json:"subscription_item"`
 	// The amount of tax calculated per tax rate for this line item
 	TaxAmounts []*InvoiceTotalTaxAmount `json:"tax_amounts"`
 	// The tax rates which apply to the line item.

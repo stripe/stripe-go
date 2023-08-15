@@ -9,6 +9,8 @@ package stripe
 // Lists all Country Spec objects available in the API.
 type CountrySpecListParams struct {
 	ListParams `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 }
 
 // Country is the list of supported countries
@@ -17,6 +19,8 @@ type Country string
 // Returns a Country Spec for a given Country code.
 type CountrySpecParams struct {
 	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 }
 
 // VerificationFieldsList lists the fields needed for an account verification.

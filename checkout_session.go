@@ -700,6 +700,8 @@ type CheckoutSessionListParams struct {
 	Customer *string `form:"customer"`
 	// Only return the Checkout Sessions for the Customer details specified.
 	CustomerDetails *CheckoutSessionListCustomerDetailsParams `form:"customer_details"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// Only return the Checkout Session for the PaymentIntent specified.
 	PaymentIntent *string `form:"payment_intent"`
 	// Only return the Checkout Sessions for the Payment Link specified.
@@ -1703,6 +1705,8 @@ type CheckoutSessionParams struct {
 	CustomText *CheckoutSessionCustomTextParams `form:"custom_text"`
 	// The coupon or promotion code to apply to this Session. Currently, only up to one may be specified.
 	Discounts []*CheckoutSessionDiscountParams `form:"discounts"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// The Epoch time in seconds at which the Checkout Session will expire. It can be anywhere from 30 minutes to 24 hours after Checkout Session creation. By default, this value is 24 hours from creation.
 	ExpiresAt *int64 `form:"expires_at"`
 	// Generate a post-purchase Invoice for one-time payments.
@@ -1784,6 +1788,8 @@ func (p *CheckoutSessionParams) AddMetadata(key string, value string) {
 type CheckoutSessionListLineItemsParams struct {
 	ListParams `form:"*"`
 	Session    *string `form:"-"` // Included in URL
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 }
 
 // A Session can be expired when it is in one of these statuses: open
@@ -1791,6 +1797,8 @@ type CheckoutSessionListLineItemsParams struct {
 // After it expires, a customer can't complete a Session and customers loading the Session see a message saying the Session is expired.
 type CheckoutSessionExpireParams struct {
 	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 }
 
 // When set, configuration used to recover the Checkout Session on expiry.

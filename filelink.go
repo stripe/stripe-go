@@ -11,6 +11,8 @@ import "github.com/stripe/stripe-go/v74/form"
 // Retrieves the file link with the given ID.
 type FileLinkParams struct {
 	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// A future timestamp after which the link will no longer be usable, or `now` to expire the link immediately.
 	ExpiresAt    *int64 `form:"expires_at"`
 	ExpiresAtNow *bool  `form:"-"` // See custom AppendTo
@@ -41,6 +43,8 @@ type FileLinkListParams struct {
 	ListParams   `form:"*"`
 	Created      *int64            `form:"created"`
 	CreatedRange *RangeQueryParams `form:"created"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// Filter links by their expiration status. By default, all links are returned.
 	Expired *bool `form:"expired"`
 	// Only return links for the given file.

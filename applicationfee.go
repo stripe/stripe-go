@@ -15,11 +15,15 @@ type ApplicationFeeListParams struct {
 	Charge       *string           `form:"charge"`
 	Created      *int64            `form:"created"`
 	CreatedRange *RangeQueryParams `form:"created"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 }
 
 // Retrieves the details of an application fee that your account has collected. The same information is returned when refunding the application fee.
 type ApplicationFeeParams struct {
 	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 }
 type ApplicationFee struct {
 	APIResource

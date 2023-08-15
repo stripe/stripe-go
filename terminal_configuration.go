@@ -195,6 +195,8 @@ type TerminalConfigurationParams struct {
 	Params `form:"*"`
 	// An object containing device type specific settings for BBPOS WisePOS E readers
 	BBPOSWisePOSE *TerminalConfigurationBBPOSWisePOSEParams `form:"bbpos_wisepos_e"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// Tipping configurations for readers supporting on-reader tips
 	Tipping *TerminalConfigurationTippingParams `form:"tipping"`
 	// An object containing device type specific settings for Verifone P400 readers
@@ -204,6 +206,8 @@ type TerminalConfigurationParams struct {
 // Returns a list of Configuration objects.
 type TerminalConfigurationListParams struct {
 	ListParams `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// if present, only return the account default or non-default configurations.
 	IsAccountDefault *bool `form:"is_account_default"`
 }

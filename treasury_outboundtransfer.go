@@ -95,6 +95,8 @@ type TreasuryOutboundTransferParams struct {
 	DestinationPaymentMethod *string `form:"destination_payment_method"`
 	// Hash describing payment method configuration details.
 	DestinationPaymentMethodOptions *TreasuryOutboundTransferDestinationPaymentMethodOptionsParams `form:"destination_payment_method_options"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// The FinancialAccount to pull funds from.
 	FinancialAccount *string `form:"financial_account"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
@@ -115,6 +117,8 @@ func (p *TreasuryOutboundTransferParams) AddMetadata(key string, value string) {
 // Returns a list of OutboundTransfers sent from the specified FinancialAccount.
 type TreasuryOutboundTransferListParams struct {
 	ListParams `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// Returns objects associated with this FinancialAccount.
 	FinancialAccount *string `form:"financial_account"`
 	// Only return OutboundTransfers that have the given status: `processing`, `canceled`, `failed`, `posted`, or `returned`.
@@ -124,6 +128,8 @@ type TreasuryOutboundTransferListParams struct {
 // An OutboundTransfer can be canceled if the funds have not yet been paid out.
 type TreasuryOutboundTransferCancelParams struct {
 	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 }
 type TreasuryOutboundTransferDestinationPaymentMethodDetailsBillingDetails struct {
 	Address *Address `json:"address"`

@@ -132,6 +132,8 @@ type CardParams struct {
 	CVC *string `form:"cvc"`
 	// Applicable only on accounts (not customers or recipients). If you set this to `true` (or if this is the first external account being added in this currency), this card will become the default external account for its currency.
 	DefaultForCurrency *bool `form:"default_for_currency"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// Two digit number representing the card's expiration month.
 	ExpMonth *string `form:"exp_month"`
 	// Four digit number representing the card's expiration year.

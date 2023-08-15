@@ -13,6 +13,8 @@ type EphemeralKeyParams struct {
 	Params `form:"*"`
 	// The ID of the Customer you'd like to modify using the resulting ephemeral key.
 	Customer *string `form:"customer"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// The ID of the Issuing Card you'd like to access using the resulting ephemeral key.
 	IssuingCard *string `form:"issuing_card"`
 	// The ID of the Identity VerificationSession you'd like to access using the resulting ephemeral key

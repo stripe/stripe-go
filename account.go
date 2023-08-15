@@ -163,6 +163,8 @@ type AccountParams struct {
 	Documents *AccountDocumentsParams `form:"documents"`
 	// The email address of the account holder. This is only to make the account easier to identify to you. Stripe only emails Custom accounts with your consent.
 	Email *string `form:"email"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// A card or bank account to attach to the account for receiving [payouts](https://stripe.com/docs/connect/bank-debit-card-payouts) (you won't be able to use it for top-ups). You can provide either a token, like the ones returned by [Stripe.js](https://stripe.com/docs/js), or a dictionary, as documented in the `external_account` parameter for [bank account](https://stripe.com/docs/api#account_create_bank_account) creation.
 	//
 	// By default, providing an external account sets it as the new default external account for its currency, and deletes the old default if one exists. To add additional external accounts without replacing the existing default for the currency, use the [bank account](https://stripe.com/docs/api#account_create_bank_account) or [card creation](https://stripe.com/docs/api#account_create_card) APIs.
@@ -815,6 +817,8 @@ type AccountListParams struct {
 	ListParams   `form:"*"`
 	Created      *int64            `form:"created"`
 	CreatedRange *RangeQueryParams `form:"created"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 }
 
 // With [Connect](https://stripe.com/docs/connect), you may flag accounts as suspicious.
@@ -822,6 +826,8 @@ type AccountListParams struct {
 // Test-mode Custom and Express accounts can be rejected at any time. Accounts created using live-mode keys may only be rejected once all balances are zero.
 type AccountRejectParams struct {
 	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// The reason for rejecting the account. Can be `fraud`, `terms_of_service`, or `other`.
 	Reason *string `form:"reason"`
 }

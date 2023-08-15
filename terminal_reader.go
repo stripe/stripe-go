@@ -61,7 +61,9 @@ const (
 // Updates a Reader object by setting the values of the parameters passed. Any parameters not provided will be left unchanged.
 type TerminalReaderParams struct {
 	Params `form:"*"`
-	// The new label of the reader.
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// Custom label given to the reader for easier identification. If no label is specified, the registration code will be used.
 	Label *string `form:"label"`
 	// The location to assign the reader to.
 	Location *string `form:"location"`
@@ -85,6 +87,8 @@ type TerminalReaderListParams struct {
 	ListParams `form:"*"`
 	// Filters readers by device type
 	DeviceType *string `form:"device_type"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// A location ID to filter the response list to only readers at the specific location
 	Location *string `form:"location"`
 	// A status filter to filter readers to only offline or online readers
@@ -108,6 +112,8 @@ type TerminalReaderProcessPaymentIntentProcessConfigParams struct {
 // Initiates a payment flow on a Reader.
 type TerminalReaderProcessPaymentIntentParams struct {
 	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// PaymentIntent ID
 	PaymentIntent *string `form:"payment_intent"`
 	// Configuration overrides
@@ -119,6 +125,8 @@ type TerminalReaderProcessSetupIntentParams struct {
 	Params `form:"*"`
 	// Customer Consent Collected
 	CustomerConsentCollected *bool `form:"customer_consent_collected"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// SetupIntent ID
 	SetupIntent *string `form:"setup_intent"`
 }
@@ -126,6 +134,8 @@ type TerminalReaderProcessSetupIntentParams struct {
 // Cancels the current reader action.
 type TerminalReaderCancelActionParams struct {
 	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 }
 
 // Array of line items that were purchased.
@@ -155,6 +165,8 @@ type TerminalReaderSetReaderDisplayParams struct {
 	Params `form:"*"`
 	// Cart
 	Cart *TerminalReaderSetReaderDisplayCartParams `form:"cart"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// Type
 	Type *string `form:"type"`
 }
@@ -166,6 +178,8 @@ type TerminalReaderRefundPaymentParams struct {
 	Amount *int64 `form:"amount"`
 	// ID of the Charge to refund.
 	Charge *string `form:"charge"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// ID of the PaymentIntent to refund.

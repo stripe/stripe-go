@@ -43,6 +43,8 @@ type FileListParams struct {
 	ListParams   `form:"*"`
 	Created      *int64            `form:"created"`
 	CreatedRange *RangeQueryParams `form:"created"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// The file purpose to filter queries by. If none is provided, files will not be filtered by purpose.
 	Purpose *string `form:"purpose"`
 }
@@ -72,6 +74,8 @@ func (p *FileFileLinkDataParams) AddMetadata(key string, value string) {
 // All of Stripe's officially supported Client libraries should have support for sending multipart/form-data.
 type FileParams struct {
 	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// FileReader is a reader with the contents of the file that should be uploaded.
 	FileReader io.Reader
 
