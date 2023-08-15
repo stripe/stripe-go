@@ -65,6 +65,7 @@ type SearchParams struct {
 	StripeAccount *string `form:"-"` // Passed as header
 }
 
+// AddExpand on the embedded SearchParams struct is deprecated
 // Deprecated: please use .AddExpand of the surrounding struct instead.
 func (p *SearchParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)

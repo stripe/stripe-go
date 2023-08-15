@@ -129,9 +129,8 @@ type ListParams struct {
 	StripeAccount *string `form:"-"` // Passed as header
 }
 
-// AddExpand appends a new field to expand.
-//
-// Deprecated: please do p.Expand = append(p.Expand, &f) instead.
+// AddExpand on the embedded ListParams struct is deprecated. 
+// Deprecated: please use AddExpand on the surrounding struct instead.
 func (p *ListParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
@@ -205,6 +204,7 @@ type Params struct {
 	StripeAccount *string `form:"-"` // Passed as header
 }
 
+// AddExpand on the Params embedded struct is deprecated.
 // Deprecated: please use Expand in the surrounding struct instead.
 func (p *Params) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
@@ -219,6 +219,7 @@ func (p *Params) AddExtra(key, value string) {
 	p.Extra.Add(key, value)
 }
 
+// AddMetadata on the Params embedded struct is deprecated.
 // Deprecated: please use .AddMetadata of the surrounding struct.
 func (p *Params) AddMetadata(key, value string) {
 	if p.Metadata == nil {
