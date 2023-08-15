@@ -88,13 +88,13 @@ module StripeForce::Utilities
 
       sig { params(additional_fields: Hash).returns(String) }
       def create_salesforce_account(additional_fields: {})
-        account_id = sf.create!(SF_ACCOUNT, {
+        _ = sf.create!(SF_ACCOUNT, {
           Name: sf_randomized_name(SF_ACCOUNT),
         }.merge(additional_fields))
       end
 
       def create_salesforce_contact(contact_email: sf_randomized_id, static_id: true)
-        contact_id = sf.create!(SF_CONTACT, {
+        _ = sf.create!(SF_CONTACT, {
           LastName: 'Bianco',
           Email: static_id ? create_static_email(email: contact_email) : create_random_email,
         })
@@ -128,7 +128,7 @@ module StripeForce::Utilities
           })
         end
 
-        sf_pricebook_entry_id = sf.create!(SF_PRICEBOOK_ENTRY, {
+        _ = sf.create!(SF_PRICEBOOK_ENTRY, {
           "Pricebook2Id" => default_pricebook_id,
           "Product2Id" => sf_product_id,
           "IsActive" => true,
@@ -150,9 +150,9 @@ module StripeForce::Utilities
 
       def create_salesforce_product(static_id: true, additional_fields: {})
         sf.create!(SF_PRODUCT, {
-          "Name" => sf_randomized_name(SF_PRODUCT),
+          "Name" => "SaaS Subscription",
           'IsActive' => true,
-          "Description" => "A great description",
+          "Description" => "Demo subscription to show bidirectional syncing",
           'ProductCode' => static_id ? sf_static_id : sf_randomized_id,
         }.merge(additional_fields))
       end
@@ -396,7 +396,7 @@ module StripeForce::Utilities
         contact_id = create_salesforce_contact(contact_email: contact_email)
 
         # you can create a quote without *any* fields, which seems completely silly
-        quote_id = sf.create!(CPQ_QUOTE, {
+        _ = sf.create!(CPQ_QUOTE, {
           CPQ_QUOTE_PRIMARY => true,
           CPQ_QUOTE_OPPORTUNITY => opportunity_id,
           CPQ_QUOTE_PRIMARY_CONTACT => contact_id,
@@ -410,7 +410,6 @@ module StripeForce::Utilities
           sf_product_id, _ = salesforce_recurring_product_with_price(currency_iso_code: currency_iso_code)
         end
 
-        sf_pricebook_id ||= default_pricebook_id
         sf_account_id ||= create_salesforce_account
 
         quote_id = create_salesforce_quote(sf_account_id: sf_account_id, currency_iso_code: currency_iso_code, contact_email: contact_email, additional_quote_fields: additional_quote_fields)
@@ -480,7 +479,7 @@ module StripeForce::Utilities
           gsub("'\"", '')
 
         sf_type = StripeForce::Utilities::SalesforceUtil.salesforce_type_from_id(@user, sf_id)
-        sf_object = @user.sf_client.find(sf_type, sf_id)
+        _ = @user.sf_client.find(sf_type, sf_id)
       end
     end
 end
