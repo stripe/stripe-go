@@ -188,7 +188,13 @@ module StripeForce::Utilities
 
       # users can map to this path if they want to override the default subscription term
       subscription_phase_term_stripe_path = ['subscription_phase', 'iterations']
-      mapped_subscription_phase_term = user.field_mappings.dig(*subscription_phase_term_stripe_path) || user.field_defaults.dig(*subscription_phase_term_stripe_path)
+      mapped_subscription_phase_term_order_path = user.field_mappings.dig(*subscription_phase_term_stripe_path)
+      if mapped_subscription_phase_term_order_path.present?
+        mapped_subscription_phase_term = T.cast(mapper.extract_key_path_for_record(sf_order, mapped_subscription_phase_term_order_path), T.nilable(T.any(String, Float, Integer)))
+      else
+        mapped_subscription_phase_term = user.field_defaults.dig(*subscription_phase_term_stripe_path)
+      end
+
       if mapped_subscription_phase_term.present?
         if !Integrations::Utilities::StripeUtil.is_integer_value?(mapped_subscription_phase_term)
           raise StripeForce::Errors::RawUserError.new("Cannot specify subscription term as a decimal value.", salesforce_object: sf_order)
@@ -198,14 +204,14 @@ module StripeForce::Utilities
       end
 
       # we hard code this path to the Quote's subscription term with no opportunity for users to change it
-      subscription_term_stripe_path = ['subscription_schedule', 'iterations']
-      subscription_term_order_path = user.field_mappings.dig(*subscription_term_stripe_path) || user.required_mappings.dig(*subscription_term_stripe_path)
+      subscription_schedule_term_stripe_path = ['subscription_schedule', 'iterations']
+      subscription_schedule_term_order_path = user.field_mappings.dig(*subscription_schedule_term_stripe_path) || user.required_mappings.dig(*subscription_schedule_term_stripe_path)
 
-      quote_subscription_term = T.cast(mapper.extract_key_path_for_record(sf_order, subscription_term_order_path), T.nilable(T.any(String, Float, Integer)))
+      quote_subscription_term = T.cast(mapper.extract_key_path_for_record(sf_order, subscription_schedule_term_order_path), T.nilable(T.any(String, Float, Integer)))
       if quote_subscription_term.nil?
         raise Integrations::Errors::MissingRequiredFields.new(
           salesforce_object: sf_order,
-          missing_salesforce_fields: [subscription_term_order_path]
+          missing_salesforce_fields: [subscription_schedule_term_order_path]
         )
       end
 
