@@ -73,6 +73,11 @@ type TerminalReaderParams struct {
 	RegistrationCode *string `form:"registration_code"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *TerminalReaderParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // AddMetadata adds a new key-value pair to the Metadata.
 func (p *TerminalReaderParams) AddMetadata(key string, value string) {
 	if p.Metadata == nil {
@@ -93,6 +98,11 @@ type TerminalReaderListParams struct {
 	Location *string `form:"location"`
 	// A status filter to filter readers to only offline or online readers
 	Status *string `form:"status"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *TerminalReaderListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // Tipping configuration for this transaction.
@@ -120,6 +130,11 @@ type TerminalReaderProcessPaymentIntentParams struct {
 	ProcessConfig *TerminalReaderProcessPaymentIntentProcessConfigParams `form:"process_config"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *TerminalReaderProcessPaymentIntentParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // Initiates a setup intent flow on a Reader.
 type TerminalReaderProcessSetupIntentParams struct {
 	Params `form:"*"`
@@ -131,11 +146,21 @@ type TerminalReaderProcessSetupIntentParams struct {
 	SetupIntent *string `form:"setup_intent"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *TerminalReaderProcessSetupIntentParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // Cancels the current reader action.
 type TerminalReaderCancelActionParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *TerminalReaderCancelActionParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // Array of line items that were purchased.
@@ -171,6 +196,11 @@ type TerminalReaderSetReaderDisplayParams struct {
 	Type *string `form:"type"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *TerminalReaderSetReaderDisplayParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // Initiates a refund on a Reader
 type TerminalReaderRefundPaymentParams struct {
 	Params `form:"*"`
@@ -188,6 +218,11 @@ type TerminalReaderRefundPaymentParams struct {
 	RefundApplicationFee *bool `form:"refund_application_fee"`
 	// Boolean indicating whether the transfer should be reversed when refunding this charge. The transfer will be reversed proportionally to the amount being refunded (either the entire or partial amount). A transfer can be reversed only by the application that created the charge.
 	ReverseTransfer *bool `form:"reverse_transfer"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *TerminalReaderRefundPaymentParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.

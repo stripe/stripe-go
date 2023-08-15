@@ -75,6 +75,11 @@ type ShippingRateListParams struct {
 	Expand []*string `form:"expand"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *ShippingRateListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // The upper bound of the estimated range. If empty, represents no upper bound i.e., infinite.
 type ShippingRateDeliveryEstimateMaximumParams struct {
 	// A unit of time.
@@ -138,6 +143,11 @@ type ShippingRateParams struct {
 	TaxCode *string `form:"tax_code"`
 	// The type of calculation to use on the shipping rate. Can only be `fixed_amount` for now.
 	Type *string `form:"type"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *ShippingRateParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.

@@ -105,12 +105,22 @@ type TaxIDParams struct {
 	Value *string `form:"value"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *TaxIDParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // Returns a list of tax IDs for a customer.
 type TaxIDListParams struct {
 	ListParams `form:"*"`
 	Customer   *string `form:"-"` // Included in URL
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *TaxIDListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // Tax ID verification information.

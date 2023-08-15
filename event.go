@@ -27,12 +27,23 @@ type EventListParams struct {
 	Types []*string `form:"types"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *EventListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // Retrieves the details of an event. Supply the unique identifier of the event, which you might have received in a webhook.
 type EventParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 }
+
+// AddExpand appends a new field to expand.
+func (p *EventParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 type EventData struct {
 	// Object is a raw mapping of the API resource contained in the event.
 	// Although marked with json:"-", it's still populated independently by

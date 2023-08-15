@@ -41,6 +41,11 @@ type TransferParams struct {
 	TransferGroup *string `form:"transfer_group"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *TransferParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // AddMetadata adds a new key-value pair to the Metadata.
 func (p *TransferParams) AddMetadata(key string, value string) {
 	if p.Metadata == nil {
@@ -61,6 +66,11 @@ type TransferListParams struct {
 	Expand []*string `form:"expand"`
 	// Only return transfers with the specified transfer group.
 	TransferGroup *string `form:"transfer_group"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *TransferListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // A `Transfer` object is created when you move funds between Stripe accounts as

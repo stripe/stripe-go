@@ -94,6 +94,11 @@ type IssuingDisputeListParams struct {
 	Transaction *string `form:"transaction"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *IssuingDisputeListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // Evidence provided when `reason` is 'canceled'.
 type IssuingDisputeEvidenceCanceledParams struct {
 	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Additional documentation supporting the dispute.
@@ -241,6 +246,11 @@ type IssuingDisputeParams struct {
 	Treasury *IssuingDisputeTreasuryParams `form:"treasury"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *IssuingDisputeParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // AddMetadata adds a new key-value pair to the Metadata.
 func (p *IssuingDisputeParams) AddMetadata(key string, value string) {
 	if p.Metadata == nil {
@@ -257,6 +267,11 @@ type IssuingDisputeSubmitParams struct {
 	Expand []*string `form:"expand"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *IssuingDisputeSubmitParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.

@@ -147,6 +147,11 @@ type IssuingCardListParams struct {
 	Type *string `form:"type"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *IssuingCardListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // Customs information for the shipment.
 type IssuingCardShippingCustomsParams struct {
 	// The Economic Operators Registration and Identification (EORI) number to use for Customs. Required for bulk shipments to Europe.
@@ -220,6 +225,11 @@ type IssuingCardParams struct {
 	// The following parameter is only supported when updating a card
 	// Reason why the `status` of this card is `canceled`.
 	CancellationReason *string `form:"cancellation_reason"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *IssuingCardParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.

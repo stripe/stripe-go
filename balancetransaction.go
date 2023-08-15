@@ -134,6 +134,11 @@ type BalanceTransactionListParams struct {
 	Type *string `form:"type"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *BalanceTransactionListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // Retrieves the balance transaction with the given ID.
 //
 // Note that this endpoint previously used the path /v1/balance/history/:id.
@@ -141,6 +146,11 @@ type BalanceTransactionParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *BalanceTransactionParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // Detailed breakdown of fees (in cents (or local equivalent)) paid for this transaction.

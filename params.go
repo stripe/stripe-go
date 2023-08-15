@@ -108,11 +108,11 @@ type ListParams struct {
 	// key or query the state of the API.
 	Context context.Context `form:"-"`
 
-	EndingBefore *string   `form:"ending_before"`
+	EndingBefore *string `form:"ending_before"`
 	// Deprecated: Please use Expand in the surrounding struct instead.
-	Expand       []*string `form:"expand"`
-	Filters      Filters   `form:"*"`
-	Limit        *int64    `form:"limit"`
+	Expand  []*string `form:"expand"`
+	Filters Filters   `form:"*"`
+	Limit   *int64    `form:"limit"`
 
 	// Single specifies whether this is a single page iterator. By default,
 	// listing through an iterator will automatically grab additional pages as

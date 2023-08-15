@@ -704,6 +704,11 @@ type CheckoutSessionListParams struct {
 	Subscription *string `form:"subscription"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *CheckoutSessionListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // Configure a Checkout Session that can be used to recover an expired session.
 type CheckoutSessionAfterExpirationRecoveryParams struct {
 	// Enables user redeemable promotion codes on the recovered Checkout Sessions. Defaults to `false`
@@ -1769,6 +1774,11 @@ type CheckoutSessionParams struct {
 	TaxIDCollection *CheckoutSessionTaxIDCollectionParams `form:"tax_id_collection"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *CheckoutSessionParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // AddMetadata adds a new key-value pair to the Metadata.
 func (p *CheckoutSessionParams) AddMetadata(key string, value string) {
 	if p.Metadata == nil {
@@ -1786,6 +1796,11 @@ type CheckoutSessionListLineItemsParams struct {
 	Expand []*string `form:"expand"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *CheckoutSessionListLineItemsParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // A Session can be expired when it is in one of these statuses: open
 //
 // After it expires, a customer can't complete a Session and customers loading the Session see a message saying the Session is expired.
@@ -1793,6 +1808,11 @@ type CheckoutSessionExpireParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *CheckoutSessionExpireParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // When set, configuration used to recover the Checkout Session on expiry.

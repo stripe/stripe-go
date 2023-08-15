@@ -112,6 +112,11 @@ type IdentityVerificationReportParams struct {
 	Expand []*string `form:"expand"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *IdentityVerificationReportParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // List all verification reports.
 type IdentityVerificationReportListParams struct {
 	ListParams   `form:"*"`
@@ -123,6 +128,11 @@ type IdentityVerificationReportListParams struct {
 	Type *string `form:"type"`
 	// Only return VerificationReports created by this VerificationSession ID. It is allowed to provide a VerificationIntent ID.
 	VerificationSession *string `form:"verification_session"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *IdentityVerificationReportListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // Date of birth as it appears in the document.

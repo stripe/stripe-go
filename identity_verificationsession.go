@@ -116,6 +116,11 @@ type IdentityVerificationSessionParams struct {
 	Type *string `form:"type"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *IdentityVerificationSessionParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // AddMetadata adds a new key-value pair to the Metadata.
 func (p *IdentityVerificationSessionParams) AddMetadata(key string, value string) {
 	if p.Metadata == nil {
@@ -136,6 +141,11 @@ type IdentityVerificationSessionListParams struct {
 	Status *string `form:"status"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *IdentityVerificationSessionListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // A VerificationSession object can be canceled when it is in requires_input [status](https://stripe.com/docs/identity/how-sessions-work).
 //
 // Once canceled, future submission attempts are disabled. This cannot be undone. [Learn more](https://stripe.com/docs/identity/verification-sessions#cancel).
@@ -143,6 +153,11 @@ type IdentityVerificationSessionCancelParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *IdentityVerificationSessionCancelParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // Redact a VerificationSession to remove all collected information from Stripe. This will redact
@@ -168,6 +183,11 @@ type IdentityVerificationSessionRedactParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *IdentityVerificationSessionRedactParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // If present, this property tells you the last error encountered when processing the verification.

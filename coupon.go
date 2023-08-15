@@ -29,6 +29,11 @@ type CouponListParams struct {
 	Expand []*string `form:"expand"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *CouponListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // A hash containing directions for what this Coupon will apply discounts to.
 type CouponAppliesToParams struct {
 	// An array of Product IDs that this Coupon will apply to.
@@ -72,6 +77,11 @@ type CouponParams struct {
 	PercentOff *float64 `form:"percent_off"`
 	// Unix timestamp specifying the last time at which the coupon can be redeemed. After the redeem_by date, the coupon can no longer be applied to new customers.
 	RedeemBy *int64 `form:"redeem_by"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *CouponParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.

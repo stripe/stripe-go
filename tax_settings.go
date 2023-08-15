@@ -36,6 +36,11 @@ type TaxSettingsParams struct {
 	HeadOffice *TaxSettingsHeadOfficeParams `form:"head_office"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *TaxSettingsParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // Default configuration to be used on Stripe Tax calculations.
 type TaxSettingsDefaultsParams struct {
 	// Specifies the default [tax behavior](https://stripe.com/docs/tax/products-prices-tax-categories-tax-behavior#tax-behavior) to be used when the item's price has unspecified tax behavior. One of inclusive, exclusive, or inferred_by_currency. Once specified, it cannot be changed back to null.

@@ -111,6 +111,11 @@ type PayoutParams struct {
 	StatementDescriptor *string `form:"statement_descriptor"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *PayoutParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // AddMetadata adds a new key-value pair to the Metadata.
 func (p *PayoutParams) AddMetadata(key string, value string) {
 	if p.Metadata == nil {
@@ -135,6 +140,11 @@ type PayoutListParams struct {
 	Status *string `form:"status"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *PayoutListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // Reverses a payout by debiting the destination bank account. Only payouts for connected accounts to US bank accounts may be reversed at this time. If the payout is in the pending status, /v1/payouts/:id/cancel should be used instead.
 //
 // By requesting a reversal via /v1/payouts/:id/reverse, you confirm that the authorized signatory of the selected bank account has authorized the debit on the bank account and that no other authorization is required.
@@ -144,6 +154,11 @@ type PayoutReverseParams struct {
 	Expand []*string `form:"expand"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *PayoutReverseParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.

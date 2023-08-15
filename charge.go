@@ -254,6 +254,11 @@ type ChargeSearchParams struct {
 	Page *string `form:"page"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *ChargeSearchParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // Returns a list of charges you've previously created. The charges are returned in sorted order, with the most recent charges appearing first.
 type ChargeListParams struct {
 	ListParams   `form:"*"`
@@ -268,6 +273,12 @@ type ChargeListParams struct {
 	// Only return charges for this transfer group.
 	TransferGroup *string `form:"transfer_group"`
 }
+
+// AddExpand appends a new field to expand.
+func (p *ChargeListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 type ChargeDestinationParams struct {
 	// ID of an existing, connected Stripe account.
 	Account *string `form:"account"`
@@ -360,6 +371,11 @@ func (p *ChargeParams) SetSource(sp interface{}) error {
 	return err
 }
 
+// AddExpand appends a new field to expand.
+func (p *ChargeParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // AddMetadata adds a new key-value pair to the Metadata.
 func (p *ChargeParams) AddMetadata(key string, value string) {
 	if p.Metadata == nil {
@@ -408,6 +424,12 @@ type ChargeCaptureParams struct {
 	// A string that identifies this transaction as part of a group. `transfer_group` may only be provided if it has not been set. See the [Connect documentation](https://stripe.com/docs/connect/separate-charges-and-transfers#transfer-options) for details.
 	TransferGroup *string `form:"transfer_group"`
 }
+
+// AddExpand appends a new field to expand.
+func (p *ChargeCaptureParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 type ChargeBillingDetails struct {
 	// Billing address.
 	Address *Address `json:"address"`

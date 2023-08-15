@@ -149,6 +149,11 @@ type CreditNoteParams struct {
 	ShippingCost *CreditNoteShippingCostParams `form:"shipping_cost"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *CreditNoteParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // AddMetadata adds a new key-value pair to the Metadata.
 func (p *CreditNoteParams) AddMetadata(key string, value string) {
 	if p.Metadata == nil {
@@ -167,6 +172,11 @@ type CreditNoteListParams struct {
 	Expand []*string `form:"expand"`
 	// Only return credit notes for the invoice specified by this invoice ID.
 	Invoice *string `form:"invoice"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *CreditNoteListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // Line items that make up the credit note.
@@ -226,6 +236,11 @@ type CreditNotePreviewParams struct {
 	ShippingCost *CreditNotePreviewShippingCostParams `form:"shipping_cost"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *CreditNotePreviewParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // AddMetadata adds a new key-value pair to the Metadata.
 func (p *CreditNotePreviewParams) AddMetadata(key string, value string) {
 	if p.Metadata == nil {
@@ -240,6 +255,11 @@ type CreditNoteVoidCreditNoteParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *CreditNoteVoidCreditNoteParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // Line items that make up the credit note.
@@ -299,6 +319,11 @@ type CreditNotePreviewLinesParams struct {
 	ShippingCost *CreditNotePreviewLinesShippingCostParams `form:"shipping_cost"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *CreditNotePreviewLinesParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // AddMetadata adds a new key-value pair to the Metadata.
 func (p *CreditNotePreviewLinesParams) AddMetadata(key string, value string) {
 	if p.Metadata == nil {
@@ -314,6 +339,11 @@ type CreditNoteListLinesParams struct {
 	CreditNote *string `form:"-"` // Included in URL
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *CreditNoteListLinesParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // The integer amount in cents (or local equivalent) representing the total amount of discount that was credited.

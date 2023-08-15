@@ -21,6 +21,12 @@ type EphemeralKeyParams struct {
 	VerificationSession *string `form:"verification_session"`
 	StripeVersion       *string `form:"-"` // This goes in the `Stripe-Version` header
 }
+
+// AddExpand appends a new field to expand.
+func (p *EphemeralKeyParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 type EphemeralKey struct {
 	APIResource
 	// Time at which the object was created. Measured in seconds since the Unix epoch.

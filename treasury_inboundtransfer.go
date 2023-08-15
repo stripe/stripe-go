@@ -78,6 +78,11 @@ type TreasuryInboundTransferCancelParams struct {
 	Expand []*string `form:"expand"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *TreasuryInboundTransferCancelParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // Creates an InboundTransfer.
 type TreasuryInboundTransferParams struct {
 	Params `form:"*"`
@@ -99,6 +104,11 @@ type TreasuryInboundTransferParams struct {
 	StatementDescriptor *string `form:"statement_descriptor"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *TreasuryInboundTransferParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // AddMetadata adds a new key-value pair to the Metadata.
 func (p *TreasuryInboundTransferParams) AddMetadata(key string, value string) {
 	if p.Metadata == nil {
@@ -117,6 +127,11 @@ type TreasuryInboundTransferListParams struct {
 	FinancialAccount *string `form:"financial_account"`
 	// Only return InboundTransfers that have the given status: `processing`, `succeeded`, `failed` or `canceled`.
 	Status *string `form:"status"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *TreasuryInboundTransferListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // Details about this InboundTransfer's failure. Only set when status is `failed`.

@@ -46,9 +46,9 @@ type SearchParams struct {
 	// key or query the state of the API.
 	Context context.Context `form:"-"`
 
-	Query  string    `form:"query"`
-	Limit  *int64    `form:"limit"`
-	Page   *string   `form:"page"`
+	Query string  `form:"query"`
+	Limit *int64  `form:"limit"`
+	Page  *string `form:"page"`
 	// Deprecated: Please use Expand in the surrounding struct instead.
 	Expand []*string `form:"expand"`
 

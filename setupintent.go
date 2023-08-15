@@ -722,6 +722,11 @@ type SetupIntentParams struct {
 	UseStripeSDK *bool `form:"use_stripe_sdk"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *SetupIntentParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // AddMetadata adds a new key-value pair to the Metadata.
 func (p *SetupIntentParams) AddMetadata(key string, value string) {
 	if p.Metadata == nil {
@@ -748,6 +753,11 @@ type SetupIntentListParams struct {
 	Expand []*string `form:"expand"`
 	// Only return SetupIntents associated with the specified payment method.
 	PaymentMethod *string `form:"payment_method"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *SetupIntentListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // If this is an `acss_debit` PaymentMethod, this hash contains details about the ACSS Debit payment method.
@@ -1044,6 +1054,11 @@ type SetupIntentConfirmParams struct {
 	UseStripeSDK *bool `form:"use_stripe_sdk"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *SetupIntentConfirmParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // A SetupIntent object can be canceled when it is in one of these statuses: requires_payment_method, requires_confirmation, or requires_action.
 //
 // Once canceled, setup is abandoned and any operations on the SetupIntent will fail with an error.
@@ -1055,6 +1070,11 @@ type SetupIntentCancelParams struct {
 	Expand []*string `form:"expand"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *SetupIntentCancelParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // Verifies microdeposits on a SetupIntent object.
 type SetupIntentVerifyMicrodepositsParams struct {
 	Params `form:"*"`
@@ -1064,6 +1084,11 @@ type SetupIntentVerifyMicrodepositsParams struct {
 	DescriptorCode *string `form:"descriptor_code"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *SetupIntentVerifyMicrodepositsParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // Settings for automatic payment methods compatible with this Setup Intent

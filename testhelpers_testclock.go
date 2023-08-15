@@ -29,11 +29,21 @@ type TestHelpersTestClockParams struct {
 	Name *string `form:"name"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *TestHelpersTestClockParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // Returns a list of your test clocks.
 type TestHelpersTestClockListParams struct {
 	ListParams `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *TestHelpersTestClockListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // Starts advancing a test clock to a specified time in the future. Advancement is done when status changes to Ready.
@@ -43,6 +53,11 @@ type TestHelpersTestClockAdvanceParams struct {
 	Expand []*string `form:"expand"`
 	// The time to advance the test clock. Must be after the test clock's current frozen time. Cannot be more than two intervals in the future from the shortest subscription in this test clock. If there are no subscriptions in this test clock, it cannot be more than two years in the future.
 	FrozenTime *int64 `form:"frozen_time"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *TestHelpersTestClockAdvanceParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // A test clock enables deterministic control over objects in testmode. With a test clock, you can create

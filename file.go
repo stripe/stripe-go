@@ -49,6 +49,11 @@ type FileListParams struct {
 	Purpose *string `form:"purpose"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *FileListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // Optional parameters to automatically create a [file link](https://stripe.com/docs/api#file_links) for the newly created file.
 type FileFileLinkDataParams struct {
 	Params `form:"*"`
@@ -85,6 +90,11 @@ type FileParams struct {
 	FileLinkData *FileFileLinkDataParams `form:"file_link_data"`
 	// The [purpose](https://stripe.com/docs/file-upload#uploading-a-file) of the uploaded file.
 	Purpose *string `form:"purpose"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *FileParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // This is an object representing a file hosted on Stripe's servers. The
