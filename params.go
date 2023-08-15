@@ -109,6 +109,7 @@ type ListParams struct {
 	Context context.Context `form:"-"`
 
 	EndingBefore *string   `form:"ending_before"`
+	// Deprecated: Please use Expand in the surrounding struct instead.
 	Expand       []*string `form:"expand"`
 	Filters      Filters   `form:"*"`
 	Limit        *int64    `form:"limit"`
@@ -185,6 +186,7 @@ type Params struct {
 	// key or query the state of the API.
 	Context context.Context `form:"-"`
 
+	// Deprecated: please use Expand in the surrounding struct instead.
 	Expand []*string    `form:"expand"`
 	Extra  *ExtraValues `form:"*"`
 
@@ -193,7 +195,7 @@ type Params struct {
 
 	IdempotencyKey *string `form:"-"` // Passed as header
 
-	// Deprecated: Please use Metadata in the containing struct instead.
+	// Deprecated: Please use Metadata in the surrounding struct instead.
 	Metadata map[string]string `form:"metadata"`
 
 	// StripeAccount may contain the ID of a connected account. By including
@@ -203,7 +205,7 @@ type Params struct {
 	StripeAccount *string `form:"-"` // Passed as header
 }
 
-// AddExpand appends a new field to expand.
+// Deprecated: please use Expand in the surrounding struct instead.
 func (p *Params) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
@@ -217,9 +219,7 @@ func (p *Params) AddExtra(key, value string) {
 	p.Extra.Add(key, value)
 }
 
-// AddMetadata is deprecated.
-//
-// Deprecated: please use .AddMetadata of the containing Params struct.
+// Deprecated: please use .AddMetadata of the surrounding struct.
 func (p *Params) AddMetadata(key, value string) {
 	if p.Metadata == nil {
 		p.Metadata = make(map[string]string)
