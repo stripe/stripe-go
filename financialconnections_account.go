@@ -130,11 +130,21 @@ type FinancialConnectionsAccountListParams struct {
 	Session *string `form:"session"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *FinancialConnectionsAccountListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // Retrieves the details of an Financial Connections Account.
 type FinancialConnectionsAccountParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *FinancialConnectionsAccountParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // Lists all owners for a given Account
@@ -147,6 +157,11 @@ type FinancialConnectionsAccountListOwnersParams struct {
 	Ownership *string `form:"ownership"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *FinancialConnectionsAccountListOwnersParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // Refreshes the data associated with a Financial Connections Account.
 type FinancialConnectionsAccountRefreshParams struct {
 	Params `form:"*"`
@@ -156,11 +171,21 @@ type FinancialConnectionsAccountRefreshParams struct {
 	Features []*string `form:"features"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *FinancialConnectionsAccountRefreshParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // Disables your access to a Financial Connections Account. You will no longer be able to access data associated with the account (e.g. balances, transactions).
 type FinancialConnectionsAccountDisconnectParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *FinancialConnectionsAccountDisconnectParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // The account holder that this account belongs to.

@@ -14,6 +14,11 @@ type ApplePayDomainListParams struct {
 	Expand []*string `form:"expand"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *ApplePayDomainListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // Create an apple pay domain.
 type ApplePayDomainParams struct {
 	Params     `form:"*"`
@@ -21,6 +26,12 @@ type ApplePayDomainParams struct {
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 }
+
+// AddExpand appends a new field to expand.
+func (p *ApplePayDomainParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 type ApplePayDomain struct {
 	APIResource
 	// Time at which the object was created. Measured in seconds since the Unix epoch.

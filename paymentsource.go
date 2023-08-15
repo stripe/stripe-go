@@ -32,6 +32,11 @@ type PaymentSourceListParams struct {
 	Object *string `form:"object"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *PaymentSourceListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // PaymentSourceSourceParams is a union struct used to describe an
 // arbitrary payment source.
 type PaymentSourceSourceParams struct {
@@ -110,6 +115,11 @@ type PaymentSourceParams struct {
 	Validate *bool                      `form:"validate"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *PaymentSourceParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // AddMetadata adds a new key-value pair to the Metadata.
 func (p *PaymentSourceParams) AddMetadata(key string, value string) {
 	if p.Metadata == nil {
@@ -140,6 +150,12 @@ type PaymentSourceVerifyParams struct {
 	Expand []*string `form:"expand"`
 	Values []*string `form:"values"` // Values is used when verifying sources
 }
+
+// AddExpand appends a new field to expand.
+func (p *PaymentSourceVerifyParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 type PaymentSource struct {
 	APIResource
 	BankAccount *BankAccount      `json:"-"`

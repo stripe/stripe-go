@@ -52,6 +52,11 @@ type CustomerSearchParams struct {
 	Page *string `form:"page"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *CustomerSearchParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // Returns a list of your customers. The customers are returned sorted by creation date, with the most recent customers appearing first.
 type CustomerListParams struct {
 	ListParams   `form:"*"`
@@ -63,6 +68,11 @@ type CustomerListParams struct {
 	Expand []*string `form:"expand"`
 	// Provides a list of customers that are associated with the specified test clock. The response will not include customers with test clocks if this parameter is not set.
 	TestClock *string `form:"test_clock"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *CustomerListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // Settings controlling the behavior of the customer's cash balance,
@@ -182,6 +192,11 @@ type CustomerParams struct {
 	Validate  *bool   `form:"validate"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *CustomerParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // AddMetadata adds a new key-value pair to the Metadata.
 func (p *CustomerParams) AddMetadata(key string, value string) {
 	if p.Metadata == nil {
@@ -201,12 +216,22 @@ type CustomerListPaymentMethodsParams struct {
 	Type *string `form:"type"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *CustomerListPaymentMethodsParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // Retrieves a PaymentMethod object for a given Customer.
 type CustomerRetrievePaymentMethodParams struct {
 	Params   `form:"*"`
 	Customer *string `form:"-"` // Included in URL
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *CustomerRetrievePaymentMethodParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // Configuration for eu_bank_transfer funding type.
@@ -240,6 +265,11 @@ type CustomerCreateFundingInstructionsParams struct {
 	Expand []*string `form:"expand"`
 	// The `funding_type` to get the instructions for.
 	FundingType *string `form:"funding_type"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *CustomerCreateFundingInstructionsParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // Removes the currently applied discount on a customer.

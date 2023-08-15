@@ -110,6 +110,11 @@ type SourceDetachParams struct {
 	Expand []*string `form:"expand"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *SourceDetachParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // Retrieves an existing source object. Supply the unique source ID from a source creation request and Stripe will return the corresponding up-to-date source object information.
 type SourceParams struct {
 	Params `form:"*"`
@@ -146,6 +151,11 @@ type SourceParams struct {
 	// The `type` of the source to create. Required unless `customer` and `original_source` are specified (see the [Cloning card Sources](https://stripe.com/docs/sources/connect#cloning-card-sources) guide)
 	Type  *string `form:"type"`
 	Usage *string `form:"usage"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *SourceParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.

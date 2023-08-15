@@ -84,6 +84,11 @@ type IssuingCardholderListParams struct {
 	Type *string `form:"type"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *IssuingCardholderListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // The cardholder's billing address.
 type IssuingCardholderBillingParams struct {
 	// The cardholder's billing address.
@@ -200,6 +205,11 @@ type IssuingCardholderParams struct {
 	Status *string `form:"status"`
 	// One of `individual` or `company`. See [Choose a cardholder type](https://stripe.com/docs/issuing/other/choose-cardholder) for more details.
 	Type *string `form:"type"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *IssuingCardholderParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.

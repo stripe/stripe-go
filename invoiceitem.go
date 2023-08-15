@@ -23,6 +23,11 @@ type InvoiceItemListParams struct {
 	Pending *bool `form:"pending"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *InvoiceItemListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // The coupons to redeem into discounts for the invoice item or invoice line item.
 type InvoiceItemDiscountParams struct {
 	// ID of the coupon to create a new discount for.
@@ -94,6 +99,11 @@ type InvoiceItemParams struct {
 	UnitAmount *int64 `form:"unit_amount"`
 	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
 	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *InvoiceItemParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.

@@ -57,6 +57,11 @@ type DisputeListParams struct {
 	PaymentIntent *string `form:"payment_intent"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *DisputeListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // Retrieves the dispute with the given ID.
 type DisputeParams struct {
 	Params `form:"*"`
@@ -68,6 +73,11 @@ type DisputeParams struct {
 	Metadata map[string]string `form:"metadata"`
 	// Whether to immediately submit evidence to the bank. If `false`, evidence is staged on the dispute. Staged evidence is visible in the API and Dashboard, and can be submitted to the bank by making another request with this attribute set to `true` (the default).
 	Submit *bool `form:"submit"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *DisputeParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.

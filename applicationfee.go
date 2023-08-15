@@ -19,12 +19,23 @@ type ApplicationFeeListParams struct {
 	Expand []*string `form:"expand"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *ApplicationFeeListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // Retrieves the details of an application fee that your account has collected. The same information is returned when refunding the application fee.
 type ApplicationFeeParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 }
+
+// AddExpand appends a new field to expand.
+func (p *ApplicationFeeParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 type ApplicationFee struct {
 	APIResource
 	// ID of the Stripe account this fee was taken from.

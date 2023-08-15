@@ -85,6 +85,11 @@ type PlanListParams struct {
 	Product *string `form:"product"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *PlanListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // The product the plan belongs to. This cannot be changed once it has been used in a subscription or subscription schedule.
 type PlanProductParams struct {
 	// Whether the product is currently available for purchase. Defaults to `true`.
@@ -189,6 +194,11 @@ type PlanParams struct {
 	TrialPeriodDays *int64 `form:"trial_period_days"`
 	// Configures how the quantity per period should be determined. Can be either `metered` or `licensed`. `licensed` automatically bills the `quantity` set when adding it to a subscription. `metered` aggregates the total usage based on usage records. Defaults to `licensed`.
 	UsageType *string `form:"usage_type"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *PlanParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.

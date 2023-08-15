@@ -57,6 +57,11 @@ type TreasuryTransactionParams struct {
 	Expand []*string `form:"expand"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *TreasuryTransactionParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // A filter for the `status_transitions.posted_at` timestamp. When using this filter, `status=posted` and `order_by=posted_at` must also be specified.
 type TreasuryTransactionListStatusTransitionsParams struct {
 	// Returns Transactions with `posted_at` within the specified range.
@@ -80,6 +85,11 @@ type TreasuryTransactionListParams struct {
 	Status *string `form:"status"`
 	// A filter for the `status_transitions.posted_at` timestamp. When using this filter, `status=posted` and `order_by=posted_at` must also be specified.
 	StatusTransitions *TreasuryTransactionListStatusTransitionsParams `form:"status_transitions"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *TreasuryTransactionListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // Change to a FinancialAccount's balance

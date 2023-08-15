@@ -41,6 +41,11 @@ type TopupParams struct {
 	TransferGroup *string `form:"transfer_group"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *TopupParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // AddMetadata adds a new key-value pair to the Metadata.
 func (p *TopupParams) AddMetadata(key string, value string) {
 	if p.Metadata == nil {
@@ -65,6 +70,11 @@ type TopupListParams struct {
 	Expand []*string `form:"expand"`
 	// Only return top-ups that have the given status. One of `canceled`, `failed`, `pending` or `succeeded`.
 	Status *string `form:"status"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *TopupListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // To top up your Stripe balance, you create a top-up object. You can retrieve

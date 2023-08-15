@@ -72,6 +72,11 @@ type TreasuryTransactionEntryParams struct {
 	Expand []*string `form:"expand"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *TreasuryTransactionEntryParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // Retrieves a list of TransactionEntry objects.
 type TreasuryTransactionEntryListParams struct {
 	ListParams       `form:"*"`
@@ -87,6 +92,11 @@ type TreasuryTransactionEntryListParams struct {
 	OrderBy *string `form:"order_by"`
 	// Only return TransactionEntries associated with this Transaction.
 	Transaction *string `form:"transaction"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *TreasuryTransactionEntryListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // Change to a FinancialAccount's balance

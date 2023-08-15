@@ -15,6 +15,11 @@ type TerminalConnectionTokenParams struct {
 	Location *string `form:"location"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *TerminalConnectionTokenParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // A Connection Token is used by the Stripe Terminal SDK to connect to a reader.
 //
 // Related guide: [Fleet management](https://stripe.com/docs/terminal/fleet/locations)

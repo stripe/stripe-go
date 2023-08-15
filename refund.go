@@ -54,6 +54,11 @@ type RefundListParams struct {
 	PaymentIntent *string `form:"payment_intent"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *RefundListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // Create a refund.
 type RefundParams struct {
 	Params `form:"*"`
@@ -78,6 +83,11 @@ type RefundParams struct {
 	ReverseTransfer      *bool   `form:"reverse_transfer"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *RefundParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // AddMetadata adds a new key-value pair to the Metadata.
 func (p *RefundParams) AddMetadata(key string, value string) {
 	if p.Metadata == nil {
@@ -95,6 +105,12 @@ type RefundCancelParams struct {
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 }
+
+// AddExpand appends a new field to expand.
+func (p *RefundCancelParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 type RefundNextActionDisplayDetailsEmailSent struct {
 	// The timestamp when the email was sent.
 	EmailSentAt int64 `json:"email_sent_at"`

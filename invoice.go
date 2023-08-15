@@ -201,6 +201,11 @@ type InvoiceSearchParams struct {
 	Page *string `form:"page"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *InvoiceSearchParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // Settings for automatic tax lookup for this invoice preview.
 type InvoiceAutomaticTaxParams struct {
 	// Whether Stripe automatically computes tax on this invoice. Note that incompatible invoice items (invoice items with manually specified [tax rates](https://stripe.com/docs/api/tax_rates), negative amounts, or `tax_behavior=unspecified`) cannot be added to automatic tax invoices.
@@ -363,6 +368,11 @@ type InvoiceUpcomingParams struct {
 	SubscriptionTrialEndNow *bool  `form:"-"` // See custom AppendTo
 	// Indicates if a plan's `trial_period_days` should be applied to the subscription. Setting `subscription_trial_end` per subscription is preferred, and this defaults to `false`. Setting this flag to `true` together with `subscription_trial_end` is not allowed. See [Using trial periods on subscriptions](https://stripe.com/docs/billing/subscriptions/trials) to learn more.
 	SubscriptionTrialFromPlan *bool `form:"subscription_trial_from_plan"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *InvoiceUpcomingParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // AppendTo implements custom encoding logic for InvoiceUpcomingParams.
@@ -672,6 +682,11 @@ type InvoiceParams struct {
 	TransferData *InvoiceTransferDataParams `form:"transfer_data"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *InvoiceParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // AddMetadata adds a new key-value pair to the Metadata.
 func (p *InvoiceParams) AddMetadata(key string, value string) {
 	if p.Metadata == nil {
@@ -700,6 +715,11 @@ type InvoicePayParams struct {
 	PaymentMethod *string `form:"payment_method"`
 	// A payment source to be charged. The source must be the ID of a source belonging to the customer associated with the invoice being paid.
 	Source *string `form:"source"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *InvoicePayParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // Settings for automatic tax lookup for this invoice preview.
@@ -944,6 +964,11 @@ type InvoiceUpcomingLinesParams struct {
 	SubscriptionTrialFromPlan *bool `form:"subscription_trial_from_plan"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *InvoiceUpcomingLinesParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // AppendTo implements custom encoding logic for InvoiceUpcomingLinesParams.
 func (p *InvoiceUpcomingLinesParams) AppendTo(body *form.Values, keyParts []string) {
 	if BoolValue(p.SubscriptionBillingCycleAnchorNow) {
@@ -984,6 +1009,11 @@ type InvoiceListParams struct {
 	Subscription *string `form:"subscription"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *InvoiceListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // Stripe automatically finalizes drafts before sending and attempting payment on invoices. However, if you'd like to finalize a draft invoice manually, you can do so using this method.
 type InvoiceFinalizeInvoiceParams struct {
 	Params `form:"*"`
@@ -991,6 +1021,11 @@ type InvoiceFinalizeInvoiceParams struct {
 	AutoAdvance *bool `form:"auto_advance"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *InvoiceFinalizeInvoiceParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // Stripe will automatically send invoices to customers according to your [subscriptions settings](https://dashboard.stripe.com/account/billing/automatic). However, if you'd like to manually send an invoice to your customer out of the normal schedule, you can do so. When sending invoices that have already been paid, there will be no reference to the payment in the email.
@@ -1002,11 +1037,21 @@ type InvoiceSendInvoiceParams struct {
 	Expand []*string `form:"expand"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *InvoiceSendInvoiceParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // Marking an invoice as uncollectible is useful for keeping track of bad debts that can be written off for accounting purposes.
 type InvoiceMarkUncollectibleParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *InvoiceMarkUncollectibleParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // Mark a finalized invoice as void. This cannot be undone. Voiding an invoice is similar to [deletion](https://stripe.com/docs/api#delete_invoice), however it only applies to finalized invoices and maintains a papertrail where the invoice can still be found.
@@ -1016,6 +1061,11 @@ type InvoiceVoidInvoiceParams struct {
 	Expand []*string `form:"expand"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *InvoiceVoidInvoiceParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // When retrieving an invoice, you'll get a lines property containing the total count of line items and the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of line items.
 type InvoiceListLinesParams struct {
 	ListParams `form:"*"`
@@ -1023,6 +1073,12 @@ type InvoiceListLinesParams struct {
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 }
+
+// AddExpand appends a new field to expand.
+func (p *InvoiceListLinesParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 type InvoiceAutomaticTax struct {
 	// Whether Stripe automatically computes tax on this invoice. Note that incompatible invoice items (invoice items with manually specified [tax rates](https://stripe.com/docs/api/tax_rates), negative amounts, or `tax_behavior=unspecified`) cannot be added to automatic tax invoices.
 	Enabled bool `json:"enabled"`

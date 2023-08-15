@@ -771,6 +771,11 @@ type PaymentIntentSearchParams struct {
 	Page *string `form:"page"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *PaymentIntentSearchParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // When enabled, this PaymentIntent will accept payment methods that you have enabled in the Dashboard and are compatible with this PaymentIntent's other parameters.
 type PaymentIntentAutomaticPaymentMethodsParams struct {
 	// Controls whether this PaymentIntent will accept redirect-based payment methods.
@@ -1734,6 +1739,11 @@ type PaymentIntentParams struct {
 	UseStripeSDK *bool `form:"use_stripe_sdk"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *PaymentIntentParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // AddMetadata adds a new key-value pair to the Metadata.
 func (p *PaymentIntentParams) AddMetadata(key string, value string) {
 	if p.Metadata == nil {
@@ -1754,6 +1764,11 @@ type PaymentIntentListParams struct {
 	Customer *string `form:"customer"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *PaymentIntentListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
@@ -1829,6 +1844,11 @@ type PaymentIntentConfirmParams struct {
 	UseStripeSDK *bool `form:"use_stripe_sdk"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *PaymentIntentConfirmParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // A PaymentIntent object can be canceled when it is in one of these statuses: requires_payment_method, requires_capture, requires_confirmation, requires_action or, [in rare cases](https://stripe.com/docs/payments/intents), processing.
 //
 // Once canceled, no additional charges will be made by the PaymentIntent and any operations on the PaymentIntent will fail with an error. For PaymentIntents with a status of requires_capture, the remaining amount_capturable will automatically be refunded.
@@ -1840,6 +1860,11 @@ type PaymentIntentCancelParams struct {
 	CancellationReason *string `form:"cancellation_reason"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *PaymentIntentCancelParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // Capture the funds of an existing uncaptured PaymentIntent when its status is requires_capture.
@@ -1864,6 +1889,11 @@ type PaymentIntentCaptureParams struct {
 	// The parameters used to automatically create a Transfer when the payment
 	// is captured. For more information, see the PaymentIntents [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
 	TransferData *PaymentIntentTransferDataParams `form:"transfer_data"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *PaymentIntentCaptureParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
@@ -1925,6 +1955,11 @@ type PaymentIntentIncrementAuthorizationParams struct {
 	TransferData *PaymentIntentIncrementAuthorizationTransferDataParams `form:"transfer_data"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *PaymentIntentIncrementAuthorizationParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // AddMetadata adds a new key-value pair to the Metadata.
 func (p *PaymentIntentIncrementAuthorizationParams) AddMetadata(key string, value string) {
 	if p.Metadata == nil {
@@ -1945,6 +1980,11 @@ type PaymentIntentVerifyMicrodepositsParams struct {
 	Expand []*string `form:"expand"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *PaymentIntentVerifyMicrodepositsParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // Manually reconcile the remaining amount for a customer_balance PaymentIntent.
 type PaymentIntentApplyCustomerBalanceParams struct {
 	Params `form:"*"`
@@ -1961,6 +2001,12 @@ type PaymentIntentApplyCustomerBalanceParams struct {
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 }
+
+// AddExpand appends a new field to expand.
+func (p *PaymentIntentApplyCustomerBalanceParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 type PaymentIntentAmountDetailsTip struct {
 	// Portion of the amount that corresponds to a tip.
 	Amount int64 `json:"amount"`

@@ -38,6 +38,11 @@ type TokenParams struct {
 	PII *TokenPIIParams `form:"pii"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *TokenParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // Information for the account this token will represent.
 type TokenAccountParams struct {
 	// The business type.

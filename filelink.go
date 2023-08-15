@@ -22,6 +22,11 @@ type FileLinkParams struct {
 	Metadata map[string]string `form:"metadata"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *FileLinkParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // AddMetadata adds a new key-value pair to the Metadata.
 func (p *FileLinkParams) AddMetadata(key string, value string) {
 	if p.Metadata == nil {
@@ -49,6 +54,11 @@ type FileLinkListParams struct {
 	Expired *bool `form:"expired"`
 	// Only return links for the given file.
 	File *string `form:"file"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *FileLinkListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // To share the contents of a `File` object with non-Stripe users, you can

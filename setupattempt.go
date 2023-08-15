@@ -114,6 +114,12 @@ type SetupAttemptListParams struct {
 	// this ID.
 	SetupIntent *string `form:"setup_intent"`
 }
+
+// AddExpand appends a new field to expand.
+func (p *SetupAttemptListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 type SetupAttemptPaymentMethodDetailsACSSDebit struct{}
 type SetupAttemptPaymentMethodDetailsAUBECSDebit struct{}
 type SetupAttemptPaymentMethodDetailsBACSDebit struct{}

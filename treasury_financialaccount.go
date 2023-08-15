@@ -234,6 +234,11 @@ type TreasuryFinancialAccountParams struct {
 	SupportedCurrencies []*string `form:"supported_currencies"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *TreasuryFinancialAccountParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // AddMetadata adds a new key-value pair to the Metadata.
 func (p *TreasuryFinancialAccountParams) AddMetadata(key string, value string) {
 	if p.Metadata == nil {
@@ -250,6 +255,11 @@ type TreasuryFinancialAccountListParams struct {
 	CreatedRange *RangeQueryParams `form:"created"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *TreasuryFinancialAccountListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // Encodes the FinancialAccount's ability to be used with the Issuing product, including attaching cards to and drawing funds from the FinancialAccount.
@@ -355,11 +365,21 @@ type TreasuryFinancialAccountUpdateFeaturesParams struct {
 	OutboundTransfers *TreasuryFinancialAccountUpdateFeaturesOutboundTransfersParams `form:"outbound_transfers"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *TreasuryFinancialAccountUpdateFeaturesParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // Retrieves Features information associated with the FinancialAccount.
 type TreasuryFinancialAccountRetrieveFeaturesParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *TreasuryFinancialAccountRetrieveFeaturesParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // Balance information for the FinancialAccount
