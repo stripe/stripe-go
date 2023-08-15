@@ -86,6 +86,8 @@ class StripeWebhookController < ApplicationController
         CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(subscription_start_date),
         CPQ_QUOTE_SUBSCRIPTION_TERM => SF_ORDER_DEFAULT_EVERGREEN_SUBSCRIPTION_TERM,
       }, additional_order_fields: {GENERIC_STRIPE_ID => event.data.object['id']})
+      render plain: "Successfully processed event to create demo evergreen Salesforce order #{event_id}"
+      return
     end
 
     if event_type != 'invoiceitem.created'
