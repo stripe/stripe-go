@@ -29,12 +29,11 @@ const (
 	DisputeReasonUnrecognized            DisputeReason = "unrecognized"
 )
 
-// Current status of dispute. Possible values are `warning_needs_response`, `warning_under_review`, `warning_closed`, `needs_response`, `under_review`, `charge_refunded`, `won`, or `lost`.
+// Current status of dispute. Possible values are `warning_needs_response`, `warning_under_review`, `warning_closed`, `needs_response`, `under_review`, `won`, or `lost`.
 type DisputeStatus string
 
 // List of values that DisputeStatus can take
 const (
-	DisputeStatusChargeRefunded       DisputeStatus = "charge_refunded"
 	DisputeStatusLost                 DisputeStatus = "lost"
 	DisputeStatusNeedsResponse        DisputeStatus = "needs_response"
 	DisputeStatusUnderReview          DisputeStatus = "under_review"
@@ -225,7 +224,7 @@ type Dispute struct {
 	PaymentIntent *PaymentIntent `json:"payment_intent"`
 	// Reason given by cardholder for dispute. Possible values are `bank_cannot_process`, `check_returned`, `credit_not_processed`, `customer_initiated`, `debit_not_authorized`, `duplicate`, `fraudulent`, `general`, `incorrect_account_details`, `insufficient_funds`, `product_not_received`, `product_unacceptable`, `subscription_canceled`, or `unrecognized`. Read more about [dispute reasons](https://stripe.com/docs/disputes/categories).
 	Reason DisputeReason `json:"reason"`
-	// Current status of dispute. Possible values are `warning_needs_response`, `warning_under_review`, `warning_closed`, `needs_response`, `under_review`, `charge_refunded`, `won`, or `lost`.
+	// Current status of dispute. Possible values are `warning_needs_response`, `warning_under_review`, `warning_closed`, `needs_response`, `under_review`, `won`, or `lost`.
 	Status DisputeStatus `json:"status"`
 }
 
