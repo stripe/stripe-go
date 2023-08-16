@@ -2,7 +2,7 @@
 
 ## 75.0.0 - 2023-08-16
 * This release changes the pinned API version to `2023-08-16`. Please read the [API Upgrade Guide](https://stripe.com/docs/upgrades#2023-08-16) and carefully review the API changes before upgrading `stripe-go`.
-* More information is available in the [stripe-dotnet v75 migration guide](https://github.com/stripe/stripe-go/wiki/Migration-guide-for-v75)
+* More information is available in the [stripe-go v75 migration guide](https://github.com/stripe/stripe-go/wiki/Migration-guide-for-v75)
 * [#1705](https://github.com/stripe/stripe-go/pull/1705) Update generated code
   * ⚠️Add support for new values `verification_directors_mismatch`, `verification_document_directors_mismatch`, `verification_extraneous_directors`, and `verification_missing_directors` on enums `AccountFutureRequirementsErrorsCode`, `AccountRequirementsErrorsCode`, `BankAccountFutureRequirementsErrorsCode`, and `BankAccountRequirementsErrorsCode`
   * Remove support for `AvailableOn` on `BalanceTransactionListParams`
