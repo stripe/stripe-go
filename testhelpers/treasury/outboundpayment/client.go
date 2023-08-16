@@ -10,7 +10,7 @@ package outboundpayment
 import (
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v74"
+	stripe "github.com/stripe/stripe-go/v75"
 )
 
 // Client is used to invoke /treasury/outbound_payments APIs.

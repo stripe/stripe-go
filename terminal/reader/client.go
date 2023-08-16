@@ -10,8 +10,8 @@ package reader
 import (
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v74"
-	"github.com/stripe/stripe-go/v74/form"
+	stripe "github.com/stripe/stripe-go/v75"
+	"github.com/stripe/stripe-go/v75/form"
 )
 
 // Client is used to invoke /terminal/readers APIs.

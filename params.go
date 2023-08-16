@@ -9,7 +9,7 @@ import (
 	"net/url"
 	"time"
 
-	"github.com/stripe/stripe-go/v74/form"
+	"github.com/stripe/stripe-go/v75/form"
 )
 
 //
@@ -129,7 +129,7 @@ type ListParams struct {
 	StripeAccount *string `form:"-"` // Passed as header
 }
 
-// AddExpand on the embedded ListParams struct is deprecated. 
+// AddExpand on the embedded ListParams struct is deprecated.
 // Deprecated: please use AddExpand on the surrounding struct instead.
 func (p *ListParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)

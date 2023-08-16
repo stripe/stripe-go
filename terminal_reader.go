@@ -135,6 +135,9 @@ func (p *TerminalReaderProcessPaymentIntentParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Configuration overrides
+type TerminalReaderProcessSetupIntentProcessConfigParams struct{}
+
 // Initiates a setup intent flow on a Reader.
 type TerminalReaderProcessSetupIntentParams struct {
 	Params `form:"*"`
@@ -142,6 +145,8 @@ type TerminalReaderProcessSetupIntentParams struct {
 	CustomerConsentCollected *bool `form:"customer_consent_collected"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+	// Configuration overrides
+	ProcessConfig *TerminalReaderProcessSetupIntentProcessConfigParams `form:"process_config"`
 	// SetupIntent ID
 	SetupIntent *string `form:"setup_intent"`
 }
@@ -256,10 +261,15 @@ type TerminalReaderActionProcessPaymentIntent struct {
 	ProcessConfig *TerminalReaderActionProcessPaymentIntentProcessConfig `json:"process_config"`
 }
 
+// Represents a per-setup override of a reader configuration
+type TerminalReaderActionProcessSetupIntentProcessConfig struct{}
+
 // Represents a reader action to process a setup intent
 type TerminalReaderActionProcessSetupIntent struct {
 	// ID of a card PaymentMethod generated from the card_present PaymentMethod that may be attached to a Customer for future transactions. Only present if it was possible to generate a card PaymentMethod.
 	GeneratedCard string `json:"generated_card"`
+	// Represents a per-setup override of a reader configuration
+	ProcessConfig *TerminalReaderActionProcessSetupIntentProcessConfig `json:"process_config"`
 	// Most recent SetupIntent processed by the reader.
 	SetupIntent *SetupIntent `json:"setup_intent"`
 }

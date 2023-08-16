@@ -1,5 +1,5 @@
 # Go Stripe
-[![Go Reference](https://pkg.go.dev/badge/github.com/stripe/stripe-go)](https://pkg.go.dev/github.com/stripe/stripe-go/v74)
+[![Go Reference](https://pkg.go.dev/badge/github.com/stripe/stripe-go)](https://pkg.go.dev/github.com/stripe/stripe-go/v75)
 [![Build Status](https://github.com/stripe/stripe-go/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/stripe/stripe-go/actions/workflows/ci.yml?query=branch%3Amaster)
 [![Coverage Status](https://coveralls.io/repos/github/stripe/stripe-go/badge.svg?branch=master)](https://coveralls.io/github/stripe/stripe-go?branch=master)
 
@@ -22,8 +22,8 @@ Then, reference stripe-go in a Go program with `import`:
 
 ``` go
 import (
-	"github.com/stripe/stripe-go/v74"
-	"github.com/stripe/stripe-go/v74/customer"
+	"github.com/stripe/stripe-go/v75"
+	"github.com/stripe/stripe-go/v75/customer"
 )
 ```
 
@@ -33,7 +33,7 @@ toolchain will resolve and fetch the stripe-go module automatically.
 Alternatively, you can also explicitly `go get` the package into a project:
 
 ```bash
-go get -u github.com/stripe/stripe-go/v74
+go get -u github.com/stripe/stripe-go/v75
 ```
 
 ## Documentation
@@ -122,8 +122,8 @@ To use a key, pass it to `API`'s `Init` function:
 ```go
 
 import (
-	"github.com/stripe/stripe-go/v74"
-	"github.com/stripe/stripe-go/v74/client"
+	"github.com/stripe/stripe-go/v75"
+	"github.com/stripe/stripe-go/v75/client"
 )
 
 stripe := &client.API{}
@@ -144,8 +144,8 @@ import (
 	"google.golang.org/appengine"
 	"google.golang.org/appengine/urlfetch"
 
-	"github.com/stripe/stripe-go/v74"
-	"github.com/stripe/stripe-go/v74/client"
+	"github.com/stripe/stripe-go/v75"
+	"github.com/stripe/stripe-go/v75/client"
 )
 
 func handler(w http.ResponseWriter, r *http.Request) {
@@ -179,8 +179,8 @@ client.
 
 ```go
 import (
-	"github.com/stripe/stripe-go/v74"
-	"github.com/stripe/stripe-go/v74/$resource$"
+	"github.com/stripe/stripe-go/v75"
+	"github.com/stripe/stripe-go/v75/$resource$"
 )
 
 // Setup
@@ -220,8 +220,8 @@ individual key.
 
 ```go
 import (
-	"github.com/stripe/stripe-go/v74"
-	"github.com/stripe/stripe-go/v74/client"
+	"github.com/stripe/stripe-go/v75"
+	"github.com/stripe/stripe-go/v75/client"
 )
 
 // Setup
@@ -292,8 +292,8 @@ with `MaxNetworkRetries`:
 
 ```go
 import (
-	"github.com/stripe/stripe-go/v74"
-	"github.com/stripe/stripe-go/v74/client"
+	"github.com/stripe/stripe-go/v75"
+	"github.com/stripe/stripe-go/v75/client"
 )
 
 config := &stripe.BackendConfig{
@@ -477,7 +477,7 @@ To mock a Stripe client for a unit tests using [GoMock](https://github.com/golan
 
 1. Generate a `Backend` type mock.
 ```
-mockgen -destination=mocks/backend.go -package=mocks github.com/stripe/stripe-go/v74 Backend
+mockgen -destination=mocks/backend.go -package=mocks github.com/stripe/stripe-go/v75 Backend
 ```
 2. Use the `Backend` mock to initialize and call methods on the client.
 ```go
@@ -488,8 +488,8 @@ import (
 
 	"github.com/golang/mock/gomock"
 	"github.com/stretchr/testify/assert"
-	"github.com/stripe/stripe-go/v74"
-	"github.com/stripe/stripe-go/v74/account"
+	"github.com/stripe/stripe-go/v75"
+	"github.com/stripe/stripe-go/v75/account"
 )
 
 func UseMockedStripeClient(t *testing.T) {
@@ -526,7 +526,7 @@ We would love for you to try these and share feedback with us before these featu
 To install a beta version of stripe-go use the commit notation of the `go get` command to point to a beta tag:
 
 ```
-go get -u github.com/stripe/stripe-go/v74@v73.3.0-beta.1
+go get -u github.com/stripe/stripe-go/v75@v73.3.0-beta.1
 ```
 
 > **Note**
