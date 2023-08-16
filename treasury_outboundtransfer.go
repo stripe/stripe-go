@@ -95,25 +95,58 @@ type TreasuryOutboundTransferParams struct {
 	DestinationPaymentMethod *string `form:"destination_payment_method"`
 	// Hash describing payment method configuration details.
 	DestinationPaymentMethodOptions *TreasuryOutboundTransferDestinationPaymentMethodOptionsParams `form:"destination_payment_method_options"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// The FinancialAccount to pull funds from.
 	FinancialAccount *string `form:"financial_account"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
 	// Statement descriptor to be shown on the receiving end of an OutboundTransfer. Maximum 10 characters for `ach` transfers or 140 characters for `wire` transfers. The default value is `transfer`.
 	StatementDescriptor *string `form:"statement_descriptor"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *TreasuryOutboundTransferParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *TreasuryOutboundTransferParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
 }
 
 // Returns a list of OutboundTransfers sent from the specified FinancialAccount.
 type TreasuryOutboundTransferListParams struct {
 	ListParams `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// Returns objects associated with this FinancialAccount.
 	FinancialAccount *string `form:"financial_account"`
 	// Only return OutboundTransfers that have the given status: `processing`, `canceled`, `failed`, `posted`, or `returned`.
 	Status *string `form:"status"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *TreasuryOutboundTransferListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // An OutboundTransfer can be canceled if the funds have not yet been paid out.
 type TreasuryOutboundTransferCancelParams struct {
 	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 }
+
+// AddExpand appends a new field to expand.
+func (p *TreasuryOutboundTransferCancelParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 type TreasuryOutboundTransferDestinationPaymentMethodDetailsBillingDetails struct {
 	Address *Address `json:"address"`
 	// Email address.

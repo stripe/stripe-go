@@ -47,6 +47,8 @@ type FinancialConnectionsSessionParams struct {
 	Params `form:"*"`
 	// The account holder to link accounts for.
 	AccountHolder *FinancialConnectionsSessionAccountHolderParams `form:"account_holder"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// Filters to restrict the kinds of accounts to collect.
 	Filters *FinancialConnectionsSessionFiltersParams `form:"filters"`
 	// List of data features that you would like to request access to.
@@ -55,6 +57,11 @@ type FinancialConnectionsSessionParams struct {
 	Permissions []*string `form:"permissions"`
 	// For webview integrations only. Upon completing OAuth login in the native browser, the user will be redirected to this URL to return to your app.
 	ReturnURL *string `form:"return_url"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *FinancialConnectionsSessionParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // The account holder for whom accounts are collected in this session.

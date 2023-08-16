@@ -30,10 +30,17 @@ type TokenParams struct {
 	Customer *string `form:"customer"`
 	// The updated CVC value this token will represent.
 	CVCUpdate *TokenCVCUpdateParams `form:"cvc_update"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// Information for the person this token will represent.
 	Person *PersonParams `form:"person"`
 	// The PII this token will represent.
 	PII *TokenPIIParams `form:"pii"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *TokenParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // Information for the account this token will represent.

@@ -33,10 +33,17 @@ type TestHelpersTreasuryReceivedCreditParams struct {
 	Currency *string `form:"currency"`
 	// An arbitrary string attached to the object. Often useful for displaying to users.
 	Description *string `form:"description"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// The FinancialAccount to send funds to.
 	FinancialAccount *string `form:"financial_account"`
 	// Initiating payment method details for the object.
 	InitiatingPaymentMethodDetails *TestHelpersTreasuryReceivedCreditInitiatingPaymentMethodDetailsParams `form:"initiating_payment_method_details"`
 	// The rails used for the object.
 	Network *string `form:"network"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *TestHelpersTreasuryReceivedCreditParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }

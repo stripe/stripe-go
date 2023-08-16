@@ -18,9 +18,16 @@ const (
 // Retrieves a customer's cash balance.
 type CashBalanceParams struct {
 	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// A hash of settings for this cash balance.
 	Settings *CashBalanceSettingsParams `form:"settings"`
 	Customer *string                    `form:"-"` // Included in URL
+}
+
+// AddExpand appends a new field to expand.
+func (p *CashBalanceParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // A hash of settings for this cash balance.

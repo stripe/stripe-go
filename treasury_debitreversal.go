@@ -28,13 +28,33 @@ const (
 // Reverses a ReceivedDebit and creates a DebitReversal object.
 type TreasuryDebitReversalParams struct {
 	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
 	// The ReceivedDebit to reverse.
 	ReceivedDebit *string `form:"received_debit"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *TreasuryDebitReversalParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *TreasuryDebitReversalParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
 }
 
 // Returns a list of DebitReversals.
 type TreasuryDebitReversalListParams struct {
 	ListParams `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// Returns objects associated with this FinancialAccount.
 	FinancialAccount *string `form:"financial_account"`
 	// Only return DebitReversals for the ReceivedDebit ID.
@@ -43,6 +63,11 @@ type TreasuryDebitReversalListParams struct {
 	Resolution *string `form:"resolution"`
 	// Only return DebitReversals for a given status.
 	Status *string `form:"status"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *TreasuryDebitReversalListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // Other flows linked to a DebitReversal.

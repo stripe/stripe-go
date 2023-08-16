@@ -270,6 +270,8 @@ type TaxCalculationParams struct {
 	Customer *string `form:"customer"`
 	// Details about the customer, including address and tax IDs.
 	CustomerDetails *TaxCalculationCustomerDetailsParams `form:"customer_details"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// A list of items the customer is purchasing.
 	LineItems []*TaxCalculationLineItemParams `form:"line_items"`
 	// Shipping cost details to be used for the calculation.
@@ -278,10 +280,22 @@ type TaxCalculationParams struct {
 	TaxDate *int64 `form:"tax_date"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *TaxCalculationParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // Retrieves the line items of a persisted tax calculation as a collection.
 type TaxCalculationListLineItemsParams struct {
 	ListParams  `form:"*"`
 	Calculation *string `form:"-"` // Included in URL
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *TaxCalculationListLineItemsParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // The customer's tax IDs (for example, EU VAT numbers).

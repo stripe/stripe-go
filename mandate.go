@@ -113,7 +113,15 @@ const (
 // Retrieves a Mandate object.
 type MandateParams struct {
 	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 }
+
+// AddExpand appends a new field to expand.
+func (p *MandateParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 type MandateCustomerAcceptanceOffline struct{}
 type MandateCustomerAcceptanceOnline struct {
 	// The IP address from which the Mandate was accepted by the customer.

@@ -132,10 +132,14 @@ type CardParams struct {
 	CVC *string `form:"cvc"`
 	// Applicable only on accounts (not customers or recipients). If you set this to `true` (or if this is the first external account being added in this currency), this card will become the default external account for its currency.
 	DefaultForCurrency *bool `form:"default_for_currency"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// Two digit number representing the card's expiration month.
 	ExpMonth *string `form:"exp_month"`
 	// Four digit number representing the card's expiration year.
 	ExpYear *string `form:"exp_year"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
 	// Cardholder name.
 	Name *string `form:"name"`
 	// The card number, as a string without any separators.
@@ -157,97 +161,111 @@ type CardParams struct {
 // This is not a pattern that we want to push forward, and this largely exists
 // because the cards endpoint is a little unusual. There is one other resource
 // like it, which is bank account.
-func (c *CardParams) AppendToAsCardSourceOrExternalAccount(body *form.Values, keyParts []string) {
+func (p *CardParams) AppendToAsCardSourceOrExternalAccount(body *form.Values, keyParts []string) {
 	// Rather than being called in addition to `AppendTo`, this function
 	// *replaces* `AppendTo`, so we must also make sure to handle the encoding
 	// of `Params` so metadata and the like is included in the encoded payload.
-	form.AppendToPrefixed(body, c.Params, keyParts)
+	form.AppendToPrefixed(body, p.Params, keyParts)
 
-	if c.DefaultForCurrency != nil {
+	if p.DefaultForCurrency != nil {
 		body.Add(
 			form.FormatKey(append(keyParts, "default_for_currency")),
-			strconv.FormatBool(BoolValue(c.DefaultForCurrency)),
+			strconv.FormatBool(BoolValue(p.DefaultForCurrency)),
 		)
 	}
 
-	if c.Token != nil {
-		if c.Account != nil {
-			body.Add(form.FormatKey(append(keyParts, "external_account")), StringValue(c.Token))
+	if p.Token != nil {
+		if p.Account != nil {
+			body.Add(form.FormatKey(append(keyParts, "external_account")), StringValue(p.Token))
 		} else {
-			body.Add(form.FormatKey(append(keyParts, cardSource)), StringValue(c.Token))
+			body.Add(form.FormatKey(append(keyParts, cardSource)), StringValue(p.Token))
 		}
 	}
 
-	if c.Number != nil {
+	if p.Number != nil {
 		body.Add(form.FormatKey(append(keyParts, cardSource, "object")), "card")
-		body.Add(form.FormatKey(append(keyParts, cardSource, "number")), StringValue(c.Number))
+		body.Add(form.FormatKey(append(keyParts, cardSource, "number")), StringValue(p.Number))
 	}
-	if c.CVC != nil {
+	if p.CVC != nil {
 		body.Add(
 			form.FormatKey(append(keyParts, cardSource, "cvc")),
-			StringValue(c.CVC),
+			StringValue(p.CVC),
 		)
 	}
-	if c.Currency != nil {
+	if p.Currency != nil {
 		body.Add(
 			form.FormatKey(append(keyParts, cardSource, "currency")),
-			StringValue(c.Currency),
+			StringValue(p.Currency),
 		)
 	}
-	if c.ExpMonth != nil {
+	if p.ExpMonth != nil {
 		body.Add(
 			form.FormatKey(append(keyParts, cardSource, "exp_month")),
-			StringValue(c.ExpMonth),
+			StringValue(p.ExpMonth),
 		)
 	}
-	if c.ExpYear != nil {
+	if p.ExpYear != nil {
 		body.Add(
 			form.FormatKey(append(keyParts, cardSource, "exp_year")),
-			StringValue(c.ExpYear),
+			StringValue(p.ExpYear),
 		)
 	}
-	if c.Name != nil {
+	if p.Name != nil {
 		body.Add(
 			form.FormatKey(append(keyParts, cardSource, "name")),
-			StringValue(c.Name),
+			StringValue(p.Name),
 		)
 	}
-	if c.AddressCity != nil {
+	if p.AddressCity != nil {
 		body.Add(
 			form.FormatKey(append(keyParts, cardSource, "address_city")),
-			StringValue(c.AddressCity),
+			StringValue(p.AddressCity),
 		)
 	}
-	if c.AddressCountry != nil {
+	if p.AddressCountry != nil {
 		body.Add(
 			form.FormatKey(append(keyParts, cardSource, "address_country")),
-			StringValue(c.AddressCountry),
+			StringValue(p.AddressCountry),
 		)
 	}
-	if c.AddressLine1 != nil {
+	if p.AddressLine1 != nil {
 		body.Add(
 			form.FormatKey(append(keyParts, cardSource, "address_line1")),
-			StringValue(c.AddressLine1),
+			StringValue(p.AddressLine1),
 		)
 	}
-	if c.AddressLine2 != nil {
+	if p.AddressLine2 != nil {
 		body.Add(
 			form.FormatKey(append(keyParts, cardSource, "address_line2")),
-			StringValue(c.AddressLine2),
+			StringValue(p.AddressLine2),
 		)
 	}
-	if c.AddressState != nil {
+	if p.AddressState != nil {
 		body.Add(
 			form.FormatKey(append(keyParts, cardSource, "address_state")),
-			StringValue(c.AddressState),
+			StringValue(p.AddressState),
 		)
 	}
-	if c.AddressZip != nil {
+	if p.AddressZip != nil {
 		body.Add(
 			form.FormatKey(append(keyParts, cardSource, "address_zip")),
-			StringValue(c.AddressZip),
+			StringValue(p.AddressZip),
 		)
 	}
+}
+
+// AddExpand appends a new field to expand.
+func (p *CardParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *CardParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
 }
 
 type CardListParams struct {

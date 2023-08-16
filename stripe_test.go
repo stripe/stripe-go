@@ -968,6 +968,60 @@ func TestStripeAccount(t *testing.T) {
 	assert.Equal(t, "acct_123", req.Header.Get("Stripe-Account"))
 }
 
+func TestErrorOnDuplicateMetadata(t *testing.T) {
+	c := GetBackend(APIBackend).(*BackendImplementation)
+	type myParams struct {
+		Params   `form:"*"`
+		Metadata map[string]string `form:"metadata"`
+	}
+
+	metadata := map[string]string{"foo": "bar"}
+	resource := APIResource{}
+	err := c.Call("POST", "/v1/customers", "sk_test_xyz", &myParams{}, &resource)
+	assert.NoError(t, err)
+
+	err =
+		c.Call("POST", "/v1/customers", "sk_test_xyz", &myParams{Metadata: metadata}, &resource)
+	assert.NoError(t, err)
+
+	err =
+		c.Call("POST", "/v1/customers", "sk_test_xyz", &myParams{Params: Params{Metadata: metadata}}, &resource)
+	assert.NoError(t, err)
+
+	err =
+		c.Call("POST", "/v1/customers", "sk_test_xyz", &myParams{Metadata: metadata, Params: Params{Metadata: metadata}}, &resource)
+	assert.Errorf(t, err, "You cannot specify both the (deprecated) .Params.Metadata and .Metadata in myParams")
+}
+
+func TestErrorOnDuplicateExpand(t *testing.T) {
+	c := GetBackend(APIBackend).(*BackendImplementation)
+	type myParams struct {
+		Params `form:"*"`
+		Expand []*string `form:"expand"`
+	}
+
+	expand := []*string{String("foo"), String("bar")}
+	resource := APIResource{}
+	err := c.Call("POST", "/v1/customers", "sk_test_xyz", &myParams{}, &resource)
+	assert.NoError(t, err)
+
+	err =
+		c.Call("POST", "/v1/customers", "sk_test_xyz", &myParams{Expand: expand}, &resource)
+	assert.NoError(t, err)
+
+	err =
+		c.Call("POST", "/v1/customers", "sk_test_xyz", &myParams{
+			Params: Params{Expand: expand},
+		}, &resource)
+	assert.NoError(t, err)
+
+	err =
+		c.Call("POST", "/v1/customers", "sk_test_xyz", &myParams{
+			Expand: expand, Params: Params{Expand: expand}}, &resource)
+
+	assert.Errorf(t, err, "You cannot specify both the (deprecated) .Params.Expand and .Expand in myParams")
+}
+
 func TestUnmarshalJSONVerbose(t *testing.T) {
 	type testServerResponse struct {
 		Message string `json:"message"`

@@ -133,6 +133,8 @@ type IssuingCardListParams struct {
 	Created *int64 `form:"created"`
 	// Only return cards that were issued during the given date interval.
 	CreatedRange *RangeQueryParams `form:"created"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// Only return cards that have the given expiration month.
 	ExpMonth *int64 `form:"exp_month"`
 	// Only return cards that have the given expiration year.
@@ -143,6 +145,11 @@ type IssuingCardListParams struct {
 	Status *string `form:"status"`
 	// Only return cards that have the given type. One of `virtual` or `physical`.
 	Type *string `form:"type"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *IssuingCardListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // Customs information for the shipment.
@@ -195,8 +202,12 @@ type IssuingCardParams struct {
 	// The [Cardholder](https://stripe.com/docs/api#issuing_cardholder_object) object with which the card will be associated.
 	Cardholder *string `form:"cardholder"`
 	// The currency for the card.
-	Currency         *string `form:"currency"`
-	FinancialAccount *string `form:"financial_account"`
+	Currency *string `form:"currency"`
+	// Specifies which fields in the response should be expanded.
+	Expand           []*string `form:"expand"`
+	FinancialAccount *string   `form:"financial_account"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
 	// The desired new PIN for this card.
 	PIN *IssuingCardPINParams `form:"pin"`
 	// The card this is meant to be a replacement for (if any).
@@ -214,6 +225,20 @@ type IssuingCardParams struct {
 	// The following parameter is only supported when updating a card
 	// Reason why the `status` of this card is `canceled`.
 	CancellationReason *string `form:"cancellation_reason"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *IssuingCardParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *IssuingCardParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
 }
 
 // The desired new PIN for this card.

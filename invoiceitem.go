@@ -6,6 +6,8 @@
 
 package stripe
 
+import "encoding/json"
+
 // Returns a list of your invoice items. Invoice items are returned sorted by creation date, with the most recently created invoice items appearing first.
 type InvoiceItemListParams struct {
 	ListParams   `form:"*"`
@@ -13,10 +15,17 @@ type InvoiceItemListParams struct {
 	CreatedRange *RangeQueryParams `form:"created"`
 	// The identifier of the customer whose invoice items to return. If none is provided, all invoice items will be returned.
 	Customer *string `form:"customer"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// Only return invoice items belonging to this invoice. If none is provided, all invoice items will be returned. If specifying an invoice, no customer identifier is needed.
 	Invoice *string `form:"invoice"`
 	// Set to `true` to only show pending invoice items, which are not yet attached to any invoices. Set to `false` to only show invoice items already attached to invoices. If unspecified, no filter is applied.
 	Pending *bool `form:"pending"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *InvoiceItemListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // The coupons to redeem into discounts for the invoice item or invoice line item.
@@ -64,8 +73,12 @@ type InvoiceItemParams struct {
 	Discountable *bool `form:"discountable"`
 	// The coupons & existing discounts which apply to the invoice item or invoice line item. Item discounts are applied before invoice discounts. Pass an empty string to remove previously-defined discounts.
 	Discounts []*InvoiceItemDiscountParams `form:"discounts"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// The ID of an existing invoice to add this invoice item to. When left blank, the invoice item will be added to the next upcoming scheduled invoice. This is useful when adding invoice items in response to an invoice.created webhook. You can only add invoice items to draft invoices and there is a maximum of 250 items per invoice.
 	Invoice *string `form:"invoice"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
 	// The period associated with this invoice item. When set to different values, the period will be rendered on the invoice. If you have [Stripe Revenue Recognition](https://stripe.com/docs/revenue-recognition) enabled, the period will be used to recognize and defer revenue. See the [Revenue Recognition documentation](https://stripe.com/docs/revenue-recognition/methodology/subscriptions-and-invoicing) for details.
 	Period *InvoiceItemPeriodParams `form:"period"`
 	// The ID of the price object.
@@ -86,6 +99,20 @@ type InvoiceItemParams struct {
 	UnitAmount *int64 `form:"unit_amount"`
 	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
 	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *InvoiceItemParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *InvoiceItemParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
 }
 
 // Invoice Items represent the component lines of an [invoice](https://stripe.com/docs/api/invoices). An invoice item is added to an
@@ -154,4 +181,23 @@ type InvoiceItemList struct {
 	APIResource
 	ListMeta
 	Data []*InvoiceItem `json:"data"`
+}
+
+// UnmarshalJSON handles deserialization of an InvoiceItem.
+// This custom unmarshaling is needed because the resulting
+// property may be an id or the full struct if it was expanded.
+func (i *InvoiceItem) UnmarshalJSON(data []byte) error {
+	if id, ok := ParseID(data); ok {
+		i.ID = id
+		return nil
+	}
+
+	type invoiceItem InvoiceItem
+	var v invoiceItem
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	*i = InvoiceItem(v)
+	return nil
 }

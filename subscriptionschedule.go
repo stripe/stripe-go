@@ -79,12 +79,19 @@ type SubscriptionScheduleListParams struct {
 	CreatedRange *RangeQueryParams `form:"created"`
 	// Only return subscription schedules for the given customer.
 	Customer *string `form:"customer"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// Only return subscription schedules that were released during the given date interval.
 	ReleasedAt *int64 `form:"released_at"`
 	// Only return subscription schedules that were released during the given date interval.
 	ReleasedAtRange *RangeQueryParams `form:"released_at"`
 	// Only return subscription schedules that have not started yet.
 	Scheduled *bool `form:"scheduled"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *SubscriptionScheduleListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // All invoices will be billed using the specified settings.
@@ -160,6 +167,15 @@ type SubscriptionSchedulePhaseItemParams struct {
 	TaxRates []*string `form:"tax_rates"`
 }
 
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *SubscriptionSchedulePhaseItemParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
 // List representing phases of the subscription schedule. Each phase can be customized to have different durations, plans, and coupons. If there are multiple phases, the `end_date` of one phase will always equal the `start_date` of the next phase.
 type SubscriptionSchedulePhaseParams struct {
 	// A list of prices and quantities that will generate invoice items appended to the next invoice for this phase. You may pass up to 20 items.
@@ -211,15 +227,24 @@ type SubscriptionSchedulePhaseParams struct {
 	TrialEndNow *bool  `form:"-"` // See custom AppendTo
 }
 
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *SubscriptionSchedulePhaseParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
 // AppendTo implements custom encoding logic for SubscriptionSchedulePhaseParams.
-func (s *SubscriptionSchedulePhaseParams) AppendTo(body *form.Values, keyParts []string) {
-	if BoolValue(s.EndDateNow) {
+func (p *SubscriptionSchedulePhaseParams) AppendTo(body *form.Values, keyParts []string) {
+	if BoolValue(p.EndDateNow) {
 		body.Add(form.FormatKey(append(keyParts, "end_date")), "now")
 	}
-	if BoolValue(s.TrialEndNow) {
+	if BoolValue(p.TrialEndNow) {
 		body.Add(form.FormatKey(append(keyParts, "trial_end")), "now")
 	}
-	if BoolValue(s.StartDateNow) {
+	if BoolValue(p.StartDateNow) {
 		body.Add(form.FormatKey(append(keyParts, "start_date")), "now")
 	}
 }
@@ -233,8 +258,12 @@ type SubscriptionScheduleParams struct {
 	DefaultSettings *SubscriptionScheduleDefaultSettingsParams `form:"default_settings"`
 	// Behavior of the subscription schedule and underlying subscription when it ends. Possible values are `release` or `cancel` with the default being `release`. `release` will end the subscription schedule and keep the underlying subscription running.`cancel` will end the subscription schedule and cancel the underlying subscription.
 	EndBehavior *string `form:"end_behavior"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// Migrate an existing subscription to be managed by a subscription schedule. If this parameter is set, a subscription schedule will be created using the subscription's item(s), set to auto-renew using the subscription's interval. When using this parameter, other parameters (such as phase values) cannot be set. To create a subscription schedule with other modifications, we recommend making two separate API calls.
 	FromSubscription *string `form:"from_subscription"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
 	// List representing phases of the subscription schedule. Each phase can be customized to have different durations, plans, and coupons. If there are multiple phases, the `end_date` of one phase will always equal the `start_date` of the next phase. Note that past phases can be omitted.
 	Phases []*SubscriptionSchedulePhaseParams `form:"phases"`
 	// If the update changes the current phase, indicates whether the changes should be prorated. The default value is `create_prorations`.
@@ -244,9 +273,23 @@ type SubscriptionScheduleParams struct {
 	StartDateNow *bool  `form:"-"` // See custom AppendTo
 }
 
+// AddExpand appends a new field to expand.
+func (p *SubscriptionScheduleParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *SubscriptionScheduleParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
 // AppendTo implements custom encoding logic for SubscriptionScheduleParams.
-func (s *SubscriptionScheduleParams) AppendTo(body *form.Values, keyParts []string) {
-	if BoolValue(s.StartDateNow) {
+func (p *SubscriptionScheduleParams) AppendTo(body *form.Values, keyParts []string) {
+	if BoolValue(p.StartDateNow) {
 		body.Add(form.FormatKey(append(keyParts, "start_date")), "now")
 	}
 }
@@ -254,17 +297,31 @@ func (s *SubscriptionScheduleParams) AppendTo(body *form.Values, keyParts []stri
 // Cancels a subscription schedule and its associated subscription immediately (if the subscription schedule has an active subscription). A subscription schedule can only be canceled if its status is not_started or active.
 type SubscriptionScheduleCancelParams struct {
 	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// If the subscription schedule is `active`, indicates if a final invoice will be generated that contains any un-invoiced metered usage and new/pending proration invoice items. Defaults to `true`.
 	InvoiceNow *bool `form:"invoice_now"`
 	// If the subscription schedule is `active`, indicates if the cancellation should be prorated. Defaults to `true`.
 	Prorate *bool `form:"prorate"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *SubscriptionScheduleCancelParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // Releases the subscription schedule immediately, which will stop scheduling of its phases, but leave any existing subscription in place. A schedule can only be released if its status is not_started or active. If the subscription schedule is currently associated with a subscription, releasing it will remove its subscription property and set the subscription's ID to the released_subscription property.
 type SubscriptionScheduleReleaseParams struct {
 	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// Keep any cancellation on the subscription that the schedule has set
 	PreserveCancelDate *bool `form:"preserve_cancel_date"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *SubscriptionScheduleReleaseParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // Object representing the start and end dates for the current phase of the subscription schedule, if it is `active`.

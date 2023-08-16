@@ -765,8 +765,15 @@ const (
 // to an hour behind during outages. Search functionality is not available to merchants in India.
 type PaymentIntentSearchParams struct {
 	SearchParams `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// A cursor for pagination across multiple pages of results. Don't include this parameter on the first call. Use the next_page value returned in a previous response to request subsequent results.
 	Page *string `form:"page"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *PaymentIntentSearchParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // When enabled, this PaymentIntent will accept payment methods that you have enabled in the Dashboard and are compatible with this PaymentIntent's other parameters.
@@ -947,6 +954,15 @@ type PaymentIntentPaymentMethodDataParams struct {
 	WeChatPay *PaymentMethodWeChatPayParams `form:"wechat_pay"`
 	// If this is a `zip` PaymentMethod, this hash contains details about the Zip payment method.
 	Zip *PaymentIntentPaymentMethodDataZipParams `form:"zip"`
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *PaymentIntentPaymentMethodDataParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
 }
 
 // Additional fields for Mandate creation
@@ -1619,6 +1635,12 @@ type PaymentIntentRadarOptionsParams struct {
 // For more information, see the PaymentIntents [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
 type PaymentIntentTransferDataParams struct {
 	// The amount that will be transferred automatically when a charge succeeds.
+	// The amount is capped at the total transaction amount and if no amount is set,
+	// the full amount is transferred.
+	//
+	// If you intend to collect a fee and you need a more robust reporting experience, using
+	// [application_fee_amount](https://stripe.com/docs/api/payment_intents/create#create_payment_intent-application_fee_amount)
+	// might be a better fit for your integration.
 	Amount *int64 `form:"amount"`
 	// If specified, successful charges will be attributed to the destination
 	// account for tax reporting, and the funds from charges will be transferred
@@ -1662,13 +1684,19 @@ type PaymentIntentParams struct {
 	Customer *string `form:"customer"`
 	// An arbitrary string attached to the object. Often useful for displaying to users.
 	Description *string `form:"description"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// ID of the mandate to be used for this payment. This parameter can only be used with [`confirm=true`](https://stripe.com/docs/api/payment_intents/create#create_payment_intent-confirm).
 	Mandate *string `form:"mandate"`
 	// This hash contains details about the Mandate to create. This parameter can only be used with [`confirm=true`](https://stripe.com/docs/api/payment_intents/create#create_payment_intent-confirm).
 	MandateData *PaymentIntentMandateDataParams `form:"mandate_data"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
 	// The Stripe account ID for which these funds are intended. For details, see the PaymentIntents [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
 	OnBehalfOf *string `form:"on_behalf_of"`
-	// ID of the payment method (a PaymentMethod, Card, or [compatible Source](https://stripe.com/docs/payments/payment-methods/transitioning#compatibility) object) to attach to this PaymentIntent.
+	// ID of the payment method (a PaymentMethod, Card, or [compatible Source](https://stripe.com/docs/payments/payment-methods#compatibility) object) to attach to this PaymentIntent.
+	//
+	// If neither the `payment_method` parameter nor the `source` parameter are provided with `confirm=true`, `source` will be automatically populated with `customer.default_source` to improve the migration experience for users of the Charges API. We recommend that you explicitly provide the `payment_method` going forward.
 	PaymentMethod *string `form:"payment_method"`
 	// If provided, this hash will be used to create a PaymentMethod. The new PaymentMethod will appear
 	// in the [payment_method](https://stripe.com/docs/api/payment_intents/object#payment_intent_object-payment_method)
@@ -1676,7 +1704,7 @@ type PaymentIntentParams struct {
 	PaymentMethodData *PaymentIntentPaymentMethodDataParams `form:"payment_method_data"`
 	// Payment-method-specific configuration for this PaymentIntent.
 	PaymentMethodOptions *PaymentIntentPaymentMethodOptionsParams `form:"payment_method_options"`
-	// The list of payment method types (e.g. card) that this PaymentIntent is allowed to use. Use automatic_payment_methods to manage payment methods from the [Stripe Dashboard](https://dashboard.stripe.com/settings/payment_methods).
+	// The list of payment method types (e.g. card) that this PaymentIntent is allowed to use. If this is not provided, defaults to ["card"]. Use automatic_payment_methods to manage payment methods from the [Stripe Dashboard](https://dashboard.stripe.com/settings/payment_methods).
 	PaymentMethodTypes []*string `form:"payment_method_types"`
 	// Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
 	RadarOptions *PaymentIntentRadarOptionsParams `form:"radar_options"`
@@ -1711,6 +1739,20 @@ type PaymentIntentParams struct {
 	UseStripeSDK *bool `form:"use_stripe_sdk"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *PaymentIntentParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *PaymentIntentParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
 // Returns a list of PaymentIntents.
 type PaymentIntentListParams struct {
 	ListParams `form:"*"`
@@ -1720,6 +1762,13 @@ type PaymentIntentListParams struct {
 	CreatedRange *RangeQueryParams `form:"created"`
 	// Only return PaymentIntents for the customer specified by this customer ID.
 	Customer *string `form:"customer"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *PaymentIntentListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
@@ -1757,6 +1806,8 @@ type PaymentIntentConfirmParams struct {
 	CaptureMethod *string `form:"capture_method"`
 	// Set to `true` to fail the payment attempt if the PaymentIntent transitions into `requires_action`. This parameter is intended for simpler integrations that do not handle customer actions, like [saving cards without authentication](https://stripe.com/docs/payments/save-card-without-authentication).
 	ErrorOnRequiresAction *bool `form:"error_on_requires_action"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// ID of the mandate to be used for this payment.
 	Mandate *string `form:"mandate"`
 	// This hash contains details about the Mandate to create
@@ -1793,6 +1844,11 @@ type PaymentIntentConfirmParams struct {
 	UseStripeSDK *bool `form:"use_stripe_sdk"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *PaymentIntentConfirmParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // A PaymentIntent object can be canceled when it is in one of these statuses: requires_payment_method, requires_capture, requires_confirmation, requires_action or, [in rare cases](https://stripe.com/docs/payments/intents), processing.
 //
 // Once canceled, no additional charges will be made by the PaymentIntent and any operations on the PaymentIntent will fail with an error. For PaymentIntents with a status of requires_capture, the remaining amount_capturable will automatically be refunded.
@@ -1802,6 +1858,13 @@ type PaymentIntentCancelParams struct {
 	Params `form:"*"`
 	// Reason for canceling this PaymentIntent. Possible values are `duplicate`, `fraudulent`, `requested_by_customer`, or `abandoned`
 	CancellationReason *string `form:"cancellation_reason"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *PaymentIntentCancelParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // Capture the funds of an existing uncaptured PaymentIntent when its status is requires_capture.
@@ -1815,6 +1878,10 @@ type PaymentIntentCaptureParams struct {
 	AmountToCapture *int64 `form:"amount_to_capture"`
 	// The amount of the application fee (if any) that will be requested to be applied to the payment and transferred to the application owner's Stripe account. The amount of the application fee collected will be capped at the total payment amount. For more information, see the PaymentIntents [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
 	ApplicationFeeAmount *int64 `form:"application_fee_amount"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
 	// For non-card charges, you can use this value as the complete description that appears on your customers' statements. Must contain at least one letter, maximum 22 characters.
 	StatementDescriptor *string `form:"statement_descriptor"`
 	// Provides information about a card payment that customers see on their statements. Concatenated with the prefix (shortened descriptor) or statement descriptor that's set on the account to form the complete statement descriptor. Maximum 22 characters for the concatenated descriptor.
@@ -1822,6 +1889,20 @@ type PaymentIntentCaptureParams struct {
 	// The parameters used to automatically create a Transfer when the payment
 	// is captured. For more information, see the PaymentIntents [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
 	TransferData *PaymentIntentTransferDataParams `form:"transfer_data"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *PaymentIntentCaptureParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *PaymentIntentCaptureParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
 }
 
 // The parameters used to automatically create a Transfer when the payment is captured.
@@ -1863,11 +1944,29 @@ type PaymentIntentIncrementAuthorizationParams struct {
 	ApplicationFeeAmount *int64 `form:"application_fee_amount"`
 	// An arbitrary string attached to the object. Often useful for displaying to users.
 	Description *string `form:"description"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
 	// For non-card charges, you can use this value as the complete description that appears on your customers' statements. Must contain at least one letter, maximum 22 characters.
 	StatementDescriptor *string `form:"statement_descriptor"`
 	// The parameters used to automatically create a Transfer when the payment is captured.
 	// For more information, see the PaymentIntents [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
 	TransferData *PaymentIntentIncrementAuthorizationTransferDataParams `form:"transfer_data"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *PaymentIntentIncrementAuthorizationParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *PaymentIntentIncrementAuthorizationParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
 }
 
 // Verifies microdeposits on a PaymentIntent object.
@@ -1877,6 +1976,13 @@ type PaymentIntentVerifyMicrodepositsParams struct {
 	Amounts []*int64 `form:"amounts"`
 	// A six-character code starting with SM present in the microdeposit sent to the bank account.
 	DescriptorCode *string `form:"descriptor_code"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *PaymentIntentVerifyMicrodepositsParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // Manually reconcile the remaining amount for a customer_balance PaymentIntent.
@@ -1892,7 +1998,15 @@ type PaymentIntentApplyCustomerBalanceParams struct {
 	Amount *int64 `form:"amount"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency *string `form:"currency"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 }
+
+// AddExpand appends a new field to expand.
+func (p *PaymentIntentApplyCustomerBalanceParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 type PaymentIntentAmountDetailsTip struct {
 	// Portion of the amount that corresponds to a tip.
 	Amount int64 `json:"amount"`

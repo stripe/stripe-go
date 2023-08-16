@@ -150,6 +150,13 @@ type PaymentLinkListParams struct {
 	ListParams `form:"*"`
 	// Only return payment links that are active or inactive (e.g., pass `false` to list all inactive payment links).
 	Active *bool `form:"active"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *PaymentLinkListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // Configuration when `type=hosted_confirmation`.
@@ -297,6 +304,15 @@ type PaymentLinkInvoiceCreationInvoiceDataParams struct {
 	RenderingOptions *PaymentLinkInvoiceCreationInvoiceDataRenderingOptionsParams `form:"rendering_options"`
 }
 
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *PaymentLinkInvoiceCreationInvoiceDataParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
 // Generate a post-purchase Invoice for one-time payments.
 type PaymentLinkInvoiceCreationParams struct {
 	// Whether the feature is enabled
@@ -418,10 +434,14 @@ type PaymentLinkParams struct {
 	CustomFields []*PaymentLinkCustomFieldParams `form:"custom_fields"`
 	// Display additional text for your customers using custom text.
 	CustomText *PaymentLinkCustomTextParams `form:"custom_text"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// Generate a post-purchase Invoice for one-time payments.
 	InvoiceCreation *PaymentLinkInvoiceCreationParams `form:"invoice_creation"`
 	// The line items representing what is being sold. Each line item represents an item being sold. Up to 20 line items are supported.
 	LineItems []*PaymentLinkLineItemParams `form:"line_items"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`. Metadata associated with this Payment Link will automatically be copied to [checkout sessions](https://stripe.com/docs/api/checkout/sessions) created by this payment link.
+	Metadata map[string]string `form:"metadata"`
 	// The account on behalf of which to charge.
 	OnBehalfOf *string `form:"on_behalf_of"`
 	// A subset of parameters to be passed to PaymentIntent creation for Checkout Sessions in `payment` mode.
@@ -432,7 +452,7 @@ type PaymentLinkParams struct {
 	//
 	// If you'd like information on how to collect a payment method outside of Checkout, read the guide on [configuring subscriptions with a free trial](https://stripe.com/docs/payments/checkout/free-trials).
 	PaymentMethodCollection *string `form:"payment_method_collection"`
-	// The list of payment method types that customers can use. Pass an empty string to enable automatic payment methods that use your [payment method settings](https://dashboard.stripe.com/settings/payment_methods).
+	// The list of payment method types that customers can use. If no value is passed, Stripe will dynamically show relevant payment methods from your [payment method settings](https://dashboard.stripe.com/settings/payment_methods) (20+ payment methods [supported](https://stripe.com/docs/payments/payment-methods/integration-options#payment-method-product-support)).
 	PaymentMethodTypes []*string `form:"payment_method_types"`
 	// Controls phone number collection settings during checkout.
 	//
@@ -452,11 +472,33 @@ type PaymentLinkParams struct {
 	TransferData *PaymentLinkTransferDataParams `form:"transfer_data"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *PaymentLinkParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *PaymentLinkParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
 // When retrieving a payment link, there is an includable line_items property containing the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of line items.
 type PaymentLinkListLineItemsParams struct {
 	ListParams  `form:"*"`
 	PaymentLink *string `form:"-"` // Included in URL
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 }
+
+// AddExpand appends a new field to expand.
+func (p *PaymentLinkListLineItemsParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 type PaymentLinkAfterCompletionHostedConfirmation struct {
 	// The custom message that is displayed to the customer after the purchase is complete.
 	CustomMessage string `json:"custom_message"`

@@ -259,7 +259,7 @@ type SetupIntentMandateDataCustomerAcceptanceParams struct {
 	Offline *SetupIntentMandateDataCustomerAcceptanceOfflineParams `form:"offline"`
 	// If this is a Mandate accepted online, this hash contains details about the online acceptance.
 	Online *SetupIntentMandateDataCustomerAcceptanceOnlineParams `form:"online"`
-	// The type of customer acceptance information included with the Mandate.
+	// The type of customer acceptance information included with the Mandate. One of `online` or `offline`.
 	Type MandateCustomerAcceptanceType `form:"type"`
 }
 
@@ -519,6 +519,15 @@ type SetupIntentPaymentMethodDataParams struct {
 	Zip *SetupIntentPaymentMethodDataZipParams `form:"zip"`
 }
 
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *SetupIntentPaymentMethodDataParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
 // Additional fields for Mandate creation
 type SetupIntentPaymentMethodOptionsACSSDebitMandateOptionsParams struct {
 	// A URL for custom mandate text to render during confirmation step.
@@ -682,12 +691,16 @@ type SetupIntentParams struct {
 	Customer *string `form:"customer"`
 	// An arbitrary string attached to the object. Often useful for displaying to users.
 	Description *string `form:"description"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// Indicates the directions of money movement for which this payment method is intended to be used.
 	//
 	// Include `inbound` if you intend to use the payment method as the origin to pull funds from. Include `outbound` if you intend to use the payment method as the destination to send funds to. You can include both if you intend to use the payment method for both purposes.
 	FlowDirections []*string `form:"flow_directions"`
 	// This hash contains details about the Mandate to create. This parameter can only be used with [`confirm=true`](https://stripe.com/docs/api/setup_intents/create#create_setup_intent-confirm).
 	MandateData *SetupIntentMandateDataParams `form:"mandate_data"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
 	// The Stripe account ID for which this SetupIntent is created.
 	OnBehalfOf *string `form:"on_behalf_of"`
 	// ID of the payment method (a PaymentMethod, Card, or saved Source object) to attach to this SetupIntent.
@@ -709,6 +722,20 @@ type SetupIntentParams struct {
 	UseStripeSDK *bool `form:"use_stripe_sdk"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *SetupIntentParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *SetupIntentParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
 // Returns a list of SetupIntents.
 type SetupIntentListParams struct {
 	ListParams `form:"*"`
@@ -722,8 +749,15 @@ type SetupIntentListParams struct {
 	CreatedRange *RangeQueryParams `form:"created"`
 	// Only return SetupIntents for the customer specified by this customer ID.
 	Customer *string `form:"customer"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// Only return SetupIntents associated with the specified payment method.
 	PaymentMethod *string `form:"payment_method"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *SetupIntentListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // If this is an `acss_debit` PaymentMethod, this hash contains details about the ACSS Debit payment method.
@@ -976,6 +1010,15 @@ type SetupIntentConfirmPaymentMethodDataParams struct {
 	Zip *SetupIntentConfirmPaymentMethodDataZipParams `form:"zip"`
 }
 
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *SetupIntentConfirmPaymentMethodDataParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
 // Confirm that your customer intends to set up the current or
 // provided payment method. For example, you would confirm a SetupIntent
 // when a customer hits the “Save” button on a payment method management
@@ -992,6 +1035,8 @@ type SetupIntentConfirmPaymentMethodDataParams struct {
 // confirmation limit is reached.
 type SetupIntentConfirmParams struct {
 	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// This hash contains details about the Mandate to create
 	MandateData *SetupIntentMandateDataParams `form:"mandate_data"`
 	// ID of the payment method (a PaymentMethod, Card, or saved Source object) to attach to this SetupIntent.
@@ -1009,6 +1054,11 @@ type SetupIntentConfirmParams struct {
 	UseStripeSDK *bool `form:"use_stripe_sdk"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *SetupIntentConfirmParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // A SetupIntent object can be canceled when it is in one of these statuses: requires_payment_method, requires_confirmation, or requires_action.
 //
 // Once canceled, setup is abandoned and any operations on the SetupIntent will fail with an error.
@@ -1016,6 +1066,13 @@ type SetupIntentCancelParams struct {
 	Params `form:"*"`
 	// Reason for canceling this SetupIntent. Possible values are `abandoned`, `requested_by_customer`, or `duplicate`
 	CancellationReason *string `form:"cancellation_reason"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *SetupIntentCancelParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // Verifies microdeposits on a SetupIntent object.
@@ -1025,6 +1082,13 @@ type SetupIntentVerifyMicrodepositsParams struct {
 	Amounts []*int64 `form:"amounts"`
 	// A six-character code starting with SM present in the microdeposit sent to the bank account.
 	DescriptorCode *string `form:"descriptor_code"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *SetupIntentVerifyMicrodepositsParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // Settings for automatic payment methods compatible with this Setup Intent
