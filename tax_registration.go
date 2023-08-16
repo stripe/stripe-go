@@ -6,7 +6,7 @@
 
 package stripe
 
-import "github.com/stripe/stripe-go/v74/form"
+import "github.com/stripe/stripe-go/v75/form"
 
 // Type of registration in `country`.
 type TaxRegistrationCountryOptionsAeType string
@@ -758,8 +758,15 @@ const (
 // Returns a list of Tax Registration objects.
 type TaxRegistrationListParams struct {
 	ListParams `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// The status of the Tax Registration.
 	Status *string `form:"status"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *TaxRegistrationListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // Options for the registration in AE.
@@ -1411,24 +1418,31 @@ type TaxRegistrationCountryOptionsParams struct {
 // Creates a new Tax Registration object.
 type TaxRegistrationParams struct {
 	Params `form:"*"`
-	// Time at which the registration becomes active. It can be either `now` to indicate the current time, or a timestamp measured in seconds since the Unix epoch.
+	// Time at which the Tax Registration becomes active. It can be either `now` to indicate the current time, or a timestamp measured in seconds since the Unix epoch.
 	ActiveFrom    *int64 `form:"active_from"`
 	ActiveFromNow *bool  `form:"-"` // See custom AppendTo
 	// Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)).
 	Country *string `form:"country"`
 	// Specific options for a registration in the specified `country`.
 	CountryOptions *TaxRegistrationCountryOptionsParams `form:"country_options"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// If set, the registration stops being active at this time. If not set, the registration will be active indefinitely. It can be either `now` to indicate the current time, or a timestamp measured in seconds since the Unix epoch.
 	ExpiresAt    *int64 `form:"expires_at"`
 	ExpiresAtNow *bool  `form:"-"` // See custom AppendTo
 }
 
+// AddExpand appends a new field to expand.
+func (p *TaxRegistrationParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // AppendTo implements custom encoding logic for TaxRegistrationParams.
-func (t *TaxRegistrationParams) AppendTo(body *form.Values, keyParts []string) {
-	if BoolValue(t.ActiveFromNow) {
+func (p *TaxRegistrationParams) AppendTo(body *form.Values, keyParts []string) {
+	if BoolValue(p.ActiveFromNow) {
 		body.Add(form.FormatKey(append(keyParts, "active_from")), "now")
 	}
-	if BoolValue(t.ExpiresAtNow) {
+	if BoolValue(p.ExpiresAtNow) {
 		body.Add(form.FormatKey(append(keyParts, "expires_at")), "now")
 	}
 }

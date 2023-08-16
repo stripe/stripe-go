@@ -67,19 +67,40 @@ type CapitalFinancingOfferListParams struct {
 	ConnectedAccount *string           `form:"connected_account"`
 	Created          *int64            `form:"created"`
 	CreatedRange     *RangeQueryParams `form:"created"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// limit list to offers with given status
 	Status *string `form:"status"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *CapitalFinancingOfferListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // Get the details of the financing offer
 type CapitalFinancingOfferParams struct {
 	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *CapitalFinancingOfferParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // Acknowledges that platform has received and delivered the financing_offer to
 // the intended merchant recipient.
 type CapitalFinancingOfferMarkDeliveredParams struct {
 	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *CapitalFinancingOfferMarkDeliveredParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // This is an object representing the terms of an offer of financing from

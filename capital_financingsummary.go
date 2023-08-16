@@ -19,6 +19,13 @@ const (
 // Retrieve the financing state for the account that was authenticated in the request.
 type CapitalFinancingSummaryParams struct {
 	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *CapitalFinancingSummaryParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // The chronologically current repayment interval for the financing offer.

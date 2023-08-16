@@ -10,16 +10,15 @@ package quote
 import (
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v74"
-	"github.com/stripe/stripe-go/v74/form"
+	stripe "github.com/stripe/stripe-go/v75"
+	"github.com/stripe/stripe-go/v75/form"
 )
 
 // Client is used to invoke /quotes APIs.
 type Client struct {
-	B          stripe.Backend
-	PDFBackend stripe.Backend
-	BUploads   stripe.Backend
-	Key        string
+	B        stripe.Backend
+	BUploads stripe.Backend
+	Key      string
 }
 
 // New creates a new quote.
@@ -134,11 +133,7 @@ func PDF(id string, params *stripe.QuotePDFParams) (*stripe.APIStream, error) {
 func (c Client) PDF(id string, params *stripe.QuotePDFParams) (*stripe.APIStream, error) {
 	path := stripe.FormatURLPath("/v1/quotes/%s/pdf", id)
 	stream := &stripe.APIStream{}
-	backend := c.PDFBackend
-	if backend == nil {
-		backend = c.BUploads
-	}
-	err := backend.CallStreaming(http.MethodGet, path, c.Key, params, stream)
+	err := c.BUploads.CallStreaming(http.MethodGet, path, c.Key, params, stream)
 	return stream, err
 }
 
@@ -437,10 +432,5 @@ func (i *SubscriptionScheduleIter) SubscriptionScheduleList() *stripe.Subscripti
 }
 
 func getC() Client {
-	return Client{
-		stripe.GetBackend(stripe.APIBackend),
-		stripe.GetBackend(stripe.UploadsBackend),
-		stripe.GetBackend(stripe.UploadsBackend),
-		stripe.Key,
-	}
+	return Client{stripe.GetBackend(stripe.APIBackend), stripe.GetBackend(stripe.UploadsBackend), stripe.Key}
 }

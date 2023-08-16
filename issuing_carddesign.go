@@ -31,6 +31,8 @@ const (
 // Returns a list of card design objects. The objects are sorted in descending order by creation date, with the most recently created object appearing first.
 type IssuingCardDesignListParams struct {
 	ListParams `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// Only return card designs with the given lookup keys.
 	LookupKeys []*string `form:"lookup_keys"`
 	// Only return card designs with the given preference.
@@ -39,17 +41,40 @@ type IssuingCardDesignListParams struct {
 	Status *string `form:"status"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *IssuingCardDesignListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // Retrieves a card design object.
 type IssuingCardDesignParams struct {
 	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// A lookup key used to retrieve card designs dynamically from a static string. This may be up to 200 characters.
 	LookupKey *string `form:"lookup_key"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
 	// Friendly display name. Providing an empty string will set the field to null.
 	Name *string `form:"name"`
 	// Whether this card design is used to create cards when one is not specified.
 	Preference *string `form:"preference"`
 	// If set to true, will atomically remove the lookup key from the existing card design, and assign it to this card design.
 	TransferLookupKey *bool `form:"transfer_lookup_key"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *IssuingCardDesignParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *IssuingCardDesignParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
 }
 
 // A Card Design is a logical grouping of a Card Bundle, card logo, and carrier text that represents a product line.

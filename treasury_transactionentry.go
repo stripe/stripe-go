@@ -68,6 +68,13 @@ const (
 // Retrieves a TransactionEntry object.
 type TreasuryTransactionEntryParams struct {
 	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *TreasuryTransactionEntryParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // Retrieves a list of TransactionEntry objects.
@@ -77,12 +84,19 @@ type TreasuryTransactionEntryListParams struct {
 	CreatedRange     *RangeQueryParams `form:"created"`
 	EffectiveAt      *int64            `form:"effective_at"`
 	EffectiveAtRange *RangeQueryParams `form:"effective_at"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// Returns objects associated with this FinancialAccount.
 	FinancialAccount *string `form:"financial_account"`
 	// The results are in reverse chronological order by `created` or `effective_at`. The default is `created`.
 	OrderBy *string `form:"order_by"`
 	// Only return TransactionEntries associated with this Transaction.
 	Transaction *string `form:"transaction"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *TreasuryTransactionEntryListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // Change to a FinancialAccount's balance

@@ -30,10 +30,17 @@ const (
 // List gift card transactions for a gift card
 type GiftCardsTransactionListParams struct {
 	ListParams `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// The gift card to list transactions for.
 	GiftCard *string `form:"gift_card"`
 	// A string that identifies this transaction as part of a group. See the [Connect documentation](https://stripe.com/docs/connect/separate-charges-and-transfers) for details.
 	TransferGroup *string `form:"transfer_group"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *GiftCardsTransactionListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // The details for the payment that created this object.
@@ -63,21 +70,54 @@ type GiftCardsTransactionParams struct {
 	Currency *string `form:"currency"`
 	// An arbitrary string attached to the object. Often useful for displaying to users.
 	Description *string `form:"description"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// The gift card to create a new transaction on.
 	GiftCard *string `form:"gift_card"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
 	// A string that identifies this transaction as part of a group. See the [Connect documentation](https://stripe.com/docs/connect/separate-charges-and-transfers) for details.
 	TransferGroup *string `form:"transfer_group"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *GiftCardsTransactionParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *GiftCardsTransactionParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
 }
 
 // Cancel a gift card transaction
 type GiftCardsTransactionCancelParams struct {
 	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *GiftCardsTransactionCancelParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // Confirm a gift card transaction
 type GiftCardsTransactionConfirmParams struct {
 	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 }
+
+// AddExpand appends a new field to expand.
+func (p *GiftCardsTransactionConfirmParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 type GiftCardsTransactionCreatedByCheckout struct {
 	// The Stripe CheckoutSession that created this object.
 	CheckoutSession string `json:"checkout_session"`

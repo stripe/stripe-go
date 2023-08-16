@@ -9,6 +9,13 @@ package stripe
 // Returns a list of your webhook endpoints.
 type WebhookEndpointListParams struct {
 	ListParams `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *WebhookEndpointListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // A webhook endpoint must have a url and a list of enabled_events. You may optionally specify the Boolean connect parameter. If set to true, then a Connect webhook endpoint that notifies the specified url about events from all connected accounts is created; otherwise an account webhook endpoint that notifies the specified url only about events from your account is created. You can also create webhook endpoints in the [webhooks settings](https://dashboard.stripe.com/account/webhooks) section of the Dashboard.
@@ -22,12 +29,30 @@ type WebhookEndpointParams struct {
 	Disabled *bool `form:"disabled"`
 	// The list of events to enable for this endpoint. You may specify `['*']` to enable all events, except those that require explicit selection.
 	EnabledEvents []*string `form:"enabled_events"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
 	// The URL of the webhook endpoint.
 	URL *string `form:"url"`
 	// This parameter is only available on creation.
 	// We recommend setting the API version that the library is pinned to. See apiversion in stripe.go
 	// Events sent to this endpoint will be generated with this Stripe Version instead of your account's default Stripe Version.
 	APIVersion *string `form:"api_version"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *WebhookEndpointParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *WebhookEndpointParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
 }
 
 // You can configure [webhook endpoints](https://stripe.com/docs/webhooks/) via the API to be

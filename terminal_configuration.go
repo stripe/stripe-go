@@ -195,18 +195,33 @@ type TerminalConfigurationParams struct {
 	Params `form:"*"`
 	// An object containing device type specific settings for BBPOS WisePOS E readers
 	BBPOSWisePOSE *TerminalConfigurationBBPOSWisePOSEParams `form:"bbpos_wisepos_e"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// Tipping configurations for readers supporting on-reader tips
 	Tipping *TerminalConfigurationTippingParams `form:"tipping"`
 	// An object containing device type specific settings for Verifone P400 readers
 	VerifoneP400 *TerminalConfigurationVerifoneP400Params `form:"verifone_p400"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *TerminalConfigurationParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // Returns a list of Configuration objects.
 type TerminalConfigurationListParams struct {
 	ListParams `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// if present, only return the account default or non-default configurations.
 	IsAccountDefault *bool `form:"is_account_default"`
 }
+
+// AddExpand appends a new field to expand.
+func (p *TerminalConfigurationListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 type TerminalConfigurationBBPOSWisePOSE struct {
 	// A File ID representing an image you would like displayed on the reader.
 	Splashscreen *File `json:"splashscreen"`

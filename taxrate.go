@@ -37,8 +37,15 @@ type TaxRateListParams struct {
 	Created *int64 `form:"created"`
 	// Optional range for filtering created date.
 	CreatedRange *RangeQueryParams `form:"created"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// Optional flag to filter by tax rates that are inclusive (or those that are not inclusive).
 	Inclusive *bool `form:"inclusive"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *TaxRateListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // Creates a new tax rate.
@@ -52,16 +59,34 @@ type TaxRateParams struct {
 	Description *string `form:"description"`
 	// The display name of the tax rate, which will be shown to users.
 	DisplayName *string `form:"display_name"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// This specifies if the tax rate is inclusive or exclusive.
 	Inclusive *bool `form:"inclusive"`
 	// The jurisdiction for the tax rate. You can use this label field for tax reporting purposes. It also appears on your customer's invoice.
 	Jurisdiction *string `form:"jurisdiction"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
 	// This represents the tax rate percent out of 100.
 	Percentage *float64 `form:"percentage"`
 	// [ISO 3166-2 subdivision code](https://en.wikipedia.org/wiki/ISO_3166-2:US), without country prefix. For example, "NY" for New York, United States.
 	State *string `form:"state"`
 	// The high-level tax type, such as `vat` or `sales_tax`.
 	TaxType *string `form:"tax_type"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *TaxRateParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *TaxRateParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
 }
 
 // Tax rates can be applied to [invoices](https://stripe.com/docs/billing/invoices/tax-rates), [subscriptions](https://stripe.com/docs/billing/subscriptions/taxes) and [Checkout Sessions](https://stripe.com/docs/payments/checkout/set-up-a-subscription#tax-rates) to collect tax.

@@ -9,7 +9,7 @@ package stripe
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/stripe/stripe-go/v74/form"
+	"github.com/stripe/stripe-go/v75/form"
 )
 
 type PaymentSourceType string
@@ -26,8 +26,15 @@ const (
 type PaymentSourceListParams struct {
 	ListParams `form:"*"`
 	Customer   *string `form:"-"` // Included in URL
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// Filter sources according to a particular object type.
 	Object *string `form:"object"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *PaymentSourceListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // PaymentSourceSourceParams is a union struct used to describe an
@@ -92,10 +99,14 @@ type PaymentSourceParams struct {
 	AddressState *string `form:"address_state"`
 	// ZIP or postal code.
 	AddressZip *string `form:"address_zip"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// Two digit number representing the card's expiration month.
 	ExpMonth *string `form:"exp_month"`
 	// Four digit number representing the card's expiration year.
 	ExpYear *string `form:"exp_year"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
 	// Cardholder name.
 	Name  *string                   `form:"name"`
 	Owner *PaymentSourceOwnerParams `form:"owner"`
@@ -103,6 +114,21 @@ type PaymentSourceParams struct {
 	Source   *PaymentSourceSourceParams `form:"*"` // PaymentSourceSourceParams has custom encoding so brought to top level with "*"
 	Validate *bool                      `form:"validate"`
 }
+
+// AddExpand appends a new field to expand.
+func (p *PaymentSourceParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *PaymentSourceParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
 type PaymentSourceOwnerParams struct {
 	// Owner's address.
 	Address *AddressParams `form:"address"`
@@ -119,9 +145,17 @@ type PaymentSourceVerifyParams struct {
 	Params   `form:"*"`
 	Customer *string `form:"-"` // Included in URL
 	// Two positive integers, in *cents*, equal to the values of the microdeposits sent to the bank account.
-	Amounts [2]int64  `form:"amounts"` // Amounts is used when verifying bank accounts
-	Values  []*string `form:"values"`  // Values is used when verifying sources
+	Amounts [2]int64 `form:"amounts"` // Amounts is used when verifying bank accounts
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	Values []*string `form:"values"` // Values is used when verifying sources
 }
+
+// AddExpand appends a new field to expand.
+func (p *PaymentSourceVerifyParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 type PaymentSource struct {
 	APIResource
 	BankAccount *BankAccount      `json:"-"`

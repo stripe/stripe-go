@@ -33,19 +33,44 @@ type GiftCardsCardCreatedByParams struct {
 // Creates a new gift card object.
 type GiftCardsCardParams struct {
 	Params `form:"*"`
-	// The new active state for the gift card.
+	// The active state for the new gift card, defaults to false. The active state can be updated after creation.
 	Active *bool `form:"active"`
 	// Related objects which created this gift card.
 	CreatedBy *GiftCardsCardCreatedByParams `form:"created_by"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency *string `form:"currency"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// The initial amount to load onto the new gift card, defaults to 0.
 	InitialAmount *int64 `form:"initial_amount"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *GiftCardsCardParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *GiftCardsCardParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
 }
 
 // List gift cards for an account
 type GiftCardsCardListParams struct {
 	ListParams `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *GiftCardsCardListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // Validates a gift card code, returning the matching gift card object if it exists.
@@ -53,9 +78,17 @@ type GiftCardsCardValidateParams struct {
 	Params `form:"*"`
 	// The gift card code to be validated.
 	Code *string `form:"code"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// The pin associated with the gift card. Not all gift cards have pins.
 	GiftcardPIN *string `form:"giftcard_pin"`
 }
+
+// AddExpand appends a new field to expand.
+func (p *GiftCardsCardValidateParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 type GiftCardsCardCreatedByCheckout struct {
 	// The Stripe CheckoutSession that created this object.
 	CheckoutSession string `json:"checkout_session"`

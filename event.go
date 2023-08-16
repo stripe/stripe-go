@@ -19,16 +19,31 @@ type EventListParams struct {
 	CreatedRange *RangeQueryParams `form:"created"`
 	// Filter events by whether all webhooks were successfully delivered. If false, events which are still pending or have failed all delivery attempts to a webhook endpoint will be returned.
 	DeliverySuccess *bool `form:"delivery_success"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// A string containing a specific event name, or group of events using * as a wildcard. The list will be filtered to include only events with a matching event property.
 	Type *string `form:"type"`
 	// An array of up to 20 strings containing specific event names. The list will be filtered to include only events with a matching event property. You may pass either `type` or `types`, but not both.
 	Types []*string `form:"types"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *EventListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // Retrieves the details of an event. Supply the unique identifier of the event, which you might have received in a webhook.
 type EventParams struct {
 	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 }
+
+// AddExpand appends a new field to expand.
+func (p *EventParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 type EventData struct {
 	// Object is a raw mapping of the API resource contained in the event.
 	// Although marked with json:"-", it's still populated independently by

@@ -12,6 +12,13 @@ package stripe
 type LoginLinkParams struct {
 	Params  `form:"*"`
 	Account *string `form:"-"` // Included in URL
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *LoginLinkParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // Login Links are single-use login link for an Express account to access their Stripe dashboard.

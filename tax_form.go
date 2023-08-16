@@ -56,21 +56,43 @@ type TaxFormListPayeeParams struct {
 // Returns a list of tax forms which were previously created. The tax forms are returned in sorted order, with the oldest tax forms appearing first.
 type TaxFormListParams struct {
 	ListParams `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// The payee whose volume is represented on the tax form.
 	Payee *TaxFormListPayeeParams `form:"payee"`
 	// An optional filter on the list, based on the object `type` field. Without the filter, the list includes all current and future tax form types. If your integration expects only one type of tax form in the response, make sure to provide a type value in the request.
 	Type *string `form:"type"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *TaxFormListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // Retrieves the details of a tax form that has previously been created. Supply the unique tax form ID that was returned from your previous request, and Stripe will return the corresponding tax form information.
 type TaxFormParams struct {
 	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *TaxFormParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // Download the PDF for a tax form.
 type TaxFormPDFParams struct {
 	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 }
+
+// AddExpand appends a new field to expand.
+func (p *TaxFormPDFParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 type TaxFormFilingStatusJurisdiction struct {
 	// Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)). Always `US`.
 	Country string `json:"country"`

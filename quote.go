@@ -8,7 +8,7 @@ package stripe
 
 import (
 	"encoding/json"
-	"github.com/stripe/stripe-go/v74/form"
+	"github.com/stripe/stripe-go/v75/form"
 )
 
 // The status of the most recent automated tax calculation for this quote.
@@ -46,24 +46,21 @@ type QuoteComputedRecurringTotalDetailsBreakdownTaxTaxabilityReason string
 
 // List of values that QuoteComputedRecurringTotalDetailsBreakdownTaxTaxabilityReason can take
 const (
-	QuoteComputedRecurringTotalDetailsBreakdownTaxTaxabilityReasonCustomerExempt          QuoteComputedRecurringTotalDetailsBreakdownTaxTaxabilityReason = "customer_exempt"
-	QuoteComputedRecurringTotalDetailsBreakdownTaxTaxabilityReasonExcludedTerritory       QuoteComputedRecurringTotalDetailsBreakdownTaxTaxabilityReason = "excluded_territory"
-	QuoteComputedRecurringTotalDetailsBreakdownTaxTaxabilityReasonJurisdictionUnsupported QuoteComputedRecurringTotalDetailsBreakdownTaxTaxabilityReason = "jurisdiction_unsupported"
-	QuoteComputedRecurringTotalDetailsBreakdownTaxTaxabilityReasonNotCollecting           QuoteComputedRecurringTotalDetailsBreakdownTaxTaxabilityReason = "not_collecting"
-	QuoteComputedRecurringTotalDetailsBreakdownTaxTaxabilityReasonNotSubjectToTax         QuoteComputedRecurringTotalDetailsBreakdownTaxTaxabilityReason = "not_subject_to_tax"
-	QuoteComputedRecurringTotalDetailsBreakdownTaxTaxabilityReasonNotSupported            QuoteComputedRecurringTotalDetailsBreakdownTaxTaxabilityReason = "not_supported"
-	QuoteComputedRecurringTotalDetailsBreakdownTaxTaxabilityReasonPortionProductExempt    QuoteComputedRecurringTotalDetailsBreakdownTaxTaxabilityReason = "portion_product_exempt"
-	QuoteComputedRecurringTotalDetailsBreakdownTaxTaxabilityReasonPortionReducedRated     QuoteComputedRecurringTotalDetailsBreakdownTaxTaxabilityReason = "portion_reduced_rated"
-	QuoteComputedRecurringTotalDetailsBreakdownTaxTaxabilityReasonPortionStandardRated    QuoteComputedRecurringTotalDetailsBreakdownTaxTaxabilityReason = "portion_standard_rated"
-	QuoteComputedRecurringTotalDetailsBreakdownTaxTaxabilityReasonProductExempt           QuoteComputedRecurringTotalDetailsBreakdownTaxTaxabilityReason = "product_exempt"
-	QuoteComputedRecurringTotalDetailsBreakdownTaxTaxabilityReasonProductExemptHoliday    QuoteComputedRecurringTotalDetailsBreakdownTaxTaxabilityReason = "product_exempt_holiday"
-	QuoteComputedRecurringTotalDetailsBreakdownTaxTaxabilityReasonProportionallyRated     QuoteComputedRecurringTotalDetailsBreakdownTaxTaxabilityReason = "proportionally_rated"
-	QuoteComputedRecurringTotalDetailsBreakdownTaxTaxabilityReasonReducedRated            QuoteComputedRecurringTotalDetailsBreakdownTaxTaxabilityReason = "reduced_rated"
-	QuoteComputedRecurringTotalDetailsBreakdownTaxTaxabilityReasonReverseCharge           QuoteComputedRecurringTotalDetailsBreakdownTaxTaxabilityReason = "reverse_charge"
-	QuoteComputedRecurringTotalDetailsBreakdownTaxTaxabilityReasonStandardRated           QuoteComputedRecurringTotalDetailsBreakdownTaxTaxabilityReason = "standard_rated"
-	QuoteComputedRecurringTotalDetailsBreakdownTaxTaxabilityReasonTaxableBasisReduced     QuoteComputedRecurringTotalDetailsBreakdownTaxTaxabilityReason = "taxable_basis_reduced"
-	QuoteComputedRecurringTotalDetailsBreakdownTaxTaxabilityReasonVATExempt               QuoteComputedRecurringTotalDetailsBreakdownTaxTaxabilityReason = "vat_exempt"
-	QuoteComputedRecurringTotalDetailsBreakdownTaxTaxabilityReasonZeroRated               QuoteComputedRecurringTotalDetailsBreakdownTaxTaxabilityReason = "zero_rated"
+	QuoteComputedRecurringTotalDetailsBreakdownTaxTaxabilityReasonCustomerExempt       QuoteComputedRecurringTotalDetailsBreakdownTaxTaxabilityReason = "customer_exempt"
+	QuoteComputedRecurringTotalDetailsBreakdownTaxTaxabilityReasonNotCollecting        QuoteComputedRecurringTotalDetailsBreakdownTaxTaxabilityReason = "not_collecting"
+	QuoteComputedRecurringTotalDetailsBreakdownTaxTaxabilityReasonNotSubjectToTax      QuoteComputedRecurringTotalDetailsBreakdownTaxTaxabilityReason = "not_subject_to_tax"
+	QuoteComputedRecurringTotalDetailsBreakdownTaxTaxabilityReasonNotSupported         QuoteComputedRecurringTotalDetailsBreakdownTaxTaxabilityReason = "not_supported"
+	QuoteComputedRecurringTotalDetailsBreakdownTaxTaxabilityReasonPortionProductExempt QuoteComputedRecurringTotalDetailsBreakdownTaxTaxabilityReason = "portion_product_exempt"
+	QuoteComputedRecurringTotalDetailsBreakdownTaxTaxabilityReasonPortionReducedRated  QuoteComputedRecurringTotalDetailsBreakdownTaxTaxabilityReason = "portion_reduced_rated"
+	QuoteComputedRecurringTotalDetailsBreakdownTaxTaxabilityReasonPortionStandardRated QuoteComputedRecurringTotalDetailsBreakdownTaxTaxabilityReason = "portion_standard_rated"
+	QuoteComputedRecurringTotalDetailsBreakdownTaxTaxabilityReasonProductExempt        QuoteComputedRecurringTotalDetailsBreakdownTaxTaxabilityReason = "product_exempt"
+	QuoteComputedRecurringTotalDetailsBreakdownTaxTaxabilityReasonProductExemptHoliday QuoteComputedRecurringTotalDetailsBreakdownTaxTaxabilityReason = "product_exempt_holiday"
+	QuoteComputedRecurringTotalDetailsBreakdownTaxTaxabilityReasonProportionallyRated  QuoteComputedRecurringTotalDetailsBreakdownTaxTaxabilityReason = "proportionally_rated"
+	QuoteComputedRecurringTotalDetailsBreakdownTaxTaxabilityReasonReducedRated         QuoteComputedRecurringTotalDetailsBreakdownTaxTaxabilityReason = "reduced_rated"
+	QuoteComputedRecurringTotalDetailsBreakdownTaxTaxabilityReasonReverseCharge        QuoteComputedRecurringTotalDetailsBreakdownTaxTaxabilityReason = "reverse_charge"
+	QuoteComputedRecurringTotalDetailsBreakdownTaxTaxabilityReasonStandardRated        QuoteComputedRecurringTotalDetailsBreakdownTaxTaxabilityReason = "standard_rated"
+	QuoteComputedRecurringTotalDetailsBreakdownTaxTaxabilityReasonTaxableBasisReduced  QuoteComputedRecurringTotalDetailsBreakdownTaxTaxabilityReason = "taxable_basis_reduced"
+	QuoteComputedRecurringTotalDetailsBreakdownTaxTaxabilityReasonZeroRated            QuoteComputedRecurringTotalDetailsBreakdownTaxTaxabilityReason = "zero_rated"
 )
 
 // The reasoning behind this tax, for example, if the product is tax exempt. The possible values for this field may be extended as new tax rules are supported.
@@ -71,24 +68,21 @@ type QuoteComputedUpfrontTotalDetailsBreakdownTaxTaxabilityReason string
 
 // List of values that QuoteComputedUpfrontTotalDetailsBreakdownTaxTaxabilityReason can take
 const (
-	QuoteComputedUpfrontTotalDetailsBreakdownTaxTaxabilityReasonCustomerExempt          QuoteComputedUpfrontTotalDetailsBreakdownTaxTaxabilityReason = "customer_exempt"
-	QuoteComputedUpfrontTotalDetailsBreakdownTaxTaxabilityReasonExcludedTerritory       QuoteComputedUpfrontTotalDetailsBreakdownTaxTaxabilityReason = "excluded_territory"
-	QuoteComputedUpfrontTotalDetailsBreakdownTaxTaxabilityReasonJurisdictionUnsupported QuoteComputedUpfrontTotalDetailsBreakdownTaxTaxabilityReason = "jurisdiction_unsupported"
-	QuoteComputedUpfrontTotalDetailsBreakdownTaxTaxabilityReasonNotCollecting           QuoteComputedUpfrontTotalDetailsBreakdownTaxTaxabilityReason = "not_collecting"
-	QuoteComputedUpfrontTotalDetailsBreakdownTaxTaxabilityReasonNotSubjectToTax         QuoteComputedUpfrontTotalDetailsBreakdownTaxTaxabilityReason = "not_subject_to_tax"
-	QuoteComputedUpfrontTotalDetailsBreakdownTaxTaxabilityReasonNotSupported            QuoteComputedUpfrontTotalDetailsBreakdownTaxTaxabilityReason = "not_supported"
-	QuoteComputedUpfrontTotalDetailsBreakdownTaxTaxabilityReasonPortionProductExempt    QuoteComputedUpfrontTotalDetailsBreakdownTaxTaxabilityReason = "portion_product_exempt"
-	QuoteComputedUpfrontTotalDetailsBreakdownTaxTaxabilityReasonPortionReducedRated     QuoteComputedUpfrontTotalDetailsBreakdownTaxTaxabilityReason = "portion_reduced_rated"
-	QuoteComputedUpfrontTotalDetailsBreakdownTaxTaxabilityReasonPortionStandardRated    QuoteComputedUpfrontTotalDetailsBreakdownTaxTaxabilityReason = "portion_standard_rated"
-	QuoteComputedUpfrontTotalDetailsBreakdownTaxTaxabilityReasonProductExempt           QuoteComputedUpfrontTotalDetailsBreakdownTaxTaxabilityReason = "product_exempt"
-	QuoteComputedUpfrontTotalDetailsBreakdownTaxTaxabilityReasonProductExemptHoliday    QuoteComputedUpfrontTotalDetailsBreakdownTaxTaxabilityReason = "product_exempt_holiday"
-	QuoteComputedUpfrontTotalDetailsBreakdownTaxTaxabilityReasonProportionallyRated     QuoteComputedUpfrontTotalDetailsBreakdownTaxTaxabilityReason = "proportionally_rated"
-	QuoteComputedUpfrontTotalDetailsBreakdownTaxTaxabilityReasonReducedRated            QuoteComputedUpfrontTotalDetailsBreakdownTaxTaxabilityReason = "reduced_rated"
-	QuoteComputedUpfrontTotalDetailsBreakdownTaxTaxabilityReasonReverseCharge           QuoteComputedUpfrontTotalDetailsBreakdownTaxTaxabilityReason = "reverse_charge"
-	QuoteComputedUpfrontTotalDetailsBreakdownTaxTaxabilityReasonStandardRated           QuoteComputedUpfrontTotalDetailsBreakdownTaxTaxabilityReason = "standard_rated"
-	QuoteComputedUpfrontTotalDetailsBreakdownTaxTaxabilityReasonTaxableBasisReduced     QuoteComputedUpfrontTotalDetailsBreakdownTaxTaxabilityReason = "taxable_basis_reduced"
-	QuoteComputedUpfrontTotalDetailsBreakdownTaxTaxabilityReasonVATExempt               QuoteComputedUpfrontTotalDetailsBreakdownTaxTaxabilityReason = "vat_exempt"
-	QuoteComputedUpfrontTotalDetailsBreakdownTaxTaxabilityReasonZeroRated               QuoteComputedUpfrontTotalDetailsBreakdownTaxTaxabilityReason = "zero_rated"
+	QuoteComputedUpfrontTotalDetailsBreakdownTaxTaxabilityReasonCustomerExempt       QuoteComputedUpfrontTotalDetailsBreakdownTaxTaxabilityReason = "customer_exempt"
+	QuoteComputedUpfrontTotalDetailsBreakdownTaxTaxabilityReasonNotCollecting        QuoteComputedUpfrontTotalDetailsBreakdownTaxTaxabilityReason = "not_collecting"
+	QuoteComputedUpfrontTotalDetailsBreakdownTaxTaxabilityReasonNotSubjectToTax      QuoteComputedUpfrontTotalDetailsBreakdownTaxTaxabilityReason = "not_subject_to_tax"
+	QuoteComputedUpfrontTotalDetailsBreakdownTaxTaxabilityReasonNotSupported         QuoteComputedUpfrontTotalDetailsBreakdownTaxTaxabilityReason = "not_supported"
+	QuoteComputedUpfrontTotalDetailsBreakdownTaxTaxabilityReasonPortionProductExempt QuoteComputedUpfrontTotalDetailsBreakdownTaxTaxabilityReason = "portion_product_exempt"
+	QuoteComputedUpfrontTotalDetailsBreakdownTaxTaxabilityReasonPortionReducedRated  QuoteComputedUpfrontTotalDetailsBreakdownTaxTaxabilityReason = "portion_reduced_rated"
+	QuoteComputedUpfrontTotalDetailsBreakdownTaxTaxabilityReasonPortionStandardRated QuoteComputedUpfrontTotalDetailsBreakdownTaxTaxabilityReason = "portion_standard_rated"
+	QuoteComputedUpfrontTotalDetailsBreakdownTaxTaxabilityReasonProductExempt        QuoteComputedUpfrontTotalDetailsBreakdownTaxTaxabilityReason = "product_exempt"
+	QuoteComputedUpfrontTotalDetailsBreakdownTaxTaxabilityReasonProductExemptHoliday QuoteComputedUpfrontTotalDetailsBreakdownTaxTaxabilityReason = "product_exempt_holiday"
+	QuoteComputedUpfrontTotalDetailsBreakdownTaxTaxabilityReasonProportionallyRated  QuoteComputedUpfrontTotalDetailsBreakdownTaxTaxabilityReason = "proportionally_rated"
+	QuoteComputedUpfrontTotalDetailsBreakdownTaxTaxabilityReasonReducedRated         QuoteComputedUpfrontTotalDetailsBreakdownTaxTaxabilityReason = "reduced_rated"
+	QuoteComputedUpfrontTotalDetailsBreakdownTaxTaxabilityReasonReverseCharge        QuoteComputedUpfrontTotalDetailsBreakdownTaxTaxabilityReason = "reverse_charge"
+	QuoteComputedUpfrontTotalDetailsBreakdownTaxTaxabilityReasonStandardRated        QuoteComputedUpfrontTotalDetailsBreakdownTaxTaxabilityReason = "standard_rated"
+	QuoteComputedUpfrontTotalDetailsBreakdownTaxTaxabilityReasonTaxableBasisReduced  QuoteComputedUpfrontTotalDetailsBreakdownTaxTaxabilityReason = "taxable_basis_reduced"
+	QuoteComputedUpfrontTotalDetailsBreakdownTaxTaxabilityReasonZeroRated            QuoteComputedUpfrontTotalDetailsBreakdownTaxTaxabilityReason = "zero_rated"
 )
 
 // The status of the quote.
@@ -289,24 +283,21 @@ type QuoteTotalDetailsBreakdownTaxTaxabilityReason string
 
 // List of values that QuoteTotalDetailsBreakdownTaxTaxabilityReason can take
 const (
-	QuoteTotalDetailsBreakdownTaxTaxabilityReasonCustomerExempt          QuoteTotalDetailsBreakdownTaxTaxabilityReason = "customer_exempt"
-	QuoteTotalDetailsBreakdownTaxTaxabilityReasonExcludedTerritory       QuoteTotalDetailsBreakdownTaxTaxabilityReason = "excluded_territory"
-	QuoteTotalDetailsBreakdownTaxTaxabilityReasonJurisdictionUnsupported QuoteTotalDetailsBreakdownTaxTaxabilityReason = "jurisdiction_unsupported"
-	QuoteTotalDetailsBreakdownTaxTaxabilityReasonNotCollecting           QuoteTotalDetailsBreakdownTaxTaxabilityReason = "not_collecting"
-	QuoteTotalDetailsBreakdownTaxTaxabilityReasonNotSubjectToTax         QuoteTotalDetailsBreakdownTaxTaxabilityReason = "not_subject_to_tax"
-	QuoteTotalDetailsBreakdownTaxTaxabilityReasonNotSupported            QuoteTotalDetailsBreakdownTaxTaxabilityReason = "not_supported"
-	QuoteTotalDetailsBreakdownTaxTaxabilityReasonPortionProductExempt    QuoteTotalDetailsBreakdownTaxTaxabilityReason = "portion_product_exempt"
-	QuoteTotalDetailsBreakdownTaxTaxabilityReasonPortionReducedRated     QuoteTotalDetailsBreakdownTaxTaxabilityReason = "portion_reduced_rated"
-	QuoteTotalDetailsBreakdownTaxTaxabilityReasonPortionStandardRated    QuoteTotalDetailsBreakdownTaxTaxabilityReason = "portion_standard_rated"
-	QuoteTotalDetailsBreakdownTaxTaxabilityReasonProductExempt           QuoteTotalDetailsBreakdownTaxTaxabilityReason = "product_exempt"
-	QuoteTotalDetailsBreakdownTaxTaxabilityReasonProductExemptHoliday    QuoteTotalDetailsBreakdownTaxTaxabilityReason = "product_exempt_holiday"
-	QuoteTotalDetailsBreakdownTaxTaxabilityReasonProportionallyRated     QuoteTotalDetailsBreakdownTaxTaxabilityReason = "proportionally_rated"
-	QuoteTotalDetailsBreakdownTaxTaxabilityReasonReducedRated            QuoteTotalDetailsBreakdownTaxTaxabilityReason = "reduced_rated"
-	QuoteTotalDetailsBreakdownTaxTaxabilityReasonReverseCharge           QuoteTotalDetailsBreakdownTaxTaxabilityReason = "reverse_charge"
-	QuoteTotalDetailsBreakdownTaxTaxabilityReasonStandardRated           QuoteTotalDetailsBreakdownTaxTaxabilityReason = "standard_rated"
-	QuoteTotalDetailsBreakdownTaxTaxabilityReasonTaxableBasisReduced     QuoteTotalDetailsBreakdownTaxTaxabilityReason = "taxable_basis_reduced"
-	QuoteTotalDetailsBreakdownTaxTaxabilityReasonVATExempt               QuoteTotalDetailsBreakdownTaxTaxabilityReason = "vat_exempt"
-	QuoteTotalDetailsBreakdownTaxTaxabilityReasonZeroRated               QuoteTotalDetailsBreakdownTaxTaxabilityReason = "zero_rated"
+	QuoteTotalDetailsBreakdownTaxTaxabilityReasonCustomerExempt       QuoteTotalDetailsBreakdownTaxTaxabilityReason = "customer_exempt"
+	QuoteTotalDetailsBreakdownTaxTaxabilityReasonNotCollecting        QuoteTotalDetailsBreakdownTaxTaxabilityReason = "not_collecting"
+	QuoteTotalDetailsBreakdownTaxTaxabilityReasonNotSubjectToTax      QuoteTotalDetailsBreakdownTaxTaxabilityReason = "not_subject_to_tax"
+	QuoteTotalDetailsBreakdownTaxTaxabilityReasonNotSupported         QuoteTotalDetailsBreakdownTaxTaxabilityReason = "not_supported"
+	QuoteTotalDetailsBreakdownTaxTaxabilityReasonPortionProductExempt QuoteTotalDetailsBreakdownTaxTaxabilityReason = "portion_product_exempt"
+	QuoteTotalDetailsBreakdownTaxTaxabilityReasonPortionReducedRated  QuoteTotalDetailsBreakdownTaxTaxabilityReason = "portion_reduced_rated"
+	QuoteTotalDetailsBreakdownTaxTaxabilityReasonPortionStandardRated QuoteTotalDetailsBreakdownTaxTaxabilityReason = "portion_standard_rated"
+	QuoteTotalDetailsBreakdownTaxTaxabilityReasonProductExempt        QuoteTotalDetailsBreakdownTaxTaxabilityReason = "product_exempt"
+	QuoteTotalDetailsBreakdownTaxTaxabilityReasonProductExemptHoliday QuoteTotalDetailsBreakdownTaxTaxabilityReason = "product_exempt_holiday"
+	QuoteTotalDetailsBreakdownTaxTaxabilityReasonProportionallyRated  QuoteTotalDetailsBreakdownTaxTaxabilityReason = "proportionally_rated"
+	QuoteTotalDetailsBreakdownTaxTaxabilityReasonReducedRated         QuoteTotalDetailsBreakdownTaxTaxabilityReason = "reduced_rated"
+	QuoteTotalDetailsBreakdownTaxTaxabilityReasonReverseCharge        QuoteTotalDetailsBreakdownTaxTaxabilityReason = "reverse_charge"
+	QuoteTotalDetailsBreakdownTaxTaxabilityReasonStandardRated        QuoteTotalDetailsBreakdownTaxTaxabilityReason = "standard_rated"
+	QuoteTotalDetailsBreakdownTaxTaxabilityReasonTaxableBasisReduced  QuoteTotalDetailsBreakdownTaxTaxabilityReason = "taxable_basis_reduced"
+	QuoteTotalDetailsBreakdownTaxTaxabilityReasonZeroRated            QuoteTotalDetailsBreakdownTaxTaxabilityReason = "zero_rated"
 )
 
 // Retrieves the quote with the given ID.
@@ -328,6 +319,8 @@ type QuoteParams struct {
 	Description *string `form:"description"`
 	// The discounts applied to the quote. You can only set up to one discount.
 	Discounts []*QuoteDiscountParams `form:"discounts"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// A future timestamp on which the quote will be canceled if in `open` or `draft` status. Measured in seconds since the Unix epoch. If no value is passed, the default expiration date configured in your [quote template settings](https://dashboard.stripe.com/settings/billing/quote) will be used.
 	ExpiresAt *int64 `form:"expires_at"`
 	// A footer that will be displayed on the quote PDF. If no value is passed, the default footer configured in your [quote template settings](https://dashboard.stripe.com/settings/billing/quote) will be used.
@@ -342,6 +335,8 @@ type QuoteParams struct {
 	LineItems []*QuoteLineItemParams `form:"line_items"`
 	// A list of lines on the quote. These lines describe changes that will be used to create new subscription schedules or update existing subscription schedules when the quote is accepted.
 	Lines []*QuoteLineParams `form:"lines"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
 	// The account on behalf of which to charge.
 	OnBehalfOf *string `form:"on_behalf_of"`
 	// List representing phases of the Quote. Each phase can be customized to have different durations, prices, and coupons.
@@ -354,6 +349,20 @@ type QuoteParams struct {
 	TestClock *string `form:"test_clock"`
 	// The data with which to automatically create a Transfer for each of the invoices.
 	TransferData *QuoteTransferDataParams `form:"transfer_data"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *QuoteParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *QuoteParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
 }
 
 // Settings for automatic tax lookup for this quote and resulting invoices and subscriptions.
@@ -534,6 +543,15 @@ type QuoteLineActionAddItemParams struct {
 	Trial *QuoteLineActionAddItemTrialParams `form:"trial"`
 }
 
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *QuoteLineActionAddItemParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
 // Details for the `remove_discount` type.
 type QuoteLineActionRemoveDiscountParams struct {
 	// The coupon code to remove from the `discounts` array.
@@ -606,6 +624,15 @@ type QuoteLineActionSetItemParams struct {
 	TaxRates []*string `form:"tax_rates"`
 	// If an item with the `price` already exists, passing this will override the `trial` configuration on the subscription item that matches that price. Otherwise, the `items` array is cleared and a single new item is added with the supplied `trial`.
 	Trial *QuoteLineActionSetItemTrialParams `form:"trial"`
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *QuoteLineActionSetItemParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
 }
 
 // An array of operations the quote line performs.
@@ -938,8 +965,8 @@ type QuoteSubscriptionDataParams struct {
 }
 
 // AppendTo implements custom encoding logic for QuoteSubscriptionDataParams.
-func (q *QuoteSubscriptionDataParams) AppendTo(body *form.Values, keyParts []string) {
-	if BoolValue(q.EffectiveDateCurrentPeriodEnd) {
+func (p *QuoteSubscriptionDataParams) AppendTo(body *form.Values, keyParts []string) {
+	if BoolValue(p.EffectiveDateCurrentPeriodEnd) {
 		body.Add(form.FormatKey(append(keyParts, "effective_date")), "current_period_end")
 	}
 }
@@ -1055,6 +1082,8 @@ type QuoteListParams struct {
 	ListParams `form:"*"`
 	// The ID of the customer whose quotes will be retrieved.
 	Customer *string `form:"customer"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// The subscription which the quote updates.
 	FromSubscription *string `form:"from_subscription"`
 	// The status of the quote.
@@ -1063,56 +1092,124 @@ type QuoteListParams struct {
 	TestClock *string `form:"test_clock"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *QuoteListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // Cancels the quote.
 type QuoteCancelParams struct {
 	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *QuoteCancelParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // Finalizes the quote.
 type QuoteFinalizeQuoteParams struct {
 	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// A future timestamp on which the quote will be canceled if in `open` or `draft` status. Measured in seconds since the Unix epoch.
 	ExpiresAt *int64 `form:"expires_at"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *QuoteFinalizeQuoteParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // Accepts the specified quote.
 type QuoteAcceptParams struct {
 	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *QuoteAcceptParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // Recompute the upcoming invoice estimate for the quote.
 type QuoteReestimateParams struct {
 	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *QuoteReestimateParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // Converts a stale quote to draft.
 type QuoteDraftQuoteParams struct {
 	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *QuoteDraftQuoteParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // Converts a draft or open quote to stale.
 type QuoteMarkStaleQuoteParams struct {
 	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// Reason the Quote is being marked stale.
 	Reason *string `form:"reason"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *QuoteMarkStaleQuoteParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // When retrieving a quote, there is an includable line_items property containing the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of line items.
 type QuoteListLineItemsParams struct {
 	ListParams `form:"*"`
 	Quote      *string `form:"-"` // Included in URL
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *QuoteListLineItemsParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // When retrieving a quote, there is an includable [computed.upfront.line_items](https://stripe.com/docs/api/quotes/object#quote_object-computed-upfront-line_items) property containing the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of upfront line items.
 type QuoteListComputedUpfrontLineItemsParams struct {
 	ListParams `form:"*"`
 	Quote      *string `form:"-"` // Included in URL
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *QuoteListComputedUpfrontLineItemsParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // Preview the invoices that would be generated by accepting the quote.
 type QuoteListPreviewInvoicesParams struct {
 	ListParams `form:"*"`
 	Quote      *string `form:"-"` // Included in URL
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *QuoteListPreviewInvoicesParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // Preview the invoice line items that would be generated by accepting the quote.
@@ -1120,24 +1217,53 @@ type QuoteListPreviewInvoiceLinesParams struct {
 	ListParams     `form:"*"`
 	PreviewInvoice *string `form:"-"` // Included in URL
 	Quote          *string `form:"-"` // Included in URL
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *QuoteListPreviewInvoiceLinesParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // Preview the schedules that would be generated by accepting the quote
 type QuoteListPreviewSubscriptionSchedulesParams struct {
 	ListParams `form:"*"`
 	Quote      *string `form:"-"` // Included in URL
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *QuoteListPreviewSubscriptionSchedulesParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // Retrieves a paginated list of lines for a quote. These lines describe changes that will be used to create new subscription schedules or update existing subscription schedules when the quote is accepted.
 type QuoteListLinesParams struct {
 	ListParams `form:"*"`
 	Quote      *string `form:"-"` // Included in URL
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *QuoteListLinesParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // Download the PDF for a finalized quote
 type QuotePDFParams struct {
 	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 }
+
+// AddExpand appends a new field to expand.
+func (p *QuotePDFParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 type QuoteAutomaticTax struct {
 	// Automatically calculate taxes
 	Enabled bool `json:"enabled"`
