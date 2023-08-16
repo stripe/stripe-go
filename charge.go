@@ -1155,10 +1155,6 @@ type Charge struct {
 	Customer *Customer `json:"customer"`
 	// An arbitrary string attached to the object. Often useful for displaying to users.
 	Description string `json:"description"`
-	// ID of an existing, connected Stripe account to transfer funds to if `transfer_data` was specified in the charge request.
-	Destination *Account `json:"destination"`
-	// Details about the dispute if the charge has been disputed.
-	Dispute *Dispute `json:"dispute"`
 	// Whether the charge has been disputed.
 	Disputed bool `json:"disputed"`
 	// ID of the balance transaction that describes the reversal of the balance on your account due to payment failure.

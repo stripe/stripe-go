@@ -108,26 +108,6 @@ const (
 	SetupIntentPaymentMethodOptionsACSSDebitVerificationMethodMicrodeposits SetupIntentPaymentMethodOptionsACSSDebitVerificationMethod = "microdeposits"
 )
 
-// Frequency interval of each recurring payment.
-type SetupIntentPaymentMethodOptionsBLIKMandateOptionsOffSessionInterval string
-
-// List of values that SetupIntentPaymentMethodOptionsBLIKMandateOptionsOffSessionInterval can take
-const (
-	SetupIntentPaymentMethodOptionsBLIKMandateOptionsOffSessionIntervalDay   SetupIntentPaymentMethodOptionsBLIKMandateOptionsOffSessionInterval = "day"
-	SetupIntentPaymentMethodOptionsBLIKMandateOptionsOffSessionIntervalMonth SetupIntentPaymentMethodOptionsBLIKMandateOptionsOffSessionInterval = "month"
-	SetupIntentPaymentMethodOptionsBLIKMandateOptionsOffSessionIntervalWeek  SetupIntentPaymentMethodOptionsBLIKMandateOptionsOffSessionInterval = "week"
-	SetupIntentPaymentMethodOptionsBLIKMandateOptionsOffSessionIntervalYear  SetupIntentPaymentMethodOptionsBLIKMandateOptionsOffSessionInterval = "year"
-)
-
-// Type of the mandate.
-type SetupIntentPaymentMethodOptionsBLIKMandateOptionsType string
-
-// List of values that SetupIntentPaymentMethodOptionsBLIKMandateOptionsType can take
-const (
-	SetupIntentPaymentMethodOptionsBLIKMandateOptionsTypeOffSession SetupIntentPaymentMethodOptionsBLIKMandateOptionsType = "off_session"
-	SetupIntentPaymentMethodOptionsBLIKMandateOptionsTypeOnSession  SetupIntentPaymentMethodOptionsBLIKMandateOptionsType = "on_session"
-)
-
 // One of `fixed` or `maximum`. If `fixed`, the `amount` param refers to the exact amount to be charged in future payments. If `maximum`, the amount charged can be up to the value passed for the `amount` param.
 type SetupIntentPaymentMethodOptionsCardMandateOptionsAmountType string
 
@@ -554,12 +534,6 @@ type SetupIntentPaymentMethodOptionsACSSDebitParams struct {
 	VerificationMethod *string `form:"verification_method"`
 }
 
-// If this is a `blik` PaymentMethod, this hash contains details about the BLIK payment method.
-type SetupIntentPaymentMethodOptionsBLIKParams struct {
-	// The 6-digit BLIK code that a customer has generated using their banking application. Can only be set on confirmation.
-	Code *string `form:"code"`
-}
-
 // Configuration options for setting up an eMandate for cards issued in India.
 type SetupIntentPaymentMethodOptionsCardMandateOptionsParams struct {
 	// Amount to be charged for future payments.
@@ -647,8 +621,6 @@ type SetupIntentPaymentMethodOptionsUSBankAccountParams struct {
 type SetupIntentPaymentMethodOptionsParams struct {
 	// If this is a `acss_debit` SetupIntent, this sub-hash contains details about the ACSS Debit payment method options.
 	ACSSDebit *SetupIntentPaymentMethodOptionsACSSDebitParams `form:"acss_debit"`
-	// If this is a `blik` PaymentMethod, this hash contains details about the BLIK payment method.
-	BLIK *SetupIntentPaymentMethodOptionsBLIKParams `form:"blik"`
 	// Configuration for any card setup attempted on this SetupIntent.
 	Card *SetupIntentPaymentMethodOptionsCardParams `form:"card"`
 	// If this is a `link` PaymentMethod, this sub-hash contains details about the Link payment method options.
@@ -1091,7 +1063,7 @@ func (p *SetupIntentVerifyMicrodepositsParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// Settings for automatic payment methods compatible with this Setup Intent
+// Settings for dynamic payment methods compatible with this Setup Intent
 type SetupIntentAutomaticPaymentMethods struct {
 	// Controls whether this SetupIntent will accept redirect-based payment methods.
 	//
@@ -1162,26 +1134,6 @@ type SetupIntentPaymentMethodOptionsACSSDebit struct {
 	// Bank account verification method.
 	VerificationMethod SetupIntentPaymentMethodOptionsACSSDebitVerificationMethod `json:"verification_method"`
 }
-type SetupIntentPaymentMethodOptionsBLIKMandateOptionsOffSession struct {
-	// Amount of each recurring payment.
-	Amount int64 `json:"amount"`
-	// Currency of each recurring payment.
-	Currency Currency `json:"currency"`
-	// Frequency interval of each recurring payment.
-	Interval SetupIntentPaymentMethodOptionsBLIKMandateOptionsOffSessionInterval `json:"interval"`
-	// Frequency indicator of each recurring payment.
-	IntervalCount int64 `json:"interval_count"`
-}
-type SetupIntentPaymentMethodOptionsBLIKMandateOptions struct {
-	// Date at which the mandate expires.
-	ExpiresAfter int64                                                        `json:"expires_after"`
-	OffSession   *SetupIntentPaymentMethodOptionsBLIKMandateOptionsOffSession `json:"off_session"`
-	// Type of the mandate.
-	Type SetupIntentPaymentMethodOptionsBLIKMandateOptionsType `json:"type"`
-}
-type SetupIntentPaymentMethodOptionsBLIK struct {
-	MandateOptions *SetupIntentPaymentMethodOptionsBLIKMandateOptions `json:"mandate_options"`
-}
 
 // Configuration options for setting up an eMandate for cards issued in India.
 type SetupIntentPaymentMethodOptionsCardMandateOptions struct {
@@ -1241,7 +1193,6 @@ type SetupIntentPaymentMethodOptionsUSBankAccount struct {
 // Payment-method-specific configuration for this SetupIntent.
 type SetupIntentPaymentMethodOptions struct {
 	ACSSDebit     *SetupIntentPaymentMethodOptionsACSSDebit     `json:"acss_debit"`
-	BLIK          *SetupIntentPaymentMethodOptionsBLIK          `json:"blik"`
 	Card          *SetupIntentPaymentMethodOptionsCard          `json:"card"`
 	Link          *SetupIntentPaymentMethodOptionsLink          `json:"link"`
 	Paypal        *SetupIntentPaymentMethodOptionsPaypal        `json:"paypal"`
@@ -1279,7 +1230,7 @@ type SetupIntent struct {
 	//
 	// It can only be used for this Stripe Account's own money movement flows like InboundTransfer and OutboundTransfers. It cannot be set to true when setting up a PaymentMethod for a Customer, and defaults to false when attaching a PaymentMethod to a Customer.
 	AttachToSelf bool `json:"attach_to_self"`
-	// Settings for automatic payment methods compatible with this Setup Intent
+	// Settings for dynamic payment methods compatible with this Setup Intent
 	AutomaticPaymentMethods *SetupIntentAutomaticPaymentMethods `json:"automatic_payment_methods"`
 	// Reason for cancellation of this SetupIntent, one of `abandoned`, `requested_by_customer`, or `duplicate`.
 	CancellationReason SetupIntentCancellationReason `json:"cancellation_reason"`

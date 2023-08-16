@@ -66,16 +66,15 @@ type CustomerCashBalanceTransactionListParams struct {
 	Expand []*string `form:"expand"`
 }
 
-type CustomerCashBalanceTransactionAdjustedForOverdraft struct {
-	// The [Cash Balance Transaction](https://stripe.com/docs/api/cash_balance_transactions/object) that brought the customer balance negative, triggering the clawback of funds.
-	LinkedTransaction *CustomerCashBalanceTransaction `json:"linked_transaction"`
-}
-
 // AddExpand appends a new field to expand.
 func (p *CustomerCashBalanceTransactionListParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+type CustomerCashBalanceTransactionAdjustedForOverdraft struct {
+	// The [Cash Balance Transaction](https://stripe.com/docs/api/cash_balance_transactions/object) that brought the customer balance negative, triggering the clawback of funds.
+	LinkedTransaction *CustomerCashBalanceTransaction `json:"linked_transaction"`
+}
 type CustomerCashBalanceTransactionAppliedToPayment struct {
 	// The [Payment Intent](https://stripe.com/docs/api/payment_intents/object) that funds were applied to.
 	PaymentIntent *PaymentIntent `json:"payment_intent"`
