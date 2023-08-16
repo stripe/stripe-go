@@ -42,6 +42,7 @@ const (
 	AccountCompanyStructureGovernmentInstrumentality          AccountCompanyStructure = "government_instrumentality"
 	AccountCompanyStructureGovernmentalUnit                   AccountCompanyStructure = "governmental_unit"
 	AccountCompanyStructureIncorporatedNonProfit              AccountCompanyStructure = "incorporated_non_profit"
+	AccountCompanyStructureIncorporatedPartnership            AccountCompanyStructure = "incorporated_partnership"
 	AccountCompanyStructureLimitedLiabilityPartnership        AccountCompanyStructure = "limited_liability_partnership"
 	AccountCompanyStructureLLC                                AccountCompanyStructure = "llc"
 	AccountCompanyStructureMultiMemberLLC                     AccountCompanyStructure = "multi_member_llc"
@@ -57,6 +58,7 @@ const (
 	AccountCompanyStructureTaxExemptGovernmentInstrumentality AccountCompanyStructure = "tax_exempt_government_instrumentality"
 	AccountCompanyStructureUnincorporatedAssociation          AccountCompanyStructure = "unincorporated_association"
 	AccountCompanyStructureUnincorporatedNonProfit            AccountCompanyStructure = "unincorporated_non_profit"
+	AccountCompanyStructureUnincorporatedPartnership          AccountCompanyStructure = "unincorporated_partnership"
 )
 
 // One of `document_corrupt`, `document_expired`, `document_failed_copy`, `document_failed_greyscale`, `document_failed_other`, `document_failed_test_mode`, `document_fraudulent`, `document_incomplete`, `document_invalid`, `document_manipulated`, `document_not_readable`, `document_not_uploaded`, `document_type_not_supported`, or `document_too_large`. A machine-readable code specifying the verification state for this document.

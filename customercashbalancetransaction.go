@@ -6,6 +6,8 @@
 
 package stripe
 
+import "encoding/json"
+
 // The funding method type used to fund the customer balance. Permitted values include: `eu_bank_transfer`, `gb_bank_transfer`, `jp_bank_transfer`, `mx_bank_transfer`, or `us_bank_transfer`.
 type CustomerCashBalanceTransactionFundedBankTransferType string
 
@@ -33,6 +35,7 @@ type CustomerCashBalanceTransactionType string
 
 // List of values that CustomerCashBalanceTransactionType can take
 const (
+	CustomerCashBalanceTransactionTypeAdjustedForOverdraft CustomerCashBalanceTransactionType = "adjusted_for_overdraft"
 	CustomerCashBalanceTransactionTypeAppliedToPayment     CustomerCashBalanceTransactionType = "applied_to_payment"
 	CustomerCashBalanceTransactionTypeFunded               CustomerCashBalanceTransactionType = "funded"
 	CustomerCashBalanceTransactionTypeFundingReversed      CustomerCashBalanceTransactionType = "funding_reversed"
@@ -61,6 +64,11 @@ type CustomerCashBalanceTransactionListParams struct {
 	Customer   *string `form:"-"` // Included in URL
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+}
+
+type CustomerCashBalanceTransactionAdjustedForOverdraft struct {
+	// The [Cash Balance Transaction](https://stripe.com/docs/api/cash_balance_transactions/object) that brought the customer balance negative, triggering the clawback of funds.
+	LinkedTransaction *CustomerCashBalanceTransaction `json:"linked_transaction"`
 }
 
 // AddExpand appends a new field to expand.
@@ -130,7 +138,8 @@ type CustomerCashBalanceTransactionUnappliedFromPayment struct {
 // to payments, and refunds to the customer.
 type CustomerCashBalanceTransaction struct {
 	APIResource
-	AppliedToPayment *CustomerCashBalanceTransactionAppliedToPayment `json:"applied_to_payment"`
+	AdjustedForOverdraft *CustomerCashBalanceTransactionAdjustedForOverdraft `json:"adjusted_for_overdraft"`
+	AppliedToPayment     *CustomerCashBalanceTransactionAppliedToPayment     `json:"applied_to_payment"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
 	Created int64 `json:"created"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
@@ -159,4 +168,23 @@ type CustomerCashBalanceTransactionList struct {
 	APIResource
 	ListMeta
 	Data []*CustomerCashBalanceTransaction `json:"data"`
+}
+
+// UnmarshalJSON handles deserialization of a CustomerCashBalanceTransaction.
+// This custom unmarshaling is needed because the resulting
+// property may be an id or the full struct if it was expanded.
+func (c *CustomerCashBalanceTransaction) UnmarshalJSON(data []byte) error {
+	if id, ok := ParseID(data); ok {
+		c.ID = id
+		return nil
+	}
+
+	type customerCashBalanceTransaction CustomerCashBalanceTransaction
+	var v customerCashBalanceTransaction
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	*c = CustomerCashBalanceTransaction(v)
+	return nil
 }
