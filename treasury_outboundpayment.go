@@ -119,6 +119,15 @@ type TreasuryOutboundPaymentDestinationPaymentMethodDataParams struct {
 	USBankAccount *TreasuryOutboundPaymentDestinationPaymentMethodDataUSBankAccountParams `form:"us_bank_account"`
 }
 
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *TreasuryOutboundPaymentDestinationPaymentMethodDataParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
 // Optional fields for `us_bank_account`.
 type TreasuryOutboundPaymentDestinationPaymentMethodOptionsUSBankAccountParams struct {
 	// The US bank account network that must be used for this OutboundPayment. If not set, we will default to the PaymentMethod's preferred network.
@@ -158,10 +167,28 @@ type TreasuryOutboundPaymentParams struct {
 	DestinationPaymentMethodOptions *TreasuryOutboundPaymentDestinationPaymentMethodOptionsParams `form:"destination_payment_method_options"`
 	// End user details.
 	EndUserDetails *TreasuryOutboundPaymentEndUserDetailsParams `form:"end_user_details"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// The FinancialAccount to pull funds from.
 	FinancialAccount *string `form:"financial_account"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
 	// The description that appears on the receiving end for this OutboundPayment (for example, bank statement for external bank transfer). Maximum 10 characters for `ach` payments, 140 characters for `wire` payments, or 500 characters for `stripe` network transfers. The default value is `payment`.
 	StatementDescriptor *string `form:"statement_descriptor"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *TreasuryOutboundPaymentParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *TreasuryOutboundPaymentParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
 }
 
 // Returns a list of OutboundPayments sent from the specified FinancialAccount.
@@ -169,16 +196,31 @@ type TreasuryOutboundPaymentListParams struct {
 	ListParams `form:"*"`
 	// Only return OutboundPayments sent to this customer.
 	Customer *string `form:"customer"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// Returns objects associated with this FinancialAccount.
 	FinancialAccount *string `form:"financial_account"`
 	// Only return OutboundPayments that have the given status: `processing`, `failed`, `posted`, `returned`, or `canceled`.
 	Status *string `form:"status"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *TreasuryOutboundPaymentListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // Cancel an OutboundPayment.
 type TreasuryOutboundPaymentCancelParams struct {
 	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 }
+
+// AddExpand appends a new field to expand.
+func (p *TreasuryOutboundPaymentCancelParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 type TreasuryOutboundPaymentDestinationPaymentMethodDetailsBillingDetails struct {
 	Address *Address `json:"address"`
 	// Email address.

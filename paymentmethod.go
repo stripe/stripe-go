@@ -406,7 +406,7 @@ type PaymentMethodSofortParams struct {
 
 // If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
 type PaymentMethodUSBankAccountParams struct {
-	// Bank account type.
+	// Account holder type: individual or company.
 	AccountHolderType *string `form:"account_holder_type"`
 	// Account number of the bank account.
 	AccountNumber *string `form:"account_number"`
@@ -439,7 +439,7 @@ type PaymentMethodParams struct {
 	Alipay *PaymentMethodAlipayParams `form:"alipay"`
 	// This is a legacy parameter that will be removed in the future. It is a hash that does not accept any keys.
 	AUBECSDebit *PaymentMethodAUBECSDebitParams `form:"au_becs_debit"`
-	// This is a legacy parameter that will be removed in the future. It is a hash that does not accept any keys.
+	// If this is a `bacs_debit` PaymentMethod, this hash contains details about the Bacs Direct Debit bank account.
 	BACSDebit *PaymentMethodBACSDebitParams `form:"bacs_debit"`
 	// If this is a `bancontact` PaymentMethod, this hash contains details about the Bancontact payment method.
 	Bancontact *PaymentMethodBancontactParams `form:"bancontact"`
@@ -457,6 +457,8 @@ type PaymentMethodParams struct {
 	CustomerBalance *PaymentMethodCustomerBalanceParams `form:"customer_balance"`
 	// If this is an `eps` PaymentMethod, this hash contains details about the EPS payment method.
 	EPS *PaymentMethodEPSParams `form:"eps"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// If this is an `fpx` PaymentMethod, this hash contains details about the FPX payment method.
 	FPX *PaymentMethodFPXParams `form:"fpx"`
 	// If this is a `giropay` PaymentMethod, this hash contains details about the Giropay payment method.
@@ -473,6 +475,8 @@ type PaymentMethodParams struct {
 	Konbini *PaymentMethodKonbiniParams `form:"konbini"`
 	// If this is an `Link` PaymentMethod, this hash contains details about the Link payment method.
 	Link *PaymentMethodLinkParams `form:"link"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
 	// If this is an `oxxo` PaymentMethod, this hash contains details about the OXXO payment method.
 	OXXO *PaymentMethodOXXOParams `form:"oxxo"`
 	// If this is a `p24` PaymentMethod, this hash contains details about the P24 payment method.
@@ -506,13 +510,34 @@ type PaymentMethodParams struct {
 	PaymentMethod *string `form:"payment_method"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *PaymentMethodParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *PaymentMethodParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
 // Returns a list of PaymentMethods for Treasury flows. If you want to list the PaymentMethods attached to a Customer for payments, you should use the [List a Customer's PaymentMethods](https://stripe.com/docs/api/payment_methods/customer_list) API instead.
 type PaymentMethodListParams struct {
 	ListParams `form:"*"`
 	// The ID of the customer whose PaymentMethods will be retrieved.
 	Customer *string `form:"customer"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// An optional filter on the list, based on the object `type` field. Without the filter, the list includes all current and future payment method types. If your integration expects only one type of payment method in the response, make sure to provide a type value in the request.
 	Type *string `form:"type"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *PaymentMethodListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // Attaches a PaymentMethod object to a Customer.
@@ -532,12 +557,27 @@ type PaymentMethodAttachParams struct {
 	Params `form:"*"`
 	// The ID of the customer to which to attach the PaymentMethod.
 	Customer *string `form:"customer"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *PaymentMethodAttachParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // Detaches a PaymentMethod object from a Customer. After a PaymentMethod is detached, it can no longer be used for a payment or re-attached to a Customer.
 type PaymentMethodDetachParams struct {
 	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 }
+
+// AddExpand appends a new field to expand.
+func (p *PaymentMethodDetachParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 type PaymentMethodACSSDebit struct {
 	// Name of the bank associated with the bank account.
 	BankName string `json:"bank_name"`

@@ -10,7 +10,7 @@ package card
 import (
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v74"
+	stripe "github.com/stripe/stripe-go/v75"
 )
 
 // Client is used to invoke /issuing/cards APIs.

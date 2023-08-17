@@ -27,6 +27,8 @@ type FinancialConnectionsTransactionListParams struct {
 	ListParams `form:"*"`
 	// The ID of the Stripe account whose transactions will be retrieved.
 	Account *string `form:"account"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// A filter on the list based on the object `transacted_at` field. The value can be a string with an integer Unix timestamp, or it can be a dictionary with the following options:
 	TransactedAt *int64 `form:"transacted_at"`
 	// A filter on the list based on the object `transacted_at` field. The value can be a string with an integer Unix timestamp, or it can be a dictionary with the following options:
@@ -34,6 +36,12 @@ type FinancialConnectionsTransactionListParams struct {
 	// A filter on the list based on the object `transaction_refresh` field. The value can be a dictionary with the following options:
 	TransactionRefresh *FinancialConnectionsTransactionListTransactionRefreshParams `form:"transaction_refresh"`
 }
+
+// AddExpand appends a new field to expand.
+func (p *FinancialConnectionsTransactionListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 type FinancialConnectionsTransactionStatusTransitions struct {
 	// Time at which this transaction posted. Measured in seconds since the Unix epoch.
 	PostedAt int64 `json:"posted_at"`

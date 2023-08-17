@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v74"
-	"github.com/stripe/stripe-go/v74/form"
+	stripe "github.com/stripe/stripe-go/v75"
+	"github.com/stripe/stripe-go/v75/form"
 )
 
 // Client is used to invoke /oauth and related APIs.

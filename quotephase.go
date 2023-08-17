@@ -58,19 +58,40 @@ const (
 // Returns a list of quote phases.
 type QuotePhaseListParams struct {
 	ListParams `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// The ID of the quote whose phases will be retrieved.
 	Quote *string `form:"quote"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *QuotePhaseListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // Retrieves the quote phase with the given ID.
 type QuotePhaseParams struct {
 	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *QuotePhaseParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // When retrieving a quote phase, there is an includable line_items property containing the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of line items.
 type QuotePhaseListLineItemsParams struct {
 	ListParams `form:"*"`
 	QuotePhase *string `form:"-"` // Included in URL
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *QuotePhaseListLineItemsParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // The invoice settings applicable during this phase.

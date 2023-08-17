@@ -11,8 +11,8 @@ import (
 	"fmt"
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v74"
-	"github.com/stripe/stripe-go/v74/form"
+	stripe "github.com/stripe/stripe-go/v75"
+	"github.com/stripe/stripe-go/v75/form"
 )
 
 // Client is used to invoke /files APIs.
@@ -99,9 +99,5 @@ func (i *Iter) FileList() *stripe.FileList {
 }
 
 func getC() Client {
-	return Client{
-		stripe.GetBackend(stripe.UploadsBackend),
-		stripe.GetBackend(stripe.UploadsBackend),
-		stripe.Key,
-	}
+	return Client{stripe.GetBackend(stripe.APIBackend), stripe.GetBackend(stripe.UploadsBackend), stripe.Key}
 }

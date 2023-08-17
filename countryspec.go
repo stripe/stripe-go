@@ -9,6 +9,13 @@ package stripe
 // Lists all Country Spec objects available in the API.
 type CountrySpecListParams struct {
 	ListParams `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *CountrySpecListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // Country is the list of supported countries
@@ -17,6 +24,13 @@ type Country string
 // Returns a Country Spec for a given Country code.
 type CountrySpecParams struct {
 	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *CountrySpecParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // VerificationFieldsList lists the fields needed for an account verification.
