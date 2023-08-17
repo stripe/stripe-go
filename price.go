@@ -8,7 +8,7 @@ package stripe
 
 import (
 	"encoding/json"
-	"github.com/stripe/stripe-go/v74/form"
+	"github.com/stripe/stripe-go/v75/form"
 )
 
 // Describes how to compute the price per period. Either `per_unit` or `tiered`. `per_unit` indicates that the fixed amount (specified in `unit_amount` or `unit_amount_decimal`) will be charged per unit in `quantity` (for prices with `usage_type=licensed`), or per unit of total usage (for prices with `usage_type=metered`). `tiered` indicates that the unit pricing will be computed using a tiering strategy as defined using the `tiers` and `tiers_mode` attributes.
@@ -112,8 +112,15 @@ const (
 // to an hour behind during outages. Search functionality is not available to merchants in India.
 type PriceSearchParams struct {
 	SearchParams `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// A cursor for pagination across multiple pages of results. Don't include this parameter on the first call. Use the next_page value returned in a previous response to request subsequent results.
 	Page *string `form:"page"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *PriceSearchParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // Only return prices with these recurring fields.
@@ -135,6 +142,8 @@ type PriceListParams struct {
 	CreatedRange *RangeQueryParams `form:"created"`
 	// Only return prices for the given currency.
 	Currency *string `form:"currency"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// Only return the price with these lookup_keys, if any exist.
 	LookupKeys []*string `form:"lookup_keys"`
 	// Only return prices for the given product.
@@ -143,6 +152,11 @@ type PriceListParams struct {
 	Recurring *PriceListRecurringParams `form:"recurring"`
 	// Only return prices of type `recurring` or `one_time`.
 	Type *string `form:"type"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *PriceListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // When set, provides configuration for the amount to be adjusted by the customer during Checkout Sessions and Payment Links.
@@ -225,6 +239,15 @@ type PriceProductDataParams struct {
 	UnitLabel *string `form:"unit_label"`
 }
 
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *PriceProductDataParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
 // The recurring components of a price such as `interval` and `usage_type`.
 type PriceRecurringParams struct {
 	// Specifies a usage aggregation strategy for prices of `usage_type=metered`. Allowed values are `sum` for summing up all usage during a period, `last_during_period` for using the last usage record reported within a period, `last_ever` for using the last usage record ever (across period bounds) or `max` which uses the usage record with the maximum reported usage during a period. Defaults to `sum`.
@@ -233,7 +256,7 @@ type PriceRecurringParams struct {
 	Interval *string `form:"interval"`
 	// The number of intervals between subscription billings. For example, `interval=month` and `interval_count=3` bills every 3 months. Maximum of one year interval allowed (1 year, 12 months, or 52 weeks).
 	IntervalCount *int64 `form:"interval_count"`
-	// Default number of trial days when subscribing a customer to this plan using [`trial_from_plan=true`](https://stripe.com/docs/api#create_subscription-trial_from_plan).
+	// Default number of trial days when subscribing a customer to this price using [`trial_from_plan=true`](https://stripe.com/docs/api#create_subscription-trial_from_plan).
 	TrialPeriodDays *int64 `form:"trial_period_days"`
 	// Configures how the quantity per period should be determined. Can be either `metered` or `licensed`. `licensed` automatically bills the `quantity` set when adding it to a subscription. `metered` aggregates the total usage based on usage records. Defaults to `licensed`.
 	UsageType *string `form:"usage_type"`
@@ -282,6 +305,8 @@ type PriceParams struct {
 	CurrencyOptions map[string]*PriceCurrencyOptionsParams `form:"currency_options"`
 	// When set, provides configuration for the amount to be adjusted by the customer during Checkout Sessions and Payment Links.
 	CustomUnitAmount *PriceCustomUnitAmountParams `form:"custom_unit_amount"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// A lookup key used to retrieve prices dynamically from a static string. This may be up to 200 characters.
 	LookupKey *string `form:"lookup_key"`
 	// If specified, subscriptions using this price will be updated to use the new referenced price.

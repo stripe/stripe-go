@@ -54,7 +54,10 @@ const (
 	BalanceTransactionSourceTypeIssuingDispute            BalanceTransactionSourceType = "issuing.dispute"
 	BalanceTransactionSourceTypeIssuingTransaction        BalanceTransactionSourceType = "issuing.transaction"
 	BalanceTransactionSourceTypePayout                    BalanceTransactionSourceType = "payout"
+	BalanceTransactionSourceTypePlatformTaxFee            BalanceTransactionSourceType = "platform_tax_fee"
 	BalanceTransactionSourceTypeRefund                    BalanceTransactionSourceType = "refund"
+	BalanceTransactionSourceTypeReserveTransaction        BalanceTransactionSourceType = "reserve_transaction"
+	BalanceTransactionSourceTypeTaxDeductedAtSource       BalanceTransactionSourceType = "tax_deducted_at_source"
 	BalanceTransactionSourceTypeTopup                     BalanceTransactionSourceType = "topup"
 	BalanceTransactionSourceTypeTransfer                  BalanceTransactionSourceType = "transfer"
 	BalanceTransactionSourceTypeTransferReversal          BalanceTransactionSourceType = "transfer_reversal"
@@ -113,15 +116,13 @@ const (
 //
 // Note that this endpoint was previously called “Balance history” and used the path /v1/balance/history.
 type BalanceTransactionListParams struct {
-	ListParams `form:"*"`
-	// This parameter is deprecated and we recommend listing by created and filtering in memory instead.
-	AvailableOn *int64 `form:"available_on"`
-	// This parameter is deprecated and we recommend listing by created and filtering in memory instead.
-	AvailableOnRange *RangeQueryParams `form:"available_on"`
-	Created          *int64            `form:"created"`
-	CreatedRange     *RangeQueryParams `form:"created"`
+	ListParams   `form:"*"`
+	Created      *int64            `form:"created"`
+	CreatedRange *RangeQueryParams `form:"created"`
 	// Only return transactions in a certain currency. Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency *string `form:"currency"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// For automatic Stripe payouts only, only returns transactions that were paid out on the specified payout ID.
 	Payout *string `form:"payout"`
 	// Only returns the original transaction.
@@ -130,11 +131,23 @@ type BalanceTransactionListParams struct {
 	Type *string `form:"type"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *BalanceTransactionListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // Retrieves the balance transaction with the given ID.
 //
 // Note that this endpoint previously used the path /v1/balance/history/:id.
 type BalanceTransactionParams struct {
 	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *BalanceTransactionParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // Detailed breakdown of fees (in cents (or local equivalent)) paid for this transaction.
@@ -201,7 +214,10 @@ type BalanceTransactionSource struct {
 	IssuingDispute            *IssuingDispute            `json:"-"`
 	IssuingTransaction        *IssuingTransaction        `json:"-"`
 	Payout                    *Payout                    `json:"-"`
+	PlatformTaxFee            *PlatformTaxFee            `json:"-"`
 	Refund                    *Refund                    `json:"-"`
+	ReserveTransaction        *ReserveTransaction        `json:"-"`
+	TaxDeductedAtSource       *TaxDeductedAtSource       `json:"-"`
 	Topup                     *Topup                     `json:"-"`
 	Transfer                  *Transfer                  `json:"-"`
 	TransferReversal          *TransferReversal          `json:"-"`
@@ -270,8 +286,14 @@ func (b *BalanceTransactionSource) UnmarshalJSON(data []byte) error {
 		err = json.Unmarshal(data, &b.IssuingTransaction)
 	case BalanceTransactionSourceTypePayout:
 		err = json.Unmarshal(data, &b.Payout)
+	case BalanceTransactionSourceTypePlatformTaxFee:
+		err = json.Unmarshal(data, &b.PlatformTaxFee)
 	case BalanceTransactionSourceTypeRefund:
 		err = json.Unmarshal(data, &b.Refund)
+	case BalanceTransactionSourceTypeReserveTransaction:
+		err = json.Unmarshal(data, &b.ReserveTransaction)
+	case BalanceTransactionSourceTypeTaxDeductedAtSource:
+		err = json.Unmarshal(data, &b.TaxDeductedAtSource)
 	case BalanceTransactionSourceTypeTopup:
 		err = json.Unmarshal(data, &b.Topup)
 	case BalanceTransactionSourceTypeTransfer:

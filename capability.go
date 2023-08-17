@@ -41,14 +41,28 @@ const (
 type CapabilityListParams struct {
 	ListParams `form:"*"`
 	Account    *string `form:"-"` // Included in URL
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *CapabilityListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // Retrieves information about the specified Account Capability.
 type CapabilityParams struct {
 	Params  `form:"*"`
 	Account *string `form:"-"` // Included in URL
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
 	Requested *bool `form:"requested"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *CapabilityParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // Fields that are due and can be satisfied by providing the corresponding alternative fields instead.

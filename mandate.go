@@ -56,26 +56,6 @@ const (
 	MandatePaymentMethodDetailsBACSDebitNetworkStatusRevoked  MandatePaymentMethodDetailsBACSDebitNetworkStatus = "revoked"
 )
 
-// Frequency interval of each recurring payment.
-type MandatePaymentMethodDetailsBLIKOffSessionInterval string
-
-// List of values that MandatePaymentMethodDetailsBLIKOffSessionInterval can take
-const (
-	MandatePaymentMethodDetailsBLIKOffSessionIntervalDay   MandatePaymentMethodDetailsBLIKOffSessionInterval = "day"
-	MandatePaymentMethodDetailsBLIKOffSessionIntervalMonth MandatePaymentMethodDetailsBLIKOffSessionInterval = "month"
-	MandatePaymentMethodDetailsBLIKOffSessionIntervalWeek  MandatePaymentMethodDetailsBLIKOffSessionInterval = "week"
-	MandatePaymentMethodDetailsBLIKOffSessionIntervalYear  MandatePaymentMethodDetailsBLIKOffSessionInterval = "year"
-)
-
-// Type of the mandate.
-type MandatePaymentMethodDetailsBLIKType string
-
-// List of values that MandatePaymentMethodDetailsBLIKType can take
-const (
-	MandatePaymentMethodDetailsBLIKTypeOffSession MandatePaymentMethodDetailsBLIKType = "off_session"
-	MandatePaymentMethodDetailsBLIKTypeOnSession  MandatePaymentMethodDetailsBLIKType = "on_session"
-)
-
 // The type of the payment method associated with this mandate. An additional hash is included on `payment_method_details` with a name matching this value. It contains mandate information specific to the payment method.
 type MandatePaymentMethodDetailsType string
 
@@ -113,7 +93,15 @@ const (
 // Retrieves a Mandate object.
 type MandateParams struct {
 	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 }
+
+// AddExpand appends a new field to expand.
+func (p *MandateParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 type MandateCustomerAcceptanceOffline struct{}
 type MandateCustomerAcceptanceOnline struct {
 	// The IP address from which the Mandate was accepted by the customer.
@@ -152,23 +140,6 @@ type MandatePaymentMethodDetailsBACSDebit struct {
 	// The URL that will contain the mandate that the customer has signed.
 	URL string `json:"url"`
 }
-type MandatePaymentMethodDetailsBLIKOffSession struct {
-	// Amount of each recurring payment.
-	Amount int64 `json:"amount"`
-	// Currency of each recurring payment.
-	Currency Currency `json:"currency"`
-	// Frequency interval of each recurring payment.
-	Interval MandatePaymentMethodDetailsBLIKOffSessionInterval `json:"interval"`
-	// Frequency indicator of each recurring payment.
-	IntervalCount int64 `json:"interval_count"`
-}
-type MandatePaymentMethodDetailsBLIK struct {
-	// Date at which the mandate expires.
-	ExpiresAfter int64                                      `json:"expires_after"`
-	OffSession   *MandatePaymentMethodDetailsBLIKOffSession `json:"off_session"`
-	// Type of the mandate.
-	Type MandatePaymentMethodDetailsBLIKType `json:"type"`
-}
 type MandatePaymentMethodDetailsCard struct{}
 type MandatePaymentMethodDetailsCashApp struct{}
 type MandatePaymentMethodDetailsLink struct{}
@@ -194,7 +165,6 @@ type MandatePaymentMethodDetails struct {
 	ACSSDebit   *MandatePaymentMethodDetailsACSSDebit   `json:"acss_debit"`
 	AUBECSDebit *MandatePaymentMethodDetailsAUBECSDebit `json:"au_becs_debit"`
 	BACSDebit   *MandatePaymentMethodDetailsBACSDebit   `json:"bacs_debit"`
-	BLIK        *MandatePaymentMethodDetailsBLIK        `json:"blik"`
 	Card        *MandatePaymentMethodDetailsCard        `json:"card"`
 	CashApp     *MandatePaymentMethodDetailsCashApp     `json:"cashapp"`
 	Link        *MandatePaymentMethodDetailsLink        `json:"link"`

@@ -117,6 +117,8 @@ type TreasuryOutboundTransferParams struct {
 	DestinationPaymentMethod *string `form:"destination_payment_method"`
 	// Hash describing payment method configuration details.
 	DestinationPaymentMethodOptions *TreasuryOutboundTransferDestinationPaymentMethodOptionsParams `form:"destination_payment_method_options"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// The FinancialAccount to pull funds from.
 	FinancialAccount *string `form:"financial_account"`
 	// Details about the network used for the OutboundTransfer.
@@ -125,19 +127,48 @@ type TreasuryOutboundTransferParams struct {
 	StatementDescriptor *string `form:"statement_descriptor"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *TreasuryOutboundTransferParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *TreasuryOutboundTransferParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
 // Returns a list of OutboundTransfers sent from the specified FinancialAccount.
 type TreasuryOutboundTransferListParams struct {
 	ListParams `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// Returns objects associated with this FinancialAccount.
 	FinancialAccount *string `form:"financial_account"`
 	// Only return OutboundTransfers that have the given status: `processing`, `canceled`, `failed`, `posted`, or `returned`.
 	Status *string `form:"status"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *TreasuryOutboundTransferListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // An OutboundTransfer can be canceled if the funds have not yet been paid out.
 type TreasuryOutboundTransferCancelParams struct {
 	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 }
+
+// AddExpand appends a new field to expand.
+func (p *TreasuryOutboundTransferCancelParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 type TreasuryOutboundTransferDestinationPaymentMethodDetailsBillingDetails struct {
 	Address *Address `json:"address"`
 	// Email address.

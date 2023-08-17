@@ -9,7 +9,7 @@ package stripe
 import (
 	"bytes"
 	"encoding/json"
-	"github.com/stripe/stripe-go/v74/form"
+	"github.com/stripe/stripe-go/v75/form"
 	"io"
 	"mime/multipart"
 	"net/url"
@@ -43,8 +43,15 @@ type FileListParams struct {
 	ListParams   `form:"*"`
 	Created      *int64            `form:"created"`
 	CreatedRange *RangeQueryParams `form:"created"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// The file purpose to filter queries by. If none is provided, files will not be filtered by purpose.
 	Purpose *string `form:"purpose"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *FileListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // Optional parameters to automatically create a [file link](https://stripe.com/docs/api#file_links) for the newly created file.
@@ -58,11 +65,22 @@ type FileFileLinkDataParams struct {
 	Metadata map[string]string `form:"metadata"`
 }
 
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *FileFileLinkDataParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
 // To upload a file to Stripe, you'll need to send a request of type multipart/form-data. The request should contain the file you would like to upload, as well as the parameters for creating a file.
 //
 // All of Stripe's officially supported Client libraries should have support for sending multipart/form-data.
 type FileParams struct {
 	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// FileReader is a reader with the contents of the file that should be uploaded.
 	FileReader io.Reader
 
@@ -72,6 +90,11 @@ type FileParams struct {
 	FileLinkData *FileFileLinkDataParams `form:"file_link_data"`
 	// The [purpose](https://stripe.com/docs/file-upload#uploading-a-file) of the uploaded file.
 	Purpose *string `form:"purpose"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *FileParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // This is an object representing a file hosted on Stripe's servers. The
@@ -116,36 +139,36 @@ type FileList struct {
 
 // GetBody gets an appropriate multipart form payload to use in a request body
 // to create a new file.
-func (f *FileParams) GetBody() (*bytes.Buffer, string, error) {
+func (p *FileParams) GetBody() (*bytes.Buffer, string, error) {
 	body := &bytes.Buffer{}
 	writer := multipart.NewWriter(body)
 
-	if f.Purpose != nil {
-		err := writer.WriteField("purpose", StringValue(f.Purpose))
+	if p.Purpose != nil {
+		err := writer.WriteField("purpose", StringValue(p.Purpose))
 		if err != nil {
 			return nil, "", err
 		}
 	}
 
-	if f.FileReader != nil && f.Filename != nil {
+	if p.FileReader != nil && p.Filename != nil {
 		part, err := writer.CreateFormFile(
 			"file",
-			filepath.Base(StringValue(f.Filename)),
+			filepath.Base(StringValue(p.Filename)),
 		)
 
 		if err != nil {
 			return nil, "", err
 		}
 
-		_, err = io.Copy(part, f.FileReader)
+		_, err = io.Copy(part, p.FileReader)
 		if err != nil {
 			return nil, "", err
 		}
 	}
 
-	if f.FileLinkData != nil {
+	if p.FileLinkData != nil {
 		values := &form.Values{}
-		form.AppendToPrefixed(values, f.FileLinkData, []string{"file_link_data"})
+		form.AppendToPrefixed(values, p.FileLinkData, []string{"file_link_data"})
 
 		params, err := url.ParseQuery(values.Encode())
 		if err != nil {

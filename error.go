@@ -50,7 +50,6 @@ const (
 	ErrorCodeCaptureUnauthorizedPayment                                  ErrorCode = "capture_unauthorized_payment"
 	ErrorCodeCardDeclineRateLimitExceeded                                ErrorCode = "card_decline_rate_limit_exceeded"
 	ErrorCodeCardDeclined                                                ErrorCode = "card_declined"
-	ErrorCodeCardDeclinedRateLimitExceeded                               ErrorCode = "card_decline_rate_limit_exceeded"
 	ErrorCodeCardholderPhoneNumberRequired                               ErrorCode = "cardholder_phone_number_required"
 	ErrorCodeChargeAlreadyCaptured                                       ErrorCode = "charge_already_captured"
 	ErrorCodeChargeAlreadyRefunded                                       ErrorCode = "charge_already_refunded"
@@ -91,14 +90,12 @@ const (
 	ErrorCodeInvalidExpiryYear                                           ErrorCode = "invalid_expiry_year"
 	ErrorCodeInvalidNumber                                               ErrorCode = "invalid_number"
 	ErrorCodeInvalidSourceUsage                                          ErrorCode = "invalid_source_usage"
-	ErrorCodeInvalidSwipeData                                            ErrorCode = "invalid_swipe_data"
 	ErrorCodeInvalidTaxLocation                                          ErrorCode = "invalid_tax_location"
 	ErrorCodeInvoiceNoCustomerLineItems                                  ErrorCode = "invoice_no_customer_line_items"
 	ErrorCodeInvoiceNoPaymentMethodTypes                                 ErrorCode = "invoice_no_payment_method_types"
 	ErrorCodeInvoiceNoSubscriptionLineItems                              ErrorCode = "invoice_no_subscription_line_items"
 	ErrorCodeInvoiceNotEditable                                          ErrorCode = "invoice_not_editable"
 	ErrorCodeInvoiceOnBehalfOfNotEditable                                ErrorCode = "invoice_on_behalf_of_not_editable"
-	ErrorCodeInvoicePamentIntentRequiresAction                           ErrorCode = "invoice_payment_intent_requires_action"
 	ErrorCodeInvoicePaymentIntentRequiresAction                          ErrorCode = "invoice_payment_intent_requires_action"
 	ErrorCodeInvoiceUpcomingNone                                         ErrorCode = "invoice_upcoming_none"
 	ErrorCodeLivemodeMismatch                                            ErrorCode = "livemode_mismatch"
@@ -172,7 +169,6 @@ const (
 	ErrorCodeSetupIntentSetupAttemptExpired                              ErrorCode = "setup_intent_setup_attempt_expired"
 	ErrorCodeSetupIntentUnexpectedState                                  ErrorCode = "setup_intent_unexpected_state"
 	ErrorCodeShippingCalculationFailed                                   ErrorCode = "shipping_calculation_failed"
-	ErrorCodeSkuInactive                                                 ErrorCode = "sku_inactive"
 	ErrorCodeStateUnsupported                                            ErrorCode = "state_unsupported"
 	ErrorCodeStatusTransitionInvalid                                     ErrorCode = "status_transition_invalid"
 	ErrorCodeTLSVersionUnsupported                                       ErrorCode = "tls_version_unsupported"
@@ -188,7 +184,6 @@ const (
 	ErrorCodeTransferSourceBalanceParametersMismatch                     ErrorCode = "transfer_source_balance_parameters_mismatch"
 	ErrorCodeTransfersNotAllowed                                         ErrorCode = "transfers_not_allowed"
 	ErrorCodeURLInvalid                                                  ErrorCode = "url_invalid"
-	ErrorCodeinstantPayoutsLimitExceeded                                 ErrorCode = "instant_payouts_limit_exceeded"
 )
 
 // The end of the section generated from our OpenAPI spec

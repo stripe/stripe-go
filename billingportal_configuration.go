@@ -80,8 +80,15 @@ type BillingPortalConfigurationListParams struct {
 	ListParams `form:"*"`
 	// Only return configurations that are active or inactive (e.g., pass `true` to only list active configurations).
 	Active *bool `form:"active"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// Only return the default or non-default configurations (e.g., pass `true` to only list the default configuration).
 	IsDefault *bool `form:"is_default"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *BillingPortalConfigurationListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // The business information shown to customers in the portal.
@@ -193,11 +200,30 @@ type BillingPortalConfigurationParams struct {
 	BusinessProfile *BillingPortalConfigurationBusinessProfileParams `form:"business_profile"`
 	// The default URL to redirect customers to when they click on the portal's link to return to your website. This can be [overriden](https://stripe.com/docs/api/customer_portal/sessions/create#create_portal_session-return_url) when creating the session.
 	DefaultReturnURL *string `form:"default_return_url"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// Information about the features available in the portal.
 	Features *BillingPortalConfigurationFeaturesParams `form:"features"`
 	// The hosted login page for this configuration. Learn more about the portal login page in our [integration docs](https://stripe.com/docs/billing/subscriptions/integrating-customer-portal#share).
 	LoginPage *BillingPortalConfigurationLoginPageParams `form:"login_page"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
 }
+
+// AddExpand appends a new field to expand.
+func (p *BillingPortalConfigurationParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *BillingPortalConfigurationParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
 type BillingPortalConfigurationBusinessProfile struct {
 	// The messaging shown to customers in the portal.
 	Headline string `json:"headline"`

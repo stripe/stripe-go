@@ -97,48 +97,48 @@ const (
 )
 
 // Whether the Feature is operational.
-type TreasuryFinancialAccountFeaturesFinancialAddressesAbaStatus string
+type TreasuryFinancialAccountFeaturesFinancialAddressesABAStatus string
 
-// List of values that TreasuryFinancialAccountFeaturesFinancialAddressesAbaStatus can take
+// List of values that TreasuryFinancialAccountFeaturesFinancialAddressesABAStatus can take
 const (
-	TreasuryFinancialAccountFeaturesFinancialAddressesAbaStatusActive     TreasuryFinancialAccountFeaturesFinancialAddressesAbaStatus = "active"
-	TreasuryFinancialAccountFeaturesFinancialAddressesAbaStatusPending    TreasuryFinancialAccountFeaturesFinancialAddressesAbaStatus = "pending"
-	TreasuryFinancialAccountFeaturesFinancialAddressesAbaStatusRestricted TreasuryFinancialAccountFeaturesFinancialAddressesAbaStatus = "restricted"
+	TreasuryFinancialAccountFeaturesFinancialAddressesABAStatusActive     TreasuryFinancialAccountFeaturesFinancialAddressesABAStatus = "active"
+	TreasuryFinancialAccountFeaturesFinancialAddressesABAStatusPending    TreasuryFinancialAccountFeaturesFinancialAddressesABAStatus = "pending"
+	TreasuryFinancialAccountFeaturesFinancialAddressesABAStatusRestricted TreasuryFinancialAccountFeaturesFinancialAddressesABAStatus = "restricted"
 )
 
 // Represents the reason why the status is `pending` or `restricted`.
-type TreasuryFinancialAccountFeaturesFinancialAddressesAbaStatusDetailCode string
+type TreasuryFinancialAccountFeaturesFinancialAddressesABAStatusDetailCode string
 
-// List of values that TreasuryFinancialAccountFeaturesFinancialAddressesAbaStatusDetailCode can take
+// List of values that TreasuryFinancialAccountFeaturesFinancialAddressesABAStatusDetailCode can take
 const (
-	TreasuryFinancialAccountFeaturesFinancialAddressesAbaStatusDetailCodeActivating                      TreasuryFinancialAccountFeaturesFinancialAddressesAbaStatusDetailCode = "activating"
-	TreasuryFinancialAccountFeaturesFinancialAddressesAbaStatusDetailCodeCapabilityNotRequested          TreasuryFinancialAccountFeaturesFinancialAddressesAbaStatusDetailCode = "capability_not_requested"
-	TreasuryFinancialAccountFeaturesFinancialAddressesAbaStatusDetailCodeFinancialAccountClosed          TreasuryFinancialAccountFeaturesFinancialAddressesAbaStatusDetailCode = "financial_account_closed"
-	TreasuryFinancialAccountFeaturesFinancialAddressesAbaStatusDetailCodeRejectedOther                   TreasuryFinancialAccountFeaturesFinancialAddressesAbaStatusDetailCode = "rejected_other"
-	TreasuryFinancialAccountFeaturesFinancialAddressesAbaStatusDetailCodeRejectedUnsupportedBusiness     TreasuryFinancialAccountFeaturesFinancialAddressesAbaStatusDetailCode = "rejected_unsupported_business"
-	TreasuryFinancialAccountFeaturesFinancialAddressesAbaStatusDetailCodeRequirementsPastDue             TreasuryFinancialAccountFeaturesFinancialAddressesAbaStatusDetailCode = "requirements_past_due"
-	TreasuryFinancialAccountFeaturesFinancialAddressesAbaStatusDetailCodeRequirementsPendingVerification TreasuryFinancialAccountFeaturesFinancialAddressesAbaStatusDetailCode = "requirements_pending_verification"
-	TreasuryFinancialAccountFeaturesFinancialAddressesAbaStatusDetailCodeRestrictedByPlatform            TreasuryFinancialAccountFeaturesFinancialAddressesAbaStatusDetailCode = "restricted_by_platform"
-	TreasuryFinancialAccountFeaturesFinancialAddressesAbaStatusDetailCodeRestrictedOther                 TreasuryFinancialAccountFeaturesFinancialAddressesAbaStatusDetailCode = "restricted_other"
+	TreasuryFinancialAccountFeaturesFinancialAddressesABAStatusDetailCodeActivating                      TreasuryFinancialAccountFeaturesFinancialAddressesABAStatusDetailCode = "activating"
+	TreasuryFinancialAccountFeaturesFinancialAddressesABAStatusDetailCodeCapabilityNotRequested          TreasuryFinancialAccountFeaturesFinancialAddressesABAStatusDetailCode = "capability_not_requested"
+	TreasuryFinancialAccountFeaturesFinancialAddressesABAStatusDetailCodeFinancialAccountClosed          TreasuryFinancialAccountFeaturesFinancialAddressesABAStatusDetailCode = "financial_account_closed"
+	TreasuryFinancialAccountFeaturesFinancialAddressesABAStatusDetailCodeRejectedOther                   TreasuryFinancialAccountFeaturesFinancialAddressesABAStatusDetailCode = "rejected_other"
+	TreasuryFinancialAccountFeaturesFinancialAddressesABAStatusDetailCodeRejectedUnsupportedBusiness     TreasuryFinancialAccountFeaturesFinancialAddressesABAStatusDetailCode = "rejected_unsupported_business"
+	TreasuryFinancialAccountFeaturesFinancialAddressesABAStatusDetailCodeRequirementsPastDue             TreasuryFinancialAccountFeaturesFinancialAddressesABAStatusDetailCode = "requirements_past_due"
+	TreasuryFinancialAccountFeaturesFinancialAddressesABAStatusDetailCodeRequirementsPendingVerification TreasuryFinancialAccountFeaturesFinancialAddressesABAStatusDetailCode = "requirements_pending_verification"
+	TreasuryFinancialAccountFeaturesFinancialAddressesABAStatusDetailCodeRestrictedByPlatform            TreasuryFinancialAccountFeaturesFinancialAddressesABAStatusDetailCode = "restricted_by_platform"
+	TreasuryFinancialAccountFeaturesFinancialAddressesABAStatusDetailCodeRestrictedOther                 TreasuryFinancialAccountFeaturesFinancialAddressesABAStatusDetailCode = "restricted_other"
 )
 
 // Represents what the user should do, if anything, to activate the Feature.
-type TreasuryFinancialAccountFeaturesFinancialAddressesAbaStatusDetailResolution string
+type TreasuryFinancialAccountFeaturesFinancialAddressesABAStatusDetailResolution string
 
-// List of values that TreasuryFinancialAccountFeaturesFinancialAddressesAbaStatusDetailResolution can take
+// List of values that TreasuryFinancialAccountFeaturesFinancialAddressesABAStatusDetailResolution can take
 const (
-	TreasuryFinancialAccountFeaturesFinancialAddressesAbaStatusDetailResolutionContactStripe      TreasuryFinancialAccountFeaturesFinancialAddressesAbaStatusDetailResolution = "contact_stripe"
-	TreasuryFinancialAccountFeaturesFinancialAddressesAbaStatusDetailResolutionProvideInformation TreasuryFinancialAccountFeaturesFinancialAddressesAbaStatusDetailResolution = "provide_information"
-	TreasuryFinancialAccountFeaturesFinancialAddressesAbaStatusDetailResolutionRemoveRestriction  TreasuryFinancialAccountFeaturesFinancialAddressesAbaStatusDetailResolution = "remove_restriction"
+	TreasuryFinancialAccountFeaturesFinancialAddressesABAStatusDetailResolutionContactStripe      TreasuryFinancialAccountFeaturesFinancialAddressesABAStatusDetailResolution = "contact_stripe"
+	TreasuryFinancialAccountFeaturesFinancialAddressesABAStatusDetailResolutionProvideInformation TreasuryFinancialAccountFeaturesFinancialAddressesABAStatusDetailResolution = "provide_information"
+	TreasuryFinancialAccountFeaturesFinancialAddressesABAStatusDetailResolutionRemoveRestriction  TreasuryFinancialAccountFeaturesFinancialAddressesABAStatusDetailResolution = "remove_restriction"
 )
 
 // The `platform_restrictions` that are restricting this Feature.
-type TreasuryFinancialAccountFeaturesFinancialAddressesAbaStatusDetailRestriction string
+type TreasuryFinancialAccountFeaturesFinancialAddressesABAStatusDetailRestriction string
 
-// List of values that TreasuryFinancialAccountFeaturesFinancialAddressesAbaStatusDetailRestriction can take
+// List of values that TreasuryFinancialAccountFeaturesFinancialAddressesABAStatusDetailRestriction can take
 const (
-	TreasuryFinancialAccountFeaturesFinancialAddressesAbaStatusDetailRestrictionInboundFlows  TreasuryFinancialAccountFeaturesFinancialAddressesAbaStatusDetailRestriction = "inbound_flows"
-	TreasuryFinancialAccountFeaturesFinancialAddressesAbaStatusDetailRestrictionOutboundFlows TreasuryFinancialAccountFeaturesFinancialAddressesAbaStatusDetailRestriction = "outbound_flows"
+	TreasuryFinancialAccountFeaturesFinancialAddressesABAStatusDetailRestrictionInboundFlows  TreasuryFinancialAccountFeaturesFinancialAddressesABAStatusDetailRestriction = "inbound_flows"
+	TreasuryFinancialAccountFeaturesFinancialAddressesABAStatusDetailRestrictionOutboundFlows TreasuryFinancialAccountFeaturesFinancialAddressesABAStatusDetailRestriction = "outbound_flows"
 )
 
 // Whether the Feature is operational.
@@ -452,29 +452,29 @@ type TreasuryFinancialAccountFeaturesDepositInsurance struct {
 }
 
 // Additional details; includes at least one entry when the status is not `active`.
-type TreasuryFinancialAccountFeaturesFinancialAddressesAbaStatusDetail struct {
+type TreasuryFinancialAccountFeaturesFinancialAddressesABAStatusDetail struct {
 	// Represents the reason why the status is `pending` or `restricted`.
-	Code TreasuryFinancialAccountFeaturesFinancialAddressesAbaStatusDetailCode `json:"code"`
+	Code TreasuryFinancialAccountFeaturesFinancialAddressesABAStatusDetailCode `json:"code"`
 	// Represents what the user should do, if anything, to activate the Feature.
-	Resolution TreasuryFinancialAccountFeaturesFinancialAddressesAbaStatusDetailResolution `json:"resolution"`
+	Resolution TreasuryFinancialAccountFeaturesFinancialAddressesABAStatusDetailResolution `json:"resolution"`
 	// The `platform_restrictions` that are restricting this Feature.
-	Restriction TreasuryFinancialAccountFeaturesFinancialAddressesAbaStatusDetailRestriction `json:"restriction"`
+	Restriction TreasuryFinancialAccountFeaturesFinancialAddressesABAStatusDetailRestriction `json:"restriction"`
 }
 
 // Toggle settings for enabling/disabling the ABA address feature
-type TreasuryFinancialAccountFeaturesFinancialAddressesAba struct {
+type TreasuryFinancialAccountFeaturesFinancialAddressesABA struct {
 	// Whether the FinancialAccount should have the Feature.
 	Requested bool `json:"requested"`
 	// Whether the Feature is operational.
-	Status TreasuryFinancialAccountFeaturesFinancialAddressesAbaStatus `json:"status"`
+	Status TreasuryFinancialAccountFeaturesFinancialAddressesABAStatus `json:"status"`
 	// Additional details; includes at least one entry when the status is not `active`.
-	StatusDetails []*TreasuryFinancialAccountFeaturesFinancialAddressesAbaStatusDetail `json:"status_details"`
+	StatusDetails []*TreasuryFinancialAccountFeaturesFinancialAddressesABAStatusDetail `json:"status_details"`
 }
 
 // Settings related to Financial Addresses features on a Financial Account
 type TreasuryFinancialAccountFeaturesFinancialAddresses struct {
 	// Toggle settings for enabling/disabling the ABA address feature
-	Aba *TreasuryFinancialAccountFeaturesFinancialAddressesAba `json:"aba"`
+	ABA *TreasuryFinancialAccountFeaturesFinancialAddressesABA `json:"aba"`
 }
 
 // Additional details; includes at least one entry when the status is not `active`.

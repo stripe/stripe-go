@@ -1,8 +1,102 @@
 # Changelog
 
+## 75.0.0 - 2023-08-16
+* This release changes the pinned API version to `2023-08-16`. Please read the [API Upgrade Guide](https://stripe.com/docs/upgrades#2023-08-16) and carefully review the API changes before upgrading `stripe-go`.
+* More information is available in the [stripe-go v75 migration guide](https://github.com/stripe/stripe-go/wiki/Migration-guide-for-v75)
+* [#1705](https://github.com/stripe/stripe-go/pull/1705) Update generated code
+  * ⚠️Add support for new values `verification_directors_mismatch`, `verification_document_directors_mismatch`, `verification_extraneous_directors`, and `verification_missing_directors` on enums `AccountFutureRequirementsErrorsCode`, `AccountRequirementsErrorsCode`, `BankAccountFutureRequirementsErrorsCode`, and `BankAccountRequirementsErrorsCode`
+  * Remove support for `AvailableOn` on `BalanceTransactionListParams`
+    * Use of this parameter is discouraged. You may use [`.AddExtra`](https://github.com/stripe/stripe-go#parameters) if sending the parameter is still required.
+  * ⚠️Remove support for `Destination` on `Charge`
+    * Please use `TransferData` or `OnBehalfOf` instead.
+  * ⚠️Remove support for `AlternateStatementDescriptors` and `Dispute` on `Charge`
+    * Use of these parameters is discouraged.
+  * ⚠️Remove support for `ShippingRates` on `CheckoutSessionParams`
+    * Please use `ShippingParams` instead.
+  * ⚠️Remove support for `Coupon` and `TrialFromPlan` on `CheckoutSessionSubscriptionDataParams`
+    * Please [migrate to the Prices API](https://stripe.com/docs/billing/migration/migrating-prices), or use [`.AddExtra`](https://github.com/stripe/stripe-go#parameters) if sending the parameter is still required.
+  * ⚠️Remove support for value `charge_refunded` from enum `DisputeStatus`
+  * ⚠️Remove support for `BLIK` on `MandatePaymentMethodDetails`, `PaymentMethodParams`, `SetupAttemptPaymentMethodDetails`, `SetupIntentConfirmPaymentMethodOptionsParams`, `SetupIntentPaymentMethodOptionsParams`, and `SetupIntentPaymentMethodOptions`
+      * These fields were mistakenly released.
+  * ⚠️Remove support for `ACSSDebit`, `AUBECSDebit`, `Affirm`, `BACSDebit`, `CashApp`, `SEPADebit`, and `Zip` on `PaymentMethodParams`
+      * These fields were empty hashes.
+  * ⚠️Remove support for `Country` on `PaymentMethodLink`
+      * This field was not fully operational.
+  * ⚠️Remove support for `Recurring` on `PriceParams`
+      * This property should be set on create only.
+  * ⚠️Remove support for `Attributes`, `Caption`, and `DeactivateOn` on `ProductParams` and `Product`
+    * These fields are not fully operational.
+* [#1699](https://github.com/stripe/stripe-go/pull/1699)
+  * Add `Metadata` and `Expand` to individual `Params` classes.
+  * `Expand`, `AddExpand`, `Metadata` and `AddMetadata` on embedded `Params` struct were deprecated.
+    Before:
+    
+    ```go
+    params := &stripe.AccountParams{
+              Params: stripe.Params{
+  	            Expand: []*string{stripe.String("business_profile")},
+  	            Metadata: map[string]string{
+  		            "order_id": "6735",
+  	            },
+              },
+    }
+    ```
+    
+    After:
+    ```go
+    params := &stripe.AccountParams{
+              Expand: []*string{stripe.String("business_profile")},
+              Metadata: map[string]string{
+                       "order_id": "6735",
+              },
+    }
+    ```
+    You don't have to change your calls to `AddMetadata` and `AddExpand`
+    Before/After:
+    ```go
+    params.AddMetadata("order_id", "6735") 
+    params.AddExpand("business_profile")
+    ```
+  - ⚠️ Removed deprecated `excluded_territory`, `jurisdiction_unsupported`, `vat_exempt` taxability reasons:
+    - `CheckoutSessionShippingCostTaxTaxabilityReasonExcludedTerritory`
+    - `CheckoutSessionShippingCostTaxTaxabilityReasonJurisdictionUnsupported`
+    - `CheckoutSessionShippingCostTaxTaxabilityReasonVATExempt`
+    - `CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReasonExcludedTerritory`
+    - `CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReasonJurisdictionUnsupported`
+    - `CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReasonVATExempt`
+    - `CreditNoteShippingCostTaxTaxabilityReasonExcludedTerritory`
+    - `CreditNoteShippingCostTaxTaxabilityReasonJurisdictionUnsupported`
+    - `CreditNoteShippingCostTaxTaxabilityReasonVATExempt`
+    - `InvoiceShippingCostTaxTaxabilityReasonExcludedTerritory`
+    - `InvoiceShippingCostTaxTaxabilityReasonJurisdictionUnsupported`
+    - `InvoiceShippingCostTaxTaxabilityReasonVATExempt`
+    - `LineItemTaxTaxabilityReasonExcludedTerritory`
+    - `LineItemTaxTaxabilityReasonJurisdictionUnsupported`
+    - `LineItemTaxTaxabilityReasonVATExempt`
+    - `QuoteComputedRecurringTotalDetailsBreakdownTaxTaxabilityReasonExcludedTerritory`
+    - `QuoteComputedRecurringTotalDetailsBreakdownTaxTaxabilityReasonJurisdictionUnsupported`
+    - `QuoteComputedRecurringTotalDetailsBreakdownTaxTaxabilityReasonVATExempt`
+    - `QuoteComputedUpfrontTotalDetailsBreakdownTaxTaxabilityReasonExcludedTerritory`
+    - `QuoteComputedUpfrontTotalDetailsBreakdownTaxTaxabilityReasonJurisdictionUnsupported`
+    - `QuoteComputedUpfrontTotalDetailsBreakdownTaxTaxabilityReasonVATExempt`
+    - `QuoteTotalDetailsBreakdownTaxTaxabilityReasonExcludedTerritory`
+    - `QuoteTotalDetailsBreakdownTaxTaxabilityReasonJurisdictionUnsupported`
+    - `QuoteTotalDetailsBreakdownTaxTaxabilityReasonVATExempt`
+  - ⚠️ Removed deprecated error code constant `ErrorCodeCardDeclinedRateLimitExceeded`, prefer `ErrorCodeCardDeclineRateLimitExceeded`.
+  - ⚠️ Removed deprecated error code constant `ErrorCodeInvalidSwipeData`.
+  - ⚠️ Removed deprecated error code constant `ErrorCodeInvoicePamentIntentRequiresAction` prefer `ErrorCodeInvoicePaymentIntentRequiresAction`.
+  - ⚠️ Removed deprecated error code constant `ErrorCodeSepaUnsupportedAccount`, prefer `ErrorCodeSEPAUnsupportedAccount`.
+  - ⚠️ Removed deprecated error code constant `ErrorCodeSkuInactive`, prefer `ErrorCodeSKUInactive`.
+  - ⚠️ Removed deprecated error code constant `ErrorCodeinstantPayoutsLimitExceeded`, prefer `ErrorCodeInstantPayoutsLimitExceeded`.
+
 ## 74.31.0-beta.1 - 2023-08-10
 * [#1701](https://github.com/stripe/stripe-go/pull/1701) Update generated code for beta
   * Add support for `Paypal` on `PaymentMethodConfigurationParams` and `PaymentMethodConfiguration`
+
+## 74.30.0 - 2023-08-10
+* [#1702](https://github.com/stripe/stripe-go/pull/1702) Update generated code
+  * Add support for new values `incorporated_partnership` and `unincorporated_partnership` on enum `AccountCompanyStructure`
+  * Add support for new value `payment_reversal` on enum `BalanceTransactionType`
 
 ## 74.30.0-beta.1 - 2023-08-03
 * [#1697](https://github.com/stripe/stripe-go/pull/1697) Update generated code for beta

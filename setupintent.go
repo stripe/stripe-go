@@ -108,26 +108,6 @@ const (
 	SetupIntentPaymentMethodOptionsACSSDebitVerificationMethodMicrodeposits SetupIntentPaymentMethodOptionsACSSDebitVerificationMethod = "microdeposits"
 )
 
-// Frequency interval of each recurring payment.
-type SetupIntentPaymentMethodOptionsBLIKMandateOptionsOffSessionInterval string
-
-// List of values that SetupIntentPaymentMethodOptionsBLIKMandateOptionsOffSessionInterval can take
-const (
-	SetupIntentPaymentMethodOptionsBLIKMandateOptionsOffSessionIntervalDay   SetupIntentPaymentMethodOptionsBLIKMandateOptionsOffSessionInterval = "day"
-	SetupIntentPaymentMethodOptionsBLIKMandateOptionsOffSessionIntervalMonth SetupIntentPaymentMethodOptionsBLIKMandateOptionsOffSessionInterval = "month"
-	SetupIntentPaymentMethodOptionsBLIKMandateOptionsOffSessionIntervalWeek  SetupIntentPaymentMethodOptionsBLIKMandateOptionsOffSessionInterval = "week"
-	SetupIntentPaymentMethodOptionsBLIKMandateOptionsOffSessionIntervalYear  SetupIntentPaymentMethodOptionsBLIKMandateOptionsOffSessionInterval = "year"
-)
-
-// Type of the mandate.
-type SetupIntentPaymentMethodOptionsBLIKMandateOptionsType string
-
-// List of values that SetupIntentPaymentMethodOptionsBLIKMandateOptionsType can take
-const (
-	SetupIntentPaymentMethodOptionsBLIKMandateOptionsTypeOffSession SetupIntentPaymentMethodOptionsBLIKMandateOptionsType = "off_session"
-	SetupIntentPaymentMethodOptionsBLIKMandateOptionsTypeOnSession  SetupIntentPaymentMethodOptionsBLIKMandateOptionsType = "on_session"
-)
-
 // One of `fixed` or `maximum`. If `fixed`, the `amount` param refers to the exact amount to be charged in future payments. If `maximum`, the amount charged can be up to the value passed for the `amount` param.
 type SetupIntentPaymentMethodOptionsCardMandateOptionsAmountType string
 
@@ -279,7 +259,7 @@ type SetupIntentMandateDataCustomerAcceptanceParams struct {
 	Offline *SetupIntentMandateDataCustomerAcceptanceOfflineParams `form:"offline"`
 	// If this is a Mandate accepted online, this hash contains details about the online acceptance.
 	Online *SetupIntentMandateDataCustomerAcceptanceOnlineParams `form:"online"`
-	// The type of customer acceptance information included with the Mandate.
+	// The type of customer acceptance information included with the Mandate. One of `online` or `offline`.
 	Type MandateCustomerAcceptanceType `form:"type"`
 }
 
@@ -539,6 +519,15 @@ type SetupIntentPaymentMethodDataParams struct {
 	Zip *SetupIntentPaymentMethodDataZipParams `form:"zip"`
 }
 
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *SetupIntentPaymentMethodDataParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
 // Additional fields for Mandate creation
 type SetupIntentPaymentMethodOptionsACSSDebitMandateOptionsParams struct {
 	// A URL for custom mandate text to render during confirmation step.
@@ -563,12 +552,6 @@ type SetupIntentPaymentMethodOptionsACSSDebitParams struct {
 	MandateOptions *SetupIntentPaymentMethodOptionsACSSDebitMandateOptionsParams `form:"mandate_options"`
 	// Verification method for the intent
 	VerificationMethod *string `form:"verification_method"`
-}
-
-// If this is a `blik` PaymentMethod, this hash contains details about the BLIK payment method.
-type SetupIntentPaymentMethodOptionsBLIKParams struct {
-	// The 6-digit BLIK code that a customer has generated using their banking application. Can only be set on confirmation.
-	Code *string `form:"code"`
 }
 
 // Configuration options for setting up an eMandate for cards issued in India.
@@ -669,8 +652,6 @@ type SetupIntentPaymentMethodOptionsUSBankAccountParams struct {
 type SetupIntentPaymentMethodOptionsParams struct {
 	// If this is a `acss_debit` SetupIntent, this sub-hash contains details about the ACSS Debit payment method options.
 	ACSSDebit *SetupIntentPaymentMethodOptionsACSSDebitParams `form:"acss_debit"`
-	// If this is a `blik` PaymentMethod, this hash contains details about the BLIK payment method.
-	BLIK *SetupIntentPaymentMethodOptionsBLIKParams `form:"blik"`
 	// Configuration for any card setup attempted on this SetupIntent.
 	Card *SetupIntentPaymentMethodOptionsCardParams `form:"card"`
 	// If this is a `link` PaymentMethod, this sub-hash contains details about the Link payment method options.
@@ -713,12 +694,16 @@ type SetupIntentParams struct {
 	Customer *string `form:"customer"`
 	// An arbitrary string attached to the object. Often useful for displaying to users.
 	Description *string `form:"description"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// Indicates the directions of money movement for which this payment method is intended to be used.
 	//
 	// Include `inbound` if you intend to use the payment method as the origin to pull funds from. Include `outbound` if you intend to use the payment method as the destination to send funds to. You can include both if you intend to use the payment method for both purposes.
 	FlowDirections []*string `form:"flow_directions"`
 	// This hash contains details about the Mandate to create. This parameter can only be used with [`confirm=true`](https://stripe.com/docs/api/setup_intents/create#create_setup_intent-confirm).
 	MandateData *SetupIntentMandateDataParams `form:"mandate_data"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
 	// The Stripe account ID for which this SetupIntent is created.
 	OnBehalfOf *string `form:"on_behalf_of"`
 	// ID of the payment method (a PaymentMethod, Card, or saved Source object) to attach to this SetupIntent.
@@ -742,6 +727,20 @@ type SetupIntentParams struct {
 	UseStripeSDK *bool `form:"use_stripe_sdk"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *SetupIntentParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *SetupIntentParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
 // Returns a list of SetupIntents.
 type SetupIntentListParams struct {
 	ListParams `form:"*"`
@@ -755,8 +754,15 @@ type SetupIntentListParams struct {
 	CreatedRange *RangeQueryParams `form:"created"`
 	// Only return SetupIntents for the customer specified by this customer ID.
 	Customer *string `form:"customer"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// Only return SetupIntents associated with the specified payment method.
 	PaymentMethod *string `form:"payment_method"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *SetupIntentListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // If this is an `acss_debit` PaymentMethod, this hash contains details about the ACSS Debit payment method.
@@ -1009,6 +1015,15 @@ type SetupIntentConfirmPaymentMethodDataParams struct {
 	Zip *SetupIntentConfirmPaymentMethodDataZipParams `form:"zip"`
 }
 
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *SetupIntentConfirmPaymentMethodDataParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
 // Confirm that your customer intends to set up the current or
 // provided payment method. For example, you would confirm a SetupIntent
 // when a customer hits the “Save” button on a payment method management
@@ -1025,6 +1040,8 @@ type SetupIntentConfirmPaymentMethodDataParams struct {
 // confirmation limit is reached.
 type SetupIntentConfirmParams struct {
 	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// This hash contains details about the Mandate to create
 	MandateData *SetupIntentMandateDataParams `form:"mandate_data"`
 	// ID of the payment method (a PaymentMethod, Card, or saved Source object) to attach to this SetupIntent.
@@ -1042,6 +1059,11 @@ type SetupIntentConfirmParams struct {
 	UseStripeSDK *bool `form:"use_stripe_sdk"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *SetupIntentConfirmParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // A SetupIntent object can be canceled when it is in one of these statuses: requires_payment_method, requires_confirmation, or requires_action.
 //
 // Once canceled, setup is abandoned and any operations on the SetupIntent will fail with an error.
@@ -1049,6 +1071,13 @@ type SetupIntentCancelParams struct {
 	Params `form:"*"`
 	// Reason for canceling this SetupIntent. Possible values are `abandoned`, `requested_by_customer`, or `duplicate`
 	CancellationReason *string `form:"cancellation_reason"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *SetupIntentCancelParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // Verifies microdeposits on a SetupIntent object.
@@ -1058,9 +1087,16 @@ type SetupIntentVerifyMicrodepositsParams struct {
 	Amounts []*int64 `form:"amounts"`
 	// A six-character code starting with SM present in the microdeposit sent to the bank account.
 	DescriptorCode *string `form:"descriptor_code"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 }
 
-// Settings for automatic payment methods compatible with this Setup Intent
+// AddExpand appends a new field to expand.
+func (p *SetupIntentVerifyMicrodepositsParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// Settings for dynamic payment methods compatible with this Setup Intent
 type SetupIntentAutomaticPaymentMethods struct {
 	// Controls whether this SetupIntent will accept redirect-based payment methods.
 	//
@@ -1139,26 +1175,6 @@ type SetupIntentPaymentMethodOptionsACSSDebit struct {
 	// Bank account verification method.
 	VerificationMethod SetupIntentPaymentMethodOptionsACSSDebitVerificationMethod `json:"verification_method"`
 }
-type SetupIntentPaymentMethodOptionsBLIKMandateOptionsOffSession struct {
-	// Amount of each recurring payment.
-	Amount int64 `json:"amount"`
-	// Currency of each recurring payment.
-	Currency Currency `json:"currency"`
-	// Frequency interval of each recurring payment.
-	Interval SetupIntentPaymentMethodOptionsBLIKMandateOptionsOffSessionInterval `json:"interval"`
-	// Frequency indicator of each recurring payment.
-	IntervalCount int64 `json:"interval_count"`
-}
-type SetupIntentPaymentMethodOptionsBLIKMandateOptions struct {
-	// Date at which the mandate expires.
-	ExpiresAfter int64                                                        `json:"expires_after"`
-	OffSession   *SetupIntentPaymentMethodOptionsBLIKMandateOptionsOffSession `json:"off_session"`
-	// Type of the mandate.
-	Type SetupIntentPaymentMethodOptionsBLIKMandateOptionsType `json:"type"`
-}
-type SetupIntentPaymentMethodOptionsBLIK struct {
-	MandateOptions *SetupIntentPaymentMethodOptionsBLIKMandateOptions `json:"mandate_options"`
-}
 
 // Configuration options for setting up an eMandate for cards issued in India.
 type SetupIntentPaymentMethodOptionsCardMandateOptions struct {
@@ -1227,7 +1243,6 @@ type SetupIntentPaymentMethodOptionsUSBankAccount struct {
 // Payment-method-specific configuration for this SetupIntent.
 type SetupIntentPaymentMethodOptions struct {
 	ACSSDebit     *SetupIntentPaymentMethodOptionsACSSDebit     `json:"acss_debit"`
-	BLIK          *SetupIntentPaymentMethodOptionsBLIK          `json:"blik"`
 	Card          *SetupIntentPaymentMethodOptionsCard          `json:"card"`
 	Link          *SetupIntentPaymentMethodOptionsLink          `json:"link"`
 	Paypal        *SetupIntentPaymentMethodOptionsPaypal        `json:"paypal"`
@@ -1265,7 +1280,7 @@ type SetupIntent struct {
 	//
 	// It can only be used for this Stripe Account's own money movement flows like InboundTransfer and OutboundTransfers. It cannot be set to true when setting up a PaymentMethod for a Customer, and defaults to false when attaching a PaymentMethod to a Customer.
 	AttachToSelf bool `json:"attach_to_self"`
-	// Settings for automatic payment methods compatible with this Setup Intent
+	// Settings for dynamic payment methods compatible with this Setup Intent
 	AutomaticPaymentMethods *SetupIntentAutomaticPaymentMethods `json:"automatic_payment_methods"`
 	// Reason for cancellation of this SetupIntent, one of `abandoned`, `requested_by_customer`, or `duplicate`.
 	CancellationReason SetupIntentCancellationReason `json:"cancellation_reason"`

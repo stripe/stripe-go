@@ -638,24 +638,21 @@ type CheckoutSessionShippingCostTaxTaxabilityReason string
 
 // List of values that CheckoutSessionShippingCostTaxTaxabilityReason can take
 const (
-	CheckoutSessionShippingCostTaxTaxabilityReasonCustomerExempt          CheckoutSessionShippingCostTaxTaxabilityReason = "customer_exempt"
-	CheckoutSessionShippingCostTaxTaxabilityReasonExcludedTerritory       CheckoutSessionShippingCostTaxTaxabilityReason = "excluded_territory"
-	CheckoutSessionShippingCostTaxTaxabilityReasonJurisdictionUnsupported CheckoutSessionShippingCostTaxTaxabilityReason = "jurisdiction_unsupported"
-	CheckoutSessionShippingCostTaxTaxabilityReasonNotCollecting           CheckoutSessionShippingCostTaxTaxabilityReason = "not_collecting"
-	CheckoutSessionShippingCostTaxTaxabilityReasonNotSubjectToTax         CheckoutSessionShippingCostTaxTaxabilityReason = "not_subject_to_tax"
-	CheckoutSessionShippingCostTaxTaxabilityReasonNotSupported            CheckoutSessionShippingCostTaxTaxabilityReason = "not_supported"
-	CheckoutSessionShippingCostTaxTaxabilityReasonPortionProductExempt    CheckoutSessionShippingCostTaxTaxabilityReason = "portion_product_exempt"
-	CheckoutSessionShippingCostTaxTaxabilityReasonPortionReducedRated     CheckoutSessionShippingCostTaxTaxabilityReason = "portion_reduced_rated"
-	CheckoutSessionShippingCostTaxTaxabilityReasonPortionStandardRated    CheckoutSessionShippingCostTaxTaxabilityReason = "portion_standard_rated"
-	CheckoutSessionShippingCostTaxTaxabilityReasonProductExempt           CheckoutSessionShippingCostTaxTaxabilityReason = "product_exempt"
-	CheckoutSessionShippingCostTaxTaxabilityReasonProductExemptHoliday    CheckoutSessionShippingCostTaxTaxabilityReason = "product_exempt_holiday"
-	CheckoutSessionShippingCostTaxTaxabilityReasonProportionallyRated     CheckoutSessionShippingCostTaxTaxabilityReason = "proportionally_rated"
-	CheckoutSessionShippingCostTaxTaxabilityReasonReducedRated            CheckoutSessionShippingCostTaxTaxabilityReason = "reduced_rated"
-	CheckoutSessionShippingCostTaxTaxabilityReasonReverseCharge           CheckoutSessionShippingCostTaxTaxabilityReason = "reverse_charge"
-	CheckoutSessionShippingCostTaxTaxabilityReasonStandardRated           CheckoutSessionShippingCostTaxTaxabilityReason = "standard_rated"
-	CheckoutSessionShippingCostTaxTaxabilityReasonTaxableBasisReduced     CheckoutSessionShippingCostTaxTaxabilityReason = "taxable_basis_reduced"
-	CheckoutSessionShippingCostTaxTaxabilityReasonVATExempt               CheckoutSessionShippingCostTaxTaxabilityReason = "vat_exempt"
-	CheckoutSessionShippingCostTaxTaxabilityReasonZeroRated               CheckoutSessionShippingCostTaxTaxabilityReason = "zero_rated"
+	CheckoutSessionShippingCostTaxTaxabilityReasonCustomerExempt       CheckoutSessionShippingCostTaxTaxabilityReason = "customer_exempt"
+	CheckoutSessionShippingCostTaxTaxabilityReasonNotCollecting        CheckoutSessionShippingCostTaxTaxabilityReason = "not_collecting"
+	CheckoutSessionShippingCostTaxTaxabilityReasonNotSubjectToTax      CheckoutSessionShippingCostTaxTaxabilityReason = "not_subject_to_tax"
+	CheckoutSessionShippingCostTaxTaxabilityReasonNotSupported         CheckoutSessionShippingCostTaxTaxabilityReason = "not_supported"
+	CheckoutSessionShippingCostTaxTaxabilityReasonPortionProductExempt CheckoutSessionShippingCostTaxTaxabilityReason = "portion_product_exempt"
+	CheckoutSessionShippingCostTaxTaxabilityReasonPortionReducedRated  CheckoutSessionShippingCostTaxTaxabilityReason = "portion_reduced_rated"
+	CheckoutSessionShippingCostTaxTaxabilityReasonPortionStandardRated CheckoutSessionShippingCostTaxTaxabilityReason = "portion_standard_rated"
+	CheckoutSessionShippingCostTaxTaxabilityReasonProductExempt        CheckoutSessionShippingCostTaxTaxabilityReason = "product_exempt"
+	CheckoutSessionShippingCostTaxTaxabilityReasonProductExemptHoliday CheckoutSessionShippingCostTaxTaxabilityReason = "product_exempt_holiday"
+	CheckoutSessionShippingCostTaxTaxabilityReasonProportionallyRated  CheckoutSessionShippingCostTaxTaxabilityReason = "proportionally_rated"
+	CheckoutSessionShippingCostTaxTaxabilityReasonReducedRated         CheckoutSessionShippingCostTaxTaxabilityReason = "reduced_rated"
+	CheckoutSessionShippingCostTaxTaxabilityReasonReverseCharge        CheckoutSessionShippingCostTaxTaxabilityReason = "reverse_charge"
+	CheckoutSessionShippingCostTaxTaxabilityReasonStandardRated        CheckoutSessionShippingCostTaxTaxabilityReason = "standard_rated"
+	CheckoutSessionShippingCostTaxTaxabilityReasonTaxableBasisReduced  CheckoutSessionShippingCostTaxTaxabilityReason = "taxable_basis_reduced"
+	CheckoutSessionShippingCostTaxTaxabilityReasonZeroRated            CheckoutSessionShippingCostTaxTaxabilityReason = "zero_rated"
 )
 
 // The status of the Checkout Session, one of `open`, `complete`, or `expired`.
@@ -687,24 +684,21 @@ type CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReason string
 
 // List of values that CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReason can take
 const (
-	CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReasonCustomerExempt          CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReason = "customer_exempt"
-	CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReasonExcludedTerritory       CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReason = "excluded_territory"
-	CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReasonJurisdictionUnsupported CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReason = "jurisdiction_unsupported"
-	CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReasonNotCollecting           CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReason = "not_collecting"
-	CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReasonNotSubjectToTax         CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReason = "not_subject_to_tax"
-	CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReasonNotSupported            CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReason = "not_supported"
-	CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReasonPortionProductExempt    CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReason = "portion_product_exempt"
-	CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReasonPortionReducedRated     CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReason = "portion_reduced_rated"
-	CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReasonPortionStandardRated    CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReason = "portion_standard_rated"
-	CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReasonProductExempt           CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReason = "product_exempt"
-	CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReasonProductExemptHoliday    CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReason = "product_exempt_holiday"
-	CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReasonProportionallyRated     CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReason = "proportionally_rated"
-	CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReasonReducedRated            CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReason = "reduced_rated"
-	CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReasonReverseCharge           CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReason = "reverse_charge"
-	CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReasonStandardRated           CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReason = "standard_rated"
-	CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReasonTaxableBasisReduced     CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReason = "taxable_basis_reduced"
-	CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReasonVATExempt               CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReason = "vat_exempt"
-	CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReasonZeroRated               CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReason = "zero_rated"
+	CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReasonCustomerExempt       CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReason = "customer_exempt"
+	CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReasonNotCollecting        CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReason = "not_collecting"
+	CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReasonNotSubjectToTax      CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReason = "not_subject_to_tax"
+	CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReasonNotSupported         CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReason = "not_supported"
+	CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReasonPortionProductExempt CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReason = "portion_product_exempt"
+	CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReasonPortionReducedRated  CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReason = "portion_reduced_rated"
+	CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReasonPortionStandardRated CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReason = "portion_standard_rated"
+	CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReasonProductExempt        CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReason = "product_exempt"
+	CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReasonProductExemptHoliday CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReason = "product_exempt_holiday"
+	CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReasonProportionallyRated  CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReason = "proportionally_rated"
+	CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReasonReducedRated         CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReason = "reduced_rated"
+	CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReasonReverseCharge        CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReason = "reverse_charge"
+	CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReasonStandardRated        CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReason = "standard_rated"
+	CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReasonTaxableBasisReduced  CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReason = "taxable_basis_reduced"
+	CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReasonZeroRated            CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReason = "zero_rated"
 )
 
 // Only return the Checkout Sessions for the Customer details specified.
@@ -720,12 +714,19 @@ type CheckoutSessionListParams struct {
 	Customer *string `form:"customer"`
 	// Only return the Checkout Sessions for the Customer details specified.
 	CustomerDetails *CheckoutSessionListCustomerDetailsParams `form:"customer_details"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// Only return the Checkout Session for the PaymentIntent specified.
 	PaymentIntent *string `form:"payment_intent"`
 	// Only return the Checkout Sessions for the Payment Link specified.
 	PaymentLink *string `form:"payment_link"`
 	// Only return the Checkout Session for the subscription specified.
 	Subscription *string `form:"subscription"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *CheckoutSessionListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // Configure a Checkout Session that can be used to recover an expired session.
@@ -887,6 +888,15 @@ type CheckoutSessionInvoiceCreationInvoiceDataParams struct {
 	RenderingOptions *CheckoutSessionInvoiceCreationInvoiceDataRenderingOptionsParams `form:"rendering_options"`
 }
 
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *CheckoutSessionInvoiceCreationInvoiceDataParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
 // Generate a post-purchase Invoice for one-time payments.
 type CheckoutSessionInvoiceCreationParams struct {
 	// Set to `true` to enable invoice creation.
@@ -917,6 +927,15 @@ type CheckoutSessionLineItemPriceDataProductDataParams struct {
 	Name *string `form:"name"`
 	// A [tax code](https://stripe.com/docs/tax/tax-categories) ID.
 	TaxCode *string `form:"tax_code"`
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *CheckoutSessionLineItemPriceDataProductDataParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
 }
 
 // The recurring components of a price such as `interval` and `interval_count`.
@@ -1028,6 +1047,15 @@ type CheckoutSessionPaymentIntentDataParams struct {
 	TransferData *CheckoutSessionPaymentIntentDataTransferDataParams `form:"transfer_data"`
 	// A string that identifies the resulting payment as part of a group. See the PaymentIntents [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts) for details.
 	TransferGroup *string `form:"transfer_group"`
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *CheckoutSessionPaymentIntentDataParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
 }
 
 // Additional fields for Mandate creation
@@ -1478,6 +1506,15 @@ type CheckoutSessionSetupIntentDataParams struct {
 	OnBehalfOf *string `form:"on_behalf_of"`
 }
 
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *CheckoutSessionSetupIntentDataParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
 // When set, provides configuration for Checkout to collect a shipping address from a customer.
 type CheckoutSessionShippingAddressCollectionParams struct {
 	// An array of two-letter ISO country codes representing which countries Checkout should provide as options for
@@ -1545,6 +1582,15 @@ type CheckoutSessionShippingOptionShippingRateDataParams struct {
 	Type *string `form:"type"`
 }
 
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *CheckoutSessionShippingOptionShippingRateDataParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
 // The shipping rate options to apply to this Session.
 type CheckoutSessionShippingOptionParams struct {
 	// The ID of the Shipping Rate to use for this shipping option.
@@ -1579,8 +1625,6 @@ type CheckoutSessionSubscriptionDataParams struct {
 	ApplicationFeePercent *float64 `form:"application_fee_percent"`
 	// A future timestamp to anchor the subscription's billing cycle for new subscriptions.
 	BillingCycleAnchor *int64 `form:"billing_cycle_anchor"`
-	// The ID of the coupon to apply to this subscription. A coupon applied to a subscription will only affect invoices created for that particular subscription.
-	Coupon *string `form:"coupon"`
 	// The tax rates that will apply to any subscription item that does not have
 	// `tax_rates` set. Invoices created will have their `default_tax_rates` populated
 	// from the subscription.
@@ -1601,13 +1645,20 @@ type CheckoutSessionSubscriptionDataParams struct {
 	// will get before being charged for the first time. Has to be at least
 	// 48 hours in the future.
 	TrialEnd *int64 `form:"trial_end"`
-	// Indicates if a plan's `trial_period_days` should be applied to the subscription. Setting `trial_end` on `subscription_data` is preferred. Defaults to `false`.
-	TrialFromPlan *bool `form:"trial_from_plan"`
 	// Integer representing the number of trial period days before the
 	// customer is charged for the first time. Has to be at least 1.
 	TrialPeriodDays *int64 `form:"trial_period_days"`
 	// Settings related to subscription trials.
 	TrialSettings *CheckoutSessionSubscriptionDataTrialSettingsParams `form:"trial_settings"`
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *CheckoutSessionSubscriptionDataParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
 }
 
 // Controls tax ID collection settings for the session.
@@ -1673,6 +1724,8 @@ type CheckoutSessionParams struct {
 	CustomText *CheckoutSessionCustomTextParams `form:"custom_text"`
 	// The coupon or promotion code to apply to this Session. Currently, only up to one may be specified.
 	Discounts []*CheckoutSessionDiscountParams `form:"discounts"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// The Epoch time in seconds at which the Checkout Session will expire. It can be anywhere from 30 minutes to 24 hours after Checkout Session creation. By default, this value is 24 hours from creation.
 	ExpiresAt *int64 `form:"expires_at"`
 	// Generate a post-purchase Invoice for one-time payments.
@@ -1685,6 +1738,8 @@ type CheckoutSessionParams struct {
 	LineItems []*CheckoutSessionLineItemParams `form:"line_items"`
 	// The IETF language tag of the locale Checkout is displayed in. If blank or `auto`, the browser's locale is used.
 	Locale *string `form:"locale"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
 	// The mode of the Checkout Session. Pass `subscription` if the Checkout Session includes at least one recurring item.
 	Mode *string `form:"mode"`
 	// A subset of parameters to be passed to PaymentIntent creation for Checkout Sessions in `payment` mode.
@@ -1723,8 +1778,6 @@ type CheckoutSessionParams struct {
 	ShippingAddressCollection *CheckoutSessionShippingAddressCollectionParams `form:"shipping_address_collection"`
 	// The shipping rate options to apply to this Session.
 	ShippingOptions []*CheckoutSessionShippingOptionParams `form:"shipping_options"`
-	// [Deprecated] The shipping rate to apply to this Session. Only up to one may be specified.
-	ShippingRates []*string `form:"shipping_rates"`
 	// Describes the type of transaction being performed by Checkout in order to customize
 	// relevant text on the page, such as the submit button. `submit_type` can only be
 	// specified on Checkout Sessions in `payment` mode, but not Checkout Sessions
@@ -1741,10 +1794,31 @@ type CheckoutSessionParams struct {
 	TaxIDCollection *CheckoutSessionTaxIDCollectionParams `form:"tax_id_collection"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *CheckoutSessionParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *CheckoutSessionParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
 // When retrieving a Checkout Session, there is an includable line_items property containing the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of line items.
 type CheckoutSessionListLineItemsParams struct {
 	ListParams `form:"*"`
 	Session    *string `form:"-"` // Included in URL
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *CheckoutSessionListLineItemsParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // A Session can be expired when it is in one of these statuses: open
@@ -1752,6 +1826,13 @@ type CheckoutSessionListLineItemsParams struct {
 // After it expires, a customer can't complete a Session and customers loading the Session see a message saying the Session is expired.
 type CheckoutSessionExpireParams struct {
 	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *CheckoutSessionExpireParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // When set, configuration used to recover the Checkout Session on expiry.

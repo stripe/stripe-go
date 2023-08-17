@@ -84,8 +84,15 @@ type PersonListRelationshipParams struct {
 type PersonListParams struct {
 	ListParams `form:"*"`
 	Account    *string `form:"-"` // Included in URL
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// Filters on the list of people returned based on the person's relationship to the account's company.
 	Relationship *PersonListRelationshipParams `form:"relationship"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *PersonListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // The Kana variation of the person's address (Japan only).
@@ -210,6 +217,8 @@ type PersonParams struct {
 	Documents *PersonDocumentsParams `form:"documents"`
 	// The person's email address.
 	Email *string `form:"email"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// The person's first name.
 	FirstName *string `form:"first_name"`
 	// The Kana variation of the person's first name (Japan only).
@@ -232,6 +241,8 @@ type PersonParams struct {
 	LastNameKanji *string `form:"last_name_kanji"`
 	// The person's maiden name.
 	MaidenName *string `form:"maiden_name"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
 	// The country where the person is a national. Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)), or "XX" if unavailable.
 	Nationality *string `form:"nationality"`
 	// A [person token](https://stripe.com/docs/connect/account-tokens), used to securely provide details to the person.
@@ -248,6 +259,20 @@ type PersonParams struct {
 	SSNLast4 *string `form:"ssn_last_4"`
 	// The person's verification status.
 	Verification *PersonVerificationParams `form:"verification"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *PersonParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *PersonParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
 }
 
 // The Kana variation of the person's address (Japan only).

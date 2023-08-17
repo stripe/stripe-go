@@ -25,8 +25,15 @@ type TestHelpersTerminalReaderPresentPaymentMethodParams struct {
 	AmountTip *int64 `form:"amount_tip"`
 	// Simulated data for the card_present payment method.
 	CardPresent *TestHelpersTerminalReaderPresentPaymentMethodCardPresentParams `form:"card_present"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// Simulated data for the interac_present payment method.
 	InteracPresent *TestHelpersTerminalReaderPresentPaymentMethodInteracPresentParams `form:"interac_present"`
 	// Simulated payment type.
 	Type *string `form:"type"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *TestHelpersTerminalReaderPresentPaymentMethodParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }

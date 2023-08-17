@@ -22,10 +22,17 @@ const (
 // Retrieves the details of an existing Report Run.
 type ReportingReportRunParams struct {
 	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// Parameters specifying how the report should be run. Different Report Types have different required and optional parameters, listed in the [API Access to Reports](https://stripe.com/docs/reporting/statements/api) documentation.
 	Parameters *ReportingReportRunParametersParams `form:"parameters"`
 	// The ID of the [report type](https://stripe.com/docs/reporting/statements/api#report-types) to run, such as `"balance.summary.1"`.
 	ReportType *string `form:"report_type"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *ReportingReportRunParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // Parameters specifying how the report should be run. Different Report Types have different required and optional parameters, listed in the [API Access to Reports](https://stripe.com/docs/reporting/statements/api) documentation.
@@ -53,7 +60,15 @@ type ReportingReportRunListParams struct {
 	ListParams   `form:"*"`
 	Created      *int64            `form:"created"`
 	CreatedRange *RangeQueryParams `form:"created"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 }
+
+// AddExpand appends a new field to expand.
+func (p *ReportingReportRunListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 type ReportingReportRunParameters struct {
 	// The set of output columns requested for inclusion in the report run.
 	Columns []string `json:"columns"`

@@ -46,8 +46,15 @@ const (
 // to an hour behind during outages. Search functionality is not available to merchants in India.
 type CustomerSearchParams struct {
 	SearchParams `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// A cursor for pagination across multiple pages of results. Don't include this parameter on the first call. Use the next_page value returned in a previous response to request subsequent results.
 	Page *string `form:"page"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *CustomerSearchParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // Returns a list of your customers. The customers are returned sorted by creation date, with the most recent customers appearing first.
@@ -57,8 +64,15 @@ type CustomerListParams struct {
 	CreatedRange *RangeQueryParams `form:"created"`
 	// A case-sensitive filter on the list based on the customer's `email` field. The value must be a string.
 	Email *string `form:"email"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// Provides a list of customers that are associated with the specified test clock. The response will not include customers with test clocks if this parameter is not set.
 	TestClock *string `form:"test_clock"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *CustomerListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // Settings controlling the behavior of the customer's cash balance,
@@ -145,10 +159,14 @@ type CustomerParams struct {
 	Description *string `form:"description"`
 	// Customer's email address. It's displayed alongside the customer in your dashboard and can be useful for searching and tracking. This may be up to *512 characters*.
 	Email *string `form:"email"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// The prefix for the customer used to generate unique invoice numbers. Must be 3–12 uppercase letters or numbers.
 	InvoicePrefix *string `form:"invoice_prefix"`
 	// Default invoice settings for this customer.
 	InvoiceSettings *CustomerInvoiceSettingsParams `form:"invoice_settings"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
 	// The customer's full name or business name.
 	Name *string `form:"name"`
 	// The sequence to be used on the customer's next invoice. Defaults to 1.
@@ -174,18 +192,46 @@ type CustomerParams struct {
 	Validate  *bool   `form:"validate"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *CustomerParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *CustomerParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
 // Returns a list of PaymentMethods for a given Customer
 type CustomerListPaymentMethodsParams struct {
 	ListParams `form:"*"`
 	Customer   *string `form:"-"` // Included in URL
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// An optional filter on the list, based on the object `type` field. Without the filter, the list includes all current and future payment method types. If your integration expects only one type of payment method in the response, make sure to provide a type value in the request.
 	Type *string `form:"type"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *CustomerListPaymentMethodsParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // Retrieves a PaymentMethod object for a given Customer.
 type CustomerRetrievePaymentMethodParams struct {
 	Params   `form:"*"`
 	Customer *string `form:"-"` // Included in URL
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *CustomerRetrievePaymentMethodParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // Configuration for eu_bank_transfer funding type.
@@ -215,8 +261,15 @@ type CustomerCreateFundingInstructionsParams struct {
 	BankTransfer *CustomerCreateFundingInstructionsBankTransferParams `form:"bank_transfer"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency *string `form:"currency"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// The `funding_type` to get the instructions for.
 	FundingType *string `form:"funding_type"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *CustomerCreateFundingInstructionsParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // Removes the currently applied discount on a customer.
