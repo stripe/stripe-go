@@ -429,15 +429,15 @@ type PaymentMethodZipParams struct{}
 // Instead of creating a PaymentMethod directly, we recommend using the [PaymentIntents API to accept a payment immediately or the <a href="/docs/payments/save-and-reuse">SetupIntent](https://stripe.com/docs/payments/accept-a-payment) API to collect payment method details ahead of a future payment.
 type PaymentMethodParams struct {
 	Params `form:"*"`
-	// This is a legacy parameter that will be removed in the future. It is a hash that does not accept any keys.
+	// If this is an `acss_debit` PaymentMethod, this hash contains details about the ACSS Debit payment method.
 	ACSSDebit *PaymentMethodACSSDebitParams `form:"acss_debit"`
-	// This is a legacy parameter that will be removed in the future. It is a hash that does not accept any keys.
+	// If this is an `affirm` PaymentMethod, this hash contains details about the Affirm payment method.
 	Affirm *PaymentMethodAffirmParams `form:"affirm"`
 	// If this is an `AfterpayClearpay` PaymentMethod, this hash contains details about the AfterpayClearpay payment method.
 	AfterpayClearpay *PaymentMethodAfterpayClearpayParams `form:"afterpay_clearpay"`
 	// If this is an `Alipay` PaymentMethod, this hash contains details about the Alipay payment method.
 	Alipay *PaymentMethodAlipayParams `form:"alipay"`
-	// This is a legacy parameter that will be removed in the future. It is a hash that does not accept any keys.
+	// If this is an `au_becs_debit` PaymentMethod, this hash contains details about the bank account.
 	AUBECSDebit *PaymentMethodAUBECSDebitParams `form:"au_becs_debit"`
 	// If this is a `bacs_debit` PaymentMethod, this hash contains details about the Bacs Direct Debit bank account.
 	BACSDebit *PaymentMethodBACSDebitParams `form:"bacs_debit"`
@@ -445,13 +445,13 @@ type PaymentMethodParams struct {
 	Bancontact *PaymentMethodBancontactParams `form:"bancontact"`
 	// Billing information associated with the PaymentMethod that may be used or required by particular types of payment methods.
 	BillingDetails *PaymentMethodBillingDetailsParams `form:"billing_details"`
-	// This is a legacy parameter that will be removed in the future. It is a hash that does not accept any keys.
+	// If this is a `blik` PaymentMethod, this hash contains details about the BLIK payment method.
 	BLIK *PaymentMethodBLIKParams `form:"blik"`
 	// If this is a `boleto` PaymentMethod, this hash contains details about the Boleto payment method.
 	Boleto *PaymentMethodBoletoParams `form:"boleto"`
 	// If this is a `card` PaymentMethod, this hash contains the user's card details. For backwards compatibility, you can alternatively provide a Stripe token (e.g., for Apple Pay, Amex Express Checkout, or legacy Checkout) into the card hash with format `card: {token: "tok_visa"}`. When providing a card number, you must meet the requirements for [PCI compliance](https://stripe.com/docs/security#validating-pci-compliance). We strongly recommend using Stripe.js instead of interacting with this API directly.
 	Card *PaymentMethodCardParams `form:"card"`
-	// This is a legacy parameter that will be removed in the future. It is a hash that does not accept any keys.
+	// If this is a `cashapp` PaymentMethod, this hash contains details about the Cash App Pay payment method.
 	CashApp *PaymentMethodCashAppParams `form:"cashapp"`
 	// If this is a `customer_balance` PaymentMethod, this hash contains details about the CustomerBalance payment method.
 	CustomerBalance *PaymentMethodCustomerBalanceParams `form:"customer_balance"`
@@ -491,7 +491,7 @@ type PaymentMethodParams struct {
 	PromptPay *PaymentMethodPromptPayParams `form:"promptpay"`
 	// Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
 	RadarOptions *PaymentMethodRadarOptionsParams `form:"radar_options"`
-	// This is a legacy parameter that will be removed in the future. It is a hash that does not accept any keys.
+	// If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
 	SEPADebit *PaymentMethodSEPADebitParams `form:"sepa_debit"`
 	// If this is a `sofort` PaymentMethod, this hash contains details about the SOFORT payment method.
 	Sofort *PaymentMethodSofortParams `form:"sofort"`
@@ -501,7 +501,7 @@ type PaymentMethodParams struct {
 	USBankAccount *PaymentMethodUSBankAccountParams `form:"us_bank_account"`
 	// If this is an `wechat_pay` PaymentMethod, this hash contains details about the wechat_pay payment method.
 	WeChatPay *PaymentMethodWeChatPayParams `form:"wechat_pay"`
-	// This is a legacy parameter that will be removed in the future. It is a hash that does not accept any keys.
+	// If this is a `zip` PaymentMethod, this hash contains details about the Zip payment method.
 	Zip *PaymentMethodZipParams `form:"zip"`
 	// The following parameters are used when cloning a PaymentMethod to the connected account
 	// The `Customer` to whom the original PaymentMethod is attached.
@@ -842,9 +842,6 @@ type PaymentMethodKlarna struct {
 }
 type PaymentMethodKonbini struct{}
 type PaymentMethodLink struct {
-	// Two-letter ISO code representing the funding source (i.e. card, bank) country beneath the Link payment method.
-	// You could use this attribute to get a sense of the international breakdown of funding sources you've collected.
-	Country string `json:"country"`
 	// Account owner's email address.
 	Email string `json:"email"`
 	// [Deprecated] This is a legacy parameter that no longer has any function.
