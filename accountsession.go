@@ -11,6 +11,13 @@ type AccountSessionParams struct {
 	Params `form:"*"`
 	// The identifier of the account to create an Account Session for.
 	Account *string `form:"account"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *AccountSessionParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // An AccountSession allows a Connect platform to grant access to a connected account in Connect embedded components.

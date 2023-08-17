@@ -168,6 +168,11 @@ type IssuingCardListParams struct {
 	Type *string `form:"type"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *IssuingCardListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // Address validation settings.
 type IssuingCardShippingAddressValidationParams struct {
 	// The address validation capabilities to use.
@@ -240,7 +245,7 @@ type IssuingCardParams struct {
 	ReplacementFor *string `form:"replacement_for"`
 	// If `replacement_for` is specified, this should indicate why that card is being replaced.
 	ReplacementReason *string `form:"replacement_reason"`
-	// Updated shipping information for the card.
+	// The address where the card will be shipped.
 	Shipping *IssuingCardShippingParams `form:"shipping"`
 	// Rules that control spending for this card. Refer to our [documentation](https://stripe.com/docs/issuing/controls/spending-controls) for more details.
 	SpendingControls *IssuingCardSpendingControlsParams `form:"spending_controls"`

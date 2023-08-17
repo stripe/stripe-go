@@ -386,14 +386,20 @@ func (s *BackendImplementation) RawRequest(method, path, key, content string, pa
 	paramsIsNil := params == nil || reflect.ValueOf(params).IsNil()
 
 	if paramsIsNil {
-		_, commonParams = extractParams(params)
+		_, commonParams, err = extractParams(params)
+		if err != nil {
+			return nil, err
+		}
 		contentType = "application/x-www-form-urlencoded"
 	} else {
 		if params.APIMode == StandardAPIMode {
-			_, commonParams = extractParams(params)
+			_, commonParams, err = extractParams(params)
+			if err != nil {
+				return nil, err
+			}
 			contentType = "application/x-www-form-urlencoded"
 		} else if params.APIMode == PreviewAPIMode {
-			_, commonParams = extractParams(params)
+			_, commonParams, err = extractParams(params)
 			if err != nil {
 				return nil, err
 			}
@@ -1285,7 +1291,7 @@ func StringSlice(v []string) []*string {
 //
 
 // clientversion is the binding version
-const clientversion = "74.31.0-beta.1"
+const clientversion = "75.0.0"
 
 // defaultHTTPTimeout is the default timeout on the http.Client used by the library.
 // This is chosen to be consistent with the other Stripe language libraries and

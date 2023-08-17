@@ -160,9 +160,6 @@ func (p *TerminalReaderProcessPaymentIntentParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// Configuration overrides
-type TerminalReaderProcessSetupIntentProcessConfigParams struct{}
-
 // Initiates a setup intent flow on a Reader.
 type TerminalReaderProcessSetupIntentParams struct {
 	Params `form:"*"`
@@ -170,8 +167,6 @@ type TerminalReaderProcessSetupIntentParams struct {
 	CustomerConsentCollected *bool `form:"customer_consent_collected"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-	// Configuration overrides
-	ProcessConfig *TerminalReaderProcessSetupIntentProcessConfigParams `form:"process_config"`
 	// SetupIntent ID
 	SetupIntent *string `form:"setup_intent"`
 }
@@ -226,6 +221,11 @@ type TerminalReaderSetReaderDisplayParams struct {
 	Type *string `form:"type"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *TerminalReaderSetReaderDisplayParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // Customize the text which will be displayed while collecting this input
 type TerminalReaderCollectInputsInputCustomTextParams struct {
 	// The description which will be displayed when collecting this input
@@ -267,8 +267,26 @@ type TerminalReaderCollectInputsInputParams struct {
 // Initiates an input collection flow on a Reader.
 type TerminalReaderCollectInputsParams struct {
 	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// List of inputs to be collected using the Reader
 	Inputs []*TerminalReaderCollectInputsInputParams `form:"inputs"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *TerminalReaderCollectInputsParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *TerminalReaderCollectInputsParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
 }
 
 // Initiates a refund on a Reader
@@ -290,6 +308,20 @@ type TerminalReaderRefundPaymentParams struct {
 	ReverseTransfer *bool `form:"reverse_transfer"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *TerminalReaderRefundPaymentParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *TerminalReaderRefundPaymentParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
 // Tipping configuration for this transaction.
 type TerminalReaderCollectPaymentMethodCollectConfigTippingParams struct {
 	// Amount used to calculate tip suggestions on tipping selection screen for this transaction. Must be a positive integer in the smallest currency unit (e.g., 100 cents to represent $1.00 or 100 to represent ¥100, a zero-decimal currency).
@@ -309,16 +341,31 @@ type TerminalReaderCollectPaymentMethodParams struct {
 	Params `form:"*"`
 	// Configuration overrides
 	CollectConfig *TerminalReaderCollectPaymentMethodCollectConfigParams `form:"collect_config"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// PaymentIntent ID
 	PaymentIntent *string `form:"payment_intent"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *TerminalReaderCollectPaymentMethodParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // Finalizes a payment on a Reader.
 type TerminalReaderConfirmPaymentIntentParams struct {
 	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// PaymentIntent ID
 	PaymentIntent *string `form:"payment_intent"`
 }
+
+// AddExpand appends a new field to expand.
+func (p *TerminalReaderConfirmPaymentIntentParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 type TerminalReaderActionCollectInputsInputCustomText struct {
 	// Customize the default description for this input
 	Description string `json:"description"`
@@ -432,15 +479,10 @@ type TerminalReaderActionProcessPaymentIntent struct {
 	StripeAccount string                                                 `json:"stripe_account"`
 }
 
-// Represents a per-setup override of a reader configuration
-type TerminalReaderActionProcessSetupIntentProcessConfig struct{}
-
 // Represents a reader action to process a setup intent
 type TerminalReaderActionProcessSetupIntent struct {
 	// ID of a card PaymentMethod generated from the card_present PaymentMethod that may be attached to a Customer for future transactions. Only present if it was possible to generate a card PaymentMethod.
 	GeneratedCard string `json:"generated_card"`
-	// Represents a per-setup override of a reader configuration
-	ProcessConfig *TerminalReaderActionProcessSetupIntentProcessConfig `json:"process_config"`
 	// Most recent SetupIntent processed by the reader.
 	SetupIntent *SetupIntent `json:"setup_intent"`
 }

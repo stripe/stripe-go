@@ -11,6 +11,13 @@ type CustomerSessionParams struct {
 	Params `form:"*"`
 	// The ID of an existing customer for which to create the customer session.
 	Customer *string `form:"customer"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *CustomerSessionParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // A customer session allows you to grant client access to Stripe's frontend SDKs (like StripeJs)

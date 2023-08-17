@@ -10,6 +10,13 @@ package stripe
 type FinancialConnectionsInferredBalanceListParams struct {
 	ListParams `form:"*"`
 	Account    *string `form:"-"` // Included in URL
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *FinancialConnectionsInferredBalanceListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // A historical balance for the account on a particular day. It may be sourced from a balance snapshot provided by a financial institution, or inferred using transactions data.

@@ -856,7 +856,7 @@ type PaymentIntentMandateDataCustomerAcceptanceParams struct {
 	Offline *PaymentIntentMandateDataCustomerAcceptanceOfflineParams `form:"offline"`
 	// If this is a Mandate accepted online, this hash contains details about the online acceptance.
 	Online *PaymentIntentMandateDataCustomerAcceptanceOnlineParams `form:"online"`
-	// The type of customer acceptance information included with the Mandate.
+	// The type of customer acceptance information included with the Mandate. One of `online` or `offline`.
 	Type *string `form:"type"`
 }
 
@@ -1877,7 +1877,7 @@ type PaymentIntentParams struct {
 	Expand []*string `form:"expand"`
 	// ID of the mandate to be used for this payment. This parameter can only be used with [`confirm=true`](https://stripe.com/docs/api/payment_intents/create#create_payment_intent-confirm).
 	Mandate *string `form:"mandate"`
-	// This hash contains details about the Mandate to create.
+	// This hash contains details about the Mandate to create. This parameter can only be used with [`confirm=true`](https://stripe.com/docs/api/payment_intents/create#create_payment_intent-confirm).
 	MandateData *PaymentIntentMandateDataParams `form:"mandate_data"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
@@ -1885,7 +1885,9 @@ type PaymentIntentParams struct {
 	OnBehalfOf *string `form:"on_behalf_of"`
 	// Provides industry-specific information about the charge.
 	PaymentDetails *PaymentIntentPaymentDetailsParams `form:"payment_details"`
-	// ID of the payment method (a PaymentMethod, Card, or [compatible Source](https://stripe.com/docs/payments/payment-methods/transitioning#compatibility) object) to attach to this PaymentIntent.
+	// ID of the payment method (a PaymentMethod, Card, or [compatible Source](https://stripe.com/docs/payments/payment-methods#compatibility) object) to attach to this PaymentIntent.
+	//
+	// If neither the `payment_method` parameter nor the `source` parameter are provided with `confirm=true`, `source` will be automatically populated with `customer.default_source` to improve the migration experience for users of the Charges API. We recommend that you explicitly provide the `payment_method` going forward.
 	PaymentMethod *string `form:"payment_method"`
 	// The ID of the payment method configuration to use with this PaymentIntent.
 	PaymentMethodConfiguration *string `form:"payment_method_configuration"`
@@ -2307,6 +2309,10 @@ type PaymentIntentCaptureParams struct {
 	AmountToCapture *int64 `form:"amount_to_capture"`
 	// The amount of the application fee (if any) that will be requested to be applied to the payment and transferred to the application owner's Stripe account. The amount of the application fee collected will be capped at the total payment amount. For more information, see the PaymentIntents [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
 	ApplicationFeeAmount *int64 `form:"application_fee_amount"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
 	// Provides industry-specific information about the charge.
 	PaymentDetails *PaymentIntentCapturePaymentDetailsParams `form:"payment_details"`
 	// For non-card charges, you can use this value as the complete description that appears on your customers' statements. Must contain at least one letter, maximum 22 characters.

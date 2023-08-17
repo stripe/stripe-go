@@ -143,6 +143,7 @@ type SetupAttemptPaymentMethodDetailsBancontact struct {
 	// (if supported) at the time of authorization or settlement. They cannot be set or mutated.
 	VerifiedName string `json:"verified_name"`
 }
+type SetupAttemptPaymentMethodDetailsBLIK struct{}
 type SetupAttemptPaymentMethodDetailsBoleto struct{}
 
 // Check results by Card networks on Card address and CVC at the time of authorization
@@ -260,6 +261,7 @@ type SetupAttemptPaymentMethodDetails struct {
 	AUBECSDebit *SetupAttemptPaymentMethodDetailsAUBECSDebit `json:"au_becs_debit"`
 	BACSDebit   *SetupAttemptPaymentMethodDetailsBACSDebit   `json:"bacs_debit"`
 	Bancontact  *SetupAttemptPaymentMethodDetailsBancontact  `json:"bancontact"`
+	BLIK        *SetupAttemptPaymentMethodDetailsBLIK        `json:"blik"`
 	Boleto      *SetupAttemptPaymentMethodDetailsBoleto      `json:"boleto"`
 	Card        *SetupAttemptPaymentMethodDetailsCard        `json:"card"`
 	CardPresent *SetupAttemptPaymentMethodDetailsCardPresent `json:"card_present"`

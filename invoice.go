@@ -358,6 +358,15 @@ type InvoiceUpcomingInvoiceItemParams struct {
 	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
 }
 
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *InvoiceUpcomingInvoiceItemParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
 // The pre-billing to apply to the subscription as a preview.
 type InvoiceUpcomingSubscriptionPrebillingParams struct {
 	// This is used to determine the number of billing cycles to prebill.
@@ -387,7 +396,7 @@ type InvoiceUpcomingParams struct {
 	Expand []*string `form:"expand"`
 	// List of invoice items to add or update in the upcoming invoice preview.
 	InvoiceItems []*InvoiceUpcomingInvoiceItemParams `form:"invoice_items"`
-	// The identifier of the schedule whose upcoming invoice you'd like to retrieve. Cannot be used with subscription or subscription fields.
+	// The identifier of the unstarted schedule whose upcoming invoice you'd like to retrieve. Cannot be used with subscription or subscription fields.
 	Schedule *string `form:"schedule"`
 	// The identifier of the subscription for which you'd like to retrieve the upcoming invoice. If not provided, but a `subscription_items` is provided, you will preview creating a subscription with those items. If neither `subscription` nor `subscription_items` is provided, you will retrieve the next upcoming invoice from among the customer's subscriptions.
 	Subscription *string `form:"subscription"`
@@ -1035,6 +1044,15 @@ type InvoiceUpcomingLinesSubscriptionItemParams struct {
 	TaxRates []*string `form:"tax_rates"`
 }
 
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *InvoiceUpcomingLinesSubscriptionItemParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
 // The pre-billing to apply to the subscription as a preview.
 type InvoiceUpcomingLinesSubscriptionPrebillingParams struct {
 	// This is used to determine the number of billing cycles to prebill.
@@ -1060,7 +1078,7 @@ type InvoiceUpcomingLinesParams struct {
 	Expand []*string `form:"expand"`
 	// List of invoice items to add or update in the upcoming invoice preview.
 	InvoiceItems []*InvoiceUpcomingLinesInvoiceItemParams `form:"invoice_items"`
-	// The identifier of the schedule whose upcoming invoice you'd like to retrieve. Cannot be used with subscription or subscription fields.
+	// The identifier of the unstarted schedule whose upcoming invoice you'd like to retrieve. Cannot be used with subscription or subscription fields.
 	Schedule *string `form:"schedule"`
 	// The identifier of the subscription for which you'd like to retrieve the upcoming invoice. If not provided, but a `subscription_items` is provided, you will preview creating a subscription with those items. If neither `subscription` nor `subscription_items` is provided, you will retrieve the next upcoming invoice from among the customer's subscriptions.
 	Subscription *string `form:"subscription"`
@@ -1204,6 +1222,12 @@ type InvoiceListLinesParams struct {
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 }
+
+// AddExpand appends a new field to expand.
+func (p *InvoiceListLinesParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 type InvoiceAppliesTo struct {
 	// A custom string that identifies a new subscription schedule being created upon quote acceptance. All quote lines with the same `new_reference` field will be applied to the creation of a new subscription schedule.
 	NewReference string `json:"new_reference"`

@@ -30,15 +30,29 @@ const (
 // Returns a list of card bundle objects. The objects are sorted in descending order by creation date, with the most recently created object appearing first.
 type IssuingCardBundleListParams struct {
 	ListParams `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// Only return card bundles with the given status.
 	Status *string `form:"status"`
 	// Only return card bundles with the given type.
 	Type *string `form:"type"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *IssuingCardBundleListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // Retrieves a card bundle object.
 type IssuingCardBundleParams struct {
 	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *IssuingCardBundleParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // A Card Bundle represents the bundle of physical items - card stock, carrier letter, and envelope - that is shipped to a cardholder when you create a physical card.

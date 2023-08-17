@@ -220,15 +220,29 @@ func (p *FinancialConnectionsAccountDisconnectParams) AddExpand(f string) {
 // Subscribes to periodic refreshes of data associated with a Financial Connections Account.
 type FinancialConnectionsAccountSubscribeParams struct {
 	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// The list of account features to which you would like to subscribe.`.
 	Features []*string `form:"features"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *FinancialConnectionsAccountSubscribeParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // Unsubscribes from periodic refreshes of data associated with a Financial Connections Account.
 type FinancialConnectionsAccountUnsubscribeParams struct {
 	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// The list of account features from which you would like to unsubscribe.
 	Features []*string `form:"features"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *FinancialConnectionsAccountUnsubscribeParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // The account holder that this account belongs to.

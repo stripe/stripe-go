@@ -34,6 +34,13 @@ const (
 // Retrieves a financing transaction for a financing offer.
 type CapitalFinancingTransactionParams struct {
 	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *CapitalFinancingTransactionParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // Returns a list of financing transactions. The transactions are returned in sorted order,
@@ -42,12 +49,19 @@ type CapitalFinancingTransactionListParams struct {
 	ListParams `form:"*"`
 	// For transactions of type `paydown` and reason `automatic_withholding` only, only returns transactions that were created as a result of this charge.
 	Charge *string `form:"charge"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// Returns transactions that were created that apply to this financing offer ID.
 	FinancingOffer *string `form:"financing_offer"`
 	// Only returns transactions that are responsible for reversing this financing transaction ID.
 	ReversedTransaction *string `form:"reversed_transaction"`
 	// For transactions of type `paydown` and reason `automatic_withholding` only, only returns transactions that were created as a result of this Treasury Transaction.
 	TreasuryTransaction *string `form:"treasury_transaction"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *CapitalFinancingTransactionListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // This is an object representing a linked transaction on a Capital Financing Transaction.

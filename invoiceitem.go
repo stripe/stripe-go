@@ -23,6 +23,11 @@ type InvoiceItemListParams struct {
 	Pending *bool `form:"pending"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *InvoiceItemListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // Time span for the redeemed discount.
 type InvoiceItemDiscountDiscountEndDurationParams struct {
 	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.

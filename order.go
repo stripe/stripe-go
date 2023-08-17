@@ -174,7 +174,7 @@ type OrderPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferRequeste
 
 // List of values that OrderPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressType can take
 const (
-	OrderPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressTypeAba      OrderPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressType = "aba"
+	OrderPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressTypeABA      OrderPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressType = "aba"
 	OrderPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressTypeIBAN     OrderPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressType = "iban"
 	OrderPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressTypeSEPA     OrderPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressType = "sepa"
 	OrderPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressTypeSortCode OrderPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressType = "sort_code"
@@ -664,6 +664,15 @@ type OrderLineItemProductDataParams struct {
 	URL *string `form:"url"`
 }
 
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *OrderLineItemProductDataParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
 // A list of line items the customer is ordering. Each line item includes information about the product, the quantity, and the resulting cost.
 type OrderLineItemParams struct {
 	// The description for the line item. Will default to the name of the associated product.
@@ -1098,6 +1107,15 @@ type OrderShippingCostShippingRateDataParams struct {
 	Type *string `form:"type"`
 }
 
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *OrderShippingCostShippingRateDataParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
 // Settings for the customer cost of shipping for this order.
 type OrderShippingCostParams struct {
 	// The ID of the shipping rate to use for this order.
@@ -1149,10 +1167,14 @@ type OrderParams struct {
 	Description *string `form:"description"`
 	// The coupons, promotion codes, and/or discounts to apply to the order. Pass the empty string `""` to unset this field.
 	Discounts []*OrderDiscountParams `form:"discounts"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// The IP address of the purchaser for this order.
 	IPAddress *string `form:"ip_address"`
 	// A list of line items the customer is ordering. Each line item includes information about the product, the quantity, and the resulting cost.
 	LineItems []*OrderLineItemParams `form:"line_items"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
 	// Payment information associated with the order, including payment settings.
 	Payment *OrderPaymentParams `form:"payment"`
 	// Settings for the customer cost of shipping for this order.
@@ -1163,35 +1185,85 @@ type OrderParams struct {
 	TaxDetails *OrderTaxDetailsParams `form:"tax_details"`
 }
 
+// AddExpand appends a new field to expand.
+func (p *OrderParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *OrderParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
 // Returns a list of your orders. The orders are returned sorted by creation date, with the most recently created orders appearing first.
 type OrderListParams struct {
 	ListParams `form:"*"`
 	// Only return orders for the given customer.
 	Customer *string `form:"customer"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *OrderListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // Submitting an Order transitions the status to processing and creates a PaymentIntent object so the order can be paid. If the Order has an amount_total of 0, no PaymentIntent object will be created. Once the order is submitted, its contents cannot be changed, unless the [reopen](https://stripe.com/docs/api#reopen_order) method is called.
 type OrderSubmitParams struct {
 	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// `expected_total` should always be set to the order's `amount_total` field. If they don't match, submitting the order will fail. This helps detect race conditions where something else concurrently modifies the order.
 	ExpectedTotal *int64 `form:"expected_total"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *OrderSubmitParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // Cancels the order as well as the payment intent if one is attached.
 type OrderCancelParams struct {
 	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *OrderCancelParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // Reopens a submitted order.
 type OrderReopenParams struct {
 	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *OrderReopenParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // When retrieving an order, there is an includable line_items property containing the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of line items.
 type OrderListLineItemsParams struct {
 	ListParams `form:"*"`
 	ID         *string `form:"-"` // Included in URL
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 }
+
+// AddExpand appends a new field to expand.
+func (p *OrderListLineItemsParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 type OrderAutomaticTax struct {
 	// Whether Stripe automatically computes tax on this Order.
 	Enabled bool `json:"enabled"`
