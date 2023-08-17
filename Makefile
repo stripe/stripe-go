@@ -39,8 +39,10 @@ update-version:
 	@perl -pi -e 's|github.com/stripe/stripe-go/v\d+|github.com/stripe/stripe-go/v$(MAJOR_VERSION)|' go.mod
 	@find . -name '*.go' -exec perl -pi -e 's|github.com/stripe/stripe-go/v\d+|github.com/stripe/stripe-go/v$(MAJOR_VERSION)|' {} +
 
+CURRENT_MAJOR_VERSION := $(shell cat VERSION | sed 's/\..*//')
 codegen-format:
 	go fmt ./...
 	go install golang.org/x/tools/cmd/goimports@latest && goimports -w example/generated_examples_test.go
+	@find . -name '*.go' -exec perl -pi -e 's|github.com/stripe/stripe-go/\[MAJOR_VERSION\]|github.com/stripe/stripe-go/v$(CURRENT_MAJOR_VERSION)|' {} +
 
 .PHONY: codegen-format update-version
