@@ -1229,11 +1229,13 @@ class StripeForce::Translate
   end
   def apply_amendment_order_mappings(mapper, subscription_schedule, sf_order_amendment)
     # a different invoice_rendering_template could be used between the initial and amendment order therefore extract the mapped values again
+
     if @user.feature_enabled?(StripeForce::Constants::FeatureFlags::INVOICE_RENDERING_TEMPLATE)
       invoice_rendering_template = StripeForce::Utilities::SalesforceUtil.extract_optional_fields_from_order(mapper, sf_order_amendment, ['subscription_schedule', 'default_settings.invoice_settings.rendering.template'])
 
-      if !invoice_rendering_template.nil?
+      if invoice_rendering_template.present?
         invoice_rendering_template_version = StripeForce::Utilities::SalesforceUtil.extract_optional_fields_from_order(mapper, sf_order_amendment, ['subscription_schedule', 'default_settings.invoice_settings.rendering.template_version'])
+        subscription_schedule = Integrations::Utilities::StripeUtil.initialize_invoice_settings(subscription_schedule)
         subscription_schedule[:default_settings][:invoice_settings][:rendering] = {"template": invoice_rendering_template, "template_version": invoice_rendering_template_version}
       end
     end
@@ -1242,6 +1244,7 @@ class StripeForce::Translate
     days_until_due = StripeForce::Utilities::SalesforceUtil.extract_optional_fields_from_order(mapper, sf_order_amendment, ['subscription_schedule', 'default_settings.invoice_settings.days_until_due'])
     if days_until_due.present?
       days_until_due = T.cast(days_until_due, T.any(String, Integer, Float))
+      subscription_schedule = Integrations::Utilities::StripeUtil.initialize_invoice_settings(subscription_schedule)
       subscription_schedule[:default_settings][:invoice_settings][:days_until_due] = OrderHelpers.transform_payment_terms_to_days_until_due(days_until_due)
     end
 

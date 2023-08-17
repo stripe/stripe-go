@@ -239,6 +239,9 @@ class Stripe::SubscriptionSchedule
   sig { returns(Stripe::SubscriptionScheduleSettings) }
   def default_settings; end
 
+  sig { params(arg: T::Hash[T.any(String, Symbol), T.untyped]).void }
+  def default_settings=(arg); end
+
   sig { returns(Stripe::SubscriptionSchedulePrebilling)}
   def prebilling; end
 

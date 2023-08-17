@@ -200,4 +200,15 @@ module Integrations::Utilities::StripeUtil
     target_object
   end
 
+  def self.initialize_invoice_settings(subscription_schedule)
+    if subscription_schedule[:default_settings].nil?
+      subscription_schedule[:default_settings] = {}
+    end
+
+    if subscription_schedule[:default_settings][:invoice_settings].nil?
+      subscription_schedule[:default_settings][:invoice_settings] = {}
+    end
+    subscription_schedule
+  end
+
 end
