@@ -3,7 +3,7 @@
 
 require_relative './_lib'
 
-class Critic::BackendProratedAmendmentTranslation < Critic::OrderAmendmentFunctionalTest
+class Critic::FrontendProratedAmendmentTranslation < Critic::OrderAmendmentFunctionalTest
   before do
     set_cassette_dir(__FILE__)
     if !VCR.current_cassette.originally_recorded_at.nil?

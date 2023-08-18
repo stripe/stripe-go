@@ -6961,4 +6961,114 @@ http_interactions:
           "trial_start": null
         }
   recorded_at: Wed, 09 Aug 2023 00:00:00 GMT
+- request:
+    method: get
+    uri: https://api.stripe.com/v1/customers/cus_OQ5zWRNPGWxogQ?expand%5B%5D=test_clock
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Stripe/v1 RubyBindings/7.1.0
+      Authorization:
+      - Bearer <STRIPE_API_KEY>
+      Content-Type:
+      - application/x-www-form-urlencoded
+      X-Stripe-Client-Telemetry:
+      - '{"last_request_metrics":{"request_id":"req_C5nTV8wOepceYD","request_duration_ms":0}}'
+      Stripe-Version:
+      - '2020-08-27'
+      X-Stripe-Client-User-Agent:
+      - '{"bindings_version":"7.1.0","lang":"ruby","lang_version":"2.7.6 p219 (2022-04-12)","platform":"arm64-darwin22","engine":"ruby","publisher":"stripe","uname":"Darwin
+        st-rish2 22.5.0 Darwin Kernel Version 22.5.0: Thu Jun  8 22:22:20 PDT 2023;
+        root:xnu-8796.121.3~7/RELEASE_ARM64_T6000 arm64","hostname":"st-rish2"}'
+      Stripe-Account:
+      - STRIPE_MERCHANT_ID
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Mon, 14 Aug 2023 18:08:21 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '1155'
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Methods:
+      - GET, POST, HEAD, OPTIONS, DELETE
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Request-Id, Stripe-Manage-Version, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required
+      Access-Control-Max-Age:
+      - '300'
+      Cache-Control:
+      - no-cache, no-store
+      Request-Id:
+      - req_T1QWFkKX7f5UCG
+      Stripe-Account:
+      - acct_15uapDIsgf92XbAO
+      Stripe-Version:
+      - '2020-08-27'
+      X-Stripe-Routing-Context-Priority-Tier:
+      - api-testmode
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains; preload
+    body:
+      encoding: UTF-8
+      string: |-
+        {
+          "id": "cus_OQ5zWRNPGWxogQ",
+          "object": "customer",
+          "address": null,
+          "balance": 0,
+          "created": 1691539200,
+          "currency": "usd",
+          "default_currency": "usd",
+          "default_source": "src_1NdFnKIsgf92XbAOwvajb94K",
+          "delinquent": false,
+          "description": null,
+          "discount": null,
+          "email": "RlFJ29wui2d5IC15y0q2MIMmZr86C@example.com",
+          "invoice_prefix": "BD6366C7",
+          "invoice_settings": {
+            "custom_fields": null,
+            "default_payment_method": null,
+            "footer": null,
+            "rendering_options": null
+          },
+          "livemode": false,
+          "metadata": {
+            "salesforce_account_id": "0017e00001j13NhAAI",
+            "salesforce_account_link": "https://ability-innovation-7335-dev-ed.scratch.my.salesforce.com/0017e00001j13NhAAI"
+          },
+          "name": "REST Account  2023-08-09 00:00:00 UTC",
+          "next_invoice_sequence": 1,
+          "phone": null,
+          "preferred_locales": [],
+          "shipping": null,
+          "tax_exempt": "none",
+          "test_clock": {
+            "id": "clock_1NdFn4Isgf92XbAO4ZJ4QbEB",
+            "object": "test_helpers.test_clock",
+            "created": 1691600602,
+            "deletes_after": 1694192602,
+            "frozen_time": 1691539200,
+            "livemode": false,
+            "name": null,
+            "status": "ready"
+          }
+        }
+  recorded_at: Wed, 09 Aug 2023 00:00:00 GMT
 recorded_with: VCR 6.2.0

@@ -120,6 +120,7 @@ class Critic::EvergreenOrders < Critic::OrderAmendmentFunctionalTest
 
     sf_order = create_evergreen_salesforce_order(
       # need to set these fields explicitly to use translate
+      contact_email: "change_stripe_id_on_sf_order",
       additional_quote_fields: {
         CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(subscription_start_date),
         CPQ_QUOTE_SUBSCRIPTION_TERM => SF_ORDER_DEFAULT_EVERGREEN_SUBSCRIPTION_TERM,
@@ -299,6 +300,7 @@ class Critic::EvergreenOrders < Critic::OrderAmendmentFunctionalTest
 
       sf_order = create_evergreen_salesforce_order(
         # need to set these fields explicitly to use translate
+        contact_email: "raise_error_when_amending_before_start_date",
         additional_quote_fields: {
           CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(subscription_start_date),
           CPQ_QUOTE_SUBSCRIPTION_TERM => SF_ORDER_DEFAULT_EVERGREEN_SUBSCRIPTION_TERM,

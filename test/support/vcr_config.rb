@@ -43,6 +43,7 @@ module VCRConfig
       c.cassette_library_dir = 'test/vcr_cassettes'
       c.default_cassette_options = {
         allow_unused_http_interactions: true,
+        record: ENV['CI'] ? :none : :new_episodes,
         match_requests_on: [:method, :salesforce_uri, :salesforce_body],
       }
       c.filter_sensitive_data('<STRIPE_API_KEY>') do |interaction|

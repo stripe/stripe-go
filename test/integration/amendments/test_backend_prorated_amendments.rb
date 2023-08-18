@@ -114,7 +114,7 @@ class Critic::BackendProratedAmendmentTranslation < Critic::OrderAmendmentFuncti
     assert_equal(initial_end_date.to_i, invoice_period_end)
   end
 
-  describe 'amendments' do
+  describe 'backend prorated amendments' do
     it 'backend prorated order amendment which starts on the same day as the proration phase' do
       contract_term = 18
       amendment_term = 6
