@@ -10,8 +10,8 @@ package cardbundle
 import (
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v75"
-	"github.com/stripe/stripe-go/v75/form"
+	stripe "github.com/stripe/stripe-go/v74"
+	"github.com/stripe/stripe-go/v74/form"
 )
 
 // Client is used to invoke /issuing/card_bundles APIs.

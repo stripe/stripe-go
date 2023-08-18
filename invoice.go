@@ -8,7 +8,7 @@ package stripe
 
 import (
 	"encoding/json"
-	"github.com/stripe/stripe-go/v75/form"
+	"github.com/stripe/stripe-go/v74/form"
 )
 
 // Describes whether the quote line is affecting a new schedule or an existing schedule.

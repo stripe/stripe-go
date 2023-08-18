@@ -8,7 +8,7 @@ package stripe
 
 import (
 	"encoding/json"
-	"github.com/stripe/stripe-go/v75/form"
+	"github.com/stripe/stripe-go/v74/form"
 )
 
 // The specific type of gift_card provisioning, only `fixed_amount` currently supported.

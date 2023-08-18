@@ -8,7 +8,7 @@ package stripe
 
 import (
 	"encoding/json"
-	"github.com/stripe/stripe-go/v75/form"
+	"github.com/stripe/stripe-go/v74/form"
 )
 
 // The customer submitted reason for why they cancelled, if the subscription was cancelled explicitly by the user.
