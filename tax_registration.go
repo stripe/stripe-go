@@ -108,7 +108,6 @@ type TaxRegistrationCountryOptionsClType string
 // List of values that TaxRegistrationCountryOptionsClType can take
 const (
 	TaxRegistrationCountryOptionsClTypeSimplified TaxRegistrationCountryOptionsClType = "simplified"
-	TaxRegistrationCountryOptionsClTypeStandard   TaxRegistrationCountryOptionsClType = "standard"
 )
 
 // Type of registration in `country`.
@@ -117,7 +116,6 @@ type TaxRegistrationCountryOptionsCoType string
 // List of values that TaxRegistrationCountryOptionsCoType can take
 const (
 	TaxRegistrationCountryOptionsCoTypeSimplified TaxRegistrationCountryOptionsCoType = "simplified"
-	TaxRegistrationCountryOptionsCoTypeStandard   TaxRegistrationCountryOptionsCoType = "standard"
 )
 
 // Place of supply scheme used in an EU standard registration.
@@ -354,7 +352,6 @@ type TaxRegistrationCountryOptionsIDType string
 // List of values that TaxRegistrationCountryOptionsIDType can take
 const (
 	TaxRegistrationCountryOptionsIDTypeSimplified TaxRegistrationCountryOptionsIDType = "simplified"
-	TaxRegistrationCountryOptionsIDTypeStandard   TaxRegistrationCountryOptionsIDType = "standard"
 )
 
 // Place of supply scheme used in an EU standard registration.
@@ -419,7 +416,6 @@ type TaxRegistrationCountryOptionsKrType string
 // List of values that TaxRegistrationCountryOptionsKrType can take
 const (
 	TaxRegistrationCountryOptionsKrTypeSimplified TaxRegistrationCountryOptionsKrType = "simplified"
-	TaxRegistrationCountryOptionsKrTypeStandard   TaxRegistrationCountryOptionsKrType = "standard"
 )
 
 // Place of supply scheme used in an EU standard registration.
@@ -508,7 +504,6 @@ type TaxRegistrationCountryOptionsMXType string
 // List of values that TaxRegistrationCountryOptionsMXType can take
 const (
 	TaxRegistrationCountryOptionsMXTypeSimplified TaxRegistrationCountryOptionsMXType = "simplified"
-	TaxRegistrationCountryOptionsMXTypeStandard   TaxRegistrationCountryOptionsMXType = "standard"
 )
 
 // Type of registration in `country`.
@@ -517,7 +512,6 @@ type TaxRegistrationCountryOptionsMyType string
 // List of values that TaxRegistrationCountryOptionsMyType can take
 const (
 	TaxRegistrationCountryOptionsMyTypeSimplified TaxRegistrationCountryOptionsMyType = "simplified"
-	TaxRegistrationCountryOptionsMyTypeStandard   TaxRegistrationCountryOptionsMyType = "standard"
 )
 
 // Place of supply scheme used in an EU standard registration.
@@ -622,7 +616,6 @@ type TaxRegistrationCountryOptionsSaType string
 // List of values that TaxRegistrationCountryOptionsSaType can take
 const (
 	TaxRegistrationCountryOptionsSaTypeSimplified TaxRegistrationCountryOptionsSaType = "simplified"
-	TaxRegistrationCountryOptionsSaTypeStandard   TaxRegistrationCountryOptionsSaType = "standard"
 )
 
 // Place of supply scheme used in an EU standard registration.
@@ -699,7 +692,6 @@ type TaxRegistrationCountryOptionsTHType string
 // List of values that TaxRegistrationCountryOptionsTHType can take
 const (
 	TaxRegistrationCountryOptionsTHTypeSimplified TaxRegistrationCountryOptionsTHType = "simplified"
-	TaxRegistrationCountryOptionsTHTypeStandard   TaxRegistrationCountryOptionsTHType = "standard"
 )
 
 // Type of registration in `country`.
@@ -708,7 +700,6 @@ type TaxRegistrationCountryOptionsTRType string
 // List of values that TaxRegistrationCountryOptionsTRType can take
 const (
 	TaxRegistrationCountryOptionsTRTypeSimplified TaxRegistrationCountryOptionsTRType = "simplified"
-	TaxRegistrationCountryOptionsTRTypeStandard   TaxRegistrationCountryOptionsTRType = "standard"
 )
 
 // Type of registration in the US.
@@ -726,7 +717,6 @@ type TaxRegistrationCountryOptionsVnType string
 // List of values that TaxRegistrationCountryOptionsVnType can take
 const (
 	TaxRegistrationCountryOptionsVnTypeSimplified TaxRegistrationCountryOptionsVnType = "simplified"
-	TaxRegistrationCountryOptionsVnTypeStandard   TaxRegistrationCountryOptionsVnType = "standard"
 )
 
 // Type of registration in `country`.
