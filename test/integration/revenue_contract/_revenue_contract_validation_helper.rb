@@ -1,15 +1,16 @@
 # typed: true
 # frozen_string_literal: true
 
-require_relative '../../test_helper'
+require_relative '../amendments/_lib'
 
-class Critic::RevenueContractValidationHelper < Critic::VCRTest
+class Critic::RevenueContractValidationHelper < Critic::OrderAmendmentFunctionalTest
   def revenue_contract_validate_basics(
     sf_order,
     subscription_schedule,
     revenue_contract,
     sf_account_id,
-    signed_date
+    signed_date,
+    version: 1
   )
     customer = Stripe::Customer.retrieve(T.cast(subscription_schedule.customer, String), @user.stripe_credentials)
 
@@ -30,7 +31,7 @@ class Critic::RevenueContractValidationHelper < Critic::VCRTest
     # These are only specific to creation right now, will need to update when we handle amendments
     assert_equal("signed", revenue_contract.status)
     assert_equal(DateTime.parse(signed_date).to_i, revenue_contract.status_transitions.signed_at)
-    assert_equal(1, revenue_contract.version)
+    assert_equal(version, revenue_contract.version)
     assert_equal(subscription_schedule.metadata['salesforce_order_link'], revenue_contract.metadata['salesforce_order_link'])
     assert_equal(subscription_schedule.metadata['salesforce_order_id'], revenue_contract.metadata['salesforce_order_id'])
     assert_equal(subscription_schedule.metadata['contract_cf_signed_date'], revenue_contract.metadata['contract_cf_signed_date'])
@@ -45,8 +46,10 @@ class Critic::RevenueContractValidationHelper < Critic::VCRTest
     amount,
     tfc
   )
-    assert_equal(sf_pricebook_entry[prefixed_stripe_field(GENERIC_STRIPE_ID)], phase_item.price)
-    assert_equal(sf_pricebook_entry[prefixed_stripe_field(GENERIC_STRIPE_ID)], contract_item.price)
+    if !sf_pricebook_entry.nil?
+      assert_equal(sf_pricebook_entry[prefixed_stripe_field(GENERIC_STRIPE_ID)], phase_item.price)
+      assert_equal(sf_pricebook_entry[prefixed_stripe_field(GENERIC_STRIPE_ID)], contract_item.price)
+    end
 
     assert_equal(quantity, phase_item.quantity)
     assert_equal(quantity, contract_item.quantity)
@@ -54,13 +57,18 @@ class Critic::RevenueContractValidationHelper < Critic::VCRTest
     if !tfc.nil?
       assert_equal(tfc.to_s, phase_item.metadata['contract_tfc_duration'])
       assert_equal(tfc.to_s, contract_item.metadata['contract_tfc_duration'])
-      assert_equal(contract_item.period.start + (tfc + 1).days, contract_item.termination_for_convenience.expires_at)
+      expires_at = StripeForce::Utilities::SalesforceUtil.datetime_to_unix_timestamp(
+        Time.at(contract_item.period.start) + (tfc.to_i + 1).days
+      )
+      assert_equal(expires_at, contract_item.termination_for_convenience.expires_at)
     else
       assert_nil(contract_item.termination_for_convenience)
     end
 
     amount_subtotal = amount
-    assert_equal(phase_item.metadata.count, contract_item.metadata.count)
+    # TODO: Currently contract item does not support metadata update, we need to support this due to
+    # amendments adding in extra metadata to the phase item but not to contract item.
+    assert(phase_item.metadata.count >= contract_item.metadata.count)
     if !phase_item.metadata['item_contract_value'].nil?
       assert_equal(amount.to_s, phase_item.metadata['item_contract_value'])
       assert_equal(amount.to_s, contract_item.metadata['item_contract_value'])
@@ -68,5 +76,14 @@ class Critic::RevenueContractValidationHelper < Critic::VCRTest
     end
 
     assert_equal(amount_subtotal, contract_item.amount_subtotal)
+  end
+
+  def revenue_contract_validate_item_period(
+    contract_item,
+    start_date,
+    end_date
+  )
+    assert_equal(start_date.to_time.to_i, contract_item.period.start)
+    assert_equal(end_date.to_time.to_i, contract_item.period.end)
   end
 end

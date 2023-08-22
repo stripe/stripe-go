@@ -387,6 +387,7 @@ class Stripe::Discounts
   sig { returns(String)}
   def discount; end
 end
+
 class Stripe::RevenueContract < Stripe::StripeObject
   sig { returns(String)}
   def id; end

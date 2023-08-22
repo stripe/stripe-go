@@ -1209,6 +1209,11 @@ class StripeForce::Translate
           # because  Stripe converts 'now' to a timestamp
           # and we want to use that timestamp when there is a stacked amendment
           subscription_schedule = T.cast(subscription_schedule.save({}, @user.stripe_credentials), Stripe::SubscriptionSchedule)
+
+          if @user.feature_enabled?(FeatureFlags::STRIPE_REVENUE_CONTRACT)
+            adjust_revenue_contract_from_sub_schedule(subscription_schedule, contract_structure.initial, sf_order_amendment, aggregate_phase_items, invoice_items_in_order, invoice_items_for_prorations + negative_invoice_items)
+          end
+
         end
       end
 
