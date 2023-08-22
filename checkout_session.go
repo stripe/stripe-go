@@ -1033,7 +1033,7 @@ type CheckoutSessionPaymentIntentDataParams struct {
 	// The parameters used to automatically create a Transfer when the payment succeeds.
 	// For more information, see the PaymentIntents [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
 	TransferData *CheckoutSessionPaymentIntentDataTransferDataParams `form:"transfer_data"`
-	// A string that identifies the resulting payment as part of a group. See the PaymentIntents [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts) for details.
+	// A string that identifies the resulting payment as part of a group. See the PaymentIntents [use case for connected accounts](https://stripe.com/docs/connect/separate-charges-and-transfers) for details.
 	TransferGroup *string `form:"transfer_group"`
 }
 
