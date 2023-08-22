@@ -2029,7 +2029,7 @@ type CheckoutSessionInvoiceCreation struct {
 	InvoiceData *CheckoutSessionInvoiceCreationInvoiceData `json:"invoice_data"`
 }
 
-// Information about the payment method configuration used for this Checkout session.
+// Information about the payment method configuration used for this Checkout session if using dynamic payment methods.
 type CheckoutSessionPaymentMethodConfigurationDetails struct {
 	// ID of the payment method configuration used.
 	ID string `json:"id"`
@@ -2515,7 +2515,7 @@ type CheckoutSession struct {
 	PaymentLink *PaymentLink `json:"payment_link"`
 	// Configure whether a Checkout Session should collect a payment method.
 	PaymentMethodCollection CheckoutSessionPaymentMethodCollection `json:"payment_method_collection"`
-	// Information about the payment method configuration used for this Checkout session.
+	// Information about the payment method configuration used for this Checkout session if using dynamic payment methods.
 	PaymentMethodConfigurationDetails *CheckoutSessionPaymentMethodConfigurationDetails `json:"payment_method_configuration_details"`
 	// Payment-method-specific configuration for the PaymentIntent or SetupIntent of this CheckoutSession.
 	PaymentMethodOptions *CheckoutSessionPaymentMethodOptions `json:"payment_method_options"`
