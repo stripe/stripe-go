@@ -3367,7 +3367,7 @@ type PaymentIntent struct {
 	Status PaymentIntentStatus `json:"status"`
 	// The data with which to automatically create a Transfer when the payment is finalized. See the PaymentIntents [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts) for details.
 	TransferData *PaymentIntentTransferData `json:"transfer_data"`
-	// A string that identifies the resulting payment as part of a group. See the PaymentIntents [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts) for details.
+	// A string that identifies the resulting payment as part of a group. See the PaymentIntents [use case for connected accounts](https://stripe.com/docs/connect/separate-charges-and-transfers) for details.
 	TransferGroup string `json:"transfer_group"`
 }
 
