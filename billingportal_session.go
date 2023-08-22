@@ -16,6 +16,14 @@ const (
 	BillingPortalSessionFlowAfterCompletionTypeRedirect           BillingPortalSessionFlowAfterCompletionType = "redirect"
 )
 
+// Type of retention strategy that will be used.
+type BillingPortalSessionFlowSubscriptionCancelRetentionType string
+
+// List of values that BillingPortalSessionFlowSubscriptionCancelRetentionType can take
+const (
+	BillingPortalSessionFlowSubscriptionCancelRetentionTypeCouponOffer BillingPortalSessionFlowSubscriptionCancelRetentionType = "coupon_offer"
+)
+
 // Type of flow that the customer will go through.
 type BillingPortalSessionFlowType string
 
@@ -49,8 +57,24 @@ type BillingPortalSessionFlowDataAfterCompletionParams struct {
 	Type *string `form:"type"`
 }
 
+// Configuration when `retention.type=coupon_offer`.
+type BillingPortalSessionFlowDataSubscriptionCancelRetentionCouponOfferParams struct {
+	// The ID of the coupon to be offered.
+	Coupon *string `form:"coupon"`
+}
+
+// Specify a retention strategy to be used in the cancellation flow.
+type BillingPortalSessionFlowDataSubscriptionCancelRetentionParams struct {
+	// Configuration when `retention.type=coupon_offer`.
+	CouponOffer *BillingPortalSessionFlowDataSubscriptionCancelRetentionCouponOfferParams `form:"coupon_offer"`
+	// Type of retention strategy to use with the customer.
+	Type *string `form:"type"`
+}
+
 // Configuration when `flow_data.type=subscription_cancel`.
 type BillingPortalSessionFlowDataSubscriptionCancelParams struct {
+	// Specify a retention strategy to be used in the cancellation flow.
+	Retention *BillingPortalSessionFlowDataSubscriptionCancelRetentionParams `form:"retention"`
 	// The ID of the subscription to be canceled.
 	Subscription *string `form:"subscription"`
 }
@@ -147,8 +171,24 @@ type BillingPortalSessionFlowAfterCompletion struct {
 	Type BillingPortalSessionFlowAfterCompletionType `json:"type"`
 }
 
+// Configuration when `retention.type=coupon_offer`.
+type BillingPortalSessionFlowSubscriptionCancelRetentionCouponOffer struct {
+	// The ID of the coupon to be offered.
+	Coupon string `json:"coupon"`
+}
+
+// Specify a retention strategy to be used in the cancellation flow.
+type BillingPortalSessionFlowSubscriptionCancelRetention struct {
+	// Configuration when `retention.type=coupon_offer`.
+	CouponOffer *BillingPortalSessionFlowSubscriptionCancelRetentionCouponOffer `json:"coupon_offer"`
+	// Type of retention strategy that will be used.
+	Type BillingPortalSessionFlowSubscriptionCancelRetentionType `json:"type"`
+}
+
 // Configuration when `flow.type=subscription_cancel`.
 type BillingPortalSessionFlowSubscriptionCancel struct {
+	// Specify a retention strategy to be used in the cancellation flow.
+	Retention *BillingPortalSessionFlowSubscriptionCancelRetention `json:"retention"`
 	// The ID of the subscription to be canceled.
 	Subscription string `json:"subscription"`
 }
