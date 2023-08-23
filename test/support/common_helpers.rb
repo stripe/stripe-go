@@ -202,9 +202,11 @@ module Critic::CommonHelpers
     test_clock.advance(frozen_time: advance_timestamp)
 
     # test clocks can take some time...
-    wait_until(timeout: 5.minutes) do
-      test_clock.refresh
-      test_clock.status == 'ready'
+    if VCR.current_cassette.originally_recorded_at.nil?
+      wait_until(timeout: 5.minutes) do
+        test_clock.refresh
+        test_clock.status == 'ready'
+      end
     end
 
     test_clock

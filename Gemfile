@@ -11,18 +11,18 @@ gem 'sorbet-rails', '~> 0.7.34'
 # Force version dependents (to appease security audits)
 gem 'sinatra', '~> 2.2.3' # resque dependent
 gem 'rack', '>= 2.2.6.4'
-gem 'activesupport', '~> 6.1.7'
+gem 'activesupport', '~> 6.1.7.6'
 
 # https://github.com/ruby/irb/issues/43
 gem 'reline', '~> 0.3.1'
 
 gem 'dotenv-rails', '2.8.1', groups: [:development, :test]
 gem 'foreman', groups: [:development, :test]
-gem 'rails', '~> 6.1.7.4'
+gem 'rails', '~> 6.1.7.6'
 gem 'lograge', '~> 0.12'
 
 group :production do
-  gem 'puma', '~> 5.6.5'
+  gem 'puma', '~> 5.6.7'
 end
 
 # sentry

@@ -6247,4 +6247,734 @@ http_interactions:
           }
         }
   recorded_at: Wed, 09 Aug 2023 00:00:00 GMT
+- request:
+    method: post
+    uri: https://ability-innovation-7335-dev-ed.scratch.my.salesforce.com/services/data/v58.0/sobjects/Product2
+    body:
+      encoding: UTF-8
+      string: '{"Name":"SaaS Subscription","IsActive":true,"Description":"Demo subscription
+        to show bidirectional syncing","ProductCode":"EfxBsBKAsjaF0caCUQPWQYJ8h61G","SBQQ__SubscriptionPricing__c":"Fixed
+        Price","SBQQ__SubscriptionType__c":"Evergreen","SBQQ__SubscriptionTerm__c":1}'
+    headers:
+      User-Agent:
+      - Faraday v2.4.0
+      Content-Type:
+      - application/json
+      Authorization:
+      - OAuth <SALESFORCE_ACCESS_TOKEN>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 201
+      message: Created
+    headers:
+      Date:
+      - Fri, 18 Aug 2023 22:37:28 GMT
+      Set-Cookie:
+      - BrowserId=z_RUOz4XEe6xL3sftu7XXg; domain=.salesforce.com; path=/; expires=Sat,
+        17-Aug-2024 22:37:28 GMT; Max-Age=31536000
+      - CookieConsentPolicy=0:1; path=/; expires=Sat, 17-Aug-2024 22:37:28 GMT; Max-Age=31536000
+      - LSKey-c$CookieConsentPolicy=0:1; path=/; expires=Sat, 17-Aug-2024 22:37:28
+        GMT; Max-Age=31536000
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Robots-Tag:
+      - none
+      Cache-Control:
+      - no-cache,must-revalidate,max-age=0,no-store,private
+      Sforce-Limit-Info:
+      - api-usage=361/5000000
+      Location:
+      - "/services/data/v58.0/sobjects/Product2/01t7e000009C7BUAA0"
+      Content-Type:
+      - application/json;charset=UTF-8
+      Vary:
+      - Accept-Encoding
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: ASCII-8BIT
+      string: '{"id":"01t7e000009C7BUAA0","success":true,"errors":[]}'
+  recorded_at: Wed, 09 Aug 2023 00:00:00 GMT
+- request:
+    method: post
+    uri: https://ability-innovation-7335-dev-ed.scratch.my.salesforce.com/services/data/v58.0/sobjects/PricebookEntry
+    body:
+      encoding: UTF-8
+      string: '{"Pricebook2Id":"01s7e000002eLFEAA2","Product2Id":"01t7e000009C7BUAA0","IsActive":true,"UnitPrice":120.0,"UseStandardPrice":false}'
+    headers:
+      User-Agent:
+      - Faraday v2.4.0
+      Content-Type:
+      - application/json
+      Authorization:
+      - OAuth <SALESFORCE_ACCESS_TOKEN>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 201
+      message: Created
+    headers:
+      Date:
+      - Fri, 18 Aug 2023 22:37:29 GMT
+      Set-Cookie:
+      - BrowserId=0D8Zmz4XEe6JO0OwjA_jsw; domain=.salesforce.com; path=/; expires=Sat,
+        17-Aug-2024 22:37:29 GMT; Max-Age=31536000
+      - CookieConsentPolicy=0:1; path=/; expires=Sat, 17-Aug-2024 22:37:29 GMT; Max-Age=31536000
+      - LSKey-c$CookieConsentPolicy=0:1; path=/; expires=Sat, 17-Aug-2024 22:37:29
+        GMT; Max-Age=31536000
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Robots-Tag:
+      - none
+      Cache-Control:
+      - no-cache,must-revalidate,max-age=0,no-store,private
+      Sforce-Limit-Info:
+      - api-usage=363/5000000
+      Location:
+      - "/services/data/v58.0/sobjects/PricebookEntry/01u7e00000ItTCmAAN"
+      Content-Type:
+      - application/json;charset=UTF-8
+      Vary:
+      - Accept-Encoding
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: ASCII-8BIT
+      string: '{"id":"01u7e00000ItTCmAAN","success":true,"errors":[]}'
+  recorded_at: Wed, 09 Aug 2023 00:00:00 GMT
+- request:
+    method: patch
+    uri: https://ability-innovation-7335-dev-ed.scratch.my.salesforce.com/services/apexrest/SBQQ/ServiceRouter?loader=SBQQ.ProductAPI.ProductLoader&uid=01t7e000009C7BUAA0
+    body:
+      encoding: UTF-8
+      string: '{"context":"{\"pricebookId\":\"01s7e000002eLFEAA2\"}"}'
+    headers:
+      User-Agent:
+      - Faraday v2.4.0
+      Content-Type:
+      - application/json
+      Authorization:
+      - OAuth <SALESFORCE_ACCESS_TOKEN>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Fri, 18 Aug 2023 22:37:29 GMT
+      Set-Cookie:
+      - BrowserId=0IJkNz4XEe6O33vaO9mbXw; domain=.salesforce.com; path=/; expires=Sat,
+        17-Aug-2024 22:37:29 GMT; Max-Age=31536000
+      - CookieConsentPolicy=0:1; path=/; expires=Sat, 17-Aug-2024 22:37:29 GMT; Max-Age=31536000
+      - LSKey-c$CookieConsentPolicy=0:1; path=/; expires=Sat, 17-Aug-2024 22:37:29
+        GMT; Max-Age=31536000
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Robots-Tag:
+      - none
+      Cache-Control:
+      - no-cache,must-revalidate,max-age=0,no-store,private
+      Content-Type:
+      - application/json;charset=UTF-8
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: '"{\"record\":{\"attributes\":{\"type\":\"Product2\",\"url\":\"/services/data/v58.0/sobjects/Product2/01t7e000009C7BUAA0\"},\"Id\":\"01t7e000009C7BUAA0\",\"CurrencyIsoCode\":\"USD\",\"Name\":\"SaaS
+        Subscription\",\"ProductCode\":\"EfxBsBKAsjaF0caCUQPWQYJ8h61G\",\"Description\":\"Demo
+        subscription to show bidirectional syncing\",\"SBQQ__SubscriptionPricing__c\":\"Fixed
+        Price\",\"SBQQ__PriceEditable__c\":false,\"SBQQ__DefaultQuantity__c\":1.00000,\"SBQQ__QuantityEditable__c\":true,\"SBQQ__CostEditable__c\":false,\"SBQQ__NonDiscountable__c\":false,\"SBQQ__NonPartnerDiscountable__c\":false,\"SBQQ__SubscriptionTerm__c\":1,\"SBQQ__SubscriptionBase__c\":\"List\",\"SBQQ__PricingMethod__c\":\"List\",\"SBQQ__PricingMethodEditable__c\":false,\"SBQQ__OptionSelectionMethod__c\":\"Click\",\"SBQQ__Optional__c\":false,\"SBQQ__Taxable__c\":false,\"SBQQ__CustomConfigurationRequired__c\":false,\"SBQQ__Hidden__c\":false,\"SBQQ__ReconfigurationDisabled__c\":false,\"SBQQ__ExcludeFromOpportunity__c\":false,\"SBQQ__DescriptionLocked__c\":false,\"SBQQ__ExcludeFromMaintenance__c\":false,\"SBQQ__IncludeInMaintenance__c\":false,\"SBQQ__NewQuoteGroup__c\":false,\"SBQQ__SubscriptionType__c\":\"Evergreen\",\"SBQQ__AssetConversion__c\":\"One
+        per quote line\",\"SBQQ__BlockPricingField__c\":\"Quantity\",\"SBQQ__HasConfigurationAttributes__c\":false,\"SBQQ__HasConsumptionSchedule__c\":false,\"SBQQ__ExternallyConfigurable__c\":false,\"SBQQ__AssetAmendmentBehavior__c\":\"Default\",\"PricebookEntries\":{\"totalSize\":1,\"done\":true,\"records\":[{\"attributes\":{\"type\":\"PricebookEntry\",\"url\":\"/services/data/v58.0/sobjects/PricebookEntry/01u7e00000ItTCmAAN\"},\"Product2Id\":\"01t7e000009C7BUAA0\",\"Id\":\"01u7e00000ItTCmAAN\",\"Pricebook2Id\":\"01s7e000002eLFEAA2\",\"UnitPrice\":120.00,\"IsActive\":true,\"CurrencyIsoCode\":\"USD\"}]}},\"options\":[],\"features\":[],\"featureCategoryLabels\":{\"Software\":\"Software\",\"Hardware\":\"Hardware\"},\"featureCategories\":[],\"currencySymbol\":\"USD
+        \",\"currencyCode\":\"USD\",\"constraints\":[],\"configurationAttributes\":[]}"'
+  recorded_at: Wed, 09 Aug 2023 00:00:00 GMT
+- request:
+    method: patch
+    uri: https://ability-innovation-7335-dev-ed.scratch.my.salesforce.com/services/apexrest/SBQQ/ServiceRouter?loader=SBQQ.QuoteAPI.QuoteProductAdder
+    body:
+      encoding: UTF-8
+      string: '{"context":"{\"quote\":{\"ui_original_record\":{\"cloneRecordIfNoCache\":true,\"cacheName\":\"LineEditor\",\"cacheId\":\"a0z7e00000BDMSDAA5\",\"cachedOriginalRecordPath\":[\"quote\",\"ui_original_record\"]},\"record\":{\"attributes\":{\"type\":\"SBQQ__Quote__c\",\"url\":\"/services/data/v58.0/sobjects/SBQQ__Quote__c/a0z7e00000BDMSDAA5\"},\"Id\":\"a0z7e00000BDMSDAA5\",\"CurrencyIsoCode\":\"USD\",\"Name\":\"Q-01483\",\"SBQQ__Type__c\":\"Quote\",\"SBQQ__Account__c\":\"0017e00001j13JVAAY\",\"SBQQ__SubscriptionTerm__c\":1,\"SBQQ__ExpirationDate__c\":\"2023-09-08\",\"SBQQ__StartDate__c\":\"2023-08-09\",\"SBQQ__NetAmount__c\":0.0,\"SBQQ__CustomerAmount__c\":0.0,\"SBQQ__PricebookId__c\":\"01s7e000002eLFEAA2\",\"SBQQ__ContractingMethod__c\":\"By
+        Subscription End Date\",\"SBQQ__Unopened__c\":true,\"SBQQ__LineItemCount__c\":0,\"SBQQ__PaymentTerms__c\":\"Net
+        30\",\"SBQQ__WatermarkShown__c\":false,\"SBQQ__Status__c\":\"Draft\",\"SBQQ__Primary__c\":true,\"SBQQ__LineItemsGrouped__c\":false,\"SBQQ__Opportunity2__c\":\"0067e00000OEZTpAAP\",\"SBQQ__Account__r\":{\"attributes\":{\"type\":\"Account\",\"url\":\"/services/data/v58.0/sobjects/Account/0017e00001j13JVAAY\"},\"Id\":\"0017e00001j13JVAAY\",\"Name\":\"REST
+        Account  2023-08-09 00:00:00 UTC\",\"SBQQ__RenewalModel__c\":\"Contract Based\",\"SBQQ__RenewalPricingMethod__c\":\"Same\"},\"SBQQ__Opportunity2__r\":{\"attributes\":{\"type\":\"Opportunity\",\"url\":\"/services/data/v58.0/sobjects/Opportunity/0067e00000OEZTpAAP\"},\"Id\":\"0067e00000OEZTpAAP\",\"SBQQ__PrimaryQuote__c\":\"a0z7e00000BDMSDAA5\",\"AccountId\":\"0017e00001j13JVAAY\"},\"SBQQ__CustomerDiscount__c\":null,\"SBQQ__MarkupRate__c\":null,\"SBQQ__PartnerDiscount__c\":null,\"SBQQ__EndDate__c\":null,\"SBQQ__MasterContract__c\":null,\"SBQQ__MasterEvergreenContract__c\":null,\"SBQQ__QuoteProcessId__c\":null,\"SBQQ__DistributorDiscount__c\":null,\"SBQQ__FirstSegmentTermEndDate__c\":null,\"SBQQ__GenerateContractedPrice__c\":null,\"SBQQ__BillingFrequency__c\":null,\"SBQQ__RenewalTerm__c\":null,\"SBQQ__RenewalUpliftRate__c\":null,\"SBQQ__OrderGroupID__c\":null,\"SBQQ__TargetCustomerAmount__c\":null,\"SBQQ__OrderBy__c\":null,\"SBQQ__ProrationDayOfMonth__c\":null},\"nextKey\":1,\"netTotal\":0.0,\"lineItems\":[],\"lineItemGroups\":[],\"isPartial\":false,\"hasMultiSegmentLines\":false,\"customerTotal\":0.0,\"currencyDecimalScale\":2,\"channelDiscountsOffList\":false,\"calculationRequired\":false,\"applyPartnerDiscountFirst\":false,\"applyAdditionalDiscountLast\":false},\"products\":[{\"record\":{\"attributes\":{\"type\":\"Product2\",\"url\":\"/services/data/v58.0/sobjects/Product2/01t7e000009C7BUAA0\"},\"Id\":\"01t7e000009C7BUAA0\",\"CurrencyIsoCode\":\"USD\",\"Name\":\"SaaS
+        Subscription\",\"ProductCode\":\"EfxBsBKAsjaF0caCUQPWQYJ8h61G\",\"Description\":\"Demo
+        subscription to show bidirectional syncing\",\"SBQQ__SubscriptionPricing__c\":\"Fixed
+        Price\",\"SBQQ__PriceEditable__c\":false,\"SBQQ__DefaultQuantity__c\":1.0,\"SBQQ__QuantityEditable__c\":true,\"SBQQ__CostEditable__c\":false,\"SBQQ__NonDiscountable__c\":false,\"SBQQ__NonPartnerDiscountable__c\":false,\"SBQQ__SubscriptionTerm__c\":1,\"SBQQ__SubscriptionBase__c\":\"List\",\"SBQQ__PricingMethod__c\":\"List\",\"SBQQ__PricingMethodEditable__c\":false,\"SBQQ__OptionSelectionMethod__c\":\"Click\",\"SBQQ__Optional__c\":false,\"SBQQ__Taxable__c\":false,\"SBQQ__CustomConfigurationRequired__c\":false,\"SBQQ__Hidden__c\":false,\"SBQQ__ReconfigurationDisabled__c\":false,\"SBQQ__ExcludeFromOpportunity__c\":false,\"SBQQ__DescriptionLocked__c\":false,\"SBQQ__ExcludeFromMaintenance__c\":false,\"SBQQ__IncludeInMaintenance__c\":false,\"SBQQ__NewQuoteGroup__c\":false,\"SBQQ__SubscriptionType__c\":\"Evergreen\",\"SBQQ__AssetConversion__c\":\"One
+        per quote line\",\"SBQQ__BlockPricingField__c\":\"Quantity\",\"SBQQ__HasConfigurationAttributes__c\":false,\"SBQQ__HasConsumptionSchedule__c\":false,\"SBQQ__ExternallyConfigurable__c\":false,\"SBQQ__AssetAmendmentBehavior__c\":\"Default\",\"PricebookEntries\":{\"totalSize\":1,\"done\":true,\"records\":[{\"attributes\":{\"type\":\"PricebookEntry\",\"url\":\"/services/data/v58.0/sobjects/PricebookEntry/01u7e00000ItTCmAAN\"},\"Product2Id\":\"01t7e000009C7BUAA0\",\"Id\":\"01u7e00000ItTCmAAN\",\"Pricebook2Id\":\"01s7e000002eLFEAA2\",\"UnitPrice\":120.0,\"IsActive\":true,\"CurrencyIsoCode\":\"USD\"}]}},\"options\":[],\"features\":[],\"featureCategoryLabels\":{\"Software\":\"Software\",\"Hardware\":\"Hardware\"},\"featureCategories\":[],\"currencySymbol\":\"USD
+        \",\"currencyCode\":\"USD\",\"constraints\":[],\"configurationAttributes\":[]}],\"groupKey\":0,\"ignoreCalculate\":false}"}'
+    headers:
+      User-Agent:
+      - Faraday v2.4.0
+      Content-Type:
+      - application/json
+      Authorization:
+      - OAuth <SALESFORCE_ACCESS_TOKEN>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Fri, 18 Aug 2023 22:37:31 GMT
+      Set-Cookie:
+      - BrowserId=0V65tj4XEe6JO0OwjA_jsw; domain=.salesforce.com; path=/; expires=Sat,
+        17-Aug-2024 22:37:31 GMT; Max-Age=31536000
+      - CookieConsentPolicy=0:1; path=/; expires=Sat, 17-Aug-2024 22:37:31 GMT; Max-Age=31536000
+      - LSKey-c$CookieConsentPolicy=0:1; path=/; expires=Sat, 17-Aug-2024 22:37:31
+        GMT; Max-Age=31536000
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Robots-Tag:
+      - none
+      Cache-Control:
+      - no-cache,must-revalidate,max-age=0,no-store,private
+      Content-Type:
+      - application/json;charset=UTF-8
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: '"{\"ui_original_record\":{\"cloneRecordIfNoCache\":true,\"cacheName\":\"LineEditor\",\"cacheId\":\"a0z7e00000BDMSDAA5\",\"cachedOriginalRecordPath\":[\"quote\",\"ui_original_record\"]},\"record\":{\"attributes\":{\"type\":\"SBQQ__Quote__c\",\"url\":\"/services/data/v58.0/sobjects/SBQQ__Quote__c/a0z7e00000BDMSDAA5\"},\"Id\":\"a0z7e00000BDMSDAA5\",\"CurrencyIsoCode\":\"USD\",\"Name\":\"Q-01483\",\"SBQQ__Type__c\":\"Quote\",\"SBQQ__Account__c\":\"0017e00001j13JVAAY\",\"SBQQ__SubscriptionTerm__c\":1,\"SBQQ__ExpirationDate__c\":\"2023-09-08\",\"SBQQ__StartDate__c\":\"2023-08-09\",\"SBQQ__NetAmount__c\":120.00,\"SBQQ__CustomerAmount__c\":120.00,\"SBQQ__PricebookId__c\":\"01s7e000002eLFEAA2\",\"SBQQ__ContractingMethod__c\":\"By
+        Subscription End Date\",\"SBQQ__Unopened__c\":true,\"SBQQ__LineItemCount__c\":2,\"SBQQ__PaymentTerms__c\":\"Net
+        30\",\"SBQQ__WatermarkShown__c\":false,\"SBQQ__Status__c\":\"Draft\",\"SBQQ__Primary__c\":true,\"SBQQ__LineItemsGrouped__c\":false,\"SBQQ__Opportunity2__c\":\"0067e00000OEZTpAAP\",\"SBQQ__Account__r\":{\"attributes\":{\"type\":\"Account\",\"url\":\"/services/data/v58.0/sobjects/Account/0017e00001j13JVAAY\"},\"Id\":\"0017e00001j13JVAAY\",\"Name\":\"REST
+        Account  2023-08-09 00:00:00 UTC\",\"SBQQ__RenewalModel__c\":\"Contract Based\",\"SBQQ__RenewalPricingMethod__c\":\"Same\"},\"SBQQ__Opportunity2__r\":{\"attributes\":{\"type\":\"Opportunity\",\"url\":\"/services/data/v58.0/sobjects/Opportunity/0067e00000OEZTpAAP\"},\"Id\":\"0067e00000OEZTpAAP\",\"SBQQ__PrimaryQuote__c\":\"a0z7e00000BDMSDAA5\",\"AccountId\":\"0017e00001j13JVAAY\"},\"SBQQ__CustomerDiscount__c\":null,\"SBQQ__MarkupRate__c\":null,\"SBQQ__PartnerDiscount__c\":null,\"SBQQ__EndDate__c\":null,\"SBQQ__MasterContract__c\":null,\"SBQQ__MasterEvergreenContract__c\":null,\"SBQQ__QuoteProcessId__c\":null,\"SBQQ__DistributorDiscount__c\":null,\"SBQQ__FirstSegmentTermEndDate__c\":null,\"SBQQ__GenerateContractedPrice__c\":null,\"SBQQ__BillingFrequency__c\":null,\"SBQQ__RenewalTerm__c\":null,\"SBQQ__RenewalUpliftRate__c\":null,\"SBQQ__OrderGroupID__c\":null,\"SBQQ__TargetCustomerAmount__c\":null,\"SBQQ__OrderBy__c\":null,\"SBQQ__ProrationDayOfMonth__c\":null},\"nextKey\":2,\"netTotal\":120.00,\"netNonSegmentTotal\":120.0000,\"lineItems\":[{\"upliftable\":false,\"upgradeSourcesBySourceProductId\":{},\"ui_original_record\":{\"cloneRecordIfNoCache\":false,\"cacheName\":\"LineEditor\",\"cacheId\":\"a0z7e00000BDMSDAA5\",\"cachedOriginalRecordPath\":[\"quote\",\"lineItems\",\"0\",\"ui_original_record\"]},\"subscriptionTerm\":1,\"record\":{\"attributes\":{\"type\":\"SBQQ__QuoteLine__c\"},\"Id\":null,\"CurrencyIsoCode\":\"USD\",\"SBQQ__Quote__c\":\"a0z7e00000BDMSDAA5\",\"SBQQ__Description__c\":\"Demo
+        subscription to show bidirectional syncing\",\"SBQQ__Product__c\":\"01t7e000009C7BUAA0\",\"SBQQ__Number__c\":1,\"SBQQ__PricebookEntryId__c\":\"01u7e00000ItTCmAAN\",\"SBQQ__HasConsumptionSchedule__c\":false,\"SBQQ__Hidden__c\":false,\"SBQQ__Taxable__c\":false,\"SBQQ__SubscriptionPricing__c\":\"Fixed
+        Price\",\"SBQQ__DefaultSubscriptionTerm__c\":1,\"SBQQ__SubscriptionBase__c\":\"List\",\"SBQQ__SubscriptionScope__c\":\"Quote\",\"SBQQ__ProductSubscriptionType__c\":\"Evergreen\",\"SBQQ__SubscriptionType__c\":\"Evergreen\",\"SBQQ__SubscriptionTerm__c\":1,\"Name\":\"QL-0003502\",\"SBQQ__AdditionalDiscount__c\":0.00,\"SBQQ__Bundled__c\":false,\"SBQQ__ComponentDiscountedByPackage__c\":false,\"SBQQ__CostEditable__c\":false,\"SBQQ__CustomerPrice__c\":120.00,\"SBQQ__EffectiveSubscriptionTerm__c\":1,\"SBQQ__ListPrice__c\":120.00,\"SBQQ__OriginalPrice__c\":120.00,\"SBQQ__NetPrice__c\":120.00,\"SBQQ__NetTotal__c\":120.00,\"SBQQ__NonDiscountable__c\":false,\"SBQQ__NonPartnerDiscountable__c\":false,\"SBQQ__Optional__c\":false,\"SBQQ__Bundle__c\":false,\"SBQQ__PartnerPrice__c\":120.00,\"SBQQ__PriceEditable__c\":false,\"SBQQ__ProratedListPrice__c\":120.00,\"SBQQ__PricingMethod__c\":\"List\",\"SBQQ__PricingMethodEditable__c\":false,\"SBQQ__ProrateMultiplier__c\":1.0000,\"SBQQ__Quantity__c\":1.00,\"SBQQ__SpecialPrice__c\":120.00,\"SBQQ__Renewal__c\":false,\"SBQQ__ProratedPrice__c\":120.00,\"SBQQ__Uplift__c\":0.00,\"SBQQ__UpliftAmount__c\":0.00,\"SBQQ__ComponentUpliftedByPackage__c\":false,\"SBQQ__ProductName__c\":\"SaaS
+        Subscription\",\"SBQQ__Existing__c\":false,\"SBQQ__CarryoverLine__c\":false,\"SBQQ__AllowAssetRefund__c\":false,\"SBQQ__RegularPrice__c\":120.00,\"SBQQ__ProductCode__c\":\"EfxBsBKAsjaF0caCUQPWQYJ8h61G\",\"SBQQ__Product__r\":{\"attributes\":{\"type\":\"Product2\",\"url\":\"/services/data/v58.0/sobjects/Product2/01t7e000009C7BUAA0\"},\"Id\":\"01t7e000009C7BUAA0\",\"SBQQ__HasConfigurationAttributes__c\":false,\"ProductCode\":\"EfxBsBKAsjaF0caCUQPWQYJ8h61G\",\"Name\":\"SaaS
+        Subscription\",\"SBQQ__SubscriptionTerm__c\":1,\"SBQQ__PricingMethod__c\":\"List\"},\"SBQQ__Source__c\":null,\"SBQQ__RequiredBy__c\":null,\"SBQQ__ProductOption__c\":null,\"SBQQ__SegmentIndex__c\":null,\"SBQQ__SegmentLabel__c\":null,\"SBQQ__SegmentKey__c\":null,\"SBQQ__Dimension__c\":null,\"SBQQ__DynamicOptionId__c\":null,\"SBQQ__GenerateContractedPrice__c\":null,\"SBQQ__Favorite__c\":null,\"SBQQ__SubscriptionPercent__c\":null,\"SBQQ__SubscriptionCategory__c\":null,\"SBQQ__EndDate__c\":null,\"SBQQ__MinimumPrice__c\":null,\"SBQQ__MaximumPrice__c\":null,\"SBQQ__ChargeType__c\":null,\"SBQQ__BillingType__c\":null,\"SBQQ__TaxCode__c\":null,\"SBQQ__BillingFrequency__c\":null,\"SBQQ__Discount__c\":null,\"SBQQ__AdditionalDiscountAmount__c\":null,\"SBQQ__AdditionalQuantity__c\":null,\"SBQQ__BatchQuantity__c\":null,\"SBQQ__ComponentSubscriptionScope__c\":null,\"SBQQ__CompoundDiscountRate__c\":null,\"SBQQ__ContractedPrice__c\":null,\"SBQQ__Cost__c\":null,\"SBQQ__DiscountSchedule__c\":null,\"SBQQ__DistributorDiscount__c\":null,\"SBQQ__MarkupRate__c\":null,\"SBQQ__MarkupAmount__c\":null,\"SBQQ__OptionDiscount__c\":null,\"SBQQ__OptionDiscountAmount__c\":null,\"SBQQ__OptionType__c\":null,\"SBQQ__BundledQuantity__c\":null,\"SBQQ__PartnerDiscount__c\":null,\"SBQQ__RenewedAsset__c\":null,\"SBQQ__RenewedSubscription__c\":null,\"SBQQ__SpecialPriceType__c\":null,\"SBQQ__StartDate__c\":null,\"SBQQ__OriginalUnitCost__c\":null,\"SBQQ__SubscribedAssetIds__c\":null,\"SBQQ__SubscriptionTargetPrice__c\":null,\"SBQQ__TermDiscountSchedule__c\":null,\"SBQQ__UnitCost__c\":null,\"SBQQ__ComponentTotal__c\":null,\"SBQQ__ComponentCost__c\":null,\"SBQQ__ComponentListTotal__c\":null,\"SBQQ__DiscountScheduleType__c\":null,\"SBQQ__PackageProductCode__c\":null,\"SBQQ__DiscountTier__c\":null,\"SBQQ__VolumeDiscount__c\":null,\"SBQQ__BlockPrice__c\":null,\"SBQQ__TermDiscountTier__c\":null,\"SBQQ__TermDiscount__c\":null,\"SBQQ__PriorQuantity__c\":null,\"SBQQ__PreviousSegmentPrice__c\":null,\"SBQQ__PreviousSegmentUplift__c\":null,\"SBQQ__GrossProfit__c\":null,\"SBQQ__PackageProductDescription__c\":null,\"SBQQ__OptionLevel__c\":null,\"SBQQ__UpgradedQuantity__c\":null,\"SBQQ__OriginalQuoteLineId__c\":null,\"SBQQ__UpgradedAsset__c\":null,\"SBQQ__UpgradedSubscription__c\":null},\"reconfigurationDisabled\":false,\"productQuantityEditable\":true,\"productHasDimensions\":false,\"key\":2,\"hasConsumptionSchedules\":false,\"effectiveStartDate\":\"2023-08-09\",\"descriptionLocked\":false}],\"lineItemGroups\":[],\"isPartial\":false,\"hasMultiSegmentLines\":false,\"customerTotal\":120.00,\"currencyDecimalScale\":2,\"channelDiscountsOffList\":false,\"calculationRequired\":false,\"applyPartnerDiscountFirst\":false,\"applyAdditionalDiscountLast\":false}"'
+  recorded_at: Wed, 09 Aug 2023 00:00:00 GMT
+- request:
+    method: patch
+    uri: https://ability-innovation-7335-dev-ed.scratch.my.salesforce.com/services/apexrest/SBQQ/ServiceRouter?loader=SBQQ.QuoteAPI.QuoteCalculator
+    body:
+      encoding: UTF-8
+      string: '{"context":"{\"quote\":{\"ui_original_record\":{\"cloneRecordIfNoCache\":true,\"cacheName\":\"LineEditor\",\"cacheId\":\"a0z7e00000BDMSDAA5\",\"cachedOriginalRecordPath\":[\"quote\",\"ui_original_record\"]},\"record\":{\"attributes\":{\"type\":\"SBQQ__Quote__c\",\"url\":\"/services/data/v58.0/sobjects/SBQQ__Quote__c/a0z7e00000BDMSDAA5\"},\"Id\":\"a0z7e00000BDMSDAA5\",\"CurrencyIsoCode\":\"USD\",\"Name\":\"Q-01483\",\"SBQQ__Type__c\":\"Quote\",\"SBQQ__Account__c\":\"0017e00001j13JVAAY\",\"SBQQ__SubscriptionTerm__c\":1,\"SBQQ__ExpirationDate__c\":\"2023-09-08\",\"SBQQ__StartDate__c\":\"2023-08-09\",\"SBQQ__NetAmount__c\":120.0,\"SBQQ__CustomerAmount__c\":120.0,\"SBQQ__PricebookId__c\":\"01s7e000002eLFEAA2\",\"SBQQ__ContractingMethod__c\":\"By
+        Subscription End Date\",\"SBQQ__Unopened__c\":true,\"SBQQ__LineItemCount__c\":2,\"SBQQ__PaymentTerms__c\":\"Net
+        30\",\"SBQQ__WatermarkShown__c\":false,\"SBQQ__Status__c\":\"Draft\",\"SBQQ__Primary__c\":true,\"SBQQ__LineItemsGrouped__c\":false,\"SBQQ__Opportunity2__c\":\"0067e00000OEZTpAAP\",\"SBQQ__Account__r\":{\"attributes\":{\"type\":\"Account\",\"url\":\"/services/data/v58.0/sobjects/Account/0017e00001j13JVAAY\"},\"Id\":\"0017e00001j13JVAAY\",\"Name\":\"REST
+        Account  2023-08-09 00:00:00 UTC\",\"SBQQ__RenewalModel__c\":\"Contract Based\",\"SBQQ__RenewalPricingMethod__c\":\"Same\"},\"SBQQ__Opportunity2__r\":{\"attributes\":{\"type\":\"Opportunity\",\"url\":\"/services/data/v58.0/sobjects/Opportunity/0067e00000OEZTpAAP\"},\"Id\":\"0067e00000OEZTpAAP\",\"SBQQ__PrimaryQuote__c\":\"a0z7e00000BDMSDAA5\",\"AccountId\":\"0017e00001j13JVAAY\"},\"SBQQ__CustomerDiscount__c\":null,\"SBQQ__MarkupRate__c\":null,\"SBQQ__PartnerDiscount__c\":null,\"SBQQ__EndDate__c\":null,\"SBQQ__MasterContract__c\":null,\"SBQQ__MasterEvergreenContract__c\":null,\"SBQQ__QuoteProcessId__c\":null,\"SBQQ__DistributorDiscount__c\":null,\"SBQQ__FirstSegmentTermEndDate__c\":null,\"SBQQ__GenerateContractedPrice__c\":null,\"SBQQ__BillingFrequency__c\":null,\"SBQQ__RenewalTerm__c\":null,\"SBQQ__RenewalUpliftRate__c\":null,\"SBQQ__OrderGroupID__c\":null,\"SBQQ__TargetCustomerAmount__c\":null,\"SBQQ__OrderBy__c\":null,\"SBQQ__ProrationDayOfMonth__c\":null},\"nextKey\":2,\"netTotal\":120.0,\"netNonSegmentTotal\":120.0,\"lineItems\":[{\"upliftable\":false,\"upgradeSourcesBySourceProductId\":{},\"ui_original_record\":{\"cloneRecordIfNoCache\":false,\"cacheName\":\"LineEditor\",\"cacheId\":\"a0z7e00000BDMSDAA5\",\"cachedOriginalRecordPath\":[\"quote\",\"lineItems\",\"0\",\"ui_original_record\"]},\"subscriptionTerm\":1,\"record\":{\"attributes\":{\"type\":\"SBQQ__QuoteLine__c\"},\"Id\":null,\"CurrencyIsoCode\":\"USD\",\"SBQQ__Quote__c\":\"a0z7e00000BDMSDAA5\",\"SBQQ__Description__c\":\"Demo
+        subscription to show bidirectional syncing\",\"SBQQ__Product__c\":\"01t7e000009C7BUAA0\",\"SBQQ__Number__c\":1,\"SBQQ__PricebookEntryId__c\":\"01u7e00000ItTCmAAN\",\"SBQQ__HasConsumptionSchedule__c\":false,\"SBQQ__Hidden__c\":false,\"SBQQ__Taxable__c\":false,\"SBQQ__SubscriptionPricing__c\":\"Fixed
+        Price\",\"SBQQ__DefaultSubscriptionTerm__c\":1,\"SBQQ__SubscriptionBase__c\":\"List\",\"SBQQ__SubscriptionScope__c\":\"Quote\",\"SBQQ__ProductSubscriptionType__c\":\"Evergreen\",\"SBQQ__SubscriptionType__c\":\"Evergreen\",\"SBQQ__SubscriptionTerm__c\":1,\"Name\":\"QL-0003502\",\"SBQQ__AdditionalDiscount__c\":0.0,\"SBQQ__Bundled__c\":false,\"SBQQ__ComponentDiscountedByPackage__c\":false,\"SBQQ__CostEditable__c\":false,\"SBQQ__CustomerPrice__c\":120.0,\"SBQQ__EffectiveSubscriptionTerm__c\":1,\"SBQQ__ListPrice__c\":120.0,\"SBQQ__OriginalPrice__c\":120.0,\"SBQQ__NetPrice__c\":120.0,\"SBQQ__NetTotal__c\":120.0,\"SBQQ__NonDiscountable__c\":false,\"SBQQ__NonPartnerDiscountable__c\":false,\"SBQQ__Optional__c\":false,\"SBQQ__Bundle__c\":false,\"SBQQ__PartnerPrice__c\":120.0,\"SBQQ__PriceEditable__c\":false,\"SBQQ__ProratedListPrice__c\":120.0,\"SBQQ__PricingMethod__c\":\"List\",\"SBQQ__PricingMethodEditable__c\":false,\"SBQQ__ProrateMultiplier__c\":1.0,\"SBQQ__Quantity__c\":1.0,\"SBQQ__SpecialPrice__c\":120.0,\"SBQQ__Renewal__c\":false,\"SBQQ__ProratedPrice__c\":120.0,\"SBQQ__Uplift__c\":0.0,\"SBQQ__UpliftAmount__c\":0.0,\"SBQQ__ComponentUpliftedByPackage__c\":false,\"SBQQ__ProductName__c\":\"SaaS
+        Subscription\",\"SBQQ__Existing__c\":false,\"SBQQ__CarryoverLine__c\":false,\"SBQQ__AllowAssetRefund__c\":false,\"SBQQ__RegularPrice__c\":120.0,\"SBQQ__ProductCode__c\":\"EfxBsBKAsjaF0caCUQPWQYJ8h61G\",\"SBQQ__Product__r\":{\"attributes\":{\"type\":\"Product2\",\"url\":\"/services/data/v58.0/sobjects/Product2/01t7e000009C7BUAA0\"},\"Id\":\"01t7e000009C7BUAA0\",\"SBQQ__HasConfigurationAttributes__c\":false,\"ProductCode\":\"EfxBsBKAsjaF0caCUQPWQYJ8h61G\",\"Name\":\"SaaS
+        Subscription\",\"SBQQ__SubscriptionTerm__c\":1,\"SBQQ__PricingMethod__c\":\"List\"},\"SBQQ__Source__c\":null,\"SBQQ__RequiredBy__c\":null,\"SBQQ__ProductOption__c\":null,\"SBQQ__SegmentIndex__c\":null,\"SBQQ__SegmentLabel__c\":null,\"SBQQ__SegmentKey__c\":null,\"SBQQ__Dimension__c\":null,\"SBQQ__DynamicOptionId__c\":null,\"SBQQ__GenerateContractedPrice__c\":null,\"SBQQ__Favorite__c\":null,\"SBQQ__SubscriptionPercent__c\":null,\"SBQQ__SubscriptionCategory__c\":null,\"SBQQ__EndDate__c\":null,\"SBQQ__MinimumPrice__c\":null,\"SBQQ__MaximumPrice__c\":null,\"SBQQ__ChargeType__c\":null,\"SBQQ__BillingType__c\":null,\"SBQQ__TaxCode__c\":null,\"SBQQ__BillingFrequency__c\":null,\"SBQQ__Discount__c\":null,\"SBQQ__AdditionalDiscountAmount__c\":null,\"SBQQ__AdditionalQuantity__c\":null,\"SBQQ__BatchQuantity__c\":null,\"SBQQ__ComponentSubscriptionScope__c\":null,\"SBQQ__CompoundDiscountRate__c\":null,\"SBQQ__ContractedPrice__c\":null,\"SBQQ__Cost__c\":null,\"SBQQ__DiscountSchedule__c\":null,\"SBQQ__DistributorDiscount__c\":null,\"SBQQ__MarkupRate__c\":null,\"SBQQ__MarkupAmount__c\":null,\"SBQQ__OptionDiscount__c\":null,\"SBQQ__OptionDiscountAmount__c\":null,\"SBQQ__OptionType__c\":null,\"SBQQ__BundledQuantity__c\":null,\"SBQQ__PartnerDiscount__c\":null,\"SBQQ__RenewedAsset__c\":null,\"SBQQ__RenewedSubscription__c\":null,\"SBQQ__SpecialPriceType__c\":null,\"SBQQ__StartDate__c\":null,\"SBQQ__OriginalUnitCost__c\":null,\"SBQQ__SubscribedAssetIds__c\":null,\"SBQQ__SubscriptionTargetPrice__c\":null,\"SBQQ__TermDiscountSchedule__c\":null,\"SBQQ__UnitCost__c\":null,\"SBQQ__ComponentTotal__c\":null,\"SBQQ__ComponentCost__c\":null,\"SBQQ__ComponentListTotal__c\":null,\"SBQQ__DiscountScheduleType__c\":null,\"SBQQ__PackageProductCode__c\":null,\"SBQQ__DiscountTier__c\":null,\"SBQQ__VolumeDiscount__c\":null,\"SBQQ__BlockPrice__c\":null,\"SBQQ__TermDiscountTier__c\":null,\"SBQQ__TermDiscount__c\":null,\"SBQQ__PriorQuantity__c\":null,\"SBQQ__PreviousSegmentPrice__c\":null,\"SBQQ__PreviousSegmentUplift__c\":null,\"SBQQ__GrossProfit__c\":null,\"SBQQ__PackageProductDescription__c\":null,\"SBQQ__OptionLevel__c\":null,\"SBQQ__UpgradedQuantity__c\":null,\"SBQQ__OriginalQuoteLineId__c\":null,\"SBQQ__UpgradedAsset__c\":null,\"SBQQ__UpgradedSubscription__c\":null},\"reconfigurationDisabled\":false,\"productQuantityEditable\":true,\"productHasDimensions\":false,\"key\":2,\"hasConsumptionSchedules\":false,\"effectiveStartDate\":\"2023-08-09\",\"descriptionLocked\":false}],\"lineItemGroups\":[],\"isPartial\":false,\"hasMultiSegmentLines\":false,\"customerTotal\":120.0,\"currencyDecimalScale\":2,\"channelDiscountsOffList\":false,\"calculationRequired\":false,\"applyPartnerDiscountFirst\":false,\"applyAdditionalDiscountLast\":false}}"}'
+    headers:
+      User-Agent:
+      - Faraday v2.4.0
+      Content-Type:
+      - application/json
+      Authorization:
+      - OAuth <SALESFORCE_ACCESS_TOKEN>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Fri, 18 Aug 2023 22:37:32 GMT
+      Set-Cookie:
+      - BrowserId=0lrz7T4XEe6JO0OwjA_jsw; domain=.salesforce.com; path=/; expires=Sat,
+        17-Aug-2024 22:37:32 GMT; Max-Age=31536000
+      - CookieConsentPolicy=0:1; path=/; expires=Sat, 17-Aug-2024 22:37:32 GMT; Max-Age=31536000
+      - LSKey-c$CookieConsentPolicy=0:1; path=/; expires=Sat, 17-Aug-2024 22:37:32
+        GMT; Max-Age=31536000
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Robots-Tag:
+      - none
+      Cache-Control:
+      - no-cache,must-revalidate,max-age=0,no-store,private
+      Content-Type:
+      - application/json;charset=UTF-8
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: '"{\"ui_original_record\":{\"cloneRecordIfNoCache\":true,\"cacheName\":\"LineEditor\",\"cacheId\":\"a0z7e00000BDMSDAA5\",\"cachedOriginalRecordPath\":[\"quote\",\"ui_original_record\"]},\"record\":{\"attributes\":{\"type\":\"SBQQ__Quote__c\",\"url\":\"/services/data/v58.0/sobjects/SBQQ__Quote__c/a0z7e00000BDMSDAA5\"},\"Id\":\"a0z7e00000BDMSDAA5\",\"CurrencyIsoCode\":\"USD\",\"Name\":\"Q-01483\",\"SBQQ__Type__c\":\"Quote\",\"SBQQ__Account__c\":\"0017e00001j13JVAAY\",\"SBQQ__SubscriptionTerm__c\":1,\"SBQQ__ExpirationDate__c\":\"2023-09-08\",\"SBQQ__StartDate__c\":\"2023-08-09\",\"SBQQ__NetAmount__c\":240.00,\"SBQQ__CustomerAmount__c\":240.00,\"SBQQ__PricebookId__c\":\"01s7e000002eLFEAA2\",\"SBQQ__ContractingMethod__c\":\"By
+        Subscription End Date\",\"SBQQ__Unopened__c\":true,\"SBQQ__LineItemCount__c\":2,\"SBQQ__PaymentTerms__c\":\"Net
+        30\",\"SBQQ__WatermarkShown__c\":false,\"SBQQ__Status__c\":\"Draft\",\"SBQQ__Primary__c\":true,\"SBQQ__LineItemsGrouped__c\":false,\"SBQQ__Opportunity2__c\":\"0067e00000OEZTpAAP\",\"SBQQ__Account__r\":{\"attributes\":{\"type\":\"Account\",\"url\":\"/services/data/v58.0/sobjects/Account/0017e00001j13JVAAY\"},\"Id\":\"0017e00001j13JVAAY\",\"Name\":\"REST
+        Account  2023-08-09 00:00:00 UTC\",\"SBQQ__RenewalModel__c\":\"Contract Based\",\"SBQQ__RenewalPricingMethod__c\":\"Same\"},\"SBQQ__Opportunity2__r\":{\"attributes\":{\"type\":\"Opportunity\",\"url\":\"/services/data/v58.0/sobjects/Opportunity/0067e00000OEZTpAAP\"},\"Id\":\"0067e00000OEZTpAAP\",\"SBQQ__PrimaryQuote__c\":\"a0z7e00000BDMSDAA5\",\"AccountId\":\"0017e00001j13JVAAY\"},\"SBQQ__CustomerDiscount__c\":null,\"SBQQ__MarkupRate__c\":null,\"SBQQ__PartnerDiscount__c\":null,\"SBQQ__EndDate__c\":null,\"SBQQ__MasterContract__c\":null,\"SBQQ__MasterEvergreenContract__c\":null,\"SBQQ__QuoteProcessId__c\":null,\"SBQQ__DistributorDiscount__c\":null,\"SBQQ__FirstSegmentTermEndDate__c\":null,\"SBQQ__GenerateContractedPrice__c\":null,\"SBQQ__BillingFrequency__c\":null,\"SBQQ__RenewalTerm__c\":null,\"SBQQ__RenewalUpliftRate__c\":null,\"SBQQ__OrderGroupID__c\":null,\"SBQQ__TargetCustomerAmount__c\":null,\"SBQQ__OrderBy__c\":null,\"SBQQ__ProrationDayOfMonth__c\":null},\"nextKey\":2,\"netTotal\":120.00,\"netNonSegmentTotal\":120.0000,\"lineItems\":[{\"upliftable\":false,\"upgradeSourcesBySourceProductId\":{},\"ui_original_record\":{\"cloneRecordIfNoCache\":false,\"cacheName\":\"LineEditor\",\"cacheId\":\"a0z7e00000BDMSDAA5\",\"cachedOriginalRecordPath\":[\"quote\",\"lineItems\",\"0\",\"ui_original_record\"]},\"subscriptionTerm\":1,\"record\":{\"attributes\":{\"type\":\"SBQQ__QuoteLine__c\"},\"Id\":null,\"CurrencyIsoCode\":\"USD\",\"SBQQ__Quote__c\":\"a0z7e00000BDMSDAA5\",\"SBQQ__Description__c\":\"Demo
+        subscription to show bidirectional syncing\",\"SBQQ__Product__c\":\"01t7e000009C7BUAA0\",\"SBQQ__Number__c\":1,\"SBQQ__PricebookEntryId__c\":\"01u7e00000ItTCmAAN\",\"SBQQ__HasConsumptionSchedule__c\":false,\"SBQQ__Hidden__c\":false,\"SBQQ__Taxable__c\":false,\"SBQQ__SubscriptionPricing__c\":\"Fixed
+        Price\",\"SBQQ__DefaultSubscriptionTerm__c\":1,\"SBQQ__SubscriptionBase__c\":\"List\",\"SBQQ__SubscriptionScope__c\":\"Quote\",\"SBQQ__ProductSubscriptionType__c\":\"Evergreen\",\"SBQQ__SubscriptionType__c\":\"Evergreen\",\"SBQQ__SubscriptionTerm__c\":1,\"Name\":\"QL-0003503\",\"SBQQ__AdditionalDiscount__c\":0.00,\"SBQQ__Bundled__c\":false,\"SBQQ__ComponentDiscountedByPackage__c\":false,\"SBQQ__CostEditable__c\":false,\"SBQQ__CustomerPrice__c\":120.00,\"SBQQ__EffectiveSubscriptionTerm__c\":1,\"SBQQ__ListPrice__c\":120.00,\"SBQQ__OriginalPrice__c\":120.00,\"SBQQ__NetPrice__c\":120.00,\"SBQQ__NetTotal__c\":120.00,\"SBQQ__NonDiscountable__c\":false,\"SBQQ__NonPartnerDiscountable__c\":false,\"SBQQ__Optional__c\":false,\"SBQQ__Bundle__c\":false,\"SBQQ__PartnerPrice__c\":120.00,\"SBQQ__PriceEditable__c\":false,\"SBQQ__ProratedListPrice__c\":120.00,\"SBQQ__PricingMethod__c\":\"List\",\"SBQQ__PricingMethodEditable__c\":false,\"SBQQ__ProrateMultiplier__c\":1.0000,\"SBQQ__Quantity__c\":1.00,\"SBQQ__SpecialPrice__c\":120.00,\"SBQQ__Renewal__c\":false,\"SBQQ__ProratedPrice__c\":120.00,\"SBQQ__Uplift__c\":0.00,\"SBQQ__UpliftAmount__c\":0.00,\"SBQQ__ComponentUpliftedByPackage__c\":false,\"SBQQ__ProductName__c\":\"SaaS
+        Subscription\",\"SBQQ__Existing__c\":false,\"SBQQ__CarryoverLine__c\":false,\"SBQQ__AllowAssetRefund__c\":false,\"SBQQ__RegularPrice__c\":120.00,\"SBQQ__ProductCode__c\":\"EfxBsBKAsjaF0caCUQPWQYJ8h61G\",\"SBQQ__Product__r\":{\"attributes\":{\"type\":\"Product2\",\"url\":\"/services/data/v58.0/sobjects/Product2/01t7e000009C7BUAA0\"},\"Id\":\"01t7e000009C7BUAA0\",\"SBQQ__HasConfigurationAttributes__c\":false,\"ProductCode\":\"EfxBsBKAsjaF0caCUQPWQYJ8h61G\",\"Name\":\"SaaS
+        Subscription\",\"SBQQ__SubscriptionTerm__c\":1,\"SBQQ__PricingMethod__c\":\"List\"},\"SBQQ__Source__c\":null,\"SBQQ__RequiredBy__c\":null,\"SBQQ__ProductOption__c\":null,\"SBQQ__SegmentIndex__c\":null,\"SBQQ__SegmentLabel__c\":null,\"SBQQ__SegmentKey__c\":null,\"SBQQ__Dimension__c\":null,\"SBQQ__DynamicOptionId__c\":null,\"SBQQ__GenerateContractedPrice__c\":null,\"SBQQ__Favorite__c\":null,\"SBQQ__SubscriptionPercent__c\":null,\"SBQQ__SubscriptionCategory__c\":null,\"SBQQ__EndDate__c\":null,\"SBQQ__MinimumPrice__c\":null,\"SBQQ__MaximumPrice__c\":null,\"SBQQ__ChargeType__c\":null,\"SBQQ__BillingType__c\":null,\"SBQQ__TaxCode__c\":null,\"SBQQ__BillingFrequency__c\":null,\"SBQQ__Discount__c\":null,\"SBQQ__AdditionalDiscountAmount__c\":null,\"SBQQ__AdditionalQuantity__c\":null,\"SBQQ__BatchQuantity__c\":null,\"SBQQ__ComponentSubscriptionScope__c\":null,\"SBQQ__CompoundDiscountRate__c\":null,\"SBQQ__ContractedPrice__c\":null,\"SBQQ__Cost__c\":null,\"SBQQ__DiscountSchedule__c\":null,\"SBQQ__DistributorDiscount__c\":null,\"SBQQ__MarkupRate__c\":null,\"SBQQ__MarkupAmount__c\":null,\"SBQQ__OptionDiscount__c\":null,\"SBQQ__OptionDiscountAmount__c\":null,\"SBQQ__OptionType__c\":null,\"SBQQ__BundledQuantity__c\":null,\"SBQQ__PartnerDiscount__c\":null,\"SBQQ__RenewedAsset__c\":null,\"SBQQ__RenewedSubscription__c\":null,\"SBQQ__SpecialPriceType__c\":null,\"SBQQ__StartDate__c\":null,\"SBQQ__OriginalUnitCost__c\":null,\"SBQQ__SubscribedAssetIds__c\":null,\"SBQQ__SubscriptionTargetPrice__c\":null,\"SBQQ__TermDiscountSchedule__c\":null,\"SBQQ__UnitCost__c\":null,\"SBQQ__ComponentTotal__c\":null,\"SBQQ__ComponentCost__c\":null,\"SBQQ__ComponentListTotal__c\":null,\"SBQQ__DiscountScheduleType__c\":null,\"SBQQ__PackageProductCode__c\":null,\"SBQQ__DiscountTier__c\":null,\"SBQQ__VolumeDiscount__c\":null,\"SBQQ__BlockPrice__c\":null,\"SBQQ__TermDiscountTier__c\":null,\"SBQQ__TermDiscount__c\":null,\"SBQQ__PriorQuantity__c\":null,\"SBQQ__PreviousSegmentPrice__c\":null,\"SBQQ__PreviousSegmentUplift__c\":null,\"SBQQ__GrossProfit__c\":null,\"SBQQ__PackageProductDescription__c\":null,\"SBQQ__OptionLevel__c\":null,\"SBQQ__UpgradedQuantity__c\":null,\"SBQQ__OriginalQuoteLineId__c\":null,\"SBQQ__UpgradedAsset__c\":null,\"SBQQ__UpgradedSubscription__c\":null},\"reconfigurationDisabled\":false,\"productQuantityEditable\":true,\"productHasDimensions\":false,\"key\":2,\"hasConsumptionSchedules\":false,\"effectiveStartDate\":\"2023-08-09\",\"descriptionLocked\":false}],\"lineItemGroups\":[],\"isPartial\":false,\"hasMultiSegmentLines\":false,\"customerTotal\":120.00,\"currencyDecimalScale\":2,\"channelDiscountsOffList\":false,\"calculationRequired\":false,\"applyPartnerDiscountFirst\":false,\"applyAdditionalDiscountLast\":false}"'
+  recorded_at: Wed, 09 Aug 2023 00:00:00 GMT
+- request:
+    method: post
+    uri: https://ability-innovation-7335-dev-ed.scratch.my.salesforce.com/services/apexrest/SBQQ/ServiceRouter
+    body:
+      encoding: UTF-8
+      string: '{"saver":"SBQQ.QuoteAPI.QuoteSaver","model":"{\"ui_original_record\":{\"cloneRecordIfNoCache\":true,\"cacheName\":\"LineEditor\",\"cacheId\":\"a0z7e00000BDMSDAA5\",\"cachedOriginalRecordPath\":[\"quote\",\"ui_original_record\"]},\"record\":{\"attributes\":{\"type\":\"SBQQ__Quote__c\",\"url\":\"/services/data/v58.0/sobjects/SBQQ__Quote__c/a0z7e00000BDMSDAA5\"},\"Id\":\"a0z7e00000BDMSDAA5\",\"CurrencyIsoCode\":\"USD\",\"Name\":\"Q-01483\",\"SBQQ__Type__c\":\"Quote\",\"SBQQ__Account__c\":\"0017e00001j13JVAAY\",\"SBQQ__SubscriptionTerm__c\":1,\"SBQQ__ExpirationDate__c\":\"2023-09-08\",\"SBQQ__StartDate__c\":\"2023-08-09\",\"SBQQ__NetAmount__c\":240.0,\"SBQQ__CustomerAmount__c\":240.0,\"SBQQ__PricebookId__c\":\"01s7e000002eLFEAA2\",\"SBQQ__ContractingMethod__c\":\"By
+        Subscription End Date\",\"SBQQ__Unopened__c\":true,\"SBQQ__LineItemCount__c\":2,\"SBQQ__PaymentTerms__c\":\"Net
+        30\",\"SBQQ__WatermarkShown__c\":false,\"SBQQ__Status__c\":\"Draft\",\"SBQQ__Primary__c\":true,\"SBQQ__LineItemsGrouped__c\":false,\"SBQQ__Opportunity2__c\":\"0067e00000OEZTpAAP\",\"SBQQ__Account__r\":{\"attributes\":{\"type\":\"Account\",\"url\":\"/services/data/v58.0/sobjects/Account/0017e00001j13JVAAY\"},\"Id\":\"0017e00001j13JVAAY\",\"Name\":\"REST
+        Account  2023-08-09 00:00:00 UTC\",\"SBQQ__RenewalModel__c\":\"Contract Based\",\"SBQQ__RenewalPricingMethod__c\":\"Same\"},\"SBQQ__Opportunity2__r\":{\"attributes\":{\"type\":\"Opportunity\",\"url\":\"/services/data/v58.0/sobjects/Opportunity/0067e00000OEZTpAAP\"},\"Id\":\"0067e00000OEZTpAAP\",\"SBQQ__PrimaryQuote__c\":\"a0z7e00000BDMSDAA5\",\"AccountId\":\"0017e00001j13JVAAY\"},\"SBQQ__CustomerDiscount__c\":null,\"SBQQ__MarkupRate__c\":null,\"SBQQ__PartnerDiscount__c\":null,\"SBQQ__EndDate__c\":null,\"SBQQ__MasterContract__c\":null,\"SBQQ__MasterEvergreenContract__c\":null,\"SBQQ__QuoteProcessId__c\":null,\"SBQQ__DistributorDiscount__c\":null,\"SBQQ__FirstSegmentTermEndDate__c\":null,\"SBQQ__GenerateContractedPrice__c\":null,\"SBQQ__BillingFrequency__c\":null,\"SBQQ__RenewalTerm__c\":null,\"SBQQ__RenewalUpliftRate__c\":null,\"SBQQ__OrderGroupID__c\":null,\"SBQQ__TargetCustomerAmount__c\":null,\"SBQQ__OrderBy__c\":null,\"SBQQ__ProrationDayOfMonth__c\":null},\"nextKey\":2,\"netTotal\":120.0,\"netNonSegmentTotal\":120.0,\"lineItems\":[{\"upliftable\":false,\"upgradeSourcesBySourceProductId\":{},\"ui_original_record\":{\"cloneRecordIfNoCache\":false,\"cacheName\":\"LineEditor\",\"cacheId\":\"a0z7e00000BDMSDAA5\",\"cachedOriginalRecordPath\":[\"quote\",\"lineItems\",\"0\",\"ui_original_record\"]},\"subscriptionTerm\":1,\"record\":{\"attributes\":{\"type\":\"SBQQ__QuoteLine__c\"},\"Id\":null,\"CurrencyIsoCode\":\"USD\",\"SBQQ__Quote__c\":\"a0z7e00000BDMSDAA5\",\"SBQQ__Description__c\":\"Demo
+        subscription to show bidirectional syncing\",\"SBQQ__Product__c\":\"01t7e000009C7BUAA0\",\"SBQQ__Number__c\":1,\"SBQQ__PricebookEntryId__c\":\"01u7e00000ItTCmAAN\",\"SBQQ__HasConsumptionSchedule__c\":false,\"SBQQ__Hidden__c\":false,\"SBQQ__Taxable__c\":false,\"SBQQ__SubscriptionPricing__c\":\"Fixed
+        Price\",\"SBQQ__DefaultSubscriptionTerm__c\":1,\"SBQQ__SubscriptionBase__c\":\"List\",\"SBQQ__SubscriptionScope__c\":\"Quote\",\"SBQQ__ProductSubscriptionType__c\":\"Evergreen\",\"SBQQ__SubscriptionType__c\":\"Evergreen\",\"SBQQ__SubscriptionTerm__c\":1,\"Name\":\"QL-0003503\",\"SBQQ__AdditionalDiscount__c\":0.0,\"SBQQ__Bundled__c\":false,\"SBQQ__ComponentDiscountedByPackage__c\":false,\"SBQQ__CostEditable__c\":false,\"SBQQ__CustomerPrice__c\":120.0,\"SBQQ__EffectiveSubscriptionTerm__c\":1,\"SBQQ__ListPrice__c\":120.0,\"SBQQ__OriginalPrice__c\":120.0,\"SBQQ__NetPrice__c\":120.0,\"SBQQ__NetTotal__c\":120.0,\"SBQQ__NonDiscountable__c\":false,\"SBQQ__NonPartnerDiscountable__c\":false,\"SBQQ__Optional__c\":false,\"SBQQ__Bundle__c\":false,\"SBQQ__PartnerPrice__c\":120.0,\"SBQQ__PriceEditable__c\":false,\"SBQQ__ProratedListPrice__c\":120.0,\"SBQQ__PricingMethod__c\":\"List\",\"SBQQ__PricingMethodEditable__c\":false,\"SBQQ__ProrateMultiplier__c\":1.0,\"SBQQ__Quantity__c\":1.0,\"SBQQ__SpecialPrice__c\":120.0,\"SBQQ__Renewal__c\":false,\"SBQQ__ProratedPrice__c\":120.0,\"SBQQ__Uplift__c\":0.0,\"SBQQ__UpliftAmount__c\":0.0,\"SBQQ__ComponentUpliftedByPackage__c\":false,\"SBQQ__ProductName__c\":\"SaaS
+        Subscription\",\"SBQQ__Existing__c\":false,\"SBQQ__CarryoverLine__c\":false,\"SBQQ__AllowAssetRefund__c\":false,\"SBQQ__RegularPrice__c\":120.0,\"SBQQ__ProductCode__c\":\"EfxBsBKAsjaF0caCUQPWQYJ8h61G\",\"SBQQ__Product__r\":{\"attributes\":{\"type\":\"Product2\",\"url\":\"/services/data/v58.0/sobjects/Product2/01t7e000009C7BUAA0\"},\"Id\":\"01t7e000009C7BUAA0\",\"SBQQ__HasConfigurationAttributes__c\":false,\"ProductCode\":\"EfxBsBKAsjaF0caCUQPWQYJ8h61G\",\"Name\":\"SaaS
+        Subscription\",\"SBQQ__SubscriptionTerm__c\":1,\"SBQQ__PricingMethod__c\":\"List\"},\"SBQQ__Source__c\":null,\"SBQQ__RequiredBy__c\":null,\"SBQQ__ProductOption__c\":null,\"SBQQ__SegmentIndex__c\":null,\"SBQQ__SegmentLabel__c\":null,\"SBQQ__SegmentKey__c\":null,\"SBQQ__Dimension__c\":null,\"SBQQ__DynamicOptionId__c\":null,\"SBQQ__GenerateContractedPrice__c\":null,\"SBQQ__Favorite__c\":null,\"SBQQ__SubscriptionPercent__c\":null,\"SBQQ__SubscriptionCategory__c\":null,\"SBQQ__EndDate__c\":null,\"SBQQ__MinimumPrice__c\":null,\"SBQQ__MaximumPrice__c\":null,\"SBQQ__ChargeType__c\":null,\"SBQQ__BillingType__c\":null,\"SBQQ__TaxCode__c\":null,\"SBQQ__BillingFrequency__c\":null,\"SBQQ__Discount__c\":null,\"SBQQ__AdditionalDiscountAmount__c\":null,\"SBQQ__AdditionalQuantity__c\":null,\"SBQQ__BatchQuantity__c\":null,\"SBQQ__ComponentSubscriptionScope__c\":null,\"SBQQ__CompoundDiscountRate__c\":null,\"SBQQ__ContractedPrice__c\":null,\"SBQQ__Cost__c\":null,\"SBQQ__DiscountSchedule__c\":null,\"SBQQ__DistributorDiscount__c\":null,\"SBQQ__MarkupRate__c\":null,\"SBQQ__MarkupAmount__c\":null,\"SBQQ__OptionDiscount__c\":null,\"SBQQ__OptionDiscountAmount__c\":null,\"SBQQ__OptionType__c\":null,\"SBQQ__BundledQuantity__c\":null,\"SBQQ__PartnerDiscount__c\":null,\"SBQQ__RenewedAsset__c\":null,\"SBQQ__RenewedSubscription__c\":null,\"SBQQ__SpecialPriceType__c\":null,\"SBQQ__StartDate__c\":null,\"SBQQ__OriginalUnitCost__c\":null,\"SBQQ__SubscribedAssetIds__c\":null,\"SBQQ__SubscriptionTargetPrice__c\":null,\"SBQQ__TermDiscountSchedule__c\":null,\"SBQQ__UnitCost__c\":null,\"SBQQ__ComponentTotal__c\":null,\"SBQQ__ComponentCost__c\":null,\"SBQQ__ComponentListTotal__c\":null,\"SBQQ__DiscountScheduleType__c\":null,\"SBQQ__PackageProductCode__c\":null,\"SBQQ__DiscountTier__c\":null,\"SBQQ__VolumeDiscount__c\":null,\"SBQQ__BlockPrice__c\":null,\"SBQQ__TermDiscountTier__c\":null,\"SBQQ__TermDiscount__c\":null,\"SBQQ__PriorQuantity__c\":null,\"SBQQ__PreviousSegmentPrice__c\":null,\"SBQQ__PreviousSegmentUplift__c\":null,\"SBQQ__GrossProfit__c\":null,\"SBQQ__PackageProductDescription__c\":null,\"SBQQ__OptionLevel__c\":null,\"SBQQ__UpgradedQuantity__c\":null,\"SBQQ__OriginalQuoteLineId__c\":null,\"SBQQ__UpgradedAsset__c\":null,\"SBQQ__UpgradedSubscription__c\":null},\"reconfigurationDisabled\":false,\"productQuantityEditable\":true,\"productHasDimensions\":false,\"key\":2,\"hasConsumptionSchedules\":false,\"effectiveStartDate\":\"2023-08-09\",\"descriptionLocked\":false}],\"lineItemGroups\":[],\"isPartial\":false,\"hasMultiSegmentLines\":false,\"customerTotal\":120.0,\"currencyDecimalScale\":2,\"channelDiscountsOffList\":false,\"calculationRequired\":false,\"applyPartnerDiscountFirst\":false,\"applyAdditionalDiscountLast\":false}"}'
+    headers:
+      User-Agent:
+      - Faraday v2.4.0
+      Content-Type:
+      - application/json
+      Authorization:
+      - OAuth <SALESFORCE_ACCESS_TOKEN>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Fri, 18 Aug 2023 22:37:34 GMT
+      Set-Cookie:
+      - BrowserId=0yObsj4XEe6O33vaO9mbXw; domain=.salesforce.com; path=/; expires=Sat,
+        17-Aug-2024 22:37:34 GMT; Max-Age=31536000
+      - CookieConsentPolicy=0:1; path=/; expires=Sat, 17-Aug-2024 22:37:34 GMT; Max-Age=31536000
+      - LSKey-c$CookieConsentPolicy=0:1; path=/; expires=Sat, 17-Aug-2024 22:37:34
+        GMT; Max-Age=31536000
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Robots-Tag:
+      - none
+      Cache-Control:
+      - no-cache,must-revalidate,max-age=0,no-store,private
+      Content-Type:
+      - application/json;charset=UTF-8
+      Vary:
+      - Accept-Encoding
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: ASCII-8BIT
+      string: '"{\"ui_original_record\":{\"cloneRecordIfNoCache\":true,\"cacheName\":\"LineEditor\",\"cacheId\":\"a0z7e00000BDMSDAA5\",\"cachedOriginalRecordPath\":[\"quote\",\"ui_original_record\"]},\"record\":{\"attributes\":{\"type\":\"SBQQ__Quote__c\",\"url\":\"/services/data/v58.0/sobjects/SBQQ__Quote__c/a0z7e00000BDMSDAA5\"},\"SBQQ__PartnerDiscount__c\":null,\"SBQQ__GenerateContractedPrice__c\":null,\"SBQQ__QuoteProcessId__c\":null,\"SBQQ__NetAmount__c\":240.0,\"SBQQ__CustomerDiscount__c\":null,\"SBQQ__TargetCustomerAmount__c\":null,\"SBQQ__CustomerAmount__c\":240.0,\"SBQQ__PaymentTerms__c\":\"Net
+        30\",\"SBQQ__Opportunity2__r\":{\"attributes\":{\"type\":\"Opportunity\",\"url\":\"/services/data/v58.0/sobjects/Opportunity/0067e00000OEZTpAAP\"},\"SBQQ__PrimaryQuote__c\":\"a0z7e00000BDMSDAA5\",\"AccountId\":\"0017e00001j13JVAAY\",\"Id\":\"0067e00000OEZTpAAP\"},\"SBQQ__Account__r\":{\"attributes\":{\"type\":\"Account\",\"url\":\"/services/data/v58.0/sobjects/Account/0017e00001j13JVAAY\"},\"SBQQ__RenewalPricingMethod__c\":\"Same\",\"Id\":\"0017e00001j13JVAAY\",\"SBQQ__RenewalModel__c\":\"Contract
+        Based\",\"Name\":\"REST Account  2023-08-09 00:00:00 UTC\"},\"SBQQ__ContractingMethod__c\":\"By
+        Subscription End Date\",\"SBQQ__RenewalUpliftRate__c\":null,\"Name\":\"Q-01483\",\"SBQQ__Type__c\":\"Quote\",\"SBQQ__SubscriptionTerm__c\":1.0,\"SBQQ__MarkupRate__c\":null,\"SBQQ__OrderGroupID__c\":null,\"SBQQ__DistributorDiscount__c\":null,\"SBQQ__OrderBy__c\":null,\"SBQQ__PricebookId__c\":\"01s7e000002eLFEAA2\",\"SBQQ__EndDate__c\":null,\"SBQQ__Account__c\":\"0017e00001j13JVAAY\",\"SBQQ__WatermarkShown__c\":false,\"SBQQ__StartDate__c\":\"2023-08-09\",\"SBQQ__FirstSegmentTermEndDate__c\":null,\"SBQQ__BillingFrequency__c\":null,\"SBQQ__Status__c\":\"Draft\",\"SBQQ__LineItemsGrouped__c\":false,\"CurrencyIsoCode\":\"USD\",\"SBQQ__ExpirationDate__c\":\"2023-09-08\",\"SBQQ__Primary__c\":true,\"SBQQ__MasterEvergreenContract__c\":null,\"SBQQ__ProrationDayOfMonth__c\":null,\"SBQQ__Opportunity2__c\":\"0067e00000OEZTpAAP\",\"SBQQ__LineItemCount__c\":2.0,\"SBQQ__MasterContract__c\":null,\"Id\":\"a0z7e00000BDMSDAA5\",\"SBQQ__Unopened__c\":true,\"SBQQ__RenewalTerm__c\":null},\"nextKey\":2,\"netTotal\":120.0,\"netNonSegmentTotal\":120.0,\"lineItems\":[{\"upliftable\":false,\"upgradeSourcesBySourceProductId\":{},\"ui_original_record\":{\"cloneRecordIfNoCache\":false,\"cacheName\":\"LineEditor\",\"cacheId\":\"a0z7e00000BDMSDAA5\",\"cachedOriginalRecordPath\":[\"quote\",\"lineItems\",\"0\",\"ui_original_record\"]},\"subscriptionTerm\":1,\"record\":{\"attributes\":{\"type\":\"SBQQ__QuoteLine__c\",\"url\":\"/services/data/v58.0/sobjects/SBQQ__QuoteLine__c/a0v7e000008xdovAAA\"},\"SBQQ__CarryoverLine__c\":false,\"SBQQ__TermDiscountTier__c\":null,\"SBQQ__VolumeDiscount__c\":null,\"SBQQ__BillingType__c\":null,\"SBQQ__Discount__c\":null,\"SBQQ__ListPrice__c\":120.0,\"SBQQ__Existing__c\":false,\"SBQQ__ProductName__c\":\"SaaS
+        Subscription\",\"SBQQ__SegmentIndex__c\":null,\"SBQQ__DiscountTier__c\":null,\"SBQQ__ComponentTotal__c\":null,\"SBQQ__RenewedSubscription__c\":null,\"SBQQ__SubscriptionTargetPrice__c\":null,\"SBQQ__AllowAssetRefund__c\":false,\"SBQQ__HasConsumptionSchedule__c\":false,\"SBQQ__Optional__c\":false,\"SBQQ__SubscriptionType__c\":\"Evergreen\",\"SBQQ__PriorQuantity__c\":null,\"SBQQ__Source__c\":null,\"SBQQ__Quote__c\":\"a0z7e00000BDMSDAA5\",\"SBQQ__ProratedListPrice__c\":120.0,\"SBQQ__ChargeType__c\":null,\"SBQQ__UpliftAmount__c\":0.0,\"SBQQ__ComponentSubscriptionScope__c\":null,\"SBQQ__OptionLevel__c\":null,\"SBQQ__NetPrice__c\":120.0,\"Id\":\"a0v7e000008xdovAAA\",\"SBQQ__EffectiveSubscriptionTerm__c\":1.0,\"SBQQ__OriginalQuoteLineId__c\":null,\"SBQQ__RegularPrice__c\":120.0,\"SBQQ__Quantity__c\":1.0,\"SBQQ__TaxCode__c\":null,\"SBQQ__ContractedPrice__c\":null,\"SBQQ__CostEditable__c\":false,\"SBQQ__Dimension__c\":null,\"SBQQ__DynamicOptionId__c\":null,\"SBQQ__PreviousSegmentUplift__c\":null,\"SBQQ__RequiredBy__r\":null,\"SBQQ__EndDate__c\":null,\"SBQQ__PreviousSegmentPrice__c\":null,\"SBQQ__UpgradedSubscription__c\":null,\"SBQQ__SpecialPriceType__c\":null,\"SBQQ__SegmentKey__c\":null,\"SBQQ__OptionDiscount__c\":null,\"SBQQ__RequiredBy__c\":null,\"SBQQ__UpgradedAsset__c\":null,\"SBQQ__Bundled__c\":false,\"SBQQ__OptionType__c\":null,\"SBQQ__Number__c\":1.0,\"SBQQ__SubscriptionPercent__c\":null,\"SBQQ__ComponentListTotal__c\":null,\"SBQQ__TermDiscountSchedule__c\":null,\"SBQQ__Taxable__c\":false,\"SBQQ__Description__c\":\"Demo
+        subscription to show bidirectional syncing\",\"SBQQ__ProductCode__c\":\"EfxBsBKAsjaF0caCUQPWQYJ8h61G\",\"SBQQ__OriginalPrice__c\":120.0,\"SBQQ__GenerateContractedPrice__c\":null,\"SBQQ__NetTotal__c\":120.0,\"SBQQ__UnitCost__c\":null,\"SBQQ__SubscriptionCategory__c\":null,\"SBQQ__Hidden__c\":false,\"SBQQ__NonDiscountable__c\":false,\"SBQQ__RenewedAsset__c\":null,\"SBQQ__ProductSubscriptionType__c\":\"Evergreen\",\"SBQQ__GrossProfit__c\":null,\"SBQQ__MinimumPrice__c\":null,\"SBQQ__BundledQuantity__c\":null,\"SBQQ__BatchQuantity__c\":null,\"SBQQ__ProrateMultiplier__c\":1.0,\"Name\":\"QL-0003503\",\"SBQQ__CustomerPrice__c\":120.0,\"SBQQ__SubscriptionTerm__c\":1.0,\"SBQQ__MarkupRate__c\":null,\"SBQQ__DistributorDiscount__c\":null,\"SBQQ__DefaultSubscriptionTerm__c\":1.0,\"SBQQ__PriceEditable__c\":false,\"SBQQ__ProratedPrice__c\":120.0,\"SBQQ__ComponentUpliftedByPackage__c\":false,\"SBQQ__StartDate__c\":null,\"SBQQ__NonPartnerDiscountable__c\":false,\"SBQQ__BlockPrice__c\":null,\"CurrencyIsoCode\":\"USD\",\"SBQQ__MaximumPrice__c\":null,\"SBQQ__SubscriptionPricing__c\":\"Fixed
+        Price\",\"SBQQ__AdditionalDiscount__c\":0.0,\"SBQQ__Favorite__c\":null,\"SBQQ__PricebookEntryId__c\":\"01u7e00000ItTCmAAN\",\"SBQQ__ProductOption__c\":null,\"SBQQ__OptionDiscountAmount__c\":null,\"SBQQ__TermDiscount__c\":null,\"SBQQ__MarkupAmount__c\":null,\"SBQQ__PartnerDiscount__c\":null,\"SBQQ__ComponentDiscountedByPackage__c\":false,\"SBQQ__Renewal__c\":false,\"SBQQ__CompoundDiscountRate__c\":null,\"SBQQ__UpgradedQuantity__c\":null,\"SBQQ__AdditionalDiscountAmount__c\":null,\"SBQQ__Cost__c\":null,\"SBQQ__PackageProductDescription__c\":null,\"SBQQ__PartnerPrice__c\":120.0,\"SBQQ__DiscountSchedule__c\":null,\"SBQQ__ComponentCost__c\":null,\"SBQQ__SubscribedAssetIds__c\":null,\"SBQQ__SubscriptionScope__c\":\"Quote\",\"SBQQ__Product__r\":{\"attributes\":{\"type\":\"Product2\",\"url\":\"/services/data/v58.0/sobjects/Product2/01t7e000009C7BUAA0\"},\"SBQQ__SubscriptionTerm__c\":1.0,\"ProductCode\":\"EfxBsBKAsjaF0caCUQPWQYJ8h61G\",\"SBQQ__HasConfigurationAttributes__c\":false,\"SBQQ__PricingMethod__c\":\"List\",\"Id\":\"01t7e000009C7BUAA0\",\"Name\":\"SaaS
+        Subscription\"},\"SBQQ__SubscriptionBase__c\":\"List\",\"SBQQ__BillingFrequency__c\":null,\"SBQQ__OriginalUnitCost__c\":null,\"SBQQ__Bundle__c\":false,\"SBQQ__Product__c\":\"01t7e000009C7BUAA0\",\"SBQQ__SpecialPrice__c\":120.0,\"SBQQ__PricingMethodEditable__c\":false,\"SBQQ__Uplift__c\":0.0,\"SBQQ__PackageProductCode__c\":null,\"SBQQ__PricingMethod__c\":\"List\",\"SBQQ__SegmentLabel__c\":null,\"SBQQ__AdditionalQuantity__c\":null,\"SBQQ__DiscountScheduleType__c\":null,\"SBQQ__Incomplete__c\":false},\"reconfigurationDisabled\":false,\"productQuantityEditable\":true,\"productHasDimensions\":false,\"key\":2,\"hasConsumptionSchedules\":false,\"effectiveStartDate\":\"2023-08-09\",\"descriptionLocked\":false}],\"lineItemGroups\":[],\"isPartial\":false,\"hasMultiSegmentLines\":false,\"customerTotal\":120.0,\"currencyDecimalScale\":2,\"channelDiscountsOffList\":false,\"calculationRequired\":false,\"applyPartnerDiscountFirst\":false,\"applyAdditionalDiscountLast\":false}"'
+  recorded_at: Wed, 09 Aug 2023 00:00:00 GMT
+- request:
+    method: post
+    uri: https://ability-innovation-7335-dev-ed.scratch.my.salesforce.com/services/data/v58.0/sobjects/Product2
+    body:
+      encoding: UTF-8
+      string: '{"Name":"SaaS Subscription","IsActive":true,"Description":"Demo subscription
+        to show bidirectional syncing","ProductCode":"EfxBsBKAsjaF0caCUQPWQYJ8h61G","SBQQ__SubscriptionPricing__c":"Fixed
+        Price","SBQQ__SubscriptionType__c":"Renewable","SBQQ__SubscriptionTerm__c":1,"SBQQ__BillingFrequency__c":"Monthly"}'
+    headers:
+      User-Agent:
+      - Faraday v2.4.0
+      Content-Type:
+      - application/json
+      Authorization:
+      - OAuth <SALESFORCE_ACCESS_TOKEN>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 201
+      message: Created
+    headers:
+      Date:
+      - Fri, 18 Aug 2023 22:37:35 GMT
+      Set-Cookie:
+      - BrowserId=06K28T4XEe6JO0OwjA_jsw; domain=.salesforce.com; path=/; expires=Sat,
+        17-Aug-2024 22:37:35 GMT; Max-Age=31536000
+      - CookieConsentPolicy=0:1; path=/; expires=Sat, 17-Aug-2024 22:37:35 GMT; Max-Age=31536000
+      - LSKey-c$CookieConsentPolicy=0:1; path=/; expires=Sat, 17-Aug-2024 22:37:35
+        GMT; Max-Age=31536000
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Robots-Tag:
+      - none
+      Cache-Control:
+      - no-cache,must-revalidate,max-age=0,no-store,private
+      Sforce-Limit-Info:
+      - api-usage=366/5000000
+      Location:
+      - "/services/data/v58.0/sobjects/Product2/01t7e000009C7BZAA0"
+      Content-Type:
+      - application/json;charset=UTF-8
+      Vary:
+      - Accept-Encoding
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: ASCII-8BIT
+      string: '{"id":"01t7e000009C7BZAA0","success":true,"errors":[]}'
+  recorded_at: Wed, 09 Aug 2023 00:00:00 GMT
+- request:
+    method: post
+    uri: https://ability-innovation-7335-dev-ed.scratch.my.salesforce.com/services/data/v58.0/sobjects/PricebookEntry
+    body:
+      encoding: UTF-8
+      string: '{"Pricebook2Id":"01s7e000002eLFEAA2","Product2Id":"01t7e000009C7BZAA0","IsActive":true,"UnitPrice":120.0,"UseStandardPrice":false}'
+    headers:
+      User-Agent:
+      - Faraday v2.4.0
+      Content-Type:
+      - application/json
+      Authorization:
+      - OAuth <SALESFORCE_ACCESS_TOKEN>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 201
+      message: Created
+    headers:
+      Date:
+      - Fri, 18 Aug 2023 22:37:35 GMT
+      Set-Cookie:
+      - BrowserId=1AHtZT4XEe6xL3sftu7XXg; domain=.salesforce.com; path=/; expires=Sat,
+        17-Aug-2024 22:37:35 GMT; Max-Age=31536000
+      - CookieConsentPolicy=0:1; path=/; expires=Sat, 17-Aug-2024 22:37:35 GMT; Max-Age=31536000
+      - LSKey-c$CookieConsentPolicy=0:1; path=/; expires=Sat, 17-Aug-2024 22:37:35
+        GMT; Max-Age=31536000
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Robots-Tag:
+      - none
+      Cache-Control:
+      - no-cache,must-revalidate,max-age=0,no-store,private
+      Sforce-Limit-Info:
+      - api-usage=362/5000000
+      Location:
+      - "/services/data/v58.0/sobjects/PricebookEntry/01u7e00000ItT4ZAAV"
+      Content-Type:
+      - application/json;charset=UTF-8
+      Vary:
+      - Accept-Encoding
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: ASCII-8BIT
+      string: '{"id":"01u7e00000ItT4ZAAV","success":true,"errors":[]}'
+  recorded_at: Wed, 09 Aug 2023 00:00:00 GMT
+- request:
+    method: patch
+    uri: https://ability-innovation-7335-dev-ed.scratch.my.salesforce.com/services/apexrest/SBQQ/ServiceRouter?loader=SBQQ.ProductAPI.ProductLoader&uid=01t7e000009C7BZAA0
+    body:
+      encoding: UTF-8
+      string: '{"context":"{\"pricebookId\":\"01s7e000002eLFEAA2\"}"}'
+    headers:
+      User-Agent:
+      - Faraday v2.4.0
+      Content-Type:
+      - application/json
+      Authorization:
+      - OAuth <SALESFORCE_ACCESS_TOKEN>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Fri, 18 Aug 2023 22:37:36 GMT
+      Set-Cookie:
+      - BrowserId=1GYtMD4XEe6O33vaO9mbXw; domain=.salesforce.com; path=/; expires=Sat,
+        17-Aug-2024 22:37:36 GMT; Max-Age=31536000
+      - CookieConsentPolicy=0:1; path=/; expires=Sat, 17-Aug-2024 22:37:36 GMT; Max-Age=31536000
+      - LSKey-c$CookieConsentPolicy=0:1; path=/; expires=Sat, 17-Aug-2024 22:37:36
+        GMT; Max-Age=31536000
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Robots-Tag:
+      - none
+      Cache-Control:
+      - no-cache,must-revalidate,max-age=0,no-store,private
+      Content-Type:
+      - application/json;charset=UTF-8
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: '"{\"record\":{\"attributes\":{\"type\":\"Product2\",\"url\":\"/services/data/v58.0/sobjects/Product2/01t7e000009C7BZAA0\"},\"Id\":\"01t7e000009C7BZAA0\",\"CurrencyIsoCode\":\"USD\",\"Name\":\"SaaS
+        Subscription\",\"ProductCode\":\"EfxBsBKAsjaF0caCUQPWQYJ8h61G\",\"Description\":\"Demo
+        subscription to show bidirectional syncing\",\"SBQQ__SubscriptionPricing__c\":\"Fixed
+        Price\",\"SBQQ__PriceEditable__c\":false,\"SBQQ__DefaultQuantity__c\":1.00000,\"SBQQ__QuantityEditable__c\":true,\"SBQQ__CostEditable__c\":false,\"SBQQ__NonDiscountable__c\":false,\"SBQQ__NonPartnerDiscountable__c\":false,\"SBQQ__SubscriptionTerm__c\":1,\"SBQQ__SubscriptionBase__c\":\"List\",\"SBQQ__PricingMethod__c\":\"List\",\"SBQQ__PricingMethodEditable__c\":false,\"SBQQ__OptionSelectionMethod__c\":\"Click\",\"SBQQ__Optional__c\":false,\"SBQQ__Taxable__c\":false,\"SBQQ__CustomConfigurationRequired__c\":false,\"SBQQ__Hidden__c\":false,\"SBQQ__ReconfigurationDisabled__c\":false,\"SBQQ__ExcludeFromOpportunity__c\":false,\"SBQQ__DescriptionLocked__c\":false,\"SBQQ__ExcludeFromMaintenance__c\":false,\"SBQQ__IncludeInMaintenance__c\":false,\"SBQQ__NewQuoteGroup__c\":false,\"SBQQ__SubscriptionType__c\":\"Renewable\",\"SBQQ__AssetConversion__c\":\"One
+        per quote line\",\"SBQQ__BlockPricingField__c\":\"Quantity\",\"SBQQ__HasConfigurationAttributes__c\":false,\"SBQQ__HasConsumptionSchedule__c\":false,\"SBQQ__ExternallyConfigurable__c\":false,\"SBQQ__AssetAmendmentBehavior__c\":\"Default\",\"SBQQ__BillingFrequency__c\":\"Monthly\",\"PricebookEntries\":{\"totalSize\":1,\"done\":true,\"records\":[{\"attributes\":{\"type\":\"PricebookEntry\",\"url\":\"/services/data/v58.0/sobjects/PricebookEntry/01u7e00000ItT4ZAAV\"},\"Product2Id\":\"01t7e000009C7BZAA0\",\"Id\":\"01u7e00000ItT4ZAAV\",\"Pricebook2Id\":\"01s7e000002eLFEAA2\",\"UnitPrice\":120.00,\"IsActive\":true,\"CurrencyIsoCode\":\"USD\"}]}},\"options\":[],\"features\":[],\"featureCategoryLabels\":{\"Software\":\"Software\",\"Hardware\":\"Hardware\"},\"featureCategories\":[],\"currencySymbol\":\"USD
+        \",\"currencyCode\":\"USD\",\"constraints\":[],\"configurationAttributes\":[]}"'
+  recorded_at: Wed, 09 Aug 2023 00:00:00 GMT
+- request:
+    method: patch
+    uri: https://ability-innovation-7335-dev-ed.scratch.my.salesforce.com/services/apexrest/SBQQ/ServiceRouter?loader=SBQQ.QuoteAPI.QuoteProductAdder
+    body:
+      encoding: UTF-8
+      string: '{"context":"{\"quote\":{\"ui_original_record\":{\"cloneRecordIfNoCache\":true,\"cacheName\":\"LineEditor\",\"cacheId\":\"a0z7e00000BDMSIAA5\",\"cachedOriginalRecordPath\":[\"quote\",\"ui_original_record\"]},\"record\":{\"attributes\":{\"type\":\"SBQQ__Quote__c\",\"url\":\"/services/data/v58.0/sobjects/SBQQ__Quote__c/a0z7e00000BDMSIAA5\"},\"Id\":\"a0z7e00000BDMSIAA5\",\"CurrencyIsoCode\":\"USD\",\"Name\":\"Q-01484\",\"SBQQ__Type__c\":\"Amendment\",\"SBQQ__Account__c\":\"0017e00001j13JVAAY\",\"SBQQ__ExpirationDate__c\":\"2023-09-08\",\"SBQQ__StartDate__c\":\"2023-08-09\",\"SBQQ__MasterEvergreenContract__c\":\"8007e000001iDzdAAE\",\"SBQQ__NetAmount__c\":0.0,\"SBQQ__CustomerAmount__c\":0.0,\"SBQQ__ContractingMethod__c\":\"By
+        Subscription End Date\",\"SBQQ__Unopened__c\":false,\"SBQQ__LineItemCount__c\":1,\"SBQQ__PaymentTerms__c\":\"Net
+        30\",\"SBQQ__WatermarkShown__c\":false,\"SBQQ__Status__c\":\"Draft\",\"SBQQ__Primary__c\":true,\"SBQQ__LineItemsGrouped__c\":false,\"SBQQ__Opportunity2__c\":\"0067e00000OEZTuAAP\",\"SBQQ__Account__r\":{\"attributes\":{\"type\":\"Account\",\"url\":\"/services/data/v58.0/sobjects/Account/0017e00001j13JVAAY\"},\"Id\":\"0017e00001j13JVAAY\",\"Name\":\"REST
+        Account  2023-08-09 00:00:00 UTC\",\"SBQQ__RenewalModel__c\":\"Contract Based\",\"SBQQ__RenewalPricingMethod__c\":\"Same\"},\"SBQQ__MasterEvergreenContract__r\":{\"attributes\":{\"type\":\"Contract\",\"url\":\"/services/data/v58.0/sobjects/Contract/8007e000001iDzdAAE\"},\"Id\":\"8007e000001iDzdAAE\",\"ContractNumber\":\"00000401\"},\"SBQQ__Opportunity2__r\":{\"attributes\":{\"type\":\"Opportunity\",\"url\":\"/services/data/v58.0/sobjects/Opportunity/0067e00000OEZTuAAP\"},\"Id\":\"0067e00000OEZTuAAP\",\"SBQQ__PrimaryQuote__c\":\"a0z7e00000BDMSIAA5\",\"AccountId\":\"0017e00001j13JVAAY\"},\"SBQQ__CustomerDiscount__c\":null,\"SBQQ__MarkupRate__c\":null,\"SBQQ__PartnerDiscount__c\":null,\"SBQQ__SubscriptionTerm__c\":null,\"SBQQ__EndDate__c\":null,\"SBQQ__MasterContract__c\":null,\"SBQQ__QuoteProcessId__c\":null,\"SBQQ__DistributorDiscount__c\":null,\"SBQQ__PricebookId__c\":null,\"SBQQ__FirstSegmentTermEndDate__c\":null,\"SBQQ__GenerateContractedPrice__c\":null,\"SBQQ__BillingFrequency__c\":null,\"SBQQ__RenewalTerm__c\":null,\"SBQQ__RenewalUpliftRate__c\":null,\"SBQQ__OrderGroupID__c\":null,\"SBQQ__TargetCustomerAmount__c\":null,\"SBQQ__OrderBy__c\":null,\"SBQQ__ProrationDayOfMonth__c\":null},\"nextKey\":2,\"netTotal\":0.0,\"netNonSegmentTotal\":0.0,\"lineItems\":[{\"upliftable\":false,\"upgradeSourcesBySourceProductId\":{},\"ui_original_record\":{\"cloneRecordIfNoCache\":false,\"cacheName\":\"LineEditor\",\"cacheId\":\"a0z7e00000BDMSIAA5\",\"cachedOriginalRecordPath\":[\"quote\",\"lineItems\",\"0\",\"ui_original_record\"]},\"record\":{\"attributes\":{\"type\":\"SBQQ__QuoteLine__c\",\"url\":\"/services/data/v58.0/sobjects/SBQQ__QuoteLine__c/a0v7e000008xasfAAA\"},\"Id\":\"a0v7e000008xasfAAA\",\"CurrencyIsoCode\":\"USD\",\"SBQQ__Quote__c\":\"a0z7e00000BDMSIAA5\",\"SBQQ__Description__c\":\"A
+        great description\",\"SBQQ__Product__c\":\"01t7e000009BU6NAAW\",\"SBQQ__Number__c\":1,\"SBQQ__HasConsumptionSchedule__c\":false,\"SBQQ__Hidden__c\":false,\"SBQQ__Taxable__c\":false,\"SBQQ__SubscriptionPricing__c\":\"Fixed
+        Price\",\"SBQQ__DefaultSubscriptionTerm__c\":1,\"SBQQ__SubscriptionBase__c\":\"List\",\"SBQQ__SubscriptionScope__c\":\"Quote\",\"SBQQ__ProductSubscriptionType__c\":\"Evergreen\",\"SBQQ__SubscriptionType__c\":\"Evergreen\",\"SBQQ__SubscriptionTerm__c\":1,\"Name\":\"QL-0003390\",\"SBQQ__AdditionalDiscount__c\":0.0,\"SBQQ__Bundled__c\":false,\"SBQQ__ComponentDiscountedByPackage__c\":false,\"SBQQ__CostEditable__c\":false,\"SBQQ__CustomerPrice__c\":120.0,\"SBQQ__EffectiveSubscriptionTerm__c\":1,\"SBQQ__ListPrice__c\":120.0,\"SBQQ__OriginalPrice__c\":120.0,\"SBQQ__NetPrice__c\":120.0,\"SBQQ__NetTotal__c\":0.0,\"SBQQ__NonDiscountable__c\":false,\"SBQQ__NonPartnerDiscountable__c\":false,\"SBQQ__Optional__c\":false,\"SBQQ__Bundle__c\":false,\"SBQQ__PartnerPrice__c\":120.0,\"SBQQ__PriceEditable__c\":false,\"SBQQ__ProratedListPrice__c\":120.0,\"SBQQ__PricingMethod__c\":\"List\",\"SBQQ__PricingMethodEditable__c\":false,\"SBQQ__ProrateMultiplier__c\":1.0,\"SBQQ__Quantity__c\":1.0,\"SBQQ__SpecialPrice__c\":120.0,\"SBQQ__Renewal__c\":false,\"SBQQ__ProratedPrice__c\":120.0,\"SBQQ__Uplift__c\":0.0,\"SBQQ__UpliftAmount__c\":0.0,\"SBQQ__ComponentUpliftedByPackage__c\":false,\"SBQQ__ProductName__c\":\"REST
+        Product2  2023-08-09 00:00:00 UTC\",\"SBQQ__Existing__c\":true,\"SBQQ__PriorQuantity__c\":1.0,\"SBQQ__CarryoverLine__c\":false,\"SBQQ__AllowAssetRefund__c\":false,\"SBQQ__RegularPrice__c\":120.0,\"SBQQ__UpgradedSubscription__c\":\"a1B7e00000EX7OxEAL\",\"SBQQ__ProductCode__c\":\"EfxBsBKAsjaF0caCUQPWQYJ8h61G\",\"SBQQ__Product__r\":{\"attributes\":{\"type\":\"Product2\",\"url\":\"/services/data/v58.0/sobjects/Product2/01t7e000009BU6NAAW\"},\"Id\":\"01t7e000009BU6NAAW\",\"CurrencyIsoCode\":\"USD\",\"Name\":\"REST
+        Product2  2023-08-09 00:00:00 UTC\",\"ProductCode\":\"EfxBsBKAsjaF0caCUQPWQYJ8h61G\",\"Description\":\"A
+        great description\",\"SBQQ__SubscriptionPricing__c\":\"Fixed Price\",\"SBQQ__PriceEditable__c\":false,\"SBQQ__DefaultQuantity__c\":1.0,\"SBQQ__QuantityEditable__c\":true,\"SBQQ__CostEditable__c\":false,\"SBQQ__NonDiscountable__c\":false,\"SBQQ__NonPartnerDiscountable__c\":false,\"SBQQ__SubscriptionTerm__c\":1,\"SBQQ__SubscriptionBase__c\":\"List\",\"SBQQ__PricingMethod__c\":\"List\",\"SBQQ__PricingMethodEditable__c\":false,\"SBQQ__OptionSelectionMethod__c\":\"Click\",\"SBQQ__Optional__c\":false,\"SBQQ__Taxable__c\":false,\"SBQQ__CustomConfigurationRequired__c\":false,\"SBQQ__Hidden__c\":false,\"SBQQ__ReconfigurationDisabled__c\":false,\"SBQQ__ExcludeFromOpportunity__c\":false,\"SBQQ__DescriptionLocked__c\":false,\"SBQQ__ExcludeFromMaintenance__c\":false,\"SBQQ__IncludeInMaintenance__c\":false,\"SBQQ__NewQuoteGroup__c\":false,\"SBQQ__SubscriptionType__c\":\"Evergreen\",\"SBQQ__AssetConversion__c\":\"One
+        per quote line\",\"SBQQ__BlockPricingField__c\":\"Quantity\",\"SBQQ__HasConfigurationAttributes__c\":false,\"SBQQ__HasConsumptionSchedule__c\":false,\"SBQQ__ExternallyConfigurable__c\":false,\"SBQQ__AssetAmendmentBehavior__c\":\"Default\",\"PricebookEntries\":{\"totalSize\":1,\"done\":true,\"records\":[{\"attributes\":{\"type\":\"PricebookEntry\",\"url\":\"/services/data/v58.0/sobjects/PricebookEntry/01u7e00000IstNnAAJ\"},\"Product2Id\":\"01t7e000009BU6NAAW\",\"Id\":\"01u7e00000IstNnAAJ\",\"Pricebook2Id\":\"01s7e000002eLFEAA2\",\"UnitPrice\":120.0,\"IsActive\":true,\"CurrencyIsoCode\":\"USD\"}]}},\"SBQQ__UpgradedSubscription__r\":{\"attributes\":{\"type\":\"SBQQ__Subscription__c\",\"url\":\"/services/data/v58.0/sobjects/SBQQ__Subscription__c/a1B7e00000EX7OxEAL\"},\"Id\":\"a1B7e00000EX7OxEAL\",\"SBQQ__QuoteLine__c\":\"a0v7e000008xasZAAQ\",\"SBQQ__OriginalQuoteLine__c\":\"a0v7e000008xasZAAQ\",\"SBQQ__Contract__c\":\"8007e000001iDzdAAE\"},\"SBQQ__Source__c\":null,\"SBQQ__RequiredBy__c\":null,\"SBQQ__ProductOption__c\":null,\"SBQQ__SegmentIndex__c\":null,\"SBQQ__SegmentLabel__c\":null,\"SBQQ__SegmentKey__c\":null,\"SBQQ__Dimension__c\":null,\"SBQQ__DynamicOptionId__c\":null,\"SBQQ__GenerateContractedPrice__c\":null,\"SBQQ__PricebookEntryId__c\":null,\"SBQQ__Favorite__c\":null,\"SBQQ__SubscriptionPercent__c\":null,\"SBQQ__SubscriptionCategory__c\":null,\"SBQQ__EndDate__c\":null,\"SBQQ__MinimumPrice__c\":null,\"SBQQ__MaximumPrice__c\":null,\"SBQQ__ChargeType__c\":null,\"SBQQ__BillingType__c\":null,\"SBQQ__TaxCode__c\":null,\"SBQQ__BillingFrequency__c\":null,\"SBQQ__Discount__c\":null,\"SBQQ__AdditionalDiscountAmount__c\":null,\"SBQQ__AdditionalQuantity__c\":null,\"SBQQ__BatchQuantity__c\":null,\"SBQQ__ComponentSubscriptionScope__c\":null,\"SBQQ__CompoundDiscountRate__c\":null,\"SBQQ__ContractedPrice__c\":null,\"SBQQ__Cost__c\":null,\"SBQQ__DiscountSchedule__c\":null,\"SBQQ__DistributorDiscount__c\":null,\"SBQQ__MarkupRate__c\":null,\"SBQQ__MarkupAmount__c\":null,\"SBQQ__OptionDiscount__c\":null,\"SBQQ__OptionDiscountAmount__c\":null,\"SBQQ__OptionType__c\":null,\"SBQQ__BundledQuantity__c\":null,\"SBQQ__PartnerDiscount__c\":null,\"SBQQ__RenewedAsset__c\":null,\"SBQQ__RenewedSubscription__c\":null,\"SBQQ__SpecialPriceType__c\":null,\"SBQQ__StartDate__c\":null,\"SBQQ__OriginalUnitCost__c\":null,\"SBQQ__SubscribedAssetIds__c\":null,\"SBQQ__SubscriptionTargetPrice__c\":null,\"SBQQ__TermDiscountSchedule__c\":null,\"SBQQ__UnitCost__c\":null,\"SBQQ__ComponentTotal__c\":null,\"SBQQ__ComponentCost__c\":null,\"SBQQ__ComponentListTotal__c\":null,\"SBQQ__DiscountScheduleType__c\":null,\"SBQQ__PackageProductCode__c\":null,\"SBQQ__DiscountTier__c\":null,\"SBQQ__VolumeDiscount__c\":null,\"SBQQ__BlockPrice__c\":null,\"SBQQ__TermDiscountTier__c\":null,\"SBQQ__TermDiscount__c\":null,\"SBQQ__PreviousSegmentPrice__c\":null,\"SBQQ__PreviousSegmentUplift__c\":null,\"SBQQ__GrossProfit__c\":null,\"SBQQ__PackageProductDescription__c\":null,\"SBQQ__OptionLevel__c\":null,\"SBQQ__UpgradedQuantity__c\":null,\"SBQQ__OriginalQuoteLineId__c\":null,\"SBQQ__UpgradedAsset__c\":null},\"reconfigurationDisabled\":false,\"productQuantityEditable\":true,\"productHasDimensions\":false,\"key\":2,\"hasConsumptionSchedules\":false,\"descriptionLocked\":false}],\"lineItemGroups\":[],\"isPartial\":false,\"hasMultiSegmentLines\":false,\"customerTotal\":0.0,\"currencyDecimalScale\":2,\"channelDiscountsOffList\":false,\"calculationRequired\":false,\"applyPartnerDiscountFirst\":false,\"applyAdditionalDiscountLast\":false},\"products\":[{\"record\":{\"attributes\":{\"type\":\"Product2\",\"url\":\"/services/data/v58.0/sobjects/Product2/01t7e000009C7BZAA0\"},\"Id\":\"01t7e000009C7BZAA0\",\"CurrencyIsoCode\":\"USD\",\"Name\":\"SaaS
+        Subscription\",\"ProductCode\":\"EfxBsBKAsjaF0caCUQPWQYJ8h61G\",\"Description\":\"Demo
+        subscription to show bidirectional syncing\",\"SBQQ__SubscriptionPricing__c\":\"Fixed
+        Price\",\"SBQQ__PriceEditable__c\":false,\"SBQQ__DefaultQuantity__c\":1.0,\"SBQQ__QuantityEditable__c\":true,\"SBQQ__CostEditable__c\":false,\"SBQQ__NonDiscountable__c\":false,\"SBQQ__NonPartnerDiscountable__c\":false,\"SBQQ__SubscriptionTerm__c\":1,\"SBQQ__SubscriptionBase__c\":\"List\",\"SBQQ__PricingMethod__c\":\"List\",\"SBQQ__PricingMethodEditable__c\":false,\"SBQQ__OptionSelectionMethod__c\":\"Click\",\"SBQQ__Optional__c\":false,\"SBQQ__Taxable__c\":false,\"SBQQ__CustomConfigurationRequired__c\":false,\"SBQQ__Hidden__c\":false,\"SBQQ__ReconfigurationDisabled__c\":false,\"SBQQ__ExcludeFromOpportunity__c\":false,\"SBQQ__DescriptionLocked__c\":false,\"SBQQ__ExcludeFromMaintenance__c\":false,\"SBQQ__IncludeInMaintenance__c\":false,\"SBQQ__NewQuoteGroup__c\":false,\"SBQQ__SubscriptionType__c\":\"Renewable\",\"SBQQ__AssetConversion__c\":\"One
+        per quote line\",\"SBQQ__BlockPricingField__c\":\"Quantity\",\"SBQQ__HasConfigurationAttributes__c\":false,\"SBQQ__HasConsumptionSchedule__c\":false,\"SBQQ__ExternallyConfigurable__c\":false,\"SBQQ__AssetAmendmentBehavior__c\":\"Default\",\"SBQQ__BillingFrequency__c\":\"Monthly\",\"PricebookEntries\":{\"totalSize\":1,\"done\":true,\"records\":[{\"attributes\":{\"type\":\"PricebookEntry\",\"url\":\"/services/data/v58.0/sobjects/PricebookEntry/01u7e00000ItT4ZAAV\"},\"Product2Id\":\"01t7e000009C7BZAA0\",\"Id\":\"01u7e00000ItT4ZAAV\",\"Pricebook2Id\":\"01s7e000002eLFEAA2\",\"UnitPrice\":120.0,\"IsActive\":true,\"CurrencyIsoCode\":\"USD\"}]}},\"options\":[],\"features\":[],\"featureCategoryLabels\":{\"Software\":\"Software\",\"Hardware\":\"Hardware\"},\"featureCategories\":[],\"currencySymbol\":\"USD
+        \",\"currencyCode\":\"USD\",\"constraints\":[],\"configurationAttributes\":[]}],\"groupKey\":0,\"ignoreCalculate\":false}"}'
+    headers:
+      User-Agent:
+      - Faraday v2.4.0
+      Content-Type:
+      - application/json
+      Authorization:
+      - OAuth <SALESFORCE_ACCESS_TOKEN>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Fri, 18 Aug 2023 22:37:37 GMT
+      Set-Cookie:
+      - BrowserId=1PNSMz4XEe6O33vaO9mbXw; domain=.salesforce.com; path=/; expires=Sat,
+        17-Aug-2024 22:37:37 GMT; Max-Age=31536000
+      - CookieConsentPolicy=0:1; path=/; expires=Sat, 17-Aug-2024 22:37:37 GMT; Max-Age=31536000
+      - LSKey-c$CookieConsentPolicy=0:1; path=/; expires=Sat, 17-Aug-2024 22:37:37
+        GMT; Max-Age=31536000
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Robots-Tag:
+      - none
+      Cache-Control:
+      - no-cache,must-revalidate,max-age=0,no-store,private
+      Content-Type:
+      - application/json;charset=UTF-8
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: '"{\"ui_original_record\":{\"cloneRecordIfNoCache\":true,\"cacheName\":\"LineEditor\",\"cacheId\":\"a0z7e00000BDMSIAA5\",\"cachedOriginalRecordPath\":[\"quote\",\"ui_original_record\"]},\"record\":{\"attributes\":{\"type\":\"SBQQ__Quote__c\",\"url\":\"/services/data/v58.0/sobjects/SBQQ__Quote__c/a0z7e00000BDMSIAA5\"},\"Id\":\"a0z7e00000BDMSIAA5\",\"CurrencyIsoCode\":\"USD\",\"Name\":\"Q-01484\",\"SBQQ__Type__c\":\"Amendment\",\"SBQQ__Account__c\":\"0017e00001j13JVAAY\",\"SBQQ__ExpirationDate__c\":\"2023-09-08\",\"SBQQ__StartDate__c\":\"2023-08-09\",\"SBQQ__MasterEvergreenContract__c\":\"8007e000001iDzdAAE\",\"SBQQ__NetAmount__c\":1440.00,\"SBQQ__CustomerAmount__c\":1440.00,\"SBQQ__ContractingMethod__c\":\"By
+        Subscription End Date\",\"SBQQ__Unopened__c\":false,\"SBQQ__LineItemCount__c\":3,\"SBQQ__PaymentTerms__c\":\"Net
+        30\",\"SBQQ__WatermarkShown__c\":false,\"SBQQ__Status__c\":\"Draft\",\"SBQQ__Primary__c\":true,\"SBQQ__LineItemsGrouped__c\":false,\"SBQQ__Opportunity2__c\":\"0067e00000OEZTuAAP\",\"SBQQ__Account__r\":{\"attributes\":{\"type\":\"Account\",\"url\":\"/services/data/v58.0/sobjects/Account/0017e00001j13JVAAY\"},\"Id\":\"0017e00001j13JVAAY\",\"Name\":\"REST
+        Account  2023-08-09 00:00:00 UTC\",\"SBQQ__RenewalModel__c\":\"Contract Based\",\"SBQQ__RenewalPricingMethod__c\":\"Same\"},\"SBQQ__MasterEvergreenContract__r\":{\"attributes\":{\"type\":\"Contract\",\"url\":\"/services/data/v58.0/sobjects/Contract/8007e000001iDzdAAE\"},\"Id\":\"8007e000001iDzdAAE\",\"ContractNumber\":\"00000401\"},\"SBQQ__Opportunity2__r\":{\"attributes\":{\"type\":\"Opportunity\",\"url\":\"/services/data/v58.0/sobjects/Opportunity/0067e00000OEZTuAAP\"},\"Id\":\"0067e00000OEZTuAAP\",\"SBQQ__PrimaryQuote__c\":\"a0z7e00000BDMSIAA5\",\"AccountId\":\"0017e00001j13JVAAY\"},\"SBQQ__CustomerDiscount__c\":null,\"SBQQ__MarkupRate__c\":null,\"SBQQ__PartnerDiscount__c\":null,\"SBQQ__SubscriptionTerm__c\":null,\"SBQQ__EndDate__c\":null,\"SBQQ__MasterContract__c\":null,\"SBQQ__QuoteProcessId__c\":null,\"SBQQ__DistributorDiscount__c\":null,\"SBQQ__PricebookId__c\":null,\"SBQQ__FirstSegmentTermEndDate__c\":null,\"SBQQ__GenerateContractedPrice__c\":null,\"SBQQ__BillingFrequency__c\":null,\"SBQQ__RenewalTerm__c\":null,\"SBQQ__RenewalUpliftRate__c\":null,\"SBQQ__OrderGroupID__c\":null,\"SBQQ__TargetCustomerAmount__c\":null,\"SBQQ__OrderBy__c\":null,\"SBQQ__ProrationDayOfMonth__c\":null},\"nextKey\":3,\"netTotal\":120.00,\"netNonSegmentTotal\":120.0000,\"lineItems\":[{\"upliftable\":false,\"upgradeSourcesBySourceProductId\":{},\"ui_original_record\":{\"cloneRecordIfNoCache\":false,\"cacheName\":\"LineEditor\",\"cacheId\":\"a0z7e00000BDMSIAA5\",\"cachedOriginalRecordPath\":[\"quote\",\"lineItems\",\"0\",\"ui_original_record\"]},\"subscriptionTerm\":1,\"record\":{\"attributes\":{\"type\":\"SBQQ__QuoteLine__c\",\"url\":\"/services/data/v58.0/sobjects/SBQQ__QuoteLine__c/a0v7e000008xasfAAA\"},\"Id\":\"a0v7e000008xasfAAA\",\"CurrencyIsoCode\":\"USD\",\"SBQQ__Quote__c\":\"a0z7e00000BDMSIAA5\",\"SBQQ__Description__c\":\"A
+        great description\",\"SBQQ__Product__c\":\"01t7e000009BU6NAAW\",\"SBQQ__Number__c\":1,\"SBQQ__HasConsumptionSchedule__c\":false,\"SBQQ__Hidden__c\":false,\"SBQQ__Taxable__c\":false,\"SBQQ__SubscriptionPricing__c\":\"Fixed
+        Price\",\"SBQQ__DefaultSubscriptionTerm__c\":1,\"SBQQ__SubscriptionBase__c\":\"List\",\"SBQQ__SubscriptionScope__c\":\"Quote\",\"SBQQ__ProductSubscriptionType__c\":\"Evergreen\",\"SBQQ__SubscriptionType__c\":\"Evergreen\",\"SBQQ__SubscriptionTerm__c\":1,\"Name\":\"QL-0003390\",\"SBQQ__AdditionalDiscount__c\":0.00,\"SBQQ__Bundled__c\":false,\"SBQQ__ComponentDiscountedByPackage__c\":false,\"SBQQ__CostEditable__c\":false,\"SBQQ__CustomerPrice__c\":120.00,\"SBQQ__EffectiveSubscriptionTerm__c\":1,\"SBQQ__ListPrice__c\":120.00,\"SBQQ__OriginalPrice__c\":120.00,\"SBQQ__NetPrice__c\":120.00,\"SBQQ__NetTotal__c\":0.00,\"SBQQ__NonDiscountable__c\":false,\"SBQQ__NonPartnerDiscountable__c\":false,\"SBQQ__Optional__c\":false,\"SBQQ__Bundle__c\":false,\"SBQQ__PartnerPrice__c\":120.00,\"SBQQ__PriceEditable__c\":false,\"SBQQ__ProratedListPrice__c\":120.00,\"SBQQ__PricingMethod__c\":\"List\",\"SBQQ__PricingMethodEditable__c\":false,\"SBQQ__ProrateMultiplier__c\":1.0000,\"SBQQ__Quantity__c\":1.00,\"SBQQ__SpecialPrice__c\":120.00,\"SBQQ__Renewal__c\":false,\"SBQQ__ProratedPrice__c\":120.00,\"SBQQ__Uplift__c\":0.00,\"SBQQ__UpliftAmount__c\":0.00,\"SBQQ__ComponentUpliftedByPackage__c\":false,\"SBQQ__ProductName__c\":\"REST
+        Product2  2023-08-09 00:00:00 UTC\",\"SBQQ__Existing__c\":true,\"SBQQ__PriorQuantity__c\":1.00,\"SBQQ__CarryoverLine__c\":false,\"SBQQ__AllowAssetRefund__c\":false,\"SBQQ__RegularPrice__c\":120.00,\"SBQQ__UpgradedSubscription__c\":\"a1B7e00000EX7OxEAL\",\"SBQQ__ProductCode__c\":\"EfxBsBKAsjaF0caCUQPWQYJ8h61G\",\"SBQQ__Product__r\":{\"attributes\":{\"type\":\"Product2\",\"url\":\"/services/data/v58.0/sobjects/Product2/01t7e000009BU6NAAW\"},\"Id\":\"01t7e000009BU6NAAW\",\"SBQQ__HasConfigurationAttributes__c\":false,\"ProductCode\":\"EfxBsBKAsjaF0caCUQPWQYJ8h61G\",\"Name\":\"REST
+        Product2  2023-08-09 00:00:00 UTC\",\"SBQQ__SubscriptionTerm__c\":1,\"SBQQ__PricingMethod__c\":\"List\"},\"SBQQ__UpgradedSubscription__r\":{\"attributes\":{\"type\":\"SBQQ__Subscription__c\",\"url\":\"/services/data/v58.0/sobjects/SBQQ__Subscription__c/a1B7e00000EX7OxEAL\"},\"Id\":\"a1B7e00000EX7OxEAL\",\"SBQQ__QuoteLine__c\":\"a0v7e000008xasZAAQ\",\"SBQQ__OriginalQuoteLine__c\":\"a0v7e000008xasZAAQ\",\"SBQQ__Contract__c\":\"8007e000001iDzdAAE\"},\"SBQQ__Source__c\":null,\"SBQQ__RequiredBy__c\":null,\"SBQQ__ProductOption__c\":null,\"SBQQ__SegmentIndex__c\":null,\"SBQQ__SegmentLabel__c\":null,\"SBQQ__SegmentKey__c\":null,\"SBQQ__Dimension__c\":null,\"SBQQ__DynamicOptionId__c\":null,\"SBQQ__GenerateContractedPrice__c\":null,\"SBQQ__PricebookEntryId__c\":null,\"SBQQ__Favorite__c\":null,\"SBQQ__SubscriptionPercent__c\":null,\"SBQQ__SubscriptionCategory__c\":null,\"SBQQ__EndDate__c\":null,\"SBQQ__MinimumPrice__c\":null,\"SBQQ__MaximumPrice__c\":null,\"SBQQ__ChargeType__c\":null,\"SBQQ__BillingType__c\":null,\"SBQQ__TaxCode__c\":null,\"SBQQ__BillingFrequency__c\":null,\"SBQQ__Discount__c\":null,\"SBQQ__AdditionalDiscountAmount__c\":null,\"SBQQ__AdditionalQuantity__c\":null,\"SBQQ__BatchQuantity__c\":null,\"SBQQ__ComponentSubscriptionScope__c\":null,\"SBQQ__CompoundDiscountRate__c\":null,\"SBQQ__ContractedPrice__c\":null,\"SBQQ__Cost__c\":null,\"SBQQ__DiscountSchedule__c\":null,\"SBQQ__DistributorDiscount__c\":null,\"SBQQ__MarkupRate__c\":null,\"SBQQ__MarkupAmount__c\":null,\"SBQQ__OptionDiscount__c\":null,\"SBQQ__OptionDiscountAmount__c\":null,\"SBQQ__OptionType__c\":null,\"SBQQ__BundledQuantity__c\":null,\"SBQQ__PartnerDiscount__c\":null,\"SBQQ__RenewedAsset__c\":null,\"SBQQ__RenewedSubscription__c\":null,\"SBQQ__SpecialPriceType__c\":null,\"SBQQ__StartDate__c\":null,\"SBQQ__OriginalUnitCost__c\":null,\"SBQQ__SubscribedAssetIds__c\":null,\"SBQQ__SubscriptionTargetPrice__c\":null,\"SBQQ__TermDiscountSchedule__c\":null,\"SBQQ__UnitCost__c\":null,\"SBQQ__ComponentTotal__c\":null,\"SBQQ__ComponentCost__c\":null,\"SBQQ__ComponentListTotal__c\":null,\"SBQQ__DiscountScheduleType__c\":null,\"SBQQ__PackageProductCode__c\":null,\"SBQQ__DiscountTier__c\":null,\"SBQQ__VolumeDiscount__c\":null,\"SBQQ__BlockPrice__c\":null,\"SBQQ__TermDiscountTier__c\":null,\"SBQQ__TermDiscount__c\":null,\"SBQQ__PreviousSegmentPrice__c\":null,\"SBQQ__PreviousSegmentUplift__c\":null,\"SBQQ__GrossProfit__c\":null,\"SBQQ__PackageProductDescription__c\":null,\"SBQQ__OptionLevel__c\":null,\"SBQQ__UpgradedQuantity__c\":null,\"SBQQ__OriginalQuoteLineId__c\":null,\"SBQQ__UpgradedAsset__c\":null},\"reconfigurationDisabled\":false,\"productQuantityEditable\":true,\"productHasDimensions\":false,\"key\":2,\"hasConsumptionSchedules\":false,\"effectiveStartDate\":\"2023-08-09\",\"descriptionLocked\":false},{\"upliftable\":false,\"upgradeSourcesBySourceProductId\":{},\"ui_original_record\":{\"cloneRecordIfNoCache\":false,\"cacheName\":\"LineEditor\",\"cacheId\":\"a0z7e00000BDMSIAA5\",\"cachedOriginalRecordPath\":[\"quote\",\"lineItems\",\"1\",\"ui_original_record\"]},\"record\":{\"attributes\":{\"type\":\"SBQQ__QuoteLine__c\"},\"Id\":null,\"CurrencyIsoCode\":\"USD\",\"SBQQ__Quote__c\":\"a0z7e00000BDMSIAA5\",\"SBQQ__Description__c\":\"Demo
+        subscription to show bidirectional syncing\",\"SBQQ__Product__c\":\"01t7e000009C7BZAA0\",\"SBQQ__Number__c\":2,\"SBQQ__HasConsumptionSchedule__c\":false,\"SBQQ__Hidden__c\":false,\"SBQQ__Taxable__c\":false,\"SBQQ__SubscriptionPricing__c\":\"Fixed
+        Price\",\"SBQQ__DefaultSubscriptionTerm__c\":1,\"SBQQ__SubscriptionBase__c\":\"List\",\"SBQQ__SubscriptionScope__c\":\"Quote\",\"SBQQ__ProductSubscriptionType__c\":\"Renewable\",\"SBQQ__SubscriptionType__c\":\"Renewable\",\"SBQQ__BillingFrequency__c\":\"Monthly\",\"Name\":\"QL-0003505\",\"SBQQ__AdditionalDiscount__c\":0.00,\"SBQQ__Bundled__c\":false,\"SBQQ__ComponentDiscountedByPackage__c\":false,\"SBQQ__CostEditable__c\":false,\"SBQQ__CustomerPrice__c\":120.00,\"SBQQ__ListPrice__c\":120.00,\"SBQQ__OriginalPrice__c\":120.00,\"SBQQ__NetPrice__c\":120.00,\"SBQQ__NetTotal__c\":120.00,\"SBQQ__NonDiscountable__c\":false,\"SBQQ__NonPartnerDiscountable__c\":false,\"SBQQ__Optional__c\":false,\"SBQQ__Bundle__c\":false,\"SBQQ__PartnerPrice__c\":120.00,\"SBQQ__PriceEditable__c\":false,\"SBQQ__ProratedListPrice__c\":120.00,\"SBQQ__PricingMethod__c\":\"List\",\"SBQQ__PricingMethodEditable__c\":false,\"SBQQ__ProrateMultiplier__c\":1.0000,\"SBQQ__Quantity__c\":1.00,\"SBQQ__SpecialPrice__c\":120.00,\"SBQQ__Renewal__c\":false,\"SBQQ__ProratedPrice__c\":120.00,\"SBQQ__Uplift__c\":0.00,\"SBQQ__UpliftAmount__c\":0.00,\"SBQQ__ComponentUpliftedByPackage__c\":false,\"SBQQ__ProductName__c\":\"SaaS
+        Subscription\",\"SBQQ__Existing__c\":false,\"SBQQ__CarryoverLine__c\":false,\"SBQQ__AllowAssetRefund__c\":false,\"SBQQ__RegularPrice__c\":120.00,\"SBQQ__ProductCode__c\":\"EfxBsBKAsjaF0caCUQPWQYJ8h61G\",\"SBQQ__Product__r\":{\"attributes\":{\"type\":\"Product2\",\"url\":\"/services/data/v58.0/sobjects/Product2/01t7e000009C7BZAA0\"},\"Id\":\"01t7e000009C7BZAA0\",\"SBQQ__HasConfigurationAttributes__c\":false,\"ProductCode\":\"EfxBsBKAsjaF0caCUQPWQYJ8h61G\",\"Name\":\"SaaS
+        Subscription\",\"SBQQ__SubscriptionTerm__c\":1,\"SBQQ__PricingMethod__c\":\"List\"},\"SBQQ__Source__c\":null,\"SBQQ__RequiredBy__c\":null,\"SBQQ__ProductOption__c\":null,\"SBQQ__SegmentIndex__c\":null,\"SBQQ__SegmentLabel__c\":null,\"SBQQ__SegmentKey__c\":null,\"SBQQ__Dimension__c\":null,\"SBQQ__DynamicOptionId__c\":null,\"SBQQ__GenerateContractedPrice__c\":null,\"SBQQ__PricebookEntryId__c\":null,\"SBQQ__Favorite__c\":null,\"SBQQ__SubscriptionPercent__c\":null,\"SBQQ__SubscriptionCategory__c\":null,\"SBQQ__SubscriptionTerm__c\":null,\"SBQQ__EndDate__c\":null,\"SBQQ__MinimumPrice__c\":null,\"SBQQ__MaximumPrice__c\":null,\"SBQQ__ChargeType__c\":null,\"SBQQ__BillingType__c\":null,\"SBQQ__TaxCode__c\":null,\"SBQQ__Discount__c\":null,\"SBQQ__AdditionalDiscountAmount__c\":null,\"SBQQ__AdditionalQuantity__c\":null,\"SBQQ__BatchQuantity__c\":null,\"SBQQ__ComponentSubscriptionScope__c\":null,\"SBQQ__CompoundDiscountRate__c\":null,\"SBQQ__ContractedPrice__c\":null,\"SBQQ__Cost__c\":null,\"SBQQ__DiscountSchedule__c\":null,\"SBQQ__DistributorDiscount__c\":null,\"SBQQ__MarkupRate__c\":null,\"SBQQ__MarkupAmount__c\":null,\"SBQQ__OptionDiscount__c\":null,\"SBQQ__OptionDiscountAmount__c\":null,\"SBQQ__OptionType__c\":null,\"SBQQ__BundledQuantity__c\":null,\"SBQQ__PartnerDiscount__c\":null,\"SBQQ__RenewedAsset__c\":null,\"SBQQ__RenewedSubscription__c\":null,\"SBQQ__SpecialPriceType__c\":null,\"SBQQ__StartDate__c\":null,\"SBQQ__OriginalUnitCost__c\":null,\"SBQQ__SubscribedAssetIds__c\":null,\"SBQQ__SubscriptionTargetPrice__c\":null,\"SBQQ__TermDiscountSchedule__c\":null,\"SBQQ__UnitCost__c\":null,\"SBQQ__ComponentTotal__c\":null,\"SBQQ__ComponentCost__c\":null,\"SBQQ__ComponentListTotal__c\":null,\"SBQQ__DiscountScheduleType__c\":null,\"SBQQ__PackageProductCode__c\":null,\"SBQQ__DiscountTier__c\":null,\"SBQQ__VolumeDiscount__c\":null,\"SBQQ__BlockPrice__c\":null,\"SBQQ__TermDiscountTier__c\":null,\"SBQQ__TermDiscount__c\":null,\"SBQQ__PriorQuantity__c\":null,\"SBQQ__PreviousSegmentPrice__c\":null,\"SBQQ__PreviousSegmentUplift__c\":null,\"SBQQ__GrossProfit__c\":null,\"SBQQ__PackageProductDescription__c\":null,\"SBQQ__OptionLevel__c\":null,\"SBQQ__UpgradedQuantity__c\":null,\"SBQQ__OriginalQuoteLineId__c\":null,\"SBQQ__UpgradedAsset__c\":null,\"SBQQ__UpgradedSubscription__c\":null},\"reconfigurationDisabled\":false,\"productQuantityEditable\":true,\"productHasDimensions\":false,\"key\":3,\"hasConsumptionSchedules\":false,\"effectiveStartDate\":\"2023-08-09\",\"descriptionLocked\":false}],\"lineItemGroups\":[],\"isPartial\":false,\"hasMultiSegmentLines\":false,\"customerTotal\":120.00,\"currencyDecimalScale\":2,\"channelDiscountsOffList\":false,\"calculationRequired\":false,\"applyPartnerDiscountFirst\":false,\"applyAdditionalDiscountLast\":false}"'
+  recorded_at: Wed, 09 Aug 2023 00:00:00 GMT
+- request:
+    method: patch
+    uri: https://ability-innovation-7335-dev-ed.scratch.my.salesforce.com/services/apexrest/SBQQ/ServiceRouter?loader=SBQQ.QuoteAPI.QuoteCalculator
+    body:
+      encoding: UTF-8
+      string: '{"context":"{\"quote\":{\"ui_original_record\":{\"cloneRecordIfNoCache\":true,\"cacheName\":\"LineEditor\",\"cacheId\":\"a0z7e00000BDMSIAA5\",\"cachedOriginalRecordPath\":[\"quote\",\"ui_original_record\"]},\"record\":{\"attributes\":{\"type\":\"SBQQ__Quote__c\",\"url\":\"/services/data/v58.0/sobjects/SBQQ__Quote__c/a0z7e00000BDMSIAA5\"},\"Id\":\"a0z7e00000BDMSIAA5\",\"CurrencyIsoCode\":\"USD\",\"Name\":\"Q-01484\",\"SBQQ__Type__c\":\"Amendment\",\"SBQQ__Account__c\":\"0017e00001j13JVAAY\",\"SBQQ__ExpirationDate__c\":\"2023-09-08\",\"SBQQ__StartDate__c\":\"2023-08-09\",\"SBQQ__MasterEvergreenContract__c\":\"8007e000001iDzdAAE\",\"SBQQ__NetAmount__c\":1440.0,\"SBQQ__CustomerAmount__c\":1440.0,\"SBQQ__ContractingMethod__c\":\"By
+        Subscription End Date\",\"SBQQ__Unopened__c\":false,\"SBQQ__LineItemCount__c\":3,\"SBQQ__PaymentTerms__c\":\"Net
+        30\",\"SBQQ__WatermarkShown__c\":false,\"SBQQ__Status__c\":\"Draft\",\"SBQQ__Primary__c\":true,\"SBQQ__LineItemsGrouped__c\":false,\"SBQQ__Opportunity2__c\":\"0067e00000OEZTuAAP\",\"SBQQ__Account__r\":{\"attributes\":{\"type\":\"Account\",\"url\":\"/services/data/v58.0/sobjects/Account/0017e00001j13JVAAY\"},\"Id\":\"0017e00001j13JVAAY\",\"Name\":\"REST
+        Account  2023-08-09 00:00:00 UTC\",\"SBQQ__RenewalModel__c\":\"Contract Based\",\"SBQQ__RenewalPricingMethod__c\":\"Same\"},\"SBQQ__MasterEvergreenContract__r\":{\"attributes\":{\"type\":\"Contract\",\"url\":\"/services/data/v58.0/sobjects/Contract/8007e000001iDzdAAE\"},\"Id\":\"8007e000001iDzdAAE\",\"ContractNumber\":\"00000401\"},\"SBQQ__Opportunity2__r\":{\"attributes\":{\"type\":\"Opportunity\",\"url\":\"/services/data/v58.0/sobjects/Opportunity/0067e00000OEZTuAAP\"},\"Id\":\"0067e00000OEZTuAAP\",\"SBQQ__PrimaryQuote__c\":\"a0z7e00000BDMSIAA5\",\"AccountId\":\"0017e00001j13JVAAY\"},\"SBQQ__CustomerDiscount__c\":null,\"SBQQ__MarkupRate__c\":null,\"SBQQ__PartnerDiscount__c\":null,\"SBQQ__SubscriptionTerm__c\":null,\"SBQQ__EndDate__c\":null,\"SBQQ__MasterContract__c\":null,\"SBQQ__QuoteProcessId__c\":null,\"SBQQ__DistributorDiscount__c\":null,\"SBQQ__PricebookId__c\":null,\"SBQQ__FirstSegmentTermEndDate__c\":null,\"SBQQ__GenerateContractedPrice__c\":null,\"SBQQ__BillingFrequency__c\":null,\"SBQQ__RenewalTerm__c\":null,\"SBQQ__RenewalUpliftRate__c\":null,\"SBQQ__OrderGroupID__c\":null,\"SBQQ__TargetCustomerAmount__c\":null,\"SBQQ__OrderBy__c\":null,\"SBQQ__ProrationDayOfMonth__c\":null},\"nextKey\":3,\"netTotal\":120.0,\"netNonSegmentTotal\":120.0,\"lineItems\":[{\"upliftable\":false,\"upgradeSourcesBySourceProductId\":{},\"ui_original_record\":{\"cloneRecordIfNoCache\":false,\"cacheName\":\"LineEditor\",\"cacheId\":\"a0z7e00000BDMSIAA5\",\"cachedOriginalRecordPath\":[\"quote\",\"lineItems\",\"0\",\"ui_original_record\"]},\"subscriptionTerm\":1,\"record\":{\"attributes\":{\"type\":\"SBQQ__QuoteLine__c\",\"url\":\"/services/data/v58.0/sobjects/SBQQ__QuoteLine__c/a0v7e000008xasfAAA\"},\"Id\":\"a0v7e000008xasfAAA\",\"CurrencyIsoCode\":\"USD\",\"SBQQ__Quote__c\":\"a0z7e00000BDMSIAA5\",\"SBQQ__Description__c\":\"A
+        great description\",\"SBQQ__Product__c\":\"01t7e000009BU6NAAW\",\"SBQQ__Number__c\":1,\"SBQQ__HasConsumptionSchedule__c\":false,\"SBQQ__Hidden__c\":false,\"SBQQ__Taxable__c\":false,\"SBQQ__SubscriptionPricing__c\":\"Fixed
+        Price\",\"SBQQ__DefaultSubscriptionTerm__c\":1,\"SBQQ__SubscriptionBase__c\":\"List\",\"SBQQ__SubscriptionScope__c\":\"Quote\",\"SBQQ__ProductSubscriptionType__c\":\"Evergreen\",\"SBQQ__SubscriptionType__c\":\"Evergreen\",\"SBQQ__SubscriptionTerm__c\":1,\"Name\":\"QL-0003390\",\"SBQQ__AdditionalDiscount__c\":0.0,\"SBQQ__Bundled__c\":false,\"SBQQ__ComponentDiscountedByPackage__c\":false,\"SBQQ__CostEditable__c\":false,\"SBQQ__CustomerPrice__c\":120.0,\"SBQQ__EffectiveSubscriptionTerm__c\":1,\"SBQQ__ListPrice__c\":120.0,\"SBQQ__OriginalPrice__c\":120.0,\"SBQQ__NetPrice__c\":120.0,\"SBQQ__NetTotal__c\":0.0,\"SBQQ__NonDiscountable__c\":false,\"SBQQ__NonPartnerDiscountable__c\":false,\"SBQQ__Optional__c\":false,\"SBQQ__Bundle__c\":false,\"SBQQ__PartnerPrice__c\":120.0,\"SBQQ__PriceEditable__c\":false,\"SBQQ__ProratedListPrice__c\":120.0,\"SBQQ__PricingMethod__c\":\"List\",\"SBQQ__PricingMethodEditable__c\":false,\"SBQQ__ProrateMultiplier__c\":1.0,\"SBQQ__Quantity__c\":1.0,\"SBQQ__SpecialPrice__c\":120.0,\"SBQQ__Renewal__c\":false,\"SBQQ__ProratedPrice__c\":120.0,\"SBQQ__Uplift__c\":0.0,\"SBQQ__UpliftAmount__c\":0.0,\"SBQQ__ComponentUpliftedByPackage__c\":false,\"SBQQ__ProductName__c\":\"REST
+        Product2  2023-08-09 00:00:00 UTC\",\"SBQQ__Existing__c\":true,\"SBQQ__PriorQuantity__c\":1.0,\"SBQQ__CarryoverLine__c\":false,\"SBQQ__AllowAssetRefund__c\":false,\"SBQQ__RegularPrice__c\":120.0,\"SBQQ__UpgradedSubscription__c\":\"a1B7e00000EX7OxEAL\",\"SBQQ__ProductCode__c\":\"EfxBsBKAsjaF0caCUQPWQYJ8h61G\",\"SBQQ__Product__r\":{\"attributes\":{\"type\":\"Product2\",\"url\":\"/services/data/v58.0/sobjects/Product2/01t7e000009BU6NAAW\"},\"Id\":\"01t7e000009BU6NAAW\",\"SBQQ__HasConfigurationAttributes__c\":false,\"ProductCode\":\"EfxBsBKAsjaF0caCUQPWQYJ8h61G\",\"Name\":\"REST
+        Product2  2023-08-09 00:00:00 UTC\",\"SBQQ__SubscriptionTerm__c\":1,\"SBQQ__PricingMethod__c\":\"List\"},\"SBQQ__UpgradedSubscription__r\":{\"attributes\":{\"type\":\"SBQQ__Subscription__c\",\"url\":\"/services/data/v58.0/sobjects/SBQQ__Subscription__c/a1B7e00000EX7OxEAL\"},\"Id\":\"a1B7e00000EX7OxEAL\",\"SBQQ__QuoteLine__c\":\"a0v7e000008xasZAAQ\",\"SBQQ__OriginalQuoteLine__c\":\"a0v7e000008xasZAAQ\",\"SBQQ__Contract__c\":\"8007e000001iDzdAAE\"},\"SBQQ__Source__c\":null,\"SBQQ__RequiredBy__c\":null,\"SBQQ__ProductOption__c\":null,\"SBQQ__SegmentIndex__c\":null,\"SBQQ__SegmentLabel__c\":null,\"SBQQ__SegmentKey__c\":null,\"SBQQ__Dimension__c\":null,\"SBQQ__DynamicOptionId__c\":null,\"SBQQ__GenerateContractedPrice__c\":null,\"SBQQ__PricebookEntryId__c\":null,\"SBQQ__Favorite__c\":null,\"SBQQ__SubscriptionPercent__c\":null,\"SBQQ__SubscriptionCategory__c\":null,\"SBQQ__EndDate__c\":null,\"SBQQ__MinimumPrice__c\":null,\"SBQQ__MaximumPrice__c\":null,\"SBQQ__ChargeType__c\":null,\"SBQQ__BillingType__c\":null,\"SBQQ__TaxCode__c\":null,\"SBQQ__BillingFrequency__c\":null,\"SBQQ__Discount__c\":null,\"SBQQ__AdditionalDiscountAmount__c\":null,\"SBQQ__AdditionalQuantity__c\":null,\"SBQQ__BatchQuantity__c\":null,\"SBQQ__ComponentSubscriptionScope__c\":null,\"SBQQ__CompoundDiscountRate__c\":null,\"SBQQ__ContractedPrice__c\":null,\"SBQQ__Cost__c\":null,\"SBQQ__DiscountSchedule__c\":null,\"SBQQ__DistributorDiscount__c\":null,\"SBQQ__MarkupRate__c\":null,\"SBQQ__MarkupAmount__c\":null,\"SBQQ__OptionDiscount__c\":null,\"SBQQ__OptionDiscountAmount__c\":null,\"SBQQ__OptionType__c\":null,\"SBQQ__BundledQuantity__c\":null,\"SBQQ__PartnerDiscount__c\":null,\"SBQQ__RenewedAsset__c\":null,\"SBQQ__RenewedSubscription__c\":null,\"SBQQ__SpecialPriceType__c\":null,\"SBQQ__StartDate__c\":null,\"SBQQ__OriginalUnitCost__c\":null,\"SBQQ__SubscribedAssetIds__c\":null,\"SBQQ__SubscriptionTargetPrice__c\":null,\"SBQQ__TermDiscountSchedule__c\":null,\"SBQQ__UnitCost__c\":null,\"SBQQ__ComponentTotal__c\":null,\"SBQQ__ComponentCost__c\":null,\"SBQQ__ComponentListTotal__c\":null,\"SBQQ__DiscountScheduleType__c\":null,\"SBQQ__PackageProductCode__c\":null,\"SBQQ__DiscountTier__c\":null,\"SBQQ__VolumeDiscount__c\":null,\"SBQQ__BlockPrice__c\":null,\"SBQQ__TermDiscountTier__c\":null,\"SBQQ__TermDiscount__c\":null,\"SBQQ__PreviousSegmentPrice__c\":null,\"SBQQ__PreviousSegmentUplift__c\":null,\"SBQQ__GrossProfit__c\":null,\"SBQQ__PackageProductDescription__c\":null,\"SBQQ__OptionLevel__c\":null,\"SBQQ__UpgradedQuantity__c\":null,\"SBQQ__OriginalQuoteLineId__c\":null,\"SBQQ__UpgradedAsset__c\":null},\"reconfigurationDisabled\":false,\"productQuantityEditable\":true,\"productHasDimensions\":false,\"key\":2,\"hasConsumptionSchedules\":false,\"effectiveStartDate\":\"2023-08-09\",\"descriptionLocked\":false},{\"upliftable\":false,\"upgradeSourcesBySourceProductId\":{},\"ui_original_record\":{\"cloneRecordIfNoCache\":false,\"cacheName\":\"LineEditor\",\"cacheId\":\"a0z7e00000BDMSIAA5\",\"cachedOriginalRecordPath\":[\"quote\",\"lineItems\",\"1\",\"ui_original_record\"]},\"record\":{\"attributes\":{\"type\":\"SBQQ__QuoteLine__c\"},\"Id\":null,\"CurrencyIsoCode\":\"USD\",\"SBQQ__Quote__c\":\"a0z7e00000BDMSIAA5\",\"SBQQ__Description__c\":\"Demo
+        subscription to show bidirectional syncing\",\"SBQQ__Product__c\":\"01t7e000009C7BZAA0\",\"SBQQ__Number__c\":2,\"SBQQ__HasConsumptionSchedule__c\":false,\"SBQQ__Hidden__c\":false,\"SBQQ__Taxable__c\":false,\"SBQQ__SubscriptionPricing__c\":\"Fixed
+        Price\",\"SBQQ__DefaultSubscriptionTerm__c\":1,\"SBQQ__SubscriptionBase__c\":\"List\",\"SBQQ__SubscriptionScope__c\":\"Quote\",\"SBQQ__ProductSubscriptionType__c\":\"Renewable\",\"SBQQ__SubscriptionType__c\":\"Renewable\",\"SBQQ__BillingFrequency__c\":\"Monthly\",\"Name\":\"QL-0003505\",\"SBQQ__AdditionalDiscount__c\":0.0,\"SBQQ__Bundled__c\":false,\"SBQQ__ComponentDiscountedByPackage__c\":false,\"SBQQ__CostEditable__c\":false,\"SBQQ__CustomerPrice__c\":120.0,\"SBQQ__ListPrice__c\":120.0,\"SBQQ__OriginalPrice__c\":120.0,\"SBQQ__NetPrice__c\":120.0,\"SBQQ__NetTotal__c\":120.0,\"SBQQ__NonDiscountable__c\":false,\"SBQQ__NonPartnerDiscountable__c\":false,\"SBQQ__Optional__c\":false,\"SBQQ__Bundle__c\":false,\"SBQQ__PartnerPrice__c\":120.0,\"SBQQ__PriceEditable__c\":false,\"SBQQ__ProratedListPrice__c\":120.0,\"SBQQ__PricingMethod__c\":\"List\",\"SBQQ__PricingMethodEditable__c\":false,\"SBQQ__ProrateMultiplier__c\":1.0,\"SBQQ__Quantity__c\":1.0,\"SBQQ__SpecialPrice__c\":120.0,\"SBQQ__Renewal__c\":false,\"SBQQ__ProratedPrice__c\":120.0,\"SBQQ__Uplift__c\":0.0,\"SBQQ__UpliftAmount__c\":0.0,\"SBQQ__ComponentUpliftedByPackage__c\":false,\"SBQQ__ProductName__c\":\"SaaS
+        Subscription\",\"SBQQ__Existing__c\":false,\"SBQQ__CarryoverLine__c\":false,\"SBQQ__AllowAssetRefund__c\":false,\"SBQQ__RegularPrice__c\":120.0,\"SBQQ__ProductCode__c\":\"EfxBsBKAsjaF0caCUQPWQYJ8h61G\",\"SBQQ__Product__r\":{\"attributes\":{\"type\":\"Product2\",\"url\":\"/services/data/v58.0/sobjects/Product2/01t7e000009C7BZAA0\"},\"Id\":\"01t7e000009C7BZAA0\",\"SBQQ__HasConfigurationAttributes__c\":false,\"ProductCode\":\"EfxBsBKAsjaF0caCUQPWQYJ8h61G\",\"Name\":\"SaaS
+        Subscription\",\"SBQQ__SubscriptionTerm__c\":1,\"SBQQ__PricingMethod__c\":\"List\"},\"SBQQ__Source__c\":null,\"SBQQ__RequiredBy__c\":null,\"SBQQ__ProductOption__c\":null,\"SBQQ__SegmentIndex__c\":null,\"SBQQ__SegmentLabel__c\":null,\"SBQQ__SegmentKey__c\":null,\"SBQQ__Dimension__c\":null,\"SBQQ__DynamicOptionId__c\":null,\"SBQQ__GenerateContractedPrice__c\":null,\"SBQQ__PricebookEntryId__c\":null,\"SBQQ__Favorite__c\":null,\"SBQQ__SubscriptionPercent__c\":null,\"SBQQ__SubscriptionCategory__c\":null,\"SBQQ__SubscriptionTerm__c\":null,\"SBQQ__EndDate__c\":null,\"SBQQ__MinimumPrice__c\":null,\"SBQQ__MaximumPrice__c\":null,\"SBQQ__ChargeType__c\":null,\"SBQQ__BillingType__c\":null,\"SBQQ__TaxCode__c\":null,\"SBQQ__Discount__c\":null,\"SBQQ__AdditionalDiscountAmount__c\":null,\"SBQQ__AdditionalQuantity__c\":null,\"SBQQ__BatchQuantity__c\":null,\"SBQQ__ComponentSubscriptionScope__c\":null,\"SBQQ__CompoundDiscountRate__c\":null,\"SBQQ__ContractedPrice__c\":null,\"SBQQ__Cost__c\":null,\"SBQQ__DiscountSchedule__c\":null,\"SBQQ__DistributorDiscount__c\":null,\"SBQQ__MarkupRate__c\":null,\"SBQQ__MarkupAmount__c\":null,\"SBQQ__OptionDiscount__c\":null,\"SBQQ__OptionDiscountAmount__c\":null,\"SBQQ__OptionType__c\":null,\"SBQQ__BundledQuantity__c\":null,\"SBQQ__PartnerDiscount__c\":null,\"SBQQ__RenewedAsset__c\":null,\"SBQQ__RenewedSubscription__c\":null,\"SBQQ__SpecialPriceType__c\":null,\"SBQQ__StartDate__c\":null,\"SBQQ__OriginalUnitCost__c\":null,\"SBQQ__SubscribedAssetIds__c\":null,\"SBQQ__SubscriptionTargetPrice__c\":null,\"SBQQ__TermDiscountSchedule__c\":null,\"SBQQ__UnitCost__c\":null,\"SBQQ__ComponentTotal__c\":null,\"SBQQ__ComponentCost__c\":null,\"SBQQ__ComponentListTotal__c\":null,\"SBQQ__DiscountScheduleType__c\":null,\"SBQQ__PackageProductCode__c\":null,\"SBQQ__DiscountTier__c\":null,\"SBQQ__VolumeDiscount__c\":null,\"SBQQ__BlockPrice__c\":null,\"SBQQ__TermDiscountTier__c\":null,\"SBQQ__TermDiscount__c\":null,\"SBQQ__PriorQuantity__c\":null,\"SBQQ__PreviousSegmentPrice__c\":null,\"SBQQ__PreviousSegmentUplift__c\":null,\"SBQQ__GrossProfit__c\":null,\"SBQQ__PackageProductDescription__c\":null,\"SBQQ__OptionLevel__c\":null,\"SBQQ__UpgradedQuantity__c\":null,\"SBQQ__OriginalQuoteLineId__c\":null,\"SBQQ__UpgradedAsset__c\":null,\"SBQQ__UpgradedSubscription__c\":null},\"reconfigurationDisabled\":false,\"productQuantityEditable\":true,\"productHasDimensions\":false,\"key\":3,\"hasConsumptionSchedules\":false,\"effectiveStartDate\":\"2023-08-09\",\"descriptionLocked\":false}],\"lineItemGroups\":[],\"isPartial\":false,\"hasMultiSegmentLines\":false,\"customerTotal\":120.0,\"currencyDecimalScale\":2,\"channelDiscountsOffList\":false,\"calculationRequired\":false,\"applyPartnerDiscountFirst\":false,\"applyAdditionalDiscountLast\":false}}"}'
+    headers:
+      User-Agent:
+      - Faraday v2.4.0
+      Content-Type:
+      - application/json
+      Authorization:
+      - OAuth <SALESFORCE_ACCESS_TOKEN>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Fri, 18 Aug 2023 22:37:39 GMT
+      Set-Cookie:
+      - BrowserId=1lKUnD4XEe6JO0OwjA_jsw; domain=.salesforce.com; path=/; expires=Sat,
+        17-Aug-2024 22:37:39 GMT; Max-Age=31536000
+      - CookieConsentPolicy=0:1; path=/; expires=Sat, 17-Aug-2024 22:37:39 GMT; Max-Age=31536000
+      - LSKey-c$CookieConsentPolicy=0:1; path=/; expires=Sat, 17-Aug-2024 22:37:39
+        GMT; Max-Age=31536000
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Robots-Tag:
+      - none
+      Cache-Control:
+      - no-cache,must-revalidate,max-age=0,no-store,private
+      Content-Type:
+      - application/json;charset=UTF-8
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: '"{\"ui_original_record\":{\"cloneRecordIfNoCache\":true,\"cacheName\":\"LineEditor\",\"cacheId\":\"a0z7e00000BDMSIAA5\",\"cachedOriginalRecordPath\":[\"quote\",\"ui_original_record\"]},\"record\":{\"attributes\":{\"type\":\"SBQQ__Quote__c\",\"url\":\"/services/data/v58.0/sobjects/SBQQ__Quote__c/a0z7e00000BDMSIAA5\"},\"Id\":\"a0z7e00000BDMSIAA5\",\"CurrencyIsoCode\":\"USD\",\"Name\":\"Q-01484\",\"SBQQ__Type__c\":\"Amendment\",\"SBQQ__Account__c\":\"0017e00001j13JVAAY\",\"SBQQ__ExpirationDate__c\":\"2023-09-08\",\"SBQQ__StartDate__c\":\"2023-08-09\",\"SBQQ__MasterEvergreenContract__c\":\"8007e000001iDzdAAE\",\"SBQQ__NetAmount__c\":1560.00,\"SBQQ__CustomerAmount__c\":1560.00,\"SBQQ__ContractingMethod__c\":\"By
+        Subscription End Date\",\"SBQQ__Unopened__c\":false,\"SBQQ__LineItemCount__c\":3,\"SBQQ__PaymentTerms__c\":\"Net
+        30\",\"SBQQ__WatermarkShown__c\":false,\"SBQQ__Status__c\":\"Draft\",\"SBQQ__Primary__c\":true,\"SBQQ__LineItemsGrouped__c\":false,\"SBQQ__Opportunity2__c\":\"0067e00000OEZTuAAP\",\"SBQQ__Account__r\":{\"attributes\":{\"type\":\"Account\",\"url\":\"/services/data/v58.0/sobjects/Account/0017e00001j13JVAAY\"},\"Id\":\"0017e00001j13JVAAY\",\"Name\":\"REST
+        Account  2023-08-09 00:00:00 UTC\",\"SBQQ__RenewalModel__c\":\"Contract Based\",\"SBQQ__RenewalPricingMethod__c\":\"Same\"},\"SBQQ__MasterEvergreenContract__r\":{\"attributes\":{\"type\":\"Contract\",\"url\":\"/services/data/v58.0/sobjects/Contract/8007e000001iDzdAAE\"},\"Id\":\"8007e000001iDzdAAE\",\"ContractNumber\":\"00000401\"},\"SBQQ__Opportunity2__r\":{\"attributes\":{\"type\":\"Opportunity\",\"url\":\"/services/data/v58.0/sobjects/Opportunity/0067e00000OEZTuAAP\"},\"Id\":\"0067e00000OEZTuAAP\",\"SBQQ__PrimaryQuote__c\":\"a0z7e00000BDMSIAA5\",\"AccountId\":\"0017e00001j13JVAAY\"},\"SBQQ__CustomerDiscount__c\":null,\"SBQQ__MarkupRate__c\":null,\"SBQQ__PartnerDiscount__c\":null,\"SBQQ__SubscriptionTerm__c\":null,\"SBQQ__EndDate__c\":null,\"SBQQ__MasterContract__c\":null,\"SBQQ__QuoteProcessId__c\":null,\"SBQQ__DistributorDiscount__c\":null,\"SBQQ__PricebookId__c\":null,\"SBQQ__FirstSegmentTermEndDate__c\":null,\"SBQQ__GenerateContractedPrice__c\":null,\"SBQQ__BillingFrequency__c\":null,\"SBQQ__RenewalTerm__c\":null,\"SBQQ__RenewalUpliftRate__c\":null,\"SBQQ__OrderGroupID__c\":null,\"SBQQ__TargetCustomerAmount__c\":null,\"SBQQ__OrderBy__c\":null,\"SBQQ__ProrationDayOfMonth__c\":null},\"nextKey\":3,\"netTotal\":120.00,\"netNonSegmentTotal\":120.0000,\"lineItems\":[{\"upliftable\":false,\"upgradeSourcesBySourceProductId\":{},\"ui_original_record\":{\"cloneRecordIfNoCache\":false,\"cacheName\":\"LineEditor\",\"cacheId\":\"a0z7e00000BDMSIAA5\",\"cachedOriginalRecordPath\":[\"quote\",\"lineItems\",\"0\",\"ui_original_record\"]},\"subscriptionTerm\":1,\"record\":{\"attributes\":{\"type\":\"SBQQ__QuoteLine__c\",\"url\":\"/services/data/v58.0/sobjects/SBQQ__QuoteLine__c/a0v7e000008xasfAAA\"},\"Id\":\"a0v7e000008xasfAAA\",\"CurrencyIsoCode\":\"USD\",\"SBQQ__Quote__c\":\"a0z7e00000BDMSIAA5\",\"SBQQ__Description__c\":\"A
+        great description\",\"SBQQ__Product__c\":\"01t7e000009BU6NAAW\",\"SBQQ__Number__c\":1,\"SBQQ__HasConsumptionSchedule__c\":false,\"SBQQ__Hidden__c\":false,\"SBQQ__Taxable__c\":false,\"SBQQ__SubscriptionPricing__c\":\"Fixed
+        Price\",\"SBQQ__DefaultSubscriptionTerm__c\":1,\"SBQQ__SubscriptionBase__c\":\"List\",\"SBQQ__SubscriptionScope__c\":\"Quote\",\"SBQQ__ProductSubscriptionType__c\":\"Evergreen\",\"SBQQ__SubscriptionType__c\":\"Evergreen\",\"SBQQ__SubscriptionTerm__c\":1,\"Name\":\"QL-0003390\",\"SBQQ__AdditionalDiscount__c\":0.00,\"SBQQ__Bundled__c\":false,\"SBQQ__ComponentDiscountedByPackage__c\":false,\"SBQQ__CostEditable__c\":false,\"SBQQ__CustomerPrice__c\":120.00,\"SBQQ__EffectiveSubscriptionTerm__c\":1,\"SBQQ__ListPrice__c\":120.00,\"SBQQ__OriginalPrice__c\":120.00,\"SBQQ__NetPrice__c\":120.00,\"SBQQ__NetTotal__c\":0.00,\"SBQQ__NonDiscountable__c\":false,\"SBQQ__NonPartnerDiscountable__c\":false,\"SBQQ__Optional__c\":false,\"SBQQ__Bundle__c\":false,\"SBQQ__PartnerPrice__c\":120.00,\"SBQQ__PriceEditable__c\":false,\"SBQQ__ProratedListPrice__c\":120.00,\"SBQQ__PricingMethod__c\":\"List\",\"SBQQ__PricingMethodEditable__c\":false,\"SBQQ__ProrateMultiplier__c\":1.0000,\"SBQQ__Quantity__c\":1.00,\"SBQQ__SpecialPrice__c\":120.00,\"SBQQ__Renewal__c\":false,\"SBQQ__ProratedPrice__c\":120.00,\"SBQQ__Uplift__c\":0.00,\"SBQQ__UpliftAmount__c\":0.00,\"SBQQ__ComponentUpliftedByPackage__c\":false,\"SBQQ__ProductName__c\":\"REST
+        Product2  2023-08-09 00:00:00 UTC\",\"SBQQ__Existing__c\":true,\"SBQQ__PriorQuantity__c\":1.00,\"SBQQ__CarryoverLine__c\":false,\"SBQQ__AllowAssetRefund__c\":false,\"SBQQ__RegularPrice__c\":120.00,\"SBQQ__UpgradedSubscription__c\":\"a1B7e00000EX7OxEAL\",\"SBQQ__ProductCode__c\":\"EfxBsBKAsjaF0caCUQPWQYJ8h61G\",\"SBQQ__Product__r\":{\"attributes\":{\"type\":\"Product2\",\"url\":\"/services/data/v58.0/sobjects/Product2/01t7e000009BU6NAAW\"},\"Id\":\"01t7e000009BU6NAAW\",\"SBQQ__HasConfigurationAttributes__c\":false,\"ProductCode\":\"EfxBsBKAsjaF0caCUQPWQYJ8h61G\",\"Name\":\"REST
+        Product2  2023-08-09 00:00:00 UTC\",\"SBQQ__SubscriptionTerm__c\":1,\"SBQQ__PricingMethod__c\":\"List\"},\"SBQQ__UpgradedSubscription__r\":{\"attributes\":{\"type\":\"SBQQ__Subscription__c\",\"url\":\"/services/data/v58.0/sobjects/SBQQ__Subscription__c/a1B7e00000EX7OxEAL\"},\"Id\":\"a1B7e00000EX7OxEAL\",\"SBQQ__QuoteLine__c\":\"a0v7e000008xasZAAQ\",\"SBQQ__OriginalQuoteLine__c\":\"a0v7e000008xasZAAQ\",\"SBQQ__Contract__c\":\"8007e000001iDzdAAE\"},\"SBQQ__Source__c\":null,\"SBQQ__RequiredBy__c\":null,\"SBQQ__ProductOption__c\":null,\"SBQQ__SegmentIndex__c\":null,\"SBQQ__SegmentLabel__c\":null,\"SBQQ__SegmentKey__c\":null,\"SBQQ__Dimension__c\":null,\"SBQQ__DynamicOptionId__c\":null,\"SBQQ__GenerateContractedPrice__c\":null,\"SBQQ__PricebookEntryId__c\":null,\"SBQQ__Favorite__c\":null,\"SBQQ__SubscriptionPercent__c\":null,\"SBQQ__SubscriptionCategory__c\":null,\"SBQQ__EndDate__c\":null,\"SBQQ__MinimumPrice__c\":null,\"SBQQ__MaximumPrice__c\":null,\"SBQQ__ChargeType__c\":null,\"SBQQ__BillingType__c\":null,\"SBQQ__TaxCode__c\":null,\"SBQQ__BillingFrequency__c\":null,\"SBQQ__Discount__c\":null,\"SBQQ__AdditionalDiscountAmount__c\":null,\"SBQQ__AdditionalQuantity__c\":null,\"SBQQ__BatchQuantity__c\":null,\"SBQQ__ComponentSubscriptionScope__c\":null,\"SBQQ__CompoundDiscountRate__c\":null,\"SBQQ__ContractedPrice__c\":null,\"SBQQ__Cost__c\":null,\"SBQQ__DiscountSchedule__c\":null,\"SBQQ__DistributorDiscount__c\":null,\"SBQQ__MarkupRate__c\":null,\"SBQQ__MarkupAmount__c\":null,\"SBQQ__OptionDiscount__c\":null,\"SBQQ__OptionDiscountAmount__c\":null,\"SBQQ__OptionType__c\":null,\"SBQQ__BundledQuantity__c\":null,\"SBQQ__PartnerDiscount__c\":null,\"SBQQ__RenewedAsset__c\":null,\"SBQQ__RenewedSubscription__c\":null,\"SBQQ__SpecialPriceType__c\":null,\"SBQQ__StartDate__c\":null,\"SBQQ__OriginalUnitCost__c\":null,\"SBQQ__SubscribedAssetIds__c\":null,\"SBQQ__SubscriptionTargetPrice__c\":null,\"SBQQ__TermDiscountSchedule__c\":null,\"SBQQ__UnitCost__c\":null,\"SBQQ__ComponentTotal__c\":null,\"SBQQ__ComponentCost__c\":null,\"SBQQ__ComponentListTotal__c\":null,\"SBQQ__DiscountScheduleType__c\":null,\"SBQQ__PackageProductCode__c\":null,\"SBQQ__DiscountTier__c\":null,\"SBQQ__VolumeDiscount__c\":null,\"SBQQ__BlockPrice__c\":null,\"SBQQ__TermDiscountTier__c\":null,\"SBQQ__TermDiscount__c\":null,\"SBQQ__PreviousSegmentPrice__c\":null,\"SBQQ__PreviousSegmentUplift__c\":null,\"SBQQ__GrossProfit__c\":null,\"SBQQ__PackageProductDescription__c\":null,\"SBQQ__OptionLevel__c\":null,\"SBQQ__UpgradedQuantity__c\":null,\"SBQQ__OriginalQuoteLineId__c\":null,\"SBQQ__UpgradedAsset__c\":null},\"reconfigurationDisabled\":false,\"productQuantityEditable\":true,\"productHasDimensions\":false,\"key\":2,\"hasConsumptionSchedules\":false,\"effectiveStartDate\":\"2023-08-09\",\"descriptionLocked\":false},{\"upliftable\":false,\"upgradeSourcesBySourceProductId\":{},\"ui_original_record\":{\"cloneRecordIfNoCache\":false,\"cacheName\":\"LineEditor\",\"cacheId\":\"a0z7e00000BDMSIAA5\",\"cachedOriginalRecordPath\":[\"quote\",\"lineItems\",\"1\",\"ui_original_record\"]},\"record\":{\"attributes\":{\"type\":\"SBQQ__QuoteLine__c\"},\"Id\":null,\"CurrencyIsoCode\":\"USD\",\"SBQQ__Quote__c\":\"a0z7e00000BDMSIAA5\",\"SBQQ__Description__c\":\"Demo
+        subscription to show bidirectional syncing\",\"SBQQ__Product__c\":\"01t7e000009C7BZAA0\",\"SBQQ__Number__c\":2,\"SBQQ__HasConsumptionSchedule__c\":false,\"SBQQ__Hidden__c\":false,\"SBQQ__Taxable__c\":false,\"SBQQ__SubscriptionPricing__c\":\"Fixed
+        Price\",\"SBQQ__DefaultSubscriptionTerm__c\":1,\"SBQQ__SubscriptionBase__c\":\"List\",\"SBQQ__SubscriptionScope__c\":\"Quote\",\"SBQQ__ProductSubscriptionType__c\":\"Renewable\",\"SBQQ__SubscriptionType__c\":\"Renewable\",\"SBQQ__BillingFrequency__c\":\"Monthly\",\"Name\":\"QL-0003506\",\"SBQQ__AdditionalDiscount__c\":0.00,\"SBQQ__Bundled__c\":false,\"SBQQ__ComponentDiscountedByPackage__c\":false,\"SBQQ__CostEditable__c\":false,\"SBQQ__CustomerPrice__c\":120.00,\"SBQQ__ListPrice__c\":120.00,\"SBQQ__OriginalPrice__c\":120.00,\"SBQQ__NetPrice__c\":120.00,\"SBQQ__NetTotal__c\":120.00,\"SBQQ__NonDiscountable__c\":false,\"SBQQ__NonPartnerDiscountable__c\":false,\"SBQQ__Optional__c\":false,\"SBQQ__Bundle__c\":false,\"SBQQ__PartnerPrice__c\":120.00,\"SBQQ__PriceEditable__c\":false,\"SBQQ__ProratedListPrice__c\":120.00,\"SBQQ__PricingMethod__c\":\"List\",\"SBQQ__PricingMethodEditable__c\":false,\"SBQQ__ProrateMultiplier__c\":1.0000,\"SBQQ__Quantity__c\":1.00,\"SBQQ__SpecialPrice__c\":120.00,\"SBQQ__Renewal__c\":false,\"SBQQ__ProratedPrice__c\":120.00,\"SBQQ__Uplift__c\":0.00,\"SBQQ__UpliftAmount__c\":0.00,\"SBQQ__ComponentUpliftedByPackage__c\":false,\"SBQQ__ProductName__c\":\"SaaS
+        Subscription\",\"SBQQ__Existing__c\":false,\"SBQQ__CarryoverLine__c\":false,\"SBQQ__AllowAssetRefund__c\":false,\"SBQQ__RegularPrice__c\":120.00,\"SBQQ__ProductCode__c\":\"EfxBsBKAsjaF0caCUQPWQYJ8h61G\",\"SBQQ__Product__r\":{\"attributes\":{\"type\":\"Product2\",\"url\":\"/services/data/v58.0/sobjects/Product2/01t7e000009C7BZAA0\"},\"Id\":\"01t7e000009C7BZAA0\",\"SBQQ__HasConfigurationAttributes__c\":false,\"ProductCode\":\"EfxBsBKAsjaF0caCUQPWQYJ8h61G\",\"Name\":\"SaaS
+        Subscription\",\"SBQQ__SubscriptionTerm__c\":1,\"SBQQ__PricingMethod__c\":\"List\"},\"SBQQ__Source__c\":null,\"SBQQ__RequiredBy__c\":null,\"SBQQ__ProductOption__c\":null,\"SBQQ__SegmentIndex__c\":null,\"SBQQ__SegmentLabel__c\":null,\"SBQQ__SegmentKey__c\":null,\"SBQQ__Dimension__c\":null,\"SBQQ__DynamicOptionId__c\":null,\"SBQQ__GenerateContractedPrice__c\":null,\"SBQQ__PricebookEntryId__c\":null,\"SBQQ__Favorite__c\":null,\"SBQQ__SubscriptionPercent__c\":null,\"SBQQ__SubscriptionCategory__c\":null,\"SBQQ__SubscriptionTerm__c\":null,\"SBQQ__EndDate__c\":null,\"SBQQ__MinimumPrice__c\":null,\"SBQQ__MaximumPrice__c\":null,\"SBQQ__ChargeType__c\":null,\"SBQQ__BillingType__c\":null,\"SBQQ__TaxCode__c\":null,\"SBQQ__Discount__c\":null,\"SBQQ__AdditionalDiscountAmount__c\":null,\"SBQQ__AdditionalQuantity__c\":null,\"SBQQ__BatchQuantity__c\":null,\"SBQQ__ComponentSubscriptionScope__c\":null,\"SBQQ__CompoundDiscountRate__c\":null,\"SBQQ__ContractedPrice__c\":null,\"SBQQ__Cost__c\":null,\"SBQQ__DiscountSchedule__c\":null,\"SBQQ__DistributorDiscount__c\":null,\"SBQQ__MarkupRate__c\":null,\"SBQQ__MarkupAmount__c\":null,\"SBQQ__OptionDiscount__c\":null,\"SBQQ__OptionDiscountAmount__c\":null,\"SBQQ__OptionType__c\":null,\"SBQQ__BundledQuantity__c\":null,\"SBQQ__PartnerDiscount__c\":null,\"SBQQ__RenewedAsset__c\":null,\"SBQQ__RenewedSubscription__c\":null,\"SBQQ__SpecialPriceType__c\":null,\"SBQQ__StartDate__c\":null,\"SBQQ__OriginalUnitCost__c\":null,\"SBQQ__SubscribedAssetIds__c\":null,\"SBQQ__SubscriptionTargetPrice__c\":null,\"SBQQ__TermDiscountSchedule__c\":null,\"SBQQ__UnitCost__c\":null,\"SBQQ__ComponentTotal__c\":null,\"SBQQ__ComponentCost__c\":null,\"SBQQ__ComponentListTotal__c\":null,\"SBQQ__DiscountScheduleType__c\":null,\"SBQQ__PackageProductCode__c\":null,\"SBQQ__DiscountTier__c\":null,\"SBQQ__VolumeDiscount__c\":null,\"SBQQ__BlockPrice__c\":null,\"SBQQ__TermDiscountTier__c\":null,\"SBQQ__TermDiscount__c\":null,\"SBQQ__PriorQuantity__c\":null,\"SBQQ__PreviousSegmentPrice__c\":null,\"SBQQ__PreviousSegmentUplift__c\":null,\"SBQQ__GrossProfit__c\":null,\"SBQQ__PackageProductDescription__c\":null,\"SBQQ__OptionLevel__c\":null,\"SBQQ__UpgradedQuantity__c\":null,\"SBQQ__OriginalQuoteLineId__c\":null,\"SBQQ__UpgradedAsset__c\":null,\"SBQQ__UpgradedSubscription__c\":null},\"reconfigurationDisabled\":false,\"productQuantityEditable\":true,\"productHasDimensions\":false,\"key\":3,\"hasConsumptionSchedules\":false,\"effectiveStartDate\":\"2023-08-09\",\"descriptionLocked\":false}],\"lineItemGroups\":[],\"isPartial\":false,\"hasMultiSegmentLines\":false,\"customerTotal\":120.00,\"currencyDecimalScale\":2,\"channelDiscountsOffList\":false,\"calculationRequired\":false,\"applyPartnerDiscountFirst\":false,\"applyAdditionalDiscountLast\":false}"'
+  recorded_at: Wed, 09 Aug 2023 00:00:00 GMT
+- request:
+    method: post
+    uri: https://ability-innovation-7335-dev-ed.scratch.my.salesforce.com/services/apexrest/SBQQ/ServiceRouter
+    body:
+      encoding: UTF-8
+      string: '{"saver":"SBQQ.QuoteAPI.QuoteSaver","model":"{\"ui_original_record\":{\"cloneRecordIfNoCache\":true,\"cacheName\":\"LineEditor\",\"cacheId\":\"a0z7e00000BDMSIAA5\",\"cachedOriginalRecordPath\":[\"quote\",\"ui_original_record\"]},\"record\":{\"attributes\":{\"type\":\"SBQQ__Quote__c\",\"url\":\"/services/data/v58.0/sobjects/SBQQ__Quote__c/a0z7e00000BDMSIAA5\"},\"Id\":\"a0z7e00000BDMSIAA5\",\"CurrencyIsoCode\":\"USD\",\"Name\":\"Q-01484\",\"SBQQ__Type__c\":\"Amendment\",\"SBQQ__Account__c\":\"0017e00001j13JVAAY\",\"SBQQ__ExpirationDate__c\":\"2023-09-08\",\"SBQQ__StartDate__c\":\"2023-08-09\",\"SBQQ__MasterEvergreenContract__c\":\"8007e000001iDzdAAE\",\"SBQQ__NetAmount__c\":1560.0,\"SBQQ__CustomerAmount__c\":1560.0,\"SBQQ__ContractingMethod__c\":\"By
+        Subscription End Date\",\"SBQQ__Unopened__c\":false,\"SBQQ__LineItemCount__c\":3,\"SBQQ__PaymentTerms__c\":\"Net
+        30\",\"SBQQ__WatermarkShown__c\":false,\"SBQQ__Status__c\":\"Draft\",\"SBQQ__Primary__c\":true,\"SBQQ__LineItemsGrouped__c\":false,\"SBQQ__Opportunity2__c\":\"0067e00000OEZTuAAP\",\"SBQQ__Account__r\":{\"attributes\":{\"type\":\"Account\",\"url\":\"/services/data/v58.0/sobjects/Account/0017e00001j13JVAAY\"},\"Id\":\"0017e00001j13JVAAY\",\"Name\":\"REST
+        Account  2023-08-09 00:00:00 UTC\",\"SBQQ__RenewalModel__c\":\"Contract Based\",\"SBQQ__RenewalPricingMethod__c\":\"Same\"},\"SBQQ__MasterEvergreenContract__r\":{\"attributes\":{\"type\":\"Contract\",\"url\":\"/services/data/v58.0/sobjects/Contract/8007e000001iDzdAAE\"},\"Id\":\"8007e000001iDzdAAE\",\"ContractNumber\":\"00000401\"},\"SBQQ__Opportunity2__r\":{\"attributes\":{\"type\":\"Opportunity\",\"url\":\"/services/data/v58.0/sobjects/Opportunity/0067e00000OEZTuAAP\"},\"Id\":\"0067e00000OEZTuAAP\",\"SBQQ__PrimaryQuote__c\":\"a0z7e00000BDMSIAA5\",\"AccountId\":\"0017e00001j13JVAAY\"},\"SBQQ__CustomerDiscount__c\":null,\"SBQQ__MarkupRate__c\":null,\"SBQQ__PartnerDiscount__c\":null,\"SBQQ__SubscriptionTerm__c\":null,\"SBQQ__EndDate__c\":null,\"SBQQ__MasterContract__c\":null,\"SBQQ__QuoteProcessId__c\":null,\"SBQQ__DistributorDiscount__c\":null,\"SBQQ__PricebookId__c\":null,\"SBQQ__FirstSegmentTermEndDate__c\":null,\"SBQQ__GenerateContractedPrice__c\":null,\"SBQQ__BillingFrequency__c\":null,\"SBQQ__RenewalTerm__c\":null,\"SBQQ__RenewalUpliftRate__c\":null,\"SBQQ__OrderGroupID__c\":null,\"SBQQ__TargetCustomerAmount__c\":null,\"SBQQ__OrderBy__c\":null,\"SBQQ__ProrationDayOfMonth__c\":null},\"nextKey\":3,\"netTotal\":120.0,\"netNonSegmentTotal\":120.0,\"lineItems\":[{\"upliftable\":false,\"upgradeSourcesBySourceProductId\":{},\"ui_original_record\":{\"cloneRecordIfNoCache\":false,\"cacheName\":\"LineEditor\",\"cacheId\":\"a0z7e00000BDMSIAA5\",\"cachedOriginalRecordPath\":[\"quote\",\"lineItems\",\"0\",\"ui_original_record\"]},\"subscriptionTerm\":1,\"record\":{\"attributes\":{\"type\":\"SBQQ__QuoteLine__c\",\"url\":\"/services/data/v58.0/sobjects/SBQQ__QuoteLine__c/a0v7e000008xasfAAA\"},\"Id\":\"a0v7e000008xasfAAA\",\"CurrencyIsoCode\":\"USD\",\"SBQQ__Quote__c\":\"a0z7e00000BDMSIAA5\",\"SBQQ__Description__c\":\"A
+        great description\",\"SBQQ__Product__c\":\"01t7e000009BU6NAAW\",\"SBQQ__Number__c\":1,\"SBQQ__HasConsumptionSchedule__c\":false,\"SBQQ__Hidden__c\":false,\"SBQQ__Taxable__c\":false,\"SBQQ__SubscriptionPricing__c\":\"Fixed
+        Price\",\"SBQQ__DefaultSubscriptionTerm__c\":1,\"SBQQ__SubscriptionBase__c\":\"List\",\"SBQQ__SubscriptionScope__c\":\"Quote\",\"SBQQ__ProductSubscriptionType__c\":\"Evergreen\",\"SBQQ__SubscriptionType__c\":\"Evergreen\",\"SBQQ__SubscriptionTerm__c\":1,\"Name\":\"QL-0003390\",\"SBQQ__AdditionalDiscount__c\":0.0,\"SBQQ__Bundled__c\":false,\"SBQQ__ComponentDiscountedByPackage__c\":false,\"SBQQ__CostEditable__c\":false,\"SBQQ__CustomerPrice__c\":120.0,\"SBQQ__EffectiveSubscriptionTerm__c\":1,\"SBQQ__ListPrice__c\":120.0,\"SBQQ__OriginalPrice__c\":120.0,\"SBQQ__NetPrice__c\":120.0,\"SBQQ__NetTotal__c\":0.0,\"SBQQ__NonDiscountable__c\":false,\"SBQQ__NonPartnerDiscountable__c\":false,\"SBQQ__Optional__c\":false,\"SBQQ__Bundle__c\":false,\"SBQQ__PartnerPrice__c\":120.0,\"SBQQ__PriceEditable__c\":false,\"SBQQ__ProratedListPrice__c\":120.0,\"SBQQ__PricingMethod__c\":\"List\",\"SBQQ__PricingMethodEditable__c\":false,\"SBQQ__ProrateMultiplier__c\":1.0,\"SBQQ__Quantity__c\":1.0,\"SBQQ__SpecialPrice__c\":120.0,\"SBQQ__Renewal__c\":false,\"SBQQ__ProratedPrice__c\":120.0,\"SBQQ__Uplift__c\":0.0,\"SBQQ__UpliftAmount__c\":0.0,\"SBQQ__ComponentUpliftedByPackage__c\":false,\"SBQQ__ProductName__c\":\"REST
+        Product2  2023-08-09 00:00:00 UTC\",\"SBQQ__Existing__c\":true,\"SBQQ__PriorQuantity__c\":1.0,\"SBQQ__CarryoverLine__c\":false,\"SBQQ__AllowAssetRefund__c\":false,\"SBQQ__RegularPrice__c\":120.0,\"SBQQ__UpgradedSubscription__c\":\"a1B7e00000EX7OxEAL\",\"SBQQ__ProductCode__c\":\"EfxBsBKAsjaF0caCUQPWQYJ8h61G\",\"SBQQ__Product__r\":{\"attributes\":{\"type\":\"Product2\",\"url\":\"/services/data/v58.0/sobjects/Product2/01t7e000009BU6NAAW\"},\"Id\":\"01t7e000009BU6NAAW\",\"SBQQ__HasConfigurationAttributes__c\":false,\"ProductCode\":\"EfxBsBKAsjaF0caCUQPWQYJ8h61G\",\"Name\":\"REST
+        Product2  2023-08-09 00:00:00 UTC\",\"SBQQ__SubscriptionTerm__c\":1,\"SBQQ__PricingMethod__c\":\"List\"},\"SBQQ__UpgradedSubscription__r\":{\"attributes\":{\"type\":\"SBQQ__Subscription__c\",\"url\":\"/services/data/v58.0/sobjects/SBQQ__Subscription__c/a1B7e00000EX7OxEAL\"},\"Id\":\"a1B7e00000EX7OxEAL\",\"SBQQ__QuoteLine__c\":\"a0v7e000008xasZAAQ\",\"SBQQ__OriginalQuoteLine__c\":\"a0v7e000008xasZAAQ\",\"SBQQ__Contract__c\":\"8007e000001iDzdAAE\"},\"SBQQ__Source__c\":null,\"SBQQ__RequiredBy__c\":null,\"SBQQ__ProductOption__c\":null,\"SBQQ__SegmentIndex__c\":null,\"SBQQ__SegmentLabel__c\":null,\"SBQQ__SegmentKey__c\":null,\"SBQQ__Dimension__c\":null,\"SBQQ__DynamicOptionId__c\":null,\"SBQQ__GenerateContractedPrice__c\":null,\"SBQQ__PricebookEntryId__c\":null,\"SBQQ__Favorite__c\":null,\"SBQQ__SubscriptionPercent__c\":null,\"SBQQ__SubscriptionCategory__c\":null,\"SBQQ__EndDate__c\":null,\"SBQQ__MinimumPrice__c\":null,\"SBQQ__MaximumPrice__c\":null,\"SBQQ__ChargeType__c\":null,\"SBQQ__BillingType__c\":null,\"SBQQ__TaxCode__c\":null,\"SBQQ__BillingFrequency__c\":null,\"SBQQ__Discount__c\":null,\"SBQQ__AdditionalDiscountAmount__c\":null,\"SBQQ__AdditionalQuantity__c\":null,\"SBQQ__BatchQuantity__c\":null,\"SBQQ__ComponentSubscriptionScope__c\":null,\"SBQQ__CompoundDiscountRate__c\":null,\"SBQQ__ContractedPrice__c\":null,\"SBQQ__Cost__c\":null,\"SBQQ__DiscountSchedule__c\":null,\"SBQQ__DistributorDiscount__c\":null,\"SBQQ__MarkupRate__c\":null,\"SBQQ__MarkupAmount__c\":null,\"SBQQ__OptionDiscount__c\":null,\"SBQQ__OptionDiscountAmount__c\":null,\"SBQQ__OptionType__c\":null,\"SBQQ__BundledQuantity__c\":null,\"SBQQ__PartnerDiscount__c\":null,\"SBQQ__RenewedAsset__c\":null,\"SBQQ__RenewedSubscription__c\":null,\"SBQQ__SpecialPriceType__c\":null,\"SBQQ__StartDate__c\":null,\"SBQQ__OriginalUnitCost__c\":null,\"SBQQ__SubscribedAssetIds__c\":null,\"SBQQ__SubscriptionTargetPrice__c\":null,\"SBQQ__TermDiscountSchedule__c\":null,\"SBQQ__UnitCost__c\":null,\"SBQQ__ComponentTotal__c\":null,\"SBQQ__ComponentCost__c\":null,\"SBQQ__ComponentListTotal__c\":null,\"SBQQ__DiscountScheduleType__c\":null,\"SBQQ__PackageProductCode__c\":null,\"SBQQ__DiscountTier__c\":null,\"SBQQ__VolumeDiscount__c\":null,\"SBQQ__BlockPrice__c\":null,\"SBQQ__TermDiscountTier__c\":null,\"SBQQ__TermDiscount__c\":null,\"SBQQ__PreviousSegmentPrice__c\":null,\"SBQQ__PreviousSegmentUplift__c\":null,\"SBQQ__GrossProfit__c\":null,\"SBQQ__PackageProductDescription__c\":null,\"SBQQ__OptionLevel__c\":null,\"SBQQ__UpgradedQuantity__c\":null,\"SBQQ__OriginalQuoteLineId__c\":null,\"SBQQ__UpgradedAsset__c\":null},\"reconfigurationDisabled\":false,\"productQuantityEditable\":true,\"productHasDimensions\":false,\"key\":2,\"hasConsumptionSchedules\":false,\"effectiveStartDate\":\"2023-08-09\",\"descriptionLocked\":false},{\"upliftable\":false,\"upgradeSourcesBySourceProductId\":{},\"ui_original_record\":{\"cloneRecordIfNoCache\":false,\"cacheName\":\"LineEditor\",\"cacheId\":\"a0z7e00000BDMSIAA5\",\"cachedOriginalRecordPath\":[\"quote\",\"lineItems\",\"1\",\"ui_original_record\"]},\"record\":{\"attributes\":{\"type\":\"SBQQ__QuoteLine__c\"},\"Id\":null,\"CurrencyIsoCode\":\"USD\",\"SBQQ__Quote__c\":\"a0z7e00000BDMSIAA5\",\"SBQQ__Description__c\":\"Demo
+        subscription to show bidirectional syncing\",\"SBQQ__Product__c\":\"01t7e000009C7BZAA0\",\"SBQQ__Number__c\":2,\"SBQQ__HasConsumptionSchedule__c\":false,\"SBQQ__Hidden__c\":false,\"SBQQ__Taxable__c\":false,\"SBQQ__SubscriptionPricing__c\":\"Fixed
+        Price\",\"SBQQ__DefaultSubscriptionTerm__c\":1,\"SBQQ__SubscriptionBase__c\":\"List\",\"SBQQ__SubscriptionScope__c\":\"Quote\",\"SBQQ__ProductSubscriptionType__c\":\"Renewable\",\"SBQQ__SubscriptionType__c\":\"Renewable\",\"SBQQ__BillingFrequency__c\":\"Monthly\",\"Name\":\"QL-0003506\",\"SBQQ__AdditionalDiscount__c\":0.0,\"SBQQ__Bundled__c\":false,\"SBQQ__ComponentDiscountedByPackage__c\":false,\"SBQQ__CostEditable__c\":false,\"SBQQ__CustomerPrice__c\":120.0,\"SBQQ__ListPrice__c\":120.0,\"SBQQ__OriginalPrice__c\":120.0,\"SBQQ__NetPrice__c\":120.0,\"SBQQ__NetTotal__c\":120.0,\"SBQQ__NonDiscountable__c\":false,\"SBQQ__NonPartnerDiscountable__c\":false,\"SBQQ__Optional__c\":false,\"SBQQ__Bundle__c\":false,\"SBQQ__PartnerPrice__c\":120.0,\"SBQQ__PriceEditable__c\":false,\"SBQQ__ProratedListPrice__c\":120.0,\"SBQQ__PricingMethod__c\":\"List\",\"SBQQ__PricingMethodEditable__c\":false,\"SBQQ__ProrateMultiplier__c\":1.0,\"SBQQ__Quantity__c\":1.0,\"SBQQ__SpecialPrice__c\":120.0,\"SBQQ__Renewal__c\":false,\"SBQQ__ProratedPrice__c\":120.0,\"SBQQ__Uplift__c\":0.0,\"SBQQ__UpliftAmount__c\":0.0,\"SBQQ__ComponentUpliftedByPackage__c\":false,\"SBQQ__ProductName__c\":\"SaaS
+        Subscription\",\"SBQQ__Existing__c\":false,\"SBQQ__CarryoverLine__c\":false,\"SBQQ__AllowAssetRefund__c\":false,\"SBQQ__RegularPrice__c\":120.0,\"SBQQ__ProductCode__c\":\"EfxBsBKAsjaF0caCUQPWQYJ8h61G\",\"SBQQ__Product__r\":{\"attributes\":{\"type\":\"Product2\",\"url\":\"/services/data/v58.0/sobjects/Product2/01t7e000009C7BZAA0\"},\"Id\":\"01t7e000009C7BZAA0\",\"SBQQ__HasConfigurationAttributes__c\":false,\"ProductCode\":\"EfxBsBKAsjaF0caCUQPWQYJ8h61G\",\"Name\":\"SaaS
+        Subscription\",\"SBQQ__SubscriptionTerm__c\":1,\"SBQQ__PricingMethod__c\":\"List\"},\"SBQQ__Source__c\":null,\"SBQQ__RequiredBy__c\":null,\"SBQQ__ProductOption__c\":null,\"SBQQ__SegmentIndex__c\":null,\"SBQQ__SegmentLabel__c\":null,\"SBQQ__SegmentKey__c\":null,\"SBQQ__Dimension__c\":null,\"SBQQ__DynamicOptionId__c\":null,\"SBQQ__GenerateContractedPrice__c\":null,\"SBQQ__PricebookEntryId__c\":null,\"SBQQ__Favorite__c\":null,\"SBQQ__SubscriptionPercent__c\":null,\"SBQQ__SubscriptionCategory__c\":null,\"SBQQ__SubscriptionTerm__c\":null,\"SBQQ__EndDate__c\":null,\"SBQQ__MinimumPrice__c\":null,\"SBQQ__MaximumPrice__c\":null,\"SBQQ__ChargeType__c\":null,\"SBQQ__BillingType__c\":null,\"SBQQ__TaxCode__c\":null,\"SBQQ__Discount__c\":null,\"SBQQ__AdditionalDiscountAmount__c\":null,\"SBQQ__AdditionalQuantity__c\":null,\"SBQQ__BatchQuantity__c\":null,\"SBQQ__ComponentSubscriptionScope__c\":null,\"SBQQ__CompoundDiscountRate__c\":null,\"SBQQ__ContractedPrice__c\":null,\"SBQQ__Cost__c\":null,\"SBQQ__DiscountSchedule__c\":null,\"SBQQ__DistributorDiscount__c\":null,\"SBQQ__MarkupRate__c\":null,\"SBQQ__MarkupAmount__c\":null,\"SBQQ__OptionDiscount__c\":null,\"SBQQ__OptionDiscountAmount__c\":null,\"SBQQ__OptionType__c\":null,\"SBQQ__BundledQuantity__c\":null,\"SBQQ__PartnerDiscount__c\":null,\"SBQQ__RenewedAsset__c\":null,\"SBQQ__RenewedSubscription__c\":null,\"SBQQ__SpecialPriceType__c\":null,\"SBQQ__StartDate__c\":null,\"SBQQ__OriginalUnitCost__c\":null,\"SBQQ__SubscribedAssetIds__c\":null,\"SBQQ__SubscriptionTargetPrice__c\":null,\"SBQQ__TermDiscountSchedule__c\":null,\"SBQQ__UnitCost__c\":null,\"SBQQ__ComponentTotal__c\":null,\"SBQQ__ComponentCost__c\":null,\"SBQQ__ComponentListTotal__c\":null,\"SBQQ__DiscountScheduleType__c\":null,\"SBQQ__PackageProductCode__c\":null,\"SBQQ__DiscountTier__c\":null,\"SBQQ__VolumeDiscount__c\":null,\"SBQQ__BlockPrice__c\":null,\"SBQQ__TermDiscountTier__c\":null,\"SBQQ__TermDiscount__c\":null,\"SBQQ__PriorQuantity__c\":null,\"SBQQ__PreviousSegmentPrice__c\":null,\"SBQQ__PreviousSegmentUplift__c\":null,\"SBQQ__GrossProfit__c\":null,\"SBQQ__PackageProductDescription__c\":null,\"SBQQ__OptionLevel__c\":null,\"SBQQ__UpgradedQuantity__c\":null,\"SBQQ__OriginalQuoteLineId__c\":null,\"SBQQ__UpgradedAsset__c\":null,\"SBQQ__UpgradedSubscription__c\":null},\"reconfigurationDisabled\":false,\"productQuantityEditable\":true,\"productHasDimensions\":false,\"key\":3,\"hasConsumptionSchedules\":false,\"effectiveStartDate\":\"2023-08-09\",\"descriptionLocked\":false}],\"lineItemGroups\":[],\"isPartial\":false,\"hasMultiSegmentLines\":false,\"customerTotal\":120.0,\"currencyDecimalScale\":2,\"channelDiscountsOffList\":false,\"calculationRequired\":false,\"applyPartnerDiscountFirst\":false,\"applyAdditionalDiscountLast\":false}"}'
+    headers:
+      User-Agent:
+      - Faraday v2.4.0
+      Content-Type:
+      - application/json
+      Authorization:
+      - OAuth <SALESFORCE_ACCESS_TOKEN>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Fri, 18 Aug 2023 22:37:41 GMT
+      Set-Cookie:
+      - BrowserId=11M7cj4XEe6xL3sftu7XXg; domain=.salesforce.com; path=/; expires=Sat,
+        17-Aug-2024 22:37:41 GMT; Max-Age=31536000
+      - CookieConsentPolicy=0:1; path=/; expires=Sat, 17-Aug-2024 22:37:41 GMT; Max-Age=31536000
+      - LSKey-c$CookieConsentPolicy=0:1; path=/; expires=Sat, 17-Aug-2024 22:37:41
+        GMT; Max-Age=31536000
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Robots-Tag:
+      - none
+      Cache-Control:
+      - no-cache,must-revalidate,max-age=0,no-store,private
+      Content-Type:
+      - application/json;charset=UTF-8
+      Vary:
+      - Accept-Encoding
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: ASCII-8BIT
+      string: '"{\"ui_original_record\":{\"cloneRecordIfNoCache\":true,\"cacheName\":\"LineEditor\",\"cacheId\":\"a0z7e00000BDMSIAA5\",\"cachedOriginalRecordPath\":[\"quote\",\"ui_original_record\"]},\"record\":{\"attributes\":{\"type\":\"SBQQ__Quote__c\",\"url\":\"/services/data/v58.0/sobjects/SBQQ__Quote__c/a0z7e00000BDMSIAA5\"},\"SBQQ__PartnerDiscount__c\":null,\"SBQQ__GenerateContractedPrice__c\":null,\"SBQQ__QuoteProcessId__c\":null,\"SBQQ__NetAmount__c\":1560.0,\"SBQQ__CustomerDiscount__c\":null,\"SBQQ__TargetCustomerAmount__c\":null,\"SBQQ__CustomerAmount__c\":1560.0,\"SBQQ__PaymentTerms__c\":\"Net
+        30\",\"SBQQ__Opportunity2__r\":{\"attributes\":{\"type\":\"Opportunity\",\"url\":\"/services/data/v58.0/sobjects/Opportunity/0067e00000OEZTuAAP\"},\"SBQQ__PrimaryQuote__c\":\"a0z7e00000BDMSIAA5\",\"AccountId\":\"0017e00001j13JVAAY\",\"Id\":\"0067e00000OEZTuAAP\"},\"SBQQ__Account__r\":{\"attributes\":{\"type\":\"Account\",\"url\":\"/services/data/v58.0/sobjects/Account/0017e00001j13JVAAY\"},\"SBQQ__RenewalPricingMethod__c\":\"Same\",\"Id\":\"0017e00001j13JVAAY\",\"SBQQ__RenewalModel__c\":\"Contract
+        Based\",\"Name\":\"REST Account  2023-08-09 00:00:00 UTC\"},\"SBQQ__ContractingMethod__c\":\"By
+        Subscription End Date\",\"SBQQ__RenewalUpliftRate__c\":null,\"Name\":\"Q-01484\",\"SBQQ__Type__c\":\"Amendment\",\"SBQQ__SubscriptionTerm__c\":null,\"SBQQ__MarkupRate__c\":null,\"SBQQ__OrderGroupID__c\":null,\"SBQQ__DistributorDiscount__c\":null,\"SBQQ__OrderBy__c\":null,\"SBQQ__EndDate__c\":null,\"SBQQ__PricebookId__c\":null,\"SBQQ__MasterEvergreenContract__r\":{\"attributes\":{\"type\":\"Contract\",\"url\":\"/services/data/v58.0/sobjects/Contract/8007e000001iDzdAAE\"},\"ContractNumber\":\"00000401\",\"Id\":\"8007e000001iDzdAAE\"},\"SBQQ__Account__c\":\"0017e00001j13JVAAY\",\"SBQQ__WatermarkShown__c\":false,\"SBQQ__StartDate__c\":\"2023-08-09\",\"SBQQ__FirstSegmentTermEndDate__c\":null,\"SBQQ__BillingFrequency__c\":null,\"SBQQ__Status__c\":\"Draft\",\"SBQQ__LineItemsGrouped__c\":false,\"CurrencyIsoCode\":\"USD\",\"SBQQ__ExpirationDate__c\":\"2023-09-08\",\"SBQQ__MasterEvergreenContract__c\":\"8007e000001iDzdAAE\",\"SBQQ__Primary__c\":true,\"SBQQ__ProrationDayOfMonth__c\":null,\"SBQQ__Opportunity2__c\":\"0067e00000OEZTuAAP\",\"SBQQ__LineItemCount__c\":3.0,\"SBQQ__MasterContract__c\":null,\"Id\":\"a0z7e00000BDMSIAA5\",\"SBQQ__Unopened__c\":false,\"SBQQ__RenewalTerm__c\":null},\"nextKey\":3,\"netTotal\":120.0,\"netNonSegmentTotal\":120.0,\"lineItems\":[{\"upliftable\":false,\"upgradeSourcesBySourceProductId\":{},\"ui_original_record\":{\"cloneRecordIfNoCache\":false,\"cacheName\":\"LineEditor\",\"cacheId\":\"a0z7e00000BDMSIAA5\",\"cachedOriginalRecordPath\":[\"quote\",\"lineItems\",\"0\",\"ui_original_record\"]},\"subscriptionTerm\":1,\"record\":{\"attributes\":{\"type\":\"SBQQ__QuoteLine__c\",\"url\":\"/services/data/v58.0/sobjects/SBQQ__QuoteLine__c/a0v7e000008xasfAAA\"},\"SBQQ__CarryoverLine__c\":false,\"SBQQ__TermDiscountTier__c\":null,\"SBQQ__VolumeDiscount__c\":null,\"SBQQ__BillingType__c\":null,\"SBQQ__Discount__c\":null,\"SBQQ__ListPrice__c\":120.0,\"SBQQ__Existing__c\":true,\"SBQQ__ProductName__c\":\"REST
+        Product2  2023-08-09 00:00:00 UTC\",\"SBQQ__SegmentIndex__c\":null,\"SBQQ__DiscountTier__c\":null,\"SBQQ__ComponentTotal__c\":null,\"SBQQ__RenewedSubscription__c\":null,\"SBQQ__SubscriptionTargetPrice__c\":null,\"SBQQ__AllowAssetRefund__c\":false,\"SBQQ__HasConsumptionSchedule__c\":false,\"SBQQ__Optional__c\":false,\"SBQQ__SubscriptionType__c\":\"Evergreen\",\"SBQQ__PriorQuantity__c\":1.0,\"SBQQ__Source__c\":null,\"SBQQ__Quote__c\":\"a0z7e00000BDMSIAA5\",\"SBQQ__ProratedListPrice__c\":120.0,\"SBQQ__ChargeType__c\":null,\"SBQQ__UpliftAmount__c\":0.0,\"SBQQ__ComponentSubscriptionScope__c\":null,\"SBQQ__OptionLevel__c\":null,\"SBQQ__NetPrice__c\":120.0,\"Id\":\"a0v7e000008xasfAAA\",\"SBQQ__EffectiveSubscriptionTerm__c\":1.0,\"SBQQ__OriginalQuoteLineId__c\":null,\"SBQQ__RegularPrice__c\":120.0,\"SBQQ__Quantity__c\":1.0,\"SBQQ__TaxCode__c\":null,\"SBQQ__ContractedPrice__c\":null,\"SBQQ__CostEditable__c\":false,\"SBQQ__Dimension__c\":null,\"SBQQ__UpgradedSubscription__r\":{\"attributes\":{\"type\":\"SBQQ__Subscription__c\",\"url\":\"/services/data/v58.0/sobjects/SBQQ__Subscription__c/a1B7e00000EX7OxEAL\"},\"SBQQ__OriginalQuoteLine__c\":\"a0v7e000008xasZAAQ\",\"SBQQ__Contract__c\":\"8007e000001iDzdAAE\",\"SBQQ__QuoteLine__c\":\"a0v7e000008xasZAAQ\",\"Id\":\"a1B7e00000EX7OxEAL\"},\"SBQQ__DynamicOptionId__c\":null,\"SBQQ__PreviousSegmentUplift__c\":null,\"SBQQ__RequiredBy__r\":null,\"SBQQ__EndDate__c\":null,\"SBQQ__PreviousSegmentPrice__c\":null,\"SBQQ__UpgradedSubscription__c\":\"a1B7e00000EX7OxEAL\",\"SBQQ__SpecialPriceType__c\":null,\"SBQQ__SegmentKey__c\":null,\"SBQQ__OptionDiscount__c\":null,\"SBQQ__RequiredBy__c\":null,\"SBQQ__UpgradedAsset__c\":null,\"SBQQ__Bundled__c\":false,\"SBQQ__OptionType__c\":null,\"SBQQ__Number__c\":1.0,\"SBQQ__SubscriptionPercent__c\":null,\"SBQQ__ComponentListTotal__c\":null,\"SBQQ__TermDiscountSchedule__c\":null,\"SBQQ__Taxable__c\":false,\"SBQQ__Description__c\":\"A
+        great description\",\"SBQQ__ProductCode__c\":\"EfxBsBKAsjaF0caCUQPWQYJ8h61G\",\"SBQQ__OriginalPrice__c\":120.0,\"SBQQ__GenerateContractedPrice__c\":null,\"SBQQ__NetTotal__c\":0.0,\"SBQQ__UnitCost__c\":null,\"SBQQ__SubscriptionCategory__c\":null,\"SBQQ__Hidden__c\":false,\"SBQQ__NonDiscountable__c\":false,\"SBQQ__RenewedAsset__c\":null,\"SBQQ__ProductSubscriptionType__c\":\"Evergreen\",\"SBQQ__GrossProfit__c\":null,\"SBQQ__MinimumPrice__c\":null,\"SBQQ__BundledQuantity__c\":null,\"SBQQ__BatchQuantity__c\":null,\"SBQQ__ProrateMultiplier__c\":1.0,\"Name\":\"QL-0003390\",\"SBQQ__CustomerPrice__c\":120.0,\"SBQQ__SubscriptionTerm__c\":1.0,\"SBQQ__MarkupRate__c\":null,\"SBQQ__DistributorDiscount__c\":null,\"SBQQ__DefaultSubscriptionTerm__c\":1.0,\"SBQQ__PriceEditable__c\":false,\"SBQQ__ProratedPrice__c\":120.0,\"SBQQ__ComponentUpliftedByPackage__c\":false,\"SBQQ__StartDate__c\":null,\"SBQQ__NonPartnerDiscountable__c\":false,\"SBQQ__BlockPrice__c\":null,\"CurrencyIsoCode\":\"USD\",\"SBQQ__MaximumPrice__c\":null,\"SBQQ__SubscriptionPricing__c\":\"Fixed
+        Price\",\"SBQQ__AdditionalDiscount__c\":0.0,\"SBQQ__Favorite__c\":null,\"SBQQ__PricebookEntryId__c\":null,\"SBQQ__ProductOption__c\":null,\"SBQQ__OptionDiscountAmount__c\":null,\"SBQQ__TermDiscount__c\":null,\"SBQQ__MarkupAmount__c\":null,\"SBQQ__PartnerDiscount__c\":null,\"SBQQ__ComponentDiscountedByPackage__c\":false,\"SBQQ__Renewal__c\":false,\"SBQQ__CompoundDiscountRate__c\":null,\"SBQQ__UpgradedQuantity__c\":null,\"SBQQ__AdditionalDiscountAmount__c\":null,\"SBQQ__Cost__c\":null,\"SBQQ__PackageProductDescription__c\":null,\"SBQQ__PartnerPrice__c\":120.0,\"SBQQ__DiscountSchedule__c\":null,\"SBQQ__ComponentCost__c\":null,\"SBQQ__SubscribedAssetIds__c\":null,\"SBQQ__SubscriptionScope__c\":\"Quote\",\"SBQQ__Product__r\":{\"attributes\":{\"type\":\"Product2\",\"url\":\"/services/data/v58.0/sobjects/Product2/01t7e000009BU6NAAW\"},\"SBQQ__SubscriptionTerm__c\":1.0,\"ProductCode\":\"EfxBsBKAsjaF0caCUQPWQYJ8h61G\",\"SBQQ__HasConfigurationAttributes__c\":false,\"SBQQ__PricingMethod__c\":\"List\",\"Id\":\"01t7e000009BU6NAAW\",\"Name\":\"REST
+        Product2  2023-08-09 00:00:00 UTC\"},\"SBQQ__SubscriptionBase__c\":\"List\",\"SBQQ__BillingFrequency__c\":null,\"SBQQ__OriginalUnitCost__c\":null,\"SBQQ__Bundle__c\":false,\"SBQQ__Product__c\":\"01t7e000009BU6NAAW\",\"SBQQ__SpecialPrice__c\":120.0,\"SBQQ__PricingMethodEditable__c\":false,\"SBQQ__Uplift__c\":0.0,\"SBQQ__PackageProductCode__c\":null,\"SBQQ__PricingMethod__c\":\"List\",\"SBQQ__SegmentLabel__c\":null,\"SBQQ__AdditionalQuantity__c\":null,\"SBQQ__DiscountScheduleType__c\":null,\"SBQQ__Incomplete__c\":false},\"reconfigurationDisabled\":false,\"productQuantityEditable\":true,\"productHasDimensions\":false,\"key\":2,\"hasConsumptionSchedules\":false,\"effectiveStartDate\":\"2023-08-09\",\"descriptionLocked\":false},{\"upliftable\":false,\"upgradeSourcesBySourceProductId\":{},\"ui_original_record\":{\"cloneRecordIfNoCache\":false,\"cacheName\":\"LineEditor\",\"cacheId\":\"a0z7e00000BDMSIAA5\",\"cachedOriginalRecordPath\":[\"quote\",\"lineItems\",\"1\",\"ui_original_record\"]},\"record\":{\"attributes\":{\"type\":\"SBQQ__QuoteLine__c\",\"url\":\"/services/data/v58.0/sobjects/SBQQ__QuoteLine__c/a0v7e000008xdpAAAQ\"},\"SBQQ__CarryoverLine__c\":false,\"SBQQ__TermDiscountTier__c\":null,\"SBQQ__VolumeDiscount__c\":null,\"SBQQ__BillingType__c\":null,\"SBQQ__Discount__c\":null,\"SBQQ__ListPrice__c\":120.0,\"SBQQ__Existing__c\":false,\"SBQQ__ProductName__c\":\"SaaS
+        Subscription\",\"SBQQ__SegmentIndex__c\":null,\"SBQQ__DiscountTier__c\":null,\"SBQQ__ComponentTotal__c\":null,\"SBQQ__RenewedSubscription__c\":null,\"SBQQ__SubscriptionTargetPrice__c\":null,\"SBQQ__AllowAssetRefund__c\":false,\"SBQQ__HasConsumptionSchedule__c\":false,\"SBQQ__Optional__c\":false,\"SBQQ__SubscriptionType__c\":\"Renewable\",\"SBQQ__PriorQuantity__c\":null,\"SBQQ__Source__c\":null,\"SBQQ__Quote__c\":\"a0z7e00000BDMSIAA5\",\"SBQQ__ProratedListPrice__c\":120.0,\"SBQQ__ChargeType__c\":null,\"SBQQ__UpliftAmount__c\":0.0,\"SBQQ__ComponentSubscriptionScope__c\":null,\"SBQQ__OptionLevel__c\":null,\"SBQQ__NetPrice__c\":120.0,\"Id\":\"a0v7e000008xdpAAAQ\",\"SBQQ__OriginalQuoteLineId__c\":null,\"SBQQ__RegularPrice__c\":120.0,\"SBQQ__Quantity__c\":1.0,\"SBQQ__TaxCode__c\":null,\"SBQQ__ContractedPrice__c\":null,\"SBQQ__CostEditable__c\":false,\"SBQQ__Dimension__c\":null,\"SBQQ__DynamicOptionId__c\":null,\"SBQQ__PreviousSegmentUplift__c\":null,\"SBQQ__RequiredBy__r\":null,\"SBQQ__EndDate__c\":null,\"SBQQ__PreviousSegmentPrice__c\":null,\"SBQQ__UpgradedSubscription__c\":null,\"SBQQ__SpecialPriceType__c\":null,\"SBQQ__SegmentKey__c\":null,\"SBQQ__OptionDiscount__c\":null,\"SBQQ__RequiredBy__c\":null,\"SBQQ__UpgradedAsset__c\":null,\"SBQQ__Bundled__c\":false,\"SBQQ__OptionType__c\":null,\"SBQQ__Number__c\":2.0,\"SBQQ__SubscriptionPercent__c\":null,\"SBQQ__ComponentListTotal__c\":null,\"SBQQ__TermDiscountSchedule__c\":null,\"SBQQ__Taxable__c\":false,\"SBQQ__Description__c\":\"Demo
+        subscription to show bidirectional syncing\",\"SBQQ__ProductCode__c\":\"EfxBsBKAsjaF0caCUQPWQYJ8h61G\",\"SBQQ__OriginalPrice__c\":120.0,\"SBQQ__GenerateContractedPrice__c\":null,\"SBQQ__NetTotal__c\":120.0,\"SBQQ__UnitCost__c\":null,\"SBQQ__SubscriptionCategory__c\":null,\"SBQQ__Hidden__c\":false,\"SBQQ__NonDiscountable__c\":false,\"SBQQ__RenewedAsset__c\":null,\"SBQQ__ProductSubscriptionType__c\":\"Renewable\",\"SBQQ__GrossProfit__c\":null,\"SBQQ__MinimumPrice__c\":null,\"SBQQ__BundledQuantity__c\":null,\"SBQQ__BatchQuantity__c\":null,\"SBQQ__ProrateMultiplier__c\":1.0,\"Name\":\"QL-0003506\",\"SBQQ__CustomerPrice__c\":120.0,\"SBQQ__SubscriptionTerm__c\":null,\"SBQQ__MarkupRate__c\":null,\"SBQQ__DistributorDiscount__c\":null,\"SBQQ__DefaultSubscriptionTerm__c\":1.0,\"SBQQ__PriceEditable__c\":false,\"SBQQ__ProratedPrice__c\":120.0,\"SBQQ__ComponentUpliftedByPackage__c\":false,\"SBQQ__StartDate__c\":null,\"SBQQ__NonPartnerDiscountable__c\":false,\"SBQQ__BlockPrice__c\":null,\"CurrencyIsoCode\":\"USD\",\"SBQQ__MaximumPrice__c\":null,\"SBQQ__SubscriptionPricing__c\":\"Fixed
+        Price\",\"SBQQ__AdditionalDiscount__c\":0.0,\"SBQQ__Favorite__c\":null,\"SBQQ__PricebookEntryId__c\":null,\"SBQQ__ProductOption__c\":null,\"SBQQ__OptionDiscountAmount__c\":null,\"SBQQ__TermDiscount__c\":null,\"SBQQ__MarkupAmount__c\":null,\"SBQQ__PartnerDiscount__c\":null,\"SBQQ__ComponentDiscountedByPackage__c\":false,\"SBQQ__Renewal__c\":false,\"SBQQ__CompoundDiscountRate__c\":null,\"SBQQ__UpgradedQuantity__c\":null,\"SBQQ__AdditionalDiscountAmount__c\":null,\"SBQQ__Cost__c\":null,\"SBQQ__PackageProductDescription__c\":null,\"SBQQ__PartnerPrice__c\":120.0,\"SBQQ__DiscountSchedule__c\":null,\"SBQQ__ComponentCost__c\":null,\"SBQQ__SubscribedAssetIds__c\":null,\"SBQQ__SubscriptionScope__c\":\"Quote\",\"SBQQ__Product__r\":{\"attributes\":{\"type\":\"Product2\",\"url\":\"/services/data/v58.0/sobjects/Product2/01t7e000009C7BZAA0\"},\"SBQQ__SubscriptionTerm__c\":1.0,\"ProductCode\":\"EfxBsBKAsjaF0caCUQPWQYJ8h61G\",\"SBQQ__HasConfigurationAttributes__c\":false,\"SBQQ__PricingMethod__c\":\"List\",\"Id\":\"01t7e000009C7BZAA0\",\"Name\":\"SaaS
+        Subscription\"},\"SBQQ__SubscriptionBase__c\":\"List\",\"SBQQ__BillingFrequency__c\":\"Monthly\",\"SBQQ__OriginalUnitCost__c\":null,\"SBQQ__Bundle__c\":false,\"SBQQ__Product__c\":\"01t7e000009C7BZAA0\",\"SBQQ__SpecialPrice__c\":120.0,\"SBQQ__PricingMethodEditable__c\":false,\"SBQQ__Uplift__c\":0.0,\"SBQQ__PackageProductCode__c\":null,\"SBQQ__PricingMethod__c\":\"List\",\"SBQQ__SegmentLabel__c\":null,\"SBQQ__AdditionalQuantity__c\":null,\"SBQQ__DiscountScheduleType__c\":null,\"SBQQ__Incomplete__c\":false},\"reconfigurationDisabled\":false,\"productQuantityEditable\":true,\"productHasDimensions\":false,\"key\":3,\"hasConsumptionSchedules\":false,\"effectiveStartDate\":\"2023-08-09\",\"descriptionLocked\":false}],\"lineItemGroups\":[],\"isPartial\":false,\"hasMultiSegmentLines\":false,\"customerTotal\":120.0,\"currencyDecimalScale\":2,\"channelDiscountsOffList\":false,\"calculationRequired\":false,\"applyPartnerDiscountFirst\":false,\"applyAdditionalDiscountLast\":false}"'
+  recorded_at: Wed, 09 Aug 2023 00:00:00 GMT
 recorded_with: VCR 6.2.0

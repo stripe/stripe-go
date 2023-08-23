@@ -45,6 +45,8 @@ module Critic::Unit
     end
 
     it 'locks and refreshes a poll job' do
+      Timecop.freeze(Time.now)
+
       locker = Integrations::Locker.new(@user)
       locker.lock_on_poll_job(StripeForce::OrderPoller)
 
@@ -62,8 +64,10 @@ module Critic::Unit
       end
 
       # grabbing the lock using the same locker should refresh the lock
+      Timecop.freeze(Time.now + 1.minute)
       initial_expiration = redis.get(key)
       locker.lock_on_poll_job(StripeForce::OrderPoller)
+      Timecop.freeze(Time.now + 1.minute)
       assert(initial_expiration < redis.get(key))
     end
 

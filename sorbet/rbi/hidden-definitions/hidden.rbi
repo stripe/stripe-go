@@ -34357,15 +34357,15 @@ module ObjectSpace
 
   def self.allocation_sourceline(arg); end
 
-  def self.count_imemo_objects(*arg); end
+  def self.count_imemo_objects(arg); end
 
   def self.count_nodes(*arg); end
 
-  def self.count_objects_size(*arg); end
+  def self.count_objects_size(arg); end
 
   def self.count_symbols(*arg); end
 
-  def self.count_tdata_objects(*arg); end
+  def self.count_tdata_objects(arg); end
 
   def self.dump(*arg); end
 
@@ -34377,7 +34377,7 @@ module ObjectSpace
 
   def self.memsize_of(arg); end
 
-  def self.memsize_of_all(*arg); end
+  def self.memsize_of_all(arg); end
 
   def self.reachable_objects_from(arg); end
 
