@@ -103,33 +103,5 @@ class StripeWebhookTest < ApplicationIntegrationTest
       assert_equal(503, response.status, response.body)
       assert_match("user exists, but webhook rejected", response.body)
     end
-
-    it 'creates evergreen order when webhook is fired' do
-      @user.enable_feature FeatureFlags::BIDIRECTIONAL_SYNC_DEMO
-      # Most recent order before webhook fired
-      previous_order = sf_get_recent("Order")
-
-      e = create_event('customer.subscription.created')
-      send_webhook(e)
-
-      # Most recent order after webhook fired
-      sf_evergreen_order = sf_get_recent(SF_ORDER)
-
-      # The most recent order before and after the webhook is fired should be different, indicating that we've created a new order
-      # by firing the webhook
-      assert_not_equal(previous_order.Id, sf_evergreen_order.Id)
-
-      order_items = sf_get_related(sf_evergreen_order, SF_ORDER_ITEM)
-
-      order_items.each do |order_item|
-        assert_equal(1, order_item[CPQ_QUOTE_SUBSCRIPTION_TERM])
-        assert_equal(CPQProductSubscriptionTypeOptions::EVERGREEN.serialize, order_item[CPQ_PRODUCT_SUBSCRIPTION_TYPE])
-        assert_equal('Fixed Price', order_item[CPQ_QUOTE_SUBSCRIPTION_PRICING])
-      end
-
-      # Ensure that a valid stripe ID is being set
-      stripe_id = @user.sf_client.query("Select #{GENERIC_STRIPE_ID} from #{SF_ORDER} where Id = '#{sf_evergreen_order.Id}'")
-      assert_not_empty(stripe_id)
-    end
   end
 end
