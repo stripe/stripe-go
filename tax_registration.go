@@ -6,7 +6,7 @@
 
 package stripe
 
-import "github.com/stripe/stripe-go/v75/form"
+import "github.com/stripe/stripe-go/v74/form"
 
 // Type of registration in `country`.
 type TaxRegistrationCountryOptionsAeType string
