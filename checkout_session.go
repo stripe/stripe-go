@@ -579,6 +579,14 @@ const (
 	CheckoutSessionPaymentMethodOptionsUSBankAccountFinancialConnectionsPermissionTransactions  CheckoutSessionPaymentMethodOptionsUSBankAccountFinancialConnectionsPermission = "transactions"
 )
 
+// Data features requested to be retrieved upon account creation.
+type CheckoutSessionPaymentMethodOptionsUSBankAccountFinancialConnectionsPrefetch string
+
+// List of values that CheckoutSessionPaymentMethodOptionsUSBankAccountFinancialConnectionsPrefetch can take
+const (
+	CheckoutSessionPaymentMethodOptionsUSBankAccountFinancialConnectionsPrefetchBalances CheckoutSessionPaymentMethodOptionsUSBankAccountFinancialConnectionsPrefetch = "balances"
+)
+
 // Indicates that you intend to make future payments with this PaymentIntent's payment method.
 //
 // Providing this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.
@@ -1025,7 +1033,7 @@ type CheckoutSessionPaymentIntentDataParams struct {
 	// The parameters used to automatically create a Transfer when the payment succeeds.
 	// For more information, see the PaymentIntents [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
 	TransferData *CheckoutSessionPaymentIntentDataTransferDataParams `form:"transfer_data"`
-	// A string that identifies the resulting payment as part of a group. See the PaymentIntents [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts) for details.
+	// A string that identifies the resulting payment as part of a group. See the PaymentIntents [use case for connected accounts](https://stripe.com/docs/connect/separate-charges-and-transfers) for details.
 	TransferGroup *string `form:"transfer_group"`
 }
 
@@ -1373,6 +1381,8 @@ type CheckoutSessionPaymentMethodOptionsSofortParams struct {
 type CheckoutSessionPaymentMethodOptionsUSBankAccountFinancialConnectionsParams struct {
 	// The list of permissions to request. If this parameter is passed, the `payment_method` permission must be included. Valid permissions include: `balances`, `ownership`, `payment_method`, and `transactions`.
 	Permissions []*string `form:"permissions"`
+	// List of data features that you would like to retrieve upon account creation.
+	Prefetch []*string `form:"prefetch"`
 }
 
 // contains details about the Us Bank Account payment method options.
@@ -1567,7 +1577,7 @@ func (p *CheckoutSessionShippingOptionShippingRateDataParams) AddMetadata(key st
 	p.Metadata[key] = value
 }
 
-// The shipping rate options to apply to this Session.
+// The shipping rate options to apply to this Session. Up to a maximum of 5.
 type CheckoutSessionShippingOptionParams struct {
 	// The ID of the Shipping Rate to use for this shipping option.
 	ShippingRate *string `form:"shipping_rate"`
@@ -1750,7 +1760,7 @@ type CheckoutSessionParams struct {
 	SetupIntentData *CheckoutSessionSetupIntentDataParams `form:"setup_intent_data"`
 	// When set, provides configuration for Checkout to collect a shipping address from a customer.
 	ShippingAddressCollection *CheckoutSessionShippingAddressCollectionParams `form:"shipping_address_collection"`
-	// The shipping rate options to apply to this Session.
+	// The shipping rate options to apply to this Session. Up to a maximum of 5.
 	ShippingOptions []*CheckoutSessionShippingOptionParams `form:"shipping_options"`
 	// Describes the type of transaction being performed by Checkout in order to customize
 	// relevant text on the page, such as the submit button. `submit_type` can only be
@@ -2248,6 +2258,8 @@ type CheckoutSessionPaymentMethodOptionsSofort struct {
 type CheckoutSessionPaymentMethodOptionsUSBankAccountFinancialConnections struct {
 	// The list of permissions to request. The `payment_method` permission must be included.
 	Permissions []CheckoutSessionPaymentMethodOptionsUSBankAccountFinancialConnectionsPermission `json:"permissions"`
+	// Data features requested to be retrieved upon account creation.
+	Prefetch []CheckoutSessionPaymentMethodOptionsUSBankAccountFinancialConnectionsPrefetch `json:"prefetch"`
 	// For webview integrations only. Upon completing OAuth login in the native browser, the user will be redirected to this URL to return to your app.
 	ReturnURL string `json:"return_url"`
 }
