@@ -11,15 +11,6 @@ import (
 	"github.com/stripe/stripe-go/v75/form"
 )
 
-// Describes whether the quote line is affecting a new schedule or an existing schedule.
-type SubscriptionScheduleAppliesToType string
-
-// List of values that SubscriptionScheduleAppliesToType can take
-const (
-	SubscriptionScheduleAppliesToTypeNewReference         SubscriptionScheduleAppliesToType = "new_reference"
-	SubscriptionScheduleAppliesToTypeSubscriptionSchedule SubscriptionScheduleAppliesToType = "subscription_schedule"
-)
-
 // Configures when the subscription schedule generates prorations for phase transitions. Possible values are `prorate_on_next_phase` or `prorate_up_front` with the default being `prorate_on_next_phase`. `prorate_on_next_phase` will apply phase changes and generate prorations at transition time.`prorate_up_front` will bill for all phases within the current billing cycle up front.
 type SubscriptionScheduleBillingBehavior string
 
@@ -926,15 +917,6 @@ func (p *SubscriptionScheduleReleaseParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-type SubscriptionScheduleAppliesTo struct {
-	// A custom string that identifies a new subscription schedule being created upon quote acceptance. All quote lines with the same `new_reference` field will be applied to the creation of a new subscription schedule.
-	NewReference string `json:"new_reference"`
-	// The ID of the schedule the line applies to.
-	SubscriptionSchedule string `json:"subscription_schedule"`
-	// Describes whether the quote line is affecting a new schedule or an existing schedule.
-	Type SubscriptionScheduleAppliesToType `json:"type"`
-}
-
 // Object representing the start and end dates for the current phase of the subscription schedule, if it is `active`.
 type SubscriptionScheduleCurrentPhase struct {
 	// The end of this phase of the subscription schedule.
@@ -1156,8 +1138,7 @@ type SubscriptionSchedulePrebilling struct {
 type SubscriptionSchedule struct {
 	APIResource
 	// ID of the Connect Application that created the schedule.
-	Application *Application                   `json:"application"`
-	AppliesTo   *SubscriptionScheduleAppliesTo `json:"applies_to"`
+	Application *Application `json:"application"`
 	// Configures when the subscription schedule generates prorations for phase transitions. Possible values are `prorate_on_next_phase` or `prorate_up_front` with the default being `prorate_on_next_phase`. `prorate_on_next_phase` will apply phase changes and generate prorations at transition time.`prorate_up_front` will bill for all phases within the current billing cycle up front.
 	BillingBehavior SubscriptionScheduleBillingBehavior `json:"billing_behavior"`
 	// Time at which the subscription schedule was canceled. Measured in seconds since the Unix epoch.

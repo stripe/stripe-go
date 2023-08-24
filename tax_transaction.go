@@ -229,6 +229,8 @@ type TaxTransactionCreateReversalParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+	// A flat amount to reverse across the entire transaction, in negative integer cents. This value represents the total amount to refund from the transaction, including taxes.
+	FlatAmount *int64 `form:"flat_amount"`
 	// The line item amounts to reverse.
 	LineItems []*TaxTransactionCreateReversalLineItemParams `form:"line_items"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.

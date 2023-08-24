@@ -11,15 +11,6 @@ import (
 	"github.com/stripe/stripe-go/v75/form"
 )
 
-// Describes whether the quote line is affecting a new schedule or an existing schedule.
-type InvoiceAppliesToType string
-
-// List of values that InvoiceAppliesToType can take
-const (
-	InvoiceAppliesToTypeNewReference         InvoiceAppliesToType = "new_reference"
-	InvoiceAppliesToTypeSubscriptionSchedule InvoiceAppliesToType = "subscription_schedule"
-)
-
 // The status of the most recent automated tax calculation for this invoice.
 type InvoiceAutomaticTaxStatus string
 
@@ -396,7 +387,7 @@ type InvoiceUpcomingParams struct {
 	Expand []*string `form:"expand"`
 	// List of invoice items to add or update in the upcoming invoice preview.
 	InvoiceItems []*InvoiceUpcomingInvoiceItemParams `form:"invoice_items"`
-	// The identifier of the unstarted schedule whose upcoming invoice you'd like to retrieve. Cannot be used with subscription or subscription fields.
+	// The identifier of the schedule whose upcoming invoice you'd like to retrieve. Cannot be used with subscription or subscription fields.
 	Schedule *string `form:"schedule"`
 	// The identifier of the subscription for which you'd like to retrieve the upcoming invoice. If not provided, but a `subscription_items` is provided, you will preview creating a subscription with those items. If neither `subscription` nor `subscription_items` is provided, you will retrieve the next upcoming invoice from among the customer's subscriptions.
 	Subscription *string `form:"subscription"`
@@ -1078,7 +1069,7 @@ type InvoiceUpcomingLinesParams struct {
 	Expand []*string `form:"expand"`
 	// List of invoice items to add or update in the upcoming invoice preview.
 	InvoiceItems []*InvoiceUpcomingLinesInvoiceItemParams `form:"invoice_items"`
-	// The identifier of the unstarted schedule whose upcoming invoice you'd like to retrieve. Cannot be used with subscription or subscription fields.
+	// The identifier of the schedule whose upcoming invoice you'd like to retrieve. Cannot be used with subscription or subscription fields.
 	Schedule *string `form:"schedule"`
 	// The identifier of the subscription for which you'd like to retrieve the upcoming invoice. If not provided, but a `subscription_items` is provided, you will preview creating a subscription with those items. If neither `subscription` nor `subscription_items` is provided, you will retrieve the next upcoming invoice from among the customer's subscriptions.
 	Subscription *string `form:"subscription"`
@@ -1228,14 +1219,6 @@ func (p *InvoiceListLinesParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-type InvoiceAppliesTo struct {
-	// A custom string that identifies a new subscription schedule being created upon quote acceptance. All quote lines with the same `new_reference` field will be applied to the creation of a new subscription schedule.
-	NewReference string `json:"new_reference"`
-	// The ID of the schedule the line applies to.
-	SubscriptionSchedule string `json:"subscription_schedule"`
-	// Describes whether the quote line is affecting a new schedule or an existing schedule.
-	Type InvoiceAppliesToType `json:"type"`
-}
 type InvoiceAutomaticTax struct {
 	// Whether Stripe automatically computes tax on this invoice. Note that incompatible invoice items (invoice items with manually specified [tax rates](https://stripe.com/docs/api/tax_rates), negative amounts, or `tax_behavior=unspecified`) cannot be added to automatic tax invoices.
 	Enabled bool `json:"enabled"`
@@ -1506,8 +1489,7 @@ type Invoice struct {
 	// ID of the Connect Application that created the invoice.
 	Application *Application `json:"application"`
 	// The fee in cents (or local equivalent) that will be applied to the invoice and transferred to the application owner's Stripe account when the invoice is paid.
-	ApplicationFeeAmount int64             `json:"application_fee_amount"`
-	AppliesTo            *InvoiceAppliesTo `json:"applies_to"`
+	ApplicationFeeAmount int64 `json:"application_fee_amount"`
 	// Number of payment attempts made for this invoice, from the perspective of the payment retry schedule. Any payment attempt counts as the first attempt, and subsequently only automatic retries increment the attempt count. In other words, manual payment attempts after the first attempt do not affect the retry schedule.
 	AttemptCount int64 `json:"attempt_count"`
 	// Whether an attempt has been made to pay the invoice. An invoice is not attempted until 1 hour after the `invoice.created` webhook, for example, so you might not want to display that invoice as unpaid to your users.

@@ -8,6 +8,14 @@ package stripe
 
 import "encoding/json"
 
+// Payment method type.
+type DisputePaymentMethodDetailsType string
+
+// List of values that DisputePaymentMethodDetailsType can take
+const (
+	DisputePaymentMethodDetailsTypeCard DisputePaymentMethodDetailsType = "card"
+)
+
 // Reason given by cardholder for dispute. Possible values are `bank_cannot_process`, `check_returned`, `credit_not_processed`, `customer_initiated`, `debit_not_authorized`, `duplicate`, `fraudulent`, `general`, `incorrect_account_details`, `insufficient_funds`, `product_not_received`, `product_unacceptable`, `subscription_canceled`, or `unrecognized`. Read more about [dispute reasons](https://stripe.com/docs/disputes/categories).
 type DisputeReason string
 
@@ -29,12 +37,11 @@ const (
 	DisputeReasonUnrecognized            DisputeReason = "unrecognized"
 )
 
-// Current status of dispute. Possible values are `warning_needs_response`, `warning_under_review`, `warning_closed`, `needs_response`, `under_review`, `charge_refunded`, `won`, or `lost`.
+// Current status of dispute. Possible values are `warning_needs_response`, `warning_under_review`, `warning_closed`, `needs_response`, `under_review`, `won`, or `lost`.
 type DisputeStatus string
 
 // List of values that DisputeStatus can take
 const (
-	DisputeStatusChargeRefunded       DisputeStatus = "charge_refunded"
 	DisputeStatusLost                 DisputeStatus = "lost"
 	DisputeStatusNeedsResponse        DisputeStatus = "needs_response"
 	DisputeStatusUnderReview          DisputeStatus = "under_review"
@@ -213,6 +220,20 @@ type DisputeEvidenceDetails struct {
 	SubmissionCount int64 `json:"submission_count"`
 }
 
+// Card specific dispute details.
+type DisputePaymentMethodDetailsCard struct {
+	// Card brand. Can be `amex`, `diners`, `discover`, `eftpos_au`, `jcb`, `mastercard`, `unionpay`, `visa`, or `unknown`.
+	Brand string `json:"brand"`
+	// The card network's specific dispute reason code, which maps to one of Stripe's primary dispute categories to simplify response guidance. The [Network code map](https://stripe.com/docs/disputes/categories#network-code-map) lists all available dispute reason codes by network.
+	NetworkReasonCode string `json:"network_reason_code"`
+}
+type DisputePaymentMethodDetails struct {
+	// Card specific dispute details.
+	Card *DisputePaymentMethodDetailsCard `json:"card"`
+	// Payment method type.
+	Type DisputePaymentMethodDetailsType `json:"type"`
+}
+
 // A dispute occurs when a customer questions your charge with their card issuer.
 // When this happens, you're given the opportunity to respond to the dispute with
 // evidence that shows that the charge is legitimate. You can find more
@@ -247,10 +268,11 @@ type Dispute struct {
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// ID of the PaymentIntent that was disputed.
-	PaymentIntent *PaymentIntent `json:"payment_intent"`
+	PaymentIntent        *PaymentIntent               `json:"payment_intent"`
+	PaymentMethodDetails *DisputePaymentMethodDetails `json:"payment_method_details"`
 	// Reason given by cardholder for dispute. Possible values are `bank_cannot_process`, `check_returned`, `credit_not_processed`, `customer_initiated`, `debit_not_authorized`, `duplicate`, `fraudulent`, `general`, `incorrect_account_details`, `insufficient_funds`, `product_not_received`, `product_unacceptable`, `subscription_canceled`, or `unrecognized`. Read more about [dispute reasons](https://stripe.com/docs/disputes/categories).
 	Reason DisputeReason `json:"reason"`
-	// Current status of dispute. Possible values are `warning_needs_response`, `warning_under_review`, `warning_closed`, `needs_response`, `under_review`, `charge_refunded`, `won`, or `lost`.
+	// Current status of dispute. Possible values are `warning_needs_response`, `warning_under_review`, `warning_closed`, `needs_response`, `under_review`, `won`, or `lost`.
 	Status DisputeStatus `json:"status"`
 }
 

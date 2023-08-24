@@ -1,5 +1,10 @@
 # Changelog
 
+## 75.1.0 - 2023-08-17
+* [#1713](https://github.com/stripe/stripe-go/pull/1713) Update generated code
+  * Add support for `FlatAmount` on `TaxTransactionCreateReversalParams`
+* [#1712](https://github.com/stripe/stripe-go/pull/1712) Fix link title to go migration guide
+
 ## 75.0.0 - 2023-08-16
 * This release changes the pinned API version to `2023-08-16`. Please read the [API Upgrade Guide](https://stripe.com/docs/upgrades#2023-08-16) and carefully review the API changes before upgrading `stripe-go`.
 * More information is available in the [stripe-go v75 migration guide](https://github.com/stripe/stripe-go/wiki/Migration-guide-for-v75)

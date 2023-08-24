@@ -1045,7 +1045,7 @@ type CheckoutSessionPaymentIntentDataParams struct {
 	// The parameters used to automatically create a Transfer when the payment succeeds.
 	// For more information, see the PaymentIntents [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
 	TransferData *CheckoutSessionPaymentIntentDataTransferDataParams `form:"transfer_data"`
-	// A string that identifies the resulting payment as part of a group. See the PaymentIntents [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts) for details.
+	// A string that identifies the resulting payment as part of a group. See the PaymentIntents [use case for connected accounts](https://stripe.com/docs/connect/separate-charges-and-transfers) for details.
 	TransferGroup *string `form:"transfer_group"`
 }
 
@@ -1591,7 +1591,7 @@ func (p *CheckoutSessionShippingOptionShippingRateDataParams) AddMetadata(key st
 	p.Metadata[key] = value
 }
 
-// The shipping rate options to apply to this Session.
+// The shipping rate options to apply to this Session. Up to a maximum of 5.
 type CheckoutSessionShippingOptionParams struct {
 	// The ID of the Shipping Rate to use for this shipping option.
 	ShippingRate *string `form:"shipping_rate"`
@@ -1625,8 +1625,6 @@ type CheckoutSessionSubscriptionDataParams struct {
 	ApplicationFeePercent *float64 `form:"application_fee_percent"`
 	// A future timestamp to anchor the subscription's billing cycle for new subscriptions.
 	BillingCycleAnchor *int64 `form:"billing_cycle_anchor"`
-	// The ID of the coupon to apply to this subscription. A coupon applied to a subscription will only affect invoices created for that particular subscription.
-	Coupon *string `form:"coupon"`
 	// The tax rates that will apply to any subscription item that does not have
 	// `tax_rates` set. Invoices created will have their `default_tax_rates` populated
 	// from the subscription.
@@ -1647,8 +1645,6 @@ type CheckoutSessionSubscriptionDataParams struct {
 	// will get before being charged for the first time. Has to be at least
 	// 48 hours in the future.
 	TrialEnd *int64 `form:"trial_end"`
-	// Indicates if a plan's `trial_period_days` should be applied to the subscription. Setting `trial_end` on `subscription_data` is preferred. Defaults to `false`.
-	TrialFromPlan *bool `form:"trial_from_plan"`
 	// Integer representing the number of trial period days before the
 	// customer is charged for the first time. Has to be at least 1.
 	TrialPeriodDays *int64 `form:"trial_period_days"`
@@ -1780,10 +1776,8 @@ type CheckoutSessionParams struct {
 	SetupIntentData *CheckoutSessionSetupIntentDataParams `form:"setup_intent_data"`
 	// When set, provides configuration for Checkout to collect a shipping address from a customer.
 	ShippingAddressCollection *CheckoutSessionShippingAddressCollectionParams `form:"shipping_address_collection"`
-	// The shipping rate options to apply to this Session.
+	// The shipping rate options to apply to this Session. Up to a maximum of 5.
 	ShippingOptions []*CheckoutSessionShippingOptionParams `form:"shipping_options"`
-	// [Deprecated] The shipping rate to apply to this Session. Only up to one may be specified.
-	ShippingRates []*string `form:"shipping_rates"`
 	// Describes the type of transaction being performed by Checkout in order to customize
 	// relevant text on the page, such as the submit button. `submit_type` can only be
 	// specified on Checkout Sessions in `payment` mode, but not Checkout Sessions
@@ -2035,7 +2029,7 @@ type CheckoutSessionInvoiceCreation struct {
 	InvoiceData *CheckoutSessionInvoiceCreationInvoiceData `json:"invoice_data"`
 }
 
-// Information about the payment method configuration used for this Checkout session.
+// Information about the payment method configuration used for this Checkout session if using dynamic payment methods.
 type CheckoutSessionPaymentMethodConfigurationDetails struct {
 	// ID of the payment method configuration used.
 	ID string `json:"id"`
@@ -2521,7 +2515,7 @@ type CheckoutSession struct {
 	PaymentLink *PaymentLink `json:"payment_link"`
 	// Configure whether a Checkout Session should collect a payment method.
 	PaymentMethodCollection CheckoutSessionPaymentMethodCollection `json:"payment_method_collection"`
-	// Information about the payment method configuration used for this Checkout session.
+	// Information about the payment method configuration used for this Checkout session if using dynamic payment methods.
 	PaymentMethodConfigurationDetails *CheckoutSessionPaymentMethodConfigurationDetails `json:"payment_method_configuration_details"`
 	// Payment-method-specific configuration for the PaymentIntent or SetupIntent of this CheckoutSession.
 	PaymentMethodOptions *CheckoutSessionPaymentMethodOptions `json:"payment_method_options"`
