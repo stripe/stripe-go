@@ -1,13 +1,13 @@
 # Changelog
 
-## 75.0.0-beta.1 - 2023-08-24
-* [#1719](https://github.com/stripe/stripe-go/pull/1719) Move beta version back
-* [#1715](https://github.com/stripe/stripe-go/pull/1715) Update generated code for beta
-  * Add support for new resources `QuotePreviewInvoice` and `QuotePreviewSchedule`
-  * Remove support for `AppliesTo` on `Invoice` and `SubscriptionSchedule`
-  * Add support for `Cl`, `Co`, `ID`, `Kr`, `MX`, `My`, `Sa`, `TH`, `TR`, and `Vn` on `TaxRegistrationCountryOptionsParams` and `TaxRegistrationCountryOptions`
-  * Remove support for `Hk` on `TaxRegistrationCountryOptionsParams` and `TaxRegistrationCountryOptions`
-* [#1714](https://github.com/stripe/stripe-go/pull/1714) Merge master
+## 75.2.0 - 2023-08-24
+* [#1718](https://github.com/stripe/stripe-go/pull/1718) Update generated code
+  * Add support for `Retention` on `BillingPortalSessionFlowDataSubscriptionCancelParams` and `BillingPortalSessionFlowSubscriptionCancel`
+  * Add support for `Prefetch` on `CheckoutSessionPaymentMethodOptionsUsBankAccountFinancialConnectionsParams`, `CheckoutSessionPaymentMethodOptionsUsBankAccountFinancialConnections`, `FinancialConnectionsSessionParams`, `FinancialConnectionsSession`, `InvoicePaymentSettingsPaymentMethodOptionsUsBankAccountFinancialConnectionsParams`, `InvoicePaymentSettingsPaymentMethodOptionsUsBankAccountFinancialConnections`, `PaymentIntentConfirmPaymentMethodOptionsUsBankAccountFinancialConnectionsParams`, `PaymentIntentPaymentMethodOptionsUsBankAccountFinancialConnectionsParams`, `PaymentIntentPaymentMethodOptionsUsBankAccountFinancialConnections`, `SetupIntentConfirmPaymentMethodOptionsUsBankAccountFinancialConnectionsParams`, `SetupIntentPaymentMethodOptionsUsBankAccountFinancialConnectionsParams`, `SetupIntentPaymentMethodOptionsUsBankAccountFinancialConnections`, `SubscriptionPaymentSettingsPaymentMethodOptionsUsBankAccountFinancialConnectionsParams`, and `SubscriptionPaymentSettingsPaymentMethodOptionsUsBankAccountFinancialConnections`
+  * Add support for `PaymentMethodDetails` on `Dispute`
+  * Add support for `BalanceTransaction ` on `CustomerCashBalanceTransaction.AdjustedForOverdraft`
+* [#1717](https://github.com/stripe/stripe-go/pull/1717) Replace import placeholder before running formatting
+* [#1716](https://github.com/stripe/stripe-go/pull/1716) Replace version placeholder with an actual version during format
 
 ## 75.1.0 - 2023-08-17
 * [#1713](https://github.com/stripe/stripe-go/pull/1713) Update generated code
@@ -102,6 +102,15 @@
   - ⚠️ Removed deprecated error code constant `ErrorCodeSepaUnsupportedAccount`, prefer `ErrorCodeSEPAUnsupportedAccount`.
   - ⚠️ Removed deprecated error code constant `ErrorCodeSkuInactive`, prefer `ErrorCodeSKUInactive`.
   - ⚠️ Removed deprecated error code constant `ErrorCodeinstantPayoutsLimitExceeded`, prefer `ErrorCodeInstantPayoutsLimitExceeded`.
+
+## 75.0.0-beta.1 - 2023-08-24
+* [#1719](https://github.com/stripe/stripe-go/pull/1719) Move beta version back
+* [#1715](https://github.com/stripe/stripe-go/pull/1715) Update generated code for beta
+  * Add support for new resources `QuotePreviewInvoice` and `QuotePreviewSchedule`
+  * Remove support for `AppliesTo` on `Invoice` and `SubscriptionSchedule`
+  * Add support for `Cl`, `Co`, `ID`, `Kr`, `MX`, `My`, `Sa`, `TH`, `TR`, and `Vn` on `TaxRegistrationCountryOptionsParams` and `TaxRegistrationCountryOptions`
+  * Remove support for `Hk` on `TaxRegistrationCountryOptionsParams` and `TaxRegistrationCountryOptions`
+* [#1714](https://github.com/stripe/stripe-go/pull/1714) Merge master
 
 ## 74.31.0-beta.1 - 2023-08-10
 * [#1701](https://github.com/stripe/stripe-go/pull/1701) Update generated code for beta
