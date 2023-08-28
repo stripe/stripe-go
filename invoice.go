@@ -21,7 +21,15 @@ const (
 	InvoiceAutomaticTaxStatusRequiresLocationInputs InvoiceAutomaticTaxStatus = "requires_location_inputs"
 )
 
-// Indicates the reason why the invoice was created. `subscription_cycle` indicates an invoice created by a subscription advancing into a new period. `subscription_create` indicates an invoice created due to creating a subscription. `subscription_update` indicates an invoice created due to updating a subscription. `subscription` is set for all old invoices to indicate either a change to a subscription or a period advancement. `manual` is set for all invoices unrelated to a subscription (for example: created via the invoice editor). The `upcoming` value is reserved for simulated invoices per the upcoming invoice endpoint. `subscription_threshold` indicates an invoice created due to a billing threshold being reached.
+// Indicates the reason why the invoice was created.
+//
+// * `manual`: Unrelated to a subscription, for example, created via the invoice editor.
+// * `subscription`: No longer in use. Applies to subscriptions from before May 2018 where no distinction was made between updates, cycles, and thresholds.
+// * `subscription_create`: A new subscription was created.
+// * `subscription_cycle`: A subscription advanced into a new period.
+// * `subscription_threshold`: A subscription reached a billing threshold.
+// * `subscription_update`: A subscription was updated.
+// * `upcoming`: Reserved for simulated invoices, per the upcoming invoice endpoint.
 type InvoiceBillingReason string
 
 // List of values that InvoiceBillingReason can take
@@ -1357,7 +1365,15 @@ type Invoice struct {
 	// Controls whether Stripe performs [automatic collection](https://stripe.com/docs/invoicing/integration/automatic-advancement-collection) of the invoice. If `false`, the invoice's state doesn't automatically advance without an explicit action.
 	AutoAdvance  bool                 `json:"auto_advance"`
 	AutomaticTax *InvoiceAutomaticTax `json:"automatic_tax"`
-	// Indicates the reason why the invoice was created. `subscription_cycle` indicates an invoice created by a subscription advancing into a new period. `subscription_create` indicates an invoice created due to creating a subscription. `subscription_update` indicates an invoice created due to updating a subscription. `subscription` is set for all old invoices to indicate either a change to a subscription or a period advancement. `manual` is set for all invoices unrelated to a subscription (for example: created via the invoice editor). The `upcoming` value is reserved for simulated invoices per the upcoming invoice endpoint. `subscription_threshold` indicates an invoice created due to a billing threshold being reached.
+	// Indicates the reason why the invoice was created.
+	//
+	// * `manual`: Unrelated to a subscription, for example, created via the invoice editor.
+	// * `subscription`: No longer in use. Applies to subscriptions from before May 2018 where no distinction was made between updates, cycles, and thresholds.
+	// * `subscription_create`: A new subscription was created.
+	// * `subscription_cycle`: A subscription advanced into a new period.
+	// * `subscription_threshold`: A subscription reached a billing threshold.
+	// * `subscription_update`: A subscription was updated.
+	// * `upcoming`: Reserved for simulated invoices, per the upcoming invoice endpoint.
 	BillingReason InvoiceBillingReason `json:"billing_reason"`
 	// ID of the latest charge generated for this invoice, if any.
 	Charge *Charge `json:"charge"`
