@@ -75,6 +75,10 @@ module Critic::Unit
         ENV['CI'] = "false"
       end
 
+      after do
+        ENV['CI'] = "true"
+      end
+
       it 'prefixes stripe ID field when the QA namespace is selected' do
         @user.connector_settings[CONNECTOR_SETTING_SALESFORCE_NAMESPACE] = SalesforceNamespaceOptions::QA.serialize
 

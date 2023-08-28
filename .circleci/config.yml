@@ -144,7 +144,7 @@ jobs:
 
   build:
     working_directory: ~/stripe-salesforce
-    parallelism: 10
+    parallelism: 1
     parameters:
       cache_disabled:
         type: string
