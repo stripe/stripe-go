@@ -1173,6 +1173,10 @@ class StripeForce::Translate
             log.info 'updating subscription schedule with termination metadata', sf_order_amendment_id: sf_order_amendment
             subscription_phases = OrderAmendment.delete_past_phases(@user, stripe_customer_id, subscription_phases)
             mapper.add_termination_metadata(T.must(subscription_phases.last), sf_order_amendment)
+
+            log.info 'wiping out the last phase add_invoice_items before updating with termination metadata'
+            T.must(subscription_phases.last)[:add_invoice_items] = []
+
             subscription_schedule.phases = OrderHelpers.sanitize_subscription_schedule_phase_params(subscription_phases)
             subscription_schedule = T.cast(subscription_schedule.save({}, @user.stripe_credentials), Stripe::SubscriptionSchedule)
           end
@@ -1206,14 +1210,13 @@ class StripeForce::Translate
           subscription_schedule = apply_amendment_order_mappings(mapper, subscription_schedule, sf_order_amendment)
 
           # note: to support stacked amendments, we want to update the local sub_schedule and sub_phases
-          # because  Stripe converts 'now' to a timestamp
+          # because Stripe converts 'now' to a timestamp
           # and we want to use that timestamp when there is a stacked amendment
           subscription_schedule = T.cast(subscription_schedule.save({}, @user.stripe_credentials), Stripe::SubscriptionSchedule)
 
           if @user.feature_enabled?(FeatureFlags::STRIPE_REVENUE_CONTRACT)
             adjust_revenue_contract_from_sub_schedule(subscription_schedule, contract_structure.initial, sf_order_amendment, aggregate_phase_items, invoice_items_in_order, invoice_items_for_prorations + negative_invoice_items)
           end
-
         end
       end
 

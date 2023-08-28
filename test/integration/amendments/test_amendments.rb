@@ -1662,7 +1662,7 @@ class Critic::OrderAmendmentTranslation < Critic::OrderAmendmentFunctionalTest
       # create the initial sf order
       sf_order = create_subscription_order(
         sf_product_id: sf_product_id,
-        contact_email: "syncs_three_stacked_diffruns",
+        contact_email: "syncs_three_stacked_diffruns_3",
         additional_fields: {
           CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(initial_order_start_date),
           CPQ_QUOTE_BILLING_FREQUENCY => CPQBillingFrequencyOptions::ANNUAL.serialize,
@@ -1767,6 +1767,103 @@ class Critic::OrderAmendmentTranslation < Critic::OrderAmendmentFunctionalTest
       assert_equal(-1 * (BigDecimal(TEST_DEFAULT_PRICE) * BigDecimal(amendment_3_term) / BigDecimal(contract_term)).round(MAX_STRIPE_PRICE_PRECISION), BigDecimal(credit_stripe_price.unit_amount_decimal))
     end
 
+    it 'syncs stacked backdated amendments and ensure no duplicate invoice items' do
+      @user.disable_feature(FeatureFlags::SF_CACHING)
+      # initial order: 1yr contract, billed monthly, started 3 months ago
+      # amendment 1: started 2 months ago
+      # amendment 2: started 1 month ago
+      contract_term = TEST_DEFAULT_CONTRACT_TERM
+      initial_order_start_date = now_time - 3.months - 3.days
+      initial_order_end_date = initial_order_start_date + contract_term.months
+
+      amendment_1_term = 11
+      amendment_1_start_date = initial_order_start_date + (contract_term - amendment_1_term).months
+
+      amendment_2_term = 10
+      amendment_2_start_date = initial_order_start_date + (contract_term - amendment_2_term).months
+
+
+      sf_product_id, _sf_pricebook_id = salesforce_recurring_product_with_price(
+        additional_product_fields: {
+          CPQ_QUOTE_BILLING_FREQUENCY => CPQBillingFrequencyOptions::MONTHLY.serialize,
+        }
+      )
+
+      # create the initial sf order
+      sf_order = create_subscription_order(
+        sf_product_id: sf_product_id,
+        contact_email: "syncs_three_stacked_diffruns",
+        additional_fields: {
+          CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(initial_order_start_date),
+          CPQ_QUOTE_BILLING_FREQUENCY => CPQBillingFrequencyOptions::MONTHLY.serialize,
+          CPQ_QUOTE_SUBSCRIPTION_TERM => contract_term,
+        }
+      )
+
+      # create the first amendment to increase quantity (+2)
+      sf_contract_1 = create_contract_from_order(sf_order)
+      amendment_quote = create_quote_data_from_contract_amendment(sf_contract_1)
+      amendment_quote["lineItems"].first["record"][CPQ_QUOTE_QUANTITY] = 3
+      amendment_quote["record"][CPQ_QUOTE_SUBSCRIPTION_START_DATE] = format_date_for_salesforce(amendment_1_start_date)
+      amendment_quote["record"][CPQ_QUOTE_SUBSCRIPTION_TERM] = amendment_1_term
+      sf_order_amendment_1 = create_order_from_quote_data(amendment_quote)
+
+      # translate the orders (initial order and first amendment)
+      StripeForce::Translate.perform_inline(@user, sf_order.Id)
+      sf_order.refresh
+      stripe_id = sf_order[prefixed_stripe_field(GENERIC_STRIPE_ID)]
+
+      subscription_schedule = Stripe::SubscriptionSchedule.retrieve(stripe_id, @user.stripe_credentials)
+      first_phase = T.must(subscription_schedule.phases.first)
+      second_phase = T.must(subscription_schedule.phases.second)
+
+      # first phase should start at the backdated date
+      assert_equal(0, first_phase.start_date - initial_order_start_date.to_i)
+      assert_equal(0, first_phase.end_date - second_phase.start_date)
+      # first phase should have an item with a quantity of 1 and no invoice items
+      assert_equal(1, first_phase.items.count)
+      first_phase_item = T.must(first_phase.items.first)
+      assert_equal(1, first_phase_item.quantity)
+      assert_empty(first_phase.add_invoice_items)
+
+      # second phase should start 'now' (since it was a backdated amendment)
+      # and have two products with total quantity of 2
+      assert(second_phase.start_date.to_i - now_time.to_i < SECONDS_IN_DAY)
+      assert_equal(initial_order_end_date.to_i, second_phase.end_date.to_i)
+      # second phase should have an item with a quantity of 3
+      assert_equal(2, second_phase.items.count)
+      second_phase_item_1 = T.must(second_phase.items.first)
+      second_phase_item_2 = T.must(second_phase.items.second)
+      assert_equal(1, second_phase_item_1.quantity)
+      assert_equal(2, second_phase_item_2.quantity)
+
+      # prorate the added items added since the amendment was backdated and missed a billing cycle
+      assert_equal(1, second_phase.add_invoice_items.count)
+      prorated_item = T.unsafe(second_phase.add_invoice_items.first)
+      assert_equal(2, prorated_item.quantity)
+
+      invoice_items_list = Stripe::InvoiceItem.list({customer: subscription_schedule.customer, created: {gt: subscription_schedule.created}}, @user.stripe_credentials)
+      assert_equal(1, invoice_items_list.count)
+
+      # create the second amendment to terminate the order
+      sf_contract_2 = create_contract_from_order(sf_order_amendment_1)
+      amendment_quote = create_quote_data_from_contract_amendment(sf_contract_2)
+      amendment_quote["lineItems"].first["record"][CPQ_QUOTE_QUANTITY] = 0
+      amendment_quote["record"][CPQ_QUOTE_SUBSCRIPTION_START_DATE] = format_date_for_salesforce(amendment_2_start_date)
+      amendment_quote["record"][CPQ_QUOTE_SUBSCRIPTION_TERM] = amendment_2_term
+      sf_order_amendment_2 = create_order_from_quote_data(amendment_quote)
+
+      StripeForce::Translate.perform_inline(@user, sf_order_amendment_2.Id)
+      sf_order.refresh
+      stripe_id = sf_order[prefixed_stripe_field(GENERIC_STRIPE_ID)]
+
+      # fetch the latest subscription schedule
+      subscription_schedule = Stripe::SubscriptionSchedule.retrieve(stripe_id, @user.stripe_credentials)
+      assert_equal(2, subscription_schedule.phases.count)
+
+      invoice_items_list = Stripe::InvoiceItem.list({customer: subscription_schedule.customer, created: {gt: subscription_schedule.created}}, @user.stripe_credentials)
+      assert_equal(1, invoice_items_list.count)
+    end
   end
 
   # describe 'metadata' do

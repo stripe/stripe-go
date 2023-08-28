@@ -236,6 +236,12 @@ class Stripe::SubscriptionSchedulePrebilling
 end
 
 class Stripe::SubscriptionSchedule
+  sig { returns(T::Hash[T.any(String, Symbol), T.untyped]) }
+  def current_phase; end
+  
+  sig { returns(Integer)}
+  def created; end
+  
   sig { returns(Stripe::SubscriptionScheduleSettings) }
   def default_settings; end
 
