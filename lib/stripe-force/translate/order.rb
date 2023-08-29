@@ -1037,6 +1037,7 @@ class StripeForce::Translate
       # at this point, we have the finalized list of non-prorated order lines
       # this means all price data has been mapped and converted into Stripe line items
       # and we can calculate the finalized billing cycle of the order amendment
+      invoice_items_for_prorations = []
       if !is_order_terminated
         # if the amendment is prorated, then all line items will have prorated component
         is_prorated = OrderAmendment.prorated_amendment?(
@@ -1050,54 +1051,53 @@ class StripeForce::Translate
           billing_frequency: billing_frequency,
           amendment_start_date: sf_order_amendment_start_date_as_timestamp,
         )
-      end
 
-      invoice_items_for_prorations = []
-      if !is_order_terminated && is_prorated
-        log.info 'amendment order is prorated', sf_order_amendment_id: sf_order_amendment.Id, index: index
+        if is_prorated
+          log.info 'amendment order is prorated', sf_order_amendment_id: sf_order_amendment.Id, index: index
 
-        # the subscription term represents the number of whole months
-        # the days prorating represents the partial month (or days) remaining
-        subscription_term = subscription_term_from_salesforce
-        days_prorating = 0
+          # the subscription term represents the number of whole months
+          # the days prorating represents the partial month (or days) remaining
+          subscription_term = subscription_term_from_salesforce
+          days_prorating = 0
 
-        if @user.feature_enabled?(FeatureFlags::NON_ANNIVERSARY_AMENDMENTS)
-          days = StripeForce::Utilities::SalesforceUtil.calculate_days_to_prorate(
-            sf_order_start_date: StripeForce::Utilities::SalesforceUtil.salesforce_date_to_beginning_of_day(string_start_date_from_salesforce),
-            sf_order_end_date: sf_order_amendment_end_date,
-            sf_order_subscription_term: subscription_term)
+          if @user.feature_enabled?(FeatureFlags::NON_ANNIVERSARY_AMENDMENTS)
+            days = StripeForce::Utilities::SalesforceUtil.calculate_days_to_prorate(
+              sf_order_start_date: StripeForce::Utilities::SalesforceUtil.salesforce_date_to_beginning_of_day(string_start_date_from_salesforce),
+              sf_order_end_date: sf_order_amendment_end_date,
+              sf_order_subscription_term: subscription_term)
 
-          # CPQ Proration Calculations
-          # https://help.salesforce.com/s/articleView?id=sf.cpq_subscriptions_prorate_precision_1.htm&type=5
-          # in CPQ, the proration multiple is the number of whole months plus a decimal for any partial month at the end of the term
-          # which is represented by the subscription term and the days below
-          # depending on the CPQ setting <=> feature flag enabled, the calculation will differ
-          if days > 0
-            # if feature DAY_PRORATIONS is enabled, set the number of days to prorate
-            # else, a partial month equals a whole month so add one to the subscription term
-            if @user.feature_enabled?(FeatureFlags::DAY_PRORATIONS)
-              log.info 'prorating line items by days', days_prorating: days
-              days_prorating = days
-            else
-              # the subscription term represents the number of whole months
-              # plus a decimal for any partial month at the end of the term if your term contains a partial month (days_prorating > 0)
-              # so we round the number of months to the nearest whole number (if there are days) by adding one since the subscription_term
-              log.info 'prorating line items by months but accounting for partial month', days_prorating: days
-              subscription_term += 1
+            # CPQ Proration Calculations
+            # https://help.salesforce.com/s/articleView?id=sf.cpq_subscriptions_prorate_precision_1.htm&type=5
+            # in CPQ, the proration multiple is the number of whole months plus a decimal for any partial month at the end of the term
+            # which is represented by the subscription term and the days below
+            # depending on the CPQ setting <=> feature flag enabled, the calculation will differ
+            if days > 0
+              # if feature DAY_PRORATIONS is enabled, set the number of days to prorate
+              # else, a partial month equals a whole month so add one to the subscription term
+              if @user.feature_enabled?(FeatureFlags::DAY_PRORATIONS)
+                log.info 'prorating line items by days', days_prorating: days
+                days_prorating = days
+              else
+                # the subscription term represents the number of whole months
+                # plus a decimal for any partial month at the end of the term if your term contains a partial month (days_prorating > 0)
+                # so we round the number of months to the nearest whole number (if there are days) by adding one since the subscription_term
+                log.info 'prorating line items by months but accounting for partial month', days_prorating: days
+                subscription_term += 1
+              end
             end
           end
-        end
 
-        invoice_items_for_prorations = OrderAmendment.generate_proration_items_from_phase_items(
-          mapper: mapper,
-          sf_order_amendment: sf_order_amendment,
-          phase_items: aggregate_phase_items,
-          subscription_term: subscription_term,
-          billing_frequency: billing_frequency,
-          days_prorating: days_prorating,
-          backdated_billing_cycles: backdated_billing_cycles,
-          next_billing_timestamp: next_billing_timestamp,
-        )
+          invoice_items_for_prorations = OrderAmendment.generate_proration_items_from_phase_items(
+            mapper: mapper,
+            sf_order_amendment: sf_order_amendment,
+            phase_items: aggregate_phase_items,
+            subscription_term: subscription_term,
+            billing_frequency: billing_frequency,
+            days_prorating: days_prorating,
+            backdated_billing_cycles: backdated_billing_cycles,
+            next_billing_timestamp: next_billing_timestamp,
+          )
+        end
       end
 
       # for debugging
@@ -1123,34 +1123,33 @@ class StripeForce::Translate
 
       previous_phase = T.must(subscription_phases.last)
 
-      # it's important to check this before setting that start date to 'now' below
-      is_identical_to_previous_phase_time_range = previous_phase.start_date == new_phase.start_date &&
-        previous_phase.end_date == new_phase.end_date
+      # note: it's important to check this before setting that start date to 'now' below
+      is_identical_to_previous_phase_time_range = previous_phase.start_date == new_phase.start_date && previous_phase.end_date == new_phase.end_date
 
       # if the current day is the same day as the start day, then use 'now'
       is_same_day = normalized_current_time == new_phase.start_date
       if is_same_day
         log.info 'amendment starts on the current day, using now'
         new_phase.start_date = 'now'
-      elsif @user.feature_enabled?(FeatureFlags::BACKDATED_AMENDMENTS) && is_order_backdated
+      elsif is_order_backdated
         # if this is a backdated amendment, then use the current time to update the subscription schedule
         log.info 'backdated amendment, using now'
         new_phase.start_date = 'now'
       end
 
-      # if the order is terminated, updating the last phase end date and NOT adding another phase is all that needs to be done
+      # if the order is terminated, updating the last phase end date and not adding another phase is all that needs to be done
       if !is_order_terminated
         # if the time ranges are identical, then the previous phase should be removed
         # the previous phases subscription items should be overwritten by the latest phase calculation
         # but any one-off items would be lost without "merging" these items
         # Note: !is_same_day is important since these items may have already been invoiced
         should_merge_phases = is_identical_to_previous_phase_time_range && !is_same_day && !is_order_backdated
-        if should_merge_phases && !previous_phase.add_invoice_items.empty?
-          log.info 'previous phase is identical, merging invoice items'
-          new_phase.add_invoice_items += previous_phase.add_invoice_items
-        end
-
         if should_merge_phases
+          if !previous_phase.add_invoice_items.empty?
+            log.info 'previous phase is identical, merging invoice items'
+            new_phase.add_invoice_items += previous_phase.add_invoice_items
+          end
+
           # https://jira.corp.stripe.com/browse/PLATINT-1815
           log.info 'previous phase identical, removing previous phase'
           subscription_phases.delete_at(subscription_phases.count - 1)
@@ -1174,7 +1173,7 @@ class StripeForce::Translate
             subscription_phases = OrderAmendment.delete_past_phases(@user, stripe_customer_id, subscription_phases)
             mapper.add_termination_metadata(T.must(subscription_phases.last), sf_order_amendment)
 
-            log.info 'wiping out the last phase add_invoice_items before updating with termination metadata'
+            log.info 'wiping out the latest phase add_invoice_items before updating with termination metadata', subscription_schedule_id: subscription_schedule.id
             T.must(subscription_phases.last)[:add_invoice_items] = []
 
             subscription_schedule.phases = OrderHelpers.sanitize_subscription_schedule_phase_params(subscription_phases)
@@ -1186,6 +1185,19 @@ class StripeForce::Translate
           subscription_schedule = T.cast(subscription_schedule.cancel({invoice_now: false, prorate: false}, @user.stripe_credentials), Stripe::SubscriptionSchedule)
         else
           log.info 'adding phase', sf_order_amendment_id: sf_order_amendment.Id, start_date: new_phase.start_date, end_date: new_phase.end_date
+
+          # https://jira.corp.stripe.com/browse/RUN_CONTRACTS-47
+          # we issue a request to update the phase that results in a phase split (could be from adding a new phase starting now or in the future)
+          # then we should not pass the existing phase's add_invoice_items to the API call again
+          if subscription_schedule.current_phase.present?
+            subscription_schedule.phases.each do |phase|
+              # only if this is the current phase (phase start/end dates are the same as the current phase)
+              if phase.add_invoice_items.present? && phase.start_date == subscription_schedule.current_phase[:start_date] && phase.end_date == subscription_schedule.current_phase[:end_date]
+                log.info 'wiping out the current phase add_invoice_items before adding new phase that starts in the future', phase_start_date: phase.start_date, phase_end_date: phase.end_date, sf_order_amendment_id: sf_order_amendment.Id, subscription_schedule_id: subscription_schedule.id
+                phase[:add_invoice_items] = []
+              end
+            end
+          end
 
           # align date boundaries of the schedules
           previous_phase.end_date = new_phase.start_date
@@ -1228,7 +1240,6 @@ class StripeForce::Translate
     end
 
     PriceHelpers.auto_archive_prices_on_subscription_schedule(@user, subscription_schedule)
-
     subscription_schedule
   end
 
