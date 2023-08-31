@@ -1,5 +1,13 @@
 # Changelog
 
+## 75.3.0 - 2023-08-31
+* [#1722](https://github.com/stripe/stripe-go/pull/1722) Update generated code
+  * Add support for new resource `AccountSession`
+  * Add support for `New` method on resource `AccountSession`
+  * Add support for new values `obligation_inbound`, `obligation_outbound`, `obligation_payout_failure`, `obligation_payout`, `obligation_reversal_inbound`, and `obligation_reversal_outbound` on enum `BalanceTransactionType`
+  * Change type of `EventType` from `string` to `enum`
+  * Add support for `Application` on `PaymentLink`
+
 ## 75.2.0 - 2023-08-24
 * [#1718](https://github.com/stripe/stripe-go/pull/1718) Update generated code
   * Add support for `Retention` on `BillingPortalSessionFlowDataSubscriptionCancelParams` and `BillingPortalSessionFlowSubscriptionCancel`
