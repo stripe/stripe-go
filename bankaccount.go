@@ -337,7 +337,7 @@ type BankAccountFutureRequirementsError struct {
 	Requirement string `json:"requirement"`
 }
 
-// Information about upcoming new requirements for the bank account, including what information needs to be collected.
+// Information about the [upcoming new requirements for the bank account](https://stripe.com/docs/connect/custom-accounts/future-requirements), including what information needs to be collected, and by when.
 type BankAccountFutureRequirements struct {
 	// Fields that need to be collected to keep the external account enabled. If not collected by `current_deadline`, these fields appear in `past_due` as well, and the account is disabled.
 	CurrentlyDue []string `json:"currently_due"`
@@ -403,7 +403,7 @@ type BankAccount struct {
 	Deleted            bool `json:"deleted"`
 	// Uniquely identifies this particular bank account. You can use this attribute to check whether two bank accounts are the same.
 	Fingerprint string `json:"fingerprint"`
-	// Information about upcoming new requirements for the bank account, including what information needs to be collected.
+	// Information about the [upcoming new requirements for the bank account](https://stripe.com/docs/connect/custom-accounts/future-requirements), including what information needs to be collected, and by when.
 	FutureRequirements *BankAccountFutureRequirements `json:"future_requirements"`
 	// Unique identifier for the object.
 	ID string `json:"id"`

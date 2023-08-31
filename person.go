@@ -337,7 +337,7 @@ type PersonFutureRequirementsError struct {
 	Requirement string `json:"requirement"`
 }
 
-// Information about the upcoming new requirements for this person, including what information needs to be collected, and by when.
+// Information about the [upcoming new requirements for this person](https://stripe.com/docs/connect/custom-accounts/future-requirements), including what information needs to be collected, and by when.
 type PersonFutureRequirements struct {
 	// Fields that are due and can be satisfied by providing the corresponding alternative fields instead.
 	Alternatives []*PersonFutureRequirementsAlternative `json:"alternatives"`
@@ -443,7 +443,7 @@ type Person struct {
 	FirstNameKanji string `json:"first_name_kanji"`
 	// A list of alternate names or aliases that the person is known by.
 	FullNameAliases []string `json:"full_name_aliases"`
-	// Information about the upcoming new requirements for this person, including what information needs to be collected, and by when.
+	// Information about the [upcoming new requirements for this person](https://stripe.com/docs/connect/custom-accounts/future-requirements), including what information needs to be collected, and by when.
 	FutureRequirements *PersonFutureRequirements `json:"future_requirements"`
 	// The person's gender (International regulations require either "male" or "female").
 	Gender string `json:"gender"`
