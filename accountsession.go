@@ -58,43 +58,21 @@ func (p *AccountSessionParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-type AccountSessionComponentsAccountOnboardingFeatures struct{}
 type AccountSessionComponentsAccountOnboarding struct {
 	// Whether the embedded component is enabled.
-	Enabled  bool                                               `json:"enabled"`
-	Features *AccountSessionComponentsAccountOnboardingFeatures `json:"features"`
-}
-type AccountSessionComponentsPaymentDetailsFeatures struct {
-	// Whether to allow capturing and cancelling payment intents. This is `true` by default.
-	CapturePayments bool `json:"capture_payments"`
-	// Whether to allow responding to disputes, including submitting evidence and accepting disputes. This is `true` by default.
-	DisputeManagement bool `json:"dispute_management"`
-	// Whether to allow sending refunds. This is `true` by default.
-	RefundManagement bool `json:"refund_management"`
+	Enabled bool `json:"enabled"`
 }
 type AccountSessionComponentsPaymentDetails struct {
 	// Whether the embedded component is enabled.
-	Enabled  bool                                            `json:"enabled"`
-	Features *AccountSessionComponentsPaymentDetailsFeatures `json:"features"`
-}
-type AccountSessionComponentsPaymentsFeatures struct {
-	// Whether to allow capturing and cancelling payment intents. This is `true` by default.
-	CapturePayments bool `json:"capture_payments"`
-	// Whether to allow responding to disputes, including submitting evidence and accepting disputes. This is `true` by default.
-	DisputeManagement bool `json:"dispute_management"`
-	// Whether to allow sending refunds. This is `true` by default.
-	RefundManagement bool `json:"refund_management"`
+	Enabled bool `json:"enabled"`
 }
 type AccountSessionComponentsPayments struct {
 	// Whether the embedded component is enabled.
-	Enabled  bool                                      `json:"enabled"`
-	Features *AccountSessionComponentsPaymentsFeatures `json:"features"`
+	Enabled bool `json:"enabled"`
 }
-type AccountSessionComponentsPayoutsFeatures struct{}
 type AccountSessionComponentsPayouts struct {
 	// Whether the embedded component is enabled.
-	Enabled  bool                                     `json:"enabled"`
-	Features *AccountSessionComponentsPayoutsFeatures `json:"features"`
+	Enabled bool `json:"enabled"`
 }
 type AccountSessionComponents struct {
 	AccountOnboarding *AccountSessionComponentsAccountOnboarding `json:"account_onboarding"`
