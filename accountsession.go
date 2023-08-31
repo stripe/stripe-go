@@ -30,7 +30,7 @@ type AccountSessionComponentsPayoutsParams struct {
 	Enabled *bool `form:"enabled"`
 }
 
-// Each key of the dictionary represents an embedded component, and each embedded component maps to its configuration (e.g. whether it has been enabled or not, its corresponding features, etc.).
+// Each key of the dictionary represents an embedded component, and each embedded component maps to its configuration (e.g. whether it has been enabled or not).
 type AccountSessionComponentsParams struct {
 	// Configuration for the account onboarding embedded component.
 	AccountOnboarding *AccountSessionComponentsAccountOnboardingParams `form:"account_onboarding"`
@@ -47,7 +47,7 @@ type AccountSessionParams struct {
 	Params `form:"*"`
 	// The identifier of the account to create an Account Session for.
 	Account *string `form:"account"`
-	// Each key of the dictionary represents an embedded component, and each embedded component maps to its configuration (e.g. whether it has been enabled or not, its corresponding features, etc.).
+	// Each key of the dictionary represents an embedded component, and each embedded component maps to its configuration (e.g. whether it has been enabled or not).
 	Components *AccountSessionComponentsParams `form:"components"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
