@@ -25,7 +25,8 @@ type TokenParams struct {
 	Account *TokenAccountParams `form:"account"`
 	// The bank account this token will represent.
 	BankAccount *BankAccountParams `form:"bank_account"`
-	Card        *CardParams        `form:"card"`
+	// The card this token will represent. If you also pass in a customer, the card must be the ID of a card belonging to the customer. Otherwise, if you do not pass in a customer, this is a dictionary containing a user's credit card details, with the options described below.
+	Card *CardParams `form:"card"`
 	// The customer (owned by the application's account) for which to create a token. This can be used only with an [OAuth access token](https://stripe.com/docs/connect/standard-accounts) or [Stripe-Account header](https://stripe.com/docs/connect/authentication). For more details, see [Cloning Saved Payment Methods](https://stripe.com/docs/connect/cloning-saved-payment-methods).
 	Customer *string `form:"customer"`
 	// The updated CVC value this token will represent.

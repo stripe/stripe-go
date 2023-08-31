@@ -693,6 +693,8 @@ type PaymentLink struct {
 	AfterCompletion *PaymentLinkAfterCompletion `json:"after_completion"`
 	// Whether user redeemable promotion codes are enabled.
 	AllowPromotionCodes bool `json:"allow_promotion_codes"`
+	// The ID of the Connect application that created the Payment Link.
+	Application *Application `json:"application"`
 	// The amount of the application fee (if any) that will be requested to be applied to the payment and transferred to the application owner's Stripe account.
 	ApplicationFeeAmount int64 `json:"application_fee_amount"`
 	// This represents the percentage of the subscription invoice total that will be transferred to the application owner's Stripe account.
