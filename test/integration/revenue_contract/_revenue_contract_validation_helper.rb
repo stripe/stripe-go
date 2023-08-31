@@ -28,9 +28,16 @@ class Critic::RevenueContractValidationHelper < Critic::OrderAmendmentFunctional
     assert_equal(signed_date, subscription_schedule.metadata['contract_cf_signed_date'])
 
     # top level contract fields
-    # These are only specific to creation right now, will need to update when we handle amendments
-    assert_equal("signed", revenue_contract.status)
-    assert_equal(DateTime.parse(signed_date).to_i, revenue_contract.status_transitions.signed_at)
+    # These are only specific to creation right now, will need to update when we handle amendments\
+    if subscription_schedule.status == "canceled"
+      # TODO: Eventually this can result in uncollectible.
+      assert_equal("void", revenue_contract.status)
+      assert_equal(subscription_schedule.canceled_at, revenue_contract.status_transitions.voided_at)
+    else
+      assert_equal("signed", revenue_contract.status)
+      assert_equal(DateTime.parse(signed_date).to_i, revenue_contract.status_transitions.signed_at)
+    end
+
     assert_equal(version, revenue_contract.version)
     assert_equal(subscription_schedule.metadata['salesforce_order_link'], revenue_contract.metadata['salesforce_order_link'])
     assert_equal(subscription_schedule.metadata['salesforce_order_id'], revenue_contract.metadata['salesforce_order_id'])
@@ -83,7 +90,7 @@ class Critic::RevenueContractValidationHelper < Critic::OrderAmendmentFunctional
     start_date,
     end_date
   )
-    assert_equal(start_date.to_time.to_i, contract_item.period.start)
-    assert_equal(end_date.to_time.to_i, contract_item.period.end)
+    assert_equal(start_date.is_a?(Integer) ? start_date : start_date.to_time.to_i, contract_item.period.start)
+    assert_equal(end_date.is_a?(Integer) ? end_date : end_date.to_time.to_i, contract_item.period.end)
   end
 end

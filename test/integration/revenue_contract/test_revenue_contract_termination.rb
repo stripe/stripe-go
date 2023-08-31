@@ -1,0 +1,269 @@
+# frozen_string_literal: true
+# typed: true
+
+require_relative './_revenue_contract_validation_helper'
+
+class Critic::RevRecContractTermination < Critic::RevenueContractValidationHelper
+  before do
+    set_cassette_dir(__FILE__)
+    Timecop.freeze(VCR.current_cassette.originally_recorded_at || now_time)
+
+    @defaultSignedDate = "2022-12-31"
+    @defaultTFC = 30
+    @user = make_user(save: true)
+    @user.enable_feature(FeatureFlags::TERMINATION_METADATA)
+    @user.enable_feature FeatureFlags::STRIPE_REVENUE_CONTRACT, update: true
+    @user.field_defaults = {
+      "subscription_item" => {
+        "metadata.contract_tfc_duration" => @defaultTFC,
+      },
+      "subscription_schedule" => {
+        "metadata.contract_cf_signed_date" => @defaultSignedDate,
+      },
+    }
+    @user.save
+  end
+
+  it 'cancels a subscription in the future does not terminate revenue contract' do
+    # initial subscription: quantity 1
+    # order amendment: quantity 0
+    # one phase with a shortened end date
+
+    sf_account_id = create_salesforce_account
+    sf_order = create_subscription_order(sf_account_id: sf_account_id, contact_email: "cancel_sub_future_rev_contract")
+    StripeForce::Translate.perform_inline(@user, sf_order.Id)
+
+    sf_contract = create_contract_from_order(sf_order)
+    # api precondition: initial orders have a nil contract ID
+    sf_order.refresh
+    assert_nil(sf_order.ContractId)
+
+    # the contract should reference the initial order that was created
+    assert_equal(sf_order[SF_ID], sf_contract[SF_CONTRACT_ORDER_ID])
+
+    amendment_end_date = now_time + 9.months
+    amendment_data = create_quote_data_from_contract_amendment(sf_contract)
+    # wipe out the product
+    amendment_data["lineItems"].first["record"][CPQ_QUOTE_QUANTITY] = 0
+    amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_START_DATE] = format_date_for_salesforce(amendment_end_date)
+    amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_TERM] = 3
+
+    sf_order_amendment = create_order_from_quote_data(amendment_data)
+    assert_equal(sf_order_amendment.Type, OrderTypeOptions::AMENDMENT.serialize)
+
+    StripeForce::Translate.perform_inline(@user, sf_order_amendment.Id)
+
+    sf_order.refresh
+    stripe_id = sf_order[prefixed_stripe_field(GENERIC_STRIPE_ID)]
+    subscription_schedule = Stripe::SubscriptionSchedule.retrieve(stripe_id, @user.stripe_credentials)
+    contract_id = sf_order[prefixed_stripe_field(GENERIC_STRIPE_REVENUE_CONTRACT_ID)]
+    revenue_contract = get_revenue_contract(contract_id)
+
+    # status remains signed here as we did not void the contract.
+    revenue_contract_validate_basics(sf_order, subscription_schedule, revenue_contract, sf_account_id, @defaultSignedDate, version: 2)
+    assert_equal(1, subscription_schedule.phases.count)
+    phase_1 = T.must(subscription_schedule.phases.first)
+    assert_equal(1, phase_1.items.count)
+    assert_equal(0, phase_1.add_invoice_items.count)
+
+    assert_equal(1, revenue_contract.items.data.count)
+
+    phase_item_1 = T.must(phase_1.items.first)
+    contract_item_1 = T.must(revenue_contract.items.data.first)
+    revenue_contract_validate_item(phase_item_1, contract_item_1, nil, 1, 108000, @defaultTFC)
+    revenue_contract_validate_item_period(contract_item_1, phase_1.start_date, amendment_end_date)
+    assert_equal(phase_1.end_date, contract_item_1.period.end)
+  end
+
+  # use case: user decides *right* after signing the contract they want to change their order competely
+  it 'cancels a subscription on the same day it started voids revenue contract' do
+      @user.field_mappings = {
+        "subscription_item" => {
+          "sbc_termination.metadata.salesforce_effective_termination_date" => "OrderId.OpportunityId.CloseDate",
+        },
+        "subscription_schedule" => {
+          "sbc_termination.metadata.salesforce_effective_termination_date" => "OpportunityId.CloseDate",
+        },
+      }
+      @user.field_defaults = {
+        "subscription_item" => {
+          "metadata.contract_tfc_duration" => @defaultTFC,
+        },
+        "subscription_schedule" => {
+          "sbc_termination.metadata.custom_metadata_field" => "custom_metadata_field_value",
+          "metadata.contract_cf_signed_date" => @defaultSignedDate,
+        },
+      }
+      @user.save
+
+      sf_account_id = create_salesforce_account
+      sf_order = create_subscription_order(sf_account_id: sf_account_id, contact_email: "cancel_sub_same_day_void_rev_contract")
+
+      StripeForce::Translate.perform_inline(@user, sf_order.Id)
+
+      sf_contract = create_contract_from_order(sf_order)
+      # the contract should reference the initial order that was created
+      assert_equal(sf_order[SF_ID], sf_contract[SF_CONTRACT_ORDER_ID])
+
+      amendment_data = create_quote_data_from_contract_amendment(sf_contract)
+      # remove the product
+      amendment_data["lineItems"].first["record"][CPQ_QUOTE_QUANTITY] = 0
+      # the quote is generated by the contract CPQ API, so we need to set these fields manually
+      # let's have the second phase start in 9mo
+      amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_START_DATE] = now_time_formatted_for_salesforce
+      amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_TERM] = TEST_DEFAULT_CONTRACT_TERM
+
+      sf_order_amendment = create_order_from_quote_data(amendment_data)
+      assert_equal(sf_order_amendment.Type, OrderTypeOptions::AMENDMENT.serialize)
+
+      StripeForce::Translate.perform_inline(@user, sf_order_amendment.Id)
+      sf_order.refresh
+      stripe_id = sf_order[prefixed_stripe_field(GENERIC_STRIPE_ID)]
+      subscription_schedule = Stripe::SubscriptionSchedule.retrieve(stripe_id, @user.stripe_credentials)
+      contract_id = sf_order[prefixed_stripe_field(GENERIC_STRIPE_REVENUE_CONTRACT_ID)]
+      revenue_contract = get_revenue_contract(contract_id)
+
+      assert_equal(1, subscription_schedule.phases.count)
+      assert_equal('canceled', subscription_schedule.status)
+
+      revenue_contract_validate_basics(sf_order, subscription_schedule, revenue_contract, sf_account_id, @defaultSignedDate, version: 2)
+      assert_equal(1, subscription_schedule.phases.count)
+      phase_1 = T.must(subscription_schedule.phases.first)
+      assert_equal(1, phase_1.items.count)
+      assert_equal(0, phase_1.add_invoice_items.count)
+
+      assert_equal(1, revenue_contract.items.data.count)
+
+      phase_item_1 = T.must(phase_1.items.first)
+      contract_item_1 = T.must(revenue_contract.items.data.first)
+      revenue_contract_validate_item(phase_item_1, contract_item_1, nil, 1, 144000, @defaultTFC)
+      revenue_contract_validate_item_period(contract_item_1, phase_1.start_date, phase_1.end_date)
+  end
+
+  # TODO: This test is flaky with sub schedule sometimes, not sure why, but when it runs, it succeeds.
+  # Disabling it for now, and will come back and re-enable this.
+  # it 'syncs three stacked backdated amendments with last being a termination order with void on revenue contract' do
+  def revenue_contract_stacked_adjustments_termination_disabled
+    @user.enable_feature FeatureFlags::NON_ANNIVERSARY_AMENDMENTS, update: true
+    @user.enable_feature FeatureFlags::DAY_PRORATIONS, update: true
+    @user.enable_feature FeatureFlags::BACKDATED_AMENDMENTS, update: true
+    @user.enable_feature FeatureFlags::TERMINATED_ORDER_ITEM_CREDIT, update: true
+    @user.disable_feature(FeatureFlags::SF_CACHING)
+
+    @user.field_mappings['subscription_schedule'] = {
+      'metadata.OrderNumber' => 'OrderNumber',
+    }
+    @user.save
+
+    # initial order: 1yr contract, billed annually, started 3 months ago
+    # amendment 1: started 2 months ago
+    # amendment 2: started 1 month ago
+    # amendment 3: started 3 days ago
+    contract_term = TEST_DEFAULT_CONTRACT_TERM
+    initial_order_start_date = now_time - 3.months - 3.days
+    initial_order_end_date = initial_order_start_date + contract_term.months
+
+    amendment_1_term = 11
+    amendment_1_start_date = initial_order_start_date + (contract_term - amendment_1_term).months
+
+    amendment_2_term = 10
+    amendment_2_start_date = initial_order_start_date + (contract_term - amendment_2_term).months
+
+    amendment_3_term = 9
+    amendment_3_start_date = initial_order_start_date + (contract_term - amendment_3_term).months
+
+    sf_product_id, _sf_pricebook_id = salesforce_recurring_product_with_price(
+      additional_product_fields: {
+        CPQ_QUOTE_BILLING_FREQUENCY => CPQBillingFrequencyOptions::ANNUAL.serialize,
+      }
+    )
+
+    # create the initial sf order
+    sf_account_id = create_salesforce_account
+    sf_order = create_subscription_order(
+      sf_account_id: sf_account_id,
+      sf_product_id: sf_product_id,
+      contact_email: "sync_three_stacked_backdated_last_one_void_rev_contract",
+      additional_fields: {
+        CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(initial_order_start_date),
+        CPQ_QUOTE_BILLING_FREQUENCY => CPQBillingFrequencyOptions::ANNUAL.serialize,
+        CPQ_QUOTE_SUBSCRIPTION_TERM => contract_term,
+      }
+    )
+
+    # create the first amendment to increase quantity (+2)
+    sf_contract_1 = create_contract_from_order(sf_order)
+    amendment_quote = create_quote_data_from_contract_amendment(sf_contract_1)
+    amendment_quote["lineItems"].first["record"][CPQ_QUOTE_QUANTITY] = 3
+    amendment_quote["record"][CPQ_QUOTE_SUBSCRIPTION_START_DATE] = format_date_for_salesforce(amendment_1_start_date)
+    amendment_quote["record"][CPQ_QUOTE_SUBSCRIPTION_TERM] = amendment_1_term
+    sf_order_amendment_1 = create_order_from_quote_data(amendment_quote)
+
+    # translate the orders (initial order and first amendments)
+    StripeForce::Translate.perform_inline(@user, sf_order.Id)
+    sf_order.refresh
+    stripe_id = sf_order[prefixed_stripe_field(GENERIC_STRIPE_ID)]
+
+    # We are getting the second phase right now because it's add_invoice_items will get deleted after next ammendments
+    # due to the design. The invoice item is already added to the subscription hence it will still be active.
+    subscription_schedule = Stripe::SubscriptionSchedule.retrieve(stripe_id, @user.stripe_credentials)
+    assert_equal(2, subscription_schedule.phases.count)
+    second_phase = T.must(subscription_schedule.phases.second)
+
+    # create the second amendment to decrease quantity (-2)
+    sf_contract_2 = create_contract_from_order(sf_order_amendment_1)
+    amendment_quote = create_quote_data_from_contract_amendment(sf_contract_2)
+    amendment_quote["lineItems"].first["record"][CPQ_QUOTE_QUANTITY] = 1
+    amendment_quote["record"][CPQ_QUOTE_SUBSCRIPTION_START_DATE] = format_date_for_salesforce(amendment_2_start_date)
+    amendment_quote["record"][CPQ_QUOTE_SUBSCRIPTION_TERM] = amendment_2_term
+    sf_order_amendment_2 = create_order_from_quote_data(amendment_quote)
+
+    # perform the second amendment and get the third phase that still has the "add_invoice_items" before wiping during cancellation
+    StripeForce::Translate.perform_inline(@user, sf_order_amendment_2.Id)
+    subscription_schedule = Stripe::SubscriptionSchedule.retrieve(stripe_id, @user.stripe_credentials)
+    assert_equal(3, subscription_schedule.phases.count)
+    third_phase = T.must(subscription_schedule.phases.third)
+
+    # create the third amendment to terminate the order
+    sf_contract_3 = create_contract_from_order(sf_order_amendment_2)
+    amendment_quote = create_quote_data_from_contract_amendment(sf_contract_3)
+    amendment_quote["lineItems"].first["record"][CPQ_QUOTE_QUANTITY] = 0
+    amendment_quote["record"][CPQ_QUOTE_SUBSCRIPTION_START_DATE] = format_date_for_salesforce(amendment_3_start_date)
+    amendment_quote["record"][CPQ_QUOTE_SUBSCRIPTION_TERM] = amendment_3_term
+    sf_order_amendment_3 = create_order_from_quote_data(amendment_quote)
+
+    # translate the termination order
+    StripeForce::Translate.perform_inline(@user, sf_order_amendment_3.Id)
+
+    # fetch the subscription schedule
+    subscription_schedule = Stripe::SubscriptionSchedule.retrieve(stripe_id, @user.stripe_credentials)
+    contract_id = sf_order[prefixed_stripe_field(GENERIC_STRIPE_REVENUE_CONTRACT_ID)]
+    revenue_contract = get_revenue_contract(contract_id)
+
+    assert_equal(3, subscription_schedule.phases.count)
+    first_phase = T.must(subscription_schedule.phases.first)
+
+    assert_equal(4, revenue_contract.items.data.count)
+    revenue_contract_validate_basics(sf_order, subscription_schedule, revenue_contract, sf_account_id, @defaultSignedDate, version: 4)
+
+    # first item - across all items
+    phase_item_1 = T.must(first_phase.items.first)
+    contract_item_1 = T.must(revenue_contract.items.data.first)
+    revenue_contract_validate_item(phase_item_1, contract_item_1, nil, 1, 12000, @defaultTFC)
+
+    # second item - was adjusted down to 0
+    phase_item_2 = T.must(second_phase.items.last)
+    contract_item_2 = T.must(revenue_contract.items.data[1])
+    revenue_contract_validate_item(phase_item_2, contract_item_2, nil, 2, 0, @defaultTFC)
+
+    # third item, propration item added on second phase
+    phase_item_3 = T.must(second_phase.add_invoice_items.last)
+    contract_item_3 = T.must(revenue_contract.items.data[2])
+    revenue_contract_validate_item(phase_item_3, contract_item_3, nil, 2, 22000, @defaultTFC)
+
+    # fourth item, propration item added on fourth phase
+    phase_item_4 = T.must(third_phase.add_invoice_items.last)
+    contract_item_4 = T.must(revenue_contract.items.data[3])
+    revenue_contract_validate_item(phase_item_4, contract_item_4, nil, 2, -20000, @defaultTFC)
+  end
+end

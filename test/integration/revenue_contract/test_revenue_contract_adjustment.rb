@@ -236,7 +236,6 @@ class Critic::RevRecContractAdjustment < Critic::RevenueContractValidationHelper
   # Disabling it for now, and will come back and re-enable this.
   # it 'revenue contract 3 stacked adjustments with quantity changes on different runs' do
   def revenue_contract_stacked_adjustments_disabled
-    # skip "This test is a bit flaky for some reason with sub schedule creation, but when all is created fine, it is correct."
     @user.disable_feature(FeatureFlags::SF_CACHING)
     # initial order: 1yr contract, billed annually, started 3 months ago
     # amendment 1: started 2 months ago
@@ -285,6 +284,14 @@ class Critic::RevRecContractAdjustment < Critic::RevenueContractValidationHelper
     Timecop.freeze(Time.now + 1.hour)
     # translate the orders (initial order and first amendment)
     StripeForce::Translate.perform_inline(@user, sf_order.Id)
+    sf_order.refresh
+    stripe_id = sf_order[prefixed_stripe_field(GENERIC_STRIPE_ID)]
+
+    # We are getting the second phase right now because it's add_invoice_items will get deleted after next ammendments
+    # due to the design. The invoice item is already added to the subscription hence it will still be active.
+    subscription_schedule = Stripe::SubscriptionSchedule.retrieve(stripe_id, @user.stripe_credentials)
+    assert_equal(2, subscription_schedule.phases.count)
+    second_phase = T.must(subscription_schedule.phases.second)
 
     # create the second amendment to increase quantity (+3)
     sf_contract_2 = create_contract_from_order(sf_order_amendment_1)
@@ -295,7 +302,12 @@ class Critic::RevRecContractAdjustment < Critic::RevenueContractValidationHelper
     sf_order_amendment_2 = create_order_from_quote_data(amendment_quote)
 
     Timecop.freeze(Time.now + 1.hour)
+
+    # perform the second amendment and get the third phase that still has the "add_invoice_items" before wiping during cancellation
     StripeForce::Translate.perform_inline(@user, sf_order_amendment_2.Id)
+    subscription_schedule = Stripe::SubscriptionSchedule.retrieve(stripe_id, @user.stripe_credentials)
+    assert_equal(3, subscription_schedule.phases.count)
+    third_phase = T.must(subscription_schedule.phases.third)
 
     # create the third amendment to decrease the quantity (-5)
     sf_contract_3 = create_contract_from_order(sf_order_amendment_2)
@@ -306,20 +318,20 @@ class Critic::RevRecContractAdjustment < Critic::RevenueContractValidationHelper
     sf_order_amendment_3 = create_order_from_quote_data(amendment_quote)
 
     Timecop.freeze(Time.now + 1.hour)
-    StripeForce::Translate.perform_inline(@user, sf_order_amendment_3.Id)
+    # perform the third amendment and get the fourth phase that still has the "add_invoice_items" before wiping during cancellation
+    StripeForce::Translate.perform_inline(@user, sf_order_amendment_2.Id)
+    subscription_schedule = Stripe::SubscriptionSchedule.retrieve(stripe_id, @user.stripe_credentials)
+    assert_equal(4, subscription_schedule.phases.count)
+    fourth_phase = T.must(subscription_schedule.phases.fourth)
 
     # fetch the subscription schedule
     sf_order.refresh
-    stripe_id = sf_order[prefixed_stripe_field(GENERIC_STRIPE_ID)]
     contract_id = sf_order[prefixed_stripe_field(GENERIC_STRIPE_REVENUE_CONTRACT_ID)]
     revenue_contract = get_revenue_contract(contract_id)
 
     subscription_schedule = Stripe::SubscriptionSchedule.retrieve(stripe_id, @user.stripe_credentials)
     assert_equal(4, subscription_schedule.phases.count)
     first_phase = T.must(subscription_schedule.phases.first)
-    second_phase = T.must(subscription_schedule.phases.second)
-    third_phase = T.must(subscription_schedule.phases.third)
-    fourth_phase = T.must(subscription_schedule.phases.fourth)
 
     assert_equal(8, revenue_contract.items.data.count)
     revenue_contract_validate_basics(sf_order, subscription_schedule, revenue_contract, sf_account_id, @defaultSignedDate, version: 4)

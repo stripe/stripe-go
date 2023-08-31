@@ -1183,6 +1183,12 @@ class StripeForce::Translate
           # NOTE the intention here is to void/reverse out the entire contract, this is the closest API call we have
           log.info 'cancelling subscription schedule immediately', sf_order_amendment_id: sf_order_amendment
           subscription_schedule = T.cast(subscription_schedule.cancel({invoice_now: false, prorate: false}, @user.stripe_credentials), Stripe::SubscriptionSchedule)
+          if @user.feature_enabled?(FeatureFlags::STRIPE_REVENUE_CONTRACT)
+            terminate_revenue_contract(
+              subscription_schedule,
+              contract_structure.initial,
+              sf_order_amendment)
+          end
         else
           log.info 'adding phase', sf_order_amendment_id: sf_order_amendment.Id, start_date: new_phase.start_date, end_date: new_phase.end_date
 
@@ -1227,7 +1233,14 @@ class StripeForce::Translate
           subscription_schedule = T.cast(subscription_schedule.save({}, @user.stripe_credentials), Stripe::SubscriptionSchedule)
 
           if @user.feature_enabled?(FeatureFlags::STRIPE_REVENUE_CONTRACT)
-            adjust_revenue_contract_from_sub_schedule(subscription_schedule, contract_structure.initial, sf_order_amendment, aggregate_phase_items, invoice_items_in_order, invoice_items_for_prorations + negative_invoice_items)
+            adjust_revenue_contract_from_sub_schedule(
+              subscription_schedule,
+              contract_structure.initial,
+              sf_order_amendment,
+              aggregate_phase_items,
+              invoice_items_in_order,
+              invoice_items_for_prorations + negative_invoice_items,
+              is_order_terminated)
           end
         end
       end
