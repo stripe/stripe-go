@@ -1197,7 +1197,7 @@ type CheckoutSessionPaymentMethodOptionsCustomerBalanceBankTransferParams struct
 	//
 	// Permitted values include: `sort_code`, `zengin`, `iban`, or `spei`.
 	RequestedAddressTypes []*string `form:"requested_address_types"`
-	// The list of bank transfer types that this PaymentIntent is allowed to use for funding. Permitted values include: `us_bank_account`, `eu_bank_account`, `id_bank_account`, `gb_bank_account`, `jp_bank_account`, `mx_bank_account`, `eu_bank_transfer`, `gb_bank_transfer`, `id_bank_transfer`, `jp_bank_transfer`, `mx_bank_transfer`, or `us_bank_transfer`.
+	// The list of bank transfer types that this PaymentIntent is allowed to use for funding.
 	Type *string `form:"type"`
 }
 
