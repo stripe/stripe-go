@@ -439,7 +439,7 @@ type QuoteLineTrialSettings struct {
 	EndBehavior *QuoteLineTrialSettingsEndBehavior `json:"end_behavior"`
 }
 
-// A quote line defines a set of changes that will be applied upon quote acceptance.
+// A quote line defines a set of changes, in the order provided, that will be applied upon quote acceptance.
 type QuoteLine struct {
 	// A list of items the customer is being quoted for.
 	Actions []*QuoteLineAction `json:"actions"`
