@@ -1,5 +1,10 @@
 # Changelog
 
+## 75.4.0-beta.1 - 2023-08-31
+* [#1721](https://github.com/stripe/stripe-go/pull/1721) Update generated code for beta
+  * Rename `quote.PreviewInvoices` and `quote.PreviewSubscriptionSchedules` to `quotepreviewinvoice.List` and `quotepreviewschedule.List`
+  * Add support for `Components` on `AccountSessionParams` and `AccountSession`
+
 ## 75.2.0 - 2023-08-24
 * [#1718](https://github.com/stripe/stripe-go/pull/1718) Update generated code
   * Add support for `Retention` on `BillingPortalSessionFlowDataSubscriptionCancelParams` and `BillingPortalSessionFlowSubscriptionCancel`
