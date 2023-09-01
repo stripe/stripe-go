@@ -791,6 +791,12 @@ type AccountSettingsPayoutsParams struct {
 	StatementDescriptor *string `form:"statement_descriptor"`
 }
 
+// Settings specific to the account's tax forms.
+type AccountSettingsTaxFormsParams struct {
+	// Whether the account opted out of receiving their tax forms by postal delivery.
+	ConsentedToPaperlessDelivery *bool `form:"consented_to_paperless_delivery"`
+}
+
 // Details on the account's acceptance of the Stripe Treasury Services Agreement.
 type AccountSettingsTreasuryTOSAcceptanceParams struct {
 	// The Unix timestamp marking when the account representative accepted the service agreement.
@@ -823,6 +829,8 @@ type AccountSettingsParams struct {
 	Payments *AccountSettingsPaymentsParams `form:"payments"`
 	// Settings specific to the account's payouts.
 	Payouts *AccountSettingsPayoutsParams `form:"payouts"`
+	// Settings specific to the account's tax forms.
+	TaxForms *AccountSettingsTaxFormsParams `form:"tax_forms"`
 	// Settings specific to the account's Treasury FinancialAccounts.
 	Treasury *AccountSettingsTreasuryParams `form:"treasury"`
 }
@@ -1290,6 +1298,10 @@ type AccountSettingsSEPADebitPayments struct {
 	// SEPA creditor identifier that identifies the company making the payment.
 	CreditorID string `json:"creditor_id"`
 }
+type AccountSettingsTaxForms struct {
+	// Whether the account opted out of receiving their tax forms by postal delivery.
+	ConsentedToPaperlessDelivery bool `json:"consented_to_paperless_delivery"`
+}
 type AccountSettingsTreasuryTOSAcceptance struct {
 	// The Unix timestamp marking when the account representative accepted the service agreement.
 	Date int64 `json:"date"`
@@ -1312,6 +1324,7 @@ type AccountSettings struct {
 	Payments          *AccountSettingsPayments          `json:"payments"`
 	Payouts           *AccountSettingsPayouts           `json:"payouts"`
 	SEPADebitPayments *AccountSettingsSEPADebitPayments `json:"sepa_debit_payments"`
+	TaxForms          *AccountSettingsTaxForms          `json:"tax_forms"`
 	Treasury          *AccountSettingsTreasury          `json:"treasury"`
 }
 type AccountTOSAcceptance struct {
