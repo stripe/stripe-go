@@ -119,7 +119,6 @@ const (
 	EventTypeInvoiceVoided                                        EventType = "invoice.voided"
 	EventTypeInvoiceItemCreated                                   EventType = "invoiceitem.created"
 	EventTypeInvoiceItemDeleted                                   EventType = "invoiceitem.deleted"
-	EventTypeInvoiceItemUpdated                                   EventType = "invoiceitem.updated"
 	EventTypeIssuingAuthorizationCreated                          EventType = "issuing_authorization.created"
 	EventTypeIssuingAuthorizationRequest                          EventType = "issuing_authorization.request"
 	EventTypeIssuingAuthorizationUpdated                          EventType = "issuing_authorization.updated"
