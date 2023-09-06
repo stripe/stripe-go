@@ -246,7 +246,7 @@ type CustomerCreateFundingInstructionsBankTransferParams struct {
 	EUBankTransfer *CustomerCreateFundingInstructionsBankTransferEUBankTransferParams `form:"eu_bank_transfer"`
 	// List of address types that should be returned in the financial_addresses response. If not specified, all valid types will be returned.
 	//
-	// Permitted values include: `sort_code`, `zengin`, `iban`, or `spei`.
+	// Permitted values include: `sort_code`, `zengin`, `iban`, `spei`, or `ca_bank_account_address`.
 	RequestedAddressTypes []*string `form:"requested_address_types"`
 	// The type of the `bank_transfer`
 	Type *string `form:"type"`
