@@ -187,8 +187,9 @@ jobs:
     steps:
       - checkout
       # checkout must be done before browser install as it needs to be an empty directory (chromedriver install leaves behind a license file)
-      - browser-tools/install-chrome
-      - browser-tools/install-chromedriver
+      - browser-tools/install-browser-tools:
+          # TODO remove following line when fixed https://github.com/CircleCI-Public/browser-tools-orb/issues/90
+          chrome-version: 116.0.5845.96
       - sfdx/install: *sfdx_version
       - jq/install
       - ruby/install-deps:
