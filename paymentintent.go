@@ -378,7 +378,7 @@ const (
 
 // List of address types that should be returned in the financial_addresses response. If not specified, all valid types will be returned.
 //
-// Permitted values include: `sort_code`, `zengin`, `iban`, `spei`, or `ca_bank_account_address`.
+// Permitted values include: `sort_code`, `zengin`, `iban`, or `spei`.
 type PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressType string
 
 // List of values that PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressType can take
@@ -1237,7 +1237,7 @@ type PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferParams struct {
 	EUBankTransfer *PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferParams `form:"eu_bank_transfer"`
 	// List of address types that should be returned in the financial_addresses response. If not specified, all valid types will be returned.
 	//
-	// Permitted values include: `sort_code`, `zengin`, `iban`, `spei`, or `ca_bank_account_address`.
+	// Permitted values include: `sort_code`, `zengin`, `iban`, or `spei`.
 	RequestedAddressTypes []*string `form:"requested_address_types"`
 	// The list of bank transfer types that this PaymentIntent is allowed to use for funding Permitted values include: `eu_bank_transfer`, `gb_bank_transfer`, `jp_bank_transfer`, `mx_bank_transfer`, or `us_bank_transfer`.
 	Type *string `form:"type"`
@@ -2500,7 +2500,7 @@ type PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransfer struct {
 	EUBankTransfer *PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransfer `json:"eu_bank_transfer"`
 	// List of address types that should be returned in the financial_addresses response. If not specified, all valid types will be returned.
 	//
-	// Permitted values include: `sort_code`, `zengin`, `iban`, `spei`, or `ca_bank_account_address`.
+	// Permitted values include: `sort_code`, `zengin`, `iban`, or `spei`.
 	RequestedAddressTypes []PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressType `json:"requested_address_types"`
 	// The bank transfer type that this PaymentIntent is allowed to use for funding Permitted values include: `eu_bank_transfer`, `gb_bank_transfer`, `jp_bank_transfer`, `mx_bank_transfer`, or `us_bank_transfer`.
 	Type PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferType `json:"type"`
