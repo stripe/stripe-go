@@ -239,6 +239,7 @@ const (
 	EventTypeTreasuryReceivedCreditFailed                       EventType = "treasury.received_credit.failed"
 	EventTypeTreasuryReceivedCreditSucceeded                    EventType = "treasury.received_credit.succeeded"
 	EventTypeTreasuryReceivedDebitCreated                       EventType = "treasury.received_debit.created"
+	EventTypeInvoiceItemUpdated                                 EventType = "invoiceitem.updated"
 )
 
 // List events, going back up to 30 days. Each event data is rendered according to Stripe API version at its creation time, specified in [event object](https://stripe.com/docs/api/events/object) api_version attribute (not according to your current Stripe API version or Stripe-Version header).
