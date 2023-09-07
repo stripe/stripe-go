@@ -11,7 +11,7 @@ import (
 	"github.com/stripe/stripe-go/v75/form"
 )
 
-// The customer submitted reason for why they cancelled, if the subscription was cancelled explicitly by the user.
+// The customer submitted reason for why they canceled, if the subscription was canceled explicitly by the user.
 type SubscriptionCancellationDetailsFeedback string
 
 // List of values that SubscriptionCancellationDetailsFeedback can take
@@ -26,7 +26,7 @@ const (
 	SubscriptionCancellationDetailsFeedbackUnused          SubscriptionCancellationDetailsFeedback = "unused"
 )
 
-// Why this subscription was cancelled.
+// Why this subscription was canceled.
 type SubscriptionCancellationDetailsReason string
 
 // List of values that SubscriptionCancellationDetailsReason can take
@@ -603,9 +603,9 @@ func (p *SubscriptionParams) AppendTo(body *form.Values, keyParts []string) {
 
 // Details about why this subscription was cancelled
 type SubscriptionCancellationDetailsParams struct {
-	// Additional comments about why the user canceled the subscription, if the subscription was cancelled explicitly by the user.
+	// Additional comments about why the user canceled the subscription, if the subscription was canceled explicitly by the user.
 	Comment *string `form:"comment"`
-	// The customer submitted reason for why they cancelled, if the subscription was cancelled explicitly by the user.
+	// The customer submitted reason for why they canceled, if the subscription was canceled explicitly by the user.
 	Feedback *string `form:"feedback"`
 }
 
@@ -619,9 +619,9 @@ type SubscriptionPauseCollectionParams struct {
 
 // Details about why this subscription was cancelled
 type SubscriptionCancelCancellationDetailsParams struct {
-	// Additional comments about why the user canceled the subscription, if the subscription was cancelled explicitly by the user.
+	// Additional comments about why the user canceled the subscription, if the subscription was canceled explicitly by the user.
 	Comment *string `form:"comment"`
-	// The customer submitted reason for why they cancelled, if the subscription was cancelled explicitly by the user.
+	// The customer submitted reason for why they canceled, if the subscription was canceled explicitly by the user.
 	Feedback *string `form:"feedback"`
 }
 
@@ -684,11 +684,11 @@ type SubscriptionBillingThresholds struct {
 
 // Details about why this subscription was cancelled
 type SubscriptionCancellationDetails struct {
-	// Additional comments about why the user canceled the subscription, if the subscription was cancelled explicitly by the user.
+	// Additional comments about why the user canceled the subscription, if the subscription was canceled explicitly by the user.
 	Comment string `json:"comment"`
-	// The customer submitted reason for why they cancelled, if the subscription was cancelled explicitly by the user.
+	// The customer submitted reason for why they canceled, if the subscription was canceled explicitly by the user.
 	Feedback SubscriptionCancellationDetailsFeedback `json:"feedback"`
-	// Why this subscription was cancelled.
+	// Why this subscription was canceled.
 	Reason SubscriptionCancellationDetailsReason `json:"reason"`
 }
 

@@ -449,7 +449,7 @@ type Person struct {
 	Gender string `json:"gender"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
-	// Whether the person's `id_number` was provided.
+	// Whether the person's `id_number` was provided. True if either the full ID number was provided or if only the required part of the ID number was provided (ex. last four of an individual's SSN for the US indicated by `ssn_last_4_provided`).
 	IDNumberProvided bool `json:"id_number_provided"`
 	// Whether the person's `id_number_secondary` was provided.
 	IDNumberSecondaryProvided bool `json:"id_number_secondary_provided"`
