@@ -45,22 +45,23 @@ type BalanceTransactionSourceType string
 
 // List of values that BalanceTransactionSourceType can take
 const (
-	BalanceTransactionSourceTypeApplicationFee            BalanceTransactionSourceType = "application_fee"
-	BalanceTransactionSourceTypeCharge                    BalanceTransactionSourceType = "charge"
-	BalanceTransactionSourceTypeConnectCollectionTransfer BalanceTransactionSourceType = "connect_collection_transfer"
-	BalanceTransactionSourceTypeDispute                   BalanceTransactionSourceType = "dispute"
-	BalanceTransactionSourceTypeFeeRefund                 BalanceTransactionSourceType = "fee_refund"
-	BalanceTransactionSourceTypeIssuingAuthorization      BalanceTransactionSourceType = "issuing.authorization"
-	BalanceTransactionSourceTypeIssuingDispute            BalanceTransactionSourceType = "issuing.dispute"
-	BalanceTransactionSourceTypeIssuingTransaction        BalanceTransactionSourceType = "issuing.transaction"
-	BalanceTransactionSourceTypePayout                    BalanceTransactionSourceType = "payout"
-	BalanceTransactionSourceTypePlatformTaxFee            BalanceTransactionSourceType = "platform_tax_fee"
-	BalanceTransactionSourceTypeRefund                    BalanceTransactionSourceType = "refund"
-	BalanceTransactionSourceTypeReserveTransaction        BalanceTransactionSourceType = "reserve_transaction"
-	BalanceTransactionSourceTypeTaxDeductedAtSource       BalanceTransactionSourceType = "tax_deducted_at_source"
-	BalanceTransactionSourceTypeTopup                     BalanceTransactionSourceType = "topup"
-	BalanceTransactionSourceTypeTransfer                  BalanceTransactionSourceType = "transfer"
-	BalanceTransactionSourceTypeTransferReversal          BalanceTransactionSourceType = "transfer_reversal"
+	BalanceTransactionSourceTypeApplicationFee                 BalanceTransactionSourceType = "application_fee"
+	BalanceTransactionSourceTypeCharge                         BalanceTransactionSourceType = "charge"
+	BalanceTransactionSourceTypeConnectCollectionTransfer      BalanceTransactionSourceType = "connect_collection_transfer"
+	BalanceTransactionSourceTypeCustomerCashBalanceTransaction BalanceTransactionSourceType = "customer_cash_balance_transaction"
+	BalanceTransactionSourceTypeDispute                        BalanceTransactionSourceType = "dispute"
+	BalanceTransactionSourceTypeFeeRefund                      BalanceTransactionSourceType = "fee_refund"
+	BalanceTransactionSourceTypeIssuingAuthorization           BalanceTransactionSourceType = "issuing.authorization"
+	BalanceTransactionSourceTypeIssuingDispute                 BalanceTransactionSourceType = "issuing.dispute"
+	BalanceTransactionSourceTypeIssuingTransaction             BalanceTransactionSourceType = "issuing.transaction"
+	BalanceTransactionSourceTypePayout                         BalanceTransactionSourceType = "payout"
+	BalanceTransactionSourceTypePlatformTaxFee                 BalanceTransactionSourceType = "platform_tax_fee"
+	BalanceTransactionSourceTypeRefund                         BalanceTransactionSourceType = "refund"
+	BalanceTransactionSourceTypeReserveTransaction             BalanceTransactionSourceType = "reserve_transaction"
+	BalanceTransactionSourceTypeTaxDeductedAtSource            BalanceTransactionSourceType = "tax_deducted_at_source"
+	BalanceTransactionSourceTypeTopup                          BalanceTransactionSourceType = "topup"
+	BalanceTransactionSourceTypeTransfer                       BalanceTransactionSourceType = "transfer"
+	BalanceTransactionSourceTypeTransferReversal               BalanceTransactionSourceType = "transfer_reversal"
 )
 
 // If the transaction's net funds are available in the Stripe balance yet. Either `available` or `pending`.
@@ -211,22 +212,23 @@ type BalanceTransactionSource struct {
 	ID   string                       `json:"id"`
 	Type BalanceTransactionSourceType `json:"object"`
 
-	ApplicationFee            *ApplicationFee            `json:"-"`
-	Charge                    *Charge                    `json:"-"`
-	ConnectCollectionTransfer *ConnectCollectionTransfer `json:"-"`
-	Dispute                   *Dispute                   `json:"-"`
-	FeeRefund                 *FeeRefund                 `json:"-"`
-	IssuingAuthorization      *IssuingAuthorization      `json:"-"`
-	IssuingDispute            *IssuingDispute            `json:"-"`
-	IssuingTransaction        *IssuingTransaction        `json:"-"`
-	Payout                    *Payout                    `json:"-"`
-	PlatformTaxFee            *PlatformTaxFee            `json:"-"`
-	Refund                    *Refund                    `json:"-"`
-	ReserveTransaction        *ReserveTransaction        `json:"-"`
-	TaxDeductedAtSource       *TaxDeductedAtSource       `json:"-"`
-	Topup                     *Topup                     `json:"-"`
-	Transfer                  *Transfer                  `json:"-"`
-	TransferReversal          *TransferReversal          `json:"-"`
+	ApplicationFee                 *ApplicationFee                 `json:"-"`
+	Charge                         *Charge                         `json:"-"`
+	ConnectCollectionTransfer      *ConnectCollectionTransfer      `json:"-"`
+	CustomerCashBalanceTransaction *CustomerCashBalanceTransaction `json:"-"`
+	Dispute                        *Dispute                        `json:"-"`
+	FeeRefund                      *FeeRefund                      `json:"-"`
+	IssuingAuthorization           *IssuingAuthorization           `json:"-"`
+	IssuingDispute                 *IssuingDispute                 `json:"-"`
+	IssuingTransaction             *IssuingTransaction             `json:"-"`
+	Payout                         *Payout                         `json:"-"`
+	PlatformTaxFee                 *PlatformTaxFee                 `json:"-"`
+	Refund                         *Refund                         `json:"-"`
+	ReserveTransaction             *ReserveTransaction             `json:"-"`
+	TaxDeductedAtSource            *TaxDeductedAtSource            `json:"-"`
+	Topup                          *Topup                          `json:"-"`
+	Transfer                       *Transfer                       `json:"-"`
+	TransferReversal               *TransferReversal               `json:"-"`
 }
 
 // BalanceTransactionList is a list of BalanceTransactions as retrieved from a list endpoint.
@@ -280,6 +282,8 @@ func (b *BalanceTransactionSource) UnmarshalJSON(data []byte) error {
 		err = json.Unmarshal(data, &b.Charge)
 	case BalanceTransactionSourceTypeConnectCollectionTransfer:
 		err = json.Unmarshal(data, &b.ConnectCollectionTransfer)
+	case BalanceTransactionSourceTypeCustomerCashBalanceTransaction:
+		err = json.Unmarshal(data, &b.CustomerCashBalanceTransaction)
 	case BalanceTransactionSourceTypeDispute:
 		err = json.Unmarshal(data, &b.Dispute)
 	case BalanceTransactionSourceTypeFeeRefund:

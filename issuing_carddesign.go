@@ -13,8 +13,9 @@ type IssuingCardDesignPreference string
 
 // List of values that IssuingCardDesignPreference can take
 const (
-	IssuingCardDesignPreferenceDefault IssuingCardDesignPreference = "default"
-	IssuingCardDesignPreferenceNone    IssuingCardDesignPreference = "none"
+	IssuingCardDesignPreferenceDefault         IssuingCardDesignPreference = "default"
+	IssuingCardDesignPreferenceNone            IssuingCardDesignPreference = "none"
+	IssuingCardDesignPreferencePlatformDefault IssuingCardDesignPreference = "platform_default"
 )
 
 // Whether this card design can be used to create cards.
