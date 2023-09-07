@@ -417,7 +417,7 @@ func (s *BackendImplementation) NewRequest(method, path, key, contentType string
 	req.Header.Add("Content-Type", contentType)
 	req.Header.Add("Stripe-Version", APIVersion)
 	req.Header.Add("User-Agent", encodedUserAgent)
-	req.Header.Add("X-Stripe-Client-User-Agent", encodedStripeUserAgent)
+	req.Header.Add("X-Stripe-Client-User-Agent", getEncodedStripeUserAgent())
 
 	if params != nil {
 		if params.Context != nil {
@@ -1278,6 +1278,7 @@ type requestTelemetry struct {
 var appInfo *AppInfo
 var backends Backends
 var encodedStripeUserAgent string
+var encodedStripeUserAgentReady *sync.Once
 var encodedUserAgent string
 
 // The default HTTP client used for communication with any of Stripe's
@@ -1359,22 +1360,28 @@ func initUserAgent() {
 	if appInfo != nil {
 		encodedUserAgent += " " + appInfo.formatUserAgent()
 	}
+	encodedStripeUserAgentReady = &sync.Once{}
+}
 
-	stripeUserAgent := &stripeClientUserAgent{
-		Application:     appInfo,
-		BindingsVersion: clientversion,
-		Language:        "go",
-		LanguageVersion: runtime.Version(),
-		Publisher:       "stripe",
-		Uname:           getUname(),
-	}
-	marshaled, err := json.Marshal(stripeUserAgent)
-	// Encoding this struct should never be a problem, so we're okay to panic
-	// in case it is for some reason.
-	if err != nil {
-		panic(err)
-	}
-	encodedStripeUserAgent = string(marshaled)
+func getEncodedStripeUserAgent() string {
+	encodedStripeUserAgentReady.Do(func() {
+		stripeUserAgent := &stripeClientUserAgent{
+			Application:     appInfo,
+			BindingsVersion: clientversion,
+			Language:        "go",
+			LanguageVersion: runtime.Version(),
+			Publisher:       "stripe",
+			Uname:           getUname(),
+		}
+		marshaled, err := json.Marshal(stripeUserAgent)
+		// Encoding this struct should never be a problem, so we're okay to panic
+		// in case it is for some reason.
+		if err != nil {
+			panic(err)
+		}
+		encodedStripeUserAgent = string(marshaled)
+	})
+	return encodedStripeUserAgent
 }
 
 func isHTTPWriteMethod(method string) bool {
