@@ -1,5 +1,15 @@
 # Changelog
 
+## 75.5.0-beta.1 - 2023-09-07
+* [#1730](https://github.com/stripe/stripe-go/pull/1730) Update generated code for beta
+  Release specs are identical.
+* [#1725](https://github.com/stripe/stripe-go/pull/1725) Update generated code for beta
+  * Remove support for `SubmitCard` test helper method on resource `Issuing.Card`
+  * Add support for `TaxForms` on `AccountSettingsParams` and `AccountSettings`
+  * Add support for `CardDesign` on `IssuingCardParams`
+  * Remove support for value `submitted` from enum `IssuingCardShippingStatus`
+  * Add support for new value `platform_default` on enum `IssuingCardDesignPreference`
+
 ## 75.4.0 - 2023-09-07
 * [#1724](https://github.com/stripe/stripe-go/pull/1724) Update generated code
   * Add support for new resource `PaymentMethodDomain`
