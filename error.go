@@ -170,6 +170,7 @@ const (
 	ErrorCodeShippingCalculationFailed                                   ErrorCode = "shipping_calculation_failed"
 	ErrorCodeStateUnsupported                                            ErrorCode = "state_unsupported"
 	ErrorCodeStatusTransitionInvalid                                     ErrorCode = "status_transition_invalid"
+	ErrorCodeStripeTaxInactive                                           ErrorCode = "stripe_tax_inactive"
 	ErrorCodeTLSVersionUnsupported                                       ErrorCode = "tls_version_unsupported"
 	ErrorCodeTaxIDInvalid                                                ErrorCode = "tax_id_invalid"
 	ErrorCodeTaxesCalculationFailed                                      ErrorCode = "taxes_calculation_failed"
