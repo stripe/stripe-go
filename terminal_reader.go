@@ -96,6 +96,8 @@ type TerminalReaderListParams struct {
 	Expand []*string `form:"expand"`
 	// A location ID to filter the response list to only readers at the specific location
 	Location *string `form:"location"`
+	// Filters readers by serial number
+	SerialNumber *string `form:"serial_number"`
 	// A status filter to filter readers to only offline or online readers
 	Status *string `form:"status"`
 }
