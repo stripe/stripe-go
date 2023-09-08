@@ -51,6 +51,22 @@ func (c Client) DeactivateTestmode(id string, params *stripe.TestHelpersIssuingC
 	return carddesign, err
 }
 
+// RejectTestmode is the method for the `POST /v1/test_helpers/issuing/card_designs/{card_design}/status/reject` API.
+func RejectTestmode(id string, params *stripe.TestHelpersIssuingCardDesignRejectTestmodeParams) (*stripe.IssuingCardDesign, error) {
+	return getC().RejectTestmode(id, params)
+}
+
+// RejectTestmode is the method for the `POST /v1/test_helpers/issuing/card_designs/{card_design}/status/reject` API.
+func (c Client) RejectTestmode(id string, params *stripe.TestHelpersIssuingCardDesignRejectTestmodeParams) (*stripe.IssuingCardDesign, error) {
+	path := stripe.FormatURLPath(
+		"/v1/test_helpers/issuing/card_designs/%s/status/reject",
+		id,
+	)
+	carddesign := &stripe.IssuingCardDesign{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, carddesign)
+	return carddesign, err
+}
+
 func getC() Client {
 	return Client{stripe.GetBackend(stripe.APIBackend), stripe.Key}
 }

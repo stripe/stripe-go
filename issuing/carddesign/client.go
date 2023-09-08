@@ -20,6 +20,24 @@ type Client struct {
 	Key string
 }
 
+// New creates a new issuing card design.
+func New(params *stripe.IssuingCardDesignParams) (*stripe.IssuingCardDesign, error) {
+	return getC().New(params)
+}
+
+// New creates a new issuing card design.
+func (c Client) New(params *stripe.IssuingCardDesignParams) (*stripe.IssuingCardDesign, error) {
+	carddesign := &stripe.IssuingCardDesign{}
+	err := c.B.Call(
+		http.MethodPost,
+		"/v1/issuing/card_designs",
+		c.Key,
+		params,
+		carddesign,
+	)
+	return carddesign, err
+}
+
 // Get returns the details of an issuing card design.
 func Get(id string, params *stripe.IssuingCardDesignParams) (*stripe.IssuingCardDesign, error) {
 	return getC().Get(id, params)

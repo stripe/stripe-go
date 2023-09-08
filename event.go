@@ -126,6 +126,7 @@ const (
 	EventTypeIssuingCardUpdated                                   EventType = "issuing_card.updated"
 	EventTypeIssuingCardDesignActivated                           EventType = "issuing_card_design.activated"
 	EventTypeIssuingCardDesignDeactivated                         EventType = "issuing_card_design.deactivated"
+	EventTypeIssuingCardDesignRejected                            EventType = "issuing_card_design.rejected"
 	EventTypeIssuingCardDesignUpdated                             EventType = "issuing_card_design.updated"
 	EventTypeIssuingCardholderCreated                             EventType = "issuing_cardholder.created"
 	EventTypeIssuingCardholderUpdated                             EventType = "issuing_cardholder.updated"

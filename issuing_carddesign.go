@@ -18,6 +18,35 @@ const (
 	IssuingCardDesignPreferencePlatformDefault IssuingCardDesignPreference = "platform_default"
 )
 
+// The reason(s) the card logo was rejected.
+type IssuingCardDesignRejectionReasonsCardLogo string
+
+// List of values that IssuingCardDesignRejectionReasonsCardLogo can take
+const (
+	IssuingCardDesignRejectionReasonsCardLogoGeographicLocation  IssuingCardDesignRejectionReasonsCardLogo = "geographic_location"
+	IssuingCardDesignRejectionReasonsCardLogoInappropriate       IssuingCardDesignRejectionReasonsCardLogo = "inappropriate"
+	IssuingCardDesignRejectionReasonsCardLogoNetworkName         IssuingCardDesignRejectionReasonsCardLogo = "network_name"
+	IssuingCardDesignRejectionReasonsCardLogoNonBinaryImage      IssuingCardDesignRejectionReasonsCardLogo = "non_binary_image"
+	IssuingCardDesignRejectionReasonsCardLogoNonFiatCurrency     IssuingCardDesignRejectionReasonsCardLogo = "non_fiat_currency"
+	IssuingCardDesignRejectionReasonsCardLogoOther               IssuingCardDesignRejectionReasonsCardLogo = "other"
+	IssuingCardDesignRejectionReasonsCardLogoOtherEntity         IssuingCardDesignRejectionReasonsCardLogo = "other_entity"
+	IssuingCardDesignRejectionReasonsCardLogoPromotionalMaterial IssuingCardDesignRejectionReasonsCardLogo = "promotional_material"
+)
+
+// The reason(s) the carrier text was rejected.
+type IssuingCardDesignRejectionReasonsCarrierText string
+
+// List of values that IssuingCardDesignRejectionReasonsCarrierText can take
+const (
+	IssuingCardDesignRejectionReasonsCarrierTextGeographicLocation  IssuingCardDesignRejectionReasonsCarrierText = "geographic_location"
+	IssuingCardDesignRejectionReasonsCarrierTextInappropriate       IssuingCardDesignRejectionReasonsCarrierText = "inappropriate"
+	IssuingCardDesignRejectionReasonsCarrierTextNetworkName         IssuingCardDesignRejectionReasonsCarrierText = "network_name"
+	IssuingCardDesignRejectionReasonsCarrierTextNonFiatCurrency     IssuingCardDesignRejectionReasonsCarrierText = "non_fiat_currency"
+	IssuingCardDesignRejectionReasonsCarrierTextOther               IssuingCardDesignRejectionReasonsCarrierText = "other"
+	IssuingCardDesignRejectionReasonsCarrierTextOtherEntity         IssuingCardDesignRejectionReasonsCarrierText = "other_entity"
+	IssuingCardDesignRejectionReasonsCarrierTextPromotionalMaterial IssuingCardDesignRejectionReasonsCarrierText = "promotional_material"
+)
+
 // Whether this card design can be used to create cards.
 type IssuingCardDesignStatus string
 
@@ -47,9 +76,27 @@ func (p *IssuingCardDesignListParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// Retrieves a card design object.
+// Hash containing carrier text, for use with card bundles that support carrier text.
+type IssuingCardDesignCarrierTextParams struct {
+	// The footer body text of the carrier letter.
+	FooterBody *string `form:"footer_body"`
+	// The footer title text of the carrier letter.
+	FooterTitle *string `form:"footer_title"`
+	// The header body text of the carrier letter.
+	HeaderBody *string `form:"header_body"`
+	// The header title text of the carrier letter.
+	HeaderTitle *string `form:"header_title"`
+}
+
+// Creates a card design object.
 type IssuingCardDesignParams struct {
 	Params `form:"*"`
+	// The card bundle object belonging to this card design.
+	CardBundle *string `form:"card_bundle"`
+	// The file for the card logo, for use with card bundles that support card logos.
+	CardLogo *string `form:"card_logo"`
+	// Hash containing carrier text, for use with card bundles that support carrier text.
+	CarrierText *IssuingCardDesignCarrierTextParams `form:"carrier_text"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// A lookup key used to retrieve card designs dynamically from a static string. This may be up to 200 characters.
@@ -78,11 +125,33 @@ func (p *IssuingCardDesignParams) AddMetadata(key string, value string) {
 	p.Metadata[key] = value
 }
 
+// Hash containing carrier text, for use with card bundles that support carrier text.
+type IssuingCardDesignCarrierText struct {
+	// The footer body text of the carrier letter.
+	FooterBody string `json:"footer_body"`
+	// The footer title text of the carrier letter.
+	FooterTitle string `json:"footer_title"`
+	// The header body text of the carrier letter.
+	HeaderBody string `json:"header_body"`
+	// The header title text of the carrier letter.
+	HeaderTitle string `json:"header_title"`
+}
+type IssuingCardDesignRejectionReasons struct {
+	// The reason(s) the card logo was rejected.
+	CardLogo []IssuingCardDesignRejectionReasonsCardLogo `json:"card_logo"`
+	// The reason(s) the carrier text was rejected.
+	CarrierText []IssuingCardDesignRejectionReasonsCarrierText `json:"carrier_text"`
+}
+
 // A Card Design is a logical grouping of a Card Bundle, card logo, and carrier text that represents a product line.
 type IssuingCardDesign struct {
 	APIResource
 	// The card bundle object belonging to this card design.
 	CardBundle *IssuingCardBundle `json:"card_bundle"`
+	// The file for the card logo, for use with card bundles that support card logos.
+	CardLogo *File `json:"card_logo"`
+	// Hash containing carrier text, for use with card bundles that support carrier text.
+	CarrierText *IssuingCardDesignCarrierText `json:"carrier_text"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// A lookup key used to retrieve card designs dynamically from a static string. This may be up to 200 characters.
@@ -94,7 +163,8 @@ type IssuingCardDesign struct {
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// Whether this card design is used to create cards when one is not specified.
-	Preference IssuingCardDesignPreference `json:"preference"`
+	Preference       IssuingCardDesignPreference        `json:"preference"`
+	RejectionReasons *IssuingCardDesignRejectionReasons `json:"rejection_reasons"`
 	// Whether this card design can be used to create cards.
 	Status IssuingCardDesignStatus `json:"status"`
 }
