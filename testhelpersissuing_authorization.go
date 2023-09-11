@@ -10,6 +10,8 @@ package stripe
 type TestHelpersIssuingAuthorizationAmountDetailsParams struct {
 	// The ATM withdrawal fee.
 	ATMFee *int64 `form:"atm_fee"`
+	// The amount of cash requested by the cardholder.
+	CashbackAmount *int64 `form:"cashback_amount"`
 }
 
 // Details about the seller (grocery store, e-commerce website, etc.) where the card authorization happened.

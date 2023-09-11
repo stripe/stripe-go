@@ -170,6 +170,8 @@ func (p *IssuingAuthorizationDeclineParams) AddMetadata(key string, value string
 type IssuingAuthorizationAmountDetails struct {
 	// The fee charged by the ATM for the cash withdrawal.
 	ATMFee int64 `json:"atm_fee"`
+	// The amount of cash requested by the cardholder.
+	CashbackAmount int64 `json:"cashback_amount"`
 }
 type IssuingAuthorizationMerchantData struct {
 	// A categorization of the seller's type of business. See our [merchant categories guide](https://stripe.com/docs/issuing/merchant-categories) for a list of possible values.
