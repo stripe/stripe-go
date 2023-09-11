@@ -97,6 +97,8 @@ func (p *IssuingTransactionParams) AddMetadata(key string, value string) {
 type IssuingTransactionAmountDetails struct {
 	// The fee charged by the ATM for the cash withdrawal.
 	ATMFee int64 `json:"atm_fee"`
+	// The amount of cash requested by the cardholder.
+	CashbackAmount int64 `json:"cashback_amount"`
 }
 
 // Details about the transaction, such as processing dates, set by the card network.
