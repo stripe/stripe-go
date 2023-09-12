@@ -17,6 +17,8 @@ type EphemeralKeyParams struct {
 	Expand []*string `form:"expand"`
 	// The ID of the Issuing Card you'd like to access using the resulting ephemeral key.
 	IssuingCard *string `form:"issuing_card"`
+	// A single-use token, created by Stripe.js, used for creating ephemeral keys for Issuing Cards without exchanging sensitive information.
+	Nonce *string `form:"nonce"`
 	// The ID of the Identity VerificationSession you'd like to access using the resulting ephemeral key
 	VerificationSession *string `form:"verification_session"`
 	StripeVersion       *string `form:"-"` // This goes in the `Stripe-Version` header
