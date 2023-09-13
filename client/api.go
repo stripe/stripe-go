@@ -28,6 +28,7 @@ import (
 	"github.com/stripe/stripe-go/v75/cashbalance"
 	"github.com/stripe/stripe-go/v75/charge"
 	checkoutsession "github.com/stripe/stripe-go/v75/checkout/session"
+	"github.com/stripe/stripe-go/v75/confirmationtoken"
 	"github.com/stripe/stripe-go/v75/countryspec"
 	"github.com/stripe/stripe-go/v75/coupon"
 	"github.com/stripe/stripe-go/v75/creditnote"
@@ -178,6 +179,8 @@ type API struct {
 	Charges *charge.Client
 	// CheckoutSessions is the client used to invoke /checkout/sessions APIs.
 	CheckoutSessions *checkoutsession.Client
+	// ConfirmationTokens is the client used to invoke /confirmation_tokens APIs.
+	ConfirmationTokens *confirmationtoken.Client
 	// CountrySpecs is the client used to invoke /country_specs APIs.
 	CountrySpecs *countryspec.Client
 	// Coupons is the client used to invoke /coupons APIs.
@@ -425,6 +428,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.CashBalances = &cashbalance.Client{B: backends.API, Key: key}
 	a.Charges = &charge.Client{B: backends.API, Key: key}
 	a.CheckoutSessions = &checkoutsession.Client{B: backends.API, Key: key}
+	a.ConfirmationTokens = &confirmationtoken.Client{B: backends.API, Key: key}
 	a.CountrySpecs = &countryspec.Client{B: backends.API, Key: key}
 	a.Coupons = &coupon.Client{B: backends.API, Key: key}
 	a.CreditNotes = &creditnote.Client{B: backends.API, Key: key}

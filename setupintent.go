@@ -688,6 +688,10 @@ type SetupIntentParams struct {
 	ClientSecret *string `form:"client_secret"`
 	// Set to `true` to attempt to confirm this SetupIntent immediately. This parameter defaults to `false`. If the payment method attached is a card, a return_url may be provided in case additional authentication is required.
 	Confirm *bool `form:"confirm"`
+	// ID of the ConfirmationToken used to confirm this SetupIntent.
+	//
+	// If the provided ConfirmationToken contains properties that are also being provided in this request, such as `payment_method`, then the values in this request will take precedence.
+	ConfirmationToken *string `form:"confirmation_token"`
 	// ID of the Customer this SetupIntent belongs to, if one exists.
 	//
 	// If present, the SetupIntent's payment method will be attached to the Customer on successful setup. Payment methods attached to other Customers cannot be used with this SetupIntent.
@@ -1040,6 +1044,10 @@ func (p *SetupIntentConfirmPaymentMethodDataParams) AddMetadata(key string, valu
 // confirmation limit is reached.
 type SetupIntentConfirmParams struct {
 	Params `form:"*"`
+	// ID of the ConfirmationToken used to confirm this SetupIntent.
+	//
+	// If the provided ConfirmationToken contains properties that are also being provided in this request, such as `payment_method`, then the values in this request will take precedence.
+	ConfirmationToken *string `form:"confirmation_token"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// This hash contains details about the Mandate to create
