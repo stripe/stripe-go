@@ -12,11 +12,13 @@ package file
 //
 
 import (
+	"bytes"
 	"os"
 	"testing"
 
 	assert "github.com/stretchr/testify/require"
 	stripe "github.com/stripe/stripe-go/v75"
+	"github.com/stripe/stripe-go/v75/form"
 	_ "github.com/stripe/stripe-go/v75/testing"
 )
 
@@ -41,6 +43,33 @@ func TestFileList(t *testing.T) {
 	assert.NotNil(t, i.FileList())
 }
 
+type testBackend struct {
+	calledMultipart bool
+}
+
+func (b *testBackend) Call(method, path, key string, params stripe.ParamsContainer, v stripe.LastResponseSetter) error {
+	return nil
+}
+func (b *testBackend) CallStreaming(method, path, key string, params stripe.ParamsContainer, v stripe.StreamingLastResponseSetter) error {
+	return nil
+}
+func (b *testBackend) CallRaw(method, path, key string, body *form.Values, params *stripe.Params, v stripe.LastResponseSetter) error {
+	return nil
+}
+func (b *testBackend) CallMultipart(method, path, key, boundary string, body *bytes.Buffer, params *stripe.Params, v stripe.LastResponseSetter) error {
+	b.calledMultipart = true
+	return nil
+}
+func (b *testBackend) SetMaxNetworkRetries(maxNetworkRetries int64) {}
+func TestFileBackend(t *testing.T) {
+	orig := stripe.GetBackend(stripe.UploadsBackend)
+	b := &testBackend{calledMultipart: false}
+	stripe.SetBackend(stripe.UploadsBackend, b)
+	fileParams := &stripe.FileParams{}
+	New(fileParams)
+	assert.Equal(t, b.calledMultipart, true)
+	stripe.SetBackend(stripe.UploadsBackend, orig)
+}
 func TestFileNew(t *testing.T) {
 	f, err := os.Open("test_data.pdf")
 	if err != nil {
