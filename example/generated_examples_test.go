@@ -42,6 +42,7 @@ import (
 	paymentintent "github.com/stripe/stripe-go/v75/paymentintent"
 	paymentlink "github.com/stripe/stripe-go/v75/paymentlink"
 	paymentmethod "github.com/stripe/stripe-go/v75/paymentmethod"
+	paymentmethodconfiguration "github.com/stripe/stripe-go/v75/paymentmethodconfiguration"
 	payout "github.com/stripe/stripe-go/v75/payout"
 	person "github.com/stripe/stripe-go/v75/person"
 	plan "github.com/stripe/stripe-go/v75/plan"
@@ -70,7 +71,9 @@ import (
 	terminal_location "github.com/stripe/stripe-go/v75/terminal/location"
 	terminal_reader "github.com/stripe/stripe-go/v75/terminal/reader"
 	testhelpers_customer "github.com/stripe/stripe-go/v75/testhelpers/customer"
+	testhelpers_issuing_authorization "github.com/stripe/stripe-go/v75/testhelpers/issuing/authorization"
 	testhelpers_issuing_card "github.com/stripe/stripe-go/v75/testhelpers/issuing/card"
+	testhelpers_issuing_transaction "github.com/stripe/stripe-go/v75/testhelpers/issuing/transaction"
 	testhelpers_refund "github.com/stripe/stripe-go/v75/testhelpers/refund"
 	testhelpers_testclock "github.com/stripe/stripe-go/v75/testhelpers/testclock"
 	testhelpers_treasury_inboundtransfer "github.com/stripe/stripe-go/v75/testhelpers/treasury/inboundtransfer"
@@ -3260,6 +3263,303 @@ func TestTaxCalculationCreate(t *testing.T) {
 func TestQuotePDF(t *testing.T) {
 	params := &stripe.QuotePDFParams{}
 	result, err := quote.PDF("qt_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestPaymentMethodConfigurationList(t *testing.T) {
+	params := &stripe.PaymentMethodConfigurationListParams{
+		Application: stripe.String("foo"),
+	}
+	result := paymentmethodconfiguration.List(params)
+	assert.NotNil(t, result)
+	assert.Nil(t, result.Err())
+}
+
+func TestPaymentMethodConfigurationCreate(t *testing.T) {
+	params := &stripe.PaymentMethodConfigurationParams{
+		ACSSDebit: &stripe.PaymentMethodConfigurationACSSDebitParams{
+			DisplayPreference: &stripe.PaymentMethodConfigurationACSSDebitDisplayPreferenceParams{
+				Preference: stripe.String(string(stripe.PaymentMethodConfigurationACSSDebitDisplayPreferencePreferenceNone)),
+			},
+		},
+		Affirm: &stripe.PaymentMethodConfigurationAffirmParams{
+			DisplayPreference: &stripe.PaymentMethodConfigurationAffirmDisplayPreferenceParams{
+				Preference: stripe.String(string(stripe.PaymentMethodConfigurationAffirmDisplayPreferencePreferenceNone)),
+			},
+		},
+	}
+	result, err := paymentmethodconfiguration.New(params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestPaymentMethodConfigurationRetrieve(t *testing.T) {
+	params := &stripe.PaymentMethodConfigurationParams{}
+	result, err := paymentmethodconfiguration.Get("foo", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestPaymentMethodConfigurationUpdate(t *testing.T) {
+	params := &stripe.PaymentMethodConfigurationParams{
+		ACSSDebit: &stripe.PaymentMethodConfigurationACSSDebitParams{
+			DisplayPreference: &stripe.PaymentMethodConfigurationACSSDebitDisplayPreferenceParams{
+				Preference: stripe.String(string(stripe.PaymentMethodConfigurationACSSDebitDisplayPreferencePreferenceOn)),
+			},
+		},
+	}
+	result, err := paymentmethodconfiguration.Update("foo", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestTestHelpersIssuingAuthorizationCreate(t *testing.T) {
+	params := &stripe.TestHelpersIssuingAuthorizationParams{
+		Amount: stripe.Int64(100),
+		AmountDetails: &stripe.TestHelpersIssuingAuthorizationAmountDetailsParams{
+			ATMFee:         stripe.Int64(10),
+			CashbackAmount: stripe.Int64(5),
+		},
+		AuthorizationMethod:  stripe.String(string(stripe.IssuingAuthorizationAuthorizationMethodChip)),
+		Card:                 stripe.String("foo"),
+		Currency:             stripe.String(string(stripe.CurrencyBAR)),
+		IsAmountControllable: stripe.Bool(true),
+		MerchantData: &stripe.TestHelpersIssuingAuthorizationMerchantDataParams{
+			Category:   stripe.String("ac_refrigeration_repair"),
+			City:       stripe.String("foo"),
+			Country:    stripe.String("bar"),
+			Name:       stripe.String("foo"),
+			NetworkID:  stripe.String("bar"),
+			PostalCode: stripe.String("foo"),
+			State:      stripe.String("bar"),
+			TerminalID: stripe.String("foo"),
+		},
+		NetworkData: &stripe.TestHelpersIssuingAuthorizationNetworkDataParams{
+			AcquiringInstitutionID: stripe.String("foo"),
+		},
+		VerificationData: &stripe.TestHelpersIssuingAuthorizationVerificationDataParams{
+			AddressLine1Check:      stripe.String("mismatch"),
+			AddressPostalCodeCheck: stripe.String("match"),
+			CVCCheck:               stripe.String("match"),
+			ExpiryCheck:            stripe.String("mismatch"),
+		},
+		Wallet: stripe.String("apple_pay"),
+	}
+	result, err := testhelpers_issuing_authorization.New(params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestTestHelpersIssuingAuthorizationCapture(t *testing.T) {
+	params := &stripe.TestHelpersIssuingAuthorizationCaptureParams{
+		CaptureAmount:      stripe.Int64(100),
+		CloseAuthorization: stripe.Bool(true),
+		PurchaseDetails: &stripe.TestHelpersIssuingAuthorizationCapturePurchaseDetailsParams{
+			Flight: &stripe.TestHelpersIssuingAuthorizationCapturePurchaseDetailsFlightParams{
+				DepartureAt:   stripe.Int64(1633651200),
+				PassengerName: stripe.String("John Doe"),
+				Refundable:    stripe.Bool(true),
+				Segments: []*stripe.TestHelpersIssuingAuthorizationCapturePurchaseDetailsFlightSegmentParams{
+					&stripe.TestHelpersIssuingAuthorizationCapturePurchaseDetailsFlightSegmentParams{
+						ArrivalAirportCode:   stripe.String("SFO"),
+						Carrier:              stripe.String("Delta"),
+						DepartureAirportCode: stripe.String("LAX"),
+						FlightNumber:         stripe.String("DL100"),
+						ServiceClass:         stripe.String("Economy"),
+						StopoverAllowed:      stripe.Bool(true),
+					},
+				},
+				TravelAgency: stripe.String("Orbitz"),
+			},
+			Fuel: &stripe.TestHelpersIssuingAuthorizationCapturePurchaseDetailsFuelParams{
+				Type:            stripe.String("diesel"),
+				Unit:            stripe.String("liter"),
+				UnitCostDecimal: stripe.String("3.5"),
+				VolumeDecimal:   stripe.String("10"),
+			},
+			Lodging: &stripe.TestHelpersIssuingAuthorizationCapturePurchaseDetailsLodgingParams{
+				CheckInAt: stripe.Int64(1633651200),
+				Nights:    stripe.Int64(2),
+			},
+			Receipt: []*stripe.TestHelpersIssuingAuthorizationCapturePurchaseDetailsReceiptParams{
+				&stripe.TestHelpersIssuingAuthorizationCapturePurchaseDetailsReceiptParams{
+					Description: stripe.String("Room charge"),
+					Quantity:    stripe.String("1"),
+					Total:       stripe.Int64(200),
+					UnitCost:    stripe.Int64(200),
+				},
+			},
+			Reference: stripe.String("foo"),
+		},
+	}
+	result, err := testhelpers_issuing_authorization.Capture(
+		"example_authorization",
+		params,
+	)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestTestHelpersIssuingAuthorizationExpire(t *testing.T) {
+	params := &stripe.TestHelpersIssuingAuthorizationExpireParams{}
+	result, err := testhelpers_issuing_authorization.Expire(
+		"example_authorization",
+		params,
+	)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestTestHelpersIssuingAuthorizationIncrement(t *testing.T) {
+	params := &stripe.TestHelpersIssuingAuthorizationIncrementParams{
+		IncrementAmount:      stripe.Int64(50),
+		IsAmountControllable: stripe.Bool(true),
+	}
+	result, err := testhelpers_issuing_authorization.Increment(
+		"example_authorization",
+		params,
+	)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestTestHelpersIssuingAuthorizationReverse(t *testing.T) {
+	params := &stripe.TestHelpersIssuingAuthorizationReverseParams{
+		ReverseAmount: stripe.Int64(20),
+	}
+	result, err := testhelpers_issuing_authorization.Reverse(
+		"example_authorization",
+		params,
+	)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestTestHelpersIssuingTransactionCreateForceCapture(t *testing.T) {
+	params := &stripe.TestHelpersIssuingTransactionCreateForceCaptureParams{
+		Amount:   stripe.Int64(100),
+		Card:     stripe.String("foo"),
+		Currency: stripe.String(string(stripe.CurrencyBAR)),
+		MerchantData: &stripe.TestHelpersIssuingTransactionCreateForceCaptureMerchantDataParams{
+			Category:   stripe.String("ac_refrigeration_repair"),
+			City:       stripe.String("foo"),
+			Country:    stripe.String("US"),
+			Name:       stripe.String("foo"),
+			NetworkID:  stripe.String("bar"),
+			PostalCode: stripe.String("10001"),
+			State:      stripe.String("NY"),
+			TerminalID: stripe.String("foo"),
+		},
+		PurchaseDetails: &stripe.TestHelpersIssuingTransactionCreateForceCapturePurchaseDetailsParams{
+			Flight: &stripe.TestHelpersIssuingTransactionCreateForceCapturePurchaseDetailsFlightParams{
+				DepartureAt:   stripe.Int64(1633651200),
+				PassengerName: stripe.String("John Doe"),
+				Refundable:    stripe.Bool(true),
+				Segments: []*stripe.TestHelpersIssuingTransactionCreateForceCapturePurchaseDetailsFlightSegmentParams{
+					&stripe.TestHelpersIssuingTransactionCreateForceCapturePurchaseDetailsFlightSegmentParams{
+						ArrivalAirportCode:   stripe.String("SFO"),
+						Carrier:              stripe.String("Delta"),
+						DepartureAirportCode: stripe.String("LAX"),
+						FlightNumber:         stripe.String("DL100"),
+						ServiceClass:         stripe.String("Economy"),
+						StopoverAllowed:      stripe.Bool(true),
+					},
+				},
+				TravelAgency: stripe.String("Orbitz"),
+			},
+			Fuel: &stripe.TestHelpersIssuingTransactionCreateForceCapturePurchaseDetailsFuelParams{
+				Type:            stripe.String("diesel"),
+				Unit:            stripe.String("liter"),
+				UnitCostDecimal: stripe.String("3.5"),
+				VolumeDecimal:   stripe.String("10"),
+			},
+			Lodging: &stripe.TestHelpersIssuingTransactionCreateForceCapturePurchaseDetailsLodgingParams{
+				CheckInAt: stripe.Int64(1533651200),
+				Nights:    stripe.Int64(2),
+			},
+			Receipt: []*stripe.TestHelpersIssuingTransactionCreateForceCapturePurchaseDetailsReceiptParams{
+				&stripe.TestHelpersIssuingTransactionCreateForceCapturePurchaseDetailsReceiptParams{
+					Description: stripe.String("Room charge"),
+					Quantity:    stripe.String("1"),
+					Total:       stripe.Int64(200),
+					UnitCost:    stripe.Int64(200),
+				},
+			},
+			Reference: stripe.String("foo"),
+		},
+	}
+	result, err := testhelpers_issuing_transaction.CreateForceCapture(params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestTestHelpersIssuingTransactionCreateUnlinkedRefund(t *testing.T) {
+	params := &stripe.TestHelpersIssuingTransactionCreateUnlinkedRefundParams{
+		Amount:   stripe.Int64(100),
+		Card:     stripe.String("foo"),
+		Currency: stripe.String(string(stripe.CurrencyBAR)),
+		MerchantData: &stripe.TestHelpersIssuingTransactionCreateUnlinkedRefundMerchantDataParams{
+			Category:   stripe.String("ac_refrigeration_repair"),
+			City:       stripe.String("foo"),
+			Country:    stripe.String("bar"),
+			Name:       stripe.String("foo"),
+			NetworkID:  stripe.String("bar"),
+			PostalCode: stripe.String("foo"),
+			State:      stripe.String("bar"),
+			TerminalID: stripe.String("foo"),
+		},
+		PurchaseDetails: &stripe.TestHelpersIssuingTransactionCreateUnlinkedRefundPurchaseDetailsParams{
+			Flight: &stripe.TestHelpersIssuingTransactionCreateUnlinkedRefundPurchaseDetailsFlightParams{
+				DepartureAt:   stripe.Int64(1533651200),
+				PassengerName: stripe.String("John Doe"),
+				Refundable:    stripe.Bool(true),
+				Segments: []*stripe.TestHelpersIssuingTransactionCreateUnlinkedRefundPurchaseDetailsFlightSegmentParams{
+					&stripe.TestHelpersIssuingTransactionCreateUnlinkedRefundPurchaseDetailsFlightSegmentParams{
+						ArrivalAirportCode:   stripe.String("SFO"),
+						Carrier:              stripe.String("Delta"),
+						DepartureAirportCode: stripe.String("LAX"),
+						FlightNumber:         stripe.String("DL100"),
+						ServiceClass:         stripe.String("Economy"),
+						StopoverAllowed:      stripe.Bool(true),
+					},
+				},
+				TravelAgency: stripe.String("Orbitz"),
+			},
+			Fuel: &stripe.TestHelpersIssuingTransactionCreateUnlinkedRefundPurchaseDetailsFuelParams{
+				Type:            stripe.String("diesel"),
+				Unit:            stripe.String("liter"),
+				UnitCostDecimal: stripe.String("3.5"),
+				VolumeDecimal:   stripe.String("10"),
+			},
+			Lodging: &stripe.TestHelpersIssuingTransactionCreateUnlinkedRefundPurchaseDetailsLodgingParams{
+				CheckInAt: stripe.Int64(1533651200),
+				Nights:    stripe.Int64(2),
+			},
+			Receipt: []*stripe.TestHelpersIssuingTransactionCreateUnlinkedRefundPurchaseDetailsReceiptParams{
+				&stripe.TestHelpersIssuingTransactionCreateUnlinkedRefundPurchaseDetailsReceiptParams{
+					Description: stripe.String("Room charge"),
+					Quantity:    stripe.String("1"),
+					Total:       stripe.Int64(200),
+					UnitCost:    stripe.Int64(200),
+				},
+			},
+			Reference: stripe.String("foo"),
+		},
+	}
+	result, err := testhelpers_issuing_transaction.CreateUnlinkedRefund(params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestTestHelpersIssuingTransactionRefund(t *testing.T) {
+	params := &stripe.TestHelpersIssuingTransactionRefundParams{
+		RefundAmount: stripe.Int64(50),
+	}
+	result, err := testhelpers_issuing_transaction.Refund(
+		"example_transaction",
+		params,
+	)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
