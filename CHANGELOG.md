@@ -1,5 +1,9 @@
 # Changelog
 
+## 75.5.0 - 2023-09-13
+* [#1735](https://github.com/stripe/stripe-go/pull/1735) Bugfix: point files.New back to files.stripe.com
+* [#1731](https://github.com/stripe/stripe-go/pull/1731) Delay calculation of Stripe-User-Agent
+
 ## 75.4.0 - 2023-09-07
 * [#1724](https://github.com/stripe/stripe-go/pull/1724) Update generated code
   * Add support for new resource `PaymentMethodDomain`
