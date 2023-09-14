@@ -159,7 +159,7 @@ type TreasuryFinancialAccountFeaturesOutboundPaymentsACHParams struct {
 	Requested *bool `form:"requested"`
 }
 
-// Enables US domestic wire tranfers via the OutboundPayments API.
+// Enables US domestic wire transfers via the OutboundPayments API.
 type TreasuryFinancialAccountFeaturesOutboundPaymentsUSDomesticWireParams struct {
 	// Whether the FinancialAccount should have the Feature.
 	Requested *bool `form:"requested"`
@@ -169,7 +169,7 @@ type TreasuryFinancialAccountFeaturesOutboundPaymentsUSDomesticWireParams struct
 type TreasuryFinancialAccountFeaturesOutboundPaymentsParams struct {
 	// Enables ACH transfers via the OutboundPayments API.
 	ACH *TreasuryFinancialAccountFeaturesOutboundPaymentsACHParams `form:"ach"`
-	// Enables US domestic wire tranfers via the OutboundPayments API.
+	// Enables US domestic wire transfers via the OutboundPayments API.
 	USDomesticWire *TreasuryFinancialAccountFeaturesOutboundPaymentsUSDomesticWireParams `form:"us_domestic_wire"`
 }
 
@@ -179,7 +179,7 @@ type TreasuryFinancialAccountFeaturesOutboundTransfersACHParams struct {
 	Requested *bool `form:"requested"`
 }
 
-// Enables US domestic wire tranfers via the OutboundTransfers API.
+// Enables US domestic wire transfers via the OutboundTransfers API.
 type TreasuryFinancialAccountFeaturesOutboundTransfersUSDomesticWireParams struct {
 	// Whether the FinancialAccount should have the Feature.
 	Requested *bool `form:"requested"`
@@ -189,7 +189,7 @@ type TreasuryFinancialAccountFeaturesOutboundTransfersUSDomesticWireParams struc
 type TreasuryFinancialAccountFeaturesOutboundTransfersParams struct {
 	// Enables ACH transfers via the OutboundTransfers API.
 	ACH *TreasuryFinancialAccountFeaturesOutboundTransfersACHParams `form:"ach"`
-	// Enables US domestic wire tranfers via the OutboundTransfers API.
+	// Enables US domestic wire transfers via the OutboundTransfers API.
 	USDomesticWire *TreasuryFinancialAccountFeaturesOutboundTransfersUSDomesticWireParams `form:"us_domestic_wire"`
 }
 
@@ -310,7 +310,7 @@ type TreasuryFinancialAccountUpdateFeaturesOutboundPaymentsACHParams struct {
 	Requested *bool `form:"requested"`
 }
 
-// Enables US domestic wire tranfers via the OutboundPayments API.
+// Enables US domestic wire transfers via the OutboundPayments API.
 type TreasuryFinancialAccountUpdateFeaturesOutboundPaymentsUSDomesticWireParams struct {
 	// Whether the FinancialAccount should have the Feature.
 	Requested *bool `form:"requested"`
@@ -320,7 +320,7 @@ type TreasuryFinancialAccountUpdateFeaturesOutboundPaymentsUSDomesticWireParams 
 type TreasuryFinancialAccountUpdateFeaturesOutboundPaymentsParams struct {
 	// Enables ACH transfers via the OutboundPayments API.
 	ACH *TreasuryFinancialAccountUpdateFeaturesOutboundPaymentsACHParams `form:"ach"`
-	// Enables US domestic wire tranfers via the OutboundPayments API.
+	// Enables US domestic wire transfers via the OutboundPayments API.
 	USDomesticWire *TreasuryFinancialAccountUpdateFeaturesOutboundPaymentsUSDomesticWireParams `form:"us_domestic_wire"`
 }
 
@@ -330,7 +330,7 @@ type TreasuryFinancialAccountUpdateFeaturesOutboundTransfersACHParams struct {
 	Requested *bool `form:"requested"`
 }
 
-// Enables US domestic wire tranfers via the OutboundTransfers API.
+// Enables US domestic wire transfers via the OutboundTransfers API.
 type TreasuryFinancialAccountUpdateFeaturesOutboundTransfersUSDomesticWireParams struct {
 	// Whether the FinancialAccount should have the Feature.
 	Requested *bool `form:"requested"`
@@ -340,7 +340,7 @@ type TreasuryFinancialAccountUpdateFeaturesOutboundTransfersUSDomesticWireParams
 type TreasuryFinancialAccountUpdateFeaturesOutboundTransfersParams struct {
 	// Enables ACH transfers via the OutboundTransfers API.
 	ACH *TreasuryFinancialAccountUpdateFeaturesOutboundTransfersACHParams `form:"ach"`
-	// Enables US domestic wire tranfers via the OutboundTransfers API.
+	// Enables US domestic wire transfers via the OutboundTransfers API.
 	USDomesticWire *TreasuryFinancialAccountUpdateFeaturesOutboundTransfersUSDomesticWireParams `form:"us_domestic_wire"`
 }
 
