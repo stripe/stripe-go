@@ -90,7 +90,9 @@ import (
 	terminallocation "github.com/stripe/stripe-go/v75/terminal/location"
 	terminalreader "github.com/stripe/stripe-go/v75/terminal/reader"
 	testhelperscustomer "github.com/stripe/stripe-go/v75/testhelpers/customer"
+	testhelpersissuingauthorization "github.com/stripe/stripe-go/v75/testhelpers/issuing/authorization"
 	testhelpersissuingcard "github.com/stripe/stripe-go/v75/testhelpers/issuing/card"
+	testhelpersissuingtransaction "github.com/stripe/stripe-go/v75/testhelpers/issuing/transaction"
 	testhelpersrefund "github.com/stripe/stripe-go/v75/testhelpers/refund"
 	testhelpersterminalreader "github.com/stripe/stripe-go/v75/testhelpers/terminal/reader"
 	testhelperstestclock "github.com/stripe/stripe-go/v75/testhelpers/testclock"
@@ -282,8 +284,12 @@ type API struct {
 	TerminalReaders *terminalreader.Client
 	// TestHelpersCustomers is the client used to invoke /customers APIs.
 	TestHelpersCustomers *testhelperscustomer.Client
+	// TestHelpersIssuingAuthorizations is the client used to invoke /issuing/authorizations APIs.
+	TestHelpersIssuingAuthorizations *testhelpersissuingauthorization.Client
 	// TestHelpersIssuingCards is the client used to invoke /issuing/cards APIs.
 	TestHelpersIssuingCards *testhelpersissuingcard.Client
+	// TestHelpersIssuingTransactions is the client used to invoke /issuing/transactions APIs.
+	TestHelpersIssuingTransactions *testhelpersissuingtransaction.Client
 	// TestHelpersRefunds is the client used to invoke /refunds APIs.
 	TestHelpersRefunds *testhelpersrefund.Client
 	// TestHelpersTerminalReaders is the client used to invoke /terminal/readers APIs.
@@ -427,7 +433,9 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.TerminalLocations = &terminallocation.Client{B: backends.API, Key: key}
 	a.TerminalReaders = &terminalreader.Client{B: backends.API, Key: key}
 	a.TestHelpersCustomers = &testhelperscustomer.Client{B: backends.API, Key: key}
+	a.TestHelpersIssuingAuthorizations = &testhelpersissuingauthorization.Client{B: backends.API, Key: key}
 	a.TestHelpersIssuingCards = &testhelpersissuingcard.Client{B: backends.API, Key: key}
+	a.TestHelpersIssuingTransactions = &testhelpersissuingtransaction.Client{B: backends.API, Key: key}
 	a.TestHelpersRefunds = &testhelpersrefund.Client{B: backends.API, Key: key}
 	a.TestHelpersTerminalReaders = &testhelpersterminalreader.Client{B: backends.API, Key: key}
 	a.TestHelpersTestClocks = &testhelperstestclock.Client{B: backends.API, Key: key}

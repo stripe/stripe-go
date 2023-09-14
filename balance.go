@@ -30,7 +30,7 @@ func (p *BalanceParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// Funds that are available to be transferred or paid out, whether automatically by Stripe or explicitly via the [Transfers API](https://stripe.com/docs/api#transfers) or [Payouts API](https://stripe.com/docs/api#payouts). The available balance for each currency and payment type can be found in the `source_types` property.
+// Available funds that you can transfer or pay out automatically by Stripe or explicitly through the [Transfers API](https://stripe.com/docs/api#transfers) or [Payouts API](https://stripe.com/docs/api#payouts). You can find the available balance for each currency and payment type in the `source_types` property.
 type Amount struct {
 	// Balance amount.
 	Amount int64 `json:"amount"`
@@ -56,17 +56,17 @@ type BalanceIssuing struct {
 // Related guide: [Understanding Connect account balances](https://stripe.com/docs/connect/account-balances)
 type Balance struct {
 	APIResource
-	// Funds that are available to be transferred or paid out, whether automatically by Stripe or explicitly via the [Transfers API](https://stripe.com/docs/api#transfers) or [Payouts API](https://stripe.com/docs/api#payouts). The available balance for each currency and payment type can be found in the `source_types` property.
+	// Available funds that you can transfer or pay out automatically by Stripe or explicitly through the [Transfers API](https://stripe.com/docs/api#transfers) or [Payouts API](https://stripe.com/docs/api#payouts). You can find the available balance for each currency and payment type in the `source_types` property.
 	Available []*Amount `json:"available"`
-	// Funds held due to negative balances on connected Custom accounts. The connect reserve balance for each currency and payment type can be found in the `source_types` property.
+	// Funds held due to negative balances on connected Custom accounts. You can find the connect reserve balance for each currency and payment type in the `source_types` property.
 	ConnectReserved []*Amount `json:"connect_reserved"`
-	// Funds that can be paid out using Instant Payouts.
+	// Funds that you can pay out using Instant Payouts.
 	InstantAvailable []*Amount       `json:"instant_available"`
 	Issuing          *BalanceIssuing `json:"issuing"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
-	// Funds that are not yet available in the balance. The pending balance for each currency, and for each payment type, can be found in the `source_types` property.
+	// Funds that aren't available in the balance yet. You can find the pending balance for each currency and each payment type in the `source_types` property.
 	Pending []*Amount `json:"pending"`
 }
