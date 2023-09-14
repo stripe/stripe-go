@@ -131,5 +131,17 @@ module Critic
       responseObj = T.let(response.first, Stripe::StripeResponse)
       Stripe::RevenueContract.construct_from(responseObj.data)
     end
+
+    sig { params(revenue_contract_id: String, latest_item_id: String).returns(Stripe::RevenueContractItemsListOjbect) }
+    def get_next_revenue_contract_items_page(revenue_contract_id, latest_item_id)
+      response = Stripe::APIResource.request(
+        :get,
+        "/v1/revenue_recognition/contracts/#{revenue_contract_id}/lines",
+        {starting_after: latest_item_id},
+        @user.stripe_credentials
+      )
+      responseObj = T.let(response.first, Stripe::StripeResponse)
+      T.let(Stripe::RevenueContractItemsListOjbect.construct_from(responseObj.data), Stripe::RevenueContractItemsListOjbect)
+    end
   end
 end

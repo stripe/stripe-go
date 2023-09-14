@@ -310,6 +310,7 @@ class StripeForce::Translate
     is_order_terminated
   )
     new_phase = T.must(subscription_schedule.phases.last)
+    revenue_contract_items = get_all_revenue_contract_items(revenue_contract)
 
     update_contract_items = []
     add_contract_items = []
@@ -318,7 +319,7 @@ class StripeForce::Translate
       # TODO: add collect items here from rev contract pages
       (aggregate_new_phase_items + new_invoice_items_in_order).each do |item|
         price = item.price(@user)
-        contract_item = revenue_contract.items.data.find {|c_item| price.id == c_item.price }
+        contract_item = revenue_contract_items.find {|c_item| price.id == c_item.price }
         if contract_item.nil?
           new_item = create_revenue_contract_item(item, new_phase.start_date, new_phase.end_date)
           if !new_item.nil?
@@ -346,7 +347,7 @@ class StripeForce::Translate
     if subscription_schedule.phases.count >= 2 || is_order_terminated
       previous_phase = is_order_terminated ? new_phase : T.must(subscription_schedule.phases[subscription_schedule.phases.count - 2])
       current_phase = is_order_terminated ? nil : new_phase
-      update_contract_items += create_update_adjustment_for_removed_items(previous_phase, current_phase, revenue_contract.items.data)
+      update_contract_items += create_update_adjustment_for_removed_items(previous_phase, current_phase, revenue_contract_items)
     end
 
     {
@@ -629,5 +630,29 @@ class StripeForce::Translate
     )
     responseObj = T.let(response.first, Stripe::StripeResponse)
     Stripe::RevenueContract.construct_from(responseObj.data)
+  end
+
+  sig { params(revenue_contract: Stripe::RevenueContract).returns(T::Array[Stripe::RevenueContractItem]) }
+  def get_all_revenue_contract_items(revenue_contract)
+    contract_items = revenue_contract.items.data
+    has_more = T.let(revenue_contract.items.has_more, T::Boolean)
+    latest_item_id = T.must(contract_items.last).id
+
+    while has_more
+      response = Stripe::APIResource.request(
+        :get,
+        "/v1/revenue_recognition/contracts/#{revenue_contract.id}/lines",
+        {starting_after: latest_item_id},
+        @user.stripe_credentials
+      )
+      responseObj = T.let(response.first, Stripe::StripeResponse)
+      items_data = T.let(Stripe::RevenueContractItemsListOjbect.construct_from(responseObj.data), Stripe::RevenueContractItemsListOjbect)
+
+      latest_item_id = T.must(items_data.data.last).id
+      contract_items += items_data.data
+      has_more = T.let(items_data.has_more, T::Boolean)
+    end
+
+    T.must(contract_items)
   end
 end
