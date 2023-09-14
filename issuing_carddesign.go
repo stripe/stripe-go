@@ -8,16 +8,6 @@ package stripe
 
 import "encoding/json"
 
-// Whether this card design is used to create cards when one is not specified.
-type IssuingCardDesignPreference string
-
-// List of values that IssuingCardDesignPreference can take
-const (
-	IssuingCardDesignPreferenceDefault         IssuingCardDesignPreference = "default"
-	IssuingCardDesignPreferenceNone            IssuingCardDesignPreference = "none"
-	IssuingCardDesignPreferencePlatformDefault IssuingCardDesignPreference = "platform_default"
-)
-
 // The reason(s) the card logo was rejected.
 type IssuingCardDesignRejectionReasonsCardLogo string
 
@@ -58,6 +48,14 @@ const (
 	IssuingCardDesignStatusReview   IssuingCardDesignStatus = "review"
 )
 
+// Only return card designs with the given preferences.
+type IssuingCardDesignListPreferencesParams struct {
+	// Only return the card design that is set as the account default. A connected account will use the Connect platform's default if no card design is set as the account default.
+	AccountDefault *bool `form:"account_default"`
+	// Only return the card design that is set as the Connect platform's default. This parameter is only applicable to connected accounts.
+	PlatformDefault *bool `form:"platform_default"`
+}
+
 // Returns a list of card design objects. The objects are sorted in descending order by creation date, with the most recently created object appearing first.
 type IssuingCardDesignListParams struct {
 	ListParams `form:"*"`
@@ -65,8 +63,8 @@ type IssuingCardDesignListParams struct {
 	Expand []*string `form:"expand"`
 	// Only return card designs with the given lookup keys.
 	LookupKeys []*string `form:"lookup_keys"`
-	// Only return card designs with the given preference.
-	Preference *string `form:"preference"`
+	// Only return card designs with the given preferences.
+	Preferences *IssuingCardDesignListPreferencesParams `form:"preferences"`
 	// Only return card designs with the given status.
 	Status *string `form:"status"`
 }
@@ -88,6 +86,12 @@ type IssuingCardDesignCarrierTextParams struct {
 	HeaderTitle *string `form:"header_title"`
 }
 
+// Information on whether this card design is used to create cards when one is not specified.
+type IssuingCardDesignPreferencesParams struct {
+	// Whether this card design is used to create cards when one is not specified. A connected account will use the Connect platform's default if no card design is set as the account default.
+	AccountDefault *bool `form:"account_default"`
+}
+
 // Creates a card design object.
 type IssuingCardDesignParams struct {
 	Params `form:"*"`
@@ -105,8 +109,8 @@ type IssuingCardDesignParams struct {
 	Metadata map[string]string `form:"metadata"`
 	// Friendly display name. Providing an empty string will set the field to null.
 	Name *string `form:"name"`
-	// Whether this card design is used to create cards when one is not specified.
-	Preference *string `form:"preference"`
+	// Information on whether this card design is used to create cards when one is not specified.
+	Preferences *IssuingCardDesignPreferencesParams `form:"preferences"`
 	// If set to true, will atomically remove the lookup key from the existing card design, and assign it to this card design.
 	TransferLookupKey *bool `form:"transfer_lookup_key"`
 }
@@ -136,6 +140,12 @@ type IssuingCardDesignCarrierText struct {
 	// The header title text of the carrier letter.
 	HeaderTitle string `json:"header_title"`
 }
+type IssuingCardDesignPreferences struct {
+	// Whether this card design is used to create cards when one is not specified. A connected account will use the Connect platform's default if no card design is set as the account default.
+	AccountDefault bool `json:"account_default"`
+	// Whether this card design is used to create cards when one is not specified and an account default for this connected account does not exist.
+	PlatformDefault bool `json:"platform_default"`
+}
 type IssuingCardDesignRejectionReasons struct {
 	// The reason(s) the card logo was rejected.
 	CardLogo []IssuingCardDesignRejectionReasonsCardLogo `json:"card_logo"`
@@ -161,9 +171,8 @@ type IssuingCardDesign struct {
 	// Friendly display name.
 	Name string `json:"name"`
 	// String representing the object's type. Objects of the same type share the same value.
-	Object string `json:"object"`
-	// Whether this card design is used to create cards when one is not specified.
-	Preference       IssuingCardDesignPreference        `json:"preference"`
+	Object           string                             `json:"object"`
+	Preferences      *IssuingCardDesignPreferences      `json:"preferences"`
 	RejectionReasons *IssuingCardDesignRejectionReasons `json:"rejection_reasons"`
 	// Whether this card design can be used to create cards.
 	Status IssuingCardDesignStatus `json:"status"`
