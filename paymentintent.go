@@ -1708,6 +1708,8 @@ type PaymentIntentParams struct {
 	//
 	// If neither the `payment_method` parameter nor the `source` parameter are provided with `confirm=true`, `source` will be automatically populated with `customer.default_source` to improve the migration experience for users of the Charges API. We recommend that you explicitly provide the `payment_method` going forward.
 	PaymentMethod *string `form:"payment_method"`
+	// The ID of the payment method configuration to use with this PaymentIntent.
+	PaymentMethodConfiguration *string `form:"payment_method_configuration"`
 	// If provided, this hash will be used to create a PaymentMethod. The new PaymentMethod will appear
 	// in the [payment_method](https://stripe.com/docs/api/payment_intents/object#payment_intent_object-payment_method)
 	// property on the PaymentIntent.
@@ -2316,6 +2318,14 @@ type PaymentIntentNextAction struct {
 	WeChatPayRedirectToAndroidApp *PaymentIntentNextActionWeChatPayRedirectToAndroidApp `json:"wechat_pay_redirect_to_android_app"`
 	WeChatPayRedirectToIOSApp     *PaymentIntentNextActionWeChatPayRedirectToIOSApp     `json:"wechat_pay_redirect_to_ios_app"`
 }
+
+// Information about the payment method configuration used for this PaymentIntent.
+type PaymentIntentPaymentMethodConfigurationDetails struct {
+	// ID of the payment method configuration used.
+	ID string `json:"id"`
+	// ID of the parent payment method configuration used.
+	Parent string `json:"parent"`
+}
 type PaymentIntentPaymentMethodOptionsACSSDebitMandateOptions struct {
 	// A URL for custom mandate text
 	CustomMandateURL string `json:"custom_mandate_url"`
@@ -2853,6 +2863,8 @@ type PaymentIntent struct {
 	OnBehalfOf *Account `json:"on_behalf_of"`
 	// ID of the payment method used in this PaymentIntent.
 	PaymentMethod *PaymentMethod `json:"payment_method"`
+	// Information about the payment method configuration used for this PaymentIntent.
+	PaymentMethodConfigurationDetails *PaymentIntentPaymentMethodConfigurationDetails `json:"payment_method_configuration_details"`
 	// Payment-method-specific configuration for this PaymentIntent.
 	PaymentMethodOptions *PaymentIntentPaymentMethodOptions `json:"payment_method_options"`
 	// The list of payment method types (e.g. card) that this PaymentIntent is allowed to use.
