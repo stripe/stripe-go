@@ -1,5 +1,36 @@
 # Changelog
 
+## 75.7.0-beta.1 - 2023-09-14
+* [#1732](https://github.com/stripe/stripe-go/pull/1732) Update generated code for beta
+  * Add support for new resource `ConfirmationToken`
+  * Add support for `Get` method on resource `ConfirmationToken`
+  * Add support for `New` method on resource `Issuing.CardDesign`
+  * Add support for `RejectTestmode` test helper method on resource `Issuing.CardDesign`
+  * Add support for new value `issuing_card_design.rejected` on enum `EventType`
+  * Add support for `Features` on `IssuingCardBundle`
+  * Add support for `Preferences` on `IssuingCardDesignListParams`, `IssuingCardDesignParams`, and `IssuingCardDesign`
+  * Remove support for `Preference` on `IssuingCardDesignListParams`, `IssuingCardDesignParams`, and `IssuingCardDesign`
+  * Add support for `CardBundle` on `IssuingCardDesignParams`
+  * Add support for `CardLogo` and `CarrierText` on `IssuingCardDesignParams` and `IssuingCardDesign`
+  * Change type of `IssuingCardDesignLookupKeyParams` and `IssuingCardDesignNameParams` from `string` to `emptyStringable(string)`
+  * Add support for `RejectionReasons` on `IssuingCardDesign`
+  * Add support for `ConfirmationToken` on `PaymentIntentConfirmParams`, `PaymentIntentParams`, `SetupIntentConfirmParams`, and `SetupIntentParams`
+
+## 75.6.0 - 2023-09-14
+* [#1736](https://github.com/stripe/stripe-go/pull/1736) Update generated code
+  * Add support for new resource `PaymentMethodConfiguration`
+  * Add support for `Get`, `List`, `New`, and `Update` methods on resource `PaymentMethodConfiguration`
+  * Add support for `PaymentMethodConfiguration` on `CheckoutSessionParams`, `PaymentIntentParams`, and `SetupIntentParams`
+  * Add support for `PaymentMethodConfigurationDetails` on `CheckoutSession`, `PaymentIntent`, and `SetupIntent`
+* [#1729](https://github.com/stripe/stripe-go/pull/1729) Update generated code
+  * Add support for `Capture`, `Expire`, `Increment`, `New`, and `Reverse` test helper methods on resource `Issuing.Authorization`
+  * Add support for `CreateForceCapture`, `CreateUnlinkedRefund`, and `Refund` test helper methods on resource `Issuing.Transaction`
+  * Add support for new value `stripe_tax_inactive` on enums `InvoiceLastFinalizationErrorCode`, `PaymentIntentLastPaymentErrorCode`, `SetupAttemptSetupErrorCode`, `SetupIntentLastSetupErrorCode`, and `StripeErrorCode`
+  * Add support for `Nonce` on `EphemeralKeyParams`
+  * Add support for `CashbackAmount` on `IssuingAuthorizationAmountDetails`, `IssuingAuthorizationPendingRequestAmountDetails`, `IssuingAuthorizationRequestHistoryAmountDetails`, and `IssuingTransactionAmountDetails`
+  * Add support for `SerialNumber` on `TerminalReaderListParams`
+
+
 ## 75.5.0 - 2023-09-13
 * [#1735](https://github.com/stripe/stripe-go/pull/1735) Bugfix: point files.New back to files.stripe.com
 * [#1731](https://github.com/stripe/stripe-go/pull/1731) Delay calculation of Stripe-User-Agent
