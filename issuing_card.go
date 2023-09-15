@@ -264,7 +264,7 @@ type IssuingCardShipping struct {
 	ETA int64 `json:"eta"`
 	// Recipient name.
 	Name string `json:"name"`
-	// The phone number of the receiver of the bulk shipment. This phone number will be provided to the shipping company, who might use it to contact the receiver in case of delivery issues.
+	// The phone number of the receiver of the shipment. Our courier partners will use this number to contact you in the event of card delivery issues. For individual shipments to the EU/UK, if this field is empty, we will provide them with the phone number provided when the cardholder was initially created.
 	PhoneNumber string `json:"phone_number"`
 	// Whether a signature is required for card delivery. This feature is only supported for US users. Standard shipping service does not support signature on delivery. The default value for standard shipping service is false and for express and priority services is true.
 	RequireSignature bool `json:"require_signature"`
