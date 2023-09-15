@@ -3341,7 +3341,7 @@ func TestTestHelpersIssuingAuthorizationCreate(t *testing.T) {
 		},
 		AuthorizationMethod:  stripe.String(string(stripe.IssuingAuthorizationAuthorizationMethodChip)),
 		Card:                 stripe.String("foo"),
-		Currency:             stripe.String(string(stripe.CurrencyBAR)),
+		Currency:             stripe.String(string(stripe.CurrencyUSD)),
 		IsAmountControllable: stripe.Bool(true),
 		MerchantData: &stripe.TestHelpersIssuingAuthorizationMerchantDataParams{
 			Category:   stripe.String("ac_refrigeration_repair"),
@@ -3393,8 +3393,8 @@ func TestTestHelpersIssuingAuthorizationCapture(t *testing.T) {
 			Fuel: &stripe.TestHelpersIssuingAuthorizationCapturePurchaseDetailsFuelParams{
 				Type:            stripe.String("diesel"),
 				Unit:            stripe.String("liter"),
-				UnitCostDecimal: stripe.String("3.5"),
-				VolumeDecimal:   stripe.String("10"),
+				UnitCostDecimal: stripe.Float64(3.5),
+				VolumeDecimal:   stripe.Float64(10),
 			},
 			Lodging: &stripe.TestHelpersIssuingAuthorizationCapturePurchaseDetailsLodgingParams{
 				CheckInAt: stripe.Int64(1633651200),
@@ -3403,7 +3403,7 @@ func TestTestHelpersIssuingAuthorizationCapture(t *testing.T) {
 			Receipt: []*stripe.TestHelpersIssuingAuthorizationCapturePurchaseDetailsReceiptParams{
 				&stripe.TestHelpersIssuingAuthorizationCapturePurchaseDetailsReceiptParams{
 					Description: stripe.String("Room charge"),
-					Quantity:    stripe.String("1"),
+					Quantity:    stripe.Float64(1),
 					Total:       stripe.Int64(200),
 					UnitCost:    stripe.Int64(200),
 				},
@@ -3458,7 +3458,7 @@ func TestTestHelpersIssuingTransactionCreateForceCapture(t *testing.T) {
 	params := &stripe.TestHelpersIssuingTransactionCreateForceCaptureParams{
 		Amount:   stripe.Int64(100),
 		Card:     stripe.String("foo"),
-		Currency: stripe.String(string(stripe.CurrencyBAR)),
+		Currency: stripe.String(string(stripe.CurrencyUSD)),
 		MerchantData: &stripe.TestHelpersIssuingTransactionCreateForceCaptureMerchantDataParams{
 			Category:   stripe.String("ac_refrigeration_repair"),
 			City:       stripe.String("foo"),
@@ -3489,8 +3489,8 @@ func TestTestHelpersIssuingTransactionCreateForceCapture(t *testing.T) {
 			Fuel: &stripe.TestHelpersIssuingTransactionCreateForceCapturePurchaseDetailsFuelParams{
 				Type:            stripe.String("diesel"),
 				Unit:            stripe.String("liter"),
-				UnitCostDecimal: stripe.String("3.5"),
-				VolumeDecimal:   stripe.String("10"),
+				UnitCostDecimal: stripe.Float64(3.5),
+				VolumeDecimal:   stripe.Float64(10),
 			},
 			Lodging: &stripe.TestHelpersIssuingTransactionCreateForceCapturePurchaseDetailsLodgingParams{
 				CheckInAt: stripe.Int64(1533651200),
@@ -3499,7 +3499,7 @@ func TestTestHelpersIssuingTransactionCreateForceCapture(t *testing.T) {
 			Receipt: []*stripe.TestHelpersIssuingTransactionCreateForceCapturePurchaseDetailsReceiptParams{
 				&stripe.TestHelpersIssuingTransactionCreateForceCapturePurchaseDetailsReceiptParams{
 					Description: stripe.String("Room charge"),
-					Quantity:    stripe.String("1"),
+					Quantity:    stripe.Float64(1),
 					Total:       stripe.Int64(200),
 					UnitCost:    stripe.Int64(200),
 				},
@@ -3516,7 +3516,7 @@ func TestTestHelpersIssuingTransactionCreateUnlinkedRefund(t *testing.T) {
 	params := &stripe.TestHelpersIssuingTransactionCreateUnlinkedRefundParams{
 		Amount:   stripe.Int64(100),
 		Card:     stripe.String("foo"),
-		Currency: stripe.String(string(stripe.CurrencyBAR)),
+		Currency: stripe.String(string(stripe.CurrencyUSD)),
 		MerchantData: &stripe.TestHelpersIssuingTransactionCreateUnlinkedRefundMerchantDataParams{
 			Category:   stripe.String("ac_refrigeration_repair"),
 			City:       stripe.String("foo"),
@@ -3547,8 +3547,8 @@ func TestTestHelpersIssuingTransactionCreateUnlinkedRefund(t *testing.T) {
 			Fuel: &stripe.TestHelpersIssuingTransactionCreateUnlinkedRefundPurchaseDetailsFuelParams{
 				Type:            stripe.String("diesel"),
 				Unit:            stripe.String("liter"),
-				UnitCostDecimal: stripe.String("3.5"),
-				VolumeDecimal:   stripe.String("10"),
+				UnitCostDecimal: stripe.Float64(3.5),
+				VolumeDecimal:   stripe.Float64(10),
 			},
 			Lodging: &stripe.TestHelpersIssuingTransactionCreateUnlinkedRefundPurchaseDetailsLodgingParams{
 				CheckInAt: stripe.Int64(1533651200),
@@ -3557,7 +3557,7 @@ func TestTestHelpersIssuingTransactionCreateUnlinkedRefund(t *testing.T) {
 			Receipt: []*stripe.TestHelpersIssuingTransactionCreateUnlinkedRefundPurchaseDetailsReceiptParams{
 				&stripe.TestHelpersIssuingTransactionCreateUnlinkedRefundPurchaseDetailsReceiptParams{
 					Description: stripe.String("Room charge"),
-					Quantity:    stripe.String("1"),
+					Quantity:    stripe.Float64(1),
 					Total:       stripe.Int64(200),
 					UnitCost:    stripe.Int64(200),
 				},
