@@ -16,7 +16,7 @@ const (
 	DisputePaymentMethodDetailsTypeCard DisputePaymentMethodDetailsType = "card"
 )
 
-// Reason given by cardholder for dispute. Possible values are `bank_cannot_process`, `check_returned`, `credit_not_processed`, `customer_initiated`, `debit_not_authorized`, `duplicate`, `fraudulent`, `general`, `incorrect_account_details`, `insufficient_funds`, `product_not_received`, `product_unacceptable`, `subscription_canceled`, or `unrecognized`. Read more about [dispute reasons](https://stripe.com/docs/disputes/categories).
+// Reason given by cardholder for dispute. Possible values are `bank_cannot_process`, `check_returned`, `credit_not_processed`, `customer_initiated`, `debit_not_authorized`, `duplicate`, `fraudulent`, `general`, `incorrect_account_details`, `insufficient_funds`, `product_not_received`, `product_unacceptable`, `subscription_canceled`, or `unrecognized`. Learn more about [dispute reasons](https://stripe.com/docs/disputes/categories).
 type DisputeReason string
 
 // List of values that DisputeReason can take
@@ -235,19 +235,17 @@ type DisputePaymentMethodDetails struct {
 }
 
 // A dispute occurs when a customer questions your charge with their card issuer.
-// When this happens, you're given the opportunity to respond to the dispute with
-// evidence that shows that the charge is legitimate. You can find more
-// information about the dispute process in our [Disputes and
-// Fraud](https://stripe.com/docs/disputes) documentation.
+// When this happens, you have the opportunity to respond to the dispute with
+// evidence that shows that the charge is legitimate.
 //
 // Related guide: [Disputes and fraud](https://stripe.com/docs/disputes)
 type Dispute struct {
 	APIResource
-	// Disputed amount. Usually the amount of the charge, but can differ (usually because of currency fluctuation or because only part of the order is disputed).
+	// Disputed amount. Usually the amount of the charge, but it can differ (usually because of currency fluctuation or because only part of the order is disputed).
 	Amount int64 `json:"amount"`
 	// List of zero, one, or two balance transactions that show funds withdrawn and reinstated to your Stripe account as a result of this dispute.
 	BalanceTransactions []*BalanceTransaction `json:"balance_transactions"`
-	// ID of the charge that was disputed.
+	// ID of the charge that's disputed.
 	Charge *Charge `json:"charge"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
 	Created int64 `json:"created"`
@@ -257,7 +255,7 @@ type Dispute struct {
 	EvidenceDetails *DisputeEvidenceDetails `json:"evidence_details"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
-	// If true, it is still possible to refund the disputed payment. Once the payment has been fully refunded, no further funds will be withdrawn from your Stripe account as a result of this dispute.
+	// If true, it's still possible to refund the disputed payment. After the payment has been fully refunded, no further funds are withdrawn from your Stripe account as a result of this dispute.
 	IsChargeRefundable bool `json:"is_charge_refundable"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
@@ -267,10 +265,10 @@ type Dispute struct {
 	NetworkReasonCode string `json:"network_reason_code"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
-	// ID of the PaymentIntent that was disputed.
+	// ID of the PaymentIntent that's disputed.
 	PaymentIntent        *PaymentIntent               `json:"payment_intent"`
 	PaymentMethodDetails *DisputePaymentMethodDetails `json:"payment_method_details"`
-	// Reason given by cardholder for dispute. Possible values are `bank_cannot_process`, `check_returned`, `credit_not_processed`, `customer_initiated`, `debit_not_authorized`, `duplicate`, `fraudulent`, `general`, `incorrect_account_details`, `insufficient_funds`, `product_not_received`, `product_unacceptable`, `subscription_canceled`, or `unrecognized`. Read more about [dispute reasons](https://stripe.com/docs/disputes/categories).
+	// Reason given by cardholder for dispute. Possible values are `bank_cannot_process`, `check_returned`, `credit_not_processed`, `customer_initiated`, `debit_not_authorized`, `duplicate`, `fraudulent`, `general`, `incorrect_account_details`, `insufficient_funds`, `product_not_received`, `product_unacceptable`, `subscription_canceled`, or `unrecognized`. Learn more about [dispute reasons](https://stripe.com/docs/disputes/categories).
 	Reason DisputeReason `json:"reason"`
 	// Current status of dispute. Possible values are `warning_needs_response`, `warning_under_review`, `warning_closed`, `needs_response`, `under_review`, `won`, or `lost`.
 	Status DisputeStatus `json:"status"`
