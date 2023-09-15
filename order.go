@@ -745,8 +745,7 @@ type OrderPaymentSettingsPaymentMethodOptionsAfterpayClearpayParams struct {
 	//
 	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter will unset the stored value for this payment method type.
 	CaptureMethod *string `form:"capture_method"`
-	// Order identifier shown to the customer in Afterpay's online portal. We recommend using a value that helps you answer any questions a customer might have about
-	// the payment. The identifier is limited to 128 characters and may contain only letters, digits, underscores, backslashes and dashes.
+	// An internal identifier or reference this payment corresponds to. The identifier is limited to 128 characters and may contain only letters, digits, underscores, backslashes and dashes.
 	Reference *string `form:"reference"`
 	// Indicates that you intend to make future payments with the payment method.
 	//

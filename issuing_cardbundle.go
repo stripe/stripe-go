@@ -8,6 +8,26 @@ package stripe
 
 import "encoding/json"
 
+// The policy for how to use card logo images in a card design with this card bundle.
+type IssuingCardBundleFeaturesCardLogo string
+
+// List of values that IssuingCardBundleFeaturesCardLogo can take
+const (
+	IssuingCardBundleFeaturesCardLogoOptional    IssuingCardBundleFeaturesCardLogo = "optional"
+	IssuingCardBundleFeaturesCardLogoRequired    IssuingCardBundleFeaturesCardLogo = "required"
+	IssuingCardBundleFeaturesCardLogoUnsupported IssuingCardBundleFeaturesCardLogo = "unsupported"
+)
+
+// The policy for how to use carrier letter text in a card design with this card bundle.
+type IssuingCardBundleFeaturesCarrierText string
+
+// List of values that IssuingCardBundleFeaturesCarrierText can take
+const (
+	IssuingCardBundleFeaturesCarrierTextOptional    IssuingCardBundleFeaturesCarrierText = "optional"
+	IssuingCardBundleFeaturesCarrierTextRequired    IssuingCardBundleFeaturesCarrierText = "required"
+	IssuingCardBundleFeaturesCarrierTextUnsupported IssuingCardBundleFeaturesCarrierText = "unsupported"
+)
+
 // Whether this card bundle can be used to create cards.
 type IssuingCardBundleStatus string
 
@@ -55,9 +75,17 @@ func (p *IssuingCardBundleParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+type IssuingCardBundleFeatures struct {
+	// The policy for how to use card logo images in a card design with this card bundle.
+	CardLogo IssuingCardBundleFeaturesCardLogo `json:"card_logo"`
+	// The policy for how to use carrier letter text in a card design with this card bundle.
+	CarrierText IssuingCardBundleFeaturesCarrierText `json:"carrier_text"`
+}
+
 // A Card Bundle represents the bundle of physical items - card stock, carrier letter, and envelope - that is shipped to a cardholder when you create a physical card.
 type IssuingCardBundle struct {
 	APIResource
+	Features *IssuingCardBundleFeatures `json:"features"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
