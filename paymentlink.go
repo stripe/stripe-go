@@ -266,12 +266,20 @@ type PaymentLinkCustomTextSubmitParams struct {
 	Message *string `form:"message"`
 }
 
+// Custom text that should be displayed in place of the default terms of service agreement text.
+type PaymentLinkCustomTextTermsOfServiceAcceptanceParams struct {
+	// Text may be up to 1000 characters in length.
+	Message *string `form:"message"`
+}
+
 // Display additional text for your customers using custom text.
 type PaymentLinkCustomTextParams struct {
 	// Custom text that should be displayed alongside shipping address collection.
 	ShippingAddress *PaymentLinkCustomTextShippingAddressParams `form:"shipping_address"`
 	// Custom text that should be displayed alongside the payment confirmation button.
 	Submit *PaymentLinkCustomTextSubmitParams `form:"submit"`
+	// Custom text that should be displayed in place of the default terms of service agreement text.
+	TermsOfServiceAcceptance *PaymentLinkCustomTextTermsOfServiceAcceptanceParams `form:"terms_of_service_acceptance"`
 }
 
 // Default custom fields to be displayed on invoices for this customer.
@@ -590,11 +598,19 @@ type PaymentLinkCustomTextSubmit struct {
 	// Text may be up to 1000 characters in length.
 	Message string `json:"message"`
 }
+
+// Custom text that should be displayed in place of the default terms of service agreement text.
+type PaymentLinkCustomTextTermsOfServiceAcceptance struct {
+	// Text may be up to 1000 characters in length.
+	Message string `json:"message"`
+}
 type PaymentLinkCustomText struct {
 	// Custom text that should be displayed alongside shipping address collection.
 	ShippingAddress *PaymentLinkCustomTextShippingAddress `json:"shipping_address"`
 	// Custom text that should be displayed alongside the payment confirmation button.
 	Submit *PaymentLinkCustomTextSubmit `json:"submit"`
+	// Custom text that should be displayed in place of the default terms of service agreement text.
+	TermsOfServiceAcceptance *PaymentLinkCustomTextTermsOfServiceAcceptance `json:"terms_of_service_acceptance"`
 }
 
 // A list of up to 4 custom fields to be displayed on the invoice.
