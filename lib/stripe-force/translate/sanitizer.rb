@@ -42,9 +42,15 @@ module StripeForce
     end
 
     private_class_method def self.sanitize_price(stripe_price)
-      if stripe_price[:unit_amount_decimal] && !Integrations::Utilities::StripeUtil.is_integer_value?(stripe_price[:unit_amount_decimal])
+      stripe_price_unit_amount_decimal = stripe_price[:unit_amount_decimal]
+      if stripe_price_unit_amount_decimal && !Integrations::Utilities::StripeUtil.is_integer_value?(stripe_price_unit_amount_decimal)
+        # if a string, then we want to convert to a precision float for careful comparison
+        if stripe_price_unit_amount_decimal.is_a?(String)
+          stripe_price_unit_amount_decimal = BigDecimal(stripe_price_unit_amount_decimal)
+        end
+
         # Stripe only supports 12 digits
-        stripe_price[:unit_amount_decimal] = stripe_price[:unit_amount_decimal].round(MAX_STRIPE_PRICE_PRECISION)
+        stripe_price[:unit_amount_decimal] = stripe_price_unit_amount_decimal.round(MAX_STRIPE_PRICE_PRECISION)
       end
     end
 

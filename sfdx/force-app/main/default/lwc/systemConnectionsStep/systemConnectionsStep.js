@@ -76,12 +76,12 @@ export default class SystemConnectionsStep extends LightningElement {
 
                 if (isStripeConnected === 'freshConnection') {
                     this.stripeComplete = true;
-                    this.showToast('Stripe to salesforce authorization successfully completed', 'success', 'dismissable');
+                    this.showToast('Stripe to Salesforce authorization successfully completed', 'success', 'dismissable');
                 } 
 
                 if (isSalesforceConnected === 'freshConnection') {
                     this.salesforceComplete = true;
-                    this.showToast('Salesforce to stripe Authorization successfully completed', 'success', 'dismissable');
+                    this.showToast('Salesforce to Stripe authorization successfully completed', 'success', 'dismissable');
                 }
 
                 if (isStripeConnected === 'stripeDisconnected') {

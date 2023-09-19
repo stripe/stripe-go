@@ -99,7 +99,7 @@ class StripeForce::Translate
 
     # this check is rigorously enforced upstream
     if sf_order[SF_ORDER_TYPE] != OrderTypeOptions::NEW.serialize
-      log.warn "order is not new, but is treated as such, type field could be customized"
+      log.warn "order is not new, but is treated as such, type field could be customized", salesforce_object: sf_order
     end
 
     # Ensure we have not already created a subscription schedule for this order
@@ -122,7 +122,7 @@ class StripeForce::Translate
     sf_order_items = order_lines_from_order(sf_order)
     invoice_items, subscription_items = phase_items_from_order_lines(sf_order_items)
 
-    log.info 'creating subscription for pre-integration order'
+    log.info 'creating subscription for pre-integration order', salesforce_object: sf_order
 
     # We should re-use whatever subscription schedule mappings we can
     subscription_params = StripeForce::Utilities::SalesforceUtil.extract_salesforce_params!(mapper, sf_order, Stripe::SubscriptionSchedule)

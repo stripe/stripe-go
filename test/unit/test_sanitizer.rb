@@ -25,6 +25,15 @@ module Critic::Unit
     end
 
     describe 'prices' do
+      it 'handles price as String' do
+        stripe_price = Stripe::Price.construct_from({
+          unit_amount_decimal: "14400.000000000083",
+        })
+
+        StripeForce::Sanitizer.sanitize(stripe_price)
+        assert_equal(BigDecimal("14400.000000000083"), stripe_price[:unit_amount_decimal])
+      end
+
       it 'truncates long price precision' do
         price = Stripe::Price.construct_from({
           unit_amount_decimal: 0.1234567890123,
