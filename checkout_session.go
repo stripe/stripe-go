@@ -830,12 +830,20 @@ type CheckoutSessionCustomTextSubmitParams struct {
 	Message *string `form:"message"`
 }
 
+// Custom text that should be displayed in place of the default terms of service agreement text.
+type CheckoutSessionCustomTextTermsOfServiceAcceptanceParams struct {
+	// Text may be up to 1000 characters in length.
+	Message *string `form:"message"`
+}
+
 // Display additional text for your customers using custom text.
 type CheckoutSessionCustomTextParams struct {
 	// Custom text that should be displayed alongside shipping address collection.
 	ShippingAddress *CheckoutSessionCustomTextShippingAddressParams `form:"shipping_address"`
 	// Custom text that should be displayed alongside the payment confirmation button.
 	Submit *CheckoutSessionCustomTextSubmitParams `form:"submit"`
+	// Custom text that should be displayed in place of the default terms of service agreement text.
+	TermsOfServiceAcceptance *CheckoutSessionCustomTextTermsOfServiceAcceptanceParams `form:"terms_of_service_acceptance"`
 }
 
 // Controls what fields on Customer can be updated by the Checkout Session. Can only be provided when `customer` is provided.
@@ -1962,11 +1970,19 @@ type CheckoutSessionCustomTextSubmit struct {
 	// Text may be up to 1000 characters in length.
 	Message string `json:"message"`
 }
+
+// Custom text that should be displayed in place of the default terms of service agreement text.
+type CheckoutSessionCustomTextTermsOfServiceAcceptance struct {
+	// Text may be up to 1000 characters in length.
+	Message string `json:"message"`
+}
 type CheckoutSessionCustomText struct {
 	// Custom text that should be displayed alongside shipping address collection.
 	ShippingAddress *CheckoutSessionCustomTextShippingAddress `json:"shipping_address"`
 	// Custom text that should be displayed alongside the payment confirmation button.
 	Submit *CheckoutSessionCustomTextSubmit `json:"submit"`
+	// Custom text that should be displayed in place of the default terms of service agreement text.
+	TermsOfServiceAcceptance *CheckoutSessionCustomTextTermsOfServiceAcceptance `json:"terms_of_service_acceptance"`
 }
 
 // The customer's tax IDs after a completed Checkout Session.
