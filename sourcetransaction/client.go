@@ -4,7 +4,7 @@
 //
 //
 
-// Package sourcetransaction provides the TODO APIs
+// Package sourcetransaction provides the sourcetransaction related APIs
 package sourcetransaction
 
 import (
