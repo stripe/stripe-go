@@ -15,6 +15,15 @@ const (
 	QuotePreviewInvoiceAppliesToTypeSubscriptionSchedule QuotePreviewInvoiceAppliesToType = "subscription_schedule"
 )
 
+// Type of the account referenced.
+type QuotePreviewInvoiceAutomaticTaxLiabilityType string
+
+// List of values that QuotePreviewInvoiceAutomaticTaxLiabilityType can take
+const (
+	QuotePreviewInvoiceAutomaticTaxLiabilityTypeAccount QuotePreviewInvoiceAutomaticTaxLiabilityType = "account"
+	QuotePreviewInvoiceAutomaticTaxLiabilityTypeSelf    QuotePreviewInvoiceAutomaticTaxLiabilityType = "self"
+)
+
 // The status of the most recent automated tax calculation for this invoice.
 type QuotePreviewInvoiceAutomaticTaxStatus string
 
@@ -140,6 +149,15 @@ const (
 	QuotePreviewInvoiceCustomerTaxIDTypeVERIF    QuotePreviewInvoiceCustomerTaxIDType = "ve_rif"
 	QuotePreviewInvoiceCustomerTaxIDTypeVNTIN    QuotePreviewInvoiceCustomerTaxIDType = "vn_tin"
 	QuotePreviewInvoiceCustomerTaxIDTypeZAVAT    QuotePreviewInvoiceCustomerTaxIDType = "za_vat"
+)
+
+// Type of the account referenced.
+type QuotePreviewInvoiceIssuerType string
+
+// List of values that QuotePreviewInvoiceIssuerType can take
+const (
+	QuotePreviewInvoiceIssuerTypeAccount QuotePreviewInvoiceIssuerType = "account"
+	QuotePreviewInvoiceIssuerTypeSelf    QuotePreviewInvoiceIssuerType = "self"
 )
 
 // Transaction type of the mandate.
@@ -352,9 +370,19 @@ type QuotePreviewInvoiceAppliesTo struct {
 	// Describes whether the quote line is affecting a new schedule or an existing schedule.
 	Type QuotePreviewInvoiceAppliesToType `json:"type"`
 }
+
+// The connected account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
+type QuotePreviewInvoiceAutomaticTaxLiability struct {
+	// The connected account being referenced when `type` is `account`.
+	Account *Account `json:"account"`
+	// Type of the account referenced.
+	Type QuotePreviewInvoiceAutomaticTaxLiabilityType `json:"type"`
+}
 type QuotePreviewInvoiceAutomaticTax struct {
 	// Whether Stripe automatically computes tax on this invoice. Note that incompatible invoice items (invoice items with manually specified [tax rates](https://stripe.com/docs/api/tax_rates), negative amounts, or `tax_behavior=unspecified`) cannot be added to automatic tax invoices.
 	Enabled bool `json:"enabled"`
+	// The connected account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
+	Liability *QuotePreviewInvoiceAutomaticTaxLiability `json:"liability"`
 	// The status of the most recent automated tax calculation for this invoice.
 	Status QuotePreviewInvoiceAutomaticTaxStatus `json:"status"`
 }
@@ -381,6 +409,14 @@ type QuotePreviewInvoiceFromInvoice struct {
 	Action string `json:"action"`
 	// The invoice that was cloned.
 	Invoice *Invoice `json:"invoice"`
+}
+
+// The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
+type QuotePreviewInvoiceIssuer struct {
+	// The connected account being referenced when `type` is `account`.
+	Account *Account `json:"account"`
+	// Type of the account referenced.
+	Type QuotePreviewInvoiceIssuerType `json:"type"`
 }
 type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsACSSDebitMandateOptions struct {
 	// Transaction type of the mandate.
@@ -684,6 +720,8 @@ type QuotePreviewInvoice struct {
 	FromInvoice *QuotePreviewInvoiceFromInvoice `json:"from_invoice"`
 	// Unique identifier for the object. This property is always present unless the invoice is an upcoming invoice. See [Retrieve an upcoming invoice](https://stripe.com/docs/api/invoices/upcoming) for more details.
 	ID string `json:"id"`
+	// The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
+	Issuer *QuotePreviewInvoiceIssuer `json:"issuer"`
 	// The error encountered during the previous attempt to finalize the invoice. This field is cleared when the invoice is successfully finalized.
 	LastFinalizationError *Error `json:"last_finalization_error"`
 	// The ID of the most recent non-draft revision of this invoice
