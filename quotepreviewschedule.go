@@ -24,6 +24,15 @@ const (
 	QuotePreviewScheduleBillingBehaviorProrateUpFront     QuotePreviewScheduleBillingBehavior = "prorate_up_front"
 )
 
+// Type of the account referenced.
+type QuotePreviewScheduleDefaultSettingsAutomaticTaxLiabilityType string
+
+// List of values that QuotePreviewScheduleDefaultSettingsAutomaticTaxLiabilityType can take
+const (
+	QuotePreviewScheduleDefaultSettingsAutomaticTaxLiabilityTypeAccount QuotePreviewScheduleDefaultSettingsAutomaticTaxLiabilityType = "account"
+	QuotePreviewScheduleDefaultSettingsAutomaticTaxLiabilityTypeSelf    QuotePreviewScheduleDefaultSettingsAutomaticTaxLiabilityType = "self"
+)
+
 // Possible values are `phase_start` or `automatic`. If `phase_start` then billing cycle anchor of the subscription is set to the start of the phase when entering the phase. If `automatic` then the billing cycle anchor is automatically modified as needed when entering the phase. For more information, see the billing cycle [documentation](https://stripe.com/docs/billing/subscriptions/billing-cycle).
 type QuotePreviewScheduleDefaultSettingsBillingCycleAnchor string
 
@@ -40,6 +49,15 @@ type QuotePreviewScheduleDefaultSettingsCollectionMethod string
 const (
 	QuotePreviewScheduleDefaultSettingsCollectionMethodChargeAutomatically QuotePreviewScheduleDefaultSettingsCollectionMethod = "charge_automatically"
 	QuotePreviewScheduleDefaultSettingsCollectionMethodSendInvoice         QuotePreviewScheduleDefaultSettingsCollectionMethod = "send_invoice"
+)
+
+// Type of the account referenced.
+type QuotePreviewScheduleDefaultSettingsInvoiceSettingsIssuerType string
+
+// List of values that QuotePreviewScheduleDefaultSettingsInvoiceSettingsIssuerType can take
+const (
+	QuotePreviewScheduleDefaultSettingsInvoiceSettingsIssuerTypeAccount QuotePreviewScheduleDefaultSettingsInvoiceSettingsIssuerType = "account"
+	QuotePreviewScheduleDefaultSettingsInvoiceSettingsIssuerTypeSelf    QuotePreviewScheduleDefaultSettingsInvoiceSettingsIssuerType = "self"
 )
 
 // Behavior of the subscription schedule and underlying subscription when it ends. Possible values are `release` or `cancel` with the default being `release`. `release` will end the subscription schedule and keep the underlying subscription running.`cancel` will end the subscription schedule and cancel the underlying subscription.
@@ -59,6 +77,15 @@ type QuotePreviewSchedulePhaseAddInvoiceItemDiscountDiscountEndType string
 // List of values that QuotePreviewSchedulePhaseAddInvoiceItemDiscountDiscountEndType can take
 const (
 	QuotePreviewSchedulePhaseAddInvoiceItemDiscountDiscountEndTypeTimestamp QuotePreviewSchedulePhaseAddInvoiceItemDiscountDiscountEndType = "timestamp"
+)
+
+// Type of the account referenced.
+type QuotePreviewSchedulePhaseAutomaticTaxLiabilityType string
+
+// List of values that QuotePreviewSchedulePhaseAutomaticTaxLiabilityType can take
+const (
+	QuotePreviewSchedulePhaseAutomaticTaxLiabilityTypeAccount QuotePreviewSchedulePhaseAutomaticTaxLiabilityType = "account"
+	QuotePreviewSchedulePhaseAutomaticTaxLiabilityTypeSelf    QuotePreviewSchedulePhaseAutomaticTaxLiabilityType = "self"
 )
 
 // Possible values are `phase_start` or `automatic`. If `phase_start` then billing cycle anchor of the subscription is set to the start of the phase when entering the phase. If `automatic` then the billing cycle anchor is automatically modified as needed when entering the phase. For more information, see the billing cycle [documentation](https://stripe.com/docs/billing/subscriptions/billing-cycle).
@@ -85,6 +112,15 @@ type QuotePreviewSchedulePhaseDiscountDiscountEndType string
 // List of values that QuotePreviewSchedulePhaseDiscountDiscountEndType can take
 const (
 	QuotePreviewSchedulePhaseDiscountDiscountEndTypeTimestamp QuotePreviewSchedulePhaseDiscountDiscountEndType = "timestamp"
+)
+
+// Type of the account referenced.
+type QuotePreviewSchedulePhaseInvoiceSettingsIssuerType string
+
+// List of values that QuotePreviewSchedulePhaseInvoiceSettingsIssuerType can take
+const (
+	QuotePreviewSchedulePhaseInvoiceSettingsIssuerTypeAccount QuotePreviewSchedulePhaseInvoiceSettingsIssuerType = "account"
+	QuotePreviewSchedulePhaseInvoiceSettingsIssuerTypeSelf    QuotePreviewSchedulePhaseInvoiceSettingsIssuerType = "self"
 )
 
 // The discount end type.
@@ -191,9 +227,19 @@ type QuotePreviewScheduleCurrentPhase struct {
 	// The start of this phase of the subscription schedule.
 	StartDate int64 `json:"start_date"`
 }
+
+// The connected account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
+type QuotePreviewScheduleDefaultSettingsAutomaticTaxLiability struct {
+	// The connected account being referenced when `type` is `account`.
+	Account *Account `json:"account"`
+	// Type of the account referenced.
+	Type QuotePreviewScheduleDefaultSettingsAutomaticTaxLiabilityType `json:"type"`
+}
 type QuotePreviewScheduleDefaultSettingsAutomaticTax struct {
 	// Whether Stripe automatically computes tax on invoices created during this phase.
 	Enabled bool `json:"enabled"`
+	// The connected account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
+	Liability *QuotePreviewScheduleDefaultSettingsAutomaticTaxLiability `json:"liability"`
 }
 
 // Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period
@@ -204,10 +250,20 @@ type QuotePreviewScheduleDefaultSettingsBillingThresholds struct {
 	ResetBillingCycleAnchor bool `json:"reset_billing_cycle_anchor"`
 }
 
+// The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
+type QuotePreviewScheduleDefaultSettingsInvoiceSettingsIssuer struct {
+	// The connected account being referenced when `type` is `account`.
+	Account *Account `json:"account"`
+	// Type of the account referenced.
+	Type QuotePreviewScheduleDefaultSettingsInvoiceSettingsIssuerType `json:"type"`
+}
+
 // The subscription schedule's default invoice settings.
 type QuotePreviewScheduleDefaultSettingsInvoiceSettings struct {
 	// Number of days within which a customer must pay invoices generated by this subscription schedule. This value will be `null` for subscription schedules where `billing=charge_automatically`.
 	DaysUntilDue int64 `json:"days_until_due"`
+	// The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
+	Issuer *QuotePreviewScheduleDefaultSettingsInvoiceSettingsIssuer `json:"issuer"`
 }
 
 // The account (if any) the associated subscription's payments will be attributed to for tax reporting, and where funds from each payment will be transferred to for each of the subscription's invoices.
@@ -268,9 +324,19 @@ type QuotePreviewSchedulePhaseAddInvoiceItem struct {
 	// The tax rates which apply to the item. When set, the `default_tax_rates` do not apply to this item.
 	TaxRates []*TaxRate `json:"tax_rates"`
 }
+
+// The connected account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
+type QuotePreviewSchedulePhaseAutomaticTaxLiability struct {
+	// The connected account being referenced when `type` is `account`.
+	Account *Account `json:"account"`
+	// Type of the account referenced.
+	Type QuotePreviewSchedulePhaseAutomaticTaxLiabilityType `json:"type"`
+}
 type QuotePreviewSchedulePhaseAutomaticTax struct {
 	// Whether Stripe automatically computes tax on invoices created during this phase.
 	Enabled bool `json:"enabled"`
+	// The connected account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
+	Liability *QuotePreviewSchedulePhaseAutomaticTaxLiability `json:"liability"`
 }
 
 // Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period
@@ -299,10 +365,20 @@ type QuotePreviewSchedulePhaseDiscount struct {
 	DiscountEnd *QuotePreviewSchedulePhaseDiscountDiscountEnd `json:"discount_end"`
 }
 
+// The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
+type QuotePreviewSchedulePhaseInvoiceSettingsIssuer struct {
+	// The connected account being referenced when `type` is `account`.
+	Account *Account `json:"account"`
+	// Type of the account referenced.
+	Type QuotePreviewSchedulePhaseInvoiceSettingsIssuerType `json:"type"`
+}
+
 // The invoice settings applicable during this phase.
 type QuotePreviewSchedulePhaseInvoiceSettings struct {
 	// Number of days within which a customer must pay invoices generated by this subscription schedule. This value will be `null` for subscription schedules where `billing=charge_automatically`.
 	DaysUntilDue int64 `json:"days_until_due"`
+	// The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
+	Issuer *QuotePreviewSchedulePhaseInvoiceSettingsIssuer `json:"issuer"`
 }
 
 // Define thresholds at which an invoice will be sent, and the related subscription advanced to a new billing period

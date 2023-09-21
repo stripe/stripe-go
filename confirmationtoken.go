@@ -750,8 +750,6 @@ type ConfirmationToken struct {
 	APIResource
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
 	Created int64 `json:"created"`
-	// ID of the Customer this ConfirmationToken belongs to.
-	Customer string `json:"customer"`
 	// Time at which this ConfirmationToken expires and can no longer be used to confirm a PaymentIntent or SetupIntent. This is set to null once this ConfirmationToken has been used.
 	ExpiresAt int64 `json:"expires_at"`
 	// Unique identifier for the object.

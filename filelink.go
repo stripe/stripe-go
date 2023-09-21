@@ -50,7 +50,7 @@ type FileLinkListParams struct {
 	CreatedRange *RangeQueryParams `form:"created"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-	// Filter links by their expiration status. By default, all links are returned.
+	// Filter links by their expiration status. By default, Stripe returns all links.
 	Expired *bool `form:"expired"`
 	// Only return links for the given file.
 	File *string `form:"file"`
@@ -62,15 +62,15 @@ func (p *FileLinkListParams) AddExpand(f string) {
 }
 
 // To share the contents of a `File` object with non-Stripe users, you can
-// create a `FileLink`. `FileLink`s contain a URL that can be used to
+// create a `FileLink`. `FileLink`s contain a URL that you can use to
 // retrieve the contents of the file without authentication.
 type FileLink struct {
 	APIResource
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
 	Created int64 `json:"created"`
-	// Whether this link is already expired.
+	// Returns if the link is already expired.
 	Expired bool `json:"expired"`
-	// Time at which the link expires.
+	// Time that the link expires.
 	ExpiresAt int64 `json:"expires_at"`
 	// The file object this link points to.
 	File *File `json:"file"`

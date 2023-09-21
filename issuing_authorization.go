@@ -127,8 +127,8 @@ func (p *IssuingAuthorizationParams) AddMetadata(key string, value string) {
 	p.Metadata[key] = value
 }
 
-// Approves a pending Issuing Authorization object. This request should be made within the timeout window of the [real-time authorization](https://stripe.com/docs/issuing/controls/real-time-authorizations) flow.
-// You can also respond directly to the webhook request to approve an authorization (preferred). More details can be found [here](https://stripe.com/docs/issuing/controls/real-time-authorizations#authorization-handling).
+// [Deprecated] Approves a pending Issuing Authorization object. This request should be made within the timeout window of the [real-time authorization](https://stripe.com/docs/issuing/controls/real-time-authorizations) flow.
+// This method is deprecated. Instead, [respond directly to the webhook request to approve an authorization](https://stripe.com/docs/issuing/controls/real-time-authorizations#authorization-handling).
 type IssuingAuthorizationApproveParams struct {
 	Params `form:"*"`
 	// If the authorization's `pending_request.is_amount_controllable` property is `true`, you may provide this value to control how much to hold for the authorization. Must be positive (use [`decline`](https://stripe.com/docs/api/issuing/authorizations/decline) to decline an authorization request).
@@ -153,8 +153,8 @@ func (p *IssuingAuthorizationApproveParams) AddMetadata(key string, value string
 	p.Metadata[key] = value
 }
 
-// Declines a pending Issuing Authorization object. This request should be made within the timeout window of the [real time authorization](https://stripe.com/docs/issuing/controls/real-time-authorizations) flow.
-// You can also respond directly to the webhook request to decline an authorization (preferred). More details can be found [here](https://stripe.com/docs/issuing/controls/real-time-authorizations#authorization-handling).
+// [Deprecated] Declines a pending Issuing Authorization object. This request should be made within the timeout window of the [real time authorization](https://stripe.com/docs/issuing/controls/real-time-authorizations) flow.
+// This method is deprecated. Instead, [respond directly to the webhook request to decline an authorization](https://stripe.com/docs/issuing/controls/real-time-authorizations#authorization-handling).
 type IssuingAuthorizationDeclineParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
