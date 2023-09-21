@@ -305,7 +305,8 @@ type PaymentMethodCardParams struct {
 	ExpYear *int64 `form:"exp_year"`
 	// The card number, as a string without any separators.
 	Number *string `form:"number"`
-	Token  *string `form:"token"`
+	// For backwards compatibility, you can alternatively provide a Stripe token (e.g., for Apple Pay, Amex Express Checkout, or legacy Checkout) into the card hash with format card: {token: "tok_visa"}.
+	Token *string `form:"token"`
 }
 
 // If this is a `cashapp` PaymentMethod, this hash contains details about the Cash App Pay payment method.
