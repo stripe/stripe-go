@@ -808,19 +808,19 @@ type CheckoutSessionCustomFieldParams struct {
 
 // Custom text that should be displayed alongside shipping address collection.
 type CheckoutSessionCustomTextShippingAddressParams struct {
-	// Text may be up to 1000 characters in length.
+	// Text may be up to 1200 characters in length.
 	Message *string `form:"message"`
 }
 
 // Custom text that should be displayed alongside the payment confirmation button.
 type CheckoutSessionCustomTextSubmitParams struct {
-	// Text may be up to 1000 characters in length.
+	// Text may be up to 1200 characters in length.
 	Message *string `form:"message"`
 }
 
 // Custom text that should be displayed in place of the default terms of service agreement text.
 type CheckoutSessionCustomTextTermsOfServiceAcceptanceParams struct {
-	// Text may be up to 1000 characters in length.
+	// Text may be up to 1200 characters in length.
 	Message *string `form:"message"`
 }
 
@@ -1947,19 +1947,19 @@ type CheckoutSessionCustomField struct {
 
 // Custom text that should be displayed alongside shipping address collection.
 type CheckoutSessionCustomTextShippingAddress struct {
-	// Text may be up to 1000 characters in length.
+	// Text may be up to 1200 characters in length.
 	Message string `json:"message"`
 }
 
 // Custom text that should be displayed alongside the payment confirmation button.
 type CheckoutSessionCustomTextSubmit struct {
-	// Text may be up to 1000 characters in length.
+	// Text may be up to 1200 characters in length.
 	Message string `json:"message"`
 }
 
 // Custom text that should be displayed in place of the default terms of service agreement text.
 type CheckoutSessionCustomTextTermsOfServiceAcceptance struct {
-	// Text may be up to 1000 characters in length.
+	// Text may be up to 1200 characters in length.
 	Message string `json:"message"`
 }
 type CheckoutSessionCustomText struct {
