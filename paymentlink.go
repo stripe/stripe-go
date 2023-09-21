@@ -256,19 +256,19 @@ type PaymentLinkCustomFieldParams struct {
 
 // Custom text that should be displayed alongside shipping address collection.
 type PaymentLinkCustomTextShippingAddressParams struct {
-	// Text may be up to 1000 characters in length.
+	// Text may be up to 1200 characters in length.
 	Message *string `form:"message"`
 }
 
 // Custom text that should be displayed alongside the payment confirmation button.
 type PaymentLinkCustomTextSubmitParams struct {
-	// Text may be up to 1000 characters in length.
+	// Text may be up to 1200 characters in length.
 	Message *string `form:"message"`
 }
 
 // Custom text that should be displayed in place of the default terms of service agreement text.
 type PaymentLinkCustomTextTermsOfServiceAcceptanceParams struct {
-	// Text may be up to 1000 characters in length.
+	// Text may be up to 1200 characters in length.
 	Message *string `form:"message"`
 }
 
@@ -589,19 +589,19 @@ type PaymentLinkCustomField struct {
 
 // Custom text that should be displayed alongside shipping address collection.
 type PaymentLinkCustomTextShippingAddress struct {
-	// Text may be up to 1000 characters in length.
+	// Text may be up to 1200 characters in length.
 	Message string `json:"message"`
 }
 
 // Custom text that should be displayed alongside the payment confirmation button.
 type PaymentLinkCustomTextSubmit struct {
-	// Text may be up to 1000 characters in length.
+	// Text may be up to 1200 characters in length.
 	Message string `json:"message"`
 }
 
 // Custom text that should be displayed in place of the default terms of service agreement text.
 type PaymentLinkCustomTextTermsOfServiceAcceptance struct {
-	// Text may be up to 1000 characters in length.
+	// Text may be up to 1200 characters in length.
 	Message string `json:"message"`
 }
 type PaymentLinkCustomText struct {
