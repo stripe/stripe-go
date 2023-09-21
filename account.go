@@ -1378,7 +1378,7 @@ type Account struct {
 	// A platform cannot access a Standard or Express account's persons after the account starts onboarding, such as after generating an account link for the account.
 	// See the [Standard onboarding](https://stripe.com/docs/connect/standard-accounts) or [Express onboarding documentation](https://stripe.com/docs/connect/express-accounts) for information about platform prefilling and account onboarding steps.
 	//
-	// Related guide: [Handling identity verification with the API](https://stripe.com/docs/connect/identity-verification-api#person-information)
+	// Related guide: [Handling identity verification with the API](https://stripe.com/docs/connect/handling-api-verification#person-information)
 	Individual *Person `json:"individual"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`
