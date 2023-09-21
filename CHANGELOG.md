@@ -1,5 +1,9 @@
 # Changelog
 
+## 75.7.0 - 2023-09-21
+* [#1738](https://github.com/stripe/stripe-go/pull/1738) Update generated code
+  * Add support for `TermsOfServiceAcceptance` on `CheckoutSessionCustomTextParams`, `CheckoutSessionCustomText`, `PaymentLinkCustomTextParams`, and `PaymentLinkCustomText`
+
 ## 75.6.0 - 2023-09-14
 * [#1736](https://github.com/stripe/stripe-go/pull/1736) Update generated code
   * Add support for new resource `PaymentMethodConfiguration`
