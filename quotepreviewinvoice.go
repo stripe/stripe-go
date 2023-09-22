@@ -283,6 +283,16 @@ const (
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeWeChatPay          QuotePreviewInvoicePaymentSettingsPaymentMethodType = "wechat_pay"
 )
 
+// Page size of invoice pdf. Options include a4, letter, and auto. If set to auto, page size will be switched to a4 or letter based on customer locale.
+type QuotePreviewInvoiceRenderingPDFPageSize string
+
+// List of values that QuotePreviewInvoiceRenderingPDFPageSize can take
+const (
+	QuotePreviewInvoiceRenderingPDFPageSizeA4     QuotePreviewInvoiceRenderingPDFPageSize = "a4"
+	QuotePreviewInvoiceRenderingPDFPageSizeAuto   QuotePreviewInvoiceRenderingPDFPageSize = "auto"
+	QuotePreviewInvoiceRenderingPDFPageSizeLetter QuotePreviewInvoiceRenderingPDFPageSize = "letter"
+)
+
 // The reasoning behind this tax, for example, if the product is tax exempt. The possible values for this field may be extended as new tax rules are supported.
 type QuotePreviewInvoiceShippingCostTaxTaxabilityReason string
 
@@ -501,6 +511,20 @@ type QuotePreviewInvoicePaymentSettings struct {
 	PaymentMethodOptions *QuotePreviewInvoicePaymentSettingsPaymentMethodOptions `json:"payment_method_options"`
 	// The list of payment method types (e.g. card) to provide to the invoice's PaymentIntent. If not set, Stripe attempts to automatically determine the types to use by looking at the invoice's default payment method, the subscription's default payment method, the customer's default payment method, and your [invoice template settings](https://dashboard.stripe.com/settings/billing/invoice).
 	PaymentMethodTypes []QuotePreviewInvoicePaymentSettingsPaymentMethodType `json:"payment_method_types"`
+}
+
+// Invoice pdf rendering options
+type QuotePreviewInvoiceRenderingPDF struct {
+	// Page size of invoice pdf. Options include a4, letter, and auto. If set to auto, page size will be switched to a4 or letter based on customer locale.
+	PageSize QuotePreviewInvoiceRenderingPDFPageSize `json:"page_size"`
+}
+
+// The rendering-related settings that control how the invoice is displayed on customer-facing surfaces such as PDF and Hosted Invoice Page.
+type QuotePreviewInvoiceRendering struct {
+	// How line-item prices and amounts will be displayed with respect to tax on invoice PDFs.
+	AmountTaxDisplay string `json:"amount_tax_display"`
+	// Invoice pdf rendering options
+	PDF *QuotePreviewInvoiceRenderingPDF `json:"pdf"`
 }
 
 // Options for invoice PDF rendering.
@@ -759,6 +783,8 @@ type QuotePreviewInvoice struct {
 	Quote *Quote `json:"quote"`
 	// This is the transaction number that appears on email receipts sent for this invoice.
 	ReceiptNumber string `json:"receipt_number"`
+	// The rendering-related settings that control how the invoice is displayed on customer-facing surfaces such as PDF and Hosted Invoice Page.
+	Rendering *QuotePreviewInvoiceRendering `json:"rendering"`
 	// Options for invoice PDF rendering.
 	RenderingOptions *QuotePreviewInvoiceRenderingOptions `json:"rendering_options"`
 	// The details of the cost of shipping, including the ShippingRate applied on the invoice.
