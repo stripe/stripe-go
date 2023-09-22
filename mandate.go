@@ -8,7 +8,7 @@ package stripe
 
 import "encoding/json"
 
-// The type of customer acceptance information included with the Mandate. One of `online` or `offline`.
+// The mandate includes the type of customer acceptance information, such as: `online` or `offline`.
 type MandateCustomerAcceptanceType string
 
 // List of values that MandateCustomerAcceptanceType can take
@@ -56,7 +56,7 @@ const (
 	MandatePaymentMethodDetailsBACSDebitNetworkStatusRevoked  MandatePaymentMethodDetailsBACSDebitNetworkStatus = "revoked"
 )
 
-// The type of the payment method associated with this mandate. An additional hash is included on `payment_method_details` with a name matching this value. It contains mandate information specific to the payment method.
+// This mandate corresponds with a specific payment method type. The `payment_method_details` includes an additional hash with the same name and contains mandate information that's specific to that payment method.
 type MandatePaymentMethodDetailsType string
 
 // List of values that MandatePaymentMethodDetailsType can take
@@ -71,7 +71,7 @@ const (
 	MandatePaymentMethodDetailsTypeUSBankAccount MandatePaymentMethodDetailsType = "us_bank_account"
 )
 
-// The status of the mandate, which indicates whether it can be used to initiate a payment.
+// The mandate status indicates whether or not you can use it to initiate a payment.
 type MandateStatus string
 
 // List of values that MandateStatus can take
@@ -104,17 +104,17 @@ func (p *MandateParams) AddExpand(f string) {
 
 type MandateCustomerAcceptanceOffline struct{}
 type MandateCustomerAcceptanceOnline struct {
-	// The IP address from which the Mandate was accepted by the customer.
+	// The customer accepts the mandate from this IP address.
 	IPAddress string `json:"ip_address"`
-	// The user agent of the browser from which the Mandate was accepted by the customer.
+	// The customer accepts the mandate using the user agent of the browser.
 	UserAgent string `json:"user_agent"`
 }
 type MandateCustomerAcceptance struct {
-	// The time at which the customer accepted the Mandate.
+	// The time that the customer accepts the mandate.
 	AcceptedAt int64                             `json:"accepted_at"`
 	Offline    *MandateCustomerAcceptanceOffline `json:"offline"`
 	Online     *MandateCustomerAcceptanceOnline  `json:"online"`
-	// The type of customer acceptance information included with the Mandate. One of `online` or `offline`.
+	// The mandate includes the type of customer acceptance information, such as: `online` or `offline`.
 	Type MandateCustomerAcceptanceType `json:"type"`
 }
 type MandateMultiUse struct{}
@@ -165,18 +165,18 @@ type MandatePaymentMethodDetails struct {
 	Link        *MandatePaymentMethodDetailsLink        `json:"link"`
 	Paypal      *MandatePaymentMethodDetailsPaypal      `json:"paypal"`
 	SEPADebit   *MandatePaymentMethodDetailsSEPADebit   `json:"sepa_debit"`
-	// The type of the payment method associated with this mandate. An additional hash is included on `payment_method_details` with a name matching this value. It contains mandate information specific to the payment method.
+	// This mandate corresponds with a specific payment method type. The `payment_method_details` includes an additional hash with the same name and contains mandate information that's specific to that payment method.
 	Type          MandatePaymentMethodDetailsType           `json:"type"`
 	USBankAccount *MandatePaymentMethodDetailsUSBankAccount `json:"us_bank_account"`
 }
 type MandateSingleUse struct {
-	// On a single use mandate, the amount of the payment.
+	// The amount of the payment on a single use mandate.
 	Amount int64 `json:"amount"`
-	// On a single use mandate, the currency of the payment.
+	// The currency of the payment on a single use mandate.
 	Currency Currency `json:"currency"`
 }
 
-// A Mandate is a record of the permission a customer has given you to debit their payment method.
+// A Mandate is a record of the permission that your customer gives you to debit their payment method.
 type Mandate struct {
 	APIResource
 	CustomerAcceptance *MandateCustomerAcceptance `json:"customer_acceptance"`
@@ -187,13 +187,13 @@ type Mandate struct {
 	MultiUse *MandateMultiUse `json:"multi_use"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
-	// The account (if any) for which the mandate is intended.
+	// The account (if any) that the mandate is intended for.
 	OnBehalfOf string `json:"on_behalf_of"`
 	// ID of the payment method associated with this mandate.
 	PaymentMethod        *PaymentMethod               `json:"payment_method"`
 	PaymentMethodDetails *MandatePaymentMethodDetails `json:"payment_method_details"`
 	SingleUse            *MandateSingleUse            `json:"single_use"`
-	// The status of the mandate, which indicates whether it can be used to initiate a payment.
+	// The mandate status indicates whether or not you can use it to initiate a payment.
 	Status MandateStatus `json:"status"`
 	// The type of the mandate.
 	Type MandateType `json:"type"`
