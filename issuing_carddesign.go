@@ -97,7 +97,7 @@ type IssuingCardDesignParams struct {
 	Params `form:"*"`
 	// The card bundle object belonging to this card design.
 	CardBundle *string `form:"card_bundle"`
-	// The file for the card logo, for use with card bundles that support card logos.
+	// The file for the card logo, for use with card bundles that support card logos. Must have `purpose` value of `issuing_logo`.
 	CardLogo *string `form:"card_logo"`
 	// Hash containing carrier text, for use with card bundles that support carrier text.
 	CarrierText *IssuingCardDesignCarrierTextParams `form:"carrier_text"`
