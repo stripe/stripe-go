@@ -133,7 +133,7 @@ func ValidatePayload(payload []byte, header string, secret string) error {
 }
 
 // ValidatePayloadIgnoringTolerance validates the payload against the Stripe-Signature header
-// header using the specified signing secret. Returns an error if the body or
+// using the specified signing secret. Returns an error if the body or
 // Stripe-Signature header provided are unreadable or if the signature doesn't match.
 // Does not check the signature's timestamp.
 //
