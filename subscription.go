@@ -792,7 +792,7 @@ type SubscriptionDeleteDiscountParams struct {
 	Params `form:"*"`
 }
 
-// The connected account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
+// The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
 type SubscriptionAutomaticTaxLiability struct {
 	// The connected account being referenced when `type` is `account`.
 	Account *Account `json:"account"`
@@ -802,7 +802,7 @@ type SubscriptionAutomaticTaxLiability struct {
 type SubscriptionAutomaticTax struct {
 	// Whether Stripe automatically computes tax on this subscription.
 	Enabled bool `json:"enabled"`
-	// The connected account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
+	// The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
 	Liability *SubscriptionAutomaticTaxLiability `json:"liability"`
 }
 

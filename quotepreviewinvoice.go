@@ -381,7 +381,7 @@ type QuotePreviewInvoiceAppliesTo struct {
 	Type QuotePreviewInvoiceAppliesToType `json:"type"`
 }
 
-// The connected account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
+// The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
 type QuotePreviewInvoiceAutomaticTaxLiability struct {
 	// The connected account being referenced when `type` is `account`.
 	Account *Account `json:"account"`
@@ -391,7 +391,7 @@ type QuotePreviewInvoiceAutomaticTaxLiability struct {
 type QuotePreviewInvoiceAutomaticTax struct {
 	// Whether Stripe automatically computes tax on this invoice. Note that incompatible invoice items (invoice items with manually specified [tax rates](https://stripe.com/docs/api/tax_rates), negative amounts, or `tax_behavior=unspecified`) cannot be added to automatic tax invoices.
 	Enabled bool `json:"enabled"`
-	// The connected account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
+	// The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
 	Liability *QuotePreviewInvoiceAutomaticTaxLiability `json:"liability"`
 	// The status of the most recent automated tax calculation for this invoice.
 	Status QuotePreviewInvoiceAutomaticTaxStatus `json:"status"`
