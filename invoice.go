@@ -265,7 +265,7 @@ func (p *InvoiceSearchParams) AddExpand(f string) {
 }
 
 // The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
-type InvoiceUpcomingAutomaticTaxLiabilityParams struct {
+type InvoiceAutomaticTaxLiabilityParams struct {
 	// The connected account being referenced when `type` is `account`.
 	Account *string `form:"account"`
 	// Type of the account referenced in the request.
@@ -278,8 +278,6 @@ type InvoiceAutomaticTaxParams struct {
 	Enabled *bool `form:"enabled"`
 	// The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
 	Liability *InvoiceAutomaticTaxLiabilityParams `form:"liability"`
-	// The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
-	LiabilityTODOINCOMPATIBLECOMBINATION *InvoiceUpcomingAutomaticTaxLiabilityParams `form:"liabilityTODO_INCOMPATIBLE_COMBINATION"`
 }
 type InvoiceUpcomingAutomaticTaxParams struct {
 	Enabled *bool `form:"enabled"`
@@ -324,7 +322,7 @@ type InvoiceUpcomingCustomerDetailsParams struct {
 }
 
 // Time span for the redeemed discount.
-type InvoiceUpcomingDiscountDiscountEndDurationParams struct {
+type InvoiceDiscountDiscountEndDurationParams struct {
 	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
 	Interval *string `form:"interval"`
 	// The number of intervals, as an whole number greater than 0. Stripe multiplies this by the interval type to get the overall duration.
@@ -335,8 +333,6 @@ type InvoiceUpcomingDiscountDiscountEndDurationParams struct {
 type InvoiceDiscountDiscountEndParams struct {
 	// Time span for the redeemed discount.
 	Duration *InvoiceDiscountDiscountEndDurationParams `form:"duration"`
-	// Time span for the redeemed discount.
-	DurationTODOINCOMPATIBLECOMBINATION *InvoiceUpcomingDiscountDiscountEndDurationParams `form:"durationTODO_INCOMPATIBLE_COMBINATION"`
 	// A precise Unix timestamp for the discount to end. Must be in the future.
 	Timestamp *int64 `form:"timestamp"`
 	// The type of calculation made to determine when the discount ends.
@@ -500,28 +496,12 @@ func (p *InvoiceUpcomingParams) AppendTo(body *form.Values, keyParts []string) {
 	}
 }
 
-// The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
-type InvoiceAutomaticTaxLiabilityParams struct {
-	// The connected account being referenced when `type` is `account`.
-	Account *string `form:"account"`
-	// Type of the account referenced in the request.
-	Type *string `form:"type"`
-}
-
 // A list of up to 4 custom fields to be displayed on the invoice. If a value for `custom_fields` is specified, the list specified will replace the existing custom field list on this invoice. Pass an empty string to remove previously-defined fields.
 type InvoiceCustomFieldParams struct {
 	// The name of the custom field. This may be up to 30 characters.
 	Name *string `form:"name"`
 	// The value of the custom field. This may be up to 30 characters.
 	Value *string `form:"value"`
-}
-
-// Time span for the redeemed discount.
-type InvoiceDiscountDiscountEndDurationParams struct {
-	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
-	Interval *string `form:"interval"`
-	// The number of intervals, as an whole number greater than 0. Stripe multiplies this by the interval type to get the overall duration.
-	IntervalCount *int64 `form:"interval_count"`
 }
 
 // The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
