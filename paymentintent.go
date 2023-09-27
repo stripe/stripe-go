@@ -1858,7 +1858,7 @@ type PaymentIntentParams struct {
 	AutomaticPaymentMethods *PaymentIntentAutomaticPaymentMethodsParams `form:"automatic_payment_methods"`
 	// Controls when the funds will be captured from the customer's account.
 	CaptureMethod *string `form:"capture_method"`
-	// The client secret of the PaymentIntent. It's required if you use a publishable key to retrieve the source.
+	// The client secret of the PaymentIntent. We require it if you use a publishable key to retrieve the source.
 	ClientSecret *string `form:"client_secret"`
 	// Set to `true` to attempt to [confirm this PaymentIntent](https://stripe.com/docs/api/payment_intents/confirm) this PaymentIntent immediately. This parameter defaults to `false`. When creating and confirming a PaymentIntent at the same time, you can also provide the parameters available in the [Confirm API](https://stripe.com/docs/api/payment_intents/confirm).
 	Confirm            *bool   `form:"confirm"`
@@ -1956,11 +1956,11 @@ func (p *PaymentIntentParams) AddMetadata(key string, value string) {
 // Returns a list of PaymentIntents.
 type PaymentIntentListParams struct {
 	ListParams `form:"*"`
-	// A filter on the list, based on the object `created` field. The value can be a string with an integer Unix timestamp, or it can be a dictionary with a number of different query options.
+	// A filter on the list, based on the object `created` field. The value can be a string with an integer Unix timestamp or a dictionary with a number of different query options.
 	Created *int64 `form:"created"`
-	// A filter on the list, based on the object `created` field. The value can be a string with an integer Unix timestamp, or it can be a dictionary with a number of different query options.
+	// A filter on the list, based on the object `created` field. The value can be a string with an integer Unix timestamp or a dictionary with a number of different query options.
 	CreatedRange *RangeQueryParams `form:"created"`
-	// Only return PaymentIntents for the customer specified by this customer ID.
+	// Only return PaymentIntents for the customer that this customer ID specifies.
 	Customer *string `form:"customer"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
@@ -2172,14 +2172,14 @@ func (p *PaymentIntentConfirmParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// A PaymentIntent object can be canceled when it is in one of these statuses: requires_payment_method, requires_capture, requires_confirmation, requires_action or, [in rare cases](https://stripe.com/docs/payments/intents), processing.
+// You can cancel a PaymentIntent object when it's in one of these statuses: requires_payment_method, requires_capture, requires_confirmation, requires_action or, [in rare cases](https://stripe.com/docs/payments/intents), processing.
 //
-// Once canceled, no additional charges will be made by the PaymentIntent and any operations on the PaymentIntent will fail with an error. For PaymentIntents with a status of requires_capture, the remaining amount_capturable will automatically be refunded.
+// After it's canceled, no additional charges are made by the PaymentIntent and any operations on the PaymentIntent fail with an error. For PaymentIntents with a status of requires_capture, the remaining amount_capturable is automatically refunded.
 //
-// You cannot cancel the PaymentIntent for a Checkout Session. [Expire the Checkout Session](https://stripe.com/docs/api/checkout/sessions/expire) instead.
+// You can't cancel the PaymentIntent for a Checkout Session. [Expire the Checkout Session](https://stripe.com/docs/api/checkout/sessions/expire) instead.
 type PaymentIntentCancelParams struct {
 	Params `form:"*"`
-	// Reason for canceling this PaymentIntent. Possible values are `duplicate`, `fraudulent`, `requested_by_customer`, or `abandoned`
+	// Reason for canceling this PaymentIntent. Possible values are: `duplicate`, `fraudulent`, `requested_by_customer`, or `abandoned`
 	CancellationReason *string `form:"cancellation_reason"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
@@ -2308,12 +2308,12 @@ type PaymentIntentCapturePaymentDetailsParams struct {
 
 // Capture the funds of an existing uncaptured PaymentIntent when its status is requires_capture.
 //
-// Uncaptured PaymentIntents will be canceled a set number of days after they are created (7 by default).
+// Uncaptured PaymentIntents are cancelled a set number of days (7 by default) after their creation.
 //
 // Learn more about [separate authorization and capture](https://stripe.com/docs/payments/capture-later).
 type PaymentIntentCaptureParams struct {
 	Params `form:"*"`
-	// The amount to capture from the PaymentIntent, which must be less than or equal to the original amount. Any additional amount will be automatically refunded. Defaults to the full `amount_capturable` if not provided.
+	// The amount to capture from the PaymentIntent, which must be less than or equal to the original amount. Any additional amount is automatically refunded. Defaults to the full `amount_capturable` if it's not provided.
 	AmountToCapture *int64 `form:"amount_to_capture"`
 	// The amount of the application fee (if any) that will be requested to be applied to the payment and transferred to the application owner's Stripe account. The amount of the application fee collected will be capped at the total payment amount. For more information, see the PaymentIntents [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
 	ApplicationFeeAmount *int64 `form:"application_fee_amount"`
@@ -2325,10 +2325,10 @@ type PaymentIntentCaptureParams struct {
 	PaymentDetails *PaymentIntentCapturePaymentDetailsParams `form:"payment_details"`
 	// For non-card charges, you can use this value as the complete description that appears on your customers' statements. Must contain at least one letter, maximum 22 characters.
 	StatementDescriptor *string `form:"statement_descriptor"`
-	// Provides information about a card payment that customers see on their statements. Concatenated with the prefix (shortened descriptor) or statement descriptor that's set on the account to form the complete statement descriptor. Maximum 22 characters for the concatenated descriptor.
+	// Provides information about a card payment that customers see on their statements. Concatenated with the prefix (shortened descriptor) or statement descriptor that's set on the account to form the complete statement descriptor. The concatenated descriptor must be 1-22 characters long.
 	StatementDescriptorSuffix *string `form:"statement_descriptor_suffix"`
-	// The parameters used to automatically create a Transfer when the payment
-	// is captured. For more information, see the PaymentIntents [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
+	// The parameters that you can use to automatically create a transfer after the payment
+	// is captured. Learn more about the [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
 	TransferData *PaymentIntentTransferDataParams `form:"transfer_data"`
 }
 
