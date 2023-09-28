@@ -54,10 +54,10 @@ import (
 	"github.com/stripe/stripe-go/v75/invoiceitem"
 	issuingauthorization "github.com/stripe/stripe-go/v75/issuing/authorization"
 	issuingcard "github.com/stripe/stripe-go/v75/issuing/card"
-	issuingcardbundle "github.com/stripe/stripe-go/v75/issuing/cardbundle"
-	issuingcarddesign "github.com/stripe/stripe-go/v75/issuing/carddesign"
 	issuingcardholder "github.com/stripe/stripe-go/v75/issuing/cardholder"
 	issuingdispute "github.com/stripe/stripe-go/v75/issuing/dispute"
+	issuingpersonalizationdesign "github.com/stripe/stripe-go/v75/issuing/personalizationdesign"
+	issuingphysicalbundle "github.com/stripe/stripe-go/v75/issuing/physicalbundle"
 	issuingtransaction "github.com/stripe/stripe-go/v75/issuing/transaction"
 	"github.com/stripe/stripe-go/v75/loginlink"
 	"github.com/stripe/stripe-go/v75/mandate"
@@ -110,7 +110,7 @@ import (
 	testhelperscustomer "github.com/stripe/stripe-go/v75/testhelpers/customer"
 	testhelpersissuingauthorization "github.com/stripe/stripe-go/v75/testhelpers/issuing/authorization"
 	testhelpersissuingcard "github.com/stripe/stripe-go/v75/testhelpers/issuing/card"
-	testhelpersissuingcarddesign "github.com/stripe/stripe-go/v75/testhelpers/issuing/carddesign"
+	testhelpersissuingpersonalizationdesign "github.com/stripe/stripe-go/v75/testhelpers/issuing/personalizationdesign"
 	testhelpersissuingtransaction "github.com/stripe/stripe-go/v75/testhelpers/issuing/transaction"
 	testhelpersrefund "github.com/stripe/stripe-go/v75/testhelpers/refund"
 	testhelpersterminalreader "github.com/stripe/stripe-go/v75/testhelpers/terminal/reader"
@@ -229,16 +229,16 @@ type API struct {
 	Invoices *invoice.Client
 	// IssuingAuthorizations is the client used to invoke /issuing/authorizations APIs.
 	IssuingAuthorizations *issuingauthorization.Client
-	// IssuingCardBundles is the client used to invoke /issuing/card_bundles APIs.
-	IssuingCardBundles *issuingcardbundle.Client
-	// IssuingCardDesigns is the client used to invoke /issuing/card_designs APIs.
-	IssuingCardDesigns *issuingcarddesign.Client
 	// IssuingCardholders is the client used to invoke /issuing/cardholders APIs.
 	IssuingCardholders *issuingcardholder.Client
 	// IssuingCards is the client used to invoke /issuing/cards APIs.
 	IssuingCards *issuingcard.Client
 	// IssuingDisputes is the client used to invoke /issuing/disputes APIs.
 	IssuingDisputes *issuingdispute.Client
+	// IssuingPersonalizationDesigns is the client used to invoke /issuing/personalization_designs APIs.
+	IssuingPersonalizationDesigns *issuingpersonalizationdesign.Client
+	// IssuingPhysicalBundles is the client used to invoke /issuing/physical_bundles APIs.
+	IssuingPhysicalBundles *issuingphysicalbundle.Client
 	// IssuingTransactions is the client used to invoke /issuing/transactions APIs.
 	IssuingTransactions *issuingtransaction.Client
 	// LoginLinks is the client used to invoke /accounts/{account}/login_links APIs.
@@ -341,10 +341,10 @@ type API struct {
 	TestHelpersCustomers *testhelperscustomer.Client
 	// TestHelpersIssuingAuthorizations is the client used to invoke /issuing/authorizations APIs.
 	TestHelpersIssuingAuthorizations *testhelpersissuingauthorization.Client
-	// TestHelpersIssuingCardDesigns is the client used to invoke /issuing/card_designs APIs.
-	TestHelpersIssuingCardDesigns *testhelpersissuingcarddesign.Client
 	// TestHelpersIssuingCards is the client used to invoke /issuing/cards APIs.
 	TestHelpersIssuingCards *testhelpersissuingcard.Client
+	// TestHelpersIssuingPersonalizationDesigns is the client used to invoke /issuing/personalization_designs APIs.
+	TestHelpersIssuingPersonalizationDesigns *testhelpersissuingpersonalizationdesign.Client
 	// TestHelpersIssuingTransactions is the client used to invoke /issuing/transactions APIs.
 	TestHelpersIssuingTransactions *testhelpersissuingtransaction.Client
 	// TestHelpersRefunds is the client used to invoke /refunds APIs.
@@ -453,11 +453,11 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.InvoiceItems = &invoiceitem.Client{B: backends.API, Key: key}
 	a.Invoices = &invoice.Client{B: backends.API, Key: key}
 	a.IssuingAuthorizations = &issuingauthorization.Client{B: backends.API, Key: key}
-	a.IssuingCardBundles = &issuingcardbundle.Client{B: backends.API, Key: key}
-	a.IssuingCardDesigns = &issuingcarddesign.Client{B: backends.API, Key: key}
 	a.IssuingCardholders = &issuingcardholder.Client{B: backends.API, Key: key}
 	a.IssuingCards = &issuingcard.Client{B: backends.API, Key: key}
 	a.IssuingDisputes = &issuingdispute.Client{B: backends.API, Key: key}
+	a.IssuingPersonalizationDesigns = &issuingpersonalizationdesign.Client{B: backends.API, Key: key}
+	a.IssuingPhysicalBundles = &issuingphysicalbundle.Client{B: backends.API, Key: key}
 	a.IssuingTransactions = &issuingtransaction.Client{B: backends.API, Key: key}
 	a.LoginLinks = &loginlink.Client{B: backends.API, Key: key}
 	a.Mandates = &mandate.Client{B: backends.API, Key: key}
@@ -509,8 +509,8 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.TerminalReaders = &terminalreader.Client{B: backends.API, Key: key}
 	a.TestHelpersCustomers = &testhelperscustomer.Client{B: backends.API, Key: key}
 	a.TestHelpersIssuingAuthorizations = &testhelpersissuingauthorization.Client{B: backends.API, Key: key}
-	a.TestHelpersIssuingCardDesigns = &testhelpersissuingcarddesign.Client{B: backends.API, Key: key}
 	a.TestHelpersIssuingCards = &testhelpersissuingcard.Client{B: backends.API, Key: key}
+	a.TestHelpersIssuingPersonalizationDesigns = &testhelpersissuingpersonalizationdesign.Client{B: backends.API, Key: key}
 	a.TestHelpersIssuingTransactions = &testhelpersissuingtransaction.Client{B: backends.API, Key: key}
 	a.TestHelpersRefunds = &testhelpersrefund.Client{B: backends.API, Key: key}
 	a.TestHelpersTerminalReaders = &testhelpersterminalreader.Client{B: backends.API, Key: key}

@@ -1,5 +1,9 @@
 # Changelog
 
+## 75.8.0 - 2023-09-28
+* [#1741](https://github.com/stripe/stripe-go/pull/1741) Update generated code
+  * Add support for `Rendering` on `InvoiceParams` and `Invoice`
+
 ## 75.8.0-beta.1 - 2023-09-21
 * [#1737](https://github.com/stripe/stripe-go/pull/1737) Update generated code for beta
   * Remove support for `Customer` on `ConfirmationToken`
