@@ -72,7 +72,7 @@ func (p *CustomerCashBalanceTransactionListParams) AddExpand(f string) {
 }
 
 type CustomerCashBalanceTransactionAdjustedForOverdraft struct {
-	// The [Balance Transaction](docs/api/balance_transactions/object) that corresponds to funds taken out of your Stripe balance.
+	// The [Balance Transaction](https://stripe.com/docs/api/balance_transactions/object) that corresponds to funds taken out of your Stripe balance.
 	BalanceTransaction *BalanceTransaction `json:"balance_transaction"`
 	// The [Cash Balance Transaction](https://stripe.com/docs/api/cash_balance_transactions/object) that brought the customer balance negative, triggering the clawback of funds.
 	LinkedTransaction *CustomerCashBalanceTransaction `json:"linked_transaction"`
