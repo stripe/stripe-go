@@ -1,5 +1,9 @@
 # Changelog
 
+## 75.8.0 - 2023-09-28
+* [#1741](https://github.com/stripe/stripe-go/pull/1741) Update generated code
+  * Add support for `Rendering` on `InvoiceParams` and `Invoice`
+
 ## 75.7.0 - 2023-09-21
 * [#1738](https://github.com/stripe/stripe-go/pull/1738) Update generated code
   * Add support for `TermsOfServiceAcceptance` on `CheckoutSessionCustomTextParams`, `CheckoutSessionCustomText`, `PaymentLinkCustomTextParams`, and `PaymentLinkCustomText`
