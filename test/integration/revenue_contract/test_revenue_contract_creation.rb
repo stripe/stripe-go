@@ -276,4 +276,57 @@ class Critic::RevRecContractCreation < Critic::RevenueContractValidationHelper
     price_2 = Stripe::Price.retrieve(T.cast(phase_item_with_metered.price, String), @user.stripe_credentials)
     assert_equal(sf_pricebook_id_2, price_2.metadata['salesforce_pricebook_entry_id'], "pricebook entry does not exist, price may be created in error from an order line")
   end
+
+  it 'creates a revenue contract with an invoice billing model' do
+    @user.update(field_mappings: {
+      customer: {
+        # if accounts are mapped to customer, there is no default email field
+        "email": "Description",
+      },
+    })
+
+    @user.field_defaults = {
+      "invoice" => {
+        "metadata.contract_cf_signed_date" => @defaultSignedDate,
+      },
+    }
+    @user.save
+
+    sf_account_id = create_salesforce_account(additional_fields: {
+      # an email is required for creating an invoice without a payment method
+      "Description" => create_static_email(email: "test"),
+    })
+
+    sf_product_id, _ = salesforce_standalone_product_with_price
+
+
+    quote_id = create_salesforce_quote(sf_account_id: sf_account_id,
+                                       contact_email: "integrates_invoice_order"
+                                      )
+
+    quote_with_product = add_product_to_cpq_quote(quote_id, sf_product_id: sf_product_id)
+    quote_with_product["lineItems"].first["record"][CPQ_QUOTE_QUANTITY] = 5.0
+    calculate_and_save_cpq_quote(quote_with_product)
+
+    sf_order = create_order_from_cpq_quote(quote_id)
+    SalesforceTranslateRecordJob.translate(@user, sf_order)
+
+    sf_order.refresh
+    stripe_invoice_id = sf_order[prefixed_stripe_field(GENERIC_STRIPE_ID)]
+    contract_id = sf_order[prefixed_stripe_field(GENERIC_STRIPE_REVENUE_CONTRACT_ID)]
+    revenue_contract = get_revenue_contract(contract_id)
+
+    invoice = Stripe::Invoice.retrieve(stripe_invoice_id, @user.stripe_credentials)
+    customer = Stripe::Customer.retrieve(invoice.customer, @user.stripe_credentials)
+
+    revenue_contract_validate_basics(sf_order, invoice, revenue_contract, sf_account_id, @defaultSignedDate)
+    assert_equal(1, invoice.lines.count)
+    line = invoice.lines.first
+    assert_equal("one_time", line.price.type)
+
+    assert_equal(1, revenue_contract.items.data.count)
+    contract_item = T.must(revenue_contract.items.data.first)
+
+    revenue_contract_validate_item(line, contract_item, nil, 5, 50000, nil)
+  end
 end

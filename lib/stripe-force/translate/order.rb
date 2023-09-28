@@ -431,7 +431,12 @@ class StripeForce::Translate
 
     is_recurring_order = !subscription_items.empty?
     if !is_recurring_order
-      return create_stripe_invoice_from_order(stripe_customer, invoice_items, sf_order)
+      invoice = create_stripe_invoice_from_order(stripe_customer, invoice_items, sf_order)
+      if @user.feature_enabled?(FeatureFlags::STRIPE_REVENUE_CONTRACT)
+        create_revenue_contract_from_invoice(invoice, sf_order, invoice_items)
+      end
+
+      return invoice
     end
 
     order_is_evergreen = is_salesforce_order_evergreen(sf_order)

@@ -16,7 +16,6 @@ class Critic::RevenueContractValidationHelper < Critic::OrderAmendmentFunctional
 
     # basic customer creation check
     refute_empty(customer.name)
-    assert_nil(customer.email)
     assert_equal(customer.id, revenue_contract.customer)
 
     assert_match(sf_account_id, customer.metadata['salesforce_account_link'])

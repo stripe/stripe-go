@@ -31,6 +31,55 @@ class StripeForce::Translate
   end
 
   sig do
+    params(invoice: Stripe::Invoice,
+           sf_order: Restforce::SObject,
+           invoice_items: T::Array[ContractItemStructure])
+    .returns(T.nilable(Stripe::RevenueContract))
+  end
+  def create_revenue_contract_from_invoice(invoice, sf_order, invoice_items)
+    contract = nil
+    begin
+      start_date = invoice.period_start
+      end_date = invoice.period_end
+
+      contract_items = []
+      invoice_items.each do |item|
+        contract_item = create_revenue_contract_item(item, start_date, end_date)
+        if !contract_item.nil?
+          contract_items << contract_item
+        end
+      end
+
+      # TODO: This date is specific to Cloudflare right now, we default to ActivationDate, but not sure if this
+      # is the correct one for future merchants. Will need to revisit.
+      signed_date = invoice.metadata["contract_cf_signed_date"]
+      signed_date ||= sf_order[SF_ORDER_ACTIVATED_DATE].to_s
+
+      currency = T.must(invoice_items.first).price(@user).currency # this should be the same across all item
+      request = {
+        customer: invoice.customer,
+        currency: currency,
+        signed_at: StripeForce::Utilities::SalesforceUtil.salesforce_date_to_unix_timestamp(signed_date),
+        billing_models: [{
+          type: "invoice",
+          invoice: invoice.id,
+        }],
+        items: contract_items,
+        metadata: invoice[:metadata].to_h,
+      }
+
+      contract = create_revenue_contract(request, sf_order)
+    rescue => e
+      # TODO: Currently we silently fail at creating the contrac to not fail the order sync.
+      # Once this code path is tested and stable, we should allow failure and retry.
+      log.info 'Exception caught during Contract creation.',
+        message: e.message
+    end
+
+    contract
+  end
+
+  sig do
     params(request_json: T.untyped, sf_order: Restforce::SObject).returns(Stripe::RevenueContract)
   end
   private def create_revenue_contract(request_json, sf_order)
