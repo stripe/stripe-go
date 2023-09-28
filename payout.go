@@ -16,7 +16,7 @@ const (
 	PayoutDestinationTypeCard        PayoutDestinationType = "card"
 )
 
-// Error code explaining reason for payout failure if available. See [Types of payout failures](https://stripe.com/docs/api#payout_failures) for a list of failure codes.
+// Error code that provides a reason for a payout failure, if available. View our [list of failure codes](https://stripe.com/docs/api#payout_failures).
 type PayoutFailureCode string
 
 // List of values that PayoutFailureCode can take
@@ -38,7 +38,7 @@ const (
 	PayoutFailureCodeUnsupportedCard               PayoutFailureCode = "unsupported_card"
 )
 
-// The method used to send this payout, which can be `standard` or `instant`. `instant` is supported for payouts to debit cards and bank accounts in certain countries. (See [Bank support for Instant Payouts](https://stripe.com/docs/payouts/instant-payouts-banks) for more information.)
+// The method used to send this payout, which can be `standard` or `instant`. `instant` is supported for payouts to debit cards and bank accounts in certain countries. Learn more about [bank support for Instant Payouts](https://stripe.com/docs/payouts/instant-payouts-banks).
 type PayoutMethodType string
 
 // List of values that PayoutMethodType can take
@@ -47,7 +47,7 @@ const (
 	PayoutMethodStandard PayoutMethodType = "standard"
 )
 
-// If `completed`, the [Balance Transactions API](https://stripe.com/docs/api/balance_transactions/list#balance_transaction_list-payout) may be used to list all Balance Transactions that were paid out in this payout.
+// If `completed`, you can use the [Balance Transactions API](https://stripe.com/docs/api/balance_transactions/list#balance_transaction_list-payout) to list all balance transactions that are paid out in this payout.
 type PayoutReconciliationStatus string
 
 // List of values that PayoutReconciliationStatus can take
@@ -57,7 +57,7 @@ const (
 	PayoutReconciliationStatusNotApplicable PayoutReconciliationStatus = "not_applicable"
 )
 
-// The source balance this payout came from. One of `card`, `fpx`, or `bank_account`.
+// The source balance this payout came from, which can be one of the following: `card`, `fpx`, or `bank_account`.
 type PayoutSourceType string
 
 // List of values that PayoutSourceType can take
@@ -67,7 +67,7 @@ const (
 	PayoutSourceTypeFPX         PayoutSourceType = "fpx"
 )
 
-// Current status of the payout: `paid`, `pending`, `in_transit`, `canceled` or `failed`. A payout is `pending` until it is submitted to the bank, when it becomes `in_transit`. The status then changes to `paid` if the transaction goes through, or to `failed` or `canceled` (within 5 business days). Some failed payouts may initially show as `paid` but then change to `failed`.
+// Current status of the payout: `paid`, `pending`, `in_transit`, `canceled` or `failed`. A payout is `pending` until it's submitted to the bank, when it becomes `in_transit`. The status changes to `paid` if the transaction succeeds, or to `failed` or `canceled` (within 5 business days). Some payouts that fail might initially show as `paid`, then change to `failed`.
 type PayoutStatus string
 
 // List of values that PayoutStatus can take
@@ -88,7 +88,7 @@ const (
 	PayoutTypeCard PayoutType = "card"
 )
 
-// Retrieves the details of an existing payout. Supply the unique payout ID from either a payout creation request or the payout list, and Stripe will return the corresponding payout information.
+// Retrieves the details of an existing payout. Supply the unique payout ID from either a payout creation request or the payout list. Stripe returns the corresponding payout information.
 type PayoutParams struct {
 	Params `form:"*"`
 	// A positive integer in cents representing how much to payout.
@@ -97,17 +97,17 @@ type PayoutParams struct {
 	Currency *string `form:"currency"`
 	// An arbitrary string attached to the object. Often useful for displaying to users.
 	Description *string `form:"description"`
-	// The ID of a bank account or a card to send the payout to. If no destination is supplied, the default external account for the specified currency will be used.
+	// The ID of a bank account or a card to send the payout to. If you don't provide a destination, we use the default external account for the specified currency.
 	Destination *string `form:"destination"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
-	// The method used to send this payout, which can be `standard` or `instant`. `instant` is supported for payouts to debit cards and bank accounts in certain countries. (See [Bank support for Instant Payouts](https://stripe.com/docs/payouts/instant-payouts-banks) for more information.)
+	// The method used to send this payout, which is `standard` or `instant`. We support `instant` for payouts to debit cards and bank accounts in certain countries. Learn more about [bank support for Instant Payouts](https://stripe.com/docs/payouts/instant-payouts-banks).
 	Method *string `form:"method"`
-	// The balance type of your Stripe balance to draw this payout from. Balances for different payment sources are kept separately. You can find the amounts with the balances API. One of `bank_account`, `card`, or `fpx`.
+	// The balance type of your Stripe balance to draw this payout from. Balances for different payment sources are kept separately. You can find the amounts with the Balances API. One of `bank_account`, `card`, or `fpx`.
 	SourceType *string `form:"source_type"`
-	// A string to be displayed on the recipient's bank or card statement. This may be at most 22 characters. Attempting to use a `statement_descriptor` longer than 22 characters will return an error. Note: Most banks will truncate this information and/or display it inconsistently. Some may not display it at all.
+	// A string that displays on the recipient's bank or card statement (up to 22 characters). A `statement_descriptor` that's longer than 22 characters return an error. Most banks truncate this information and display it inconsistently. Some banks might not display it at all.
 	StatementDescriptor *string `form:"statement_descriptor"`
 }
 
@@ -125,7 +125,7 @@ func (p *PayoutParams) AddMetadata(key string, value string) {
 	p.Metadata[key] = value
 }
 
-// Returns a list of existing payouts sent to third-party bank accounts or that Stripe has sent you. The payouts are returned in sorted order, with the most recently created payouts appearing first.
+// Returns a list of existing payouts sent to third-party bank accounts or payouts that Stripe sent to you. The payouts return in sorted order, with the most recently created payouts appearing first.
 type PayoutListParams struct {
 	ListParams       `form:"*"`
 	ArrivalDate      *int64            `form:"arrival_date"`
@@ -145,9 +145,9 @@ func (p *PayoutListParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// Reverses a payout by debiting the destination bank account. Only payouts for connected accounts to US bank accounts may be reversed at this time. If the payout is in the pending status, /v1/payouts/:id/cancel should be used instead.
+// Reverses a payout by debiting the destination bank account. At this time, you can only reverse payouts for connected accounts to US bank accounts. If the payout is in the pending status, use /v1/payouts/:id/cancel instead.
 //
-// By requesting a reversal via /v1/payouts/:id/reverse, you confirm that the authorized signatory of the selected bank account has authorized the debit on the bank account and that no other authorization is required.
+// By requesting a reversal through /v1/payouts/:id/reverse, you confirm that the authorized signatory of the selected bank account authorizes the debit on the bank account and that no other authorization is required.
 type PayoutReverseParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
@@ -173,18 +173,18 @@ func (p *PayoutReverseParams) AddMetadata(key string, value string) {
 // A `Payout` object is created when you receive funds from Stripe, or when you
 // initiate a payout to either a bank account or debit card of a [connected
 // Stripe account](https://stripe.com/docs/connect/bank-debit-card-payouts). You can retrieve individual payouts,
-// as well as list all payouts. Payouts are made on [varying
+// and list all payouts. Payouts are made on [varying
 // schedules](https://stripe.com/docs/connect/manage-payout-schedule), depending on your country and
 // industry.
 //
 // Related guide: [Receiving payouts](https://stripe.com/docs/payouts)
 type Payout struct {
 	APIResource
-	// Amount (in cents (or local equivalent)) to be transferred to your bank account or debit card.
+	// The amount (in cents (or local equivalent)) that transfers to your bank account or debit card.
 	Amount int64 `json:"amount"`
-	// Date the payout is expected to arrive in the bank. This factors in delays like weekends or bank holidays.
+	// Date that you can expect the payout to arrive in the bank. This factors in delays to account for weekends or bank holidays.
 	ArrivalDate int64 `json:"arrival_date"`
-	// Returns `true` if the payout was created by an [automated payout schedule](https://stripe.com/docs/payouts#payout-schedule), and `false` if it was [requested manually](https://stripe.com/docs/payouts#manual-payouts).
+	// Returns `true` if the payout is created by an [automated payout schedule](https://stripe.com/docs/payouts#payout-schedule) and `false` if it's [requested manually](https://stripe.com/docs/payouts#manual-payouts).
 	Automatic bool `json:"automatic"`
 	// ID of the balance transaction that describes the impact of this payout on your account balance.
 	BalanceTransaction *BalanceTransaction `json:"balance_transaction"`
@@ -194,13 +194,13 @@ type Payout struct {
 	Currency Currency `json:"currency"`
 	// An arbitrary string attached to the object. Often useful for displaying to users.
 	Description string `json:"description"`
-	// ID of the bank account or card the payout was sent to.
+	// ID of the bank account or card the payout is sent to.
 	Destination *PayoutDestination `json:"destination"`
-	// If the payout failed or was canceled, this will be the ID of the balance transaction that reversed the initial balance transaction, and puts the funds from the failed payout back in your balance.
+	// If the payout fails or cancels, this is the ID of the balance transaction that reverses the initial balance transaction and returns the funds from the failed payout back in your balance.
 	FailureBalanceTransaction *BalanceTransaction `json:"failure_balance_transaction"`
-	// Error code explaining reason for payout failure if available. See [Types of payout failures](https://stripe.com/docs/api#payout_failures) for a list of failure codes.
+	// Error code that provides a reason for a payout failure, if available. View our [list of failure codes](https://stripe.com/docs/api#payout_failures).
 	FailureCode PayoutFailureCode `json:"failure_code"`
-	// Message to user further explaining reason for payout failure if available.
+	// Message that provides the reason for a payout failure, if available.
 	FailureMessage string `json:"failure_message"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
@@ -208,21 +208,21 @@ type Payout struct {
 	Livemode bool `json:"livemode"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`
-	// The method used to send this payout, which can be `standard` or `instant`. `instant` is supported for payouts to debit cards and bank accounts in certain countries. (See [Bank support for Instant Payouts](https://stripe.com/docs/payouts/instant-payouts-banks) for more information.)
+	// The method used to send this payout, which can be `standard` or `instant`. `instant` is supported for payouts to debit cards and bank accounts in certain countries. Learn more about [bank support for Instant Payouts](https://stripe.com/docs/payouts/instant-payouts-banks).
 	Method PayoutMethodType `json:"method"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// If the payout reverses another, this is the ID of the original payout.
 	OriginalPayout *Payout `json:"original_payout"`
-	// If `completed`, the [Balance Transactions API](https://stripe.com/docs/api/balance_transactions/list#balance_transaction_list-payout) may be used to list all Balance Transactions that were paid out in this payout.
+	// If `completed`, you can use the [Balance Transactions API](https://stripe.com/docs/api/balance_transactions/list#balance_transaction_list-payout) to list all balance transactions that are paid out in this payout.
 	ReconciliationStatus PayoutReconciliationStatus `json:"reconciliation_status"`
-	// If the payout was reversed, this is the ID of the payout that reverses this payout.
+	// If the payout reverses, this is the ID of the payout that reverses this payout.
 	ReversedBy *Payout `json:"reversed_by"`
-	// The source balance this payout came from. One of `card`, `fpx`, or `bank_account`.
+	// The source balance this payout came from, which can be one of the following: `card`, `fpx`, or `bank_account`.
 	SourceType PayoutSourceType `json:"source_type"`
-	// Extra information about a payout to be displayed on the user's bank statement.
+	// Extra information about a payout that displays on the user's bank statement.
 	StatementDescriptor string `json:"statement_descriptor"`
-	// Current status of the payout: `paid`, `pending`, `in_transit`, `canceled` or `failed`. A payout is `pending` until it is submitted to the bank, when it becomes `in_transit`. The status then changes to `paid` if the transaction goes through, or to `failed` or `canceled` (within 5 business days). Some failed payouts may initially show as `paid` but then change to `failed`.
+	// Current status of the payout: `paid`, `pending`, `in_transit`, `canceled` or `failed`. A payout is `pending` until it's submitted to the bank, when it becomes `in_transit`. The status changes to `paid` if the transaction succeeds, or to `failed` or `canceled` (within 5 business days). Some payouts that fail might initially show as `paid`, then change to `failed`.
 	Status PayoutStatus `json:"status"`
 	// Can be `bank_account` or `card`.
 	Type PayoutType `json:"type"`

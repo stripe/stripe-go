@@ -97,15 +97,15 @@ const (
 	SetupAttemptUsageOnSession  SetupAttemptUsage = "on_session"
 )
 
-// Returns a list of SetupAttempts associated with a provided SetupIntent.
+// Returns a list of SetupAttempts that associate with a provided SetupIntent.
 type SetupAttemptListParams struct {
 	ListParams `form:"*"`
 	// A filter on the list, based on the object `created` field. The value
-	// can be a string with an integer Unix timestamp, or it can be a
+	// can be a string with an integer Unix timestamp or a
 	// dictionary with a number of different query options.
 	Created *int64 `form:"created"`
 	// A filter on the list, based on the object `created` field. The value
-	// can be a string with an integer Unix timestamp, or it can be a
+	// can be a string with an integer Unix timestamp or a
 	// dictionary with a number of different query options.
 	CreatedRange *RangeQueryParams `form:"created"`
 	// Specifies which fields in the response should be expanded.
@@ -276,7 +276,7 @@ type SetupAttemptPaymentMethodDetails struct {
 }
 
 // A SetupAttempt describes one attempted confirmation of a SetupIntent,
-// whether that confirmation was successful or unsuccessful. You can use
+// whether that confirmation is successful or unsuccessful. You can use
 // SetupAttempts to inspect details of a specific attempt at setting up a
 // payment method using a SetupIntent.
 type SetupAttempt struct {

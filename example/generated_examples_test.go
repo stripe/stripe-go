@@ -3563,3 +3563,10 @@ func TestTestHelpersIssuingTransactionRefund(t *testing.T) {
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
+
+func TestSubscriptionDeleteDiscount(t *testing.T) {
+	params := &stripe.SubscriptionDeleteDiscountParams{}
+	result, err := subscription.DeleteDiscount("sub_xyz", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
