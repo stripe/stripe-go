@@ -227,8 +227,6 @@ type IssuingCardSpendingControlsParams struct {
 // Creates an Issuing Card object.
 type IssuingCardParams struct {
 	Params `form:"*"`
-	// The card design object belonging to this card.
-	CardDesign *string `form:"card_design"`
 	// The [Cardholder](https://stripe.com/docs/api#issuing_cardholder_object) object with which the card will be associated.
 	Cardholder *string `form:"cardholder"`
 	// The currency for the card.
@@ -238,6 +236,8 @@ type IssuingCardParams struct {
 	FinancialAccount *string   `form:"financial_account"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
+	// The personalization design object belonging to this card.
+	PersonalizationDesign *string `form:"personalization_design"`
 	// The desired new PIN for this card.
 	PIN *IssuingCardPINParams `form:"pin"`
 	// The card this is meant to be a replacement for (if any).
@@ -369,8 +369,6 @@ type IssuingCard struct {
 	Brand string `json:"brand"`
 	// The reason why the card was canceled.
 	CancellationReason IssuingCardCancellationReason `json:"cancellation_reason"`
-	// The card design object belonging to this card.
-	CardDesign *IssuingCardDesign `json:"card_design"`
 	// An Issuing `Cardholder` object represents an individual or business entity who is [issued](https://stripe.com/docs/issuing) cards.
 	//
 	// Related guide: [How to create a cardholder](https://stripe.com/docs/issuing/cards#create-cardholder)
@@ -399,6 +397,8 @@ type IssuingCard struct {
 	Number string `json:"number"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
+	// The personalization design object belonging to this card.
+	PersonalizationDesign *IssuingPersonalizationDesign `json:"personalization_design"`
 	// The latest card that replaces this card, if any.
 	ReplacedBy *IssuingCard `json:"replaced_by"`
 	// The card this card replaces, if any.

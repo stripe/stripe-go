@@ -12,6 +12,23 @@ import (
 	"strconv"
 )
 
+// The type of the `automation_action`.
+type EventReasonAutomationActionType string
+
+// List of values that EventReasonAutomationActionType can take
+const (
+	EventReasonAutomationActionTypeStripeSendWebhookCustomEvent EventReasonAutomationActionType = "stripe_send_webhook_custom_event"
+)
+
+// The type of the reason for the event.
+type EventReasonType string
+
+// List of values that EventReasonType can take
+const (
+	EventReasonTypeAutomationAction EventReasonType = "automation_action"
+	EventReasonTypeRequest          EventReasonType = "request"
+)
+
 // Description of the event (for example, `invoice.created` or `charge.refunded`).
 type EventType string
 
@@ -76,6 +93,7 @@ const (
 	EventTypeCustomerSubscriptionCollectionPaused                 EventType = "customer.subscription.collection_paused"
 	EventTypeCustomerSubscriptionCollectionResumed                EventType = "customer.subscription.collection_resumed"
 	EventTypeCustomerSubscriptionCreated                          EventType = "customer.subscription.created"
+	EventTypeCustomerSubscriptionCustomEvent                      EventType = "customer.subscription.custom_event"
 	EventTypeCustomerSubscriptionDeleted                          EventType = "customer.subscription.deleted"
 	EventTypeCustomerSubscriptionPaused                           EventType = "customer.subscription.paused"
 	EventTypeCustomerSubscriptionPendingUpdateApplied             EventType = "customer.subscription.pending_update_applied"
@@ -124,10 +142,6 @@ const (
 	EventTypeIssuingAuthorizationUpdated                          EventType = "issuing_authorization.updated"
 	EventTypeIssuingCardCreated                                   EventType = "issuing_card.created"
 	EventTypeIssuingCardUpdated                                   EventType = "issuing_card.updated"
-	EventTypeIssuingCardDesignActivated                           EventType = "issuing_card_design.activated"
-	EventTypeIssuingCardDesignDeactivated                         EventType = "issuing_card_design.deactivated"
-	EventTypeIssuingCardDesignRejected                            EventType = "issuing_card_design.rejected"
-	EventTypeIssuingCardDesignUpdated                             EventType = "issuing_card_design.updated"
 	EventTypeIssuingCardholderCreated                             EventType = "issuing_cardholder.created"
 	EventTypeIssuingCardholderUpdated                             EventType = "issuing_cardholder.updated"
 	EventTypeIssuingDisputeClosed                                 EventType = "issuing_dispute.closed"
@@ -135,10 +149,13 @@ const (
 	EventTypeIssuingDisputeFundsReinstated                        EventType = "issuing_dispute.funds_reinstated"
 	EventTypeIssuingDisputeSubmitted                              EventType = "issuing_dispute.submitted"
 	EventTypeIssuingDisputeUpdated                                EventType = "issuing_dispute.updated"
+	EventTypeIssuingPersonalizationDesignActivated                EventType = "issuing_personalization_design.activated"
+	EventTypeIssuingPersonalizationDesignDeactivated              EventType = "issuing_personalization_design.deactivated"
+	EventTypeIssuingPersonalizationDesignRejected                 EventType = "issuing_personalization_design.rejected"
+	EventTypeIssuingPersonalizationDesignUpdated                  EventType = "issuing_personalization_design.updated"
 	EventTypeIssuingTransactionCreated                            EventType = "issuing_transaction.created"
 	EventTypeIssuingTransactionUpdated                            EventType = "issuing_transaction.updated"
 	EventTypeMandateUpdated                                       EventType = "mandate.updated"
-	EventTypeOrderCreated                                         EventType = "order.created"
 	EventTypePaymentIntentAmountCapturableUpdated                 EventType = "payment_intent.amount_capturable_updated"
 	EventTypePaymentIntentCanceled                                EventType = "payment_intent.canceled"
 	EventTypePaymentIntentCreated                                 EventType = "payment_intent.created"
@@ -184,9 +201,6 @@ const (
 	EventTypeQuoteStale                                           EventType = "quote.stale"
 	EventTypeRadarEarlyFraudWarningCreated                        EventType = "radar.early_fraud_warning.created"
 	EventTypeRadarEarlyFraudWarningUpdated                        EventType = "radar.early_fraud_warning.updated"
-	EventTypeRecipientCreated                                     EventType = "recipient.created"
-	EventTypeRecipientDeleted                                     EventType = "recipient.deleted"
-	EventTypeRecipientUpdated                                     EventType = "recipient.updated"
 	EventTypeRefundCreated                                        EventType = "refund.created"
 	EventTypeRefundUpdated                                        EventType = "refund.updated"
 	EventTypeReportingReportRunFailed                             EventType = "reporting.report_run.failed"
@@ -200,9 +214,6 @@ const (
 	EventTypeSetupIntentSetupFailed                               EventType = "setup_intent.setup_failed"
 	EventTypeSetupIntentSucceeded                                 EventType = "setup_intent.succeeded"
 	EventTypeSigmaScheduledQueryRunCreated                        EventType = "sigma.scheduled_query_run.created"
-	EventTypeSKUCreated                                           EventType = "sku.created"
-	EventTypeSKUDeleted                                           EventType = "sku.deleted"
-	EventTypeSKUUpdated                                           EventType = "sku.updated"
 	EventTypeSourceCanceled                                       EventType = "source.canceled"
 	EventTypeSourceChargeable                                     EventType = "source.chargeable"
 	EventTypeSourceFailed                                         EventType = "source.failed"
@@ -266,6 +277,13 @@ const (
 	EventTypeTreasuryReceivedCreditSucceeded                      EventType = "treasury.received_credit.succeeded"
 	EventTypeTreasuryReceivedDebitCreated                         EventType = "treasury.received_debit.created"
 	EventTypeInvoiceItemUpdated                                   EventType = "invoiceitem.updated"
+	EventTypeOrderCreated                                         EventType = "order.created"
+	EventTypeRecipientCreated                                     EventType = "recipient.created"
+	EventTypeRecipientDeleted                                     EventType = "recipient.deleted"
+	EventTypeRecipientUpdated                                     EventType = "recipient.updated"
+	EventTypeSKUCreated                                           EventType = "sku.created"
+	EventTypeSKUDeleted                                           EventType = "sku.deleted"
+	EventTypeSKUUpdated                                           EventType = "sku.updated"
 )
 
 // List events, going back up to 30 days. Each event data is rendered according to Stripe API version at its creation time, specified in [event object](https://stripe.com/docs/api/events/object) api_version attribute (not according to your current Stripe API version or Stripe-Version header).
@@ -309,6 +327,32 @@ type EventData struct {
 	// Object containing the names of the updated attributes and their values prior to the event (only included in events of type `*.updated`). If an array attribute has any updated elements, this object contains the entire array. In Stripe API versions 2017-04-06 or earlier, an updated array attribute in this object includes only the updated array elements.
 	PreviousAttributes map[string]interface{} `json:"previous_attributes"`
 	Raw                json.RawMessage        `json:"object"`
+}
+type EventReasonAutomationActionStripeSendWebhookCustomEvent struct {
+	// Set of key-value pairs attached to the action when creating an Automation.
+	CustomData map[string]string `json:"custom_data"`
+}
+type EventReasonAutomationAction struct {
+	StripeSendWebhookCustomEvent *EventReasonAutomationActionStripeSendWebhookCustomEvent `json:"stripe_send_webhook_custom_event"`
+	// The trigger name of the automation that triggered this action.
+	//  Please visit [Revenue and retention automations](https://stripe.com/docs/billing/revenue-recovery/automations#choose-a-trigger) for all possible trigger names.
+	Trigger string `json:"trigger"`
+	// The type of the `automation_action`.
+	Type EventReasonAutomationActionType `json:"type"`
+}
+type EventReasonRequest struct {
+	// ID of the API request that caused the event. If null, the event was automatic (e.g., Stripe's automatic subscription handling). Request logs are available in the [dashboard](https://dashboard.stripe.com/logs), but currently not in the API.
+	ID string `json:"id"`
+	// The idempotency key transmitted during the request, if any. *Note: This property is populated only for events on or after May 23, 2017*.
+	IdempotencyKey string `json:"idempotency_key"`
+}
+
+// Information about the action that causes the event. Only present when the event is triggered by an API request or an [Automation](https://stripe.com/docs/billing/revenue-recovery/automations) action.
+type EventReason struct {
+	AutomationAction *EventReasonAutomationAction `json:"automation_action"`
+	Request          *EventReasonRequest          `json:"request"`
+	// The type of the reason for the event.
+	Type EventReasonType `json:"type"`
 }
 
 // Information on the API request that triggers the event.
@@ -372,6 +416,8 @@ type Event struct {
 	Object string `json:"object"`
 	// Number of webhooks that haven't been successfully delivered (for example, to return a 20x response) to the URLs you specify.
 	PendingWebhooks int64 `json:"pending_webhooks"`
+	// Information about the action that causes the event. Only present when the event is triggered by an API request or an [Automation](https://stripe.com/docs/billing/revenue-recovery/automations) action.
+	Reason *EventReason `json:"reason"`
 	// Information on the API request that triggers the event.
 	Request *EventRequest `json:"request"`
 	// Description of the event (for example, `invoice.created` or `charge.refunded`).

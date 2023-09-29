@@ -283,6 +283,16 @@ const (
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeWeChatPay          QuotePreviewInvoicePaymentSettingsPaymentMethodType = "wechat_pay"
 )
 
+// Page size of invoice pdf. Options include a4, letter, and auto. If set to auto, page size will be switched to a4 or letter based on customer locale.
+type QuotePreviewInvoiceRenderingPDFPageSize string
+
+// List of values that QuotePreviewInvoiceRenderingPDFPageSize can take
+const (
+	QuotePreviewInvoiceRenderingPDFPageSizeA4     QuotePreviewInvoiceRenderingPDFPageSize = "a4"
+	QuotePreviewInvoiceRenderingPDFPageSizeAuto   QuotePreviewInvoiceRenderingPDFPageSize = "auto"
+	QuotePreviewInvoiceRenderingPDFPageSizeLetter QuotePreviewInvoiceRenderingPDFPageSize = "letter"
+)
+
 // The reasoning behind this tax, for example, if the product is tax exempt. The possible values for this field may be extended as new tax rules are supported.
 type QuotePreviewInvoiceShippingCostTaxTaxabilityReason string
 
@@ -371,7 +381,7 @@ type QuotePreviewInvoiceAppliesTo struct {
 	Type QuotePreviewInvoiceAppliesToType `json:"type"`
 }
 
-// The connected account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
+// The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
 type QuotePreviewInvoiceAutomaticTaxLiability struct {
 	// The connected account being referenced when `type` is `account`.
 	Account *Account `json:"account"`
@@ -381,7 +391,7 @@ type QuotePreviewInvoiceAutomaticTaxLiability struct {
 type QuotePreviewInvoiceAutomaticTax struct {
 	// Whether Stripe automatically computes tax on this invoice. Note that incompatible invoice items (invoice items with manually specified [tax rates](https://stripe.com/docs/api/tax_rates), negative amounts, or `tax_behavior=unspecified`) cannot be added to automatic tax invoices.
 	Enabled bool `json:"enabled"`
-	// The connected account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
+	// The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
 	Liability *QuotePreviewInvoiceAutomaticTaxLiability `json:"liability"`
 	// The status of the most recent automated tax calculation for this invoice.
 	Status QuotePreviewInvoiceAutomaticTaxStatus `json:"status"`
@@ -503,7 +513,21 @@ type QuotePreviewInvoicePaymentSettings struct {
 	PaymentMethodTypes []QuotePreviewInvoicePaymentSettingsPaymentMethodType `json:"payment_method_types"`
 }
 
-// Options for invoice PDF rendering.
+// Invoice pdf rendering options
+type QuotePreviewInvoiceRenderingPDF struct {
+	// Page size of invoice pdf. Options include a4, letter, and auto. If set to auto, page size will be switched to a4 or letter based on customer locale.
+	PageSize QuotePreviewInvoiceRenderingPDFPageSize `json:"page_size"`
+}
+
+// The rendering-related settings that control how the invoice is displayed on customer-facing surfaces such as PDF and Hosted Invoice Page.
+type QuotePreviewInvoiceRendering struct {
+	// How line-item prices and amounts will be displayed with respect to tax on invoice PDFs.
+	AmountTaxDisplay string `json:"amount_tax_display"`
+	// Invoice pdf rendering options
+	PDF *QuotePreviewInvoiceRenderingPDF `json:"pdf"`
+}
+
+// This is a legacy field that will be removed soon. For details about `rendering_options`, refer to `rendering` instead. Options for invoice PDF rendering.
 type QuotePreviewInvoiceRenderingOptions struct {
 	// How line-item prices and amounts will be displayed with respect to tax on invoice PDFs.
 	AmountTaxDisplay string `json:"amount_tax_display"`
@@ -759,7 +783,9 @@ type QuotePreviewInvoice struct {
 	Quote *Quote `json:"quote"`
 	// This is the transaction number that appears on email receipts sent for this invoice.
 	ReceiptNumber string `json:"receipt_number"`
-	// Options for invoice PDF rendering.
+	// The rendering-related settings that control how the invoice is displayed on customer-facing surfaces such as PDF and Hosted Invoice Page.
+	Rendering *QuotePreviewInvoiceRendering `json:"rendering"`
+	// This is a legacy field that will be removed soon. For details about `rendering_options`, refer to `rendering` instead. Options for invoice PDF rendering.
 	RenderingOptions *QuotePreviewInvoiceRenderingOptions `json:"rendering_options"`
 	// The details of the cost of shipping, including the ShippingRate applied on the invoice.
 	ShippingCost *QuotePreviewInvoiceShippingCost `json:"shipping_cost"`

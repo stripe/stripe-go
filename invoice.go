@@ -171,6 +171,16 @@ const (
 	InvoicePaymentSettingsPaymentMethodTypeWeChatPay          InvoicePaymentSettingsPaymentMethodType = "wechat_pay"
 )
 
+// Page size of invoice pdf. Options include a4, letter, and auto. If set to auto, page size will be switched to a4 or letter based on customer locale.
+type InvoiceRenderingPDFPageSize string
+
+// List of values that InvoiceRenderingPDFPageSize can take
+const (
+	InvoiceRenderingPDFPageSizeA4     InvoiceRenderingPDFPageSize = "a4"
+	InvoiceRenderingPDFPageSizeAuto   InvoiceRenderingPDFPageSize = "auto"
+	InvoiceRenderingPDFPageSizeLetter InvoiceRenderingPDFPageSize = "letter"
+)
+
 // The reasoning behind this tax, for example, if the product is tax exempt. The possible values for this field may be extended as new tax rules are supported.
 type InvoiceShippingCostTaxTaxabilityReason string
 
@@ -621,7 +631,22 @@ type InvoicePaymentSettingsParams struct {
 	PaymentMethodTypes []*string `form:"payment_method_types"`
 }
 
-// Options for invoice PDF rendering.
+// Invoice pdf rendering options
+type InvoiceRenderingPDFParams struct {
+	// Page size for invoice PDF. Can be set to a4, letter, or auto.
+	//  If set to auto, page size will be switched to a4 or letter based on customer locale.
+	PageSize *string `form:"page_size"`
+}
+
+// The rendering-related settings that control how the invoice is displayed on customer-facing surfaces such as PDF and Hosted Invoice Page.
+type InvoiceRenderingParams struct {
+	// How line-item prices and amounts will be displayed with respect to tax on invoice PDFs. One of `exclude_tax` or `include_inclusive_tax`. `include_inclusive_tax` will include inclusive tax (and exclude exclusive tax) in invoice PDF amounts. `exclude_tax` will exclude all tax (inclusive and exclusive alike) from invoice PDF amounts.
+	AmountTaxDisplay *string `form:"amount_tax_display"`
+	// Invoice pdf rendering options
+	PDF *InvoiceRenderingPDFParams `form:"pdf"`
+}
+
+// This is a legacy field that will be removed soon. For details about `rendering_options`, refer to `rendering` instead. Options for invoice PDF rendering.
 type InvoiceRenderingOptionsParams struct {
 	// How line-item prices and amounts will be displayed with respect to tax on invoice PDFs. One of `exclude_tax` or `include_inclusive_tax`. `include_inclusive_tax` will include inclusive tax (and exclude exclusive tax) in invoice PDF amounts. `exclude_tax` will exclude all tax (inclusive and exclusive alike) from invoice PDF amounts.
 	AmountTaxDisplay *string `form:"amount_tax_display"`
@@ -778,7 +803,9 @@ type InvoiceParams struct {
 	PaymentSettings *InvoicePaymentSettingsParams `form:"payment_settings"`
 	// How to handle pending invoice items on invoice creation. One of `include` or `exclude`. `include` will include any pending invoice items, and will create an empty draft invoice if no pending invoice items exist. `exclude` will always create an empty invoice draft regardless if there are pending invoice items or not. Defaults to `exclude` if the parameter is omitted.
 	PendingInvoiceItemsBehavior *string `form:"pending_invoice_items_behavior"`
-	// Options for invoice PDF rendering.
+	// The rendering-related settings that control how the invoice is displayed on customer-facing surfaces such as PDF and Hosted Invoice Page.
+	Rendering *InvoiceRenderingParams `form:"rendering"`
+	// This is a legacy field that will be removed soon. For details about `rendering_options`, refer to `rendering` instead. Options for invoice PDF rendering.
 	RenderingOptions *InvoiceRenderingOptionsParams `form:"rendering_options"`
 	// Settings for the cost of shipping for this invoice.
 	ShippingCost *InvoiceShippingCostParams `form:"shipping_cost"`
@@ -1289,7 +1316,7 @@ func (p *InvoiceListLinesParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// The connected account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
+// The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
 type InvoiceAutomaticTaxLiability struct {
 	// The connected account being referenced when `type` is `account`.
 	Account *Account `json:"account"`
@@ -1299,7 +1326,7 @@ type InvoiceAutomaticTaxLiability struct {
 type InvoiceAutomaticTax struct {
 	// Whether Stripe automatically computes tax on this invoice. Note that incompatible invoice items (invoice items with manually specified [tax rates](https://stripe.com/docs/api/tax_rates), negative amounts, or `tax_behavior=unspecified`) cannot be added to automatic tax invoices.
 	Enabled bool `json:"enabled"`
-	// The connected account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
+	// The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
 	Liability *InvoiceAutomaticTaxLiability `json:"liability"`
 	// The status of the most recent automated tax calculation for this invoice.
 	Status InvoiceAutomaticTaxStatus `json:"status"`
@@ -1421,7 +1448,21 @@ type InvoicePaymentSettings struct {
 	PaymentMethodTypes []InvoicePaymentSettingsPaymentMethodType `json:"payment_method_types"`
 }
 
-// Options for invoice PDF rendering.
+// Invoice pdf rendering options
+type InvoiceRenderingPDF struct {
+	// Page size of invoice pdf. Options include a4, letter, and auto. If set to auto, page size will be switched to a4 or letter based on customer locale.
+	PageSize InvoiceRenderingPDFPageSize `json:"page_size"`
+}
+
+// The rendering-related settings that control how the invoice is displayed on customer-facing surfaces such as PDF and Hosted Invoice Page.
+type InvoiceRendering struct {
+	// How line-item prices and amounts will be displayed with respect to tax on invoice PDFs.
+	AmountTaxDisplay string `json:"amount_tax_display"`
+	// Invoice pdf rendering options
+	PDF *InvoiceRenderingPDF `json:"pdf"`
+}
+
+// This is a legacy field that will be removed soon. For details about `rendering_options`, refer to `rendering` instead. Options for invoice PDF rendering.
 type InvoiceRenderingOptions struct {
 	// How line-item prices and amounts will be displayed with respect to tax on invoice PDFs.
 	AmountTaxDisplay string `json:"amount_tax_display"`
@@ -1688,7 +1729,9 @@ type Invoice struct {
 	Quote *Quote `json:"quote"`
 	// This is the transaction number that appears on email receipts sent for this invoice.
 	ReceiptNumber string `json:"receipt_number"`
-	// Options for invoice PDF rendering.
+	// The rendering-related settings that control how the invoice is displayed on customer-facing surfaces such as PDF and Hosted Invoice Page.
+	Rendering *InvoiceRendering `json:"rendering"`
+	// This is a legacy field that will be removed soon. For details about `rendering_options`, refer to `rendering` instead. Options for invoice PDF rendering.
 	RenderingOptions *InvoiceRenderingOptions `json:"rendering_options"`
 	// The details of the cost of shipping, including the ShippingRate applied on the invoice.
 	ShippingCost *InvoiceShippingCost `json:"shipping_cost"`
