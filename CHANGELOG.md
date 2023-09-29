@@ -1,5 +1,12 @@
 # Changelog
 
+## 75.9.0-beta.1 - 2023-09-28
+* [#1740](https://github.com/stripe/stripe-go/pull/1740) Update generated code for beta
+  * Rename resources `Issuing.CardDesign` and `Issuing.CardBundle` to `Issuing.PersonalizationDesign` and `Issuing.PhysicalBundle`
+  * Add support for `Features` on `AccountSessionComponentsAccountOnboardingParams`, `AccountSessionComponentsPaymentDetailsParams`, `AccountSessionComponentsPaymentDetails`, `AccountSessionComponentsPaymentsParams`, `AccountSessionComponentsPayments`, `AccountSessionComponentsPayoutsParams`, and `AccountSessionComponentsPayouts`
+  * Add support for `Reason` on `Event`
+* [#1742](https://github.com/stripe/stripe-go/pull/1742) Beta: fix incompatible combination
+
 ## 75.8.0 - 2023-09-28
 * [#1741](https://github.com/stripe/stripe-go/pull/1741) Update generated code
   * Add support for `Rendering` on `InvoiceParams` and `Invoice`
