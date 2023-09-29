@@ -117,13 +117,40 @@ const HTTPREQUEST = HTTPS.request(OPTIONS, HttpResponse => {
                 formattedStripeObjectsForMapper = manuallyAddSectionToParsedOpenSpec(
                     formattedStripeObjectsForMapper, 
                     convertedObjectName,
-                    'Prebilling',
-                    'prebilling',
-                    'Iterations',
-                    'prebilling.iterations',
+                    'Prebilling', // display name of section
+                    'prebilling', // section value
+                    'iterations', // display name of field
+                    'prebilling.iterations', // field value
                     '<p>This is used to determine the number of billing cycles to prebill.</p>',
                     'integer'
                 );
+
+                // create cancellation reasons section and push fields to it
+                formattedStripeObjectsForMapper = manuallyAddSectionToParsedOpenSpec(
+                    formattedStripeObjectsForMapper, 
+                    convertedObjectName,
+                    'Cancellation Details',  // display name of section
+                    'cancellation_details', // section value
+                    'feedback option', // display name of field
+                    'cancellation_details.feedback_option',
+                    '<p>Id of the customized feedback option that provide deeper insight into why the subscription was canceled.</p>',
+                    'string'
+                );
+
+                cancellation_details_comment_field = getNewFieldObject(
+                    "comment",
+                    "cancellation_details.comment",
+                    "Additional comments about why the user canceled the subscription, if the subscription was canceled explicitly by the user.",
+                    "string");
+                cancellation_details_feedback_field = getNewFieldObject(
+                    "feedback",
+                    "cancellation_details.feedback",
+                    "The customer submitted reason for why they canceled, if the subscription was canceled explicitly by the user.",
+                    "string",
+                    enumValues = ["too_expensive", "missing_features", "switched_service", "unused", "customer_service", "too_complex", "low_quality",  "other"]);
+                formattedStripeObjectsForMapper['formattedStripe' + convertedObjectName + 'Fields']
+                    .find(object => object.name == "cancellation_details").fields.push(cancellation_details_comment_field, cancellation_details_feedback_field);
+           
           
                 // Push fields to 'Default settings Invoice settings' section
                 rendering_template_field = getNewFieldObject(
@@ -434,7 +461,7 @@ function combineDuplicateSections(stripeObjectMappings) {
     }, []);
 }
 
-function getNewFieldObject(fieldName, fieldValue, description='', type='') {
+function getNewFieldObject(fieldName, fieldValue, description='', type='', enumValues=[]) {
     const fieldMap = {
         name: fieldName,
         value: fieldValue,
@@ -447,8 +474,13 @@ function getNewFieldObject(fieldName, fieldValue, description='', type='') {
         hasSfValue: false,
         hasRequiredValue: false,
         sfValue: '',
-        sfValueType: ''
+        sfValueType: '',
     };
+
+    if (enumValues.length > 0) {
+        fieldMap['enum'] = enumValues;
+    }
+
     return fieldMap;
 }
 

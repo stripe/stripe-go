@@ -52,6 +52,10 @@ def loud_sf_logging
   @sf = sf = @user.sf_client
 end
 
+def cpq_consumption_rate(consumption_schedule_id)
+  sf_get(@sf.query("SELECT Id FROM #{CPQ_CONSUMPTION_RATE} WHERE #{CPQ_CONSUMPTION_SCHEDULE}=#{consumption_schedule_id}").first.Id)
+end
+
 def example_sf_order
   sf_get(@sf.query("SELECT Id FROM #{SF_ORDER} ORDER BY CreatedDate DESC LIMIT 1").first.Id)
 end

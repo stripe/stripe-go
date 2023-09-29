@@ -1348,10 +1348,10 @@ class StripeForce::Translate
         end
       end
 
-    log.info "order amendment revision map",
-      revision_map: revision_map.transform_values {|ci| ci.map(&:order_line_id) }
+    log.info "order amendment revision map", revision_map: revision_map.transform_values {|ci| ci.map(&:order_line_id) }
 
     # now let's terminate the related line items
+    log.info "termination lines", termination_lines: termination_lines.map(&:order_line_id), termination_lines_count: termination_lines.count
     termination_lines.each do |termination_line|
       origin_order_line_id = T.must(termination_line.revised_order_line_id)
       fifo_order_line_stack = revision_map[origin_order_line_id]
@@ -1365,7 +1365,7 @@ class StripeForce::Translate
       end
 
       if termination_line.quantity > 0
-        raise Integrations::Errors::ImpossibleState.new("Order item quantity on termination lines should never be positive")
+        raise Integrations::Errors::ImpossibleState.new("Order Item quantity on termination lines should never be positive.")
       end
 
       log.info 'reducing quantity on line', termination_line: termination_line.order_line_id, reducing_quantity: termination_line.quantity

@@ -1043,7 +1043,7 @@
       "description": "",
       "fields": [
         {
-          "name": "Iterations",
+          "name": "iterations",
           "value": "prebilling.iterations",
           "description": "<p>This is used to determine the number of billing cycles to prebill.</p>",
           "type": "integer",
@@ -1055,6 +1055,65 @@
           "hasRequiredValue": false,
           "sfValue": "",
           "sfValueType": ""
+        }
+      ]
+    },
+    {
+      "label": "Cancellation Details",
+      "name": "cancellation_details",
+      "description": "",
+      "fields": [
+        {
+          "name": "feedback option",
+          "value": "cancellation_details.feedback_option",
+          "description": "<p>Id of the customized feedback option that provide deeper insight into why the subscription was canceled.</p>",
+          "type": "string",
+          "defaultValue": "",
+          "requiredValue": "",
+          "hasOverride": false,
+          "staticValue": false,
+          "hasSfValue": false,
+          "hasRequiredValue": false,
+          "sfValue": "",
+          "sfValueType": ""
+        },
+        {
+          "name": "comment",
+          "value": "cancellation_details.comment",
+          "description": "Additional comments about why the user canceled the subscription, if the subscription was canceled explicitly by the user.",
+          "type": "string",
+          "defaultValue": "",
+          "requiredValue": "",
+          "hasOverride": false,
+          "staticValue": false,
+          "hasSfValue": false,
+          "hasRequiredValue": false,
+          "sfValue": "",
+          "sfValueType": ""
+        },
+        {
+          "name": "feedback",
+          "value": "cancellation_details.feedback",
+          "description": "The customer submitted reason for why they canceled, if the subscription was canceled explicitly by the user.",
+          "type": "string",
+          "defaultValue": "",
+          "requiredValue": "",
+          "hasOverride": false,
+          "staticValue": false,
+          "hasSfValue": false,
+          "hasRequiredValue": false,
+          "sfValue": "",
+          "sfValueType": "",
+          "enum": [
+            "too_expensive",
+            "missing_features",
+            "switched_service",
+            "unused",
+            "customer_service",
+            "too_complex",
+            "low_quality",
+            "other"
+          ]
         }
       ]
     }

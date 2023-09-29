@@ -297,11 +297,12 @@ class Critic::ConfigurationsControllerTest < ApplicationIntegrationTest
         result = parsed_json
 
         # initially the hidden mapper fields should contain values since no feature flag is enabled for the user
-        assert(2, result['hidden_mapper_fields'].count)
-        assert_equal(["subscription_schedule.default_settings.invoice_settings.rendering.template", "subscription_schedule.default_settings.invoice_settings.rendering.template_version"], result['hidden_mapper_fields'])
+        assert(4, result['hidden_mapper_fields'].count)
+        assert_equal(["subscription_schedule.default_settings.invoice_settings.rendering.template", "subscription_schedule.default_settings.invoice_settings.rendering.template_version", "subscription_schedule.cancellation_details.comment", "subscription_schedule.cancellation_details.feedback", "subscription_schedule.cancellation_details.feedback_option"], result['hidden_mapper_fields'])
 
         # enable features
         @user.enable_feature(FeatureFlags::INVOICE_RENDERING_TEMPLATE)
+        @user.enable_feature(FeatureFlags::CUSTOM_BILLING_CANCELLATION_DETAILS)
         @user.save
 
         get api_configuration_path, headers: authentication_headers

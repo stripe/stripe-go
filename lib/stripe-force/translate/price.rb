@@ -105,7 +105,7 @@ class StripeForce::Translate
   sig { params(sf_object: Restforce::SObject, sf_product: Restforce::SObject, stripe_product: Stripe::Product, sf_order_item: T.nilable(Restforce::SObject)).returns(T.nilable(Stripe::Price)) }
   def create_price_from_sf_object(sf_object, sf_product, stripe_product, sf_order_item=nil)
     if ![SF_ORDER_ITEM, SF_PRICEBOOK_ENTRY].include?(sf_object.sobject_type)
-      raise StripeForce::Errors::RawUserError.new("Stripe price can only be created from an order item or pricebook entry.", salesforce_object: sf_object.sobject_type)
+      raise Integrations::Errors::ImpossibleInternalError.new("Stripe price can only be created from an order item or pricebook entry.")
     end
 
     log.info 'creating price', salesforce_object: sf_object

@@ -312,7 +312,8 @@ module StripeForce::Utilities
 
       # https://jira.corp.stripe.com/browse/PLATINT-1514
       cpq_order_end_date = extract_subscription_end_date_from_order(mapper, sf_order)
-      if !cpq_order_end_date.nil? && calculated_order_end_date != cpq_order_end_date
+      # the plus one day here is to include the last day
+      if !cpq_order_end_date.nil? && (calculated_order_end_date + 1.day) != cpq_order_end_date
         log.info 'calculated order end date differs from CPQ provided end date', cpq_end_date: cpq_order_end_date, calculated_order_end_date: calculated_order_end_date
       end
 
@@ -363,7 +364,7 @@ module StripeForce::Utilities
       # at this point we know:
       #  (1) feature NON_ANNIVERSARY_AMENDMENTS is enabled
       #  (2) the amendment order starts on a different day of the month than the initial order
-      # let's fetch the cpq order end date
+      # fetch the cpq order end date
       amendment_end_date = extract_subscription_end_date_from_order(mapper, sf_order_amendment)
       if amendment_end_date.nil?
         raise Integrations::Errors::MissingRequiredFields.new(salesforce_object: sf_order_amendment, missing_salesforce_fields: [CPQ_QUOTE_SUBSCRIPTION_END_DATE])
