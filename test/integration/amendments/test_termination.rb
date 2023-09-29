@@ -41,6 +41,43 @@ class Critic::OrderAmendmentTermination < Critic::OrderAmendmentFunctionalTest
     sf_order
   end
 
+  it 'terminating a renewal order does not throw an error' do
+    # fake order we don't care about
+    sf_order_0 = create_subscription_order(contact_email: "cancel_renewal_order_2")
+    sf_order_items_0 = sf_get_related(sf_order_0, SF_ORDER_ITEM)
+
+    # renewal order (just a "new order" but with the SBQQ__RevisedOrderProduct__c field set)
+    sf_order = create_subscription_order(contact_email: "cancel_renewal_order_3")
+    # add the Revised_Order_product field to the Order Item
+    sf_order_items = sf_get_related(sf_order, SF_ORDER_ITEM)
+    sf.update!(SF_ORDER_ITEM,
+      SF_ID => sf_order_items[0].Id,
+      # "EndDate" => format_date_for_salesforce(now_time_in_future + 364.days),
+      "SBQQ__RevisedOrderProduct__c" => sf_order_items_0[0].Id,
+    )
+
+    StripeForce::Translate.perform_inline(@user, sf_order.Id)
+
+    sf_contract = create_contract_from_order(sf_order)
+    sf_order.refresh
+
+    # create an amendment order to terminate the renewal order
+    amendment_end_date = now_time + 9.months
+    amendment_data = create_quote_data_from_contract_amendment(sf_contract)
+    # wipe out the product
+    amendment_data["lineItems"].first["record"][CPQ_QUOTE_QUANTITY] = 0
+    amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_START_DATE] = format_date_for_salesforce(amendment_end_date)
+    amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_TERM] = 3
+
+    sf_order_amendment = create_order_from_quote_data(amendment_data)
+    assert_equal(sf_order_amendment.Type, OrderTypeOptions::AMENDMENT.serialize)
+
+    exception = assert_raises(TypeError) do
+      StripeForce::Translate.perform_inline(@user, sf_order_amendment.Id)
+    end
+    assert_match("Passed `nil` into T.must", exception.message)
+  end
+
   it 'cancels a subscription in the future' do
     # initial subscription: quantity 1
     # order amendment: quantity 0
