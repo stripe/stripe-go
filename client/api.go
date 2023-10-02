@@ -43,7 +43,7 @@ import (
 	"github.com/stripe/stripe-go/v75/file"
 	"github.com/stripe/stripe-go/v75/filelink"
 	financialconnectionsaccount "github.com/stripe/stripe-go/v75/financialconnections/account"
-	financialconnectionsinferredbalance "github.com/stripe/stripe-go/v75/financialconnections/inferredbalance"
+	financialconnectionsaccountinferredbalance "github.com/stripe/stripe-go/v75/financialconnections/accountinferredbalance"
 	financialconnectionssession "github.com/stripe/stripe-go/v75/financialconnections/session"
 	financialconnectionstransaction "github.com/stripe/stripe-go/v75/financialconnections/transaction"
 	giftcardscard "github.com/stripe/stripe-go/v75/giftcards/card"
@@ -207,10 +207,10 @@ type API struct {
 	FileLinks *filelink.Client
 	// Files is the client used to invoke /files APIs.
 	Files *file.Client
+	// FinancialConnectionsAccountInferredBalances is the client used to invoke /financial_connections/accounts/{account}/inferred_balances APIs.
+	FinancialConnectionsAccountInferredBalances *financialconnectionsaccountinferredbalance.Client
 	// FinancialConnectionsAccounts is the client used to invoke /financial_connections/accounts APIs.
 	FinancialConnectionsAccounts *financialconnectionsaccount.Client
-	// FinancialConnectionsInferredBalances is the client used to invoke /financial_connections/accounts/{account}/inferred_balances APIs.
-	FinancialConnectionsInferredBalances *financialconnectionsinferredbalance.Client
 	// FinancialConnectionsSessions is the client used to invoke /financial_connections/sessions APIs.
 	FinancialConnectionsSessions *financialconnectionssession.Client
 	// FinancialConnectionsTransactions is the client used to invoke /financial_connections/transactions APIs.
@@ -442,8 +442,8 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.FeeRefunds = &feerefund.Client{B: backends.API, Key: key}
 	a.FileLinks = &filelink.Client{B: backends.API, Key: key}
 	a.Files = &file.Client{B: backends.API, BUploads: backends.Uploads, Key: key}
+	a.FinancialConnectionsAccountInferredBalances = &financialconnectionsaccountinferredbalance.Client{B: backends.API, Key: key}
 	a.FinancialConnectionsAccounts = &financialconnectionsaccount.Client{B: backends.API, Key: key}
-	a.FinancialConnectionsInferredBalances = &financialconnectionsinferredbalance.Client{B: backends.API, Key: key}
 	a.FinancialConnectionsSessions = &financialconnectionssession.Client{B: backends.API, Key: key}
 	a.FinancialConnectionsTransactions = &financialconnectionstransaction.Client{B: backends.API, Key: key}
 	a.GiftCardsCards = &giftcardscard.Client{B: backends.API, Key: key}
