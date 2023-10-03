@@ -47,6 +47,7 @@ import (
 	issuingcard "github.com/stripe/stripe-go/v75/issuing/card"
 	issuingcardholder "github.com/stripe/stripe-go/v75/issuing/cardholder"
 	issuingdispute "github.com/stripe/stripe-go/v75/issuing/dispute"
+	issuingtoken "github.com/stripe/stripe-go/v75/issuing/token"
 	issuingtransaction "github.com/stripe/stripe-go/v75/issuing/transaction"
 	"github.com/stripe/stripe-go/v75/loginlink"
 	"github.com/stripe/stripe-go/v75/mandate"
@@ -199,6 +200,8 @@ type API struct {
 	IssuingCards *issuingcard.Client
 	// IssuingDisputes is the client used to invoke /issuing/disputes APIs.
 	IssuingDisputes *issuingdispute.Client
+	// IssuingTokens is the client used to invoke /issuing/tokens APIs.
+	IssuingTokens *issuingtoken.Client
 	// IssuingTransactions is the client used to invoke /issuing/transactions APIs.
 	IssuingTransactions *issuingtransaction.Client
 	// LoginLinks is the client used to invoke /accounts/{account}/login_links APIs.
@@ -393,6 +396,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.IssuingCardholders = &issuingcardholder.Client{B: backends.API, Key: key}
 	a.IssuingCards = &issuingcard.Client{B: backends.API, Key: key}
 	a.IssuingDisputes = &issuingdispute.Client{B: backends.API, Key: key}
+	a.IssuingTokens = &issuingtoken.Client{B: backends.API, Key: key}
 	a.IssuingTransactions = &issuingtransaction.Client{B: backends.API, Key: key}
 	a.LoginLinks = &loginlink.Client{B: backends.API, Key: key}
 	a.Mandates = &mandate.Client{B: backends.API, Key: key}

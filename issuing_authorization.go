@@ -306,6 +306,8 @@ type IssuingAuthorization struct {
 	RequestHistory []*IssuingAuthorizationRequestHistory `json:"request_history"`
 	// The current status of the authorization in its lifecycle.
 	Status IssuingAuthorizationStatus `json:"status"`
+	// [Token](https://stripe.com/docs/api/issuing/tokens/object) object used for this authorization. If a network token was not used for this authorization, this field will be null.
+	Token *IssuingToken `json:"token"`
 	// List of [transactions](https://stripe.com/docs/api/issuing/transactions) associated with this authorization.
 	Transactions []*IssuingTransaction `json:"transactions"`
 	// [Treasury](https://stripe.com/docs/api/treasury) details related to this authorization if it was created on a [FinancialAccount](https://stripe.com/docs/api/treasury/financial_accounts).

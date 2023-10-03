@@ -355,6 +355,8 @@ type PaymentLinkLineItemParams struct {
 type PaymentLinkPaymentIntentDataParams struct {
 	// Controls when the funds will be captured from the customer's account.
 	CaptureMethod *string `form:"capture_method"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that will declaratively set metadata on [Payment Intents] (/docs/api/payment_intents) generated from this payment link. Unlike object-level metadata, this field is declarative. Updates will clear prior values.
+	Metadata map[string]string `form:"metadata"`
 	// Indicates that you intend to [make future payments](https://stripe.com/docs/payments/payment-intents#future-usage) with the payment method collected by this Checkout Session.
 	//
 	// When setting this to `on_session`, Checkout will show a notice to the customer that their payment details will be saved.
@@ -367,6 +369,15 @@ type PaymentLinkPaymentIntentDataParams struct {
 	//
 	// When processing card payments, Checkout also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as SCA.
 	SetupFutureUsage *string `form:"setup_future_usage"`
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *PaymentLinkPaymentIntentDataParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
 }
 
 // Controls phone number collection settings during checkout.
@@ -394,8 +405,19 @@ type PaymentLinkShippingOptionParams struct {
 type PaymentLinkSubscriptionDataParams struct {
 	// The subscription's description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription.
 	Description *string `form:"description"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that will declaratively set metadata on [Subscriptions] (/docs/api/subscriptions) generated from this payment link. Unlike object-level metadata, this field is declarative. Updates will clear prior values.
+	Metadata map[string]string `form:"metadata"`
 	// Integer representing the number of trial period days before the customer is charged for the first time. Has to be at least 1.
 	TrialPeriodDays *int64 `form:"trial_period_days"`
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *PaymentLinkSubscriptionDataParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
 }
 
 // Controls tax ID collection during checkout.
@@ -655,6 +677,8 @@ type PaymentLinkInvoiceCreation struct {
 type PaymentLinkPaymentIntentData struct {
 	// Indicates when the funds will be captured from the customer's account.
 	CaptureMethod PaymentLinkPaymentIntentDataCaptureMethod `json:"capture_method"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that will set metadata on [Payment Intents] (/docs/api/payment_intents) generated from this payment link.
+	Metadata map[string]string `json:"metadata"`
 	// Indicates that you intend to make future payments with the payment method collected during checkout.
 	SetupFutureUsage PaymentLinkPaymentIntentDataSetupFutureUsage `json:"setup_future_usage"`
 }
@@ -681,6 +705,8 @@ type PaymentLinkShippingOption struct {
 type PaymentLinkSubscriptionData struct {
 	// The subscription's description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription.
 	Description string `json:"description"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that will set metadata on [Subscriptions] (/docs/api/subscriptions) generated from this payment link.
+	Metadata map[string]string `json:"metadata"`
 	// Integer representing the number of trial period days before the customer is charged for the first time.
 	TrialPeriodDays int64 `json:"trial_period_days"`
 }
