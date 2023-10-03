@@ -58,6 +58,33 @@ const (
 	ChargePaymentMethodDetailsCardChecksCVCCheckUnchecked   ChargePaymentMethodDetailsCardChecksCVCCheck = "unchecked"
 )
 
+// Indicates whether or not the capture window is extended beyond the standard authorization.
+type ChargePaymentMethodDetailsCardExtendedAuthorizationStatus string
+
+// List of values that ChargePaymentMethodDetailsCardExtendedAuthorizationStatus can take
+const (
+	ChargePaymentMethodDetailsCardExtendedAuthorizationStatusDisabled ChargePaymentMethodDetailsCardExtendedAuthorizationStatus = "disabled"
+	ChargePaymentMethodDetailsCardExtendedAuthorizationStatusEnabled  ChargePaymentMethodDetailsCardExtendedAuthorizationStatus = "enabled"
+)
+
+// Indicates whether or not the incremental authorization feature is supported.
+type ChargePaymentMethodDetailsCardIncrementalAuthorizationStatus string
+
+// List of values that ChargePaymentMethodDetailsCardIncrementalAuthorizationStatus can take
+const (
+	ChargePaymentMethodDetailsCardIncrementalAuthorizationStatusAvailable   ChargePaymentMethodDetailsCardIncrementalAuthorizationStatus = "available"
+	ChargePaymentMethodDetailsCardIncrementalAuthorizationStatusUnavailable ChargePaymentMethodDetailsCardIncrementalAuthorizationStatus = "unavailable"
+)
+
+// Indicates whether or not multiple captures are supported.
+type ChargePaymentMethodDetailsCardMulticaptureStatus string
+
+// List of values that ChargePaymentMethodDetailsCardMulticaptureStatus can take
+const (
+	ChargePaymentMethodDetailsCardMulticaptureStatusAvailable   ChargePaymentMethodDetailsCardMulticaptureStatus = "available"
+	ChargePaymentMethodDetailsCardMulticaptureStatusUnavailable ChargePaymentMethodDetailsCardMulticaptureStatus = "unavailable"
+)
+
 // Identifies which network this charge was processed on. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `interac`, `jcb`, `mastercard`, `unionpay`, `visa`, or `unknown`.
 type ChargePaymentMethodDetailsCardNetwork string
 
@@ -73,6 +100,15 @@ const (
 	ChargePaymentMethodDetailsCardNetworkUnionpay        ChargePaymentMethodDetailsCardNetwork = "unionpay"
 	ChargePaymentMethodDetailsCardNetworkVisa            ChargePaymentMethodDetailsCardNetwork = "visa"
 	ChargePaymentMethodDetailsCardNetworkUnknown         ChargePaymentMethodDetailsCardNetwork = "unknown"
+)
+
+// Indicates whether or not the authorized amount can be over-captured.
+type ChargePaymentMethodDetailsCardOvercaptureStatus string
+
+// List of values that ChargePaymentMethodDetailsCardOvercaptureStatus can take
+const (
+	ChargePaymentMethodDetailsCardOvercaptureStatusAvailable   ChargePaymentMethodDetailsCardOvercaptureStatus = "available"
+	ChargePaymentMethodDetailsCardOvercaptureStatusUnavailable ChargePaymentMethodDetailsCardOvercaptureStatus = "unavailable"
 )
 
 // For authenticated transactions: how the customer was authenticated by
@@ -854,6 +890,14 @@ type ChargePaymentMethodDetailsCardChecks struct {
 	// If a CVC was provided, results of the check, one of `pass`, `fail`, `unavailable`, or `unchecked`.
 	CVCCheck ChargePaymentMethodDetailsCardChecksCVCCheck `json:"cvc_check"`
 }
+type ChargePaymentMethodDetailsCardExtendedAuthorization struct {
+	// Indicates whether or not the capture window is extended beyond the standard authorization.
+	Status ChargePaymentMethodDetailsCardExtendedAuthorizationStatus `json:"status"`
+}
+type ChargePaymentMethodDetailsCardIncrementalAuthorization struct {
+	// Indicates whether or not the incremental authorization feature is supported.
+	Status ChargePaymentMethodDetailsCardIncrementalAuthorizationStatus `json:"status"`
+}
 
 // Installment details for this payment (Mexico only).
 //
@@ -862,11 +906,21 @@ type ChargePaymentMethodDetailsCardInstallments struct {
 	// Installment plan selected for the payment.
 	Plan *PaymentIntentPaymentMethodOptionsCardInstallmentsPlan `json:"plan"`
 }
+type ChargePaymentMethodDetailsCardMulticapture struct {
+	// Indicates whether or not multiple captures are supported.
+	Status ChargePaymentMethodDetailsCardMulticaptureStatus `json:"status"`
+}
 
 // If this card has network token credentials, this contains the details of the network token credentials.
 type ChargePaymentMethodDetailsCardNetworkToken struct {
 	// Indicates if Stripe used a network token, either user provided or Stripe managed when processing the transaction.
 	Used bool `json:"used"`
+}
+type ChargePaymentMethodDetailsCardOvercapture struct {
+	// The maximum amount that can be captured.
+	MaximumAmountCapturable int64 `json:"maximum_amount_capturable"`
+	// Indicates whether or not the authorized amount can be over-captured.
+	Status ChargePaymentMethodDetailsCardOvercaptureStatus `json:"status"`
 }
 
 // Populated if this transaction used 3D Secure authentication.
@@ -923,6 +977,8 @@ type ChargePaymentMethodDetailsCardWallet struct {
 	VisaCheckout *ChargePaymentMethodDetailsCardWalletVisaCheckout `json:"visa_checkout"`
 }
 type ChargePaymentMethodDetailsCard struct {
+	// The authorized amount.
+	AmountAuthorized int64 `json:"amount_authorized"`
 	// Card brand. Can be `amex`, `diners`, `discover`, `eftpos_au`, `jcb`, `mastercard`, `unionpay`, `visa`, or `unknown`.
 	Brand PaymentMethodCardBrand `json:"brand"`
 	// Check results by Card networks on Card address and CVC at time of payment.
@@ -932,13 +988,15 @@ type ChargePaymentMethodDetailsCard struct {
 	// Two-digit number representing the card's expiration month.
 	ExpMonth int64 `json:"exp_month"`
 	// Four-digit number representing the card's expiration year.
-	ExpYear int64 `json:"exp_year"`
+	ExpYear               int64                                                `json:"exp_year"`
+	ExtendedAuthorization *ChargePaymentMethodDetailsCardExtendedAuthorization `json:"extended_authorization"`
 	// Uniquely identifies this particular card number. You can use this attribute to check whether two customers who've signed up with you are using the same card number, for example. For payment methods that tokenize card information (Apple Pay, Google Pay), the tokenized number might be provided instead of the underlying card number.
 	//
 	// *As of May 1, 2021, card fingerprint in India for Connect changed to allow two fingerprints for the same card---one for India and one for the rest of the world.*
 	Fingerprint string `json:"fingerprint"`
 	// Card funding type. Can be `credit`, `debit`, `prepaid`, or `unknown`.
-	Funding CardFunding `json:"funding"`
+	Funding                  CardFunding                                             `json:"funding"`
+	IncrementalAuthorization *ChargePaymentMethodDetailsCardIncrementalAuthorization `json:"incremental_authorization"`
 	// Installment details for this payment (Mexico only).
 	//
 	// For more information, see the [installments integration guide](https://stripe.com/docs/payments/installments).
@@ -948,11 +1006,13 @@ type ChargePaymentMethodDetailsCard struct {
 	// ID of the mandate used to make this payment or created by it.
 	Mandate string `json:"mandate"`
 	// True if this payment was marked as MOTO and out of scope for SCA.
-	MOTO bool `json:"moto"`
+	MOTO         bool                                        `json:"moto"`
+	Multicapture *ChargePaymentMethodDetailsCardMulticapture `json:"multicapture"`
 	// Identifies which network this charge was processed on. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `interac`, `jcb`, `mastercard`, `unionpay`, `visa`, or `unknown`.
 	Network ChargePaymentMethodDetailsCardNetwork `json:"network"`
 	// If this card has network token credentials, this contains the details of the network token credentials.
 	NetworkToken *ChargePaymentMethodDetailsCardNetworkToken `json:"network_token"`
+	Overcapture  *ChargePaymentMethodDetailsCardOvercapture  `json:"overcapture"`
 	// Populated if this transaction used 3D Secure authentication.
 	ThreeDSecure *ChargePaymentMethodDetailsCardThreeDSecure `json:"three_d_secure"`
 	// If this Card is part of a card wallet, this contains the details of the card wallet.

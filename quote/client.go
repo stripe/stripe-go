@@ -85,19 +85,6 @@ func (c Client) Cancel(id string, params *stripe.QuoteCancelParams) (*stripe.Quo
 	return quote, err
 }
 
-// DraftQuote is the method for the `POST /v1/quotes/{quote}/mark_draft` API.
-func DraftQuote(id string, params *stripe.QuoteDraftQuoteParams) (*stripe.Quote, error) {
-	return getC().DraftQuote(id, params)
-}
-
-// DraftQuote is the method for the `POST /v1/quotes/{quote}/mark_draft` API.
-func (c Client) DraftQuote(id string, params *stripe.QuoteDraftQuoteParams) (*stripe.Quote, error) {
-	path := stripe.FormatURLPath("/v1/quotes/%s/mark_draft", id)
-	quote := &stripe.Quote{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, quote)
-	return quote, err
-}
-
 // FinalizeQuote is the method for the `POST /v1/quotes/{quote}/finalize` API.
 func FinalizeQuote(id string, params *stripe.QuoteFinalizeQuoteParams) (*stripe.Quote, error) {
 	return getC().FinalizeQuote(id, params)
@@ -111,13 +98,26 @@ func (c Client) FinalizeQuote(id string, params *stripe.QuoteFinalizeQuoteParams
 	return quote, err
 }
 
-// MarkStaleQuote is the method for the `POST /v1/quotes/{quote}/mark_stale` API.
-func MarkStaleQuote(id string, params *stripe.QuoteMarkStaleQuoteParams) (*stripe.Quote, error) {
-	return getC().MarkStaleQuote(id, params)
+// MarkDraft is the method for the `POST /v1/quotes/{quote}/mark_draft` API.
+func MarkDraft(id string, params *stripe.QuoteMarkDraftParams) (*stripe.Quote, error) {
+	return getC().MarkDraft(id, params)
 }
 
-// MarkStaleQuote is the method for the `POST /v1/quotes/{quote}/mark_stale` API.
-func (c Client) MarkStaleQuote(id string, params *stripe.QuoteMarkStaleQuoteParams) (*stripe.Quote, error) {
+// MarkDraft is the method for the `POST /v1/quotes/{quote}/mark_draft` API.
+func (c Client) MarkDraft(id string, params *stripe.QuoteMarkDraftParams) (*stripe.Quote, error) {
+	path := stripe.FormatURLPath("/v1/quotes/%s/mark_draft", id)
+	quote := &stripe.Quote{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, quote)
+	return quote, err
+}
+
+// MarkStale is the method for the `POST /v1/quotes/{quote}/mark_stale` API.
+func MarkStale(id string, params *stripe.QuoteMarkStaleParams) (*stripe.Quote, error) {
+	return getC().MarkStale(id, params)
+}
+
+// MarkStale is the method for the `POST /v1/quotes/{quote}/mark_stale` API.
+func (c Client) MarkStale(id string, params *stripe.QuoteMarkStaleParams) (*stripe.Quote, error) {
 	path := stripe.FormatURLPath("/v1/quotes/%s/mark_stale", id)
 	quote := &stripe.Quote{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, quote)
@@ -299,50 +299,6 @@ func (i *LineIter) QuoteLine() *stripe.QuoteLine {
 // continue pagination.
 func (i *LineIter) QuoteLineList() *stripe.QuoteLineList {
 	return i.List().(*stripe.QuoteLineList)
-}
-
-// ListPreviewInvoiceLines is the method for the `GET /v1/quotes/{quote}/preview_invoices/{preview_invoice}/lines` API.
-func ListPreviewInvoiceLines(params *stripe.QuoteListPreviewInvoiceLinesParams) *InvoiceLineItemIter {
-	return getC().ListPreviewInvoiceLines(params)
-}
-
-// ListPreviewInvoiceLines is the method for the `GET /v1/quotes/{quote}/preview_invoices/{preview_invoice}/lines` API.
-func (c Client) ListPreviewInvoiceLines(listParams *stripe.QuoteListPreviewInvoiceLinesParams) *InvoiceLineItemIter {
-	path := stripe.FormatURLPath(
-		"/v1/quotes/%s/preview_invoices/%s/lines",
-		stripe.StringValue(listParams.Quote),
-		stripe.StringValue(listParams.PreviewInvoice),
-	)
-	return &InvoiceLineItemIter{
-		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
-			list := &stripe.InvoiceLineItemList{}
-			err := c.B.CallRaw(http.MethodGet, path, c.Key, b, p, list)
-
-			ret := make([]interface{}, len(list.Data))
-			for i, v := range list.Data {
-				ret[i] = v
-			}
-
-			return ret, list, err
-		}),
-	}
-}
-
-// InvoiceLineItemIter is an iterator for invoice line items.
-type InvoiceLineItemIter struct {
-	*stripe.Iter
-}
-
-// InvoiceLineItem returns the invoice line item which the iterator is currently pointing to.
-func (i *InvoiceLineItemIter) InvoiceLineItem() *stripe.InvoiceLineItem {
-	return i.Current().(*stripe.InvoiceLineItem)
-}
-
-// InvoiceLineItemList returns the current list object which the iterator is
-// currently using. List objects will change as new API calls are made to
-// continue pagination.
-func (i *InvoiceLineItemIter) InvoiceLineItemList() *stripe.InvoiceLineItemList {
-	return i.List().(*stripe.InvoiceLineItemList)
 }
 
 func getC() Client {

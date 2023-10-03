@@ -58,6 +58,7 @@ import (
 	issuingdispute "github.com/stripe/stripe-go/v75/issuing/dispute"
 	issuingpersonalizationdesign "github.com/stripe/stripe-go/v75/issuing/personalizationdesign"
 	issuingphysicalbundle "github.com/stripe/stripe-go/v75/issuing/physicalbundle"
+	issuingtoken "github.com/stripe/stripe-go/v75/issuing/token"
 	issuingtransaction "github.com/stripe/stripe-go/v75/issuing/transaction"
 	"github.com/stripe/stripe-go/v75/loginlink"
 	"github.com/stripe/stripe-go/v75/mandate"
@@ -78,7 +79,7 @@ import (
 	"github.com/stripe/stripe-go/v75/quote"
 	"github.com/stripe/stripe-go/v75/quotephase"
 	"github.com/stripe/stripe-go/v75/quotepreviewinvoice"
-	"github.com/stripe/stripe-go/v75/quotepreviewschedule"
+	"github.com/stripe/stripe-go/v75/quotepreviewsubscriptionschedule"
 	radarearlyfraudwarning "github.com/stripe/stripe-go/v75/radar/earlyfraudwarning"
 	radarvaluelist "github.com/stripe/stripe-go/v75/radar/valuelist"
 	radarvaluelistitem "github.com/stripe/stripe-go/v75/radar/valuelistitem"
@@ -239,6 +240,8 @@ type API struct {
 	IssuingPersonalizationDesigns *issuingpersonalizationdesign.Client
 	// IssuingPhysicalBundles is the client used to invoke /issuing/physical_bundles APIs.
 	IssuingPhysicalBundles *issuingphysicalbundle.Client
+	// IssuingTokens is the client used to invoke /issuing/tokens APIs.
+	IssuingTokens *issuingtoken.Client
 	// IssuingTransactions is the client used to invoke /issuing/transactions APIs.
 	IssuingTransactions *issuingtransaction.Client
 	// LoginLinks is the client used to invoke /accounts/{account}/login_links APIs.
@@ -277,8 +280,8 @@ type API struct {
 	QuotePhases *quotephase.Client
 	// QuotePreviewInvoices is the client used to invoke /quotes/{quote}/preview_invoices APIs.
 	QuotePreviewInvoices *quotepreviewinvoice.Client
-	// QuotePreviewSchedules is the client used to invoke /quotes/{quote}/preview_subscription_schedules APIs.
-	QuotePreviewSchedules *quotepreviewschedule.Client
+	// QuotePreviewSubscriptionSchedules is the client used to invoke /quotes/{quote}/preview_subscription_schedules APIs.
+	QuotePreviewSubscriptionSchedules *quotepreviewsubscriptionschedule.Client
 	// Quotes is the client used to invoke /quotes APIs.
 	Quotes *quote.Client
 	// RadarEarlyFraudWarnings is the client used to invoke /radar/early_fraud_warnings APIs.
@@ -458,6 +461,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.IssuingDisputes = &issuingdispute.Client{B: backends.API, Key: key}
 	a.IssuingPersonalizationDesigns = &issuingpersonalizationdesign.Client{B: backends.API, Key: key}
 	a.IssuingPhysicalBundles = &issuingphysicalbundle.Client{B: backends.API, Key: key}
+	a.IssuingTokens = &issuingtoken.Client{B: backends.API, Key: key}
 	a.IssuingTransactions = &issuingtransaction.Client{B: backends.API, Key: key}
 	a.LoginLinks = &loginlink.Client{B: backends.API, Key: key}
 	a.Mandates = &mandate.Client{B: backends.API, Key: key}
@@ -477,7 +481,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.PromotionCodes = &promotioncode.Client{B: backends.API, Key: key}
 	a.QuotePhases = &quotephase.Client{B: backends.API, Key: key}
 	a.QuotePreviewInvoices = &quotepreviewinvoice.Client{B: backends.API, Key: key}
-	a.QuotePreviewSchedules = &quotepreviewschedule.Client{B: backends.API, Key: key}
+	a.QuotePreviewSubscriptionSchedules = &quotepreviewsubscriptionschedule.Client{B: backends.API, Key: key}
 	a.Quotes = &quote.Client{B: backends.API, BUploads: backends.Uploads, Key: key}
 	a.RadarEarlyFraudWarnings = &radarearlyfraudwarning.Client{B: backends.API, Key: key}
 	a.RadarValueListItems = &radarvaluelistitem.Client{B: backends.API, Key: key}
