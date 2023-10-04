@@ -321,6 +321,8 @@ const (
 // Retrieves the quote with the given ID.
 type QuoteParams struct {
 	Params `form:"*"`
+	// Set to true to allow quote lines to have `starts_at` in the past if collection is paused between `starts_at` and now.
+	AllowBackdatedLines *bool `form:"allow_backdated_lines"`
 	// The amount of the application fee (if any) that will be requested to be applied to the payment and transferred to the application owner's Stripe account. There cannot be any line items with recurring prices when using this field.
 	ApplicationFeeAmount *int64 `form:"application_fee_amount"`
 	// A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice total that will be transferred to the application owner's Stripe account. There must be at least 1 line item with a recurring price to use this field.
@@ -1698,6 +1700,8 @@ type QuoteTransferData struct {
 // Once accepted, it will automatically create an invoice, subscription or subscription schedule.
 type Quote struct {
 	APIResource
+	// Allow quote lines to have `starts_at` in the past if collection is paused between `starts_at` and now.
+	AllowBackdatedLines bool `json:"allow_backdated_lines"`
 	// Total before any discounts or taxes are applied.
 	AmountSubtotal int64 `json:"amount_subtotal"`
 	// Total after discounts and taxes are applied.
