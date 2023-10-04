@@ -369,6 +369,10 @@ type PaymentLinkPaymentIntentDataParams struct {
 	//
 	// When processing card payments, Checkout also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as SCA.
 	SetupFutureUsage *string `form:"setup_future_usage"`
+	// Extra information about the payment. This will appear on your customer's statement when this payment succeeds in creating a charge.
+	StatementDescriptor *string `form:"statement_descriptor"`
+	// Provides information about the charge that customers see on their statements. Concatenated with the prefix (shortened descriptor) or statement descriptor that's set on the account to form the complete statement descriptor. Maximum 22 characters for the concatenated descriptor.
+	StatementDescriptorSuffix *string `form:"statement_descriptor_suffix"`
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
@@ -681,6 +685,10 @@ type PaymentLinkPaymentIntentData struct {
 	Metadata map[string]string `json:"metadata"`
 	// Indicates that you intend to make future payments with the payment method collected during checkout.
 	SetupFutureUsage PaymentLinkPaymentIntentDataSetupFutureUsage `json:"setup_future_usage"`
+	// Extra information about the payment. This will appear on your customer's statement when this payment succeeds in creating a charge.
+	StatementDescriptor string `json:"statement_descriptor"`
+	// Provides information about the charge that customers see on their statements. Concatenated with the prefix (shortened descriptor) or statement descriptor that's set on the account to form the complete statement descriptor. Maximum 22 characters for the concatenated descriptor.
+	StatementDescriptorSuffix string `json:"statement_descriptor_suffix"`
 }
 type PaymentLinkPhoneNumberCollection struct {
 	// If `true`, a phone number will be collected during checkout.
