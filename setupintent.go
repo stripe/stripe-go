@@ -230,7 +230,7 @@ const (
 	SetupIntentUsageOnSession  SetupIntentUsage = "on_session"
 )
 
-// When enabled, this SetupIntent will accept payment methods that you have enabled in the Dashboard and are compatible with this SetupIntent's other parameters.
+// When you enable this parameter, this SetupIntent accepts payment methods that you enable in the Dashboard and that are compatible with its other parameters.
 type SetupIntentAutomaticPaymentMethodsParams struct {
 	// Controls whether this SetupIntent will accept redirect-based payment methods.
 	//
@@ -263,7 +263,7 @@ type SetupIntentMandateDataCustomerAcceptanceParams struct {
 	Type MandateCustomerAcceptanceType `form:"type"`
 }
 
-// This hash contains details about the Mandate to create. This parameter can only be used with [`confirm=true`](https://stripe.com/docs/api/setup_intents/create#create_setup_intent-confirm).
+// This hash contains details about the mandate to create. This parameter can only be used with [`confirm=true`](https://stripe.com/docs/api/setup_intents/create#create_setup_intent-confirm).
 type SetupIntentMandateDataParams struct {
 	// This hash contains details about the customer acceptance of the Mandate.
 	CustomerAcceptance *SetupIntentMandateDataCustomerAcceptanceParams `form:"customer_acceptance"`
@@ -648,7 +648,7 @@ type SetupIntentPaymentMethodOptionsUSBankAccountParams struct {
 	VerificationMethod *string `form:"verification_method"`
 }
 
-// Payment-method-specific configuration for this SetupIntent.
+// Payment method-specific configuration for this SetupIntent.
 type SetupIntentPaymentMethodOptionsParams struct {
 	// If this is a `acss_debit` SetupIntent, this sub-hash contains details about the ACSS Debit payment method options.
 	ACSSDebit *SetupIntentPaymentMethodOptionsACSSDebitParams `form:"acss_debit"`
@@ -664,7 +664,7 @@ type SetupIntentPaymentMethodOptionsParams struct {
 	USBankAccount *SetupIntentPaymentMethodOptionsUSBankAccountParams `form:"us_bank_account"`
 }
 
-// If this hash is populated, this SetupIntent will generate a single_use Mandate on success.
+// If you populate this hash, this SetupIntent generates a `single_use` mandate after successful completion.
 type SetupIntentSingleUseParams struct {
 	// Amount the customer is granting permission to collect later. A positive integer representing how much to charge in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal) (e.g., 100 cents to charge $1.00 or 100 to charge ¥100, a zero-decimal currency). The minimum amount is $0.50 US or [equivalent in charge currency](https://stripe.com/docs/currencies#minimum-and-maximum-charge-amounts). The amount value supports up to eight digits (e.g., a value of 99999999 for a USD charge of $999,999.99).
 	Amount *int64 `form:"amount"`
@@ -674,19 +674,19 @@ type SetupIntentSingleUseParams struct {
 
 // Creates a SetupIntent object.
 //
-// After the SetupIntent is created, attach a payment method and [confirm](https://stripe.com/docs/api/setup_intents/confirm)
-// to collect any required permissions to charge the payment method later.
+// After you create the SetupIntent, attach a payment method and [confirm](https://stripe.com/docs/api/setup_intents/confirm)
+// it to collect any required permissions to charge the payment method later.
 type SetupIntentParams struct {
 	Params `form:"*"`
 	// If present, the SetupIntent's payment method will be attached to the in-context Stripe Account.
 	//
 	// It can only be used for this Stripe Account's own money movement flows like InboundTransfer and OutboundTransfers. It cannot be set to true when setting up a PaymentMethod for a Customer, and defaults to false when attaching a PaymentMethod to a Customer.
 	AttachToSelf *bool `form:"attach_to_self"`
-	// When enabled, this SetupIntent will accept payment methods that you have enabled in the Dashboard and are compatible with this SetupIntent's other parameters.
+	// When you enable this parameter, this SetupIntent accepts payment methods that you enable in the Dashboard and that are compatible with its other parameters.
 	AutomaticPaymentMethods *SetupIntentAutomaticPaymentMethodsParams `form:"automatic_payment_methods"`
-	// The client secret of the SetupIntent. Required if a publishable key is used to retrieve the SetupIntent.
+	// The client secret of the SetupIntent. We require this string if you use a publishable key to retrieve the SetupIntent.
 	ClientSecret *string `form:"client_secret"`
-	// Set to `true` to attempt to confirm this SetupIntent immediately. This parameter defaults to `false`. If the payment method attached is a card, a return_url may be provided in case additional authentication is required.
+	// Set to `true` to attempt to confirm this SetupIntent immediately. This parameter defaults to `false`. If a card is the attached payment method, you can provide a `return_url` in case further authentication is necessary.
 	Confirm *bool `form:"confirm"`
 	// ID of the ConfirmationToken used to confirm this SetupIntent.
 	//
@@ -704,26 +704,26 @@ type SetupIntentParams struct {
 	//
 	// Include `inbound` if you intend to use the payment method as the origin to pull funds from. Include `outbound` if you intend to use the payment method as the destination to send funds to. You can include both if you intend to use the payment method for both purposes.
 	FlowDirections []*string `form:"flow_directions"`
-	// This hash contains details about the Mandate to create. This parameter can only be used with [`confirm=true`](https://stripe.com/docs/api/setup_intents/create#create_setup_intent-confirm).
+	// This hash contains details about the mandate to create. This parameter can only be used with [`confirm=true`](https://stripe.com/docs/api/setup_intents/create#create_setup_intent-confirm).
 	MandateData *SetupIntentMandateDataParams `form:"mandate_data"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
-	// The Stripe account ID for which this SetupIntent is created.
+	// The Stripe account ID created for this SetupIntent.
 	OnBehalfOf *string `form:"on_behalf_of"`
 	// ID of the payment method (a PaymentMethod, Card, or saved Source object) to attach to this SetupIntent.
 	PaymentMethod *string `form:"payment_method"`
-	// The ID of the payment method configuration to use with this Setup Intent.
+	// The ID of the payment method configuration to use with this SetupIntent.
 	PaymentMethodConfiguration *string `form:"payment_method_configuration"`
 	// When included, this hash creates a PaymentMethod that is set as the [`payment_method`](https://stripe.com/docs/api/setup_intents/object#setup_intent_object-payment_method)
 	// value in the SetupIntent.
 	PaymentMethodData *SetupIntentPaymentMethodDataParams `form:"payment_method_data"`
-	// Payment-method-specific configuration for this SetupIntent.
+	// Payment method-specific configuration for this SetupIntent.
 	PaymentMethodOptions *SetupIntentPaymentMethodOptionsParams `form:"payment_method_options"`
-	// The list of payment method types (e.g. card) that this SetupIntent is allowed to set up. If this is not provided, defaults to ["card"].
+	// The list of payment method types (for example, card) that this SetupIntent can set up. If you don't provide this array, it defaults to ["card"].
 	PaymentMethodTypes []*string `form:"payment_method_types"`
-	// The URL to redirect your customer back to after they authenticate or cancel their payment on the payment method's app or site. If you'd prefer to redirect to a mobile application, you can alternatively supply an application URI scheme. This parameter can only be used with [`confirm=true`](https://stripe.com/docs/api/setup_intents/create#create_setup_intent-confirm).
+	// The URL to redirect your customer back to after they authenticate or cancel their payment on the payment method's app or site. To redirect to a mobile application, you can alternatively supply an application URI scheme. This parameter can only be used with [`confirm=true`](https://stripe.com/docs/api/setup_intents/create#create_setup_intent-confirm).
 	ReturnURL *string `form:"return_url"`
-	// If this hash is populated, this SetupIntent will generate a single_use Mandate on success.
+	// If you populate this hash, this SetupIntent generates a `single_use` mandate after successful completion.
 	SingleUse *SetupIntentSingleUseParams `form:"single_use"`
 	// Indicates how the payment method is intended to be used in the future. If not provided, this value defaults to `off_session`.
 	Usage *string `form:"usage"`
@@ -1248,7 +1248,7 @@ type SetupIntentPaymentMethodOptionsUSBankAccount struct {
 	VerificationMethod SetupIntentPaymentMethodOptionsUSBankAccountVerificationMethod `json:"verification_method"`
 }
 
-// Payment-method-specific configuration for this SetupIntent.
+// Payment method-specific configuration for this SetupIntent.
 type SetupIntentPaymentMethodOptions struct {
 	ACSSDebit     *SetupIntentPaymentMethodOptionsACSSDebit     `json:"acss_debit"`
 	Card          *SetupIntentPaymentMethodOptionsCard          `json:"card"`
@@ -1259,25 +1259,24 @@ type SetupIntentPaymentMethodOptions struct {
 }
 
 // A SetupIntent guides you through the process of setting up and saving a customer's payment credentials for future payments.
-// For example, you could use a SetupIntent to set up and save your customer's card without immediately collecting a payment.
+// For example, you can use a SetupIntent to set up and save your customer's card without immediately collecting a payment.
 // Later, you can use [PaymentIntents](https://stripe.com/docs/api#payment_intents) to drive the payment flow.
 //
-// Create a SetupIntent as soon as you're ready to collect your customer's payment credentials.
-// Do not maintain long-lived, unconfirmed SetupIntents as they may no longer be valid.
-// The SetupIntent then transitions through multiple [statuses](https://stripe.com/docs/payments/intents#intent-statuses) as it guides
+// Create a SetupIntent when you're ready to collect your customer's payment credentials.
+// Don't maintain long-lived, unconfirmed SetupIntents because they might not be valid.
+// The SetupIntent transitions through multiple [statuses](https://stripe.com/docs/payments/intents#intent-statuses) as it guides
 // you through the setup process.
 //
 // Successful SetupIntents result in payment credentials that are optimized for future payments.
-// For example, cardholders in [certain regions](https://stripe.com/guides/strong-customer-authentication) may need to be run through
-// [Strong Customer Authentication](https://stripe.com/docs/strong-customer-authentication) at the time of payment method collection
-// in order to streamline later [off-session payments](https://stripe.com/docs/payments/setup-intents).
-// If the SetupIntent is used with a [Customer](https://stripe.com/docs/api#setup_intent_object-customer), upon success,
-// it will automatically attach the resulting payment method to that Customer.
+// For example, cardholders in [certain regions](https://stripe.com/guides/strong-customer-authentication) might need to be run through
+// [Strong Customer Authentication](https://stripe.com/docs/strong-customer-authentication) during payment method collection
+// to streamline later [off-session payments](https://stripe.com/docs/payments/setup-intents).
+// If you use the SetupIntent with a [Customer](https://stripe.com/docs/api#setup_intent_object-customer),
+// it automatically attaches the resulting payment method to that Customer after successful setup.
 // We recommend using SetupIntents or [setup_future_usage](https://stripe.com/docs/api#payment_intent_object-setup_future_usage) on
-// PaymentIntents to save payment methods in order to prevent saving invalid or unoptimized payment methods.
+// PaymentIntents to save payment methods to prevent saving invalid or unoptimized payment methods.
 //
-// By using SetupIntents, you ensure that your customers experience the minimum set of required friction,
-// even as regulations change over time.
+// By using SetupIntents, you can reduce friction for your customers, even as regulations change over time.
 //
 // Related guide: [Setup Intents API](https://stripe.com/docs/payments/setup-intents)
 type SetupIntent struct {
@@ -1330,7 +1329,7 @@ type SetupIntent struct {
 	PaymentMethod *PaymentMethod `json:"payment_method"`
 	// Information about the payment method configuration used for this Setup Intent.
 	PaymentMethodConfigurationDetails *SetupIntentPaymentMethodConfigurationDetails `json:"payment_method_configuration_details"`
-	// Payment-method-specific configuration for this SetupIntent.
+	// Payment method-specific configuration for this SetupIntent.
 	PaymentMethodOptions *SetupIntentPaymentMethodOptions `json:"payment_method_options"`
 	// The list of payment method types (e.g. card) that this SetupIntent is allowed to set up.
 	PaymentMethodTypes []string `json:"payment_method_types"`
