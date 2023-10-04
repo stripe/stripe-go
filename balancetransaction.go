@@ -177,7 +177,7 @@ type BalanceTransactionFeeDetail struct {
 // Related guide: [Balance transaction types](https://stripe.com/docs/reports/balance-transaction-types)
 type BalanceTransaction struct {
 	APIResource
-	// Gross amount of the transaction (in cents (or local equivalent)).
+	// Gross amount of this transaction (in cents (or local equivalent)). A positive value represents funds charged to another party, and a negative value represents funds sent to another party.
 	Amount int64 `json:"amount"`
 	// The date that the transaction's net funds become available in the Stripe balance.
 	AvailableOn int64 `json:"available_on"`
@@ -189,13 +189,13 @@ type BalanceTransaction struct {
 	Description string `json:"description"`
 	// If applicable, this transaction uses an exchange rate. If money converts from currency A to currency B, then the `amount` in currency A, multipled by the `exchange_rate`, equals the `amount` in currency B. For example, if you charge a customer 10.00 EUR, the PaymentIntent's `amount` is `1000` and `currency` is `eur`. If this converts to 12.34 USD in your Stripe account, the BalanceTransaction's `amount` is `1234`, its `currency` is `usd`, and the `exchange_rate` is `1.234`.
 	ExchangeRate float64 `json:"exchange_rate"`
-	// Fees (in cents (or local equivalent)) paid for this transaction.
+	// Fees (in cents (or local equivalent)) paid for this transaction. Represented as a positive integer when assessed.
 	Fee int64 `json:"fee"`
 	// Detailed breakdown of fees (in cents (or local equivalent)) paid for this transaction.
 	FeeDetails []*BalanceTransactionFeeDetail `json:"fee_details"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
-	// Net amount of the transaction (in cents (or local equivalent)).
+	// Net impact to a Stripe balance (in cents (or local equivalent)). A positive value represents incrementing a Stripe balance, and a negative value decrementing a Stripe balance. You can calculate the net impact of a transaction on a balance by `amount` - `fee`
 	Net int64 `json:"net"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
