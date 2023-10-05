@@ -330,6 +330,42 @@ const (
 	PaymentIntentPaymentMethodOptionsCardNetworkVisa            PaymentIntentPaymentMethodOptionsCardNetwork = "visa"
 )
 
+// Request ability to [capture beyond the standard authorization validity window](https://stripe.com/docs/payments/extended-authorization) for this PaymentIntent.
+type PaymentIntentPaymentMethodOptionsCardRequestExtendedAuthorization string
+
+// List of values that PaymentIntentPaymentMethodOptionsCardRequestExtendedAuthorization can take
+const (
+	PaymentIntentPaymentMethodOptionsCardRequestExtendedAuthorizationIfAvailable PaymentIntentPaymentMethodOptionsCardRequestExtendedAuthorization = "if_available"
+	PaymentIntentPaymentMethodOptionsCardRequestExtendedAuthorizationNever       PaymentIntentPaymentMethodOptionsCardRequestExtendedAuthorization = "never"
+)
+
+// Request ability to [increment](https://stripe.com/docs/payments/incremental-authorization) for this PaymentIntent.
+type PaymentIntentPaymentMethodOptionsCardRequestIncrementalAuthorization string
+
+// List of values that PaymentIntentPaymentMethodOptionsCardRequestIncrementalAuthorization can take
+const (
+	PaymentIntentPaymentMethodOptionsCardRequestIncrementalAuthorizationIfAvailable PaymentIntentPaymentMethodOptionsCardRequestIncrementalAuthorization = "if_available"
+	PaymentIntentPaymentMethodOptionsCardRequestIncrementalAuthorizationNever       PaymentIntentPaymentMethodOptionsCardRequestIncrementalAuthorization = "never"
+)
+
+// Request ability to make [multiple captures](https://stripe.com/docs/payments/multicapture) for this PaymentIntent.
+type PaymentIntentPaymentMethodOptionsCardRequestMulticapture string
+
+// List of values that PaymentIntentPaymentMethodOptionsCardRequestMulticapture can take
+const (
+	PaymentIntentPaymentMethodOptionsCardRequestMulticaptureIfAvailable PaymentIntentPaymentMethodOptionsCardRequestMulticapture = "if_available"
+	PaymentIntentPaymentMethodOptionsCardRequestMulticaptureNever       PaymentIntentPaymentMethodOptionsCardRequestMulticapture = "never"
+)
+
+// Request ability to [overcapture](https://stripe.com/docs/payments/overcapture) for this PaymentIntent.
+type PaymentIntentPaymentMethodOptionsCardRequestOvercapture string
+
+// List of values that PaymentIntentPaymentMethodOptionsCardRequestOvercapture can take
+const (
+	PaymentIntentPaymentMethodOptionsCardRequestOvercaptureIfAvailable PaymentIntentPaymentMethodOptionsCardRequestOvercapture = "if_available"
+	PaymentIntentPaymentMethodOptionsCardRequestOvercaptureNever       PaymentIntentPaymentMethodOptionsCardRequestOvercapture = "never"
+)
+
 // We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https://stripe.com/docs/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. Permitted values include: `automatic` or `any`. If not provided, defaults to `automatic`. Read our guide on [manually requesting 3D Secure](https://stripe.com/docs/payments/3d-secure#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
 type PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure string
 
@@ -1183,6 +1219,14 @@ type PaymentIntentPaymentMethodOptionsCardParams struct {
 	MOTO *bool `form:"moto"`
 	// Selected network to process this PaymentIntent on. Depends on the available networks of the card attached to the PaymentIntent. Can be only set confirm-time.
 	Network *string `form:"network"`
+	// Request ability to [capture beyond the standard authorization validity window](https://stripe.com/docs/payments/extended-authorization) for this PaymentIntent.
+	RequestExtendedAuthorization *string `form:"request_extended_authorization"`
+	// Request ability to [increment](https://stripe.com/docs/payments/incremental-authorization) for this PaymentIntent.
+	RequestIncrementalAuthorization *string `form:"request_incremental_authorization"`
+	// Request ability to make [multiple captures](https://stripe.com/docs/payments/multicapture) for this PaymentIntent.
+	RequestMulticapture *string `form:"request_multicapture"`
+	// Request ability to [overcapture](https://stripe.com/docs/payments/overcapture) for this PaymentIntent.
+	RequestOvercapture *string `form:"request_overcapture"`
 	// We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https://stripe.com/docs/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. Permitted values include: `automatic` or `any`. If not provided, defaults to `automatic`. Read our guide on [manually requesting 3D Secure](https://stripe.com/docs/payments/3d-secure#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
 	RequestThreeDSecure *string `form:"request_three_d_secure"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -1203,6 +1247,8 @@ type PaymentIntentPaymentMethodOptionsCardParams struct {
 type PaymentIntentPaymentMethodOptionsCardPresentParams struct {
 	// Request ability to capture this payment beyond the standard [authorization validity window](https://stripe.com/docs/terminal/features/extended-authorizations#authorization-validity)
 	RequestExtendedAuthorization *bool `form:"request_extended_authorization"`
+	// Request ability to [increment](https://stripe.com/docs/payments/incremental-authorization) for this PaymentIntent.
+	RequestIncrementalAuthorization *string `form:"request_incremental_authorization"`
 	// Request ability to [increment](https://stripe.com/docs/terminal/features/incremental-authorizations) this PaymentIntent if the combination of MCC and card brand is eligible. Check [incremental_authorization_supported](https://stripe.com/docs/api/charges/object#charge_object-payment_method_details-card_present-incremental_authorization_supported) in the [Confirm](https://stripe.com/docs/api/payment_intents/confirm) response to verify support.
 	RequestIncrementalAuthorizationSupport *bool `form:"request_incremental_authorization_support"`
 }
@@ -1892,6 +1938,8 @@ type PaymentIntentCaptureParams struct {
 	ApplicationFeeAmount *int64 `form:"application_fee_amount"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+	// Defaults to `true`. When capturing a PaymentIntent, setting `final_capture` to `false` notifies Stripe to not release the remaining uncaptured funds to make sure that they're captured in future requests. You can only use this setting when [multicapture](https://stripe.com/docs/payments/multicapture) is available for PaymentIntents.
+	FinalCapture *bool `form:"final_capture"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// For non-card charges, you can use this value as the complete description that appears on your customers' statements. Must contain at least one letter, maximum 22 characters.
@@ -2473,6 +2521,14 @@ type PaymentIntentPaymentMethodOptionsCard struct {
 	MandateOptions *PaymentIntentPaymentMethodOptionsCardMandateOptions `json:"mandate_options"`
 	// Selected network to process this payment intent on. Depends on the available networks of the card attached to the payment intent. Can be only set confirm-time.
 	Network PaymentIntentPaymentMethodOptionsCardNetwork `json:"network"`
+	// Request ability to [capture beyond the standard authorization validity window](https://stripe.com/docs/payments/extended-authorization) for this PaymentIntent.
+	RequestExtendedAuthorization PaymentIntentPaymentMethodOptionsCardRequestExtendedAuthorization `json:"request_extended_authorization"`
+	// Request ability to [increment](https://stripe.com/docs/payments/incremental-authorization) for this PaymentIntent.
+	RequestIncrementalAuthorization PaymentIntentPaymentMethodOptionsCardRequestIncrementalAuthorization `json:"request_incremental_authorization"`
+	// Request ability to make [multiple captures](https://stripe.com/docs/payments/multicapture) for this PaymentIntent.
+	RequestMulticapture PaymentIntentPaymentMethodOptionsCardRequestMulticapture `json:"request_multicapture"`
+	// Request ability to [overcapture](https://stripe.com/docs/payments/overcapture) for this PaymentIntent.
+	RequestOvercapture PaymentIntentPaymentMethodOptionsCardRequestOvercapture `json:"request_overcapture"`
 	// We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https://stripe.com/docs/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. Permitted values include: `automatic` or `any`. If not provided, defaults to `automatic`. Read our guide on [manually requesting 3D Secure](https://stripe.com/docs/payments/3d-secure#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
 	RequestThreeDSecure PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure `json:"request_three_d_secure"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
