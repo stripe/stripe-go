@@ -301,6 +301,50 @@ func (i *LineIter) QuoteLineList() *stripe.QuoteLineList {
 	return i.List().(*stripe.QuoteLineList)
 }
 
+// ListPreviewInvoiceLines is the method for the `GET /v1/quotes/{quote}/preview_invoices/{preview_invoice}/lines` API.
+func ListPreviewInvoiceLines(params *stripe.QuoteListPreviewInvoiceLinesParams) *InvoiceLineItemIter {
+	return getC().ListPreviewInvoiceLines(params)
+}
+
+// ListPreviewInvoiceLines is the method for the `GET /v1/quotes/{quote}/preview_invoices/{preview_invoice}/lines` API.
+func (c Client) ListPreviewInvoiceLines(listParams *stripe.QuoteListPreviewInvoiceLinesParams) *InvoiceLineItemIter {
+	path := stripe.FormatURLPath(
+		"/v1/quotes/%s/preview_invoices/%s/lines",
+		stripe.StringValue(listParams.Quote),
+		stripe.StringValue(listParams.PreviewInvoice),
+	)
+	return &InvoiceLineItemIter{
+		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
+			list := &stripe.InvoiceLineItemList{}
+			err := c.B.CallRaw(http.MethodGet, path, c.Key, b, p, list)
+
+			ret := make([]interface{}, len(list.Data))
+			for i, v := range list.Data {
+				ret[i] = v
+			}
+
+			return ret, list, err
+		}),
+	}
+}
+
+// InvoiceLineItemIter is an iterator for invoice line items.
+type InvoiceLineItemIter struct {
+	*stripe.Iter
+}
+
+// InvoiceLineItem returns the invoice line item which the iterator is currently pointing to.
+func (i *InvoiceLineItemIter) InvoiceLineItem() *stripe.InvoiceLineItem {
+	return i.Current().(*stripe.InvoiceLineItem)
+}
+
+// InvoiceLineItemList returns the current list object which the iterator is
+// currently using. List objects will change as new API calls are made to
+// continue pagination.
+func (i *InvoiceLineItemIter) InvoiceLineItemList() *stripe.InvoiceLineItemList {
+	return i.List().(*stripe.InvoiceLineItemList)
+}
+
 func getC() Client {
 	return Client{stripe.GetBackend(stripe.APIBackend), stripe.GetBackend(stripe.UploadsBackend), stripe.Key}
 }

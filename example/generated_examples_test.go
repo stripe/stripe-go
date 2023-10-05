@@ -50,7 +50,6 @@ import (
 	product "github.com/stripe/stripe-go/v75/product"
 	promotioncode "github.com/stripe/stripe-go/v75/promotioncode"
 	quote "github.com/stripe/stripe-go/v75/quote"
-	quotepreviewinvoice "github.com/stripe/stripe-go/v75/quotepreviewinvoice"
 	radar_earlyfraudwarning "github.com/stripe/stripe-go/v75/radar/earlyfraudwarning"
 	refund "github.com/stripe/stripe-go/v75/refund"
 	review "github.com/stripe/stripe-go/v75/review"
@@ -3214,12 +3213,12 @@ func TestTaxCalculationListLineItems(t *testing.T) {
 	assert.Nil(t, result.Err())
 }
 
-func TestQuotePreviewInvoiceListLines(t *testing.T) {
-	params := &stripe.QuotePreviewInvoiceListLinesParams{
+func TestQuoteListPreviewInvoiceLines(t *testing.T) {
+	params := &stripe.QuoteListPreviewInvoiceLinesParams{
 		Quote:          stripe.String("qt_xyz"),
 		PreviewInvoice: stripe.String("in_xyz"),
 	}
-	result := quotepreviewinvoice.ListLines(params)
+	result := quote.ListPreviewInvoiceLines(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
 }
