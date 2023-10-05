@@ -264,7 +264,7 @@ type TreasuryOutboundPaymentDestinationPaymentMethodDetails struct {
 type TreasuryOutboundPaymentEndUserDetails struct {
 	// IP address of the user initiating the OutboundPayment. Set if `present` is set to `true`. IP address collection is required for risk and compliance reasons. This will be used to help determine if the OutboundPayment is authorized or should be blocked.
 	IPAddress string `json:"ip_address"`
-	// `true`` if the OutboundPayment creation request is being made on behalf of an end user by a platform. Otherwise, `false`.
+	// `true` if the OutboundPayment creation request is being made on behalf of an end user by a platform. Otherwise, `false`.
 	Present bool `json:"present"`
 }
 

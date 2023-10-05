@@ -233,6 +233,8 @@ type IssuingTransaction struct {
 	Object string `json:"object"`
 	// Additional purchase information that is optionally provided by the merchant.
 	PurchaseDetails *IssuingTransactionPurchaseDetails `json:"purchase_details"`
+	// [Token](https://stripe.com/docs/api/issuing/tokens/object) object used for this transaction. If a network token was not used for this transaction, this field will be null.
+	Token *IssuingToken `json:"token"`
 	// [Treasury](https://stripe.com/docs/api/treasury) details related to this transaction if it was created on a [FinancialAccount](/docs/api/treasury/financial_accounts
 	Treasury *IssuingTransactionTreasury `json:"treasury"`
 	// The nature of the transaction.

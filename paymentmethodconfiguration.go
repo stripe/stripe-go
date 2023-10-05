@@ -1204,7 +1204,7 @@ func (p *PaymentMethodConfigurationParams) AddExpand(f string) {
 }
 
 type PaymentMethodConfigurationACSSDebitDisplayPreference struct {
-	// For child configurations, whether or not the account's preference will be observed. If `false`, the parent configuration's preference is used.
+	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
 	Overridable bool `json:"overridable"`
 	// The account's display preference.
 	Preference PaymentMethodConfigurationACSSDebitDisplayPreferencePreference `json:"preference"`
@@ -1217,7 +1217,7 @@ type PaymentMethodConfigurationACSSDebit struct {
 	DisplayPreference *PaymentMethodConfigurationACSSDebitDisplayPreference `json:"display_preference"`
 }
 type PaymentMethodConfigurationAffirmDisplayPreference struct {
-	// For child configurations, whether or not the account's preference will be observed. If `false`, the parent configuration's preference is used.
+	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
 	Overridable bool `json:"overridable"`
 	// The account's display preference.
 	Preference PaymentMethodConfigurationAffirmDisplayPreferencePreference `json:"preference"`
@@ -1230,7 +1230,7 @@ type PaymentMethodConfigurationAffirm struct {
 	DisplayPreference *PaymentMethodConfigurationAffirmDisplayPreference `json:"display_preference"`
 }
 type PaymentMethodConfigurationAfterpayClearpayDisplayPreference struct {
-	// For child configurations, whether or not the account's preference will be observed. If `false`, the parent configuration's preference is used.
+	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
 	Overridable bool `json:"overridable"`
 	// The account's display preference.
 	Preference PaymentMethodConfigurationAfterpayClearpayDisplayPreferencePreference `json:"preference"`
@@ -1243,7 +1243,7 @@ type PaymentMethodConfigurationAfterpayClearpay struct {
 	DisplayPreference *PaymentMethodConfigurationAfterpayClearpayDisplayPreference `json:"display_preference"`
 }
 type PaymentMethodConfigurationAlipayDisplayPreference struct {
-	// For child configurations, whether or not the account's preference will be observed. If `false`, the parent configuration's preference is used.
+	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
 	Overridable bool `json:"overridable"`
 	// The account's display preference.
 	Preference PaymentMethodConfigurationAlipayDisplayPreferencePreference `json:"preference"`
@@ -1256,7 +1256,7 @@ type PaymentMethodConfigurationAlipay struct {
 	DisplayPreference *PaymentMethodConfigurationAlipayDisplayPreference `json:"display_preference"`
 }
 type PaymentMethodConfigurationApplePayDisplayPreference struct {
-	// For child configurations, whether or not the account's preference will be observed. If `false`, the parent configuration's preference is used.
+	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
 	Overridable bool `json:"overridable"`
 	// The account's display preference.
 	Preference PaymentMethodConfigurationApplePayDisplayPreferencePreference `json:"preference"`
@@ -1269,7 +1269,7 @@ type PaymentMethodConfigurationApplePay struct {
 	DisplayPreference *PaymentMethodConfigurationApplePayDisplayPreference `json:"display_preference"`
 }
 type PaymentMethodConfigurationAUBECSDebitDisplayPreference struct {
-	// For child configurations, whether or not the account's preference will be observed. If `false`, the parent configuration's preference is used.
+	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
 	Overridable bool `json:"overridable"`
 	// The account's display preference.
 	Preference PaymentMethodConfigurationAUBECSDebitDisplayPreferencePreference `json:"preference"`
@@ -1282,7 +1282,7 @@ type PaymentMethodConfigurationAUBECSDebit struct {
 	DisplayPreference *PaymentMethodConfigurationAUBECSDebitDisplayPreference `json:"display_preference"`
 }
 type PaymentMethodConfigurationBACSDebitDisplayPreference struct {
-	// For child configurations, whether or not the account's preference will be observed. If `false`, the parent configuration's preference is used.
+	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
 	Overridable bool `json:"overridable"`
 	// The account's display preference.
 	Preference PaymentMethodConfigurationBACSDebitDisplayPreferencePreference `json:"preference"`
@@ -1295,7 +1295,7 @@ type PaymentMethodConfigurationBACSDebit struct {
 	DisplayPreference *PaymentMethodConfigurationBACSDebitDisplayPreference `json:"display_preference"`
 }
 type PaymentMethodConfigurationBancontactDisplayPreference struct {
-	// For child configurations, whether or not the account's preference will be observed. If `false`, the parent configuration's preference is used.
+	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
 	Overridable bool `json:"overridable"`
 	// The account's display preference.
 	Preference PaymentMethodConfigurationBancontactDisplayPreferencePreference `json:"preference"`
@@ -1308,7 +1308,7 @@ type PaymentMethodConfigurationBancontact struct {
 	DisplayPreference *PaymentMethodConfigurationBancontactDisplayPreference `json:"display_preference"`
 }
 type PaymentMethodConfigurationBLIKDisplayPreference struct {
-	// For child configurations, whether or not the account's preference will be observed. If `false`, the parent configuration's preference is used.
+	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
 	Overridable bool `json:"overridable"`
 	// The account's display preference.
 	Preference PaymentMethodConfigurationBLIKDisplayPreferencePreference `json:"preference"`
@@ -1321,7 +1321,7 @@ type PaymentMethodConfigurationBLIK struct {
 	DisplayPreference *PaymentMethodConfigurationBLIKDisplayPreference `json:"display_preference"`
 }
 type PaymentMethodConfigurationBoletoDisplayPreference struct {
-	// For child configurations, whether or not the account's preference will be observed. If `false`, the parent configuration's preference is used.
+	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
 	Overridable bool `json:"overridable"`
 	// The account's display preference.
 	Preference PaymentMethodConfigurationBoletoDisplayPreferencePreference `json:"preference"`
@@ -1334,7 +1334,7 @@ type PaymentMethodConfigurationBoleto struct {
 	DisplayPreference *PaymentMethodConfigurationBoletoDisplayPreference `json:"display_preference"`
 }
 type PaymentMethodConfigurationCardDisplayPreference struct {
-	// For child configurations, whether or not the account's preference will be observed. If `false`, the parent configuration's preference is used.
+	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
 	Overridable bool `json:"overridable"`
 	// The account's display preference.
 	Preference PaymentMethodConfigurationCardDisplayPreferencePreference `json:"preference"`
@@ -1347,7 +1347,7 @@ type PaymentMethodConfigurationCard struct {
 	DisplayPreference *PaymentMethodConfigurationCardDisplayPreference `json:"display_preference"`
 }
 type PaymentMethodConfigurationCartesBancairesDisplayPreference struct {
-	// For child configurations, whether or not the account's preference will be observed. If `false`, the parent configuration's preference is used.
+	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
 	Overridable bool `json:"overridable"`
 	// The account's display preference.
 	Preference PaymentMethodConfigurationCartesBancairesDisplayPreferencePreference `json:"preference"`
@@ -1360,7 +1360,7 @@ type PaymentMethodConfigurationCartesBancaires struct {
 	DisplayPreference *PaymentMethodConfigurationCartesBancairesDisplayPreference `json:"display_preference"`
 }
 type PaymentMethodConfigurationCashAppDisplayPreference struct {
-	// For child configurations, whether or not the account's preference will be observed. If `false`, the parent configuration's preference is used.
+	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
 	Overridable bool `json:"overridable"`
 	// The account's display preference.
 	Preference PaymentMethodConfigurationCashAppDisplayPreferencePreference `json:"preference"`
@@ -1373,7 +1373,7 @@ type PaymentMethodConfigurationCashApp struct {
 	DisplayPreference *PaymentMethodConfigurationCashAppDisplayPreference `json:"display_preference"`
 }
 type PaymentMethodConfigurationEPSDisplayPreference struct {
-	// For child configurations, whether or not the account's preference will be observed. If `false`, the parent configuration's preference is used.
+	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
 	Overridable bool `json:"overridable"`
 	// The account's display preference.
 	Preference PaymentMethodConfigurationEPSDisplayPreferencePreference `json:"preference"`
@@ -1386,7 +1386,7 @@ type PaymentMethodConfigurationEPS struct {
 	DisplayPreference *PaymentMethodConfigurationEPSDisplayPreference `json:"display_preference"`
 }
 type PaymentMethodConfigurationFPXDisplayPreference struct {
-	// For child configurations, whether or not the account's preference will be observed. If `false`, the parent configuration's preference is used.
+	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
 	Overridable bool `json:"overridable"`
 	// The account's display preference.
 	Preference PaymentMethodConfigurationFPXDisplayPreferencePreference `json:"preference"`
@@ -1399,7 +1399,7 @@ type PaymentMethodConfigurationFPX struct {
 	DisplayPreference *PaymentMethodConfigurationFPXDisplayPreference `json:"display_preference"`
 }
 type PaymentMethodConfigurationGiropayDisplayPreference struct {
-	// For child configurations, whether or not the account's preference will be observed. If `false`, the parent configuration's preference is used.
+	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
 	Overridable bool `json:"overridable"`
 	// The account's display preference.
 	Preference PaymentMethodConfigurationGiropayDisplayPreferencePreference `json:"preference"`
@@ -1412,7 +1412,7 @@ type PaymentMethodConfigurationGiropay struct {
 	DisplayPreference *PaymentMethodConfigurationGiropayDisplayPreference `json:"display_preference"`
 }
 type PaymentMethodConfigurationGooglePayDisplayPreference struct {
-	// For child configurations, whether or not the account's preference will be observed. If `false`, the parent configuration's preference is used.
+	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
 	Overridable bool `json:"overridable"`
 	// The account's display preference.
 	Preference PaymentMethodConfigurationGooglePayDisplayPreferencePreference `json:"preference"`
@@ -1425,7 +1425,7 @@ type PaymentMethodConfigurationGooglePay struct {
 	DisplayPreference *PaymentMethodConfigurationGooglePayDisplayPreference `json:"display_preference"`
 }
 type PaymentMethodConfigurationGrabpayDisplayPreference struct {
-	// For child configurations, whether or not the account's preference will be observed. If `false`, the parent configuration's preference is used.
+	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
 	Overridable bool `json:"overridable"`
 	// The account's display preference.
 	Preference PaymentMethodConfigurationGrabpayDisplayPreferencePreference `json:"preference"`
@@ -1438,7 +1438,7 @@ type PaymentMethodConfigurationGrabpay struct {
 	DisplayPreference *PaymentMethodConfigurationGrabpayDisplayPreference `json:"display_preference"`
 }
 type PaymentMethodConfigurationIDBankTransferDisplayPreference struct {
-	// For child configurations, whether or not the account's preference will be observed. If `false`, the parent configuration's preference is used.
+	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
 	Overridable bool `json:"overridable"`
 	// The account's display preference.
 	Preference PaymentMethodConfigurationIDBankTransferDisplayPreferencePreference `json:"preference"`
@@ -1451,7 +1451,7 @@ type PaymentMethodConfigurationIDBankTransfer struct {
 	DisplayPreference *PaymentMethodConfigurationIDBankTransferDisplayPreference `json:"display_preference"`
 }
 type PaymentMethodConfigurationIDEALDisplayPreference struct {
-	// For child configurations, whether or not the account's preference will be observed. If `false`, the parent configuration's preference is used.
+	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
 	Overridable bool `json:"overridable"`
 	// The account's display preference.
 	Preference PaymentMethodConfigurationIDEALDisplayPreferencePreference `json:"preference"`
@@ -1464,7 +1464,7 @@ type PaymentMethodConfigurationIDEAL struct {
 	DisplayPreference *PaymentMethodConfigurationIDEALDisplayPreference `json:"display_preference"`
 }
 type PaymentMethodConfigurationJCBDisplayPreference struct {
-	// For child configurations, whether or not the account's preference will be observed. If `false`, the parent configuration's preference is used.
+	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
 	Overridable bool `json:"overridable"`
 	// The account's display preference.
 	Preference PaymentMethodConfigurationJCBDisplayPreferencePreference `json:"preference"`
@@ -1477,7 +1477,7 @@ type PaymentMethodConfigurationJCB struct {
 	DisplayPreference *PaymentMethodConfigurationJCBDisplayPreference `json:"display_preference"`
 }
 type PaymentMethodConfigurationKlarnaDisplayPreference struct {
-	// For child configurations, whether or not the account's preference will be observed. If `false`, the parent configuration's preference is used.
+	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
 	Overridable bool `json:"overridable"`
 	// The account's display preference.
 	Preference PaymentMethodConfigurationKlarnaDisplayPreferencePreference `json:"preference"`
@@ -1490,7 +1490,7 @@ type PaymentMethodConfigurationKlarna struct {
 	DisplayPreference *PaymentMethodConfigurationKlarnaDisplayPreference `json:"display_preference"`
 }
 type PaymentMethodConfigurationKonbiniDisplayPreference struct {
-	// For child configurations, whether or not the account's preference will be observed. If `false`, the parent configuration's preference is used.
+	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
 	Overridable bool `json:"overridable"`
 	// The account's display preference.
 	Preference PaymentMethodConfigurationKonbiniDisplayPreferencePreference `json:"preference"`
@@ -1503,7 +1503,7 @@ type PaymentMethodConfigurationKonbini struct {
 	DisplayPreference *PaymentMethodConfigurationKonbiniDisplayPreference `json:"display_preference"`
 }
 type PaymentMethodConfigurationLinkDisplayPreference struct {
-	// For child configurations, whether or not the account's preference will be observed. If `false`, the parent configuration's preference is used.
+	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
 	Overridable bool `json:"overridable"`
 	// The account's display preference.
 	Preference PaymentMethodConfigurationLinkDisplayPreferencePreference `json:"preference"`
@@ -1516,7 +1516,7 @@ type PaymentMethodConfigurationLink struct {
 	DisplayPreference *PaymentMethodConfigurationLinkDisplayPreference `json:"display_preference"`
 }
 type PaymentMethodConfigurationMultibancoDisplayPreference struct {
-	// For child configurations, whether or not the account's preference will be observed. If `false`, the parent configuration's preference is used.
+	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
 	Overridable bool `json:"overridable"`
 	// The account's display preference.
 	Preference PaymentMethodConfigurationMultibancoDisplayPreferencePreference `json:"preference"`
@@ -1529,7 +1529,7 @@ type PaymentMethodConfigurationMultibanco struct {
 	DisplayPreference *PaymentMethodConfigurationMultibancoDisplayPreference `json:"display_preference"`
 }
 type PaymentMethodConfigurationNetbankingDisplayPreference struct {
-	// For child configurations, whether or not the account's preference will be observed. If `false`, the parent configuration's preference is used.
+	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
 	Overridable bool `json:"overridable"`
 	// The account's display preference.
 	Preference PaymentMethodConfigurationNetbankingDisplayPreferencePreference `json:"preference"`
@@ -1542,7 +1542,7 @@ type PaymentMethodConfigurationNetbanking struct {
 	DisplayPreference *PaymentMethodConfigurationNetbankingDisplayPreference `json:"display_preference"`
 }
 type PaymentMethodConfigurationOXXODisplayPreference struct {
-	// For child configurations, whether or not the account's preference will be observed. If `false`, the parent configuration's preference is used.
+	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
 	Overridable bool `json:"overridable"`
 	// The account's display preference.
 	Preference PaymentMethodConfigurationOXXODisplayPreferencePreference `json:"preference"`
@@ -1555,7 +1555,7 @@ type PaymentMethodConfigurationOXXO struct {
 	DisplayPreference *PaymentMethodConfigurationOXXODisplayPreference `json:"display_preference"`
 }
 type PaymentMethodConfigurationP24DisplayPreference struct {
-	// For child configurations, whether or not the account's preference will be observed. If `false`, the parent configuration's preference is used.
+	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
 	Overridable bool `json:"overridable"`
 	// The account's display preference.
 	Preference PaymentMethodConfigurationP24DisplayPreferencePreference `json:"preference"`
@@ -1568,7 +1568,7 @@ type PaymentMethodConfigurationP24 struct {
 	DisplayPreference *PaymentMethodConfigurationP24DisplayPreference `json:"display_preference"`
 }
 type PaymentMethodConfigurationPayByBankDisplayPreference struct {
-	// For child configurations, whether or not the account's preference will be observed. If `false`, the parent configuration's preference is used.
+	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
 	Overridable bool `json:"overridable"`
 	// The account's display preference.
 	Preference PaymentMethodConfigurationPayByBankDisplayPreferencePreference `json:"preference"`
@@ -1581,7 +1581,7 @@ type PaymentMethodConfigurationPayByBank struct {
 	DisplayPreference *PaymentMethodConfigurationPayByBankDisplayPreference `json:"display_preference"`
 }
 type PaymentMethodConfigurationPayNowDisplayPreference struct {
-	// For child configurations, whether or not the account's preference will be observed. If `false`, the parent configuration's preference is used.
+	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
 	Overridable bool `json:"overridable"`
 	// The account's display preference.
 	Preference PaymentMethodConfigurationPayNowDisplayPreferencePreference `json:"preference"`
@@ -1594,7 +1594,7 @@ type PaymentMethodConfigurationPayNow struct {
 	DisplayPreference *PaymentMethodConfigurationPayNowDisplayPreference `json:"display_preference"`
 }
 type PaymentMethodConfigurationPaypalDisplayPreference struct {
-	// For child configurations, whether or not the account's preference will be observed. If `false`, the parent configuration's preference is used.
+	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
 	Overridable bool `json:"overridable"`
 	// The account's display preference.
 	Preference PaymentMethodConfigurationPaypalDisplayPreferencePreference `json:"preference"`
@@ -1607,7 +1607,7 @@ type PaymentMethodConfigurationPaypal struct {
 	DisplayPreference *PaymentMethodConfigurationPaypalDisplayPreference `json:"display_preference"`
 }
 type PaymentMethodConfigurationPromptPayDisplayPreference struct {
-	// For child configurations, whether or not the account's preference will be observed. If `false`, the parent configuration's preference is used.
+	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
 	Overridable bool `json:"overridable"`
 	// The account's display preference.
 	Preference PaymentMethodConfigurationPromptPayDisplayPreferencePreference `json:"preference"`
@@ -1620,7 +1620,7 @@ type PaymentMethodConfigurationPromptPay struct {
 	DisplayPreference *PaymentMethodConfigurationPromptPayDisplayPreference `json:"display_preference"`
 }
 type PaymentMethodConfigurationSEPADebitDisplayPreference struct {
-	// For child configurations, whether or not the account's preference will be observed. If `false`, the parent configuration's preference is used.
+	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
 	Overridable bool `json:"overridable"`
 	// The account's display preference.
 	Preference PaymentMethodConfigurationSEPADebitDisplayPreferencePreference `json:"preference"`
@@ -1633,7 +1633,7 @@ type PaymentMethodConfigurationSEPADebit struct {
 	DisplayPreference *PaymentMethodConfigurationSEPADebitDisplayPreference `json:"display_preference"`
 }
 type PaymentMethodConfigurationSofortDisplayPreference struct {
-	// For child configurations, whether or not the account's preference will be observed. If `false`, the parent configuration's preference is used.
+	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
 	Overridable bool `json:"overridable"`
 	// The account's display preference.
 	Preference PaymentMethodConfigurationSofortDisplayPreferencePreference `json:"preference"`
@@ -1646,7 +1646,7 @@ type PaymentMethodConfigurationSofort struct {
 	DisplayPreference *PaymentMethodConfigurationSofortDisplayPreference `json:"display_preference"`
 }
 type PaymentMethodConfigurationUpiDisplayPreference struct {
-	// For child configurations, whether or not the account's preference will be observed. If `false`, the parent configuration's preference is used.
+	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
 	Overridable bool `json:"overridable"`
 	// The account's display preference.
 	Preference PaymentMethodConfigurationUpiDisplayPreferencePreference `json:"preference"`
@@ -1659,7 +1659,7 @@ type PaymentMethodConfigurationUpi struct {
 	DisplayPreference *PaymentMethodConfigurationUpiDisplayPreference `json:"display_preference"`
 }
 type PaymentMethodConfigurationUSBankAccountDisplayPreference struct {
-	// For child configurations, whether or not the account's preference will be observed. If `false`, the parent configuration's preference is used.
+	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
 	Overridable bool `json:"overridable"`
 	// The account's display preference.
 	Preference PaymentMethodConfigurationUSBankAccountDisplayPreferencePreference `json:"preference"`
@@ -1672,7 +1672,7 @@ type PaymentMethodConfigurationUSBankAccount struct {
 	DisplayPreference *PaymentMethodConfigurationUSBankAccountDisplayPreference `json:"display_preference"`
 }
 type PaymentMethodConfigurationWeChatPayDisplayPreference struct {
-	// For child configurations, whether or not the account's preference will be observed. If `false`, the parent configuration's preference is used.
+	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
 	Overridable bool `json:"overridable"`
 	// The account's display preference.
 	Preference PaymentMethodConfigurationWeChatPayDisplayPreferencePreference `json:"preference"`
@@ -1685,7 +1685,20 @@ type PaymentMethodConfigurationWeChatPay struct {
 	DisplayPreference *PaymentMethodConfigurationWeChatPayDisplayPreference `json:"display_preference"`
 }
 
-// An object detailing payment method configurations.
+// PaymentMethodConfigurations control which payment methods are displayed to your customers when you don't explicitly specify payment method types. You can have multiple configurations with different sets of payment methods for different scenarios.
+//
+// There are two types of PaymentMethodConfigurations. Which is used depends on the [charge type](https://stripe.com/docs/connect/charges):
+//
+// **Direct** configurations apply to payments created on your account, including Connect destination charges, Connect separate charges and transfers, and payments not involving Connect.
+//
+// **Child** configurations apply to payments created on your connected accounts using direct charges, and charges with the on_behalf_of parameter.
+//
+// Child configurations have a `parent` that sets default values and controls which settings connected accounts may override. You can specify a parent ID at payment time, and Stripe will automatically resolve the connected account's associated child configuration. Parent configurations are [managed in the dashboard](https://dashboard.stripe.com/settings/payment_methods/connected_accounts) and are not available in this API.
+//
+// Related guides:
+// - [Payment Method Configurations API](https://stripe.com/docs/connect/payment-method-configurations)
+// - [Multiple payment method configurations on dynamic payment methods](https://stripe.com/docs/payments/multiple-payment-method-configs)
+// - [Multiple configurations for your Connect accounts](https://stripe.com/docs/connect/multiple-payment-method-configurations)
 type PaymentMethodConfiguration struct {
 	APIResource
 	ACSSDebit *PaymentMethodConfigurationACSSDebit `json:"acss_debit"`
@@ -1695,7 +1708,7 @@ type PaymentMethodConfiguration struct {
 	AfterpayClearpay *PaymentMethodConfigurationAfterpayClearpay `json:"afterpay_clearpay"`
 	Alipay           *PaymentMethodConfigurationAlipay           `json:"alipay"`
 	ApplePay         *PaymentMethodConfigurationApplePay         `json:"apple_pay"`
-	// The Connect application associated with this configuration.
+	// For child configs, the Connect application associated with the configuration.
 	Application     string                                     `json:"application"`
 	AUBECSDebit     *PaymentMethodConfigurationAUBECSDebit     `json:"au_becs_debit"`
 	BACSDebit       *PaymentMethodConfigurationBACSDebit       `json:"bacs_debit"`
@@ -1714,7 +1727,7 @@ type PaymentMethodConfiguration struct {
 	ID             string                                    `json:"id"`
 	IDBankTransfer *PaymentMethodConfigurationIDBankTransfer `json:"id_bank_transfer"`
 	IDEAL          *PaymentMethodConfigurationIDEAL          `json:"ideal"`
-	// The default configuration is used whenever no payment method configuration is specified.
+	// The default configuration is used whenever a payment method configuration is not specified.
 	IsDefault bool                               `json:"is_default"`
 	JCB       *PaymentMethodConfigurationJCB     `json:"jcb"`
 	Klarna    *PaymentMethodConfigurationKlarna  `json:"klarna"`
@@ -1723,14 +1736,14 @@ type PaymentMethodConfiguration struct {
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode   bool                                  `json:"livemode"`
 	Multibanco *PaymentMethodConfigurationMultibanco `json:"multibanco"`
-	// Configuration name.
+	// The configuration's name.
 	Name       string                                `json:"name"`
 	Netbanking *PaymentMethodConfigurationNetbanking `json:"netbanking"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string                          `json:"object"`
 	OXXO   *PaymentMethodConfigurationOXXO `json:"oxxo"`
 	P24    *PaymentMethodConfigurationP24  `json:"p24"`
-	// The configuration's parent configuration.
+	// For child configs, the configuration's parent configuration.
 	Parent        string                                   `json:"parent"`
 	PayByBank     *PaymentMethodConfigurationPayByBank     `json:"pay_by_bank"`
 	PayNow        *PaymentMethodConfigurationPayNow        `json:"paynow"`

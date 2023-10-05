@@ -85,19 +85,6 @@ func (c Client) Cancel(id string, params *stripe.QuoteCancelParams) (*stripe.Quo
 	return quote, err
 }
 
-// DraftQuote is the method for the `POST /v1/quotes/{quote}/mark_draft` API.
-func DraftQuote(id string, params *stripe.QuoteDraftQuoteParams) (*stripe.Quote, error) {
-	return getC().DraftQuote(id, params)
-}
-
-// DraftQuote is the method for the `POST /v1/quotes/{quote}/mark_draft` API.
-func (c Client) DraftQuote(id string, params *stripe.QuoteDraftQuoteParams) (*stripe.Quote, error) {
-	path := stripe.FormatURLPath("/v1/quotes/%s/mark_draft", id)
-	quote := &stripe.Quote{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, quote)
-	return quote, err
-}
-
 // FinalizeQuote is the method for the `POST /v1/quotes/{quote}/finalize` API.
 func FinalizeQuote(id string, params *stripe.QuoteFinalizeQuoteParams) (*stripe.Quote, error) {
 	return getC().FinalizeQuote(id, params)
@@ -111,13 +98,26 @@ func (c Client) FinalizeQuote(id string, params *stripe.QuoteFinalizeQuoteParams
 	return quote, err
 }
 
-// MarkStaleQuote is the method for the `POST /v1/quotes/{quote}/mark_stale` API.
-func MarkStaleQuote(id string, params *stripe.QuoteMarkStaleQuoteParams) (*stripe.Quote, error) {
-	return getC().MarkStaleQuote(id, params)
+// MarkDraft is the method for the `POST /v1/quotes/{quote}/mark_draft` API.
+func MarkDraft(id string, params *stripe.QuoteMarkDraftParams) (*stripe.Quote, error) {
+	return getC().MarkDraft(id, params)
 }
 
-// MarkStaleQuote is the method for the `POST /v1/quotes/{quote}/mark_stale` API.
-func (c Client) MarkStaleQuote(id string, params *stripe.QuoteMarkStaleQuoteParams) (*stripe.Quote, error) {
+// MarkDraft is the method for the `POST /v1/quotes/{quote}/mark_draft` API.
+func (c Client) MarkDraft(id string, params *stripe.QuoteMarkDraftParams) (*stripe.Quote, error) {
+	path := stripe.FormatURLPath("/v1/quotes/%s/mark_draft", id)
+	quote := &stripe.Quote{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, quote)
+	return quote, err
+}
+
+// MarkStale is the method for the `POST /v1/quotes/{quote}/mark_stale` API.
+func MarkStale(id string, params *stripe.QuoteMarkStaleParams) (*stripe.Quote, error) {
+	return getC().MarkStale(id, params)
+}
+
+// MarkStale is the method for the `POST /v1/quotes/{quote}/mark_stale` API.
+func (c Client) MarkStale(id string, params *stripe.QuoteMarkStaleParams) (*stripe.Quote, error) {
 	path := stripe.FormatURLPath("/v1/quotes/%s/mark_stale", id)
 	quote := &stripe.Quote{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, quote)
