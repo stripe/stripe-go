@@ -160,7 +160,8 @@ type IssuingCardListParams struct {
 	// Only return cards that have the given expiration year.
 	ExpYear *int64 `form:"exp_year"`
 	// Only return cards that have the given last four digits.
-	Last4 *string `form:"last4"`
+	Last4                 *string `form:"last4"`
+	PersonalizationDesign *string `form:"personalization_design"`
 	// Only return cards that have the given status. One of `active`, `inactive`, or `canceled`.
 	Status *string `form:"status"`
 	// Only return cards that have the given type. One of `virtual` or `physical`.
