@@ -35,6 +35,7 @@ module StripeForce
       sync_start_date: nil,
       sync_record_retention: 10_000,
       default_currency: 'USD',
+      CONNECTOR_SETTING_CPQ_PRORATE_PRECISION: 'month',
       CONNECTOR_SETTING_POLLING_ENABLED => false,
       CONNECTOR_SETTING_SYNC_START_DATE => nil,
       CONNECTOR_SETTING_CPQ_TERM_UNIT => 'month',
@@ -382,7 +383,7 @@ module StripeForce
       hidden_sync_pref_fields = []
 
       if !feature_enabled?(FeatureFlags::NON_ANNIVERSARY_AMENDMENTS)
-        hidden_sync_pref_fields << "cpq_prorate_precision"
+        hidden_sync_pref_fields << CONNECTOR_SETTING_CPQ_PRORATE_PRECISION
       end
 
       hidden_sync_pref_fields

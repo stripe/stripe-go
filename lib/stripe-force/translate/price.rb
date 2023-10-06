@@ -478,7 +478,7 @@ class StripeForce::Translate
       # if there is a partial month due to a non-anniversary amendment
       # we calculate the price multiplier differently depending on the CPQ Subscription Prorate Precision setting
       if days > 0
-        if @user.feature_enabled?(FeatureFlags::DAY_PRORATIONS)
+        if @user.feature_enabled?(FeatureFlags::DAY_PRORATIONS) || @user.connector_settings[CONNECTOR_SETTING_CPQ_PRORATE_PRECISION] == 'month+day'
           # calculate the price multiplier for when CPQ Subscription Prorate Precision = 'Month + Day'
           log.info 'using \'monthly + daily\' price multiplier calculations', sf_order_id: sf_order.Id, sf_order_item_id: sf_order_item.Id, days: days
           calculated_price_multiplier = StripeForce::Utilities::SalesforceUtil.calculate_month_plus_day_price_multiplier(whole_months: quote_subscription_term, partial_month_days: days, product_subscription_term: effective_subscription_term)

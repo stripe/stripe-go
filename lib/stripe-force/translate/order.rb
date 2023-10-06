@@ -1058,7 +1058,7 @@ class StripeForce::Translate
             if days > 0
               # if feature DAY_PRORATIONS is enabled, set the number of days to prorate
               # else, a partial month equals a whole month so add one to the subscription term
-              if @user.feature_enabled?(FeatureFlags::DAY_PRORATIONS)
+              if @user.feature_enabled?(FeatureFlags::DAY_PRORATIONS) || @user.connector_settings[CONNECTOR_SETTING_CPQ_PRORATE_PRECISION] == 'month+day'
                 log.info 'prorating line items by days', days_prorating: days
                 days_prorating = days
               else

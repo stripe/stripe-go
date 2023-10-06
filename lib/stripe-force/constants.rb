@@ -191,6 +191,7 @@ module StripeForce
     CONNECTOR_SETTING_PACKAGE_VERSION = 'package_version'
     CONNECTOR_SETTING_POLLING_ENABLED = 'polling_enabled'
     CONNECTOR_SETTING_SYNC_START_DATE = 'sync_start_date'
+    CONNECTOR_SETTING_CPQ_PRORATE_PRECISION = 'cpq_prorate_precision'
 
     TERMINATION_METADATA_PREFIX = 'sbc_termination.'
 

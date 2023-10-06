@@ -1530,8 +1530,12 @@ class Critic::ProratedAmendmentTranslation < Critic::OrderAmendmentFunctionalTes
 
   describe 'non-anniversary amendments with day porations' do
     it 'translates non-anniversary amendment order billed monthly with day proration enabled' do
-      # Note feature DAY_PRORATIONS should only be enabled if CPQ Subscription Prorate Precision is set to 'Month + Day'
-      @user.enable_feature FeatureFlags::DAY_PRORATIONS, update: true
+      # Note either feature DAY_PRORATIONS should only be enabled or connector settings needs to be set to 'month_day" 
+      # for connector to use PQ Subscription Prorate Precision is set to 'Month + Day'
+      @user.disable_feature FeatureFlags::DAY_PRORATIONS, update: true
+      @user.connector_settings[CONNECTOR_SETTING_CPQ_PRORATE_PRECISION] = 'month+day'
+      @user.save
+
       @user.enable_feature FeatureFlags::NON_ANNIVERSARY_AMENDMENTS, update: true
       @user.enable_feature FeatureFlags::TEST_CLOCKS, update: true
 
@@ -1557,7 +1561,7 @@ class Critic::ProratedAmendmentTranslation < Critic::OrderAmendmentFunctionalTes
 
       sf_order = create_subscription_order(
         sf_product_id: sf_product_id,
-        contact_email: "non_anniversary_day_proration",
+        contact_email: "non_anniversary_day_proration_2",
         additional_fields: {
           CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(initial_order_start_date),
           CPQ_QUOTE_SUBSCRIPTION_TERM => contract_term,
