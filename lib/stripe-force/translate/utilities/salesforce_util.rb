@@ -433,5 +433,21 @@ module StripeForce::Utilities
 
       nil
     end
+
+    sig { params(cache_service: CacheService, sf_order: Restforce::SObject).returns(T::Boolean) }
+    def self.is_renewal_order(cache_service, sf_order)
+      # note: we don't want to rely on sf_order[SF_ORDER_TYPE] == "Renew"
+      # since this can be customized by the user
+      # instead check the renewal quote that Salesforce CPQ creates
+      sf_quote = cache_service.get_record_from_cache(CPQ_QUOTE, sf_order[CPQ_QUOTE])
+      if sf_quote.present? && sf_quote[CPQ_QUOTE_TYPE] == CPQQuoteTypeOptions::RENEWAL.serialize
+        log.info 'order is from a renewal quote', order_id: sf_order.Id
+        return true
+      end
+
+      # TODO if for some reason the renewal quote type is not set, let's check the contract
+      # for now, let's skip this to avoid another query
+      false
+    end
   end
 end

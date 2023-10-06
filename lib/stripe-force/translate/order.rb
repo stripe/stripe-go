@@ -10,18 +10,17 @@ class StripeForce::Translate
     # get initial order and all amendments
     contract_structure = extract_contract_from_order(sf_object)
 
-    # If the original order does not match their custom filters, do not translate
+    # if the original order does not match their custom filters, do not translate
     if !orders_respect_custom_filters([contract_structure.initial])
       log.info 'initial order does not respect users custom order filters. not syncing: ', order_ids: contract_structure.initial
       raise StripeForce::Errors::RawUserError.new("Attempted to sync amendment order when initial order was skipped because it didn't match custom sync filters.")
     end
 
-    # Is the original order pre-integration start date? We migrate it to Stripe.
-    #   We know the original order matches the custom SOQL because of the above check.
+    # if the original order pre-integration start date, we migrate it to Stripe
     is_pre_integration_order = is_pre_integration_order(contract_structure)
     if is_pre_integration_order && @user.feature_enabled?(FeatureFlags::OLD_ORDER_MIGRATIONS)
       migrate_pre_integration_order(contract_structure)
-      # Refresh the contract structure
+      # refresh the contract structure
       contract_structure = extract_contract_from_order(sf_object)
     elsif is_pre_integration_order
       log.info 'skipping translation of pre-integration order, if merchant wants to sync this order please gate them into old order migration: ', order_ids: contract_structure.initial
@@ -46,7 +45,7 @@ class StripeForce::Translate
     # refresh to include subscription reference on the Stripe ID field in SF if the order was just translated
     sf_order.refresh
 
-    # process amendments based on whether order is evergreen (stripe sub) or not (stripe subsched)
+    # process amendments based on whether order is evergreen (stripe sub) or not (stripe sub schedule)
     if is_salesforce_order_evergreen(sf_order)
       update_subscription_from_order_amendments(contract_structure)
     else
@@ -57,6 +56,7 @@ class StripeForce::Translate
   sig { params(contract_structure: ContractStructure).returns(T::Boolean) }
   def is_pre_integration_order(contract_structure)
     if @user.connector_settings[CONNECTOR_SETTING_SYNC_START_DATE].nil?
+      log.info 'connector setting sync start date is not present, not migrating pre-integration order'
       return false
     end
 
@@ -85,10 +85,7 @@ class StripeForce::Translate
   end
 
   sig do
-    params(
-      contract_structure: StripeForce::Translate::ContractStructure
-    )
-    .returns(T.nilable(Stripe::SubscriptionSchedule))
+    params(contract_structure: StripeForce::Translate::ContractStructure).returns(T.nilable(Stripe::SubscriptionSchedule))
   end
   def migrate_pre_integration_order(contract_structure)
     # We cannot set the billing_cycle_anchor on a subscription schedule so we must create a subscription then create a schedule
@@ -99,7 +96,7 @@ class StripeForce::Translate
 
     # this check is rigorously enforced upstream
     if sf_order[SF_ORDER_TYPE] != OrderTypeOptions::NEW.serialize
-      log.warn "order is not new, but is treated as such, type field could be customized", salesforce_object: sf_order
+      log.warn "salesforce order type is not new, but is treated as such since type field could be customized", salesforce_object: sf_order
     end
 
     # Ensure we have not already created a subscription schedule for this order
@@ -247,7 +244,6 @@ class StripeForce::Translate
     # It will always be the first quote that generated the contract.
 
     sf_contract_id = extract_contract_id_from_initial_order(initial_order)
-
     if !sf_contract_id
       return ContractStructure.new(initial: initial_order)
     end
@@ -426,7 +422,6 @@ class StripeForce::Translate
     stripe_customer = translate_account(sf_account)
 
     sf_order_items = order_lines_from_order(sf_order)
-
     invoice_items, subscription_items = phase_items_from_order_lines(sf_order_items)
 
     is_recurring_order = !subscription_items.empty?
@@ -642,13 +637,13 @@ class StripeForce::Translate
 
     is_recurring_order = !aggregate_phase_items.empty?
     if !is_recurring_order
-      raise Integrations::Errors::UnhandledEdgeCase.new("order amendments representing all one-time invoices")
+      raise Integrations::Errors::UnhandledEdgeCase.new("Amendment order representing all one-time invoices.")
     end
 
     # TODO this should be moved to a helper
     is_order_terminated = aggregate_phase_items.all?(&:fully_terminated?)
     if is_order_terminated && !invoice_items_in_order.empty?
-      raise Integrations::Errors::UnhandledEdgeCase.new("one-time invoice items but terminated order")
+      raise Integrations::Errors::UnhandledEdgeCase.new("One-time invoice items but terminated order.")
     end
 
     [invoice_items_in_order, aggregate_phase_items]
@@ -659,9 +654,7 @@ class StripeForce::Translate
     log.info "processing evergreen Salesforce order amendments"
 
     sf_order = contract_structure.initial
-
     stripe_id = sf_order[prefixed_stripe_field(GENERIC_STRIPE_ID)]
-
     if stripe_id.nil?
       raise Integrations::Errors::UserError.new("Could not find corresponding Stripe subscription for initial evergreen Salesforce order.")
     end
@@ -695,26 +688,21 @@ class StripeForce::Translate
       sf_order.refresh
     end
 
-    subscription = retrieve_from_stripe(
-      Stripe::Subscription,
-      sf_order
-    )
-
+    subscription = retrieve_from_stripe(Stripe::Subscription, sf_order)
     if !subscription
       raise StripeForce::Errors::RawUserError.new("Could not find corresponding Stripe subscription for initial evergreen Salesforce order.")
     end
 
     subscription = T.cast(subscription, Stripe::Subscription)
-
-    amendments = contract_structure.amendments
-
     stripe_customer_id = T.cast(subscription.customer, String)
     subscription_id = subscription.id
 
     sf_initial_order_items = order_lines_from_order(contract_structure.initial)
-    _, initial_order_phase_items = phase_items_from_order_lines(sf_initial_order_items)
+    is_initial_order_renewal = StripeForce::Utilities::SalesforceUtil.is_renewal_order(@cache_service, contract_structure.initial)
+    _, initial_order_phase_items = phase_items_from_order_lines(sf_initial_order_items, is_initial_order_renewal)
 
     previous_phase_items = initial_order_phase_items
+    amendments = contract_structure.amendments
     amendments.each do |sf_order_amendment|
       # do not support adding renewable products to evergreen order
       if !is_salesforce_order_evergreen(sf_order_amendment)
@@ -729,13 +717,8 @@ class StripeForce::Translate
       if order_amendment_subscription_id.present?
         log.info "order amendment already translated, skipping", sf_order_amendment_id: sf_order_amendment.Id
 
-        _, subscription_items = build_phase_items_from_order_amendment(
-          previous_phase_items,
-          sf_order_amendment
-        )
-
+        _, subscription_items = build_phase_items_from_order_amendment(previous_phase_items, sf_order_amendment)
         previous_phase_items = subscription_items
-
         next
       end
 
@@ -825,11 +808,7 @@ class StripeForce::Translate
   def update_subscription_phases_from_order_amendments(contract_structure)
     log.info "processing amendment orders"
 
-    subscription_schedule = retrieve_from_stripe(
-      Stripe::SubscriptionSchedule,
-      contract_structure.initial
-    )
-
+    subscription_schedule = retrieve_from_stripe(Stripe::SubscriptionSchedule, contract_structure.initial)
     if !subscription_schedule
       raise Integrations::Errors::UserError.new("Could not find the corresponding Stripe subscription schedule for this amendment order.", salesforce_object: contract_structure.initial)
     end
@@ -837,9 +816,6 @@ class StripeForce::Translate
     # at this point, the initial order would have already been translated
     # and a corresponding subscription schedule created
     subscription_schedule = T.cast(subscription_schedule, Stripe::SubscriptionSchedule)
-
-    # at this point, the initial order would have already been translated
-    # and a corresponding subscription schedule created
 
     # verify that all the amendment orders co-terminate with the initial order
     if !OrderAmendment.contract_co_terminated?(mapper, contract_structure)
@@ -861,7 +837,8 @@ class StripeForce::Translate
     # (b) recreate each phase data from the raw order line data.
 
     sf_initial_order_items = order_lines_from_order(contract_structure.initial)
-    _, initial_order_phase_items = phase_items_from_order_lines(sf_initial_order_items)
+    is_initial_order_renewal = StripeForce::Utilities::SalesforceUtil.is_renewal_order(@cache_service, contract_structure.initial)
+    _, initial_order_phase_items = phase_items_from_order_lines(sf_initial_order_items, is_initial_order_renewal)
 
     # another complexity here is 'backend' prorated order amendments (i.e. 18mo contract, billed yearly)
     # in this case, the initial order creates two phases. Effectively, there is an amendment without an order.
@@ -917,6 +894,8 @@ class StripeForce::Translate
         # it's important we update the previous phase items since the latest amendment depends on previous amendments
         aggregate_phase_items, _terminated_phase_items = OrderHelpers.remove_terminated_lines(aggregate_phase_items)
         previous_phase_items = aggregate_phase_items
+
+        log.info "rebuilt previous amendment order phase items", sf_order_amendment_id: sf_order_amendment.Id
         next
       end
 
@@ -1325,28 +1304,28 @@ class StripeForce::Translate
 
     # line items that are "new" (i.e. not revising anything) are "origin" lines which future
     # revisions should be mapped to
-    aggregate_phase_items.select(&:new_order_line?).each do |origin_order_line|
-      if revision_map[origin_order_line.order_line_id].present?
-        raise Integrations::Errors::ImpossibleState.new("should never be more than a single revised order ID match")
+    new_aggregate_phase_items, revised_aggregate_phase_items = aggregate_phase_items.partition(&:new_order_line?)
+
+    # process the new phase items
+    new_aggregate_phase_items.each do |new_order_item|
+      if revision_map[new_order_item.order_line_id].present?
+         raise StripeForce::Errors::RawUserError.new("Found two Order Items with the same ID.")
       end
 
-      revision_map[origin_order_line.order_line_id] ||= [origin_order_line]
+      revision_map[new_order_item.order_line_id] ||= [new_order_item]
     end
 
-    # discover one-to-many mapping between line items
-    aggregate_phase_items.
-      # only include revisions
-      reject(&:new_order_line?)
-      .each do |revision_order_line|
-        origin_order_line_id = T.must(revision_order_line.revised_order_line_id)
-        revised_item_list = T.must(revision_map[origin_order_line_id])
+    # discover one-to-many mapping between the revision line items and original line item
+    revised_aggregate_phase_items.each do |revision_order_line|
+      origin_order_line_id = T.must(revision_order_line.revised_order_line_id)
+      revised_item_list = T.must(revision_map[origin_order_line_id])
 
-        if revised_item_list.map(&:order_line_id).include?(revision_order_line.order_line_id)
-          raise ArgumentError.new("an order line ID should not be listed twice")
-        else
-          revised_item_list << revision_order_line
-        end
+      if revised_item_list.map(&:order_line_id).include?(revision_order_line.order_line_id)
+        raise StripeForce::Errors::RawUserError.new("An Order Item should not be listed twice.")
+      else
+        revised_item_list << revision_order_line
       end
+    end
 
     log.info "order amendment revision map", revision_map: revision_map.transform_values {|ci| ci.map(&:order_line_id) }
 
@@ -1414,10 +1393,9 @@ class StripeForce::Translate
   end
 
   sig do
-    params(sf_order_lines: T::Array[Restforce::SObject])
-    .returns([T::Array[ContractItemStructure], T::Array[ContractItemStructure]])
+    params(sf_order_lines: T::Array[Restforce::SObject], from_renewal_order: T::Boolean).returns([T::Array[ContractItemStructure], T::Array[ContractItemStructure]])
   end
-  def phase_items_from_order_lines(sf_order_lines)
+  def phase_items_from_order_lines(sf_order_lines, from_renewal_order=false)
     invoice_items = []
     subscription_items = []
 
@@ -1456,10 +1434,7 @@ class StripeForce::Translate
       # we know the quantity is not a float, so we can force it to an integer
       phase_item.quantity = phase_item.quantity.to_i
 
-      phase_item_struct = ContractItemStructure.from_order_line_and_params(
-        sf_order_item,
-        phase_item.to_hash,
-      )
+      phase_item_struct = ContractItemStructure.from_order_line_and_params(sf_order_item, phase_item.to_hash, from_renewal_order: from_renewal_order)
 
       # quantity cannot be specified if usage type is metered, we have to delete the quantity param before sending to Stripe
       if PriceHelpers.metered_price?(price)
@@ -1547,7 +1522,7 @@ class StripeForce::Translate
         opportunity_id: initial_quote_query.first.dig("OpportunityId"),
         amended_contract: initial_quote_query.first.dig(SF_OPPORTUNITY, "SBQQ__AmendedContract__c")
 
-      raise StripeForce::Errors::RawUserError.new("Could not find initial CPQ quote associated with order amendment.", salesforce_object: sf_order_amendment)
+      raise StripeForce::Errors::RawUserError.new("Could not find initial CPQ Quote associated with order amendment.", salesforce_object: sf_order_amendment)
     end
 
     log.info 'quote tied to initial order found', quote_id: sf_original_quote_id

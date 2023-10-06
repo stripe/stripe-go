@@ -64,11 +64,12 @@ class Critic::EvergreenAmendmentTest < Critic::OrderAmendmentFunctionalTest
   end
 
   it 'cancels an evergreen subscription in the future' do
+    @user.disable_feature(FeatureFlags::SF_CACHING, update: true)
     # set cancel time for future and amend, then move test clock to after that and check termination
     current_time = now_time
 
     sf_order = create_evergreen_salesforce_order(
-      contact_email: "evergreen_sub_future",
+      contact_email: "evergreen_sub_future_3",
       # need to set these fields explicitly to use translate
       additional_quote_fields: {
         CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(current_time),

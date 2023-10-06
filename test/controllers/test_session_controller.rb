@@ -72,7 +72,7 @@ class SessionsControllerTest < ApplicationIntegrationTest
     end
 
     it 'fails if an invalid namespace is provided' do
-      assert_raises RuntimeError, 'unexpected namespace: invalid' do
+      assert_raises Integrations::Errors::ImpossibleInternalError, 'Unexpected namespace: invalid' do
         get omniauth_path(:salesforce, salesforceNamespace: "invalid")
 
         assert_response :error

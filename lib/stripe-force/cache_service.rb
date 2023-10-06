@@ -214,7 +214,6 @@ class CacheService
   end
 
   private def retrieve_related_objects_from_salesforce(sf_object)
-
     args = case sf_object.sobject_type
     when SF_ORDER
       {order_ids: [sf_object.Id]}

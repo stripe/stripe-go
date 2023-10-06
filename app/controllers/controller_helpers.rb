@@ -18,7 +18,7 @@ module ControllerHelpers
     when *SalesforceNamespaceOptions.values.map(&:serialize)
       raw_namespace
     else
-      raise "unexpected namespace: #{raw_namespace}"
+      raise Integrations::Errors::ImpossibleInternalError.new("Unexpected namespace: #{raw_namespace}")
     end
   end
 

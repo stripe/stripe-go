@@ -282,20 +282,19 @@ class StripeForce::Translate
       )
 
       if order_with_amended_contract_query.size.zero?
-        raise Integrations::Errors::ImpossibleInternalError.new("query should never return an empty result")
+        raise Integrations::Errors::ImpossibleInternalError.new("Amendment contract query should never return an empty result.")
       end
 
       if order_with_amended_contract_query.size > 1
-        raise Integrations::Errors::ImpossibleInternalError.new("query should only return a single result")
+        raise Integrations::Errors::ImpossibleInternalError.new("More than one contract found for amendment.")
       end
 
       order_with_amended_contract = order_with_amended_contract_query.first
-
-      amended_contract_id = order_with_amended_contract.dig(SF_OPPORTUNITY, "SBQQ__AmendedContract__c")
+      amended_contract_id = order_with_amended_contract.dig(SF_OPPORTUNITY, CPQ_AMENDED_CONTRACT)
       is_order_amendment = amended_contract_id.present?
 
       if !OrderTypeOptions.values.map(&:serialize).include?(order_with_amended_contract.Type)
-        log.warn 'order type is not standard', order_type: order_with_amended_contract.Type
+        log.warn 'salesforce order type is not standard', order_type: order_with_amended_contract.Type
       end
 
       if is_order_amendment && order_with_amended_contract.Type == OrderTypeOptions::NEW.serialize

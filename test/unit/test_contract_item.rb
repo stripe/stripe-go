@@ -5,7 +5,8 @@ require_relative '../test_helper'
 
 class Critic::ContractItemTest < Critic::UnitTest
   before do
-    @translator = make_translator
+      @user = make_user
+      @translator = make_translator(user: @user)
   end
 
   it 'terminates a single line with no additive revisions' do

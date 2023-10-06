@@ -183,9 +183,10 @@ class Critic::EvergreenOrders < Critic::OrderAmendmentFunctionalTest
   end
 
   it 'ignores attempt to resync evergreen order amendment' do
+    @user.disable_feature FeatureFlags::SF_CACHING, update: true
     sf_order = create_evergreen_salesforce_order(
       # need to set these fields explicitly to use translate
-      contact_email: "ignore_resync_attempt",
+      contact_email: "ignore_resync_attempt_2",
       additional_quote_fields: {
         CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(now_time),
         CPQ_QUOTE_SUBSCRIPTION_TERM => SF_ORDER_DEFAULT_EVERGREEN_SUBSCRIPTION_TERM,

@@ -22,7 +22,11 @@ module StripeForce
     SF_CONSUMPTION_RATE = 'ConsumptionRate'
     SF_CONTRACT = 'Contract'
 
-    # custom coupon objects added by our package
+    # cpq contract fields
+    CPQ_CONTRACT_RENEWAL_QUOTED = "SBQQ__RenewalQuoted__c"
+    CPQ_CONTRACT_RENEWAL_OPPORTUNITY = "SBQQ__RenewalOpportunity__c"
+
+    # custom Stripe Coupon objects added by our package
     QUOTE_SF_STRIPE_COUPON = 'Quote_Stripe_Coupon__c'
     QUOTE_SF_STRIPE_COUPON_ASSOCIATION = 'Quote_Stripe_Coupon_Association__c'
     QUOTE_LINE_SF_STRIPE_COUPON_ASSOCIATION = 'Quote_Line_Stripe_Coupon_Association__c'
@@ -34,7 +38,6 @@ module StripeForce
     SF_ORDER_CONTRACTED = 'SBQQ__Contracted__c'
     SF_ORDER_QUOTE = 'SBQQ__Quote__c'
     SF_OPPORTUNITY_CLOSE_DATE = 'CloseDate'
-
     SF_CURRENCY_ISO_CODE = 'CurrencyIsoCode'
 
     SF_ORDER_ITEM_REVISED_ORDER_PRODUCT = 'SBQQ__RevisedOrderProduct__c'
@@ -42,11 +45,20 @@ module StripeForce
     SF_ORDER_ACTIVATED_DATE = 'ActivatedDate'
     SF_ORDER_TYPE = 'Type'
     SF_ORDER_DEFAULT_EVERGREEN_SUBSCRIPTION_TERM = 1
+    CPQ_CONTRACT_RENEWAL_TERM = "SBQQ__RenewalTerm__c"
 
     SF_CONTRACT_ORDER_ID = 'SBQQ__Order__c'
     SF_CONTRACT_QUOTE_ID = 'SBQQ__Quote__c'
 
     CPQ_QUOTE = 'SBQQ__Quote__c'
+    CPQ_QUOTE_TYPE = 'SBQQ__Type__c'
+    class CPQQuoteTypeOptions < T::Enum
+      enums do
+        QUOTE = new("Quote")
+        RENEWAL = new("Renewal")
+        AMENDMENT = new("Amendment")
+      end
+    end
     CPQ_QUOTE_LINE = 'SBQQ__QuoteLine__c'
     CPQ_QUOTE_LINE_PRODUCT = 'SBQQ__Product__c'
     CPQ_QUOTE_LINE_PRICEBOOK_ENTRY = 'SBQQ__PricebookEntryId__c'
@@ -149,7 +161,7 @@ module StripeForce
       end
     end
 
-    # TODO these types are heavily customized by our users and should not be relied upon in production
+    # Note: do not rely on the Order type since this can be customized by the user
     # https://developer.salesforce.com/docs/atlas.en-us.packagingGuide.meta/packagingGuide/coa_order_type.htm
     class OrderTypeOptions < T::Enum
       enums do
@@ -166,7 +178,6 @@ module StripeForce
     end
 
     # non-cpq constants
-
     SALESFORCE_ACCOUNT_ID_HEADER = 'Salesforce-Account-Id'
     SALESFORCE_KEY_HEADER = 'Salesforce-Key'
     SALESFORCE_PACKAGE_NAMESPACE_HEADER = "Salesforce-Package-Namespace"

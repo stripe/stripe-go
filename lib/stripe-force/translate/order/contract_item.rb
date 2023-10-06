@@ -18,6 +18,7 @@ class StripeForce::Translate
     # we should not rely on this
     const :order_line, Restforce::SObject
     const :order_line_id, String
+    const :from_renewal_order, T::Boolean
 
     # not const so we can mutate it (`reduce_quantity`, etc)
     prop :quantity, Integer
@@ -25,15 +26,13 @@ class StripeForce::Translate
     # the delta in quantity for order amendments
     prop :reduced_by, Integer
 
-    # TODO maybe consider including a boolean for this instead?
-    # is_recurring: recurring_item?(sf_order_item),
-
-    sig { params(sf_order_line: Restforce::SObject, stripe_params: Hash).returns(ContractItemStructure) }
-    def self.from_order_line_and_params(sf_order_line, stripe_params)
+    sig { params(sf_order_line: Restforce::SObject, stripe_params: Hash, from_renewal_order: T::Boolean).returns(ContractItemStructure) }
+    def self.from_order_line_and_params(sf_order_line, stripe_params, from_renewal_order: false)
       self.new(
         stripe_params: stripe_params,
         order_line: sf_order_line,
         order_line_id: sf_order_line.Id,
+        from_renewal_order: from_renewal_order,
         revised_order_line_id: sf_order_line[SF_ORDER_ITEM_REVISED_ORDER_PRODUCT],
         quantity: stripe_params[:quantity],
         reduced_by: 0
@@ -70,10 +69,10 @@ class StripeForce::Translate
       self.quantity.zero?
     end
 
-    # "new" meaning not-revised
+    # "new" meaning not-revised from previous order
     sig { returns(T::Boolean) }
     def new_order_line?
-      self.revised_order_line_id.blank?
+      self.revised_order_line_id.blank? || self.from_renewal_order
     end
 
     sig { params(sf_order: Restforce::SObject).returns(T::Boolean) }
