@@ -543,8 +543,9 @@ type InvoicePaymentSettingsParams struct {
 
 // Invoice pdf rendering options
 type InvoiceRenderingPDFParams struct {
-	// Page size for invoice PDF. Can be set to a4, letter, or auto.
-	//  If set to auto, page size will be switched to a4 or letter based on customer locale.
+	// Page size for invoice PDF. Can be set to `a4`, `letter`, or `auto`.
+	//  If set to `auto`, invoice PDF page size defaults to `a4` for customers with
+	//  Japanese locale and `letter` for customers with other locales.
 	PageSize *string `form:"page_size"`
 }
 
