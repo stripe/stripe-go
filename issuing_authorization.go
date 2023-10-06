@@ -277,6 +277,8 @@ type IssuingAuthorizationVerificationData struct {
 	CVCCheck IssuingAuthorizationVerificationDataCheck `json:"cvc_check"`
 	// Whether the cardholder provided an expiry date and if it matched Stripe's record.
 	ExpiryCheck IssuingAuthorizationVerificationDataCheck `json:"expiry_check"`
+	// The postal code submitted as part of the authorization used for postal code verification.
+	PostalCode string `json:"postal_code"`
 	// 3D Secure details.
 	ThreeDSecure *IssuingAuthorizationVerificationDataThreeDSecure `json:"three_d_secure"`
 }
