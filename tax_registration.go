@@ -707,8 +707,10 @@ type TaxRegistrationCountryOptionsUSType string
 
 // List of values that TaxRegistrationCountryOptionsUSType can take
 const (
-	TaxRegistrationCountryOptionsUSTypeLocalLeaseTax TaxRegistrationCountryOptionsUSType = "local_lease_tax"
-	TaxRegistrationCountryOptionsUSTypeStateSalesTax TaxRegistrationCountryOptionsUSType = "state_sales_tax"
+	TaxRegistrationCountryOptionsUSTypeLocalAmusementTax      TaxRegistrationCountryOptionsUSType = "local_amusement_tax"
+	TaxRegistrationCountryOptionsUSTypeLocalLeaseTax          TaxRegistrationCountryOptionsUSType = "local_lease_tax"
+	TaxRegistrationCountryOptionsUSTypeStateCommunicationsTax TaxRegistrationCountryOptionsUSType = "state_communications_tax"
+	TaxRegistrationCountryOptionsUSTypeStateSalesTax          TaxRegistrationCountryOptionsUSType = "state_sales_tax"
 )
 
 // Type of registration in `country`.
