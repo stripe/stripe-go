@@ -651,6 +651,16 @@ const (
 	CheckoutSessionPaymentStatusUnpaid            CheckoutSessionPaymentStatus = "unpaid"
 )
 
+// Applies to Checkout Sessions with `ui_mode: embedded`. By default, Stripe will always redirect to your return_url after a successful confirmation. If you set `redirect_on_completion: 'if_required'`, then we will only redirect if your user chooses a redirect-based payment method.
+type CheckoutSessionRedirectOnCompletion string
+
+// List of values that CheckoutSessionRedirectOnCompletion can take
+const (
+	CheckoutSessionRedirectOnCompletionAlways     CheckoutSessionRedirectOnCompletion = "always"
+	CheckoutSessionRedirectOnCompletionIfRequired CheckoutSessionRedirectOnCompletion = "if_required"
+	CheckoutSessionRedirectOnCompletionNever      CheckoutSessionRedirectOnCompletion = "never"
+)
+
 // The reasoning behind this tax, for example, if the product is tax exempt. The possible values for this field may be extended as new tax rules are supported.
 type CheckoutSessionShippingCostTaxTaxabilityReason string
 
@@ -717,6 +727,15 @@ const (
 	CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReasonStandardRated        CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReason = "standard_rated"
 	CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReasonTaxableBasisReduced  CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReason = "taxable_basis_reduced"
 	CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReasonZeroRated            CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReason = "zero_rated"
+)
+
+// The UI mode of the Session. Can be `hosted` (default) or `embedded`.
+type CheckoutSessionUiMode string
+
+// List of values that CheckoutSessionUiMode can take
+const (
+	CheckoutSessionUiModeEmbedded CheckoutSessionUiMode = "embedded"
+	CheckoutSessionUiModeHosted   CheckoutSessionUiMode = "hosted"
 )
 
 // Only return the Checkout Sessions for the Customer details specified.
@@ -1834,6 +1853,12 @@ type CheckoutSessionParams struct {
 	// We recommend that you review your privacy policy and check with your legal contacts
 	// before using this feature. Learn more about [collecting phone numbers with Checkout](https://stripe.com/docs/payments/checkout/phone-numbers).
 	PhoneNumberCollection *CheckoutSessionPhoneNumberCollectionParams `form:"phone_number_collection"`
+	// This parameter applies to `ui_mode: embedded`. By default, Stripe will always redirect to your return_url after a successful confirmation. If you set `redirect_on_completion: 'if_required'`, then we will only redirect if your user chooses a redirect-based payment method.
+	RedirectOnCompletion *string `form:"redirect_on_completion"`
+	// The URL to redirect your customer back to after they authenticate or cancel their payment on the
+	// payment method's app or site. This parameter is required if ui_mode is `embedded`
+	// and redirect-based payment methods are enabled on the session.
+	ReturnURL *string `form:"return_url"`
 	// A subset of parameters to be passed to SetupIntent creation for Checkout Sessions in `setup` mode.
 	SetupIntentData *CheckoutSessionSetupIntentDataParams `form:"setup_intent_data"`
 	// When set, provides configuration for Checkout to collect a shipping address from a customer.
@@ -1854,6 +1879,8 @@ type CheckoutSessionParams struct {
 	SuccessURL *string `form:"success_url"`
 	// Controls tax ID collection settings for the session.
 	TaxIDCollection *CheckoutSessionTaxIDCollectionParams `form:"tax_id_collection"`
+	// `ui_mode` can be `hosted` or `embedded`. The default is `hosted`.
+	UiMode *string `form:"ui_mode"`
 }
 
 // AddExpand appends a new field to expand.
@@ -2550,6 +2577,8 @@ type CheckoutSession struct {
 	// customer ID, a cart ID, or similar, and can be used to reconcile the
 	// Session with your internal systems.
 	ClientReferenceID string `json:"client_reference_id"`
+	// Client secret to be used when initializing Stripe.js embedded checkout.
+	ClientSecret string `json:"client_secret"`
 	// Results of `consent_collection` for this session.
 	Consent *CheckoutSessionConsent `json:"consent"`
 	// When set, provides configuration for the Checkout Session to gather active consent from customers.
@@ -2618,6 +2647,10 @@ type CheckoutSession struct {
 	PhoneNumberCollection *CheckoutSessionPhoneNumberCollection `json:"phone_number_collection"`
 	// The ID of the original expired Checkout Session that triggered the recovery flow.
 	RecoveredFrom string `json:"recovered_from"`
+	// Applies to Checkout Sessions with `ui_mode: embedded`. By default, Stripe will always redirect to your return_url after a successful confirmation. If you set `redirect_on_completion: 'if_required'`, then we will only redirect if your user chooses a redirect-based payment method.
+	RedirectOnCompletion CheckoutSessionRedirectOnCompletion `json:"redirect_on_completion"`
+	// Applies to Checkout Sessions with `ui_mode: embedded`. The URL to redirect your customer back to after they authenticate or cancel their payment on the payment method's app or site.
+	ReturnURL string `json:"return_url"`
 	// The ID of the SetupIntent for Checkout Sessions in `setup` mode.
 	SetupIntent *SetupIntent `json:"setup_intent"`
 	// When set, provides configuration for Checkout to collect a shipping address from a customer.
@@ -2643,6 +2676,8 @@ type CheckoutSession struct {
 	TaxIDCollection *CheckoutSessionTaxIDCollection `json:"tax_id_collection"`
 	// Tax and discount details for the computed total amount.
 	TotalDetails *CheckoutSessionTotalDetails `json:"total_details"`
+	// The UI mode of the Session. Can be `hosted` (default) or `embedded`.
+	UiMode CheckoutSessionUiMode `json:"ui_mode"`
 	// The URL to the Checkout Session. Redirect customers to this URL to take them to Checkout. If you're using [Custom Domains](https://stripe.com/docs/payments/checkout/custom-domains), the URL will use your subdomain. Otherwise, it'll use `checkout.stripe.com.`
 	// This value is only present when the session is active.
 	URL string `json:"url"`
