@@ -700,12 +700,12 @@ const (
 )
 
 // The UI mode of the Session. Can be `hosted` (default) or `embedded`.
-type CheckoutSessionUiMode string
+type CheckoutSessionUIMode string
 
-// List of values that CheckoutSessionUiMode can take
+// List of values that CheckoutSessionUIMode can take
 const (
-	CheckoutSessionUiModeEmbedded CheckoutSessionUiMode = "embedded"
-	CheckoutSessionUiModeHosted   CheckoutSessionUiMode = "hosted"
+	CheckoutSessionUIModeEmbedded CheckoutSessionUIMode = "embedded"
+	CheckoutSessionUIModeHosted   CheckoutSessionUIMode = "hosted"
 )
 
 // Only return the Checkout Sessions for the Customer details specified.
@@ -1812,7 +1812,7 @@ type CheckoutSessionParams struct {
 	// Controls tax ID collection settings for the session.
 	TaxIDCollection *CheckoutSessionTaxIDCollectionParams `form:"tax_id_collection"`
 	// `ui_mode` can be `hosted` or `embedded`. The default is `hosted`.
-	UiMode *string `form:"ui_mode"`
+	UIMode *string `form:"ui_mode"`
 }
 
 // AddExpand appends a new field to expand.
@@ -2584,7 +2584,7 @@ type CheckoutSession struct {
 	// Tax and discount details for the computed total amount.
 	TotalDetails *CheckoutSessionTotalDetails `json:"total_details"`
 	// The UI mode of the Session. Can be `hosted` (default) or `embedded`.
-	UiMode CheckoutSessionUiMode `json:"ui_mode"`
+	UIMode CheckoutSessionUIMode `json:"ui_mode"`
 	// The URL to the Checkout Session. Redirect customers to this URL to take them to Checkout. If you're using [Custom Domains](https://stripe.com/docs/payments/checkout/custom-domains), the URL will use your subdomain. Otherwise, it'll use `checkout.stripe.com.`
 	// This value is only present when the session is active.
 	URL string `json:"url"`
