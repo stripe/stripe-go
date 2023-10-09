@@ -11,6 +11,7 @@ import (
 	stripe "github.com/stripe/stripe-go/v75"
 	"github.com/stripe/stripe-go/v75/account"
 	"github.com/stripe/stripe-go/v75/accountlink"
+	"github.com/stripe/stripe-go/v75/accountnotice"
 	"github.com/stripe/stripe-go/v75/accountsession"
 	"github.com/stripe/stripe-go/v75/applepaydomain"
 	"github.com/stripe/stripe-go/v75/applicationfee"
@@ -55,6 +56,7 @@ import (
 	issuingauthorization "github.com/stripe/stripe-go/v75/issuing/authorization"
 	issuingcard "github.com/stripe/stripe-go/v75/issuing/card"
 	issuingcardholder "github.com/stripe/stripe-go/v75/issuing/cardholder"
+	issuingcreditunderwritingrecord "github.com/stripe/stripe-go/v75/issuing/creditunderwritingrecord"
 	issuingdispute "github.com/stripe/stripe-go/v75/issuing/dispute"
 	issuingpersonalizationdesign "github.com/stripe/stripe-go/v75/issuing/personalizationdesign"
 	issuingphysicalbundle "github.com/stripe/stripe-go/v75/issuing/physicalbundle"
@@ -144,6 +146,8 @@ import (
 type API struct {
 	// AccountLinks is the client used to invoke /account_links APIs.
 	AccountLinks *accountlink.Client
+	// AccountNotices is the client used to invoke /account_notices APIs.
+	AccountNotices *accountnotice.Client
 	// Accounts is the client used to invoke /accounts APIs.
 	Accounts *account.Client
 	// AccountSessions is the client used to invoke /account_sessions APIs.
@@ -234,6 +238,8 @@ type API struct {
 	IssuingCardholders *issuingcardholder.Client
 	// IssuingCards is the client used to invoke /issuing/cards APIs.
 	IssuingCards *issuingcard.Client
+	// IssuingCreditUnderwritingRecords is the client used to invoke /issuing/credit_underwriting_records APIs.
+	IssuingCreditUnderwritingRecords *issuingcreditunderwritingrecord.Client
 	// IssuingDisputes is the client used to invoke /issuing/disputes APIs.
 	IssuingDisputes *issuingdispute.Client
 	// IssuingPersonalizationDesigns is the client used to invoke /issuing/personalization_designs APIs.
@@ -413,6 +419,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	}
 
 	a.AccountLinks = &accountlink.Client{B: backends.API, Key: key}
+	a.AccountNotices = &accountnotice.Client{B: backends.API, Key: key}
 	a.Accounts = &account.Client{B: backends.API, Key: key}
 	a.AccountSessions = &accountsession.Client{B: backends.API, Key: key}
 	a.ApplePayDomains = &applepaydomain.Client{B: backends.API, Key: key}
@@ -458,6 +465,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.IssuingAuthorizations = &issuingauthorization.Client{B: backends.API, Key: key}
 	a.IssuingCardholders = &issuingcardholder.Client{B: backends.API, Key: key}
 	a.IssuingCards = &issuingcard.Client{B: backends.API, Key: key}
+	a.IssuingCreditUnderwritingRecords = &issuingcreditunderwritingrecord.Client{B: backends.API, Key: key}
 	a.IssuingDisputes = &issuingdispute.Client{B: backends.API, Key: key}
 	a.IssuingPersonalizationDesigns = &issuingpersonalizationdesign.Client{B: backends.API, Key: key}
 	a.IssuingPhysicalBundles = &issuingphysicalbundle.Client{B: backends.API, Key: key}

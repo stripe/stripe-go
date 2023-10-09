@@ -40,6 +40,8 @@ const (
 	EventTypeAccountExternalAccountDeleted                        EventType = "account.external_account.deleted"
 	EventTypeAccountExternalAccountUpdated                        EventType = "account.external_account.updated"
 	EventTypeAccountUpdated                                       EventType = "account.updated"
+	EventTypeAccountNoticeCreated                                 EventType = "account_notice.created"
+	EventTypeAccountNoticeUpdated                                 EventType = "account_notice.updated"
 	EventTypeApplicationFeeCreated                                EventType = "application_fee.created"
 	EventTypeApplicationFeeRefundUpdated                          EventType = "application_fee.refund.updated"
 	EventTypeApplicationFeeRefunded                               EventType = "application_fee.refunded"
