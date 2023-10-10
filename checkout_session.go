@@ -1998,8 +1998,6 @@ type CheckoutSessionCustomFieldDropdownOption struct {
 	// The value for this option, not displayed to the customer, used by your integration to reconcile the option selected by the customer. Must be unique to this option, alphanumeric, and up to 100 characters.
 	Value string `json:"value"`
 }
-
-// Configuration for `type=dropdown` fields.
 type CheckoutSessionCustomFieldDropdown struct {
 	// The options available for the customer to select. Up to 200 options allowed.
 	Options []*CheckoutSessionCustomFieldDropdownOption `json:"options"`
@@ -2012,8 +2010,6 @@ type CheckoutSessionCustomFieldLabel struct {
 	// The type of the label.
 	Type CheckoutSessionCustomFieldLabelType `json:"type"`
 }
-
-// Configuration for `type=numeric` fields.
 type CheckoutSessionCustomFieldNumeric struct {
 	// The maximum character length constraint for the customer's input.
 	MaximumLength int64 `json:"maximum_length"`
@@ -2022,8 +2018,6 @@ type CheckoutSessionCustomFieldNumeric struct {
 	// The value entered by the customer, containing only digits.
 	Value string `json:"value"`
 }
-
-// Configuration for `type=text` fields.
 type CheckoutSessionCustomFieldText struct {
 	// The maximum character length constraint for the customer's input.
 	MaximumLength int64 `json:"maximum_length"`
@@ -2035,17 +2029,14 @@ type CheckoutSessionCustomFieldText struct {
 
 // Collect additional information from your customer using custom fields. Up to 2 fields are supported.
 type CheckoutSessionCustomField struct {
-	// Configuration for `type=dropdown` fields.
 	Dropdown *CheckoutSessionCustomFieldDropdown `json:"dropdown"`
 	// String of your choice that your integration can use to reconcile this field. Must be unique to this field, alphanumeric, and up to 200 characters.
-	Key   string                           `json:"key"`
-	Label *CheckoutSessionCustomFieldLabel `json:"label"`
-	// Configuration for `type=numeric` fields.
+	Key     string                             `json:"key"`
+	Label   *CheckoutSessionCustomFieldLabel   `json:"label"`
 	Numeric *CheckoutSessionCustomFieldNumeric `json:"numeric"`
 	// Whether the customer is required to complete the field before completing the Checkout Session. Defaults to `false`.
-	Optional bool `json:"optional"`
-	// Configuration for `type=text` fields.
-	Text *CheckoutSessionCustomFieldText `json:"text"`
+	Optional bool                            `json:"optional"`
+	Text     *CheckoutSessionCustomFieldText `json:"text"`
 	// The type of the field.
 	Type CheckoutSessionCustomFieldType `json:"type"`
 }
