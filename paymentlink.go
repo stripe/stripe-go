@@ -567,8 +567,6 @@ type PaymentLinkCustomFieldDropdownOption struct {
 	// The value for this option, not displayed to the customer, used by your integration to reconcile the option selected by the customer. Must be unique to this option, alphanumeric, and up to 100 characters.
 	Value string `json:"value"`
 }
-
-// Configuration for `type=dropdown` fields.
 type PaymentLinkCustomFieldDropdown struct {
 	// The options available for the customer to select. Up to 200 options allowed.
 	Options []*PaymentLinkCustomFieldDropdownOption `json:"options"`
@@ -579,16 +577,12 @@ type PaymentLinkCustomFieldLabel struct {
 	// The type of the label.
 	Type PaymentLinkCustomFieldLabelType `json:"type"`
 }
-
-// Configuration for `type=numeric` fields.
 type PaymentLinkCustomFieldNumeric struct {
 	// The maximum character length constraint for the customer's input.
 	MaximumLength int64 `json:"maximum_length"`
 	// The minimum character length requirement for the customer's input.
 	MinimumLength int64 `json:"minimum_length"`
 }
-
-// Configuration for `type=text` fields.
 type PaymentLinkCustomFieldText struct {
 	// The maximum character length constraint for the customer's input.
 	MaximumLength int64 `json:"maximum_length"`
@@ -598,17 +592,14 @@ type PaymentLinkCustomFieldText struct {
 
 // Collect additional information from your customer using custom fields. Up to 2 fields are supported.
 type PaymentLinkCustomField struct {
-	// Configuration for `type=dropdown` fields.
 	Dropdown *PaymentLinkCustomFieldDropdown `json:"dropdown"`
 	// String of your choice that your integration can use to reconcile this field. Must be unique to this field, alphanumeric, and up to 200 characters.
-	Key   string                       `json:"key"`
-	Label *PaymentLinkCustomFieldLabel `json:"label"`
-	// Configuration for `type=numeric` fields.
+	Key     string                         `json:"key"`
+	Label   *PaymentLinkCustomFieldLabel   `json:"label"`
 	Numeric *PaymentLinkCustomFieldNumeric `json:"numeric"`
 	// Whether the customer is required to complete the field before completing the Checkout Session. Defaults to `false`.
-	Optional bool `json:"optional"`
-	// Configuration for `type=text` fields.
-	Text *PaymentLinkCustomFieldText `json:"text"`
+	Optional bool                        `json:"optional"`
+	Text     *PaymentLinkCustomFieldText `json:"text"`
 	// The type of the field.
 	Type PaymentLinkCustomFieldType `json:"type"`
 }
