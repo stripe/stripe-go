@@ -122,7 +122,7 @@ class Critic::OrderAmendmentTermination < Critic::OrderAmendmentFunctionalTest
 
     quote_id = create_salesforce_quote(
       sf_account_id: sf_account_id,
-      contact_email: "remove_line_item_part_term",
+      contact_email: "remove_line_item_part_term_1",
       additional_quote_fields: {
         CPQ_QUOTE_SUBSCRIPTION_START_DATE => now_time_formatted_for_salesforce,
         CPQ_QUOTE_SUBSCRIPTION_TERM => TEST_DEFAULT_CONTRACT_TERM,

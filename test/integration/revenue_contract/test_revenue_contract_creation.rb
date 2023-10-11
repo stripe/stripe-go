@@ -301,7 +301,7 @@ class Critic::RevRecContractCreation < Critic::RevenueContractValidationHelper
 
 
     quote_id = create_salesforce_quote(sf_account_id: sf_account_id,
-                                       contact_email: "integrates_invoice_order"
+                                       contact_email: "integrates_invoice_order_1"
                                       )
 
     quote_with_product = add_product_to_cpq_quote(quote_id, sf_product_id: sf_product_id)

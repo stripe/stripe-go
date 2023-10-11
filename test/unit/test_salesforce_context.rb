@@ -15,7 +15,7 @@ module Critic::Unit
 
       @translator.expects(:create_user_failure).with do |args|
         assert_equal(account, args[:salesforce_object])
-        assert_equal("some error", args[:message])
+        assert_equal("Data Error: some error", args[:message])
       end
 
       # also tests the raw => standard user error conversion
@@ -38,7 +38,7 @@ module Critic::Unit
 
         @translator.expects(:create_user_failure).with do |args|
           assert_equal(account2, args[:salesforce_object])
-          assert_equal("some error", args[:message])
+          assert_equal("Data Error: some error", args[:message])
         end
 
         assert_raises(StripeForce::Errors::UserError) do
@@ -59,7 +59,7 @@ module Critic::Unit
 
         @translator.expects(:create_user_failure).with do |args|
           assert_equal(account, args[:salesforce_object])
-          assert_equal("some error", args[:message])
+          assert_equal("Data Error: some error", args[:message])
         end
 
         assert_raises(StripeForce::Errors::UserError) do
@@ -96,7 +96,7 @@ module Critic::Unit
 
       @translator.expects(:create_user_failure).with do |args|
         assert_equal(order, args[:salesforce_object])
-        assert_equal("some error", args[:message])
+        assert_equal("Data Error: some error", args[:message])
       end
 
       exception = assert_raises(StripeForce::Errors::UserError) do

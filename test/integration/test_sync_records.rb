@@ -16,14 +16,14 @@ class Critic::SyncRecords < Critic::VCRTest
     start_date = now_time
 
     sf_order = create_salesforce_order(
-      contact_email: "sync_record_after_fail",
+      contact_email: "sync_record_after_fail_5",
       additional_quote_fields: {
         CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(start_date),
         # omit subscription term
       }
     )
 
-    exception = assert_raises(Integrations::Errors::MissingRequiredFields) do
+    assert_raises(Integrations::Errors::MissingRequiredFields) do
       SalesforceTranslateRecordJob.translate(@user, sf_order)
     end
 
@@ -36,7 +36,7 @@ class Critic::SyncRecords < Critic::VCRTest
 
     assert_equal(sf_order.Id, sync_record[prefixed_stripe_field(SyncRecordFields::PRIMARY_RECORD_ID.serialize)])
     assert_equal(SyncRecordResolutionStatuses::ERROR.serialize, sync_record[prefixed_stripe_field(SyncRecordFields::RESOLUTION_STATUS.serialize)])
-    assert_match("The following required fields are missing from this Salesforce record: SBQQ__Quote__c.SBQQ__SubscriptionTerm__c", sync_record[prefixed_stripe_field(SyncRecordFields::RESOLUTION_MESSAGE.serialize)])
+    assert_match("Data Error: The following required fields are missing: SBQQ__Quote__c.SBQQ__SubscriptionTerm__c", sync_record[prefixed_stripe_field(SyncRecordFields::RESOLUTION_MESSAGE.serialize)])
 
     # fix the missing subscription term in order to test the sync record upsert & associated trigger
     sf_quote_id = sf_order[SF_ORDER_QUOTE]
@@ -68,10 +68,8 @@ class Critic::SyncRecords < Critic::VCRTest
     }
     @user.save
 
-    sf_product_id, sf_pricebook_id = salesforce_recurring_product_with_price
-    sf_order = create_subscription_order(contact_email: "secondary_id_fail")
-
-    exception = assert_raises(Stripe::InvalidRequestError) do
+    sf_order = create_subscription_order(contact_email: "secondary_id_fail_1")
+    assert_raises(Stripe::InvalidRequestError) do
       SalesforceTranslateRecordJob.translate(@user, sf_order)
     end
 
@@ -90,8 +88,6 @@ class Critic::SyncRecords < Critic::VCRTest
     @user.update(field_defaults: {})
 
     SalesforceTranslateRecordJob.translate(@user, sf_order)
-
-    original_sync_record = sync_record
 
     # after success there would be two records: one for the order line, one for the order, both marked as success
     sync_records = get_sync_records_by_primary_id(sf_order.Id)

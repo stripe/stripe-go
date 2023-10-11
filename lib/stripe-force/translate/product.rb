@@ -25,9 +25,9 @@ class StripeForce::Translate
   def create_product_from_sf_product(sf_product)
     log.info 'translating product', salesforce_object: sf_product
 
-    stripe_product = create_stripe_object(Stripe::Product, sf_product)
+    stripe_product, response = create_stripe_object(Stripe::Product, sf_product)
 
-    update_sf_stripe_id(sf_product, stripe_product)
+    update_sf_stripe_id(sf_product, stripe_product, stripe_response: response)
 
     stripe_product
   end

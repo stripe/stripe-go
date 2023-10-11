@@ -7423,4 +7423,57 @@ http_interactions:
         Price\",\"SBQQ__AdditionalDiscount__c\":0.0,\"SBQQ__Favorite__c\":null,\"SBQQ__PricebookEntryId__c\":\"01u7e00000ItTDBAA3\",\"SBQQ__ProductOption__c\":null,\"SBQQ__OptionDiscountAmount__c\":null,\"SBQQ__TermDiscount__c\":null,\"SBQQ__MarkupAmount__c\":null,\"SBQQ__PartnerDiscount__c\":null,\"SBQQ__ComponentDiscountedByPackage__c\":false,\"SBQQ__Renewal__c\":false,\"SBQQ__CompoundDiscountRate__c\":null,\"SBQQ__UpgradedQuantity__c\":null,\"SBQQ__AdditionalDiscountAmount__c\":null,\"SBQQ__Cost__c\":null,\"SBQQ__PackageProductDescription__c\":null,\"SBQQ__PartnerPrice__c\":120.0,\"SBQQ__DiscountSchedule__c\":null,\"SBQQ__ComponentCost__c\":null,\"SBQQ__SubscribedAssetIds__c\":null,\"SBQQ__SubscriptionScope__c\":\"Quote\",\"SBQQ__Product__r\":{\"attributes\":{\"type\":\"Product2\",\"url\":\"/services/data/v58.0/sobjects/Product2/01t7e000009C7BtAAK\"},\"SBQQ__SubscriptionTerm__c\":1.0,\"ProductCode\":\"EfxBsBKAsjaF0caCUQPWQYJ8h61G\",\"SBQQ__HasConfigurationAttributes__c\":false,\"SBQQ__PricingMethod__c\":\"List\",\"Id\":\"01t7e000009C7BtAAK\",\"Name\":\"SaaS
         Subscription\"},\"SBQQ__SubscriptionBase__c\":\"List\",\"SBQQ__BillingFrequency__c\":null,\"SBQQ__OriginalUnitCost__c\":null,\"SBQQ__Bundle__c\":false,\"SBQQ__Product__c\":\"01t7e000009C7BtAAK\",\"SBQQ__SpecialPrice__c\":120.0,\"SBQQ__PricingMethodEditable__c\":false,\"SBQQ__Uplift__c\":0.0,\"SBQQ__PackageProductCode__c\":null,\"SBQQ__PricingMethod__c\":\"List\",\"SBQQ__SegmentLabel__c\":null,\"SBQQ__AdditionalQuantity__c\":null,\"SBQQ__DiscountScheduleType__c\":null,\"SBQQ__Incomplete__c\":false},\"reconfigurationDisabled\":false,\"productQuantityEditable\":true,\"productHasDimensions\":false,\"key\":2,\"hasConsumptionSchedules\":false,\"effectiveStartDate\":\"2023-08-09\",\"descriptionLocked\":false}],\"lineItemGroups\":[],\"isPartial\":false,\"hasMultiSegmentLines\":false,\"customerTotal\":120.0,\"currencyDecimalScale\":2,\"channelDiscountsOffList\":false,\"calculationRequired\":false,\"applyPartnerDiscountFirst\":false,\"applyAdditionalDiscountLast\":false}"'
   recorded_at: Wed, 09 Aug 2023 00:00:00 GMT
+- request:
+    method: patch
+    uri: https://platform-page-3481-dev-ed.scratch.my.salesforce.com/services/data/v58.0/sobjects/Sync_Record__c/Compound_ID__c/8017e000000nUJzAAM-8017e000000nUJzAAM
+    body:
+      encoding: UTF-8
+      string: '{"Primary_Record_ID__c":"8017e000000nUJzAAM","Primary_Object_Type__c":"Order","Secondary_Record_ID__c":"8017e000000nUJzAAM","Secondary_Object_Type__c":"Order","Resolution_Message__c":"Created
+        Stripe Subscription with Id: sub_1NdFnJIsgf92XbAORo7o7Y64","Resolution_Status__c":"Success","Resolution_Documentation_Link__c":"https://stripe.com/docs/connectors/salesforce-cpq/overview","Stripe_Request_Dashboard_Link__c":null}'
+    headers:
+      User-Agent:
+      - Faraday v2.4.0
+      Content-Type:
+      - application/json
+      Authorization:
+      - OAuth <SALESFORCE_ACCESS_TOKEN>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 201
+      message: Created
+    headers:
+      Date:
+      - Wed, 11 Oct 2023 16:51:49 GMT
+      Set-Cookie:
+      - BrowserId=eINJBGhWEe60SBlzwCoQDg; domain=.salesforce.com; path=/; expires=Thu,
+        10-Oct-2024 16:51:49 GMT; Max-Age=31536000
+      - CookieConsentPolicy=0:1; path=/; expires=Thu, 10-Oct-2024 16:51:49 GMT; Max-Age=31536000
+      - LSKey-c$CookieConsentPolicy=0:1; path=/; expires=Thu, 10-Oct-2024 16:51:49
+        GMT; Max-Age=31536000
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Robots-Tag:
+      - none
+      Cache-Control:
+      - no-cache,must-revalidate,max-age=0,no-store,private
+      Sforce-Limit-Info:
+      - api-usage=355/5000000
+      Location:
+      - "/services/data/v58.0/sobjects/Sync_Record__c/a1W8N000000OCxMUAW"
+      Content-Type:
+      - application/json;charset=UTF-8
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: '{"id":"a1W8N000000OCxMUAW","success":true,"errors":[],"created":true}'
+  recorded_at: Wed, 09 Aug 2023 00:00:00 GMT
 recorded_with: VCR 6.2.0

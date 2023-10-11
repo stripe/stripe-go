@@ -1540,7 +1540,7 @@ class Critic::OrderAmendmentTranslation < Critic::OrderAmendmentFunctionalTest
       # create the initial sf order
       sf_order = create_subscription_order(
         sf_product_id: sf_product_id,
-        contact_email: "sync_three_stacked_backdated_last_term_8",
+        contact_email: "sync_three_stacked_backdated_last_term_10",
         additional_fields: {
           CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(initial_order_start_date),
           CPQ_QUOTE_BILLING_FREQUENCY => CPQBillingFrequencyOptions::ANNUAL.serialize,
@@ -1672,7 +1672,7 @@ class Critic::OrderAmendmentTranslation < Critic::OrderAmendmentFunctionalTest
       # create the initial sf order
       sf_order = create_subscription_order(
         sf_product_id: sf_product_id,
-        contact_email: "syncs_three_stacked_with_quantity_changes_diffruns_4",
+        contact_email: "syncs_three_stacked_with_quantity_changes_diffruns_7",
         additional_fields: {
           CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(initial_order_start_date),
           CPQ_QUOTE_BILLING_FREQUENCY => CPQBillingFrequencyOptions::ANNUAL.serialize,
@@ -1818,7 +1818,7 @@ class Critic::OrderAmendmentTranslation < Critic::OrderAmendmentFunctionalTest
       # create the initial sf order
       sf_order = create_subscription_order(
         sf_product_id: sf_product_id,
-        contact_email: "syncs_two_backdated_amendments_no_duplicates_invoice_items_2",
+        contact_email: "syncs_two_backdated_amendments_no_duplicates_invoice_items_4",
         additional_fields: {
           CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(initial_order_start_date),
           CPQ_QUOTE_BILLING_FREQUENCY => CPQBillingFrequencyOptions::MONTHLY.serialize,
@@ -1918,7 +1918,7 @@ class Critic::OrderAmendmentTranslation < Critic::OrderAmendmentFunctionalTest
       # create the initial sf order
       sf_order = create_subscription_order(
         sf_product_id: sf_product_id,
-        contact_email: "syncs_stacked_with_no_dup_invoice_diffruns_11",
+        contact_email: "syncs_stacked_with_no_dup_invoice_diffruns_13",
         additional_fields: {
           CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(initial_order_start_date),
           CPQ_QUOTE_BILLING_FREQUENCY => CPQBillingFrequencyOptions::ANNUAL.serialize,
@@ -2043,7 +2043,7 @@ class Critic::OrderAmendmentTranslation < Critic::OrderAmendmentFunctionalTest
       # create the initial sf order
       sf_order = create_subscription_order(
         sf_product_id: sf_product_id,
-        contact_email: "syncs_three_stacked_future_amendments_with_no_duplicates_3",
+        contact_email: "syncs_three_stacked_future_amendments_with_no_duplicates_5",
         additional_fields: {
           CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(initial_order_start_date),
           CPQ_QUOTE_BILLING_FREQUENCY => CPQBillingFrequencyOptions::ANNUAL.serialize,

@@ -15343,4 +15343,57 @@ http_interactions:
         for contract #00000394","Description":null,"StageName":"Prospecting","Amount":null,"Probability":10.0,"ExpectedRevenue":null,"TotalOpportunityQuantity":null,"CloseDate":"2023-08-03","Type":null,"NextStep":null,"LeadSource":null,"IsClosed":false,"IsWon":false,"ForecastCategory":"Pipeline","ForecastCategoryName":"Pipeline","CampaignId":null,"HasOpportunityLineItem":false,"Pricebook2Id":null,"OwnerId":"0057e00000VZBcyAAH","CreatedDate":"2023-08-03T07:01:42.000+0000","CreatedById":"0057e00000VZBcyAAH","LastModifiedDate":"2023-08-03T07:01:42.000+0000","LastModifiedById":"0057e00000VZBcyAAH","SystemModstamp":"2023-08-03T07:01:42.000+0000","LastActivityDate":null,"PushCount":0,"LastStageChangeDate":null,"FiscalQuarter":3,"FiscalYear":2023,"Fiscal":"2023
         3","ContactId":null,"LastViewedDate":"2023-08-03T07:01:42.000+0000","LastReferencedDate":"2023-08-03T07:01:42.000+0000","HasOpenActivity":false,"HasOverdueTask":false,"LastAmountChangedHistoryId":null,"LastCloseDateChangedHistoryId":null,"DeliveryInstallationStatus__c":null,"TrackingNumber__c":null,"OrderNumber__c":null,"CurrentGenerators__c":null,"MainCompetitors__c":null,"SBQQ__AmendedContract__c":"8007e000001iCY0AAM","SBQQ__Contracted__c":false,"SBQQ__CreateContractedPrices__c":false,"SBQQ__OrderGroupID__c":null,"SBQQ__Ordered__c":false,"SBQQ__PrimaryQuote__c":"a0z7e00000BDKpkAAH","SBQQ__QuotePricebookId__c":null,"SBQQ__Renewal__c":false,"SBQQ__RenewedContract__c":null,"Stripe_ID__c":null,"Stripe_Dashboard_Link__c":"https://dashboard.stripe.com/test/id/"}'
   recorded_at: Thu, 03 Aug 2023 07:02:51 GMT
+- request:
+    method: patch
+    uri: https://platform-page-3481-dev-ed.scratch.my.salesforce.com/services/data/v58.0/sobjects/Sync_Record__c/Compound_ID__c/8017e000000nRVxAAM-8017e000000nRVxAAM
+    body:
+      encoding: UTF-8
+      string: '{"Primary_Record_ID__c":"8017e000000nRVxAAM","Primary_Object_Type__c":"Order","Secondary_Record_ID__c":"8017e000000nRVxAAM","Secondary_Object_Type__c":"Order","Resolution_Message__c":"Created
+        Stripe Subscription Schedule with Id: sub_sched_1NavYFIsgf92XbAO4URjLQvM","Resolution_Status__c":"Success","Resolution_Documentation_Link__c":"https://stripe.com/docs/connectors/salesforce-cpq/overview","Stripe_Request_Dashboard_Link__c":"https://dashboard.stripe.com/test/logs/req_3obotNIm7Gkvwn"}'
+    headers:
+      User-Agent:
+      - Faraday v2.4.0
+      Content-Type:
+      - application/json
+      Authorization:
+      - OAuth <SALESFORCE_ACCESS_TOKEN>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 201
+      message: Created
+    headers:
+      Date:
+      - Wed, 11 Oct 2023 16:43:31 GMT
+      Set-Cookie:
+      - BrowserId=T7SedmhVEe6W3kHG4LzNJQ; domain=.salesforce.com; path=/; expires=Thu,
+        10-Oct-2024 16:43:31 GMT; Max-Age=31536000
+      - CookieConsentPolicy=0:1; path=/; expires=Thu, 10-Oct-2024 16:43:31 GMT; Max-Age=31536000
+      - LSKey-c$CookieConsentPolicy=0:1; path=/; expires=Thu, 10-Oct-2024 16:43:31
+        GMT; Max-Age=31536000
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Robots-Tag:
+      - none
+      Cache-Control:
+      - no-cache,must-revalidate,max-age=0,no-store,private
+      Sforce-Limit-Info:
+      - api-usage=196/5000000
+      Location:
+      - "/services/data/v58.0/sobjects/Sync_Record__c/a1W8N000000OCvBUAW"
+      Content-Type:
+      - application/json;charset=UTF-8
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: '{"id":"a1W8N000000OCvBUAW","success":true,"errors":[],"created":true}'
+  recorded_at: Thu, 03 Aug 2023 07:00:27 GMT
 recorded_with: VCR 6.2.0

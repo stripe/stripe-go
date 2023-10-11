@@ -17,17 +17,17 @@ class StripeForce::Translate
       # if there is a phase starting *on* the backend_proration start date, then we can simply add the add_invoice_items to that phase
       exact_phase_match = subscription_phases.detect {|p| p.start_date == backend_proration_phase.start_date }
       if exact_phase_match
-        log.info 'exact backend phase match, adding invoice items'
+        log.info 'exact backend phase match, merging invoice items'
         exact_phase_match.add_invoice_items += backend_proration_phase.add_invoice_items
         return subscription_phases
       end
 
-      raise StripeForce::Errors::RawUserError.new("This specific backend prorated order amendment case is not yet supported")
+      raise StripeForce::Errors::RawUserError.new("This backend prorated order amendment case is not yet supported.")
 
-      # is there a phase starting after the backend_proration phase start date? If so, we need to add the backend proration phase
-      # before that phase and set the end date of the backend_proration phase to the start date of the other phase.
+      # Is there a phase starting after the backend_proration phase.start_date? If so, we need to add the backend proration phase
+      # before that phase and set backend_proration phase.end_date to the start date of the other phase.
 
-      # we know there is at least one amendment, so at this point it must be starting before the start date
+      # We know there is at least one amendment, so at this point it must be starting before the start date
       # of the backend proration phase. In this case we need to take the subscription items from that phase
       # and use them instead of the subscription items on the backend proration phase
     end

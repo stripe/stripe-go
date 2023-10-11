@@ -2,7 +2,9 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Resolution_Status__c</fullName>
     <externalId>false</externalId>
-    <label>Resolution Status</label>
+    <label>Sync Status</label>
+    <description>The status of the sync.</description>
+    <inlineHelpText>The sync status which can be one of the following: Success, Error, Skipped, or Resolved.</inlineHelpText>
     <required>false</required>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>

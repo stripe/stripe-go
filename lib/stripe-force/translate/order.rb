@@ -495,14 +495,13 @@ class StripeForce::Translate
 
     sanitize(subscription_schedule)
 
-    subscription_schedule = Stripe::SubscriptionSchedule.create(
-      subscription_schedule.to_hash,
-      @user.stripe_credentials
-    )
+    subscription_schedule, response = @user.stripe_client.request do
+      Stripe::SubscriptionSchedule.create(subscription_schedule.to_hash, @user.stripe_credentials)
+    end
 
     log.info 'stripe subscription schedule created', stripe_subscription_schedule_id: subscription_schedule.id
 
-    update_sf_stripe_id(sf_order, subscription_schedule)
+    update_sf_stripe_id(sf_order, subscription_schedule, stripe_response: response)
     PriceHelpers.auto_archive_prices_on_subscription_schedule(@user, subscription_schedule)
 
     if @user.feature_enabled?(FeatureFlags::STRIPE_REVENUE_CONTRACT)

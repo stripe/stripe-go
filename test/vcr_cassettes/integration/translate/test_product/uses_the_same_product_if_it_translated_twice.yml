@@ -886,4 +886,57 @@ http_interactions:
         per quote line","SBQQ__BatchQuantity__c":null,"SBQQ__BillingFrequency__c":"Monthly","SBQQ__BillingType__c":null,"SBQQ__BlockPricingField__c":"Quantity","SBQQ__ChargeType__c":null,"SBQQ__Component__c":false,"SBQQ__CompoundDiscountRate__c":null,"SBQQ__ConfigurationFieldSet__c":null,"SBQQ__ConfigurationFields__c":null,"SBQQ__ConfigurationFormTitle__c":null,"SBQQ__ConfigurationType__c":null,"SBQQ__ConfigurationValidator__c":null,"SBQQ__ConfiguredCodePattern__c":null,"SBQQ__ConfiguredDescriptionPattern__c":null,"SBQQ__CostEditable__c":false,"SBQQ__CostSchedule__c":null,"SBQQ__CustomConfigurationPage__c":null,"SBQQ__CustomConfigurationRequired__c":false,"SBQQ__CustomerCommunityAvailability__c":null,"SBQQ__DefaultPricingTable__c":null,"SBQQ__DefaultQuantity__c":1.0,"SBQQ__DescriptionLocked__c":false,"SBQQ__DiscountCategory__c":null,"SBQQ__DiscountSchedule__c":null,"SBQQ__DynamicPricingConstraint__c":null,"SBQQ__EnableLargeConfiguration__c":false,"SBQQ__ExcludeFromMaintenance__c":false,"SBQQ__ExcludeFromOpportunity__c":false,"SBQQ__ExternallyConfigurable__c":false,"SBQQ__GenerateContractedPrice__c":null,"SBQQ__HasConfigurationAttributes__c":false,"SBQQ__HasConsumptionSchedule__c":false,"SBQQ__Hidden__c":false,"SBQQ__HidePriceInSearchResults__c":false,"SBQQ__IncludeInMaintenance__c":false,"SBQQ__NewQuoteGroup__c":false,"SBQQ__NonDiscountable__c":false,"SBQQ__NonPartnerDiscountable__c":false,"SBQQ__OptionLayout__c":null,"SBQQ__OptionSelectionMethod__c":"Click","SBQQ__Optional__c":false,"SBQQ__PriceEditable__c":false,"SBQQ__PricingGuidance__c":null,"SBQQ__PricingMethodEditable__c":false,"SBQQ__PricingMethod__c":"List","SBQQ__ProductPictureID__c":null,"SBQQ__QuantityEditable__c":true,"SBQQ__QuantityScale__c":null,"SBQQ__ReconfigurationDisabled__c":false,"SBQQ__RenewalProduct__c":null,"SBQQ__SortOrder__c":null,"SBQQ__Specifications__c":null,"SBQQ__SubscriptionBase__c":"List","SBQQ__SubscriptionCategory__c":null,"SBQQ__SubscriptionPercent__c":null,"SBQQ__SubscriptionPricing__c":"Fixed
         Price","SBQQ__SubscriptionTarget__c":null,"SBQQ__SubscriptionTerm__c":1.0,"SBQQ__SubscriptionType__c":"Renewable","SBQQ__TaxCode__c":null,"SBQQ__Taxable__c":false,"SBQQ__TermDiscountLevel__c":null,"SBQQ__TermDiscountSchedule__c":null,"SBQQ__UpgradeCredit__c":null,"SBQQ__UpgradeRatio__c":null,"SBQQ__UpgradeSource__c":null,"SBQQ__UpgradeTarget__c":null,"SBQQ__ConfigurationEvent__c":null,"Stripe_ID__c":"prod_ON7g4HXIwMKHDY","Stripe_Dashboard_Link__c":"https://dashboard.stripe.com/test/id/prod_ON7g4HXIwMKHDY"}'
   recorded_at: Tue, 01 Aug 2023 00:00:00 GMT
+- request:
+    method: patch
+    uri: https://platform-page-3481-dev-ed.scratch.my.salesforce.com/services/data/v58.0/sobjects/Sync_Record__c/Compound_ID__c/01t7e000009AnKRAA0-01t7e000009AnKRAA0
+    body:
+      encoding: UTF-8
+      string: '{"Primary_Record_ID__c":"01t7e000009AnKRAA0","Primary_Object_Type__c":"Product2","Secondary_Record_ID__c":"01t7e000009AnKRAA0","Secondary_Object_Type__c":"Product2","Resolution_Message__c":"Created
+        Stripe Product with Id: prod_ON7g4HXIwMKHDY","Resolution_Status__c":"Success","Resolution_Documentation_Link__c":"https://stripe.com/docs/connectors/salesforce-cpq/overview","Stripe_Request_Dashboard_Link__c":"https://dashboard.stripe.com/test/logs/req_bOxcUjl2d87dZm"}'
+    headers:
+      User-Agent:
+      - Faraday v2.4.0
+      Content-Type:
+      - application/json
+      Authorization:
+      - OAuth <SALESFORCE_ACCESS_TOKEN>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 201
+      message: Created
+    headers:
+      Date:
+      - Wed, 11 Oct 2023 17:14:06 GMT
+      Set-Cookie:
+      - BrowserId=lZ01I2hZEe60SBlzwCoQDg; domain=.salesforce.com; path=/; expires=Thu,
+        10-Oct-2024 17:14:06 GMT; Max-Age=31536000
+      - CookieConsentPolicy=0:1; path=/; expires=Thu, 10-Oct-2024 17:14:06 GMT; Max-Age=31536000
+      - LSKey-c$CookieConsentPolicy=0:1; path=/; expires=Thu, 10-Oct-2024 17:14:06
+        GMT; Max-Age=31536000
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Robots-Tag:
+      - none
+      Cache-Control:
+      - no-cache,must-revalidate,max-age=0,no-store,private
+      Sforce-Limit-Info:
+      - api-usage=453/5000000
+      Location:
+      - "/services/data/v58.0/sobjects/Sync_Record__c/a1W8N000000OCzmUAG"
+      Content-Type:
+      - application/json;charset=UTF-8
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: '{"id":"a1W8N000000OCzmUAG","success":true,"errors":[],"created":true}'
+  recorded_at: Tue, 01 Aug 2023 00:00:00 GMT
 recorded_with: VCR 6.2.0

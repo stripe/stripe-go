@@ -1530,7 +1530,7 @@ class Critic::ProratedAmendmentTranslation < Critic::OrderAmendmentFunctionalTes
 
   describe 'non-anniversary amendments with day porations' do
     it 'translates non-anniversary amendment order billed monthly with day proration enabled' do
-      # Note either feature DAY_PRORATIONS should only be enabled or connector settings needs to be set to 'month_day" 
+      # Note either feature DAY_PRORATIONS should only be enabled or connector settings needs to be set to 'month_day"
       # for connector to use PQ Subscription Prorate Precision is set to 'Month + Day'
       @user.disable_feature FeatureFlags::DAY_PRORATIONS, update: true
       @user.connector_settings[CONNECTOR_SETTING_CPQ_PRORATE_PRECISION] = 'month+day'

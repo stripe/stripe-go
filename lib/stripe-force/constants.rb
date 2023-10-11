@@ -125,6 +125,8 @@ module StripeForce
     ORDER_SUBSCRIPTION_PAYMENT_LINK = 'Stripe_Subscription_Payment_Link__c'
 
     SYNC_RECORD = 'Sync_Record__c'
+    STRIPE_OVERVIEW_DOCUMENTATION_LINK = 'https://stripe.com/docs/connectors/salesforce-cpq/overview'
+    STRIPE_ERROR_HANDLING_DOCUMENTATION_LINK = 'https://stripe.com/docs/connectors/salesforce-cpq/error-handling'
 
     class SalesforceStripeCouponFields < T::Enum
      enums do
@@ -150,6 +152,8 @@ module StripeForce
 
         RESOLUTION_MESSAGE = new("Resolution_Message__c")
         RESOLUTION_STATUS = new("Resolution_Status__c")
+        RESOLUTION_DOCUMENTATION_LINK = new("Resolution_Documentation_Link__c")
+        STRIPE_REQUEST_DASHBOARD_LINK = new("Stripe_Request_Dashboard_Link__c")
       end
     end
 

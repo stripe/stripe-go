@@ -123,7 +123,7 @@ class Critic::EvergreenAmendmentTest < Critic::OrderAmendmentFunctionalTest
     assert_equal(Time.parse(order_end_date).to_i, subscription.cancel_at)
 
     # Fast forward few days to observe cancelation
-    test_clock = advance_test_clock(stripe_customer, (current_time + 5.day).to_i)
+    _test_clock = advance_test_clock(stripe_customer, (current_time + 5.day).to_i)
 
     canceled_subscription = Stripe::Subscription.retrieve(stripe_id, @user.stripe_credentials)
 

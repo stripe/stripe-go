@@ -31,7 +31,7 @@ class Critic::OrderTranslation < Critic::VCRTest
     sf_order = create_salesforce_order(
       sf_product_id: sf_product_id,
       sf_account_id: sf_account_id,
-      contact_email: "standard_sub_order",
+      contact_email: "standard_sub_order_3",
       additional_quote_fields: {
         CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(start_date),
         CPQ_QUOTE_SUBSCRIPTION_TERM => subscription_term,
@@ -248,7 +248,7 @@ class Critic::OrderTranslation < Critic::VCRTest
 
     quote_id = create_salesforce_quote(
       sf_account_id: sf_account_id,
-      contact_email: "sub_multiple_lines",
+      contact_email: "sub_multiple_lines_1",
       additional_quote_fields: {
         CPQ_QUOTE_SUBSCRIPTION_START_DATE => now_time_formatted_for_salesforce,
         CPQ_QUOTE_SUBSCRIPTION_TERM => 12.0,
@@ -323,7 +323,7 @@ class Critic::OrderTranslation < Critic::VCRTest
     sf_order = create_salesforce_order(
       sf_product_id: sf_product_id,
       sf_account_id: sf_account_id,
-      contact_email: "standard_sub_order_1",
+      contact_email: "standard_sub_order_6",
       additional_quote_fields: {
         CPQ_QUOTE_SUBSCRIPTION_START_DATE => now_time_formatted_for_salesforce,
         CPQ_QUOTE_SUBSCRIPTION_TERM => TEST_DEFAULT_CONTRACT_TERM,

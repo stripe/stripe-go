@@ -4618,4 +4618,57 @@ http_interactions:
           "unit_amount_decimal": "1000"
         }
   recorded_at: Tue, 01 Aug 2023 00:00:00 GMT
+- request:
+    method: patch
+    uri: https://platform-page-3481-dev-ed.scratch.my.salesforce.com/services/data/v58.0/sobjects/Sync_Record__c/Compound_ID__c/8017e000000nQ7cAAE-8017e000000nQ7cAAE
+    body:
+      encoding: UTF-8
+      string: '{"Primary_Record_ID__c":"8017e000000nQ7cAAE","Primary_Object_Type__c":"Order","Secondary_Record_ID__c":"8017e000000nQ7cAAE","Secondary_Object_Type__c":"Order","Resolution_Message__c":"Created
+        Stripe Subscription Schedule with Id: sub_sched_1NaOrcIsgf92XbAO8dEMKYKB","Resolution_Status__c":"Success","Resolution_Documentation_Link__c":"https://stripe.com/docs/connectors/salesforce-cpq/overview","Stripe_Request_Dashboard_Link__c":"https://dashboard.stripe.com/test/logs/req_KIRJwvnhCAQ5SA"}'
+    headers:
+      User-Agent:
+      - Faraday v2.4.0
+      Content-Type:
+      - application/json
+      Authorization:
+      - OAuth <SALESFORCE_ACCESS_TOKEN>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 201
+      message: Created
+    headers:
+      Date:
+      - Wed, 11 Oct 2023 16:50:50 GMT
+      Set-Cookie:
+      - BrowserId=VXwAYWhWEe6U8H9IkAI6-A; domain=.salesforce.com; path=/; expires=Thu,
+        10-Oct-2024 16:50:50 GMT; Max-Age=31536000
+      - CookieConsentPolicy=0:1; path=/; expires=Thu, 10-Oct-2024 16:50:50 GMT; Max-Age=31536000
+      - LSKey-c$CookieConsentPolicy=0:1; path=/; expires=Thu, 10-Oct-2024 16:50:50
+        GMT; Max-Age=31536000
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Robots-Tag:
+      - none
+      Cache-Control:
+      - no-cache,must-revalidate,max-age=0,no-store,private
+      Sforce-Limit-Info:
+      - api-usage=323/5000000
+      Location:
+      - "/services/data/v58.0/sobjects/Sync_Record__c/a1W8N000000OCw4UAG"
+      Content-Type:
+      - application/json;charset=UTF-8
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: '{"id":"a1W8N000000OCw4UAG","success":true,"errors":[],"created":true}'
+  recorded_at: Tue, 01 Aug 2023 00:00:00 GMT
 recorded_with: VCR 6.2.0

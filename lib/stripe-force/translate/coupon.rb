@@ -30,14 +30,14 @@ class StripeForce::Translate
     end
 
     # create a new stripe coupon
-    stripe_coupon = create_stripe_object(Stripe::Coupon, order_sf_coupon) do |stripe_coupon_data|
+    stripe_coupon, response = create_stripe_object(Stripe::Coupon, order_sf_coupon) do |stripe_coupon_data|
       sanitize_stripe_coupon(stripe_coupon_data)
     end
 
     # update the sf order coupon stripe id
-    update_sf_stripe_id(order_sf_coupon, stripe_coupon)
+    update_sf_stripe_id(order_sf_coupon, stripe_coupon, stripe_response: response)
     # also update the quote sf coupon stripe id so the same coupon object can be reused in another quote
-    update_sf_stripe_id(quote_sf_coupon, stripe_coupon)
+    update_sf_stripe_id(quote_sf_coupon, stripe_coupon, stripe_response: response)
 
     stripe_coupon
   end

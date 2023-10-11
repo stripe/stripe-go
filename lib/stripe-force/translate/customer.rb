@@ -24,7 +24,7 @@ class StripeForce::Translate
   def create_customer_from_sf_account(sf_account)
     log.info 'translating customer', salesforce_object: sf_account
 
-    customer = create_stripe_object(Stripe::Customer, sf_account) do |generated_stripe_customer|
+    customer, response = create_stripe_object(Stripe::Customer, sf_account) do |generated_stripe_customer|
       if @user.feature_enabled?(FeatureFlags::TEST_CLOCKS) && !@user.livemode
         log.debug 'adding test clock to customer'
 
@@ -36,7 +36,7 @@ class StripeForce::Translate
       end
     end
 
-    update_sf_stripe_id(sf_account, customer)
+    update_sf_stripe_id(sf_account, customer, stripe_response: response)
 
     customer
   end

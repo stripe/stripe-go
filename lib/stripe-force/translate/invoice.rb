@@ -18,22 +18,20 @@ class StripeForce::Translate
       )
     end
 
-    stripe_invoice = create_stripe_object(
+    stripe_invoice, response = create_stripe_object(
       Stripe::Invoice, sf_order,
       additional_stripe_params: {
         customer: stripe_customer.id,
       }
     )
 
-    stripe_invoice.finalize_invoice(
-      {},
-      @user.stripe_credentials
-    )
+    stripe_invoice.finalize_invoice({}, @user.stripe_credentials)
 
     log.info 'stripe invoice created', stripe_resource_id: stripe_invoice.id
 
     update_sf_stripe_id(
       sf_order, stripe_invoice,
+      stripe_response: response,
       additional_salesforce_updates: {
         prefixed_stripe_field(ORDER_INVOICE_PAYMENT_LINK) => stripe_invoice.hosted_invoice_url,
       }

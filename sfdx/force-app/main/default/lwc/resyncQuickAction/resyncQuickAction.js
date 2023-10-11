@@ -9,7 +9,7 @@ export default class ResyncQuickAction extends LightningElement {
 
     @api async invoke() {
         if (this.isExecuting) {
-            this.showToast('Resync Error', 'A resync is already in process', 'error');
+            this.showToast('Resync Error', 'A resync is already in process.', 'error');
             return;
         }
         try { 
@@ -19,9 +19,9 @@ export default class ResyncQuickAction extends LightningElement {
             });
             const responseData =  JSON.parse(manualRetryRequest);
             if(responseData.isSuccess && responseData.results.isSyncRecordDispactched) {
-                this.showToast('Resync Successfully Scheduled', 'This record has successfully been scheduled for resynchronization', 'success');
+                this.showToast('Resync successfully scheduled', 'This record has successfully been scheduled for resynchronization.', 'success');
             } else if(!responseData.results.isSyncRecordDispactched) {
-                this.showToast('Resync Error', 'There was an error scheduling the resynchronization, please try again', 'error');
+                this.showToast('Resync Error', 'There was an error scheduling the resynchronization, please try again.', 'error');
             } else {
                 this.showToast('Resync Error', responseData.error, 'error');
             }

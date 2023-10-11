@@ -6688,4 +6688,110 @@ http_interactions:
           "test_clock": null
         }
   recorded_at: Wed, 04 Oct 2023 15:57:59 GMT
+- request:
+    method: patch
+    uri: https://platform-page-3481-dev-ed.scratch.my.salesforce.com/services/data/v58.0/sobjects/Sync_Record__c/Compound_ID__c/8018N0000002zHBQAY-8018N0000002zHBQAY
+    body:
+      encoding: UTF-8
+      string: '{"Primary_Record_ID__c":"8018N0000002zHBQAY","Primary_Object_Type__c":"Order","Secondary_Record_ID__c":"8018N0000002zHBQAY","Secondary_Object_Type__c":"Order","Resolution_Message__c":"Created
+        Stripe Subscription Schedule with Id: sub_sched_1NxXSEIsgf92XbAOXNSmc6yM","Resolution_Status__c":"Success","Resolution_Documentation_Link__c":"https://stripe.com/docs/connectors/salesforce-cpq/overview","Stripe_Request_Dashboard_Link__c":"https://dashboard.stripe.com/test/logs/req_mOPrcJArgeRFNY"}'
+    headers:
+      User-Agent:
+      - Faraday v2.4.0
+      Content-Type:
+      - application/json
+      Authorization:
+      - OAuth <SALESFORCE_ACCESS_TOKEN>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Wed, 11 Oct 2023 18:19:46 GMT
+      Set-Cookie:
+      - BrowserId=wiv8CmhiEe6xZi1_EmE6zA; domain=.salesforce.com; path=/; expires=Thu,
+        10-Oct-2024 18:19:46 GMT; Max-Age=31536000
+      - CookieConsentPolicy=0:1; path=/; expires=Thu, 10-Oct-2024 18:19:46 GMT; Max-Age=31536000
+      - LSKey-c$CookieConsentPolicy=0:1; path=/; expires=Thu, 10-Oct-2024 18:19:46
+        GMT; Max-Age=31536000
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Robots-Tag:
+      - none
+      Cache-Control:
+      - no-cache,must-revalidate,max-age=0,no-store,private
+      Sforce-Limit-Info:
+      - api-usage=615/5000000
+      Location:
+      - "/services/data/v58.0/sobjects/Sync_Record__c/a1W8N000000O6AsUAK"
+      Content-Type:
+      - application/json;charset=UTF-8
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: '{"id":"a1W8N000000O6AsUAK","success":true,"errors":[],"created":false}'
+  recorded_at: Wed, 04 Oct 2023 15:57:27 GMT
+- request:
+    method: patch
+    uri: https://platform-page-3481-dev-ed.scratch.my.salesforce.com/services/data/v58.0/sobjects/Sync_Record__c/Compound_ID__c/8018N0000002zHPQAY-8018N0000002zHPQAY
+    body:
+      encoding: UTF-8
+      string: '{"Primary_Record_ID__c":"8018N0000002zHPQAY","Primary_Object_Type__c":"Order","Secondary_Record_ID__c":"8018N0000002zHPQAY","Secondary_Object_Type__c":"Order","Resolution_Message__c":"Created
+        Stripe Subscription Schedule with Id: sub_sched_1NxXSTIsgf92XbAOWWaAow8W","Resolution_Status__c":"Success","Resolution_Documentation_Link__c":"https://stripe.com/docs/connectors/salesforce-cpq/overview","Stripe_Request_Dashboard_Link__c":"https://dashboard.stripe.com/test/logs/req_j4N4jGyZk3GWAi"}'
+    headers:
+      User-Agent:
+      - Faraday v2.4.0
+      Content-Type:
+      - application/json
+      Authorization:
+      - OAuth <SALESFORCE_ACCESS_TOKEN>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Wed, 11 Oct 2023 18:19:47 GMT
+      Set-Cookie:
+      - BrowserId=wltJbGhiEe6ZwD9he9kTig; domain=.salesforce.com; path=/; expires=Thu,
+        10-Oct-2024 18:19:47 GMT; Max-Age=31536000
+      - CookieConsentPolicy=0:1; path=/; expires=Thu, 10-Oct-2024 18:19:47 GMT; Max-Age=31536000
+      - LSKey-c$CookieConsentPolicy=0:1; path=/; expires=Thu, 10-Oct-2024 18:19:47
+        GMT; Max-Age=31536000
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Robots-Tag:
+      - none
+      Cache-Control:
+      - no-cache,must-revalidate,max-age=0,no-store,private
+      Sforce-Limit-Info:
+      - api-usage=615/5000000
+      Location:
+      - "/services/data/v58.0/sobjects/Sync_Record__c/a1W8N000000O6AxUAK"
+      Content-Type:
+      - application/json;charset=UTF-8
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: '{"id":"a1W8N000000O6AxUAK","success":true,"errors":[],"created":false}'
+  recorded_at: Wed, 04 Oct 2023 15:57:27 GMT
 recorded_with: VCR 6.2.0

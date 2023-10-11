@@ -135,7 +135,7 @@ class StripeForce::Translate
       # this exception indicates an error that is safe to display to the user
       create_user_failure(
         salesforce_object: @secondary_salesforce_object || @origin_salesforce_object,
-        message: e.message,
+        message: "Data Error: " + e.message,
         error: e
       )
 
@@ -145,7 +145,7 @@ class StripeForce::Translate
       create_user_failure(
         # in the case of missing fields, we know *exactly* which fields are missing
         salesforce_object: e.salesforce_object,
-        message: "The following required fields are missing from this Salesforce record: #{e.missing_salesforce_fields.join(', ')}",
+        message: "Data Error: The following required fields are missing: #{e.missing_salesforce_fields.join(', ')}",
         error: e
       )
 
@@ -153,21 +153,20 @@ class StripeForce::Translate
     rescue Restforce::ResponseError => e
       create_user_failure(
         salesforce_object: @secondary_salesforce_object || @origin_salesforce_object,
-        message: e.message,
+        message: "Salesforce Error: " + e.message,
         error: e
       )
 
       raise
     rescue Stripe::StripeError => e
       # TODO probably remove this in the future, but I want to understand the error code details that are coming through
-      log.warn 'stripe api error',
-        code: e.code,
-        message: e.message
+      log.warn 'stripe api error', code: e.code, message: e.message
 
       create_user_failure(
         salesforce_object: @secondary_salesforce_object || @origin_salesforce_object,
-        message: "Stripe error occurred: #{e.message} #{e.request_id}",
-        error: e
+        message: "Stripe Error: #{e.message}",
+        error: e,
+        request_id: e.request_id
       )
 
       raise
@@ -175,7 +174,7 @@ class StripeForce::Translate
       if @user.feature_enabled?(FeatureFlags::CATCH_ALL_ERRORS) && e.class != Integrations::Errors::LockTimeout
         create_user_failure(
           salesforce_object: @secondary_salesforce_object || @origin_salesforce_object,
-          message: "Translation error occurred",
+          message: "Connector error: Translation error occurred.",
           error: e
         )
       else
@@ -218,8 +217,8 @@ class StripeForce::Translate
     "#{prefix}#{suffix}"
   end
 
-  sig { params(salesforce_object: Restforce::SObject, message: String, error: T.nilable(Exception)).void }
-  def create_user_failure(salesforce_object:, message:, error: nil)
+  sig { params(salesforce_object: Restforce::SObject, message: String, error: T.nilable(Exception), request_id: T.nilable(String)).void }
+  def create_user_failure(salesforce_object:, message:, error: nil, request_id: nil)
     if @origin_salesforce_object&.Id.blank?
       raise "origin salesforce object is blank, cannot record error"
     end
@@ -257,6 +256,8 @@ class StripeForce::Translate
 
           SyncRecordFields::RESOLUTION_MESSAGE => message,
           SyncRecordFields::RESOLUTION_STATUS => SyncRecordResolutionStatuses::ERROR,
+          SyncRecordFields::RESOLUTION_DOCUMENTATION_LINK => STRIPE_ERROR_HANDLING_DOCUMENTATION_LINK,
+          SyncRecordFields::STRIPE_REQUEST_DASHBOARD_LINK => create_stripe_request_dashboard_link(request_id),
         }.transform_keys(&:serialize).transform_keys(&method(:prefixed_stripe_field))
       )
     end
@@ -264,8 +265,17 @@ class StripeForce::Translate
     log.debug 'sync record created', sync_record_id: sf_sync_record_id
   end
 
-  sig { params(salesforce_object: Restforce::SObject, stripe_object: Stripe::APIResource).void }
-  def create_user_success(salesforce_object:, stripe_object:)
+  def create_stripe_request_dashboard_link(stripe_request_id)
+    stripe_request_dashboard_link = nil
+    if stripe_request_id.present?
+      stripe_mode = @user.livemode ? '' : 'test/'
+      stripe_request_dashboard_link = "https://dashboard.stripe.com/" + stripe_mode + "logs/" + stripe_request_id
+    end
+
+    stripe_request_dashboard_link
+  end
+  sig { params(salesforce_object: Restforce::SObject, stripe_object: Stripe::APIResource, stripe_request_id: String).void }
+  def create_user_success(salesforce_object:, stripe_object:, stripe_request_id:)
     if @origin_salesforce_object&.Id.blank?
       raise "origin salesforce object is blank, cannot record success"
     end
@@ -279,7 +289,7 @@ class StripeForce::Translate
       return
     end
 
-    message = "Sync Successful, created Stripe #{stripe_object.class.to_s.demodulize.titleize} Object with ID: #{stripe_object.id}"
+    message = "Created Stripe #{stripe_object.class.to_s.demodulize.titleize} with Id: #{stripe_object.id}"
 
     log.info 'translation success', {
       metric: 'translation.success',
@@ -296,6 +306,7 @@ class StripeForce::Translate
     # interestingly enough, if the external ID field does not exist we'll get a NOT_FOUND response
     # https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/dome_upsert.htm
 
+    # generate the Stripe request dashboard link\
     backoff do
       sf.upsert!(
         prefixed_stripe_field(SYNC_RECORD),
@@ -311,6 +322,8 @@ class StripeForce::Translate
 
           SyncRecordFields::RESOLUTION_MESSAGE => message,
           SyncRecordFields::RESOLUTION_STATUS => SyncRecordResolutionStatuses::SUCCESS,
+          SyncRecordFields::RESOLUTION_DOCUMENTATION_LINK => STRIPE_OVERVIEW_DOCUMENTATION_LINK,
+          SyncRecordFields::STRIPE_REQUEST_DASHBOARD_LINK => create_stripe_request_dashboard_link(stripe_request_id),
         }.transform_keys(&:serialize).transform_keys(&method(:prefixed_stripe_field))
       )
     end
@@ -338,8 +351,8 @@ class StripeForce::Translate
     raise error
   end
 
-  sig { params(sf_object: T.untyped, stripe_object: Stripe::APIResource, additional_salesforce_updates: Hash).void }
-  def update_sf_stripe_id(sf_object, stripe_object, additional_salesforce_updates: {})
+  sig { params(sf_object: T.untyped, stripe_object: Stripe::APIResource, stripe_response: T.nilable(Stripe::StripeResponseBase), additional_salesforce_updates: Hash).void }
+  def update_sf_stripe_id(sf_object, stripe_object, stripe_response: nil, additional_salesforce_updates: {})
     stripe_id_field = prefixed_stripe_field(GENERIC_STRIPE_ID)
     stripe_object_id = stripe_object.id
     if sf_object[stripe_id_field]
@@ -363,9 +376,11 @@ class StripeForce::Translate
       }.merge(additional_salesforce_updates))
     end
 
+    stripe_request_id = stripe_response ? stripe_response.request_id : ""
     create_user_success(
       salesforce_object: sf_object,
-      stripe_object: stripe_object
+      stripe_object: stripe_object,
+      stripe_request_id: stripe_request_id
     )
 
     # the cached object is missing the new Stripe ID field value, we could append but it's safer to invalidate and refetch when needed.
@@ -434,16 +449,15 @@ class StripeForce::Translate
     # and then converting the finalized object into a parameters hash. However, without using `construct_from`
     # we'd have to pass the object type around when mapping which is equally as bad.
 
-    created_stripe_object = catch_errors_with_salesforce_context(secondary: sf_object) do
-      stripe_class.create(
-        stripe_object.to_hash,
-        @user.stripe_credentials
-      )
+    created_stripe_object, response = catch_errors_with_salesforce_context(secondary: sf_object) do
+      @user.stripe_client.request do
+        stripe_class.create(stripe_object.to_hash, @user.stripe_credentials)
+      end
     end
 
     log.info 'created stripe object', stripe_id: created_stripe_object.id
 
-    created_stripe_object
+    [created_stripe_object, response]
   end
 
   sig { params(stripe_class: T.class_of(Stripe::APIResource), sf_object: Restforce::SObject).returns(T.nilable(Stripe::APIResource)) }

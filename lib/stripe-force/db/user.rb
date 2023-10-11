@@ -72,6 +72,10 @@ module StripeForce
       end
     end
 
+    def stripe_client
+      @stripe_client ||= Stripe::StripeClient.new
+    end
+
     def sf_client
       optional_client_params = {}
 

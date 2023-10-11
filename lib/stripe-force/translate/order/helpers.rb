@@ -95,7 +95,7 @@ class StripeForce::Translate
         if raw_days_until_due % 1 == 0
           return raw_days_until_due.to_i
         end
-        raise StripeForce::Errors::RawUserError.new("Unexpected float for days_until_due option: #{raw_days_until_due}")
+        raise StripeForce::Errors::RawUserError.new("Unsupported field value for days_until_due: #{raw_days_until_due}")
       end
 
       if raw_days_until_due.strip =~ /^[0-9]+$/
@@ -107,7 +107,7 @@ class StripeForce::Translate
       raw_days = raw_days_until_due[/(?<=Net[- ]).*/, 0]
 
       unless raw_days
-        raise StripeForce::Errors::RawUserError.new("Recieved unexpected days_until_due option: #{raw_days_until_due}")
+        raise StripeForce::Errors::RawUserError.new("Unsupported field value for days_until_due: #{raw_days_until_due}")
       end
 
       unless [15, 30, 45, 60, 90].include?(raw_days.to_i)

@@ -251,7 +251,7 @@ class StripeForce::Translate
     if !upper_bound.nil? && !Integrations::Utilities::StripeUtil.is_integer_value?(upper_bound)
       throw_user_failure!(
         salesforce_object: sf_consumption_rate,
-        message: "Decimal value provided for tier bound. Ensure all tier bounds are integers."
+        message: "Decimal value provided for upper tier bound. Consumption rate tier bounds should be integers."
       )
     end
 
