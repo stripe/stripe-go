@@ -251,17 +251,17 @@ const (
 )
 
 // The decision before the exception was applied.
-type IssuingCreditUnderwritingRecordExceptionOriginalDecisionType string
+type IssuingCreditUnderwritingRecordUnderwritingExceptionOriginalDecisionType string
 
-// List of values that IssuingCreditUnderwritingRecordExceptionOriginalDecisionType can take
+// List of values that IssuingCreditUnderwritingRecordUnderwritingExceptionOriginalDecisionType can take
 const (
-	IssuingCreditUnderwritingRecordExceptionOriginalDecisionTypeAdditionalInformationRequested IssuingCreditUnderwritingRecordExceptionOriginalDecisionType = "additional_information_requested"
-	IssuingCreditUnderwritingRecordExceptionOriginalDecisionTypeApplicationRejected            IssuingCreditUnderwritingRecordExceptionOriginalDecisionType = "application_rejected"
-	IssuingCreditUnderwritingRecordExceptionOriginalDecisionTypeCreditLimitApproved            IssuingCreditUnderwritingRecordExceptionOriginalDecisionType = "credit_limit_approved"
-	IssuingCreditUnderwritingRecordExceptionOriginalDecisionTypeCreditLimitDecreased           IssuingCreditUnderwritingRecordExceptionOriginalDecisionType = "credit_limit_decreased"
-	IssuingCreditUnderwritingRecordExceptionOriginalDecisionTypeCreditLineClosed               IssuingCreditUnderwritingRecordExceptionOriginalDecisionType = "credit_line_closed"
-	IssuingCreditUnderwritingRecordExceptionOriginalDecisionTypeNoChanges                      IssuingCreditUnderwritingRecordExceptionOriginalDecisionType = "no_changes"
-	IssuingCreditUnderwritingRecordExceptionOriginalDecisionTypeWithdrawnByApplicant           IssuingCreditUnderwritingRecordExceptionOriginalDecisionType = "withdrawn_by_applicant"
+	IssuingCreditUnderwritingRecordUnderwritingExceptionOriginalDecisionTypeAdditionalInformationRequested IssuingCreditUnderwritingRecordUnderwritingExceptionOriginalDecisionType = "additional_information_requested"
+	IssuingCreditUnderwritingRecordUnderwritingExceptionOriginalDecisionTypeApplicationRejected            IssuingCreditUnderwritingRecordUnderwritingExceptionOriginalDecisionType = "application_rejected"
+	IssuingCreditUnderwritingRecordUnderwritingExceptionOriginalDecisionTypeCreditLimitApproved            IssuingCreditUnderwritingRecordUnderwritingExceptionOriginalDecisionType = "credit_limit_approved"
+	IssuingCreditUnderwritingRecordUnderwritingExceptionOriginalDecisionTypeCreditLimitDecreased           IssuingCreditUnderwritingRecordUnderwritingExceptionOriginalDecisionType = "credit_limit_decreased"
+	IssuingCreditUnderwritingRecordUnderwritingExceptionOriginalDecisionTypeCreditLineClosed               IssuingCreditUnderwritingRecordUnderwritingExceptionOriginalDecisionType = "credit_line_closed"
+	IssuingCreditUnderwritingRecordUnderwritingExceptionOriginalDecisionTypeNoChanges                      IssuingCreditUnderwritingRecordUnderwritingExceptionOriginalDecisionType = "no_changes"
+	IssuingCreditUnderwritingRecordUnderwritingExceptionOriginalDecisionTypeWithdrawnByApplicant           IssuingCreditUnderwritingRecordUnderwritingExceptionOriginalDecisionType = "withdrawn_by_applicant"
 )
 
 // Retrieves a CreditUnderwritingRecord object.
@@ -381,6 +381,14 @@ type IssuingCreditUnderwritingRecordCreateFromProactiveReviewDecisionParams stru
 	Type *string `form:"type"`
 }
 
+// If an exception to the usual underwriting criteria was made for this decision, details about the exception must be provided. Exceptions should only be granted in rare circumstances, in consultation with Stripe Compliance.
+type IssuingCreditUnderwritingRecordCreateFromProactiveReviewUnderwritingExceptionParams struct {
+	// Written explanation for the exception.
+	Explanation *string `form:"explanation"`
+	// The decision before the exception was applied.
+	OriginalDecisionType *string `form:"original_decision_type"`
+}
+
 // Creates a CreditUnderwritingRecord object from an underwriting decision coming from a proactive review of an existing accountholder
 type IssuingCreditUnderwritingRecordCreateFromProactiveReviewParams struct {
 	Params `form:"*"`
@@ -394,6 +402,8 @@ type IssuingCreditUnderwritingRecordCreateFromProactiveReviewParams struct {
 	Expand []*string `form:"expand"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
+	// If an exception to the usual underwriting criteria was made for this decision, details about the exception must be provided. Exceptions should only be granted in rare circumstances, in consultation with Stripe Compliance.
+	UnderwritingException *IssuingCreditUnderwritingRecordCreateFromProactiveReviewUnderwritingExceptionParams `form:"underwriting_exception"`
 }
 
 // AddExpand appends a new field to expand.
@@ -436,6 +446,14 @@ type IssuingCreditUnderwritingRecordReportDecisionDecisionParams struct {
 	Type *string `form:"type"`
 }
 
+// If an exception to the usual underwriting criteria was made for this decision, details about the exception must be provided. Exceptions should only be granted in rare circumstances, in consultation with Stripe Compliance.
+type IssuingCreditUnderwritingRecordReportDecisionUnderwritingExceptionParams struct {
+	// Written explanation for the exception.
+	Explanation *string `form:"explanation"`
+	// The decision before the exception was applied.
+	OriginalDecisionType *string `form:"original_decision_type"`
+}
+
 // Update a CreditUnderwritingRecord object from an decision made on a credit application
 type IssuingCreditUnderwritingRecordReportDecisionParams struct {
 	Params `form:"*"`
@@ -447,6 +465,8 @@ type IssuingCreditUnderwritingRecordReportDecisionParams struct {
 	Expand []*string `form:"expand"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
+	// If an exception to the usual underwriting criteria was made for this decision, details about the exception must be provided. Exceptions should only be granted in rare circumstances, in consultation with Stripe Compliance.
+	UnderwritingException *IssuingCreditUnderwritingRecordReportDecisionUnderwritingExceptionParams `form:"underwriting_exception"`
 }
 
 // AddExpand appends a new field to expand.
@@ -531,6 +551,14 @@ type IssuingCreditUnderwritingRecordCorrectDecisionParams struct {
 	Type *string `form:"type"`
 }
 
+// If an exception to the usual underwriting criteria was made for this decision, details about the exception must be provided. Exceptions should only be granted in rare circumstances, in consultation with Stripe Compliance.
+type IssuingCreditUnderwritingRecordCorrectUnderwritingExceptionParams struct {
+	// Written explanation for the exception.
+	Explanation *string `form:"explanation"`
+	// The decision before the exception was applied.
+	OriginalDecisionType *string `form:"original_decision_type"`
+}
+
 // Update a CreditUnderwritingRecord object to correct mistakes
 type IssuingCreditUnderwritingRecordCorrectParams struct {
 	Params `form:"*"`
@@ -546,6 +574,8 @@ type IssuingCreditUnderwritingRecordCorrectParams struct {
 	Expand []*string `form:"expand"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
+	// If an exception to the usual underwriting criteria was made for this decision, details about the exception must be provided. Exceptions should only be granted in rare circumstances, in consultation with Stripe Compliance.
+	UnderwritingException *IssuingCreditUnderwritingRecordCorrectUnderwritingExceptionParams `form:"underwriting_exception"`
 }
 
 // AddExpand appends a new field to expand.
@@ -629,11 +659,11 @@ type IssuingCreditUnderwritingRecordDecision struct {
 }
 
 // If an exception to the usual underwriting criteria was made for this application, details about the exception must be provided. Exceptions should only be granted in rare circumstances, in consultation with Stripe Compliance.
-type IssuingCreditUnderwritingRecordException struct {
-	// The decision before the exception was applied.
-	OriginalDecisionType IssuingCreditUnderwritingRecordExceptionOriginalDecisionType `json:"original_decision_type"`
+type IssuingCreditUnderwritingRecordUnderwritingException struct {
 	// Written explanation for the exception.
-	Reason string `json:"reason"`
+	Explanation string `json:"explanation"`
+	// The decision before the exception was applied.
+	OriginalDecisionType IssuingCreditUnderwritingRecordUnderwritingExceptionOriginalDecisionType `json:"original_decision_type"`
 }
 
 // Every time an applicant submits an application for a Charge Card product your Platform offers, or every time your Platform takes a proactive credit decision on an existing account, you must record the decision by creating a new CreditUnderwritingRecord object on a Connected account.
@@ -654,8 +684,6 @@ type IssuingCreditUnderwritingRecord struct {
 	Decision *IssuingCreditUnderwritingRecordDecision `json:"decision"`
 	// For underwriting initiated by an application, a decision must be taken 30 days after the submission.
 	DecisionDeadline int64 `json:"decision_deadline"`
-	// If an exception to the usual underwriting criteria was made for this application, details about the exception must be provided. Exceptions should only be granted in rare circumstances, in consultation with Stripe Compliance.
-	Exception *IssuingCreditUnderwritingRecordException `json:"exception"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
@@ -664,6 +692,8 @@ type IssuingCreditUnderwritingRecord struct {
 	Metadata map[string]string `json:"metadata"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
+	// If an exception to the usual underwriting criteria was made for this application, details about the exception must be provided. Exceptions should only be granted in rare circumstances, in consultation with Stripe Compliance.
+	UnderwritingException *IssuingCreditUnderwritingRecordUnderwritingException `json:"underwriting_exception"`
 }
 
 // IssuingCreditUnderwritingRecordList is a list of CreditUnderwritingRecords as retrieved from a list endpoint.
