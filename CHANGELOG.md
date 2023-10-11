@@ -1,5 +1,16 @@
 # Changelog
 
+## 75.10.0 - 2023-10-11
+* [#1746](https://github.com/stripe/stripe-go/pull/1746) Update generated code
+  * Add support for `RedirectOnCompletion`, `ReturnURL`, and `UIMode` on `CheckoutSessionParams` and `CheckoutSession`
+  * Add support for `ClientSecret` on `CheckoutSession`
+  * Change type of `CheckoutSessionCustomFieldsDropdown` from `nullable(PaymentPagesCheckoutSessionCustomFieldsDropdown)` to `PaymentPagesCheckoutSessionCustomFieldsDropdown`
+  * Change type of `CheckoutSessionCustomFieldsNumeric` and `CheckoutSessionCustomFieldsText` from `nullable(PaymentPagesCheckoutSessionCustomFieldsNumeric)` to `PaymentPagesCheckoutSessionCustomFieldsNumeric`
+  * Add support for `PostalCode` on `IssuingAuthorizationVerificationData`
+  * Change type of `PaymentLinkCustomFieldsDropdown` from `nullable(PaymentLinksResourceCustomFieldsDropdown)` to `PaymentLinksResourceCustomFieldsDropdown`
+  * Change type of `PaymentLinkCustomFieldsNumeric` and `PaymentLinkCustomFieldsText` from `nullable(PaymentLinksResourceCustomFieldsNumeric)` to `PaymentLinksResourceCustomFieldsNumeric`
+  * Add support for `Offline` on `TerminalConfigurationParams` and `TerminalConfiguration`
+
 ## 75.9.0 - 2023-10-05
 * [#1743](https://github.com/stripe/stripe-go/pull/1743) Update generated code
   * Add support for new resource `Issuing.Token`
