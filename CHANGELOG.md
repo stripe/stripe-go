@@ -1,5 +1,16 @@
 # Changelog
 
+## 75.10.0 - 2023-10-11
+* [#1746](https://github.com/stripe/stripe-go/pull/1746) Update generated code
+  * Add support for `RedirectOnCompletion`, `ReturnURL`, and `UIMode` on `CheckoutSessionParams` and `CheckoutSession`
+  * Add support for `ClientSecret` on `CheckoutSession`
+  * Change type of `CheckoutSessionCustomFieldsDropdown` from `nullable(PaymentPagesCheckoutSessionCustomFieldsDropdown)` to `PaymentPagesCheckoutSessionCustomFieldsDropdown`
+  * Change type of `CheckoutSessionCustomFieldsNumeric` and `CheckoutSessionCustomFieldsText` from `nullable(PaymentPagesCheckoutSessionCustomFieldsNumeric)` to `PaymentPagesCheckoutSessionCustomFieldsNumeric`
+  * Add support for `PostalCode` on `IssuingAuthorizationVerificationData`
+  * Change type of `PaymentLinkCustomFieldsDropdown` from `nullable(PaymentLinksResourceCustomFieldsDropdown)` to `PaymentLinksResourceCustomFieldsDropdown`
+  * Change type of `PaymentLinkCustomFieldsNumeric` and `PaymentLinkCustomFieldsText` from `nullable(PaymentLinksResourceCustomFieldsNumeric)` to `PaymentLinksResourceCustomFieldsNumeric`
+  * Add support for `Offline` on `TerminalConfigurationParams` and `TerminalConfiguration`
+
 ## 75.10.0-beta.1 - 2023-10-05
 * [#1744](https://github.com/stripe/stripe-go/pull/1744) Update generated code for beta
   * Add support for `MarkDraft` and `MarkStale` methods on resource `Quote`
@@ -9,6 +20,20 @@
   * Add support for `InvoiceSettings` on `CheckoutSessionSubscriptionDataParams`
   * Add support for `PersonalizationDesign` on `IssuingCardListParams`
   * Add support for `AllowBackdatedLines` on `QuoteParams` and `Quote`
+
+## 75.9.0 - 2023-10-05
+* [#1743](https://github.com/stripe/stripe-go/pull/1743) Update generated code
+  * Add support for new resource `Issuing.Token`
+  * Add support for `Get`, `List`, and `Update` methods on resource `Token`
+  * Add support for `AmountAuthorized`, `ExtendedAuthorization`, `IncrementalAuthorization`, `Multicapture`, and `Overcapture` on `ChargePaymentMethodDetailsCard`
+  * Add support for `Token` on `IssuingAuthorization` and `IssuingTransaction`
+  * Add support for `AuthorizationCode` on `IssuingAuthorizationRequestHistory`
+  * Add support for `RequestExtendedAuthorization`, `RequestMulticapture`, and `RequestOvercapture` on `PaymentIntentConfirmPaymentMethodOptionsCardParams`, `PaymentIntentPaymentMethodOptionsCardParams`, and `PaymentIntentPaymentMethodOptionsCard`
+  * Add support for `RequestIncrementalAuthorization` on `PaymentIntentConfirmPaymentMethodOptionsCardParams`, `PaymentIntentConfirmPaymentMethodOptionsCardPresentParams`, `PaymentIntentPaymentMethodOptionsCardParams`, `PaymentIntentPaymentMethodOptionsCardPresentParams`, and `PaymentIntentPaymentMethodOptionsCard`
+  * Add support for `FinalCapture` on `PaymentIntentCaptureParams`
+  * Add support for `Metadata` on `PaymentLinkPaymentIntentDataParams`, `PaymentLinkPaymentIntentData`, `PaymentLinkSubscriptionDataParams`, and `PaymentLinkSubscriptionData`
+  * Add support for `StatementDescriptorSuffix` and `StatementDescriptor` on `PaymentLinkPaymentIntentDataParams` and `PaymentLinkPaymentIntentData`
+  * Add support for `PaymentIntentData` and `SubscriptionData` on `PaymentLinkParams`
 
 ## 75.9.0-beta.1 - 2023-09-28
 * [#1740](https://github.com/stripe/stripe-go/pull/1740) Update generated code for beta

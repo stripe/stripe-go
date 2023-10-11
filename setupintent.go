@@ -760,7 +760,7 @@ type SetupIntentListParams struct {
 	Customer *string `form:"customer"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-	// Only return SetupIntents associated with the specified payment method.
+	// Only return SetupIntents that associate with the specified payment method.
 	PaymentMethod *string `form:"payment_method"`
 }
 
@@ -1049,15 +1049,14 @@ type SetupIntentConfirmParams struct {
 	// If the provided ConfirmationToken contains properties that are also being provided in this request, such as `payment_method`, then the values in this request will take precedence.
 	ConfirmationToken *string `form:"confirmation_token"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
-	// This hash contains details about the Mandate to create
+	Expand      []*string                     `form:"expand"`
 	MandateData *SetupIntentMandateDataParams `form:"mandate_data"`
 	// ID of the payment method (a PaymentMethod, Card, or saved Source object) to attach to this SetupIntent.
 	PaymentMethod *string `form:"payment_method"`
 	// When included, this hash creates a PaymentMethod that is set as the [`payment_method`](https://stripe.com/docs/api/setup_intents/object#setup_intent_object-payment_method)
 	// value in the SetupIntent.
 	PaymentMethodData *SetupIntentConfirmPaymentMethodDataParams `form:"payment_method_data"`
-	// Payment-method-specific configuration for this SetupIntent.
+	// Payment method-specific configuration for this SetupIntent.
 	PaymentMethodOptions *SetupIntentPaymentMethodOptionsParams `form:"payment_method_options"`
 	// The URL to redirect your customer back to after they authenticate on the payment method's app or site.
 	// If you'd prefer to redirect to a mobile application, you can alternatively supply an application URI scheme.
@@ -1072,12 +1071,12 @@ func (p *SetupIntentConfirmParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// A SetupIntent object can be canceled when it is in one of these statuses: requires_payment_method, requires_confirmation, or requires_action.
+// You can cancel a SetupIntent object when it's in one of these statuses: requires_payment_method, requires_confirmation, or requires_action.
 //
-// Once canceled, setup is abandoned and any operations on the SetupIntent will fail with an error.
+// After you cancel it, setup is abandoned and any operations on the SetupIntent fail with an error.
 type SetupIntentCancelParams struct {
 	Params `form:"*"`
-	// Reason for canceling this SetupIntent. Possible values are `abandoned`, `requested_by_customer`, or `duplicate`
+	// Reason for canceling this SetupIntent. Possible values are: `abandoned`, `requested_by_customer`, or `duplicate`
 	CancellationReason *string `form:"cancellation_reason"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`

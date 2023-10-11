@@ -8,7 +8,7 @@ package stripe
 
 import "encoding/json"
 
-// Learn more about how [reporting categories] (https://stripe.com/docs/reports/reporting-categories) can help you understand balance transactions from an accounting perspective.
+// Learn more about how [reporting categories](https://stripe.com/docs/reports/reporting-categories) can help you understand balance transactions from an accounting perspective.
 type BalanceTransactionReportingCategory string
 
 // List of values that BalanceTransactionReportingCategory can take
@@ -199,7 +199,7 @@ type BalanceTransaction struct {
 	Net int64 `json:"net"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
-	// Learn more about how [reporting categories] (https://stripe.com/docs/reports/reporting-categories) can help you understand balance transactions from an accounting perspective.
+	// Learn more about how [reporting categories](https://stripe.com/docs/reports/reporting-categories) can help you understand balance transactions from an accounting perspective.
 	ReportingCategory BalanceTransactionReportingCategory `json:"reporting_category"`
 	// This transaction relates to the Stripe object.
 	Source *BalanceTransactionSource `json:"source"`

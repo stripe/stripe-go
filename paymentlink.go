@@ -355,7 +355,7 @@ type PaymentLinkLineItemParams struct {
 type PaymentLinkPaymentIntentDataParams struct {
 	// Controls when the funds will be captured from the customer's account.
 	CaptureMethod *string `form:"capture_method"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that will declaratively set metadata on [Payment Intents] (/docs/api/payment_intents) generated from this payment link. Unlike object-level metadata, this field is declarative. Updates will clear prior values.
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that will declaratively set metadata on [Payment Intents](https://stripe.com/docs/api/payment_intents) generated from this payment link. Unlike object-level metadata, this field is declarative. Updates will clear prior values.
 	Metadata map[string]string `form:"metadata"`
 	// Indicates that you intend to [make future payments](https://stripe.com/docs/payments/payment-intents#future-usage) with the payment method collected by this Checkout Session.
 	//
@@ -409,7 +409,7 @@ type PaymentLinkShippingOptionParams struct {
 type PaymentLinkSubscriptionDataParams struct {
 	// The subscription's description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription.
 	Description *string `form:"description"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that will declaratively set metadata on [Subscriptions] (/docs/api/subscriptions) generated from this payment link. Unlike object-level metadata, this field is declarative. Updates will clear prior values.
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that will declaratively set metadata on [Subscriptions](https://stripe.com/docs/api/subscriptions) generated from this payment link. Unlike object-level metadata, this field is declarative. Updates will clear prior values.
 	Metadata map[string]string `form:"metadata"`
 	// Integer representing the number of trial period days before the customer is charged for the first time. Has to be at least 1.
 	TrialPeriodDays *int64 `form:"trial_period_days"`
@@ -567,8 +567,6 @@ type PaymentLinkCustomFieldDropdownOption struct {
 	// The value for this option, not displayed to the customer, used by your integration to reconcile the option selected by the customer. Must be unique to this option, alphanumeric, and up to 100 characters.
 	Value string `json:"value"`
 }
-
-// Configuration for `type=dropdown` fields.
 type PaymentLinkCustomFieldDropdown struct {
 	// The options available for the customer to select. Up to 200 options allowed.
 	Options []*PaymentLinkCustomFieldDropdownOption `json:"options"`
@@ -579,16 +577,12 @@ type PaymentLinkCustomFieldLabel struct {
 	// The type of the label.
 	Type PaymentLinkCustomFieldLabelType `json:"type"`
 }
-
-// Configuration for `type=numeric` fields.
 type PaymentLinkCustomFieldNumeric struct {
 	// The maximum character length constraint for the customer's input.
 	MaximumLength int64 `json:"maximum_length"`
 	// The minimum character length requirement for the customer's input.
 	MinimumLength int64 `json:"minimum_length"`
 }
-
-// Configuration for `type=text` fields.
 type PaymentLinkCustomFieldText struct {
 	// The maximum character length constraint for the customer's input.
 	MaximumLength int64 `json:"maximum_length"`
@@ -598,17 +592,14 @@ type PaymentLinkCustomFieldText struct {
 
 // Collect additional information from your customer using custom fields. Up to 2 fields are supported.
 type PaymentLinkCustomField struct {
-	// Configuration for `type=dropdown` fields.
 	Dropdown *PaymentLinkCustomFieldDropdown `json:"dropdown"`
 	// String of your choice that your integration can use to reconcile this field. Must be unique to this field, alphanumeric, and up to 200 characters.
-	Key   string                       `json:"key"`
-	Label *PaymentLinkCustomFieldLabel `json:"label"`
-	// Configuration for `type=numeric` fields.
+	Key     string                         `json:"key"`
+	Label   *PaymentLinkCustomFieldLabel   `json:"label"`
 	Numeric *PaymentLinkCustomFieldNumeric `json:"numeric"`
 	// Whether the customer is required to complete the field before completing the Checkout Session. Defaults to `false`.
-	Optional bool `json:"optional"`
-	// Configuration for `type=text` fields.
-	Text *PaymentLinkCustomFieldText `json:"text"`
+	Optional bool                        `json:"optional"`
+	Text     *PaymentLinkCustomFieldText `json:"text"`
 	// The type of the field.
 	Type PaymentLinkCustomFieldType `json:"type"`
 }
@@ -681,7 +672,7 @@ type PaymentLinkInvoiceCreation struct {
 type PaymentLinkPaymentIntentData struct {
 	// Indicates when the funds will be captured from the customer's account.
 	CaptureMethod PaymentLinkPaymentIntentDataCaptureMethod `json:"capture_method"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that will set metadata on [Payment Intents] (/docs/api/payment_intents) generated from this payment link.
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that will set metadata on [Payment Intents](https://stripe.com/docs/api/payment_intents) generated from this payment link.
 	Metadata map[string]string `json:"metadata"`
 	// Indicates that you intend to make future payments with the payment method collected during checkout.
 	SetupFutureUsage PaymentLinkPaymentIntentDataSetupFutureUsage `json:"setup_future_usage"`
@@ -713,7 +704,7 @@ type PaymentLinkShippingOption struct {
 type PaymentLinkSubscriptionData struct {
 	// The subscription's description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription.
 	Description string `json:"description"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that will set metadata on [Subscriptions] (/docs/api/subscriptions) generated from this payment link.
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that will set metadata on [Subscriptions](https://stripe.com/docs/api/subscriptions) generated from this payment link.
 	Metadata map[string]string `json:"metadata"`
 	// Integer representing the number of trial period days before the customer is charged for the first time.
 	TrialPeriodDays int64 `json:"trial_period_days"`
