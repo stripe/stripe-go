@@ -1697,7 +1697,7 @@ type PaymentMethodConfigurationWeChatPay struct {
 //
 // Related guides:
 // - [Payment Method Configurations API](https://stripe.com/docs/connect/payment-method-configurations)
-// - [Multiple payment method configurations on dynamic payment methods](https://stripe.com/docs/payments/multiple-payment-method-configs)
+// - [Multiple configurations on dynamic payment methods](https://stripe.com/docs/payments/multiple-payment-method-configs)
 // - [Multiple configurations for your Connect accounts](https://stripe.com/docs/connect/multiple-payment-method-configurations)
 type PaymentMethodConfiguration struct {
 	APIResource
