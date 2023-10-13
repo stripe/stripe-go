@@ -1128,7 +1128,7 @@ func NewBackends(httpClient *http.Client) *Backends {
 	}
 }
 
-// NewBackends creates a new set of backends with the given config for all backends.
+// NewBackendsWithConfig creates a new set of backends with the given config for all backends.
 // Useful for setting up client with a custom logger and http client.
 func NewBackendsWithConfig(config *BackendConfig) *Backends {
 	return &Backends{
