@@ -1190,8 +1190,7 @@ func Int64Slice(v []int64) []*int64 {
 	return out
 }
 
-// NewBackends creates a new set of backends with the given HTTP client. You
-// should only need to use this for testing purposes or on App Engine.
+// NewBackends creates a new set of backends with the given HTTP client.
 func NewBackends(httpClient *http.Client) *Backends {
 	apiConfig := &BackendConfig{HTTPClient: httpClient}
 	connectConfig := &BackendConfig{HTTPClient: httpClient}
@@ -1200,6 +1199,16 @@ func NewBackends(httpClient *http.Client) *Backends {
 		API:     GetBackendWithConfig(APIBackend, apiConfig),
 		Connect: GetBackendWithConfig(ConnectBackend, connectConfig),
 		Uploads: GetBackendWithConfig(UploadsBackend, uploadConfig),
+	}
+}
+
+// NewBackendsWithConfig creates a new set of backends with the given config for all backends.
+// Useful for setting up client with a custom logger and http client.
+func NewBackendsWithConfig(config *BackendConfig) *Backends {
+	return &Backends{
+		API:     GetBackendWithConfig(APIBackend, config),
+		Connect: GetBackendWithConfig(ConnectBackend, config),
+		Uploads: GetBackendWithConfig(UploadsBackend, config),
 	}
 }
 
