@@ -5,7 +5,7 @@ import (
 	"testing"
 
 	assert "github.com/stretchr/testify/require"
-	"github.com/stripe/stripe-go/v75/form"
+	"github.com/stripe/stripe-go/v76/form"
 )
 
 func TestQuoteSubscriptionDataParams_AppendTo(t *testing.T) {

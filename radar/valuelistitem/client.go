@@ -11,8 +11,8 @@ package valuelistitem
 import (
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v75"
-	"github.com/stripe/stripe-go/v75/form"
+	stripe "github.com/stripe/stripe-go/v76"
+	"github.com/stripe/stripe-go/v76/form"
 )
 
 // Client is used to invoke /radar/value_list_items APIs.
