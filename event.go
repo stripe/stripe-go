@@ -155,6 +155,8 @@ const (
 	EventTypeIssuingPersonalizationDesignDeactivated              EventType = "issuing_personalization_design.deactivated"
 	EventTypeIssuingPersonalizationDesignRejected                 EventType = "issuing_personalization_design.rejected"
 	EventTypeIssuingPersonalizationDesignUpdated                  EventType = "issuing_personalization_design.updated"
+	EventTypeIssuingTokenCreated                                  EventType = "issuing_token.created"
+	EventTypeIssuingTokenUpdated                                  EventType = "issuing_token.updated"
 	EventTypeIssuingTransactionCreated                            EventType = "issuing_transaction.created"
 	EventTypeIssuingTransactionUpdated                            EventType = "issuing_transaction.updated"
 	EventTypeMandateUpdated                                       EventType = "mandate.updated"

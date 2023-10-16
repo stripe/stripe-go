@@ -6,8 +6,6 @@
 
 package stripe
 
-import "encoding/json"
-
 // The status of the code verification, either `pending` (awaiting verification, `attempts_remaining` should be greater than 0), `succeeded` (successful verification) or `failed` (failed verification, cannot be verified anymore as `attempts_remaining` should be 0).
 type SourceCodeVerificationStatus string
 
@@ -625,23 +623,4 @@ type Source struct {
 	// Either `reusable` or `single_use`. Whether this source should be reusable or not. Some source types may or may not be reusable by construction, while others may leave the option at creation. If an incompatible value is passed, an error will be returned.
 	Usage  SourceUsage   `json:"usage"`
 	WeChat *SourceWeChat `json:"wechat"`
-}
-
-// UnmarshalJSON handles deserialization of a Source.
-// This custom unmarshaling is needed because the resulting
-// property may be an id or the full struct if it was expanded.
-func (s *Source) UnmarshalJSON(data []byte) error {
-	if id, ok := ParseID(data); ok {
-		s.ID = id
-		return nil
-	}
-
-	type source Source
-	var v source
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-
-	*s = Source(v)
-	return nil
 }

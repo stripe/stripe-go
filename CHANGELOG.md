@@ -1,5 +1,10 @@
 # Changelog
 
+## 75.11.0 - 2023-10-16
+* [#1751](https://github.com/stripe/stripe-go/pull/1751) Update generated code
+  * Add support for new values `issuing_token.created` and `issuing_token.updated` on enum `EventType`
+* [#1748](https://github.com/stripe/stripe-go/pull/1748) add NewBackendsWithConfig helper
+
 ## 75.11.0-beta.1 - 2023-10-11
 * [#1745](https://github.com/stripe/stripe-go/pull/1745) Update generated code for beta
   * Add support for new resources `AccountNotice` and `Issuing.CreditUnderwritingRecord`
