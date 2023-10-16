@@ -162,7 +162,7 @@ class StripeForce::Translate
     # this should never happen, but we are still learning about CPQ
     # if metered billing, quantity is not set, so we set to 1
     if subscription.items.map {|l| l[:quantity] || 1 }.any?(&:zero?)
-      Integrations::ErrorContext.report_edge_case("quantity is zero on initial subscription")
+      Integrations::ErrorContext.report_edge_case("Quantity is zero on initial subscription")
     end
 
     # https://jira.corp.stripe.com/browse/PLATINT-1731
@@ -423,7 +423,6 @@ class StripeForce::Translate
 
     sf_order_items = order_lines_from_order(sf_order)
     invoice_items, subscription_items = phase_items_from_order_lines(sf_order_items)
-
     is_recurring_order = !subscription_items.empty?
     if !is_recurring_order
       invoice = create_stripe_invoice_from_order(stripe_customer, invoice_items, sf_order)
@@ -434,8 +433,8 @@ class StripeForce::Translate
       return invoice
     end
 
-    order_is_evergreen = is_salesforce_order_evergreen(sf_order)
-    if order_is_evergreen
+    has_evergreen_products = is_salesforce_order_evergreen(sf_order)
+    if has_evergreen_products
       log.info 'order has evergreen products, creating subscription'
 
       validate_evergreen_order(sf_order_items)
@@ -454,13 +453,24 @@ class StripeForce::Translate
     mapper.assign_values_from_hash(subscription_schedule, subscription_params)
     apply_mapping(subscription_schedule, sf_order)
 
-    subscription_schedule_phases = generate_phases_for_initial_order(
-      sf_order: sf_order,
-      invoice_items: invoice_items,
-      subscription_items: subscription_items,
-      subscription_schedule: subscription_schedule,
-      stripe_customer: stripe_customer
-    )
+    has_mdq_products = sf_order_contains_mdq_order_items(sf_order_items)
+    if has_mdq_products
+      log.info 'sf order contains mdq product'
+      subscription_schedule_phases = generate_phases_for_initial_order_with_mdq(
+        sf_order: sf_order,
+        subscription_items: subscription_items,
+        invoice_items: invoice_items,
+        subscription_schedule: subscription_schedule,
+        stripe_customer: stripe_customer)
+    else
+      subscription_schedule_phases = generate_phases_for_initial_order(
+        sf_order: sf_order,
+        invoice_items: invoice_items,
+        subscription_items: subscription_items,
+        subscription_schedule: subscription_schedule,
+        stripe_customer: stripe_customer
+      )
+    end
 
     # TODO refactor once caching is stable, more notes in the `generate_phases_for_initial_rder`
     if subscription_schedule_phases.is_a?(Stripe::Invoice)
@@ -484,7 +494,7 @@ class StripeForce::Translate
     # this should never happen, but we are still learning about CPQ
     # if metered billing, quantity is not set, so we set to 1
     if OrderHelpers.extract_all_items_from_subscription_schedule(subscription_schedule).map {|l| l[:quantity] || 1 }.any?(&:zero?)
-      Integrations::ErrorContext.report_edge_case("quantity is zero on initial subscription schedule")
+      Integrations::ErrorContext.report_edge_case("Quantity is zero on initial subscription schedule")
     end
 
     # https://jira.corp.stripe.com/browse/PLATINT-1731
@@ -511,6 +521,91 @@ class StripeForce::Translate
     stripe_transaction
   end
 
+  sig do
+    params(
+      sf_order: T.untyped,
+      invoice_items: T::Array[ContractItemStructure],
+      subscription_items: T::Array[ContractItemStructure],
+      subscription_schedule: Stripe::SubscriptionSchedule,
+      stripe_customer: Stripe::Customer
+    ).returns(T::Array[Stripe::SubscriptionSchedulePhase])
+  end
+  def generate_phases_for_initial_order_with_mdq(sf_order:, invoice_items:, subscription_items:, subscription_schedule:, stripe_customer:)
+    sub_schedule_phases = []
+
+    # extract the quote start date and subscription term from the order
+    # to calculate the end date
+    string_start_date_from_salesforce = subscription_schedule['start_date']
+    start_date_from_salesforce = DateTime.parse(string_start_date_from_salesforce)
+    subscription_term_from_salesforce = StripeForce::Utilities::SalesforceUtil.extract_subscription_term_from_order!(mapper, sf_order)
+
+    order_end_date = StripeForce::Utilities::SalesforceUtil.datetime_to_unix_timestamp(start_date_from_salesforce + subscription_term_from_salesforce.months)
+
+    # split the subscription items by mdq and non-mdq products
+    # non segmented items are for the entire contact so they will be added to each phase
+    non_segmented_items = []
+    segmented_subscription_items = []
+
+    subscription_items.each do |item|
+      if item.is_mdq_segment?
+        segmented_subscription_items << item
+      else
+        # if it's not an mdq product, there will be no segment index, and the sub item will be across all phases
+        non_segmented_items << item.stripe_params
+      end
+    end
+
+    # sort the mdq products by segment index
+    segmented_subscription_items = segmented_subscription_items.sort_by do |item|
+        if item.mdq_dimension_type == 'Custom'
+          raise StripeForce::Errors::RawUserError.new("MDQ products with custom segments are not yet supported.")
+        end
+
+        item.mdq_segment_index
+    end
+
+    # CPQ Quote discounts will apply across each phase / segment
+    phase_discounts = stripe_discounts_for_sf_object(sf_object: sf_order)
+
+    # for each subscription item, add it to the corresponding sub phase
+    segmented_subscription_items.each do |sub_item|
+        # many of the mdq fields live on the corresponding quote line
+        quote_line_data = backoff { @user.sf_client.find(CPQ_QUOTE_LINE, sub_item.order_line[CPQ_QUOTE_LINE]) }
+        sub_item_end_date = StripeForce::Utilities::SalesforceUtil.salesforce_date_to_unix_timestamp(quote_line_data[CPQ_QUOTE_SUBSCRIPTION_END_DATE]) + 1.day.to_i
+
+        # adds a new phase for the newest segment
+        mdq_segment_index = sub_item.mdq_segment_index
+        if sub_schedule_phases.empty? || sub_schedule_phases.count < mdq_segment_index
+          # create a new phase for this segment index
+          sub_schedule_phases << {
+            add_invoice_items: [],
+            items: non_segmented_items.dup,
+            end_date: sub_item_end_date,
+            metadata: Metadata.stripe_metadata_for_sf_object(@user, sf_order).merge({salesforce_segment_key: sub_item.order_line[CPQ_ORDER_ITEM_SEGMENT_KEY], salesforce_segment_label: quote_line_data[CPQ_ORDER_ITEM_SEGMENT_LABEL]}),
+            discounts: phase_discounts,
+          }
+        end
+
+        # add the subscription item to the existing segment index phase
+        last_index = sub_schedule_phases.count - 1
+
+        # let's be defensive and throw a error if the order items in the same segment have different end dates
+        if sub_schedule_phases[last_index][:end_date] != sub_item_end_date
+          log.error 'sf order items in the same segment have different end dates', sf_order_item: sub_item.order_line
+          raise Integrations::Errors::ImpossibleState.new('Salesforce Order Items in the same MDQ segment has different end date than the other segments.', salesforce_object: sub_item.order_line)
+        end
+
+        # add the item to the last phase / segment
+        sub_schedule_phases[last_index][:items] << sub_item.stripe_params
+    end
+
+    # Salesforce EndDate is the end of the last day of the subscription while the calculated EndDate we send to Stripe
+    # is the day after the last day of the subscription. This is because Stripe's subscription schedule end date is exclusive.
+    sub_schedule_phases[sub_schedule_phases.count - 1][:end_date] = order_end_date
+    sub_schedule_phases
+  end
+
+
   # it is important that the subscription schedule is passed in before the start_date is transformed
   sig do
     params(
@@ -522,9 +617,9 @@ class StripeForce::Translate
     ).returns(T.any(Stripe::Invoice, [Hash, T.nilable(Hash)]))
   end
   def generate_phases_for_initial_order(sf_order:, invoice_items:, subscription_items:, subscription_schedule:, stripe_customer:)
+    # extract the quote start date from the order
     string_start_date_from_salesforce = subscription_schedule['start_date']
-    # TODO should avoid using blind parse and instead enforce a strict SF datetime format
-    start_date_from_salesforce = DateTime.parse(string_start_date_from_salesforce).utc
+    start_date_from_salesforce = DateTime.parse(string_start_date_from_salesforce)
     subscription_start_date_as_timestamp = StripeForce::Utilities::SalesforceUtil.salesforce_date_to_unix_timestamp(string_start_date_from_salesforce)
 
     # the user maps to this to determine the subscription schedule end date

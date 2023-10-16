@@ -56,8 +56,7 @@ class StripeForce::Translate
 
     sig { params(subscription_schedule: Stripe::SubscriptionSchedule).returns(T::Array[T.any(Stripe::SubscriptionSchedulePhaseSubscriptionItem, Stripe::SubscriptionSchedulePhaseInvoiceItem)]) }
     def self.extract_all_items_from_subscription_schedule(subscription_schedule)
-      subscription_schedule.phases.map(&:items).flatten +
-        subscription_schedule.phases.map(&:add_invoice_items).flatten
+      subscription_schedule.phases.map(&:items).flatten + subscription_schedule.phases.map(&:add_invoice_items).flatten
     end
 
     # after lines have been adjusted with termination line, they should be removed

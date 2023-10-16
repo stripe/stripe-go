@@ -52,11 +52,9 @@ class Critic::OneTimeOrderTranslation < Critic::VCRTest
 
     invoice = Stripe::Invoice.retrieve(stripe_invoice_id, @user.stripe_credentials)
     customer = Stripe::Customer.retrieve(invoice.customer, @user.stripe_credentials)
-
     refute_empty(customer.email)
 
     assert_equal(1, invoice.lines.count)
-
     line = invoice.lines.first
     assert_equal("one_time", line.price.type)
   end

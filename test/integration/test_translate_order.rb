@@ -42,7 +42,6 @@ class Critic::OrderTranslation < Critic::VCRTest
 
     # TODO add `refresh` to salesforce library
     sf_order = sf.find(SF_ORDER, sf_order.Id)
-    sf_product = sf.find(SF_PRODUCT, sf_product_id)
     sf_pricebook_entry = sf.find(SF_PRICEBOOK_ENTRY, sf_pricebook_entry_id)
 
     stripe_id = sf_order[prefixed_stripe_field(GENERIC_STRIPE_ID)]

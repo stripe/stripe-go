@@ -82,6 +82,27 @@ module StripeForce
     CPQ_DEFAULT_SUBSCRIPTION_TERM = 'SBQQ__DefaultSubscriptionTerm__c'
     CPQ_QUOTE_LINE_DEFAULT_SUBSCRIPTION_TERM = 12
 
+    # CPQ fields used to create a PriceDimension
+    CPQ_PRICE_DIMENSION = "SBQQ__Dimension__c"
+    CPQ_PRICE_DIMENSION_TYPE = "SBQQ__Type__c"
+
+    # CPQ fields on the OrderItem that are related to PriceDimension
+    CPQ_ORDER_ITEM_SEGMENT_KEY = "SBQQ__SegmentKey__c"
+    CPQ_ORDER_ITEM_SEGMENT_INDEX = "SBQQ__SegmentIndex__c"
+    CPQ_ORDER_ITEM_SEGMENT_LABEL = "SBQQ__SegmentLabel__c"
+    CPQ_ORDER_ITEM_PRICE_DIMENSION_ID = "SBQQ__PriceDimension__c"
+    CPQ_ORDER_ITEM_PRICE_DIMENSION_TYPE = "SBQQ__DimensionType__c"
+    class CPQPriceDimensionTypeOptions < T::Enum
+      enums do
+        MONTH = new("Month")
+        QUARTER = new("Quarter")
+        YEAR = new("Year")
+        # not supported yet
+        # CUSTOM = new("Custom")
+        # ONE_TIME = new("One Time")
+      end
+    end
+
     CPQ_QUOTE_BILLING_FREQUENCY = 'SBQQ__BillingFrequency__c'
     class CPQBillingFrequencyOptions < T::Enum
       enums do

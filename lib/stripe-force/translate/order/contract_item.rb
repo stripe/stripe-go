@@ -79,5 +79,21 @@ class StripeForce::Translate
     def from_order?(sf_order)
       self.order_line['OrderId'] == sf_order.Id
     end
+
+    sig { returns(T::Boolean) }
+    def is_mdq_segment?
+      self.order_line[CPQ_ORDER_ITEM_SEGMENT_KEY].present?
+    end
+
+    # this starts at 1 index
+    sig { returns(T.nilable(Integer)) }
+    def mdq_segment_index
+      self.order_line[CPQ_ORDER_ITEM_SEGMENT_INDEX]
+    end
+
+    sig { returns(T.nilable(String)) }
+    def mdq_dimension_type
+      self.order_line[CPQ_ORDER_ITEM_PRICE_DIMENSION_TYPE]
+    end
   end
 end

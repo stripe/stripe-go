@@ -350,7 +350,7 @@ module StripeForce::Utilities
             log.error 'amendment order does not start on the same day of month as the initial order',
               initial_order_start_date: sf_initial_order_start_date,
               amendment_order_start_date: amendment_start_date
-            raise StripeForce::Errors::RawUserError.new("Amendment orders must start on the same day of month as the initial order.")
+            raise StripeForce::Errors::RawUserError.new("Amendment orders must start on the same day of month as the initial order. Enable feature non-anniversary amendments to sync amendments on any day of the month.")
           end
 
           amendment_end_date = get_non_anniversary_amendment_order_end_date(mapper, sf_order_amendment)
@@ -410,6 +410,11 @@ module StripeForce::Utilities
     sig { params(whole_months: Integer, partial_month_days: Integer, product_subscription_term: Integer).returns(BigDecimal) }
     def self.calculate_month_plus_day_price_multiplier(whole_months:, partial_month_days:, product_subscription_term:)
       (whole_months + (BigDecimal(partial_month_days) / (BigDecimal(DAYS_IN_YEAR) / BigDecimal(MONTHS_IN_YEAR)))) / BigDecimal(product_subscription_term)
+    end
+
+    sig { params(sf_order_items: T::Array[T.untyped]).returns(T::Boolean) }
+    def sf_order_contains_mdq_order_items(sf_order_items)
+      sf_order_items.any? {|sf_order_item| sf_order_item[CPQ_ORDER_ITEM_PRICE_DIMENSION_ID].present? }
     end
 
     sig { params(user: StripeForce::User, sf_order_amendment: Restforce::SObject).returns(T.nilable(String)) }

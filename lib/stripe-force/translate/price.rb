@@ -424,8 +424,8 @@ class StripeForce::Translate
       end
 
       # TODO it's possible that a custom mapping is defined for this value and it's an integer, we should support this case in the helper method
-      # this represents how often the price is billed: i.e. if `interval` is month and `interval_count`
-      # is 2, then this price is billed every two months.
+      # this represents how often the price is billed:
+      # i.e. if `interval` is month and `interval_count` is 2, then this price is billed every two months.
       stripe_price.recurring[:interval_count] = PriceHelpers.transform_salesforce_billing_frequency_to_recurring_interval(stripe_price.recurring[:interval_count])
 
       # frequency: monthly or daily, defined on the CPQ
@@ -497,7 +497,13 @@ class StripeForce::Translate
 
     # TODO should we adjust based on the quantity? Most likely, let's wait until tests fail
     price_multiplier = BigDecimal(T.must(quote_subscription_term)) / BigDecimal(billing_frequency)
-    validate_price_multipliers(price_multiplier, cpq_price_multiplier, false)
+
+    # TODO should test this further with proration amendments
+    # For MDQ orders, the quote subscription term is not the effective subscription term
+    if !validate_price_multipliers(price_multiplier, cpq_price_multiplier, false) && quote_subscription_term != effective_subscription_term
+      price_multiplier = BigDecimal(T.must(effective_subscription_term)) / BigDecimal(billing_frequency)
+    end
+
     price_multiplier
   end
 
@@ -514,6 +520,7 @@ class StripeForce::Translate
         if throw_error
           raise Integrations::Errors::TranslatorError.new("calculated price multiplier differs from cpq price multiplier")
         end
+        return false
       end
     end
 

@@ -93,10 +93,10 @@ module StripeForce::Utilities
         }.merge(additional_fields))
       end
 
-      def create_salesforce_contact(contact_email: sf_randomized_id, static_id: true)
+      def create_salesforce_contact(contact_email:, static_id: true)
         _ = sf.create!(SF_CONTACT, {
           LastName: 'Bianco',
-          Email: static_id ? create_static_email(email: contact_email) : create_random_email,
+          Email: static_id && contact_email.present? ? create_static_email(email: contact_email) : create_random_email,
         })
       end
 
@@ -390,7 +390,7 @@ module StripeForce::Utilities
         sf_order
       end
 
-      def create_salesforce_quote(sf_pricebook_id: nil, sf_account_id:, currency_iso_code: nil, contact_email: sf_randomized_id, additional_quote_fields: {})
+      def create_salesforce_quote(sf_pricebook_id: nil, sf_account_id:, currency_iso_code: nil, contact_email:, additional_quote_fields: {})
         sf_pricebook_id ||= default_pricebook_id
         opportunity_id = create_salesforce_opportunity(sf_account_id: sf_account_id, currency_iso_code: currency_iso_code)
         contact_id = create_salesforce_contact(contact_email: contact_email)

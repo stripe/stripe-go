@@ -1048,6 +1048,12 @@ http_interactions:
         GMT; Max-Age=31536000
       Strict-Transport-Security:
       - max-age=63072000; includeSubDomains
+      Content-Security-Policy-Report-Only:
+      - 'default-src https:; script-src https: ''unsafe-inline'' ''unsafe-eval'';
+        style-src https: ''unsafe-inline''; img-src https: data: blob: file:; frame-ancestors
+        ''self'' *.salesforce.com *.force.com *.visualforce.com *.documentforce.com;
+        font-src https: data: blob: file:; connect-src ''self'' https:; report-uri
+        https://csp-report.force.com/_/ContentDomainCSPNoAuth?type=mydomain'
       X-Content-Type-Options:
       - nosniff
       X-Xss-Protection:
@@ -3695,8 +3701,8 @@ http_interactions:
           "tiers_mode": null,
           "transform_quantity": null,
           "type": "recurring",
-          "unit_amount": 6000,
-          "unit_amount_decimal": "6000"
+          "unit_amount": 12000,
+          "unit_amount_decimal": "12000"
         }
   recorded_at: Wed, 11 Oct 2023 00:00:00 GMT
 - request:
@@ -3996,7 +4002,7 @@ http_interactions:
       Content-Type:
       - application/json
       Content-Length:
-      - '844'
+      - '849'
       Connection:
       - keep-alive
       Access-Control-Allow-Credentials:
@@ -4058,8 +4064,8 @@ http_interactions:
           "tiers_mode": null,
           "transform_quantity": null,
           "type": "recurring",
-          "unit_amount": 6000,
-          "unit_amount_decimal": "6000"
+          "unit_amount": 12000,
+          "unit_amount_decimal": "12000"
         }
   recorded_at: Wed, 11 Oct 2023 00:00:00 GMT
 - request:
@@ -4484,8 +4490,8 @@ http_interactions:
                     "tiers_mode": null,
                     "transform_quantity": null,
                     "type": "recurring",
-                    "unit_amount": 6000,
-                    "unit_amount_decimal": "6000"
+                    "unit_amount": 12000,
+                    "unit_amount_decimal": "12000"
                   },
                   "quantity": 1,
                   "tax_rates": []

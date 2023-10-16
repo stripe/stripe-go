@@ -144,6 +144,23 @@ module Critic
       }.merge(additional_fields))
     end
 
+    def create_salesforce_cpq_segmented_product(additional_product_fields: {}, additional_price_dimension_fields: {})
+      sf_product_id, _sf_pricebook_entry_id = salesforce_recurring_product_with_price(price: nil, additional_product_fields: additional_product_fields)
+
+      if additional_product_fields[CPQ_PRODUCT_BILLING_TYPE] == CPQProductBillingTypeOptions::ARREARS.serialize
+        sf_product_id, _sf_pricebook_id = salesforce_recurring_metered_produce_with_price(price_in_cents: nil)
+      end
+
+      # create a price dimension and link the product to it
+      sf.create!(CPQ_PRICE_DIMENSION, {
+        "Name" => "Yearly Ramp",
+        CPQ_PRICE_DIMENSION_TYPE => CPQPriceDimensionTypeOptions::YEAR.serialize,
+        CPQ_QUOTE_LINE_PRODUCT => sf_product_id,
+      }.merge(additional_price_dimension_fields))
+
+      sf_product_id
+    end
+
     def create_salesforce_stripe_coupon_quote_association(sf_quote_id:, sf_stripe_coupon_id:)
      sf_stripe_coupon_id ||= create_salesforce_stripe_coupon
 
@@ -374,7 +391,7 @@ module Critic
       sf_order
     end
 
-    def create_salesforce_quote(sf_pricebook_id: nil, sf_account_id:, currency_iso_code: nil, contact_email: sf_randomized_id, additional_quote_fields: {})
+    def create_salesforce_quote(sf_pricebook_id: nil, sf_account_id:, currency_iso_code: nil, contact_email: nil, additional_quote_fields: {})
       sf_pricebook_id ||= default_pricebook_id
       opportunity_id = create_salesforce_opportunity(sf_account_id: sf_account_id, currency_iso_code: currency_iso_code)
       contact_id = create_salesforce_contact(contact_email: contact_email)
@@ -386,6 +403,7 @@ module Critic
         CPQ_QUOTE_PRIMARY_CONTACT => contact_id,
         CPQ_QUOTE_PRICEBOOK => sf_pricebook_id,
       }.merge(additional_quote_fields))
+      quote_id
     end
 
     # https://github.com/sseixas/CPQ-JS

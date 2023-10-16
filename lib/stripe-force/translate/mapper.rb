@@ -29,6 +29,7 @@ module StripeForce
       compound_key = stripe_record_class == Stripe::Price && sf_record&.sobject_type == SF_ORDER_ITEM
 
       if compound_key
+        log.info 'using compound key for price order item',
         sf_record = T.must(sf_record)
         stripe_record_key + "_" + Translate::Metadata.sf_object_metadata_name(sf_record)
       else
