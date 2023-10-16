@@ -54,12 +54,15 @@ class StripeForce::Translate
       # is the correct one for future merchants. Will need to revisit.
       signed_date = invoice.metadata["contract_cf_signed_date"]
       signed_date ||= sf_order[SF_ORDER_ACTIVATED_DATE].to_s
+      signed_date = StripeForce::Utilities::SalesforceUtil.salesforce_date_to_unix_timestamp(signed_date)
 
       currency = T.must(invoice_items.first).price(@user).currency # this should be the same across all item
       request = {
         customer: invoice.customer,
         currency: currency,
-        signed_at: StripeForce::Utilities::SalesforceUtil.salesforce_date_to_unix_timestamp(signed_date),
+        # There has been a case where the signed date has been > 1 year, this currently affects rev rec revenue booking and causes an issue.
+        # TODO: Revisit this in the future, and what should be the importance of the signed date.
+        signed_at: start_date < signed_date ? start_date : signed_date,
         billing_models: [{
           type: "invoice",
           invoice: invoice.id,
@@ -142,12 +145,15 @@ class StripeForce::Translate
     # is the correct one for future merchants. Will need to revisit.
     signed_date = subscription_schedule.metadata["contract_cf_signed_date"]
     signed_date ||= sf_order[SF_ORDER_ACTIVATED_DATE].to_s
+    signed_date = StripeForce::Utilities::SalesforceUtil.salesforce_date_to_unix_timestamp(signed_date)
 
     currency = T.must(combined_items.first).price(@user).currency # this should be the same across all item
     {
       customer: subscription_schedule.customer,
       currency: currency,
-      signed_at: StripeForce::Utilities::SalesforceUtil.salesforce_date_to_unix_timestamp(signed_date),
+      # There has been a case where the signed date has been > 1 year, this currently affects rev rec revenue booking and causes an issue.
+      # TODO: Revisit this in the future, and what should be the importance of the signed date.
+      signed_at: subscription_schedule.created < signed_date ? subscription_schedule.created : signed_date,
       billing_models: [{
         type: "subscription_schedule",
         subscription_schedule: subscription_schedule.id,
@@ -323,6 +329,7 @@ class StripeForce::Translate
     # is the correct one for future merchants. Will need to revisit.
     signed_date = subscription_schedule.metadata["contract_cf_signed_date"]
     signed_date ||= initial_sf_order.ActivatedDate
+    signed_date = StripeForce::Utilities::SalesforceUtil.salesforce_date_to_unix_timestamp(signed_date)
 
     first_price = T.let(contract_items.first, T.untyped)[:price]
     stripe_price = Stripe::Price.retrieve(first_price, @user.stripe_credentials)
@@ -331,7 +338,9 @@ class StripeForce::Translate
     {
       customer: subscription_schedule.customer,
       currency: currency,
-      signed_at: StripeForce::Utilities::SalesforceUtil.salesforce_date_to_unix_timestamp(signed_date),
+      # There has been a case where the signed date has been > 1 year, this currently affects rev rec revenue booking and causes an issue.
+      # TODO: Revisit this in the future, and what should be the importance of the signed date.
+      signed_at: subscription_schedule.created < signed_date ? subscription_schedule.created : signed_date,
       billing_models: [{
         type: "subscription_schedule",
         subscription_schedule: subscription_schedule.id,
@@ -419,8 +428,8 @@ class StripeForce::Translate
     new_end = new_phase.end_date
 
     amount_subtotal = updated_sf_item.stripe_params[:metadata][:item_contract_value]
-    amount_subtotal ||= normalize_float_amount_in_currency_for_stripe(updated_sf_item.price.currency, updated_order_line.TotalPrice.to_s, as_decimal: false)
-    new_amount = amount_subtotal
+    amount_subtotal ||= updated_order_line.TotalPrice
+    new_amount = normalize_float_amount_in_currency_for_stripe(updated_sf_item.price.currency, amount_subtotal.to_s, as_decimal: false)
 
     if new_end != contract_item.period.end || new_qty != contract_item.quantity || new_amount != contract_item.amount_subtotal
       {
@@ -458,9 +467,16 @@ class StripeForce::Translate
         end_date = Time.at(previous_phase.end_date).to_date
         month_terms = (end_date.year * 12 + end_date.month) - (start_date.year * 12 + start_date.month)
 
+        # NOTE: Ideally, we should be using just the unit_amount_decimal. But there is a weird case in test that makes unit amount == decimal amount.
+        # Hence, adding this check to have a safeguard for it.g
+        unit_amount = stripe_price.unit_amount
+        if !stripe_price.unit_amount_decimal.nil? && stripe_price.unit_amount_decimal.to_i != stripe_price.unit_amount
+          unit_amount = normalize_float_amount_in_currency_for_stripe(stripe_price.currency, stripe_price.unit_amount_decimal, as_decimal: false)
+        end
+
         # TODO: This feels a bit hacky, need to validate if there is a better way to get the new full contract
         # item value here if the item is removed.
-        new_amount = stripe_price.unit_amount * contract_item.quantity.to_i * month_terms
+        new_amount = unit_amount * contract_item.quantity.to_i * month_terms
         update_items << {
           type: "update_contract_item",
           update_contract_item:
@@ -485,6 +501,8 @@ class StripeForce::Translate
     .returns(T.untyped)
   end
   def create_item_revenue_contract_for_amendments_from_price_info(add_item, new_phase)
+    # Revisit this logic potentially, but adding a failsafe for "usd" for now.
+    currency = new_phase.currency || "usd"
     if add_item[:price_data]
       price_data = T.must(add_item[:price_data])
       unit_amount = price_data[:unit_amount_decimal].to_i
@@ -510,6 +528,7 @@ class StripeForce::Translate
       stripe_price_id = add_item[:price].to_s
       stripe_price = Stripe::Price.retrieve(stripe_price_id, @user.stripe_credentials)
       unit_amount = stripe_price.unit_amount
+      currency = stripe_price.currency
 
       phase_item = new_phase.add_invoice_items.find {|item| item.price == stripe_price_id }
     end
@@ -533,8 +552,11 @@ class StripeForce::Translate
       }
     end
 
-    amount_subtotal = phase_item[:metadata][:item_contract_value]
-    amount_subtotal ||= unit_amount * add_item[:quantity].to_i
+    amount_subtotal = if phase_item[:metadata][:item_contract_value]
+      normalize_float_amount_in_currency_for_stripe(currency, phase_item[:metadata][:item_contract_value], as_decimal: false)
+    else
+      unit_amount * add_item[:quantity].to_i
+    end
 
     {
       price: phase_item.price,
