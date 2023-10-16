@@ -116,6 +116,8 @@ const (
 	EventTypeIssuingDisputeFundsReinstated                      EventType = "issuing_dispute.funds_reinstated"
 	EventTypeIssuingDisputeSubmitted                            EventType = "issuing_dispute.submitted"
 	EventTypeIssuingDisputeUpdated                              EventType = "issuing_dispute.updated"
+	EventTypeIssuingTokenCreated                                EventType = "issuing_token.created"
+	EventTypeIssuingTokenUpdated                                EventType = "issuing_token.updated"
 	EventTypeIssuingTransactionCreated                          EventType = "issuing_transaction.created"
 	EventTypeIssuingTransactionUpdated                          EventType = "issuing_transaction.updated"
 	EventTypeMandateUpdated                                     EventType = "mandate.updated"
