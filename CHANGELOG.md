@@ -1,5 +1,10 @@
 # Changelog
 
+## 75.11.0 - 2023-10-16
+* [#1751](https://github.com/stripe/stripe-go/pull/1751) Update generated code
+  * Add support for new values `issuing_token.created` and `issuing_token.updated` on enum `EventType`
+* [#1748](https://github.com/stripe/stripe-go/pull/1748) add NewBackendsWithConfig helper
+
 ## 75.10.0 - 2023-10-11
 * [#1746](https://github.com/stripe/stripe-go/pull/1746) Update generated code
   * Add support for `RedirectOnCompletion`, `ReturnURL`, and `UIMode` on `CheckoutSessionParams` and `CheckoutSession`
