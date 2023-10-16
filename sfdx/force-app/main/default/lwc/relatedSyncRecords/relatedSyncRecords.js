@@ -17,9 +17,7 @@ export default class RelatedSyncRecords extends NavigationMixin(LightningElement
   async connectedCallback() {
         try {
             this.loading = true;
-            const allRelatedSyncRecords = await getRelatedSyncRecords({
-            recordId: this.recordId
-            });
+            const allRelatedSyncRecords = await getRelatedSyncRecords({recordId: this.recordId});
             this.data = JSON.parse(allRelatedSyncRecords);
             if(this.data.isSuccess && this.data.results.hasSyncRecords) {
                 let syncRecords = this.data.results.syncRecordList;

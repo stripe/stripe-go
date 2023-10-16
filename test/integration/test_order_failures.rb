@@ -57,7 +57,7 @@ class Critic::OrderFailureTest < Critic::VCRTest
 
     sync_record = get_sync_record_by_secondary_id(sf_order.Id)
 
-    assert_match("The following required fields are missing from this Salesforce record: SBQQ__Quote__c.SBQQ__StartDate__c", sync_record[prefixed_stripe_field(SyncRecordFields::RESOLUTION_MESSAGE.serialize)])
+    assert_match("Data Error: The following required fields are missing: SBQQ__Quote__c.SBQQ__StartDate__c", sync_record[prefixed_stripe_field(SyncRecordFields::RESOLUTION_MESSAGE.serialize)])
   end
 
   # it looks like there are field validations in place to protect against the term being nil'd out on the order line
@@ -79,14 +79,14 @@ class Critic::OrderFailureTest < Critic::VCRTest
     assert_equal(sf_order.Id, sync_record[prefixed_stripe_field(SyncRecordFields::PRIMARY_RECORD_ID.serialize)])
     assert_equal(sf_order.Id, sync_record[prefixed_stripe_field(SyncRecordFields::SECONDARY_RECORD_ID.serialize)])
     assert_match(sf_order.Id, sync_record[prefixed_stripe_field(SyncRecordFields::COMPOUND_ID.serialize)])
-    assert_match("The following required fields are missing from this Salesforce record: SBQQ__Quote__c.SBQQ__SubscriptionTerm__c", sync_record[prefixed_stripe_field(SyncRecordFields::RESOLUTION_MESSAGE.serialize)])
+    assert_match("Data Error: The following required fields are missing: SBQQ__Quote__c.SBQQ__SubscriptionTerm__c", sync_record[prefixed_stripe_field(SyncRecordFields::RESOLUTION_MESSAGE.serialize)])
 
     assert_match(sf_order.Id, sync_record[prefixed_stripe_field('Primary_Record__c')])
     assert_match(sf_order.Id, sync_record[prefixed_stripe_field('Secondary_Record__c')])
   end
 
   it 'throws an error when a float is specified for a quantity' do
-    sf_product_id, sf_pricebook_id = salesforce_recurring_product_with_price
+    sf_product_id, _sf_pricebook_id = salesforce_recurring_product_with_price
     sf_account_id ||= create_salesforce_account
 
     quote_id = create_salesforce_quote(
@@ -114,14 +114,12 @@ class Critic::OrderFailureTest < Critic::VCRTest
     assert_match("Quantity specified as a decimal value. Only integers are supported", exception.message)
   end
 
-  it 'it creates an error sync record when the customer has been deleted' do
+  it 'creates an error sync record when the customer has been deleted' do
     sf_account_id = create_salesforce_account
-
-    sf_order = create_subscription_order(sf_account_id: sf_account_id, contact_email: "error_sync_record")
+    sf_order = create_subscription_order(sf_account_id: sf_account_id, contact_email: "customer_deleted_error_1")
     sf_account = @user.sf_client.find(SF_ACCOUNT, sf_account_id)
 
     SalesforceTranslateRecordJob.translate(@user, sf_account)
-
     sf_account.refresh
 
     stripe_customer = Stripe::Customer.retrieve(sf_account[prefixed_stripe_field(GENERIC_STRIPE_ID)], @user.stripe_credentials).delete

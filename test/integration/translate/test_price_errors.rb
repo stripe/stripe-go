@@ -15,7 +15,7 @@ class Critic::PriceReuse < Critic::VCRTest
     @user.field_defaults = {"price_order_item" => {"billing_scheme" => "tiered"}}
     @user.save
 
-    sf_order = create_subscription_order(contact_email: "gracefully_fails_2")
+    sf_order = create_subscription_order(contact_email: "gracefully_fails_3")
 
     # before this test, this would throw a fatal exception without a nice user error
     exception = assert_raises(Stripe::InvalidRequestError) do
@@ -29,7 +29,7 @@ class Critic::PriceReuse < Critic::VCRTest
       @user.field_defaults = {"price" => {"recurring.aggregate_usage" => "last_during_period"}}
       @user.save
 
-      sf_order = create_subscription_order(contact_email: "translation_does_not_fail_1")
+      sf_order = create_subscription_order(contact_email: "translation_does_not_fail_2")
 
       StripeForce::Translate.perform_inline(@user, sf_order.Id)
   end

@@ -7,8 +7,15 @@ public with sharing class setupAssistant {
 
     static Boolean isConnected() {
         Stripe_Connection__c stripeConnectRec = Stripe_Connection__c.getOrgDefaults();
-
         return utilities.isConnected(stripeConnectRec);
+    }
+
+    // downloads sync record and config data from quick action button on sync record component
+    @AuraEnabled(Cacheable=true)
+    public static String getDownloadForSupportUrl(Id recordId) {
+        Pagereference ref = Page.DownloadForSupportConfig;
+        ref.getParameters().put('recordId', recordId);
+        return ref.getUrl();
     }
 
     @AuraEnabled(Cacheable=true)

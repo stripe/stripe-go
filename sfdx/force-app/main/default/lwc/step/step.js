@@ -31,6 +31,8 @@ export default class SetupStep extends LightningElement {
 
             return;
         }
+
+        console.log (this.exportableConfigDownloadUrl)
         window.open(this.exportableConfigDownloadUrl.data, '"_blank"');
     }
 

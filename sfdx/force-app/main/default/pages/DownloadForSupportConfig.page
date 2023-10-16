@@ -1,0 +1,2 @@
+<apex:page id="DownloadForSupportConfig" controller="ConfigExportVFController" contentType="text/json#sync_record_support_config.json"
+        showHeader="false" showChat="false" sideBar="false" applyHtmlTag="false" applyBodyTag="false">{!config}</apex:page>
