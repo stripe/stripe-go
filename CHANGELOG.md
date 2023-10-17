@@ -1,5 +1,9 @@
 # Changelog
 
+## 76.1.0 - 2023-10-17
+* [#1756](https://github.com/stripe/stripe-go/pull/1756) Update generated code
+  * Add support for new value `invalid_dob_age_under_minimum` on enums `AccountFutureRequirementsErrorsCode`, `AccountRequirementsErrorsCode`, `BankAccountFutureRequirementsErrorsCode`, and `BankAccountRequirementsErrorsCode`
+
 ## 76.0.0 - 2023-10-16
 * This release changes the pinned API version to `2023-10-16`. Please read the [API Upgrade Guide](https://stripe.com/docs/upgrades#2023-10-16) and carefully review the API changes before upgrading `stripe-go`.
 * [#1753](https://github.com/stripe/stripe-go/pull/1753) Update generated code
