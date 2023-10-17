@@ -3,7 +3,7 @@ package stripe
 import (
 	"reflect"
 
-	"github.com/stripe/stripe-go/v75/form"
+	"github.com/stripe/stripe-go/v76/form"
 )
 
 //

@@ -10,7 +10,7 @@ package personalizationdesign
 import (
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v75"
+	stripe "github.com/stripe/stripe-go/v76"
 )
 
 // Client is used to invoke /issuing/personalization_designs APIs.
