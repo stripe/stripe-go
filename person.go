@@ -74,6 +74,8 @@ type PersonListRelationshipParams struct {
 	Director *bool `form:"director"`
 	// A filter on the list of people returned based on whether these people are executives of the account's company.
 	Executive *bool `form:"executive"`
+	// A filter on the list of people returned based on whether these people are legal guardians of the account's representative.
+	LegalGuardian *bool `form:"legal_guardian"`
 	// A filter on the list of people returned based on whether these people are owners of the account's company.
 	Owner *bool `form:"owner"`
 	// A filter on the list of people returned based on whether these people are the representative of the account's company.
@@ -93,6 +95,22 @@ type PersonListParams struct {
 // AddExpand appends a new field to expand.
 func (p *PersonListParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
+}
+
+// Details on the legal guardian's acceptance of the main Stripe service agreement.
+type PersonAdditionalTOSAcceptancesAccountParams struct {
+	// The Unix timestamp marking when the account representative accepted the service agreement.
+	Date *int64 `form:"date"`
+	// The IP address from which the account representative accepted the service agreement.
+	IP *string `form:"ip"`
+	// The user agent of the browser from which the account representative accepted the service agreement.
+	UserAgent *string `form:"user_agent"`
+}
+
+// Details on the legal guardian's acceptance of the required Stripe agreements.
+type PersonAdditionalTOSAcceptancesParams struct {
+	// Details on the legal guardian's acceptance of the main Stripe service agreement.
+	Account *PersonAdditionalTOSAcceptancesAccountParams `form:"account"`
 }
 
 // The Kana variation of the person's address (Japan only).
@@ -175,6 +193,8 @@ type PersonRelationshipParams struct {
 	Director *bool `form:"director"`
 	// Whether the person has significant responsibility to control, manage, or direct the organization.
 	Executive *bool `form:"executive"`
+	// Whether the person is the legal guardian of the account's representative.
+	LegalGuardian *bool `form:"legal_guardian"`
 	// Whether the person is an owner of the account's legal entity.
 	Owner *bool `form:"owner"`
 	// The percent owned by the person of the account's legal entity.
@@ -205,6 +225,8 @@ type PersonVerificationParams struct {
 type PersonParams struct {
 	Params  `form:"*"`
 	Account *string `form:"-"` // Included in URL
+	// Details on the legal guardian's acceptance of the required Stripe agreements.
+	AdditionalTOSAcceptances *PersonAdditionalTOSAcceptancesParams `form:"additional_tos_acceptances"`
 	// The person's address.
 	Address *AddressParams `form:"address"`
 	// The Kana variation of the person's address (Japan only).
@@ -273,6 +295,18 @@ func (p *PersonParams) AddMetadata(key string, value string) {
 	}
 
 	p.Metadata[key] = value
+}
+
+type PersonAdditionalTOSAcceptancesAccount struct {
+	// The Unix timestamp marking when the legal guardian accepted the service agreement.
+	Date int64 `json:"date"`
+	// The IP address from which the legal guardian accepted the service agreement.
+	IP string `json:"ip"`
+	// The user agent of the browser from which the legal guardian accepted the service agreement.
+	UserAgent string `json:"user_agent"`
+}
+type PersonAdditionalTOSAcceptances struct {
+	Account *PersonAdditionalTOSAcceptancesAccount `json:"account"`
 }
 
 // The Kana variation of the person's address (Japan only).
@@ -357,6 +391,8 @@ type PersonRelationship struct {
 	Director bool `json:"director"`
 	// Whether the person has significant responsibility to control, manage, or direct the organization.
 	Executive bool `json:"executive"`
+	// Whether the person is the legal guardian of the account's representative.
+	LegalGuardian bool `json:"legal_guardian"`
 	// Whether the person is an owner of the account's legal entity.
 	Owner bool `json:"owner"`
 	// The percent owned by the person of the account's legal entity.
@@ -423,8 +459,9 @@ type PersonVerification struct {
 type Person struct {
 	APIResource
 	// The account the person is associated with.
-	Account string   `json:"account"`
-	Address *Address `json:"address"`
+	Account                  string                          `json:"account"`
+	AdditionalTOSAcceptances *PersonAdditionalTOSAcceptances `json:"additional_tos_acceptances"`
+	Address                  *Address                        `json:"address"`
 	// The Kana variation of the person's address (Japan only).
 	AddressKana *PersonAddressKana `json:"address_kana"`
 	// The Kanji variation of the person's address (Japan only).
