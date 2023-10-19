@@ -256,8 +256,8 @@ class StripeForce::Translate
 
           SyncRecordFields::RESOLUTION_MESSAGE => message,
           SyncRecordFields::RESOLUTION_STATUS => SyncRecordResolutionStatuses::ERROR,
-          SyncRecordFields::RESOLUTION_DOCUMENTATION_LINK => STRIPE_ERROR_HANDLING_DOCUMENTATION_LINK,
-          SyncRecordFields::STRIPE_REQUEST_DASHBOARD_LINK => create_stripe_request_dashboard_link(request_id),
+          # SyncRecordFields::RESOLUTION_DOCUMENTATION_LINK => STRIPE_ERROR_HANDLING_DOCUMENTATION_LINK,
+          # SyncRecordFields::STRIPE_REQUEST_DASHBOARD_LINK => create_stripe_request_dashboard_link(request_id),
         }.transform_keys(&:serialize).transform_keys(&method(:prefixed_stripe_field))
       )
     end
@@ -322,8 +322,8 @@ class StripeForce::Translate
 
           SyncRecordFields::RESOLUTION_MESSAGE => message,
           SyncRecordFields::RESOLUTION_STATUS => SyncRecordResolutionStatuses::SUCCESS,
-          SyncRecordFields::RESOLUTION_DOCUMENTATION_LINK => STRIPE_OVERVIEW_DOCUMENTATION_LINK,
-          SyncRecordFields::STRIPE_REQUEST_DASHBOARD_LINK => create_stripe_request_dashboard_link(stripe_request_id),
+          # SyncRecordFields::RESOLUTION_DOCUMENTATION_LINK => STRIPE_OVERVIEW_DOCUMENTATION_LINK,
+          # SyncRecordFields::STRIPE_REQUEST_DASHBOARD_LINK => create_stripe_request_dashboard_link(stripe_request_id),
         }.transform_keys(&:serialize).transform_keys(&method(:prefixed_stripe_field))
       )
     end
