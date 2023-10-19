@@ -50,10 +50,10 @@ const (
 
 // Only return personalization designs with the given preferences.
 type IssuingPersonalizationDesignListPreferencesParams struct {
-	// Only return the personalization design that is set as the account default. A connected account will use the Connect platform's default if no personalization design is set as the account default.
-	AccountDefault *bool `form:"account_default"`
+	// Only return the personalization design that is set as default. A connected account will use the Connect platform's default if no personalization design is set as default.
+	IsDefault *bool `form:"is_default"`
 	// Only return the personalization design that is set as the Connect platform's default. This parameter is only applicable to connected accounts.
-	PlatformDefault *bool `form:"platform_default"`
+	IsPlatformDefault *bool `form:"is_platform_default"`
 }
 
 // Returns a list of personalization design objects. The objects are sorted in descending order by creation date, with the most recently created object appearing first.
@@ -88,8 +88,8 @@ type IssuingPersonalizationDesignCarrierTextParams struct {
 
 // Information on whether this personalization design is used to create cards when one is not specified.
 type IssuingPersonalizationDesignPreferencesParams struct {
-	// Whether this personalization design is used to create cards when one is not specified. A connected account will use the Connect platform's default if no personalization design is set as the account default.
-	AccountDefault *bool `form:"account_default"`
+	// Whether this personalization design is used to create cards when one is not specified. A connected account will use the Connect platform's default if no personalization design is set as default.
+	IsDefault *bool `form:"is_default"`
 }
 
 // Creates a personalization design object.
@@ -142,9 +142,9 @@ type IssuingPersonalizationDesignCarrierText struct {
 }
 type IssuingPersonalizationDesignPreferences struct {
 	// Whether this personalization design is used to create cards when one is not specified. A connected account will use the Connect platform's default if no personalization design is set as the account default.
-	AccountDefault bool `json:"account_default"`
-	// Whether this personalization design is used to create cards when one is not specified and an account default for this connected account does not exist.
-	PlatformDefault bool `json:"platform_default"`
+	IsDefault bool `json:"is_default"`
+	// Whether this personalization design is used to create cards when one is not specified and a default for this connected account does not exist.
+	IsPlatformDefault bool `json:"is_platform_default"`
 }
 type IssuingPersonalizationDesignRejectionReasons struct {
 	// The reason(s) the card logo was rejected.
