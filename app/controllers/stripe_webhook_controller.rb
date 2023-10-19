@@ -5,7 +5,7 @@ class StripeWebhookController < ApplicationController
 
   WEBHOOK_SECRET = ENV.fetch("STRIPE_WEBHOOK_SECRET")
   STRIPEFORCE_CI_ACCOUNT = "acct_1MHBTOC9fP1FVBtd"
-  STRIPEFORCE_DEMO_ACCOUNT = "acct_15uapDIsgf92XbAO"
+  # STRIPEFORCE_DEMO_ACCOUNT = "acct_15uapDIsgf92XbAO"
 
   def stripe_webhook
     payload = request.body.read.freeze

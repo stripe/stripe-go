@@ -227,11 +227,9 @@ module StripeForce::Utilities
       user = mapper.user
 
       subscription_start_date_stripe_path = ['subscription_schedule', 'start_date']
-      start_date_order_path = user.field_mappings.dig(*subscription_start_date_stripe_path) ||
-        user.required_mappings.dig(*subscription_start_date_stripe_path)
+      start_date_order_path = user.field_mappings.dig(*subscription_start_date_stripe_path) || user.required_mappings.dig(*subscription_start_date_stripe_path)
 
       quote_start_date = T.cast(mapper.extract_key_path_for_record(sf_order, start_date_order_path), T.nilable(T.any(String, Integer)))
-
       if quote_start_date.nil?
         raise Integrations::Errors::MissingRequiredFields.new(
           salesforce_object: sf_order,
