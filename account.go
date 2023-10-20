@@ -1104,7 +1104,7 @@ type AccountFutureRequirements struct {
 	CurrentDeadline int64 `json:"current_deadline"`
 	// Fields that need to be collected to keep the account enabled. If not collected by `future_requirements[current_deadline]`, these fields will transition to the main `requirements` hash.
 	CurrentlyDue []string `json:"currently_due"`
-	// This is typed as a string for consistency with `requirements.disabled_reason`, but it safe to assume `future_requirements.disabled_reason` is empty because fields in `future_requirements` will never disable the account.
+	// This is typed as a string for consistency with `requirements.disabled_reason`.
 	DisabledReason string `json:"disabled_reason"`
 	// Fields that are `currently_due` and need to be collected again because validation or verification failed.
 	Errors []*AccountFutureRequirementsError `json:"errors"`
