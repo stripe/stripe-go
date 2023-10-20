@@ -4,6 +4,7 @@
     <businessStatus>Active</businessStatus>
     <defaultValue>false</defaultValue>
     <description>Is Issue Creation Disabled?</description>
+    <inlineHelpText>Disables creating new issues in Sentry.</inlineHelpText>
     <externalId>false</externalId>
     <label>Issue Creation Disabled?</label>
     <securityClassification>Internal</securityClassification>

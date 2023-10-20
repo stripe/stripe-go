@@ -3,6 +3,8 @@
     <fullName>Resolution_Message__c</fullName>
     <externalId>false</externalId>
     <label>Sync Message</label>
+    <description>The error message produced from the sync request.</description>
+    <inlineHelpText>This field contains the message produced from the sync request.</inlineHelpText>
     <length>131072</length>
     <trackTrending>false</trackTrending>
     <type>LongTextArea</type>

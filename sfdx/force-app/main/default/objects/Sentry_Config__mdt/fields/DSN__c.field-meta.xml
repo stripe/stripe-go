@@ -2,6 +2,7 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>DSN__c</fullName>
     <description>The Sentry DSN</description>
+    <inlineHelpText>The Sentry DSN</inlineHelpText>
     <externalId>false</externalId>
     <fieldManageability>DeveloperControlled</fieldManageability>
     <label>DSN</label>

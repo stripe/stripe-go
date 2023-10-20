@@ -2,6 +2,7 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Duration__c</fullName>
     <description>Indicates how long the coupon is valid for. Values include once, forever, or repeating.</description>
+    <inlineHelpText>One of forever, once, and repeating. Describes how long a customer who applies this coupon will get the discount.</inlineHelpText>
     <externalId>false</externalId>
     <label>Duration</label>
     <required>true</required>

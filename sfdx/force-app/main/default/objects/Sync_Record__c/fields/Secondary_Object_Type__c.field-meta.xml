@@ -3,6 +3,7 @@
     <fullName>Secondary_Object_Type__c</fullName>
     <description>Stores the secondary object type</description>
     <externalId>false</externalId>
+    <inlineHelpText>This field contains the type of the Secondary Record related to this Sync Record.</inlineHelpText>
     <label>Secondary Object Type</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

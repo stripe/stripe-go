@@ -2,6 +2,7 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Max_Redemptions__c</fullName>
     <description>Maximum number of times a coupon can be redeemed across all customers.</description>
+    <inlineHelpText>Maximum number of times this coupon can be redeemed, in total, across all customers, before it is no longer valid.</inlineHelpText>
     <externalId>false</externalId>
     <label>Max Redemptions</label>
     <precision>18</precision>

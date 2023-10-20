@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Duration_In_Months__c</fullName>
+    <description>If duration is repeating, the number of months the coupon applies. Null if coupon duration is forever or once.</description>
+    <inlineHelpText>If duration is repeating, the number of months the coupon applies. Null if coupon duration is forever or once.</inlineHelpText>
     <externalId>false</externalId>
     <label>Duration In Months</label>
     <precision>18</precision>

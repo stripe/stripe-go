@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Stripe_ID__c</fullName>
-    <description>The unique identifier for the coupon in Stripe.</description>
+    <description>The Id of the Coupon Record in the Stripe data set.</description>
+    <inlineHelpText>The Id of the Coupon Record in your Stripe Dashboard.</inlineHelpText>
     <externalId>true</externalId>
     <label>Stripe ID</label>
     <length>255</length>

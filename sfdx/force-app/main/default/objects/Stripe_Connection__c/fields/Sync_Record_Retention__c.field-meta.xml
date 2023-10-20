@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Sync_Record_Retention__c</fullName>
+    <description>How many records to retain when pruning Sync Record Records.</description>
+    <inlineHelpText>How many records to retain when pruning Sync Record Records.</inlineHelpText>
     <externalId>false</externalId>
     <label>Sync Record Retention</label>
     <required>false</required>

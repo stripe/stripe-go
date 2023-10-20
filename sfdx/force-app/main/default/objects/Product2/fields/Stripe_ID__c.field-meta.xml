@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Stripe_ID__c</fullName>
+    <description>The Id of the Product Record in the Stripe data set.</description>
     <externalId>true</externalId>
+    <inlineHelpText>The Id of the Product Record in your Stripe Dashboard.</inlineHelpText>
     <label>Stripe ID</label>
     <length>255</length>
     <required>false</required>

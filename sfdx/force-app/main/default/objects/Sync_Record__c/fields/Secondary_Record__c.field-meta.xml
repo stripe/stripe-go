@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Secondary_Record__c</fullName>
+    <description>A link to the Secondary Record for this Sync Record.</description>
     <externalId>false</externalId>
     <formula>HYPERLINK(Secondary_Record_ID__c, Secondary_Record_ID__c)</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>Provides a link to the Secondary Record related to this Sync Record.</inlineHelpText>
     <label>Secondary Record</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

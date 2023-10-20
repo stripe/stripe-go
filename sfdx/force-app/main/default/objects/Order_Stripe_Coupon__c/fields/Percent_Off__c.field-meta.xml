@@ -2,6 +2,7 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Percent_Off__c</fullName>
     <description>The percentage off that is taken off the subtotal for the duration of the coupon.</description>
+    <inlineHelpText>Percent that will be taken off the subtotal of any invoices for this customer for the duration of the coupon.</inlineHelpText>
     <externalId>false</externalId>
     <label>Percent Off</label>
     <precision>18</precision>

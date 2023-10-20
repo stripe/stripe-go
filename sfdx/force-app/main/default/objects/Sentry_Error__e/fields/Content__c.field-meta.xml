@@ -2,6 +2,7 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Content__c</fullName>
     <description>The serialized version of the Sentry_Error object.</description>
+    <inlineHelpText>The serialized version of the Sentry_Error object.</inlineHelpText>
     <externalId>false</externalId>
     <isFilteringDisabled>false</isFilteringDisabled>
     <isNameField>false</isNameField>

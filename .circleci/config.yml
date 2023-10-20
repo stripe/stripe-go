@@ -108,6 +108,7 @@ jobs:
       - sfdx/install: &sfdx_version
           version: '7.170.0'
       - run: sfdx/bin/check-dev-settings
+      - run: sfdx/bin/find-missing-help-text.sh
       - run: sfdx/bin/run-tests <<parameters.account>>
       - store_test_results:
           path: sfdx/test-results

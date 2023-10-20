@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Primary_Record__c</fullName>
+    <description>A link to the Primary Record for this Sync Record.</description>
     <externalId>false</externalId>
     <formula>HYPERLINK(Primary_Record_ID__c, Primary_Record_ID__c)</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>Provides a link to the Primary Record related to this Sync Record.</inlineHelpText>
     <label>Primary Record</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

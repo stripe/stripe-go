@@ -3,6 +3,8 @@
     <fullName>Resolution_Documentation_Link__c</fullName>
     <externalId>false</externalId>
     <label>Stripe Documentation Link</label>
+    <description>Link to documentation for the Stripe Billing connector for Salesforce CPQ.</description>
+    <inlineHelpText>Link to Error Handling documentation.</inlineHelpText>
     <required>false</required>
     <trackHistory>false</trackHistory>
     <type>Url</type>

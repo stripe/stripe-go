@@ -2,6 +2,8 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Stripe_ID__c</fullName>
     <externalId>true</externalId>
+    <description>The Id of the Subscription Item Record in the Stripe data set.</description>
+    <inlineHelpText>The Id of the Subscription Item Record in your Stripe Dashboard.</inlineHelpText>
     <label>Stripe ID</label>
     <length>255</length>
     <required>false</required>

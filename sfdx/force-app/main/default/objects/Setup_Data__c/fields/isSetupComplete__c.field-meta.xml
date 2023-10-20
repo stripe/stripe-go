@@ -2,7 +2,9 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>isSetupComplete__c</fullName>
     <defaultValue>false</defaultValue>
+    <description>Tracks if setup is complete, to inform the Setup Assistant how to behave.</description>
     <externalId>false</externalId>
+    <inlineHelpText>Tracks if setup is complete.</inlineHelpText>
     <label>isSetupComplete</label>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>

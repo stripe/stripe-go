@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Global_Key__c</fullName>
+    <description>The key required to register a connection with the Stripe Billing Connector platform.</description>
+    <inlineHelpText>The key required to register a connection with the Stripe Billing Connector platform.</inlineHelpText>
     <externalId>false</externalId>
     <fieldManageability>DeveloperControlled</fieldManageability>
     <label>Global Key</label>

@@ -3,6 +3,7 @@
     <fullName>Environment_Name__c</fullName>
     <businessStatus>Active</businessStatus>
     <description>The name of the environment to use in place of the calculated environment from the URL.</description>
+    <inlineHelpText>The name of the environment to use in place of the calculated environment from the URL.</inlineHelpText>
     <externalId>false</externalId>
     <label>Environment Name</label>
     <length>80</length>

@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
   <fullName>Skip_Past_Initial_Invoices__c</fullName>
+  <description>If this initial order is backdated, Stripe will prorate the past period. Checking this field indicates that we should not bill the customer for that period of time.</description>
+  <inlineHelpText>If this initial order is backdated, Stripe will prorate the past period. Checking this field indicates that we should not bill the customer for that period of time.</inlineHelpText>
   <externalId>false</externalId>
   <label>Skip Past Invoices</label>
   <defaultValue>false</defaultValue>

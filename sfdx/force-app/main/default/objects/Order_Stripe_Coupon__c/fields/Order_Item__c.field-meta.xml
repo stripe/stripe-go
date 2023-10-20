@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Order_Item__c</fullName>
+    <description>The Id of the Order Item Record in the Salesforce data set.</description>
+    <inlineHelpText>The Id of the Order Item Record in Salesforce.</inlineHelpText>
     <label>Order Item</label>
     <referenceTo>OrderItem</referenceTo>
     <relationshipName>Order_Item_Lookup</relationshipName>

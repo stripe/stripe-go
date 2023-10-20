@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>isSandbox__c</fullName>
+    <description>Defines if this org is a sandbox.</description>
+    <inlineHelpText>Defines if this org is a sandbox.</inlineHelpText>
     <defaultValue>false</defaultValue>
     <externalId>false</externalId>
     <label>isSandbox</label>

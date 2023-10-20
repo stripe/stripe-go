@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Quote__c</fullName>
+    <description>The Id of the Quote Record in the Salesforce data set.</description>
+    <inlineHelpText>The Id of the Quote Record in Salesforce.</inlineHelpText>
     <externalId>false</externalId>
     <label>Quote</label>
     <referenceTo>SBQQ__Quote__c</referenceTo>

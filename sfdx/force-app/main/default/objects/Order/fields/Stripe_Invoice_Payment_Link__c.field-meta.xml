@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Stripe_Invoice_Payment_Link__c</fullName>
+    <description>Holds the URL to the Stripe-hosted invoice, to allow for invoice payment.</description>
     <externalId>false</externalId>
+    <inlineHelpText>This link takes you to the Stripe-hosted Invoice for invoice payment.</inlineHelpText>
     <label>Stripe Invoice Payment Link</label>
     <required>false</required>
     <trackHistory>false</trackHistory>

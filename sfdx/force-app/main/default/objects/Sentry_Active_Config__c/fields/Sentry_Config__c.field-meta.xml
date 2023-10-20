@@ -4,6 +4,7 @@
     <businessStatus>Active</businessStatus>
     <defaultValue>&quot;Default&quot;</defaultValue>
     <description>The DeveloperName of the Sentry_Config__mdt entry to use for configuration.</description>
+    <inlineHelpText>The DeveloperName of the Sentry_Config__mdt entry to use for configuration.</inlineHelpText>
     <externalId>false</externalId>
     <label>Sentry Config DeveloperName</label>
     <length>80</length>

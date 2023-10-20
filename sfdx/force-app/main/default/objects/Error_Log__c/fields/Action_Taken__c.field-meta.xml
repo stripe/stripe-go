@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Action_Taken__c</fullName>
+    <description>The action taken that generated the error.</description>
+    <inlineHelpText>The action taken that generated the error.</inlineHelpText>
     <externalId>false</externalId>
     <label>Action Taken</label>
     <required>false</required>

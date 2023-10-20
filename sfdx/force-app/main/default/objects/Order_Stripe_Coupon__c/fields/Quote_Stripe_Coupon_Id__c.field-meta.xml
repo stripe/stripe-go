@@ -2,6 +2,7 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Quote_Stripe_Coupon_Id__c</fullName>
     <description>The unique identifier for the initial coupon this coupon was duplicated from.</description>
+    <inlineHelpText>The Id of the Quote Stripe Coupon Record in Salesforce that this coupon was duplicated from.</inlineHelpText>
     <externalId>false</externalId>
     <label>Quote Stripe Coupon ID</label>
     <length>255</length>

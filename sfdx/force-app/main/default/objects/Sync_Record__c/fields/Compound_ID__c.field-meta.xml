@@ -2,7 +2,9 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Compound_ID__c</fullName>
     <caseSensitive>true</caseSensitive>
+    <description>A &apos;-&apos; delimited field containing a unique id made from combining both the primary Record Id being processed, and the secondary Record Id, if applicable.</description>
     <externalId>true</externalId>
+    <inlineHelpText>This field is built with the pattern &quot;&lt;Primary_Salesforce_Id&gt;-&lt;Secondary_Salesforce_Id&gt;&quot;.</inlineHelpText>
     <label>Compound ID</label>
     <length>255</length>
     <required>false</required>

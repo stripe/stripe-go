@@ -4,6 +4,7 @@
     <businessStatus>Active</businessStatus>
     <defaultValue>false</defaultValue>
     <description>Is Debug Enabled?</description>
+    <inlineHelpText>Turns on verbose logging to Sentry.</inlineHelpText>
     <externalId>false</externalId>
     <label>Debug</label>
     <securityClassification>Internal</securityClassification>
