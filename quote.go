@@ -133,6 +133,7 @@ type QuoteStatusDetailsStaleLastReasonType string
 
 // List of values that QuoteStatusDetailsStaleLastReasonType can take
 const (
+	QuoteStatusDetailsStaleLastReasonTypeAcceptFailedValidations      QuoteStatusDetailsStaleLastReasonType = "accept_failed_validations"
 	QuoteStatusDetailsStaleLastReasonTypeBillOnAcceptanceInvalid      QuoteStatusDetailsStaleLastReasonType = "bill_on_acceptance_invalid"
 	QuoteStatusDetailsStaleLastReasonTypeLineInvalid                  QuoteStatusDetailsStaleLastReasonType = "line_invalid"
 	QuoteStatusDetailsStaleLastReasonTypeMarkedStale                  QuoteStatusDetailsStaleLastReasonType = "marked_stale"
