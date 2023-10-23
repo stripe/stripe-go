@@ -109,6 +109,7 @@ module Critic::CommonHelpers
     end
     # ------------------------------------------------------------------------------------------------------
 
+    user.enable_feature(StripeForce::Constants::FeatureFlags::SYNC_RECORD_FIELDS)
     # clocks won't be enabled in prod, so we want to mimic this
     user.disable_feature(FeatureFlags::TEST_CLOCKS)
     # disable this to prevent flooding SF with API calls while testing

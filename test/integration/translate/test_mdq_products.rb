@@ -22,7 +22,7 @@ class Critic::ProductTranslation < Critic::VCRTest
       sf_account_id = create_salesforce_account
       quote_id = create_salesforce_quote(
         sf_account_id: sf_account_id,
-        contact_email: "order_with_mdq_licensed_product_4",
+        contact_email: "order_with_mdq_licensed_product_0_1",
         additional_quote_fields: {
           CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(initial_order_start_date),
           CPQ_QUOTE_SUBSCRIPTION_TERM => contract_term,
@@ -83,7 +83,7 @@ class Critic::ProductTranslation < Critic::VCRTest
       sf_account_id = create_salesforce_account
       quote_id = create_salesforce_quote(
         sf_account_id: sf_account_id,
-        contact_email: "order_with_mdq_and_non_mdq_product_2",
+        contact_email: "order_with_mdq_and_non_mdq_product_3",
         additional_quote_fields: {
           CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(initial_order_start_date),
           CPQ_QUOTE_SUBSCRIPTION_TERM => contract_term,
@@ -157,7 +157,7 @@ class Critic::ProductTranslation < Critic::VCRTest
       sf_account_id = create_salesforce_account
       quote_id = create_salesforce_quote(
         sf_account_id: sf_account_id,
-        contact_email: "order_with_mdq_licensed_product_and_prebilling_1",
+        contact_email: "order_with_mdq_licensed_product_and_prebilling_2",
         additional_quote_fields: {
           CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(start_date),
           CPQ_QUOTE_SUBSCRIPTION_TERM => subscription_term,
@@ -211,7 +211,7 @@ class Critic::ProductTranslation < Critic::VCRTest
       sf_account_id = create_salesforce_account
       quote_id = create_salesforce_quote(
         sf_account_id: sf_account_id,
-        contact_email: "order_with_mdq_licensed_product_and_discounts_2",
+        contact_email: "order_with_mdq_licensed_product_and_discounts_3",
         additional_quote_fields: {
           CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(start_date),
           CPQ_QUOTE_SUBSCRIPTION_TERM => subscription_term,

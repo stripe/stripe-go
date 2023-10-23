@@ -241,6 +241,16 @@ class StripeForce::Translate
     # interestingly enough, if the external ID field does not exist we'll get a NOT_FOUND response
     # https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/dome_upsert.htm
 
+    new_sync_record_fields = {}
+    # this is behind a feature flag becayse not every user has the latest package with these fields published
+    # once every user has upgraded to > v1.93, we can remove this ff
+    if @user.feature_enabled? FeatureFlags::SYNC_RECORD_FIELDS
+      new_sync_record_fields = {
+        SyncRecordFields::RESOLUTION_DOCUMENTATION_LINK => STRIPE_ERROR_HANDLING_DOCUMENTATION_LINK,
+        SyncRecordFields::STRIPE_REQUEST_DASHBOARD_LINK => create_stripe_request_dashboard_link(request_id),
+      }
+    end
+
     sf_sync_record_id = backoff do
       sf.upsert!(
         prefixed_stripe_field(SYNC_RECORD),
@@ -256,9 +266,7 @@ class StripeForce::Translate
 
           SyncRecordFields::RESOLUTION_MESSAGE => message,
           SyncRecordFields::RESOLUTION_STATUS => SyncRecordResolutionStatuses::ERROR,
-          # SyncRecordFields::RESOLUTION_DOCUMENTATION_LINK => STRIPE_ERROR_HANDLING_DOCUMENTATION_LINK,
-          # SyncRecordFields::STRIPE_REQUEST_DASHBOARD_LINK => create_stripe_request_dashboard_link(request_id),
-        }.transform_keys(&:serialize).transform_keys(&method(:prefixed_stripe_field))
+        }.merge(new_sync_record_fields).transform_keys(&:serialize).transform_keys(&method(:prefixed_stripe_field))
       )
     end
 
@@ -306,6 +314,16 @@ class StripeForce::Translate
     # interestingly enough, if the external ID field does not exist we'll get a NOT_FOUND response
     # https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/dome_upsert.htm
 
+    new_sync_record_fields = {}
+    # this is behind a feature flag becayse not every user has the latest package with these fields published
+    # once every user has upgraded to > v1.93, we can remove this ff
+    if @user.feature_enabled? FeatureFlags::SYNC_RECORD_FIELDS
+      new_sync_record_fields = {
+        SyncRecordFields::RESOLUTION_DOCUMENTATION_LINK => STRIPE_OVERVIEW_DOCUMENTATION_LINK,
+        SyncRecordFields::STRIPE_REQUEST_DASHBOARD_LINK => create_stripe_request_dashboard_link(stripe_request_id),
+      }
+    end
+
     # generate the Stripe request dashboard link\
     backoff do
       sf.upsert!(
@@ -322,9 +340,7 @@ class StripeForce::Translate
 
           SyncRecordFields::RESOLUTION_MESSAGE => message,
           SyncRecordFields::RESOLUTION_STATUS => SyncRecordResolutionStatuses::SUCCESS,
-          # SyncRecordFields::RESOLUTION_DOCUMENTATION_LINK => STRIPE_OVERVIEW_DOCUMENTATION_LINK,
-          # SyncRecordFields::STRIPE_REQUEST_DASHBOARD_LINK => create_stripe_request_dashboard_link(stripe_request_id),
-        }.transform_keys(&:serialize).transform_keys(&method(:prefixed_stripe_field))
+        }.merge(new_sync_record_fields).transform_keys(&:serialize).transform_keys(&method(:prefixed_stripe_field))
       )
     end
   end
