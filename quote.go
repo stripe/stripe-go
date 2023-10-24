@@ -364,7 +364,7 @@ type QuoteParams struct {
 	Phases []*QuotePhaseParams `form:"phases"`
 	// When creating a subscription or subscription schedule, the specified configuration data will be used. There must be at least one line item with a recurring price for a subscription or subscription schedule to be created. A subscription schedule is created if `subscription_data[effective_date]` is present and in the future, otherwise a subscription is created.
 	SubscriptionData *QuoteSubscriptionDataParams `form:"subscription_data"`
-	// List representing overrides for `subscription_data` configurations for specific groups.
+	// List representing overrides for `subscription_data` configurations for specific subscription schedules.
 	SubscriptionDataOverrides []*QuoteSubscriptionDataOverrideParams `form:"subscription_data_overrides"`
 	// ID of the test clock to attach to the quote.
 	TestClock *string `form:"test_clock"`
@@ -1076,7 +1076,7 @@ type QuoteSubscriptionDataOverrideBillOnAcceptanceParams struct {
 	BillUntil *QuoteSubscriptionDataOverrideBillOnAcceptanceBillUntilParams `form:"bill_until"`
 }
 
-// List representing overrides for `subscription_data` configurations for specific groups.
+// List representing overrides for `subscription_data` configurations for specific subscription schedules.
 type QuoteSubscriptionDataOverrideParams struct {
 	// Whether the override applies to an existing Subscription Schedule or a new Subscription Schedule.
 	AppliesTo *QuoteSubscriptionDataOverrideAppliesToParams `form:"applies_to"`
@@ -1630,6 +1630,8 @@ type QuoteSubscriptionDataOverrideBillOnAcceptance struct {
 	// The end of the period to bill until when the Quote is accepted.
 	BillUntil *QuoteSubscriptionDataOverrideBillOnAcceptanceBillUntil `json:"bill_until"`
 }
+
+// List representing overrides for `subscription_data` configurations for specific subscription schedules.
 type QuoteSubscriptionDataOverride struct {
 	AppliesTo *QuoteSubscriptionDataOverrideAppliesTo `json:"applies_to"`
 	// Configures when the subscription schedule generates prorations for phase transitions. Possible values are `prorate_on_next_phase` or `prorate_up_front` with the default being `prorate_on_next_phase`. `prorate_on_next_phase` will apply phase changes and generate prorations at transition time.`prorate_up_front` will bill for all phases within the current billing cycle up front.
@@ -1777,8 +1779,9 @@ type Quote struct {
 	StatusDetails     *QuoteStatusDetails     `json:"status_details"`
 	StatusTransitions *QuoteStatusTransitions `json:"status_transitions"`
 	// The subscription that was created or updated from this quote.
-	Subscription              *Subscription                    `json:"subscription"`
-	SubscriptionData          *QuoteSubscriptionData           `json:"subscription_data"`
+	Subscription     *Subscription          `json:"subscription"`
+	SubscriptionData *QuoteSubscriptionData `json:"subscription_data"`
+	// List representing overrides for `subscription_data` configurations for specific subscription schedules.
 	SubscriptionDataOverrides []*QuoteSubscriptionDataOverride `json:"subscription_data_overrides"`
 	// The subscription schedule that was created or updated from this quote.
 	SubscriptionSchedule *SubscriptionSchedule `json:"subscription_schedule"`
