@@ -221,7 +221,7 @@ type SubscriptionScheduleDefaultSettingsParams struct {
 	CollectionMethod *string `form:"collection_method"`
 	// ID of the default payment method for the subscription schedule. It must belong to the customer associated with the subscription schedule. If not set, invoices will use the default payment method in the customer's invoice settings.
 	DefaultPaymentMethod *string `form:"default_payment_method"`
-	// Subscription description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription.
+	// Subscription description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription for rendering in Stripe surfaces and certain local payment methods UIs.
 	Description *string `form:"description"`
 	// All invoices will be billed using the specified settings.
 	InvoiceSettings *SubscriptionScheduleDefaultSettingsInvoiceSettingsParams `form:"invoice_settings"`
@@ -440,7 +440,7 @@ type SubscriptionSchedulePhaseParams struct {
 	DefaultPaymentMethod *string `form:"default_payment_method"`
 	// A list of [Tax Rate](https://stripe.com/docs/api/tax_rates) ids. These Tax Rates will set the Subscription's [`default_tax_rates`](https://stripe.com/docs/api/subscriptions/create#create_subscription-default_tax_rates), which means they will be the Invoice's [`default_tax_rates`](https://stripe.com/docs/api/invoices/create#create_invoice-default_tax_rates) for any Invoices issued by the Subscription during this Phase.
 	DefaultTaxRates []*string `form:"default_tax_rates"`
-	// Subscription description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription.
+	// Subscription description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription for rendering in Stripe surfaces and certain local payment methods UIs.
 	Description *string `form:"description"`
 	// The coupons to redeem into discounts for the schedule phase. If not specified, inherits the discount from the subscription's customer. Pass an empty string to avoid inheriting any discounts.
 	Discounts []*SubscriptionSchedulePhaseDiscountParams `form:"discounts"`
@@ -1000,7 +1000,7 @@ type SubscriptionScheduleDefaultSettings struct {
 	CollectionMethod *SubscriptionCollectionMethod `json:"collection_method"`
 	// ID of the default payment method for the subscription schedule. If not set, invoices will use the default payment method in the customer's invoice settings.
 	DefaultPaymentMethod *PaymentMethod `json:"default_payment_method"`
-	// Subscription description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription.
+	// Subscription description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription for rendering in Stripe surfaces and certain local payment methods UIs.
 	Description string `json:"description"`
 	// The subscription schedule's default invoice settings.
 	InvoiceSettings *SubscriptionScheduleDefaultSettingsInvoiceSettings `json:"invoice_settings"`
@@ -1158,7 +1158,7 @@ type SubscriptionSchedulePhase struct {
 	DefaultPaymentMethod *PaymentMethod `json:"default_payment_method"`
 	// The default tax rates to apply to the subscription during this phase of the subscription schedule.
 	DefaultTaxRates []*TaxRate `json:"default_tax_rates"`
-	// Subscription description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription.
+	// Subscription description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription for rendering in Stripe surfaces and certain local payment methods UIs.
 	Description string `json:"description"`
 	// The stackable discounts that will be applied to the subscription on this phase. Subscription item discounts are applied before subscription discounts.
 	Discounts []*SubscriptionSchedulePhaseDiscount `json:"discounts"`

@@ -980,7 +980,7 @@ type QuoteSubscriptionDataParams struct {
 	BillingCycleAnchor *string `form:"billing_cycle_anchor"`
 	// Describes the period to bill for upon accepting the quote.
 	BillOnAcceptance *QuoteSubscriptionDataBillOnAcceptanceParams `form:"bill_on_acceptance"`
-	// The subscription's description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription.
+	// The subscription's description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription for rendering in Stripe surfaces and certain local payment methods UIs.
 	Description *string `form:"description"`
 	// When creating a new subscription, the date of which the subscription schedule will start after the quote is accepted. When updating a subscription, the date of which the subscription will be updated using a subscription schedule. The special value `current_period_end` can be provided to update a subscription at the end of its current period. The `effective_date` is ignored if it is in the past when the quote is accepted.
 	EffectiveDate                 *int64 `form:"effective_date"`
@@ -1086,7 +1086,7 @@ type QuoteSubscriptionDataOverrideParams struct {
 	BillOnAcceptance *QuoteSubscriptionDataOverrideBillOnAcceptanceParams `form:"bill_on_acceptance"`
 	// The customer the Subscription Data override applies to. This is only relevant when `applies_to.type=new_reference`.
 	Customer *string `form:"customer"`
-	// The subscription's description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription.
+	// The subscription's description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription for rendering in Stripe surfaces and certain local payment methods UIs.
 	Description *string `form:"description"`
 	// Behavior of the subscription schedule and underlying subscription when it ends.
 	EndBehavior *string `form:"end_behavior"`
@@ -1551,7 +1551,7 @@ type QuoteSubscriptionData struct {
 	BillingCycleAnchor QuoteSubscriptionDataBillingCycleAnchor `json:"billing_cycle_anchor"`
 	// Describes the period to bill for upon accepting the quote.
 	BillOnAcceptance *QuoteSubscriptionDataBillOnAcceptance `json:"bill_on_acceptance"`
-	// The subscription's description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription.
+	// The subscription's description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription for rendering in Stripe surfaces and certain local payment methods UIs.
 	Description string `json:"description"`
 	// When creating a new subscription, the date of which the subscription schedule will start after the quote is accepted. This date is ignored if it is in the past when the quote is accepted. Measured in seconds since the Unix epoch.
 	EffectiveDate int64 `json:"effective_date"`
@@ -1638,7 +1638,7 @@ type QuoteSubscriptionDataOverride struct {
 	BillOnAcceptance *QuoteSubscriptionDataOverrideBillOnAcceptance `json:"bill_on_acceptance"`
 	// The customer which this quote belongs to. A customer is required before finalizing the quote. Once specified, it cannot be changed.
 	Customer string `json:"customer"`
-	// The subscription's description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription.
+	// The subscription's description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription for rendering in Stripe surfaces and certain local payment methods UIs.
 	Description string `json:"description"`
 	// Behavior of the subscription schedule and underlying subscription when it ends.
 	EndBehavior QuoteSubscriptionDataOverrideEndBehavior `json:"end_behavior"`

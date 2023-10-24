@@ -285,7 +285,7 @@ type QuotePreviewSubscriptionScheduleDefaultSettings struct {
 	CollectionMethod QuotePreviewSubscriptionScheduleDefaultSettingsCollectionMethod `json:"collection_method"`
 	// ID of the default payment method for the subscription schedule. If not set, invoices will use the default payment method in the customer's invoice settings.
 	DefaultPaymentMethod *PaymentMethod `json:"default_payment_method"`
-	// Subscription description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription.
+	// Subscription description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription for rendering in Stripe surfaces and certain local payment methods UIs.
 	Description string `json:"description"`
 	// The subscription schedule's default invoice settings.
 	InvoiceSettings *QuotePreviewSubscriptionScheduleDefaultSettingsInvoiceSettings `json:"invoice_settings"`
@@ -479,7 +479,7 @@ type QuotePreviewSubscriptionSchedulePhase struct {
 	DefaultPaymentMethod *PaymentMethod `json:"default_payment_method"`
 	// The default tax rates to apply to the subscription during this phase of the subscription schedule.
 	DefaultTaxRates []*TaxRate `json:"default_tax_rates"`
-	// Subscription description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription.
+	// Subscription description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription for rendering in Stripe surfaces and certain local payment methods UIs.
 	Description string `json:"description"`
 	// The stackable discounts that will be applied to the subscription on this phase. Subscription item discounts are applied before subscription discounts.
 	Discounts []*QuotePreviewSubscriptionSchedulePhaseDiscount `json:"discounts"`
