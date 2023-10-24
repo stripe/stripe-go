@@ -237,7 +237,7 @@ type QuoteLineItemParams struct {
 
 // When creating a subscription or subscription schedule, the specified configuration data will be used. There must be at least one line item with a recurring price for a subscription or subscription schedule to be created. A subscription schedule is created if `subscription_data[effective_date]` is present and in the future, otherwise a subscription is created.
 type QuoteSubscriptionDataParams struct {
-	// The subscription's description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription.
+	// The subscription's description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription for rendering in Stripe surfaces and certain local payment methods UIs.
 	Description *string `form:"description"`
 	// When creating a new subscription, the date of which the subscription schedule will start after the quote is accepted. When updating a subscription, the date of which the subscription will be updated using a subscription schedule. The special value `current_period_end` can be provided to update a subscription at the end of its current period. The `effective_date` is ignored if it is in the past when the quote is accepted.
 	EffectiveDate                 *int64 `form:"effective_date"`
@@ -501,7 +501,7 @@ type QuoteStatusTransitions struct {
 	FinalizedAt int64 `json:"finalized_at"`
 }
 type QuoteSubscriptionData struct {
-	// The subscription's description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription.
+	// The subscription's description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription for rendering in Stripe surfaces and certain local payment methods UIs.
 	Description string `json:"description"`
 	// When creating a new subscription, the date of which the subscription schedule will start after the quote is accepted. This date is ignored if it is in the past when the quote is accepted. Measured in seconds since the Unix epoch.
 	EffectiveDate int64 `json:"effective_date"`
