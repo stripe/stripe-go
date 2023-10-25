@@ -408,11 +408,10 @@ class StripeForce::Translate
   end
 
   def construct_stripe_object(stripe_class:, salesforce_object:, additional_stripe_params: {})
-    stripe_fields = StripeForce::Utilities::SalesforceUtil.extract_salesforce_params!(mapper, salesforce_object, stripe_class)
-
     stripe_object = stripe_class.construct_from(additional_stripe_params)
 
     # the keys (stripe references) in the resulting hash could be dot-paths, so let's assign them using the mapper
+    stripe_fields = StripeForce::Utilities::SalesforceUtil.extract_salesforce_params!(mapper, salesforce_object, stripe_class)
     mapper.assign_values_from_hash(stripe_object, stripe_fields)
 
     stripe_object.metadata = Metadata.stripe_metadata_for_sf_object(@user, salesforce_object)

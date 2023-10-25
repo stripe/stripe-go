@@ -300,4 +300,76 @@ class Critic::CustomerTranslation < Critic::VCRTest
       assert_equal(5, stripe_customer.metadata.keys.count)
       assert_match(sf_account_description, stripe_customer.metadata['sf_mapped_metadata_field_2'])
   end
+
+  it 'sync customer with invoice_settings.custom_fields' do
+    @user.enable_feature FeatureFlags::TEST_CLOCKS, update: true
+    @user.enable_feature FeatureFlags::UPDATE_CUSTOMER_ON_ORDER_TRANSLATION, update: true
+    @user.field_defaults = {
+      "customer" => {
+        "invoice_settings.custom_fields.name" => 'key1',
+        "invoice_settings.custom_fields.value" => 'value1',
+      },
+    }
+    @user.save
+
+    # create and sync the sf account
+    sf_account_id = create_salesforce_account
+    StripeForce::Translate.perform_inline(@user, sf_account_id)
+
+    # confirm the sf account was translated
+    sf_account = sf.find(SF_ACCOUNT, sf_account_id)
+    stripe_customer_id = sf_account[prefixed_stripe_field(GENERIC_STRIPE_ID)]
+    refute_nil(stripe_customer_id)
+
+    # retrieve the corresponding stripe customer and confirm the stripe customer invoice settings fields include our custom data
+    stripe_customer = Stripe::Customer.retrieve(stripe_customer_id, @user.stripe_credentials)
+    assert_equal(1, T.must(stripe_customer.invoice_settings.custom_fields).count)
+    invoice_settings_custom_fields = stripe_customer.invoice_settings.custom_fields
+    assert_equal({"name": "key1", "value": "value1"}, T.must(invoice_settings_custom_fields).first.to_h)
+
+    # let's create an Order with this account and ensure the corresponding Invoice has this data
+    sf_product_id, _sf_pricebook_entry_id = salesforce_recurring_product_with_price(
+      additional_product_fields: {
+        CPQ_QUOTE_BILLING_FREQUENCY => CPQBillingFrequencyOptions::ANNUAL.serialize,
+      }
+    )
+    sf_order = create_salesforce_order(
+      sf_product_id: sf_product_id,
+      sf_account_id: sf_account_id,
+      contact_email: "invoice_settings_custom_fields_8",
+      additional_quote_fields: {
+        CPQ_QUOTE_SUBSCRIPTION_START_DATE => now_time_formatted_for_salesforce,
+        CPQ_QUOTE_SUBSCRIPTION_TERM => TEST_DEFAULT_CONTRACT_TERM,
+      }
+    )
+    StripeForce::Translate.perform_inline(@user, sf_order.Id)
+    sf_order.refresh
+
+    # get Stripe customer
+    sf_account = sf_get(sf_order['AccountId'])
+    stripe_customer_id = sf_account[prefixed_stripe_field(GENERIC_STRIPE_ID)]
+    stripe_customer = stripe_get(stripe_customer_id)
+    refute_nil(stripe_customer.test_clock)
+    advance_test_clock(stripe_customer, (now_time + 1.day).to_i)
+
+    # sanity check the initial invoice
+    invoices = Stripe::Invoice.list({customer: stripe_customer.id}, @user.stripe_credentials).data
+    assert_equal(1, invoices.length)
+    initial_invoice = invoices.first
+    assert_equal(1, initial_invoice.custom_fields.count)
+    assert_equal({"name": "key1", "value": "value1"}, T.must(initial_invoice.custom_fields).first.to_h)
+
+    # clear the invoice settings and resync
+    @user.field_defaults = {
+      "customer" => {
+        "invoice_settings.custom_fields.name" => 'key2',
+        "invoice_settings.custom_fields.value" => 'value2',
+      },
+    }
+    @user.save
+    StripeForce::Translate.perform_inline(@user, sf_account_id)
+    stripe_customer = Stripe::Customer.retrieve(stripe_customer_id, @user.stripe_credentials)
+    assert_equal(1, T.must(stripe_customer.invoice_settings.custom_fields).count)
+    assert_equal({"name": "key2", "value": "value2"}, T.must(stripe_customer.invoice_settings.custom_fields).first.to_h)
+  end
 end

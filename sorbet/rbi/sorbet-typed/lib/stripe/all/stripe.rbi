@@ -128,6 +128,12 @@ module Stripe
 
     sig { params(arg: String).void }
     def default_payment_method=(arg); end
+
+    sig { returns(T.nilable(T::Array[T::Hash[String, String]])) }
+    def custom_fields; end
+
+    sig { params(arg: T.nilable(T::Array[T::Hash[String, String]])).void }
+    def custom_fields=(arg); end
   end
 
   class Customer < APIResource

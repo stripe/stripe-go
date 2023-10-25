@@ -113,6 +113,27 @@ const HTTPREQUEST = HTTPS.request(OPTIONS, HttpResponse => {
                 formattedStripeObjectsForMapper['formattedStripeSubscriptionSchedulePhaseFields'] = formatStripeObjectsForMapper(extractSubscriptionPhaseObject(openApiSpec), excludedFields['subscription_schedule_phase'], 'subscriptionSchedulePhase');
             }
 
+            if (convertedObjectName === 'Customer') {
+                // create cancellation reasons section and push fields to it
+                formattedStripeObjectsForMapper = manuallyAddSectionToParsedOpenSpec(
+                    formattedStripeObjectsForMapper, 
+                    convertedObjectName,
+                    'Invoice Settings Custom fields',  // display name of section
+                    'invoice_settings.custom_fields', // section value
+                    'name', // display name of field
+                    'invoice_settings.custom_fields.name', // field value
+                    '<p>The name of the custom field.</p>',
+                    'string'
+                );
+                custom_fields_hash_field = getNewFieldObject(
+                    "value",
+                    "invoice_settings.custom_fields.value",
+                    "The value of the custom field.",
+                    "string");
+                formattedStripeObjectsForMapper['formattedStripe' + convertedObjectName + 'Fields']
+                    .find(object => object.name == "invoice_settings.custom_fields").fields.push(custom_fields_hash_field);
+            }
+                 
             if (convertedObjectName === 'Subscription') {
                 formattedStripeObjectsForMapper = manuallyAddSectionToParsedOpenSpec(
                     formattedStripeObjectsForMapper, 
@@ -137,19 +158,20 @@ const HTTPREQUEST = HTTPS.request(OPTIONS, HttpResponse => {
                     'string'
                 );
 
-                cancellation_details_comment_field = getNewFieldObject(
-                    "comment",
-                    "cancellation_details.comment",
-                    "Additional comments about why the user canceled the subscription, if the subscription was canceled explicitly by the user.",
-                    "string");
-                cancellation_details_feedback_field = getNewFieldObject(
-                    "feedback",
-                    "cancellation_details.feedback",
-                    "The customer submitted reason for why they canceled, if the subscription was canceled explicitly by the user.",
-                    "string",
-                    enumValues = ["too_expensive", "missing_features", "switched_service", "unused", "customer_service", "too_complex", "low_quality",  "other"]);
-                formattedStripeObjectsForMapper['formattedStripe' + convertedObjectName + 'Fields']
-                    .find(object => object.name == "cancellation_details").fields.push(cancellation_details_comment_field, cancellation_details_feedback_field);
+                // Uncomment this once this is enabled.
+                // cancellation_details_comment_field = getNewFieldObject(
+                //     "comment",
+                //     "cancellation_details.comment",
+                //     "Additional comments about why the user canceled the subscription, if the subscription was canceled explicitly by the user.",
+                //     "string");
+                // cancellation_details_feedback_field = getNewFieldObject(
+                //     "feedback",
+                //     "cancellation_details.feedback",
+                //     "The customer submitted reason for why they canceled, if the subscription was canceled explicitly by the user.",
+                //     "string",
+                //     enumValues = ["too_expensive", "missing_features", "switched_service", "unused", "customer_service", "too_complex", "low_quality",  "other"]);
+                // formattedStripeObjectsForMapper['formattedStripe' + convertedObjectName + 'Fields']
+                //     .find(object => object.name == "cancellation_details").fields.push(cancellation_details_comment_field, cancellation_details_feedback_field);
            
           
                 // Push fields to 'Default settings Invoice settings' section

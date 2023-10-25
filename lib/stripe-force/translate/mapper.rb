@@ -176,33 +176,23 @@ module StripeForce
 
     sig { params(record: Stripe::StripeObject, field_assignments: Hash, only_termination_metadata: T.nilable(T::Boolean),).void }
     def assign_values_from_hash(record, field_assignments, only_termination_metadata: false)
-      field_assignments.each do |raw_field_path, v|
-        # TODO need to handle nil values
-        # TODO nofify when an existing field is being overwritten
-
-        # TODO unsure if we need to special case this stuff right now
-        # if is_record_reference_field?(raw_field_path)
-        #   field_path = "#{raw_field_path[0..-4]}="
-        # elsif is_date_field?(raw_field_path)
-        #   field_path = "#{raw_field_path[0..-6]}="
-        # else
-        #   field_path = raw_field_path
-        # end
-
+      field_assignments.each do |raw_field_path, raw_field_value|
         # if only_termination_metadata is true, we are only mapping termination metadata
         if only_termination_metadata
           if raw_field_path.to_s.start_with?(TERMINATION_METADATA_PREFIX)
-            set_stripe_resource_field_path(record, raw_field_path.to_s.delete_prefix(TERMINATION_METADATA_PREFIX), v)
+            set_stripe_resource_field_path(record, raw_field_path.to_s.delete_prefix(TERMINATION_METADATA_PREFIX), raw_field_value)
           end
 
           next
         end
 
-        if raw_field_path.to_s.start_with?(TERMINATION_METADATA_PREFIX)
+        # some fields require processing that we do in the object translation directly
+        skip_processing = raw_field_path.to_s.start_with?(TERMINATION_METADATA_PREFIX)
+        if skip_processing
           next
         end
 
-        set_stripe_resource_field_path(record, raw_field_path, v)
+        set_stripe_resource_field_path(record, raw_field_path, raw_field_value)
       end
     end
   end

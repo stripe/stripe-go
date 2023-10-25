@@ -495,6 +495,41 @@
           "sfValueType": ""
         }
       ]
+    },
+    {
+      "label": "Invoice Settings Custom fields",
+      "name": "invoice_settings.custom_fields",
+      "description": "",
+      "fields": [
+        {
+          "name": "name",
+          "value": "invoice_settings.custom_fields.name",
+          "description": "<p>The name of the custom field.</p>",
+          "type": "string",
+          "defaultValue": "",
+          "requiredValue": "",
+          "hasOverride": false,
+          "staticValue": false,
+          "hasSfValue": false,
+          "hasRequiredValue": false,
+          "sfValue": "",
+          "sfValueType": ""
+        },
+        {
+          "name": "value",
+          "value": "invoice_settings.custom_fields.value",
+          "description": "The value of the custom field.",
+          "type": "string",
+          "defaultValue": "",
+          "requiredValue": "",
+          "hasOverride": false,
+          "staticValue": false,
+          "hasSfValue": false,
+          "hasRequiredValue": false,
+          "sfValue": "",
+          "sfValueType": ""
+        }
+      ]
     }
   ],
   "formattedStripeProductItemFields": [
@@ -1076,44 +1111,6 @@
           "hasRequiredValue": false,
           "sfValue": "",
           "sfValueType": ""
-        },
-        {
-          "name": "comment",
-          "value": "cancellation_details.comment",
-          "description": "Additional comments about why the user canceled the subscription, if the subscription was canceled explicitly by the user.",
-          "type": "string",
-          "defaultValue": "",
-          "requiredValue": "",
-          "hasOverride": false,
-          "staticValue": false,
-          "hasSfValue": false,
-          "hasRequiredValue": false,
-          "sfValue": "",
-          "sfValueType": ""
-        },
-        {
-          "name": "feedback",
-          "value": "cancellation_details.feedback",
-          "description": "The customer submitted reason for why they canceled, if the subscription was canceled explicitly by the user.",
-          "type": "string",
-          "defaultValue": "",
-          "requiredValue": "",
-          "hasOverride": false,
-          "staticValue": false,
-          "hasSfValue": false,
-          "hasRequiredValue": false,
-          "sfValue": "",
-          "sfValueType": "",
-          "enum": [
-            "too_expensive",
-            "missing_features",
-            "switched_service",
-            "unused",
-            "customer_service",
-            "too_complex",
-            "low_quality",
-            "other"
-          ]
         }
       ]
     }

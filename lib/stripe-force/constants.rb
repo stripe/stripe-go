@@ -273,7 +273,6 @@ module StripeForce
         STRIPE_REVENUE_CONTRACT = new('stripe_revenue_contract')
         TERMINATION_METADATA = new('termination_metadata')
         UPDATE_PRODUCT_ON_SYNC = new('update_product_on_sync')
-        CUSTOM_BILLING_CANCELLATION_DETAILS = new('custom_billing_cancellation_details')
         SYNC_RECORD_FIELDS = new('sync_record_fields')
       end
     end

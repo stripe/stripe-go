@@ -68,6 +68,11 @@ module StripeForce
         log.info 'no address on shipping hash, removing'
         stripe_customer.shipping = {}
       end
+
+      # currently, the connector only supports one custom field but we should remove this once we support multiple
+      if stripe_customer[:invoice_settings] && stripe_customer[:invoice_settings][:custom_fields]
+        stripe_customer[:invoice_settings][:custom_fields] = [stripe_customer[:invoice_settings][:custom_fields]]
+      end
     end
   end
 end

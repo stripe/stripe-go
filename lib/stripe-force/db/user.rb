@@ -373,13 +373,6 @@ module StripeForce
         hidden_mapper_fields << "subscription_schedule.default_settings.invoice_settings.rendering.template_version"
       end
 
-      # TODO: remove this once cancellation reasons is implemented on the sub schedule
-      if !feature_enabled?(FeatureFlags::CUSTOM_BILLING_CANCELLATION_DETAILS)
-        hidden_mapper_fields << "subscription_schedule.cancellation_details.comment"
-        hidden_mapper_fields << "subscription_schedule.cancellation_details.feedback"
-        hidden_mapper_fields << "subscription_schedule.cancellation_details.feedback_option"
-      end
-
       hidden_mapper_fields
     end
 
