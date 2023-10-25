@@ -1125,7 +1125,7 @@ type SubscriptionSchedulePhasePauseCollection struct {
 	Behavior SubscriptionSchedulePhasePauseCollectionBehavior `json:"behavior"`
 }
 
-// Defines how the subscription should behaves when a trial ensd.
+// Defines how the subscription should behave when a trial ends.
 type SubscriptionSchedulePhaseTrialSettingsEndBehavior struct {
 	// Configure how an opt-in following a paid trial is billed when using `billing_behavior: prorate_up_front`.
 	ProrateUpFront SubscriptionSchedulePhaseTrialSettingsEndBehaviorProrateUpFront `json:"prorate_up_front"`
@@ -1133,7 +1133,7 @@ type SubscriptionSchedulePhaseTrialSettingsEndBehavior struct {
 
 // Settings related to any trials on the subscription during this phase.
 type SubscriptionSchedulePhaseTrialSettings struct {
-	// Defines how the subscription should behaves when a trial ensd.
+	// Defines how the subscription should behave when a trial ends.
 	EndBehavior *SubscriptionSchedulePhaseTrialSettingsEndBehavior `json:"end_behavior"`
 }
 

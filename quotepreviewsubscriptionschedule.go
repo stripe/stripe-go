@@ -446,7 +446,7 @@ type QuotePreviewSubscriptionSchedulePhaseTransferData struct {
 	Destination *Account `json:"destination"`
 }
 
-// Defines how the subscription should behaves when a trial ensd.
+// Defines how the subscription should behave when a trial ends.
 type QuotePreviewSubscriptionSchedulePhaseTrialSettingsEndBehavior struct {
 	// Configure how an opt-in following a paid trial is billed when using `billing_behavior: prorate_up_front`.
 	ProrateUpFront QuotePreviewSubscriptionSchedulePhaseTrialSettingsEndBehaviorProrateUpFront `json:"prorate_up_front"`
@@ -454,7 +454,7 @@ type QuotePreviewSubscriptionSchedulePhaseTrialSettingsEndBehavior struct {
 
 // Settings related to any trials on the subscription during this phase.
 type QuotePreviewSubscriptionSchedulePhaseTrialSettings struct {
-	// Defines how the subscription should behaves when a trial ensd.
+	// Defines how the subscription should behave when a trial ends.
 	EndBehavior *QuotePreviewSubscriptionSchedulePhaseTrialSettingsEndBehavior `json:"end_behavior"`
 }
 
