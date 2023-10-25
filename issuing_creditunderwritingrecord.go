@@ -296,7 +296,7 @@ type IssuingCreditUnderwritingRecordCreateFromApplicationCreditUserParams struct
 	Name *string `form:"name"`
 }
 
-// Creates a CreditUnderwritingRecord object with information about a credit application submission
+// Creates a CreditUnderwritingRecord object with information about a credit application submission.
 type IssuingCreditUnderwritingRecordCreateFromApplicationParams struct {
 	Params `form:"*"`
 	// Details about the application submission.
@@ -379,7 +379,7 @@ type IssuingCreditUnderwritingRecordCreateFromProactiveReviewUnderwritingExcepti
 	OriginalDecisionType *string `form:"original_decision_type"`
 }
 
-// Creates a CreditUnderwritingRecord object from an underwriting decision coming from a proactive review of an existing accountholder
+// Creates a CreditUnderwritingRecord object from an underwriting decision coming from a proactive review of an existing accountholder.
 type IssuingCreditUnderwritingRecordCreateFromProactiveReviewParams struct {
 	Params `form:"*"`
 	// Information about the company or person applying or holding the account.
@@ -444,7 +444,7 @@ type IssuingCreditUnderwritingRecordReportDecisionUnderwritingExceptionParams st
 	OriginalDecisionType *string `form:"original_decision_type"`
 }
 
-// Update a CreditUnderwritingRecord object from an decision made on a credit application
+// Update a CreditUnderwritingRecord object from a decision made on a credit application.
 type IssuingCreditUnderwritingRecordReportDecisionParams struct {
 	Params `form:"*"`
 	// Date when a decision was made.
@@ -549,7 +549,7 @@ type IssuingCreditUnderwritingRecordCorrectUnderwritingExceptionParams struct {
 	OriginalDecisionType *string `form:"original_decision_type"`
 }
 
-// Update a CreditUnderwritingRecord object to correct mistakes
+// Update a CreditUnderwritingRecord object to correct mistakes.
 type IssuingCreditUnderwritingRecordCorrectParams struct {
 	Params `form:"*"`
 	// Details about the application submission.
@@ -656,9 +656,9 @@ type IssuingCreditUnderwritingRecordUnderwritingException struct {
 	OriginalDecisionType IssuingCreditUnderwritingRecordUnderwritingExceptionOriginalDecisionType `json:"original_decision_type"`
 }
 
-// Every time an applicant submits an application for a Charge Card product your Platform offers, or every time your Platform takes a proactive credit decision on an existing account, you must record the decision by creating a new CreditUnderwritingRecord object on a Connected account.
+// Every time an applicant submits an application for a Charge Card product your platform offers, or every time your platform takes a proactive credit decision on an existing account, you must record the decision by creating a new `CreditUnderwritingRecord` object on a connected account.
 //
-// [Follow the guide](https://stripe.com/docs/issuing/coming_soon) to learn about your requirements as a Platform.
+// [Follow the guide](https://stripe.com/docs/issuing/credit/report-credit-decisions-and-manage-aans) to learn about your requirements as a platform.
 type IssuingCreditUnderwritingRecord struct {
 	APIResource
 	// For decisions triggered by an application, details about the submission.
