@@ -774,6 +774,8 @@ type InvoiceParams struct {
 	CustomFields []*InvoiceCustomFieldParams `form:"custom_fields"`
 	// The number of days from which the invoice is created until it is due. Only valid for invoices where `collection_method=send_invoice`. This field can only be updated on `draft` invoices.
 	DaysUntilDue *int64 `form:"days_until_due"`
+	// The ids of the margins to apply to the invoice. Can be overridden by line item `margins`.
+	DefaultMargins []*string `form:"default_margins"`
 	// ID of the default payment method for the invoice. It must belong to the customer associated with the invoice. If not set, defaults to the subscription's default payment method, if any, or to the default payment method in the customer's invoice settings.
 	DefaultPaymentMethod *string `form:"default_payment_method"`
 	// ID of the default payment source for the invoice. It must belong to the customer associated with the invoice and be in a chargeable state. If not set, defaults to the subscription's default source, if any, or to the customer's default source.
@@ -1545,6 +1547,14 @@ type InvoiceTotalDiscountAmount struct {
 	Discount *Discount `json:"discount"`
 }
 
+// The aggregate amounts calculated per margin across all line items.
+type InvoiceTotalMarginAmount struct {
+	// The amount, in cents (or local equivalent), of the reduction in line item amount.
+	Amount int64 `json:"amount"`
+	// The margin that was applied to get this margin amount.
+	Margin *Margin `json:"margin"`
+}
+
 // The aggregate amounts calculated per tax rate for all line items.
 type InvoiceTotalTaxAmount struct {
 	// The amount, in cents (or local equivalent), of the tax.
@@ -1662,6 +1672,8 @@ type Invoice struct {
 	CustomerTaxIDs []*InvoiceCustomerTaxID `json:"customer_tax_ids"`
 	// Custom fields displayed on the invoice.
 	CustomFields []*InvoiceCustomField `json:"custom_fields"`
+	// The margins applied to the invoice. Can be overridden by line item `margins`. Use `expand[]=default_margins` to expand each margin.
+	DefaultMargins []*Margin `json:"default_margins"`
 	// ID of the default payment method for the invoice. It must belong to the customer associated with the invoice. If not set, defaults to the subscription's default payment method, if any, or to the default payment method in the customer's invoice settings.
 	DefaultPaymentMethod *PaymentMethod `json:"default_payment_method"`
 	// ID of the default payment source for the invoice. It must belong to the customer associated with the invoice and be in a chargeable state. If not set, defaults to the subscription's default source, if any, or to the customer's default source.
@@ -1766,6 +1778,8 @@ type Invoice struct {
 	TotalDiscountAmounts []*InvoiceTotalDiscountAmount `json:"total_discount_amounts"`
 	// The integer amount in cents (or local equivalent) representing the total amount of the invoice including all discounts but excluding all tax.
 	TotalExcludingTax int64 `json:"total_excluding_tax"`
+	// The aggregate amounts calculated per margin across all line items.
+	TotalMarginAmounts []*InvoiceTotalMarginAmount `json:"total_margin_amounts"`
 	// The aggregate amounts calculated per tax rate for all line items.
 	TotalTaxAmounts []*InvoiceTotalTaxAmount `json:"total_tax_amounts"`
 	// The account (if any) the payment will be attributed to for tax reporting, and where funds from the payment will be transferred to for the invoice.

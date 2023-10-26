@@ -50,10 +50,10 @@ const (
 
 // Only return personalization designs with the given preferences.
 type IssuingPersonalizationDesignListPreferencesParams struct {
-	// Only return the personalization design that is set as the account default. A connected account will use the Connect platform's default if no personalization design is set as the account default.
-	AccountDefault *bool `form:"account_default"`
+	// Only return the personalization design that's set as the default. A connected account uses the Connect platform's default design if no personalization design is set as the default.
+	IsDefault *bool `form:"is_default"`
 	// Only return the personalization design that is set as the Connect platform's default. This parameter is only applicable to connected accounts.
-	PlatformDefault *bool `form:"platform_default"`
+	IsPlatformDefault *bool `form:"is_platform_default"`
 }
 
 // Returns a list of personalization design objects. The objects are sorted in descending order by creation date, with the most recently created object appearing first.
@@ -88,14 +88,14 @@ type IssuingPersonalizationDesignCarrierTextParams struct {
 
 // Information on whether this personalization design is used to create cards when one is not specified.
 type IssuingPersonalizationDesignPreferencesParams struct {
-	// Whether this personalization design is used to create cards when one is not specified. A connected account will use the Connect platform's default if no personalization design is set as the account default.
-	AccountDefault *bool `form:"account_default"`
+	// Whether we use this personalization design to create cards when one isn't specified. A connected account uses the Connect platform's default design if no personalization design is set as the default design.
+	IsDefault *bool `form:"is_default"`
 }
 
 // Creates a personalization design object.
 type IssuingPersonalizationDesignParams struct {
 	Params `form:"*"`
-	// The file for the card logo, for use with physical bundles that support card logos. Must have `purpose` value of `issuing_logo`.
+	// The file for the card logo, for use with physical bundles that support card logos. Must have a `purpose` value of `issuing_logo`.
 	CardLogo *string `form:"card_logo"`
 	// Hash containing carrier text, for use with physical bundles that support carrier text.
 	CarrierText *IssuingPersonalizationDesignCarrierTextParams `form:"carrier_text"`
@@ -141,10 +141,10 @@ type IssuingPersonalizationDesignCarrierText struct {
 	HeaderTitle string `json:"header_title"`
 }
 type IssuingPersonalizationDesignPreferences struct {
-	// Whether this personalization design is used to create cards when one is not specified. A connected account will use the Connect platform's default if no personalization design is set as the account default.
-	AccountDefault bool `json:"account_default"`
-	// Whether this personalization design is used to create cards when one is not specified and an account default for this connected account does not exist.
-	PlatformDefault bool `json:"platform_default"`
+	// Whether we use this personalization design to create cards when one isn't specified. A connected account uses the Connect platform's default design if no personalization design is set as the default design.
+	IsDefault bool `json:"is_default"`
+	// Whether this personalization design is used to create cards when one is not specified and a default for this connected account does not exist.
+	IsPlatformDefault bool `json:"is_platform_default"`
 }
 type IssuingPersonalizationDesignRejectionReasons struct {
 	// The reason(s) the card logo was rejected.
@@ -156,7 +156,7 @@ type IssuingPersonalizationDesignRejectionReasons struct {
 // A Personalization Design is a logical grouping of a Physical Bundle, card logo, and carrier text that represents a product line.
 type IssuingPersonalizationDesign struct {
 	APIResource
-	// The file for the card logo, for use with physical bundles that support card logos.
+	// The file for the card logo to use with physical bundles that support card logos. Must have a `purpose` value of `issuing_logo`.
 	CardLogo *File `json:"card_logo"`
 	// Hash containing carrier text, for use with physical bundles that support carrier text.
 	CarrierText *IssuingPersonalizationDesignCarrierText `json:"carrier_text"`

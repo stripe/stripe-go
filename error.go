@@ -37,6 +37,7 @@ const (
 	ErrorCodeApplicationFeesNotAllowed                                   ErrorCode = "application_fees_not_allowed"
 	ErrorCodeAuthenticationRequired                                      ErrorCode = "authentication_required"
 	ErrorCodeBalanceInsufficient                                         ErrorCode = "balance_insufficient"
+	ErrorCodeBalanceInvalidParameter                                     ErrorCode = "balance_invalid_parameter"
 	ErrorCodeBankAccountBadRoutingNumbers                                ErrorCode = "bank_account_bad_routing_numbers"
 	ErrorCodeBankAccountDeclined                                         ErrorCode = "bank_account_declined"
 	ErrorCodeBankAccountExists                                           ErrorCode = "bank_account_exists"

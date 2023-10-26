@@ -931,6 +931,8 @@ type OrderPaymentSettingsPaymentMethodOptionsPaypalParams struct {
 	//
 	// If `setup_future_usage` is already set and you are performing a request using a publishable key, you may only update the value from `on_session` to `off_session`.
 	SetupFutureUsage *string `form:"setup_future_usage"`
+	// The Stripe connected account IDs of the sellers on the platform for this transaction (optional). Only allowed when [separate charges and transfers](https://stripe.com/docs/connect/separate-charges-and-transfers) are used.
+	Subsellers []*string `form:"subsellers"`
 }
 
 // Additional fields for Mandate creation
@@ -1459,6 +1461,8 @@ type OrderPaymentSettingsPaymentMethodOptionsPaypal struct {
 	//
 	// When processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).
 	SetupFutureUsage OrderPaymentSettingsPaymentMethodOptionsPaypalSetupFutureUsage `json:"setup_future_usage"`
+	// The Stripe connected account IDs of the sellers on the platform for this transaction (optional). Only allowed when [separate charges and transfers](https://stripe.com/docs/connect/separate-charges-and-transfers) are used.
+	Subsellers []string `json:"subsellers"`
 }
 type OrderPaymentSettingsPaymentMethodOptionsSEPADebitMandateOptions struct{}
 type OrderPaymentSettingsPaymentMethodOptionsSEPADebit struct {

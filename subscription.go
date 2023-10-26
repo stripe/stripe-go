@@ -641,7 +641,7 @@ type SubscriptionParams struct {
 	DefaultSource *string `form:"default_source"`
 	// The tax rates that will apply to any subscription item that does not have `tax_rates` set. Invoices created will have their `default_tax_rates` populated from the subscription. Pass an empty string to remove previously-defined tax rates.
 	DefaultTaxRates []*string `form:"default_tax_rates"`
-	// The subscription's description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription for rendering in Stripe surfaces.
+	// The subscription's description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription for rendering in Stripe surfaces and certain local payment methods UIs.
 	Description *string `form:"description"`
 	// The coupons to redeem into discounts for the subscription. If not specified or empty, inherits the discount from the subscription's customer.
 	Discounts []*SubscriptionDiscountParams `form:"discounts"`
@@ -1022,7 +1022,7 @@ type Subscription struct {
 	DefaultSource *PaymentSource `json:"default_source"`
 	// The tax rates that will apply to any subscription item that does not have `tax_rates` set. Invoices created will have their `default_tax_rates` populated from the subscription.
 	DefaultTaxRates []*TaxRate `json:"default_tax_rates"`
-	// The subscription's description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription for rendering in Stripe surfaces.
+	// The subscription's description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription for rendering in Stripe surfaces and certain local payment methods UIs.
 	Description string `json:"description"`
 	// Describes the current discount applied to this subscription, if there is one. When billing, a discount applied to a subscription overrides a discount applied on a customer-wide basis.
 	Discount *Discount `json:"discount"`

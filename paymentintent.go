@@ -56,11 +56,14 @@ type PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressSuppo
 
 // List of values that PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressSupportedNetwork can take
 const (
-	PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressSupportedNetworkBACS   PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressSupportedNetwork = "bacs"
-	PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressSupportedNetworkFPS    PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressSupportedNetwork = "fps"
-	PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressSupportedNetworkSEPA   PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressSupportedNetwork = "sepa"
-	PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressSupportedNetworkSpei   PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressSupportedNetwork = "spei"
-	PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressSupportedNetworkZengin PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressSupportedNetwork = "zengin"
+	PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressSupportedNetworkACH            PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressSupportedNetwork = "ach"
+	PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressSupportedNetworkBACS           PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressSupportedNetwork = "bacs"
+	PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressSupportedNetworkDomesticWireUS PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressSupportedNetwork = "domestic_wire_us"
+	PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressSupportedNetworkFPS            PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressSupportedNetwork = "fps"
+	PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressSupportedNetworkSEPA           PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressSupportedNetwork = "sepa"
+	PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressSupportedNetworkSpei           PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressSupportedNetwork = "spei"
+	PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressSupportedNetworkSwift          PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressSupportedNetwork = "swift"
+	PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressSupportedNetworkZengin         PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressSupportedNetwork = "zengin"
 )
 
 // The type of financial address
@@ -68,9 +71,11 @@ type PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressType 
 
 // List of values that PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressType can take
 const (
+	PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressTypeABA      PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressType = "aba"
 	PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressTypeIBAN     PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressType = "iban"
 	PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressTypeSortCode PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressType = "sort_code"
 	PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressTypeSpei     PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressType = "spei"
+	PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressTypeSwift    PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressType = "swift"
 	PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressTypeZengin   PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressType = "zengin"
 )
 
@@ -1416,7 +1421,7 @@ type PaymentIntentPaymentMethodOptionsCardParams struct {
 type PaymentIntentPaymentMethodOptionsCardPresentParams struct {
 	// Request ability to capture this payment beyond the standard [authorization validity window](https://stripe.com/docs/terminal/features/extended-authorizations#authorization-validity)
 	RequestExtendedAuthorization *bool `form:"request_extended_authorization"`
-	// Request ability to [increment](https://stripe.com/docs/payments/incremental-authorization) for this PaymentIntent.
+	// This field was released by mistake and will be removed in the next major version
 	RequestIncrementalAuthorization *string `form:"request_incremental_authorization"`
 	// Request ability to [increment](https://stripe.com/docs/terminal/features/incremental-authorizations) this PaymentIntent if the combination of MCC and card brand is eligible. Check [incremental_authorization_supported](https://stripe.com/docs/api/charges/object#charge_object-payment_method_details-card_present-incremental_authorization_supported) in the [Confirm](https://stripe.com/docs/api/payment_intents/confirm) response to verify support.
 	RequestIncrementalAuthorizationSupport *bool `form:"request_incremental_authorization_support"`
@@ -1657,6 +1662,8 @@ type PaymentIntentPaymentMethodOptionsPaypalParams struct {
 	//
 	// If `setup_future_usage` is already set and you are performing a request using a publishable key, you may only update the value from `on_session` to `off_session`.
 	SetupFutureUsage *string `form:"setup_future_usage"`
+	// The Stripe connected account IDs of the sellers on the platform for this transaction (optional). Only allowed when [separate charges and transfers](https://stripe.com/docs/connect/separate-charges-and-transfers) are used.
+	Subsellers []*string `form:"subsellers"`
 }
 
 // If this is a `pix` PaymentMethod, this sub-hash contains details about the Pix payment method options.
@@ -1866,7 +1873,7 @@ type PaymentIntentRadarOptionsParams struct {
 	Session *string `form:"session"`
 }
 
-// The parameters that you can use to automatically create a Transfer after the payment succeeds.
+// The parameters that you can use to automatically create a Transfer.
 // Learn more about the [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
 type PaymentIntentTransferDataParams struct {
 	// The amount that will be transferred automatically when a charge succeeds.
@@ -1971,8 +1978,7 @@ type PaymentIntentParams struct {
 	StatementDescriptor *string `form:"statement_descriptor"`
 	// Provides information about a card payment that customers see on their statements. Concatenated with the prefix (shortened descriptor) or statement descriptor that's set on the account to form the complete statement descriptor. The concatenated descriptor must contain 1-22 characters.
 	StatementDescriptorSuffix *string `form:"statement_descriptor_suffix"`
-	// The parameters that you can use to automatically create a Transfer after the payment succeeds.
-	// Learn more about the [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
+	// Use this parameter to automatically create a Transfer when the payment succeeds. Learn more about the [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
 	TransferData *PaymentIntentTransferDataParams `form:"transfer_data"`
 	// A string that identifies the resulting payment as part of a group. You can only provide `transfer_group` if it hasn't been set. Learn more about the [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
 	TransferGroup *string `form:"transfer_group"`
@@ -2555,6 +2561,16 @@ type PaymentIntentNextActionCashAppHandleRedirectOrDisplayQRCode struct {
 	QRCode        *PaymentIntentNextActionCashAppHandleRedirectOrDisplayQRCodeQRCode `json:"qr_code"`
 }
 
+// ABA Records contain U.S. bank account details per the ABA format.
+type PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressABA struct {
+	// The ABA account number
+	AccountNumber string `json:"account_number"`
+	// The bank name
+	BankName string `json:"bank_name"`
+	// The ABA routing number
+	RoutingNumber string `json:"routing_number"`
+}
+
 // Iban Records contain E.U. bank account details per the SEPA format.
 type PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressIBAN struct {
 	// The name of the person or business that owns the bank account
@@ -2587,6 +2603,16 @@ type PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressSpei 
 	Clabe string `json:"clabe"`
 }
 
+// SWIFT Records contain U.S. bank account details per the SWIFT format.
+type PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressSwift struct {
+	// The account number
+	AccountNumber string `json:"account_number"`
+	// The bank name
+	BankName string `json:"bank_name"`
+	// The SWIFT code
+	SwiftCode string `json:"swift_code"`
+}
+
 // Zengin Records contain Japan bank account details per the Zengin format.
 type PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressZengin struct {
 	// The account holder name
@@ -2607,6 +2633,8 @@ type PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressZengi
 
 // A list of financial addresses that can be used to fund the customer balance
 type PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddress struct {
+	// ABA Records contain U.S. bank account details per the ABA format.
+	ABA *PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressABA `json:"aba"`
 	// Iban Records contain E.U. bank account details per the SEPA format.
 	IBAN *PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressIBAN `json:"iban"`
 	// Sort Code Records contain U.K. bank account details per the sort code format.
@@ -2615,6 +2643,8 @@ type PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddress stru
 	Spei *PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressSpei `json:"spei"`
 	// The payment networks supported by this FinancialAddress
 	SupportedNetworks []PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressSupportedNetwork `json:"supported_networks"`
+	// SWIFT Records contain U.S. bank account details per the SWIFT format.
+	Swift *PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressSwift `json:"swift"`
 	// The type of financial address
 	Type PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressType `json:"type"`
 	// Zengin Records contain Japan bank account details per the Zengin format.
@@ -3176,6 +3206,8 @@ type PaymentIntentPaymentMethodOptionsPaypal struct {
 	//
 	// When processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).
 	SetupFutureUsage PaymentIntentPaymentMethodOptionsPaypalSetupFutureUsage `json:"setup_future_usage"`
+	// The Stripe connected account IDs of the sellers on the platform for this transaction (optional). Only allowed when [separate charges and transfers](https://stripe.com/docs/connect/separate-charges-and-transfers) are used.
+	Subsellers []string `json:"subsellers"`
 }
 type PaymentIntentPaymentMethodOptionsPix struct {
 	// The number of seconds (between 10 and 1209600) after which Pix payment will expire.

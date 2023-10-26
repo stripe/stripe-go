@@ -133,6 +133,7 @@ type QuoteStatusDetailsStaleLastReasonType string
 
 // List of values that QuoteStatusDetailsStaleLastReasonType can take
 const (
+	QuoteStatusDetailsStaleLastReasonTypeAcceptFailedValidations      QuoteStatusDetailsStaleLastReasonType = "accept_failed_validations"
 	QuoteStatusDetailsStaleLastReasonTypeBillOnAcceptanceInvalid      QuoteStatusDetailsStaleLastReasonType = "bill_on_acceptance_invalid"
 	QuoteStatusDetailsStaleLastReasonTypeLineInvalid                  QuoteStatusDetailsStaleLastReasonType = "line_invalid"
 	QuoteStatusDetailsStaleLastReasonTypeMarkedStale                  QuoteStatusDetailsStaleLastReasonType = "marked_stale"
@@ -363,7 +364,7 @@ type QuoteParams struct {
 	Phases []*QuotePhaseParams `form:"phases"`
 	// When creating a subscription or subscription schedule, the specified configuration data will be used. There must be at least one line item with a recurring price for a subscription or subscription schedule to be created. A subscription schedule is created if `subscription_data[effective_date]` is present and in the future, otherwise a subscription is created.
 	SubscriptionData *QuoteSubscriptionDataParams `form:"subscription_data"`
-	// List representing overrides for `subscription_data` configurations for specific groups.
+	// List representing overrides for `subscription_data` configurations for specific subscription schedules.
 	SubscriptionDataOverrides []*QuoteSubscriptionDataOverrideParams `form:"subscription_data_overrides"`
 	// ID of the test clock to attach to the quote.
 	TestClock *string `form:"test_clock"`
@@ -979,7 +980,7 @@ type QuoteSubscriptionDataParams struct {
 	BillingCycleAnchor *string `form:"billing_cycle_anchor"`
 	// Describes the period to bill for upon accepting the quote.
 	BillOnAcceptance *QuoteSubscriptionDataBillOnAcceptanceParams `form:"bill_on_acceptance"`
-	// The subscription's description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription.
+	// The subscription's description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription for rendering in Stripe surfaces and certain local payment methods UIs.
 	Description *string `form:"description"`
 	// When creating a new subscription, the date of which the subscription schedule will start after the quote is accepted. When updating a subscription, the date of which the subscription will be updated using a subscription schedule. The special value `current_period_end` can be provided to update a subscription at the end of its current period. The `effective_date` is ignored if it is in the past when the quote is accepted.
 	EffectiveDate                 *int64 `form:"effective_date"`
@@ -1075,7 +1076,7 @@ type QuoteSubscriptionDataOverrideBillOnAcceptanceParams struct {
 	BillUntil *QuoteSubscriptionDataOverrideBillOnAcceptanceBillUntilParams `form:"bill_until"`
 }
 
-// List representing overrides for `subscription_data` configurations for specific groups.
+// List representing overrides for `subscription_data` configurations for specific subscription schedules.
 type QuoteSubscriptionDataOverrideParams struct {
 	// Whether the override applies to an existing Subscription Schedule or a new Subscription Schedule.
 	AppliesTo *QuoteSubscriptionDataOverrideAppliesToParams `form:"applies_to"`
@@ -1085,7 +1086,7 @@ type QuoteSubscriptionDataOverrideParams struct {
 	BillOnAcceptance *QuoteSubscriptionDataOverrideBillOnAcceptanceParams `form:"bill_on_acceptance"`
 	// The customer the Subscription Data override applies to. This is only relevant when `applies_to.type=new_reference`.
 	Customer *string `form:"customer"`
-	// The subscription's description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription.
+	// The subscription's description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription for rendering in Stripe surfaces and certain local payment methods UIs.
 	Description *string `form:"description"`
 	// Behavior of the subscription schedule and underlying subscription when it ends.
 	EndBehavior *string `form:"end_behavior"`
@@ -1550,7 +1551,7 @@ type QuoteSubscriptionData struct {
 	BillingCycleAnchor QuoteSubscriptionDataBillingCycleAnchor `json:"billing_cycle_anchor"`
 	// Describes the period to bill for upon accepting the quote.
 	BillOnAcceptance *QuoteSubscriptionDataBillOnAcceptance `json:"bill_on_acceptance"`
-	// The subscription's description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription.
+	// The subscription's description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription for rendering in Stripe surfaces and certain local payment methods UIs.
 	Description string `json:"description"`
 	// When creating a new subscription, the date of which the subscription schedule will start after the quote is accepted. This date is ignored if it is in the past when the quote is accepted. Measured in seconds since the Unix epoch.
 	EffectiveDate int64 `json:"effective_date"`
@@ -1629,6 +1630,8 @@ type QuoteSubscriptionDataOverrideBillOnAcceptance struct {
 	// The end of the period to bill until when the Quote is accepted.
 	BillUntil *QuoteSubscriptionDataOverrideBillOnAcceptanceBillUntil `json:"bill_until"`
 }
+
+// List representing overrides for `subscription_data` configurations for specific subscription schedules.
 type QuoteSubscriptionDataOverride struct {
 	AppliesTo *QuoteSubscriptionDataOverrideAppliesTo `json:"applies_to"`
 	// Configures when the subscription schedule generates prorations for phase transitions. Possible values are `prorate_on_next_phase` or `prorate_up_front` with the default being `prorate_on_next_phase`. `prorate_on_next_phase` will apply phase changes and generate prorations at transition time.`prorate_up_front` will bill for all phases within the current billing cycle up front.
@@ -1637,7 +1640,7 @@ type QuoteSubscriptionDataOverride struct {
 	BillOnAcceptance *QuoteSubscriptionDataOverrideBillOnAcceptance `json:"bill_on_acceptance"`
 	// The customer which this quote belongs to. A customer is required before finalizing the quote. Once specified, it cannot be changed.
 	Customer string `json:"customer"`
-	// The subscription's description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription.
+	// The subscription's description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription for rendering in Stripe surfaces and certain local payment methods UIs.
 	Description string `json:"description"`
 	// Behavior of the subscription schedule and underlying subscription when it ends.
 	EndBehavior QuoteSubscriptionDataOverrideEndBehavior `json:"end_behavior"`
@@ -1776,8 +1779,9 @@ type Quote struct {
 	StatusDetails     *QuoteStatusDetails     `json:"status_details"`
 	StatusTransitions *QuoteStatusTransitions `json:"status_transitions"`
 	// The subscription that was created or updated from this quote.
-	Subscription              *Subscription                    `json:"subscription"`
-	SubscriptionData          *QuoteSubscriptionData           `json:"subscription_data"`
+	Subscription     *Subscription          `json:"subscription"`
+	SubscriptionData *QuoteSubscriptionData `json:"subscription_data"`
+	// List representing overrides for `subscription_data` configurations for specific subscription schedules.
 	SubscriptionDataOverrides []*QuoteSubscriptionDataOverride `json:"subscription_data_overrides"`
 	// The subscription schedule that was created or updated from this quote.
 	SubscriptionSchedule *SubscriptionSchedule `json:"subscription_schedule"`

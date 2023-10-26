@@ -40,27 +40,25 @@ type IssuingCreditUnderwritingRecordDecisionApplicationRejectedReason string
 
 // List of values that IssuingCreditUnderwritingRecordDecisionApplicationRejectedReason can take
 const (
+	IssuingCreditUnderwritingRecordDecisionApplicationRejectedReasonApplicantIsNotBeneficialOwner          IssuingCreditUnderwritingRecordDecisionApplicationRejectedReason = "applicant_is_not_beneficial_owner"
 	IssuingCreditUnderwritingRecordDecisionApplicationRejectedReasonApplicantTooYoung                      IssuingCreditUnderwritingRecordDecisionApplicationRejectedReason = "applicant_too_young"
 	IssuingCreditUnderwritingRecordDecisionApplicationRejectedReasonApplicationIsNotBeneficialOwner        IssuingCreditUnderwritingRecordDecisionApplicationRejectedReason = "application_is_not_beneficial_owner"
 	IssuingCreditUnderwritingRecordDecisionApplicationRejectedReasonBankruptcy                             IssuingCreditUnderwritingRecordDecisionApplicationRejectedReason = "bankruptcy"
 	IssuingCreditUnderwritingRecordDecisionApplicationRejectedReasonBusinessSizeTooSmall                   IssuingCreditUnderwritingRecordDecisionApplicationRejectedReason = "business_size_too_small"
-	IssuingCreditUnderwritingRecordDecisionApplicationRejectedReasonChangeInFinancialState                 IssuingCreditUnderwritingRecordDecisionApplicationRejectedReason = "change_in_financial_state"
-	IssuingCreditUnderwritingRecordDecisionApplicationRejectedReasonChangeInUtilizationOfCreditLine        IssuingCreditUnderwritingRecordDecisionApplicationRejectedReason = "change_in_utilization_of_credit_line"
+	IssuingCreditUnderwritingRecordDecisionApplicationRejectedReasonCurrentAccountTierIneligible           IssuingCreditUnderwritingRecordDecisionApplicationRejectedReason = "current_account_tier_ineligible"
 	IssuingCreditUnderwritingRecordDecisionApplicationRejectedReasonCustomerAlreadyExists                  IssuingCreditUnderwritingRecordDecisionApplicationRejectedReason = "customer_already_exists"
+	IssuingCreditUnderwritingRecordDecisionApplicationRejectedReasonCustomerRequestedAccountClosure        IssuingCreditUnderwritingRecordDecisionApplicationRejectedReason = "customer_requested_account_closure"
 	IssuingCreditUnderwritingRecordDecisionApplicationRejectedReasonDebtToCashBalanceRatioTooHigh          IssuingCreditUnderwritingRecordDecisionApplicationRejectedReason = "debt_to_cash_balance_ratio_too_high"
 	IssuingCreditUnderwritingRecordDecisionApplicationRejectedReasonDebtToEquityRatioTooHigh               IssuingCreditUnderwritingRecordDecisionApplicationRejectedReason = "debt_to_equity_ratio_too_high"
-	IssuingCreditUnderwritingRecordDecisionApplicationRejectedReasonDecreaseInIncomeToExpenseRatio         IssuingCreditUnderwritingRecordDecisionApplicationRejectedReason = "decrease_in_income_to_expense_ratio"
-	IssuingCreditUnderwritingRecordDecisionApplicationRejectedReasonDecreaseInSocialMediaPerformance       IssuingCreditUnderwritingRecordDecisionApplicationRejectedReason = "decrease_in_social_media_performance"
 	IssuingCreditUnderwritingRecordDecisionApplicationRejectedReasonDelinquentCreditObligations            IssuingCreditUnderwritingRecordDecisionApplicationRejectedReason = "delinquent_credit_obligations"
+	IssuingCreditUnderwritingRecordDecisionApplicationRejectedReasonDisputeRateTooHigh                     IssuingCreditUnderwritingRecordDecisionApplicationRejectedReason = "dispute_rate_too_high"
 	IssuingCreditUnderwritingRecordDecisionApplicationRejectedReasonDurationOfResidence                    IssuingCreditUnderwritingRecordDecisionApplicationRejectedReason = "duration_of_residence"
-	IssuingCreditUnderwritingRecordDecisionApplicationRejectedReasonExceedsAcceptablePlatformExposure      IssuingCreditUnderwritingRecordDecisionApplicationRejectedReason = "exceeds_acceptable_platform_exposure"
 	IssuingCreditUnderwritingRecordDecisionApplicationRejectedReasonExcessiveIncomeOrRevenueObligations    IssuingCreditUnderwritingRecordDecisionApplicationRejectedReason = "excessive_income_or_revenue_obligations"
 	IssuingCreditUnderwritingRecordDecisionApplicationRejectedReasonExpensesToCashBalanceRatioTooHigh      IssuingCreditUnderwritingRecordDecisionApplicationRejectedReason = "expenses_to_cash_balance_ratio_too_high"
 	IssuingCreditUnderwritingRecordDecisionApplicationRejectedReasonForeclosureOrRepossession              IssuingCreditUnderwritingRecordDecisionApplicationRejectedReason = "foreclosure_or_repossession"
 	IssuingCreditUnderwritingRecordDecisionApplicationRejectedReasonFrozenFileAtCreditBureau               IssuingCreditUnderwritingRecordDecisionApplicationRejectedReason = "frozen_file_at_credit_bureau"
 	IssuingCreditUnderwritingRecordDecisionApplicationRejectedReasonGarnishmentOrAttachment                IssuingCreditUnderwritingRecordDecisionApplicationRejectedReason = "garnishment_or_attachment"
 	IssuingCreditUnderwritingRecordDecisionApplicationRejectedReasonGovernmentLoanProgramCriteria          IssuingCreditUnderwritingRecordDecisionApplicationRejectedReason = "government_loan_program_criteria"
-	IssuingCreditUnderwritingRecordDecisionApplicationRejectedReasonHasRecentCreditLimitIncrease           IssuingCreditUnderwritingRecordDecisionApplicationRejectedReason = "has_recent_credit_limit_increase"
 	IssuingCreditUnderwritingRecordDecisionApplicationRejectedReasonHighConcentrationOfClients             IssuingCreditUnderwritingRecordDecisionApplicationRejectedReason = "high_concentration_of_clients"
 	IssuingCreditUnderwritingRecordDecisionApplicationRejectedReasonIncompleteApplication                  IssuingCreditUnderwritingRecordDecisionApplicationRejectedReason = "incomplete_application"
 	IssuingCreditUnderwritingRecordDecisionApplicationRejectedReasonInconsistentMonthlyRevenues            IssuingCreditUnderwritingRecordDecisionApplicationRejectedReason = "inconsistent_monthly_revenues"
@@ -70,14 +68,13 @@ const (
 	IssuingCreditUnderwritingRecordDecisionApplicationRejectedReasonInsufficientCashFlow                   IssuingCreditUnderwritingRecordDecisionApplicationRejectedReason = "insufficient_cash_flow"
 	IssuingCreditUnderwritingRecordDecisionApplicationRejectedReasonInsufficientCollateral                 IssuingCreditUnderwritingRecordDecisionApplicationRejectedReason = "insufficient_collateral"
 	IssuingCreditUnderwritingRecordDecisionApplicationRejectedReasonInsufficientCreditExperience           IssuingCreditUnderwritingRecordDecisionApplicationRejectedReason = "insufficient_credit_experience"
-	IssuingCreditUnderwritingRecordDecisionApplicationRejectedReasonInsufficientCreditUtilization          IssuingCreditUnderwritingRecordDecisionApplicationRejectedReason = "insufficient_credit_utilization"
 	IssuingCreditUnderwritingRecordDecisionApplicationRejectedReasonInsufficientDeposits                   IssuingCreditUnderwritingRecordDecisionApplicationRejectedReason = "insufficient_deposits"
 	IssuingCreditUnderwritingRecordDecisionApplicationRejectedReasonInsufficientIncome                     IssuingCreditUnderwritingRecordDecisionApplicationRejectedReason = "insufficient_income"
 	IssuingCreditUnderwritingRecordDecisionApplicationRejectedReasonInsufficientPeriodInOperation          IssuingCreditUnderwritingRecordDecisionApplicationRejectedReason = "insufficient_period_in_operation"
 	IssuingCreditUnderwritingRecordDecisionApplicationRejectedReasonInsufficientRevenue                    IssuingCreditUnderwritingRecordDecisionApplicationRejectedReason = "insufficient_revenue"
 	IssuingCreditUnderwritingRecordDecisionApplicationRejectedReasonInsufficientSocialMediaPerformance     IssuingCreditUnderwritingRecordDecisionApplicationRejectedReason = "insufficient_social_media_performance"
 	IssuingCreditUnderwritingRecordDecisionApplicationRejectedReasonInsufficientTradeCreditInsurance       IssuingCreditUnderwritingRecordDecisionApplicationRejectedReason = "insufficient_trade_credit_insurance"
-	IssuingCreditUnderwritingRecordDecisionApplicationRejectedReasonInsufficientUsageAsQualifiedExpenses   IssuingCreditUnderwritingRecordDecisionApplicationRejectedReason = "insufficient_usage_as_qualified_expenses"
+	IssuingCreditUnderwritingRecordDecisionApplicationRejectedReasonInvalidBusinessLicense                 IssuingCreditUnderwritingRecordDecisionApplicationRejectedReason = "invalid_business_license"
 	IssuingCreditUnderwritingRecordDecisionApplicationRejectedReasonLatePaymentHistoryReportedToBureau     IssuingCreditUnderwritingRecordDecisionApplicationRejectedReason = "late_payment_history_reported_to_bureau"
 	IssuingCreditUnderwritingRecordDecisionApplicationRejectedReasonLienCollectionActionOrJudgement        IssuingCreditUnderwritingRecordDecisionApplicationRejectedReason = "lien_collection_action_or_judgement"
 	IssuingCreditUnderwritingRecordDecisionApplicationRejectedReasonNegativePublicInformation              IssuingCreditUnderwritingRecordDecisionApplicationRejectedReason = "negative_public_information"
@@ -85,7 +82,6 @@ const (
 	IssuingCreditUnderwritingRecordDecisionApplicationRejectedReasonOther                                  IssuingCreditUnderwritingRecordDecisionApplicationRejectedReason = "other"
 	IssuingCreditUnderwritingRecordDecisionApplicationRejectedReasonOutsideSupportedCountry                IssuingCreditUnderwritingRecordDecisionApplicationRejectedReason = "outside_supported_country"
 	IssuingCreditUnderwritingRecordDecisionApplicationRejectedReasonOutsideSupportedState                  IssuingCreditUnderwritingRecordDecisionApplicationRejectedReason = "outside_supported_state"
-	IssuingCreditUnderwritingRecordDecisionApplicationRejectedReasonPoorPaymentHistoryWithPlatform         IssuingCreditUnderwritingRecordDecisionApplicationRejectedReason = "poor_payment_history_with_platform"
 	IssuingCreditUnderwritingRecordDecisionApplicationRejectedReasonPriorOrCurrentLegalAction              IssuingCreditUnderwritingRecordDecisionApplicationRejectedReason = "prior_or_current_legal_action"
 	IssuingCreditUnderwritingRecordDecisionApplicationRejectedReasonProhibitedIndustry                     IssuingCreditUnderwritingRecordDecisionApplicationRejectedReason = "prohibited_industry"
 	IssuingCreditUnderwritingRecordDecisionApplicationRejectedReasonRateOfCashBalanceFluctuationTooHigh    IssuingCreditUnderwritingRecordDecisionApplicationRejectedReason = "rate_of_cash_balance_fluctuation_too_high"
@@ -107,18 +103,22 @@ type IssuingCreditUnderwritingRecordDecisionCreditLimitDecreasedReason string
 
 // List of values that IssuingCreditUnderwritingRecordDecisionCreditLimitDecreasedReason can take
 const (
+	IssuingCreditUnderwritingRecordDecisionCreditLimitDecreasedReasonApplicantIsNotBeneficialOwner          IssuingCreditUnderwritingRecordDecisionCreditLimitDecreasedReason = "applicant_is_not_beneficial_owner"
 	IssuingCreditUnderwritingRecordDecisionCreditLimitDecreasedReasonApplicantTooYoung                      IssuingCreditUnderwritingRecordDecisionCreditLimitDecreasedReason = "applicant_too_young"
 	IssuingCreditUnderwritingRecordDecisionCreditLimitDecreasedReasonApplicationIsNotBeneficialOwner        IssuingCreditUnderwritingRecordDecisionCreditLimitDecreasedReason = "application_is_not_beneficial_owner"
 	IssuingCreditUnderwritingRecordDecisionCreditLimitDecreasedReasonBankruptcy                             IssuingCreditUnderwritingRecordDecisionCreditLimitDecreasedReason = "bankruptcy"
 	IssuingCreditUnderwritingRecordDecisionCreditLimitDecreasedReasonBusinessSizeTooSmall                   IssuingCreditUnderwritingRecordDecisionCreditLimitDecreasedReason = "business_size_too_small"
 	IssuingCreditUnderwritingRecordDecisionCreditLimitDecreasedReasonChangeInFinancialState                 IssuingCreditUnderwritingRecordDecisionCreditLimitDecreasedReason = "change_in_financial_state"
 	IssuingCreditUnderwritingRecordDecisionCreditLimitDecreasedReasonChangeInUtilizationOfCreditLine        IssuingCreditUnderwritingRecordDecisionCreditLimitDecreasedReason = "change_in_utilization_of_credit_line"
+	IssuingCreditUnderwritingRecordDecisionCreditLimitDecreasedReasonCurrentAccountTierIneligible           IssuingCreditUnderwritingRecordDecisionCreditLimitDecreasedReason = "current_account_tier_ineligible"
 	IssuingCreditUnderwritingRecordDecisionCreditLimitDecreasedReasonCustomerAlreadyExists                  IssuingCreditUnderwritingRecordDecisionCreditLimitDecreasedReason = "customer_already_exists"
+	IssuingCreditUnderwritingRecordDecisionCreditLimitDecreasedReasonCustomerRequestedAccountClosure        IssuingCreditUnderwritingRecordDecisionCreditLimitDecreasedReason = "customer_requested_account_closure"
 	IssuingCreditUnderwritingRecordDecisionCreditLimitDecreasedReasonDebtToCashBalanceRatioTooHigh          IssuingCreditUnderwritingRecordDecisionCreditLimitDecreasedReason = "debt_to_cash_balance_ratio_too_high"
 	IssuingCreditUnderwritingRecordDecisionCreditLimitDecreasedReasonDebtToEquityRatioTooHigh               IssuingCreditUnderwritingRecordDecisionCreditLimitDecreasedReason = "debt_to_equity_ratio_too_high"
 	IssuingCreditUnderwritingRecordDecisionCreditLimitDecreasedReasonDecreaseInIncomeToExpenseRatio         IssuingCreditUnderwritingRecordDecisionCreditLimitDecreasedReason = "decrease_in_income_to_expense_ratio"
 	IssuingCreditUnderwritingRecordDecisionCreditLimitDecreasedReasonDecreaseInSocialMediaPerformance       IssuingCreditUnderwritingRecordDecisionCreditLimitDecreasedReason = "decrease_in_social_media_performance"
 	IssuingCreditUnderwritingRecordDecisionCreditLimitDecreasedReasonDelinquentCreditObligations            IssuingCreditUnderwritingRecordDecisionCreditLimitDecreasedReason = "delinquent_credit_obligations"
+	IssuingCreditUnderwritingRecordDecisionCreditLimitDecreasedReasonDisputeRateTooHigh                     IssuingCreditUnderwritingRecordDecisionCreditLimitDecreasedReason = "dispute_rate_too_high"
 	IssuingCreditUnderwritingRecordDecisionCreditLimitDecreasedReasonDurationOfResidence                    IssuingCreditUnderwritingRecordDecisionCreditLimitDecreasedReason = "duration_of_residence"
 	IssuingCreditUnderwritingRecordDecisionCreditLimitDecreasedReasonExceedsAcceptablePlatformExposure      IssuingCreditUnderwritingRecordDecisionCreditLimitDecreasedReason = "exceeds_acceptable_platform_exposure"
 	IssuingCreditUnderwritingRecordDecisionCreditLimitDecreasedReasonExcessiveIncomeOrRevenueObligations    IssuingCreditUnderwritingRecordDecisionCreditLimitDecreasedReason = "excessive_income_or_revenue_obligations"
@@ -145,6 +145,7 @@ const (
 	IssuingCreditUnderwritingRecordDecisionCreditLimitDecreasedReasonInsufficientSocialMediaPerformance     IssuingCreditUnderwritingRecordDecisionCreditLimitDecreasedReason = "insufficient_social_media_performance"
 	IssuingCreditUnderwritingRecordDecisionCreditLimitDecreasedReasonInsufficientTradeCreditInsurance       IssuingCreditUnderwritingRecordDecisionCreditLimitDecreasedReason = "insufficient_trade_credit_insurance"
 	IssuingCreditUnderwritingRecordDecisionCreditLimitDecreasedReasonInsufficientUsageAsQualifiedExpenses   IssuingCreditUnderwritingRecordDecisionCreditLimitDecreasedReason = "insufficient_usage_as_qualified_expenses"
+	IssuingCreditUnderwritingRecordDecisionCreditLimitDecreasedReasonInvalidBusinessLicense                 IssuingCreditUnderwritingRecordDecisionCreditLimitDecreasedReason = "invalid_business_license"
 	IssuingCreditUnderwritingRecordDecisionCreditLimitDecreasedReasonLatePaymentHistoryReportedToBureau     IssuingCreditUnderwritingRecordDecisionCreditLimitDecreasedReason = "late_payment_history_reported_to_bureau"
 	IssuingCreditUnderwritingRecordDecisionCreditLimitDecreasedReasonLienCollectionActionOrJudgement        IssuingCreditUnderwritingRecordDecisionCreditLimitDecreasedReason = "lien_collection_action_or_judgement"
 	IssuingCreditUnderwritingRecordDecisionCreditLimitDecreasedReasonNegativePublicInformation              IssuingCreditUnderwritingRecordDecisionCreditLimitDecreasedReason = "negative_public_information"
@@ -174,18 +175,22 @@ type IssuingCreditUnderwritingRecordDecisionCreditLineClosedReason string
 
 // List of values that IssuingCreditUnderwritingRecordDecisionCreditLineClosedReason can take
 const (
+	IssuingCreditUnderwritingRecordDecisionCreditLineClosedReasonApplicantIsNotBeneficialOwner          IssuingCreditUnderwritingRecordDecisionCreditLineClosedReason = "applicant_is_not_beneficial_owner"
 	IssuingCreditUnderwritingRecordDecisionCreditLineClosedReasonApplicantTooYoung                      IssuingCreditUnderwritingRecordDecisionCreditLineClosedReason = "applicant_too_young"
 	IssuingCreditUnderwritingRecordDecisionCreditLineClosedReasonApplicationIsNotBeneficialOwner        IssuingCreditUnderwritingRecordDecisionCreditLineClosedReason = "application_is_not_beneficial_owner"
 	IssuingCreditUnderwritingRecordDecisionCreditLineClosedReasonBankruptcy                             IssuingCreditUnderwritingRecordDecisionCreditLineClosedReason = "bankruptcy"
 	IssuingCreditUnderwritingRecordDecisionCreditLineClosedReasonBusinessSizeTooSmall                   IssuingCreditUnderwritingRecordDecisionCreditLineClosedReason = "business_size_too_small"
 	IssuingCreditUnderwritingRecordDecisionCreditLineClosedReasonChangeInFinancialState                 IssuingCreditUnderwritingRecordDecisionCreditLineClosedReason = "change_in_financial_state"
 	IssuingCreditUnderwritingRecordDecisionCreditLineClosedReasonChangeInUtilizationOfCreditLine        IssuingCreditUnderwritingRecordDecisionCreditLineClosedReason = "change_in_utilization_of_credit_line"
+	IssuingCreditUnderwritingRecordDecisionCreditLineClosedReasonCurrentAccountTierIneligible           IssuingCreditUnderwritingRecordDecisionCreditLineClosedReason = "current_account_tier_ineligible"
 	IssuingCreditUnderwritingRecordDecisionCreditLineClosedReasonCustomerAlreadyExists                  IssuingCreditUnderwritingRecordDecisionCreditLineClosedReason = "customer_already_exists"
+	IssuingCreditUnderwritingRecordDecisionCreditLineClosedReasonCustomerRequestedAccountClosure        IssuingCreditUnderwritingRecordDecisionCreditLineClosedReason = "customer_requested_account_closure"
 	IssuingCreditUnderwritingRecordDecisionCreditLineClosedReasonDebtToCashBalanceRatioTooHigh          IssuingCreditUnderwritingRecordDecisionCreditLineClosedReason = "debt_to_cash_balance_ratio_too_high"
 	IssuingCreditUnderwritingRecordDecisionCreditLineClosedReasonDebtToEquityRatioTooHigh               IssuingCreditUnderwritingRecordDecisionCreditLineClosedReason = "debt_to_equity_ratio_too_high"
 	IssuingCreditUnderwritingRecordDecisionCreditLineClosedReasonDecreaseInIncomeToExpenseRatio         IssuingCreditUnderwritingRecordDecisionCreditLineClosedReason = "decrease_in_income_to_expense_ratio"
 	IssuingCreditUnderwritingRecordDecisionCreditLineClosedReasonDecreaseInSocialMediaPerformance       IssuingCreditUnderwritingRecordDecisionCreditLineClosedReason = "decrease_in_social_media_performance"
 	IssuingCreditUnderwritingRecordDecisionCreditLineClosedReasonDelinquentCreditObligations            IssuingCreditUnderwritingRecordDecisionCreditLineClosedReason = "delinquent_credit_obligations"
+	IssuingCreditUnderwritingRecordDecisionCreditLineClosedReasonDisputeRateTooHigh                     IssuingCreditUnderwritingRecordDecisionCreditLineClosedReason = "dispute_rate_too_high"
 	IssuingCreditUnderwritingRecordDecisionCreditLineClosedReasonDurationOfResidence                    IssuingCreditUnderwritingRecordDecisionCreditLineClosedReason = "duration_of_residence"
 	IssuingCreditUnderwritingRecordDecisionCreditLineClosedReasonExceedsAcceptablePlatformExposure      IssuingCreditUnderwritingRecordDecisionCreditLineClosedReason = "exceeds_acceptable_platform_exposure"
 	IssuingCreditUnderwritingRecordDecisionCreditLineClosedReasonExcessiveIncomeOrRevenueObligations    IssuingCreditUnderwritingRecordDecisionCreditLineClosedReason = "excessive_income_or_revenue_obligations"
@@ -212,6 +217,7 @@ const (
 	IssuingCreditUnderwritingRecordDecisionCreditLineClosedReasonInsufficientSocialMediaPerformance     IssuingCreditUnderwritingRecordDecisionCreditLineClosedReason = "insufficient_social_media_performance"
 	IssuingCreditUnderwritingRecordDecisionCreditLineClosedReasonInsufficientTradeCreditInsurance       IssuingCreditUnderwritingRecordDecisionCreditLineClosedReason = "insufficient_trade_credit_insurance"
 	IssuingCreditUnderwritingRecordDecisionCreditLineClosedReasonInsufficientUsageAsQualifiedExpenses   IssuingCreditUnderwritingRecordDecisionCreditLineClosedReason = "insufficient_usage_as_qualified_expenses"
+	IssuingCreditUnderwritingRecordDecisionCreditLineClosedReasonInvalidBusinessLicense                 IssuingCreditUnderwritingRecordDecisionCreditLineClosedReason = "invalid_business_license"
 	IssuingCreditUnderwritingRecordDecisionCreditLineClosedReasonLatePaymentHistoryReportedToBureau     IssuingCreditUnderwritingRecordDecisionCreditLineClosedReason = "late_payment_history_reported_to_bureau"
 	IssuingCreditUnderwritingRecordDecisionCreditLineClosedReasonLienCollectionActionOrJudgement        IssuingCreditUnderwritingRecordDecisionCreditLineClosedReason = "lien_collection_action_or_judgement"
 	IssuingCreditUnderwritingRecordDecisionCreditLineClosedReasonNegativePublicInformation              IssuingCreditUnderwritingRecordDecisionCreditLineClosedReason = "negative_public_information"
@@ -306,7 +312,7 @@ type IssuingCreditUnderwritingRecordCreateFromApplicationCreditUserParams struct
 	Name *string `form:"name"`
 }
 
-// Creates a CreditUnderwritingRecord object with information about a credit application submission
+// Creates a CreditUnderwritingRecord object with information about a credit application submission.
 type IssuingCreditUnderwritingRecordCreateFromApplicationParams struct {
 	Params `form:"*"`
 	// Details about the application submission.
@@ -389,7 +395,7 @@ type IssuingCreditUnderwritingRecordCreateFromProactiveReviewUnderwritingExcepti
 	OriginalDecisionType *string `form:"original_decision_type"`
 }
 
-// Creates a CreditUnderwritingRecord object from an underwriting decision coming from a proactive review of an existing accountholder
+// Creates a CreditUnderwritingRecord object from an underwriting decision coming from a proactive review of an existing accountholder.
 type IssuingCreditUnderwritingRecordCreateFromProactiveReviewParams struct {
 	Params `form:"*"`
 	// Information about the company or person applying or holding the account.
@@ -454,7 +460,7 @@ type IssuingCreditUnderwritingRecordReportDecisionUnderwritingExceptionParams st
 	OriginalDecisionType *string `form:"original_decision_type"`
 }
 
-// Update a CreditUnderwritingRecord object from an decision made on a credit application
+// Update a CreditUnderwritingRecord object from a decision made on a credit application.
 type IssuingCreditUnderwritingRecordReportDecisionParams struct {
 	Params `form:"*"`
 	// Date when a decision was made.
@@ -559,7 +565,7 @@ type IssuingCreditUnderwritingRecordCorrectUnderwritingExceptionParams struct {
 	OriginalDecisionType *string `form:"original_decision_type"`
 }
 
-// Update a CreditUnderwritingRecord object to correct mistakes
+// Update a CreditUnderwritingRecord object to correct mistakes.
 type IssuingCreditUnderwritingRecordCorrectParams struct {
 	Params `form:"*"`
 	// Details about the application submission.
@@ -666,9 +672,9 @@ type IssuingCreditUnderwritingRecordUnderwritingException struct {
 	OriginalDecisionType IssuingCreditUnderwritingRecordUnderwritingExceptionOriginalDecisionType `json:"original_decision_type"`
 }
 
-// Every time an applicant submits an application for a Charge Card product your Platform offers, or every time your Platform takes a proactive credit decision on an existing account, you must record the decision by creating a new CreditUnderwritingRecord object on a Connected account.
+// Every time an applicant submits an application for a Charge Card product your platform offers, or every time your platform takes a proactive credit decision on an existing account, you must record the decision by creating a new `CreditUnderwritingRecord` object on a connected account.
 //
-// [Follow the guide](https://stripe.com/docs/issuing/coming_soon) to learn about your requirements as a Platform.
+// [Follow the guide](https://stripe.com/docs/issuing/credit/report-credit-decisions-and-manage-aans) to learn about your requirements as a platform.
 type IssuingCreditUnderwritingRecord struct {
 	APIResource
 	// For decisions triggered by an application, details about the submission.
