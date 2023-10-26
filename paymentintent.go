@@ -1247,7 +1247,7 @@ type PaymentIntentPaymentMethodOptionsCardParams struct {
 type PaymentIntentPaymentMethodOptionsCardPresentParams struct {
 	// Request ability to capture this payment beyond the standard [authorization validity window](https://stripe.com/docs/terminal/features/extended-authorizations#authorization-validity)
 	RequestExtendedAuthorization *bool `form:"request_extended_authorization"`
-	// Request ability to [increment](https://stripe.com/docs/payments/incremental-authorization) for this PaymentIntent.
+	// This field was released by mistake and will be removed in the next major version
 	RequestIncrementalAuthorization *string `form:"request_incremental_authorization"`
 	// Request ability to [increment](https://stripe.com/docs/terminal/features/incremental-authorizations) this PaymentIntent if the combination of MCC and card brand is eligible. Check [incremental_authorization_supported](https://stripe.com/docs/api/charges/object#charge_object-payment_method_details-card_present-incremental_authorization_supported) in the [Confirm](https://stripe.com/docs/api/payment_intents/confirm) response to verify support.
 	RequestIncrementalAuthorizationSupport *bool `form:"request_incremental_authorization_support"`
@@ -1687,7 +1687,7 @@ type PaymentIntentRadarOptionsParams struct {
 	Session *string `form:"session"`
 }
 
-// The parameters that you can use to automatically create a Transfer after the payment succeeds.
+// The parameters that you can use to automatically create a Transfer.
 // Learn more about the [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
 type PaymentIntentTransferDataParams struct {
 	// The amount that will be transferred automatically when a charge succeeds.
@@ -1784,8 +1784,7 @@ type PaymentIntentParams struct {
 	StatementDescriptor *string `form:"statement_descriptor"`
 	// Provides information about a card payment that customers see on their statements. Concatenated with the prefix (shortened descriptor) or statement descriptor that's set on the account to form the complete statement descriptor. The concatenated descriptor must contain 1-22 characters.
 	StatementDescriptorSuffix *string `form:"statement_descriptor_suffix"`
-	// The parameters that you can use to automatically create a Transfer after the payment succeeds.
-	// Learn more about the [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
+	// Use this parameter to automatically create a Transfer when the payment succeeds. Learn more about the [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
 	TransferData *PaymentIntentTransferDataParams `form:"transfer_data"`
 	// A string that identifies the resulting payment as part of a group. You can only provide `transfer_group` if it hasn't been set. Learn more about the [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
 	TransferGroup *string `form:"transfer_group"`
