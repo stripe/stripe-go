@@ -1,5 +1,9 @@
 # Changelog
 
+## 76.2.0 - 2023-10-26
+* [#1759](https://github.com/stripe/stripe-go/pull/1759) Update generated code
+  * Add support for new value `balance_invalid_parameter` on enums `InvoiceLastFinalizationErrorCode`, `PaymentIntentLastPaymentErrorCode`, `SetupAttemptSetupErrorCode`, `SetupIntentLastSetupErrorCode`, and `StripeErrorCode`
+
 ## 76.1.0 - 2023-10-17
 * [#1756](https://github.com/stripe/stripe-go/pull/1756) Update generated code
   * Add support for new value `invalid_dob_age_under_minimum` on enums `AccountFutureRequirementsErrorsCode`, `AccountRequirementsErrorsCode`, `BankAccountFutureRequirementsErrorsCode`, and `BankAccountRequirementsErrorsCode`
