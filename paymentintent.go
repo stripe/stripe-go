@@ -56,11 +56,14 @@ type PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressSuppo
 
 // List of values that PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressSupportedNetwork can take
 const (
-	PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressSupportedNetworkBACS   PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressSupportedNetwork = "bacs"
-	PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressSupportedNetworkFPS    PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressSupportedNetwork = "fps"
-	PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressSupportedNetworkSEPA   PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressSupportedNetwork = "sepa"
-	PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressSupportedNetworkSpei   PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressSupportedNetwork = "spei"
-	PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressSupportedNetworkZengin PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressSupportedNetwork = "zengin"
+	PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressSupportedNetworkACH            PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressSupportedNetwork = "ach"
+	PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressSupportedNetworkBACS           PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressSupportedNetwork = "bacs"
+	PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressSupportedNetworkDomesticWireUS PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressSupportedNetwork = "domestic_wire_us"
+	PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressSupportedNetworkFPS            PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressSupportedNetwork = "fps"
+	PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressSupportedNetworkSEPA           PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressSupportedNetwork = "sepa"
+	PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressSupportedNetworkSpei           PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressSupportedNetwork = "spei"
+	PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressSupportedNetworkSwift          PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressSupportedNetwork = "swift"
+	PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressSupportedNetworkZengin         PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressSupportedNetwork = "zengin"
 )
 
 // The type of financial address
@@ -68,9 +71,11 @@ type PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressType 
 
 // List of values that PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressType can take
 const (
+	PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressTypeABA      PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressType = "aba"
 	PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressTypeIBAN     PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressType = "iban"
 	PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressTypeSortCode PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressType = "sort_code"
 	PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressTypeSpei     PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressType = "spei"
+	PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressTypeSwift    PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressType = "swift"
 	PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressTypeZengin   PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressType = "zengin"
 )
 
@@ -2556,6 +2561,16 @@ type PaymentIntentNextActionCashAppHandleRedirectOrDisplayQRCode struct {
 	QRCode        *PaymentIntentNextActionCashAppHandleRedirectOrDisplayQRCodeQRCode `json:"qr_code"`
 }
 
+// ABA Records contain U.S. bank account details per the ABA format.
+type PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressABA struct {
+	// The ABA account number
+	AccountNumber string `json:"account_number"`
+	// The bank name
+	BankName string `json:"bank_name"`
+	// The ABA routing number
+	RoutingNumber string `json:"routing_number"`
+}
+
 // Iban Records contain E.U. bank account details per the SEPA format.
 type PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressIBAN struct {
 	// The name of the person or business that owns the bank account
@@ -2588,6 +2603,16 @@ type PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressSpei 
 	Clabe string `json:"clabe"`
 }
 
+// SWIFT Records contain U.S. bank account details per the SWIFT format.
+type PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressSwift struct {
+	// The account number
+	AccountNumber string `json:"account_number"`
+	// The bank name
+	BankName string `json:"bank_name"`
+	// The SWIFT code
+	SwiftCode string `json:"swift_code"`
+}
+
 // Zengin Records contain Japan bank account details per the Zengin format.
 type PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressZengin struct {
 	// The account holder name
@@ -2608,6 +2633,8 @@ type PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressZengi
 
 // A list of financial addresses that can be used to fund the customer balance
 type PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddress struct {
+	// ABA Records contain U.S. bank account details per the ABA format.
+	ABA *PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressABA `json:"aba"`
 	// Iban Records contain E.U. bank account details per the SEPA format.
 	IBAN *PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressIBAN `json:"iban"`
 	// Sort Code Records contain U.K. bank account details per the sort code format.
@@ -2616,6 +2643,8 @@ type PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddress stru
 	Spei *PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressSpei `json:"spei"`
 	// The payment networks supported by this FinancialAddress
 	SupportedNetworks []PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressSupportedNetwork `json:"supported_networks"`
+	// SWIFT Records contain U.S. bank account details per the SWIFT format.
+	Swift *PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressSwift `json:"swift"`
 	// The type of financial address
 	Type PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressType `json:"type"`
 	// Zengin Records contain Japan bank account details per the Zengin format.
