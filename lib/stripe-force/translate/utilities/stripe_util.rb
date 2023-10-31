@@ -21,7 +21,7 @@ module StripeForce::Utilities
       when 'year'
         12
       else
-        raise Integrations::Errors::UserError.new("Unsupported pricing interval: #{stripe_price.recurring.interval}")
+        raise Integrations::Errors::UserError.new("The pricing interval isn't supported: #{stripe_price.recurring.interval}")
       end
 
       stripe_price.recurring.interval_count * interval_in_months

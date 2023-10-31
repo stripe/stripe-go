@@ -13,7 +13,7 @@ class StripeForce::Translate
     # if the original order does not match their custom filters, do not translate
     if !orders_respect_custom_filters([contract_structure.initial])
       log.info 'initial order does not respect users custom order filters. not syncing: ', order_ids: contract_structure.initial
-      raise StripeForce::Errors::RawUserError.new("Attempted to sync amendment order when initial order was skipped because it didn't match custom sync filters.")
+      raise StripeForce::Errors::RawUserError.new("The connector attempted to sync the amendment order, but the initial order was skipped because it didn't match custom sync filters.")
     end
 
     # if the original order pre-integration start date, we migrate it to Stripe
@@ -802,7 +802,7 @@ class StripeForce::Translate
       if !is_salesforce_order_evergreen(sf_order_amendment)
         throw_user_failure!(
           salesforce_object: sf_order_amendment,
-          message: "Adding Salesforce products with type 'Renewable' to orders of type 'Evergreen' is not supported."
+          message: "Adding Salesforce products with a 'Renewable' type to evergreen orders isn't supported."
         )
       end
 
@@ -821,7 +821,7 @@ class StripeForce::Translate
         # if attempting to make a new amendment to a canceled subscription schedule, raise error
         throw_user_failure!(
           salesforce_object: sf_order_amendment,
-          message: "Stripe subscription for evergreen order has already been cancelled and cannot be modified."
+          message: "The Stripe subscription for the evergreen order has already been cancelled and can't be modified."
         )
       end
 
@@ -904,7 +904,7 @@ class StripeForce::Translate
 
     subscription_schedule = retrieve_from_stripe(Stripe::SubscriptionSchedule, contract_structure.initial)
     if !subscription_schedule
-      raise Integrations::Errors::UserError.new("Could not find the corresponding Stripe subscription schedule for this amendment order.", salesforce_object: contract_structure.initial)
+      raise Integrations::Errors::UserError.new("Unable to find the corresponding Stripe subscription schedule for the amendment order.", salesforce_object: contract_structure.initial)
     end
 
     # at this point, the initial order would have already been translated
@@ -997,7 +997,7 @@ class StripeForce::Translate
         # if attempting to make a new amendment to a canceled subscription schedule, raise error
         throw_user_failure!(
           salesforce_object: sf_order_amendment,
-          message: "Stripe subscription schedule has already been cancelled and cannot be modified."
+          message: "The Stripe subscription schedule has already been cancelled and can't be modified."
         )
       end
 
@@ -1006,7 +1006,7 @@ class StripeForce::Translate
         log.info 'amendment is termination order', sf_order_amendment_id: sf_order_amendment.Id
 
         if contract_structure.amendments.count - 1 != index
-          raise StripeForce::Errors::RawUserError.new("Processing a termination order, but there's more amendments queued.")
+          raise StripeForce::Errors::RawUserError.new("A termination order is processing, but more amendments are queued.")
         end
       end
 
@@ -1452,7 +1452,7 @@ class StripeForce::Translate
           fifo_remaining_line.reduce_quantity
         else
           # this should never happen
-          raise StripeForce::Errors::RawUserError.new("Termination quantity is greater than the aggregate quantity for the order item.", salesforce_object: termination_line.order_line_id)
+          raise StripeForce::Errors::RawUserError.new("The termination quantity is greater than the aggregate quantity for the order item.", salesforce_object: termination_line.order_line_id)
         end
       end
     end
@@ -1472,7 +1472,7 @@ class StripeForce::Translate
     sf_order_items.select do |sf_order_item|
       # never expect this to occur
       if sf_order_item.IsDeleted || !sf_order_item.SBQQ__Activated__c
-        raise StripeForce::Errors::RawUserError.new("Order line is deleted or not activated.", salesforce_object: sf_order_item)
+        raise StripeForce::Errors::RawUserError.new("The order line is deleted or not activated.", salesforce_object: sf_order_item)
       end
 
       should_keep = sf_order_item[prefixed_stripe_field(ORDER_LINE_SKIP)].nil? ||
@@ -1560,7 +1560,7 @@ class StripeForce::Translate
   def extract_contract_id_from_initial_order(sf_initial_order)
     # if this occurs, the user's CPQ is not configured properly/as we assume
     if sf_initial_order[SF_ORDER_QUOTE].blank?
-      raise StripeForce::Errors::RawUserError.new("No CPQ quote associated with the Salesforce order. Orders pushed to Stripe must have a related CPQ Quote.", salesforce_object: sf_initial_order)
+      raise StripeForce::Errors::RawUserError.new("There's no CPQ quote associated with the Salesforce order. Orders pushed to Stripe must have a related CPQ quote.", salesforce_object: sf_initial_order)
     end
 
     contract = cache_service.get_related_record_from_cache(

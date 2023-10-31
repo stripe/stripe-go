@@ -22,7 +22,7 @@ class StripeForce::Translate
         return subscription_phases
       end
 
-      raise StripeForce::Errors::RawUserError.new("This backend prorated order amendment case is not yet supported.")
+      raise StripeForce::Errors::RawUserError.new("The backend prorated order amendment case isn't supported.")
 
       # Is there a phase starting after the backend_proration phase.start_date? If so, we need to add the backend proration phase
       # before that phase and set backend_proration phase.end_date to the start date of the other phase.

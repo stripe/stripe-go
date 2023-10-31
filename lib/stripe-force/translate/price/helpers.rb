@@ -64,7 +64,7 @@ class StripeForce::Translate
         'graduated'
       else
         # should never happen
-        raise StripeForce::Errors::RawUserError.new("Unexpected consumption schedule type: #{raw_consumption_schedule_type}.")
+        raise StripeForce::Errors::RawUserError.new("The consumption schedule type isn't supported: #{raw_consumption_schedule_type}.")
       end
     end
 
@@ -207,7 +207,7 @@ class StripeForce::Translate
       when CPQProductBillingTypeOptions::ARREARS
         'metered'
       else
-        raise StripeForce::Errors::RawUserError.new("Product billing type is not a support CPQ product billing type option: #{raw_usage_type}")
+        raise StripeForce::Errors::RawUserError.new("Product billing type isn't a supported CPQ Product Billing Type option: #{raw_usage_type}")
       end
     end
 
@@ -281,7 +281,7 @@ class StripeForce::Translate
       is_price_equal = if price_1_billing_scheme == 'per_unit'
         # TODO we do not expect this occur, if it does we'll need to improve the error message here
         if price_1.unit_amount_decimal.nil? || price_2.unit_amount_decimal.nil?
-          raise StripeForce::Errors::RawUserError.new("Field unit_amount_decimal cannot be nil on Stripe price objects.", stripe_resource: price_1)
+          raise StripeForce::Errors::RawUserError.new("The `unit_amount_decimal` field can't be null for Stripe price objects.", stripe_resource: price_1)
         end
 
         price_1_decimal = normalize_unit_amount_decimal_for_comparison(price_1.unit_amount_decimal)

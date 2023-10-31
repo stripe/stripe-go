@@ -82,7 +82,7 @@ class StripeForce::Translate
       # this should never happen if our identical check is correct, unless the data in Salesforce is mutated over time
       # leave this here as an extra safety check until this has backed in production and our test suite has expanded
       if !PriceHelpers.price_billing_amounts_equal?(existing_stripe_price, generated_stripe_price)
-        raise StripeForce::Errors::RawUserError.new("Found a corresponding Stripe price for this Salesforce price, but the price data has changed. Please unlink the Stripe Id from the Salesforce price and sync again.")
+        raise StripeForce::Errors::RawUserError.new("Found a corresponding Stripe price for the Salesforce price, but the price data has changed.")
       end
 
       log.info 'reusing existing stripe price', existing_price_id: existing_stripe_price.id
@@ -191,7 +191,7 @@ class StripeForce::Translate
 
     # it does not look like this is programmatically enforced within CPQ, but should never happen
     if joining_records.count > 1
-      raise StripeForce::Errors::RawUserError.new("More than one consumption schedule is linked to a pricebook. There should only be one.", salesforce_object: sf_pricebook_entry['Product2Id'])
+      raise StripeForce::Errors::RawUserError.new("More than one consumption schedule is linked to a pricebook, but there can only be one.", salesforce_object: sf_pricebook_entry['Product2Id'])
     end
 
     consumption_schedule = cache_service.get_record_from_cache(SF_CONSUMPTION_SCHEDULE, joining_records.first.ConsumptionScheduleId)
@@ -251,7 +251,7 @@ class StripeForce::Translate
     if !upper_bound.nil? && !Integrations::Utilities::StripeUtil.is_integer_value?(upper_bound)
       throw_user_failure!(
         salesforce_object: sf_consumption_rate,
-        message: "Decimal value provided for upper tier bound. Consumption rate tier bounds should be integers."
+        message: "A decimal value was provided for the upper tier bound, but consumption rate tier bounds must be integers."
       )
     end
 
@@ -268,7 +268,7 @@ class StripeForce::Translate
       'flat_amount_decimal'
     else
       # this should never happen unless CPQ changes
-      raise StripeForce::Errors::RawUserError.new("Unexpected pricing method found on consumption rate: #{pricing_method}", salesforce_object: sf_consumption_rate)
+      raise StripeForce::Errors::RawUserError.new("The pricing method on the consumption rate isn't supported: #{pricing_method}", salesforce_object: sf_consumption_rate)
     end
 
     stripe_currency = Integrations::Utilities::Currency.currency_for_sf_object(@user, sf_consumption_rate)

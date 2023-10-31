@@ -158,7 +158,7 @@ module StripeForce::Utilities
 
       required_mappings = user.required_mappings[stripe_mapping_key]
       if required_mappings.nil?
-        raise StripeForce::Errors::RawUserError.new("Required mappings were nil for Stripe object: #{stripe_mapping_key}")
+        raise StripeForce::Errors::RawUserError.new("Required mappings were empty for the Stripe object: #{stripe_mapping_key}")
       end
 
       # first, let's pull required mappings and check if there's anything missing
@@ -197,7 +197,7 @@ module StripeForce::Utilities
 
       if mapped_subscription_phase_term.present?
         if !Integrations::Utilities::StripeUtil.is_integer_value?(mapped_subscription_phase_term)
-          raise StripeForce::Errors::RawUserError.new("Cannot specify subscription term as a decimal value.", salesforce_object: sf_order)
+          raise StripeForce::Errors::RawUserError.new("The subscription term can't be a decimal value.", salesforce_object: sf_order)
         end
 
         return mapped_subscription_phase_term.to_i
@@ -216,7 +216,7 @@ module StripeForce::Utilities
       end
 
       if !Integrations::Utilities::StripeUtil.is_integer_value?(quote_subscription_term)
-        raise StripeForce::Errors::RawUserError.new("Cannot specify subscription term as a decimal value.", salesforce_object: sf_order)
+        raise StripeForce::Errors::RawUserError.new("The subscription term can't be a decimal value.", salesforce_object: sf_order)
       end
 
       quote_subscription_term.to_i
@@ -348,7 +348,7 @@ module StripeForce::Utilities
             log.error 'amendment order does not start on the same day of month as the initial order',
               initial_order_start_date: sf_initial_order_start_date,
               amendment_order_start_date: amendment_start_date
-            raise StripeForce::Errors::RawUserError.new("Amendment orders must start on the same day of month as the initial order. Enable feature non-anniversary amendments to sync amendments on any day of the month.")
+            raise StripeForce::Errors::RawUserError.new("Amendment orders must start on the same day of the month as the initial order. Enable the feature for non-anniversary amendments to sync amendments on any day of the month.")
           end
 
           amendment_end_date = get_non_anniversary_amendment_order_end_date(mapper, sf_order_amendment)
@@ -387,7 +387,7 @@ module StripeForce::Utilities
           amendment_order_start_date: amendment_start_date,
           amendment_order_end_date: amendment_end_date,
           amendment_subscription_term: amendment_subscription_term
-        raise StripeForce::Errors::RawUserError.new("Amendment order subscription term does not equal number of whole months between start and end date.")
+        raise StripeForce::Errors::RawUserError.new("The amendment order subscription term doesn't equal the number of whole months between the start and end date.")
       end
       amendment_end_date
     end

@@ -280,7 +280,7 @@ class Critic::EvergreenAmendmentTest < Critic::OrderAmendmentFunctionalTest
         StripeForce::Translate.perform_inline(@user, sf_order_amendment.Id)
       end
 
-      assert_match("Stripe subscription for evergreen order has already been cancelled and cannot be modified.", exception.message)
+      assert_match("The Stripe subscription for the evergreen order has already been cancelled and can't be modified.", exception.message)
 
       sf_order.refresh
       stripe_id = sf_order[prefixed_stripe_field(GENERIC_STRIPE_ID)]
@@ -324,7 +324,7 @@ class Critic::EvergreenAmendmentTest < Critic::OrderAmendmentFunctionalTest
         StripeForce::Translate.perform_inline(@user, sf_order_amendment.Id)
       end
 
-      assert_match("Adding Salesforce products with type 'Renewable' to orders of type 'Evergreen' is not supported.", exception.message)
+      assert_match("Adding Salesforce products with a 'Renewable' type to evergreen orders isn't supported.", exception.message)
     end
   end
 end
