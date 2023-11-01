@@ -1438,6 +1438,16 @@ type CheckoutSessionPaymentMethodOptionsPixParams struct {
 	ExpiresAfterSeconds *int64 `form:"expires_after_seconds"`
 }
 
+// contains details about the RevolutPay payment method options.
+type CheckoutSessionPaymentMethodOptionsRevolutPayParams struct {
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// Providing this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.
+	//
+	// When processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).
+	SetupFutureUsage *string `form:"setup_future_usage"`
+}
+
 // contains details about the Sepa Debit payment method options.
 type CheckoutSessionPaymentMethodOptionsSEPADebitParams struct {
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -1544,6 +1554,8 @@ type CheckoutSessionPaymentMethodOptionsParams struct {
 	Paypal *CheckoutSessionPaymentMethodOptionsPaypalParams `form:"paypal"`
 	// contains details about the Pix payment method options.
 	Pix *CheckoutSessionPaymentMethodOptionsPixParams `form:"pix"`
+	// contains details about the RevolutPay payment method options.
+	RevolutPay *CheckoutSessionPaymentMethodOptionsRevolutPayParams `form:"revolut_pay"`
 	// contains details about the Sepa Debit payment method options.
 	SEPADebit *CheckoutSessionPaymentMethodOptionsSEPADebitParams `form:"sepa_debit"`
 	// contains details about the Sofort payment method options.
@@ -2373,6 +2385,7 @@ type CheckoutSessionPaymentMethodOptionsPix struct {
 	// The number of seconds after which Pix payment will expire.
 	ExpiresAfterSeconds int64 `json:"expires_after_seconds"`
 }
+type CheckoutSessionPaymentMethodOptionsRevolutPay struct{}
 type CheckoutSessionPaymentMethodOptionsSEPADebit struct {
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
@@ -2439,6 +2452,7 @@ type CheckoutSessionPaymentMethodOptions struct {
 	P24              *CheckoutSessionPaymentMethodOptionsP24              `json:"p24"`
 	PayNow           *CheckoutSessionPaymentMethodOptionsPayNow           `json:"paynow"`
 	Pix              *CheckoutSessionPaymentMethodOptionsPix              `json:"pix"`
+	RevolutPay       *CheckoutSessionPaymentMethodOptionsRevolutPay       `json:"revolut_pay"`
 	SEPADebit        *CheckoutSessionPaymentMethodOptionsSEPADebit        `json:"sepa_debit"`
 	Sofort           *CheckoutSessionPaymentMethodOptionsSofort           `json:"sofort"`
 	USBankAccount    *CheckoutSessionPaymentMethodOptionsUSBankAccount    `json:"us_bank_account"`

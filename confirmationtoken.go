@@ -227,6 +227,7 @@ const (
 	ConfirmationTokenPaymentMethodPreviewTypePaypal           ConfirmationTokenPaymentMethodPreviewType = "paypal"
 	ConfirmationTokenPaymentMethodPreviewTypePix              ConfirmationTokenPaymentMethodPreviewType = "pix"
 	ConfirmationTokenPaymentMethodPreviewTypePromptPay        ConfirmationTokenPaymentMethodPreviewType = "promptpay"
+	ConfirmationTokenPaymentMethodPreviewTypeRevolutPay       ConfirmationTokenPaymentMethodPreviewType = "revolut_pay"
 	ConfirmationTokenPaymentMethodPreviewTypeSEPADebit        ConfirmationTokenPaymentMethodPreviewType = "sepa_debit"
 	ConfirmationTokenPaymentMethodPreviewTypeSofort           ConfirmationTokenPaymentMethodPreviewType = "sofort"
 	ConfirmationTokenPaymentMethodPreviewTypeUSBankAccount    ConfirmationTokenPaymentMethodPreviewType = "us_bank_account"
@@ -624,6 +625,7 @@ type ConfirmationTokenPaymentMethodPreviewPaypal struct {
 }
 type ConfirmationTokenPaymentMethodPreviewPix struct{}
 type ConfirmationTokenPaymentMethodPreviewPromptPay struct{}
+type ConfirmationTokenPaymentMethodPreviewRevolutPay struct{}
 
 // Information about the object that generated this PaymentMethod.
 type ConfirmationTokenPaymentMethodPreviewSEPADebitGeneratedFrom struct {
@@ -725,6 +727,7 @@ type ConfirmationTokenPaymentMethodPreview struct {
 	Paypal           *ConfirmationTokenPaymentMethodPreviewPaypal           `json:"paypal"`
 	Pix              *ConfirmationTokenPaymentMethodPreviewPix              `json:"pix"`
 	PromptPay        *ConfirmationTokenPaymentMethodPreviewPromptPay        `json:"promptpay"`
+	RevolutPay       *ConfirmationTokenPaymentMethodPreviewRevolutPay       `json:"revolut_pay"`
 	SEPADebit        *ConfirmationTokenPaymentMethodPreviewSEPADebit        `json:"sepa_debit"`
 	Sofort           *ConfirmationTokenPaymentMethodPreviewSofort           `json:"sofort"`
 	// The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type.
