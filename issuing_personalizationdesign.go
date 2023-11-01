@@ -160,6 +160,8 @@ type IssuingPersonalizationDesign struct {
 	CardLogo *File `json:"card_logo"`
 	// Hash containing carrier text, for use with physical bundles that support carrier text.
 	CarrierText *IssuingPersonalizationDesignCarrierText `json:"carrier_text"`
+	// Time at which the object was created. Measured in seconds since the Unix epoch.
+	Created int64 `json:"created"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// A lookup key used to retrieve personalization designs dynamically from a static string. This may be up to 200 characters.
