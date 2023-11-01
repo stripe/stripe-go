@@ -912,6 +912,9 @@ type PaymentIntentPaymentMethodDataRadarOptionsParams struct {
 	Session *string `form:"session"`
 }
 
+// If this is a `Revolut Pay` PaymentMethod, this hash contains details about the Revolut Pay payment method.
+type PaymentIntentPaymentMethodDataRevolutPayParams struct{}
+
 // If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
 type PaymentIntentPaymentMethodDataUSBankAccountParams struct {
 	// Account holder type: individual or company.
@@ -991,6 +994,8 @@ type PaymentIntentPaymentMethodDataParams struct {
 	PromptPay *PaymentIntentPaymentMethodDataPromptPayParams `form:"promptpay"`
 	// Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
 	RadarOptions *PaymentIntentPaymentMethodDataRadarOptionsParams `form:"radar_options"`
+	// If this is a `Revolut Pay` PaymentMethod, this hash contains details about the Revolut Pay payment method.
+	RevolutPay *PaymentIntentPaymentMethodDataRevolutPayParams `form:"revolut_pay"`
 	// If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
 	SEPADebit *PaymentMethodSEPADebitParams `form:"sepa_debit"`
 	// If this is a `sofort` PaymentMethod, this hash contains details about the SOFORT payment method.
@@ -1521,6 +1526,16 @@ type PaymentIntentPaymentMethodOptionsPromptPayParams struct {
 	SetupFutureUsage *string `form:"setup_future_usage"`
 }
 
+// If this is a `revolut_pay` PaymentMethod, this sub-hash contains details about the Demo Pay payment method options.
+type PaymentIntentPaymentMethodOptionsRevolutPayParams struct {
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// Providing this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.
+	//
+	// When processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).
+	SetupFutureUsage *string `form:"setup_future_usage"`
+}
+
 // Additional fields for Mandate creation
 type PaymentIntentPaymentMethodOptionsSEPADebitMandateOptionsParams struct{}
 
@@ -1674,6 +1689,8 @@ type PaymentIntentPaymentMethodOptionsParams struct {
 	Pix *PaymentIntentPaymentMethodOptionsPixParams `form:"pix"`
 	// If this is a `promptpay` PaymentMethod, this sub-hash contains details about the PromptPay payment method options.
 	PromptPay *PaymentIntentPaymentMethodOptionsPromptPayParams `form:"promptpay"`
+	// If this is a `revolut_pay` PaymentMethod, this sub-hash contains details about the Demo Pay payment method options.
+	RevolutPay *PaymentIntentPaymentMethodOptionsRevolutPayParams `form:"revolut_pay"`
 	// If this is a `sepa_debit` PaymentIntent, this sub-hash contains details about the SEPA Debit payment method options.
 	SEPADebit *PaymentIntentPaymentMethodOptionsSEPADebitParams `form:"sepa_debit"`
 	// If this is a `sofort` PaymentMethod, this sub-hash contains details about the SOFORT payment method options.
@@ -2751,6 +2768,7 @@ type PaymentIntentPaymentMethodOptionsPromptPay struct {
 	// When processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).
 	SetupFutureUsage PaymentIntentPaymentMethodOptionsPromptPaySetupFutureUsage `json:"setup_future_usage"`
 }
+type PaymentIntentPaymentMethodOptionsRevolutPay struct{}
 type PaymentIntentPaymentMethodOptionsSEPADebitMandateOptions struct{}
 type PaymentIntentPaymentMethodOptionsSEPADebit struct {
 	MandateOptions *PaymentIntentPaymentMethodOptionsSEPADebitMandateOptions `json:"mandate_options"`
@@ -2843,6 +2861,7 @@ type PaymentIntentPaymentMethodOptions struct {
 	Paypal           *PaymentIntentPaymentMethodOptionsPaypal           `json:"paypal"`
 	Pix              *PaymentIntentPaymentMethodOptionsPix              `json:"pix"`
 	PromptPay        *PaymentIntentPaymentMethodOptionsPromptPay        `json:"promptpay"`
+	RevolutPay       *PaymentIntentPaymentMethodOptionsRevolutPay       `json:"revolut_pay"`
 	SEPADebit        *PaymentIntentPaymentMethodOptionsSEPADebit        `json:"sepa_debit"`
 	Sofort           *PaymentIntentPaymentMethodOptionsSofort           `json:"sofort"`
 	USBankAccount    *PaymentIntentPaymentMethodOptionsUSBankAccount    `json:"us_bank_account"`

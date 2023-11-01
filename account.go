@@ -395,6 +395,12 @@ type AccountCapabilitiesPromptPayPaymentsParams struct {
 	Requested *bool `form:"requested"`
 }
 
+// The revolut_pay_payments capability.
+type AccountCapabilitiesRevolutPayPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
 // The sepa_debit_payments capability.
 type AccountCapabilitiesSEPADebitPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
@@ -501,6 +507,8 @@ type AccountCapabilitiesParams struct {
 	PayNowPayments *AccountCapabilitiesPayNowPaymentsParams `form:"paynow_payments"`
 	// The promptpay_payments capability.
 	PromptPayPayments *AccountCapabilitiesPromptPayPaymentsParams `form:"promptpay_payments"`
+	// The revolut_pay_payments capability.
+	RevolutPayPayments *AccountCapabilitiesRevolutPayPaymentsParams `form:"revolut_pay_payments"`
 	// The sepa_debit_payments capability.
 	SEPADebitPayments *AccountCapabilitiesSEPADebitPaymentsParams `form:"sepa_debit_payments"`
 	// The sofort_payments capability.
@@ -958,6 +966,8 @@ type AccountCapabilities struct {
 	PayNowPayments AccountCapabilityStatus `json:"paynow_payments"`
 	// The status of the promptpay payments capability of the account, or whether the account can directly process promptpay charges.
 	PromptPayPayments AccountCapabilityStatus `json:"promptpay_payments"`
+	// The status of the RevolutPay capability of the account, or whether the account can directly process RevolutPay payments.
+	RevolutPayPayments AccountCapabilityStatus `json:"revolut_pay_payments"`
 	// The status of the SEPA Direct Debits payments capability of the account, or whether the account can directly process SEPA Direct Debits charges.
 	SEPADebitPayments AccountCapabilityStatus `json:"sepa_debit_payments"`
 	// The status of the Sofort payments capability of the account, or whether the account can directly process Sofort charges.
