@@ -1,5 +1,18 @@
 # Changelog
 
+## 76.4.0-beta.1 - 2023-11-02
+* [#1761](https://github.com/stripe/stripe-go/pull/1761) Update generated code for beta
+  * Add support for `AttachPaymentIntent` method on resource `Invoice`
+  * Add support for `RevolutPay` on `ConfirmationTokenPaymentMethodPreview`
+  * Add support for new value `revolut_pay` on enum `ConfirmationTokenPaymentMethodPreviewType`
+  * Add support for `Refunds` on `CreditNoteParams`, `CreditNotePreviewLinesParams`, `CreditNotePreviewParams`, and `CreditNote`
+  * Add support for `PostPaymentAmount` and `PrePaymentAmount` on `CreditNote`
+  * Add support for new value `invoice.payment.overpaid` on enum `EventType`
+  * Add support for `ScheduleDetails` on `InvoiceUpcomingLinesParams` and `InvoiceUpcomingParams`
+  * Add support for `AmountsDue` on `InvoiceParams` and `Invoice`
+  * Add support for `Payments` on `Invoice`
+  * Add support for `Created` on `IssuingPersonalizationDesign`
+
 ## 76.3.0 - 2023-11-02
 * [#1760](https://github.com/stripe/stripe-go/pull/1760) Update generated code
   * Add support for new resource `Tax.Registration`
