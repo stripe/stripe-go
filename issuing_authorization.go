@@ -61,6 +61,24 @@ const (
 	IssuingAuthorizationVerificationDataCheckNotProvided IssuingAuthorizationVerificationDataCheck = "not_provided"
 )
 
+// The entity that requested the exemption, either the acquiring merchant or the Issuing user.
+type IssuingAuthorizationVerificationDataAuthenticationExemptionClaimedBy string
+
+// List of values that IssuingAuthorizationVerificationDataAuthenticationExemptionClaimedBy can take
+const (
+	IssuingAuthorizationVerificationDataAuthenticationExemptionClaimedByAcquirer IssuingAuthorizationVerificationDataAuthenticationExemptionClaimedBy = "acquirer"
+	IssuingAuthorizationVerificationDataAuthenticationExemptionClaimedByIssuer   IssuingAuthorizationVerificationDataAuthenticationExemptionClaimedBy = "issuer"
+)
+
+// The specific exemption claimed for this authorization.
+type IssuingAuthorizationVerificationDataAuthenticationExemptionType string
+
+// List of values that IssuingAuthorizationVerificationDataAuthenticationExemptionType can take
+const (
+	IssuingAuthorizationVerificationDataAuthenticationExemptionTypeLowValueTransaction     IssuingAuthorizationVerificationDataAuthenticationExemptionType = "low_value_transaction"
+	IssuingAuthorizationVerificationDataAuthenticationExemptionTypeTransactionRiskAnalysis IssuingAuthorizationVerificationDataAuthenticationExemptionType = "transaction_risk_analysis"
+)
+
 // The outcome of the 3D Secure authentication request.
 type IssuingAuthorizationVerificationDataThreeDSecureResult string
 
@@ -263,6 +281,14 @@ type IssuingAuthorizationTreasury struct {
 	Transaction string `json:"transaction"`
 }
 
+// The exemption applied to this authorization.
+type IssuingAuthorizationVerificationDataAuthenticationExemption struct {
+	// The entity that requested the exemption, either the acquiring merchant or the Issuing user.
+	ClaimedBy IssuingAuthorizationVerificationDataAuthenticationExemptionClaimedBy `json:"claimed_by"`
+	// The specific exemption claimed for this authorization.
+	Type IssuingAuthorizationVerificationDataAuthenticationExemptionType `json:"type"`
+}
+
 // 3D Secure details.
 type IssuingAuthorizationVerificationDataThreeDSecure struct {
 	// The outcome of the 3D Secure authentication request.
@@ -273,6 +299,8 @@ type IssuingAuthorizationVerificationData struct {
 	AddressLine1Check IssuingAuthorizationVerificationDataCheck `json:"address_line1_check"`
 	// Whether the cardholder provided a postal code and if it matched the cardholder's `billing.address.postal_code`.
 	AddressPostalCodeCheck IssuingAuthorizationVerificationDataCheck `json:"address_postal_code_check"`
+	// The exemption applied to this authorization.
+	AuthenticationExemption *IssuingAuthorizationVerificationDataAuthenticationExemption `json:"authentication_exemption"`
 	// Whether the cardholder provided a CVC and if it matched Stripe's record.
 	CVCCheck IssuingAuthorizationVerificationDataCheck `json:"cvc_check"`
 	// Whether the cardholder provided an expiry date and if it matched Stripe's record.
