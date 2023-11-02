@@ -32,13 +32,22 @@ type TestHelpersIssuingAuthorizationMerchantDataParams struct {
 	State *string `form:"state"`
 	// An ID assigned by the seller to the location of the sale.
 	TerminalID *string `form:"terminal_id"`
-	URL        *string `form:"url"`
+	// URL provided by the merchant on a 3DS request
+	URL *string `form:"url"`
 }
 
 // Details about the authorization, such as identifiers, set by the card network.
 type TestHelpersIssuingAuthorizationNetworkDataParams struct {
 	// Identifier assigned to the acquirer by the card network.
 	AcquiringInstitutionID *string `form:"acquiring_institution_id"`
+}
+
+// The exemption applied to this authorization.
+type TestHelpersIssuingAuthorizationVerificationDataAuthenticationExemptionParams struct {
+	// The entity that requested the exemption, either the acquiring merchant or the Issuing user.
+	ClaimedBy *string `form:"claimed_by"`
+	// The specific exemption claimed for this authorization.
+	Type *string `form:"type"`
 }
 
 // 3D Secure details.
@@ -53,6 +62,8 @@ type TestHelpersIssuingAuthorizationVerificationDataParams struct {
 	AddressLine1Check *string `form:"address_line1_check"`
 	// Whether the cardholder provided a postal code and if it matched the cardholder's `billing.address.postal_code`.
 	AddressPostalCodeCheck *string `form:"address_postal_code_check"`
+	// The exemption applied to this authorization.
+	AuthenticationExemption *TestHelpersIssuingAuthorizationVerificationDataAuthenticationExemptionParams `form:"authentication_exemption"`
 	// Whether the cardholder provided a CVC and if it matched Stripe's record.
 	CVCCheck *string `form:"cvc_check"`
 	// Whether the cardholder provided an expiry date and if it matched Stripe's record.

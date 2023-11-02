@@ -8,6 +8,7 @@ package stripe
 
 import "encoding/json"
 
+// Determines the type of trial for this item.
 type SubscriptionItemTrialType string
 
 // List of values that SubscriptionItemTrialType can take
@@ -178,8 +179,9 @@ type SubscriptionItemBillingThresholds struct {
 // Options that configure the trial on the subscription item.
 type SubscriptionItemTrial struct {
 	// List of price IDs which, if present on the subscription following a paid trial, constitute opting-in to the paid trial.
-	ConvertsTo []string                  `json:"converts_to"`
-	Type       SubscriptionItemTrialType `json:"type"`
+	ConvertsTo []string `json:"converts_to"`
+	// Determines the type of trial for this item.
+	Type SubscriptionItemTrialType `json:"type"`
 }
 
 // Subscription items allow you to create customer subscriptions with more than

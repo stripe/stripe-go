@@ -131,6 +131,7 @@ const (
 	QuotePreviewSubscriptionSchedulePhaseItemDiscountDiscountEndTypeTimestamp QuotePreviewSubscriptionSchedulePhaseItemDiscountDiscountEndType = "timestamp"
 )
 
+// Determines the type of trial for this item.
 type QuotePreviewSubscriptionSchedulePhaseItemTrialType string
 
 // List of values that QuotePreviewSubscriptionSchedulePhaseItemTrialType can take
@@ -408,8 +409,9 @@ type QuotePreviewSubscriptionSchedulePhaseItemDiscount struct {
 // Options that configure the trial on the subscription item.
 type QuotePreviewSubscriptionSchedulePhaseItemTrial struct {
 	// List of price IDs which, if present on the subscription following a paid trial, constitute opting-in to the paid trial.
-	ConvertsTo []string                                           `json:"converts_to"`
-	Type       QuotePreviewSubscriptionSchedulePhaseItemTrialType `json:"type"`
+	ConvertsTo []string `json:"converts_to"`
+	// Determines the type of trial for this item.
+	Type QuotePreviewSubscriptionSchedulePhaseItemTrialType `json:"type"`
 }
 
 // Subscription items to configure the subscription to during this phase of the subscription schedule.

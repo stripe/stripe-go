@@ -6,6 +6,16 @@
 
 package stripe
 
+// The status of the payment, one of `open`, `paid`, or `past_due`
+type QuotePreviewInvoiceAmountsDueStatus string
+
+// List of values that QuotePreviewInvoiceAmountsDueStatus can take
+const (
+	QuotePreviewInvoiceAmountsDueStatusOpen    QuotePreviewInvoiceAmountsDueStatus = "open"
+	QuotePreviewInvoiceAmountsDueStatusPaid    QuotePreviewInvoiceAmountsDueStatus = "paid"
+	QuotePreviewInvoiceAmountsDueStatusPastDue QuotePreviewInvoiceAmountsDueStatus = "past_due"
+)
+
 // Describes whether the quote line is affecting a new schedule or an existing schedule.
 type QuotePreviewInvoiceAppliesToType string
 
@@ -372,6 +382,25 @@ func (p *QuotePreviewInvoiceListParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// List of expected payments and corresponding due dates. This value will be null for invoices where collection_method=charge_automatically.
+type QuotePreviewInvoiceAmountsDue struct {
+	// Incremental amount due for this payment in cents (or local equivalent).
+	Amount int64 `json:"amount"`
+	// The amount in cents (or local equivalent) that was paid for this payment.
+	AmountPaid int64 `json:"amount_paid"`
+	// The difference between the payment's amount and amount_paid, in cents (or local equivalent).
+	AmountRemaining int64 `json:"amount_remaining"`
+	// Number of days from when invoice is finalized until the payment is due.
+	DaysUntilDue int64 `json:"days_until_due"`
+	// An arbitrary string attached to the object. Often useful for displaying to users.
+	Description string `json:"description"`
+	// Date on which a payment plan's payment is due.
+	DueDate int64 `json:"due_date"`
+	// Timestamp when the payment was paid.
+	PaidAt int64 `json:"paid_at"`
+	// The status of the payment, one of `open`, `paid`, or `past_due`
+	Status QuotePreviewInvoiceAmountsDueStatus `json:"status"`
+}
 type QuotePreviewInvoiceAppliesTo struct {
 	// A custom string that identifies a new subscription schedule being created upon quote acceptance. All quote lines with the same `new_reference` field will be applied to the creation of a new subscription schedule.
 	NewReference string `json:"new_reference"`
@@ -684,6 +713,8 @@ type QuotePreviewInvoice struct {
 	AmountPaid int64 `json:"amount_paid"`
 	// The difference between amount_due and amount_paid, in cents (or local equivalent).
 	AmountRemaining int64 `json:"amount_remaining"`
+	// List of expected payments and corresponding due dates. This value will be null for invoices where collection_method=charge_automatically.
+	AmountsDue []*QuotePreviewInvoiceAmountsDue `json:"amounts_due"`
 	// This is the sum of all the shipping amounts.
 	AmountShipping int64 `json:"amount_shipping"`
 	// ID of the Connect Application that created the invoice.
@@ -779,7 +810,9 @@ type QuotePreviewInvoice struct {
 	// Returns true if the invoice was manually marked paid, returns false if the invoice hasn't been paid yet or was paid on Stripe.
 	PaidOutOfBand bool `json:"paid_out_of_band"`
 	// The PaymentIntent associated with this invoice. The PaymentIntent is generated when the invoice is finalized, and can then be used to pay the invoice. Note that voiding an invoice will cancel the PaymentIntent.
-	PaymentIntent   *PaymentIntent                      `json:"payment_intent"`
+	PaymentIntent *PaymentIntent `json:"payment_intent"`
+	// Payments for this invoice
+	Payments        *InvoicePaymentList                 `json:"payments"`
 	PaymentSettings *QuotePreviewInvoicePaymentSettings `json:"payment_settings"`
 	// End of the usage period during which invoice items were added to this invoice.
 	PeriodEnd int64 `json:"period_end"`

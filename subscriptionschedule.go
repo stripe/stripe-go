@@ -91,6 +91,7 @@ const (
 	SubscriptionSchedulePhaseItemDiscountDiscountEndTypeTimestamp SubscriptionSchedulePhaseItemDiscountDiscountEndType = "timestamp"
 )
 
+// Determines the type of trial for this item.
 type SubscriptionSchedulePhaseItemTrialType string
 
 // List of values that SubscriptionSchedulePhaseItemTrialType can take
@@ -1095,8 +1096,9 @@ type SubscriptionSchedulePhaseItemDiscount struct {
 // Options that configure the trial on the subscription item.
 type SubscriptionSchedulePhaseItemTrial struct {
 	// List of price IDs which, if present on the subscription following a paid trial, constitute opting-in to the paid trial.
-	ConvertsTo []string                               `json:"converts_to"`
-	Type       SubscriptionSchedulePhaseItemTrialType `json:"type"`
+	ConvertsTo []string `json:"converts_to"`
+	// Determines the type of trial for this item.
+	Type SubscriptionSchedulePhaseItemTrialType `json:"type"`
 }
 
 // Subscription items to configure the subscription to during this phase of the subscription schedule.

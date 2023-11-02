@@ -101,6 +101,14 @@ type CreditNoteLineParams struct {
 	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
 }
 
+// ID of an existing refund to link this credit note to.
+type CreditNoteRefundParams struct {
+	// Amount of the refund that applies to this credit note, in cents (or local equivalent). Defaults to the entire refund amount.
+	AmountRefunded *int64 `form:"amount_refunded"`
+	// ID of an existing refund to link this credit note to.
+	Refund *string `form:"refund"`
+}
+
 // When shipping_cost contains the shipping_rate from the invoice, the shipping_cost is included in the credit note.
 type CreditNoteShippingCostParams struct {
 	// The ID of the shipping rate to use for this order.
@@ -145,6 +153,8 @@ type CreditNoteParams struct {
 	Refund *string `form:"refund"`
 	// The integer amount in cents (or local equivalent) representing the amount to refund. If set, a refund will be created for the charge associated with the invoice.
 	RefundAmount *int64 `form:"refund_amount"`
+	// Refunds to link to this credit note.
+	Refunds []*CreditNoteRefundParams `form:"refunds"`
 	// When shipping_cost contains the shipping_rate from the invoice, the shipping_cost is included in the credit note.
 	ShippingCost *CreditNoteShippingCostParams `form:"shipping_cost"`
 }
@@ -199,6 +209,14 @@ type CreditNotePreviewLineParams struct {
 	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
 }
 
+// ID of an existing refund to link this credit note to.
+type CreditNotePreviewRefundParams struct {
+	// Amount of the refund that applies to this credit note, in cents (or local equivalent). Defaults to the entire refund amount.
+	AmountRefunded *int64 `form:"amount_refunded"`
+	// ID of an existing refund to link this credit note to.
+	Refund *string `form:"refund"`
+}
+
 // When shipping_cost contains the shipping_rate from the invoice, the shipping_cost is included in the credit note.
 type CreditNotePreviewShippingCostParams struct {
 	// The ID of the shipping rate to use for this order.
@@ -232,6 +250,8 @@ type CreditNotePreviewParams struct {
 	Refund *string `form:"refund"`
 	// The integer amount in cents (or local equivalent) representing the amount to refund. If set, a refund will be created for the charge associated with the invoice.
 	RefundAmount *int64 `form:"refund_amount"`
+	// Refunds to link to this credit note.
+	Refunds []*CreditNotePreviewRefundParams `form:"refunds"`
 	// When shipping_cost contains the shipping_rate from the invoice, the shipping_cost is included in the credit note.
 	ShippingCost *CreditNotePreviewShippingCostParams `form:"shipping_cost"`
 }
@@ -282,6 +302,14 @@ type CreditNotePreviewLinesLineParams struct {
 	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
 }
 
+// ID of an existing refund to link this credit note to.
+type CreditNotePreviewLinesRefundParams struct {
+	// Amount of the refund that applies to this credit note, in cents (or local equivalent). Defaults to the entire refund amount.
+	AmountRefunded *int64 `form:"amount_refunded"`
+	// ID of an existing refund to link this credit note to.
+	Refund *string `form:"refund"`
+}
+
 // When shipping_cost contains the shipping_rate from the invoice, the shipping_cost is included in the credit note.
 type CreditNotePreviewLinesShippingCostParams struct {
 	// The ID of the shipping rate to use for this order.
@@ -315,6 +343,8 @@ type CreditNotePreviewLinesParams struct {
 	Refund *string `form:"refund"`
 	// The integer amount in cents (or local equivalent) representing the amount to refund. If set, a refund will be created for the charge associated with the invoice.
 	RefundAmount *int64 `form:"refund_amount"`
+	// Refunds to link to this credit note.
+	Refunds []*CreditNotePreviewLinesRefundParams `form:"refunds"`
 	// When shipping_cost contains the shipping_rate from the invoice, the shipping_cost is included in the credit note.
 	ShippingCost *CreditNotePreviewLinesShippingCostParams `form:"shipping_cost"`
 }
@@ -352,6 +382,14 @@ type CreditNoteDiscountAmount struct {
 	Amount int64 `json:"amount"`
 	// The discount that was applied to get this discount amount.
 	Discount *Discount `json:"discount"`
+}
+
+// Refund related to this credit note.
+type CreditNoteRefund struct {
+	// Amount of the refund that applies to this credit note, in cents (or local equivalent).
+	AmountRefunded int64 `json:"amount_refunded"`
+	// ID of the refund.
+	Refund *Refund `json:"refund"`
 }
 
 // The taxes applied to the shipping rate.
@@ -438,11 +476,15 @@ type CreditNote struct {
 	// Amount that was credited outside of Stripe.
 	OutOfBandAmount int64 `json:"out_of_band_amount"`
 	// The link to download the PDF of the credit note.
-	PDF string `json:"pdf"`
+	PDF               string `json:"pdf"`
+	PostPaymentAmount int64  `json:"post_payment_amount"`
+	PrePaymentAmount  int64  `json:"pre_payment_amount"`
 	// Reason for issuing this credit note, one of `duplicate`, `fraudulent`, `order_change`, or `product_unsatisfactory`
 	Reason CreditNoteReason `json:"reason"`
 	// Refund related to this credit note.
 	Refund *Refund `json:"refund"`
+	// Refunds related to this credit note.
+	Refunds []*CreditNoteRefund `json:"refunds"`
 	// The details of the cost of shipping, including the ShippingRate applied to the invoice.
 	ShippingCost *CreditNoteShippingCost `json:"shipping_cost"`
 	// Status of this credit note, one of `issued` or `void`. Learn more about [voiding credit notes](https://stripe.com/docs/billing/invoices/credit-notes#voiding).

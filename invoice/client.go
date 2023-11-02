@@ -71,6 +71,19 @@ func (c Client) Del(id string, params *stripe.InvoiceParams) (*stripe.Invoice, e
 	return invoice, err
 }
 
+// AttachPaymentIntent is the method for the `POST /v1/invoices/{invoice}/attach_payment_intent` API.
+func AttachPaymentIntent(id string, params *stripe.InvoiceAttachPaymentIntentParams) (*stripe.Invoice, error) {
+	return getC().AttachPaymentIntent(id, params)
+}
+
+// AttachPaymentIntent is the method for the `POST /v1/invoices/{invoice}/attach_payment_intent` API.
+func (c Client) AttachPaymentIntent(id string, params *stripe.InvoiceAttachPaymentIntentParams) (*stripe.Invoice, error) {
+	path := stripe.FormatURLPath("/v1/invoices/%s/attach_payment_intent", id)
+	invoice := &stripe.Invoice{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, invoice)
+	return invoice, err
+}
+
 // FinalizeInvoice is the method for the `POST /v1/invoices/{invoice}/finalize` API.
 func FinalizeInvoice(id string, params *stripe.InvoiceFinalizeInvoiceParams) (*stripe.Invoice, error) {
 	return getC().FinalizeInvoice(id, params)

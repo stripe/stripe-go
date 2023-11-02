@@ -24,7 +24,8 @@ type TestHelpersIssuingTransactionCreateForceCaptureMerchantDataParams struct {
 	State *string `form:"state"`
 	// An ID assigned by the seller to the location of the sale.
 	TerminalID *string `form:"terminal_id"`
-	URL        *string `form:"url"`
+	// URL provided by the merchant on a 3DS request
+	URL *string `form:"url"`
 }
 
 // The legs of the trip.
@@ -139,7 +140,8 @@ type TestHelpersIssuingTransactionCreateUnlinkedRefundMerchantDataParams struct 
 	State *string `form:"state"`
 	// An ID assigned by the seller to the location of the sale.
 	TerminalID *string `form:"terminal_id"`
-	URL        *string `form:"url"`
+	// URL provided by the merchant on a 3DS request
+	URL *string `form:"url"`
 }
 
 // The legs of the trip.
