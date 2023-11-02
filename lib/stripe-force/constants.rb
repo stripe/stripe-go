@@ -274,6 +274,7 @@ module StripeForce
         TERMINATION_METADATA = new('termination_metadata')
         UPDATE_PRODUCT_ON_SYNC = new('update_product_on_sync')
         SYNC_RECORD_FIELDS = new('sync_record_fields')
+        MDQ = new('mdq')
       end
     end
 

@@ -10,6 +10,7 @@ class Critic::ProductTranslation < Critic::VCRTest
 
     @user = make_user(save: true)
     @user.enable_feature(FeatureFlags::COUPONS)
+    @user.feature_enabled?(FeatureFlags::MDQ)
   end
 
   describe 'mdq products' do

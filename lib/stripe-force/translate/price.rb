@@ -500,7 +500,8 @@ class StripeForce::Translate
 
     # TODO should test this further with proration amendments
     # For MDQ orders, the quote subscription term is not the effective subscription term
-    if !validate_price_multipliers(price_multiplier, cpq_price_multiplier, false) && quote_subscription_term != effective_subscription_term
+    if @user.feature_enabled?(FeatureFlags::MDQ) && !validate_price_multipliers(price_multiplier, cpq_price_multiplier, false)
+      log.info 'using effective subscription term instead of quote subscription term for mdq product'
       price_multiplier = BigDecimal(T.must(effective_subscription_term)) / BigDecimal(billing_frequency)
     end
 
