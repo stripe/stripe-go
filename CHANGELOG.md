@@ -1,5 +1,19 @@
 # Changelog
 
+## 76.3.0 - 2023-11-02
+* [#1760](https://github.com/stripe/stripe-go/pull/1760) Update generated code
+  * Add support for new resource `Tax.Registration`
+  * Add support for `List`, `New`, and `Update` methods on resource `Registration`
+  * Add support for `RevolutPay` throughout the API
+  * Add support for new value `token_card_network_invalid` on enums `InvoiceLastFinalizationErrorCode`, `PaymentIntentLastPaymentErrorCode`, `SetupAttemptSetupErrorCode`, `SetupIntentLastSetupErrorCode`, and `StripeErrorCode`
+  * Add support for new value `payment_unreconciled` on enum `BalanceTransactionType`
+  * Add support for `ABA` and `Swift` on `FundingInstructionsBankTransferFinancialAddresses` and `PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddresses`
+  * Add support for new values `ach`, `domestic_wire_us`, and `swift` on enums `FundingInstructionsBankTransferFinancialAddressesSupportedNetworks` and `PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressesSupportedNetworks`
+  * Add support for new values `aba` and `swift` on enums `FundingInstructionsBankTransferFinancialAddressesType` and `PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressesType`
+  * Add support for `URL` on `IssuingAuthorizationMerchantDataParams`, `IssuingAuthorizationMerchantData`, `IssuingTransactionMerchantData`, `TestHelpersIssuingTransactionCreateForceCaptureMerchantDataParams`, and `TestHelpersIssuingTransactionCreateUnlinkedRefundMerchantDataParams`
+  * Add support for `AuthenticationExemption` and `ThreeDSecure` on `IssuingAuthorizationVerificationDataParams` and `IssuingAuthorizationVerificationData`
+  * Add support for `Description` on `PaymentLinkPaymentIntentDataParams` and `PaymentLinkPaymentIntentData`
+
 ## 76.3.0-beta.1 - 2023-10-26
 * [#1758](https://github.com/stripe/stripe-go/pull/1758) Update generated code for beta
   * Add support for new resource `Margin`
