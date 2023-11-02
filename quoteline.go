@@ -22,6 +22,7 @@ const (
 	QuoteLineActionAddItemDiscountDiscountEndTypeTimestamp QuoteLineActionAddItemDiscountDiscountEndType = "timestamp"
 )
 
+// Determines the type of trial for this item.
 type QuoteLineActionAddItemTrialType string
 
 // List of values that QuoteLineActionAddItemTrialType can take
@@ -54,6 +55,7 @@ const (
 	QuoteLineActionSetItemDiscountDiscountEndTypeTimestamp QuoteLineActionSetItemDiscountDiscountEndType = "timestamp"
 )
 
+// Determines the type of trial for this item.
 type QuoteLineActionSetItemTrialType string
 
 // List of values that QuoteLineActionSetItemTrialType can take
@@ -222,8 +224,9 @@ type QuoteLineActionAddItemDiscount struct {
 // Options that configure the trial on the subscription item.
 type QuoteLineActionAddItemTrial struct {
 	// List of price IDs which, if present on the subscription following a paid trial, constitute opting-in to the paid trial.
-	ConvertsTo []string                        `json:"converts_to"`
-	Type       QuoteLineActionAddItemTrialType `json:"type"`
+	ConvertsTo []string `json:"converts_to"`
+	// Determines the type of trial for this item.
+	Type QuoteLineActionAddItemTrialType `json:"type"`
 }
 
 // Details for the `add_item` type.
@@ -305,8 +308,9 @@ type QuoteLineActionSetItemDiscount struct {
 // Options that configure the trial on the subscription item.
 type QuoteLineActionSetItemTrial struct {
 	// List of price IDs which, if present on the subscription following a paid trial, constitute opting-in to the paid trial.
-	ConvertsTo []string                        `json:"converts_to"`
-	Type       QuoteLineActionSetItemTrialType `json:"type"`
+	ConvertsTo []string `json:"converts_to"`
+	// Determines the type of trial for this item.
+	Type QuoteLineActionSetItemTrialType `json:"type"`
 }
 
 // Details for the `set_items` type.
