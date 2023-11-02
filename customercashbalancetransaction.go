@@ -42,6 +42,7 @@ const (
 	CustomerCashBalanceTransactionTypeRefundedFromPayment  CustomerCashBalanceTransactionType = "refunded_from_payment"
 	CustomerCashBalanceTransactionTypeReturnCanceled       CustomerCashBalanceTransactionType = "return_canceled"
 	CustomerCashBalanceTransactionTypeReturnInitiated      CustomerCashBalanceTransactionType = "return_initiated"
+	CustomerCashBalanceTransactionTypeTransferredToBalance CustomerCashBalanceTransactionType = "transferred_to_balance"
 	CustomerCashBalanceTransactionTypeUnappliedFromPayment CustomerCashBalanceTransactionType = "unapplied_from_payment"
 )
 
