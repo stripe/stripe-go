@@ -177,6 +177,7 @@ const (
 	ErrorCodeTerminalReaderTimeout                                       ErrorCode = "terminal_reader_timeout"
 	ErrorCodeTestmodeChargesOnly                                         ErrorCode = "testmode_charges_only"
 	ErrorCodeTokenAlreadyUsed                                            ErrorCode = "token_already_used"
+	ErrorCodeTokenCardNetworkInvalid                                     ErrorCode = "token_card_network_invalid"
 	ErrorCodeTokenInUse                                                  ErrorCode = "token_in_use"
 	ErrorCodeTransferSourceBalanceParametersMismatch                     ErrorCode = "transfer_source_balance_parameters_mismatch"
 	ErrorCodeTransfersNotAllowed                                         ErrorCode = "transfers_not_allowed"

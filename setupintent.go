@@ -400,6 +400,9 @@ type SetupIntentPaymentMethodDataRadarOptionsParams struct {
 	Session *string `form:"session"`
 }
 
+// If this is a `Revolut Pay` PaymentMethod, this hash contains details about the Revolut Pay payment method.
+type SetupIntentPaymentMethodDataRevolutPayParams struct{}
+
 // If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
 type SetupIntentPaymentMethodDataSEPADebitParams struct {
 	// IBAN of the bank account.
@@ -493,6 +496,8 @@ type SetupIntentPaymentMethodDataParams struct {
 	PromptPay *SetupIntentPaymentMethodDataPromptPayParams `form:"promptpay"`
 	// Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
 	RadarOptions *SetupIntentPaymentMethodDataRadarOptionsParams `form:"radar_options"`
+	// If this is a `Revolut Pay` PaymentMethod, this hash contains details about the Revolut Pay payment method.
+	RevolutPay *SetupIntentPaymentMethodDataRevolutPayParams `form:"revolut_pay"`
 	// If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
 	SEPADebit *SetupIntentPaymentMethodDataSEPADebitParams `form:"sepa_debit"`
 	// If this is a `sofort` PaymentMethod, this hash contains details about the SOFORT payment method.
@@ -887,6 +892,9 @@ type SetupIntentConfirmPaymentMethodDataRadarOptionsParams struct {
 	Session *string `form:"session"`
 }
 
+// If this is a `Revolut Pay` PaymentMethod, this hash contains details about the Revolut Pay payment method.
+type SetupIntentConfirmPaymentMethodDataRevolutPayParams struct{}
+
 // If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
 type SetupIntentConfirmPaymentMethodDataSEPADebitParams struct {
 	// IBAN of the bank account.
@@ -980,6 +988,8 @@ type SetupIntentConfirmPaymentMethodDataParams struct {
 	PromptPay *SetupIntentConfirmPaymentMethodDataPromptPayParams `form:"promptpay"`
 	// Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
 	RadarOptions *SetupIntentConfirmPaymentMethodDataRadarOptionsParams `form:"radar_options"`
+	// If this is a `Revolut Pay` PaymentMethod, this hash contains details about the Revolut Pay payment method.
+	RevolutPay *SetupIntentConfirmPaymentMethodDataRevolutPayParams `form:"revolut_pay"`
 	// If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
 	SEPADebit *SetupIntentConfirmPaymentMethodDataSEPADebitParams `form:"sepa_debit"`
 	// If this is a `sofort` PaymentMethod, this hash contains details about the SOFORT payment method.
