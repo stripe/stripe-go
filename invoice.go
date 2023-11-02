@@ -11,6 +11,16 @@ import (
 	"github.com/stripe/stripe-go/v76/form"
 )
 
+// The status of the payment, one of `open`, `paid`, or `past_due`
+type InvoiceAmountsDueStatus string
+
+// List of values that InvoiceAmountsDueStatus can take
+const (
+	InvoiceAmountsDueStatusOpen    InvoiceAmountsDueStatus = "open"
+	InvoiceAmountsDueStatusPaid    InvoiceAmountsDueStatus = "paid"
+	InvoiceAmountsDueStatusPastDue InvoiceAmountsDueStatus = "past_due"
+)
+
 // Type of the account referenced.
 type InvoiceAutomaticTaxLiabilityType string
 
@@ -1168,6 +1178,18 @@ func (p *InvoiceUpcomingParams) AppendTo(body *form.Values, keyParts []string) {
 	}
 }
 
+// List of expected payments and corresponding due dates. Valid only for invoices where `collection_method=send_invoice`.
+type InvoiceAmountsDueParams struct {
+	// The amount in cents (or local equivalent).
+	Amount *int64 `form:"amount"`
+	// Number of days from when invoice is finalized until the payment is due.
+	DaysUntilDue *int64 `form:"days_until_due"`
+	// An arbitrary string attached to the object. Often useful for displaying to users.
+	Description *string `form:"description"`
+	// Date on which a payment plan's payment is due.
+	DueDate *int64 `form:"due_date"`
+}
+
 // A list of up to 4 custom fields to be displayed on the invoice. If a value for `custom_fields` is specified, the list specified will replace the existing custom field list on this invoice. Pass an empty string to remove previously-defined fields.
 type InvoiceCustomFieldParams struct {
 	// The name of the custom field. This may be up to 30 characters.
@@ -1430,6 +1452,8 @@ type InvoiceParams struct {
 	Params `form:"*"`
 	// The account tax IDs associated with the invoice. Only editable when the invoice is a draft.
 	AccountTaxIDs []*string `form:"account_tax_ids"`
+	// List of expected payments and corresponding due dates. Valid only for invoices where `collection_method=send_invoice`.
+	AmountsDue []*InvoiceAmountsDueParams `form:"amounts_due"`
 	// A fee in cents (or local equivalent) that will be applied to the invoice and transferred to the application owner's Stripe account. The request must be made with an OAuth key or the Stripe-Account header in order to take an application fee. For more information, see the application fees [documentation](https://stripe.com/docs/billing/invoices/connect#collecting-fees).
 	ApplicationFeeAmount *int64 `form:"application_fee_amount"`
 	// Controls whether Stripe performs [automatic collection](https://stripe.com/docs/invoicing/integration/automatic-advancement-collection) of the invoice. If `false`, the invoice's state doesn't automatically advance without an explicit action.
@@ -2650,6 +2674,30 @@ func (p *InvoiceVoidInvoiceParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Attaches a PaymentIntent to the invoice, adding it to the list of payments.
+// When the PaymentIntent's status changes to succeeded, the payment is credited
+// to the invoice, increasing its amount_paid. When the invoice is fully paid, the
+// invoice's status becomes paid.
+//
+// If the PaymentIntent's status is already succeeded when it is attached, it is
+// credited to the invoice immediately.
+//
+// Related guide: [Create an invoice payment](https://stripe.com/docs/invoicing/payments/create)
+type InvoiceAttachPaymentIntentParams struct {
+	Params `form:"*"`
+	// The portion of the PaymentIntent's `amount` that should be applied to thisinvoice. Defaults to the entire amount.
+	AmountRequested *int64 `form:"amount_requested"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// The ID of the PaymentIntent to attach to the invoice.
+	PaymentIntent *string `form:"payment_intent"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *InvoiceAttachPaymentIntentParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // When retrieving an invoice, you'll get a lines property containing the total count of line items and the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of line items.
 type InvoiceListLinesParams struct {
 	ListParams `form:"*"`
@@ -2661,6 +2709,26 @@ type InvoiceListLinesParams struct {
 // AddExpand appends a new field to expand.
 func (p *InvoiceListLinesParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
+}
+
+// List of expected payments and corresponding due dates. This value will be null for invoices where collection_method=charge_automatically.
+type InvoiceAmountsDue struct {
+	// Incremental amount due for this payment in cents (or local equivalent).
+	Amount int64 `json:"amount"`
+	// The amount in cents (or local equivalent) that was paid for this payment.
+	AmountPaid int64 `json:"amount_paid"`
+	// The difference between the payment's amount and amount_paid, in cents (or local equivalent).
+	AmountRemaining int64 `json:"amount_remaining"`
+	// Number of days from when invoice is finalized until the payment is due.
+	DaysUntilDue int64 `json:"days_until_due"`
+	// An arbitrary string attached to the object. Often useful for displaying to users.
+	Description string `json:"description"`
+	// Date on which a payment plan's payment is due.
+	DueDate int64 `json:"due_date"`
+	// Timestamp when the payment was paid.
+	PaidAt int64 `json:"paid_at"`
+	// The status of the payment, one of `open`, `paid`, or `past_due`
+	Status InvoiceAmountsDueStatus `json:"status"`
 }
 
 // The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
@@ -2967,6 +3035,8 @@ type Invoice struct {
 	AmountPaid int64 `json:"amount_paid"`
 	// The difference between amount_due and amount_paid, in cents (or local equivalent).
 	AmountRemaining int64 `json:"amount_remaining"`
+	// List of expected payments and corresponding due dates. This value will be null for invoices where collection_method=charge_automatically.
+	AmountsDue []*InvoiceAmountsDue `json:"amounts_due"`
 	// This is the sum of all the shipping amounts.
 	AmountShipping int64 `json:"amount_shipping"`
 	// ID of the Connect Application that created the invoice.
@@ -3072,7 +3142,9 @@ type Invoice struct {
 	// Returns true if the invoice was manually marked paid, returns false if the invoice hasn't been paid yet or was paid on Stripe.
 	PaidOutOfBand bool `json:"paid_out_of_band"`
 	// The PaymentIntent associated with this invoice. The PaymentIntent is generated when the invoice is finalized, and can then be used to pay the invoice. Note that voiding an invoice will cancel the PaymentIntent.
-	PaymentIntent   *PaymentIntent          `json:"payment_intent"`
+	PaymentIntent *PaymentIntent `json:"payment_intent"`
+	// Payments for this invoice
+	Payments        *InvoicePaymentList     `json:"payments"`
 	PaymentSettings *InvoicePaymentSettings `json:"payment_settings"`
 	// End of the usage period during which invoice items were added to this invoice.
 	PeriodEnd int64 `json:"period_end"`
