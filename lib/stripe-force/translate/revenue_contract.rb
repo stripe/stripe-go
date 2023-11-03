@@ -12,15 +12,18 @@ class StripeForce::Translate
   def create_revenue_contract_from_sub_schedule(subscription_schedule, sf_order, invoice_items, subscription_items)
     contract = nil
     begin
+      log.info 'Initiating revenue contract creation from subscription schedule.', subscription_schedule: subscription_schedule.id
       request = generate_create_revenue_contract_request(subscription_schedule, sf_order, invoice_items, subscription_items)
       if request.nil?
-         # TODO: Add some logging here.
-         return
+          increment_revenue_contract_tracker('revenue_contract.creation_skipped')
+          # TODO: Add some logging here.
+          return
       else
         contract = create_revenue_contract(request, sf_order)
       end
 
     rescue => e
+      increment_revenue_contract_tracker('revenue_contract.creation_error')
       # TODO: Currently we silently fail at creating the contrac to not fail the order sync.
       # Once this code path is tested and stable, we should allow failure and retry.
       log.info 'Exception caught during Contract creation.',
@@ -39,6 +42,7 @@ class StripeForce::Translate
   def create_revenue_contract_from_invoice(invoice, sf_order, invoice_items)
     contract = nil
     begin
+      log.info 'Initiating revenue contract creation from invoice.', invoice: invoice.id
       start_date = invoice.period_start
       end_date = invoice.period_end
 
@@ -73,6 +77,8 @@ class StripeForce::Translate
 
       contract = create_revenue_contract(request, sf_order)
     rescue => e
+      increment_revenue_contract_tracker('revenue_contract.creation_error')
+
       # TODO: Currently we silently fail at creating the contrac to not fail the order sync.
       # Once this code path is tested and stable, we should allow failure and retry.
       log.info 'Exception caught during Contract creation.',
@@ -100,6 +106,7 @@ class StripeForce::Translate
 
     contract = Stripe::RevenueContract.construct_from(responseObj.data)
     log.info 'Contract has been succesfully created.', contract_id: contract.id
+    increment_revenue_contract_tracker('revenue_contract.creation_success')
 
     update_sf_stripe_revenue_contract_id(sf_order, contract.id)
     contract
@@ -225,6 +232,7 @@ class StripeForce::Translate
   )
   updated_contract = nil
   begin
+    log.info 'Initiating revenue contract adjustment from subscription schedule.', subscription_schedule: subscription_schedule.id
     revenue_contract = retrieve_revenue_contract_from_stripe(initial_sf_order)
     if revenue_contract.nil?
       create_request = generate_create_revenue_contract_request_from_amendment(
@@ -235,6 +243,7 @@ class StripeForce::Translate
         other_invoice_items)
 
       if create_request.nil?
+        increment_revenue_contract_tracker('revenue_contract.creation_skipped')
         # TODO: Add some logging here.
         return
       else
@@ -250,6 +259,7 @@ class StripeForce::Translate
         is_order_terminated)
 
       if request[:adjustments].nil? || request[:adjustments].count == 0
+        increment_revenue_contract_tracker('revenue_contract.adjustment_skipped')
         log.info "No adjustments were generated for the revenue contract."
         # TODO: Might need some more logging here.
         return
@@ -268,11 +278,13 @@ class StripeForce::Translate
       end
 
       updated_contract = Stripe::RevenueContract.construct_from(responseObj.data)
+      increment_revenue_contract_tracker('revenue_contract.adjustment_success')
       log.info 'Contract has been adjusted succesfully.', contract_id: updated_contract.id
     end
 
     update_sf_stripe_revenue_contract_id(amendment_sf_order, updated_contract.id)
    rescue => e
+     increment_revenue_contract_tracker('revenue_contract.adjustment_error')
      # TODO: Currently we silently fail at creating the contract to not fail the order sync.
      # Once this code path is tested and stable, we should allow failure and retry.
      log.info 'Exception caught during Contract adjustment.',
@@ -617,8 +629,10 @@ class StripeForce::Translate
   )
   updated_contract = nil
   begin
+    log.info 'Initiating revenue contract termination from subscription schedule.', subscription_schedule: subscription_schedule.id
     revenue_contract = retrieve_revenue_contract_from_stripe(initial_sf_order)
     if revenue_contract.nil?
+      increment_revenue_contract_tracker('revenue_contract.termination_skipped')
       # Some logging here
       return
     end
@@ -649,9 +663,12 @@ class StripeForce::Translate
 
     updated_contract = Stripe::RevenueContract.construct_from(responseObj.data)
     log.info 'Contract has been voided succesfully.', contract_id: updated_contract.id
+    increment_revenue_contract_tracker('revenue_contract.termination_success')
 
     update_sf_stripe_revenue_contract_id(amendment_sf_order, updated_contract.id)
    rescue => e
+     increment_revenue_contract_tracker('revenue_contract.termination_error')
+
      # TODO: Currently we silently fail at creating the contract to not fail the order sync.
      # Once this code path is tested and stable, we should allow failure and retry.
      log.info 'Exception caught during Contract termination.',
@@ -725,5 +742,18 @@ class StripeForce::Translate
     end
 
     T.must(contract_items)
+  end
+
+  sig { params(counter_name: String).void }
+  def increment_revenue_contract_tracker(counter_name)
+    begin
+      Integrations::Metrics::Writer.instance.track_counter(counter_name, dimensions: {
+        livemode: @user.livemode,
+        stripe_account_id: @user.stripe_account_id,
+        salesforce_account_id: @user.salesforce_account_id,
+      })
+    rescue => e
+      log.info 'Exception caught during contract track counter increment.', message: e.message
+    end
   end
 end
