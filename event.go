@@ -202,6 +202,7 @@ const (
 	EventTypeQuoteCreated                                         EventType = "quote.created"
 	EventTypeQuoteDraft                                           EventType = "quote.draft"
 	EventTypeQuoteFinalized                                       EventType = "quote.finalized"
+	EventTypeQuoteReestimateFailed                                EventType = "quote.reestimate_failed"
 	EventTypeQuoteReestimated                                     EventType = "quote.reestimated"
 	EventTypeQuoteStale                                           EventType = "quote.stale"
 	EventTypeRadarEarlyFraudWarningCreated                        EventType = "radar.early_fraud_warning.created"
