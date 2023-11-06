@@ -69,7 +69,7 @@ class Critic::EvergreenAmendmentTest < Critic::OrderAmendmentFunctionalTest
     current_time = now_time
 
     sf_order = create_evergreen_salesforce_order(
-      contact_email: "evergreen_sub_future_4",
+      contact_email: "evergreen_sub_future",
       # need to set these fields explicitly to use translate
       additional_quote_fields: {
         CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(current_time),
@@ -89,8 +89,6 @@ class Critic::EvergreenAmendmentTest < Critic::OrderAmendmentFunctionalTest
 
     # get stripe subscription
     sf_order = sf.find(SF_ORDER, sf_order.Id)
-    stripe_id = sf_order[prefixed_stripe_field(GENERIC_STRIPE_ID)]
-    subscription = Stripe::Subscription.retrieve(stripe_id, @user.stripe_credentials)
 
     sf_contract = create_contract_from_order(sf_order)
     # api precondition: initial orders have a nil contract ID

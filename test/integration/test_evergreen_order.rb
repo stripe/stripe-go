@@ -277,7 +277,7 @@ class Critic::EvergreenOrders < Critic::OrderAmendmentFunctionalTest
 
       quote_id = create_salesforce_quote(
         sf_account_id: sf_account_id,
-        contact_email: "raise_error_when_evergreen_has_default_term",
+        contact_email: "raise_error_when_evergreen_has_wrong_default_term",
         additional_quote_fields: {
           CPQ_QUOTE_SUBSCRIPTION_START_DATE => now_time_formatted_for_salesforce,
           CPQ_QUOTE_SUBSCRIPTION_TERM => 12,
@@ -293,7 +293,7 @@ class Critic::EvergreenOrders < Critic::OrderAmendmentFunctionalTest
         SalesforceTranslateRecordJob.translate(@user, sf_order)
       end
 
-      assert_match("Evergreen Salesforce orders should have default subscription term equal to 1.", exception.message)
+      assert_match("Evergreen Salesforce orders should have default subscription term and quote subscription term equal to 1.", exception.message)
     end
 
     it 'raises error when attempt to amend subscription that has not started' do

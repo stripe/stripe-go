@@ -6324,4 +6324,57 @@ http_interactions:
       encoding: UTF-8
       string: '{"id":"a1W6s000000KrisEAC","success":true,"errors":[],"created":true}'
   recorded_at: Tue, 31 Oct 2023 00:00:00 GMT
+- request:
+    method: patch
+    uri: https://customization-efficiency-eb-dev-ed.scratch.my.salesforce.com/services/data/v58.0/sobjects/Sync_Record__c/Compound_ID__c/8016s000001FT3qAAG-8016s000001FT3qAAG
+    body:
+      encoding: UTF-8
+      string: '{"Primary_Record_ID__c":"8016s000001FT3qAAG","Primary_Object_Type__c":"Order","Secondary_Record_ID__c":"8016s000001FT3qAAG","Secondary_Object_Type__c":"Order","Resolution_Message__c":"Adding
+        Salesforce products with a ''Renewable'' type to evergreen orders isn''t supported.","Resolution_Status__c":"Error","Resolution_Documentation_Link__c":"https://stripe.com/docs/connectors/salesforce-cpq/error-handling","Stripe_Request_Dashboard_Link__c":null}'
+    headers:
+      User-Agent:
+      - Faraday v2.4.0
+      Content-Type:
+      - application/json
+      Authorization:
+      - OAuth <SALESFORCE_ACCESS_TOKEN>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 201
+      message: Created
+    headers:
+      Date:
+      - Fri, 03 Nov 2023 01:16:47 GMT
+      Set-Cookie:
+      - BrowserId=qJQ87HnmEe67QvGccCm8zA; domain=.salesforce.com; path=/; expires=Sat,
+        02-Nov-2024 01:16:47 GMT; Max-Age=31536000
+      - CookieConsentPolicy=0:1; path=/; expires=Sat, 02-Nov-2024 01:16:47 GMT; Max-Age=31536000
+      - LSKey-c$CookieConsentPolicy=0:1; path=/; expires=Sat, 02-Nov-2024 01:16:47
+        GMT; Max-Age=31536000
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Robots-Tag:
+      - none
+      Cache-Control:
+      - no-cache,must-revalidate,max-age=0,no-store,private
+      Sforce-Limit-Info:
+      - api-usage=1084/5000000
+      Location:
+      - "/services/data/v58.0/sobjects/Sync_Record__c/a1W7X000003wY1FUAU"
+      Content-Type:
+      - application/json;charset=UTF-8
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: '{"id":"a1W7X000003wY1FUAU","success":true,"errors":[],"created":true}'
+  recorded_at: Tue, 31 Oct 2023 00:00:00 GMT
 recorded_with: VCR 6.2.0
