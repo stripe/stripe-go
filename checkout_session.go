@@ -1888,8 +1888,9 @@ type CheckoutSessionParams struct {
 	SubscriptionData *CheckoutSessionSubscriptionDataParams `form:"subscription_data"`
 	// The URL to which Stripe should send customers when payment or setup
 	// is complete.
-	// If you'd like to use information from the successful Checkout Session on your page,
-	// read the guide on [customizing your success page](https://stripe.com/docs/payments/checkout/custom-success-page).
+	// This parameter is not allowed if ui_mode is `embedded`. If you'd like to use
+	// information from the successful Checkout Session on your page, read the
+	// guide on [customizing your success page](https://stripe.com/docs/payments/checkout/custom-success-page).
 	SuccessURL *string `form:"success_url"`
 	// Controls tax ID collection settings for the session.
 	TaxIDCollection *CheckoutSessionTaxIDCollectionParams `form:"tax_id_collection"`
