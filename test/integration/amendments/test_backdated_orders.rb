@@ -11,7 +11,6 @@ class Critic::BackdatedOrders < Critic::OrderAmendmentFunctionalTest
     end
 
     @user = make_user(save: true)
-    @user.enable_feature FeatureFlags::BACKDATED_AMENDMENTS, update: true
     @user.enable_feature FeatureFlags::TEST_CLOCKS, update: true
   end
 

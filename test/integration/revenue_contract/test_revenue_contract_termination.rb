@@ -146,7 +146,6 @@ class Critic::RevRecContractTermination < Critic::RevenueContractValidationHelpe
   def revenue_contract_stacked_adjustments_termination_disabled
     @user.enable_feature FeatureFlags::NON_ANNIVERSARY_AMENDMENTS, update: true
     @user.enable_feature FeatureFlags::DAY_PRORATIONS, update: true
-    @user.enable_feature FeatureFlags::BACKDATED_AMENDMENTS, update: true
     @user.enable_feature FeatureFlags::TERMINATED_ORDER_ITEM_CREDIT, update: true
     @user.disable_feature(FeatureFlags::SF_CACHING)
 

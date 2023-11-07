@@ -11,7 +11,6 @@ class Critic::SameDayAmendments < Critic::OrderAmendmentFunctionalTest
     end
 
     @user = make_user(save: true)
-    @user.enable_feature FeatureFlags::BACKDATED_AMENDMENTS, update: true
   end
 
   def get_proration_invoice_item(stripe_customer_id)

@@ -13,7 +13,6 @@ class Critic::RevRecContractAdjustment < Critic::RevenueContractValidationHelper
     @user = make_user(save: true)
     @user.enable_feature FeatureFlags::NON_ANNIVERSARY_AMENDMENTS, update: true
     @user.enable_feature FeatureFlags::DAY_PRORATIONS, update: true
-    @user.enable_feature FeatureFlags::BACKDATED_AMENDMENTS, update: true
     @user.enable_feature FeatureFlags::TERMINATED_ORDER_ITEM_CREDIT, update: true
     @user.enable_feature FeatureFlags::TERMINATION_METADATA, update: true
     @user.enable_feature FeatureFlags::STRIPE_REVENUE_CONTRACT, update: true

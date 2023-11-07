@@ -262,7 +262,6 @@ module StripeForce
         # DAY_PRORATIONS should only be enabled if CPQ Subscription Prorate Precision = 'Month + Day'
         DAY_PRORATIONS = new('day_prorations')
         AUTO_ADVANCE_PRORATION_INVOICE = new('auto_advance_proration_invoices')
-        BACKDATED_AMENDMENTS = new('backdated_amendments')
         FRONTEND_PRORATIONS = new('frontend_prorations')
         INVOICE_RENDERING_TEMPLATE = new('invoice_rendering_template')
         OLD_ORDER_MIGRATIONS = new('old_order_migration')

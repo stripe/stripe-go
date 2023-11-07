@@ -241,6 +241,9 @@ class Stripe::SubscriptionSchedule
   
   sig { returns(Integer)}
   def created; end
+
+  sig { returns(Integer)}
+  def canceled_at; end
   
   sig { returns(Stripe::SubscriptionScheduleSettings) }
   def default_settings; end

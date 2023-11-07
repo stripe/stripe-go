@@ -754,7 +754,7 @@ class StripeForce::Translate
       stripe_customer_id = T.cast(subscription_schedule.customer, String)
       current_time = OrderAmendment.determine_current_time(@user, stripe_customer_id)
       normalized_current_time = StripeForce::Utilities::SalesforceUtil.datetime_to_unix_timestamp(Time.at(current_time))
-      is_order_backdated = sf_order_amendment_start_date_as_timestamp < normalized_current_time && @user.feature_enabled?(StripeForce::Constants::FeatureFlags::BACKDATED_AMENDMENTS)
+      is_order_backdated = sf_order_amendment_start_date_as_timestamp < normalized_current_time
 
       backdated_billing_cycles = nil
       next_billing_timestamp = nil
@@ -907,6 +907,7 @@ class StripeForce::Translate
 
       # note: it's important to check this before setting that start date to 'now' below
       is_identical_to_previous_phase_time_range = previous_phase.start_date == new_phase.start_date && previous_phase.end_date == new_phase.end_date
+      is_future_same_day = (new_phase.start_date > normalized_current_time) && is_identical_to_previous_phase_time_range
 
       # if the current day is the same day as the start day, then use 'now'
       is_same_day = normalized_current_time == new_phase.start_date
@@ -947,7 +948,11 @@ class StripeForce::Translate
       # NOTE intentional decision here NOT to update any other subscription fields
       catch_errors_with_salesforce_context(secondary: sf_order_amendment) do
         # this is a special case: subscription is cancelled on the same day, the intention here is to not bill the user at all
-        is_subscription_schedule_cancelled = is_order_terminated && (is_same_day || is_order_backdated)
+        if is_future_same_day
+          log.info 'amendment starts in the future on the same day as previous phase', is_future_same_day: is_future_same_day, new_phase_start_date: new_phase.start_date, normalized_current_time: normalized_current_time
+        end
+
+        is_subscription_schedule_cancelled = is_order_terminated && (is_same_day || is_order_backdated || is_future_same_day)
         if is_subscription_schedule_cancelled
           if add_termination_metadata
             # add termination metadata to the last sub phase before terminating
@@ -1096,9 +1101,6 @@ class StripeForce::Translate
   def terminate_subscription_line_items(original_aggregate_phase_items, termination_lines)
     aggregate_phase_items = original_aggregate_phase_items.dup
     revision_map = T.let({}, T::Hash[String, T::Array[ContractItemStructure]])
-
-    # TODO if this is a renewal, ignore the revised order line because it's still a new line item
-    #     this is a temporary fix until we can figure out how to map the renewal order line to the original order line
 
     # line items that are "new" (i.e. not revising anything) are "origin" lines which future
     # revisions should be mapped to

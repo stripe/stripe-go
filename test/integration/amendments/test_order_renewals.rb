@@ -241,4 +241,75 @@ class Critic::OrderRenewalTranslation < Critic::OrderAmendmentFunctionalTest
     end
     assert_match("Passed `nil` into T.must", exception.message)
   end
+
+  it 'fully terminates a renewal order that starts in the future same day it starts' do
+    @user.field_mappings = {
+      "subscription_schedule" => {
+        "sbc_termination.metadata.salesforce_effective_termination_date" => "OpportunityId.CloseDate",
+      },
+    }
+    @user.field_defaults = {
+      "subscription_schedule" => {
+        "sbc_termination.metadata.custom_metadata_field" => "custom_metadata_field_value",
+      },
+    }
+    @user.save
+
+    # create the initial order, 1 yr contract
+    sf_initial_order = create_subscription_order(contact_email: "terminate_renewal_in_future_0_5")
+    StripeForce::Translate.perform_inline(@user, sf_initial_order.Id)
+    sf_initial_order.refresh
+
+    # create and sync the renewal order
+    # by default this will be when the renewal order ends
+    sf_initial_contract = create_contract_from_order(sf_initial_order)
+    # creates a renewal opportunity/quote from this contract and translates the renewal order
+    sf_renewal_quote = create_renewal_quote_from_contract(sf_initial_contract)
+    assert_equal(sf_renewal_quote[CPQ_QUOTE_TYPE], CPQQuoteTypeOptions::RENEWAL.serialize)
+    sf.update!(CPQ_QUOTE, {
+      SF_ID => sf_renewal_quote.Id,
+      CPQ_QUOTE_SUBSCRIPTION_TERM => TEST_DEFAULT_CONTRACT_TERM,
+    })
+
+    # Starts the date after the initial order ends
+    sf_renewal_order = create_order_from_cpq_quote(sf_renewal_quote.Id)
+    # even though this can be customized, let's check the default
+    assert_equal(sf_renewal_order.Type, OrderTypeOptions::RENEWAL.serialize)
+
+    StripeForce::Translate.perform_inline(@user, sf_renewal_order.Id)
+    sf_renewal_order.refresh
+
+    stripe_id = sf_renewal_order[prefixed_stripe_field(GENERIC_STRIPE_ID)]
+    subscription_schedule = Stripe::SubscriptionSchedule.retrieve(stripe_id, @user.stripe_credentials)
+
+    assert_equal(1, subscription_schedule.phases.count)
+    assert_equal("not_started", subscription_schedule.status)
+
+    # create an amendment order to terminate the renewal order
+    sf_contract = create_contract_from_order(sf_renewal_order)
+    amendment_data = create_quote_data_from_contract_amendment(sf_contract)
+    # wipe out the product
+    amendment_data["lineItems"].first["record"][CPQ_QUOTE_QUANTITY] = 0
+    amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_START_DATE] = format_date_for_salesforce(now_time + 1.years)
+    amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_TERM] = TEST_DEFAULT_CONTRACT_TERM
+
+    sf_order_amendment = create_order_from_quote_data(amendment_data)
+    assert_equal(sf_order_amendment.Type, OrderTypeOptions::AMENDMENT.serialize)
+
+    StripeForce::Translate.perform_inline(@user, sf_order_amendment.Id)
+    sf_order_amendment.refresh
+
+    stripe_id = sf_order_amendment[prefixed_stripe_field(GENERIC_STRIPE_ID)]
+    subscription_schedule = Stripe::SubscriptionSchedule.retrieve(stripe_id, @user.stripe_credentials)
+
+    # confirm the sub schedule has been cancelled
+    assert_equal(1, subscription_schedule.phases.count)
+    assert_equal("canceled", subscription_schedule.status)
+    assert(subscription_schedule.canceled_at - (now_time + 1.years).to_i < 1.hours.to_i)
+
+    # confirm the termination metadata was added to the subscription schedule
+    assert_equal("custom_metadata_field_value", T.must(subscription_schedule.phases.last).metadata["custom_metadata_field"])
+    effective_termination_date = StripeForce::Utilities::SalesforceUtil.get_effective_termination_date(@user, sf_order_amendment)
+    assert_equal(effective_termination_date, T.must(subscription_schedule.phases.last).metadata["salesforce_effective_termination_date"])
+  end
 end

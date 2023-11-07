@@ -155,7 +155,7 @@ class StripeForce::Translate
       prorated_billing_amount = calculate_prorated_billing_amount(stripe_price: stripe_price, subscription_term: subscription_term, product_subscription_term: product_subscription_term, billing_frequency: billing_frequency, days_prorating: days_prorating)
 
       # if the order is backdated and was synced after a billing cycle, we need to add the amount of the backdated billing cycle
-      if user.feature_enabled?(FeatureFlags::BACKDATED_AMENDMENTS) && backdated_billing_cycles > 0
+      if backdated_billing_cycles > 0
         prorated_billing_amount += stripe_price.unit_amount_decimal.to_d * backdated_billing_cycles
       end
 

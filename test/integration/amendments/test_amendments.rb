@@ -15,7 +15,6 @@ class Critic::OrderAmendmentTranslation < Critic::OrderAmendmentFunctionalTest
     # therefore enable for this for the entire test suite
     @user.enable_feature FeatureFlags::NON_ANNIVERSARY_AMENDMENTS, update: true
     @user.enable_feature FeatureFlags::DAY_PRORATIONS, update: true
-    @user.enable_feature FeatureFlags::BACKDATED_AMENDMENTS, update: true
     @user.enable_feature FeatureFlags::TERMINATED_ORDER_ITEM_CREDIT, update: true
     @user.enable_feature FeatureFlags::TERMINATION_METADATA, update: true
   end

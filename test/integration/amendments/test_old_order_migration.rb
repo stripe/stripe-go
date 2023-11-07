@@ -15,7 +15,6 @@ class Critic::OldOrderMigration < Critic::OrderAmendmentFunctionalTest
     # therefore enable for this for the entire test suite
     @user.enable_feature FeatureFlags::NON_ANNIVERSARY_AMENDMENTS, update: true
     @user.enable_feature FeatureFlags::DAY_PRORATIONS, update: true
-    @user.enable_feature FeatureFlags::BACKDATED_AMENDMENTS, update: true
     @user.enable_feature FeatureFlags::TEST_CLOCKS, update: true
     @user.enable_feature FeatureFlags::OLD_ORDER_MIGRATIONS, update: true
   end

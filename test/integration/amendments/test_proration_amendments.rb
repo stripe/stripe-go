@@ -11,7 +11,6 @@ class Critic::ProratedAmendmentTranslation < Critic::OrderAmendmentFunctionalTes
     end
 
     @user = make_user(save: true)
-    @user.enable_feature FeatureFlags::BACKDATED_AMENDMENTS, update: true
   end
 
   it 'creates a new phase with a duration longer than the billing frequency, but not divisible' do
