@@ -23,6 +23,58 @@ class Critic::RevRecContractCreation < Critic::RevenueContractValidationHelper
     @user.save
   end
 
+  it 'Contract got held automatically when contract item amount is larger than 150k' do
+    backdated_months = 2
+    price = 160000_00
+    subscription_term = 12
+    start_date = now_time - backdated_months.months
+
+    # creating these directly so we have the IDs
+    sf_product_id, sf_pricebook_entry_id = salesforce_recurring_product_with_price(price: price)
+
+    sf_account_id = create_salesforce_account
+    sf_order = create_salesforce_order(
+      sf_product_id: sf_product_id,
+      sf_account_id: sf_account_id,
+      contact_email: "create_contract_standard_sub_order",
+      additional_quote_fields: {
+        CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(start_date),
+        CPQ_QUOTE_SUBSCRIPTION_TERM => subscription_term,
+      }
+    )
+
+    SalesforceTranslateRecordJob.translate(@user, sf_order)
+
+    sf_order.refresh
+    sf_pricebook_entry = sf.find(SF_PRICEBOOK_ENTRY, sf_pricebook_entry_id)
+
+    stripe_id = sf_order[prefixed_stripe_field(GENERIC_STRIPE_ID)]
+    contract_id = sf_order[prefixed_stripe_field(GENERIC_STRIPE_REVENUE_CONTRACT_ID)]
+    subscription_schedule = Stripe::SubscriptionSchedule.retrieve(stripe_id, @user.stripe_credentials)
+    revenue_contract = get_revenue_contract(contract_id)
+
+    hold_details = revenue_contract.hold_details
+    assert(hold_details.hold)
+    assert_equal(hold_details.held_at, revenue_contract.created)
+
+    revenue_contract_validate_basics(sf_order, subscription_schedule, revenue_contract, sf_account_id, @defaultSignedDate)
+    assert_equal(1, subscription_schedule.phases.count)
+    phase = T.must(subscription_schedule.phases.first)
+    assert_equal(1, phase.items.count)
+    assert_equal(0, phase.add_invoice_items.count)
+    phase_item = T.must(phase.items.first)
+
+    assert_equal(1, revenue_contract.items.data.count)
+    contract_item = T.must(revenue_contract.items.data.first)
+    revenue_contract_validate_item(phase_item, contract_item, sf_pricebook_entry, 1, 192000000, @defaultTFC)
+    assert_equal(start_date.to_i, contract_item.period.start)
+
+    end_date = StripeForce::Utilities::SalesforceUtil.datetime_to_unix_timestamp(
+      Time.at(start_date) + subscription_term.months
+    )
+    assert_equal(end_date, contract_item.period.end)
+  end
+
   it 'Create contract from a standard subscription order' do
     backdated_months = 2
     price = 10_00
@@ -300,8 +352,14 @@ class Critic::RevRecContractCreation < Critic::RevenueContractValidationHelper
     sf_product_id, _ = salesforce_standalone_product_with_price
 
 
+    start_date = now_time - 1.month
     quote_id = create_salesforce_quote(sf_account_id: sf_account_id,
-                                       contact_email: "integrates_invoice_order_1"
+                                       contact_email: "integrates_invoice_order_1",
+                                       additional_quote_fields: {
+                                         CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(start_date),
+                                         CPQ_QUOTE_BILLING_FREQUENCY => CPQBillingFrequencyOptions::ANNUAL.serialize,
+                                         CPQ_QUOTE_SUBSCRIPTION_TERM => TEST_DEFAULT_CONTRACT_TERM,
+                                       }
                                       )
 
     quote_with_product = add_product_to_cpq_quote(quote_id, sf_product_id: sf_product_id)

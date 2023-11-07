@@ -421,6 +421,12 @@ class Stripe::RevenueContract < Stripe::StripeObject
   
   sig { returns(T::Hash[T.any(String, Symbol), T.untyped]) }
   def metadata; end
+
+  sig {returns(Stripe::RevRecHold)}
+  def hold_details; end
+
+  sig {returns(Integer)}
+  def created; end
 end
 
 class Stripe::RevenueContractBillingModel
@@ -476,4 +482,15 @@ class Stripe::RevenueContractItemPeriod
 
   sig { returns(Integer)}
   def end; end
+end
+
+class Stripe::RevRecHold < Stripe::StripeObject
+  sig { returns(T::Boolean)}
+  def hold; end
+
+  sig { returns(Integer)}
+  def held_at; end
+
+  sig { returns(Integer)}
+  def released_at; end
 end
