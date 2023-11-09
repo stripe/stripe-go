@@ -1711,7 +1711,7 @@ type CheckoutSessionParams struct {
 	ClientReferenceID *string `form:"client_reference_id"`
 	// Configure fields for the Checkout Session to gather active consent from customers.
 	ConsentCollection *CheckoutSessionConsentCollectionParams `form:"consent_collection"`
-	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Required in `setup` mode when `payment_method_types` is not set.
 	Currency *string `form:"currency"`
 	// ID of an existing Customer, if one exists. In `payment` mode, the customer's most recently saved card
 	// payment method will be used to prefill the email, name, card details, and billing address
@@ -1782,8 +1782,8 @@ type CheckoutSessionParams struct {
 	PaymentMethodOptions *CheckoutSessionPaymentMethodOptionsParams `form:"payment_method_options"`
 	// A list of the types of payment methods (e.g., `card`) this Checkout Session can accept.
 	//
-	// In `payment` and `subscription` mode, you can omit this attribute to manage your payment methods from the [Stripe Dashboard](https://dashboard.stripe.com/settings/payment_methods).
-	// It is required in `setup` mode.
+	// You can omit this attribute to manage your payment methods from the [Stripe Dashboard](https://dashboard.stripe.com/settings/payment_methods).
+	// See [Dynamic Payment Methods](https://stripe.com/docs/payments/payment-methods/integration-options#using-dynamic-payment-methods) for more details.
 	//
 	// Read more about the supported payment methods and their requirements in our [payment
 	// method details guide](https://stripe.com/docs/payments/checkout/payment-methods).
@@ -1818,8 +1818,9 @@ type CheckoutSessionParams struct {
 	SubscriptionData *CheckoutSessionSubscriptionDataParams `form:"subscription_data"`
 	// The URL to which Stripe should send customers when payment or setup
 	// is complete.
-	// If you'd like to use information from the successful Checkout Session on your page,
-	// read the guide on [customizing your success page](https://stripe.com/docs/payments/checkout/custom-success-page).
+	// This parameter is not allowed if ui_mode is `embedded`. If you'd like to use
+	// information from the successful Checkout Session on your page, read the
+	// guide on [customizing your success page](https://stripe.com/docs/payments/checkout/custom-success-page).
 	SuccessURL *string `form:"success_url"`
 	// Controls tax ID collection settings for the session.
 	TaxIDCollection *CheckoutSessionTaxIDCollectionParams `form:"tax_id_collection"`
