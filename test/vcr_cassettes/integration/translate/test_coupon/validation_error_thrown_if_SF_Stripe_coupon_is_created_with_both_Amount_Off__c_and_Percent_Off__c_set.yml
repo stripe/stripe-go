@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: post
-    uri: https://ability-innovation-7335-dev-ed.scratch.my.salesforce.com/services/data/v58.0/sobjects/Quote_Stripe_Coupon__c
+    uri: https://connect-saas-89822-dev-ed.scratch.my.salesforce.com/services/data/v58.0/sobjects/Quote_Stripe_Coupon__c
     body:
       encoding: UTF-8
       string: '{"Name__c":"Invalid coupon","Amount_Off__c":10,"Duration__c":"once","Percent_Off__c":25}'
@@ -23,12 +23,12 @@ http_interactions:
       message: Bad Request
     headers:
       Date:
-      - Tue, 01 Aug 2023 18:59:25 GMT
+      - Thu, 09 Nov 2023 19:19:52 GMT
       Set-Cookie:
-      - BrowserId=iLnxiDCdEe6BD7nYZTiwdQ; domain=.salesforce.com; path=/; expires=Wed,
-        31-Jul-2024 18:59:25 GMT; Max-Age=31536000
-      - CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 18:59:25 GMT; Max-Age=31536000
-      - LSKey-c$CookieConsentPolicy=0:1; path=/; expires=Wed, 31-Jul-2024 18:59:25
+      - BrowserId=9VeajH80Ee6s3k-n6wD6XA; domain=.salesforce.com; path=/; expires=Fri,
+        08-Nov-2024 19:19:52 GMT; Max-Age=31536000
+      - CookieConsentPolicy=0:1; path=/; expires=Fri, 08-Nov-2024 19:19:52 GMT; Max-Age=31536000
+      - LSKey-c$CookieConsentPolicy=0:1; path=/; expires=Fri, 08-Nov-2024 19:19:52
         GMT; Max-Age=31536000
       Strict-Transport-Security:
       - max-age=63072000; includeSubDomains
@@ -41,7 +41,7 @@ http_interactions:
       Cache-Control:
       - no-cache,must-revalidate,max-age=0,no-store,private
       Sforce-Limit-Info:
-      - api-usage=7109/5000000
+      - api-usage=120/5000000
       Content-Type:
       - application/json;charset=UTF-8
       Transfer-Encoding:
@@ -50,5 +50,5 @@ http_interactions:
       encoding: UTF-8
       string: '[{"message":"Received both Percent_Off__c and Amount_Off__c parameters.
         Please pass in only one.","errorCode":"FIELD_CUSTOM_VALIDATION_EXCEPTION","fields":[]}]'
-  recorded_at: Tue, 01 Aug 2023 18:57:33 GMT
+  recorded_at: Thu, 09 Nov 2023 19:18:45 GMT
 recorded_with: VCR 6.2.0

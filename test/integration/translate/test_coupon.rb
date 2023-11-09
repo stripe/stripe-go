@@ -30,7 +30,7 @@ class Critic::CouponTranslation < Critic::VCRTest
       sf_product_id, _sf_pricebook_id = salesforce_recurring_product_with_price
 
       # create a CPQ quote
-      sf_quote_id = create_salesforce_quote(sf_account_id: sf_account_id, contact_email: "order_and_order_line_when_quote_ordered", additional_quote_fields: {
+      sf_quote_id = create_salesforce_quote(sf_account_id: sf_account_id, contact_email: "order_and_order_line_when_quote_ordered_1", additional_quote_fields: {
         CPQ_QUOTE_SUBSCRIPTION_START_DATE => now_time_formatted_for_salesforce,
         CPQ_QUOTE_SUBSCRIPTION_TERM => TEST_DEFAULT_CONTRACT_TERM,
       })

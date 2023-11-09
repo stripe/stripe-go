@@ -113,11 +113,17 @@ class StripeForce::Translate
         lookup_field = 'Order_Item__c'
       else
         # this should never happen since coupons can only be tied to an order or order item
-        raise Integrations::Errors::ImpossibleState.new("unsupported sf object type for coupons: #{source_sf_record_type}")
+        raise Integrations::Errors::ImpossibleState.new("Unsupported sf object type for coupons: #{source_sf_record_type}")
       end
 
       # check if there are any coupon associations to this order or order item
       coupon_data = backoff { sf_client.query("Select #{SF_ID} from #{prefixed_stripe_field(ORDER_SF_STRIPE_COUPON)} where #{prefixed_stripe_field(lookup_field)} = '#{sf_object.Id}'") }
+
+      associations = get_quote_associations_for_sf_object(sf_client: sf_client, sf_object: sf_object)
+      if associations.size != coupon_data.size
+        log.info 'found a different number of coupons associations for sf object', salesforce_object: sf_object, sf_association_count: associations.size, sf_order_coupon_count: coupon_data.size
+        raise Integrations::Errors::ImpossibleInternalError.new("The sf object has a different number of quote / quote line associations than Order coupons.")
+      end
 
       # there could be multiple coupons associated with a single order or order line
       coupons = coupon_data.map do |data|
@@ -126,5 +132,26 @@ class StripeForce::Translate
 
       coupons
     end
+  end
+
+  def get_quote_associations_for_sf_object(sf_client:, sf_object:)
+    source_sf_record_type = sf_object.sobject_type
+    if source_sf_record_type == SF_ORDER
+      lookup_field = 'Quote__c'
+      lookup_object = QUOTE_SF_STRIPE_COUPON_ASSOCIATION
+      lookup_field_id = sf_object[CPQ_QUOTE]
+    elsif source_sf_record_type == SF_ORDER_ITEM
+      lookup_field = 'Quote_Line__c'
+      lookup_object = QUOTE_LINE_SF_STRIPE_COUPON_ASSOCIATION
+      lookup_field_id = sf_object[CPQ_QUOTE_LINE]
+    else
+      # this should never happen since coupons can only be tied to an order or order item
+      raise Integrations::Errors::ImpossibleState.new("Unsupported sf object type for coupons: #{source_sf_record_type}")
+    end
+
+    # check if there are any coupon associations to this order or order item
+    qla_data = backoff { sf_client.query("Select #{SF_ID} from #{prefixed_stripe_field(lookup_object)} where #{prefixed_stripe_field(lookup_field)} = '#{lookup_field_id}'") }
+
+    qla_data
   end
 end
