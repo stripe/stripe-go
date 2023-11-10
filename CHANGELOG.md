@@ -1,5 +1,11 @@
 # Changelog
 
+## 76.5.0-beta.1 - 2023-11-10
+* [#1763](https://github.com/stripe/stripe-go/pull/1763) Update generated code for beta
+  * Add support for new value `quote.reestimate_failed` on enum `EventType`
+  * Add support for `Metadata` on `QuotePhase` and `QuotePhasesParams`
+  * Add support for `LastReestimationDetails` on `QuoteComputed`
+
 ## 76.4.0 - 2023-11-09
 * [#1762](https://github.com/stripe/stripe-go/pull/1762) Update generated code
   * Add support for new value `terminal_reader_hardware_fault` on enums `InvoiceLastFinalizationErrorCode`, `PaymentIntentLastPaymentErrorCode`, `SetupAttemptSetupErrorCode`, `SetupIntentLastSetupErrorCode`, and `StripeErrorCode`
