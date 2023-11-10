@@ -380,7 +380,7 @@ func TestDo_RetryOnTimeout(t *testing.T) {
 			LeveledLogger:     nullLeveledLogger,
 			MaxNetworkRetries: Int64(1),
 			URL:               String(testServer.URL),
-			HTTPClient:        &http.Client{Timeout: timeout},
+			HTTPClient:        &http.Client{Timeout: timeout / 2},
 		},
 	).(*BackendImplementation)
 
