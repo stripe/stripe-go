@@ -1,5 +1,24 @@
 # Changelog
 
+## 76.4.0 - 2023-11-09
+* [#1762](https://github.com/stripe/stripe-go/pull/1762) Update generated code
+  * Add support for new value `terminal_reader_hardware_fault` on enums `InvoiceLastFinalizationErrorCode`, `PaymentIntentLastPaymentErrorCode`, `SetupAttemptSetupErrorCode`, `SetupIntentLastSetupErrorCode`, and `StripeErrorCode`
+  * Add support for `Metadata` on `QuoteSubscriptionDataParams` and `QuoteSubscriptionData`
+
+## 76.3.0 - 2023-11-02
+* [#1760](https://github.com/stripe/stripe-go/pull/1760) Update generated code
+  * Add support for new resource `Tax.Registration`
+  * Add support for `List`, `New`, and `Update` methods on resource `Registration`
+  * Add support for `RevolutPay` throughout the API
+  * Add support for new value `token_card_network_invalid` on enums `InvoiceLastFinalizationErrorCode`, `PaymentIntentLastPaymentErrorCode`, `SetupAttemptSetupErrorCode`, `SetupIntentLastSetupErrorCode`, and `StripeErrorCode`
+  * Add support for new value `payment_unreconciled` on enum `BalanceTransactionType`
+  * Add support for `ABA` and `Swift` on `FundingInstructionsBankTransferFinancialAddresses` and `PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddresses`
+  * Add support for new values `ach`, `domestic_wire_us`, and `swift` on enums `FundingInstructionsBankTransferFinancialAddressesSupportedNetworks` and `PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressesSupportedNetworks`
+  * Add support for new values `aba` and `swift` on enums `FundingInstructionsBankTransferFinancialAddressesType` and `PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressesType`
+  * Add support for `URL` on `IssuingAuthorizationMerchantDataParams`, `IssuingAuthorizationMerchantData`, `IssuingTransactionMerchantData`, `TestHelpersIssuingTransactionCreateForceCaptureMerchantDataParams`, and `TestHelpersIssuingTransactionCreateUnlinkedRefundMerchantDataParams`
+  * Add support for `AuthenticationExemption` and `ThreeDSecure` on `IssuingAuthorizationVerificationDataParams` and `IssuingAuthorizationVerificationData`
+  * Add support for `Description` on `PaymentLinkPaymentIntentDataParams` and `PaymentLinkPaymentIntentData`
+
 ## 76.2.0 - 2023-10-26
 * [#1759](https://github.com/stripe/stripe-go/pull/1759) Update generated code
   * Add support for new value `balance_invalid_parameter` on enums `InvoiceLastFinalizationErrorCode`, `PaymentIntentLastPaymentErrorCode`, `SetupAttemptSetupErrorCode`, `SetupIntentLastSetupErrorCode`, and `StripeErrorCode`

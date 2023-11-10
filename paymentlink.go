@@ -355,6 +355,8 @@ type PaymentLinkLineItemParams struct {
 type PaymentLinkPaymentIntentDataParams struct {
 	// Controls when the funds will be captured from the customer's account.
 	CaptureMethod *string `form:"capture_method"`
+	// An arbitrary string attached to the object. Often useful for displaying to users.
+	Description *string `form:"description"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that will declaratively set metadata on [Payment Intents](https://stripe.com/docs/api/payment_intents) generated from this payment link. Unlike object-level metadata, this field is declarative. Updates will clear prior values.
 	Metadata map[string]string `form:"metadata"`
 	// Indicates that you intend to [make future payments](https://stripe.com/docs/payments/payment-intents#future-usage) with the payment method collected by this Checkout Session.
@@ -672,6 +674,8 @@ type PaymentLinkInvoiceCreation struct {
 type PaymentLinkPaymentIntentData struct {
 	// Indicates when the funds will be captured from the customer's account.
 	CaptureMethod PaymentLinkPaymentIntentDataCaptureMethod `json:"capture_method"`
+	// An arbitrary string attached to the object. Often useful for displaying to users.
+	Description string `json:"description"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that will set metadata on [Payment Intents](https://stripe.com/docs/api/payment_intents) generated from this payment link.
 	Metadata map[string]string `json:"metadata"`
 	// Indicates that you intend to make future payments with the payment method collected during checkout.

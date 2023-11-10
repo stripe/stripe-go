@@ -1384,6 +1384,16 @@ type CheckoutSessionPaymentMethodOptionsPixParams struct {
 	ExpiresAfterSeconds *int64 `form:"expires_after_seconds"`
 }
 
+// contains details about the RevolutPay payment method options.
+type CheckoutSessionPaymentMethodOptionsRevolutPayParams struct {
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// Providing this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.
+	//
+	// When processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).
+	SetupFutureUsage *string `form:"setup_future_usage"`
+}
+
 // contains details about the Sepa Debit payment method options.
 type CheckoutSessionPaymentMethodOptionsSEPADebitParams struct {
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -1490,6 +1500,8 @@ type CheckoutSessionPaymentMethodOptionsParams struct {
 	Paypal *CheckoutSessionPaymentMethodOptionsPaypalParams `form:"paypal"`
 	// contains details about the Pix payment method options.
 	Pix *CheckoutSessionPaymentMethodOptionsPixParams `form:"pix"`
+	// contains details about the RevolutPay payment method options.
+	RevolutPay *CheckoutSessionPaymentMethodOptionsRevolutPayParams `form:"revolut_pay"`
 	// contains details about the Sepa Debit payment method options.
 	SEPADebit *CheckoutSessionPaymentMethodOptionsSEPADebitParams `form:"sepa_debit"`
 	// contains details about the Sofort payment method options.
@@ -1699,12 +1711,12 @@ type CheckoutSessionParams struct {
 	ClientReferenceID *string `form:"client_reference_id"`
 	// Configure fields for the Checkout Session to gather active consent from customers.
 	ConsentCollection *CheckoutSessionConsentCollectionParams `form:"consent_collection"`
-	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Required in `setup` mode when `payment_method_types` is not set.
 	Currency *string `form:"currency"`
-	// ID of an existing Customer, if one exists. In `payment` mode, the customer's most recent card
+	// ID of an existing Customer, if one exists. In `payment` mode, the customer's most recently saved card
 	// payment method will be used to prefill the email, name, card details, and billing address
 	// on the Checkout page. In `subscription` mode, the customer's [default payment method](https://stripe.com/docs/api/customers/update#update_customer-invoice_settings-default_payment_method)
-	// will be used if it's a card, and otherwise the most recent card will be used. A valid billing address, billing name and billing email are required on the payment method for Checkout to prefill the customer's card details.
+	// will be used if it's a card, otherwise the most recently saved card will be used. A valid billing address, billing name and billing email are required on the payment method for Checkout to prefill the customer's card details.
 	//
 	// If the Customer already has a valid [email](https://stripe.com/docs/api/customers/object#customer_object-email) set, the email will be prefilled and not editable in Checkout.
 	// If the Customer does not have a valid `email`, Checkout will set the email entered during the session on the Customer.
@@ -1770,8 +1782,8 @@ type CheckoutSessionParams struct {
 	PaymentMethodOptions *CheckoutSessionPaymentMethodOptionsParams `form:"payment_method_options"`
 	// A list of the types of payment methods (e.g., `card`) this Checkout Session can accept.
 	//
-	// In `payment` and `subscription` mode, you can omit this attribute to manage your payment methods from the [Stripe Dashboard](https://dashboard.stripe.com/settings/payment_methods).
-	// It is required in `setup` mode.
+	// You can omit this attribute to manage your payment methods from the [Stripe Dashboard](https://dashboard.stripe.com/settings/payment_methods).
+	// See [Dynamic Payment Methods](https://stripe.com/docs/payments/payment-methods/integration-options#using-dynamic-payment-methods) for more details.
 	//
 	// Read more about the supported payment methods and their requirements in our [payment
 	// method details guide](https://stripe.com/docs/payments/checkout/payment-methods).
@@ -1806,8 +1818,9 @@ type CheckoutSessionParams struct {
 	SubscriptionData *CheckoutSessionSubscriptionDataParams `form:"subscription_data"`
 	// The URL to which Stripe should send customers when payment or setup
 	// is complete.
-	// If you'd like to use information from the successful Checkout Session on your page,
-	// read the guide on [customizing your success page](https://stripe.com/docs/payments/checkout/custom-success-page).
+	// This parameter is not allowed if ui_mode is `embedded`. If you'd like to use
+	// information from the successful Checkout Session on your page, read the
+	// guide on [customizing your success page](https://stripe.com/docs/payments/checkout/custom-success-page).
 	SuccessURL *string `form:"success_url"`
 	// Controls tax ID collection settings for the session.
 	TaxIDCollection *CheckoutSessionTaxIDCollectionParams `form:"tax_id_collection"`
@@ -2283,6 +2296,7 @@ type CheckoutSessionPaymentMethodOptionsPix struct {
 	// The number of seconds after which Pix payment will expire.
 	ExpiresAfterSeconds int64 `json:"expires_after_seconds"`
 }
+type CheckoutSessionPaymentMethodOptionsRevolutPay struct{}
 type CheckoutSessionPaymentMethodOptionsSEPADebit struct {
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
@@ -2344,6 +2358,7 @@ type CheckoutSessionPaymentMethodOptions struct {
 	P24              *CheckoutSessionPaymentMethodOptionsP24              `json:"p24"`
 	PayNow           *CheckoutSessionPaymentMethodOptionsPayNow           `json:"paynow"`
 	Pix              *CheckoutSessionPaymentMethodOptionsPix              `json:"pix"`
+	RevolutPay       *CheckoutSessionPaymentMethodOptionsRevolutPay       `json:"revolut_pay"`
 	SEPADebit        *CheckoutSessionPaymentMethodOptionsSEPADebit        `json:"sepa_debit"`
 	Sofort           *CheckoutSessionPaymentMethodOptionsSofort           `json:"sofort"`
 	USBankAccount    *CheckoutSessionPaymentMethodOptionsUSBankAccount    `json:"us_bank_account"`

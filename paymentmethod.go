@@ -170,6 +170,7 @@ const (
 	PaymentMethodTypePaypal           PaymentMethodType = "paypal"
 	PaymentMethodTypePix              PaymentMethodType = "pix"
 	PaymentMethodTypePromptPay        PaymentMethodType = "promptpay"
+	PaymentMethodTypeRevolutPay       PaymentMethodType = "revolut_pay"
 	PaymentMethodTypeSEPADebit        PaymentMethodType = "sepa_debit"
 	PaymentMethodTypeSofort           PaymentMethodType = "sofort"
 	PaymentMethodTypeUSBankAccount    PaymentMethodType = "us_bank_account"
@@ -393,6 +394,9 @@ type PaymentMethodRadarOptionsParams struct {
 	Session *string `form:"session"`
 }
 
+// If this is a `Revolut Pay` PaymentMethod, this hash contains details about the Revolut Pay payment method.
+type PaymentMethodRevolutPayParams struct{}
+
 // If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
 type PaymentMethodSEPADebitParams struct {
 	// IBAN of the bank account.
@@ -492,6 +496,8 @@ type PaymentMethodParams struct {
 	PromptPay *PaymentMethodPromptPayParams `form:"promptpay"`
 	// Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
 	RadarOptions *PaymentMethodRadarOptionsParams `form:"radar_options"`
+	// If this is a `Revolut Pay` PaymentMethod, this hash contains details about the Revolut Pay payment method.
+	RevolutPay *PaymentMethodRevolutPayParams `form:"revolut_pay"`
 	// If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
 	SEPADebit *PaymentMethodSEPADebitParams `form:"sepa_debit"`
 	// If this is a `sofort` PaymentMethod, this hash contains details about the SOFORT payment method.
@@ -869,6 +875,7 @@ type PaymentMethodRadarOptions struct {
 	// A [Radar Session](https://stripe.com/docs/radar/radar-session) is a snapshot of the browser metadata and device details that help Radar make more accurate predictions on your payments.
 	Session string `json:"session"`
 }
+type PaymentMethodRevolutPay struct{}
 
 // Information about the object that generated this PaymentMethod.
 type PaymentMethodSEPADebitGeneratedFrom struct {
@@ -987,6 +994,7 @@ type PaymentMethod struct {
 	PromptPay *PaymentMethodPromptPay `json:"promptpay"`
 	// Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
 	RadarOptions *PaymentMethodRadarOptions `json:"radar_options"`
+	RevolutPay   *PaymentMethodRevolutPay   `json:"revolut_pay"`
 	SEPADebit    *PaymentMethodSEPADebit    `json:"sepa_debit"`
 	Sofort       *PaymentMethodSofort       `json:"sofort"`
 	// The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type.

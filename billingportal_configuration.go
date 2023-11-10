@@ -147,7 +147,7 @@ type BillingPortalConfigurationFeaturesSubscriptionPauseParams struct {
 	Enabled *bool `form:"enabled"`
 }
 
-// The list of products that support subscription updates.
+// The list of up to 10 products that support subscription updates.
 type BillingPortalConfigurationFeaturesSubscriptionUpdateProductParams struct {
 	// The list of price IDs for the product that a subscription can be updated to.
 	Prices []*string `form:"prices"`
@@ -161,7 +161,7 @@ type BillingPortalConfigurationFeaturesSubscriptionUpdateParams struct {
 	DefaultAllowedUpdates []*string `form:"default_allowed_updates"`
 	// Whether the feature is enabled.
 	Enabled *bool `form:"enabled"`
-	// The list of products that support subscription updates.
+	// The list of up to 10 products that support subscription updates.
 	Products []*BillingPortalConfigurationFeaturesSubscriptionUpdateProductParams `form:"products"`
 	// Determines how to handle prorations resulting from subscription updates. Valid values are `none`, `create_prorations`, and `always_invoice`.
 	ProrationBehavior *string `form:"proration_behavior"`
@@ -266,7 +266,7 @@ type BillingPortalConfigurationFeaturesSubscriptionPause struct {
 	Enabled bool `json:"enabled"`
 }
 
-// The list of products that support subscription updates.
+// The list of up to 10 products that support subscription updates.
 type BillingPortalConfigurationFeaturesSubscriptionUpdateProduct struct {
 	// The list of price IDs which, when subscribed to, a subscription can be updated.
 	Prices []string `json:"prices"`
@@ -278,7 +278,7 @@ type BillingPortalConfigurationFeaturesSubscriptionUpdate struct {
 	DefaultAllowedUpdates []BillingPortalConfigurationFeaturesSubscriptionUpdateDefaultAllowedUpdate `json:"default_allowed_updates"`
 	// Whether the feature is enabled.
 	Enabled bool `json:"enabled"`
-	// The list of products that support subscription updates.
+	// The list of up to 10 products that support subscription updates.
 	Products []*BillingPortalConfigurationFeaturesSubscriptionUpdateProduct `json:"products"`
 	// Determines how to handle prorations resulting from subscription updates. Valid values are `none`, `create_prorations`, and `always_invoice`.
 	ProrationBehavior BillingPortalConfigurationFeaturesSubscriptionUpdateProrationBehavior `json:"proration_behavior"`
