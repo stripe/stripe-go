@@ -165,6 +165,8 @@ type QuotePhase struct {
 	Iterations int64 `json:"iterations"`
 	// A list of items the customer is being quoted for.
 	LineItems *LineItemList `json:"line_items"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that will declaratively set metadata on the subscription schedule's phases when the quote is accepted.
+	Metadata map[string]string `json:"metadata"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// If the quote will prorate when transitioning to this phase. Possible values are `create_prorations` and `none`.

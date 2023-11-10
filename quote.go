@@ -39,6 +39,25 @@ const (
 	QuoteCollectionMethodSendInvoice         QuoteCollectionMethod = "send_invoice"
 )
 
+// The reason the reestimation failed.
+type QuoteComputedLastReestimationDetailsFailedReason string
+
+// List of values that QuoteComputedLastReestimationDetailsFailedReason can take
+const (
+	QuoteComputedLastReestimationDetailsFailedReasonAutomationFailure QuoteComputedLastReestimationDetailsFailedReason = "automation_failure"
+	QuoteComputedLastReestimationDetailsFailedReasonInternalError     QuoteComputedLastReestimationDetailsFailedReason = "internal_error"
+)
+
+// Latest status of the reestimation.
+type QuoteComputedLastReestimationDetailsStatus string
+
+// List of values that QuoteComputedLastReestimationDetailsStatus can take
+const (
+	QuoteComputedLastReestimationDetailsStatusFailed     QuoteComputedLastReestimationDetailsStatus = "failed"
+	QuoteComputedLastReestimationDetailsStatusInProgress QuoteComputedLastReestimationDetailsStatus = "in_progress"
+	QuoteComputedLastReestimationDetailsStatusSucceeded  QuoteComputedLastReestimationDetailsStatus = "succeeded"
+)
+
 // The frequency at which a subscription is billed. One of `day`, `week`, `month` or `year`.
 type QuoteComputedRecurringInterval string
 
@@ -912,6 +931,15 @@ type QuotePhaseLineItemParams struct {
 	TaxRates []*string `form:"tax_rates"`
 }
 
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *QuotePhaseParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
 // Details of a Quote line to start the bill period from.
 type QuoteSubscriptionDataBillOnAcceptanceBillFromLineStartsAtParams struct {
 	// The ID of a quote line.
@@ -991,6 +1019,8 @@ type QuoteSubscriptionDataParams struct {
 	FromSchedule *string `form:"from_schedule"`
 	// The id of a subscription that the quote will update. By default, the quote will contain the state of the subscription (such as line items, collection method and billing thresholds) unless overridden.
 	FromSubscription *string `form:"from_subscription"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that will set metadata on the subscription or subscription schedule when the quote is accepted. If a recurring price is included in `line_items`, this field will be passed to the resulting subscription's `metadata` field. If `subscription_data.effective_date` is used, this field will be passed to the resulting subscription schedule's `phases.metadata` field. Unlike object-level metadata, this field is declarative. Updates will clear prior values.
+	Metadata map[string]string `form:"metadata"`
 	// If specified, the invoicing for the given billing cycle iterations will be processed when the quote is accepted. Cannot be used with `effective_date`.
 	Prebilling *QuoteSubscriptionDataPrebillingParams `form:"prebilling"`
 	// Determines how to handle [prorations](https://stripe.com/docs/subscriptions/billing-cycle#prorations). When creating a subscription, valid values are `create_prorations` or `none`.
@@ -1003,6 +1033,15 @@ type QuoteSubscriptionDataParams struct {
 	ProrationBehavior *string `form:"proration_behavior"`
 	// Integer representing the number of trial period days before the customer is charged for the first time.
 	TrialPeriodDays *int64 `form:"trial_period_days"`
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *QuoteSubscriptionDataParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
 }
 
 // AppendTo implements custom encoding logic for QuoteSubscriptionDataParams.
@@ -1295,6 +1334,24 @@ type QuoteAutomaticTax struct {
 	Status QuoteAutomaticTaxStatus `json:"status"`
 }
 
+// When `status` is `failed`, provides details about the quote reestimation failure.
+type QuoteComputedLastReestimationDetailsFailed struct {
+	// The failure `code` is more granular than the `reason` provided and may correspond to a Stripe error code. For automation errors, this field is one of: `reverse_api_failure`, `reverse_api_deadline_exceeeded`, or `reverse_api_response_validation_error`, which are Stripe error codes and map to the error `message` field.
+	FailureCode string `json:"failure_code"`
+	// Information derived from the `failure_code` or a freeform message that explains the error as a human-readable English string. For example, "margin ID is not a valid ID".
+	Message string `json:"message"`
+	// The reason the reestimation failed.
+	Reason QuoteComputedLastReestimationDetailsFailedReason `json:"reason"`
+}
+
+// Details of the most recent reestimate of the quote's preview schedules and upcoming invoices, including the status of Stripe's calculation.
+type QuoteComputedLastReestimationDetails struct {
+	// When `status` is `failed`, provides details about the quote reestimation failure.
+	Failed *QuoteComputedLastReestimationDetailsFailed `json:"failed"`
+	// Latest status of the reestimation.
+	Status QuoteComputedLastReestimationDetailsStatus `json:"status"`
+}
+
 // The aggregated discounts.
 type QuoteComputedRecurringTotalDetailsBreakdownDiscount struct {
 	// The amount discounted.
@@ -1397,6 +1454,8 @@ type QuoteComputedUpfront struct {
 	TotalDetails *QuoteComputedUpfrontTotalDetails `json:"total_details"`
 }
 type QuoteComputed struct {
+	// Details of the most recent reestimate of the quote's preview schedules and upcoming invoices, including the status of Stripe's calculation.
+	LastReestimationDetails *QuoteComputedLastReestimationDetails `json:"last_reestimation_details"`
 	// The definitive totals and line items the customer will be charged on a recurring basis. Takes into account the line items with recurring prices and discounts with `duration=forever` coupons only. Defaults to `null` if no inputted line items with recurring prices.
 	Recurring *QuoteComputedRecurring `json:"recurring"`
 	// The time at which the quote's estimated schedules and upcoming invoices were generated.
@@ -1561,6 +1620,8 @@ type QuoteSubscriptionData struct {
 	FromSchedule *SubscriptionSchedule `json:"from_schedule"`
 	// The id of the subscription that will be updated when the quote is accepted.
 	FromSubscription *Subscription `json:"from_subscription"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that will set metadata on the subscription or subscription schedule when the quote is accepted. If a recurring price is included in `line_items`, this field will be passed to the resulting subscription's `metadata` field. If `subscription_data.effective_date` is used, this field will be passed to the resulting subscription schedule's `phases.metadata` field. Unlike object-level metadata, this field is declarative. Updates will clear prior values.
+	Metadata map[string]string `json:"metadata"`
 	// If specified, the invoicing for the given billing cycle iterations will be processed when the quote is accepted. Cannot be used with `effective_date`.
 	Prebilling *QuoteSubscriptionDataPrebilling `json:"prebilling"`
 	// Determines how to handle [prorations](https://stripe.com/docs/subscriptions/billing-cycle#prorations) when the quote is accepted.

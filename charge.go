@@ -1321,7 +1321,7 @@ type ChargePaymentMethodDetailsSEPADebit struct {
 	Fingerprint string `json:"fingerprint"`
 	// Last four characters of the IBAN.
 	Last4 string `json:"last4"`
-	// ID of the mandate used to make this payment.
+	// Find the ID of the mandate used for this payment under the [payment_method_details.sepa_debit.mandate](https://stripe.com/docs/api/charges/object#charge_object-payment_method_details-sepa_debit-mandate) property on the Charge. Use this mandate ID to [retrieve the Mandate](https://stripe.com/docs/api/mandates/retrieve).
 	Mandate string `json:"mandate"`
 }
 type ChargePaymentMethodDetailsSofort struct {
