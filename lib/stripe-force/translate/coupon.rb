@@ -122,7 +122,7 @@ class StripeForce::Translate
       associations = get_quote_associations_for_sf_object(sf_client: sf_client, sf_object: sf_object)
       if associations.size != coupon_data.size
         log.info 'found a different number of coupons associations for sf object', salesforce_object: sf_object, sf_association_count: associations.size, sf_order_coupon_count: coupon_data.size
-        raise Integrations::Errors::ImpossibleInternalError.new("The sf object has a different number of quote / quote line associations than Order coupons.")
+        raise Integrations::Errors::UserError.new("Connector Error: There is different number of Quote or Quote Line Associations than Order or Item coupons.")
       end
 
       # there could be multiple coupons associated with a single order or order line
