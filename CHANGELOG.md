@@ -1,5 +1,10 @@
 # Changelog
 
+## 76.4.0 - 2023-11-09
+* [#1762](https://github.com/stripe/stripe-go/pull/1762) Update generated code
+  * Add support for new value `terminal_reader_hardware_fault` on enums `InvoiceLastFinalizationErrorCode`, `PaymentIntentLastPaymentErrorCode`, `SetupAttemptSetupErrorCode`, `SetupIntentLastSetupErrorCode`, and `StripeErrorCode`
+  * Add support for `Metadata` on `QuoteSubscriptionDataParams` and `QuoteSubscriptionData`
+
 ## 76.4.0-beta.1 - 2023-11-02
 * [#1761](https://github.com/stripe/stripe-go/pull/1761) Update generated code for beta
   * Add support for `AttachPaymentIntent` method on resource `Invoice`
