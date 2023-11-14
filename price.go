@@ -131,7 +131,7 @@ type PriceListRecurringParams struct {
 	UsageType *string `form:"usage_type"`
 }
 
-// Returns a list of your prices.
+// Returns a list of your active prices. For the list of inactive prices, set active to false.
 type PriceListParams struct {
 	ListParams `form:"*"`
 	// Only return prices that are active or inactive (e.g., pass `false` to list all inactive prices).
