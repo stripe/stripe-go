@@ -4,6 +4,8 @@ require_relative '../test_helper'
 require_relative './helper'
 
 class SessionsControllerTest < ApplicationIntegrationTest
+  REFERER_INSTANCE_URL = "https://momentum-customization-3160-dev-ed.my.salesforce.com/"
+
   before do
     OmniAuth.config.test_mode = true
   end
@@ -20,16 +22,11 @@ class SessionsControllerTest < ApplicationIntegrationTest
       "uid" => ENV.fetch('STRIPE_ACCOUNT_ID'),
     })
 
-    OmniAuth.config.mock_auth[:stripetestmodev2] = OmniAuth::AuthHash.new({
-      "uid" => ENV.fetch('STRIPE_ACCOUNT_ID'),
-    })
-
-    OmniAuth.config.mock_auth[:stripelivemodev2] = OmniAuth::AuthHash.new({
+    OmniAuth.config.mock_auth[:stripelivemode] = OmniAuth::AuthHash.new({
       "uid" => ENV.fetch('STRIPE_ACCOUNT_ID'),
     })
 
     OmniAuth.config.mock_auth[:salesforce] = get_salesforce_auth_hash(sf_instance_account_id)
-    OmniAuth.config.mock_auth[:salesforcev2] = get_salesforce_auth_hash(sf_instance_account_id)
 
     Rails.application.env_config['omniauth.auth'] = OmniAuth.config.mock_auth[:salesforce]
   end
@@ -56,19 +53,23 @@ class SessionsControllerTest < ApplicationIntegrationTest
 
   describe 'initial login redirect' do
     it 'submits a POST request and persists namespace if a GET method is used to initiate oauth' do
-      get omniauth_path(:salesforce, salesforceNamespace: "c")
+      get omniauth_path(:salesforce, salesforceNamespace: "c"), headers: {'HTTP_REFERER' => REFERER_INSTANCE_URL}
 
       assert_response :success
       assert_post_redirect(omniauth_path(:salesforce))
-      assert_equal("c", session[:salesforce_namespace])
+
+      state = StateEncryptionAlgo::StripeOAuthState.from_encrypted_state(session[:state])
+      assert_equal("c", T.must(state).salesforce_namespace)
     end
 
     it 'submits a POST request with a default namespace if one is not defined' do
-      get omniauth_path(:salesforce)
+      get omniauth_path(:salesforce), headers: {'HTTP_REFERER' => REFERER_INSTANCE_URL}
 
       assert_response :success
       assert_post_redirect(omniauth_path(:salesforce))
-      assert_equal("stripeConnector", session[:salesforce_namespace])
+
+      state = StateEncryptionAlgo::StripeOAuthState.from_encrypted_state(session[:state])
+      assert_equal("stripeConnector", T.must(state).salesforce_namespace)
     end
 
     it 'fails if an invalid namespace is provided' do
@@ -82,10 +83,12 @@ class SessionsControllerTest < ApplicationIntegrationTest
 
   it 'creates a new user when it is authorized with salesforce' do
     user = create_post_install_user
+    state = StateEncryptionAlgo::StripeOAuthState.create
+    StateEncryptionAlgo.apply_defaults(state, {oauth_version: 'v1', user_id: user.id})
 
     mock_omniauth_salesforce(sf_instance_account_id)
 
-    get auth_salesforce_callback_path
+    get auth_salesforce_callback_path, params: {state: state}
 
     assert_response :success
     assert_post_redirect(omniauth_path(:stripetestmode))
@@ -105,10 +108,12 @@ class SessionsControllerTest < ApplicationIntegrationTest
 
   it 'creates a new user when it is authorized with the salesforce v2 endpoint' do
     user = create_post_install_user
+    state = StateEncryptionAlgo::StripeOAuthState.create
+    StateEncryptionAlgo.apply_defaults(state, {oauth_version: 'v2', user_id: user.id})
 
     mock_omniauth_salesforce(sf_instance_account_id)
 
-    get auth_v2_salesforce_callback_path
+    get auth_salesforce_callback_path, params: {state: state}
 
     assert_response :success
     refute_post_redirect(omniauth_path(:stripetestmode))
@@ -128,12 +133,14 @@ class SessionsControllerTest < ApplicationIntegrationTest
 
   it 'caches user as authenticated with salesforce post auth' do
     user = create_post_install_user
+    state = StateEncryptionAlgo::StripeOAuthState.create
+    StateEncryptionAlgo.apply_defaults(state, {oauth_version: 'v1', user_id: user.id})
 
     mock_omniauth_salesforce(sf_instance_account_id)
 
     assert_nil(user.get_cached_connection_status(StripeForce::Constants::Platforms::SALESFORCE))
 
-    get auth_salesforce_callback_path
+    get auth_salesforce_callback_path, params: {state: state}
 
     assert(user.get_cached_connection_status(StripeForce::Constants::Platforms::SALESFORCE))
 
@@ -155,19 +162,20 @@ class SessionsControllerTest < ApplicationIntegrationTest
 
   it 'caches user as authenticated with salesforce v2 post auth' do
     user = create_post_install_user
+    state = StateEncryptionAlgo::StripeOAuthState.create
+    StateEncryptionAlgo.apply_defaults(state, {oauth_version: 'v2', user_id: user.id})
 
     mock_omniauth_salesforce(sf_instance_account_id)
 
     assert_nil(user.get_cached_connection_status(StripeForce::Constants::Platforms::SALESFORCE))
 
-    get auth_v2_salesforce_callback_path
-
-    assert(user.get_cached_connection_status(StripeForce::Constants::Platforms::SALESFORCE))
+    get auth_salesforce_callback_path, params: {state: state}
 
     assert_response :success
     refute_post_redirect(omniauth_path(:stripetestmode))
 
     user = T.must(StripeForce::User[user.id])
+    assert(user.get_cached_connection_status(StripeForce::Constants::Platforms::SALESFORCE))
 
     assert_equal(1, StripeForce::User.count)
 
@@ -182,65 +190,73 @@ class SessionsControllerTest < ApplicationIntegrationTest
 
   it 'caches user as authenticated with stripe post auth' do
     user = create_post_install_user
+    state = StateEncryptionAlgo::StripeOAuthState.create
+    StateEncryptionAlgo.apply_defaults(state, {oauth_version: 'v1', user_id: user.id})
 
     mock_omniauth_salesforce(sf_instance_account_id)
 
     assert_nil(user.get_cached_connection_status(StripeForce::Constants::Platforms::STRIPE))
 
-    get auth_salesforce_callback_path
+    get auth_salesforce_callback_path, params: {state: state}
     assert_response :success
 
-    get auth_stripetestmode_callback_path
+    get auth_stripetestmode_callback_path, params: {state: state}
     assert_response :success
-
+    user = T.must(StripeForce::User[user.id])
     assert(user.get_cached_connection_status(StripeForce::Constants::Platforms::STRIPE))
-
   end
 
   it 'caches user as authenticated with stripe v2 testmode post auth' do
     user = create_post_install_user
+    state = StateEncryptionAlgo::StripeOAuthState.create
+    StateEncryptionAlgo.apply_defaults(state, {oauth_version: 'v2', user_id: user.id})
 
     mock_omniauth_salesforce(sf_instance_account_id)
 
     assert_nil(user.get_cached_connection_status(StripeForce::Constants::Platforms::STRIPE))
 
-    get auth_v2_salesforce_callback_path
+    get auth_salesforce_callback_path, params: {state: state}
     assert_response :success
 
-    get auth_v2_stripetestmode_callback_path
+    get auth_stripetestmode_callback_path, params: {state: state}
     assert_response :success
 
+    user = T.must(StripeForce::User[user.id])
     assert(user.get_cached_stripe_v2_connection_status(false))
   end
 
   it 'caches user as authenticated with stripe v2 livemode post auth' do
     user = create_post_install_user
-
+    state = StateEncryptionAlgo::StripeOAuthState.create
+    StateEncryptionAlgo.apply_defaults(state, {oauth_version: 'v2', user_id: user.id})
     mock_omniauth_salesforce(sf_instance_account_id)
 
     assert_nil(user.get_cached_connection_status(StripeForce::Constants::Platforms::STRIPE))
 
-    get auth_v2_salesforce_callback_path
+    get auth_salesforce_callback_path, params: {state: state}
     assert_response :success
 
-    get auth_v2_stripelivemode_callback_path
+    get auth_stripelivemode_callback_path, params: {state: state}
     assert_response :success
 
+    user = T.must(StripeForce::User[user.id])
     assert(user.get_cached_stripe_v2_connection_status(true))
   end
 
   it 'updates the stripe account id after the stripe account is authenticated' do
     # in order to set the session, which cannot be set via the test suite
-    get omniauth_path(:salesforce, salesforceNamespace: "c")
+    get omniauth_path(:salesforce, salesforceNamespace: "c"), headers: {'HTTP_REFERER' => REFERER_INSTANCE_URL}
 
     user = create_post_install_user
+    state = StateEncryptionAlgo::StripeOAuthState.create
+    StateEncryptionAlgo.apply_defaults(state, {oauth_version: 'v1', user_id: user.id, salesforce_namespace: "c"})
 
     mock_omniauth_salesforce(sf_instance_account_id)
 
-    get auth_salesforce_callback_path
+    get auth_salesforce_callback_path, params: {state: state}
     assert_response :success
 
-    get auth_stripetestmode_callback_path
+    get auth_stripetestmode_callback_path, params: {state: state}
     assert_response :success
 
     assert_equal(1, StripeForce::User.count)
@@ -253,45 +269,49 @@ class SessionsControllerTest < ApplicationIntegrationTest
   end
 
   it 'updates stripe account id with stripe v2 testmode post auth' do
-    get omniauth_path(:salesforcev2, salesforceNamespace: "c")
+    get omniauth_v2_path(:salesforce, salesforceNamespace: "c"), headers: {'HTTP_REFERER' => REFERER_INSTANCE_URL}
 
     user = create_post_install_user
+    state = StateEncryptionAlgo::StripeOAuthState.create
+    StateEncryptionAlgo.apply_defaults(state, {oauth_version: 'v2', user_id: user.id, salesforce_namespace: "c"})
 
     mock_omniauth_salesforce(sf_instance_account_id)
 
     assert_nil(user.get_cached_connection_status(StripeForce::Constants::Platforms::STRIPE))
 
-    get auth_v2_salesforce_callback_path
+    get auth_salesforce_callback_path, params: {state: state}
     assert_response :success
 
-    get auth_v2_stripetestmode_callback_path
+    get auth_stripetestmode_callback_path, params: {state: state}
     assert_response :success
 
     assert_equal(1, StripeForce::User.count)
     user = T.must(StripeForce::User[user.id])
 
-    assert_equal(OmniAuth.config.mock_auth[:stripetestmodev2]["uid"], user.stripe_account_id)
+    assert_equal(OmniAuth.config.mock_auth[:stripetestmode]["uid"], user.stripe_account_id)
   end
 
   it 'updates stripe account id with stripe v2 livemode post auth' do
-    get omniauth_path(:salesforcev2, salesforceNamespace: "c")
+    get omniauth_v2_path(:salesforce, salesforceNamespace: "c"), headers: {'HTTP_REFERER' => REFERER_INSTANCE_URL}
 
     user = create_post_install_user
+    state = StateEncryptionAlgo::StripeOAuthState.create
+    StateEncryptionAlgo.apply_defaults(state, {oauth_version: 'v2', user_id: user.id, salesforce_namespace: "c"})
 
     mock_omniauth_salesforce(sf_instance_account_id)
 
     assert_nil(user.get_cached_connection_status(StripeForce::Constants::Platforms::STRIPE))
 
-    get auth_v2_salesforce_callback_path
+    get auth_salesforce_callback_path, params: {state: state}
     assert_response :success
 
-    get auth_v2_stripetestmode_callback_path
+    get auth_stripelivemode_callback_path, params: {state: state}
     assert_response :success
 
     assert_equal(1, StripeForce::User.count)
     user = T.must(StripeForce::User[user.id])
 
-    assert_equal(OmniAuth.config.mock_auth[:stripelivemodev2]["uid"], user.stripe_account_id)
+    assert_equal(OmniAuth.config.mock_auth[:stripelivemode]["uid"], user.stripe_account_id)
   end
 
   # it 'updates an existing user with stripe oauth information if the account is already authorized with salesforce' do

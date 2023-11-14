@@ -12,63 +12,21 @@
 
 
 # We need to fork the Stripe strategy into two identical ones so we can use different keys
-class OmniAuth::Strategies::StripeTestMode < OmniAuth::Strategies::Stripe
-  extend OmniAuth::Strategy::ClassMethods
-end
-class OmniAuth::Strategies::StripeLiveMode < OmniAuth::Strategies::Stripe
-  extend OmniAuth::Strategy::ClassMethods
-end
+class OmniAuth::Strategies::StripeAbstraction < OmniAuth::Strategies::Stripe
+  # This is so we can feed our state value through the Stripe auth protocol.
+  def authorize_params
+    params = super
 
-class OmniAuth::Strategies::StripeTestModeV2 < OmniAuth::Strategies::Stripe
-  extend OmniAuth::Strategy::ClassMethods
+    params[:state] = session[:state]
+    session["omniauth.state"] = session[:state]
 
-  def request_path
-    '/auth/v2/stripetestmode'
+    params
   end
-
-  def callback_path
-    '/auth/v2/stripetestmode/callback'
-  end
+end
+class OmniAuth::Strategies::StripeTestMode < OmniAuth::Strategies::StripeAbstraction
 
 end
-
-class OmniAuth::Strategies::StripeLiveModeV2 < OmniAuth::Strategies::Stripe
-  extend OmniAuth::Strategy::ClassMethods
-
-  def request_path
-    '/auth/v2/stripelivemode'
-  end
-
-  def callback_path
-    '/auth/v2/stripelivemode/callback'
-  end
-
-end
-
-class OmniAuth::Strategies::SalesforceSandboxV2 < OmniAuth::Strategies::SalesforceSandbox
-  extend OmniAuth::Strategy::ClassMethods
-
-  def request_path
-    '/auth/v2/salesforcesandbox'
-  end
-
-  def callback_path
-    '/auth/v2/salesforcesandbox/callback'
-  end
-
-end
-
-class OmniAuth::Strategies::SalesforceV2 < OmniAuth::Strategies::Salesforce
-  extend OmniAuth::Strategy::ClassMethods
-
-  def request_path
-    '/auth/v2/salesforce'
-  end
-
-  def callback_path
-    '/auth/v2/salesforce/callback'
-  end
-
+class OmniAuth::Strategies::StripeLiveMode < OmniAuth::Strategies::StripeAbstraction
 end
 
 Rails.application.config.middleware.use OmniAuth::Builder do
@@ -83,28 +41,10 @@ Rails.application.config.middleware.use OmniAuth::Builder do
     ENV.fetch("STRIPE_TEST_API_KEY"),
     scope: 'read_write'
 
-  provider OmniAuth::Strategies::StripeLiveModeV2,
-    ENV.fetch("STRIPE_CLIENT_ID"),
-    ENV.fetch("STRIPE_API_KEY"),
-    scope: 'read_write',
-    path_prefix: '/auth/v2/stripelivemode'
-
-  provider OmniAuth::Strategies::StripeTestModeV2,
-    ENV.fetch("STRIPE_TEST_CLIENT_ID"),
-    ENV.fetch("STRIPE_TEST_API_KEY"),
-    scope: 'read_write',
-    path_prefix: '/auth/v2/testmode'
-
-  provider :salesforce, ENV.fetch('SF_CONSUMER_KEY'), ENV.fetch('SF_CONSUMER_SECRET')
-  provider OmniAuth::Strategies::SalesforceV2,
-    ENV['SF_CONSUMER_KEY'],
-    ENV['SF_CONSUMER_SECRET']
-
   # same oauth consumer keys are used for sandbox & prod, but different destination URLs
+  provider :salesforce, ENV.fetch('SF_CONSUMER_KEY'), ENV.fetch('SF_CONSUMER_SECRET')
+
   provider OmniAuth::Strategies::SalesforceSandbox,
-    ENV['SF_CONSUMER_KEY'],
-    ENV['SF_CONSUMER_SECRET']
-  provider OmniAuth::Strategies::SalesforceSandboxV2,
     ENV['SF_CONSUMER_KEY'],
     ENV['SF_CONSUMER_SECRET']
 

@@ -187,6 +187,10 @@ module StripeForce
     end
 
     def check_credentials_stripe
+      if self.stripe_account_id.nil?
+        self.cache_connection_status(StripeForce::Constants::Platforms::STRIPE, false)
+        return false
+      end
       Stripe::Account.retrieve(
         self.stripe_account_id,
         self.stripe_credentials
@@ -216,15 +220,21 @@ module StripeForce
 
     def check_credentials_salesforce
       # just initializing the client is not enough, a call must be attempted
+      return false unless self.salesforce_token
       self.sf_client.user_info
       self.cache_connection_status(StripeForce::Constants::Platforms::SALESFORCE, true)
-    rescue Restforce::UnauthorizedError, Restforce::AuthenticationError
+    rescue Restforce::UnauthorizedError, Restforce::AuthenticationError => err
       log.info "invalid Salesforce credentials"
+      log.info err
       self.cache_connection_status(StripeForce::Constants::Platforms::SALESFORCE, false)
     end
 
     def salesforce_namespace
       self.connector_settings[CONNECTOR_SETTING_SALESFORCE_NAMESPACE]
+    end
+
+    def salesforce_namespace=(value)
+      self.connector_settings[CONNECTOR_SETTING_SALESFORCE_NAMESPACE] = value
     end
 
     def is_multicurrency_org?
@@ -240,6 +250,11 @@ module StripeForce
       end
 
       connector_settings[CONNECTOR_SETTING_SALESFORCE_INSTANCE_TYPE]
+    end
+
+    def salesforce_instance_type=(value)
+      # if a stripe ID is not set, it's possible that they are early on in the setup process
+      connector_settings[CONNECTOR_SETTING_SALESFORCE_INSTANCE_TYPE] = value
     end
 
     def last_polled_timestamp_record(sf_record_class: SF_ORDER)

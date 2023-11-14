@@ -121,7 +121,7 @@ public with sharing class ConfigExportVFController {
 
         try {
             //construct call out to rubys configuration endpoint
-            String route = constants.RUBY_SERVICE_BASE_URI + constants.RUBY_SERVICE_CONFIG_URI;
+            String route = UriTargets.getAuthorizationBaseUri() + '/v1/configuration';
             HttpResponse response =  utilities.makeCallout(route,'GET');
 
             //if the call out is successful pull out all mapping objects and add to list

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Enable_JS_Debug__c</fullName>
+    <defaultValue>false</defaultValue>
+    <externalId>false</externalId>
+    <description>Enables the JavaScript debugger output. Should only ever be disabled in production.</description>
+    <inlineHelpText>Enables the JavaScript debugger output. Should only ever be disabled in production.</inlineHelpText>
+    <label>Enable JavaScript Debugging</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+</CustomField>

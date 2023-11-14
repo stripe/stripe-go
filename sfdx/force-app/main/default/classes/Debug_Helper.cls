@@ -5,6 +5,7 @@
 public with sharing class Debug_Helper {
     // This should always be null going to production.
     // We leave this configurable for developers to expose debug logs during development.
+    @TestVisible
     private Boolean enableDebug = false;
 
     @TestVisible
@@ -18,7 +19,9 @@ public with sharing class Debug_Helper {
     public class DebugHelperException extends Sentry_Exception {}
 
     // empty constructor to use the default above to make it easy to flip for debugging.
-    public Debug_Helper() { }
+    public Debug_Helper() {
+        enableDebug = utilities.isApexDebuggingEnabled();
+    }
 
     public Debug_Helper(Boolean enableDebug) {
         this.enableDebug = enableDebug;
@@ -36,7 +39,21 @@ public with sharing class Debug_Helper {
     }
 
     public void debug(String source, Object data) {
-        debug(source, data.toString());
+        if (data instanceof Exception) {
+            Map<String, Object> exceptionMap = new Map<String, Object>();
+            exceptionMap.put('message', ((Exception)data).getMessage());
+            exceptionMap.put('stackTrace', ((Exception)data).getStackTraceString());
+            exceptionMap.put('cause', ((Exception)data).getCause());
+            exceptionMap.put('lineNumber', ((Exception)data).getLineNumber());
+            exceptionMap.put('type', ((Exception)data).getTypeName());
+            debug(source, exceptionMap);
+            return;
+        }
+        if (data == null) {
+            debug(source, 'null');
+        } else {
+            debug(source, data.toString());
+        }
     }
 
     public void debug(String source, String message) {

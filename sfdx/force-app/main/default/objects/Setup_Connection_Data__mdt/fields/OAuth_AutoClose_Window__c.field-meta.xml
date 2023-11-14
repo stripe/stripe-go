@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>OAuth_AutoClose_Window__c</fullName>
+    <defaultValue>true</defaultValue>
+    <externalId>false</externalId>
+    <description>Disabling this will leave the auth window open for debugging. Should only ever be enabled in production.</description>
+    <inlineHelpText>Disabling this will leave the auth window open for debugging. Should only ever be enabled in production.</inlineHelpText>
+    <label>AutoClose OAuth Window</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+</CustomField>

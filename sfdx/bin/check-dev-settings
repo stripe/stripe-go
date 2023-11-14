@@ -8,19 +8,21 @@ HAS_ERROR=0
 
 echo "🔁 Making sure we don't have any developer settings enabled";
 
-# Check local openapi override
-CHECK_PATH="force-app/main/default/objects/Setup_Connection_Data__mdt/fields/Use_Local_OpenAPI_Spec__c.field-meta.xml"
-CHECK_DEFAULT_VALUE=`grep "defaultValue" $CHECK_PATH | sed "s/.*>\\(.*\\)<.*/\1/"`
-if [ "$CHECK_DEFAULT_VALUE" != "false" ]; then
-  echo "❌ Setup_Connection_Data__mdt.Use_Local_OpenAPI_Spec__c.defaultValue is not false."
-  HAS_ERROR=1
-else
-  echo "👍 Setup_Connection_Data__mdt.Use_Local_OpenAPI_Spec__c.defaultValue is false."
-fi
+# Check local openapi override -- dead
+#CHECK_PATH="force-app/main/default/objects/Setup_Connection_Data__mdt/fields/Use_Local_OpenAPI_Spec__c.field-meta.xml"
+#CHECK_DEFAULT_VALUE=`grep "defaultValue" $CHECK_PATH | sed "s/.*>\\(.*\\)<.*/\1/"`
+#if [ "$CHECK_DEFAULT_VALUE" != "false" ]; then
+#  echo "❌ Setup_Connection_Data__mdt.Use_Local_OpenAPI_Spec__c.defaultValue is not false."
+#  HAS_ERROR=1
+#else
+#  echo "👍 Setup_Connection_Data__mdt.Use_Local_OpenAPI_Spec__c.defaultValue is false."
+#fi
 
 # Check apex debug
 CHECK_PATH="force-app/main/default/classes"
 CHECK_ENABLE_DEBUG=`grep -R enableDebug $CHECK_PATH | grep true`
+
+echo $CHECK_ENABLE_DEBUG
 
 if [ ! -z "$CHECK_ENABLE_DEBUG" ]; then
   echo "❌ Debug_Helper is enabled globally."

@@ -1,4 +1,6 @@
 import { LightningElement, api, track } from 'lwc';
+import { Debugger } from "c/debugger";
+const DebugLog = Debugger.withContext('Toast');
 
 export default class Toast extends LightningElement {
     @track timeout;
@@ -8,6 +10,7 @@ export default class Toast extends LightningElement {
     @track showCloseButton = false;
     @api
     show(message, variant, mode) {
+        DebugLog('show called', { message, variant, mode });
         this.message = message;
         this.variant = variant;
         this.mode = mode;

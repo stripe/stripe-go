@@ -22,16 +22,20 @@ module ControllerHelpers
     end
   end
 
-  sig { params(user: StripeForce::User, raw_namespace: T.nilable(String)).returns(String) }
-  protected def build_postmessage_domain(user, raw_namespace)
-    salesforce_namespace = subdomain_namespace_from_param(raw_namespace)
-    iframe_domain = iframe_domain_from_user(user)
-    "https://#{user.sf_subdomain}--#{salesforce_namespace}.#{iframe_domain}"
+  sig { params(state: StateEncryptionAlgo::StripeOAuthState).returns(String) }
+  protected def build_postmessage_domain_from_state(state)
+    namespace = subdomain_namespace_from_param(state.salesforce_namespace)
+    subdomain = state.salesforce_instance_subdomain
+    iframe_domain = iframe_domain_from_user(state)
+    "https://#{subdomain}--#{namespace}.#{iframe_domain}"
   end
 
-  sig { params(user: StripeForce::User).returns(String) }
-  protected def iframe_domain_from_user(user)
-    if user.scratch_org?
+  sig { params(state: StateEncryptionAlgo::StripeOAuthState).returns(String) }
+  protected def iframe_domain_from_user(state)
+    scratch_org_type = StripeForce::Constants::SFInstanceTypes::SCRATCH_ORG.serialize
+    is_scratch_org = state.salesforce_instance_type == scratch_org_type
+
+    if is_scratch_org
       "scratch.vf.force.com"
     else
       "visualforce.com"

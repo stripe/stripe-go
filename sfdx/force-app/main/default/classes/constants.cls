@@ -29,9 +29,17 @@ public with sharing class constants {
 
     //Stripe Ruby URIS
     public static final String RUBY_SERVICE_BASE_URI = 'https://salesforce.suitesync.io';
+    public static final String RUBY_SERVICE_LOCAL_BASE_URI = 'http://localhost:3100';
     public static final String RUBY_SERVICE_CONFIG_URI = '/v1/configuration';
+    public static final String RUBY_SERVICE_CONNECTION_STATUS_URI = '/v1/connection_statuses';
     public static final String RUBY_SERVICE_TRANSLATE_URI = '/v1/translate';
     public static final String RUBY_SERVICE_TRANSLATE_ALL_URI = '/v1/translate_all';
+    public static final String RUBY_SERVICE_SALESFORCE_PROD_URI = '/auth/v2/salesforce';
+    public static final String RUBY_SERVICE_SALESFORCE_TEST_URI = '/auth/v2/salesforcesandbox';
+    public static final String RUBY_SERVICE_STRIPE_LIVE_URI = '/auth/v2/stripelivemode';
+    public static final String RUBY_SERVICE_STRIPE_TEST_URI = '/auth/v2/stripetestmode';
+    public static final String RUBY_SERVICE_POST_INSTALL_URI = '/v1/post-install';
+    public static final String RUBY_SERVICE_OPENAPI_URI = '/openapi.json';
 
     //Setup Data Record Name
     public static final String SETUP_DATA_RECORD_NAME = 'SetupData';

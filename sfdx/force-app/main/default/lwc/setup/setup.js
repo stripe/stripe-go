@@ -1,5 +1,8 @@
 import { LightningElement, track, api } from 'lwc';
 import { getErrorMessage } from 'c/utils'
+import { Manager, ServiceEvents } from "c/serviceManager";
+import { Debugger } from 'c/debugger';
+const DebugLog = Debugger.withContext('SetupWizard');
 
 import companyLogo from '@salesforce/resourceUrl/companyLogo';
 import checkUserPermissions from '@salesforce/apex/setupAssistant.checkUserPermissions';
@@ -7,12 +10,14 @@ import getSetupData from '@salesforce/apex/setupAssistant.getSetupData';
 import getPackageVersion from '@salesforce/apex/utilities.getPackageVersion';
 import setOrgType from '@salesforce/apex/utilities.setOrgType';
 import saveData from '@salesforce/apex/setupAssistant.saveData';
-import illustrations from '@salesforce/resourceUrl/stripe_setupIllustrations';
+import illustrations from '@salesforce/resourceUrl/illustrations';
 
 export default class FirstTimeSetup extends LightningElement {
     systemConnectionsIllustration = illustrations + '/stripe_illustration_systemConnections.svg';
     dataMappingIllustration = illustrations + '/stripe_illustration_dataMapping.svg';
     syncPreferencesIllustration = illustrations + '/stripe_illustration_syncPreferences.svg';
+    integrationUserIllustration = illustrations + '/stripe_setup_authorizeWebhooks.svg';
+
     formattedPackageVersion = '';
     @track contentShown = false;
     @track logoUrl = companyLogo;
@@ -31,17 +36,25 @@ export default class FirstTimeSetup extends LightningElement {
     @track stepName;
     @track steps = [
         {
-            title: 'Connect Stripe and Salesforce',
-            name: 'C-SYSTEM-CONNECTIONS-STEP',
+            title: 'Connect Your Stripe Account',
+            name: 'C-STRIPE_ACCOUNT_SETUP-STEP',
             orderIndex: 1,
             isComplete: false,
             isActive: false,
-            component: 'c-system-connections-step',
+            component: 'c-stripe-account-setup-step',
+        },
+        {
+            title: 'Connect the Integration User',
+            name: 'C-INTEGRATION-USER-SETUP-STEP',
+            orderIndex: 2,
+            isComplete: false,
+            isActive: false,
+            component: 'c-integration-user-setup-step',
         },
         {
             title: 'Define Data Mapping',
             name: 'C-DATA-MAPPING-STEP',
-            orderIndex: 2,
+            orderIndex: 3,
             isComplete: false,
             isActive: false,
             component: 'c-data-mapping-step',
@@ -49,7 +62,7 @@ export default class FirstTimeSetup extends LightningElement {
         {
             title: 'Manage Integration',
             name: 'C-SYNC-PREFERENCES-STEP',
-            orderIndex: 3,
+            orderIndex: 4,
             isComplete: false,
             isActive: false,
             component: 'c-sync-preferences-step',
@@ -57,7 +70,7 @@ export default class FirstTimeSetup extends LightningElement {
         {
             title: 'Activate Syncing',
             name: 'C-POLLING-STEP',
-            orderIndex: 4,
+            orderIndex: 5,
             isComplete: false,
             isActive: false,
             component: 'c-polling-step',
@@ -65,7 +78,7 @@ export default class FirstTimeSetup extends LightningElement {
         {
             title: 'Update Salesforce Pages',
             name: 'C-ORG-SETTINGS-STEP',
-            orderIndex: 5,
+            orderIndex: 6,
             isComplete: false,
             isActive: false,
             component: 'c-org-settings-step',
@@ -73,17 +86,19 @@ export default class FirstTimeSetup extends LightningElement {
     ];
 
     setupStepRefs = {
-        systemConnections: 0,
-        dataMapping: 1,
-        syncPreferences: 2,
-        polling: 3,
-        orgSettings: 4,
+        stripeAccount: 0,
+        integrationUser: 1,
+        dataMapping: 2,
+        syncPreferences: 3,
+        polling: 4,
+        orgSettings: 5,
     };
 
     generalStepRefs = {
-        systemConnections: 0,
-        dataMapping: 1,
-        syncPreferences: 2,
+        stripeAccount: 0,
+        integrationUser: 1,
+        dataMapping: 2,
+        syncPreferences: 3,
     };
 
     @track missingPermissions = {};
@@ -167,14 +182,40 @@ export default class FirstTimeSetup extends LightningElement {
         }
     }
 
-    getmappingconfigurations() {
-        this.template.querySelector('c-data-mapping-step').getPicklistValuesForMapper(true, '');
-        this.template.querySelector('c-sync-preferences-step').connectedCallback();
-        this.template.querySelector('c-polling-step').connectedCallback();
-        this.nextDisabled = false;
+    completeStep(event) {
+        DebugLog('stepComplete', event.detail.step);
+        DebugLog('activeStep', this.activeStepIndex);
+        this.steps[this.activeStepIndex].isComplete = true;
+        if (event.detail.step === 'integration_user_connection' && this.activeStepIndex === this.setupStepRefs.integrationUser) {
+            this.nextDisabled = this.steps[this.setupStepRefs.integrationUser].isComplete === false;
+        }
+        if (event.detail.step === 'stripe_account_connection' && this.activeStepIndex === this.setupStepRefs.stripeAccount) {
+            this.nextDisabled = this.steps[this.setupStepRefs.stripeAccount].isComplete === false;
+        }
+    }
+
+    systemsConnected(event) {
+        DebugLog('systemsConnected', event.detail);
+        if (event.detail.isConnected && this.setupComplete === false && event.detail.isFirstRun === false) {
+            DebugLog('Refreshing data dependent items.');
+            this.template.querySelector('c-data-mapping-step').getPicklistValuesForMapper(true, '');
+            this.template.querySelector('c-sync-preferences-step').connectedCallback();
+            this.template.querySelector('c-polling-step').connectedCallback();
+            this.nextDisabled = false;
+        }
+    }
+
+    disconnectedCallback() {
+        if (this.boundSystemsConnected) {
+            Manager.off(ServiceEvents.core_functionality_established, this.boundSystemsConnected);
+        }
     }
 
     async connectedCallback() {
+        if (this.boundSystemsConnected === undefined) {
+            this.boundSystemsConnected = this.systemsConnected.bind(this);
+            Manager.on(ServiceEvents.core_functionality_established, this.boundSystemsConnected);
+        }
         try {
             const userPermissionCheck = await checkUserPermissions();
             const userPermissionResponseData = JSON.parse(userPermissionCheck);
@@ -223,11 +264,15 @@ export default class FirstTimeSetup extends LightningElement {
     }
 
     async fetchSetupData() {
+        DebugLog('fetchSetupData', 'Fetching setup data');
         this.steps[this.activeStepIndex].isActive = true;
         try {
             const setupData = await getSetupData();
             const responseData = JSON.parse(setupData);
+            DebugLog('fetchSetupData', 'Setup data response', responseData);
+
             if (responseData.error) {
+                DebugLog('fetchSetupData', 'Error fetching setup data', responseData.error);
                 this.showSetupToast(responseData.error, 'error', 'sticky');
                 return;
             }
@@ -238,35 +283,37 @@ export default class FirstTimeSetup extends LightningElement {
             }
 
             let completedSteps = JSON.parse(responseData.results.setupData.Steps_Completed__c);
-            if (!responseData.results.isConnected && Object.keys(completedSteps).length > 0) {
-                //setting info step to complete and landing user on auth step
-                this.setupStarted = true;
-                this.steps[this.activeStepIndex].isComplete = true;
-                this.steps[this.activeStepIndex].isActive = false;
-                this.activeStepIndex = this.setupStepRefs.systemConnections;
-                this.steps[this.activeStepIndex].isActive = true;
-                return;
-            }
+            DebugLog('fetchSetupData', 'Completed steps', completedSteps);
 
             if (!responseData.results.isConnected && Object.keys(completedSteps).length <= 0) {
+                DebugLog('fetchSetupData', 'Not connected, no completed steps');
+                // also in what scenario is length less than 0?
                 return;
             }
 
             this.nextDisabled = false;
             this.setupStarted = true;
-            this.steps[this.activeStepIndex].isComplete = true;
             this.steps[this.activeStepIndex].isActive = false;
 
+
+            // this seems bad... but so much of this is bad... so... whatever? lol. It works.
             for (const step in completedSteps) {
+                DebugLog('fetchSetupData', 'Processing step', step);
                 this.steps[this.activeStepIndex].isComplete = true;
 
                 if (this.activeStepIndex < this.steps.length - 1) {
-                    this.showNextStep();
+                    this.activeStepIndex++;
                 }
             }
+            this.steps[this.activeStepIndex].isActive = true;
+            if (this.activeStepIndex < 2) {
+                this.nextDisabled = true;
+            }
 
+            DebugLog('fetchSetupData', 'Final state', { activeStepIndex: this.activeStepIndex, steps: this.steps });
         } catch (error) {
             let errorMessage = getErrorMessage(error);
+            DebugLog('fetchSetupData', 'Error fetching setup data', { errorMessage, error });
             this.showSetupToast(errorMessage, 'error', 'sticky');
         }
     }
@@ -281,10 +328,10 @@ export default class FirstTimeSetup extends LightningElement {
     }
 
     next(e) {
-        console.log('got next', e);
+        DebugLog('got next', e);
         this.contentLoading = true;
         this.stepName = this.steps[this.activeStepIndex].name;
-        console.log('processing step', this.stepName);
+        DebugLog('processing step', this.stepName);
         if(this.stepName === 'C-DATA-MAPPING-STEP') {
             return this.template.querySelector('c-data-mapping-step').saveDataMappings();
         } else if(this.stepName === 'C-SYNC-PREFERENCES-STEP') {
@@ -349,9 +396,12 @@ export default class FirstTimeSetup extends LightningElement {
             const newActiveStep = this.template.querySelector('c-step[data-index="' + this.activeStepIndex + '"]');
             if(lastActiveStep && newActiveStep) {
                 this.steps[lastActiveStep.dataset.index].isActive = false;
-                this.steps[lastActiveStep.dataset.index].isComplete = false;
+                // this.steps[lastActiveStep.dataset.index].isComplete = false;
                 this.steps[newActiveStep.dataset.index].isActive = true;
-                this.steps[newActiveStep.dataset.index].isComplete = false;
+                // this.steps[newActiveStep.dataset.index].isComplete = false;
+                if (newActiveStep.dataset.index < 2) {
+                    this.nextDisabled = false;
+                }
                 lastActiveStep.classList.add('slds-hide');
                 newActiveStep.classList.remove('slds-hide');
             }
@@ -433,9 +483,20 @@ export default class FirstTimeSetup extends LightningElement {
         this.activeStepIndex++;
         const newActiveStep = this.template.querySelector('c-step[data-index="' + this.activeStepIndex + '"]');
         if (lastActiveStep && newActiveStep) {
-            this.steps[lastActiveStep.dataset.index].isActive = false;
-            this.steps[lastActiveStep.dataset.index].isComplete = true;
-            this.steps[newActiveStep.dataset.index].isActive = true;
+            DebugLog('showNextStep', 'moving to next step');
+            const lastActiveStepIndex = parseInt(lastActiveStep.dataset.index, 10);
+            const newActiveStepIndex = parseInt(newActiveStep.dataset.index, 10);
+            const lastStepObj = this.steps[lastActiveStepIndex];
+            const nextStepObj = this.steps[newActiveStepIndex];
+            DebugLog('showNextStep', 'last', lastStepObj);
+            DebugLog('showNextStep', 'next', nextStepObj);
+            lastStepObj.isActive = false;
+            lastStepObj.isComplete = true;
+            nextStepObj.isActive = true;
+
+            if (newActiveStepIndex < 2) {
+                this.nextDisabled = nextStepObj.isComplete === false;
+            }
             lastActiveStep.classList.add('slds-hide');
             newActiveStep.classList.remove('slds-hide');
         }

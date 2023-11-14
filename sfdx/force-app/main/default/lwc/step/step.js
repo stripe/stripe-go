@@ -2,6 +2,7 @@ import { LightningElement, api, track, wire } from 'lwc';
 import getExportableConfigDownloadUrl from '@salesforce/apex/setupAssistant.getExportableConfigDownloadUrl';
 import LightningConfirm from 'lightning/confirm';
 import LightningAlert from "lightning/alert";
+import { Debugger } from 'c/debugger';
 
 export default class SetupStep extends LightningElement {
     @api stepName = '';
@@ -67,7 +68,7 @@ export default class SetupStep extends LightningElement {
     }
 
     next() {
-        console.log('sending next event');
+        Debugger.log('sending next event');
         this.dispatchEvent(new CustomEvent('next', {
             bubbles: true,
             composed: true

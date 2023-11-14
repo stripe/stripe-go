@@ -1,4 +1,8 @@
 public with sharing class utilities {
+    // generate with: System.debug(EncodingUtil.to(Crypto.generateAesKey(256)));
+    private static String stateEncryptionKey = '98ae2216688a8b879c25f17ed793bfa7bb11201ddda97ad01b2d282a06aa191a';
+    private static String stateSigningKey = '98ae2216688a8b879c25f17ed793bfa7bb11201ddda97ad01b2d282a06aa191a';
+
     @TestVisible
     static ConfigPayloadHelper configPayloadHelper = new ConfigPayloadHelper();
 
@@ -6,18 +10,33 @@ public with sharing class utilities {
     static Debug_Helper debugger = new Debug_Helper();
 
     public class SetupIsNotCompleteException extends Exception {}
+    public class HttpCalloutFailedException extends Exception {}
 
-    // used a method to prepare for an eventual future where the base uri is configurable.
-    public static String getPlatformConfigEndpoint() {
-        return constants.RUBY_SERVICE_BASE_URI + constants.RUBY_SERVICE_CONFIG_URI;
-    }
+    public static Map<String, Object> requestPlatformConfig() {
+        // make callout to ruby services configuration endpoint to see if the org is connected to Stripe and Salesforce
+        String route = UriTargets.getConfigEndpoint();
+        HttpResponse response = utilities.makeCallout(route, 'GET');
 
-    public static String getPlatformTranslateEndpoint() {
-        return constants.RUBY_SERVICE_BASE_URI + constants.RUBY_SERVICE_TRANSLATE_URI;
-    }
+        /*
+        if we do not get a 200 status code back we create an Error Log record to show we did not get a success
+        response from the ruby service and send a status of failed to signify to show an error toast
+        */
+        if(response.getStatusCode() != 200) {
+            Sentry_Exception e = (Sentry_Exception) Sentry_ExceptionFactory.build(HttpCalloutFailedException.class);
+            e.setMessage('Failed to get configuration from Ruby service.');
+            e.context.put('route', route);
+            e.context.put('response', response.getBody());
+            e.context.put('response_status', response.getStatus());
+            e.context.put('response_status_code', response.getStatusCode());
+            errorLogger.create('requestPlatformConfig', e);
+            return null;
+        }
 
-    public static String getPlatformTranslateAllEndpoint() {
-        return constants.RUBY_SERVICE_BASE_URI + constants.RUBY_SERVICE_TRANSLATE_ALL_URI;
+        /*
+        if we get a 200 response code from the ruby service we will check the connection status object
+        in the payload to determine weather the user successfully connected to stripe or not
+        */
+        return (Map<String,Object>)JSON.deserializeUntyped(response.getBody());
     }
 
     public static Boolean isPackagedEnvironment() {
@@ -227,6 +246,64 @@ public with sharing class utilities {
         return rd.getJsonString();
     }
 
+    public static String getStripeConnectionKey() {
+        if (setupConfigMetadata != null && setupConfigMetadata.isEmpty() == false) {
+            return setupConfigMetadata[0].Global_Key__c;
+        }
+
+        Sentry_Log.logSentry('missing metadata record with global key');
+        throw new SetupIsNotCompleteException('Org is not setup correctly, missing custom metadata record with global key');
+    }
+
+    public static Blob getOAuthStateSigningKey() {
+        if (setupConfigMetadata != null && setupConfigMetadata.isEmpty() == false) {
+            String encKey = setupConfigMetadata[0].OAuth_State_Signing_Key__c;
+            if (String.isBlank(encKey) || encKey == null) {
+                encKey = stateSigningKey;
+            }
+            debugger.debug('utilities.getOAuthStateSigningKey', 'encKey: ' + encKey);
+            return EncodingUtil.convertFromHex(encKey);
+        }
+
+        return null;
+    }
+
+    public static Boolean isDeveloperModeEnabled() {
+        if (setupConfigMetadata != null && setupConfigMetadata.isEmpty() == false) {
+            return setupConfigMetadata[0].Enable_JS_Debug__c || setupConfigMetadata[0].Enable_Apex_Debug__c || setupConfigMetadata[0].Local_Authorization_Target__c;
+        }
+
+        return false;
+    }
+
+    public static Boolean isApexDebuggingEnabled() {
+        if (setupConfigMetadata != null && setupConfigMetadata.isEmpty() == false) {
+            return setupConfigMetadata[0].Enable_Apex_Debug__c;
+        }
+
+        return false;
+    }
+
+    public static Boolean isJSDebuggingEnabled() {
+        if (setupConfigMetadata != null && setupConfigMetadata.isEmpty() == false) {
+            return setupConfigMetadata[0].Enable_JS_Debug__c;
+        }
+
+        return false;
+    }
+
+    public static Boolean isOAuthAutoCloseEnabled() {
+        if (setupConfigMetadata != null && setupConfigMetadata.isEmpty() == false) {
+            return setupConfigMetadata[0].OAuth_AutoClose_Window__c;
+        }
+
+        return false;
+    }
+
+    public static Stripe_Connection__c getStripeConnection() {
+        return Stripe_Connection__c.getOrgDefaults();
+    }
+
     public static Setup_Connection_Data__mdt getConnectionData() {
         if (setupConfigMetadata != null && setupConfigMetadata.isEmpty() == false) {
             return setupConfigMetadata[0];
@@ -235,7 +312,7 @@ public with sharing class utilities {
         return new Setup_Connection_Data__mdt();
     }
 
-    public static List<Setup_Connection_Data__mdt> getStripeConnectionKey() {
+    public static List<Setup_Connection_Data__mdt> getStripeConnectionData() {
         return setupConfigMetadata;
     }
 
@@ -250,16 +327,18 @@ public with sharing class utilities {
         }
 
         Setup_Connection_Data__mdt setupData = setupConfigList[0];
+        String authorization = 'Bearer ' + StripeOAuthState.create().toString();
 
         Map<String,String> headers = new Map<String,String> {
-            'Salesforce-Key' => (String)setupData.Global_Key__c
+            'Salesforce-Key' => (String)setupData.Global_Key__c,
+            'Authorization' => authorization
         };
 
         // generate unique key for this organization used to authenticate against the integration service
-        Blob blb = Crypto.GenerateAESKey(128);
-        String packageKey  = EncodingUtil.ConvertTohex(blb);
+        Blob blb = Crypto.generateAesKey(128);
+        String packageKey  = EncodingUtil.convertToHex(blb);
 
-        String route = constants.RUBY_SERVICE_BASE_URI + '/v1/post-install';
+        String route = UriTargets.getPostInstallEndpoint();
 
         Map<String, Object> body = new Map<String, Object> {
             'key' => packageKey
@@ -283,6 +362,10 @@ public with sharing class utilities {
         return makeCallout(endPoint, method, null, null);
     }
 
+    public static HttpResponse makeCallout(String endPoint, String method, Integer timeoutLength){
+        return makeCallout(endPoint, method, null, null, timeoutLength);
+    }
+
     public static HttpResponse makeCallout(String endPoint, String method, String body){
         return makeCallout(endPoint, method, body, null);
     }
@@ -292,12 +375,25 @@ public with sharing class utilities {
     }
 
     public static HttpResponse makeCallout(String endPoint, String method, String body, Map<String, String> headers) {
-        debugger.debug('utilities.makeCallout', 'endpoint: ' + endPoint);
-        debugger.debug('utilities.makeCallout', 'method: ' + method);
-        debugger.debug('utilities.makeCallout', 'body: ' + body);
-        debugger.debug('utilities.makeCallout', 'headers: ' + headers);
+        return makeCallout(endPoint, method, body, headers, 5000);
+    }
 
+    public static HttpResponse makeCallout(String endPoint, String method, String body, Map<String, String> headers, Integer timeoutLength){
         Http httpMethod = new Http();
+        HttpRequest request = buildRequest(endPoint, method, body, headers, timeoutLength);
+        debugger.debug('utilities.makeCallout', 'Calling endpoint');
+        HttpResponse response = httpMethod.send(request);
+        return response;
+    }
+    public static HttpRequest buildRequest(String endPoint, String method, Integer timeoutLength) {
+        return buildRequest(endPoint, method, null, null, timeoutLength);
+    }
+    public static HttpRequest buildRequest(String endPoint, String method, String body, Map<String, String> headers, Integer timeoutLength){
+        debugger.debug('utilities.buildRequest', 'endpoint: ' + endPoint);
+        debugger.debug('utilities.buildRequest', 'method: ' + method);
+        debugger.debug('utilities.buildRequest', 'body: ' + body);
+        debugger.debug('utilities.buildRequest', 'headers: ' + headers);
+
         HttpRequest request = new HttpRequest();
 
         // 5s timeout in case the ruby server is backed up
@@ -306,12 +402,12 @@ public with sharing class utilities {
         request.setMethod(method);
         request.setTimeout(requestTimeoutLength);
 
-        if(body != null) {
+        if (body != null) {
             //these headers are required for the API to respond properly
             request.setHeader('Content-Type', 'application/json');
             request.setHeader('Accept', 'application/json');
             request.setBody(body);
-            debugger.debug('utilities.makeCallout', 'Set body with default body headers');
+            debugger.debug('utilities.buildRequest', 'Set body with default body headers');
         }
 
         /* these standard headers will be add to the request if none are provided
@@ -321,31 +417,29 @@ public with sharing class utilities {
         request.setHeader('Salesforce-Package-Namespace', constants.NAMESPACE);
 
         // TODO this does not seem to be coming over properly
-        if(utilities.isPackagedEnvironment()) {
+        if (utilities.isPackagedEnvironment()) {
             request.setHeader('Salesforce-Package-Id', (String)getPackageVersionString());
         } else {
             // For non-package environments, lets just set it as version 0
             request.setHeader('Salesforce-Package-Id', '0.0.0.0');
         }
 
-        debugger.debug('utilities.makeCallout', 'Set default headers');
+        debugger.debug('utilities.buildRequest', 'Set default headers');
 
         /*
          this only happens in the case the key is passed in after generating
          the package level api key, otherwise we will use the organization-specific api key
          */
-        if(headers != null) {
-            debugger.debug('utilities.makeCallout', 'Set custom headers');
+        if (headers != null) {
+            debugger.debug('utilities.buildRequest', 'Set custom headers');
             request.setHeader('Salesforce-Key', headers.get('Salesforce-Key'));
-            debugger.debug('utilities.makeCallout', 'Calling endpoint');
-            HttpResponse response = httpMethod.send(request);
-            return response;
+            return request;
         }
 
         Stripe_Connection__c stripeConnectRec = Stripe_Connection__c.getOrgDefaults();
 
         if (stripeConnectRec.Id == null || stripeConnectRec.API_Key__c == null) {
-            debugger.debug('utilities.makeCallout', 'Missing Stripe_Connection__c.Id or API_Key__c');
+            debugger.debug('utilities.buildRequest', 'Missing Stripe_Connection__c.Id or API_Key__c');
             /*
             This error should only be thrown in a scratch org when unmangaed key is deployed to
             an org and the custom metadata record containing the global key was not created
@@ -354,11 +448,10 @@ public with sharing class utilities {
             throw new SetupIsNotCompleteException('Connector is not setup correctly, missing metadata.');
         }
 
-        debugger.debug('utilities.makeCallout', 'Setting default API key header');
+        debugger.debug('utilities.buildRequest', 'Setting default API key header');
         request.setHeader('Salesforce-Key', (String)stripeConnectRec.API_Key__c);
-        debugger.debug('utilities.makeCallout', 'Calling endpoint');
-        HttpResponse response = httpMethod.send(request);
-        return response;
+//        request.setHeader('Authorization', 'Bearer ' + StripeOAuthState.create().toString());
+        return request;
     }
 
     public static responseData validateCalloutResponse(HttpResponse response, String actionTaken) {
@@ -447,14 +540,15 @@ public with sharing class utilities {
     }
 
     //Creates a test metadata record in test context
-    @testVisible static List<Setup_Connection_Data__mdt> setupConfigMetadata {
+    @TestVisible static List<Setup_Connection_Data__mdt> setupConfigMetadata {
         get {
             if (setupConfigMetadata == null) {
-                setupConfigMetadata = [SELECT Global_Key__c, Use_Local_OpenAPI_Spec__c
+                setupConfigMetadata = [SELECT Global_Key__c,
+                                                Local_Authorization_Target__c, Enable_Apex_Debug__c, OAuth_AutoClose_Window__c,
+                                                Enable_JS_Debug__c, Platform_Target__c, OAuth_State_Signing_Key__c
                                         FROM Setup_Connection_Data__mdt
                                         LIMIT 1];
             }
             return setupConfigMetadata;
         } set; }
-
 }

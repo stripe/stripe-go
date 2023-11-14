@@ -1,59 +1,39 @@
 <template>
     <div class="slds-p-horizontal_large slds-p-vertical_xx-large slds-container slds-container_center slds-container_medium">
-        <!-- Salesforce Connection -->
-        <template if:true={salesforceComplete}>
-            <div class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_success" role="alert">
-                <span class="slds-assistive-text">success</span>
-                <span>
-                    <lightning-icon class="slds-m-right_x-small" icon-name="utility:success" size="small" variant="inverse" alternative-text="success" title="success"></lightning-icon>
-                </span>
-                <h2>
-                    Salesforce: Connected
-                </h2>
-            </div>
-        </template>
-        <template if:false={salesforceComplete}>
-            <div class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_offline" role="alert">
-                <span class="slds-assistive-text">offline</span>
-                <span>
-                    <lightning-icon class="slds-m-right_x-small" icon-name="utility:offline" size="small" variant="inverse" alternative-text="offline" title="offline"></lightning-icon>
-                </span>
-                <h2>
-                    Salesforce: Not Connected
-                </h2>
-            </div>
-        </template>
-        <!-- /Salesforce Connection -->
-        <!-- Stripe Connection -->
-        <template if:true={stripeComplete}>
-            <div class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_success" role="alert">
-                <span class="slds-assistive-text">success</span>
-                <span>
-                    <lightning-icon class="slds-m-right_x-small" icon-name="utility:success" size="small" variant="inverse" alternative-text="success" title="success"></lightning-icon>
-                </span>
-                <h2>
-                    Stripe: Connected
-                </h2>
-            </div>
-        </template>
-        <template if:false={stripeComplete}>
-            <div class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_offline" role="alert">
-                <span class="slds-assistive-text">offline</span>
-                <span>
-                    <lightning-icon class="slds-m-right_x-small" icon-name="utility:offline" size="small" variant="inverse" alternative-text="offline" title="offline"></lightning-icon>
-                </span>
-                <h2>
-                    Stripe: Not Connected
-                </h2>
-            </div>
-        </template>
-        <!-- /Stripe Connection -->
-        <!-- Primary Action -->
-        <template if:false={hideAction}>
-            <div class="stripe-primary-action slds-text-align_center">
-                <lightning-button label={actionLabel} variant="brand" onclick={connectToStripe}></lightning-button>
-            </div>
-        </template>
-        <!-- /Primary Action -->
+        <div class="item-wrapper">
+            <!-- Salesforce Connection -->
+            <c-system-connections-step-item
+                    system="Salesforce"
+                    status={salesforceStatus}
+                    onconnect={connectToSalesforce}
+            >
+            </c-system-connections-step-item>
+            <!-- /Salesforce Connection -->
+        </div>
+        <div class="item-wrapper">
+            <!-- Stripe Connection -->
+            <c-system-connections-step-item
+                    system="Stripe"
+                    status={stripeStatus}
+                    onconnect={connectToStripe}
+            >
+            </c-system-connections-step-item>
+            <!-- /Stripe Connection -->
+        </div>
     </div>
+
+    <!-- Stripe Mode Modal -->
+    <c-modal class="stripe-modal-connect-stripe-account" title="Connect Stripe Account">
+        <div class="slds-is-relative">
+            <lightning-spinner if:true={modalLoading} alternative-text="Loading..."></lightning-spinner>
+            <p class="slds-text-align_center">
+                Would you like to connect your Stripe account in test mode or live mode?
+            </p>
+        </div>
+        <lightning-button slot="footer" label="Cancel" variant="neutral" onclick={hideConnectToStripeModal} class="slds-button" disabled={modalLoading}></lightning-button>
+        <lightning-button slot="footer" label="Live Mode" variant="success" onclick={connectToStripeLiveMode} class="slds-button" disabled={modalLoading}></lightning-button>
+        <lightning-button slot="footer" label="Test Mode" variant="success" onclick={connectToStripeTestMode} class="slds-button" disabled={modalLoading}></lightning-button>
+    </c-modal>
+    <!-- /Unauthorize Confirmation Modal -->
+
 </template>

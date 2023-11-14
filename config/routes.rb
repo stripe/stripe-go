@@ -10,16 +10,12 @@ Rails.application.routes.draw do
   default_url_options protocol: :https
 
   root to: 'sessions#root_action'
-  get '/auth/:oauth_type', to: 'sessions#login_entrypoint', as: :omniauth
+  get '/auth/:oauth_type', to: 'sessions#auth_entrypoint', as: :omniauth
+  get '/auth/v2/:oauth_type', to: 'sessions#auth_v2_entrypoint', as: :omniauth_v2
   get '/auth/salesforce/callback', to: 'sessions#salesforce_callback'
   get '/auth/salesforcesandbox/callback', to: 'sessions#salesforce_callback'
   get '/auth/stripelivemode/callback', to: 'sessions#stripe_callback'
   get '/auth/stripetestmode/callback', to: 'sessions#stripe_callback'
-
-  get '/auth/v2/salesforcesandbox/callback', to: 'sessions#salesforce_callback_v2'
-  get '/auth/v2/salesforce/callback', to: 'sessions#salesforce_callback_v2'
-  get '/auth/v2/stripelivemode/callback', to: 'sessions#stripe_callback_v2_livemode'
-  get '/auth/v2/stripetestmode/callback', to: 'sessions#stripe_callback_v2_testmode'
 
   post '/stripe-webhooks' => 'stripe_webhook#stripe_webhook'
 

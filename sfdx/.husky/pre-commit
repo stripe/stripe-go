@@ -1,0 +1,9 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+cd "$(dirname "$0")"/.. || exit 1
+cd ../ || exit 1
+echo "Running ruby checks"
+bin/pre-commit.sh || exit 1
+cd sfdx || exit 1
+echo "Running sfdx checks"
+bin/pre-commit.sh || exit 1

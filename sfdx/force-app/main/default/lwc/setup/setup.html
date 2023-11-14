@@ -290,12 +290,15 @@
                                         </div>
                                         <ul class="stripe-navigation">
                                             <li class="stripe-navigation-item" data-index="0" data-section-name="orgSettings" onclick={sectionNavigate}>
-                                                <span>System Connections</span>
+                                                <span>Stripe Account</span>
                                             </li>
-                                            <li class="stripe-navigation-item" data-index="1" data-section-name="dataMapping" onclick={sectionNavigate}>
+                                            <li class="stripe-navigation-item" data-index="1" data-section-name="integrationUser" onclick={sectionNavigate}>
+                                                <span>Integration User</span>
+                                            </li>
+                                            <li class="stripe-navigation-item" data-index="2" data-section-name="dataMapping" onclick={sectionNavigate}>
                                                 <span>Data Mapping</span>
                                             </li>
-                                            <li class="stripe-navigation-item" data-index="2" data-section-name="syncPreferences" onclick={sectionNavigate}>
+                                            <li class="stripe-navigation-item" data-index="3" data-section-name="syncPreferences" onclick={sectionNavigate}>
                                                 <span>Manage Integration</span>
                                             </li>
                                         </ul>
@@ -308,7 +311,8 @@
                             <div class="slds-col">
                                 <!-- First Time Setup Steps -->
                                 <template if:false={setupComplete}>
-                                    <c-step step-name="Connect Stripe and Salesforce" data-index="0" setup-complete={setupComplete} onnext={next} onback={back} class="slds-hide" next-disabled={nextDisabled} loading={contentLoading} illustration-url={systemConnectionsIllustration} show-intro back-disabled>
+
+                                    <c-step step-name="Connect Your Stripe Account" data-index="0" setup-complete={setupComplete} onnext={next} onback={back} class="slds-hide" next-disabled={nextDisabled} loading={contentLoading} illustration-url={systemConnectionsIllustration} show-intro back-disabled>
                                         <p slot="description">
                                             Allow your Salesforce org and Stripe to communicate. This step will collect the required information to allow your Salesforce org and Stripe to communicate. First, you will be granting Stripe the necessary access to your Salesforce org. Second, you will be asked to log into Stripe to allow Salesforce to access your Stripe instance. Click "Authorize" and follow the provided steps to establish these connections.
                                         </p>
@@ -318,12 +322,30 @@
                                             agree that linking your accounts will allow Stripe to regularly receive, store, and use your Salesforce
                                             Org data (and share your Stripe data with Salesforce). You can unlink your accounts at any time.
                                         </p>
-                                        <c-system-connections-step
-                                            ongetmappingconfigurations={getmappingconfigurations}
-                                            onshowtoast={showToast}>
-                                        </c-system-connections-step>
+                                        <c-stripe-account-setup-step
+                                                is-setup
+                                                onstepcomplete={completeStep}
+                                                onshowtoast={showToast}>
+                                        </c-stripe-account-setup-step>
                                     </c-step>
-                                    <c-step step-name="Define Data Mapping" data-index="1" setup-complete={setupComplete} onnext={next} onback={back} class="slds-hide" loading={contentLoading} illustration-url={dataMappingIllustration} show-intro>
+                                    <c-step step-name="Connect the Integration User" data-index="1" setup-complete={setupComplete} onnext={next} onback={back} class="slds-hide" next-disabled={nextDisabled} loading={contentLoading} illustration-url={integrationUserIllustration} show-intro>
+                                        <p slot="description">
+                                            Allow Stripe to communicate with Salesforce. You will be granting Stripe the necessary access to your Salesforce org. Click "Authorize" and follow the provided steps to establish the connection between Stripe and your Salesforce Org.
+                                        </p>
+                                        <p slot="intro-description">
+                                            This step will grant Stripe the necessary access to your Salesforce org in order to read your order data.
+                                            <br> <br> You understand &
+                                            agree that linking your Salesforce Org will allow Stripe to regularly retrieve, store, and use your Salesforce
+                                            Org data (and share your Stripe data with Salesforce). You can unlink your account at any time.
+                                        </p>
+
+                                        <c-integration-user-setup-step
+                                                is-setup
+                                                onstepcomplete={completeStep}
+                                                onshowtoast={showToast}>
+                                        </c-integration-user-setup-step>
+                                    </c-step>
+                                    <c-step step-name="Define Data Mapping" data-index="2" setup-complete={setupComplete} onnext={next} onback={back} class="slds-hide" loading={contentLoading} illustration-url={dataMappingIllustration} show-intro>
                                         <p slot="description">
                                             Determine how Stripe data is mapped to your Salesforce org. A set of default field mappings have been provided for each Stripe object. These default values can be overwritten to better represent the structure of your Salesforce org. Field mappings can either be a Salesforce field, which reads Salesforce data on a per-record basis, or a static value, which will apply the same value to all records.
                                         </p>
@@ -340,7 +362,7 @@
                                             onshowtoast={showToast}>
                                         </c-data-mapping-step>
                                     </c-step>
-                                    <c-step step-name="Manage Integration" data-index="2" setup-complete={setupComplete} onnext={next} onback={back} next-label="Next" class="slds-hide" loading={contentLoading} illustration-url={syncPreferencesIllustration} show-intro>
+                                    <c-step step-name="Manage Integration" data-index="3" setup-complete={setupComplete} onnext={next} onback={back} next-label="Next" class="slds-hide" loading={contentLoading} illustration-url={syncPreferencesIllustration} show-intro>
                                         <p slot="description">
                                             Determine how and when data is synced between Stripe and Salesforce. A set of default settings has been provided; review and make any adjustments to these settings to suit your org before proceeding.
                                         </p>
@@ -352,7 +374,7 @@
                                                 onshowtoast={showToast}>
                                         </c-sync-preferences-step>
                                     </c-step>
-                                    <c-step step-name="Activate Syncing" data-index="3" setup-complete={setupComplete} onnext={next} onback={back} next-label="Finish" class="slds-hide" loading={contentLoading} illustration-url={syncPreferencesIllustration} show-intro>
+                                    <c-step step-name="Activate Syncing" data-index="4" setup-complete={setupComplete} onnext={next} onback={back} next-label="Finish" class="slds-hide" loading={contentLoading} illustration-url={syncPreferencesIllustration} show-intro>
                                         <p slot="description">
                                             Activate your integration to begin bringing Salesforce orders over to Stripe in real time.
                                         </p>
@@ -376,7 +398,7 @@
                                             </div>
                                         </div>
                                     </c-step>
-                                    <c-step step-name="Update Salesforce Pages" data-index="4" setup-complete={setupComplete} onback={back} onnext={next} next-label="Finish" class="slds-hide" loading={contentLoading} illustration-url={}>
+                                    <c-step step-name="Update Salesforce Pages" data-index="5" setup-complete={setupComplete} onback={back} onnext={next} next-label="Finish" class="slds-hide" loading={contentLoading} illustration-url={}>
                                         <p slot="description">
                                             A few custom fields and components have been included in the Stripe Billing for Salesforce managed package that can optionally be added to your existing Page Layouts and Lightning Record Pages. These fields and components will allow you to view Stripe data directly on your Salesforce records.
                                         </p>
@@ -406,15 +428,23 @@
                                     </template>
                                     <!-- /Landing Page -->
                                     <div class={settingsContentClasslist}>
-                                        <c-step step-name="Connect Stripe and Salesforce" class="slds-hide" data-index="0" loading={contentLoading} setup-complete footer-hidden>
+                                        <c-step step-name="Connect Stripe" class="slds-hide" data-index="0" loading={contentLoading} setup-complete footer-hidden>
                                             <p slot="description">
                                                 Allow your Salesforce org and Stripe to communicate. Review the current connection status for both Stripe and Salesforce. If there is an issue, you may need to reconnect one or both accounts.
                                             </p>
-                                            <c-system-connections-step
-                                                onshowtoast={showToast}>
-                                            </c-system-connections-step>
+                                            <c-stripe-account-setup-step
+                                                    onshowtoast={showToast}>
+                                            </c-stripe-account-setup-step>
                                         </c-step>
-                                        <c-step step-name="Define Data Mapping" setup-complete onsave={save} save-disabled={saveDisabled} class="slds-hide" data-index="1" loading={contentLoading}>
+                                        <c-step step-name="Integration User" class="slds-hide" data-index="1" loading={contentLoading} setup-complete footer-hidden>
+                                            <p slot="description">
+                                                Allow your Salesforce org and Stripe to communicate. Review the current connection status for both Stripe and Salesforce. If there is an issue, you may need to reconnect one or both accounts.
+                                            </p>
+                                            <c-integration-user-setup-step
+                                                    onshowtoast={showToast}>
+                                            </c-integration-user-setup-step>
+                                        </c-step>
+                                        <c-step step-name="Define Data Mapping" setup-complete onsave={save} save-disabled={saveDisabled} class="slds-hide" data-index="2" loading={contentLoading}>
                                             <p slot="description">
                                                 Determine how Stripe data is mapped to your Salesforce org. Mappings are grouped by Stripe object, each of which has its own set of mapping groups. Field mappings can either be a Salesforce field, which reads Salesforce data on a per-record basis, or a static value, which will apply the same value to all records.
                                             </p>
@@ -426,7 +456,7 @@
                                                 onshowtoast={showToast}>
                                             </c-data-mapping-step>
                                         </c-step>
-                                        <c-step step-name="Manage Integration" setup-complete class="slds-hide" onsave={save} save-disabled={saveDisabled} data-index="2" loading={contentLoading}>
+                                        <c-step step-name="Manage Integration" setup-complete class="slds-hide" onsave={save} save-disabled={saveDisabled} data-index="3" loading={contentLoading}>
                                             <p slot="description">
                                                 Determine how and when data is synced between Stripe and Salesforce. Adjust when Stripe data should start to sync, how many records are saved in your org at one time, how many Salesforce API calls Stripe is allowed to make, and more. Default values have been provided; be sure to review and adjust sync settings to suit your Salesforce org's needs.
                                             </p>

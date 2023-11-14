@@ -4,9 +4,9 @@
     <description>The key required to register a connection with the Stripe Billing Connector platform.</description>
     <inlineHelpText>The key required to register a connection with the Stripe Billing Connector platform.</inlineHelpText>
     <externalId>false</externalId>
-    <fieldManageability>DeveloperControlled</fieldManageability>
     <label>Global Key</label>
     <length>131072</length>
     <type>LongTextArea</type>
     <visibleLines>3</visibleLines>
+    <fieldManageability>DeveloperControlled</fieldManageability>
 </CustomField>

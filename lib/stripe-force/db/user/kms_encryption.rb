@@ -8,7 +8,11 @@ module KMSEncryption
     # rubocop:disable Lint/AssignmentInCondition
     def self.included(klass)
       klass.send(:extend, ClassMethods)
-      klass.send(:include, InstanceMethods)
+      if !Rails.env.development? && !Rails.env.test?
+        klass.send(:include, InstanceMethods)
+      else
+        klass.send(:include, DevInstanceMethods)
+      end
     end
 
     module ClassMethods
@@ -108,6 +112,66 @@ module KMSEncryption
           secret_access_key: ENV['AWS_SECRET_KEY'],
           retry_limit: 6
         )
+      end
+    end
+
+    module DevInstanceMethods
+      def before_save
+        self.kms_encrypt_updated_fields
+        super
+      end
+
+      def kms_encrypted_fields_changed?
+        self.class.kms_encrypted_fields {|f| kms_get_unencrypted_value(f) }.compact.any?
+      end
+
+      def kms_get_unencrypted_value(field)
+        instance_variable_get("@unencrypted_#{field}")
+      end
+
+      protected def kms_set_field(field, value)
+        self.instance_variable_set("@unencrypted_#{field}", value)
+        self.instance_variable_set("@#{field}", nil)
+      end
+
+      protected def kms_get_field(field)
+        # look for locally set unencrypted value first
+        if unencrypted_value = kms_get_unencrypted_value(field)
+          return unencrypted_value
+        end
+
+        if cached_unencrypted_value = instance_variable_get("@#{field}")
+          return cached_unencrypted_value
+        end
+
+        # if there is no unencrypted value
+        return if self.send("encrypted_#{field}").nil?
+
+        decoded_encrypted_value = Base64.decode64(self.send("encrypted_#{field}"))
+
+        unencrypted_value = decoded_encrypted_value
+
+        instance_variable_set("@#{field}", unencrypted_value)
+
+        unencrypted_value
+      end
+
+      protected def kms_encrypt_updated_fields
+        self.class.kms_encrypted_fields.each do |field|
+          if unencrypted_value = kms_get_unencrypted_value(field)
+            # skip encrypting nil values
+            if unencrypted_value.nil? || unencrypted_value.empty?
+              self.send("encrypted_#{field}=", nil)
+              next
+            end
+
+            kms_response = unencrypted_value
+
+            encoded_encrypted_field = Base64.encode64(kms_response)
+
+            self.send(:"encrypted_#{field}=", encoded_encrypted_field)
+          end
+        end
       end
     end
   # rubocop:enable Lint/AssignmentInCondition

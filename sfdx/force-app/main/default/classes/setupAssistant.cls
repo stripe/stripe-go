@@ -1,9 +1,36 @@
 public with sharing class setupAssistant {
     @TestVisible
+    static final String STATUS_CONNECTED = 'connected';
+    @TestVisible
+    static final String STATUS_DISCONNECTED = 'disconnected';
+    @TestVisible
+    static final String STATUS_FAILED = 'failed';
+    @TestVisible
+    static final String STATUS_FRESH = 'fresh';
+    @TestVisible
+    static final String KEY_SALESFORCE = 'salesforce';
+    @TestVisible
+    static final String KEY_STRIPE = 'stripe';
+    @TestVisible
+    static final String KEY_STATUS = 'status';
+    static final String KEY_SERVICE = 'service';
+    @TestVisible
+    static final String KEY_SERVICES = 'services';
+    static final String KEY_CONNECTION_STATUS = 'connection_status';
+    @TestVisible
+    static final String SERVICE_DELIMINATOR = '|';
+    @TestVisible
+    static final String KEY_SALESFORCE_SERVICE = KEY_SALESFORCE + SERVICE_DELIMINATOR + UserInfo.getOrganizationId();
+    @TestVisible
+    static final String KEY_STRIPE_SERVICE = KEY_STRIPE + SERVICE_DELIMINATOR + KEY_STRIPE;
+
+    @TestVisible
     private static ConfigPayloadHelper payloadHelper = new ConfigPayloadHelper();
 
     @TestVisible
     private static Debug_Helper debugger = new Debug_Helper();
+
+    public class ConnectionNotInitializedException extends Sentry_Exception {}
 
     static Boolean isConnected() {
         Stripe_Connection__c stripeConnectRec = Stripe_Connection__c.getOrgDefaults();
@@ -16,6 +43,36 @@ public with sharing class setupAssistant {
         Pagereference ref = Page.DownloadForSupportConfig;
         ref.getParameters().put('recordId', recordId);
         return ref.getUrl();
+    }
+
+    @AuraEnabled(Cacheable=true)
+    public static Boolean isJSDebugEnabled() {
+        return utilities.isJSDebuggingEnabled();
+    }
+
+    @AuraEnabled(Cacheable=true)
+    public static Boolean isOAuthAutoCloseWindowEnabled() {
+        return utilities.isOAuthAutoCloseEnabled();
+    }
+
+    @AuraEnabled(Cacheable=false)
+    public static Map<String, Object> validateSharedState(String service, String state) {
+        debugger.debug('validateSharedState service', service);
+        debugger.debug('validateSharedState state', state);
+        try {
+            Map<String, Object> data = StripeOAuthState.from_encrypted_state(state).data;
+            Stripe_Connection__c conn = utilities.getStripeConnection();
+            String stripePrefix = KEY_STRIPE + SERVICE_DELIMINATOR;
+            Boolean isStripeConnection = service.startsWith(stripePrefix);
+            if (String.isBlank(conn.Primary_Stripe_Account_Id__c) && isStripeConnection) {
+                conn.Primary_Stripe_Account_Id__c = service.substring(stripePrefix.length());
+                update conn;
+            }
+            return data;
+        } catch (Exception e) {
+            errorLogger.create('OAuth state decryption failed', e);
+            throw e;
+        }
     }
 
     @AuraEnabled(Cacheable=true)
@@ -99,34 +156,79 @@ public with sharing class setupAssistant {
         return rd.getJsonString();
     }
 
+    @AuraEnabled
+    public static String revokeIntegrationUserAuthorization() {
+        responseData rd = new responseData();
+        Stripe_Connection__c stripeConnectRec = Stripe_Connection__c.getOrgDefaults();
+        stripeConnectRec.Salesforce_Connected__c = false;
+        rd.put(KEY_STATUS,     STATUS_DISCONNECTED);
+        rd.put(KEY_SERVICE, KEY_SALESFORCE_SERVICE);
+        update stripeConnectRec;
+        return rd.getJsonString();
+    }
+
     // validates connection status
     @AuraEnabled
-    public static String validateConnectionStatus(Boolean isConnectedCallback, String systemConnected) {
+    public static String getIntegrationUserAuthorizationUri(Boolean forceLogin) {
+        StripeOAuthState state = StripeOAuthState.create();
         responseData rd = new responseData();
+        rd.put('authorization_uri', UriTargets.getIntegrationUserAuthorizationUrl(state, forceLogin));
+        rd.put('message_origin_uri', UriTargets.getAuthorizationBaseUri());
+
+        return rd.getJsonString();
+    }
+
+    // validates connection status
+    @AuraEnabled
+    public static String getStripeAuthorizationUri(Boolean liveMode) {
+        StripeOAuthState state = StripeOAuthState.create();
+        responseData rd = new responseData();
+        rd.put('authorization_uri', UriTargets.getStripeAuthorizationUri(liveMode, state));
+        rd.put('message_origin_uri', UriTargets.getAuthorizationBaseUri());
+
+        return rd.getJsonString();
+    }
+
+
+    // validates connection status
+    @AuraEnabled
+    public static String validateConnectionStatus(String systemToCheck) {
+        responseData rd = new responseData();
+        Map<String, Object> config = new Map<String, Object>();
+        config.put('platform_uri', UriTargets.getAuthorizationBaseUri());
+        config.put('salesforce_sandbox_uri_fragment', '/auth/v2/salesforcesandbox');
+        config.put('salesforce_production_uri_fragment', '/auth/v2/salesforce');
+        config.put('stripe_live_uri_fragment', '/auth/v2/stripelivemode');
+        config.put('stripe_test_uri_fragment', '/auth/v2/stripetestmode');
+        config.put('is_sandbox', constants.IS_SANDBOX);
+        config.put('salesforce_namespace', constants.NAMESPACE);
+        rd.put('config', config);
+
+        StripeOAuthState state = StripeOAuthState.create();
+        config.put('state', state.toString());
 
         try {
             // gets custom setting record to determin if we are in a sandbox or production org
-            rd.put('isSandbox', constants.IS_SANDBOX);
-            rd.put('salesforceNamespace', constants.NAMESPACE);
 
-            Stripe_Connection__c stripeConnectRec = Stripe_Connection__c.getOrgDefaults();
+            Stripe_Connection__c stripeConnectRec = utilities.getStripeConnection();
 
             // checks if we have a org-level API key generated, if we don't we should generate one
-            if(stripeConnectRec.Id == null) {
+            // saving this conditional for later down the line...
+//            if (stripeConnectRec.Id == null && stripeConnectRec.Primary_Stripe_Account_Id__c != null) {
+            if (stripeConnectRec.Id == null) {
                 // NOTE this is a VERY important line! `generatePackageKey` makes another callout and persists the organization-specific API key
                 // on the ruby service. This key is also persisted locally within the salesforce account.
                 utilities.generatePackageKey(stripeConnectRec);
 
-                rd.put('isStripeConnected','stripeDisconnected');
-                rd.put('isSalesforceConnected','salesforceDisconnected');
+                rd.put(KEY_STRIPE,     STATUS_DISCONNECTED);
+                rd.put(KEY_SALESFORCE, STATUS_DISCONNECTED);
                 return rd.getJsonString();
             }
 
             // make callout to ruby services configuration endpoint to see if the org is connected to Stripe and Salesforce
-            String route = utilities.getPlatformConfigEndpoint();
+            String route = UriTargets.getConfigEndpoint();
             HttpResponse response = utilities.makeCallout(route, 'GET');
 
-            Map<String, Object> errorBody;
             Map<String, Object> responseBody;
 
             /*
@@ -134,8 +236,8 @@ public with sharing class setupAssistant {
             response from the ruby service and send a status of failed to signify to show an error toast
             */
             if(response.getStatusCode() != 200) {
-                rd.put('isStripeConnected','failed');
-                rd.put('isSalesforceConnected','failed');
+                rd.put(KEY_STRIPE,     STATUS_FAILED);
+                rd.put(KEY_SALESFORCE, STATUS_FAILED);
                 errorLogger.create('validateConnectionStatus', String.valueOf(response.getStatusCode()), (String)response.getStatus(), 'Failed to get connection status from Ruby service.');
                 return rd.getJsonString();
             }
@@ -146,28 +248,189 @@ public with sharing class setupAssistant {
             */
             responseBody = (Map<String,Object>)JSON.deserializeUntyped(response.getBody());
 
-            payloadHelper.extractConnectionStatus(responseBody, stripeConnectRec);
+            //get connection status values from response
+            Map<String, Object> connectionStatus = (Map<String,Object>)responseBody.get(KEY_CONNECTION_STATUS);
+            stripeConnectRec.Stripe_Connected__c = (Boolean)connectionStatus.get(KEY_STRIPE);
+            stripeConnectRec.Salesforce_Connected__c = (Boolean)connectionStatus.get(KEY_SALESFORCE);
 
-            // TODO why do we care if it's a connected callback? Why can't we just return the same data regardless?
-            if(isConnectedCallback) {
-                // why do we need distinct strings here for the status? Can't we just pass a boolean?
-                // because of the 'freshConnection' value in the condition below.
-                String status = stripeConnectRec.Salesforce_Connected__c ? 'salesforceConnected' : 'salesforceDisconnected';
-                rd.put('isSalesforceConnected', status);
+            // Question: why do we care if it's a connected callback? Why can't we just return the same data regardless?
+            // Answer: returning 'failed' tells us if there is a problem between the ruby service and salesforce.
+            // Answer 2: It was the tell for if we were checking a single service or both.
+            // Question: why do we need distinct strings here for the status? Can't we just pass a boolean?
+            // Answer: The value is an enum: connected, disconnected, failed, or fresh.
 
-                status = stripeConnectRec.Stripe_Connected__c ? 'stripeConnected' : 'stripeDisconnected';
-                rd.put('isStripeConnected', status);
-            } else {
-                /*if the response shows they are connected we will udpate the Setup Connection custom setting record to signify they are connected
-                We return a connection status of freshConnection to determine if we should show a toast message of success or not*/
-                if(systemConnected == constants.SYSTEM_STRIPE) {
-                    String status = stripeConnectRec.Stripe_Connected__c ? 'freshConnection' : 'stripeDisconnected';
-                    rd.put('isStripeConnected', status);
-                } else if(systemConnected == constants.SYSTEM_SALESFORCE) {
-                    String status = stripeConnectRec.Stripe_Connected__c ? 'freshConnection' : 'salesforceDisconnected';
-                    rd.put('isSalesforceConnected', status);
-                }
+            rd.put(KEY_SALESFORCE, (stripeConnectRec.Salesforce_Connected__c) ? STATUS_CONNECTED : STATUS_DISCONNECTED);
+            rd.put(KEY_STRIPE,     (stripeConnectRec.Stripe_Connected__c)     ? STATUS_CONNECTED : STATUS_DISCONNECTED);
+
+            // We return a connection status of 'fresh' to determine if we should show a toast message of success or not
+            if (systemToCheck == KEY_SALESFORCE) {
+                rd.put(KEY_SALESFORCE, (stripeConnectRec.Salesforce_Connected__c) ? STATUS_FRESH : STATUS_DISCONNECTED);
+            } else if (systemToCheck == KEY_STRIPE) {
+                rd.put(KEY_STRIPE,     (stripeConnectRec.Stripe_Connected__c)     ? STATUS_FRESH : STATUS_DISCONNECTED);
             }
+
+            upsert stripeConnectRec;
+            return rd.getJsonString();
+        } catch (Exception e) {
+            rd.addError(e);
+        }
+
+        return rd.getJsonString();
+    }
+
+    @AuraEnabled
+    public static String checkServiceConnectionStatuses() {
+        responseData rd = new responseData();
+        // gets custom setting record to determine if we are in a sandbox or production org
+        Stripe_Connection__c stripeConnectRec = utilities.getStripeConnection();
+
+        // checks if we have a org-level API key generated, if we don't we should generate one
+        if (stripeConnectRec.Id == null) {
+            // NOTE this is a VERY important line! `generatePackageKey` makes another callout and persists the organization-specific API key
+            // on the ruby service. This key is also persisted locally within the salesforce account.
+            utilities.generatePackageKey(stripeConnectRec);
+            rd.put(KEY_SERVICES, new Map<String, String>{
+                    KEY_SALESFORCE_SERVICE => STATUS_DISCONNECTED,
+                    KEY_STRIPE_SERVICE => STATUS_DISCONNECTED
+            });
+            rd.put('message', 'Not yet connected.');
+        } else {
+            Stripe_Connection__c conn = utilities.getStripeConnection();
+            String STRIPE_SERVICE = String.isBlank(conn.Primary_Stripe_Account_Id__c) ? KEY_STRIPE_SERVICE : KEY_STRIPE + SERVICE_DELIMINATOR + conn.Primary_Stripe_Account_Id__c;
+            String salesforceStatus = (stripeConnectRec.Salesforce_Connected__c) ? STATUS_CONNECTED : STATUS_DISCONNECTED;
+            String stripeStatus = (stripeConnectRec.Stripe_Connected__c) ? STATUS_CONNECTED : STATUS_DISCONNECTED;
+            rd.put(KEY_SERVICES, new Map<String, String>{
+                    KEY_SALESFORCE_SERVICE => salesforceStatus,
+                    STRIPE_SERVICE => stripeStatus
+            });
+        }
+
+        return rd.getJsonString();
+    }
+
+    // Gets the current connection statuses (connected, disconnected, failed, or fresh) for both Stripe and Salesforce
+    // This forces checks of the tokens platform side.
+    @AuraEnabled(Continuation=true)
+    public static Object getServiceConnectionStatuses(String serviceToCheck) {
+        debugger.debug('getServiceConnectionStatuses', serviceToCheck);
+        // gets custom setting record to determin if we are in a sandbox or production org
+        Stripe_Connection__c stripeConnectRec = getStripeConnection();
+
+        // make callout to ruby services configuration endpoint to see if the org is connected to Stripe and Salesforce
+        String route = UriTargets.getConnectionStatusesEndpoint();
+        Integer timeout = 30000;
+        HttpRequest request = utilities.buildRequest(route, 'GET', timeout);
+        debugger.debug('request', request);
+        Continuation con = new Continuation(timeout / 1000);
+        con.addHttpRequest(request);
+        con.state = serviceToCheck;
+        con.continuationMethod = 'handleServiceConnectionStatusesResponse';
+        if (Test.isRunningTest()) {
+            con.continuationMethod = 'handleServiceConnectionStatusesResponseTest';
+        }
+        debugger.debug('getServiceConnectionStatuses','returning continuation...');
+        return con;
+    }
+
+    // this is for tests... I know not why it's like this.
+    public static Object handleServiceConnectionStatusesResponseTest() {
+        List<String> labels = new List<String>();
+        labels.add('continuation-1');
+        return handleServiceConnectionStatusesResponse(labels, KEY_STRIPE_SERVICE);
+    }
+
+    @AuraEnabled
+    public static Object handleServiceConnectionStatusesResponse(List<String> labels, Object state) {
+        debugger.debug('handleServiceConnectionStatusesResponse','resuming continuation...');
+        debugger.debug('handleServiceConnectionStatusesResponse.labels',labels);
+        debugger.debug('handleServiceConnectionStatusesResponse.state',state);
+        String serviceToCheck = String.valueOf(state);
+
+        return handleServiceConnectionStatusesResponseProcessor(Continuation.getResponse(labels[0]), serviceToCheck);
+    }
+
+    // Gets the current connection statuses (connected, disconnected, failed, or fresh) for both Stripe and Salesforce
+    // This forces checks of the tokens platform side.
+    public static Object getServiceConnectionStatusesSync(String serviceToCheck) {
+        debugger.debug('getServiceConnectionStatusesSync', serviceToCheck);
+
+        // make callout to ruby services configuration endpoint to see if the org is connected to Stripe and Salesforce
+        String route = UriTargets.getConnectionStatusesEndpoint();
+        Integer timeout = 30000;
+        HttpRequest request = utilities.buildRequest(route, 'GET', timeout);
+        debugger.debug('request', request);
+
+        responseData rd = new responseData();
+
+        try {
+            Http http = new Http();
+            HttpResponse response = http.send(request);
+            return handleServiceConnectionStatusesResponseProcessor(response, serviceToCheck);
+        } catch (Exception e) {
+            rd.addError(e);
+        }
+
+        return rd.getJsonString();
+    }
+
+    public static Object handleServiceConnectionStatusesResponseProcessor(HttpResponse response, String serviceToCheck) {
+        responseData rd = new responseData();
+        Stripe_Connection__c stripeConnectRec = getStripeConnection();
+
+        try {
+            Map<String, Object> responseBody;
+            Stripe_Connection__c conn = utilities.getStripeConnection();
+            String STRIPE_SERVICE = String.isBlank(conn.Primary_Stripe_Account_Id__c) ? KEY_STRIPE_SERVICE : KEY_STRIPE + SERVICE_DELIMINATOR + conn.Primary_Stripe_Account_Id__c;
+
+            /*
+            if we do not get a 200 status code back we create an Error Log record to show we did not get a success
+            response from the ruby service and send a status of failed to signify to show an error toast
+            */
+            if(response.getStatusCode() != 200) {
+                rd.put(KEY_SERVICES, new Map<String, String> {
+                        KEY_SALESFORCE_SERVICE => STATUS_DISCONNECTED,
+                        STRIPE_SERVICE => STATUS_DISCONNECTED
+                });
+                errorLogger.create('validateConnectionStatus', String.valueOf(response.getStatusCode()), (String)response.getStatus(), 'Failed to get connection status from Ruby service.');
+                rd.put('message', 'Failed to get connection status from Ruby service.' + response.getBody());
+                return rd.getJsonString();
+            }
+
+            debugger.debug('handleServiceConnectionStatusesResponse response body', response.getBody());
+
+            /*
+            if we get a 200 response code from the ruby service we will check the connection status object
+            in the payload to determine weather the user successfully connected to stripe or not
+            */
+            responseBody = (Map<String,Object>)JSON.deserializeUntyped(response.getBody());
+
+            //get connection status values from response
+            debugger.debug('Got connection status result', responseBody);
+            stripeConnectRec.Stripe_Connected__c = (Boolean)responseBody.get(KEY_STRIPE);
+            stripeConnectRec.Salesforce_Connected__c = (Boolean)responseBody.get(KEY_SALESFORCE);
+            debugger.debug('stripeConnectRec', stripeConnectRec);
+
+            // Question: why do we care if it's a connected callback? Why can't we just return the same data regardless?
+            // Answer: returning 'failed' tells us if there is a problem between the ruby service and salesforce.
+            // Answer 2: It was the tell for if we were checking a single service or both.
+            // Question: why do we need distinct strings here for the status? Can't we just pass a boolean?
+            // Answer: The value is an enum: connected, disconnected, failed, or fresh.
+
+            String salesforceStatus = (stripeConnectRec.Salesforce_Connected__c) ? STATUS_CONNECTED : STATUS_DISCONNECTED;
+            String stripeStatus = (stripeConnectRec.Stripe_Connected__c) ? STATUS_CONNECTED : STATUS_DISCONNECTED;
+
+            // We return a connection status of 'fresh' to determine if we should show a toast message of success or not
+//            debugger.debug('serviceToCheck', serviceToCheck);
+            if (serviceToCheck == KEY_SALESFORCE_SERVICE) {
+                salesforceStatus = (stripeConnectRec.Salesforce_Connected__c) ? STATUS_FRESH : salesforceStatus;
+            } else if (serviceToCheck == STRIPE_SERVICE) {
+                stripeStatus = (stripeConnectRec.Stripe_Connected__c) ? STATUS_FRESH : stripeStatus;
+            }
+
+            rd.put(KEY_SERVICES, new Map<String, String> {
+                    KEY_SALESFORCE_SERVICE => salesforceStatus,
+                    STRIPE_SERVICE => stripeStatus
+            });
 
             upsert stripeConnectRec;
             return rd.getJsonString();
@@ -221,27 +484,14 @@ public with sharing class setupAssistant {
                 'Salesforce-Key' => ''
             };
 
-            String route = constants.RUBY_SERVICE_BASE_URI + '/openapi.json';
+            // this has to stay the ruby base service uri because the request is being made from apex
+            String route = UriTargets.getOpenApiSpecEndpoint();
             Map<String, Object> responseBody = null;
 
-            Setup_Connection_Data__mdt connectionData = utilities.getConnectionData();
-            if (connectionData.Use_Local_OpenAPI_Spec__c) {
-                String NS = constants.NAMESPACE == 'c' ? null : constants.NAMESPACE;
-                List<StaticResource> resources = [SELECT Body FROM StaticResource WHERE Name = 'OpenApiOverride' AND NamespacePrefix = :NS];
-                if (resources.size() > 0) {
-                    responseBody = (Map<String, Object>)JSON.deserializeUntyped(resources[0].Body.toString());
-                }
-            }
-
             HttpResponse response;
-            if (responseBody == null) {
-                response = utilities.makeCallout(route,'GET', headers);
-                if (response.getStatusCode() == 200) {
-                    responseBody = (Map<String, Object>)JSON.deserializeUntyped(response.getBody());
-                }
-            }
-
-            if(responseBody != null) {
+            response = utilities.makeCallout(route,'GET', headers);
+            if (response.getStatusCode() == 200) {
+                responseBody = (Map<String, Object>)JSON.deserializeUntyped(response.getBody());
                 rd.put('formattedStripeCustomerFields', (List<Object>)responseBody.get('formattedStripeCustomerFields'));
                 rd.put('formattedStripeProductItemFields', (List<Object>)responseBody.get('formattedStripeProductItemFields'));
                 rd.put('formattedStripeSubscriptionFields', (List<Object>)responseBody.get('formattedStripeSubscriptionFields'));
@@ -251,11 +501,7 @@ public with sharing class setupAssistant {
                 rd.put('formattedStripePriceOrderItemFields', (List<Object>)responseBody.get('formattedStripePriceFields'));
                 rd.put('formattedStripeCouponFields', (List<Object>)responseBody.get('formattedStripeCouponFields'));
             } else {
-                if (response != null) {
-                    errorLogger.create('getFormattedStripeObjectFields', String.valueOf(response.getStatusCode()), (String)response.getStatus(), 'Failed to get mapping configuration from ruby service.');
-                } else {
-                    errorLogger.create('getFormattedStripeObjectFields', 'An unknown error occurred', null, null);
-                }
+                errorLogger.create('getFormattedStripeObjectFields', String.valueOf(response.getStatusCode()), (String)response.getStatus(), 'Failed to get mapping configuration from ruby service.');
             }
         } catch (Exception e) {
             rd.addError(e);
@@ -276,7 +522,7 @@ public with sharing class setupAssistant {
                 Map<String, Object> allMappingConfigurations = new Map<String, Object>();
 
                 //construct call out to rubys configuration endpoint
-                String route = utilities.getPlatformConfigEndpoint();
+                String route = UriTargets.getConfigEndpoint();
                 HttpResponse response =  utilities.makeCallout(route,'GET');
 
                 //if the call out is successful pull out all mapping objects and add to list
@@ -292,6 +538,7 @@ public with sharing class setupAssistant {
                 }
             }
         } catch (Exception e) {
+            debugger.debug('getMappingConfigurations error', e);
             rd.addError(e);
         }
         rd.put('isConnected',isConnected);
@@ -304,7 +551,7 @@ public with sharing class setupAssistant {
         responseData rd = new responseData();
         try {
             if(isConnected()) {
-                String route = utilities.getPlatformConfigEndpoint();
+                String route = UriTargets.getConfigEndpoint();
                 HttpResponse response =  utilities.makeCallout(route, 'PUT', jsonMappingConfigurationsObject);
                 rd = utilities.validateCalloutResponse(response, 'saveMappingConfigurations');
             }
@@ -328,7 +575,7 @@ public with sharing class setupAssistant {
             }
 
             //make callout to ruby services configuration endpoint to get stored stripe setting values
-            String route = utilities.getPlatformConfigEndpoint();
+            String route = UriTargets.getConfigEndpoint();
             HttpResponse response =  utilities.makeCallout(route, 'GET');
 
             Map<String, Object> errorBody;
@@ -432,7 +679,7 @@ public with sharing class setupAssistant {
                     'settings' => settings
                 };
 
-                String route = utilities.getPlatformConfigEndpoint();
+                String route = UriTargets.getConfigEndpoint();
                 HttpResponse response =  utilities.makeCallout(route, 'PUT', JSON.serialize(resquestBody));
                 rd = utilities.validateCalloutResponse(response, 'saveSyncPreferences');
 
@@ -458,7 +705,7 @@ public with sharing class setupAssistant {
                         }
                 };
 
-                String route = utilities.getPlatformConfigEndpoint();
+                String route = UriTargets.getConfigEndpoint();
                 HttpResponse response =  utilities.makeCallout(route, 'PUT', JSON.serialize(resquestBody));
                 rd = utilities.validateCalloutResponse(response, 'activatePolling');
             }
@@ -490,7 +737,7 @@ public with sharing class setupAssistant {
 
                 Sync_Record__c recordToSync = syncRecordList[0];
                 
-                String route = utilities.getPlatformTranslateEndpoint();
+                String route = UriTargets.getTranslateEndpoint();
 
                 Map<String, Object> body = new Map<String, Object>{
                     'object_type' => (String)recordToSync.Primary_Object_Type__c,
@@ -528,7 +775,7 @@ public with sharing class setupAssistant {
             }
 
             //make callout to ruby services configuration endpoint to get stored stripe setting values
-            String route = utilities.getPlatformConfigEndpoint();
+            String route = UriTargets.getConfigEndpoint();
             HttpResponse response =  utilities.makeCallout(route, 'GET');
 
             if (response.getStatusCode() != 200) {
@@ -613,7 +860,7 @@ public with sharing class setupAssistant {
                     'filters' => queryFilterMap
                 }
             };
-            String route = utilities.getPlatformConfigEndpoint();
+            String route = UriTargets.getConfigEndpoint();
             HttpResponse response =  utilities.makeCallout(route, 'PUT', JSON.serialize(resquestBody));
 
             if(response.getStatusCode() != 200) {
@@ -645,7 +892,7 @@ public with sharing class setupAssistant {
 
             debugger.debug('setupAssistant.syncAllRecords', 'is connected');
 
-            String route = utilities.getPlatformTranslateAllEndpoint();
+            String route = UriTargets.getTranslateAllEndpoint();
 
             Map<String, Object> body = new Map<String, Object>{
                 'object_type' => objectType
@@ -707,7 +954,7 @@ public with sharing class setupAssistant {
             }
 
             //here is where we need to validate if its record or not
-            String route = utilities.getPlatformTranslateEndpoint();
+            String route = UriTargets.getTranslateEndpoint();
 
             Map<String, Object> body = new Map<String, Object> {
                 'object_type' => objectName,
@@ -940,12 +1187,22 @@ public with sharing class setupAssistant {
         };
     }
 
+    private static Stripe_Connection__c getStripeConnection() {
+        Stripe_Connection__c stripeConnectRec = Stripe_Connection__c.getOrgDefaults();
+
+        // checks if we have a org-level API key generated, if we don't we should generate one
+        if (stripeConnectRec.Id == null) {
+            throw new ConnectionNotInitializedException();
+        }
+
+        return stripeConnectRec;
+    }
 
     //Creates a test metadata record in test context
-    @testVisible static List<Setup_Connection_Data__mdt> setupConfigMetadata {
+    @TestVisible static List<Setup_Connection_Data__mdt> setupConfigMetadata {
         get {
             if (setupConfigMetadata == null)
-                setupConfigMetadata = utilities.getStripeConnectionKey();
+                setupConfigMetadata = utilities.getStripeConnectionData();
             return setupConfigMetadata;
         } set; }
 }

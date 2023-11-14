@@ -1,8 +1,3 @@
-.slds-notify {
-    border-radius: var(--lwc-borderRadiusMedium, 0.25rem);
-}
-
-.slds-notify + .slds-notify,
-.stripe-primary-action {
+.item-wrapper + .item-wrapper {
     margin-top: var(--lwc-spacingLarge, 1.5rem);
 }

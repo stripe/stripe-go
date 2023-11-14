@@ -5,6 +5,8 @@ import getMappingConfigurations from '@salesforce/apex/setupAssistant.getMapping
 import saveMappingConfigurations from '@salesforce/apex/setupAssistant.saveMappingConfigurations';
 import { getErrorMessage } from 'c/utils';
 import Alert from 'c/alert';
+import { Debugger } from "c/debugger";
+const DebugLog = Debugger.withContext('DataMappingStep');
 
 const TERMINATION_METADATA_PREFIX = 'sbc_termination.';
 
@@ -265,7 +267,7 @@ export default class DataMappingStep extends LightningElement {
         if(metadataFieldList.length) {
             for(let i = 0; i < metadataFieldList.length; i++) {
                 const fieldData = metadataFieldList[i];
-                // console.log({ fieldData: JSON.parse(JSON.stringify(fieldData)) });
+                DebugLog({ fieldData });
                 const keyPrefix = fieldData.onTermination ? TERMINATION_METADATA_PREFIX : '';
                 const metadataKey = keyPrefix + 'metadata.' + fieldData.value;
 
@@ -394,7 +396,7 @@ export default class DataMappingStep extends LightningElement {
         const targetFieldIndex = event.currentTarget.closest('tr').dataset.index;
         if (targetFieldIndex) {
             const currentVal = this.activeMetadataObjectFields.metadataMapping.fields[parseInt(targetFieldIndex)].onTermination;
-            // console.log({ checked, currentVal, nextVal: !currentVal })
+            DebugLog({ checked, currentVal, nextVal: !currentVal })
             const updatedSelection = {
                 onTermination: !currentVal,
             };
@@ -609,6 +611,9 @@ export default class DataMappingStep extends LightningElement {
         this.dispatchEvent(this.contentLoading);
         try {
             const getFormattedStripeObjects = await getFormattedStripeObjectFields();
+
+            DebugLog('getFormattedStripeObjects', getFormattedStripeObjects)
+
             const responseData = JSON.parse(getFormattedStripeObjects);
             if(responseData.error) {
                 this.showToast(responseData.error, 'error', 'sticky');
@@ -632,7 +637,7 @@ export default class DataMappingStep extends LightningElement {
             this.activeObject = 'customer';
             this.activeObjectDescription = this.ACTIVE_OBJECT_INFO[this.activeObject]['description'];
             this.activeObjectAlerts = this.ACTIVE_OBJECT_INFO[this.activeObject]['alerts'];
-            // console.log('activeMappings', JSON.parse(JSON.stringify(this.activeStripeObjectMappings)));
+            DebugLog('activeMappings', this.activeStripeObjectMappings);
         }
     }
 
@@ -643,6 +648,8 @@ export default class DataMappingStep extends LightningElement {
                 isConnectedCallback: isConnectedCallback,
                 ObjectApiName: ObjectName
             });
+            
+            DebugLog('getPicklistValues', getPicklistValues);
 
             const picklistValueResponseData =  JSON.parse(getPicklistValues);
             if(picklistValueResponseData.error) {
@@ -686,9 +693,9 @@ export default class DataMappingStep extends LightningElement {
 
             this.configurationHash = mappingConfigurationResponseData.results.configurationHash;
             this.hiddenMapperFields = mappingConfigurationResponseData.results.hiddenMapperFields;
-            // console.log('hiddenMapperFields', JSON.parse(JSON.stringify(this.hiddenMapperFields)));
+            DebugLog('hiddenMapperFields', this.hiddenMapperFields);
             this.allMappingConfigurations = mappingConfigurationResponseData.results.allMappingConfigurations;
-            // console.log('listOfStripeMappingObjects', JSON.parse(JSON.stringify(this.listOfStripeMappingObjects)));
+            DebugLog('listOfStripeMappingObjects', this.listOfStripeMappingObjects);
             for (const mappingContainer of this.listOfStripeMappingObjects) {
                 this.setFieldMappings(mappingContainer.object, mappingContainer.mappingsObject, mappingContainer.metadataMappingsObject.metadataMapping.fields);
             }
@@ -720,13 +727,13 @@ export default class DataMappingStep extends LightningElement {
 
     applyHiddenMapperFieldDataToCategories(objectName, mappingObjs) {
         const segments = this.hiddenMapperFieldSegments;
-        // console.log('segments.paths', segments.paths);
+        DebugLog('segments.paths', segments.paths);
         if (segments.paths.length === 0) {
             return mappingObjs;
         }
 
         const paths = this.getHiddenMapperFieldPathsForObject(objectName, segments.paths);
-        // console.log('paths', paths);
+        DebugLog('paths', paths);
 
         if (paths.length === 0) {
             return mappingObjs;

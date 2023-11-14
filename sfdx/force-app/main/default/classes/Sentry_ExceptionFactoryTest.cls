@@ -10,6 +10,7 @@ public with sharing class Sentry_ExceptionFactoryTest {
     @IsTest
     static void TestMakingExceptions() {
         Sentry_Exception ex;
+        Sentry_Exception ex2;
 
         Test.startTest();
 
@@ -28,7 +29,7 @@ public with sharing class Sentry_ExceptionFactoryTest {
         System.assert(sentryException instanceof Sentry_Exception);
         System.assert(sentryExceptionFromString instanceof Sentry_Exception);
         System.assert(basic instanceof BasicException);
-        System.assert(extended instanceof ExtendedException); 
+        System.assert(extended instanceof ExtendedException);
 
         if(utilities.isPackagedEnvironment()) {
             System.assertEquals(constants.NAMESPACE + '.Sentry_ExceptionFactoryTest', ex.context.get('exceptionClass'));

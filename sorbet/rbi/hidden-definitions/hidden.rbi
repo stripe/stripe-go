@@ -253,6 +253,16 @@ module ActionController::ParamsWrapper
   EXCLUDE_PARAMETERS = ::T.let(nil, ::T.untyped)
 end
 
+module ActionController::Redirecting
+  ILLEGAL_HEADER_VALUE_REGEX = ::T.let(nil, ::T.untyped)
+end
+
+class ActionController::Redirecting::UnsafeRedirectError
+end
+
+class ActionController::Redirecting::UnsafeRedirectError
+end
+
 class ActionController::Renderer
   DEFAULTS = ::T.let(nil, ::T.untyped)
   RACK_KEY_TRANSLATION = ::T.let(nil, ::T.untyped)
@@ -1441,7 +1451,6 @@ class ActionMailer::TestCase
   include ::ActionMailer::TestHelper
   include ::ActiveJob::TestHelper
   include ::Rails::Dom::Testing::Assertions::SelectorAssertions
-  include ::Rails::Dom::Testing::Assertions::SelectorAssertions::CountDescribable
   include ::Rails::Dom::Testing::Assertions::DomAssertions
   def _mailer_class(); end
 
@@ -1455,7 +1464,6 @@ module ActionMailer::TestCase::Behavior
   include ::ActiveJob::TestHelper
   include ::ActiveSupport::Testing::Assertions
   include ::Rails::Dom::Testing::Assertions::SelectorAssertions
-  include ::Rails::Dom::Testing::Assertions::SelectorAssertions::CountDescribable
   include ::Rails::Dom::Testing::Assertions::DomAssertions
 end
 
@@ -3386,10 +3394,6 @@ class ActionView::TemplateRenderer
 end
 
 class ActionView::TestCase
-  include ::Rails::Dom::Testing::Assertions
-  include ::Rails::Dom::Testing::Assertions::DomAssertions
-  include ::Rails::Dom::Testing::Assertions::SelectorAssertions
-  include ::Rails::Dom::Testing::Assertions::SelectorAssertions::CountDescribable
   include ::ActionDispatch::Assertions
   include ::ActionDispatch::Assertions::ResponseAssertions
   include ::ActionDispatch::Assertions::RoutingAssertions
@@ -3422,6 +3426,9 @@ class ActionView::TestCase
   include ::ActionView::TestCase::Behavior
   include ::ActionDispatch::TestProcess
   include ::ActionDispatch::TestProcess::FixtureFile
+  include ::Rails::Dom::Testing::Assertions
+  include ::Rails::Dom::Testing::Assertions::DomAssertions
+  include ::Rails::Dom::Testing::Assertions::SelectorAssertions
   include ::ActionController::TemplateAssertions
   include ::ActionView::Context
   include ::ActionView::RecordIdentifier
@@ -3443,6 +3450,9 @@ end
 module ActionView::TestCase::Behavior
   include ::ActionDispatch::TestProcess
   include ::ActionDispatch::TestProcess::FixtureFile
+  include ::Rails::Dom::Testing::Assertions
+  include ::Rails::Dom::Testing::Assertions::DomAssertions
+  include ::Rails::Dom::Testing::Assertions::SelectorAssertions
   include ::ActionController::TemplateAssertions
   include ::ActionView::Context
   include ::ActionView::RecordIdentifier
@@ -12102,6 +12112,10 @@ module ActiveSupport::RangeWithFormat
   RANGE_FORMATS = ::T.let(nil, ::T.untyped)
 end
 
+class ActiveSupport::SafeBuffer
+  def bytesplice(*args, value); end
+end
+
 class ActiveSupport::SecureCompareRotator
   include ::ActiveSupport::SecurityUtils
   include ::ActiveSupport::Messages::Rotator
@@ -12175,15 +12189,6 @@ module Addressable::IDNA
   ACE_MAX_LENGTH = ::T.let(nil, ::T.untyped)
   ACE_PREFIX = ::T.let(nil, ::T.untyped)
   COMPOSITION_TABLE = ::T.let(nil, ::T.untyped)
-  HANGUL_LBASE = ::T.let(nil, ::T.untyped)
-  HANGUL_LCOUNT = ::T.let(nil, ::T.untyped)
-  HANGUL_NCOUNT = ::T.let(nil, ::T.untyped)
-  HANGUL_SBASE = ::T.let(nil, ::T.untyped)
-  HANGUL_SCOUNT = ::T.let(nil, ::T.untyped)
-  HANGUL_TBASE = ::T.let(nil, ::T.untyped)
-  HANGUL_TCOUNT = ::T.let(nil, ::T.untyped)
-  HANGUL_VBASE = ::T.let(nil, ::T.untyped)
-  HANGUL_VCOUNT = ::T.let(nil, ::T.untyped)
   PUNYCODE_BASE = ::T.let(nil, ::T.untyped)
   PUNYCODE_DAMP = ::T.let(nil, ::T.untyped)
   PUNYCODE_DELIMITER = ::T.let(nil, ::T.untyped)
@@ -12208,6 +12213,10 @@ module Addressable::IDNA
   UTF8_REGEX_MULTIBYTE = ::T.let(nil, ::T.untyped)
 end
 
+module Addressable::IDNA
+  def self._deprecated_unicode_normalize_kc(value); end
+end
+
 class Addressable::Template
   EXPRESSION = ::T.let(nil, ::T.untyped)
   JOINERS = ::T.let(nil, ::T.untyped)
@@ -12220,7 +12229,11 @@ class Addressable::Template
 end
 
 class Addressable::URI
+  def encode_with(coder); end
+
   def force_utf8_encoding_if_needed(str); end
+
+  def init_with(coder); end
   EMPTY_STR = ::T.let(nil, ::T.untyped)
   NORMPATH = ::T.let(nil, ::T.untyped)
   PARENT = ::T.let(nil, ::T.untyped)
@@ -14424,6 +14437,8 @@ end
 
 module Aws::CredentialProvider
   def credentials(); end
+
+  def expiration(); end
 
   def set?(); end
 end
@@ -17087,7 +17102,7 @@ end
 class Aws::Plugins::ChecksumAlgorithm::AwsChunkedTrailerDigestIO
   def initialize(io, algorithm, location_name); end
 
-  def read(length, buf); end
+  def read(length, buf=T.unsafe(nil)); end
 
   def rewind(); end
 
@@ -17361,6 +17376,45 @@ end
 class Aws::Plugins::RegionalEndpoint
 end
 
+class Aws::Plugins::RequestCompression
+  def add_handlers(handlers, _config); end
+
+  def validate_disable_request_compression_input(cfg); end
+
+  def validate_request_min_compression_size_bytes_input(cfg); end
+  CHUNK_SIZE = ::T.let(nil, ::T.untyped)
+  DEFAULT_MIN_COMPRESSION_SIZE = ::T.let(nil, ::T.untyped)
+  MIN_COMPRESSION_SIZE_LIMIT = ::T.let(nil, ::T.untyped)
+  SUPPORTED_ENCODINGS = ::T.let(nil, ::T.untyped)
+end
+
+class Aws::Plugins::RequestCompression::CompressionHandler
+end
+
+class Aws::Plugins::RequestCompression::CompressionHandler::ChunkBuffer
+  def last_chunk(); end
+
+  def write(data); end
+end
+
+class Aws::Plugins::RequestCompression::CompressionHandler::ChunkBuffer
+end
+
+class Aws::Plugins::RequestCompression::CompressionHandler::GzipIO
+  def initialize(body); end
+
+  def read(length, buff=T.unsafe(nil)); end
+end
+
+class Aws::Plugins::RequestCompression::CompressionHandler::GzipIO
+end
+
+class Aws::Plugins::RequestCompression::CompressionHandler
+end
+
+class Aws::Plugins::RequestCompression
+end
+
 class Aws::Plugins::ResponsePaging
 end
 
@@ -17599,10 +17653,18 @@ class Aws::Plugins::UserAgent::Handler
   def set_user_agent(context); end
 end
 
+class Aws::Plugins::UserAgent::Handler::UserAgent
+  def initialize(context); end
+end
+
+class Aws::Plugins::UserAgent::Handler::UserAgent
+end
+
 class Aws::Plugins::UserAgent::Handler
 end
 
 class Aws::Plugins::UserAgent
+  def self.feature(feature, &block); end
 end
 
 module Aws::Plugins
@@ -17736,8 +17798,6 @@ end
 
 module Aws::RefreshingCredentials
   def credentials(); end
-
-  def expiration(); end
 
   def initialize(options=T.unsafe(nil)); end
 
@@ -18740,6 +18800,8 @@ module Aws::STS::ClientApi
   NameQualifier = ::T.let(nil, ::T.untyped)
   PackedPolicyTooLargeException = ::T.let(nil, ::T.untyped)
   PolicyDescriptorType = ::T.let(nil, ::T.untyped)
+  ProvidedContext = ::T.let(nil, ::T.untyped)
+  ProvidedContextsListType = ::T.let(nil, ::T.untyped)
   RegionDisabledException = ::T.let(nil, ::T.untyped)
   SAMLAssertionType = ::T.let(nil, ::T.untyped)
   Subject = ::T.let(nil, ::T.untyped)
@@ -19172,6 +19234,14 @@ end
 class Aws::STS::Types::PolicyDescriptorType
 end
 
+class Aws::STS::Types::ProvidedContext
+  include ::Aws::Structure
+  SENSITIVE = ::T.let(nil, ::T.untyped)
+end
+
+class Aws::STS::Types::ProvidedContext
+end
+
 class Aws::STS::Types::RegionDisabledException
   include ::Aws::Structure
   SENSITIVE = ::T.let(nil, ::T.untyped)
@@ -19207,6 +19277,8 @@ class Aws::SharedConfig
 
   def config_path(); end
 
+  def configured_endpoint(opts=T.unsafe(nil)); end
+
   def correct_clock_skew(opts=T.unsafe(nil)); end
 
   def credential_process(opts=T.unsafe(nil)); end
@@ -19225,6 +19297,8 @@ class Aws::SharedConfig
 
   def defaults_mode(opts=T.unsafe(nil)); end
 
+  def disable_request_compression(opts=T.unsafe(nil)); end
+
   def ec2_metadata_service_endpoint(opts=T.unsafe(nil)); end
 
   def ec2_metadata_service_endpoint_mode(opts=T.unsafe(nil)); end
@@ -19232,6 +19306,8 @@ class Aws::SharedConfig
   def endpoint_discovery_enabled(opts=T.unsafe(nil)); end
 
   def fresh(options=T.unsafe(nil)); end
+
+  def ignore_configured_endpoint_urls(opts=T.unsafe(nil)); end
 
   def initialize(options=T.unsafe(nil)); end
 
@@ -19243,6 +19319,8 @@ class Aws::SharedConfig
 
   def region(opts=T.unsafe(nil)); end
 
+  def request_min_compression_size_bytes(opts=T.unsafe(nil)); end
+
   def retry_mode(opts=T.unsafe(nil)); end
 
   def s3_disable_multiregion_access_points(opts=T.unsafe(nil)); end
@@ -19250,6 +19328,8 @@ class Aws::SharedConfig
   def s3_us_east_1_regional_endpoint(opts=T.unsafe(nil)); end
 
   def s3_use_arn_region(opts=T.unsafe(nil)); end
+
+  def sdk_ua_app_id(opts=T.unsafe(nil)); end
 
   def sso_credentials_from_config(opts=T.unsafe(nil)); end
 
@@ -23521,6 +23601,62 @@ module ControllerHelpers
   extend ::T::Private::Methods::SingletonMethodHooks
 end
 
+module Crack
+end
+
+class Crack::JSON
+  DATE_REGEX = ::T.let(nil, ::T.untyped)
+end
+
+class Crack::JSON
+  def self.convert_json_to_yaml(json); end
+
+  def self.format_dates(output, date_starts, date_ends); end
+
+  def self.parse(json); end
+
+  def self.parser_exceptions(); end
+
+  def self.unescape(str); end
+end
+
+class Crack::ParseError
+end
+
+class Crack::ParseError
+end
+
+class Crack::REXMLParser
+end
+
+class Crack::REXMLParser
+  def self.parse(xml); end
+end
+
+module Crack::Util
+  def snake_case(str); end
+
+  def to_xml_attributes(hash); end
+end
+
+module Crack::Util
+  extend ::Crack::Util
+end
+
+class Crack::XML
+end
+
+class Crack::XML
+  def self.parse(xml); end
+
+  def self.parser(); end
+
+  def self.parser=(parser); end
+end
+
+module Crack
+end
+
 class Crass::Parser
   BLOCK_END_TOKENS = ::T.let(nil, ::T.untyped)
 end
@@ -25054,6 +25190,18 @@ class Float
   include ::ActiveSupport::NumericWithFormat
 end
 
+module Foreman
+  VERSION = ::T.let(nil, ::T.untyped)
+end
+
+module Foreman
+  def self.ruby_18?(); end
+
+  def self.runner(); end
+
+  def self.windows?(); end
+end
+
 module Forwardable
   VERSION = ::T.let(nil, ::T.untyped)
 end
@@ -26101,6 +26249,10 @@ end
 module GeneratedUrlHelpers
   def _routes(); end
 
+  def omniauth_v2_path(*args); end
+
+  def omniauth_v2_url(*args); end
+
   def rails_info_path(*args); end
 
   def rails_info_properties_path(*args); end
@@ -26131,6 +26283,48 @@ module GeneratedUrlHelpers
   def self.url_for(options); end
 
   def self.url_options(); end
+end
+
+module GetText
+end
+
+class GetText::PoParser
+  def _(x); end
+
+  def _reduce_10(val, _values, result); end
+
+  def _reduce_12(val, _values, result); end
+
+  def _reduce_13(val, _values, result); end
+
+  def _reduce_14(val, _values, result); end
+
+  def _reduce_15(val, _values, result); end
+
+  def _reduce_5(val, _values, result); end
+
+  def _reduce_8(val, _values, result); end
+
+  def _reduce_9(val, _values, result); end
+
+  def _reduce_none(val, _values, result); end
+
+  def on_comment(comment); end
+
+  def on_message(msgid, msgstr); end
+
+  def parse(str, data, ignore_fuzzy=T.unsafe(nil)); end
+
+  def unescape(orig); end
+  Racc_arg = ::T.let(nil, ::T.untyped)
+  Racc_debug_parser = ::T.let(nil, ::T.untyped)
+  Racc_token_to_s_table = ::T.let(nil, ::T.untyped)
+end
+
+class GetText::PoParser
+end
+
+module GetText
 end
 
 class GlobalID
@@ -26202,10 +26396,6 @@ class GlobalID::Verifier
 end
 
 class GlobalID::Verifier
-end
-
-class HTMLSelector
-  NO_STRIP = ::T.let(nil, ::T.untyped)
 end
 
 module HTTP::Accept
@@ -26280,6 +26470,8 @@ end
 class Hash
   include ::JSON::Ext::Generator::GeneratorMethods::Hash
   def deconstruct_keys(arg); end
+
+  def index(arg); end
 end
 
 class Hash
@@ -26323,6 +26515,68 @@ module HashDiff
   def self.patch!(); end
 
   def self.right_diff(*args); end
+end
+
+module Hashdiff
+  VERSION = ::T.let(nil, ::T.untyped)
+end
+
+class Hashdiff::CompareHashes
+end
+
+class Hashdiff::CompareHashes
+  def self.call(obj1, obj2, opts=T.unsafe(nil)); end
+end
+
+class Hashdiff::LcsCompareArrays
+end
+
+class Hashdiff::LcsCompareArrays
+  def self.call(obj1, obj2, opts=T.unsafe(nil)); end
+end
+
+class Hashdiff::LinearCompareArray
+  def call(); end
+
+  def initialize(old_array, new_array, options); end
+end
+
+class Hashdiff::LinearCompareArray
+  def self.call(old_array, new_array, options=T.unsafe(nil)); end
+end
+
+module Hashdiff
+  def self.best_diff(obj1, obj2, options=T.unsafe(nil), &block); end
+
+  def self.comparable?(obj1, obj2, strict=T.unsafe(nil)); end
+
+  def self.compare_values(obj1, obj2, options=T.unsafe(nil)); end
+
+  def self.count_diff(diffs); end
+
+  def self.count_nodes(obj); end
+
+  def self.custom_compare(method, key, obj1, obj2); end
+
+  def self.decode_property_path(path, delimiter=T.unsafe(nil)); end
+
+  def self.diff(obj1, obj2, options=T.unsafe(nil), &block); end
+
+  def self.diff_array_lcs(arraya, arrayb, options=T.unsafe(nil)); end
+
+  def self.lcs(arraya, arrayb, options=T.unsafe(nil)); end
+
+  def self.node(hash, parts); end
+
+  def self.patch!(obj, changes, options=T.unsafe(nil)); end
+
+  def self.prefix_append_array_index(prefix, array_index, opts); end
+
+  def self.prefix_append_key(prefix, key, opts); end
+
+  def self.similar?(obja, objb, options=T.unsafe(nil)); end
+
+  def self.unpatch!(obj, changes, options=T.unsafe(nil)); end
 end
 
 module Hashie
@@ -27148,6 +27402,10 @@ end
 module I18n::Backend::Pluralization
 end
 
+module I18n::Backend::Simple::Implementation
+  MUTEX = ::T.let(nil, ::T.untyped)
+end
+
 module I18n::Backend::Transliterator
   DEFAULT_REPLACEMENT_CHAR = ::T.let(nil, ::T.untyped)
 end
@@ -27205,6 +27463,8 @@ end
 
 class I18n::InvalidFilenames
 end
+
+I18n::JSON = ActiveSupport::JSON
 
 module I18n::Locale
 end
@@ -27301,6 +27561,7 @@ class I18n::Middleware
 end
 
 module I18n::MissingTranslation::Base
+  def normalized_option(key); end
   PERMITTED_KEYS = ::T.let(nil, ::T.untyped)
 end
 
@@ -27374,9 +27635,15 @@ end
 class IO
   def beep(); end
 
+  def bytes(); end
+
+  def chars(); end
+
   def check_winsize_changed(); end
 
   def clear_screen(); end
+
+  def codepoints(); end
 
   def console_mode(); end
 
@@ -27417,6 +27684,8 @@ class IO
   def iflush(); end
 
   def ioflush(); end
+
+  def lines(*arg); end
 
   def noecho(); end
 
@@ -27492,6 +27761,7 @@ class Integer
   include ::JSON::Ext::Generator::GeneratorMethods::Integer
   include ::ActiveSupport::NumericWithFormat
   def to_bn(); end
+  GMP_VERSION = ::T.let(nil, ::T.untyped)
 end
 
 module Integrations::ErrorContext
@@ -28366,7 +28636,11 @@ module JWT::Algos::Ecdsa
 end
 
 module JWT::Algos::Ecdsa
+  def self.asn1_to_raw(signature, public_key); end
+
   def self.curve_by_name(name); end
+
+  def self.raw_to_asn1(signature, private_key); end
 end
 
 module JWT::Algos::Eddsa
@@ -28807,6 +29081,17 @@ module Lograge
   VERSION = ::T.let(nil, ::T.untyped)
 end
 
+class Lograge::Formatters::KeyValueDeep
+  def flatten_keys(data, prefix=T.unsafe(nil)); end
+
+  def flatten_object(data, prefix); end
+
+  def loop_on_object(data, &block); end
+end
+
+class Lograge::Formatters::KeyValueDeep
+end
+
 class Lograge::Formatters::L2met
   L2MET_FIELDS = ::T.let(nil, ::T.untyped)
   UNWANTED_FIELDS = ::T.let(nil, ::T.untyped)
@@ -28836,6 +29121,10 @@ class Lograge::SilentLogger
   RUBYGEMS_ACTIVATION_MONITOR = ::T.let(nil, ::T.untyped)
 end
 
+module Lograge
+  def self.notification_listeners_for(name); end
+end
+
 module Loofah
   VERSION = ::T.let(nil, ::T.untyped)
 end
@@ -28848,6 +29137,52 @@ module Loofah::Elements
   STRICT_BLOCK_LEVEL = ::T.let(nil, ::T.untyped)
   STRICT_BLOCK_LEVEL_HTML4 = ::T.let(nil, ::T.untyped)
   STRICT_BLOCK_LEVEL_HTML5 = ::T.let(nil, ::T.untyped)
+end
+
+module Loofah::HTML4
+end
+
+class Loofah::HTML4::Document
+  include ::Loofah::ScrubBehavior::Node
+  include ::Loofah::DocumentDecorator
+  include ::Loofah::TextBehavior
+  include ::Loofah::HtmlDocumentBehavior
+end
+
+class Loofah::HTML4::Document
+  extend ::Loofah::HtmlDocumentBehavior::ClassMethods
+end
+
+class Loofah::HTML4::DocumentFragment
+  include ::Loofah::TextBehavior
+  include ::Loofah::HtmlFragmentBehavior
+end
+
+class Loofah::HTML4::DocumentFragment
+  extend ::Loofah::HtmlFragmentBehavior::ClassMethods
+end
+
+module Loofah::HTML4
+end
+
+class Loofah::HTML5::Document
+  include ::Loofah::ScrubBehavior::Node
+  include ::Loofah::DocumentDecorator
+  include ::Loofah::TextBehavior
+  include ::Loofah::HtmlDocumentBehavior
+end
+
+class Loofah::HTML5::Document
+  extend ::Loofah::HtmlDocumentBehavior::ClassMethods
+end
+
+class Loofah::HTML5::DocumentFragment
+  include ::Loofah::TextBehavior
+  include ::Loofah::HtmlFragmentBehavior
+end
+
+class Loofah::HTML5::DocumentFragment
+  extend ::Loofah::HtmlFragmentBehavior::ClassMethods
 end
 
 module Loofah::HTML5::SafeList
@@ -28907,6 +29242,42 @@ end
 
 Loofah::HTML5::WhiteList = Loofah::HTML5::SafeList
 
+module Loofah::HtmlDocumentBehavior
+  def serialize_root(); end
+end
+
+module Loofah::HtmlDocumentBehavior::ClassMethods
+  def parse(*args, &block); end
+end
+
+module Loofah::HtmlDocumentBehavior::ClassMethods
+end
+
+module Loofah::HtmlDocumentBehavior
+  def self.included(base); end
+end
+
+module Loofah::HtmlFragmentBehavior
+  def serialize(); end
+
+  def serialize_root(); end
+
+  def to_s(); end
+end
+
+module Loofah::HtmlFragmentBehavior::ClassMethods
+  def document_klass(); end
+
+  def parse(tags, encoding=T.unsafe(nil)); end
+end
+
+module Loofah::HtmlFragmentBehavior::ClassMethods
+end
+
+module Loofah::HtmlFragmentBehavior
+  def self.included(base); end
+end
+
 module Loofah::LibxmlWorkarounds
   BROKEN_ESCAPING_ATTRIBUTES = ::T.let(nil, ::T.untyped)
   BROKEN_ESCAPING_ATTRIBUTES_QUALIFYING_TAG = ::T.let(nil, ::T.untyped)
@@ -28919,6 +29290,26 @@ end
 
 module Loofah::Scrubbers
   MAP = ::T.let(nil, ::T.untyped)
+end
+
+module Loofah
+  def self.html4_document(*args, &block); end
+
+  def self.html4_fragment(*args, &block); end
+
+  def self.html5_document(*args, &block); end
+
+  def self.html5_fragment(*args, &block); end
+
+  def self.html5_support?(); end
+
+  def self.scrub_html4_document(string_or_io, method); end
+
+  def self.scrub_html4_fragment(string_or_io, method); end
+
+  def self.scrub_html5_document(string_or_io, method); end
+
+  def self.scrub_html5_fragment(string_or_io, method); end
 end
 
 class MIME::Type
@@ -31720,35 +32111,33 @@ class MessagePack::Factory::Pool
   def initialize(factory, size, options=T.unsafe(nil)); end
 
   def load(data); end
+
+  def packer(&block); end
+
+  def unpacker(&block); end
 end
 
-class MessagePack::Factory::Pool::AbstractPool
-  def checkin(member); end
-
-  def checkout(); end
-
+class MessagePack::Factory::Pool::MemberPool
   def initialize(size, &block); end
+
+  def with(); end
 end
 
-class MessagePack::Factory::Pool::AbstractPool
-end
-
-class MessagePack::Factory::Pool::PackerPool
-end
-
-class MessagePack::Factory::Pool::PackerPool
-end
-
-class MessagePack::Factory::Pool::UnpackerPool
-end
-
-class MessagePack::Factory::Pool::UnpackerPool
+class MessagePack::Factory::Pool::MemberPool
 end
 
 class MessagePack::Factory::Pool
 end
 
+class MessagePack::HeldBuffer
+end
+
+class MessagePack::HeldBuffer
+end
+
 class MessagePack::Packer
+  def register_type_internal(arg, arg1, arg2); end
+
   def reset(); end
 end
 
@@ -31792,9 +32181,7 @@ module MiniMime
   VERSION = ::T.let(nil, ::T.untyped)
 end
 
-class MiniMime::Db
-  LOCK = ::T.let(nil, ::T.untyped)
-end
+MiniMime::Db::PReadFile = File
 
 class MiniMime::Db::RandomAccessDb
   MAX_CACHED = ::T.let(nil, ::T.untyped)
@@ -31833,10 +32220,16 @@ end
 class Minitest::Rails::SpecTests::Test__allows_the_secondary_object_to_be_set_more_than_once__test_unit_test_salesforce_context_rb__33
 end
 
-class Minitest::Rails::SpecTests::Test__amendments__test_integration_amendments_test_backend_prorated_amendments_rb__79
+class Minitest::Rails::SpecTests::Test__backdated_amendment_order__test_integration_amendments_test_backdated_orders_rb__18
 end
 
-class Minitest::Rails::SpecTests::Test__amendments__test_integration_amendments_test_backend_prorated_amendments_rb__79
+class Minitest::Rails::SpecTests::Test__backdated_amendment_order__test_integration_amendments_test_backdated_orders_rb__18
+end
+
+class Minitest::Rails::SpecTests::Test__backend_prorated_amendments__test_integration_amendments_test_backend_prorated_amendments_rb__117
+end
+
+class Minitest::Rails::SpecTests::Test__backend_prorated_amendments__test_integration_amendments_test_backend_prorated_amendments_rb__117
 end
 
 class Minitest::Rails::SpecTests::Test__backoff__test_unit_test_salesforce_util_rb__7
@@ -31845,52 +32238,64 @@ end
 class Minitest::Rails::SpecTests::Test__backoff__test_unit_test_salesforce_util_rb__7
 end
 
-class Minitest::Rails::SpecTests::Test__configuration__test_controllers_test_configurations_controller_rb__125
+class Minitest::Rails::SpecTests::Test__calculate_days_to_prorate__test_unit_test_salesforce_util_rb__85
 end
 
-class Minitest::Rails::SpecTests::Test__configuration__test_controllers_test_configurations_controller_rb__125
+class Minitest::Rails::SpecTests::Test__calculate_days_to_prorate__test_unit_test_salesforce_util_rb__85
 end
 
-class Minitest::Rails::SpecTests::Test__configuration_configuration__test_controllers_test_configurations_controller_rb__235
+class Minitest::Rails::SpecTests::Test__configuration__test_controllers_test_configurations_controller_rb__182
 end
 
-class Minitest::Rails::SpecTests::Test__configuration_configuration__test_controllers_test_configurations_controller_rb__235
+class Minitest::Rails::SpecTests::Test__configuration__test_controllers_test_configurations_controller_rb__182
 end
 
-class Minitest::Rails::SpecTests::Test__configuration_errors__test_controllers_test_configurations_controller_rb__142
+class Minitest::Rails::SpecTests::Test__configuration_configuration__test_controllers_test_configurations_controller_rb__335
 end
 
-class Minitest::Rails::SpecTests::Test__configuration_errors__test_controllers_test_configurations_controller_rb__142
+class Minitest::Rails::SpecTests::Test__configuration_configuration__test_controllers_test_configurations_controller_rb__335
 end
 
-class Minitest::Rails::SpecTests::Test__configuration_show__test_controllers_test_configurations_controller_rb__177
+class Minitest::Rails::SpecTests::Test__configuration_errors__test_controllers_test_configurations_controller_rb__199
 end
 
-class Minitest::Rails::SpecTests::Test__configuration_show__test_controllers_test_configurations_controller_rb__177
+class Minitest::Rails::SpecTests::Test__configuration_errors__test_controllers_test_configurations_controller_rb__199
 end
 
-class Minitest::Rails::SpecTests::Test__contract_co_terminated__test_integration_amendments_test_amendments_rb__543
+class Minitest::Rails::SpecTests::Test__configuration_show__test_controllers_test_configurations_controller_rb__234
 end
 
-class Minitest::Rails::SpecTests::Test__contract_co_terminated__test_integration_amendments_test_amendments_rb__543
+class Minitest::Rails::SpecTests::Test__configuration_show__test_controllers_test_configurations_controller_rb__234
 end
 
-class Minitest::Rails::SpecTests::Test__coupon_reuse__test_integration_translate_test_coupon_rb__323
+class Minitest::Rails::SpecTests::Test__connection_statuses__test_controllers_test_configurations_controller_rb__7
 end
 
-class Minitest::Rails::SpecTests::Test__coupon_reuse__test_integration_translate_test_coupon_rb__323
+class Minitest::Rails::SpecTests::Test__connection_statuses__test_controllers_test_configurations_controller_rb__7
 end
 
-class Minitest::Rails::SpecTests::Test__coupons__test_integration_amendments_test_amendments_rb__657
+class Minitest::Rails::SpecTests::Test__contract_co_terminated__test_integration_amendments_test_amendments_rb__546
 end
 
-class Minitest::Rails::SpecTests::Test__coupons__test_integration_amendments_test_amendments_rb__657
+class Minitest::Rails::SpecTests::Test__contract_co_terminated__test_integration_amendments_test_amendments_rb__546
 end
 
-class Minitest::Rails::SpecTests::Test__cpq_details__test_integration_translate_test_price_rb__115
+class Minitest::Rails::SpecTests::Test__coupon_reuse__test_integration_translate_test_coupon_rb__326
 end
 
-class Minitest::Rails::SpecTests::Test__cpq_details__test_integration_translate_test_price_rb__115
+class Minitest::Rails::SpecTests::Test__coupon_reuse__test_integration_translate_test_coupon_rb__326
+end
+
+class Minitest::Rails::SpecTests::Test__coupons__test_integration_amendments_test_amendments_rb__825
+end
+
+class Minitest::Rails::SpecTests::Test__coupons__test_integration_amendments_test_amendments_rb__825
+end
+
+class Minitest::Rails::SpecTests::Test__cpq_details__test_integration_translate_test_price_rb__124
+end
+
+class Minitest::Rails::SpecTests::Test__cpq_details__test_integration_translate_test_price_rb__124
 end
 
 class Minitest::Rails::SpecTests::Test__credentials_refresh__test_unit_test_user_rb__11
@@ -31899,10 +32304,16 @@ end
 class Minitest::Rails::SpecTests::Test__credentials_refresh__test_unit_test_user_rb__11
 end
 
-class Minitest::Rails::SpecTests::Test__days_until_due__test_integration_translate_test_subscription_schedule_mapping_rb__19
+class Minitest::Rails::SpecTests::Test__custom_order_filters__test_integration_amendments_test_amendments_rb__1116
 end
 
-class Minitest::Rails::SpecTests::Test__days_until_due__test_integration_translate_test_subscription_schedule_mapping_rb__19
+class Minitest::Rails::SpecTests::Test__custom_order_filters__test_integration_amendments_test_amendments_rb__1116
+end
+
+class Minitest::Rails::SpecTests::Test__days_until_due__test_integration_translate_test_subscription_schedule_mapping_rb__22
+end
+
+class Minitest::Rails::SpecTests::Test__days_until_due__test_integration_translate_test_subscription_schedule_mapping_rb__22
 end
 
 class Minitest::Rails::SpecTests::Test__delete_past_phases__test_unit_test_order_amendments_rb__11
@@ -31917,16 +32328,28 @@ end
 class Minitest::Rails::SpecTests::Test__determine_current_time__test_unit_test_order_amendments_rb__38
 end
 
-class Minitest::Rails::SpecTests::Test__errors__test_integration_translate_test_billing_frequency_rb__11
+class Minitest::Rails::SpecTests::Test__errors__test_integration_translate_test_billing_frequency_rb__14
 end
 
-class Minitest::Rails::SpecTests::Test__errors__test_integration_translate_test_billing_frequency_rb__11
+class Minitest::Rails::SpecTests::Test__errors__test_integration_translate_test_billing_frequency_rb__14
 end
 
-class Minitest::Rails::SpecTests::Test__generate_idempotency_key_with_credentials__test_unit_test_stripe_util_rb__11
+class Minitest::Rails::SpecTests::Test__failure_cases__test_integration_amendments_test_evergreen_amendments_rb__194
 end
 
-class Minitest::Rails::SpecTests::Test__generate_idempotency_key_with_credentials__test_unit_test_stripe_util_rb__11
+class Minitest::Rails::SpecTests::Test__failure_cases__test_integration_amendments_test_evergreen_amendments_rb__194
+end
+
+class Minitest::Rails::SpecTests::Test__failure_cases__test_integration_test_evergreen_order_rb__234
+end
+
+class Minitest::Rails::SpecTests::Test__failure_cases__test_integration_test_evergreen_order_rb__234
+end
+
+class Minitest::Rails::SpecTests::Test__failure_cases__test_integration_test_multicurrency_rb__376
+end
+
+class Minitest::Rails::SpecTests::Test__failure_cases__test_integration_test_multicurrency_rb__376
 end
 
 class Minitest::Rails::SpecTests::Test__handling_a_valid_webhook__test_controllers_test_stripe_webhook_controller_rb__50
@@ -31941,10 +32364,16 @@ end
 class Minitest::Rails::SpecTests::Test__host_selection__test_unit_test_user_rb__31
 end
 
-class Minitest::Rails::SpecTests::Test__initial_login_redirect__test_controllers_test_session_controller_rb__170
+class Minitest::Rails::SpecTests::Test__initial_login_redirect__test_controllers_test_session_controller_rb__57
 end
 
-class Minitest::Rails::SpecTests::Test__initial_login_redirect__test_controllers_test_session_controller_rb__170
+class Minitest::Rails::SpecTests::Test__initial_login_redirect__test_controllers_test_session_controller_rb__57
+end
+
+class Minitest::Rails::SpecTests::Test__invoice_rendering_template__test_integration_amendments_test_amendments_rb__1054
+end
+
+class Minitest::Rails::SpecTests::Test__invoice_rendering_template__test_integration_amendments_test_amendments_rb__1054
 end
 
 class Minitest::Rails::SpecTests::Test__log_level_configuration__test_unit_test_error_context_rb__42
@@ -31953,34 +32382,40 @@ end
 class Minitest::Rails::SpecTests::Test__log_level_configuration__test_unit_test_error_context_rb__42
 end
 
-class Minitest::Rails::SpecTests::Test__metadata__test_integration_amendments_test_amendments_rb__882
-end
-
-class Minitest::Rails::SpecTests::Test__metadata__test_integration_amendments_test_amendments_rb__882
-end
-
 class Minitest::Rails::SpecTests::Test__namespace_custom_field_prefix__test_unit_test_translator_rb__73
 end
 
 class Minitest::Rails::SpecTests::Test__namespace_custom_field_prefix__test_unit_test_translator_rb__73
 end
 
-class Minitest::Rails::SpecTests::Test__order_line__test_integration_translate_test_price_reuse_rb__190
+class Minitest::Rails::SpecTests::Test__non_anniversary_amendments__test_integration_amendments_test_proration_amendments_rb__1282
 end
 
-class Minitest::Rails::SpecTests::Test__order_line__test_integration_translate_test_price_reuse_rb__190
+class Minitest::Rails::SpecTests::Test__non_anniversary_amendments__test_integration_amendments_test_proration_amendments_rb__1282
 end
 
-class Minitest::Rails::SpecTests::Test__order_translation_with_coupons__test_integration_translate_test_coupon_rb__81
+class Minitest::Rails::SpecTests::Test__non_anniversary_amendments_with_day_porations__test_integration_amendments_test_proration_amendments_rb__1531
 end
 
-class Minitest::Rails::SpecTests::Test__order_translation_with_coupons__test_integration_translate_test_coupon_rb__81
+class Minitest::Rails::SpecTests::Test__non_anniversary_amendments_with_day_porations__test_integration_amendments_test_proration_amendments_rb__1531
 end
 
-class Minitest::Rails::SpecTests::Test__post_install__test_controllers_test_configurations_controller_rb__68
+class Minitest::Rails::SpecTests::Test__order_line__test_integration_translate_test_price_reuse_rb__196
 end
 
-class Minitest::Rails::SpecTests::Test__post_install__test_controllers_test_configurations_controller_rb__68
+class Minitest::Rails::SpecTests::Test__order_line__test_integration_translate_test_price_reuse_rb__196
+end
+
+class Minitest::Rails::SpecTests::Test__order_translation_with_coupons__test_integration_translate_test_coupon_rb__84
+end
+
+class Minitest::Rails::SpecTests::Test__order_translation_with_coupons__test_integration_translate_test_coupon_rb__84
+end
+
+class Minitest::Rails::SpecTests::Test__post_install__test_controllers_test_configurations_controller_rb__125
+end
+
+class Minitest::Rails::SpecTests::Test__post_install__test_controllers_test_configurations_controller_rb__125
 end
 
 class Minitest::Rails::SpecTests::Test__price_billing_amounts_equal__test_unit_test_price_helpers_rb__153
@@ -31989,16 +32424,10 @@ end
 class Minitest::Rails::SpecTests::Test__price_billing_amounts_equal__test_unit_test_price_helpers_rb__153
 end
 
-class Minitest::Rails::SpecTests::Test__price_reuse__test_integration_translate_test_product_rb__11
+class Minitest::Rails::SpecTests::Test__pricebook__test_integration_translate_test_price_reuse_rb__15
 end
 
-class Minitest::Rails::SpecTests::Test__price_reuse__test_integration_translate_test_product_rb__11
-end
-
-class Minitest::Rails::SpecTests::Test__pricebook__test_integration_translate_test_price_reuse_rb__11
-end
-
-class Minitest::Rails::SpecTests::Test__pricebook__test_integration_translate_test_price_reuse_rb__11
+class Minitest::Rails::SpecTests::Test__pricebook__test_integration_translate_test_price_reuse_rb__15
 end
 
 class Minitest::Rails::SpecTests::Test__prices__test_unit_test_sanitizer_rb__27
@@ -32013,22 +32442,28 @@ end
 class Minitest::Rails::SpecTests::Test__pricing_tiers_equal__test_unit_test_price_helpers_rb__7
 end
 
-class Minitest::Rails::SpecTests::Test__required_and_optional_mapping__test_unit_test_translator_rb__12
+class Minitest::Rails::SpecTests::Test__product_reuse__test_integration_translate_test_product_rb__14
+end
+
+class Minitest::Rails::SpecTests::Test__product_reuse__test_integration_translate_test_product_rb__14
 end
 
 class Minitest::Rails::SpecTests::Test__required_and_optional_mapping__test_unit_test_translator_rb__12
 end
 
-class Minitest::Rails::SpecTests::Test__salesforce_record_locking__test_unit_test_locker_rb__144
+class Minitest::Rails::SpecTests::Test__required_and_optional_mapping__test_unit_test_translator_rb__12
 end
 
-class Minitest::Rails::SpecTests::Test__salesforce_record_locking__test_unit_test_locker_rb__144
+class Minitest::Rails::SpecTests::Test__salesforce_record_locking__test_unit_test_locker_rb__148
 end
 
-class Minitest::Rails::SpecTests::Test__salesforce_trigger_logic__test_integration_translate_test_coupon_rb__12
+class Minitest::Rails::SpecTests::Test__salesforce_record_locking__test_unit_test_locker_rb__148
 end
 
-class Minitest::Rails::SpecTests::Test__salesforce_trigger_logic__test_integration_translate_test_coupon_rb__12
+class Minitest::Rails::SpecTests::Test__salesforce_trigger_logic__test_integration_translate_test_coupon_rb__15
+end
+
+class Minitest::Rails::SpecTests::Test__salesforce_trigger_logic__test_integration_translate_test_coupon_rb__15
 end
 
 class Minitest::Rails::SpecTests::Test__salesforce_type_from_id__test_unit_test_salesforce_util_rb__47
@@ -32037,35 +32472,59 @@ end
 class Minitest::Rails::SpecTests::Test__salesforce_type_from_id__test_unit_test_salesforce_util_rb__47
 end
 
-class Minitest::Rails::SpecTests::Test__skip_conditions__test_integration_test_proration_auto_bill_rb__44
+class Minitest::Rails::SpecTests::Test__skip_conditions__test_integration_test_proration_auto_bill_rb__62
 end
 
-class Minitest::Rails::SpecTests::Test__skip_conditions__test_integration_test_proration_auto_bill_rb__44
+class Minitest::Rails::SpecTests::Test__skip_conditions__test_integration_test_proration_auto_bill_rb__62
 end
 
-class Minitest::Rails::SpecTests::Test__stripe_credentials__test_unit_test_user_rb__45
+class Minitest::Rails::SpecTests::Test__skip_initial_invoice_of_backdated_initial_order__test_integration_amendments_test_backdated_orders_rb__629
+end
+
+class Minitest::Rails::SpecTests::Test__skip_initial_invoice_of_backdated_initial_order__test_integration_amendments_test_backdated_orders_rb__629
+end
+
+class Minitest::Rails::SpecTests::Test__stacked_amendments__test_integration_amendments_test_amendments_rb__1273
+end
+
+class Minitest::Rails::SpecTests::Test__stacked_amendments__test_integration_amendments_test_amendments_rb__1273
+end
+
+class Minitest::Rails::SpecTests::Test__stacked_amendments__test_integration_amendments_test_same_day_amendments_rb__417
+end
+
+class Minitest::Rails::SpecTests::Test__stacked_amendments__test_integration_amendments_test_same_day_amendments_rb__417
+end
+
+class Minitest::Rails::SpecTests::Test__stripe_credentials__test_unit_test_user_rb__81
   def make_user_for_client_credentials_tests(overrides=T.unsafe(nil)); end
 end
 
-class Minitest::Rails::SpecTests::Test__stripe_credentials__test_unit_test_user_rb__45
+class Minitest::Rails::SpecTests::Test__stripe_credentials__test_unit_test_user_rb__81
 end
 
-class Minitest::Rails::SpecTests::Test__stripe_resource_locking__test_unit_test_locker_rb__70
+class Minitest::Rails::SpecTests::Test__stripe_resource_locking__test_unit_test_locker_rb__74
 end
 
-class Minitest::Rails::SpecTests::Test__stripe_resource_locking__test_unit_test_locker_rb__70
+class Minitest::Rails::SpecTests::Test__stripe_resource_locking__test_unit_test_locker_rb__74
 end
 
-class Minitest::Rails::SpecTests::Test__subscription_without_a_billing_cycle__test_integration_amendments_test_amendments_rb__341
+class Minitest::Rails::SpecTests::Test__subscription_without_a_billing_cycle__test_integration_amendments_test_amendments_rb__344
 end
 
-class Minitest::Rails::SpecTests::Test__subscription_without_a_billing_cycle__test_integration_amendments_test_amendments_rb__341
+class Minitest::Rails::SpecTests::Test__subscription_without_a_billing_cycle__test_integration_amendments_test_amendments_rb__344
 end
 
-class Minitest::Rails::SpecTests::Test__supports_negative_order_items__test_integration_amendments_test_proration_amendments_rb__425
+class Minitest::Rails::SpecTests::Test__success_cases__test_integration_test_multicurrency_rb__23
 end
 
-class Minitest::Rails::SpecTests::Test__supports_negative_order_items__test_integration_amendments_test_proration_amendments_rb__425
+class Minitest::Rails::SpecTests::Test__success_cases__test_integration_test_multicurrency_rb__23
+end
+
+class Minitest::Rails::SpecTests::Test__supports_negative_order_items__test_integration_amendments_test_proration_amendments_rb__505
+end
+
+class Minitest::Rails::SpecTests::Test__supports_negative_order_items__test_integration_amendments_test_proration_amendments_rb__505
 end
 
 class Minitest::Rails::SpecTests::Test__time__test_unit_test_metrics_rb__92
@@ -32080,28 +32539,34 @@ end
 class Minitest::Rails::SpecTests::Test__transform_payment_terms_to_days_until_due__test_unit_test_order_helpers_rb__7
 end
 
-class Minitest::Rails::SpecTests::Test__translate__test_controllers_test_configurations_controller_rb__18
+class Minitest::Rails::SpecTests::Test__translate__test_controllers_test_configurations_controller_rb__75
 end
 
-class Minitest::Rails::SpecTests::Test__translate__test_controllers_test_configurations_controller_rb__18
+class Minitest::Rails::SpecTests::Test__translate__test_controllers_test_configurations_controller_rb__75
 end
 
-class Minitest::Rails::SpecTests::Test__translate_all__test_controllers_test_configurations_controller_rb__7
+class Minitest::Rails::SpecTests::Test__translate_all__test_controllers_test_configurations_controller_rb__64
 end
 
-class Minitest::Rails::SpecTests::Test__translate_all__test_controllers_test_configurations_controller_rb__7
+class Minitest::Rails::SpecTests::Test__translate_all__test_controllers_test_configurations_controller_rb__64
 end
 
-class Minitest::Rails::SpecTests::Test__type__test_integration_translate_test_subscription_schedule_mapping_rb__12
+class Minitest::Rails::SpecTests::Test__type__test_integration_translate_test_subscription_schedule_mapping_rb__15
 end
 
-class Minitest::Rails::SpecTests::Test__type__test_integration_translate_test_subscription_schedule_mapping_rb__12
+class Minitest::Rails::SpecTests::Test__type__test_integration_translate_test_subscription_schedule_mapping_rb__15
 end
 
-class Minitest::Rails::SpecTests::Test__update_sf_stripe_id__test_unit_test_translator_rb__123
+class Minitest::Rails::SpecTests::Test__update_sf_stripe_id__test_unit_test_translator_rb__131
 end
 
-class Minitest::Rails::SpecTests::Test__update_sf_stripe_id__test_unit_test_translator_rb__123
+class Minitest::Rails::SpecTests::Test__update_sf_stripe_id__test_unit_test_translator_rb__131
+end
+
+class Minitest::Rails::SpecTests::Test__update_subscription_schedule_fields_on_amendments__test_integration_amendments_test_amendments_rb__1183
+end
+
+class Minitest::Rails::SpecTests::Test__update_subscription_schedule_fields_on_amendments__test_integration_amendments_test_amendments_rb__1183
 end
 
 class Minitest::Rails::SpecTests::Test__using_custom_order_line_price_field__test_unit_test_price_helpers_rb__274
@@ -33281,6 +33746,8 @@ end
 class Net::HTTPAlreadyReported
 end
 
+Net::HTTPClientError::EXCEPTION_TYPE = Net::HTTPServerException
+
 Net::HTTPClientErrorCode = Net::HTTPClientError
 
 class Net::HTTPEarlyHints
@@ -33350,6 +33817,8 @@ end
 class Net::HTTPRangeNotSatisfiable
 end
 
+Net::HTTPRedirection::EXCEPTION_TYPE = Net::HTTPRetriableError
+
 Net::HTTPRedirectionCode = Net::HTTPRedirection
 
 Net::HTTPRequestURITooLarge = Net::HTTPURITooLong
@@ -33358,17 +33827,15 @@ Net::HTTPResponceReceiver = Net::HTTPResponse
 
 Net::HTTPRetriableCode = Net::HTTPRedirection
 
+Net::HTTPServerError::EXCEPTION_TYPE = Net::HTTPFatalError
+
 Net::HTTPServerErrorCode = Net::HTTPServerError
 
 Net::HTTPSession = Net::HTTP
 
-class Net::HTTPSuccess
-end
+Net::HTTPSuccess::EXCEPTION_TYPE = Net::HTTPError
 
-Net::HTTPSuccessCode::EXCEPTION_TYPE = Net::HTTPError
-
-class Net::HTTPSuccess
-end
+Net::HTTPSuccessCode = Net::HTTPSuccess
 
 class Net::HTTPURITooLong
   HAS_BODY = ::T.let(nil, ::T.untyped)
@@ -33618,7 +34085,7 @@ class Net::IMAP::UnknownResponseError
 end
 
 class Net::IMAP::XOauth2Authenticator
-  def initialize(user, oauth2_token); end
+  def initialize(user, oauth2_token, **_); end
 
   def process(_data); end
 end
@@ -33968,7 +34435,19 @@ module Nokogiri::Gumbo
   DEFAULT_MAX_TREE_DEPTH = ::T.let(nil, ::T.untyped)
 end
 
-Nokogiri::HTML = Nokogiri::HTML4
+module Nokogiri::HTML4
+end
+
+class Nokogiri::HTML4::ElementDescription
+end
+
+Nokogiri::HTML::ElementDescription::Desc = Struct::HTMLElementDescription
+
+class Nokogiri::HTML4::ElementDescription
+end
+
+module Nokogiri::HTML4
+end
 
 module Nokogiri::HTML4
   NamedCharacters = ::T.let(nil, ::T.untyped)
@@ -34085,8 +34564,6 @@ class Nokogiri::HTML4::ElementDescription
   WIDTH_ATTR = ::T.let(nil, ::T.untyped)
 end
 
-Nokogiri::HTML4::ElementDescription::Desc = Struct::HTMLElementDescription
-
 class Nokogiri::HTML4::EncodingReader
   def encoding_found(); end
 
@@ -34167,6 +34644,7 @@ class Nokogiri::XML::Element
 end
 
 class Nokogiri::XML::ElementContent
+  include ::Nokogiri::XML::PP::Node
   ELEMENT = ::T.let(nil, ::T.untyped)
   MULT = ::T.let(nil, ::T.untyped)
   ONCE = ::T.let(nil, ::T.untyped)
@@ -34317,7 +34795,10 @@ class Object
   ARGV = ::T.let(nil, ::T.untyped)
   CROSS_COMPILING = ::T.let(nil, ::T.untyped)
   DB = ::T.let(nil, ::T.untyped)
+  DEFAULT_STATE_ENCRYPTION_KEY = ::T.let(nil, ::T.untyped)
+  DEFAULT_STATE_SIGNING_KEY = ::T.let(nil, ::T.untyped)
   ENV = ::T.let(nil, ::T.untyped)
+  JWT_HEADER = ::T.let(nil, ::T.untyped)
   RUBY_COPYRIGHT = ::T.let(nil, ::T.untyped)
   RUBY_DESCRIPTION = ::T.let(nil, ::T.untyped)
   RUBY_ENGINE = ::T.let(nil, ::T.untyped)
@@ -34357,15 +34838,9 @@ module ObjectSpace
 
   def self.allocation_sourceline(arg); end
 
-  def self.count_imemo_objects(arg); end
-
   def self.count_nodes(*arg); end
 
-  def self.count_objects_size(arg); end
-
   def self.count_symbols(*arg); end
-
-  def self.count_tdata_objects(arg); end
 
   def self.dump(*arg); end
 
@@ -34374,10 +34849,6 @@ module ObjectSpace
   def self.internal_class_of(arg); end
 
   def self.internal_super_of(arg); end
-
-  def self.memsize_of(arg); end
-
-  def self.memsize_of_all(arg); end
 
   def self.reachable_objects_from(arg); end
 
@@ -36670,6 +37141,12 @@ end
 class PG::LockNotAvailable
 end
 
+class PG::LostCopyState
+end
+
+class PG::LostCopyState
+end
+
 class PG::MoreThanOneSqlJsonItem
 end
 
@@ -37779,6 +38256,22 @@ class Parallel::UserInterruptHandler
   INTERRUPT_SIGNAL = ::T.let(nil, ::T.untyped)
 end
 
+module Parallel
+  def self.filter_map(*args, &block); end
+
+  def self.physical_processor_count(); end
+
+  def self.processor_count(); end
+end
+
+module Parlour
+  VERSION = ::T.let(nil, ::T.untyped)
+end
+
+class Parlour::Conversion::Converter
+  def self.new(*args, &blk); end
+end
+
 class Parlour::Debugging::Tree
   def begin(*args, &blk); end
 
@@ -37795,6 +38288,7 @@ class Parlour::Debugging::Tree
   def line_prefix(); end
 
   def text_prefix(); end
+  INDENT_SPACES = ::T.let(nil, ::T.untyped)
 end
 
 module Parlour::Mixin
@@ -37822,6 +38316,10 @@ end
 module Parlour::Mixin
 end
 
+class Parlour::Plugin
+  def self.new(*args, &blk); end
+end
+
 class Parlour::RbiGenerator::ClassNamespace
   Child = type_member
 end
@@ -37843,12 +38341,19 @@ class Parlour::RbiGenerator::Namespace
   extend ::T::Generic
 end
 
+Parlour::RbiGenerator::Options = Parlour::Options
+
 class Parlour::RbiGenerator::Parameter
   def describe_in_method(*args, &blk); end
+  PREFIXES = ::T.let(nil, ::T.untyped)
 end
 
 class Parlour::RbiGenerator::StructClassNamespace
   Child = type_member
+end
+
+class Parlour::RbiGenerator::StructProp
+  EXTRA_PROPERTIES = ::T.let(nil, ::T.untyped)
 end
 
 class Parlour::RbsGenerator::ClassNamespace
@@ -37876,6 +38381,11 @@ class Parlour::RbsGenerator::Namespace
   extend ::T::Generic
 end
 
+class Parlour::RbsGenerator::Parameter
+  PREFIXES = ::T.let(nil, ::T.untyped)
+  RBS_KEYWORDS = ::T.let(nil, ::T.untyped)
+end
+
 class Parlour::TypedObject
   def describe_attrs(*args, &blk); end
 
@@ -37884,6 +38394,18 @@ class Parlour::TypedObject
   def inspect(*args, &blk); end
 
   def to_s(*args, &blk); end
+end
+
+class Parlour::TypedObject
+  def self.new(*args, &blk); end
+end
+
+module Parlour::Types
+  TypeLike = ::T.let(nil, ::T.untyped)
+end
+
+class Parlour::Types::Type
+  def self.new(*args, &blk); end
 end
 
 ParseError = Racc::ParseError
@@ -37945,27 +38467,80 @@ end
 class Parser::Lexer
   def check_ambiguous_slash(tm); end
 
-  def check_invalid_escapes(p); end
-
-  def e_heredoc_nl(p); end
-
   def e_lbrace(); end
 
-  def emit_character_constant(); end
+  def emit_class_var(ts=T.unsafe(nil), te=T.unsafe(nil)); end
 
   def emit_colon_with_digits(p, tm, diag_msg); end
 
   def emit_comment_from_range(p, pe); end
 
-  def emit_global_var(); end
+  def emit_global_var(ts=T.unsafe(nil), te=T.unsafe(nil)); end
 
-  def emit_invalid_escapes?(); end
+  def emit_instance_var(ts=T.unsafe(nil), te=T.unsafe(nil)); end
 
   def emit_rbrace_rparen_rbrack(); end
 
   def emit_singleton_class(); end
 
+  def numeric_literal_int(); end
+
+  def on_newline(p); end
+
+  def version(); end
+  ESCAPE_WHITESPACE = ::T.let(nil, ::T.untyped)
+  KEYWORDS = ::T.let(nil, ::T.untyped)
+  KEYWORDS_BEGIN = ::T.let(nil, ::T.untyped)
+  LEX_STATES = ::T.let(nil, ::T.untyped)
+  PUNCTUATION = ::T.let(nil, ::T.untyped)
+  PUNCTUATION_BEGIN = ::T.let(nil, ::T.untyped)
+end
+
+class Parser::Lexer::Dedenter
+  TAB_WIDTH = ::T.let(nil, ::T.untyped)
+end
+
+class Parser::Lexer::Literal
+  DELIMITERS = ::T.let(nil, ::T.untyped)
+  TYPES = ::T.let(nil, ::T.untyped)
+end
+
+class Parser::Lexer
+  def self.lex_en_inside_string(); end
+
+  def self.lex_en_inside_string=(lex_en_inside_string); end
+end
+
+class Parser::LexerStrings
+  def advance(p); end
+
+  def check_ambiguous_slash(tm); end
+
+  def check_invalid_escapes(p); end
+
+  def close_interp_on_current_literal(p); end
+
+  def cond(); end
+
+  def continue_lexing(current_literal); end
+
+  def dedent_level(); end
+
+  def diagnostic(type, reason, arguments=T.unsafe(nil), location=T.unsafe(nil), highlights=T.unsafe(nil)); end
+
+  def emit(type, value=T.unsafe(nil), s=T.unsafe(nil), e=T.unsafe(nil)); end
+
+  def emit_character_constant(); end
+
+  def emit_interp_var(interp_var_kind); end
+
+  def emit_invalid_escapes?(); end
+
+  def encode_escape(ord); end
+
   def encode_escaped_char(p); end
+
+  def eof_codepoint?(point); end
 
   def extend_interp_code(current_literal); end
 
@@ -37987,36 +38562,107 @@ class Parser::Lexer
 
   def extend_string_slice_end(lookahead); end
 
-  def numeric_literal_int(); end
+  def herebody_s(); end
+
+  def herebody_s=(herebody_s); end
+
+  def initialize(lexer, version); end
+
+  def literal(); end
+
+  def next_state_for_literal(literal); end
+
+  def on_newline(p); end
+
+  def pop_literal(); end
+
+  def push_literal(*args); end
+
+  def range(s=T.unsafe(nil), e=T.unsafe(nil)); end
+
+  def read_character_constant(p); end
 
   def read_post_meta_or_ctrl_char(p); end
+
+  def reset(); end
 
   def slash_c_char(); end
 
   def slash_m_char(); end
 
+  def source_buffer(); end
+
+  def source_buffer=(source_buffer); end
+
+  def source_pts(); end
+
+  def source_pts=(source_pts); end
+
+  def tok(s=T.unsafe(nil), e=T.unsafe(nil)); end
+
   def unescape_char(p); end
 
   def unicode_points(p); end
 
-  def version(); end
+  def version?(*versions); end
   ESCAPES = ::T.let(nil, ::T.untyped)
   ESCAPE_WHITESPACE = ::T.let(nil, ::T.untyped)
-  KEYWORDS = ::T.let(nil, ::T.untyped)
-  KEYWORDS_BEGIN = ::T.let(nil, ::T.untyped)
   LEX_STATES = ::T.let(nil, ::T.untyped)
-  PUNCTUATION = ::T.let(nil, ::T.untyped)
-  PUNCTUATION_BEGIN = ::T.let(nil, ::T.untyped)
   REGEXP_META_CHARACTERS = ::T.let(nil, ::T.untyped)
 end
 
-class Parser::Lexer::Dedenter
-  TAB_WIDTH = ::T.let(nil, ::T.untyped)
-end
+class Parser::LexerStrings
+  def self.lex_en_character(); end
 
-class Parser::Lexer::Literal
-  DELIMITERS = ::T.let(nil, ::T.untyped)
-  TYPES = ::T.let(nil, ::T.untyped)
+  def self.lex_en_character=(lex_en_character); end
+
+  def self.lex_en_interp_backslash_delimited(); end
+
+  def self.lex_en_interp_backslash_delimited=(lex_en_interp_backslash_delimited); end
+
+  def self.lex_en_interp_backslash_delimited_words(); end
+
+  def self.lex_en_interp_backslash_delimited_words=(lex_en_interp_backslash_delimited_words); end
+
+  def self.lex_en_interp_string(); end
+
+  def self.lex_en_interp_string=(lex_en_interp_string); end
+
+  def self.lex_en_interp_words(); end
+
+  def self.lex_en_interp_words=(lex_en_interp_words); end
+
+  def self.lex_en_plain_backslash_delimited(); end
+
+  def self.lex_en_plain_backslash_delimited=(lex_en_plain_backslash_delimited); end
+
+  def self.lex_en_plain_backslash_delimited_words(); end
+
+  def self.lex_en_plain_backslash_delimited_words=(lex_en_plain_backslash_delimited_words); end
+
+  def self.lex_en_plain_string(); end
+
+  def self.lex_en_plain_string=(lex_en_plain_string); end
+
+  def self.lex_en_plain_words(); end
+
+  def self.lex_en_plain_words=(lex_en_plain_words); end
+
+  def self.lex_en_regexp_modifiers(); end
+
+  def self.lex_en_regexp_modifiers=(lex_en_regexp_modifiers); end
+
+  def self.lex_en_unknown(); end
+
+  def self.lex_en_unknown=(lex_en_unknown); end
+
+  def self.lex_error(); end
+
+  def self.lex_error=(lex_error); end
+
+  def self.lex_start(); end
+
+  def self.lex_start=(lex_start); end
 end
 
 class Parser::MaxNumparamStack
@@ -39215,6 +39861,34 @@ module Process
   def self.fork(); end
 end
 
+class ProgressBar::Base
+  def bar_component(); end
+
+  def bar_component=(bar_component); end
+
+  def percentage_component(); end
+
+  def percentage_component=(percentage_component); end
+
+  def projector(); end
+
+  def projector=(projector); end
+
+  def rate_component(); end
+
+  def rate_component=(rate_component); end
+
+  def time_component(); end
+
+  def time_component=(time_component); end
+
+  def title_component(); end
+
+  def title_component=(title_component); end
+  RUNNING_AVERAGE_RATE_DEPRECATION_WARNING = ::T.let(nil, ::T.untyped)
+  SMOOTHING_DEPRECATION_WARNING = ::T.let(nil, ::T.untyped)
+end
+
 class ProgressBar::Components::Bar
   DEFAULT_PROGRESS_MARK = ::T.let(nil, ::T.untyped)
   DEFAULT_REMAINDER_MARK = ::T.let(nil, ::T.untyped)
@@ -39222,6 +39896,11 @@ class ProgressBar::Components::Bar
 end
 
 class ProgressBar::Components::Time
+  def estimated_wall_clock(); end
+
+  def projector(); end
+
+  def projector=(projector); end
   ELAPSED_LABEL = ::T.let(nil, ::T.untyped)
   ESTIMATED_LABEL = ::T.let(nil, ::T.untyped)
   NO_TIME_ELAPSED_TEXT = ::T.let(nil, ::T.untyped)
@@ -39231,6 +39910,7 @@ class ProgressBar::Components::Time
   OOB_TIME_FORMATS = ::T.let(nil, ::T.untyped)
   OOB_UNKNOWN_TIME_TEXT = ::T.let(nil, ::T.untyped)
   TIME_FORMAT = ::T.let(nil, ::T.untyped)
+  WALL_CLOCK_FORMAT = ::T.let(nil, ::T.untyped)
 end
 
 class ProgressBar::Components::Title
@@ -39261,12 +39941,73 @@ end
 
 class ProgressBar::Progress
   DEFAULT_BEGINNING_POSITION = ::T.let(nil, ::T.untyped)
-  DEFAULT_SMOOTHING = ::T.let(nil, ::T.untyped)
   DEFAULT_TOTAL = ::T.let(nil, ::T.untyped)
+end
+
+class ProgressBar::Projector
+  NAME_TO_PROJECTOR_MAP = ::T.let(nil, ::T.untyped)
+end
+
+ProgressBar::Projector::DEFAULT_PROJECTOR = ProgressBar::Projectors::SmoothedAverage
+
+class ProgressBar::Projector
+  def self.from_type(name); end
+end
+
+module ProgressBar::Projectors
+end
+
+class ProgressBar::Projectors::SmoothedAverage
+  def decrement(); end
+
+  def increment(); end
+
+  def initialize(options=T.unsafe(nil)); end
+
+  def none?(); end
+
+  def progress(); end
+
+  def progress=(new_progress); end
+
+  def projection(); end
+
+  def projection=(projection); end
+
+  def reset(); end
+
+  def samples(); end
+
+  def samples=(samples); end
+
+  def start(options=T.unsafe(nil)); end
+
+  def strength(); end
+
+  def strength=(strength); end
+
+  def total=(_new_total); end
+  DEFAULT_BEGINNING_POSITION = ::T.let(nil, ::T.untyped)
+  DEFAULT_STRENGTH = ::T.let(nil, ::T.untyped)
+end
+
+class ProgressBar::Projectors::SmoothedAverage
+  def self.calculate(current_projection, new_value, rate); end
+end
+
+module ProgressBar::Projectors
+end
+
+module ProgressBar::Refinements::Enumerator
+  ARITY_ERROR_MESSAGE = ::T.let(nil, ::T.untyped)
 end
 
 class ProgressBar::Time
   TIME_MOCKING_LIBRARY_METHODS = ::T.let(nil, ::T.untyped)
+end
+
+class ProgressBar::Timer
+  def now(); end
 end
 
 class Pry
@@ -39472,6 +40213,7 @@ class Puma::Client
   ALLOWED_TRANSFER_ENCODING = ::T.let(nil, ::T.untyped)
   CHUNK_SIZE_INVALID = ::T.let(nil, ::T.untyped)
   CHUNK_VALID_ENDING = ::T.let(nil, ::T.untyped)
+  CHUNK_VALID_ENDING_SIZE = ::T.let(nil, ::T.untyped)
   CONTENT_LENGTH_VALUE_INVALID = ::T.let(nil, ::T.untyped)
   EmptyBody = ::T.let(nil, ::T.untyped)
   TE_ERR_MSG = ::T.let(nil, ::T.untyped)
@@ -39679,6 +40421,65 @@ module Puma
   def self.osx?(); end
 end
 
+module REXML::Light
+end
+
+class REXML::Light::Node
+  def <<(element); end
+
+  def =~(path); end
+
+  def [](reference, ns=T.unsafe(nil)); end
+
+  def []=(reference, ns, value=T.unsafe(nil)); end
+
+  def children(); end
+
+  def each(&blk); end
+
+  def has_name?(name, namespace=T.unsafe(nil)); end
+
+  def initialize(node=T.unsafe(nil)); end
+
+  def local_name(); end
+
+  def local_name=(name_str); end
+
+  def name(); end
+
+  def name=(name_str, ns=T.unsafe(nil)); end
+
+  def namespace(prefix=T.unsafe(nil)); end
+
+  def namespace=(namespace); end
+
+  def node_type(); end
+
+  def parent(); end
+
+  def parent=(node); end
+
+  def prefix(namespace=T.unsafe(nil)); end
+
+  def root(); end
+
+  def size(); end
+
+  def text=(foo); end
+  NAMESPLIT = ::T.let(nil, ::T.untyped)
+  PARENTS = ::T.let(nil, ::T.untyped)
+end
+
+class REXML::Light::Node
+end
+
+module REXML::Light
+end
+
+module REXML::Namespace
+  NAME_WITHOUT_NAMESPACE = ::T.let(nil, ::T.untyped)
+end
+
 class REXML::Parsers::BaseParser
   EXTERNAL_ID_PUBLIC = ::T.let(nil, ::T.untyped)
   EXTERNAL_ID_SYSTEM = ::T.let(nil, ::T.untyped)
@@ -39688,12 +40489,66 @@ class REXML::Parsers::BaseParser
 end
 
 class REXML::Parsers::XPathParser
+  def preciate_to_string(parsed, &block); end
+
+  def predicate_to_path(parsed, &block); end
   LOCAL_NAME_WILDCARD = ::T.let(nil, ::T.untyped)
   PREFIX_WILDCARD = ::T.let(nil, ::T.untyped)
 end
 
 class REXML::XPathParser
   DEBUG = ::T.let(nil, ::T.untyped)
+end
+
+class REXMLUtilityNode
+  def add_node(node); end
+
+  def attributes(); end
+
+  def attributes=(attributes); end
+
+  def children(); end
+
+  def children=(children); end
+
+  def initialize(name, normalized_attributes=T.unsafe(nil)); end
+
+  def inner_html(); end
+
+  def name(); end
+
+  def name=(name); end
+
+  def to_hash(); end
+
+  def to_html(); end
+
+  def type(); end
+
+  def type=(type); end
+
+  def typecast_value(value); end
+
+  def undasherize_keys(params); end
+end
+
+class REXMLUtilityNode
+  def self.available_typecasts(); end
+
+  def self.available_typecasts=(obj); end
+
+  def self.typecasts(); end
+
+  def self.typecasts=(obj); end
+end
+
+class REXMLUtiliyNodeString
+  def attributes(); end
+
+  def attributes=(attributes); end
+end
+
+class REXMLUtiliyNodeString
 end
 
 module Raabro
@@ -40035,6 +40890,12 @@ class Rack::Multipart::Generator
 end
 
 class Rack::Multipart::Generator
+end
+
+class Rack::Multipart::MultipartTotalPartLimitError
+end
+
+class Rack::Multipart::MultipartTotalPartLimitError
 end
 
 class Rack::Multipart::Parser
@@ -40386,6 +41247,16 @@ Rack::Utils::KeySpaceConstrainedParams = Rack::QueryParser::Params
 
 Rack::Utils::ParameterTypeError = Rack::QueryParser::ParameterTypeError
 
+module Rack::Utils
+  def self.multipart_file_limit(); end
+
+  def self.multipart_file_limit=(multipart_file_limit); end
+
+  def self.multipart_total_part_limit(); end
+
+  def self.multipart_total_part_limit=(multipart_total_part_limit); end
+end
+
 class Rails::ApplicationController
   include ::GeneratedUrlHelpers
 end
@@ -40456,6 +41327,44 @@ end
 
 module Rails::Command::Spellchecker
   def self.suggest(word, from:); end
+end
+
+module Rails::Dom::Testing
+  def default_html_version(); end
+
+  def default_html_version=(val); end
+end
+
+module Rails::Dom::Testing::Assertions::DomAssertions
+  def equal_child?(child, other_child, strict); end
+
+  def extract_children(node, strict); end
+end
+
+module Rails::Dom::Testing::Assertions::SelectorAssertions
+  def assert_dom(*args, &block); end
+
+  def assert_dom_email(html_version: T.unsafe(nil), &block); end
+
+  def assert_dom_encoded(element=T.unsafe(nil), html_version: T.unsafe(nil), &block); end
+end
+
+class Rails::Dom::Testing::Railtie
+end
+
+class Rails::Dom::Testing::Railtie
+end
+
+module Rails::Dom::Testing
+  def self.default_html_version(); end
+
+  def self.default_html_version=(val); end
+
+  def self.html5_support?(); end
+
+  def self.html_document(html_version: T.unsafe(nil)); end
+
+  def self.html_document_fragment(html_version: T.unsafe(nil)); end
 end
 
 module Rails::Generators::Actions
@@ -40813,8 +41722,6 @@ module RbConfig
   def self.expand(val, config=T.unsafe(nil)); end
 
   def self.fire_update!(key, val, mkconf=T.unsafe(nil), conf=T.unsafe(nil)); end
-
-  def self.ruby(); end
 end
 
 module Readline
@@ -40903,13 +41810,19 @@ class Redis::Namespace
 
   def close(*args, &block); end
 
+  def expiretime(*args, &block); end
+
   def getex(*args, &block); end
+
+  def pexpiretime(*args, &block); end
 
   def redis=(redis); end
 
   def sadd?(*args, &block); end
 
   def smismember(*args, &block); end
+
+  def srem?(*args, &block); end
   ADMINISTRATIVE_COMMANDS = ::T.let(nil, ::T.untyped)
   COMMANDS = ::T.let(nil, ::T.untyped)
   DEPRECATED_COMMANDS = ::T.let(nil, ::T.untyped)
@@ -40923,6 +41836,10 @@ class Redis::Namespace
   def self.sadd_returns_boolean(); end
 
   def self.sadd_returns_boolean=(sadd_returns_boolean); end
+
+  def self.srem_returns_boolean(); end
+
+  def self.srem_returns_boolean=(srem_returns_boolean); end
 end
 
 class Regexp
@@ -40941,8 +41858,22 @@ Regexp::Expression::Anchor::EOS = Regexp::Expression::Anchor::EndOfString
 
 Regexp::Expression::Anchor::EOSobEOL = Regexp::Expression::Anchor::EndOfStringOrBeforeEndOfLine
 
+Regexp::Expression::Backref = Regexp::Expression::Backreference
+
 class Regexp::Expression::Base
   include ::Regexp::Expression::Shared
+  def custom_to_s_handling(); end
+
+  def custom_to_s_handling=(custom_to_s_handling); end
+
+  def parent(); end
+
+  def parent=(parent); end
+
+  def pre_quantifier_decorations(); end
+
+  def pre_quantifier_decorations=(pre_quantifier_decorations); end
+
   def te(); end
 
   def te=(te); end
@@ -40952,15 +41883,27 @@ class Regexp::Expression::Base
   extend ::Regexp::Expression::Shared::ClassMethods
 end
 
-Regexp::Expression::CharacterSet::Intersection::OPERAND = Regexp::Expression::CharacterSet::IntersectedSequence
+Regexp::Expression::Escape = Regexp::Expression::EscapeSequence
 
 Regexp::Expression::MatchLength = Regexp::MatchLength
+
+Regexp::Expression::Nonposixclass = Regexp::Expression::PosixClass
+
+Regexp::Expression::Nonproperty = Regexp::Expression::UnicodeProperty
+
+Regexp::Expression::Posixclass = Regexp::Expression::PosixClass
+
+Regexp::Expression::Property = Regexp::Expression::UnicodeProperty
 
 class Regexp::Expression::Quantifier
   include ::Regexp::Expression::Shared
   def conditional_level(); end
 
   def conditional_level=(conditional_level); end
+
+  def custom_to_s_handling(); end
+
+  def custom_to_s_handling=(custom_to_s_handling); end
 
   def level(); end
 
@@ -40971,6 +41914,14 @@ class Regexp::Expression::Quantifier
   def options(); end
 
   def options=(options); end
+
+  def parent(); end
+
+  def parent=(parent); end
+
+  def pre_quantifier_decorations(); end
+
+  def pre_quantifier_decorations=(pre_quantifier_decorations); end
 
   def quantifier(); end
 
@@ -41000,6 +41951,14 @@ class Regexp::Expression::Quantifier
   extend ::Regexp::Expression::Shared::ClassMethods
 end
 
+class Regexp::Expression::CharacterSet
+end
+
+Regexp::Expression::Set::IntersectedSequence = Regexp::Expression::CharacterSet::IntersectedSequence
+
+class Regexp::Expression::CharacterSet
+end
+
 module Regexp::Expression::Shared
   def ==(other); end
 
@@ -41007,13 +41966,23 @@ module Regexp::Expression::Shared
 
   def base_length(); end
 
+  def capturing?(); end
+
   def coded_offset(); end
+
+  def comment?(); end
+
+  def decorative?(); end
+
+  def ends_at(include_quantifier=T.unsafe(nil)); end
 
   def eql?(other); end
 
   def full_length(); end
 
   def human_name(); end
+
+  def inspect(); end
 
   def is?(test_token, test_type=T.unsafe(nil)); end
 
@@ -41027,11 +41996,17 @@ module Regexp::Expression::Shared
 
   def parts(); end
 
+  def pre_quantifier_decoration(expression_format=T.unsafe(nil)); end
+
+  def pretty_print(q); end
+
+  def pretty_print_instance_variables(); end
+
   def quantified?(); end
 
   def quantifier=(qtf); end
 
-  def quantifier_affix(expression_format); end
+  def quantifier_affix(expression_format=T.unsafe(nil)); end
 
   def referential?(); end
 
@@ -41049,9 +42024,19 @@ module Regexp::Expression::Shared
 end
 
 module Regexp::Expression::Shared::ClassMethods
+  def capturing?(); end
+
+  def comment?(); end
+
   def construct(params=T.unsafe(nil)); end
 
   def construct_defaults(); end
+
+  def decorative?(); end
+
+  def referential?(); end
+
+  def terminal?(); end
 
   def token_class(); end
 end
@@ -41061,6 +42046,14 @@ end
 
 module Regexp::Expression::Shared
   def self.included(mod); end
+end
+
+class Regexp::Expression::Subexpression
+  def each_expression_with_index(&block); end
+
+  def each_expression_without_index(&block); end
+
+  def extract_quantifier_target(quantifier_description); end
 end
 
 class Regexp::Lexer
@@ -41076,6 +42069,8 @@ class Regexp::Parser
   VERSION = ::T.let(nil, ::T.untyped)
 end
 
+Regexp::Parser::UP = Regexp::Expression::UnicodeProperty
+
 Regexp::Parser::UPTokens = Regexp::Syntax::Token::UnicodeProperty
 
 class Regexp::Scanner
@@ -41085,10 +42080,16 @@ class Regexp::Scanner
 end
 
 class Regexp::Scanner::UnknownPosixClassError
-  def initialize(text); end
+  def initialize(text, _); end
 end
 
 class Regexp::Scanner::UnknownPosixClassError
+end
+
+class Regexp::Scanner::ValidationError
+  def self.for(type, problem, reason=T.unsafe(nil)); end
+
+  def self.types(); end
 end
 
 class Regexp::Scanner
@@ -41151,6 +42152,14 @@ module Regexp::Syntax::Token
   Types = ::T.let(nil, ::T.untyped)
 end
 
+module Regexp::Syntax::Token::Alternation
+  All = ::T.let(nil, ::T.untyped)
+  Type = ::T.let(nil, ::T.untyped)
+end
+
+module Regexp::Syntax::Token::Alternation
+end
+
 module Regexp::Syntax::Token::Anchor
   All = ::T.let(nil, ::T.untyped)
   Basic = ::T.let(nil, ::T.untyped)
@@ -41166,6 +42175,8 @@ module Regexp::Syntax::Token::Assertion
   Lookbehind = ::T.let(nil, ::T.untyped)
   Type = ::T.let(nil, ::T.untyped)
 end
+
+Regexp::Syntax::Token::Backref = Regexp::Syntax::Token::Backreference
 
 module Regexp::Syntax::Token::Backreference
   All = ::T.let(nil, ::T.untyped)
@@ -41215,6 +42226,8 @@ module Regexp::Syntax::Token::Escape
   Unicode = ::T.let(nil, ::T.untyped)
 end
 
+Regexp::Syntax::Token::EscapeSequence = Regexp::Syntax::Token::Escape
+
 module Regexp::Syntax::Token::FreeSpace
   All = ::T.let(nil, ::T.untyped)
   Type = ::T.let(nil, ::T.untyped)
@@ -41246,6 +42259,7 @@ end
 
 module Regexp::Syntax::Token::Meta
   All = ::T.let(nil, ::T.untyped)
+  Alternation = ::T.let(nil, ::T.untyped)
   Basic = ::T.let(nil, ::T.untyped)
   Extended = ::T.let(nil, ::T.untyped)
   Type = ::T.let(nil, ::T.untyped)
@@ -41259,6 +42273,8 @@ module Regexp::Syntax::Token::PosixClass
   Type = ::T.let(nil, ::T.untyped)
 end
 
+Regexp::Syntax::Token::Property = Regexp::Syntax::Token::UnicodeProperty
+
 module Regexp::Syntax::Token::Quantifier
   All = ::T.let(nil, ::T.untyped)
   Greedy = ::T.let(nil, ::T.untyped)
@@ -41271,6 +42287,8 @@ module Regexp::Syntax::Token::Quantifier
   Type = ::T.let(nil, ::T.untyped)
   V1_8_6 = ::T.let(nil, ::T.untyped)
 end
+
+Regexp::Syntax::Token::Set = Regexp::Syntax::Token::CharacterSet
 
 module Regexp::Syntax::Token::SubexpressionCall
   All = ::T.let(nil, ::T.untyped)
@@ -41301,6 +42319,7 @@ module Regexp::Syntax::Token::UnicodeProperty
   Derived_V2_5_0 = ::T.let(nil, ::T.untyped)
   Emoji = ::T.let(nil, ::T.untyped)
   Emoji_V2_5_0 = ::T.let(nil, ::T.untyped)
+  Emoji_V2_6_0 = ::T.let(nil, ::T.untyped)
   NonType = ::T.let(nil, ::T.untyped)
   POSIX = ::T.let(nil, ::T.untyped)
   Script = ::T.let(nil, ::T.untyped)
@@ -41374,9 +42393,16 @@ module Reline
 end
 
 class Reline::ANSI
+  ANSI_CURSOR_KEY_BINDINGS = ::T.let(nil, ::T.untyped)
   CAPNAME_KEY_BINDINGS = ::T.let(nil, ::T.untyped)
   END_BRACKETED_PASTE = ::T.let(nil, ::T.untyped)
   START_BRACKETED_PASTE = ::T.let(nil, ::T.untyped)
+end
+
+class Reline::ANSI
+  def self.set_default_key_bindings_ansi_cursor(config); end
+
+  def self.with_raw_input(); end
 end
 
 class Reline::Config
@@ -41386,6 +42412,7 @@ class Reline::Config
 end
 
 class Reline::Core
+  def io_gate(); end
   ATTR_READER_NAMES = ::T.let(nil, ::T.untyped)
 end
 
@@ -41411,11 +42438,35 @@ class Reline::GeneralIO
   def self.hide_cursor(); end
 
   def self.show_cursor(); end
+
+  def self.with_raw_input(); end
 end
 
 Reline::IOGate = Reline::ANSI
 
-Reline::Key = Struct::Key
+class Reline::Key
+  def ==(other); end
+
+  def char(); end
+
+  def char=(_); end
+
+  def combined_char(); end
+
+  def combined_char=(_); end
+
+  def match?(other); end
+
+  def with_meta(); end
+
+  def with_meta=(_); end
+end
+
+class Reline::Key
+  def self.[](*arg); end
+
+  def self.members(); end
+end
 
 class Reline::KeyActor::Base
   MAPPING = ::T.let(nil, ::T.untyped)
@@ -41433,6 +42484,12 @@ class Reline::KeyActor::ViInsert
   MAPPING = ::T.let(nil, ::T.untyped)
 end
 
+class Reline::KeyStroke
+  CSI_INTERMEDIATE_BYTES_RANGE = ::T.let(nil, ::T.untyped)
+  CSI_PARAMETER_BYTES_RANGE = ::T.let(nil, ::T.untyped)
+  ESC_BYTE = ::T.let(nil, ::T.untyped)
+end
+
 module Reline::KillRing::State
   CONTINUED = ::T.let(nil, ::T.untyped)
   FRESH = ::T.let(nil, ::T.untyped)
@@ -41441,12 +42498,36 @@ module Reline::KillRing::State
 end
 
 class Reline::LineEditor
+  def io_gate(); end
   DIALOG_DEFAULT_HEIGHT = ::T.let(nil, ::T.untyped)
+  MINIMUM_SCROLLBAR_HEIGHT = ::T.let(nil, ::T.untyped)
   PROMPT_LIST_CACHE_TIMEOUT = ::T.let(nil, ::T.untyped)
   VI_MOTIONS = ::T.let(nil, ::T.untyped)
 end
 
-Reline::LineEditor::CompletionJourneyData = Struct::CompletionJourneyData
+class Reline::LineEditor::CompletionJourneyData
+  def list(); end
+
+  def list=(_); end
+
+  def pointer(); end
+
+  def pointer=(_); end
+
+  def postposing(); end
+
+  def postposing=(_); end
+
+  def preposing(); end
+
+  def preposing=(_); end
+end
+
+class Reline::LineEditor::CompletionJourneyData
+  def self.[](*arg); end
+
+  def self.members(); end
+end
 
 module Reline::LineEditor::CompletionState
   COMPLETION = ::T.let(nil, ::T.untyped)
@@ -41457,7 +42538,27 @@ module Reline::LineEditor::CompletionState
   PERFECT_MATCH = ::T.let(nil, ::T.untyped)
 end
 
-Reline::LineEditor::MenuInfo = Struct::MenuInfo
+class Reline::LineEditor::DialogProcScope
+  def preferred_dialog_height(); end
+
+  def screen_height(); end
+end
+
+class Reline::LineEditor::MenuInfo
+  def list(); end
+
+  def list=(_); end
+
+  def target(); end
+
+  def target=(_); end
+end
+
+class Reline::LineEditor::MenuInfo
+  def self.[](*arg); end
+
+  def self.members(); end
+end
 
 module Reline::Terminfo
   extend ::Fiddle
@@ -41466,18 +42567,13 @@ end
 
 class Reline::Unicode
   CSI_REGEXP = ::T.let(nil, ::T.untyped)
-  CSI_REGEXP_INDEX = ::T.let(nil, ::T.untyped)
   EscapedChars = ::T.let(nil, ::T.untyped)
   EscapedPairs = ::T.let(nil, ::T.untyped)
-  GRAPHEME_CLUSTER_INDEX = ::T.let(nil, ::T.untyped)
   HalfwidthDakutenHandakuten = ::T.let(nil, ::T.untyped)
   MBCharWidthRE = ::T.let(nil, ::T.untyped)
   NON_PRINTING_END = ::T.let(nil, ::T.untyped)
-  NON_PRINTING_END_INDEX = ::T.let(nil, ::T.untyped)
   NON_PRINTING_START = ::T.let(nil, ::T.untyped)
-  NON_PRINTING_START_INDEX = ::T.let(nil, ::T.untyped)
   OSC_REGEXP = ::T.let(nil, ::T.untyped)
-  OSC_REGEXP_INDEX = ::T.let(nil, ::T.untyped)
   WIDTH_SCANNER = ::T.let(nil, ::T.untyped)
 end
 
@@ -41488,6 +42584,10 @@ class Reline::Unicode::EastAsianWidth
   TYPE_N = ::T.let(nil, ::T.untyped)
   TYPE_NA = ::T.let(nil, ::T.untyped)
   TYPE_W = ::T.let(nil, ::T.untyped)
+end
+
+module Reline
+  def self.update_iogate(); end
 end
 
 module RequestStore
@@ -42849,6 +43949,8 @@ class Rufus::Scheduler::EveryJob
 end
 
 class Rufus::Scheduler::Job
+  def discard_past?(); end
+
   def entries(); end
 
   def has_key?(key); end
@@ -42860,6 +43962,8 @@ class Rufus::Scheduler::Job
   def name(); end
 
   def name=(name); end
+
+  def past?(); end
 
   def resume_discard_past=(v); end
 
@@ -42875,7 +43979,6 @@ class Rufus::Scheduler::JobArray
 end
 
 class Rufus::Scheduler::RepeatJob
-  def discard_past?(); end
   FIRSTS = ::T.let(nil, ::T.untyped)
 end
 
@@ -43598,6 +44701,7 @@ class Seahorse::Client::Plugins::RequestCallback
 end
 
 class Seahorse::Client::Plugins::RequestCallback::OptionHandler
+  def add_response_events(on_chunk_received, context); end
 end
 
 class Seahorse::Client::Plugins::RequestCallback::OptionHandler
@@ -43692,6 +44796,8 @@ class Seahorse::Client::RequestContext
 end
 
 class Seahorse::Client::Response
+  def checksum_validated(); end
+
   def context(); end
 
   def data(); end
@@ -45670,6 +46776,15 @@ end
 
 Sequel::Timezones = Sequel::SequelMethods
 
+class SessionsController
+  include ::StateEncryptionAlgo::InstanceMethods
+end
+
+class SessionsController
+  extend ::T::Private::Methods::MethodHooks
+  extend ::T::Private::Methods::SingletonMethodHooks
+end
+
 class Set
   def ==(other); end
 
@@ -46761,6 +47876,71 @@ module SorbetRails
   extend ::T::Private::Methods::SingletonMethodHooks
 end
 
+module StateEncryptionAlgo::InstanceMethods
+  extend ::T::Private::Methods::MethodHooks
+  extend ::T::Private::Methods::SingletonMethodHooks
+end
+
+class StateEncryptionAlgo::StripeOAuthState
+  def csrf(); end
+
+  def csrf=(value); end
+
+  def csrf?(); end
+
+  def oauth_version(); end
+
+  def oauth_version=(value); end
+
+  def oauth_version?(); end
+
+  def salesforce_account_id(); end
+
+  def salesforce_account_id=(value); end
+
+  def salesforce_account_id?(); end
+
+  def salesforce_instance_subdomain(); end
+
+  def salesforce_instance_subdomain=(value); end
+
+  def salesforce_instance_subdomain?(); end
+
+  def salesforce_instance_type(); end
+
+  def salesforce_instance_type=(value); end
+
+  def salesforce_instance_type?(); end
+
+  def salesforce_namespace(); end
+
+  def salesforce_namespace=(value); end
+
+  def salesforce_namespace?(); end
+
+  def stripe_account_id(); end
+
+  def stripe_account_id=(value); end
+
+  def stripe_account_id?(); end
+
+  def user_id(); end
+
+  def user_id=(value); end
+
+  def user_id?(); end
+end
+
+class StateEncryptionAlgo::StripeOAuthState
+  extend ::T::Private::Methods::MethodHooks
+  extend ::T::Private::Methods::SingletonMethodHooks
+end
+
+module StateEncryptionAlgo
+  extend ::T::Private::Methods::MethodHooks
+  extend ::T::Private::Methods::SingletonMethodHooks
+end
+
 class String
   include ::JSON::Ext::Generator::GeneratorMethods::String
   def parse_csv(**options); end
@@ -46773,6 +47953,14 @@ class String
 end
 
 class StringIO
+  def bytes(); end
+
+  def chars(); end
+
+  def codepoints(); end
+
+  def lines(*arg); end
+
   def set_encoding_by_bom(); end
   VERSION = ::T.let(nil, ::T.untyped)
 end
@@ -47579,14 +48767,11 @@ class Stripe::WebhookEndpoint
 end
 
 class StripeForce::BaseJob
-  def initialize(*args, &blk); end
-end
-
-class StripeForce::BaseJob
   extend ::T::Private::Abstract::Hooks
   extend ::T::InterfaceWrapper::Helpers
   extend ::T::Private::Methods::MethodHooks
   extend ::T::Private::Methods::SingletonMethodHooks
+  def self.new(*args, &blk); end
 end
 
 class StripeForce::Mapper
@@ -47609,6 +48794,8 @@ class StripeForce::PollerBase
   extend ::T::Private::Methods::MethodHooks
   extend ::T::Private::Methods::SingletonMethodHooks
   def self.log(); end
+
+  def self.new(*args, &blk); end
 end
 
 module StripeForce::ProrationAutoBill
@@ -47675,7 +48862,7 @@ class StripeForce::Translate
 end
 
 class StripeForce::User
-  include ::KMSEncryption::InstanceMethods
+  include ::KMSEncryption::DevInstanceMethods
   include ::Sequel::Plugins::Timestamps::InstanceMethods
   include ::Sequel::Plugins::AfterInitialize::InstanceMethods
   include ::Sequel::Plugins::DefaultsSetter::InstanceMethods
@@ -47696,6 +48883,19 @@ class StripeForce::User
   extend ::Sequel::Plugins::DefaultsSetter::ClassMethods
   extend ::Sequel::Plugins::UpdateOrCreate::ClassMethods
   extend ::Sequel::Plugins::Serialization::ClassMethods
+  extend ::T::Private::Methods::MethodHooks
+  extend ::T::Private::Methods::SingletonMethodHooks
+  def self.log(); end
+end
+
+module StripeForce::Utilities::DemoUtil
+  include ::ActiveSupport::ForkTracker::CoreExtPrivate
+  include ::ActiveSupport::ForkTracker::CoreExt
+end
+
+module StripeForce::Utilities::DemoUtil
+  extend ::T::Private::Abstract::Hooks
+  extend ::T::InterfaceWrapper::Helpers
   extend ::T::Private::Methods::MethodHooks
   extend ::T::Private::Methods::SingletonMethodHooks
   def self.log(); end
@@ -47946,13 +49146,21 @@ class Thor::Command
   FILE_REGEXP = ::T.let(nil, ::T.untyped)
 end
 
-Thor::Correctable = DidYouMean::Correctable
+module Thor::Correctable
+  def corrections(); end
+
+  def to_s(); end
+end
+
+module Thor::Correctable
+end
 
 Thor::DynamicTask = Thor::DynamicCommand
 
 Thor::HiddenTask = Thor::HiddenCommand
 
 class Thor::Option
+  def aliases_for_usage(); end
   VALID_TYPES = ::T.let(nil, ::T.untyped)
 end
 
@@ -47985,18 +49193,35 @@ end
 Thor::Task = Thor::Command
 
 class Thor::UndefinedCommandError
-  include ::DidYouMean::Correctable
+  include ::Thor::Correctable
 end
 
 Thor::UndefinedTaskError = Thor::UndefinedCommandError
 
 class Thor::UnknownArgumentError
-  include ::DidYouMean::Correctable
+  include ::Thor::Correctable
+end
+
+class Thread
+  def self.exclusive(&block); end
 end
 
 module Tilt
   LOCK = ::T.let(nil, ::T.untyped)
   VERSION = ::T.let(nil, ::T.untyped)
+end
+
+class Tilt::BaseMapping
+  def [](file); end
+
+  def new(file, line=T.unsafe(nil), options=T.unsafe(nil), &block); end
+
+  def template_for(file); end
+
+  def templates_for(file); end
+end
+
+class Tilt::BaseMapping
 end
 
 class Tilt::BuilderTemplate
@@ -48015,11 +49240,14 @@ class Tilt::CSVTemplate
 end
 
 class Tilt::CSVTemplate
-  def self.engine(); end
 end
 
 class Tilt::ERBTemplate
   SUPPORTS_KVARGS = ::T.let(nil, ::T.untyped)
+end
+
+class Tilt::ERBTemplate
+  def self._default_output_variable(); end
 end
 
 class Tilt::ErubiTemplate
@@ -48039,7 +49267,11 @@ class Tilt::EtanniTemplate
 end
 
 class Tilt::Mapping
-  AUTOLOAD_IS_BROKEN = ::T.let(nil, ::T.untyped)
+  def finalized(); end
+
+  def register_pipeline(ext, options=T.unsafe(nil)); end
+
+  def unregister(*extensions); end
   LOCK = ::T.let(nil, ::T.untyped)
 end
 
@@ -48057,6 +49289,12 @@ end
 class Tilt::NokogiriTemplate
 end
 
+class Tilt::Pipeline
+end
+
+class Tilt::Pipeline
+end
+
 class Tilt::PlainTemplate
 end
 
@@ -48064,19 +49302,19 @@ class Tilt::PlainTemplate
 end
 
 class Tilt::RDocTemplate
-  def allows_script?(); end
-
-  def markup(); end
 end
 
 class Tilt::RDocTemplate
 end
 
-class Tilt::SigilTemplate
+class Tilt::StaticTemplate
   def allows_script?(); end
+
+  def render(scope=T.unsafe(nil), locals=T.unsafe(nil)); end
 end
 
-class Tilt::SigilTemplate
+class Tilt::StaticTemplate
+  def self.subclass(mime_type: T.unsafe(nil), &block); end
 end
 
 class Tilt::StringTemplate
@@ -48091,20 +49329,33 @@ end
 Tilt::TOPOBJECT = Tilt::CompiledTemplates
 
 class Tilt::Template
+  def compiled_path(); end
+
+  def compiled_path=(path); end
+
+  def skip_compiled_encoding_detection?(); end
   CLASS_METHOD = ::T.let(nil, ::T.untyped)
+  USE_BIND_CALL = ::T.let(nil, ::T.untyped)
+end
+
+module Tilt
+  def self.finalize!(); end
+
+  def self.register_pipeline(ext, options=T.unsafe(nil)); end
 end
 
 class Time
+  def succ(); end
   COMMON_YEAR_DAYS_IN_MONTH = ::T.let(nil, ::T.untyped)
   DATE_FORMATS = ::T.let(nil, ::T.untyped)
 end
 
-module Timeout
+class Timecop
   VERSION = ::T.let(nil, ::T.untyped)
 end
 
 module Timeout
-  def self.ensure_timeout_thread_created(); end
+  VERSION = ::T.let(nil, ::T.untyped)
 end
 
 class TracePoint
@@ -48147,6 +49398,19 @@ end
 
 module URI
   include ::URI::RFC2396_REGEXP
+end
+
+module URI::Escape
+  def decode(*arg); end
+
+  def encode(*arg); end
+
+  def escape(*arg); end
+
+  def unescape(*arg); end
+end
+
+module URI::Escape
 end
 
 class URI::FTP
@@ -48252,6 +49516,924 @@ end
 module UnicodeNormalize
 end
 
+module VCR
+  include ::VCR::VariableArgsBlockCaller
+  include ::VCR::Errors
+  def cassette_persisters(); end
+
+  def cassette_serializers(); end
+
+  def cassettes(context=T.unsafe(nil)); end
+
+  def config(); end
+
+  def configuration(); end
+
+  def configure(); end
+
+  def cucumber_tags(&block); end
+
+  def current_cassette(); end
+
+  def eject_cassette(options=T.unsafe(nil)); end
+
+  def fibers_available?(); end
+
+  def http_interactions(); end
+
+  def insert_cassette(name, options=T.unsafe(nil)); end
+
+  def library_hooks(); end
+
+  def link_context(from_thread, to_key); end
+
+  def real_http_connections_allowed?(); end
+
+  def record_http_interaction(interaction); end
+
+  def request_ignorer(); end
+
+  def request_matchers(); end
+
+  def turn_off!(options=T.unsafe(nil)); end
+
+  def turn_on!(); end
+
+  def turned_off(options=T.unsafe(nil)); end
+
+  def turned_on(options=T.unsafe(nil)); end
+
+  def turned_on?(); end
+
+  def unlink_context(key); end
+
+  def use_cassette(name, options=T.unsafe(nil), &block); end
+
+  def use_cassettes(cassettes, &block); end
+
+  def version(); end
+  CassetteMutex = ::T.let(nil, ::T.untyped)
+  MainThread = ::T.let(nil, ::T.untyped)
+end
+
+class VCR::Cassette
+  include ::VCR::Logger::Mixin
+  def clean_outdated_http_interactions(); end
+
+  def drop_unused_requests(); end
+
+  def eject(options=T.unsafe(nil)); end
+
+  def erb(); end
+
+  def file(); end
+
+  def http_interactions(); end
+
+  def initialize(name, options=T.unsafe(nil)); end
+
+  def linked?(); end
+
+  def match_requests_on(); end
+
+  def name(); end
+
+  def new_recorded_interactions(); end
+
+  def originally_recorded_at(); end
+
+  def re_record_interval(); end
+
+  def record_http_interaction(interaction); end
+
+  def record_mode(); end
+
+  def record_on_error(); end
+
+  def recording?(); end
+
+  def run_failed!(); end
+
+  def run_failed?(); end
+
+  def serializable_hash(); end
+
+  def should_write_recorded_interactions_to_disk?(); end
+
+  def tags(); end
+  VALID_RECORD_MODES = ::T.let(nil, ::T.untyped)
+end
+
+class VCR::Cassette::ERBRenderer
+  def initialize(raw_template, erb, cassette_name=T.unsafe(nil)); end
+
+  def render(); end
+end
+
+class VCR::Cassette::ERBRenderer
+end
+
+module VCR::Cassette::EncodingErrorHandling
+  def handle_encoding_errors(); end
+end
+
+module VCR::Cassette::EncodingErrorHandling
+end
+
+class VCR::Cassette::HTTPInteractionList
+  include ::VCR::Logger::Mixin
+  def allow_playback_repeats(); end
+
+  def assert_no_unused_interactions!(); end
+
+  def has_interaction_matching?(request); end
+
+  def has_used_interaction_matching?(request); end
+
+  def initialize(interactions, request_matchers, allow_playback_repeats=T.unsafe(nil), parent_list=T.unsafe(nil), log_prefix=T.unsafe(nil)); end
+
+  def interactions(); end
+
+  def parent_list(); end
+
+  def remaining_unused_interaction_count(); end
+
+  def request_matchers(); end
+
+  def response_for(request); end
+end
+
+module VCR::Cassette::HTTPInteractionList::NullList
+  def has_interaction_matching?(*a); end
+
+  def has_used_interaction_matching?(*a); end
+
+  def remaining_unused_interaction_count(*a); end
+
+  def response_for(*a); end
+end
+
+module VCR::Cassette::HTTPInteractionList::NullList
+  extend ::VCR::Cassette::HTTPInteractionList::NullList
+end
+
+class VCR::Cassette::HTTPInteractionList
+end
+
+class VCR::Cassette::Persisters
+  def [](name); end
+
+  def []=(name, value); end
+end
+
+module VCR::Cassette::Persisters::FileSystem
+  def [](file_name); end
+
+  def []=(file_name, content); end
+
+  def absolute_path_to_file(file_name); end
+
+  def storage_location(); end
+
+  def storage_location=(dir); end
+end
+
+module VCR::Cassette::Persisters::FileSystem
+  extend ::VCR::Cassette::Persisters::FileSystem
+end
+
+class VCR::Cassette::Persisters
+end
+
+class VCR::Cassette::Serializers
+  def [](name); end
+
+  def []=(name, value); end
+end
+
+module VCR::Cassette::Serializers::Compressed
+  def deserialize(string); end
+
+  def file_extension(); end
+
+  def serialize(hash); end
+end
+
+module VCR::Cassette::Serializers::Compressed
+  extend ::VCR::Cassette::Serializers::Compressed
+end
+
+module VCR::Cassette::Serializers::JSON
+  def deserialize(string); end
+
+  def file_extension(); end
+
+  def serialize(hash); end
+  ENCODING_ERRORS = ::T.let(nil, ::T.untyped)
+  SYNTAX_ERRORS = ::T.let(nil, ::T.untyped)
+end
+
+module VCR::Cassette::Serializers::JSON
+  extend ::VCR::Cassette::Serializers::JSON
+  extend ::VCR::Cassette::EncodingErrorHandling
+  extend ::VCR::Cassette::SyntaxErrorHandling
+end
+
+module VCR::Cassette::Serializers::Psych
+  def deserialize(string); end
+
+  def file_extension(); end
+
+  def serialize(hash); end
+  ENCODING_ERRORS = ::T.let(nil, ::T.untyped)
+  SYNTAX_ERRORS = ::T.let(nil, ::T.untyped)
+end
+
+module VCR::Cassette::Serializers::Psych
+  extend ::VCR::Cassette::Serializers::Psych
+  extend ::VCR::Cassette::EncodingErrorHandling
+  extend ::VCR::Cassette::SyntaxErrorHandling
+end
+
+module VCR::Cassette::Serializers::Syck
+  def deserialize(string); end
+
+  def file_extension(); end
+
+  def serialize(hash); end
+  ENCODING_ERRORS = ::T.let(nil, ::T.untyped)
+  SYNTAX_ERRORS = ::T.let(nil, ::T.untyped)
+end
+
+module VCR::Cassette::Serializers::Syck
+  extend ::VCR::Cassette::Serializers::Syck
+  extend ::VCR::Cassette::EncodingErrorHandling
+  extend ::VCR::Cassette::SyntaxErrorHandling
+end
+
+module VCR::Cassette::Serializers::YAML
+  def deserialize(string); end
+
+  def file_extension(); end
+
+  def serialize(hash); end
+  ENCODING_ERRORS = ::T.let(nil, ::T.untyped)
+  SYNTAX_ERRORS = ::T.let(nil, ::T.untyped)
+end
+
+module VCR::Cassette::Serializers::YAML
+  extend ::VCR::Cassette::Serializers::YAML
+  extend ::VCR::Cassette::EncodingErrorHandling
+  extend ::VCR::Cassette::SyntaxErrorHandling
+end
+
+class VCR::Cassette::Serializers
+end
+
+module VCR::Cassette::SyntaxErrorHandling
+  def handle_syntax_errors(); end
+end
+
+module VCR::Cassette::SyntaxErrorHandling
+end
+
+class VCR::Cassette
+  def self.const_missing(const); end
+end
+
+class VCR::Configuration
+  include ::VCR::Hooks
+  include ::VCR::VariableArgsBlockCaller
+  include ::VCR::Configuration::DefinedHooks
+  include ::VCR::Logger::Mixin
+  def after_http_request(*filters); end
+
+  def allow_http_connections_when_no_cassette=(allow_http_connections_when_no_cassette); end
+
+  def allow_http_connections_when_no_cassette?(); end
+
+  def around_http_request(*filters, &block); end
+
+  def before_playback(tag=T.unsafe(nil), &block); end
+
+  def before_record(tag=T.unsafe(nil), &block); end
+
+  def cassette_library_dir(); end
+
+  def cassette_library_dir=(dir); end
+
+  def cassette_persisters(); end
+
+  def cassette_serializers(); end
+
+  def configure_rspec_metadata!(); end
+
+  def debug_logger(); end
+
+  def debug_logger=(value); end
+
+  def default_cassette_options(); end
+
+  def default_cassette_options=(overrides); end
+
+  def define_cassette_placeholder(placeholder, tag=T.unsafe(nil), &block); end
+
+  def filter_sensitive_data(placeholder, tag=T.unsafe(nil), &block); end
+
+  def hook_into(*hooks); end
+
+  def ignore_host(*hosts); end
+
+  def ignore_hosts(*hosts); end
+
+  def ignore_localhost=(value); end
+
+  def ignore_request(&block); end
+
+  def logger(); end
+
+  def preserve_exact_body_bytes_for?(http_message); end
+
+  def query_parser(); end
+
+  def query_parser=(query_parser); end
+
+  def register_request_matcher(name, &block); end
+
+  def stub_with(*adapters); end
+
+  def unignore_host(*hosts); end
+
+  def unignore_hosts(*hosts); end
+
+  def uri_parser(); end
+
+  def uri_parser=(uri_parser); end
+end
+
+module VCR::Configuration::DefinedHooks
+  def after_http_request(*filters, &hook); end
+
+  def after_library_hooks_loaded(*filters, &hook); end
+
+  def before_http_request(*filters, &hook); end
+
+  def before_playback(*filters, &hook); end
+
+  def before_record(*filters, &hook); end
+
+  def preserve_exact_body_bytes(*filters, &hook); end
+end
+
+module VCR::Configuration::DefinedHooks
+end
+
+class VCR::Configuration
+  extend ::VCR::Hooks::ClassMethods
+end
+
+class VCR::CucumberTags
+  def initialize(main_object); end
+
+  def tag(*tag_names); end
+
+  def tags(*tag_names); end
+end
+
+class VCR::CucumberTags::ScenarioNameBuilder
+  def cassette_name(); end
+
+  def examples_table(*arg); end
+
+  def examples_table_row(row); end
+
+  def feature(feature); end
+
+  def initialize(test_case); end
+
+  def scenario(*arg); end
+
+  def scenario_outline(feature); end
+end
+
+class VCR::CucumberTags::ScenarioNameBuilder
+end
+
+class VCR::CucumberTags
+  def self.add_tag(tag); end
+
+  def self.tags(); end
+end
+
+module VCR::Deprecations
+end
+
+module VCR::Deprecations::Middleware
+end
+
+module VCR::Deprecations::Middleware::Faraday
+  def initialize(*args); end
+end
+
+module VCR::Deprecations::Middleware::Faraday
+end
+
+module VCR::Deprecations::Middleware
+end
+
+module VCR::Deprecations
+end
+
+module VCR::Errors
+end
+
+class VCR::Errors::AroundHTTPRequestHookError
+end
+
+class VCR::Errors::AroundHTTPRequestHookError
+end
+
+class VCR::Errors::CassetteInUseError
+end
+
+class VCR::Errors::CassetteInUseError
+end
+
+class VCR::Errors::EjectLinkedCassetteError
+end
+
+class VCR::Errors::EjectLinkedCassetteError
+end
+
+class VCR::Errors::Error
+end
+
+class VCR::Errors::Error
+end
+
+class VCR::Errors::InvalidCassetteFormatError
+end
+
+class VCR::Errors::InvalidCassetteFormatError
+end
+
+class VCR::Errors::LibraryVersionTooLowError
+end
+
+class VCR::Errors::LibraryVersionTooLowError
+end
+
+class VCR::Errors::MissingERBVariableError
+end
+
+class VCR::Errors::MissingERBVariableError
+end
+
+class VCR::Errors::NotSupportedError
+end
+
+class VCR::Errors::NotSupportedError
+end
+
+class VCR::Errors::TurnedOffError
+end
+
+class VCR::Errors::TurnedOffError
+end
+
+class VCR::Errors::UnhandledHTTPRequestError
+  def initialize(request); end
+
+  def request(); end
+  ALL_SUGGESTIONS = ::T.let(nil, ::T.untyped)
+end
+
+class VCR::Errors::UnhandledHTTPRequestError
+end
+
+class VCR::Errors::UnknownContentEncodingError
+end
+
+class VCR::Errors::UnknownContentEncodingError
+end
+
+class VCR::Errors::UnregisteredMatcherError
+end
+
+class VCR::Errors::UnregisteredMatcherError
+end
+
+class VCR::Errors::UnusedHTTPInteractionError
+end
+
+class VCR::Errors::UnusedHTTPInteractionError
+end
+
+module VCR::Errors
+end
+
+class VCR::HTTPInteraction
+  def hook_aware(); end
+
+  def initialize(*args); end
+
+  def to_hash(); end
+end
+
+class VCR::HTTPInteraction::HookAware
+  def filter!(text, replacement_text); end
+
+  def ignore!(); end
+
+  def ignored?(); end
+
+  def initialize(http_interaction); end
+  RUBYGEMS_ACTIVATION_MONITOR = ::T.let(nil, ::T.untyped)
+end
+
+class VCR::HTTPInteraction::HookAware
+end
+
+class VCR::HTTPInteraction
+  def self.from_hash(hash); end
+end
+
+module VCR::Hooks
+  include ::VCR::VariableArgsBlockCaller
+  def clear_hooks(); end
+
+  def has_hooks_for?(hook_type); end
+
+  def hooks(); end
+
+  def invoke_hook(hook_type, *args); end
+end
+
+module VCR::Hooks::ClassMethods
+  def define_hook(hook_type, prepend=T.unsafe(nil)); end
+end
+
+module VCR::Hooks::ClassMethods
+end
+
+class VCR::Hooks::FilteredHook
+  include ::VCR::VariableArgsBlockCaller
+  def conditionally_invoke(*args); end
+
+  def filters(); end
+
+  def filters=(_); end
+
+  def hook(); end
+
+  def hook=(_); end
+end
+
+class VCR::Hooks::FilteredHook
+  def self.[](*arg); end
+
+  def self.members(); end
+end
+
+module VCR::Hooks
+  def self.included(klass); end
+end
+
+module VCR::InternetConnection
+  def available?(); end
+  EXAMPLE_HOST = ::T.let(nil, ::T.untyped)
+end
+
+module VCR::InternetConnection
+  extend ::VCR::InternetConnection
+end
+
+class VCR::LibraryHooks
+  def disabled?(hook); end
+
+  def exclusive_hook(); end
+
+  def exclusive_hook=(exclusive_hook); end
+
+  def exclusively_enabled(hook); end
+end
+
+class VCR::LibraryHooks
+end
+
+class VCR::LinkedCassette
+  def eject(*args); end
+
+  def linked?(); end
+  RUBYGEMS_ACTIVATION_MONITOR = ::T.let(nil, ::T.untyped)
+end
+
+class VCR::LinkedCassette::CassetteList
+  include ::Enumerable
+  def each(&blk); end
+
+  def initialize(cassettes, linked_cassettes); end
+
+  def last(); end
+
+  def size(); end
+
+  def wrap(cassette); end
+end
+
+class VCR::LinkedCassette::CassetteList
+end
+
+class VCR::LinkedCassette
+  def self.list(cassettes, linked_cassettes); end
+end
+
+class VCR::Logger
+  def initialize(stream); end
+
+  def log(message, log_prefix, indentation_level=T.unsafe(nil)); end
+
+  def request_summary(request, request_matchers); end
+
+  def response_summary(response); end
+end
+
+module VCR::Logger::Mixin
+  def log(message, indentation_level=T.unsafe(nil)); end
+
+  def request_summary(*args); end
+
+  def response_summary(*args); end
+end
+
+module VCR::Logger::Mixin
+end
+
+module VCR::Logger::Null
+end
+
+module VCR::Logger::Null
+  def self.log(*arg); end
+
+  def self.request_summary(*arg); end
+
+  def self.response_summary(*arg); end
+end
+
+class VCR::Logger
+end
+
+module VCR::Middleware
+end
+
+class VCR::Middleware::Faraday
+  include ::VCR::Deprecations::Middleware::Faraday
+  def call(env); end
+
+  def close(); end
+
+  def initialize(app); end
+end
+
+class VCR::Middleware::Faraday::RequestHandler
+  def app(); end
+
+  def env(); end
+
+  def initialize(app, env); end
+end
+
+class VCR::Middleware::Faraday::RequestHandler
+end
+
+class VCR::Middleware::Faraday
+end
+
+class VCR::Middleware::Rack
+  include ::VCR::VariableArgsBlockCaller
+  def call(env); end
+
+  def initialize(app, &block); end
+end
+
+class VCR::Middleware::Rack
+end
+
+module VCR::Middleware
+end
+
+module VCR::Normalizers
+end
+
+module VCR::Normalizers::Body
+  def initialize(*args); end
+end
+
+module VCR::Normalizers::Body::ClassMethods
+  def body_from(hash_or_string); end
+
+  def force_encode_string(string, encoding); end
+
+  def try_encode_string(string, encoding); end
+end
+
+module VCR::Normalizers::Body::ClassMethods
+end
+
+module VCR::Normalizers::Body
+  def self.included(klass); end
+end
+
+module VCR::Normalizers::Header
+  def initialize(*args); end
+end
+
+module VCR::Normalizers::Header
+end
+
+module VCR::Normalizers
+end
+
+module VCR::RSpec
+end
+
+module VCR::RSpec::Metadata
+  def configure!(); end
+
+  def vcr_cassette_name_for(metadata); end
+end
+
+module VCR::RSpec::Metadata
+  extend ::VCR::RSpec::Metadata
+end
+
+module VCR::RSpec
+end
+
+class VCR::Request
+  include ::VCR::Normalizers::Header
+  include ::VCR::Normalizers::Body
+  def method(*args); end
+
+  def parsed_uri(); end
+
+  def to_hash(); end
+end
+
+class VCR::Request::FiberAware
+  def proceed(); end
+
+  def to_proc(); end
+  RUBYGEMS_ACTIVATION_MONITOR = ::T.let(nil, ::T.untyped)
+end
+
+class VCR::Request::FiberAware
+end
+
+class VCR::Request::Typed
+  def externally_stubbed?(); end
+
+  def ignored?(); end
+
+  def initialize(request, type); end
+
+  def real?(); end
+
+  def recordable?(); end
+
+  def stubbed?(); end
+
+  def stubbed_by_vcr?(); end
+
+  def type(); end
+
+  def unhandled?(); end
+  RUBYGEMS_ACTIVATION_MONITOR = ::T.let(nil, ::T.untyped)
+end
+
+class VCR::Request::Typed
+end
+
+class VCR::Request
+  extend ::VCR::Normalizers::Body::ClassMethods
+  def self.from_hash(hash); end
+end
+
+class VCR::RequestHandler
+  include ::VCR::Logger::Mixin
+  def handle(); end
+end
+
+class VCR::RequestHandler
+end
+
+class VCR::RequestIgnorer
+  include ::VCR::Hooks
+  include ::VCR::VariableArgsBlockCaller
+  include ::VCR::RequestIgnorer::DefinedHooks
+  def ignore?(request); end
+
+  def ignore_hosts(*hosts); end
+
+  def ignore_localhost=(value); end
+
+  def localhost_ignored?(); end
+
+  def unignore_hosts(*hosts); end
+  LOCALHOST_ALIASES = ::T.let(nil, ::T.untyped)
+end
+
+module VCR::RequestIgnorer::DefinedHooks
+  def ignore_request(*filters, &hook); end
+end
+
+module VCR::RequestIgnorer::DefinedHooks
+end
+
+class VCR::RequestIgnorer
+  extend ::VCR::Hooks::ClassMethods
+end
+
+class VCR::RequestMatcherRegistry
+  def [](matcher); end
+
+  def register(name, &block); end
+
+  def uri_without_param(*ignores); end
+
+  def uri_without_params(*ignores); end
+  DEFAULT_MATCHERS = ::T.let(nil, ::T.untyped)
+end
+
+class VCR::RequestMatcherRegistry::Matcher
+  def matches?(request_1, request_2); end
+end
+
+class VCR::RequestMatcherRegistry::Matcher
+end
+
+class VCR::RequestMatcherRegistry::URIWithoutParamsMatcher
+  def call(request_1, request_2); end
+
+  def partial_uri_from(request); end
+
+  def to_proc(); end
+end
+
+class VCR::RequestMatcherRegistry::URIWithoutParamsMatcher
+end
+
+class VCR::RequestMatcherRegistry
+end
+
+class VCR::Response
+  include ::VCR::Normalizers::Header
+  include ::VCR::Normalizers::Body
+  def compressed?(); end
+
+  def content_encoding(); end
+
+  def decompress(); end
+
+  def recompress(); end
+
+  def to_hash(); end
+
+  def update_content_length_header(); end
+
+  def vcr_decompressed?(); end
+  HAVE_ZLIB = ::T.let(nil, ::T.untyped)
+end
+
+class VCR::Response
+  extend ::VCR::Normalizers::Body::ClassMethods
+  def self.decompress(body, type); end
+
+  def self.from_hash(hash); end
+end
+
+class VCR::ResponseStatus
+  def to_hash(); end
+end
+
+class VCR::ResponseStatus
+  def self.from_hash(hash); end
+end
+
+module VCR::VariableArgsBlockCaller
+  def call_block(block, *args); end
+end
+
+module VCR::VariableArgsBlockCaller
+end
+
+module VCR
+  extend ::VCR
+  extend ::VCR::VariableArgsBlockCaller
+  extend ::VCR::Errors
+  def self.const_missing(const); end
+end
+
 module Warning
   extend ::Warning
 end
@@ -48261,6 +50443,27 @@ class WeakRef
   RUBYGEMS_ACTIVATION_MONITOR = ::T.let(nil, ::T.untyped)
 end
 
+module WebMock
+  VERSION = ::T.let(nil, ::T.untyped)
+end
+
+class WebMock::BodyPattern
+  BODY_FORMATS = ::T.let(nil, ::T.untyped)
+end
+
+WebMock::HttpLibAdapters::NetHttpAdapter::OriginalNetBufferedIO = Net::BufferedIO
+
+WebMock::HttpLibAdapters::NetHttpAdapter::OriginalNetHTTP = Net::HTTP
+
+class WebMock::Util::URI
+  ADDRESSABLE_URIS = ::T.let(nil, ::T.untyped)
+  NORMALIZED_URIS = ::T.let(nil, ::T.untyped)
+end
+
+module WebMock::Util::URI::CharacterClasses
+  USERINFO = ::T.let(nil, ::T.untyped)
+end
+
 module WebSocket
   DEFAULT_VERSION = ::T.let(nil, ::T.untyped)
   ROOT = ::T.let(nil, ::T.untyped)
@@ -48268,6 +50471,7 @@ end
 
 class WebSocket::Driver
   MAX_LENGTH = ::T.let(nil, ::T.untyped)
+  PORTS = ::T.let(nil, ::T.untyped)
   STATES = ::T.let(nil, ::T.untyped)
 end
 
@@ -48439,7 +50643,6 @@ class WebSocket::Driver::Proxy
   def start(); end
 
   def status(); end
-  PORTS = ::T.let(nil, ::T.untyped)
 end
 
 class WebSocket::Driver::Proxy
@@ -48487,6 +50690,10 @@ class WebSocket::Driver::StreamReader
 end
 
 class WebSocket::Driver::StreamReader
+end
+
+class WebSocket::Driver
+  def self.host_header(uri); end
 end
 
 class WebSocket::Error
@@ -49092,15 +51299,17 @@ module Zeitwerk::ExplicitNamespace
   extend ::Zeitwerk::RealModName
   def self.__register(cpath, loader); end
 
+  def self.__registered?(cpath); end
+
   def self.__unregister_loader(loader); end
 end
 
 class Zeitwerk::GemLoader
-  def initialize(root_file, warn_on_extra_files:); end
+  def initialize(root_file, namespace:, warn_on_extra_files:); end
 end
 
 class Zeitwerk::GemLoader
-  def self._new(root_file, warn_on_extra_files:); end
+  def self.__new(root_file, namespace:, warn_on_extra_files:); end
 end
 
 module Zeitwerk::Internal
@@ -49112,11 +51321,19 @@ end
 
 class Zeitwerk::Loader
   include ::Zeitwerk::Loader::EagerLoad
-  def namespace_dirs(); end
+  def __autoloaded_dirs(); end
 
-  def shadowed_file?(file); end
+  def __autoloads(); end
 
-  def shadowed_files(); end
+  def __namespace_dirs(); end
+
+  def __shadowed_file?(file); end
+
+  def __shadowed_files(); end
+
+  def __to_unload(); end
+
+  def cpath_expected_at(path); end
 end
 
 module Zeitwerk::Loader::Config
@@ -49144,7 +51361,11 @@ module Zeitwerk::Loader::EagerLoad
 end
 
 class Zeitwerk::Loader
+  extend ::Zeitwerk::Internal
+  extend ::Zeitwerk::RealModName
   def self.eager_load_namespace(mod); end
+
+  def self.for_gem_extension(namespace); end
 end
 
 module Zeitwerk::Registry

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Local_Authorization_Target__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Redirect browser authentication to http://localhost:3100</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Redirect browser authentication to http://localhost:3100</inlineHelpText>
+    <label>Local Authorization Target</label>
+    <type>Checkbox</type>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+</CustomField>

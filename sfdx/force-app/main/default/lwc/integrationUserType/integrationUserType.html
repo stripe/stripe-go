@@ -1,0 +1,42 @@
+<!--
+ - Created by jmather-c on 9/5/23.
+ -->
+
+<!-- Stripe Account Connection Modes -->
+<template>
+    <h3 class="slds-text-heading_small">Is your current user the account you wish to use for integration?</h3>
+    <fieldset class="stripe-input_picker slds-form-element slds-align_absolute-center slds-m-top_large">
+        <div class="slds-form-element__control">
+            <div class="slds-visual-picker slds-visual-picker_vertical">
+                <input type="radio" id="stripe-input_picker__test-account" value="self" name="account-type"
+                       onchange={doSelect}/>
+                <label for="stripe-input_picker__test-account">
+                    <span class="slds-visual-picker__figure slds-visual-picker__text slds-align_absolute-center">
+                        <span>
+                            <span class="slds-text-heading_medium slds-m-bottom_x-small">This User is my Integration User</span>
+                            <span class="slds-text-title">Selecting this option will present you with a confirmation screen to allow Stripe access to your Salesforce Org via your current account.</span>
+                        </span>
+                    </span>
+                    <span class="slds-icon_container slds-visual-picker__text-check">
+                        <lightning-icon icon-name="utility:check" size="x-small" variant="inverse"></lightning-icon>
+                    </span>
+                </label>
+            </div>
+            <div class="slds-visual-picker slds-visual-picker_vertical">
+                <input type="radio" id="stripe-input_picker__prod-account" value="different_account" name="account-type"
+                       onchange={doSelect}/>
+                <label for="stripe-input_picker__prod-account">
+                    <span class="slds-visual-picker__figure slds-visual-picker__text slds-align_absolute-center">
+                        <span>
+                            <span class="slds-text-heading_medium slds-m-bottom_x-small">I will use a different User for Integration</span>
+                            <span class="slds-text-title">Selecting this option will present you a login screen to enable you to enter the crentials for the Integration User you wish Stripe to use to access your Salesforce Org..</span>
+                        </span>
+                    </span>
+                    <span class="slds-icon_container slds-visual-picker__text-check">
+                        <lightning-icon icon-name="utility:check" size="x-small" variant="inverse"></lightning-icon>
+                    </span>
+                </label>
+            </div>
+        </div>
+    </fieldset>
+</template>

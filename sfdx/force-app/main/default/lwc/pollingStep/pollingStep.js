@@ -99,7 +99,6 @@ export default class PollingStep extends LightningElement {
             return;
         }
 
-        // console.log(syncPrefs);
         Debugger.log('pollingStep', 'initPageStateData', syncPrefs);
 
         this.pollingEnabled = syncPrefs.polling_enabled;
@@ -197,7 +196,7 @@ export default class PollingStep extends LightningElement {
 
         const savedSyncPreferencesResponseData = JSON.parse(updatedSyncPreferences);
         if (savedSyncPreferencesResponseData.isSuccess) {
-            console.log('save result', JSON.parse(JSON.stringify(savedSyncPreferencesResponseData.results)));
+            Debugger.log('save result', savedSyncPreferencesResponseData.results);
             this.configurationHash = savedSyncPreferencesResponseData.results.configurationHash;
             this.showToast('Changes were successfully saved', 'success');
             this.dispatchEvent(new CustomEvent('savecomplete', {
@@ -291,7 +290,7 @@ export default class PollingStep extends LightningElement {
      * @returns {POLLING_STATUS}
      */
     get pollingStatus() {
-        // console.log('syncPrefs', this.syncPreferences);
+        Debugger.log('syncPrefs', this.syncPreferences);
         if (this.hasSynced === false) {
             return POLLING_STATUS.DISABLED;
         }

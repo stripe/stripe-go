@@ -1,0 +1,23 @@
+<!--
+ - Created by jmather-c on 8/10/23.
+ -->
+
+<!-- System Connections Step Item -->
+<template>
+    <div class="slds-grid">
+        <div class="slds-col slds-size_8-of-12 slds-align-middle">
+            <div class={_noticeClasses} role="alert">
+                <span class="slds-assistive-text">{_assistiveText}</span>
+                <span>
+                    <lightning-icon class="slds-m-right_x-small" icon-name={_icon} size="small" variant="inverse" alternative-text={_assistiveText} title={_assistiveText}></lightning-icon>
+                </span>
+                <h2>
+                    {_status}
+                </h2>
+            </div>
+        </div>
+        <div class="slds-col slds-size_4-of-12 slds-align-middle slds-text-align_right">
+            <lightning-button label={_actionLabel} variant="brand" onclick={triggerConnect}></lightning-button>
+        </div>
+    </div>
+</template>

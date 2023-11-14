@@ -1,0 +1,62 @@
+<!--
+ - Created by jmather-c on 8/30/23.
+ -->
+
+<!-- Integration User Setup Step -->
+<template>
+    <div class="slds-p-horizontal_large slds-p-vertical_xx-large slds-container slds-container_center slds-container_medium">
+        <template lwc:if={isConnected}>
+            <div class="stripe-status slds-theme_success slds-m-top_large slds-m-bottom_small">
+                <div class="slds-grid slds-grid_vertical-align-center slds-grid_align-center slds-gutters_x-small">
+                    <div class="slds-col slds-no-flex">
+                        <lightning-icon icon-name="utility:success" size="small" alternative-text="Account Connected" class="slds-current-color"></lightning-icon>
+                    </div>
+                    <div class="slds-col">
+                        Account Connected
+                    </div>
+                </div>
+            </div>
+            <div class="slds-text-align_center slds-m-top_large">
+                <c-stripe-account-connection-modes onselect={updateAccountType}></c-stripe-account-connection-modes>
+            </div>
+            <div class="slds-text-align_center slds-p-top_large">
+                <lightning-button
+                        label="Reauthorize Account"
+                        variant="neutral"
+                        class="slds-button"
+                        onclick={authorizeIntegrationUser}
+                        disabled={loginDisabled}>
+                </lightning-button>
+            </div>
+        </template>
+        <template lwc:else>
+            <div class="slds-text-align_left slds-m-top_large">
+                <c-stripe-account-connection-modes onselect={updateAccountType}></c-stripe-account-connection-modes>
+            </div>
+            <div class="slds-text-align_center slds-p-top_large">
+                <lightning-button
+                        label="Log in to Stripe"
+                        variant="brand"
+                        class="slds-button slds-m-top_medium"
+                        icon-name="utility:new_window"
+                        icon-position="right"
+                        onclick={authorizeIntegrationUser}
+                        disabled={loginDisabled}>
+                </lightning-button>
+            </div>
+        </template>
+    </div>
+
+    <!-- Remove Account Confirmation Modal -->
+    <c-modal class="stripe-modal_remove-account" title="Remove Stripe Account">
+        <div class="slds-is-relative">
+            <lightning-spinner if:true={modalLoading} alternative-text="Loading..."></lightning-spinner>
+            <p class="slds-text-align_center">
+                Are you sure you want to remove this Stripe account from your Salesforce org?
+            </p>
+        </div>
+        <lightning-button slot="footer" label="Cancel" variant="neutral" class="slds-button" onclick={hideRemoveAccountModal} disabled={modalLoading}></lightning-button>
+        <lightning-button slot="footer" label="Remove Account" variant="destructive" class="slds-button" onclick={deleteAccount} disabled={modalLoading}></lightning-button>
+    </c-modal>
+    <!-- /Remove Account Confirmation Modal -->
+</template>

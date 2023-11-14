@@ -133,6 +133,7 @@ public with sharing class ConfigPayloadHelper {
     }
 
     public void extractFieldMappingData(Map<String, Object> configPayload, responseData response, Boolean showInternalFields) {
+        debugger.debug('extractFieldMappingData: configPayload', configPayload);
         List<String> hiddenMapperFields = getHiddenMapperFields(configPayload);
 
         //used to store configuration maps from response
@@ -176,6 +177,7 @@ public with sharing class ConfigPayloadHelper {
         stripMapFields(data, analysis.topLevelRemovals);
         Set<String> allKeys = new Set<String>(analysis.subLevelRemovals.keySet());
         allKeys.addAll(analysis.partialLevelRemovals.keySet());
+        debugger.debug('stripHiddenMapperFields: allKeys', allKeys);
 
         for (String keyField : allKeys) {
             if (data.containsKey(keyField) == false) {

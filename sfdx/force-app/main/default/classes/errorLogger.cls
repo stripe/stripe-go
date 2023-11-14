@@ -15,7 +15,7 @@ public virtual with sharing class errorLogger {
         debugger.debug('errorLogger', err);
     }
     public static void create(String errorName, Exception excep) {
-        if(!Test.isRunningTest())Sentry.record(excep);
         debugger.debug(errorName, excep);
+        if(!Test.isRunningTest() && !utilities.isDeveloperModeEnabled())Sentry.record(excep);
     }
 }

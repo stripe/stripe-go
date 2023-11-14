@@ -8,9 +8,24 @@
 # settings:
 # https://developer.salesforce.com/docs/metadata-coverage/55
 
-set -e -o pipefail
+if [ -z "$DEVHUB_USER" ]; then
+  DEVHUB_USER=$(sfdx force:config:get defaultdevhubusername --json | jq -r '.result[0].value')
+fi
+if [ -z "$DEVHUB_USER" ]; then
+  DEVHUB_USER=pbo+billing@stripe.com
+fi
 
 cd "$(dirname "$0")/.."
+source ../.env
+
+if [ -z "$1" ]; then
+  salesforceAlias="$(basename $HOME)"-scratch
+else
+  salesforceAlias=$1
+fi
+
+set -e -o pipefail
+
 
 if [ ! -z "$CI" ]; then
   echo "This should only be run locally"
@@ -22,19 +37,18 @@ if [[ -z $(which jq) ]]; then
   exit 1
 fi
 
-sfdx config:set defaultdevhubusername=pbo+billing@stripe.com
+if [[ $(sfdx config:get defaultdevhubusername --json | jq -r '.result[0].value') == "null" ]]; then
+  echo "No default devhub set, using '$DEVHUB_USER'"
+  sfdx config:set defaultdevhubusername=$DEVHUB_USER
+else
+  echo "Default devhub already set, skipping"
+fi
 
 # TODO should check if billing pbo is authorized. Run this if not:
 # sfdx force:auth:web:login -a pbo+billing@stripe.com
 
 # TODO consider adding additional features to the scratch def
 # https://cs.github.com/SFDC-Assets/platform-events-demo/blob/a33c18a32dd8135060ccf69f2d84f003bac7a98e/config/project-scratch-def.json?q=path%3A*scratch-def.json+day#L5
-
-if [ -z "$1" ]; then
-  salesforceAlias="$(basename $HOME)"-scratch
-else
-  salesforceAlias=$1
-fi
 
 echo "Using alias '$salesforceAlias'..."
 
@@ -44,10 +58,9 @@ echo "Creating scratch org..."
 sfdx force:org:create --loglevel=TRACE -f config/project-scratch-def.json -a $salesforceAlias -d 30 -w 15
 
 # install CPQ package, pull package ID from: https://steelbrick2.force.com/InstallPremium (Spring 23 v242.2)
-sfdx force:package:install -r --package 04t4N000000N6FFQA0 -w 30 -u $salesforceAlias
-
-sfdx force:user:password:generate -u $salesforceAlias
-sfdx force:user:display -u $salesforceAlias
+sfdx force:package:install -r --package 04t4N000000N6FFQA0 -w 30 -o $salesforceAlias
+sfdx force:user:password:generate -o $salesforceAlias
+sfdx force:user:display -o $salesforceAlias
 
 echo "Setup complete."
 
@@ -62,7 +75,7 @@ fi
 sfdx force:user:permsetlicense:assign -n 'Salesforce CPQ License' -u $salesforceAlias
 
 sfdx config:set restDeploy=true apiVersion=54.0
-sfdx force:source:push --loglevel=debug -u $salesforceAlias
+sfdx force:source:push --loglevel=debug -o $salesforceAlias
 
 # needs to be done after the source:push since this references custom perm sets
 sfdx force:user:permset:assign -n "Stripe_Connector_Integration_User, Stripe_Connector_Sync_Management_User, Stripe_Connector_Coupon_User, Order_Permissions" -u $salesforceAlias
@@ -72,9 +85,9 @@ if [ ! -z "$SF_MANAGED_PACKAGE_API_KEY" ]; then
   echo -e "Managed package key is not yet, set up global key manually.\n"
   echo "# Connector Setup"
   echo -e "Manual step: Create global key. Label/Name: Default. Key: pull from SF_MANAGED_PACKAGE_API_KEY in your env.\n\n"
-  sfdx force:org:open -u $salesforceAlias -p '/lightning/setup/CustomMetadata/page?address=%2Fm02%3Fsetupid%3DCustomMetadata' > /dev/null
+  sfdx force:org:open -o $salesforceAlias -p '/lightning/setup/CustomMetadata/page?address=%2Fm02%3Fsetupid%3DCustomMetadata' > /dev/null
 else
-  sed "s|____GLOBAL_KEY____|$SF_MANAGED_PACKAGE_API_KEY|" scripts/apex/create_global_key_metadata | sfdx force:apex:execute
+  sed "s|____GLOBAL_KEY____|$SF_MANAGED_PACKAGE_API_KEY|" scripts/apex/create_global_key_metadata | sfdx force:apex:execute -o $salesforceAlias
 fi
 
 echo "# CPQ Setup"
@@ -87,10 +100,9 @@ echo "Manual step: Installed Packages > Configure > Subscription & Renewals > Co
 echo "Manual step: Installed Packages > Configure > Subscription & Renewals > Enable Evergreen Subscriptions"
 echo "Manual step: Installed Packages > Configure > Order > Default Order Start Date > Quote Start Date"
 echo $'\n\n'
-sfdx force:org:open -u $salesforceAlias -p "/lightning/setup/ImportedPackage/home" > /dev/null
+sfdx force:org:open -o $salesforceAlias -p "/lightning/setup/ImportedPackage/home" > /dev/null
 
 echo "Opening up another tab to the Stripe app, authorize Salesforce & Stripe"
-sfdx force:org:open -u $salesforceAlias -p '/lightning/n/Setup' > /dev/null
 # open https://rest-na.steelbrick.com/oauth/auth/https%3A%2F%2Ftest.salesforce.com/SBQQ
 # open https://salesforce.suitesync.io/auth/salesforcesandbox
 

@@ -1,0 +1,6 @@
+/**
+ * Created by jmather-c on 8/10/23.
+ */
+.slds-notify {
+    border-radius: var(--lwc-borderRadiusMedium, 0.25rem);
+}

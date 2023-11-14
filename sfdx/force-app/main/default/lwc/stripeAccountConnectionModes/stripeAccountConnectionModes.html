@@ -1,0 +1,43 @@
+<!--
+ - Created by jmather-c on 9/5/23.
+ -->
+
+<!-- Stripe Account Connection Modes -->
+<template>
+    <h3 class="slds-text-heading_small">For what mode do you want to connect the
+        Stripe account?</h3>
+    <fieldset class="stripe-input_picker slds-form-element slds-align_absolute-center slds-m-top_large">
+        <div class="slds-form-element__control">
+            <div class="slds-visual-picker slds-visual-picker_vertical">
+                <input type="radio" id="stripe-input_picker__test-account" value="test" name="account-type"
+                       onchange={doSelect}/>
+                <label for="stripe-input_picker__test-account">
+                    <span class="slds-visual-picker__figure slds-visual-picker__text slds-align_absolute-center">
+                        <span>
+                            <span class="slds-text-heading_medium slds-m-bottom_x-small">Test Mode for Stripe Account</span>
+                            <span class="slds-text-title">A Stripe account that is only enabled to create test data. This account may be a demo account or sandbox and is not used for live business transactions.</span>
+                        </span>
+                    </span>
+                    <span class="slds-icon_container slds-visual-picker__text-check">
+                        <lightning-icon icon-name="utility:check" size="x-small" variant="inverse"></lightning-icon>
+                    </span>
+                </label>
+            </div>
+            <div class="slds-visual-picker slds-visual-picker_vertical">
+                <input type="radio" id="stripe-input_picker__prod-account" value="live" name="account-type"
+                       onchange={doSelect}/>
+                <label for="stripe-input_picker__prod-account">
+                    <span class="slds-visual-picker__figure slds-visual-picker__text slds-align_absolute-center">
+                        <span>
+                            <span class="slds-text-heading_medium slds-m-bottom_x-small">Live Mode for Stripe Account</span>
+                            <span class="slds-text-title">A Stripe account that is configured to create live data. This might be an account you are currently using in your day to day business transactions.</span>
+                        </span>
+                    </span>
+                    <span class="slds-icon_container slds-visual-picker__text-check">
+                        <lightning-icon icon-name="utility:check" size="x-small" variant="inverse"></lightning-icon>
+                    </span>
+                </label>
+            </div>
+        </div>
+    </fieldset>
+</template>

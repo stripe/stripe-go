@@ -1,0 +1,5 @@
+{
+  "scripts": {
+    "pre-commit": "bin/pre-commit.sh"
+  }
+}

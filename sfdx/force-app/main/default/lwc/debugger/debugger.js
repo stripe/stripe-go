@@ -1,9 +1,33 @@
 /**
  * Created by jmather-c on 6/1/23.
  */
+import isJSDebugEnabled from '@salesforce/apex/setupAssistant.isJSDebugEnabled';
+import isOAuthAutoCloseWindowEnabled from '@salesforce/apex/setupAssistant.isOAuthAutoCloseWindowEnabled';
 
 class Debugger {
-    static debug = false;
+    static config = null;
+    static oauthAutoCloseWindow = null;
+    static initialized = false;
+
+    static init() {
+        if (!this.initialized) {
+            this.initialized = true;
+            Debugger.config = isJSDebugEnabled();
+            Debugger.oauthAutoCloseWindow = isOAuthAutoCloseWindowEnabled();
+        }
+        return Debugger.config;
+    }
+
+    static withContext(context) {
+        const dat = this;
+        return function (var_args) {
+            const newargs = [context];
+            for (let i = 0; i < arguments.length; i++) {
+                newargs.push(arguments[i]);
+            }
+            dat.exec(console.log, newargs);
+        }
+    }
 
     /**
      * @param {...*} var_args
@@ -27,9 +51,12 @@ class Debugger {
     }
 
     static exec(target, args) {
-        if (this.debug) {
-            target.apply(console, this.sanitize(args));
-        }
+        this.init()
+            .then(isEnabled => {
+                if (isEnabled) {
+                    target.apply(console, this.sanitize(args));
+                }
+            })
     }
 
     /**

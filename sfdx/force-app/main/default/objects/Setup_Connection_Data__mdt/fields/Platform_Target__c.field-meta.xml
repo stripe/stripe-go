@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Platform_Target__c</fullName>
+    <defaultValue>&quot;https://salesforce.suitesync.io&quot;</defaultValue>
+    <description>This is where Salesforce will call to get information from the platform.
+Production value: https://salesforce.suitesync.io
+Dev value will be dynamically given from whatever tool you are using to expose your server.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>This is where Salesforce will call to get information from the platform.
+Production value: https://salesforce.suitesync.io</inlineHelpText>
+    <label>Platform Target</label>
+    <length>255</length>
+    <required>false</required>
+    <type>Text</type>
+    <unique>false</unique>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+</CustomField>
