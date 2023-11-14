@@ -674,6 +674,11 @@ class StripeForce::Translate
       log.info 'processing stacked amendment orders', count: contract_structure.amendments.count
     end
 
+    if @user.feature_enabled?(FeatureFlags::UPDATE_CUSTOMER_ON_ORDER_TRANSLATION)
+      sf_account = cache_service.get_record_from_cache(SF_ACCOUNT, contract_structure.initial[SF_ORDER_ACCOUNT])
+      translate_account(sf_account)
+    end
+
     previous_phase_items = initial_order_phase_items
     contract_structure.amendments.each_with_index do |sf_order_amendment, index|
       locker.lock_salesforce_record(sf_order_amendment)

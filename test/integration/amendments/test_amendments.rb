@@ -2128,6 +2128,75 @@ class Critic::OrderAmendmentTranslation < Critic::OrderAmendmentFunctionalTest
     end
   end
 
+  describe 'update customer' do
+    it 'sync account updates when amendment order is synced' do
+      @user.enable_feature FeatureFlags::UPDATE_CUSTOMER_ON_ORDER_TRANSLATION, update: true
+
+      contract_term = TEST_DEFAULT_CONTRACT_TERM
+      amendment_term = 6
+
+      initial_order_start_date = now_time
+      amendment_start_date = initial_order_start_date + (contract_term - amendment_term).months
+
+      sf_product_id, _sf_pricebook_id = salesforce_recurring_product_with_price(
+        additional_product_fields: {
+          CPQ_QUOTE_BILLING_FREQUENCY => CPQBillingFrequencyOptions::ANNUAL.serialize,
+        }
+      )
+
+      sf_order = create_subscription_order(sf_product_id: sf_product_id,
+                                           contact_email: "update_customer_on_amendment_order_sync_7",
+                                           additional_fields: {
+                                             CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(initial_order_start_date),
+                                           }
+                                          )
+
+      sf_account_id = sf_order['AccountId']
+      sf_account = sf_get(sf_account_id)
+      sf.update!(SF_ACCOUNT, {
+        SF_ID => sf_account_id,
+        "Name" => "Original Name",
+        "Description" => "Original Description",
+      })
+
+      # translate the initial order
+      StripeForce::Translate.perform_inline(@user, sf_order.Id)
+      sf_account.refresh
+
+      # check the Stripe customer has the correct data
+      stripe_customer_id = sf_account[prefixed_stripe_field(GENERIC_STRIPE_ID)]
+      stripe_customer = stripe_get(stripe_customer_id)
+      assert_equal(sf_account.Name, stripe_customer.name)
+      assert_equal("Original Name", stripe_customer.name)
+      assert_equal(sf_account.Description, stripe_customer.description)
+      assert_equal("Original Description", stripe_customer.description)
+
+      # create and sync the amendment
+      sf_contract = create_contract_from_order(sf_order)
+      amendment_data = create_quote_data_from_contract_amendment(sf_contract)
+      amendment_data["lineItems"].first["record"][CPQ_QUOTE_QUANTITY] = 2
+      amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_START_DATE] = format_date_for_salesforce(amendment_start_date)
+      amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_TERM] = amendment_term
+      sf_order_amendment = create_order_from_quote_data(amendment_data)
+
+      # update the Salesforce account information
+      sf.update!(SF_ACCOUNT, {
+        SF_ID => sf_account_id,
+        "Name" => "New Name",
+        "Description" => "New Description",
+      })
+      sf_account.refresh
+
+      # sync the amendment order and check the Stripe customer was updated
+      StripeForce::Translate.perform_inline(@user, sf_order_amendment.Id)
+      updated_stripe_customer = stripe_get(stripe_customer_id)
+      assert_equal(sf_account.Name, updated_stripe_customer.name)
+      assert_equal("New Name", updated_stripe_customer.name)
+      assert_equal(sf_account.Description, updated_stripe_customer.description)
+      assert_equal("New Description", updated_stripe_customer.description)
+    end
+  end
+
   # describe 'metadata' do
   #   it 'pulls metadata from each order amendment to the phase of each subscription'
   #   it 'uses metadata on the original line item if an item is not removed'
