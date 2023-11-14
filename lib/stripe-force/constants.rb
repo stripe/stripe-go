@@ -6,6 +6,7 @@ module StripeForce
     # application constants
     POLL_FREQUENCY = T.let(3 * 60, Integer)
     MAX_STRIPE_PRICE_PRECISION = 12
+    MAX_SALESFORCE_PRICE_PRECISION = 2
     MAX_SF_RETRY_ATTEMPTS = 8
 
     # Salesforce objects
@@ -274,6 +275,7 @@ module StripeForce
         UPDATE_PRODUCT_ON_SYNC = new('update_product_on_sync')
         SYNC_RECORD_FIELDS = new('sync_record_fields')
         MDQ = new('mdq')
+        SALESFORCE_PRECISION = new('salesforce_precision')
       end
     end
 

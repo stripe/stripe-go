@@ -106,9 +106,10 @@ class StripeForce::Translate
         product_subscription_term: Integer,
         billing_frequency: Integer,
         days_prorating: Integer,
+        salesforce_precision: T::Boolean
       ).returns(BigDecimal)
     end
-    def self.calculate_prorated_billing_amount(stripe_price:, subscription_term:, product_subscription_term:, billing_frequency:, days_prorating:)
+    def self.calculate_prorated_billing_amount(stripe_price:, subscription_term:, product_subscription_term:, billing_frequency:, days_prorating:, salesforce_precision: false)
       # prorated billing amount is months of subscription term that is not included
       prorated_subscription_term = subscription_term % billing_frequency
       proration_percentage = BigDecimal(prorated_subscription_term) / BigDecimal(billing_frequency)
@@ -128,6 +129,9 @@ class StripeForce::Translate
 
       unit_amount_decimal = BigDecimal(stripe_price.unit_amount_decimal)
       prorated_billing_amount = unit_amount_decimal * proration_percentage
+      if salesforce_precision
+        prorated_billing_amount = (prorated_billing_amount / 100).round(MAX_SALESFORCE_PRICE_PRECISION) * 100
+      end
       prorated_billing_amount
     end
 
@@ -152,10 +156,17 @@ class StripeForce::Translate
       sf_order_item = phase_item.order_line
       sf_order_amendment = user.sf_client.find(SF_ORDER, sf_order_item["OrderId"])
       product_subscription_term = StripeForce::Utilities::SalesforceUtil.determine_quote_line_subscription_term(mapper, sf_order_item, sf_order_amendment)
-      prorated_billing_amount = calculate_prorated_billing_amount(stripe_price: stripe_price, subscription_term: subscription_term, product_subscription_term: product_subscription_term, billing_frequency: billing_frequency, days_prorating: days_prorating)
+      prorated_billing_amount = calculate_prorated_billing_amount(
+        stripe_price: stripe_price,
+        subscription_term: subscription_term,
+        product_subscription_term: product_subscription_term,
+        billing_frequency: billing_frequency,
+        days_prorating: days_prorating,
+        salesforce_precision: user.feature_enabled?(StripeForce::Constants::FeatureFlags::SALESFORCE_PRECISION))
 
       # if the order is backdated and was synced after a billing cycle, we need to add the amount of the backdated billing cycle
       if backdated_billing_cycles > 0
+        log.info 'adding backdated cycles to proration price', backdated_billing_cycles: backdated_billing_cycles
         prorated_billing_amount += stripe_price.unit_amount_decimal.to_d * backdated_billing_cycles
       end
 
@@ -181,13 +192,15 @@ class StripeForce::Translate
 
     sig do
       params(
-        user: StripeForce::User,
+        mapper: StripeForce::Mapper,
+        sf_order: Restforce::SObject,
         phase_item: ContractItemStructure,
         subscription_term: Integer,
         billing_frequency: Integer
       ).returns(Hash)
     end
-    def self.create_credit_price_data_from_terminated_phase_item(user:, phase_item:, subscription_term:, billing_frequency:)
+    def self.create_credit_price_data_from_terminated_phase_item(mapper:, sf_order:, phase_item:, subscription_term:, billing_frequency:)
+      user = mapper.user
       # our goal here is to identify the correct amount to credit this user, pass it into a price_data hash to be bubbled to the Subscription Item
 
       unless phase_item.fully_terminated?
@@ -204,9 +217,18 @@ class StripeForce::Translate
         unused_term_percentage = 1
       end
 
+      # we need to take into account the unused days (non anniversary amendment => day proration scenarios)
+      if user.feature_enabled?(StripeForce::Constants::FeatureFlags::NON_ANNIVERSARY_AMENDMENTS) && (user.feature_enabled?(StripeForce::Constants::FeatureFlags::DAY_PRORATIONS) || user.connector_settings[CONNECTOR_SETTING_CPQ_PRORATE_PRECISION] == 'month+day')
+        unused_term_percentage = StripeForce::Utilities::SalesforceUtil.calculate_price_multiplier(mapper, sf_order, phase_item.order_line, billing_frequency, is_terminated_line: true)
+      end
+
       original_stripe_price = phase_item.price(user)
       unit_amount_decimal = BigDecimal(original_stripe_price.unit_amount_decimal)
       credit_amount = unit_amount_decimal * unused_term_percentage * -1
+
+      if user.feature_enabled?(StripeForce::Constants::FeatureFlags::SALESFORCE_PRECISION)
+        credit_amount = (credit_amount / 100).round(MAX_SALESFORCE_PRICE_PRECISION) * 100
+      end
 
       # We should eventually use a Price here instead of price data. Details in ticket below
       # https://jira.corp.stripe.com/browse/PLATINT-2090
@@ -275,9 +297,9 @@ class StripeForce::Translate
 
         # create price data, not price
         price_data = create_credit_price_data_from_terminated_phase_item(
-          user: user,
+          mapper: mapper,
+          sf_order: sf_order_amendment,
           phase_item: phase_item, # https://jira.corp.stripe.com/browse/PLATINT-2090
-
           # TODO is there a better way to source these variables? They are required in a couple
           subscription_term: subscription_term,
           billing_frequency: billing_frequency
