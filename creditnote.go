@@ -81,6 +81,16 @@ const (
 	CreditNoteTypePrePayment  CreditNoteType = "pre_payment"
 )
 
+// A list of up to 10 tax amounts for the credit note line item. Cannot be mixed with `tax_rates`.
+type CreditNoteLineTaxAmountParams struct {
+	// The amount, in cents (or local equivalent), of the tax.
+	Amount *int64 `form:"amount"`
+	// The amount on which tax is calculated, in cents (or local equivalent).
+	TaxableAmount *int64 `form:"taxable_amount"`
+	// The id of the tax rate for this tax amount. The tax rate must have been automatically created by Stripe.
+	TaxRate *string `form:"tax_rate"`
+}
+
 // Line items that make up the credit note.
 type CreditNoteLineParams struct {
 	// The line item amount to credit. Only valid when `type` is `invoice_line_item`.
@@ -91,7 +101,9 @@ type CreditNoteLineParams struct {
 	InvoiceLineItem *string `form:"invoice_line_item"`
 	// The line item quantity to credit.
 	Quantity *int64 `form:"quantity"`
-	// The tax rates which apply to the credit note line item. Only valid when the `type` is `custom_line_item`.
+	// A list of up to 10 tax amounts for the credit note line item. Cannot be mixed with `tax_rates`.
+	TaxAmounts []*CreditNoteLineTaxAmountParams `form:"tax_amounts"`
+	// The tax rates which apply to the credit note line item. Only valid when the `type` is `custom_line_item` and cannot be mixed with `tax_amounts`.
 	TaxRates []*string `form:"tax_rates"`
 	// Type of the credit note line item, one of `invoice_line_item` or `custom_line_item`
 	Type *string `form:"type"`
@@ -179,6 +191,16 @@ func (p *CreditNoteListParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// A list of up to 10 tax amounts for the credit note line item. Cannot be mixed with `tax_rates`.
+type CreditNotePreviewLineTaxAmountParams struct {
+	// The amount, in cents (or local equivalent), of the tax.
+	Amount *int64 `form:"amount"`
+	// The amount on which tax is calculated, in cents (or local equivalent).
+	TaxableAmount *int64 `form:"taxable_amount"`
+	// The id of the tax rate for this tax amount. The tax rate must have been automatically created by Stripe.
+	TaxRate *string `form:"tax_rate"`
+}
+
 // Line items that make up the credit note.
 type CreditNotePreviewLineParams struct {
 	// The line item amount to credit. Only valid when `type` is `invoice_line_item`.
@@ -189,7 +211,9 @@ type CreditNotePreviewLineParams struct {
 	InvoiceLineItem *string `form:"invoice_line_item"`
 	// The line item quantity to credit.
 	Quantity *int64 `form:"quantity"`
-	// The tax rates which apply to the credit note line item. Only valid when the `type` is `custom_line_item`.
+	// A list of up to 10 tax amounts for the credit note line item. Cannot be mixed with `tax_rates`.
+	TaxAmounts []*CreditNotePreviewLineTaxAmountParams `form:"tax_amounts"`
+	// The tax rates which apply to the credit note line item. Only valid when the `type` is `custom_line_item` and cannot be mixed with `tax_amounts`.
 	TaxRates []*string `form:"tax_rates"`
 	// Type of the credit note line item, one of `invoice_line_item` or `custom_line_item`
 	Type *string `form:"type"`
@@ -262,6 +286,16 @@ func (p *CreditNoteVoidCreditNoteParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// A list of up to 10 tax amounts for the credit note line item. Cannot be mixed with `tax_rates`.
+type CreditNotePreviewLinesLineTaxAmountParams struct {
+	// The amount, in cents (or local equivalent), of the tax.
+	Amount *int64 `form:"amount"`
+	// The amount on which tax is calculated, in cents (or local equivalent).
+	TaxableAmount *int64 `form:"taxable_amount"`
+	// The id of the tax rate for this tax amount. The tax rate must have been automatically created by Stripe.
+	TaxRate *string `form:"tax_rate"`
+}
+
 // Line items that make up the credit note.
 type CreditNotePreviewLinesLineParams struct {
 	// The line item amount to credit. Only valid when `type` is `invoice_line_item`.
@@ -272,7 +306,9 @@ type CreditNotePreviewLinesLineParams struct {
 	InvoiceLineItem *string `form:"invoice_line_item"`
 	// The line item quantity to credit.
 	Quantity *int64 `form:"quantity"`
-	// The tax rates which apply to the credit note line item. Only valid when the `type` is `custom_line_item`.
+	// A list of up to 10 tax amounts for the credit note line item. Cannot be mixed with `tax_rates`.
+	TaxAmounts []*CreditNotePreviewLinesLineTaxAmountParams `form:"tax_amounts"`
+	// The tax rates which apply to the credit note line item. Only valid when the `type` is `custom_line_item` and cannot be mixed with `tax_amounts`.
 	TaxRates []*string `form:"tax_rates"`
 	// Type of the credit note line item, one of `invoice_line_item` or `custom_line_item`
 	Type *string `form:"type"`
