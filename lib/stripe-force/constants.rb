@@ -93,6 +93,9 @@ module StripeForce
     CPQ_ORDER_ITEM_SEGMENT_LABEL = "SBQQ__SegmentLabel__c"
     CPQ_ORDER_ITEM_PRICE_DIMENSION_ID = "SBQQ__PriceDimension__c"
     CPQ_ORDER_ITEM_PRICE_DIMENSION_TYPE = "SBQQ__DimensionType__c"
+
+    CONTRACT_AMENDMENT_START_DATE = "SBQQ__AmendmentStartDate__c"
+    QUOTE_LINE_EFFECTIVE_START_DATE = "SBQQ__EffectiveStartDate__c"
     class CPQPriceDimensionTypeOptions < T::Enum
       enums do
         MONTH = new("Month")

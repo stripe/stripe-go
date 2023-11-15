@@ -588,7 +588,7 @@ class StripeForce::Translate
       current_timestamp = determine_current_time(user, stripe_customer_id)
 
       phases.reject! do |phase|
-        if phase.end_date == 'now'
+        if phase[:end_date].blank? || phase.end_date == 'now'
           next false
         end
 
@@ -617,7 +617,7 @@ class StripeForce::Translate
         raise StripeForce::Errors::RawUserError.new("Test clock still advancing, scheduling a retry.")
       end
 
-      log.info 'Found test clock for customer, using frozen time', stripe_customer: stripe_customer_id, frozen_time: test_clock.frozen_time
+      log.info 'found test clock for customer, using frozen time', stripe_customer: stripe_customer_id, frozen_time: test_clock.frozen_time
       test_clock.frozen_time
     end
   end

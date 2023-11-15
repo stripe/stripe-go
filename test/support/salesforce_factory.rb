@@ -365,8 +365,8 @@ module Critic
     end
 
     # returns full SF order object
-    sig { params(sf_quote_id: String).returns(T.untyped) }
-    def create_order_from_cpq_quote(sf_quote_id)
+    sig { params(sf_quote_id: String, activate_order: T::Boolean).returns(T.untyped) }
+    def create_order_from_cpq_quote(sf_quote_id, activate_order: true)
       # it looks like there is additional field validation triggered here when `ordered` is set to true
       # If you recieve a "FIELD_CUSTOM_VALIDATION_EXCEPTION: Required fields are missing: [PricebookEntryId]" here,
       #   this means that SF could not find a pricebook entry for the product you are passing in. This may be because of a
@@ -376,16 +376,21 @@ module Critic
         CPQ_QUOTE_ORDERED => true,
       })
 
+      # for debugging
+      # @user.sf_client.find(CPQ_QUOTE, sf_quote_id)
+
       # TODO this is silly, I should do a simple SOQL query and grab the result
       # https://salesforce.stackexchange.com/questions/251904/get-sales-order-line-on-rest-api
       # TODO note that looking in the UI is the easiest way to get these magic relational values
       related_orders = sf.get("/services/data/v52.0/sobjects/#{CPQ_QUOTE}/#{sf_quote_id}/SBQQ__Orders__r")
       sf_order = related_orders.body.first
 
-      sf.update!(SF_ORDER,
-        SF_ID => sf_order.Id,
-        'Status' => 'Activated'
-      )
+      if activate_order
+        sf.update!(SF_ORDER,
+          SF_ID => sf_order.Id,
+          'Status' => 'Activated'
+        )
+      end
 
       sf_order.refresh
       sf_order

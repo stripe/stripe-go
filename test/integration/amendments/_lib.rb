@@ -65,7 +65,7 @@ class Critic::OrderAmendmentFunctionalTest < Critic::VCRTest
     sf_renewal_quote
   end
 
-  def create_order_from_quote_data(sf_quote_data)
+  def create_order_from_quote_data(sf_quote_data, activate_order: true)
     log.info 'creating order from quote'
 
     sf_quote_id = calculate_and_save_cpq_quote(sf_quote_data)
@@ -76,7 +76,7 @@ class Critic::OrderAmendmentFunctionalTest < Critic::VCRTest
       CPQ_QUOTE_PRICEBOOK => default_pricebook_id,
     })
 
-    create_order_from_cpq_quote(sf_quote_id)
+    create_order_from_cpq_quote(sf_quote_id, activate_order: activate_order)
   end
 
   # this create a Salesforce order without 'Activating' it

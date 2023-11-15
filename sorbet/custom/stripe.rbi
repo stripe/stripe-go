@@ -268,7 +268,7 @@ class Stripe::SubscriptionSchedule
   sig { returns(T::Array[Stripe::SubscriptionSchedulePhase])}
   def phases; end
 
-  sig { params(arg: T::Array[Stripe::SubscriptionSchedulePhase]).void }
+  sig { params(arg: T::Array[T.untyped]).void }
   def phases=(arg); end
 
   sig { returns(String) }

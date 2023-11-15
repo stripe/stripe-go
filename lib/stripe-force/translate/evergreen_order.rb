@@ -16,9 +16,7 @@ class StripeForce::Translate
     end
   end
 
-  def is_salesforce_order_evergreen(sf_order)
-    sf_order_items = order_lines_from_order(sf_order)
-
+  def sf_order_contains_evergreen_order_items(sf_order_items, sf_order)
     evergreen_items = sf_order_items.select {|item| item[CPQ_PRODUCT_SUBSCRIPTION_TYPE] == CPQProductSubscriptionTypeOptions::EVERGREEN.serialize }
     renewable_items = sf_order_items.select {|item| item[CPQ_PRODUCT_SUBSCRIPTION_TYPE] == CPQProductSubscriptionTypeOptions::RENEWABLE.serialize }
 
@@ -193,7 +191,8 @@ class StripeForce::Translate
     amendments = contract_structure.amendments
     amendments.each do |sf_order_amendment|
       # do not support adding renewable products to evergreen order
-      if !is_salesforce_order_evergreen(sf_order_amendment)
+      sf_order_items = order_lines_from_order(sf_order_amendment)
+      if !sf_order_contains_evergreen_order_items(sf_order_items, sf_order_amendment)
         throw_user_failure!(
           salesforce_object: sf_order_amendment,
           message: "Adding Salesforce products with a 'Renewable' type to evergreen orders isn't supported."

@@ -80,6 +80,8 @@ module Critic::Unit
       end
 
       it 'prefixes stripe ID field when the QA namespace is selected' do
+        ENV['CI'] = "false"
+
         @user.connector_settings[CONNECTOR_SETTING_SALESFORCE_NAMESPACE] = SalesforceNamespaceOptions::QA.serialize
 
         customer = create_mock_salesforce_customer
@@ -96,6 +98,8 @@ module Critic::Unit
       end
 
       it 'prefixes stripe ID field when the standard is selected' do
+        ENV['CI'] = "false"
+
         @user.connector_settings[CONNECTOR_SETTING_SALESFORCE_NAMESPACE] = SalesforceNamespaceOptions::PRODUCTION.serialize
 
         customer = create_mock_salesforce_customer
@@ -112,6 +116,8 @@ module Critic::Unit
       end
 
       it 'prefixes stripe ID field when no namespace is selected' do
+        ENV['CI'] = "false"
+
         @user.connector_settings[CONNECTOR_SETTING_SALESFORCE_NAMESPACE] = SalesforceNamespaceOptions::NONE.serialize
 
         customer = create_mock_salesforce_customer

@@ -38,7 +38,7 @@ class Critic::OldOrderMigration < Critic::OrderAmendmentFunctionalTest
 
     amendment_end_date = StripeForce::Translate::OrderHelpers.anchor_time_to_day_of_month(base_time: amendment_end_date, anchor_day_of_month: initial_order_end_date.day)
 
-    sf_product_id, sf_pricebook_entry_id = salesforce_recurring_product_with_price(
+    sf_product_id, _sf_pricebook_entry_id = salesforce_recurring_product_with_price(
       price: yearly_price,
       additional_product_fields: {
         CPQ_QUOTE_BILLING_FREQUENCY => CPQBillingFrequencyOptions::ANNUAL.serialize,
@@ -66,15 +66,12 @@ class Critic::OldOrderMigration < Critic::OrderAmendmentFunctionalTest
     amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_TERM] = amendment_term
 
     sf_order_amendment = create_order_from_quote_data(amendment_data)
-
     StripeForce::Translate.perform_inline(@user, sf_order_amendment.Id)
 
     sf_order.refresh
-
     subscription_schedule = Stripe::SubscriptionSchedule.retrieve(sf_order[prefixed_stripe_field(GENERIC_STRIPE_ID)], @user.stripe_credentials)
 
     invoices = Stripe::Invoice.list({subscription: subscription_schedule.subscription, limit: 100}, @user.stripe_credentials)
-
     # invoice total should be for only one month
     assert_equal(0, invoices.data.length)
 

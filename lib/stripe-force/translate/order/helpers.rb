@@ -267,9 +267,8 @@ class StripeForce::Translate
       phases
     end
 
-    # if an order does not have a 'AmendedContract' relationship than it is a initial order
-    sig { params(user: StripeForce::User, sf_order: Restforce::SObject).returns(T::Boolean) }
-    def self.is_order_amendment?(user, sf_order)
+    sig { params(user: StripeForce::User, sf_order: Restforce::SObject).returns(T.untyped) }
+    def self.get_amended_contract_data(user, sf_order)
       order_with_amended_contract_query = user.sf_client.query(
         # include `Type`, `OpportunityId` for debugging purposes
         <<~EOL
@@ -288,7 +287,14 @@ class StripeForce::Translate
         raise Integrations::Errors::ImpossibleInternalError.new("More than one contract found for amendment.")
       end
 
-      order_with_amended_contract = order_with_amended_contract_query.first
+      order_with_amended_contract_data = order_with_amended_contract_query.first
+      order_with_amended_contract_data
+    end
+
+    # if an order does not have a 'AmendedContract' relationship than it is a initial order
+    sig { params(user: StripeForce::User, sf_order: Restforce::SObject).returns(T::Boolean) }
+    def self.is_order_amendment?(user, sf_order)
+      order_with_amended_contract = get_amended_contract_data(user, sf_order)
       amended_contract_id = order_with_amended_contract.dig(SF_OPPORTUNITY, CPQ_AMENDED_CONTRACT)
       is_order_amendment = amended_contract_id.present?
 
@@ -297,7 +303,7 @@ class StripeForce::Translate
       end
 
       if is_order_amendment && order_with_amended_contract.Type == OrderTypeOptions::NEW.serialize
-        Integrations::ErrorContext.report_edge_case("order is determined to be an amendment, but type is new")
+        Integrations::ErrorContext.report_edge_case("order is determined to be an amendment, but type is new.")
       end
 
       is_order_amendment

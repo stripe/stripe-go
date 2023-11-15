@@ -14,6 +14,29 @@ class Critic::BackdatedOrders < Critic::OrderAmendmentFunctionalTest
     @user.enable_feature FeatureFlags::TEST_CLOCKS, update: true
   end
 
+  describe 'backdated initial order' do
+    it 'syncs a backdated initial order anchor to the start_date' do
+      contract_term = 12
+      initial_order_start_date = Date.new(2023, 6, 14)
+
+      sf_order = create_subscription_order(
+        additional_fields: {
+          CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(initial_order_start_date),
+          CPQ_QUOTE_BILLING_FREQUENCY => CPQBillingFrequencyOptions::MONTHLY.serialize,
+          CPQ_QUOTE_SUBSCRIPTION_TERM => contract_term,
+        }
+      )
+
+      StripeForce::Translate.perform_inline(@user, sf_order.Id)
+      sf_order.refresh
+
+      stripe_subscription_schedule_id = sf_order[prefixed_stripe_field(GENERIC_STRIPE_ID)]
+      _stripe_subscription_schedule = Stripe::SubscriptionSchedule.retrieve(stripe_subscription_schedule_id, @user.stripe_credentials)
+
+      # TODO add asserts here
+    end
+  end
+
   describe 'backdated amendment order' do
     it 'syncs a backdated initial and amendment order billed monthly' do
       # initial order: starts in the past, billed monthly
@@ -35,7 +58,7 @@ class Critic::BackdatedOrders < Critic::OrderAmendmentFunctionalTest
       # create the initial sf order
       sf_order = create_subscription_order(
         sf_product_id: sf_product_id,
-        contact_email: "syncs_backdated_monthly",
+        contact_email: "syncs_backdated_monthly_2",
         additional_fields: {
           CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(initial_order_start_date),
           CPQ_QUOTE_BILLING_FREQUENCY => CPQBillingFrequencyOptions::MONTHLY.serialize,

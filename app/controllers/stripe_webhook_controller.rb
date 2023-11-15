@@ -55,25 +55,25 @@ class StripeWebhookController < ApplicationController
     set_error_context(user: user, stripe_resource: event)
 
     if !user.enabled
-      log.info "would have responded to event, but account is disabled"
+      log.info "would have responded to event, but account is disabled", stripe_account_id: stripe_account_id
       render plain: "would have responded to event, but account is disabled"
       return
     end
 
     if livemode != user.livemode
-      log.info "user exists, but does not match event livemode", expected_livemode: livemode
+      log.info "user exists, but does not match event livemode", expected_livemode: livemode, stripe_account_id: stripe_account_id
       render plain: "user exists, but does not match mode"
       return
     end
 
     if user.feature_enabled?(FeatureFlags::IGNORE_WEBHOOKS)
-      log.info 'ignoring webhook'
+      log.info 'ignoring webhook', stripe_account_id: stripe_account_id
       render plain: "user exists, but webhook ignored"
       return
     end
 
     if user.feature_enabled?(FeatureFlags::REJECT_WEBHOOKS)
-      log.info 'rejecting webhook'
+      log.info 'rejecting webhook', stripe_account_id: stripe_account_id
       render status: :service_unavailable, plain: "user exists, but webhook rejected"
       return
     end
@@ -85,7 +85,7 @@ class StripeWebhookController < ApplicationController
 
     StripeForce::ProrationAutoBill.create_invoice_from_invoice_item_event(user, event)
 
-    log.info "successfully processed event"
+    log.info "successfully processed event", event: event_id, stripe_account_id: stripe_account_id
     Integrations::Metrics::Writer.instance.track_counter('webhook.event.processed', dimensions: {livemode: livemode, stripe_account_id: stripe_account_id})
 
     render plain: "Successfully processed event #{event_id}"

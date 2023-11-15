@@ -10,8 +10,8 @@ module StripeForce::Utilities
     include Integrations::Log
     include StripeForce::Constants
 
-    # SF dates have no TZ data and come in as a simple 'YYYY-MM-DD'
-    # Stripe APIs speak UTC, so we convert to UTC + unix timestamp
+    # Salesforce dates have no TZ data and come in as 'YYYY-MM-DD'
+    # Stripe APIs speak UTC, so we convert to UTC and to unix timestamp
     sig { params(date_string: String).returns(Integer) }
     def self.salesforce_date_to_unix_timestamp(date_string)
       salesforce_date_to_beginning_of_day(date_string).to_i

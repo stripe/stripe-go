@@ -24,7 +24,6 @@ class StripeForce::Translate
       contract_structure = extract_contract_from_order(sf_object)
     elsif is_pre_integration_order
       log.info 'skipping translation of pre-integration order, if merchant wants to sync this order please gate them into old order migration: ', order_ids: contract_structure.initial
-      # TODO: Create sync record alerting user to this? Maybe comes with Sync Notes?
       return
     end
 
@@ -44,12 +43,15 @@ class StripeForce::Translate
     sf_order = contract_structure.initial
     # refresh to include subscription reference on the Stripe ID field in SF if the order was just translated
     sf_order.refresh
+    sf_order_items = order_lines_from_order(sf_order)
 
-    # process amendments based on whether order is evergreen (stripe sub) or not (stripe sub schedule)
-    if is_salesforce_order_evergreen(sf_order)
+    # process amendments based on the type of order evergreen, mdq, or recurring
+    if sf_order_contains_evergreen_order_items(sf_order_items, sf_order)
       update_subscription_from_order_amendments(contract_structure)
+    elsif sf_order_contains_mdq_order_items(sf_order_items)
+      update_subscription_schedule_phases_from_order_amendments_with_mdq(contract_structure)
     else
-      update_subscription_phases_from_order_amendments(contract_structure)
+      update_subscription_schedule_phases_from_order_amendments(contract_structure)
     end
   end
 
@@ -260,13 +262,8 @@ class StripeForce::Translate
   def create_stripe_transaction_from_sf_order(sf_order)
     log.info 'translating order', salesforce_object: sf_order
 
-    # this check is rigorously enforced upstream
-    if sf_order.Type != OrderTypeOptions::NEW.serialize
-      log.warn "order is not new, but is treated as such, type field could be customized"
-    end
-
-    stripe_transaction = retrieve_from_stripe(Stripe::Subscription, sf_order)
-    stripe_transaction ||= retrieve_from_stripe(Stripe::SubscriptionSchedule, sf_order)
+    stripe_transaction = retrieve_from_stripe(Stripe::SubscriptionSchedule, sf_order)
+    stripe_transaction ||= retrieve_from_stripe(Stripe::Subscription, sf_order)
     stripe_transaction ||= retrieve_from_stripe(Stripe::Invoice, sf_order)
 
     if !stripe_transaction.nil?
@@ -292,7 +289,7 @@ class StripeForce::Translate
       return invoice
     end
 
-    has_evergreen_products = is_salesforce_order_evergreen(sf_order)
+    has_evergreen_products = sf_order_contains_evergreen_order_items(sf_order_items, sf_order)
     if has_evergreen_products
       log.info 'order has evergreen products, creating subscription'
 
@@ -317,7 +314,7 @@ class StripeForce::Translate
       log.info 'sf order contains mdq product'
       subscription_schedule_phases = generate_phases_for_initial_order_with_mdq(
         sf_order: sf_order,
-        subscription_items: subscription_items,
+        contract_items: subscription_items,
         invoice_items: invoice_items,
         subscription_schedule: subscription_schedule,
         stripe_customer: stripe_customer)
@@ -379,91 +376,6 @@ class StripeForce::Translate
 
     stripe_transaction
   end
-
-  sig do
-    params(
-      sf_order: T.untyped,
-      invoice_items: T::Array[ContractItemStructure],
-      subscription_items: T::Array[ContractItemStructure],
-      subscription_schedule: Stripe::SubscriptionSchedule,
-      stripe_customer: Stripe::Customer
-    ).returns(T::Array[Stripe::SubscriptionSchedulePhase])
-  end
-  def generate_phases_for_initial_order_with_mdq(sf_order:, invoice_items:, subscription_items:, subscription_schedule:, stripe_customer:)
-    sub_schedule_phases = []
-
-    # extract the quote start date and subscription term from the order
-    # to calculate the end date
-    string_start_date_from_salesforce = subscription_schedule['start_date']
-    start_date_from_salesforce = DateTime.parse(string_start_date_from_salesforce)
-    subscription_term_from_salesforce = StripeForce::Utilities::SalesforceUtil.extract_subscription_term_from_order!(mapper, sf_order)
-
-    order_end_date = StripeForce::Utilities::SalesforceUtil.datetime_to_unix_timestamp(start_date_from_salesforce + subscription_term_from_salesforce.months)
-
-    # split the subscription items by mdq and non-mdq products
-    # non segmented items are for the entire contact so they will be added to each phase
-    non_segmented_items = []
-    segmented_subscription_items = []
-
-    subscription_items.each do |item|
-      if item.is_mdq_segment?
-        segmented_subscription_items << item
-      else
-        # if it's not an mdq product, there will be no segment index, and the sub item will be across all phases
-        non_segmented_items << item.stripe_params
-      end
-    end
-
-    # sort the mdq products by segment index
-    segmented_subscription_items = segmented_subscription_items.sort_by do |item|
-        if item.mdq_dimension_type == 'Custom'
-          raise StripeForce::Errors::RawUserError.new("MDQ products with custom segments are not yet supported.")
-        end
-
-        item.mdq_segment_index
-    end
-
-    # CPQ Quote discounts will apply across each phase / segment
-    phase_discounts = stripe_discounts_for_sf_object(sf_object: sf_order)
-
-    # for each subscription item, add it to the corresponding sub phase
-    segmented_subscription_items.each do |sub_item|
-        # many of the mdq fields live on the corresponding quote line
-        quote_line_data = backoff { @user.sf_client.find(CPQ_QUOTE_LINE, sub_item.order_line[CPQ_QUOTE_LINE]) }
-        sub_item_end_date = StripeForce::Utilities::SalesforceUtil.salesforce_date_to_unix_timestamp(quote_line_data[CPQ_QUOTE_SUBSCRIPTION_END_DATE]) + 1.day.to_i
-
-        # adds a new phase for the newest segment
-        mdq_segment_index = sub_item.mdq_segment_index
-        if sub_schedule_phases.empty? || sub_schedule_phases.count < mdq_segment_index
-          # create a new phase for this segment index
-          sub_schedule_phases << {
-            add_invoice_items: [],
-            items: non_segmented_items.dup,
-            end_date: sub_item_end_date,
-            metadata: Metadata.stripe_metadata_for_sf_object(@user, sf_order).merge({salesforce_segment_key: sub_item.order_line[CPQ_ORDER_ITEM_SEGMENT_KEY], salesforce_segment_label: quote_line_data[CPQ_ORDER_ITEM_SEGMENT_LABEL]}),
-            discounts: phase_discounts,
-          }
-        end
-
-        # add the subscription item to the existing segment index phase
-        last_index = sub_schedule_phases.count - 1
-
-        # let's be defensive and throw a error if the order items in the same segment have different end dates
-        if sub_schedule_phases[last_index][:end_date] != sub_item_end_date
-          log.error 'sf order items in the same segment have different end dates', sf_order_item: sub_item.order_line
-          raise Integrations::Errors::ImpossibleState.new('Salesforce Order Items in the same MDQ segment has different end date than the other segments.', salesforce_object: sub_item.order_line)
-        end
-
-        # add the item to the last phase / segment
-        sub_schedule_phases[last_index][:items] << sub_item.stripe_params
-    end
-
-    # Salesforce EndDate is the end of the last day of the subscription while the calculated EndDate we send to Stripe
-    # is the day after the last day of the subscription. This is because Stripe's subscription schedule end date is exclusive.
-    sub_schedule_phases[sub_schedule_phases.count - 1][:end_date] = order_end_date
-    sub_schedule_phases
-  end
-
 
   # it is important that the subscription schedule is passed in before the start_date is transformed
   sig do
@@ -603,7 +515,7 @@ class StripeForce::Translate
   end
 
   sig { params(contract_structure: ContractStructure).returns(T.nilable(Stripe::SubscriptionSchedule)) }
-  def update_subscription_phases_from_order_amendments(contract_structure)
+  def update_subscription_schedule_phases_from_order_amendments(contract_structure)
     log.info "processing amendment orders"
 
     subscription_schedule = retrieve_from_stripe(Stripe::SubscriptionSchedule, contract_structure.initial)
@@ -618,6 +530,11 @@ class StripeForce::Translate
     # verify that all the amendment orders co-terminate with the initial order
     if !OrderAmendment.contract_co_terminated?(mapper, contract_structure)
       raise StripeForce::Errors::RawUserError.new("Order amendments must coterminate with the initial order.")
+    end
+
+    # log how many amendments have been made to this order
+    if contract_structure.amendments.count > 1
+      log.info 'order has stacked amendments', count: contract_structure.amendments.count
     end
 
     # Order amendments contain a negative item if they are adjusting a previous line item.
@@ -638,7 +555,7 @@ class StripeForce::Translate
     is_initial_order_renewal = StripeForce::Utilities::SalesforceUtil.is_renewal_order(@cache_service, contract_structure.initial)
     _, initial_order_phase_items = phase_items_from_order_lines(sf_initial_order_items, is_initial_order_renewal)
 
-    # another complexity here is 'backend' prorated order amendments (i.e. 18mo contract, billed yearly)
+    # Another complexity here is 'backend' prorated order amendments (i.e. 18mo contract, billed yearly)
     # in this case, the initial order creates two phases. Effectively, there is an amendment without an order.
     # However, this 'amendment' does *not* contain the latest subscription items. The latest amendment always contains
     # the latest aggregated subscription items. However, we can't lose the add_invoice_items contained in the 2nd phase
@@ -657,12 +574,8 @@ class StripeForce::Translate
       backend_proration, subscription_phases = OrderAmendment.extract_backend_proration_phase(@user, subscription_phases)
     end
 
-    # SF does not enforce mutation restrictions. It's possible to go in and modify anything you want in Salesforce
-    # for this reason we should NOT mutate the existing phases of a subscription. This could result in updating quantity, metadata, etc
-    # that was updated in Salesforce changing phase data that the user does not expect to be changed.
-
     if subscription_schedule.metadata[StripeForce::Translate::Metadata.metadata_key(@user, MetadataKeys::PRE_INTEGRATION_ORDER)] == "true"
-      # Setting the billing_cycle_anchor on the creation of this Subscription creates a second phase that we need to remove and replace
+      # Setting the billing_cycle_anchor on the creation of this subscription creates a second phase that we need to remove and replace
       # TODO: check to ensure there are only two phases and that this one should be removed
       subscription_schedule.phases.delete_at(1)
     end
@@ -684,10 +597,7 @@ class StripeForce::Translate
       locker.lock_salesforce_record(sf_order_amendment)
 
       log.info 'processing amendment order', sf_order_amendment_id: sf_order_amendment.Id, index: index
-      invoice_items_in_order, aggregate_phase_items = build_phase_items_from_order_amendment(
-        previous_phase_items,
-        sf_order_amendment
-      )
+      invoice_items_in_order, aggregate_phase_items = build_phase_items_from_order_amendment(previous_phase_items, sf_order_amendment)
 
       # TODO replace with local sync record call in the future
       order_amendment_subscription_id = sf_order_amendment[prefixed_stripe_field(GENERIC_STRIPE_ID)]
@@ -703,7 +613,7 @@ class StripeForce::Translate
       end
 
       if subscription_schedule.status == 'canceled'
-        # if attempting to make a new amendment to a canceled subscription schedule, raise error
+        # raise error if attempting to amend a canceled subscription schedule
         throw_user_failure!(
           salesforce_object: sf_order_amendment,
           message: "The Stripe subscription schedule has already been cancelled and can't be modified."
@@ -719,29 +629,18 @@ class StripeForce::Translate
         end
       end
 
-      # this loop excludes the initial phase, which is why we are subtracting by 1
-      # note this can happen with backend initial order prorations or if the user has amendment the contract previously
-      if subscription_phases.count - 1 > index
-        log.info 'number of subscription phases is greater than this amendment index', subscription_phase_count: subscription_phases.count, amendment_index: index
-      end
-
       # TODO price ID dup check on the invoice items
-      # make sure to run this *after* checking if the amendment is already processed, otherwise
+      # Make sure to run this *after* checking if the amendment is already processed, otherwise
       # we'll create price IDs which will never be archived since they won't be used in an active phase
       aggregate_phase_items = OrderHelpers.ensure_unique_phase_item_prices(@user, aggregate_phase_items)
 
-      # TODO should probably use a completely different key/mapping for the phase items
       phase_params = StripeForce::Utilities::SalesforceUtil.extract_salesforce_params!(mapper, sf_order_amendment, Stripe::SubscriptionSchedule)
 
       # convert the string Salesforce start date from to a timestamp
       string_start_date_from_salesforce = phase_params['start_date']
       sf_order_amendment_start_date_as_timestamp = StripeForce::Utilities::SalesforceUtil.salesforce_date_to_unix_timestamp(string_start_date_from_salesforce)
       phase_params['start_date'] = sf_order_amendment_start_date_as_timestamp
-
-      # TODO should probably move iteration extraction to another helper
       subscription_term_from_salesforce = phase_params.delete('iterations').to_i
-
-      # originally `iterations` was used, but this fails when subscription term is less than a single billing cycle
 
       # we need to normalize the amendment order end date to take into account special cases
       # that can occur when then initial order starts on a day of the month that doesn't exist in the amendment month
@@ -749,10 +648,7 @@ class StripeForce::Translate
       # at this point, we have verified the order amendment end date is equal to the initial order
       phase_params['end_date'] = StripeForce::Utilities::SalesforceUtil.datetime_to_unix_timestamp(sf_order_amendment_end_date)
 
-      # TODO should we validate the end date vs the subscription schedule?
-
       billing_frequency = OrderAmendment.calculate_billing_frequency_from_phase_items(@user, aggregate_phase_items)
-
       aggregate_phase_items, terminated_phase_items = OrderHelpers.remove_terminated_lines(aggregate_phase_items)
 
       # determine if this is a backdated order since this has implications on how we prorate
@@ -807,7 +703,6 @@ class StripeForce::Translate
       end
 
       # Notes:
-      #   Ideally there would be a way for users to *add* metadata during partial/full terminations
       #   We don't want to remap metadata since this would replace any existing metadata keys
       #   so in the meantime, we add metadata to the terminated phase items on the previous phase
       add_termination_metadata = @user.feature_enabled?(FeatureFlags::TERMINATION_METADATA) && terminated_phase_items.count > 0
@@ -1000,7 +895,7 @@ class StripeForce::Translate
           # align date boundaries of the schedules
           previous_phase.end_date = new_phase.start_date
 
-          subscription_phases = OrderHelpers.sanitize_subscription_schedule_phase_params(subscription_phases)
+          subscription_phases = OrderHelpers.sanitize_subscription_schedule_phase_params(T.must(subscription_phases))
           # https://jira.corp.stripe.com/browse/PLATINT-1832
           subscription_phases = OrderAmendment.delete_past_phases(@user, stripe_customer_id, subscription_phases)
 

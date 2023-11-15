@@ -82,11 +82,16 @@ class StripeForce::Translate
 
     sig { returns(T::Boolean) }
     def is_mdq_segment?
-      self.order_line[CPQ_ORDER_ITEM_SEGMENT_KEY].present?
+      self.mdq_segment_key.present?
     end
 
-    # this starts at 1 index
-    sig { returns(T.nilable(Integer)) }
+    sig { returns(T.nilable(String)) }
+    def mdq_segment_key
+      self.order_line[CPQ_ORDER_ITEM_SEGMENT_KEY]
+    end
+
+    # index starts at 1
+    sig { returns(T.nilable(T.any(Integer, Float))) }
     def mdq_segment_index
       self.order_line[CPQ_ORDER_ITEM_SEGMENT_INDEX]
     end

@@ -475,6 +475,21 @@ class StripeForce::Translate
     [created_stripe_object, response]
   end
 
+  sig { params(initial_order: Restforce::SObject).returns(Stripe::SubscriptionSchedule) }
+  def get_subscription_schedule_for_initial_order(initial_order)
+    subscription_schedule = retrieve_from_stripe(
+      Stripe::SubscriptionSchedule,
+      initial_order
+    )
+
+    if !subscription_schedule
+      raise Integrations::Errors::UserError.new("Unable to find the corresponding Stripe subscription schedule for the amendment order.", salesforce_object: initial_order)
+    end
+
+    subscription_schedule = T.cast(subscription_schedule, Stripe::SubscriptionSchedule)
+    subscription_schedule
+  end
+
   sig { params(stripe_class: T.class_of(Stripe::APIResource), sf_object: Restforce::SObject).returns(T.nilable(Stripe::APIResource)) }
   def retrieve_from_stripe(stripe_class, sf_object)
     stripe_id = sf_object[prefixed_stripe_field(GENERIC_STRIPE_ID)]
