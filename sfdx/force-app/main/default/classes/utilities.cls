@@ -12,33 +12,6 @@ public with sharing class utilities {
     public class SetupIsNotCompleteException extends Exception {}
     public class HttpCalloutFailedException extends Exception {}
 
-    public static Map<String, Object> requestPlatformConfig() {
-        // make callout to ruby services configuration endpoint to see if the org is connected to Stripe and Salesforce
-        String route = UriTargets.getConfigEndpoint();
-        HttpResponse response = utilities.makeCallout(route, 'GET');
-
-        /*
-        if we do not get a 200 status code back we create an Error Log record to show we did not get a success
-        response from the ruby service and send a status of failed to signify to show an error toast
-        */
-        if(response.getStatusCode() != 200) {
-            Sentry_Exception e = (Sentry_Exception) Sentry_ExceptionFactory.build(HttpCalloutFailedException.class);
-            e.setMessage('Failed to get configuration from Ruby service.');
-            e.context.put('route', route);
-            e.context.put('response', response.getBody());
-            e.context.put('response_status', response.getStatus());
-            e.context.put('response_status_code', response.getStatusCode());
-            errorLogger.create('requestPlatformConfig', e);
-            return null;
-        }
-
-        /*
-        if we get a 200 response code from the ruby service we will check the connection status object
-        in the payload to determine weather the user successfully connected to stripe or not
-        */
-        return (Map<String,Object>)JSON.deserializeUntyped(response.getBody());
-    }
-
     public static Boolean isPackagedEnvironment() {
         return !String.isEmpty(constants.NAMESPACE_API);
     }
@@ -251,7 +224,9 @@ public with sharing class utilities {
             return setupConfigMetadata[0].Global_Key__c;
         }
 
-        Sentry_Log.logSentry('missing metadata record with global key');
+        if (Test.isRunningTest() == false) {
+            Sentry_Log.logSentry('missing metadata record with global key');
+        }
         throw new SetupIsNotCompleteException('Org is not setup correctly, missing custom metadata record with global key');
     }
 

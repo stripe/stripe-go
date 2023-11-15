@@ -612,7 +612,7 @@ public with sharing class test_restService {
         System.assertEquals('MAPPING_ERROR', parsedReqBody.get('error_type'));
     }
 
-    private static Map<String,Object> makeData(Boolean isAmendedOrderTest) {
+    public static Map<String,Object> makeData(Boolean isAmendedOrderTest) {
         Boolean isCpqInstalled = utilities.isCpqEnabled();
 
         //insert all the records we will be checking the JSON response for
