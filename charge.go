@@ -745,6 +745,8 @@ type ChargePaymentMethodDetailsCard struct {
 	AmountAuthorized int64 `json:"amount_authorized"`
 	// Card brand. Can be `amex`, `diners`, `discover`, `eftpos_au`, `jcb`, `mastercard`, `unionpay`, `visa`, or `unknown`.
 	Brand PaymentMethodCardBrand `json:"brand"`
+	// When using manual capture, a future timestamp at which the charge will be automatically refunded if uncaptured.
+	CaptureBefore int64 `json:"capture_before"`
 	// Check results by Card networks on Card address and CVC at time of payment.
 	Checks *ChargePaymentMethodDetailsCardChecks `json:"checks"`
 	// Two-letter ISO code representing the country of the card. You could use this attribute to get a sense of the international breakdown of cards you've collected.
