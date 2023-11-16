@@ -778,6 +778,8 @@ type CheckoutSessionListParams struct {
 	PaymentIntent *string `form:"payment_intent"`
 	// Only return the Checkout Sessions for the Payment Link specified.
 	PaymentLink *string `form:"payment_link"`
+	// Only return the Checkout Sessions matching the given status.
+	Status *string `form:"status"`
 	// Only return the Checkout Session for the subscription specified.
 	Subscription *string `form:"subscription"`
 }
