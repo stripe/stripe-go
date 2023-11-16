@@ -28,6 +28,8 @@ type CustomerSession struct {
 	//
 	// The client secret can be used to provide access to `customer` from your frontend. It should not be stored, logged, or exposed to anyone other than the relevant customer. Make sure that you have TLS enabled on any page that includes the client secret.
 	ClientSecret string `json:"client_secret"`
+	// Time at which the object was created. Measured in seconds since the Unix epoch.
+	Created int64 `json:"created"`
 	// The customer the customer session was created for.
 	Customer *Customer `json:"customer"`
 	// The timestamp at which this customer session will expire.
