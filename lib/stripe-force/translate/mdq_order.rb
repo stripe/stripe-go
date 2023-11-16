@@ -138,6 +138,7 @@ class StripeForce::Translate
         segment_item_end_date > amendment_start_date_timestamp && amendment_order_item_end_dates.include?(segment_item_end_date)
       end
 
+      # determine if this is a full termination order
       # determine if this is a termination order
       is_order_terminated = aggregate_phase_items.all?(&:fully_terminated?)
       if is_order_terminated
@@ -146,9 +147,15 @@ class StripeForce::Translate
         if contract_structure.amendments.count - 1 != index
           raise StripeForce::Errors::RawUserError.new("Processing a termination order, but there's more amendments queued.")
         end
+
+        # the intention here is to void/reverse out the entire contract, and this is the closest API call we have
+        log.info 'cancelling subscription schedule immediately', sf_order_amendment_id: sf_order_amendment
+        subscription_schedule = T.cast(subscription_schedule.cancel({invoice_now: false, prorate: false}, @user.stripe_credentials), Stripe::SubscriptionSchedule)
+        return subscription_schedule
       end
 
       # split the segmented_subscription_items by segment keys since the same segment key/index touches the same phase
+      aggregate_phase_items, _terminated_phase_items = OrderHelpers.remove_terminated_lines(aggregate_phase_items)
       non_segmented_contract_items, segmented_contract_items = split_and_sort_mdq_item(aggregate_phase_items)
       if segmented_contract_items.present?
         log.info 'amendment order is amending an mdq product'
