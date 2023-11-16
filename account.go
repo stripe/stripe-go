@@ -691,6 +691,12 @@ type AccountDocumentsParams struct {
 	ProofOfRegistration *AccountDocumentsProofOfRegistrationParams `form:"proof_of_registration"`
 }
 
+// Settings specific to Bacs Direct Debit payments.
+type AccountSettingsBACSDebitPaymentsParams struct {
+	// The Bacs Direct Debit Display Name for this account. For payments made with Bacs Direct Debit, this name appears on the mandate as the statement descriptor. Mobile banking apps display it as the name of the business. To use custom branding, set the Bacs Direct Debit Display Name during or right after creation. Custom branding incurs an additional monthly fee for the platform. If you don't set the display name before requesting Bacs capability, it's automatically set as "Stripe" and the account is onboarded to Stripe branding, which is free.
+	DisplayName *string `form:"display_name"`
+}
+
 // Settings used to apply the account's branding to email receipts, invoices, Checkout, and other products.
 type AccountSettingsBrandingParams struct {
 	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) An icon for the account. Must be square and at least 128px x 128px.
@@ -794,12 +800,10 @@ type AccountSettingsTreasuryParams struct {
 	// Details on the account's acceptance of the Stripe Treasury Services Agreement.
 	TOSAcceptance *AccountSettingsTreasuryTOSAcceptanceParams `form:"tos_acceptance"`
 }
-type AccountSettingsBACSDebitPaymentsParams struct {
-	DisplayName *string `form:"display_name"`
-}
 
 // Options for customizing how the account functions within Stripe.
 type AccountSettingsParams struct {
+	// Settings specific to Bacs Direct Debit payments.
 	BACSDebitPayments *AccountSettingsBACSDebitPaymentsParams `form:"bacs_debit_payments"`
 	// Settings used to apply the account's branding to email receipts, invoices, Checkout, and other products.
 	Branding *AccountSettingsBrandingParams `form:"branding"`
@@ -1162,8 +1166,10 @@ type AccountRequirements struct {
 	PendingVerification []string `json:"pending_verification"`
 }
 type AccountSettingsBACSDebitPayments struct {
-	// The Bacs Direct Debit Display Name for this account. For payments made with Bacs Direct Debit, this will appear on the mandate, and as the statement descriptor.
+	// The Bacs Direct Debit display name for this account. For payments made with Bacs Direct Debit, this name appears on the mandate as the statement descriptor. Mobile banking apps display it as the name of the business. To use custom branding, set the Bacs Direct Debit Display Name during or right after creation. Custom branding incurs an additional monthly fee for the platform. The fee appears 5 business days after requesting Bacs. If you don't set the display name before requesting Bacs capability, it's automatically set as "Stripe" and the account is onboarded to Stripe branding, which is free.
 	DisplayName string `json:"display_name"`
+	// The Bacs Direct Debit Service user number for this account. For payments made with Bacs Direct Debit, this number is a unique identifier of the account with our banking partners.
+	ServiceUserNumber string `json:"service_user_number"`
 }
 type AccountSettingsBranding struct {
 	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) An icon for the account. Must be square and at least 128px x 128px.
