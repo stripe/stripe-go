@@ -108,7 +108,7 @@ type Topup struct {
 	Metadata map[string]string `json:"metadata"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
-	// For most Stripe users, the source of every top-up is a bank account. This hash is then the [source object](https://stripe.com/docs/api#source_object) describing that bank account.
+	// The source field is deprecated. It might not always be present in the API response.
 	Source *PaymentSource `json:"source"`
 	// Extra information about a top-up. This will appear on your source's bank statement. It must contain at least one letter.
 	StatementDescriptor string `json:"statement_descriptor"`
