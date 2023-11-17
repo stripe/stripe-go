@@ -1,5 +1,17 @@
 # Changelog
 
+## 76.5.0 - 2023-11-16
+* [#1768](https://github.com/stripe/stripe-go/pull/1768) Update generated code
+  * Add support for `Status` on `CheckoutSessionListParams`
+* [#1767](https://github.com/stripe/stripe-go/pull/1767) Update generated code
+  * Add support for `BACSDebitPayments` on `AccountSettingsParams`
+  * Add support for `ServiceUserNumber` on `AccountSettingsBacsDebitPayments`
+  * Add support for `CaptureBefore` on `ChargePaymentMethodDetailsCard`
+  * Add support for `Paypal` on `CheckoutSessionPaymentMethodOptions`
+  * Add support for `TaxAmounts` on `CreditNoteLinesParams`, `CreditNotePreviewLinesLinesParams`, and `CreditNotePreviewLinesParams`
+  * Add support for `NetworkData` on `IssuingTransaction`
+* [#1764](https://github.com/stripe/stripe-go/pull/1764) Fix TestDo_RetryOnTimeout flakiness
+
 ## 76.5.0-beta.1 - 2023-11-10
 * [#1763](https://github.com/stripe/stripe-go/pull/1763) Update generated code for beta
   * Add support for new value `quote.reestimate_failed` on enum `EventType`
