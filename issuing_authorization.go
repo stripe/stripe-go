@@ -267,7 +267,7 @@ type IssuingAuthorizationRequestHistory struct {
 	MerchantCurrency Currency `json:"merchant_currency"`
 	// When an authorization is approved or declined by you or by Stripe, this field provides additional detail on the reason for the outcome.
 	Reason IssuingAuthorizationRequestHistoryReason `json:"reason"`
-	// If approve/decline decision is directly responsed to the webhook with json payload and if the response is invalid (e.g., parsing errors), we surface the detailed message via this field.
+	// If the `request_history.reason` is `webhook_error` because the direct webhook response is invalid (for example, parsing errors or missing parameters), we surface a more detailed error message via this field.
 	ReasonMessage string `json:"reason_message"`
 }
 
