@@ -229,6 +229,10 @@ type IssuingAuthorizationMerchantData struct {
 type IssuingAuthorizationNetworkData struct {
 	// Identifier assigned to the acquirer by the card network. Sometimes this value is not provided by the network; in this case, the value will be `null`.
 	AcquiringInstitutionID string `json:"acquiring_institution_id"`
+	// The System Trace Audit Number (STAN) is a 6-digit identifier assigned by the acquirer. Prefer `network_data.transaction_id` if present, unless you have special requirements.
+	SystemTraceAuditNumber string `json:"system_trace_audit_number"`
+	// Unique identifier for the authorization assigned by the card network used to match subsequent messages, disputes, and transactions.
+	TransactionID string `json:"transaction_id"`
 }
 
 // The pending authorization request. This field will only be non-null during an `issuing_authorization.request` webhook.
@@ -245,6 +249,8 @@ type IssuingAuthorizationPendingRequest struct {
 	MerchantAmount int64 `json:"merchant_amount"`
 	// The local currency the merchant is requesting to authorize.
 	MerchantCurrency Currency `json:"merchant_currency"`
+	// The card network's estimate of the likelihood that an authorization is fraudulent. Takes on values between 1 and 99.
+	NetworkRiskScore int64 `json:"network_risk_score"`
 }
 
 // History of every time a `pending_request` authorization was approved/declined, either by you directly or by Stripe (e.g. based on your spending_controls). If the merchant changes the authorization by performing an incremental authorization, you can look at this field to see the previous requests for the authorization. This field can be helpful in determining why a given authorization was approved/declined.
@@ -265,10 +271,14 @@ type IssuingAuthorizationRequestHistory struct {
 	MerchantAmount int64 `json:"merchant_amount"`
 	// The currency that was collected by the merchant and presented to the cardholder for the authorization. Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	MerchantCurrency Currency `json:"merchant_currency"`
+	// The card network's estimate of the likelihood that an authorization is fraudulent. Takes on values between 1 and 99.
+	NetworkRiskScore int64 `json:"network_risk_score"`
 	// When an authorization is approved or declined by you or by Stripe, this field provides additional detail on the reason for the outcome.
 	Reason IssuingAuthorizationRequestHistoryReason `json:"reason"`
 	// If the `request_history.reason` is `webhook_error` because the direct webhook response is invalid (for example, parsing errors or missing parameters), we surface a more detailed error message via this field.
 	ReasonMessage string `json:"reason_message"`
+	// Time when the card network received an authorization request from the acquirer in UTC. Referred to by networks as transmission time.
+	RequestedAt int64 `json:"requested_at"`
 }
 
 // [Treasury](https://stripe.com/docs/api/treasury) details related to this authorization if it was created on a [FinancialAccount](https://stripe.com/docs/api/treasury/financial_accounts).
