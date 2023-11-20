@@ -125,7 +125,7 @@ type TreasuryOutboundTransferParams struct {
 	Metadata map[string]string `form:"metadata"`
 	// Details about the network used for the OutboundTransfer.
 	NetworkDetails *TreasuryOutboundTransferNetworkDetailsParams `form:"network_details"`
-	// Statement descriptor to be shown on the receiving end of an OutboundTransfer. Maximum 10 characters for `ach` transfers or 140 characters for `wire` transfers. The default value is `transfer`.
+	// Statement descriptor to be shown on the receiving end of an OutboundTransfer. Maximum 10 characters for `ach` transfers or 140 characters for `us_domestic_wire` transfers. The default value is "transfer".
 	StatementDescriptor *string `form:"statement_descriptor"`
 }
 
