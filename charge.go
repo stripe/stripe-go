@@ -121,6 +121,28 @@ const (
 	ChargePaymentMethodDetailsCardThreeDSecureAuthenticationFlowFrictionless ChargePaymentMethodDetailsCardThreeDSecureAuthenticationFlow = "frictionless"
 )
 
+// The Electronic Commerce Indicator (ECI). A protocol-level field
+// indicating what degree of authentication was performed.
+type ChargePaymentMethodDetailsCardThreeDSecureElectronicCommerceIndicator string
+
+// List of values that ChargePaymentMethodDetailsCardThreeDSecureElectronicCommerceIndicator can take
+const (
+	ChargePaymentMethodDetailsCardThreeDSecureElectronicCommerceIndicator01 ChargePaymentMethodDetailsCardThreeDSecureElectronicCommerceIndicator = "01"
+	ChargePaymentMethodDetailsCardThreeDSecureElectronicCommerceIndicator02 ChargePaymentMethodDetailsCardThreeDSecureElectronicCommerceIndicator = "02"
+	ChargePaymentMethodDetailsCardThreeDSecureElectronicCommerceIndicator05 ChargePaymentMethodDetailsCardThreeDSecureElectronicCommerceIndicator = "05"
+	ChargePaymentMethodDetailsCardThreeDSecureElectronicCommerceIndicator06 ChargePaymentMethodDetailsCardThreeDSecureElectronicCommerceIndicator = "06"
+	ChargePaymentMethodDetailsCardThreeDSecureElectronicCommerceIndicator07 ChargePaymentMethodDetailsCardThreeDSecureElectronicCommerceIndicator = "07"
+)
+
+// The exemption requested via 3DS and accepted by the issuer at authentication time.
+type ChargePaymentMethodDetailsCardThreeDSecureExemptionIndicator string
+
+// List of values that ChargePaymentMethodDetailsCardThreeDSecureExemptionIndicator can take
+const (
+	ChargePaymentMethodDetailsCardThreeDSecureExemptionIndicatorLowRisk ChargePaymentMethodDetailsCardThreeDSecureExemptionIndicator = "low_risk"
+	ChargePaymentMethodDetailsCardThreeDSecureExemptionIndicatorNone    ChargePaymentMethodDetailsCardThreeDSecureExemptionIndicator = "none"
+)
+
 // Indicates the outcome of 3D Secure authentication.
 type ChargePaymentMethodDetailsCardThreeDSecureResult string
 
@@ -692,11 +714,22 @@ type ChargePaymentMethodDetailsCardThreeDSecure struct {
 	// For authenticated transactions: how the customer was authenticated by
 	// the issuing bank.
 	AuthenticationFlow ChargePaymentMethodDetailsCardThreeDSecureAuthenticationFlow `json:"authentication_flow"`
+	// The Electronic Commerce Indicator (ECI). A protocol-level field
+	// indicating what degree of authentication was performed.
+	ElectronicCommerceIndicator ChargePaymentMethodDetailsCardThreeDSecureElectronicCommerceIndicator `json:"electronic_commerce_indicator"`
+	// The exemption requested via 3DS and accepted by the issuer at authentication time.
+	ExemptionIndicator ChargePaymentMethodDetailsCardThreeDSecureExemptionIndicator `json:"exemption_indicator"`
+	// Whether Stripe requested the value of `exemption_indicator` in the transaction. This will depend on
+	// the outcome of Stripe's internal risk assessment.
+	ExemptionIndicatorApplied bool `json:"exemption_indicator_applied"`
 	// Indicates the outcome of 3D Secure authentication.
 	Result ChargePaymentMethodDetailsCardThreeDSecureResult `json:"result"`
 	// Additional information about why 3D Secure succeeded or failed based
 	// on the `result`.
 	ResultReason ChargePaymentMethodDetailsCardThreeDSecureResultReason `json:"result_reason"`
+	// The 3D Secure 1 XID or 3D Secure 2 Directory Server Transaction ID
+	// (dsTransId) for this payment.
+	TransactionID string `json:"transaction_id"`
 	// The version of 3D Secure that was used.
 	Version string `json:"version"`
 }
