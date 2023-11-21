@@ -68,6 +68,7 @@ const (
 	ErrorCodeDebitNotAuthorized                                          ErrorCode = "debit_not_authorized"
 	ErrorCodeEmailInvalid                                                ErrorCode = "email_invalid"
 	ErrorCodeExpiredCard                                                 ErrorCode = "expired_card"
+	ErrorCodeFinancialConnectionsAccountInactive                         ErrorCode = "financial_connections_account_inactive"
 	ErrorCodeGiftCardBalanceInsufficient                                 ErrorCode = "gift_card_balance_insufficient"
 	ErrorCodeGiftCardCodeExists                                          ErrorCode = "gift_card_code_exists"
 	ErrorCodeGiftCardInactive                                            ErrorCode = "gift_card_inactive"
