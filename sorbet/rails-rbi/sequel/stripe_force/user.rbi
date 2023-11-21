@@ -63,6 +63,12 @@ module StripeForce::User::GeneratedAttributeMethods
   def id=(value); end
 
   sig { returns(T::Boolean) }
+  def is_default_account_config; end
+
+  sig { params(value: T::Boolean).void }
+  def is_default_account_config=(value); end
+
+  sig { returns(T::Boolean) }
   def livemode; end
 
   sig { params(value: T::Boolean).void }
