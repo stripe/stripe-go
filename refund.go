@@ -29,7 +29,7 @@ const (
 	RefundReasonRequestedByCustomer     RefundReason = "requested_by_customer"
 )
 
-// Status of the refund. For credit card refunds, this can be `pending`, `succeeded`, or `failed`. For other types of refunds, it can be `pending`, `requires_action`, `succeeded`, `failed`, or `canceled`. Learn more about [failed refunds](https://stripe.com/docs/refunds#failed-refunds).
+// Status of the refund. This can be `pending`, `requires_action`, `succeeded`, `failed`, or `canceled`. Learn more about [failed refunds](https://stripe.com/docs/refunds#failed-refunds).
 type RefundStatus string
 
 // List of values that RefundStatus can take
@@ -187,7 +187,7 @@ type Refund struct {
 	ReceiptNumber string `json:"receipt_number"`
 	// The transfer reversal that's associated with the refund. Only present if the charge came from another Stripe account.
 	SourceTransferReversal *TransferReversal `json:"source_transfer_reversal"`
-	// Status of the refund. For credit card refunds, this can be `pending`, `succeeded`, or `failed`. For other types of refunds, it can be `pending`, `requires_action`, `succeeded`, `failed`, or `canceled`. Learn more about [failed refunds](https://stripe.com/docs/refunds#failed-refunds).
+	// Status of the refund. This can be `pending`, `requires_action`, `succeeded`, `failed`, or `canceled`. Learn more about [failed refunds](https://stripe.com/docs/refunds#failed-refunds).
 	Status RefundStatus `json:"status"`
 	// This refers to the transfer reversal object if the accompanying transfer reverses. This is only applicable if the charge was created using the destination parameter.
 	TransferReversal *TransferReversal `json:"transfer_reversal"`
