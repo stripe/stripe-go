@@ -121,6 +121,28 @@ const (
 	ChargePaymentMethodDetailsCardThreeDSecureAuthenticationFlowFrictionless ChargePaymentMethodDetailsCardThreeDSecureAuthenticationFlow = "frictionless"
 )
 
+// The Electronic Commerce Indicator (ECI). A protocol-level field
+// indicating what degree of authentication was performed.
+type ChargePaymentMethodDetailsCardThreeDSecureElectronicCommerceIndicator string
+
+// List of values that ChargePaymentMethodDetailsCardThreeDSecureElectronicCommerceIndicator can take
+const (
+	ChargePaymentMethodDetailsCardThreeDSecureElectronicCommerceIndicator01 ChargePaymentMethodDetailsCardThreeDSecureElectronicCommerceIndicator = "01"
+	ChargePaymentMethodDetailsCardThreeDSecureElectronicCommerceIndicator02 ChargePaymentMethodDetailsCardThreeDSecureElectronicCommerceIndicator = "02"
+	ChargePaymentMethodDetailsCardThreeDSecureElectronicCommerceIndicator05 ChargePaymentMethodDetailsCardThreeDSecureElectronicCommerceIndicator = "05"
+	ChargePaymentMethodDetailsCardThreeDSecureElectronicCommerceIndicator06 ChargePaymentMethodDetailsCardThreeDSecureElectronicCommerceIndicator = "06"
+	ChargePaymentMethodDetailsCardThreeDSecureElectronicCommerceIndicator07 ChargePaymentMethodDetailsCardThreeDSecureElectronicCommerceIndicator = "07"
+)
+
+// The exemption requested via 3DS and accepted by the issuer at authentication time.
+type ChargePaymentMethodDetailsCardThreeDSecureExemptionIndicator string
+
+// List of values that ChargePaymentMethodDetailsCardThreeDSecureExemptionIndicator can take
+const (
+	ChargePaymentMethodDetailsCardThreeDSecureExemptionIndicatorLowRisk ChargePaymentMethodDetailsCardThreeDSecureExemptionIndicator = "low_risk"
+	ChargePaymentMethodDetailsCardThreeDSecureExemptionIndicatorNone    ChargePaymentMethodDetailsCardThreeDSecureExemptionIndicator = "none"
+)
+
 // Indicates the outcome of 3D Secure authentication.
 type ChargePaymentMethodDetailsCardThreeDSecureResult string
 
@@ -436,7 +458,7 @@ type ChargePaymentDetailsCarRentalAffiliateParams struct {
 }
 
 // Details of the recipient.
-type ChargePaymentDetailsCarRentalDeliveryReceipientParams struct {
+type ChargePaymentDetailsCarRentalDeliveryRecipientParams struct {
 	// The email of the recipient the ticket is delivered to.
 	Email *string `form:"email"`
 	// The name of the recipient the ticket is delivered to.
@@ -450,7 +472,7 @@ type ChargePaymentDetailsCarRentalDeliveryParams struct {
 	// The delivery method for the payment
 	Mode *string `form:"mode"`
 	// Details of the recipient.
-	Receipient *ChargePaymentDetailsCarRentalDeliveryReceipientParams `form:"receipient"`
+	Recipient *ChargePaymentDetailsCarRentalDeliveryRecipientParams `form:"recipient"`
 }
 
 // The details of the passengers in the travel reservation
@@ -510,7 +532,7 @@ type ChargePaymentDetailsEventDetailsAffiliateParams struct {
 }
 
 // Details of the recipient.
-type ChargePaymentDetailsEventDetailsDeliveryReceipientParams struct {
+type ChargePaymentDetailsEventDetailsDeliveryRecipientParams struct {
 	// The email of the recipient the ticket is delivered to.
 	Email *string `form:"email"`
 	// The name of the recipient the ticket is delivered to.
@@ -524,7 +546,7 @@ type ChargePaymentDetailsEventDetailsDeliveryParams struct {
 	// The delivery method for the payment
 	Mode *string `form:"mode"`
 	// Details of the recipient.
-	Receipient *ChargePaymentDetailsEventDetailsDeliveryReceipientParams `form:"receipient"`
+	Recipient *ChargePaymentDetailsEventDetailsDeliveryRecipientParams `form:"recipient"`
 }
 
 // Event details for this PaymentIntent
@@ -556,7 +578,7 @@ type ChargePaymentDetailsFlightAffiliateParams struct {
 }
 
 // Details of the recipient.
-type ChargePaymentDetailsFlightDeliveryReceipientParams struct {
+type ChargePaymentDetailsFlightDeliveryRecipientParams struct {
 	// The email of the recipient the ticket is delivered to.
 	Email *string `form:"email"`
 	// The name of the recipient the ticket is delivered to.
@@ -570,7 +592,7 @@ type ChargePaymentDetailsFlightDeliveryParams struct {
 	// The delivery method for the payment
 	Mode *string `form:"mode"`
 	// Details of the recipient.
-	Receipient *ChargePaymentDetailsFlightDeliveryReceipientParams `form:"receipient"`
+	Recipient *ChargePaymentDetailsFlightDeliveryRecipientParams `form:"recipient"`
 }
 
 // The details of the passengers in the travel reservation.
@@ -624,7 +646,7 @@ type ChargePaymentDetailsLodgingAffiliateParams struct {
 }
 
 // Details of the recipient.
-type ChargePaymentDetailsLodgingDeliveryReceipientParams struct {
+type ChargePaymentDetailsLodgingDeliveryRecipientParams struct {
 	// The email of the recipient the ticket is delivered to.
 	Email *string `form:"email"`
 	// The name of the recipient the ticket is delivered to.
@@ -638,7 +660,7 @@ type ChargePaymentDetailsLodgingDeliveryParams struct {
 	// The delivery method for the payment
 	Mode *string `form:"mode"`
 	// Details of the recipient.
-	Receipient *ChargePaymentDetailsLodgingDeliveryReceipientParams `form:"receipient"`
+	Recipient *ChargePaymentDetailsLodgingDeliveryRecipientParams `form:"recipient"`
 }
 
 // The details of the passengers in the travel reservation
@@ -740,7 +762,7 @@ type ChargeCapturePaymentDetailsCarRentalAffiliateParams struct {
 }
 
 // Details of the recipient.
-type ChargeCapturePaymentDetailsCarRentalDeliveryReceipientParams struct {
+type ChargeCapturePaymentDetailsCarRentalDeliveryRecipientParams struct {
 	// The email of the recipient the ticket is delivered to.
 	Email *string `form:"email"`
 	// The name of the recipient the ticket is delivered to.
@@ -754,7 +776,7 @@ type ChargeCapturePaymentDetailsCarRentalDeliveryParams struct {
 	// The delivery method for the payment
 	Mode *string `form:"mode"`
 	// Details of the recipient.
-	Receipient *ChargeCapturePaymentDetailsCarRentalDeliveryReceipientParams `form:"receipient"`
+	Recipient *ChargeCapturePaymentDetailsCarRentalDeliveryRecipientParams `form:"recipient"`
 }
 
 // The details of the passengers in the travel reservation
@@ -814,7 +836,7 @@ type ChargeCapturePaymentDetailsEventDetailsAffiliateParams struct {
 }
 
 // Details of the recipient.
-type ChargeCapturePaymentDetailsEventDetailsDeliveryReceipientParams struct {
+type ChargeCapturePaymentDetailsEventDetailsDeliveryRecipientParams struct {
 	// The email of the recipient the ticket is delivered to.
 	Email *string `form:"email"`
 	// The name of the recipient the ticket is delivered to.
@@ -828,7 +850,7 @@ type ChargeCapturePaymentDetailsEventDetailsDeliveryParams struct {
 	// The delivery method for the payment
 	Mode *string `form:"mode"`
 	// Details of the recipient.
-	Receipient *ChargeCapturePaymentDetailsEventDetailsDeliveryReceipientParams `form:"receipient"`
+	Recipient *ChargeCapturePaymentDetailsEventDetailsDeliveryRecipientParams `form:"recipient"`
 }
 
 // Event details for this PaymentIntent
@@ -860,7 +882,7 @@ type ChargeCapturePaymentDetailsFlightAffiliateParams struct {
 }
 
 // Details of the recipient.
-type ChargeCapturePaymentDetailsFlightDeliveryReceipientParams struct {
+type ChargeCapturePaymentDetailsFlightDeliveryRecipientParams struct {
 	// The email of the recipient the ticket is delivered to.
 	Email *string `form:"email"`
 	// The name of the recipient the ticket is delivered to.
@@ -874,7 +896,7 @@ type ChargeCapturePaymentDetailsFlightDeliveryParams struct {
 	// The delivery method for the payment
 	Mode *string `form:"mode"`
 	// Details of the recipient.
-	Receipient *ChargeCapturePaymentDetailsFlightDeliveryReceipientParams `form:"receipient"`
+	Recipient *ChargeCapturePaymentDetailsFlightDeliveryRecipientParams `form:"recipient"`
 }
 
 // The details of the passengers in the travel reservation.
@@ -928,7 +950,7 @@ type ChargeCapturePaymentDetailsLodgingAffiliateParams struct {
 }
 
 // Details of the recipient.
-type ChargeCapturePaymentDetailsLodgingDeliveryReceipientParams struct {
+type ChargeCapturePaymentDetailsLodgingDeliveryRecipientParams struct {
 	// The email of the recipient the ticket is delivered to.
 	Email *string `form:"email"`
 	// The name of the recipient the ticket is delivered to.
@@ -942,7 +964,7 @@ type ChargeCapturePaymentDetailsLodgingDeliveryParams struct {
 	// The delivery method for the payment
 	Mode *string `form:"mode"`
 	// Details of the recipient.
-	Receipient *ChargeCapturePaymentDetailsLodgingDeliveryReceipientParams `form:"receipient"`
+	Recipient *ChargeCapturePaymentDetailsLodgingDeliveryRecipientParams `form:"recipient"`
 }
 
 // The details of the passengers in the travel reservation
@@ -1304,11 +1326,22 @@ type ChargePaymentMethodDetailsCardThreeDSecure struct {
 	// For authenticated transactions: how the customer was authenticated by
 	// the issuing bank.
 	AuthenticationFlow ChargePaymentMethodDetailsCardThreeDSecureAuthenticationFlow `json:"authentication_flow"`
+	// The Electronic Commerce Indicator (ECI). A protocol-level field
+	// indicating what degree of authentication was performed.
+	ElectronicCommerceIndicator ChargePaymentMethodDetailsCardThreeDSecureElectronicCommerceIndicator `json:"electronic_commerce_indicator"`
+	// The exemption requested via 3DS and accepted by the issuer at authentication time.
+	ExemptionIndicator ChargePaymentMethodDetailsCardThreeDSecureExemptionIndicator `json:"exemption_indicator"`
+	// Whether Stripe requested the value of `exemption_indicator` in the transaction. This will depend on
+	// the outcome of Stripe's internal risk assessment.
+	ExemptionIndicatorApplied bool `json:"exemption_indicator_applied"`
 	// Indicates the outcome of 3D Secure authentication.
 	Result ChargePaymentMethodDetailsCardThreeDSecureResult `json:"result"`
 	// Additional information about why 3D Secure succeeded or failed based
 	// on the `result`.
 	ResultReason ChargePaymentMethodDetailsCardThreeDSecureResultReason `json:"result_reason"`
+	// The 3D Secure 1 XID or 3D Secure 2 Directory Server Transaction ID
+	// (dsTransId) for this payment.
+	TransactionID string `json:"transaction_id"`
 	// The version of 3D Secure that was used.
 	Version string `json:"version"`
 }
@@ -1405,6 +1438,12 @@ type ChargePaymentMethodDetailsCard struct {
 	Issuer string `json:"issuer"`
 }
 
+// Details about payments collected offline.
+type ChargePaymentMethodDetailsCardPresentOffline struct {
+	// Time at which the payment was collected while offline
+	StoredAt int64 `json:"stored_at"`
+}
+
 // A collection of fields required to be displayed on receipts. Only required for EMV transactions.
 type ChargePaymentMethodDetailsCardPresentReceipt struct {
 	// The type of account being debited or credited
@@ -1457,6 +1496,8 @@ type ChargePaymentMethodDetailsCardPresent struct {
 	Last4 string `json:"last4"`
 	// Identifies which network this charge was processed on. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `interac`, `jcb`, `mastercard`, `unionpay`, `visa`, or `unknown`.
 	Network ChargePaymentMethodDetailsCardPresentNetwork `json:"network"`
+	// Details about payments collected offline.
+	Offline *ChargePaymentMethodDetailsCardPresentOffline `json:"offline"`
 	// Defines whether the authorized amount can be over-captured or not
 	OvercaptureSupported bool `json:"overcapture_supported"`
 	// How card details were read in this transaction.

@@ -129,6 +129,10 @@ type CustomerCashBalanceTransactionRefundedFromPayment struct {
 	// The [Refund](https://stripe.com/docs/api/refunds/object) that moved these funds into the customer's cash balance.
 	Refund *Refund `json:"refund"`
 }
+type CustomerCashBalanceTransactionTransferredToBalance struct {
+	// The [Balance Transaction](https://stripe.com/docs/api/balance_transactions/object) that corresponds to funds transferred to your Stripe balance.
+	BalanceTransaction *BalanceTransaction `json:"balance_transaction"`
+}
 type CustomerCashBalanceTransactionUnappliedFromPayment struct {
 	// The [Payment Intent](https://stripe.com/docs/api/payment_intents/object) that funds were unapplied from.
 	PaymentIntent *PaymentIntent `json:"payment_intent"`
@@ -158,8 +162,9 @@ type CustomerCashBalanceTransaction struct {
 	// The amount by which the cash balance changed, represented in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal). A positive value represents funds being added to the cash balance, a negative value represents funds being removed from the cash balance.
 	NetAmount int64 `json:"net_amount"`
 	// String representing the object's type. Objects of the same type share the same value.
-	Object              string                                             `json:"object"`
-	RefundedFromPayment *CustomerCashBalanceTransactionRefundedFromPayment `json:"refunded_from_payment"`
+	Object               string                                              `json:"object"`
+	RefundedFromPayment  *CustomerCashBalanceTransactionRefundedFromPayment  `json:"refunded_from_payment"`
+	TransferredToBalance *CustomerCashBalanceTransactionTransferredToBalance `json:"transferred_to_balance"`
 	// The type of the cash balance transaction. New types may be added in future. See [Customer Balance](https://stripe.com/docs/payments/customer-balance#types) to learn more about these types.
 	Type                 CustomerCashBalanceTransactionType                  `json:"type"`
 	UnappliedFromPayment *CustomerCashBalanceTransactionUnappliedFromPayment `json:"unapplied_from_payment"`

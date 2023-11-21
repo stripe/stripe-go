@@ -947,7 +947,7 @@ type PaymentIntentPaymentDetailsCarRentalAffiliateParams struct {
 }
 
 // Details of the recipient.
-type PaymentIntentPaymentDetailsCarRentalDeliveryReceipientParams struct {
+type PaymentIntentPaymentDetailsCarRentalDeliveryRecipientParams struct {
 	// The email of the recipient the ticket is delivered to.
 	Email *string `form:"email"`
 	// The name of the recipient the ticket is delivered to.
@@ -961,7 +961,7 @@ type PaymentIntentPaymentDetailsCarRentalDeliveryParams struct {
 	// The delivery method for the payment
 	Mode *string `form:"mode"`
 	// Details of the recipient.
-	Receipient *PaymentIntentPaymentDetailsCarRentalDeliveryReceipientParams `form:"receipient"`
+	Recipient *PaymentIntentPaymentDetailsCarRentalDeliveryRecipientParams `form:"recipient"`
 }
 
 // The details of the passengers in the travel reservation
@@ -1021,7 +1021,7 @@ type PaymentIntentPaymentDetailsEventDetailsAffiliateParams struct {
 }
 
 // Details of the recipient.
-type PaymentIntentPaymentDetailsEventDetailsDeliveryReceipientParams struct {
+type PaymentIntentPaymentDetailsEventDetailsDeliveryRecipientParams struct {
 	// The email of the recipient the ticket is delivered to.
 	Email *string `form:"email"`
 	// The name of the recipient the ticket is delivered to.
@@ -1035,7 +1035,7 @@ type PaymentIntentPaymentDetailsEventDetailsDeliveryParams struct {
 	// The delivery method for the payment
 	Mode *string `form:"mode"`
 	// Details of the recipient.
-	Receipient *PaymentIntentPaymentDetailsEventDetailsDeliveryReceipientParams `form:"receipient"`
+	Recipient *PaymentIntentPaymentDetailsEventDetailsDeliveryRecipientParams `form:"recipient"`
 }
 
 // Event details for this PaymentIntent
@@ -1067,7 +1067,7 @@ type PaymentIntentPaymentDetailsFlightAffiliateParams struct {
 }
 
 // Details of the recipient.
-type PaymentIntentPaymentDetailsFlightDeliveryReceipientParams struct {
+type PaymentIntentPaymentDetailsFlightDeliveryRecipientParams struct {
 	// The email of the recipient the ticket is delivered to.
 	Email *string `form:"email"`
 	// The name of the recipient the ticket is delivered to.
@@ -1081,7 +1081,7 @@ type PaymentIntentPaymentDetailsFlightDeliveryParams struct {
 	// The delivery method for the payment
 	Mode *string `form:"mode"`
 	// Details of the recipient.
-	Receipient *PaymentIntentPaymentDetailsFlightDeliveryReceipientParams `form:"receipient"`
+	Recipient *PaymentIntentPaymentDetailsFlightDeliveryRecipientParams `form:"recipient"`
 }
 
 // The details of the passengers in the travel reservation.
@@ -1135,7 +1135,7 @@ type PaymentIntentPaymentDetailsLodgingAffiliateParams struct {
 }
 
 // Details of the recipient.
-type PaymentIntentPaymentDetailsLodgingDeliveryReceipientParams struct {
+type PaymentIntentPaymentDetailsLodgingDeliveryRecipientParams struct {
 	// The email of the recipient the ticket is delivered to.
 	Email *string `form:"email"`
 	// The name of the recipient the ticket is delivered to.
@@ -1149,7 +1149,7 @@ type PaymentIntentPaymentDetailsLodgingDeliveryParams struct {
 	// The delivery method for the payment
 	Mode *string `form:"mode"`
 	// Details of the recipient.
-	Receipient *PaymentIntentPaymentDetailsLodgingDeliveryReceipientParams `form:"receipient"`
+	Recipient *PaymentIntentPaymentDetailsLodgingDeliveryRecipientParams `form:"recipient"`
 }
 
 // The details of the passengers in the travel reservation
@@ -1595,6 +1595,59 @@ type PaymentIntentPaymentMethodOptionsCardStatementDetailsParams struct {
 	Phone *string `form:"phone"`
 }
 
+// Cartes Bancaires-specific 3DS fields.
+type PaymentIntentPaymentMethodOptionsCardThreeDSecureNetworkOptionsCartesBancairesParams struct {
+	// The cryptogram calculation algorithm used by the card Issuer's ACS
+	// to calculate the Authentication cryptogram. Also known as `cavvAlgorithm`.
+	// messageExtension: CB-AVALGO
+	CbAvalgo *string `form:"cb_avalgo"`
+	// The exemption indicator returned from Cartes Bancaires in the ARes.
+	// message extension: CB-EXEMPTION; string (4 characters)
+	// This is a 3 byte bitmap (low significant byte first and most significant
+	// bit first) that has been Base64 encoded
+	CbExemption *string `form:"cb_exemption"`
+	// The risk score returned from Cartes Bancaires in the ARes.
+	// message extension: CB-SCORE; numeric value 0-99
+	CbScore *int64 `form:"cb_score"`
+}
+
+// Network specific 3DS fields. Network specific arguments require an
+// explicit card brand choice. The parameter `payment_method_options.card.network“
+// must be populated accordingly
+type PaymentIntentPaymentMethodOptionsCardThreeDSecureNetworkOptionsParams struct {
+	// Cartes Bancaires-specific 3DS fields.
+	CartesBancaires *PaymentIntentPaymentMethodOptionsCardThreeDSecureNetworkOptionsCartesBancairesParams `form:"cartes_bancaires"`
+}
+
+// If 3D Secure authentication was performed with a third-party provider,
+// the authentication details to use for this payment.
+type PaymentIntentPaymentMethodOptionsCardThreeDSecureParams struct {
+	// The `transStatus` returned from the card Issuer's ACS in the ARes.
+	AresTransStatus *string `form:"ares_trans_status"`
+	// The cryptogram, also known as the "authentication value" (AAV, CAVV or
+	// AEVV). This value is 20 bytes, base64-encoded into a 28-character string.
+	// (Most 3D Secure providers will return the base64-encoded version, which
+	// is what you should specify here.)
+	Cryptogram *string `form:"cryptogram"`
+	// The Electronic Commerce Indicator (ECI) is returned by your 3D Secure
+	// provider and indicates what degree of authentication was performed.
+	ElectronicCommerceIndicator *string `form:"electronic_commerce_indicator"`
+	// The exemption requested via 3DS and accepted by the issuer at authentication time.
+	ExemptionIndicator *string `form:"exemption_indicator"`
+	// Network specific 3DS fields. Network specific arguments require an
+	// explicit card brand choice. The parameter `payment_method_options.card.network``
+	// must be populated accordingly
+	NetworkOptions *PaymentIntentPaymentMethodOptionsCardThreeDSecureNetworkOptionsParams `form:"network_options"`
+	// The challenge indicator (`threeDSRequestorChallengeInd`) which was requested in the
+	// AReq sent to the card Issuer's ACS. A string containing 2 digits from 01-99.
+	RequestorChallengeIndicator *string `form:"requestor_challenge_indicator"`
+	// For 3D Secure 1, the XID. For 3D Secure 2, the Directory Server
+	// Transaction ID (dsTransID).
+	TransactionID *string `form:"transaction_id"`
+	// The version of 3D Secure that was performed.
+	Version *string `form:"version"`
+}
+
 // Configuration for any card payments attempted on this PaymentIntent.
 type PaymentIntentPaymentMethodOptionsCardParams struct {
 	// Controls when the funds will be captured from the customer's account.
@@ -1641,6 +1694,9 @@ type PaymentIntentPaymentMethodOptionsCardParams struct {
 	StatementDescriptorSuffixKanji *string `form:"statement_descriptor_suffix_kanji"`
 	// Statement details for this payment intent. You can use this to override the merchant details shown on your customers' statements.
 	StatementDetails *PaymentIntentPaymentMethodOptionsCardStatementDetailsParams `form:"statement_details"`
+	// If 3D Secure authentication was performed with a third-party provider,
+	// the authentication details to use for this payment.
+	ThreeDSecure *PaymentIntentPaymentMethodOptionsCardThreeDSecureParams `form:"three_d_secure"`
 }
 
 // If this is a `card_present` PaymentMethod, this sub-hash contains details about the Card Present payment method options.
@@ -2268,7 +2324,7 @@ type PaymentIntentConfirmPaymentDetailsCarRentalAffiliateParams struct {
 }
 
 // Details of the recipient.
-type PaymentIntentConfirmPaymentDetailsCarRentalDeliveryReceipientParams struct {
+type PaymentIntentConfirmPaymentDetailsCarRentalDeliveryRecipientParams struct {
 	// The email of the recipient the ticket is delivered to.
 	Email *string `form:"email"`
 	// The name of the recipient the ticket is delivered to.
@@ -2282,7 +2338,7 @@ type PaymentIntentConfirmPaymentDetailsCarRentalDeliveryParams struct {
 	// The delivery method for the payment
 	Mode *string `form:"mode"`
 	// Details of the recipient.
-	Receipient *PaymentIntentConfirmPaymentDetailsCarRentalDeliveryReceipientParams `form:"receipient"`
+	Recipient *PaymentIntentConfirmPaymentDetailsCarRentalDeliveryRecipientParams `form:"recipient"`
 }
 
 // The details of the passengers in the travel reservation
@@ -2342,7 +2398,7 @@ type PaymentIntentConfirmPaymentDetailsEventDetailsAffiliateParams struct {
 }
 
 // Details of the recipient.
-type PaymentIntentConfirmPaymentDetailsEventDetailsDeliveryReceipientParams struct {
+type PaymentIntentConfirmPaymentDetailsEventDetailsDeliveryRecipientParams struct {
 	// The email of the recipient the ticket is delivered to.
 	Email *string `form:"email"`
 	// The name of the recipient the ticket is delivered to.
@@ -2356,7 +2412,7 @@ type PaymentIntentConfirmPaymentDetailsEventDetailsDeliveryParams struct {
 	// The delivery method for the payment
 	Mode *string `form:"mode"`
 	// Details of the recipient.
-	Receipient *PaymentIntentConfirmPaymentDetailsEventDetailsDeliveryReceipientParams `form:"receipient"`
+	Recipient *PaymentIntentConfirmPaymentDetailsEventDetailsDeliveryRecipientParams `form:"recipient"`
 }
 
 // Event details for this PaymentIntent
@@ -2388,7 +2444,7 @@ type PaymentIntentConfirmPaymentDetailsFlightAffiliateParams struct {
 }
 
 // Details of the recipient.
-type PaymentIntentConfirmPaymentDetailsFlightDeliveryReceipientParams struct {
+type PaymentIntentConfirmPaymentDetailsFlightDeliveryRecipientParams struct {
 	// The email of the recipient the ticket is delivered to.
 	Email *string `form:"email"`
 	// The name of the recipient the ticket is delivered to.
@@ -2402,7 +2458,7 @@ type PaymentIntentConfirmPaymentDetailsFlightDeliveryParams struct {
 	// The delivery method for the payment
 	Mode *string `form:"mode"`
 	// Details of the recipient.
-	Receipient *PaymentIntentConfirmPaymentDetailsFlightDeliveryReceipientParams `form:"receipient"`
+	Recipient *PaymentIntentConfirmPaymentDetailsFlightDeliveryRecipientParams `form:"recipient"`
 }
 
 // The details of the passengers in the travel reservation.
@@ -2456,7 +2512,7 @@ type PaymentIntentConfirmPaymentDetailsLodgingAffiliateParams struct {
 }
 
 // Details of the recipient.
-type PaymentIntentConfirmPaymentDetailsLodgingDeliveryReceipientParams struct {
+type PaymentIntentConfirmPaymentDetailsLodgingDeliveryRecipientParams struct {
 	// The email of the recipient the ticket is delivered to.
 	Email *string `form:"email"`
 	// The name of the recipient the ticket is delivered to.
@@ -2470,7 +2526,7 @@ type PaymentIntentConfirmPaymentDetailsLodgingDeliveryParams struct {
 	// The delivery method for the payment
 	Mode *string `form:"mode"`
 	// Details of the recipient.
-	Receipient *PaymentIntentConfirmPaymentDetailsLodgingDeliveryReceipientParams `form:"receipient"`
+	Recipient *PaymentIntentConfirmPaymentDetailsLodgingDeliveryRecipientParams `form:"recipient"`
 }
 
 // The details of the passengers in the travel reservation
@@ -2675,7 +2731,7 @@ type PaymentIntentCapturePaymentDetailsCarRentalAffiliateParams struct {
 }
 
 // Details of the recipient.
-type PaymentIntentCapturePaymentDetailsCarRentalDeliveryReceipientParams struct {
+type PaymentIntentCapturePaymentDetailsCarRentalDeliveryRecipientParams struct {
 	// The email of the recipient the ticket is delivered to.
 	Email *string `form:"email"`
 	// The name of the recipient the ticket is delivered to.
@@ -2689,7 +2745,7 @@ type PaymentIntentCapturePaymentDetailsCarRentalDeliveryParams struct {
 	// The delivery method for the payment
 	Mode *string `form:"mode"`
 	// Details of the recipient.
-	Receipient *PaymentIntentCapturePaymentDetailsCarRentalDeliveryReceipientParams `form:"receipient"`
+	Recipient *PaymentIntentCapturePaymentDetailsCarRentalDeliveryRecipientParams `form:"recipient"`
 }
 
 // The details of the passengers in the travel reservation
@@ -2749,7 +2805,7 @@ type PaymentIntentCapturePaymentDetailsEventDetailsAffiliateParams struct {
 }
 
 // Details of the recipient.
-type PaymentIntentCapturePaymentDetailsEventDetailsDeliveryReceipientParams struct {
+type PaymentIntentCapturePaymentDetailsEventDetailsDeliveryRecipientParams struct {
 	// The email of the recipient the ticket is delivered to.
 	Email *string `form:"email"`
 	// The name of the recipient the ticket is delivered to.
@@ -2763,7 +2819,7 @@ type PaymentIntentCapturePaymentDetailsEventDetailsDeliveryParams struct {
 	// The delivery method for the payment
 	Mode *string `form:"mode"`
 	// Details of the recipient.
-	Receipient *PaymentIntentCapturePaymentDetailsEventDetailsDeliveryReceipientParams `form:"receipient"`
+	Recipient *PaymentIntentCapturePaymentDetailsEventDetailsDeliveryRecipientParams `form:"recipient"`
 }
 
 // Event details for this PaymentIntent
@@ -2795,7 +2851,7 @@ type PaymentIntentCapturePaymentDetailsFlightAffiliateParams struct {
 }
 
 // Details of the recipient.
-type PaymentIntentCapturePaymentDetailsFlightDeliveryReceipientParams struct {
+type PaymentIntentCapturePaymentDetailsFlightDeliveryRecipientParams struct {
 	// The email of the recipient the ticket is delivered to.
 	Email *string `form:"email"`
 	// The name of the recipient the ticket is delivered to.
@@ -2809,7 +2865,7 @@ type PaymentIntentCapturePaymentDetailsFlightDeliveryParams struct {
 	// The delivery method for the payment
 	Mode *string `form:"mode"`
 	// Details of the recipient.
-	Receipient *PaymentIntentCapturePaymentDetailsFlightDeliveryReceipientParams `form:"receipient"`
+	Recipient *PaymentIntentCapturePaymentDetailsFlightDeliveryRecipientParams `form:"recipient"`
 }
 
 // The details of the passengers in the travel reservation.
@@ -2863,7 +2919,7 @@ type PaymentIntentCapturePaymentDetailsLodgingAffiliateParams struct {
 }
 
 // Details of the recipient.
-type PaymentIntentCapturePaymentDetailsLodgingDeliveryReceipientParams struct {
+type PaymentIntentCapturePaymentDetailsLodgingDeliveryRecipientParams struct {
 	// The email of the recipient the ticket is delivered to.
 	Email *string `form:"email"`
 	// The name of the recipient the ticket is delivered to.
@@ -2877,7 +2933,7 @@ type PaymentIntentCapturePaymentDetailsLodgingDeliveryParams struct {
 	// The delivery method for the payment
 	Mode *string `form:"mode"`
 	// Details of the recipient.
-	Receipient *PaymentIntentCapturePaymentDetailsLodgingDeliveryReceipientParams `form:"receipient"`
+	Recipient *PaymentIntentCapturePaymentDetailsLodgingDeliveryRecipientParams `form:"recipient"`
 }
 
 // The details of the passengers in the travel reservation
@@ -3443,7 +3499,7 @@ type PaymentIntentPaymentDetailsCarRentalAffiliate struct {
 	// The name of the affiliate that originated the purchase.
 	Name string `json:"name"`
 }
-type PaymentIntentPaymentDetailsCarRentalDeliveryReceipient struct {
+type PaymentIntentPaymentDetailsCarRentalDeliveryRecipient struct {
 	// The email of the recipient the ticket is delivered to.
 	Email string `json:"email"`
 	// The name of the recipient the ticket is delivered to.
@@ -3453,8 +3509,8 @@ type PaymentIntentPaymentDetailsCarRentalDeliveryReceipient struct {
 }
 type PaymentIntentPaymentDetailsCarRentalDelivery struct {
 	// The delivery method for the payment
-	Mode       PaymentIntentPaymentDetailsCarRentalDeliveryMode        `json:"mode"`
-	Receipient *PaymentIntentPaymentDetailsCarRentalDeliveryReceipient `json:"receipient"`
+	Mode      PaymentIntentPaymentDetailsCarRentalDeliveryMode       `json:"mode"`
+	Recipient *PaymentIntentPaymentDetailsCarRentalDeliveryRecipient `json:"recipient"`
 }
 
 // The details of the drivers associated with the trip.
@@ -3504,7 +3560,7 @@ type PaymentIntentPaymentDetailsEventDetailsAffiliate struct {
 	// The name of the affiliate that originated the purchase.
 	Name string `json:"name"`
 }
-type PaymentIntentPaymentDetailsEventDetailsDeliveryReceipient struct {
+type PaymentIntentPaymentDetailsEventDetailsDeliveryRecipient struct {
 	// The email of the recipient the ticket is delivered to.
 	Email string `json:"email"`
 	// The name of the recipient the ticket is delivered to.
@@ -3514,8 +3570,8 @@ type PaymentIntentPaymentDetailsEventDetailsDeliveryReceipient struct {
 }
 type PaymentIntentPaymentDetailsEventDetailsDelivery struct {
 	// The delivery method for the payment
-	Mode       PaymentIntentPaymentDetailsEventDetailsDeliveryMode        `json:"mode"`
-	Receipient *PaymentIntentPaymentDetailsEventDetailsDeliveryReceipient `json:"receipient"`
+	Mode      PaymentIntentPaymentDetailsEventDetailsDeliveryMode       `json:"mode"`
+	Recipient *PaymentIntentPaymentDetailsEventDetailsDeliveryRecipient `json:"recipient"`
 }
 type PaymentIntentPaymentDetailsEventDetails struct {
 	// Indicates if the tickets are digitally checked when entering the venue.
