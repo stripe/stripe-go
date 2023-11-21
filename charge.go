@@ -458,7 +458,7 @@ type ChargePaymentDetailsCarRentalAffiliateParams struct {
 }
 
 // Details of the recipient.
-type ChargePaymentDetailsCarRentalDeliveryReceipientParams struct {
+type ChargePaymentDetailsCarRentalDeliveryRecipientParams struct {
 	// The email of the recipient the ticket is delivered to.
 	Email *string `form:"email"`
 	// The name of the recipient the ticket is delivered to.
@@ -472,7 +472,7 @@ type ChargePaymentDetailsCarRentalDeliveryParams struct {
 	// The delivery method for the payment
 	Mode *string `form:"mode"`
 	// Details of the recipient.
-	Receipient *ChargePaymentDetailsCarRentalDeliveryReceipientParams `form:"receipient"`
+	Recipient *ChargePaymentDetailsCarRentalDeliveryRecipientParams `form:"recipient"`
 }
 
 // The details of the passengers in the travel reservation
@@ -532,7 +532,7 @@ type ChargePaymentDetailsEventDetailsAffiliateParams struct {
 }
 
 // Details of the recipient.
-type ChargePaymentDetailsEventDetailsDeliveryReceipientParams struct {
+type ChargePaymentDetailsEventDetailsDeliveryRecipientParams struct {
 	// The email of the recipient the ticket is delivered to.
 	Email *string `form:"email"`
 	// The name of the recipient the ticket is delivered to.
@@ -546,7 +546,7 @@ type ChargePaymentDetailsEventDetailsDeliveryParams struct {
 	// The delivery method for the payment
 	Mode *string `form:"mode"`
 	// Details of the recipient.
-	Receipient *ChargePaymentDetailsEventDetailsDeliveryReceipientParams `form:"receipient"`
+	Recipient *ChargePaymentDetailsEventDetailsDeliveryRecipientParams `form:"recipient"`
 }
 
 // Event details for this PaymentIntent
@@ -578,7 +578,7 @@ type ChargePaymentDetailsFlightAffiliateParams struct {
 }
 
 // Details of the recipient.
-type ChargePaymentDetailsFlightDeliveryReceipientParams struct {
+type ChargePaymentDetailsFlightDeliveryRecipientParams struct {
 	// The email of the recipient the ticket is delivered to.
 	Email *string `form:"email"`
 	// The name of the recipient the ticket is delivered to.
@@ -592,7 +592,7 @@ type ChargePaymentDetailsFlightDeliveryParams struct {
 	// The delivery method for the payment
 	Mode *string `form:"mode"`
 	// Details of the recipient.
-	Receipient *ChargePaymentDetailsFlightDeliveryReceipientParams `form:"receipient"`
+	Recipient *ChargePaymentDetailsFlightDeliveryRecipientParams `form:"recipient"`
 }
 
 // The details of the passengers in the travel reservation.
@@ -646,7 +646,7 @@ type ChargePaymentDetailsLodgingAffiliateParams struct {
 }
 
 // Details of the recipient.
-type ChargePaymentDetailsLodgingDeliveryReceipientParams struct {
+type ChargePaymentDetailsLodgingDeliveryRecipientParams struct {
 	// The email of the recipient the ticket is delivered to.
 	Email *string `form:"email"`
 	// The name of the recipient the ticket is delivered to.
@@ -660,7 +660,7 @@ type ChargePaymentDetailsLodgingDeliveryParams struct {
 	// The delivery method for the payment
 	Mode *string `form:"mode"`
 	// Details of the recipient.
-	Receipient *ChargePaymentDetailsLodgingDeliveryReceipientParams `form:"receipient"`
+	Recipient *ChargePaymentDetailsLodgingDeliveryRecipientParams `form:"recipient"`
 }
 
 // The details of the passengers in the travel reservation
@@ -762,7 +762,7 @@ type ChargeCapturePaymentDetailsCarRentalAffiliateParams struct {
 }
 
 // Details of the recipient.
-type ChargeCapturePaymentDetailsCarRentalDeliveryReceipientParams struct {
+type ChargeCapturePaymentDetailsCarRentalDeliveryRecipientParams struct {
 	// The email of the recipient the ticket is delivered to.
 	Email *string `form:"email"`
 	// The name of the recipient the ticket is delivered to.
@@ -776,7 +776,7 @@ type ChargeCapturePaymentDetailsCarRentalDeliveryParams struct {
 	// The delivery method for the payment
 	Mode *string `form:"mode"`
 	// Details of the recipient.
-	Receipient *ChargeCapturePaymentDetailsCarRentalDeliveryReceipientParams `form:"receipient"`
+	Recipient *ChargeCapturePaymentDetailsCarRentalDeliveryRecipientParams `form:"recipient"`
 }
 
 // The details of the passengers in the travel reservation
@@ -836,7 +836,7 @@ type ChargeCapturePaymentDetailsEventDetailsAffiliateParams struct {
 }
 
 // Details of the recipient.
-type ChargeCapturePaymentDetailsEventDetailsDeliveryReceipientParams struct {
+type ChargeCapturePaymentDetailsEventDetailsDeliveryRecipientParams struct {
 	// The email of the recipient the ticket is delivered to.
 	Email *string `form:"email"`
 	// The name of the recipient the ticket is delivered to.
@@ -850,7 +850,7 @@ type ChargeCapturePaymentDetailsEventDetailsDeliveryParams struct {
 	// The delivery method for the payment
 	Mode *string `form:"mode"`
 	// Details of the recipient.
-	Receipient *ChargeCapturePaymentDetailsEventDetailsDeliveryReceipientParams `form:"receipient"`
+	Recipient *ChargeCapturePaymentDetailsEventDetailsDeliveryRecipientParams `form:"recipient"`
 }
 
 // Event details for this PaymentIntent
@@ -882,7 +882,7 @@ type ChargeCapturePaymentDetailsFlightAffiliateParams struct {
 }
 
 // Details of the recipient.
-type ChargeCapturePaymentDetailsFlightDeliveryReceipientParams struct {
+type ChargeCapturePaymentDetailsFlightDeliveryRecipientParams struct {
 	// The email of the recipient the ticket is delivered to.
 	Email *string `form:"email"`
 	// The name of the recipient the ticket is delivered to.
@@ -896,7 +896,7 @@ type ChargeCapturePaymentDetailsFlightDeliveryParams struct {
 	// The delivery method for the payment
 	Mode *string `form:"mode"`
 	// Details of the recipient.
-	Receipient *ChargeCapturePaymentDetailsFlightDeliveryReceipientParams `form:"receipient"`
+	Recipient *ChargeCapturePaymentDetailsFlightDeliveryRecipientParams `form:"recipient"`
 }
 
 // The details of the passengers in the travel reservation.
@@ -950,7 +950,7 @@ type ChargeCapturePaymentDetailsLodgingAffiliateParams struct {
 }
 
 // Details of the recipient.
-type ChargeCapturePaymentDetailsLodgingDeliveryReceipientParams struct {
+type ChargeCapturePaymentDetailsLodgingDeliveryRecipientParams struct {
 	// The email of the recipient the ticket is delivered to.
 	Email *string `form:"email"`
 	// The name of the recipient the ticket is delivered to.
@@ -964,7 +964,7 @@ type ChargeCapturePaymentDetailsLodgingDeliveryParams struct {
 	// The delivery method for the payment
 	Mode *string `form:"mode"`
 	// Details of the recipient.
-	Receipient *ChargeCapturePaymentDetailsLodgingDeliveryReceipientParams `form:"receipient"`
+	Recipient *ChargeCapturePaymentDetailsLodgingDeliveryRecipientParams `form:"recipient"`
 }
 
 // The details of the passengers in the travel reservation
