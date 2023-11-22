@@ -1,5 +1,10 @@
 # Changelog
 
+## 76.7.0-beta.1 - 2023-11-21
+* [#1770](https://github.com/stripe/stripe-go/pull/1770) Update generated code for beta
+  * Rename `Receipient` to `Recipient` beneath `PaymentDetails` on `Charge` and `PaymentIntent` APIs.
+  * Add support for `Components` on `CustomerSessionParams` and `CustomerSession`
+
 ## 76.6.0 - 2023-11-21
 * [#1769](https://github.com/stripe/stripe-go/pull/1769) Update generated code
   * Add support for `ElectronicCommerceIndicator` on `ChargePaymentMethodDetailsCardThreeDSecure` and `SetupAttemptPaymentMethodDetailsCardThreeDSecure`
