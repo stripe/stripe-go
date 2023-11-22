@@ -25,6 +25,9 @@ import (
 	"github.com/stripe/stripe-go/v76/cashbalance"
 	"github.com/stripe/stripe-go/v76/charge"
 	checkoutsession "github.com/stripe/stripe-go/v76/checkout/session"
+	climateorder "github.com/stripe/stripe-go/v76/climate/order"
+	climateproduct "github.com/stripe/stripe-go/v76/climate/product"
+	climatesupplier "github.com/stripe/stripe-go/v76/climate/supplier"
 	"github.com/stripe/stripe-go/v76/countryspec"
 	"github.com/stripe/stripe-go/v76/coupon"
 	"github.com/stripe/stripe-go/v76/creditnote"
@@ -157,6 +160,12 @@ type API struct {
 	Charges *charge.Client
 	// CheckoutSessions is the client used to invoke /checkout/sessions APIs.
 	CheckoutSessions *checkoutsession.Client
+	// ClimateOrders is the client used to invoke /climate/orders APIs.
+	ClimateOrders *climateorder.Client
+	// ClimateProducts is the client used to invoke /climate/products APIs.
+	ClimateProducts *climateproduct.Client
+	// ClimateSuppliers is the client used to invoke /climate/suppliers APIs.
+	ClimateSuppliers *climatesupplier.Client
 	// CountrySpecs is the client used to invoke /country_specs APIs.
 	CountrySpecs *countryspec.Client
 	// Coupons is the client used to invoke /coupons APIs.
@@ -377,6 +386,9 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.CashBalances = &cashbalance.Client{B: backends.API, Key: key}
 	a.Charges = &charge.Client{B: backends.API, Key: key}
 	a.CheckoutSessions = &checkoutsession.Client{B: backends.API, Key: key}
+	a.ClimateOrders = &climateorder.Client{B: backends.API, Key: key}
+	a.ClimateProducts = &climateproduct.Client{B: backends.API, Key: key}
+	a.ClimateSuppliers = &climatesupplier.Client{B: backends.API, Key: key}
 	a.CountrySpecs = &countryspec.Client{B: backends.API, Key: key}
 	a.Coupons = &coupon.Client{B: backends.API, Key: key}
 	a.CreditNotes = &creditnote.Client{B: backends.API, Key: key}
