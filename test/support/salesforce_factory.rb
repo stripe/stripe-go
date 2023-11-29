@@ -304,12 +304,8 @@ module Critic
       )
     end
 
-    def add_product_to_cpq_quote(quote_id, sf_product_id:, sf_pricebook_id: nil)
+    def add_product_to_cpq_quote(quote_id, sf_product_id:, sf_pricebook_id: nil, product_quantity: nil)
       sf_pricebook_id ||= default_pricebook_id
-
-      # this error indicates that the SF account disconnected from the steelbrick REST service
-      # reauth via: https://brick-rest.steelbrick.com/oauth/auth
-      # Restforce::ErrorCode::ApexError: APEX_ERROR: SBQQ.RestClient.RefreshTokenNilException: Invalid nil argument: OAuth Refresh Token
 
       # https://developer.salesforce.com/docs/atlas.en-us.cpq_api_dev.meta/cpq_api_dev/cpq_api_read_quote.htm
       # get CPQ version of the quote
@@ -334,6 +330,10 @@ module Critic
           "ignoreCalculate": false,
         }.to_json,
       }).body)
+
+      if product_quantity.present?
+        quote_with_product["lineItems"].first["record"][CPQ_QUOTE_QUANTITY] = product_quantity
+      end
 
       quote_with_product
     end

@@ -983,11 +983,11 @@ class StripeForce::Translate
     termination_lines, additive_lines = new_phase_items.partition(&:termination?)
 
     additive_lines.each do |new_subscription_item|
-      log.info 'adding new line item', order_line_id: new_subscription_item.order_line_id
+      log.info 'adding new order line item', order_line_id: new_subscription_item.order_line_id
       aggregate_phase_items << new_subscription_item
     end
 
-    # NOTE this terminates the lines, but does NOT remove them
+    # NOTE this reduces and/or terminates the order lines, but does NOT remove them
     aggregate_phase_items = terminate_subscription_line_items(aggregate_phase_items, termination_lines)
     aggregate_phase_items
   end
@@ -1047,7 +1047,7 @@ class StripeForce::Translate
         raise Integrations::Errors::ImpossibleState.new("Order Item quantity on termination lines should never be positive.")
       end
 
-      log.info 'reducing quantity on line', termination_line: termination_line.order_line_id, reducing_quantity: termination_line.quantity
+      log.info 'reducing quantity on order line', termination_line: termination_line.order_line_id, reducing_quantity: termination_line.quantity
       termination_line.quantity.abs.times do
         fifo_remaining_line = fifo_order_line_stack
           .reject(&:fully_terminated?)

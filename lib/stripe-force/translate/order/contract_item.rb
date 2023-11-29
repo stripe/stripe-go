@@ -42,7 +42,7 @@ class StripeForce::Translate
     sig { params(user: T.nilable(StripeForce::User)).returns(Stripe::Price) }
     def price(user=nil)
       if @price.nil? && user.nil?
-        raise Integrations::Errors::ImpossibleInternalError.new("query should never return an empty result")
+        raise Integrations::Errors::ImpossibleInternalError.new("Price on contract item is empty. This should never return an empty result.")
       end
 
       # sorbet doesn't like instance memoized instance variables
@@ -57,6 +57,7 @@ class StripeForce::Translate
 
       self.reduced_by += 1
       self.quantity -= 1
+      self.stripe_params[:quantity] = self.quantity
     end
 
     sig { returns(T::Boolean) }
