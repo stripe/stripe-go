@@ -456,6 +456,7 @@ class StripeForce::Translate
       stripe_price.unit_amount_decimal = T.cast(stripe_price.unit_amount_decimal, BigDecimal) / price_multiplier
 
       if @user.feature_enabled?(StripeForce::Constants::FeatureFlags::SALESFORCE_PRECISION)
+        log.info 'rounding price to Salesforce precision', stripe_price: stripe_price.id
         stripe_price.unit_amount_decimal = (stripe_price.unit_amount_decimal.to_d / 100).round(MAX_SALESFORCE_PRICE_PRECISION) * 100
       end
     end

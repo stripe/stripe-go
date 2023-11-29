@@ -144,11 +144,11 @@ module Critic
       }.merge(additional_fields))
     end
 
-    def create_salesforce_cpq_segmented_product(additional_product_fields: {}, additional_price_dimension_fields: {})
-      sf_product_id, _sf_pricebook_entry_id = salesforce_recurring_product_with_price(price: nil, additional_product_fields: additional_product_fields)
+    def create_salesforce_cpq_segmented_product(additional_product_fields: {}, additional_price_dimension_fields: {}, price: nil)
+      sf_product_id, _sf_pricebook_entry_id = salesforce_recurring_product_with_price(price: price, additional_product_fields: additional_product_fields)
 
       if additional_product_fields[CPQ_PRODUCT_BILLING_TYPE] == CPQProductBillingTypeOptions::ARREARS.serialize
-        sf_product_id, _sf_pricebook_id = salesforce_recurring_metered_produce_with_price(price_in_cents: nil)
+        sf_product_id, _sf_pricebook_id = salesforce_recurring_metered_produce_with_price(price_in_cents: price)
       end
 
       # create a price dimension and link the product to it
@@ -244,7 +244,7 @@ module Critic
       # but if the term is set to a value which is different than the billing frequency it seems to use the
       # subscription term value. i.e. a yearly billed product
       subscription_term = if additional_product_fields.key?(CPQ_QUOTE_BILLING_FREQUENCY) && additional_product_fields[CPQ_QUOTE_BILLING_FREQUENCY] != CPQBillingFrequencyOptions::MONTHLY.serialize
-        # Defaults to annually (12) if not set
+        # Defaults to annually (12 months) if not set
         nil
       else
         1
@@ -254,12 +254,8 @@ module Critic
       product_id = create_salesforce_product(static_id: static_id, additional_fields: {
         # anything non-nil indicates subscription/recurring pricing
         CPQ_QUOTE_SUBSCRIPTION_PRICING => 'Fixed Price',
-
         CPQ_PRODUCT_SUBSCRIPTION_TYPE => CPQProductSubscriptionTypeOptions::RENEWABLE,
-
         CPQ_QUOTE_SUBSCRIPTION_TERM => subscription_term,
-
-        # one month
         CPQ_QUOTE_BILLING_FREQUENCY => CPQBillingFrequencyOptions::MONTHLY.serialize,
       }.merge(additional_product_fields))
 

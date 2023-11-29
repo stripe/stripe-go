@@ -130,6 +130,7 @@ class StripeForce::Translate
       unit_amount_decimal = BigDecimal(stripe_price.unit_amount_decimal)
       prorated_billing_amount = unit_amount_decimal * proration_percentage
       if salesforce_precision
+        log.info 'using Salesforce precision for proration'
         prorated_billing_amount = (prorated_billing_amount / 100).round(MAX_SALESFORCE_PRICE_PRECISION) * 100
       end
       prorated_billing_amount

@@ -101,9 +101,9 @@ module StripeForce
         MONTH = new("Month")
         QUARTER = new("Quarter")
         YEAR = new("Year")
+        ONE_TIME = new("One Time")
         # not supported yet
         # CUSTOM = new("Custom")
-        # ONE_TIME = new("One Time")
       end
     end
 

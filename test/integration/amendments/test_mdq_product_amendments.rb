@@ -409,7 +409,9 @@ class Critic::MDQAmendmentsTranslation < Critic::OrderAmendmentFunctionalTest
       assert_equal(4, third_phase_items.count)
     end
 
-    it 'amend a non segmented product in the current phase of a salesforce order' do end
+    # TODO
+    # it 'add a non-segmented product in the future phase of a salesforce order' do end
+    # it 'remove a non-segmented product in the future phase of a salesforce order' do end
   end
 
   describe 'error handling' do

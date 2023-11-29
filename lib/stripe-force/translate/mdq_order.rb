@@ -21,7 +21,6 @@ class StripeForce::Translate
     string_start_date_from_salesforce = subscription_schedule['start_date']
     start_date_from_salesforce = DateTime.parse(string_start_date_from_salesforce)
     subscription_term_from_salesforce = StripeForce::Utilities::SalesforceUtil.extract_subscription_term_from_order!(mapper, sf_order)
-
     order_end_date = StripeForce::Utilities::SalesforceUtil.datetime_to_unix_timestamp(start_date_from_salesforce + subscription_term_from_salesforce.months)
 
     non_segmented_contract_items, segmented_contract_items = split_and_sort_mdq_item(contract_items)
@@ -41,17 +40,22 @@ class StripeForce::Translate
         if sub_schedule_phases.empty? || sub_schedule_phases.count < T.must(mdq_segment_index)
           proration_behavior = StripeProrationBehavior::NONE.serialize
 
-          # only the initial phase might use Stripe prorations
+          # only the initial phase
+          add_invoice_items = []
           if sub_schedule_phases.empty?
+            # might use Stripe prorations
             skip_initial_phase_proration = sf_order[prefixed_stripe_field(SKIP_PAST_INITIAL_INVOICES)] == true
             if !skip_initial_phase_proration
               proration_behavior = StripeProrationBehavior::CREATE_PRORATIONS.serialize
             end
+
+            # might have one-time fees
+            add_invoice_items = invoice_items.map(&:stripe_params)
           end
 
           # create a new phase for this segment index
           sub_schedule_phases << {
-            add_invoice_items: [],
+            add_invoice_items: add_invoice_items,
             items: non_segmented_subscription_items.dup,
             end_date: segment_item_end_date,
             metadata: Metadata.stripe_metadata_for_sf_object(@user, sf_order).merge({
@@ -73,8 +77,9 @@ class StripeForce::Translate
         end
 
         # add the item to the last phase / segment
-        order_item_metadata = {"metadata" => {'salesforce_segment_key': segment_item.order_line[CPQ_ORDER_ITEM_SEGMENT_KEY]}}
-        sub_schedule_phases[last_index][:items] << segment_item.stripe_params.merge(order_item_metadata)
+        phase_item = segment_item.stripe_params
+        phase_item[:metadata] = phase_item[:metadata].merge({'salesforce_segment_key': segment_item.order_line[CPQ_ORDER_ITEM_SEGMENT_KEY]})
+        sub_schedule_phases[last_index][:items] << phase_item
     end
 
     # Salesforce EndDate is the end of the last day of the subscription while the calculated EndDate we send to Stripe
