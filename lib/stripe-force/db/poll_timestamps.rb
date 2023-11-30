@@ -27,6 +27,7 @@ module StripeForce
         salesforce_account_id: user.salesforce_account_id,
         livemode: user.livemode,
         integration_record_type: sf_record_class.to_s,
+        stripe_account_id: user.stripe_account_id,
       }
     end
 

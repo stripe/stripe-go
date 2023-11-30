@@ -38,6 +38,12 @@ module StripeForce::PollTimestamp::GeneratedAttributeMethods
   sig { params(value: T.any(String, Symbol)).void }
   def salesforce_account_id=(value); end
 
+  sig { returns(T.nilable(String)) }
+  def stripe_account_id; end
+
+  sig { params(value: T.nilable(T.any(String, Symbol))).void }
+  def stripe_account_id=(value); end
+
   sig { returns(DateTime) }
   def updated_at; end
 
