@@ -378,6 +378,7 @@ type PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure string
 const (
 	PaymentIntentPaymentMethodOptionsCardRequestThreeDSecureAny           PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure = "any"
 	PaymentIntentPaymentMethodOptionsCardRequestThreeDSecureAutomatic     PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure = "automatic"
+	PaymentIntentPaymentMethodOptionsCardRequestThreeDSecureChallenge     PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure = "challenge"
 	PaymentIntentPaymentMethodOptionsCardRequestThreeDSecureChallengeOnly PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure = "challenge_only"
 )
 
