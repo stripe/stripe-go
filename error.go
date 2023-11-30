@@ -68,6 +68,7 @@ const (
 	ErrorCodeDebitNotAuthorized                                          ErrorCode = "debit_not_authorized"
 	ErrorCodeEmailInvalid                                                ErrorCode = "email_invalid"
 	ErrorCodeExpiredCard                                                 ErrorCode = "expired_card"
+	ErrorCodeFinancialConnectionsAccountInactive                         ErrorCode = "financial_connections_account_inactive"
 	ErrorCodeIdempotencyKeyInUse                                         ErrorCode = "idempotency_key_in_use"
 	ErrorCodeIncorrectAddress                                            ErrorCode = "incorrect_address"
 	ErrorCodeIncorrectCVC                                                ErrorCode = "incorrect_cvc"
