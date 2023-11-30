@@ -13,6 +13,7 @@ type ClimateSupplierRemovalPathway string
 const (
 	ClimateSupplierRemovalPathwayBiomassCarbonRemovalAndStorage ClimateSupplierRemovalPathway = "biomass_carbon_removal_and_storage"
 	ClimateSupplierRemovalPathwayDirectAirCapture               ClimateSupplierRemovalPathway = "direct_air_capture"
+	ClimateSupplierRemovalPathwayEnhancedWeathering             ClimateSupplierRemovalPathway = "enhanced_weathering"
 	ClimateSupplierRemovalPathwayVarious                        ClimateSupplierRemovalPathway = "various"
 )
 
