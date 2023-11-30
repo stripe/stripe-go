@@ -768,6 +768,10 @@ type CheckoutSessionListCustomerDetailsParams struct {
 // Returns a list of Checkout Sessions.
 type CheckoutSessionListParams struct {
 	ListParams `form:"*"`
+	// Only return the Checkout Sessions that were created during the given date interval.
+	Created *int64 `form:"created"`
+	// Only return the Checkout Sessions that were created during the given date interval.
+	CreatedRange *RangeQueryParams `form:"created"`
 	// Only return the Checkout Sessions for the Customer specified.
 	Customer *string `form:"customer"`
 	// Only return the Checkout Sessions for the Customer details specified.
