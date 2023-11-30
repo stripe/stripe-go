@@ -1,5 +1,8 @@
 # Changelog
 
+## 76.8.0-beta.1 - 2023-11-30
+* [#1773](https://github.com/stripe/stripe-go/pull/1773) Update generated code for beta
+
 ## 76.7.0-beta.1 - 2023-11-21
 * [#1770](https://github.com/stripe/stripe-go/pull/1770) Update generated code for beta
   * Rename `Receipient` to `Recipient` beneath `PaymentDetails` on `Charge` and `PaymentIntent` APIs.
