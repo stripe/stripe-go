@@ -649,7 +649,6 @@ class StripeForce::Translate
       phase_params['end_date'] = StripeForce::Utilities::SalesforceUtil.datetime_to_unix_timestamp(sf_order_amendment_end_date)
 
       billing_frequency = OrderAmendment.calculate_billing_frequency_from_phase_items(@user, aggregate_phase_items)
-      aggregate_phase_items, terminated_phase_items = OrderHelpers.remove_terminated_lines(aggregate_phase_items)
 
       # determine if this is a backdated order since this has implications on how we prorate
       stripe_customer_id = T.cast(subscription_schedule.customer, String)
@@ -694,13 +693,14 @@ class StripeForce::Translate
           user: @user,
           mapper: mapper,
           sf_order_amendment: sf_order_amendment,
-          terminated_phase_items: terminated_phase_items,
+          aggregate_phase_items: aggregate_phase_items,
           subscription_term: subscription_term_from_salesforce,
           billing_frequency: billing_frequency,
           is_order_backdated: is_order_backdated,
           next_billing_timestamp: next_billing_timestamp,
         )
       end
+      aggregate_phase_items, terminated_phase_items = OrderHelpers.remove_terminated_lines(aggregate_phase_items)
 
       # Notes:
       #   We don't want to remap metadata since this would replace any existing metadata keys

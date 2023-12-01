@@ -279,6 +279,7 @@ module StripeForce
         SYNC_RECORD_FIELDS = new('sync_record_fields')
         MDQ = new('mdq')
         SALESFORCE_PRECISION = new('salesforce_precision')
+        QUANTITY_REDUCTION_ORDER_ITEM_CREDIT = new('quantity_reduction_order_item_credit')
       end
     end
 

@@ -204,8 +204,8 @@ class StripeForce::Translate
       user = mapper.user
       # our goal here is to identify the correct amount to credit this user, pass it into a price_data hash to be bubbled to the Subscription Item
 
-      unless phase_item.fully_terminated?
-        raise Integrations::Errors::ImpossibleState.new("attempted to create credit price_data for non-terminated line")
+      unless phase_item.fully_terminated? || phase_item.reduced_by > 0
+        raise Integrations::Errors::ImpossibleState.new("Attempted to create credit price_data for non-terminated line.")
       end
 
       # since we are processing a prorated negative line item, the unused term is the same as the proration period if the line item was positive
@@ -251,7 +251,7 @@ class StripeForce::Translate
         user: StripeForce::User,
         mapper: StripeForce::Mapper,
         sf_order_amendment: Restforce::SObject,
-        terminated_phase_items: T::Array[ContractItemStructure],
+        aggregate_phase_items: T::Array[ContractItemStructure],
         subscription_term: Integer,
         billing_frequency: Integer,
         is_order_backdated: T::Boolean,
@@ -259,12 +259,12 @@ class StripeForce::Translate
       ).returns(T::Array[T::Hash[Symbol, T.untyped]])
     end
     # creating one-time invoice items for terminated lines for the unused prorated amount (which has already been billed)
-    def self.generate_proration_credits_from_terminated_phase_items(user:, mapper:, sf_order_amendment:, terminated_phase_items:, subscription_term:, billing_frequency:, is_order_backdated:, next_billing_timestamp:)
+    def self.generate_proration_credits_from_terminated_phase_items(user:, mapper:, sf_order_amendment:, aggregate_phase_items:, subscription_term:, billing_frequency:, is_order_backdated:, next_billing_timestamp:)
       negative_invoice_items_for_prorations = []
 
-      terminated_phase_items.each do |phase_item|
-        unless phase_item.fully_terminated?
-          log.info 'non-terminated phase_item, not creating credit for unused time'
+      aggregate_phase_items.each do |phase_item|
+        unless phase_item.fully_terminated? || (user.feature_enabled?(FeatureFlags::QUANTITY_REDUCTION_ORDER_ITEM_CREDIT) && phase_item.reduced_by > 0)
+          log.info 'phase item is not partially or fully terminated, not creating credit for unused time'
           next
         end
 

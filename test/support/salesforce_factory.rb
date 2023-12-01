@@ -244,7 +244,7 @@ module Critic
       # but if the term is set to a value which is different than the billing frequency it seems to use the
       # subscription term value. i.e. a yearly billed product
       subscription_term = if additional_product_fields.key?(CPQ_QUOTE_BILLING_FREQUENCY) && additional_product_fields[CPQ_QUOTE_BILLING_FREQUENCY] != CPQBillingFrequencyOptions::MONTHLY.serialize
-        # Defaults to annually (12 months) if not set
+        # If this field is left blank or not set, Salesforce CPQ typically assumes the subscription term to be a month or treats it as a month-to-month contract
         nil
       else
         1

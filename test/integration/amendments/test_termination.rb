@@ -5,10 +5,10 @@ require_relative './_lib'
 
 class Critic::OrderAmendmentTermination < Critic::OrderAmendmentFunctionalTest
   before do
-    set_cassette_dir(__FILE__)
-    if !VCR.current_cassette.originally_recorded_at.nil?
-      Timecop.freeze(VCR.current_cassette.originally_recorded_at)
-    end
+    # set_cassette_dir(__FILE__)
+    # if !VCR.current_cassette.originally_recorded_at.nil?
+    #   Timecop.freeze(VCR.current_cassette.originally_recorded_at)
+    # end
 
     @user = make_user(save: true)
     @user.enable_feature(FeatureFlags::TERMINATION_METADATA)
@@ -304,133 +304,185 @@ class Critic::OrderAmendmentTermination < Critic::OrderAmendmentFunctionalTest
     assert(all_items.reject {|p| p.id == active_price.id }.none?(&:active))
   end
 
-  it 'partial termination of an original order' do
-    # intial order: 1 product, quantity 50
-    # second order: -49 quantity
+  describe 'quantity reduction' do
+    it 'partial termination of an original order' do
+      @user.enable_feature FeatureFlags::TERMINATED_ORDER_ITEM_CREDIT, update: true
+      @user.enable_feature FeatureFlags::QUANTITY_REDUCTION_ORDER_ITEM_CREDIT, update: true
+      @user.enable_feature FeatureFlags::TEST_CLOCKS, update: true
+      # intial order: 1 product, quantity 50
+      # second order: same product, quantity -49
 
-    sf_product_id_1, _sf_pricebook_id_1 = salesforce_recurring_product_with_price
-    sf_account_id = create_salesforce_account
-    quote_id = create_salesforce_quote(sf_account_id: sf_account_id,
-                                       contact_email: "partial_termination_amendment_1_0",
-                                       additional_quote_fields: {
-                                         CPQ_QUOTE_SUBSCRIPTION_START_DATE => now_time_formatted_for_salesforce,
-                                         CPQ_QUOTE_SUBSCRIPTION_TERM => 12.0,
-                                       })
+      sf_account_id = create_salesforce_account
+      quote_id = create_salesforce_quote(sf_account_id: sf_account_id,
+                                         contact_email: "partial_termination_amendment_0_20",
+                                         additional_quote_fields: {
+                                           CPQ_QUOTE_SUBSCRIPTION_START_DATE => now_time_formatted_for_salesforce,
+                                           CPQ_QUOTE_SUBSCRIPTION_TERM => TEST_DEFAULT_CONTRACT_TERM,
+                                         })
+      sf_product_id_1, _sf_pricebook_id_1 = salesforce_recurring_product_with_price(
+        price: TEST_DEFAULT_PRICE,
+        additional_product_fields: {
+          CPQ_QUOTE_BILLING_FREQUENCY => CPQBillingFrequencyOptions::ANNUAL.serialize,
+        }
+      )
+      quote_with_product = add_product_to_cpq_quote(quote_id, sf_product_id: sf_product_id_1, product_quantity: 50)
+      calculate_and_save_cpq_quote(quote_with_product)
+      sf_order = create_order_from_cpq_quote(quote_id)
 
-    quote_with_product = add_product_to_cpq_quote(quote_id, sf_product_id: sf_product_id_1, product_quantity: 50)
-    calculate_and_save_cpq_quote(quote_with_product)
-    sf_order = create_order_from_cpq_quote(quote_id)
-    SalesforceTranslateRecordJob.translate(@user, sf_order)
+      # verify the initial order line
+      initial_order_lines = sf_get_related(sf_order, SF_ORDER_ITEM)
+      assert_equal(1, initial_order_lines.count)
+      initial_order_line = sf_get(initial_order_lines.first.Id)
+      assert_equal(50, initial_order_line['SBQQ__OrderedQuantity__c'])
 
-    # the revised order product ID *always* references the initial order line it is modifying
-    initial_order_lines = sf_get_related(sf_order, SF_ORDER_ITEM)
-    assert_equal(1, initial_order_lines.count)
-    initial_order_line = sf_get(initial_order_lines.first.Id)
-    assert_equal(50, initial_order_line['SBQQ__OrderedQuantity__c'])
+      SalesforceTranslateRecordJob.translate(@user, sf_order)
+      sf_order.refresh
+      stripe_id = sf_order[prefixed_stripe_field(GENERIC_STRIPE_ID)]
+      subscription_schedule = Stripe::SubscriptionSchedule.retrieve({id: stripe_id, expand: %w{phases.items.price}}, @user.stripe_credentials)
 
-    sf_contract = create_contract_from_order(sf_order)
-    amendment_1 = create_amendment_and_adjust_quantity(sf_contract: sf_contract, quantity: -49)
+      # get Stripe customer
+      sf_account = sf_get(sf_order['AccountId'])
+      stripe_customer_id = sf_account[prefixed_stripe_field(GENERIC_STRIPE_ID)]
+      stripe_customer = stripe_get(stripe_customer_id)
+      refute_nil(stripe_customer.test_clock)
 
-    amendment_1_lines = sf_get_related(amendment_1, SF_ORDER_ITEM)
-    assert_equal(1, amendment_1_lines.count)
-    amendment_1_line = sf_get(amendment_1_lines.first.Id)
-    assert_equal(initial_order_line.Id, amendment_1_line[SF_ORDER_ITEM_REVISED_ORDER_PRODUCT])
-    assert_equal(-49, amendment_1_line['SBQQ__OrderedQuantity__c'])
+      # pay off the initial invoice
+      invoices = Stripe::Invoice.list({customer: stripe_customer.id}, @user.stripe_credentials).data
+      assert_equal(1, invoices.length)
+      initial_invoice = invoices.first
+      assert_equal(sf_order["TotalAmount"], initial_invoice.amount_due / 100)
+      assert_equal(1, initial_invoice.lines.data.length)
+      assert_equal(50, initial_invoice.lines.data.first.quantity)
+      initial_invoice.pay({'paid_out_of_band': true})
 
-    # test contract structure logic to make sure the amendments are determined properly
-    sf_order.refresh
-    locker = Integrations::Locker.new(@user)
-    translator = StripeForce::Translate.new(@user, locker)
-    translator.cache_service.cache_for_object(sf_order)
-    StripeForce::Translate.perform_inline(@user, sf_order.Id)
-    sf_order.refresh
+      # create and verify the amendment
+      sf_contract = create_contract_from_order(sf_order)
+      amendment_1 = create_amendment_and_adjust_quantity(sf_contract: sf_contract, quantity: -49)
 
-    stripe_id = sf_order[prefixed_stripe_field(GENERIC_STRIPE_ID)]
-    subscription_schedule = Stripe::SubscriptionSchedule.retrieve({id: stripe_id, expand: %w{phases.items.price}}, @user.stripe_credentials)
-    assert_equal(2, subscription_schedule.phases.count)
+      amendment_1_lines = sf_get_related(amendment_1, SF_ORDER_ITEM)
+      assert_equal(1, amendment_1_lines.count)
+      amendment_1_line = sf_get(amendment_1_lines.first.Id)
+      assert_equal(initial_order_line.Id, amendment_1_line[SF_ORDER_ITEM_REVISED_ORDER_PRODUCT])
+      assert_equal(-49, amendment_1_line['SBQQ__OrderedQuantity__c'])
 
-    first_phase = T.must(subscription_schedule.phases[0])
-    assert_equal(1, first_phase.items.count)
-    assert_equal(50, T.must(first_phase.items.first).quantity)
+      # test contract structure logic to make sure the amendments are determined properly
+      locker = Integrations::Locker.new(@user)
+      translator = StripeForce::Translate.new(@user, locker)
+      translator.cache_service.cache_for_object(sf_order)
+      StripeForce::Translate.perform_inline(@user, sf_order.Id)
 
-    last_phase = T.must(subscription_schedule.phases.last)
-    assert_equal(1, last_phase.items.count)
-    assert_equal(1, T.must(last_phase.items.first).quantity)
-  end
+      subscription_schedule = Stripe::SubscriptionSchedule.retrieve({id: stripe_id, expand: %w{phases.items.price}}, @user.stripe_credentials)
+      assert_equal(2, subscription_schedule.phases.count)
 
-  it 'partial termination of an amendment order upgrade' do
-    # intial order: 1 product, quantity 2
-    # second order: same product, + 2 quantity
-    # third order: same product, -1 quantity
+      first_phase = T.must(subscription_schedule.phases[0])
+      assert_equal(1, first_phase.items.count)
+      assert_equal(50, T.must(first_phase.items.first).quantity)
 
-    sf_product_id_1, _sf_pricebook_id_1 = salesforce_recurring_product_with_price
-    sf_account_id = create_salesforce_account
-    quote_id = create_salesforce_quote(sf_account_id: sf_account_id,
-                                       contact_email: "partial_termination_of_upgrade_amendment_8",
-                                       additional_quote_fields: {
-                                         CPQ_QUOTE_SUBSCRIPTION_START_DATE => now_time_formatted_for_salesforce,
-                                         CPQ_QUOTE_SUBSCRIPTION_TERM => 12.0,
-                                       })
+      last_phase = T.must(subscription_schedule.phases.last)
+      assert_equal(1, last_phase.items.count)
+      assert_equal(1, T.must(last_phase.items.first).quantity)
 
-    quote_with_product = add_product_to_cpq_quote(quote_id, sf_product_id: sf_product_id_1, product_quantity: 2)
-    calculate_and_save_cpq_quote(quote_with_product)
-    sf_order = create_order_from_cpq_quote(quote_id)
+      # Verify the amendment (reduction in quantity) resulted in credit
 
-    # the revised order product ID *always* references the initial order line it is modifying
-    initial_order_lines = sf_get_related(sf_order, SF_ORDER_ITEM)
-    assert_equal(1, initial_order_lines.count)
-    initial_order_line = sf_get(initial_order_lines.first.Id)
-    assert_equal(2, initial_order_line['SBQQ__OrderedQuantity__c'])
+      # now, let's advance the clock and pretent like we are in the future to fully test autobilling
+      test_clock = advance_test_clock(stripe_customer, (now_time + 1.month + 1.day).to_i)
 
-    # translate the initial order
-    SalesforceTranslateRecordJob.translate(@user, sf_order)
-    sf_order.refresh
+      # simulate sending the webhook
+      events = Stripe::Event.list({
+        type: 'invoiceitem.created',
+      }, @user.stripe_credentials)
 
-    # create the upgrade amendment
-    sf_contract = create_contract_from_order(sf_order)
-    sf_order_amendment_1 = create_amendment_and_adjust_quantity(sf_contract: sf_contract, quantity: 3)
+      invoice_events = events.data.select do |event|
+        event_object = event.data.object
+        event_object.test_clock == test_clock.id && event.request.id.nil?
+      end
 
-    # verify amendment lines
-    amendment_1_lines = sf_get_related(sf_order_amendment_1, SF_ORDER_ITEM)
-    assert_equal(1, amendment_1_lines.count)
-    amendment_1_line = sf_get(amendment_1_lines.first.Id)
-    assert_equal(initial_order_line.Id, amendment_1_line[SF_ORDER_ITEM_REVISED_ORDER_PRODUCT])
-    assert_equal(3, amendment_1_line['SBQQ__OrderedQuantity__c'])
-    sf_order_amendment_1.refresh
+      assert_equal(1, invoice_events.count)
+      proration_invoice_event = invoice_events.first
+      assert_equal("true", proration_invoice_event.data.object.metadata[StripeForce::Translate::Metadata.metadata_key(@user, MetadataKeys::PRORATION)])
 
-    # create the second amendment and increase quantity again (+1)
-    sf_contract_2 = create_contract_from_order(sf_order_amendment_1)
-    sf_order_amendment_2 = create_amendment_and_adjust_quantity(sf_contract: sf_contract_2, quantity: -1)
+      proration_invoice = T.must(StripeForce::ProrationAutoBill.create_invoice_from_invoice_item_event(@user, proration_invoice_event))
+      assert_equal("true", proration_invoice.metadata[StripeForce::Translate::Metadata.metadata_key(@user, MetadataKeys::PRORATION_INVOICE)])
 
-    amendment_2_lines = sf_get_related(sf_order_amendment_2, SF_ORDER_ITEM)
-    assert_equal(1, amendment_2_lines.count)
-    amendment_2_line = sf_get(amendment_2_lines.last.Id)
-    assert_equal(-1, amendment_2_line['SBQQ__OrderedQuantity__c'])
-    sf_order_amendment_2.refresh
+      assert_equal(1, proration_invoice.lines.count)
+      assert_equal(49, proration_invoice.lines.data.first.quantity)
+      assert_equal((-1 * 49 * TEST_DEFAULT_PRICE * (BigDecimal(11) / BigDecimal(12))).to_i, proration_invoice.lines.first.amount)
+    end
 
-    locker = Integrations::Locker.new(@user)
-    translator = StripeForce::Translate.new(@user, locker)
-    translator.cache_service.cache_for_object(sf_order)
-    StripeForce::Translate.perform_inline(@user, sf_order_amendment_2.Id)
+    it 'partial termination of an amendment order upgrade' do
+      # intial order: 1 product, quantity 2
+      # second order: same product, + 2 quantity
+      # third order: same product, -1 quantity
 
-    # verify subscription schedule is correct
-    stripe_id = sf_order[prefixed_stripe_field(GENERIC_STRIPE_ID)]
-    subscription_schedule = Stripe::SubscriptionSchedule.retrieve({id: stripe_id, expand: %w{phases.items.price}}, @user.stripe_credentials)
-    assert_equal(3, subscription_schedule.phases.count)
+      sf_product_id_1, _sf_pricebook_id_1 = salesforce_recurring_product_with_price
+      sf_account_id = create_salesforce_account
+      quote_id = create_salesforce_quote(sf_account_id: sf_account_id,
+                                         contact_email: "partial_termination_of_upgrade_amendment_8",
+                                         additional_quote_fields: {
+                                           CPQ_QUOTE_SUBSCRIPTION_START_DATE => now_time_formatted_for_salesforce,
+                                           CPQ_QUOTE_SUBSCRIPTION_TERM => 12.0,
+                                         })
 
-    first_phase = T.must(subscription_schedule.phases.first)
-    assert_equal(1, first_phase.items.count)
-    assert_equal(2, T.must(first_phase.items.first).quantity)
+      quote_with_product = add_product_to_cpq_quote(quote_id, sf_product_id: sf_product_id_1, product_quantity: 2)
+      calculate_and_save_cpq_quote(quote_with_product)
+      sf_order = create_order_from_cpq_quote(quote_id)
 
-    second_phase = T.must(subscription_schedule.phases.second)
-    assert_equal(2, second_phase.items.count)
-    assert_equal(2, T.must(second_phase.items.first).quantity)
-    # upgrade adds new product with this quantity
-    assert_equal(3, T.must(second_phase.items.second).quantity)
+      # the revised order product ID *always* references the initial order line it is modifying
+      initial_order_lines = sf_get_related(sf_order, SF_ORDER_ITEM)
+      assert_equal(1, initial_order_lines.count)
+      initial_order_line = sf_get(initial_order_lines.first.Id)
+      assert_equal(2, initial_order_line['SBQQ__OrderedQuantity__c'])
 
-    last_phase = T.must(subscription_schedule.phases.last)
-    assert_equal(2, last_phase.items.count)
-    assert_equal(2, T.must(last_phase.items.first).quantity)
-    assert_equal(2, T.must(last_phase.items.second).quantity)
+      # translate the initial order
+      SalesforceTranslateRecordJob.translate(@user, sf_order)
+      sf_order.refresh
+
+      # create the upgrade amendment
+      sf_contract = create_contract_from_order(sf_order)
+      sf_order_amendment_1 = create_amendment_and_adjust_quantity(sf_contract: sf_contract, quantity: 3)
+
+      # verify amendment lines
+      amendment_1_lines = sf_get_related(sf_order_amendment_1, SF_ORDER_ITEM)
+      assert_equal(1, amendment_1_lines.count)
+      amendment_1_line = sf_get(amendment_1_lines.first.Id)
+      assert_equal(initial_order_line.Id, amendment_1_line[SF_ORDER_ITEM_REVISED_ORDER_PRODUCT])
+      assert_equal(3, amendment_1_line['SBQQ__OrderedQuantity__c'])
+      sf_order_amendment_1.refresh
+
+      # create the second amendment and increase quantity again (+1)
+      sf_contract_2 = create_contract_from_order(sf_order_amendment_1)
+      sf_order_amendment_2 = create_amendment_and_adjust_quantity(sf_contract: sf_contract_2, quantity: -1)
+
+      amendment_2_lines = sf_get_related(sf_order_amendment_2, SF_ORDER_ITEM)
+      assert_equal(1, amendment_2_lines.count)
+      amendment_2_line = sf_get(amendment_2_lines.last.Id)
+      assert_equal(-1, amendment_2_line['SBQQ__OrderedQuantity__c'])
+      sf_order_amendment_2.refresh
+
+      locker = Integrations::Locker.new(@user)
+      translator = StripeForce::Translate.new(@user, locker)
+      translator.cache_service.cache_for_object(sf_order)
+      StripeForce::Translate.perform_inline(@user, sf_order_amendment_2.Id)
+
+      # verify subscription schedule is correct
+      stripe_id = sf_order[prefixed_stripe_field(GENERIC_STRIPE_ID)]
+      subscription_schedule = Stripe::SubscriptionSchedule.retrieve({id: stripe_id, expand: %w{phases.items.price}}, @user.stripe_credentials)
+      assert_equal(3, subscription_schedule.phases.count)
+
+      first_phase = T.must(subscription_schedule.phases.first)
+      assert_equal(1, first_phase.items.count)
+      assert_equal(2, T.must(first_phase.items.first).quantity)
+
+      second_phase = T.must(subscription_schedule.phases.second)
+      assert_equal(2, second_phase.items.count)
+      assert_equal(2, T.must(second_phase.items.first).quantity)
+      # upgrade adds new product with this quantity
+      assert_equal(3, T.must(second_phase.items.second).quantity)
+
+      last_phase = T.must(subscription_schedule.phases.last)
+      assert_equal(2, last_phase.items.count)
+      assert_equal(2, T.must(last_phase.items.first).quantity)
+      assert_equal(2, T.must(last_phase.items.second).quantity)
+    end
   end
 end
