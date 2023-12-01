@@ -184,6 +184,8 @@ type PlanParams struct {
 	Nickname *string `form:"nickname"`
 	// The product the plan belongs to. This cannot be changed once it has been used in a subscription or subscription schedule.
 	Product *PlanProductParams `form:"product"`
+	// The product the plan belongs to. This cannot be changed once it has been used in a subscription or subscription schedule.
+	ProductID *string `form:"product"`
 	// Each element represents a pricing tier. This parameter requires `billing_scheme` to be set to `tiered`. See also the documentation for `billing_scheme`.
 	Tiers []*PlanTierParams `form:"tiers"`
 	// Defines if the tiering price should be `graduated` or `volume` based. In `volume`-based tiering, the maximum quantity within a period determines the per unit price, in `graduated` tiering pricing can successively change as the quantity grows.
