@@ -172,6 +172,16 @@ const (
 	PaymentLinkSubscriptionDataInvoiceSettingsIssuerTypeSelf    PaymentLinkSubscriptionDataInvoiceSettingsIssuerType = "self"
 )
 
+// Indicates how the subscription should change when the trial ends if the user did not provide a payment method.
+type PaymentLinkSubscriptionDataTrialSettingsEndBehaviorMissingPaymentMethod string
+
+// List of values that PaymentLinkSubscriptionDataTrialSettingsEndBehaviorMissingPaymentMethod can take
+const (
+	PaymentLinkSubscriptionDataTrialSettingsEndBehaviorMissingPaymentMethodCancel        PaymentLinkSubscriptionDataTrialSettingsEndBehaviorMissingPaymentMethod = "cancel"
+	PaymentLinkSubscriptionDataTrialSettingsEndBehaviorMissingPaymentMethodCreateInvoice PaymentLinkSubscriptionDataTrialSettingsEndBehaviorMissingPaymentMethod = "create_invoice"
+	PaymentLinkSubscriptionDataTrialSettingsEndBehaviorMissingPaymentMethodPause         PaymentLinkSubscriptionDataTrialSettingsEndBehaviorMissingPaymentMethod = "pause"
+)
+
 // Returns a list of your payment links.
 type PaymentLinkListParams struct {
 	ListParams `form:"*"`
@@ -480,6 +490,18 @@ type PaymentLinkSubscriptionDataInvoiceSettingsParams struct {
 	Issuer *PaymentLinkSubscriptionDataInvoiceSettingsIssuerParams `form:"issuer"`
 }
 
+// Defines how the subscription should behave when the user's free trial ends.
+type PaymentLinkSubscriptionDataTrialSettingsEndBehaviorParams struct {
+	// Indicates how the subscription should change when the trial ends if the user did not provide a payment method.
+	MissingPaymentMethod *string `form:"missing_payment_method"`
+}
+
+// Settings related to subscription trials.
+type PaymentLinkSubscriptionDataTrialSettingsParams struct {
+	// Defines how the subscription should behave when the user's free trial ends.
+	EndBehavior *PaymentLinkSubscriptionDataTrialSettingsEndBehaviorParams `form:"end_behavior"`
+}
+
 // When creating a subscription, the specified configuration data will be used. There must be at least one line item with a recurring price to use `subscription_data`.
 type PaymentLinkSubscriptionDataParams struct {
 	// The subscription's description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription for rendering in Stripe surfaces and certain local payment methods UIs.
@@ -490,6 +512,8 @@ type PaymentLinkSubscriptionDataParams struct {
 	Metadata map[string]string `form:"metadata"`
 	// Integer representing the number of trial period days before the customer is charged for the first time. Has to be at least 1.
 	TrialPeriodDays *int64 `form:"trial_period_days"`
+	// Settings related to subscription trials.
+	TrialSettings *PaymentLinkSubscriptionDataTrialSettingsParams `form:"trial_settings"`
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
@@ -828,6 +852,18 @@ type PaymentLinkSubscriptionDataInvoiceSettings struct {
 	Issuer *PaymentLinkSubscriptionDataInvoiceSettingsIssuer `json:"issuer"`
 }
 
+// Defines how a subscription behaves when a free trial ends.
+type PaymentLinkSubscriptionDataTrialSettingsEndBehavior struct {
+	// Indicates how the subscription should change when the trial ends if the user did not provide a payment method.
+	MissingPaymentMethod PaymentLinkSubscriptionDataTrialSettingsEndBehaviorMissingPaymentMethod `json:"missing_payment_method"`
+}
+
+// Settings related to subscription trials.
+type PaymentLinkSubscriptionDataTrialSettings struct {
+	// Defines how a subscription behaves when a free trial ends.
+	EndBehavior *PaymentLinkSubscriptionDataTrialSettingsEndBehavior `json:"end_behavior"`
+}
+
 // When creating a subscription, the specified configuration data will be used. There must be at least one line item with a recurring price to use `subscription_data`.
 type PaymentLinkSubscriptionData struct {
 	// The subscription's description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription for rendering in Stripe surfaces and certain local payment methods UIs.
@@ -838,6 +874,8 @@ type PaymentLinkSubscriptionData struct {
 	Metadata map[string]string `json:"metadata"`
 	// Integer representing the number of trial period days before the customer is charged for the first time.
 	TrialPeriodDays int64 `json:"trial_period_days"`
+	// Settings related to subscription trials.
+	TrialSettings *PaymentLinkSubscriptionDataTrialSettings `json:"trial_settings"`
 }
 type PaymentLinkTaxIDCollection struct {
 	// Indicates whether tax ID collection is enabled for the session.
