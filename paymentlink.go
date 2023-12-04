@@ -441,6 +441,18 @@ type PaymentLinkPhoneNumberCollectionParams struct {
 	Enabled *bool `form:"enabled"`
 }
 
+// Configuration for the `completed_sessions` restriction type.
+type PaymentLinkRestrictionsCompletedSessionsParams struct {
+	// The maximum number of checkout sessions that can be completed for the `completed_sessions` restriction to be met.
+	Limit *int64 `form:"limit"`
+}
+
+// Settings that restrict the usage of a payment link.
+type PaymentLinkRestrictionsParams struct {
+	// Configuration for the `completed_sessions` restriction type.
+	CompletedSessions *PaymentLinkRestrictionsCompletedSessionsParams `form:"completed_sessions"`
+}
+
 // Configuration for collecting the customer's shipping address.
 type PaymentLinkShippingAddressCollectionParams struct {
 	// An array of two-letter ISO country codes representing which countries Checkout should provide as options for
@@ -535,6 +547,8 @@ type PaymentLinkParams struct {
 	CustomText *PaymentLinkCustomTextParams `form:"custom_text"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+	// The custom message to be displayed to a customer when a payment link is no longer active.
+	InactiveMessage *string `form:"inactive_message"`
 	// Generate a post-purchase Invoice for one-time payments.
 	InvoiceCreation *PaymentLinkInvoiceCreationParams `form:"invoice_creation"`
 	// The line items representing what is being sold. Each line item represents an item being sold. Up to 20 line items are supported.
@@ -557,6 +571,8 @@ type PaymentLinkParams struct {
 	//
 	// We recommend that you review your privacy policy and check with your legal contacts.
 	PhoneNumberCollection *PaymentLinkPhoneNumberCollectionParams `form:"phone_number_collection"`
+	// Settings that restrict the usage of a payment link.
+	Restrictions *PaymentLinkRestrictionsParams `form:"restrictions"`
 	// Configuration for collecting the customer's shipping address.
 	ShippingAddressCollection *PaymentLinkShippingAddressCollectionParams `form:"shipping_address_collection"`
 	// The shipping rate options to apply to [checkout sessions](https://stripe.com/docs/api/checkout/sessions) created by this payment link.
@@ -772,6 +788,17 @@ type PaymentLinkPhoneNumberCollection struct {
 	// If `true`, a phone number will be collected during checkout.
 	Enabled bool `json:"enabled"`
 }
+type PaymentLinkRestrictionsCompletedSessions struct {
+	// The current number of checkout sessions that have been completed on the payment link which count towards the `completed_sessions` restriction to be met.
+	Count int64 `json:"count"`
+	// The maximum number of checkout sessions that can be completed for the `completed_sessions` restriction to be met.
+	Limit int64 `json:"limit"`
+}
+
+// Settings that restrict the usage of a payment link.
+type PaymentLinkRestrictions struct {
+	CompletedSessions *PaymentLinkRestrictionsCompletedSessions `json:"completed_sessions"`
+}
 
 // Configuration for collecting the customer's shipping address.
 type PaymentLinkShippingAddressCollection struct {
@@ -857,6 +884,8 @@ type PaymentLink struct {
 	CustomText   *PaymentLinkCustomText    `json:"custom_text"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
+	// The custom message to be displayed to a customer when a payment link is no longer active.
+	InactiveMessage string `json:"inactive_message"`
 	// Configuration for creating invoice for payment mode payment links.
 	InvoiceCreation *PaymentLinkInvoiceCreation `json:"invoice_creation"`
 	// The line items representing what is being sold.
@@ -876,6 +905,8 @@ type PaymentLink struct {
 	// The list of payment method types that customers can use. When `null`, Stripe will dynamically show relevant payment methods you've enabled in your [payment method settings](https://dashboard.stripe.com/settings/payment_methods).
 	PaymentMethodTypes    []PaymentLinkPaymentMethodType    `json:"payment_method_types"`
 	PhoneNumberCollection *PaymentLinkPhoneNumberCollection `json:"phone_number_collection"`
+	// Settings that restrict the usage of a payment link.
+	Restrictions *PaymentLinkRestrictions `json:"restrictions"`
 	// Configuration for collecting the customer's shipping address.
 	ShippingAddressCollection *PaymentLinkShippingAddressCollection `json:"shipping_address_collection"`
 	// The shipping rate options applied to the session.
