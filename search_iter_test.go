@@ -169,13 +169,16 @@ func (c Client) Search(params *SearchParams) *TestSearchIter {
 	return &TestSearchIter{
 		SearchIter: GetSearchIter(params, func(p *Params, b *form.Values) ([]interface{}, SearchContainer, error) {
 			list := &TestSearchResult{}
-			err := c.B.Call(StripeRequest{
+			sr := StripeRequest{
 				Method: http.MethodGet,
 				Path:   "/v1/something/search",
 				Key:    c.Key,
-				Body:   b,
-				Params: p,
-			}, list)
+			}
+			err := sr.SetRawForm(p, b)
+			if err != nil {
+				return nil, list, err
+			}
+			err = c.B.Call(sr, list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {

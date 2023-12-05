@@ -123,14 +123,16 @@ func (c Client) List(listParams *stripe.CreditNoteListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.CreditNoteList{}
-			err := c.B.Call(stripe.StripeRequest{
+			sr := stripe.StripeRequest{
 				Method: http.MethodGet,
 				Path:   "/v1/credit_notes",
 				Key:    c.Key,
-				Params: p,
-				Body:   b,
-			},
-				list)
+			}
+			err := sr.SetRawForm(p, b)
+			if err != nil {
+				return nil, list, err
+			}
+			err = c.B.Call(sr, list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {
@@ -173,14 +175,16 @@ func (c Client) ListLines(listParams *stripe.CreditNoteListLinesParams) *LineIte
 	return &LineItemIter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.CreditNoteLineItemList{}
-			err := c.B.Call(stripe.StripeRequest{
+			sr := stripe.StripeRequest{
 				Method: http.MethodGet,
 				Path:   path,
 				Key:    c.Key,
-				Params: p,
-				Body:   b,
-			},
-				list)
+			}
+			err := sr.SetRawForm(p, b)
+			if err != nil {
+				return nil, list, err
+			}
+			err = c.B.Call(sr, list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {
@@ -202,14 +206,16 @@ func (c Client) PreviewLines(listParams *stripe.CreditNotePreviewLinesParams) *L
 	return &LineItemIter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.CreditNoteLineItemList{}
-			err := c.B.Call(stripe.StripeRequest{
+			sr := stripe.StripeRequest{
 				Method: http.MethodGet,
 				Path:   "/v1/credit_notes/preview/lines",
 				Key:    c.Key,
-				Params: p,
-				Body:   b,
-			},
-				list)
+			}
+			err := sr.SetRawForm(p, b)
+			if err != nil {
+				return nil, list, err
+			}
+			err = c.B.Call(sr, list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {

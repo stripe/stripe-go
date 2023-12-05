@@ -237,14 +237,16 @@ func (c Client) List(listParams *stripe.InvoiceListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.InvoiceList{}
-			err := c.B.Call(stripe.StripeRequest{
+			sr := stripe.StripeRequest{
 				Method: http.MethodGet,
 				Path:   "/v1/invoices",
 				Key:    c.Key,
-				Params: p,
-				Body:   b,
-			},
-				list)
+			}
+			err := sr.SetRawForm(p, b)
+			if err != nil {
+				return nil, list, err
+			}
+			err = c.B.Call(sr, list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {
@@ -287,14 +289,16 @@ func (c Client) ListLines(listParams *stripe.InvoiceListLinesParams) *LineItemIt
 	return &LineItemIter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.InvoiceLineItemList{}
-			err := c.B.Call(stripe.StripeRequest{
+			sr := stripe.StripeRequest{
 				Method: http.MethodGet,
 				Path:   path,
 				Key:    c.Key,
-				Params: p,
-				Body:   b,
-			},
-				list)
+			}
+			err := sr.SetRawForm(p, b)
+			if err != nil {
+				return nil, list, err
+			}
+			err = c.B.Call(sr, list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {
@@ -316,14 +320,16 @@ func (c Client) UpcomingLines(listParams *stripe.InvoiceUpcomingLinesParams) *Li
 	return &LineItemIter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.InvoiceLineItemList{}
-			err := c.B.Call(stripe.StripeRequest{
+			sr := stripe.StripeRequest{
 				Method: http.MethodGet,
 				Path:   "/v1/invoices/upcoming/lines",
 				Key:    c.Key,
-				Params: p,
-				Body:   b,
-			},
-				list)
+			}
+			err := sr.SetRawForm(p, b)
+			if err != nil {
+				return nil, list, err
+			}
+			err = c.B.Call(sr, list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {
@@ -362,14 +368,16 @@ func (c Client) Search(params *stripe.InvoiceSearchParams) *SearchIter {
 	return &SearchIter{
 		SearchIter: stripe.GetSearchIter(params, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.SearchContainer, error) {
 			list := &stripe.InvoiceSearchResult{}
-			err := c.B.Call(stripe.StripeRequest{
+			sr := stripe.StripeRequest{
 				Method: http.MethodGet,
 				Path:   "/v1/invoices/search",
 				Key:    c.Key,
-				Params: p,
-				Body:   b,
-			},
-				list)
+			}
+			err := sr.SetRawForm(p, b)
+			if err != nil {
+				return nil, list, err
+			}
+			err = c.B.Call(sr, list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {

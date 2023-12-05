@@ -105,14 +105,16 @@ func (c Client) List(listParams *stripe.PaymentMethodDomainListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.PaymentMethodDomainList{}
-			err := c.B.Call(stripe.StripeRequest{
+			sr := stripe.StripeRequest{
 				Method: http.MethodGet,
 				Path:   "/v1/payment_method_domains",
 				Key:    c.Key,
-				Params: p,
-				Body:   b,
-			},
-				list)
+			}
+			err := sr.SetRawForm(p, b)
+			if err != nil {
+				return nil, list, err
+			}
+			err = c.B.Call(sr, list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {

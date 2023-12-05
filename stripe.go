@@ -196,13 +196,11 @@ type StripeRequest struct {
 	Path   string
 	Key    string
 
-	IsMultipart bool
-
-	Params *Params
-	Body   *form.Values
-
-	Boundary      string
-	StreamingBody *bytes.Buffer
+	isMultipart   bool
+	params        *Params
+	body          *form.Values
+	boundary      string
+	multipartBody *bytes.Buffer
 }
 
 func (sr *StripeRequest) SetParams(p ParamsContainer) error {
@@ -210,8 +208,22 @@ func (sr *StripeRequest) SetParams(p ParamsContainer) error {
 	if err != nil {
 		return err
 	}
-	sr.Params = commonParams
-	sr.Body = body
+	sr.params = commonParams
+	sr.body = body
+	return nil
+}
+
+func (sr *StripeRequest) SetRawForm(params *Params, body *form.Values) error {
+	sr.params = params
+	sr.body = body
+	return nil
+}
+
+func (sr *StripeRequest) SetMultipart(params *Params, boundary string, body *bytes.Buffer) error {
+	sr.params = params
+	sr.isMultipart = true
+	sr.boundary = boundary
+	sr.multipartBody = body
 	return nil
 }
 
@@ -339,16 +351,16 @@ func extractParams(params ParamsContainer) (*form.Values, *Params, error) {
 
 // Call is the Backend.Call implementation for invoking Stripe APIs.
 func (s *BackendImplementation) Call(sr StripeRequest, v LastResponseSetter) error {
-	form := sr.Body
+	form := sr.body
 	method := sr.Method
 	path := sr.Path
 	key := sr.Key
-	params := sr.Params
+	params := sr.params
 	var bodyBuffer *bytes.Buffer
 	var contentType string
-	if sr.IsMultipart {
-		contentType = "multipart/form-data; boundary=" + sr.Boundary
-		bodyBuffer = sr.StreamingBody
+	if sr.isMultipart {
+		contentType = "multipart/form-data; boundary=" + sr.boundary
+		bodyBuffer = sr.multipartBody
 	} else {
 		contentType = "application/x-www-form-urlencoded"
 		var body string
@@ -379,8 +391,8 @@ func (s *BackendImplementation) Call(sr StripeRequest, v LastResponseSetter) err
 // CallStreaming is the Backend.Call implementation for invoking Stripe APIs
 // without buffering the response into memory.
 func (s *BackendImplementation) CallStreaming(sr StripeRequest, v StreamingLastResponseSetter) error {
-	formValues := sr.Body
-	commonParams := sr.Params
+	formValues := sr.body
+	commonParams := sr.params
 	method := sr.Method
 	path := sr.Path
 
@@ -397,8 +409,8 @@ func (s *BackendImplementation) CallStreaming(sr StripeRequest, v StreamingLastR
 	bodyBuffer := bytes.NewBufferString(body)
 
 	contentType := "application/x-www-form-urlencoded"
-	if sr.IsMultipart {
-		contentType = "multipart/form-data; boundary=" + sr.Boundary
+	if sr.isMultipart {
+		contentType = "multipart/form-data; boundary=" + sr.boundary
 	}
 
 	req, err := s.NewRequest(method, path, sr.Key, contentType, commonParams)

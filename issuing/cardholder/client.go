@@ -87,14 +87,16 @@ func (c Client) List(listParams *stripe.IssuingCardholderListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.IssuingCardholderList{}
-			err := c.B.Call(stripe.StripeRequest{
+			sr := stripe.StripeRequest{
 				Method: http.MethodGet,
 				Path:   "/v1/issuing/cardholders",
 				Key:    c.Key,
-				Params: p,
-				Body:   b,
-			},
-				list)
+			}
+			err := sr.SetRawForm(p, b)
+			if err != nil {
+				return nil, list, err
+			}
+			err = c.B.Call(sr, list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {

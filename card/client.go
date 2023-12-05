@@ -52,13 +52,16 @@ func (c Client) New(params *stripe.CardParams) (*stripe.Card, error) {
 	// make an explicit call using a form and CallRaw instead of the standard
 	// Call (which takes a set of parameters).
 	card := &stripe.Card{}
-	err := c.B.Call(stripe.StripeRequest{
+	sr := stripe.StripeRequest{
 		Method: http.MethodPost,
 		Path:   path,
 		Key:    c.Key,
-		Body:   body,
-		Params: &params.Params,
-	}, card)
+	}
+	err := sr.SetRawForm(&params.Params, body)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, card)
 
 	return card, err
 }
@@ -198,14 +201,16 @@ func (c Client) List(listParams *stripe.CardListParams) *Iter {
 				return nil, list, outerErr
 			}
 
-			err := c.B.Call(stripe.StripeRequest{
+			sr := stripe.StripeRequest{
 				Method: http.MethodGet,
 				Path:   path,
 				Key:    c.Key,
-				Params: p,
-				Body:   b,
-			},
-				list)
+			}
+			err := sr.SetRawForm(p, b)
+			if err != nil {
+				return nil, list, err
+			}
+			err = c.B.Call(sr, list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {
