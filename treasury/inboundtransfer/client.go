@@ -28,13 +28,13 @@ func New(params *stripe.TreasuryInboundTransferParams) (*stripe.TreasuryInboundT
 // New creates a new treasury inbound transfer.
 func (c Client) New(params *stripe.TreasuryInboundTransferParams) (*stripe.TreasuryInboundTransfer, error) {
 	inboundtransfer := &stripe.TreasuryInboundTransfer{}
-	err := c.B.Call(
-		http.MethodPost,
-		"/v1/treasury/inbound_transfers",
-		c.Key,
-		params,
-		inboundtransfer,
-	)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: "/v1/treasury/inbound_transfers", Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, inboundtransfer)
 	return inboundtransfer, err
 }
 
@@ -47,7 +47,13 @@ func Get(id string, params *stripe.TreasuryInboundTransferParams) (*stripe.Treas
 func (c Client) Get(id string, params *stripe.TreasuryInboundTransferParams) (*stripe.TreasuryInboundTransfer, error) {
 	path := stripe.FormatURLPath("/v1/treasury/inbound_transfers/%s", id)
 	inboundtransfer := &stripe.TreasuryInboundTransfer{}
-	err := c.B.Call(http.MethodGet, path, c.Key, params, inboundtransfer)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodGet, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, inboundtransfer)
 	return inboundtransfer, err
 }
 
@@ -60,7 +66,13 @@ func Cancel(id string, params *stripe.TreasuryInboundTransferCancelParams) (*str
 func (c Client) Cancel(id string, params *stripe.TreasuryInboundTransferCancelParams) (*stripe.TreasuryInboundTransfer, error) {
 	path := stripe.FormatURLPath("/v1/treasury/inbound_transfers/%s/cancel", id)
 	inboundtransfer := &stripe.TreasuryInboundTransfer{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, inboundtransfer)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, inboundtransfer)
 	return inboundtransfer, err
 }
 
@@ -74,7 +86,14 @@ func (c Client) List(listParams *stripe.TreasuryInboundTransferListParams) *Iter
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.TreasuryInboundTransferList{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/treasury/inbound_transfers", c.Key, b, p, list)
+			err := c.B.Call(stripe.StripeRequest{
+				Method: http.MethodGet,
+				Path:   "/v1/treasury/inbound_transfers",
+				Key:    c.Key,
+				Params: p,
+				Body:   b,
+			},
+				list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {

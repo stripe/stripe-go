@@ -28,13 +28,13 @@ func New(params *stripe.InvoiceItemParams) (*stripe.InvoiceItem, error) {
 // New creates a new invoice item.
 func (c Client) New(params *stripe.InvoiceItemParams) (*stripe.InvoiceItem, error) {
 	invoiceitem := &stripe.InvoiceItem{}
-	err := c.B.Call(
-		http.MethodPost,
-		"/v1/invoiceitems",
-		c.Key,
-		params,
-		invoiceitem,
-	)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: "/v1/invoiceitems", Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, invoiceitem)
 	return invoiceitem, err
 }
 
@@ -47,7 +47,13 @@ func Get(id string, params *stripe.InvoiceItemParams) (*stripe.InvoiceItem, erro
 func (c Client) Get(id string, params *stripe.InvoiceItemParams) (*stripe.InvoiceItem, error) {
 	path := stripe.FormatURLPath("/v1/invoiceitems/%s", id)
 	invoiceitem := &stripe.InvoiceItem{}
-	err := c.B.Call(http.MethodGet, path, c.Key, params, invoiceitem)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodGet, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, invoiceitem)
 	return invoiceitem, err
 }
 
@@ -60,7 +66,13 @@ func Update(id string, params *stripe.InvoiceItemParams) (*stripe.InvoiceItem, e
 func (c Client) Update(id string, params *stripe.InvoiceItemParams) (*stripe.InvoiceItem, error) {
 	path := stripe.FormatURLPath("/v1/invoiceitems/%s", id)
 	invoiceitem := &stripe.InvoiceItem{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, invoiceitem)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, invoiceitem)
 	return invoiceitem, err
 }
 
@@ -73,7 +85,13 @@ func Del(id string, params *stripe.InvoiceItemParams) (*stripe.InvoiceItem, erro
 func (c Client) Del(id string, params *stripe.InvoiceItemParams) (*stripe.InvoiceItem, error) {
 	path := stripe.FormatURLPath("/v1/invoiceitems/%s", id)
 	invoiceitem := &stripe.InvoiceItem{}
-	err := c.B.Call(http.MethodDelete, path, c.Key, params, invoiceitem)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodDelete, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, invoiceitem)
 	return invoiceitem, err
 }
 
@@ -87,7 +105,14 @@ func (c Client) List(listParams *stripe.InvoiceItemListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.InvoiceItemList{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/invoiceitems", c.Key, b, p, list)
+			err := c.B.Call(stripe.StripeRequest{
+				Method: http.MethodGet,
+				Path:   "/v1/invoiceitems",
+				Key:    c.Key,
+				Params: p,
+				Body:   b,
+			},
+				list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {

@@ -28,13 +28,13 @@ func New(params *stripe.ShippingRateParams) (*stripe.ShippingRate, error) {
 // New creates a new shipping rate.
 func (c Client) New(params *stripe.ShippingRateParams) (*stripe.ShippingRate, error) {
 	shippingrate := &stripe.ShippingRate{}
-	err := c.B.Call(
-		http.MethodPost,
-		"/v1/shipping_rates",
-		c.Key,
-		params,
-		shippingrate,
-	)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: "/v1/shipping_rates", Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, shippingrate)
 	return shippingrate, err
 }
 
@@ -47,7 +47,13 @@ func Get(id string, params *stripe.ShippingRateParams) (*stripe.ShippingRate, er
 func (c Client) Get(id string, params *stripe.ShippingRateParams) (*stripe.ShippingRate, error) {
 	path := stripe.FormatURLPath("/v1/shipping_rates/%s", id)
 	shippingrate := &stripe.ShippingRate{}
-	err := c.B.Call(http.MethodGet, path, c.Key, params, shippingrate)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodGet, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, shippingrate)
 	return shippingrate, err
 }
 
@@ -60,7 +66,13 @@ func Update(id string, params *stripe.ShippingRateParams) (*stripe.ShippingRate,
 func (c Client) Update(id string, params *stripe.ShippingRateParams) (*stripe.ShippingRate, error) {
 	path := stripe.FormatURLPath("/v1/shipping_rates/%s", id)
 	shippingrate := &stripe.ShippingRate{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, shippingrate)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, shippingrate)
 	return shippingrate, err
 }
 
@@ -74,7 +86,14 @@ func (c Client) List(listParams *stripe.ShippingRateListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.ShippingRateList{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/shipping_rates", c.Key, b, p, list)
+			err := c.B.Call(stripe.StripeRequest{
+				Method: http.MethodGet,
+				Path:   "/v1/shipping_rates",
+				Key:    c.Key,
+				Params: p,
+				Body:   b,
+			},
+				list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {

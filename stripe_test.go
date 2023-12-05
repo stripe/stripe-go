@@ -751,10 +751,11 @@ func TestDoStreaming(t *testing.T) {
 
 	response := streamingResource{}
 	err := backend.CallStreaming(
-		http.MethodGet,
-		"/pdf",
-		"sk_test_123",
-		nil,
+		StripeRequest{
+			Method: http.MethodGet,
+			Path:   "/pdf",
+			Key:    "sk_test_123",
+		},
 		&response,
 	)
 	assert.NoError(t, err)
@@ -800,10 +801,11 @@ func TestDoStreaming_ParsableError(t *testing.T) {
 
 	response := streamingResource{}
 	err := backend.CallStreaming(
-		http.MethodGet,
-		"/pdf",
-		"sk_test_123",
-		nil,
+		StripeRequest{
+			Method: http.MethodGet,
+			Path:   "/pdf",
+			Key:    "sk_test_123",
+		},
 		&response,
 	)
 	assert.NotNil(t, err)
@@ -843,10 +845,11 @@ func TestDoStreaming_UnparsableError(t *testing.T) {
 
 	response := streamingResource{}
 	err := backend.CallStreaming(
-		http.MethodGet,
-		"/pdf",
-		"sk_test_123",
-		nil,
+		StripeRequest{
+			Method: http.MethodGet,
+			Path:   "/pdf",
+			Key:    "sk_test_123",
+		},
 		&response,
 	)
 	assert.NotNil(t, err)
@@ -1002,19 +1005,32 @@ func TestErrorOnDuplicateMetadata(t *testing.T) {
 
 	metadata := map[string]string{"foo": "bar"}
 	resource := APIResource{}
-	err := c.Call("POST", "/v1/customers", "sk_test_xyz", &myParams{}, &resource)
+	doIt := func(method, path, key string, params *myParams) error {
+		sr := StripeRequest{
+			Method: method,
+			Path:   path,
+			Key:    key,
+		}
+
+		err := sr.SetParams(params)
+		if err != nil {
+			return err
+		}
+		return c.Call(sr, &resource)
+	}
+	err := doIt("POST", "/v1/customers", "sk_test_xyz", &myParams{})
 	assert.NoError(t, err)
 
 	err =
-		c.Call("POST", "/v1/customers", "sk_test_xyz", &myParams{Metadata: metadata}, &resource)
+		doIt("POST", "/v1/customers", "sk_test_xyz", &myParams{Metadata: metadata})
 	assert.NoError(t, err)
 
 	err =
-		c.Call("POST", "/v1/customers", "sk_test_xyz", &myParams{Params: Params{Metadata: metadata}}, &resource)
+		doIt("POST", "/v1/customers", "sk_test_xyz", &myParams{Params: Params{Metadata: metadata}})
 	assert.NoError(t, err)
 
 	err =
-		c.Call("POST", "/v1/customers", "sk_test_xyz", &myParams{Metadata: metadata, Params: Params{Metadata: metadata}}, &resource)
+		doIt("POST", "/v1/customers", "sk_test_xyz", &myParams{Metadata: metadata, Params: Params{Metadata: metadata}})
 	assert.Errorf(t, err, "You cannot specify both the (deprecated) .Params.Metadata and .Metadata in myParams")
 }
 
@@ -1027,22 +1043,34 @@ func TestErrorOnDuplicateExpand(t *testing.T) {
 
 	expand := []*string{String("foo"), String("bar")}
 	resource := APIResource{}
-	err := c.Call("POST", "/v1/customers", "sk_test_xyz", &myParams{}, &resource)
+	doIt := func(method, path, key string, params *myParams) error {
+		sr := StripeRequest{
+			Method: method,
+			Path:   path,
+			Key:    key,
+		}
+		err := sr.SetParams(params)
+		if err != nil {
+			return err
+		}
+		return c.Call(sr, &resource)
+	}
+	err := doIt("POST", "/v1/customers", "sk_test_xyz", &myParams{})
 	assert.NoError(t, err)
 
 	err =
-		c.Call("POST", "/v1/customers", "sk_test_xyz", &myParams{Expand: expand}, &resource)
+		doIt("POST", "/v1/customers", "sk_test_xyz", &myParams{Expand: expand})
 	assert.NoError(t, err)
 
 	err =
-		c.Call("POST", "/v1/customers", "sk_test_xyz", &myParams{
+		doIt("POST", "/v1/customers", "sk_test_xyz", &myParams{
 			Params: Params{Expand: expand},
-		}, &resource)
+		})
 	assert.NoError(t, err)
 
 	err =
-		c.Call("POST", "/v1/customers", "sk_test_xyz", &myParams{
-			Expand: expand, Params: Params{Expand: expand}}, &resource)
+		doIt("POST", "/v1/customers", "sk_test_xyz", &myParams{
+			Expand: expand, Params: Params{Expand: expand}})
 
 	assert.Errorf(t, err, "You cannot specify both the (deprecated) .Params.Expand and .Expand in myParams")
 }

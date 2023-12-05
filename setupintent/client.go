@@ -28,13 +28,13 @@ func New(params *stripe.SetupIntentParams) (*stripe.SetupIntent, error) {
 // New creates a new setup intent.
 func (c Client) New(params *stripe.SetupIntentParams) (*stripe.SetupIntent, error) {
 	setupintent := &stripe.SetupIntent{}
-	err := c.B.Call(
-		http.MethodPost,
-		"/v1/setup_intents",
-		c.Key,
-		params,
-		setupintent,
-	)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: "/v1/setup_intents", Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, setupintent)
 	return setupintent, err
 }
 
@@ -47,7 +47,13 @@ func Get(id string, params *stripe.SetupIntentParams) (*stripe.SetupIntent, erro
 func (c Client) Get(id string, params *stripe.SetupIntentParams) (*stripe.SetupIntent, error) {
 	path := stripe.FormatURLPath("/v1/setup_intents/%s", id)
 	setupintent := &stripe.SetupIntent{}
-	err := c.B.Call(http.MethodGet, path, c.Key, params, setupintent)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodGet, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, setupintent)
 	return setupintent, err
 }
 
@@ -60,7 +66,13 @@ func Update(id string, params *stripe.SetupIntentParams) (*stripe.SetupIntent, e
 func (c Client) Update(id string, params *stripe.SetupIntentParams) (*stripe.SetupIntent, error) {
 	path := stripe.FormatURLPath("/v1/setup_intents/%s", id)
 	setupintent := &stripe.SetupIntent{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, setupintent)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, setupintent)
 	return setupintent, err
 }
 
@@ -73,7 +85,13 @@ func Cancel(id string, params *stripe.SetupIntentCancelParams) (*stripe.SetupInt
 func (c Client) Cancel(id string, params *stripe.SetupIntentCancelParams) (*stripe.SetupIntent, error) {
 	path := stripe.FormatURLPath("/v1/setup_intents/%s/cancel", id)
 	setupintent := &stripe.SetupIntent{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, setupintent)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, setupintent)
 	return setupintent, err
 }
 
@@ -86,7 +104,13 @@ func Confirm(id string, params *stripe.SetupIntentConfirmParams) (*stripe.SetupI
 func (c Client) Confirm(id string, params *stripe.SetupIntentConfirmParams) (*stripe.SetupIntent, error) {
 	path := stripe.FormatURLPath("/v1/setup_intents/%s/confirm", id)
 	setupintent := &stripe.SetupIntent{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, setupintent)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, setupintent)
 	return setupintent, err
 }
 
@@ -99,7 +123,13 @@ func VerifyMicrodeposits(id string, params *stripe.SetupIntentVerifyMicrodeposit
 func (c Client) VerifyMicrodeposits(id string, params *stripe.SetupIntentVerifyMicrodepositsParams) (*stripe.SetupIntent, error) {
 	path := stripe.FormatURLPath("/v1/setup_intents/%s/verify_microdeposits", id)
 	setupintent := &stripe.SetupIntent{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, setupintent)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, setupintent)
 	return setupintent, err
 }
 
@@ -113,7 +143,14 @@ func (c Client) List(listParams *stripe.SetupIntentListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.SetupIntentList{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/setup_intents", c.Key, b, p, list)
+			err := c.B.Call(stripe.StripeRequest{
+				Method: http.MethodGet,
+				Path:   "/v1/setup_intents",
+				Key:    c.Key,
+				Params: p,
+				Body:   b,
+			},
+				list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {

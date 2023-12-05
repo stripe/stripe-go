@@ -28,13 +28,13 @@ func New(params *stripe.BillingPortalConfigurationParams) (*stripe.BillingPortal
 // New creates a new billing portal configuration.
 func (c Client) New(params *stripe.BillingPortalConfigurationParams) (*stripe.BillingPortalConfiguration, error) {
 	configuration := &stripe.BillingPortalConfiguration{}
-	err := c.B.Call(
-		http.MethodPost,
-		"/v1/billing_portal/configurations",
-		c.Key,
-		params,
-		configuration,
-	)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: "/v1/billing_portal/configurations", Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, configuration)
 	return configuration, err
 }
 
@@ -47,7 +47,13 @@ func Get(id string, params *stripe.BillingPortalConfigurationParams) (*stripe.Bi
 func (c Client) Get(id string, params *stripe.BillingPortalConfigurationParams) (*stripe.BillingPortalConfiguration, error) {
 	path := stripe.FormatURLPath("/v1/billing_portal/configurations/%s", id)
 	configuration := &stripe.BillingPortalConfiguration{}
-	err := c.B.Call(http.MethodGet, path, c.Key, params, configuration)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodGet, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, configuration)
 	return configuration, err
 }
 
@@ -60,7 +66,13 @@ func Update(id string, params *stripe.BillingPortalConfigurationParams) (*stripe
 func (c Client) Update(id string, params *stripe.BillingPortalConfigurationParams) (*stripe.BillingPortalConfiguration, error) {
 	path := stripe.FormatURLPath("/v1/billing_portal/configurations/%s", id)
 	configuration := &stripe.BillingPortalConfiguration{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, configuration)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, configuration)
 	return configuration, err
 }
 
@@ -74,7 +86,14 @@ func (c Client) List(listParams *stripe.BillingPortalConfigurationListParams) *I
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.BillingPortalConfigurationList{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/billing_portal/configurations", c.Key, b, p, list)
+			err := c.B.Call(stripe.StripeRequest{
+				Method: http.MethodGet,
+				Path:   "/v1/billing_portal/configurations",
+				Key:    c.Key,
+				Params: p,
+				Body:   b,
+			},
+				list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {

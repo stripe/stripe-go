@@ -28,13 +28,13 @@ func New(params *stripe.TerminalReaderParams) (*stripe.TerminalReader, error) {
 // New creates a new terminal reader.
 func (c Client) New(params *stripe.TerminalReaderParams) (*stripe.TerminalReader, error) {
 	reader := &stripe.TerminalReader{}
-	err := c.B.Call(
-		http.MethodPost,
-		"/v1/terminal/readers",
-		c.Key,
-		params,
-		reader,
-	)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: "/v1/terminal/readers", Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, reader)
 	return reader, err
 }
 
@@ -47,7 +47,13 @@ func Get(id string, params *stripe.TerminalReaderParams) (*stripe.TerminalReader
 func (c Client) Get(id string, params *stripe.TerminalReaderParams) (*stripe.TerminalReader, error) {
 	path := stripe.FormatURLPath("/v1/terminal/readers/%s", id)
 	reader := &stripe.TerminalReader{}
-	err := c.B.Call(http.MethodGet, path, c.Key, params, reader)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodGet, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, reader)
 	return reader, err
 }
 
@@ -60,7 +66,13 @@ func Update(id string, params *stripe.TerminalReaderParams) (*stripe.TerminalRea
 func (c Client) Update(id string, params *stripe.TerminalReaderParams) (*stripe.TerminalReader, error) {
 	path := stripe.FormatURLPath("/v1/terminal/readers/%s", id)
 	reader := &stripe.TerminalReader{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, reader)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, reader)
 	return reader, err
 }
 
@@ -73,7 +85,13 @@ func Del(id string, params *stripe.TerminalReaderParams) (*stripe.TerminalReader
 func (c Client) Del(id string, params *stripe.TerminalReaderParams) (*stripe.TerminalReader, error) {
 	path := stripe.FormatURLPath("/v1/terminal/readers/%s", id)
 	reader := &stripe.TerminalReader{}
-	err := c.B.Call(http.MethodDelete, path, c.Key, params, reader)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodDelete, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, reader)
 	return reader, err
 }
 
@@ -86,7 +104,13 @@ func CancelAction(id string, params *stripe.TerminalReaderCancelActionParams) (*
 func (c Client) CancelAction(id string, params *stripe.TerminalReaderCancelActionParams) (*stripe.TerminalReader, error) {
 	path := stripe.FormatURLPath("/v1/terminal/readers/%s/cancel_action", id)
 	reader := &stripe.TerminalReader{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, reader)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, reader)
 	return reader, err
 }
 
@@ -99,7 +123,13 @@ func CollectInputs(id string, params *stripe.TerminalReaderCollectInputsParams) 
 func (c Client) CollectInputs(id string, params *stripe.TerminalReaderCollectInputsParams) (*stripe.TerminalReader, error) {
 	path := stripe.FormatURLPath("/v1/terminal/readers/%s/collect_inputs", id)
 	reader := &stripe.TerminalReader{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, reader)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, reader)
 	return reader, err
 }
 
@@ -115,7 +145,13 @@ func (c Client) CollectPaymentMethod(id string, params *stripe.TerminalReaderCol
 		id,
 	)
 	reader := &stripe.TerminalReader{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, reader)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, reader)
 	return reader, err
 }
 
@@ -131,7 +167,13 @@ func (c Client) ConfirmPaymentIntent(id string, params *stripe.TerminalReaderCon
 		id,
 	)
 	reader := &stripe.TerminalReader{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, reader)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, reader)
 	return reader, err
 }
 
@@ -147,7 +189,13 @@ func (c Client) ProcessPaymentIntent(id string, params *stripe.TerminalReaderPro
 		id,
 	)
 	reader := &stripe.TerminalReader{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, reader)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, reader)
 	return reader, err
 }
 
@@ -163,7 +211,13 @@ func (c Client) ProcessSetupIntent(id string, params *stripe.TerminalReaderProce
 		id,
 	)
 	reader := &stripe.TerminalReader{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, reader)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, reader)
 	return reader, err
 }
 
@@ -176,7 +230,13 @@ func RefundPayment(id string, params *stripe.TerminalReaderRefundPaymentParams) 
 func (c Client) RefundPayment(id string, params *stripe.TerminalReaderRefundPaymentParams) (*stripe.TerminalReader, error) {
 	path := stripe.FormatURLPath("/v1/terminal/readers/%s/refund_payment", id)
 	reader := &stripe.TerminalReader{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, reader)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, reader)
 	return reader, err
 }
 
@@ -189,7 +249,13 @@ func SetReaderDisplay(id string, params *stripe.TerminalReaderSetReaderDisplayPa
 func (c Client) SetReaderDisplay(id string, params *stripe.TerminalReaderSetReaderDisplayParams) (*stripe.TerminalReader, error) {
 	path := stripe.FormatURLPath("/v1/terminal/readers/%s/set_reader_display", id)
 	reader := &stripe.TerminalReader{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, reader)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, reader)
 	return reader, err
 }
 
@@ -203,7 +269,14 @@ func (c Client) List(listParams *stripe.TerminalReaderListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.TerminalReaderList{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/terminal/readers", c.Key, b, p, list)
+			err := c.B.Call(stripe.StripeRequest{
+				Method: http.MethodGet,
+				Path:   "/v1/terminal/readers",
+				Key:    c.Key,
+				Params: p,
+				Body:   b,
+			},
+				list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {

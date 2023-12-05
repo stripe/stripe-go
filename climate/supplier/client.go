@@ -29,7 +29,13 @@ func Get(id string, params *stripe.ClimateSupplierParams) (*stripe.ClimateSuppli
 func (c Client) Get(id string, params *stripe.ClimateSupplierParams) (*stripe.ClimateSupplier, error) {
 	path := stripe.FormatURLPath("/v1/climate/suppliers/%s", id)
 	supplier := &stripe.ClimateSupplier{}
-	err := c.B.Call(http.MethodGet, path, c.Key, params, supplier)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodGet, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, supplier)
 	return supplier, err
 }
 
@@ -43,7 +49,14 @@ func (c Client) List(listParams *stripe.ClimateSupplierListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.ClimateSupplierList{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/climate/suppliers", c.Key, b, p, list)
+			err := c.B.Call(stripe.StripeRequest{
+				Method: http.MethodGet,
+				Path:   "/v1/climate/suppliers",
+				Key:    c.Key,
+				Params: p,
+				Body:   b,
+			},
+				list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {

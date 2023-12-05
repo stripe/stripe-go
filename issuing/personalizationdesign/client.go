@@ -28,13 +28,13 @@ func New(params *stripe.IssuingPersonalizationDesignParams) (*stripe.IssuingPers
 // New creates a new issuing personalization design.
 func (c Client) New(params *stripe.IssuingPersonalizationDesignParams) (*stripe.IssuingPersonalizationDesign, error) {
 	personalizationdesign := &stripe.IssuingPersonalizationDesign{}
-	err := c.B.Call(
-		http.MethodPost,
-		"/v1/issuing/personalization_designs",
-		c.Key,
-		params,
-		personalizationdesign,
-	)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: "/v1/issuing/personalization_designs", Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, personalizationdesign)
 	return personalizationdesign, err
 }
 
@@ -47,7 +47,13 @@ func Get(id string, params *stripe.IssuingPersonalizationDesignParams) (*stripe.
 func (c Client) Get(id string, params *stripe.IssuingPersonalizationDesignParams) (*stripe.IssuingPersonalizationDesign, error) {
 	path := stripe.FormatURLPath("/v1/issuing/personalization_designs/%s", id)
 	personalizationdesign := &stripe.IssuingPersonalizationDesign{}
-	err := c.B.Call(http.MethodGet, path, c.Key, params, personalizationdesign)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodGet, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, personalizationdesign)
 	return personalizationdesign, err
 }
 
@@ -60,7 +66,13 @@ func Update(id string, params *stripe.IssuingPersonalizationDesignParams) (*stri
 func (c Client) Update(id string, params *stripe.IssuingPersonalizationDesignParams) (*stripe.IssuingPersonalizationDesign, error) {
 	path := stripe.FormatURLPath("/v1/issuing/personalization_designs/%s", id)
 	personalizationdesign := &stripe.IssuingPersonalizationDesign{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, personalizationdesign)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, personalizationdesign)
 	return personalizationdesign, err
 }
 
@@ -74,7 +86,14 @@ func (c Client) List(listParams *stripe.IssuingPersonalizationDesignListParams) 
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.IssuingPersonalizationDesignList{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/issuing/personalization_designs", c.Key, b, p, list)
+			err := c.B.Call(stripe.StripeRequest{
+				Method: http.MethodGet,
+				Path:   "/v1/issuing/personalization_designs",
+				Key:    c.Key,
+				Params: p,
+				Body:   b,
+			},
+				list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {

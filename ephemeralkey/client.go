@@ -37,13 +37,13 @@ func (c Client) New(params *stripe.EphemeralKeyParams) (*stripe.EphemeralKey, er
 	params.Headers.Add("Stripe-Version", stripe.StringValue(params.StripeVersion))
 
 	ephemeralkey := &stripe.EphemeralKey{}
-	err := c.B.Call(
-		http.MethodPost,
-		"/v1/ephemeral_keys",
-		c.Key,
-		params,
-		ephemeralkey,
-	)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: "/v1/ephemeral_keys", Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, ephemeralkey)
 	return ephemeralkey, err
 }
 
@@ -56,7 +56,13 @@ func Del(id string, params *stripe.EphemeralKeyParams) (*stripe.EphemeralKey, er
 func (c Client) Del(id string, params *stripe.EphemeralKeyParams) (*stripe.EphemeralKey, error) {
 	path := stripe.FormatURLPath("/v1/ephemeral_keys/%s", id)
 	ephemeralkey := &stripe.EphemeralKey{}
-	err := c.B.Call(http.MethodDelete, path, c.Key, params, ephemeralkey)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodDelete, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, ephemeralkey)
 	return ephemeralkey, err
 }
 

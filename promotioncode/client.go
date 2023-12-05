@@ -28,13 +28,13 @@ func New(params *stripe.PromotionCodeParams) (*stripe.PromotionCode, error) {
 // New creates a new promotion code.
 func (c Client) New(params *stripe.PromotionCodeParams) (*stripe.PromotionCode, error) {
 	promotioncode := &stripe.PromotionCode{}
-	err := c.B.Call(
-		http.MethodPost,
-		"/v1/promotion_codes",
-		c.Key,
-		params,
-		promotioncode,
-	)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: "/v1/promotion_codes", Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, promotioncode)
 	return promotioncode, err
 }
 
@@ -47,7 +47,13 @@ func Get(id string, params *stripe.PromotionCodeParams) (*stripe.PromotionCode, 
 func (c Client) Get(id string, params *stripe.PromotionCodeParams) (*stripe.PromotionCode, error) {
 	path := stripe.FormatURLPath("/v1/promotion_codes/%s", id)
 	promotioncode := &stripe.PromotionCode{}
-	err := c.B.Call(http.MethodGet, path, c.Key, params, promotioncode)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodGet, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, promotioncode)
 	return promotioncode, err
 }
 
@@ -60,7 +66,13 @@ func Update(id string, params *stripe.PromotionCodeParams) (*stripe.PromotionCod
 func (c Client) Update(id string, params *stripe.PromotionCodeParams) (*stripe.PromotionCode, error) {
 	path := stripe.FormatURLPath("/v1/promotion_codes/%s", id)
 	promotioncode := &stripe.PromotionCode{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, promotioncode)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, promotioncode)
 	return promotioncode, err
 }
 
@@ -74,7 +86,14 @@ func (c Client) List(listParams *stripe.PromotionCodeListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.PromotionCodeList{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/promotion_codes", c.Key, b, p, list)
+			err := c.B.Call(stripe.StripeRequest{
+				Method: http.MethodGet,
+				Path:   "/v1/promotion_codes",
+				Key:    c.Key,
+				Params: p,
+				Body:   b,
+			},
+				list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {

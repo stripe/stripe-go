@@ -29,7 +29,13 @@ func New(params *stripe.QuoteParams) (*stripe.Quote, error) {
 // New creates a new quote.
 func (c Client) New(params *stripe.QuoteParams) (*stripe.Quote, error) {
 	quote := &stripe.Quote{}
-	err := c.B.Call(http.MethodPost, "/v1/quotes", c.Key, params, quote)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: "/v1/quotes", Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, quote)
 	return quote, err
 }
 
@@ -42,7 +48,13 @@ func Get(id string, params *stripe.QuoteParams) (*stripe.Quote, error) {
 func (c Client) Get(id string, params *stripe.QuoteParams) (*stripe.Quote, error) {
 	path := stripe.FormatURLPath("/v1/quotes/%s", id)
 	quote := &stripe.Quote{}
-	err := c.B.Call(http.MethodGet, path, c.Key, params, quote)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodGet, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, quote)
 	return quote, err
 }
 
@@ -55,7 +67,13 @@ func Update(id string, params *stripe.QuoteParams) (*stripe.Quote, error) {
 func (c Client) Update(id string, params *stripe.QuoteParams) (*stripe.Quote, error) {
 	path := stripe.FormatURLPath("/v1/quotes/%s", id)
 	quote := &stripe.Quote{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, quote)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, quote)
 	return quote, err
 }
 
@@ -68,7 +86,13 @@ func Accept(id string, params *stripe.QuoteAcceptParams) (*stripe.Quote, error) 
 func (c Client) Accept(id string, params *stripe.QuoteAcceptParams) (*stripe.Quote, error) {
 	path := stripe.FormatURLPath("/v1/quotes/%s/accept", id)
 	quote := &stripe.Quote{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, quote)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, quote)
 	return quote, err
 }
 
@@ -81,7 +105,13 @@ func Cancel(id string, params *stripe.QuoteCancelParams) (*stripe.Quote, error) 
 func (c Client) Cancel(id string, params *stripe.QuoteCancelParams) (*stripe.Quote, error) {
 	path := stripe.FormatURLPath("/v1/quotes/%s/cancel", id)
 	quote := &stripe.Quote{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, quote)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, quote)
 	return quote, err
 }
 
@@ -94,7 +124,13 @@ func FinalizeQuote(id string, params *stripe.QuoteFinalizeQuoteParams) (*stripe.
 func (c Client) FinalizeQuote(id string, params *stripe.QuoteFinalizeQuoteParams) (*stripe.Quote, error) {
 	path := stripe.FormatURLPath("/v1/quotes/%s/finalize", id)
 	quote := &stripe.Quote{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, quote)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, quote)
 	return quote, err
 }
 
@@ -107,7 +143,13 @@ func MarkDraft(id string, params *stripe.QuoteMarkDraftParams) (*stripe.Quote, e
 func (c Client) MarkDraft(id string, params *stripe.QuoteMarkDraftParams) (*stripe.Quote, error) {
 	path := stripe.FormatURLPath("/v1/quotes/%s/mark_draft", id)
 	quote := &stripe.Quote{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, quote)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, quote)
 	return quote, err
 }
 
@@ -120,7 +162,13 @@ func MarkStale(id string, params *stripe.QuoteMarkStaleParams) (*stripe.Quote, e
 func (c Client) MarkStale(id string, params *stripe.QuoteMarkStaleParams) (*stripe.Quote, error) {
 	path := stripe.FormatURLPath("/v1/quotes/%s/mark_stale", id)
 	quote := &stripe.Quote{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, quote)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, quote)
 	return quote, err
 }
 
@@ -133,7 +181,13 @@ func PDF(id string, params *stripe.QuotePDFParams) (*stripe.APIStream, error) {
 func (c Client) PDF(id string, params *stripe.QuotePDFParams) (*stripe.APIStream, error) {
 	path := stripe.FormatURLPath("/v1/quotes/%s/pdf", id)
 	stream := &stripe.APIStream{}
-	err := c.BUploads.CallStreaming(http.MethodGet, path, c.Key, params, stream)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodGet, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.BUploads.CallStreaming(sr, stream)
 	return stream, err
 }
 
@@ -146,7 +200,13 @@ func Reestimate(id string, params *stripe.QuoteReestimateParams) (*stripe.Quote,
 func (c Client) Reestimate(id string, params *stripe.QuoteReestimateParams) (*stripe.Quote, error) {
 	path := stripe.FormatURLPath("/v1/quotes/%s/reestimate", id)
 	quote := &stripe.Quote{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, quote)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, quote)
 	return quote, err
 }
 
@@ -160,7 +220,14 @@ func (c Client) List(listParams *stripe.QuoteListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.QuoteList{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/quotes", c.Key, b, p, list)
+			err := c.B.Call(stripe.StripeRequest{
+				Method: http.MethodGet,
+				Path:   "/v1/quotes",
+				Key:    c.Key,
+				Params: p,
+				Body:   b,
+			},
+				list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {
@@ -203,7 +270,14 @@ func (c Client) ListComputedUpfrontLineItems(listParams *stripe.QuoteListCompute
 	return &LineItemIter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.LineItemList{}
-			err := c.B.CallRaw(http.MethodGet, path, c.Key, b, p, list)
+			err := c.B.Call(stripe.StripeRequest{
+				Method: http.MethodGet,
+				Path:   path,
+				Key:    c.Key,
+				Params: p,
+				Body:   b,
+			},
+				list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {
@@ -229,7 +303,14 @@ func (c Client) ListLineItems(listParams *stripe.QuoteListLineItemsParams) *Line
 	return &LineItemIter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.LineItemList{}
-			err := c.B.CallRaw(http.MethodGet, path, c.Key, b, p, list)
+			err := c.B.Call(stripe.StripeRequest{
+				Method: http.MethodGet,
+				Path:   path,
+				Key:    c.Key,
+				Params: p,
+				Body:   b,
+			},
+				list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {
@@ -272,7 +353,14 @@ func (c Client) ListLines(listParams *stripe.QuoteListLinesParams) *LineIter {
 	return &LineIter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.QuoteLineList{}
-			err := c.B.CallRaw(http.MethodGet, path, c.Key, b, p, list)
+			err := c.B.Call(stripe.StripeRequest{
+				Method: http.MethodGet,
+				Path:   path,
+				Key:    c.Key,
+				Params: p,
+				Body:   b,
+			},
+				list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {
@@ -316,7 +404,14 @@ func (c Client) ListPreviewInvoiceLines(listParams *stripe.QuoteListPreviewInvoi
 	return &InvoiceLineItemIter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.InvoiceLineItemList{}
-			err := c.B.CallRaw(http.MethodGet, path, c.Key, b, p, list)
+			err := c.B.Call(stripe.StripeRequest{
+				Method: http.MethodGet,
+				Path:   path,
+				Key:    c.Key,
+				Params: p,
+				Body:   b,
+			},
+				list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {

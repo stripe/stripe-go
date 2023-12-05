@@ -28,13 +28,13 @@ func New(params *stripe.SubscriptionScheduleParams) (*stripe.SubscriptionSchedul
 // New creates a new subscription schedule.
 func (c Client) New(params *stripe.SubscriptionScheduleParams) (*stripe.SubscriptionSchedule, error) {
 	subscriptionschedule := &stripe.SubscriptionSchedule{}
-	err := c.B.Call(
-		http.MethodPost,
-		"/v1/subscription_schedules",
-		c.Key,
-		params,
-		subscriptionschedule,
-	)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: "/v1/subscription_schedules", Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, subscriptionschedule)
 	return subscriptionschedule, err
 }
 
@@ -47,7 +47,13 @@ func Get(id string, params *stripe.SubscriptionScheduleParams) (*stripe.Subscrip
 func (c Client) Get(id string, params *stripe.SubscriptionScheduleParams) (*stripe.SubscriptionSchedule, error) {
 	path := stripe.FormatURLPath("/v1/subscription_schedules/%s", id)
 	subscriptionschedule := &stripe.SubscriptionSchedule{}
-	err := c.B.Call(http.MethodGet, path, c.Key, params, subscriptionschedule)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodGet, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, subscriptionschedule)
 	return subscriptionschedule, err
 }
 
@@ -60,7 +66,13 @@ func Update(id string, params *stripe.SubscriptionScheduleParams) (*stripe.Subsc
 func (c Client) Update(id string, params *stripe.SubscriptionScheduleParams) (*stripe.SubscriptionSchedule, error) {
 	path := stripe.FormatURLPath("/v1/subscription_schedules/%s", id)
 	subscriptionschedule := &stripe.SubscriptionSchedule{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, subscriptionschedule)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, subscriptionschedule)
 	return subscriptionschedule, err
 }
 
@@ -73,7 +85,13 @@ func Amend(id string, params *stripe.SubscriptionScheduleAmendParams) (*stripe.S
 func (c Client) Amend(id string, params *stripe.SubscriptionScheduleAmendParams) (*stripe.SubscriptionSchedule, error) {
 	path := stripe.FormatURLPath("/v1/subscription_schedules/%s/amend", id)
 	subscriptionschedule := &stripe.SubscriptionSchedule{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, subscriptionschedule)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, subscriptionschedule)
 	return subscriptionschedule, err
 }
 
@@ -86,7 +104,13 @@ func Cancel(id string, params *stripe.SubscriptionScheduleCancelParams) (*stripe
 func (c Client) Cancel(id string, params *stripe.SubscriptionScheduleCancelParams) (*stripe.SubscriptionSchedule, error) {
 	path := stripe.FormatURLPath("/v1/subscription_schedules/%s/cancel", id)
 	subscriptionschedule := &stripe.SubscriptionSchedule{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, subscriptionschedule)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, subscriptionschedule)
 	return subscriptionschedule, err
 }
 
@@ -99,7 +123,13 @@ func Release(id string, params *stripe.SubscriptionScheduleReleaseParams) (*stri
 func (c Client) Release(id string, params *stripe.SubscriptionScheduleReleaseParams) (*stripe.SubscriptionSchedule, error) {
 	path := stripe.FormatURLPath("/v1/subscription_schedules/%s/release", id)
 	subscriptionschedule := &stripe.SubscriptionSchedule{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, subscriptionschedule)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, subscriptionschedule)
 	return subscriptionschedule, err
 }
 
@@ -113,7 +143,14 @@ func (c Client) List(listParams *stripe.SubscriptionScheduleListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.SubscriptionScheduleList{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/subscription_schedules", c.Key, b, p, list)
+			err := c.B.Call(stripe.StripeRequest{
+				Method: http.MethodGet,
+				Path:   "/v1/subscription_schedules",
+				Key:    c.Key,
+				Params: p,
+				Body:   b,
+			},
+				list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {

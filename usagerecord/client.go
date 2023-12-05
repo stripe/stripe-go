@@ -31,7 +31,13 @@ func (c Client) New(params *stripe.UsageRecordParams) (*stripe.UsageRecord, erro
 		stripe.StringValue(params.SubscriptionItem),
 	)
 	usagerecord := &stripe.UsageRecord{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, usagerecord)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, usagerecord)
 	return usagerecord, err
 }
 

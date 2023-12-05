@@ -31,7 +31,13 @@ func (c Client) DeliverCard(id string, params *stripe.TestHelpersIssuingCardDeli
 		id,
 	)
 	card := &stripe.IssuingCard{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, card)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, card)
 	return card, err
 }
 
@@ -47,7 +53,13 @@ func (c Client) FailCard(id string, params *stripe.TestHelpersIssuingCardFailCar
 		id,
 	)
 	card := &stripe.IssuingCard{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, card)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, card)
 	return card, err
 }
 
@@ -63,7 +75,13 @@ func (c Client) ReturnCard(id string, params *stripe.TestHelpersIssuingCardRetur
 		id,
 	)
 	card := &stripe.IssuingCard{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, card)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, card)
 	return card, err
 }
 
@@ -79,7 +97,13 @@ func (c Client) ShipCard(id string, params *stripe.TestHelpersIssuingCardShipCar
 		id,
 	)
 	card := &stripe.IssuingCard{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, card)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, card)
 	return card, err
 }
 

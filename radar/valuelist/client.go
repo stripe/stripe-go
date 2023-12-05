@@ -28,13 +28,13 @@ func New(params *stripe.RadarValueListParams) (*stripe.RadarValueList, error) {
 // New creates a new radar value list.
 func (c Client) New(params *stripe.RadarValueListParams) (*stripe.RadarValueList, error) {
 	valuelist := &stripe.RadarValueList{}
-	err := c.B.Call(
-		http.MethodPost,
-		"/v1/radar/value_lists",
-		c.Key,
-		params,
-		valuelist,
-	)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: "/v1/radar/value_lists", Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, valuelist)
 	return valuelist, err
 }
 
@@ -47,7 +47,13 @@ func Get(id string, params *stripe.RadarValueListParams) (*stripe.RadarValueList
 func (c Client) Get(id string, params *stripe.RadarValueListParams) (*stripe.RadarValueList, error) {
 	path := stripe.FormatURLPath("/v1/radar/value_lists/%s", id)
 	valuelist := &stripe.RadarValueList{}
-	err := c.B.Call(http.MethodGet, path, c.Key, params, valuelist)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodGet, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, valuelist)
 	return valuelist, err
 }
 
@@ -60,7 +66,13 @@ func Update(id string, params *stripe.RadarValueListParams) (*stripe.RadarValueL
 func (c Client) Update(id string, params *stripe.RadarValueListParams) (*stripe.RadarValueList, error) {
 	path := stripe.FormatURLPath("/v1/radar/value_lists/%s", id)
 	valuelist := &stripe.RadarValueList{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, valuelist)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, valuelist)
 	return valuelist, err
 }
 
@@ -73,7 +85,13 @@ func Del(id string, params *stripe.RadarValueListParams) (*stripe.RadarValueList
 func (c Client) Del(id string, params *stripe.RadarValueListParams) (*stripe.RadarValueList, error) {
 	path := stripe.FormatURLPath("/v1/radar/value_lists/%s", id)
 	valuelist := &stripe.RadarValueList{}
-	err := c.B.Call(http.MethodDelete, path, c.Key, params, valuelist)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodDelete, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, valuelist)
 	return valuelist, err
 }
 
@@ -87,7 +105,14 @@ func (c Client) List(listParams *stripe.RadarValueListListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.RadarValueListList{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/radar/value_lists", c.Key, b, p, list)
+			err := c.B.Call(stripe.StripeRequest{
+				Method: http.MethodGet,
+				Path:   "/v1/radar/value_lists",
+				Key:    c.Key,
+				Params: p,
+				Body:   b,
+			},
+				list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {

@@ -39,7 +39,13 @@ func (c Client) New(params *stripe.PaymentSourceParams) (*stripe.PaymentSource, 
 		stripe.StringValue(params.Customer),
 	)
 	paymentsource := &stripe.PaymentSource{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, paymentsource)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, paymentsource)
 	return paymentsource, err
 }
 
@@ -62,7 +68,13 @@ func (c Client) Get(id string, params *stripe.PaymentSourceParams) (*stripe.Paym
 		id,
 	)
 	paymentsource := &stripe.PaymentSource{}
-	err := c.B.Call(http.MethodGet, path, c.Key, params, paymentsource)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodGet, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, paymentsource)
 	return paymentsource, err
 }
 
@@ -85,7 +97,13 @@ func (c Client) Update(id string, params *stripe.PaymentSourceParams) (*stripe.P
 		id,
 	)
 	paymentsource := &stripe.PaymentSource{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, paymentsource)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, paymentsource)
 	return paymentsource, err
 }
 
@@ -108,7 +126,13 @@ func (c Client) Del(id string, params *stripe.PaymentSourceParams) (*stripe.Paym
 		id,
 	)
 	paymentsource := &stripe.PaymentSource{}
-	err := c.B.Call(http.MethodDelete, path, c.Key, params, paymentsource)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodDelete, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, paymentsource)
 	return paymentsource, err
 }
 
@@ -134,7 +158,19 @@ func (c Client) Verify(id string, params *stripe.PaymentSourceVerifyParams) (*st
 	}
 
 	source := &stripe.PaymentSource{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, source)
+	var err error
+
+	sr := stripe.StripeRequest{
+		Method: http.MethodPost,
+		Path:   path,
+		Key:    c.Key,
+	}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+
+	err = c.B.Call(sr, source)
 	return source, err
 }
 
@@ -164,7 +200,14 @@ func (c Client) List(listParams *stripe.PaymentSourceListParams) *Iter {
 				return nil, list, outerErr
 			}
 
-			err := c.B.CallRaw(http.MethodGet, path, c.Key, b, p, list)
+			err := c.B.Call(stripe.StripeRequest{
+				Method: http.MethodGet,
+				Path:   path,
+				Key:    c.Key,
+				Params: p,
+				Body:   b,
+			},
+				list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {

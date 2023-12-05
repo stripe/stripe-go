@@ -29,7 +29,13 @@ func Get(id string, params *stripe.ReviewParams) (*stripe.Review, error) {
 func (c Client) Get(id string, params *stripe.ReviewParams) (*stripe.Review, error) {
 	path := stripe.FormatURLPath("/v1/reviews/%s", id)
 	review := &stripe.Review{}
-	err := c.B.Call(http.MethodGet, path, c.Key, params, review)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodGet, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, review)
 	return review, err
 }
 
@@ -42,7 +48,13 @@ func Approve(id string, params *stripe.ReviewApproveParams) (*stripe.Review, err
 func (c Client) Approve(id string, params *stripe.ReviewApproveParams) (*stripe.Review, error) {
 	path := stripe.FormatURLPath("/v1/reviews/%s/approve", id)
 	review := &stripe.Review{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, review)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, review)
 	return review, err
 }
 
@@ -56,7 +68,14 @@ func (c Client) List(listParams *stripe.ReviewListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.ReviewList{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/reviews", c.Key, b, p, list)
+			err := c.B.Call(stripe.StripeRequest{
+				Method: http.MethodGet,
+				Path:   "/v1/reviews",
+				Key:    c.Key,
+				Params: p,
+				Body:   b,
+			},
+				list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {

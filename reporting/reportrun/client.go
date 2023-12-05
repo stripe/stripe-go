@@ -28,13 +28,13 @@ func New(params *stripe.ReportingReportRunParams) (*stripe.ReportingReportRun, e
 // New creates a new reporting report run.
 func (c Client) New(params *stripe.ReportingReportRunParams) (*stripe.ReportingReportRun, error) {
 	reportrun := &stripe.ReportingReportRun{}
-	err := c.B.Call(
-		http.MethodPost,
-		"/v1/reporting/report_runs",
-		c.Key,
-		params,
-		reportrun,
-	)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: "/v1/reporting/report_runs", Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, reportrun)
 	return reportrun, err
 }
 
@@ -47,7 +47,13 @@ func Get(id string, params *stripe.ReportingReportRunParams) (*stripe.ReportingR
 func (c Client) Get(id string, params *stripe.ReportingReportRunParams) (*stripe.ReportingReportRun, error) {
 	path := stripe.FormatURLPath("/v1/reporting/report_runs/%s", id)
 	reportrun := &stripe.ReportingReportRun{}
-	err := c.B.Call(http.MethodGet, path, c.Key, params, reportrun)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodGet, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, reportrun)
 	return reportrun, err
 }
 
@@ -61,7 +67,14 @@ func (c Client) List(listParams *stripe.ReportingReportRunListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.ReportingReportRunList{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/reporting/report_runs", c.Key, b, p, list)
+			err := c.B.Call(stripe.StripeRequest{
+				Method: http.MethodGet,
+				Path:   "/v1/reporting/report_runs",
+				Key:    c.Key,
+				Params: p,
+				Body:   b,
+			},
+				list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {

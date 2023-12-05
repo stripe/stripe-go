@@ -28,13 +28,13 @@ func New(params *stripe.TaxCalculationParams) (*stripe.TaxCalculation, error) {
 // New creates a new tax calculation.
 func (c Client) New(params *stripe.TaxCalculationParams) (*stripe.TaxCalculation, error) {
 	calculation := &stripe.TaxCalculation{}
-	err := c.B.Call(
-		http.MethodPost,
-		"/v1/tax/calculations",
-		c.Key,
-		params,
-		calculation,
-	)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: "/v1/tax/calculations", Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, calculation)
 	return calculation, err
 }
 
@@ -52,7 +52,14 @@ func (c Client) ListLineItems(listParams *stripe.TaxCalculationListLineItemsPara
 	return &LineItemIter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.TaxCalculationLineItemList{}
-			err := c.B.CallRaw(http.MethodGet, path, c.Key, b, p, list)
+			err := c.B.Call(stripe.StripeRequest{
+				Method: http.MethodGet,
+				Path:   path,
+				Key:    c.Key,
+				Params: p,
+				Body:   b,
+			},
+				list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {

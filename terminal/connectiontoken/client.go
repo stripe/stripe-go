@@ -27,13 +27,13 @@ func New(params *stripe.TerminalConnectionTokenParams) (*stripe.TerminalConnecti
 // New creates a new terminal connection token.
 func (c Client) New(params *stripe.TerminalConnectionTokenParams) (*stripe.TerminalConnectionToken, error) {
 	connectiontoken := &stripe.TerminalConnectionToken{}
-	err := c.B.Call(
-		http.MethodPost,
-		"/v1/terminal/connection_tokens",
-		c.Key,
-		params,
-		connectiontoken,
-	)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: "/v1/terminal/connection_tokens", Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, connectiontoken)
 	return connectiontoken, err
 }
 

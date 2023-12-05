@@ -28,13 +28,13 @@ func New(params *stripe.TaxRegistrationParams) (*stripe.TaxRegistration, error) 
 // New creates a new tax registration.
 func (c Client) New(params *stripe.TaxRegistrationParams) (*stripe.TaxRegistration, error) {
 	registration := &stripe.TaxRegistration{}
-	err := c.B.Call(
-		http.MethodPost,
-		"/v1/tax/registrations",
-		c.Key,
-		params,
-		registration,
-	)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: "/v1/tax/registrations", Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, registration)
 	return registration, err
 }
 
@@ -47,7 +47,13 @@ func Update(id string, params *stripe.TaxRegistrationParams) (*stripe.TaxRegistr
 func (c Client) Update(id string, params *stripe.TaxRegistrationParams) (*stripe.TaxRegistration, error) {
 	path := stripe.FormatURLPath("/v1/tax/registrations/%s", id)
 	registration := &stripe.TaxRegistration{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, registration)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, registration)
 	return registration, err
 }
 
@@ -61,7 +67,14 @@ func (c Client) List(listParams *stripe.TaxRegistrationListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.TaxRegistrationList{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/tax/registrations", c.Key, b, p, list)
+			err := c.B.Call(stripe.StripeRequest{
+				Method: http.MethodGet,
+				Path:   "/v1/tax/registrations",
+				Key:    c.Key,
+				Params: p,
+				Body:   b,
+			},
+				list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {

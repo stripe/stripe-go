@@ -33,13 +33,13 @@ func (c Client) Get(id string, params *stripe.CustomerCashBalanceTransactionPara
 		id,
 	)
 	customercashbalancetransaction := &stripe.CustomerCashBalanceTransaction{}
-	err := c.B.Call(
-		http.MethodGet,
-		path,
-		c.Key,
-		params,
-		customercashbalancetransaction,
-	)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodGet, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, customercashbalancetransaction)
 	return customercashbalancetransaction, err
 }
 
@@ -57,7 +57,14 @@ func (c Client) List(listParams *stripe.CustomerCashBalanceTransactionListParams
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.CustomerCashBalanceTransactionList{}
-			err := c.B.CallRaw(http.MethodGet, path, c.Key, b, p, list)
+			err := c.B.Call(stripe.StripeRequest{
+				Method: http.MethodGet,
+				Path:   path,
+				Key:    c.Key,
+				Params: p,
+				Body:   b,
+			},
+				list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {

@@ -28,7 +28,13 @@ func New(params *stripe.ProductParams) (*stripe.Product, error) {
 // New creates a new product.
 func (c Client) New(params *stripe.ProductParams) (*stripe.Product, error) {
 	product := &stripe.Product{}
-	err := c.B.Call(http.MethodPost, "/v1/products", c.Key, params, product)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: "/v1/products", Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, product)
 	return product, err
 }
 
@@ -41,7 +47,13 @@ func Get(id string, params *stripe.ProductParams) (*stripe.Product, error) {
 func (c Client) Get(id string, params *stripe.ProductParams) (*stripe.Product, error) {
 	path := stripe.FormatURLPath("/v1/products/%s", id)
 	product := &stripe.Product{}
-	err := c.B.Call(http.MethodGet, path, c.Key, params, product)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodGet, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, product)
 	return product, err
 }
 
@@ -54,7 +66,13 @@ func Update(id string, params *stripe.ProductParams) (*stripe.Product, error) {
 func (c Client) Update(id string, params *stripe.ProductParams) (*stripe.Product, error) {
 	path := stripe.FormatURLPath("/v1/products/%s", id)
 	product := &stripe.Product{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, product)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, product)
 	return product, err
 }
 
@@ -67,7 +85,13 @@ func Del(id string, params *stripe.ProductParams) (*stripe.Product, error) {
 func (c Client) Del(id string, params *stripe.ProductParams) (*stripe.Product, error) {
 	path := stripe.FormatURLPath("/v1/products/%s", id)
 	product := &stripe.Product{}
-	err := c.B.Call(http.MethodDelete, path, c.Key, params, product)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodDelete, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, product)
 	return product, err
 }
 
@@ -81,7 +105,14 @@ func (c Client) List(listParams *stripe.ProductListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.ProductList{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/products", c.Key, b, p, list)
+			err := c.B.Call(stripe.StripeRequest{
+				Method: http.MethodGet,
+				Path:   "/v1/products",
+				Key:    c.Key,
+				Params: p,
+				Body:   b,
+			},
+				list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {
@@ -120,7 +151,14 @@ func (c Client) Search(params *stripe.ProductSearchParams) *SearchIter {
 	return &SearchIter{
 		SearchIter: stripe.GetSearchIter(params, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.SearchContainer, error) {
 			list := &stripe.ProductSearchResult{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/products/search", c.Key, b, p, list)
+			err := c.B.Call(stripe.StripeRequest{
+				Method: http.MethodGet,
+				Path:   "/v1/products/search",
+				Key:    c.Key,
+				Params: p,
+				Body:   b,
+			},
+				list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {

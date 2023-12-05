@@ -29,7 +29,13 @@ func Get(id string, params *stripe.IssuingTokenParams) (*stripe.IssuingToken, er
 func (c Client) Get(id string, params *stripe.IssuingTokenParams) (*stripe.IssuingToken, error) {
 	path := stripe.FormatURLPath("/v1/issuing/tokens/%s", id)
 	token := &stripe.IssuingToken{}
-	err := c.B.Call(http.MethodGet, path, c.Key, params, token)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodGet, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, token)
 	return token, err
 }
 
@@ -42,7 +48,13 @@ func Update(id string, params *stripe.IssuingTokenParams) (*stripe.IssuingToken,
 func (c Client) Update(id string, params *stripe.IssuingTokenParams) (*stripe.IssuingToken, error) {
 	path := stripe.FormatURLPath("/v1/issuing/tokens/%s", id)
 	token := &stripe.IssuingToken{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, token)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, token)
 	return token, err
 }
 
@@ -56,7 +68,14 @@ func (c Client) List(listParams *stripe.IssuingTokenListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.IssuingTokenList{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/issuing/tokens", c.Key, b, p, list)
+			err := c.B.Call(stripe.StripeRequest{
+				Method: http.MethodGet,
+				Path:   "/v1/issuing/tokens",
+				Key:    c.Key,
+				Params: p,
+				Body:   b,
+			},
+				list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {

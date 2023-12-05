@@ -28,7 +28,13 @@ func New(params *stripe.IssuingCardParams) (*stripe.IssuingCard, error) {
 // New creates a new issuing card.
 func (c Client) New(params *stripe.IssuingCardParams) (*stripe.IssuingCard, error) {
 	card := &stripe.IssuingCard{}
-	err := c.B.Call(http.MethodPost, "/v1/issuing/cards", c.Key, params, card)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: "/v1/issuing/cards", Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, card)
 	return card, err
 }
 
@@ -41,7 +47,13 @@ func Get(id string, params *stripe.IssuingCardParams) (*stripe.IssuingCard, erro
 func (c Client) Get(id string, params *stripe.IssuingCardParams) (*stripe.IssuingCard, error) {
 	path := stripe.FormatURLPath("/v1/issuing/cards/%s", id)
 	card := &stripe.IssuingCard{}
-	err := c.B.Call(http.MethodGet, path, c.Key, params, card)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodGet, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, card)
 	return card, err
 }
 
@@ -54,7 +66,13 @@ func Update(id string, params *stripe.IssuingCardParams) (*stripe.IssuingCard, e
 func (c Client) Update(id string, params *stripe.IssuingCardParams) (*stripe.IssuingCard, error) {
 	path := stripe.FormatURLPath("/v1/issuing/cards/%s", id)
 	card := &stripe.IssuingCard{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, card)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, card)
 	return card, err
 }
 
@@ -68,7 +86,14 @@ func (c Client) List(listParams *stripe.IssuingCardListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.IssuingCardList{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/issuing/cards", c.Key, b, p, list)
+			err := c.B.Call(stripe.StripeRequest{
+				Method: http.MethodGet,
+				Path:   "/v1/issuing/cards",
+				Key:    c.Key,
+				Params: p,
+				Body:   b,
+			},
+				list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {

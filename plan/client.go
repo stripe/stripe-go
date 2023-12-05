@@ -28,7 +28,13 @@ func New(params *stripe.PlanParams) (*stripe.Plan, error) {
 // New creates a new plan.
 func (c Client) New(params *stripe.PlanParams) (*stripe.Plan, error) {
 	plan := &stripe.Plan{}
-	err := c.B.Call(http.MethodPost, "/v1/plans", c.Key, params, plan)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: "/v1/plans", Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, plan)
 	return plan, err
 }
 
@@ -41,7 +47,13 @@ func Get(id string, params *stripe.PlanParams) (*stripe.Plan, error) {
 func (c Client) Get(id string, params *stripe.PlanParams) (*stripe.Plan, error) {
 	path := stripe.FormatURLPath("/v1/plans/%s", id)
 	plan := &stripe.Plan{}
-	err := c.B.Call(http.MethodGet, path, c.Key, params, plan)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodGet, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, plan)
 	return plan, err
 }
 
@@ -54,7 +66,13 @@ func Update(id string, params *stripe.PlanParams) (*stripe.Plan, error) {
 func (c Client) Update(id string, params *stripe.PlanParams) (*stripe.Plan, error) {
 	path := stripe.FormatURLPath("/v1/plans/%s", id)
 	plan := &stripe.Plan{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, plan)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, plan)
 	return plan, err
 }
 
@@ -67,7 +85,13 @@ func Del(id string, params *stripe.PlanParams) (*stripe.Plan, error) {
 func (c Client) Del(id string, params *stripe.PlanParams) (*stripe.Plan, error) {
 	path := stripe.FormatURLPath("/v1/plans/%s", id)
 	plan := &stripe.Plan{}
-	err := c.B.Call(http.MethodDelete, path, c.Key, params, plan)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodDelete, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, plan)
 	return plan, err
 }
 
@@ -81,7 +105,14 @@ func (c Client) List(listParams *stripe.PlanListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.PlanList{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/plans", c.Key, b, p, list)
+			err := c.B.Call(stripe.StripeRequest{
+				Method: http.MethodGet,
+				Path:   "/v1/plans",
+				Key:    c.Key,
+				Params: p,
+				Body:   b,
+			},
+				list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {

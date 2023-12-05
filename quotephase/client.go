@@ -29,7 +29,13 @@ func Get(id string, params *stripe.QuotePhaseParams) (*stripe.QuotePhase, error)
 func (c Client) Get(id string, params *stripe.QuotePhaseParams) (*stripe.QuotePhase, error) {
 	path := stripe.FormatURLPath("/v1/quote_phases/%s", id)
 	quotephase := &stripe.QuotePhase{}
-	err := c.B.Call(http.MethodGet, path, c.Key, params, quotephase)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodGet, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, quotephase)
 	return quotephase, err
 }
 
@@ -43,7 +49,14 @@ func (c Client) List(listParams *stripe.QuotePhaseListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.QuotePhaseList{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/quote_phases", c.Key, b, p, list)
+			err := c.B.Call(stripe.StripeRequest{
+				Method: http.MethodGet,
+				Path:   "/v1/quote_phases",
+				Key:    c.Key,
+				Params: p,
+				Body:   b,
+			},
+				list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {
@@ -86,7 +99,14 @@ func (c Client) ListLineItems(listParams *stripe.QuotePhaseListLineItemsParams) 
 	return &LineItemIter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.LineItemList{}
-			err := c.B.CallRaw(http.MethodGet, path, c.Key, b, p, list)
+			err := c.B.Call(stripe.StripeRequest{
+				Method: http.MethodGet,
+				Path:   path,
+				Key:    c.Key,
+				Params: p,
+				Body:   b,
+			},
+				list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {

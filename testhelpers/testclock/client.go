@@ -28,13 +28,13 @@ func New(params *stripe.TestHelpersTestClockParams) (*stripe.TestHelpersTestCloc
 // New creates a new test helpers test clock.
 func (c Client) New(params *stripe.TestHelpersTestClockParams) (*stripe.TestHelpersTestClock, error) {
 	testclock := &stripe.TestHelpersTestClock{}
-	err := c.B.Call(
-		http.MethodPost,
-		"/v1/test_helpers/test_clocks",
-		c.Key,
-		params,
-		testclock,
-	)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: "/v1/test_helpers/test_clocks", Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, testclock)
 	return testclock, err
 }
 
@@ -47,7 +47,13 @@ func Get(id string, params *stripe.TestHelpersTestClockParams) (*stripe.TestHelp
 func (c Client) Get(id string, params *stripe.TestHelpersTestClockParams) (*stripe.TestHelpersTestClock, error) {
 	path := stripe.FormatURLPath("/v1/test_helpers/test_clocks/%s", id)
 	testclock := &stripe.TestHelpersTestClock{}
-	err := c.B.Call(http.MethodGet, path, c.Key, params, testclock)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodGet, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, testclock)
 	return testclock, err
 }
 
@@ -60,7 +66,13 @@ func Del(id string, params *stripe.TestHelpersTestClockParams) (*stripe.TestHelp
 func (c Client) Del(id string, params *stripe.TestHelpersTestClockParams) (*stripe.TestHelpersTestClock, error) {
 	path := stripe.FormatURLPath("/v1/test_helpers/test_clocks/%s", id)
 	testclock := &stripe.TestHelpersTestClock{}
-	err := c.B.Call(http.MethodDelete, path, c.Key, params, testclock)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodDelete, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, testclock)
 	return testclock, err
 }
 
@@ -73,7 +85,13 @@ func Advance(id string, params *stripe.TestHelpersTestClockAdvanceParams) (*stri
 func (c Client) Advance(id string, params *stripe.TestHelpersTestClockAdvanceParams) (*stripe.TestHelpersTestClock, error) {
 	path := stripe.FormatURLPath("/v1/test_helpers/test_clocks/%s/advance", id)
 	testclock := &stripe.TestHelpersTestClock{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, testclock)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, testclock)
 	return testclock, err
 }
 
@@ -87,7 +105,14 @@ func (c Client) List(listParams *stripe.TestHelpersTestClockListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.TestHelpersTestClockList{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/test_helpers/test_clocks", c.Key, b, p, list)
+			err := c.B.Call(stripe.StripeRequest{
+				Method: http.MethodGet,
+				Path:   "/v1/test_helpers/test_clocks",
+				Key:    c.Key,
+				Params: p,
+				Body:   b,
+			},
+				list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {

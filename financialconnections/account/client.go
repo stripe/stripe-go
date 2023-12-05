@@ -29,7 +29,13 @@ func GetByID(id string, params *stripe.FinancialConnectionsAccountParams) (*stri
 func (c Client) GetByID(id string, params *stripe.FinancialConnectionsAccountParams) (*stripe.FinancialConnectionsAccount, error) {
 	path := stripe.FormatURLPath("/v1/financial_connections/accounts/%s", id)
 	account := &stripe.FinancialConnectionsAccount{}
-	err := c.B.Call(http.MethodGet, path, c.Key, params, account)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodGet, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, account)
 	return account, err
 }
 
@@ -45,7 +51,13 @@ func (c Client) Disconnect(id string, params *stripe.FinancialConnectionsAccount
 		id,
 	)
 	account := &stripe.FinancialConnectionsAccount{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, account)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, account)
 	return account, err
 }
 
@@ -61,7 +73,13 @@ func (c Client) Refresh(id string, params *stripe.FinancialConnectionsAccountRef
 		id,
 	)
 	account := &stripe.FinancialConnectionsAccount{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, account)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, account)
 	return account, err
 }
 
@@ -77,7 +95,13 @@ func (c Client) Subscribe(id string, params *stripe.FinancialConnectionsAccountS
 		id,
 	)
 	account := &stripe.FinancialConnectionsAccount{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, account)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, account)
 	return account, err
 }
 
@@ -93,7 +117,13 @@ func (c Client) Unsubscribe(id string, params *stripe.FinancialConnectionsAccoun
 		id,
 	)
 	account := &stripe.FinancialConnectionsAccount{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, account)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, account)
 	return account, err
 }
 
@@ -107,7 +137,14 @@ func (c Client) List(listParams *stripe.FinancialConnectionsAccountListParams) *
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.FinancialConnectionsAccountList{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/financial_connections/accounts", c.Key, b, p, list)
+			err := c.B.Call(stripe.StripeRequest{
+				Method: http.MethodGet,
+				Path:   "/v1/financial_connections/accounts",
+				Key:    c.Key,
+				Params: p,
+				Body:   b,
+			},
+				list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {
@@ -150,7 +187,14 @@ func (c Client) ListOwners(listParams *stripe.FinancialConnectionsAccountListOwn
 	return &OwnerIter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.FinancialConnectionsAccountOwnerList{}
-			err := c.B.CallRaw(http.MethodGet, path, c.Key, b, p, list)
+			err := c.B.Call(stripe.StripeRequest{
+				Method: http.MethodGet,
+				Path:   path,
+				Key:    c.Key,
+				Params: p,
+				Body:   b,
+			},
+				list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {

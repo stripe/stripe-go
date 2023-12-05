@@ -169,7 +169,13 @@ func (c Client) Search(params *SearchParams) *TestSearchIter {
 	return &TestSearchIter{
 		SearchIter: GetSearchIter(params, func(p *Params, b *form.Values) ([]interface{}, SearchContainer, error) {
 			list := &TestSearchResult{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/something/search", c.Key, b, p, list)
+			err := c.B.Call(StripeRequest{
+				Method: http.MethodGet,
+				Path:   "/v1/something/search",
+				Key:    c.Key,
+				Body:   b,
+				Params: p,
+			}, list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {

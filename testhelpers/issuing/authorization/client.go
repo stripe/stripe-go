@@ -27,13 +27,13 @@ func New(params *stripe.TestHelpersIssuingAuthorizationParams) (*stripe.IssuingA
 // New creates a new issuing authorization.
 func (c Client) New(params *stripe.TestHelpersIssuingAuthorizationParams) (*stripe.IssuingAuthorization, error) {
 	authorization := &stripe.IssuingAuthorization{}
-	err := c.B.Call(
-		http.MethodPost,
-		"/v1/test_helpers/issuing/authorizations",
-		c.Key,
-		params,
-		authorization,
-	)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: "/v1/test_helpers/issuing/authorizations", Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, authorization)
 	return authorization, err
 }
 
@@ -49,7 +49,13 @@ func (c Client) Capture(id string, params *stripe.TestHelpersIssuingAuthorizatio
 		id,
 	)
 	authorization := &stripe.IssuingAuthorization{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, authorization)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, authorization)
 	return authorization, err
 }
 
@@ -65,7 +71,13 @@ func (c Client) Expire(id string, params *stripe.TestHelpersIssuingAuthorization
 		id,
 	)
 	authorization := &stripe.IssuingAuthorization{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, authorization)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, authorization)
 	return authorization, err
 }
 
@@ -81,7 +93,13 @@ func (c Client) Increment(id string, params *stripe.TestHelpersIssuingAuthorizat
 		id,
 	)
 	authorization := &stripe.IssuingAuthorization{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, authorization)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, authorization)
 	return authorization, err
 }
 
@@ -97,7 +115,13 @@ func (c Client) Reverse(id string, params *stripe.TestHelpersIssuingAuthorizatio
 		id,
 	)
 	authorization := &stripe.IssuingAuthorization{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, authorization)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, authorization)
 	return authorization, err
 }
 

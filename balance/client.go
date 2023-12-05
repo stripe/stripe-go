@@ -27,7 +27,13 @@ func Get(params *stripe.BalanceParams) (*stripe.Balance, error) {
 // Get returns the details of a balance.
 func (c Client) Get(params *stripe.BalanceParams) (*stripe.Balance, error) {
 	balance := &stripe.Balance{}
-	err := c.B.Call(http.MethodGet, "/v1/balance", c.Key, params, balance)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodGet, Path: "/v1/balance", Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, balance)
 	return balance, err
 }
 

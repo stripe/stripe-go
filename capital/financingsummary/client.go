@@ -27,13 +27,13 @@ func Get(params *stripe.CapitalFinancingSummaryParams) (*stripe.CapitalFinancing
 // Get returns the details of a capital financing summary.
 func (c Client) Get(params *stripe.CapitalFinancingSummaryParams) (*stripe.CapitalFinancingSummary, error) {
 	financingsummary := &stripe.CapitalFinancingSummary{}
-	err := c.B.Call(
-		http.MethodGet,
-		"/v1/capital/financing_summary",
-		c.Key,
-		params,
-		financingsummary,
-	)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodGet, Path: "/v1/capital/financing_summary", Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, financingsummary)
 	return financingsummary, err
 }
 

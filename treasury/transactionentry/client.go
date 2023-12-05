@@ -29,7 +29,13 @@ func Get(id string, params *stripe.TreasuryTransactionEntryParams) (*stripe.Trea
 func (c Client) Get(id string, params *stripe.TreasuryTransactionEntryParams) (*stripe.TreasuryTransactionEntry, error) {
 	path := stripe.FormatURLPath("/v1/treasury/transaction_entries/%s", id)
 	transactionentry := &stripe.TreasuryTransactionEntry{}
-	err := c.B.Call(http.MethodGet, path, c.Key, params, transactionentry)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodGet, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, transactionentry)
 	return transactionentry, err
 }
 
@@ -43,7 +49,14 @@ func (c Client) List(listParams *stripe.TreasuryTransactionEntryListParams) *Ite
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.TreasuryTransactionEntryList{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/treasury/transaction_entries", c.Key, b, p, list)
+			err := c.B.Call(stripe.StripeRequest{
+				Method: http.MethodGet,
+				Path:   "/v1/treasury/transaction_entries",
+				Key:    c.Key,
+				Params: p,
+				Body:   b,
+			},
+				list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {

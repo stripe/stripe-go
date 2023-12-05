@@ -30,7 +30,13 @@ func Get(id string, params *stripe.TaxFormParams) (*stripe.TaxForm, error) {
 func (c Client) Get(id string, params *stripe.TaxFormParams) (*stripe.TaxForm, error) {
 	path := stripe.FormatURLPath("/v1/tax/forms/%s", id)
 	form := &stripe.TaxForm{}
-	err := c.B.Call(http.MethodGet, path, c.Key, params, form)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodGet, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, form)
 	return form, err
 }
 
@@ -43,7 +49,13 @@ func PDF(id string, params *stripe.TaxFormPDFParams) (*stripe.APIStream, error) 
 func (c Client) PDF(id string, params *stripe.TaxFormPDFParams) (*stripe.APIStream, error) {
 	path := stripe.FormatURLPath("/v1/tax/forms/%s/pdf", id)
 	stream := &stripe.APIStream{}
-	err := c.BUploads.CallStreaming(http.MethodGet, path, c.Key, params, stream)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodGet, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.BUploads.CallStreaming(sr, stream)
 	return stream, err
 }
 
@@ -57,7 +69,14 @@ func (c Client) List(listParams *stripe.TaxFormListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.TaxFormList{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/tax/forms", c.Key, b, p, list)
+			err := c.B.Call(stripe.StripeRequest{
+				Method: http.MethodGet,
+				Path:   "/v1/tax/forms",
+				Key:    c.Key,
+				Params: p,
+				Body:   b,
+			},
+				list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {

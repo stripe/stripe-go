@@ -28,13 +28,13 @@ func New(params *stripe.TreasuryFinancialAccountParams) (*stripe.TreasuryFinanci
 // New creates a new treasury financial account.
 func (c Client) New(params *stripe.TreasuryFinancialAccountParams) (*stripe.TreasuryFinancialAccount, error) {
 	financialaccount := &stripe.TreasuryFinancialAccount{}
-	err := c.B.Call(
-		http.MethodPost,
-		"/v1/treasury/financial_accounts",
-		c.Key,
-		params,
-		financialaccount,
-	)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: "/v1/treasury/financial_accounts", Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, financialaccount)
 	return financialaccount, err
 }
 
@@ -47,7 +47,13 @@ func Get(id string, params *stripe.TreasuryFinancialAccountParams) (*stripe.Trea
 func (c Client) Get(id string, params *stripe.TreasuryFinancialAccountParams) (*stripe.TreasuryFinancialAccount, error) {
 	path := stripe.FormatURLPath("/v1/treasury/financial_accounts/%s", id)
 	financialaccount := &stripe.TreasuryFinancialAccount{}
-	err := c.B.Call(http.MethodGet, path, c.Key, params, financialaccount)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodGet, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, financialaccount)
 	return financialaccount, err
 }
 
@@ -60,7 +66,13 @@ func Update(id string, params *stripe.TreasuryFinancialAccountParams) (*stripe.T
 func (c Client) Update(id string, params *stripe.TreasuryFinancialAccountParams) (*stripe.TreasuryFinancialAccount, error) {
 	path := stripe.FormatURLPath("/v1/treasury/financial_accounts/%s", id)
 	financialaccount := &stripe.TreasuryFinancialAccount{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, financialaccount)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, financialaccount)
 	return financialaccount, err
 }
 
@@ -76,7 +88,13 @@ func (c Client) RetrieveFeatures(id string, params *stripe.TreasuryFinancialAcco
 		id,
 	)
 	financialaccountfeatures := &stripe.TreasuryFinancialAccountFeatures{}
-	err := c.B.Call(http.MethodGet, path, c.Key, params, financialaccountfeatures)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodGet, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, financialaccountfeatures)
 	return financialaccountfeatures, err
 }
 
@@ -92,13 +110,13 @@ func (c Client) UpdateFeatures(id string, params *stripe.TreasuryFinancialAccoun
 		id,
 	)
 	financialaccountfeatures := &stripe.TreasuryFinancialAccountFeatures{}
-	err := c.B.Call(
-		http.MethodPost,
-		path,
-		c.Key,
-		params,
-		financialaccountfeatures,
-	)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, financialaccountfeatures)
 	return financialaccountfeatures, err
 }
 
@@ -112,7 +130,14 @@ func (c Client) List(listParams *stripe.TreasuryFinancialAccountListParams) *Ite
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.TreasuryFinancialAccountList{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/treasury/financial_accounts", c.Key, b, p, list)
+			err := c.B.Call(stripe.StripeRequest{
+				Method: http.MethodGet,
+				Path:   "/v1/treasury/financial_accounts",
+				Key:    c.Key,
+				Params: p,
+				Body:   b,
+			},
+				list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {

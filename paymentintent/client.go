@@ -28,13 +28,13 @@ func New(params *stripe.PaymentIntentParams) (*stripe.PaymentIntent, error) {
 // New creates a new payment intent.
 func (c Client) New(params *stripe.PaymentIntentParams) (*stripe.PaymentIntent, error) {
 	paymentintent := &stripe.PaymentIntent{}
-	err := c.B.Call(
-		http.MethodPost,
-		"/v1/payment_intents",
-		c.Key,
-		params,
-		paymentintent,
-	)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: "/v1/payment_intents", Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, paymentintent)
 	return paymentintent, err
 }
 
@@ -47,7 +47,13 @@ func Get(id string, params *stripe.PaymentIntentParams) (*stripe.PaymentIntent, 
 func (c Client) Get(id string, params *stripe.PaymentIntentParams) (*stripe.PaymentIntent, error) {
 	path := stripe.FormatURLPath("/v1/payment_intents/%s", id)
 	paymentintent := &stripe.PaymentIntent{}
-	err := c.B.Call(http.MethodGet, path, c.Key, params, paymentintent)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodGet, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, paymentintent)
 	return paymentintent, err
 }
 
@@ -60,7 +66,13 @@ func Update(id string, params *stripe.PaymentIntentParams) (*stripe.PaymentInten
 func (c Client) Update(id string, params *stripe.PaymentIntentParams) (*stripe.PaymentIntent, error) {
 	path := stripe.FormatURLPath("/v1/payment_intents/%s", id)
 	paymentintent := &stripe.PaymentIntent{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, paymentintent)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, paymentintent)
 	return paymentintent, err
 }
 
@@ -76,7 +88,13 @@ func (c Client) ApplyCustomerBalance(id string, params *stripe.PaymentIntentAppl
 		id,
 	)
 	paymentintent := &stripe.PaymentIntent{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, paymentintent)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, paymentintent)
 	return paymentintent, err
 }
 
@@ -89,7 +107,13 @@ func Cancel(id string, params *stripe.PaymentIntentCancelParams) (*stripe.Paymen
 func (c Client) Cancel(id string, params *stripe.PaymentIntentCancelParams) (*stripe.PaymentIntent, error) {
 	path := stripe.FormatURLPath("/v1/payment_intents/%s/cancel", id)
 	paymentintent := &stripe.PaymentIntent{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, paymentintent)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, paymentintent)
 	return paymentintent, err
 }
 
@@ -102,7 +126,13 @@ func Capture(id string, params *stripe.PaymentIntentCaptureParams) (*stripe.Paym
 func (c Client) Capture(id string, params *stripe.PaymentIntentCaptureParams) (*stripe.PaymentIntent, error) {
 	path := stripe.FormatURLPath("/v1/payment_intents/%s/capture", id)
 	paymentintent := &stripe.PaymentIntent{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, paymentintent)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, paymentintent)
 	return paymentintent, err
 }
 
@@ -115,7 +145,13 @@ func Confirm(id string, params *stripe.PaymentIntentConfirmParams) (*stripe.Paym
 func (c Client) Confirm(id string, params *stripe.PaymentIntentConfirmParams) (*stripe.PaymentIntent, error) {
 	path := stripe.FormatURLPath("/v1/payment_intents/%s/confirm", id)
 	paymentintent := &stripe.PaymentIntent{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, paymentintent)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, paymentintent)
 	return paymentintent, err
 }
 
@@ -131,7 +167,13 @@ func (c Client) IncrementAuthorization(id string, params *stripe.PaymentIntentIn
 		id,
 	)
 	paymentintent := &stripe.PaymentIntent{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, paymentintent)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, paymentintent)
 	return paymentintent, err
 }
 
@@ -147,7 +189,13 @@ func (c Client) VerifyMicrodeposits(id string, params *stripe.PaymentIntentVerif
 		id,
 	)
 	paymentintent := &stripe.PaymentIntent{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, paymentintent)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, paymentintent)
 	return paymentintent, err
 }
 
@@ -161,7 +209,14 @@ func (c Client) List(listParams *stripe.PaymentIntentListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.PaymentIntentList{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/payment_intents", c.Key, b, p, list)
+			err := c.B.Call(stripe.StripeRequest{
+				Method: http.MethodGet,
+				Path:   "/v1/payment_intents",
+				Key:    c.Key,
+				Params: p,
+				Body:   b,
+			},
+				list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {
@@ -200,7 +255,14 @@ func (c Client) Search(params *stripe.PaymentIntentSearchParams) *SearchIter {
 	return &SearchIter{
 		SearchIter: stripe.GetSearchIter(params, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.SearchContainer, error) {
 			list := &stripe.PaymentIntentSearchResult{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/payment_intents/search", c.Key, b, p, list)
+			err := c.B.Call(stripe.StripeRequest{
+				Method: http.MethodGet,
+				Path:   "/v1/payment_intents/search",
+				Key:    c.Key,
+				Params: p,
+				Body:   b,
+			},
+				list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {

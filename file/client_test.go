@@ -12,13 +12,11 @@ package file
 //
 
 import (
-	"bytes"
 	"os"
 	"testing"
 
 	assert "github.com/stretchr/testify/require"
 	stripe "github.com/stripe/stripe-go/v76"
-	"github.com/stripe/stripe-go/v76/form"
 	_ "github.com/stripe/stripe-go/v76/testing"
 )
 
@@ -47,17 +45,14 @@ type testBackend struct {
 	calledMultipart bool
 }
 
-func (b *testBackend) Call(method, path, key string, params stripe.ParamsContainer, v stripe.LastResponseSetter) error {
+func (b *testBackend) Call(req stripe.StripeRequest, v stripe.LastResponseSetter) error {
+	if req.IsMultipart {
+		b.calledMultipart = true
+	}
 	return nil
 }
-func (b *testBackend) CallStreaming(method, path, key string, params stripe.ParamsContainer, v stripe.StreamingLastResponseSetter) error {
-	return nil
-}
-func (b *testBackend) CallRaw(method, path, key string, body *form.Values, params *stripe.Params, v stripe.LastResponseSetter) error {
-	return nil
-}
-func (b *testBackend) CallMultipart(method, path, key, boundary string, body *bytes.Buffer, params *stripe.Params, v stripe.LastResponseSetter) error {
-	b.calledMultipart = true
+
+func (b *testBackend) CallStreaming(req stripe.StripeRequest, v stripe.StreamingLastResponseSetter) error {
 	return nil
 }
 func (b *testBackend) SetMaxNetworkRetries(maxNetworkRetries int64) {}

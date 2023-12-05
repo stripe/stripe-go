@@ -31,7 +31,13 @@ func (c Client) PresentPaymentMethod(id string, params *stripe.TestHelpersTermin
 		id,
 	)
 	reader := &stripe.TerminalReader{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, reader)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, reader)
 	return reader, err
 }
 

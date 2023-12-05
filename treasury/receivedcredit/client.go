@@ -29,7 +29,13 @@ func Get(id string, params *stripe.TreasuryReceivedCreditParams) (*stripe.Treasu
 func (c Client) Get(id string, params *stripe.TreasuryReceivedCreditParams) (*stripe.TreasuryReceivedCredit, error) {
 	path := stripe.FormatURLPath("/v1/treasury/received_credits/%s", id)
 	receivedcredit := &stripe.TreasuryReceivedCredit{}
-	err := c.B.Call(http.MethodGet, path, c.Key, params, receivedcredit)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodGet, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, receivedcredit)
 	return receivedcredit, err
 }
 
@@ -43,7 +49,14 @@ func (c Client) List(listParams *stripe.TreasuryReceivedCreditListParams) *Iter 
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.TreasuryReceivedCreditList{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/treasury/received_credits", c.Key, b, p, list)
+			err := c.B.Call(stripe.StripeRequest{
+				Method: http.MethodGet,
+				Path:   "/v1/treasury/received_credits",
+				Key:    c.Key,
+				Params: p,
+				Body:   b,
+			},
+				list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {

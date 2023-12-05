@@ -33,7 +33,13 @@ func (c Client) New(params *stripe.TransferReversalParams) (*stripe.TransferReve
 		stripe.StringValue(params.ID),
 	)
 	transferreversal := &stripe.TransferReversal{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, transferreversal)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, transferreversal)
 	return transferreversal, err
 }
 
@@ -55,7 +61,13 @@ func (c Client) Get(id string, params *stripe.TransferReversalParams) (*stripe.T
 		id,
 	)
 	transferreversal := &stripe.TransferReversal{}
-	err := c.B.Call(http.MethodGet, path, c.Key, params, transferreversal)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodGet, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, transferreversal)
 	return transferreversal, err
 }
 
@@ -72,7 +84,13 @@ func (c Client) Update(id string, params *stripe.TransferReversalParams) (*strip
 		id,
 	)
 	transferreversal := &stripe.TransferReversal{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, transferreversal)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, transferreversal)
 	return transferreversal, err
 }
 
@@ -90,7 +108,14 @@ func (c Client) List(listParams *stripe.TransferReversalListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.TransferReversalList{}
-			err := c.B.CallRaw(http.MethodGet, path, c.Key, b, p, list)
+			err := c.B.Call(stripe.StripeRequest{
+				Method: http.MethodGet,
+				Path:   path,
+				Key:    c.Key,
+				Params: p,
+				Body:   b,
+			},
+				list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {

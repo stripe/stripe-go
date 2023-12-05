@@ -28,7 +28,13 @@ func New(params *stripe.AppsSecretParams) (*stripe.AppsSecret, error) {
 // New creates a new apps secret.
 func (c Client) New(params *stripe.AppsSecretParams) (*stripe.AppsSecret, error) {
 	secret := &stripe.AppsSecret{}
-	err := c.B.Call(http.MethodPost, "/v1/apps/secrets", c.Key, params, secret)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: "/v1/apps/secrets", Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, secret)
 	return secret, err
 }
 
@@ -40,13 +46,13 @@ func DeleteWhere(params *stripe.AppsSecretDeleteWhereParams) (*stripe.AppsSecret
 // DeleteWhere is the method for the `POST /v1/apps/secrets/delete` API.
 func (c Client) DeleteWhere(params *stripe.AppsSecretDeleteWhereParams) (*stripe.AppsSecret, error) {
 	secret := &stripe.AppsSecret{}
-	err := c.B.Call(
-		http.MethodPost,
-		"/v1/apps/secrets/delete",
-		c.Key,
-		params,
-		secret,
-	)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: "/v1/apps/secrets/delete", Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, secret)
 	return secret, err
 }
 
@@ -58,13 +64,13 @@ func Find(params *stripe.AppsSecretFindParams) (*stripe.AppsSecret, error) {
 // Find is the method for the `GET /v1/apps/secrets/find` API.
 func (c Client) Find(params *stripe.AppsSecretFindParams) (*stripe.AppsSecret, error) {
 	secret := &stripe.AppsSecret{}
-	err := c.B.Call(
-		http.MethodGet,
-		"/v1/apps/secrets/find",
-		c.Key,
-		params,
-		secret,
-	)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodGet, Path: "/v1/apps/secrets/find", Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, secret)
 	return secret, err
 }
 
@@ -78,7 +84,14 @@ func (c Client) List(listParams *stripe.AppsSecretListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.AppsSecretList{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/apps/secrets", c.Key, b, p, list)
+			err := c.B.Call(stripe.StripeRequest{
+				Method: http.MethodGet,
+				Path:   "/v1/apps/secrets",
+				Key:    c.Key,
+				Params: p,
+				Body:   b,
+			},
+				list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {

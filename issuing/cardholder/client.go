@@ -29,13 +29,13 @@ func New(params *stripe.IssuingCardholderParams) (*stripe.IssuingCardholder, err
 // New creates a new issuing cardholder.
 func (c Client) New(params *stripe.IssuingCardholderParams) (*stripe.IssuingCardholder, error) {
 	cardholder := &stripe.IssuingCardholder{}
-	err := c.B.Call(
-		http.MethodPost,
-		"/v1/issuing/cardholders",
-		c.Key,
-		params,
-		cardholder,
-	)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: "/v1/issuing/cardholders", Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, cardholder)
 	return cardholder, err
 }
 
@@ -48,7 +48,13 @@ func Get(id string, params *stripe.IssuingCardholderParams) (*stripe.IssuingCard
 func (c Client) Get(id string, params *stripe.IssuingCardholderParams) (*stripe.IssuingCardholder, error) {
 	path := stripe.FormatURLPath("/v1/issuing/cardholders/%s", id)
 	cardholder := &stripe.IssuingCardholder{}
-	err := c.B.Call(http.MethodGet, path, c.Key, params, cardholder)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodGet, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, cardholder)
 	return cardholder, err
 }
 
@@ -61,7 +67,13 @@ func Update(id string, params *stripe.IssuingCardholderParams) (*stripe.IssuingC
 func (c Client) Update(id string, params *stripe.IssuingCardholderParams) (*stripe.IssuingCardholder, error) {
 	path := stripe.FormatURLPath("/v1/issuing/cardholders/%s", id)
 	cardholder := &stripe.IssuingCardholder{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, cardholder)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, cardholder)
 	return cardholder, err
 }
 
@@ -75,7 +87,14 @@ func (c Client) List(listParams *stripe.IssuingCardholderListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.IssuingCardholderList{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/issuing/cardholders", c.Key, b, p, list)
+			err := c.B.Call(stripe.StripeRequest{
+				Method: http.MethodGet,
+				Path:   "/v1/issuing/cardholders",
+				Key:    c.Key,
+				Params: p,
+				Body:   b,
+			},
+				list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {

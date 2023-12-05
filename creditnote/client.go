@@ -28,13 +28,13 @@ func New(params *stripe.CreditNoteParams) (*stripe.CreditNote, error) {
 // New creates a new credit note.
 func (c Client) New(params *stripe.CreditNoteParams) (*stripe.CreditNote, error) {
 	creditnote := &stripe.CreditNote{}
-	err := c.B.Call(
-		http.MethodPost,
-		"/v1/credit_notes",
-		c.Key,
-		params,
-		creditnote,
-	)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: "/v1/credit_notes", Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, creditnote)
 	return creditnote, err
 }
 
@@ -47,7 +47,13 @@ func Get(id string, params *stripe.CreditNoteParams) (*stripe.CreditNote, error)
 func (c Client) Get(id string, params *stripe.CreditNoteParams) (*stripe.CreditNote, error) {
 	path := stripe.FormatURLPath("/v1/credit_notes/%s", id)
 	creditnote := &stripe.CreditNote{}
-	err := c.B.Call(http.MethodGet, path, c.Key, params, creditnote)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodGet, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, creditnote)
 	return creditnote, err
 }
 
@@ -60,7 +66,13 @@ func Update(id string, params *stripe.CreditNoteParams) (*stripe.CreditNote, err
 func (c Client) Update(id string, params *stripe.CreditNoteParams) (*stripe.CreditNote, error) {
 	path := stripe.FormatURLPath("/v1/credit_notes/%s", id)
 	creditnote := &stripe.CreditNote{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, creditnote)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, creditnote)
 	return creditnote, err
 }
 
@@ -72,13 +84,13 @@ func Preview(params *stripe.CreditNotePreviewParams) (*stripe.CreditNote, error)
 // Preview is the method for the `GET /v1/credit_notes/preview` API.
 func (c Client) Preview(params *stripe.CreditNotePreviewParams) (*stripe.CreditNote, error) {
 	creditnote := &stripe.CreditNote{}
-	err := c.B.Call(
-		http.MethodGet,
-		"/v1/credit_notes/preview",
-		c.Key,
-		params,
-		creditnote,
-	)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodGet, Path: "/v1/credit_notes/preview", Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, creditnote)
 	return creditnote, err
 }
 
@@ -91,7 +103,13 @@ func VoidCreditNote(id string, params *stripe.CreditNoteVoidCreditNoteParams) (*
 func (c Client) VoidCreditNote(id string, params *stripe.CreditNoteVoidCreditNoteParams) (*stripe.CreditNote, error) {
 	path := stripe.FormatURLPath("/v1/credit_notes/%s/void", id)
 	creditnote := &stripe.CreditNote{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, creditnote)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, creditnote)
 	return creditnote, err
 }
 
@@ -105,7 +123,14 @@ func (c Client) List(listParams *stripe.CreditNoteListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.CreditNoteList{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/credit_notes", c.Key, b, p, list)
+			err := c.B.Call(stripe.StripeRequest{
+				Method: http.MethodGet,
+				Path:   "/v1/credit_notes",
+				Key:    c.Key,
+				Params: p,
+				Body:   b,
+			},
+				list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {
@@ -148,7 +173,14 @@ func (c Client) ListLines(listParams *stripe.CreditNoteListLinesParams) *LineIte
 	return &LineItemIter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.CreditNoteLineItemList{}
-			err := c.B.CallRaw(http.MethodGet, path, c.Key, b, p, list)
+			err := c.B.Call(stripe.StripeRequest{
+				Method: http.MethodGet,
+				Path:   path,
+				Key:    c.Key,
+				Params: p,
+				Body:   b,
+			},
+				list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {
@@ -170,7 +202,14 @@ func (c Client) PreviewLines(listParams *stripe.CreditNotePreviewLinesParams) *L
 	return &LineItemIter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.CreditNoteLineItemList{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/credit_notes/preview/lines", c.Key, b, p, list)
+			err := c.B.Call(stripe.StripeRequest{
+				Method: http.MethodGet,
+				Path:   "/v1/credit_notes/preview/lines",
+				Key:    c.Key,
+				Params: p,
+				Body:   b,
+			},
+				list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {

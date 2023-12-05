@@ -28,13 +28,13 @@ func New(params *stripe.CheckoutSessionParams) (*stripe.CheckoutSession, error) 
 // New creates a new checkout session.
 func (c Client) New(params *stripe.CheckoutSessionParams) (*stripe.CheckoutSession, error) {
 	session := &stripe.CheckoutSession{}
-	err := c.B.Call(
-		http.MethodPost,
-		"/v1/checkout/sessions",
-		c.Key,
-		params,
-		session,
-	)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: "/v1/checkout/sessions", Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, session)
 	return session, err
 }
 
@@ -47,7 +47,13 @@ func Get(id string, params *stripe.CheckoutSessionParams) (*stripe.CheckoutSessi
 func (c Client) Get(id string, params *stripe.CheckoutSessionParams) (*stripe.CheckoutSession, error) {
 	path := stripe.FormatURLPath("/v1/checkout/sessions/%s", id)
 	session := &stripe.CheckoutSession{}
-	err := c.B.Call(http.MethodGet, path, c.Key, params, session)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodGet, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, session)
 	return session, err
 }
 
@@ -60,7 +66,13 @@ func Expire(id string, params *stripe.CheckoutSessionExpireParams) (*stripe.Chec
 func (c Client) Expire(id string, params *stripe.CheckoutSessionExpireParams) (*stripe.CheckoutSession, error) {
 	path := stripe.FormatURLPath("/v1/checkout/sessions/%s/expire", id)
 	session := &stripe.CheckoutSession{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, session)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, session)
 	return session, err
 }
 
@@ -74,7 +86,14 @@ func (c Client) List(listParams *stripe.CheckoutSessionListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.CheckoutSessionList{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/checkout/sessions", c.Key, b, p, list)
+			err := c.B.Call(stripe.StripeRequest{
+				Method: http.MethodGet,
+				Path:   "/v1/checkout/sessions",
+				Key:    c.Key,
+				Params: p,
+				Body:   b,
+			},
+				list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {
@@ -117,7 +136,14 @@ func (c Client) ListLineItems(listParams *stripe.CheckoutSessionListLineItemsPar
 	return &LineItemIter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.LineItemList{}
-			err := c.B.CallRaw(http.MethodGet, path, c.Key, b, p, list)
+			err := c.B.Call(stripe.StripeRequest{
+				Method: http.MethodGet,
+				Path:   path,
+				Key:    c.Key,
+				Params: p,
+				Body:   b,
+			},
+				list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {

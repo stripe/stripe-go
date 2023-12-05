@@ -29,7 +29,13 @@ func Get(id string, params *stripe.TaxTransactionParams) (*stripe.TaxTransaction
 func (c Client) Get(id string, params *stripe.TaxTransactionParams) (*stripe.TaxTransaction, error) {
 	path := stripe.FormatURLPath("/v1/tax/transactions/%s", id)
 	transaction := &stripe.TaxTransaction{}
-	err := c.B.Call(http.MethodGet, path, c.Key, params, transaction)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodGet, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, transaction)
 	return transaction, err
 }
 
@@ -41,13 +47,13 @@ func CreateFromCalculation(params *stripe.TaxTransactionCreateFromCalculationPar
 // CreateFromCalculation is the method for the `POST /v1/tax/transactions/create_from_calculation` API.
 func (c Client) CreateFromCalculation(params *stripe.TaxTransactionCreateFromCalculationParams) (*stripe.TaxTransaction, error) {
 	transaction := &stripe.TaxTransaction{}
-	err := c.B.Call(
-		http.MethodPost,
-		"/v1/tax/transactions/create_from_calculation",
-		c.Key,
-		params,
-		transaction,
-	)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: "/v1/tax/transactions/create_from_calculation", Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, transaction)
 	return transaction, err
 }
 
@@ -59,13 +65,13 @@ func CreateReversal(params *stripe.TaxTransactionCreateReversalParams) (*stripe.
 // CreateReversal is the method for the `POST /v1/tax/transactions/create_reversal` API.
 func (c Client) CreateReversal(params *stripe.TaxTransactionCreateReversalParams) (*stripe.TaxTransaction, error) {
 	transaction := &stripe.TaxTransaction{}
-	err := c.B.Call(
-		http.MethodPost,
-		"/v1/tax/transactions/create_reversal",
-		c.Key,
-		params,
-		transaction,
-	)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: "/v1/tax/transactions/create_reversal", Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, transaction)
 	return transaction, err
 }
 
@@ -83,7 +89,14 @@ func (c Client) ListLineItems(listParams *stripe.TaxTransactionListLineItemsPara
 	return &LineItemIter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.TaxTransactionLineItemList{}
-			err := c.B.CallRaw(http.MethodGet, path, c.Key, b, p, list)
+			err := c.B.Call(stripe.StripeRequest{
+				Method: http.MethodGet,
+				Path:   path,
+				Key:    c.Key,
+				Params: p,
+				Body:   b,
+			},
+				list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {

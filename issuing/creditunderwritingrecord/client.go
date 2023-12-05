@@ -29,7 +29,13 @@ func Get(id string, params *stripe.IssuingCreditUnderwritingRecordParams) (*stri
 func (c Client) Get(id string, params *stripe.IssuingCreditUnderwritingRecordParams) (*stripe.IssuingCreditUnderwritingRecord, error) {
 	path := stripe.FormatURLPath("/v1/issuing/credit_underwriting_records/%s", id)
 	creditunderwritingrecord := &stripe.IssuingCreditUnderwritingRecord{}
-	err := c.B.Call(http.MethodGet, path, c.Key, params, creditunderwritingrecord)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodGet, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, creditunderwritingrecord)
 	return creditunderwritingrecord, err
 }
 
@@ -45,13 +51,13 @@ func (c Client) Correct(id string, params *stripe.IssuingCreditUnderwritingRecor
 		id,
 	)
 	creditunderwritingrecord := &stripe.IssuingCreditUnderwritingRecord{}
-	err := c.B.Call(
-		http.MethodPost,
-		path,
-		c.Key,
-		params,
-		creditunderwritingrecord,
-	)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, creditunderwritingrecord)
 	return creditunderwritingrecord, err
 }
 
@@ -63,13 +69,13 @@ func CreateFromApplication(params *stripe.IssuingCreditUnderwritingRecordCreateF
 // CreateFromApplication is the method for the `POST /v1/issuing/credit_underwriting_records/create_from_application` API.
 func (c Client) CreateFromApplication(params *stripe.IssuingCreditUnderwritingRecordCreateFromApplicationParams) (*stripe.IssuingCreditUnderwritingRecord, error) {
 	creditunderwritingrecord := &stripe.IssuingCreditUnderwritingRecord{}
-	err := c.B.Call(
-		http.MethodPost,
-		"/v1/issuing/credit_underwriting_records/create_from_application",
-		c.Key,
-		params,
-		creditunderwritingrecord,
-	)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: "/v1/issuing/credit_underwriting_records/create_from_application", Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, creditunderwritingrecord)
 	return creditunderwritingrecord, err
 }
 
@@ -81,13 +87,13 @@ func CreateFromProactiveReview(params *stripe.IssuingCreditUnderwritingRecordCre
 // CreateFromProactiveReview is the method for the `POST /v1/issuing/credit_underwriting_records/create_from_proactive_review` API.
 func (c Client) CreateFromProactiveReview(params *stripe.IssuingCreditUnderwritingRecordCreateFromProactiveReviewParams) (*stripe.IssuingCreditUnderwritingRecord, error) {
 	creditunderwritingrecord := &stripe.IssuingCreditUnderwritingRecord{}
-	err := c.B.Call(
-		http.MethodPost,
-		"/v1/issuing/credit_underwriting_records/create_from_proactive_review",
-		c.Key,
-		params,
-		creditunderwritingrecord,
-	)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: "/v1/issuing/credit_underwriting_records/create_from_proactive_review", Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, creditunderwritingrecord)
 	return creditunderwritingrecord, err
 }
 
@@ -103,13 +109,13 @@ func (c Client) ReportDecision(id string, params *stripe.IssuingCreditUnderwriti
 		id,
 	)
 	creditunderwritingrecord := &stripe.IssuingCreditUnderwritingRecord{}
-	err := c.B.Call(
-		http.MethodPost,
-		path,
-		c.Key,
-		params,
-		creditunderwritingrecord,
-	)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, creditunderwritingrecord)
 	return creditunderwritingrecord, err
 }
 
@@ -123,7 +129,14 @@ func (c Client) List(listParams *stripe.IssuingCreditUnderwritingRecordListParam
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.IssuingCreditUnderwritingRecordList{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/issuing/credit_underwriting_records", c.Key, b, p, list)
+			err := c.B.Call(stripe.StripeRequest{
+				Method: http.MethodGet,
+				Path:   "/v1/issuing/credit_underwriting_records",
+				Key:    c.Key,
+				Params: p,
+				Body:   b,
+			},
+				list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {

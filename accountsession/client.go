@@ -27,13 +27,13 @@ func New(params *stripe.AccountSessionParams) (*stripe.AccountSession, error) {
 // New creates a new account session.
 func (c Client) New(params *stripe.AccountSessionParams) (*stripe.AccountSession, error) {
 	accountsession := &stripe.AccountSession{}
-	err := c.B.Call(
-		http.MethodPost,
-		"/v1/account_sessions",
-		c.Key,
-		params,
-		accountsession,
-	)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: "/v1/account_sessions", Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, accountsession)
 	return accountsession, err
 }
 

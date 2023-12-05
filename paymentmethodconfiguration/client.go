@@ -28,13 +28,13 @@ func New(params *stripe.PaymentMethodConfigurationParams) (*stripe.PaymentMethod
 // New creates a new payment method configuration.
 func (c Client) New(params *stripe.PaymentMethodConfigurationParams) (*stripe.PaymentMethodConfiguration, error) {
 	paymentmethodconfiguration := &stripe.PaymentMethodConfiguration{}
-	err := c.B.Call(
-		http.MethodPost,
-		"/v1/payment_method_configurations",
-		c.Key,
-		params,
-		paymentmethodconfiguration,
-	)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: "/v1/payment_method_configurations", Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, paymentmethodconfiguration)
 	return paymentmethodconfiguration, err
 }
 
@@ -47,13 +47,13 @@ func Get(id string, params *stripe.PaymentMethodConfigurationParams) (*stripe.Pa
 func (c Client) Get(id string, params *stripe.PaymentMethodConfigurationParams) (*stripe.PaymentMethodConfiguration, error) {
 	path := stripe.FormatURLPath("/v1/payment_method_configurations/%s", id)
 	paymentmethodconfiguration := &stripe.PaymentMethodConfiguration{}
-	err := c.B.Call(
-		http.MethodGet,
-		path,
-		c.Key,
-		params,
-		paymentmethodconfiguration,
-	)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodGet, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, paymentmethodconfiguration)
 	return paymentmethodconfiguration, err
 }
 
@@ -66,13 +66,13 @@ func Update(id string, params *stripe.PaymentMethodConfigurationParams) (*stripe
 func (c Client) Update(id string, params *stripe.PaymentMethodConfigurationParams) (*stripe.PaymentMethodConfiguration, error) {
 	path := stripe.FormatURLPath("/v1/payment_method_configurations/%s", id)
 	paymentmethodconfiguration := &stripe.PaymentMethodConfiguration{}
-	err := c.B.Call(
-		http.MethodPost,
-		path,
-		c.Key,
-		params,
-		paymentmethodconfiguration,
-	)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, paymentmethodconfiguration)
 	return paymentmethodconfiguration, err
 }
 
@@ -86,7 +86,14 @@ func (c Client) List(listParams *stripe.PaymentMethodConfigurationListParams) *I
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.PaymentMethodConfigurationList{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/payment_method_configurations", c.Key, b, p, list)
+			err := c.B.Call(stripe.StripeRequest{
+				Method: http.MethodGet,
+				Path:   "/v1/payment_method_configurations",
+				Key:    c.Key,
+				Params: p,
+				Body:   b,
+			},
+				list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {

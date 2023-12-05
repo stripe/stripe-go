@@ -28,13 +28,13 @@ func New(params *stripe.IssuingDisputeParams) (*stripe.IssuingDispute, error) {
 // New creates a new issuing dispute.
 func (c Client) New(params *stripe.IssuingDisputeParams) (*stripe.IssuingDispute, error) {
 	dispute := &stripe.IssuingDispute{}
-	err := c.B.Call(
-		http.MethodPost,
-		"/v1/issuing/disputes",
-		c.Key,
-		params,
-		dispute,
-	)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: "/v1/issuing/disputes", Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, dispute)
 	return dispute, err
 }
 
@@ -47,7 +47,13 @@ func Get(id string, params *stripe.IssuingDisputeParams) (*stripe.IssuingDispute
 func (c Client) Get(id string, params *stripe.IssuingDisputeParams) (*stripe.IssuingDispute, error) {
 	path := stripe.FormatURLPath("/v1/issuing/disputes/%s", id)
 	dispute := &stripe.IssuingDispute{}
-	err := c.B.Call(http.MethodGet, path, c.Key, params, dispute)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodGet, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, dispute)
 	return dispute, err
 }
 
@@ -60,7 +66,13 @@ func Update(id string, params *stripe.IssuingDisputeParams) (*stripe.IssuingDisp
 func (c Client) Update(id string, params *stripe.IssuingDisputeParams) (*stripe.IssuingDispute, error) {
 	path := stripe.FormatURLPath("/v1/issuing/disputes/%s", id)
 	dispute := &stripe.IssuingDispute{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, dispute)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, dispute)
 	return dispute, err
 }
 
@@ -73,7 +85,13 @@ func Submit(id string, params *stripe.IssuingDisputeSubmitParams) (*stripe.Issui
 func (c Client) Submit(id string, params *stripe.IssuingDisputeSubmitParams) (*stripe.IssuingDispute, error) {
 	path := stripe.FormatURLPath("/v1/issuing/disputes/%s/submit", id)
 	dispute := &stripe.IssuingDispute{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, dispute)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, dispute)
 	return dispute, err
 }
 
@@ -87,7 +105,14 @@ func (c Client) List(listParams *stripe.IssuingDisputeListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.IssuingDisputeList{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/issuing/disputes", c.Key, b, p, list)
+			err := c.B.Call(stripe.StripeRequest{
+				Method: http.MethodGet,
+				Path:   "/v1/issuing/disputes",
+				Key:    c.Key,
+				Params: p,
+				Body:   b,
+			},
+				list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {

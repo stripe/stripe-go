@@ -191,14 +191,35 @@ func (a *AppInfo) formatUserAgent() string {
 	return str
 }
 
+type StripeRequest struct {
+	Method string
+	Path   string
+	Key    string
+
+	IsMultipart bool
+
+	Params *Params
+	Body   *form.Values
+
+	Boundary      string
+	StreamingBody *bytes.Buffer
+}
+
+func (sr *StripeRequest) SetParams(p ParamsContainer) error {
+	body, commonParams, err := extractParams(p)
+	if err != nil {
+		return err
+	}
+	sr.Params = commonParams
+	sr.Body = body
+	return nil
+}
+
 // Backend is an interface for making calls against a Stripe service.
 // This interface exists to enable mocking for during testing if needed.
 type Backend interface {
-	Call(method, path, key string, params ParamsContainer, v LastResponseSetter) error
-	CallStreaming(method, path, key string, params ParamsContainer, v StreamingLastResponseSetter) error
-	CallRaw(method, path, key string, body *form.Values, params *Params, v LastResponseSetter) error
-	CallMultipart(method, path, key, boundary string, body *bytes.Buffer, params *Params, v LastResponseSetter) error
-	SetMaxNetworkRetries(maxNetworkRetries int64)
+	Call(req StripeRequest, v LastResponseSetter) error
+	CallStreaming(req StripeRequest, v StreamingLastResponseSetter) error
 }
 
 type RawRequestBackend interface {
@@ -317,21 +338,51 @@ func extractParams(params ParamsContainer) (*form.Values, *Params, error) {
 }
 
 // Call is the Backend.Call implementation for invoking Stripe APIs.
-func (s *BackendImplementation) Call(method, path, key string, params ParamsContainer, v LastResponseSetter) error {
-	body, commonParams, err := extractParams(params)
+func (s *BackendImplementation) Call(sr StripeRequest, v LastResponseSetter) error {
+	form := sr.Body
+	method := sr.Method
+	path := sr.Path
+	key := sr.Key
+	params := sr.Params
+	var bodyBuffer *bytes.Buffer
+	var contentType string
+	if sr.IsMultipart {
+		contentType = "multipart/form-data; boundary=" + sr.Boundary
+		bodyBuffer = sr.StreamingBody
+	} else {
+		contentType = "application/x-www-form-urlencoded"
+		var body string
+		if form != nil && !form.Empty() {
+			body = form.Encode()
+
+			// On `GET`, move the payload into the URL
+			if method != http.MethodPost {
+				path += "?" + body
+				body = ""
+			}
+		}
+		bodyBuffer = bytes.NewBufferString(body)
+	}
+
+	req, err := s.NewRequest(method, path, key, contentType, params)
 	if err != nil {
 		return err
 	}
-	return s.CallRaw(method, path, key, body, commonParams, v)
+
+	if err := s.Do(req, bodyBuffer, v); err != nil {
+		return err
+	}
+
+	return nil
 }
 
 // CallStreaming is the Backend.Call implementation for invoking Stripe APIs
 // without buffering the response into memory.
-func (s *BackendImplementation) CallStreaming(method, path, key string, params ParamsContainer, v StreamingLastResponseSetter) error {
-	formValues, commonParams, err := extractParams(params)
-	if err != nil {
-		return err
-	}
+func (s *BackendImplementation) CallStreaming(sr StripeRequest, v StreamingLastResponseSetter) error {
+	formValues := sr.Body
+	commonParams := sr.Params
+	method := sr.Method
+	path := sr.Path
 
 	var body string
 	if formValues != nil && !formValues.Empty() {
@@ -345,28 +396,17 @@ func (s *BackendImplementation) CallStreaming(method, path, key string, params P
 	}
 	bodyBuffer := bytes.NewBufferString(body)
 
-	req, err := s.NewRequest(method, path, key, "application/x-www-form-urlencoded", commonParams)
+	contentType := "application/x-www-form-urlencoded"
+	if sr.IsMultipart {
+		contentType = "multipart/form-data; boundary=" + sr.Boundary
+	}
+
+	req, err := s.NewRequest(method, path, sr.Key, contentType, commonParams)
 	if err != nil {
 		return err
 	}
 
 	if err := s.DoStreaming(req, bodyBuffer, v); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-// CallMultipart is the Backend.CallMultipart implementation for invoking Stripe APIs.
-func (s *BackendImplementation) CallMultipart(method, path, key, boundary string, body *bytes.Buffer, params *Params, v LastResponseSetter) error {
-	contentType := "multipart/form-data; boundary=" + boundary
-
-	req, err := s.NewRequest(method, path, key, contentType, params)
-	if err != nil {
-		return err
-	}
-
-	if err := s.Do(req, body, v); err != nil {
 		return err
 	}
 
@@ -439,32 +479,6 @@ func (s *BackendImplementation) RawRequest(method, path, key, content string, pa
 		return nil, err
 	}
 	return newAPIResponse(resp, body), nil
-}
-
-// CallRaw is the implementation for invoking Stripe APIs internally without a backend.
-func (s *BackendImplementation) CallRaw(method, path, key string, form *form.Values, params *Params, v LastResponseSetter) error {
-	var body string
-	if form != nil && !form.Empty() {
-		body = form.Encode()
-
-		// On `GET`, move the payload into the URL
-		if method != http.MethodPost {
-			path += "?" + body
-			body = ""
-		}
-	}
-	bodyBuffer := bytes.NewBufferString(body)
-
-	req, err := s.NewRequest(method, path, key, "application/x-www-form-urlencoded", params)
-	if err != nil {
-		return err
-	}
-
-	if err := s.Do(req, bodyBuffer, v); err != nil {
-		return err
-	}
-
-	return nil
 }
 
 // NewRequest is used by Call to generate an http.Request. It handles encoding
@@ -810,13 +824,6 @@ func (s *BackendImplementation) ResponseToError(res *http.Response, resBody []by
 	raw.Error.SetLastResponse(newAPIResponse(res, resBody))
 
 	return raw.Error
-}
-
-// SetMaxNetworkRetries sets max number of retries on failed requests
-//
-// This function is deprecated. Please use GetBackendWithConfig instead.
-func (s *BackendImplementation) SetMaxNetworkRetries(maxNetworkRetries int64) {
-	s.MaxNetworkRetries = maxNetworkRetries
 }
 
 // SetNetworkRetriesSleep allows the normal sleep between network retries to be

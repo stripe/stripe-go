@@ -31,7 +31,13 @@ func (c Client) Activate(id string, params *stripe.TestHelpersIssuingPersonaliza
 		id,
 	)
 	personalizationdesign := &stripe.IssuingPersonalizationDesign{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, personalizationdesign)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, personalizationdesign)
 	return personalizationdesign, err
 }
 
@@ -47,7 +53,13 @@ func (c Client) Deactivate(id string, params *stripe.TestHelpersIssuingPersonali
 		id,
 	)
 	personalizationdesign := &stripe.IssuingPersonalizationDesign{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, personalizationdesign)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, personalizationdesign)
 	return personalizationdesign, err
 }
 
@@ -63,7 +75,13 @@ func (c Client) Reject(id string, params *stripe.TestHelpersIssuingPersonalizati
 		id,
 	)
 	personalizationdesign := &stripe.IssuingPersonalizationDesign{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, personalizationdesign)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, personalizationdesign)
 	return personalizationdesign, err
 }
 

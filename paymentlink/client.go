@@ -28,13 +28,13 @@ func New(params *stripe.PaymentLinkParams) (*stripe.PaymentLink, error) {
 // New creates a new payment link.
 func (c Client) New(params *stripe.PaymentLinkParams) (*stripe.PaymentLink, error) {
 	paymentlink := &stripe.PaymentLink{}
-	err := c.B.Call(
-		http.MethodPost,
-		"/v1/payment_links",
-		c.Key,
-		params,
-		paymentlink,
-	)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: "/v1/payment_links", Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, paymentlink)
 	return paymentlink, err
 }
 
@@ -47,7 +47,13 @@ func Get(id string, params *stripe.PaymentLinkParams) (*stripe.PaymentLink, erro
 func (c Client) Get(id string, params *stripe.PaymentLinkParams) (*stripe.PaymentLink, error) {
 	path := stripe.FormatURLPath("/v1/payment_links/%s", id)
 	paymentlink := &stripe.PaymentLink{}
-	err := c.B.Call(http.MethodGet, path, c.Key, params, paymentlink)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodGet, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, paymentlink)
 	return paymentlink, err
 }
 
@@ -60,7 +66,13 @@ func Update(id string, params *stripe.PaymentLinkParams) (*stripe.PaymentLink, e
 func (c Client) Update(id string, params *stripe.PaymentLinkParams) (*stripe.PaymentLink, error) {
 	path := stripe.FormatURLPath("/v1/payment_links/%s", id)
 	paymentlink := &stripe.PaymentLink{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, paymentlink)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, paymentlink)
 	return paymentlink, err
 }
 
@@ -74,7 +86,14 @@ func (c Client) List(listParams *stripe.PaymentLinkListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.PaymentLinkList{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/payment_links", c.Key, b, p, list)
+			err := c.B.Call(stripe.StripeRequest{
+				Method: http.MethodGet,
+				Path:   "/v1/payment_links",
+				Key:    c.Key,
+				Params: p,
+				Body:   b,
+			},
+				list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {
@@ -117,7 +136,14 @@ func (c Client) ListLineItems(listParams *stripe.PaymentLinkListLineItemsParams)
 	return &LineItemIter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.LineItemList{}
-			err := c.B.CallRaw(http.MethodGet, path, c.Key, b, p, list)
+			err := c.B.Call(stripe.StripeRequest{
+				Method: http.MethodGet,
+				Path:   path,
+				Key:    c.Key,
+				Params: p,
+				Body:   b,
+			},
+				list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {

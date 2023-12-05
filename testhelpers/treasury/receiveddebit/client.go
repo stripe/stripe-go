@@ -27,13 +27,13 @@ func New(params *stripe.TestHelpersTreasuryReceivedDebitParams) (*stripe.Treasur
 // New creates a new treasury received debit.
 func (c Client) New(params *stripe.TestHelpersTreasuryReceivedDebitParams) (*stripe.TreasuryReceivedDebit, error) {
 	receiveddebit := &stripe.TreasuryReceivedDebit{}
-	err := c.B.Call(
-		http.MethodPost,
-		"/v1/test_helpers/treasury/received_debits",
-		c.Key,
-		params,
-		receiveddebit,
-	)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: "/v1/test_helpers/treasury/received_debits", Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, receiveddebit)
 	return receiveddebit, err
 }
 

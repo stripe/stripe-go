@@ -28,7 +28,13 @@ func Get(id string, params *stripe.MandateParams) (*stripe.Mandate, error) {
 func (c Client) Get(id string, params *stripe.MandateParams) (*stripe.Mandate, error) {
 	path := stripe.FormatURLPath("/v1/mandates/%s", id)
 	mandate := &stripe.Mandate{}
-	err := c.B.Call(http.MethodGet, path, c.Key, params, mandate)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodGet, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, mandate)
 	return mandate, err
 }
 

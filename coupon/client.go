@@ -28,7 +28,13 @@ func New(params *stripe.CouponParams) (*stripe.Coupon, error) {
 // New creates a new coupon.
 func (c Client) New(params *stripe.CouponParams) (*stripe.Coupon, error) {
 	coupon := &stripe.Coupon{}
-	err := c.B.Call(http.MethodPost, "/v1/coupons", c.Key, params, coupon)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: "/v1/coupons", Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, coupon)
 	return coupon, err
 }
 
@@ -41,7 +47,13 @@ func Get(id string, params *stripe.CouponParams) (*stripe.Coupon, error) {
 func (c Client) Get(id string, params *stripe.CouponParams) (*stripe.Coupon, error) {
 	path := stripe.FormatURLPath("/v1/coupons/%s", id)
 	coupon := &stripe.Coupon{}
-	err := c.B.Call(http.MethodGet, path, c.Key, params, coupon)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodGet, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, coupon)
 	return coupon, err
 }
 
@@ -54,7 +66,13 @@ func Update(id string, params *stripe.CouponParams) (*stripe.Coupon, error) {
 func (c Client) Update(id string, params *stripe.CouponParams) (*stripe.Coupon, error) {
 	path := stripe.FormatURLPath("/v1/coupons/%s", id)
 	coupon := &stripe.Coupon{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, coupon)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, coupon)
 	return coupon, err
 }
 
@@ -67,7 +85,13 @@ func Del(id string, params *stripe.CouponParams) (*stripe.Coupon, error) {
 func (c Client) Del(id string, params *stripe.CouponParams) (*stripe.Coupon, error) {
 	path := stripe.FormatURLPath("/v1/coupons/%s", id)
 	coupon := &stripe.Coupon{}
-	err := c.B.Call(http.MethodDelete, path, c.Key, params, coupon)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodDelete, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, coupon)
 	return coupon, err
 }
 
@@ -81,7 +105,14 @@ func (c Client) List(listParams *stripe.CouponListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.CouponList{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/coupons", c.Key, b, p, list)
+			err := c.B.Call(stripe.StripeRequest{
+				Method: http.MethodGet,
+				Path:   "/v1/coupons",
+				Key:    c.Key,
+				Params: p,
+				Body:   b,
+			},
+				list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {

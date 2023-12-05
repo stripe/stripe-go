@@ -27,13 +27,13 @@ func New(params *stripe.FinancialConnectionsSessionParams) (*stripe.FinancialCon
 // New creates a new financial connections session.
 func (c Client) New(params *stripe.FinancialConnectionsSessionParams) (*stripe.FinancialConnectionsSession, error) {
 	session := &stripe.FinancialConnectionsSession{}
-	err := c.B.Call(
-		http.MethodPost,
-		"/v1/financial_connections/sessions",
-		c.Key,
-		params,
-		session,
-	)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: "/v1/financial_connections/sessions", Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, session)
 	return session, err
 }
 
@@ -46,7 +46,13 @@ func Get(id string, params *stripe.FinancialConnectionsSessionParams) (*stripe.F
 func (c Client) Get(id string, params *stripe.FinancialConnectionsSessionParams) (*stripe.FinancialConnectionsSession, error) {
 	path := stripe.FormatURLPath("/v1/financial_connections/sessions/%s", id)
 	session := &stripe.FinancialConnectionsSession{}
-	err := c.B.Call(http.MethodGet, path, c.Key, params, session)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodGet, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, session)
 	return session, err
 }
 

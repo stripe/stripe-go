@@ -28,13 +28,13 @@ func New(params *stripe.GiftCardsTransactionParams) (*stripe.GiftCardsTransactio
 // New creates a new gift cards transaction.
 func (c Client) New(params *stripe.GiftCardsTransactionParams) (*stripe.GiftCardsTransaction, error) {
 	transaction := &stripe.GiftCardsTransaction{}
-	err := c.B.Call(
-		http.MethodPost,
-		"/v1/gift_cards/transactions",
-		c.Key,
-		params,
-		transaction,
-	)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: "/v1/gift_cards/transactions", Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, transaction)
 	return transaction, err
 }
 
@@ -47,7 +47,13 @@ func Get(id string, params *stripe.GiftCardsTransactionParams) (*stripe.GiftCard
 func (c Client) Get(id string, params *stripe.GiftCardsTransactionParams) (*stripe.GiftCardsTransaction, error) {
 	path := stripe.FormatURLPath("/v1/gift_cards/transactions/%s", id)
 	transaction := &stripe.GiftCardsTransaction{}
-	err := c.B.Call(http.MethodGet, path, c.Key, params, transaction)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodGet, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, transaction)
 	return transaction, err
 }
 
@@ -60,7 +66,13 @@ func Update(id string, params *stripe.GiftCardsTransactionParams) (*stripe.GiftC
 func (c Client) Update(id string, params *stripe.GiftCardsTransactionParams) (*stripe.GiftCardsTransaction, error) {
 	path := stripe.FormatURLPath("/v1/gift_cards/transactions/%s", id)
 	transaction := &stripe.GiftCardsTransaction{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, transaction)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, transaction)
 	return transaction, err
 }
 
@@ -73,7 +85,13 @@ func Cancel(id string, params *stripe.GiftCardsTransactionCancelParams) (*stripe
 func (c Client) Cancel(id string, params *stripe.GiftCardsTransactionCancelParams) (*stripe.GiftCardsTransaction, error) {
 	path := stripe.FormatURLPath("/v1/gift_cards/transactions/%s/cancel", id)
 	transaction := &stripe.GiftCardsTransaction{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, transaction)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, transaction)
 	return transaction, err
 }
 
@@ -86,7 +104,13 @@ func Confirm(id string, params *stripe.GiftCardsTransactionConfirmParams) (*stri
 func (c Client) Confirm(id string, params *stripe.GiftCardsTransactionConfirmParams) (*stripe.GiftCardsTransaction, error) {
 	path := stripe.FormatURLPath("/v1/gift_cards/transactions/%s/confirm", id)
 	transaction := &stripe.GiftCardsTransaction{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, transaction)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, transaction)
 	return transaction, err
 }
 
@@ -100,7 +124,14 @@ func (c Client) List(listParams *stripe.GiftCardsTransactionListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.GiftCardsTransactionList{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/gift_cards/transactions", c.Key, b, p, list)
+			err := c.B.Call(stripe.StripeRequest{
+				Method: http.MethodGet,
+				Path:   "/v1/gift_cards/transactions",
+				Key:    c.Key,
+				Params: p,
+				Body:   b,
+			},
+				list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {

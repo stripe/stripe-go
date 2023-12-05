@@ -28,13 +28,13 @@ func New(params *stripe.TreasuryDebitReversalParams) (*stripe.TreasuryDebitRever
 // New creates a new treasury debit reversal.
 func (c Client) New(params *stripe.TreasuryDebitReversalParams) (*stripe.TreasuryDebitReversal, error) {
 	debitreversal := &stripe.TreasuryDebitReversal{}
-	err := c.B.Call(
-		http.MethodPost,
-		"/v1/treasury/debit_reversals",
-		c.Key,
-		params,
-		debitreversal,
-	)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: "/v1/treasury/debit_reversals", Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, debitreversal)
 	return debitreversal, err
 }
 
@@ -47,7 +47,13 @@ func Get(id string, params *stripe.TreasuryDebitReversalParams) (*stripe.Treasur
 func (c Client) Get(id string, params *stripe.TreasuryDebitReversalParams) (*stripe.TreasuryDebitReversal, error) {
 	path := stripe.FormatURLPath("/v1/treasury/debit_reversals/%s", id)
 	debitreversal := &stripe.TreasuryDebitReversal{}
-	err := c.B.Call(http.MethodGet, path, c.Key, params, debitreversal)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodGet, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, debitreversal)
 	return debitreversal, err
 }
 
@@ -61,7 +67,14 @@ func (c Client) List(listParams *stripe.TreasuryDebitReversalListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.TreasuryDebitReversalList{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/treasury/debit_reversals", c.Key, b, p, list)
+			err := c.B.Call(stripe.StripeRequest{
+				Method: http.MethodGet,
+				Path:   "/v1/treasury/debit_reversals",
+				Key:    c.Key,
+				Params: p,
+				Body:   b,
+			},
+				list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {

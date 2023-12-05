@@ -28,7 +28,13 @@ func Get(id string, params *stripe.ConfirmationTokenParams) (*stripe.Confirmatio
 func (c Client) Get(id string, params *stripe.ConfirmationTokenParams) (*stripe.ConfirmationToken, error) {
 	path := stripe.FormatURLPath("/v1/confirmation_tokens/%s", id)
 	confirmationtoken := &stripe.ConfirmationToken{}
-	err := c.B.Call(http.MethodGet, path, c.Key, params, confirmationtoken)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodGet, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, confirmationtoken)
 	return confirmationtoken, err
 }
 

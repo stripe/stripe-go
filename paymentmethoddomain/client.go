@@ -28,13 +28,13 @@ func New(params *stripe.PaymentMethodDomainParams) (*stripe.PaymentMethodDomain,
 // New creates a new payment method domain.
 func (c Client) New(params *stripe.PaymentMethodDomainParams) (*stripe.PaymentMethodDomain, error) {
 	paymentmethoddomain := &stripe.PaymentMethodDomain{}
-	err := c.B.Call(
-		http.MethodPost,
-		"/v1/payment_method_domains",
-		c.Key,
-		params,
-		paymentmethoddomain,
-	)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: "/v1/payment_method_domains", Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, paymentmethoddomain)
 	return paymentmethoddomain, err
 }
 
@@ -47,7 +47,13 @@ func Get(id string, params *stripe.PaymentMethodDomainParams) (*stripe.PaymentMe
 func (c Client) Get(id string, params *stripe.PaymentMethodDomainParams) (*stripe.PaymentMethodDomain, error) {
 	path := stripe.FormatURLPath("/v1/payment_method_domains/%s", id)
 	paymentmethoddomain := &stripe.PaymentMethodDomain{}
-	err := c.B.Call(http.MethodGet, path, c.Key, params, paymentmethoddomain)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodGet, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, paymentmethoddomain)
 	return paymentmethoddomain, err
 }
 
@@ -60,7 +66,13 @@ func Update(id string, params *stripe.PaymentMethodDomainParams) (*stripe.Paymen
 func (c Client) Update(id string, params *stripe.PaymentMethodDomainParams) (*stripe.PaymentMethodDomain, error) {
 	path := stripe.FormatURLPath("/v1/payment_method_domains/%s", id)
 	paymentmethoddomain := &stripe.PaymentMethodDomain{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, paymentmethoddomain)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, paymentmethoddomain)
 	return paymentmethoddomain, err
 }
 
@@ -73,7 +85,13 @@ func Validate(id string, params *stripe.PaymentMethodDomainValidateParams) (*str
 func (c Client) Validate(id string, params *stripe.PaymentMethodDomainValidateParams) (*stripe.PaymentMethodDomain, error) {
 	path := stripe.FormatURLPath("/v1/payment_method_domains/%s/validate", id)
 	paymentmethoddomain := &stripe.PaymentMethodDomain{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, paymentmethoddomain)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, paymentmethoddomain)
 	return paymentmethoddomain, err
 }
 
@@ -87,7 +105,14 @@ func (c Client) List(listParams *stripe.PaymentMethodDomainListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.PaymentMethodDomainList{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/payment_method_domains", c.Key, b, p, list)
+			err := c.B.Call(stripe.StripeRequest{
+				Method: http.MethodGet,
+				Path:   "/v1/payment_method_domains",
+				Key:    c.Key,
+				Params: p,
+				Body:   b,
+			},
+				list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {

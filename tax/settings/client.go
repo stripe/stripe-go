@@ -27,7 +27,13 @@ func Get(params *stripe.TaxSettingsParams) (*stripe.TaxSettings, error) {
 // Get returns the details of a tax settings.
 func (c Client) Get(params *stripe.TaxSettingsParams) (*stripe.TaxSettings, error) {
 	settings := &stripe.TaxSettings{}
-	err := c.B.Call(http.MethodGet, "/v1/tax/settings", c.Key, params, settings)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodGet, Path: "/v1/tax/settings", Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, settings)
 	return settings, err
 }
 
@@ -39,7 +45,13 @@ func Update(params *stripe.TaxSettingsParams) (*stripe.TaxSettings, error) {
 // Update updates a tax settings's properties.
 func (c Client) Update(params *stripe.TaxSettingsParams) (*stripe.TaxSettings, error) {
 	settings := &stripe.TaxSettings{}
-	err := c.B.Call(http.MethodPost, "/v1/tax/settings", c.Key, params, settings)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: "/v1/tax/settings", Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, settings)
 	return settings, err
 }
 

@@ -28,13 +28,13 @@ func New(params *stripe.IdentityVerificationSessionParams) (*stripe.IdentityVeri
 // New creates a new identity verification session.
 func (c Client) New(params *stripe.IdentityVerificationSessionParams) (*stripe.IdentityVerificationSession, error) {
 	verificationsession := &stripe.IdentityVerificationSession{}
-	err := c.B.Call(
-		http.MethodPost,
-		"/v1/identity/verification_sessions",
-		c.Key,
-		params,
-		verificationsession,
-	)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: "/v1/identity/verification_sessions", Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, verificationsession)
 	return verificationsession, err
 }
 
@@ -47,7 +47,13 @@ func Get(id string, params *stripe.IdentityVerificationSessionParams) (*stripe.I
 func (c Client) Get(id string, params *stripe.IdentityVerificationSessionParams) (*stripe.IdentityVerificationSession, error) {
 	path := stripe.FormatURLPath("/v1/identity/verification_sessions/%s", id)
 	verificationsession := &stripe.IdentityVerificationSession{}
-	err := c.B.Call(http.MethodGet, path, c.Key, params, verificationsession)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodGet, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, verificationsession)
 	return verificationsession, err
 }
 
@@ -60,7 +66,13 @@ func Update(id string, params *stripe.IdentityVerificationSessionParams) (*strip
 func (c Client) Update(id string, params *stripe.IdentityVerificationSessionParams) (*stripe.IdentityVerificationSession, error) {
 	path := stripe.FormatURLPath("/v1/identity/verification_sessions/%s", id)
 	verificationsession := &stripe.IdentityVerificationSession{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, verificationsession)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, verificationsession)
 	return verificationsession, err
 }
 
@@ -76,7 +88,13 @@ func (c Client) Cancel(id string, params *stripe.IdentityVerificationSessionCanc
 		id,
 	)
 	verificationsession := &stripe.IdentityVerificationSession{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, verificationsession)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, verificationsession)
 	return verificationsession, err
 }
 
@@ -92,7 +110,13 @@ func (c Client) Redact(id string, params *stripe.IdentityVerificationSessionReda
 		id,
 	)
 	verificationsession := &stripe.IdentityVerificationSession{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, verificationsession)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, verificationsession)
 	return verificationsession, err
 }
 
@@ -106,7 +130,14 @@ func (c Client) List(listParams *stripe.IdentityVerificationSessionListParams) *
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.IdentityVerificationSessionList{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/identity/verification_sessions", c.Key, b, p, list)
+			err := c.B.Call(stripe.StripeRequest{
+				Method: http.MethodGet,
+				Path:   "/v1/identity/verification_sessions",
+				Key:    c.Key,
+				Params: p,
+				Body:   b,
+			},
+				list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {

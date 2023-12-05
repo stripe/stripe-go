@@ -28,7 +28,13 @@ func Expire(id string, params *stripe.TestHelpersRefundExpireParams) (*stripe.Re
 func (c Client) Expire(id string, params *stripe.TestHelpersRefundExpireParams) (*stripe.Refund, error) {
 	path := stripe.FormatURLPath("/v1/test_helpers/refunds/%s/expire", id)
 	refund := &stripe.Refund{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, refund)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, refund)
 	return refund, err
 }
 

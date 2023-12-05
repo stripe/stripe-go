@@ -52,7 +52,14 @@ func (c Client) New(params *stripe.BankAccountParams) (*stripe.BankAccount, erro
 	// make an explicit call using a form and CallRaw instead of the standard
 	// Call (which takes a set of parameters).
 	bankaccount := &stripe.BankAccount{}
-	err := c.B.CallRaw(http.MethodPost, path, c.Key, body, &params.Params, bankaccount)
+	err := c.B.Call(stripe.StripeRequest{
+		Method: http.MethodPost,
+		Path:   path,
+		Key:    c.Key,
+		Body:   body,
+		Params: &params.Params,
+	}, bankaccount)
+
 	return bankaccount, err
 }
 
@@ -77,7 +84,16 @@ func (c Client) Get(id string, params *stripe.BankAccountParams) (*stripe.BankAc
 	}
 
 	bankaccount := &stripe.BankAccount{}
-	err := c.B.Call(http.MethodGet, path, c.Key, params, bankaccount)
+	sr := stripe.StripeRequest{
+		Method: http.MethodGet,
+		Path:   path,
+		Key:    c.Key,
+	}
+	err := sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, bankaccount)
 	return bankaccount, err
 }
 
@@ -102,7 +118,16 @@ func (c Client) Update(id string, params *stripe.BankAccountParams) (*stripe.Ban
 	}
 
 	bankaccount := &stripe.BankAccount{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, bankaccount)
+	sr := stripe.StripeRequest{
+		Method: http.MethodPost,
+		Path:   path,
+		Key:    c.Key,
+	}
+	err := sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, bankaccount)
 	return bankaccount, err
 }
 
@@ -127,7 +152,16 @@ func (c Client) Del(id string, params *stripe.BankAccountParams) (*stripe.BankAc
 	}
 
 	bankaccount := &stripe.BankAccount{}
-	err := c.B.Call(http.MethodDelete, path, c.Key, params, bankaccount)
+	sr := stripe.StripeRequest{
+		Method: http.MethodDelete,
+		Path:   path,
+		Key:    c.Key,
+	}
+	err := sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, bankaccount)
 	return bankaccount, err
 }
 
@@ -164,7 +198,14 @@ func (c Client) List(listParams *stripe.BankAccountListParams) *Iter {
 				return nil, list, outerErr
 			}
 
-			err := c.B.CallRaw(http.MethodGet, path, c.Key, b, p, list)
+			err := c.B.Call(stripe.StripeRequest{
+				Method: http.MethodGet,
+				Path:   path,
+				Key:    c.Key,
+				Params: p,
+				Body:   b,
+			},
+				list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {

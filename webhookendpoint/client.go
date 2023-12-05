@@ -28,13 +28,13 @@ func New(params *stripe.WebhookEndpointParams) (*stripe.WebhookEndpoint, error) 
 // New creates a new webhook endpoint.
 func (c Client) New(params *stripe.WebhookEndpointParams) (*stripe.WebhookEndpoint, error) {
 	webhookendpoint := &stripe.WebhookEndpoint{}
-	err := c.B.Call(
-		http.MethodPost,
-		"/v1/webhook_endpoints",
-		c.Key,
-		params,
-		webhookendpoint,
-	)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: "/v1/webhook_endpoints", Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, webhookendpoint)
 	return webhookendpoint, err
 }
 
@@ -47,7 +47,13 @@ func Get(id string, params *stripe.WebhookEndpointParams) (*stripe.WebhookEndpoi
 func (c Client) Get(id string, params *stripe.WebhookEndpointParams) (*stripe.WebhookEndpoint, error) {
 	path := stripe.FormatURLPath("/v1/webhook_endpoints/%s", id)
 	webhookendpoint := &stripe.WebhookEndpoint{}
-	err := c.B.Call(http.MethodGet, path, c.Key, params, webhookendpoint)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodGet, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, webhookendpoint)
 	return webhookendpoint, err
 }
 
@@ -60,7 +66,13 @@ func Update(id string, params *stripe.WebhookEndpointParams) (*stripe.WebhookEnd
 func (c Client) Update(id string, params *stripe.WebhookEndpointParams) (*stripe.WebhookEndpoint, error) {
 	path := stripe.FormatURLPath("/v1/webhook_endpoints/%s", id)
 	webhookendpoint := &stripe.WebhookEndpoint{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, webhookendpoint)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, webhookendpoint)
 	return webhookendpoint, err
 }
 
@@ -73,7 +85,13 @@ func Del(id string, params *stripe.WebhookEndpointParams) (*stripe.WebhookEndpoi
 func (c Client) Del(id string, params *stripe.WebhookEndpointParams) (*stripe.WebhookEndpoint, error) {
 	path := stripe.FormatURLPath("/v1/webhook_endpoints/%s", id)
 	webhookendpoint := &stripe.WebhookEndpoint{}
-	err := c.B.Call(http.MethodDelete, path, c.Key, params, webhookendpoint)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodDelete, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, webhookendpoint)
 	return webhookendpoint, err
 }
 
@@ -87,7 +105,14 @@ func (c Client) List(listParams *stripe.WebhookEndpointListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.WebhookEndpointList{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/webhook_endpoints", c.Key, b, p, list)
+			err := c.B.Call(stripe.StripeRequest{
+				Method: http.MethodGet,
+				Path:   "/v1/webhook_endpoints",
+				Key:    c.Key,
+				Params: p,
+				Body:   b,
+			},
+				list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {

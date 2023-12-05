@@ -27,13 +27,13 @@ func New(params *stripe.BillingPortalSessionParams) (*stripe.BillingPortalSessio
 // New creates a new billing portal session.
 func (c Client) New(params *stripe.BillingPortalSessionParams) (*stripe.BillingPortalSession, error) {
 	session := &stripe.BillingPortalSession{}
-	err := c.B.Call(
-		http.MethodPost,
-		"/v1/billing_portal/sessions",
-		c.Key,
-		params,
-		session,
-	)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: "/v1/billing_portal/sessions", Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, session)
 	return session, err
 }
 

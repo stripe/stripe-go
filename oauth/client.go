@@ -49,7 +49,16 @@ func (c Client) New(params *stripe.OAuthTokenParams) (*stripe.OAuthToken, error)
 	}
 
 	oauthToken := &stripe.OAuthToken{}
-	err := c.B.Call(http.MethodPost, "/oauth/token", c.Key, params, oauthToken)
+	sr := stripe.StripeRequest{
+		Method: http.MethodPost,
+		Path:   "/oauth/token",
+		Key:    c.Key,
+	}
+	err := sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, oauthToken)
 
 	return oauthToken, err
 }
@@ -62,11 +71,18 @@ func Del(params *stripe.DeauthorizeParams) (*stripe.Deauthorize, error) {
 // Del deauthorizes a connected account.
 func (c Client) Del(params *stripe.DeauthorizeParams) (*stripe.Deauthorize, error) {
 	deauthorization := &stripe.Deauthorize{}
-	err := c.B.Call(
-		http.MethodPost,
-		"/oauth/deauthorize",
-		c.Key,
-		params,
+
+	sr := stripe.StripeRequest{
+		Method: http.MethodPost,
+		Path:   "/oauth/deauthorize",
+		Key:    c.Key,
+	}
+	err := sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(
+		sr,
 		deauthorization,
 	)
 	return deauthorization, err

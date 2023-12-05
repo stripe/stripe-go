@@ -31,13 +31,13 @@ func (c Client) FundCashBalance(id string, params *stripe.TestHelpersCustomerFun
 		id,
 	)
 	customercashbalancetransaction := &stripe.CustomerCashBalanceTransaction{}
-	err := c.B.Call(
-		http.MethodPost,
-		path,
-		c.Key,
-		params,
-		customercashbalancetransaction,
-	)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, customercashbalancetransaction)
 	return customercashbalancetransaction, err
 }
 

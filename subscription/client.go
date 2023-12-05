@@ -28,13 +28,13 @@ func New(params *stripe.SubscriptionParams) (*stripe.Subscription, error) {
 // New creates a new subscription.
 func (c Client) New(params *stripe.SubscriptionParams) (*stripe.Subscription, error) {
 	subscription := &stripe.Subscription{}
-	err := c.B.Call(
-		http.MethodPost,
-		"/v1/subscriptions",
-		c.Key,
-		params,
-		subscription,
-	)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: "/v1/subscriptions", Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, subscription)
 	return subscription, err
 }
 
@@ -47,7 +47,13 @@ func Get(id string, params *stripe.SubscriptionParams) (*stripe.Subscription, er
 func (c Client) Get(id string, params *stripe.SubscriptionParams) (*stripe.Subscription, error) {
 	path := stripe.FormatURLPath("/v1/subscriptions/%s", id)
 	subscription := &stripe.Subscription{}
-	err := c.B.Call(http.MethodGet, path, c.Key, params, subscription)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodGet, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, subscription)
 	return subscription, err
 }
 
@@ -60,7 +66,13 @@ func Update(id string, params *stripe.SubscriptionParams) (*stripe.Subscription,
 func (c Client) Update(id string, params *stripe.SubscriptionParams) (*stripe.Subscription, error) {
 	path := stripe.FormatURLPath("/v1/subscriptions/%s", id)
 	subscription := &stripe.Subscription{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, subscription)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, subscription)
 	return subscription, err
 }
 
@@ -73,7 +85,13 @@ func Cancel(id string, params *stripe.SubscriptionCancelParams) (*stripe.Subscri
 func (c Client) Cancel(id string, params *stripe.SubscriptionCancelParams) (*stripe.Subscription, error) {
 	path := stripe.FormatURLPath("/v1/subscriptions/%s", id)
 	subscription := &stripe.Subscription{}
-	err := c.B.Call(http.MethodDelete, path, c.Key, params, subscription)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodDelete, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, subscription)
 	return subscription, err
 }
 
@@ -86,7 +104,13 @@ func DeleteDiscount(id string, params *stripe.SubscriptionDeleteDiscountParams) 
 func (c Client) DeleteDiscount(id string, params *stripe.SubscriptionDeleteDiscountParams) (*stripe.Subscription, error) {
 	path := stripe.FormatURLPath("/v1/subscriptions/%s/discount", id)
 	subscription := &stripe.Subscription{}
-	err := c.B.Call(http.MethodDelete, path, c.Key, params, subscription)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodDelete, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, subscription)
 	return subscription, err
 }
 
@@ -99,7 +123,13 @@ func Resume(id string, params *stripe.SubscriptionResumeParams) (*stripe.Subscri
 func (c Client) Resume(id string, params *stripe.SubscriptionResumeParams) (*stripe.Subscription, error) {
 	path := stripe.FormatURLPath("/v1/subscriptions/%s/resume", id)
 	subscription := &stripe.Subscription{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, subscription)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, subscription)
 	return subscription, err
 }
 
@@ -113,7 +143,14 @@ func (c Client) List(listParams *stripe.SubscriptionListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.SubscriptionList{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/subscriptions", c.Key, b, p, list)
+			err := c.B.Call(stripe.StripeRequest{
+				Method: http.MethodGet,
+				Path:   "/v1/subscriptions",
+				Key:    c.Key,
+				Params: p,
+				Body:   b,
+			},
+				list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {
@@ -152,7 +189,14 @@ func (c Client) Search(params *stripe.SubscriptionSearchParams) *SearchIter {
 	return &SearchIter{
 		SearchIter: stripe.GetSearchIter(params, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.SearchContainer, error) {
 			list := &stripe.SubscriptionSearchResult{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/subscriptions/search", c.Key, b, p, list)
+			err := c.B.Call(stripe.StripeRequest{
+				Method: http.MethodGet,
+				Path:   "/v1/subscriptions/search",
+				Key:    c.Key,
+				Params: p,
+				Body:   b,
+			},
+				list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {

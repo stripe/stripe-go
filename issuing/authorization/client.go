@@ -29,7 +29,13 @@ func Get(id string, params *stripe.IssuingAuthorizationParams) (*stripe.IssuingA
 func (c Client) Get(id string, params *stripe.IssuingAuthorizationParams) (*stripe.IssuingAuthorization, error) {
 	path := stripe.FormatURLPath("/v1/issuing/authorizations/%s", id)
 	authorization := &stripe.IssuingAuthorization{}
-	err := c.B.Call(http.MethodGet, path, c.Key, params, authorization)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodGet, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, authorization)
 	return authorization, err
 }
 
@@ -42,7 +48,13 @@ func Update(id string, params *stripe.IssuingAuthorizationParams) (*stripe.Issui
 func (c Client) Update(id string, params *stripe.IssuingAuthorizationParams) (*stripe.IssuingAuthorization, error) {
 	path := stripe.FormatURLPath("/v1/issuing/authorizations/%s", id)
 	authorization := &stripe.IssuingAuthorization{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, authorization)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, authorization)
 	return authorization, err
 }
 
@@ -55,7 +67,13 @@ func Approve(id string, params *stripe.IssuingAuthorizationApproveParams) (*stri
 func (c Client) Approve(id string, params *stripe.IssuingAuthorizationApproveParams) (*stripe.IssuingAuthorization, error) {
 	path := stripe.FormatURLPath("/v1/issuing/authorizations/%s/approve", id)
 	authorization := &stripe.IssuingAuthorization{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, authorization)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, authorization)
 	return authorization, err
 }
 
@@ -68,7 +86,13 @@ func Decline(id string, params *stripe.IssuingAuthorizationDeclineParams) (*stri
 func (c Client) Decline(id string, params *stripe.IssuingAuthorizationDeclineParams) (*stripe.IssuingAuthorization, error) {
 	path := stripe.FormatURLPath("/v1/issuing/authorizations/%s/decline", id)
 	authorization := &stripe.IssuingAuthorization{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, authorization)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, authorization)
 	return authorization, err
 }
 
@@ -82,7 +106,14 @@ func (c Client) List(listParams *stripe.IssuingAuthorizationListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.IssuingAuthorizationList{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/issuing/authorizations", c.Key, b, p, list)
+			err := c.B.Call(stripe.StripeRequest{
+				Method: http.MethodGet,
+				Path:   "/v1/issuing/authorizations",
+				Key:    c.Key,
+				Params: p,
+				Body:   b,
+			},
+				list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {

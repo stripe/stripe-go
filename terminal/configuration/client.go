@@ -28,13 +28,13 @@ func New(params *stripe.TerminalConfigurationParams) (*stripe.TerminalConfigurat
 // New creates a new terminal configuration.
 func (c Client) New(params *stripe.TerminalConfigurationParams) (*stripe.TerminalConfiguration, error) {
 	configuration := &stripe.TerminalConfiguration{}
-	err := c.B.Call(
-		http.MethodPost,
-		"/v1/terminal/configurations",
-		c.Key,
-		params,
-		configuration,
-	)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: "/v1/terminal/configurations", Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, configuration)
 	return configuration, err
 }
 
@@ -47,7 +47,13 @@ func Get(id string, params *stripe.TerminalConfigurationParams) (*stripe.Termina
 func (c Client) Get(id string, params *stripe.TerminalConfigurationParams) (*stripe.TerminalConfiguration, error) {
 	path := stripe.FormatURLPath("/v1/terminal/configurations/%s", id)
 	configuration := &stripe.TerminalConfiguration{}
-	err := c.B.Call(http.MethodGet, path, c.Key, params, configuration)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodGet, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, configuration)
 	return configuration, err
 }
 
@@ -60,7 +66,13 @@ func Update(id string, params *stripe.TerminalConfigurationParams) (*stripe.Term
 func (c Client) Update(id string, params *stripe.TerminalConfigurationParams) (*stripe.TerminalConfiguration, error) {
 	path := stripe.FormatURLPath("/v1/terminal/configurations/%s", id)
 	configuration := &stripe.TerminalConfiguration{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, configuration)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, configuration)
 	return configuration, err
 }
 
@@ -73,7 +85,13 @@ func Del(id string, params *stripe.TerminalConfigurationParams) (*stripe.Termina
 func (c Client) Del(id string, params *stripe.TerminalConfigurationParams) (*stripe.TerminalConfiguration, error) {
 	path := stripe.FormatURLPath("/v1/terminal/configurations/%s", id)
 	configuration := &stripe.TerminalConfiguration{}
-	err := c.B.Call(http.MethodDelete, path, c.Key, params, configuration)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodDelete, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, configuration)
 	return configuration, err
 }
 
@@ -87,7 +105,14 @@ func (c Client) List(listParams *stripe.TerminalConfigurationListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.TerminalConfigurationList{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/terminal/configurations", c.Key, b, p, list)
+			err := c.B.Call(stripe.StripeRequest{
+				Method: http.MethodGet,
+				Path:   "/v1/terminal/configurations",
+				Key:    c.Key,
+				Params: p,
+				Body:   b,
+			},
+				list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {

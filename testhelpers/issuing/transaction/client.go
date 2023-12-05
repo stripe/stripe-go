@@ -27,13 +27,13 @@ func CreateForceCapture(params *stripe.TestHelpersIssuingTransactionCreateForceC
 // CreateForceCapture is the method for the `POST /v1/test_helpers/issuing/transactions/create_force_capture` API.
 func (c Client) CreateForceCapture(params *stripe.TestHelpersIssuingTransactionCreateForceCaptureParams) (*stripe.IssuingTransaction, error) {
 	transaction := &stripe.IssuingTransaction{}
-	err := c.B.Call(
-		http.MethodPost,
-		"/v1/test_helpers/issuing/transactions/create_force_capture",
-		c.Key,
-		params,
-		transaction,
-	)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: "/v1/test_helpers/issuing/transactions/create_force_capture", Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, transaction)
 	return transaction, err
 }
 
@@ -45,13 +45,13 @@ func CreateUnlinkedRefund(params *stripe.TestHelpersIssuingTransactionCreateUnli
 // CreateUnlinkedRefund is the method for the `POST /v1/test_helpers/issuing/transactions/create_unlinked_refund` API.
 func (c Client) CreateUnlinkedRefund(params *stripe.TestHelpersIssuingTransactionCreateUnlinkedRefundParams) (*stripe.IssuingTransaction, error) {
 	transaction := &stripe.IssuingTransaction{}
-	err := c.B.Call(
-		http.MethodPost,
-		"/v1/test_helpers/issuing/transactions/create_unlinked_refund",
-		c.Key,
-		params,
-		transaction,
-	)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: "/v1/test_helpers/issuing/transactions/create_unlinked_refund", Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, transaction)
 	return transaction, err
 }
 
@@ -67,7 +67,13 @@ func (c Client) Refund(id string, params *stripe.TestHelpersIssuingTransactionRe
 		id,
 	)
 	transaction := &stripe.IssuingTransaction{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, transaction)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, transaction)
 	return transaction, err
 }
 

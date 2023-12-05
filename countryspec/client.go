@@ -29,7 +29,13 @@ func Get(id string, params *stripe.CountrySpecParams) (*stripe.CountrySpec, erro
 func (c Client) Get(id string, params *stripe.CountrySpecParams) (*stripe.CountrySpec, error) {
 	path := stripe.FormatURLPath("/v1/country_specs/%s", id)
 	countryspec := &stripe.CountrySpec{}
-	err := c.B.Call(http.MethodGet, path, c.Key, params, countryspec)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodGet, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, countryspec)
 	return countryspec, err
 }
 
@@ -43,7 +49,14 @@ func (c Client) List(listParams *stripe.CountrySpecListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.CountrySpecList{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/country_specs", c.Key, b, p, list)
+			err := c.B.Call(stripe.StripeRequest{
+				Method: http.MethodGet,
+				Path:   "/v1/country_specs",
+				Key:    c.Key,
+				Params: p,
+				Body:   b,
+			},
+				list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {

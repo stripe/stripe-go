@@ -41,7 +41,16 @@ func (c Client) New(params *stripe.FileParams) (*stripe.File, error) {
 	}
 
 	file := &stripe.File{}
-	err = c.BUploads.CallMultipart(http.MethodPost, "/v1/files", c.Key, boundary, bodyBuffer, &params.Params, file)
+	sr := stripe.StripeRequest{
+		Method:        http.MethodPost,
+		Path:          "/v1/files",
+		Key:           c.Key,
+		Params:        &params.Params,
+		IsMultipart:   true,
+		Boundary:      boundary,
+		StreamingBody: bodyBuffer,
+	}
+	err = c.BUploads.Call(sr, file)
 
 	return file, err
 }
@@ -55,7 +64,13 @@ func Get(id string, params *stripe.FileParams) (*stripe.File, error) {
 func (c Client) Get(id string, params *stripe.FileParams) (*stripe.File, error) {
 	path := stripe.FormatURLPath("/v1/files/%s", id)
 	file := &stripe.File{}
-	err := c.B.Call(http.MethodGet, path, c.Key, params, file)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodGet, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, file)
 	return file, err
 }
 
@@ -69,7 +84,14 @@ func (c Client) List(listParams *stripe.FileListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.FileList{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/files", c.Key, b, p, list)
+			err := c.B.Call(stripe.StripeRequest{
+				Method: http.MethodGet,
+				Path:   "/v1/files",
+				Key:    c.Key,
+				Params: p,
+				Body:   b,
+			},
+				list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {

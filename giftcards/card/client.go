@@ -28,7 +28,13 @@ func New(params *stripe.GiftCardsCardParams) (*stripe.GiftCardsCard, error) {
 // New creates a new gift cards card.
 func (c Client) New(params *stripe.GiftCardsCardParams) (*stripe.GiftCardsCard, error) {
 	card := &stripe.GiftCardsCard{}
-	err := c.B.Call(http.MethodPost, "/v1/gift_cards/cards", c.Key, params, card)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: "/v1/gift_cards/cards", Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, card)
 	return card, err
 }
 
@@ -41,7 +47,13 @@ func Get(id string, params *stripe.GiftCardsCardParams) (*stripe.GiftCardsCard, 
 func (c Client) Get(id string, params *stripe.GiftCardsCardParams) (*stripe.GiftCardsCard, error) {
 	path := stripe.FormatURLPath("/v1/gift_cards/cards/%s", id)
 	card := &stripe.GiftCardsCard{}
-	err := c.B.Call(http.MethodGet, path, c.Key, params, card)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodGet, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, card)
 	return card, err
 }
 
@@ -54,7 +66,13 @@ func Update(id string, params *stripe.GiftCardsCardParams) (*stripe.GiftCardsCar
 func (c Client) Update(id string, params *stripe.GiftCardsCardParams) (*stripe.GiftCardsCard, error) {
 	path := stripe.FormatURLPath("/v1/gift_cards/cards/%s", id)
 	card := &stripe.GiftCardsCard{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, card)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, card)
 	return card, err
 }
 
@@ -66,13 +84,13 @@ func Validate(params *stripe.GiftCardsCardValidateParams) (*stripe.GiftCardsCard
 // Validate is the method for the `POST /v1/gift_cards/cards/validate` API.
 func (c Client) Validate(params *stripe.GiftCardsCardValidateParams) (*stripe.GiftCardsCard, error) {
 	card := &stripe.GiftCardsCard{}
-	err := c.B.Call(
-		http.MethodPost,
-		"/v1/gift_cards/cards/validate",
-		c.Key,
-		params,
-		card,
-	)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: "/v1/gift_cards/cards/validate", Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, card)
 	return card, err
 }
 
@@ -86,7 +104,14 @@ func (c Client) List(listParams *stripe.GiftCardsCardListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.GiftCardsCardList{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/gift_cards/cards", c.Key, b, p, list)
+			err := c.B.Call(stripe.StripeRequest{
+				Method: http.MethodGet,
+				Path:   "/v1/gift_cards/cards",
+				Key:    c.Key,
+				Params: p,
+				Body:   b,
+			},
+				list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {

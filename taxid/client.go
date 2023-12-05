@@ -38,7 +38,13 @@ func (c Client) New(params *stripe.TaxIDParams) (*stripe.TaxID, error) {
 		stripe.StringValue(params.Customer),
 	)
 	taxid := &stripe.TaxID{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, taxid)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, taxid)
 	return taxid, err
 }
 
@@ -60,7 +66,13 @@ func (c Client) Get(id string, params *stripe.TaxIDParams) (*stripe.TaxID, error
 		id,
 	)
 	taxid := &stripe.TaxID{}
-	err := c.B.Call(http.MethodGet, path, c.Key, params, taxid)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodGet, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, taxid)
 	return taxid, err
 }
 
@@ -82,7 +94,13 @@ func (c Client) Del(id string, params *stripe.TaxIDParams) (*stripe.TaxID, error
 		id,
 	)
 	taxid := &stripe.TaxID{}
-	err := c.B.Call(http.MethodDelete, path, c.Key, params, taxid)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodDelete, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, taxid)
 	return taxid, err
 }
 
@@ -100,7 +118,14 @@ func (c Client) List(listParams *stripe.TaxIDListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.TaxIDList{}
-			err := c.B.CallRaw(http.MethodGet, path, c.Key, b, p, list)
+			err := c.B.Call(stripe.StripeRequest{
+				Method: http.MethodGet,
+				Path:   path,
+				Key:    c.Key,
+				Params: p,
+				Body:   b,
+			},
+				list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {

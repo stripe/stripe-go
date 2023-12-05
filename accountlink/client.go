@@ -27,13 +27,13 @@ func New(params *stripe.AccountLinkParams) (*stripe.AccountLink, error) {
 // New creates a new account link.
 func (c Client) New(params *stripe.AccountLinkParams) (*stripe.AccountLink, error) {
 	accountlink := &stripe.AccountLink{}
-	err := c.B.Call(
-		http.MethodPost,
-		"/v1/account_links",
-		c.Key,
-		params,
-		accountlink,
-	)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: "/v1/account_links", Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, accountlink)
 	return accountlink, err
 }
 

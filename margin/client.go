@@ -28,7 +28,13 @@ func New(params *stripe.MarginParams) (*stripe.Margin, error) {
 // New creates a new margin.
 func (c Client) New(params *stripe.MarginParams) (*stripe.Margin, error) {
 	margin := &stripe.Margin{}
-	err := c.B.Call(http.MethodPost, "/v1/billing/margins", c.Key, params, margin)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: "/v1/billing/margins", Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, margin)
 	return margin, err
 }
 
@@ -41,7 +47,13 @@ func Get(id string, params *stripe.MarginParams) (*stripe.Margin, error) {
 func (c Client) Get(id string, params *stripe.MarginParams) (*stripe.Margin, error) {
 	path := stripe.FormatURLPath("/v1/billing/margins/%s", id)
 	margin := &stripe.Margin{}
-	err := c.B.Call(http.MethodGet, path, c.Key, params, margin)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodGet, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, margin)
 	return margin, err
 }
 
@@ -54,7 +66,13 @@ func Update(id string, params *stripe.MarginParams) (*stripe.Margin, error) {
 func (c Client) Update(id string, params *stripe.MarginParams) (*stripe.Margin, error) {
 	path := stripe.FormatURLPath("/v1/billing/margins/%s", id)
 	margin := &stripe.Margin{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, margin)
+	var err error
+	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	err = sr.SetParams(params)
+	if err != nil {
+		return nil, err
+	}
+	err = c.B.Call(sr, margin)
 	return margin, err
 }
 
@@ -68,7 +86,14 @@ func (c Client) List(listParams *stripe.MarginListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.MarginList{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/billing/margins", c.Key, b, p, list)
+			err := c.B.Call(stripe.StripeRequest{
+				Method: http.MethodGet,
+				Path:   "/v1/billing/margins",
+				Key:    c.Key,
+				Params: p,
+				Body:   b,
+			},
+				list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {
