@@ -6,16 +6,74 @@
 
 package stripe
 
+// The list of features enabled in the embedded component.
+type AccountSessionComponentsAccountOnboardingFeaturesParams struct{}
+
 // Configuration for the account onboarding embedded component.
 type AccountSessionComponentsAccountOnboardingParams struct {
 	// Whether the embedded component is enabled.
 	Enabled *bool `form:"enabled"`
+	// The list of features enabled in the embedded component.
+	Features *AccountSessionComponentsAccountOnboardingFeaturesParams `form:"features"`
+}
+
+// The list of features enabled in the embedded component.
+type AccountSessionComponentsPaymentDetailsFeaturesParams struct {
+	// Whether to allow capturing and cancelling payment intents. This is `true` by default.
+	CapturePayments *bool `form:"capture_payments"`
+	// Whether to allow responding to disputes, including submitting evidence and accepting disputes. This is `true` by default.
+	DisputeManagement *bool `form:"dispute_management"`
+	// Whether to allow sending refunds. This is `true` by default.
+	RefundManagement *bool `form:"refund_management"`
+}
+
+// Configuration for the payment details embedded component.
+type AccountSessionComponentsPaymentDetailsParams struct {
+	// Whether the embedded component is enabled.
+	Enabled *bool `form:"enabled"`
+	// The list of features enabled in the embedded component.
+	Features *AccountSessionComponentsPaymentDetailsFeaturesParams `form:"features"`
+}
+
+// The list of features enabled in the embedded component.
+type AccountSessionComponentsPaymentsFeaturesParams struct {
+	// Whether to allow capturing and cancelling payment intents. This is `true` by default.
+	CapturePayments *bool `form:"capture_payments"`
+	// Whether to allow responding to disputes, including submitting evidence and accepting disputes. This is `true` by default.
+	DisputeManagement *bool `form:"dispute_management"`
+	// Whether to allow sending refunds. This is `true` by default.
+	RefundManagement *bool `form:"refund_management"`
+}
+
+// Configuration for the payments embedded component.
+type AccountSessionComponentsPaymentsParams struct {
+	// Whether the embedded component is enabled.
+	Enabled *bool `form:"enabled"`
+	// The list of features enabled in the embedded component.
+	Features *AccountSessionComponentsPaymentsFeaturesParams `form:"features"`
+}
+
+// The list of features enabled in the embedded component.
+type AccountSessionComponentsPayoutsFeaturesParams struct{}
+
+// Configuration for the payouts embedded component.
+type AccountSessionComponentsPayoutsParams struct {
+	// Whether the embedded component is enabled.
+	Enabled *bool `form:"enabled"`
+	// The list of features enabled in the embedded component.
+	Features *AccountSessionComponentsPayoutsFeaturesParams `form:"features"`
 }
 
 // Each key of the dictionary represents an embedded component, and each embedded component maps to its configuration (e.g. whether it has been enabled or not).
 type AccountSessionComponentsParams struct {
 	// Configuration for the account onboarding embedded component.
 	AccountOnboarding *AccountSessionComponentsAccountOnboardingParams `form:"account_onboarding"`
+	// Configuration for the payment details embedded component.
+	PaymentDetails *AccountSessionComponentsPaymentDetailsParams `form:"payment_details"`
+	// Configuration for the payments embedded component.
+	Payments *AccountSessionComponentsPaymentsParams `form:"payments"`
+	// Configuration for the payouts embedded component.
+	Payouts *AccountSessionComponentsPayoutsParams `form:"payouts"`
 }
 
 // Creates a AccountSession object that includes a single-use token that the platform can use on their front-end to grant client-side API access.
@@ -34,12 +92,49 @@ func (p *AccountSessionParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+type AccountSessionComponentsAccountOnboardingFeatures struct{}
 type AccountSessionComponentsAccountOnboarding struct {
 	// Whether the embedded component is enabled.
-	Enabled bool `json:"enabled"`
+	Enabled  bool                                               `json:"enabled"`
+	Features *AccountSessionComponentsAccountOnboardingFeatures `json:"features"`
+}
+type AccountSessionComponentsPaymentDetailsFeatures struct {
+	// Whether to allow capturing and cancelling payment intents. This is `true` by default.
+	CapturePayments bool `json:"capture_payments"`
+	// Whether to allow responding to disputes, including submitting evidence and accepting disputes. This is `true` by default.
+	DisputeManagement bool `json:"dispute_management"`
+	// Whether to allow sending refunds. This is `true` by default.
+	RefundManagement bool `json:"refund_management"`
+}
+type AccountSessionComponentsPaymentDetails struct {
+	// Whether the embedded component is enabled.
+	Enabled  bool                                            `json:"enabled"`
+	Features *AccountSessionComponentsPaymentDetailsFeatures `json:"features"`
+}
+type AccountSessionComponentsPaymentsFeatures struct {
+	// Whether to allow capturing and cancelling payment intents. This is `true` by default.
+	CapturePayments bool `json:"capture_payments"`
+	// Whether to allow responding to disputes, including submitting evidence and accepting disputes. This is `true` by default.
+	DisputeManagement bool `json:"dispute_management"`
+	// Whether to allow sending refunds. This is `true` by default.
+	RefundManagement bool `json:"refund_management"`
+}
+type AccountSessionComponentsPayments struct {
+	// Whether the embedded component is enabled.
+	Enabled  bool                                      `json:"enabled"`
+	Features *AccountSessionComponentsPaymentsFeatures `json:"features"`
+}
+type AccountSessionComponentsPayoutsFeatures struct{}
+type AccountSessionComponentsPayouts struct {
+	// Whether the embedded component is enabled.
+	Enabled  bool                                     `json:"enabled"`
+	Features *AccountSessionComponentsPayoutsFeatures `json:"features"`
 }
 type AccountSessionComponents struct {
 	AccountOnboarding *AccountSessionComponentsAccountOnboarding `json:"account_onboarding"`
+	PaymentDetails    *AccountSessionComponentsPaymentDetails    `json:"payment_details"`
+	Payments          *AccountSessionComponentsPayments          `json:"payments"`
+	Payouts           *AccountSessionComponentsPayouts           `json:"payouts"`
 }
 
 // An AccountSession allows a Connect platform to grant access to a connected account in Connect embedded components.
