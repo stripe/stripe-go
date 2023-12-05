@@ -34,11 +34,11 @@ func (c Client) List(listParams *stripe.UsageRecordSummaryListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.UsageRecordSummaryList{}
-			sr := stripe.StripeRequest{
-				Method: http.MethodGet,
-				Path:   path,
-				Key:    c.Key,
-			}
+			sr := stripe.NewStripeRequest(
+				http.MethodGet,
+				path,
+				c.Key,
+			)
 			err := sr.SetRawForm(p, b)
 			if err != nil {
 				return nil, list, err

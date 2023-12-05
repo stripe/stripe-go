@@ -31,7 +31,7 @@ func TestErrorResponse(t *testing.T) {
 		URL: String(ts.URL),
 	})
 
-	err := backend.Call(StripeRequest{
+	err := backend.Call(&StripeRequest{
 		Method: http.MethodGet,
 		Path:   "/v1/account",
 		Key:    "sk_test_badKey",
@@ -62,7 +62,7 @@ func TestPreviewErrorResponse(t *testing.T) {
 		URL: String(ts.URL),
 	})
 
-	err := backend.Call(StripeRequest{
+	err := backend.Call(&StripeRequest{
 		Method: http.MethodGet,
 		Path:   "/v1/charges/ch_123",
 		Key:    "sk_test_123",

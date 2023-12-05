@@ -28,7 +28,7 @@ func New(params *stripe.AccountLinkParams) (*stripe.AccountLink, error) {
 func (c Client) New(params *stripe.AccountLinkParams) (*stripe.AccountLink, error) {
 	accountlink := &stripe.AccountLink{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: "/v1/account_links", Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodPost, "/v1/account_links", c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err

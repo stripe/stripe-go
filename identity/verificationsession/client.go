@@ -29,7 +29,11 @@ func New(params *stripe.IdentityVerificationSessionParams) (*stripe.IdentityVeri
 func (c Client) New(params *stripe.IdentityVerificationSessionParams) (*stripe.IdentityVerificationSession, error) {
 	verificationsession := &stripe.IdentityVerificationSession{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: "/v1/identity/verification_sessions", Key: c.Key}
+	sr := stripe.NewStripeRequest(
+		http.MethodPost,
+		"/v1/identity/verification_sessions",
+		c.Key,
+	)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -48,7 +52,7 @@ func (c Client) Get(id string, params *stripe.IdentityVerificationSessionParams)
 	path := stripe.FormatURLPath("/v1/identity/verification_sessions/%s", id)
 	verificationsession := &stripe.IdentityVerificationSession{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodGet, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodGet, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -67,7 +71,7 @@ func (c Client) Update(id string, params *stripe.IdentityVerificationSessionPara
 	path := stripe.FormatURLPath("/v1/identity/verification_sessions/%s", id)
 	verificationsession := &stripe.IdentityVerificationSession{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodPost, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -89,7 +93,7 @@ func (c Client) Cancel(id string, params *stripe.IdentityVerificationSessionCanc
 	)
 	verificationsession := &stripe.IdentityVerificationSession{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodPost, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -111,7 +115,7 @@ func (c Client) Redact(id string, params *stripe.IdentityVerificationSessionReda
 	)
 	verificationsession := &stripe.IdentityVerificationSession{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodPost, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -130,11 +134,11 @@ func (c Client) List(listParams *stripe.IdentityVerificationSessionListParams) *
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.IdentityVerificationSessionList{}
-			sr := stripe.StripeRequest{
-				Method: http.MethodGet,
-				Path:   "/v1/identity/verification_sessions",
-				Key:    c.Key,
-			}
+			sr := stripe.NewStripeRequest(
+				http.MethodGet,
+				"/v1/identity/verification_sessions",
+				c.Key,
+			)
 			err := sr.SetRawForm(p, b)
 			if err != nil {
 				return nil, list, err

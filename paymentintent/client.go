@@ -29,7 +29,7 @@ func New(params *stripe.PaymentIntentParams) (*stripe.PaymentIntent, error) {
 func (c Client) New(params *stripe.PaymentIntentParams) (*stripe.PaymentIntent, error) {
 	paymentintent := &stripe.PaymentIntent{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: "/v1/payment_intents", Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodPost, "/v1/payment_intents", c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -48,7 +48,7 @@ func (c Client) Get(id string, params *stripe.PaymentIntentParams) (*stripe.Paym
 	path := stripe.FormatURLPath("/v1/payment_intents/%s", id)
 	paymentintent := &stripe.PaymentIntent{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodGet, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodGet, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -67,7 +67,7 @@ func (c Client) Update(id string, params *stripe.PaymentIntentParams) (*stripe.P
 	path := stripe.FormatURLPath("/v1/payment_intents/%s", id)
 	paymentintent := &stripe.PaymentIntent{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodPost, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -89,7 +89,7 @@ func (c Client) ApplyCustomerBalance(id string, params *stripe.PaymentIntentAppl
 	)
 	paymentintent := &stripe.PaymentIntent{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodPost, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -108,7 +108,7 @@ func (c Client) Cancel(id string, params *stripe.PaymentIntentCancelParams) (*st
 	path := stripe.FormatURLPath("/v1/payment_intents/%s/cancel", id)
 	paymentintent := &stripe.PaymentIntent{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodPost, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -127,7 +127,7 @@ func (c Client) Capture(id string, params *stripe.PaymentIntentCaptureParams) (*
 	path := stripe.FormatURLPath("/v1/payment_intents/%s/capture", id)
 	paymentintent := &stripe.PaymentIntent{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodPost, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -146,7 +146,7 @@ func (c Client) Confirm(id string, params *stripe.PaymentIntentConfirmParams) (*
 	path := stripe.FormatURLPath("/v1/payment_intents/%s/confirm", id)
 	paymentintent := &stripe.PaymentIntent{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodPost, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -168,7 +168,7 @@ func (c Client) IncrementAuthorization(id string, params *stripe.PaymentIntentIn
 	)
 	paymentintent := &stripe.PaymentIntent{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodPost, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -190,7 +190,7 @@ func (c Client) VerifyMicrodeposits(id string, params *stripe.PaymentIntentVerif
 	)
 	paymentintent := &stripe.PaymentIntent{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodPost, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -209,11 +209,11 @@ func (c Client) List(listParams *stripe.PaymentIntentListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.PaymentIntentList{}
-			sr := stripe.StripeRequest{
-				Method: http.MethodGet,
-				Path:   "/v1/payment_intents",
-				Key:    c.Key,
-			}
+			sr := stripe.NewStripeRequest(
+				http.MethodGet,
+				"/v1/payment_intents",
+				c.Key,
+			)
 			err := sr.SetRawForm(p, b)
 			if err != nil {
 				return nil, list, err
@@ -257,11 +257,11 @@ func (c Client) Search(params *stripe.PaymentIntentSearchParams) *SearchIter {
 	return &SearchIter{
 		SearchIter: stripe.GetSearchIter(params, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.SearchContainer, error) {
 			list := &stripe.PaymentIntentSearchResult{}
-			sr := stripe.StripeRequest{
-				Method: http.MethodGet,
-				Path:   "/v1/payment_intents/search",
-				Key:    c.Key,
-			}
+			sr := stripe.NewStripeRequest(
+				http.MethodGet,
+				"/v1/payment_intents/search",
+				c.Key,
+			)
 			err := sr.SetRawForm(p, b)
 			if err != nil {
 				return nil, list, err

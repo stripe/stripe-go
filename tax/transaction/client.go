@@ -30,7 +30,7 @@ func (c Client) Get(id string, params *stripe.TaxTransactionParams) (*stripe.Tax
 	path := stripe.FormatURLPath("/v1/tax/transactions/%s", id)
 	transaction := &stripe.TaxTransaction{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodGet, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodGet, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -48,7 +48,11 @@ func CreateFromCalculation(params *stripe.TaxTransactionCreateFromCalculationPar
 func (c Client) CreateFromCalculation(params *stripe.TaxTransactionCreateFromCalculationParams) (*stripe.TaxTransaction, error) {
 	transaction := &stripe.TaxTransaction{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: "/v1/tax/transactions/create_from_calculation", Key: c.Key}
+	sr := stripe.NewStripeRequest(
+		http.MethodPost,
+		"/v1/tax/transactions/create_from_calculation",
+		c.Key,
+	)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -66,7 +70,11 @@ func CreateReversal(params *stripe.TaxTransactionCreateReversalParams) (*stripe.
 func (c Client) CreateReversal(params *stripe.TaxTransactionCreateReversalParams) (*stripe.TaxTransaction, error) {
 	transaction := &stripe.TaxTransaction{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: "/v1/tax/transactions/create_reversal", Key: c.Key}
+	sr := stripe.NewStripeRequest(
+		http.MethodPost,
+		"/v1/tax/transactions/create_reversal",
+		c.Key,
+	)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -89,11 +97,11 @@ func (c Client) ListLineItems(listParams *stripe.TaxTransactionListLineItemsPara
 	return &LineItemIter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.TaxTransactionLineItemList{}
-			sr := stripe.StripeRequest{
-				Method: http.MethodGet,
-				Path:   path,
-				Key:    c.Key,
-			}
+			sr := stripe.NewStripeRequest(
+				http.MethodGet,
+				path,
+				c.Key,
+			)
 			err := sr.SetRawForm(p, b)
 			if err != nil {
 				return nil, list, err

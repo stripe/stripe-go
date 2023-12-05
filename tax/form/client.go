@@ -31,7 +31,7 @@ func (c Client) Get(id string, params *stripe.TaxFormParams) (*stripe.TaxForm, e
 	path := stripe.FormatURLPath("/v1/tax/forms/%s", id)
 	form := &stripe.TaxForm{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodGet, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodGet, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -50,7 +50,7 @@ func (c Client) PDF(id string, params *stripe.TaxFormPDFParams) (*stripe.APIStre
 	path := stripe.FormatURLPath("/v1/tax/forms/%s/pdf", id)
 	stream := &stripe.APIStream{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodGet, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodGet, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -69,11 +69,11 @@ func (c Client) List(listParams *stripe.TaxFormListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.TaxFormList{}
-			sr := stripe.StripeRequest{
-				Method: http.MethodGet,
-				Path:   "/v1/tax/forms",
-				Key:    c.Key,
-			}
+			sr := stripe.NewStripeRequest(
+				http.MethodGet,
+				"/v1/tax/forms",
+				c.Key,
+			)
 			err := sr.SetRawForm(p, b)
 			if err != nil {
 				return nil, list, err

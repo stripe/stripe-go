@@ -29,7 +29,11 @@ func New(params *stripe.ReportingReportRunParams) (*stripe.ReportingReportRun, e
 func (c Client) New(params *stripe.ReportingReportRunParams) (*stripe.ReportingReportRun, error) {
 	reportrun := &stripe.ReportingReportRun{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: "/v1/reporting/report_runs", Key: c.Key}
+	sr := stripe.NewStripeRequest(
+		http.MethodPost,
+		"/v1/reporting/report_runs",
+		c.Key,
+	)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -48,7 +52,7 @@ func (c Client) Get(id string, params *stripe.ReportingReportRunParams) (*stripe
 	path := stripe.FormatURLPath("/v1/reporting/report_runs/%s", id)
 	reportrun := &stripe.ReportingReportRun{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodGet, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodGet, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -67,11 +71,11 @@ func (c Client) List(listParams *stripe.ReportingReportRunListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.ReportingReportRunList{}
-			sr := stripe.StripeRequest{
-				Method: http.MethodGet,
-				Path:   "/v1/reporting/report_runs",
-				Key:    c.Key,
-			}
+			sr := stripe.NewStripeRequest(
+				http.MethodGet,
+				"/v1/reporting/report_runs",
+				c.Key,
+			)
 			err := sr.SetRawForm(p, b)
 			if err != nil {
 				return nil, list, err

@@ -29,7 +29,7 @@ func New(params *stripe.AppsSecretParams) (*stripe.AppsSecret, error) {
 func (c Client) New(params *stripe.AppsSecretParams) (*stripe.AppsSecret, error) {
 	secret := &stripe.AppsSecret{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: "/v1/apps/secrets", Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodPost, "/v1/apps/secrets", c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -47,7 +47,11 @@ func DeleteWhere(params *stripe.AppsSecretDeleteWhereParams) (*stripe.AppsSecret
 func (c Client) DeleteWhere(params *stripe.AppsSecretDeleteWhereParams) (*stripe.AppsSecret, error) {
 	secret := &stripe.AppsSecret{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: "/v1/apps/secrets/delete", Key: c.Key}
+	sr := stripe.NewStripeRequest(
+		http.MethodPost,
+		"/v1/apps/secrets/delete",
+		c.Key,
+	)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -65,7 +69,7 @@ func Find(params *stripe.AppsSecretFindParams) (*stripe.AppsSecret, error) {
 func (c Client) Find(params *stripe.AppsSecretFindParams) (*stripe.AppsSecret, error) {
 	secret := &stripe.AppsSecret{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodGet, Path: "/v1/apps/secrets/find", Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodGet, "/v1/apps/secrets/find", c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -84,11 +88,11 @@ func (c Client) List(listParams *stripe.AppsSecretListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.AppsSecretList{}
-			sr := stripe.StripeRequest{
-				Method: http.MethodGet,
-				Path:   "/v1/apps/secrets",
-				Key:    c.Key,
-			}
+			sr := stripe.NewStripeRequest(
+				http.MethodGet,
+				"/v1/apps/secrets",
+				c.Key,
+			)
 			err := sr.SetRawForm(p, b)
 			if err != nil {
 				return nil, list, err

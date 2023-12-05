@@ -29,7 +29,7 @@ func New(params *stripe.OrderParams) (*stripe.Order, error) {
 func (c Client) New(params *stripe.OrderParams) (*stripe.Order, error) {
 	order := &stripe.Order{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: "/v1/orders", Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodPost, "/v1/orders", c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -48,7 +48,7 @@ func (c Client) Get(id string, params *stripe.OrderParams) (*stripe.Order, error
 	path := stripe.FormatURLPath("/v1/orders/%s", id)
 	order := &stripe.Order{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodGet, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodGet, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -67,7 +67,7 @@ func (c Client) Update(id string, params *stripe.OrderParams) (*stripe.Order, er
 	path := stripe.FormatURLPath("/v1/orders/%s", id)
 	order := &stripe.Order{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodPost, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -86,7 +86,7 @@ func (c Client) Cancel(id string, params *stripe.OrderCancelParams) (*stripe.Ord
 	path := stripe.FormatURLPath("/v1/orders/%s/cancel", id)
 	order := &stripe.Order{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodPost, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -105,7 +105,7 @@ func (c Client) Reopen(id string, params *stripe.OrderReopenParams) (*stripe.Ord
 	path := stripe.FormatURLPath("/v1/orders/%s/reopen", id)
 	order := &stripe.Order{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodPost, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -124,7 +124,7 @@ func (c Client) Submit(id string, params *stripe.OrderSubmitParams) (*stripe.Ord
 	path := stripe.FormatURLPath("/v1/orders/%s/submit", id)
 	order := &stripe.Order{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodPost, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -143,11 +143,11 @@ func (c Client) List(listParams *stripe.OrderListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.OrderList{}
-			sr := stripe.StripeRequest{
-				Method: http.MethodGet,
-				Path:   "/v1/orders",
-				Key:    c.Key,
-			}
+			sr := stripe.NewStripeRequest(
+				http.MethodGet,
+				"/v1/orders",
+				c.Key,
+			)
 			err := sr.SetRawForm(p, b)
 			if err != nil {
 				return nil, list, err
@@ -195,11 +195,11 @@ func (c Client) ListLineItems(listParams *stripe.OrderListLineItemsParams) *Line
 	return &LineItemIter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.LineItemList{}
-			sr := stripe.StripeRequest{
-				Method: http.MethodGet,
-				Path:   path,
-				Key:    c.Key,
-			}
+			sr := stripe.NewStripeRequest(
+				http.MethodGet,
+				path,
+				c.Key,
+			)
 			err := sr.SetRawForm(p, b)
 			if err != nil {
 				return nil, list, err

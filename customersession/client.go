@@ -28,7 +28,7 @@ func New(params *stripe.CustomerSessionParams) (*stripe.CustomerSession, error) 
 func (c Client) New(params *stripe.CustomerSessionParams) (*stripe.CustomerSession, error) {
 	customersession := &stripe.CustomerSession{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: "/v1/customer_sessions", Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodPost, "/v1/customer_sessions", c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err

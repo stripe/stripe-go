@@ -32,7 +32,7 @@ func (c Client) FundCashBalance(id string, params *stripe.TestHelpersCustomerFun
 	)
 	customercashbalancetransaction := &stripe.CustomerCashBalanceTransaction{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodPost, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err

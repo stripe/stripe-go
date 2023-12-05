@@ -30,7 +30,7 @@ func (c Client) Get(id string, params *stripe.IssuingPhysicalBundleParams) (*str
 	path := stripe.FormatURLPath("/v1/issuing/physical_bundles/%s", id)
 	physicalbundle := &stripe.IssuingPhysicalBundle{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodGet, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodGet, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -49,11 +49,11 @@ func (c Client) List(listParams *stripe.IssuingPhysicalBundleListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.IssuingPhysicalBundleList{}
-			sr := stripe.StripeRequest{
-				Method: http.MethodGet,
-				Path:   "/v1/issuing/physical_bundles",
-				Key:    c.Key,
-			}
+			sr := stripe.NewStripeRequest(
+				http.MethodGet,
+				"/v1/issuing/physical_bundles",
+				c.Key,
+			)
 			err := sr.SetRawForm(p, b)
 			if err != nil {
 				return nil, list, err

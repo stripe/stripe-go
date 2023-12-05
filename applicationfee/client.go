@@ -30,7 +30,7 @@ func (c Client) Get(id string, params *stripe.ApplicationFeeParams) (*stripe.App
 	path := stripe.FormatURLPath("/v1/application_fees/%s", id)
 	applicationfee := &stripe.ApplicationFee{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodGet, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodGet, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -49,11 +49,11 @@ func (c Client) List(listParams *stripe.ApplicationFeeListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.ApplicationFeeList{}
-			sr := stripe.StripeRequest{
-				Method: http.MethodGet,
-				Path:   "/v1/application_fees",
-				Key:    c.Key,
-			}
+			sr := stripe.NewStripeRequest(
+				http.MethodGet,
+				"/v1/application_fees",
+				c.Key,
+			)
 			err := sr.SetRawForm(p, b)
 			if err != nil {
 				return nil, list, err

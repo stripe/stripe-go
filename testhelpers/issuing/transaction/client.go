@@ -28,7 +28,11 @@ func CreateForceCapture(params *stripe.TestHelpersIssuingTransactionCreateForceC
 func (c Client) CreateForceCapture(params *stripe.TestHelpersIssuingTransactionCreateForceCaptureParams) (*stripe.IssuingTransaction, error) {
 	transaction := &stripe.IssuingTransaction{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: "/v1/test_helpers/issuing/transactions/create_force_capture", Key: c.Key}
+	sr := stripe.NewStripeRequest(
+		http.MethodPost,
+		"/v1/test_helpers/issuing/transactions/create_force_capture",
+		c.Key,
+	)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -46,7 +50,11 @@ func CreateUnlinkedRefund(params *stripe.TestHelpersIssuingTransactionCreateUnli
 func (c Client) CreateUnlinkedRefund(params *stripe.TestHelpersIssuingTransactionCreateUnlinkedRefundParams) (*stripe.IssuingTransaction, error) {
 	transaction := &stripe.IssuingTransaction{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: "/v1/test_helpers/issuing/transactions/create_unlinked_refund", Key: c.Key}
+	sr := stripe.NewStripeRequest(
+		http.MethodPost,
+		"/v1/test_helpers/issuing/transactions/create_unlinked_refund",
+		c.Key,
+	)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -68,7 +76,7 @@ func (c Client) Refund(id string, params *stripe.TestHelpersIssuingTransactionRe
 	)
 	transaction := &stripe.IssuingTransaction{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodPost, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err

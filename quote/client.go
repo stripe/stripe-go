@@ -30,7 +30,7 @@ func New(params *stripe.QuoteParams) (*stripe.Quote, error) {
 func (c Client) New(params *stripe.QuoteParams) (*stripe.Quote, error) {
 	quote := &stripe.Quote{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: "/v1/quotes", Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodPost, "/v1/quotes", c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -49,7 +49,7 @@ func (c Client) Get(id string, params *stripe.QuoteParams) (*stripe.Quote, error
 	path := stripe.FormatURLPath("/v1/quotes/%s", id)
 	quote := &stripe.Quote{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodGet, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodGet, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -68,7 +68,7 @@ func (c Client) Update(id string, params *stripe.QuoteParams) (*stripe.Quote, er
 	path := stripe.FormatURLPath("/v1/quotes/%s", id)
 	quote := &stripe.Quote{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodPost, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -87,7 +87,7 @@ func (c Client) Accept(id string, params *stripe.QuoteAcceptParams) (*stripe.Quo
 	path := stripe.FormatURLPath("/v1/quotes/%s/accept", id)
 	quote := &stripe.Quote{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodPost, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -106,7 +106,7 @@ func (c Client) Cancel(id string, params *stripe.QuoteCancelParams) (*stripe.Quo
 	path := stripe.FormatURLPath("/v1/quotes/%s/cancel", id)
 	quote := &stripe.Quote{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodPost, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -125,7 +125,7 @@ func (c Client) FinalizeQuote(id string, params *stripe.QuoteFinalizeQuoteParams
 	path := stripe.FormatURLPath("/v1/quotes/%s/finalize", id)
 	quote := &stripe.Quote{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodPost, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -144,7 +144,7 @@ func (c Client) MarkDraft(id string, params *stripe.QuoteMarkDraftParams) (*stri
 	path := stripe.FormatURLPath("/v1/quotes/%s/mark_draft", id)
 	quote := &stripe.Quote{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodPost, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -163,7 +163,7 @@ func (c Client) MarkStale(id string, params *stripe.QuoteMarkStaleParams) (*stri
 	path := stripe.FormatURLPath("/v1/quotes/%s/mark_stale", id)
 	quote := &stripe.Quote{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodPost, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -182,7 +182,7 @@ func (c Client) PDF(id string, params *stripe.QuotePDFParams) (*stripe.APIStream
 	path := stripe.FormatURLPath("/v1/quotes/%s/pdf", id)
 	stream := &stripe.APIStream{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodGet, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodGet, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -201,7 +201,7 @@ func (c Client) Reestimate(id string, params *stripe.QuoteReestimateParams) (*st
 	path := stripe.FormatURLPath("/v1/quotes/%s/reestimate", id)
 	quote := &stripe.Quote{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodPost, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -220,11 +220,11 @@ func (c Client) List(listParams *stripe.QuoteListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.QuoteList{}
-			sr := stripe.StripeRequest{
-				Method: http.MethodGet,
-				Path:   "/v1/quotes",
-				Key:    c.Key,
-			}
+			sr := stripe.NewStripeRequest(
+				http.MethodGet,
+				"/v1/quotes",
+				c.Key,
+			)
 			err := sr.SetRawForm(p, b)
 			if err != nil {
 				return nil, list, err
@@ -272,11 +272,11 @@ func (c Client) ListComputedUpfrontLineItems(listParams *stripe.QuoteListCompute
 	return &LineItemIter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.LineItemList{}
-			sr := stripe.StripeRequest{
-				Method: http.MethodGet,
-				Path:   path,
-				Key:    c.Key,
-			}
+			sr := stripe.NewStripeRequest(
+				http.MethodGet,
+				path,
+				c.Key,
+			)
 			err := sr.SetRawForm(p, b)
 			if err != nil {
 				return nil, list, err
@@ -307,11 +307,11 @@ func (c Client) ListLineItems(listParams *stripe.QuoteListLineItemsParams) *Line
 	return &LineItemIter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.LineItemList{}
-			sr := stripe.StripeRequest{
-				Method: http.MethodGet,
-				Path:   path,
-				Key:    c.Key,
-			}
+			sr := stripe.NewStripeRequest(
+				http.MethodGet,
+				path,
+				c.Key,
+			)
 			err := sr.SetRawForm(p, b)
 			if err != nil {
 				return nil, list, err
@@ -359,11 +359,11 @@ func (c Client) ListLines(listParams *stripe.QuoteListLinesParams) *LineIter {
 	return &LineIter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.QuoteLineList{}
-			sr := stripe.StripeRequest{
-				Method: http.MethodGet,
-				Path:   path,
-				Key:    c.Key,
-			}
+			sr := stripe.NewStripeRequest(
+				http.MethodGet,
+				path,
+				c.Key,
+			)
 			err := sr.SetRawForm(p, b)
 			if err != nil {
 				return nil, list, err
@@ -412,11 +412,11 @@ func (c Client) ListPreviewInvoiceLines(listParams *stripe.QuoteListPreviewInvoi
 	return &InvoiceLineItemIter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.InvoiceLineItemList{}
-			sr := stripe.StripeRequest{
-				Method: http.MethodGet,
-				Path:   path,
-				Key:    c.Key,
-			}
+			sr := stripe.NewStripeRequest(
+				http.MethodGet,
+				path,
+				c.Key,
+			)
 			err := sr.SetRawForm(p, b)
 			if err != nil {
 				return nil, list, err

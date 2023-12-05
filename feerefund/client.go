@@ -40,7 +40,7 @@ func (c Client) New(params *stripe.FeeRefundParams) (*stripe.FeeRefund, error) {
 	)
 	feerefund := &stripe.FeeRefund{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodPost, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -69,7 +69,7 @@ func (c Client) Get(id string, params *stripe.FeeRefundParams) (*stripe.FeeRefun
 	)
 	feerefund := &stripe.FeeRefund{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodGet, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodGet, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -98,7 +98,7 @@ func (c Client) Update(id string, params *stripe.FeeRefundParams) (*stripe.FeeRe
 	)
 	feerefund := &stripe.FeeRefund{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodPost, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -121,11 +121,11 @@ func (c Client) List(listParams *stripe.FeeRefundListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.FeeRefundList{}
-			sr := stripe.StripeRequest{
-				Method: http.MethodGet,
-				Path:   path,
-				Key:    c.Key,
-			}
+			sr := stripe.NewStripeRequest(
+				http.MethodGet,
+				path,
+				c.Key,
+			)
 			err := sr.SetRawForm(p, b)
 			if err != nil {
 				return nil, list, err

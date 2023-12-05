@@ -52,11 +52,7 @@ func (c Client) New(params *stripe.CardParams) (*stripe.Card, error) {
 	// make an explicit call using a form and CallRaw instead of the standard
 	// Call (which takes a set of parameters).
 	card := &stripe.Card{}
-	sr := stripe.StripeRequest{
-		Method: http.MethodPost,
-		Path:   path,
-		Key:    c.Key,
-	}
+	sr := stripe.NewStripeRequest(http.MethodPost, path, c.Key)
 	err := sr.SetRawForm(&params.Params, body)
 	if err != nil {
 		return nil, err
@@ -87,11 +83,7 @@ func (c Client) Get(id string, params *stripe.CardParams) (*stripe.Card, error) 
 	}
 
 	card := &stripe.Card{}
-	sr := stripe.StripeRequest{
-		Method: http.MethodGet,
-		Path:   path,
-		Key:    c.Key,
-	}
+	sr := stripe.NewStripeRequest(http.MethodGet, path, c.Key)
 	err := sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -121,11 +113,7 @@ func (c Client) Update(id string, params *stripe.CardParams) (*stripe.Card, erro
 	}
 
 	card := &stripe.Card{}
-	sr := stripe.StripeRequest{
-		Method: http.MethodPost,
-		Path:   path,
-		Key:    c.Key,
-	}
+	sr := stripe.NewStripeRequest(http.MethodPost, path, c.Key)
 	err := sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -155,11 +143,7 @@ func (c Client) Del(id string, params *stripe.CardParams) (*stripe.Card, error) 
 	}
 
 	card := &stripe.Card{}
-	sr := stripe.StripeRequest{
-		Method: http.MethodDelete,
-		Path:   path,
-		Key:    c.Key,
-	}
+	sr := stripe.NewStripeRequest(http.MethodDelete, path, c.Key)
 	err := sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -201,11 +185,11 @@ func (c Client) List(listParams *stripe.CardListParams) *Iter {
 				return nil, list, outerErr
 			}
 
-			sr := stripe.StripeRequest{
-				Method: http.MethodGet,
-				Path:   path,
-				Key:    c.Key,
-			}
+			sr := stripe.NewStripeRequest(
+				http.MethodGet,
+				path,
+				c.Key,
+			)
 			err := sr.SetRawForm(p, b)
 			if err != nil {
 				return nil, list, err

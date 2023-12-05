@@ -203,6 +203,26 @@ type StripeRequest struct {
 	multipartBody *bytes.Buffer
 }
 
+func NewStripeRequest(method, path, key string) *StripeRequest {
+	return &StripeRequest{
+		Method: method,
+		Path:   path,
+		Key:    key,
+	}
+}
+
+func (sr *StripeRequest) GetIsMultipart() bool {
+	return sr.isMultipart
+}
+
+func (sr *StripeRequest) GetParams() *Params {
+	return sr.params
+}
+
+func (sr *StripeRequest) GetBody() *form.Values {
+	return sr.body
+}
+
 func (sr *StripeRequest) SetParams(p ParamsContainer) error {
 	body, commonParams, err := extractParams(p)
 	if err != nil {
@@ -230,8 +250,8 @@ func (sr *StripeRequest) SetMultipart(params *Params, boundary string, body *byt
 // Backend is an interface for making calls against a Stripe service.
 // This interface exists to enable mocking for during testing if needed.
 type Backend interface {
-	Call(req StripeRequest, v LastResponseSetter) error
-	CallStreaming(req StripeRequest, v StreamingLastResponseSetter) error
+	Call(req *StripeRequest, v LastResponseSetter) error
+	CallStreaming(req *StripeRequest, v StreamingLastResponseSetter) error
 }
 
 type RawRequestBackend interface {
@@ -350,7 +370,7 @@ func extractParams(params ParamsContainer) (*form.Values, *Params, error) {
 }
 
 // Call is the Backend.Call implementation for invoking Stripe APIs.
-func (s *BackendImplementation) Call(sr StripeRequest, v LastResponseSetter) error {
+func (s *BackendImplementation) Call(sr *StripeRequest, v LastResponseSetter) error {
 	form := sr.body
 	method := sr.Method
 	path := sr.Path
@@ -390,7 +410,7 @@ func (s *BackendImplementation) Call(sr StripeRequest, v LastResponseSetter) err
 
 // CallStreaming is the Backend.Call implementation for invoking Stripe APIs
 // without buffering the response into memory.
-func (s *BackendImplementation) CallStreaming(sr StripeRequest, v StreamingLastResponseSetter) error {
+func (s *BackendImplementation) CallStreaming(sr *StripeRequest, v StreamingLastResponseSetter) error {
 	formValues := sr.body
 	commonParams := sr.params
 	method := sr.Method

@@ -29,7 +29,11 @@ func New(params *stripe.PaymentMethodConfigurationParams) (*stripe.PaymentMethod
 func (c Client) New(params *stripe.PaymentMethodConfigurationParams) (*stripe.PaymentMethodConfiguration, error) {
 	paymentmethodconfiguration := &stripe.PaymentMethodConfiguration{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: "/v1/payment_method_configurations", Key: c.Key}
+	sr := stripe.NewStripeRequest(
+		http.MethodPost,
+		"/v1/payment_method_configurations",
+		c.Key,
+	)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -48,7 +52,7 @@ func (c Client) Get(id string, params *stripe.PaymentMethodConfigurationParams) 
 	path := stripe.FormatURLPath("/v1/payment_method_configurations/%s", id)
 	paymentmethodconfiguration := &stripe.PaymentMethodConfiguration{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodGet, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodGet, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -67,7 +71,7 @@ func (c Client) Update(id string, params *stripe.PaymentMethodConfigurationParam
 	path := stripe.FormatURLPath("/v1/payment_method_configurations/%s", id)
 	paymentmethodconfiguration := &stripe.PaymentMethodConfiguration{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodPost, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -86,11 +90,11 @@ func (c Client) List(listParams *stripe.PaymentMethodConfigurationListParams) *I
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.PaymentMethodConfigurationList{}
-			sr := stripe.StripeRequest{
-				Method: http.MethodGet,
-				Path:   "/v1/payment_method_configurations",
-				Key:    c.Key,
-			}
+			sr := stripe.NewStripeRequest(
+				http.MethodGet,
+				"/v1/payment_method_configurations",
+				c.Key,
+			)
 			err := sr.SetRawForm(p, b)
 			if err != nil {
 				return nil, list, err

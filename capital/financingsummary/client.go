@@ -28,7 +28,11 @@ func Get(params *stripe.CapitalFinancingSummaryParams) (*stripe.CapitalFinancing
 func (c Client) Get(params *stripe.CapitalFinancingSummaryParams) (*stripe.CapitalFinancingSummary, error) {
 	financingsummary := &stripe.CapitalFinancingSummary{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodGet, Path: "/v1/capital/financing_summary", Key: c.Key}
+	sr := stripe.NewStripeRequest(
+		http.MethodGet,
+		"/v1/capital/financing_summary",
+		c.Key,
+	)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err

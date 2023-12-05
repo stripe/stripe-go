@@ -169,7 +169,7 @@ func (c Client) Search(params *SearchParams) *TestSearchIter {
 	return &TestSearchIter{
 		SearchIter: GetSearchIter(params, func(p *Params, b *form.Values) ([]interface{}, SearchContainer, error) {
 			list := &TestSearchResult{}
-			sr := StripeRequest{
+			sr := &StripeRequest{
 				Method: http.MethodGet,
 				Path:   "/v1/something/search",
 				Key:    c.Key,

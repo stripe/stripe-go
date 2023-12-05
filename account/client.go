@@ -29,7 +29,7 @@ func New(params *stripe.AccountParams) (*stripe.Account, error) {
 func (c Client) New(params *stripe.AccountParams) (*stripe.Account, error) {
 	account := &stripe.Account{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: "/v1/accounts", Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodPost, "/v1/accounts", c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -47,11 +47,7 @@ func Get() (*stripe.Account, error) {
 func (c Client) Get() (*stripe.Account, error) {
 	account := &stripe.Account{}
 	err := c.B.Call(
-		stripe.StripeRequest{
-			Method: http.MethodGet,
-			Path:   "/v1/account",
-			Key:    c.Key,
-		},
+		stripe.NewStripeRequest(http.MethodGet, "/v1/account", c.Key),
 		account,
 	)
 	return account, err
@@ -67,7 +63,7 @@ func (c Client) GetByID(id string, params *stripe.AccountParams) (*stripe.Accoun
 	path := stripe.FormatURLPath("/v1/accounts/%s", id)
 	account := &stripe.Account{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodGet, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodGet, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -86,7 +82,7 @@ func (c Client) Update(id string, params *stripe.AccountParams) (*stripe.Account
 	path := stripe.FormatURLPath("/v1/accounts/%s", id)
 	account := &stripe.Account{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodPost, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -105,7 +101,7 @@ func (c Client) Del(id string, params *stripe.AccountParams) (*stripe.Account, e
 	path := stripe.FormatURLPath("/v1/accounts/%s", id)
 	account := &stripe.Account{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodDelete, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodDelete, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -124,7 +120,7 @@ func (c Client) Reject(id string, params *stripe.AccountRejectParams) (*stripe.A
 	path := stripe.FormatURLPath("/v1/accounts/%s/reject", id)
 	account := &stripe.Account{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodPost, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -143,11 +139,11 @@ func (c Client) List(listParams *stripe.AccountListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.AccountList{}
-			sr := stripe.StripeRequest{
-				Method: http.MethodGet,
-				Path:   "/v1/accounts",
-				Key:    c.Key,
-			}
+			sr := stripe.NewStripeRequest(
+				http.MethodGet,
+				"/v1/accounts",
+				c.Key,
+			)
 			err := sr.SetRawForm(p, b)
 			if err != nil {
 				return nil, list, err

@@ -28,7 +28,11 @@ func New(params *stripe.TestHelpersTreasuryReceivedDebitParams) (*stripe.Treasur
 func (c Client) New(params *stripe.TestHelpersTreasuryReceivedDebitParams) (*stripe.TreasuryReceivedDebit, error) {
 	receiveddebit := &stripe.TreasuryReceivedDebit{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: "/v1/test_helpers/treasury/received_debits", Key: c.Key}
+	sr := stripe.NewStripeRequest(
+		http.MethodPost,
+		"/v1/test_helpers/treasury/received_debits",
+		c.Key,
+	)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err

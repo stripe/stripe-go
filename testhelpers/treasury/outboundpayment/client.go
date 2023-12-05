@@ -32,7 +32,7 @@ func (c Client) Fail(id string, params *stripe.TestHelpersTreasuryOutboundPaymen
 	)
 	outboundpayment := &stripe.TreasuryOutboundPayment{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodPost, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -54,7 +54,7 @@ func (c Client) Post(id string, params *stripe.TestHelpersTreasuryOutboundPaymen
 	)
 	outboundpayment := &stripe.TreasuryOutboundPayment{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodPost, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -76,7 +76,7 @@ func (c Client) ReturnOutboundPayment(id string, params *stripe.TestHelpersTreas
 	)
 	outboundpayment := &stripe.TreasuryOutboundPayment{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodPost, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err

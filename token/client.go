@@ -28,7 +28,7 @@ func New(params *stripe.TokenParams) (*stripe.Token, error) {
 func (c Client) New(params *stripe.TokenParams) (*stripe.Token, error) {
 	token := &stripe.Token{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: "/v1/tokens", Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodPost, "/v1/tokens", c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -47,7 +47,7 @@ func (c Client) Get(id string, params *stripe.TokenParams) (*stripe.Token, error
 	path := stripe.FormatURLPath("/v1/tokens/%s", id)
 	token := &stripe.Token{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodGet, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodGet, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err

@@ -30,7 +30,7 @@ func (c Client) Get(id string, params *stripe.CapitalFinancingOfferParams) (*str
 	path := stripe.FormatURLPath("/v1/capital/financing_offers/%s", id)
 	financingoffer := &stripe.CapitalFinancingOffer{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodGet, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodGet, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -52,7 +52,7 @@ func (c Client) MarkDelivered(id string, params *stripe.CapitalFinancingOfferMar
 	)
 	financingoffer := &stripe.CapitalFinancingOffer{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodPost, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -71,11 +71,11 @@ func (c Client) List(listParams *stripe.CapitalFinancingOfferListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.CapitalFinancingOfferList{}
-			sr := stripe.StripeRequest{
-				Method: http.MethodGet,
-				Path:   "/v1/capital/financing_offers",
-				Key:    c.Key,
-			}
+			sr := stripe.NewStripeRequest(
+				http.MethodGet,
+				"/v1/capital/financing_offers",
+				c.Key,
+			)
 			err := sr.SetRawForm(p, b)
 			if err != nil {
 				return nil, list, err

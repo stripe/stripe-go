@@ -29,7 +29,7 @@ func New(params *stripe.SetupIntentParams) (*stripe.SetupIntent, error) {
 func (c Client) New(params *stripe.SetupIntentParams) (*stripe.SetupIntent, error) {
 	setupintent := &stripe.SetupIntent{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: "/v1/setup_intents", Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodPost, "/v1/setup_intents", c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -48,7 +48,7 @@ func (c Client) Get(id string, params *stripe.SetupIntentParams) (*stripe.SetupI
 	path := stripe.FormatURLPath("/v1/setup_intents/%s", id)
 	setupintent := &stripe.SetupIntent{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodGet, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodGet, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -67,7 +67,7 @@ func (c Client) Update(id string, params *stripe.SetupIntentParams) (*stripe.Set
 	path := stripe.FormatURLPath("/v1/setup_intents/%s", id)
 	setupintent := &stripe.SetupIntent{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodPost, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -86,7 +86,7 @@ func (c Client) Cancel(id string, params *stripe.SetupIntentCancelParams) (*stri
 	path := stripe.FormatURLPath("/v1/setup_intents/%s/cancel", id)
 	setupintent := &stripe.SetupIntent{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodPost, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -105,7 +105,7 @@ func (c Client) Confirm(id string, params *stripe.SetupIntentConfirmParams) (*st
 	path := stripe.FormatURLPath("/v1/setup_intents/%s/confirm", id)
 	setupintent := &stripe.SetupIntent{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodPost, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -124,7 +124,7 @@ func (c Client) VerifyMicrodeposits(id string, params *stripe.SetupIntentVerifyM
 	path := stripe.FormatURLPath("/v1/setup_intents/%s/verify_microdeposits", id)
 	setupintent := &stripe.SetupIntent{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodPost, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -143,11 +143,11 @@ func (c Client) List(listParams *stripe.SetupIntentListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.SetupIntentList{}
-			sr := stripe.StripeRequest{
-				Method: http.MethodGet,
-				Path:   "/v1/setup_intents",
-				Key:    c.Key,
-			}
+			sr := stripe.NewStripeRequest(
+				http.MethodGet,
+				"/v1/setup_intents",
+				c.Key,
+			)
 			err := sr.SetRawForm(p, b)
 			if err != nil {
 				return nil, list, err

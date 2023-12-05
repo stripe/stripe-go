@@ -29,7 +29,7 @@ func New(params *stripe.SourceParams) (*stripe.Source, error) {
 func (c Client) New(params *stripe.SourceParams) (*stripe.Source, error) {
 	source := &stripe.Source{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: "/v1/sources", Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodPost, "/v1/sources", c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -48,7 +48,7 @@ func (c Client) Get(id string, params *stripe.SourceParams) (*stripe.Source, err
 	path := stripe.FormatURLPath("/v1/sources/%s", id)
 	source := &stripe.Source{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodGet, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodGet, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -67,7 +67,7 @@ func (c Client) Update(id string, params *stripe.SourceParams) (*stripe.Source, 
 	path := stripe.FormatURLPath("/v1/sources/%s", id)
 	source := &stripe.Source{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodPost, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -95,7 +95,7 @@ func (c Client) Detach(id string, params *stripe.SourceDetachParams) (*stripe.So
 	)
 	source := &stripe.Source{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodDelete, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodDelete, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err

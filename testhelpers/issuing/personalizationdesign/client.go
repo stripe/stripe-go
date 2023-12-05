@@ -32,7 +32,7 @@ func (c Client) Activate(id string, params *stripe.TestHelpersIssuingPersonaliza
 	)
 	personalizationdesign := &stripe.IssuingPersonalizationDesign{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodPost, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -54,7 +54,7 @@ func (c Client) Deactivate(id string, params *stripe.TestHelpersIssuingPersonali
 	)
 	personalizationdesign := &stripe.IssuingPersonalizationDesign{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodPost, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -76,7 +76,7 @@ func (c Client) Reject(id string, params *stripe.TestHelpersIssuingPersonalizati
 	)
 	personalizationdesign := &stripe.IssuingPersonalizationDesign{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodPost, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err

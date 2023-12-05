@@ -30,7 +30,7 @@ func (c Client) Get(id string, params *stripe.ReviewParams) (*stripe.Review, err
 	path := stripe.FormatURLPath("/v1/reviews/%s", id)
 	review := &stripe.Review{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodGet, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodGet, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -49,7 +49,7 @@ func (c Client) Approve(id string, params *stripe.ReviewApproveParams) (*stripe.
 	path := stripe.FormatURLPath("/v1/reviews/%s/approve", id)
 	review := &stripe.Review{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodPost, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -68,11 +68,11 @@ func (c Client) List(listParams *stripe.ReviewListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.ReviewList{}
-			sr := stripe.StripeRequest{
-				Method: http.MethodGet,
-				Path:   "/v1/reviews",
-				Key:    c.Key,
-			}
+			sr := stripe.NewStripeRequest(
+				http.MethodGet,
+				"/v1/reviews",
+				c.Key,
+			)
 			err := sr.SetRawForm(p, b)
 			if err != nil {
 				return nil, list, err

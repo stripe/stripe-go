@@ -30,7 +30,7 @@ func (c Client) Get(id string, params *stripe.ReportingReportTypeParams) (*strip
 	path := stripe.FormatURLPath("/v1/reporting/report_types/%s", id)
 	reporttype := &stripe.ReportingReportType{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodGet, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodGet, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -49,11 +49,11 @@ func (c Client) List(listParams *stripe.ReportingReportTypeListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.ReportingReportTypeList{}
-			sr := stripe.StripeRequest{
-				Method: http.MethodGet,
-				Path:   "/v1/reporting/report_types",
-				Key:    c.Key,
-			}
+			sr := stripe.NewStripeRequest(
+				http.MethodGet,
+				"/v1/reporting/report_types",
+				c.Key,
+			)
 			err := sr.SetRawForm(p, b)
 			if err != nil {
 				return nil, list, err

@@ -29,7 +29,7 @@ func New(params *stripe.PayoutParams) (*stripe.Payout, error) {
 func (c Client) New(params *stripe.PayoutParams) (*stripe.Payout, error) {
 	payout := &stripe.Payout{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: "/v1/payouts", Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodPost, "/v1/payouts", c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -48,7 +48,7 @@ func (c Client) Get(id string, params *stripe.PayoutParams) (*stripe.Payout, err
 	path := stripe.FormatURLPath("/v1/payouts/%s", id)
 	payout := &stripe.Payout{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodGet, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodGet, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -67,7 +67,7 @@ func (c Client) Update(id string, params *stripe.PayoutParams) (*stripe.Payout, 
 	path := stripe.FormatURLPath("/v1/payouts/%s", id)
 	payout := &stripe.Payout{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodPost, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -86,7 +86,7 @@ func (c Client) Cancel(id string, params *stripe.PayoutParams) (*stripe.Payout, 
 	path := stripe.FormatURLPath("/v1/payouts/%s/cancel", id)
 	payout := &stripe.Payout{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodPost, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -105,7 +105,7 @@ func (c Client) Reverse(id string, params *stripe.PayoutReverseParams) (*stripe.
 	path := stripe.FormatURLPath("/v1/payouts/%s/reverse", id)
 	payout := &stripe.Payout{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodPost, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -124,11 +124,11 @@ func (c Client) List(listParams *stripe.PayoutListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.PayoutList{}
-			sr := stripe.StripeRequest{
-				Method: http.MethodGet,
-				Path:   "/v1/payouts",
-				Key:    c.Key,
-			}
+			sr := stripe.NewStripeRequest(
+				http.MethodGet,
+				"/v1/payouts",
+				c.Key,
+			)
 			err := sr.SetRawForm(p, b)
 			if err != nil {
 				return nil, list, err

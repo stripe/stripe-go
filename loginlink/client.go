@@ -36,7 +36,7 @@ func (c Client) New(params *stripe.LoginLinkParams) (*stripe.LoginLink, error) {
 	)
 	loginlink := &stripe.LoginLink{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodPost, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err

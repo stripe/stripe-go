@@ -28,7 +28,11 @@ func New(params *stripe.BillingPortalSessionParams) (*stripe.BillingPortalSessio
 func (c Client) New(params *stripe.BillingPortalSessionParams) (*stripe.BillingPortalSession, error) {
 	session := &stripe.BillingPortalSession{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: "/v1/billing_portal/sessions", Key: c.Key}
+	sr := stripe.NewStripeRequest(
+		http.MethodPost,
+		"/v1/billing_portal/sessions",
+		c.Key,
+	)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err

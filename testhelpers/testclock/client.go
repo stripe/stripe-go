@@ -29,7 +29,11 @@ func New(params *stripe.TestHelpersTestClockParams) (*stripe.TestHelpersTestCloc
 func (c Client) New(params *stripe.TestHelpersTestClockParams) (*stripe.TestHelpersTestClock, error) {
 	testclock := &stripe.TestHelpersTestClock{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: "/v1/test_helpers/test_clocks", Key: c.Key}
+	sr := stripe.NewStripeRequest(
+		http.MethodPost,
+		"/v1/test_helpers/test_clocks",
+		c.Key,
+	)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -48,7 +52,7 @@ func (c Client) Get(id string, params *stripe.TestHelpersTestClockParams) (*stri
 	path := stripe.FormatURLPath("/v1/test_helpers/test_clocks/%s", id)
 	testclock := &stripe.TestHelpersTestClock{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodGet, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodGet, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -67,7 +71,7 @@ func (c Client) Del(id string, params *stripe.TestHelpersTestClockParams) (*stri
 	path := stripe.FormatURLPath("/v1/test_helpers/test_clocks/%s", id)
 	testclock := &stripe.TestHelpersTestClock{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodDelete, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodDelete, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -86,7 +90,7 @@ func (c Client) Advance(id string, params *stripe.TestHelpersTestClockAdvancePar
 	path := stripe.FormatURLPath("/v1/test_helpers/test_clocks/%s/advance", id)
 	testclock := &stripe.TestHelpersTestClock{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodPost, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -105,11 +109,11 @@ func (c Client) List(listParams *stripe.TestHelpersTestClockListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.TestHelpersTestClockList{}
-			sr := stripe.StripeRequest{
-				Method: http.MethodGet,
-				Path:   "/v1/test_helpers/test_clocks",
-				Key:    c.Key,
-			}
+			sr := stripe.NewStripeRequest(
+				http.MethodGet,
+				"/v1/test_helpers/test_clocks",
+				c.Key,
+			)
 			err := sr.SetRawForm(p, b)
 			if err != nil {
 				return nil, list, err

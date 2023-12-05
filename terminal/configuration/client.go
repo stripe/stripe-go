@@ -29,7 +29,11 @@ func New(params *stripe.TerminalConfigurationParams) (*stripe.TerminalConfigurat
 func (c Client) New(params *stripe.TerminalConfigurationParams) (*stripe.TerminalConfiguration, error) {
 	configuration := &stripe.TerminalConfiguration{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: "/v1/terminal/configurations", Key: c.Key}
+	sr := stripe.NewStripeRequest(
+		http.MethodPost,
+		"/v1/terminal/configurations",
+		c.Key,
+	)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -48,7 +52,7 @@ func (c Client) Get(id string, params *stripe.TerminalConfigurationParams) (*str
 	path := stripe.FormatURLPath("/v1/terminal/configurations/%s", id)
 	configuration := &stripe.TerminalConfiguration{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodGet, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodGet, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -67,7 +71,7 @@ func (c Client) Update(id string, params *stripe.TerminalConfigurationParams) (*
 	path := stripe.FormatURLPath("/v1/terminal/configurations/%s", id)
 	configuration := &stripe.TerminalConfiguration{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodPost, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -86,7 +90,7 @@ func (c Client) Del(id string, params *stripe.TerminalConfigurationParams) (*str
 	path := stripe.FormatURLPath("/v1/terminal/configurations/%s", id)
 	configuration := &stripe.TerminalConfiguration{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodDelete, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodDelete, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -105,11 +109,11 @@ func (c Client) List(listParams *stripe.TerminalConfigurationListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.TerminalConfigurationList{}
-			sr := stripe.StripeRequest{
-				Method: http.MethodGet,
-				Path:   "/v1/terminal/configurations",
-				Key:    c.Key,
-			}
+			sr := stripe.NewStripeRequest(
+				http.MethodGet,
+				"/v1/terminal/configurations",
+				c.Key,
+			)
 			err := sr.SetRawForm(p, b)
 			if err != nil {
 				return nil, list, err

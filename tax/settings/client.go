@@ -28,7 +28,7 @@ func Get(params *stripe.TaxSettingsParams) (*stripe.TaxSettings, error) {
 func (c Client) Get(params *stripe.TaxSettingsParams) (*stripe.TaxSettings, error) {
 	settings := &stripe.TaxSettings{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodGet, Path: "/v1/tax/settings", Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodGet, "/v1/tax/settings", c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -46,7 +46,7 @@ func Update(params *stripe.TaxSettingsParams) (*stripe.TaxSettings, error) {
 func (c Client) Update(params *stripe.TaxSettingsParams) (*stripe.TaxSettings, error) {
 	settings := &stripe.TaxSettings{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: "/v1/tax/settings", Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodPost, "/v1/tax/settings", c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err

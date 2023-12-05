@@ -28,7 +28,11 @@ func New(params *stripe.TerminalConnectionTokenParams) (*stripe.TerminalConnecti
 func (c Client) New(params *stripe.TerminalConnectionTokenParams) (*stripe.TerminalConnectionToken, error) {
 	connectiontoken := &stripe.TerminalConnectionToken{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: "/v1/terminal/connection_tokens", Key: c.Key}
+	sr := stripe.NewStripeRequest(
+		http.MethodPost,
+		"/v1/terminal/connection_tokens",
+		c.Key,
+	)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err

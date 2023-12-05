@@ -28,7 +28,11 @@ func New(params *stripe.FinancialConnectionsSessionParams) (*stripe.FinancialCon
 func (c Client) New(params *stripe.FinancialConnectionsSessionParams) (*stripe.FinancialConnectionsSession, error) {
 	session := &stripe.FinancialConnectionsSession{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: "/v1/financial_connections/sessions", Key: c.Key}
+	sr := stripe.NewStripeRequest(
+		http.MethodPost,
+		"/v1/financial_connections/sessions",
+		c.Key,
+	)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -47,7 +51,7 @@ func (c Client) Get(id string, params *stripe.FinancialConnectionsSessionParams)
 	path := stripe.FormatURLPath("/v1/financial_connections/sessions/%s", id)
 	session := &stripe.FinancialConnectionsSession{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodGet, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodGet, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err

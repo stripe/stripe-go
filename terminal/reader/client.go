@@ -29,7 +29,7 @@ func New(params *stripe.TerminalReaderParams) (*stripe.TerminalReader, error) {
 func (c Client) New(params *stripe.TerminalReaderParams) (*stripe.TerminalReader, error) {
 	reader := &stripe.TerminalReader{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: "/v1/terminal/readers", Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodPost, "/v1/terminal/readers", c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -48,7 +48,7 @@ func (c Client) Get(id string, params *stripe.TerminalReaderParams) (*stripe.Ter
 	path := stripe.FormatURLPath("/v1/terminal/readers/%s", id)
 	reader := &stripe.TerminalReader{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodGet, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodGet, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -67,7 +67,7 @@ func (c Client) Update(id string, params *stripe.TerminalReaderParams) (*stripe.
 	path := stripe.FormatURLPath("/v1/terminal/readers/%s", id)
 	reader := &stripe.TerminalReader{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodPost, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -86,7 +86,7 @@ func (c Client) Del(id string, params *stripe.TerminalReaderParams) (*stripe.Ter
 	path := stripe.FormatURLPath("/v1/terminal/readers/%s", id)
 	reader := &stripe.TerminalReader{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodDelete, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodDelete, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -105,7 +105,7 @@ func (c Client) CancelAction(id string, params *stripe.TerminalReaderCancelActio
 	path := stripe.FormatURLPath("/v1/terminal/readers/%s/cancel_action", id)
 	reader := &stripe.TerminalReader{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodPost, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -124,7 +124,7 @@ func (c Client) CollectInputs(id string, params *stripe.TerminalReaderCollectInp
 	path := stripe.FormatURLPath("/v1/terminal/readers/%s/collect_inputs", id)
 	reader := &stripe.TerminalReader{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodPost, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -146,7 +146,7 @@ func (c Client) CollectPaymentMethod(id string, params *stripe.TerminalReaderCol
 	)
 	reader := &stripe.TerminalReader{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodPost, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -168,7 +168,7 @@ func (c Client) ConfirmPaymentIntent(id string, params *stripe.TerminalReaderCon
 	)
 	reader := &stripe.TerminalReader{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodPost, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -190,7 +190,7 @@ func (c Client) ProcessPaymentIntent(id string, params *stripe.TerminalReaderPro
 	)
 	reader := &stripe.TerminalReader{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodPost, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -212,7 +212,7 @@ func (c Client) ProcessSetupIntent(id string, params *stripe.TerminalReaderProce
 	)
 	reader := &stripe.TerminalReader{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodPost, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -231,7 +231,7 @@ func (c Client) RefundPayment(id string, params *stripe.TerminalReaderRefundPaym
 	path := stripe.FormatURLPath("/v1/terminal/readers/%s/refund_payment", id)
 	reader := &stripe.TerminalReader{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodPost, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -250,7 +250,7 @@ func (c Client) SetReaderDisplay(id string, params *stripe.TerminalReaderSetRead
 	path := stripe.FormatURLPath("/v1/terminal/readers/%s/set_reader_display", id)
 	reader := &stripe.TerminalReader{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodPost, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -269,11 +269,11 @@ func (c Client) List(listParams *stripe.TerminalReaderListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.TerminalReaderList{}
-			sr := stripe.StripeRequest{
-				Method: http.MethodGet,
-				Path:   "/v1/terminal/readers",
-				Key:    c.Key,
-			}
+			sr := stripe.NewStripeRequest(
+				http.MethodGet,
+				"/v1/terminal/readers",
+				c.Key,
+			)
 			err := sr.SetRawForm(p, b)
 			if err != nil {
 				return nil, list, err

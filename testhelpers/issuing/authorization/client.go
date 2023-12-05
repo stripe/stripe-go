@@ -28,7 +28,11 @@ func New(params *stripe.TestHelpersIssuingAuthorizationParams) (*stripe.IssuingA
 func (c Client) New(params *stripe.TestHelpersIssuingAuthorizationParams) (*stripe.IssuingAuthorization, error) {
 	authorization := &stripe.IssuingAuthorization{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: "/v1/test_helpers/issuing/authorizations", Key: c.Key}
+	sr := stripe.NewStripeRequest(
+		http.MethodPost,
+		"/v1/test_helpers/issuing/authorizations",
+		c.Key,
+	)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -50,7 +54,7 @@ func (c Client) Capture(id string, params *stripe.TestHelpersIssuingAuthorizatio
 	)
 	authorization := &stripe.IssuingAuthorization{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodPost, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -72,7 +76,7 @@ func (c Client) Expire(id string, params *stripe.TestHelpersIssuingAuthorization
 	)
 	authorization := &stripe.IssuingAuthorization{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodPost, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -94,7 +98,7 @@ func (c Client) Increment(id string, params *stripe.TestHelpersIssuingAuthorizat
 	)
 	authorization := &stripe.IssuingAuthorization{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodPost, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -116,7 +120,7 @@ func (c Client) Reverse(id string, params *stripe.TestHelpersIssuingAuthorizatio
 	)
 	authorization := &stripe.IssuingAuthorization{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodPost, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err

@@ -751,7 +751,7 @@ func TestDoStreaming(t *testing.T) {
 
 	response := streamingResource{}
 	err := backend.CallStreaming(
-		StripeRequest{
+		&StripeRequest{
 			Method: http.MethodGet,
 			Path:   "/pdf",
 			Key:    "sk_test_123",
@@ -801,7 +801,7 @@ func TestDoStreaming_ParsableError(t *testing.T) {
 
 	response := streamingResource{}
 	err := backend.CallStreaming(
-		StripeRequest{
+		&StripeRequest{
 			Method: http.MethodGet,
 			Path:   "/pdf",
 			Key:    "sk_test_123",
@@ -845,7 +845,7 @@ func TestDoStreaming_UnparsableError(t *testing.T) {
 
 	response := streamingResource{}
 	err := backend.CallStreaming(
-		StripeRequest{
+		&StripeRequest{
 			Method: http.MethodGet,
 			Path:   "/pdf",
 			Key:    "sk_test_123",
@@ -1006,7 +1006,7 @@ func TestErrorOnDuplicateMetadata(t *testing.T) {
 	metadata := map[string]string{"foo": "bar"}
 	resource := APIResource{}
 	doIt := func(method, path, key string, params *myParams) error {
-		sr := StripeRequest{
+		sr := &StripeRequest{
 			Method: method,
 			Path:   path,
 			Key:    key,
@@ -1044,7 +1044,7 @@ func TestErrorOnDuplicateExpand(t *testing.T) {
 	expand := []*string{String("foo"), String("bar")}
 	resource := APIResource{}
 	doIt := func(method, path, key string, params *myParams) error {
-		sr := StripeRequest{
+		sr := &StripeRequest{
 			Method: method,
 			Path:   path,
 			Key:    key,

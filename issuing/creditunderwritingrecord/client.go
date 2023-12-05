@@ -30,7 +30,7 @@ func (c Client) Get(id string, params *stripe.IssuingCreditUnderwritingRecordPar
 	path := stripe.FormatURLPath("/v1/issuing/credit_underwriting_records/%s", id)
 	creditunderwritingrecord := &stripe.IssuingCreditUnderwritingRecord{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodGet, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodGet, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -52,7 +52,7 @@ func (c Client) Correct(id string, params *stripe.IssuingCreditUnderwritingRecor
 	)
 	creditunderwritingrecord := &stripe.IssuingCreditUnderwritingRecord{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodPost, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -70,7 +70,11 @@ func CreateFromApplication(params *stripe.IssuingCreditUnderwritingRecordCreateF
 func (c Client) CreateFromApplication(params *stripe.IssuingCreditUnderwritingRecordCreateFromApplicationParams) (*stripe.IssuingCreditUnderwritingRecord, error) {
 	creditunderwritingrecord := &stripe.IssuingCreditUnderwritingRecord{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: "/v1/issuing/credit_underwriting_records/create_from_application", Key: c.Key}
+	sr := stripe.NewStripeRequest(
+		http.MethodPost,
+		"/v1/issuing/credit_underwriting_records/create_from_application",
+		c.Key,
+	)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -88,7 +92,11 @@ func CreateFromProactiveReview(params *stripe.IssuingCreditUnderwritingRecordCre
 func (c Client) CreateFromProactiveReview(params *stripe.IssuingCreditUnderwritingRecordCreateFromProactiveReviewParams) (*stripe.IssuingCreditUnderwritingRecord, error) {
 	creditunderwritingrecord := &stripe.IssuingCreditUnderwritingRecord{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: "/v1/issuing/credit_underwriting_records/create_from_proactive_review", Key: c.Key}
+	sr := stripe.NewStripeRequest(
+		http.MethodPost,
+		"/v1/issuing/credit_underwriting_records/create_from_proactive_review",
+		c.Key,
+	)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -110,7 +118,7 @@ func (c Client) ReportDecision(id string, params *stripe.IssuingCreditUnderwriti
 	)
 	creditunderwritingrecord := &stripe.IssuingCreditUnderwritingRecord{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodPost, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -129,11 +137,11 @@ func (c Client) List(listParams *stripe.IssuingCreditUnderwritingRecordListParam
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.IssuingCreditUnderwritingRecordList{}
-			sr := stripe.StripeRequest{
-				Method: http.MethodGet,
-				Path:   "/v1/issuing/credit_underwriting_records",
-				Key:    c.Key,
-			}
+			sr := stripe.NewStripeRequest(
+				http.MethodGet,
+				"/v1/issuing/credit_underwriting_records",
+				c.Key,
+			)
 			err := sr.SetRawForm(p, b)
 			if err != nil {
 				return nil, list, err

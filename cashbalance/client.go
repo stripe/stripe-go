@@ -38,7 +38,7 @@ func (c Client) Get(params *stripe.CashBalanceParams) (*stripe.CashBalance, erro
 	)
 	cashbalance := &stripe.CashBalance{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodGet, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodGet, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -65,7 +65,7 @@ func (c Client) Update(params *stripe.CashBalanceParams) (*stripe.CashBalance, e
 	)
 	cashbalance := &stripe.CashBalance{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodPost, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err

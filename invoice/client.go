@@ -29,7 +29,7 @@ func New(params *stripe.InvoiceParams) (*stripe.Invoice, error) {
 func (c Client) New(params *stripe.InvoiceParams) (*stripe.Invoice, error) {
 	invoice := &stripe.Invoice{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: "/v1/invoices", Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodPost, "/v1/invoices", c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -48,7 +48,7 @@ func (c Client) Get(id string, params *stripe.InvoiceParams) (*stripe.Invoice, e
 	path := stripe.FormatURLPath("/v1/invoices/%s", id)
 	invoice := &stripe.Invoice{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodGet, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodGet, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -67,7 +67,7 @@ func (c Client) Update(id string, params *stripe.InvoiceParams) (*stripe.Invoice
 	path := stripe.FormatURLPath("/v1/invoices/%s", id)
 	invoice := &stripe.Invoice{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodPost, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -86,7 +86,7 @@ func (c Client) Del(id string, params *stripe.InvoiceParams) (*stripe.Invoice, e
 	path := stripe.FormatURLPath("/v1/invoices/%s", id)
 	invoice := &stripe.Invoice{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodDelete, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodDelete, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -105,7 +105,7 @@ func (c Client) AttachPaymentIntent(id string, params *stripe.InvoiceAttachPayme
 	path := stripe.FormatURLPath("/v1/invoices/%s/attach_payment_intent", id)
 	invoice := &stripe.Invoice{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodPost, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -124,7 +124,7 @@ func (c Client) FinalizeInvoice(id string, params *stripe.InvoiceFinalizeInvoice
 	path := stripe.FormatURLPath("/v1/invoices/%s/finalize", id)
 	invoice := &stripe.Invoice{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodPost, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -143,7 +143,7 @@ func (c Client) MarkUncollectible(id string, params *stripe.InvoiceMarkUncollect
 	path := stripe.FormatURLPath("/v1/invoices/%s/mark_uncollectible", id)
 	invoice := &stripe.Invoice{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodPost, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -162,7 +162,7 @@ func (c Client) Pay(id string, params *stripe.InvoicePayParams) (*stripe.Invoice
 	path := stripe.FormatURLPath("/v1/invoices/%s/pay", id)
 	invoice := &stripe.Invoice{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodPost, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -181,7 +181,7 @@ func (c Client) SendInvoice(id string, params *stripe.InvoiceSendInvoiceParams) 
 	path := stripe.FormatURLPath("/v1/invoices/%s/send", id)
 	invoice := &stripe.Invoice{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodPost, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -199,7 +199,7 @@ func Upcoming(params *stripe.InvoiceUpcomingParams) (*stripe.Invoice, error) {
 func (c Client) Upcoming(params *stripe.InvoiceUpcomingParams) (*stripe.Invoice, error) {
 	invoice := &stripe.Invoice{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodGet, Path: "/v1/invoices/upcoming", Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodGet, "/v1/invoices/upcoming", c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -218,7 +218,7 @@ func (c Client) VoidInvoice(id string, params *stripe.InvoiceVoidInvoiceParams) 
 	path := stripe.FormatURLPath("/v1/invoices/%s/void", id)
 	invoice := &stripe.Invoice{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodPost, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -237,11 +237,11 @@ func (c Client) List(listParams *stripe.InvoiceListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.InvoiceList{}
-			sr := stripe.StripeRequest{
-				Method: http.MethodGet,
-				Path:   "/v1/invoices",
-				Key:    c.Key,
-			}
+			sr := stripe.NewStripeRequest(
+				http.MethodGet,
+				"/v1/invoices",
+				c.Key,
+			)
 			err := sr.SetRawForm(p, b)
 			if err != nil {
 				return nil, list, err
@@ -289,11 +289,11 @@ func (c Client) ListLines(listParams *stripe.InvoiceListLinesParams) *LineItemIt
 	return &LineItemIter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.InvoiceLineItemList{}
-			sr := stripe.StripeRequest{
-				Method: http.MethodGet,
-				Path:   path,
-				Key:    c.Key,
-			}
+			sr := stripe.NewStripeRequest(
+				http.MethodGet,
+				path,
+				c.Key,
+			)
 			err := sr.SetRawForm(p, b)
 			if err != nil {
 				return nil, list, err
@@ -320,11 +320,11 @@ func (c Client) UpcomingLines(listParams *stripe.InvoiceUpcomingLinesParams) *Li
 	return &LineItemIter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.InvoiceLineItemList{}
-			sr := stripe.StripeRequest{
-				Method: http.MethodGet,
-				Path:   "/v1/invoices/upcoming/lines",
-				Key:    c.Key,
-			}
+			sr := stripe.NewStripeRequest(
+				http.MethodGet,
+				"/v1/invoices/upcoming/lines",
+				c.Key,
+			)
 			err := sr.SetRawForm(p, b)
 			if err != nil {
 				return nil, list, err
@@ -368,11 +368,11 @@ func (c Client) Search(params *stripe.InvoiceSearchParams) *SearchIter {
 	return &SearchIter{
 		SearchIter: stripe.GetSearchIter(params, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.SearchContainer, error) {
 			list := &stripe.InvoiceSearchResult{}
-			sr := stripe.StripeRequest{
-				Method: http.MethodGet,
-				Path:   "/v1/invoices/search",
-				Key:    c.Key,
-			}
+			sr := stripe.NewStripeRequest(
+				http.MethodGet,
+				"/v1/invoices/search",
+				c.Key,
+			)
 			err := sr.SetRawForm(p, b)
 			if err != nil {
 				return nil, list, err

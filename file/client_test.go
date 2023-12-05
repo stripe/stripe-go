@@ -45,14 +45,14 @@ type testBackend struct {
 	calledMultipart bool
 }
 
-func (b *testBackend) Call(req stripe.StripeRequest, v stripe.LastResponseSetter) error {
-	if req.IsMultipart {
+func (b *testBackend) Call(req *stripe.StripeRequest, v stripe.LastResponseSetter) error {
+	if req.GetIsMultipart() {
 		b.calledMultipart = true
 	}
 	return nil
 }
 
-func (b *testBackend) CallStreaming(req stripe.StripeRequest, v stripe.StreamingLastResponseSetter) error {
+func (b *testBackend) CallStreaming(req *stripe.StripeRequest, v stripe.StreamingLastResponseSetter) error {
 	return nil
 }
 func (b *testBackend) SetMaxNetworkRetries(maxNetworkRetries int64) {}

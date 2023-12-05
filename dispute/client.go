@@ -30,7 +30,7 @@ func (c Client) Get(id string, params *stripe.DisputeParams) (*stripe.Dispute, e
 	path := stripe.FormatURLPath("/v1/disputes/%s", id)
 	dispute := &stripe.Dispute{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodGet, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodGet, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -49,7 +49,7 @@ func (c Client) Update(id string, params *stripe.DisputeParams) (*stripe.Dispute
 	path := stripe.FormatURLPath("/v1/disputes/%s", id)
 	dispute := &stripe.Dispute{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodPost, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -68,7 +68,7 @@ func (c Client) Close(id string, params *stripe.DisputeParams) (*stripe.Dispute,
 	path := stripe.FormatURLPath("/v1/disputes/%s/close", id)
 	dispute := &stripe.Dispute{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodPost, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -87,11 +87,11 @@ func (c Client) List(listParams *stripe.DisputeListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.DisputeList{}
-			sr := stripe.StripeRequest{
-				Method: http.MethodGet,
-				Path:   "/v1/disputes",
-				Key:    c.Key,
-			}
+			sr := stripe.NewStripeRequest(
+				http.MethodGet,
+				"/v1/disputes",
+				c.Key,
+			)
 			err := sr.SetRawForm(p, b)
 			if err != nil {
 				return nil, list, err

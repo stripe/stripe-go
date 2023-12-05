@@ -40,7 +40,7 @@ func (c Client) New(params *stripe.PaymentSourceParams) (*stripe.PaymentSource, 
 	)
 	paymentsource := &stripe.PaymentSource{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodPost, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -69,7 +69,7 @@ func (c Client) Get(id string, params *stripe.PaymentSourceParams) (*stripe.Paym
 	)
 	paymentsource := &stripe.PaymentSource{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodGet, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodGet, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -98,7 +98,7 @@ func (c Client) Update(id string, params *stripe.PaymentSourceParams) (*stripe.P
 	)
 	paymentsource := &stripe.PaymentSource{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodPost, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -127,7 +127,7 @@ func (c Client) Del(id string, params *stripe.PaymentSourceParams) (*stripe.Paym
 	)
 	paymentsource := &stripe.PaymentSource{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodDelete, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodDelete, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -160,11 +160,7 @@ func (c Client) Verify(id string, params *stripe.PaymentSourceVerifyParams) (*st
 	source := &stripe.PaymentSource{}
 	var err error
 
-	sr := stripe.StripeRequest{
-		Method: http.MethodPost,
-		Path:   path,
-		Key:    c.Key,
-	}
+	sr := stripe.NewStripeRequest(http.MethodPost, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -200,11 +196,11 @@ func (c Client) List(listParams *stripe.PaymentSourceListParams) *Iter {
 				return nil, list, outerErr
 			}
 
-			sr := stripe.StripeRequest{
-				Method: http.MethodGet,
-				Path:   path,
-				Key:    c.Key,
-			}
+			sr := stripe.NewStripeRequest(
+				http.MethodGet,
+				path,
+				c.Key,
+			)
 			err := sr.SetRawForm(p, b)
 			if err != nil {
 				return nil, list, err

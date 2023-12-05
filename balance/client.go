@@ -28,7 +28,7 @@ func Get(params *stripe.BalanceParams) (*stripe.Balance, error) {
 func (c Client) Get(params *stripe.BalanceParams) (*stripe.Balance, error) {
 	balance := &stripe.Balance{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodGet, Path: "/v1/balance", Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodGet, "/v1/balance", c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err

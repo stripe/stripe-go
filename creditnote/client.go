@@ -29,7 +29,7 @@ func New(params *stripe.CreditNoteParams) (*stripe.CreditNote, error) {
 func (c Client) New(params *stripe.CreditNoteParams) (*stripe.CreditNote, error) {
 	creditnote := &stripe.CreditNote{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: "/v1/credit_notes", Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodPost, "/v1/credit_notes", c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -48,7 +48,7 @@ func (c Client) Get(id string, params *stripe.CreditNoteParams) (*stripe.CreditN
 	path := stripe.FormatURLPath("/v1/credit_notes/%s", id)
 	creditnote := &stripe.CreditNote{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodGet, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodGet, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -67,7 +67,7 @@ func (c Client) Update(id string, params *stripe.CreditNoteParams) (*stripe.Cred
 	path := stripe.FormatURLPath("/v1/credit_notes/%s", id)
 	creditnote := &stripe.CreditNote{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodPost, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -85,7 +85,11 @@ func Preview(params *stripe.CreditNotePreviewParams) (*stripe.CreditNote, error)
 func (c Client) Preview(params *stripe.CreditNotePreviewParams) (*stripe.CreditNote, error) {
 	creditnote := &stripe.CreditNote{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodGet, Path: "/v1/credit_notes/preview", Key: c.Key}
+	sr := stripe.NewStripeRequest(
+		http.MethodGet,
+		"/v1/credit_notes/preview",
+		c.Key,
+	)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -104,7 +108,7 @@ func (c Client) VoidCreditNote(id string, params *stripe.CreditNoteVoidCreditNot
 	path := stripe.FormatURLPath("/v1/credit_notes/%s/void", id)
 	creditnote := &stripe.CreditNote{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodPost, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -123,11 +127,11 @@ func (c Client) List(listParams *stripe.CreditNoteListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.CreditNoteList{}
-			sr := stripe.StripeRequest{
-				Method: http.MethodGet,
-				Path:   "/v1/credit_notes",
-				Key:    c.Key,
-			}
+			sr := stripe.NewStripeRequest(
+				http.MethodGet,
+				"/v1/credit_notes",
+				c.Key,
+			)
 			err := sr.SetRawForm(p, b)
 			if err != nil {
 				return nil, list, err
@@ -175,11 +179,11 @@ func (c Client) ListLines(listParams *stripe.CreditNoteListLinesParams) *LineIte
 	return &LineItemIter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.CreditNoteLineItemList{}
-			sr := stripe.StripeRequest{
-				Method: http.MethodGet,
-				Path:   path,
-				Key:    c.Key,
-			}
+			sr := stripe.NewStripeRequest(
+				http.MethodGet,
+				path,
+				c.Key,
+			)
 			err := sr.SetRawForm(p, b)
 			if err != nil {
 				return nil, list, err
@@ -206,11 +210,11 @@ func (c Client) PreviewLines(listParams *stripe.CreditNotePreviewLinesParams) *L
 	return &LineItemIter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.CreditNoteLineItemList{}
-			sr := stripe.StripeRequest{
-				Method: http.MethodGet,
-				Path:   "/v1/credit_notes/preview/lines",
-				Key:    c.Key,
-			}
+			sr := stripe.NewStripeRequest(
+				http.MethodGet,
+				"/v1/credit_notes/preview/lines",
+				c.Key,
+			)
 			err := sr.SetRawForm(p, b)
 			if err != nil {
 				return nil, list, err

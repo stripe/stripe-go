@@ -29,7 +29,7 @@ func New(params *stripe.ShippingRateParams) (*stripe.ShippingRate, error) {
 func (c Client) New(params *stripe.ShippingRateParams) (*stripe.ShippingRate, error) {
 	shippingrate := &stripe.ShippingRate{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: "/v1/shipping_rates", Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodPost, "/v1/shipping_rates", c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -48,7 +48,7 @@ func (c Client) Get(id string, params *stripe.ShippingRateParams) (*stripe.Shipp
 	path := stripe.FormatURLPath("/v1/shipping_rates/%s", id)
 	shippingrate := &stripe.ShippingRate{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodGet, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodGet, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -67,7 +67,7 @@ func (c Client) Update(id string, params *stripe.ShippingRateParams) (*stripe.Sh
 	path := stripe.FormatURLPath("/v1/shipping_rates/%s", id)
 	shippingrate := &stripe.ShippingRate{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodPost, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -86,11 +86,11 @@ func (c Client) List(listParams *stripe.ShippingRateListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.ShippingRateList{}
-			sr := stripe.StripeRequest{
-				Method: http.MethodGet,
-				Path:   "/v1/shipping_rates",
-				Key:    c.Key,
-			}
+			sr := stripe.NewStripeRequest(
+				http.MethodGet,
+				"/v1/shipping_rates",
+				c.Key,
+			)
 			err := sr.SetRawForm(p, b)
 			if err != nil {
 				return nil, list, err

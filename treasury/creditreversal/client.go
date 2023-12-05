@@ -29,7 +29,11 @@ func New(params *stripe.TreasuryCreditReversalParams) (*stripe.TreasuryCreditRev
 func (c Client) New(params *stripe.TreasuryCreditReversalParams) (*stripe.TreasuryCreditReversal, error) {
 	creditreversal := &stripe.TreasuryCreditReversal{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: "/v1/treasury/credit_reversals", Key: c.Key}
+	sr := stripe.NewStripeRequest(
+		http.MethodPost,
+		"/v1/treasury/credit_reversals",
+		c.Key,
+	)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -48,7 +52,7 @@ func (c Client) Get(id string, params *stripe.TreasuryCreditReversalParams) (*st
 	path := stripe.FormatURLPath("/v1/treasury/credit_reversals/%s", id)
 	creditreversal := &stripe.TreasuryCreditReversal{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodGet, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodGet, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -67,11 +71,11 @@ func (c Client) List(listParams *stripe.TreasuryCreditReversalListParams) *Iter 
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.TreasuryCreditReversalList{}
-			sr := stripe.StripeRequest{
-				Method: http.MethodGet,
-				Path:   "/v1/treasury/credit_reversals",
-				Key:    c.Key,
-			}
+			sr := stripe.NewStripeRequest(
+				http.MethodGet,
+				"/v1/treasury/credit_reversals",
+				c.Key,
+			)
 			err := sr.SetRawForm(p, b)
 			if err != nil {
 				return nil, list, err

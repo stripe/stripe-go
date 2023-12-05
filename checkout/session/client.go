@@ -29,7 +29,7 @@ func New(params *stripe.CheckoutSessionParams) (*stripe.CheckoutSession, error) 
 func (c Client) New(params *stripe.CheckoutSessionParams) (*stripe.CheckoutSession, error) {
 	session := &stripe.CheckoutSession{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: "/v1/checkout/sessions", Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodPost, "/v1/checkout/sessions", c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -48,7 +48,7 @@ func (c Client) Get(id string, params *stripe.CheckoutSessionParams) (*stripe.Ch
 	path := stripe.FormatURLPath("/v1/checkout/sessions/%s", id)
 	session := &stripe.CheckoutSession{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodGet, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodGet, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -67,7 +67,7 @@ func (c Client) Expire(id string, params *stripe.CheckoutSessionExpireParams) (*
 	path := stripe.FormatURLPath("/v1/checkout/sessions/%s/expire", id)
 	session := &stripe.CheckoutSession{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodPost, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -86,11 +86,11 @@ func (c Client) List(listParams *stripe.CheckoutSessionListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.CheckoutSessionList{}
-			sr := stripe.StripeRequest{
-				Method: http.MethodGet,
-				Path:   "/v1/checkout/sessions",
-				Key:    c.Key,
-			}
+			sr := stripe.NewStripeRequest(
+				http.MethodGet,
+				"/v1/checkout/sessions",
+				c.Key,
+			)
 			err := sr.SetRawForm(p, b)
 			if err != nil {
 				return nil, list, err
@@ -138,11 +138,11 @@ func (c Client) ListLineItems(listParams *stripe.CheckoutSessionListLineItemsPar
 	return &LineItemIter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.LineItemList{}
-			sr := stripe.StripeRequest{
-				Method: http.MethodGet,
-				Path:   path,
-				Key:    c.Key,
-			}
+			sr := stripe.NewStripeRequest(
+				http.MethodGet,
+				path,
+				c.Key,
+			)
 			err := sr.SetRawForm(p, b)
 			if err != nil {
 				return nil, list, err

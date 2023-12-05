@@ -30,7 +30,7 @@ func (c Client) Get(id string, params *stripe.IssuingAuthorizationParams) (*stri
 	path := stripe.FormatURLPath("/v1/issuing/authorizations/%s", id)
 	authorization := &stripe.IssuingAuthorization{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodGet, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodGet, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -49,7 +49,7 @@ func (c Client) Update(id string, params *stripe.IssuingAuthorizationParams) (*s
 	path := stripe.FormatURLPath("/v1/issuing/authorizations/%s", id)
 	authorization := &stripe.IssuingAuthorization{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodPost, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -68,7 +68,7 @@ func (c Client) Approve(id string, params *stripe.IssuingAuthorizationApprovePar
 	path := stripe.FormatURLPath("/v1/issuing/authorizations/%s/approve", id)
 	authorization := &stripe.IssuingAuthorization{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodPost, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -87,7 +87,7 @@ func (c Client) Decline(id string, params *stripe.IssuingAuthorizationDeclinePar
 	path := stripe.FormatURLPath("/v1/issuing/authorizations/%s/decline", id)
 	authorization := &stripe.IssuingAuthorization{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodPost, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -106,11 +106,11 @@ func (c Client) List(listParams *stripe.IssuingAuthorizationListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.IssuingAuthorizationList{}
-			sr := stripe.StripeRequest{
-				Method: http.MethodGet,
-				Path:   "/v1/issuing/authorizations",
-				Key:    c.Key,
-			}
+			sr := stripe.NewStripeRequest(
+				http.MethodGet,
+				"/v1/issuing/authorizations",
+				c.Key,
+			)
 			err := sr.SetRawForm(p, b)
 			if err != nil {
 				return nil, list, err

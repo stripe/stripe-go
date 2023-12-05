@@ -29,7 +29,7 @@ func New(params *stripe.MarginParams) (*stripe.Margin, error) {
 func (c Client) New(params *stripe.MarginParams) (*stripe.Margin, error) {
 	margin := &stripe.Margin{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: "/v1/billing/margins", Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodPost, "/v1/billing/margins", c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -48,7 +48,7 @@ func (c Client) Get(id string, params *stripe.MarginParams) (*stripe.Margin, err
 	path := stripe.FormatURLPath("/v1/billing/margins/%s", id)
 	margin := &stripe.Margin{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodGet, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodGet, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -67,7 +67,7 @@ func (c Client) Update(id string, params *stripe.MarginParams) (*stripe.Margin, 
 	path := stripe.FormatURLPath("/v1/billing/margins/%s", id)
 	margin := &stripe.Margin{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodPost, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -86,11 +86,11 @@ func (c Client) List(listParams *stripe.MarginListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.MarginList{}
-			sr := stripe.StripeRequest{
-				Method: http.MethodGet,
-				Path:   "/v1/billing/margins",
-				Key:    c.Key,
-			}
+			sr := stripe.NewStripeRequest(
+				http.MethodGet,
+				"/v1/billing/margins",
+				c.Key,
+			)
 			err := sr.SetRawForm(p, b)
 			if err != nil {
 				return nil, list, err

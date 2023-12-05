@@ -29,7 +29,11 @@ func New(params *stripe.TreasuryOutboundTransferParams) (*stripe.TreasuryOutboun
 func (c Client) New(params *stripe.TreasuryOutboundTransferParams) (*stripe.TreasuryOutboundTransfer, error) {
 	outboundtransfer := &stripe.TreasuryOutboundTransfer{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: "/v1/treasury/outbound_transfers", Key: c.Key}
+	sr := stripe.NewStripeRequest(
+		http.MethodPost,
+		"/v1/treasury/outbound_transfers",
+		c.Key,
+	)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -48,7 +52,7 @@ func (c Client) Get(id string, params *stripe.TreasuryOutboundTransferParams) (*
 	path := stripe.FormatURLPath("/v1/treasury/outbound_transfers/%s", id)
 	outboundtransfer := &stripe.TreasuryOutboundTransfer{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodGet, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodGet, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -67,7 +71,7 @@ func (c Client) Cancel(id string, params *stripe.TreasuryOutboundTransferCancelP
 	path := stripe.FormatURLPath("/v1/treasury/outbound_transfers/%s/cancel", id)
 	outboundtransfer := &stripe.TreasuryOutboundTransfer{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodPost, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -86,11 +90,11 @@ func (c Client) List(listParams *stripe.TreasuryOutboundTransferListParams) *Ite
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.TreasuryOutboundTransferList{}
-			sr := stripe.StripeRequest{
-				Method: http.MethodGet,
-				Path:   "/v1/treasury/outbound_transfers",
-				Key:    c.Key,
-			}
+			sr := stripe.NewStripeRequest(
+				http.MethodGet,
+				"/v1/treasury/outbound_transfers",
+				c.Key,
+			)
 			err := sr.SetRawForm(p, b)
 			if err != nil {
 				return nil, list, err

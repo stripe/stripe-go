@@ -29,7 +29,7 @@ func New(params *stripe.IssuingCardParams) (*stripe.IssuingCard, error) {
 func (c Client) New(params *stripe.IssuingCardParams) (*stripe.IssuingCard, error) {
 	card := &stripe.IssuingCard{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: "/v1/issuing/cards", Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodPost, "/v1/issuing/cards", c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -48,7 +48,7 @@ func (c Client) Get(id string, params *stripe.IssuingCardParams) (*stripe.Issuin
 	path := stripe.FormatURLPath("/v1/issuing/cards/%s", id)
 	card := &stripe.IssuingCard{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodGet, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodGet, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -67,7 +67,7 @@ func (c Client) Update(id string, params *stripe.IssuingCardParams) (*stripe.Iss
 	path := stripe.FormatURLPath("/v1/issuing/cards/%s", id)
 	card := &stripe.IssuingCard{}
 	var err error
-	sr := stripe.StripeRequest{Method: http.MethodPost, Path: path, Key: c.Key}
+	sr := stripe.NewStripeRequest(http.MethodPost, path, c.Key)
 	err = sr.SetParams(params)
 	if err != nil {
 		return nil, err
@@ -86,11 +86,11 @@ func (c Client) List(listParams *stripe.IssuingCardListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.IssuingCardList{}
-			sr := stripe.StripeRequest{
-				Method: http.MethodGet,
-				Path:   "/v1/issuing/cards",
-				Key:    c.Key,
-			}
+			sr := stripe.NewStripeRequest(
+				http.MethodGet,
+				"/v1/issuing/cards",
+				c.Key,
+			)
 			err := sr.SetRawForm(p, b)
 			if err != nil {
 				return nil, list, err
