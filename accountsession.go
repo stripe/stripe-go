@@ -118,9 +118,11 @@ func (p *AccountSessionParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+type AccountSessionComponentsAccountOnboardingFeatures struct{}
 type AccountSessionComponentsAccountOnboarding struct {
 	// Whether the embedded component is enabled.
-	Enabled bool `json:"enabled"`
+	Enabled  bool                                               `json:"enabled"`
+	Features *AccountSessionComponentsAccountOnboardingFeatures `json:"features"`
 }
 type AccountSessionComponentsPaymentDetailsFeatures struct {
 	// Whether to allow capturing and cancelling payment intents. This is `true` by default.
