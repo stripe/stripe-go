@@ -474,17 +474,8 @@ func TestDo_TelemetryDisabled(t *testing.T) {
 	// _next_ request via the `X-Stripe-Client-Telemetry header`. To test that
 	// metrics aren't being sent, we need to fire off two requests in sequence.
 	for i := 0; i < 2; i++ {
-		request, err := backend.NewRequest(
-			http.MethodGet,
-			"/hello",
-			"sk_test_123",
-			"application/x-www-form-urlencoded",
-			nil,
-		)
-		assert.NoError(t, err)
-
 		var response testServerResponse
-		err = backend.Do(request, nil, &response)
+		err := backend.Call("get", "/hello", "sk_test_xyz", nil, &response)
 
 		assert.NoError(t, err)
 		assert.Equal(t, message, response.Message)
@@ -561,17 +552,8 @@ func TestDo_TelemetryEnabled(t *testing.T) {
 	).(*BackendImplementation)
 
 	for i := 0; i < 2; i++ {
-		request, err := backend.NewRequest(
-			http.MethodGet,
-			"/hello",
-			"sk_test_123",
-			"application/x-www-form-urlencoded",
-			nil,
-		)
-		assert.NoError(t, err)
-
 		var response testServerResponse
-		err = backend.Do(request, nil, &response)
+		err := backend.Call("get", "/hello", "sk_test_xyz", nil, &response)
 
 		assert.NoError(t, err)
 		assert.Equal(t, message, response.Message)
@@ -623,17 +605,8 @@ func TestDo_TelemetryEnabledNoDataRace(t *testing.T) {
 
 	for i := 0; i < times; i++ {
 		go func() {
-			request, err := backend.NewRequest(
-				http.MethodGet,
-				"/hello",
-				"sk_test_123",
-				"application/x-www-form-urlencoded",
-				nil,
-			)
-			assert.NoError(t, err)
-
 			var response testServerResponse
-			err = backend.Do(request, nil, &response)
+			err := backend.Call("get", "/hello", "sk_test_xyz", nil, &response)
 
 			assert.NoError(t, err)
 			assert.Equal(t, message, response.Message)
