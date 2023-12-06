@@ -65,6 +65,7 @@ const (
 	ErrorCodeCouponExpired                                               ErrorCode = "coupon_expired"
 	ErrorCodeCustomerMaxPaymentMethods                                   ErrorCode = "customer_max_payment_methods"
 	ErrorCodeCustomerMaxSubscriptions                                    ErrorCode = "customer_max_subscriptions"
+	ErrorCodeCustomerTaxLocationInvalid                                  ErrorCode = "customer_tax_location_invalid"
 	ErrorCodeDebitNotAuthorized                                          ErrorCode = "debit_not_authorized"
 	ErrorCodeEmailInvalid                                                ErrorCode = "email_invalid"
 	ErrorCodeExpiredCard                                                 ErrorCode = "expired_card"
