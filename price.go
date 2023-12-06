@@ -38,7 +38,7 @@ const (
 	PriceMigrateToBehaviorAtCycleEnd PriceMigrateToBehavior = "at_cycle_end"
 )
 
-// Specifies a usage aggregation strategy for prices of `usage_type=metered`. Allowed values are `sum` for summing up all usage during a period, `last_during_period` for using the last usage record reported within a period, `last_ever` for using the last usage record ever (across period bounds) or `max` which uses the usage record with the maximum reported usage during a period. Defaults to `sum`.
+// Specifies a usage aggregation strategy for prices of `usage_type=metered`. Defaults to `sum`.
 type PriceRecurringAggregateUsage string
 
 // List of values that PriceRecurringAggregateUsage can take
@@ -250,7 +250,7 @@ func (p *PriceProductDataParams) AddMetadata(key string, value string) {
 
 // The recurring components of a price such as `interval` and `usage_type`.
 type PriceRecurringParams struct {
-	// Specifies a usage aggregation strategy for prices of `usage_type=metered`. Allowed values are `sum` for summing up all usage during a period, `last_during_period` for using the last usage record reported within a period, `last_ever` for using the last usage record ever (across period bounds) or `max` which uses the usage record with the maximum reported usage during a period. Defaults to `sum`.
+	// Specifies a usage aggregation strategy for prices of `usage_type=metered`. Defaults to `sum`.
 	AggregateUsage *string `form:"aggregate_usage"`
 	// Specifies billing frequency. Either `day`, `week`, `month` or `year`.
 	Interval *string `form:"interval"`
@@ -421,7 +421,7 @@ type PriceMigrateTo struct {
 
 // The recurring components of a price such as `interval` and `usage_type`.
 type PriceRecurring struct {
-	// Specifies a usage aggregation strategy for prices of `usage_type=metered`. Allowed values are `sum` for summing up all usage during a period, `last_during_period` for using the last usage record reported within a period, `last_ever` for using the last usage record ever (across period bounds) or `max` which uses the usage record with the maximum reported usage during a period. Defaults to `sum`.
+	// Specifies a usage aggregation strategy for prices of `usage_type=metered`. Defaults to `sum`.
 	AggregateUsage PriceRecurringAggregateUsage `json:"aggregate_usage"`
 	// The frequency at which a subscription is billed. One of `day`, `week`, `month` or `year`.
 	Interval PriceRecurringInterval `json:"interval"`
