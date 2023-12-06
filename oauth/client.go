@@ -49,7 +49,7 @@ func (c Client) New(params *stripe.OAuthTokenParams) (*stripe.OAuthToken, error)
 	}
 
 	oauthToken := &stripe.OAuthToken{}
-	sr := stripe.StripeRequest{
+	sr := &stripe.StripeRequest{
 		Method: http.MethodPost,
 		Path:   "/oauth/token",
 		Key:    c.Key,
@@ -72,7 +72,7 @@ func Del(params *stripe.DeauthorizeParams) (*stripe.Deauthorize, error) {
 func (c Client) Del(params *stripe.DeauthorizeParams) (*stripe.Deauthorize, error) {
 	deauthorization := &stripe.Deauthorize{}
 
-	sr := stripe.StripeRequest{
+	sr := &stripe.StripeRequest{
 		Method: http.MethodPost,
 		Path:   "/oauth/deauthorize",
 		Key:    c.Key,
