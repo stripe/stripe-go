@@ -70,7 +70,7 @@ type FinancialConnectionsTransaction struct {
 	StatusTransitions *FinancialConnectionsTransactionStatusTransitions `json:"status_transitions"`
 	// Time at which the transaction was transacted. Measured in seconds since the Unix epoch.
 	TransactedAt int64 `json:"transacted_at"`
-	// The transaction_refresh object that last updated or created this transaction.
+	// The token of the transaction refresh that last updated or created this transaction.
 	TransactionRefresh string `json:"transaction_refresh"`
 	// Time at which the object was last updated. Measured in seconds since the Unix epoch.
 	Updated int64 `json:"updated"`
