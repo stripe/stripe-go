@@ -482,6 +482,8 @@ func (s *BackendImplementation) RawRequest(method, path, key, content string, pa
 	if err != nil {
 		return nil, err
 	}
+	requestID := resp.Header.Get("Request-Id")
+	s.maybeEnqueueTelemetryMetrics(requestID, requestDuration, []string{"raw_request"})
 	body, err := ioutil.ReadAll(result.(io.ReadCloser))
 	if err != nil {
 		return nil, err
