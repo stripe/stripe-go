@@ -20,6 +20,19 @@ type Client struct {
 	Key string
 }
 
+// Get returns the details of a financial connections transaction.
+func Get(id string, params *stripe.FinancialConnectionsTransactionParams) (*stripe.FinancialConnectionsTransaction, error) {
+	return getC().Get(id, params)
+}
+
+// Get returns the details of a financial connections transaction.
+func (c Client) Get(id string, params *stripe.FinancialConnectionsTransactionParams) (*stripe.FinancialConnectionsTransaction, error) {
+	path := stripe.FormatURLPath("/v1/financial_connections/transactions/%s", id)
+	transaction := &stripe.FinancialConnectionsTransaction{}
+	err := c.B.Call(http.MethodGet, path, c.Key, params, transaction)
+	return transaction, err
+}
+
 // List returns a list of financial connections transactions.
 func List(params *stripe.FinancialConnectionsTransactionListParams) *Iter {
 	return getC().List(params)
