@@ -529,7 +529,8 @@ func (s *BackendImplementation) maybeEnqueueTelemetryMetrics(requestID string, r
 	if !s.enableTelemetry || requestID == "" {
 		return
 	}
-	if requestDuration == nil && (usage == nil || len(usage) == 0) {
+	// If there's no duration to report and no usage to report, don't bother
+	if requestDuration == nil && len(usage) == 0 {
 		return
 	}
 	metrics := requestMetrics{
@@ -539,7 +540,7 @@ func (s *BackendImplementation) maybeEnqueueTelemetryMetrics(requestID string, r
 		requestDurationMS := int(*requestDuration / time.Millisecond)
 		metrics.RequestDurationMS = &requestDurationMS
 	}
-	if usage != nil && len(usage) > 0 {
+	if len(usage) > 0 {
 		metrics.Usage = usage
 	}
 	select {
