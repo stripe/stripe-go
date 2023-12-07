@@ -18,28 +18,6 @@ type AccountSessionComponentsAccountOnboardingParams struct {
 }
 
 // The list of features enabled in the embedded component.
-type AccountSessionComponentsIssuingCardFeaturesParams struct{}
-
-// Configuration for the issuing card component.
-type AccountSessionComponentsIssuingCardParams struct {
-	// Whether the embedded component is enabled.
-	Enabled *bool `form:"enabled"`
-	// The list of features enabled in the embedded component.
-	Features *AccountSessionComponentsIssuingCardFeaturesParams `form:"features"`
-}
-
-// The list of features enabled in the embedded component.
-type AccountSessionComponentsIssuingCardsListFeaturesParams struct{}
-
-// Configuration for the issuing cards list component.
-type AccountSessionComponentsIssuingCardsListParams struct {
-	// Whether the embedded component is enabled.
-	Enabled *bool `form:"enabled"`
-	// The list of features enabled in the embedded component.
-	Features *AccountSessionComponentsIssuingCardsListFeaturesParams `form:"features"`
-}
-
-// The list of features enabled in the embedded component.
 type AccountSessionComponentsPaymentDetailsFeaturesParams struct {
 	// Whether to allow capturing and cancelling payment intents. This is `true` by default.
 	CapturePayments *bool `form:"capture_payments"`
@@ -90,10 +68,6 @@ type AccountSessionComponentsPayoutsParams struct {
 type AccountSessionComponentsParams struct {
 	// Configuration for the account onboarding embedded component.
 	AccountOnboarding *AccountSessionComponentsAccountOnboardingParams `form:"account_onboarding"`
-	// Configuration for the issuing card component.
-	IssuingCard *AccountSessionComponentsIssuingCardParams `form:"issuing_card"`
-	// Configuration for the issuing cards list component.
-	IssuingCardsList *AccountSessionComponentsIssuingCardsListParams `form:"issuing_cards_list"`
 	// Configuration for the payment details embedded component.
 	PaymentDetails *AccountSessionComponentsPaymentDetailsParams `form:"payment_details"`
 	// Configuration for the payments embedded component.
