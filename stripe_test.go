@@ -1538,6 +1538,7 @@ func TestRawRequestTelemetry(t *testing.T) {
 	params := &RawParams{Params: Params{}, APIMode: PreviewAPIMode}
 	_, err := backend.RawRequest(http.MethodPost, "/v1/abcs", "sk_test_xyz", `{}`, params)
 	assert.Empty(t, telemetry)
+	assert.NoError(t, err)
 	// Again, for the telemetry.
 	_, err = backend.RawRequest(http.MethodPost, "/v1/abcs", "sk_test_xyz", `{}`, params)
 	assert.NoError(t, err)
