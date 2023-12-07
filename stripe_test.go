@@ -1304,8 +1304,6 @@ func TestRawRequestPreviewPost(t *testing.T) {
 	var method string
 	var contentType string
 	var stripeVersion string
-	var telemetry []byte
-	i := 0
 	testServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		req, _ := ioutil.ReadAll(r.Body)
 		r.Body.Close()
@@ -1314,9 +1312,6 @@ func TestRawRequestPreviewPost(t *testing.T) {
 		method = r.Method
 		contentType = r.Header.Get("Content-Type")
 		stripeVersion = r.Header.Get("Stripe-Version")
-		telemetry = []byte(r.Header.Get("X-Stripe-Client-Telemetry"))
-		i += 1
-		w.Header().Add("Request-Id", fmt.Sprintf("req_%d", i))
 		w.WriteHeader(http.StatusOK)
 		w.Write([]byte(`{"object": "abc", "xyz": {"def": "jih"}}`))
 	}))
@@ -1352,15 +1347,6 @@ func TestRawRequestPreviewPost(t *testing.T) {
 	assert.NoError(t, err)
 	assert.Equal(t, "jih", myABC.XYZ.DEF)
 	assert.Equal(t, "abc", myABC.Object)
-
-	// Again, for the telemetry.
-	_, err = backend.RawRequest(http.MethodPost, "/v1/abcs", "sk_test_xyz", `{"foo":"myFoo","bar":{"baz":false}}`, params)
-	assert.NoError(t, err)
-	metrics := struct {
-		LastRequestMetrics requestMetrics `json:"last_request_metrics"`
-	}{}
-	json.Unmarshal(telemetry, &metrics)
-	assert.Equal(t, []string{"raw_request"}, metrics.LastRequestMetrics.Usage)
 	defer testServer.Close()
 }
 
@@ -1526,6 +1512,43 @@ func TestRawRequestWithAdditionalHeaders(t *testing.T) {
 	assert.NoError(t, err)
 	defer testServer.Close()
 }
+
+func TestRawRequestTelemetry(t *testing.T) {
+	var telemetry []byte
+	i := 0
+	testServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		r.Body.Close()
+		telemetry = []byte(r.Header.Get("X-Stripe-Client-Telemetry"))
+		i += 1
+		w.Header().Add("Request-Id", fmt.Sprintf("req_%d", i))
+		w.WriteHeader(http.StatusOK)
+		w.Write([]byte(`{"object": "abc", "xyz": {"def": "jih"}}`))
+	}))
+
+	backend := GetBackendWithConfig(
+		APIBackend,
+		&BackendConfig{
+			LeveledLogger:     debugLeveledLogger,
+			MaxNetworkRetries: Int64(0),
+			URL:               String(testServer.URL),
+			EnableTelemetry:   Bool(true),
+		},
+	).(*BackendImplementation)
+
+	params := &RawParams{Params: Params{}, APIMode: PreviewAPIMode}
+	_, err := backend.RawRequest(http.MethodPost, "/v1/abcs", "sk_test_xyz", `{}`, params)
+	assert.Empty(t, telemetry)
+	// Again, for the telemetry.
+	_, err = backend.RawRequest(http.MethodPost, "/v1/abcs", "sk_test_xyz", `{}`, params)
+	assert.NoError(t, err)
+	metrics := struct {
+		LastRequestMetrics requestMetrics `json:"last_request_metrics"`
+	}{}
+	json.Unmarshal(telemetry, &metrics)
+	assert.Equal(t, []string{"raw_request"}, metrics.LastRequestMetrics.Usage)
+	defer testServer.Close()
+}
+
 
 //
 // ---
