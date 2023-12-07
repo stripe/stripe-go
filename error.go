@@ -70,6 +70,7 @@ const (
 	ErrorCodeEmailInvalid                                                ErrorCode = "email_invalid"
 	ErrorCodeExpiredCard                                                 ErrorCode = "expired_card"
 	ErrorCodeFinancialConnectionsAccountInactive                         ErrorCode = "financial_connections_account_inactive"
+	ErrorCodeFinancialConnectionsNoSuccessfulTransactionRefresh          ErrorCode = "financial_connections_no_successful_transaction_refresh"
 	ErrorCodeGiftCardBalanceInsufficient                                 ErrorCode = "gift_card_balance_insufficient"
 	ErrorCodeGiftCardCodeExists                                          ErrorCode = "gift_card_code_exists"
 	ErrorCodeGiftCardInactive                                            ErrorCode = "gift_card_inactive"
