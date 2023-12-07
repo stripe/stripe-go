@@ -212,9 +212,9 @@ func (p *Params) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// SetUsage sets the usage field on the Params struct.
+// InternalSetUsage sets the usage field on the Params struct.
 // Unstable: for internal stripe-go usage only.
-func (p *Params) SetUsage(usage []string) {
+func (p *Params) InternalSetUsage(usage []string) {
 	p.usage = usage
 }
 

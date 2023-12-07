@@ -436,7 +436,7 @@ func TestDo_LastResponsePopulated(t *testing.T) {
 }
 
 // Test that telemetry metrics are not sent by default
-func TestDo_TelemetryDisabled(t *testing.T) {
+func TestCall_TelemetryDisabled(t *testing.T) {
 	type testServerResponse struct {
 		APIResource
 		Message string `json:"message"`
@@ -487,15 +487,10 @@ func TestDo_TelemetryDisabled(t *testing.T) {
 
 // Test that telemetry metrics are sent on subsequent requests when
 // EnableTelemetry = true.
-func TestDo_TelemetryEnabled(t *testing.T) {
+func TestCall_TelemetryEnabled(t *testing.T) {
 	type testServerResponse struct {
 		APIResource
 		Message string `json:"message"`
-	}
-
-	type requestMetrics struct {
-		RequestDurationMS int    `json:"request_duration_ms"`
-		RequestID         string `json:"request_id"`
 	}
 
 	type requestTelemetry struct {
@@ -505,6 +500,7 @@ func TestDo_TelemetryEnabled(t *testing.T) {
 	message := "Hello, client."
 	requestNum := 0
 
+	var telemetry requestTelemetry
 	testServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		requestNum++
 
@@ -518,13 +514,12 @@ func TestDo_TelemetryEnabled(t *testing.T) {
 			assert.True(t, len(telemetryStr) > 0, "telemetryStr should not be empty")
 
 			// the telemetry should properly unmarshal into RequestTelemetry
-			var telemetry requestTelemetry
 			err := json.Unmarshal([]byte(telemetryStr), &telemetry)
 			assert.NoError(t, err)
 
 			// the second request should include the metrics for the first request
 			assert.Equal(t, telemetry.LastRequestMetrics.RequestID, "req_1")
-			assert.True(t, telemetry.LastRequestMetrics.RequestDurationMS > 20,
+			assert.True(t, *telemetry.LastRequestMetrics.RequestDurationMS > 20,
 				"request_duration_ms should be > 20ms")
 		default:
 			assert.Fail(t, "Should not have reached request %v", requestNum)
@@ -551,9 +546,17 @@ func TestDo_TelemetryEnabled(t *testing.T) {
 		},
 	).(*BackendImplementation)
 
+	type myCreateParams struct {
+		Params `form:"*"`
+		Foo string `form:"foo"`
+	}
+	params := &myCreateParams{
+		Foo: "bar",
+	}
+	params.InternalSetUsage([]string{"llama", "bufo"})
 	for i := 0; i < 2; i++ {
 		var response testServerResponse
-		err := backend.Call("get", "/hello", "sk_test_xyz", nil, &response)
+		err := backend.Call("get", "/hello", "sk_test_xyz", params, &response)
 
 		assert.NoError(t, err)
 		assert.Equal(t, message, response.Message)
@@ -561,6 +564,9 @@ func TestDo_TelemetryEnabled(t *testing.T) {
 
 	// We should have seen exactly two requests.
 	assert.Equal(t, 2, requestNum)
+	// The telemetry in the second request should contain the
+	// expected usage
+	assert.Equal(t, telemetry.LastRequestMetrics.Usage, []string{"llama", "bufo"})
 }
 
 // This test does not perform any super valuable assertions - instead, it checks
