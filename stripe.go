@@ -280,32 +280,31 @@ type BackendImplementation struct {
 	requestMetricsBuffer chan requestMetrics
 }
 
-type unmarshalTargeter interface {
-	GetUnmarshalTarget() interface{}
-}
-
 type lastResponseSetterWrapper struct {
+	LastResponseSetter
 	f               func(*APIResponse)
-	unmarshalTarget LastResponseSetter
 }
 
 func (l *lastResponseSetterWrapper) SetLastResponse(response *APIResponse) {
 	l.f(response)
+	l.LastResponseSetter.SetLastResponse(response)
 }
-func (l *lastResponseSetterWrapper) GetUnmarshalTarget() interface{} {
-	return l.unmarshalTarget
+
+func (l *lastResponseSetterWrapper) UnmarshalJSON(b []byte) error {
+	return json.Unmarshal(b, l.LastResponseSetter)
 }
 
 type streamingLastResponseSetterWrapper struct {
+	StreamingLastResponseSetter
 	f               func(*StreamingAPIResponse)
-	unmarshalTarget StreamingLastResponseSetter
 }
 
 func (l *streamingLastResponseSetterWrapper) SetLastResponse(response *StreamingAPIResponse) {
 	l.f(response)
+	l.StreamingLastResponseSetter.SetLastResponse(response)
 }
-func (l *streamingLastResponseSetterWrapper) GetUnmarshalTarget() interface{} {
-	return l.unmarshalTarget
+func (l *streamingLastResponseSetterWrapper) UnmarshalJSON(b []byte) error {
+	return json.Unmarshal(b, l.StreamingLastResponseSetter)
 }
 
 func extractParams(params ParamsContainer) (*form.Values, *Params, error) {
@@ -380,15 +379,14 @@ func (s *BackendImplementation) CallStreaming(method, path, key string, params P
 	}
 
 	responseSetter := streamingLastResponseSetterWrapper{
+		v,
 		func(response *StreamingAPIResponse) {
 			var usage []string
 			if commonParams != nil {
 				usage = commonParams.usage
 			}
 			s.maybeEnqueueTelemetryMetrics(response.RequestID, response.duration, usage)
-			v.SetLastResponse(response)
 		},
-		v,
 	}
 
 	if err := s.DoStreaming(req, bodyBuffer, &responseSetter); err != nil {
@@ -434,7 +432,8 @@ func (s *BackendImplementation) CallRaw(method, path, key string, form *form.Val
 	}
 
 	responseSetter := lastResponseSetterWrapper{
-		f: func(response *APIResponse) {
+		v,
+		func(response *APIResponse) {
 			var usage []string
 			if params != nil {
 				usage = params.usage
@@ -442,7 +441,6 @@ func (s *BackendImplementation) CallRaw(method, path, key string, form *form.Val
 			s.maybeEnqueueTelemetryMetrics(response.RequestID, response.duration, usage)
 			v.SetLastResponse(response)
 		},
-		unmarshalTarget: v,
 	}
 
 	if err := s.Do(req, bodyBuffer, &responseSetter); err != nil {
@@ -741,15 +739,8 @@ func (s *BackendImplementation) Do(req *http.Request, body *bytes.Buffer, v Last
 	}
 	resBody := result.([]byte)
 	s.LeveledLogger.Debugf("Response: %s", string(resBody))
-	var unmarshalTarget interface{}
-	targeter, ok := v.(unmarshalTargeter)
-	if ok {
-		unmarshalTarget = targeter.GetUnmarshalTarget()
-	} else {
-		unmarshalTarget = v
-	}
 
-	err = s.UnmarshalJSONVerbose(res.StatusCode, resBody, unmarshalTarget)
+	err = s.UnmarshalJSONVerbose(res.StatusCode, resBody, v)
 	v.SetLastResponse(newAPIResponse(res, resBody, requestDuration))
 	return err
 }
