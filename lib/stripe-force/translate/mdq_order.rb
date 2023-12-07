@@ -136,11 +136,11 @@ class StripeForce::Translate
       # let's filter out any previous phase contract items from past segments
       # since we don't want to amend past segments
       # note: we can't rely on the segment index since segment index will change as segments "expire"
-      amendment_order_item_end_dates = sf_amendment_order_items.map {|item| StripeForce::Utilities::SalesforceUtil.salesforce_date_to_unix_timestamp(item["EndDate"]) }.uniq
+      amendment_segment_order_item_end_dates = sf_amendment_order_items.filter(&:is_mdq_segment?).map {|item| StripeForce::Utilities::SalesforceUtil.salesforce_date_to_unix_timestamp(item["EndDate"]) }.uniq
       amendment_start_date_timestamp = get_amendment_start_date(mapper, sf_order_amendment)
       aggregate_phase_items = T.must(aggregate_phase_items).filter do |contract_item|
         segment_item_end_date = StripeForce::Utilities::SalesforceUtil.salesforce_date_to_unix_timestamp(contract_item.order_line["EndDate"])
-        segment_item_end_date > amendment_start_date_timestamp && amendment_order_item_end_dates.include?(segment_item_end_date)
+        segment_item_end_date > amendment_start_date_timestamp && (amendment_segment_order_item_end_dates.empty? || amendment_segment_order_item_end_dates.include?(segment_item_end_date))
       end
 
       # determine if this is a full termination order
@@ -162,61 +162,61 @@ class StripeForce::Translate
       # split the segmented_subscription_items by segment keys since the same segment key/index touches the same phase
       aggregate_phase_items, _terminated_phase_items = OrderHelpers.remove_terminated_lines(aggregate_phase_items)
       non_segmented_contract_items, segmented_contract_items = split_and_sort_mdq_item(aggregate_phase_items)
-      if segmented_contract_items.present?
-        log.info 'amendment order is amending an mdq product'
+      if segmented_contract_items.nil?
+        raise Integrations::Errors::ImpossibleState.new("Processing an MDQ amendment order but there are no segmented contract items.", salesforce_object: sf_order_amendment)
+      end
 
-        segmented_contract_items.chunk(&:mdq_segment_index).each do |segment_index, items_by_segment_index|
-          if items_by_segment_index.empty?
-            next
-          end
-
-          # let's be defensive and assert that all the items in the same segment index have the same segment key
-          all_items_have_same_segment_index(items_by_segment_index)
-
-          # find the phase this item exists in by comparing the start and end dates
-          # note: we can't rely on the segment index since segment index will change as segments "expire"
-          # quote_line_data = backoff { @user.sf_client.find(CPQ_QUOTE_LINE, T.must(items_by_segment_index.first).order_line[CPQ_QUOTE_LINE]) }
-          item_end_date = StripeForce::Utilities::SalesforceUtil.salesforce_date_to_unix_timestamp(T.must(items_by_segment_index.first).order_line["EndDate"])
-          matching_subscription_schedule_phase = subscription_schedule_phases.filter do |phase|
-            phase.end_date == (item_end_date + 1.day.to_i)
-          end
-
-          if matching_subscription_schedule_phase.count == 0
-            raise Integrations::Errors::ImpossibleState.new("Expected to find one subscription schedule phase with segment index but found none.", salesforce_object: sf_order_amendment)
-          elsif matching_subscription_schedule_phase.count > 1
-            # we expect this to happen if the user has amended the current phase previously
-            # for now, we don't support it
-            log.info 'found more than one phase for this mdq segment', matching_phase_count: matching_subscription_schedule_phase.count, segment_index: segment_index
-            raise Integrations::Errors::ImpossibleState.new("Expected to find one subscription schedule phase with segment index but found more than one.", salesforce_object: sf_order_amendment)
-          end
-
-          # find the phase this segment is amending
-          matching_phase = T.must(matching_subscription_schedule_phase.last)
-          insert_index = subscription_schedule_phases.find_index(matching_phase)
-          if insert_index.nil?
-            throw Integrations::Errors::ImpossibleState.new("Expected to find a matching phase for segment index but found none.", salesforce_object: sf_order_amendment)
-          end
-
-          new_phase = create_new_phase_from_amendment(sf_order_amendment, matching_phase, items_by_segment_index, non_segmented_contract_items.nil? ? [] : non_segmented_contract_items.dup)
-          new_phase[:metadata] = new_phase[:metadata].to_h.merge(Metadata.stripe_metadata_for_sf_object(@user, sf_order_amendment))
-          if is_current_phase?(subscription_schedule, matching_phase)
-            log.info 'amendment order is modifying the current phase', sf_order_amendment_id: sf_order_amendment.Id, segment_index: segment_index, segment_item_diff: items_by_segment_index.count
-
-            # we only want to update the timestamps if we are modifying the current phase
-            new_phase[:start_date] = determine_order_start_date(subscription_schedule, sf_order_amendment)
-            matching_phase[:end_date] = new_phase[:start_date]
-            subscription_schedule_phases.insert(insert_index + 1, new_phase)
-          else
-            log.info 'amendment order is modifying a future phase, replacing future phase with new phase', sf_order_amendment_id: sf_order_amendment.Id, segment_index: segment_index
-
-            # replace the future phase with this "updated" phase
-            subscription_schedule_phases.insert(insert_index + 1, new_phase)
-            subscription_schedule_phases.delete_at(insert_index)
-          end
+      log.info 'amendment order is amending an mdq product'
+      segmented_contract_items.chunk(&:mdq_segment_index).each do |segment_index, items_by_segment_index|
+        if items_by_segment_index.empty?
+          next
         end
-      else
-        log.info 'amendment order is amending a non mdq product on order with mdq products', sf_order_amendment_id: sf_order_amendment.Id
-        raise StripeForce::Errors::UserError.new("Amending a non mdq product on an Order with mdq product is not yet supported.", salesforce_object: sf_order_amendment)
+
+        # let's be defensive and assert that all the items in the same segment index have the same segment key
+        all_items_have_same_segment_index(items_by_segment_index)
+
+        # find the phase this item exists in by comparing the start and end dates
+        # note: we can't rely on the segment index since segment index will change as segments "expire"
+        # quote_line_data = backoff { @user.sf_client.find(CPQ_QUOTE_LINE, T.must(items_by_segment_index.first).order_line[CPQ_QUOTE_LINE]) }
+        item_end_date = StripeForce::Utilities::SalesforceUtil.salesforce_date_to_unix_timestamp(T.must(items_by_segment_index.first).order_line["EndDate"])
+        matching_subscription_schedule_phase = subscription_schedule_phases.filter do |phase|
+          phase.end_date == (item_end_date + 1.day.to_i)
+        end
+
+        if matching_subscription_schedule_phase.count == 0
+          raise Integrations::Errors::ImpossibleState.new("Expected to find one subscription schedule phase with segment index but found none.", salesforce_object: sf_order_amendment)
+        elsif matching_subscription_schedule_phase.count > 1
+          # we expect this to happen if the user has amended the current phase previously
+          # for now, we don't support it
+          log.info 'found more than one phase for this mdq segment', matching_phase_count: matching_subscription_schedule_phase.count, segment_index: segment_index
+          raise Integrations::Errors::ImpossibleState.new("Expected to find one subscription schedule phase with segment index but found more than one.", salesforce_object: sf_order_amendment)
+        end
+
+        # find the phase this segment is amending
+        matching_phase = T.must(matching_subscription_schedule_phase.last)
+        insert_index = subscription_schedule_phases.find_index(matching_phase)
+        if insert_index.nil?
+          throw Integrations::Errors::ImpossibleState.new("Expected to find a matching phase for segment index but found none.", salesforce_object: sf_order_amendment)
+        end
+
+
+        non_segmented_contract_items_dup = (non_segmented_contract_items || []).dup
+        new_phase = create_new_phase_from_amendment(sf_order_amendment, matching_phase, items_by_segment_index, non_segmented_contract_items_dup)
+        new_phase[:metadata] = new_phase[:metadata].to_h.merge(Metadata.stripe_metadata_for_sf_object(@user, sf_order_amendment))
+        if is_current_phase?(subscription_schedule, matching_phase)
+          log.info 'amendment order is modifying the current phase', sf_order_amendment_id: sf_order_amendment.Id, segment_index: segment_index, segment_item_diff: items_by_segment_index.count
+
+          # we only want to update the timestamps if we are modifying the current phase
+          new_phase[:start_date] = determine_order_start_date(subscription_schedule, sf_order_amendment)
+          matching_phase[:end_date] = new_phase[:start_date]
+          subscription_schedule_phases.insert(insert_index + 1, new_phase)
+        else
+          log.info 'amendment order is modifying a future phase, replacing future phase with new phase', sf_order_amendment_id: sf_order_amendment.Id, segment_index: segment_index
+
+          # replace the future phase with this "updated" phase
+          subscription_schedule_phases.insert(insert_index + 1, new_phase)
+          subscription_schedule_phases.delete_at(insert_index)
+        end
       end
 
       # general subscription schedule phase cleanup
@@ -318,7 +318,7 @@ class StripeForce::Translate
     # sort the mdq products by segment index
     segmented_subscription_items = segmented_subscription_items.sort_by do |item|
       if item.mdq_dimension_type == 'Custom'
-        raise StripeForce::Errors::RawUserError.new("MDQ products with custom segments are not yet supported.")
+        raise StripeForce::Errors::RawUserError.new("MDQ products with Custom segments are not supported. Please use Month, Quarter, Year or One-Time segments.")
       end
 
       T.must(item.mdq_segment_index)

@@ -409,9 +409,207 @@ class Critic::MDQAmendmentsTranslation < Critic::OrderAmendmentFunctionalTest
       assert_equal(4, third_phase_items.count)
     end
 
-    # TODO
-    # it 'add a non-segmented product in the future phase of a salesforce order' do end
-    # it 'remove a non-segmented product in the future phase of a salesforce order' do end
+    it 'add a non-segmented product in a future phase of a salesforce order' do
+      # setup
+      contract_term = 12
+      initial_order_start_date = now_time
+      _initial_order_end_date = initial_order_start_date + contract_term.months
+      amendment_start_date = initial_order_start_date + 6.months
+      amendment_term = 6
+
+      sf_account_id = create_salesforce_account
+      quote_id = create_salesforce_quote(
+        sf_account_id: sf_account_id,
+        contact_email: "test_mdq_non_segmented_item_future_phase_1_2",
+        additional_quote_fields: {
+          CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(initial_order_start_date),
+          CPQ_QUOTE_SUBSCRIPTION_TERM => contract_term,
+        }
+      )
+
+      # create and add a mdq licensed to quote
+      segmented_licensed_product = create_salesforce_cpq_segmented_product(additional_price_dimension_fields: {CPQ_PRICE_DIMENSION_TYPE => CPQPriceDimensionTypeOptions::QUARTER.serialize})
+      quote_with_product = add_product_to_cpq_quote(quote_id, sf_product_id: segmented_licensed_product)
+      calculate_and_save_cpq_quote(quote_with_product)
+      # one product with four segments
+      assert_equal(4, quote_with_product["lineItems"].count)
+
+      # create and sync the initial order
+      sf_order = create_order_from_cpq_quote(quote_id)
+      StripeForce::Translate.perform_inline(@user, sf_order.Id)
+      sf_order.refresh
+      stripe_id = sf_order[prefixed_stripe_field(GENERIC_STRIPE_ID)]
+      subscription_schedule = Stripe::SubscriptionSchedule.retrieve(stripe_id, @user.stripe_credentials)
+
+      # initial order should create sub schedule with two phases - one phase for each segment
+      assert_equal(4, subscription_schedule.phases.count)
+      subscription_schedule.phases.each do |phase|
+        assert_equal(1, phase.items.count)
+        assert_equal(0, phase.add_invoice_items.count)
+
+        items = phase.items.filter {|i| i[:quantity].present? }
+        # assert the quantity is 1 for the non-metered product
+        assert_equal(1, items.count)
+        assert_equal(1, T.must(items.first)[:quantity])
+      end
+
+      # create the amendment quote
+      sf_contract = create_contract_from_order(sf_order)
+
+      # Workaround #1: By setting the SBQQ__AmendmentStartDate__c on the contract, the amendment quote only has the current and future segments available for editing
+      sf.update!(SF_CONTRACT, {
+        SF_ID => sf_contract.Id,
+        CONTRACT_AMENDMENT_START_DATE => format_date_for_salesforce(amendment_start_date),
+      })
+      sf_contract.refresh
+      amendment_data = create_quote_data_from_contract_amendment(sf_contract)
+      assert_equal(2, amendment_data["lineItems"].count)
+      amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_START_DATE] = format_date_for_salesforce(amendment_start_date)
+      amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_TERM] = amendment_term
+      quote_id = calculate_and_save_cpq_quote(amendment_data)
+
+      # let's add a non segmented product to the third phase
+      # add a non segmented metered product to quote
+      sf_product_id, _sf_pricebook_entry_id = salesforce_recurring_metered_produce_with_price(price_in_cents: 18_00)
+      quote_with_product = add_product_to_cpq_quote(quote_id, sf_product_id: sf_product_id)
+
+      # assert only the affected order items are in the amendment order across the segments
+      sf_order_amendment = create_order_from_quote_data(quote_with_product)
+      order_lines = sf_get_related(sf_order_amendment, SF_ORDER_ITEM)
+      assert_equal(1, order_lines.count)
+      assert_equal(sf_product_id, order_lines.first["Product2Id"])
+
+      # sync the amendment order
+      StripeForce::Translate.perform_inline(@user, sf_order_amendment.Id)
+      sf_order.refresh
+      stripe_id = sf_order[prefixed_stripe_field(GENERIC_STRIPE_ID)]
+      subscription_schedule = Stripe::SubscriptionSchedule.retrieve(stripe_id, @user.stripe_credentials)
+
+      # number of phases should not increase since we are amending a future phase
+      assert_equal(4, subscription_schedule.phases.count)
+
+      # sanity check first phase has not changed
+      first_phase = T.must(subscription_schedule.phases.first)
+      assert_equal(StripeProrationBehavior::CREATE_PRORATIONS.serialize, first_phase.proration_behavior)
+      assert_equal("1", first_phase.metadata["salesforce_segment_index"])
+      assert_equal(initial_order_start_date.to_i, first_phase.start_date.to_i)
+      assert_equal((initial_order_start_date + 3.months).to_i, first_phase.end_date.to_i)
+      assert_equal(sf_order.Id, first_phase.metadata['salesforce_order_id'])
+      first_phase_items = first_phase.items
+      assert_equal(1, first_phase_items.count)
+
+      third_phase = T.must(subscription_schedule.phases.third)
+      assert_equal(StripeProrationBehavior::NONE.serialize, third_phase.proration_behavior)
+      assert_equal((initial_order_start_date + 6.months).to_i, third_phase.start_date.to_i)
+      assert_equal((initial_order_start_date + 9.months).to_i, third_phase.end_date.to_i)
+      assert_equal("3", third_phase.metadata["salesforce_segment_index"])
+      assert_equal(sf_order_amendment.Id, third_phase.metadata['salesforce_order_id'])
+      # verify the additional item was added
+      assert_equal(2, third_phase.items.count)
+
+      last_phase = T.must(subscription_schedule.phases.last)
+      assert_equal("4", last_phase.metadata["salesforce_segment_index"])
+      assert_equal(sf_order_amendment.Id, third_phase.metadata['salesforce_order_id'])
+      # verify the additional item was added
+      assert_equal(2, last_phase.items.count)
+
+      # TODO verify invoice amounts
+    end
+
+    it 'remove a non-segmented product in a future phase of a salesforce order' do
+      # setup
+      contract_term = 12
+      initial_order_start_date = now_time
+      amendment_start_date = initial_order_start_date + 3.months
+      amendment_term = 9
+
+      sf_account_id = create_salesforce_account
+      quote_id = create_salesforce_quote(
+        sf_account_id: sf_account_id,
+        contact_email: "test_mdq_remove_non_segmented_item_4",
+        additional_quote_fields: {
+          CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(initial_order_start_date),
+          CPQ_QUOTE_SUBSCRIPTION_TERM => contract_term,
+        }
+      )
+
+      # create a mdq licensed and metered product
+      segmented_licensed_product = create_salesforce_cpq_segmented_product(additional_price_dimension_fields: {CPQ_PRICE_DIMENSION_TYPE => CPQPriceDimensionTypeOptions::QUARTER.serialize})
+      sf_product_id, _sf_pricebook_entry_id = salesforce_recurring_product_with_price(price: 18_00)
+
+      # add both mdq products to quote
+      quote_with_product = add_product_to_cpq_quote(quote_id, sf_product_id: segmented_licensed_product)
+      calculate_and_save_cpq_quote(quote_with_product)
+      quote_with_product = add_product_to_cpq_quote(quote_id, sf_product_id: sf_product_id)
+      calculate_and_save_cpq_quote(quote_with_product)
+
+      # two products of which one products has four segments
+      assert_equal(5, quote_with_product["lineItems"].count)
+
+      # create the initial order
+      sf_order = create_order_from_cpq_quote(quote_id)
+
+      # translate the initial order
+      StripeForce::Translate.perform_inline(@user, sf_order.Id)
+      sf_order.refresh
+      stripe_id = sf_order[prefixed_stripe_field(GENERIC_STRIPE_ID)]
+      subscription_schedule = Stripe::SubscriptionSchedule.retrieve(stripe_id, @user.stripe_credentials)
+
+      # segmented product creates sub schedule with two phases
+      assert_equal(4, subscription_schedule.phases.count)
+      subscription_schedule.phases.each do |phase|
+        assert_equal(2, phase.items.count)
+        assert_equal(0, phase.add_invoice_items.count)
+
+        items = phase.items.filter {|i| i[:quantity].present? }
+        # assert the quantity is 1 for the non-metered product
+        assert_equal(2, items.count)
+        assert_equal(1, T.must(items.first)[:quantity])
+      end
+
+      # create the amendment quote to remove the non segmented product
+      sf_contract = create_contract_from_order(sf_order)
+      amendment_data = create_quote_data_from_contract_amendment(sf_contract)
+      amendment_data["lineItems"].each do |line_item|
+        if line_item["record"][CPQ_ORDER_ITEM_SEGMENT_KEY].nil?
+          line_item["record"][CPQ_QUOTE_QUANTITY] = 0
+        end
+      end
+      amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_START_DATE] = format_date_for_salesforce(amendment_start_date)
+      amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_TERM] = amendment_term
+
+      sf.update!(SF_CONTRACT, {
+        SF_ID => sf_contract.Id,
+        CONTRACT_AMENDMENT_START_DATE => format_date_for_salesforce(amendment_start_date),
+      })
+      sf_contract.refresh
+
+      sf_order_amendment = create_order_from_quote_data(amendment_data)
+      # sanity check the amendment touches only the non segmented line
+      amendment_order_lines = sf_get_related(sf_order_amendment, SF_ORDER_ITEM)
+      assert_equal(1, amendment_order_lines.count)
+
+      StripeForce::Translate.perform_inline(@user, sf_order_amendment.Id)
+
+      # refetch the subscription schedule
+      subscription_schedule = Stripe::SubscriptionSchedule.retrieve(stripe_id, @user.stripe_credentials)
+      assert_equal(4, subscription_schedule.phases.count)
+      subscription_schedule.phases.each_with_index do |phase, index|
+        if index == 0
+          assert_equal(2, phase.items.count)
+          assert_equal(0, phase.add_invoice_items.count)
+
+          items = phase.items.filter {|i| i[:quantity].present? }
+          assert_equal(2, items.count)
+        else
+          assert_equal(1, phase.items.count)
+          assert_equal(0, phase.add_invoice_items.count)
+
+          items = phase.items.filter {|i| i[:quantity].present? }
+          assert_equal(1, items.count)
+        end
+      end
+    end
   end
 
   describe 'error handling' do
@@ -795,7 +993,7 @@ class Critic::MDQAmendmentsTranslation < Critic::OrderAmendmentFunctionalTest
 
     it 'order item credit on partial termination' do end
 
-    # TODO this is not currently support, bu should we support this? This is essentially "shortening" a ramp deal.
+    # TODO this is not currently support, but question is should we support this? This is essentially "shortening" a ramp deal.
     # it 'future termination of a salesforce order with a mdq product' do end
   end
 
