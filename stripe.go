@@ -108,8 +108,6 @@ type APIResponse struct {
 
 	// StatusCode is a status code as integer. e.g. 200
 	StatusCode int
-
-	duration *time.Duration
 }
 
 // StreamingAPIResponse encapsulates some common features of a response from the
@@ -124,10 +122,9 @@ type StreamingAPIResponse struct {
 	RequestID      string
 	Status         string
 	StatusCode     int
-	duration       *time.Duration
 }
 
-func newAPIResponse(res *http.Response, resBody []byte, requestDuration *time.Duration) *APIResponse {
+func newAPIResponse(res *http.Response, resBody []byte) *APIResponse {
 	return &APIResponse{
 		Header:         res.Header,
 		IdempotencyKey: res.Header.Get("Idempotency-Key"),
@@ -135,11 +132,10 @@ func newAPIResponse(res *http.Response, resBody []byte, requestDuration *time.Du
 		RequestID:      res.Header.Get("Request-Id"),
 		Status:         res.Status,
 		StatusCode:     res.StatusCode,
-		duration:       requestDuration,
 	}
 }
 
-func newStreamingAPIResponse(res *http.Response, body io.ReadCloser, requestDuration *time.Duration) *StreamingAPIResponse {
+func newStreamingAPIResponse(res *http.Response, body io.ReadCloser) *StreamingAPIResponse {
 	return &StreamingAPIResponse{
 		Header:         res.Header,
 		IdempotencyKey: res.Header.Get("Idempotency-Key"),
@@ -147,7 +143,6 @@ func newStreamingAPIResponse(res *http.Response, body io.ReadCloser, requestDura
 		RequestID:      res.Header.Get("Request-Id"),
 		Status:         res.Status,
 		StatusCode:     res.StatusCode,
-		duration:       requestDuration,
 	}
 }
 
@@ -284,34 +279,6 @@ type BackendImplementation struct {
 	requestMetricsBuffer chan requestMetrics
 }
 
-type unmarshalTargeter interface {
-	GetUnmarshalTarget() interface{}
-}
-
-type lastResponseSetterWrapper struct {
-	f               func(*APIResponse)
-	unmarshalTarget LastResponseSetter
-}
-
-func (l *lastResponseSetterWrapper) SetLastResponse(response *APIResponse) {
-	l.f(response)
-}
-func (l *lastResponseSetterWrapper) GetUnmarshalTarget() interface{} {
-	return l.unmarshalTarget
-}
-
-type streamingLastResponseSetterWrapper struct {
-	f               func(*StreamingAPIResponse)
-	unmarshalTarget StreamingLastResponseSetter
-}
-
-func (l *streamingLastResponseSetterWrapper) SetLastResponse(response *StreamingAPIResponse) {
-	l.f(response)
-}
-func (l *streamingLastResponseSetterWrapper) GetUnmarshalTarget() interface{} {
-	return l.unmarshalTarget
-}
-
 func extractParams(params ParamsContainer) (*form.Values, *Params, error) {
 	var formValues *form.Values
 	var commonParams *Params
@@ -383,21 +350,15 @@ func (s *BackendImplementation) CallStreaming(method, path, key string, params P
 		return err
 	}
 
-	responseSetter := streamingLastResponseSetterWrapper{
-		func(response *StreamingAPIResponse) {
-			var usage []string
-			if commonParams != nil {
-				usage = commonParams.usage
-			}
-			s.maybeEnqueueTelemetryMetrics(response.RequestID, response.duration, usage)
-			v.SetLastResponse(response)
-		},
-		v,
-	}
-
-	if err := s.DoStreaming(req, bodyBuffer, &responseSetter); err != nil {
+	requestID, requestDuration, err := s.doStreaming(req, bodyBuffer, v)
+	if err != nil {
 		return err
 	}
+	var usage []string
+	if commonParams != nil {
+		usage = commonParams.usage
+	}
+	s.maybeEnqueueTelemetryMetrics(requestID, requestDuration, usage)
 
 	return nil
 }
@@ -411,9 +372,16 @@ func (s *BackendImplementation) CallMultipart(method, path, key, boundary string
 		return err
 	}
 
-	if err := s.Do(req, body, v); err != nil {
+	requestID, requestDuration, err := s.do(req, body, v)
+	if err != nil {
 		return err
 	}
+
+	var usage []string
+	if params != nil {
+		usage = params.usage
+	}
+	s.maybeEnqueueTelemetryMetrics(requestID, requestDuration, usage)
 
 	return nil
 }
@@ -485,7 +453,7 @@ func (s *BackendImplementation) RawRequest(method, path, key, content string, pa
 	if err != nil {
 		return nil, err
 	}
-	return newAPIResponse(resp, body, requestDuration), nil
+	return newAPIResponse(resp, body), nil
 }
 
 // CallRaw is the implementation for invoking Stripe APIs internally without a backend.
@@ -507,21 +475,15 @@ func (s *BackendImplementation) CallRaw(method, path, key string, form *form.Val
 		return err
 	}
 
-	responseSetter := lastResponseSetterWrapper{
-		f: func(response *APIResponse) {
-			var usage []string
-			if params != nil {
-				usage = params.usage
-			}
-			s.maybeEnqueueTelemetryMetrics(response.RequestID, response.duration, usage)
-			v.SetLastResponse(response)
-		},
-		unmarshalTarget: v,
-	}
-
-	if err := s.Do(req, bodyBuffer, &responseSetter); err != nil {
+	requestID, requestDuration, err := s.do(req, bodyBuffer, v)
+	if err != nil {
 		return err
 	}
+	var usage []string
+	if params != nil {
+		usage = params.usage
+	}
+	s.maybeEnqueueTelemetryMetrics(requestID, requestDuration, usage)
 
 	return nil
 }
@@ -776,22 +738,22 @@ func (s *BackendImplementation) handleResponseBufferingErrors(res *http.Response
 // backend's HTTP client to execure the request.  In successful cases, it sets
 // a StreamingLastResponse onto v, but in unsuccessful cases handles unmarshaling
 // errors returned by the API.
-func (s *BackendImplementation) DoStreaming(req *http.Request, body *bytes.Buffer, v StreamingLastResponseSetter) error {
+func (s *BackendImplementation) doStreaming(req *http.Request, body *bytes.Buffer, v StreamingLastResponseSetter) (string, *time.Duration, error) {
 	handleResponse := func(res *http.Response, err error) (interface{}, error) {
 		return s.handleResponseBufferingErrors(res, err)
 	}
 	resp, result, requestDuration, err := s.requestWithRetriesAndTelemetry(req, body, handleResponse)
 	if err != nil {
-		return err
+		return "", requestDuration, err
 	}
-	v.SetLastResponse(newStreamingAPIResponse(resp, result.(io.ReadCloser), requestDuration))
-	return nil
+	v.SetLastResponse(newStreamingAPIResponse(resp, result.(io.ReadCloser)))
+	return resp.Header.Get("Request-Id"), requestDuration, err
 }
 
 // Do is used by Call to execute an API request and parse the response. It uses
 // the backend's HTTP client to execute the request and unmarshals the response
 // into v. It also handles unmarshaling errors returned by the API.
-func (s *BackendImplementation) Do(req *http.Request, body *bytes.Buffer, v LastResponseSetter) error {
+func (s *BackendImplementation) do(req *http.Request, body *bytes.Buffer, v LastResponseSetter) (string, *time.Duration, error) {
 	handleResponse := func(res *http.Response, err error) (interface{}, error) {
 		var resBody []byte
 		if err == nil {
@@ -812,21 +774,13 @@ func (s *BackendImplementation) Do(req *http.Request, body *bytes.Buffer, v Last
 
 	res, result, requestDuration, err := s.requestWithRetriesAndTelemetry(req, body, handleResponse)
 	if err != nil {
-		return err
+		return "", nil, err
 	}
 	resBody := result.([]byte)
 	s.LeveledLogger.Debugf("Response: %s", string(resBody))
-	var unmarshalTarget interface{}
-	targeter, ok := v.(unmarshalTargeter)
-	if ok {
-		unmarshalTarget = targeter.GetUnmarshalTarget()
-	} else {
-		unmarshalTarget = v
-	}
-
-	err = s.UnmarshalJSONVerbose(res.StatusCode, resBody, unmarshalTarget)
-	v.SetLastResponse(newAPIResponse(res, resBody, requestDuration))
-	return err
+	err = s.UnmarshalJSONVerbose(res.StatusCode, resBody, v)
+	v.SetLastResponse(newAPIResponse(res, resBody))
+	return res.Header.Get("Request-Id"), requestDuration, err
 }
 
 // ResponseToError converts a stripe response to an Error.
@@ -876,7 +830,7 @@ func (s *BackendImplementation) ResponseToError(res *http.Response, resBody []by
 	}
 	raw.Error.Err = typedError
 
-	raw.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
+	raw.Error.SetLastResponse(newAPIResponse(res, resBody))
 
 	return raw.Error
 }

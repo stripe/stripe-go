@@ -155,7 +155,7 @@ func TestDo_Retry(t *testing.T) {
 
 	bodyBuffer := bytes.NewBufferString("foo=bar")
 	var response testServerResponse
-	err = backend.Do(request, bodyBuffer, &response)
+	_, _, err = backend.do(request, bodyBuffer, &response)
 
 	assert.NoError(t, err)
 	assert.Equal(t, message, response.Message)
@@ -398,7 +398,7 @@ func TestDo_RetryOnTimeout(t *testing.T) {
 	var body = bytes.NewBufferString("foo=bar")
 	var response testServerResponse
 
-	err = backend.Do(request, body, &response)
+	_, _, err = backend.do(request, body, &response)
 
 	assert.Error(t, err)
 	// timeout should not prevent retry
@@ -446,7 +446,7 @@ func TestDo_LastResponsePopulated(t *testing.T) {
 	assert.NoError(t, err)
 
 	var resource testServerResponse
-	err = backend.Do(request, nil, &resource)
+	_, _, err = backend.do(request, nil, &resource)
 	assert.NoError(t, err)
 	assert.Equal(t, message, resource.Message)
 
@@ -687,7 +687,7 @@ func TestDo_Redaction(t *testing.T) {
 	assert.NoError(t, err)
 
 	var response Charge
-	err = backend.Do(request, nil, &response)
+	_, _, err = backend.do(request, nil, &response)
 	assert.Error(t, err)
 
 	assert.NotContains(t, logs.String(), "SHOULDBEREDACTED")
