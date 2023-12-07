@@ -70,6 +70,7 @@ const (
 	ErrorCodeEmailInvalid                                                ErrorCode = "email_invalid"
 	ErrorCodeExpiredCard                                                 ErrorCode = "expired_card"
 	ErrorCodeFinancialConnectionsAccountInactive                         ErrorCode = "financial_connections_account_inactive"
+	ErrorCodeFinancialConnectionsNoSuccessfulTransactionRefresh          ErrorCode = "financial_connections_no_successful_transaction_refresh"
 	ErrorCodeIdempotencyKeyInUse                                         ErrorCode = "idempotency_key_in_use"
 	ErrorCodeIncorrectAddress                                            ErrorCode = "incorrect_address"
 	ErrorCodeIncorrectCVC                                                ErrorCode = "incorrect_cvc"
