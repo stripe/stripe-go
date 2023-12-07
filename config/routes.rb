@@ -16,8 +16,12 @@ Rails.application.routes.draw do
   get '/auth/salesforcesandbox/callback', to: 'sessions#salesforce_callback'
   get '/auth/stripelivemode/callback', to: 'sessions#stripe_callback'
   get '/auth/stripetestmode/callback', to: 'sessions#stripe_callback'
+  get '/accounts', to: 'sessions#get_all_account_configs'
 
   post '/stripe-webhooks' => 'stripe_webhook#stripe_webhook'
+  post '/accounts/:stripe_account_id/:livemode/set_default', to: 'sessions#change_default_account_config', as: :set_default_config
+
+  delete '/accounts/:stripe_account_id/:livemode', to: 'sessions#delete_account_config', as: :delete_account_config
 
   namespace :v1, module: 'api', as: 'api', constraints: {format: 'json'} do
     resource :configuration, only: [:show, :update]

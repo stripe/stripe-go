@@ -314,6 +314,93 @@ class SessionsControllerTest < ApplicationIntegrationTest
     assert_equal(OmniAuth.config.mock_auth[:stripelivemode]["uid"], user.stripe_account_id)
   end
 
+  describe 'change default account configuration' do
+    it 'changes the default account configuration' do
+      user = create_post_install_user
+      user2 = create_post_install_user
+      state = StateEncryptionAlgo::StripeOAuthState.create
+      StateEncryptionAlgo.apply_defaults(state, {oauth_version: 'v1', user_id: user.id, salesforce_account_id: user.salesforce_account_id})
+
+      user.stripe_account_id = 'test_account_1'
+      user.livemode = true
+      user.is_default_account_config = true
+      user2.stripe_account_id = 'test_account_2'
+      user2.livemode = true
+      user2.is_default_account_config = false
+      user.save
+      user2.save
+
+      ActionController::Base.any_instance.stubs(:verify_authenticity_token).returns(true)
+
+      post set_default_config_path('test_account_2', 'true'), params: {state: state, livemode: 'true', stripe_account_id: 'test_account_2'}
+
+      user.refresh
+      user2.refresh
+
+      assert_response :success
+      assert(user2.is_default_account_config)
+      refute(user.is_default_account_config)
+    end
+  end
+
+  describe 'get all configurations' do
+    it 'gets all the account configurations' do
+      user = create_post_install_user
+      user2 = create_post_install_user
+      state = StateEncryptionAlgo::StripeOAuthState.create
+      StateEncryptionAlgo.apply_defaults(state, {oauth_version: 'v1', user_id: user.id, salesforce_account_id: user.salesforce_account_id})
+
+      get accounts_path, params: {state: state}
+
+      assert_response :success
+      assert_equal(2, JSON.parse(response.body).length)
+    end
+  end
+
+  describe 'delete account configuration' do
+    it 'deletes the account configuration' do
+      user = create_post_install_user
+      state = StateEncryptionAlgo::StripeOAuthState.create
+      StateEncryptionAlgo.apply_defaults(state, {oauth_version: 'v1', user_id: user.id, salesforce_account_id: user.salesforce_account_id})
+
+      user.stripe_account_id = 'test_account_1'
+      user.livemode = true
+      user.save
+
+      ActionController::Base.any_instance.stubs(:verify_authenticity_token).returns(true)
+
+      delete delete_account_config_path('test_account_1', 'true'), params: {state: state, livemode: 'true', stripe_account_id: 'test_account_id'}
+
+      assert_response :success
+      assert_nil StripeForce::User.find(salesforce_account_id: state.salesforce_account_id, stripe_account_id: 'test_account_id', livemode: true)
+    end
+
+    it 'does not allow deleting default user if it is not the only account in the org' do
+      user = create_post_install_user
+      state = StateEncryptionAlgo::StripeOAuthState.create
+      StateEncryptionAlgo.apply_defaults(state, {oauth_version: 'v1', user_id: user.id, salesforce_account_id: user.salesforce_account_id})
+
+      user.stripe_account_id = 'test_account_1'
+      user.livemode = true
+      user.is_default_account_config = true
+      user.save
+
+      # Create another user in the same salesforce account.
+      other_user = StripeForce::User.create(salesforce_account_id: user.salesforce_account_id, stripe_account_id: 'other_account', livemode: true, is_default_account_config: false)
+
+      # Attempt to delete the default user
+      ActionController::Base.any_instance.stubs(:verify_authenticity_token).returns(true)
+
+      delete delete_account_config_path('test_account_1', 'true'), params: {state: state, livemode: 'true', stripe_account_id: 'test_account_1'}
+
+      assert_response 400 # Expecting 400 Bad Request response, adjust as necessary
+      assert_equal 'The current (default) User can only be deleted if it is the only account in the org.', JSON.parse(response.body)["message"]
+
+      # Check to confirm that the default user is still present in the database
+      refute_nil StripeForce::User.find(salesforce_account_id: state.salesforce_account_id, stripe_account_id: 'test_account_1', livemode: true)
+    end
+  end
+
   # it 'updates an existing user with stripe oauth information if the account is already authorized with salesforce' do
   #   skip("not yet implemented")
   # end

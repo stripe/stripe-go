@@ -68,33 +68,12 @@ module GeneratedUrlHelpers
   sig { params(args: T.untyped, kwargs: T.untyped).returns(String) }
   def auth_stripetestmode_callback_url(*args, **kwargs); end
 
-  # Sigs for route /auth/v2/salesforcesandbox/callback(.:format)
+  # Sigs for route /accounts(.:format)
   sig { params(args: T.untyped, kwargs: T.untyped).returns(String) }
-  def auth_v2_salesforcesandbox_callback_path(*args, **kwargs); end
+  def accounts_path(*args, **kwargs); end
 
   sig { params(args: T.untyped, kwargs: T.untyped).returns(String) }
-  def auth_v2_salesforcesandbox_callback_url(*args, **kwargs); end
-
-  # Sigs for route /auth/v2/salesforce/callback(.:format)
-  sig { params(args: T.untyped, kwargs: T.untyped).returns(String) }
-  def auth_v2_salesforce_callback_path(*args, **kwargs); end
-
-  sig { params(args: T.untyped, kwargs: T.untyped).returns(String) }
-  def auth_v2_salesforce_callback_url(*args, **kwargs); end
-
-  # Sigs for route /auth/v2/stripelivemode/callback(.:format)
-  sig { params(args: T.untyped, kwargs: T.untyped).returns(String) }
-  def auth_v2_stripelivemode_callback_path(*args, **kwargs); end
-
-  sig { params(args: T.untyped, kwargs: T.untyped).returns(String) }
-  def auth_v2_stripelivemode_callback_url(*args, **kwargs); end
-
-  # Sigs for route /auth/v2/stripetestmode/callback(.:format)
-  sig { params(args: T.untyped, kwargs: T.untyped).returns(String) }
-  def auth_v2_stripetestmode_callback_path(*args, **kwargs); end
-
-  sig { params(args: T.untyped, kwargs: T.untyped).returns(String) }
-  def auth_v2_stripetestmode_callback_url(*args, **kwargs); end
+  def accounts_url(*args, **kwargs); end
 
   # Sigs for route /stripe-webhooks(.:format)
   sig { params(args: T.untyped, kwargs: T.untyped).returns(String) }
@@ -102,6 +81,20 @@ module GeneratedUrlHelpers
 
   sig { params(args: T.untyped, kwargs: T.untyped).returns(String) }
   def stripe_webhooks_url(*args, **kwargs); end
+
+  # Sigs for route /accounts/:stripe_account_id/:livemode/set_default(.:format)
+  sig { params(args: T.untyped, kwargs: T.untyped).returns(String) }
+  def set_default_config_path(*args, **kwargs); end
+
+  sig { params(args: T.untyped, kwargs: T.untyped).returns(String) }
+  def set_default_config_url(*args, **kwargs); end
+
+  # Sigs for route /accounts/:stripe_account_id/:livemode(.:format)
+  sig { params(args: T.untyped, kwargs: T.untyped).returns(String) }
+  def delete_account_config_path(*args, **kwargs); end
+
+  sig { params(args: T.untyped, kwargs: T.untyped).returns(String) }
+  def delete_account_config_url(*args, **kwargs); end
 
   # Sigs for route /v1/configuration(.:format)
   sig { params(args: T.untyped, kwargs: T.untyped).returns(String) }

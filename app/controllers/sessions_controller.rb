@@ -91,6 +91,72 @@ class SessionsController < ApplicationController
     end
   end
 
+  # We switch the is_default_account_config flag from the current (default) account to another provided account
+  def change_default_account_config
+    begin
+      state = require_state
+      account_configurations = StripeForce::User.where(salesforce_account_id: state.salesforce_account_id)
+      livemode = params.require(:livemode)
+
+      salesforce_account_id = state.salesforce_account_id
+      stripe_account_id = params.require(:stripe_account_id)
+      new_default_user = T.must(StripeForce::User.find(salesforce_account_id: salesforce_account_id, stripe_account_id: stripe_account_id, livemode: livemode))
+
+      current_default_stripe_account = account_configurations.detect {|config| config.is_default_account_config == true }
+      current_default_stripe_account.is_default_account_config = false
+      new_default_user.is_default_account_config = true
+
+      current_default_stripe_account.save
+      new_default_user.save
+    rescue TypeError => _
+      multi_account_failure_response('change_default_account_config', 'The provided Stripe Account ID is not associated with a User')
+    rescue StateException => e
+      v2_failure_response("stripe", e.state, "Connection State is Invalid.")
+    end
+  end
+
+  # We delete the account associated with the stripe account id given.
+  def delete_account_config
+    begin
+      state = require_state
+      current_user = T.must(StripeForce::User.find(id: state.user_id))
+      livemode = params.require(:livemode)
+      stripe_account_id = params.require(:stripe_account_id)
+
+      associated_users = StripeForce::User.where(salesforce_account_id: state.salesforce_account_id)
+      user_to_be_removed = T.must(StripeForce::User.find(salesforce_account_id: state.salesforce_account_id, stripe_account_id: stripe_account_id, livemode: livemode))
+
+      if current_user.id == user_to_be_removed.id && associated_users.count > 1
+        multi_account_failure_response('delete_account_config', "The current User can only be deleted if it is the only User in the org.")
+      elsif user_to_be_removed.is_default_account_config == true && associated_users.count > 1
+        multi_account_failure_response('delete_account_config', "Cannot delete the default User unless it is the only User in the org.")
+      else
+        user_to_be_removed.destroy
+      end
+    rescue TypeError => _
+      multi_account_failure_response('change_default_account', 'The provided Stripe Account ID is not associated with a User.')
+    rescue StateException => e
+      v2_failure_response("stripe", e.state, "Connection State is Invalid.")
+    end
+  end
+
+  # We get the accounts associated with the stripe account id given.
+  def get_all_account_configs
+    begin
+      state = require_state
+      # Get all users associated with the current Salesforce account id
+      associated_users = StripeForce::User.where(salesforce_account_id: state.salesforce_account_id)
+
+      if associated_users.empty?
+        multi_account_failure_response('get_all_account_configs', 'No users are associated with the provided Salesforce Account ID')
+      else
+        render json: associated_users, status: :ok
+      end
+    rescue StateException => e
+      v2_failure_response("stripe", e.state, "Connection State is Invalid.")
+    end
+  end
+
   sig { params(state: StateEncryptionAlgo::StripeOAuthState).void }
   private def extract_salesforce_metadata(state)
     # the namespace can change depending on what SF environment we are in
@@ -325,6 +391,10 @@ class SessionsController < ApplicationController
     window.opener.postMessage("connection_failed-#{system_id}-#{state}-#{message}", "#{postmessage_domain}")
     </script>
     EOL
+  end
+
+  def multi_account_failure_response(operation, message)
+    render json: {error: "Operation failed", operation: operation, message: message}, status: 400
   end
 
   def failure
