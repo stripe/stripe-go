@@ -432,6 +432,8 @@ type PaymentLinkPaymentIntentDataParams struct {
 	StatementDescriptor *string `form:"statement_descriptor"`
 	// Provides information about the charge that customers see on their statements. Concatenated with the prefix (shortened descriptor) or statement descriptor that's set on the account to form the complete statement descriptor. Maximum 22 characters for the concatenated descriptor.
 	StatementDescriptorSuffix *string `form:"statement_descriptor_suffix"`
+	// A string that identifies the resulting payment as part of a group. See the PaymentIntents [use case for connected accounts](https://stripe.com/docs/connect/separate-charges-and-transfers) for details.
+	TransferGroup *string `form:"transfer_group"`
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
@@ -807,6 +809,8 @@ type PaymentLinkPaymentIntentData struct {
 	StatementDescriptor string `json:"statement_descriptor"`
 	// Provides information about the charge that customers see on their statements. Concatenated with the prefix (shortened descriptor) or statement descriptor that's set on the account to form the complete statement descriptor. Maximum 22 characters for the concatenated descriptor.
 	StatementDescriptorSuffix string `json:"statement_descriptor_suffix"`
+	// A string that identifies the resulting payment as part of a group. See the PaymentIntents [use case for connected accounts](https://stripe.com/docs/connect/separate-charges-and-transfers) for details.
+	TransferGroup string `json:"transfer_group"`
 }
 type PaymentLinkPhoneNumberCollection struct {
 	// If `true`, a phone number will be collected during checkout.
