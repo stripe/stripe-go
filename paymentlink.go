@@ -35,6 +35,17 @@ const (
 	PaymentLinkBillingAddressCollectionRequired PaymentLinkBillingAddressCollection = "required"
 )
 
+// Determines the position and visibility of the payment method reuse agreement in the UI. When set to `auto`, Stripe's defaults will be used.
+//
+// When set to `hidden`, the payment method reuse agreement text will always be hidden in the UI.
+type PaymentLinkConsentCollectionPaymentMethodReuseAgreementPosition string
+
+// List of values that PaymentLinkConsentCollectionPaymentMethodReuseAgreementPosition can take
+const (
+	PaymentLinkConsentCollectionPaymentMethodReuseAgreementPositionAuto   PaymentLinkConsentCollectionPaymentMethodReuseAgreementPosition = "auto"
+	PaymentLinkConsentCollectionPaymentMethodReuseAgreementPositionHidden PaymentLinkConsentCollectionPaymentMethodReuseAgreementPosition = "hidden"
+)
+
 // If set to `auto`, enables the collection of customer consent for promotional communications.
 type PaymentLinkConsentCollectionPromotions string
 
@@ -234,8 +245,17 @@ type PaymentLinkAutomaticTaxParams struct {
 	Liability *PaymentLinkAutomaticTaxLiabilityParams `form:"liability"`
 }
 
+// Determines the display of payment method reuse agreement text in the UI. If set to `hidden`, it will hide legal text related to the reuse of a payment method.
+type PaymentLinkConsentCollectionPaymentMethodReuseAgreementParams struct {
+	// Determines the position and visibility of the payment method reuse agreement in the UI. When set to `auto`, Stripe's
+	// defaults will be used. When set to `hidden`, the payment method reuse agreement text will always be hidden in the UI.
+	Position *string `form:"position"`
+}
+
 // Configure fields to gather active consent from customers.
 type PaymentLinkConsentCollectionParams struct {
+	// Determines the display of payment method reuse agreement text in the UI. If set to `hidden`, it will hide legal text related to the reuse of a payment method.
+	PaymentMethodReuseAgreement *PaymentLinkConsentCollectionPaymentMethodReuseAgreementParams `form:"payment_method_reuse_agreement"`
 	// If set to `auto`, enables the collection of customer consent for promotional communications. The Checkout
 	// Session will determine whether to display an option to opt into promotional communication
 	// from the merchant depending on the customer's locale. Only available to US merchants.
@@ -301,6 +321,12 @@ type PaymentLinkCustomFieldParams struct {
 	Type *string `form:"type"`
 }
 
+// Custom text that should be displayed after the payment confirmation button.
+type PaymentLinkCustomTextAfterSubmitParams struct {
+	// Text may be up to 1200 characters in length.
+	Message *string `form:"message"`
+}
+
 // Custom text that should be displayed alongside shipping address collection.
 type PaymentLinkCustomTextShippingAddressParams struct {
 	// Text may be up to 1200 characters in length.
@@ -321,6 +347,8 @@ type PaymentLinkCustomTextTermsOfServiceAcceptanceParams struct {
 
 // Display additional text for your customers using custom text.
 type PaymentLinkCustomTextParams struct {
+	// Custom text that should be displayed after the payment confirmation button.
+	AfterSubmit *PaymentLinkCustomTextAfterSubmitParams `form:"after_submit"`
 	// Custom text that should be displayed alongside shipping address collection.
 	ShippingAddress *PaymentLinkCustomTextShippingAddressParams `form:"shipping_address"`
 	// Custom text that should be displayed alongside the payment confirmation button.
@@ -669,8 +697,18 @@ type PaymentLinkAutomaticTax struct {
 	Liability *PaymentLinkAutomaticTaxLiability `json:"liability"`
 }
 
+// Settings related to the payment method reuse text shown in the Checkout UI.
+type PaymentLinkConsentCollectionPaymentMethodReuseAgreement struct {
+	// Determines the position and visibility of the payment method reuse agreement in the UI. When set to `auto`, Stripe's defaults will be used.
+	//
+	// When set to `hidden`, the payment method reuse agreement text will always be hidden in the UI.
+	Position PaymentLinkConsentCollectionPaymentMethodReuseAgreementPosition `json:"position"`
+}
+
 // When set, provides configuration to gather active consent from customers.
 type PaymentLinkConsentCollection struct {
+	// Settings related to the payment method reuse text shown in the Checkout UI.
+	PaymentMethodReuseAgreement *PaymentLinkConsentCollectionPaymentMethodReuseAgreement `json:"payment_method_reuse_agreement"`
 	// If set to `auto`, enables the collection of customer consent for promotional communications.
 	Promotions PaymentLinkConsentCollectionPromotions `json:"promotions"`
 	// If set to `required`, it requires cutomers to accept the terms of service before being able to pay. If set to `none`, customers won't be shown a checkbox to accept the terms of service.
@@ -721,6 +759,12 @@ type PaymentLinkCustomField struct {
 	Type PaymentLinkCustomFieldType `json:"type"`
 }
 
+// Custom text that should be displayed after the payment confirmation button.
+type PaymentLinkCustomTextAfterSubmit struct {
+	// Text may be up to 1200 characters in length.
+	Message string `json:"message"`
+}
+
 // Custom text that should be displayed alongside shipping address collection.
 type PaymentLinkCustomTextShippingAddress struct {
 	// Text may be up to 1200 characters in length.
@@ -739,6 +783,8 @@ type PaymentLinkCustomTextTermsOfServiceAcceptance struct {
 	Message string `json:"message"`
 }
 type PaymentLinkCustomText struct {
+	// Custom text that should be displayed after the payment confirmation button.
+	AfterSubmit *PaymentLinkCustomTextAfterSubmit `json:"after_submit"`
 	// Custom text that should be displayed alongside shipping address collection.
 	ShippingAddress *PaymentLinkCustomTextShippingAddress `json:"shipping_address"`
 	// Custom text that should be displayed alongside the payment confirmation button.
