@@ -1,5 +1,12 @@
 # Changelog
 
+## 76.9.0-beta.1 - 2023-12-08
+* [#1776](https://github.com/stripe/stripe-go/pull/1776) Update generated code for beta
+  * Add support for `Get` method on resource `FinancialConnections.Transaction`
+  * Remove support for `IssuingCard` and `IssuingCardsList` on `AccountSessionComponentsParams`
+  * Add support for `PaymentMethodRemove`, `PaymentMethodSave`, and `PaymentMethodSetAsDefault` on `CustomerSessionComponentsPaymentElementFeaturesParams` and `CustomerSessionComponentsPaymentElementFeatures`
+  * Remove support for `PaymentMethodDetach` and `PaymentMethodSetAsCustomerDefault` on `CustomerSessionComponentsPaymentElementFeaturesParams` and `CustomerSessionComponentsPaymentElementFeatures`
+
 ## 76.8.0 - 2023-12-07
 * [#1775](https://github.com/stripe/stripe-go/pull/1775) Update generated code
   * Add support for `PaymentDetails`, `Payments`, and `Payouts` on `AccountSessionComponentsParams` and `AccountSessionComponents`
