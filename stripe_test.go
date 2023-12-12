@@ -521,6 +521,10 @@ func TestCall_TelemetryEnabled(t *testing.T) {
 			assert.Equal(t, telemetry.LastRequestMetrics.RequestID, "req_1")
 			assert.True(t, *telemetry.LastRequestMetrics.RequestDurationMS > 20,
 				"request_duration_ms should be > 20ms")
+
+			// The telemetry in the second request should contain the
+			// expected usage
+			assert.Equal(t, telemetry.LastRequestMetrics.Usage, []string{"llama", "bufo"})
 		default:
 			assert.Fail(t, "Should not have reached request %v", requestNum)
 		}
@@ -564,9 +568,6 @@ func TestCall_TelemetryEnabled(t *testing.T) {
 
 	// We should have seen exactly two requests.
 	assert.Equal(t, 2, requestNum)
-	// The telemetry in the second request should contain the
-	// expected usage
-	assert.Equal(t, telemetry.LastRequestMetrics.Usage, []string{"llama", "bufo"})
 }
 
 // This test does not perform any super valuable assertions - instead, it checks
