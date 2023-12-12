@@ -280,18 +280,23 @@ type BackendImplementation struct {
 	requestMetricsBuffer chan requestMetrics
 }
 
-type lastResponseSetterWrapper struct {
+type metricsResponseSetter struct {
 	LastResponseSetter
-	f               func(*APIResponse)
+	backend *BackendImplementation
+	params *Params
 }
 
-func (l *lastResponseSetterWrapper) SetLastResponse(response *APIResponse) {
-	l.f(response)
-	l.LastResponseSetter.SetLastResponse(response)
+func (s *metricsResponseSetter) SetLastResponse (response *APIResponse) {
+	var usage []string
+	if s.params != nil {
+		usage = s.params.usage
+	}
+	s.backend.maybeEnqueueTelemetryMetrics(response.RequestID, response.duration, usage)
+	s.LastResponseSetter.SetLastResponse(response)
 }
 
-func (l *lastResponseSetterWrapper) UnmarshalJSON(b []byte) error {
-	return json.Unmarshal(b, l.LastResponseSetter)
+func (s *metricsResponseSetter) UnmarshalJSON(b []byte) error {
+	return json.Unmarshal(b, s.LastResponseSetter)
 }
 
 type streamingLastResponseSetterWrapper struct {
@@ -431,16 +436,10 @@ func (s *BackendImplementation) CallRaw(method, path, key string, form *form.Val
 		return err
 	}
 
-	responseSetter := lastResponseSetterWrapper{
-		v,
-		func(response *APIResponse) {
-			var usage []string
-			if params != nil {
-				usage = params.usage
-			}
-			s.maybeEnqueueTelemetryMetrics(response.RequestID, response.duration, usage)
-			v.SetLastResponse(response)
-		},
+	responseSetter := metricsResponseSetter{
+		LastResponseSetter: v,
+		backend: s,
+		params: params,
 	}
 
 	if err := s.Do(req, bodyBuffer, &responseSetter); err != nil {
