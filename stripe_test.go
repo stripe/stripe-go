@@ -500,7 +500,6 @@ func TestCall_TelemetryEnabled(t *testing.T) {
 	message := "Hello, client."
 	requestNum := 0
 
-	var telemetry requestTelemetry
 	testServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		requestNum++
 
@@ -513,6 +512,7 @@ func TestCall_TelemetryEnabled(t *testing.T) {
 		case 2:
 			assert.True(t, len(telemetryStr) > 0, "telemetryStr should not be empty")
 
+	    var telemetry requestTelemetry
 			// the telemetry should properly unmarshal into RequestTelemetry
 			err := json.Unmarshal([]byte(telemetryStr), &telemetry)
 			assert.NoError(t, err)
