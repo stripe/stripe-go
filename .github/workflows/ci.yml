@@ -36,7 +36,8 @@ jobs:
         run: |
           go install honnef.co/go/tools/cmd/staticcheck@latest &&
           $HOME/go/bin/staticcheck &&
-          make vet
+          make vet &&
+          make codegen-format
 
   test:
      runs-on: ubuntu-latest
