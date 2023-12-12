@@ -43,6 +43,7 @@ const (
 	PaymentIntentCaptureMethodManual         PaymentIntentCaptureMethod = "manual"
 )
 
+// Describes whether we can confirm this PaymentIntent automatically, or if it requires customer action to confirm the payment.
 type PaymentIntentConfirmationMethod string
 
 // List of values that PaymentIntentConfirmationMethod can take
@@ -2207,7 +2208,8 @@ type PaymentIntentParams struct {
 	// The client secret of the PaymentIntent. We require it if you use a publishable key to retrieve the source.
 	ClientSecret *string `form:"client_secret"`
 	// Set to `true` to attempt to [confirm this PaymentIntent](https://stripe.com/docs/api/payment_intents/confirm) this PaymentIntent immediately. This parameter defaults to `false`. When creating and confirming a PaymentIntent at the same time, you can also provide the parameters available in the [Confirm API](https://stripe.com/docs/api/payment_intents/confirm).
-	Confirm            *bool   `form:"confirm"`
+	Confirm *bool `form:"confirm"`
+	// Describes whether we can confirm this PaymentIntent automatically, or if it requires customer action to confirm the payment.
 	ConfirmationMethod *string `form:"confirmation_method"`
 	// ID of the ConfirmationToken used to confirm this PaymentIntent.
 	//
@@ -4152,7 +4154,8 @@ type PaymentIntent struct {
 	// The client secret can be used to complete a payment from your frontend. It should not be stored, logged, or exposed to anyone other than the customer. Make sure that you have TLS enabled on any page that includes the client secret.
 	//
 	// Refer to our docs to [accept a payment](https://stripe.com/docs/payments/accept-a-payment?ui=elements) and learn about how `client_secret` should be handled.
-	ClientSecret       string                          `json:"client_secret"`
+	ClientSecret string `json:"client_secret"`
+	// Describes whether we can confirm this PaymentIntent automatically, or if it requires customer action to confirm the payment.
 	ConfirmationMethod PaymentIntentConfirmationMethod `json:"confirmation_method"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
 	Created int64 `json:"created"`
