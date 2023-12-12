@@ -283,10 +283,10 @@ type BackendImplementation struct {
 type metricsResponseSetter struct {
 	LastResponseSetter
 	backend *BackendImplementation
-	params *Params
+	params  *Params
 }
 
-func (s *metricsResponseSetter) SetLastResponse (response *APIResponse) {
+func (s *metricsResponseSetter) SetLastResponse(response *APIResponse) {
 	var usage []string
 	if s.params != nil {
 		usage = s.params.usage
@@ -301,7 +301,7 @@ func (s *metricsResponseSetter) UnmarshalJSON(b []byte) error {
 
 type streamingLastResponseSetterWrapper struct {
 	StreamingLastResponseSetter
-	f               func(*StreamingAPIResponse)
+	f func(*StreamingAPIResponse)
 }
 
 func (l *streamingLastResponseSetterWrapper) SetLastResponse(response *StreamingAPIResponse) {
@@ -438,8 +438,8 @@ func (s *BackendImplementation) CallRaw(method, path, key string, form *form.Val
 
 	responseSetter := metricsResponseSetter{
 		LastResponseSetter: v,
-		backend: s,
-		params: params,
+		backend:            s,
+		params:             params,
 	}
 
 	if err := s.Do(req, bodyBuffer, &responseSetter); err != nil {

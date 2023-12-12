@@ -512,7 +512,7 @@ func TestCall_TelemetryEnabled(t *testing.T) {
 		case 2:
 			assert.True(t, len(telemetryStr) > 0, "telemetryStr should not be empty")
 
-	    var telemetry requestTelemetry
+			var telemetry requestTelemetry
 			// the telemetry should properly unmarshal into RequestTelemetry
 			err := json.Unmarshal([]byte(telemetryStr), &telemetry)
 			assert.NoError(t, err)
@@ -552,7 +552,7 @@ func TestCall_TelemetryEnabled(t *testing.T) {
 
 	type myCreateParams struct {
 		Params `form:"*"`
-		Foo string `form:"foo"`
+		Foo    string `form:"foo"`
 	}
 	params := &myCreateParams{
 		Foo: "bar",
