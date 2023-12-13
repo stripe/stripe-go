@@ -207,12 +207,20 @@ type Params struct {
 	// account instead of under the account of the owner of the configured
 	// Stripe key.
 	StripeAccount *string `form:"-"` // Passed as header
+
+	usage []string `form:"-"` // Tracked behaviors
 }
 
 // AddExpand on the Params embedded struct is deprecated.
 // Deprecated: please use Expand in the surrounding struct instead.
 func (p *Params) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
+}
+
+// InternalSetUsage sets the usage field on the Params struct.
+// Unstable: for internal stripe-go usage only.
+func (p *Params) InternalSetUsage(usage []string) {
+	p.usage = usage
 }
 
 // AddExtra adds a new arbitrary key-value pair to the request data
