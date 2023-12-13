@@ -108,6 +108,8 @@ type APIResponse struct {
 
 	// StatusCode is a status code as integer. e.g. 200
 	StatusCode int
+
+	duration *time.Duration
 }
 
 // StreamingAPIResponse encapsulates some common features of a response from the
@@ -122,9 +124,10 @@ type StreamingAPIResponse struct {
 	RequestID      string
 	Status         string
 	StatusCode     int
+	duration       *time.Duration
 }
 
-func newAPIResponse(res *http.Response, resBody []byte) *APIResponse {
+func newAPIResponse(res *http.Response, resBody []byte, requestDuration *time.Duration) *APIResponse {
 	return &APIResponse{
 		Header:         res.Header,
 		IdempotencyKey: res.Header.Get("Idempotency-Key"),
@@ -132,10 +135,11 @@ func newAPIResponse(res *http.Response, resBody []byte) *APIResponse {
 		RequestID:      res.Header.Get("Request-Id"),
 		Status:         res.Status,
 		StatusCode:     res.StatusCode,
+		duration:       requestDuration,
 	}
 }
 
-func newStreamingAPIResponse(res *http.Response, body io.ReadCloser) *StreamingAPIResponse {
+func newStreamingAPIResponse(res *http.Response, body io.ReadCloser, requestDuration *time.Duration) *StreamingAPIResponse {
 	return &StreamingAPIResponse{
 		Header:         res.Header,
 		IdempotencyKey: res.Header.Get("Idempotency-Key"),
@@ -143,6 +147,7 @@ func newStreamingAPIResponse(res *http.Response, body io.ReadCloser) *StreamingA
 		RequestID:      res.Header.Get("Request-Id"),
 		Status:         res.Status,
 		StatusCode:     res.StatusCode,
+		duration:       requestDuration,
 	}
 }
 
@@ -275,6 +280,38 @@ type BackendImplementation struct {
 	requestMetricsBuffer chan requestMetrics
 }
 
+type metricsResponseSetter struct {
+	LastResponseSetter
+	backend *BackendImplementation
+	params  *Params
+}
+
+func (s *metricsResponseSetter) SetLastResponse(response *APIResponse) {
+	var usage []string
+	if s.params != nil {
+		usage = s.params.usage
+	}
+	s.backend.maybeEnqueueTelemetryMetrics(response.RequestID, response.duration, usage)
+	s.LastResponseSetter.SetLastResponse(response)
+}
+
+func (s *metricsResponseSetter) UnmarshalJSON(b []byte) error {
+	return json.Unmarshal(b, s.LastResponseSetter)
+}
+
+type streamingLastResponseSetterWrapper struct {
+	StreamingLastResponseSetter
+	f func(*StreamingAPIResponse)
+}
+
+func (l *streamingLastResponseSetterWrapper) SetLastResponse(response *StreamingAPIResponse) {
+	l.f(response)
+	l.StreamingLastResponseSetter.SetLastResponse(response)
+}
+func (l *streamingLastResponseSetterWrapper) UnmarshalJSON(b []byte) error {
+	return json.Unmarshal(b, l.StreamingLastResponseSetter)
+}
+
 func extractParams(params ParamsContainer) (*form.Values, *Params, error) {
 	var formValues *form.Values
 	var commonParams *Params
@@ -346,7 +383,18 @@ func (s *BackendImplementation) CallStreaming(method, path, key string, params P
 		return err
 	}
 
-	if err := s.DoStreaming(req, bodyBuffer, v); err != nil {
+	responseSetter := streamingLastResponseSetterWrapper{
+		v,
+		func(response *StreamingAPIResponse) {
+			var usage []string
+			if commonParams != nil {
+				usage = commonParams.usage
+			}
+			s.maybeEnqueueTelemetryMetrics(response.RequestID, response.duration, usage)
+		},
+	}
+
+	if err := s.DoStreaming(req, bodyBuffer, &responseSetter); err != nil {
 		return err
 	}
 
@@ -388,7 +436,13 @@ func (s *BackendImplementation) CallRaw(method, path, key string, form *form.Val
 		return err
 	}
 
-	if err := s.Do(req, bodyBuffer, v); err != nil {
+	responseSetter := metricsResponseSetter{
+		LastResponseSetter: v,
+		backend:            s,
+		params:             params,
+	}
+
+	if err := s.Do(req, bodyBuffer, &responseSetter); err != nil {
 		return err
 	}
 
@@ -468,22 +522,27 @@ func (s *BackendImplementation) maybeSetTelemetryHeader(req *http.Request) {
 	}
 }
 
-func (s *BackendImplementation) maybeEnqueueTelemetryMetrics(res *http.Response, requestDuration time.Duration) {
-	if s.enableTelemetry && res != nil {
-		reqID := res.Header.Get("Request-Id")
-		if len(reqID) > 0 {
-			metrics := requestMetrics{
-				RequestDurationMS: int(requestDuration / time.Millisecond),
-				RequestID:         reqID,
-			}
-
-			// If the metrics buffer is full, discard the new metrics. Otherwise, add
-			// them to the buffer.
-			select {
-			case s.requestMetricsBuffer <- metrics:
-			default:
-			}
-		}
+func (s *BackendImplementation) maybeEnqueueTelemetryMetrics(requestID string, requestDuration *time.Duration, usage []string) {
+	if !s.enableTelemetry || requestID == "" {
+		return
+	}
+	// If there's no duration to report and no usage to report, don't bother
+	if requestDuration == nil && len(usage) == 0 {
+		return
+	}
+	metrics := requestMetrics{
+		RequestID: requestID,
+	}
+	if requestDuration != nil {
+		requestDurationMS := int(*requestDuration / time.Millisecond)
+		metrics.RequestDurationMS = &requestDurationMS
+	}
+	if len(usage) > 0 {
+		metrics.Usage = usage
+	}
+	select {
+	case s.requestMetricsBuffer <- metrics:
+	default:
 	}
 }
 
@@ -541,7 +600,7 @@ func (s *BackendImplementation) requestWithRetriesAndTelemetry(
 	req *http.Request,
 	body *bytes.Buffer,
 	handleResponse func(*http.Response, error) (interface{}, error),
-) (*http.Response, interface{}, error) {
+) (*http.Response, interface{}, *time.Duration, error) {
 	s.LeveledLogger.Infof("Requesting %v %v%v", req.Method, req.URL.Host, req.URL.Path)
 	s.maybeSetTelemetryHeader(req)
 	var resp *http.Response
@@ -577,13 +636,11 @@ func (s *BackendImplementation) requestWithRetriesAndTelemetry(
 		time.Sleep(sleepDuration)
 	}
 
-	s.maybeEnqueueTelemetryMetrics(resp, requestDuration)
-
 	if err != nil {
-		return nil, nil, err
+		return nil, nil, nil, err
 	}
 
-	return resp, result, nil
+	return resp, result, &requestDuration, nil
 }
 
 func (s *BackendImplementation) logError(statusCode int, err error) {
@@ -645,11 +702,11 @@ func (s *BackendImplementation) DoStreaming(req *http.Request, body *bytes.Buffe
 		return res.Body, err
 	}
 
-	resp, result, err := s.requestWithRetriesAndTelemetry(req, body, handleResponse)
+	resp, result, requestDuration, err := s.requestWithRetriesAndTelemetry(req, body, handleResponse)
 	if err != nil {
 		return err
 	}
-	v.SetLastResponse(newStreamingAPIResponse(resp, result.(io.ReadCloser)))
+	v.SetLastResponse(newStreamingAPIResponse(resp, result.(io.ReadCloser), requestDuration))
 	return nil
 }
 
@@ -675,14 +732,15 @@ func (s *BackendImplementation) Do(req *http.Request, body *bytes.Buffer, v Last
 		return resBody, err
 	}
 
-	res, result, err := s.requestWithRetriesAndTelemetry(req, body, handleResponse)
+	res, result, requestDuration, err := s.requestWithRetriesAndTelemetry(req, body, handleResponse)
 	if err != nil {
 		return err
 	}
 	resBody := result.([]byte)
 	s.LeveledLogger.Debugf("Response: %s", string(resBody))
+
 	err = s.UnmarshalJSONVerbose(res.StatusCode, resBody, v)
-	v.SetLastResponse(newAPIResponse(res, resBody))
+	v.SetLastResponse(newAPIResponse(res, resBody, requestDuration))
 	return err
 }
 
@@ -733,7 +791,7 @@ func (s *BackendImplementation) ResponseToError(res *http.Response, resBody []by
 	}
 	raw.Error.Err = typedError
 
-	raw.Error.SetLastResponse(newAPIResponse(res, resBody))
+	raw.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
 
 	return raw.Error
 }
@@ -1226,7 +1284,7 @@ func StringSlice(v []string) []*string {
 //
 
 // clientversion is the binding version
-const clientversion = "76.7.0"
+const clientversion = "76.8.0"
 
 // defaultHTTPTimeout is the default timeout on the http.Client used by the library.
 // This is chosen to be consistent with the other Stripe language libraries and
@@ -1270,8 +1328,9 @@ type stripeClientUserAgent struct {
 
 // requestMetrics contains the id and duration of the last request sent
 type requestMetrics struct {
-	RequestDurationMS int    `json:"request_duration_ms"`
-	RequestID         string `json:"request_id"`
+	RequestDurationMS *int     `json:"request_duration_ms"`
+	RequestID         string   `json:"request_id"`
+	Usage             []string `json:"usage"`
 }
 
 // requestTelemetry contains the payload sent in the
