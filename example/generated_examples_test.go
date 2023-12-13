@@ -551,10 +551,10 @@ func TestCheckoutSessionsPost(t *testing.T) {
 		CancelURL:  stripe.String("https://example.com/cancel"),
 		Mode:       stripe.String(string(stripe.CheckoutSessionModePayment)),
 		ShippingOptions: []*stripe.CheckoutSessionShippingOptionParams{
-			&stripe.CheckoutSessionShippingOptionParams{
+			{
 				ShippingRate: stripe.String("shr_standard"),
 			},
-			&stripe.CheckoutSessionShippingOptionParams{
+			{
 				ShippingRateData: &stripe.CheckoutSessionShippingOptionShippingRateDataParams{
 					DisplayName: stripe.String("Standard"),
 					DeliveryEstimate: &stripe.CheckoutSessionShippingOptionShippingRateDataDeliveryEstimateParams{
@@ -580,7 +580,7 @@ func TestCheckoutSessionsPost2(t *testing.T) {
 	params := &stripe.CheckoutSessionParams{
 		SuccessURL: stripe.String("https://example.com/success"),
 		LineItems: []*stripe.CheckoutSessionLineItemParams{
-			&stripe.CheckoutSessionLineItemParams{
+			{
 				Price:    stripe.String("price_xxxxxxxxxxxxx"),
 				Quantity: stripe.Int64(2),
 			},
@@ -1628,7 +1628,7 @@ func TestPaymentLinksLineItemsGet(t *testing.T) {
 func TestPaymentLinksPost(t *testing.T) {
 	params := &stripe.PaymentLinkParams{
 		LineItems: []*stripe.PaymentLinkLineItemParams{
-			&stripe.PaymentLinkLineItemParams{
+			{
 				Price:    stripe.String("price_xxxxxxxxxxxxx"),
 				Quantity: stripe.Int64(1),
 			},
@@ -1642,7 +1642,7 @@ func TestPaymentLinksPost(t *testing.T) {
 func TestPaymentLinksPost2(t *testing.T) {
 	params := &stripe.PaymentLinkParams{
 		LineItems: []*stripe.PaymentLinkLineItemParams{
-			&stripe.PaymentLinkLineItemParams{
+			{
 				Price:    stripe.String("price_xxxxxxxxxxxxx"),
 				Quantity: stripe.Int64(1),
 			},
@@ -1872,8 +1872,8 @@ func TestPricesPost(t *testing.T) {
 		UnitAmount: stripe.Int64(2000),
 		Currency:   stripe.String(string(stripe.CurrencyUSD)),
 		CurrencyOptions: map[string]*stripe.PriceCurrencyOptionsParams{
-			"uah": &stripe.PriceCurrencyOptionsParams{UnitAmount: stripe.Int64(5000)},
-			"eur": &stripe.PriceCurrencyOptionsParams{UnitAmount: stripe.Int64(1800)},
+			"uah": {UnitAmount: stripe.Int64(5000)},
+			"eur": {UnitAmount: stripe.Int64(1800)},
 		},
 		Recurring: &stripe.PriceRecurringParams{
 			Interval: stripe.String(string(stripe.PriceRecurringIntervalMonth)),
@@ -2052,7 +2052,7 @@ func TestQuotesPost(t *testing.T) {
 	params := &stripe.QuoteParams{
 		Customer: stripe.String("cus_xxxxxxxxxxxxx"),
 		LineItems: []*stripe.QuoteLineItemParams{
-			&stripe.QuoteLineItemParams{
+			{
 				Price:    stripe.String("price_xxxxxxxxxxxxx"),
 				Quantity: stripe.Int64(2),
 			},
@@ -2523,9 +2523,9 @@ func TestSubscriptionSchedulesPost(t *testing.T) {
 		StartDate:   stripe.Int64(1676070661),
 		EndBehavior: stripe.String(string(stripe.SubscriptionScheduleEndBehaviorRelease)),
 		Phases: []*stripe.SubscriptionSchedulePhaseParams{
-			&stripe.SubscriptionSchedulePhaseParams{
+			{
 				Items: []*stripe.SubscriptionSchedulePhaseItemParams{
-					&stripe.SubscriptionSchedulePhaseItemParams{
+					{
 						Price:    stripe.String("price_xxxxxxxxxxxxx"),
 						Quantity: stripe.Int64(1),
 					},
@@ -2591,7 +2591,7 @@ func TestSubscriptionsPost(t *testing.T) {
 	params := &stripe.SubscriptionParams{
 		Customer: stripe.String("cus_xxxxxxxxxxxxx"),
 		Items: []*stripe.SubscriptionItemsParams{
-			&stripe.SubscriptionItemsParams{
+			{
 				Price: stripe.String("price_xxxxxxxxxxxxx"),
 			},
 		},
@@ -2633,7 +2633,7 @@ func TestTaxCalculationsPost(t *testing.T) {
 	params := &stripe.TaxCalculationParams{
 		Currency: stripe.String(string(stripe.CurrencyUSD)),
 		LineItems: []*stripe.TaxCalculationLineItemParams{
-			&stripe.TaxCalculationLineItemParams{
+			{
 				Amount:    stripe.Int64(1000),
 				Reference: stripe.String("L1"),
 			},
@@ -2945,7 +2945,7 @@ func TestTestHelpersIssuingAuthorizationsCapturePost(t *testing.T) {
 				PassengerName: stripe.String("John Doe"),
 				Refundable:    stripe.Bool(true),
 				Segments: []*stripe.TestHelpersIssuingAuthorizationCapturePurchaseDetailsFlightSegmentParams{
-					&stripe.TestHelpersIssuingAuthorizationCapturePurchaseDetailsFlightSegmentParams{
+					{
 						ArrivalAirportCode:   stripe.String("SFO"),
 						Carrier:              stripe.String("Delta"),
 						DepartureAirportCode: stripe.String("LAX"),
@@ -2967,7 +2967,7 @@ func TestTestHelpersIssuingAuthorizationsCapturePost(t *testing.T) {
 				Nights:    stripe.Int64(2),
 			},
 			Receipt: []*stripe.TestHelpersIssuingAuthorizationCapturePurchaseDetailsReceiptParams{
-				&stripe.TestHelpersIssuingAuthorizationCapturePurchaseDetailsReceiptParams{
+				{
 					Description: stripe.String("Room charge"),
 					Quantity:    stripe.Float64(1),
 					Total:       stripe.Int64(200),
@@ -3106,7 +3106,7 @@ func TestTestHelpersIssuingTransactionsCreateForceCapturePost(t *testing.T) {
 				PassengerName: stripe.String("John Doe"),
 				Refundable:    stripe.Bool(true),
 				Segments: []*stripe.TestHelpersIssuingTransactionCreateForceCapturePurchaseDetailsFlightSegmentParams{
-					&stripe.TestHelpersIssuingTransactionCreateForceCapturePurchaseDetailsFlightSegmentParams{
+					{
 						ArrivalAirportCode:   stripe.String("SFO"),
 						Carrier:              stripe.String("Delta"),
 						DepartureAirportCode: stripe.String("LAX"),
@@ -3128,7 +3128,7 @@ func TestTestHelpersIssuingTransactionsCreateForceCapturePost(t *testing.T) {
 				Nights:    stripe.Int64(2),
 			},
 			Receipt: []*stripe.TestHelpersIssuingTransactionCreateForceCapturePurchaseDetailsReceiptParams{
-				&stripe.TestHelpersIssuingTransactionCreateForceCapturePurchaseDetailsReceiptParams{
+				{
 					Description: stripe.String("Room charge"),
 					Quantity:    stripe.Float64(1),
 					Total:       stripe.Int64(200),
@@ -3164,7 +3164,7 @@ func TestTestHelpersIssuingTransactionsCreateUnlinkedRefundPost(t *testing.T) {
 				PassengerName: stripe.String("John Doe"),
 				Refundable:    stripe.Bool(true),
 				Segments: []*stripe.TestHelpersIssuingTransactionCreateUnlinkedRefundPurchaseDetailsFlightSegmentParams{
-					&stripe.TestHelpersIssuingTransactionCreateUnlinkedRefundPurchaseDetailsFlightSegmentParams{
+					{
 						ArrivalAirportCode:   stripe.String("SFO"),
 						Carrier:              stripe.String("Delta"),
 						DepartureAirportCode: stripe.String("LAX"),
@@ -3186,7 +3186,7 @@ func TestTestHelpersIssuingTransactionsCreateUnlinkedRefundPost(t *testing.T) {
 				Nights:    stripe.Int64(2),
 			},
 			Receipt: []*stripe.TestHelpersIssuingTransactionCreateUnlinkedRefundPurchaseDetailsReceiptParams{
-				&stripe.TestHelpersIssuingTransactionCreateUnlinkedRefundPurchaseDetailsReceiptParams{
+				{
 					Description: stripe.String("Room charge"),
 					Quantity:    stripe.Float64(1),
 					Total:       stripe.Int64(200),
