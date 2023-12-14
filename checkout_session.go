@@ -43,6 +43,17 @@ const (
 	CheckoutSessionConsentTermsOfServiceAccepted CheckoutSessionConsentTermsOfService = "accepted"
 )
 
+// Determines the position and visibility of the payment method reuse agreement in the UI. When set to `auto`, Stripe's defaults will be used.
+//
+// When set to `hidden`, the payment method reuse agreement text will always be hidden in the UI.
+type CheckoutSessionConsentCollectionPaymentMethodReuseAgreementPosition string
+
+// List of values that CheckoutSessionConsentCollectionPaymentMethodReuseAgreementPosition can take
+const (
+	CheckoutSessionConsentCollectionPaymentMethodReuseAgreementPositionAuto   CheckoutSessionConsentCollectionPaymentMethodReuseAgreementPosition = "auto"
+	CheckoutSessionConsentCollectionPaymentMethodReuseAgreementPositionHidden CheckoutSessionConsentCollectionPaymentMethodReuseAgreementPosition = "hidden"
+)
+
 // If set to `auto`, enables the collection of customer consent for promotional communications. The Checkout
 // Session will determine whether to display an option to opt into promotional communication
 // from the merchant depending on the customer's locale. Only available to US merchants.
@@ -785,8 +796,17 @@ type CheckoutSessionAutomaticTaxParams struct {
 	Enabled *bool `form:"enabled"`
 }
 
+// Determines the display of payment method reuse agreement text in the UI. If set to `hidden`, it will hide legal text related to the reuse of a payment method.
+type CheckoutSessionConsentCollectionPaymentMethodReuseAgreementParams struct {
+	// Determines the position and visibility of the payment method reuse agreement in the UI. When set to `auto`, Stripe's
+	// defaults will be used. When set to `hidden`, the payment method reuse agreement text will always be hidden in the UI.
+	Position *string `form:"position"`
+}
+
 // Configure fields for the Checkout Session to gather active consent from customers.
 type CheckoutSessionConsentCollectionParams struct {
+	// Determines the display of payment method reuse agreement text in the UI. If set to `hidden`, it will hide legal text related to the reuse of a payment method.
+	PaymentMethodReuseAgreement *CheckoutSessionConsentCollectionPaymentMethodReuseAgreementParams `form:"payment_method_reuse_agreement"`
 	// If set to `auto`, enables the collection of customer consent for promotional communications. The Checkout
 	// Session will determine whether to display an option to opt into promotional communication
 	// from the merchant depending on the customer's locale. Only available to US merchants.
@@ -852,6 +872,12 @@ type CheckoutSessionCustomFieldParams struct {
 	Type *string `form:"type"`
 }
 
+// Custom text that should be displayed after the payment confirmation button.
+type CheckoutSessionCustomTextAfterSubmitParams struct {
+	// Text may be up to 1200 characters in length.
+	Message *string `form:"message"`
+}
+
 // Custom text that should be displayed alongside shipping address collection.
 type CheckoutSessionCustomTextShippingAddressParams struct {
 	// Text may be up to 1200 characters in length.
@@ -872,6 +898,8 @@ type CheckoutSessionCustomTextTermsOfServiceAcceptanceParams struct {
 
 // Display additional text for your customers using custom text.
 type CheckoutSessionCustomTextParams struct {
+	// Custom text that should be displayed after the payment confirmation button.
+	AfterSubmit *CheckoutSessionCustomTextAfterSubmitParams `form:"after_submit"`
 	// Custom text that should be displayed alongside shipping address collection.
 	ShippingAddress *CheckoutSessionCustomTextShippingAddressParams `form:"shipping_address"`
 	// Custom text that should be displayed alongside the payment confirmation button.
@@ -1931,8 +1959,18 @@ type CheckoutSessionConsent struct {
 	TermsOfService CheckoutSessionConsentTermsOfService `json:"terms_of_service"`
 }
 
+// If set to `hidden`, it will hide legal text related to the reuse of a payment method.
+type CheckoutSessionConsentCollectionPaymentMethodReuseAgreement struct {
+	// Determines the position and visibility of the payment method reuse agreement in the UI. When set to `auto`, Stripe's defaults will be used.
+	//
+	// When set to `hidden`, the payment method reuse agreement text will always be hidden in the UI.
+	Position CheckoutSessionConsentCollectionPaymentMethodReuseAgreementPosition `json:"position"`
+}
+
 // When set, provides configuration for the Checkout Session to gather active consent from customers.
 type CheckoutSessionConsentCollection struct {
+	// If set to `hidden`, it will hide legal text related to the reuse of a payment method.
+	PaymentMethodReuseAgreement *CheckoutSessionConsentCollectionPaymentMethodReuseAgreement `json:"payment_method_reuse_agreement"`
 	// If set to `auto`, enables the collection of customer consent for promotional communications. The Checkout
 	// Session will determine whether to display an option to opt into promotional communication
 	// from the merchant depending on the customer's locale. Only available to US merchants.
@@ -2003,6 +2041,12 @@ type CheckoutSessionCustomField struct {
 	Type CheckoutSessionCustomFieldType `json:"type"`
 }
 
+// Custom text that should be displayed after the payment confirmation button.
+type CheckoutSessionCustomTextAfterSubmit struct {
+	// Text may be up to 1200 characters in length.
+	Message string `json:"message"`
+}
+
 // Custom text that should be displayed alongside shipping address collection.
 type CheckoutSessionCustomTextShippingAddress struct {
 	// Text may be up to 1200 characters in length.
@@ -2021,6 +2065,8 @@ type CheckoutSessionCustomTextTermsOfServiceAcceptance struct {
 	Message string `json:"message"`
 }
 type CheckoutSessionCustomText struct {
+	// Custom text that should be displayed after the payment confirmation button.
+	AfterSubmit *CheckoutSessionCustomTextAfterSubmit `json:"after_submit"`
 	// Custom text that should be displayed alongside shipping address collection.
 	ShippingAddress *CheckoutSessionCustomTextShippingAddress `json:"shipping_address"`
 	// Custom text that should be displayed alongside the payment confirmation button.

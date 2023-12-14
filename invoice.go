@@ -371,7 +371,7 @@ type InvoiceUpcomingParams struct {
 	SubscriptionBillingCycleAnchor          *int64 `form:"subscription_billing_cycle_anchor"`
 	SubscriptionBillingCycleAnchorNow       *bool  `form:"-"` // See custom AppendTo
 	SubscriptionBillingCycleAnchorUnchanged *bool  `form:"-"` // See custom AppendTo
-	// Timestamp indicating when the subscription should be scheduled to cancel. Will prorate if within the current period and prorations have been enabled using `proration_behavior`.
+	// A timestamp at which the subscription should cancel. If set to a date before the current period ends, this will cause a proration if prorations have been enabled using `proration_behavior`. If set during a future period, this will always cause a proration for that period.
 	SubscriptionCancelAt *int64 `form:"subscription_cancel_at"`
 	// Boolean indicating whether this subscription should cancel at the end of the current period.
 	SubscriptionCancelAtPeriodEnd *bool `form:"subscription_cancel_at_period_end"`
@@ -387,7 +387,7 @@ type InvoiceUpcomingParams struct {
 	SubscriptionProrationDate *int64 `form:"subscription_proration_date"`
 	// For paused subscriptions, setting `subscription_resume_at` to `now` will preview the invoice that will be generated if the subscription is resumed.
 	SubscriptionResumeAt *string `form:"subscription_resume_at"`
-	// Date a subscription is intended to start (can be future or past)
+	// Date a subscription is intended to start (can be future or past).
 	SubscriptionStartDate *int64 `form:"subscription_start_date"`
 	// If provided, the invoice returned will preview updating or creating a subscription with that trial end. If set, one of `subscription_items` or `subscription` is required.
 	SubscriptionTrialEnd    *int64 `form:"subscription_trial_end"`
@@ -985,7 +985,7 @@ type InvoiceUpcomingLinesParams struct {
 	SubscriptionBillingCycleAnchor          *int64 `form:"subscription_billing_cycle_anchor"`
 	SubscriptionBillingCycleAnchorNow       *bool  `form:"-"` // See custom AppendTo
 	SubscriptionBillingCycleAnchorUnchanged *bool  `form:"-"` // See custom AppendTo
-	// Timestamp indicating when the subscription should be scheduled to cancel. Will prorate if within the current period and prorations have been enabled using `proration_behavior`.
+	// A timestamp at which the subscription should cancel. If set to a date before the current period ends, this will cause a proration if prorations have been enabled using `proration_behavior`. If set during a future period, this will always cause a proration for that period.
 	SubscriptionCancelAt *int64 `form:"subscription_cancel_at"`
 	// Boolean indicating whether this subscription should cancel at the end of the current period.
 	SubscriptionCancelAtPeriodEnd *bool `form:"subscription_cancel_at_period_end"`
@@ -1001,7 +1001,7 @@ type InvoiceUpcomingLinesParams struct {
 	SubscriptionProrationDate *int64 `form:"subscription_proration_date"`
 	// For paused subscriptions, setting `subscription_resume_at` to `now` will preview the invoice that will be generated if the subscription is resumed.
 	SubscriptionResumeAt *string `form:"subscription_resume_at"`
-	// Date a subscription is intended to start (can be future or past)
+	// Date a subscription is intended to start (can be future or past).
 	SubscriptionStartDate *int64 `form:"subscription_start_date"`
 	// If provided, the invoice returned will preview updating or creating a subscription with that trial end. If set, one of `subscription_items` or `subscription` is required.
 	SubscriptionTrialEnd    *int64 `form:"subscription_trial_end"`

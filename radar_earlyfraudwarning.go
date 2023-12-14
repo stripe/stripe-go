@@ -25,6 +25,10 @@ type RadarEarlyFraudWarningListParams struct {
 	ListParams `form:"*"`
 	// Only return early fraud warnings for the charge specified by this charge ID.
 	Charge *string `form:"charge"`
+	// Only return early fraud warnings that were created during the given date interval.
+	Created *int64 `form:"created"`
+	// Only return early fraud warnings that were created during the given date interval.
+	CreatedRange *RangeQueryParams `form:"created"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// Only return early fraud warnings for charges that were created by the PaymentIntent specified by this PaymentIntent ID.
