@@ -1,5 +1,12 @@
 # Changelog
 
+## 76.10.0-beta.1 - 2023-12-14
+* [#1785](https://github.com/stripe/stripe-go/pull/1785) Update generated code for beta
+  * Add support for `PreviewMode` and `SubscriptionDetails` on `InvoiceUpcomingLinesParams` and `InvoiceUpcomingParams`
+  * Remove support for `SubscriptionTrialFromPlan` on `InvoiceUpcomingLinesParams` and `InvoiceUpcomingParams`
+  * Add support for `BillingBehavior`, `EndBehavior`, and `ProrationBehavior` on `InvoiceUpcomingLinesScheduleDetailsParams` and `InvoiceUpcomingScheduleDetailsParams`
+* [#1779](https://github.com/stripe/stripe-go/pull/1779) Track usage of `raw_request`
+
 ## 76.9.0 - 2023-12-14
 * [#1781](https://github.com/stripe/stripe-go/pull/1781) Update generated code
   * Add support for `PaymentMethodReuseAgreement` on `CheckoutSessionConsentCollectionParams`, `CheckoutSessionConsentCollection`, `PaymentLinkConsentCollectionParams`, and `PaymentLinkConsentCollection`
