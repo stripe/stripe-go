@@ -39,7 +39,7 @@ import (
 	issuing_authorization "github.com/stripe/stripe-go/v76/issuing/authorization"
 	issuing_card "github.com/stripe/stripe-go/v76/issuing/card"
 	issuing_cardholder "github.com/stripe/stripe-go/v76/issuing/cardholder"
-  	issuing_dispute "github.com/stripe/stripe-go/v76/issuing/dispute"
+	issuing_dispute "github.com/stripe/stripe-go/v76/issuing/dispute"
 	issuing_transaction "github.com/stripe/stripe-go/v76/issuing/transaction"
 	loginlink "github.com/stripe/stripe-go/v76/loginlink"
 	mandate "github.com/stripe/stripe-go/v76/mandate"
