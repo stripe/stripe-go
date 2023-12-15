@@ -11,7 +11,6 @@ check-api-clients:
 
 check-gofmt:
 	scripts/check_gofmt.sh
-
 lint:
 	staticcheck
 
