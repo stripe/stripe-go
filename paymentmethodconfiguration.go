@@ -349,25 +349,6 @@ const (
 )
 
 // The account's display preference.
-type PaymentMethodConfigurationIDBankTransferDisplayPreferencePreference string
-
-// List of values that PaymentMethodConfigurationIDBankTransferDisplayPreferencePreference can take
-const (
-	PaymentMethodConfigurationIDBankTransferDisplayPreferencePreferenceNone PaymentMethodConfigurationIDBankTransferDisplayPreferencePreference = "none"
-	PaymentMethodConfigurationIDBankTransferDisplayPreferencePreferenceOff  PaymentMethodConfigurationIDBankTransferDisplayPreferencePreference = "off"
-	PaymentMethodConfigurationIDBankTransferDisplayPreferencePreferenceOn   PaymentMethodConfigurationIDBankTransferDisplayPreferencePreference = "on"
-)
-
-// The effective display preference value.
-type PaymentMethodConfigurationIDBankTransferDisplayPreferenceValue string
-
-// List of values that PaymentMethodConfigurationIDBankTransferDisplayPreferenceValue can take
-const (
-	PaymentMethodConfigurationIDBankTransferDisplayPreferenceValueOff PaymentMethodConfigurationIDBankTransferDisplayPreferenceValue = "off"
-	PaymentMethodConfigurationIDBankTransferDisplayPreferenceValueOn  PaymentMethodConfigurationIDBankTransferDisplayPreferenceValue = "on"
-)
-
-// The account's display preference.
 type PaymentMethodConfigurationIDEALDisplayPreferencePreference string
 
 // List of values that PaymentMethodConfigurationIDEALDisplayPreferencePreference can take
@@ -463,44 +444,6 @@ const (
 )
 
 // The account's display preference.
-type PaymentMethodConfigurationMultibancoDisplayPreferencePreference string
-
-// List of values that PaymentMethodConfigurationMultibancoDisplayPreferencePreference can take
-const (
-	PaymentMethodConfigurationMultibancoDisplayPreferencePreferenceNone PaymentMethodConfigurationMultibancoDisplayPreferencePreference = "none"
-	PaymentMethodConfigurationMultibancoDisplayPreferencePreferenceOff  PaymentMethodConfigurationMultibancoDisplayPreferencePreference = "off"
-	PaymentMethodConfigurationMultibancoDisplayPreferencePreferenceOn   PaymentMethodConfigurationMultibancoDisplayPreferencePreference = "on"
-)
-
-// The effective display preference value.
-type PaymentMethodConfigurationMultibancoDisplayPreferenceValue string
-
-// List of values that PaymentMethodConfigurationMultibancoDisplayPreferenceValue can take
-const (
-	PaymentMethodConfigurationMultibancoDisplayPreferenceValueOff PaymentMethodConfigurationMultibancoDisplayPreferenceValue = "off"
-	PaymentMethodConfigurationMultibancoDisplayPreferenceValueOn  PaymentMethodConfigurationMultibancoDisplayPreferenceValue = "on"
-)
-
-// The account's display preference.
-type PaymentMethodConfigurationNetbankingDisplayPreferencePreference string
-
-// List of values that PaymentMethodConfigurationNetbankingDisplayPreferencePreference can take
-const (
-	PaymentMethodConfigurationNetbankingDisplayPreferencePreferenceNone PaymentMethodConfigurationNetbankingDisplayPreferencePreference = "none"
-	PaymentMethodConfigurationNetbankingDisplayPreferencePreferenceOff  PaymentMethodConfigurationNetbankingDisplayPreferencePreference = "off"
-	PaymentMethodConfigurationNetbankingDisplayPreferencePreferenceOn   PaymentMethodConfigurationNetbankingDisplayPreferencePreference = "on"
-)
-
-// The effective display preference value.
-type PaymentMethodConfigurationNetbankingDisplayPreferenceValue string
-
-// List of values that PaymentMethodConfigurationNetbankingDisplayPreferenceValue can take
-const (
-	PaymentMethodConfigurationNetbankingDisplayPreferenceValueOff PaymentMethodConfigurationNetbankingDisplayPreferenceValue = "off"
-	PaymentMethodConfigurationNetbankingDisplayPreferenceValueOn  PaymentMethodConfigurationNetbankingDisplayPreferenceValue = "on"
-)
-
-// The account's display preference.
 type PaymentMethodConfigurationOXXODisplayPreferencePreference string
 
 // List of values that PaymentMethodConfigurationOXXODisplayPreferencePreference can take
@@ -536,25 +479,6 @@ type PaymentMethodConfigurationP24DisplayPreferenceValue string
 const (
 	PaymentMethodConfigurationP24DisplayPreferenceValueOff PaymentMethodConfigurationP24DisplayPreferenceValue = "off"
 	PaymentMethodConfigurationP24DisplayPreferenceValueOn  PaymentMethodConfigurationP24DisplayPreferenceValue = "on"
-)
-
-// The account's display preference.
-type PaymentMethodConfigurationPayByBankDisplayPreferencePreference string
-
-// List of values that PaymentMethodConfigurationPayByBankDisplayPreferencePreference can take
-const (
-	PaymentMethodConfigurationPayByBankDisplayPreferencePreferenceNone PaymentMethodConfigurationPayByBankDisplayPreferencePreference = "none"
-	PaymentMethodConfigurationPayByBankDisplayPreferencePreferenceOff  PaymentMethodConfigurationPayByBankDisplayPreferencePreference = "off"
-	PaymentMethodConfigurationPayByBankDisplayPreferencePreferenceOn   PaymentMethodConfigurationPayByBankDisplayPreferencePreference = "on"
-)
-
-// The effective display preference value.
-type PaymentMethodConfigurationPayByBankDisplayPreferenceValue string
-
-// List of values that PaymentMethodConfigurationPayByBankDisplayPreferenceValue can take
-const (
-	PaymentMethodConfigurationPayByBankDisplayPreferenceValueOff PaymentMethodConfigurationPayByBankDisplayPreferenceValue = "off"
-	PaymentMethodConfigurationPayByBankDisplayPreferenceValueOn  PaymentMethodConfigurationPayByBankDisplayPreferenceValue = "on"
 )
 
 // The account's display preference.
@@ -653,25 +577,6 @@ const (
 )
 
 // The account's display preference.
-type PaymentMethodConfigurationUpiDisplayPreferencePreference string
-
-// List of values that PaymentMethodConfigurationUpiDisplayPreferencePreference can take
-const (
-	PaymentMethodConfigurationUpiDisplayPreferencePreferenceNone PaymentMethodConfigurationUpiDisplayPreferencePreference = "none"
-	PaymentMethodConfigurationUpiDisplayPreferencePreferenceOff  PaymentMethodConfigurationUpiDisplayPreferencePreference = "off"
-	PaymentMethodConfigurationUpiDisplayPreferencePreferenceOn   PaymentMethodConfigurationUpiDisplayPreferencePreference = "on"
-)
-
-// The effective display preference value.
-type PaymentMethodConfigurationUpiDisplayPreferenceValue string
-
-// List of values that PaymentMethodConfigurationUpiDisplayPreferenceValue can take
-const (
-	PaymentMethodConfigurationUpiDisplayPreferenceValueOff PaymentMethodConfigurationUpiDisplayPreferenceValue = "off"
-	PaymentMethodConfigurationUpiDisplayPreferenceValueOn  PaymentMethodConfigurationUpiDisplayPreferenceValue = "on"
-)
-
-// The account's display preference.
 type PaymentMethodConfigurationUSBankAccountDisplayPreferencePreference string
 
 // List of values that PaymentMethodConfigurationUSBankAccountDisplayPreferencePreference can take
@@ -707,6 +612,101 @@ type PaymentMethodConfigurationWeChatPayDisplayPreferenceValue string
 const (
 	PaymentMethodConfigurationWeChatPayDisplayPreferenceValueOff PaymentMethodConfigurationWeChatPayDisplayPreferenceValue = "off"
 	PaymentMethodConfigurationWeChatPayDisplayPreferenceValueOn  PaymentMethodConfigurationWeChatPayDisplayPreferenceValue = "on"
+)
+
+// The account's display preference.
+type PaymentMethodConfigurationIDBankTransferDisplayPreferencePreference string
+
+// List of values that PaymentMethodConfigurationIDBankTransferDisplayPreferencePreference can take
+const (
+	PaymentMethodConfigurationIDBankTransferDisplayPreferencePreferenceNone PaymentMethodConfigurationIDBankTransferDisplayPreferencePreference = "none"
+	PaymentMethodConfigurationIDBankTransferDisplayPreferencePreferenceOff  PaymentMethodConfigurationIDBankTransferDisplayPreferencePreference = "off"
+	PaymentMethodConfigurationIDBankTransferDisplayPreferencePreferenceOn   PaymentMethodConfigurationIDBankTransferDisplayPreferencePreference = "on"
+)
+
+// The effective display preference value.
+type PaymentMethodConfigurationIDBankTransferDisplayPreferenceValue string
+
+// List of values that PaymentMethodConfigurationIDBankTransferDisplayPreferenceValue can take
+const (
+	PaymentMethodConfigurationIDBankTransferDisplayPreferenceValueOff PaymentMethodConfigurationIDBankTransferDisplayPreferenceValue = "off"
+	PaymentMethodConfigurationIDBankTransferDisplayPreferenceValueOn  PaymentMethodConfigurationIDBankTransferDisplayPreferenceValue = "on"
+)
+
+// The account's display preference.
+type PaymentMethodConfigurationMultibancoDisplayPreferencePreference string
+
+// List of values that PaymentMethodConfigurationMultibancoDisplayPreferencePreference can take
+const (
+	PaymentMethodConfigurationMultibancoDisplayPreferencePreferenceNone PaymentMethodConfigurationMultibancoDisplayPreferencePreference = "none"
+	PaymentMethodConfigurationMultibancoDisplayPreferencePreferenceOff  PaymentMethodConfigurationMultibancoDisplayPreferencePreference = "off"
+	PaymentMethodConfigurationMultibancoDisplayPreferencePreferenceOn   PaymentMethodConfigurationMultibancoDisplayPreferencePreference = "on"
+)
+
+// The effective display preference value.
+type PaymentMethodConfigurationMultibancoDisplayPreferenceValue string
+
+// List of values that PaymentMethodConfigurationMultibancoDisplayPreferenceValue can take
+const (
+	PaymentMethodConfigurationMultibancoDisplayPreferenceValueOff PaymentMethodConfigurationMultibancoDisplayPreferenceValue = "off"
+	PaymentMethodConfigurationMultibancoDisplayPreferenceValueOn  PaymentMethodConfigurationMultibancoDisplayPreferenceValue = "on"
+)
+
+// The account's display preference.
+type PaymentMethodConfigurationNetbankingDisplayPreferencePreference string
+
+// List of values that PaymentMethodConfigurationNetbankingDisplayPreferencePreference can take
+const (
+	PaymentMethodConfigurationNetbankingDisplayPreferencePreferenceNone PaymentMethodConfigurationNetbankingDisplayPreferencePreference = "none"
+	PaymentMethodConfigurationNetbankingDisplayPreferencePreferenceOff  PaymentMethodConfigurationNetbankingDisplayPreferencePreference = "off"
+	PaymentMethodConfigurationNetbankingDisplayPreferencePreferenceOn   PaymentMethodConfigurationNetbankingDisplayPreferencePreference = "on"
+)
+
+// The effective display preference value.
+type PaymentMethodConfigurationNetbankingDisplayPreferenceValue string
+
+// List of values that PaymentMethodConfigurationNetbankingDisplayPreferenceValue can take
+const (
+	PaymentMethodConfigurationNetbankingDisplayPreferenceValueOff PaymentMethodConfigurationNetbankingDisplayPreferenceValue = "off"
+	PaymentMethodConfigurationNetbankingDisplayPreferenceValueOn  PaymentMethodConfigurationNetbankingDisplayPreferenceValue = "on"
+)
+
+// The account's display preference.
+type PaymentMethodConfigurationPayByBankDisplayPreferencePreference string
+
+// List of values that PaymentMethodConfigurationPayByBankDisplayPreferencePreference can take
+const (
+	PaymentMethodConfigurationPayByBankDisplayPreferencePreferenceNone PaymentMethodConfigurationPayByBankDisplayPreferencePreference = "none"
+	PaymentMethodConfigurationPayByBankDisplayPreferencePreferenceOff  PaymentMethodConfigurationPayByBankDisplayPreferencePreference = "off"
+	PaymentMethodConfigurationPayByBankDisplayPreferencePreferenceOn   PaymentMethodConfigurationPayByBankDisplayPreferencePreference = "on"
+)
+
+// The effective display preference value.
+type PaymentMethodConfigurationPayByBankDisplayPreferenceValue string
+
+// List of values that PaymentMethodConfigurationPayByBankDisplayPreferenceValue can take
+const (
+	PaymentMethodConfigurationPayByBankDisplayPreferenceValueOff PaymentMethodConfigurationPayByBankDisplayPreferenceValue = "off"
+	PaymentMethodConfigurationPayByBankDisplayPreferenceValueOn  PaymentMethodConfigurationPayByBankDisplayPreferenceValue = "on"
+)
+
+// The account's display preference.
+type PaymentMethodConfigurationUpiDisplayPreferencePreference string
+
+// List of values that PaymentMethodConfigurationUpiDisplayPreferencePreference can take
+const (
+	PaymentMethodConfigurationUpiDisplayPreferencePreferenceNone PaymentMethodConfigurationUpiDisplayPreferencePreference = "none"
+	PaymentMethodConfigurationUpiDisplayPreferencePreferenceOff  PaymentMethodConfigurationUpiDisplayPreferencePreference = "off"
+	PaymentMethodConfigurationUpiDisplayPreferencePreferenceOn   PaymentMethodConfigurationUpiDisplayPreferencePreference = "on"
+)
+
+// The effective display preference value.
+type PaymentMethodConfigurationUpiDisplayPreferenceValue string
+
+// List of values that PaymentMethodConfigurationUpiDisplayPreferenceValue can take
+const (
+	PaymentMethodConfigurationUpiDisplayPreferenceValueOff PaymentMethodConfigurationUpiDisplayPreferenceValue = "off"
+	PaymentMethodConfigurationUpiDisplayPreferenceValueOn  PaymentMethodConfigurationUpiDisplayPreferenceValue = "on"
 )
 
 // List payment method configurations
@@ -1437,19 +1437,6 @@ type PaymentMethodConfigurationGrabpay struct {
 	Available         bool                                                `json:"available"`
 	DisplayPreference *PaymentMethodConfigurationGrabpayDisplayPreference `json:"display_preference"`
 }
-type PaymentMethodConfigurationIDBankTransferDisplayPreference struct {
-	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
-	Overridable bool `json:"overridable"`
-	// The account's display preference.
-	Preference PaymentMethodConfigurationIDBankTransferDisplayPreferencePreference `json:"preference"`
-	// The effective display preference value.
-	Value PaymentMethodConfigurationIDBankTransferDisplayPreferenceValue `json:"value"`
-}
-type PaymentMethodConfigurationIDBankTransfer struct {
-	// Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
-	Available         bool                                                       `json:"available"`
-	DisplayPreference *PaymentMethodConfigurationIDBankTransferDisplayPreference `json:"display_preference"`
-}
 type PaymentMethodConfigurationIDEALDisplayPreference struct {
 	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
 	Overridable bool `json:"overridable"`
@@ -1515,32 +1502,6 @@ type PaymentMethodConfigurationLink struct {
 	Available         bool                                             `json:"available"`
 	DisplayPreference *PaymentMethodConfigurationLinkDisplayPreference `json:"display_preference"`
 }
-type PaymentMethodConfigurationMultibancoDisplayPreference struct {
-	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
-	Overridable bool `json:"overridable"`
-	// The account's display preference.
-	Preference PaymentMethodConfigurationMultibancoDisplayPreferencePreference `json:"preference"`
-	// The effective display preference value.
-	Value PaymentMethodConfigurationMultibancoDisplayPreferenceValue `json:"value"`
-}
-type PaymentMethodConfigurationMultibanco struct {
-	// Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
-	Available         bool                                                   `json:"available"`
-	DisplayPreference *PaymentMethodConfigurationMultibancoDisplayPreference `json:"display_preference"`
-}
-type PaymentMethodConfigurationNetbankingDisplayPreference struct {
-	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
-	Overridable bool `json:"overridable"`
-	// The account's display preference.
-	Preference PaymentMethodConfigurationNetbankingDisplayPreferencePreference `json:"preference"`
-	// The effective display preference value.
-	Value PaymentMethodConfigurationNetbankingDisplayPreferenceValue `json:"value"`
-}
-type PaymentMethodConfigurationNetbanking struct {
-	// Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
-	Available         bool                                                   `json:"available"`
-	DisplayPreference *PaymentMethodConfigurationNetbankingDisplayPreference `json:"display_preference"`
-}
 type PaymentMethodConfigurationOXXODisplayPreference struct {
 	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
 	Overridable bool `json:"overridable"`
@@ -1566,19 +1527,6 @@ type PaymentMethodConfigurationP24 struct {
 	// Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
 	Available         bool                                            `json:"available"`
 	DisplayPreference *PaymentMethodConfigurationP24DisplayPreference `json:"display_preference"`
-}
-type PaymentMethodConfigurationPayByBankDisplayPreference struct {
-	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
-	Overridable bool `json:"overridable"`
-	// The account's display preference.
-	Preference PaymentMethodConfigurationPayByBankDisplayPreferencePreference `json:"preference"`
-	// The effective display preference value.
-	Value PaymentMethodConfigurationPayByBankDisplayPreferenceValue `json:"value"`
-}
-type PaymentMethodConfigurationPayByBank struct {
-	// Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
-	Available         bool                                                  `json:"available"`
-	DisplayPreference *PaymentMethodConfigurationPayByBankDisplayPreference `json:"display_preference"`
 }
 type PaymentMethodConfigurationPayNowDisplayPreference struct {
 	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
@@ -1645,19 +1593,6 @@ type PaymentMethodConfigurationSofort struct {
 	Available         bool                                               `json:"available"`
 	DisplayPreference *PaymentMethodConfigurationSofortDisplayPreference `json:"display_preference"`
 }
-type PaymentMethodConfigurationUpiDisplayPreference struct {
-	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
-	Overridable bool `json:"overridable"`
-	// The account's display preference.
-	Preference PaymentMethodConfigurationUpiDisplayPreferencePreference `json:"preference"`
-	// The effective display preference value.
-	Value PaymentMethodConfigurationUpiDisplayPreferenceValue `json:"value"`
-}
-type PaymentMethodConfigurationUpi struct {
-	// Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
-	Available         bool                                            `json:"available"`
-	DisplayPreference *PaymentMethodConfigurationUpiDisplayPreference `json:"display_preference"`
-}
 type PaymentMethodConfigurationUSBankAccountDisplayPreference struct {
 	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
 	Overridable bool `json:"overridable"`
@@ -1683,6 +1618,71 @@ type PaymentMethodConfigurationWeChatPay struct {
 	// Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
 	Available         bool                                                  `json:"available"`
 	DisplayPreference *PaymentMethodConfigurationWeChatPayDisplayPreference `json:"display_preference"`
+}
+type PaymentMethodConfigurationIDBankTransferDisplayPreference struct {
+	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
+	Overridable bool `json:"overridable"`
+	// The account's display preference.
+	Preference PaymentMethodConfigurationIDBankTransferDisplayPreferencePreference `json:"preference"`
+	// The effective display preference value.
+	Value PaymentMethodConfigurationIDBankTransferDisplayPreferenceValue `json:"value"`
+}
+type PaymentMethodConfigurationIDBankTransfer struct {
+	// Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
+	Available         bool                                                       `json:"available"`
+	DisplayPreference *PaymentMethodConfigurationIDBankTransferDisplayPreference `json:"display_preference"`
+}
+type PaymentMethodConfigurationMultibancoDisplayPreference struct {
+	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
+	Overridable bool `json:"overridable"`
+	// The account's display preference.
+	Preference PaymentMethodConfigurationMultibancoDisplayPreferencePreference `json:"preference"`
+	// The effective display preference value.
+	Value PaymentMethodConfigurationMultibancoDisplayPreferenceValue `json:"value"`
+}
+type PaymentMethodConfigurationMultibanco struct {
+	// Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
+	Available         bool                                                   `json:"available"`
+	DisplayPreference *PaymentMethodConfigurationMultibancoDisplayPreference `json:"display_preference"`
+}
+type PaymentMethodConfigurationNetbankingDisplayPreference struct {
+	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
+	Overridable bool `json:"overridable"`
+	// The account's display preference.
+	Preference PaymentMethodConfigurationNetbankingDisplayPreferencePreference `json:"preference"`
+	// The effective display preference value.
+	Value PaymentMethodConfigurationNetbankingDisplayPreferenceValue `json:"value"`
+}
+type PaymentMethodConfigurationNetbanking struct {
+	// Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
+	Available         bool                                                   `json:"available"`
+	DisplayPreference *PaymentMethodConfigurationNetbankingDisplayPreference `json:"display_preference"`
+}
+type PaymentMethodConfigurationPayByBankDisplayPreference struct {
+	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
+	Overridable bool `json:"overridable"`
+	// The account's display preference.
+	Preference PaymentMethodConfigurationPayByBankDisplayPreferencePreference `json:"preference"`
+	// The effective display preference value.
+	Value PaymentMethodConfigurationPayByBankDisplayPreferenceValue `json:"value"`
+}
+type PaymentMethodConfigurationPayByBank struct {
+	// Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
+	Available         bool                                                  `json:"available"`
+	DisplayPreference *PaymentMethodConfigurationPayByBankDisplayPreference `json:"display_preference"`
+}
+type PaymentMethodConfigurationUpiDisplayPreference struct {
+	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
+	Overridable bool `json:"overridable"`
+	// The account's display preference.
+	Preference PaymentMethodConfigurationUpiDisplayPreferencePreference `json:"preference"`
+	// The effective display preference value.
+	Value PaymentMethodConfigurationUpiDisplayPreferenceValue `json:"value"`
+}
+type PaymentMethodConfigurationUpi struct {
+	// Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
+	Available         bool                                            `json:"available"`
+	DisplayPreference *PaymentMethodConfigurationUpiDisplayPreference `json:"display_preference"`
 }
 
 // PaymentMethodConfigurations control which payment methods are displayed to your customers when you don't explicitly specify payment method types. You can have multiple configurations with different sets of payment methods for different scenarios.

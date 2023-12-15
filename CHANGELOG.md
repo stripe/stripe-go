@@ -1,5 +1,13 @@
 # Changelog
 
+## 76.9.0 - 2023-12-14
+* [#1781](https://github.com/stripe/stripe-go/pull/1781) Update generated code
+  * Add support for `PaymentMethodReuseAgreement` on `CheckoutSessionConsentCollectionParams`, `CheckoutSessionConsentCollection`, `PaymentLinkConsentCollectionParams`, and `PaymentLinkConsentCollection`
+  * Add support for `AfterSubmit` on `CheckoutSessionCustomTextParams`, `CheckoutSessionCustomText`, `PaymentLinkCustomTextParams`, and `PaymentLinkCustomText`
+  * Add support for `Created` on `RadarEarlyFraudWarningListParams`
+  
+* [#1780](https://github.com/stripe/stripe-go/pull/1780) Usage telemetry infrastructure
+
 ## 76.9.0-beta.1 - 2023-12-08
 * [#1776](https://github.com/stripe/stripe-go/pull/1776) Update generated code for beta
   * Add support for `Get` method on resource `FinancialConnections.Transaction`

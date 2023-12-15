@@ -1080,17 +1080,166 @@ type InvoiceUpcomingScheduleDetailsPrebillingParams struct {
 	Iterations *int64 `form:"iterations"`
 }
 
-// The schedule creation or modification params to apply as a preview. Cannot be used with subscription or subscription fields.
+// The schedule creation or modification params to apply as a preview. Cannot be used with `subscription` or `subscription_` prefixed fields.
 type InvoiceUpcomingScheduleDetailsParams struct {
 	// Changes to apply to the phases of the subscription schedule, in the order provided.
 	Amendments []*InvoiceUpcomingScheduleDetailsAmendmentParams `form:"amendments"`
+	// Configures when the subscription schedule generates prorations for phase transitions. Possible values are `prorate_on_next_phase` or `prorate_up_front` with the default being `prorate_on_next_phase`. `prorate_on_next_phase` will apply phase changes and generate prorations at transition time.`prorate_up_front` will bill for all phases within the current billing cycle up front.
+	BillingBehavior *string `form:"billing_behavior"`
+	// Behavior of the subscription schedule and underlying subscription when it ends. Possible values are `release` or `cancel` with the default being `release`. `release` will end the subscription schedule and keep the underlying subscription running.`cancel` will end the subscription schedule and cancel the underlying subscription.
+	EndBehavior *string `form:"end_behavior"`
 	// List representing phases of the subscription schedule. Each phase can be customized to have different durations, plans, and coupons. If there are multiple phases, the `end_date` of one phase will always equal the `start_date` of the next phase.
 	Phases []*InvoiceUpcomingScheduleDetailsPhaseParams `form:"phases"`
 	// Provide any time periods to bill in advance.
 	Prebilling []*InvoiceUpcomingScheduleDetailsPrebillingParams `form:"prebilling"`
+	// In cases where the `schedule_details` params update the currently active phase, specifies if and how to prorate at the time of the request.
+	ProrationBehavior *string `form:"proration_behavior"`
+}
+
+// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. When updating, pass an empty string to remove previously-defined thresholds.
+type InvoiceUpcomingSubscriptionDetailsItemBillingThresholdsParams struct {
+	// Number of units that meets the billing threshold to advance the subscription to a new billing period (e.g., it takes 10 $5 units to meet a $50 [monetary threshold](https://stripe.com/docs/api/subscriptions/update#update_subscription-billing_thresholds-amount_gte))
+	UsageGTE *int64 `form:"usage_gte"`
+}
+
+// Time span for the redeemed discount.
+type InvoiceUpcomingSubscriptionDetailsItemDiscountDiscountEndDurationParams struct {
+	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
+	Interval *string `form:"interval"`
+	// The number of intervals, as an whole number greater than 0. Stripe multiplies this by the interval type to get the overall duration.
+	IntervalCount *int64 `form:"interval_count"`
+}
+
+// Details to determine how long the discount should be applied for.
+type InvoiceUpcomingSubscriptionDetailsItemDiscountDiscountEndParams struct {
+	// Time span for the redeemed discount.
+	Duration *InvoiceUpcomingSubscriptionDetailsItemDiscountDiscountEndDurationParams `form:"duration"`
+	// A precise Unix timestamp for the discount to end. Must be in the future.
+	Timestamp *int64 `form:"timestamp"`
+	// The type of calculation made to determine when the discount ends.
+	Type *string `form:"type"`
+}
+
+// The coupons to redeem into discounts for the subscription item.
+type InvoiceUpcomingSubscriptionDetailsItemDiscountParams struct {
+	// ID of the coupon to create a new discount for.
+	Coupon *string `form:"coupon"`
+	// ID of an existing discount on the object (or one of its ancestors) to reuse.
+	Discount *string `form:"discount"`
+	// Details to determine how long the discount should be applied for.
+	DiscountEnd *InvoiceUpcomingSubscriptionDetailsItemDiscountDiscountEndParams `form:"discount_end"`
+}
+
+// The recurring components of a price such as `interval` and `interval_count`.
+type InvoiceUpcomingSubscriptionDetailsItemPriceDataRecurringParams struct {
+	// Specifies billing frequency. Either `day`, `week`, `month` or `year`.
+	Interval *string `form:"interval"`
+	// The number of intervals between subscription billings. For example, `interval=month` and `interval_count=3` bills every 3 months. Maximum of one year interval allowed (1 year, 12 months, or 52 weeks).
+	IntervalCount *int64 `form:"interval_count"`
+}
+
+// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline.
+type InvoiceUpcomingSubscriptionDetailsItemPriceDataParams struct {
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency *string `form:"currency"`
+	// The ID of the product that this price will belong to.
+	Product *string `form:"product"`
+	// The recurring components of a price such as `interval` and `interval_count`.
+	Recurring *InvoiceUpcomingSubscriptionDetailsItemPriceDataRecurringParams `form:"recurring"`
+	// Only required if a [default tax behavior](https://stripe.com/docs/tax/products-prices-tax-categories-tax-behavior#setting-a-default-tax-behavior-(recommended)) was not provided in the Stripe Tax settings. Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Once specified as either `inclusive` or `exclusive`, it cannot be changed.
+	TaxBehavior *string `form:"tax_behavior"`
+	// A positive integer in cents (or local equivalent) (or 0 for a free price) representing how much to charge.
+	UnitAmount *int64 `form:"unit_amount"`
+	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
+	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
+}
+
+// A list of up to 20 subscription items, each with an attached price.
+type InvoiceUpcomingSubscriptionDetailsItemParams struct {
+	// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. When updating, pass an empty string to remove previously-defined thresholds.
+	BillingThresholds *InvoiceUpcomingSubscriptionDetailsItemBillingThresholdsParams `form:"billing_thresholds"`
+	// Delete all usage for a given subscription item. Allowed only when `deleted` is set to `true` and the current plan's `usage_type` is `metered`.
+	ClearUsage *bool `form:"clear_usage"`
+	// A flag that, if set to `true`, will delete the specified item.
+	Deleted *bool `form:"deleted"`
+	// The coupons to redeem into discounts for the subscription item.
+	Discounts []*InvoiceUpcomingSubscriptionDetailsItemDiscountParams `form:"discounts"`
+	// Subscription item to update.
+	ID *string `form:"id"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+	// Plan ID for this item, as a string.
+	Plan *string `form:"plan"`
+	// The ID of the price object. When changing a subscription item's price, `quantity` is set to 1 unless a `quantity` parameter is provided.
+	Price *string `form:"price"`
+	// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline.
+	PriceData *InvoiceUpcomingSubscriptionDetailsItemPriceDataParams `form:"price_data"`
+	// Quantity for this item.
+	Quantity *int64 `form:"quantity"`
+	// A list of [Tax Rate](https://stripe.com/docs/api/tax_rates) ids. These Tax Rates will override the [`default_tax_rates`](https://stripe.com/docs/api/subscriptions/create#create_subscription-default_tax_rates) on the Subscription. When updating, pass an empty string to remove previously-defined tax rates.
+	TaxRates []*string `form:"tax_rates"`
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *InvoiceUpcomingSubscriptionDetailsItemParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
 }
 
 // The pre-billing to apply to the subscription as a preview.
+type InvoiceUpcomingSubscriptionDetailsPrebillingParams struct {
+	// This is used to determine the number of billing cycles to prebill.
+	Iterations *int64 `form:"iterations"`
+}
+
+// The subscription creation or modification params to apply as a preview. Cannot be used with `schedule` or `schedule_details` fields.
+type InvoiceUpcomingSubscriptionDetailsParams struct {
+	// For new subscriptions, a future timestamp to anchor the subscription's [billing cycle](https://stripe.com/docs/subscriptions/billing-cycle). This is used to determine the date of the first full invoice, and, for plans with `month` or `year` intervals, the day of the month for subsequent invoices. For existing subscriptions, the value can only be set to `now` or `unchanged`.
+	BillingCycleAnchor          *int64 `form:"billing_cycle_anchor"`
+	BillingCycleAnchorNow       *bool  `form:"-"` // See custom AppendTo
+	BillingCycleAnchorUnchanged *bool  `form:"-"` // See custom AppendTo
+	// A timestamp at which the subscription should cancel. If set to a date before the current period ends, this will cause a proration if prorations have been enabled using `proration_behavior`. If set during a future period, this will always cause a proration for that period.
+	CancelAt *int64 `form:"cancel_at"`
+	// Boolean indicating whether this subscription should cancel at the end of the current period.
+	CancelAtPeriodEnd *bool `form:"cancel_at_period_end"`
+	// This simulates the subscription being canceled or expired immediately.
+	CancelNow *bool `form:"cancel_now"`
+	// If provided, the invoice returned will preview updating or creating a subscription with these default tax rates. The default tax rates will apply to any line item that does not have `tax_rates` set.
+	DefaultTaxRates []*string `form:"default_tax_rates"`
+	// A list of up to 20 subscription items, each with an attached price.
+	Items []*InvoiceUpcomingSubscriptionDetailsItemParams `form:"items"`
+	// The pre-billing to apply to the subscription as a preview.
+	Prebilling *InvoiceUpcomingSubscriptionDetailsPrebillingParams `form:"prebilling"`
+	// Determines how to handle [prorations](https://stripe.com/docs/subscriptions/billing-cycle#prorations) when the billing cycle changes (e.g., when switching plans, resetting `billing_cycle_anchor=now`, or starting a trial), or if an item's `quantity` changes. The default value is `create_prorations`.
+	ProrationBehavior *string `form:"proration_behavior"`
+	// If previewing an update to a subscription, and doing proration, `subscription_details.proration_date` forces the proration to be calculated as though the update was done at the specified time. The time given must be within the current subscription period and within the current phase of the schedule backing this subscription, if the schedule exists. If set, `subscription`, and one of `subscription_details.items`, or `subscription_details.trial_end` are required. Also, `subscription_details.proration_behavior` cannot be set to 'none'.
+	ProrationDate *int64 `form:"proration_date"`
+	// For paused subscriptions, setting `subscription_details.resume_at` to `now` will preview the invoice that will be generated if the subscription is resumed.
+	ResumeAt *string `form:"resume_at"`
+	// Date a subscription is intended to start (can be future or past).
+	StartDate *int64 `form:"start_date"`
+	// If provided, the invoice returned will preview updating or creating a subscription with that trial end. If set, one of `subscription_details.items` or `subscription` is required.
+	TrialEnd    *int64 `form:"trial_end"`
+	TrialEndNow *bool  `form:"-"` // See custom AppendTo
+}
+
+// AppendTo implements custom encoding logic for InvoiceUpcomingSubscriptionDetailsParams.
+func (p *InvoiceUpcomingSubscriptionDetailsParams) AppendTo(body *form.Values, keyParts []string) {
+	if BoolValue(p.BillingCycleAnchorNow) {
+		body.Add(form.FormatKey(append(keyParts, "billing_cycle_anchor")), "now")
+	}
+	if BoolValue(p.BillingCycleAnchorUnchanged) {
+		body.Add(form.FormatKey(append(keyParts, "billing_cycle_anchor")), "unchanged")
+	}
+	if BoolValue(p.TrialEndNow) {
+		body.Add(form.FormatKey(append(keyParts, "trial_end")), "now")
+	}
+}
+
+// The pre-billing to apply to the subscription as a preview. This field has been deprecated and will be removed in a future API version. Use `subscription_details.prebilling` instead.
 type InvoiceUpcomingSubscriptionPrebillingParams struct {
 	// This is used to determine the number of billing cycles to prebill.
 	Iterations *int64 `form:"iterations"`
@@ -1123,41 +1272,43 @@ type InvoiceUpcomingParams struct {
 	Issuer *InvoiceUpcomingIssuerParams `form:"issuer"`
 	// The account (if any) for which the funds of the invoice payment are intended. If set, the invoice will be presented with the branding and support information of the specified account. See the [Invoices with Connect](https://stripe.com/docs/billing/invoices/connect) documentation for details.
 	OnBehalfOf *string `form:"on_behalf_of"`
+	// Customizes the types of values to include when calculating the invoice. Defaults to `next` if unspecified.
+	PreviewMode *string `form:"preview_mode"`
 	// The identifier of the schedule whose upcoming invoice you'd like to retrieve. Cannot be used with subscription or subscription fields.
 	Schedule *string `form:"schedule"`
-	// The schedule creation or modification params to apply as a preview. Cannot be used with subscription or subscription fields.
+	// The schedule creation or modification params to apply as a preview. Cannot be used with `subscription` or `subscription_` prefixed fields.
 	ScheduleDetails *InvoiceUpcomingScheduleDetailsParams `form:"schedule_details"`
 	// The identifier of the subscription for which you'd like to retrieve the upcoming invoice. If not provided, but a `subscription_items` is provided, you will preview creating a subscription with those items. If neither `subscription` nor `subscription_items` is provided, you will retrieve the next upcoming invoice from among the customer's subscriptions.
 	Subscription *string `form:"subscription"`
-	// For new subscriptions, a future timestamp to anchor the subscription's [billing cycle](https://stripe.com/docs/subscriptions/billing-cycle). This is used to determine the date of the first full invoice, and, for plans with `month` or `year` intervals, the day of the month for subsequent invoices. For existing subscriptions, the value can only be set to `now` or `unchanged`.
+	// For new subscriptions, a future timestamp to anchor the subscription's [billing cycle](https://stripe.com/docs/subscriptions/billing-cycle). This is used to determine the date of the first full invoice, and, for plans with `month` or `year` intervals, the day of the month for subsequent invoices. For existing subscriptions, the value can only be set to `now` or `unchanged`. This field has been deprecated and will be removed in a future API version. Use `subscription_details.billing_cycle_anchor` instead.
 	SubscriptionBillingCycleAnchor          *int64 `form:"subscription_billing_cycle_anchor"`
 	SubscriptionBillingCycleAnchorNow       *bool  `form:"-"` // See custom AppendTo
 	SubscriptionBillingCycleAnchorUnchanged *bool  `form:"-"` // See custom AppendTo
-	// Timestamp indicating when the subscription should be scheduled to cancel. Will prorate if within the current period and prorations have been enabled using `proration_behavior`.
+	// A timestamp at which the subscription should cancel. If set to a date before the current period ends, this will cause a proration if prorations have been enabled using `proration_behavior`. If set during a future period, this will always cause a proration for that period. This field has been deprecated and will be removed in a future API version. Use `subscription_details.cancel_at` instead.
 	SubscriptionCancelAt *int64 `form:"subscription_cancel_at"`
-	// Boolean indicating whether this subscription should cancel at the end of the current period.
+	// Boolean indicating whether this subscription should cancel at the end of the current period. This field has been deprecated and will be removed in a future API version. Use `subscription_details.cancel_at_period_end` instead.
 	SubscriptionCancelAtPeriodEnd *bool `form:"subscription_cancel_at_period_end"`
-	// This simulates the subscription being canceled or expired immediately.
+	// This simulates the subscription being canceled or expired immediately. This field has been deprecated and will be removed in a future API version. Use `subscription_details.cancel_now` instead.
 	SubscriptionCancelNow *bool `form:"subscription_cancel_now"`
-	// If provided, the invoice returned will preview updating or creating a subscription with these default tax rates. The default tax rates will apply to any line item that does not have `tax_rates` set.
+	// If provided, the invoice returned will preview updating or creating a subscription with these default tax rates. The default tax rates will apply to any line item that does not have `tax_rates` set. This field has been deprecated and will be removed in a future API version. Use `subscription_details.default_tax_rates` instead.
 	SubscriptionDefaultTaxRates []*string `form:"subscription_default_tax_rates"`
-	// A list of up to 20 subscription items, each with an attached price.
+	// The subscription creation or modification params to apply as a preview. Cannot be used with `schedule` or `schedule_details` fields.
+	SubscriptionDetails *InvoiceUpcomingSubscriptionDetailsParams `form:"subscription_details"`
+	// A list of up to 20 subscription items, each with an attached price. This field has been deprecated and will be removed in a future API version. Use `subscription_details.items` instead.
 	SubscriptionItems []*SubscriptionItemsParams `form:"subscription_items"`
-	// The pre-billing to apply to the subscription as a preview.
+	// The pre-billing to apply to the subscription as a preview. This field has been deprecated and will be removed in a future API version. Use `subscription_details.prebilling` instead.
 	SubscriptionPrebilling *InvoiceUpcomingSubscriptionPrebillingParams `form:"subscription_prebilling"`
-	// Determines how to handle [prorations](https://stripe.com/docs/subscriptions/billing-cycle#prorations) when the billing cycle changes (e.g., when switching plans, resetting `billing_cycle_anchor=now`, or starting a trial), or if an item's `quantity` changes. The default value is `create_prorations`.
+	// Determines how to handle [prorations](https://stripe.com/docs/subscriptions/billing-cycle#prorations) when the billing cycle changes (e.g., when switching plans, resetting `billing_cycle_anchor=now`, or starting a trial), or if an item's `quantity` changes. The default value is `create_prorations`. This field has been deprecated and will be removed in a future API version. Use `subscription_details.proration_behavior` instead.
 	SubscriptionProrationBehavior *string `form:"subscription_proration_behavior"`
-	// If previewing an update to a subscription, and doing proration, `subscription_proration_date` forces the proration to be calculated as though the update was done at the specified time. The time given must be within the current subscription period and within the current phase of the schedule backing this subscription, if the schedule exists. If set, `subscription`, and one of `subscription_items`, or `subscription_trial_end` are required. Also, `subscription_proration_behavior` cannot be set to 'none'.
+	// If previewing an update to a subscription, and doing proration, `subscription_proration_date` forces the proration to be calculated as though the update was done at the specified time. The time given must be within the current subscription period and within the current phase of the schedule backing this subscription, if the schedule exists. If set, `subscription`, and one of `subscription_items`, or `subscription_trial_end` are required. Also, `subscription_proration_behavior` cannot be set to 'none'. This field has been deprecated and will be removed in a future API version. Use `subscription_details.proration_date` instead.
 	SubscriptionProrationDate *int64 `form:"subscription_proration_date"`
-	// For paused subscriptions, setting `subscription_resume_at` to `now` will preview the invoice that will be generated if the subscription is resumed.
+	// For paused subscriptions, setting `subscription_resume_at` to `now` will preview the invoice that will be generated if the subscription is resumed. This field has been deprecated and will be removed in a future API version. Use `subscription_details.resume_at` instead.
 	SubscriptionResumeAt *string `form:"subscription_resume_at"`
-	// Date a subscription is intended to start (can be future or past)
+	// Date a subscription is intended to start (can be future or past). This field has been deprecated and will be removed in a future API version. Use `subscription_details.start_date` instead.
 	SubscriptionStartDate *int64 `form:"subscription_start_date"`
-	// If provided, the invoice returned will preview updating or creating a subscription with that trial end. If set, one of `subscription_items` or `subscription` is required.
+	// If provided, the invoice returned will preview updating or creating a subscription with that trial end. If set, one of `subscription_items` or `subscription` is required. This field has been deprecated and will be removed in a future API version. Use `subscription_details.trial_end` instead.
 	SubscriptionTrialEnd    *int64 `form:"subscription_trial_end"`
 	SubscriptionTrialEndNow *bool  `form:"-"` // See custom AppendTo
-	// Indicates if a plan's `trial_period_days` should be applied to the subscription. Setting `subscription_trial_end` per subscription is preferred, and this defaults to `false`. Setting this flag to `true` together with `subscription_trial_end` is not allowed. See [Using trial periods on subscriptions](https://stripe.com/docs/billing/subscriptions/trials) to learn more.
-	SubscriptionTrialFromPlan *bool `form:"subscription_trial_from_plan"`
 }
 
 // AddExpand appends a new field to expand.
@@ -2403,14 +2554,163 @@ type InvoiceUpcomingLinesScheduleDetailsPrebillingParams struct {
 	Iterations *int64 `form:"iterations"`
 }
 
-// The schedule creation or modification params to apply as a preview. Cannot be used with subscription or subscription fields.
+// The schedule creation or modification params to apply as a preview. Cannot be used with `subscription` or `subscription_` prefixed fields.
 type InvoiceUpcomingLinesScheduleDetailsParams struct {
 	// Changes to apply to the phases of the subscription schedule, in the order provided.
 	Amendments []*InvoiceUpcomingLinesScheduleDetailsAmendmentParams `form:"amendments"`
+	// Configures when the subscription schedule generates prorations for phase transitions. Possible values are `prorate_on_next_phase` or `prorate_up_front` with the default being `prorate_on_next_phase`. `prorate_on_next_phase` will apply phase changes and generate prorations at transition time.`prorate_up_front` will bill for all phases within the current billing cycle up front.
+	BillingBehavior *string `form:"billing_behavior"`
+	// Behavior of the subscription schedule and underlying subscription when it ends. Possible values are `release` or `cancel` with the default being `release`. `release` will end the subscription schedule and keep the underlying subscription running.`cancel` will end the subscription schedule and cancel the underlying subscription.
+	EndBehavior *string `form:"end_behavior"`
 	// List representing phases of the subscription schedule. Each phase can be customized to have different durations, plans, and coupons. If there are multiple phases, the `end_date` of one phase will always equal the `start_date` of the next phase.
 	Phases []*InvoiceUpcomingLinesScheduleDetailsPhaseParams `form:"phases"`
 	// Provide any time periods to bill in advance.
 	Prebilling []*InvoiceUpcomingLinesScheduleDetailsPrebillingParams `form:"prebilling"`
+	// In cases where the `schedule_details` params update the currently active phase, specifies if and how to prorate at the time of the request.
+	ProrationBehavior *string `form:"proration_behavior"`
+}
+
+// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. When updating, pass an empty string to remove previously-defined thresholds.
+type InvoiceUpcomingLinesSubscriptionDetailsItemBillingThresholdsParams struct {
+	// Number of units that meets the billing threshold to advance the subscription to a new billing period (e.g., it takes 10 $5 units to meet a $50 [monetary threshold](https://stripe.com/docs/api/subscriptions/update#update_subscription-billing_thresholds-amount_gte))
+	UsageGTE *int64 `form:"usage_gte"`
+}
+
+// Time span for the redeemed discount.
+type InvoiceUpcomingLinesSubscriptionDetailsItemDiscountDiscountEndDurationParams struct {
+	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
+	Interval *string `form:"interval"`
+	// The number of intervals, as an whole number greater than 0. Stripe multiplies this by the interval type to get the overall duration.
+	IntervalCount *int64 `form:"interval_count"`
+}
+
+// Details to determine how long the discount should be applied for.
+type InvoiceUpcomingLinesSubscriptionDetailsItemDiscountDiscountEndParams struct {
+	// Time span for the redeemed discount.
+	Duration *InvoiceUpcomingLinesSubscriptionDetailsItemDiscountDiscountEndDurationParams `form:"duration"`
+	// A precise Unix timestamp for the discount to end. Must be in the future.
+	Timestamp *int64 `form:"timestamp"`
+	// The type of calculation made to determine when the discount ends.
+	Type *string `form:"type"`
+}
+
+// The coupons to redeem into discounts for the subscription item.
+type InvoiceUpcomingLinesSubscriptionDetailsItemDiscountParams struct {
+	// ID of the coupon to create a new discount for.
+	Coupon *string `form:"coupon"`
+	// ID of an existing discount on the object (or one of its ancestors) to reuse.
+	Discount *string `form:"discount"`
+	// Details to determine how long the discount should be applied for.
+	DiscountEnd *InvoiceUpcomingLinesSubscriptionDetailsItemDiscountDiscountEndParams `form:"discount_end"`
+}
+
+// The recurring components of a price such as `interval` and `interval_count`.
+type InvoiceUpcomingLinesSubscriptionDetailsItemPriceDataRecurringParams struct {
+	// Specifies billing frequency. Either `day`, `week`, `month` or `year`.
+	Interval *string `form:"interval"`
+	// The number of intervals between subscription billings. For example, `interval=month` and `interval_count=3` bills every 3 months. Maximum of one year interval allowed (1 year, 12 months, or 52 weeks).
+	IntervalCount *int64 `form:"interval_count"`
+}
+
+// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline.
+type InvoiceUpcomingLinesSubscriptionDetailsItemPriceDataParams struct {
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency *string `form:"currency"`
+	// The ID of the product that this price will belong to.
+	Product *string `form:"product"`
+	// The recurring components of a price such as `interval` and `interval_count`.
+	Recurring *InvoiceUpcomingLinesSubscriptionDetailsItemPriceDataRecurringParams `form:"recurring"`
+	// Only required if a [default tax behavior](https://stripe.com/docs/tax/products-prices-tax-categories-tax-behavior#setting-a-default-tax-behavior-(recommended)) was not provided in the Stripe Tax settings. Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Once specified as either `inclusive` or `exclusive`, it cannot be changed.
+	TaxBehavior *string `form:"tax_behavior"`
+	// A positive integer in cents (or local equivalent) (or 0 for a free price) representing how much to charge.
+	UnitAmount *int64 `form:"unit_amount"`
+	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
+	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
+}
+
+// A list of up to 20 subscription items, each with an attached price.
+type InvoiceUpcomingLinesSubscriptionDetailsItemParams struct {
+	// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. When updating, pass an empty string to remove previously-defined thresholds.
+	BillingThresholds *InvoiceUpcomingLinesSubscriptionDetailsItemBillingThresholdsParams `form:"billing_thresholds"`
+	// Delete all usage for a given subscription item. Allowed only when `deleted` is set to `true` and the current plan's `usage_type` is `metered`.
+	ClearUsage *bool `form:"clear_usage"`
+	// A flag that, if set to `true`, will delete the specified item.
+	Deleted *bool `form:"deleted"`
+	// The coupons to redeem into discounts for the subscription item.
+	Discounts []*InvoiceUpcomingLinesSubscriptionDetailsItemDiscountParams `form:"discounts"`
+	// Subscription item to update.
+	ID *string `form:"id"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+	// Plan ID for this item, as a string.
+	Plan *string `form:"plan"`
+	// The ID of the price object. When changing a subscription item's price, `quantity` is set to 1 unless a `quantity` parameter is provided.
+	Price *string `form:"price"`
+	// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline.
+	PriceData *InvoiceUpcomingLinesSubscriptionDetailsItemPriceDataParams `form:"price_data"`
+	// Quantity for this item.
+	Quantity *int64 `form:"quantity"`
+	// A list of [Tax Rate](https://stripe.com/docs/api/tax_rates) ids. These Tax Rates will override the [`default_tax_rates`](https://stripe.com/docs/api/subscriptions/create#create_subscription-default_tax_rates) on the Subscription. When updating, pass an empty string to remove previously-defined tax rates.
+	TaxRates []*string `form:"tax_rates"`
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *InvoiceUpcomingLinesSubscriptionDetailsItemParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
+// The pre-billing to apply to the subscription as a preview.
+type InvoiceUpcomingLinesSubscriptionDetailsPrebillingParams struct {
+	// This is used to determine the number of billing cycles to prebill.
+	Iterations *int64 `form:"iterations"`
+}
+
+// The subscription creation or modification params to apply as a preview. Cannot be used with `schedule` or `schedule_details` fields.
+type InvoiceUpcomingLinesSubscriptionDetailsParams struct {
+	// For new subscriptions, a future timestamp to anchor the subscription's [billing cycle](https://stripe.com/docs/subscriptions/billing-cycle). This is used to determine the date of the first full invoice, and, for plans with `month` or `year` intervals, the day of the month for subsequent invoices. For existing subscriptions, the value can only be set to `now` or `unchanged`.
+	BillingCycleAnchor          *int64 `form:"billing_cycle_anchor"`
+	BillingCycleAnchorNow       *bool  `form:"-"` // See custom AppendTo
+	BillingCycleAnchorUnchanged *bool  `form:"-"` // See custom AppendTo
+	// A timestamp at which the subscription should cancel. If set to a date before the current period ends, this will cause a proration if prorations have been enabled using `proration_behavior`. If set during a future period, this will always cause a proration for that period.
+	CancelAt *int64 `form:"cancel_at"`
+	// Boolean indicating whether this subscription should cancel at the end of the current period.
+	CancelAtPeriodEnd *bool `form:"cancel_at_period_end"`
+	// This simulates the subscription being canceled or expired immediately.
+	CancelNow *bool `form:"cancel_now"`
+	// If provided, the invoice returned will preview updating or creating a subscription with these default tax rates. The default tax rates will apply to any line item that does not have `tax_rates` set.
+	DefaultTaxRates []*string `form:"default_tax_rates"`
+	// A list of up to 20 subscription items, each with an attached price.
+	Items []*InvoiceUpcomingLinesSubscriptionDetailsItemParams `form:"items"`
+	// The pre-billing to apply to the subscription as a preview.
+	Prebilling *InvoiceUpcomingLinesSubscriptionDetailsPrebillingParams `form:"prebilling"`
+	// Determines how to handle [prorations](https://stripe.com/docs/subscriptions/billing-cycle#prorations) when the billing cycle changes (e.g., when switching plans, resetting `billing_cycle_anchor=now`, or starting a trial), or if an item's `quantity` changes. The default value is `create_prorations`.
+	ProrationBehavior *string `form:"proration_behavior"`
+	// If previewing an update to a subscription, and doing proration, `subscription_details.proration_date` forces the proration to be calculated as though the update was done at the specified time. The time given must be within the current subscription period and within the current phase of the schedule backing this subscription, if the schedule exists. If set, `subscription`, and one of `subscription_details.items`, or `subscription_details.trial_end` are required. Also, `subscription_details.proration_behavior` cannot be set to 'none'.
+	ProrationDate *int64 `form:"proration_date"`
+	// For paused subscriptions, setting `subscription_details.resume_at` to `now` will preview the invoice that will be generated if the subscription is resumed.
+	ResumeAt *string `form:"resume_at"`
+	// Date a subscription is intended to start (can be future or past).
+	StartDate *int64 `form:"start_date"`
+	// If provided, the invoice returned will preview updating or creating a subscription with that trial end. If set, one of `subscription_details.items` or `subscription` is required.
+	TrialEnd    *int64 `form:"trial_end"`
+	TrialEndNow *bool  `form:"-"` // See custom AppendTo
+}
+
+// AppendTo implements custom encoding logic for InvoiceUpcomingLinesSubscriptionDetailsParams.
+func (p *InvoiceUpcomingLinesSubscriptionDetailsParams) AppendTo(body *form.Values, keyParts []string) {
+	if BoolValue(p.BillingCycleAnchorNow) {
+		body.Add(form.FormatKey(append(keyParts, "billing_cycle_anchor")), "now")
+	}
+	if BoolValue(p.BillingCycleAnchorUnchanged) {
+		body.Add(form.FormatKey(append(keyParts, "billing_cycle_anchor")), "unchanged")
+	}
+	if BoolValue(p.TrialEndNow) {
+		body.Add(form.FormatKey(append(keyParts, "trial_end")), "now")
+	}
 }
 
 // Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. When updating, pass an empty string to remove previously-defined thresholds.
@@ -2471,7 +2771,7 @@ type InvoiceUpcomingLinesSubscriptionItemPriceDataParams struct {
 	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
 }
 
-// A list of up to 20 subscription items, each with an attached price.
+// A list of up to 20 subscription items, each with an attached price. This field has been deprecated and will be removed in a future API version. Use `subscription_details.items` instead.
 type InvoiceUpcomingLinesSubscriptionItemParams struct {
 	// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. When updating, pass an empty string to remove previously-defined thresholds.
 	BillingThresholds *InvoiceUpcomingLinesSubscriptionItemBillingThresholdsParams `form:"billing_thresholds"`
@@ -2506,7 +2806,7 @@ func (p *InvoiceUpcomingLinesSubscriptionItemParams) AddMetadata(key string, val
 	p.Metadata[key] = value
 }
 
-// The pre-billing to apply to the subscription as a preview.
+// The pre-billing to apply to the subscription as a preview. This field has been deprecated and will be removed in a future API version. Use `subscription_details.prebilling` instead.
 type InvoiceUpcomingLinesSubscriptionPrebillingParams struct {
 	// This is used to determine the number of billing cycles to prebill.
 	Iterations *int64 `form:"iterations"`
@@ -2535,41 +2835,43 @@ type InvoiceUpcomingLinesParams struct {
 	Issuer *InvoiceUpcomingLinesIssuerParams `form:"issuer"`
 	// The account (if any) for which the funds of the invoice payment are intended. If set, the invoice will be presented with the branding and support information of the specified account. See the [Invoices with Connect](https://stripe.com/docs/billing/invoices/connect) documentation for details.
 	OnBehalfOf *string `form:"on_behalf_of"`
+	// Customizes the types of values to include when calculating the invoice. Defaults to `next` if unspecified.
+	PreviewMode *string `form:"preview_mode"`
 	// The identifier of the schedule whose upcoming invoice you'd like to retrieve. Cannot be used with subscription or subscription fields.
 	Schedule *string `form:"schedule"`
-	// The schedule creation or modification params to apply as a preview. Cannot be used with subscription or subscription fields.
+	// The schedule creation or modification params to apply as a preview. Cannot be used with `subscription` or `subscription_` prefixed fields.
 	ScheduleDetails *InvoiceUpcomingLinesScheduleDetailsParams `form:"schedule_details"`
 	// The identifier of the subscription for which you'd like to retrieve the upcoming invoice. If not provided, but a `subscription_items` is provided, you will preview creating a subscription with those items. If neither `subscription` nor `subscription_items` is provided, you will retrieve the next upcoming invoice from among the customer's subscriptions.
 	Subscription *string `form:"subscription"`
-	// For new subscriptions, a future timestamp to anchor the subscription's [billing cycle](https://stripe.com/docs/subscriptions/billing-cycle). This is used to determine the date of the first full invoice, and, for plans with `month` or `year` intervals, the day of the month for subsequent invoices. For existing subscriptions, the value can only be set to `now` or `unchanged`.
+	// For new subscriptions, a future timestamp to anchor the subscription's [billing cycle](https://stripe.com/docs/subscriptions/billing-cycle). This is used to determine the date of the first full invoice, and, for plans with `month` or `year` intervals, the day of the month for subsequent invoices. For existing subscriptions, the value can only be set to `now` or `unchanged`. This field has been deprecated and will be removed in a future API version. Use `subscription_details.billing_cycle_anchor` instead.
 	SubscriptionBillingCycleAnchor          *int64 `form:"subscription_billing_cycle_anchor"`
 	SubscriptionBillingCycleAnchorNow       *bool  `form:"-"` // See custom AppendTo
 	SubscriptionBillingCycleAnchorUnchanged *bool  `form:"-"` // See custom AppendTo
-	// Timestamp indicating when the subscription should be scheduled to cancel. Will prorate if within the current period and prorations have been enabled using `proration_behavior`.
+	// A timestamp at which the subscription should cancel. If set to a date before the current period ends, this will cause a proration if prorations have been enabled using `proration_behavior`. If set during a future period, this will always cause a proration for that period. This field has been deprecated and will be removed in a future API version. Use `subscription_details.cancel_at` instead.
 	SubscriptionCancelAt *int64 `form:"subscription_cancel_at"`
-	// Boolean indicating whether this subscription should cancel at the end of the current period.
+	// Boolean indicating whether this subscription should cancel at the end of the current period. This field has been deprecated and will be removed in a future API version. Use `subscription_details.cancel_at_period_end` instead.
 	SubscriptionCancelAtPeriodEnd *bool `form:"subscription_cancel_at_period_end"`
-	// This simulates the subscription being canceled or expired immediately.
+	// This simulates the subscription being canceled or expired immediately. This field has been deprecated and will be removed in a future API version. Use `subscription_details.cancel_now` instead.
 	SubscriptionCancelNow *bool `form:"subscription_cancel_now"`
-	// If provided, the invoice returned will preview updating or creating a subscription with these default tax rates. The default tax rates will apply to any line item that does not have `tax_rates` set.
+	// If provided, the invoice returned will preview updating or creating a subscription with these default tax rates. The default tax rates will apply to any line item that does not have `tax_rates` set. This field has been deprecated and will be removed in a future API version. Use `subscription_details.default_tax_rates` instead.
 	SubscriptionDefaultTaxRates []*string `form:"subscription_default_tax_rates"`
-	// A list of up to 20 subscription items, each with an attached price.
+	// The subscription creation or modification params to apply as a preview. Cannot be used with `schedule` or `schedule_details` fields.
+	SubscriptionDetails *InvoiceUpcomingLinesSubscriptionDetailsParams `form:"subscription_details"`
+	// A list of up to 20 subscription items, each with an attached price. This field has been deprecated and will be removed in a future API version. Use `subscription_details.items` instead.
 	SubscriptionItems []*InvoiceUpcomingLinesSubscriptionItemParams `form:"subscription_items"`
-	// The pre-billing to apply to the subscription as a preview.
+	// The pre-billing to apply to the subscription as a preview. This field has been deprecated and will be removed in a future API version. Use `subscription_details.prebilling` instead.
 	SubscriptionPrebilling *InvoiceUpcomingLinesSubscriptionPrebillingParams `form:"subscription_prebilling"`
-	// Determines how to handle [prorations](https://stripe.com/docs/subscriptions/billing-cycle#prorations) when the billing cycle changes (e.g., when switching plans, resetting `billing_cycle_anchor=now`, or starting a trial), or if an item's `quantity` changes. The default value is `create_prorations`.
+	// Determines how to handle [prorations](https://stripe.com/docs/subscriptions/billing-cycle#prorations) when the billing cycle changes (e.g., when switching plans, resetting `billing_cycle_anchor=now`, or starting a trial), or if an item's `quantity` changes. The default value is `create_prorations`. This field has been deprecated and will be removed in a future API version. Use `subscription_details.proration_behavior` instead.
 	SubscriptionProrationBehavior *string `form:"subscription_proration_behavior"`
-	// If previewing an update to a subscription, and doing proration, `subscription_proration_date` forces the proration to be calculated as though the update was done at the specified time. The time given must be within the current subscription period and within the current phase of the schedule backing this subscription, if the schedule exists. If set, `subscription`, and one of `subscription_items`, or `subscription_trial_end` are required. Also, `subscription_proration_behavior` cannot be set to 'none'.
+	// If previewing an update to a subscription, and doing proration, `subscription_proration_date` forces the proration to be calculated as though the update was done at the specified time. The time given must be within the current subscription period and within the current phase of the schedule backing this subscription, if the schedule exists. If set, `subscription`, and one of `subscription_items`, or `subscription_trial_end` are required. Also, `subscription_proration_behavior` cannot be set to 'none'. This field has been deprecated and will be removed in a future API version. Use `subscription_details.proration_date` instead.
 	SubscriptionProrationDate *int64 `form:"subscription_proration_date"`
-	// For paused subscriptions, setting `subscription_resume_at` to `now` will preview the invoice that will be generated if the subscription is resumed.
+	// For paused subscriptions, setting `subscription_resume_at` to `now` will preview the invoice that will be generated if the subscription is resumed. This field has been deprecated and will be removed in a future API version. Use `subscription_details.resume_at` instead.
 	SubscriptionResumeAt *string `form:"subscription_resume_at"`
-	// Date a subscription is intended to start (can be future or past)
+	// Date a subscription is intended to start (can be future or past). This field has been deprecated and will be removed in a future API version. Use `subscription_details.start_date` instead.
 	SubscriptionStartDate *int64 `form:"subscription_start_date"`
-	// If provided, the invoice returned will preview updating or creating a subscription with that trial end. If set, one of `subscription_items` or `subscription` is required.
+	// If provided, the invoice returned will preview updating or creating a subscription with that trial end. If set, one of `subscription_items` or `subscription` is required. This field has been deprecated and will be removed in a future API version. Use `subscription_details.trial_end` instead.
 	SubscriptionTrialEnd    *int64 `form:"subscription_trial_end"`
 	SubscriptionTrialEndNow *bool  `form:"-"` // See custom AppendTo
-	// Indicates if a plan's `trial_period_days` should be applied to the subscription. Setting `subscription_trial_end` per subscription is preferred, and this defaults to `false`. Setting this flag to `true` together with `subscription_trial_end` is not allowed. See [Using trial periods on subscriptions](https://stripe.com/docs/billing/subscriptions/trials) to learn more.
-	SubscriptionTrialFromPlan *bool `form:"subscription_trial_from_plan"`
 }
 
 // AddExpand appends a new field to expand.

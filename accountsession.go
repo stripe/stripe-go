@@ -52,15 +52,12 @@ type AccountSessionComponentsPaymentsParams struct {
 	// The list of features enabled in the embedded component.
 	Features *AccountSessionComponentsPaymentsFeaturesParams `form:"features"`
 }
-
-// The list of features enabled in the embedded component.
 type AccountSessionComponentsPayoutsFeaturesParams struct{}
 
 // Configuration for the payouts embedded component.
 type AccountSessionComponentsPayoutsParams struct {
 	// Whether the embedded component is enabled.
-	Enabled *bool `form:"enabled"`
-	// The list of features enabled in the embedded component.
+	Enabled  *bool                                          `form:"enabled"`
 	Features *AccountSessionComponentsPayoutsFeaturesParams `form:"features"`
 }
 
