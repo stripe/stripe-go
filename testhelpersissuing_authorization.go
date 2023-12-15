@@ -75,7 +75,7 @@ type TestHelpersIssuingAuthorizationVerificationDataParams struct {
 // Create a test-mode authorization.
 type TestHelpersIssuingAuthorizationParams struct {
 	Params `form:"*"`
-	// The total amount to attempt to authorize. This amount is in the provided currency, or defaults to the cards currency, and in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal).
+	// The total amount to attempt to authorize. This amount is in the provided currency, or defaults to the card's currency, and in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal).
 	Amount *int64 `form:"amount"`
 	// Detailed breakdown of amount components. These amounts are denominated in `currency` and in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal).
 	AmountDetails *TestHelpersIssuingAuthorizationAmountDetailsParams `form:"amount_details"`

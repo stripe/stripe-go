@@ -1550,7 +1550,6 @@ func TestRawRequestTelemetry(t *testing.T) {
 	defer testServer.Close()
 }
 
-
 //
 // ---
 //
