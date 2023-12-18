@@ -449,8 +449,6 @@ type QuotePreviewInvoiceFromInvoice struct {
 	// The invoice that was cloned.
 	Invoice *Invoice `json:"invoice"`
 }
-
-// The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
 type QuotePreviewInvoiceIssuer struct {
 	// The connected account being referenced when `type` is `account`.
 	Account *Account `json:"account"`
@@ -784,8 +782,7 @@ type QuotePreviewInvoice struct {
 	// Details of the invoice that was cloned. See the [revision documentation](https://stripe.com/docs/invoicing/invoice-revisions) for more details.
 	FromInvoice *QuotePreviewInvoiceFromInvoice `json:"from_invoice"`
 	// Unique identifier for the object. This property is always present unless the invoice is an upcoming invoice. See [Retrieve an upcoming invoice](https://stripe.com/docs/api/invoices/upcoming) for more details.
-	ID string `json:"id"`
-	// The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
+	ID     string                     `json:"id"`
 	Issuer *QuotePreviewInvoiceIssuer `json:"issuer"`
 	// The error encountered during the previous attempt to finalize the invoice. This field is cleared when the invoice is successfully finalized.
 	LastFinalizationError *Error `json:"last_finalization_error"`

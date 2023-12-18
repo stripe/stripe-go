@@ -3072,8 +3072,6 @@ type InvoiceFromInvoice struct {
 	// The invoice that was cloned.
 	Invoice *Invoice `json:"invoice"`
 }
-
-// The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
 type InvoiceIssuer struct {
 	// The connected account being referenced when `type` is `account`.
 	Account *Account `json:"account"`
@@ -3418,9 +3416,8 @@ type Invoice struct {
 	// Unique identifier for the object. This property is always present unless the invoice is an upcoming invoice. See [Retrieve an upcoming invoice](https://stripe.com/docs/api/invoices/upcoming) for more details.
 	ID string `json:"id"`
 	// The link to download the PDF for the invoice. If the invoice has not been finalized yet, this will be null.
-	InvoicePDF string `json:"invoice_pdf"`
-	// The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
-	Issuer *InvoiceIssuer `json:"issuer"`
+	InvoicePDF string         `json:"invoice_pdf"`
+	Issuer     *InvoiceIssuer `json:"issuer"`
 	// The error encountered during the previous attempt to finalize the invoice. This field is cleared when the invoice is successfully finalized.
 	LastFinalizationError *Error `json:"last_finalization_error"`
 	// The ID of the most recent non-draft revision of this invoice
