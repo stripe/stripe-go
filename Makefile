@@ -10,7 +10,7 @@ check-api-clients:
 	go run scripts/check_api_clients/main.go
 
 check-gofmt:
-	scripts/check_gofmt.sh
+	scripts/gofmt.sh check
 
 lint:
 	staticcheck
@@ -39,7 +39,7 @@ update-version:
 	$(MAKE) normalize-imports
 
 codegen-format: normalize-imports
-	go fmt ./...
+	scripts/gofmt.sh
 	go install golang.org/x/tools/cmd/goimports@latest && goimports -w example/generated_examples_test.go
 
 CURRENT_MAJOR_VERSION := $(shell cat VERSION | sed 's/\..*//')
