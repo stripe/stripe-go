@@ -6,7 +6,6 @@ find_files() {
 
 bad_files=$(find_files | xargs gofmt -s -l)
 
-# if first argument is check
 if [[ "$1" == "check" ]]; then
     if [[ -n "${bad_files}" ]]; then
         echo "!!! gofmt -s needs to be run on the following files: "
