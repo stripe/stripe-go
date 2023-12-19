@@ -887,8 +887,6 @@ type PaymentLinkShippingOption struct {
 	// The ID of the Shipping Rate to use for this shipping option.
 	ShippingRate *ShippingRate `json:"shipping_rate"`
 }
-
-// The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
 type PaymentLinkSubscriptionDataInvoiceSettingsIssuer struct {
 	// The connected account being referenced when `type` is `account`.
 	Account *Account `json:"account"`
@@ -898,7 +896,6 @@ type PaymentLinkSubscriptionDataInvoiceSettingsIssuer struct {
 
 // All invoices will be billed using the specified settings.
 type PaymentLinkSubscriptionDataInvoiceSettings struct {
-	// The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
 	Issuer *PaymentLinkSubscriptionDataInvoiceSettingsIssuer `json:"issuer"`
 }
 
