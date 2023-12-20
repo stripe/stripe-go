@@ -69,7 +69,6 @@ type AccountSessionComponentsPayoutsParams struct {
 	Enabled *bool `form:"enabled"`
 	// The list of features enabled in the embedded component.
 	Features *AccountSessionComponentsPayoutsFeaturesParams `form:"features"`
-	Features *AccountSessionComponentsPayoutsFeaturesParams `form:"features"`
 }
 
 // Each key of the dictionary represents an embedded component, and each embedded component maps to its configuration (e.g. whether it has been enabled or not).
