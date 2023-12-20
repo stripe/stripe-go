@@ -18,6 +18,15 @@ type AccountSessionComponentsAccountOnboardingParams struct {
 }
 
 // The list of features enabled in the embedded component.
+type AccountSessionComponentsCapitalFinancingPromotionFeaturesParams struct{}
+type AccountSessionComponentsCapitalFinancingPromotionParams struct {
+	// Whether the embedded component is enabled.
+	Enabled *bool `form:"enabled"`
+	// The list of features enabled in the embedded component.
+	Features *AccountSessionComponentsCapitalFinancingPromotionFeaturesParams `form:"features"`
+}
+
+// The list of features enabled in the embedded component.
 type AccountSessionComponentsPaymentDetailsFeaturesParams struct {
 	// Whether to allow capturing and cancelling payment intents. This is `true` by default.
 	CapturePayments *bool `form:"capture_payments"`
@@ -74,7 +83,8 @@ type AccountSessionComponentsPayoutsParams struct {
 // Each key of the dictionary represents an embedded component, and each embedded component maps to its configuration (e.g. whether it has been enabled or not).
 type AccountSessionComponentsParams struct {
 	// Configuration for the account onboarding embedded component.
-	AccountOnboarding *AccountSessionComponentsAccountOnboardingParams `form:"account_onboarding"`
+	AccountOnboarding         *AccountSessionComponentsAccountOnboardingParams         `form:"account_onboarding"`
+	CapitalFinancingPromotion *AccountSessionComponentsCapitalFinancingPromotionParams `form:"capital_financing_promotion"`
 	// Configuration for the payment details embedded component.
 	PaymentDetails *AccountSessionComponentsPaymentDetailsParams `form:"payment_details"`
 	// Configuration for the payments embedded component.
@@ -104,6 +114,12 @@ type AccountSessionComponentsAccountOnboarding struct {
 	// Whether the embedded component is enabled.
 	Enabled  bool                                               `json:"enabled"`
 	Features *AccountSessionComponentsAccountOnboardingFeatures `json:"features"`
+}
+type AccountSessionComponentsCapitalFinancingPromotionFeatures struct{}
+type AccountSessionComponentsCapitalFinancingPromotion struct {
+	// Whether the embedded component is enabled.
+	Enabled  bool                                                       `json:"enabled"`
+	Features *AccountSessionComponentsCapitalFinancingPromotionFeatures `json:"features"`
 }
 type AccountSessionComponentsPaymentDetailsFeatures struct {
 	// Whether to allow capturing and cancelling payment intents. This is `true` by default.
@@ -145,10 +161,11 @@ type AccountSessionComponentsPayouts struct {
 	Features *AccountSessionComponentsPayoutsFeatures `json:"features"`
 }
 type AccountSessionComponents struct {
-	AccountOnboarding *AccountSessionComponentsAccountOnboarding `json:"account_onboarding"`
-	PaymentDetails    *AccountSessionComponentsPaymentDetails    `json:"payment_details"`
-	Payments          *AccountSessionComponentsPayments          `json:"payments"`
-	Payouts           *AccountSessionComponentsPayouts           `json:"payouts"`
+	AccountOnboarding         *AccountSessionComponentsAccountOnboarding         `json:"account_onboarding"`
+	CapitalFinancingPromotion *AccountSessionComponentsCapitalFinancingPromotion `json:"capital_financing_promotion"`
+	PaymentDetails            *AccountSessionComponentsPaymentDetails            `json:"payment_details"`
+	Payments                  *AccountSessionComponentsPayments                  `json:"payments"`
+	Payouts                   *AccountSessionComponentsPayouts                   `json:"payouts"`
 }
 
 // An AccountSession allows a Connect platform to grant access to a connected account in Connect embedded components.
