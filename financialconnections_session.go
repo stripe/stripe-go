@@ -31,8 +31,9 @@ type FinancialConnectionsSessionPrefetch string
 
 // List of values that FinancialConnectionsSessionPrefetch can take
 const (
-	FinancialConnectionsSessionPrefetchBalances  FinancialConnectionsSessionPrefetch = "balances"
-	FinancialConnectionsSessionPrefetchOwnership FinancialConnectionsSessionPrefetch = "ownership"
+	FinancialConnectionsSessionPrefetchBalances     FinancialConnectionsSessionPrefetch = "balances"
+	FinancialConnectionsSessionPrefetchOwnership    FinancialConnectionsSessionPrefetch = "ownership"
+	FinancialConnectionsSessionPrefetchTransactions FinancialConnectionsSessionPrefetch = "transactions"
 )
 
 // The account holder to link accounts for.
