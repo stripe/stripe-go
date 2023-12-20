@@ -434,6 +434,7 @@ type PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure string
 const (
 	PaymentIntentPaymentMethodOptionsCardRequestThreeDSecureAny       PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure = "any"
 	PaymentIntentPaymentMethodOptionsCardRequestThreeDSecureAutomatic PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure = "automatic"
+	PaymentIntentPaymentMethodOptionsCardRequestThreeDSecureChallenge PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure = "challenge"
 )
 
 // Indicates that you intend to make future payments with this PaymentIntent's payment method.
