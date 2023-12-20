@@ -52,12 +52,23 @@ type AccountSessionComponentsPaymentsParams struct {
 	// The list of features enabled in the embedded component.
 	Features *AccountSessionComponentsPaymentsFeaturesParams `form:"features"`
 }
-type AccountSessionComponentsPayoutsFeaturesParams struct{}
+
+// The list of features enabled in the embedded component.
+type AccountSessionComponentsPayoutsFeaturesParams struct {
+	// Whether to allow payout schedule to be changed. Default `true` when Stripe owns Loss Liability, default `false` otherwise.
+	EditPayoutSchedule *bool `form:"edit_payout_schedule"`
+	// Whether to allow creation of instant payouts. Default `true` when Stripe owns Loss Liability, default `false` otherwise.
+	InstantPayouts *bool `form:"instant_payouts"`
+	// Whether to allow creation of standard payouts. Default `true` when Stripe owns Loss Liability, default `false` otherwise.
+	StandardPayouts *bool `form:"standard_payouts"`
+}
 
 // Configuration for the payouts embedded component.
 type AccountSessionComponentsPayoutsParams struct {
 	// Whether the embedded component is enabled.
-	Enabled  *bool                                          `form:"enabled"`
+	Enabled *bool `form:"enabled"`
+	// The list of features enabled in the embedded component.
+	Features *AccountSessionComponentsPayoutsFeaturesParams `form:"features"`
 	Features *AccountSessionComponentsPayoutsFeaturesParams `form:"features"`
 }
 
@@ -121,7 +132,14 @@ type AccountSessionComponentsPayments struct {
 	Enabled  bool                                      `json:"enabled"`
 	Features *AccountSessionComponentsPaymentsFeatures `json:"features"`
 }
-type AccountSessionComponentsPayoutsFeatures struct{}
+type AccountSessionComponentsPayoutsFeatures struct {
+	// Whether to allow payout schedule to be changed. Default `true` when Stripe owns Loss Liability, default `false` otherwise.
+	EditPayoutSchedule bool `json:"edit_payout_schedule"`
+	// Whether to allow creation of instant payouts. Default `true` when Stripe owns Loss Liability, default `false` otherwise.
+	InstantPayouts bool `json:"instant_payouts"`
+	// Whether to allow creation of standard payouts. Default `true` when Stripe owns Loss Liability, default `false` otherwise.
+	StandardPayouts bool `json:"standard_payouts"`
+}
 type AccountSessionComponentsPayouts struct {
 	// Whether the embedded component is enabled.
 	Enabled  bool                                     `json:"enabled"`
