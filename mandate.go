@@ -71,6 +71,14 @@ const (
 	MandatePaymentMethodDetailsTypeUSBankAccount MandatePaymentMethodDetailsType = "us_bank_account"
 )
 
+// Mandate collection method
+type MandatePaymentMethodDetailsUSBankAccountCollectionMethod string
+
+// List of values that MandatePaymentMethodDetailsUSBankAccountCollectionMethod can take
+const (
+	MandatePaymentMethodDetailsUSBankAccountCollectionMethodPaper MandatePaymentMethodDetailsUSBankAccountCollectionMethod = "paper"
+)
+
 // The mandate status indicates whether or not you can use it to initiate a payment.
 type MandateStatus string
 
@@ -160,7 +168,10 @@ type MandatePaymentMethodDetailsSEPADebit struct {
 	// The URL of the mandate. This URL generally contains sensitive information about the customer and should be shared with them exclusively.
 	URL string `json:"url"`
 }
-type MandatePaymentMethodDetailsUSBankAccount struct{}
+type MandatePaymentMethodDetailsUSBankAccount struct {
+	// Mandate collection method
+	CollectionMethod MandatePaymentMethodDetailsUSBankAccountCollectionMethod `json:"collection_method"`
+}
 type MandatePaymentMethodDetails struct {
 	ACSSDebit   *MandatePaymentMethodDetailsACSSDebit   `json:"acss_debit"`
 	AUBECSDebit *MandatePaymentMethodDetailsAUBECSDebit `json:"au_becs_debit"`
