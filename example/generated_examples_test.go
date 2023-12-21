@@ -71,6 +71,7 @@ import (
 	subscriptionitem "github.com/stripe/stripe-go/v76/subscriptionitem"
 	subscriptionschedule "github.com/stripe/stripe-go/v76/subscriptionschedule"
 	tax_calculation "github.com/stripe/stripe-go/v76/tax/calculation"
+	tax_settings "github.com/stripe/stripe-go/v76/tax/settings"
 	tax_transaction "github.com/stripe/stripe-go/v76/tax/transaction"
 	taxcode "github.com/stripe/stripe-go/v76/taxcode"
 	taxid "github.com/stripe/stripe-go/v76/taxid"
@@ -2700,6 +2701,24 @@ func TestTaxRatesPost(t *testing.T) {
 func TestTaxRatesPost2(t *testing.T) {
 	params := &stripe.TaxRateParams{Active: stripe.Bool(false)}
 	result, err := taxrate.Update("txr_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestTaxSettingsGet(t *testing.T) {
+	params := &stripe.TaxSettingsParams{}
+	result, err := tax_settings.Get(params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestTaxSettingsPost(t *testing.T) {
+	params := &stripe.TaxSettingsParams{
+		Defaults: &stripe.TaxSettingsDefaultsParams{
+			TaxCode: stripe.String("txcd_10000000"),
+		},
+	}
+	result, err := tax_settings.Update(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
