@@ -186,6 +186,14 @@ const (
 	SetupIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsPrefetchTransactions SetupIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsPrefetch = "transactions"
 )
 
+// Mandate collection method
+type SetupIntentPaymentMethodOptionsUSBankAccountMandateOptionsCollectionMethod string
+
+// List of values that SetupIntentPaymentMethodOptionsUSBankAccountMandateOptionsCollectionMethod can take
+const (
+	SetupIntentPaymentMethodOptionsUSBankAccountMandateOptionsCollectionMethodPaper SetupIntentPaymentMethodOptionsUSBankAccountMandateOptionsCollectionMethod = "paper"
+)
+
 // Bank account verification method.
 type SetupIntentPaymentMethodOptionsUSBankAccountVerificationMethod string
 
@@ -672,6 +680,12 @@ type SetupIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsParams stru
 	ReturnURL *string `form:"return_url"`
 }
 
+// Additional fields for Mandate creation
+type SetupIntentPaymentMethodOptionsUSBankAccountMandateOptionsParams struct {
+	// The method used to collect offline mandate customer acceptance.
+	CollectionMethod *string `form:"collection_method"`
+}
+
 // Additional fields for network related functions
 type SetupIntentPaymentMethodOptionsUSBankAccountNetworksParams struct {
 	// Triggers validations to run across the selected networks
@@ -682,6 +696,8 @@ type SetupIntentPaymentMethodOptionsUSBankAccountNetworksParams struct {
 type SetupIntentPaymentMethodOptionsUSBankAccountParams struct {
 	// Additional fields for Financial Connections Session creation
 	FinancialConnections *SetupIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsParams `form:"financial_connections"`
+	// Additional fields for Mandate creation
+	MandateOptions *SetupIntentPaymentMethodOptionsUSBankAccountMandateOptionsParams `form:"mandate_options"`
 	// Additional fields for network related functions
 	Networks *SetupIntentPaymentMethodOptionsUSBankAccountNetworksParams `form:"networks"`
 	// Verification method for the intent
@@ -1271,8 +1287,13 @@ type SetupIntentPaymentMethodOptionsUSBankAccountFinancialConnections struct {
 	// For webview integrations only. Upon completing OAuth login in the native browser, the user will be redirected to this URL to return to your app.
 	ReturnURL string `json:"return_url"`
 }
+type SetupIntentPaymentMethodOptionsUSBankAccountMandateOptions struct {
+	// Mandate collection method
+	CollectionMethod SetupIntentPaymentMethodOptionsUSBankAccountMandateOptionsCollectionMethod `json:"collection_method"`
+}
 type SetupIntentPaymentMethodOptionsUSBankAccount struct {
 	FinancialConnections *SetupIntentPaymentMethodOptionsUSBankAccountFinancialConnections `json:"financial_connections"`
+	MandateOptions       *SetupIntentPaymentMethodOptionsUSBankAccountMandateOptions       `json:"mandate_options"`
 	// Bank account verification method.
 	VerificationMethod SetupIntentPaymentMethodOptionsUSBankAccountVerificationMethod `json:"verification_method"`
 }
