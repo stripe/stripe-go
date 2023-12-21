@@ -32,6 +32,7 @@ import (
 	feerefund "github.com/stripe/stripe-go/v76/feerefund"
 	financialconnections_account "github.com/stripe/stripe-go/v76/financialconnections/account"
 	financialconnections_session "github.com/stripe/stripe-go/v76/financialconnections/session"
+	financialconnections_transaction "github.com/stripe/stripe-go/v76/financialconnections/transaction"
 	identity_verificationreport "github.com/stripe/stripe-go/v76/identity/verificationreport"
 	identity_verificationsession "github.com/stripe/stripe-go/v76/identity/verificationsession"
 	invoice "github.com/stripe/stripe-go/v76/invoice"
@@ -71,6 +72,7 @@ import (
 	subscriptionitem "github.com/stripe/stripe-go/v76/subscriptionitem"
 	subscriptionschedule "github.com/stripe/stripe-go/v76/subscriptionschedule"
 	tax_calculation "github.com/stripe/stripe-go/v76/tax/calculation"
+	tax_settings "github.com/stripe/stripe-go/v76/tax/settings"
 	tax_transaction "github.com/stripe/stripe-go/v76/tax/transaction"
 	taxcode "github.com/stripe/stripe-go/v76/taxcode"
 	taxid "github.com/stripe/stripe-go/v76/taxid"
@@ -1049,6 +1051,24 @@ func TestFinancialConnectionsAccountsRefreshPost(t *testing.T) {
 	assert.Nil(t, err)
 }
 
+func TestFinancialConnectionsAccountsSubscribePost(t *testing.T) {
+	params := &stripe.FinancialConnectionsAccountSubscribeParams{
+		Features: []*string{stripe.String("transactions")},
+	}
+	result, err := financialconnections_account.Subscribe("fa_123", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestFinancialConnectionsAccountsUnsubscribePost(t *testing.T) {
+	params := &stripe.FinancialConnectionsAccountUnsubscribeParams{
+		Features: []*string{stripe.String("transactions")},
+	}
+	result, err := financialconnections_account.Unsubscribe("fa_123", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
 func TestFinancialConnectionsSessionsGet(t *testing.T) {
 	params := &stripe.FinancialConnectionsSessionParams{}
 	result, err := financialconnections_session.Get("fcsess_xyz", params)
@@ -1098,6 +1118,22 @@ func TestFinancialConnectionsSessionsPost2(t *testing.T) {
 	result, err := financialconnections_session.New(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
+}
+
+func TestFinancialConnectionsTransactionsGet(t *testing.T) {
+	params := &stripe.FinancialConnectionsTransactionParams{}
+	result, err := financialconnections_transaction.Get("tr_123", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestFinancialConnectionsTransactionsGet2(t *testing.T) {
+	params := &stripe.FinancialConnectionsTransactionListParams{
+		Account: stripe.String("fca_xyz"),
+	}
+	result := financialconnections_transaction.List(params)
+	assert.NotNil(t, result)
+	assert.Nil(t, result.Err())
 }
 
 func TestIdentityVerificationReportsGet(t *testing.T) {
@@ -2700,6 +2736,24 @@ func TestTaxRatesPost(t *testing.T) {
 func TestTaxRatesPost2(t *testing.T) {
 	params := &stripe.TaxRateParams{Active: stripe.Bool(false)}
 	result, err := taxrate.Update("txr_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestTaxSettingsGet(t *testing.T) {
+	params := &stripe.TaxSettingsParams{}
+	result, err := tax_settings.Get(params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestTaxSettingsPost(t *testing.T) {
+	params := &stripe.TaxSettingsParams{
+		Defaults: &stripe.TaxSettingsDefaultsParams{
+			TaxCode: stripe.String("txcd_10000000"),
+		},
+	}
+	result, err := tax_settings.Update(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
