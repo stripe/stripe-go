@@ -90,6 +90,7 @@ const (
 	EventTypeFinancialConnectionsAccountDisconnected            EventType = "financial_connections.account.disconnected"
 	EventTypeFinancialConnectionsAccountReactivated             EventType = "financial_connections.account.reactivated"
 	EventTypeFinancialConnectionsAccountRefreshedBalance        EventType = "financial_connections.account.refreshed_balance"
+	EventTypeFinancialConnectionsAccountRefreshedTransactions   EventType = "financial_connections.account.refreshed_transactions"
 	EventTypeIdentityVerificationSessionCanceled                EventType = "identity.verification_session.canceled"
 	EventTypeIdentityVerificationSessionCreated                 EventType = "identity.verification_session.created"
 	EventTypeIdentityVerificationSessionProcessing              EventType = "identity.verification_session.processing"

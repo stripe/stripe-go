@@ -379,6 +379,7 @@ type PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure string
 const (
 	PaymentIntentPaymentMethodOptionsCardRequestThreeDSecureAny       PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure = "any"
 	PaymentIntentPaymentMethodOptionsCardRequestThreeDSecureAutomatic PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure = "automatic"
+	PaymentIntentPaymentMethodOptionsCardRequestThreeDSecureChallenge PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure = "challenge"
 )
 
 // Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -703,7 +704,8 @@ type PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsPrefetch 
 
 // List of values that PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsPrefetch can take
 const (
-	PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsPrefetchBalances PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsPrefetch = "balances"
+	PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsPrefetchBalances     PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsPrefetch = "balances"
+	PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsPrefetchTransactions PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsPrefetch = "transactions"
 )
 
 // Preferred transaction settlement speed

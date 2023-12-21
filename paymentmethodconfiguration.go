@@ -539,6 +539,25 @@ const (
 )
 
 // The account's display preference.
+type PaymentMethodConfigurationRevolutPayDisplayPreferencePreference string
+
+// List of values that PaymentMethodConfigurationRevolutPayDisplayPreferencePreference can take
+const (
+	PaymentMethodConfigurationRevolutPayDisplayPreferencePreferenceNone PaymentMethodConfigurationRevolutPayDisplayPreferencePreference = "none"
+	PaymentMethodConfigurationRevolutPayDisplayPreferencePreferenceOff  PaymentMethodConfigurationRevolutPayDisplayPreferencePreference = "off"
+	PaymentMethodConfigurationRevolutPayDisplayPreferencePreferenceOn   PaymentMethodConfigurationRevolutPayDisplayPreferencePreference = "on"
+)
+
+// The effective display preference value.
+type PaymentMethodConfigurationRevolutPayDisplayPreferenceValue string
+
+// List of values that PaymentMethodConfigurationRevolutPayDisplayPreferenceValue can take
+const (
+	PaymentMethodConfigurationRevolutPayDisplayPreferenceValueOff PaymentMethodConfigurationRevolutPayDisplayPreferenceValue = "off"
+	PaymentMethodConfigurationRevolutPayDisplayPreferenceValueOn  PaymentMethodConfigurationRevolutPayDisplayPreferenceValue = "on"
+)
+
+// The account's display preference.
 type PaymentMethodConfigurationSEPADebitDisplayPreferencePreference string
 
 // List of values that PaymentMethodConfigurationSEPADebitDisplayPreferencePreference can take
@@ -1072,6 +1091,18 @@ type PaymentMethodConfigurationPromptPayParams struct {
 }
 
 // Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationRevolutPayDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference"`
+}
+
+// Revolut Pay, developed by Revolut, a global finance app, is a digital wallet payment method. Revolut Pay uses the customer's stored balance or cards to fund the payment, and offers the option for non-Revolut customers to save their details after their first purchase.
+type PaymentMethodConfigurationRevolutPayParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationRevolutPayDisplayPreferenceParams `form:"display_preference"`
+}
+
+// Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationSEPADebitDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
 	Preference *string `form:"preference"`
@@ -1188,6 +1219,8 @@ type PaymentMethodConfigurationParams struct {
 	Paypal *PaymentMethodConfigurationPaypalParams `form:"paypal"`
 	// PromptPay is a Thailand-based payment method that allows customers to make a payment using their preferred app from participating banks. Check this [page](https://stripe.com/docs/payments/promptpay) for more details.
 	PromptPay *PaymentMethodConfigurationPromptPayParams `form:"promptpay"`
+	// Revolut Pay, developed by Revolut, a global finance app, is a digital wallet payment method. Revolut Pay uses the customer's stored balance or cards to fund the payment, and offers the option for non-Revolut customers to save their details after their first purchase.
+	RevolutPay *PaymentMethodConfigurationRevolutPayParams `form:"revolut_pay"`
 	// The [Single Euro Payments Area (SEPA)](https://en.wikipedia.org/wiki/Single_Euro_Payments_Area) is an initiative of the European Union to simplify payments within and across member countries. SEPA established and enforced banking standards to allow for the direct debiting of every EUR-denominated bank account within the SEPA region, check this [page](https://stripe.com/docs/payments/sepa-debit) for more details.
 	SEPADebit *PaymentMethodConfigurationSEPADebitParams `form:"sepa_debit"`
 	// Stripe users in Europe and the United States can use the [Payment Intents API](https://stripe.com/docs/payments/payment-intents)—a single integration path for creating payments using any supported method—to accept [Sofort](https://www.sofort.com/) payments from customers. Check this [page](https://stripe.com/docs/payments/sofort) for more details.
@@ -1567,6 +1600,19 @@ type PaymentMethodConfigurationPromptPay struct {
 	Available         bool                                                  `json:"available"`
 	DisplayPreference *PaymentMethodConfigurationPromptPayDisplayPreference `json:"display_preference"`
 }
+type PaymentMethodConfigurationRevolutPayDisplayPreference struct {
+	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
+	Overridable bool `json:"overridable"`
+	// The account's display preference.
+	Preference PaymentMethodConfigurationRevolutPayDisplayPreferencePreference `json:"preference"`
+	// The effective display preference value.
+	Value PaymentMethodConfigurationRevolutPayDisplayPreferenceValue `json:"value"`
+}
+type PaymentMethodConfigurationRevolutPay struct {
+	// Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
+	Available         bool                                                   `json:"available"`
+	DisplayPreference *PaymentMethodConfigurationRevolutPayDisplayPreference `json:"display_preference"`
+}
 type PaymentMethodConfigurationSEPADebitDisplayPreference struct {
 	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
 	Overridable bool `json:"overridable"`
@@ -1749,6 +1795,7 @@ type PaymentMethodConfiguration struct {
 	PayNow        *PaymentMethodConfigurationPayNow        `json:"paynow"`
 	Paypal        *PaymentMethodConfigurationPaypal        `json:"paypal"`
 	PromptPay     *PaymentMethodConfigurationPromptPay     `json:"promptpay"`
+	RevolutPay    *PaymentMethodConfigurationRevolutPay    `json:"revolut_pay"`
 	SEPADebit     *PaymentMethodConfigurationSEPADebit     `json:"sepa_debit"`
 	Sofort        *PaymentMethodConfigurationSofort        `json:"sofort"`
 	Upi           *PaymentMethodConfigurationUpi           `json:"upi"`
