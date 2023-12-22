@@ -887,18 +887,13 @@ type PaymentLinkShippingOption struct {
 	// The ID of the Shipping Rate to use for this shipping option.
 	ShippingRate *ShippingRate `json:"shipping_rate"`
 }
-
-// The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
 type PaymentLinkSubscriptionDataInvoiceSettingsIssuer struct {
 	// The connected account being referenced when `type` is `account`.
 	Account *Account `json:"account"`
 	// Type of the account referenced.
 	Type PaymentLinkSubscriptionDataInvoiceSettingsIssuerType `json:"type"`
 }
-
-// All invoices will be billed using the specified settings.
 type PaymentLinkSubscriptionDataInvoiceSettings struct {
-	// The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
 	Issuer *PaymentLinkSubscriptionDataInvoiceSettingsIssuer `json:"issuer"`
 }
 
@@ -917,8 +912,7 @@ type PaymentLinkSubscriptionDataTrialSettings struct {
 // When creating a subscription, the specified configuration data will be used. There must be at least one line item with a recurring price to use `subscription_data`.
 type PaymentLinkSubscriptionData struct {
 	// The subscription's description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription for rendering in Stripe surfaces and certain local payment methods UIs.
-	Description string `json:"description"`
-	// All invoices will be billed using the specified settings.
+	Description     string                                      `json:"description"`
 	InvoiceSettings *PaymentLinkSubscriptionDataInvoiceSettings `json:"invoice_settings"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that will set metadata on [Subscriptions](https://stripe.com/docs/api/subscriptions) generated from this payment link.
 	Metadata map[string]string `json:"metadata"`

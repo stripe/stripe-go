@@ -211,7 +211,7 @@ const (
 	TaxCalculationTaxBreakdownTaxabilityReasonZeroRated            TaxCalculationTaxBreakdownTaxabilityReason = "zero_rated"
 )
 
-// The customer's tax IDs.
+// The customer's tax IDs. Stripe Tax might consider a transaction with applicable tax IDs to be B2B, which might affect the tax calculation result. Stripe Tax doesn't validate tax IDs for correctness.
 type TaxCalculationCustomerDetailsTaxIDParams struct {
 	// Type of the tax ID, one of `ad_nrt`, `ae_trn`, `ar_cuit`, `au_abn`, `au_arn`, `bg_uic`, `bo_tin`, `br_cnpj`, `br_cpf`, `ca_bn`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `ca_qst`, `ch_vat`, `cl_tin`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eg_tin`, `es_cif`, `eu_oss_vat`, `eu_vat`, `gb_vat`, `ge_vat`, `hk_br`, `hu_tin`, `id_npwp`, `il_vat`, `in_gst`, `is_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `ke_pin`, `kr_brn`, `li_uid`, `mx_rfc`, `my_frp`, `my_itn`, `my_sst`, `no_vat`, `nz_gst`, `pe_ruc`, `ph_tin`, `ro_tin`, `rs_pib`, `ru_inn`, `ru_kpp`, `sa_vat`, `sg_gst`, `sg_uen`, `si_tin`, `sv_nit`, `th_vat`, `tr_tin`, `tw_vat`, `ua_vat`, `us_ein`, `uy_ruc`, `ve_rif`, `vn_tin`, or `za_vat`
 	Type *string `form:"type"`
@@ -229,7 +229,7 @@ type TaxCalculationCustomerDetailsParams struct {
 	IPAddress *string `form:"ip_address"`
 	// Overrides the tax calculation result to allow you to not collect tax from your customer. Use this if you've manually checked your customer's tax exemptions. Prefer providing the customer's `tax_ids` where possible, which automatically determines whether `reverse_charge` applies.
 	TaxabilityOverride *string `form:"taxability_override"`
-	// The customer's tax IDs.
+	// The customer's tax IDs. Stripe Tax might consider a transaction with applicable tax IDs to be B2B, which might affect the tax calculation result. Stripe Tax doesn't validate tax IDs for correctness.
 	TaxIDs []*TaxCalculationCustomerDetailsTaxIDParams `form:"tax_ids"`
 }
 
@@ -247,6 +247,12 @@ type TaxCalculationLineItemParams struct {
 	TaxBehavior *string `form:"tax_behavior"`
 	// A [tax code](https://stripe.com/docs/tax/tax-categories) ID to use for this line item. If not provided, we will use the tax code from the provided `product` param. If neither `tax_code` nor `product` is provided, we will use the default tax code from your Tax Settings.
 	TaxCode *string `form:"tax_code"`
+}
+
+// Details about the address from which the goods are being shippped.
+type TaxCalculationShipFromDetailsParams struct {
+	// The address from which the goods are being shipped from.
+	Address *AddressParams `form:"address"`
 }
 
 // Shipping cost details to be used for the calculation.
@@ -274,6 +280,8 @@ type TaxCalculationParams struct {
 	Expand []*string `form:"expand"`
 	// A list of items the customer is purchasing.
 	LineItems []*TaxCalculationLineItemParams `form:"line_items"`
+	// Details about the address from which the goods are being shippped.
+	ShipFromDetails *TaxCalculationShipFromDetailsParams `form:"ship_from_details"`
 	// Shipping cost details to be used for the calculation.
 	ShippingCost *TaxCalculationShippingCostParams `form:"shipping_cost"`
 	// Timestamp of date at which the tax rules and rates in effect applies for the calculation. Measured in seconds since the Unix epoch. Can be up to 48 hours in the past, and up to 48 hours in the future.
@@ -316,6 +324,11 @@ type TaxCalculationCustomerDetails struct {
 	TaxabilityOverride TaxCalculationCustomerDetailsTaxabilityOverride `json:"taxability_override"`
 	// The customer's tax IDs (for example, EU VAT numbers).
 	TaxIDs []*TaxCalculationCustomerDetailsTaxID `json:"tax_ids"`
+}
+
+// The details of the ship from location, such as the address.
+type TaxCalculationShipFromDetails struct {
+	Address *Address `json:"address"`
 }
 type TaxCalculationShippingCostTaxBreakdownJurisdiction struct {
 	// Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)).
@@ -414,6 +427,8 @@ type TaxCalculation struct {
 	Livemode bool `json:"livemode"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
+	// The details of the ship from location, such as the address.
+	ShipFromDetails *TaxCalculationShipFromDetails `json:"ship_from_details"`
 	// The shipping cost details for the calculation.
 	ShippingCost *TaxCalculationShippingCost `json:"shipping_cost"`
 	// The amount of tax to be collected on top of the line item prices.

@@ -18,6 +18,15 @@ type AccountSessionComponentsAccountOnboardingParams struct {
 }
 
 // The list of features enabled in the embedded component.
+type AccountSessionComponentsCapitalFinancingPromotionFeaturesParams struct{}
+type AccountSessionComponentsCapitalFinancingPromotionParams struct {
+	// Whether the embedded component is enabled.
+	Enabled *bool `form:"enabled"`
+	// The list of features enabled in the embedded component.
+	Features *AccountSessionComponentsCapitalFinancingPromotionFeaturesParams `form:"features"`
+}
+
+// The list of features enabled in the embedded component.
 type AccountSessionComponentsPaymentDetailsFeaturesParams struct {
 	// Whether to allow capturing and cancelling payment intents. This is `true` by default.
 	CapturePayments *bool `form:"capture_payments"`
@@ -52,19 +61,30 @@ type AccountSessionComponentsPaymentsParams struct {
 	// The list of features enabled in the embedded component.
 	Features *AccountSessionComponentsPaymentsFeaturesParams `form:"features"`
 }
-type AccountSessionComponentsPayoutsFeaturesParams struct{}
+
+// The list of features enabled in the embedded component.
+type AccountSessionComponentsPayoutsFeaturesParams struct {
+	// Whether to allow payout schedule to be changed. Default `true` when Stripe owns Loss Liability, default `false` otherwise.
+	EditPayoutSchedule *bool `form:"edit_payout_schedule"`
+	// Whether to allow creation of instant payouts. Default `true` when Stripe owns Loss Liability, default `false` otherwise.
+	InstantPayouts *bool `form:"instant_payouts"`
+	// Whether to allow creation of standard payouts. Default `true` when Stripe owns Loss Liability, default `false` otherwise.
+	StandardPayouts *bool `form:"standard_payouts"`
+}
 
 // Configuration for the payouts embedded component.
 type AccountSessionComponentsPayoutsParams struct {
 	// Whether the embedded component is enabled.
-	Enabled  *bool                                          `form:"enabled"`
+	Enabled *bool `form:"enabled"`
+	// The list of features enabled in the embedded component.
 	Features *AccountSessionComponentsPayoutsFeaturesParams `form:"features"`
 }
 
 // Each key of the dictionary represents an embedded component, and each embedded component maps to its configuration (e.g. whether it has been enabled or not).
 type AccountSessionComponentsParams struct {
 	// Configuration for the account onboarding embedded component.
-	AccountOnboarding *AccountSessionComponentsAccountOnboardingParams `form:"account_onboarding"`
+	AccountOnboarding         *AccountSessionComponentsAccountOnboardingParams         `form:"account_onboarding"`
+	CapitalFinancingPromotion *AccountSessionComponentsCapitalFinancingPromotionParams `form:"capital_financing_promotion"`
 	// Configuration for the payment details embedded component.
 	PaymentDetails *AccountSessionComponentsPaymentDetailsParams `form:"payment_details"`
 	// Configuration for the payments embedded component.
@@ -95,6 +115,12 @@ type AccountSessionComponentsAccountOnboarding struct {
 	Enabled  bool                                               `json:"enabled"`
 	Features *AccountSessionComponentsAccountOnboardingFeatures `json:"features"`
 }
+type AccountSessionComponentsCapitalFinancingPromotionFeatures struct{}
+type AccountSessionComponentsCapitalFinancingPromotion struct {
+	// Whether the embedded component is enabled.
+	Enabled  bool                                                       `json:"enabled"`
+	Features *AccountSessionComponentsCapitalFinancingPromotionFeatures `json:"features"`
+}
 type AccountSessionComponentsPaymentDetailsFeatures struct {
 	// Whether to allow capturing and cancelling payment intents. This is `true` by default.
 	CapturePayments bool `json:"capture_payments"`
@@ -121,17 +147,25 @@ type AccountSessionComponentsPayments struct {
 	Enabled  bool                                      `json:"enabled"`
 	Features *AccountSessionComponentsPaymentsFeatures `json:"features"`
 }
-type AccountSessionComponentsPayoutsFeatures struct{}
+type AccountSessionComponentsPayoutsFeatures struct {
+	// Whether to allow payout schedule to be changed. Default `true` when Stripe owns Loss Liability, default `false` otherwise.
+	EditPayoutSchedule bool `json:"edit_payout_schedule"`
+	// Whether to allow creation of instant payouts. Default `true` when Stripe owns Loss Liability, default `false` otherwise.
+	InstantPayouts bool `json:"instant_payouts"`
+	// Whether to allow creation of standard payouts. Default `true` when Stripe owns Loss Liability, default `false` otherwise.
+	StandardPayouts bool `json:"standard_payouts"`
+}
 type AccountSessionComponentsPayouts struct {
 	// Whether the embedded component is enabled.
 	Enabled  bool                                     `json:"enabled"`
 	Features *AccountSessionComponentsPayoutsFeatures `json:"features"`
 }
 type AccountSessionComponents struct {
-	AccountOnboarding *AccountSessionComponentsAccountOnboarding `json:"account_onboarding"`
-	PaymentDetails    *AccountSessionComponentsPaymentDetails    `json:"payment_details"`
-	Payments          *AccountSessionComponentsPayments          `json:"payments"`
-	Payouts           *AccountSessionComponentsPayouts           `json:"payouts"`
+	AccountOnboarding         *AccountSessionComponentsAccountOnboarding         `json:"account_onboarding"`
+	CapitalFinancingPromotion *AccountSessionComponentsCapitalFinancingPromotion `json:"capital_financing_promotion"`
+	PaymentDetails            *AccountSessionComponentsPaymentDetails            `json:"payment_details"`
+	Payments                  *AccountSessionComponentsPayments                  `json:"payments"`
+	Payouts                   *AccountSessionComponentsPayouts                   `json:"payouts"`
 }
 
 // An AccountSession allows a Connect platform to grant access to a connected account in Connect embedded components.
