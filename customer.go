@@ -89,7 +89,7 @@ type CustomerCashBalanceParams struct {
 	Settings *CustomerCashBalanceSettingsParams `form:"settings"`
 }
 
-// Default custom fields to be displayed on invoices for this customer. When updating, pass an empty string to remove previously-defined fields.
+// The list of up to 4 default custom fields to be displayed on invoices for this customer. When updating, pass an empty string to remove previously-defined fields.
 type CustomerInvoiceSettingsCustomFieldParams struct {
 	// The name of the custom field. This may be up to 30 characters.
 	Name *string `form:"name"`
@@ -105,7 +105,7 @@ type CustomerInvoiceSettingsRenderingOptionsParams struct {
 
 // Default invoice settings for this customer.
 type CustomerInvoiceSettingsParams struct {
-	// Default custom fields to be displayed on invoices for this customer. When updating, pass an empty string to remove previously-defined fields.
+	// The list of up to 4 default custom fields to be displayed on invoices for this customer. When updating, pass an empty string to remove previously-defined fields.
 	CustomFields []*CustomerInvoiceSettingsCustomFieldParams `form:"custom_fields"`
 	// ID of a payment method that's attached to the customer, to be used as the customer's default payment method for subscriptions and invoices.
 	DefaultPaymentMethod *string `form:"default_payment_method"`
