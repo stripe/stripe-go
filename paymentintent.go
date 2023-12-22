@@ -434,6 +434,7 @@ type PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure string
 const (
 	PaymentIntentPaymentMethodOptionsCardRequestThreeDSecureAny       PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure = "any"
 	PaymentIntentPaymentMethodOptionsCardRequestThreeDSecureAutomatic PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure = "automatic"
+	PaymentIntentPaymentMethodOptionsCardRequestThreeDSecureChallenge PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure = "challenge"
 )
 
 // Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -771,6 +772,14 @@ const (
 	PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsPrefetchInferredBalances PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsPrefetch = "inferred_balances"
 	PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsPrefetchOwnership        PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsPrefetch = "ownership"
 	PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsPrefetchTransactions     PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsPrefetch = "transactions"
+)
+
+// Mandate collection method
+type PaymentIntentPaymentMethodOptionsUSBankAccountMandateOptionsCollectionMethod string
+
+// List of values that PaymentIntentPaymentMethodOptionsUSBankAccountMandateOptionsCollectionMethod can take
+const (
+	PaymentIntentPaymentMethodOptionsUSBankAccountMandateOptionsCollectionMethodPaper PaymentIntentPaymentMethodOptionsUSBankAccountMandateOptionsCollectionMethod = "paper"
 )
 
 // Preferred transaction settlement speed
@@ -2035,6 +2044,12 @@ type PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsParams st
 	ReturnURL *string `form:"return_url"`
 }
 
+// Additional fields for Mandate creation
+type PaymentIntentPaymentMethodOptionsUSBankAccountMandateOptionsParams struct {
+	// The method used to collect offline mandate customer acceptance.
+	CollectionMethod *string `form:"collection_method"`
+}
+
 // Additional fields for network related functions
 type PaymentIntentPaymentMethodOptionsUSBankAccountNetworksParams struct {
 	// Triggers validations to run across the selected networks
@@ -2045,6 +2060,8 @@ type PaymentIntentPaymentMethodOptionsUSBankAccountNetworksParams struct {
 type PaymentIntentPaymentMethodOptionsUSBankAccountParams struct {
 	// Additional fields for Financial Connections Session creation
 	FinancialConnections *PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsParams `form:"financial_connections"`
+	// Additional fields for Mandate creation
+	MandateOptions *PaymentIntentPaymentMethodOptionsUSBankAccountMandateOptionsParams `form:"mandate_options"`
 	// Additional fields for network related functions
 	Networks *PaymentIntentPaymentMethodOptionsUSBankAccountNetworksParams `form:"networks"`
 	// Preferred transaction settlement speed
@@ -4019,8 +4036,13 @@ type PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnections struct {
 	// For webview integrations only. Upon completing OAuth login in the native browser, the user will be redirected to this URL to return to your app.
 	ReturnURL string `json:"return_url"`
 }
+type PaymentIntentPaymentMethodOptionsUSBankAccountMandateOptions struct {
+	// Mandate collection method
+	CollectionMethod PaymentIntentPaymentMethodOptionsUSBankAccountMandateOptionsCollectionMethod `json:"collection_method"`
+}
 type PaymentIntentPaymentMethodOptionsUSBankAccount struct {
 	FinancialConnections *PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnections `json:"financial_connections"`
+	MandateOptions       *PaymentIntentPaymentMethodOptionsUSBankAccountMandateOptions       `json:"mandate_options"`
 	// Preferred transaction settlement speed
 	PreferredSettlementSpeed PaymentIntentPaymentMethodOptionsUSBankAccountPreferredSettlementSpeed `json:"preferred_settlement_speed"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.

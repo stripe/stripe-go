@@ -77,6 +77,7 @@ type IssuingAuthorizationVerificationDataAuthenticationExemptionType string
 const (
 	IssuingAuthorizationVerificationDataAuthenticationExemptionTypeLowValueTransaction     IssuingAuthorizationVerificationDataAuthenticationExemptionType = "low_value_transaction"
 	IssuingAuthorizationVerificationDataAuthenticationExemptionTypeTransactionRiskAnalysis IssuingAuthorizationVerificationDataAuthenticationExemptionType = "transaction_risk_analysis"
+	IssuingAuthorizationVerificationDataAuthenticationExemptionTypeUnknown                 IssuingAuthorizationVerificationDataAuthenticationExemptionType = "unknown"
 )
 
 // The outcome of the 3D Secure authentication request.
