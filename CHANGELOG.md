@@ -1,5 +1,13 @@
 # Changelog
 
+## 76.11.0-beta.1 - 2023-12-22
+* [#1791](https://github.com/stripe/stripe-go/pull/1791) Update generated code for beta
+  * Add support for `CapitalFinancingPromotion` on `AccountSessionComponentsParams` and `AccountSessionComponents`
+  * Add support for new value `shipping_address_invalid` on enums `InvoiceLastFinalizationErrorCode`, `PaymentIntentLastPaymentErrorCode`, `SetupAttemptSetupErrorCode`, `SetupIntentLastSetupErrorCode`, and `StripeErrorCode`
+  * Change type of `InvoiceIssuer` and `SubscriptionScheduleDefaultSettingsInvoiceSettingsIssuer` from `nullable(ConnectAccountReference)` to `ConnectAccountReference`
+  * Change type of `PaymentLinkSubscriptionDataInvoiceSettings` from `nullable(PaymentLinksResourceSubscriptionDataInvoiceSettings)` to `PaymentLinksResourceSubscriptionDataInvoiceSettings`
+  * Add support for `ShipFromDetails` on `TaxCalculationParams`, `TaxCalculation`, and `TaxTransaction`
+
 ## 76.10.0 - 2023-12-22
 * [#1790](https://github.com/stripe/stripe-go/pull/1790) Update generated code
   * Add support for `CollectionMethod` on `MandatePaymentMethodDetailsUsBankAccount`
