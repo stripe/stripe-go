@@ -38,6 +38,19 @@ func (c Client) New(params *stripe.TaxRegistrationParams) (*stripe.TaxRegistrati
 	return registration, err
 }
 
+// Get returns the details of a tax registration.
+func Get(id string, params *stripe.TaxRegistrationParams) (*stripe.TaxRegistration, error) {
+	return getC().Get(id, params)
+}
+
+// Get returns the details of a tax registration.
+func (c Client) Get(id string, params *stripe.TaxRegistrationParams) (*stripe.TaxRegistration, error) {
+	path := stripe.FormatURLPath("/v1/tax/registrations/%s", id)
+	registration := &stripe.TaxRegistration{}
+	err := c.B.Call(http.MethodGet, path, c.Key, params, registration)
+	return registration, err
+}
+
 // Update updates a tax registration's properties.
 func Update(id string, params *stripe.TaxRegistrationParams) (*stripe.TaxRegistration, error) {
 	return getC().Update(id, params)
