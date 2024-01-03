@@ -1271,6 +1271,64 @@ class Critic::OrderAmendmentTranslation < Critic::OrderAmendmentFunctionalTest
       proration_invoice = invoices.first {|invoice| invoice.status != "paid" }
       assert_equal((amendment_order_start_date + 15.days).to_i, Time.at(proration_invoice.due_date).utc.beginning_of_day.to_i)
     end
+
+    it 'change collection method of subscription schedule' do
+      @user.enable_feature FeatureFlags::UPDATE_CUSTOMER_ON_ORDER_TRANSLATION, update: true
+      @user.field_defaults = {}
+      @user.save
+
+      # setup
+      contract_term = 12
+      amendment_term = 11
+      initial_order_start_date = now_time
+      amendment_order_start_date = initial_order_start_date + (contract_term - amendment_term).months
+      monthly_price = 111_00
+
+      sf_product_id, _sf_pricebook_id = salesforce_recurring_product_with_price(
+        price: monthly_price,
+        additional_product_fields: {
+          CPQ_QUOTE_BILLING_FREQUENCY => CPQBillingFrequencyOptions::MONTHLY.serialize,
+        }
+      )
+
+      # create the initial sf order
+      sf_order = create_subscription_order(
+        sf_product_id: sf_product_id,
+        contact_email: "update_collection_method_3",
+        additional_fields: {
+          CPQ_QUOTE_SUBSCRIPTION_START_DATE => format_date_for_salesforce(initial_order_start_date),
+          CPQ_QUOTE_BILLING_FREQUENCY => CPQBillingFrequencyOptions::MONTHLY.serialize,
+          CPQ_QUOTE_SUBSCRIPTION_TERM => contract_term,
+        }
+      )
+
+      # translate initial order
+      StripeForce::Translate.perform_inline(@user, sf_order.Id)
+      sf_order.refresh
+
+      # create the sf amendment order
+      sf_contract = create_contract_from_order(sf_order)
+      amendment_data = create_quote_data_from_contract_amendment(sf_contract)
+      amendment_data["lineItems"].first["record"][CPQ_QUOTE_QUANTITY] = 2
+      amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_START_DATE] = format_date_for_salesforce(amendment_order_start_date)
+      amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_TERM] = amendment_term
+      sf_order_amendment = create_order_from_quote_data(amendment_data)
+
+      # update collection method to "send_invoice"
+      @user.field_defaults = {
+        "customer" => {
+          "email" => "test@test.com",
+        },
+        "subscription_schedule" => {
+          "default_settings.invoice_settings.days_until_due" => "Net-30",
+          "default_settings.collection_method" => "send_invoice", # note: you can only specify 'days_until_due' if invoice collection method is 'send_invoice'
+        },
+      }
+      @user.save
+
+      # translate the sf amendment order and ensure no error thrown
+      StripeForce::Translate.perform_inline(@user, sf_order_amendment.Id)
+    end
   end
 
   describe 'stacked amendments' do
