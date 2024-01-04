@@ -1,5 +1,9 @@
 # Changelog
 
+## 76.12.0-beta.1 - 2024-01-04
+* [#1793](https://github.com/stripe/stripe-go/pull/1793) Update generated code for beta
+  * Updated stable APIs to the latest version
+
 ## 76.11.0 - 2024-01-04
 * [#1792](https://github.com/stripe/stripe-go/pull/1792) Update generated code
   * Add support for `Get` method on resource `Tax.Registration`
