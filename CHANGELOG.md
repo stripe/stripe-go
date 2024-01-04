@@ -1,5 +1,30 @@
 # Changelog
 
+## 76.11.0 - 2024-01-04
+* [#1792](https://github.com/stripe/stripe-go/pull/1792) Update generated code
+  * Add support for `Get` method on resource `Tax.Registration`
+  * Change type of `SubscriptionScheduleDefaultSettingsInvoiceSettings` from `nullable(InvoiceSettingSubscriptionScheduleSetting)` to `InvoiceSettingSubscriptionScheduleSetting`
+* [#1790](https://github.com/stripe/stripe-go/pull/1790) Update generated code
+  * Add support for `CollectionMethod` on `MandatePaymentMethodDetailsUsBankAccount`
+  * Add support for `MandateOptions` on `PaymentIntentConfirmPaymentMethodOptionsUsBankAccountParams`, `PaymentIntentPaymentMethodOptionsUsBankAccountParams`, `PaymentIntentPaymentMethodOptionsUsBankAccount`, `SetupIntentConfirmPaymentMethodOptionsUsBankAccountParams`, `SetupIntentPaymentMethodOptionsUsBankAccountParams`, and `SetupIntentPaymentMethodOptionsUsBankAccount`
+* [#1789](https://github.com/stripe/stripe-go/pull/1789) Update generated code
+  * Add support for new resource `FinancialConnections.Transaction`
+  * Add support for `Get` and `List` methods on resource `Transaction`
+  * Add support for `Subscribe` and `Unsubscribe` methods on resource `FinancialConnections.Account`
+  * Add support for `Features` on `AccountSessionComponentsPayoutsParams`
+  * Add support for `EditPayoutSchedule`, `InstantPayouts`, and `StandardPayouts` on `AccountSessionComponentsPayoutsFeatures`
+  * Change type of `CheckoutSessionPaymentMethodOptionsUsBankAccountFinancialConnectionsPrefetchParams`, `CheckoutSessionPaymentMethodOptionsUsBankAccountFinancialConnectionsPrefetch`, `InvoicePaymentSettingsPaymentMethodOptionsUsBankAccountFinancialConnectionsPrefetchParams`, `InvoicePaymentSettingsPaymentMethodOptionsUsBankAccountFinancialConnectionsPrefetch`, `PaymentIntentConfirmPaymentMethodOptionsUsBankAccountFinancialConnectionsPrefetchParams`, `PaymentIntentPaymentMethodOptionsUsBankAccountFinancialConnectionsPrefetchParams`, `PaymentIntentPaymentMethodOptionsUsBankAccountFinancialConnectionsPrefetch`, `SetupIntentConfirmPaymentMethodOptionsUsBankAccountFinancialConnectionsPrefetchParams`, `SetupIntentPaymentMethodOptionsUsBankAccountFinancialConnectionsPrefetchParams`, `SetupIntentPaymentMethodOptionsUsBankAccountFinancialConnectionsPrefetch`, `SubscriptionPaymentSettingsPaymentMethodOptionsUsBankAccountFinancialConnectionsPrefetchParams`, and `SubscriptionPaymentSettingsPaymentMethodOptionsUsBankAccountFinancialConnectionsPrefetch` from `literal('balances')` to `enum('balances'|'transactions')`
+  * Add support for new value `financial_connections.account.refreshed_transactions` on enum `EventType`
+  * Add support for `Subscriptions` and `TransactionRefresh` on `FinancialConnectionsAccount`
+  * Add support for `NextRefreshAvailableAt` on `FinancialConnectionsAccountBalanceRefresh`
+  * Add support for new value `transactions` on enum `FinancialConnectionsSessionPrefetch`
+  * Add support for new value `unknown` on enum `IssuingAuthorizationVerificationDataAuthenticationExemptionType`
+  * Add support for new value `challenge` on enums `PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure` and `SetupIntentPaymentMethodOptionsCardRequestThreeDSecure`
+  * Add support for `RevolutPay` on `PaymentMethodConfigurationParams` and `PaymentMethodConfiguration`
+  * Change type of `QuoteInvoiceSettings` from `nullable(InvoiceSettingQuoteSetting)` to `InvoiceSettingQuoteSetting`
+  * Add support for `DestinationDetails` on `Refund`
+* [#1788](https://github.com/stripe/stripe-go/pull/1788) Use gofmt to format and lint
+
 ## 76.11.0-beta.1 - 2023-12-22
 * [#1791](https://github.com/stripe/stripe-go/pull/1791) Update generated code for beta
   * Add support for `CapitalFinancingPromotion` on `AccountSessionComponentsParams` and `AccountSessionComponents`
