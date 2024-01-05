@@ -199,7 +199,7 @@ const (
 	QuoteSubscriptionDataBillOnAcceptanceBillUntilTypeUpcomingInvoice QuoteSubscriptionDataBillOnAcceptanceBillUntilType = "upcoming_invoice"
 )
 
-// Configures when the subscription schedule generates prorations for phase transitions. Possible values are `prorate_on_next_phase` or `prorate_up_front` with the default being `prorate_on_next_phase`. `prorate_on_next_phase` will apply phase changes and generate prorations at transition time.`prorate_up_front` will bill for all phases within the current billing cycle up front.
+// Configures when the subscription schedule generates prorations for phase transitions. Possible values are `prorate_on_next_phase` or `prorate_up_front` with the default being `prorate_on_next_phase`. `prorate_on_next_phase` will apply phase changes and generate prorations at transition time. `prorate_up_front` will bill for all phases within the current billing cycle up front.
 type QuoteSubscriptionDataBillingBehavior string
 
 // List of values that QuoteSubscriptionDataBillingBehavior can take
@@ -279,7 +279,7 @@ const (
 	QuoteSubscriptionDataOverrideBillOnAcceptanceBillUntilTypeUpcomingInvoice QuoteSubscriptionDataOverrideBillOnAcceptanceBillUntilType = "upcoming_invoice"
 )
 
-// Configures when the subscription schedule generates prorations for phase transitions. Possible values are `prorate_on_next_phase` or `prorate_up_front` with the default being `prorate_on_next_phase`. `prorate_on_next_phase` will apply phase changes and generate prorations at transition time.`prorate_up_front` will bill for all phases within the current billing cycle up front.
+// Configures when the subscription schedule generates prorations for phase transitions. Possible values are `prorate_on_next_phase` or `prorate_up_front` with the default being `prorate_on_next_phase`. `prorate_on_next_phase` will apply phase changes and generate prorations at transition time. `prorate_up_front` will bill for all phases within the current billing cycle up front.
 type QuoteSubscriptionDataOverrideBillingBehavior string
 
 // List of values that QuoteSubscriptionDataOverrideBillingBehavior can take
@@ -1002,7 +1002,7 @@ type QuoteSubscriptionDataPrebillingParams struct {
 
 // When creating a subscription or subscription schedule, the specified configuration data will be used. There must be at least one line item with a recurring price for a subscription or subscription schedule to be created. A subscription schedule is created if `subscription_data[effective_date]` is present and in the future, otherwise a subscription is created.
 type QuoteSubscriptionDataParams struct {
-	// Configures when the subscription schedule generates prorations for phase transitions. Possible values are `prorate_on_next_phase` or `prorate_up_front` with the default being `prorate_on_next_phase`. `prorate_on_next_phase` will apply phase changes and generate prorations at transition time.`prorate_up_front` will bill for all phases within the current billing cycle up front.
+	// Configures when the subscription schedule generates prorations for phase transitions. Possible values are `prorate_on_next_phase` or `prorate_up_front` with the default being `prorate_on_next_phase`. `prorate_on_next_phase` will apply phase changes and generate prorations at transition time. `prorate_up_front` will bill for all phases within the current billing cycle up front.
 	BillingBehavior *string `form:"billing_behavior"`
 	// When specified as `reset`, the subscription will always start a new billing period when the quote is accepted.
 	BillingCycleAnchor *string `form:"billing_cycle_anchor"`
@@ -1119,7 +1119,7 @@ type QuoteSubscriptionDataOverrideBillOnAcceptanceParams struct {
 type QuoteSubscriptionDataOverrideParams struct {
 	// Whether the override applies to an existing Subscription Schedule or a new Subscription Schedule.
 	AppliesTo *QuoteSubscriptionDataOverrideAppliesToParams `form:"applies_to"`
-	// Configures when the subscription schedule generates prorations for phase transitions. Possible values are `prorate_on_next_phase` or `prorate_up_front` with the default being `prorate_on_next_phase`. `prorate_on_next_phase` will apply phase changes and generate prorations at transition time.`prorate_up_front` will bill for all phases within the current billing cycle up front.
+	// Configures when the subscription schedule generates prorations for phase transitions. Possible values are `prorate_on_next_phase` or `prorate_up_front` with the default being `prorate_on_next_phase`. `prorate_on_next_phase` will apply phase changes and generate prorations at transition time. `prorate_up_front` will bill for all phases within the current billing cycle up front.
 	BillingBehavior *string `form:"billing_behavior"`
 	// Describes the period to bill for upon accepting the quote.
 	BillOnAcceptance *QuoteSubscriptionDataOverrideBillOnAcceptanceParams `form:"bill_on_acceptance"`
@@ -1599,7 +1599,7 @@ type QuoteSubscriptionDataPrebilling struct {
 	Iterations int64 `json:"iterations"`
 }
 type QuoteSubscriptionData struct {
-	// Configures when the subscription schedule generates prorations for phase transitions. Possible values are `prorate_on_next_phase` or `prorate_up_front` with the default being `prorate_on_next_phase`. `prorate_on_next_phase` will apply phase changes and generate prorations at transition time.`prorate_up_front` will bill for all phases within the current billing cycle up front.
+	// Configures when the subscription schedule generates prorations for phase transitions. Possible values are `prorate_on_next_phase` or `prorate_up_front` with the default being `prorate_on_next_phase`. `prorate_on_next_phase` will apply phase changes and generate prorations at transition time. `prorate_up_front` will bill for all phases within the current billing cycle up front.
 	BillingBehavior QuoteSubscriptionDataBillingBehavior `json:"billing_behavior"`
 	// Whether the subscription will always start a new billing period when the quote is accepted.
 	BillingCycleAnchor QuoteSubscriptionDataBillingCycleAnchor `json:"billing_cycle_anchor"`
@@ -1690,7 +1690,7 @@ type QuoteSubscriptionDataOverrideBillOnAcceptance struct {
 // List representing overrides for `subscription_data` configurations for specific subscription schedules.
 type QuoteSubscriptionDataOverride struct {
 	AppliesTo *QuoteSubscriptionDataOverrideAppliesTo `json:"applies_to"`
-	// Configures when the subscription schedule generates prorations for phase transitions. Possible values are `prorate_on_next_phase` or `prorate_up_front` with the default being `prorate_on_next_phase`. `prorate_on_next_phase` will apply phase changes and generate prorations at transition time.`prorate_up_front` will bill for all phases within the current billing cycle up front.
+	// Configures when the subscription schedule generates prorations for phase transitions. Possible values are `prorate_on_next_phase` or `prorate_up_front` with the default being `prorate_on_next_phase`. `prorate_on_next_phase` will apply phase changes and generate prorations at transition time. `prorate_up_front` will bill for all phases within the current billing cycle up front.
 	BillingBehavior QuoteSubscriptionDataOverrideBillingBehavior `json:"billing_behavior"`
 	// Describes the period to bill for upon accepting the quote.
 	BillOnAcceptance *QuoteSubscriptionDataOverrideBillOnAcceptance `json:"bill_on_acceptance"`
