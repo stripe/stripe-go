@@ -68,7 +68,7 @@ type CustomerSessionComponentsPricingTableParams struct {
 	Enabled *bool `form:"enabled"`
 }
 
-// Configuration for each component.
+// Configuration for each component. 1 component must be enabled.
 type CustomerSessionComponentsParams struct {
 	// Configuration for the payment element.
 	PaymentElement *CustomerSessionComponentsPaymentElementParams `form:"payment_element"`
@@ -79,7 +79,7 @@ type CustomerSessionComponentsParams struct {
 // Creates a customer session object that includes a single-use client secret that you can use on your front-end to grant client-side API access for certain customer resources.
 type CustomerSessionParams struct {
 	Params `form:"*"`
-	// Configuration for each component.
+	// Configuration for each component. 1 component must be enabled.
 	Components *CustomerSessionComponentsParams `form:"components"`
 	// The ID of an existing customer for which to create the customer session.
 	Customer *string `form:"customer"`
