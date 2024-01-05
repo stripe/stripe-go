@@ -20,7 +20,7 @@ const (
 	SubscriptionScheduleDefaultSettingsBillingCycleAnchorPhaseStart SubscriptionScheduleDefaultSettingsBillingCycleAnchor = "phase_start"
 )
 
-// Behavior of the subscription schedule and underlying subscription when it ends. Possible values are `release` or `cancel` with the default being `release`. `release` will end the subscription schedule and keep the underlying subscription running.`cancel` will end the subscription schedule and cancel the underlying subscription.
+// Behavior of the subscription schedule and underlying subscription when it ends. Possible values are `release` or `cancel` with the default being `release`. `release` will end the subscription schedule and keep the underlying subscription running. `cancel` will end the subscription schedule and cancel the underlying subscription.
 type SubscriptionScheduleEndBehavior string
 
 // List of values that SubscriptionScheduleEndBehavior can take
@@ -256,7 +256,7 @@ type SubscriptionScheduleParams struct {
 	Customer *string `form:"customer"`
 	// Object representing the subscription schedule's default settings.
 	DefaultSettings *SubscriptionScheduleDefaultSettingsParams `form:"default_settings"`
-	// Behavior of the subscription schedule and underlying subscription when it ends. Possible values are `release` or `cancel` with the default being `release`. `release` will end the subscription schedule and keep the underlying subscription running.`cancel` will end the subscription schedule and cancel the underlying subscription.
+	// Behavior of the subscription schedule and underlying subscription when it ends. Possible values are `release` or `cancel` with the default being `release`. `release` will end the subscription schedule and keep the underlying subscription running. `cancel` will end the subscription schedule and cancel the underlying subscription.
 	EndBehavior *string `form:"end_behavior"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
@@ -449,7 +449,7 @@ type SubscriptionSchedule struct {
 	// ID of the customer who owns the subscription schedule.
 	Customer        *Customer                            `json:"customer"`
 	DefaultSettings *SubscriptionScheduleDefaultSettings `json:"default_settings"`
-	// Behavior of the subscription schedule and underlying subscription when it ends. Possible values are `release` or `cancel` with the default being `release`. `release` will end the subscription schedule and keep the underlying subscription running.`cancel` will end the subscription schedule and cancel the underlying subscription.
+	// Behavior of the subscription schedule and underlying subscription when it ends. Possible values are `release` or `cancel` with the default being `release`. `release` will end the subscription schedule and keep the underlying subscription running. `cancel` will end the subscription schedule and cancel the underlying subscription.
 	EndBehavior SubscriptionScheduleEndBehavior `json:"end_behavior"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
