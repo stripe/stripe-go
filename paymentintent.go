@@ -1101,6 +1101,8 @@ type PaymentIntentPaymentDetailsFlightPassengerParams struct {
 
 // The individual flight segments associated with the trip.
 type PaymentIntentPaymentDetailsFlightSegmentParams struct {
+	// The flight segment amount.
+	Amount *int64 `form:"amount"`
 	// The International Air Transport Association (IATA) airport code for the arrival airport.
 	ArrivalAirport *string `form:"arrival_airport"`
 	// The arrival time for the flight segment. Measured in seconds since the Unix epoch.
@@ -1197,10 +1199,14 @@ type PaymentIntentPaymentDetailsLodgingParams struct {
 	Name *string `form:"name"`
 	// Indicates if the customer did not keep their booking while failing to cancel the reservation.
 	NoShow *bool `form:"no_show"`
+	// The number of rooms on the booking
+	NumberOfRooms *int64 `form:"number_of_rooms"`
 	// The details of the passengers in the travel reservation
 	Passengers []*PaymentIntentPaymentDetailsLodgingPassengerParams `form:"passengers"`
 	// The phone number of the lodging location.
 	PropertyPhoneNumber *string `form:"property_phone_number"`
+	// The room class for this purchase.
+	RoomClass *string `form:"room_class"`
 	// The number of room nights
 	RoomNights *int64 `form:"room_nights"`
 	// The total tax amount associating with the room reservation.
@@ -2487,6 +2493,8 @@ type PaymentIntentConfirmPaymentDetailsFlightPassengerParams struct {
 
 // The individual flight segments associated with the trip.
 type PaymentIntentConfirmPaymentDetailsFlightSegmentParams struct {
+	// The flight segment amount.
+	Amount *int64 `form:"amount"`
 	// The International Air Transport Association (IATA) airport code for the arrival airport.
 	ArrivalAirport *string `form:"arrival_airport"`
 	// The arrival time for the flight segment. Measured in seconds since the Unix epoch.
@@ -2583,10 +2591,14 @@ type PaymentIntentConfirmPaymentDetailsLodgingParams struct {
 	Name *string `form:"name"`
 	// Indicates if the customer did not keep their booking while failing to cancel the reservation.
 	NoShow *bool `form:"no_show"`
+	// The number of rooms on the booking
+	NumberOfRooms *int64 `form:"number_of_rooms"`
 	// The details of the passengers in the travel reservation
 	Passengers []*PaymentIntentConfirmPaymentDetailsLodgingPassengerParams `form:"passengers"`
 	// The phone number of the lodging location.
 	PropertyPhoneNumber *string `form:"property_phone_number"`
+	// The room class for this purchase.
+	RoomClass *string `form:"room_class"`
 	// The number of room nights
 	RoomNights *int64 `form:"room_nights"`
 	// The total tax amount associating with the room reservation.
@@ -2894,6 +2906,8 @@ type PaymentIntentCapturePaymentDetailsFlightPassengerParams struct {
 
 // The individual flight segments associated with the trip.
 type PaymentIntentCapturePaymentDetailsFlightSegmentParams struct {
+	// The flight segment amount.
+	Amount *int64 `form:"amount"`
 	// The International Air Transport Association (IATA) airport code for the arrival airport.
 	ArrivalAirport *string `form:"arrival_airport"`
 	// The arrival time for the flight segment. Measured in seconds since the Unix epoch.
@@ -2990,10 +3004,14 @@ type PaymentIntentCapturePaymentDetailsLodgingParams struct {
 	Name *string `form:"name"`
 	// Indicates if the customer did not keep their booking while failing to cancel the reservation.
 	NoShow *bool `form:"no_show"`
+	// The number of rooms on the booking
+	NumberOfRooms *int64 `form:"number_of_rooms"`
 	// The details of the passengers in the travel reservation
 	Passengers []*PaymentIntentCapturePaymentDetailsLodgingPassengerParams `form:"passengers"`
 	// The phone number of the lodging location.
 	PropertyPhoneNumber *string `form:"property_phone_number"`
+	// The room class for this purchase.
+	RoomClass *string `form:"room_class"`
 	// The number of room nights
 	RoomNights *int64 `form:"room_nights"`
 	// The total tax amount associating with the room reservation.
