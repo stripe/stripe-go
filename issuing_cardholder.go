@@ -101,7 +101,7 @@ type IssuingCardholderCompanyParams struct {
 	TaxID *string `form:"tax_id"`
 }
 
-// Information about cardholder acceptance of [Authorized User Terms](https://stripe.com/docs/issuing/cards).
+// Information about cardholder acceptance of Celtic [Authorized User Terms](https://stripe.com/docs/issuing/cards#accept-authorized-user-terms). Required for cards backed by a Celtic program.
 type IssuingCardholderIndividualCardIssuingUserTermsAcceptanceParams struct {
 	// The Unix timestamp marking when the cardholder accepted the Authorized User Terms. Required for Celtic Spend Card users.
 	Date *int64 `form:"date"`
@@ -113,7 +113,7 @@ type IssuingCardholderIndividualCardIssuingUserTermsAcceptanceParams struct {
 
 // Information related to the card_issuing program for this cardholder.
 type IssuingCardholderIndividualCardIssuingParams struct {
-	// Information about cardholder acceptance of [Authorized User Terms](https://stripe.com/docs/issuing/cards).
+	// Information about cardholder acceptance of Celtic [Authorized User Terms](https://stripe.com/docs/issuing/cards#accept-authorized-user-terms). Required for cards backed by a Celtic program.
 	UserTermsAcceptance *IssuingCardholderIndividualCardIssuingUserTermsAcceptanceParams `form:"user_terms_acceptance"`
 }
 
@@ -231,11 +231,11 @@ type IssuingCardholderCompany struct {
 	TaxIDProvided bool `json:"tax_id_provided"`
 }
 
-// Information about cardholder acceptance of [Authorized User Terms](https://stripe.com/docs/issuing/cards).
+// Information about cardholder acceptance of Celtic [Authorized User Terms](https://stripe.com/docs/issuing/cards#accept-authorized-user-terms). Required for cards backed by a Celtic program.
 type IssuingCardholderIndividualCardIssuingUserTermsAcceptance struct {
-	// The Unix timestamp marking when the cardholder accepted the Authorized User Terms. Required for Celtic Spend Card users.
+	// The Unix timestamp marking when the cardholder accepted the Authorized User Terms.
 	Date int64 `json:"date"`
-	// The IP address from which the cardholder accepted the Authorized User Terms. Required for Celtic Spend Card users.
+	// The IP address from which the cardholder accepted the Authorized User Terms.
 	IP string `json:"ip"`
 	// The user agent of the browser from which the cardholder accepted the Authorized User Terms.
 	UserAgent string `json:"user_agent"`
@@ -243,7 +243,7 @@ type IssuingCardholderIndividualCardIssuingUserTermsAcceptance struct {
 
 // Information related to the card_issuing program for this cardholder.
 type IssuingCardholderIndividualCardIssuing struct {
-	// Information about cardholder acceptance of [Authorized User Terms](https://stripe.com/docs/issuing/cards).
+	// Information about cardholder acceptance of Celtic [Authorized User Terms](https://stripe.com/docs/issuing/cards#accept-authorized-user-terms). Required for cards backed by a Celtic program.
 	UserTermsAcceptance *IssuingCardholderIndividualCardIssuingUserTermsAcceptance `json:"user_terms_acceptance"`
 }
 
