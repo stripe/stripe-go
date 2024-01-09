@@ -306,6 +306,20 @@ type SubscriptionAutomaticTaxParams struct {
 	Enabled *bool `form:"enabled"`
 }
 
+// Mutually exclusive with billing_cycle_anchor and only valid with monthly and yearly price intervals. When provided, the billing_cycle_anchor is set to the next occurence of the day_of_month at the hour, minute, and second UTC.
+type SubscriptionBillingCycleAnchorConfigParams struct {
+	// The day of the month the billing_cycle_anchor should be. Ranges from 1 to 31.
+	DayOfMonth *int64 `form:"day_of_month"`
+	// The hour of the day the billing_cycle_anchor should be. Ranges from 0 to 23.
+	Hour *int64 `form:"hour"`
+	// The minute of the hour the billing_cycle_anchor should be. Ranges from 0 to 59.
+	Minute *int64 `form:"minute"`
+	// The month to start full cycle billing periods. Ranges from 1 to 12.
+	Month *int64 `form:"month"`
+	// The second of the minute the billing_cycle_anchor should be. Ranges from 0 to 59.
+	Second *int64 `form:"second"`
+}
+
 // Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. Pass an empty string to remove previously-defined thresholds.
 type SubscriptionBillingThresholdsParams struct {
 	// Monetary threshold that triggers the subscription to advance to a new billing period
@@ -501,9 +515,11 @@ type SubscriptionParams struct {
 	// For new subscriptions, a past timestamp to backdate the subscription's start date to. If set, the first invoice will contain a proration for the timespan between the start date and the current time. Can be combined with trials and the billing cycle anchor.
 	BackdateStartDate *int64 `form:"backdate_start_date"`
 	// A future timestamp in UTC format to anchor the subscription's [billing cycle](https://stripe.com/docs/subscriptions/billing-cycle). The anchor is the reference point that aligns future billing cycle dates. It sets the day of week for `week` intervals, the day of month for `month` and `year` intervals, and the month of year for `year` intervals.
-	BillingCycleAnchor          *int64 `form:"billing_cycle_anchor"`
-	BillingCycleAnchorNow       *bool  `form:"-"` // See custom AppendTo
-	BillingCycleAnchorUnchanged *bool  `form:"-"` // See custom AppendTo
+	BillingCycleAnchor *int64 `form:"billing_cycle_anchor"`
+	// Mutually exclusive with billing_cycle_anchor and only valid with monthly and yearly price intervals. When provided, the billing_cycle_anchor is set to the next occurence of the day_of_month at the hour, minute, and second UTC.
+	BillingCycleAnchorConfig    *SubscriptionBillingCycleAnchorConfigParams `form:"billing_cycle_anchor_config"`
+	BillingCycleAnchorNow       *bool                                       `form:"-"` // See custom AppendTo
+	BillingCycleAnchorUnchanged *bool                                       `form:"-"` // See custom AppendTo
 	// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. Pass an empty string to remove previously-defined thresholds.
 	BillingThresholds *SubscriptionBillingThresholdsParams `form:"billing_thresholds"`
 	// A timestamp at which the subscription should cancel. If set to a date before the current period ends, this will cause a proration if prorations have been enabled using `proration_behavior`. If set during a future period, this will always cause a proration for that period.
@@ -675,6 +691,20 @@ type SubscriptionDeleteDiscountParams struct {
 type SubscriptionAutomaticTax struct {
 	// Whether Stripe automatically computes tax on this subscription.
 	Enabled bool `json:"enabled"`
+}
+
+// The fixed values used to calculate the `billing_cycle_anchor`.
+type SubscriptionBillingCycleAnchorConfig struct {
+	// The day of the month of the billing_cycle_anchor.
+	DayOfMonth int64 `json:"day_of_month"`
+	// The hour of the day of the billing_cycle_anchor.
+	Hour int64 `json:"hour"`
+	// The minute of the hour of the billing_cycle_anchor.
+	Minute int64 `json:"minute"`
+	// The month to start full cycle billing periods.
+	Month int64 `json:"month"`
+	// The second of the minute of the billing_cycle_anchor.
+	Second int64 `json:"second"`
 }
 
 // Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period
@@ -849,6 +879,8 @@ type Subscription struct {
 	AutomaticTax          *SubscriptionAutomaticTax `json:"automatic_tax"`
 	// The reference point that aligns future [billing cycle](https://stripe.com/docs/subscriptions/billing-cycle) dates. It sets the day of week for `week` intervals, the day of month for `month` and `year` intervals, and the month of year for `year` intervals. The timestamp is in UTC format.
 	BillingCycleAnchor int64 `json:"billing_cycle_anchor"`
+	// The fixed values used to calculate the `billing_cycle_anchor`.
+	BillingCycleAnchorConfig *SubscriptionBillingCycleAnchorConfig `json:"billing_cycle_anchor_config"`
 	// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period
 	BillingThresholds *SubscriptionBillingThresholds `json:"billing_thresholds"`
 	// A date in the future at which the subscription will automatically get canceled
