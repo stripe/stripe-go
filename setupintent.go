@@ -553,7 +553,7 @@ type SetupIntentPaymentMethodOptionsACSSDebitParams struct {
 	Currency *string `form:"currency"`
 	// Additional fields for Mandate creation
 	MandateOptions *SetupIntentPaymentMethodOptionsACSSDebitMandateOptionsParams `form:"mandate_options"`
-	// Verification method for the intent
+	// Bank account verification method.
 	VerificationMethod *string `form:"verification_method"`
 }
 
@@ -700,7 +700,7 @@ type SetupIntentPaymentMethodOptionsUSBankAccountParams struct {
 	MandateOptions *SetupIntentPaymentMethodOptionsUSBankAccountMandateOptionsParams `form:"mandate_options"`
 	// Additional fields for network related functions
 	Networks *SetupIntentPaymentMethodOptionsUSBankAccountNetworksParams `form:"networks"`
-	// Verification method for the intent
+	// Bank account verification method.
 	VerificationMethod *string `form:"verification_method"`
 }
 
