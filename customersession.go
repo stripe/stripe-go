@@ -42,6 +42,12 @@ const (
 	CustomerSessionComponentsPaymentElementFeaturesPaymentMethodUpdateNever CustomerSessionComponentsPaymentElementFeaturesPaymentMethodUpdate = "never"
 )
 
+// Configuration for buy button.
+type CustomerSessionComponentsBuyButtonParams struct {
+	// Whether the buy button is enabled.
+	Enabled *bool `form:"enabled"`
+}
+
 // This hash defines whether the payment element supports certain features.
 type CustomerSessionComponentsPaymentElementFeaturesParams struct {
 	// Controls whether the Payment Element allows the removal of a saved payment method.
@@ -70,6 +76,8 @@ type CustomerSessionComponentsPricingTableParams struct {
 
 // Configuration for each component. 1 component must be enabled.
 type CustomerSessionComponentsParams struct {
+	// Configuration for buy button.
+	BuyButton *CustomerSessionComponentsBuyButtonParams `form:"buy_button"`
 	// Configuration for the payment element.
 	PaymentElement *CustomerSessionComponentsPaymentElementParams `form:"payment_element"`
 	// Configuration for the pricing table.
@@ -90,6 +98,12 @@ type CustomerSessionParams struct {
 // AddExpand appends a new field to expand.
 func (p *CustomerSessionParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
+}
+
+// This hash contains whether the buy button is enabled.
+type CustomerSessionComponentsBuyButton struct {
+	// Whether the buy button is enabled.
+	Enabled bool `json:"enabled"`
 }
 
 // This hash defines whether the payment element supports certain features.
@@ -120,6 +134,8 @@ type CustomerSessionComponentsPricingTable struct {
 
 // Configuration for the components supported by this customer session.
 type CustomerSessionComponents struct {
+	// This hash contains whether the buy button is enabled.
+	BuyButton *CustomerSessionComponentsBuyButton `json:"buy_button"`
 	// This hash contains whether the payment element is enabled and the features it supports.
 	PaymentElement *CustomerSessionComponentsPaymentElement `json:"payment_element"`
 	// This hash contains whether the pricing table is enabled.
