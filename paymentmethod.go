@@ -237,6 +237,22 @@ const (
 	PaymentMethodUSBankAccountStatusDetailsBlockedReasonDebitNotAuthorized        PaymentMethodUSBankAccountStatusDetailsBlockedReason = "debit_not_authorized"
 )
 
+// Returns a list of PaymentMethods for Treasury flows. If you want to list the PaymentMethods attached to a Customer for payments, you should use the [List a Customer's PaymentMethods](https://stripe.com/docs/api/payment_methods/customer_list) API instead.
+type PaymentMethodListParams struct {
+	ListParams `form:"*"`
+	// The ID of the customer whose PaymentMethods will be retrieved.
+	Customer *string `form:"customer"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// An optional filter on the list, based on the object `type` field. Without the filter, the list includes all current and future payment method types. If your integration expects only one type of payment method in the response, make sure to provide a type value in the request.
+	Type *string `form:"type"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *PaymentMethodListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // If this is an `acss_debit` PaymentMethod, this hash contains details about the ACSS Debit payment method.
 type PaymentMethodACSSDebitParams struct {
 	// Customer's bank account number.
@@ -529,22 +545,6 @@ func (p *PaymentMethodParams) AddMetadata(key string, value string) {
 	}
 
 	p.Metadata[key] = value
-}
-
-// Returns a list of PaymentMethods for Treasury flows. If you want to list the PaymentMethods attached to a Customer for payments, you should use the [List a Customer's PaymentMethods](https://stripe.com/docs/api/payment_methods/customer_list) API instead.
-type PaymentMethodListParams struct {
-	ListParams `form:"*"`
-	// The ID of the customer whose PaymentMethods will be retrieved.
-	Customer *string `form:"customer"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
-	// An optional filter on the list, based on the object `type` field. Without the filter, the list includes all current and future payment method types. If your integration expects only one type of payment method in the response, make sure to provide a type value in the request.
-	Type *string `form:"type"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *PaymentMethodListParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
 }
 
 // Attaches a PaymentMethod object to a Customer.

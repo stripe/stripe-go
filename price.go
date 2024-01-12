@@ -106,23 +106,6 @@ const (
 	PriceTypeRecurring PriceType = "recurring"
 )
 
-// Search for prices you've previously created using Stripe's [Search Query Language](https://stripe.com/docs/search#search-query-language).
-// Don't use search in read-after-write flows where strict consistency is necessary. Under normal operating
-// conditions, data is searchable in less than a minute. Occasionally, propagation of new or updated data can be up
-// to an hour behind during outages. Search functionality is not available to merchants in India.
-type PriceSearchParams struct {
-	SearchParams `form:"*"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
-	// A cursor for pagination across multiple pages of results. Don't include this parameter on the first call. Use the next_page value returned in a previous response to request subsequent results.
-	Page *string `form:"page"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *PriceSearchParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
-}
-
 // Only return prices with these recurring fields.
 type PriceListRecurringParams struct {
 	// Filter by billing frequency. Either `day`, `week`, `month` or `year`.
@@ -359,6 +342,23 @@ type PriceMigrateToParams struct {
 	EffectiveAfter *int64 `form:"effective_after"`
 	// The ID of the price object.
 	Price *string `form:"price"`
+}
+
+// Search for prices you've previously created using Stripe's [Search Query Language](https://stripe.com/docs/search#search-query-language).
+// Don't use search in read-after-write flows where strict consistency is necessary. Under normal operating
+// conditions, data is searchable in less than a minute. Occasionally, propagation of new or updated data can be up
+// to an hour behind during outages. Search functionality is not available to merchants in India.
+type PriceSearchParams struct {
+	SearchParams `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// A cursor for pagination across multiple pages of results. Don't include this parameter on the first call. Use the next_page value returned in a previous response to request subsequent results.
+	Page *string `form:"page"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *PriceSearchParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // When set, provides configuration for the amount to be adjusted by the customer during Checkout Sessions and Payment Links.

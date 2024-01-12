@@ -71,15 +71,19 @@ const (
 	TreasuryInboundTransferStatusSucceeded  TreasuryInboundTransferStatus = "succeeded"
 )
 
-// Cancels an InboundTransfer.
-type TreasuryInboundTransferCancelParams struct {
-	Params `form:"*"`
+// Returns a list of InboundTransfers sent from the specified FinancialAccount.
+type TreasuryInboundTransferListParams struct {
+	ListParams `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+	// Returns objects associated with this FinancialAccount.
+	FinancialAccount *string `form:"financial_account"`
+	// Only return InboundTransfers that have the given status: `processing`, `succeeded`, `failed` or `canceled`.
+	Status *string `form:"status"`
 }
 
 // AddExpand appends a new field to expand.
-func (p *TreasuryInboundTransferCancelParams) AddExpand(f string) {
+func (p *TreasuryInboundTransferListParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
@@ -118,19 +122,15 @@ func (p *TreasuryInboundTransferParams) AddMetadata(key string, value string) {
 	p.Metadata[key] = value
 }
 
-// Returns a list of InboundTransfers sent from the specified FinancialAccount.
-type TreasuryInboundTransferListParams struct {
-	ListParams `form:"*"`
+// Cancels an InboundTransfer.
+type TreasuryInboundTransferCancelParams struct {
+	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-	// Returns objects associated with this FinancialAccount.
-	FinancialAccount *string `form:"financial_account"`
-	// Only return InboundTransfers that have the given status: `processing`, `succeeded`, `failed` or `canceled`.
-	Status *string `form:"status"`
 }
 
 // AddExpand appends a new field to expand.
-func (p *TreasuryInboundTransferListParams) AddExpand(f string) {
+func (p *TreasuryInboundTransferCancelParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 

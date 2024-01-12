@@ -300,23 +300,6 @@ const (
 	ChargeStatusSucceeded ChargeStatus = "succeeded"
 )
 
-// Search for charges you've previously created using Stripe's [Search Query Language](https://stripe.com/docs/search#search-query-language).
-// Don't use search in read-after-write flows where strict consistency is necessary. Under normal operating
-// conditions, data is searchable in less than a minute. Occasionally, propagation of new or updated data can be up
-// to an hour behind during outages. Search functionality is not available to merchants in India.
-type ChargeSearchParams struct {
-	SearchParams `form:"*"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
-	// A cursor for pagination across multiple pages of results. Don't include this parameter on the first call. Use the next_page value returned in a previous response to request subsequent results.
-	Page *string `form:"page"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *ChargeSearchParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
-}
-
 // Returns a list of charges you've previously created. The charges are returned in sorted order, with the most recent charges appearing first.
 type ChargeListParams struct {
 	ListParams   `form:"*"`
@@ -759,6 +742,23 @@ type ChargePaymentDetailsParams struct {
 	Lodging *ChargePaymentDetailsLodgingParams `form:"lodging"`
 	// Subscription details for this PaymentIntent
 	Subscription *ChargePaymentDetailsSubscriptionParams `form:"subscription"`
+}
+
+// Search for charges you've previously created using Stripe's [Search Query Language](https://stripe.com/docs/search#search-query-language).
+// Don't use search in read-after-write flows where strict consistency is necessary. Under normal operating
+// conditions, data is searchable in less than a minute. Occasionally, propagation of new or updated data can be up
+// to an hour behind during outages. Search functionality is not available to merchants in India.
+type ChargeSearchParams struct {
+	SearchParams `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// A cursor for pagination across multiple pages of results. Don't include this parameter on the first call. Use the next_page value returned in a previous response to request subsequent results.
+	Page *string `form:"page"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *ChargeSearchParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // Affiliate details for this purchase.

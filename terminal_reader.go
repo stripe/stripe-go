@@ -83,7 +83,7 @@ const (
 	TerminalReaderDeviceTypeVerifoneP400      TerminalReaderDeviceType = "verifone_P400"
 )
 
-// Updates a Reader object by setting the values of the parameters passed. Any parameters not provided will be left unchanged.
+// Deletes a Reader object.
 type TerminalReaderParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
@@ -132,57 +132,6 @@ func (p *TerminalReaderListParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// Tipping configuration for this transaction.
-type TerminalReaderProcessPaymentIntentProcessConfigTippingParams struct {
-	// Amount used to calculate tip suggestions on tipping selection screen for this transaction. Must be a positive integer in the smallest currency unit (e.g., 100 cents to represent $1.00 or 100 to represent ¥100, a zero-decimal currency).
-	AmountEligible *int64 `form:"amount_eligible"`
-}
-
-// Configuration overrides
-type TerminalReaderProcessPaymentIntentProcessConfigParams struct {
-	// Override showing a tipping selection screen on this transaction.
-	SkipTipping *bool `form:"skip_tipping"`
-	// Tipping configuration for this transaction.
-	Tipping *TerminalReaderProcessPaymentIntentProcessConfigTippingParams `form:"tipping"`
-}
-
-// Initiates a payment flow on a Reader.
-type TerminalReaderProcessPaymentIntentParams struct {
-	Params `form:"*"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
-	// PaymentIntent ID
-	PaymentIntent *string `form:"payment_intent"`
-	// Configuration overrides
-	ProcessConfig *TerminalReaderProcessPaymentIntentProcessConfigParams `form:"process_config"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *TerminalReaderProcessPaymentIntentParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
-}
-
-// Configuration overrides
-type TerminalReaderProcessSetupIntentProcessConfigParams struct{}
-
-// Initiates a setup intent flow on a Reader.
-type TerminalReaderProcessSetupIntentParams struct {
-	Params `form:"*"`
-	// Customer Consent Collected
-	CustomerConsentCollected *bool `form:"customer_consent_collected"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
-	// Configuration overrides
-	ProcessConfig *TerminalReaderProcessSetupIntentProcessConfigParams `form:"process_config"`
-	// SetupIntent ID
-	SetupIntent *string `form:"setup_intent"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *TerminalReaderProcessSetupIntentParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
-}
-
 // Cancels the current reader action.
 type TerminalReaderCancelActionParams struct {
 	Params `form:"*"`
@@ -192,44 +141,6 @@ type TerminalReaderCancelActionParams struct {
 
 // AddExpand appends a new field to expand.
 func (p *TerminalReaderCancelActionParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
-}
-
-// Array of line items that were purchased.
-type TerminalReaderSetReaderDisplayCartLineItemParams struct {
-	// The price of the item in cents.
-	Amount *int64 `form:"amount"`
-	// The description or name of the item.
-	Description *string `form:"description"`
-	// The quantity of the line item being purchased.
-	Quantity *int64 `form:"quantity"`
-}
-
-// Cart
-type TerminalReaderSetReaderDisplayCartParams struct {
-	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
-	// Array of line items that were purchased.
-	LineItems []*TerminalReaderSetReaderDisplayCartLineItemParams `form:"line_items"`
-	// The amount of tax in cents.
-	Tax *int64 `form:"tax"`
-	// Total balance of cart due in cents.
-	Total *int64 `form:"total"`
-}
-
-// Sets reader display to show cart details.
-type TerminalReaderSetReaderDisplayParams struct {
-	Params `form:"*"`
-	// Cart
-	Cart *TerminalReaderSetReaderDisplayCartParams `form:"cart"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
-	// Type
-	Type *string `form:"type"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *TerminalReaderSetReaderDisplayParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
@@ -296,39 +207,6 @@ func (p *TerminalReaderCollectInputsParams) AddMetadata(key string, value string
 	p.Metadata[key] = value
 }
 
-// Initiates a refund on a Reader
-type TerminalReaderRefundPaymentParams struct {
-	Params `form:"*"`
-	// A positive integer in __cents__ representing how much of this charge to refund.
-	Amount *int64 `form:"amount"`
-	// ID of the Charge to refund.
-	Charge *string `form:"charge"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
-	// ID of the PaymentIntent to refund.
-	PaymentIntent *string `form:"payment_intent"`
-	// Boolean indicating whether the application fee should be refunded when refunding this charge. If a full charge refund is given, the full application fee will be refunded. Otherwise, the application fee will be refunded in an amount proportional to the amount of the charge refunded. An application fee can be refunded only by the application that created the charge.
-	RefundApplicationFee *bool `form:"refund_application_fee"`
-	// Boolean indicating whether the transfer should be reversed when refunding this charge. The transfer will be reversed proportionally to the amount being refunded (either the entire or partial amount). A transfer can be reversed only by the application that created the charge.
-	ReverseTransfer *bool `form:"reverse_transfer"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *TerminalReaderRefundPaymentParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
-}
-
-// AddMetadata adds a new key-value pair to the Metadata.
-func (p *TerminalReaderRefundPaymentParams) AddMetadata(key string, value string) {
-	if p.Metadata == nil {
-		p.Metadata = make(map[string]string)
-	}
-
-	p.Metadata[key] = value
-}
-
 // Tipping configuration for this transaction.
 type TerminalReaderCollectPaymentMethodCollectConfigTippingParams struct {
 	// Amount used to calculate tip suggestions on tipping selection screen for this transaction. Must be a positive integer in the smallest currency unit (e.g., 100 cents to represent $1.00 or 100 to represent ¥100, a zero-decimal currency).
@@ -370,6 +248,128 @@ type TerminalReaderConfirmPaymentIntentParams struct {
 
 // AddExpand appends a new field to expand.
 func (p *TerminalReaderConfirmPaymentIntentParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// Tipping configuration for this transaction.
+type TerminalReaderProcessPaymentIntentProcessConfigTippingParams struct {
+	// Amount used to calculate tip suggestions on tipping selection screen for this transaction. Must be a positive integer in the smallest currency unit (e.g., 100 cents to represent $1.00 or 100 to represent ¥100, a zero-decimal currency).
+	AmountEligible *int64 `form:"amount_eligible"`
+}
+
+// Configuration overrides
+type TerminalReaderProcessPaymentIntentProcessConfigParams struct {
+	// Override showing a tipping selection screen on this transaction.
+	SkipTipping *bool `form:"skip_tipping"`
+	// Tipping configuration for this transaction.
+	Tipping *TerminalReaderProcessPaymentIntentProcessConfigTippingParams `form:"tipping"`
+}
+
+// Initiates a payment flow on a Reader.
+type TerminalReaderProcessPaymentIntentParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// PaymentIntent ID
+	PaymentIntent *string `form:"payment_intent"`
+	// Configuration overrides
+	ProcessConfig *TerminalReaderProcessPaymentIntentProcessConfigParams `form:"process_config"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *TerminalReaderProcessPaymentIntentParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// Configuration overrides
+type TerminalReaderProcessSetupIntentProcessConfigParams struct{}
+
+// Initiates a setup intent flow on a Reader.
+type TerminalReaderProcessSetupIntentParams struct {
+	Params `form:"*"`
+	// Customer Consent Collected
+	CustomerConsentCollected *bool `form:"customer_consent_collected"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// Configuration overrides
+	ProcessConfig *TerminalReaderProcessSetupIntentProcessConfigParams `form:"process_config"`
+	// SetupIntent ID
+	SetupIntent *string `form:"setup_intent"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *TerminalReaderProcessSetupIntentParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// Initiates a refund on a Reader
+type TerminalReaderRefundPaymentParams struct {
+	Params `form:"*"`
+	// A positive integer in __cents__ representing how much of this charge to refund.
+	Amount *int64 `form:"amount"`
+	// ID of the Charge to refund.
+	Charge *string `form:"charge"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+	// ID of the PaymentIntent to refund.
+	PaymentIntent *string `form:"payment_intent"`
+	// Boolean indicating whether the application fee should be refunded when refunding this charge. If a full charge refund is given, the full application fee will be refunded. Otherwise, the application fee will be refunded in an amount proportional to the amount of the charge refunded. An application fee can be refunded only by the application that created the charge.
+	RefundApplicationFee *bool `form:"refund_application_fee"`
+	// Boolean indicating whether the transfer should be reversed when refunding this charge. The transfer will be reversed proportionally to the amount being refunded (either the entire or partial amount). A transfer can be reversed only by the application that created the charge.
+	ReverseTransfer *bool `form:"reverse_transfer"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *TerminalReaderRefundPaymentParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *TerminalReaderRefundPaymentParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
+// Array of line items that were purchased.
+type TerminalReaderSetReaderDisplayCartLineItemParams struct {
+	// The price of the item in cents.
+	Amount *int64 `form:"amount"`
+	// The description or name of the item.
+	Description *string `form:"description"`
+	// The quantity of the line item being purchased.
+	Quantity *int64 `form:"quantity"`
+}
+
+// Cart
+type TerminalReaderSetReaderDisplayCartParams struct {
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency *string `form:"currency"`
+	// Array of line items that were purchased.
+	LineItems []*TerminalReaderSetReaderDisplayCartLineItemParams `form:"line_items"`
+	// The amount of tax in cents.
+	Tax *int64 `form:"tax"`
+	// Total balance of cart due in cents.
+	Total *int64 `form:"total"`
+}
+
+// Sets reader display to show cart details.
+type TerminalReaderSetReaderDisplayParams struct {
+	Params `form:"*"`
+	// Cart
+	Cart *TerminalReaderSetReaderDisplayCartParams `form:"cart"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// Type
+	Type *string `form:"type"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *TerminalReaderSetReaderDisplayParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 

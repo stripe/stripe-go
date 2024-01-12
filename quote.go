@@ -338,71 +338,24 @@ const (
 	QuoteTotalDetailsBreakdownTaxTaxabilityReasonZeroRated            QuoteTotalDetailsBreakdownTaxTaxabilityReason = "zero_rated"
 )
 
-// Retrieves the quote with the given ID.
-type QuoteParams struct {
-	Params `form:"*"`
-	// Set to true to allow quote lines to have `starts_at` in the past if collection is paused between `starts_at` and now.
-	AllowBackdatedLines *bool `form:"allow_backdated_lines"`
-	// The amount of the application fee (if any) that will be requested to be applied to the payment and transferred to the application owner's Stripe account. There cannot be any line items with recurring prices when using this field.
-	ApplicationFeeAmount *int64 `form:"application_fee_amount"`
-	// A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice total that will be transferred to the application owner's Stripe account. There must be at least 1 line item with a recurring price to use this field.
-	ApplicationFeePercent *float64 `form:"application_fee_percent"`
-	// Settings for automatic tax lookup for this quote and resulting invoices and subscriptions.
-	AutomaticTax *QuoteAutomaticTaxParams `form:"automatic_tax"`
-	// Either `charge_automatically`, or `send_invoice`. When charging automatically, Stripe will attempt to pay invoices at the end of the subscription cycle or at invoice finalization using the default payment method attached to the subscription or customer. When sending an invoice, Stripe will email your customer an invoice with payment instructions and mark the subscription as `active`. Defaults to `charge_automatically`.
-	CollectionMethod *string `form:"collection_method"`
-	// The customer for which this quote belongs to. A customer is required before finalizing the quote. Once specified, it cannot be changed.
+// Returns a list of your quotes.
+type QuoteListParams struct {
+	ListParams `form:"*"`
+	// The ID of the customer whose quotes will be retrieved.
 	Customer *string `form:"customer"`
-	// The tax rates that will apply to any line item that does not have `tax_rates` set.
-	DefaultTaxRates []*string `form:"default_tax_rates"`
-	// A description that will be displayed on the quote PDF. If no value is passed, the default description configured in your [quote template settings](https://dashboard.stripe.com/settings/billing/quote) will be used.
-	Description *string `form:"description"`
-	// The discounts applied to the quote. You can only set up to one discount.
-	Discounts []*QuoteDiscountParams `form:"discounts"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-	// A future timestamp on which the quote will be canceled if in `open` or `draft` status. Measured in seconds since the Unix epoch. If no value is passed, the default expiration date configured in your [quote template settings](https://dashboard.stripe.com/settings/billing/quote) will be used.
-	ExpiresAt *int64 `form:"expires_at"`
-	// A footer that will be displayed on the quote PDF. If no value is passed, the default footer configured in your [quote template settings](https://dashboard.stripe.com/settings/billing/quote) will be used.
-	Footer *string `form:"footer"`
-	// Clone an existing quote. The new quote will be created in `status=draft`. When using this parameter, you cannot specify any other parameters except for `expires_at`.
-	FromQuote *QuoteFromQuoteParams `form:"from_quote"`
-	// A header that will be displayed on the quote PDF. If no value is passed, the default header configured in your [quote template settings](https://dashboard.stripe.com/settings/billing/quote) will be used.
-	Header *string `form:"header"`
-	// All invoices will be billed using the specified settings.
-	InvoiceSettings *QuoteInvoiceSettingsParams `form:"invoice_settings"`
-	// A list of line items the customer is being quoted for. Each line item includes information about the product, the quantity, and the resulting cost.
-	LineItems []*QuoteLineItemParams `form:"line_items"`
-	// A list of lines on the quote. These lines describe changes, in the order provided, that will be used to create new subscription schedules or update existing subscription schedules when the quote is accepted.
-	Lines []*QuoteLineParams `form:"lines"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
-	// The account on behalf of which to charge.
-	OnBehalfOf *string `form:"on_behalf_of"`
-	// List representing phases of the Quote. Each phase can be customized to have different durations, prices, and coupons.
-	Phases []*QuotePhaseParams `form:"phases"`
-	// When creating a subscription or subscription schedule, the specified configuration data will be used. There must be at least one line item with a recurring price for a subscription or subscription schedule to be created. A subscription schedule is created if `subscription_data[effective_date]` is present and in the future, otherwise a subscription is created.
-	SubscriptionData *QuoteSubscriptionDataParams `form:"subscription_data"`
-	// List representing overrides for `subscription_data` configurations for specific subscription schedules.
-	SubscriptionDataOverrides []*QuoteSubscriptionDataOverrideParams `form:"subscription_data_overrides"`
-	// ID of the test clock to attach to the quote.
+	// The subscription which the quote updates.
+	FromSubscription *string `form:"from_subscription"`
+	// The status of the quote.
+	Status *string `form:"status"`
+	// Provides a list of quotes that are associated with the specified test clock. The response will not include quotes with test clocks if this and the customer parameter is not set.
 	TestClock *string `form:"test_clock"`
-	// The data with which to automatically create a Transfer for each of the invoices.
-	TransferData *QuoteTransferDataParams `form:"transfer_data"`
 }
 
 // AddExpand appends a new field to expand.
-func (p *QuoteParams) AddExpand(f string) {
+func (p *QuoteListParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
-}
-
-// AddMetadata adds a new key-value pair to the Metadata.
-func (p *QuoteParams) AddMetadata(key string, value string) {
-	if p.Metadata == nil {
-		p.Metadata = make(map[string]string)
-	}
-
-	p.Metadata[key] = value
 }
 
 // The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
@@ -447,6 +400,14 @@ type QuoteDiscountParams struct {
 	Discount *string `form:"discount"`
 	// Details to determine how long the discount should be applied for.
 	DiscountEnd *QuoteDiscountDiscountEndParams `form:"discount_end"`
+}
+
+// Clone an existing quote. The new quote will be created in `status=draft`. When using this parameter, you cannot specify any other parameters except for `expires_at`.
+type QuoteFromQuoteParams struct {
+	// Whether this quote is a revision of the previous quote.
+	IsRevision *bool `form:"is_revision"`
+	// The `id` of the quote that will be cloned.
+	Quote *string `form:"quote"`
 }
 
 // The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
@@ -1149,31 +1110,121 @@ type QuoteTransferDataParams struct {
 	Destination *string `form:"destination"`
 }
 
-// Clone an existing quote. The new quote will be created in `status=draft`. When using this parameter, you cannot specify any other parameters except for `expires_at`.
-type QuoteFromQuoteParams struct {
-	// Whether this quote is a revision of the previous quote.
-	IsRevision *bool `form:"is_revision"`
-	// The `id` of the quote that will be cloned.
-	Quote *string `form:"quote"`
-}
-
-// Returns a list of your quotes.
-type QuoteListParams struct {
-	ListParams `form:"*"`
-	// The ID of the customer whose quotes will be retrieved.
+// A quote models prices and services for a customer. Default options for header, description, footer, and expires_at can be set in the dashboard via the [quote template](https://dashboard.stripe.com/settings/billing/quote).
+type QuoteParams struct {
+	Params `form:"*"`
+	// Set to true to allow quote lines to have `starts_at` in the past if collection is paused between `starts_at` and now.
+	AllowBackdatedLines *bool `form:"allow_backdated_lines"`
+	// The amount of the application fee (if any) that will be requested to be applied to the payment and transferred to the application owner's Stripe account. There cannot be any line items with recurring prices when using this field.
+	ApplicationFeeAmount *int64 `form:"application_fee_amount"`
+	// A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice total that will be transferred to the application owner's Stripe account. There must be at least 1 line item with a recurring price to use this field.
+	ApplicationFeePercent *float64 `form:"application_fee_percent"`
+	// Settings for automatic tax lookup for this quote and resulting invoices and subscriptions.
+	AutomaticTax *QuoteAutomaticTaxParams `form:"automatic_tax"`
+	// Either `charge_automatically`, or `send_invoice`. When charging automatically, Stripe will attempt to pay invoices at the end of the subscription cycle or at invoice finalization using the default payment method attached to the subscription or customer. When sending an invoice, Stripe will email your customer an invoice with payment instructions and mark the subscription as `active`. Defaults to `charge_automatically`.
+	CollectionMethod *string `form:"collection_method"`
+	// The customer for which this quote belongs to. A customer is required before finalizing the quote. Once specified, it cannot be changed.
 	Customer *string `form:"customer"`
+	// The tax rates that will apply to any line item that does not have `tax_rates` set.
+	DefaultTaxRates []*string `form:"default_tax_rates"`
+	// A description that will be displayed on the quote PDF. If no value is passed, the default description configured in your [quote template settings](https://dashboard.stripe.com/settings/billing/quote) will be used.
+	Description *string `form:"description"`
+	// The discounts applied to the quote. You can only set up to one discount.
+	Discounts []*QuoteDiscountParams `form:"discounts"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-	// The subscription which the quote updates.
-	FromSubscription *string `form:"from_subscription"`
-	// The status of the quote.
-	Status *string `form:"status"`
-	// Provides a list of quotes that are associated with the specified test clock. The response will not include quotes with test clocks if this and the customer parameter is not set.
+	// A future timestamp on which the quote will be canceled if in `open` or `draft` status. Measured in seconds since the Unix epoch. If no value is passed, the default expiration date configured in your [quote template settings](https://dashboard.stripe.com/settings/billing/quote) will be used.
+	ExpiresAt *int64 `form:"expires_at"`
+	// A footer that will be displayed on the quote PDF. If no value is passed, the default footer configured in your [quote template settings](https://dashboard.stripe.com/settings/billing/quote) will be used.
+	Footer *string `form:"footer"`
+	// Clone an existing quote. The new quote will be created in `status=draft`. When using this parameter, you cannot specify any other parameters except for `expires_at`.
+	FromQuote *QuoteFromQuoteParams `form:"from_quote"`
+	// A header that will be displayed on the quote PDF. If no value is passed, the default header configured in your [quote template settings](https://dashboard.stripe.com/settings/billing/quote) will be used.
+	Header *string `form:"header"`
+	// All invoices will be billed using the specified settings.
+	InvoiceSettings *QuoteInvoiceSettingsParams `form:"invoice_settings"`
+	// A list of line items the customer is being quoted for. Each line item includes information about the product, the quantity, and the resulting cost.
+	LineItems []*QuoteLineItemParams `form:"line_items"`
+	// A list of lines on the quote. These lines describe changes, in the order provided, that will be used to create new subscription schedules or update existing subscription schedules when the quote is accepted.
+	Lines []*QuoteLineParams `form:"lines"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+	// The account on behalf of which to charge.
+	OnBehalfOf *string `form:"on_behalf_of"`
+	// List representing phases of the Quote. Each phase can be customized to have different durations, prices, and coupons.
+	Phases []*QuotePhaseParams `form:"phases"`
+	// When creating a subscription or subscription schedule, the specified configuration data will be used. There must be at least one line item with a recurring price for a subscription or subscription schedule to be created. A subscription schedule is created if `subscription_data[effective_date]` is present and in the future, otherwise a subscription is created.
+	SubscriptionData *QuoteSubscriptionDataParams `form:"subscription_data"`
+	// List representing overrides for `subscription_data` configurations for specific subscription schedules.
+	SubscriptionDataOverrides []*QuoteSubscriptionDataOverrideParams `form:"subscription_data_overrides"`
+	// ID of the test clock to attach to the quote.
 	TestClock *string `form:"test_clock"`
+	// The data with which to automatically create a Transfer for each of the invoices.
+	TransferData *QuoteTransferDataParams `form:"transfer_data"`
 }
 
 // AddExpand appends a new field to expand.
-func (p *QuoteListParams) AddExpand(f string) {
+func (p *QuoteParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *QuoteParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
+// When retrieving a quote, there is an includable [computed.upfront.line_items](https://stripe.com/docs/api/quotes/object#quote_object-computed-upfront-line_items) property containing the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of upfront line items.
+type QuoteListComputedUpfrontLineItemsParams struct {
+	ListParams `form:"*"`
+	Quote      *string `form:"-"` // Included in URL
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *QuoteListComputedUpfrontLineItemsParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// When retrieving a quote, there is an includable line_items property containing the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of line items.
+type QuoteListLineItemsParams struct {
+	ListParams `form:"*"`
+	Quote      *string `form:"-"` // Included in URL
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *QuoteListLineItemsParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// Retrieves a paginated list of lines for a quote. These lines describe changes that will be used to create new subscription schedules or update existing subscription schedules when the quote is accepted.
+type QuoteListLinesParams struct {
+	ListParams `form:"*"`
+	Quote      *string `form:"-"` // Included in URL
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *QuoteListLinesParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// Accepts the specified quote.
+type QuoteAcceptParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *QuoteAcceptParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
@@ -1203,30 +1254,6 @@ func (p *QuoteFinalizeQuoteParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// Accepts the specified quote.
-type QuoteAcceptParams struct {
-	Params `form:"*"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *QuoteAcceptParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
-}
-
-// Recompute the upcoming invoice estimate for the quote.
-type QuoteReestimateParams struct {
-	Params `form:"*"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *QuoteReestimateParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
-}
-
 // Converts a stale quote to draft.
 type QuoteMarkDraftParams struct {
 	Params `form:"*"`
@@ -1253,42 +1280,15 @@ func (p *QuoteMarkStaleParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// When retrieving a quote, there is an includable line_items property containing the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of line items.
-type QuoteListLineItemsParams struct {
-	ListParams `form:"*"`
-	Quote      *string `form:"-"` // Included in URL
+// Recompute the upcoming invoice estimate for the quote.
+type QuoteReestimateParams struct {
+	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 }
 
 // AddExpand appends a new field to expand.
-func (p *QuoteListLineItemsParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
-}
-
-// When retrieving a quote, there is an includable [computed.upfront.line_items](https://stripe.com/docs/api/quotes/object#quote_object-computed-upfront-line_items) property containing the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of upfront line items.
-type QuoteListComputedUpfrontLineItemsParams struct {
-	ListParams `form:"*"`
-	Quote      *string `form:"-"` // Included in URL
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *QuoteListComputedUpfrontLineItemsParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
-}
-
-// Retrieves a paginated list of lines for a quote. These lines describe changes that will be used to create new subscription schedules or update existing subscription schedules when the quote is accepted.
-type QuoteListLinesParams struct {
-	ListParams `form:"*"`
-	Quote      *string `form:"-"` // Included in URL
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *QuoteListLinesParams) AddExpand(f string) {
+func (p *QuoteReestimateParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 

@@ -18,6 +18,24 @@ const (
 	TransferSourceTypeFPX         TransferSourceType = "fpx"
 )
 
+// Returns a list of existing transfers sent to connected accounts. The transfers are returned in sorted order, with the most recently created transfers appearing first.
+type TransferListParams struct {
+	ListParams   `form:"*"`
+	Created      *int64            `form:"created"`
+	CreatedRange *RangeQueryParams `form:"created"`
+	// Only return transfers for the destination specified by this account ID.
+	Destination *string `form:"destination"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// Only return transfers with the specified transfer group.
+	TransferGroup *string `form:"transfer_group"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *TransferListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // To send funds from your Stripe account to a connected account, you create a new transfer object. Your [Stripe balance](https://stripe.com/docs/api#balance) must be able to cover the transfer amount, or you'll receive an “Insufficient Funds” error.
 type TransferParams struct {
 	Params `form:"*"`
@@ -53,24 +71,6 @@ func (p *TransferParams) AddMetadata(key string, value string) {
 	}
 
 	p.Metadata[key] = value
-}
-
-// Returns a list of existing transfers sent to connected accounts. The transfers are returned in sorted order, with the most recently created transfers appearing first.
-type TransferListParams struct {
-	ListParams   `form:"*"`
-	Created      *int64            `form:"created"`
-	CreatedRange *RangeQueryParams `form:"created"`
-	// Only return transfers for the destination specified by this account ID.
-	Destination *string `form:"destination"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
-	// Only return transfers with the specified transfer group.
-	TransferGroup *string `form:"transfer_group"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *TransferListParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
 }
 
 // A `Transfer` object is created when you move funds between Stripe accounts as

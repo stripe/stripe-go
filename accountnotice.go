@@ -23,6 +23,20 @@ const (
 	AccountNoticeReasonIssuingDisputeWon                              AccountNoticeReason = "issuing.dispute_won"
 )
 
+// Retrieves a list of AccountNotice objects. The objects are sorted in descending order by creation date, with the most-recently-created object appearing first.
+type AccountNoticeListParams struct {
+	ListParams `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// Set to false to only return unsent AccountNotices.
+	Sent *bool `form:"sent"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *AccountNoticeListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // Retrieves an AccountNotice object.
 type AccountNoticeParams struct {
 	Params `form:"*"`
@@ -58,20 +72,6 @@ type AccountNoticeEmailParams struct {
 	Recipient *string `form:"recipient"`
 	// Subject of the email.
 	Subject *string `form:"subject"`
-}
-
-// Retrieves a list of AccountNotice objects. The objects are sorted in descending order by creation date, with the most-recently-created object appearing first.
-type AccountNoticeListParams struct {
-	ListParams `form:"*"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
-	// Set to false to only return unsent AccountNotices.
-	Sent *bool `form:"sent"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *AccountNoticeListParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
 }
 
 // Information about the email when sent.
