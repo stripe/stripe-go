@@ -18,7 +18,7 @@ const (
 	TestHelpersTestClockStatusReady           TestHelpersTestClockStatus = "ready"
 )
 
-// Retrieves a test clock.
+// Deletes a test clock.
 type TestHelpersTestClockParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.

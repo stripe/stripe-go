@@ -89,22 +89,11 @@ const (
 	CardTokenizationMethodApplePay   CardTokenizationMethod = "apple_pay"
 )
 
-type CardOwnerParams struct {
-	// Owner's address.
-	Address *AddressParams `form:"address"`
-	// Owner's email address.
-	Email *string `form:"email"`
-	// Owner's full name.
-	Name *string `form:"name"`
-	// Owner's phone number.
-	Phone *string `form:"phone"`
-}
-
 // cardSource is a string that's used to build card form parameters. It's a
 // constant just to make mistakes less likely.
 const cardSource = "source"
 
-// Update a specified source for a given customer.
+// Delete a specified source for a given customer.
 type CardParams struct {
 	Params   `form:"*"`
 	Account  *string `form:"-"` // Included in URL
@@ -268,6 +257,16 @@ func (p *CardParams) AddMetadata(key string, value string) {
 	p.Metadata[key] = value
 }
 
+type CardOwnerParams struct {
+	// Owner's address.
+	Address *AddressParams `form:"address"`
+	// Owner's email address.
+	Email *string `form:"email"`
+	// Owner's full name.
+	Name *string `form:"name"`
+	// Owner's phone number.
+	Phone *string `form:"phone"`
+}
 type CardListParams struct {
 	ListParams `form:"*"`
 	Account    *string `form:"-"` // Included in URL

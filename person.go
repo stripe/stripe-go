@@ -68,33 +68,80 @@ const (
 	PersonVerificationStatusVerified   PersonVerificationStatus = "verified"
 )
 
-// Filters on the list of people returned based on the person's relationship to the account's company.
-type PersonListRelationshipParams struct {
-	// A filter on the list of people returned based on whether these people are directors of the account's company.
-	Director *bool `form:"director"`
-	// A filter on the list of people returned based on whether these people are executives of the account's company.
-	Executive *bool `form:"executive"`
-	// A filter on the list of people returned based on whether these people are legal guardians of the account's representative.
-	LegalGuardian *bool `form:"legal_guardian"`
-	// A filter on the list of people returned based on whether these people are owners of the account's company.
-	Owner *bool `form:"owner"`
-	// A filter on the list of people returned based on whether these people are the representative of the account's company.
-	Representative *bool `form:"representative"`
-}
-
-// Returns a list of people associated with the account's legal entity. The people are returned sorted by creation date, with the most recent people appearing first.
-type PersonListParams struct {
-	ListParams `form:"*"`
-	Account    *string `form:"-"` // Included in URL
+// Deletes an existing person's relationship to the account's legal entity. Any person with a relationship for an account can be deleted through the API, except if the person is the account_opener. If your integration is using the executive parameter, you cannot delete the only verified executive on file.
+type PersonParams struct {
+	Params  `form:"*"`
+	Account *string `form:"-"` // Included in URL
+	// Details on the legal guardian's acceptance of the required Stripe agreements.
+	AdditionalTOSAcceptances *PersonAdditionalTOSAcceptancesParams `form:"additional_tos_acceptances"`
+	// The person's address.
+	Address *AddressParams `form:"address"`
+	// The Kana variation of the person's address (Japan only).
+	AddressKana *PersonAddressKanaParams `form:"address_kana"`
+	// The Kanji variation of the person's address (Japan only).
+	AddressKanji *PersonAddressKanjiParams `form:"address_kanji"`
+	// The person's date of birth.
+	DOB *PersonDOBParams `form:"dob"`
+	// Documents that may be submitted to satisfy various informational requests.
+	Documents *PersonDocumentsParams `form:"documents"`
+	// The person's email address.
+	Email *string `form:"email"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-	// Filters on the list of people returned based on the person's relationship to the account's company.
-	Relationship *PersonListRelationshipParams `form:"relationship"`
+	// The person's first name.
+	FirstName *string `form:"first_name"`
+	// The Kana variation of the person's first name (Japan only).
+	FirstNameKana *string `form:"first_name_kana"`
+	// The Kanji variation of the person's first name (Japan only).
+	FirstNameKanji *string `form:"first_name_kanji"`
+	// A list of alternate names or aliases that the person is known by.
+	FullNameAliases []*string `form:"full_name_aliases"`
+	// The person's gender (International regulations require either "male" or "female").
+	Gender *string `form:"gender"`
+	// The person's ID number, as appropriate for their country. For example, a social security number in the U.S., social insurance number in Canada, etc. Instead of the number itself, you can also provide a [PII token provided by Stripe.js](https://stripe.com/docs/js/tokens/create_token?type=pii).
+	IDNumber *string `form:"id_number"`
+	// The person's secondary ID number, as appropriate for their country, will be used for enhanced verification checks. In Thailand, this would be the laser code found on the back of an ID card. Instead of the number itself, you can also provide a [PII token provided by Stripe.js](https://stripe.com/docs/js/tokens/create_token?type=pii).
+	IDNumberSecondary *string `form:"id_number_secondary"`
+	// The person's last name.
+	LastName *string `form:"last_name"`
+	// The Kana variation of the person's last name (Japan only).
+	LastNameKana *string `form:"last_name_kana"`
+	// The Kanji variation of the person's last name (Japan only).
+	LastNameKanji *string `form:"last_name_kanji"`
+	// The person's maiden name.
+	MaidenName *string `form:"maiden_name"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+	// The country where the person is a national. Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)), or "XX" if unavailable.
+	Nationality *string `form:"nationality"`
+	// A [person token](https://stripe.com/docs/connect/account-tokens), used to securely provide details to the person.
+	PersonToken *string `form:"person_token"`
+	// The person's phone number.
+	Phone *string `form:"phone"`
+	// Indicates if the person or any of their representatives, family members, or other closely related persons, declares that they hold or have held an important public job or function, in any jurisdiction.
+	PoliticalExposure *string `form:"political_exposure"`
+	// The person's registered address.
+	RegisteredAddress *AddressParams `form:"registered_address"`
+	// The relationship that this person has with the account's legal entity.
+	Relationship *PersonRelationshipParams `form:"relationship"`
+	// The last four digits of the person's Social Security number (U.S. only).
+	SSNLast4 *string `form:"ssn_last_4"`
+	// The person's verification status.
+	Verification *PersonVerificationParams `form:"verification"`
 }
 
 // AddExpand appends a new field to expand.
-func (p *PersonListParams) AddExpand(f string) {
+func (p *PersonParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *PersonParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
 }
 
 // Details on the legal guardian's acceptance of the main Stripe service agreement.
@@ -221,80 +268,33 @@ type PersonVerificationParams struct {
 	Document *PersonVerificationDocumentParams `form:"document"`
 }
 
-// Creates a new person.
-type PersonParams struct {
-	Params  `form:"*"`
-	Account *string `form:"-"` // Included in URL
-	// Details on the legal guardian's acceptance of the required Stripe agreements.
-	AdditionalTOSAcceptances *PersonAdditionalTOSAcceptancesParams `form:"additional_tos_acceptances"`
-	// The person's address.
-	Address *AddressParams `form:"address"`
-	// The Kana variation of the person's address (Japan only).
-	AddressKana *PersonAddressKanaParams `form:"address_kana"`
-	// The Kanji variation of the person's address (Japan only).
-	AddressKanji *PersonAddressKanjiParams `form:"address_kanji"`
-	// The person's date of birth.
-	DOB *PersonDOBParams `form:"dob"`
-	// Documents that may be submitted to satisfy various informational requests.
-	Documents *PersonDocumentsParams `form:"documents"`
-	// The person's email address.
-	Email *string `form:"email"`
+// Filters on the list of people returned based on the person's relationship to the account's company.
+type PersonListRelationshipParams struct {
+	// A filter on the list of people returned based on whether these people are directors of the account's company.
+	Director *bool `form:"director"`
+	// A filter on the list of people returned based on whether these people are executives of the account's company.
+	Executive *bool `form:"executive"`
+	// A filter on the list of people returned based on whether these people are legal guardians of the account's representative.
+	LegalGuardian *bool `form:"legal_guardian"`
+	// A filter on the list of people returned based on whether these people are owners of the account's company.
+	Owner *bool `form:"owner"`
+	// A filter on the list of people returned based on whether these people are the representative of the account's company.
+	Representative *bool `form:"representative"`
+}
+
+// Returns a list of people associated with the account's legal entity. The people are returned sorted by creation date, with the most recent people appearing first.
+type PersonListParams struct {
+	ListParams `form:"*"`
+	Account    *string `form:"-"` // Included in URL
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-	// The person's first name.
-	FirstName *string `form:"first_name"`
-	// The Kana variation of the person's first name (Japan only).
-	FirstNameKana *string `form:"first_name_kana"`
-	// The Kanji variation of the person's first name (Japan only).
-	FirstNameKanji *string `form:"first_name_kanji"`
-	// A list of alternate names or aliases that the person is known by.
-	FullNameAliases []*string `form:"full_name_aliases"`
-	// The person's gender (International regulations require either "male" or "female").
-	Gender *string `form:"gender"`
-	// The person's ID number, as appropriate for their country. For example, a social security number in the U.S., social insurance number in Canada, etc. Instead of the number itself, you can also provide a [PII token provided by Stripe.js](https://stripe.com/docs/js/tokens/create_token?type=pii).
-	IDNumber *string `form:"id_number"`
-	// The person's secondary ID number, as appropriate for their country, will be used for enhanced verification checks. In Thailand, this would be the laser code found on the back of an ID card. Instead of the number itself, you can also provide a [PII token provided by Stripe.js](https://stripe.com/docs/js/tokens/create_token?type=pii).
-	IDNumberSecondary *string `form:"id_number_secondary"`
-	// The person's last name.
-	LastName *string `form:"last_name"`
-	// The Kana variation of the person's last name (Japan only).
-	LastNameKana *string `form:"last_name_kana"`
-	// The Kanji variation of the person's last name (Japan only).
-	LastNameKanji *string `form:"last_name_kanji"`
-	// The person's maiden name.
-	MaidenName *string `form:"maiden_name"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
-	// The country where the person is a national. Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)), or "XX" if unavailable.
-	Nationality *string `form:"nationality"`
-	// A [person token](https://stripe.com/docs/connect/account-tokens), used to securely provide details to the person.
-	PersonToken *string `form:"person_token"`
-	// The person's phone number.
-	Phone *string `form:"phone"`
-	// Indicates if the person or any of their representatives, family members, or other closely related persons, declares that they hold or have held an important public job or function, in any jurisdiction.
-	PoliticalExposure *string `form:"political_exposure"`
-	// The person's registered address.
-	RegisteredAddress *AddressParams `form:"registered_address"`
-	// The relationship that this person has with the account's legal entity.
-	Relationship *PersonRelationshipParams `form:"relationship"`
-	// The last four digits of the person's Social Security number (U.S. only).
-	SSNLast4 *string `form:"ssn_last_4"`
-	// The person's verification status.
-	Verification *PersonVerificationParams `form:"verification"`
+	// Filters on the list of people returned based on the person's relationship to the account's company.
+	Relationship *PersonListRelationshipParams `form:"relationship"`
 }
 
 // AddExpand appends a new field to expand.
-func (p *PersonParams) AddExpand(f string) {
+func (p *PersonListParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
-}
-
-// AddMetadata adds a new key-value pair to the Metadata.
-func (p *PersonParams) AddMetadata(key string, value string) {
-	if p.Metadata == nil {
-		p.Metadata = make(map[string]string)
-	}
-
-	p.Metadata[key] = value
 }
 
 type PersonAdditionalTOSAcceptancesAccount struct {

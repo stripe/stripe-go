@@ -8,51 +8,7 @@ package stripe
 
 import "encoding/json"
 
-// Returns a list of your subscription items for a given subscription.
-type SubscriptionItemListParams struct {
-	ListParams `form:"*"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
-	// The ID of the subscription whose items will be retrieved.
-	Subscription *string `form:"subscription"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *SubscriptionItemListParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
-}
-
-// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. When updating, pass an empty string to remove previously-defined thresholds.
-type SubscriptionItemBillingThresholdsParams struct {
-	// Number of units that meets the billing threshold to advance the subscription to a new billing period (e.g., it takes 10 $5 units to meet a $50 [monetary threshold](https://stripe.com/docs/api/subscriptions/update#update_subscription-billing_thresholds-amount_gte))
-	UsageGTE *int64 `form:"usage_gte"`
-}
-
-// The recurring components of a price such as `interval` and `interval_count`.
-type SubscriptionItemPriceDataRecurringParams struct {
-	// Specifies billing frequency. Either `day`, `week`, `month` or `year`.
-	Interval *string `form:"interval"`
-	// The number of intervals between subscription billings. For example, `interval=month` and `interval_count=3` bills every 3 months. Maximum of one year interval allowed (1 year, 12 months, or 52 weeks).
-	IntervalCount *int64 `form:"interval_count"`
-}
-
-// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline.
-type SubscriptionItemPriceDataParams struct {
-	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
-	// The ID of the product that this price will belong to.
-	Product *string `form:"product"`
-	// The recurring components of a price such as `interval` and `interval_count`.
-	Recurring *SubscriptionItemPriceDataRecurringParams `form:"recurring"`
-	// Only required if a [default tax behavior](https://stripe.com/docs/tax/products-prices-tax-categories-tax-behavior#setting-a-default-tax-behavior-(recommended)) was not provided in the Stripe Tax settings. Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Once specified as either `inclusive` or `exclusive`, it cannot be changed.
-	TaxBehavior *string `form:"tax_behavior"`
-	// A positive integer in cents (or local equivalent) (or 0 for a free price) representing how much to charge.
-	UnitAmount *int64 `form:"unit_amount"`
-	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
-	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
-}
-
-// Adds a new item to an existing subscription. No existing items will be changed or replaced.
+// Deletes an item from the subscription. Removing a subscription item from a subscription will not cancel the subscription.
 type SubscriptionItemParams struct {
 	Params `form:"*"`
 	// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. When updating, pass an empty string to remove previously-defined thresholds.
@@ -104,6 +60,50 @@ func (p *SubscriptionItemParams) AddMetadata(key string, value string) {
 	}
 
 	p.Metadata[key] = value
+}
+
+// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. When updating, pass an empty string to remove previously-defined thresholds.
+type SubscriptionItemBillingThresholdsParams struct {
+	// Number of units that meets the billing threshold to advance the subscription to a new billing period (e.g., it takes 10 $5 units to meet a $50 [monetary threshold](https://stripe.com/docs/api/subscriptions/update#update_subscription-billing_thresholds-amount_gte))
+	UsageGTE *int64 `form:"usage_gte"`
+}
+
+// The recurring components of a price such as `interval` and `interval_count`.
+type SubscriptionItemPriceDataRecurringParams struct {
+	// Specifies billing frequency. Either `day`, `week`, `month` or `year`.
+	Interval *string `form:"interval"`
+	// The number of intervals between subscription billings. For example, `interval=month` and `interval_count=3` bills every 3 months. Maximum of one year interval allowed (1 year, 12 months, or 52 weeks).
+	IntervalCount *int64 `form:"interval_count"`
+}
+
+// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline.
+type SubscriptionItemPriceDataParams struct {
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency *string `form:"currency"`
+	// The ID of the product that this price will belong to.
+	Product *string `form:"product"`
+	// The recurring components of a price such as `interval` and `interval_count`.
+	Recurring *SubscriptionItemPriceDataRecurringParams `form:"recurring"`
+	// Only required if a [default tax behavior](https://stripe.com/docs/tax/products-prices-tax-categories-tax-behavior#setting-a-default-tax-behavior-(recommended)) was not provided in the Stripe Tax settings. Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Once specified as either `inclusive` or `exclusive`, it cannot be changed.
+	TaxBehavior *string `form:"tax_behavior"`
+	// A positive integer in cents (or local equivalent) (or 0 for a free price) representing how much to charge.
+	UnitAmount *int64 `form:"unit_amount"`
+	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
+	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
+}
+
+// Returns a list of your subscription items for a given subscription.
+type SubscriptionItemListParams struct {
+	ListParams `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// The ID of the subscription whose items will be retrieved.
+	Subscription *string `form:"subscription"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *SubscriptionItemListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // For the specified subscription item, returns a list of summary objects. Each object in the list provides usage information that's been summarized from multiple usage records and over a subscription billing period (e.g., 15 usage records in the month of September).

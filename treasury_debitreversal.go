@@ -25,6 +25,26 @@ const (
 	TreasuryDebitReversalStatusSucceeded  TreasuryDebitReversalStatus = "succeeded"
 )
 
+// Returns a list of DebitReversals.
+type TreasuryDebitReversalListParams struct {
+	ListParams `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// Returns objects associated with this FinancialAccount.
+	FinancialAccount *string `form:"financial_account"`
+	// Only return DebitReversals for the ReceivedDebit ID.
+	ReceivedDebit *string `form:"received_debit"`
+	// Only return DebitReversals for a given resolution.
+	Resolution *string `form:"resolution"`
+	// Only return DebitReversals for a given status.
+	Status *string `form:"status"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *TreasuryDebitReversalListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // Reverses a ReceivedDebit and creates a DebitReversal object.
 type TreasuryDebitReversalParams struct {
 	Params `form:"*"`
@@ -48,26 +68,6 @@ func (p *TreasuryDebitReversalParams) AddMetadata(key string, value string) {
 	}
 
 	p.Metadata[key] = value
-}
-
-// Returns a list of DebitReversals.
-type TreasuryDebitReversalListParams struct {
-	ListParams `form:"*"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
-	// Returns objects associated with this FinancialAccount.
-	FinancialAccount *string `form:"financial_account"`
-	// Only return DebitReversals for the ReceivedDebit ID.
-	ReceivedDebit *string `form:"received_debit"`
-	// Only return DebitReversals for a given resolution.
-	Resolution *string `form:"resolution"`
-	// Only return DebitReversals for a given status.
-	Status *string `form:"status"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *TreasuryDebitReversalListParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
 }
 
 // Other flows linked to a DebitReversal.

@@ -111,6 +111,20 @@ const (
 	TreasuryFinancialAccountStatusDetailsClosedReasonOther            TreasuryFinancialAccountStatusDetailsClosedReason = "other"
 )
 
+// Returns a list of FinancialAccounts.
+type TreasuryFinancialAccountListParams struct {
+	ListParams   `form:"*"`
+	Created      *int64            `form:"created"`
+	CreatedRange *RangeQueryParams `form:"created"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *TreasuryFinancialAccountListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // Encodes the FinancialAccount's ability to be used with the Issuing product, including attaching cards to and drawing funds from the FinancialAccount.
 type TreasuryFinancialAccountFeaturesCardIssuingParams struct {
 	// Whether the FinancialAccount should have the Feature.
@@ -248,17 +262,15 @@ func (p *TreasuryFinancialAccountParams) AddMetadata(key string, value string) {
 	p.Metadata[key] = value
 }
 
-// Returns a list of FinancialAccounts.
-type TreasuryFinancialAccountListParams struct {
-	ListParams   `form:"*"`
-	Created      *int64            `form:"created"`
-	CreatedRange *RangeQueryParams `form:"created"`
+// Retrieves Features information associated with the FinancialAccount.
+type TreasuryFinancialAccountRetrieveFeaturesParams struct {
+	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 }
 
 // AddExpand appends a new field to expand.
-func (p *TreasuryFinancialAccountListParams) AddExpand(f string) {
+func (p *TreasuryFinancialAccountRetrieveFeaturesParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
@@ -367,18 +379,6 @@ type TreasuryFinancialAccountUpdateFeaturesParams struct {
 
 // AddExpand appends a new field to expand.
 func (p *TreasuryFinancialAccountUpdateFeaturesParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
-}
-
-// Retrieves Features information associated with the FinancialAccount.
-type TreasuryFinancialAccountRetrieveFeaturesParams struct {
-	Params `form:"*"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *TreasuryFinancialAccountRetrieveFeaturesParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 

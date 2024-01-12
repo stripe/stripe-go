@@ -6,18 +6,6 @@
 
 package stripe
 
-// Transitions a test mode created InboundTransfer to the succeeded status. The InboundTransfer must already be in the processing state.
-type TestHelpersTreasuryInboundTransferSucceedParams struct {
-	Params `form:"*"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *TestHelpersTreasuryInboundTransferSucceedParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
-}
-
 // Details about a failed InboundTransfer.
 type TestHelpersTreasuryInboundTransferFailFailureDetailsParams struct {
 	// Reason for the failure.
@@ -47,5 +35,17 @@ type TestHelpersTreasuryInboundTransferReturnInboundTransferParams struct {
 
 // AddExpand appends a new field to expand.
 func (p *TestHelpersTreasuryInboundTransferReturnInboundTransferParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// Transitions a test mode created InboundTransfer to the succeeded status. The InboundTransfer must already be in the processing state.
+type TestHelpersTreasuryInboundTransferSucceedParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *TestHelpersTreasuryInboundTransferSucceedParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }

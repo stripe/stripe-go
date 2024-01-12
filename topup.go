@@ -20,6 +20,28 @@ const (
 	TopupStatusSucceeded TopupStatus = "succeeded"
 )
 
+// Returns a list of top-ups.
+type TopupListParams struct {
+	ListParams `form:"*"`
+	// A positive integer representing how much to transfer.
+	Amount *int64 `form:"amount"`
+	// A positive integer representing how much to transfer.
+	AmountRange *RangeQueryParams `form:"amount"`
+	// A filter on the list, based on the object `created` field. The value can be a string with an integer Unix timestamp, or it can be a dictionary with a number of different query options.
+	Created *int64 `form:"created"`
+	// A filter on the list, based on the object `created` field. The value can be a string with an integer Unix timestamp, or it can be a dictionary with a number of different query options.
+	CreatedRange *RangeQueryParams `form:"created"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// Only return top-ups that have the given status. One of `canceled`, `failed`, `pending` or `succeeded`.
+	Status *string `form:"status"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *TopupListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // Top up the balance of an account
 type TopupParams struct {
 	Params `form:"*"`
@@ -53,28 +75,6 @@ func (p *TopupParams) AddMetadata(key string, value string) {
 	}
 
 	p.Metadata[key] = value
-}
-
-// Returns a list of top-ups.
-type TopupListParams struct {
-	ListParams `form:"*"`
-	// A positive integer representing how much to transfer.
-	Amount *int64 `form:"amount"`
-	// A positive integer representing how much to transfer.
-	AmountRange *RangeQueryParams `form:"amount"`
-	// A filter on the list, based on the object `created` field. The value can be a string with an integer Unix timestamp, or it can be a dictionary with a number of different query options.
-	Created *int64 `form:"created"`
-	// A filter on the list, based on the object `created` field. The value can be a string with an integer Unix timestamp, or it can be a dictionary with a number of different query options.
-	CreatedRange *RangeQueryParams `form:"created"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
-	// Only return top-ups that have the given status. One of `canceled`, `failed`, `pending` or `succeeded`.
-	Status *string `form:"status"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *TopupListParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
 }
 
 // To top up your Stripe balance, you create a top-up object. You can retrieve

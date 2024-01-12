@@ -176,6 +176,23 @@ func (c Client) ListComputedUpfrontLineItems(listParams *stripe.QuoteListCompute
 	}
 }
 
+// LineItemIter is an iterator for line items.
+type LineItemIter struct {
+	*stripe.Iter
+}
+
+// LineItem returns the line item which the iterator is currently pointing to.
+func (i *LineItemIter) LineItem() *stripe.LineItem {
+	return i.Current().(*stripe.LineItem)
+}
+
+// LineItemList returns the current list object which the iterator is
+// currently using. List objects will change as new API calls are made to
+// continue pagination.
+func (i *LineItemIter) LineItemList() *stripe.LineItemList {
+	return i.List().(*stripe.LineItemList)
+}
+
 // ListLineItems is the method for the `GET /v1/quotes/{quote}/line_items` API.
 func ListLineItems(params *stripe.QuoteListLineItemsParams) *LineItemIter {
 	return getC().ListLineItems(params)
@@ -200,23 +217,6 @@ func (c Client) ListLineItems(listParams *stripe.QuoteListLineItemsParams) *Line
 			return ret, list, err
 		}),
 	}
-}
-
-// LineItemIter is an iterator for line items.
-type LineItemIter struct {
-	*stripe.Iter
-}
-
-// LineItem returns the line item which the iterator is currently pointing to.
-func (i *LineItemIter) LineItem() *stripe.LineItem {
-	return i.Current().(*stripe.LineItem)
-}
-
-// LineItemList returns the current list object which the iterator is
-// currently using. List objects will change as new API calls are made to
-// continue pagination.
-func (i *LineItemIter) LineItemList() *stripe.LineItemList {
-	return i.List().(*stripe.LineItemList)
 }
 
 func getC() Client {

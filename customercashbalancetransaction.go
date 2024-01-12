@@ -46,19 +46,6 @@ const (
 	CustomerCashBalanceTransactionTypeUnappliedFromPayment CustomerCashBalanceTransactionType = "unapplied_from_payment"
 )
 
-// Retrieves a specific cash balance transaction, which updated the customer's [cash balance](https://stripe.com/docs/payments/customer-balance).
-type CustomerCashBalanceTransactionParams struct {
-	Params   `form:"*"`
-	Customer *string `form:"-"` // Included in URL
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *CustomerCashBalanceTransactionParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
-}
-
 // Returns a list of transactions that modified the customer's [cash balance](https://stripe.com/docs/payments/customer-balance).
 type CustomerCashBalanceTransactionListParams struct {
 	ListParams `form:"*"`
@@ -69,6 +56,19 @@ type CustomerCashBalanceTransactionListParams struct {
 
 // AddExpand appends a new field to expand.
 func (p *CustomerCashBalanceTransactionListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// Retrieves a specific cash balance transaction, which updated the customer's [cash balance](https://stripe.com/docs/payments/customer-balance).
+type CustomerCashBalanceTransactionParams struct {
+	Params   `form:"*"`
+	Customer *string `form:"-"` // Included in URL
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *CustomerCashBalanceTransactionParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 

@@ -6,18 +6,6 @@
 
 package stripe
 
-// Retrieves the details of a Report Type. (Certain report types require a [live-mode API key](https://stripe.com/docs/keys#test-live-modes).)
-type ReportingReportTypeParams struct {
-	Params `form:"*"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *ReportingReportTypeParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
-}
-
 // Returns a full list of Report Types.
 type ReportingReportTypeListParams struct {
 	ListParams `form:"*"`
@@ -27,6 +15,18 @@ type ReportingReportTypeListParams struct {
 
 // AddExpand appends a new field to expand.
 func (p *ReportingReportTypeListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// Retrieves the details of a Report Type. (Certain report types require a [live-mode API key](https://stripe.com/docs/keys#test-live-modes).)
+type ReportingReportTypeParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *ReportingReportTypeParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 

@@ -70,6 +70,22 @@ const (
 	TreasuryOutboundTransferStatusReturned   TreasuryOutboundTransferStatus = "returned"
 )
 
+// Returns a list of OutboundTransfers sent from the specified FinancialAccount.
+type TreasuryOutboundTransferListParams struct {
+	ListParams `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// Returns objects associated with this FinancialAccount.
+	FinancialAccount *string `form:"financial_account"`
+	// Only return OutboundTransfers that have the given status: `processing`, `canceled`, `failed`, `posted`, or `returned`.
+	Status *string `form:"status"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *TreasuryOutboundTransferListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // Optional fields for `us_bank_account`.
 type TreasuryOutboundTransferDestinationPaymentMethodOptionsUSBankAccountParams struct {
 	// Designate the OutboundTransfer as using a US bank account network configuration.
@@ -117,22 +133,6 @@ func (p *TreasuryOutboundTransferParams) AddMetadata(key string, value string) {
 	}
 
 	p.Metadata[key] = value
-}
-
-// Returns a list of OutboundTransfers sent from the specified FinancialAccount.
-type TreasuryOutboundTransferListParams struct {
-	ListParams `form:"*"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
-	// Returns objects associated with this FinancialAccount.
-	FinancialAccount *string `form:"financial_account"`
-	// Only return OutboundTransfers that have the given status: `processing`, `canceled`, `failed`, `posted`, or `returned`.
-	Status *string `form:"status"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *TreasuryOutboundTransferListParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
 }
 
 // An OutboundTransfer can be canceled if the funds have not yet been paid out.

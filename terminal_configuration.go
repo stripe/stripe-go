@@ -6,6 +6,26 @@
 
 package stripe
 
+// Deletes a Configuration object.
+type TerminalConfigurationParams struct {
+	Params `form:"*"`
+	// An object containing device type specific settings for BBPOS WisePOS E readers
+	BBPOSWisePOSE *TerminalConfigurationBBPOSWisePOSEParams `form:"bbpos_wisepos_e"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// Configurations for collecting transactions offline.
+	Offline *TerminalConfigurationOfflineParams `form:"offline"`
+	// Tipping configurations for readers supporting on-reader tips
+	Tipping *TerminalConfigurationTippingParams `form:"tipping"`
+	// An object containing device type specific settings for Verifone P400 readers
+	VerifoneP400 *TerminalConfigurationVerifoneP400Params `form:"verifone_p400"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *TerminalConfigurationParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // An object containing device type specific settings for BBPOS WisePOS E readers
 type TerminalConfigurationBBPOSWisePOSEParams struct {
 	// A File ID representing an image you would like displayed on the reader.
@@ -194,26 +214,6 @@ type TerminalConfigurationTippingParams struct {
 type TerminalConfigurationVerifoneP400Params struct {
 	// A File ID representing an image you would like displayed on the reader.
 	Splashscreen *string `form:"splashscreen"`
-}
-
-// Creates a new Configuration object.
-type TerminalConfigurationParams struct {
-	Params `form:"*"`
-	// An object containing device type specific settings for BBPOS WisePOS E readers
-	BBPOSWisePOSE *TerminalConfigurationBBPOSWisePOSEParams `form:"bbpos_wisepos_e"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
-	// Configurations for collecting transactions offline.
-	Offline *TerminalConfigurationOfflineParams `form:"offline"`
-	// Tipping configurations for readers supporting on-reader tips
-	Tipping *TerminalConfigurationTippingParams `form:"tipping"`
-	// An object containing device type specific settings for Verifone P400 readers
-	VerifoneP400 *TerminalConfigurationVerifoneP400Params `form:"verifone_p400"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *TerminalConfigurationParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
 }
 
 // Returns a list of Configuration objects.

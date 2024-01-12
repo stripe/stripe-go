@@ -23,25 +23,7 @@ const (
 	RadarValueListItemTypeUSBankAccountFingerprint RadarValueListItemType = "us_bank_account_fingerprint"
 )
 
-// Returns a list of ValueList objects. The objects are sorted in descending order by creation date, with the most recently created object appearing first.
-type RadarValueListListParams struct {
-	ListParams `form:"*"`
-	// The alias used to reference the value list when writing rules.
-	Alias *string `form:"alias"`
-	// A value contained within a value list - returns all value lists containing this value.
-	Contains     *string           `form:"contains"`
-	Created      *int64            `form:"created"`
-	CreatedRange *RangeQueryParams `form:"created"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *RadarValueListListParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
-}
-
-// Creates a new ValueList object, which can then be referenced in rules.
+// Deletes a ValueList object, also deleting any items contained within the value list. To be deleted, a value list must not be referenced in any rules.
 type RadarValueListParams struct {
 	Params `form:"*"`
 	// The name of the value list for use in rules.
@@ -68,6 +50,24 @@ func (p *RadarValueListParams) AddMetadata(key string, value string) {
 	}
 
 	p.Metadata[key] = value
+}
+
+// Returns a list of ValueList objects. The objects are sorted in descending order by creation date, with the most recently created object appearing first.
+type RadarValueListListParams struct {
+	ListParams `form:"*"`
+	// The alias used to reference the value list when writing rules.
+	Alias *string `form:"alias"`
+	// A value contained within a value list - returns all value lists containing this value.
+	Contains     *string           `form:"contains"`
+	Created      *int64            `form:"created"`
+	CreatedRange *RangeQueryParams `form:"created"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *RadarValueListListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // Value lists allow you to group values together which can then be referenced in rules.

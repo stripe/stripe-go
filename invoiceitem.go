@@ -8,57 +8,7 @@ package stripe
 
 import "encoding/json"
 
-// Returns a list of your invoice items. Invoice items are returned sorted by creation date, with the most recently created invoice items appearing first.
-type InvoiceItemListParams struct {
-	ListParams   `form:"*"`
-	Created      *int64            `form:"created"`
-	CreatedRange *RangeQueryParams `form:"created"`
-	// The identifier of the customer whose invoice items to return. If none is provided, all invoice items will be returned.
-	Customer *string `form:"customer"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
-	// Only return invoice items belonging to this invoice. If none is provided, all invoice items will be returned. If specifying an invoice, no customer identifier is needed.
-	Invoice *string `form:"invoice"`
-	// Set to `true` to only show pending invoice items, which are not yet attached to any invoices. Set to `false` to only show invoice items already attached to invoices. If unspecified, no filter is applied.
-	Pending *bool `form:"pending"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *InvoiceItemListParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
-}
-
-// The coupons to redeem into discounts for the invoice item or invoice line item.
-type InvoiceItemDiscountParams struct {
-	// ID of the coupon to create a new discount for.
-	Coupon *string `form:"coupon"`
-	// ID of an existing discount on the object (or one of its ancestors) to reuse.
-	Discount *string `form:"discount"`
-}
-
-// The period associated with this invoice item. When set to different values, the period will be rendered on the invoice. If you have [Stripe Revenue Recognition](https://stripe.com/docs/revenue-recognition) enabled, the period will be used to recognize and defer revenue. See the [Revenue Recognition documentation](https://stripe.com/docs/revenue-recognition/methodology/subscriptions-and-invoicing) for details.
-type InvoiceItemPeriodParams struct {
-	// The end of the period, which must be greater than or equal to the start. This value is inclusive.
-	End *int64 `form:"end"`
-	// The start of the period. This value is inclusive.
-	Start *int64 `form:"start"`
-}
-
-// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline.
-type InvoiceItemPriceDataParams struct {
-	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
-	// The ID of the product that this price will belong to.
-	Product *string `form:"product"`
-	// Only required if a [default tax behavior](https://stripe.com/docs/tax/products-prices-tax-categories-tax-behavior#setting-a-default-tax-behavior-(recommended)) was not provided in the Stripe Tax settings. Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Once specified as either `inclusive` or `exclusive`, it cannot be changed.
-	TaxBehavior *string `form:"tax_behavior"`
-	// A positive integer in cents (or local equivalent) (or 0 for a free price) representing how much to charge.
-	UnitAmount *int64 `form:"unit_amount"`
-	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
-	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
-}
-
-// Creates an item to be added to a draft invoice (up to 250 items per invoice). If no invoice is specified, the item will be on the next invoice created for the customer specified.
+// Deletes an invoice item, removing it from an invoice. Deleting invoice items is only possible when they're not attached to invoices, or if it's attached to a draft invoice.
 type InvoiceItemParams struct {
 	Params `form:"*"`
 	// The integer amount in cents (or local equivalent) of the charge to be applied to the upcoming invoice. If you want to apply a credit to the customer's account, pass a negative amount.
@@ -113,6 +63,56 @@ func (p *InvoiceItemParams) AddMetadata(key string, value string) {
 	}
 
 	p.Metadata[key] = value
+}
+
+// The coupons & existing discounts which apply to the invoice item or invoice line item. Item discounts are applied before invoice discounts. Pass an empty string to remove previously-defined discounts.
+type InvoiceItemDiscountParams struct {
+	// ID of the coupon to create a new discount for.
+	Coupon *string `form:"coupon"`
+	// ID of an existing discount on the object (or one of its ancestors) to reuse.
+	Discount *string `form:"discount"`
+}
+
+// The period associated with this invoice item. When set to different values, the period will be rendered on the invoice. If you have [Stripe Revenue Recognition](https://stripe.com/docs/revenue-recognition) enabled, the period will be used to recognize and defer revenue. See the [Revenue Recognition documentation](https://stripe.com/docs/revenue-recognition/methodology/subscriptions-and-invoicing) for details.
+type InvoiceItemPeriodParams struct {
+	// The end of the period, which must be greater than or equal to the start. This value is inclusive.
+	End *int64 `form:"end"`
+	// The start of the period. This value is inclusive.
+	Start *int64 `form:"start"`
+}
+
+// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline.
+type InvoiceItemPriceDataParams struct {
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency *string `form:"currency"`
+	// The ID of the product that this price will belong to.
+	Product *string `form:"product"`
+	// Only required if a [default tax behavior](https://stripe.com/docs/tax/products-prices-tax-categories-tax-behavior#setting-a-default-tax-behavior-(recommended)) was not provided in the Stripe Tax settings. Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Once specified as either `inclusive` or `exclusive`, it cannot be changed.
+	TaxBehavior *string `form:"tax_behavior"`
+	// A positive integer in cents (or local equivalent) (or 0 for a free price) representing how much to charge.
+	UnitAmount *int64 `form:"unit_amount"`
+	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
+	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
+}
+
+// Returns a list of your invoice items. Invoice items are returned sorted by creation date, with the most recently created invoice items appearing first.
+type InvoiceItemListParams struct {
+	ListParams   `form:"*"`
+	Created      *int64            `form:"created"`
+	CreatedRange *RangeQueryParams `form:"created"`
+	// The identifier of the customer whose invoice items to return. If none is provided, all invoice items will be returned.
+	Customer *string `form:"customer"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// Only return invoice items belonging to this invoice. If none is provided, all invoice items will be returned. If specifying an invoice, no customer identifier is needed.
+	Invoice *string `form:"invoice"`
+	// Set to `true` to only show pending invoice items, which are not yet attached to any invoices. Set to `false` to only show invoice items already attached to invoices. If unspecified, no filter is applied.
+	Pending *bool `form:"pending"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *InvoiceItemListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // Invoice Items represent the component lines of an [invoice](https://stripe.com/docs/api/invoices). An invoice item is added to an
