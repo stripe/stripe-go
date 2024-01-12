@@ -27,6 +27,7 @@ import (
 	coupon "github.com/stripe/stripe-go/v76/coupon"
 	customer "github.com/stripe/stripe-go/v76/customer"
 	customerbalancetransaction "github.com/stripe/stripe-go/v76/customerbalancetransaction"
+	customersession "github.com/stripe/stripe-go/v76/customersession"
 	dispute "github.com/stripe/stripe-go/v76/dispute"
 	event "github.com/stripe/stripe-go/v76/event"
 	feerefund "github.com/stripe/stripe-go/v76/feerefund"
@@ -646,6 +647,20 @@ func TestCouponsPost2(t *testing.T) {
 	params := &stripe.CouponParams{}
 	params.AddMetadata("order_id", "6735")
 	result, err := coupon.Update("Z4OV52SU", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestCustomerSessionsPost(t *testing.T) {
+	params := &stripe.CustomerSessionParams{
+		Customer: stripe.String("cus_123"),
+		Components: &stripe.CustomerSessionComponentsParams{
+			BuyButton: &stripe.CustomerSessionComponentsBuyButtonParams{
+				Enabled: stripe.Bool(true),
+			},
+		},
+	}
+	result, err := customersession.New(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
