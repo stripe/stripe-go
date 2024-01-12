@@ -93,7 +93,7 @@ const (
 	TaxIDVerificationStatusVerified    TaxIDVerificationStatus = "verified"
 )
 
-// Creates a new tax_id object for a customer.
+// Deletes an existing tax_id object.
 type TaxIDParams struct {
 	Params   `form:"*"`
 	Customer *string `form:"-"` // Included in URL

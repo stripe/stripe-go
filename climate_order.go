@@ -28,7 +28,27 @@ const (
 	ClimateOrderStatusOpen          ClimateOrderStatus = "open"
 )
 
-// Retrieves the details of a Climate order object with the given ID.
+// Lists all Climate order objects. The orders are returned sorted by creation date, with the
+// most recently created orders appearing first.
+type ClimateOrderListParams struct {
+	ListParams `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *ClimateOrderListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// Publicly sharable reference for the end beneficiary of carbon removal. Assumed to be the Stripe account if not set.
+type ClimateOrderBeneficiaryParams struct {
+	// Publicly displayable name for the end beneficiary of carbon removal.
+	PublicName *string `form:"public_name"`
+}
+
+// Creates a Climate order object for a given Climate product. The order will be processed immediately
+// after creation and payment will be deducted your Stripe balance.
 type ClimateOrderParams struct {
 	Params `form:"*"`
 	// Requested amount of carbon removal units. Either this or `metric_tons` must be specified.
@@ -59,25 +79,6 @@ func (p *ClimateOrderParams) AddMetadata(key string, value string) {
 	}
 
 	p.Metadata[key] = value
-}
-
-// Publicly sharable reference for the end beneficiary of carbon removal. Assumed to be the Stripe account if not set.
-type ClimateOrderBeneficiaryParams struct {
-	// Publicly displayable name for the end beneficiary of carbon removal.
-	PublicName *string `form:"public_name"`
-}
-
-// Lists all Climate order objects. The orders are returned sorted by creation date, with the
-// most recently created orders appearing first.
-type ClimateOrderListParams struct {
-	ListParams `form:"*"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *ClimateOrderListParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
 }
 
 // Cancels a Climate order. You can cancel an order within 30 days of creation. Stripe refunds the

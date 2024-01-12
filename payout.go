@@ -88,7 +88,31 @@ const (
 	PayoutTypeCard PayoutType = "card"
 )
 
-// Retrieves the details of an existing payout. Supply the unique payout ID from either a payout creation request or the payout list. Stripe returns the corresponding payout information.
+// Returns a list of existing payouts sent to third-party bank accounts or payouts that Stripe sent to you. The payouts return in sorted order, with the most recently created payouts appearing first.
+type PayoutListParams struct {
+	ListParams       `form:"*"`
+	ArrivalDate      *int64            `form:"arrival_date"`
+	ArrivalDateRange *RangeQueryParams `form:"arrival_date"`
+	Created          *int64            `form:"created"`
+	CreatedRange     *RangeQueryParams `form:"created"`
+	// The ID of an external account - only return payouts sent to this external account.
+	Destination *string `form:"destination"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// Only return payouts that have the given status: `pending`, `paid`, `failed`, or `canceled`.
+	Status *string `form:"status"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *PayoutListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// To send funds to your own bank account, create a new payout object. Your [Stripe balance](https://stripe.com/docs/api#balance) must cover the payout amount. If it doesn't, you receive an “Insufficient Funds” error.
+//
+// If your API key is in test mode, money won't actually be sent, though every other action occurs as if you're in live mode.
+//
+// If you create a manual payout on a Stripe account that uses multiple payment source types, you need to specify the source type balance that the payout draws from. The [balance object](https://stripe.com/docs/api#balance_object) details available and pending amounts by source type.
 type PayoutParams struct {
 	Params `form:"*"`
 	// A positive integer in cents representing how much to payout.
@@ -123,26 +147,6 @@ func (p *PayoutParams) AddMetadata(key string, value string) {
 	}
 
 	p.Metadata[key] = value
-}
-
-// Returns a list of existing payouts sent to third-party bank accounts or payouts that Stripe sent to you. The payouts return in sorted order, with the most recently created payouts appearing first.
-type PayoutListParams struct {
-	ListParams       `form:"*"`
-	ArrivalDate      *int64            `form:"arrival_date"`
-	ArrivalDateRange *RangeQueryParams `form:"arrival_date"`
-	Created          *int64            `form:"created"`
-	CreatedRange     *RangeQueryParams `form:"created"`
-	// The ID of an external account - only return payouts sent to this external account.
-	Destination *string `form:"destination"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
-	// Only return payouts that have the given status: `pending`, `paid`, `failed`, or `canceled`.
-	Status *string `form:"status"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *PayoutListParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
 }
 
 // Reverses a payout by debiting the destination bank account. At this time, you can only reverse payouts for connected accounts to US bank accounts. If the payout is in the pending status, use /v1/payouts/:id/cancel instead.

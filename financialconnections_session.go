@@ -36,23 +36,7 @@ const (
 	FinancialConnectionsSessionPrefetchTransactions FinancialConnectionsSessionPrefetch = "transactions"
 )
 
-// The account holder to link accounts for.
-type FinancialConnectionsSessionAccountHolderParams struct {
-	// The ID of the Stripe account whose accounts will be retrieved. Should only be present if `type` is `account`.
-	Account *string `form:"account"`
-	// The ID of the Stripe customer whose accounts will be retrieved. Should only be present if `type` is `customer`.
-	Customer *string `form:"customer"`
-	// Type of account holder to collect accounts for.
-	Type *string `form:"type"`
-}
-
-// Filters to restrict the kinds of accounts to collect.
-type FinancialConnectionsSessionFiltersParams struct {
-	// List of countries from which to collect accounts.
-	Countries []*string `form:"countries"`
-}
-
-// To launch the Financial Connections authorization flow, create a Session. The session's client_secret can be used to launch the flow using Stripe.js.
+// Retrieves the details of a Financial Connections Session
 type FinancialConnectionsSessionParams struct {
 	Params `form:"*"`
 	// The account holder to link accounts for.
@@ -74,6 +58,22 @@ type FinancialConnectionsSessionParams struct {
 // AddExpand appends a new field to expand.
 func (p *FinancialConnectionsSessionParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
+}
+
+// The account holder to link accounts for.
+type FinancialConnectionsSessionAccountHolderParams struct {
+	// The ID of the Stripe account whose accounts will be retrieved. Should only be present if `type` is `account`.
+	Account *string `form:"account"`
+	// The ID of the Stripe customer whose accounts will be retrieved. Should only be present if `type` is `customer`.
+	Customer *string `form:"customer"`
+	// Type of account holder to collect accounts for.
+	Type *string `form:"type"`
+}
+
+// Filters to restrict the kinds of accounts to collect.
+type FinancialConnectionsSessionFiltersParams struct {
+	// List of countries from which to collect accounts.
+	Countries []*string `form:"countries"`
 }
 
 // The account holder for whom accounts are collected in this session.

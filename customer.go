@@ -40,108 +40,7 @@ const (
 	CustomerTaxExemptReverse CustomerTaxExempt = "reverse"
 )
 
-// Search for customers you've previously created using Stripe's [Search Query Language](https://stripe.com/docs/search#search-query-language).
-// Don't use search in read-after-write flows where strict consistency is necessary. Under normal operating
-// conditions, data is searchable in less than a minute. Occasionally, propagation of new or updated data can be up
-// to an hour behind during outages. Search functionality is not available to merchants in India.
-type CustomerSearchParams struct {
-	SearchParams `form:"*"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
-	// A cursor for pagination across multiple pages of results. Don't include this parameter on the first call. Use the next_page value returned in a previous response to request subsequent results.
-	Page *string `form:"page"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *CustomerSearchParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
-}
-
-// Returns a list of your customers. The customers are returned sorted by creation date, with the most recent customers appearing first.
-type CustomerListParams struct {
-	ListParams   `form:"*"`
-	Created      *int64            `form:"created"`
-	CreatedRange *RangeQueryParams `form:"created"`
-	// A case-sensitive filter on the list based on the customer's `email` field. The value must be a string.
-	Email *string `form:"email"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
-	// Provides a list of customers that are associated with the specified test clock. The response will not include customers with test clocks if this parameter is not set.
-	TestClock *string `form:"test_clock"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *CustomerListParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
-}
-
-// Settings controlling the behavior of the customer's cash balance,
-// such as reconciliation of funds received.
-type CustomerCashBalanceSettingsParams struct {
-	// Controls how funds transferred by the customer are applied to payment intents and invoices. Valid options are `automatic`, `manual`, or `merchant_default`. For more information about these reconciliation modes, see [Reconciliation](https://stripe.com/docs/payments/customer-balance/reconciliation).
-	ReconciliationMode *string `form:"reconciliation_mode"`
-}
-
-// Balance information and default balance settings for this customer.
-type CustomerCashBalanceParams struct {
-	// Settings controlling the behavior of the customer's cash balance,
-	// such as reconciliation of funds received.
-	Settings *CustomerCashBalanceSettingsParams `form:"settings"`
-}
-
-// The list of up to 4 default custom fields to be displayed on invoices for this customer. When updating, pass an empty string to remove previously-defined fields.
-type CustomerInvoiceSettingsCustomFieldParams struct {
-	// The name of the custom field. This may be up to 30 characters.
-	Name *string `form:"name"`
-	// The value of the custom field. This may be up to 30 characters.
-	Value *string `form:"value"`
-}
-
-// Default options for invoice PDF rendering for this customer.
-type CustomerInvoiceSettingsRenderingOptionsParams struct {
-	// How line-item prices and amounts will be displayed with respect to tax on invoice PDFs. One of `exclude_tax` or `include_inclusive_tax`. `include_inclusive_tax` will include inclusive tax (and exclude exclusive tax) in invoice PDF amounts. `exclude_tax` will exclude all tax (inclusive and exclusive alike) from invoice PDF amounts.
-	AmountTaxDisplay *string `form:"amount_tax_display"`
-}
-
-// Default invoice settings for this customer.
-type CustomerInvoiceSettingsParams struct {
-	// The list of up to 4 default custom fields to be displayed on invoices for this customer. When updating, pass an empty string to remove previously-defined fields.
-	CustomFields []*CustomerInvoiceSettingsCustomFieldParams `form:"custom_fields"`
-	// ID of a payment method that's attached to the customer, to be used as the customer's default payment method for subscriptions and invoices.
-	DefaultPaymentMethod *string `form:"default_payment_method"`
-	// Default footer to be displayed on invoices for this customer.
-	Footer *string `form:"footer"`
-	// Default options for invoice PDF rendering for this customer.
-	RenderingOptions *CustomerInvoiceSettingsRenderingOptionsParams `form:"rendering_options"`
-}
-
-// The customer's shipping information. Appears on invoices emailed to this customer.
-type CustomerShippingParams struct {
-	// Customer shipping address.
-	Address *AddressParams `form:"address"`
-	// Customer name.
-	Name *string `form:"name"`
-	// Customer phone (including extension).
-	Phone *string `form:"phone"`
-}
-
-// Tax details about the customer.
-type CustomerTaxParams struct {
-	// A recent IP address of the customer used for tax reporting and tax location inference. Stripe recommends updating the IP address when a new PaymentMethod is attached or the address field on the customer is updated. We recommend against updating this field more frequently since it could result in unexpected tax location/reporting outcomes.
-	IPAddress *string `form:"ip_address"`
-	// A flag that indicates when Stripe should validate the customer tax location. Defaults to `deferred`.
-	ValidateLocation *string `form:"validate_location"`
-}
-
-// The customer's tax IDs.
-type CustomerTaxIDDataParams struct {
-	// Type of the tax ID, one of `ad_nrt`, `ae_trn`, `ar_cuit`, `au_abn`, `au_arn`, `bg_uic`, `bo_tin`, `br_cnpj`, `br_cpf`, `ca_bn`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `ca_qst`, `ch_vat`, `cl_tin`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eg_tin`, `es_cif`, `eu_oss_vat`, `eu_vat`, `gb_vat`, `ge_vat`, `hk_br`, `hu_tin`, `id_npwp`, `il_vat`, `in_gst`, `is_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `ke_pin`, `kr_brn`, `li_uid`, `mx_rfc`, `my_frp`, `my_itn`, `my_sst`, `no_vat`, `nz_gst`, `pe_ruc`, `ph_tin`, `ro_tin`, `rs_pib`, `ru_inn`, `ru_kpp`, `sa_vat`, `sg_gst`, `sg_uen`, `si_tin`, `sv_nit`, `th_vat`, `tr_tin`, `tw_vat`, `ua_vat`, `us_ein`, `uy_ruc`, `ve_rif`, `vn_tin`, or `za_vat`
-	Type *string `form:"type"`
-	// Value of the tax ID.
-	Value *string `form:"value"`
-}
-
-// Creates a new customer object.
+// Permanently deletes a customer. It cannot be undone. Also immediately cancels any active subscriptions on the customer.
 type CustomerParams struct {
 	Params `form:"*"`
 	// The customer's address.
@@ -208,6 +107,95 @@ func (p *CustomerParams) AddMetadata(key string, value string) {
 	p.Metadata[key] = value
 }
 
+// Settings controlling the behavior of the customer's cash balance,
+// such as reconciliation of funds received.
+type CustomerCashBalanceSettingsParams struct {
+	// Controls how funds transferred by the customer are applied to payment intents and invoices. Valid options are `automatic`, `manual`, or `merchant_default`. For more information about these reconciliation modes, see [Reconciliation](https://stripe.com/docs/payments/customer-balance/reconciliation).
+	ReconciliationMode *string `form:"reconciliation_mode"`
+}
+
+// Balance information and default balance settings for this customer.
+type CustomerCashBalanceParams struct {
+	// Settings controlling the behavior of the customer's cash balance,
+	// such as reconciliation of funds received.
+	Settings *CustomerCashBalanceSettingsParams `form:"settings"`
+}
+
+// The list of up to 4 default custom fields to be displayed on invoices for this customer. When updating, pass an empty string to remove previously-defined fields.
+type CustomerInvoiceSettingsCustomFieldParams struct {
+	// The name of the custom field. This may be up to 30 characters.
+	Name *string `form:"name"`
+	// The value of the custom field. This may be up to 30 characters.
+	Value *string `form:"value"`
+}
+
+// Default options for invoice PDF rendering for this customer.
+type CustomerInvoiceSettingsRenderingOptionsParams struct {
+	// How line-item prices and amounts will be displayed with respect to tax on invoice PDFs. One of `exclude_tax` or `include_inclusive_tax`. `include_inclusive_tax` will include inclusive tax (and exclude exclusive tax) in invoice PDF amounts. `exclude_tax` will exclude all tax (inclusive and exclusive alike) from invoice PDF amounts.
+	AmountTaxDisplay *string `form:"amount_tax_display"`
+}
+
+// Default invoice settings for this customer.
+type CustomerInvoiceSettingsParams struct {
+	// The list of up to 4 default custom fields to be displayed on invoices for this customer. When updating, pass an empty string to remove previously-defined fields.
+	CustomFields []*CustomerInvoiceSettingsCustomFieldParams `form:"custom_fields"`
+	// ID of a payment method that's attached to the customer, to be used as the customer's default payment method for subscriptions and invoices.
+	DefaultPaymentMethod *string `form:"default_payment_method"`
+	// Default footer to be displayed on invoices for this customer.
+	Footer *string `form:"footer"`
+	// Default options for invoice PDF rendering for this customer.
+	RenderingOptions *CustomerInvoiceSettingsRenderingOptionsParams `form:"rendering_options"`
+}
+
+// The customer's shipping information. Appears on invoices emailed to this customer.
+type CustomerShippingParams struct {
+	// Customer shipping address.
+	Address *AddressParams `form:"address"`
+	// Customer name.
+	Name *string `form:"name"`
+	// Customer phone (including extension).
+	Phone *string `form:"phone"`
+}
+
+// Tax details about the customer.
+type CustomerTaxParams struct {
+	// A recent IP address of the customer used for tax reporting and tax location inference. Stripe recommends updating the IP address when a new PaymentMethod is attached or the address field on the customer is updated. We recommend against updating this field more frequently since it could result in unexpected tax location/reporting outcomes.
+	IPAddress *string `form:"ip_address"`
+	// A flag that indicates when Stripe should validate the customer tax location. Defaults to `deferred`.
+	ValidateLocation *string `form:"validate_location"`
+}
+
+// Removes the currently applied discount on a customer.
+type CustomerDeleteDiscountParams struct {
+	Params `form:"*"`
+}
+
+// Returns a list of your customers. The customers are returned sorted by creation date, with the most recent customers appearing first.
+type CustomerListParams struct {
+	ListParams   `form:"*"`
+	Created      *int64            `form:"created"`
+	CreatedRange *RangeQueryParams `form:"created"`
+	// A case-sensitive filter on the list based on the customer's `email` field. The value must be a string.
+	Email *string `form:"email"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// Provides a list of customers that are associated with the specified test clock. The response will not include customers with test clocks if this parameter is not set.
+	TestClock *string `form:"test_clock"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *CustomerListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// The customer's tax IDs.
+type CustomerTaxIDDataParams struct {
+	// Type of the tax ID, one of `ad_nrt`, `ae_trn`, `ar_cuit`, `au_abn`, `au_arn`, `bg_uic`, `bo_tin`, `br_cnpj`, `br_cpf`, `ca_bn`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `ca_qst`, `ch_vat`, `cl_tin`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eg_tin`, `es_cif`, `eu_oss_vat`, `eu_vat`, `gb_vat`, `ge_vat`, `hk_br`, `hu_tin`, `id_npwp`, `il_vat`, `in_gst`, `is_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `ke_pin`, `kr_brn`, `li_uid`, `mx_rfc`, `my_frp`, `my_itn`, `my_sst`, `no_vat`, `nz_gst`, `pe_ruc`, `ph_tin`, `ro_tin`, `rs_pib`, `ru_inn`, `ru_kpp`, `sa_vat`, `sg_gst`, `sg_uen`, `si_tin`, `sv_nit`, `th_vat`, `tr_tin`, `tw_vat`, `ua_vat`, `us_ein`, `uy_ruc`, `ve_rif`, `vn_tin`, or `za_vat`
+	Type *string `form:"type"`
+	// Value of the tax ID.
+	Value *string `form:"value"`
+}
+
 // Returns a list of PaymentMethods for a given Customer
 type CustomerListPaymentMethodsParams struct {
 	ListParams `form:"*"`
@@ -233,6 +221,23 @@ type CustomerRetrievePaymentMethodParams struct {
 
 // AddExpand appends a new field to expand.
 func (p *CustomerRetrievePaymentMethodParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// Search for customers you've previously created using Stripe's [Search Query Language](https://stripe.com/docs/search#search-query-language).
+// Don't use search in read-after-write flows where strict consistency is necessary. Under normal operating
+// conditions, data is searchable in less than a minute. Occasionally, propagation of new or updated data can be up
+// to an hour behind during outages. Search functionality is not available to merchants in India.
+type CustomerSearchParams struct {
+	SearchParams `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// A cursor for pagination across multiple pages of results. Don't include this parameter on the first call. Use the next_page value returned in a previous response to request subsequent results.
+	Page *string `form:"page"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *CustomerSearchParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
@@ -272,11 +277,6 @@ type CustomerCreateFundingInstructionsParams struct {
 // AddExpand appends a new field to expand.
 func (p *CustomerCreateFundingInstructionsParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
-}
-
-// Removes the currently applied discount on a customer.
-type CustomerDeleteDiscountParams struct {
-	Params `form:"*"`
 }
 
 // Default custom fields to be displayed on invoices for this customer.

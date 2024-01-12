@@ -19,19 +19,17 @@ const (
 	ReportingReportRunStatusSucceeded ReportingReportRunStatus = "succeeded"
 )
 
-// Retrieves the details of an existing Report Run.
-type ReportingReportRunParams struct {
-	Params `form:"*"`
+// Returns a list of Report Runs, with the most recent appearing first.
+type ReportingReportRunListParams struct {
+	ListParams   `form:"*"`
+	Created      *int64            `form:"created"`
+	CreatedRange *RangeQueryParams `form:"created"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-	// Parameters specifying how the report should be run. Different Report Types have different required and optional parameters, listed in the [API Access to Reports](https://stripe.com/docs/reporting/statements/api) documentation.
-	Parameters *ReportingReportRunParametersParams `form:"parameters"`
-	// The ID of the [report type](https://stripe.com/docs/reporting/statements/api#report-types) to run, such as `"balance.summary.1"`.
-	ReportType *string `form:"report_type"`
 }
 
 // AddExpand appends a new field to expand.
-func (p *ReportingReportRunParams) AddExpand(f string) {
+func (p *ReportingReportRunListParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
@@ -55,17 +53,19 @@ type ReportingReportRunParametersParams struct {
 	Timezone *string `form:"timezone"`
 }
 
-// Returns a list of Report Runs, with the most recent appearing first.
-type ReportingReportRunListParams struct {
-	ListParams   `form:"*"`
-	Created      *int64            `form:"created"`
-	CreatedRange *RangeQueryParams `form:"created"`
+// Creates a new object and begin running the report. (Certain report types require a [live-mode API key](https://stripe.com/docs/keys#test-live-modes).)
+type ReportingReportRunParams struct {
+	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+	// Parameters specifying how the report should be run. Different Report Types have different required and optional parameters, listed in the [API Access to Reports](https://stripe.com/docs/reporting/statements/api) documentation.
+	Parameters *ReportingReportRunParametersParams `form:"parameters"`
+	// The ID of the [report type](https://stripe.com/docs/reporting/statements/api#report-types) to run, such as `"balance.summary.1"`.
+	ReportType *string `form:"report_type"`
 }
 
 // AddExpand appends a new field to expand.
-func (p *ReportingReportRunListParams) AddExpand(f string) {
+func (p *ReportingReportRunParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 

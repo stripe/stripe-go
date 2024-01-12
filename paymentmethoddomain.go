@@ -42,22 +42,6 @@ const (
 	PaymentMethodDomainPaypalStatusInactive PaymentMethodDomainPaypalStatus = "inactive"
 )
 
-// Retrieves the details of an existing payment method domain.
-type PaymentMethodDomainParams struct {
-	Params `form:"*"`
-	// The domain name that this payment method domain object represents.
-	DomainName *string `form:"domain_name"`
-	// Whether this payment method domain is enabled. If the domain is not enabled, payment methods that require a payment method domain will not appear in Elements.
-	Enabled *bool `form:"enabled"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *PaymentMethodDomainParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
-}
-
 // Lists the details of existing payment method domains.
 type PaymentMethodDomainListParams struct {
 	ListParams `form:"*"`
@@ -71,6 +55,22 @@ type PaymentMethodDomainListParams struct {
 
 // AddExpand appends a new field to expand.
 func (p *PaymentMethodDomainListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// Creates a payment method domain.
+type PaymentMethodDomainParams struct {
+	Params `form:"*"`
+	// The domain name that this payment method domain object represents.
+	DomainName *string `form:"domain_name"`
+	// Whether this payment method domain is enabled. If the domain is not enabled, payment methods that require a payment method domain will not appear in Elements.
+	Enabled *bool `form:"enabled"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *PaymentMethodDomainParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 

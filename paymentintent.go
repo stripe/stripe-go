@@ -818,20 +818,21 @@ const (
 	PaymentIntentStatusSucceeded             PaymentIntentStatus = "succeeded"
 )
 
-// Search for PaymentIntents you've previously created using Stripe's [Search Query Language](https://stripe.com/docs/search#search-query-language).
-// Don't use search in read-after-write flows where strict consistency is necessary. Under normal operating
-// conditions, data is searchable in less than a minute. Occasionally, propagation of new or updated data can be up
-// to an hour behind during outages. Search functionality is not available to merchants in India.
-type PaymentIntentSearchParams struct {
-	SearchParams `form:"*"`
+// Returns a list of PaymentIntents.
+type PaymentIntentListParams struct {
+	ListParams `form:"*"`
+	// A filter on the list, based on the object `created` field. The value can be a string with an integer Unix timestamp or a dictionary with a number of different query options.
+	Created *int64 `form:"created"`
+	// A filter on the list, based on the object `created` field. The value can be a string with an integer Unix timestamp or a dictionary with a number of different query options.
+	CreatedRange *RangeQueryParams `form:"created"`
+	// Only return PaymentIntents for the customer that this customer ID specifies.
+	Customer *string `form:"customer"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-	// A cursor for pagination across multiple pages of results. Don't include this parameter on the first call. Use the next_page value returned in a previous response to request subsequent results.
-	Page *string `form:"page"`
 }
 
 // AddExpand appends a new field to expand.
-func (p *PaymentIntentSearchParams) AddExpand(f string) {
+func (p *PaymentIntentListParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
@@ -1055,7 +1056,7 @@ type PaymentIntentPaymentMethodOptionsACSSDebitParams struct {
 	//
 	// If `setup_future_usage` is already set and you are performing a request using a publishable key, you may only update the value from `on_session` to `off_session`.
 	SetupFutureUsage *string `form:"setup_future_usage"`
-	// Verification method for the intent
+	// Bank account verification method.
 	VerificationMethod *string `form:"verification_method"`
 }
 
@@ -1673,7 +1674,7 @@ type PaymentIntentPaymentMethodOptionsUSBankAccountParams struct {
 	//
 	// If `setup_future_usage` is already set and you are performing a request using a publishable key, you may only update the value from `on_session` to `off_session`.
 	SetupFutureUsage *string `form:"setup_future_usage"`
-	// Verification method for the intent
+	// Bank account verification method.
 	VerificationMethod *string `form:"verification_method"`
 }
 
@@ -1908,22 +1909,101 @@ func (p *PaymentIntentParams) AddMetadata(key string, value string) {
 	p.Metadata[key] = value
 }
 
-// Returns a list of PaymentIntents.
-type PaymentIntentListParams struct {
-	ListParams `form:"*"`
-	// A filter on the list, based on the object `created` field. The value can be a string with an integer Unix timestamp or a dictionary with a number of different query options.
-	Created *int64 `form:"created"`
-	// A filter on the list, based on the object `created` field. The value can be a string with an integer Unix timestamp or a dictionary with a number of different query options.
-	CreatedRange *RangeQueryParams `form:"created"`
-	// Only return PaymentIntents for the customer that this customer ID specifies.
-	Customer *string `form:"customer"`
+// Search for PaymentIntents you've previously created using Stripe's [Search Query Language](https://stripe.com/docs/search#search-query-language).
+// Don't use search in read-after-write flows where strict consistency is necessary. Under normal operating
+// conditions, data is searchable in less than a minute. Occasionally, propagation of new or updated data can be up
+// to an hour behind during outages. Search functionality is not available to merchants in India.
+type PaymentIntentSearchParams struct {
+	SearchParams `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// A cursor for pagination across multiple pages of results. Don't include this parameter on the first call. Use the next_page value returned in a previous response to request subsequent results.
+	Page *string `form:"page"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *PaymentIntentSearchParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// Manually reconcile the remaining amount for a customer_balance PaymentIntent.
+type PaymentIntentApplyCustomerBalanceParams struct {
+	Params `form:"*"`
+	// Amount that you intend to apply to this PaymentIntent from the customer's cash balance.
+	//
+	// A positive integer representing how much to charge in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal) (for example, 100 cents to charge 1 USD or 100 to charge 100 JPY, a zero-decimal currency).
+	//
+	// The maximum amount is the amount of the PaymentIntent.
+	//
+	// When you omit the amount, it defaults to the remaining amount requested on the PaymentIntent.
+	Amount *int64 `form:"amount"`
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency *string `form:"currency"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 }
 
 // AddExpand appends a new field to expand.
-func (p *PaymentIntentListParams) AddExpand(f string) {
+func (p *PaymentIntentApplyCustomerBalanceParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
+}
+
+// You can cancel a PaymentIntent object when it's in one of these statuses: requires_payment_method, requires_capture, requires_confirmation, requires_action or, [in rare cases](https://stripe.com/docs/payments/intents), processing.
+//
+// After it's canceled, no additional charges are made by the PaymentIntent and any operations on the PaymentIntent fail with an error. For PaymentIntents with a status of requires_capture, the remaining amount_capturable is automatically refunded.
+//
+// You can't cancel the PaymentIntent for a Checkout Session. [Expire the Checkout Session](https://stripe.com/docs/api/checkout/sessions/expire) instead.
+type PaymentIntentCancelParams struct {
+	Params `form:"*"`
+	// Reason for canceling this PaymentIntent. Possible values are: `duplicate`, `fraudulent`, `requested_by_customer`, or `abandoned`
+	CancellationReason *string `form:"cancellation_reason"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *PaymentIntentCancelParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// Capture the funds of an existing uncaptured PaymentIntent when its status is requires_capture.
+//
+// Uncaptured PaymentIntents are cancelled a set number of days (7 by default) after their creation.
+//
+// Learn more about [separate authorization and capture](https://stripe.com/docs/payments/capture-later).
+type PaymentIntentCaptureParams struct {
+	Params `form:"*"`
+	// The amount to capture from the PaymentIntent, which must be less than or equal to the original amount. Any additional amount is automatically refunded. Defaults to the full `amount_capturable` if it's not provided.
+	AmountToCapture *int64 `form:"amount_to_capture"`
+	// The amount of the application fee (if any) that will be requested to be applied to the payment and transferred to the application owner's Stripe account. The amount of the application fee collected will be capped at the total payment amount. For more information, see the PaymentIntents [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
+	ApplicationFeeAmount *int64 `form:"application_fee_amount"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// Defaults to `true`. When capturing a PaymentIntent, setting `final_capture` to `false` notifies Stripe to not release the remaining uncaptured funds to make sure that they're captured in future requests. You can only use this setting when [multicapture](https://stripe.com/docs/payments/multicapture) is available for PaymentIntents.
+	FinalCapture *bool `form:"final_capture"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+	// For card charges, use [statement_descriptor_suffix](https://stripe.com/docs/payments/account/statement-descriptors#dynamic). Otherwise, you can use this value as the complete description of a charge on your customers' statements. It must contain at least one letter and be 1–22 characters long.
+	StatementDescriptor *string `form:"statement_descriptor"`
+	// Provides information about a card payment that customers see on their statements. Concatenated with the prefix (shortened descriptor) or statement descriptor that's set on the account to form the complete statement descriptor. The concatenated descriptor must be 1-22 characters long.
+	StatementDescriptorSuffix *string `form:"statement_descriptor_suffix"`
+	// The parameters that you can use to automatically create a transfer after the payment
+	// is captured. Learn more about the [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
+	TransferData *PaymentIntentTransferDataParams `form:"transfer_data"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *PaymentIntentCaptureParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *PaymentIntentCaptureParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
 }
 
 // Options to configure Radar. Learn more about [Radar Sessions](https://stripe.com/docs/radar/radar-session).
@@ -2003,64 +2083,6 @@ func (p *PaymentIntentConfirmParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// You can cancel a PaymentIntent object when it's in one of these statuses: requires_payment_method, requires_capture, requires_confirmation, requires_action or, [in rare cases](https://stripe.com/docs/payments/intents), processing.
-//
-// After it's canceled, no additional charges are made by the PaymentIntent and any operations on the PaymentIntent fail with an error. For PaymentIntents with a status of requires_capture, the remaining amount_capturable is automatically refunded.
-//
-// You can't cancel the PaymentIntent for a Checkout Session. [Expire the Checkout Session](https://stripe.com/docs/api/checkout/sessions/expire) instead.
-type PaymentIntentCancelParams struct {
-	Params `form:"*"`
-	// Reason for canceling this PaymentIntent. Possible values are: `duplicate`, `fraudulent`, `requested_by_customer`, or `abandoned`
-	CancellationReason *string `form:"cancellation_reason"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *PaymentIntentCancelParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
-}
-
-// Capture the funds of an existing uncaptured PaymentIntent when its status is requires_capture.
-//
-// Uncaptured PaymentIntents are cancelled a set number of days (7 by default) after their creation.
-//
-// Learn more about [separate authorization and capture](https://stripe.com/docs/payments/capture-later).
-type PaymentIntentCaptureParams struct {
-	Params `form:"*"`
-	// The amount to capture from the PaymentIntent, which must be less than or equal to the original amount. Any additional amount is automatically refunded. Defaults to the full `amount_capturable` if it's not provided.
-	AmountToCapture *int64 `form:"amount_to_capture"`
-	// The amount of the application fee (if any) that will be requested to be applied to the payment and transferred to the application owner's Stripe account. The amount of the application fee collected will be capped at the total payment amount. For more information, see the PaymentIntents [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
-	ApplicationFeeAmount *int64 `form:"application_fee_amount"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
-	// Defaults to `true`. When capturing a PaymentIntent, setting `final_capture` to `false` notifies Stripe to not release the remaining uncaptured funds to make sure that they're captured in future requests. You can only use this setting when [multicapture](https://stripe.com/docs/payments/multicapture) is available for PaymentIntents.
-	FinalCapture *bool `form:"final_capture"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
-	// For card charges, use [statement_descriptor_suffix](https://stripe.com/docs/payments/account/statement-descriptors#dynamic). Otherwise, you can use this value as the complete description of a charge on your customers' statements. It must contain at least one letter and be 1–22 characters long.
-	StatementDescriptor *string `form:"statement_descriptor"`
-	// Provides information about a card payment that customers see on their statements. Concatenated with the prefix (shortened descriptor) or statement descriptor that's set on the account to form the complete statement descriptor. The concatenated descriptor must be 1-22 characters long.
-	StatementDescriptorSuffix *string `form:"statement_descriptor_suffix"`
-	// The parameters that you can use to automatically create a transfer after the payment
-	// is captured. Learn more about the [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
-	TransferData *PaymentIntentTransferDataParams `form:"transfer_data"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *PaymentIntentCaptureParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
-}
-
-// AddMetadata adds a new key-value pair to the Metadata.
-func (p *PaymentIntentCaptureParams) AddMetadata(key string, value string) {
-	if p.Metadata == nil {
-		p.Metadata = make(map[string]string)
-	}
-
-	p.Metadata[key] = value
-}
-
 // The parameters used to automatically create a transfer after the payment is captured.
 // Learn more about the [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
 type PaymentIntentIncrementAuthorizationTransferDataParams struct {
@@ -2138,28 +2160,6 @@ type PaymentIntentVerifyMicrodepositsParams struct {
 
 // AddExpand appends a new field to expand.
 func (p *PaymentIntentVerifyMicrodepositsParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
-}
-
-// Manually reconcile the remaining amount for a customer_balance PaymentIntent.
-type PaymentIntentApplyCustomerBalanceParams struct {
-	Params `form:"*"`
-	// Amount that you intend to apply to this PaymentIntent from the customer's cash balance.
-	//
-	// A positive integer representing how much to charge in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal) (for example, 100 cents to charge 1 USD or 100 to charge 100 JPY, a zero-decimal currency).
-	//
-	// The maximum amount is the amount of the PaymentIntent.
-	//
-	// When you omit the amount, it defaults to the remaining amount requested on the PaymentIntent.
-	Amount *int64 `form:"amount"`
-	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *PaymentIntentApplyCustomerBalanceParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 

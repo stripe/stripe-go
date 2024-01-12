@@ -8,7 +8,7 @@ package stripe
 
 import "encoding/json"
 
-// Creates a short-lived API key for a given resource.
+// Invalidates a short-lived API key for a given resource.
 type EphemeralKeyParams struct {
 	Params `form:"*"`
 	// The ID of the Customer you'd like to modify using the resulting ephemeral key.

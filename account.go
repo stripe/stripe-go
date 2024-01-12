@@ -144,7 +144,11 @@ const (
 	AccountTypeStandard AccountType = "standard"
 )
 
-// Retrieves the details of an account.
+// With [Connect](https://stripe.com/docs/connect), you can delete accounts you manage.
+//
+// Accounts created using test-mode keys can be deleted at any time. Standard accounts created using live-mode keys cannot be deleted. Custom or Express accounts created using live-mode keys can only be deleted once all balances are zero.
+//
+// If you want to delete your own account, use the [account information tab in your account settings](https://dashboard.stripe.com/settings/account) instead.
 type AccountParams struct {
 	Params `form:"*"`
 	// An [account token](https://stripe.com/docs/api#create_account_token), used to securely provide details to the account.

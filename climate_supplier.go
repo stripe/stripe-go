@@ -17,18 +17,6 @@ const (
 	ClimateSupplierRemovalPathwayVarious                        ClimateSupplierRemovalPathway = "various"
 )
 
-// Retrieves a Climate supplier object.
-type ClimateSupplierParams struct {
-	Params `form:"*"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *ClimateSupplierParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
-}
-
 // Lists all available Climate supplier objects.
 type ClimateSupplierListParams struct {
 	ListParams `form:"*"`
@@ -38,6 +26,18 @@ type ClimateSupplierListParams struct {
 
 // AddExpand appends a new field to expand.
 func (p *ClimateSupplierListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// Retrieves a Climate supplier object.
+type ClimateSupplierParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *ClimateSupplierParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 

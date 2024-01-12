@@ -18,37 +18,7 @@ const (
 	CouponDurationRepeating CouponDuration = "repeating"
 )
 
-// Returns a list of your coupons.
-type CouponListParams struct {
-	ListParams `form:"*"`
-	// A filter on the list, based on the object `created` field. The value can be a string with an integer Unix timestamp, or it can be a dictionary with a number of different query options.
-	Created *int64 `form:"created"`
-	// A filter on the list, based on the object `created` field. The value can be a string with an integer Unix timestamp, or it can be a dictionary with a number of different query options.
-	CreatedRange *RangeQueryParams `form:"created"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *CouponListParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
-}
-
-// A hash containing directions for what this Coupon will apply discounts to.
-type CouponAppliesToParams struct {
-	// An array of Product IDs that this Coupon will apply to.
-	Products []*string `form:"products"`
-}
-
-// Coupons defined in each available currency option (only supported if `amount_off` is passed). Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
-type CouponCurrencyOptionsParams struct {
-	// A positive integer representing the amount to subtract from an invoice total.
-	AmountOff *int64 `form:"amount_off"`
-}
-
-// You can create coupons easily via the [coupon management](https://dashboard.stripe.com/coupons) page of the Stripe dashboard. Coupon creation is also accessible via the API if you need to create coupons on the fly.
-//
-// A coupon has either a percent_off or an amount_off and currency. If you set an amount_off, that amount will be subtracted from any invoice's subtotal. For example, an invoice with a subtotal of 100 will have a final total of 0 if a coupon with an amount_off of 200 is applied to it and an invoice with a subtotal of 300 will have a final total of 100 if a coupon with an amount_off of 200 is applied to it.
+// You can delete coupons via the [coupon management](https://dashboard.stripe.com/coupons) page of the Stripe dashboard. However, deleting a coupon does not affect any customers who have already applied the coupon; it means that new customers can't redeem the coupon. You can also delete coupons via the API.
 type CouponParams struct {
 	Params `form:"*"`
 	// A positive integer representing the amount to subtract from an invoice total (required if `percent_off` is not passed).
@@ -93,6 +63,33 @@ func (p *CouponParams) AddMetadata(key string, value string) {
 	p.Metadata[key] = value
 }
 
+// Coupons defined in each available currency option (only supported if the coupon is amount-based). Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
+type CouponCurrencyOptionsParams struct {
+	// A positive integer representing the amount to subtract from an invoice total.
+	AmountOff *int64 `form:"amount_off"`
+}
+
+// Returns a list of your coupons.
+type CouponListParams struct {
+	ListParams `form:"*"`
+	// A filter on the list, based on the object `created` field. The value can be a string with an integer Unix timestamp, or it can be a dictionary with a number of different query options.
+	Created *int64 `form:"created"`
+	// A filter on the list, based on the object `created` field. The value can be a string with an integer Unix timestamp, or it can be a dictionary with a number of different query options.
+	CreatedRange *RangeQueryParams `form:"created"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *CouponListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// A hash containing directions for what this Coupon will apply discounts to.
+type CouponAppliesToParams struct {
+	// An array of Product IDs that this Coupon will apply to.
+	Products []*string `form:"products"`
+}
 type CouponAppliesTo struct {
 	// A list of product IDs this coupon applies to
 	Products []string `json:"products"`

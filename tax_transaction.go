@@ -191,6 +191,46 @@ func (p *TaxTransactionParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Retrieves the line items of a committed standalone transaction as a collection.
+type TaxTransactionListLineItemsParams struct {
+	ListParams  `form:"*"`
+	Transaction *string `form:"-"` // Included in URL
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *TaxTransactionListLineItemsParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// Creates a Tax Transaction from a calculation.
+type TaxTransactionCreateFromCalculationParams struct {
+	Params `form:"*"`
+	// Tax Calculation ID to be used as input when creating the transaction.
+	Calculation *string `form:"calculation"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+	// A custom order or sale identifier, such as 'myOrder_123'. Must be unique across all transactions, including reversals.
+	Reference *string `form:"reference"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *TaxTransactionCreateFromCalculationParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *TaxTransactionCreateFromCalculationParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
 // The line item amounts to reverse.
 type TaxTransactionCreateReversalLineItemParams struct {
 	// The amount to reverse, in negative integer cents.
@@ -257,46 +297,6 @@ func (p *TaxTransactionCreateReversalParams) AddMetadata(key string, value strin
 	}
 
 	p.Metadata[key] = value
-}
-
-// Creates a Tax Transaction from a calculation.
-type TaxTransactionCreateFromCalculationParams struct {
-	Params `form:"*"`
-	// Tax Calculation ID to be used as input when creating the transaction.
-	Calculation *string `form:"calculation"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
-	// A custom order or sale identifier, such as 'myOrder_123'. Must be unique across all transactions, including reversals.
-	Reference *string `form:"reference"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *TaxTransactionCreateFromCalculationParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
-}
-
-// AddMetadata adds a new key-value pair to the Metadata.
-func (p *TaxTransactionCreateFromCalculationParams) AddMetadata(key string, value string) {
-	if p.Metadata == nil {
-		p.Metadata = make(map[string]string)
-	}
-
-	p.Metadata[key] = value
-}
-
-// Retrieves the line items of a committed standalone transaction as a collection.
-type TaxTransactionListLineItemsParams struct {
-	ListParams  `form:"*"`
-	Transaction *string `form:"-"` // Included in URL
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *TaxTransactionListLineItemsParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
 }
 
 // The customer's tax IDs (for example, EU VAT numbers).
