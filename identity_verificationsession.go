@@ -77,6 +77,22 @@ const (
 	IdentityVerificationSessionVerifiedOutputsIDNumberTypeUSSSN  IdentityVerificationSessionVerifiedOutputsIDNumberType = "us_ssn"
 )
 
+// Returns a list of VerificationSessions
+type IdentityVerificationSessionListParams struct {
+	ListParams   `form:"*"`
+	Created      *int64            `form:"created"`
+	CreatedRange *RangeQueryParams `form:"created"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// Only return VerificationSessions with this status. [Learn more about the lifecycle of sessions](https://stripe.com/docs/identity/how-sessions-work).
+	Status *string `form:"status"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *IdentityVerificationSessionListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // Options that apply to the [document check](https://stripe.com/docs/identity/verification-checks?type=document).
 type IdentityVerificationSessionOptionsDocumentParams struct {
 	// Array of strings of allowed identity document types. If the provided identity document isn't one of the allowed types, the verification check will fail with a document_type_not_allowed error code.
@@ -128,22 +144,6 @@ func (p *IdentityVerificationSessionParams) AddMetadata(key string, value string
 	}
 
 	p.Metadata[key] = value
-}
-
-// Returns a list of VerificationSessions
-type IdentityVerificationSessionListParams struct {
-	ListParams   `form:"*"`
-	Created      *int64            `form:"created"`
-	CreatedRange *RangeQueryParams `form:"created"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
-	// Only return VerificationSessions with this status. [Learn more about the lifecycle of sessions](https://stripe.com/docs/identity/how-sessions-work).
-	Status *string `form:"status"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *IdentityVerificationSessionListParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
 }
 
 // A VerificationSession object can be canceled when it is in requires_input [status](https://stripe.com/docs/identity/how-sessions-work).

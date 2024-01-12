@@ -81,6 +81,22 @@ const (
 	CreditNoteTypePrePayment  CreditNoteType = "pre_payment"
 )
 
+// Returns a list of credit notes.
+type CreditNoteListParams struct {
+	ListParams `form:"*"`
+	// Only return credit notes for the customer specified by this customer ID.
+	Customer *string `form:"customer"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// Only return credit notes for the invoice specified by this invoice ID.
+	Invoice *string `form:"invoice"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *CreditNoteListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // A list of up to 10 tax amounts for the credit note line item. Cannot be mixed with `tax_rates`.
 type CreditNoteLineTaxAmountParams struct {
 	// The amount, in cents (or local equivalent), of the tax.
@@ -185,22 +201,6 @@ func (p *CreditNoteParams) AddMetadata(key string, value string) {
 	p.Metadata[key] = value
 }
 
-// Returns a list of credit notes.
-type CreditNoteListParams struct {
-	ListParams `form:"*"`
-	// Only return credit notes for the customer specified by this customer ID.
-	Customer *string `form:"customer"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
-	// Only return credit notes for the invoice specified by this invoice ID.
-	Invoice *string `form:"invoice"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *CreditNoteListParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
-}
-
 // A list of up to 10 tax amounts for the credit note line item. Cannot be mixed with `tax_rates`.
 type CreditNotePreviewLineTaxAmountParams struct {
 	// The amount, in cents (or local equivalent), of the tax.
@@ -294,18 +294,6 @@ func (p *CreditNotePreviewParams) AddMetadata(key string, value string) {
 	p.Metadata[key] = value
 }
 
-// Marks a credit note as void. Learn more about [voiding credit notes](https://stripe.com/docs/billing/invoices/credit-notes#voiding).
-type CreditNoteVoidCreditNoteParams struct {
-	Params `form:"*"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *CreditNoteVoidCreditNoteParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
-}
-
 // A list of up to 10 tax amounts for the credit note line item. Cannot be mixed with `tax_rates`.
 type CreditNotePreviewLinesLineTaxAmountParams struct {
 	// The amount, in cents (or local equivalent), of the tax.
@@ -397,6 +385,18 @@ func (p *CreditNotePreviewLinesParams) AddMetadata(key string, value string) {
 	}
 
 	p.Metadata[key] = value
+}
+
+// Marks a credit note as void. Learn more about [voiding credit notes](https://stripe.com/docs/billing/invoices/credit-notes#voiding).
+type CreditNoteVoidCreditNoteParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *CreditNoteVoidCreditNoteParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // When retrieving a credit note, you'll get a lines property containing the the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of line items.

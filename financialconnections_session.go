@@ -57,6 +57,34 @@ const (
 	FinancialConnectionsSessionStatusDetailsCancelledReasonOther             FinancialConnectionsSessionStatusDetailsCancelledReason = "other"
 )
 
+// Retrieves the details of a Financial Connections Session
+type FinancialConnectionsSessionParams struct {
+	Params `form:"*"`
+	// The account holder to link accounts for.
+	AccountHolder *FinancialConnectionsSessionAccountHolderParams `form:"account_holder"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// Filters to restrict the kinds of accounts to collect.
+	Filters *FinancialConnectionsSessionFiltersParams `form:"filters"`
+	// Settings for configuring Session-specific limits.
+	Limits *FinancialConnectionsSessionLimitsParams `form:"limits"`
+	// Settings for configuring manual entry of account details for this Session.
+	ManualEntry *FinancialConnectionsSessionManualEntryParams `form:"manual_entry"`
+	// List of data features that you would like to request access to.
+	//
+	// Possible values are `balances`, `transactions`, `ownership`, and `payment_method`.
+	Permissions []*string `form:"permissions"`
+	// List of data features that you would like to retrieve upon account creation.
+	Prefetch []*string `form:"prefetch"`
+	// For webview integrations only. Upon completing OAuth login in the native browser, the user will be redirected to this URL to return to your app.
+	ReturnURL *string `form:"return_url"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *FinancialConnectionsSessionParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // The account holder to link accounts for.
 type FinancialConnectionsSessionAccountHolderParams struct {
 	// The ID of the Stripe account whose accounts will be retrieved. Should only be present if `type` is `account`.
@@ -83,34 +111,6 @@ type FinancialConnectionsSessionLimitsParams struct {
 type FinancialConnectionsSessionManualEntryParams struct {
 	// Whether manual entry will be handled by Stripe during the Session.
 	Mode *string `form:"mode"`
-}
-
-// To launch the Financial Connections authorization flow, create a Session. The session's client_secret can be used to launch the flow using Stripe.js.
-type FinancialConnectionsSessionParams struct {
-	Params `form:"*"`
-	// The account holder to link accounts for.
-	AccountHolder *FinancialConnectionsSessionAccountHolderParams `form:"account_holder"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
-	// Filters to restrict the kinds of accounts to collect.
-	Filters *FinancialConnectionsSessionFiltersParams `form:"filters"`
-	// Settings for configuring Session-specific limits.
-	Limits *FinancialConnectionsSessionLimitsParams `form:"limits"`
-	// Settings for configuring manual entry of account details for this Session.
-	ManualEntry *FinancialConnectionsSessionManualEntryParams `form:"manual_entry"`
-	// List of data features that you would like to request access to.
-	//
-	// Possible values are `balances`, `transactions`, `ownership`, and `payment_method`.
-	Permissions []*string `form:"permissions"`
-	// List of data features that you would like to retrieve upon account creation.
-	Prefetch []*string `form:"prefetch"`
-	// For webview integrations only. Upon completing OAuth login in the native browser, the user will be redirected to this URL to return to your app.
-	ReturnURL *string `form:"return_url"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *FinancialConnectionsSessionParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
 }
 
 // The account holder for whom accounts are collected in this session.

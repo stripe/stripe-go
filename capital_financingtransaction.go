@@ -31,18 +31,6 @@ const (
 	CapitalFinancingTransactionTypeReversal CapitalFinancingTransactionType = "reversal"
 )
 
-// Retrieves a financing transaction for a financing offer.
-type CapitalFinancingTransactionParams struct {
-	Params `form:"*"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *CapitalFinancingTransactionParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
-}
-
 // Returns a list of financing transactions. The transactions are returned in sorted order,
 // with the most recent transactions appearing first.
 type CapitalFinancingTransactionListParams struct {
@@ -61,6 +49,18 @@ type CapitalFinancingTransactionListParams struct {
 
 // AddExpand appends a new field to expand.
 func (p *CapitalFinancingTransactionListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// Retrieves a financing transaction for a financing offer.
+type CapitalFinancingTransactionParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *CapitalFinancingTransactionParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 

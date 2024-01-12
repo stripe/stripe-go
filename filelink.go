@@ -8,7 +8,25 @@ package stripe
 
 import "github.com/stripe/stripe-go/v76/form"
 
-// Retrieves the file link with the given ID.
+// Returns a list of file links.
+type FileLinkListParams struct {
+	ListParams   `form:"*"`
+	Created      *int64            `form:"created"`
+	CreatedRange *RangeQueryParams `form:"created"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// Filter links by their expiration status. By default, Stripe returns all links.
+	Expired *bool `form:"expired"`
+	// Only return links for the given file.
+	File *string `form:"file"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *FileLinkListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// Creates a new file link object.
 type FileLinkParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
@@ -41,24 +59,6 @@ func (p *FileLinkParams) AppendTo(body *form.Values, keyParts []string) {
 	if BoolValue(p.ExpiresAtNow) {
 		body.Add(form.FormatKey(append(keyParts, "expires_at")), "now")
 	}
-}
-
-// Returns a list of file links.
-type FileLinkListParams struct {
-	ListParams   `form:"*"`
-	Created      *int64            `form:"created"`
-	CreatedRange *RangeQueryParams `form:"created"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
-	// Filter links by their expiration status. By default, Stripe returns all links.
-	Expired *bool `form:"expired"`
-	// Only return links for the given file.
-	File *string `form:"file"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *FileLinkListParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
 }
 
 // To share the contents of a `File` object with non-Stripe users, you can

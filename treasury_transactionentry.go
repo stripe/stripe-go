@@ -65,18 +65,6 @@ const (
 	TreasuryTransactionEntryTypeReceivedDebit                TreasuryTransactionEntryType = "received_debit"
 )
 
-// Retrieves a TransactionEntry object.
-type TreasuryTransactionEntryParams struct {
-	Params `form:"*"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *TreasuryTransactionEntryParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
-}
-
 // Retrieves a list of TransactionEntry objects.
 type TreasuryTransactionEntryListParams struct {
 	ListParams       `form:"*"`
@@ -96,6 +84,18 @@ type TreasuryTransactionEntryListParams struct {
 
 // AddExpand appends a new field to expand.
 func (p *TreasuryTransactionEntryListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// Retrieves a TransactionEntry object.
+type TreasuryTransactionEntryParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *TreasuryTransactionEntryParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 

@@ -8,7 +8,49 @@ package stripe
 
 import "encoding/json"
 
-// Retrieves the promotion code with the given ID. In order to retrieve a promotion code by the customer-facing code use [list](https://stripe.com/docs/api/promotion_codes/list) with the desired code.
+// Returns a list of your promotion codes.
+type PromotionCodeListParams struct {
+	ListParams `form:"*"`
+	// Filter promotion codes by whether they are active.
+	Active *bool `form:"active"`
+	// Only return promotion codes that have this case-insensitive code.
+	Code *string `form:"code"`
+	// Only return promotion codes for this coupon.
+	Coupon *string `form:"coupon"`
+	// A filter on the list, based on the object `created` field. The value can be a string with an integer Unix timestamp, or it can be a dictionary with a number of different query options.
+	Created *int64 `form:"created"`
+	// A filter on the list, based on the object `created` field. The value can be a string with an integer Unix timestamp, or it can be a dictionary with a number of different query options.
+	CreatedRange *RangeQueryParams `form:"created"`
+	// Only return promotion codes that are restricted to this customer.
+	Customer *string `form:"customer"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *PromotionCodeListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// Promotion codes defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
+type PromotionCodeRestrictionsCurrencyOptionsParams struct {
+	// Minimum amount required to redeem this Promotion Code into a Coupon (e.g., a purchase must be $100 or more to work).
+	MinimumAmount *int64 `form:"minimum_amount"`
+}
+
+// Settings that restrict the redemption of the promotion code.
+type PromotionCodeRestrictionsParams struct {
+	// Promotion codes defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
+	CurrencyOptions map[string]*PromotionCodeRestrictionsCurrencyOptionsParams `form:"currency_options"`
+	// A Boolean indicating if the Promotion Code should only be redeemed for Customers without any successful payments or invoices
+	FirstTimeTransaction *bool `form:"first_time_transaction"`
+	// Minimum amount required to redeem this Promotion Code into a Coupon (e.g., a purchase must be $100 or more to work).
+	MinimumAmount *int64 `form:"minimum_amount"`
+	// Three-letter [ISO code](https://stripe.com/docs/currencies) for minimum_amount
+	MinimumAmountCurrency *string `form:"minimum_amount_currency"`
+}
+
+// A promotion code points to a coupon. You can optionally restrict the code to a specific customer, redemption limit, and expiration date.
 type PromotionCodeParams struct {
 	Params `form:"*"`
 	// Whether the promotion code is currently active. A promotion code can only be reactivated when the coupon is still valid and the promotion code is otherwise redeemable.
@@ -43,48 +85,6 @@ func (p *PromotionCodeParams) AddMetadata(key string, value string) {
 	}
 
 	p.Metadata[key] = value
-}
-
-// Promotion codes defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
-type PromotionCodeRestrictionsCurrencyOptionsParams struct {
-	// Minimum amount required to redeem this Promotion Code into a Coupon (e.g., a purchase must be $100 or more to work).
-	MinimumAmount *int64 `form:"minimum_amount"`
-}
-
-// Settings that restrict the redemption of the promotion code.
-type PromotionCodeRestrictionsParams struct {
-	// Promotion codes defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
-	CurrencyOptions map[string]*PromotionCodeRestrictionsCurrencyOptionsParams `form:"currency_options"`
-	// A Boolean indicating if the Promotion Code should only be redeemed for Customers without any successful payments or invoices
-	FirstTimeTransaction *bool `form:"first_time_transaction"`
-	// Minimum amount required to redeem this Promotion Code into a Coupon (e.g., a purchase must be $100 or more to work).
-	MinimumAmount *int64 `form:"minimum_amount"`
-	// Three-letter [ISO code](https://stripe.com/docs/currencies) for minimum_amount
-	MinimumAmountCurrency *string `form:"minimum_amount_currency"`
-}
-
-// Returns a list of your promotion codes.
-type PromotionCodeListParams struct {
-	ListParams `form:"*"`
-	// Filter promotion codes by whether they are active.
-	Active *bool `form:"active"`
-	// Only return promotion codes that have this case-insensitive code.
-	Code *string `form:"code"`
-	// Only return promotion codes for this coupon.
-	Coupon *string `form:"coupon"`
-	// A filter on the list, based on the object `created` field. The value can be a string with an integer Unix timestamp, or it can be a dictionary with a number of different query options.
-	Created *int64 `form:"created"`
-	// A filter on the list, based on the object `created` field. The value can be a string with an integer Unix timestamp, or it can be a dictionary with a number of different query options.
-	CreatedRange *RangeQueryParams `form:"created"`
-	// Only return promotion codes that are restricted to this customer.
-	Customer *string `form:"customer"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *PromotionCodeListParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
 }
 
 // Promotion code restrictions defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).

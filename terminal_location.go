@@ -8,7 +8,7 @@ package stripe
 
 import "encoding/json"
 
-// Retrieves a Location object.
+// Deletes a Location object.
 type TerminalLocationParams struct {
 	Params `form:"*"`
 	// The full address of the location.

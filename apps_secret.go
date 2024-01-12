@@ -16,26 +16,24 @@ const (
 )
 
 // Specifies the scoping of the secret. Requests originating from UI extensions can only access account-scoped secrets or secrets scoped to their own user.
-type AppsSecretFindScopeParams struct {
+type AppsSecretListScopeParams struct {
 	// The secret scope type.
 	Type *string `form:"type"`
 	// The user ID. This field is required if `type` is set to `user`, and should not be provided if `type` is set to `account`.
 	User *string `form:"user"`
 }
 
-// Finds a secret in the secret store by name and scope.
-type AppsSecretFindParams struct {
-	Params `form:"*"`
+// List all secrets stored on the given scope.
+type AppsSecretListParams struct {
+	ListParams `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-	// A name for the secret that's unique within the scope.
-	Name *string `form:"name"`
 	// Specifies the scoping of the secret. Requests originating from UI extensions can only access account-scoped secrets or secrets scoped to their own user.
-	Scope *AppsSecretFindScopeParams `form:"scope"`
+	Scope *AppsSecretListScopeParams `form:"scope"`
 }
 
 // AddExpand appends a new field to expand.
-func (p *AppsSecretFindParams) AddExpand(f string) {
+func (p *AppsSecretListParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
@@ -68,24 +66,26 @@ func (p *AppsSecretParams) AddExpand(f string) {
 }
 
 // Specifies the scoping of the secret. Requests originating from UI extensions can only access account-scoped secrets or secrets scoped to their own user.
-type AppsSecretListScopeParams struct {
+type AppsSecretFindScopeParams struct {
 	// The secret scope type.
 	Type *string `form:"type"`
 	// The user ID. This field is required if `type` is set to `user`, and should not be provided if `type` is set to `account`.
 	User *string `form:"user"`
 }
 
-// List all secrets stored on the given scope.
-type AppsSecretListParams struct {
-	ListParams `form:"*"`
+// Finds a secret in the secret store by name and scope.
+type AppsSecretFindParams struct {
+	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+	// A name for the secret that's unique within the scope.
+	Name *string `form:"name"`
 	// Specifies the scoping of the secret. Requests originating from UI extensions can only access account-scoped secrets or secrets scoped to their own user.
-	Scope *AppsSecretListScopeParams `form:"scope"`
+	Scope *AppsSecretFindScopeParams `form:"scope"`
 }
 
 // AddExpand appends a new field to expand.
-func (p *AppsSecretListParams) AddExpand(f string) {
+func (p *AppsSecretFindParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 

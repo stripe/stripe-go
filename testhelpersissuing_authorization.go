@@ -104,48 +104,6 @@ func (p *TestHelpersIssuingAuthorizationParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// Increment a test-mode Authorization.
-type TestHelpersIssuingAuthorizationIncrementParams struct {
-	Params `form:"*"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
-	// The amount to increment the authorization by. This amount is in the authorization currency and in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal).
-	IncrementAmount *int64 `form:"increment_amount"`
-	// If set `true`, you may provide [amount](https://stripe.com/docs/api/issuing/authorizations/approve#approve_issuing_authorization-amount) to control how much to hold for the authorization.
-	IsAmountControllable *bool `form:"is_amount_controllable"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *TestHelpersIssuingAuthorizationIncrementParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
-}
-
-// Reverse a test-mode Authorization.
-type TestHelpersIssuingAuthorizationReverseParams struct {
-	Params `form:"*"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
-	// The amount to reverse from the authorization. If not provided, the full amount of the authorization will be reversed. This amount is in the authorization currency and in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal).
-	ReverseAmount *int64 `form:"reverse_amount"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *TestHelpersIssuingAuthorizationReverseParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
-}
-
-// Expire a test-mode Authorization.
-type TestHelpersIssuingAuthorizationExpireParams struct {
-	Params `form:"*"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *TestHelpersIssuingAuthorizationExpireParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
-}
-
 // The legs of the trip.
 type TestHelpersIssuingAuthorizationCapturePurchaseDetailsFlightSegmentParams struct {
 	// The three-letter IATA airport code of the flight's destination.
@@ -233,5 +191,47 @@ type TestHelpersIssuingAuthorizationCaptureParams struct {
 
 // AddExpand appends a new field to expand.
 func (p *TestHelpersIssuingAuthorizationCaptureParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// Expire a test-mode Authorization.
+type TestHelpersIssuingAuthorizationExpireParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *TestHelpersIssuingAuthorizationExpireParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// Increment a test-mode Authorization.
+type TestHelpersIssuingAuthorizationIncrementParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// The amount to increment the authorization by. This amount is in the authorization currency and in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal).
+	IncrementAmount *int64 `form:"increment_amount"`
+	// If set `true`, you may provide [amount](https://stripe.com/docs/api/issuing/authorizations/approve#approve_issuing_authorization-amount) to control how much to hold for the authorization.
+	IsAmountControllable *bool `form:"is_amount_controllable"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *TestHelpersIssuingAuthorizationIncrementParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// Reverse a test-mode Authorization.
+type TestHelpersIssuingAuthorizationReverseParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// The amount to reverse from the authorization. If not provided, the full amount of the authorization will be reversed. This amount is in the authorization currency and in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal).
+	ReverseAmount *int64 `form:"reverse_amount"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *TestHelpersIssuingAuthorizationReverseParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }

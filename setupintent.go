@@ -239,6 +239,30 @@ const (
 	SetupIntentUsageOnSession  SetupIntentUsage = "on_session"
 )
 
+// Returns a list of SetupIntents.
+type SetupIntentListParams struct {
+	ListParams `form:"*"`
+	// If present, the SetupIntent's payment method will be attached to the in-context Stripe Account.
+	//
+	// It can only be used for this Stripe Account's own money movement flows like InboundTransfer and OutboundTransfers. It cannot be set to true when setting up a PaymentMethod for a Customer, and defaults to false when attaching a PaymentMethod to a Customer.
+	AttachToSelf *bool `form:"attach_to_self"`
+	// A filter on the list, based on the object `created` field. The value can be a string with an integer Unix timestamp, or it can be a dictionary with a number of different query options.
+	Created *int64 `form:"created"`
+	// A filter on the list, based on the object `created` field. The value can be a string with an integer Unix timestamp, or it can be a dictionary with a number of different query options.
+	CreatedRange *RangeQueryParams `form:"created"`
+	// Only return SetupIntents for the customer specified by this customer ID.
+	Customer *string `form:"customer"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// Only return SetupIntents that associate with the specified payment method.
+	PaymentMethod *string `form:"payment_method"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *SetupIntentListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // When you enable this parameter, this SetupIntent accepts payment methods that you enable in the Dashboard and that are compatible with its other parameters.
 type SetupIntentAutomaticPaymentMethodsParams struct {
 	// Controls whether this SetupIntent will accept redirect-based payment methods.
@@ -564,7 +588,7 @@ type SetupIntentPaymentMethodOptionsACSSDebitParams struct {
 	Currency *string `form:"currency"`
 	// Additional fields for Mandate creation
 	MandateOptions *SetupIntentPaymentMethodOptionsACSSDebitMandateOptionsParams `form:"mandate_options"`
-	// Verification method for the intent
+	// Bank account verification method.
 	VerificationMethod *string `form:"verification_method"`
 }
 
@@ -722,7 +746,7 @@ type SetupIntentPaymentMethodOptionsUSBankAccountParams struct {
 	MandateOptions *SetupIntentPaymentMethodOptionsUSBankAccountMandateOptionsParams `form:"mandate_options"`
 	// Additional fields for network related functions
 	Networks *SetupIntentPaymentMethodOptionsUSBankAccountNetworksParams `form:"networks"`
-	// Verification method for the intent
+	// Bank account verification method.
 	VerificationMethod *string `form:"verification_method"`
 }
 
@@ -823,27 +847,19 @@ func (p *SetupIntentParams) AddMetadata(key string, value string) {
 	p.Metadata[key] = value
 }
 
-// Returns a list of SetupIntents.
-type SetupIntentListParams struct {
-	ListParams `form:"*"`
-	// If present, the SetupIntent's payment method will be attached to the in-context Stripe Account.
-	//
-	// It can only be used for this Stripe Account's own money movement flows like InboundTransfer and OutboundTransfers. It cannot be set to true when setting up a PaymentMethod for a Customer, and defaults to false when attaching a PaymentMethod to a Customer.
-	AttachToSelf *bool `form:"attach_to_self"`
-	// A filter on the list, based on the object `created` field. The value can be a string with an integer Unix timestamp, or it can be a dictionary with a number of different query options.
-	Created *int64 `form:"created"`
-	// A filter on the list, based on the object `created` field. The value can be a string with an integer Unix timestamp, or it can be a dictionary with a number of different query options.
-	CreatedRange *RangeQueryParams `form:"created"`
-	// Only return SetupIntents for the customer specified by this customer ID.
-	Customer *string `form:"customer"`
+// You can cancel a SetupIntent object when it's in one of these statuses: requires_payment_method, requires_confirmation, or requires_action.
+//
+// After you cancel it, setup is abandoned and any operations on the SetupIntent fail with an error.
+type SetupIntentCancelParams struct {
+	Params `form:"*"`
+	// Reason for canceling this SetupIntent. Possible values are: `abandoned`, `requested_by_customer`, or `duplicate`
+	CancellationReason *string `form:"cancellation_reason"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-	// Only return SetupIntents that associate with the specified payment method.
-	PaymentMethod *string `form:"payment_method"`
 }
 
 // AddExpand appends a new field to expand.
-func (p *SetupIntentListParams) AddExpand(f string) {
+func (p *SetupIntentCancelParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
@@ -1151,22 +1167,6 @@ type SetupIntentConfirmParams struct {
 
 // AddExpand appends a new field to expand.
 func (p *SetupIntentConfirmParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
-}
-
-// You can cancel a SetupIntent object when it's in one of these statuses: requires_payment_method, requires_confirmation, or requires_action.
-//
-// After you cancel it, setup is abandoned and any operations on the SetupIntent fail with an error.
-type SetupIntentCancelParams struct {
-	Params `form:"*"`
-	// Reason for canceling this SetupIntent. Possible values are: `abandoned`, `requested_by_customer`, or `duplicate`
-	CancellationReason *string `form:"cancellation_reason"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *SetupIntentCancelParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 

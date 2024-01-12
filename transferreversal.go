@@ -8,6 +8,19 @@ package stripe
 
 import "encoding/json"
 
+// You can see a list of the reversals belonging to a specific transfer. Note that the 10 most recent reversals are always available by default on the transfer object. If you need more than those 10, you can use this API method and the limit and starting_after parameters to page through additional reversals.
+type TransferReversalListParams struct {
+	ListParams `form:"*"`
+	ID         *string `form:"-"` // Included in URL
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *TransferReversalListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // When you create a new reversal, you must specify a transfer to create it on.
 //
 // When reversing transfers, you can optionally reverse part of the transfer. You can do so as many times as you wish until the entire transfer has been reversed.
@@ -40,19 +53,6 @@ func (p *TransferReversalParams) AddMetadata(key string, value string) {
 	}
 
 	p.Metadata[key] = value
-}
-
-// You can see a list of the reversals belonging to a specific transfer. Note that the 10 most recent reversals are always available by default on the transfer object. If you need more than those 10, you can use this API method and the limit and starting_after parameters to page through additional reversals.
-type TransferReversalListParams struct {
-	ListParams `form:"*"`
-	ID         *string `form:"-"` // Included in URL
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *TransferReversalListParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
 }
 
 // [Stripe Connect](https://stripe.com/docs/connect) platforms can reverse transfers made to a

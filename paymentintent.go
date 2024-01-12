@@ -893,20 +893,21 @@ const (
 	PaymentIntentStatusSucceeded             PaymentIntentStatus = "succeeded"
 )
 
-// Search for PaymentIntents you've previously created using Stripe's [Search Query Language](https://stripe.com/docs/search#search-query-language).
-// Don't use search in read-after-write flows where strict consistency is necessary. Under normal operating
-// conditions, data is searchable in less than a minute. Occasionally, propagation of new or updated data can be up
-// to an hour behind during outages. Search functionality is not available to merchants in India.
-type PaymentIntentSearchParams struct {
-	SearchParams `form:"*"`
+// Returns a list of PaymentIntents.
+type PaymentIntentListParams struct {
+	ListParams `form:"*"`
+	// A filter on the list, based on the object `created` field. The value can be a string with an integer Unix timestamp or a dictionary with a number of different query options.
+	Created *int64 `form:"created"`
+	// A filter on the list, based on the object `created` field. The value can be a string with an integer Unix timestamp or a dictionary with a number of different query options.
+	CreatedRange *RangeQueryParams `form:"created"`
+	// Only return PaymentIntents for the customer that this customer ID specifies.
+	Customer *string `form:"customer"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-	// A cursor for pagination across multiple pages of results. Don't include this parameter on the first call. Use the next_page value returned in a previous response to request subsequent results.
-	Page *string `form:"page"`
 }
 
 // AddExpand appends a new field to expand.
-func (p *PaymentIntentSearchParams) AddExpand(f string) {
+func (p *PaymentIntentListParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
@@ -1101,6 +1102,8 @@ type PaymentIntentPaymentDetailsFlightPassengerParams struct {
 
 // The individual flight segments associated with the trip.
 type PaymentIntentPaymentDetailsFlightSegmentParams struct {
+	// The flight segment amount.
+	Amount *int64 `form:"amount"`
 	// The International Air Transport Association (IATA) airport code for the arrival airport.
 	ArrivalAirport *string `form:"arrival_airport"`
 	// The arrival time for the flight segment. Measured in seconds since the Unix epoch.
@@ -1197,10 +1200,14 @@ type PaymentIntentPaymentDetailsLodgingParams struct {
 	Name *string `form:"name"`
 	// Indicates if the customer did not keep their booking while failing to cancel the reservation.
 	NoShow *bool `form:"no_show"`
+	// The number of rooms on the booking
+	NumberOfRooms *int64 `form:"number_of_rooms"`
 	// The details of the passengers in the travel reservation
 	Passengers []*PaymentIntentPaymentDetailsLodgingPassengerParams `form:"passengers"`
 	// The phone number of the lodging location.
 	PropertyPhoneNumber *string `form:"property_phone_number"`
+	// The room class for this purchase.
+	RoomClass *string `form:"room_class"`
 	// The number of room nights
 	RoomNights *int64 `form:"room_nights"`
 	// The total tax amount associating with the room reservation.
@@ -1434,7 +1441,7 @@ type PaymentIntentPaymentMethodOptionsACSSDebitParams struct {
 	//
 	// If `setup_future_usage` is already set and you are performing a request using a publishable key, you may only update the value from `on_session` to `off_session`.
 	SetupFutureUsage *string `form:"setup_future_usage"`
-	// Verification method for the intent
+	// Bank account verification method.
 	VerificationMethod *string `form:"verification_method"`
 }
 
@@ -2074,7 +2081,7 @@ type PaymentIntentPaymentMethodOptionsUSBankAccountParams struct {
 	//
 	// If `setup_future_usage` is already set and you are performing a request using a publishable key, you may only update the value from `on_session` to `off_session`.
 	SetupFutureUsage *string `form:"setup_future_usage"`
-	// Verification method for the intent
+	// Bank account verification method.
 	VerificationMethod *string `form:"verification_method"`
 }
 
@@ -2317,410 +2324,42 @@ func (p *PaymentIntentParams) AddMetadata(key string, value string) {
 	p.Metadata[key] = value
 }
 
-// Returns a list of PaymentIntents.
-type PaymentIntentListParams struct {
-	ListParams `form:"*"`
-	// A filter on the list, based on the object `created` field. The value can be a string with an integer Unix timestamp or a dictionary with a number of different query options.
-	Created *int64 `form:"created"`
-	// A filter on the list, based on the object `created` field. The value can be a string with an integer Unix timestamp or a dictionary with a number of different query options.
-	CreatedRange *RangeQueryParams `form:"created"`
-	// Only return PaymentIntents for the customer that this customer ID specifies.
-	Customer *string `form:"customer"`
+// Search for PaymentIntents you've previously created using Stripe's [Search Query Language](https://stripe.com/docs/search#search-query-language).
+// Don't use search in read-after-write flows where strict consistency is necessary. Under normal operating
+// conditions, data is searchable in less than a minute. Occasionally, propagation of new or updated data can be up
+// to an hour behind during outages. Search functionality is not available to merchants in India.
+type PaymentIntentSearchParams struct {
+	SearchParams `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+	// A cursor for pagination across multiple pages of results. Don't include this parameter on the first call. Use the next_page value returned in a previous response to request subsequent results.
+	Page *string `form:"page"`
 }
 
 // AddExpand appends a new field to expand.
-func (p *PaymentIntentListParams) AddExpand(f string) {
+func (p *PaymentIntentSearchParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// Affiliate details for this purchase.
-type PaymentIntentConfirmPaymentDetailsCarRentalAffiliateParams struct {
-	// The name of the affiliate that originated the purchase.
-	Name *string `form:"name"`
-}
-
-// Details of the recipient.
-type PaymentIntentConfirmPaymentDetailsCarRentalDeliveryRecipientParams struct {
-	// The email of the recipient the ticket is delivered to.
-	Email *string `form:"email"`
-	// The name of the recipient the ticket is delivered to.
-	Name *string `form:"name"`
-	// The phone number of the recipient the ticket is delivered to.
-	Phone *string `form:"phone"`
-}
-
-// Delivery details for this purchase.
-type PaymentIntentConfirmPaymentDetailsCarRentalDeliveryParams struct {
-	// The delivery method for the payment
-	Mode *string `form:"mode"`
-	// Details of the recipient.
-	Recipient *PaymentIntentConfirmPaymentDetailsCarRentalDeliveryRecipientParams `form:"recipient"`
-}
-
-// The details of the passengers in the travel reservation
-type PaymentIntentConfirmPaymentDetailsCarRentalDriverParams struct {
-	// Full name of the person or entity on the car reservation.
-	Name *string `form:"name"`
-}
-
-// Car rental details for this PaymentIntent.
-type PaymentIntentConfirmPaymentDetailsCarRentalParams struct {
-	// Affiliate details for this purchase.
-	Affiliate *PaymentIntentConfirmPaymentDetailsCarRentalAffiliateParams `form:"affiliate"`
-	// The booking number associated with the car rental.
-	BookingNumber *string `form:"booking_number"`
-	// Class code of the car.
-	CarClassCode *string `form:"car_class_code"`
-	// Make of the car.
-	CarMake *string `form:"car_make"`
-	// Model of the car.
-	CarModel *string `form:"car_model"`
-	// The name of the rental car company.
-	Company *string `form:"company"`
-	// The customer service phone number of the car rental company.
-	CustomerServicePhoneNumber *string `form:"customer_service_phone_number"`
-	// Number of days the car is being rented.
-	DaysRented *int64 `form:"days_rented"`
-	// Delivery details for this purchase.
-	Delivery *PaymentIntentConfirmPaymentDetailsCarRentalDeliveryParams `form:"delivery"`
-	// The details of the passengers in the travel reservation
-	Drivers []*PaymentIntentConfirmPaymentDetailsCarRentalDriverParams `form:"drivers"`
-	// List of additional charges being billed.
-	ExtraCharges []*string `form:"extra_charges"`
-	// Indicates if the customer did not keep nor cancel their booking.
-	NoShow *bool `form:"no_show"`
-	// Car pick-up address.
-	PickupAddress *AddressParams `form:"pickup_address"`
-	// Car pick-up time. Measured in seconds since the Unix epoch.
-	PickupAt *int64 `form:"pickup_at"`
-	// Rental rate.
-	RateAmount *int64 `form:"rate_amount"`
-	// The frequency at which the rate amount is applied. One of `day`, `week` or `month`
-	RateInterval *string `form:"rate_interval"`
-	// The name of the person or entity renting the car.
-	RenterName *string `form:"renter_name"`
-	// Car return address.
-	ReturnAddress *AddressParams `form:"return_address"`
-	// Car return time. Measured in seconds since the Unix epoch.
-	ReturnAt *int64 `form:"return_at"`
-	// Indicates whether the goods or services are tax-exempt or tax is not collected.
-	TaxExempt *bool `form:"tax_exempt"`
-}
-
-// Affiliate details for this purchase.
-type PaymentIntentConfirmPaymentDetailsEventDetailsAffiliateParams struct {
-	// The name of the affiliate that originated the purchase.
-	Name *string `form:"name"`
-}
-
-// Details of the recipient.
-type PaymentIntentConfirmPaymentDetailsEventDetailsDeliveryRecipientParams struct {
-	// The email of the recipient the ticket is delivered to.
-	Email *string `form:"email"`
-	// The name of the recipient the ticket is delivered to.
-	Name *string `form:"name"`
-	// The phone number of the recipient the ticket is delivered to.
-	Phone *string `form:"phone"`
-}
-
-// Delivery details for this purchase.
-type PaymentIntentConfirmPaymentDetailsEventDetailsDeliveryParams struct {
-	// The delivery method for the payment
-	Mode *string `form:"mode"`
-	// Details of the recipient.
-	Recipient *PaymentIntentConfirmPaymentDetailsEventDetailsDeliveryRecipientParams `form:"recipient"`
-}
-
-// Event details for this PaymentIntent
-type PaymentIntentConfirmPaymentDetailsEventDetailsParams struct {
-	// Indicates if the tickets are digitally checked when entering the venue.
-	AccessControlledVenue *bool `form:"access_controlled_venue"`
-	// The event location's address.
-	Address *AddressParams `form:"address"`
-	// Affiliate details for this purchase.
-	Affiliate *PaymentIntentConfirmPaymentDetailsEventDetailsAffiliateParams `form:"affiliate"`
-	// The name of the company
-	Company *string `form:"company"`
-	// Delivery details for this purchase.
-	Delivery *PaymentIntentConfirmPaymentDetailsEventDetailsDeliveryParams `form:"delivery"`
-	// Event end time. Measured in seconds since the Unix epoch.
-	EndsAt *int64 `form:"ends_at"`
-	// Type of the event entertainment (concert, sports event etc)
-	Genre *string `form:"genre"`
-	// The name of the event.
-	Name *string `form:"name"`
-	// Event start time. Measured in seconds since the Unix epoch.
-	StartsAt *int64 `form:"starts_at"`
-}
-
-// Affiliate details for this purchase.
-type PaymentIntentConfirmPaymentDetailsFlightAffiliateParams struct {
-	// The name of the affiliate that originated the purchase.
-	Name *string `form:"name"`
-}
-
-// Details of the recipient.
-type PaymentIntentConfirmPaymentDetailsFlightDeliveryRecipientParams struct {
-	// The email of the recipient the ticket is delivered to.
-	Email *string `form:"email"`
-	// The name of the recipient the ticket is delivered to.
-	Name *string `form:"name"`
-	// The phone number of the recipient the ticket is delivered to.
-	Phone *string `form:"phone"`
-}
-
-// Delivery details for this purchase.
-type PaymentIntentConfirmPaymentDetailsFlightDeliveryParams struct {
-	// The delivery method for the payment
-	Mode *string `form:"mode"`
-	// Details of the recipient.
-	Recipient *PaymentIntentConfirmPaymentDetailsFlightDeliveryRecipientParams `form:"recipient"`
-}
-
-// The details of the passengers in the travel reservation.
-type PaymentIntentConfirmPaymentDetailsFlightPassengerParams struct {
-	// Full name of the person or entity on the flight reservation.
-	Name *string `form:"name"`
-}
-
-// The individual flight segments associated with the trip.
-type PaymentIntentConfirmPaymentDetailsFlightSegmentParams struct {
-	// The International Air Transport Association (IATA) airport code for the arrival airport.
-	ArrivalAirport *string `form:"arrival_airport"`
-	// The arrival time for the flight segment. Measured in seconds since the Unix epoch.
-	ArrivesAt *int64 `form:"arrives_at"`
-	// The International Air Transport Association (IATA) carrier code of the carrier operating the flight segment.
-	Carrier *string `form:"carrier"`
-	// The departure time for the flight segment. Measured in seconds since the Unix epoch.
-	DepartsAt *int64 `form:"departs_at"`
-	// The International Air Transport Association (IATA) airport code for the departure airport.
-	DepartureAirport *string `form:"departure_airport"`
-	// The flight number associated with the segment
-	FlightNumber *string `form:"flight_number"`
-	// The fare class for the segment.
-	ServiceClass *string `form:"service_class"`
-}
-
-// Flight reservation details for this PaymentIntent
-type PaymentIntentConfirmPaymentDetailsFlightParams struct {
-	// Affiliate details for this purchase.
-	Affiliate *PaymentIntentConfirmPaymentDetailsFlightAffiliateParams `form:"affiliate"`
-	// The agency number (i.e. International Air Transport Association (IATA) agency number) of the travel agency that made the booking.
-	AgencyNumber *string `form:"agency_number"`
-	// The International Air Transport Association (IATA) carrier code of the carrier that issued the ticket.
-	Carrier *string `form:"carrier"`
-	// Delivery details for this purchase.
-	Delivery *PaymentIntentConfirmPaymentDetailsFlightDeliveryParams `form:"delivery"`
-	// The name of the person or entity on the reservation.
-	PassengerName *string `form:"passenger_name"`
-	// The details of the passengers in the travel reservation.
-	Passengers []*PaymentIntentConfirmPaymentDetailsFlightPassengerParams `form:"passengers"`
-	// The individual flight segments associated with the trip.
-	Segments []*PaymentIntentConfirmPaymentDetailsFlightSegmentParams `form:"segments"`
-	// The ticket number associated with the travel reservation.
-	TicketNumber *string `form:"ticket_number"`
-}
-
-// Affiliate details for this purchase.
-type PaymentIntentConfirmPaymentDetailsLodgingAffiliateParams struct {
-	// The name of the affiliate that originated the purchase.
-	Name *string `form:"name"`
-}
-
-// Details of the recipient.
-type PaymentIntentConfirmPaymentDetailsLodgingDeliveryRecipientParams struct {
-	// The email of the recipient the ticket is delivered to.
-	Email *string `form:"email"`
-	// The name of the recipient the ticket is delivered to.
-	Name *string `form:"name"`
-	// The phone number of the recipient the ticket is delivered to.
-	Phone *string `form:"phone"`
-}
-
-// Delivery details for this purchase.
-type PaymentIntentConfirmPaymentDetailsLodgingDeliveryParams struct {
-	// The delivery method for the payment
-	Mode *string `form:"mode"`
-	// Details of the recipient.
-	Recipient *PaymentIntentConfirmPaymentDetailsLodgingDeliveryRecipientParams `form:"recipient"`
-}
-
-// The details of the passengers in the travel reservation
-type PaymentIntentConfirmPaymentDetailsLodgingPassengerParams struct {
-	// Full name of the person or entity on the lodging reservation.
-	Name *string `form:"name"`
-}
-
-// Lodging reservation details for this PaymentIntent
-type PaymentIntentConfirmPaymentDetailsLodgingParams struct {
-	// The lodging location's address.
-	Address *AddressParams `form:"address"`
-	// The number of adults on the booking
-	Adults *int64 `form:"adults"`
-	// Affiliate details for this purchase.
-	Affiliate *PaymentIntentConfirmPaymentDetailsLodgingAffiliateParams `form:"affiliate"`
-	// The booking number associated with the lodging reservation.
-	BookingNumber *string `form:"booking_number"`
-	// The lodging category
-	Category *string `form:"category"`
-	// Loding check-in time. Measured in seconds since the Unix epoch.
-	CheckinAt *int64 `form:"checkin_at"`
-	// Lodging check-out time. Measured in seconds since the Unix epoch.
-	CheckoutAt *int64 `form:"checkout_at"`
-	// The customer service phone number of the lodging company.
-	CustomerServicePhoneNumber *string `form:"customer_service_phone_number"`
-	// The daily lodging room rate.
-	DailyRoomRateAmount *int64 `form:"daily_room_rate_amount"`
-	// Delivery details for this purchase.
-	Delivery *PaymentIntentConfirmPaymentDetailsLodgingDeliveryParams `form:"delivery"`
-	// List of additional charges being billed.
-	ExtraCharges []*string `form:"extra_charges"`
-	// Indicates whether the lodging location is compliant with the Fire Safety Act.
-	FireSafetyActCompliance *bool `form:"fire_safety_act_compliance"`
-	// The name of the lodging location.
-	Name *string `form:"name"`
-	// Indicates if the customer did not keep their booking while failing to cancel the reservation.
-	NoShow *bool `form:"no_show"`
-	// The details of the passengers in the travel reservation
-	Passengers []*PaymentIntentConfirmPaymentDetailsLodgingPassengerParams `form:"passengers"`
-	// The phone number of the lodging location.
-	PropertyPhoneNumber *string `form:"property_phone_number"`
-	// The number of room nights
-	RoomNights *int64 `form:"room_nights"`
-	// The total tax amount associating with the room reservation.
-	TotalRoomTaxAmount *int64 `form:"total_room_tax_amount"`
-	// The total tax amount
-	TotalTaxAmount *int64 `form:"total_tax_amount"`
-}
-
-// Affiliate details for this purchase.
-type PaymentIntentConfirmPaymentDetailsSubscriptionAffiliateParams struct {
-	// The name of the affiliate that originated the purchase.
-	Name *string `form:"name"`
-}
-
-// Subscription billing details for this purchase.
-type PaymentIntentConfirmPaymentDetailsSubscriptionBillingIntervalParams struct {
-	// The number of intervals, as an whole number greater than 0. Stripe multiplies this by the interval type to get the overall duration.
-	Count *int64 `form:"count"`
-	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
-	Interval *string `form:"interval"`
-}
-
-// Subscription details for this PaymentIntent
-type PaymentIntentConfirmPaymentDetailsSubscriptionParams struct {
-	// Affiliate details for this purchase.
-	Affiliate *PaymentIntentConfirmPaymentDetailsSubscriptionAffiliateParams `form:"affiliate"`
-	// Info whether the subscription will be auto renewed upon expiry.
-	AutoRenewal *bool `form:"auto_renewal"`
-	// Subscription billing details for this purchase.
-	BillingInterval *PaymentIntentConfirmPaymentDetailsSubscriptionBillingIntervalParams `form:"billing_interval"`
-	// Subscription end time. Measured in seconds since the Unix epoch.
-	EndsAt *int64 `form:"ends_at"`
-	// Name of the product on subscription. e.g. Apple Music Subscription
-	Name *string `form:"name"`
-	// Subscription start time. Measured in seconds since the Unix epoch.
-	StartsAt *int64 `form:"starts_at"`
-}
-
-// Provides industry-specific information about the charge.
-type PaymentIntentConfirmPaymentDetailsParams struct {
-	// Car rental details for this PaymentIntent.
-	CarRental *PaymentIntentConfirmPaymentDetailsCarRentalParams `form:"car_rental"`
-	// Event details for this PaymentIntent
-	EventDetails *PaymentIntentConfirmPaymentDetailsEventDetailsParams `form:"event_details"`
-	// Flight reservation details for this PaymentIntent
-	Flight *PaymentIntentConfirmPaymentDetailsFlightParams `form:"flight"`
-	// Lodging reservation details for this PaymentIntent
-	Lodging *PaymentIntentConfirmPaymentDetailsLodgingParams `form:"lodging"`
-	// Subscription details for this PaymentIntent
-	Subscription *PaymentIntentConfirmPaymentDetailsSubscriptionParams `form:"subscription"`
-}
-
-// Options to configure Radar. Learn more about [Radar Sessions](https://stripe.com/docs/radar/radar-session).
-type PaymentIntentConfirmRadarOptionsParams struct {
-	// A [Radar Session](https://stripe.com/docs/radar/radar-session) is a snapshot of the browser metadata and device details that help Radar make more accurate predictions on your payments.
-	Session *string `form:"session"`
-}
-
-// Confirm that your customer intends to pay with current or provided
-// payment method. Upon confirmation, the PaymentIntent will attempt to initiate
-// a payment.
-// If the selected payment method requires additional authentication steps, the
-// PaymentIntent will transition to the requires_action status and
-// suggest additional actions via next_action. If payment fails,
-// the PaymentIntent transitions to the requires_payment_method status or the
-// canceled status if the confirmation limit is reached. If
-// payment succeeds, the PaymentIntent will transition to the succeeded
-// status (or requires_capture, if capture_method is set to manual).
-// If the confirmation_method is automatic, payment may be attempted
-// using our [client SDKs](https://stripe.com/docs/stripe-js/reference#stripe-handle-card-payment)
-// and the PaymentIntent's [client_secret](https://stripe.com/docs/api#payment_intent_object-client_secret).
-// After next_actions are handled by the client, no additional
-// confirmation is required to complete the payment.
-// If the confirmation_method is manual, all payment attempts must be
-// initiated using a secret key.
-// If any actions are required for the payment, the PaymentIntent will
-// return to the requires_confirmation state
-// after those actions are completed. Your server needs to then
-// explicitly re-confirm the PaymentIntent to initiate the next payment
-// attempt. Read the [expanded documentation](https://stripe.com/docs/payments/payment-intents/web-manual)
-// to learn more about manual confirmation.
-type PaymentIntentConfirmParams struct {
+// Manually reconcile the remaining amount for a customer_balance PaymentIntent.
+type PaymentIntentApplyCustomerBalanceParams struct {
 	Params `form:"*"`
-	// The amount of the application fee (if any) that will be requested to be applied to the payment and transferred to the application owner's Stripe account. The amount of the application fee collected will be capped at the total payment amount. For more information, see the PaymentIntents [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
-	ApplicationFeeAmount *int64 `form:"application_fee_amount"`
-	// Controls when the funds will be captured from the customer's account.
-	CaptureMethod *string `form:"capture_method"`
-	// ID of the ConfirmationToken used to confirm this PaymentIntent.
+	// Amount that you intend to apply to this PaymentIntent from the customer's cash balance.
 	//
-	// If the provided ConfirmationToken contains properties that are also being provided in this request, such as `payment_method`, then the values in this request will take precedence.
-	ConfirmationToken *string `form:"confirmation_token"`
-	// Set to `true` to fail the payment attempt if the PaymentIntent transitions into `requires_action`. This parameter is intended for simpler integrations that do not handle customer actions, like [saving cards without authentication](https://stripe.com/docs/payments/save-card-without-authentication).
-	ErrorOnRequiresAction *bool `form:"error_on_requires_action"`
+	// A positive integer representing how much to charge in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal) (for example, 100 cents to charge 1 USD or 100 to charge 100 JPY, a zero-decimal currency).
+	//
+	// The maximum amount is the amount of the PaymentIntent.
+	//
+	// When you omit the amount, it defaults to the remaining amount requested on the PaymentIntent.
+	Amount *int64 `form:"amount"`
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency *string `form:"currency"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-	// ID of the mandate that's used for this payment.
-	Mandate     *string                         `form:"mandate"`
-	MandateData *PaymentIntentMandateDataParams `form:"mandate_data"`
-	// Set to `true` to indicate that the customer isn't in your checkout flow during this payment attempt and can't authenticate. Use this parameter in scenarios where you collect card details and [charge them later](https://stripe.com/docs/payments/cards/charging-saved-cards).
-	OffSession *bool `form:"off_session"`
-	// Provides industry-specific information about the charge.
-	PaymentDetails *PaymentIntentConfirmPaymentDetailsParams `form:"payment_details"`
-	// ID of the payment method (a PaymentMethod, Card, or [compatible Source](https://stripe.com/docs/payments/payment-methods/transitioning#compatibility) object) to attach to this PaymentIntent.
-	PaymentMethod *string `form:"payment_method"`
-	// If provided, this hash will be used to create a PaymentMethod. The new PaymentMethod will appear
-	// in the [payment_method](https://stripe.com/docs/api/payment_intents/object#payment_intent_object-payment_method)
-	// property on the PaymentIntent.
-	PaymentMethodData *PaymentIntentPaymentMethodDataParams `form:"payment_method_data"`
-	// Payment method-specific configuration for this PaymentIntent.
-	PaymentMethodOptions *PaymentIntentPaymentMethodOptionsParams `form:"payment_method_options"`
-	// Options to configure Radar. Learn more about [Radar Sessions](https://stripe.com/docs/radar/radar-session).
-	RadarOptions *PaymentIntentConfirmRadarOptionsParams `form:"radar_options"`
-	// Email address that the receipt for the resulting payment will be sent to. If `receipt_email` is specified for a payment in live mode, a receipt will be sent regardless of your [email settings](https://dashboard.stripe.com/account/emails).
-	ReceiptEmail *string `form:"receipt_email"`
-	// The URL to redirect your customer back to after they authenticate or cancel their payment on the payment method's app or site.
-	// If you'd prefer to redirect to a mobile application, you can alternatively supply an application URI scheme.
-	// This parameter is only used for cards and other redirect-based payment methods.
-	ReturnURL *string `form:"return_url"`
-	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
-	//
-	// Providing this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.
-	//
-	// When processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).
-	//
-	// If `setup_future_usage` is already set and you are performing a request using a publishable key, you may only update the value from `on_session` to `off_session`.
-	SetupFutureUsage *string `form:"setup_future_usage"`
-	// Shipping information for this PaymentIntent.
-	Shipping *ShippingDetailsParams `form:"shipping"`
-	// Set to `true` when confirming server-side and using Stripe.js, iOS, or Android client-side SDKs to handle the next actions.
-	UseStripeSDK *bool `form:"use_stripe_sdk"`
 }
 
 // AddExpand appends a new field to expand.
-func (p *PaymentIntentConfirmParams) AddExpand(f string) {
+func (p *PaymentIntentApplyCustomerBalanceParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
@@ -2894,6 +2533,8 @@ type PaymentIntentCapturePaymentDetailsFlightPassengerParams struct {
 
 // The individual flight segments associated with the trip.
 type PaymentIntentCapturePaymentDetailsFlightSegmentParams struct {
+	// The flight segment amount.
+	Amount *int64 `form:"amount"`
 	// The International Air Transport Association (IATA) airport code for the arrival airport.
 	ArrivalAirport *string `form:"arrival_airport"`
 	// The arrival time for the flight segment. Measured in seconds since the Unix epoch.
@@ -2990,10 +2631,14 @@ type PaymentIntentCapturePaymentDetailsLodgingParams struct {
 	Name *string `form:"name"`
 	// Indicates if the customer did not keep their booking while failing to cancel the reservation.
 	NoShow *bool `form:"no_show"`
+	// The number of rooms on the booking
+	NumberOfRooms *int64 `form:"number_of_rooms"`
 	// The details of the passengers in the travel reservation
 	Passengers []*PaymentIntentCapturePaymentDetailsLodgingPassengerParams `form:"passengers"`
 	// The phone number of the lodging location.
 	PropertyPhoneNumber *string `form:"property_phone_number"`
+	// The room class for this purchase.
+	RoomClass *string `form:"room_class"`
 	// The number of room nights
 	RoomNights *int64 `form:"room_nights"`
 	// The total tax amount associating with the room reservation.
@@ -3088,6 +2733,401 @@ func (p *PaymentIntentCaptureParams) AddMetadata(key string, value string) {
 	p.Metadata[key] = value
 }
 
+// Affiliate details for this purchase.
+type PaymentIntentConfirmPaymentDetailsCarRentalAffiliateParams struct {
+	// The name of the affiliate that originated the purchase.
+	Name *string `form:"name"`
+}
+
+// Details of the recipient.
+type PaymentIntentConfirmPaymentDetailsCarRentalDeliveryRecipientParams struct {
+	// The email of the recipient the ticket is delivered to.
+	Email *string `form:"email"`
+	// The name of the recipient the ticket is delivered to.
+	Name *string `form:"name"`
+	// The phone number of the recipient the ticket is delivered to.
+	Phone *string `form:"phone"`
+}
+
+// Delivery details for this purchase.
+type PaymentIntentConfirmPaymentDetailsCarRentalDeliveryParams struct {
+	// The delivery method for the payment
+	Mode *string `form:"mode"`
+	// Details of the recipient.
+	Recipient *PaymentIntentConfirmPaymentDetailsCarRentalDeliveryRecipientParams `form:"recipient"`
+}
+
+// The details of the passengers in the travel reservation
+type PaymentIntentConfirmPaymentDetailsCarRentalDriverParams struct {
+	// Full name of the person or entity on the car reservation.
+	Name *string `form:"name"`
+}
+
+// Car rental details for this PaymentIntent.
+type PaymentIntentConfirmPaymentDetailsCarRentalParams struct {
+	// Affiliate details for this purchase.
+	Affiliate *PaymentIntentConfirmPaymentDetailsCarRentalAffiliateParams `form:"affiliate"`
+	// The booking number associated with the car rental.
+	BookingNumber *string `form:"booking_number"`
+	// Class code of the car.
+	CarClassCode *string `form:"car_class_code"`
+	// Make of the car.
+	CarMake *string `form:"car_make"`
+	// Model of the car.
+	CarModel *string `form:"car_model"`
+	// The name of the rental car company.
+	Company *string `form:"company"`
+	// The customer service phone number of the car rental company.
+	CustomerServicePhoneNumber *string `form:"customer_service_phone_number"`
+	// Number of days the car is being rented.
+	DaysRented *int64 `form:"days_rented"`
+	// Delivery details for this purchase.
+	Delivery *PaymentIntentConfirmPaymentDetailsCarRentalDeliveryParams `form:"delivery"`
+	// The details of the passengers in the travel reservation
+	Drivers []*PaymentIntentConfirmPaymentDetailsCarRentalDriverParams `form:"drivers"`
+	// List of additional charges being billed.
+	ExtraCharges []*string `form:"extra_charges"`
+	// Indicates if the customer did not keep nor cancel their booking.
+	NoShow *bool `form:"no_show"`
+	// Car pick-up address.
+	PickupAddress *AddressParams `form:"pickup_address"`
+	// Car pick-up time. Measured in seconds since the Unix epoch.
+	PickupAt *int64 `form:"pickup_at"`
+	// Rental rate.
+	RateAmount *int64 `form:"rate_amount"`
+	// The frequency at which the rate amount is applied. One of `day`, `week` or `month`
+	RateInterval *string `form:"rate_interval"`
+	// The name of the person or entity renting the car.
+	RenterName *string `form:"renter_name"`
+	// Car return address.
+	ReturnAddress *AddressParams `form:"return_address"`
+	// Car return time. Measured in seconds since the Unix epoch.
+	ReturnAt *int64 `form:"return_at"`
+	// Indicates whether the goods or services are tax-exempt or tax is not collected.
+	TaxExempt *bool `form:"tax_exempt"`
+}
+
+// Affiliate details for this purchase.
+type PaymentIntentConfirmPaymentDetailsEventDetailsAffiliateParams struct {
+	// The name of the affiliate that originated the purchase.
+	Name *string `form:"name"`
+}
+
+// Details of the recipient.
+type PaymentIntentConfirmPaymentDetailsEventDetailsDeliveryRecipientParams struct {
+	// The email of the recipient the ticket is delivered to.
+	Email *string `form:"email"`
+	// The name of the recipient the ticket is delivered to.
+	Name *string `form:"name"`
+	// The phone number of the recipient the ticket is delivered to.
+	Phone *string `form:"phone"`
+}
+
+// Delivery details for this purchase.
+type PaymentIntentConfirmPaymentDetailsEventDetailsDeliveryParams struct {
+	// The delivery method for the payment
+	Mode *string `form:"mode"`
+	// Details of the recipient.
+	Recipient *PaymentIntentConfirmPaymentDetailsEventDetailsDeliveryRecipientParams `form:"recipient"`
+}
+
+// Event details for this PaymentIntent
+type PaymentIntentConfirmPaymentDetailsEventDetailsParams struct {
+	// Indicates if the tickets are digitally checked when entering the venue.
+	AccessControlledVenue *bool `form:"access_controlled_venue"`
+	// The event location's address.
+	Address *AddressParams `form:"address"`
+	// Affiliate details for this purchase.
+	Affiliate *PaymentIntentConfirmPaymentDetailsEventDetailsAffiliateParams `form:"affiliate"`
+	// The name of the company
+	Company *string `form:"company"`
+	// Delivery details for this purchase.
+	Delivery *PaymentIntentConfirmPaymentDetailsEventDetailsDeliveryParams `form:"delivery"`
+	// Event end time. Measured in seconds since the Unix epoch.
+	EndsAt *int64 `form:"ends_at"`
+	// Type of the event entertainment (concert, sports event etc)
+	Genre *string `form:"genre"`
+	// The name of the event.
+	Name *string `form:"name"`
+	// Event start time. Measured in seconds since the Unix epoch.
+	StartsAt *int64 `form:"starts_at"`
+}
+
+// Affiliate details for this purchase.
+type PaymentIntentConfirmPaymentDetailsFlightAffiliateParams struct {
+	// The name of the affiliate that originated the purchase.
+	Name *string `form:"name"`
+}
+
+// Details of the recipient.
+type PaymentIntentConfirmPaymentDetailsFlightDeliveryRecipientParams struct {
+	// The email of the recipient the ticket is delivered to.
+	Email *string `form:"email"`
+	// The name of the recipient the ticket is delivered to.
+	Name *string `form:"name"`
+	// The phone number of the recipient the ticket is delivered to.
+	Phone *string `form:"phone"`
+}
+
+// Delivery details for this purchase.
+type PaymentIntentConfirmPaymentDetailsFlightDeliveryParams struct {
+	// The delivery method for the payment
+	Mode *string `form:"mode"`
+	// Details of the recipient.
+	Recipient *PaymentIntentConfirmPaymentDetailsFlightDeliveryRecipientParams `form:"recipient"`
+}
+
+// The details of the passengers in the travel reservation.
+type PaymentIntentConfirmPaymentDetailsFlightPassengerParams struct {
+	// Full name of the person or entity on the flight reservation.
+	Name *string `form:"name"`
+}
+
+// The individual flight segments associated with the trip.
+type PaymentIntentConfirmPaymentDetailsFlightSegmentParams struct {
+	// The flight segment amount.
+	Amount *int64 `form:"amount"`
+	// The International Air Transport Association (IATA) airport code for the arrival airport.
+	ArrivalAirport *string `form:"arrival_airport"`
+	// The arrival time for the flight segment. Measured in seconds since the Unix epoch.
+	ArrivesAt *int64 `form:"arrives_at"`
+	// The International Air Transport Association (IATA) carrier code of the carrier operating the flight segment.
+	Carrier *string `form:"carrier"`
+	// The departure time for the flight segment. Measured in seconds since the Unix epoch.
+	DepartsAt *int64 `form:"departs_at"`
+	// The International Air Transport Association (IATA) airport code for the departure airport.
+	DepartureAirport *string `form:"departure_airport"`
+	// The flight number associated with the segment
+	FlightNumber *string `form:"flight_number"`
+	// The fare class for the segment.
+	ServiceClass *string `form:"service_class"`
+}
+
+// Flight reservation details for this PaymentIntent
+type PaymentIntentConfirmPaymentDetailsFlightParams struct {
+	// Affiliate details for this purchase.
+	Affiliate *PaymentIntentConfirmPaymentDetailsFlightAffiliateParams `form:"affiliate"`
+	// The agency number (i.e. International Air Transport Association (IATA) agency number) of the travel agency that made the booking.
+	AgencyNumber *string `form:"agency_number"`
+	// The International Air Transport Association (IATA) carrier code of the carrier that issued the ticket.
+	Carrier *string `form:"carrier"`
+	// Delivery details for this purchase.
+	Delivery *PaymentIntentConfirmPaymentDetailsFlightDeliveryParams `form:"delivery"`
+	// The name of the person or entity on the reservation.
+	PassengerName *string `form:"passenger_name"`
+	// The details of the passengers in the travel reservation.
+	Passengers []*PaymentIntentConfirmPaymentDetailsFlightPassengerParams `form:"passengers"`
+	// The individual flight segments associated with the trip.
+	Segments []*PaymentIntentConfirmPaymentDetailsFlightSegmentParams `form:"segments"`
+	// The ticket number associated with the travel reservation.
+	TicketNumber *string `form:"ticket_number"`
+}
+
+// Affiliate details for this purchase.
+type PaymentIntentConfirmPaymentDetailsLodgingAffiliateParams struct {
+	// The name of the affiliate that originated the purchase.
+	Name *string `form:"name"`
+}
+
+// Details of the recipient.
+type PaymentIntentConfirmPaymentDetailsLodgingDeliveryRecipientParams struct {
+	// The email of the recipient the ticket is delivered to.
+	Email *string `form:"email"`
+	// The name of the recipient the ticket is delivered to.
+	Name *string `form:"name"`
+	// The phone number of the recipient the ticket is delivered to.
+	Phone *string `form:"phone"`
+}
+
+// Delivery details for this purchase.
+type PaymentIntentConfirmPaymentDetailsLodgingDeliveryParams struct {
+	// The delivery method for the payment
+	Mode *string `form:"mode"`
+	// Details of the recipient.
+	Recipient *PaymentIntentConfirmPaymentDetailsLodgingDeliveryRecipientParams `form:"recipient"`
+}
+
+// The details of the passengers in the travel reservation
+type PaymentIntentConfirmPaymentDetailsLodgingPassengerParams struct {
+	// Full name of the person or entity on the lodging reservation.
+	Name *string `form:"name"`
+}
+
+// Lodging reservation details for this PaymentIntent
+type PaymentIntentConfirmPaymentDetailsLodgingParams struct {
+	// The lodging location's address.
+	Address *AddressParams `form:"address"`
+	// The number of adults on the booking
+	Adults *int64 `form:"adults"`
+	// Affiliate details for this purchase.
+	Affiliate *PaymentIntentConfirmPaymentDetailsLodgingAffiliateParams `form:"affiliate"`
+	// The booking number associated with the lodging reservation.
+	BookingNumber *string `form:"booking_number"`
+	// The lodging category
+	Category *string `form:"category"`
+	// Loding check-in time. Measured in seconds since the Unix epoch.
+	CheckinAt *int64 `form:"checkin_at"`
+	// Lodging check-out time. Measured in seconds since the Unix epoch.
+	CheckoutAt *int64 `form:"checkout_at"`
+	// The customer service phone number of the lodging company.
+	CustomerServicePhoneNumber *string `form:"customer_service_phone_number"`
+	// The daily lodging room rate.
+	DailyRoomRateAmount *int64 `form:"daily_room_rate_amount"`
+	// Delivery details for this purchase.
+	Delivery *PaymentIntentConfirmPaymentDetailsLodgingDeliveryParams `form:"delivery"`
+	// List of additional charges being billed.
+	ExtraCharges []*string `form:"extra_charges"`
+	// Indicates whether the lodging location is compliant with the Fire Safety Act.
+	FireSafetyActCompliance *bool `form:"fire_safety_act_compliance"`
+	// The name of the lodging location.
+	Name *string `form:"name"`
+	// Indicates if the customer did not keep their booking while failing to cancel the reservation.
+	NoShow *bool `form:"no_show"`
+	// The number of rooms on the booking
+	NumberOfRooms *int64 `form:"number_of_rooms"`
+	// The details of the passengers in the travel reservation
+	Passengers []*PaymentIntentConfirmPaymentDetailsLodgingPassengerParams `form:"passengers"`
+	// The phone number of the lodging location.
+	PropertyPhoneNumber *string `form:"property_phone_number"`
+	// The room class for this purchase.
+	RoomClass *string `form:"room_class"`
+	// The number of room nights
+	RoomNights *int64 `form:"room_nights"`
+	// The total tax amount associating with the room reservation.
+	TotalRoomTaxAmount *int64 `form:"total_room_tax_amount"`
+	// The total tax amount
+	TotalTaxAmount *int64 `form:"total_tax_amount"`
+}
+
+// Affiliate details for this purchase.
+type PaymentIntentConfirmPaymentDetailsSubscriptionAffiliateParams struct {
+	// The name of the affiliate that originated the purchase.
+	Name *string `form:"name"`
+}
+
+// Subscription billing details for this purchase.
+type PaymentIntentConfirmPaymentDetailsSubscriptionBillingIntervalParams struct {
+	// The number of intervals, as an whole number greater than 0. Stripe multiplies this by the interval type to get the overall duration.
+	Count *int64 `form:"count"`
+	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
+	Interval *string `form:"interval"`
+}
+
+// Subscription details for this PaymentIntent
+type PaymentIntentConfirmPaymentDetailsSubscriptionParams struct {
+	// Affiliate details for this purchase.
+	Affiliate *PaymentIntentConfirmPaymentDetailsSubscriptionAffiliateParams `form:"affiliate"`
+	// Info whether the subscription will be auto renewed upon expiry.
+	AutoRenewal *bool `form:"auto_renewal"`
+	// Subscription billing details for this purchase.
+	BillingInterval *PaymentIntentConfirmPaymentDetailsSubscriptionBillingIntervalParams `form:"billing_interval"`
+	// Subscription end time. Measured in seconds since the Unix epoch.
+	EndsAt *int64 `form:"ends_at"`
+	// Name of the product on subscription. e.g. Apple Music Subscription
+	Name *string `form:"name"`
+	// Subscription start time. Measured in seconds since the Unix epoch.
+	StartsAt *int64 `form:"starts_at"`
+}
+
+// Provides industry-specific information about the charge.
+type PaymentIntentConfirmPaymentDetailsParams struct {
+	// Car rental details for this PaymentIntent.
+	CarRental *PaymentIntentConfirmPaymentDetailsCarRentalParams `form:"car_rental"`
+	// Event details for this PaymentIntent
+	EventDetails *PaymentIntentConfirmPaymentDetailsEventDetailsParams `form:"event_details"`
+	// Flight reservation details for this PaymentIntent
+	Flight *PaymentIntentConfirmPaymentDetailsFlightParams `form:"flight"`
+	// Lodging reservation details for this PaymentIntent
+	Lodging *PaymentIntentConfirmPaymentDetailsLodgingParams `form:"lodging"`
+	// Subscription details for this PaymentIntent
+	Subscription *PaymentIntentConfirmPaymentDetailsSubscriptionParams `form:"subscription"`
+}
+
+// Options to configure Radar. Learn more about [Radar Sessions](https://stripe.com/docs/radar/radar-session).
+type PaymentIntentConfirmRadarOptionsParams struct {
+	// A [Radar Session](https://stripe.com/docs/radar/radar-session) is a snapshot of the browser metadata and device details that help Radar make more accurate predictions on your payments.
+	Session *string `form:"session"`
+}
+
+// Confirm that your customer intends to pay with current or provided
+// payment method. Upon confirmation, the PaymentIntent will attempt to initiate
+// a payment.
+// If the selected payment method requires additional authentication steps, the
+// PaymentIntent will transition to the requires_action status and
+// suggest additional actions via next_action. If payment fails,
+// the PaymentIntent transitions to the requires_payment_method status or the
+// canceled status if the confirmation limit is reached. If
+// payment succeeds, the PaymentIntent will transition to the succeeded
+// status (or requires_capture, if capture_method is set to manual).
+// If the confirmation_method is automatic, payment may be attempted
+// using our [client SDKs](https://stripe.com/docs/stripe-js/reference#stripe-handle-card-payment)
+// and the PaymentIntent's [client_secret](https://stripe.com/docs/api#payment_intent_object-client_secret).
+// After next_actions are handled by the client, no additional
+// confirmation is required to complete the payment.
+// If the confirmation_method is manual, all payment attempts must be
+// initiated using a secret key.
+// If any actions are required for the payment, the PaymentIntent will
+// return to the requires_confirmation state
+// after those actions are completed. Your server needs to then
+// explicitly re-confirm the PaymentIntent to initiate the next payment
+// attempt. Read the [expanded documentation](https://stripe.com/docs/payments/payment-intents/web-manual)
+// to learn more about manual confirmation.
+type PaymentIntentConfirmParams struct {
+	Params `form:"*"`
+	// The amount of the application fee (if any) that will be requested to be applied to the payment and transferred to the application owner's Stripe account. The amount of the application fee collected will be capped at the total payment amount. For more information, see the PaymentIntents [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
+	ApplicationFeeAmount *int64 `form:"application_fee_amount"`
+	// Controls when the funds will be captured from the customer's account.
+	CaptureMethod *string `form:"capture_method"`
+	// ID of the ConfirmationToken used to confirm this PaymentIntent.
+	//
+	// If the provided ConfirmationToken contains properties that are also being provided in this request, such as `payment_method`, then the values in this request will take precedence.
+	ConfirmationToken *string `form:"confirmation_token"`
+	// Set to `true` to fail the payment attempt if the PaymentIntent transitions into `requires_action`. This parameter is intended for simpler integrations that do not handle customer actions, like [saving cards without authentication](https://stripe.com/docs/payments/save-card-without-authentication).
+	ErrorOnRequiresAction *bool `form:"error_on_requires_action"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// ID of the mandate that's used for this payment.
+	Mandate     *string                         `form:"mandate"`
+	MandateData *PaymentIntentMandateDataParams `form:"mandate_data"`
+	// Set to `true` to indicate that the customer isn't in your checkout flow during this payment attempt and can't authenticate. Use this parameter in scenarios where you collect card details and [charge them later](https://stripe.com/docs/payments/cards/charging-saved-cards).
+	OffSession *bool `form:"off_session"`
+	// Provides industry-specific information about the charge.
+	PaymentDetails *PaymentIntentConfirmPaymentDetailsParams `form:"payment_details"`
+	// ID of the payment method (a PaymentMethod, Card, or [compatible Source](https://stripe.com/docs/payments/payment-methods/transitioning#compatibility) object) to attach to this PaymentIntent.
+	PaymentMethod *string `form:"payment_method"`
+	// If provided, this hash will be used to create a PaymentMethod. The new PaymentMethod will appear
+	// in the [payment_method](https://stripe.com/docs/api/payment_intents/object#payment_intent_object-payment_method)
+	// property on the PaymentIntent.
+	PaymentMethodData *PaymentIntentPaymentMethodDataParams `form:"payment_method_data"`
+	// Payment method-specific configuration for this PaymentIntent.
+	PaymentMethodOptions *PaymentIntentPaymentMethodOptionsParams `form:"payment_method_options"`
+	// Options to configure Radar. Learn more about [Radar Sessions](https://stripe.com/docs/radar/radar-session).
+	RadarOptions *PaymentIntentConfirmRadarOptionsParams `form:"radar_options"`
+	// Email address that the receipt for the resulting payment will be sent to. If `receipt_email` is specified for a payment in live mode, a receipt will be sent regardless of your [email settings](https://dashboard.stripe.com/account/emails).
+	ReceiptEmail *string `form:"receipt_email"`
+	// The URL to redirect your customer back to after they authenticate or cancel their payment on the payment method's app or site.
+	// If you'd prefer to redirect to a mobile application, you can alternatively supply an application URI scheme.
+	// This parameter is only used for cards and other redirect-based payment methods.
+	ReturnURL *string `form:"return_url"`
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// Providing this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.
+	//
+	// When processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).
+	//
+	// If `setup_future_usage` is already set and you are performing a request using a publishable key, you may only update the value from `on_session` to `off_session`.
+	SetupFutureUsage *string `form:"setup_future_usage"`
+	// Shipping information for this PaymentIntent.
+	Shipping *ShippingDetailsParams `form:"shipping"`
+	// Set to `true` when confirming server-side and using Stripe.js, iOS, or Android client-side SDKs to handle the next actions.
+	UseStripeSDK *bool `form:"use_stripe_sdk"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *PaymentIntentConfirmParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // The parameters used to automatically create a transfer after the payment is captured.
 // Learn more about the [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
 type PaymentIntentIncrementAuthorizationTransferDataParams struct {
@@ -3165,28 +3205,6 @@ type PaymentIntentVerifyMicrodepositsParams struct {
 
 // AddExpand appends a new field to expand.
 func (p *PaymentIntentVerifyMicrodepositsParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
-}
-
-// Manually reconcile the remaining amount for a customer_balance PaymentIntent.
-type PaymentIntentApplyCustomerBalanceParams struct {
-	Params `form:"*"`
-	// Amount that you intend to apply to this PaymentIntent from the customer's cash balance.
-	//
-	// A positive integer representing how much to charge in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal) (for example, 100 cents to charge 1 USD or 100 to charge 100 JPY, a zero-decimal currency).
-	//
-	// The maximum amount is the amount of the PaymentIntent.
-	//
-	// When you omit the amount, it defaults to the remaining amount requested on the PaymentIntent.
-	Amount *int64 `form:"amount"`
-	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *PaymentIntentApplyCustomerBalanceParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 

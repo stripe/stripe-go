@@ -560,6 +560,20 @@ const (
 	OrderTotalDetailsBreakdownTaxTaxabilityReasonZeroRated            OrderTotalDetailsBreakdownTaxTaxabilityReason = "zero_rated"
 )
 
+// Returns a list of your orders. The orders are returned sorted by creation date, with the most recently created orders appearing first.
+type OrderListParams struct {
+	ListParams `form:"*"`
+	// Only return orders for the given customer.
+	Customer *string `form:"customer"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *OrderListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // Settings for automatic tax calculation for this order.
 type OrderAutomaticTaxParams struct {
 	// Enable automatic tax calculation which will automatically compute tax rates on this order.
@@ -733,7 +747,7 @@ type OrderPaymentSettingsPaymentMethodOptionsACSSDebitParams struct {
 	//
 	// If `setup_future_usage` is already set and you are performing a request using a publishable key, you may only update the value from `on_session` to `off_session`.
 	SetupFutureUsage *string `form:"setup_future_usage"`
-	// Verification method for the intent
+	// Bank account verification method.
 	VerificationMethod *string `form:"verification_method"`
 }
 
@@ -1200,31 +1214,16 @@ func (p *OrderParams) AddMetadata(key string, value string) {
 	p.Metadata[key] = value
 }
 
-// Returns a list of your orders. The orders are returned sorted by creation date, with the most recently created orders appearing first.
-type OrderListParams struct {
+// When retrieving an order, there is an includable line_items property containing the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of line items.
+type OrderListLineItemsParams struct {
 	ListParams `form:"*"`
-	// Only return orders for the given customer.
-	Customer *string `form:"customer"`
+	ID         *string `form:"-"` // Included in URL
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 }
 
 // AddExpand appends a new field to expand.
-func (p *OrderListParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
-}
-
-// Submitting an Order transitions the status to processing and creates a PaymentIntent object so the order can be paid. If the Order has an amount_total of 0, no PaymentIntent object will be created. Once the order is submitted, its contents cannot be changed, unless the [reopen](https://stripe.com/docs/api#reopen_order) method is called.
-type OrderSubmitParams struct {
-	Params `form:"*"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
-	// `expected_total` should always be set to the order's `amount_total` field. If they don't match, submitting the order will fail. This helps detect race conditions where something else concurrently modifies the order.
-	ExpectedTotal *int64 `form:"expected_total"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *OrderSubmitParams) AddExpand(f string) {
+func (p *OrderListLineItemsParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
@@ -1252,16 +1251,17 @@ func (p *OrderReopenParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// When retrieving an order, there is an includable line_items property containing the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of line items.
-type OrderListLineItemsParams struct {
-	ListParams `form:"*"`
-	ID         *string `form:"-"` // Included in URL
+// Submitting an Order transitions the status to processing and creates a PaymentIntent object so the order can be paid. If the Order has an amount_total of 0, no PaymentIntent object will be created. Once the order is submitted, its contents cannot be changed, unless the [reopen](https://stripe.com/docs/api#reopen_order) method is called.
+type OrderSubmitParams struct {
+	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+	// `expected_total` should always be set to the order's `amount_total` field. If they don't match, submitting the order will fail. This helps detect race conditions where something else concurrently modifies the order.
+	ExpectedTotal *int64 `form:"expected_total"`
 }
 
 // AddExpand appends a new field to expand.
-func (p *OrderListLineItemsParams) AddExpand(f string) {
+func (p *OrderSubmitParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 

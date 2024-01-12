@@ -165,12 +165,14 @@ const (
 	InvoicePaymentSettingsPaymentMethodTypeCard               InvoicePaymentSettingsPaymentMethodType = "card"
 	InvoicePaymentSettingsPaymentMethodTypeCashApp            InvoicePaymentSettingsPaymentMethodType = "cashapp"
 	InvoicePaymentSettingsPaymentMethodTypeCustomerBalance    InvoicePaymentSettingsPaymentMethodType = "customer_balance"
+	InvoicePaymentSettingsPaymentMethodTypeEPS                InvoicePaymentSettingsPaymentMethodType = "eps"
 	InvoicePaymentSettingsPaymentMethodTypeFPX                InvoicePaymentSettingsPaymentMethodType = "fpx"
 	InvoicePaymentSettingsPaymentMethodTypeGiropay            InvoicePaymentSettingsPaymentMethodType = "giropay"
 	InvoicePaymentSettingsPaymentMethodTypeGrabpay            InvoicePaymentSettingsPaymentMethodType = "grabpay"
 	InvoicePaymentSettingsPaymentMethodTypeIDEAL              InvoicePaymentSettingsPaymentMethodType = "ideal"
 	InvoicePaymentSettingsPaymentMethodTypeKonbini            InvoicePaymentSettingsPaymentMethodType = "konbini"
 	InvoicePaymentSettingsPaymentMethodTypeLink               InvoicePaymentSettingsPaymentMethodType = "link"
+	InvoicePaymentSettingsPaymentMethodTypeP24                InvoicePaymentSettingsPaymentMethodType = "p24"
 	InvoicePaymentSettingsPaymentMethodTypePayNow             InvoicePaymentSettingsPaymentMethodType = "paynow"
 	InvoicePaymentSettingsPaymentMethodTypePaypal             InvoicePaymentSettingsPaymentMethodType = "paypal"
 	InvoicePaymentSettingsPaymentMethodTypePromptPay          InvoicePaymentSettingsPaymentMethodType = "promptpay"
@@ -257,6 +259,431 @@ const (
 	InvoiceTotalTaxAmountTaxabilityReasonZeroRated            InvoiceTotalTaxAmountTaxabilityReason = "zero_rated"
 )
 
+// Permanently deletes a one-off invoice draft. This cannot be undone. Attempts to delete invoices that are no longer in a draft state will fail; once an invoice has been finalized or if an invoice is for a subscription, it must be [voided](https://stripe.com/docs/api#void_invoice).
+type InvoiceParams struct {
+	Params `form:"*"`
+	// The account tax IDs associated with the invoice. Only editable when the invoice is a draft.
+	AccountTaxIDs []*string `form:"account_tax_ids"`
+	// List of expected payments and corresponding due dates. Valid only for invoices where `collection_method=send_invoice`.
+	AmountsDue []*InvoiceAmountsDueParams `form:"amounts_due"`
+	// A fee in cents (or local equivalent) that will be applied to the invoice and transferred to the application owner's Stripe account. The request must be made with an OAuth key or the Stripe-Account header in order to take an application fee. For more information, see the application fees [documentation](https://stripe.com/docs/billing/invoices/connect#collecting-fees).
+	ApplicationFeeAmount *int64 `form:"application_fee_amount"`
+	// Controls whether Stripe performs [automatic collection](https://stripe.com/docs/invoicing/integration/automatic-advancement-collection) of the invoice. If `false`, the invoice's state doesn't automatically advance without an explicit action.
+	AutoAdvance *bool `form:"auto_advance"`
+	// Settings for automatic tax lookup for this invoice.
+	AutomaticTax *InvoiceAutomaticTaxParams `form:"automatic_tax"`
+	// Either `charge_automatically`, or `send_invoice`. When charging automatically, Stripe will attempt to pay this invoice using the default source attached to the customer. When sending an invoice, Stripe will email this invoice to the customer with payment instructions. Defaults to `charge_automatically`.
+	CollectionMethod *string `form:"collection_method"`
+	// The currency to create this invoice in. Defaults to that of `customer` if not specified.
+	Currency *string `form:"currency"`
+	// The ID of the customer who will be billed.
+	Customer *string `form:"customer"`
+	// A list of up to 4 custom fields to be displayed on the invoice. If a value for `custom_fields` is specified, the list specified will replace the existing custom field list on this invoice. Pass an empty string to remove previously-defined fields.
+	CustomFields []*InvoiceCustomFieldParams `form:"custom_fields"`
+	// The number of days from which the invoice is created until it is due. Only valid for invoices where `collection_method=send_invoice`. This field can only be updated on `draft` invoices.
+	DaysUntilDue *int64 `form:"days_until_due"`
+	// The ids of the margins to apply to the invoice. Can be overridden by line item `margins`.
+	DefaultMargins []*string `form:"default_margins"`
+	// ID of the default payment method for the invoice. It must belong to the customer associated with the invoice. If not set, defaults to the subscription's default payment method, if any, or to the default payment method in the customer's invoice settings.
+	DefaultPaymentMethod *string `form:"default_payment_method"`
+	// ID of the default payment source for the invoice. It must belong to the customer associated with the invoice and be in a chargeable state. If not set, defaults to the subscription's default source, if any, or to the customer's default source.
+	DefaultSource *string `form:"default_source"`
+	// The tax rates that will apply to any line item that does not have `tax_rates` set. Pass an empty string to remove previously-defined tax rates.
+	DefaultTaxRates []*string `form:"default_tax_rates"`
+	// An arbitrary string attached to the object. Often useful for displaying to users. Referenced as 'memo' in the Dashboard.
+	Description *string `form:"description"`
+	// The coupons to redeem into discounts for the invoice. If not specified, inherits the discount from the invoice's customer. Pass an empty string to avoid inheriting any discounts.
+	Discounts []*InvoiceDiscountParams `form:"discounts"`
+	// The date on which payment for this invoice is due. Only valid for invoices where `collection_method=send_invoice`. This field can only be updated on `draft` invoices.
+	DueDate *int64 `form:"due_date"`
+	// The date when this invoice is in effect. Same as `finalized_at` unless overwritten. When defined, this value replaces the system-generated 'Date of issue' printed on the invoice PDF and receipt.
+	EffectiveAt *int64 `form:"effective_at"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// Footer to be displayed on the invoice.
+	Footer *string `form:"footer"`
+	// Revise an existing invoice. The new invoice will be created in `status=draft`. See the [revision documentation](https://stripe.com/docs/invoicing/invoice-revisions) for more details.
+	FromInvoice *InvoiceFromInvoiceParams `form:"from_invoice"`
+	// The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
+	Issuer *InvoiceIssuerParams `form:"issuer"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+	// The account (if any) for which the funds of the invoice payment are intended. If set, the invoice will be presented with the branding and support information of the specified account. See the [Invoices with Connect](https://stripe.com/docs/billing/invoices/connect) documentation for details.
+	OnBehalfOf *string `form:"on_behalf_of"`
+	// Configuration settings for the PaymentIntent that is generated when the invoice is finalized.
+	PaymentSettings *InvoicePaymentSettingsParams `form:"payment_settings"`
+	// How to handle pending invoice items on invoice creation. One of `include` or `exclude`. `include` will include any pending invoice items, and will create an empty draft invoice if no pending invoice items exist. `exclude` will always create an empty invoice draft regardless if there are pending invoice items or not. Defaults to `exclude` if the parameter is omitted.
+	PendingInvoiceItemsBehavior *string `form:"pending_invoice_items_behavior"`
+	// The rendering-related settings that control how the invoice is displayed on customer-facing surfaces such as PDF and Hosted Invoice Page.
+	Rendering *InvoiceRenderingParams `form:"rendering"`
+	// This is a legacy field that will be removed soon. For details about `rendering_options`, refer to `rendering` instead. Options for invoice PDF rendering.
+	RenderingOptions *InvoiceRenderingOptionsParams `form:"rendering_options"`
+	// Settings for the cost of shipping for this invoice.
+	ShippingCost *InvoiceShippingCostParams `form:"shipping_cost"`
+	// Shipping details for the invoice. The Invoice PDF will use the `shipping_details` value if it is set, otherwise the PDF will render the shipping address from the customer.
+	ShippingDetails *InvoiceShippingDetailsParams `form:"shipping_details"`
+	// Extra information about a charge for the customer's credit card statement. It must contain at least one letter. If not specified and this invoice is part of a subscription, the default `statement_descriptor` will be set to the first subscription item's product's `statement_descriptor`.
+	StatementDescriptor *string `form:"statement_descriptor"`
+	// The ID of the subscription to invoice, if any. If set, the created invoice will only include pending invoice items for that subscription. The subscription's billing cycle and regular subscription events won't be affected.
+	Subscription *string `form:"subscription"`
+	// If specified, the funds from the invoice will be transferred to the destination and the ID of the resulting transfer will be found on the invoice's charge. This will be unset if you POST an empty value.
+	TransferData *InvoiceTransferDataParams `form:"transfer_data"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *InvoiceParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *InvoiceParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
+// List of expected payments and corresponding due dates. Valid only for invoices where `collection_method=send_invoice`.
+type InvoiceAmountsDueParams struct {
+	// The amount in cents (or local equivalent).
+	Amount *int64 `form:"amount"`
+	// Number of days from when invoice is finalized until the payment is due.
+	DaysUntilDue *int64 `form:"days_until_due"`
+	// An arbitrary string attached to the object. Often useful for displaying to users.
+	Description *string `form:"description"`
+	// Date on which a payment plan's payment is due.
+	DueDate *int64 `form:"due_date"`
+}
+
+// The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
+type InvoiceAutomaticTaxLiabilityParams struct {
+	// The connected account being referenced when `type` is `account`.
+	Account *string `form:"account"`
+	// Type of the account referenced in the request.
+	Type *string `form:"type"`
+}
+
+// Settings for automatic tax lookup for this invoice.
+type InvoiceAutomaticTaxParams struct {
+	// Whether Stripe automatically computes tax on this invoice. Note that incompatible invoice items (invoice items with manually specified [tax rates](https://stripe.com/docs/api/tax_rates), negative amounts, or `tax_behavior=unspecified`) cannot be added to automatic tax invoices.
+	Enabled *bool `form:"enabled"`
+	// The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
+	Liability *InvoiceAutomaticTaxLiabilityParams `form:"liability"`
+}
+
+// A list of up to 4 custom fields to be displayed on the invoice. If a value for `custom_fields` is specified, the list specified will replace the existing custom field list on this invoice. Pass an empty string to remove previously-defined fields.
+type InvoiceCustomFieldParams struct {
+	// The name of the custom field. This may be up to 30 characters.
+	Name *string `form:"name"`
+	// The value of the custom field. This may be up to 30 characters.
+	Value *string `form:"value"`
+}
+
+// Time span for the redeemed discount.
+type InvoiceDiscountDiscountEndDurationParams struct {
+	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
+	Interval *string `form:"interval"`
+	// The number of intervals, as an whole number greater than 0. Stripe multiplies this by the interval type to get the overall duration.
+	IntervalCount *int64 `form:"interval_count"`
+}
+
+// Details to determine how long the discount should be applied for.
+type InvoiceDiscountDiscountEndParams struct {
+	// Time span for the redeemed discount.
+	Duration *InvoiceDiscountDiscountEndDurationParams `form:"duration"`
+	// A precise Unix timestamp for the discount to end. Must be in the future.
+	Timestamp *int64 `form:"timestamp"`
+	// The type of calculation made to determine when the discount ends.
+	Type *string `form:"type"`
+}
+
+// The discounts that will apply to the invoice. Pass an empty string to remove previously-defined discounts.
+type InvoiceDiscountParams struct {
+	// ID of the coupon to create a new discount for.
+	Coupon *string `form:"coupon"`
+	// ID of an existing discount on the object (or one of its ancestors) to reuse.
+	Discount *string `form:"discount"`
+	// Details to determine how long the discount should be applied for.
+	DiscountEnd *InvoiceDiscountDiscountEndParams `form:"discount_end"`
+}
+
+// The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
+type InvoiceIssuerParams struct {
+	// The connected account being referenced when `type` is `account`.
+	Account *string `form:"account"`
+	// Type of the account referenced in the request.
+	Type *string `form:"type"`
+}
+
+// Additional fields for Mandate creation
+type InvoicePaymentSettingsPaymentMethodOptionsACSSDebitMandateOptionsParams struct {
+	// Transaction type of the mandate.
+	TransactionType *string `form:"transaction_type"`
+}
+
+// If paying by `acss_debit`, this sub-hash contains details about the Canadian pre-authorized debit payment method options to pass to the invoice's PaymentIntent.
+type InvoicePaymentSettingsPaymentMethodOptionsACSSDebitParams struct {
+	// Additional fields for Mandate creation
+	MandateOptions *InvoicePaymentSettingsPaymentMethodOptionsACSSDebitMandateOptionsParams `form:"mandate_options"`
+	// Verification method for the intent
+	VerificationMethod *string `form:"verification_method"`
+}
+
+// If paying by `bancontact`, this sub-hash contains details about the Bancontact payment method options to pass to the invoice's PaymentIntent.
+type InvoicePaymentSettingsPaymentMethodOptionsBancontactParams struct {
+	// Preferred language of the Bancontact authorization page that the customer is redirected to.
+	PreferredLanguage *string `form:"preferred_language"`
+}
+
+// The selected installment plan to use for this invoice.
+type InvoicePaymentSettingsPaymentMethodOptionsCardInstallmentsPlanParams struct {
+	// For `fixed_count` installment plans, this is the number of installment payments your customer will make to their credit card.
+	Count *int64 `form:"count"`
+	// For `fixed_count` installment plans, this is the interval between installment payments your customer will make to their credit card.
+	// One of `month`.
+	Interval *string `form:"interval"`
+	// Type of installment plan, one of `fixed_count`.
+	Type *string `form:"type"`
+}
+
+// Installment configuration for payments attempted on this invoice (Mexico Only).
+//
+// For more information, see the [installments integration guide](https://stripe.com/docs/payments/installments).
+type InvoicePaymentSettingsPaymentMethodOptionsCardInstallmentsParams struct {
+	// Setting to true enables installments for this invoice.
+	// Setting to false will prevent any selected plan from applying to a payment.
+	Enabled *bool `form:"enabled"`
+	// The selected installment plan to use for this invoice.
+	Plan *InvoicePaymentSettingsPaymentMethodOptionsCardInstallmentsPlanParams `form:"plan"`
+}
+
+// If paying by `card`, this sub-hash contains details about the Card payment method options to pass to the invoice's PaymentIntent.
+type InvoicePaymentSettingsPaymentMethodOptionsCardParams struct {
+	// Installment configuration for payments attempted on this invoice (Mexico Only).
+	//
+	// For more information, see the [installments integration guide](https://stripe.com/docs/payments/installments).
+	Installments *InvoicePaymentSettingsPaymentMethodOptionsCardInstallmentsParams `form:"installments"`
+	// We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https://stripe.com/docs/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. Read our guide on [manually requesting 3D Secure](https://stripe.com/docs/payments/3d-secure#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
+	RequestThreeDSecure *string `form:"request_three_d_secure"`
+}
+
+// Configuration for eu_bank_transfer funding type.
+type InvoicePaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferParams struct {
+	// The desired country code of the bank account information. Permitted values include: `BE`, `DE`, `ES`, `FR`, `IE`, or `NL`.
+	Country *string `form:"country"`
+}
+
+// Configuration for the bank transfer funding type, if the `funding_type` is set to `bank_transfer`.
+type InvoicePaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferParams struct {
+	// Configuration for eu_bank_transfer funding type.
+	EUBankTransfer *InvoicePaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferParams `form:"eu_bank_transfer"`
+	// The bank transfer type that can be used for funding. Permitted values include: `eu_bank_transfer`, `gb_bank_transfer`, `jp_bank_transfer`, `mx_bank_transfer`, or `us_bank_transfer`.
+	Type *string `form:"type"`
+}
+
+// If paying by `customer_balance`, this sub-hash contains details about the Bank transfer payment method options to pass to the invoice's PaymentIntent.
+type InvoicePaymentSettingsPaymentMethodOptionsCustomerBalanceParams struct {
+	// Configuration for the bank transfer funding type, if the `funding_type` is set to `bank_transfer`.
+	BankTransfer *InvoicePaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferParams `form:"bank_transfer"`
+	// The funding method type to be used when there are not enough funds in the customer balance. Permitted values include: `bank_transfer`.
+	FundingType *string `form:"funding_type"`
+}
+
+// If paying by `konbini`, this sub-hash contains details about the Konbini payment method options to pass to the invoice's PaymentIntent.
+type InvoicePaymentSettingsPaymentMethodOptionsKonbiniParams struct{}
+
+// Additional fields for Financial Connections Session creation
+type InvoicePaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsParams struct {
+	// The list of permissions to request. If this parameter is passed, the `payment_method` permission must be included. Valid permissions include: `balances`, `ownership`, `payment_method`, and `transactions`.
+	Permissions []*string `form:"permissions"`
+	// List of data features that you would like to retrieve upon account creation.
+	Prefetch []*string `form:"prefetch"`
+}
+
+// If paying by `us_bank_account`, this sub-hash contains details about the ACH direct debit payment method options to pass to the invoice's PaymentIntent.
+type InvoicePaymentSettingsPaymentMethodOptionsUSBankAccountParams struct {
+	// Additional fields for Financial Connections Session creation
+	FinancialConnections *InvoicePaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsParams `form:"financial_connections"`
+	// Verification method for the intent
+	VerificationMethod *string `form:"verification_method"`
+}
+
+// Payment-method-specific configuration to provide to the invoice's PaymentIntent.
+type InvoicePaymentSettingsPaymentMethodOptionsParams struct {
+	// If paying by `acss_debit`, this sub-hash contains details about the Canadian pre-authorized debit payment method options to pass to the invoice's PaymentIntent.
+	ACSSDebit *InvoicePaymentSettingsPaymentMethodOptionsACSSDebitParams `form:"acss_debit"`
+	// If paying by `bancontact`, this sub-hash contains details about the Bancontact payment method options to pass to the invoice's PaymentIntent.
+	Bancontact *InvoicePaymentSettingsPaymentMethodOptionsBancontactParams `form:"bancontact"`
+	// If paying by `card`, this sub-hash contains details about the Card payment method options to pass to the invoice's PaymentIntent.
+	Card *InvoicePaymentSettingsPaymentMethodOptionsCardParams `form:"card"`
+	// If paying by `customer_balance`, this sub-hash contains details about the Bank transfer payment method options to pass to the invoice's PaymentIntent.
+	CustomerBalance *InvoicePaymentSettingsPaymentMethodOptionsCustomerBalanceParams `form:"customer_balance"`
+	// If paying by `konbini`, this sub-hash contains details about the Konbini payment method options to pass to the invoice's PaymentIntent.
+	Konbini *InvoicePaymentSettingsPaymentMethodOptionsKonbiniParams `form:"konbini"`
+	// If paying by `us_bank_account`, this sub-hash contains details about the ACH direct debit payment method options to pass to the invoice's PaymentIntent.
+	USBankAccount *InvoicePaymentSettingsPaymentMethodOptionsUSBankAccountParams `form:"us_bank_account"`
+}
+
+// Configuration settings for the PaymentIntent that is generated when the invoice is finalized.
+type InvoicePaymentSettingsParams struct {
+	// ID of the mandate to be used for this invoice. It must correspond to the payment method used to pay the invoice, including the invoice's default_payment_method or default_source, if set.
+	DefaultMandate *string `form:"default_mandate"`
+	// Payment-method-specific configuration to provide to the invoice's PaymentIntent.
+	PaymentMethodOptions *InvoicePaymentSettingsPaymentMethodOptionsParams `form:"payment_method_options"`
+	// The list of payment method types (e.g. card) to provide to the invoice's PaymentIntent. If not set, Stripe attempts to automatically determine the types to use by looking at the invoice's default payment method, the subscription's default payment method, the customer's default payment method, and your [invoice template settings](https://dashboard.stripe.com/settings/billing/invoice).
+	PaymentMethodTypes []*string `form:"payment_method_types"`
+}
+
+// Invoice pdf rendering options
+type InvoiceRenderingPDFParams struct {
+	// Page size for invoice PDF. Can be set to `a4`, `letter`, or `auto`.
+	//  If set to `auto`, invoice PDF page size defaults to `a4` for customers with
+	//  Japanese locale and `letter` for customers with other locales.
+	PageSize *string `form:"page_size"`
+}
+
+// The rendering-related settings that control how the invoice is displayed on customer-facing surfaces such as PDF and Hosted Invoice Page.
+type InvoiceRenderingParams struct {
+	// How line-item prices and amounts will be displayed with respect to tax on invoice PDFs. One of `exclude_tax` or `include_inclusive_tax`. `include_inclusive_tax` will include inclusive tax (and exclude exclusive tax) in invoice PDF amounts. `exclude_tax` will exclude all tax (inclusive and exclusive alike) from invoice PDF amounts.
+	AmountTaxDisplay *string `form:"amount_tax_display"`
+	// Invoice pdf rendering options
+	PDF *InvoiceRenderingPDFParams `form:"pdf"`
+}
+
+// This is a legacy field that will be removed soon. For details about `rendering_options`, refer to `rendering` instead. Options for invoice PDF rendering.
+type InvoiceRenderingOptionsParams struct {
+	// How line-item prices and amounts will be displayed with respect to tax on invoice PDFs. One of `exclude_tax` or `include_inclusive_tax`. `include_inclusive_tax` will include inclusive tax (and exclude exclusive tax) in invoice PDF amounts. `exclude_tax` will exclude all tax (inclusive and exclusive alike) from invoice PDF amounts.
+	AmountTaxDisplay *string `form:"amount_tax_display"`
+}
+
+// The upper bound of the estimated range. If empty, represents no upper bound i.e., infinite.
+type InvoiceShippingCostShippingRateDataDeliveryEstimateMaximumParams struct {
+	// A unit of time.
+	Unit *string `form:"unit"`
+	// Must be greater than 0.
+	Value *int64 `form:"value"`
+}
+
+// The lower bound of the estimated range. If empty, represents no lower bound.
+type InvoiceShippingCostShippingRateDataDeliveryEstimateMinimumParams struct {
+	// A unit of time.
+	Unit *string `form:"unit"`
+	// Must be greater than 0.
+	Value *int64 `form:"value"`
+}
+
+// The estimated range for how long shipping will take, meant to be displayable to the customer. This will appear on CheckoutSessions.
+type InvoiceShippingCostShippingRateDataDeliveryEstimateParams struct {
+	// The upper bound of the estimated range. If empty, represents no upper bound i.e., infinite.
+	Maximum *InvoiceShippingCostShippingRateDataDeliveryEstimateMaximumParams `form:"maximum"`
+	// The lower bound of the estimated range. If empty, represents no lower bound.
+	Minimum *InvoiceShippingCostShippingRateDataDeliveryEstimateMinimumParams `form:"minimum"`
+}
+
+// Shipping rates defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
+type InvoiceShippingCostShippingRateDataFixedAmountCurrencyOptionsParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Describes a fixed amount to charge for shipping. Must be present if type is `fixed_amount`.
+type InvoiceShippingCostShippingRateDataFixedAmountParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency *string `form:"currency"`
+	// Shipping rates defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
+	CurrencyOptions map[string]*InvoiceShippingCostShippingRateDataFixedAmountCurrencyOptionsParams `form:"currency_options"`
+}
+
+// Parameters to create a new ad-hoc shipping rate for this order.
+type InvoiceShippingCostShippingRateDataParams struct {
+	// The estimated range for how long shipping will take, meant to be displayable to the customer. This will appear on CheckoutSessions.
+	DeliveryEstimate *InvoiceShippingCostShippingRateDataDeliveryEstimateParams `form:"delivery_estimate"`
+	// The name of the shipping rate, meant to be displayable to the customer. This will appear on CheckoutSessions.
+	DisplayName *string `form:"display_name"`
+	// Describes a fixed amount to charge for shipping. Must be present if type is `fixed_amount`.
+	FixedAmount *InvoiceShippingCostShippingRateDataFixedAmountParams `form:"fixed_amount"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+	// A [tax code](https://stripe.com/docs/tax/tax-categories) ID. The Shipping tax code is `txcd_92010001`.
+	TaxCode *string `form:"tax_code"`
+	// The type of calculation to use on the shipping rate. Can only be `fixed_amount` for now.
+	Type *string `form:"type"`
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *InvoiceShippingCostShippingRateDataParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
+// Settings for the cost of shipping for this invoice.
+type InvoiceShippingCostParams struct {
+	// The ID of the shipping rate to use for this order.
+	ShippingRate *string `form:"shipping_rate"`
+	// Parameters to create a new ad-hoc shipping rate for this order.
+	ShippingRateData *InvoiceShippingCostShippingRateDataParams `form:"shipping_rate_data"`
+}
+
+// Shipping details for the invoice. The Invoice PDF will use the `shipping_details` value if it is set, otherwise the PDF will render the shipping address from the customer.
+type InvoiceShippingDetailsParams struct {
+	// Shipping address
+	Address *AddressParams `form:"address"`
+	// Recipient name.
+	Name *string `form:"name"`
+	// Recipient phone (including extension)
+	Phone *string `form:"phone"`
+}
+
+// If specified, the funds from the invoice will be transferred to the destination and the ID of the resulting transfer will be found on the invoice's charge. This will be unset if you POST an empty value.
+type InvoiceTransferDataParams struct {
+	// The amount that will be transferred automatically when the invoice is paid. If no amount is set, the full amount is transferred.
+	Amount *int64 `form:"amount"`
+	// ID of an existing, connected Stripe account.
+	Destination *string `form:"destination"`
+}
+
+// You can list all invoices, or list the invoices for a specific customer. The invoices are returned sorted by creation date, with the most recently created invoices appearing first.
+type InvoiceListParams struct {
+	ListParams `form:"*"`
+	// The collection method of the invoice to retrieve. Either `charge_automatically` or `send_invoice`.
+	CollectionMethod *string           `form:"collection_method"`
+	Created          *int64            `form:"created"`
+	CreatedRange     *RangeQueryParams `form:"created"`
+	// Only return invoices for the customer specified by this customer ID.
+	Customer     *string           `form:"customer"`
+	DueDate      *int64            `form:"due_date"`
+	DueDateRange *RangeQueryParams `form:"due_date"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// The status of the invoice, one of `draft`, `open`, `paid`, `uncollectible`, or `void`. [Learn more](https://stripe.com/docs/billing/invoices/workflow#workflow-overview)
+	Status *string `form:"status"`
+	// Only return invoices for the subscription specified by this subscription ID.
+	Subscription *string `form:"subscription"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *InvoiceListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// Revise an existing invoice. The new invoice will be created in `status=draft`. See the [revision documentation](https://stripe.com/docs/invoicing/invoice-revisions) for more details.
+type InvoiceFromInvoiceParams struct {
+	// The relation between the new invoice and the original invoice. Currently, only 'revision' is permitted
+	Action *string `form:"action"`
+	// The `id` of the invoice that will be cloned.
+	Invoice *string `form:"invoice"`
+}
+
 // Search for invoices you've previously created using Stripe's [Search Query Language](https://stripe.com/docs/search#search-query-language).
 // Don't use search in read-after-write flows where strict consistency is necessary. Under normal operating
 // conditions, data is searchable in less than a minute. Occasionally, propagation of new or updated data can be up
@@ -274,21 +701,6 @@ func (p *InvoiceSearchParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
-type InvoiceAutomaticTaxLiabilityParams struct {
-	// The connected account being referenced when `type` is `account`.
-	Account *string `form:"account"`
-	// Type of the account referenced in the request.
-	Type *string `form:"type"`
-}
-
-// Settings for automatic tax lookup for this invoice preview.
-type InvoiceAutomaticTaxParams struct {
-	// Whether Stripe automatically computes tax on this invoice. Note that incompatible invoice items (invoice items with manually specified [tax rates](https://stripe.com/docs/api/tax_rates), negative amounts, or `tax_behavior=unspecified`) cannot be added to automatic tax invoices.
-	Enabled *bool `form:"enabled"`
-	// The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
-	Liability *InvoiceAutomaticTaxLiabilityParams `form:"liability"`
-}
 type InvoiceUpcomingAutomaticTaxParams struct {
 	Enabled *bool `form:"enabled"`
 }
@@ -329,34 +741,6 @@ type InvoiceUpcomingCustomerDetailsParams struct {
 	TaxExempt *string `form:"tax_exempt"`
 	// The customer's tax IDs.
 	TaxIDs []*InvoiceUpcomingCustomerDetailsTaxIDParams `form:"tax_ids"`
-}
-
-// Time span for the redeemed discount.
-type InvoiceDiscountDiscountEndDurationParams struct {
-	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
-	Interval *string `form:"interval"`
-	// The number of intervals, as an whole number greater than 0. Stripe multiplies this by the interval type to get the overall duration.
-	IntervalCount *int64 `form:"interval_count"`
-}
-
-// Details to determine how long the discount should be applied for.
-type InvoiceDiscountDiscountEndParams struct {
-	// Time span for the redeemed discount.
-	Duration *InvoiceDiscountDiscountEndDurationParams `form:"duration"`
-	// A precise Unix timestamp for the discount to end. Must be in the future.
-	Timestamp *int64 `form:"timestamp"`
-	// The type of calculation made to determine when the discount ends.
-	Type *string `form:"type"`
-}
-
-// The coupons to redeem into discounts for the invoice preview. If not specified, inherits the discount from the customer or subscription. This only works for coupons directly applied to the invoice. To apply a coupon to a subscription, you must use the `coupon` parameter instead. Pass an empty string to avoid inheriting any discounts. To preview the upcoming invoice for a subscription that hasn't been created, use `coupon` instead.
-type InvoiceDiscountParams struct {
-	// ID of the coupon to create a new discount for.
-	Coupon *string `form:"coupon"`
-	// ID of an existing discount on the object (or one of its ancestors) to reuse.
-	Discount *string `form:"discount"`
-	// Details to determine how long the discount should be applied for.
-	DiscountEnd *InvoiceDiscountDiscountEndParams `form:"discount_end"`
 }
 
 // The period associated with this invoice item. When set to different values, the period will be rendered on the invoice. If you have [Stripe Revenue Recognition](https://stripe.com/docs/revenue-recognition) enabled, the period will be used to recognize and defer revenue. See the [Revenue Recognition documentation](https://stripe.com/docs/revenue-recognition/methodology/subscriptions-and-invoicing) for details.
@@ -1084,9 +1468,9 @@ type InvoiceUpcomingScheduleDetailsPrebillingParams struct {
 type InvoiceUpcomingScheduleDetailsParams struct {
 	// Changes to apply to the phases of the subscription schedule, in the order provided.
 	Amendments []*InvoiceUpcomingScheduleDetailsAmendmentParams `form:"amendments"`
-	// Configures when the subscription schedule generates prorations for phase transitions. Possible values are `prorate_on_next_phase` or `prorate_up_front` with the default being `prorate_on_next_phase`. `prorate_on_next_phase` will apply phase changes and generate prorations at transition time.`prorate_up_front` will bill for all phases within the current billing cycle up front.
+	// Configures when the subscription schedule generates prorations for phase transitions. Possible values are `prorate_on_next_phase` or `prorate_up_front` with the default being `prorate_on_next_phase`. `prorate_on_next_phase` will apply phase changes and generate prorations at transition time. `prorate_up_front` will bill for all phases within the current billing cycle up front.
 	BillingBehavior *string `form:"billing_behavior"`
-	// Behavior of the subscription schedule and underlying subscription when it ends. Possible values are `release` or `cancel` with the default being `release`. `release` will end the subscription schedule and keep the underlying subscription running.`cancel` will end the subscription schedule and cancel the underlying subscription.
+	// Behavior of the subscription schedule and underlying subscription when it ends. Possible values are `release` or `cancel` with the default being `release`. `release` will end the subscription schedule and keep the underlying subscription running. `cancel` will end the subscription schedule and cancel the underlying subscription.
 	EndBehavior *string `form:"end_behavior"`
 	// List representing phases of the subscription schedule. Each phase can be customized to have different durations, plans, and coupons. If there are multiple phases, the `end_date` of one phase will always equal the `start_date` of the next phase.
 	Phases []*InvoiceUpcomingScheduleDetailsPhaseParams `form:"phases"`
@@ -1327,386 +1711,6 @@ func (p *InvoiceUpcomingParams) AppendTo(body *form.Values, keyParts []string) {
 	if BoolValue(p.SubscriptionTrialEndNow) {
 		body.Add(form.FormatKey(append(keyParts, "subscription_trial_end")), "now")
 	}
-}
-
-// List of expected payments and corresponding due dates. Valid only for invoices where `collection_method=send_invoice`.
-type InvoiceAmountsDueParams struct {
-	// The amount in cents (or local equivalent).
-	Amount *int64 `form:"amount"`
-	// Number of days from when invoice is finalized until the payment is due.
-	DaysUntilDue *int64 `form:"days_until_due"`
-	// An arbitrary string attached to the object. Often useful for displaying to users.
-	Description *string `form:"description"`
-	// Date on which a payment plan's payment is due.
-	DueDate *int64 `form:"due_date"`
-}
-
-// A list of up to 4 custom fields to be displayed on the invoice. If a value for `custom_fields` is specified, the list specified will replace the existing custom field list on this invoice. Pass an empty string to remove previously-defined fields.
-type InvoiceCustomFieldParams struct {
-	// The name of the custom field. This may be up to 30 characters.
-	Name *string `form:"name"`
-	// The value of the custom field. This may be up to 30 characters.
-	Value *string `form:"value"`
-}
-
-// The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
-type InvoiceIssuerParams struct {
-	// The connected account being referenced when `type` is `account`.
-	Account *string `form:"account"`
-	// Type of the account referenced in the request.
-	Type *string `form:"type"`
-}
-
-// Additional fields for Mandate creation
-type InvoicePaymentSettingsPaymentMethodOptionsACSSDebitMandateOptionsParams struct {
-	// Transaction type of the mandate.
-	TransactionType *string `form:"transaction_type"`
-}
-
-// If paying by `acss_debit`, this sub-hash contains details about the Canadian pre-authorized debit payment method options to pass to the invoice's PaymentIntent.
-type InvoicePaymentSettingsPaymentMethodOptionsACSSDebitParams struct {
-	// Additional fields for Mandate creation
-	MandateOptions *InvoicePaymentSettingsPaymentMethodOptionsACSSDebitMandateOptionsParams `form:"mandate_options"`
-	// Verification method for the intent
-	VerificationMethod *string `form:"verification_method"`
-}
-
-// If paying by `bancontact`, this sub-hash contains details about the Bancontact payment method options to pass to the invoice's PaymentIntent.
-type InvoicePaymentSettingsPaymentMethodOptionsBancontactParams struct {
-	// Preferred language of the Bancontact authorization page that the customer is redirected to.
-	PreferredLanguage *string `form:"preferred_language"`
-}
-
-// The selected installment plan to use for this invoice.
-type InvoicePaymentSettingsPaymentMethodOptionsCardInstallmentsPlanParams struct {
-	// For `fixed_count` installment plans, this is the number of installment payments your customer will make to their credit card.
-	Count *int64 `form:"count"`
-	// For `fixed_count` installment plans, this is the interval between installment payments your customer will make to their credit card.
-	// One of `month`.
-	Interval *string `form:"interval"`
-	// Type of installment plan, one of `fixed_count`.
-	Type *string `form:"type"`
-}
-
-// Installment configuration for payments attempted on this invoice (Mexico Only).
-//
-// For more information, see the [installments integration guide](https://stripe.com/docs/payments/installments).
-type InvoicePaymentSettingsPaymentMethodOptionsCardInstallmentsParams struct {
-	// Setting to true enables installments for this invoice.
-	// Setting to false will prevent any selected plan from applying to a payment.
-	Enabled *bool `form:"enabled"`
-	// The selected installment plan to use for this invoice.
-	Plan *InvoicePaymentSettingsPaymentMethodOptionsCardInstallmentsPlanParams `form:"plan"`
-}
-
-// If paying by `card`, this sub-hash contains details about the Card payment method options to pass to the invoice's PaymentIntent.
-type InvoicePaymentSettingsPaymentMethodOptionsCardParams struct {
-	// Installment configuration for payments attempted on this invoice (Mexico Only).
-	//
-	// For more information, see the [installments integration guide](https://stripe.com/docs/payments/installments).
-	Installments *InvoicePaymentSettingsPaymentMethodOptionsCardInstallmentsParams `form:"installments"`
-	// We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https://stripe.com/docs/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. Read our guide on [manually requesting 3D Secure](https://stripe.com/docs/payments/3d-secure#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
-	RequestThreeDSecure *string `form:"request_three_d_secure"`
-}
-
-// Configuration for eu_bank_transfer funding type.
-type InvoicePaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferParams struct {
-	// The desired country code of the bank account information. Permitted values include: `BE`, `DE`, `ES`, `FR`, `IE`, or `NL`.
-	Country *string `form:"country"`
-}
-
-// Configuration for the bank transfer funding type, if the `funding_type` is set to `bank_transfer`.
-type InvoicePaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferParams struct {
-	// Configuration for eu_bank_transfer funding type.
-	EUBankTransfer *InvoicePaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferParams `form:"eu_bank_transfer"`
-	// The bank transfer type that can be used for funding. Permitted values include: `eu_bank_transfer`, `gb_bank_transfer`, `jp_bank_transfer`, `mx_bank_transfer`, or `us_bank_transfer`.
-	Type *string `form:"type"`
-}
-
-// If paying by `customer_balance`, this sub-hash contains details about the Bank transfer payment method options to pass to the invoice's PaymentIntent.
-type InvoicePaymentSettingsPaymentMethodOptionsCustomerBalanceParams struct {
-	// Configuration for the bank transfer funding type, if the `funding_type` is set to `bank_transfer`.
-	BankTransfer *InvoicePaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferParams `form:"bank_transfer"`
-	// The funding method type to be used when there are not enough funds in the customer balance. Permitted values include: `bank_transfer`.
-	FundingType *string `form:"funding_type"`
-}
-
-// If paying by `konbini`, this sub-hash contains details about the Konbini payment method options to pass to the invoice's PaymentIntent.
-type InvoicePaymentSettingsPaymentMethodOptionsKonbiniParams struct{}
-
-// Additional fields for Financial Connections Session creation
-type InvoicePaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsParams struct {
-	// The list of permissions to request. If this parameter is passed, the `payment_method` permission must be included. Valid permissions include: `balances`, `ownership`, `payment_method`, and `transactions`.
-	Permissions []*string `form:"permissions"`
-	// List of data features that you would like to retrieve upon account creation.
-	Prefetch []*string `form:"prefetch"`
-}
-
-// If paying by `us_bank_account`, this sub-hash contains details about the ACH direct debit payment method options to pass to the invoice's PaymentIntent.
-type InvoicePaymentSettingsPaymentMethodOptionsUSBankAccountParams struct {
-	// Additional fields for Financial Connections Session creation
-	FinancialConnections *InvoicePaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsParams `form:"financial_connections"`
-	// Verification method for the intent
-	VerificationMethod *string `form:"verification_method"`
-}
-
-// Payment-method-specific configuration to provide to the invoice's PaymentIntent.
-type InvoicePaymentSettingsPaymentMethodOptionsParams struct {
-	// If paying by `acss_debit`, this sub-hash contains details about the Canadian pre-authorized debit payment method options to pass to the invoice's PaymentIntent.
-	ACSSDebit *InvoicePaymentSettingsPaymentMethodOptionsACSSDebitParams `form:"acss_debit"`
-	// If paying by `bancontact`, this sub-hash contains details about the Bancontact payment method options to pass to the invoice's PaymentIntent.
-	Bancontact *InvoicePaymentSettingsPaymentMethodOptionsBancontactParams `form:"bancontact"`
-	// If paying by `card`, this sub-hash contains details about the Card payment method options to pass to the invoice's PaymentIntent.
-	Card *InvoicePaymentSettingsPaymentMethodOptionsCardParams `form:"card"`
-	// If paying by `customer_balance`, this sub-hash contains details about the Bank transfer payment method options to pass to the invoice's PaymentIntent.
-	CustomerBalance *InvoicePaymentSettingsPaymentMethodOptionsCustomerBalanceParams `form:"customer_balance"`
-	// If paying by `konbini`, this sub-hash contains details about the Konbini payment method options to pass to the invoice's PaymentIntent.
-	Konbini *InvoicePaymentSettingsPaymentMethodOptionsKonbiniParams `form:"konbini"`
-	// If paying by `us_bank_account`, this sub-hash contains details about the ACH direct debit payment method options to pass to the invoice's PaymentIntent.
-	USBankAccount *InvoicePaymentSettingsPaymentMethodOptionsUSBankAccountParams `form:"us_bank_account"`
-}
-
-// Configuration settings for the PaymentIntent that is generated when the invoice is finalized.
-type InvoicePaymentSettingsParams struct {
-	// ID of the mandate to be used for this invoice. It must correspond to the payment method used to pay the invoice, including the invoice's default_payment_method or default_source, if set.
-	DefaultMandate *string `form:"default_mandate"`
-	// Payment-method-specific configuration to provide to the invoice's PaymentIntent.
-	PaymentMethodOptions *InvoicePaymentSettingsPaymentMethodOptionsParams `form:"payment_method_options"`
-	// The list of payment method types (e.g. card) to provide to the invoice's PaymentIntent. If not set, Stripe attempts to automatically determine the types to use by looking at the invoice's default payment method, the subscription's default payment method, the customer's default payment method, and your [invoice template settings](https://dashboard.stripe.com/settings/billing/invoice).
-	PaymentMethodTypes []*string `form:"payment_method_types"`
-}
-
-// Invoice pdf rendering options
-type InvoiceRenderingPDFParams struct {
-	// Page size for invoice PDF. Can be set to `a4`, `letter`, or `auto`.
-	//  If set to `auto`, invoice PDF page size defaults to `a4` for customers with
-	//  Japanese locale and `letter` for customers with other locales.
-	PageSize *string `form:"page_size"`
-}
-
-// The rendering-related settings that control how the invoice is displayed on customer-facing surfaces such as PDF and Hosted Invoice Page.
-type InvoiceRenderingParams struct {
-	// How line-item prices and amounts will be displayed with respect to tax on invoice PDFs. One of `exclude_tax` or `include_inclusive_tax`. `include_inclusive_tax` will include inclusive tax (and exclude exclusive tax) in invoice PDF amounts. `exclude_tax` will exclude all tax (inclusive and exclusive alike) from invoice PDF amounts.
-	AmountTaxDisplay *string `form:"amount_tax_display"`
-	// Invoice pdf rendering options
-	PDF *InvoiceRenderingPDFParams `form:"pdf"`
-}
-
-// This is a legacy field that will be removed soon. For details about `rendering_options`, refer to `rendering` instead. Options for invoice PDF rendering.
-type InvoiceRenderingOptionsParams struct {
-	// How line-item prices and amounts will be displayed with respect to tax on invoice PDFs. One of `exclude_tax` or `include_inclusive_tax`. `include_inclusive_tax` will include inclusive tax (and exclude exclusive tax) in invoice PDF amounts. `exclude_tax` will exclude all tax (inclusive and exclusive alike) from invoice PDF amounts.
-	AmountTaxDisplay *string `form:"amount_tax_display"`
-}
-
-// The upper bound of the estimated range. If empty, represents no upper bound i.e., infinite.
-type InvoiceShippingCostShippingRateDataDeliveryEstimateMaximumParams struct {
-	// A unit of time.
-	Unit *string `form:"unit"`
-	// Must be greater than 0.
-	Value *int64 `form:"value"`
-}
-
-// The lower bound of the estimated range. If empty, represents no lower bound.
-type InvoiceShippingCostShippingRateDataDeliveryEstimateMinimumParams struct {
-	// A unit of time.
-	Unit *string `form:"unit"`
-	// Must be greater than 0.
-	Value *int64 `form:"value"`
-}
-
-// The estimated range for how long shipping will take, meant to be displayable to the customer. This will appear on CheckoutSessions.
-type InvoiceShippingCostShippingRateDataDeliveryEstimateParams struct {
-	// The upper bound of the estimated range. If empty, represents no upper bound i.e., infinite.
-	Maximum *InvoiceShippingCostShippingRateDataDeliveryEstimateMaximumParams `form:"maximum"`
-	// The lower bound of the estimated range. If empty, represents no lower bound.
-	Minimum *InvoiceShippingCostShippingRateDataDeliveryEstimateMinimumParams `form:"minimum"`
-}
-
-// Shipping rates defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
-type InvoiceShippingCostShippingRateDataFixedAmountCurrencyOptionsParams struct {
-	// A non-negative integer in cents representing how much to charge.
-	Amount *int64 `form:"amount"`
-	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
-	TaxBehavior *string `form:"tax_behavior"`
-}
-
-// Describes a fixed amount to charge for shipping. Must be present if type is `fixed_amount`.
-type InvoiceShippingCostShippingRateDataFixedAmountParams struct {
-	// A non-negative integer in cents representing how much to charge.
-	Amount *int64 `form:"amount"`
-	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
-	// Shipping rates defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
-	CurrencyOptions map[string]*InvoiceShippingCostShippingRateDataFixedAmountCurrencyOptionsParams `form:"currency_options"`
-}
-
-// Parameters to create a new ad-hoc shipping rate for this order.
-type InvoiceShippingCostShippingRateDataParams struct {
-	// The estimated range for how long shipping will take, meant to be displayable to the customer. This will appear on CheckoutSessions.
-	DeliveryEstimate *InvoiceShippingCostShippingRateDataDeliveryEstimateParams `form:"delivery_estimate"`
-	// The name of the shipping rate, meant to be displayable to the customer. This will appear on CheckoutSessions.
-	DisplayName *string `form:"display_name"`
-	// Describes a fixed amount to charge for shipping. Must be present if type is `fixed_amount`.
-	FixedAmount *InvoiceShippingCostShippingRateDataFixedAmountParams `form:"fixed_amount"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
-	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
-	TaxBehavior *string `form:"tax_behavior"`
-	// A [tax code](https://stripe.com/docs/tax/tax-categories) ID. The Shipping tax code is `txcd_92010001`.
-	TaxCode *string `form:"tax_code"`
-	// The type of calculation to use on the shipping rate. Can only be `fixed_amount` for now.
-	Type *string `form:"type"`
-}
-
-// AddMetadata adds a new key-value pair to the Metadata.
-func (p *InvoiceShippingCostShippingRateDataParams) AddMetadata(key string, value string) {
-	if p.Metadata == nil {
-		p.Metadata = make(map[string]string)
-	}
-
-	p.Metadata[key] = value
-}
-
-// Settings for the cost of shipping for this invoice.
-type InvoiceShippingCostParams struct {
-	// The ID of the shipping rate to use for this order.
-	ShippingRate *string `form:"shipping_rate"`
-	// Parameters to create a new ad-hoc shipping rate for this order.
-	ShippingRateData *InvoiceShippingCostShippingRateDataParams `form:"shipping_rate_data"`
-}
-
-// Shipping details for the invoice. The Invoice PDF will use the `shipping_details` value if it is set, otherwise the PDF will render the shipping address from the customer.
-type InvoiceShippingDetailsParams struct {
-	// Shipping address
-	Address *AddressParams `form:"address"`
-	// Recipient name.
-	Name *string `form:"name"`
-	// Recipient phone (including extension)
-	Phone *string `form:"phone"`
-}
-
-// If specified, the funds from the invoice will be transferred to the destination and the ID of the resulting transfer will be found on the invoice's charge. This will be unset if you POST an empty value.
-type InvoiceTransferDataParams struct {
-	// The amount that will be transferred automatically when the invoice is paid. If no amount is set, the full amount is transferred.
-	Amount *int64 `form:"amount"`
-	// ID of an existing, connected Stripe account.
-	Destination *string `form:"destination"`
-}
-
-// Draft invoices are fully editable. Once an invoice is [finalized](https://stripe.com/docs/billing/invoices/workflow#finalized),
-// monetary values, as well as collection_method, become uneditable.
-//
-// If you would like to stop the Stripe Billing engine from automatically finalizing, reattempting payments on,
-// sending reminders for, or [automatically reconciling](https://stripe.com/docs/billing/invoices/reconciliation) invoices, pass
-// auto_advance=false.
-type InvoiceParams struct {
-	Params `form:"*"`
-	// The account tax IDs associated with the invoice. Only editable when the invoice is a draft.
-	AccountTaxIDs []*string `form:"account_tax_ids"`
-	// List of expected payments and corresponding due dates. Valid only for invoices where `collection_method=send_invoice`.
-	AmountsDue []*InvoiceAmountsDueParams `form:"amounts_due"`
-	// A fee in cents (or local equivalent) that will be applied to the invoice and transferred to the application owner's Stripe account. The request must be made with an OAuth key or the Stripe-Account header in order to take an application fee. For more information, see the application fees [documentation](https://stripe.com/docs/billing/invoices/connect#collecting-fees).
-	ApplicationFeeAmount *int64 `form:"application_fee_amount"`
-	// Controls whether Stripe performs [automatic collection](https://stripe.com/docs/invoicing/integration/automatic-advancement-collection) of the invoice. If `false`, the invoice's state doesn't automatically advance without an explicit action.
-	AutoAdvance *bool `form:"auto_advance"`
-	// Settings for automatic tax lookup for this invoice.
-	AutomaticTax *InvoiceAutomaticTaxParams `form:"automatic_tax"`
-	// Either `charge_automatically`, or `send_invoice`. When charging automatically, Stripe will attempt to pay this invoice using the default source attached to the customer. When sending an invoice, Stripe will email this invoice to the customer with payment instructions. Defaults to `charge_automatically`.
-	CollectionMethod *string `form:"collection_method"`
-	// The currency to create this invoice in. Defaults to that of `customer` if not specified.
-	Currency *string `form:"currency"`
-	// The ID of the customer who will be billed.
-	Customer *string `form:"customer"`
-	// A list of up to 4 custom fields to be displayed on the invoice. If a value for `custom_fields` is specified, the list specified will replace the existing custom field list on this invoice. Pass an empty string to remove previously-defined fields.
-	CustomFields []*InvoiceCustomFieldParams `form:"custom_fields"`
-	// The number of days from which the invoice is created until it is due. Only valid for invoices where `collection_method=send_invoice`. This field can only be updated on `draft` invoices.
-	DaysUntilDue *int64 `form:"days_until_due"`
-	// The ids of the margins to apply to the invoice. Can be overridden by line item `margins`.
-	DefaultMargins []*string `form:"default_margins"`
-	// ID of the default payment method for the invoice. It must belong to the customer associated with the invoice. If not set, defaults to the subscription's default payment method, if any, or to the default payment method in the customer's invoice settings.
-	DefaultPaymentMethod *string `form:"default_payment_method"`
-	// ID of the default payment source for the invoice. It must belong to the customer associated with the invoice and be in a chargeable state. If not set, defaults to the subscription's default source, if any, or to the customer's default source.
-	DefaultSource *string `form:"default_source"`
-	// The tax rates that will apply to any line item that does not have `tax_rates` set. Pass an empty string to remove previously-defined tax rates.
-	DefaultTaxRates []*string `form:"default_tax_rates"`
-	// An arbitrary string attached to the object. Often useful for displaying to users. Referenced as 'memo' in the Dashboard.
-	Description *string `form:"description"`
-	// The coupons to redeem into discounts for the invoice. If not specified, inherits the discount from the invoice's customer. Pass an empty string to avoid inheriting any discounts.
-	Discounts []*InvoiceDiscountParams `form:"discounts"`
-	// The date on which payment for this invoice is due. Only valid for invoices where `collection_method=send_invoice`. This field can only be updated on `draft` invoices.
-	DueDate *int64 `form:"due_date"`
-	// The date when this invoice is in effect. Same as `finalized_at` unless overwritten. When defined, this value replaces the system-generated 'Date of issue' printed on the invoice PDF and receipt.
-	EffectiveAt *int64 `form:"effective_at"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
-	// Footer to be displayed on the invoice.
-	Footer *string `form:"footer"`
-	// Revise an existing invoice. The new invoice will be created in `status=draft`. See the [revision documentation](https://stripe.com/docs/invoicing/invoice-revisions) for more details.
-	FromInvoice *InvoiceFromInvoiceParams `form:"from_invoice"`
-	// The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
-	Issuer *InvoiceIssuerParams `form:"issuer"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
-	// The account (if any) for which the funds of the invoice payment are intended. If set, the invoice will be presented with the branding and support information of the specified account. See the [Invoices with Connect](https://stripe.com/docs/billing/invoices/connect) documentation for details.
-	OnBehalfOf *string `form:"on_behalf_of"`
-	// Configuration settings for the PaymentIntent that is generated when the invoice is finalized.
-	PaymentSettings *InvoicePaymentSettingsParams `form:"payment_settings"`
-	// How to handle pending invoice items on invoice creation. One of `include` or `exclude`. `include` will include any pending invoice items, and will create an empty draft invoice if no pending invoice items exist. `exclude` will always create an empty invoice draft regardless if there are pending invoice items or not. Defaults to `exclude` if the parameter is omitted.
-	PendingInvoiceItemsBehavior *string `form:"pending_invoice_items_behavior"`
-	// The rendering-related settings that control how the invoice is displayed on customer-facing surfaces such as PDF and Hosted Invoice Page.
-	Rendering *InvoiceRenderingParams `form:"rendering"`
-	// This is a legacy field that will be removed soon. For details about `rendering_options`, refer to `rendering` instead. Options for invoice PDF rendering.
-	RenderingOptions *InvoiceRenderingOptionsParams `form:"rendering_options"`
-	// Settings for the cost of shipping for this invoice.
-	ShippingCost *InvoiceShippingCostParams `form:"shipping_cost"`
-	// Shipping details for the invoice. The Invoice PDF will use the `shipping_details` value if it is set, otherwise the PDF will render the shipping address from the customer.
-	ShippingDetails *InvoiceShippingDetailsParams `form:"shipping_details"`
-	// Extra information about a charge for the customer's credit card statement. It must contain at least one letter. If not specified and this invoice is part of a subscription, the default `statement_descriptor` will be set to the first subscription item's product's `statement_descriptor`.
-	StatementDescriptor *string `form:"statement_descriptor"`
-	// The ID of the subscription to invoice, if any. If set, the created invoice will only include pending invoice items for that subscription. The subscription's billing cycle and regular subscription events won't be affected.
-	Subscription *string `form:"subscription"`
-	// If specified, the funds from the invoice will be transferred to the destination and the ID of the resulting transfer will be found on the invoice's charge. This will be unset if you POST an empty value.
-	TransferData *InvoiceTransferDataParams `form:"transfer_data"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *InvoiceParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
-}
-
-// AddMetadata adds a new key-value pair to the Metadata.
-func (p *InvoiceParams) AddMetadata(key string, value string) {
-	if p.Metadata == nil {
-		p.Metadata = make(map[string]string)
-	}
-
-	p.Metadata[key] = value
-}
-
-// Stripe automatically creates and then attempts to collect payment on invoices for customers on subscriptions according to your [subscriptions settings](https://dashboard.stripe.com/account/billing/automatic). However, if you'd like to attempt payment on an invoice out of the normal collection schedule or for some other reason, you can do so.
-type InvoicePayParams struct {
-	Params `form:"*"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
-	// In cases where the source used to pay the invoice has insufficient funds, passing `forgive=true` controls whether a charge should be attempted for the full amount available on the source, up to the amount to fully pay the invoice. This effectively forgives the difference between the amount available on the source and the amount due.
-	//
-	// Passing `forgive=false` will fail the charge if the source hasn't been pre-funded with the right amount. An example for this case is with ACH Credit Transfers and wires: if the amount wired is less than the amount due by a small amount, you might want to forgive the difference. Defaults to `false`.
-	Forgive *bool `form:"forgive"`
-	// ID of the mandate to be used for this invoice. It must correspond to the payment method used to pay the invoice, including the payment_method param or the invoice's default_payment_method or default_source, if set.
-	Mandate *string `form:"mandate"`
-	// Indicates if a customer is on or off-session while an invoice payment is attempted. Defaults to `true` (off-session).
-	OffSession *bool `form:"off_session"`
-	// Boolean representing whether an invoice is paid outside of Stripe. This will result in no charge being made. Defaults to `false`.
-	PaidOutOfBand *bool `form:"paid_out_of_band"`
-	// A PaymentMethod to be charged. The PaymentMethod must be the ID of a PaymentMethod belonging to the customer associated with the invoice being paid.
-	PaymentMethod *string `form:"payment_method"`
-	// A payment source to be charged. The source must be the ID of a source belonging to the customer associated with the invoice being paid.
-	Source *string `form:"source"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *InvoicePayParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
 }
 
 // The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
@@ -2558,9 +2562,9 @@ type InvoiceUpcomingLinesScheduleDetailsPrebillingParams struct {
 type InvoiceUpcomingLinesScheduleDetailsParams struct {
 	// Changes to apply to the phases of the subscription schedule, in the order provided.
 	Amendments []*InvoiceUpcomingLinesScheduleDetailsAmendmentParams `form:"amendments"`
-	// Configures when the subscription schedule generates prorations for phase transitions. Possible values are `prorate_on_next_phase` or `prorate_up_front` with the default being `prorate_on_next_phase`. `prorate_on_next_phase` will apply phase changes and generate prorations at transition time.`prorate_up_front` will bill for all phases within the current billing cycle up front.
+	// Configures when the subscription schedule generates prorations for phase transitions. Possible values are `prorate_on_next_phase` or `prorate_up_front` with the default being `prorate_on_next_phase`. `prorate_on_next_phase` will apply phase changes and generate prorations at transition time. `prorate_up_front` will bill for all phases within the current billing cycle up front.
 	BillingBehavior *string `form:"billing_behavior"`
-	// Behavior of the subscription schedule and underlying subscription when it ends. Possible values are `release` or `cancel` with the default being `release`. `release` will end the subscription schedule and keep the underlying subscription running.`cancel` will end the subscription schedule and cancel the underlying subscription.
+	// Behavior of the subscription schedule and underlying subscription when it ends. Possible values are `release` or `cancel` with the default being `release`. `release` will end the subscription schedule and keep the underlying subscription running. `cancel` will end the subscription schedule and cancel the underlying subscription.
 	EndBehavior *string `form:"end_behavior"`
 	// List representing phases of the subscription schedule. Each phase can be customized to have different durations, plans, and coupons. If there are multiple phases, the `end_date` of one phase will always equal the `start_date` of the next phase.
 	Phases []*InvoiceUpcomingLinesScheduleDetailsPhaseParams `form:"phases"`
@@ -2892,90 +2896,6 @@ func (p *InvoiceUpcomingLinesParams) AppendTo(body *form.Values, keyParts []stri
 	}
 }
 
-// Revise an existing invoice. The new invoice will be created in `status=draft`. See the [revision documentation](https://stripe.com/docs/invoicing/invoice-revisions) for more details.
-type InvoiceFromInvoiceParams struct {
-	// The relation between the new invoice and the original invoice. Currently, only 'revision' is permitted
-	Action *string `form:"action"`
-	// The `id` of the invoice that will be cloned.
-	Invoice *string `form:"invoice"`
-}
-
-// You can list all invoices, or list the invoices for a specific customer. The invoices are returned sorted by creation date, with the most recently created invoices appearing first.
-type InvoiceListParams struct {
-	ListParams `form:"*"`
-	// The collection method of the invoice to retrieve. Either `charge_automatically` or `send_invoice`.
-	CollectionMethod *string           `form:"collection_method"`
-	Created          *int64            `form:"created"`
-	CreatedRange     *RangeQueryParams `form:"created"`
-	// Only return invoices for the customer specified by this customer ID.
-	Customer     *string           `form:"customer"`
-	DueDate      *int64            `form:"due_date"`
-	DueDateRange *RangeQueryParams `form:"due_date"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
-	// The status of the invoice, one of `draft`, `open`, `paid`, `uncollectible`, or `void`. [Learn more](https://stripe.com/docs/billing/invoices/workflow#workflow-overview)
-	Status *string `form:"status"`
-	// Only return invoices for the subscription specified by this subscription ID.
-	Subscription *string `form:"subscription"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *InvoiceListParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
-}
-
-// Stripe automatically finalizes drafts before sending and attempting payment on invoices. However, if you'd like to finalize a draft invoice manually, you can do so using this method.
-type InvoiceFinalizeInvoiceParams struct {
-	Params `form:"*"`
-	// Controls whether Stripe performs [automatic collection](https://stripe.com/docs/invoicing/integration/automatic-advancement-collection) of the invoice. If `false`, the invoice's state doesn't automatically advance without an explicit action.
-	AutoAdvance *bool `form:"auto_advance"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *InvoiceFinalizeInvoiceParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
-}
-
-// Stripe will automatically send invoices to customers according to your [subscriptions settings](https://dashboard.stripe.com/account/billing/automatic). However, if you'd like to manually send an invoice to your customer out of the normal schedule, you can do so. When sending invoices that have already been paid, there will be no reference to the payment in the email.
-//
-// Requests made in test-mode result in no emails being sent, despite sending an invoice.sent event.
-type InvoiceSendInvoiceParams struct {
-	Params `form:"*"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *InvoiceSendInvoiceParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
-}
-
-// Marking an invoice as uncollectible is useful for keeping track of bad debts that can be written off for accounting purposes.
-type InvoiceMarkUncollectibleParams struct {
-	Params `form:"*"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *InvoiceMarkUncollectibleParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
-}
-
-// Mark a finalized invoice as void. This cannot be undone. Voiding an invoice is similar to [deletion](https://stripe.com/docs/api#delete_invoice), however it only applies to finalized invoices and maintains a papertrail where the invoice can still be found.
-type InvoiceVoidInvoiceParams struct {
-	Params `form:"*"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *InvoiceVoidInvoiceParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
-}
-
 // Attaches a PaymentIntent to the invoice, adding it to the list of payments.
 // When the PaymentIntent's status changes to succeeded, the payment is credited
 // to the invoice, increasing its amount_paid. When the invoice is fully paid, the
@@ -2997,6 +2917,84 @@ type InvoiceAttachPaymentIntentParams struct {
 
 // AddExpand appends a new field to expand.
 func (p *InvoiceAttachPaymentIntentParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// Stripe automatically finalizes drafts before sending and attempting payment on invoices. However, if you'd like to finalize a draft invoice manually, you can do so using this method.
+type InvoiceFinalizeInvoiceParams struct {
+	Params `form:"*"`
+	// Controls whether Stripe performs [automatic collection](https://stripe.com/docs/invoicing/integration/automatic-advancement-collection) of the invoice. If `false`, the invoice's state doesn't automatically advance without an explicit action.
+	AutoAdvance *bool `form:"auto_advance"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *InvoiceFinalizeInvoiceParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// Marking an invoice as uncollectible is useful for keeping track of bad debts that can be written off for accounting purposes.
+type InvoiceMarkUncollectibleParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *InvoiceMarkUncollectibleParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// Stripe automatically creates and then attempts to collect payment on invoices for customers on subscriptions according to your [subscriptions settings](https://dashboard.stripe.com/account/billing/automatic). However, if you'd like to attempt payment on an invoice out of the normal collection schedule or for some other reason, you can do so.
+type InvoicePayParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// In cases where the source used to pay the invoice has insufficient funds, passing `forgive=true` controls whether a charge should be attempted for the full amount available on the source, up to the amount to fully pay the invoice. This effectively forgives the difference between the amount available on the source and the amount due.
+	//
+	// Passing `forgive=false` will fail the charge if the source hasn't been pre-funded with the right amount. An example for this case is with ACH Credit Transfers and wires: if the amount wired is less than the amount due by a small amount, you might want to forgive the difference. Defaults to `false`.
+	Forgive *bool `form:"forgive"`
+	// ID of the mandate to be used for this invoice. It must correspond to the payment method used to pay the invoice, including the payment_method param or the invoice's default_payment_method or default_source, if set.
+	Mandate *string `form:"mandate"`
+	// Indicates if a customer is on or off-session while an invoice payment is attempted. Defaults to `true` (off-session).
+	OffSession *bool `form:"off_session"`
+	// Boolean representing whether an invoice is paid outside of Stripe. This will result in no charge being made. Defaults to `false`.
+	PaidOutOfBand *bool `form:"paid_out_of_band"`
+	// A PaymentMethod to be charged. The PaymentMethod must be the ID of a PaymentMethod belonging to the customer associated with the invoice being paid.
+	PaymentMethod *string `form:"payment_method"`
+	// A payment source to be charged. The source must be the ID of a source belonging to the customer associated with the invoice being paid.
+	Source *string `form:"source"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *InvoicePayParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// Stripe will automatically send invoices to customers according to your [subscriptions settings](https://dashboard.stripe.com/account/billing/automatic). However, if you'd like to manually send an invoice to your customer out of the normal schedule, you can do so. When sending invoices that have already been paid, there will be no reference to the payment in the email.
+//
+// Requests made in test-mode result in no emails being sent, despite sending an invoice.sent event.
+type InvoiceSendInvoiceParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *InvoiceSendInvoiceParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// Mark a finalized invoice as void. This cannot be undone. Voiding an invoice is similar to [deletion](https://stripe.com/docs/api#delete_invoice), however it only applies to finalized invoices and maintains a papertrail where the invoice can still be found.
+type InvoiceVoidInvoiceParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *InvoiceVoidInvoiceParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 

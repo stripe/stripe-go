@@ -16,18 +16,6 @@ const (
 	FinancialConnectionsTransactionStatusVoid    FinancialConnectionsTransactionStatus = "void"
 )
 
-// Retrieves the details of a Financial Connections Transaction
-type FinancialConnectionsTransactionParams struct {
-	Params `form:"*"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *FinancialConnectionsTransactionParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
-}
-
 // A filter on the list based on the object `transaction_refresh` field. The value can be a dictionary with the following options:
 type FinancialConnectionsTransactionListTransactionRefreshParams struct {
 	// Return results where the transactions were created or updated by a refresh that took place after this refresh (non-inclusive).
@@ -51,6 +39,18 @@ type FinancialConnectionsTransactionListParams struct {
 
 // AddExpand appends a new field to expand.
 func (p *FinancialConnectionsTransactionListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// Retrieves the details of a Financial Connections Transaction
+type FinancialConnectionsTransactionParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *FinancialConnectionsTransactionParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 

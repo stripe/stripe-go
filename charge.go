@@ -300,23 +300,6 @@ const (
 	ChargeStatusSucceeded ChargeStatus = "succeeded"
 )
 
-// Search for charges you've previously created using Stripe's [Search Query Language](https://stripe.com/docs/search#search-query-language).
-// Don't use search in read-after-write flows where strict consistency is necessary. Under normal operating
-// conditions, data is searchable in less than a minute. Occasionally, propagation of new or updated data can be up
-// to an hour behind during outages. Search functionality is not available to merchants in India.
-type ChargeSearchParams struct {
-	SearchParams `form:"*"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
-	// A cursor for pagination across multiple pages of results. Don't include this parameter on the first call. Use the next_page value returned in a previous response to request subsequent results.
-	Page *string `form:"page"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *ChargeSearchParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
-}
-
 // Returns a list of charges you've previously created. The charges are returned in sorted order, with the most recent charges appearing first.
 type ChargeListParams struct {
 	ListParams   `form:"*"`
@@ -603,6 +586,8 @@ type ChargePaymentDetailsFlightPassengerParams struct {
 
 // The individual flight segments associated with the trip.
 type ChargePaymentDetailsFlightSegmentParams struct {
+	// The flight segment amount.
+	Amount *int64 `form:"amount"`
 	// The International Air Transport Association (IATA) airport code for the arrival airport.
 	ArrivalAirport *string `form:"arrival_airport"`
 	// The arrival time for the flight segment. Measured in seconds since the Unix epoch.
@@ -699,10 +684,14 @@ type ChargePaymentDetailsLodgingParams struct {
 	Name *string `form:"name"`
 	// Indicates if the customer did not keep their booking while failing to cancel the reservation.
 	NoShow *bool `form:"no_show"`
+	// The number of rooms on the booking
+	NumberOfRooms *int64 `form:"number_of_rooms"`
 	// The details of the passengers in the travel reservation
 	Passengers []*ChargePaymentDetailsLodgingPassengerParams `form:"passengers"`
 	// The phone number of the lodging location.
 	PropertyPhoneNumber *string `form:"property_phone_number"`
+	// The room class for this purchase.
+	RoomClass *string `form:"room_class"`
 	// The number of room nights
 	RoomNights *int64 `form:"room_nights"`
 	// The total tax amount associating with the room reservation.
@@ -753,6 +742,23 @@ type ChargePaymentDetailsParams struct {
 	Lodging *ChargePaymentDetailsLodgingParams `form:"lodging"`
 	// Subscription details for this PaymentIntent
 	Subscription *ChargePaymentDetailsSubscriptionParams `form:"subscription"`
+}
+
+// Search for charges you've previously created using Stripe's [Search Query Language](https://stripe.com/docs/search#search-query-language).
+// Don't use search in read-after-write flows where strict consistency is necessary. Under normal operating
+// conditions, data is searchable in less than a minute. Occasionally, propagation of new or updated data can be up
+// to an hour behind during outages. Search functionality is not available to merchants in India.
+type ChargeSearchParams struct {
+	SearchParams `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// A cursor for pagination across multiple pages of results. Don't include this parameter on the first call. Use the next_page value returned in a previous response to request subsequent results.
+	Page *string `form:"page"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *ChargeSearchParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // Affiliate details for this purchase.
@@ -907,6 +913,8 @@ type ChargeCapturePaymentDetailsFlightPassengerParams struct {
 
 // The individual flight segments associated with the trip.
 type ChargeCapturePaymentDetailsFlightSegmentParams struct {
+	// The flight segment amount.
+	Amount *int64 `form:"amount"`
 	// The International Air Transport Association (IATA) airport code for the arrival airport.
 	ArrivalAirport *string `form:"arrival_airport"`
 	// The arrival time for the flight segment. Measured in seconds since the Unix epoch.
@@ -1003,10 +1011,14 @@ type ChargeCapturePaymentDetailsLodgingParams struct {
 	Name *string `form:"name"`
 	// Indicates if the customer did not keep their booking while failing to cancel the reservation.
 	NoShow *bool `form:"no_show"`
+	// The number of rooms on the booking
+	NumberOfRooms *int64 `form:"number_of_rooms"`
 	// The details of the passengers in the travel reservation
 	Passengers []*ChargeCapturePaymentDetailsLodgingPassengerParams `form:"passengers"`
 	// The phone number of the lodging location.
 	PropertyPhoneNumber *string `form:"property_phone_number"`
+	// The room class for this purchase.
+	RoomClass *string `form:"room_class"`
 	// The number of room nights
 	RoomNights *int64 `form:"room_nights"`
 	// The total tax amount associating with the room reservation.

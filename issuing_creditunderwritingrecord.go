@@ -60,6 +60,7 @@ const (
 	IssuingCreditUnderwritingRecordDecisionApplicationRejectedReasonGarnishmentOrAttachment                IssuingCreditUnderwritingRecordDecisionApplicationRejectedReason = "garnishment_or_attachment"
 	IssuingCreditUnderwritingRecordDecisionApplicationRejectedReasonGovernmentLoanProgramCriteria          IssuingCreditUnderwritingRecordDecisionApplicationRejectedReason = "government_loan_program_criteria"
 	IssuingCreditUnderwritingRecordDecisionApplicationRejectedReasonHighConcentrationOfClients             IssuingCreditUnderwritingRecordDecisionApplicationRejectedReason = "high_concentration_of_clients"
+	IssuingCreditUnderwritingRecordDecisionApplicationRejectedReasonHighRiskIndustry                       IssuingCreditUnderwritingRecordDecisionApplicationRejectedReason = "high_risk_industry"
 	IssuingCreditUnderwritingRecordDecisionApplicationRejectedReasonIncompleteApplication                  IssuingCreditUnderwritingRecordDecisionApplicationRejectedReason = "incomplete_application"
 	IssuingCreditUnderwritingRecordDecisionApplicationRejectedReasonInconsistentMonthlyRevenues            IssuingCreditUnderwritingRecordDecisionApplicationRejectedReason = "inconsistent_monthly_revenues"
 	IssuingCreditUnderwritingRecordDecisionApplicationRejectedReasonInsufficientAccountHistoryWithPlatform IssuingCreditUnderwritingRecordDecisionApplicationRejectedReason = "insufficient_account_history_with_platform"
@@ -70,11 +71,16 @@ const (
 	IssuingCreditUnderwritingRecordDecisionApplicationRejectedReasonInsufficientCreditExperience           IssuingCreditUnderwritingRecordDecisionApplicationRejectedReason = "insufficient_credit_experience"
 	IssuingCreditUnderwritingRecordDecisionApplicationRejectedReasonInsufficientDeposits                   IssuingCreditUnderwritingRecordDecisionApplicationRejectedReason = "insufficient_deposits"
 	IssuingCreditUnderwritingRecordDecisionApplicationRejectedReasonInsufficientIncome                     IssuingCreditUnderwritingRecordDecisionApplicationRejectedReason = "insufficient_income"
+	IssuingCreditUnderwritingRecordDecisionApplicationRejectedReasonInsufficientMarginRatio                IssuingCreditUnderwritingRecordDecisionApplicationRejectedReason = "insufficient_margin_ratio"
+	IssuingCreditUnderwritingRecordDecisionApplicationRejectedReasonInsufficientOperatingProfit            IssuingCreditUnderwritingRecordDecisionApplicationRejectedReason = "insufficient_operating_profit"
 	IssuingCreditUnderwritingRecordDecisionApplicationRejectedReasonInsufficientPeriodInOperation          IssuingCreditUnderwritingRecordDecisionApplicationRejectedReason = "insufficient_period_in_operation"
+	IssuingCreditUnderwritingRecordDecisionApplicationRejectedReasonInsufficientReserves                   IssuingCreditUnderwritingRecordDecisionApplicationRejectedReason = "insufficient_reserves"
 	IssuingCreditUnderwritingRecordDecisionApplicationRejectedReasonInsufficientRevenue                    IssuingCreditUnderwritingRecordDecisionApplicationRejectedReason = "insufficient_revenue"
 	IssuingCreditUnderwritingRecordDecisionApplicationRejectedReasonInsufficientSocialMediaPerformance     IssuingCreditUnderwritingRecordDecisionApplicationRejectedReason = "insufficient_social_media_performance"
+	IssuingCreditUnderwritingRecordDecisionApplicationRejectedReasonInsufficientTimeInNetwork              IssuingCreditUnderwritingRecordDecisionApplicationRejectedReason = "insufficient_time_in_network"
 	IssuingCreditUnderwritingRecordDecisionApplicationRejectedReasonInsufficientTradeCreditInsurance       IssuingCreditUnderwritingRecordDecisionApplicationRejectedReason = "insufficient_trade_credit_insurance"
 	IssuingCreditUnderwritingRecordDecisionApplicationRejectedReasonInvalidBusinessLicense                 IssuingCreditUnderwritingRecordDecisionApplicationRejectedReason = "invalid_business_license"
+	IssuingCreditUnderwritingRecordDecisionApplicationRejectedReasonLackingCashAccount                     IssuingCreditUnderwritingRecordDecisionApplicationRejectedReason = "lacking_cash_account"
 	IssuingCreditUnderwritingRecordDecisionApplicationRejectedReasonLatePaymentHistoryReportedToBureau     IssuingCreditUnderwritingRecordDecisionApplicationRejectedReason = "late_payment_history_reported_to_bureau"
 	IssuingCreditUnderwritingRecordDecisionApplicationRejectedReasonLienCollectionActionOrJudgement        IssuingCreditUnderwritingRecordDecisionApplicationRejectedReason = "lien_collection_action_or_judgement"
 	IssuingCreditUnderwritingRecordDecisionApplicationRejectedReasonNegativePublicInformation              IssuingCreditUnderwritingRecordDecisionApplicationRejectedReason = "negative_public_information"
@@ -82,6 +88,7 @@ const (
 	IssuingCreditUnderwritingRecordDecisionApplicationRejectedReasonOther                                  IssuingCreditUnderwritingRecordDecisionApplicationRejectedReason = "other"
 	IssuingCreditUnderwritingRecordDecisionApplicationRejectedReasonOutsideSupportedCountry                IssuingCreditUnderwritingRecordDecisionApplicationRejectedReason = "outside_supported_country"
 	IssuingCreditUnderwritingRecordDecisionApplicationRejectedReasonOutsideSupportedState                  IssuingCreditUnderwritingRecordDecisionApplicationRejectedReason = "outside_supported_state"
+	IssuingCreditUnderwritingRecordDecisionApplicationRejectedReasonPoorPaymentHistoryWithPlatform         IssuingCreditUnderwritingRecordDecisionApplicationRejectedReason = "poor_payment_history_with_platform"
 	IssuingCreditUnderwritingRecordDecisionApplicationRejectedReasonPriorOrCurrentLegalAction              IssuingCreditUnderwritingRecordDecisionApplicationRejectedReason = "prior_or_current_legal_action"
 	IssuingCreditUnderwritingRecordDecisionApplicationRejectedReasonProhibitedIndustry                     IssuingCreditUnderwritingRecordDecisionApplicationRejectedReason = "prohibited_industry"
 	IssuingCreditUnderwritingRecordDecisionApplicationRejectedReasonRateOfCashBalanceFluctuationTooHigh    IssuingCreditUnderwritingRecordDecisionApplicationRejectedReason = "rate_of_cash_balance_fluctuation_too_high"
@@ -129,6 +136,7 @@ const (
 	IssuingCreditUnderwritingRecordDecisionCreditLimitDecreasedReasonGovernmentLoanProgramCriteria          IssuingCreditUnderwritingRecordDecisionCreditLimitDecreasedReason = "government_loan_program_criteria"
 	IssuingCreditUnderwritingRecordDecisionCreditLimitDecreasedReasonHasRecentCreditLimitIncrease           IssuingCreditUnderwritingRecordDecisionCreditLimitDecreasedReason = "has_recent_credit_limit_increase"
 	IssuingCreditUnderwritingRecordDecisionCreditLimitDecreasedReasonHighConcentrationOfClients             IssuingCreditUnderwritingRecordDecisionCreditLimitDecreasedReason = "high_concentration_of_clients"
+	IssuingCreditUnderwritingRecordDecisionCreditLimitDecreasedReasonHighRiskIndustry                       IssuingCreditUnderwritingRecordDecisionCreditLimitDecreasedReason = "high_risk_industry"
 	IssuingCreditUnderwritingRecordDecisionCreditLimitDecreasedReasonIncompleteApplication                  IssuingCreditUnderwritingRecordDecisionCreditLimitDecreasedReason = "incomplete_application"
 	IssuingCreditUnderwritingRecordDecisionCreditLimitDecreasedReasonInconsistentMonthlyRevenues            IssuingCreditUnderwritingRecordDecisionCreditLimitDecreasedReason = "inconsistent_monthly_revenues"
 	IssuingCreditUnderwritingRecordDecisionCreditLimitDecreasedReasonInsufficientAccountHistoryWithPlatform IssuingCreditUnderwritingRecordDecisionCreditLimitDecreasedReason = "insufficient_account_history_with_platform"
@@ -140,12 +148,17 @@ const (
 	IssuingCreditUnderwritingRecordDecisionCreditLimitDecreasedReasonInsufficientCreditUtilization          IssuingCreditUnderwritingRecordDecisionCreditLimitDecreasedReason = "insufficient_credit_utilization"
 	IssuingCreditUnderwritingRecordDecisionCreditLimitDecreasedReasonInsufficientDeposits                   IssuingCreditUnderwritingRecordDecisionCreditLimitDecreasedReason = "insufficient_deposits"
 	IssuingCreditUnderwritingRecordDecisionCreditLimitDecreasedReasonInsufficientIncome                     IssuingCreditUnderwritingRecordDecisionCreditLimitDecreasedReason = "insufficient_income"
+	IssuingCreditUnderwritingRecordDecisionCreditLimitDecreasedReasonInsufficientMarginRatio                IssuingCreditUnderwritingRecordDecisionCreditLimitDecreasedReason = "insufficient_margin_ratio"
+	IssuingCreditUnderwritingRecordDecisionCreditLimitDecreasedReasonInsufficientOperatingProfit            IssuingCreditUnderwritingRecordDecisionCreditLimitDecreasedReason = "insufficient_operating_profit"
 	IssuingCreditUnderwritingRecordDecisionCreditLimitDecreasedReasonInsufficientPeriodInOperation          IssuingCreditUnderwritingRecordDecisionCreditLimitDecreasedReason = "insufficient_period_in_operation"
+	IssuingCreditUnderwritingRecordDecisionCreditLimitDecreasedReasonInsufficientReserves                   IssuingCreditUnderwritingRecordDecisionCreditLimitDecreasedReason = "insufficient_reserves"
 	IssuingCreditUnderwritingRecordDecisionCreditLimitDecreasedReasonInsufficientRevenue                    IssuingCreditUnderwritingRecordDecisionCreditLimitDecreasedReason = "insufficient_revenue"
 	IssuingCreditUnderwritingRecordDecisionCreditLimitDecreasedReasonInsufficientSocialMediaPerformance     IssuingCreditUnderwritingRecordDecisionCreditLimitDecreasedReason = "insufficient_social_media_performance"
+	IssuingCreditUnderwritingRecordDecisionCreditLimitDecreasedReasonInsufficientTimeInNetwork              IssuingCreditUnderwritingRecordDecisionCreditLimitDecreasedReason = "insufficient_time_in_network"
 	IssuingCreditUnderwritingRecordDecisionCreditLimitDecreasedReasonInsufficientTradeCreditInsurance       IssuingCreditUnderwritingRecordDecisionCreditLimitDecreasedReason = "insufficient_trade_credit_insurance"
 	IssuingCreditUnderwritingRecordDecisionCreditLimitDecreasedReasonInsufficientUsageAsQualifiedExpenses   IssuingCreditUnderwritingRecordDecisionCreditLimitDecreasedReason = "insufficient_usage_as_qualified_expenses"
 	IssuingCreditUnderwritingRecordDecisionCreditLimitDecreasedReasonInvalidBusinessLicense                 IssuingCreditUnderwritingRecordDecisionCreditLimitDecreasedReason = "invalid_business_license"
+	IssuingCreditUnderwritingRecordDecisionCreditLimitDecreasedReasonLackingCashAccount                     IssuingCreditUnderwritingRecordDecisionCreditLimitDecreasedReason = "lacking_cash_account"
 	IssuingCreditUnderwritingRecordDecisionCreditLimitDecreasedReasonLatePaymentHistoryReportedToBureau     IssuingCreditUnderwritingRecordDecisionCreditLimitDecreasedReason = "late_payment_history_reported_to_bureau"
 	IssuingCreditUnderwritingRecordDecisionCreditLimitDecreasedReasonLienCollectionActionOrJudgement        IssuingCreditUnderwritingRecordDecisionCreditLimitDecreasedReason = "lien_collection_action_or_judgement"
 	IssuingCreditUnderwritingRecordDecisionCreditLimitDecreasedReasonNegativePublicInformation              IssuingCreditUnderwritingRecordDecisionCreditLimitDecreasedReason = "negative_public_information"
@@ -201,6 +214,7 @@ const (
 	IssuingCreditUnderwritingRecordDecisionCreditLineClosedReasonGovernmentLoanProgramCriteria          IssuingCreditUnderwritingRecordDecisionCreditLineClosedReason = "government_loan_program_criteria"
 	IssuingCreditUnderwritingRecordDecisionCreditLineClosedReasonHasRecentCreditLimitIncrease           IssuingCreditUnderwritingRecordDecisionCreditLineClosedReason = "has_recent_credit_limit_increase"
 	IssuingCreditUnderwritingRecordDecisionCreditLineClosedReasonHighConcentrationOfClients             IssuingCreditUnderwritingRecordDecisionCreditLineClosedReason = "high_concentration_of_clients"
+	IssuingCreditUnderwritingRecordDecisionCreditLineClosedReasonHighRiskIndustry                       IssuingCreditUnderwritingRecordDecisionCreditLineClosedReason = "high_risk_industry"
 	IssuingCreditUnderwritingRecordDecisionCreditLineClosedReasonIncompleteApplication                  IssuingCreditUnderwritingRecordDecisionCreditLineClosedReason = "incomplete_application"
 	IssuingCreditUnderwritingRecordDecisionCreditLineClosedReasonInconsistentMonthlyRevenues            IssuingCreditUnderwritingRecordDecisionCreditLineClosedReason = "inconsistent_monthly_revenues"
 	IssuingCreditUnderwritingRecordDecisionCreditLineClosedReasonInsufficientAccountHistoryWithPlatform IssuingCreditUnderwritingRecordDecisionCreditLineClosedReason = "insufficient_account_history_with_platform"
@@ -212,12 +226,17 @@ const (
 	IssuingCreditUnderwritingRecordDecisionCreditLineClosedReasonInsufficientCreditUtilization          IssuingCreditUnderwritingRecordDecisionCreditLineClosedReason = "insufficient_credit_utilization"
 	IssuingCreditUnderwritingRecordDecisionCreditLineClosedReasonInsufficientDeposits                   IssuingCreditUnderwritingRecordDecisionCreditLineClosedReason = "insufficient_deposits"
 	IssuingCreditUnderwritingRecordDecisionCreditLineClosedReasonInsufficientIncome                     IssuingCreditUnderwritingRecordDecisionCreditLineClosedReason = "insufficient_income"
+	IssuingCreditUnderwritingRecordDecisionCreditLineClosedReasonInsufficientMarginRatio                IssuingCreditUnderwritingRecordDecisionCreditLineClosedReason = "insufficient_margin_ratio"
+	IssuingCreditUnderwritingRecordDecisionCreditLineClosedReasonInsufficientOperatingProfit            IssuingCreditUnderwritingRecordDecisionCreditLineClosedReason = "insufficient_operating_profit"
 	IssuingCreditUnderwritingRecordDecisionCreditLineClosedReasonInsufficientPeriodInOperation          IssuingCreditUnderwritingRecordDecisionCreditLineClosedReason = "insufficient_period_in_operation"
+	IssuingCreditUnderwritingRecordDecisionCreditLineClosedReasonInsufficientReserves                   IssuingCreditUnderwritingRecordDecisionCreditLineClosedReason = "insufficient_reserves"
 	IssuingCreditUnderwritingRecordDecisionCreditLineClosedReasonInsufficientRevenue                    IssuingCreditUnderwritingRecordDecisionCreditLineClosedReason = "insufficient_revenue"
 	IssuingCreditUnderwritingRecordDecisionCreditLineClosedReasonInsufficientSocialMediaPerformance     IssuingCreditUnderwritingRecordDecisionCreditLineClosedReason = "insufficient_social_media_performance"
+	IssuingCreditUnderwritingRecordDecisionCreditLineClosedReasonInsufficientTimeInNetwork              IssuingCreditUnderwritingRecordDecisionCreditLineClosedReason = "insufficient_time_in_network"
 	IssuingCreditUnderwritingRecordDecisionCreditLineClosedReasonInsufficientTradeCreditInsurance       IssuingCreditUnderwritingRecordDecisionCreditLineClosedReason = "insufficient_trade_credit_insurance"
 	IssuingCreditUnderwritingRecordDecisionCreditLineClosedReasonInsufficientUsageAsQualifiedExpenses   IssuingCreditUnderwritingRecordDecisionCreditLineClosedReason = "insufficient_usage_as_qualified_expenses"
 	IssuingCreditUnderwritingRecordDecisionCreditLineClosedReasonInvalidBusinessLicense                 IssuingCreditUnderwritingRecordDecisionCreditLineClosedReason = "invalid_business_license"
+	IssuingCreditUnderwritingRecordDecisionCreditLineClosedReasonLackingCashAccount                     IssuingCreditUnderwritingRecordDecisionCreditLineClosedReason = "lacking_cash_account"
 	IssuingCreditUnderwritingRecordDecisionCreditLineClosedReasonLatePaymentHistoryReportedToBureau     IssuingCreditUnderwritingRecordDecisionCreditLineClosedReason = "late_payment_history_reported_to_bureau"
 	IssuingCreditUnderwritingRecordDecisionCreditLineClosedReasonLienCollectionActionOrJudgement        IssuingCreditUnderwritingRecordDecisionCreditLineClosedReason = "lien_collection_action_or_judgement"
 	IssuingCreditUnderwritingRecordDecisionCreditLineClosedReasonNegativePublicInformation              IssuingCreditUnderwritingRecordDecisionCreditLineClosedReason = "negative_public_information"
@@ -270,6 +289,18 @@ const (
 	IssuingCreditUnderwritingRecordUnderwritingExceptionOriginalDecisionTypeWithdrawnByApplicant           IssuingCreditUnderwritingRecordUnderwritingExceptionOriginalDecisionType = "withdrawn_by_applicant"
 )
 
+// Retrieves a list of CreditUnderwritingRecord objects. The objects are sorted in descending order by creation date, with the most-recently-created object appearing first.
+type IssuingCreditUnderwritingRecordListParams struct {
+	ListParams `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *IssuingCreditUnderwritingRecordListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // Retrieves a CreditUnderwritingRecord object.
 type IssuingCreditUnderwritingRecordParams struct {
 	Params `form:"*"`
@@ -282,16 +313,176 @@ func (p *IssuingCreditUnderwritingRecordParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// Retrieves a list of CreditUnderwritingRecord objects. The objects are sorted in descending order by creation date, with the most-recently-created object appearing first.
-type IssuingCreditUnderwritingRecordListParams struct {
-	ListParams `form:"*"`
+// Details about the application submission.
+type IssuingCreditUnderwritingRecordCorrectApplicationParams struct {
+	// The channel through which the applicant has submitted their application. Defaults to `online`.
+	ApplicationMethod *string `form:"application_method"`
+	// Scope of demand made by the applicant.
+	Purpose *string `form:"purpose"`
+	// Date when the applicant submitted their application.
+	SubmittedAt *int64 `form:"submitted_at"`
+}
+
+// Information about the company or person applying or holding the account.
+type IssuingCreditUnderwritingRecordCorrectCreditUserParams struct {
+	// Email of the applicant or accountholder.
+	Email *string `form:"email"`
+	// Full name of the company or person.
+	Name *string `form:"name"`
+}
+
+// Details about the application rejection.
+type IssuingCreditUnderwritingRecordCorrectDecisionApplicationRejectedParams struct {
+	// Details about the `reasons.other` when present.
+	ReasonOtherExplanation *string `form:"reason_other_explanation"`
+	// List of reasons why the application was rejected, up to 4 reasons, in order of importance.
+	Reasons []*string `form:"reasons"`
+}
+
+// Details about the credit limit approved. An approved credit limit is required before you can set a `credit_limit_amount` in the [CreditPolicy API](https://stripe.com/docs/api/issuing/credit_policy/)
+type IssuingCreditUnderwritingRecordCorrectDecisionCreditLimitApprovedParams struct {
+	// The credit approved, in the currency of the account and [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal).
+	Amount *int64 `form:"amount"`
+	// The currency of the credit approved, will default to the Account's Issuing currency.
+	Currency *string `form:"currency"`
+}
+
+// Details about the credit limit decreased.
+type IssuingCreditUnderwritingRecordCorrectDecisionCreditLimitDecreasedParams struct {
+	// The credit approved, in the currency of the account and [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal).
+	Amount *int64 `form:"amount"`
+	// The currency of the credit approved, will default to the Account's Issuing currency.
+	Currency *string `form:"currency"`
+	// Details about the `reasons.other` when present.
+	ReasonOtherExplanation *string `form:"reason_other_explanation"`
+	// List of reasons why the existing credit was decreased, up to 4 reasons, in order of importance.
+	Reasons []*string `form:"reasons"`
+}
+
+// Details about the credit line closed.
+type IssuingCreditUnderwritingRecordCorrectDecisionCreditLineClosedParams struct {
+	// Details about the `reasons.other` when present.
+	ReasonOtherExplanation *string `form:"reason_other_explanation"`
+	// List of reasons why the credit line was closed, up to 4 reasons, in order of importance.
+	Reasons []*string `form:"reasons"`
+}
+
+// Details about the decision.
+type IssuingCreditUnderwritingRecordCorrectDecisionParams struct {
+	// Details about the application rejection.
+	ApplicationRejected *IssuingCreditUnderwritingRecordCorrectDecisionApplicationRejectedParams `form:"application_rejected"`
+	// Details about the credit limit approved. An approved credit limit is required before you can set a `credit_limit_amount` in the [CreditPolicy API](https://stripe.com/docs/api/issuing/credit_policy/)
+	CreditLimitApproved *IssuingCreditUnderwritingRecordCorrectDecisionCreditLimitApprovedParams `form:"credit_limit_approved"`
+	// Details about the credit limit decreased.
+	CreditLimitDecreased *IssuingCreditUnderwritingRecordCorrectDecisionCreditLimitDecreasedParams `form:"credit_limit_decreased"`
+	// Details about the credit line closed.
+	CreditLineClosed *IssuingCreditUnderwritingRecordCorrectDecisionCreditLineClosedParams `form:"credit_line_closed"`
+	// Outcome of the decision.
+	Type *string `form:"type"`
+}
+
+// If an exception to the usual underwriting criteria was made for this decision, details about the exception must be provided. Exceptions should only be granted in rare circumstances, in consultation with Stripe Compliance.
+type IssuingCreditUnderwritingRecordCorrectUnderwritingExceptionParams struct {
+	// Written explanation for the exception.
+	Explanation *string `form:"explanation"`
+	// The decision before the exception was applied.
+	OriginalDecisionType *string `form:"original_decision_type"`
+}
+
+// Update a CreditUnderwritingRecord object to correct mistakes.
+type IssuingCreditUnderwritingRecordCorrectParams struct {
+	Params `form:"*"`
+	// Details about the application submission.
+	Application *IssuingCreditUnderwritingRecordCorrectApplicationParams `form:"application"`
+	// Information about the company or person applying or holding the account.
+	CreditUser *IssuingCreditUnderwritingRecordCorrectCreditUserParams `form:"credit_user"`
+	// Date when a decision was made.
+	DecidedAt *int64 `form:"decided_at"`
+	// Details about the decision.
+	Decision *IssuingCreditUnderwritingRecordCorrectDecisionParams `form:"decision"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+	// If an exception to the usual underwriting criteria was made for this decision, details about the exception must be provided. Exceptions should only be granted in rare circumstances, in consultation with Stripe Compliance.
+	UnderwritingException *IssuingCreditUnderwritingRecordCorrectUnderwritingExceptionParams `form:"underwriting_exception"`
 }
 
 // AddExpand appends a new field to expand.
-func (p *IssuingCreditUnderwritingRecordListParams) AddExpand(f string) {
+func (p *IssuingCreditUnderwritingRecordCorrectParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *IssuingCreditUnderwritingRecordCorrectParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
+// Details about the application rejection.
+type IssuingCreditUnderwritingRecordReportDecisionDecisionApplicationRejectedParams struct {
+	// Details about the `reasons.other` when present.
+	ReasonOtherExplanation *string `form:"reason_other_explanation"`
+	// List of reasons why the application was rejected, up to 4 reasons, in order of importance.
+	Reasons []*string `form:"reasons"`
+}
+
+// Details about the credit limit approved. An approved credit limit is required before you can set a `credit_limit_amount` in the [CreditPolicy API](https://stripe.com/docs/api/issuing/credit_policy/)
+type IssuingCreditUnderwritingRecordReportDecisionDecisionCreditLimitApprovedParams struct {
+	// The credit approved, in the currency of the account and [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal).
+	Amount *int64 `form:"amount"`
+	// The currency of the credit approved, will default to the Account's Issuing currency.
+	Currency *string `form:"currency"`
+}
+
+// Details about the decision.
+type IssuingCreditUnderwritingRecordReportDecisionDecisionParams struct {
+	// Details about the application rejection.
+	ApplicationRejected *IssuingCreditUnderwritingRecordReportDecisionDecisionApplicationRejectedParams `form:"application_rejected"`
+	// Details about the credit limit approved. An approved credit limit is required before you can set a `credit_limit_amount` in the [CreditPolicy API](https://stripe.com/docs/api/issuing/credit_policy/)
+	CreditLimitApproved *IssuingCreditUnderwritingRecordReportDecisionDecisionCreditLimitApprovedParams `form:"credit_limit_approved"`
+	// Outcome of the decision.
+	Type *string `form:"type"`
+}
+
+// If an exception to the usual underwriting criteria was made for this decision, details about the exception must be provided. Exceptions should only be granted in rare circumstances, in consultation with Stripe Compliance.
+type IssuingCreditUnderwritingRecordReportDecisionUnderwritingExceptionParams struct {
+	// Written explanation for the exception.
+	Explanation *string `form:"explanation"`
+	// The decision before the exception was applied.
+	OriginalDecisionType *string `form:"original_decision_type"`
+}
+
+// Update a CreditUnderwritingRecord object from a decision made on a credit application.
+type IssuingCreditUnderwritingRecordReportDecisionParams struct {
+	Params `form:"*"`
+	// Date when a decision was made.
+	DecidedAt *int64 `form:"decided_at"`
+	// Details about the decision.
+	Decision *IssuingCreditUnderwritingRecordReportDecisionDecisionParams `form:"decision"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+	// If an exception to the usual underwriting criteria was made for this decision, details about the exception must be provided. Exceptions should only be granted in rare circumstances, in consultation with Stripe Compliance.
+	UnderwritingException *IssuingCreditUnderwritingRecordReportDecisionUnderwritingExceptionParams `form:"underwriting_exception"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *IssuingCreditUnderwritingRecordReportDecisionParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *IssuingCreditUnderwritingRecordReportDecisionParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
 }
 
 // Details about the application submission.
@@ -419,178 +610,6 @@ func (p *IssuingCreditUnderwritingRecordCreateFromProactiveReviewParams) AddExpa
 
 // AddMetadata adds a new key-value pair to the Metadata.
 func (p *IssuingCreditUnderwritingRecordCreateFromProactiveReviewParams) AddMetadata(key string, value string) {
-	if p.Metadata == nil {
-		p.Metadata = make(map[string]string)
-	}
-
-	p.Metadata[key] = value
-}
-
-// Details about the application rejection.
-type IssuingCreditUnderwritingRecordReportDecisionDecisionApplicationRejectedParams struct {
-	// Details about the `reasons.other` when present.
-	ReasonOtherExplanation *string `form:"reason_other_explanation"`
-	// List of reasons why the application was rejected, up to 4 reasons, in order of importance.
-	Reasons []*string `form:"reasons"`
-}
-
-// Details about the credit limit approved. An approved credit limit is required before you can set a `credit_limit_amount` in the [CreditPolicy API](https://stripe.com/docs/api/issuing/credit_policy/)
-type IssuingCreditUnderwritingRecordReportDecisionDecisionCreditLimitApprovedParams struct {
-	// The credit approved, in the currency of the account and [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal).
-	Amount *int64 `form:"amount"`
-	// The currency of the credit approved, will default to the Account's Issuing currency.
-	Currency *string `form:"currency"`
-}
-
-// Details about the decision.
-type IssuingCreditUnderwritingRecordReportDecisionDecisionParams struct {
-	// Details about the application rejection.
-	ApplicationRejected *IssuingCreditUnderwritingRecordReportDecisionDecisionApplicationRejectedParams `form:"application_rejected"`
-	// Details about the credit limit approved. An approved credit limit is required before you can set a `credit_limit_amount` in the [CreditPolicy API](https://stripe.com/docs/api/issuing/credit_policy/)
-	CreditLimitApproved *IssuingCreditUnderwritingRecordReportDecisionDecisionCreditLimitApprovedParams `form:"credit_limit_approved"`
-	// Outcome of the decision.
-	Type *string `form:"type"`
-}
-
-// If an exception to the usual underwriting criteria was made for this decision, details about the exception must be provided. Exceptions should only be granted in rare circumstances, in consultation with Stripe Compliance.
-type IssuingCreditUnderwritingRecordReportDecisionUnderwritingExceptionParams struct {
-	// Written explanation for the exception.
-	Explanation *string `form:"explanation"`
-	// The decision before the exception was applied.
-	OriginalDecisionType *string `form:"original_decision_type"`
-}
-
-// Update a CreditUnderwritingRecord object from a decision made on a credit application.
-type IssuingCreditUnderwritingRecordReportDecisionParams struct {
-	Params `form:"*"`
-	// Date when a decision was made.
-	DecidedAt *int64 `form:"decided_at"`
-	// Details about the decision.
-	Decision *IssuingCreditUnderwritingRecordReportDecisionDecisionParams `form:"decision"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
-	// If an exception to the usual underwriting criteria was made for this decision, details about the exception must be provided. Exceptions should only be granted in rare circumstances, in consultation with Stripe Compliance.
-	UnderwritingException *IssuingCreditUnderwritingRecordReportDecisionUnderwritingExceptionParams `form:"underwriting_exception"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *IssuingCreditUnderwritingRecordReportDecisionParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
-}
-
-// AddMetadata adds a new key-value pair to the Metadata.
-func (p *IssuingCreditUnderwritingRecordReportDecisionParams) AddMetadata(key string, value string) {
-	if p.Metadata == nil {
-		p.Metadata = make(map[string]string)
-	}
-
-	p.Metadata[key] = value
-}
-
-// Details about the application submission.
-type IssuingCreditUnderwritingRecordCorrectApplicationParams struct {
-	// The channel through which the applicant has submitted their application. Defaults to `online`.
-	ApplicationMethod *string `form:"application_method"`
-	// Scope of demand made by the applicant.
-	Purpose *string `form:"purpose"`
-	// Date when the applicant submitted their application.
-	SubmittedAt *int64 `form:"submitted_at"`
-}
-
-// Information about the company or person applying or holding the account.
-type IssuingCreditUnderwritingRecordCorrectCreditUserParams struct {
-	// Email of the applicant or accountholder.
-	Email *string `form:"email"`
-	// Full name of the company or person.
-	Name *string `form:"name"`
-}
-
-// Details about the application rejection.
-type IssuingCreditUnderwritingRecordCorrectDecisionApplicationRejectedParams struct {
-	// Details about the `reasons.other` when present.
-	ReasonOtherExplanation *string `form:"reason_other_explanation"`
-	// List of reasons why the application was rejected, up to 4 reasons, in order of importance.
-	Reasons []*string `form:"reasons"`
-}
-
-// Details about the credit limit approved. An approved credit limit is required before you can set a `credit_limit_amount` in the [CreditPolicy API](https://stripe.com/docs/api/issuing/credit_policy/)
-type IssuingCreditUnderwritingRecordCorrectDecisionCreditLimitApprovedParams struct {
-	// The credit approved, in the currency of the account and [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal).
-	Amount *int64 `form:"amount"`
-	// The currency of the credit approved, will default to the Account's Issuing currency.
-	Currency *string `form:"currency"`
-}
-
-// Details about the credit limit decreased.
-type IssuingCreditUnderwritingRecordCorrectDecisionCreditLimitDecreasedParams struct {
-	// The credit approved, in the currency of the account and [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal).
-	Amount *int64 `form:"amount"`
-	// The currency of the credit approved, will default to the Account's Issuing currency.
-	Currency *string `form:"currency"`
-	// Details about the `reasons.other` when present.
-	ReasonOtherExplanation *string `form:"reason_other_explanation"`
-	// List of reasons why the existing credit was decreased, up to 4 reasons, in order of importance.
-	Reasons []*string `form:"reasons"`
-}
-
-// Details about the credit line closed.
-type IssuingCreditUnderwritingRecordCorrectDecisionCreditLineClosedParams struct {
-	// Details about the `reasons.other` when present.
-	ReasonOtherExplanation *string `form:"reason_other_explanation"`
-	// List of reasons why the credit line was closed, up to 4 reasons, in order of importance.
-	Reasons []*string `form:"reasons"`
-}
-
-// Details about the decision.
-type IssuingCreditUnderwritingRecordCorrectDecisionParams struct {
-	// Details about the application rejection.
-	ApplicationRejected *IssuingCreditUnderwritingRecordCorrectDecisionApplicationRejectedParams `form:"application_rejected"`
-	// Details about the credit limit approved. An approved credit limit is required before you can set a `credit_limit_amount` in the [CreditPolicy API](https://stripe.com/docs/api/issuing/credit_policy/)
-	CreditLimitApproved *IssuingCreditUnderwritingRecordCorrectDecisionCreditLimitApprovedParams `form:"credit_limit_approved"`
-	// Details about the credit limit decreased.
-	CreditLimitDecreased *IssuingCreditUnderwritingRecordCorrectDecisionCreditLimitDecreasedParams `form:"credit_limit_decreased"`
-	// Details about the credit line closed.
-	CreditLineClosed *IssuingCreditUnderwritingRecordCorrectDecisionCreditLineClosedParams `form:"credit_line_closed"`
-	// Outcome of the decision.
-	Type *string `form:"type"`
-}
-
-// If an exception to the usual underwriting criteria was made for this decision, details about the exception must be provided. Exceptions should only be granted in rare circumstances, in consultation with Stripe Compliance.
-type IssuingCreditUnderwritingRecordCorrectUnderwritingExceptionParams struct {
-	// Written explanation for the exception.
-	Explanation *string `form:"explanation"`
-	// The decision before the exception was applied.
-	OriginalDecisionType *string `form:"original_decision_type"`
-}
-
-// Update a CreditUnderwritingRecord object to correct mistakes.
-type IssuingCreditUnderwritingRecordCorrectParams struct {
-	Params `form:"*"`
-	// Details about the application submission.
-	Application *IssuingCreditUnderwritingRecordCorrectApplicationParams `form:"application"`
-	// Information about the company or person applying or holding the account.
-	CreditUser *IssuingCreditUnderwritingRecordCorrectCreditUserParams `form:"credit_user"`
-	// Date when a decision was made.
-	DecidedAt *int64 `form:"decided_at"`
-	// Details about the decision.
-	Decision *IssuingCreditUnderwritingRecordCorrectDecisionParams `form:"decision"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
-	// If an exception to the usual underwriting criteria was made for this decision, details about the exception must be provided. Exceptions should only be granted in rare circumstances, in consultation with Stripe Compliance.
-	UnderwritingException *IssuingCreditUnderwritingRecordCorrectUnderwritingExceptionParams `form:"underwriting_exception"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *IssuingCreditUnderwritingRecordCorrectParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
-}
-
-// AddMetadata adds a new key-value pair to the Metadata.
-func (p *IssuingCreditUnderwritingRecordCorrectParams) AddMetadata(key string, value string) {
 	if p.Metadata == nil {
 		p.Metadata = make(map[string]string)
 	}

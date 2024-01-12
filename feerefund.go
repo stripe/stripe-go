@@ -8,19 +8,11 @@ package stripe
 
 import "encoding/json"
 
-// Refunds an application fee that has previously been collected but not yet refunded.
-// Funds will be refunded to the Stripe account from which the fee was originally collected.
-//
-// You can optionally refund only part of an application fee.
-// You can do so multiple times, until the entire fee has been refunded.
-//
-// Once entirely refunded, an application fee can't be refunded again.
-// This method will raise an error when called on an already-refunded application fee,
-// or when trying to refund more money than is left on an application fee.
+// By default, you can see the 10 most recent refunds stored directly on the application fee object, but you can also retrieve details about a specific refund stored on the application fee.
 type FeeRefundParams struct {
 	Params `form:"*"`
-	Fee    *string `form:"-"` // Included in URL
 	ID     *string `form:"-"` // Included in URL
+	Fee    *string `form:"-"` // Included in URL
 	// A positive integer, in _cents (or local equivalent)_, representing how much of this fee to refund. Can refund only up to the remaining unrefunded amount of the fee.
 	Amount *int64 `form:"amount"`
 	// Specifies which fields in the response should be expanded.

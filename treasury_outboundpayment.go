@@ -79,6 +79,24 @@ const (
 	TreasuryOutboundPaymentStatusReturned   TreasuryOutboundPaymentStatus = "returned"
 )
 
+// Returns a list of OutboundPayments sent from the specified FinancialAccount.
+type TreasuryOutboundPaymentListParams struct {
+	ListParams `form:"*"`
+	// Only return OutboundPayments sent to this customer.
+	Customer *string `form:"customer"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// Returns objects associated with this FinancialAccount.
+	FinancialAccount *string `form:"financial_account"`
+	// Only return OutboundPayments that have the given status: `processing`, `failed`, `posted`, `returned`, or `canceled`.
+	Status *string `form:"status"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *TreasuryOutboundPaymentListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // Billing information associated with the PaymentMethod that may be used or required by particular types of payment methods.
 type TreasuryOutboundPaymentDestinationPaymentMethodDataBillingDetailsParams struct {
 	// Billing address.
@@ -189,24 +207,6 @@ func (p *TreasuryOutboundPaymentParams) AddMetadata(key string, value string) {
 	}
 
 	p.Metadata[key] = value
-}
-
-// Returns a list of OutboundPayments sent from the specified FinancialAccount.
-type TreasuryOutboundPaymentListParams struct {
-	ListParams `form:"*"`
-	// Only return OutboundPayments sent to this customer.
-	Customer *string `form:"customer"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
-	// Returns objects associated with this FinancialAccount.
-	FinancialAccount *string `form:"financial_account"`
-	// Only return OutboundPayments that have the given status: `processing`, `failed`, `posted`, `returned`, or `canceled`.
-	Status *string `form:"status"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *TreasuryOutboundPaymentListParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
 }
 
 // Cancel an OutboundPayment.

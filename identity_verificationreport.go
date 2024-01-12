@@ -105,18 +105,6 @@ const (
 	IdentityVerificationReportTypeIDNumber IdentityVerificationReportType = "id_number"
 )
 
-// Retrieves an existing VerificationReport
-type IdentityVerificationReportParams struct {
-	Params `form:"*"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *IdentityVerificationReportParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
-}
-
 // List all verification reports.
 type IdentityVerificationReportListParams struct {
 	ListParams   `form:"*"`
@@ -132,6 +120,18 @@ type IdentityVerificationReportListParams struct {
 
 // AddExpand appends a new field to expand.
 func (p *IdentityVerificationReportListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// Retrieves an existing VerificationReport
+type IdentityVerificationReportParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *IdentityVerificationReportParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 

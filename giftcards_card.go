@@ -16,6 +16,18 @@ const (
 	GiftCardsCardCreatedByTypePayment  GiftCardsCardCreatedByType = "payment"
 )
 
+// List gift cards for an account
+type GiftCardsCardListParams struct {
+	ListParams `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *GiftCardsCardListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // The details for the payment that created this object.
 type GiftCardsCardCreatedByPaymentParams struct {
 	// The PaymentIntent used to collect payment for this object.
@@ -59,18 +71,6 @@ func (p *GiftCardsCardParams) AddMetadata(key string, value string) {
 	}
 
 	p.Metadata[key] = value
-}
-
-// List gift cards for an account
-type GiftCardsCardListParams struct {
-	ListParams `form:"*"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *GiftCardsCardListParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
 }
 
 // Validates a gift card code, returning the matching gift card object if it exists.

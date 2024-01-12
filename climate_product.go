@@ -8,18 +8,6 @@ package stripe
 
 import "encoding/json"
 
-// Retrieves the details of a Climate product with the given ID.
-type ClimateProductParams struct {
-	Params `form:"*"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *ClimateProductParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
-}
-
 // Lists all available Climate product objects.
 type ClimateProductListParams struct {
 	ListParams `form:"*"`
@@ -29,6 +17,18 @@ type ClimateProductListParams struct {
 
 // AddExpand appends a new field to expand.
 func (p *ClimateProductListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// Retrieves the details of a Climate product with the given ID.
+type ClimateProductParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *ClimateProductParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
