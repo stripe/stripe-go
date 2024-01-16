@@ -737,6 +737,14 @@ func (p *InvoiceUpcomingInvoiceItemParams) AddMetadata(key string, value string)
 	p.Metadata[key] = value
 }
 
+// The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
+type InvoiceUpcomingIssuerParams struct {
+	// The connected account being referenced when `type` is `account`.
+	Account *string `form:"account"`
+	// Type of the account referenced in the request.
+	Type *string `form:"type"`
+}
+
 // At any time, you can preview the upcoming invoice for a customer. This will show you all the charges that are pending, including subscription renewal charges, invoice item charges, etc. It will also show you any discounts that are applicable to the invoice.
 //
 // Note that when you are viewing an upcoming invoice, you are simply viewing a preview – the invoice has not yet been created. As such, the upcoming invoice will not show up in invoice listing calls, and you cannot use the API to pay or edit the invoice. If you want to change the amount that your customer will be billed, you can add, remove, or update pending invoice items, or update the customer's discount.
@@ -760,6 +768,10 @@ type InvoiceUpcomingParams struct {
 	Expand []*string `form:"expand"`
 	// List of invoice items to add or update in the upcoming invoice preview.
 	InvoiceItems []*InvoiceUpcomingInvoiceItemParams `form:"invoice_items"`
+	// The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
+	Issuer *InvoiceUpcomingIssuerParams `form:"issuer"`
+	// The account (if any) for which the funds of the invoice payment are intended. If set, the invoice will be presented with the branding and support information of the specified account. See the [Invoices with Connect](https://stripe.com/docs/billing/invoices/connect) documentation for details.
+	OnBehalfOf *string `form:"on_behalf_of"`
 	// The identifier of the schedule whose upcoming invoice you'd like to retrieve. Cannot be used with subscription or subscription fields.
 	Schedule *string `form:"schedule"`
 	// The identifier of the subscription for which you'd like to retrieve the upcoming invoice. If not provided, but a `subscription_items` is provided, you will preview creating a subscription with those items. If neither `subscription` nor `subscription_items` is provided, you will retrieve the next upcoming invoice from among the customer's subscriptions.
@@ -948,6 +960,14 @@ func (p *InvoiceUpcomingLinesInvoiceItemParams) AddMetadata(key string, value st
 	p.Metadata[key] = value
 }
 
+// The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
+type InvoiceUpcomingLinesIssuerParams struct {
+	// The connected account being referenced when `type` is `account`.
+	Account *string `form:"account"`
+	// Type of the account referenced in the request.
+	Type *string `form:"type"`
+}
+
 // Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. When updating, pass an empty string to remove previously-defined thresholds.
 type InvoiceUpcomingLinesSubscriptionItemBillingThresholdsParams struct {
 	// Number of units that meets the billing threshold to advance the subscription to a new billing period (e.g., it takes 10 $5 units to meet a $50 [monetary threshold](https://stripe.com/docs/api/subscriptions/update#update_subscription-billing_thresholds-amount_gte))
@@ -1030,6 +1050,10 @@ type InvoiceUpcomingLinesParams struct {
 	Expand []*string `form:"expand"`
 	// List of invoice items to add or update in the upcoming invoice preview.
 	InvoiceItems []*InvoiceUpcomingLinesInvoiceItemParams `form:"invoice_items"`
+	// The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
+	Issuer *InvoiceUpcomingLinesIssuerParams `form:"issuer"`
+	// The account (if any) for which the funds of the invoice payment are intended. If set, the invoice will be presented with the branding and support information of the specified account. See the [Invoices with Connect](https://stripe.com/docs/billing/invoices/connect) documentation for details.
+	OnBehalfOf *string `form:"on_behalf_of"`
 	// The identifier of the schedule whose upcoming invoice you'd like to retrieve. Cannot be used with subscription or subscription fields.
 	Schedule *string `form:"schedule"`
 	// The identifier of the subscription for which you'd like to retrieve the upcoming invoice. If not provided, but a `subscription_items` is provided, you will preview creating a subscription with those items. If neither `subscription` nor `subscription_items` is provided, you will retrieve the next upcoming invoice from among the customer's subscriptions.
