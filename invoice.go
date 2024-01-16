@@ -11,6 +11,15 @@ import (
 	"github.com/stripe/stripe-go/v76/form"
 )
 
+// Type of the account referenced.
+type InvoiceAutomaticTaxLiabilityType string
+
+// List of values that InvoiceAutomaticTaxLiabilityType can take
+const (
+	InvoiceAutomaticTaxLiabilityTypeAccount InvoiceAutomaticTaxLiabilityType = "account"
+	InvoiceAutomaticTaxLiabilityTypeSelf    InvoiceAutomaticTaxLiabilityType = "self"
+)
+
 // The status of the most recent automated tax calculation for this invoice.
 type InvoiceAutomaticTaxStatus string
 
@@ -52,6 +61,15 @@ type InvoiceCollectionMethod string
 const (
 	InvoiceCollectionMethodChargeAutomatically InvoiceCollectionMethod = "charge_automatically"
 	InvoiceCollectionMethodSendInvoice         InvoiceCollectionMethod = "send_invoice"
+)
+
+// Type of the account referenced.
+type InvoiceIssuerType string
+
+// List of values that InvoiceIssuerType can take
+const (
+	InvoiceIssuerTypeAccount InvoiceIssuerType = "account"
+	InvoiceIssuerTypeSelf    InvoiceIssuerType = "self"
 )
 
 // Transaction type of the mandate.
@@ -259,6 +277,8 @@ type InvoiceParams struct {
 	Footer *string `form:"footer"`
 	// Revise an existing invoice. The new invoice will be created in `status=draft`. See the [revision documentation](https://stripe.com/docs/invoicing/invoice-revisions) for more details.
 	FromInvoice *InvoiceFromInvoiceParams `form:"from_invoice"`
+	// The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
+	Issuer *InvoiceIssuerParams `form:"issuer"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// The account (if any) for which the funds of the invoice payment are intended. If set, the invoice will be presented with the branding and support information of the specified account. See the [Invoices with Connect](https://stripe.com/docs/billing/invoices/connect) documentation for details.
@@ -297,10 +317,20 @@ func (p *InvoiceParams) AddMetadata(key string, value string) {
 	p.Metadata[key] = value
 }
 
+// The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
+type InvoiceAutomaticTaxLiabilityParams struct {
+	// The connected account being referenced when `type` is `account`.
+	Account *string `form:"account"`
+	// Type of the account referenced in the request.
+	Type *string `form:"type"`
+}
+
 // Settings for automatic tax lookup for this invoice.
 type InvoiceAutomaticTaxParams struct {
 	// Whether Stripe automatically computes tax on this invoice. Note that incompatible invoice items (invoice items with manually specified [tax rates](https://stripe.com/docs/api/tax_rates), negative amounts, or `tax_behavior=unspecified`) cannot be added to automatic tax invoices.
 	Enabled *bool `form:"enabled"`
+	// The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
+	Liability *InvoiceAutomaticTaxLiabilityParams `form:"liability"`
 }
 
 // A list of up to 4 custom fields to be displayed on the invoice. If a value for `custom_fields` is specified, the list specified will replace the existing custom field list on this invoice. Pass an empty string to remove previously-defined fields.
@@ -317,6 +347,14 @@ type InvoiceDiscountParams struct {
 	Coupon *string `form:"coupon"`
 	// ID of an existing discount on the object (or one of its ancestors) to reuse.
 	Discount *string `form:"discount"`
+}
+
+// The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
+type InvoiceIssuerParams struct {
+	// The connected account being referenced when `type` is `account`.
+	Account *string `form:"account"`
+	// Type of the account referenced in the request.
+	Type *string `form:"type"`
 }
 
 // Additional fields for Mandate creation
@@ -773,10 +811,20 @@ func (p *InvoiceUpcomingParams) AppendTo(body *form.Values, keyParts []string) {
 	}
 }
 
+// The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
+type InvoiceUpcomingLinesAutomaticTaxLiabilityParams struct {
+	// The connected account being referenced when `type` is `account`.
+	Account *string `form:"account"`
+	// Type of the account referenced in the request.
+	Type *string `form:"type"`
+}
+
 // Settings for automatic tax lookup for this invoice preview.
 type InvoiceUpcomingLinesAutomaticTaxParams struct {
 	// Whether Stripe automatically computes tax on this invoice. Note that incompatible invoice items (invoice items with manually specified [tax rates](https://stripe.com/docs/api/tax_rates), negative amounts, or `tax_behavior=unspecified`) cannot be added to automatic tax invoices.
 	Enabled *bool `form:"enabled"`
+	// The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
+	Liability *InvoiceUpcomingLinesAutomaticTaxLiabilityParams `form:"liability"`
 }
 
 // The customer's shipping information. Appears on invoices emailed to this customer.
@@ -1124,9 +1172,18 @@ func (p *InvoiceListLinesParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
+type InvoiceAutomaticTaxLiability struct {
+	// The connected account being referenced when `type` is `account`.
+	Account *Account `json:"account"`
+	// Type of the account referenced.
+	Type InvoiceAutomaticTaxLiabilityType `json:"type"`
+}
 type InvoiceAutomaticTax struct {
 	// Whether Stripe automatically computes tax on this invoice. Note that incompatible invoice items (invoice items with manually specified [tax rates](https://stripe.com/docs/api/tax_rates), negative amounts, or `tax_behavior=unspecified`) cannot be added to automatic tax invoices.
 	Enabled bool `json:"enabled"`
+	// The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
+	Liability *InvoiceAutomaticTaxLiability `json:"liability"`
 	// The status of the most recent automated tax calculation for this invoice.
 	Status InvoiceAutomaticTaxStatus `json:"status"`
 }
@@ -1153,6 +1210,12 @@ type InvoiceFromInvoice struct {
 	Action string `json:"action"`
 	// The invoice that was cloned.
 	Invoice *Invoice `json:"invoice"`
+}
+type InvoiceIssuer struct {
+	// The connected account being referenced when `type` is `account`.
+	Account *Account `json:"account"`
+	// Type of the account referenced.
+	Type InvoiceIssuerType `json:"type"`
 }
 type InvoicePaymentSettingsPaymentMethodOptionsACSSDebitMandateOptions struct {
 	// Transaction type of the mandate.
@@ -1470,7 +1533,8 @@ type Invoice struct {
 	// Unique identifier for the object. This property is always present unless the invoice is an upcoming invoice. See [Retrieve an upcoming invoice](https://stripe.com/docs/api/invoices/upcoming) for more details.
 	ID string `json:"id"`
 	// The link to download the PDF for the invoice. If the invoice has not been finalized yet, this will be null.
-	InvoicePDF string `json:"invoice_pdf"`
+	InvoicePDF string         `json:"invoice_pdf"`
+	Issuer     *InvoiceIssuer `json:"issuer"`
 	// The error encountered during the previous attempt to finalize the invoice. This field is cleared when the invoice is successfully finalized.
 	LastFinalizationError *Error `json:"last_finalization_error"`
 	// The ID of the most recent non-draft revision of this invoice
