@@ -715,6 +715,40 @@ type AccountDocumentsParams struct {
 	ProofOfRegistration *AccountDocumentsProofOfRegistrationParams `form:"proof_of_registration"`
 }
 
+// AccountExternalAccountParams are the parameters allowed to reference an
+// external account when creating an account. It should either have Token set
+// or everything else.
+type AccountExternalAccountParams struct {
+	Params            `form:"*"`
+	AccountNumber     *string `form:"account_number"`
+	AccountHolderName *string `form:"account_holder_name"`
+	AccountHolderType *string `form:"account_holder_type"`
+	Country           *string `form:"country"`
+	Currency          *string `form:"currency"`
+	RoutingNumber     *string `form:"routing_number"`
+	Token             *string `form:"token"`
+}
+
+// AppendTo implements custom encoding logic for AccountExternalAccountParams
+// so that we can send the special required `object` field up along with the
+// other specified parameters or the token value.
+func (p *AccountExternalAccountParams) AppendTo(body *form.Values, keyParts []string) {
+	if p.Token != nil {
+		body.Add(form.FormatKey(keyParts), StringValue(p.Token))
+	} else {
+		body.Add(form.FormatKey(append(keyParts, "object")), "bank_account")
+	}
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *AccountExternalAccountParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
 // Settings specific to Bacs Direct Debit payments.
 type AccountSettingsBACSDebitPaymentsParams struct {
 	// The Bacs Direct Debit Display Name for this account. For payments made with Bacs Direct Debit, this name appears on the mandate as the statement descriptor. Mobile banking apps display it as the name of the business. To use custom branding, set the Bacs Direct Debit Display Name during or right after creation. Custom branding incurs an additional monthly fee for the platform. If you don't set the display name before requesting Bacs capability, it's automatically set as "Stripe" and the account is onboarded to Stripe branding, which is free.
@@ -910,31 +944,6 @@ type AccountRejectParams struct {
 	Expand []*string `form:"expand"`
 	// The reason for rejecting the account. Can be `fraud`, `terms_of_service`, or `other`.
 	Reason *string `form:"reason"`
-}
-
-// AccountExternalAccountParams are the parameters allowed to reference an
-// external account when creating an account. It should either have Token set
-// or everything else.
-type AccountExternalAccountParams struct {
-	Params            `form:"*"`
-	AccountNumber     *string `form:"account_number"`
-	AccountHolderName *string `form:"account_holder_name"`
-	AccountHolderType *string `form:"account_holder_type"`
-	Country           *string `form:"country"`
-	Currency          *string `form:"currency"`
-	RoutingNumber     *string `form:"routing_number"`
-	Token             *string `form:"token"`
-}
-
-// AppendTo implements custom encoding logic for AccountExternalAccountParams
-// so that we can send the special required `object` field up along with the
-// other specified parameters or the token value.
-func (p *AccountExternalAccountParams) AppendTo(body *form.Values, keyParts []string) {
-	if p.Token != nil {
-		body.Add(form.FormatKey(keyParts), StringValue(p.Token))
-	} else {
-		body.Add(form.FormatKey(append(keyParts, "object")), "bank_account")
-	}
 }
 
 // AddExpand appends a new field to expand.
