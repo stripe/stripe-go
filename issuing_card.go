@@ -173,6 +173,12 @@ func (p *IssuingCardListParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// The desired PIN for this card.
+type IssuingCardPINParams struct {
+	// The card's desired new PIN, encrypted under Stripe's public key.
+	EncryptedNumber *string `form:"encrypted_number"`
+}
+
 // Address validation settings.
 type IssuingCardShippingAddressValidationParams struct {
 	// The address validation capabilities to use.
@@ -270,12 +276,6 @@ func (p *IssuingCardParams) AddMetadata(key string, value string) {
 	}
 
 	p.Metadata[key] = value
-}
-
-// The desired new PIN for this card.
-type IssuingCardPINParams struct {
-	// The card's desired new PIN, encrypted under Stripe's public key.
-	EncryptedNumber *string `form:"encrypted_number"`
 }
 
 // Address validation details for the shipment.
