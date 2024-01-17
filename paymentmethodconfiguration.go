@@ -254,6 +254,25 @@ const (
 )
 
 // The account's display preference.
+type PaymentMethodConfigurationCustomerBalanceDisplayPreferencePreference string
+
+// List of values that PaymentMethodConfigurationCustomerBalanceDisplayPreferencePreference can take
+const (
+	PaymentMethodConfigurationCustomerBalanceDisplayPreferencePreferenceNone PaymentMethodConfigurationCustomerBalanceDisplayPreferencePreference = "none"
+	PaymentMethodConfigurationCustomerBalanceDisplayPreferencePreferenceOff  PaymentMethodConfigurationCustomerBalanceDisplayPreferencePreference = "off"
+	PaymentMethodConfigurationCustomerBalanceDisplayPreferencePreferenceOn   PaymentMethodConfigurationCustomerBalanceDisplayPreferencePreference = "on"
+)
+
+// The effective display preference value.
+type PaymentMethodConfigurationCustomerBalanceDisplayPreferenceValue string
+
+// List of values that PaymentMethodConfigurationCustomerBalanceDisplayPreferenceValue can take
+const (
+	PaymentMethodConfigurationCustomerBalanceDisplayPreferenceValueOff PaymentMethodConfigurationCustomerBalanceDisplayPreferenceValue = "off"
+	PaymentMethodConfigurationCustomerBalanceDisplayPreferenceValueOn  PaymentMethodConfigurationCustomerBalanceDisplayPreferenceValue = "on"
+)
+
+// The account's display preference.
 type PaymentMethodConfigurationEPSDisplayPreferencePreference string
 
 // List of values that PaymentMethodConfigurationEPSDisplayPreferencePreference can take
@@ -911,6 +930,18 @@ type PaymentMethodConfigurationCashAppParams struct {
 }
 
 // Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationCustomerBalanceDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference"`
+}
+
+// Uses a customer's [cash balance](https://stripe.com/docs/payments/customer-balance) for the payment. The cash balance can be funded via a bank transfer. Check this [page](https://stripe.com/docs/payments/bank-transfers) for more details.
+type PaymentMethodConfigurationCustomerBalanceParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationCustomerBalanceDisplayPreferenceParams `form:"display_preference"`
+}
+
+// Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationEPSDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
 	Preference *string `form:"preference"`
@@ -1183,6 +1214,8 @@ type PaymentMethodConfigurationParams struct {
 	CartesBancaires *PaymentMethodConfigurationCartesBancairesParams `form:"cartes_bancaires"`
 	// Cash App is a popular consumer app in the US that allows customers to bank, invest, send, and receive money using their digital wallet. Check this [page](https://stripe.com/docs/payments/cash-app-pay) for more details.
 	CashApp *PaymentMethodConfigurationCashAppParams `form:"cashapp"`
+	// Uses a customer's [cash balance](https://stripe.com/docs/payments/customer-balance) for the payment. The cash balance can be funded via a bank transfer. Check this [page](https://stripe.com/docs/payments/bank-transfers) for more details.
+	CustomerBalance *PaymentMethodConfigurationCustomerBalanceParams `form:"customer_balance"`
 	// EPS is an Austria-based payment method that allows customers to complete transactions online using their bank credentials. EPS is supported by all Austrian banks and is accepted by over 80% of Austrian online retailers. Check this [page](https://stripe.com/docs/payments/eps) for more details.
 	EPS *PaymentMethodConfigurationEPSParams `form:"eps"`
 	// Specifies which fields in the response should be expanded.
@@ -1404,6 +1437,19 @@ type PaymentMethodConfigurationCashApp struct {
 	// Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
 	Available         bool                                                `json:"available"`
 	DisplayPreference *PaymentMethodConfigurationCashAppDisplayPreference `json:"display_preference"`
+}
+type PaymentMethodConfigurationCustomerBalanceDisplayPreference struct {
+	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
+	Overridable bool `json:"overridable"`
+	// The account's display preference.
+	Preference PaymentMethodConfigurationCustomerBalanceDisplayPreferencePreference `json:"preference"`
+	// The effective display preference value.
+	Value PaymentMethodConfigurationCustomerBalanceDisplayPreferenceValue `json:"value"`
+}
+type PaymentMethodConfigurationCustomerBalance struct {
+	// Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
+	Available         bool                                                        `json:"available"`
+	DisplayPreference *PaymentMethodConfigurationCustomerBalanceDisplayPreference `json:"display_preference"`
 }
 type PaymentMethodConfigurationEPSDisplayPreference struct {
 	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
@@ -1764,6 +1810,7 @@ type PaymentMethodConfiguration struct {
 	Card            *PaymentMethodConfigurationCard            `json:"card"`
 	CartesBancaires *PaymentMethodConfigurationCartesBancaires `json:"cartes_bancaires"`
 	CashApp         *PaymentMethodConfigurationCashApp         `json:"cashapp"`
+	CustomerBalance *PaymentMethodConfigurationCustomerBalance `json:"customer_balance"`
 	EPS             *PaymentMethodConfigurationEPS             `json:"eps"`
 	FPX             *PaymentMethodConfigurationFPX             `json:"fpx"`
 	Giropay         *PaymentMethodConfigurationGiropay         `json:"giropay"`
