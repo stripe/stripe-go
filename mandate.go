@@ -56,6 +56,18 @@ const (
 	MandatePaymentMethodDetailsBACSDebitNetworkStatusRevoked  MandatePaymentMethodDetailsBACSDebitNetworkStatus = "revoked"
 )
 
+// When the mandate is revoked on the Bacs network this field displays the reason for the revocation.
+type MandatePaymentMethodDetailsBACSDebitRevocationReason string
+
+// List of values that MandatePaymentMethodDetailsBACSDebitRevocationReason can take
+const (
+	MandatePaymentMethodDetailsBACSDebitRevocationReasonAccountClosed         MandatePaymentMethodDetailsBACSDebitRevocationReason = "account_closed"
+	MandatePaymentMethodDetailsBACSDebitRevocationReasonBankAccountRestricted MandatePaymentMethodDetailsBACSDebitRevocationReason = "bank_account_restricted"
+	MandatePaymentMethodDetailsBACSDebitRevocationReasonBankOwnershipChanged  MandatePaymentMethodDetailsBACSDebitRevocationReason = "bank_ownership_changed"
+	MandatePaymentMethodDetailsBACSDebitRevocationReasonCouldNotProcess       MandatePaymentMethodDetailsBACSDebitRevocationReason = "could_not_process"
+	MandatePaymentMethodDetailsBACSDebitRevocationReasonDebitNotAuthorized    MandatePaymentMethodDetailsBACSDebitRevocationReason = "debit_not_authorized"
+)
+
 // This mandate corresponds with a specific payment method type. The `payment_method_details` includes an additional hash with the same name and contains mandate information that's specific to that payment method.
 type MandatePaymentMethodDetailsType string
 
@@ -145,6 +157,8 @@ type MandatePaymentMethodDetailsBACSDebit struct {
 	NetworkStatus MandatePaymentMethodDetailsBACSDebitNetworkStatus `json:"network_status"`
 	// The unique reference identifying the mandate on the Bacs network.
 	Reference string `json:"reference"`
+	// When the mandate is revoked on the Bacs network this field displays the reason for the revocation.
+	RevocationReason MandatePaymentMethodDetailsBACSDebitRevocationReason `json:"revocation_reason"`
 	// The URL that will contain the mandate that the customer has signed.
 	URL string `json:"url"`
 }
