@@ -152,6 +152,12 @@ func (p *IssuingCardListParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// The desired PIN for this card.
+type IssuingCardPINParams struct {
+	// The card's desired new PIN, encrypted under Stripe's public key.
+	EncryptedNumber *string `form:"encrypted_number"`
+}
+
 // Customs information for the shipment.
 type IssuingCardShippingCustomsParams struct {
 	// The Economic Operators Registration and Identification (EORI) number to use for Customs. Required for bulk shipments to Europe.
@@ -239,12 +245,6 @@ func (p *IssuingCardParams) AddMetadata(key string, value string) {
 	}
 
 	p.Metadata[key] = value
-}
-
-// The desired new PIN for this card.
-type IssuingCardPINParams struct {
-	// The card's desired new PIN, encrypted under Stripe's public key.
-	EncryptedNumber *string `form:"encrypted_number"`
 }
 
 // Additional information that may be required for clearing customs.
