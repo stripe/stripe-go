@@ -1,5 +1,18 @@
 # Changelog
 
+## 76.14.0-beta.1 - 2024-01-18
+* [#1801](https://github.com/stripe/stripe-go/pull/1801) Update generated code for beta
+  Release specs are identical.
+* [#1799](https://github.com/stripe/stripe-go/pull/1799) Update generated code for beta
+  * Add support for new value `nn` on enum `ConfirmationTokenPaymentMethodPreviewIdealBank`
+  * Add support for new value `NNBANL2G` on enum `ConfirmationTokenPaymentMethodPreviewIdealBic`
+* [#1795](https://github.com/stripe/stripe-go/pull/1795) Update generated code for beta
+  * Add support for `Amount` on `ChargeCapturePaymentDetailsFlightSegmentsParams`, `ChargePaymentDetailsFlightSegmentsParams`, `PaymentIntentCapturePaymentDetailsFlightSegmentsParams`, `PaymentIntentConfirmPaymentDetailsFlightSegmentsParams`, and `PaymentIntentPaymentDetailsFlightSegmentsParams`
+  * Add support for `NumberOfRooms` and `RoomClass` on `ChargeCapturePaymentDetailsLodgingParams`, `ChargePaymentDetailsLodgingParams`, `PaymentIntentCapturePaymentDetailsLodgingParams`, `PaymentIntentConfirmPaymentDetailsLodgingParams`, and `PaymentIntentPaymentDetailsLodgingParams`
+  * Add support for `BuyButton` on `CustomerSessionComponentsParams` and `CustomerSessionComponents`
+  * Add support for new values `high_risk_industry`, `insufficient_margin_ratio`, `insufficient_operating_profit`, `insufficient_reserves`, `insufficient_time_in_network`, `lacking_cash_account`, and `poor_payment_history_with_platform` on enum `IssuingCreditUnderwritingRecordDecisionApplicationRejectedReasons`
+  * Add support for new values `high_risk_industry`, `insufficient_margin_ratio`, `insufficient_operating_profit`, `insufficient_reserves`, `insufficient_time_in_network`, and `lacking_cash_account` on enums `IssuingCreditUnderwritingRecordDecisionCreditLimitDecreasedReasons` and `IssuingCreditUnderwritingRecordDecisionCreditLineClosedReasons`
+
 ## 76.13.0 - 2024-01-18
 * [#1800](https://github.com/stripe/stripe-go/pull/1800) Update generated code
 * [#1798](https://github.com/stripe/stripe-go/pull/1798) Update generated code
