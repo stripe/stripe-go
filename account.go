@@ -643,7 +643,7 @@ type AccountCompanyParams struct {
 	Phone *string `form:"phone"`
 	// The identification number given to a company when it is registered or incorporated, if distinct from the identification number used for filing taxes. (Examples are the CIN for companies and LLP IN for partnerships in India, and the Company Registration Number in Hong Kong).
 	RegistrationNumber *string `form:"registration_number"`
-	// The category identifying the legal structure of the company or legal entity. See [Business structure](https://stripe.com/docs/connect/identity-verification#business-structure) for more details.
+	// The category identifying the legal structure of the company or legal entity. See [Business structure](https://stripe.com/docs/connect/identity-verification#business-structure) for more details. Pass an empty string to unset this value.
 	Structure *string `form:"structure"`
 	// The business ID number of the company, as appropriate for the company's country. (Examples are an Employer ID Number in the U.S., a Business Number in Canada, or a Company Number in the UK.)
 	TaxID *string `form:"tax_id"`
