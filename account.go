@@ -643,7 +643,7 @@ type AccountCompanyParams struct {
 	Phone *string `form:"phone"`
 	// The identification number given to a company when it is registered or incorporated, if distinct from the identification number used for filing taxes. (Examples are the CIN for companies and LLP IN for partnerships in India, and the Company Registration Number in Hong Kong).
 	RegistrationNumber *string `form:"registration_number"`
-	// The category identifying the legal structure of the company or legal entity. See [Business structure](https://stripe.com/docs/connect/identity-verification#business-structure) for more details.
+	// The category identifying the legal structure of the company or legal entity. See [Business structure](https://stripe.com/docs/connect/identity-verification#business-structure) for more details. Pass an empty string to unset this value.
 	Structure *string `form:"structure"`
 	// The business ID number of the company, as appropriate for the company's country. (Examples are an Employer ID Number in the U.S., a Business Number in Canada, or a Company Number in the UK.)
 	TaxID *string `form:"tax_id"`
@@ -713,6 +713,40 @@ type AccountDocumentsParams struct {
 	CompanyTaxIDVerification *AccountDocumentsCompanyTaxIDVerificationParams `form:"company_tax_id_verification"`
 	// One or more documents showing the company's proof of registration with the national business registry.
 	ProofOfRegistration *AccountDocumentsProofOfRegistrationParams `form:"proof_of_registration"`
+}
+
+// AccountExternalAccountParams are the parameters allowed to reference an
+// external account when creating an account. It should either have Token set
+// or everything else.
+type AccountExternalAccountParams struct {
+	Params            `form:"*"`
+	AccountNumber     *string `form:"account_number"`
+	AccountHolderName *string `form:"account_holder_name"`
+	AccountHolderType *string `form:"account_holder_type"`
+	Country           *string `form:"country"`
+	Currency          *string `form:"currency"`
+	RoutingNumber     *string `form:"routing_number"`
+	Token             *string `form:"token"`
+}
+
+// AppendTo implements custom encoding logic for AccountExternalAccountParams
+// so that we can send the special required `object` field up along with the
+// other specified parameters or the token value.
+func (p *AccountExternalAccountParams) AppendTo(body *form.Values, keyParts []string) {
+	if p.Token != nil {
+		body.Add(form.FormatKey(keyParts), StringValue(p.Token))
+	} else {
+		body.Add(form.FormatKey(append(keyParts, "object")), "bank_account")
+	}
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *AccountExternalAccountParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
 }
 
 // Settings specific to Bacs Direct Debit payments.
@@ -910,31 +944,6 @@ type AccountRejectParams struct {
 	Expand []*string `form:"expand"`
 	// The reason for rejecting the account. Can be `fraud`, `terms_of_service`, or `other`.
 	Reason *string `form:"reason"`
-}
-
-// AccountExternalAccountParams are the parameters allowed to reference an
-// external account when creating an account. It should either have Token set
-// or everything else.
-type AccountExternalAccountParams struct {
-	Params            `form:"*"`
-	AccountNumber     *string `form:"account_number"`
-	AccountHolderName *string `form:"account_holder_name"`
-	AccountHolderType *string `form:"account_holder_type"`
-	Country           *string `form:"country"`
-	Currency          *string `form:"currency"`
-	RoutingNumber     *string `form:"routing_number"`
-	Token             *string `form:"token"`
-}
-
-// AppendTo implements custom encoding logic for AccountExternalAccountParams
-// so that we can send the special required `object` field up along with the
-// other specified parameters or the token value.
-func (p *AccountExternalAccountParams) AppendTo(body *form.Values, keyParts []string) {
-	if p.Token != nil {
-		body.Add(form.FormatKey(keyParts), StringValue(p.Token))
-	} else {
-		body.Add(form.FormatKey(append(keyParts, "object")), "bank_account")
-	}
 }
 
 // AddExpand appends a new field to expand.
