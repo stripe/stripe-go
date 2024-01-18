@@ -1,5 +1,27 @@
 # Changelog
 
+## 76.13.0 - 2024-01-18
+* [#1800](https://github.com/stripe/stripe-go/pull/1800) Update generated code
+* [#1798](https://github.com/stripe/stripe-go/pull/1798) Update generated code
+  * Add support for new value `nn` on enums `ChargePaymentMethodDetailsIdealBank`, `PaymentMethodIdealBank`, and `SetupAttemptPaymentMethodDetailsIdealBank`
+  * Add support for `Issuer` on `InvoiceParams`, `InvoiceUpcomingLinesParams`, `InvoiceUpcomingParams`, and `Invoice`
+  * Add support for `Liability` on `InvoiceAutomaticTaxParams`, `InvoiceAutomaticTax`, `InvoiceUpcomingAutomaticTaxParams`, `InvoiceUpcomingLinesAutomaticTaxParams`, `SubscriptionAutomaticTaxParams`, and `SubscriptionAutomaticTax`
+  * Add support for `OnBehalfOf` on `InvoiceUpcomingLinesParams` and `InvoiceUpcomingParams`
+  * Add support for `PIN` on `IssuingCardParams`
+  * Add support for `RevocationReason` on `MandatePaymentMethodDetailsBacsDebit`
+  * Add support for `CustomerBalance` on `PaymentMethodConfigurationParams` and `PaymentMethodConfiguration`
+  * Add support for `InvoiceSettings` on `SubscriptionParams`
+* [#1796](https://github.com/stripe/stripe-go/pull/1796) Update generated code
+  * Add support for new resource `CustomerSession`
+  * Add support for `New` method on resource `CustomerSession`
+  * Remove support for values `obligation_inbound`, `obligation_payout_failure`, `obligation_payout`, and `obligation_reversal_outbound` from enum `BalanceTransactionType`
+  * Remove support for `Expand` on `BankAccountParams` and `CardParams`
+  * Add support for `AccountType`, `DefaultForCurrency`, and `Documents` on `BankAccountParams` and `CardParams`
+  * Remove support for `Owner` on `BankAccountParams` and `CardParams`
+  * Change type of `BankAccountAccountHolderTypeParams` and `CardAccountHolderTypeParams` from `enum('company'|'individual')` to `emptyStringable(enum('company'|'individual'))`
+  * Add support for new values `eps` and `p24` on enums `InvoicePaymentSettingsPaymentMethodTypes` and `SubscriptionPaymentSettingsPaymentMethodTypes`
+  * Add support for `BillingCycleAnchorConfig` on `SubscriptionParams` and `Subscription`
+
 ## 76.12.0 - 2024-01-12
 * [#1796](https://github.com/stripe/stripe-go/pull/1796) Update generated code
   * Add support for new resource `CustomerSession`
